@@ -1,4 +1,5 @@
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local stdMath = require("std/math.nut")
 
 function gui_modal_crew(params = {})
 {
@@ -142,7 +143,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (newValue > value)
           curPoints -= ::g_crew.getSkillCost(item, newValue, value)
       }
-    scene.findObject("crew_cur_skills").setValue(::round_by_value(crewCurLevel, 0.01).tostring())
+    scene.findObject("crew_cur_skills").setValue(stdMath.round_by_value(crewCurLevel, 0.01).tostring())
     updatePointsText()
     updateBuyAllButton()
     updateAvailableSkillsIcons()
@@ -326,7 +327,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       levelIncTooltip += "\n" + ::loc("crew/availablePoints") + curPointsText
     }
     else if (crewLevelInc > 0.005)
-      levelIncText = "+" + ::round_by_value(crewLevelInc, 0.01)
+      levelIncText = "+" + stdMath.round_by_value(crewLevelInc, 0.01)
 
     scene.findObject("crew_new_skills").setValue(levelIncText)
     scene.findObject("crew_level_block").tooltip = levelIncTooltip

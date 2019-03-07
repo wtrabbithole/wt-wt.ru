@@ -1563,6 +1563,33 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     if (btnRemoveRadio)
       btnRemoveRadio.enable(isEnable)
   }
+
+  function onRevealNotifications()
+  {
+    ::scene_msg_box("ask_reveal_notifications",
+      null,
+      ::loc("mainmenu/btnRevealNotifications/askPlayer"),
+      [
+        ["yes", ::Callback(resetNotifications, this)],
+        ["no", @() null]
+      ],
+      "yes", { cancel_fn = @() null })
+  }
+
+  function resetNotifications()
+  {
+    foreach (opt in [::USEROPT_SKIP_LEFT_BULLETS_WARNING,
+                     ::USEROPT_SKIP_WEAPON_WARNING
+                    ])
+      ::set_gui_option(opt, false)
+
+    ::reset_tutorial_skip()
+    ::broadcastEvent("ResetSkipedNotifications")
+
+    //To notify player about success, it is only for player,
+    // to be sure, that operation is done.
+    ::g_popups.add("", ::loc("mainmenu/btnRevealNotifications/onSuccess"))
+  }
 }
 
 class ::gui_handlers.AddRadioModalHandler extends ::gui_handlers.BaseGuiHandlerWT

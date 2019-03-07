@@ -358,6 +358,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     fillClanInfo(player)
     fillModeListBox(scene.findObject("profile-container"), curMode)
     ::fill_gamer_card(player, true, "profile-", scene)
+    fillAwardsBlock(player)
     fillShortCountryStats(player)
     scene.findObject("profile_loading").show(false)
   }
@@ -372,6 +373,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       name = "empty_title"
     }
     fillAdditionalName(::get_unlock_name_text(::UNLOCKABLE_TITLE, name), "title")
+    scene.findObject("profile-currentUser-title")["showAsButton"] = isOwnStats ? "yes" : "no"
   }
 
   function onProfileStatsModeChange(obj)
@@ -449,29 +451,13 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(countryStatsNest))
       return
 
-    local view = {
-      rows = []
-    }
+    local columns = ::shopCountriesList.map(@(c) {
+      icon            = ::get_country_icon(c)
+      unitsCount      = profile.countryStats[c].unitsCount
+      eliteUnitsCount = profile.countryStats[c].eliteUnitsCount
+    })
 
-    local columns = ["unitsCount", "eliteUnitsCount"]
-    if (::has_feature("ProfileMedals"))
-    {
-      columns.append("medalsCount")
-      view.hasMedals <- true
-    }
-
-    foreach (country in shopCountriesList)
-    {
-      local row = {
-        icon = ::get_country_icon(country)
-        nums = []
-      }
-      foreach (param in columns)
-        row.nums.append({num = profile.countryStats[country][param]})
-     view.rows.append(row)
-    }
-
-    local blk = ::handyman.renderCached(("gui/profile/country_stats_table"), view)
+    local blk = ::handyman.renderCached(("gui/profile/country_stats_table"), { columns = columns })
     guiScene.replaceContentFromText(countryStatsNest, blk, blk.len(), this)
   }
 
@@ -525,6 +511,123 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
             statsUnits.remove(i)
       }
     fillAirStats()
+  }
+
+  function fillAwardsBlock(player)
+  {
+    if (::has_feature("ProfileMedals"))
+      fillMedalsBlock(player)
+    else // Tencent
+      fillTitlesBlock(player)
+  }
+
+  function fillMedalsBlock(player)
+  {
+    local curCountryId = ::get_profile_country_sq()
+    local maxMedals = 0
+    if (!isOwnStats)
+    {
+      maxMedals = player.countryStats[curCountryId].medalsCount
+      foreach(idx, countryId in ::shopCountriesList)
+      {
+        local medalsCount = player.countryStats[countryId].medalsCount
+        if (maxMedals < medalsCount)
+        {
+          curCountryId = countryId
+          maxMedals = medalsCount
+        }
+      }
+    }
+
+    // Filling country tabs
+    local curValue = 0
+    local view = { items = [] }
+    local countFmt = "text { pos:t='pw/2-w/2, ph+@blockInterval'; position:t='absolute'; text:t='%d' }"
+    foreach(idx, countryId in ::shopCountriesList)
+    {
+      view.items.append({
+        id = countryId
+        image = ::get_country_icon(countryId)
+        tooltip = "#" + countryId
+        objects = ::format(countFmt, player.countryStats[countryId].medalsCount)
+      })
+
+      if (countryId == curCountryId)
+        curValue = idx
+    }
+
+    local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
+    local countriesObj = scene.findObject("medals_country_tabs")
+    guiScene.replaceContentFromText(countriesObj, data, data.len(), this)
+    countriesObj.setValue(curValue)
+  }
+
+  function onMedalsCountrySelect(obj)
+  {
+    local nestObj = scene.findObject("medals_nest")
+    if (!::check_obj(obj) || !::check_obj(nestObj))
+      return
+
+    local countryId = ::shopCountriesList?[obj.getValue()]
+    if (!countryId)
+      return
+
+    local medalsList = ::get_country_medals(countryId, player)
+    showSceneBtn("medals_empty", !medalsList.len())
+
+    local view = { items = [] }
+    foreach (id in medalsList)
+      view.items.append({
+        id = id
+        tag = "imgUsercardMedal"
+        unlocked = true
+        image = ::get_image_for_unlockable_medal(id)
+        tooltipId = ::g_tooltip.getIdUnlock(id, { showLocalState = isOwnStats, needTitle = false })
+      })
+
+    local markup = ::handyman.renderCached("gui/commonParts/imgFrame", view)
+    guiScene.replaceContentFromText(nestObj, markup, markup.len(), this)
+  }
+
+  function fillTitlesBlock(player)
+  {
+    showSceneBtn("medals_block", false)
+    showSceneBtn("titles_block", true)
+
+    local titles = []
+    foreach (id in player.titles)
+    {
+      local titleUnlock = ::g_unlocks.getUnlockById(id)
+      if (!titleUnlock || titleUnlock.hidden)
+        continue
+
+      local locText = ::loc("title/" + id)
+      titles.append({
+        name = id
+        text = locText
+        lowerText = ::g_string.utf8ToLower(locText)
+        tooltipId = ::g_tooltip.getIdUnlock(id, { showLocalState = isOwnStats, needTitle = false })
+      })
+    }
+    titles.sort(@(a, b) a.lowerText <=> b.lowerText)
+
+    local titlesTotal = titles.len()
+    showSceneBtn("titles_empty", !titlesTotal)
+    if (!titlesTotal)
+      return
+
+    local markup = ""
+    local cols = 2
+    local rows = ::ceil(titlesTotal * 1.0 / cols)
+    for (local r = 0; r < rows; r++)
+    {
+      local rowData = []
+      for (local c = 0; c < cols; c++)
+        rowData.append(titles?[rows * c + r] ?? {})
+      markup += ::buildTableRow("", rowData)
+    }
+
+    guiScene.replaceContentFromText(scene.findObject("titles_table"), markup, markup.len(), this)
   }
 
   function getPlayerStats()
@@ -868,7 +971,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
           needText = false
         })
 
-    data = buildTableRow("row_header", headerRow, null, "commonTextColor:t='yes'; bigIcons:t='yes';style:t='height:0.06sh;';  ")
+    data = buildTableRow("row_header", headerRow, null, "commonTextColor:t='yes'; bigIcons:t='yes';style:t='height:@leaderboardHeaderHeight;';")
 
     local rows = [
       {
@@ -1120,7 +1223,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (curSheet == "Statistics")
       return getObj("countries_boxes")
     if (curSheet == "Profile")
-      return getObj("country_stats")
+      return getObj("medals_country_tabs")
     return null
   }
 
@@ -1130,7 +1233,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (curSheet == "Statistics")
       return getObj("units_boxes")
     if (curSheet == "Profile")
-      return getObj("leaderboards_stats_row")
+      return getObj("leaderboard_modes_list")
     return null
   }
 
@@ -1213,6 +1316,18 @@ function fill_profile_summary(sObj, summary, diff)
     sObj.findObject(id).setValue(text)
 }
 
+function get_country_medals(countryId, profileData = null)
+{
+  local res = []
+  local medalsList = profileData?.unlocks?.medal ?? []
+  local unlocks = ::g_unlocks.getUnlocksByType("medal")
+  foreach(id, cb in unlocks)
+    if (cb.country == countryId)
+      if (!profileData && ::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id) || (medalsList?[id] ?? 0) > 0)
+        res.append(id)
+  return res
+}
+
 function get_player_stats_from_blk(blk)
 {
   local player = {};
@@ -1255,7 +1370,7 @@ function get_player_stats_from_blk(blk)
   foreach(i, country in ::shopCountriesList)
   {
     local cData = {}
-    cData.medalsCount <- ::countCountryMedals(country, player)
+    cData.medalsCount <- ::get_country_medals(country, player).len()
     cData.unitsCount <- 0
     cData.eliteUnitsCount <- 0
     if (blk.aircrafts && blk.aircrafts[country])

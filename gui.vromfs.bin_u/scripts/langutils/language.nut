@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 ::g_language <- {
   currentLanguage = null
   currentSteamLanguage = ""
@@ -36,7 +38,7 @@
 function g_language::standartStyleNumberCut(num)
 {
   local needSymbol = num >= 9999.5
-  local roundNum = ::roundToDigits(num, needSymbol ? 3 : 4)
+  local roundNum = stdMath.roundToDigits(num, needSymbol ? 3 : 4)
   if (!needSymbol)
     return roundNum.tostring()
 
@@ -50,7 +52,7 @@ function g_language::standartStyleNumberCut(num)
 function g_language::chineseStyleNumberCut(num)
 {
   local needSymbol = num >= 99999.5
-  local roundNum = ::roundToDigits(num, needSymbol ? 4 : 5)
+  local roundNum = stdMath.roundToDigits(num, needSymbol ? 4 : 5)
   if (!needSymbol)
     return roundNum.tostring()
 
@@ -89,35 +91,6 @@ function g_language::initFunctionsTable()
       replaceFunctions = [{
         language = ["HChinese"],
         action = ::g_language.tencentAddLineBreaks
-      }]
-    }
-
-    // Source http://docs.translatehouse.org/projects/localization-guide/en/latest/l10n/pluralforms.html
-    getPluralNounFormIdx = {
-      // "Chinese", "TChinese", "HChinese", "Japanese", "Vietnamese", "Korean"
-      // return -1 here is to ensure that when several words listed, the last one will be selected.
-      // To make unlocalized (english) strings look better in asian localizations.
-      // Also to always select the last word in unsupported user localizations.
-      defaultAction = function(n) { return -1 } // nplurals=1
-      replaceFunctions = [{
-        language = ["English", "French", "Italian", "German", "Spanish", "Turkish", "Portuguese",
-          "Hungarian", "Georgian", "Greek"]
-        action = function(n) { return (n==1 ? 0 : 1) } // nplurals=2
-      }, {
-        language = ["Russian", "Serbian", "Ukrainian", "Belarusian", "Croatian"]
-        action = function(n) { return (n%10==1 && n%100!=11 ? 0
-                                     : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1
-                                     : 2) } // nplurals=3
-      }, {
-        language = ["Polish"]
-        action = function(n) { return (n==1 ? 0
-                                     : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1
-                                     : 2) } // nplurals=3
-      }, {
-        language = ["Czech"]
-        action = function(n) { return (n==1 ? 0
-                                     : n>=2 && n<=4 ? 1
-                                     : 2) } // nplurals=3
       }]
     }
 

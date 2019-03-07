@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local stdMath = require("std/math.nut")
 
 const KGF_TO_NEWTON = 9.807
 
@@ -373,7 +374,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
     local wpBlk = null
     foreach (wp in (airBlk.weapon_presets % "preset"))
     {
-      if (wp.name == air.weapons[weaponPresetIdx].name)
+      if (wp.name == air.weapons?[weaponPresetIdx]?.name)
       {
         wpBlk = ::DataBlock(wp.blk)
         break
@@ -490,7 +491,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
                     local key = ::isCaliberCannon(weapon.caliber) ? "cannonReloadSpeedK" : "gunReloadSpeedK"
                     local speedK = air.modificators?[difficulty.crewSkillName]?[key] ?? 1.0
                     if (speedK)
-                      rTime = ::round_by_value(rTime / speedK, 1.0).tointeger()
+                      rTime = stdMath.round_by_value(rTime / speedK, 1.0).tointeger()
                   }
                   tText += " " + ::loc("bullet_properties/cooldown") + " " + time.secondsToString(rTime, true, true)
                 }
@@ -709,6 +710,36 @@ function getWeaponXrayDescText(weaponBlk, unit, ediff)
       foreach (weapon in weapons)
         if (::u.isTable(weapon))
           return _get_weapon_extended_info(weapon, weaponType, unit, ediff, "\n")
+}
+
+function getWeaponDescTextByTriggerGroup(triggerGroup, unit, ediff)
+{
+  local unitBlk = ::get_full_unit_blk(unit.name)
+  local primaryWeapon = ::get_last_primary_weapon(unit)
+  local secondaryWeapon = ::get_last_weapon(unit.name)
+
+  local primaryBlk = ::getCommonWeaponsBlk(unitBlk, primaryWeapon)
+  local weaponTypes = {}
+  if (primaryBlk)
+    weaponTypes = addWeaponsFromBlk(weaponTypes, primaryBlk, unit)
+  if (unitBlk.weapon_presets)
+    foreach (wp in (unitBlk.weapon_presets % "preset"))
+      if (wp.name == secondaryWeapon)
+      {
+        local wpBlk = ::DataBlock(wp.blk)
+        if (wpBlk)
+          weaponTypes = addWeaponsFromBlk(weaponTypes, wpBlk, unit)
+        break
+      }
+
+  if (weaponTypes?[triggerGroup])
+    foreach (weapons in weaponTypes[triggerGroup])
+      foreach (weaponName, weapon in weapons)
+        if (::u.isTable(weapon))
+          return ::loc("weapons" + weaponName) + ::format(::loc("weapons/counter"), weapon.ammo) +
+            _get_weapon_extended_info(weapon, triggerGroup, unit, ediff,
+              "\n" + ::nbsp + ::nbsp + ::nbsp + ::nbsp)
+  return ""
 }
 
 function isAirHaveSecondaryWeapons(air)
@@ -1071,7 +1102,7 @@ function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk, weaponToFakeBulletMask
       foreach(idx, modName in modsList)
         if (wBlk[getModificationBulletsEffect(modName)])
         {
-          res = ::change_bit(res, idx, 1)
+          res = stdMath.change_bit(res, idx, 1)
           break
         }
     }

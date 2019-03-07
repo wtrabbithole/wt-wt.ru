@@ -23,6 +23,7 @@
   exp_torpedo_gun_boat = DS_UT_SHIP
   exp_submarine_chaser = DS_UT_SHIP
   exp_destroyer = DS_UT_SHIP
+  exp_cruiser = DS_UT_SHIP
   exp_naval_ferry_barge = DS_UT_SHIP
   exp_helicopter = DS_UT_AIRCRAFT
 }
@@ -341,8 +342,8 @@ function get_unit_spawn_score_weapon_mul(unitname, weapon)
   if (unitClass == null)
     return 1.0
 
-  if (wpcost?[unitname]?.weapons?[weapon]?.isATGM)
-    return get_spawn_score_param("spawnCostMulForAircraftWithATGM", 1.0)
+  if (unitClass == "exp_helicopter" && wpcost?[unitname]?.weapons?[weapon]?.isATGM)
+    return get_spawn_score_param("spawnCostMulForHelicopterWithATGM", 1.0)
 
   if (unitClass == "exp_fighter" && wpcost?[unitname]?.weapons?[weapon]?.isAntiTankWeap)
     return get_spawn_score_param("spawnCostMulForFighterWithBombs", 1.0)

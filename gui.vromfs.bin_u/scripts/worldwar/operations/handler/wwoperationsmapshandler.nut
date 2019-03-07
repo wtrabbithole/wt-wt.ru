@@ -283,8 +283,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!trophiesAmount)
       return
 
-    local updStatsUtcTime = ::get_utc_time().__update( {hour = 0, min = 0} )
-    local updStatsText = time.buildTimeStr(time.convertUtcToLocalTime(updStatsUtcTime), false, false)
+    local updStatsText = time.buildTimeStr(time.getUtcMidnight(), false, false)
 
     local view = {
       titleText = getTrophyDesc(trophiesBlk)
@@ -293,7 +292,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     }
 
     local isLeftPanelVisible = false
-    local curDay = time.getCharServerDays() + 1
+    local curDay = time.getUtcDays() - DAYS_TO_YEAR_1970 + 1
     local trophiesProgress = ::get_es_custom_blk(-1)?.customClientData
     for (local i = 0; i < trophiesAmount; i++)
     {

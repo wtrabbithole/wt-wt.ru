@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 const UPGR_CREW_TUTORIAL_SKILL_NUMBER = 2
 
 ::g_crew <- {
@@ -407,7 +409,7 @@ function g_crew::getSkillCrewLevel(skillItem, newValue, prevValue = 0)
 {
   local maxValue = getMaxSkillValue(skillItem)
   local level = (newValue.tofloat() - prevValue) / maxValue  * getSkillMaxCrewLevel(skillItem)
-  return ::round_by_value(level, 0.01)
+  return stdMath.round_by_value(level, 0.01)
 }
 
 function g_crew::upgradeUnitSpec(crew, unit, crewUnitTypeToCheck = null, nextSpecType = null)

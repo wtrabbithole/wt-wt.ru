@@ -1027,6 +1027,13 @@ function get_option(type, context = null)
       defaultValue = ::get_is_console_mode_force_enabled()
       break
 
+    case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
+      descr.id = "gamepadEngDeadZone"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
     case ::USEROPT_INVERTY:
       descr.id = "invertY"
       descr.controlType = optionControlType.CHECKBOX
@@ -1115,6 +1122,28 @@ function get_option(type, context = null)
         minCaliber  = ::g_measure_type.MM.getMeasureUnitsText(minCaliber * 1000),
         minDistance = ::g_measure_type.DISTANCE.getMeasureUnitsText(minDrawDist)
       })
+      break
+
+    case ::USEROPT_BULLET_FALL_SOUND_SHIP:
+      descr.id = "bulletFallSoundShip"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = false
+
+      local blk = ::dgs_get_game_params()
+      local minCaliber  = blk?.shipsShootingTracking?.minCaliber ?? 0.1
+      local minDrawDist = blk?.shipsShootingTracking?.minDrawDist ?? 3500
+      descr.hint = ::loc("guiHints/bulletFallSoundShip", {
+        minCaliber  = ::g_measure_type.MM.getMeasureUnitsText(minCaliber * 1000),
+        minDistance = ::g_measure_type.DISTANCE.getMeasureUnitsText(minDrawDist)
+      })
+      break
+
+    case ::USEROPT_AUTO_TARGET_CHANGE_SHIP:
+      descr.id = "automaticTargetChangeShip"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
       break
 
     case ::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE:
@@ -4795,12 +4824,15 @@ function set_option(type, value, descr = null)
     case ::USEROPT_AUTOMATIC_TRANSMISSION_TANK:
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
     case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
+    case ::USEROPT_BULLET_FALL_SOUND_SHIP:
+    case ::USEROPT_AUTO_TARGET_CHANGE_SHIP:
     case ::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE:
     case ::USEROPT_REPLAY_ALL_INDICATORS:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR:
     case ::USEROPT_CONTENT_ALLOWED_PRESET:
+    case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
       if (descr.controlType == optionControlType.LIST)
       {
         if (typeof descr.values != "array")

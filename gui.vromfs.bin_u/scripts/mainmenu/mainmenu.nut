@@ -108,6 +108,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     handler.doWhenActive(@() ::g_play_together.checkAfterFlight() )
     handler.doWhenActive(@() ::g_xbox_squad_manager.checkAfterFlight() )
     handler.doWhenActive(@() ::g_battle_tasks.checkNewSpecialTasks() )
+    handler.doWhenActiveOnce("checkNonApprovedSquadronResearches")
   }
 
   if(isAllowPopups && ::has_feature("Invites") && !guiScene.hasModalObject())
@@ -117,7 +118,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     if(invitedPlayersBlk.blockCount() == 0)
     {
       local cdb = ::get_local_custom_settings_blk()
-      local days = time.getDaysByTime(::get_local_time())
+      local days = time.getUtcDays()
       if(!cdb.viralAcquisition)
         cdb.viralAcquisition = ::DataBlock()
 

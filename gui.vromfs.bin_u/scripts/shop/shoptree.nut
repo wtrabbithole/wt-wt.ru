@@ -88,7 +88,7 @@ local function makeTblByBranch(branch, ranksHeight, headRow = null)
     {
       prevAir = null
       local unit = item.airsGroup?[0] //!!FIX ME: duplicate logic of generateUnitShopInfo
-      if (unit && !::isUnitSpecial(unit) && !::isUnitGift(unit))
+      if (unit && !::isUnitSpecial(unit) && !::isUnitGift(unit) && !unit.isSquadronVehicle())
       {
         prevAir = unit
         item.searchReqName <- unit.name
@@ -253,7 +253,8 @@ local function calculateRanksAndSectionsPos(page)
 
       if (!foundPremium || hasRankPosXY)
         foreach(airItem in branch)
-          if (("air" in airItem) && (::isUnitSpecial(airItem.air) || ::isUnitGift(airItem.air)))
+          if (("air" in airItem) && (::isUnitSpecial(airItem.air) || ::isUnitGift(airItem.air)
+            || airItem.air?.isSquadronVehicle?()))
           {
             if (!foundPremium)
             {

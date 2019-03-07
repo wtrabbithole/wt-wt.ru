@@ -1,5 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local string = ::require("std/string.nut")
+local stdMath = require("std/math.nut")
 
 const GOOD_COLOR = "@goodTextColor"
 const BAD_COLOR = "@badTextColor"
@@ -92,7 +93,7 @@ local effectTypeTemplate = {
     if (!::u.isString(measureType))
       res = countMeasure(measureType, value)
     else
-      res = string.floatToStringRounded(::round_by_value(value, presize), presize)
+      res = string.floatToStringRounded(stdMath.round_by_value(value, presize), presize)
         + (measureType.len() ? ::loc("measureUnits/" + measureType) : "")
 
     if (value > 0 || (needAdditionToZero && value == 0))

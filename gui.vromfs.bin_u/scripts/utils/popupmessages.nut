@@ -17,11 +17,8 @@ enum POPUP_VIEW_TYPES {
 
 function getTimeIntByString(stringDate, defaultValue = 0)
 {
-  local timeTbl = stringDate && time.getTimeFromStringUtc(stringDate)
-  if (!timeTbl)
-    return defaultValue
-
-  return ::get_t_from_utc_time(timeTbl)
+  local t = stringDate ? time.getTimestampFromStringUtc(stringDate) : -1
+  return t >= 0 ? t : defaultValue
 }
 
 
@@ -93,7 +90,7 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
       return null
     }
 
-    local secs = ::get_t_from_utc_time(::get_local_time())
+    local secs = ::get_charserver_time_sec()
     if (getTimeIntByString(blk.startTime, 0) > secs)
       return null
 
@@ -110,7 +107,7 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
   {
     local text = ::g_language.getLocTextFromConfig(blk, key, "")
     if (text != "")
-      popupTable[key] <- ::replaceParamsInLocalizedText(text, localizedTbl)
+      popupTable[key] <- text.subst(localizedTbl)
   }
   popupTable.popupImage <- ::g_language.getLocTextFromConfig(blk, "image", "")
   popupTable.ratioHeight <- blk.imageRatio || null

@@ -1,5 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
+local stdMath = require("std/math.nut")
 
 
 ::g_lb_data_type <- {
@@ -50,7 +51,7 @@ enums.addTypesByGlobalName("g_lb_data_type", {
       if (typeof value == "string")
         value = ::to_integer_safe(value)
 
-      return (!allowNegative && value < 0) ? ::loc("leaderboards/notAvailable") : ::getShortTextFromNum(::round_by_value(value, 1))
+      return (!allowNegative && value < 0) ? ::loc("leaderboards/notAvailable") : ::getShortTextFromNum(stdMath.round_by_value(value, 1))
     }
 
     getPrimaryTooltipText = function (value, allowNegative = false) {
@@ -78,7 +79,7 @@ enums.addTypesByGlobalName("g_lb_data_type", {
 
       return (!allowNegative && value < 0)
         ? ::loc("leaderboards/notAvailable")
-        : round_by_value(value, 0.01)
+        : stdMath.round_by_value(value, 0.01)
     }
   }
 
@@ -129,7 +130,7 @@ enums.addTypesByGlobalName("g_lb_data_type", {
 
   PERCENT = {
     getFullTextByValue = function (value, allowNegative = false) {
-      return value < 0 ? loc("leaderboards/notAvailable") : roundToDigits(100.0 * value, 3) + "%"
+      return value < 0 ? loc("leaderboards/notAvailable") : stdMath.roundToDigits(100.0 * value, 3) + "%"
     }
 
     getPrimaryTooltipText = function (value, allowNegative = false) {
@@ -156,7 +157,7 @@ enums.addTypesByGlobalName("g_lb_data_type", {
 
   DATE = {
     getFullTextByValue = function (value, allowNegative = false) {
-      return time.buildDateStr(::get_time_from_t(value))
+      return time.buildDateStr(value)
     }
   }
 

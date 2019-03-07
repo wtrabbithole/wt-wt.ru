@@ -17,6 +17,9 @@ class ::queue_classes.Event extends ::queue_classes.Base
 
   function addQueueByParams(qParams)
   {
+    if ("mrank" in qParams)
+      params.mrank <- qParams.mrank
+
     if (!("cluster" in qParams))
       return false
 

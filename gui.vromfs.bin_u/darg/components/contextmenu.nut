@@ -1,30 +1,10 @@
 local style = require("contextMenu.style.nut")
+local modalWindows = require("modalWindows.nut")
 
-local currentContextMenu = Watched([])
-
-local function closeMenu () {
-  currentContextMenu.update([])
-}
-
-
-local wrapAction = @(action) function () {
-  action()
-  closeMenu()
-}
-
-
-local overlay = {
-  pos = [-9000, -9000]
-  size = [19999, 19999]
-  stopMouse = true
-  behavior = Behaviors.Button
-
-  onClick = closeMenu
-}
-
-
-
+local lastMenuIdx = 0
 local function contextMenu(x, y, width, actions, menu_style = style) {
+  local uid = "context_menu_" + lastMenuIdx++
+  local closeMenu = @() modalWindows.remove(uid)
   local listItem = menu_style?.listItem ?? style.listItem
   local menuBgColor = menu_style?.menuBgColor ?? style.menuBgColor
   local closeHotkeys = menu_style?.closeHotkeys ?? [ ["Esc", closeMenu] ]
@@ -40,28 +20,25 @@ local function contextMenu(x, y, width, actions, menu_style = style) {
       behavior = Behaviors.BoundToArea
 
       hotkeys = closeHotkeys
-      children = actions.map(@(item) menu_style.listItem(item.text, wrapAction(item.action)))
+      children = actions.map(@(item) menu_style.listItem(item.text,
+        function () {
+          item.action()
+          closeMenu()
+        }))
     }
   }
+
   local menuCtor = menu_style?.menuCtor ?? defMenuCtor
-
-  local menu = menuCtor()
-
-  local holder = {
-    zOrder = Layers.Tooltip
-    size = flex()
-    children = [
-      overlay
-      menu
-    ]
-  }
   ::set_kb_focus(null)
-  currentContextMenu.value.append(holder)
-  currentContextMenu.trigger()
+  modalWindows.add({
+    key = uid
+    children = menuCtor()
+  })
+  return uid
 }
 
 
 return {
   contextMenu = contextMenu
-  widgets = currentContextMenu
+  remove = modalWindows.remove
 }

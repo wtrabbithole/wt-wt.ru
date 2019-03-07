@@ -266,7 +266,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
 
     expand = function (shortcutId)
     {
-      if (isAssignedToAxis(shortcutId))
+      if (isAssignedToAxis(shortcutId) || hasDirection(shortcutId))
         return [shortcutId]
       else
         return transformAxisToShortcuts(shortcutId)
@@ -274,6 +274,19 @@ enums.addTypesByGlobalName("g_shortcut_type", {
 
     getInputs = function (shortcutId)
     {
+      if (hasDirection(shortcutId) && !isAssignedToAxis(shortcutId))
+      {
+        local input = ::Input.KeyboardAxis(u.map(getBaseAxesShortcuts(shortcutId),
+          function(element) {
+            local elementId = element.shortcut
+            element.input <- ::g_shortcut_type.getShortcutTypeByShortcutId(elementId).getFirstInput(elementId)
+            return element
+          }
+        ))
+        input.isCompositAxis = false
+        return [input]
+      }
+
       local axisDescription = ::g_shortcut_type._getDeviceAxisDescription(shortcutId)
       return getUseAxisShortcuts([shortcutId], ::Input.Axis(axisDescription))
     }
@@ -290,6 +303,31 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       helicopter_camy = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       submarine_camx  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       submarine_camy  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+    }
+
+    getDirection = function(shortcutId)
+    {
+      return ::get_shortcut_by_id(shortcutId)?.axisDirection
+    }
+
+    hasDirection = function(shortcutId)
+    {
+      return getDirection(shortcutId) != null
+    }
+
+    getBaseAxesShortcuts = function (shortcutId)
+    {
+      local result = []
+      local shortcutDirection = getDirection(shortcutId)
+      local axisShortcutPostfixes = ["rangeMin", "rangeMax"]
+      foreach(postfix in axisShortcutPostfixes)
+        result.append({
+          shortcut = shortcutId + "_" + postfix
+          axisDirection = shortcutDirection
+          postfix = postfix
+        })
+
+      return result
     }
   }
 
@@ -435,7 +473,8 @@ enums.addTypesByGlobalName("g_shortcut_type", {
     {
       local axes = splitCompositAxis(shortcutId)
 
-      if (isComponentsAssignedToSingleInputItem(axes))
+      if (isComponentsAssignedToSingleInputItem(axes)
+        || hasDirection(shortcutId))
         return [shortcutId]
 
       local result = []
@@ -457,8 +496,37 @@ enums.addTypesByGlobalName("g_shortcut_type", {
         doubleAxis.deviceId = ::JOYSTICK_DEVICE_0_ID
       else if (::g_shortcut_type._isAxisBoundToMouse(axes[0]))
         doubleAxis.deviceId = ::STD_MOUSE_DEVICE_ID
+      else if (hasDirection(shortcutId))
+      {
+        local input = ::Input.KeyboardAxis(u.map(getBaseAxesShortcuts(shortcutId),
+          function(element) {
+            local elementId = element.shortcut
+            element.input <- ::g_shortcut_type.getShortcutTypeByShortcutId(elementId).getFirstInput(elementId)
+            return element
+          }
+        ))
+        input.isCompositAxis = true
+        return [input]
+      }
 
       return ::g_shortcut_type.AXIS.getUseAxisShortcuts(axes, doubleAxis)
+    }
+
+    hasDirection = function(shortcutId)
+    {
+      foreach (axis in splitCompositAxis(shortcutId))
+        if (!::g_shortcut_type.AXIS.hasDirection(axis))
+          return false
+
+      return true
+    }
+
+    getBaseAxesShortcuts = function (shortcutId)
+    {
+      local axes = splitCompositAxis(shortcutId)
+      local result = []
+      axes.map(@(axis) result.extend(::g_shortcut_type.AXIS.getBaseAxesShortcuts(axis)))
+      return result
     }
   }
 

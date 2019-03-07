@@ -5,14 +5,12 @@ local colors = require("reactiveGui/style/colors.nut")
 local hudFrame = function(inputObj, group, sf) {
   return {
     rendObj = ROBJ_BOX
-    size = [flex(), SIZE_TO_CONTENT]
+    size = [flex(), ::fpx(30) + 2 * (::dp() + ::fpx(3))]
     fillColor = colors.menu.textInputBgColor
     borderColor = colors.menu.textInputBorderColor
-    borderWidth = [hdpx(1)]
+    borderWidth = [::dp()]
 
     group = group
-    padding = [hdpx(5) , hdpx(6)]
-
     children = inputObj
   }
 }

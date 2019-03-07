@@ -83,8 +83,7 @@ class WwOperation
 
   function getStartDateTxt()
   {
-    local createTime = ::getTblValue("ct", data, 0)
-    return time.buildDateStr(::get_time_from_t(createTime))
+    return time.buildDateStr(data?.ct ?? 0)
   }
 
   function getGeoCoordsText()

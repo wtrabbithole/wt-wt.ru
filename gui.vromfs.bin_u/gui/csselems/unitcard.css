@@ -79,6 +79,10 @@ shopItem[group=yes] > bgPlate {
   background-position:29,9,3,5;
 }
 
+shopItem[unitRarity=squadron] > bgPlate {
+  background-color:@shopItemSquadron;
+}
+
 shopItem airResearchProgress {
   behaviour:progress;
   re-type:progress;
@@ -97,6 +101,10 @@ airResearchProgress[type=old] {
 
 airResearchProgress[type=new] {
   foreground-color:@cardProgressChangeColor;
+}
+
+shopItem[unitRarity=squadron] airResearchProgress[type=new] {
+  foreground-color:@cardProgressChangeSquadronColor;
 }
 
 airResearchProgress[paused=yes] {
@@ -175,6 +183,10 @@ shopItem[shopStat=canBuy][unitRarity=premium] > bgPlate {
   background-color:@shopItemPremium;
 }
 
+shopItem[shopStat=canBuy][unitRarity=squadron] > bgPlate {
+  background-color:@shopItemSquadronWaiting;
+}
+
 shopItem[shopStat=canResearch] > bgPlate {
   background-image:#ui/gameuiskin#item;
   background-color:@shopItemWaiting;
@@ -182,6 +194,10 @@ shopItem[shopStat=canResearch] > bgPlate {
 
 shopItem[shopStat=canResearch][group=yes] > bgPlate {
   background-image:#ui/gameuiskin#item_group;
+}
+
+shopItem[shopStat=canResearch][unitRarity=squadron] > bgPlate {
+  background-color:@shopItemSquadronWaiting;
 }
 
 shopItem[shopStat=research] > itemWinkBlock{
@@ -201,6 +217,10 @@ shopItem[shopStat=owned][unitRarity=premium] > bgPlate {
   background-color:@shopItemOwnedPremium;
 }
 
+shopItem[shopStat=owned][unitRarity=squadron] > bgPlate {
+  background-color:@shopItemSquadronOwned;
+}
+
 shopItem[shopStat=mounted] > bgPlate {
   background-image:#ui/gameuiskin#item_mounted;
   background-color:@shopItemOwned;
@@ -212,6 +232,10 @@ shopItem[shopStat=mounted][group=yes] > bgPlate {
 
 shopItem[shopStat=mounted][unitRarity=premium] > bgPlate {
   background-color:@shopItemOwnedPremium;
+}
+
+shopItem[shopStat=mounted][unitRarity=squadron] > bgPlate {
+  background-color:@shopItemSquadronOwned;
 }
 
 shopItem[shopStat=disabled] > bgPlate
@@ -234,6 +258,10 @@ shopItem[isBroken=yes] itemWinkBlock {
 }
 shopItem[shopStat=locked] > bgPlate {
   background-color:@shopItemLocked;
+}
+
+shopItem[shopStat=locked][unitRarity=squadron] > bgPlate {
+  background-color:@shopItemSquadronLocked;
 }
 
 :hover > shopAirImg {
@@ -347,6 +375,10 @@ eliteIcon {
 }
 
 shopItem[unitRarity=premium] > eliteIcon {
+  background-color:#AB5B3416;
+}
+
+shopItem[unitRarity=squadron] > eliteIcon {
   background-color:#AB5B3416;
 }
 

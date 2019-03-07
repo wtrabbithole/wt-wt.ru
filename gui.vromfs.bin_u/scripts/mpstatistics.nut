@@ -154,9 +154,10 @@ function build_mp_table(table, markupData, hdr, max_rows)
 
       if (hdr[j] == "hasPassword")
       {
-        local icon = item ? "#ui/gameuiskin#password" : ""
+        local icon = item ? "#ui/gameuiskin#password.svg" : ""
         tdData += "size:t='ph"+widthAdd+" ,ph';"  +
-          ("img{ pos:t='(pw-w)/2,(ph-h)/2'; position:t='relative'; size:t='@tableIcoSize,@tableIcoSize'; background-image:t='" + (isEmpty ? "" : icon) + "'; }")
+          ("img{ pos:t='(pw-w)/2,(ph-h)/2'; position:t='relative'; size:t='@tableIcoSize,@tableIcoSize';" +
+          "background-svg-size:t='@tableIcoSize,@tableIcoSize'; background-image:t='" + (isEmpty ? "" : icon) + "'; }")
       }
       else if (hdr[j] == "team")
       {

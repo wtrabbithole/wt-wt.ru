@@ -83,8 +83,9 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     }
 
     setDisableSslCertBox(disableSSLCheck)
-    showSceneBtn("steam_login_action_button", ::steam_is_running())
-    showSceneBtn("sso_login_action_button", ::webauth_start(this, onSsoAuthorizationComplete))
+    local isSteamRunning = ::steam_is_running()
+    showSceneBtn("steam_login_action_button", isSteamRunning)
+    showSceneBtn("sso_login_action_button", !isSteamRunning && ::webauth_start(this, onSsoAuthorizationComplete))
 
     if (lp.login != "")
       currentFocusItem = 1
@@ -512,7 +513,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
       case ::YU2_OK:
         if (isTryLinkSteamAccount())
         {
-          local isRemoteComp = scene.findObject("loginbox_remote_comp").getValue()
+          local isRemoteComp = ::get_object_value(scene, "loginbox_remote_comp", false)
           ::statsd_counter("gameStart.request_login.steam_link")
           ::dagor.debug("Steam Link Login: check_login_pass")
           local res = ::check_login_pass("", "", "steam", "steam", true, isRemoteComp)

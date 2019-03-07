@@ -4,6 +4,7 @@ local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local actionBarInfo = require("scripts/hud/hudActionBarInfo.nut")
 
 ::last_ca_aircraft <- null
 ::used_planes <- {}
@@ -1265,6 +1266,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
         if (canChangeAircraft || idx == rocketDescr.value)
           markup += build_option_blk(item, "", idx == rocketDescr.value)
       guiScene.replaceContentFromText(rocketdistObj, markup, markup.len(), this)
+      rocketdistObj.setValue(rocketDescr.value)
     }
     showOptionRow(rocketDescr.id,
       aircraft && rocket && air.getAvailableSecondaryWeapons().hasRocketDistanceFuse)
@@ -1396,6 +1398,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (scene.findObject("skin").getValue() > 0)
       ::req_unlock_by_client("non_standard_skin", false)
 
+    actionBarInfo.cacheActionDescs(requestData.name)
+
     ::set_show_aircraft(::getAircraftByName(requestData.name))
   }
 
@@ -1480,7 +1484,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
                      ])
     {
       local opt = ::get_option(optId)
-      if (opt.controlType = optionControlType.LIST)
+      if (opt.controlType == optionControlType.LIST)
         res[opt.id] <- ::getTblValue(opt.value, opt.values)
       else
         res[opt.id] <- opt.value

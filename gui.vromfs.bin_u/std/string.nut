@@ -9,6 +9,7 @@ local INVALID_INDEX = -1
 local rootTable = getroottable()
 local intRegExp = null
 local floatRegExp = null
+local trimRegExp = null
 local stripTagsConfig = null
 local escapeConfig = null
 /**
@@ -68,6 +69,7 @@ local function split(joined, glue, isIgnoreEmpty = false) {
 if ("regexp2" in rootTable) {
   intRegExp = ::regexp2(@"^-?\d+$")
   floatRegExp  = ::regexp2(@"^-?\d+\.?\d*$")
+  trimRegExp = ::regexp2(@"^\s+|\s+$")
   stripTagsConfig = [
     {
       re2 = ::regexp2("~")
@@ -104,6 +106,7 @@ if ("regexp2" in rootTable) {
 } else  if ("regexp" in rootTable) {
   intRegExp = ::regexp(@"^-?(\d+)$")
   floatRegExp  = ::regexp(@"^-?(\d+)(\.?)(\d*)$")
+  trimRegExp = ::regexp(@"^(\s+)|(\s+)$")
   stripTagsConfig = [
     {
       re2 = ::regexp(@"~")
@@ -164,7 +167,7 @@ local function func2str(func, p={}){
   }
 
   local out = ""
-  local info = func.getinfos()
+  local info = func.getfuncinfos()
 
   if (!info.native) {
     local defparams = info?.defparams ?? []
@@ -574,6 +577,17 @@ local function replace(str, from, to) {
   return join(splitted, to)
 }
 
+/**
+ * Strips leading and trailing whitespace characters.
+ * Like Java function trim().
+ * @param {string} str - Input string.
+ * @return {string} - String without whitespace chars.
+ */
+local function trim(str) {
+  str = str || ""
+  return trimRegExp ? trimRegExp.replace("", str) : str
+}
+
 /*
   getroottable()["rfsUnitTest"] <- function()
   {
@@ -800,6 +814,7 @@ local export = {
   join = join
   split = split
   replace = replace
+  trim = trim
   floatToStringRounded = floatToStringRounded
   isStringInteger = isStringInteger
   isStringFloat = isStringFloat

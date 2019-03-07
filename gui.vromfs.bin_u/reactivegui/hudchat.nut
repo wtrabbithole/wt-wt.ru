@@ -8,6 +8,7 @@ local time = require("std/time.nut")
 local state = require("hudChatState.nut")
 local hudState = require("hudState.nut")
 local hudLog = require("components/hudLog.nut")
+local fontsState = require("style/fontsState.nut")
 
 local chatLog = state.log
 
@@ -56,12 +57,14 @@ local chatInputCtor = function (field, send) {
   }
   local options = {
     key = "chatInput"
-    font = Fonts.tiny_text_hud
+    font = fontsState.get("small")
     margin = 0
-    padding = [hdpx(5), hdpx(5), 0, hdpx(5)]
+    padding = [::fpx(8), ::fpx(8), 0, ::fpx(8)]
+    size = flex()
     valign = VALIGN_BOTTOM
     borderRadius = 0
     valignText = VALIGN_MIDDLE
+    textmargin = [::fpx(5) , ::fpx(8)]
     hotkeys = [
       [ "J:A", onReturn],
       [ "J:B", onEscape],
@@ -88,13 +91,13 @@ local chatHint = @() {
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL
   valign = VALIGN_MIDDLE
-  padding = [hdpx(5), hdpx(15)]
+  padding = [::fpx(8)]
   gap = { size = flex() }
   color = colors.hud.hudLogBgColor
   children = [
     {
       rendObj = ROBJ_DTEXT
-      font = Fonts.tiny_text_hud
+      font = fontsState.get("small")
       text = getHintText()
     }
     @() {
@@ -102,7 +105,7 @@ local chatHint = @() {
       watch = state.modeId
       text = ::cross_call.mp_chat_mode.getModeNameText(state.modeId.value)
       color = modeColor(state.modeId.value)
-      font = Fonts.small_text_hud
+      font = fontsState.get("normal")
     }
   ]
 }
@@ -173,7 +176,7 @@ local messageComponent = @(message) function() {
     rendObj = ROBJ_TEXTAREA
     behavior = Behaviors.TextArea
     text = text
-    font = Fonts.tiny_text_hud
+    font = fontsState.get("small")
     key = message
   }
 }
@@ -201,9 +204,9 @@ local onInputToggle = function (enable) {
 
 return function () {
   return {
-    size = flex()
+    size = [flex(), SIZE_TO_CONTENT]
     flow = FLOW_VERTICAL
-    gap = sh(0.5)
+    gap = ::fpx(8)
 
     children = [
       logBox

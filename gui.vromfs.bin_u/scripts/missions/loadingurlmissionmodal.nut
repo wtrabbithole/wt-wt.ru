@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -122,7 +124,7 @@ class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandle
 
   function onProgress(dltotal, dlnow)
   {
-    loadingProgress = dltotal && ::roundToDigits(100.0 * dlnow/dltotal, 2)
+    loadingProgress = dltotal && stdMath.roundToDigits(100.0 * dlnow/dltotal, 2)
     progressChanged = true
   }
 

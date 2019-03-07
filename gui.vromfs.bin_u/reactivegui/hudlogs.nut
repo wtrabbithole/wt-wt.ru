@@ -49,7 +49,7 @@ local logsHeader = @(){
 
 
 return @() {
-  size = [min(sw(30), sh(53)),  sh(25)]
+  size = [min(sw(30), sh(53)), SIZE_TO_CONTENT]
   flow = FLOW_VERTICAL
   watch = currentTab
   children = [

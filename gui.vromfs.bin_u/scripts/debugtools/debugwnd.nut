@@ -1,5 +1,3 @@
-local time = require("scripts/time.nut")
-
 function debug_wnd(blkName = null, tplParams = {}, callbacksContext = null)
 {
   ::gui_start_modal_wnd(::gui_handlers.debugWndHandler, { blkName = blkName, tplParams = tplParams, callbacksContext = callbacksContext })
@@ -14,7 +12,7 @@ class ::gui_handlers.debugWndHandler extends ::BaseGuiHandler
   blkName = null
   tplName = null
   tplParams = {}
-  lastModified = null
+  lastModified = -1
   checkTimer = 0.0
 
   callbacksContext = null
@@ -41,7 +39,7 @@ class ::gui_handlers.debugWndHandler extends ::BaseGuiHandler
     tplName = ::g_string.endsWith(blkName, ".tpl") ? ::g_string.slice(blkName, 0, -4) : null
     tplParams = _tplParams || {}
 
-    lastModified = null
+    lastModified = -1
     updateWindow()
   }
 
@@ -78,18 +76,17 @@ class ::gui_handlers.debugWndHandler extends ::BaseGuiHandler
   {
     if (!isExist)
       return
-    local modified = ::get_file_modify_time(blkName)
-    if (!modified)
+    local modified = ::get_file_modify_time_sec(blkName)
+    if (modified < 0)
       return
 
-    modified = time.getFullTimeTable(modified)
-    if (!lastModified)
+    if (lastModified < 0)
     {
       lastModified = modified
       return
     }
 
-    if (time.cmpDate(lastModified, modified) != 0)
+    if (lastModified != modified)
     {
       lastModified = modified
       updateWindow()

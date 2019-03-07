@@ -8,4 +8,5 @@ class ::items_classes.CraftPart extends ItemExternal {
 
   canConsume            = @() false
   shouldShowAmount      = @(count) count >= 0
+  getOpenedBigIcon      = @() ""
 }

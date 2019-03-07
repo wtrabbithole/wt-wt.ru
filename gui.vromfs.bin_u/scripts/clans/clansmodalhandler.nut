@@ -772,9 +772,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       objFrameBlock.show(false)
       return
     }
-    local timeTbl = ::get_time_from_t(dateDuel)
-    timeTbl.sec = -1
-    local endsDate = time.buildDateTimeStr(timeTbl)
+    local endsDate = time.buildDateTimeStr(dateDuel, false, false)
     local objEndsDuel = scene.findObject("clan_battle_season_ends")
     if (::checkObj(objEndsDuel))
       objEndsDuel.setValue(::loc("clan/battle_season/ends") + ::loc("ui/colon") + endsDate)

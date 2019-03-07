@@ -112,6 +112,10 @@ function handlersManager::updatePostLoadCss()
   {
     shouldResetFontsCache = true
     haveChanges = true
+    ::call_darg("updateFontParams", {
+      fontGenId = font.fontGenId
+      fontSizePx = font.getFontSizePx(::screen_width(), ::screen_height())
+    })
   }
   currentFont = font
 

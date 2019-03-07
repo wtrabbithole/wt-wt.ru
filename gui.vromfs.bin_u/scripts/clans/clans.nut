@@ -258,7 +258,7 @@ function g_clans::requestClanLog(clanId, rowsCount, requestMarker, callbackFnSuc
         local logType = ::g_clan_log_type.getTypeByName(logEntryTable.ev)
 
         if ("time" in logEntryTable)
-          logEntryTable.time = time.buildDateTimeStr(::get_time_from_t(logEntryTable.time))
+          logEntryTable.time = time.buildDateTimeStr(logEntryTable.time)
 
         logEntryTable.header <- logType.getLogHeader(logEntryTable)
         if (logType.needDetails(logEntryTable))
@@ -504,13 +504,12 @@ function g_clans::showClanRewardLog(clanData)
 
 function g_clans::getClanCreationDateText(clanData)
 {
-  return time.buildDateStr(::get_time_from_t(clanData.cdate))
+  return time.buildDateStr(clanData.cdate)
 }
 
 function g_clans::getClanInfoChangeDateText(clanData)
 {
-  local t = ::get_time_from_t(clanData.changedTime)
-  return time.buildDateTimeStr(t, false, false)
+  return time.buildDateTimeStr(clanData.changedTime, false, false)
 }
 
 function g_clans::getClanMembersCountText(clanData)
@@ -909,7 +908,7 @@ function is_in_my_clan(name = null, uid = null)
 
   function getRegionChangeAvailableTime()
   {
-    return ::get_time_from_t(regionLastUpdate + ::g_clans.getRegionUpdateCooldownTime())
+    return regionLastUpdate + ::g_clans.getRegionUpdateCooldownTime()
   }
 
   function getClanUpgradeCost()

@@ -1,5 +1,6 @@
 local string = require("std/string.nut")
 local guidParser = require("scripts/guidParser.nut")
+local stdMath = require("std/math.nut")
 
 const MAX_LOCATION_TYPES = 64
 
@@ -130,7 +131,7 @@ local function getBestSkinsList(skinsList, unitName, level)
   local locationMask = getMaskByLevel(level)
   foreach(skin in skinsList)
   {
-    local match = ::number_of_set_bits(locationMask & getSkinLocationsMask(skin, unitName))
+    local match = stdMath.number_of_set_bits(locationMask & getSkinLocationsMask(skin, unitName))
     if (!match)
       continue
     if (match > bestMatch)

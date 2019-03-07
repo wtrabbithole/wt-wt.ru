@@ -11,7 +11,7 @@ local controlsMarkupSource = {
   xboxOne = {
     title = "#controls/help/xboxone"
     blk = "gui/help/controllerXboxOne.blk"
-    iconsPreset = gamepadIcons.ICO_PRESET_XBOXONE
+    iconsPreset = gamepadIcons.ICO_PRESET_DEFAULT
     btnBackLocId = "xinp/Select"
   },
   xbox360 = {

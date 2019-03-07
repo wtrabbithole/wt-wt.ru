@@ -35,7 +35,12 @@ shopFilter {
     text:t='#<<country>>/short'
   }
 
-  <<#isDiscountVisible>>
+  <<#hasNotificationIcon>>
+  squadronExpIcon {
+    countryId:t='<<country>>'
+    value:t='{"viewId": "COUNTRY_SQUADRON_EXP_ICON"}'
+    type:t='inTab'
+  }
   discountIcon {
     countryId:t='<<country>>'
     value:t='{"viewId": "COUNTRY_DISCOUN_ICON"}'
@@ -43,6 +48,6 @@ shopFilter {
     tooltip:t='#discount/notification'
     type:t='slotbarCountry'
   }
-  <</isDiscountVisible>>
+  <</hasNotificationIcon>>
 }
 <</countries>>

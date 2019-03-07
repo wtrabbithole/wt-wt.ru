@@ -3,6 +3,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local itemTransfer = require("scripts/items/itemsTransfer.nut")
+local stdMath = require("std/math.nut")
 
 local seenList = ::require("scripts/seen/seenList.nut")
 local seenInventory = seenList.get(SEEN.INVENTORY)
@@ -314,7 +315,7 @@ function ItemsManager::initItemsClasses()
   foreach(name, itemClass in ::items_classes)
   {
     local iType = itemClass.iType
-    if (::number_of_set_bits(iType) != 1)
+    if (stdMath.number_of_set_bits(iType) != 1)
       ::dagor.assertf(false, "Incorrect item class iType " + iType + " must be a power of 2")
     if (iType in itemTypeClasses)
       ::dagor.assertf(false, "duplicate iType in item classes " + iType)

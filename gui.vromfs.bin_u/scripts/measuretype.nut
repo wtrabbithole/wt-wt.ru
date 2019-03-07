@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local stdMath = require("std/math.nut")
 /**
  * Measure type is a useful abstraction above
  * customizable and hard-coded measure units.
@@ -15,7 +16,7 @@ function g_measure_type::_getMeasureUnitsText(value, addMeasureUnits = true, for
 {
   if (userOptCode != -1)
     return ::countMeasure(orderCode, value, " - ", addMeasureUnits, forceMaxPrecise)
-  local result = ::round_by_value(value, presize).tostring()
+  local result = stdMath.round_by_value(value, presize).tostring()
   if (addMeasureUnits)
     result += " " + getMeasureUnitsName()
   return result

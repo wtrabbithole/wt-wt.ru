@@ -38,7 +38,7 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
     onChapterSelect(chaptersObj)
 
     local canShowLinkButtons = !::is_vendor_tencent() && ::has_feature("AllowExternalLink")
-    foreach(btn in ["faq", "forum", "support", "wiki"])
+    foreach(btn in ["faq", "support", "wiki"])
       showSceneBtn("button_" + btn, canShowLinkButtons)
   }
 

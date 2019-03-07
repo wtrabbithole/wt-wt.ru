@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -378,14 +380,14 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       local addLevel   = ::g_crew.getSkillCrewLevel(item, totalSkill, totalSkill - bonusData.add)
 
       if ((totalSkill - item.newValue).tointeger() != 0 && bonusData.add != 0)
-        bonusText = ((bonusLevel >= 0) ? "+" : "") + ::round_by_value(bonusLevel, 0.01)
+        bonusText = ((bonusLevel >= 0) ? "+" : "") + stdMath.round_by_value(bonusLevel, 0.01)
       bonusOverlayTextColor = (bonusLevel < 0) ? "bad" : "good"
 
       if (bonusData.add > 0)
         bonusTooltip = ::loc("crew/qualifyBonus") + ::loc("ui/colon")
-                  + ::colorize("goodTextColor", "+" + ::round_by_value(addLevel, 0.01))
+                  + ::colorize("goodTextColor", "+" + stdMath.round_by_value(addLevel, 0.01))
 
-      local lvlDiffByGunners = ::round_by_value(bonusLevel - addLevel, 0.01)
+      local lvlDiffByGunners = stdMath.round_by_value(bonusLevel - addLevel, 0.01)
       if (lvlDiffByGunners < 0)
         bonusTooltip += ((bonusTooltip != "") ? "\n" : "") + ::loc("crew/notEnoughGunners") + ::loc("ui/colon")
           + "<color=@badTextColor>" + lvlDiffByGunners + "</color>"

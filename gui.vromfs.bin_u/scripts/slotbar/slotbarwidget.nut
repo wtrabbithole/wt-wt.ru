@@ -1,5 +1,6 @@
 local callback = ::require("sqStdLibs/helpers/callback.nut")
 local Callback = callback.Callback
+local battleRating = ::require("scripts/battleRating.nut")
 
 ::slotbar_oninit <- false //!!FIX ME: Why this variable is global?
 
@@ -80,6 +81,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   headerObj = null
   crewsObj = null
   selectedCrewData = null
+  enableCountryList = null
 
   static function create(params)
   {
@@ -234,7 +236,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       local countryData = {
         country = listCountry
         id = c
-        isEnabled = !country || country == listCountry
+        isEnabled = (!country || country == listCountry)
+          && (!enableCountryList || ::isInArray(listCountry, enableCountryList))
         crews = []
       }
       res.append(countryData)
@@ -420,7 +423,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       updateConsoleButtonsVisible(hasCountryTopBar)
 
     local countriesView = {
-      isDiscountVisible = hasResearchesBtn
+      hasNotificationIcon = hasResearchesBtn
       countries = []
     }
     local selCountryIdx = 0
@@ -792,6 +795,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     }
     else
       applySlotSelection(obj, selSlot)
+
+   battleRating.updateBattleRating()
   }
 
   function applySlotSelection(obj, selSlot)
@@ -1089,6 +1094,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       ownerWeak.presetsListWeak.update()
     if (onCountryChanged)
       onCountryChanged()
+    battleRating.updateBattleRating()
   }
 
   function prevCountry(obj) { switchCountry(-1) }

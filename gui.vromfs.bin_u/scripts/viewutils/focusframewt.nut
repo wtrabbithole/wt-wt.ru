@@ -1,4 +1,5 @@
 local focusFrame = ::require("sqDagui/focusFrame/focusFrame.nut")
+local stdMath = require("std/math.nut")
 
 local sizeProps = [
   ["width-base", "width-end"],
@@ -21,7 +22,7 @@ focusFrame.setAnimFunction(function(animObj, curTgt, prevTgt)
     local minSh = 0.2 * sh
     local dist = ::max(abs(prevTgt.pos[0] - curTgt.pos[0]), abs(prevTgt.pos[1] - curTgt.pos[1]))
     dist = ::clamp(dist, minSh, sh)
-    offset = ::lerp(minSh, sh, offsetMin, offsetMax, dist)
+    offset = stdMath.lerp(minSh, sh, offsetMin, offsetMax, dist)
   }
   foreach(axis, sizeProp in sizeProps)
   {

@@ -1,5 +1,6 @@
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local seenList = ::require("scripts/seen/seenList.nut")
+local stdMath = require("std/math.nut")
 
 /*
   config = {
@@ -79,7 +80,7 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
     if (config.itemsCountX * config.itemsCountY > options.len())
     {
       local total = ::max(options.len(), minAmountButtons)
-      local columns = ::min(::calc_golden_ratio_columns(total), config.itemsCountX)
+      local columns = ::min(stdMath.calc_golden_ratio_columns(total), config.itemsCountX)
       local rows = ::ceil(total.tofloat() / columns).tointeger()
       if (rows > config.itemsCountY)
       {

@@ -17,6 +17,10 @@ local mpChatModel = {
     return mpChatState.log
   }
 
+  function setLog(log) {
+    mpChatState.log = log
+  }
+
   chatLogFormatForBanhammer = @() {
       category = ""
       title = ""

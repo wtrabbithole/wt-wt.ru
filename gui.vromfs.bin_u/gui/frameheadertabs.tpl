@@ -34,6 +34,14 @@ shopFilter {
     text:t='<<tabName>>'
   }
 
+  <<#squadronExpIconId>>
+  squadronExpIcon {
+    id:t='<<squadronExpIconId>>'
+    type:t='inTab'
+    value:t='{"viewId": "SHOP_PAGES_SQUADRON_EXP_ICON"}'
+  }
+  <</squadronExpIconId>>
+
   <<#discount>>
   discount {
     id:t='<<#discountId>><<discountId>><</discountId>><<^discountId>><<id>>_discount<</discountId>>'

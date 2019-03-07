@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local stdMath = require("std/math.nut")
 enum PART_STATE
 {
   OFF      = "off"
@@ -74,7 +75,7 @@ local countPartsTotal = function(partsArray, partsCfg)
 
 local getPercentValueByCounts = function(alive, total, aliveMin)
 {
-  return ::clamp(::lerp(aliveMin - 1, total, 0.0, 1.0, alive), 0.0, 1.0)
+  return ::clamp(stdMath.lerp(aliveMin - 1, total, 0.0, 1.0, alive), 0.0, 1.0)
 }
 
 local getStateByValue = function(cur, max, crit, min)
@@ -214,7 +215,7 @@ enums.addTypesByGlobalName("g_hud_enemy_debuffs", {
       local bestMinCrewCount = camInfo?.bestMinCrewCount ?? minCrewCount
 
       local maxCrewLeftPercent = (100.0 * (1.0 + (bestMinCrewCount.tofloat() - minCrewCount) / total) + 0.5).tointeger()
-      local percent = ::clamp(::lerp(minCrewCount - 1, total, 0, maxCrewLeftPercent, alive), 0, 100)
+      local percent = ::clamp(stdMath.lerp(minCrewCount - 1, total, 0, maxCrewLeftPercent, alive), 0, 100)
       return {
         state = getStateByValue(alive, total, minCrewCount + 1, minCrewCount)
         label = ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(percent)

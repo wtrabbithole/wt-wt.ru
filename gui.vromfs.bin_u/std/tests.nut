@@ -2,9 +2,9 @@ local string = require("string.nut")
 
 local function testFunction(func, tests=[], shouldPass=true, testname = null) {
   local a = string.isStringInteger
-  local funcname = testname ?? func.getinfos().name
+  local funcname = testname ?? func.getfuncinfos().name
   foreach (test in tests) {
-    local testname = test?.name ?? test
+    test_ = test?.name ?? test
     local testres = test?.res ?? shouldPass
     local testarg = test?.arg ?? test
     local failed = false
@@ -16,7 +16,7 @@ local function testFunction(func, tests=[], shouldPass=true, testname = null) {
       failed = !shouldPass
     }
     if (failed)
-      print("test for func: " + funcname + " failed. Func argument: " + testname + "\n")
+      print("test for func: " + funcname + " failed. Func argument: " + test_ + "\n")
   }
 }
 

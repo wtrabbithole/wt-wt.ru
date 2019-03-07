@@ -264,7 +264,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
   function updateSpendExpBtn(unit)
   {
     local showSpendBtn = !::isUnitGroup(unit) && !unit?.isFakeUnit
-                         && ::canResearchUnit(unit)
+                         && ::canResearchUnit(unit) && !unit.isSquadronVehicle()
     local coloredText = ""
     if (showSpendBtn)
     {

@@ -270,8 +270,7 @@ enum xboxMediaItemType { //values by microsoft IDE, others not used
 
 function randomize()
 {
-  local tm = ::get_local_time()
-  ::math.init_rnd(tm.sec + tm.min + tm.hour)
+  ::math.init_rnd(::get_local_time_sec())
 }
 randomize()
 
@@ -366,7 +365,7 @@ foreach (fn in [
   "scripts/debugTools/dbgEnum.nut"
   "scripts/debugTools/debugWnd.nut"
   "scripts/debugTools/dbgTimer.nut"
-  "scripts/debugTools/dbgDump.nut"
+  "scripts/debugTools/dbgDumpTools.nut"
   "scripts/debugTools/dbgUtils.nut"
   "scripts/debugTools/dbgImage.nut"
   "scripts/debugTools/dbgFonts.nut"
@@ -574,6 +573,7 @@ function load_scripts_after_login_once()
     "controls/input/axis.nut"
     "controls/input/doubleAxis.nut"
     "controls/input/image.nut"
+    "controls/input/keyboardAxis.nut"
     "controls/shortcutType.nut"
     "controls/controlsPseudoAxes.nut"
     "controls/controlsWizard.nut"
@@ -847,6 +847,7 @@ function load_scripts_after_login_once()
   ::require("scripts/items/roulette/bhvRoulette.nut")
   ::require("scripts/squads/elems/voiceChatElem.nut")
   ::require("scripts/slotbar/elems/discountIconElem.nut")
+  ::require("scripts/slotbar/elems/squadronExpIconElem.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

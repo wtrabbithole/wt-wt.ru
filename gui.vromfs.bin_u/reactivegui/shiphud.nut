@@ -9,11 +9,12 @@ local screenState = require("style/screenState.nut")
 local shipHud = @(){
   watch = networkState.isMultiplayer
   size = [SIZE_TO_CONTENT, flex()]
+  padding = [0, 0, hdpx(32) + ::fpx(6), 0]
   margin = screenState.safeAreaSizeHud.value.borders
   flow = FLOW_VERTICAL
   valign = VALIGN_BOTTOM
   halign = HALIGN_LEFT
-  gap = sh(1)
+  gap = ::scrn_tgt(0.5)
   children = [
     voiceChat
     activeOrder

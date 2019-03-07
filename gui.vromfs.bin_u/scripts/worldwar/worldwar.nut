@@ -153,6 +153,7 @@ strength_unit_expclass_group <- {
   exp_torpedo_gun_boat = "ships"
   exp_submarine_chaser = "ships"
   exp_destroyer = "ships"
+  exp_cruiser = "ships"
   exp_naval_ferry_barge = "ships"
 }
 
@@ -441,6 +442,11 @@ function g_world_war::onEventLoadingStateChange(p)
     ::g_squad_manager.cancelWwBattlePrepare()
     isLastFlightWasWwBattle = ::g_mis_custom_state.getCurMissionRules().isWorldWar
   }
+}
+
+function g_world_war::onEventResetSkipedNotifications(p)
+{
+  ::saveLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false)
 }
 
 function g_world_war::stopWar()

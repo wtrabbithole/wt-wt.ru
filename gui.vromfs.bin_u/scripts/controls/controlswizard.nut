@@ -87,13 +87,9 @@ local globalEnv = require_native("globalEnv")
     { id="ID_SENSOR_MODE_SWITCH",         needSkip = @() !::has_feature("Sensors") }
     { id="ID_SENSOR_SCAN_PATTERN_SWITCH", needSkip = @() !::has_feature("Sensors") }
     { id="ID_SENSOR_RANGE_SWITCH",        needSkip = @() !::has_feature("Sensors") }
+    { id="ID_SENSOR_TARGET_SWITCH",       needSkip = @() !::has_feature("Sensors") }
     { id="ID_SENSOR_TARGET_LOCK",         needSkip = @() !::has_feature("Sensors") }
-    { id="sensor_designation_x", type = CONTROL_TYPE.AXIS, msgType = "_horizontal",
-      buttonRelative = true, needSkip = @() !::has_feature("Sensors") }
-    { id="sensor_designation_y", type = CONTROL_TYPE.AXIS, isVertical = true,
-      buttonRelative = true, needSkip = @() !::has_feature("Sensors") }
-    { id="sensor_designation_z", type = CONTROL_TYPE.AXIS, isVertical = true,
-      buttonRelative = true, needSkip = @() !::has_feature("Sensors") }
+    { id="ID_SENSOR_VIEW_SWITCH",         needSkip = @() !::has_feature("Sensors") }
     { id="weapon_aim_heading", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true }
     { id="weapon_aim_pitch",   type = CONTROL_TYPE.AXIS, isVertical = true,       buttonRelative = true }
     "ID_RELOAD_GUNS",
@@ -245,6 +241,19 @@ local globalEnv = require_native("globalEnv")
     "ID_ACTION_BAR_ITEM_5",
     "ID_ACTION_BAR_ITEM_6",
     "ID_SHOOT_ARTILLERY",
+    "ID_SENSOR_SWITCH_TANK",
+    "ID_SENSOR_MODE_SWITCH_TANK",
+    "ID_SENSOR_SCAN_PATTERN_SWITCH_TANK",
+    "ID_SENSOR_RANGE_SWITCH_TANK",
+    "ID_SENSOR_TARGET_LOCK_SWITCH",
+    "ID_SENSOR_TARGET_LOCK_TANK",
+    "ID_SENSOR_VIEW_SWITCH",
+    { id="sensor_designation_x_tank", type = CONTROL_TYPE.AXIS, msgType = "_horizontal",
+      buttonRelative = true }
+    { id="sensor_designation_y_tank", type = CONTROL_TYPE.AXIS, isVertical = true,
+      buttonRelative = true }
+    { id="sensor_designation_z_tank", type = CONTROL_TYPE.AXIS, isVertical = true,
+      buttonRelative = true }
 
   { id="ID_VIEW_CONTROL_HEADER", type= CONTROL_TYPE.HEADER }
     { id="gm_mouse_aim_x", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM], msgType = "_horizontal" }

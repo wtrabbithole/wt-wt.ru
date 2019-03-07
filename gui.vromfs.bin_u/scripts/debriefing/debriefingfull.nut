@@ -1,5 +1,6 @@
 //::g_script_reloader.loadOnce("!temp/a_test.nut") //!!debug only!!
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
+local stdMath = require("std/math.nut")
 //!! When this handler will be finished it replace all debriefing handlers,
 //and we can replace debriefing.nut by this file.
 
@@ -96,7 +97,6 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
     }
   }
   { id = "AwardDamage"
-    customValueName = "expAwardDamage"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = function(gm) { return gm != ::GM_SKIRMISH }
     text = "multiplayer/naval_damage"
@@ -470,6 +470,19 @@ function gather_debriefing_result()
   ::debriefing_result.expDump <- ::u.copy(exp) // Untouched copy for debug
 
   // Put exp data compatibility changes here.
+
+  // Temporary compatibility fix for 1.85.0.X
+  if (exp?.numAwardDamage && exp?.expAwardDamage)
+  {
+    local tables = [ exp ]
+    foreach (a in exp?.aircrafts ?? {})
+      tables.append(a)
+    foreach (t in tables)
+    {
+      t.numAwardDamage <- t?.expAwardDamage ?? 0
+      t.expAwardDamage <- 0
+    }
+  }
 
   foreach (row in ::debriefing_rows)
     if (row.joinRows)
@@ -1063,7 +1076,7 @@ function get_mission_victory_bonus_text(gm)
     (1.0 / (expPlaying.tofloat() / (expVictory - expPlaying))) :
     0.0
   local rp = ::floor(bonusRpRaw * 100).tointeger()
-  local wp = ::round_by_value(bonusWp * 100, 1).tointeger()
+  local wp = stdMath.round_by_value(bonusWp * 100, 1).tointeger()
   local textRp = rp ? ::getRpPriceText("+" + rp + "%", true) : ""
   local textWp = wp ? ::getWpPriceText("+" + wp + "%", true) : ""
   return ::g_string.implode([ textRp, textWp ], ::loc("ui/comma"))

@@ -273,15 +273,6 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     isFeatured = @() true
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
-  FORUM = {
-    text = "#mainmenu/forum"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
-    isDelayed = false
-    link = "#url/forum"
-    isLink = @() true
-    isFeatured = @() true
-    isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
-  }
   SUPPORT = {
     text = "#mainmenu/support"
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj)

@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
+local stdMath = require("std/math.nut")
 
 const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
@@ -1222,7 +1223,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       case "pct": return floor(100.0*value + 0.5) + "%"
       case "tim": return time.secondsToString(value, false)
       case "ptm": return time.getRaceTimeFromSeconds(value)
-      case "tnt": return ::roundToDigits(value * ::KG_TO_TONS, 3).tostring()
+      case "tnt": return stdMath.roundToDigits(value * ::KG_TO_TONS, 3).tostring()
     }
     return ""
   }
@@ -2133,7 +2134,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     local gapMin = 1.0
     local gapMax = gapMin * DEBR_MYSTATS_TOP_BAR_GAP_MAX
-    local gap = ::clamp(::lerp(total, 2, gapMin, gapMax, visible), gapMin, gapMax)
+    local gap = ::clamp(stdMath.lerp(total, 2, gapMin, gapMax, visible), gapMin, gapMax)
     local pos = ::format("%.1f@debrPad, ph/2-h/2", gap)
 
     for (local i = 0; i < containerObj.childrenCount(); i++)

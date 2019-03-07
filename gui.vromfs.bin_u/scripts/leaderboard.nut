@@ -740,7 +740,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     return ::getTblValue("rows", pageData, [])
   }
 
-  function fillLeaderboard(pageData, isForceShowTable = false)
+  function fillLeaderboard(pageData)
   {
     if (!::checkObj(scene))
       return
@@ -755,7 +755,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     local lbRows = getLbRows()
 
     local showHeader = pageData != null
-    local showTable = (pos > 0 || lbRows.len() > 0) && (isForceShowTable || selfRowData != null)
+    local showTable = (pos > 0 || lbRows.len() > 0) && selfRowData != null
 
     lbWaitBox.show(!showTable && !pageData)
     noLbText.show(!showTable && pageData)
@@ -930,13 +930,11 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
   function fillAdditionalLeaderboardInfo(pageData)
   {
     local updateTime = ::getTblValue("updateTime", pageData, 0)
-    local updateTimeTbl = ::get_time_from_t(updateTime)
     local timeStr = updateTime > 0
-                    ? ::format("%s %s %d:%02d",
+                    ? ::format("%s %s %s",
                                ::loc("mainmenu/lbUpdateTime"),
-                               time.buildDateStr(updateTimeTbl),
-                               updateTimeTbl.hour,
-                               updateTimeTbl.min)
+                               time.buildDateStr(updateTime),
+                               time.buildTimeStr(updateTime, false, false))
                     : ""
     local lbUpdateTime = scene.findObject("lb_update_time")
     if (!::checkObj(lbUpdateTime))

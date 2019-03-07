@@ -41,6 +41,8 @@
 @const profileMedalSizeBig: (256@sf/@pf $max 256) \ 1;
 @const profileMedalSizeList: (90@sf/@pf) \ 1;
 @const profileUnlockIconSize: (100*@sf/@pf_outdated) \ 1;
+@const usercardMedalRibbonW: (100@sf/@pf) \ 1;
+@const usercardMedalSize: (90@sf/@pf) \ 1;
 @const avatarButtonSize: 1@profileUnlockIconSize + 2@blockInterval;
 @const debriefingUnlockIconSize: 75@sf/@pf;
 @const unlockStageIconSize: 32*@sf/@pf_outdated;
@@ -79,7 +81,9 @@
 @const baseTrHeight:(0.038*@sf)\1;  
 @const baseTrHeaderHeight:(0.076*@sf)\1;  
 @const leaderboardTrHeight:(0.03*@sf)\1;
-@const leaderboardHeaderHeight:(0.05@sf)\1;
+@const leaderboardHeaderHeight:(0.06@sf)\1;
+@const leaderboardHeaderIcoSize:(0.05@sf)\1;
+@const usercardLeaderboardHeight: 1@leaderboardHeaderHeight + 2@leaderboardTrHeight + 4@blockInterval;
 @const rows16height:(0.030*@scrn_tgt)\1;
 @const sliderRowHeight:(1@sliderHeight + 2@sliderIncHeight)\1;
 @const crewTrHeight:(0.035*@sf)\1 + 6*@sf/@pf_outdated;
@@ -126,6 +130,7 @@
 
 @const queueTableColumnWidth: 0.05@sf;
 @const gameModeSelectBlockWidth: 6*(0.06*@sf + 0.01*@scrn_tgt + 2);
+@const gameModeSelectWindowWidth: 1.12@scrn_tgt;
 
 @const bigOptionsHeight: ((0.63@sf) \ (1@baseTrHeight)) * 1@baseTrHeight + 1;
 
@@ -243,6 +248,8 @@
 @const discountBoxPadding: 1@blockInterval;
 @const discountBoxDownArrowHeight: 14*@sf/@pf;
 @const discountBoxHeight: 23*@sf/@pf;
+@const discountBigBoxWidth: 32*@sf/@pf;
+@const discountBigBoxHeight: 36*@sf/@pf;
 
 @const eventTacticalMapSize: 0.23@scrn_tgt + 0.07@scrn_tgt * 1@isWide;
 @const eventRewardWidth:  0.4@scrn_tgt;

@@ -163,6 +163,8 @@ local ItemGenerator = class {
 
     ExchangeRecipes.saveMarkedRecipes(markedRecipes)
   }
+
+  isDelayedxchange = @() genType == "delayedexchange"
 }
 
 local get = function(itemdefId) {
@@ -177,10 +179,9 @@ local add = function(itemDefDesc) {
 
 local findGenByReceptUid = function(recipeUid) {
   foreach (gen in collection)
-    if (gen.genType != "delayedexchange")
-      foreach (recipe in gen.getRecipes())
-        if (recipe.uid == recipeUid)
-          return gen
+    foreach (recipe in gen.getRecipes())
+      if (recipe.uid == recipeUid && (!gen.isDelayedxchange() || recipe.isDisassemble))
+        return gen
 }
 
 return {

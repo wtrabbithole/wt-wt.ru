@@ -71,22 +71,23 @@ enum HelicopterParams
   THROTTLE = 1,
   SPEED = 2,
   CANNON = 3,
-  CANNON_ADDITIONAL = 4,
-  ROCKET = 5,
-  AGM = 6,
-  AAM = 7,
-  BOMBS = 8,
-  FLARES = 9,
-  RATE_OF_FIRE = 10,
-  OIL_1 = 11,
-  OIL_2 = 12,
-  OIL_3 = 13,
-  WATER_1 = 14,
-  WATER_2 = 15,
-  WATER_3 = 16,
-  ENGINE_1 = 17,
-  ENGINE_2 = 18,
-  ENGINE_3 = 19
+  MACHINE_GUN = 4,
+  CANNON_ADDITIONAL = 5,
+  ROCKET = 6,
+  AGM = 7,
+  AAM = 8,
+  BOMBS = 9,
+  FLARES = 10,
+  RATE_OF_FIRE = 11,
+  OIL_1 = 12,
+  OIL_2 = 13,
+  OIL_3 = 14,
+  WATER_1 = 15,
+  WATER_2 = 16,
+  WATER_3 = 17,
+  ENGINE_1 = 18,
+  ENGINE_2 = 19,
+  ENGINE_3 = 20
 };
 
 enum TemperatureState
@@ -104,4 +105,11 @@ enum HelicopterThrottleMode
   BRAKE = 1,
   CLIMB = 2,
   WEP = 3
+};
+
+enum RadarViewMode
+{
+  B_SCOPE_ROUND = 0,
+  B_SCOPE_SQUARE = 1,
+  MODE_COUNT = 2
 };

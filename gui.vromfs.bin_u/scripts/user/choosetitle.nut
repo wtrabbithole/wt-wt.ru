@@ -1,6 +1,7 @@
 local daguiFonts = ::require("scripts/viewUtils/daguiFonts.nut")
 local seenTitles = ::require("scripts/seen/seenList.nut").get(SEEN.TITLES)
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local stdMath = require("std/math.nut")
 
 class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -47,7 +48,7 @@ class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
       titleWidth += ::to_pixels("1@newWidgetIconHeight + 1@blockInterval")
     titleWidth = ::max(titleWidth + 2 * ::to_pixels("@buttonTextPadding"), ::to_pixels("1@buttonWidth"))
     local titleHeight = ::to_pixels("1@buttonHeight")
-    local columns = ::max(3, ::calc_golden_ratio_columns(titlesData.len(), titleWidth / (titleHeight || 1)))
+    local columns = ::max(3, stdMath.calc_golden_ratio_columns(titlesData.len(), titleWidth / (titleHeight || 1)))
 
     //sort alphabetically, and by columns
     titlesData.sort(@(a, b) a.lowerText <=> b.lowerText)

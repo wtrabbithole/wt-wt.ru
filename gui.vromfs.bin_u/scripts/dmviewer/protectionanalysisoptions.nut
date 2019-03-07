@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local stdMath = require("std/math.nut")
 
 local options = {
   types = []
@@ -136,6 +137,7 @@ options.addTypes({
       local unit = options.UNIT.value
       values = []
       items = []
+      local bulletNamesSet = []
 
       local curGunIdx = -1
       local groupsCount = ::getBulletsGroupCount(unit)
@@ -143,7 +145,7 @@ options.addTypes({
 
       for (local groupIndex = 0; groupIndex < ::get_last_fake_bullets_index(unit); groupIndex++)
       {
-        local gunIdx = ::get_linked_gun_index(groupIndex, groupsCount)
+        local gunIdx = ::get_linked_gun_index(groupIndex, groupsCount, false)
         if (gunIdx == curGunIdx)
           continue
 
@@ -192,6 +194,11 @@ options.addTypes({
               maxPiercing  = curPiercing
             }
           }
+
+          local locName = bulletsList.items[i].text
+          if(::isInArray(locName, bulletNamesSet))
+            continue
+          bulletNamesSet.append(locName)
 
           values.append({
             bulletName = bulletName || ""
@@ -324,7 +331,7 @@ options.updateArmorPiercingText <- function(obj) {
 
     if (pMin && pMax)
     {
-      local armor = ::lerp(pMin.dist, pMax.dist, pMin.armor, pMax.armor, distance)
+      local armor = stdMath.lerp(pMin.dist, pMax.dist, pMin.armor, pMax.armor, distance)
       desc = armor.tointeger() + " " + ::loc("measureUnits/mm")
     }
   }

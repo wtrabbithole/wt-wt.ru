@@ -189,15 +189,11 @@ function check_package_and_ask_download(pack, msg = null, continueFunc = null, o
   }
 
   local _msg = msg
-  local isFinishedDownload = contentStateModule.isConsoleClientFullyDownloaded()
+  local isFullClient = contentStateModule.getConsoleClientDownloadStatusOnStart()
   if (::is_ps4_or_xbox)
   {
-    if (!isFinishedDownload)
-    {
+    if (!isFullClient)
       _msg = contentStateModule.getClientDownloadProgressText()
-      if (!contentStateModule.getConsoleClientDownloadStatusOnStart())
-        _msg += "\n" + ::loc("msgbox/relogin_required")
-    }
   }
   else
   {
@@ -222,7 +218,7 @@ function check_package_and_ask_download(pack, msg = null, continueFunc = null, o
 
   if (::is_platform_ps4)
   {
-    if (isFinishedDownload && !contentStateModule.getConsoleClientDownloadStatusOnStart())
+    if (!isFullClient && contentStateModule.isConsoleClientFullyDownloaded())
     {
       buttons.insert(0, ["apply", function() { ::ps4_update_gui() }])
       defButton = "apply"

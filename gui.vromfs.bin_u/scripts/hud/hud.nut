@@ -239,8 +239,13 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene))
       return false
 
-    if (newHudType == hudType && isXinput == (isXinput = ::is_xinput_device()))
-      return false
+    if (newHudType == hudType)
+    {
+      if (isXinput == ::is_xinput_device())
+        return false
+
+      isXinput = ::is_xinput_device()
+    }
 
     local hudObj = scene.findObject("hud_obj")
     if (!::checkObj(hudObj))

@@ -67,11 +67,11 @@ local function getMarkingPresetsById(presetName)
   return markingPresetsList?[presetName]
 }
 
-local function shouldDisguiseItemId(id)
+local function shouldDisguiseItem(item)
 {
   foreach(set in getSetsList())
-    if (set.isItemIdInSet(id))
-      return set.shouldDisguiseItemId(id)
+    if (set.isItemInSet(item))
+      return set.shouldDisguiseItem(item)
   return false
 }
 
@@ -103,7 +103,8 @@ local function canSeenIdBeNew(seenId)
   if (!(seenId in seenIdCanBeNew))
   {
     local id = ::to_integer_safe(seenId, seenId, false) //ext inventory items id need to convert to integer.
-    seenIdCanBeNew[seenId] <- !shouldDisguiseItemId(id)
+    local item = ::ItemsManager.findItemById(id)
+    seenIdCanBeNew[seenId] <- item && !shouldDisguiseItem(item)
   }
   return seenIdCanBeNew[seenId]
 }
@@ -123,7 +124,7 @@ return {
   isAvailable = @() u.search(getSetsList(), @(s) s.isVisible()) != null
   getSetsList = @() getSetsList()
   getMarkingPresetsById = @(presetName) getMarkingPresetsById(presetName)
-  shouldDisguiseItem = @(item) shouldDisguiseItemId(item.id)
+  shouldDisguiseItem = shouldDisguiseItem
   getSetById = @(id) u.search(getSetsList(), @(s) s.id == id)
   getSetByItemId = @(itemId) u.search(getSetsList(), @(s) s.isItemIdInSet(itemId))
 }

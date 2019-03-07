@@ -144,162 +144,77 @@
     }
   },
   "76mm_oto_HE_VT": {
-    "bullet": [
-      {
-        "mass": 6.3
+    "bullet": {
+      "mass": 6.3,
+      "caliber": 0.076,
+      "explosiveType": "comp_a",
+      "explosiveMass": 0.673,
+      "speed": 910.0,
+      "maxDistance": 8000.0,
+      "selfDestructionInAir": true,
+      "bulletType": "he_frag_radio_fuse",
+      "bulletName": "76mm_he_mom",
+      "useSingleIconForBullet": true,
+      "selfDestructionFx": "bullet_self_expl",
+      "shellExplScale": 2.0,
+      "hasProximityFuse": true,
+      "hitPowerMult": 2.0,
+      "nearHitPower": [1.0,50.0],
+      "midHitPower": [0.9,300.0],
+      "farHitPower": [0.1,700.0],
+      "endHitPower": [0.008,1500.0],
+      "relativeVelHitShift": [300.0,1000.0],
+      "nearArmorPower": [3.0,150.0],
+      "midArmorPower": [3.0,600.0],
+      "farArmorPower": [3.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "fuseDelayDist": 0.2,
+      "explodeTreshold": 0.1,
+      "explodeHitPower": 37.0,
+      "explodeArmorPower": 9.1,
+      "explodeRadius": [0.105,1.05],
+      "shutterDamage": true,
+      "shutterDamageRadius": 3.6,
+      "shutterAmount": 70,
+      "shutterArmorPower": 5.0,
+      "shutterHit": 6.0,
+      "groundCollisionEffect": "37_50_he_hit_ground",
+      "groundFxScale": [0.5,0.6],
+      "ricochetEffect": "bullet_hit_armor",
+      "waterCollisionEffect": "big_water_splash",
+      "waterFxScale": [1.0,1.2],
+      "proximityFuse": {
+        "radius": 15.0,
+        "armDistance": 500.0,
+        "detectAirUnits": true,
+        "detectGroundUnits": false,
+        "detectGround": false
       },
-      {
-        "caliber": 0.076
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "37mmRed",
+        "trail": "black"
       },
-      {
-        "explosiveType": "comp_a"
-      },
-      {
-        "explosiveMass": 0.673
-      },
-      {
-        "speed": 910.0
-      },
-      {
-        "maxDistance": 6400.0
-      },
-      {
-        "selfDestructionInAir": true
-      },
-      {
-        "shellExplScale": 0.7
-      },
-      {
-        "bulletType": "he_frag_radio_fuse"
-      },
-      {
-        "bulletName": "76mm_he_mom"
-      },
-      {
-        "useSingleIconForBullet": true
-      },
-      {
-        "selfDestructionFx": "bullet_self_expl"
-      },
-      {
-        "shellExplScale": 2.0
-      },
-      {
-        "proximityFuseRange": 15.0
-      },
-      {
-        "proximityFuseArmDistance": 500.0
-      },
-      {
-        "proximityFuseDetectAir": true
-      },
-      {
-        "proximityFuseDetectGround": false
-      },
-      {
-        "hitPowerMult": 2.0
-      },
-      {
-        "nearHitPower": [1.0,50.0]
-      },
-      {
-        "midHitPower": [0.9,300.0]
-      },
-      {
-        "farHitPower": [0.1,700.0]
-      },
-      {
-        "endHitPower": [0.008,1500.0]
-      },
-      {
-        "relativeVelHitShift": [300.0,1000.0]
-      },
-      {
-        "nearArmorPower": [3.0,150.0]
-      },
-      {
-        "midArmorPower": [3.0,600.0]
-      },
-      {
-        "farArmorPower": [3.0,1000.0]
-      },
-      {
-        "relativeVelArmorShift": [200.0,1000.0]
-      },
-      {
-        "fuseDelayDist": 0.2
-      },
-      {
-        "explodeTreshold": 0.1
-      },
-      {
-        "explodeHitPower": 37.0
-      },
-      {
-        "explodeArmorPower": 9.1
-      },
-      {
-        "explodeRadius": [0.105,1.05]
-      },
-      {
-        "shutterDamage": true
-      },
-      {
-        "shutterDamageRadius": 3.6
-      },
-      {
-        "shutterAmount": 70
-      },
-      {
-        "shutterArmorPower": 5.0
-      },
-      {
-        "shutterHit": 6.0
-      },
-      {
-        "groundCollisionEffect": "37_50_he_hit_ground"
-      },
-      {
-        "groundFxScale": [0.5,0.6]
-      },
-      {
-        "ricochetEffect": "bullet_hit_armor"
-      },
-      {
-        "waterCollisionEffect": "big_water_splash"
-      },
-      {
-        "waterFxScale": [1.0,1.2]
-      },
-      {
-        "visual": {
-          "range_percent_of_ammo": [100.0,0.0],
-          "traceFreq": 1,
-          "tracer": "37mmRed",
-          "trail": "black"
-        }
-      },
-      {
-        "collisions": {
-          "buildings": {
-            "fx": "20_37_he_hit_stone",
-            "fxScale": [0.6,0.8]
-          },
-          "steel": {
-            "fx": "bullet_hit_armor_cumulative",
-            "fxScale": [1.0,1.1]
-          },
-          "armor": {
-            "fx": "bullet_hit_armor_cumulative",
-            "fxScale": [1.0,1.1]
-          },
-          "wood": {
-            "fx": "20_ap_wood_splash",
-            "fxScale": [0.9,1.1]
-          }
+      "collisions": {
+        "buildings": {
+          "fx": "20_37_he_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
+        "steel": {
+          "fx": "bullet_hit_armor_cumulative",
+          "fxScale": [1.0,1.1]
+        },
+        "armor": {
+          "fx": "bullet_hit_armor_cumulative",
+          "fxScale": [1.0,1.1]
+        },
+        "wood": {
+          "fx": "20_ap_wood_splash",
+          "fxScale": [0.9,1.1]
         }
       }
-    ]
+    }
   },
   "76mm_oto_APDSFS": {
     "bullet": {

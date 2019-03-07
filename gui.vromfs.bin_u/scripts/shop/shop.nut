@@ -58,6 +58,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   needUpdateSlotbar = false
   needUpdateSquadInfo = false
   shopResearchMode = false
+  isSquadronResearchMode = false
   setResearchManually = true
   lastPurchase = null
 
@@ -122,6 +123,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         pages = []
       }
 
+      local hasSquadronUnitsInCountry = false
       if (selAir && selAir.shopCountry == countryData.name)
         curCountry = countryData.name
 
@@ -138,6 +140,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         local selected = false
         local hasRankPosXY =false
         local hasFakeUnits =false
+        local hasSquadronUnits =false
 
         local totalRanges = pblk.blockCount()
         for(local r = 0; r < totalRanges; r++)
@@ -160,6 +163,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
               airData.air <- air
               airData.rank <- air.rank
+              hasSquadronUnits = hasSquadronUnits || air.isSquadronVehicle()
             }
             else  //aircraft group
             {
@@ -176,6 +180,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                   airData.rank <- air.rank
                 airData.airsGroup.append(air)
                 selected = selected || (::get_es_unit_type(air) == selAirType && ::getUnitCountry(air) == selAirCountry)
+                hasSquadronUnits = hasSquadronUnits || air.isSquadronVehicle()
               }
               if (airData.airsGroup.len()==0)
                 continue
@@ -210,6 +215,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
             pageData.hasRankPosXY <- hasRankPosXY
           if (hasFakeUnits)
             pageData.hasFakeUnits <- hasFakeUnits
+          if (hasSquadronUnits)
+          {
+            pageData.hasSquadronUnits <- hasSquadronUnits
+            hasSquadronUnitsInCountry = hasSquadronUnits
+          }
         }
         if (selected)
         {
@@ -219,6 +229,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
         if (pageData.airList.len() > 0)
           countryData.pages.append(pageData)
+        if (hasSquadronUnitsInCountry)
+          countryData.hasSquadronUnits <- hasSquadronUnitsInCountry
       }
       if (countryData.pages.len() > 0)
         shopData.append(countryData)
@@ -352,7 +364,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         {
           local item = rowArr[col]
           local config = getItemStatusData(item, curName)
-          if (config.checkAir || ((curRow < 0) && !item?.isFakeUnit))
+          if (config.checkAir
+            || (!isSquadronResearchMode && (curRow < 0) && !item?.isFakeUnit)
+            || (isSquadronResearchMode && item?.isSquadronVehicle?()))
           {
             curRow = row
             curCol = col
@@ -1061,6 +1075,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
              mainActionText = is_unit? getMainFunctionName(unit) : ""
              fullBlock      = true
              shopResearchMode = shopResearchMode
+             isSquadronResearchMode = isSquadronResearchMode
              forceNotInResearch = !setResearchManually
              flushExp = availableFlushExp
              showBR = ::has_feature("GlobalShowBattleRating")
@@ -1175,6 +1190,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       local view = { tabs = [] }
       foreach(idx, page in countryData.pages)
       {
+        if (isDisabledUnitTypePage(countryData, page))
+          continue
+
         local name = page.name
         view.tabs.append({
           id = name
@@ -1182,12 +1200,17 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
           discount = {
             discountId = getDiscountIconTabId(countryData.name, name)
           }
+          squadronExpIconId = curCountry + ";" + name
           navImagesText = ::get_navigation_images_text(idx, countryData.pages.len())
         })
 
         if (name == unitType.armyId)
-          curIdx = idx
+          curIdx = view.tabs.len() - 1
       }
+
+      local tabCount = view.tabs.len()
+      foreach(idx, tab in view.tabs)
+        tab.navImagesText = ::get_navigation_images_text(idx, tabCount)
 
       data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     }
@@ -1764,10 +1787,23 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return onOpenOnlineShop(obj)
     if (::canBuyUnit(unit))
       return onBuy(obj)
-    if ((availableFlushExp > 0 || !setResearchManually) && (::canResearchUnit(unit) || ::isUnitInResearch(unit)))
+
+    local isSquadronVehicle = unit.isSquadronVehicle()
+    local isInResearch = ::isUnitInResearch(unit)
+    local canFlushSquadronExp = isSquadronVehicle && isInResearch
+      && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
+    if (isSquadronVehicle && !::is_in_clan() && !canFlushSquadronExp)
+      return ::has_feature("Clans")? ::gui_modal_clans() : ::show_not_available_msg_box()
+    if (!isSquadronVehicle && (availableFlushExp > 0 || !setResearchManually)
+      && (::canResearchUnit(unit) || isInResearch))
       return onSpendExcessExp()
-    if (::isUnitInResearch(unit) && ::has_feature("SpendGold"))
+    if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle)
       return onConvert(obj)
+
+    if (canFlushSquadronExp)
+    {
+      return flushSquadronExp()
+    }
     if (::checkForResearch(unit)) // Also shows msgbox about requirements for Research or Purchase
       return onResearch(obj)
   }
@@ -1782,11 +1818,21 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return "#mainmenu/btnTakeAircraft"
     if (::canBuyUnit(unit) || ::canBuyUnitOnline(unit))
       return "#mainmenu/btnOrder"
-    if ((availableFlushExp > 0 || !setResearchManually) && (::canResearchUnit(unit) || ::isUnitInResearch(unit)))
+
+    local isSquadronVehicle = unit.isSquadronVehicle()
+    local isInResearch = ::isUnitInResearch(unit)
+    local canFlushSquadronExp = isSquadronVehicle && isInResearch
+      && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
+    if (isSquadronVehicle && !::is_in_clan() && !canFlushSquadronExp)
+      return "#mainmenu/btnFindSquadron"
+    if ((availableFlushExp > 0 || !setResearchManually) && (::canResearchUnit(unit) || isInResearch))
       return "#mainmenu/btnResearch"
-    if (::isUnitInResearch(unit) && ::has_feature("SpendGold"))
+    if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle)
       return "#mainmenu/btnConvert"
-    if (!::isUnitUsable(unit) && !::isUnitGift(unit))
+
+    if (canFlushSquadronExp)
+      return "#mainmenu/btnInvestSquadronExp"
+    if (!::isUnitUsable(unit) && !::isUnitGift(unit) && (!isSquadronVehicle || !isInResearch))
       return ::isUnitMaxExp(unit) ? "#mainmenu/btnOrder" : "#mainmenu/btnResearch"
     return ""
   }
@@ -1832,7 +1878,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     curDiffCode = -1
     showModeList = []
     foreach(diff in ::g_difficulty.types)
-      if (diff.diffCode == -1 || !shopResearchMode && diff.isAvailable())
+      if (diff.diffCode == -1 || (!shopResearchMode && !isSquadronResearchMode && diff.isAvailable()))
       {
         showModeList.append({
           text = diff.diffCode == -1 ? ::loc("options/auto") : ::colorize("warningTextColor", diff.getLocName())
@@ -2084,4 +2130,39 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     }
     return ranges
   }
+
+  function onEventClanChanged(params)
+  {
+    doWhenActiveOnce("fillAircraftsList")
+  }
+
+  function flushSquadronExp()
+  {
+    local unit = getCurAircraft()
+     ::g_tasker.addTask(::char_send_action_and_load_profile("cln_flush_clan_exp_to_unit"),
+       null,
+       function() {
+         ::broadcastEvent("FlushSquadronExp", {unit = unit})
+       })
+  }
+
+  function onEventFlushSquadronExp(params)
+  {
+    doWhenActiveOnce("fillAircraftsList")
+    updateResearchVariables()
+    if (!isSquadronResearchMode)
+      return
+
+    local unit = params?.unit
+    if (hasSquadronVehicleToResearche() && ::isUnitResearched(unit))
+      return
+
+    if (unit)
+      ::buyUnit(params?.unit)
+    onCloseShop()
+  }
+
+  isDisabledCountry = @(countryData) false
+  isDisabledUnitTypePage = @(countryData, unitTypePage) false
+  hasSquadronVehicleToResearche = @() clan_get_researching_unit() != ""
 }

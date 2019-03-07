@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 wn_sideRecursion <- 0
 wn_sideRecursionFound <- false
 
@@ -208,7 +210,7 @@ class gui_bhv.wrapNavigator
   function setPushed(obj, navShortcut, value = true)
   {
     local mask = obj.getIntProp(pushedShortcutsPID, 0)
-    local newMask = ::change_bit(mask, navShortcut, value)
+    local newMask = stdMath.change_bit(mask, navShortcut, value)
     if (newMask == mask)
       return false
     obj.setIntProp(pushedShortcutsPID, newMask)

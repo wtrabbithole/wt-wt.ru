@@ -188,6 +188,22 @@
             }
           },
           {
+            "tdiv": {
+              "width": "pw",
+              "margin-bottom": "14@sf/@pf",
+              "flow": "vertical",
+              "activeText": {
+                "id": "battle_rating",
+                "text": "#multiplayer/battleRatingSquad",
+                "commonButtonColor": "yes",
+                "pos": "50%pw-50%w, 0",
+                "position": "relative",
+                "smallFont": "yes",
+                "hideEmptyText": "yes"
+              }
+            }
+          },
+          {
             "tdiv": [
               {
                 "flow": "horizontal"
@@ -200,7 +216,7 @@
               },
               {
                 "tdiv": {
-                  "size": "0.35pw, 2*@sf/@pf_outdated",
+                  "size": "0.35pw, 3@sf/@pf",
                   "bgcolor": "#0E1114",
                   "position": "absolute",
                   "top": "0.5ph-0.5h"
@@ -209,7 +225,7 @@
               {
                 "activeText": {
                   "text": "#multiplayer/hint",
-                  "style": "color:@commonMenuButtonColor;",
+                  "commonButtonColor": "yes",
                   "pos": "0.5pw-0.5w, 0.5ph-0.5h",
                   "position": "absolute",
                   "smallFont": "yes"
@@ -217,7 +233,7 @@
               },
               {
                 "tdiv": {
-                  "size": "0.35pw, 2*@sf/@pf_outdated",
+                  "size": "0.35pw, 3@sf/@pf",
                   "bgcolor": "#0E1114",
                   "position": "absolute",
                   "top": "0.5ph-0.5h",
@@ -230,7 +246,7 @@
             "textareaNoTab": {
               "id": "queue_tip",
               "width": "pw",
-              "style": "color:@commonMenuButtonColor;",
+              "commonButtonColor": "yes",
               "smallFont": "yes",
               "overflow-y": "auto",
               "padding": "1*@scrn_tgt/100.0, 0.5*@scrn_tgt/100.0",

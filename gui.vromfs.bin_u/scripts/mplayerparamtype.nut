@@ -1,5 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
+local stdMath = require("std/math.nut")
 
 
 ::g_mplayer_param_type <- {
@@ -231,7 +232,7 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
     relWidth = 15
     missionObjective = MISSION_OBJECTIVE.ZONE_BOMBING
     printFunc = function(val, player) {
-      return ::roundToDigits(val * ::KG_TO_TONS, 3).tostring()
+      return stdMath.roundToDigits(val * ::KG_TO_TONS, 3).tostring()
     }
   }
 

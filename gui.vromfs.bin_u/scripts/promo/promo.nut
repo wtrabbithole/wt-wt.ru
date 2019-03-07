@@ -420,14 +420,14 @@ function g_promo::getImage(view)
 
 function g_promo::checkBlockTime(block)
 {
-  local utcTime = ::get_utc_time()
+  local utcTime = ::get_charserver_time_sec()
 
   local startTime = getUTCTimeFromBlock(block, "startTime")
-  if (startTime != null && time.cmpDate(startTime, utcTime) >= 0)
+  if (startTime > 0 && startTime >= utcTime)
     return false
 
   local endTime = getUTCTimeFromBlock(block, "endTime")
-  if (endTime != null && time.cmpDate(utcTime, endTime) >= 0)
+  if (endTime > 0 && utcTime >= endTime)
     return false
 
   if (!::g_partner_unlocks.isPartnerUnlockAvailable(block.partnerUnlock, block.partnerUnlockDurationMin))
@@ -489,8 +489,8 @@ function g_promo::getUTCTimeFromBlock(block, timeProperty)
 {
   local timeText = ::getTblValue(timeProperty, block, null)
   if (!::u.isString(timeText) || timeText.len() == 0)
-    return null
-  return time.getTimeFromStringUtc(timeText)
+    return -1
+  return time.getTimestampFromStringUtc(timeText)
 }
 
 function g_promo::getDefaultBoolParamFromBlock(block, param, defaultValue = false)

@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 function getEnumValName(strEnumName, value, skipSynonyms=false)
 {
   ::dagor.assertf(typeof(strEnumName) == "string", "strEnumName must be enum name as a string")
@@ -19,7 +21,7 @@ function bit_mask_to_string(strEnumName, mask)
   local enumTable = ::getconsttable()?[strEnumName] ?? {}
   local res = ""
   foreach (constName, constVal in enumTable)
-    if (::number_of_set_bits(constVal) == 1 && (constVal & mask))
+    if (stdMath.number_of_set_bits(constVal) == 1 && (constVal & mask))
     {
       res += (res.len() ? " | " : "") + constName
       mask = mask & ~constVal //ignore duplicates

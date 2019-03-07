@@ -51,7 +51,7 @@ function start_facebook_upload_screenshot(path)
   if (cdb.facebook.uploads == null)
     cdb.facebook.uploads = ::DataBlock()
 
-  local ltm = ::get_local_time();
+  local ltm = ::get_utc_time_from_t(::get_charserver_time_sec())
   local curDate = ltm.year +"/"+ ltm.month +"/"+ ltm.day;
   local postDate = (cdb.facebook.uploads.postDate != null)? cdb.facebook.uploads.postDate : "";
   local uploads = cdb.facebook.uploads % "path";
@@ -95,7 +95,7 @@ function on_facebook_upload_finished(path)
 
   if (cdb.facebook.uploads.postDate == null)
   {
-    local ltm = ::get_local_time();
+    local ltm = ::get_utc_time_from_t(::get_charserver_time_sec())
     local date = ltm.year +"/"+ ltm.month +"/"+ ltm.day;
     cdb.facebook.uploads.postDate = date;
   }
@@ -150,7 +150,7 @@ function show_facebook_login_reminder()
   local gmBlk = ::get_game_settings_blk()
   local daysCounter = gmBlk && gmBlk.reminderFacebookLikeDays || 0
   local lastDays = ::loadLocalByAccount("facebook/lastDayFacebookLikeReminder", 0)
-  local days = time.getDaysByTime( ::get_utc_time() )
+  local days = time.getUtcDays()
   if ( !lastDays || daysCounter > 0 && days - lastDays > daysCounter )
   {
     ::gui_start_modal_wnd(::gui_handlers.facebookReminderModal);

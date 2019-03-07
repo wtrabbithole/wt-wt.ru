@@ -194,6 +194,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         ID_REPLAY_CAMERA_GUN        = canControlCameras
         ID_REPLAY_CAMERA_RANDOMIZE  = canControlCameras
         ID_REPLAY_CAMERA_FREE       = canControlCameras
+        ID_REPLAY_CAMERA_FREE_PARENTED = canControlCameras
+        ID_REPLAY_CAMERA_FREE_ATTACHED = canControlCameras
         ID_REPLAY_CAMERA_HOVER      = canControlCameras
         ID_TOGGLE_FORCE_SPECTATOR_CAM_ROT = true
         ID_REPLAY_SHOW_MARKERS      = mode == SPECTATOR_MODE.REPLAY
@@ -232,6 +234,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
           ID_REPLAY_CAMERA_GUN        = mode == SPECTATOR_MODE.REPLAY && !gotRefereeRights
           ID_REPLAY_CAMERA_RANDOMIZE  = mode == SPECTATOR_MODE.REPLAY && !gotRefereeRights
           ID_REPLAY_CAMERA_FREE       = mode == SPECTATOR_MODE.REPLAY && !gotRefereeRights
+          ID_REPLAY_CAMERA_FREE_PARENTED = mode == SPECTATOR_MODE.REPLAY && !gotRefereeRights
+          ID_REPLAY_CAMERA_FREE_ATTACHED = mode == SPECTATOR_MODE.REPLAY && !gotRefereeRights
       })
     }
 
@@ -635,6 +639,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
           ID_REPLAY_CAMERA_GUN        = isValid
           ID_REPLAY_CAMERA_RANDOMIZE  = isValid
           ID_REPLAY_CAMERA_FREE       = isValid
+          ID_REPLAY_CAMERA_FREE_PARENTED = isValid
+          ID_REPLAY_CAMERA_FREE_ATTACHED = isValid
           ID_REPLAY_CAMERA_HOVER      = isValid && !isAircraft
       })
     }

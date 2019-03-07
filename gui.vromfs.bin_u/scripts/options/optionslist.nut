@@ -85,6 +85,8 @@ local getMainOptions = function()
       [::USEROPT_DEFAULT_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
       [::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE, "spinner", ::has_feature("Ships")],
       [::USEROPT_BULLET_FALL_INDICATOR_SHIP, "spinner", ::has_feature("Ships")],
+      [::USEROPT_BULLET_FALL_SOUND_SHIP, "spinner", ::has_feature("Ships")],
+      [::USEROPT_AUTO_TARGET_CHANGE_SHIP, "spinner", ::has_feature("Ships")],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
@@ -142,6 +144,7 @@ local getMainOptions = function()
       [::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED, "slider", ::g_gamepad_cursor_controls.canChangeSpeed()],
       [::USEROPT_XCHG_STICKS, "spinner"],
       [::USEROPT_VIBRATION, "spinner"],
+      [::USEROPT_GAMEPAD_ENGINE_DEADZONE, "spinner"],
       [::USEROPT_USE_CONTROLLER_LIGHT, "spinner", ::is_platform_ps4 && ::has_feature("ControllerLight")],
 
       ["options/header/replaysAndSpectatorMode", null, ::has_feature("Replays") || ::has_feature("Spectator")],

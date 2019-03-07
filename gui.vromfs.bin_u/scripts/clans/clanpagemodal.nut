@@ -174,8 +174,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     fillClanRequirements()
 
-    local updStatsUtcTime = ::get_utc_time().__update( {hour = 0, min = 0} )
-    local updStatsText = time.buildTimeStr(time.convertUtcToLocalTime(updStatsUtcTime), false, false)
+    local updStatsText = time.buildTimeStr(time.getUtcMidnight(), false, false)
 
     updStatsText = format(::loc("clan/updateStatsTime"), updStatsText)
     scene.findObject("update_stats_info_text").setValue(updStatsText)

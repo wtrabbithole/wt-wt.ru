@@ -56,7 +56,6 @@ loading_bg
 }
 */
 
-local time = require("scripts/time.nut")
 local fileCheck = require("scripts/clientState/fileCheck.nut")
 
 local createBgData = @() {
@@ -75,7 +74,7 @@ local createBgData = @() {
   BLOCK_BEFORE_LOGIN_KEY = "beforeLogin"
 
   isDebugMode = false
-  debugLastModified = null
+  debugLastModified = -1
 }
 
 function g_anim_bg::load(animBgBlk = "", obj = null)
@@ -123,7 +122,7 @@ function g_anim_bg::load(animBgBlk = "", obj = null)
     bgBlk = loadBgBlk(curBgData.reserveBg) || bgBlk
 
   obj.getScene().replaceContentFromDataBlock(obj, bgBlk, this)
-  debugLastModified = null
+  debugLastModified = -1
 }
 
 function g_anim_bg::getFullFileName(name)
@@ -297,18 +296,17 @@ function g_anim_bg::onDebugTimerUpdate(obj, dt)
   local fileName = getLastBgFileName()
   if (!fileName.len())
     return
-  local modified = ::get_file_modify_time(fileName)
-  if (!modified)
+  local modified = ::get_file_modify_time_sec(fileName)
+  if (modified < 0)
     return
 
-  modified = time.getFullTimeTable(modified)
-  if (!debugLastModified)
+  if (debugLastModified < 0)
   {
     debugLastModified = modified
     return
   }
 
-  if (!time.cmpDate(debugLastModified, modified))
+  if (debugLastModified == modified)
     return
 
   debugLastModified = modified

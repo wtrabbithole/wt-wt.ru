@@ -32,7 +32,8 @@ hintRow > gamepadButton,
 hintRow > shortcutAxis,
 hintRow > keyboardButton,
 hintRow > combination,
-hintRow > timeBar {
+hintRow > timeBar,
+hintRow > keyboardAxis {
   position: relative;
   top: @hintRowCenterOffsetY - 50%h;
 }
@@ -43,6 +44,39 @@ hintRow > combination > shortcutAxis,
 hintRow > combination > keyboardButton {
   position: relative;
   top: 50%ph - 50%h;
+}
+
+hintRow arrowImage {
+  re-type:9rect;
+  position:absolute;
+  pos: 50%pw-50%w, 50%ph-50%h;
+  size: 1@cIco, 1@cIco;
+  background-svg-size:1@cIco, 1@cIco;
+  background-image:#ui/gameuiskin#cursor_size_hor;
+  background-color:@white;
+  background-repeat:expand;
+}
+
+hintRow arrowImage[direction = 1] {
+  background-image:#ui/gameuiskin#cursor_size_vert;
+}
+
+
+hintRow > keyboardAxis > keyPlace[posPlace = left],
+hintRow > keyboardAxis > keyPlace[posPlace = right] {
+  position:relative;
+  top:ph-h;
+}
+
+hintRow > keyboardAxis[hasArrow = yes] > keyPlace[posPlace = left],
+hintRow > keyboardAxis[hasArrow = yes] > keyPlace[posPlace = right] {
+  top:50%ph-50%h;
+}
+
+hintRow > keyboardAxis keyPlace[posPlace = top],
+hintRow > keyboardAxis keyPlace[posPlace = bottom] {
+  position:relative;
+  left:50%pw-50%w;
 }
 
 hintRow textareaNoTab {

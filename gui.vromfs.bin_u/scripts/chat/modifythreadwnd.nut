@@ -13,7 +13,7 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
   curLangs = null
   isValuesValid = false
 
-  threadTimeTbl = null
+  threadTime = -1
 
   moveDiffForBorderPlacesSec = 10
 
@@ -46,9 +46,8 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
     local timeHeader = ::loc("chat/threadTime")
     if (threadInfo.timeStamp > 0)
     {
-      threadTimeTbl = ::get_time_from_t(threadInfo.timeStamp)
-      timeHeader += ::loc("ui/colon")
-                  + time.buildDateTimeStr(threadTimeTbl)
+      threadTime = threadInfo.timeStamp
+      timeHeader += ::loc("ui/colon") + time.buildDateTimeStr(threadInfo.timeStamp)
     }
     scene.findObject("thread_time_header").setValue(timeHeader)
 
@@ -145,23 +144,20 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("is_hidden_checkbox").enable(!obj.getValue())
   }
 
-  function updateSelTimeText(timeTbl = null)
+  function updateSelTimeText(timestamp)
   {
     local text = ""
-    if (timeTbl)
-      text = " -> " + time.buildDateTimeStr(timeTbl)
+    if (timestamp >= 0)
+      text = " -> " + time.buildDateTimeStr(timestamp)
     scene.findObject("new_time_text").setValue(text)
   }
 
   function onChangeTimeStamp(obj)
   {
     local timeStr = obj.getValue() || ""
-    local timeTbl = null
-    if (timeStr != "")
-      timeTbl = time.getTimeFromString(timeStr, threadTimeTbl)
+    curTime = timeStr != "" ? time.getTimestampFromStringLocal(timeStr, threadTime) : -1
 
-    updateSelTimeText(timeTbl)
-    curTime = timeTbl ? ::mktime(timeTbl) : -1
+    updateSelTimeText(curTime)
   }
 
   function goCancelTimeStamp(obj)
@@ -172,9 +168,9 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
       obj.setValue("")
   }
 
-  function setChatTime(time)
+  function setChatTime(timestamp)
   {
-    local timeText = ::format("%d-%02d-%02d %02d:%02d:%02d", time.year, time.month + 1, time.day, time.hour, time.min, time.sec)
+    local timeText = time.buildTabularDateTimeStr(timestamp, true)
     local timeObj = scene.findObject("timestamp_editbox")
     timeObj.setValue(timeText)
     timeObj.select()
@@ -189,7 +185,7 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("chat/pinThreadForTime", { time = time.hoursToString(hours) })
         action = (@(hours) function() {
           local timeInt = ::get_charserver_time_sec() + time.hoursToSeconds(hours)
-          setChatTime(::get_time_from_t(timeInt))
+          setChatTime(timeInt)
         })(hours)
       })
     ::gui_right_click_menu(menu, this)
@@ -233,7 +229,7 @@ class ::gui_handlers.modifyThreadWnd extends ::gui_handlers.BaseGuiHandlerWT
       timeInt = list[place].timeStamp / 2 + list[place - 1].timeStamp / 2
 
     if (timeInt > 0)
-      setChatTime(::get_time_from_t(timeInt))
+      setChatTime(timeInt)
   }
 
   function onLangBtn(obj)

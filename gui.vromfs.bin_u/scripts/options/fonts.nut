@@ -241,3 +241,11 @@ function g_font::validateSavedConfigFonts()
   if (canChange())
     saveFontToConfig(getCurrent())
 }
+
+::cross_call_api.getCurrentFontParams <- function() {
+  local currentFont = ::g_font.getCurrent()
+  return {
+    fontGenId = currentFont.fontGenId
+    fontSizePx = currentFont.getFontSizePx(::screen_width(), ::screen_height())
+  }
+}

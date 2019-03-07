@@ -1,6 +1,5 @@
-local ICO_PRESET_DEFAULT = "#ui/gameuiskin#x_"
+local ICO_PRESET_DEFAULT = "#ui/gameuiskin#xone_"
 local ICO_PRESET_PS4 = "#ui/gameuiskin#ps_"
-local ICO_PRESET_XBOXONE = "#ui/gameuiskin#xone_"
 
 local controlsList = { //table for faster check existance
   button_a = true
@@ -102,9 +101,7 @@ local ps4TouchpadImagesByMouseIdx = [
   "touchpad_pressed"
 ]
 
-local curPreset = ::is_platform_ps4 ? ICO_PRESET_PS4
-  : ::is_platform_xboxone ? ICO_PRESET_XBOXONE
-  : ICO_PRESET_DEFAULT
+local curPreset = ::is_platform_ps4 ? ICO_PRESET_PS4 : ICO_PRESET_DEFAULT
 
 local getTexture = @(id, preset = curPreset) (id in controlsList) ? preset + id : ""
 local getTextureByButtonIdx = @(idx) getTexture(btnNameByIndex?[idx])
@@ -136,7 +133,6 @@ return {
   TOTAL_BUTTON_INDEXES = btnNameByIndex.len()
   ICO_PRESET_DEFAULT       = ICO_PRESET_DEFAULT
   ICO_PRESET_PS4           = ICO_PRESET_PS4
-  ICO_PRESET_XBOXONE       = ICO_PRESET_XBOXONE
 
   fullIconsList = controlsList
 

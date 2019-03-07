@@ -11,7 +11,7 @@ tdiv {
 frame {
   game_mode_select {
     id:t='game_mode_select';
-    width:t='1.12@scrn_tgt';
+    width:t='@gameModeSelectWindowWidth';
     max-height:t='p.p.h-0.045@sf - 2@framePadding - 1@bh';
     position:t='relative';
     overflow-y:t='auto';
@@ -238,7 +238,7 @@ frame {
   }
 
   tdiv {
-    height:t='0.045@sf';
+    height:t='0.045@sf'
     flow:t='horizontal'
 
     gameModeChangeButton {
@@ -266,6 +266,26 @@ frame {
       display:t='hide'
       enable:t='no'
 
+      ButtonImg {}
+    }
+
+    Button_text {
+      id:t='wiki_link'
+      position:t='absolute'
+      pos:t='@gameModeSelectWindowWidth-w-1@blockInterval, 0'
+      isLink:t='yes'
+      isFeatured:t='yes'
+      link:t='#url/wiki_matchmaker'
+      on_click:t='onMsgLink'
+      visualStyle:t='noFrame'
+      display:t='hide'
+      enable:t='no'
+
+      btnText{
+        text:t='#profile/wiki_matchmaking'
+        underline{}
+      }
+      btnName:t='RT'
       ButtonImg {}
     }
   }

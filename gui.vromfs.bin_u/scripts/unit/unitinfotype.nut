@@ -1,5 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
+local stdMath = require("std/math.nut")
+local unitInfoTexts = require("scripts/unit/unitInfoTexts.nut")
 
 
 local UNIT_INFO_ARMY_TYPE  = {
@@ -53,6 +55,7 @@ enum UNIT_INFO_ORDER{
   ARMOR_THICKNESS_TOWER_FRONT,
   ARMOR_THICKNESS_TOWER_REAR,
   ARMOR_THICKNESS_TOWER_BACK,
+  HULL_MATERIAL,
   WEAPON_INFO_TEXT
 }
 const COMPARE_MORE_BETTER = "more"
@@ -163,7 +166,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     id = "image"
     addToExportDataBlock = function(blk, unit)
     {
-      blk.image = ::get_unit_tooltip_image(unit)
+      blk.image = unitInfoTexts.getUnitTooltipImage(unit)
       blk.cardImage = ::image_for_air(unit)
       blk.icon = ::getUnitClassIco(unit)
       blk.iconColor = ::get_main_gui_scene().getConstantValue(::getUnitClassColor(unit)) || ""
@@ -177,7 +180,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     {
         blk.stringValue = ::get_unit_role(unit)
     }
-    getValueText = function(value, unit) { return ::get_full_unit_role_text(unit) }
+    getValueText = function(value, unit) { return unitInfoTexts.getFullUnitRoleText(unit) }
   }
 
   {
@@ -849,7 +852,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local shotFreq = params.shotFreq;
       if(shotFreq > 0)
       {
-        local perMinute = ::roundToDigits(time.minutesToSeconds(shotFreq), 3)
+        local perMinute = stdMath.roundToDigits(time.minutesToSeconds(shotFreq), 3)
         blk.value[mode] = perMinute
         blk.valueText[mode] = format("%s %s", perMinute.tostring(), ::loc("measureUnits/shotPerMinute"))
       }
@@ -1108,6 +1111,28 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       {
         local value = armorThicknessMainFireTower.z.tointeger()
         local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
+        addSingleValue(blk, unit, value, valueText)
+      }
+      else
+      {
+        blk.hide = true
+      }
+    }
+  }
+  {
+    id = "hull_material"
+    order = UNIT_INFO_ORDER.HULL_MATERIAL
+    compare = COMPARE_NO_COMPARE
+    headerLocId = "info/ship/hullMaterial"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local hullThicknessMax = ::get_wpcost_blk()?[unit.name]?.Shop?.hullMaterialThickness?.y ?? 0
+      local hullMaterialText = hullThicknessMax ? unitInfoTexts.getShipHullMaterialText(unit.name) : ""
+      if (hullMaterialText != "")
+      {
+        local value = hullThicknessMax.tointeger()
+        local valueText =  hullMaterialText
         addSingleValue(blk, unit, value, valueText)
       }
       else

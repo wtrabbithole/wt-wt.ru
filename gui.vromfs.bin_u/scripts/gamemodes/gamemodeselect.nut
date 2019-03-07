@@ -23,10 +23,14 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   function getShowGameModeSelect() { return scene.isVisible() }
   function setShowGameModeSelect(value)
   {
-    if (value)
-      goForwardIfOnline(_setShowGameModeSelectEnabled.bindenv(this), false, true)
-    else
-      _setShowGameModeSelect(false)
+    checkedCrewAirChange(
+      function() {
+        if (value)
+          goForwardIfOnline(_setShowGameModeSelectEnabled.bindenv(this), false, true)
+        else
+          _setShowGameModeSelect(false)
+      },
+    null)
   }
 
   function _setShowGameModeSelectEnabled()
@@ -107,6 +111,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
     registerNewIconWidgets()
     updateClusters()
+    updateButtons()
     updateEventDescriptionConsoleButton(::game_mode_manager.getCurrentGameMode())
   }
 
@@ -733,4 +738,9 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   function onEventWWStopWorldWar(p) { doWhenActiveOnce("updateContent") }
   function onEventWWGlobalStatusChanged(p) { doWhenActiveOnce("updateContent") }
   function onEventXboxSystemUIReturn(p) { doWhenActiveOnce("updateContent") }
+
+  function updateButtons()
+  {
+    ::showBtn("wiki_link", ::has_feature("AllowExternalLink") && !::is_vendor_tencent(), scene)
+  }
 }

@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 enum WARBOND_SHOP_LEVEL_STATUS {
   LOCKED = "locked"
   RECEIVED = "received"
@@ -118,7 +120,7 @@ function g_warbonds_view::calculateProgressBarValue(wbClass, level, steps, curTa
   local nextLevelTasks = wbClass.getShopLevelTasks(level + 1)
 
   local progressPeerLevel = maxProgressBarValue.tofloat() / steps
-  local iLerp = ::lerp(levelTasks, nextLevelTasks, 0, progressPeerLevel, curTasksDone)
+  local iLerp = stdMath.lerp(levelTasks, nextLevelTasks, 0, progressPeerLevel, curTasksDone)
 
   return steps == 1? iLerp : (progressPeerLevel * level + iLerp)
 }

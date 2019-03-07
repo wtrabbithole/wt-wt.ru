@@ -78,7 +78,7 @@ local ExchangeRecipes = class {
         extraItemsCount++
     }
 
-    isMultipleExtraItems = extraItemsCount > 1
+    isMultipleExtraItems = extraItemsCount - (isDisassemble ? 1 : 0) > 1
   }
 
   function isEnabled()
@@ -298,7 +298,10 @@ local ExchangeRecipes = class {
     if (minSeconds != maxSeconds)
       timeText += " " + ::loc("event_dash") + " " + time.secondsToString(maxSeconds, true, true)
 
-    return ::loc("msgBox/assembleItem/time", {time = timeText})
+    return ::loc(recipes[0].isDisassemble
+        ? "msgBox/disassembleItem/time"
+        : "msgBox/assembleItem/time",
+      {time = timeText})
   }
 
   static hasFakeRecipes = @(recipes) u.search(recipes, @(r) r?.isFake) != null
@@ -365,19 +368,7 @@ local ExchangeRecipes = class {
       local msgData = componentItem.getConfirmMessageData(recipe)
       local msgboxParams = { cancel_fn = function() {} }
 
-      if (recipe.isDisassemble && params?.bundleContent)
-      {
-        msgboxParams.__update({
-          data_below_text = ::PrizesView.getPrizesListView(params.bundleContent,
-            { header = msgData?.headerRecipeMarkup ?? ""
-              headerFont = "mediumFont"
-              widthByParentParent = true
-              isCentered = true },
-            false)
-          baseHandler = ::get_cur_base_gui_handler()
-        })
-      }
-      else if (msgData?.needRecipeMarkup)
+      if (msgData?.needRecipeMarkup)
         msgboxParams.__update({
           data_below_text = recipe.getExchangeMarkup(componentItem,
             { header = msgData?.headerRecipeMarkup ?? ""
@@ -386,6 +377,18 @@ local ExchangeRecipes = class {
               isCentered = true })
           baseHandler = ::get_cur_base_gui_handler()
         })
+      if (recipe.isDisassemble && params?.bundleContent)
+      {
+        msgboxParams.__update({
+          data_below_text = (msgboxParams?.data_below_text ?? "")
+            + ::PrizesView.getPrizesListView(params.bundleContent,
+                { header = ::loc("mainmenu/you_will_receive")
+                  headerFont = "mediumFont"
+                  widthByParentParent = true
+                  isCentered = true }, false)
+          baseHandler = ::get_cur_base_gui_handler()
+        })
+      }
 
       ::scene_msg_box("chest_exchange", null, msgData.text, [
         [ "yes", ::Callback(function()

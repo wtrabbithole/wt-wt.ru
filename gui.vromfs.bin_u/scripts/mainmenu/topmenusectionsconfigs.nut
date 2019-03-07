@@ -124,7 +124,6 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
         ::g_top_menu_buttons.LINE_SEPARATOR
         ::g_top_menu_buttons.WIKI
         ::g_top_menu_buttons.FAQ
-        ::g_top_menu_buttons.FORUM
         ::g_top_menu_buttons.SUPPORT
       ]
     ]

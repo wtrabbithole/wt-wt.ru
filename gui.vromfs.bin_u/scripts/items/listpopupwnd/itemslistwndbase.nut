@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 class ::gui_handlers.ItemsListWndBase extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -13,7 +15,7 @@ class ::gui_handlers.ItemsListWndBase extends ::gui_handlers.BaseGuiHandlerWT
   {
     return {
       items = ::handyman.renderCached("gui/items/item", { items = ::u.map(itemsList, @(i) i.getViewData()) })
-      columns = ::calc_golden_ratio_columns(itemsList.len())
+      columns = stdMath.calc_golden_ratio_columns(itemsList.len())
 
       align = align
       position = "50%pw-50%w, 50%ph-50%h"

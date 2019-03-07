@@ -51,9 +51,6 @@ enum WW_LB_MODE
   tank_realistic      = LB_MODE.TANK_REALISTIC
   tank_simulation     = LB_MODE.TANK_SIMULATION
 
-  ship_arcade         = LB_MODE.SHIP_ARCADE
-  ship_realistic      = LB_MODE.SHIP_REALISTIC
-
   test_ship_arcade    = LB_MODE.SHIP_ARCADE
   test_ship_realistic = LB_MODE.SHIP_REALISTIC
 

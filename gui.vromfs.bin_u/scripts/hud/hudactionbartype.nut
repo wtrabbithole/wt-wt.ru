@@ -1,11 +1,21 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
+local actionBarInfo = require("scripts/hud/hudActionBarInfo.nut")
 
 
 ::g_hud_action_bar_type <- {
   types = []
 
   cache = { byCode = {} }
+}
+
+local getActionDescByWeaponTriggerGroup = function(actionItem, triggerGroup)
+{
+  local res = actionBarInfo.getActionDesc(::get_action_bar_unit_name(), triggerGroup)
+  local cooldownTime = actionItem?.cooldownTime
+  if (cooldownTime)
+    res += ("\n" + ::loc("shop/reloadTime") + " " + time.secondsToString(cooldownTime, true, true))
+  return res
 }
 
 ::g_hud_action_bar_type.template <- {
@@ -98,6 +108,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     getIcon = function (killStreakTag = null, unit = null) {
       return ::single_torpedo_selected() ?  "#ui/gameuiskin#torpedo" : _icon
     }
+    getTooltipText = @(actionItem = null) getActionDescByWeaponTriggerGroup(actionItem, "torpedoes")
   }
 
   DEPTH_CHARGE = {
@@ -110,6 +121,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
       unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
       return unit?.isMinesAvailable?() ? "#ui/gameuiskin#naval_mine" : _icon
     }
+    getTooltipText = @(actionItem = null) getActionDescByWeaponTriggerGroup(actionItem, "bombs")
   }
 
   MORTAR = {
@@ -133,6 +145,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
         return "ID_FIRE_GM_SPECIAL_GUN"
       return "ID_ROCKETS"
     }
+    getTooltipText = @(actionItem = null) getActionDescByWeaponTriggerGroup(actionItem, "rockets")
   }
 
   SMOKE_GRENADE = {

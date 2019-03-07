@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 const WW_ENABLE_RENDER_CATEGORY_ID = "ww_enable_render_category_bitmask"
 
 ::g_world_war_render <-
@@ -18,7 +20,7 @@ function g_world_war_render::init()
 
 function g_world_war_render::isCategoryEnabled(category)
 {
-  return ::is_bit_set(flags, category)
+  return stdMath.is_bit_set(flags, category)
 }
 
 
@@ -32,7 +34,7 @@ function g_world_war_render::setPreviewCategories()
 {
   for (local cat = ::ERC_ARMY_RADIUSES; cat < ::ERC_TOTAL; ++cat)
   {
-    local previewCatEnabled = ::is_bit_set(DEFAULT_PREVIEW_FLAGS, cat)
+    local previewCatEnabled = stdMath.is_bit_set(DEFAULT_PREVIEW_FLAGS, cat)
     ::ww_enable_render_map_category_for_preveiw(cat, previewCatEnabled)
   }
 }
@@ -40,7 +42,7 @@ function g_world_war_render::setPreviewCategories()
 
 function g_world_war_render::setCategory(category, enable)
 {
-  flags = ::change_bit(flags, category, enable)
+  flags = stdMath.change_bit(flags, category, enable)
   ::saveLocalByAccount(WW_ENABLE_RENDER_CATEGORY_ID, flags)
 
   ww_enable_render_map_category(category, enable)

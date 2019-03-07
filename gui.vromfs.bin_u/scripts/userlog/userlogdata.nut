@@ -576,7 +576,7 @@ function getUserLogsList(filter)
     local log = {
       idx = i
       type = blk.type
-      time = get_user_log_time(i)
+      time = get_user_log_time_sec(i)
       enabled = !blk.disabled
       roomId = blk.roomId
     }

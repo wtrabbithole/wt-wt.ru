@@ -1,5 +1,6 @@
 local ExchangeRecipes = ::require("scripts/items/exchangeRecipes.nut")
 local u = ::require("std/u.nut")
+local stdMath = require("std/math.nut")
 
 local MIN_ITEMS_IN_ROW = 7
 
@@ -36,7 +37,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
     local recipeHeightPx = ::to_pixels("0.5@itemHeight")
     local minColumns = ::ceil(MIN_ITEMS_IN_ROW.tofloat() / maxRecipeLen).tointeger()
     local columns = ::max(minColumns,
-      ::calc_golden_ratio_columns(recipesList.len(), recipeWidthPx / (recipeHeightPx || 1)))
+      stdMath.calc_golden_ratio_columns(recipesList.len(), recipeWidthPx / (recipeHeightPx || 1)))
     local rows = ::ceil(recipesList.len().tofloat() / columns).tointeger()
 
     local itemsInRow = 0 //some columns are thinner than max

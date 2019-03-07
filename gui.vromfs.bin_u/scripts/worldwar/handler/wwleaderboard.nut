@@ -166,19 +166,44 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       return
 
     if (isRequestDifferent)
+    {
+      afterLoadSelfRow = requestSelfPage
       pos = 0
+    }
 
     lbField = curLbCategory.field
     requestData = newRequestData
-    wwLeaderboardData.requestWwLeaderboardData(
-      requestData.appId,
-      requestData.mode,
-      requestData.type,
-      pos, rowsInPage, lbField,
-      function(lbPageData) {
-        pageData = wwLeaderboardData.convertWwLeaderboardData(lbPageData, isCountriesLeaderboard())
-        fillLeaderboard(pageData, true)
-      }.bindenv(this))
+
+    local cb = function(hasSelfRow = false)
+    {
+      wwLeaderboardData.requestWwLeaderboardData(
+        requestData.appId,
+        requestData.mode,
+        requestData.type,
+        pos, rowsInPage, lbField,
+        function(lbPageData) {
+          if (!hasSelfRow)
+            selfRowData = []
+          pageData = wwLeaderboardData.convertWwLeaderboardData(lbPageData, isCountriesLeaderboard())
+          fillLeaderboard(pageData)
+        }.bindenv(this))
+    }
+
+    if (lbMode == "ww_users")
+      wwLeaderboardData.requestWwLeaderboardData(
+        requestData.appId,
+        requestData.mode,
+        requestData.type,
+        null, 0, lbField,
+        function(lbSelfData) {
+          selfRowData = wwLeaderboardData.convertWwLeaderboardData(lbSelfData, isCountriesLeaderboard()).rows
+          if(afterLoadSelfRow)
+            afterLoadSelfRow(getSelfPos())
+          afterLoadSelfRow = null
+          cb(true)
+        }.bindenv(this))
+    else
+      cb()
   }
 
   function onModeSelect(obj)

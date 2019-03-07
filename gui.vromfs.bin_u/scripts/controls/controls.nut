@@ -44,6 +44,11 @@ enum ConflictGroups {
   TANK_FIRE
 }
 
+enum AxisDirection {
+  X,
+  Y
+}
+
 ::shortcutsList <- [
   { id = "helpers_mode", type = CONTROL_TYPE.LISTBOX
     optionType = ::USEROPT_HELPERS_MODE
@@ -119,8 +124,7 @@ enum ConflictGroups {
     "ID_ROCKETS",
     { id = "ID_ROCKETS_SERIES", alternativeIds = [ "ID_ROCKETS" ] }
     "ID_AGM",
-    { id = "ID_AAM",
-      showFunc = @() ::has_feature("Missiles"),
+    { id = "ID_AAM"
     }
     { id = "ID_FUEL_TANKS",
       showFunc = @() ::has_feature("Payload"),
@@ -130,11 +134,8 @@ enum ConflictGroups {
       showFunc = @() ::has_feature("Payload"),
       checkAssign = false
     }
-    { id = "ID_WEAPON_LOCK",
-      showFunc = @() ::has_feature("Missiles"),
-    }
+    { id = "ID_WEAPON_LOCK" }
     { id = "ID_FLARES",
-      showFunc = @() ::has_feature("Missiles"),
       checkAssign = false
     }
     { id = "weapon_aim_heading"
@@ -161,22 +162,15 @@ enum ConflictGroups {
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
+    { id = "ID_SENSOR_TARGET_SWITCH"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
     { id = "ID_SENSOR_TARGET_LOCK"
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
-    { id = "sensor_designation_x"
-      type = CONTROL_TYPE.AXIS
-      showFunc = @() ::has_feature("Sensors")
-      checkAssign = false
-    }
-    { id = "sensor_designation_y"
-      type = CONTROL_TYPE.AXIS
-      showFunc = @() ::has_feature("Sensors")
-      checkAssign = false
-    }
-    { id = "sensor_designation_z"
-      type = CONTROL_TYPE.AXIS
+    { id = "ID_SENSOR_VIEW_SWITCH"
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
@@ -263,6 +257,7 @@ enum ConflictGroups {
     "ID_GEAR"
     { id="brake_left",   type = CONTROL_TYPE.AXIS, checkAssign = false, filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }
     { id="brake_right",  type = CONTROL_TYPE.AXIS, checkAssign = false, filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }
+    { id="ID_CHUTE", checkAssign = false , showFunc = @() ::has_feature("Parachute")}
 
   { id = "ID_PLANE_GUNNERS_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_GUNNERS", checkAssign = false }
@@ -305,8 +300,8 @@ enum ConflictGroups {
       optionType = ::USEROPT_INVERTCAMERAY
     }
     { id="zoom", type = CONTROL_TYPE.AXIS, checkAssign = false }
-    { id="camx",         type = CONTROL_TYPE.AXIS, reqInMouseAim = false }
-    { id="camy",         type = CONTROL_TYPE.AXIS, reqInMouseAim = false }
+    { id="camx",         type = CONTROL_TYPE.AXIS, reqInMouseAim = false, axisDirection = AxisDirection.X }
+    { id="camy",         type = CONTROL_TYPE.AXIS, reqInMouseAim = false, axisDirection = AxisDirection.Y }
     { id="head_pos_x", type = CONTROL_TYPE.AXIS, checkAssign = false, dontCheckDupes = true }
     { id="head_pos_y", type = CONTROL_TYPE.AXIS, checkAssign = false, dontCheckDupes = true }
     { id="head_pos_z", type = CONTROL_TYPE.AXIS, checkAssign = false, dontCheckDupes = true }
@@ -348,10 +343,12 @@ enum ConflictGroups {
     { id="mouse_aim_x", type = CONTROL_TYPE.AXIS
       filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.X
     }
     { id="mouse_aim_y", type = CONTROL_TYPE.AXIS
       filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.Y
     }
     { id="mouse_smooth", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_MOUSE_SMOOTH
@@ -650,11 +647,9 @@ enum ConflictGroups {
     }
     { id = "ID_WEAPON_LOCK_HELICOPTER",
       checkGroup = ctrlGroups.HELICOPTER
-      showFunc = @() ::has_feature("Missiles"),
     }
     { id = "ID_FLARES_HELICOPTER",
       checkGroup = ctrlGroups.HELICOPTER
-      showFunc = @() ::has_feature("Missiles"),
       checkAssign = false
     }
     { id = "ID_ATGM_HELICOPTER"
@@ -662,17 +657,18 @@ enum ConflictGroups {
     }
     { id = "ID_AAM_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
-      showFunc = @() ::has_feature("Missiles"),
     }
     { id = "helicopter_atgm_aim_x"
       checkGroup = ctrlGroups.HELICOPTER
       type = CONTROL_TYPE.AXIS
       reqInMouseAim = false
+      axisDirection = AxisDirection.X
     }
     { id = "helicopter_atgm_aim_y"
       checkGroup = ctrlGroups.HELICOPTER
       type = CONTROL_TYPE.AXIS
       reqInMouseAim = false
+      axisDirection = AxisDirection.Y
     }
     { id = "atgm_aim_sens_helicopter"
       type = CONTROL_TYPE.SLIDER
@@ -738,11 +734,13 @@ enum ConflictGroups {
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
+      axisDirection = AxisDirection.X
     }
     { id = "helicopter_camy"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
+      axisDirection = AxisDirection.Y
     }
     { id = "invert_y_helicopter"
       type = CONTROL_TYPE.SWITCH_BOX
@@ -752,11 +750,13 @@ enum ConflictGroups {
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
+      axisDirection = AxisDirection.X
     }
     { id = "helicopter_mouse_aim_y"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
+      axisDirection = AxisDirection.Y
     }
     { id = "aim_time_nonlinearity_helicopter", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_HELICOPTER)
@@ -857,8 +857,8 @@ enum ConflictGroups {
       onChangeValue = "doControlsGroupChangeDelayed"
     }
     { id="ID_TOGGLE_TRANSMISSION_MODE_GM", checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="gm_throttle", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK }
-    { id="gm_steering", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK }
+    { id="gm_throttle", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, axisDirection = AxisDirection.Y }
+    { id="gm_steering", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, axisDirection = AxisDirection.X }
     { id="ID_SHORT_BRAKE"
       checkGroup = ctrlGroups.TANK
       checkAssign = false
@@ -922,6 +922,38 @@ enum ConflictGroups {
       checkGroup = ctrlGroups.TANK
       checkAssign = false
     }
+    { id="ID_NEXT_BULLET_TYPE",
+      checkGroup = ctrlGroups.TANK,
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_SWITCH_TANK"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_MODE_SWITCH_TANK"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_SCAN_PATTERN_SWITCH_TANK"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_RANGE_SWITCH_TANK"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_TARGET_SWITCH_TANK"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_TARGET_LOCK_TANK"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
+    { id = "ID_SENSOR_VIEW_SWITCH_TANK"
+      showFunc = @() ::has_feature("Sensors")
+      checkAssign = false
+    }
 
   { id = "ID_TANK_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_ZOOM_HOLD_GM",         checkGroup = ctrlGroups.TANK, checkAssign = false }
@@ -931,8 +963,10 @@ enum ConflictGroups {
     { id="ID_ENABLE_GUN_STABILIZER_GM",       checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="ID_TARGETING_HOLD_GM",              checkGroup = ctrlGroups.TANK, checkAssign = false }
     { id="gm_zoom", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="gm_camx", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, reqInMouseAim = false }
-    { id="gm_camy", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK, reqInMouseAim = false }
+    { id="gm_camx", type = CONTROL_TYPE.AXIS,
+      checkGroup = ctrlGroups.TANK, reqInMouseAim = false, axisDirection = AxisDirection.X }
+    { id="gm_camy", type = CONTROL_TYPE.AXIS,
+      checkGroup = ctrlGroups.TANK, reqInMouseAim = false, axisDirection = AxisDirection.Y }
     { id="invert_y_tank", type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_INVERTY_TANK
       onChangeValue = "doControlsGroupChangeDelayed"
@@ -940,10 +974,12 @@ enum ConflictGroups {
     { id="gm_mouse_aim_x", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK
       reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.X
     }
     { id="gm_mouse_aim_y", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.TANK
       reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.Y
     }
     { id = "aim_time_nonlinearity_tank", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_TANK)
@@ -1048,6 +1084,7 @@ enum ConflictGroups {
       def_relative = true,
       checkGroup = ctrlGroups.SHIP,
       showFunc = @() checkOptionValue("ship_seperated_engine_control", false)
+      axisDirection = AxisDirection.Y
     }
     { id = "ship_port_engine",
       type = CONTROL_TYPE.AXIS,
@@ -1063,7 +1100,10 @@ enum ConflictGroups {
       showFunc = @() checkOptionValue("ship_seperated_engine_control", true)
       checkAssign = false
     }
-    { id="ship_steering", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP }
+    { id="ship_steering",
+      type = CONTROL_TYPE.AXIS,
+      checkGroup = ctrlGroups.SHIP,
+      axisDirection = AxisDirection.X }
     {
       id = "ID_SHIP_FULL_STOP",
       checkGroup = ctrlGroups.SHIP,
@@ -1159,14 +1199,21 @@ enum ConflictGroups {
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
     }
+    {
+       id = "ID_SHIP_NEXT_BULLET_TYPE",
+       checkGroup = ctrlGroups.SHIP,
+       checkAssign = false
+     }
 
   { id = "ID_SHIP_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
     { id="ID_TOGGLE_VIEW_SHIP", checkGroup = ctrlGroups.SHIP }
     { id="ID_TARGETING_HOLD_SHIP",              checkGroup = ctrlGroups.SHIP, checkAssign = false }
     { id="ID_LOCK_TARGETING_AT_POINT_SHIP", checkGroup = ctrlGroups.SHIP, checkAssign = false }
     { id="ship_zoom", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, checkAssign = false }
-    { id="ship_camx", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
-    { id="ship_camy", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP, reqInMouseAim = false }
+    { id="ship_camx", type = CONTROL_TYPE.AXIS,
+      checkGroup = ctrlGroups.SHIP, reqInMouseAim = false, axisDirection = AxisDirection.X }
+    { id="ship_camy", type = CONTROL_TYPE.AXIS,
+      checkGroup = ctrlGroups.SHIP, reqInMouseAim = false, axisDirection = AxisDirection.Y }
     { id="invert_y_ship"
       type = CONTROL_TYPE.SWITCH_BOX
       optionType = ::USEROPT_INVERTY_SHIP
@@ -1174,10 +1221,12 @@ enum ConflictGroups {
     { id="ship_mouse_aim_x", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP
       reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.X
     }
     { id="ship_mouse_aim_y", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.SHIP
       reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.Y
     }
     { id = "aim_time_nonlinearity_ship", type = CONTROL_TYPE.SLIDER
       value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_SHIP)
@@ -1311,10 +1360,12 @@ enum ConflictGroups {
       type = CONTROL_TYPE.AXIS
       def_relative = true
       checkGroup = ctrlGroups.SUBMARINE
+      axisDirection = AxisDirection.Y
     }
     { id = "submarine_steering"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.SUBMARINE
+      axisDirection = AxisDirection.X
     }
     { id = "submarine_depth"
       type = CONTROL_TYPE.AXIS
@@ -1360,11 +1411,13 @@ enum ConflictGroups {
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.SUBMARINE
       reqInMouseAim = false
+      axisDirection = AxisDirection.X
     }
     { id="submarine_camy"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.SUBMARINE
       reqInMouseAim = false
+      axisDirection = AxisDirection.Y
     }
     { id="invert_y_submarine"
       type = CONTROL_TYPE.SWITCH_BOX
@@ -1375,12 +1428,14 @@ enum ConflictGroups {
       checkGroup = ctrlGroups.SUBMARINE
       reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.X
     }
     { id="submarine_mouse_aim_y"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.SUBMARINE
       reqInMouseAim = false
       hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.Y
     }
     { id = "aim_time_nonlinearity_submarine"
       type = CONTROL_TYPE.SLIDER
@@ -1816,6 +1871,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_SENSOR_MODE_SWITCH",
   "ID_SENSOR_SCAN_PATTERN_SWITCH",
   "ID_SENSOR_RANGE_SWITCH",
+  "ID_SENSOR_TARGET_SWITCH",
   "ID_SENSOR_TARGET_LOCK",
   "ID_SCHRAEGE_MUSIK",
   "ID_GEAR",
@@ -4687,12 +4743,9 @@ function getRequiredControlsForUnit(unit, helpersMode)
   local unitBlk = null
   local blkCommonWeapons = null
   local blkWeaponPreset = null
-  local blkSensors = null
 
   local preset = ::g_controls_manager.getCurPreset()
-
-  if (unitType == ::g_unit_type.AIRCRAFT || unitType == ::g_unit_type.SHIP
-    || unitType == ::g_unit_type.HELICOPTER)
+  local hasSensors = false;
   {
     unitBlk = ::get_full_unit_blk(unitId)
     blkCommonWeapons = ::getCommonWeaponsBlk(unitBlk, ::get_last_primary_weapon(unit)) || ::DataBlock()
@@ -4705,7 +4758,13 @@ function getRequiredControlsForUnit(unit, helpersMode)
           blkWeaponPreset = ::DataBlock(presetBlk.blk)
           break
         }
-    blkSensors = unitBlk.sensors
+    local blkSensors = unitBlk.sensors
+    if (blkSensors != null)
+      foreach (sensor in (blkSensors % "sensor"))
+      {
+        hasSensors = true
+        break
+      }
   }
 
   if (unitType == ::g_unit_type.AIRCRAFT)
@@ -4775,20 +4834,15 @@ function getRequiredControlsForUnit(unit, helpersMode)
     if (w.gotWeaponLock)
       controls.append("ID_WEAPON_LOCK")
 
-    local gotSensors = false
-    if (blkSensors != null)
-      foreach (sensor in (blkSensors % "sensor"))
-      {
-        gotSensors = true
-        break
-      }
-    if (gotSensors)
+    if (hasSensors)
     {
       controls.append("ID_SENSOR_SWITCH")
       controls.append("ID_SENSOR_MODE_SWITCH")
       controls.append("ID_SENSOR_SCAN_PATTERN_SWITCH")
       controls.append("ID_SENSOR_RANGE_SWITCH")
+      controls.append("ID_SENSOR_TARGET_SWITCH")
       controls.append("ID_SENSOR_TARGET_LOCK")
+      controls.append("ID_SENSOR_VIEW_SWITCH")
     }
   }
   else if (unitType == ::g_unit_type.HELICOPTER)
@@ -4833,6 +4887,17 @@ function getRequiredControlsForUnit(unit, helpersMode)
         controls.append("ID_ACTION_BAR_ITEM_5")
         controls.append("ID_SHOOT_ARTILLERY")
       }
+    }
+
+    if (hasSensors)
+    {
+      controls.append("ID_SENSOR_SWITCH_TANK")
+      controls.append("ID_SENSOR_MODE_SWITCH_TANK")
+      controls.append("ID_SENSOR_SCAN_PATTERN_SWITCH_TANK")
+      controls.append("ID_SENSOR_RANGE_SWITCH_TANK")
+      controls.append("ID_SENSOR_TARGET_SWITCH_TANK")
+      controls.append("ID_SENSOR_TARGET_LOCK_TANK")
+      controls.append("ID_SENSOR_VIEW_SWITCH_TANK")
     }
 
     local gameParams = ::dgs_get_game_params()

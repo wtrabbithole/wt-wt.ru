@@ -53,7 +53,7 @@ function isDargComponent(comp) {
 //better to have natived daRg function to check if it is valid component!
   local c = comp
   if (::type(c) == "function") {
-    local info = c.getinfos()
+    local info = c.getfuncinfos()
     if (info?.parameters && info?.parameters.len() > 1)
       return false
     c = c()
@@ -229,7 +229,7 @@ function wrap(elems, params=wrapParams) {
   local dimensionLim = isFlowHor ? width : height
   local secondaryDimensionLim = isFlowHor ? height : width
   assert(["array"].find(type(elems))!=null, "elems should be array")
-  assert(["float","integer"].find(type(dimensionLim))!=null, "can't flow over {0} non numeric type".subst([isFlowHor ? "width" :"height"]))
+  assert(["float","integer"].find(type(dimensionLim))!=null, "can't flow over {0} non numeric type".subst(isFlowHor ? "width" :"height"))
   local hgap = params?.hGap ?? wrapParams?.hGap
   local vgap = params?.vGap ?? wrapParams?.vGap
   local gap = isFlowHor ? hgap : vgap
@@ -330,7 +330,14 @@ function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []})
 
 function dump_observables() {
   local list = ::gui_scene.getAllObservables()
-  ::print("{0} observables:".subst([list.len()]))
+  ::print("{0} observables:".subst(list.len()))
   foreach (obs in list)
     ::print(tostring_r(obs))
+}
+
+function mul_color(color, mult) {
+  return Color(min(255, ((color >> 16) & 0xff) * mult),
+               min(255, ((color >>  8) & 0xff) * mult),
+               min(255, (color & 0xff) * mult),
+               min(255, ((color >> 24) & 0xff) * mult))
 }

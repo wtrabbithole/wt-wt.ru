@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local battleRating = ::require("scripts/battleRating.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -263,8 +264,23 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local gameMode = ::game_mode_manager.getCurrentGameMode()
-    local text = gameMode ? gameMode.text : ::loc("mainmenu/gamemodesNotLoaded")
-    gameModeChangeButtonObj.findObject("game_mode_change_button_text").setValue(text)
+    local br = battleRating.getBR()
+    local name = gameMode && gameMode?.text != ""
+      ? gameMode.text + (br > 0 ? ::loc("mainmenu/BR", {br = format("%.1f", br)}) : "") : ""
+
+    if (::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
+    {
+      local gameModeId = ::g_squad_manager.squadData?.leaderGameModeId ?? ""
+      local leaderBR = ::g_squad_manager.squadData?.leaderBattleRating ?? 0
+      if(gameModeId != "")
+        name = ::events.getEventNameText(::events.getEvent(gameModeId))
+      if(leaderBR > 0)
+        name += ::loc("mainmenu/BR", {br = format("%.1f", leaderBR)})
+    }
+
+    gameModeChangeButtonObj.findObject("game_mode_change_button_text").setValue(
+      name != "" ? name : ::loc("mainmenu/gamemodesNotLoaded")
+    )
   }
 
   function updateUnseenGameModesCounter()
@@ -291,6 +307,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function onEventEventsDataUpdated(params)
   {
     setCurrentGameModeName()
+    battleRating.updateBattleRating()
   }
 
   function onEventMyStatsUpdated(params)
@@ -338,6 +355,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function onEventCrewChanged(params)
   {
     doWhenActiveOnce("checkCountries")
+    battleRating.updateBattleRating()
   }
 
   function onEventCheckClientUpdate(params)
@@ -370,6 +388,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function onEventCurrentGameModeIdChanged(params)
   {
     setGameMode(::game_mode_manager.getCurrentGameModeId())
+    battleRating.updateBattleRating()
     updateNoticeGMChanged()
   }
 
@@ -488,8 +507,14 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function onStart()
   {
-    ::game_mode_manager.setUserGameModeId(null)
+    ::game_mode_manager.setUserGameModeId(::game_mode_manager.getCurrentGameModeId())
     determineAndStartAction()
+  }
+
+  function onEventSquadDataUpdated(params)
+  {
+    updateNoticeGMChanged()
+    setCurrentGameModeName()
   }
 
   function determineAndStartAction(isFromDebriefing = false)
@@ -1314,23 +1339,86 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateNoticeGMChanged()
   {
+    local notice = null
     local alertObj = scene.findObject("game_mode_notice")
-    local id = ::game_mode_manager.getUserGameModeId()
-    local gameMode = ::game_mode_manager.getGameModeById(id)
-    local isVisible = id != null &&
-                      id != ::game_mode_manager.getCurrentGameModeId() && gameMode != null
-    if(isVisible)
-      alertObj.setValue(format(::loc("mainmenu/gamemode_change_notice"), gameMode.text))
-    alertObj.show(isVisible)
+    if(::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
+    {
+      local gameModeId = ::g_squad_manager.squadData?.leaderGameModeId
+      if(gameModeId && gameModeId != "")
+        notice = ::loc("mainmenu/leader_gamemode_notice")
+      alertObj.hideConsoleImage = "yes"
+    }
+    else
+    {
+      local id = ::game_mode_manager.getUserGameModeId()
+      local gameMode = ::game_mode_manager.getGameModeById(id)
+      if((id && gameMode && id != ::game_mode_manager.getCurrentGameModeId()))
+        notice = format(::loc("mainmenu/gamemode_change_notice"), gameMode.text)
+      alertObj.hideConsoleImage = "no"
+    }
+
+    if(notice)
+      alertObj.setValue(notice)
+    alertObj.show(notice)
   }
 
   function onGMNoticeClick()
   {
+    if (::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
+      return
+
     local id = ::game_mode_manager.getUserGameModeId()
     if(id != null)
     {
       ::game_mode_manager.setCurrentGameModeById(id, true)
     }
+  }
+
+  function onEventBattleRatingChanged(params)
+  {
+    setCurrentGameModeName()
+  }
+
+  function onEventProfileUpdated (params)
+  {
+    battleRating.updateBattleRating()
+  }
+
+  function checkNonApprovedSquadronResearches()
+  {
+    if (!::isInMenu() || ::checkIsInQueue())
+      return
+
+    local researchingUnitName = clan_get_researching_unit()
+    if (researchingUnitName == "")
+      return
+
+    local curSquadronExp = ::clan_get_exp()
+    local hasChosenResearchOfSquadron = ::load_local_account_settings("has_chosen_research_of_squadron", false)
+    if (hasChosenResearchOfSquadron && curSquadronExp <=0)
+      return
+
+    local unit = ::getAircraftByName(researchingUnitName)
+    if (!unit || !unit.isVisibleInShop())
+      return
+
+    if ((hasChosenResearchOfSquadron || !::is_in_clan())
+      && (curSquadronExp <= 0 || curSquadronExp < unit.reqExp - ::getUnitExp(unit)))
+      return
+
+    local country = unit.shopCountry
+    if (country != ::get_profile_country_sq())
+      ::switch_profile_country(country)
+
+    ::gui_handlers.ShopViewWnd.open({
+      curAirName = unit.name,
+      forceUnitType = unit.unitType,
+      isSquadronResearchMode = true})
+  }
+
+  function onEventClanChanged(params)
+  {
+    doWhenActiveOnce("checkNonApprovedSquadronResearches")
   }
 }
 
@@ -1472,7 +1560,7 @@ function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
 
 function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCountry = true, cancelFunc = null)
 {
-  if (repairInfo.weaponWarning && repairInfo.unreadyAmmoList)
+  if (repairInfo.weaponWarning && repairInfo.unreadyAmmoList && !::get_gui_option(::USEROPT_SKIP_WEAPON_WARNING))
   {
     local msg = ::loc(repairInfo.haveRespawns ? "msgbox/all_planes_zero_ammo_warning" : "controls/no_ammo_left_warning")
     msg += "\n\n" + format(::loc("buy_unsufficient_ammo"), ::Cost(repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold).tostring())

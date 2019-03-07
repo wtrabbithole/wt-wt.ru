@@ -303,13 +303,14 @@ class Writer
 
   function escapeRegExp(string)
   {
-    local match = null
     local start = 0
     local matches = []
-    while (match = escapeRe.search(string, start))
+    local match = escapeRe.search(string, start)
+    while (match)
     {
       matches.append(match)
       start = match.end
+      match = escapeRe.search(string, start)
     }
 
     for(local i = matches.len() - 1; i >= 0; i--)
@@ -464,7 +465,8 @@ class Writer
       else if (type == "=")
       {
         // Set the tags for the next time around.
-        tagRes = escapeTags(tags = value.split(spaceRe))
+        tags = value.split(spaceRe)
+        tagRes = escapeTags(tags)
       }
     }
 

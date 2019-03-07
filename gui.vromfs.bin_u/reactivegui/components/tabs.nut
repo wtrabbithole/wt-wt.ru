@@ -1,5 +1,6 @@
 local tabsBase = require("daRg/components/tabs.nut")
 local colors = require("reactiveGui/style/colors.nut")
+local fontsState = require("reactiveGui/style/fontsState.nut")
 
 
 local tab = function(tab, is_current, handler) {
@@ -27,25 +28,24 @@ local tab = function(tab, is_current, handler) {
       rendObj = ROBJ_BOX
       halign = HALIGN_CENTER
       valign = VALIGN_MIDDLE
-      size = SIZE_TO_CONTENT
+      size = [ SIZE_TO_CONTENT, ::fpx(30) + 2 * (::dp() + ::fpx(3))]
       watch = stateFlags
       group = grp
-
+      padding = [::fpx(2)+ ::scrn_tgt(0.5), ::scrn_tgt(), ::scrn_tgt(0.5), ::scrn_tgt()]
+      margin = [0, ::dp()]
       behavior = Behaviors.Button
 
       fillColor = fillColor
       borderColor = borderColor
-      borderWidth = [0, 0, hdpx(1), 0]
+      borderWidth = [0, 0, ::dp(2), 0]
 
       onClick = handler
       onElemState = @(sf) stateFlags.update(sf)
 
       children = {
         rendObj = ROBJ_STEXT
-        font = Fonts.tiny_text_hud
-        margin = [sh(1), sh(1)]
+        font = fontsState.get("small")
         color = textColor
-
         text = tab.text
         group = grp
       }
@@ -58,8 +58,8 @@ local tabsHolder = @(params){
   rendObj = ROBJ_SOLID
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL
-  padding = [hdpx(1)]
-  gap = hdpx(1)
+  padding = [::dp(2)]
+  gap = ::dp()
 
   color = colors.menu.tabBackgroundColor
 }
