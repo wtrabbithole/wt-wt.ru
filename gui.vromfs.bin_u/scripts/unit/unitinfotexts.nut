@@ -47,23 +47,35 @@ local function getChanceToMeetText(battleRating1, battleRating2)
   return brData? format("<color=%s>%s</color>", brData.color, ::loc(brData.text)) : ""
 }
 
-local function getShipHullMaterialText(unitId)
+local function getShipMaterialTexts(unitId)
 {
+  local res = {}
   local blk = ::get_wpcost_blk()?[unitId ?? ""]?.Shop
-  local material     = blk?.hullMaterialClass ?? ""
-  local thicknessMin = blk?.hullMaterialThickness?.x ?? 0.0
-  local thicknessMax = blk?.hullMaterialThickness?.y ?? 0.0
-  if (!thicknessMin || !thicknessMax || material == "")
-    return ""
-  local materialText = ::loc("armor_class/" + material + "/short", ::loc("armor_class/" + material))
-  local thicknessText = thicknessMin == thicknessMax ? ("" + ::round(thicknessMax)) :
-    (::round(thicknessMin) + ::loc("ui/mdash") + ::round(thicknessMax))
-  return materialText + ::loc("ui/comma") + thicknessText + " " + ::loc("measureUnits/mm")
+  local parts = [ "hull", "superstructure" ]
+  foreach (part in parts)
+  {
+    local material  = blk?[part + "Material"]  ?? ""
+    local thickness = blk?[part + "Thickness"] ?? 0.0
+    if (thickness && material)
+    {
+      res[part + "Label"] <- ::loc("info/ship/part/" + part)
+      res[part + "Value"] <- ::loc("armor_class/" + material + "/short", ::loc("armor_class/" + material)) +
+        ::loc("ui/comma") + ::round(thickness) + " " + ::loc("measureUnits/mm")
+    }
+  }
+  if (res?.superstructureValue && res?.superstructureValue == res?.hullValue)
+  {
+    res.hullLabel += " " + ::loc("clan/rankReqInfoCondType_and") + " " +
+      ::g_string.utf8ToLower(res.superstructureLabel)
+    res.rawdelete("superstructureLabel")
+    res.rawdelete("superstructureValue")
+  }
+  return res
 }
 
 return {
   getUnitTooltipImage = getUnitTooltipImage
   getFullUnitRoleText = getFullUnitRoleText
   getChanceToMeetText = getChanceToMeetText
-  getShipHullMaterialText = getShipHullMaterialText
+  getShipMaterialTexts = getShipMaterialTexts
 }

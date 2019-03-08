@@ -1990,14 +1990,32 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
           armorThicknessMainFireTower.z.tointeger(), ::loc("measureUnits/mm")))
     }
 
+    local shipMaterials = unitInfoTexts.getShipMaterialTexts(air.name)
+
     // ship-hullMaterial
-    local hullMaterialText = unitInfoTexts.getShipHullMaterialText(air.name)
-    local isShow = hullMaterialText != ""
-    holderObj.findObject("ship-hullMaterial-tr").show(isShow)
-    if (isShow)
     {
-      holderObj.findObject("ship-hullMaterial-title").setValue(::loc("info/ship/hullMaterial") + ::loc("ui/colon"))
-      holderObj.findObject("ship-hullMaterial-value").setValue(hullMaterialText)
+      local valueText = shipMaterials?.hullValue ?? ""
+      local isShow = valueText != ""
+      holderObj.findObject("ship-hullMaterial-tr").show(isShow)
+      if (isShow)
+      {
+        local labelText = shipMaterials?.hullLabel + ::loc("ui/colon")
+        holderObj.findObject("ship-hullMaterial-title").setValue(labelText)
+        holderObj.findObject("ship-hullMaterial-value").setValue(valueText)
+      }
+    }
+
+    // ship-superstructureMaterial
+    {
+      local valueText = shipMaterials?.superstructureValue ?? ""
+      local isShow = valueText != ""
+      holderObj.findObject("ship-superstructureMaterial-tr").show(isShow)
+      if (isShow)
+      {
+        local labelText = shipMaterials?.superstructureLabel + ::loc("ui/colon")
+        holderObj.findObject("ship-superstructureMaterial-title").setValue(labelText)
+        holderObj.findObject("ship-superstructureMaterial-value").setValue(valueText)
+      }
     }
   }
   else
@@ -2006,6 +2024,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     holderObj.findObject("ship-citadelArmor-tr").show(false)
     holderObj.findObject("ship-mainFireTower-tr").show(false)
     holderObj.findObject("ship-hullMaterial-tr").show(false)
+    holderObj.findObject("ship-superstructureMaterial-tr").show(false)
   }
 
   if (needShopInfo && holderObj.findObject("aircraft-train_cost-tr"))

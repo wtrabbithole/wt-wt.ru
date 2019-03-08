@@ -56,6 +56,7 @@ enum UNIT_INFO_ORDER{
   ARMOR_THICKNESS_TOWER_REAR,
   ARMOR_THICKNESS_TOWER_BACK,
   HULL_MATERIAL,
+  SUPERSTRUCTURE_MATERIAL,
   WEAPON_INFO_TEXT
 }
 const COMPARE_MORE_BETTER = "more"
@@ -97,10 +98,6 @@ const COMPARE_NO_COMPARE = "no"
   exportToDataBlock = function(unit)
   {
     local blk = ::DataBlock()
-    local isTank = ::isTank(unit)
-    local isAircraft = ::isAircraft(unit)
-    local isShip = ::isShip(unit)
-
     if (!(unit.unitType.bit & infoArmyType))
     {
         blk.hide = true
@@ -1123,22 +1120,32 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     id = "hull_material"
     order = UNIT_INFO_ORDER.HULL_MATERIAL
     compare = COMPARE_NO_COMPARE
-    headerLocId = "info/ship/hullMaterial"
+    headerLocId = "info/ship/part/hull"
     infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
     addToExportDataBlock = function(blk, unit)
     {
-      local hullThicknessMax = ::get_wpcost_blk()?[unit.name]?.Shop?.hullMaterialThickness?.y ?? 0
-      local hullMaterialText = hullThicknessMax ? unitInfoTexts.getShipHullMaterialText(unit.name) : ""
-      if (hullMaterialText != "")
-      {
-        local value = hullThicknessMax.tointeger()
-        local valueText =  hullMaterialText
+      local value = (::get_wpcost_blk()?[unit.name]?.Shop?.hullThickness ?? 0).tointeger()
+      local valueText = unitInfoTexts.getShipMaterialTexts(unit.name)?.hullValue ?? ""
+      if (valueText != "")
         addSingleValue(blk, unit, value, valueText)
-      }
       else
-      {
         blk.hide = true
-      }
+    }
+  }
+  {
+    id = "superstructure_material"
+    order = UNIT_INFO_ORDER.SUPERSTRUCTURE_MATERIAL
+    compare = COMPARE_NO_COMPARE
+    headerLocId = "info/ship/part/superstructure"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
+    addToExportDataBlock = function(blk, unit)
+    {
+      local value = (::get_wpcost_blk()?[unit.name]?.Shop?.superstructureThickness ?? 0).tointeger()
+      local valueText = unitInfoTexts.getShipMaterialTexts(unit.name)?.superstructureValue ?? ""
+      if (valueText != "")
+        addSingleValue(blk, unit, value, valueText)
+      else
+        blk.hide = true
     }
   }
 ])
