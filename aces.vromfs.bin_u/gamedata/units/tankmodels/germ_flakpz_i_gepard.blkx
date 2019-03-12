@@ -36,6 +36,12 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "radarAnimVar": "radar_drive"
+  },
+  {
+    "radarDeployTime": 3.0
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -289,6 +295,19 @@
         "wheel_l_back_dm": [],
         "wheel_support_dm": {
           "armorThickness": 20.0
+        },
+        "body_shields": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 5.0,
+          "hp": 1000.0,
+          "stopChanceOnDeadPart": 0.0,
+          "createSecondaryShatters": false,
+          "ex_decor_r_06_dm": [],
+          "ex_decor_l_09_dm": [],
+          "ex_armor_turret_r_01_dm": [],
+          "ex_armor_turret_r_02_dm": [],
+          "ex_armor_turret_l_01_dm": [],
+          "ex_armor_turret_l_02_dm": []
         },
         "submodule": {
           "armorClass": "tank_traks",
@@ -1498,86 +1517,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 380.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 170.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 190.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 2
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -1607,7 +1546,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1616,7 +1555,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1752,7 +1691,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1761,7 +1700,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1781,6 +1720,12 @@
           "emitter": "bone_gun_barrel_01",
           "flash": "emtr_gun_flame_01",
           "useEmitter": true,
+          "sleeveEmitter": "emtr_shell_01",
+          "sleeveMesh": "auto_cannon_cartridge_case",
+          "openHatchTime": 0.0,
+          "sleevesLifeTime": 5.0,
+          "sleeveImpulse": [1.0,-8.0,-4.0],
+          "linkSleeveToGun": true,
           "recoilMultiplier": 0.2,
           "recoilOffset": 0.045,
           "jammedReloadTime": 15.0,
@@ -1885,6 +1830,12 @@
           "emitter": "bone_gun_barrel_02",
           "flash": "emtr_gun_flame_02",
           "useEmitter": true,
+          "sleeveEmitter": "emtr_shell_02",
+          "sleeveMesh": "auto_cannon_cartridge_case",
+          "openHatchTime": 0.0,
+          "sleevesLifeTime": 5.0,
+          "sleeveImpulse": [1.0,-8.0,4.0],
+          "linkSleeveToGun": true,
           "recoilMultiplier": 0.2,
           "recoilOffset": 0.045,
           "jammedReloadTime": 15.0,
@@ -1970,6 +1921,26 @@
         "blk": "gameData/units/tankModels/weaponPresets/germ_flakpz_I_Gepard_default.blk"
       }
     }
+  },
+  {
+    "sensors": [
+      {
+        "sensor": {
+          "blk": "gameData/sensors/gepard_sr.blk",
+          "turretIndex": 0,
+          "designationFromBody": true,
+          "designationTurretIndex": 0,
+          "dmPart": "radar_dm"
+        }
+      },
+      {
+        "sensor": {
+          "blk": "gameData/sensors/gepard_fr.blk",
+          "turretIndex": 0,
+          "dmPart": "radar1_dm"
+        }
+      }
+    ]
   },
   {
     "VehiclePhys": {
@@ -2573,15 +2544,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2646,6 +2608,12 @@
                 "emitter": "bone_gun_barrel_01",
                 "flash": "emtr_gun_flame_01",
                 "useEmitter": true,
+                "sleeveEmitter": "emtr_shell_01",
+                "sleeveMesh": "auto_cannon_cartridge_case",
+                "openHatchTime": 0.0,
+                "sleevesLifeTime": 5.0,
+                "sleeveImpulse": [1.0,-8.0,-4.0],
+                "linkSleeveToGun": true,
                 "recoilMultiplier": 0.2,
                 "recoilOffset": 0.045,
                 "jammedReloadTime": 15.0,
@@ -2750,6 +2718,12 @@
                 "emitter": "bone_gun_barrel_02",
                 "flash": "emtr_gun_flame_02",
                 "useEmitter": true,
+                "sleeveEmitter": "emtr_shell_02",
+                "sleeveMesh": "auto_cannon_cartridge_case",
+                "openHatchTime": 0.0,
+                "sleevesLifeTime": 5.0,
+                "sleeveImpulse": [1.0,-8.0,4.0],
+                "linkSleeveToGun": true,
                 "recoilMultiplier": 0.2,
                 "recoilOffset": 0.045,
                 "jammedReloadTime": 15.0,

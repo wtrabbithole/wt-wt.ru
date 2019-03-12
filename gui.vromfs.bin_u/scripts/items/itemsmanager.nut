@@ -1028,7 +1028,7 @@ function ItemsManager::getActiveBoostersDescription(boostersArray, effectType, s
     return ""
 
   local getColoredNumByType = (@(effectType) function(num) {
-    return ::colorize("activeTextColor", "+" + num + "%") + effectType.currencyMark
+    return ::colorize("activeTextColor", "+" + num.tointeger() + "%") + effectType.currencyMark
   })(effectType)
 
   local separateBoosters = []

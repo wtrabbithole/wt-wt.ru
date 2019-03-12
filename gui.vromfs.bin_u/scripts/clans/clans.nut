@@ -23,6 +23,7 @@ const CLAN_RANK_ERA = 5 //really used only this rank, but in lb exist 5
 ::g_clans <- {
   lastClanId = CLAN_ID_NOT_INITED //only for compare about clan id changed
   seenCandidatesBlk = null
+  squadronExp = 0
 }
 
 function g_clans::getMyClanType()
@@ -335,6 +336,7 @@ function g_clans::onEventSignOut(p)
 {
   lastClanId = CLAN_ID_NOT_INITED
   seenCandidatesBlk = null
+  squadronExp = 0
   ::last_update_my_clan_time = MY_CLAN_UPDATE_DELAY_MSEC
 }
 
@@ -708,6 +710,16 @@ function g_clans::openComplainWnd(clanData)
   ::gui_modal_complain({name = leader.nick, userId = leader.uid, clanData = clanData})
 }
 
+function g_clans::checkSquadronExpChangedEvent()
+{
+  local curSquadronExp = ::clan_get_exp()
+  if (squadronExp == curSquadronExp)
+    return
+
+  squadronExp = curSquadronExp
+  ::broadcastEvent("SquadronExpChanged")
+}
+
 ::ranked_column_prefix <- "dr_era"
 ::clan_leaderboards_list <- [
   {id = "dr_era1", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
@@ -790,6 +802,7 @@ function getMyClanData(forceUpdate = false)
     return
 
   ::g_clans.checkClanChangedEvent()
+  ::g_clans.checkSquadronExpChangedEvent()
 
   local myClanId = ::clan_get_my_clan_id()
   if(myClanId == "-1")

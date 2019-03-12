@@ -1,7 +1,9 @@
+local u = ::require("std/u.nut")
+
 /*
 ItemsRoulette API:
+  resetData() - rewrite params for future usage;
   reinitParams() - gather outside params once, eg. gui.blk;
-  refreshDebugTable() - rewrite params in which stores debug information in case of wrong behaviour;
   getDebugData() - print debug data into log;
 
   init - main launch function;
@@ -10,7 +12,7 @@ ItemsRoulette API:
                                                  recieves a trophyName as a main parameter;
 
   gatherItemsArray() - create main strip of items by random chances
-  getRandomItemsSlot() - revieve items array peer slot in roulette
+  getItemsStack() - recieve items array peer slot in roulette
   getRandomItem() - recieve item, by random drop chance;
   insertCurrentReward() - insert into randomly generated strip
                                                  rewards which player really recieved;
@@ -23,10 +25,7 @@ const MAX_ITEMS_OFFSET = 0.4
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local rouletteAnim = ::require("scripts/items/roulette/rouletteAnim.nut")
 
-::ItemsRoulette <- {
-  debugData = {}
-  mainAnimation = null
-
+local ROULETTE_PARAMS_DEFAULTS = {
   rouletteObj = null
   ownerHandler = null
 
@@ -34,6 +33,28 @@ local rouletteAnim = ::require("scripts/items/roulette/rouletteAnim.nut")
   insertRewardIdx = 0
   isGotTopPrize = false
   topPrizeLayout = null
+
+  mainAnimationTimer = null
+}
+
+local ROULETTE_DEBUG_PARAMS_DEFAULTS = {
+  mainLength = 0
+  result = []
+  unknown = []
+  step = []
+  beginChances = []
+  trophyData = {}
+  itemsLens = {}
+  trophySlots = {}
+  trophyDrop = {}
+}
+
+::ItemsRoulette <- ROULETTE_PARAMS_DEFAULTS.__merge({debugData = ROULETTE_DEBUG_PARAMS_DEFAULTS})
+
+function ItemsRoulette::resetData()
+{
+  this.__update(ROULETTE_PARAMS_DEFAULTS)
+  this.debugData.__update(ROULETTE_DEBUG_PARAMS_DEFAULTS)
 }
 
 function ItemsRoulette::reinitParams()
@@ -55,30 +76,18 @@ function ItemsRoulette::reinitParams()
     return
 
   local blk = ::configs.GUI.get()
-
   foreach(param in params)
   {
     local val = blk[param] || 1.0
     ::ItemsRoulette[param] <- val
-    ::ItemsRoulette.debugData.commonInfo[param] <- val
+    ::ItemsRoulette.debugData[param] <- val
   }
-}
-
-function ItemsRoulette::refreshDebugTable()
-{
-  ::ItemsRoulette.debugData = {
-                                result = []
-                                unknown = []
-                                commonInfo = {itemsLens = {}, overflowChancesNum = 0}
-                                step = []
-                                beginChances = []
-                              }
 }
 
 function ItemsRoulette::getDebugData()
 {
   ::dagor.debug("ItemsRoulette: Print debug data of previously finished roulette")
-  debugTableData(::ItemsRoulette.debugData)
+  debugTableData(::ItemsRoulette.debugData, {recursionLevel = 10})
 }
 
 function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterDoneFunc = null)
@@ -90,14 +99,15 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
   if (!::checkObj(placeObj))
     return false
 
+  resetData()
+
   rouletteObj = placeObj.findObject("rewards_list")
   if (!::checkObj(rouletteObj))
     return false
 
-  ownerHandler = handler
+  reinitParams()
 
-  ::ItemsRoulette.refreshDebugTable()
-  ::ItemsRoulette.reinitParams()
+  ownerHandler = handler
 
   local totalLen = ::to_integer_safe(placeObj.totalLen, 1)
   local insertRewardFromEnd = ::to_integer_safe(placeObj.insertRewardFromEnd, 1)
@@ -108,13 +118,17 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
     return false
   }
 
-  local retTable = ::ItemsRoulette.generateItemsArray(trophyName)
-  local itemsArray = ::getTblValue("itemsArray", retTable, [])
-  if (!::has_feature("ItemsRoulette") || itemsArray.len() <= 1)
-    return false
-
   trophyItem = ::ItemsManager.findItemById(trophyName)
   if (!trophyItem || trophyItem.skipRoulette())
+    return false
+
+  local trophyData = ::ItemsRoulette.generateItemsArray(trophyName)
+  ::ItemsRoulette.debugData.trophyData = trophyData
+
+  if (!::has_feature("ItemsRoulette")
+      || trophyData.trophy.len() == 0
+      || (trophyData.trophy.len() == 1 && !("trophy" in trophyData.trophy[0]))
+     )
     return false
 
   topPrizeLayout = null
@@ -122,8 +136,8 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
   foreach (prize in rewardsArray)
     isGotTopPrize = isGotTopPrize || trophyItem.isHiddenTopPrize(prize)
 
-  local count = ::getTblValue("count", retTable, 1)
-  local processedItemsArray = ::ItemsRoulette.gatherItemsArray(itemsArray, totalLen, count)
+  local processedItemsArray = ::ItemsRoulette.gatherItemsArray(trophyData, totalLen)
+
   ::ItemsRoulette.insertCurrentReward(processedItemsArray, rewardsArray)
   ::ItemsRoulette.insertHiddenTopPrize(processedItemsArray)
 
@@ -149,15 +163,15 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
 
   placeObj.getScene().applyPendingChanges(false)
   local delay = rouletteAnim.getTimeLeft(rouletteObj) || 0.1
-  mainAnimation = ::Timer(placeObj, delay, afterDoneCb, handler).weakref()
+  mainAnimationTimer = ::Timer(placeObj, delay, afterDoneCb, handler).weakref()
   return true
 }
 
 function ItemsRoulette::skipAnimation(obj)
 {
   rouletteAnim.DEFAULT.skipAnim(obj)
-  if (mainAnimation)
-    mainAnimation.destroy()
+  if (mainAnimationTimer)
+    mainAnimationTimer.destroy()
 }
 
 function ItemsRoulette::generateItemsArray(trophyName)
@@ -178,12 +192,12 @@ function ItemsRoulette::generateItemsArray(trophyName)
 
   local itemsArray = []
   local commonParams = {
-    dropChance = 1.0
-    multDiff = 1.0
+    dropChance = 0.0
+    multDiff = 0.0
   }
 
   local debug = {trophy = trophyName}
-  local content = trophy.getContent()
+  local content = trophy.getContentNoRecursion()
   //!!FIX ME: do not use _getContentFixedAmount outside of prizes list. it very specific for prizes stacks description
   local countContent = ::PrizesView._getContentFixedAmount(content)
   local shouldOnlyImage = countContent > 1
@@ -191,12 +205,13 @@ function ItemsRoulette::generateItemsArray(trophyName)
   {
     if (block.trophy)
     {
-      local trophyData = ::ItemsRoulette.generateItemsArray(block.trophy)
       local table = clone commonParams
-      table.trophy <- ::getTblValue("itemsArray", trophyData, [])
+      local trophyData = ::ItemsRoulette.generateItemsArray(block.trophy)
+      table.trophy <- trophyData.trophy
       table.trophyId <- block.trophy
-      table.count <- ::getTblValue("count", trophyData, 1)
-      table.dropChanceSum <- 1.0
+      table.count <- ::getTblValue("count", block, 1)
+      table.rewardsCount <- 0
+      table.trophiesCount <- 0
       itemsArray.append(table)
     }
     else
@@ -210,13 +225,17 @@ function ItemsRoulette::generateItemsArray(trophyName)
   }
 
   ::ItemsRoulette.debugData.result.append(debug)
-  return {itemsArray = itemsArray, count = countContent }
+  return {
+    trophy = itemsArray,
+    count = countContent
+  }
 }
 
 function ItemsRoulette::getUniqueTableKey(rewardBlock)
 {
   if (!rewardBlock)
   {
+    ::ItemsRoulette.getDebugData()
     ::dagor.assertf(false, "Bad block for unique key")
     return ""
   }
@@ -226,28 +245,37 @@ function ItemsRoulette::getUniqueTableKey(rewardBlock)
   return tKey + "_" + tVal
 }
 
-function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, count)
+function ItemsRoulette::getTopItem(trophyBlock)
 {
-  ::ItemsRoulette.debugData.commonInfo["mainLength"] <- mainLength
+  if ("reward" in trophyBlock)
+    return trophyBlock
 
-  local searchKeyTable = itemsArray[0]
-  if ("trophy" in searchKeyTable)
-    searchKeyTable = searchKeyTable.trophy[0]
+  return u.isArray(trophyBlock) ? getTopItem(trophyBlock[0])
+         : "trophy" in trophyBlock ? getTopItem(trophyBlock.trophy)
+         : null
+}
 
-  local shouldSearchTopReward = trophyItem.hasTopRewardAsFirstItem
-  local topRewardKey = ::ItemsRoulette.getUniqueTableKey(::getTblValue("reward", searchKeyTable, searchKeyTable))
+function ItemsRoulette::gatherItemsArray(trophyData, mainLength)
+{
+  ::ItemsRoulette.debugData.mainLength = mainLength
 
-  local dropChanceSum = ::ItemsRoulette.fillDropChances(itemsArray)
+  local topItem = ::ItemsRoulette.getTopItem(trophyData.trophy)
+  topItem = topItem? clone topItem : null
+
+  local shouldSearchTopReward = topItem?.hasTopRewardAsFirstItem ?? false
+  local topRewardKey = ::ItemsRoulette.getUniqueTableKey(topItem?.reward)
+
+  ::ItemsRoulette.fillDropChances(trophyData.trophy)
+
   local topRewardFound = false
   local resultArray = []
   for (local i = 0; i < mainLength; i++)
   {
-    local tablesArray = ::ItemsRoulette.getRandomItemsSlot(itemsArray, dropChanceSum, searchKeyTable, count)
+    local tablesArray = ::ItemsRoulette.getItemsStack(trophyData)
     foreach(table in tablesArray)
     {
       if (shouldSearchTopReward)
         topRewardFound = topRewardFound || topRewardKey == ::getTblValue("tKey", table)
-      dropChanceSum = ::getTblValue("dropChanceSum", table, dropChanceSum)
     }
 
     ::ItemsRoulette.debugData.step.append(tablesArray)
@@ -261,12 +289,12 @@ function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, count)
       insertIdx = 0
     ::dagor.debug("ItemsRoulette: Top reward by key " + topRewardKey + " not founded." +
          "Insert manually into " + insertIdx + ".")
-    local table = ::ItemsRoulette.getRandomItem([searchKeyTable], 0)
+
     local slot = resultArray[insertIdx]
     if (slot.len() == 0)
-      slot.append(table)
+      slot.append(topItem)
     else
-      slot[0] = table
+      slot[0] = topItem
   }
 
   return resultArray
@@ -281,167 +309,132 @@ function ItemsRoulette::gatherItemsArray(itemsArray, mainLength, count)
 4) Check max value, cos minimal value of items from trophy
    is set as Current trophy Items Length * items_roulette_min_trophy_drop_mult (set in gui.blk)
 */
-function ItemsRoulette::fillDropChances(itemsArray, dropChanceSum = 0)
+
+function ItemsRoulette::fillDropChances(trophyBlock)
 {
-  local array = itemsArray
-  local isTrophy = "trophy" in itemsArray
-  if (isTrophy)
-    array = itemsArray.trophy
+  local trophyBlockTrophiesItemsCount = 0
 
-  foreach(block in array)
+  local isSingleReward = "reward" in trophyBlock
+  local isTrophy = "trophy" in trophyBlock
+
+  local itemsArray = trophyBlock //will be array from first call, from generateItemsArray
+  if (isTrophy) // will be passed as a trophy block, but we need trophy params AND trophy items array
+    itemsArray = trophyBlock.trophy
+  else if (isSingleReward) //could be just a reward item, without trophy
+    itemsArray = [trophyBlock]
+
+  foreach(idx, block in itemsArray)
   {
-    if (!::getTblValue("trophy", block))
+    if ("reward" in block)
     {
-      local dropChance = 1
-      ::ItemsRoulette.debugData.beginChances.append({[::ItemsRoulette.getUniqueTableKey(block.reward)] = dropChance})
-      block.dropChance = dropChance
-      block.multDiff = 1 - ::ItemsRoulette.getChanceMultiplier(false, block.dropChance)
-      if (!isTrophy)
-        dropChanceSum += block.dropChance
+      // Simple item block, last iteration of looped call
+      local dropChance = 1.0
+      ::ItemsRoulette.debugData.beginChances.append({[::ItemsRoulette.getUniqueTableKey(itemsArray[idx].reward)] = dropChance})
+      itemsArray[idx].dropChance = dropChance
+      itemsArray[idx].multDiff = 1 - ::ItemsRoulette.getChanceMultiplier(false, dropChance)
+
+      if (isSingleReward || !isTrophy)
+        continue
+
+      trophyBlock.rewardsCount++
+      local dbgTrophyId = "trophy_" + trophyBlock.trophyId
+      if (!(dbgTrophyId in ::ItemsRoulette.debugData.itemsLens))
+        ::ItemsRoulette.debugData.itemsLens[dbgTrophyId] <- 0
+
+      ::ItemsRoulette.debugData.itemsLens[dbgTrophyId]++
     }
-    else
+    else if ("trophy" in block)
     {
-      local trophiesLen = 0
-      local commonItemsLen = 0
-      local trophiesItemsLength = 0
-
-      foreach(cell in itemsArray)
+      // Trophy block, need to go deeper first
+      if (isTrophy)
       {
-        if ("trophy" in cell)
-        {
-          local itemsLength = cell.trophy.len()
-          trophiesItemsLength += itemsLength
-          trophiesLen++
-
-          ::ItemsRoulette.debugData.commonInfo.itemsLens["trophy_" + cell.trophyId] <- {
-            trophiesLen = 1
-            commonItemsLen = itemsLength
-          }
-        }
-        else
-          commonItemsLen++
+        fillDropChances(trophyBlock.trophy[idx])
+        trophyBlock.trophiesCount++
+        trophyBlockTrophiesItemsCount += block.trophy.len()
       }
-
-      local trophyDropChanceSum = 0
-      foreach(item in block.trophy)
-        trophyDropChanceSum += item.dropChance
-      block.dropChanceSum = trophyDropChanceSum
-
-      local trophySlots = (commonItemsLen + trophiesLen) * ::ItemsRoulette.items_roulette_multiplier_slots - commonItemsLen
-      ::ItemsRoulette.debugData.commonInfo["trophySlots"] <- trophySlots
-
-      local trophyItemsLen = block.trophy.len()
-      local dropTrophy = ::max(trophySlots * trophyItemsLen / trophiesItemsLength,
-                               trophyItemsLen * ::ItemsRoulette.items_roulette_min_trophy_drop_mult)
-
-      block.dropChance = dropTrophy / ::getTblValue("count", block, 1)
-      ::ItemsRoulette.debugData.beginChances.append({["trophy_" + block.trophyId] = block.dropChance})
-      dropChanceSum += block.dropChance
-
-      block.multDiff = 1 - ::ItemsRoulette.getChanceMultiplier(true, block.dropChance)
-
-      dropChanceSum = ::ItemsRoulette.fillDropChances(block, dropChanceSum)
+      else
+        fillDropChances(trophyBlock[idx])
     }
   }
-  return dropChanceSum
+
+  if (isSingleReward || !isTrophy)
+    return
+
+  local dbgTrophyNewId = "trophy_" + trophyBlock.trophyId
+
+  local trophyBlockItemsCount = trophyBlock.rewardsCount + trophyBlock.trophiesCount
+  local slots = trophyBlockItemsCount * ::ItemsRoulette.items_roulette_multiplier_slots - trophyBlock.rewardsCount
+  ::ItemsRoulette.debugData.trophySlots[dbgTrophyNewId] <- slots
+
+  local drop = trophyBlockTrophiesItemsCount > 0? (slots * trophyBlockItemsCount / trophyBlockTrophiesItemsCount) : 0
+
+  local dropTrophy = ::max(drop, trophyBlockItemsCount * ::ItemsRoulette.items_roulette_min_trophy_drop_mult)
+
+  trophyBlock.dropChance = dropTrophy / ::getTblValue("count", trophyBlock, 1)
+  trophyBlock.multDiff = 1 - ::ItemsRoulette.getChanceMultiplier(true, trophyBlock.dropChance)
+  ::ItemsRoulette.debugData.beginChances.append({[dbgTrophyNewId] = trophyBlock.dropChance})
+
+  ::ItemsRoulette.debugData.trophyDrop[dbgTrophyNewId] <- {
+    slots = slots
+    itemsLen = trophyBlockItemsCount
+    trophiesItemsLength = trophyBlockTrophiesItemsCount
+    defaultDrop = trophyBlockItemsCount * ::ItemsRoulette.items_roulette_min_trophy_drop_mult
+    dropTrophy = dropTrophy
+    count = ::getTblValue("count", trophyBlock, 1)
+    dropChance = trophyBlock.dropChance
+  }
 }
 
-function ItemsRoulette::getRandomItemsSlot(itemsArray, dropChanceSum, topItem, count = 1)
+function ItemsRoulette::getItemsStack(trophyData)
 {
-  local resultArray = []
-  for (local i = 0; i < count; i++)
-  {
-    local table = ::ItemsRoulette.getRandomItem(itemsArray, dropChanceSum)
-    if (!::getTblValue("reward", table))
-    {
-      table = ::ItemsRoulette.getRandomItem([topItem], dropChanceSum)
-      ::ItemsRoulette.debugData.commonInfo.overflowChancesNum++
-    }
+  local rndItemsArray = ::array(trophyData.count, null).map(@(elem) ::ItemsRoulette.getRandomItem(trophyData))
 
-    resultArray.append(table)
-    dropChanceSum = ::getTblValue("dropChanceSum", table, dropChanceSum)
-  }
-
-  foreach(returnTable in resultArray)
+  foreach(item in rndItemsArray)
   {
-    local tKey = ::ItemsRoulette.getUniqueTableKey(::getTblValue("reward", returnTable.reward))
+    local tKey = ::ItemsRoulette.getUniqueTableKey(item?.reward)
     foreach(table in ::ItemsRoulette.debugData.result)
     {
       if (tKey in table)
       {
-        returnTable.tKey = tKey
+        item.tKey <- tKey
         table[tKey]++
         break
       }
     }
-
-    returnTable.dropChanceSum = dropChanceSum
   }
 
-  return resultArray
+  return rndItemsArray
 }
 
-function ItemsRoulette::getRandomItem(array, dropChanceSum, count = 1, trophyTable = null)
+function ItemsRoulette::getRandomItem(trophyBlock)
 {
-  local returnTable = {
-    reward = null,
-    dropChanceSum = 0
-    trophyTable = trophyTable
-    foundedItem = {}
-    tKey = ""
-  }
+  local res = null
+  local rndChance = ::math.frnd() * trophyBlock.trophy.reduce(@(res, v) res + v.dropChance, 0.0)
 
-  local rndChance = ::math.frnd() * dropChanceSum
-
-  foreach(val in array)
+  foreach(idx, item in trophyBlock.trophy)
   {
-    rndChance -= val.dropChance
-    if (rndChance > 0)
-      continue
+    rndChance -= item.dropChance
+    res = trophyBlock.trophy[idx]
 
-    local div = val.dropChance * val.multDiff
-    val.dropChance -= div
-    dropChanceSum -= div
-
-    if ("trophy" in val)
-    {
-      returnTable.trophyTable = val
-      local table = ::ItemsRoulette.getRandomItem(val.trophy, val.dropChanceSum, ::getTblValue("count", val, 1), returnTable.trophyTable)
-      if (::getTblValue("reward", table) != null)
-      {
-        returnTable = table
-        break
-      }
-      else
-        continue
-    }
-
-    if (returnTable.trophyTable != null)
-      returnTable.trophyTable.dropChanceSum -= div
-
-    returnTable.foundedItem = {
-      item = val
-      multDiff = val.multDiff,
-      div = div
-      dropChance = val.dropChance
-    }
-
-    returnTable.reward = val
-    break
+    if (rndChance < 0)
+      break
   }
 
-  returnTable.dropChanceSum = dropChanceSum
+  res.dropChance -= res.dropChance * res.multDiff
 
-  return returnTable
+  if ("trophy" in res)
+    return getRandomItem(res)
+
+  return res
 }
 
 function ItemsRoulette::getCurrentReward(rewardsArray)
 {
   local array = []
   local shouldOnlyImage = rewardsArray.len() > 1
-  foreach(reward in rewardsArray)
+  foreach(idx, reward in rewardsArray)
   {
-    reward.layout <- ::ItemsRoulette.getRewardLayout(reward, shouldOnlyImage)
+    rewardsArray[idx].layout <- ::ItemsRoulette.getRewardLayout(reward, shouldOnlyImage)
     array.append(reward)
   }
   return array
@@ -559,7 +552,6 @@ function ItemsRoulette::getChanceMultiplier(isTrophy, dropChance)
 {
   local chanceMult = 0.5
   if (isTrophy)
-    chanceMult = ::pow(0.5, 1/dropChance)
-
+    chanceMult = ::pow(0.5, 1.0/dropChance)
   return chanceMult
 }

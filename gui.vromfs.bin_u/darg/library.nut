@@ -254,12 +254,12 @@ function wrap(elems, params=wrapParams) {
     foreach (i, elem in elems) {
       local esize = calc_comp_size(elem)[flowSizeIdx]
       local gapsize = isDargComponent(gap) ? calc_comp_size(gap)[flowSizeIdx] : gap
-      if (i==0 && curwidth + esize < dimensionLim) {
+      if (i==0 && curwidth + esize <= dimensionLim) {
         children.append(elem)
         curwidth = curwidth + esize
         tailidx = i
       }
-      else if (curwidth + esize + gapsize < dimensionLim) {
+      else if (curwidth + esize + gapsize <= dimensionLim) {
         children.extend([gap, elem])
         curwidth = curwidth + esize + gapsize
         tailidx = i

@@ -968,7 +968,7 @@
   ],
   "ikPilot": [
     {
-      "model": "pilot_us_heli_early_char"
+      "model": "pilot_german_heli_char"
     },
     {
       "maxHeadHorAngle": 60.0
@@ -1027,7 +1027,7 @@
   ],
   "ikGunner": [
     {
-      "model": "pilot_us_heli_early_char"
+      "model": "pilot_german_heli_char"
     },
     {
       "maxHeadHorAngle": 60.0
@@ -1206,6 +1206,11 @@
     "angularLimits": [-115.0,90.0,-25.0,25.0],
     "crosshairPreset": "test_crosshair"
   },
+  "sensors": {
+    "sensor": {
+      "blk": "gameData/sensors/an_apr_39.blk"
+    }
+  },
   "commonWeapons": {
     "Weapon": {
       "dummy": true,
@@ -1232,12 +1237,42 @@
       }
     }
   },
-  "weapon_presets": {
-    "preset": {
-      "name": "bo_105pah1_a1_default",
-      "blk": "gameData/flightModels/weaponPresets/bo_105pah1_a1_default.blk"
+  "weapon_presets": [
+    {
+      "preset": {
+        "name": "bo_105pah1_a1_default",
+        "blk": "gameData/flightModels/weaponPresets/bo_105pah1_a1_default.blk"
+      }
+    },
+    {
+      "preset": {
+        "name": "bo_105_gunpods",
+        "blk": "gameData/flightModels/weaponPresets/bo_105_gunpods.blk",
+        "reqModification": "fn_hmp400_lcc"
+      }
+    },
+    {
+      "preset": {
+        "name": "bo_105_gr_pods",
+        "blk": "gameData/flightModels/weaponPresets/bo_105_gr_pods.blk",
+        "reqModification": "fn_rmp_lc"
+      }
+    },
+    {
+      "preset": {
+        "name": "bo_105_gunpods_hot",
+        "blk": "gameData/flightModels/weaponPresets/bo_105_gunpods_hot.blk",
+        "reqModification": "fn_hmp400_lcc"
+      }
+    },
+    {
+      "preset": {
+        "name": "bo_105_gr_pods_hot",
+        "blk": "gameData/flightModels/weaponPresets/bo_105_gr_pods_hot.blk",
+        "reqModification": "fn_rmp_lc"
+      }
     }
-  },
+  ],
   "turbulence": {
     "segmentlength": 100.0,
     "startSpeed": 28.0,
@@ -1265,7 +1300,28 @@
     },
     "new_heli_cover": [],
     "heli_flak_jacket": [],
-    "heli_structure": []
+    "heli_structure": [],
+    "50cal_universal": [],
+    "50cal_ground_targets": [],
+    "50cal_tracers": [],
+    "50cal_stealth": [],
+    "bmg50_belt_pack": {
+      "tier": 2
+    },
+    "bmg50_new_gun": {
+      "reqModification": "bmg50_belt_pack",
+      "tier": 4
+    },
+    "fn_hmp400_lcc": {
+      "tier": 1,
+      "modClass": "weapon"
+    },
+    "fn_rmp_lc": {
+      "deactivationIsAllowed": false,
+      "reqModification": "fn_hmp400_lcc",
+      "tier": 3,
+      "modClass": "weapon"
+    }
   },
   "cutting": {
     "emtr_break_wing0_l_from": [0.654589,-0.679247,0.738534],

@@ -8509,7 +8509,7 @@
     },
     {
       "objectGroups": {
-        "name": "t1_helipad_01",
+        "name": "t1_helicopter_pad_01",
         "tm": [
           [0.663503,0.0,-0.748174],
           [0.0,1.0,0.0],
@@ -8526,24 +8526,7 @@
     },
     {
       "objectGroups": {
-        "name": "t1_helipad_02",
-        "tm": [
-          [-0.0842847,0.0,0.996442],
-          [0.0,1.0,0.0],
-          [-0.996442,0.0,-0.0842847],
-          [4684.07,1529.72,15906.2]
-        ],
-        "unit_class": "dynHelipad_beton_a_ussr",
-        "objLayer": 2,
-        "props": {
-          "army": 1,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "t1_helipad_03",
+        "name": "t1_helicopter_pad_02",
         "tm": [
           [-0.971441,0.0,0.23728],
           [0.0,1.0,0.0],
@@ -8560,7 +8543,7 @@
     },
     {
       "objectGroups": {
-        "name": "t2_helipad_01",
+        "name": "t2_helicopter_pad_01",
         "tm": [
           [-0.20649,0.0,-0.978449],
           [0.0,1.0,0.0],
@@ -8577,24 +8560,7 @@
     },
     {
       "objectGroups": {
-        "name": "t2_helipad_02",
-        "tm": [
-          [-0.20649,0.0,-0.978449],
-          [0.0,1.0,0.0],
-          [0.978449,0.0,-0.20649],
-          [-13420.4,1601.06,1632.7]
-        ],
-        "unit_class": "dynHelipad_beton_a_usa",
-        "objLayer": 2,
-        "props": {
-          "army": 2,
-          "active": true
-        }
-      }
-    },
-    {
-      "objectGroups": {
-        "name": "t2_helipad_03",
+        "name": "t2_helicopter_pad_02",
         "tm": [
           [0.149758,0.0,-0.988723],
           [0.0,1.0,0.0],
@@ -8606,6 +8572,62 @@
         "props": {
           "army": 2,
           "active": true
+        }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_helicopter_spawn_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [3470.45,22.2051,20079.1]
+        ],
+        "props": {
+          "squad_members": "t1_helicopter_spawn_01_01"
+        }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_helicopter_spawn_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [8322.37,22.209,14314.6]
+        ],
+        "props": {
+          "squad_members": "t1_helicopter_spawn_02_01"
+        }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_helicopter_spawn_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-2981.2,22.21,-10805.6]
+        ],
+        "props": {
+          "squad_members": "t2_helicopter_spawn_01_01"
+        }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_helicopter_spawn_02",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-22560.6,22.2109,2034.3]
+        ],
+        "props": {
+          "squad_members": "t2_helicopter_spawn_02_01"
         }
       }
     }
@@ -8842,7 +8864,7 @@
       "objLayer": 3,
       "props": []
     },
-    "t1_helicopter_spawn_01": {
+    "t1_helicopter_spawn_01_01": {
       "type": "Sphere",
       "tm": [
         [-286.098,0.0,-410.059],
@@ -8853,7 +8875,7 @@
       "objLayer": 0,
       "props": []
     },
-    "t1_helicopter_spawn_02": {
+    "t1_helicopter_spawn_02_01": {
       "type": "Sphere",
       "tm": [
         [-456.524,0.0,-203.925],
@@ -8864,7 +8886,7 @@
       "objLayer": 0,
       "props": []
     },
-    "t2_helicopter_spawn_01": {
+    "t2_helicopter_spawn_01_01": {
       "type": "Sphere",
       "tm": [
         [287.821,0.0,408.851],
@@ -8875,7 +8897,7 @@
       "objLayer": 0,
       "props": []
     },
-    "t2_helicopter_spawn_02": {
+    "t2_helicopter_spawn_02_01": {
       "type": "Sphere",
       "tm": [
         [432.316,0.0,251.203],

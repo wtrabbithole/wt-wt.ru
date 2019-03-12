@@ -95,9 +95,6 @@
             "isUnit": false
           },
           {
-            "offset": [0.0,0.0,0.0]
-          },
-          {
             "radius": -1.0
           },
           {
@@ -123,6 +120,12 @@
           },
           {
             "onlyOnePlayerPerSpawnPoint": false
+          },
+          {
+            "resetStrictSpawnIndex": false
+          },
+          {
+            "replaceAreas": false
           },
           {
             "target": "artillery_spawn01"
@@ -274,6 +277,9 @@
         },
         "unitSetProperties": {
           "object_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "target_tanks_squad",
           "forceVisibleOnMap": true,
           "attack_type": "dont_aim",
@@ -301,6 +307,10 @@
           "tags": {
             "type_spaa": true
           }
+        },
+        "objectExists": {
+          "target": "flight_target01",
+          "type": "unit"
         }
       },
       "actions": {
@@ -326,7 +336,66 @@
           "shouldKeepFormation": false,
           "teleportHeightValue": 1000.0,
           "horizontalDirectionForTeleport": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "flight_target01"
+        }
+      },
+      "else_actions": []
+    },
+    "spawn_plane2": {
+      "is_enabled": true,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "unitCheckTag": {
+          "target": "t1_player01",
+          "tags": {
+            "type_spaa": true
+          }
+        },
+        "objectExists": {
+          "target": "flight_target02",
+          "type": "unit"
+        }
+      },
+      "actions": {
+        "unitLoadBehTree": {
+          "name": "missionKamikaze",
+          "objects": "flight_target02"
+        },
+        "unitRespawn": {
+          "delay": 1.0,
+          "offset": [0.0,0.0,0.0],
+          "object": "flight_target02",
+          "target": "spawn_area02"
+        },
+        "unitMoveTo": {
+          "object_marking": 0,
+          "target": "flight_point02",
+          "target_marking": 0,
+          "waypointReachedDist": 10.0,
+          "recalculatePathDist": -1.0,
+          "follow_target": false,
+          "teleportHeightType": "absolute",
+          "useUnitHeightForTele": true,
+          "shouldKeepFormation": false,
+          "teleportHeightValue": 1000.0,
+          "horizontalDirectionForTeleport": true,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "flight_target02"
         }
       },
       "else_actions": []

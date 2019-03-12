@@ -55,6 +55,8 @@ local compassLine = function(line_style, total_width, width, height, color){
       num = "S"
     else if (num == 270)
       num = "W"
+    else
+      num = num.tointeger()
 
     children.append(generateCompassNumber(num, line_style, width, height, color))
     children.append(generateCompassDash(line_style, width, height, color))

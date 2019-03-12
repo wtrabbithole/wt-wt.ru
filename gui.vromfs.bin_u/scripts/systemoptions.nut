@@ -252,7 +252,7 @@
   }
   foliageReprojection = { widgetType="checkbox" def=true blk="graphics/foliageReprojection" restart=false
   }
-  displacementQuality = { widgetType="slider" def=1 min=0 max=2 blk="graphics/displacementQuality" restart=false
+  displacementQuality = { widgetType="slider" def=2 min=0 max=3 blk="graphics/displacementQuality" restart=false
   }
   contactShadowsQuality = { widgetType="slider" def=0 min=0 max=2 blk="graphics/contactShadowsQuality" restart=false
     onChanged = "contactShadowsQualityClick"
@@ -278,7 +278,7 @@
   {k="waterQuality",         v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="ultrahigh"}, compMode=false}
   {k="waterFoamQuality",     v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="ultrahigh"}, compMode=true}
   {k="grass",                v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
-  {k="displacementQuality",  v={ultralow=0,low=0,medium=0,high=1, max=1, movie=2}}
+  {k="displacementQuality",  v={ultralow=0,low=0,medium=0,high=1, max=2, movie=3}}
   {k="dirtSubDiv",           v={ultralow="high",low="high",medium="high",high="high", max="ultrahigh", movie="ultrahigh"}, compMode=true}
   {k="tireTracksQuality"     v={ultralow="none",low="none",medium="medium", high="high", max="high", movie="ultrahigh"}, compMode=true}
   {k="alpha_to_coverage",    v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}

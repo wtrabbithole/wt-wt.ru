@@ -70,9 +70,30 @@ class ::Input.Axis extends ::Input.InputBase
     return deviceId
   }
 
+  function getImage()
+  {
+    local axis = GAMEPAD_AXIS.NOT_AXIS
+    if (axisId >= 0)
+      axis = 1 << axisId
+    if (deviceId == ::JOYSTICK_DEVICE_0_ID)
+      return ::gamepad_axes_images?[axis | axisModifyer] ?? ""
+    else if (deviceId == ::STD_MOUSE_DEVICE_ID)
+      return ::mouse_axes_to_image?[mouseAxis | axisModifyer] ?? ""
+
+    return null
+  }
+
   function hasImage ()
   {
-    return ::gamepad_axes_images?[axis | axisModifyer] ?? "" !="" ||
-      ::mouse_axes_to_image?[mouseAxis | axisModifyer] ?? "" !=""
+    return getImage() ?? "" != ""
+  }
+
+  function getConfig()
+  {
+    return {
+      inputName = "axis"
+      buttonImage = getImage()
+      text = getText()
+    }
   }
 }

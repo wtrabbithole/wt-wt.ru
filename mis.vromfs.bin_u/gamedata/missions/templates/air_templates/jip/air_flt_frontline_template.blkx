@@ -113,10 +113,22 @@
               "targetGnd": false
             },
             {
-              "accuracy": 0.01
+              "accuracy": 0.1
             },
             {
-              "effShootingRate": 0.01
+              "effShootingRate": 0.1
+            },
+            {
+              "airEffShootingRate": 0.1
+            },
+            {
+              "fireRandom": true
+            },
+            {
+              "targetChangeInterval": 5.0
+            },
+            {
+              "targetChangeProb": 0.25
             }
           ]
         },
@@ -158,10 +170,22 @@
               "targetGnd": false
             },
             {
-              "accuracy": 0.01
+              "accuracy": 0.1
             },
             {
-              "effShootingRate": 0.01
+              "effShootingRate": 0.1
+            },
+            {
+              "airEffShootingRate": 0.1
+            },
+            {
+              "fireRandom": true
+            },
+            {
+              "targetChangeInterval": 5.0
+            },
+            {
+              "targetChangeProb": 0.25
             }
           ]
         },
@@ -807,8 +831,8 @@
               "scale": 2.0,
               "loopSpawn": true,
               "delay": [1.0,1.0],
-              "mustExist": false,
-              "target": "@flt_smoke_name"
+              "target": "@flt_smoke_name",
+              "mustExist": false
             }
           },
           {
@@ -822,8 +846,8 @@
               "scale": 2.0,
               "loopSpawn": true,
               "delay": [1.0,1.0],
-              "mustExist": true,
-              "target": "@flt_smoke_name"
+              "target": "@flt_smoke_name",
+              "mustExist": true
             }
           },
           {
@@ -911,8 +935,8 @@
             "scale": 1.0,
             "loopSpawn": true,
             "delay": [1.0,1.0],
-            "mustExist": false,
-            "target": "@flt_smoke_name"
+            "target": "@flt_smoke_name",
+            "mustExist": false
           },
           "__varModify": {
             "operator": "add",
@@ -3850,7 +3874,7 @@
             },
             {
               "triggerEnable": {
-                "target": "flt_t1_tank_spawn"
+                "target": "flt_t1_tank_exist_check"
               }
             }
           ],
@@ -3863,7 +3887,7 @@
             }
           }
         },
-        "flt_t1_tank_spawn": {
+        "flt_t1_tank_exist_check": {
           "is_enabled": false,
           "comments": "",
           "props": {
@@ -3887,6 +3911,48 @@
               "type": "unit"
             }
           },
+          "actions": {
+            "comment": {
+              "value": " танк находится в правильном месте (зона армии 1 или фронт)"
+            },
+            "triggerEnable": {
+              "target": "flt_t1_tank_spawn"
+            }
+          },
+          "else_actions": {
+            "comment": {
+              "value": "спавн не в правильном месте. пробуем пойти дальше по ротации"
+            },
+            "triggerEnable": {
+              "target": "flt_t1_tank_garbage_collect"
+            }
+          }
+        },
+        "flt_t1_tank_spawn": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 0.1
+            }
+          },
+          "conditions": {
+            "unitWhenCountMatches": {
+              "object_type": "isInactive",
+              "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "func": "more",
+              "value": 0,
+              "object": "@flt_t1_tank_name"
+            }
+          },
           "actions": [
             {
               "comment": {
@@ -3894,7 +3960,7 @@
               }
             },
             {
-              "varSetRandomInt": {
+              "__varSetRandomInt": {
                 "var": "flt_t1_tank_num_to_spawn",
                 "from": 1,
                 "to_not_including": 4
@@ -3908,7 +3974,6 @@
                 "object_type": "isInactive",
                 "target": "@flt_t1_tank_spot_name",
                 "randomObjectsCount": 1,
-                "randomObjectsCountVar": "flt_t1_tank_num_to_spawn",
                 "isStealth": true
               }
             },
@@ -4298,7 +4363,7 @@
             },
             {
               "triggerEnable": {
-                "target": "flt_t2_tank_spawn"
+                "target": "flt_t2_tank_exist_check"
               }
             }
           ],
@@ -4311,7 +4376,7 @@
             }
           }
         },
-        "flt_t2_tank_spawn": {
+        "flt_t2_tank_exist_check": {
           "is_enabled": false,
           "comments": "",
           "props": {
@@ -4335,6 +4400,48 @@
               "type": "unit"
             }
           },
+          "actions": {
+            "comment": {
+              "value": " танк находится в правильном месте (зона армии 1 или фронт)"
+            },
+            "triggerEnable": {
+              "target": "flt_t2_tank_spawn"
+            }
+          },
+          "else_actions": {
+            "comment": {
+              "value": "спавн не в правильном месте. пробуем пойти дальше по ротации"
+            },
+            "triggerEnable": {
+              "target": "flt_t2_tank_garbage_collect"
+            }
+          }
+        },
+        "flt_t2_tank_spawn": {
+          "is_enabled": false,
+          "comments": "",
+          "props": {
+            "actionsType": "PERFORM_ONE_BY_ONE",
+            "conditionsType": "ALL",
+            "enableAfterComplete": false
+          },
+          "events": {
+            "periodicEvent": {
+              "time": 0.1
+            }
+          },
+          "conditions": {
+            "unitWhenCountMatches": {
+              "object_type": "isInactive",
+              "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "func": "more",
+              "value": 0,
+              "object": "@flt_t2_tank_name"
+            }
+          },
           "actions": [
             {
               "comment": {
@@ -4347,7 +4454,7 @@
               }
             },
             {
-              "varSetRandomInt": {
+              "__varSetRandomInt": {
                 "var": "flt_t2_tank_num_to_spawn",
                 "from": 1,
                 "to_not_including": 4
@@ -4361,7 +4468,6 @@
                 "object_type": "isInactive",
                 "target": "@flt_t2_tank_spot_name",
                 "randomObjectsCount": 1,
-                "randomObjectsCountVar": "flt_t2_tank_num_to_spawn",
                 "isStealth": true
               }
             },

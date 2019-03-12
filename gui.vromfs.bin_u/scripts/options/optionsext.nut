@@ -1102,6 +1102,13 @@ function get_option(type, context = null)
       defaultValue = true
       break
 
+    case ::USEROPT_WHEEL_CONTROL_SHIP:
+      descr.id = "selectWheelShipEnable"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = false
+      break
+
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
       descr.id = "seperatedEngineControlShip"
       descr.controlType = optionControlType.CHECKBOX
@@ -1751,7 +1758,7 @@ function get_option(type, context = null)
       descr.values = []
       for(local i = 1; i <= ::max_country_rank; i++)
       {
-        descr.items.push("#options/chooseUnitsRank/rank_" + i)
+        descr.items.push(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
         descr.values.push({min = (i - 1) * 5, max = i * 5 - 1})
       }
 
@@ -2836,7 +2843,7 @@ function get_option(type, context = null)
 
     case ::USEROPT_RANK:
       descr.id = "rank"
-      descr.title = ::loc("guiHints/chooseUnitsRank")
+      descr.title = ::loc("shop/age")
       descr.controlName <- "combobox"
       descr.cb = "onInstantOptionApply"
 
@@ -2864,7 +2871,7 @@ function get_option(type, context = null)
       if (!descr.values.len())
         for(local i = 1; i <= ::max_country_rank; i++)
         {
-          descr.items.append("#options/chooseUnitsRank/rank_" + i)
+          descr.items.append(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
           descr.values.append(i)
         }
       break
@@ -3811,6 +3818,13 @@ function get_option(type, context = null)
       descr.value = ::get_option_horizontal_speed() != 0
       break
 
+    case ::USEROPT_HELICOPTER_HELMET_AIM:
+      descr.id = "helicopterHelmetAim"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_use_oculus_to_aim_helicopter() != 0
+      break
+
     case ::USEROPT_SHOW_DESTROYED_PARTS:
       descr.id = "show_destroyed_parts"
       descr.controlType = optionControlType.CHECKBOX
@@ -3852,7 +3866,7 @@ function get_option(type, context = null)
       {
         descr.values.append(::format("option_%s", rank.tostring()))
         descr.items.append({
-          text = (rank == 0 ? ::loc("clan/membRequirementsRankAny") : ::getUnitRankName(rank))
+          text = (rank == 0 ? ::loc("clan/membRequirementsRankAny") : ::get_roman_numeral(rank))
         })
       }
       descr.value = ::find_in_array(descr.values, "option_0")
@@ -4580,6 +4594,10 @@ function set_option(type, value, descr = null)
       ::set_option_horizontal_speed(value ? 1 : 0)
       break
 
+    case ::USEROPT_HELICOPTER_HELMET_AIM:
+      ::set_option_use_oculus_to_aim_helicopter(value ? 1 : 0)
+      break
+
     case ::USEROPT_HUE_HELICOPTER_HUD_ALERT:
       ::set_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
@@ -4822,6 +4840,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_RACE_CAN_SHOOT:
     case ::USEROPT_USE_KILLSTREAKS:
     case ::USEROPT_AUTOMATIC_TRANSMISSION_TANK:
+    case ::USEROPT_WHEEL_CONTROL_SHIP:
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
     case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
     case ::USEROPT_BULLET_FALL_SOUND_SHIP:

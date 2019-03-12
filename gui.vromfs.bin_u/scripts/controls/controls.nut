@@ -904,10 +904,10 @@ enum AxisDirection {
       checkAssign = false
     }
     { id="ID_FIRE_GM_SPECIAL_GUN",      checkGroup = ctrlGroups.TANK }
-    { id="ID_SELECT_GM_GUN_RESET",      checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_SELECT_GM_GUN_PRIMARY",    checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_SELECT_GM_GUN_SECONDARY",  checkGroup = ctrlGroups.TANK, checkAssign = false }
-    { id="ID_SELECT_GM_GUN_MACHINEGUN", checkGroup = ctrlGroups.TANK, checkAssign = false }
+    { id="ID_SELECT_GM_GUN_RESET",      checkGroup = ctrlGroups.TANK, checkAssign = false}
+    { id="ID_SELECT_GM_GUN_PRIMARY",    checkGroup = ctrlGroups.TANK, checkAssign = false}
+    { id="ID_SELECT_GM_GUN_SECONDARY",  checkGroup = ctrlGroups.TANK, checkAssign = false}
+    { id="ID_SELECT_GM_GUN_MACHINEGUN", checkGroup = ctrlGroups.TANK, checkAssign = false}
     { id="ID_SMOKE_SCREEN"
       checkGroup = ctrlGroups.TANK
       checkAssign = false
@@ -1119,23 +1119,37 @@ enum AxisDirection {
       id = "ID_SHIP_WEAPON_ALL"
       checkGroup = ctrlGroups.SHIP
     }
-
+    { id="selectWheelShipEnable",
+      type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_WHEEL_CONTROL_SHIP
+      onChangeValue = "doControlsGroupChangeDelayed"
+      showFunc = @() (::is_xinput_device() || ::is_ps4_or_xbox)
+    }
+    { id="ID_SHIP_SELECTWEAPON_WHEEL_MENU",
+      checkGroup = ctrlGroups.SHIP,
+      checkAssign = false
+      showFunc = @() checkOptionValue("selectWheelShipEnable", true)
+        && (::is_xinput_device() || ::is_ps4_or_xbox)
+    }
     {
       id = "ID_SHIP_WEAPON_PRIMARY",
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
+      showFunc = @() checkOptionValue("selectWheelShipEnable", false)
     }
 
     {
       id = "ID_SHIP_WEAPON_SECONDARY",
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
+      showFunc = @() checkOptionValue("selectWheelShipEnable", false)
     }
 
     {
       id = "ID_SHIP_WEAPON_MACHINEGUN",
       checkGroup = ctrlGroups.SHIP,
       checkAssign = false
+      showFunc = @() checkOptionValue("selectWheelShipEnable", false)
     }
 
     {
@@ -2091,23 +2105,23 @@ enum GAMEPAD_AXIS {
 //xinput axes to image
 ::gamepad_axes_images <- {
   [GAMEPAD_AXIS.NOT_AXIS] = "",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL] = "@control_l_stick_to_left_n_right",
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL] = "@control_l_stick_to_up_n_down",
-  [GAMEPAD_AXIS.LEFT_STICK] = "@control_l_stick_4",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL] = "@control_r_stick_to_left_n_right",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL] = "@control_r_stick_to_up_n_down",
-  [GAMEPAD_AXIS.RIGHT_STICK] = "@control_r_stick_4",
-  [GAMEPAD_AXIS.LEFT_TRIGGER] = "@control_l_trigger",
-  [GAMEPAD_AXIS.RIGHT_TRIGGER] = "@control_r_trigger",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL] = "#ui/gameuiskin#xone_l_stick_to_left_n_right",
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL] = "#ui/gameuiskin#xone_l_stick_to_up_n_down",
+  [GAMEPAD_AXIS.LEFT_STICK] = "#ui/gameuiskin#xone_l_stick_4",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL] = "#ui/gameuiskin#xone_r_stick_to_left_n_right",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL] = "#ui/gameuiskin#xone_r_stick_to_up_n_down",
+  [GAMEPAD_AXIS.RIGHT_STICK] = "#ui/gameuiskin#xone_r_stick_4",
+  [GAMEPAD_AXIS.LEFT_TRIGGER] = "#ui/gameuiskin#xone_l_trigger",
+  [GAMEPAD_AXIS.RIGHT_TRIGGER] = "#ui/gameuiskin#xone_r_trigger",
 
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "@control_l_stick_down",
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "@control_l_stick_up",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "@control_l_stick_left",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "@control_l_stick_right",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "@control_r_stick_down",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "@control_r_stick_up",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "@control_r_stick_left",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "@control_r_stick_right",
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#xone_l_stick_down",
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#xone_l_stick_up",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#xone_l_stick_left",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#xone_l_stick_right",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#xone_r_stick_down",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#xone_r_stick_up",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#xone_r_stick_left",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#xone_r_stick_right",
 }
 
 //mouse axes bitmask
@@ -4523,7 +4537,7 @@ function getUnmappedControlsForCurrentMission()
   local helpersMode = ::getCurrentHelpersMode()
   local required = ::getRequiredControlsForUnit(unit, helpersMode)
 
-  local unmapped = ::getUnmappedControls(required, helpersMode)
+  local unmapped = ::getUnmappedControls(required, helpersMode, true, false)
   if (::is_in_flight() && ::get_mp_mode() == ::GM_TRAINING)
   {
     local tutorialUnmapped = ::getUnmappedControlsForTutorial(::current_campaign_mission, helpersMode)
@@ -4738,34 +4752,29 @@ function getRequiredControlsForUnit(unit, helpersMode)
   local unitType = unit.unitType
   local unitClassType = unit.expClass
 
+  local preset = ::g_controls_manager.getCurPreset()
   local actionBarShortcutFormat = null
 
   local unitBlk = null
   local blkCommonWeapons = null
   local blkWeaponPreset = null
+  local hasControllableRadar = false
 
-  local preset = ::g_controls_manager.getCurPreset()
-  local hasSensors = false;
-  {
-    unitBlk = ::get_full_unit_blk(unitId)
-    blkCommonWeapons = ::getCommonWeaponsBlk(unitBlk, ::get_last_primary_weapon(unit)) || ::DataBlock()
-    local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : ::get_last_weapon(unitId)
-    blkWeaponPreset = ::DataBlock()
-    if (unitBlk.weapon_presets)
-      foreach (idx, presetBlk in (unitBlk.weapon_presets % "preset"))
-        if (presetBlk.name == curWeaponPresetId || curWeaponPresetId == "" && idx == 0)
-        {
-          blkWeaponPreset = ::DataBlock(presetBlk.blk)
-          break
-        }
-    local blkSensors = unitBlk.sensors
-    if (blkSensors != null)
-      foreach (sensor in (blkSensors % "sensor"))
+  unitBlk = ::get_full_unit_blk(unitId)
+  blkCommonWeapons = ::getCommonWeaponsBlk(unitBlk, ::get_last_primary_weapon(unit)) || ::DataBlock()
+  local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : ::get_last_weapon(unitId)
+  blkWeaponPreset = ::DataBlock()
+  if (unitBlk.weapon_presets)
+    foreach (idx, presetBlk in (unitBlk.weapon_presets % "preset"))
+      if (presetBlk.name == curWeaponPresetId || curWeaponPresetId == "" && idx == 0)
       {
-        hasSensors = true
+        blkWeaponPreset = ::DataBlock(presetBlk.blk)
         break
       }
-  }
+
+  if (unitBlk.sensors)
+    foreach (sensor in (unitBlk.sensors % "sensor"))
+      hasControllableRadar = hasControllableRadar || ::DataBlock(sensor.blk ?? "").type == "radar"
 
   if (unitType == ::g_unit_type.AIRCRAFT)
   {
@@ -4810,6 +4819,9 @@ function getRequiredControlsForUnit(unit, helpersMode)
         controls.append("ID_FLAPS_DOWN")
     }
 
+    if (unitBlk.parachutes)
+      controls.append("ID_CHUTE")
+
     local w = getWeaponFeatures([ blkCommonWeapons, blkWeaponPreset ])
 
     if (preset.getAxis("fire").axisId == -1)
@@ -4834,15 +4846,11 @@ function getRequiredControlsForUnit(unit, helpersMode)
     if (w.gotWeaponLock)
       controls.append("ID_WEAPON_LOCK")
 
-    if (hasSensors)
+    if (hasControllableRadar)
     {
       controls.append("ID_SENSOR_SWITCH")
-      controls.append("ID_SENSOR_MODE_SWITCH")
-      controls.append("ID_SENSOR_SCAN_PATTERN_SWITCH")
-      controls.append("ID_SENSOR_RANGE_SWITCH")
       controls.append("ID_SENSOR_TARGET_SWITCH")
       controls.append("ID_SENSOR_TARGET_LOCK")
-      controls.append("ID_SENSOR_VIEW_SWITCH")
     }
   }
   else if (unitType == ::g_unit_type.HELICOPTER)
@@ -4889,15 +4897,10 @@ function getRequiredControlsForUnit(unit, helpersMode)
       }
     }
 
-    if (hasSensors)
+    if (hasControllableRadar)
     {
-      controls.append("ID_SENSOR_SWITCH_TANK")
-      controls.append("ID_SENSOR_MODE_SWITCH_TANK")
-      controls.append("ID_SENSOR_SCAN_PATTERN_SWITCH_TANK")
-      controls.append("ID_SENSOR_RANGE_SWITCH_TANK")
       controls.append("ID_SENSOR_TARGET_SWITCH_TANK")
       controls.append("ID_SENSOR_TARGET_LOCK_TANK")
-      controls.append("ID_SENSOR_VIEW_SWITCH_TANK")
     }
 
     local gameParams = ::dgs_get_game_params()
@@ -5014,7 +5017,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
   return controls
 }
 
-function getUnmappedControls(controls, helpersMode, getLocNames = true, shouldCheckRequirements = true)
+function getUnmappedControls(controls, helpersMode, getLocNames = true, shouldCheckRequirements = false)
 {
   local unmapped = []
 

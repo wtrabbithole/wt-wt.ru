@@ -97,6 +97,14 @@
       },
       {
         "lang": {
+          "id": "Romanian",
+          "icon": "#ui/gameuiskin#lang_romania.svg",
+          "chatId": "ro",
+          "hasUnitSpeech": false
+        }
+      },
+      {
+        "lang": {
           "id": "Belarusian",
           "icon": "#ui/gameuiskin#lang_belarus.svg",
           "chatId": "be",
@@ -446,6 +454,7 @@
     "ac_shell_tank": "ac_shell_tank",
     "apcr_tank": "apcr_tank",
     "apds_tank": "apds_tank",
+    "apds_early_tank": "apds_tank",
     "apds_autocannon": "apds_belt",
     "apds_l15_tank": "apds_tank",
     "apds_fs_tank": "apdsfs_tank",
@@ -3598,6 +3607,8 @@
       "country_argentina": "#ui/gameuiskin#country_argentina.svg",
       "country_philippines": "#ui/gameuiskin#country_philippines.svg",
       "country_finland": "#ui/gameuiskin#country_finland.svg",
+      "country_portugal": "#ui/gameuiskin#country_portugal.svg",
+      "country_new_zealand": "#ui/gameuiskin#country_new_zealand.svg",
       "first_choice_country_usa_aviation": "#ui/first_choice/usa_aviation.png",
       "first_choice_country_germany_aviation": "#ui/first_choice/germany_aviation.png",
       "first_choice_country_ussr_aviation": "#ui/first_choice/ussr_aviation.png",
@@ -3611,7 +3622,7 @@
       "first_choice_country_ussr_army": "#ui/first_choice/ussr_army.png",
       "first_choice_country_britain_army": "#ui/first_choice/britain_army.png",
       "first_choice_country_japan_army": "#ui/first_choice/japan_army.png",
-      "first_choice_country_italy_army": "#ui/first_choice/italy_aviation.png",
+      "first_choice_country_italy_army": "#ui/first_choice/italy_army.png",
       "first_choice_country_france_army": "#ui/first_choice/france_army.png",
       "first_choice_country_china_army": "#ui/first_choice/china_army.png",
       "first_choice_country_usa_fleet": "#ui/first_choice/usa_fleet.png",
@@ -3660,6 +3671,7 @@
       "country_italy_tank_unit": "#ui/images/researches/italy_ground_finishedresearch.jpg?P1",
       "country_france_aircraft_unit": "#ui/images/researches/france_finishedresearch.jpg?P1",
       "country_france_tank_unit": "#ui/images/researches/france_ground_finishedresearch.jpg?P1",
+      "country_france_helicopter_unit": "#ui/images/researches/france_heli_finishedresearch.jpg?P1",
       "country_germany_aircraft_modification": "#ui/images/researches/ger_newmodificationresearch.jpg?P1",
       "country_germany_tank_modification": "#ui/images/researches/ger_ground_newmodificationresearch.jpg?P1",
       "country_germany_ship_modification": "#ui/images/researches/ger_ship_newmodificationresearch.jpg?P1",
@@ -3682,6 +3694,7 @@
       "country_italy_tank_modification": "#ui/images/researches/italy_ground_newmodificationresearch.jpg?P1",
       "country_france_aircraft_modification": "#ui/images/researches/france_newmodificationresearch.jpg?P1",
       "country_france_tank_modification": "#ui/images/researches/france_ground_newmodificationresearch.jpg?P1",
+      "country_france_helicopter_modification": "#ui/images/researches/france_heli_newmodificationresearch.jpg?P1",
       "tutorial_fighter": "#ui/images/tutorial_fighter.jpg?P1",
       "tutorial_fighter_win": "#ui/images/tutorial_fighter_win.jpg?P1",
       "tutorial_bomber": "#ui/images/tutorial_bomber.jpg?P1",
@@ -3762,7 +3775,7 @@
       "first_choice_country_ussr_army": "#ui/first_choice/ussr_army_alt.png",
       "first_choice_country_britain_army": "#ui/first_choice/britain_army_alt.png",
       "first_choice_country_japan_army": "#ui/first_choice/japan_army_alt.png",
-      "first_choice_country_italy_army": "#ui/first_choice/italy_aviation_alt.png",
+      "first_choice_country_italy_army": "#ui/first_choice/italy_army_alt.png",
       "first_choice_country_france_army": "#ui/first_choice/france_army_alt.png",
       "first_choice_country_china_army": "#ui/first_choice/china_army_alt.png",
       "first_choice_country_usa_fleet": "#ui/first_choice/usa_fleet_alt.png",
@@ -4073,12 +4086,22 @@
           "name": "Germany/tanks/img_germany_tank_04"
         }
       ],
-      "Ship": {
-        "name": "Germany/ships/img_germany_ship_01"
-      },
-      "Helicopter": {
-        "name": "Germany/air/img_germany_heli_01"
-      }
+      "Ship": [
+        {
+          "name": "Germany/ships/img_germany_ship_01"
+        },
+        {
+          "name": "Germany/ships/img_germany_ship_02"
+        }
+      ],
+      "Helicopter": [
+        {
+          "name": "Germany/air/img_germany_heli_01"
+        },
+        {
+          "name": "Germany/air/img_germany_heli_02"
+        }
+      ]
     },
     "country_usa": {
       "Aircraft": [
@@ -4147,6 +4170,12 @@
         },
         {
           "name": "USA/air/img_usa_air_22"
+        },
+        {
+          "name": "USA/air/img_usa_air_23"
+        },
+        {
+          "name": "USA/air/img_usa_air_24"
         }
       ],
       "Tank": [
@@ -4180,9 +4209,14 @@
           "name": "USA/ships/img_usa_ship_02"
         }
       ],
-      "Helicopter": {
-        "name": "USA/air/img_us_heli_01"
-      }
+      "Helicopter": [
+        {
+          "name": "USA/air/img_us_heli_01"
+        },
+        {
+          "name": "USA/air/img_us_heli_02"
+        }
+      ]
     },
     "country_ussr": {
       "Aircraft": [
@@ -4236,6 +4270,12 @@
         },
         {
           "name": "USSR/air/img_ussr_air_17"
+        },
+        {
+          "name": "USSR/air/img_ussr_air_18"
+        },
+        {
+          "name": "USSR/air/img_ussr_air_19"
         }
       ],
       "Tank": [
@@ -4274,14 +4314,22 @@
         },
         {
           "name": "USSR/tanks/img_ussr_tank_12"
+        },
+        {
+          "name": "USSR/tanks/img_ussr_tank_13"
         }
       ],
       "Ship": {
         "name": "USSR/ships/img_ussr_ship_01"
       },
-      "Helicopter": {
-        "name": "USSR/air/img_ussr_heli_01"
-      }
+      "Helicopter": [
+        {
+          "name": "USSR/air/img_ussr_heli_01"
+        },
+        {
+          "name": "USSR/air/img_ussr_heli_02"
+        }
+      ]
     },
     "country_britain": {
       "Aircraft": [
@@ -4322,12 +4370,6 @@
         },
         {
           "name": "UK/tanks/img_uk_tank_03"
-        },
-        {
-          "name": "UK/tanks/img_uk_tank_04"
-        },
-        {
-          "name": "UK/tanks/img_uk_tank_05"
         }
       ],
       "Ship": [
@@ -4367,6 +4409,9 @@
         },
         {
           "name": "Japan/air/img_japan_air_08"
+        },
+        {
+          "name": "Japan/air/img_japan_air_09"
         }
       ],
       "Tank": [
@@ -4402,9 +4447,20 @@
           "name": "Italy/air/img_italy_air_05"
         }
       ],
-      "Tank": {
-        "name": "Italy/air/img_italy_air_01"
-      },
+      "Tank": [
+        {
+          "name": "Italy/air/img_italy_tank_01"
+        },
+        {
+          "name": "Italy/air/img_italy_tank_02"
+        },
+        {
+          "name": "Italy/air/img_italy_tank_03"
+        },
+        {
+          "name": "Italy/air/img_italy_tank_04"
+        }
+      ],
       "Ship": {
         "name": "Italy/air/img_italy_air_01"
       },
@@ -4456,10 +4512,10 @@
     },
     "other": {
       "CLAN_DUEL_REWARD": "img_eagle",
-      "VICTORY": "victories/img_victories_01",
+      "VICTORY": "victories/img_victories_02",
       "MAJOR_UPDATE": {
         "name": "cover_majors/img_major",
-        "variations": 4
+        "variations": 3
       }
     }
   },
@@ -4520,10 +4576,20 @@
     "b7c7c421-3e8b-4791-aaeb-f01f725dc992": [],
     "ec68781a-4600-4885-a987-67c19e65c794": [],
     "473e1c81-2bfe-405e-8fe0-837da0b1f7b9": [],
-    "d2cacb08-2b0c-40fa-b8af-7662b1a1d291": []
+    "d2cacb08-2b0c-40fa-b8af-7662b1a1d291": [],
+    "03e8bb94-9de2-4845-b305-6444872bec93": [],
+    "06acc75d-5cbf-44ac-b5df-f9e87c0d4289": [],
+    "5d88f065-3263-4a31-94c8-23e4ec083ad6": [],
+    "d25d4409-6af9-4b5e-9eec-757a7e5ea0ca": [],
+    "82a47c07-4074-4c10-8067-afde4c5ebe0e": [],
+    "d648b472-d911-4f24-97fe-eb00167b7836": []
   },
   "xbox_ingame_shop_items_hide": {
-    "51b661ca-5a36-4d33-a30f-20a4218fbe06": []
+    "51b661ca-5a36-4d33-a30f-20a4218fbe06": [],
+    "4aed4de6-0af7-4e26-bd75-75fde95c2e08": [],
+    "15b175f6-a01a-414f-b670-6e3ef14acd4b": [],
+    "6d0705b6-2c4a-44a4-9f91-6146c9b126e7": [],
+    "3b928d51-69f7-4b53-a023-0b4ac0b2e451": []
   },
   "every_day_login_award": {
     "color": {

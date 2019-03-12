@@ -9,6 +9,7 @@ local state = require("hudChatState.nut")
 local hudState = require("hudState.nut")
 local hudLog = require("components/hudLog.nut")
 local fontsState = require("style/fontsState.nut")
+local hints = require("hints/hints.nut")
 
 local chatLog = state.log
 
@@ -79,10 +80,12 @@ local chatInputCtor = function (field, send) {
 
 
 local getHintText = function () {
-  local locId = ::cross_call.squad_manger.isInSquad() ?
-      "chat/help/squad" :
-      "chat/help/short"
-  return ::cross_call.get_gamepad_specific_localization(locId)
+  local config = hints(
+    ::cross_call.mp_chat_mode.getChatHint(),
+    { font = fontsState.get("small")
+      place = "chatHint"
+    })
+  return config
 }
 
 
@@ -95,11 +98,7 @@ local chatHint = @() {
   gap = { size = flex() }
   color = colors.hud.hudLogBgColor
   children = [
-    {
-      rendObj = ROBJ_DTEXT
-      font = fontsState.get("small")
-      text = getHintText()
-    }
+    getHintText
     @() {
       rendObj = ROBJ_DTEXT
       watch = state.modeId

@@ -201,6 +201,9 @@
         },
         "turret_02_bottom_dm": {
           "armorThickness": 25.0
+        },
+        "turret_02_back_dm": {
+          "armorThickness": 5.0
         }
       },
       "optics": {
@@ -1578,62 +1581,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 380.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 170.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 190.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -1696,7 +1643,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1705,7 +1652,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1811,7 +1758,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1820,7 +1767,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1890,8 +1837,6 @@
             "verticalOmegaMult": 1.0,
             "verticalSpeedLimitKPH": 75.0,
             "speedFromVehicleVerticalMult": -1.0,
-            "speedYaw": 30.0,
-            "speedPitch": 35.0,
             "errorKPHToDegrees": [
               {
                 "row": [5.0,0.0]
@@ -2650,15 +2595,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2766,8 +2702,6 @@
                   "verticalOmegaMult": 1.0,
                   "verticalSpeedLimitKPH": 75.0,
                   "speedFromVehicleVerticalMult": -1.0,
-                  "speedYaw": 30.0,
-                  "speedPitch": 35.0,
                   "errorKPHToDegrees": [
                     {
                       "row": [5.0,0.0]

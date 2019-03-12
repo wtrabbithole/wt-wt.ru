@@ -2,6 +2,7 @@ local math = require("std/math.nut")
 local interopGet = require("daRg/helpers/interopGen.nut")
 local screenState = require("style/screenState.nut")
 local compass = require("compass.nut")
+local rwr = require("rwr.nut")
 
 local style = {}
 
@@ -1144,12 +1145,22 @@ local pilotHud = function (style, isBackground) {
 }
 
 
+local rwrComponent = function (style, isBackground) {
+  local styleRwr = style.__merge({
+    color = isBackground ? backgroundColor : helicopterState.AlertColor.value
+    fontScale = getFontScale() * 0.7
+  })
+  return rwr(styleRwr)
+}
+
+
 local helicopterHUDs = function (colorStyle, isBackground) {
   return [
     helicopterMainHud(colorStyle, isBackground)
     helicopterSightHud(colorStyle, isBackground)
     gunnerHud(colorStyle, isBackground)
     pilotHud(colorStyle, isBackground)
+    rwrComponent(colorStyle, isBackground)
   ]
 }
 

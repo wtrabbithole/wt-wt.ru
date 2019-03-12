@@ -108,9 +108,6 @@
     "rearmTimeOnField": 60.0
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": {
       "replace_tex": {
         "from": "flag_ussr_01_c*",
@@ -1332,6 +1329,7 @@
         "shatterDamageMult": 0.6,
         "explosionDamageMult": 0.8,
         "secondaryShatterDamageMult": 1.0,
+        "armorClass": "ship_structural_steel",
         "armorThickness": 4.0,
         "compartment_01_dm": {
           "hp": 379.0
@@ -1358,6 +1356,8 @@
         }
       },
       "superstructures": {
+        "armorClass": "ship_wood",
+        "armorThickness": 15.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
@@ -1365,25 +1365,24 @@
         "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.2,
         "superstructure_back_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 100.0
         },
         "superstructure_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 167.0
         },
         "stern_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "mid_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "bow_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         }
       },
@@ -1392,7 +1391,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -1836,6 +1836,9 @@
             "breechDP": "main_caliber_gun_01_dm"
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -1916,6 +1919,25 @@
               "yaw": [-110.0,110.0],
               "pitch": [-10.0,65.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -1947,6 +1969,9 @@
           },
           {
             "breechDP": "main_caliber_gun_02_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -2042,6 +2067,25 @@
               "lim3": [-165.0,165.0,-10.0,85.0],
               "lim4": [165.0,172.0,-5.0,85.0],
               "lim5": [172.0,180.0,15.0,85.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -2210,6 +2254,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -2791,15 +2866,6 @@
           "fx": {
             "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
           }
         }
       },

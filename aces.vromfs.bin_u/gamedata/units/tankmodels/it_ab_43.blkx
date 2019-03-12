@@ -161,6 +161,10 @@
           "armorThickness": 3.0,
           "hp": 20.0
         },
+        "optic_body_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
         "optic_turret_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
@@ -1876,6 +1880,7 @@
         "hasSuspensionOnDriveGear": true,
         "dampeningRelaxationRatio": 0.18,
         "dampeningCompressionRatio": 0.23,
+        "brokenWheelSteeringDeflection": -15.0,
         "steeringDeflection": {
           "wheel_l_01": 30.0,
           "wheel_l_02": -30.0,
@@ -1901,6 +1906,60 @@
           "wheel_l_02": 0.4,
           "wheel_r_02": 0.4
         }
+      }
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
       }
     }
   },
@@ -2405,15 +2464,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

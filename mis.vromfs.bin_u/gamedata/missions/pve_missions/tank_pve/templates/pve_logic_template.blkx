@@ -310,10 +310,10 @@
               "onlyOnePlayerPerSpawnPoint": false
             },
             {
-              "separate_fuel_time": false
+              "resetStrictSpawnIndex": false
             },
             {
-              "modular_airfield": false
+              "replaceAreas": false
             },
             {
               "target": "spawnpoint01"
@@ -341,6 +341,12 @@
             },
             {
               "team": "A"
+            },
+            {
+              "separate_fuel_time": false
+            },
+            {
+              "modular_airfield": false
             },
             {
               "offset": [0.0,0.0,0.0]
@@ -1113,7 +1119,7 @@
       ]
     },
     "repair_enemy_tanks": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -2870,7 +2876,8 @@
               "object_marking_var": "random_int",
               "forceVisibleOnMap": true,
               "speed": 10.0,
-              "lockSpeed": true
+              "lockSpeed": true,
+              "advancedCollisionAvoidance": true
             }
           },
           {
@@ -2951,7 +2958,8 @@
               "object_marking_var": "random_int",
               "forceVisibleOnMap": true,
               "speed": 10.0,
-              "lockSpeed": true
+              "lockSpeed": true,
+              "advancedCollisionAvoidance": true
             }
           },
           {

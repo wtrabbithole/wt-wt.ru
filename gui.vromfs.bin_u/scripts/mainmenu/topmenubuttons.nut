@@ -155,7 +155,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
           ["no", @() null ]
         ], "no", { cancel_fn = @() null })
     }
-    isHidden = @(...) !::is_platform_pc
+    isHidden = @(...) !::is_platform_pc && !(::is_platform_ps4 && ::is_dev_version)
   }
   DEBUG_UNLOCK = {
     text = "#mainmenu/btnDebugUnlock"

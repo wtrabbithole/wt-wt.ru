@@ -66,7 +66,28 @@
       "spawnExplosionWreckage": false
     },
     {
-      "explosionEffect": "art_ground_splash"
+      "explosionEffect": "atgm_hit"
+    },
+    {
+      "defFxScale": [2.2,2.5]
+    },
+    {
+      "groundCollisionEffect": "art_ground_splash"
+    },
+    {
+      "groundFxScale": [1.5,1.7]
+    },
+    {
+      "ricochetEffect": "cannon_hit_apds"
+    },
+    {
+      "waterCollisionEffect": "120-203_he_water_splash"
+    },
+    {
+      "waterFxScale": [1.2,1.4]
+    },
+    {
+      "explosionPatchRadius": 5.0
     },
     {
       "smokeEffect": "hydra_smoke_modern"
@@ -175,6 +196,14 @@
     },
     {
       "price": 3000.0
+    },
+    {
+      "collisions": {
+        "steel": {
+          "fx": "cannon_hit_armor_cumulative",
+          "fxScale": [4.0,5.0]
+        }
+      }
     },
     {
       "irSeeker": {

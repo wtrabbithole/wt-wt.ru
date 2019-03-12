@@ -331,7 +331,9 @@ function check_speech_country_unit_localization_package_and_ask_download()
 
 function restart_to_launcher()
 {
-  if (::is_ps4_or_xbox)
+  if (::is_platform_ps4)
+    return ::gui_start_logout()
+  else if (::is_platform_xbox)
     return ::exit_game()
   else if (::target_platform == "linux64")
     return ::quit_and_run_cmd("./launcher -silentupdate")

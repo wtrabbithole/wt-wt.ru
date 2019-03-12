@@ -275,6 +275,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local hasNewIconWidget = !::game_mode_manager.isSeen(id)
     local newIconWidgetContent = hasNewIconWidget? NewIconWidget.createLayout() : null
     local crossPlayRestricted = !isCrossPlayEventAvailable(event)
+    local crossplayTooltip = getCrossPlayRestrictionTooltipText(event)
 
     return {
       hasContent = true
@@ -303,12 +304,23 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       eventDescriptionValue = gameMode.id
       inactiveColor = ::getTblValue("inactiveColor", gameMode, crossPlayRestricted)
       crossPlayRestricted = crossPlayRestricted
-      isCrossPlayRequired = ::is_platform_xboxone
-        && (crossplayModule.isCrossPlayEnabled() || !isEventXboxOnlyAllowed(event))
+      crossplayTooltip = crossplayTooltip
+      isCrossPlayRequired = crossplayTooltip != null
       showEventDescription = !isLink && ::events.isEventNeedInfoButton(event)
       eventTrophyImage = getTrophyMarkUpData(trophyName)
       isTrophyRecieved = trophyName == ""? false : !::can_receive_pve_trophy(-1, trophyName)
     }
+  }
+
+  function getCrossPlayRestrictionTooltipText(event)
+  {
+    if (!::is_platform_xboxone || isEventXboxOnlyAllowed(event))
+      return null
+
+    if (crossplayModule.isCrossPlayEnabled())
+      return ::loc("xbox/crossPlayEnabled")
+
+    return ::loc("xbox/crossPlayRequired")
   }
 
   function isEventXboxOnlyAllowed(event)

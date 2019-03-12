@@ -99,6 +99,9 @@
     "destroysTrees": true
   },
   {
+    "radarAnimVar": "radar_drive"
+  },
+  {
     "type": "typeSPAA"
   },
   {
@@ -381,7 +384,13 @@
         "ex_decor_l_02_dm": [],
         "ex_decor_r_06_dm": [],
         "ex_decor_l_07_dm": [],
-        "ex_armor_13_dm": []
+        "ex_armor_13_dm": [],
+        "ex_armor_turret_l_01_dm": [],
+        "ex_armor_turret_l_02_dm": [],
+        "ex_armor_turret_r_03_dm": [],
+        "ex_armor_turret_l_03_dm": [],
+        "ex_armor_turret_r_02_dm": [],
+        "ex_armor_turret_r_01_dm": []
       },
       "chassis": {
         "armorClass": "tank_steel_wheels",
@@ -1758,7 +1767,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1767,7 +1776,81 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
+      "suspension": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "wheel_l_back_dm"
+        },
+        {
+          "part": "wheel_l_01_dm"
+        },
+        {
+          "part": "wheel_l_02_dm"
+        },
+        {
+          "part": "wheel_l_03_dm"
+        },
+        {
+          "part": "wheel_l_04_dm"
+        },
+        {
+          "part": "wheel_l_05_dm"
+        },
+        {
+          "part": "wheel_l_drive_dm"
+        },
+        {
+          "part": "wheel_r_back_dm"
+        },
+        {
+          "part": "wheel_r_01_dm"
+        },
+        {
+          "part": "wheel_r_02_dm"
+        },
+        {
+          "part": "wheel_r_03_dm"
+        },
+        {
+          "part": "wheel_r_04_dm"
+        },
+        {
+          "part": "wheel_r_05_dm"
+        },
+        {
+          "part": "wheel_r_drive_dm"
+        },
+        {
+          "part": "track_r_dm"
+        },
+        {
+          "part": "track_l_dm"
+        },
+        {
+          "part": "wheel_support_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 400.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 400.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1790,7 +1873,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1799,7 +1882,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1809,6 +1892,26 @@
   },
   {
     "class_tags": []
+  },
+  {
+    "sensors": [
+      {
+        "sensor": {
+          "blk": "gameData/sensors/an_apg_66_m_247.blk",
+          "turretIndex": 0,
+          "designationFromBody": true,
+          "designationTurretIndex": 0,
+          "dmPart": "radar_dm"
+        }
+      },
+      {
+        "sensor": {
+          "blk": "gameData/sensors/gepard_fr.blk",
+          "turretIndex": 0,
+          "dmPart": "radar1_dm"
+        }
+      }
+    ]
   },
   {
     "commonWeapons": [
@@ -2637,15 +2740,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

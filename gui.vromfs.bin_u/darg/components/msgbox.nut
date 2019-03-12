@@ -13,16 +13,14 @@ local function addWidget(w) {
 local function removeWidget(w) {
   local idx = widgets.value.find(w)
   if (idx != null) {
-    widgets.value.remove(idx)
-    widgets.trigger()
+    widgets.update(@(value) value.remove(idx))
   }
 }
 
 local function removeByUid(uid) {
   foreach(idx, w in widgets.value)
     if (w.uid == uid) {
-      widgets.value.remove(idx)
-      widgets.trigger()
+      widgets.update(@(value) value.remove(idx))
       break
     }
 }

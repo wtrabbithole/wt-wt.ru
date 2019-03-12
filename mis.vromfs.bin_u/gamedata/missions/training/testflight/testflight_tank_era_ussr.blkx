@@ -14,7 +14,6 @@
       "army": 2
     },
     "mission": {
-      "locName": "missions/testDrive",
       "name": "testFlight_tank_ERA_ussr",
       "level": "levels/avg_kursk.bin",
       "type": "testFlight",
@@ -25,6 +24,7 @@
       "weather": "hazy",
       "missionDebriefing": "",
       "missionBriefing": "",
+      "locName": "missions/testDrive",
       "openDiffLevels": true,
       "difficulty": "",
       "tags": [],
@@ -97,7 +97,7 @@
           [0.67559,0.0,0.737277],
           [1080.97,100.132,2037.98]
         ],
-        "unit_class": "us_m163_vulcan",
+        "unit_class": "us_m18_hellcat",
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
@@ -456,6 +456,54 @@
         },
         "way": []
       }
+    },
+    {
+      "armada": {
+        "name": "flight_target02",
+        "tm": [
+          [0.349876,0.0,-0.936797],
+          [0.0,1.0,0.0],
+          [0.936797,0.0,0.349876],
+          [1018.54,500.0,2957.89]
+        ],
+        "unit_class": "b-57",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 100,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "fire_at_will",
+          "skill": 4,
+          "isDelayed": true,
+          "speed": 600.0,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": []
+      }
     }
   ],
   "areas": {
@@ -565,6 +613,28 @@
         [0.0,1.0,0.0],
         [-0.939693,0.0,0.34202],
         [800.65,125.789,1327.5]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "flight_point02": {
+      "type": "Point",
+      "tm": [
+        [-0.292502,0.0,0.956265],
+        [0.0,1.0,0.0],
+        [-0.956265,0.0,-0.292502],
+        [1564.85,500.0,2013.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "spawn_area02": {
+      "type": "Sphere",
+      "tm": [
+        [22.8253,0.0,-56.4607],
+        [0.0,60.9,0.0],
+        [56.4607,0.0,22.8253],
+        [1018.56,500.0,2957.93]
       ],
       "objLayer": 0,
       "props": []

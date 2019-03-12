@@ -131,7 +131,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
     if (queue)
     {
-      local battleWithQueue = queue.getWWBattle()
+      local battleWithQueue = getQueueBattle(queue)
       if (battleWithQueue && battleWithQueue.isValid() && curBattleInList.id != battleWithQueue.id)
         curBattleInList = getBattleById(battleWithQueue.id)
     }
@@ -199,7 +199,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!queue)
       return
 
-    local queueBattle = queue.getWWBattle()
+    local queueBattle = getQueueBattle(queue)
     if (!queueBattle || !queueBattle.isValid())
       ::g_world_war.leaveWWBattleQueues()
   }
@@ -1322,6 +1322,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         }
 
     return res
+  }
+
+  function getQueueBattle(queue)
+  {
+    local battleId = queue.getQueueWwBattleId()
+    if (!battleId)
+      return null
+
+    return getBattleById(battleId)
   }
 
   function getPlayerSide(battle = null)

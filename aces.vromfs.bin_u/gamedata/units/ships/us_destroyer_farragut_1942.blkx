@@ -105,9 +105,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "depthTraceWarningDepth": 5.0
   },
   {
@@ -1700,7 +1697,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 10.0,
         "compartment_01_dm": {
           "hp": 4244.0
         },
@@ -1720,10 +1718,12 @@
           "hp": 2462.0
         },
         "bridge_dm": {
-          "hp": 400.0
+          "armorThickness": 1.0,
+          "hp": 700.0
         },
         "radio_station_dm": {
-          "hp": 200.0
+          "armorThickness": 1.0,
+          "hp": 350.0
         }
       },
       "superstructures": {
@@ -1733,6 +1733,8 @@
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
         "stopChanceOnDeadPart": 0.7,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 8.0,
         "superstructure_back_dm": {
           "hp": 1500.0
         },
@@ -3136,6 +3138,9 @@
             "breechDP": "main_caliber_gun_01_dm"
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3286,6 +3291,9 @@
             "breechDP": "main_caliber_gun_02_dm"
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3433,6 +3441,9 @@
             "breechDP": "main_caliber_gun_03_dm"
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3576,6 +3587,9 @@
           },
           {
             "breechDP": "main_caliber_gun_04_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -3792,6 +3806,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_01",
               "gun": "aa_gun_01",
@@ -3935,6 +3952,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -4082,6 +4102,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_03",
               "gun": "aa_gun_03",
@@ -4227,6 +4250,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_04",
               "gun": "aa_gun_04",
@@ -4370,6 +4396,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -4520,6 +4549,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_06",
               "gun": "aa_gun_06",
@@ -4666,6 +4698,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -4816,6 +4851,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_08",
               "gun": "aa_gun_08",
@@ -4957,23 +4995,6 @@
   },
   {
     "modifications": {
-      "127mm_usa_HE_common": [],
-      "127mm_usa_AP_common_ammo_pack": [],
-      "127mm_usa_AP_common": [],
-      "127mm_usa_AA_radio_fuse_ammo_pack": {
-        "reqModification": "127mm_usa_AP_common_ammo_pack"
-      },
-      "127mm_usa_AA_radio_fuse": [],
-      "20mm_oerlikon_universal": [],
-      "20mm_oerlikon_navy_he": [],
-      "20mm_oerlikon_navy_he_ammo_pack": [],
-      "20mm_oerlikon_navy_ap": [],
-      "20mm_oerlikon_navy_ap_ammo_pack": {
-        "reqModification": "20mm_oerlikon_navy_he_ammo_pack"
-      },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
       "new_ship_hull": [],
       "new_ship_rudder": {
         "prevModification": "new_ship_hull"
@@ -4982,7 +5003,11 @@
       "new_ship_engine": {
         "prevModification": "new_ship_screw"
       },
-      "new_ship_pumps": [],
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": {
+        "prevModification": "ship_tool_kit"
+      },
+      "ship_smoke_screen_system_mod": [],
       "ship_anti_fragmentation_protection": {
         "effects": {
           "damagePartsOverride": {
@@ -5005,6 +5030,22 @@
           }
         }
       },
+      "ship_venting": {
+        "effects": {
+          "damagePartsOverride": {
+            "crew_sections": {
+              "fireDamageMult": 0.75,
+              "compartment_01_dm": [],
+              "compartment_02_dm": [],
+              "compartment_03_dm": [],
+              "compartment_04_dm": [],
+              "compartment_05_dm": [],
+              "compartment_06_dm": []
+            }
+          }
+        }
+      },
+      "new_ship_pumps": [],
       "ship_ammo_wetting": {
         "effects": {
           "damagePartsOverride": {
@@ -5020,20 +5061,19 @@
           }
         }
       },
-      "ship_venting": {
-        "effects": {
-          "damagePartsOverride": {
-            "crew_sections": {
-              "fireDamageMult": 0.75,
-              "compartment_01_dm": [],
-              "compartment_02_dm": [],
-              "compartment_03_dm": [],
-              "compartment_04_dm": [],
-              "compartment_05_dm": [],
-              "compartment_06_dm": []
-            }
-          }
-        }
+      "127mm_usa_HE_common": [],
+      "127mm_usa_AP_common_ammo_pack": [],
+      "127mm_usa_AP_common": [],
+      "127mm_usa_AA_radio_fuse_ammo_pack": {
+        "prevModification": "127mm_usa_AP_common_ammo_pack"
+      },
+      "127mm_usa_AA_radio_fuse": [],
+      "20mm_oerlikon_universal": [],
+      "20mm_oerlikon_navy_he": [],
+      "20mm_oerlikon_navy_he_ammo_pack": [],
+      "20mm_oerlikon_navy_ap": [],
+      "20mm_oerlikon_navy_ap_ammo_pack": {
+        "prevModification": "20mm_oerlikon_navy_he_ammo_pack"
       },
       "ship_rangefinder": {
         "prevModification": "20mm_oerlikon_navy_ap_ammo_pack"
@@ -5090,6 +5130,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_04"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -5490,31 +5561,6 @@
             "scale": 0.7
           }
         }
-      },
-      {
-        "event": [
-          {
-            "name": "salute"
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_01"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_02"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_03"
-            }
-          }
-        ]
       },
       {
         "procedural": {

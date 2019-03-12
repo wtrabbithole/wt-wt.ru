@@ -18,7 +18,11 @@ enum HINT_PIECE_TYPE
   * time        //0 - only to show time in text
   * timeoffset  //0 - only to show time in text
 */
-function g_hints::buildHintMarkup(text, params = {})
+function g_hints::buildHintMarkup(text, params = {}) {
+  return ::handyman.renderCached("gui/hint", getHintSlices(text, params))
+}
+
+function g_hints::getHintSlices(text, params = {})
 {
   local rows = ::split(text, "\n")
   local view = {
@@ -115,7 +119,7 @@ function g_hints::buildHintMarkup(text, params = {})
   if (colors.len())
     ::dagor.debug("unclosed <color> tag! in text: " + text)
 
-  return ::handyman.renderCached("gui/hint", view)
+  return view
 }
 
 /**
@@ -174,3 +178,5 @@ function g_hints::getTextSlice(text)
 {
   return { text = text }
 }
+
+::cross_call_api.getHintConfig <- @(text) ::g_hints.getHintSlices(text, { needConfig = true })

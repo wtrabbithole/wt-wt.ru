@@ -461,6 +461,10 @@
           "armorThickness": 3.0,
           "hp": 20.0
         },
+        "optic_turret_06_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
         "optic_body_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
@@ -943,7 +947,7 @@
       "TrackSoundName": "tracks_su100",
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_servo",
-      "EngineNameAi": "engine_tank_ai_turbine",
+      "EngineNameAi": "engine_tank_ai_middle",
       "TrackSoundNameAi": "tracks_ai_middle"
     }
   },
@@ -2134,7 +2138,9 @@
       "engine": {
         "horsePowers": 780.0,
         "maxRPM": 2100.0,
-        "minRPM": 800.0
+        "minRPM": 800.0,
+        "manufacturer": "chtz",
+        "model": "v_46_6"
       },
       "mechanics": {
         "maxBrakeForce": 200000.0,
@@ -2709,15 +2715,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -3190,6 +3187,15 @@
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_finland_polygonal_threecolor*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_deform",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_deform*"
       }
     }
   },

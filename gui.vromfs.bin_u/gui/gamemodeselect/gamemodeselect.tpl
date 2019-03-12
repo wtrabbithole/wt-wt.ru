@@ -77,7 +77,7 @@ frame {
         <</isWide>>
         <<#hasContent>>
         id:t='<<id>>';
-        tooltip:t='<<#isCrossPlayRequired>><<?xbox/gamemode/crossPlayRequired>>\n<</isCrossPlayRequired>><<tooltip>>'
+        tooltip:t='<<#crossplayTooltip>><<crossplayTooltip>>\n<</crossplayTooltip>><<tooltip>>'
         value:t='<<value>>';
 
         <<#isFeatured>>
@@ -285,7 +285,7 @@ frame {
         text:t='#profile/wiki_matchmaking'
         underline{}
       }
-      btnName:t='RT'
+      btnName:t='R3'
       ButtonImg {}
     }
   }

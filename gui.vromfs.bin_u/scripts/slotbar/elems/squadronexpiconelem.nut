@@ -14,6 +14,8 @@ elemModelType.addTypes({
     onEventFlushSquadronExp = @(p) notify([])
     onEventShopWndSwitched = @(p) notify([])
     onEventClanChanged = @(p) notify([])
+    onEventUnitResearch = @(p) notify([])
+    onEventSquadronExpChanged = @(p) notify([])
   }
 })
 

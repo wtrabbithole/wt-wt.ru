@@ -2,6 +2,7 @@
   "fmFile": "fm/fj_4b.blk",
   "model": "fj_4b",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
+  "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.377,
   "gearSinkRangeC": 0.251,
   "type": "typeFighter",
@@ -2135,6 +2136,68 @@
         "blk": "gameData/flightModels/weaponPresets/fj_4b_rockets.blk",
         "reqModification": "us_2_75_in_ffar_aero_7d"
       }
+    },
+    {
+      "preset": {
+        "name": "fj_4b_aim_9",
+        "blk": "gameData/flightModels/weaponPresets/fj_4b_aim_9.blk",
+        "reqModification": "us_aim_9b"
+      }
+    },
+    {
+      "preset": {
+        "name": "fj_4b_rockets_2x_aim9",
+        "blk": "gameData/flightModels/weaponPresets/fj_4b_rockets_2x_aim9.blk",
+        "reqModification": "us_aim_9b"
+      }
+    },
+    {
+      "preset": [
+        {
+          "name": "fj_4b_4x_250lb_mk_81_2x_aim9"
+        },
+        {
+          "blk": "gameData/flightModels/weaponPresets/fj_4b_4x_250lb_mk_81_2x_aim9.blk"
+        },
+        {
+          "reqModification": "fsbc_mk5"
+        },
+        {
+          "reqModification": "us_aim_9b"
+        }
+      ]
+    },
+    {
+      "preset": [
+        {
+          "name": "fj_4b_4x_500lb_mk_82_2x_aim9"
+        },
+        {
+          "blk": "gameData/flightModels/weaponPresets/fj_4b_4x_500lb_mk_82_2x_aim9.blk"
+        },
+        {
+          "reqModification": "btd_sbc"
+        },
+        {
+          "reqModification": "us_aim_9b"
+        }
+      ]
+    },
+    {
+      "preset": [
+        {
+          "name": "fj_4b_2x_mk_83_2x_mk_82_2x_aim9"
+        },
+        {
+          "blk": "gameData/flightModels/weaponPresets/fj_4b_2x_mk_83_2x_mk_82_2x_aim9.blk"
+        },
+        {
+          "reqModification": "btd_mbc"
+        },
+        {
+          "reqModification": "us_aim_9b"
+        }
+      ]
     }
   ],
   "turbulence": {
@@ -5858,8 +5921,27 @@
     "us_2_75_in_ffar_aero_7d": {
       "tier": 2,
       "modClass": "weapon"
+    },
+    "us_aim_9b": {
+      "reqModification": "us_2_75_in_ffar_aero_7d",
+      "tier": 4,
+      "modClass": "weapon"
     }
   },
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "fj_4b_c*",
+        "to": "fj_4b_c_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "fj_4b_c_dmg*",
+        "to": "fj_4b_c_tomoe_dmg*"
+      }
+    }
+  ],
   "user_skin": [
     {
       "name": "fj_4b"

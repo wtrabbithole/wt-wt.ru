@@ -53,6 +53,9 @@
   "ArcadeMaxRollCoeff": 0.4,
   "ArcadeYawMutilpliers": [1.2,1.1,1.5],
   "CockpitOpenedDoorBreakSpeed": 120.0,
+  "maxChuteSpeed": 300.0,
+  "minChuteSpeed": 50.0,
+  "chuteRipSpeed": 450.0,
   "MomentOfInertia": [20000.0,50000.0,30000.0],
   "AvailableControls": {
     "hasAileronControl": true,
@@ -77,7 +80,8 @@
     "hasCockpitDoorControl": true,
     "hasWheelBrakeControl": true,
     "hasLockGearControl": false,
-    "bHasBoosterSwitcher": false
+    "bHasBoosterSwitcher": false,
+    "hasChutes": true
   },
   "FlyByWire": [],
   "Areas": {
@@ -126,6 +130,7 @@
     "BombBayCd": 0.0,
     "FuseCd": 0.0,
     "AirbrakeCd": 0.039,
+    "chuteCx": 24.6,
     "CockpitDoorCd": 0.01,
     "FlapsPolarBlending1": [0.0,0.0],
     "FlapsPolarBlending2": [0.33,0.6],

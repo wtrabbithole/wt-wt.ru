@@ -530,6 +530,9 @@
       desc.append(::loc("armor_class/normal_angle") + ::nbsp +
         (normalAngleValue+0.5).tointeger() + ::nbsp + ::loc("measureUnits/deg"))
 
+    if(isDebugMode)
+      desc.push("\n" + ::colorize("badTextColor", params.nameId))
+
     return ::g_string.implode(desc, "\n")
   }
 
@@ -754,7 +757,8 @@
         local info = unitBlk?.VehiclePhys?.mechanics
         if (info)
         {
-          local manufacturer = ::loc("transmission_manufacturer/" + info.manufacturer, "")
+          local manufacturer = ::loc("transmission_manufacturer/" + info.manufacturer,
+            ::loc("engine_manufacturer/" + info.manufacturer, ""))
           local model = ::loc("transmission_model/" + info.model, "")
           local props = ::g_string.utf8ToLower(::loc("transmission_type/" + info.type, ""))
           desc.push(::g_string.implode([ manufacturer, model ], " ") +

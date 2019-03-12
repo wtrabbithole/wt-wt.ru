@@ -534,6 +534,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return slotbarActions || defaultSlotbarActions
   }
 
+  getParamsForActionsList = @() {}
   function openUnitActionsList(unitObj, closeOnUnhover, ignoreSelect = false)
   {
     if (!::checkObj(unitObj) || (closeOnUnhover && !unitObj.isHovered()))
@@ -547,7 +548,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!unit)
       return
 
-    local actions = ::get_unit_actions_list(unit, this, actionsArray)
+    local actions = ::get_unit_actions_list(unit, this, actionsArray, getParamsForActionsList())
     if (!actions.actions.len())
       return
 

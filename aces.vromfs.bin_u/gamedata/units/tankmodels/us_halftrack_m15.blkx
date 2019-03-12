@@ -2301,6 +2301,7 @@
         "defaultDampeningForce": [15000.0,15000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15,
+        "brokenWheelSteeringDeflection": -15.0,
         "wheels": {
           "wheel_r_01": true,
           "wheel_l_01": true
@@ -2309,7 +2310,35 @@
           "wheel_r_01": 47.0,
           "wheel_l_01": 47.0,
           "steeringTau": 1.5
+        },
+        "wheelsDamageWeight": {
+          "wheel_l_01": 0.4,
+          "wheel_r_01": 0.4
         }
+      }
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "track_r_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "track_l_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
       }
     }
   },
@@ -2781,15 +2810,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

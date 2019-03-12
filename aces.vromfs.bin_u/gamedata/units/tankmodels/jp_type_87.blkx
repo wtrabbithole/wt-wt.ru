@@ -108,7 +108,7 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
+    "radarAnimVar": "radar_drive"
   },
   {
     "DamageEffects": [
@@ -1642,15 +1642,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2081,62 +2072,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 380.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 170.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 190.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "part": "superstructure_side_dm"
@@ -2172,7 +2107,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2181,7 +2116,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2299,7 +2234,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 400.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2308,7 +2243,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 400.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2923,5 +2858,23 @@
         }
       }
     }
+  },
+  {
+    "sensors": [
+      {
+        "sensor": {
+          "blk": "gameData/sensors/gepard_sr.blk",
+          "turretIndex": 0,
+          "dmPart": "radar_dm"
+        }
+      },
+      {
+        "sensor": {
+          "blk": "gameData/sensors/gepard_fr.blk",
+          "turretIndex": 0,
+          "dmPart": "radar1_dm"
+        }
+      }
+    ]
   }
 ]

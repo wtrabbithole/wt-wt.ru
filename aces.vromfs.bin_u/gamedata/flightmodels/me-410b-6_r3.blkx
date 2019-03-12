@@ -3789,10 +3789,19 @@
         "cannon4_dm": {
           "hp": 15.0
         },
+        "cannon5_dm": {
+          "hp": 15.0
+        },
         "gun1_dm": {
           "hp": 15.0
         },
         "gun2_dm": {
+          "hp": 15.0
+        },
+        "mgun1_dm": {
+          "hp": 15.0
+        },
+        "mgun2_dm": {
           "hp": 15.0
         }
       },
@@ -3806,9 +3815,6 @@
           "hp": 35.0
         },
         "armor8_dm": {
-          "hp": 35.0
-        },
-        "armor9_dm": {
           "hp": 35.0
         }
       },
@@ -3839,12 +3845,16 @@
         "engine2_dm": {
           "genericDamageMult": 1.6,
           "hp": 49.5
+        },
+        "radar_dm": {
+          "genericDamageMult": 1.6,
+          "hp": 49.5
         }
       },
       "c_dural10": {
         "tail_dm": {
           "genericDamageMult": 0.6,
-          "hp": 152.5
+          "hp": 152.4
         },
         "wing1_l_dm": {
           "genericDamageMult": 0.35,
@@ -3914,10 +3924,10 @@
       },
       "dural": {
         "cover1_dm": {
-          "hp": 28.4
+          "hp": 30.8
         },
         "cover2_dm": {
-          "hp": 28.4
+          "hp": 30.8
         },
         "cover3_dm": {
           "hp": 19.5
@@ -4104,6 +4114,11 @@
       },
       {
         "part": {
+          "name": "radar_dm"
+        }
+      },
+      {
+        "part": {
           "name": "armor10_dm"
         }
       },
@@ -4149,11 +4164,6 @@
       },
       {
         "part": {
-          "name": "armor9_dm"
-        }
-      },
-      {
-        "part": {
           "name": "cannon1_dm"
         }
       },
@@ -4170,6 +4180,11 @@
       {
         "part": {
           "name": "cannon4_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "cannon5_dm"
         }
       },
       {
@@ -4866,6 +4881,16 @@
       {
         "part": {
           "name": "gunner1_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "mgun1_dm"
+        }
+      },
+      {
+        "part": {
+          "name": "mgun2_dm"
         }
       },
       {
@@ -5977,6 +6002,14 @@
         }
       }
     ]
+  },
+  {
+    "sensors": {
+      "sensor": {
+        "blk": "gameData/sensors/fug_202.blk",
+        "dmPart": "radar_dm"
+      }
+    }
   },
   {
     "commonWeapons": [

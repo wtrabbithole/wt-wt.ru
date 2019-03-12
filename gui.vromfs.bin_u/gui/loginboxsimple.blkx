@@ -95,10 +95,15 @@
                   "padding-left": "0.02@scrn_tgt"
                 }
               }
-            },
+            }
+          },
+          "tdiv": {
+            "pos": "pw-w, ph-h",
+            "position": "absolute",
             "Button_close": {
               "id": "button_exit",
-              "style": "pos:@rw+@bw-w, @bh; position:absolute; margin-right:0;",
+              "_on_click": "goBack",
+              "relative": "yes",
               "display": "hide",
               "enable": "no"
             }

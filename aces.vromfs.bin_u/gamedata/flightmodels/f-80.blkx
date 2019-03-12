@@ -2,6 +2,7 @@
   "model": "f_80",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
   "fmFile": "fm/f-80.blk",
+  "harmonizationSuffix": "_tomoe",
   "type": "typeFighter",
   "paratrooper": "usa_para",
   "advancedInstructor": true,
@@ -2658,6 +2659,20 @@
       "reqModification": "frc_mk2"
     }
   },
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "f_80_c*",
+        "to": "f_80_c_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_80_c_dmg*",
+        "to": "f_80_c_tomoe_dmg*"
+      }
+    }
+  ],
   "user_skin": [
     {
       "name": "f_80"

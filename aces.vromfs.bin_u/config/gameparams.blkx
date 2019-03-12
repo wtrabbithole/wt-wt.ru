@@ -56,10 +56,13 @@
   "multipointVisibilityMarkersTreeTransparencyThreshold": 0.01,
   "multipointVisibilityForMarkersDistK": 2.0,
   "multipointVisibilityOnePointBackDistK": 2.0,
+  "preciseForestall": false,
   "bombDropDownOnRendInstCollision": false,
   "criticalHillAngle": 25.0,
   "hillClimbingDeclineFricKoef": 4.0,
   "helicopterDefaultTpsOffset": [-2.0,0.0,4.0],
+  "decalScaleRange": [0.1,3.0],
+  "decalScaleRangeShip": [0.1,5.0],
   "teleScale": 0.03,
   "minSkyAmbientLighting": [0.00954,0.012756,0.026677],
   "propeller_side_angle": 0.1,
@@ -106,10 +109,11 @@
   "timeToReturnToMap": 10.0,
   "landingTimeAfterSpawnToBailout": 3600.0,
   "spawnInAirOffset": 0.0,
+  "maxAirfieldLiftStepCount": 20,
   "maxTimeToReturnToMapForTanks": 25.0,
   "killDistFromBattleAreaForTanks": 20.0,
-  "maxTimeToReturnToMapForShips": 40.0,
-  "killDistFromBattleAreaForShips": 200.0,
+  "maxTimeToReturnToMapForShips": 90.0,
+  "killDistFromBattleAreaForShips": 300.0,
   "dynamicCubeTexSize": 128,
   "dynamicCubePos": [0.0,500.0,0.0],
   "dynamicCubeBlur": 0.05,
@@ -118,8 +122,16 @@
   "lastMissionName": "reichstagassault",
   "mp_defaultPlayersModel": "dummy_plane",
   "mp_defaultPlayersWeapons": "",
-  "friendlyFireImmortalOnLandTime": 30.0,
+  "criticalOffenderCriteriaMinLoadFactorReduce": 0.6,
+  "criticalOffenderCriteriaMaxLoadFactorReduce": 0.8,
+  "criticalOffenderCriteriaMaxRollRateReduce": 0.75,
+  "criticalOffenderCriteriaMaxSpeedReduce": 0.92,
+  "criticalOffenderLoadFactorWeight": 1.0,
+  "criticalOffenderRollRateWeight": 1.0,
+  "criticalOffenderMaxSpeedWeight": 1.0,
+  "criticalOffenderMetricsDiffMin": 0.3,
   "criticalOffenderPriorityTimer": 90.0,
+  "friendlyFireImmortalOnLandTime": 30.0,
   "readyToDieRepairTimeMult": 3.0,
   "bailoutReadyToDieTime": 15.0,
   "airfieldRepairDamageLimit": 0.5,
@@ -159,6 +171,8 @@
   "shipSteamEmitterOverheatMul": 3.0,
   "shipSteamEmitterExtremeLifetime": 3.0,
   "enableNoFirstMoveCooldown": true,
+  "shipAiTargetMaxDist": 25000.0,
+  "timeStayOnInGameForDisconnected": 300.0,
   "tracers": {
     "headFadeTime": 2.0,
     "headSpeedScale": [400.0,900.0,0.1,1.0],
@@ -1484,8 +1498,9 @@
       "visibleNotTraceableIndicators": true,
       "checkTreesForIndicators": false,
       "drawShipBulletFallIndicator": true,
+      "showShipBulletTimer": true,
       "aircraftFriendlyFireForBanOnly": true,
-      "airToAirMissileDetection": false
+      "airToAirMissileDetection": true
     },
     "realistic": {
       "baseDifficulty": 1,
@@ -1538,7 +1553,9 @@
       "noviceDM": false,
       "crewHealingOnlyOnCaptureZone": true,
       "showBombSight": false,
-      "visibleNotTraceableIndicators": true
+      "visibleNotTraceableIndicators": true,
+      "showShipBulletTimer": true,
+      "airToAirMissileDetection": true
     },
     "hardcore": {
       "baseDifficulty": 2,
@@ -1588,7 +1605,8 @@
       "noviceDM": false,
       "crewHealingOnlyOnCaptureZone": true,
       "showBombSight": false,
-      "visibleNotTraceableIndicators": true
+      "visibleNotTraceableIndicators": true,
+      "airToAirMissileDetection": false
     }
   },
   "custom_difficulty": [],
@@ -1660,6 +1678,8 @@
         "gForceRedoutMult": 1.3,
         "tankLockShootingByAlly": true,
         "tankFriendlyFireDamage": false,
+        "shipFriendlyFireDamage": false,
+        "shipSelfDamage": false,
         "tankMainGearRatioMult": 0.9,
         "maxBombDamageHeight": 5.0,
         "bombToAirplaneCollision": 1,
@@ -1674,7 +1694,8 @@
         "radioGunnerRadioDistanceMult": 1.0,
         "hudDrawBombingZoneThroughCloud": true,
         "shipBrokenRangefinderErrorMult": 2.0,
-        "blockCooldownAfterEarlyAttemptToAirstreak": 10.0
+        "blockCooldownAfterEarlyAttemptToAirstreak": 10.0,
+        "repairWithoutToolkitAutomatically": true
       },
       "medium": {
         "scoutPreset": "realistic",
@@ -1715,6 +1736,8 @@
         "staminaUsageSpeedMult": 1.0,
         "tankLockShootingByAlly": false,
         "tankFriendlyFireDamage": false,
+        "shipFriendlyFireDamage": false,
+        "shipSelfDamage": false,
         "maxBombDamageHeight": 200.0,
         "bombToAirplaneCollision": 3,
         "automaticBayDoor": false,
@@ -1731,7 +1754,8 @@
         "hudDrawBombingZoneThroughCloud": true,
         "shipBrokenRangefinderErrorMult": 2.0,
         "blockCooldownAfterEarlyAttemptToAirstreak": 10.0,
-        "multTorpedoDistanceIndicator": 0.125
+        "multTorpedoDistanceIndicator": 0.125,
+        "repairWithoutToolkitAutomatically": false
       },
       "hard": {
         "scoutPreset": "hard",
@@ -1772,6 +1796,8 @@
         "unlimitedGunnerAmmo": false,
         "tankLockShootingByAlly": false,
         "tankFriendlyFireDamage": true,
+        "shipFriendlyFireDamage": false,
+        "shipSelfDamage": false,
         "maxBombDamageHeight": 200.0,
         "bombToAirplaneCollision": 3,
         "automaticBayDoor": false,
@@ -2594,6 +2620,7 @@
         "explodeBulletInMalfunctionBreech": false,
         "destroyAircraftWithRocketHit": false,
         "showDestroyedParts": false,
+        "destroyBreechInMalfunction": true,
         "brokenHorTurretDriveSpeed": 3.0,
         "brokenHorTurretDriveJammedTime": 15.0,
         "brokenVerTurretDriveAngle": 3.0,
@@ -2681,6 +2708,14 @@
         "drawShipBulletFallIndicator": true
       }
     },
+    "showShipBulletTimer": {
+      "off": {
+        "showShipBulletTimer": false
+      },
+      "on": {
+        "showShipBulletTimer": true
+      }
+    },
     "aircraftFriendlyFireForBanOnly": {
       "off": {
         "aircraftFriendlyFireForBanOnly": false
@@ -2698,6 +2733,66 @@
       }
     }
   },
+  "shipBigCaliberPenetrationDistances": [
+    {
+      "dist": 1000.0
+    },
+    {
+      "dist": 2500.0
+    },
+    {
+      "dist": 5000.0
+    },
+    {
+      "dist": 7500.0
+    },
+    {
+      "dist": 10000.0
+    },
+    {
+      "dist": 15000.0
+    }
+  ],
+  "shipMediumCaliberPenetrationDistances": [
+    {
+      "dist": 100.0
+    },
+    {
+      "dist": 1000.0
+    },
+    {
+      "dist": 2000.0
+    },
+    {
+      "dist": 3000.0
+    },
+    {
+      "dist": 4000.0
+    },
+    {
+      "dist": 5000.0
+    }
+  ],
+  "DefaultCaliberPenetrationDistances": [
+    {
+      "dist": 10.0
+    },
+    {
+      "dist": 100.0
+    },
+    {
+      "dist": 500.0
+    },
+    {
+      "dist": 1000.0
+    },
+    {
+      "dist": 1500.0
+    },
+    {
+      "dist": 2000.0
+    }
+  ],
   "GrassSettingsPlanes": {
     "distance_mul": 0.9,
     "distance_add": 0.0,
@@ -2726,6 +2821,7 @@
     "landVerticalBias": 0.1,
     "maxPatchesLand": 100,
     "maxPatchesUnit": 400,
+    "maxPatchesRendinst": 30,
     "maxDropRadius": 0.002,
     "maxPatches": 200
   },
@@ -3048,11 +3144,6 @@
   "overload": {
     "useGOverload": true
   },
-  "radarGroundBackScattering": {
-    "maxValue": 0.07,
-    "angle2": 80.0,
-    "value2": 0.003
-  },
   "common": {
     "explosionWreckageSpeed": 24.0,
     "controlsIdleTime": 10000.0,
@@ -3278,8 +3369,7 @@
   },
   "hangar": {
     "shadow_p1": [-24.5,-19.8],
-    "shadow_p2": [15.5,20.2],
-    "decalScaleRange": [0.1,3.0]
+    "shadow_p2": [15.5,20.2]
   },
   "guiSettings": {
     "KeyRepeater": {
@@ -3614,6 +3704,12 @@
     },
     {
       "break_line": []
+    },
+    {
+      "radar": {
+        "my": "radar",
+        "enemy": "radar"
+      }
     },
     {
       "track_l": {
@@ -6407,35 +6503,30 @@
       {
         "p": {
           "name": "deckhouse",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "bridge",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "funnel",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "pump",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "elevator",
-          "color_h": 0.1,
           "unit": "ship"
         }
       }
@@ -6455,88 +6546,24 @@
       },
       {
         "p": {
-          "name": "bow",
-          "color_h": 0.1,
-          "usePrefix": false,
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "bow_l",
-          "color_h": 0.1,
-          "layer": "top",
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "bow_r",
-          "color_h": 0.1,
-          "layer": "top",
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "mid",
-          "color_h": 0.1,
-          "usePrefix": false,
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "mid_l",
-          "color_h": 0.1,
-          "layer": "top",
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "mid_r",
-          "color_h": 0.1,
-          "layer": "top",
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "stern",
-          "color_h": 0.1,
-          "usePrefix": false,
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "stern_l",
-          "color_h": 0.1,
-          "layer": "top",
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
-          "name": "stern_r",
-          "color_h": 0.1,
-          "layer": "top",
-          "dmgThreshold": 0.3
-        }
-      },
-      {
-        "p": {
           "name": "compartment",
-          "color_h": 0.1,
           "unit": "ship",
+          "layer": "top",
           "dmgThreshold": 0.3
+        }
+      },
+      {
+        "p": {
+          "name": "cover",
+          "unit": "ship",
+          "layer": "middle",
+          "dmgThreshold": 0.3,
+          "immortal": true
         }
       },
       {
         "p": {
           "name": "main_caliber_gun",
-          "color_h": 0.1,
           "unit": "ship",
           "dmgThreshold": 0.3
         }
@@ -6544,7 +6571,6 @@
       {
         "p": {
           "name": "main_caliber_turret",
-          "color_h": 0.1,
           "unit": "ship",
           "dmgThreshold": 0.3
         }
@@ -6552,7 +6578,6 @@
       {
         "p": {
           "name": "deckhouse",
-          "color_h": 0.1,
           "unit": "ship",
           "dmgThreshold": 0.3
         }
@@ -6562,56 +6587,48 @@
       {
         "p": {
           "name": "track_r_",
-          "color_h": 0.0,
           "dmgThreshold": 0.5
         }
       },
       {
         "p": {
           "name": "track_l_",
-          "color_h": 0.0,
           "dmgThreshold": 0.5
         }
       },
       {
         "p": {
           "name": "wheel_l_back_",
-          "color_h": 0.0,
           "dmgThreshold": 0.3
         }
       },
       {
         "p": {
           "name": "wheel_l_front_",
-          "color_h": 0.0,
           "dmgThreshold": 0.3
         }
       },
       {
         "p": {
           "name": "wheel_l_drive_",
-          "color_h": 0.0,
           "dmgThreshold": 0.3
         }
       },
       {
         "p": {
           "name": "wheel_r_back_",
-          "color_h": 0.0,
           "dmgThreshold": 0.3
         }
       },
       {
         "p": {
           "name": "wheel_r_front_",
-          "color_h": 0.0,
           "dmgThreshold": 0.3
         }
       },
       {
         "p": {
           "name": "wheel_r_drive_",
-          "color_h": 0.0,
           "dmgThreshold": 0.3
         }
       },
@@ -7238,37 +7255,416 @@
           "name": "wheel_l_02_",
           "modelNames": "sdkfz_221_s_pz_b_41"
         }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "semovente_breda_501"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "semovente_breda_501"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "semovente_breda_501"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "semovente_breda_501"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "semovente_breda_501"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "semovente_breda_501"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "ab_41"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "ab_41"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "ab_41"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "ab_41"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "ab_43"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "ab_43"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "ab_43"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "ab_43"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "as_42_metropolitana"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "as_42_metropolitana"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "as_42_metropolitana"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "as_42_metropolitana"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "b1_centauro"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "b1_centauro"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "b1_centauro"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "b1_centauro"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "b1_centauro"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "b1_centauro"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_04_",
+          "modelNames": "b1_centauro"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_04_",
+          "modelNames": "b1_centauro"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "b1_centauro_romor"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "b1_centauro_romor"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "b1_centauro_romor"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "b1_centauro_romor"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "b1_centauro_romor"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "b1_centauro_romor"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_04_",
+          "modelNames": "b1_centauro_romor"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_04_",
+          "modelNames": "b1_centauro_romor"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "fiat_6614_106sr"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "fiat_6614_106sr"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "fiat_6614_106sr"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "fiat_6614_106sr"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "aubl_74_cockerill"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "aubl_74_cockerill"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "aubl_74_cockerill"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "aubl_74_cockerill"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "oto_r3_t20_fa"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "oto_r3_t20_fa"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "oto_r3_t20_fa"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "oto_r3_t20_fa"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "oto_r3_106sr"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "oto_r3_106sr"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "oto_r3_106sr"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "oto_r3_106sr"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "t18e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "t18e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "t18e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "t18e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "t18e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "t18e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_04_",
+          "modelNames": "t18e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_04_",
+          "modelNames": "t18e2"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "amx_10rc"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "amx_10rc"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "amx_10rc"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "amx_10rc"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "amx_10rc"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "amx_10rc"
+        }
       }
     ],
     "crew": [
       {
         "p": {
-          "name": "driver_",
-          "color_h": 1.0
+          "name": "driver_"
         }
       },
       {
         "p": {
-          "name": "machine_gunner_",
-          "color_h": 1.0
+          "name": "machine_gunner_"
         }
       },
       {
         "p": {
-          "name": "loader_",
-          "color_h": 1.0
+          "name": "loader_"
         }
       },
       {
         "p": {
-          "name": "commander_",
-          "color_h": 1.0
+          "name": "commander_"
         }
       },
       {
         "p": {
-          "name": "gunner_",
-          "color_h": 1.0
+          "name": "gunner_"
         }
       }
     ],
@@ -7283,189 +7679,158 @@
     "inner": [
       {
         "p": {
-          "name": "optic_",
-          "color_h": 1.0
+          "name": "optic_"
         }
       },
       {
         "p": {
-          "name": "drive_turret_h_",
-          "color_h": 0.9
+          "name": "drive_turret_h_"
         }
       },
       {
         "p": {
-          "name": "drive_turret_v_",
-          "color_h": 0.8
+          "name": "drive_turret_v_"
         }
       },
       {
         "p": {
-          "name": "cannon_breech_",
-          "color_h": 0.7
+          "name": "cannon_breech_"
         }
       },
       {
         "p": {
-          "name": "fuel_tank_",
-          "color_h": 0.6
+          "name": "fuel_tank_"
         }
       },
       {
         "p": {
           "name": "ammo_",
-          "color_h": 0.5,
           "hideIfDead": true
         }
       },
       {
         "p": {
-          "name": "radiator_",
-          "color_h": 0.4
+          "name": "radiator_"
         }
       },
       {
         "p": {
-          "name": "radio_station_",
-          "color_h": 0.3
+          "name": "radio_station_"
         }
       },
       {
         "p": {
-          "name": "sonar_",
-          "color_h": 0.3
+          "name": "sonar_"
         }
       },
       {
         "p": {
-          "name": "engine_",
-          "color_h": 0.2
+          "name": "engine_"
         }
       },
       {
         "p": {
-          "name": "transmission_",
-          "color_h": 0.1
+          "name": "transmission_"
         }
       },
       {
         "p": {
-          "name": "main_caliber_gun_",
-          "color_h": 0.1
+          "name": "main_caliber_gun_"
         }
       },
       {
         "p": {
-          "name": "main_caliber_turret_",
-          "color_h": 0.1
+          "name": "main_caliber_turret_"
         }
       },
       {
         "p": {
-          "name": "auxiliary_caliber_gun_",
-          "color_h": 0.1
+          "name": "auxiliary_caliber_gun_"
         }
       },
       {
         "p": {
-          "name": "auxiliary_caliber_turret_",
-          "color_h": 0.1
+          "name": "auxiliary_caliber_turret_"
         }
       },
       {
         "p": {
-          "name": "aa_gun_",
-          "color_h": 0.1
+          "name": "aa_gun_"
         }
       },
       {
         "p": {
-          "name": "aa_turret_",
-          "color_h": 0.1
+          "name": "aa_turret_"
         }
       },
       {
         "p": {
-          "name": "gun_barrel_dm",
-          "color_h": 0.1
+          "name": "gun_barrel_dm"
         }
       },
       {
         "p": {
-          "name": "gun_barrel_0",
-          "color_h": 0.1
+          "name": "gun_barrel_0"
         }
       },
       {
         "p": {
-          "name": "gun_barrel_1",
-          "color_h": 0.1
+          "name": "gun_barrel_1"
         }
       },
       {
         "p": {
-          "name": "ship_hull_dm",
-          "color_h": 0.1
+          "name": "ship_hull_dm"
         }
       },
       {
         "p": {
-          "name": "foremast_dm",
-          "color_h": 0.1
+          "name": "foremast_dm"
         }
       },
       {
         "p": {
-          "name": "mainmast_dm",
-          "color_h": 0.1
+          "name": "mainmast_dm"
         }
       },
       {
         "p": {
-          "name": "mizzenmast_dm",
-          "color_h": 0.1
+          "name": "mizzenmast_dm"
         }
       },
       {
         "p": {
-          "name": "foremast_coursesail_dm",
-          "color_h": 0.1
+          "name": "foremast_coursesail_dm"
         }
       },
       {
         "p": {
-          "name": "foremast_topsail_dm",
-          "color_h": 0.1
+          "name": "foremast_topsail_dm"
         }
       },
       {
         "p": {
-          "name": "bowsprit_sail_dm",
-          "color_h": 0.1
+          "name": "bowsprit_sail_dm"
         }
       },
       {
         "p": {
-          "name": "mainmast_coursesail_dm",
-          "color_h": 0.1
+          "name": "mainmast_coursesail_dm"
         }
       },
       {
         "p": {
-          "name": "mainmast_topsail_dm",
-          "color_h": 0.1
+          "name": "mainmast_topsail_dm"
         }
       },
       {
         "p": {
-          "name": "mizzenmast_sail_dm",
-          "color_h": 0.1
+          "name": "mizzenmast_sail_dm"
         }
       },
       {
         "p": {
-          "name": "deckhouse_dm",
-          "color_h": 0.1
+          "name": "deckhouse_dm"
         }
       },
       {
@@ -7524,67 +7889,57 @@
       },
       {
         "p": {
-          "name": "tt_",
-          "color_h": 0.1
+          "name": "tt_"
         }
       },
       {
         "p": {
-          "name": "torpedo_0",
-          "color_h": 0.1
+          "name": "torpedo_0"
         }
       },
       {
         "p": {
-          "name": "torpedo_1",
-          "color_h": 0.1
+          "name": "torpedo_1"
         }
       },
       {
         "p": {
-          "name": "mg_",
-          "color_h": 0.1
+          "name": "mg_"
         }
       },
       {
         "p": {
           "name": "steering_gear_",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "ammunition_storage",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "bridge",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "funnel",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "pump",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
       {
         "p": {
           "name": "elevator",
-          "color_h": 0.1,
           "unit": "ship"
         }
       },
@@ -7607,8 +7962,7 @@
       },
       {
         "p": {
-          "name": "ex_decor_",
-          "color_h": 0.8
+          "name": "ex_decor_"
         }
       }
     ]
@@ -7695,269 +8049,234 @@
       },
       {
         "p": "gun9"
+      },
+      {
+        "p": "radar"
       }
     ],
     "body": [
       {
         "p": {
-          "name": "fuse",
-          "color_h": 1.0
+          "name": "fuse"
         }
       },
       {
         "p": {
-          "name": "tail_dm",
-          "color_h": 1.0
+          "name": "tail_dm"
         }
       },
       {
         "p": {
-          "name": "wing",
-          "color_h": 1.0
+          "name": "wing"
         }
       },
       {
         "p": {
-          "name": "fin",
-          "color_h": 1.0
+          "name": "fin"
         }
       },
       {
         "p": {
-          "name": "stab",
-          "color_h": 1.0
+          "name": "stab"
         }
       },
       {
         "p": {
-          "name": "rudder",
-          "color_h": 1.0
+          "name": "rudder"
         }
       },
       {
         "p": {
-          "name": "elevator",
-          "color_h": 1.0
+          "name": "elevator"
         }
       },
       {
         "p": {
-          "name": "aileron",
-          "color_h": 1.0
+          "name": "aileron"
         }
       },
       {
         "p": {
-          "name": "elevon",
-          "color_h": 1.0
+          "name": "elevon"
         }
       },
       {
         "p": {
-          "name": "flap",
-          "color_h": 1.0
+          "name": "flap"
         }
       },
       {
         "p": {
-          "name": "flap_airbrake",
-          "color_h": 1.0
+          "name": "flap_airbrake"
         }
       },
       {
         "p": {
-          "name": "flaperon",
-          "color_h": 1.0
+          "name": "flaperon"
         }
       },
       {
         "p": {
-          "name": "aileron_interceptor",
-          "color_h": 1.0
+          "name": "aileron_interceptor"
         }
       },
       {
         "p": {
-          "name": "rudder_interceptor",
-          "color_h": 1.0
+          "name": "rudder_interceptor"
         }
       },
       {
         "p": {
-          "name": "cover",
-          "color_h": 1.0
+          "name": "cover"
         }
       },
       {
         "p": {
-          "name": "armor",
-          "color_h": 1.0
+          "name": "armor"
         }
       },
       {
         "p": {
-          "name": "gear",
-          "color_h": 1.0
+          "name": "gear"
         }
       }
     ],
     "crew": [
       {
         "p": {
-          "name": "pilot",
-          "color_h": 0.9
+          "name": "pilot"
         }
       },
       {
         "p": {
-          "name": "gunner",
-          "color_h": 0.9
+          "name": "gunner"
         }
       }
     ],
     "inner": [
       {
         "p": {
-          "name": "wingcontrol",
-          "color_h": 0.7
+          "name": "wingcontrol"
         }
       },
       {
         "p": {
-          "name": "wingcontrol",
-          "color_h": 0.7
+          "name": "wingcontrol"
         }
       },
       {
         "p": {
-          "name": "wingcontrol",
-          "color_h": 0.7
+          "name": "wingcontrol"
         }
       },
       {
         "p": {
-          "name": "tailcontrol",
-          "color_h": 0.7
+          "name": "tailcontrol"
         }
       },
       {
         "p": {
-          "name": "transmission",
-          "color_h": 0.5
+          "name": "transmission"
         }
       },
       {
         "p": {
-          "name": "engine_shaft",
-          "color_h": 0.5
+          "name": "engine_shaft"
         }
       },
       {
         "p": {
-          "name": "propeller_shaft",
-          "color_h": 0.5
+          "name": "propeller_shaft"
         }
       },
       {
         "p": {
-          "name": "spar",
-          "color_h": 0.7
+          "name": "spar"
         }
       },
       {
         "p": {
-          "name": "engine",
-          "color_h": 5.0
+          "name": "engine"
         }
       },
       {
         "p": {
-          "name": "tank",
-          "color_h": 0.5
+          "name": "tank"
         }
       },
       {
         "p": {
-          "name": "oil",
-          "color_h": 0.3
+          "name": "oil"
         }
       },
       {
         "p": {
-          "name": "water",
-          "color_h": 0.3
+          "name": "water"
         }
       },
       {
         "p": {
-          "name": "cannon",
-          "color_h": 0.0
+          "name": "cannon"
         }
       },
       {
         "p": {
-          "name": "mgun",
-          "color_h": 0.0
+          "name": "mgun"
         }
       },
       {
         "p": {
-          "name": "gun0",
-          "color_h": 0.0
+          "name": "gun0"
         }
       },
       {
         "p": {
-          "name": "gun1",
-          "color_h": 0.0
+          "name": "gun1"
         }
       },
       {
         "p": {
-          "name": "gun2",
-          "color_h": 0.0
+          "name": "gun2"
         }
       },
       {
         "p": {
-          "name": "gun3",
-          "color_h": 0.0
+          "name": "gun3"
         }
       },
       {
         "p": {
-          "name": "gun4",
-          "color_h": 0.0
+          "name": "gun4"
         }
       },
       {
         "p": {
-          "name": "gun5",
-          "color_h": 0.0
+          "name": "gun5"
         }
       },
       {
         "p": {
-          "name": "gun6",
-          "color_h": 0.0
+          "name": "gun6"
         }
       },
       {
         "p": {
-          "name": "gun7",
-          "color_h": 0.0
+          "name": "gun7"
         }
       },
       {
         "p": {
-          "name": "gun8",
-          "color_h": 0.0
+          "name": "gun8"
         }
       },
       {
         "p": {
-          "name": "gun9",
-          "color_h": 0.0
+          "name": "gun9"
+        }
+      },
+      {
+        "p": {
+          "name": "radar"
         }
       }
     ]
@@ -8800,6 +9119,15 @@
     },
     {
       "ri": "desert_dry_tree_e"
+    },
+    {
+      "ri": "alaska_town_bridge_bump_stop_a"
+    },
+    {
+      "ri": "alaska_town_bridge_bump_stop_b"
+    },
+    {
+      "ri": "alaska_town_bridge_bump_stop_b_stick"
     }
   ],
   "rendinstOpt": {
@@ -8895,6 +9223,9 @@
         "incRE": "american_wall_signboard"
       },
       {
+        "incRE": "alaska_signboard"
+      },
+      {
         "incRE": "american_town_building_1_floor_a_"
       },
       {
@@ -8926,6 +9257,12 @@
       },
       {
         "incRE": "american_town_building_3_floors_a_"
+      },
+      {
+        "incRE": "alaska_town_bridge_bump_stop_a"
+      },
+      {
+        "incRE": "alaska_town_bridge_bump_stop_b"
       },
       {
         "excRE": "american_town_building_1_floor_a_decals"

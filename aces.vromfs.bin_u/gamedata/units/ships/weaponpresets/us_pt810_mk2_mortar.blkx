@@ -24,7 +24,7 @@
         "triggerGroup": "primary"
       },
       {
-        "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_naval_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/40mm_l60_bofors_mk3_single_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_04"
@@ -133,6 +133,25 @@
           "lim2": [-140.0,125.0,-6.0,88.0],
           "lim3": [125.0,180.0,25.0,88.0]
         }
+      },
+      {
+        "gunStabilizer": {
+          "hasVerticalGunFreeMode": true,
+          "hasHorizontal": true,
+          "horizontalOmegaMult": 1.0,
+          "horizontalSpeedLimitKPH": 80.0,
+          "hasVertical": true,
+          "verticalOmegaMult": 1.0,
+          "verticalSpeedLimitKPH": 80.0,
+          "errorKPHToDegrees": [
+            {
+              "row": [5.0,0.01]
+            },
+            {
+              "row": [70.0,0.05]
+            }
+          ]
+        }
       }
     ]
   },
@@ -145,7 +164,7 @@
         "triggerGroup": "primary"
       },
       {
-        "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_naval_user_cannon.blk"
+        "blk": "gameData/Weapons/navalModels_weapons/40mm_l60_bofors_mk3_single_naval_user_cannon.blk"
       },
       {
         "emitter": "emtr_gun_flame_05"
@@ -253,6 +272,25 @@
           "lim1": [-180.0,-130.0,40.0,88.0],
           "lim2": [-130.0,130.0,-6.0,88.0],
           "lim3": [130.0,180.0,40.0,88.0]
+        }
+      },
+      {
+        "gunStabilizer": {
+          "hasVerticalGunFreeMode": true,
+          "hasHorizontal": true,
+          "horizontalOmegaMult": 1.0,
+          "horizontalSpeedLimitKPH": 80.0,
+          "hasVertical": true,
+          "verticalOmegaMult": 1.0,
+          "verticalSpeedLimitKPH": 80.0,
+          "errorKPHToDegrees": [
+            {
+              "row": [5.0,0.01]
+            },
+            {
+              "row": [70.0,0.05]
+            }
+          ]
         }
       }
     ]
@@ -758,6 +796,7 @@
       "emitter": "bone_torpedo_01",
       "bullets": 1,
       "barrelDP": "tt_01_dm",
+      "breechDP": "torpedo_01_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_01_dm",
       "startSpeed": 2.4,
@@ -765,6 +804,7 @@
       "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
+      "hideIfBroken": true,
       "turret": {
         "head": "bone_torpedo_01",
         "gun": "bone_torpedo_01"
@@ -784,6 +824,7 @@
       "emitter": "bone_torpedo_03",
       "bullets": 1,
       "barrelDP": "tt_03_dm",
+      "breechDP": "torpedo_03_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_03_dm",
       "startSpeed": 2.4,
@@ -791,6 +832,7 @@
       "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
+      "hideIfBroken": true,
       "turret": {
         "head": "bone_torpedo_03",
         "gun": "bone_torpedo_03"
@@ -810,6 +852,7 @@
       "emitter": "bone_torpedo_02",
       "bullets": 1,
       "barrelDP": "tt_02_dm",
+      "breechDP": "torpedo_02_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_02_dm",
       "startSpeed": 2.4,
@@ -817,6 +860,7 @@
       "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
+      "hideIfBroken": true,
       "turret": {
         "head": "bone_torpedo_02",
         "gun": "bone_torpedo_02"
@@ -836,6 +880,7 @@
       "emitter": "bone_torpedo_04",
       "bullets": 1,
       "barrelDP": "tt_04_dm",
+      "breechDP": "torpedo_04_dm",
       "brokenBarrelAllowShoot": false,
       "ammoDP": "torpedo_04_dm",
       "startSpeed": 2.4,
@@ -843,6 +888,7 @@
       "enableCourseCorrection": true,
       "useStartSpeed": true,
       "allowableDelta": 180.0,
+      "hideIfBroken": true,
       "turret": {
         "head": "bone_torpedo_04",
         "gun": "bone_torpedo_04"

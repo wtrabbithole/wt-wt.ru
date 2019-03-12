@@ -45,7 +45,6 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
         local type = " "
         if (val == null) { val = "null" }
         else if (typeof(val)=="integer") type = ":i"
-        else if (typeof(val)=="int64") type = ":i64"
         else if (typeof(val)=="float") { type = ":r"; val = val.tostring() + (val % 1 ? "" : ".0") }
         else if (typeof(val)=="bool") type = ":b"
         else if (typeof(val)=="string") { type = ":t"; val = "'" + val + "'" }
@@ -100,8 +99,6 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
           printFn(prefix+addStr+idText+" = '" + data + "'")
         else if (type=="float")
           printFn(prefix+addStr+idText+" = " + data + (data % 1 ? "" : ".0"))
-        else if (type=="int64")
-          printFn(prefix+addStr+idText+" = " + data + "L")
         else if (type=="null")
           printFn(prefix+addStr+idText+" = null")
         else
@@ -116,8 +113,6 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
         printFn(prefix + addStr + "'" + info + "'")
       else if (type=="float")
         printFn(prefix + addStr + info + (info % 1 ? "" : ".0"))
-      else if (type=="int64")
-        printFn(prefix + addStr + info + "L")
       else if (type=="null")
         printFn(prefix + addStr + "null")
       else
@@ -176,7 +171,7 @@ function toString(val, recursion = 1, addStr = "")
           //or it make harder to read debugtableData result in log, also arrays in one string generate too long strings
           if (typeof(v) != "function")
           {
-            local index = ::isInArray(type(idx), [ "float", "int64", "null" ]) ? ::toString(idx) : idx
+            local index = ::isInArray(type(idx), [ "float", "null" ]) ? ::toString(idx) : idx
             ret += "\n" + addStr + "  " + index + " = " + ::toString(v, recursion - 1, addStr + "  ")
           }
         }
@@ -188,8 +183,6 @@ function toString(val, recursion = 1, addStr = "")
     return "null"
   if (type(val) == "string")
     return format("\"%s\"", val)
-  if (type(val) == "int64")
-    return val + "L"
   if (type(val) == "float")
     return val.tostring() + (val % 1 ? "" : ".0")
   if (type(val) != "array" && type(val) != "table")
@@ -201,7 +194,7 @@ function toString(val, recursion = 1, addStr = "")
     local iv = []
     foreach (i,v in val)
     {
-      local index = !isArray && ::isInArray(type(i), [ "float", "int64", "null" ]) ? ::toString(i) : i
+      local index = !isArray && ::isInArray(type(i), [ "float", "null" ]) ? ::toString(i) : i
       iv.append("" + (isArray ? "[" + index + "]" : index) + " = " + ::toString(v, recursion - 1, ""))
     }
     str = ::g_string.implode(iv, ", ")

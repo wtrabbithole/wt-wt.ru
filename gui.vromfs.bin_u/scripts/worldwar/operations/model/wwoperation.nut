@@ -100,6 +100,15 @@ class WwOperation
       reasonText = ""
     }
 
+    if (::g_squad_manager.isSquadMember())
+    {
+      local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
+      if (queue && queue.getQueueWwOperationId() != id)
+        return res.__update({
+          reasonText = ::loc("worldWar/cantJoinBecauseOfQueue", {operationInfo = getNameText()})
+        })
+    }
+
     local countryes = ::getTblValue(side, getCountriesByTeams(), [])
     local assignCountry = getMyAssignCountry()
     if (assignCountry)

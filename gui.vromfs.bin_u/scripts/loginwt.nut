@@ -107,6 +107,8 @@ function g_login::loadLoginHandler()
     hClass = ::gui_handlers.LoginWndHandlerTencent
   else if (::use_dmm_login())
     hClass = ::gui_handlers.LoginWndHandlerDMM
+  else if (::steam_is_running())
+    hClass = ::gui_handlers.LoginWndHandlerSteam
   ::handlersManager.loadHandler(hClass)
 }
 

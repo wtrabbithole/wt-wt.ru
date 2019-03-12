@@ -124,7 +124,7 @@ class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandle
 
   function onProgress(dltotal, dlnow)
   {
-    loadingProgress = dltotal && stdMath.roundToDigits(100.0 * dlnow/dltotal, 2)
+    loadingProgress = dltotal ? (100.0 * dlnow / dltotal).tointeger() : 0
     progressChanged = true
   }
 

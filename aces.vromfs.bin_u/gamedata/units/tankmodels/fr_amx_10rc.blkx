@@ -236,6 +236,10 @@
       },
       "optics": {
         "armorClass": "optics_tank",
+        "optic_body_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
         "optic_turret_01_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
@@ -917,62 +921,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 10000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 250.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 180.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -1011,7 +959,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1020,51 +968,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
-      "suspension": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "wheel_l_01_dm"
-        },
-        {
-          "part": "wheel_r_01_dm"
-        },
-        {
-          "part": "wheel_l_02_dm"
-        },
-        {
-          "part": "wheel_r_02_dm"
-        },
-        {
-          "part": "wheel_l_03_dm"
-        },
-        {
-          "part": "wheel_r_03_dm"
-        },
-        {
-          "part": "wheel_support_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 250.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1099,7 +1003,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1108,7 +1012,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1420,6 +1324,7 @@
         "hasSuspensionOnDriveGear": true,
         "dampeningRelaxationRatio": 0.35,
         "dampeningCompressionRatio": 0.3,
+        "brokenWheelSteeringDeflection": -15.0,
         "wheelsDamageWeight": {
           "wheel_l_01": 0.3,
           "wheel_r_01": 0.3,
@@ -1495,6 +1400,60 @@
           }
         }
       ]
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      }
     }
   },
   {
@@ -1970,15 +1929,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2386,6 +2336,15 @@
       "replace_tex": {
         "from": "fr_camo_vert_olive_arme*",
         "to": "fr_camo_modern_urban*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_carc",
+      "replace_tex": {
+        "from": "fr_camo_vert_olive_arme*",
+        "to": "ger_camo_carc*"
       }
     }
   },

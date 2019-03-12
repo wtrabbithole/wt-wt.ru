@@ -54,8 +54,27 @@ class ::Input.Button extends ::Input.InputBase
     return deviceId
   }
 
+  function getImage()
+  {
+    if (deviceId == ::JOYSTICK_DEVICE_0_ID && gamepadIcons.hasTextureByButtonIdx(buttonId))
+      return gamepadIcons.getTextureByButtonIdx(buttonId)
+    else if (deviceId == ::STD_MOUSE_DEVICE_ID && gamepadIcons.hasMouseTexture(buttonId))
+      return gamepadIcons.getMouseTexture(buttonId)
+
+    return null
+  }
+
   function hasImage ()
   {
     return gamepadIcons.hasMouseTexture(buttonId) || gamepadIcons.hasTextureByButtonIdx(buttonId)
+  }
+
+  function getConfig()
+  {
+    return {
+      inputName = "button"
+      buttonImage = getImage()
+      text = getText()
+    }
   }
 }

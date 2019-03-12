@@ -340,12 +340,14 @@ local function fillLinesInPage(page)
         local searchName = ::isUnitGroup(air) ? air?.searchReqName : air.name
         if (searchName in reqAirs)
         {
+          local arrowCount = reqAirs[searchName].len()
           foreach(req in reqAirs[searchName])
             page.lines.append({
               air = req.air,
               line = [i, j, req.pos[0], req.pos[1]]
               group = [::isUnitGroup(air), ::isUnitGroup(req.air)]
               reqAir = air
+              arrowCount = arrowCount
             })
           reqAirs.rawdelete(searchName)
         }

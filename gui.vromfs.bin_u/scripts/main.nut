@@ -50,8 +50,6 @@ local __math = require("math")
 
 ::cross_call_api <- {}
 
-if (::is_platform_ps4) ::exit_game <- function() {::gui_start_logout()}
-
 ::FORCE_UPDATE <- true
 const LOST_DELAYED_ACTION_MSEC = 500
 
@@ -474,9 +472,9 @@ function load_scripts_after_login_once()
     "options/optionsCustomDifficulty.nut"
     "options/fontChoiceWnd.nut"
 
-    "leaderboardDataType.nut"
-    "leaderboardCategoryType.nut"
-    "leaderboard.nut"
+    "leaderboard/leaderboardDataType.nut"
+    "leaderboard/leaderboardCategoryType.nut"
+    "leaderboard/leaderboard.nut"
 
     "queue/queueManager.nut"
 

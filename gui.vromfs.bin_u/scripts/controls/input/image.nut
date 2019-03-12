@@ -24,4 +24,12 @@ class ::Input.InputImage extends ::Input.InputBase
   {
     return image !=""
   }
+
+  function getConfig()
+  {
+    return {
+      inputName = "inputImage"
+      buttonImage = image
+    }
+  }
 }

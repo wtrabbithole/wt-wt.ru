@@ -568,228 +568,34 @@
           "var": "start_hint_id_str"
         }
       },
-      "else_actions": [
-        {
-          "missionSetTimeSpeed": {
-            "speed": 1.0,
-            "realtimeTriggers": true
-          }
+      "else_actions": {
+        "missionSetTimeSpeed": {
+          "speed": 1.0,
+          "realtimeTriggers": true
         },
-        {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object": "players_squad",
-            "ignoreCollisions": true
-          }
+        "unitSetProperties": {
+          "object_marking": 0,
+          "object": "players_squad",
+          "ignoreCollisions": true
         },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_player01"
-            },
-            {
-              "object": "t1_player08"
-            },
-            {
-              "object": "t1_player15"
-            },
-            {
-              "object": "t2_player05"
-            },
-            {
-              "object": "t2_player12"
-            },
-            {
-              "aerobaticsSmoke": 1
-            },
-            {
-              "persistentAerobaticsSmoke": true
-            }
-          ]
+        "wait": {
+          "time": 3.0
         },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_player02"
-            },
-            {
-              "object": "t1_player09"
-            },
-            {
-              "object": "t1_player16"
-            },
-            {
-              "object": "t2_player06"
-            },
-            {
-              "object": "t2_player13"
-            },
-            {
-              "aerobaticsSmoke": 2
-            },
-            {
-              "persistentAerobaticsSmoke": true
-            }
-          ]
+        "playHint": {
+          "hintType": "custom",
+          "name": "",
+          "action": "hideCur",
+          "shouldFadeOut": false,
+          "time": -1.0,
+          "priority": 0,
+          "isOverFade": false,
+          "target_marking": 0,
+          "shouldBlink": false
         },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_player03"
-            },
-            {
-              "object": "t1_player10"
-            },
-            {
-              "object": "t1_player17"
-            },
-            {
-              "object": "t2_player07"
-            },
-            {
-              "object": "t2_player14"
-            },
-            {
-              "aerobaticsSmoke": 3
-            },
-            {
-              "persistentAerobaticsSmoke": true
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_player04"
-            },
-            {
-              "object": "t1_player11"
-            },
-            {
-              "object": "t2_player01"
-            },
-            {
-              "object": "t2_player08"
-            },
-            {
-              "aerobaticsSmoke": 4
-            },
-            {
-              "persistentAerobaticsSmoke": true
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_player05"
-            },
-            {
-              "object": "t1_player12"
-            },
-            {
-              "object": "t2_player02"
-            },
-            {
-              "object": "t2_player09"
-            },
-            {
-              "aerobaticsSmoke": 5
-            },
-            {
-              "persistentAerobaticsSmoke": true
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_player06"
-            },
-            {
-              "object": "t1_player13"
-            },
-            {
-              "object": "t2_player03"
-            },
-            {
-              "object": "t2_player10"
-            },
-            {
-              "aerobaticsSmoke": 6
-            },
-            {
-              "persistentAerobaticsSmoke": true
-            }
-          ]
-        },
-        {
-          "unitSetProperties": [
-            {
-              "object_marking": 0
-            },
-            {
-              "object": "t1_player07"
-            },
-            {
-              "object": "t1_player14"
-            },
-            {
-              "object": "t2_player04"
-            },
-            {
-              "object": "t2_player11"
-            },
-            {
-              "aerobaticsSmoke": 7
-            },
-            {
-              "persistentAerobaticsSmoke": true
-            }
-          ]
-        },
-        {
-          "wait": {
-            "time": 3.0
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "custom",
-            "name": "",
-            "action": "hideCur",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false,
-            "target_marking": 0,
-            "shouldBlink": false
-          }
-        },
-        {
-          "triggerDisable": {
-            "target": "race_start_timer"
-          }
+        "triggerDisable": {
+          "target": "race_start_timer"
         }
-      ]
+      }
     },
     "race_shooting_enabled": {
       "is_enabled": false,

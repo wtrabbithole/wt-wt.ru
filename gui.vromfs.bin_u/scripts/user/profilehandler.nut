@@ -290,7 +290,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local sheet = getCurSheet()
     local isProfileOpened = sheet == "Profile"
     local buttonsList = {
-                          btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent() && !::steam_is_running()
+                          btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
                           btn_changeName = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
                           btn_getLink = !::is_in_loading_screen() && isProfileOpened && ::has_feature("Invites")
                           btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
@@ -1421,9 +1421,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   {
     msgBox("question_change_name", ::loc("mainmenu/questionChangePlayer"),
       [
-        ["yes", ::gui_start_logout],
-        ["no", function() { }]
-      ], "no", { cancel_fn = function() {}})
+        ["yes", function() {
+          ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, null)
+          ::gui_start_logout()
+        }],
+        ["no", @() null ]
+      ], "no", { cancel_fn = @() null })
   }
 
   function afterModalDestroy() {

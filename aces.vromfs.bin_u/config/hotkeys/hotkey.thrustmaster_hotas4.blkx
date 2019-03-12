@@ -186,7 +186,7 @@
         "shortcut": {
           "button": {
             "deviceId": 3,
-            "buttonId": 27
+            "buttonId": 7
           }
         }
       }
@@ -586,7 +586,7 @@
         "shortcut": {
           "button": {
             "deviceId": 3,
-            "buttonId": 27
+            "buttonId": 7
           }
         }
       }
@@ -698,6 +698,55 @@
             "buttonId": 8
           }
         }
+      }
+    },
+    {
+      "event": {
+        "name": "ID_CHUTE",
+        "shortcut": [
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 2
+            }
+          },
+          {
+            "button": {
+              "deviceId": 3,
+              "buttonId": 0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SENSOR_SWITCH"
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SENSOR_SWITCH_TANK"
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SENSOR_TARGET_SWITCH"
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SENSOR_TARGET_SWITCH_TANK"
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SENSOR_TARGET_LOCK"
+      }
+    },
+    {
+      "event": {
+        "name": "ID_SENSOR_TARGET_LOCK_TANK"
       }
     },
     {
@@ -3245,7 +3294,7 @@
         "relSens": 0.09
       },
       "ailerons": {
-        "axisId": 9,
+        "axisId": 10,
         "innerDeadzone": 0.02,
         "outerDeadzone": 0.05,
         "rangeMin": -1.0,
@@ -3271,7 +3320,7 @@
         "useSliders": false
       },
       "elevator": {
-        "axisId": 10,
+        "axisId": 11,
         "innerDeadzone": 0.0,
         "outerDeadzone": 0.05,
         "rangeMin": -1.0,
@@ -3297,7 +3346,7 @@
         "useSliders": false
       },
       "rudder": {
-        "axisId": 11,
+        "axisId": 12,
         "innerDeadzone": 0.05,
         "outerDeadzone": 0.05,
         "rangeMin": -1.0,
@@ -3323,7 +3372,7 @@
         "useSliders": false
       },
       "throttle": {
-        "axisId": 12,
+        "axisId": 13,
         "innerDeadzone": 0.0,
         "outerDeadzone": 0.05,
         "rangeMin": 0.0,
@@ -4129,7 +4178,7 @@
         "useSliders": false
       },
       "brake_left": {
-        "axisId": 15,
+        "axisId": -1,
         "innerDeadzone": 0.05,
         "outerDeadzone": 0.05,
         "rangeMin": 0.0,
@@ -4155,7 +4204,7 @@
         "useSliders": false
       },
       "brake_right": {
-        "axisId": 16,
+        "axisId": -1,
         "innerDeadzone": 0.05,
         "outerDeadzone": 0.05,
         "rangeMin": 0.0,

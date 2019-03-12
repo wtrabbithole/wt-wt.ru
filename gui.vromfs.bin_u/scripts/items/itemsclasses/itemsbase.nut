@@ -752,4 +752,5 @@ class ::BaseItem
   isEnabled = @() true
   getContentItem = @() null
   needShowRewardWnd = @() true
+  skipRoulette = @() true
 }

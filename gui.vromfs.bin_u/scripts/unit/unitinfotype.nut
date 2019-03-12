@@ -849,7 +849,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local shotFreq = params.shotFreq;
       if(shotFreq > 0)
       {
-        local perMinute = stdMath.roundToDigits(time.minutesToSeconds(shotFreq), 3)
+        local perMinute = stdMath.roundToDigits(shotFreq * 60, 3)
         blk.value[mode] = perMinute
         blk.valueText[mode] = format("%s %s", perMinute.tostring(), ::loc("measureUnits/shotPerMinute"))
       }

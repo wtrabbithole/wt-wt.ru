@@ -178,6 +178,64 @@ local function tablesCombine(tbl1, tbl2, func=null, defValue = null, addParams =
 }
 
 
+local function setTblValueByArrayPath(tbl, pathArray, value) {
+  foreach(idx, key in pathArray) {
+    if (idx == pathArray.len()-1)
+      tbl[key]<-value
+    else {
+      if (!(key in tbl))
+        tbl[key] <- {}
+      tbl = tbl[key]
+    }
+  }
+}
+
+local function setTblValueByPath(tbl, path, value, separator = ".") {
+  if (::type(path) == "string") {
+    path = split(path, separator)
+  }
+  if (::type(path) == "array")
+    setTblValueByArrayPath(tbl, path, value)
+  else
+    tbl[path] <- value
+}
+
+local function getTblValueByPath(table, path, separator = ".") {
+  if (::type(path) == "string") {
+    path = split(path, separator)
+  }
+  assert(::type(path)=="array", "Path should be array or string with separator")
+  local ret = table
+  foreach(i,p in path) {
+    if (ret==null)
+      return null
+    ret = ret?[p]
+  }
+  return ret
+}
+
+// * Returns random element of the given array, rand should be function that return int
+local function chooseRandom(arr, randfunc) {
+  if (arr.len()==0)
+    return null
+  return arr[randfunc() % arr.len()]
+}
+
+local function shuffle(arr, randfunc) {
+  local res = clone arr
+  local size = res.len()
+  local j
+  local v
+  for (local i = size - 1; i > 0; i--)
+  {
+    j = randfunc() % (i + 1)
+    v = res[j]
+    res[j] = res[i]
+    res[i] = v
+  }
+  return res
+}
+
 return {
   reduceTbl = reduceTbl
   search = search
@@ -188,4 +246,8 @@ return {
   invert = invert
   pick = pick
   tablesCombine = tablesCombine
+  setTblValueByPath = setTblValueByPath
+  getTblValueByPath = getTblValueByPath
+  chooseRandom = chooseRandom
+  shuffle = shuffle
 }

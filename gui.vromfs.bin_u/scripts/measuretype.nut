@@ -158,7 +158,7 @@ enums.addTypesByGlobalName("g_measure_type", {
     name = "percent_float"
     getMeasureUnitsText = function(value, addMeasureUnits = true, forceMaxPrecise = false)
     {
-      return ::floor(100.0 * value + 0.5) + (addMeasureUnits? getMeasureUnitsName() : "")
+      return (100.0 * value + 0.5).tointeger() + (addMeasureUnits? getMeasureUnitsName() : "")
     }
 
     getMeasureUnitsName = function()

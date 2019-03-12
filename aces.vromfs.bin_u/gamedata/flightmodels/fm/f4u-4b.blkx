@@ -661,6 +661,8 @@
       "DampingMultByFlow": [0.0,1.0,0.0,1.0],
       "AirFlowSolver": true,
       "AdvancedAirFlow": true,
+      "AirFlowMult": 1.0,
+      "NonAxialFlowMult": 0.0,
       "ScreenEffectThrustMultMax": 0.1,
       "ScreenEffectThrustMult10Dist": 6.0186,
       "VortexRingVFlowMult": [0.0,0.0],
@@ -760,7 +762,7 @@
     "MidAxisPitch0": 0.5,
     "UseAutoPropInertia": false,
     "EngineAcceleration": 1.0,
-    "CorrectPropellerToTransmissionLink": true
+    "ReducedPropellerShaftTorque": false
   },
   "Mass": {
     "EmptyMass": 4785.0,

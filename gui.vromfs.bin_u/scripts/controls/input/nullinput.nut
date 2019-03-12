@@ -11,4 +11,13 @@ class ::Input.NullInput extends ::Input.InputBase
   {
     return showPlaceholder ? "<<" + shortcutId + ">>" : ""
   }
+
+  function getConfig()
+  {
+    return {
+      inputName = "nullInput"
+      shortcutId = shortcutId
+      showPlaceholder = showPlaceholder
+    }
+  }
 }

@@ -1,3 +1,5 @@
+::USE_STEAM_LOGIN_AUTO_SETTING_ID <- "useSteamLoginAuto"
+
 class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
 {
   sceneBlkName = "gui/loginBoxSimple.blk"
@@ -10,70 +12,71 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
     ::show_title_logo(true, scene, "128")
     ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)
 
+    //Called init while in loading, so no need to call again authorization.
+    //Just wait, when the loading will be over.
+    if (::g_login.isAuthorized())
+      return
+
+    local useSteamLoginAuto = ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID)
+    if (useSteamLoginAuto == true)
+    {
+      authorizeSteam("steam-known")
+      return
+    }
+    else if (useSteamLoginAuto == false)
+    {
+      goToLoginWnd(false)
+      return
+    }
+
     showSceneBtn("button_exit", true)
 
-    local buttonsView = [
-      {
-        id = "authorization_button"
-        text = "#HUD_PRESS_A_CNT"
-        shortcut = "SpaceA"
-        funcName = "onOk"
-        delayed = true
-        isToBattle = true
-        titleButtonFont = true
-      },
-      {
-        id = "change_login"
-        text = "#mainmenu/alreadyHaveAccount"
-        shortcut = "X"
-        visualStyle = "secondary"
-        func = "onChangeLoginScreen"
-      }
-    ]
-
-    local data = ""
-    foreach (view in buttonsView)
-      data += ::handyman.renderCached("gui/commonParts/button", view)
-
-    guiScene.prependWithBlk(scene.findObject("authorization_block"), data, this)
-
-    if (!::getTblValue("disable_autorelogin_once", ::getroottable(), false))
-      onOk()
+    ::scene_msg_box("steam_link_method_question",
+      guiScene,
+      ::loc("steam/login/linkQuestion"),
+      [["#mainmenu/loginWithGaijin", ::Callback(goToLoginWnd, this) ],
+       ["#mainmenu/loginWithSteam", ::Callback(authorizeSteam, this)],
+       ["exit", ::exit_game]
+      ],
+      "#mainmenu/loginWithGaijin"
+    )
   }
 
-  function requestLogin(no_dump_login = "")
+  function proceedAuthorizationResult(result, no_dump_login)
   {
-    ::statsd_counter("gameStart.request_login.steam")
-    ::dagor.debug("Steam Login: check_login_pass")
-    return ::check_login_pass("", "", "steam", "steam", false, false)
-  }
-
-  function onOk()
-  {
-    local result = requestLogin()
-    ::disable_autorelogin_once <- false
-
-    switch (result)
+    switch(result)
     {
-      case ::YU2_OK:
-        checkSteamActivation("")
+      case ::YU2_NOT_FOUND:
+        goToLoginWnd()
         break
       default:
-        msgBox("steam_login_error",
-               ::loc("steam/authorization_error"),
-               [["ok", function() { ::handlersManager.loadHandler(::gui_handlers.LoginWndHandler) } ]],
-               "ok")
+        base.proceedAuthorizationResult(result, no_dump_login)
     }
   }
 
-  function onChangeLoginScreen()
+  function authorizeSteam(steamKey = "steam")
   {
+    onSteamAuthorization(steamKey)
+  }
+
+  function goToLoginWnd(disableAutologin = true)
+  {
+    if (disableAutologin)
+      ::disable_autorelogin_once <- true
     ::handlersManager.loadHandler(::gui_handlers.LoginWndHandler)
   }
 
   function goBack(obj)
   {
-    msgBox("steam_question_quit_game", ::loc("mainmenu/questionQuitGame"),
-      [["yes", ::exit_game], ["no"]], "no", { cancel_fn = function() {}})
+    ::scene_msg_box("steam_question_quit_game",
+      guiScene,
+      ::loc("mainmenu/questionQuitGame"),
+      [
+        ["yes", ::exit_game],
+        ["no", @() null]
+      ],
+      "no",
+      { cancel_fn = @() null}
+    )
   }
 }

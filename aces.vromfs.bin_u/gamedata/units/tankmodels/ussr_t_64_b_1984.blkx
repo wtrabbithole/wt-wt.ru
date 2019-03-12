@@ -1572,15 +1572,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -1708,20 +1699,27 @@
         "armorClass": "tank_ultra_porcelain",
         "hidableInXrayViewer": true,
         "composite_armor_turret_01_dm": {
-          "armorThickness": 150.0,
-          "genericArmorQuality": 0.0,
-          "cumulativeArmorQuality": 1.9,
-          "armorEffectiveThicknessMax": 300.0
+          "armorThickness": 0.0,
+          "createSecondaryShatters": false
         },
         "composite_armor_turret_02_dm": {
-          "armorThickness": 80.0,
-          "genericArmorQuality": 0.0,
-          "cumulativeArmorQuality": 1.9,
-          "armorEffectiveThicknessMax": 150.0
+          "armorThickness": 0.0,
+          "createSecondaryShatters": false
+        },
+        "turret_01_back_dm": {
+          "armorThickness": 150.0,
+          "genericArmorQuality": 0.4,
+          "cumulativeArmorQuality": 0.4,
+          "createSecondaryShatters": false
         }
       },
       "turret": {
         "armorClass": "CHA_tank_modern",
+        "turret_06_front_dm": {
+          "armorThickness": 330.0,
+          "variableThickness": true,
+          "solidArmorTestDepth": 900.0
+        },
         "turret_07_side_dm": {
           "armorThickness": 130.0,
           "genericArmorQuality": 1.5,
@@ -1814,12 +1812,6 @@
         "turret_06_back_dm": {
           "armorThickness": 150.0,
           "armorEffectiveThicknessMax": 250.0
-        },
-        "turret_06_front_dm": {
-          "armorThickness": 330.0
-        },
-        "turret_01_back_dm": {
-          "armorThickness": 65.0
         },
         "turret_09_top_dm": {
           "armorThickness": 140.0
@@ -2505,7 +2497,9 @@
       "engine": {
         "horsePowers": 700.0,
         "maxRPM": 2800.0,
-        "minRPM": 600.0
+        "minRPM": 600.0,
+        "manufacturer": "hpz",
+        "model": "5tdf"
       },
       "mechanics": {
         "maxBrakeForce": 160000.0,
@@ -2959,10 +2953,8 @@
       "125mm_ussr_ATGM_ammo_pack": {
         "tier": 3
       },
-      "125mm_ussr_3BM22_APDS_FS_ammo_pack": {
-        "tier": 4
-      },
-      "125mm_ussr_3BM22_APDS_FS": {
+      "125mm_ussr_3BM42_APDS_FS_ammo_pack": [],
+      "125mm_ussr_3BM42_APDS_FS": {
         "modCostMul": 2.2
       },
       "125mm_ussr_3BK18M_HEAT_FS": [],

@@ -220,8 +220,14 @@ function get_unit_role_icon(source)
   return ::unit_role_fonticons?[role] ?? ""
 }
 
-function get_unit_actions_list(unit, handler, actions)
+local ACTION_LIST_PARAMS = {
+  isSlotbarEnabled = true
+  needChosenResearchOfSquadron = false
+  isSquadronResearchMode = false
+}
+function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
 {
+  p = ACTION_LIST_PARAMS.__merge(p)
   local res = {
     handler = handler
     actions = []
@@ -320,7 +326,10 @@ function get_unit_actions_list(unit, handler, actions)
       haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY
       haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
-      actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit, { curEdiff = curEdiff }) })(unit)
+      actionFunc = @() ::open_weapons_for_unit(unit, {
+        curEdiff = curEdiff
+        needHideSlotbar = !p.isSlotbarEnabled
+      })
     }
     else if (action == "take")
     {
@@ -384,10 +393,11 @@ function get_unit_actions_list(unit, handler, actions)
 
       local isInResearch = ::isUnitInResearch(unit)
       local isSquadronVehicle = unit.isSquadronVehicle()
+      local isInClan = ::is_in_clan()
       local curExp = ::getUnitExp(unit)
-      local canFlushSquadronExp = isSquadronVehicle && isInResearch
-        && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-      if (isSquadronVehicle && ::is_in_clan() && isInResearch && !canFlushSquadronExp)
+      local squadronExp = min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit))
+      local canFlushSquadronExp = isSquadronVehicle && squadronExp > 0 && (isInClan || isInResearch)
+      if (isSquadronVehicle && isInClan && isInResearch && !canFlushSquadronExp && !p.needChosenResearchOfSquadron)
         continue
 
       local countryExp = ::shop_get_country_excess_exp(::getUnitCountry(unit), ::get_es_unit_type(unit))
@@ -396,12 +406,15 @@ function get_unit_actions_list(unit, handler, actions)
       local needToFlushExp = !isSquadronVehicle && handler?.shopResearchMode && countryExp > 0 //!!FIX ME: Direct search params in the handler not a good idea
       local isLockedSquadronVehicle = isSquadronVehicle && !::is_in_clan()
 
-      actionText = canFlushSquadronExp
-        ? ::loc("mainmenu/btnInvestSquadronExp")
-        : isLockedSquadronVehicle
-          ? ::loc("mainmenu/btnFindSquadron")
-          : needToFlushExp
-            ? ::format(::loc("mainmenu/btnResearch") + " (%s)", ::Cost().setRp(getReqExp).tostring())
+      actionText = needToFlushExp || (p.isSquadronResearchMode && canFlushSquadronExp)
+        ? ::format(::loc("mainmenu/btnResearch") + " (%s)",
+          isSquadronVehicle
+            ? ::Cost().setSap(squadronExp).tostring()
+            : ::Cost().setRp(getReqExp).tostring())
+        : canFlushSquadronExp && isInResearch
+          ? ::format(::loc("mainmenu/btnInvestSquadronExp") + " (%s)", ::Cost().setSap(squadronExp).tostring())
+          : isLockedSquadronVehicle
+            ? ::loc("mainmenu/btnFindSquadron")
             : isInResearch && handler?.setResearchManually && !isSquadronVehicle
               ? ::loc("mainmenu/btnConvert")
               : ::loc("mainmenu/btnResearch")
@@ -410,18 +423,19 @@ function get_unit_actions_list(unit, handler, actions)
         && (::isUnitFeatureLocked(unit) || ::canResearchUnit(unit)
           || canFlushSquadronExp || isLockedSquadronVehicle)
       enabled = showAction
-      actionFunc = canFlushSquadronExp
-        ? function() {
+      actionFunc = needToFlushExp || (p.isSquadronResearchMode
+        && (canFlushSquadronExp || p.needChosenResearchOfSquadron))
+        ? function() {handler.onSpendExcessExp()}
+        : canFlushSquadronExp && isInResearch
+          ? function() {
             ::g_tasker.addTask(::char_send_action_and_load_profile("cln_flush_clan_exp_to_unit"),
             null,
             function() {
               ::broadcastEvent("FlushSquadronExp", {unit = unit})
             })
           }
-        : isLockedSquadronVehicle
-          ? function() { ::has_feature("Clans")? ::gui_modal_clans() : ::show_not_available_msg_box() }
-          : needToFlushExp
-            ? function() {handler.onSpendExcessExp()}
+          : isLockedSquadronVehicle
+            ? function() { ::has_feature("Clans")? ::gui_modal_clans() : ::show_not_available_msg_box() }
             : !handler?.setResearchManually
               ? function () { handler.onCloseShop() }
               : isInResearch && !isSquadronVehicle
@@ -1432,11 +1446,6 @@ function getHighestRankDiffNoPenalty(inverse = false)
       return rankDif - 1
 }
 
-function getUnitRankName(rank, full = false)
-{
-  return full? ::loc("shop/age/" + rank.tostring() + "/name") : ::get_roman_numeral(rank)
-}
-
 function get_battle_type_by_unit(unit)
 {
   return (::get_es_unit_type(unit) == ::ES_UNIT_TYPE_TANK)? BATTLE_TYPES.TANK : BATTLE_TYPES.AIR
@@ -1704,10 +1713,10 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   {
     local nameObj = ageObj.findObject("age_number")
     if (::checkObj(nameObj))
-      nameObj.setValue(::loc("shop/age") + ::getUnitRankName(air.rank, true) + ::loc("ui/colon"))
+      nameObj.setValue(::loc("shop/age") + ::loc("ui/colon"))
     local yearsObj = ageObj.findObject("age_years")
     if (::checkObj(yearsObj))
-      yearsObj.setValue(::getUnitRankName(air.rank))
+      yearsObj.setValue(::get_roman_numeral(air.rank))
   }
 
   //count unit ratings
@@ -1855,8 +1864,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-turnTime-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-climbSpeed-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-airfieldLen-tr"]           = [ ::ES_UNIT_TYPE_AIRCRAFT ],
-    ["aircraft-wingLoading-tr"]           = airplaneParameters ? [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER]
-                                              : [::ES_UNIT_TYPE_INVALID],
+    ["aircraft-wingLoading-tr"]           = airplaneParameters ? [ ::ES_UNIT_TYPE_AIRCRAFT ] : [],
     ["aircraft-visibilityFactor-tr"]      = [ ::ES_UNIT_TYPE_TANK ]
   }
 
@@ -1879,9 +1887,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     powerToWeightRatioObject.show(false)
 
   local thrustToWeightRatioObject = holderObj.findObject("aircraft-thrustToWeightRatio-tr")
-  if (airplanePowerParameters
-    && ::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])
-    && "thrustToWeightRatio" in air.shop)
+  if (airplanePowerParameters && unitType == ::ES_UNIT_TYPE_AIRCRAFT && air.shop?.thrustToWeightRatio)
   {
     holderObj.findObject("aircraft-thrustToWeightRatio").setValue(format("%.2f", air.shop.thrustToWeightRatio))
     thrustToWeightRatioObject.show(true)
@@ -1936,7 +1942,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     holderObj.findObject("aircraft-visibilityFactor-tr").show(visibilityFactor);
     if (shotFreq)
     {
-      local val = stdMath.roundToDigits(time.minutesToSeconds(shotFreq), 3).tostring()
+      local val = stdMath.roundToDigits(shotFreq * 60, 3).tostring()
       holderObj.findObject("aircraft-shotFreq").setValue(format("%s %s", val, ::loc("measureUnits/shotPerMinute")))
     }
     if (reloadTime)
@@ -2330,9 +2336,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       {
         local survive = (stats["flyouts_deaths"]!=null)? stats["flyouts_deaths"] : 1.0
         survive = (survive==0)? 0 : 1.0 - 1.0/survive
-        surviveText = stdMath.roundToDigits(100.0*survive, 2) + "%"
+        surviveText = (survive * 100).tointeger() + "%"
         local wins = (stats["wins_flyouts"]!=null)? stats["wins_flyouts"] : 0.0
-        winsText = stdMath.roundToDigits(100.0*wins, 2) + "%"
+        winsText = (wins * 100).tointeger() + "%"
 
         local usage = (stats["flyouts_factor"]!=null)? stats["flyouts_factor"] : 0.0
         if (usage >= 0.000001)
@@ -2343,7 +2349,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
               rating++
           usageText = ::loc("shop/usageRating/" + rating)
           if (::has_entitlement("AccessTest"))
-            usageText += " (" + stdMath.roundToDigits(100.0*usage, 2) + "%)"
+            usageText += " (" + (usage * 100).tointeger() + "%)"
         }
       }
       holderObj.findObject("aircraft-surviveRating-tr").show(true)

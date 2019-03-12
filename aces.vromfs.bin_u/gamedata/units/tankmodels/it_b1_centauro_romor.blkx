@@ -1117,6 +1117,60 @@
     "class_tags": []
   },
   {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      }
+    }
+  },
+  {
     "unitFx": [
       {
         "event": [
@@ -1584,15 +1638,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -2679,6 +2724,7 @@
         "hasSuspensionOnDriveGear": true,
         "dampeningRelaxationRatio": 0.15,
         "dampeningCompressionRatio": 0.05,
+        "brokenWheelSteeringDeflection": -8.0,
         "steeringDeflection": {
           "wheel_l_01": 25.0,
           "wheel_l_02": 10.0,
@@ -2725,6 +2771,140 @@
           "wheel_r_04": 0.3
         }
       }
+    }
+  },
+  {
+    "MetaParts": {
+      "body": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "superstructure_front_dm"
+        },
+        {
+          "part": "superstructure_front_dm"
+        },
+        {
+          "part": "body_front_dm"
+        },
+        {
+          "part": "turret_01_top_dm"
+        },
+        {
+          "part": "turret_01_side_dm"
+        },
+        {
+          "part": "turret_01_front_dm"
+        },
+        {
+          "part": "body_side_dm"
+        },
+        {
+          "part": "superstructure_top_dm"
+        },
+        {
+          "part": "body_bottom_dm"
+        },
+        {
+          "part": "body_back_dm"
+        },
+        {
+          "part": "ex_armor_02_dm"
+        },
+        {
+          "part": "superstructure_bottom_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 600.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
+      "mount": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "gun_mask_dm"
+        },
+        {
+          "part": "gun_mask_01_dm"
+        },
+        {
+          "part": "gun_mask_02_dm"
+        },
+        {
+          "part": "gun_mask_03_dm"
+        },
+        {
+          "part": "gun_mask_04_dm"
+        },
+        {
+          "part": "turret_side_dm"
+        },
+        {
+          "part": "turret_back_dm"
+        },
+        {
+          "part": "turret_top_dm"
+        },
+        {
+          "part": "turret_bottom_dm"
+        },
+        {
+          "part": "turret_front_dm"
+        },
+        {
+          "part": "turret_02_front_dm"
+        },
+        {
+          "part": "turret_02_side_dm"
+        },
+        {
+          "part": "turret_commander_dm"
+        },
+        {
+          "part": "turret_02_back_dm"
+        },
+        {
+          "part": "turret_02_top_dm"
+        },
+        {
+          "part": "turret_02_bottom_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 600.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ]
     }
   },
   {

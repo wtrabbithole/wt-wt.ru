@@ -102,9 +102,6 @@
     "perfectRangefinder": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -655,40 +652,71 @@
       "formatVersion": 2,
       "armorClass": "ship_wood",
       "armorThickness": 20.0,
-      "compartments": {
-        "fireParamsPreset": "ship_cover",
-        "stopChanceOnDeadPart": 0.2,
-        "genericDamageMult": 0.6,
-        "shatterDamageMult": 0.6,
-        "explosionDamageMult": 0.8,
-        "secondaryShatterDamageMult": 1.0,
-        "armorThickness": 4.0,
-        "armorClass": "ship_structural_steel",
-        "compartment_01_dm": {
-          "hp": 469.0
+      "compartments": [
+        {
+          "fireParamsPreset": "ship_cover"
         },
-        "compartment_02_dm": {
-          "hp": 500.0
+        {
+          "stopChanceOnDeadPart": 0.2
         },
-        "compartment_03_dm": {
-          "hp": 500.0
+        {
+          "genericDamageMult": 0.6
         },
-        "bridge_dm": {
-          "genericDamageMult": 1.5,
-          "shatterDamageMult": 1.5,
-          "explosionDamageMult": 1.0,
-          "armorThickness": 1.0,
-          "hp": 100.0
+        {
+          "shatterDamageMult": 0.6
         },
-        "radio_station_dm": {
-          "genericDamageMult": 1.5,
-          "shatterDamageMult": 1.5,
-          "explosionDamageMult": 1.0,
-          "armorThickness": 1.0,
-          "hp": 80.0
+        {
+          "explosionDamageMult": 0.8
+        },
+        {
+          "secondaryShatterDamageMult": 1.0
+        },
+        {
+          "armorClass": "ship_wood"
+        },
+        {
+          "armorThickness": 4.0
+        },
+        {
+          "armorClass": "ship_structural_steel"
+        },
+        {
+          "compartment_01_dm": {
+            "hp": 469.0
+          }
+        },
+        {
+          "compartment_02_dm": {
+            "hp": 500.0
+          }
+        },
+        {
+          "compartment_03_dm": {
+            "hp": 500.0
+          }
+        },
+        {
+          "bridge_dm": {
+            "genericDamageMult": 1.5,
+            "shatterDamageMult": 1.5,
+            "explosionDamageMult": 1.0,
+            "armorThickness": 1.0,
+            "hp": 100.0
+          }
+        },
+        {
+          "radio_station_dm": {
+            "genericDamageMult": 1.5,
+            "shatterDamageMult": 1.5,
+            "explosionDamageMult": 1.0,
+            "armorThickness": 1.0,
+            "hp": 80.0
+          }
         }
-      },
+      ],
       "superstructures": {
+        "armorClass": "ship_wood",
+        "armorThickness": 10.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
@@ -696,26 +724,22 @@
         "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.2,
         "superstructure_back_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 130.0
         },
         "superstructure_bottom_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 100.0
         },
         "superstructure_top_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 149.0
         },
         "mid_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 106.0
         },
         "bow_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "superstructure_side_dm": {
@@ -732,7 +756,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -2115,6 +2140,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "main_caliber_turret_01",
               "gun": "main_caliber_gun_01",
@@ -2252,6 +2280,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -2398,6 +2429,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "main_caliber_turret_03",
               "gun": "main_caliber_gun_03",
@@ -2542,6 +2576,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "main_caliber_turret_04",
               "gun": "main_caliber_gun_04",
@@ -2640,6 +2677,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -3221,15 +3289,6 @@
           "fx": {
             "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
           }
         }
       },

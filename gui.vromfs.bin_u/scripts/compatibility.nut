@@ -71,4 +71,9 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
   ps4_is_circle_selected_as_enter_button = @() false
   clan_get_exp             = @()  0
   clan_get_researching_unit= @() ""
+  getWheelBarItems = @() null
+  WEAPON_PRIMARY = 22
+  WEAPON_SECONDARY = 23
+  WEAPON_MACHINEGUN = 24
+  get_option_use_oculus_to_aim_helicopter = @() null
 })

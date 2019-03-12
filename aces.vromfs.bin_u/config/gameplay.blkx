@@ -1355,6 +1355,10 @@
     "ricochetAngle": 60.0,
     "ricochetCosinePower": 2.0
   },
+  "instructor": {
+    "pitchPropCoeffBase": 0.12,
+    "pitchDerrCoeffBase": 5.0
+  },
   "mouseAim": {
     "mouseAimDisableControlTreshold": 0.8,
     "disableMouseAimTime": 0.05,
@@ -1648,7 +1652,15 @@
     "sunInfraRedBrightnessBandMask": 3,
     "radarCrossSectionAspectMultFrontFront": 1.0,
     "radarCrossSectionAspectMultFrontSide": 1.2,
-    "radarCrossSectionAspectMultFrontRear": 1.0
+    "radarCrossSectionAspectMultFrontRear": 1.0,
+    "propellerRadarCrossSectionMult": 1.0,
+    "airframeRadarCrossSectionBandMask": 1,
+    "propellersRadarCrossSectionBandMask": 2,
+    "backScatteringBand0": {
+      "backScattering0": [3.0,-37.0],
+      "backScattering1": [15.0,-25.0],
+      "backScattering2": [50.0,-23.0]
+    }
   },
   "fmConstants": {
     "oilLeakSpeed": 0.0024,
@@ -2587,6 +2599,69 @@
     },
     {
       "allowNode": "ex_armor_07_dm"
+    },
+    {
+      "allowNode": "ex_armor_08_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_01_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_02_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_03_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_04_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_05_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_06_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_07_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_08_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_09_dm"
+    },
+    {
+      "allowNode": "ex_armor_r_10_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_01_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_02_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_03_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_04_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_05_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_06_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_07_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_08_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_09_dm"
+    },
+    {
+      "allowNode": "ex_armor_l_10_dm"
     }
   ],
   "torpedoCourseCorrection": {
@@ -2617,5 +2692,12 @@
         "repair_percent": 100
       }
     }
+  },
+  "clanExpReward": {
+    "maxClanActivity": 20000,
+    "rewardPeriodDays": 3,
+    "historyDepth": 14,
+    "enabled": true,
+    "maxActivityPerDay": 120
   }
 }

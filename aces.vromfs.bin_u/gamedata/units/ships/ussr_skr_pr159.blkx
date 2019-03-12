@@ -102,9 +102,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "depthTraceWarningDepth": 5.0
   },
   {
@@ -1106,7 +1103,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 10.0,
         "compartment_01_dm": {
           "hp": 3434.0
         },
@@ -1123,10 +1121,12 @@
           "hp": 3237.0
         },
         "bridge_dm": {
-          "hp": 400.0
+          "armorThickness": 1.0,
+          "hp": 547.0
         },
         "radio_station_dm": {
-          "hp": 200.0
+          "armorThickness": 1.0,
+          "hp": 350.0
         }
       },
       "superstructures": {
@@ -1136,6 +1136,8 @@
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
         "stopChanceOnDeadPart": 0.7,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 8.0,
         "superstructure_bottom_dm": {
           "hp": 1500.0
         },
@@ -1729,7 +1731,7 @@
             "pos": [-35.0,-0.7,2.3],
             "area": 4.5,
             "deflection": 38.0,
-            "dmPart": "rudder_01_dm"
+            "dmPart": "steering_gear_01_dm"
           }
         },
         {
@@ -1737,7 +1739,7 @@
             "pos": [-35.0,-0.7,-2.3],
             "area": 4.5,
             "deflection": 38.0,
-            "dmPart": "rudder_01_dm"
+            "dmPart": "steering_gear_01_dm"
           }
         }
       ]
@@ -1770,6 +1772,12 @@
           },
           {
             "barrelDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -1882,6 +1890,25 @@
               "lim2": [-10.0,10.0,-3.0,85.0],
               "lim3": [10.0,147.0,-10.0,85.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -1910,6 +1937,12 @@
           },
           {
             "barrelDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -2000,6 +2033,25 @@
               "lim2": [-10.0,10.0,-3.0,85.0],
               "lim3": [10.0,147.0,-10.0,85.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -2028,6 +2080,12 @@
           },
           {
             "barrelDP": "main_caliber_gun_02_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_02_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -2118,6 +2176,25 @@
               "lim2": [-10.0,10.0,-3.0,85.0],
               "lim3": [10.0,164.0,-10.0,85.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -2146,6 +2223,12 @@
           },
           {
             "barrelDP": "main_caliber_gun_02_dm"
+          },
+          {
+            "breechDP": "main_caliber_gun_02_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -2235,6 +2318,25 @@
               "lim1": [-164.0,-10.0,-10.0,85.0],
               "lim2": [-10.0,10.0,-3.0,85.0],
               "lim3": [10.0,164.0,-10.0,85.0]
+            }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -2386,6 +2488,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -2971,15 +3104,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2996,24 +3120,17 @@
   },
   {
     "modifications": {
-      "76mm_ussr_ak726_navy_HE": [],
-      "76mm_ussr_ak726_navy_HE_radio_fuse": [],
-      "76mm_ussr_ak726_navy_HE_radio_fuse_ammo_pack": [],
-      "ship_rangefinder": {
-        "prevModification": "76mm_ussr_ak726_navy_HE_radio_fuse_ammo_pack"
-      },
-      "ship_smoke_screen_system_mod": [],
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "new_ship_engine": {
-        "prevModification": "new_ship_screw"
-      },
-      "new_ship_screw": [],
       "new_ship_hull": [],
       "new_ship_rudder": {
         "prevModification": "new_ship_hull"
       },
-      "new_ship_pumps": [],
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
       "ship_anti_fragmentation_protection": {
         "effects": {
           "damagePartsOverride": {
@@ -3034,6 +3151,13 @@
             }
           }
         }
+      },
+      "new_ship_pumps": [],
+      "76mm_ussr_ak726_navy_HE": [],
+      "76mm_ussr_ak726_navy_HE_radio_fuse": [],
+      "76mm_ussr_ak726_navy_HE_radio_fuse_ammo_pack": [],
+      "ship_rangefinder": {
+        "prevModification": "76mm_ussr_ak726_navy_HE_radio_fuse_ammo_pack"
       },
       "new_main_caliber_turrets": [],
       "ship_rocket_launcher": []
@@ -3204,7 +3328,7 @@
         "part": {
           "node": "main_caliber_turret_01",
           "idx": 1,
-          "mass": 1230.0,
+          "mass": 1200.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
           "rotation": 2.1,
@@ -3224,19 +3348,8 @@
       },
       {
         "part": {
-          "node": "ex_decor_16",
-          "idx": 3,
-          "mass": 1000.0,
-          "cutDamage": 350.0,
-          "deviation": 0.6,
-          "rotation": 2.1,
-          "collisionNode": "ex_decor_16_dm"
-        }
-      },
-      {
-        "part": {
           "node": "radar_02",
-          "idx": 4,
+          "idx": 3,
           "mass": 970.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
@@ -3246,20 +3359,9 @@
       },
       {
         "part": {
-          "node": "ex_decor_05",
-          "idx": 5,
-          "mass": 930.0,
-          "cutDamage": 350.0,
-          "deviation": 0.6,
-          "rotation": 2.1,
-          "collisionNode": "ex_decor_05_dm"
-        }
-      },
-      {
-        "part": {
           "node": "tt_01",
-          "idx": 6,
-          "mass": 1220.0,
+          "idx": 4,
+          "mass": 1120.0,
           "cutDamage": 350.0,
           "deviation": 0.6,
           "rotation": 2.1,

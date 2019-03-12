@@ -102,9 +102,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": {
       "replace_tex": {
         "from": "flag_uk_01_c*",
@@ -870,6 +867,7 @@
         "shatterDamageMult": 0.6,
         "explosionDamageMult": 0.8,
         "secondaryShatterDamageMult": 1.0,
+        "armorClass": "ship_wood",
         "armorThickness": 40.0,
         "compartment_01_dm": {
           "hp": 500.0
@@ -896,6 +894,8 @@
         }
       },
       "superstructures": {
+        "armorClass": "ship_wood",
+        "armorThickness": 15.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
@@ -903,25 +903,24 @@
         "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.2,
         "superstructure_front_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 112.0
         },
         "superstructure_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 350.0
         },
         "stern_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "mid_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "bow_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         }
       },
@@ -930,7 +929,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -2242,7 +2242,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_watercool_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/40mm_l60_bofors_mk3_single_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_01"
@@ -2382,7 +2382,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_watercool_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/40mm_l60_bofors_mk3_single_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_02"
@@ -2692,6 +2692,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -3277,15 +3308,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -3302,31 +3324,35 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "40mm_bofors_l60_navy_universal": [],
       "40mm_bofors_l60_navy_he": [],
       "40mm_bofors_l60_navy_he_ammo_pack": [],
       "40mm_bofors_l60_navy_ap": [],
       "40mm_bofors_l60_navy_ap_ammo_pack": {
-        "reqModification": "40mm_bofors_l60_navy_he_ammo_pack"
+        "prevModification": "40mm_bofors_l60_navy_he_ammo_pack"
       },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": [],
       "ship_rangefinder": [],
       "new_main_caliber_turrets": [],
+      "ship_depth_charge": [],
       "ship_main_caliber_support": [],
       "torpedoes_movement_mode": {
         "effects": {
           "distToLive": 1830.0,
           "maxSpeedInWater": -2.31
         }
-      },
-      "ship_depth_charge": []
+      }
     }
   },
   {

@@ -1929,8 +1929,8 @@ class Events
     {
       local minRank = ::max(1, ::getTblValue("min", rule.ranks, 1))
       local maxRank = ::getTblValue("max", rule.ranks, ::max_country_rank)
-      local rankText = ::getUnitRankName(minRank)
-                     + ((minRank != maxRank) ? " - " + ::getUnitRankName(maxRank) : "")
+      local rankText = ::get_roman_numeral(minRank)
+                     + ((minRank != maxRank) ? " - " + ::get_roman_numeral(maxRank) : "")
       rankText = ::format(::loc("events/rank"), rankText)
       if (ruleString.len())
         ruleString += ::loc("ui/parentheses/space", { text = rankText })

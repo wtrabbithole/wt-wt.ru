@@ -20,6 +20,7 @@ local function requestWwLeaderboardData(appId, mode, type, start, amount, catego
 
 local wwLeaderboardValueFactors = {
   rating = 0.0001
+  operation_winrate = 0.0001
   battle_winrate = 0.0001
   avg_place = 0.0001
   avg_score = 0.0001

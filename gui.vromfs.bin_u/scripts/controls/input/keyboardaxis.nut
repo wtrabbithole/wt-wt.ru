@@ -65,4 +65,28 @@ class ::Input.KeyboardAxis extends ::Input.InputBase
 
     return ::NULL_INPUT_DEVICE_ID
   }
+
+  function getConfig()
+  {
+    local elemConf = {}
+    local needArrows = !isCompositAxis
+    foreach (element in elements)
+    {
+      needArrows = needArrows
+        || element.input.getDeviceId() != ::STD_KEYBOARD_DEVICE_ID
+        || !(element.input instanceof ::Input.Button)
+      elemConf[blockNameByDirection[isCompositAxis ? element.axisDirection : AxisDirection.X][element.postfix]]
+        <- element.input.getConfig()
+    }
+    local arrows = [{direction = AxisDirection.X}]
+    if (needArrows && isCompositAxis)
+      arrows.append({direction = AxisDirection.Y})
+
+    return {
+      inputName = "keyboardAxis"
+      needArrows = needArrows
+      arrows = arrows
+      elements = elemConf
+    }
+  }
 }

@@ -105,9 +105,6 @@
     "perfectRangefinder": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "spawn_count": {
       "numSpawnsPerBattleArcade": 3,
       "numSpawnsPerBattleHistorical": 3
@@ -1206,6 +1203,7 @@
         "shatterDamageMult": 0.6,
         "explosionDamageMult": 0.8,
         "secondaryShatterDamageMult": 1.0,
+        "armorClass": "ship_structural_steel",
         "armorThickness": 4.0,
         "compartment_01_dm": {
           "hp": 300.0
@@ -1232,6 +1230,8 @@
         }
       },
       "superstructures": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 4.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
@@ -1239,8 +1239,6 @@
         "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.2,
         "superstructure_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 106.0
         },
         "superstructure_side_dm": {
@@ -1254,7 +1252,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -1744,6 +1743,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "main_caliber_turret_01",
               "gun": "main_caliber_gun_01",
@@ -1879,21 +1881,21 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": [],
+      "new_ship_screw": [],
+      "new_ship_engine": [],
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "12mm_dshk_universal": [],
       "12mm_dshk_navy_he": [],
       "12mm_dshk_navy_he_ammo_pack": [],
       "12mm_dshk_navy_ap": [],
       "12mm_dshk_navy_ap_ammo_pack": {
-        "reqModification": "12mm_dshk_navy_he_ammo_pack"
+        "prevModification": "12mm_dshk_navy_he_ammo_pack"
       },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": [],
       "new_main_caliber_turrets": [],
       "ship_main_caliber_support": [],
       "torpedoes_movement_mode": {
@@ -1927,6 +1929,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -2508,15 +2541,6 @@
           "fx": {
             "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
           }
         }
       },

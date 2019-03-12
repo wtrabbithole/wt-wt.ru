@@ -14,7 +14,6 @@
       "army": 2
     },
     "mission": {
-      "locName": "missions/testFlight",
       "name": "testFlight_iwo_jima_Jet",
       "level": "levels/iwo_jima.bin",
       "type": "testFlight",
@@ -26,6 +25,7 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "windDirection": [1.0,0.0,0.0],
+      "locName": "missions/testFlight",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -125,14 +125,32 @@
           "runwayName": "airfield00",
           "objects": "armada_01"
         },
-        "unitSetIndication": {
-          "set": true,
-          "target_marking": 0,
-          "object_var_name": "",
-          "object_var_comp_op": "equal",
-          "object_var_value": 0,
-          "target": "structures_01"
-        }
+        "unitSetIndication": [
+          {
+            "set": true
+          },
+          {
+            "target_marking": 0
+          },
+          {
+            "object_var_name": ""
+          },
+          {
+            "object_var_comp_op": "equal"
+          },
+          {
+            "object_var_value": 0
+          },
+          {
+            "target": "structures_01"
+          },
+          {
+            "target": "armada_02"
+          },
+          {
+            "target": "structures_02"
+          }
+        ]
       },
       "else_actions": []
     },
@@ -185,11 +203,11 @@
           [0.638868,0.0,-0.769317],
           [-957.416,258.665,142.799]
         ],
-        "unit_class": "b-29",
+        "unit_class": "mig-19pt",
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
-        "weapons": "B29_8x2000lbs",
+        "weapons": "mig_19_r3s_x4",
         "bullets0": "",
         "bullets1": "",
         "bullets2": "",
@@ -510,6 +528,120 @@
           "targetableByAi": false
         },
         "way": []
+      }
+    },
+    {
+      "armada": {
+        "name": "armada_02",
+        "tm": [
+          [-0.414114,0.0,-0.910225],
+          [0.0,1.0,0.0],
+          [0.910225,0.0,-0.414114],
+          [-4328.3,650.0,-176.45]
+        ],
+        "unit_class": "mig-15",
+        "objLayer": 1,
+        "closed_waypoints": true,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "dontOverrideHeight": true,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "free_distance": 70.0,
+          "floating_distance": 50.0,
+          "minimum_distance_to_earth": 20.0,
+          "altLimit": 6000.0,
+          "attack_type": "dont_aim",
+          "skill": 4,
+          "targetableByAi": false,
+          "speed": 700.0,
+          "plane": {
+            "wing_formation": "Diamond",
+            "row_distances": 3.0,
+            "col_distances": 3.0,
+            "super_formation": "Diamond",
+            "super_row_distances": 1.5,
+            "super_col_distances": 1.5,
+            "ai_skill": "NORMAL",
+            "task": "FLY_WAYPOINT"
+          }
+        },
+        "way": {
+          "armada_02_wp_01": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-5861.4,650.0,-3578.65]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "armada_02_wp_02": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [8497.5,650.0,2464.55]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "armada_02_wp_03": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-4081.65,650.0,-6854.55]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          },
+          "armada_02_wp_04": {
+            "type": "normal",
+            "tm": [
+              [1.0,0.0,0.0],
+              [0.0,1.0,0.0],
+              [0.0,0.0,1.0],
+              [-65.6,650.0,3470.3]
+            ],
+            "props": {
+              "speed": 700.0,
+              "tas": false,
+              "moveType": "MOVETO_STRAIGHT",
+              "shouldKeepFormation": false,
+              "canUsePathFinder": false
+            }
+          }
+        }
       }
     }
   ],

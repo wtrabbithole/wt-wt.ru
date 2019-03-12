@@ -18,8 +18,7 @@ local WND_PARAMS = {
 local function remove(key) {
   foreach(idx, wnd in list.value)
     if (wnd.key == key) {
-      list.value.remove(idx)
-      list.trigger()
+      list.update(@(value) value.remove(idx))
       return true
     }
   return false
@@ -33,8 +32,7 @@ local function add(wnd = WND_PARAMS) {
   else
     wnd.key = "modal_wnd_" + lastWndIdx++
   wnd.onClick = wnd.onClick ?? @() remove(wnd.key)
-  list.value.append(wnd)
-  list.trigger()
+  list.update(@(value) value.append(wnd))
 }
 
 return {

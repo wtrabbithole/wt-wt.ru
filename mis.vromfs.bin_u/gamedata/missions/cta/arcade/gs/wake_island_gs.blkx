@@ -161,7 +161,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -413,7 +414,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -422,8 +422,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_bombers_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -436,7 +439,6 @@
             "spawnEffect": false,
             "isAirfield": false,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -445,8 +447,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_bombers_spawn",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": true,
               "tank": false
@@ -5947,7 +5952,7 @@
         [4200.0,0.0,-0.000244141],
         [0.0,500.0,0.0],
         [0.000244141,0.0,4200.0],
-        [0.0,0.0,0.0]
+        [1.0,0.0,1.0]
       ],
       "props": []
     },

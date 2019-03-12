@@ -229,7 +229,6 @@ foreach (fn in [
                  "handler/wwLeaderboard.nut"
                  "worldWarRender.nut"
                  "worldWarBattleJoinProcess.nut"
-                 "worldWarLeaderboard.nut"
                ])
   ::g_script_reloader.loadOnce("scripts/worldWar/" + fn) // no need to includeOnce to correct reload this scripts pack runtime
 
@@ -299,7 +298,7 @@ function g_world_war::canJoinWorldwarBattle()
 function g_world_war::getPlayWorldwarConditionText()
 {
   local rankText = ::colorize("@unlockHeaderColor",
-    ::getUnitRankName(getSetting("minCraftRank", 0)))
+    ::get_roman_numeral(getSetting("minCraftRank", 0)))
   return ::loc("worldWar/playCondition", {rank = rankText})
 }
 

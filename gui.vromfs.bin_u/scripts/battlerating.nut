@@ -36,10 +36,10 @@ local calcBattleRating = function (brData)
   return myData?[0] == null ? 0 : ::calc_battle_rating_from_rank(myData[0].mrank)
 }
 
-local getCrafts = function (data)
+local getCrafts = function (data, country = null)
 {
   local crafts = []
-  local craftData = data.crewAirs?[data.country]
+  local craftData = data.crewAirs?[country ?? data.country]
   if (craftData == null)
     return crafts
 
@@ -90,6 +90,16 @@ local resetBattleRating = function()
   ::broadcastEvent("BattleRatingChanged")
 }
 
+local getBestCountryData = function(event)
+{
+  local teams = ::events.getAvailableTeams(event)
+  local membersTeams = ::events.getMembersTeamsData(event, null, teams)
+  if (!membersTeams)
+    return null
+
+  return ::events.getMembersInfo(teams, membersTeams.teamsData).data
+}
+
 local getUserData = function()
 {
   local gameModeId = recentGameMode?.source?.gameModeId
@@ -97,18 +107,21 @@ local getUserData = function()
     return null
 
   local players = []
+
   if (::g_squad_manager.isSquadLeader())
   {
+    local countryData = getBestCountryData(::events.getEvent(recentGameMode?.id))
     foreach(member in ::g_squad_manager.getMembers())
     {
       if (!member.online || member.country == "")
         continue
 
-      local crafts = getCrafts(member)
+      local country = countryData?[member.uid]?.country
+      local crafts = getCrafts(member, country)
       players.append({
         name = member.name
-        country = member.country
-        slot = ::u.searchIndex(crafts, function(p) { return p.name == member.selAirs[member.country]})
+        country = country ?? member.country
+        slot = ::u.searchIndex(crafts, function(p) { return p.name == member.selAirs[country ?? member.country]})
         crafts = crafts
       })
     }
@@ -124,7 +137,7 @@ local getUserData = function()
       name = data.name
       country = data.country
       slot = ::u.searchIndex(crafts, function(p) { return p.name == data.selAirs[data.country]})
-      crafts = getCrafts(data)
+      crafts = crafts
     })
   }
 
@@ -160,15 +173,21 @@ updateBattleRating = function (gameMode = null, brData = null)
     if(isBRKnown(recentUserData))
     {
       isNeedRewrite = true
-      setBattleRating(recentUserData, brData)
+      setBattleRating(recentUserData, null)
     }
 
     return
   }
 
-  if(::u.isEqual(userData, recentUserData) || isBRKnown(recentUserData))
+  if(::u.isEqual(userData, recentUserData) && brData)
   {
     setBattleRating(recentUserData, brData)
+    return
+  }
+
+  if (isBRKnown(recentUserData))
+  {
+    setBattleRating(recentUserData, null)
     return
   }
 

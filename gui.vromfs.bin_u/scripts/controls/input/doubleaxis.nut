@@ -18,10 +18,9 @@ class ::Input.DoubleAxis extends ::Input.InputBase
       view = {}
     }
 
-    if (deviceId == ::JOYSTICK_DEVICE_0_ID)
-      data.view.buttonImage <- ::getTblValue(axisIds, ::gamepad_axes_images, "")
-    else if (deviceId == ::STD_MOUSE_DEVICE_ID)
-      data.view.buttonImage <- ::getTblValue(axisIds, ::mouse_axes_to_image, "")
+    local image = getImage()
+    if (image)
+      data.view.buttonImage <- image
 
     return data
   }
@@ -36,8 +35,26 @@ class ::Input.DoubleAxis extends ::Input.InputBase
     return deviceId
   }
 
+  function getImage()
+  {
+    if (deviceId == ::JOYSTICK_DEVICE_0_ID)
+      return ::gamepad_axes_images?[axisIds] ?? ""
+    else if (deviceId == ::STD_MOUSE_DEVICE_ID)
+      return ::mouse_axes_to_image?[axisIds] ?? ""
+
+    return null
+  }
+
   function hasImage()
   {
-     return ::gamepad_axes_images?[axisIds] ?? "" !="" || ::mouse_axes_to_image?[axisIds] ?? "" !=""
+     return getImage() ?? "" !=""
+  }
+
+  function getConfig()
+  {
+    return {
+      inputName = "doubleAxis"
+      buttonImage = getImage()
+    }
   }
 }

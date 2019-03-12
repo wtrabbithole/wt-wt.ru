@@ -9,6 +9,7 @@ class ActionBar
   canControl              = true
   useWheelmenu            = false
   killStreaksActions      = null
+  weaponActions           = null
 
   artillery_target_mode = false
 
@@ -29,6 +30,10 @@ class ActionBar
     ::g_hud_event_manager.subscribe("ToggleKillStreakWheel", function (eventData) {
       if ("open" in eventData)
         toggleKillStreakWheel(eventData.open)
+    }, this)
+    ::g_hud_event_manager.subscribe("ToggleSelectWeaponWheel", function (eventData) {
+      if ("open" in eventData)
+        toggleSelectWeaponWheel(eventData.open)
     }, this)
     ::g_hud_event_manager.subscribe("LiveStatsVisibilityToggled", function (eventData) {
       updateVisibility()
@@ -107,9 +112,9 @@ class ActionBar
       shortcutId = actionBarType.getVisualShortcut(item, unit)
       local shType = ::g_shortcut_type.getShortcutTypeByShortcutId(shortcutId)
       local scInput = shType.getFirstInput(shortcutId)
-      showShortcut = true
       shortcutText = scInput.getText()
       isXinput = scInput.hasImage() && scInput.getDeviceId() != ::STD_KEYBOARD_DEVICE_ID
+      showShortcut = isXinput || shortcutText !=""
     }
 
     viewItem.id                 <- __action_id_prefix + item.id
@@ -333,7 +338,10 @@ class ActionBar
   {
     local isUnitValid = ::get_es_unit_type(getActionBarUnit()) != ::ES_UNIT_TYPE_INVALID
     local rawActionBarItem = isUnitValid ? ::get_action_bar_items() : []
+    local rawWheelItem = isUnitValid ? (::getWheelBarItems() != null?
+    ::getWheelBarItems() : []) : []
     killStreaksActions = []
+    weaponActions = []
 
     if (!useWheelmenu)
       return rawActionBarItem
@@ -343,6 +351,12 @@ class ActionBar
       local actionBarType = ::g_hud_action_bar_type.getByActionItem(rawActionBarItem[i])
       if (actionBarType.isForWheelMenu())
         killStreaksActions.insert(0, rawActionBarItem[i])
+    }
+    for (local i = rawWheelItem.len() - 1; i >= 0; i--)
+    {
+      local actionBarType = ::g_hud_action_bar_type.getByActionItem(rawWheelItem[i])
+      if (actionBarType.isForSelectWeaponMenu())
+        weaponActions.insert(0, rawWheelItem[i])
     }
 
     return rawActionBarItem
@@ -375,6 +389,17 @@ class ActionBar
       ::dagor.assertf(false, "Error: killStreak id out of range.")
     }
   }
+
+  function activateWeapon(streakId)
+  {
+    local action = ::getTblValue(streakId, weaponActions)
+    if (action)
+    {
+      local shortcut = ::g_hud_action_bar_type.getByActionItem(action).getShortcut(action, getActionBarUnit())
+      toggle_shortcut(shortcut)
+    }
+  }
+
 
   function getActionByObj(obj)
   {
@@ -456,6 +481,31 @@ class ActionBar
       fillKillStreakWheel()
   }
 
+  function toggleSelectWeaponWheel(open)
+  {
+    if (!::checkObj(scene))
+      return
+
+    if (open)
+      fillSelectWaponWheel()
+    else
+      ::close_cur_wheelmenu()
+  }
+
+  function fillSelectWaponWheel()
+  {
+    local menu = []
+    foreach(action in weaponActions)
+      menu.append(buildItemView(action))
+    local params = {
+      menu            = menu
+      callbackFunc    = activateWeapon
+      contentTemplate = "gui/hud/actionBarItemStreakWheel"
+      contentType     = WM_CONTENT_TYPE.TEMPLATE
+      owner           = this
+    }
+    ::gui_start_wheelmenu(params)
+  }
   function onTooltipObjClose(obj)
   {
     ::g_tooltip.close.call(this, obj)

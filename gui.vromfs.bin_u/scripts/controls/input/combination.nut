@@ -59,4 +59,14 @@ class ::Input.Combination extends ::Input.InputBase
 
     return false
   }
+
+  function getConfig()
+  {
+    return {
+      inputName = "combination"
+      text = getText()
+      elements = u.map(elements, @(element) element.getConfig())
+    }
+  }
+
 }

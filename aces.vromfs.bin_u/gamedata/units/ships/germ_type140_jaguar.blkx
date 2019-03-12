@@ -93,9 +93,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -1170,8 +1167,8 @@
         "shatterDamageMult": 0.5,
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
-        "armorThickness": 40.0,
         "armorClass": "ship_wood",
+        "armorThickness": 57.0,
         "compartment_01_dm": {
           "hp": 1500.0
         },
@@ -1185,17 +1182,17 @@
           "hp": 998.0
         },
         "bridge_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 5.0,
-          "hp": 500.0
+          "armorThickness": 1.0,
+          "hp": 250.0
         },
         "radio_station_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 5.0,
-          "hp": 500.0
+          "armorThickness": 1.0,
+          "hp": 150.0
         }
       },
       "superstructures": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 4.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 0.4,
         "shatterDamageMult": 0.3,
@@ -1209,15 +1206,18 @@
           "hp": 1000.0
         },
         "stern_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 15.0,
           "hp": 500.0
         },
         "mid_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 15.0,
           "hp": 500.0
         },
         "bow_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 15.0,
           "hp": 500.0
         }
       },
@@ -1226,7 +1226,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 10.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 1000.0
@@ -1529,7 +1530,7 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 4
+        "crew": 5
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
@@ -1549,7 +1550,7 @@
       "sailor8": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 2
       }
     }
   },
@@ -2519,6 +2520,9 @@
             "defaultPitch": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "speedYaw": 75.0
           },
           {
@@ -2657,6 +2661,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "speedYaw": 75.0
@@ -2912,27 +2919,24 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": [],
+      "new_ship_screw": [],
+      "new_ship_engine": [],
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "40mm_Bofors_navy_universal": [],
       "40mm_bofors_l60_navy_he": [],
       "40mm_bofors_l60_navy_he_ammo_pack": [],
-      "40mm_bofors_l60_navy_ap_ammo_pack": {
-        "reqModification": "40mm_bofors_l60_navy_he_ammo_pack"
-      },
+      "40mm_bofors_l60_navy_ap_ammo_pack": [],
       "40mm_bofors_l60_navy_ap": [],
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": {
-        "prevModification": "40mm_bofors_l60_navy_ap_ammo_pack"
+      "new_main_caliber_turrets": {
+        "prevModification": "40mm_bofors_l60_navy_he_ammo_pack"
       },
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": {
-        "prevModification": "manual_ship_extinguisher"
-      },
-      "new_main_caliber_turrets": [],
       "torpedoes_movement_mode": {
+        "prevModification": "40mm_bofors_l60_navy_ap_ammo_pack",
         "effects": {
           "distToLive": 8000.0,
           "maxSpeedInWater": -7.2
@@ -2963,6 +2967,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -3544,15 +3579,6 @@
           "fx": {
             "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
           }
         }
       },

@@ -25,7 +25,7 @@
     "explosiveMass": 1.95,
     "caliber": 0.114,
     "mass": 17.5,
-    "massEnd": 13.0,
+    "massEnd": 15.34,
     "maxDeltaAngle": 0.3,
     "dragCx": 0.027,
     "length": 0.84,
@@ -44,36 +44,20 @@
     "waterFxScale": [0.4,0.5],
     "explosionPatchRadius": 3.4,
     "smokeEffect": "hydra_smoke",
-    "maxDistance": 4500.0,
-    "minDistance": 30.0,
+    "maxDistance": 4200.0,
+    "minDistance": 50.0,
     "spawnExplosionWreckage": false,
     "spawnExplosionFx": false,
     "explosionOffset": 0.05,
-    "hitPowerMult": 1.0,
-    "nearHitPower": [1.0,50.0],
-    "midHitPower": [0.9,400.0],
-    "farHitPower": [0.1,1000.0],
-    "endHitPower": [0.01,1500.0],
-    "relativeVelHitShift": [300.0,1000.0],
-    "nearArmorPower": [3.0,50.0],
-    "midArmorPower": [2.0,400.0],
-    "farArmorPower": [0.2,700.0],
-    "relativeVelArmorShift": [200.0,1000.0],
     "distanceFuse": false,
     "explodeTreshold": 0.01,
-    "explodeHitPower": 350.0,
-    "explodeArmorPower": 29.0,
-    "explodeRadius": [0.5,1.2],
+    "relativeVelHitShift": [300.0,1000.0],
+    "relativeVelArmorShift": [200.0,1000.0],
     "rendinstDamageRadius": 5.0,
     "statType": "hydra",
-    "shutterDamage": true,
-    "shutterDamageRadius": 25.0,
-    "shutterAmount": 1000,
-    "shutterArmorPower": 7.0,
-    "shutterHit": 12.0,
     "advancedMissiles": false,
     "useStartSpeed": true,
-    "startSpeed": 50.0,
+    "startSpeed": 259.0,
     "endSpeed": 260.0,
     "speedViscosity": 0.2,
     "timeToLive": 20.0,
@@ -82,19 +66,41 @@
       "steel": {
         "fx": "cannon_hit_armor_cumulative",
         "fxScale": [3.0,4.0]
-      },
-      "armor": {
-        "fx": "cannon_hit_armor_cumulative",
-        "fxScale": [3.0,4.0]
-      },
-      "buildings": {
-        "fx": "atgm_hit",
-        "fxScale": [1.7,2.1]
-      },
-      "wood": {
-        "fx": "atgm_hit",
-        "fxScale": [1.7,2.1]
       }
+    },
+    "damage": {
+      "shatter": [
+        {
+          "useRealShatters": true
+        },
+        {
+          "countPortion": 0.03
+        },
+        {
+          "segment": {
+            "radiusScale": 1.0,
+            "penetrationScale": 1.0,
+            "damageScale": 1.0,
+            "angles": [0.0,100.0],
+            "countPortion": 0.5
+          }
+        },
+        {
+          "segment": {
+            "angles": [101.0,259.0],
+            "countPortion": 0.0
+          }
+        },
+        {
+          "segment": {
+            "radiusScale": 1.0,
+            "penetrationScale": 1.0,
+            "damageScale": 1.0,
+            "angles": [260.0,359.0],
+            "countPortion": 0.5
+          }
+        }
+      ]
     }
   }
 }

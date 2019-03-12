@@ -187,12 +187,12 @@ class TrophyMultiAward
                           if (typeof(val) != "instance" || !(val instanceof ::Point2))
                             return ""
 
-                          local res = ::colorize(condColor, ::getUnitRankName(val.x))
+                          local res = ::colorize(condColor, ::get_roman_numeral(val.x))
                           if (val.x == val.y)
                             return res
 
                           local div = (val.y - val.x == 1) ? ", " : "-"
-                          return res + div + ::colorize(condColor, ::getUnitRankName(val.y))
+                          return res + div + ::colorize(condColor, ::get_roman_numeral(val.y))
                         }.bindenv(this))
 
     text += ::g_string.implode(ranks, ", ")

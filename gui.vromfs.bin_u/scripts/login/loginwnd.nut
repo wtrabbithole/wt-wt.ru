@@ -330,11 +330,6 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     restoreFocus()
   }
 
-  function isTryLinkSteamAccount()
-  {
-    return ::steam_is_running() && !::load_local_account_settings("usedSteamLinkAccountOnce", false)
-  }
-
   function requestLogin(no_dump_login)
   {
     return requestLoginWithCode(no_dump_login, check2StepAuthCode? ::get_object_value(scene, "loginbox_code", "") : "");
@@ -392,7 +387,6 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
       autoSave = autoSave | 4
 
     ::set_login_pass(no_dump_login.tostring(), ::get_object_value(scene, "loginbox_password", ""), autoSave)
-
     if (!::checkObj(scene)) //set_login_pass start onlineJob
       return
 
@@ -445,13 +439,14 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     proceedAuthorizationResult(result, no_dump_login)
   }
 
-  function onSteamAuthorization()
+  function onSteamAuthorization(steamSpecCode = null)
   {
+    steamSpecCode = steamSpecCode || "steam"
     isLoginRequestInprogress = true
     ::disable_autorelogin_once <- false
     ::statsd_counter("gameStart.request_login.steam")
-    ::dagor.debug("Steam Login: check_login_pass")
-    local result = ::check_login_pass("", "", "steam", "steam", false, false)
+    ::dagor.debug("Steam Login: check_login_pass with code " + steamSpecCode)
+    local result = ::check_login_pass("", "", "steam", steamSpecCode, false, false)
     proceedAuthorizationResult(result, "")
   }
 
@@ -500,6 +495,11 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     }
   }
 
+  function needTrySteamLink()
+  {
+    return ::steam_is_running() && ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID) == null
+  }
+
   function proceedAuthorizationResult(result, no_dump_login)
   {
     isLoginRequestInprogress = false
@@ -508,18 +508,21 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
     was_using_stoken = (stoken != "")
     stoken = ""
+
     switch (result)
     {
       case ::YU2_OK:
-        if (isTryLinkSteamAccount())
+        if (needTrySteamLink())
         {
           local isRemoteComp = ::get_object_value(scene, "loginbox_remote_comp", false)
           ::statsd_counter("gameStart.request_login.steam_link")
           ::dagor.debug("Steam Link Login: check_login_pass")
           local res = ::check_login_pass("", "", "steam", "steam", true, isRemoteComp)
-          ::dagor.debug("Steam: link existing account, result = " + res)
-          if (res == ::YU2_OK || res == ::YU2_ALREADY)
-            ::save_local_account_settings("usedSteamLinkAccountOnce", true)
+          ::dagor.debug("Steam Link Login: link existing account, result = " + res)
+          if (res == ::YU2_OK)
+            ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, true)
+          else if (res == ::YU2_ALREADY)
+            ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, false)
         }
         checkSteamActivation(no_dump_login)
         break
@@ -648,10 +651,9 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function onEventKeyboardLocksChanged(params)
   {
-    local capsIndicator =
-      scene.findObject("loginbox_password_caps_indicator")
-
-    capsIndicator.show((params.locks & 1) == 1)
+    local capsIndicator = scene.findObject("loginbox_password_caps_indicator")
+    if (::check_obj(capsIndicator))
+      capsIndicator.show((params.locks & 1) == 1)
   }
 
   function onSignUp()
@@ -691,10 +693,6 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function onExit()
   {
-    /*
-    if (::steam_is_running())
-      return ::handlersManager.loadHandler(::gui_handlers.LoginWndHandlerSteam)
-*/
     msgBox("login_question_quit_game", ::loc("mainmenu/questionQuitGame"),
       [
         ["yes", ::exit_game],

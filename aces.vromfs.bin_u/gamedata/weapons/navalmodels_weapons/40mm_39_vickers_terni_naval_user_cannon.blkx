@@ -18,7 +18,7 @@
   "aimMaxDist": 4000.0,
   "maxDeltaAngle": 0.05,
   "maxDeltaAngleVertical": 0.05,
-  "AttackMaxDist": 4000.0,
+  "attackMaxDist": 4000.0,
   "notUseDefaultBulletInGui": true,
   "sound_path": "ships/weapon_ships/cannons",
   "sound": "40mm_l70_bofors_mel_58",
@@ -96,12 +96,6 @@
       "explosionPatchRadius": 2.1
     },
     {
-      "groundCollisionEffect": "20_37_he_hit_ground"
-    },
-    {
-      "groundFxScale": [1.0,1.0]
-    },
-    {
       "ricochetEffect": "cannon_ricochet"
     },
     {
@@ -129,6 +123,10 @@
     },
     {
       "collisions": {
+        "default": {
+          "fx": "20_37_he_hit_ground",
+          "fxScale": [1.0,1.0]
+        },
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
           "fxScale": [1.6,1.6]
@@ -142,6 +140,10 @@
           "fxScale": [1.6,1.6]
         },
         "buildings": {
+          "fx": "20_37_he_hit_stone",
+          "fxScale": [1.3,1.3]
+        },
+        "beton": {
           "fx": "20_37_he_hit_stone",
           "fxScale": [1.3,1.3]
         }
@@ -217,12 +219,6 @@
         "explosionPatchRadius": 2.1
       },
       {
-        "groundCollisionEffect": "20_37_he_hit_ground"
-      },
-      {
-        "groundFxScale": [1.0,1.0]
-      },
-      {
         "ricochetEffect": "cannon_ricochet"
       },
       {
@@ -250,6 +246,10 @@
       },
       {
         "collisions": {
+          "default": {
+            "fx": "20_37_he_hit_ground",
+            "fxScale": [1.0,1.0]
+          },
           "steel": {
             "fx": "cannon_hit_armor_cumulative",
             "fxScale": [1.6,1.6]
@@ -263,6 +263,10 @@
             "fxScale": [1.6,1.6]
           },
           "buildings": {
+            "fx": "20_37_he_hit_stone",
+            "fxScale": [1.3,1.3]
+          },
+          "beton": {
             "fx": "20_37_he_hit_stone",
             "fxScale": [1.3,1.3]
           }

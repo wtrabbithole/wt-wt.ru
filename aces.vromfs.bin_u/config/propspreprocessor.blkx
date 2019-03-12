@@ -9,7 +9,7 @@
     },
     {
       "extends": {
-        "source": "config/damageModel.blk:kineticEnergyToDamage/default",
+        "source": "config/damageModel.blk:kineticEnergyToDamage",
         "target": "damage/kinetic/energyToDamage"
       }
     },
@@ -231,14 +231,14 @@
     {
       "preset": {
         "param": "slopeEffectPreset",
-        "presets": "config/damageModel.blk:slopeEffectPresets",
+        "presets": "gamedata/damage_model/slope_effect.blk",
         "target": "ballistics/slopeEffect/table"
       }
     },
     {
       "preset": {
         "param": "ricochetPreset",
-        "presets": "config/damageModel.blk:ricochetPresets",
+        "presets": "gamedata/damage_model/ricochet.blk",
         "target": "ballistics/ricochet/table"
       }
     },

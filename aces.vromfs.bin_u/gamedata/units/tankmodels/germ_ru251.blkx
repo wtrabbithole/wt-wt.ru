@@ -216,7 +216,7 @@
         "armorThickness": 4.0,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
-        "ex_decor_turret_01_dm": {
+        "ex_decor_05_dm": {
           "armorThickness": 30.0
         }
       },
@@ -310,7 +310,7 @@
           "armorClass": "tank_traks",
           "armorThickness": 15.0,
           "hp": 150.0,
-          "ex_decor_03_dm": []
+          "ex_armor_03_dm": []
         }
       },
       "gun": {
@@ -615,62 +615,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 380.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 170.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 190.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -703,7 +647,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -712,7 +656,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -854,7 +798,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -863,7 +807,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2602,15 +2546,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

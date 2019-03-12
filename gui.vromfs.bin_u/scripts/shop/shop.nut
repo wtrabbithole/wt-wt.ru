@@ -541,8 +541,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   }
 */
 
-  function createLine(r0, c0, r1, c1, status, isFakeUnitReq = false)
+  function createLine(r0, c0, r1, c1, status, params = {})
   {
+    local isFakeUnitReq = params?.isFakeUnitReq ?? false
+    local isMultipleArrow = params?.isMultipleArrow ?? false
+
     local lines = ""
     local arrowFormat = "shopArrow { type:t='%s'; size:t='%s, %s'; pos:t='%s, %s'; rotation:t='%s' shopStat:t='" + status + "' } "
     local lineFormat = "shopLine { size:t='%s, %s'; pos:t='%s, %s'; rotation:t='%s'; shopStat:t='" + status + "' } "
@@ -597,22 +600,26 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     else
     {//double
       local lh = 0
+      local offset = isMultipleArrow ? 0.1 : 0
+      local arrowOffset = c0 > c1 ? -offset : offset
+
       lines += format(lineFormat,
                        pad1 + " + " + lh + "@shop_height",//height
                        "1@modLineWidth", //width
-                       (c0 + 0.5) + "@shop_width" + ((c0 > c1) ? "-" : "+") + " 0.5@modLineWidth", //posX
-                       (r0 + 1) + "@shop_height - " + pad1 + ((c0 > c1) ? "+w" : ""), // posY
+                       (c0 + 0.5 + arrowOffset) + "@shop_width" + ((c0 > c1) ? "-" : "+") + " 0.5@modLineWidth", //posX
+                       (r0 + 1) + "@shop_height - " + pad1 + ((c0 > c1) ? "+w + 0.4@modLineTopAlpha " : "- 0.4@modLineTopAlpha "), // posY
                        (c0 > c1) ? "-90" : "90")
+
       lines += format(lineFormat,
-                      abs(c1-c0) + "@shop_width",
+                      (abs(c1-c0) - offset) + "@shop_width",
                       "1@modLineWidth", //height
-                      (::min(c0, c1) + 0.5) + "@shop_width",
+                      (::min(c0, c1) + 0.5 + (c0 > c1 ? 0 : offset)) + "@shop_width",
                       (lh + r0 + 1) + "@shop_height - 0.5@modLineWidth",
                       "0")
       lines += format(angleFormat,
                        "1@modAngleWidth", //width
                        "1@modAngleWidth", //height
-                       (c0 + 0.5) + "@shop_width - 0.5@modAngleWidth", //posX
+                       (c0 + 0.5 + arrowOffset) + "@shop_width - 0.5@modAngleWidth", //posX
                        (lh + r0 + 1) + "@shop_height - 0.5@modAngleWidth", // posY
                        (c0 > c1 ? "-90" : "0"))
       lines += format(arrowFormat,
@@ -655,7 +662,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     foreach(lc in treeData.lines)
     {
       fillAirReq(lc.air, lc.reqAir)
-      data += createLine(lc.line[0], lc.line[1], lc.line[2], lc.line[3], getLineStatus(lc), lc.reqAir?.isFakeUnit)
+      data += createLine(lc.line[0], lc.line[1], lc.line[2], lc.line[3], getLineStatus(lc),
+        {
+          isFakeUnitReq = lc.reqAir?.isFakeUnit
+          isMultipleArrow = lc.arrowCount > 1
+        }
+      )
     }
 
     foreach(row, rowArr in treeData.tree) //check groups even they dont have requirements
@@ -883,7 +895,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       data += ::format(modBlockFormat,
                   status,
                   (prevEraPos + curFakeRowRankCount).tostring(),
-                  ::loc("options/chooseUnitsRank/rank_" + i),
+                  ::loc("shop/age/num", { num = ::get_roman_numeral(i) }),
                   ::g_string.stripTags(texts.tooltipRank))
 
       data += arrowData
@@ -1790,17 +1802,18 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     local isSquadronVehicle = unit.isSquadronVehicle()
     local isInResearch = ::isUnitInResearch(unit)
-    local canFlushSquadronExp = isSquadronVehicle && isInResearch
+    local canFlushSquadronExp = isSquadronVehicle
       && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-    if (isSquadronVehicle && !::is_in_clan() && !canFlushSquadronExp)
+    if (isSquadronVehicle && !::is_in_clan() && (!canFlushSquadronExp || !isInResearch))
       return ::has_feature("Clans")? ::gui_modal_clans() : ::show_not_available_msg_box()
-    if (!isSquadronVehicle && (availableFlushExp > 0 || !setResearchManually)
+    if ((availableFlushExp > 0 || !setResearchManually
+        || (isSquadronResearchMode && (canFlushSquadronExp || needChosenResearchOfSquadron())))
       && (::canResearchUnit(unit) || isInResearch))
       return onSpendExcessExp()
     if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle)
       return onConvert(obj)
 
-    if (canFlushSquadronExp)
+    if (canFlushSquadronExp && isInResearch)
     {
       return flushSquadronExp()
     }
@@ -1821,16 +1834,18 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     local isSquadronVehicle = unit.isSquadronVehicle()
     local isInResearch = ::isUnitInResearch(unit)
-    local canFlushSquadronExp = isSquadronVehicle && isInResearch
+    local canFlushSquadronExp = isSquadronVehicle
       && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-    if (isSquadronVehicle && !::is_in_clan() && !canFlushSquadronExp)
+    if (isSquadronVehicle && !::is_in_clan() && (!canFlushSquadronExp || !isInResearch))
       return "#mainmenu/btnFindSquadron"
-    if ((availableFlushExp > 0 || !setResearchManually) && (::canResearchUnit(unit) || isInResearch))
+    if ((availableFlushExp > 0 || !setResearchManually
+        || (isSquadronResearchMode && (canFlushSquadronExp || needChosenResearchOfSquadron())))
+      && (::canResearchUnit(unit) || isInResearch))
       return "#mainmenu/btnResearch"
     if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle)
       return "#mainmenu/btnConvert"
 
-    if (canFlushSquadronExp)
+    if (canFlushSquadronExp && isInResearch)
       return "#mainmenu/btnInvestSquadronExp"
     if (!::isUnitUsable(unit) && !::isUnitGift(unit) && (!isSquadronVehicle || !isInResearch))
       return ::isUnitMaxExp(unit) ? "#mainmenu/btnOrder" : "#mainmenu/btnResearch"
@@ -1993,22 +2008,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       }
   }
 
-  function onAirHover(obj)
-  {
-    if (unitActionsListTimer != null)
-      unitActionsListTimer.destroy()
-    local handler = this
-    unitActionsListTimer = Timer(obj, 1.0, (@(obj, slotbarActions, handler) function () {
-      if (obj.isHovered())
-      {
-        local unit = ::getAircraftByName(obj.unit_name)
-        local actions = ::get_unit_actions_list(unit, handler, slotbarActions)
-
-        ::gui_handlers.ActionsList.open(obj, actions)
-      }
-    })(obj, slotbarActions, handler))
-  }
-
   function restoreFocus(checkPrimaryFocus = true)
   {
     if (isSceneActive() && !checkGroupObj())
@@ -2136,6 +2135,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     doWhenActiveOnce("fillAircraftsList")
   }
 
+  function onEventSquadronExpChanged(params)
+  {
+    checkUnitItemAndUpdate(::getAircraftByName(clan_get_researching_unit()))
+  }
+
   function flushSquadronExp()
   {
     local unit = getCurAircraft()
@@ -2165,4 +2169,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   isDisabledCountry = @(countryData) false
   isDisabledUnitTypePage = @(countryData, unitTypePage) false
   hasSquadronVehicleToResearche = @() clan_get_researching_unit() != ""
+  needChosenResearchOfSquadron = @() false
+  getParamsForActionsList = @() {
+    needChosenResearchOfSquadron = needChosenResearchOfSquadron()
+    isSquadronResearchMode = isSquadronResearchMode
+  }
 }

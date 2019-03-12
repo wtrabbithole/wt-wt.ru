@@ -2,6 +2,8 @@ local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboa
 
 ::ww_leaderboards_list <- [
   ::g_lb_category.EVENTS_PERSONAL_ELO
+  ::g_lb_category.OPERATION_COUNT
+  ::g_lb_category.OPERATION_WINRATE
   ::g_lb_category.BATTLE_COUNT
   ::g_lb_category.BATTLE_WINRATE
   ::g_lb_category.FLYOUTS
@@ -182,6 +184,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         requestData.type,
         pos, rowsInPage, lbField,
         function(lbPageData) {
+          if (!isValid())
+            return
+
           if (!hasSelfRow)
             selfRowData = []
           pageData = wwLeaderboardData.convertWwLeaderboardData(lbPageData, isCountriesLeaderboard())
@@ -196,6 +201,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         requestData.type,
         null, 0, lbField,
         function(lbSelfData) {
+          if (!isValid())
+            return
+
           selfRowData = wwLeaderboardData.convertWwLeaderboardData(lbSelfData, isCountriesLeaderboard()).rows
           if(afterLoadSelfRow)
             afterLoadSelfRow(getSelfPos())

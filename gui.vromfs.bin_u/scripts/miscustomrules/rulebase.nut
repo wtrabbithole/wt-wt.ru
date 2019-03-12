@@ -471,7 +471,7 @@ class ::mission_rules.Base
     local valueRank = getRandomUnitsGroupValueRange(randomGroups, getRank)
     local minRank = valueRank.minValue
     local maxRank = valueRank.maxValue
-    return ::getUnitRankName(minRank) + ((minRank != maxRank) ? "-" + ::getUnitRankName(maxRank) : "")
+    return ::get_roman_numeral(minRank) + ((minRank != maxRank) ? "-" + ::get_roman_numeral(maxRank) : "")
   }
 
   function getRandomUnitsGroupValueRange(randomGroups, getValue)

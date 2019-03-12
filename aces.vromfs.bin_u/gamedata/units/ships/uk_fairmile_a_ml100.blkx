@@ -99,9 +99,6 @@
     "smokeScreenOffset": [-3.0,0.0,2.0]
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": {
       "replace_tex": {
         "from": "flag_uk_01_c*",
@@ -645,7 +642,8 @@
         "shatterDamageMult": 0.6,
         "explosionDamageMult": 0.8,
         "secondaryShatterDamageMult": 1.0,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 28.0,
         "compartment_01_dm": {
           "hp": 500.0
         },
@@ -674,6 +672,8 @@
         }
       },
       "superstructures": {
+        "armorClass": "ship_wood",
+        "armorThickness": 15.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
@@ -681,22 +681,17 @@
         "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.2,
         "superstructure_back_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 100.0
         },
         "superstructure_side_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 350.0
         },
         "superstructure_top_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 100.0
         },
         "bow_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         }
       },
@@ -705,7 +700,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -2158,6 +2154,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": [
               {
                 "head": "main_caliber_turret_01"
@@ -2322,6 +2321,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_01",
               "gun": "aa_gun_01",
@@ -2459,6 +2461,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -2600,6 +2605,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_02",
               "gun": "aa_gun_02",
@@ -2737,6 +2745,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -2878,6 +2889,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_03",
               "gun": "aa_gun_03",
@@ -3017,6 +3031,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "aa_turret_03",
               "gun": "aa_gun_03",
@@ -3127,6 +3144,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -3712,15 +3760,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -3732,22 +3771,26 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "47mm_uk_3pdr_HE": [],
       "7_7mm_vickers_navy_universal": [],
       "7_7mm_lewis_navy_ap": [],
       "7_7mm_lewis_navy_ap_ammo_pack": [],
       "7_7mm_lewis_navy_incendiary": [],
       "7_7mm_lewis_navy_incendiary_ammo_pack": {
-        "reqModification": "7_7mm_lewis_navy_ap_ammo_pack"
+        "prevModification": "7_7mm_lewis_navy_ap_ammo_pack"
       },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": [],
       "ship_rangefinder": [],
       "new_aux_caliber_turrets": [],
       "new_main_caliber_turrets": {

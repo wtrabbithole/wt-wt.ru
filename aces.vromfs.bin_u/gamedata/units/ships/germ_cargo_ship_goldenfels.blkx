@@ -12,6 +12,9 @@
     "useBotForAi": true
   },
   {
+    "forceFastPhysForAI": true
+  },
+  {
     "harmonizationSuffix": "_tomoe"
   },
   {
@@ -408,7 +411,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 10.0,
         "compartment_01_dm": {
           "hp": 7000.0
         },
@@ -419,7 +423,8 @@
           "hp": 7000.0
         },
         "bridge_dm": {
-          "hp": 400.0
+          "armorThickness": 1.0,
+          "hp": 700.0
         }
       },
       "superstructures": {
@@ -429,6 +434,8 @@
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
         "stopChanceOnDeadPart": 0.7,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 8.0,
         "superstructure_bottom_dm": {
           "hp": 2722.0
         },
@@ -2372,6 +2379,37 @@
       {
         "event": [
           {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_04"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
             "name": "ammo_fire"
           },
           {
@@ -2803,31 +2841,6 @@
             "scale": 1.5
           }
         }
-      },
-      {
-        "event": [
-          {
-            "name": "salute"
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_01"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_02"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_03"
-            }
-          }
-        ]
       },
       {
         "procedural": {

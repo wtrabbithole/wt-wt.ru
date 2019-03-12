@@ -105,9 +105,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "depthTraceWarningDepth": 5.0
   },
   {
@@ -2506,8 +2503,9 @@
         "genericDamageMult": 0.6,
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.0,
-        "secondaryShatterDamageMult": 1.1,
-        "armorThickness": 40.0,
+        "secondaryShatterDamageMult": 1.0,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 12.0,
         "compartment_01_dm": {
           "hp": 7000.0
         },
@@ -2530,10 +2528,12 @@
           "hp": 2000.0
         },
         "bridge_dm": {
-          "hp": 400.0
+          "armorThickness": 1.0,
+          "hp": 700.0
         },
         "radio_station_dm": {
-          "hp": 300.0
+          "armorThickness": 1.0,
+          "hp": 600.0
         }
       },
       "superstructures": {
@@ -2541,8 +2541,10 @@
         "genericDamageMult": 0.4,
         "shatterDamageMult": 0.3,
         "explosionDamageMult": 1.0,
-        "secondaryShatterDamageMult": 1.1,
+        "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.7,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 5.0,
         "superstructure_back_dm": {
           "hp": 2826.0
         },
@@ -2725,11 +2727,7 @@
         },
         "ex_armor_r_01_dm": {
           "hp": 250.0
-        }
-      },
-      "turrets": {
-        "armorClass": "ship_structural_steel",
-        "armorThickness": 15.0,
+        },
         "turret_01_dm": {
           "hp": 250.0
         },
@@ -2760,6 +2758,10 @@
         "turret_10_dm": {
           "hp": 250.0
         }
+      },
+      "turret_armor": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 15.0
       },
       "turrets_main_caliber": {
         "armorClass": "ship_Wsh",
@@ -3900,7 +3902,7 @@
               "transmissionDmPart": "transmission_01_dm"
             },
             {
-              "propeller_l": "propeller_01"
+              "propeller": "propeller_01"
             }
           ]
         },
@@ -3922,7 +3924,7 @@
               "transmissionDmPart": "transmission_02_dm"
             },
             {
-              "propeller_r": "propeller_02"
+              "propeller": "propeller_02"
             }
           ]
         },
@@ -3932,7 +3934,7 @@
             "outputParam": "propeller_rotate_03:CRS",
             "engineDmPart": "engine_room_03_dm",
             "transmissionDmPart": "transmission_03_dm",
-            "propeller_r": "propeller_03"
+            "propeller": "propeller_03"
           }
         },
         {
@@ -3997,6 +3999,9 @@
           },
           {
             "recoilOffset": 0.5
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "barrelDP": "main_caliber_gun_01_dm"
@@ -4140,6 +4145,9 @@
             "recoilOffset": 0.5
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "main_caliber_gun_02_dm"
           },
           {
@@ -4274,6 +4282,9 @@
           },
           {
             "recoilOffset": 0.5
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "barrelDP": "main_caliber_gun_03_dm"
@@ -4429,6 +4440,9 @@
             "recoilOffset": 0.5
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "main_caliber_gun_04_dm"
           },
           {
@@ -4577,6 +4591,9 @@
           },
           {
             "recoilOffset": 0.5
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "barrelDP": "main_caliber_gun_05_dm"
@@ -5011,6 +5028,9 @@
             "recoilOffset": 0.4
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "auxiliary_caliber_gun_03_dm"
           },
           {
@@ -5154,6 +5174,9 @@
             "recoilOffset": 0.4
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "auxiliary_caliber_gun_04_dm"
           },
           {
@@ -5295,6 +5318,9 @@
           },
           {
             "recoilOffset": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "barrelDP": "aa_gun_01_dm"
@@ -5449,6 +5475,9 @@
             "recoilOffset": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "aa_gun_02_dm"
           },
           {
@@ -5599,6 +5628,9 @@
           },
           {
             "recoilOffset": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "barrelDP": "aa_gun_03_dm"
@@ -5756,6 +5788,9 @@
             "recoilOffset": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "aa_gun_04_dm"
           },
           {
@@ -5909,6 +5944,9 @@
           },
           {
             "recoilOffset": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "barrelDP": "aa_gun_05_dm"
@@ -6066,6 +6104,9 @@
             "recoilOffset": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "aa_gun_06_dm"
           },
           {
@@ -6221,6 +6262,9 @@
             "recoilOffset": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "aa_gun_07_dm"
           },
           {
@@ -6365,6 +6409,9 @@
           },
           {
             "recoilOffset": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "barrelDP": "aa_gun_08_dm"
@@ -6613,6 +6660,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_04"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -7015,31 +7093,6 @@
         }
       },
       {
-        "event": [
-          {
-            "name": "salute"
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_01"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_02"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_explosion_flowers",
-              "emitter": "emtr_explosion_center_03"
-            }
-          }
-        ]
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -7056,34 +7109,19 @@
   },
   {
     "modifications": {
-      "130mm_ussr_HE": [],
-      "130mm_ussr_SAP_ammo_pack": [],
-      "130mm_ussr_SAP": [],
-      "130mm_ussr_aa_radiofuse": [],
-      "130mm_ussr_aa_radiofuse_ammo_pack": {
-        "prevModification": "130mm_ussr_SAP_ammo_pack"
-      },
-      "76mm_ussr_34k_navy_HE": [],
-      "76mm_ussr_34k_distant_fuse_navy_HE": [],
-      "76mm_ussr_34k_distant_fuse_navy_HE_ammo_pack": [],
-      "76mm_ussr_34k_navy_AP": [],
-      "76mm_ussr_34k_navy_AP_ammo_pack": {
-        "reqModification": "76mm_ussr_34k_distant_fuse_navy_HE_ammo_pack"
-      },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": {
-        "prevModification": "ship_rangefinder"
-      },
-      "new_ship_engine": {
-        "prevModification": "new_ship_screw"
-      },
-      "new_ship_screw": [],
       "new_ship_hull": [],
       "new_ship_rudder": {
         "prevModification": "new_ship_hull"
       },
-      "new_ship_pumps": [],
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": {
+        "prevModification": "ship_tool_kit"
+      },
+      "ship_smoke_screen_system_mod": [],
       "ship_anti_fragmentation_protection": {
         "effects": {
           "damagePartsOverride": {
@@ -7097,21 +7135,6 @@
               "compartment_05_dm": [],
               "compartment_06_dm": [],
               "compartment_07_dm": []
-            }
-          }
-        }
-      },
-      "ship_ammo_wetting": {
-        "effects": {
-          "damagePartsOverride": {
-            "ammo": {
-              "genericDamageMult": 0.75,
-              "explosionDamageMult": 0.75,
-              "shatterDamageMult": 0.75,
-              "secondaryShatterDamageMult": 0.75,
-              "fireDamageMult": 0.75,
-              "ammunition_storage_01_dm": [],
-              "ammunition_storage_02_dm": []
             }
           }
         }
@@ -7132,16 +7155,46 @@
           }
         }
       },
+      "new_ship_pumps": [],
+      "ship_ammo_wetting": {
+        "effects": {
+          "damagePartsOverride": {
+            "ammo": {
+              "genericDamageMult": 0.75,
+              "explosionDamageMult": 0.75,
+              "shatterDamageMult": 0.75,
+              "secondaryShatterDamageMult": 0.75,
+              "fireDamageMult": 0.75,
+              "ammunition_storage_01_dm": [],
+              "ammunition_storage_02_dm": []
+            }
+          }
+        }
+      },
+      "130mm_ussr_HE": [],
+      "130mm_ussr_SAP_ammo_pack": [],
+      "130mm_ussr_SAP": [],
+      "130mm_ussr_aa_radiofuse": [],
+      "130mm_ussr_aa_radiofuse_ammo_pack": {
+        "prevModification": "130mm_ussr_SAP_ammo_pack"
+      },
+      "76mm_ussr_34k_navy_HE": [],
+      "76mm_ussr_34k_distant_fuse_navy_HE": [],
+      "76mm_ussr_34k_distant_fuse_navy_HE_ammo_pack": [],
+      "76mm_ussr_34k_navy_AP": [],
+      "76mm_ussr_34k_navy_AP_ammo_pack": {
+        "prevModification": "76mm_ussr_34k_distant_fuse_navy_HE_ammo_pack"
+      },
       "ship_rangefinder": {
         "prevModification": "76mm_ussr_34k_navy_AP_ammo_pack"
+      },
+      "new_aa_caliber_turrets": [],
+      "new_aux_caliber_turrets": {
+        "reqModification": "new_aa_caliber_turrets"
       },
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"
       },
-      "new_aux_caliber_turrets": {
-        "reqModification": "new_aa_caliber_turrets"
-      },
-      "new_aa_caliber_turrets": [],
       "torpedoes_movement_mode": {
         "prevModification": "new_main_caliber_turrets",
         "effects": {

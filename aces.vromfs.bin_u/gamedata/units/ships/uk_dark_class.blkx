@@ -102,9 +102,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": {
       "replace_tex": {
         "from": "flag_uk_01_c*",
@@ -870,6 +867,7 @@
         "shatterDamageMult": 0.6,
         "explosionDamageMult": 0.8,
         "secondaryShatterDamageMult": 1.0,
+        "armorClass": "ship_wood",
         "armorThickness": 40.0,
         "compartment_01_dm": {
           "hp": 376.0
@@ -899,12 +897,29 @@
         }
       },
       "superstructures": {
+        "armorClass": "ship_wood",
+        "armorThickness": 15.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.2,
+        "stern_bottom_dm": {
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
+          "hp": 100.0
+        },
+        "mid_bottom_dm": {
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
+          "hp": 100.0
+        },
+        "bow_bottom_dm": {
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
+          "hp": 100.0
+        },
         "superstructure_front_dm": {
           "armorClass": "ship_structural_steel",
           "armorThickness": 4.0,
@@ -919,18 +934,6 @@
           "armorClass": "ship_structural_steel",
           "armorThickness": 4.0,
           "hp": 100.0
-        },
-        "stern_bottom_dm": {
-          "armorThickness": 10.0,
-          "hp": 100.0
-        },
-        "mid_bottom_dm": {
-          "armorThickness": 10.0,
-          "hp": 100.0
-        },
-        "bow_bottom_dm": {
-          "armorThickness": 10.0,
-          "hp": 100.0
         }
       },
       "bulkheads": {
@@ -938,7 +941,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -2179,6 +2183,9 @@
             "recoilOffset": 0.3
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "barrelDP": "main_caliber_gun_01_dm"
           },
           {
@@ -2302,7 +2309,7 @@
             "triggerGroup": "secondary"
           },
           {
-            "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_watercool_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/40mm_l60_bofors_mk3_single_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_02"
@@ -2407,11 +2414,14 @@
           },
           {
             "limitsTable": {
-              "lim1": [-180.0,-25.0,-8.0,88.0],
-              "lim2": [-25.0,-10.0,0.0,88.0],
-              "lim3": [-10.0,10.0,30.0,88.0],
-              "lim4": [10.0,25.0,0.0,88.0],
-              "lim5": [25.0,180.0,-8.0,88.0]
+              "lim1": [-180.0,0.0,-8.0,88.0],
+              "lim2": [0.0,180.0,-8.0,88.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [-25.0,25.0],
+              "pitch": [-8.0,35.0]
             }
           },
           {
@@ -2478,33 +2488,37 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "114mm_uk_he": [],
       "40mm_bofors_l60_navy_universal": [],
       "40mm_bofors_l60_navy_he": [],
       "40mm_bofors_l60_navy_he_ammo_pack": [],
       "40mm_bofors_l60_navy_ap": [],
       "40mm_bofors_l60_navy_ap_ammo_pack": {
-        "reqModification": "40mm_bofors_l60_navy_he_ammo_pack"
+        "prevModification": "40mm_bofors_l60_navy_he_ammo_pack"
       },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": {
-        "prevModification": "ship_rangefinder"
-      },
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": [],
       "ship_rangefinder": [],
+      "new_aux_caliber_turrets": [],
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"
       },
-      "new_aux_caliber_turrets": [],
+      "ship_depth_charge": {
+        "prevModification": "40mm_bofors_l60_navy_ap_ammo_pack"
+      },
       "ship_main_caliber_support": {
         "prevModification": "new_main_caliber_turrets"
-      },
-      "ship_depth_charge": []
+      }
     }
   },
   {
@@ -2647,6 +2661,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -3228,15 +3273,6 @@
           "fx": {
             "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
           }
         }
       },

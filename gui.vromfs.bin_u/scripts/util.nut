@@ -2491,7 +2491,7 @@ function getArrayFromInt(intNum)
   do {
     local div = intNum % 10
     array.append(div)
-    intNum = ::floor(intNum/10)
+    intNum = ::floor(intNum/10).tointeger()
   } while(intNum != 0)
 
   array.reverse()

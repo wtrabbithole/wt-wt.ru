@@ -1220,7 +1220,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       case "num": return value.tostring()
       case "sec": return value + ::loc("debriefing/timeSec")
       case "mul": return "x" + value
-      case "pct": return floor(100.0*value + 0.5) + "%"
+      case "pct": return (100.0*value + 0.5).tointeger() + "%"
       case "tim": return time.secondsToString(value, false)
       case "ptm": return time.getRaceTimeFromSeconds(value)
       case "tnt": return stdMath.roundToDigits(value * ::KG_TO_TONS, 3).tostring()

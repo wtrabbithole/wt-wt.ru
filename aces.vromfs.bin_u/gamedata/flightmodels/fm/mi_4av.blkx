@@ -929,6 +929,7 @@
         "AirFlow2": [0.0,0.0,1.0],
         "AirFlow3": [15.0,0.0,1.0],
         "ArcadeTangAirFlowMin": 51.0,
+        "ArcadeAxialAirFlowRange": [-300.0,30.0],
         "RollDamping": [38.0,0.0,50.0,160000.0],
         "PitchDamping": [38.0,0.0,50.0,160000.0],
         "BladeAngleMax": 0.4,
@@ -943,7 +944,8 @@
         "FlyBarAngleMax": 45.0,
         "FlyBarToCylicAxes": 0.005,
         "ScreenEffectThrustMultMax": 0.4,
-        "ScreenEffectThrustMult10Dist": 25.0
+        "ScreenEffectThrustMult10Dist": 25.0,
+        "NonAxialFlowShakeRange": [-10.0,-10.0,-10.0,25.0]
       },
       "Damage": {
         "CriticalIas": 450.0,
@@ -1295,9 +1297,9 @@
         },
         "VelPID": {
           "Kp": 0.02,
-          "Ki": 0.02,
+          "Ki": 0.01,
           "Imax": 2.0,
-          "Kd": 0.01,
+          "Kd": 0.001,
           "Lim": [-0.2,0.2]
         },
         "PosPID": {
@@ -1333,7 +1335,7 @@
         },
         "VelPID": {
           "Kp": 0.05,
-          "Ki": 0.03,
+          "Ki": 0.01,
           "Imax": 2.0,
           "Kd": 0.001,
           "Lim": [-0.2,0.2]

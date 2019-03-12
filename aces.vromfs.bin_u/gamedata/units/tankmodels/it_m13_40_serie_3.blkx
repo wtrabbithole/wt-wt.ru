@@ -187,6 +187,9 @@
         },
         "turret_03_bottom_dm": {
           "armorThickness": 30.0
+        },
+        "turret_03_side_dm": {
+          "armorThickness": 50.0
         }
       },
       "hull_CHA": {
@@ -246,7 +249,6 @@
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
         "ex_decor_l_01_dm": [],
-        "ex_decor_l_02_dm": [],
         "ex_decor_l_03_dm": [],
         "ex_decor_l_04_dm": [],
         "ex_decor_r_01_dm": [],
@@ -315,6 +317,16 @@
           "armorThrough": 10.0,
           "armorThickness": 5.0,
           "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
         }
       },
       "chassis": {
@@ -350,6 +362,13 @@
         "ex_armor_01_dm": [],
         "wheel_support_dm": {
           "armorThickness": 10.0
+        },
+        "submodule": {
+          "armorClass": "tank_traks",
+          "armorThickness": 15.0,
+          "hp": 200.0,
+          "ex_armor_02_dm": [],
+          "ex_armor_03_dm": []
         }
       },
       "tracks": {
@@ -2159,15 +2178,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

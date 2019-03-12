@@ -189,6 +189,9 @@
         },
         "turret_09_side_dm": {
           "armorThickness": 14.0
+        },
+        "turret_10_top_dm": {
+          "armorThickness": 35.0
         }
       },
       "turret": {
@@ -2394,10 +2397,12 @@
       "engine": {
         "horsePowers": 1500.0,
         "maxRPM": 2600.0,
-        "minRPM": 800.0
+        "minRPM": 800.0,
+        "manufacturer": "mtu",
+        "model": "mb_838_ca_m500"
       },
       "mechanics": {
-        "maxBrakeForce": 250000.0,
+        "maxBrakeForce": 300000.0,
         "driveGearRadius": 0.33,
         "mainGearRatio": 1.17,
         "sideGearRatio": 4.2,
@@ -2968,15 +2973,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

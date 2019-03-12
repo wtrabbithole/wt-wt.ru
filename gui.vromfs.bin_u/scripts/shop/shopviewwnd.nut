@@ -4,6 +4,8 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
   sceneBlkName = "gui/shop/shopCheckResearch.blk"
   sceneNavBlkName = "gui/shop/shopNav.blk"
 
+  hasChosenResearchOfSquadron = false
+
   static function open(params)
   {
     ::handlersManager.loadHandler(::gui_handlers.ShopViewWnd, params)
@@ -13,6 +15,7 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
   {
     base.initScreen()
     initFocusArray()
+    hasChosenResearchOfSquadron = ::load_local_account_settings("has_chosen_research_of_squadron", false)
 
     createSlotbar(
       {
@@ -59,7 +62,8 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
       return
 
     updateRepairAllButton()
-    showSceneBtn("btn_back", !isSquadronResearchMode || ::clan_get_exp() == 0
+    showSceneBtn("btn_back", !isSquadronResearchMode
+      || (::clan_get_exp() == 0 && !needChosenResearchOfSquadron())
       || !hasSquadronVehicleToResearche())
 
     local unit = getCurAircraft(true, true)
@@ -85,14 +89,16 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
   function updateSpendExpBtn(unit)
   {
     local flushExp = min(::clan_get_exp(), ::getUnitReqExp(unit) - ::getUnitExp(unit))
-    local showSpendBtn = !::isUnitGroup(unit) && isSquadronResearchMode
-      && unit?.isSquadronVehicle?() && ::canResearchUnit(unit)
+    local showSpendBtn = isSquadronResearchMode
+      && (flushExp > 0 || needChosenResearchOfSquadron())
+      && !::isUnitGroup(unit) && unit?.isSquadronVehicle?() && ::canResearchUnit(unit)
+      && (::is_in_clan() || ::isUnitInResearch(unit))
     local coloredText = ""
 
     if (showSpendBtn)
     {
       local textSample = ::loc("shop/researchUnit", { unit = ::getUnitName(unit.name) }) + "%s"
-      local textValue = flushExp ? ::loc("ui/parentheses/space",
+      local textValue = flushExp > 0 ? ::loc("ui/parentheses/space",
         {text = ::Cost().setSap(flushExp).tostring()}) : ""
       coloredText = ::format(textSample, textValue)
     }
@@ -132,9 +138,11 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
     local flushExp = min(::clan_get_exp(), ::getUnitReqExp(unit) - ::getUnitExp(unit))
     local canFlushExp = flushExp > 0
     local afterDoneFunc = function() {
-      if (unit.isSquadronVehicle()
-        && !::load_local_account_settings("has_chosen_research_of_squadron", false))
+      if (unit.isSquadronVehicle() && needChosenResearchOfSquadron())
+      {
         ::save_local_account_settings("has_chosen_research_of_squadron", true)
+        hasChosenResearchOfSquadron = true
+      }
       if(canFlushExp)
         return flushSquadronExp()
       else
@@ -170,7 +178,7 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
     }
 
     local flushExp = ::clan_get_exp()
-    if (flushExp <= 0)
+    if (flushExp <= 0 || needChosenResearchOfSquadron())
     {
       headerObj.setValue(::loc("mainmenu/nextResearchSquadronVehicle"))
       return
@@ -182,4 +190,6 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
 
     headerObj.setValue(expText)
   }
+
+  needChosenResearchOfSquadron = @() !hasChosenResearchOfSquadron
 }

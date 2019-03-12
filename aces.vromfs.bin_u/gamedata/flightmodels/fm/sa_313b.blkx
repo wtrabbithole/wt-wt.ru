@@ -9,7 +9,7 @@
   "AlphaRudderMin": 0.1,
   "AlphaElevatorMin": 0.2,
   "AllowStrongControlsRestrictions": true,
-  "RudderSens": 0.5,
+  "RudderSens": 0.05,
   "ElevatorSens": 0.7,
   "AileronSens": 0.2,
   "GearActuatorSpeed": 0.2,
@@ -95,12 +95,12 @@
     "WingRightIn": 0.1,
     "WingRightMid": 0.1,
     "WingRightOut": 0.1,
-    "Aileron": 0.1,
+    "Aileron": 0.05,
     "Fuselage": 76.0,
-    "Stabilizer": 0.1,
-    "Elevator": 0.7,
-    "Keel": 0.1,
-    "Rudder": 0.1
+    "Stabilizer": 1.1,
+    "Elevator": 0.1,
+    "Keel": 0.3,
+    "Rudder": 0.05
   },
   "Focus": {
     "FocusOffset": 0.3,
@@ -116,10 +116,10 @@
     "Stabilizer": 5.467,
     "Keel": 5.467,
     "Rudder": 9000.0,
-    "Fuselage": [0.5,0.05,0.0],
-    "LeftStab": [-4.7,0.55,1.0],
-    "RightStab": [-4.7,0.55,-1.0],
-    "VertStab": [-1.7,0.5,0.0],
+    "Fuselage": [0.5,0.0,0.0],
+    "LeftStab": [-5.0,0.55,1.0],
+    "RightStab": [-5.0,0.55,-1.0],
+    "VertStab": [-4.7,0.5,0.0],
     "WingVWingFocusMultiplier": 0.0,
     "SineAOSMultiplier": 0.15
   },
@@ -186,7 +186,7 @@
     "DownwashType": 0,
     "DownwashCoeff": 0.0,
     "StabFlowInertia": 0.05,
-    "VertStabFlowInertia": 0.05,
+    "VertStabFlowInertia": 0.12,
     "NoFlaps": {
       "Cl0": 0.05,
       "alphaCritHigh": 28.6,
@@ -248,7 +248,7 @@
       "MultLineCoeff7": 0.0,
       "MultLimit7": 1.0,
       "CombinedCl": false,
-      "Cl0": 0.005,
+      "Cl0": 0.0,
       "alphaCritHigh": 30.0,
       "alphaCritLow": -30.0,
       "ClCritHigh": 0.03,
@@ -793,11 +793,13 @@
       "AirFlow2": [0.0,0.0,1.0],
       "AirFlow3": [100.0,0.0,1.0],
       "ArcadeTangAirFlowMin": 51.0,
+      "ArcadeAxialAirFlowRange": [-300.0,30.0],
       "ScreenEffectThrustMultMax": 0.4,
       "ScreenEffectThrustMult10Dist": 10.0,
       "ScreenEffectVelMult": 0.005,
       "VortexRingVFlowMult": [0.4,1.9],
-      "VortexRingVFlowToReturnDist": 2.9
+      "VortexRingVFlowToReturnDist": 2.9,
+      "NonAxialFlowShakeRange": [-14.0,-14.0,-14.0,22.0]
     },
     "Mass": {
       "Mass": 70.0,
@@ -821,7 +823,7 @@
       "AlwaysEnableForce": true
     },
     "Damage": {
-      "CriticalIas": 260.0,
+      "CriticalIas": 270.0,
       "DamagedFrictionAccel": 5.0
     },
     "Controls": {
@@ -1406,7 +1408,7 @@
         "Ki": 0.2,
         "Imax": 2.5,
         "Kd": 0.001,
-        "Lim": [0.05,0.75]
+        "Lim": [0.05,0.9]
       },
       "AltPID": {
         "Kp": 1.0,

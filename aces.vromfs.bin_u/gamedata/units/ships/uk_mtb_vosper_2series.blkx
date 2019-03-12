@@ -105,9 +105,6 @@
     "perfectRangefinder": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": {
       "replace_tex": {
         "from": "flag_uk_01_c*",
@@ -1147,6 +1144,37 @@
       {
         "event": [
           {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
             "name": "ammo_fire"
           },
           {
@@ -1725,15 +1753,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2255,7 +2274,8 @@
         "shatterDamageMult": 0.6,
         "explosionDamageMult": 0.8,
         "secondaryShatterDamageMult": 1.0,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 24.0,
         "compartment_01_dm": {
           "hp": 300.0
         },
@@ -2281,6 +2301,8 @@
         }
       },
       "superstructures": {
+        "armorClass": "ship_wood",
+        "armorThickness": 15.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
@@ -2288,16 +2310,16 @@
         "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.2,
         "superstructure_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 317.0
         },
         "mid_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "bow_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         }
       },
@@ -2306,7 +2328,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -2650,7 +2673,7 @@
             "speedPitch": 75.0
           },
           {
-            "bullets": 2000
+            "bullets": 1980
           },
           {
             "allowableDelta": 2.0
@@ -2705,6 +2728,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -2852,6 +2878,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "auxiliary_caliber_turret_01",
               "gun": "auxiliary_caliber_gun_01",
@@ -2996,6 +3025,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "auxiliary_caliber_turret_01",
               "gun": "auxiliary_caliber_gun_01",
@@ -3107,11 +3139,23 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "20mm_oerlikon_universal": [],
       "20mm_oerlikon_navy_he_ammo_pack": [],
       "20mm_oerlikon_navy_he": [],
       "20mm_oerlikon_navy_ap_ammo_pack": {
-        "reqModification": "20mm_oerlikon_navy_he_ammo_pack"
+        "prevModification": "20mm_oerlikon_navy_he_ammo_pack"
       },
       "20mm_oerlikon_navy_ap": [],
       "12mm_vickers_mk5_navy_universal": [],
@@ -3119,16 +3163,8 @@
       "12mm_vickers_mk5_navy_HEI_ammo_pack": [],
       "12mm_vickers_mk5_navy_API": [],
       "12mm_vickers_mk5_navy_API_ammo_pack": {
-        "reqModification": "12mm_vickers_mk5_navy_HEI_ammo_pack"
+        "prevModification": "12mm_vickers_mk5_navy_HEI_ammo_pack"
       },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": [],
       "new_aux_caliber_turrets": [],
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"
@@ -3146,25 +3182,27 @@
     }
   },
   {
-    "ammo1": [
-      {
-        "weaponTrigger": "gunner0"
-      },
-      {
-        "weaponTrigger": "gunner1"
-      },
-      {
-        "shells": {
-          "fatalFire": true,
-          "fatalExplosion": true,
-          "fireEvent": "ammo_fire_1",
-          "explosionEvent": "ammo_explosion_1",
-          "ammunition_storage_01_dm": {
-            "count": 7000
+    "ammoStowages": {
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "fireEvent": "ammo_fire_1",
+            "explosionEvent": "ammo_explosion_1",
+            "ammunition_storage_01_dm": {
+              "count": 6980
+            }
           }
         }
-      }
-    ]
+      ]
+    }
   },
   {
     "wreckedParts": [

@@ -42,7 +42,7 @@ local function displayTop(handler, obj, lbData, lbInfo)
   if (!handler.isValid() || !::check_obj(obj))
     return
 
-  if (lbData?.error)
+  if (!lbData || lbData?.error)
     return
 
   local lbRows = ::u.filter(wwLeaderboardData.convertWwLeaderboardData(lbData).rows,

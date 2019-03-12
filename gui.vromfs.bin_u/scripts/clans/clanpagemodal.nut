@@ -228,7 +228,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
       local ranksRequired = req.getInt("rank", 0)
       if (ranksRequired > 0)
-        ranksReqText.append(::loc("clan/rankReqInfoRank" + unitType.name) + " " + ::colorize("activeTextColor", ::getUnitRankName(ranksRequired)))
+        ranksReqText.append(::loc("clan/rankReqInfoRank" + unitType.name) + " " +
+          ::colorize("activeTextColor", ::get_roman_numeral(ranksRequired)))
     }
 
     local text = ""

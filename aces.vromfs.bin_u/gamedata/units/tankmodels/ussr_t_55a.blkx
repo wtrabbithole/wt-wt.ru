@@ -205,7 +205,7 @@
           "armorThickness": 200.0
         },
         "turret_01_front_dm": {
-          "armorThickness": 160.0
+          "armorThickness": 20.0
         },
         "turret_02_front_dm": {
           "armorThickness": 130.0
@@ -1835,7 +1835,9 @@
       "engine": {
         "horsePowers": 580.0,
         "maxRPM": 2000.0,
-        "minRPM": 500.0
+        "minRPM": 500.0,
+        "manufacturer": "chtz",
+        "model": "v_55v"
       },
       "mechanics": {
         "maxBrakeForce": 144000.0,
@@ -2405,15 +2407,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

@@ -49,4 +49,9 @@ class ::Input.InputBase
   {
     return false
   }
+
+  function getConfig()
+  {
+    return { inputName = "inputBase" }
+  }
 }

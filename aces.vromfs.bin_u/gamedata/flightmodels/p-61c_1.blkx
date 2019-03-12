@@ -113,6 +113,10 @@
         "engine2_dm": {
           "genericDamageMult": 1.6,
           "hp": 66.0
+        },
+        "radar_dm": {
+          "genericDamageMult": 1.6,
+          "hp": 66.0
         }
       },
       "c_dural3": {
@@ -1031,6 +1035,11 @@
             }
           }
         ]
+      },
+      {
+        "part": {
+          "name": "radar_dm"
+        }
       },
       {
         "part": {
@@ -3061,6 +3070,14 @@
           "part": "engine4"
         }
       ]
+    }
+  },
+  {
+    "sensors": {
+      "sensor": {
+        "blk": "gameData/sensors/mk_x.blk",
+        "dmPart": "radar_dm"
+      }
     }
   },
   {

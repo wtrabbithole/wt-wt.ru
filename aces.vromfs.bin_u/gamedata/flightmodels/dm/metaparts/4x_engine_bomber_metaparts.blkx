@@ -19,7 +19,7 @@
   },
   "wing_l_structure": [
     {
-      "hpRel": 1.0
+      "hpRel": 1.4
     },
     {
       "part": "wing_l_dm"
@@ -36,14 +36,14 @@
     {
       "effect": {
         "conditionDamageType": "generic",
-        "conditionDamageRel": 1.0,
+        "conditionDamageRel": 1.4,
         "cutPart": "wing_l_dm"
       }
     },
     {
       "effect": {
         "conditionDamageType": "explosion",
-        "conditionDamageRel": 1.0,
+        "conditionDamageRel": 1.4,
         "cutPart": "wing_l_dm"
       }
     },
@@ -57,7 +57,7 @@
   ],
   "wing_r_structure": [
     {
-      "hpRel": 1.0
+      "hpRel": 1.4
     },
     {
       "part": "wing_r_dm"
@@ -74,14 +74,14 @@
     {
       "effect": {
         "conditionDamageType": "generic",
-        "conditionDamageRel": 1.0,
+        "conditionDamageRel": 1.4,
         "cutPart": "wing_r_dm"
       }
     },
     {
       "effect": {
         "conditionDamageType": "explosion",
-        "conditionDamageRel": 1.0,
+        "conditionDamageRel": 1.4,
         "cutPart": "wing_r_dm"
       }
     },
@@ -212,7 +212,7 @@
   ],
   "tail_structure": [
     {
-      "hpRel": 1.8
+      "hpRel": 1.9
     },
     {
       "part": "stab_dm"
@@ -237,13 +237,14 @@
     },
     {
       "effect": {
-        "conditionDead": true,
+        "conditionDamageType": "explosion",
+        "conditionDamageRel": 1.8,
         "cutPart": "tail_dm"
       }
     },
     {
       "effect": {
-        "conditionDamageType": "explosion",
+        "conditionDamageType": "collision",
         "conditionDamageRel": 1.5,
         "cutPart": "tail_dm"
       }
