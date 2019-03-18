@@ -165,6 +165,7 @@ local ItemGenerator = class {
   }
 
   isDelayedxchange = @() genType == "delayedexchange"
+  getContentNoRecursion = @() getContent()
 }
 
 local get = function(itemdefId) {

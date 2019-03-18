@@ -125,9 +125,10 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
   local trophyData = ::ItemsRoulette.generateItemsArray(trophyName)
   ::ItemsRoulette.debugData.trophyData = trophyData
 
+  local trophyArray = trophyData?.trophy ?? []
   if (!::has_feature("ItemsRoulette")
-      || trophyData.trophy.len() == 0
-      || (trophyData.trophy.len() == 1 && !("trophy" in trophyData.trophy[0]))
+      || trophyArray.len() == 0
+      || (trophyArray.len() == 1 && !("trophy" in trophyArray[0]))
      )
     return false
 

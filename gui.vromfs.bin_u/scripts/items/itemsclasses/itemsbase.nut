@@ -616,6 +616,7 @@ class ::BaseItem
   function updateStackParams(stackParams) {}
 
   function getContent() { return [] }
+  function getContentNoRecursion() { return [] }
 
   function getStackName(stackParams)
   {

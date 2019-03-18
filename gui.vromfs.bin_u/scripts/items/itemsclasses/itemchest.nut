@@ -143,4 +143,6 @@ class ::items_classes.Chest extends ItemExternal {
 
     return ExchangeRecipes.tryUse(getRelatedRecipes(), this, params)
   }
+
+  getContentNoRecursion = @() getContent()
 }
