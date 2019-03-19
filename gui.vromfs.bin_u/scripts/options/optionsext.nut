@@ -271,7 +271,7 @@ function build_option_blk(text, image, selected, enabled = true, textStyle = "",
            ((image=="")? "" : "optionImg { background-image:t='" + image + "' } ") +
            ( expImg ?         "optionImg { airExpIcon:t='yes' } " : "") +
            addDiv +
-           ((text=="")? "" : "optiontext { id:t='option_text'; text:t = '" + ::locOrStrip(text) + "'; " + textStyle + "} ") +
+           ((text=="")? "" : "optiontext { id:t='option_text'; text:t = '" + ::g_string.stripTags(text) + "'; " + textStyle + "} ") +
            ((tooltip=="")? "" : "tooltip:t = '" + ::locOrStrip(tooltip) + "'; ") +
            ( selected ?       "selected:t = 'yes'; " : "") +
          " pare-text:t='yes'} ")

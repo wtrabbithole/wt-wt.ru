@@ -99,8 +99,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         continue
 
       lbModesList.push(modeData)
-      data += format("option {text:t='%s'}",
+      local optionText = ::g_string.stripTags(
         ::loc("worldwar/leaderboard/" + modeData.mode + "/" + modeData.type))
+      data += format("option {text:t='%s'}", optionText)
     }
 
     local modesObj = showSceneBtn("modes_list", true)
@@ -118,8 +119,11 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 
     local data = ""
     foreach(wwMap in lbMapsList)
-      data += format("option {text:t='%s'}",
+    {
+      local optionText = ::g_string.stripTags(
         wwMap ? wwMap.getNameTextByMapName(wwMap.getId()) : ::loc("worldwar/allMaps"))
+      data += format("option {text:t='%s'}", optionText)
+    }
 
     local mapsObj = showSceneBtn("maps_list", true)
     guiScene.replaceContentFromText(mapsObj, data, data.len(), this)
@@ -140,8 +144,11 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 
     local data = ""
     foreach(country in lbCountriesList)
-      data += format("option {text:t='%s'}",
+    {
+      local optionText = ::g_string.stripTags(
         country ? ::loc(country) : ::loc("worldwar/allCountries"))
+      data += format("option {text:t='%s'}", optionText)
+    }
 
     local countriesObj = showSceneBtn("countries_list", isVisible)
     guiScene.replaceContentFromText(countriesObj, data, data.len(), this)

@@ -1394,8 +1394,65 @@ function get_userlog_view_data(log)
     local statsWpText = ::Cost(::getTblValue("wpStats", log, 0)).toStringWithParams({isWpAlwaysShown = true})
     res.description <- ::loc("worldWar/userlog/endOperation/stats", { reward = statsWpText })
   }
+  else if (log.type == ::EULT_INVITE_TO_TOURNAMENT)
+  {
+    if ("action_tss" in log)
+    {
+      local action_tss = log.action_tss
+      local desc = ""
 
+      switch (action_tss)
+      {
+        case "awards_tournament":
+          res.name = ::loc("userlog/awards_tss_tournament", {TournamentName = log.tournament_name})
 
+          foreach(award_idx, award_val in log.awards)
+          {
+            if (award_val.type == "gold")
+              desc += "\n" + "<color=@activeTextColor>" +
+                ::Cost(0, abs(award_val.award)).toStringWithParams({isGoldAlwaysShown = true}) + "</color>"
+            if (award_val.type == "premium")
+              desc += "\n" + "<color=@activeTextColor>" + award_val.award + "</color>"
+            if (award_val.type == "booster")
+            {
+              foreach(block in award_val.award)
+                {
+                  local item = ::ItemsManager.findItemById(block)
+                  if (!("descriptionBlk" in res))
+                    res.descriptionBlk <- ""
+                  res.descriptionBlk += ::get_userlog_image_item(item)
+                }
+            }
+            if (award_val.type == "title")
+              desc += "\n" + "<color=@activeTextColor>" + ::loc("trophy/unlockables_names/title") + ": " +
+                ::get_unlock_name_text(::UNLOCKABLE_TITLE, award_val.award) + "</color>"
+          }
+          break;
+
+        case "invite_to_pick_tss":
+          res.name = ::loc("userlog/invite_to_pick_tss", {TournamentName = log.tournament_name})
+          if (!("descriptionBlk" in res))
+            res.descriptionBlk <- ""
+          if("circuit" in log)
+            res.descriptionBlk += ::get_link_markup(::loc("mainmenu/btnPickTSS"),
+              ::loc("url/serv_pick_tss", {port = log.port, circuit = log.circuit}), "Y")
+          desc += ::loc("invite_to_pick_tss/desc")
+          break;
+
+        case "invite_to_tournament":
+          res.name = ::loc("userlog/invite_to_tournament_name", {TournamentName = log.tournament_name})
+          if("name_battle" in log)
+          {
+            desc += ::loc("invite_to_tournament/desc")
+            desc += "\n" + log.name_battle
+          }
+          break;
+        }
+
+        if (desc!="")
+          res.description <- desc
+    }
+  }
   if (::getTblValue("description", res, "") != "")
   {
     local textDescriptionBlk = ::format("textareaNoTab {" +

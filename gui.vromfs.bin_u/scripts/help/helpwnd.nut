@@ -70,7 +70,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.MODAL
   sceneBlkName = "gui/help/helpWnd.blk"
 
-  defaultLinkLinesInterval = "0.5@helpLineInterval"
+  defaultLinkLinesInterval = "@helpLineInterval"
   allAvaliableTabs = []
   currentSubTabs = []
   curTabIdx = -1

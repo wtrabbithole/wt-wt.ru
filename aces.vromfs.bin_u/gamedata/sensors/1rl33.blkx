@@ -130,76 +130,6 @@
     "main": {
       "stateInit": "init",
       "actionsTemplates": {
-        "setStandbyMode": {
-          "setTransiver": [],
-          "setScanPattern": {
-            "scanPattern": "search360"
-          },
-          "setSignal": {
-            "signal": "search10km"
-          },
-          "setCenterElevation": {
-            "source": "constant",
-            "value": 7.5
-          },
-          "setTargetDesignationRange": {
-            "azimuthRange": [-30.0,30.0],
-            "distanceRange": [0.0,16000.0]
-          },
-          "clearTargets": [],
-          "clearTargetsOfInterest": []
-        },
-        "setSearchMode": [
-          {
-            "setTransiver": {
-              "transiver": "common"
-            }
-          },
-          {
-            "setFsmActive": {
-              "fsm": "search",
-              "active": true
-            }
-          },
-          {
-            "clearTargets": []
-          },
-          {
-            "clearTargetsOfInterest": []
-          },
-          {
-            "setFsmActive": {
-              "fsm": "searchPattern",
-              "active": true
-            }
-          },
-          {
-            "setFsmActive": {
-              "fsm": "searchRange",
-              "active": true
-            }
-          }
-        ],
-        "resetSearchMode": [
-          {
-            "setFsmActive": {
-              "fsm": "search",
-              "active": false
-            }
-          },
-          {
-            "setFsmActive": {
-              "fsm": "searchPattern",
-              "active": false
-            }
-          },
-          {
-            "setFsmActive": {
-              "fsm": "searchRange",
-              "active": false
-            }
-          }
-        ],
         "setLockMode": {
           "setTransiver": {
             "transiver": "common"
@@ -282,30 +212,16 @@
         "init": {
           "stateFrom": "init",
           "event": "init",
-          "stateTo": "standby",
+          "stateTo": "standbyOrSearch",
           "actions": {
-            "setStandbyMode": []
-          }
-        },
-        "switchOn": {
-          "stateFrom": "standby",
-          "command": "switch",
-          "stateTo": "search",
-          "actions": {
-            "setSearchMode": []
-          }
-        },
-        "switchOff": {
-          "stateFrom": "search",
-          "command": "switch",
-          "stateTo": "standby",
-          "actions": {
-            "resetSearchMode": [],
-            "setStandbyMode": []
+            "setFsmActive": {
+              "fsm": "standbyOrSearch",
+              "active": true
+            }
           }
         },
         "selectTarget": {
-          "stateFrom": "search",
+          "stateFrom": "standbyOrSearch",
           "command": "selectTarget",
           "actions": {
             "updateActiveDetectedTarget": [],
@@ -315,33 +231,25 @@
             }
           }
         },
-        "checkLockType0": [
-          {
-            "stateFrom": "standby"
-          },
-          {
-            "stateFrom": "search"
-          },
-          {
-            "command": "designateTarget"
-          },
-          {
-            "stateTo": "checkLockType0"
-          },
-          {
-            "actions": {
-              "checkDesignationTypeEquals": {
-                "value": 0
-              }
+        "checkLockType0": {
+          "stateFrom": "standbyOrSearch",
+          "command": "designateTarget",
+          "stateTo": "checkLockType0",
+          "actions": {
+            "checkDesignationTypeEquals": {
+              "value": 0
             }
           }
-        ],
+        },
         "lock": {
           "stateFrom": "checkLockType0",
           "event": "designationTypeEquals",
           "stateTo": "lock",
           "actions": {
-            "resetSearchMode": [],
+            "setFsmActive": {
+              "fsm": "standbyOrSearch",
+              "active": false
+            },
             "setLockMode": []
           }
         },
@@ -360,14 +268,17 @@
           "event": "designationTypeEquals",
           "stateTo": "losLock",
           "actions": {
-            "resetSearchMode": [],
+            "setFsmActive": {
+              "fsm": "standbyOrSearch",
+              "active": false
+            },
             "setLosLockMode": []
           }
         },
         "finishLockTypeCheck": {
           "stateFrom": "checkLockType1",
           "event": "designationTypeNotEquals",
-          "stateTo": "search"
+          "stateTo": "standbyOrSearch"
         },
         "track": [
           {
@@ -413,13 +324,10 @@
             "event": "scanFinished"
           },
           {
-            "stateTo": "search"
+            "stateTo": "standbyOrSearch"
           },
           {
             "actions": [
-              {
-                "setSearchMode": []
-              },
               {
                 "setFsmActive": {
                   "fsm": "lock",
@@ -430,6 +338,12 @@
                 "setFsmActive": {
                   "fsm": "losLock",
                   "active": false
+                }
+              },
+              {
+                "setFsmActive": {
+                  "fsm": "standbyOrSearch",
+                  "active": true
                 }
               }
             ]
@@ -449,16 +363,23 @@
             "command": "designateTarget"
           },
           {
-            "stateTo": "search"
+            "stateTo": "standbyOrSearch"
           },
           {
-            "actions": {
-              "setSearchMode": [],
-              "setFsmActive": {
-                "fsm": "track",
-                "active": false
+            "actions": [
+              {
+                "setFsmActive": {
+                  "fsm": "track",
+                  "active": false
+                }
+              },
+              {
+                "setFsmActive": {
+                  "fsm": "standbyOrSearch",
+                  "active": true
+                }
               }
-            }
+            ]
           }
         ]
       }
@@ -502,6 +423,145 @@
         }
       }
     },
+    "standbyOrSearch": {
+      "stateInit": "init",
+      "actionsTemplates": {
+        "setStandbyMode": {
+          "setTransiver": [],
+          "setSignal": {
+            "signal": "search10km"
+          },
+          "setScanPattern": {
+            "scanPattern": "search360"
+          },
+          "setTargetDesignationRange": {
+            "azimuthRange": [-30.0,30.0],
+            "distanceRange": [0.0,16000.0]
+          },
+          "clearTargets": [],
+          "clearTargetsOfInterest": []
+        },
+        "setSearchMode": [
+          {
+            "setTransiver": {
+              "transiver": "common"
+            }
+          },
+          {
+            "setCenterAzimuth": {
+              "source": "constant",
+              "value": 0.0
+            }
+          },
+          {
+            "setCenterElevation": {
+              "source": "constant",
+              "value": 7.5
+            }
+          },
+          {
+            "setFsmActive": {
+              "fsm": "search",
+              "active": true
+            }
+          },
+          {
+            "clearTargets": []
+          },
+          {
+            "clearTargetsOfInterest": []
+          },
+          {
+            "setFsmActive": {
+              "fsm": "searchPattern",
+              "active": true
+            }
+          },
+          {
+            "setFsmActive": {
+              "fsm": "searchRange",
+              "active": true
+            }
+          }
+        ],
+        "resetSearchMode": [
+          {
+            "setFsmActive": {
+              "fsm": "search",
+              "active": false
+            }
+          },
+          {
+            "setFsmActive": {
+              "fsm": "searchPattern",
+              "active": false
+            }
+          },
+          {
+            "setFsmActive": {
+              "fsm": "searchRange",
+              "active": false
+            }
+          }
+        ]
+      },
+      "transitions": {
+        "init": {
+          "stateFrom": "init",
+          "event": "init",
+          "stateTo": "standby",
+          "actions": {
+            "setStandbyMode": []
+          }
+        },
+        "switchToSearch": {
+          "stateFrom": "standby",
+          "command": "switch",
+          "stateTo": "search",
+          "actions": {
+            "setSearchMode": []
+          }
+        },
+        "switchToStandby": {
+          "stateFrom": "search",
+          "command": "switch",
+          "stateTo": "standby",
+          "actions": {
+            "resetSearchMode": [],
+            "setStandbyMode": []
+          }
+        },
+        "activateStandby": {
+          "stateFrom": "standbyInactive",
+          "event": "fsmActivate",
+          "stateTo": "standby",
+          "actions": {
+            "setStandbyMode": []
+          }
+        },
+        "deactivateStandby": {
+          "stateFrom": "standby",
+          "event": "fsmDeactivate",
+          "stateTo": "standbyInactive"
+        },
+        "activateSearch": {
+          "stateFrom": "searchInactive",
+          "event": "fsmActivate",
+          "stateTo": "search",
+          "actions": {
+            "setSearchMode": []
+          }
+        },
+        "deactivateSearch": {
+          "stateFrom": "search",
+          "event": "fsmDeactivate",
+          "stateTo": "searchInactive",
+          "actions": {
+            "resetSearchMode": []
+          }
+        }
+      }
+    },
     "searchPattern": {
       "stateInit": "search60",
       "transitions": {
@@ -514,6 +574,15 @@
             }
           }
         },
+        "activatesearch360": {
+          "stateFrom": "search360",
+          "event": "fsmActivate",
+          "actions": {
+            "setScanPattern": {
+              "scanPattern": "search360"
+            }
+          }
+        },
         "activateSearchVertical": {
           "stateFrom": "searchVertical",
           "event": "fsmActivate",
@@ -523,8 +592,18 @@
             }
           }
         },
-        "switchToSearchVertical": {
+        "switchToSearch360": {
           "stateFrom": "search60",
+          "command": "scanPatternSwitch",
+          "stateTo": "search360",
+          "actions": {
+            "setScanPattern": {
+              "scanPattern": "search360"
+            }
+          }
+        },
+        "switchToSearchVertical": {
+          "stateFrom": "search360",
           "command": "scanPatternSwitch",
           "stateTo": "searchVertical",
           "actions": {
@@ -544,6 +623,69 @@
           }
         }
       }
+    },
+    "searchRange": {
+      "stateInit": "init",
+      "transitions": [
+        {
+          "activateRange10km": {
+            "stateFrom": "search10km",
+            "event": "fsmActivate",
+            "actions": {
+              "setSignal": {
+                "signal": "search10km"
+              }
+            }
+          }
+        },
+        {
+          "activateRange20km": {
+            "stateFrom": "search20km",
+            "event": "fsmActivate",
+            "actions": {
+              "setSignal": {
+                "signal": "search20km"
+              }
+            }
+          }
+        },
+        {
+          "switchToRange10km": {
+            "stateFrom": "init",
+            "event": "fsmActivate",
+            "stateTo": "search10km",
+            "actions": {
+              "setSignal": {
+                "signal": "search10km"
+              }
+            }
+          }
+        },
+        {
+          "switchToRange20km": {
+            "stateFrom": "search10km",
+            "command": "rangeSwitch",
+            "stateTo": "search20km",
+            "actions": {
+              "setSignal": {
+                "signal": "search20km"
+              }
+            }
+          }
+        },
+        {
+          "switchToRange10km": {
+            "stateFrom": "search20km",
+            "command": "rangeSwitch",
+            "stateTo": "search10km",
+            "actions": {
+              "setSignal": {
+                "signal": "search10km"
+              }
+            }
+          }
+        }
+      ]
     },
     "lock": {
       "stateInit": "lock",
@@ -616,69 +758,6 @@
           }
         }
       }
-    },
-    "searchRange": {
-      "stateInit": "init",
-      "transitions": [
-        {
-          "activateRange10km": {
-            "stateFrom": "search10km",
-            "event": "fsmActivate",
-            "actions": {
-              "setSignal": {
-                "signal": "search10km"
-              }
-            }
-          }
-        },
-        {
-          "activateRange20km": {
-            "stateFrom": "search20km",
-            "event": "fsmActivate",
-            "actions": {
-              "setSignal": {
-                "signal": "search20km"
-              }
-            }
-          }
-        },
-        {
-          "switchToRange10km": {
-            "stateFrom": "init",
-            "event": "fsmActivate",
-            "stateTo": "search10km",
-            "actions": {
-              "setSignal": {
-                "signal": "search10km"
-              }
-            }
-          }
-        },
-        {
-          "switchToRange20km": {
-            "stateFrom": "search10km",
-            "command": "rangeSwitch",
-            "stateTo": "search20km",
-            "actions": {
-              "setSignal": {
-                "signal": "search20km"
-              }
-            }
-          }
-        },
-        {
-          "switchToRange10km": {
-            "stateFrom": "search20km",
-            "command": "rangeSwitch",
-            "stateTo": "search10km",
-            "actions": {
-              "setSignal": {
-                "signal": "search10km"
-              }
-            }
-          }
-        }
-      ]
     }
   }
 }

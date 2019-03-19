@@ -333,7 +333,7 @@ function restart_to_launcher()
 {
   if (::is_platform_ps4)
     return ::gui_start_logout()
-  else if (::is_platform_xbox)
+  else if (::is_platform_xboxone)
     return ::exit_game()
   else if (::target_platform == "linux64")
     return ::quit_and_run_cmd("./launcher -silentupdate")
