@@ -10,17 +10,16 @@
   "isCapableOfAttackTurn": false,
   "ignoreArcadeWep": true,
   "overheatBlk": "gameData/FlightModels/DM/overheat.blk",
-  "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
-  "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
-  "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
-  "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
-  "damagePartsToCollisionPointsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_points_map.blk",
-  "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map.blk",
-  "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk",
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
   "fireParamsPreset": "600kph",
   "fightAiBehaviour": "assault",
   "hasQualityModels": true,
+  "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
+  "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
+  "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
+  "damagePartsToCollisionPointsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_points_map.blk",
+  "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map.blk",
+  "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk",
   "DamageParts": {
     "armor10": {
       "mgun1_dm": {
@@ -2239,6 +2238,12 @@
     "maxPower": 6.0,
     "initialRadius": 12.0,
     "radiusSpeed": 2.0
+  },
+  "fireParams": {
+    "engineExtinguishFireSpeed": [82.0,194.0],
+    "engineExtinguishFireSpeedChance": [0.01,0.1],
+    "fireDamagePowerRel": 0.05,
+    "nonExtinguishFireTime": 5.0
   },
   "damagePartsDependencyMap": [
     {
@@ -5628,23 +5633,17 @@
     },
     {
       "dp": {
-        "dm": "flap_r_dm",
-        "dp": "flap1_r_dm"
+        "dm": "flap_l_dm",
+        "dp": "flap1_l_dm"
       }
     },
     {
       "dp": {
-        "dm": "flap_l_dm",
-        "dp": "flap1_l_dm"
+        "dm": "flap_r_dm",
+        "dp": "flap1_r_dm"
       }
     }
   ],
-  "fireParams": {
-    "engineExtinguishFireSpeed": [82.0,194.0],
-    "engineExtinguishFireSpeedChance": [0.01,0.1],
-    "fireDamagePowerRel": 0.05,
-    "nonExtinguishFireTime": 5.0
-  },
   "wiki": {
     "general": {
       "length": 11.91,
