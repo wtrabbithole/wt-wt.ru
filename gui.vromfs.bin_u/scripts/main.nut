@@ -50,6 +50,8 @@ local __math = require("math")
 
 ::cross_call_api <- {}
 
+if (::is_platform_ps4 && !::is_dev_version) ::exit_game <- function() {::gui_start_logout()}
+
 ::FORCE_UPDATE <- true
 const LOST_DELAYED_ACTION_MSEC = 500
 

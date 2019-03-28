@@ -66,8 +66,11 @@ enum WW_LB_MODE
 
 function get_lb_mode(name, isWwLeaderboard = false)
 {
-  if (name == null || name.len() <= 0)
+  if (!isWwLeaderboard && ::u.isEmpty(name))
     return 0
+
+  if (::u.isEmpty(name))  //if not mode name then it events leaderboard and WW_LB_MODE need all
+    return WW_LB_MODE.ALL
 
   local lbModeNames = isWwLeaderboard ? ::ww_lb_mode_name : ::lb_mode_name
   if (name in lbModeNames)
