@@ -71,11 +71,11 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 
 
 ::basic_unit_roles <- {
-  [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber"],
+  [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber", "ufo"],
   [::ES_UNIT_TYPE_TANK] = ["tank", "light_tank", "medium_tank", "heavy_tank", "tank_destroyer", "spaa"],
   [::ES_UNIT_TYPE_SHIP] = ["ship", "boat", "heavy_boat", "barge", "destroyer", "light_cruiser",
     "cruiser", "battlecruiser", "battleship", "submarine"],
-  [::ES_UNIT_TYPE_HELICOPTER] = ["attack_helicopter", "utility_helicopter"]
+  [::ES_UNIT_TYPE_HELICOPTER] = ["attack_helicopter", "utility_helicopter"],
 }
 
 ::unit_role_fonticons <- {
@@ -84,6 +84,7 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
   bomber                   = ::loc("icon/unitclass/bomber"),
   attack_helicopter        = ::loc("icon/unitclass/attack_helicopter"),
   utility_helicopter       = ::loc("icon/unitclass/utility_helicopter"),
+  ufo                      = ::loc("icon/unitclass/ufo"),
   light_tank               = ::loc("icon/unitclass/light_tank"),
   medium_tank              = ::loc("icon/unitclass/medium_tank"),
   heavy_tank               = ::loc("icon/unitclass/heavy_tank"),
@@ -118,6 +119,7 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
   type_strike_fighter   = "strike_fighter",
   type_attack_helicopter  = "attack_helicopter",
   type_utility_helicopter = "utility_helicopter",
+  type_ufo              = "ufo",
   //tanks:
   type_tank             = "tank" //used in profile stats
   type_light_tank       = "light_tank",
@@ -1596,11 +1598,21 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   if (!show || !air)
     return
 
+  local isUfo = air.isUfo()
+
   local tableObj = holderObj.findObject("air_info_panel_table")
   if (::check_obj(tableObj))
   {
     local isShowProgress = ::isInArray(air.esUnitType, [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ])
     tableObj["showStatsProgress"] = isShowProgress ? "yes" : "no"
+  }
+
+  local normalTableObj = holderObj.findObject("air_info_panel_table") || holderObj.findObject("air_info_panel_table_tooltip")
+  local alienTableObj  = holderObj.findObject("air_info_panel_table_alien")
+  if (::check_obj(normalTableObj) && ::check_obj(alienTableObj))
+  {
+    normalTableObj.show(!isUfo)
+    alienTableObj.show(isUfo)
   }
 
   local isInFlight = ::is_in_flight()
@@ -1716,13 +1728,13 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       nameObj.setValue(::loc("shop/age") + ::loc("ui/colon"))
     local yearsObj = ageObj.findObject("age_years")
     if (::checkObj(yearsObj))
-      yearsObj.setValue(::get_roman_numeral(air.rank))
+      yearsObj.setValue(isUfo ? "ᛁᚼ" : ::get_roman_numeral(air.rank))
   }
 
   //count unit ratings
   local battleRating = air.getBattleRating(ediff)
   holderObj.findObject("aircraft-battle_rating-header").setValue(::loc("shop/battle_rating") + ::loc("ui/colon"))
-  holderObj.findObject("aircraft-battle_rating").setValue(format("%.1f", battleRating))
+  holderObj.findObject("aircraft-battle_rating").setValue(isUfo ? "ᚿᚼᚼ" : format("%.1f", battleRating))
 
   local meetObj = holderObj.findObject("aircraft-chance_to_met_tr")
   if (::checkObj(meetObj))
@@ -1826,7 +1838,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       waitObj.show(!isSecondaryModsValid)
   }
   local refTextObj = holderObj.findObject("references_text")
-  if (::checkObj(refTextObj)) refTextObj.show(showReferenceText)
+  if (::checkObj(refTextObj)) refTextObj.show(showReferenceText && !isUfo)
 
   holderObj.findObject("aircraft-speedAlt").setValue(air.shop.maxSpeedAlt>0? ::countMeasure(1, air.shop.maxSpeedAlt) : ::loc("shop/max_speed_alt_sea"))
 //    holderObj.findObject("aircraft-climbTime").setValue(format("%02d:%02d", air.shop.climbTime.tointeger() / 60, air.shop.climbTime.tointeger() % 60))

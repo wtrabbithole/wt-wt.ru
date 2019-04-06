@@ -81,7 +81,6 @@ function on_mainmenu_return(handler, isAfterLogin)
   if (isAllowPopups)
     ::SessionLobby.checkSessionReconnect()
 
-  update_news()
   if (!isAfterLogin)
   {
     ::g_warbonds_view.resetShowProgressBarFlag()

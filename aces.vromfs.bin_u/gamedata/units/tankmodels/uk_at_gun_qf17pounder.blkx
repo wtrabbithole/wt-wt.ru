@@ -617,6 +617,7 @@
     "sound": {
       "EngineName": "engine_sherman_m4a1",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
@@ -1550,37 +1551,6 @@
     }
   },
   {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
     "class_tags": []
   },
   {
@@ -1765,14 +1735,14 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 31250.0,
+        "Empty": 36805.0,
         "Fuel": 300.0,
-        "TakeOff": 31550.0,
+        "TakeOff": 37105.0,
         "momentOfInertia": [2.5,2.5,6.0],
         "CenterOfGravity": [-0.1,0.8,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
         "AdvancedMass": false,
-        "trackMass": 1150.0
+        "trackMass": 1805.0
       },
       "tracks": {
         "animationMultiplier": 0.68,
@@ -1813,7 +1783,7 @@
             "ratio": 1.111
           },
           {
-            "ratio": 0.733
+            "ratio": 0.85
           }
         ]
       },
@@ -2613,7 +2583,7 @@
         "turn_it_off": false,
         "effects": {
           "rcostAddParam": 1.0405,
-          "changeMass": -950.0,
+          "changeMass": -1805.0,
           "hideNodes": [
             {
               "node": "ex_armor_body_02"

@@ -8,7 +8,6 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   curJoyParams = null
   shortcuts = null
   shortcutItems = null
-  onFinalApplyAxisShortcuts = null //function(changedShortcutsList, changedAxes)
 
   setupAxisMode = null
   autodetectAxis = false
@@ -720,8 +719,8 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   function afterModalDestroy()
   {
-    if (onFinalApplyAxisShortcuts)
-      onFinalApplyAxisShortcuts(changedShortcuts, changedAxes)
+    ::broadcastEvent("ControlsChangedShortcuts", {changedShortcuts = changedShortcuts})
+    ::broadcastEvent("ControlsChangedAxes", {changedAxes = changedAxes})
   }
 
   function goBack()

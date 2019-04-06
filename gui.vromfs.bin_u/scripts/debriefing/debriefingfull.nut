@@ -79,11 +79,13 @@ local stdMath = require("std/math.nut")
   { id = "AirKills"
     showByModes = ::is_gamemode_versus
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
-    text = "multiplayer/air_kills"
-    icon = "icon/mpstats/kills"
+    // !!! TEMP HACK WITH SUBSTITUTION - DELETE AFTER UFO APRIL EVENT
+    getName = @() ::loc(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO ? "multiplayer/ufo_kills" : "multiplayer/air_kills")
+    icon = @() ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO ? "icon/mpstats/ufoKills" : "icon/mpstats/kills"
     isVisibleWhenEmpty = function()
     {
-      return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_AIR
+      return (::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_AIR) ||
+             (::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO)
     }
   }
   { id = "GroundKills"

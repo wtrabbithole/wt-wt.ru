@@ -488,6 +488,7 @@
     "sound": {
       "EngineName": "engine_stuart_m5a",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_light",
       "TrackSoundNameCockpit": "tracks_light_interior",
       "turret_turn": "turret_turn_manual",
@@ -2753,7 +2754,7 @@
           },
           "limitsTable": {
             "lim1": [-180.0,-150.0,-2.0,30.0],
-            "lim2": [-150.0,150.0,-10.0,30.0],
+            "lim2": [-150.0,150.0,-20.0,30.0],
             "lim3": [150.0,180.0,-2.0,30.0]
           }
         }
@@ -2810,7 +2811,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {

@@ -162,7 +162,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     "chat_input"
     function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
-  focusItemAirsTable = 2
+  focusItemAirsTable = 0
   focusItemChatTabs  = 4
   focusItemChatInput = 5
 
@@ -2148,7 +2148,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     curChatData = ::loadGameChatToObj(chatObj, chatBlkName, this,
-                                      { selfHideInput = isSpectate, isInSpectateMode = isSpectate })
+      { selfHideInput = isSpectate, isInSpectateMode = isSpectate, isInputSelected = false })
     curChatBlk = chatBlkName
 
     if (!isSpectate)

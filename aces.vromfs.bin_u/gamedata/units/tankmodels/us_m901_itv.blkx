@@ -1701,10 +1701,19 @@
         "emitterGenFmt": "bone_rocket_%02d",
         "ammoDpGenFmt": "ammo_turret_%02d_dm",
         "recoilMultiplier": 0.1,
+        "stopForFire": true,
+        "readyToFireVar": "m901_itv_action",
+        "readyToFireTime": 2.5,
+        "maxSpeedForFire": 10.0,
+        "lagStopForFireTime": 1.0,
+        "reloadAnimVar": "m901_reload_var",
         "createGunEffects": true,
+        "parkForReload": true,
+        "waitShellForPark": true,
         "barrelDP": "gun_barrel_02_dm",
         "defaultYaw": 0.0,
         "defaultPitch": 0.0,
+        "notReadyToFireYaw": -180.0,
         "speedYaw": 45.0,
         "speedPitch": 25.0,
         "fireConeAngle": 1.0,
@@ -1763,7 +1772,15 @@
             "lim9": [127.0,180.0,-13.0,25.0]
           }
         ]
-      }
+      },
+      "animatedBones": [
+        {
+          "node": "bone_gun"
+        },
+        {
+          "node": "bone_roll_01"
+        }
+      ]
     }
   },
   {
@@ -2459,10 +2476,19 @@
                 "emitterGenFmt": "bone_rocket_%02d",
                 "ammoDpGenFmt": "ammo_turret_%02d_dm",
                 "recoilMultiplier": 0.1,
+                "stopForFire": true,
+                "readyToFireVar": "m901_itv_action",
+                "readyToFireTime": 2.5,
+                "maxSpeedForFire": 10.0,
+                "lagStopForFireTime": 1.0,
+                "reloadAnimVar": "m901_reload_var",
                 "createGunEffects": true,
+                "parkForReload": true,
+                "waitShellForPark": true,
                 "barrelDP": "gun_barrel_02_dm",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
+                "notReadyToFireYaw": -180.0,
                 "speedYaw": 45.0,
                 "speedPitch": 25.0,
                 "fireConeAngle": 1.0,
@@ -2522,6 +2548,16 @@
                   }
                 ]
               }
+            },
+            {
+              "animatedBones": [
+                {
+                  "node": "bone_gun"
+                },
+                {
+                  "node": "bone_roll_01"
+                }
+              ]
             },
             {
               "Weapon": {

@@ -18,22 +18,30 @@
           "activeAccesskeys": "RS",
           "on_select": "onControlsGroupChange"
         },
-        "top_right_holder": {
-          "tdiv": {
-            "id": "listbox_filter_holder",
-            "width": "0.5@scrn_tgt",
-            "pos": "0, 0",
-            "position": "relative"
-          },
-          "Button_text": {
-            "class": "image",
-            "visualStyle": "noFrame",
-            "id": "btn_controlsHelp",
-            "tooltip": "#options/help",
-            "_on_click": "onControlsHelp",
-            "imgSize": "big",
-            "img": {
-              "background-image": "#ui/gameuiskin#btn_current_assigned_buttons.svg"
+        "tdiv": {
+          "size": "fw, 1@frameHeaderHeight",
+          "top": "-1@frameHeaderPad",
+          "position": "relative",
+          "top_right_holder": {
+            "width": "pw",
+            "max-width": "0.5@scrn_tgt",
+            "hasCloseButton": "no",
+            "tdiv": {
+              "id": "listbox_filter_holder",
+              "width": "fw",
+              "top": "0.5(ph-h)",
+              "position": "relative"
+            },
+            "Button_text": {
+              "id": "btn_controlsHelp",
+              "class": "image",
+              "visualStyle": "noFrame",
+              "tooltip": "#options/help",
+              "_on_click": "onControlsHelp",
+              "imgSize": "big",
+              "img": {
+                "background-image": "#ui/gameuiskin#btn_current_assigned_buttons.svg"
+              }
             }
           }
         },
@@ -57,7 +65,6 @@
             "pos": "50%pw-50%w, 0",
             "position": "relative",
             "margin": "0, 0.015@sf",
-            "activeAccesskeys": "LeftRight",
             "navigatorShortcuts": "yes",
             "on_wrap_up": "onWrapUp",
             "on_wrap_down": "onWrapDown",
@@ -133,7 +140,7 @@
             "Button_text": {
               "id": "btn_controlsHelp_gamepad",
               "text": "#options/help",
-              "btnName": "LB",
+              "btnName": "LT",
               "_on_click": "onControlsHelp",
               "ButtonImg": []
             }
@@ -164,8 +171,8 @@
           },
           {
             "Button_text": {
-              "id": "btn_ps4BackupManager",
-              "_on_click": "onPs4ManageBackup",
+              "id": "btn_backupManager",
+              "_on_click": "onManageBackup",
               "class": "image",
               "btnName": "RB",
               "ButtonImg": [],

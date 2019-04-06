@@ -41,7 +41,8 @@ function get_favorite_voice_message_option(index)
 enum ConflictGroups {
   PLANE_FIRE,
   HELICOPTER_FIRE,
-  TANK_FIRE
+  TANK_FIRE,
+  UFO_FIRE
 }
 
 enum AxisDirection {
@@ -240,6 +241,10 @@ enum AxisDirection {
       filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
       optionType = ::USEROPT_INVERTX
       showFunc = @() checkOptionValue("invert_y", true)
+    }
+    { id="joyFX", type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_JOYFX
+      showFunc = @() ::is_platform_pc
     }
     { id="multiplier_force_gain", type = CONTROL_TYPE.SLIDER
       filterHide = [globalEnv.EM_MOUSE_AIM]
@@ -482,6 +487,200 @@ enum AxisDirection {
     { id="ID_TOGGLE_6_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
     { id="ID_ENABLE_ALL_ENGINE_CONTROL", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
 
+  { id = "ID_CONTROL_HEADER_UFO"
+    showFunc = @() ::has_feature("UfoControl"),
+    type = CONTROL_TYPE.HEADER
+    unitType = ::g_unit_type.AIRCRAFT
+    unitTag = "ufo"
+    isHelpersVisible = true
+  }
+
+  { id = "ID_MODE_HEADER_UFO"
+    type = CONTROL_TYPE.SECTION
+  }
+    { id = "mouse_usage_ufo"
+      type = CONTROL_TYPE.SPINNER
+      optionType = ::USEROPT_MOUSE_USAGE
+      onChangeValue = "onAircraftHelpersChanged"
+    }
+    { id = "mouse_usage_no_aim_ufo"
+      type = CONTROL_TYPE.SPINNER
+      showFunc = @() ::has_feature("SimulatorDifficulty") && (getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
+      optionType = ::USEROPT_MOUSE_USAGE_NO_AIM
+      onChangeValue = "onAircraftHelpersChanged"
+    }
+    { id="instructor_enabled_ufo"
+      type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_INSTRUCTOR_ENABLED
+      onChangeValue = "onAircraftHelpersChanged"
+    }
+    { id="ID_TOGGLE_INSTRUCTOR_UFO"
+      checkGroup = ctrlGroups.UFO
+      checkAssign = false
+    }
+
+  { id = "ID_AXES_HEADER_UFO"
+    type = CONTROL_TYPE.SECTION
+    unitType = ::g_unit_type.AIRCRAFT
+    unitTag = "ufo"
+  }
+    { id="roll_ufo"
+      type = CONTROL_TYPE.AXIS
+      reqInMouseAim = false
+      checkGroup = ctrlGroups.UFO
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    }
+    { id="pitch_ufo"
+      type = CONTROL_TYPE.AXIS
+      reqInMouseAim = false
+      checkGroup = ctrlGroups.UFO
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    }
+    { id="yaw_ufo"
+      type = CONTROL_TYPE.AXIS
+      reqInMouseAim = false
+      checkGroup = ctrlGroups.UFO
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    }
+    { id="thrust_vector_forward_ufo"
+      type = CONTROL_TYPE.AXIS
+      reqInMouseAim = false
+      checkGroup = ctrlGroups.UFO
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      checkAssign = false
+    }
+    { id="thrust_vector_lateral_ufo"
+      type = CONTROL_TYPE.AXIS
+      reqInMouseAim = false
+      checkGroup = ctrlGroups.UFO
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      checkAssign = false
+    }
+    { id="thrust_vector_vertical_ufo"
+      type = CONTROL_TYPE.AXIS
+      reqInMouseAim = false
+      checkGroup = ctrlGroups.UFO
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      checkAssign = false
+    }
+    { id="roll_sens_ufo"
+      type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      optionType = ::USEROPT_AILERONS_MULTIPLIER
+    }
+    { id="_pitch_sens_ufo"
+      type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      optionType = ::USEROPT_ELEVATOR_MULTIPLIER
+    }
+    { id="yaw_sens_ufo"
+      type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      optionType = ::USEROPT_RUDDER_MULTIPLIER
+    }
+    { id="invert_y_ufo"
+      type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_INVERTY_UFO
+      onChangeValue = "doControlsGroupChangeDelayed"
+    }
+    { id="invert_x_ufo"
+      type = CONTROL_TYPE.SPINNER
+      filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
+      optionType = ::USEROPT_INVERTX
+      showFunc = @() checkOptionValue("invert_y", true)
+    }
+
+  { id = "ID_FIRE_HEADER_UFO"
+    type = CONTROL_TYPE.SECTION
+  }
+    { id = "ID_FIRE_LASERGUNS_UFO"
+      checkGroup = ctrlGroups.UFO
+      conflictGroup = ConflictGroups.UFO_FIRE
+    }
+    { id = "ID_FIRE_RAILGUNS_UFO"
+      checkGroup = ctrlGroups.UFO
+      conflictGroup = ConflictGroups.UFO_FIRE
+    }
+    { id = "fire_ufo"
+      checkGroup = ctrlGroups.UFO
+      alternativeIds = [
+        "ID_FIRE_LASERGUNS_UFO"
+        "ID_FIRE_RAILGUNS_UFO"
+      ]
+      type = CONTROL_TYPE.AXIS
+    }
+    { id = "ID_TORPEDOES_UFO"
+      checkGroup = ctrlGroups.UFO
+    }
+    { id = "ID_TORPEDO_LOCK_UFO",
+      checkGroup = ctrlGroups.UFO
+    }
+
+  { id = "ID_VIEW_HEADER_UFO"
+    type = CONTROL_TYPE.SECTION
+    unitType = ::g_unit_type.AIRCRAFT
+    unitTag = "ufo"
+  }
+    { id = "ID_TOGGLE_VIEW_UFO"
+      checkGroup = ctrlGroups.UFO
+    }
+    { id = "invert_y_camera_ufo"
+      type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_INVERTCAMERAY
+    }
+    { id="zoom_ufo",
+      type = CONTROL_TYPE.AXIS,
+      checkAssign = false
+      checkGroup = ctrlGroups.UFO
+    }
+    { id="camx_ufo",
+      type = CONTROL_TYPE.AXIS,
+      reqInMouseAim = false,
+      axisDirection = AxisDirection.X
+      checkGroup = ctrlGroups.UFO
+    }
+    { id="camy_ufo",
+      type = CONTROL_TYPE.AXIS,
+      reqInMouseAim = false,
+      axisDirection = AxisDirection.Y
+      checkGroup = ctrlGroups.UFO
+    }
+    { id="mouse_aim_x_ufo"
+      type = CONTROL_TYPE.AXIS
+      filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.X
+      checkGroup = ctrlGroups.UFO
+    }
+    { id="mouse_aim_y_ufo"
+      type = CONTROL_TYPE.AXIS
+      filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.Y
+      checkGroup = ctrlGroups.UFO
+    }
+
+  { id = "ID_INSTRUCTOR_HEADER_UFO"
+    type = CONTROL_TYPE.SECTION
+    unitType = ::g_unit_type.AIRCRAFT
+    unitTag = "ufo"
+    filterShow = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
+  }
+    { id="instructor_ground_avoidance_ufo"
+      type = CONTROL_TYPE.SWITCH_BOX
+      filterShow = [ globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR ]
+      optionType = ::USEROPT_INSTRUCTOR_GROUND_AVOIDANCE
+    }
+
+  { id = "ID_OTHER_HEADER_UFO"
+    type = CONTROL_TYPE.SECTION
+    unitType = ::g_unit_type.AIRCRAFT
+    unitTag = "ufo"
+  }
+    { id="ID_GEAR_UFO"
+      checkGroup = ctrlGroups.UFO
+    }
+
   { id = "ID_HELICOPTER_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.HELICOPTER
@@ -649,6 +848,10 @@ enum AxisDirection {
       checkGroup = ctrlGroups.HELICOPTER
     }
     { id = "ID_FLARES_HELICOPTER",
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
+    { id = "ID_FLARES_SERIES_HELICOPTER",
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
     }
@@ -1893,8 +2096,6 @@ function get_shortcut_by_id(shortcutId)
   { id="elevator", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="rudder", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   { id="throttle", axisShortcuts = ["rangeMin", "rangeMax", ""] }
-  { id="mouse_aim_x", axisShortcuts = ["rangeMin", "rangeMax", ""] }
-  { id="mouse_aim_y", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   "ID_LOCK_TARGET",
   "ID_NEXT_TARGET",
   "ID_PREV_TARGET",
@@ -2044,6 +2245,28 @@ function get_shortcut_by_id(shortcutId)
   "ID_HIDE_HUD"
 ]
 
+::controlsHelp_shortcuts_ufo <- [
+  { id ="ID_BASIC_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
+  { id="thrust_vector_forward_ufo", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  { id="thrust_vector_lateral_ufo", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  { id="thrust_vector_vertical_ufo", axisShortcuts = ["rangeMin", "rangeMax", ""] }
+  "ID_GEAR_UFO"
+
+  { id = "ID_PLANE_FIRE_HEADER", type = CONTROL_TYPE.HEADER }
+  "ID_FIRE_LASERGUNS_UFO"
+  "ID_FIRE_RAILGUNS_UFO"
+  "ID_TORPEDOES_UFO"
+  "ID_TORPEDO_LOCK_UFO"
+
+  { id ="ID_MISC_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
+  "ID_HELP"
+  "ID_TACTICAL_MAP", "ID_MPSTATSCREEN",
+  "ID_TOGGLE_CHAT_TEAM",
+  "ID_SHOW_VOICE_MESSAGE_LIST"
+  "ID_SHOW_VOICE_MESSAGE_LIST_SQUAD"
+  "ID_HIDE_HUD"
+]
+
 ::controlsHelp_shortcuts_submarine <- [
   { id ="ID_SUBMARINE_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
   { id="submarine_main_engine", axisShortcuts = ["rangeMin", "rangeMax", ""] }
@@ -2077,79 +2300,8 @@ if (::is_platform_pc) //See AcesApp::makeScreenshot()
   ::controlsHelp_shortcuts_ground.extend(extra)
   ::controlsHelp_shortcuts_naval.extend(extra)
   ::controlsHelp_shortcuts_helicopter.extend(extra)
+  ::controlsHelp_shortcuts_ufo.extend(extra)
   ::controlsHelp_shortcuts_submarine.extend(extra)
-}
-
-enum AXIS_MODIFIERS {
-  NONE = 0x0,
-  MIN = 0x8000,
-  MAX = 0x4000,
-}
-
-//gamepad axes bitmask
-enum GAMEPAD_AXIS {
-  NOT_AXIS = 0
-
-  LEFT_STICK_HORIZONTAL = 0x1
-  LEFT_STICK_VERTICAL = 0x2
-  RIGHT_STICK_HORIZONTAL = 0x4
-  RIGHT_STICK_VERTICAL = 0x8
-
-  LEFT_TRIGGER = 0x10
-  RIGHT_TRIGGER = 0x20
-
-  LEFT_STICK = 0x3
-  RIGHT_STICK = 0xC
-}
-
-//xinput axes to image
-::gamepad_axes_images <- {
-  [GAMEPAD_AXIS.NOT_AXIS] = "",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL] = "#ui/gameuiskin#xone_l_stick_to_left_n_right",
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL] = "#ui/gameuiskin#xone_l_stick_to_up_n_down",
-  [GAMEPAD_AXIS.LEFT_STICK] = "#ui/gameuiskin#xone_l_stick_4",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL] = "#ui/gameuiskin#xone_r_stick_to_left_n_right",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL] = "#ui/gameuiskin#xone_r_stick_to_up_n_down",
-  [GAMEPAD_AXIS.RIGHT_STICK] = "#ui/gameuiskin#xone_r_stick_4",
-  [GAMEPAD_AXIS.LEFT_TRIGGER] = "#ui/gameuiskin#xone_l_trigger",
-  [GAMEPAD_AXIS.RIGHT_TRIGGER] = "#ui/gameuiskin#xone_r_trigger",
-
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#xone_l_stick_down",
-  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#xone_l_stick_up",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#xone_l_stick_left",
-  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#xone_l_stick_right",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#xone_r_stick_down",
-  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#xone_r_stick_up",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#xone_r_stick_left",
-  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#xone_r_stick_right",
-}
-
-//mouse axes bitmask
-enum MOUSE_AXIS {
-  NOT_AXIS = 0x0
-
-  HORIZONTAL_AXIS = 0x1
-  VERTICAL_AXIS = 0x2
-  WHEEL_AXIS = 0x4
-
-  MOUSE_MOVE = 0x3
-
-  TOTAL = 3
-}
-
-::mouse_axes_to_image <- {
-  [MOUSE_AXIS.NOT_AXIS] = "",
-  [MOUSE_AXIS.HORIZONTAL_AXIS] = "#ui/gameuiskin#mouse_move_l_r",
-  [MOUSE_AXIS.VERTICAL_AXIS] = "#ui/gameuiskin#mouse_move_up_down",
-  [MOUSE_AXIS.MOUSE_MOVE] = "#ui/gameuiskin#mouse_move_4_sides",
-  [MOUSE_AXIS.WHEEL_AXIS] = "#ui/gameuiskin#mouse_center_up_down",
-
-  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_center_down",
-  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_center_up",
-  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_move_l",
-  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_move_r",
-  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MIN] = "#ui/gameuiskin#mouse_move_down",
-  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MAX] = "#ui/gameuiskin#mouse_move_up",
 }
 
 ::autorestore_axis_table <- {
@@ -2321,6 +2473,8 @@ local axisMappedOnMouse = {
   helicopter_camy        = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
   submarine_camx         = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   submarine_camy         = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  mouse_aim_x_ufo        = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  mouse_aim_y_ufo        = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
 }
 function is_axis_mapped_on_mouse(shortcutId, helpersMode = null, joyParams = null)
 {
@@ -2414,17 +2568,24 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   updateButtonsHandler = null
   optionTableId = "controls_tbl"
 
+  currentFocusItem = 7
+
   function getMainFocusObj()
   {
-    return "filter_edit_box"
+    return ::show_console_buttons? "header_buttons" : null
   }
 
   function getMainFocusObj2()
   {
-    return "helpers_mode"
+    return "filter_edit_box"
   }
 
   function getMainFocusObj3()
+  {
+    return "helpers_mode"
+  }
+
+  function getMainFocusObj4()
   {
     return optionTableId
   }
@@ -2437,6 +2598,13 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     setupAxisMode = -1
     scene.findObject("hotkeys_update").setUserData(this)
 
+    if (::is_low_width_screen())
+    {
+      local helpersModeObj = scene.findObject("helpers_mode")
+      if (::check_obj(helpersModeObj))
+        helpersModeObj.smallFont = "yes"
+    }
+
     shortcuts = []
     shortcutNames = []
     shortcutItems = []
@@ -2445,7 +2613,6 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     deviceMapping = []
 
     initNavigation()
-    initSearchField()
     initMainParams()
 
     if (!fetch_devices_inited_once())
@@ -2501,12 +2668,6 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       })
     registerSubHandler(navigationHandlerWeak)
     navigationHandlerWeak = handler.weakref()
-  }
-
-  function initSearchField()
-  {
-    local listboxFilterHolder = scene.findObject("listbox_filter_holder")
-    guiScene.replaceContent(listboxFilterHolder, "gui/chapter_include_filter.blk", this)
   }
 
   function fillFilterObj()
@@ -2569,12 +2730,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     foreach (idx, data in filledControlGroupTab)
     {
       local show = filterText == "" || data.text.find(filterText) != null
-      local rowObj = scene.findObject(data.id)
-      if (::check_obj(rowObj))
-      {
-        rowObj.show(show)
-        rowObj.enable(show)
-      }
+      showSceneBtn(data.id, show)
     }
   }
 
@@ -2608,12 +2764,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local isImportExportAllowed = !isTutorial
       && (isScriptOpenFileDialogAllowed() || ::is_platform_windows)
 
-    showSceneBtn("btn_controlsHelp", !::show_console_buttons)
-    showSceneBtn("btn_controlsHelp_gamepad", ::show_console_buttons)
     showSceneBtn("btn_exportToFile", isImportExportAllowed)
     showSceneBtn("btn_importFromFile", isImportExportAllowed)
     showSceneBtn("btn_switchMode", ::is_ps4_or_xbox || ::is_platform_shield_tv())
-    showSceneBtn("btn_ps4BackupManager", ::gui_handlers.Ps4ControlsBackupManager.isAvailable())
+    showSceneBtn("btn_backupManager", ::gui_handlers.ControlsBackupManager.isAvailable())
     local showWizard = !::is_platform_xboxone
       || (controllerState?.is_keyboard_connected || @() false) ()
       || (controllerState?.is_mouse_connected || @() false) ()
@@ -3530,14 +3684,6 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       curJoyParams = curJoyParams,
       shortcuts = shortcuts,
       shortcutItems = shortcutItems
-
-      onFinalApplyAxisShortcuts = function(shortcutsList, axesList) {
-        foreach(sc in shortcutsList)
-          updateShortcutText(sc)
-        local device = ::joystick_get_default()
-        foreach(axis in axesList)
-          updateAxisText(device, axis)
-      }.bindenv(this)
     }
 
     ::gui_start_modal_wnd(::gui_handlers.AxisControls, params)
@@ -3791,6 +3937,19 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     fillControlGroupTab(curGroupId)
   }
 
+  function onEventControlsChangedShortcuts(p)
+  {
+    foreach (sc in p.changedShortcuts)
+      updateShortcutText(sc)
+  }
+
+  function onEventControlsChangedAxes(p)
+  {
+    local device = ::joystick_get_default()
+    foreach (axis in p.changedAxes)
+      updateAxisText(device, axis)
+  }
+
   function doApply()
   {
     if (!::checkObj(scene))
@@ -3984,10 +4143,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     ::set_gui_options_mode(mainOptionsMode)
   }
 
-  function onPs4ManageBackup()
+  function onManageBackup()
   {
     updateCurPresetForExport()
-    ::gui_handlers.Ps4ControlsBackupManager.open()
+    ::gui_handlers.ControlsBackupManager.open()
   }
 
   function onExportToFile()
@@ -4399,111 +4558,6 @@ function remapAxisName(preset, axisId)
   return text
 }
 
-function assignButtonWindow(owner, onButtonEnteredFunc)
-{
-  ::gui_start_modal_wnd(::gui_handlers.assignModalButtonWindow, { owner = owner, onButtonEnteredFunc = onButtonEnteredFunc})
-}
-
-class ::gui_handlers.assignModalButtonWindow extends ::gui_handlers.BaseGuiHandlerWT
-{
-  function initScreen()
-  {
-    ::set_bind_mode(true);
-    guiScene.sleepKeyRepeat(true);
-    isListenButton = true;
-    scene.select();
-  }
-
-  function onButtonEntered(obj)
-  {
-    if (!isListenButton)
-      return;
-
-    dev = [];
-    btn = [];
-    for (local i = 0; i < 3; i++)
-    {
-      if (obj["device" + i]!="" && obj["button" + i]!="")
-      {
-        local devId = obj["device" + i].tointeger();
-        local btnId = obj["button" + i].tointeger();
-
-        // Ignore zero scancode from XBox keyboard driver
-        if (devId == STD_KEYBOARD_DEVICE_ID && btnId == 0)
-          continue
-
-        dagor.debug("onButtonEntered "+i+" "+devId+" "+btnId);
-        dev.append(devId);
-        btn.append(btnId);
-      }
-    }
-    goBack();
-  }
-
-  function onCancelButtonInput(obj)
-  {
-    goBack();
-  }
-
-  function onButtonAdded(obj)
-  {
-    local curBtnText = ""
-    local numButtons = 0
-    local curPreset = ::g_controls_manager.getCurPreset()
-    for (local i = 0; i < 3; i++)
-    {
-      local devId = obj["device" + i]
-      local btnId = obj["button" + i]
-      if (devId != "" && btnId != "")
-      {
-        devId = devId.tointeger()
-        btnId = btnId.tointeger()
-
-        // Ignore zero scancode from XBox keyboard driver
-        if (devId == STD_KEYBOARD_DEVICE_ID && btnId == 0)
-          continue
-
-        if (numButtons != 0)
-          curBtnText += " + "
-
-        curBtnText += ::getLocalizedControlName(curPreset, devId, btnId)
-        numButtons++
-      }
-    }
-    curBtnText = ::hackTextAssignmentForR2buttonOnPS4(curBtnText)
-    scene.findObject("txt_current_button").setValue(curBtnText + ((numButtons < 3)? " + ?" : ""));
-  }
-
-  function afterModalDestroy()
-  {
-    if (dev.len() > 0 && dev.len() == btn.len())
-      if (::handlersManager.isHandlerValid(owner) && onButtonEnteredFunc)
-        onButtonEnteredFunc.call(owner, dev, btn);
-  }
-
-  function onEventAfterJoinEventRoom(event)
-  {
-    goBack()
-  }
-
-  function goBack()
-  {
-    guiScene.sleepKeyRepeat(false);
-    ::set_bind_mode(false);
-    isListenButton = false;
-    base.goBack();
-  }
-
-  owner = null;
-  onButtonEnteredFunc = null;
-  isListenButton = false;
-  dev = [];
-  btn = [];
-
-  wndType = handlerType.MODAL
-  sceneBlkName = "gui/controlsInput.blk";
-}
-
 function hackTextAssignmentForR2buttonOnPS4(mainText)
 {
   if (::is_platform_ps4)
@@ -4766,7 +4820,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
   blkWeaponPreset = ::DataBlock()
   if (unitBlk.weapon_presets)
     foreach (idx, presetBlk in (unitBlk.weapon_presets % "preset"))
-      if (presetBlk.name == curWeaponPresetId || curWeaponPresetId == "" && idx == 0)
+      if (presetBlk.name == curWeaponPresetId || (curWeaponPresetId == "" && idx == 0))
       {
         blkWeaponPreset = ::DataBlock(presetBlk.blk)
         break
@@ -4776,13 +4830,33 @@ function getRequiredControlsForUnit(unit, helpersMode)
     foreach (sensor in (unitBlk.sensors % "sensor"))
       hasControllableRadar = hasControllableRadar || ::DataBlock(sensor.blk ?? "").type == "radar"
 
-  if (unitType == ::g_unit_type.AIRCRAFT)
+  local isMouseAimMode = helpersMode == globalEnv.EM_MOUSE_AIM
+
+  if (unitType == ::g_unit_type.AIRCRAFT && unit.isUfo())
+  {
+    controls = [ "thrust_vector_forward_ufo" ]
+
+    if (isMouseAimMode)
+      controls.extend([ "mouse_aim_x_ufo", "mouse_aim_y_ufo" ])
+
+    local w = getWeaponFeatures([ blkCommonWeapons, blkWeaponPreset ])
+
+    if (preset.getAxis("fire").axisId == -1)
+    {
+      if (w.gotMachineGuns || !w.gotCannons && w.gotGunnerTurrets) // Gunners require either Mguns or Cannons shortcut.
+        controls.append("ID_FIRE_LASERGUNS_UFO")
+      if (w.gotCannons)
+        controls.append("ID_FIRE_RAILGUNS_UFO")
+    }
+    if (w.gotTorpedoes)
+      controls.append("ID_TORPEDOES_UFO")
+  }
+  else if (unitType == ::g_unit_type.AIRCRAFT)
   {
     local fmBlk = ::get_fm_file(unitId, unitBlk)
     local unitControls = fmBlk.AvailableControls || ::DataBlock()
 
-    local isMouseAimMode = helpersMode == globalEnv.EM_MOUSE_AIM
-    local gotInstructor = helpersMode == globalEnv.EM_MOUSE_AIM || helpersMode == globalEnv.EM_INSTRUCTOR
+    local gotInstructor = isMouseAimMode || helpersMode == globalEnv.EM_INSTRUCTOR
     local option = ::get_option_in_mode(::USEROPT_INSTRUCTOR_GEAR_CONTROL, ::OPTIONS_MODE_GAMEPLAY)
     local instructorGearControl = gotInstructor && option.value
 
@@ -4826,7 +4900,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
     if (preset.getAxis("fire").axisId == -1)
     {
-      if (w.gotMachineGuns || !w.gotCannons && (w.gotGunnerTurrets || w.gotSchraegeMusik)) // Gunners require either Mguns or Cannons shortcut.
+      if (w.gotMachineGuns || (!w.gotCannons && (w.gotGunnerTurrets || w.gotSchraegeMusik))) // Gunners require either Mguns or Cannons shortcut.
         controls.append("ID_FIRE_MGUNS")
       if (w.gotCannons)
         controls.append("ID_FIRE_CANNONS")
@@ -4864,7 +4938,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
     if (preset.getAxis("fire").axisId == -1)
     {
-      if (w.gotMachineGuns || !w.gotCannons && w.gotGunnerTurrets) // Gunners require either Mguns or Cannons shortcut.
+      if (w.gotMachineGuns || (!w.gotCannons && w.gotGunnerTurrets)) // Gunners require either Mguns or Cannons shortcut.
         controls.append("ID_FIRE_MGUNS_HELICOPTER")
       if (w.gotCannons)
         controls.append("ID_FIRE_CANNONS_HELICOPTER")
@@ -5028,8 +5102,8 @@ function getUnmappedControls(controls, helpersMode, getLocNames = true, shouldCh
   {
     if (::isInArray(item.id, controls))
     {
-      if (("filterHide" in item) && ::isInArray(helpersMode, item.filterHide)
-        || ("filterShow" in item) && !::isInArray(helpersMode, item.filterShow)
+      if ((("filterHide" in item) && ::isInArray(helpersMode, item.filterHide))
+        || (("filterShow" in item) && !::isInArray(helpersMode, item.filterShow))
         || (shouldCheckRequirements && helpersMode == globalEnv.EM_MOUSE_AIM && !item.reqInMouseAim))
         continue
 

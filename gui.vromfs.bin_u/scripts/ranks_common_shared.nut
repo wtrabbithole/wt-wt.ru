@@ -26,6 +26,7 @@
   exp_cruiser = DS_UT_SHIP
   exp_naval_ferry_barge = DS_UT_SHIP
   exp_helicopter = DS_UT_AIRCRAFT
+  exp_ufo = DS_UT_AIRCRAFT
 }
 
 ::dsClassToMatchingClass <-

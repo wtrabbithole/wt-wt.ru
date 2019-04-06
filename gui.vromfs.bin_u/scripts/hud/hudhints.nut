@@ -376,13 +376,15 @@ enums.addTypesByGlobalName("g_hud_hints", {
     getLocId = function(hintData)
     {
       local curUnit = ::get_player_cur_unit()
-      return curUnit?.isHelicopter?() ? "hints/ready_to_bailout_helicopter"
+      return curUnit?.isUfo?() ? "hints/ready_to_bailout_ufo"
+      : curUnit?.isHelicopter?() ? "hints/ready_to_bailout_helicopter"
       : "hints/ready_to_bailout"
     }
     getNoKeyLocId = function()
     {
       local curUnit = ::get_player_cur_unit()
-      return curUnit?.isHelicopter?() ? "hints/ready_to_bailout_helicopter_nokey"
+      return curUnit?.isUfo?() ? "hints/ready_to_bailout_ufo_nokey"
+      : curUnit?.isHelicopter?() ? "hints/ready_to_bailout_helicopter_nokey"
       : "hints/ready_to_bailout_nokey"
     }
     shortcuts = "ID_BAILOUT"
@@ -397,7 +399,8 @@ enums.addTypesByGlobalName("g_hud_hints", {
     getLocId = function (hintData)
     {
       local curUnit = ::get_player_cur_unit()
-      return curUnit?.isHelicopter?() ? "hints/bailout_helicopter_in_progress"
+      return curUnit?.isUfo?() ? "hints/bailout_ufo_in_progress"
+        : curUnit?.isHelicopter?() ? "hints/bailout_helicopter_in_progress"
         : curUnit?.isAir?() ? "hints/bailout_in_progress"
         : "hints/leaving_the_tank_in_progress" //this localization is more general, then the "air" one
     }
@@ -475,7 +478,12 @@ enums.addTypesByGlobalName("g_hud_hints", {
 
   INEFFECTIVE_HIT_HINT = {
     hintType = ::g_hud_hint_types.COMMON
-    locId = "hints/ineffective_hit"
+    getLocId = function(hintData)
+    {
+      local curUnit = ::get_player_cur_unit()
+      return curUnit?.isUfo?() ? "hints/ineffective_hit_ufo"
+        : "hints/ineffective_hit"
+    }
     showEvent = "hint:ineffective_hit:show"
     lifeTime = 5.0
     priority = CATASTROPHIC_HINT_PRIORITY
@@ -821,6 +829,17 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:you_can_exit:show"
     hideEvent = "hint:you_can_exit:hide"
     shouldBlink = true
+  }
+
+  CONTROLS_HELP_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/help_controls"
+    noKeyLocId = "hints/help_controls/nokey"
+    shortcuts = "ID_HELP"
+    showEvent = "hint:controlsHelp:offer"
+    hideEvent = "hint:controlsHelp:remove"
+    delayTime = 1.0
+    lifeTime = 30.0
   }
 
   ARTILLERY_MAP_HINT = {

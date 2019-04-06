@@ -599,6 +599,7 @@ class HudAir extends ::gui_handlers.BaseUnitHud
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
     updateShowHintsNest()
+    offerControlsHelpOnce()
 
     ::g_hud_event_manager.subscribe("DamageIndicatorToggleVisbility",
       function(ed) { updateDmgIndicatorVisibility() },
@@ -614,6 +615,7 @@ class HudAir extends ::gui_handlers.BaseUnitHud
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
     updateShowHintsNest()
+    offerControlsHelpOnce()
   }
 
   function updateTacticalMapVisibility()
@@ -653,6 +655,17 @@ class HudAir extends ::gui_handlers.BaseUnitHud
 
     chatObj["margin-bottom"] = offset.tostring()
     _chatOffset = offset
+  }
+
+  function offerControlsHelpOnce()
+  {
+    if (!::need_offer_controls_help)
+      return
+    if (::get_player_cur_unit()?.isUfo?())
+    {
+      ::need_offer_controls_help = false
+      ::g_hud_event_manager.onHudEvent("hint:controlsHelp:offer", {})
+    }
   }
 }
 

@@ -1047,6 +1047,15 @@ function get_option(type, context = null)
       descr.value = ::get_option_invertX() == 0 ? 0 : 1
       break
 
+    case ::USEROPT_JOYFX:
+      descr.id = "joyFX"
+      descr.hint = ::loc("options/joyFX") + "\n" +
+        ::colorize("warningTextColor", ::loc("guiHints/restart_required"))
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
     case ::USEROPT_INVERT_THROTTLE:
       descr.id = "invertT"
       descr.items = ["#options/no", "#options/yes"]
@@ -1079,6 +1088,13 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y) != 0
+      break
+
+    case ::USEROPT_INVERTY_UFO:
+      descr.id = "invertY_ufo"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_UFO_Y) != 0
       break
 
     case ::USEROPT_INVERTY_SUBMARINE:
@@ -4124,6 +4140,9 @@ function set_option(type, value, descr = null)
     case ::USEROPT_INVERTY_HELICOPTER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y, value ? 1 : 0)
       break
+    case ::USEROPT_INVERTY_UFO:
+      ::set_option_invertY(AxisInvertOption.INVERT_UFO_Y, value ? 1 : 0)
+      break
     case ::USEROPT_INVERTY_SUBMARINE:
       ::set_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y, value ? 1 : 0)
       break
@@ -4841,6 +4860,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_USE_KILLSTREAKS:
     case ::USEROPT_AUTOMATIC_TRANSMISSION_TANK:
     case ::USEROPT_WHEEL_CONTROL_SHIP:
+    case ::USEROPT_JOYFX:
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
     case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
     case ::USEROPT_BULLET_FALL_SOUND_SHIP:

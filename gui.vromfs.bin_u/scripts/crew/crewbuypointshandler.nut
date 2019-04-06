@@ -9,7 +9,7 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
   function initScreen()
   {
     buyPointsPacks = ::g_crew_points.getSkillPointsPacks(::g_crew.getCrewCountry(crew))
-    scene.findObject("wnd_title").setValue(::loc("mainmenu/btnBuySkillPoints")+::loc("ui/colon"))
+    scene.findObject("wnd_title").setValue(::loc("mainmenu/btnBuySkillPoints"))
 
     local rootObj = scene.findObject("wnd_frame")
     rootObj["class"] = "wnd"

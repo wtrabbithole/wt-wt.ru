@@ -612,9 +612,10 @@ function enableBtnTable(obj, table, setInactive = false)
     local idObj = obj.findObject(id)
     if (::checkObj(idObj))
     {
-      idObj.enable(status)
       if (setInactive)
-        idObj.inactive = status? "no" : "yes"
+        idObj.inactiveColor = status? "no" : "yes"
+      else
+        idObj.enable(status)
     }
   }
 }
@@ -626,27 +627,6 @@ function showBtnTable(obj, table)
 
   foreach(id, status in table)
     ::showBtn(id, status, obj)
-}
-
-have_received_news <- false
-function update_news()
-{
-  /*
-  if (have_received_news)
-  {
-    local guiScene = ::get_gui_scene()
-    if (guiScene == null)
-      return
-    if (guiScene["mainmenu-news"] != null)
-      guiScene.replaceContent("mainmenu-news", "gui/news.blk", null)
-  }
-  */
-}
-
-function on_news_loaded()
-{
-  have_received_news <- true
-  update_news()
 }
 
 function show_title_logo(show, scene = null, logoHeight = "", name_id = "id_full_title")

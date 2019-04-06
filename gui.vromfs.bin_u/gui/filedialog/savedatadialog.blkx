@@ -57,9 +57,10 @@
             "selectOnAttach": "no",
             "moveX": "closest",
             "moveY": "linear",
-            "on_click": "selectFileTable",
-            "on_dbl_click": "selectFileTable",
-            "on_select": "onFileTableSelect"
+            "on_wrap_up": "onWrapUp",
+            "on_wrap_down": "onWrapDown",
+            "on_select": "onFileTableSelect",
+            "on_set_focus": "onFocusChange"
           }
         }
       },
@@ -74,14 +75,17 @@
             "width": "fw",
             "text": "",
             "tooltip": "#save/saveNameInput",
+            "on_wrap_up": "onWrapUp",
+            "on_wrap_down": "onWrapDown",
             "on_change_value": "onFileNameEditBoxChangeValue",
             "on_activate": "onFileNameEditBoxActivate",
             "on_cancel_edit": "onFileNameEditBoxCancelEdit",
+            "on_set_focus": "onFocusChange",
             "ButtonImg": []
           },
           "DummyButton": {
             "btnName": "Y",
-            "on_click": "onToggleFocusFileName"
+            "on_click": "onFileNameEditBoxActivate"
           }
         }
       },
@@ -99,6 +103,15 @@
           "navRight": [
             {
               "Button_text": {
+                "id": "btn_load",
+                "btnName": "A",
+                "text": "#save/btnLoad",
+                "on_click": "onBtnLoad",
+                "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
                 "id": "btn_save",
                 "btnName": "X",
                 "text": "#save/btnSave",
@@ -108,10 +121,10 @@
             },
             {
               "Button_text": {
-                "id": "btn_load",
-                "btnName": "A",
-                "text": "#save/btnLoad",
-                "on_click": "onBtnLoad",
+                "id": "btn_rewrite",
+                "btnName": "X",
+                "text": "#save/btnRewrite",
+                "on_click": "onBtnRewrite",
                 "ButtonImg": []
               }
             }

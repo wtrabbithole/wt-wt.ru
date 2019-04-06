@@ -7,6 +7,7 @@
   "memoryPCHighMode": 210,
   "cockpitVolumeMultMinValue": 0.1,
   "soundSpeed": 400.0,
+  "eventUfo": "sounds/ufo",
   "maxAltFallBullets": 20.0,
   "maxSpeedFallBullets": 50.0,
   "FmEngineAi": "engine_ai",
@@ -135,6 +136,7 @@
   },
   "misc_effects": {
     "path": "sounds/effects",
+    "pathGui": "sounds/gui",
     "pathCamera": "sounds/cam",
     "pathCommon": "sounds/common",
     "pathGuns": "sounds/guns",
@@ -150,6 +152,10 @@
     "eventBulletHitGroundDist": 200.0,
     "eventBulletHitWater": "bullethit_water",
     "eventBulletHitWaterDist": 200.0,
+    "eventLaserHitGround": "laser_burn_solid",
+    "eventLaserHitGroundDist": 200.0,
+    "eventLaserHitWater": "laser_burn_water",
+    "eventLaserHitWaterDist": 200.0,
     "eventBulletPassBy": "bullet_passby",
     "eventPropDead": "prop_dead",
     "eventPropDeadDist": 100.0,
@@ -306,7 +312,8 @@
     "tinnitusDuration": 1.0,
     "tinnitusDSPDuration": 5.0,
     "passBySpeedRange": [300.0,1200.0],
-    "passByDistRange": [0.0,1000.0]
+    "passByDistRange": [0.0,1000.0],
+    "apexSoundPath": "tanks/object_crash"
   },
   "explosions": {
     "path": "sounds/explosions",
@@ -6166,6 +6173,11 @@
       "path": "tanks/effects_tanks",
       "event": "reload_howitzer",
       "time": 3.0
+    },
+    "railgun_reload": {
+      "path": "tanks/effects_tanks",
+      "event": "reload_railgun",
+      "time": 2.5
     }
   },
   "gun_default": {

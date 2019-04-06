@@ -1344,125 +1344,10 @@
     }
   },
   {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "machine_gunner_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
-    "body": [
-      {
-        "hp": 10000.0
-      },
-      {
-        "part": "superstructure_side_dm"
-      },
-      {
-        "part": "superstructure_bottom_dm"
-      },
-      {
-        "part": "superstructure_front_dm"
-      },
-      {
-        "part": "superstructure_top_dm"
-      },
-      {
-        "part": "superstructure_back_dm"
-      },
-      {
-        "part": "body_front_dm"
-      },
-      {
-        "part": "body_side_dm"
-      },
-      {
-        "part": "body_top_dm"
-      },
-      {
-        "part": "body_back_dm"
-      },
-      {
-        "part": "body_bottom_dm"
-      },
-      {
-        "fireParamsPreset": "default_metapart"
-      },
-      {
-        "fireParams": {
-          "fireDamagePower": 1.0,
-          "maxTankFireTime": [20.0,30.0],
-          "firePart": "transmission_dm"
-        }
-      }
-    ]
-  },
-  {
-    "turret": [
-      {
-        "hp": 10000.0
-      },
-      {
-        "part": "turret_top_dm"
-      },
-      {
-        "part": "turret_side_dm"
-      },
-      {
-        "part": "turret_back_dm"
-      },
-      {
-        "part": "turret_commander_dm"
-      },
-      {
-        "part": "turret_front_dm"
-      },
-      {
-        "part": "gun_mask_dm"
-      },
-      {
-        "part": "turret_bottom_dm"
-      },
-      {
-        "fireParamsPreset": "default_metapart"
-      },
-      {
-        "fireParams": {
-          "fireDamagePower": 1.0,
-          "maxTankFireTime": [20.0,30.0],
-          "firePart": "transmission_dm"
-        }
-      }
-    ]
-  },
-  {
     "sound": {
       "EngineName": "engine_hetzer",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_light",
       "TrackSoundNameCockpit": "tracks_light_interior",
       "turret_turn": "turret_turn_manual",
@@ -1670,7 +1555,7 @@
           "turret": {
             "head": "bone_mg_h_01",
             "gun": "bone_mg_v_01",
-            "gunnerDm": "gunner_dm"
+            "gunnerDm": "machine_gunner_dm"
           },
           "limits": {
             "yaw": [-20.0,20.0],
@@ -1685,6 +1570,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/7_7mm_Type_97_user_machinegun.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_aa_flame_01",
+          "barrelDP": "gun_barrel_03_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "parkInDeadzone": false,
@@ -1728,9 +1614,9 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 10700.0,
-        "Fuel": 250.0,
-        "TakeOff": 11300.0,
+        "Empty": 8800.0,
+        "Fuel": 270.0,
+        "TakeOff": 9070.0,
         "momentOfInertia": [0.87,0.87,1.4],
         "CenterOfGravity": [0.5,-0.1,0.0],
         "AdvancedMass": false,

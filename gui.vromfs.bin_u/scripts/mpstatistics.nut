@@ -511,6 +511,8 @@ function set_mp_table(obj_tbl, table, params)
               tooltip += "\n" + ::loc("debriefing/battleRating/units") + ::loc("ui/colon")
               local showLowBRPrompt = false
 
+              local isUfo = !!(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO)
+
               local unitsForTooltip = []
               for (local j = 0; j < min(data.units.len(), 3); ++j)
                 unitsForTooltip.push(data.units[j])
@@ -523,10 +525,13 @@ function set_mp_table(obj_tbl, table, params)
                   : "\n<color=@disabledTextColor>(<color=@userlogColoredText>%.1f</color>) %s</color>"
                 if (rankUnused)
                   showLowBRPrompt = true
-                tooltip += ::format(formatString, unitsForTooltip[j].rating, unitsForTooltip[j].name)
+                if (isUfo)
+                  tooltip += ::format("\n<color=@disabledTextColor>(<color=@userlogColoredText>ᚿᚼᚼ</color>) %s</color>", unitsForTooltip[j].name)
+                else
+                  tooltip += ::format(formatString, unitsForTooltip[j].rating, unitsForTooltip[j].name)
               }
               tooltip += "\n" + ::loc(isInSquad ? "debriefing/battleRating/squad" : "debriefing/battleRating/total") +
-                                ::loc("ui/colon") + ::format("%.1f", ratingTotal)
+                                ::loc("ui/colon") + (isUfo ? "ᚿᚼᚼ" : ::format("%.1f", ratingTotal))
               if (showLowBRPrompt)
               {
                 local maxBRDifference = 2.0 // Hardcoded till switch to new matching.

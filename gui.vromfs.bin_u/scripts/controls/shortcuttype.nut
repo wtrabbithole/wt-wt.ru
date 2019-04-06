@@ -303,6 +303,8 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       helicopter_camy = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       submarine_camx  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       submarine_camy  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      ufo_camx        = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      ufo_camy        = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
     }
 
     getDirection = function(shortcutId)

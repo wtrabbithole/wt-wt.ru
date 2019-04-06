@@ -262,6 +262,7 @@ local Unit = class
   isTank                = @() esUnitType == ::ES_UNIT_TYPE_TANK
   isShip                = @() esUnitType == ::ES_UNIT_TYPE_SHIP
   isHelicopter          = @() esUnitType == ::ES_UNIT_TYPE_HELICOPTER
+  isUfo                 = @() ::isInArray("type_ufo", tags)
 
   getUnitWpCostBlk      = @() ::get_wpcost_blk()[name]
   isBought              = @() ::shop_is_aircraft_purchased(name)

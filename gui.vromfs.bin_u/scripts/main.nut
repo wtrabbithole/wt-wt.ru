@@ -326,6 +326,11 @@ foreach (fn in [
   "scripts/options/optionsManager.nut"
   "scripts/options/optionsBeforeLogin.nut"
 
+  //probably used before login on ps4
+  "scripts/controls/controlsConsts.nut"
+  "scripts/controls/rawShortcuts.nut"
+  "scripts/controls/controlsManager.nut"
+
   "scripts/baseGuiHandlerManagerWT.nut"
 
   "scripts/langUtils/localization.nut"
@@ -371,11 +376,6 @@ foreach (fn in [
   "scripts/debugTools/dbgFonts.nut"
   "scripts/debugTools/dbgAvatarsList.nut"
   "scripts/debugTools/dbgMarketplace.nut"
-
-  //probably used before login on ps4
-  "scripts/controls/controlsConsts.nut"
-  "scripts/controls/rawShortcuts.nut"
-  "scripts/controls/controlsManager.nut"
 
   //used before xbox login
   "scripts/social/xboxSquadManager.nut"
@@ -565,6 +565,7 @@ function load_scripts_after_login_once()
     "controls/controlsPresets.nut"
     "controls/controlsUtils.nut"
     "controls/controls.nut"
+    "controls/assignButtonWnd.nut"
     "controls/controlsConsole.nut"
     "controls/input/inputBase.nut"
     "controls/input/nullInput.nut"
@@ -821,8 +822,8 @@ function load_scripts_after_login_once()
     "utils/popupMessages.nut"
     "utils/soundManager.nut"
     "fileDialog/fileDialog.nut"
-    "fileDialog/ps4SaveDataDialog.nut"
-    "controls/ps4ControlsBackupManager.nut"
+    "fileDialog/saveDataDialog.nut"
+    "controls/controlsBackupManager.nut"
 
     "matching/serviceNotifications/match.nut"
     "matching/serviceNotifications/mlogin.nut"

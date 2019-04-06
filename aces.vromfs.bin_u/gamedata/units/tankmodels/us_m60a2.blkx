@@ -111,6 +111,7 @@
     "sound": {
       "EngineName": "engine_sherman_m4a3",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
@@ -1825,7 +1826,7 @@
           "armorThickness": 19.0
         },
         "turret_06_front_dm": {
-          "armorThickness": 15.0
+          "armorThickness": 6.0
         }
       },
       "turret": {
@@ -1936,7 +1937,7 @@
           "armorThickness": 36.0
         },
         "turret_07_side_dm": {
-          "armorThickness": 111.0
+          "armorThickness": 122.0
         },
         "turret_07_top_dm": {
           "armorThickness": 118.1
@@ -1967,6 +1968,9 @@
         },
         "turret_09_front_dm": {
           "armorThickness": 52.3
+        },
+        "turret_09_side_dm": {
+          "armorThickness": 111.0
         },
         "ex_armor_turret_01_dm": {
           "armorThickness": 36.0
@@ -2723,7 +2727,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {
@@ -3096,9 +3100,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 11.0,
+      "zoomOutFov": 10.2,
       "zoomInFov": 9.2,
-      "sightFov": 6.0,
+      "sightFov": 7.5,
       "sightName": "telescope_m105c",
       "headPos": [0.0,3.9,-8.7],
       "headPosOnShooting": [-0.4,3.7,0.0],

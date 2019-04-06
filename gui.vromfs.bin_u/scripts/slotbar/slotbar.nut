@@ -880,6 +880,9 @@ function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
   if (unit?.isFakeUnit)
     return unit?.isReqForFakeUnit ? "" : ::format(::loc("events/rank"), ::get_roman_numeral(unit.rank))
 
+  if (unit?.isUfo?())
+    return "ᚿᚼᚼ"
+
   local isReserve = ::isUnitDefault(unit)
   local isSpare = crew && isInFlight ? ::is_spare_aircraft_in_slot(crew.idInCountry) : false
   return isReserve ?

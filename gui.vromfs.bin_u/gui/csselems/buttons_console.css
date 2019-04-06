@@ -870,6 +870,9 @@ top_right_holder {
   pos:pw-w -1@buttonCloseHeight-1@frameHeaderPad, 1@frameHeaderPad;
   position:absolute;
 }
+top_right_holder[hasCloseButton=no] {
+  pos:pw -w -1@frameHeaderPad, 1@frameHeaderPad;
+}
 
 top_right_holder[hasRightIndent=yes] {
   pos:pw-w -1@buttonCloseHeight-1@frameHeaderPad - 1@framePadding, 1@frameHeaderPad;

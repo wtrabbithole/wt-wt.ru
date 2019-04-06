@@ -4,6 +4,7 @@ enum MISSION_OBJECTIVE
   KILLS_AIR           = 0x0001
   KILLS_GROUND        = 0x0002
   KILLS_NAVAL         = 0x0004
+  KILLS_UFO           = 0x0008 // !!! TEMP MISSION_OBJECTIVE - DELETE AFTER UFO APRIL EVENT
 
   KILLS_AIR_AI        = 0x0010
   KILLS_GROUND_AI     = 0x0020
@@ -178,6 +179,13 @@ enums.addTypesByGlobalName("g_mission_type", {
     reMisName = ::regexp2(@"_nctf(_|$)")
     objectives = MISSION_OBJECTIVE.KILLS_NAVAL
     objectivesWw = MISSION_OBJECTIVE.KILLS_NAVAL
+  }
+
+  // !!! TEMP MISSION TYPE - DELETE AFTER UFO APRIL EVENT
+  U_DOM = {  // UFO: Domination
+    reMisName = ::regexp2(@"_UDom(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_UFO | MISSION_OBJECTIVE.ZONE_CAPTURE
+    objectivesWw = MISSION_OBJECTIVE.KILLS_UFO | MISSION_OBJECTIVE.ZONE_CAPTURE
   }
 
   PvE = {

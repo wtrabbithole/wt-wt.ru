@@ -67,7 +67,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   loadedCountries = null //loaded countries versions
   lastUpdatedVersion = null // version IDX which has already updated
   focusArray = ["autorefill-settings", "header_countries", @() getFocusObj()]
-  currentFocusItem = 0
+  currentFocusItem = 2
 
   curSlotCountryId = -1
   curSlotIdInCountry = -1

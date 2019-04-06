@@ -1,3 +1,5 @@
+local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+
 class ::Input.Axis extends ::Input.InputBase
 {
   //from ::JoystickParams().getAxis()
@@ -35,17 +37,13 @@ class ::Input.Axis extends ::Input.InputBase
 
     if (deviceId == ::JOYSTICK_DEVICE_0_ID)
     {
-      local axis = GAMEPAD_AXIS.NOT_AXIS
-      if (axisId >= 0)
-        axis = 1 << axisId
-      data.view.buttonImage <- ::getTblValue(axis | axisModifyer, ::gamepad_axes_images, "")
-
+      data.view.buttonImage <- getImage()
       data.template = "gui/shortcutAxis"
     }
     else if (deviceId == ::STD_MOUSE_DEVICE_ID)
     {
+      data.view.buttonImage <- getImage()
       data.template = "gui/shortcutAxis"
-      data.view.buttonImage <- ::getTblValue(mouseAxis | axisModifyer, ::mouse_axes_to_image, "")
     }
     else
     {
@@ -72,13 +70,15 @@ class ::Input.Axis extends ::Input.InputBase
 
   function getImage()
   {
-    local axis = GAMEPAD_AXIS.NOT_AXIS
-    if (axisId >= 0)
-      axis = 1 << axisId
     if (deviceId == ::JOYSTICK_DEVICE_0_ID)
-      return ::gamepad_axes_images?[axis | axisModifyer] ?? ""
+    {
+      local axis = GAMEPAD_AXIS.NOT_AXIS
+      if (axisId >= 0)
+        axis = 1 << axisId
+      return gamepadIcons.getGamepadAxisTexture(axis | axisModifyer)
+    }
     else if (deviceId == ::STD_MOUSE_DEVICE_ID)
-      return ::mouse_axes_to_image?[mouseAxis | axisModifyer] ?? ""
+      return gamepadIcons.getMouseAxisTexture(mouseAxis | axisModifyer)
 
     return null
   }

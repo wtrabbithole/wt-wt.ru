@@ -1453,6 +1453,27 @@ function get_userlog_view_data(log)
           res.description <- desc
     }
   }
+  else if (log.type == ::EULT_CLAN_UNITS)
+  {
+    local textLocId = "userlog/clanUnits/" + log.optype
+    res.name = ::loc(textLocId + "/name")
+
+    local descLoc = textLocId + "/desc"
+
+    if (log.optype == "flush")
+    {
+      res.description <- ::loc(descLoc, {unit = ::loc(log.unit + "_0"), rp = ::Cost().setSap(log.rp).tostring()})
+    }
+    else if (log.optype == "add_unit")
+    {
+      res.description <- ::loc(descLoc, {unit = ::loc(log.unit + "_0")})
+    }
+    else if (log.optype == "buy_closed_unit")
+    {
+      res.description <- ::loc(descLoc, {unit = ::loc(log.unit + "_0"), cost = ::Cost(0, log.costGold)})
+    }
+  }
+
   if (::getTblValue("description", res, "") != "")
   {
     local textDescriptionBlk = ::format("textareaNoTab {" +

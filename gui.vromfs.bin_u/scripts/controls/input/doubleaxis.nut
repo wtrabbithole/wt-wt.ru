@@ -1,3 +1,5 @@
+local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+
 class ::Input.DoubleAxis extends ::Input.InputBase
 {
   //bit mask array of axis ids from ::JoystickParams().getAxis()
@@ -38,9 +40,9 @@ class ::Input.DoubleAxis extends ::Input.InputBase
   function getImage()
   {
     if (deviceId == ::JOYSTICK_DEVICE_0_ID)
-      return ::gamepad_axes_images?[axisIds] ?? ""
+      return gamepadIcons.getGamepadAxisTexture(axisIds)
     else if (deviceId == ::STD_MOUSE_DEVICE_ID)
-      return ::mouse_axes_to_image?[axisIds] ?? ""
+      return gamepadIcons.getMouseAxisTexture(axisIds)
 
     return null
   }

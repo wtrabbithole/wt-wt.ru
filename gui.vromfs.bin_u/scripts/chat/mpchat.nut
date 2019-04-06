@@ -274,7 +274,8 @@ class ::ChatHandler
           if (!::check_obj(obj))
             return
 
-          obj.select()
+          if (sceneData?.isInputSelected ?? true)
+            obj.select()
           obj.setValue(chatInputText)
         })
       }

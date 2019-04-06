@@ -69,10 +69,13 @@ local globalEnv = require_native("globalEnv")
         }
       skip = ["msg/holdThrottleForWEP"] //dont work in axis, but need to correct prevItem work, when skipList used in onAxisDone
     }
-      { id="msg/holdThrottleForWEP", type= CONTROL_TYPE.MSG_BOX
-        options = ["#options/yes", "#options/no", "options/skip"],
-        onButton = function(value) { if (value<2) curJoyParams.holdThrottleForWEP = value==0 }
-      }
+    { id="thrust_vector_forward",              needSkip = @() !::has_feature("UfoControl")  }
+    { id="thrust_vector_lateral",              needSkip = @() !::has_feature("UfoControl")  }
+    { id="thrust_vector_vertical",             needSkip = @() !::has_feature("UfoControl")  }
+    { id="msg/holdThrottleForWEP", type= CONTROL_TYPE.MSG_BOX
+      options = ["#options/yes", "#options/no", "options/skip"],
+      onButton = function(value) { if (value<2) curJoyParams.holdThrottleForWEP = value==0 }
+    }
     "ID_IGNITE_BOOSTERS",
     "ID_FIRE_MGUNS",
     "ID_FIRE_CANNONS",

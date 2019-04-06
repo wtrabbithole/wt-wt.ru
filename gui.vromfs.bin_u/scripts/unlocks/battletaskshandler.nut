@@ -446,7 +446,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
     showSceneBtn("btn_requirements_list", ::show_console_buttons && ::getTblValue("names", config, []).len() != 0)
 
-    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config.id)] = ::g_sound.canPlay(config.id)}, true)
+    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config.id)] = ::g_sound.canPlay(config.id)})
   }
 
   function updateTabButtons()

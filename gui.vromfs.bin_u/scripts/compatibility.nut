@@ -77,3 +77,8 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
   WEAPON_MACHINEGUN = 24
   get_option_use_oculus_to_aim_helicopter = @() null
 })
+
+//----------------------------wop_1_87_0_X---------------------------------//
+::apply_compatibilities({
+  EULT_CLAN_UNITS = 58
+})

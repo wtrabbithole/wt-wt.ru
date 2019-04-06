@@ -32,16 +32,19 @@ enum help_tab_types
   IMAGE_SHIP
   IMAGE_HELICOPTER
   IMAGE_SUBMARINE
+  IMAGE_UFO
   CONTROLLER_AIR
   CONTROLLER_TANK
   CONTROLLER_SHIP
   CONTROLLER_HELICOPTER
   CONTROLLER_SUBMARINE
+  CONTROLLER_UFO
   KEYBOARD_AIR
   KEYBOARD_TANK
   KEYBOARD_SHIP
   KEYBOARD_HELICOPTER
   KEYBOARD_SUBMARINE
+  KEYBOARD_UFO
   HOTAS4_COMMON
 }
 
@@ -52,8 +55,8 @@ function gui_modal_help(isStartedFromMenu, contentSet)
     contentSet = contentSet
   })
 
-  local unitId = ::get_player_cur_unit()
-  if (::is_in_flight() && ::is_submarine(unitId))
+  local unit = ::get_player_cur_unit()
+  if (::is_in_flight() && (::is_submarine(unit) || unit?.isUfo()))
     ::g_hud_event_manager.onHudEvent("hint:controlsHelp:remove", {})
 }
 
@@ -102,6 +105,10 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       title = "#hotkeys/ID_HELICOPTER_CONTROL_HEADER",
       list = [help_tab_types.IMAGE_HELICOPTER, help_tab_types.CONTROLLER_HELICOPTER, help_tab_types.KEYBOARD_HELICOPTER]
+    },
+    {
+      title = "#hotkeys/ID_CONTROL_HEADER_UFO",
+      list = [help_tab_types.IMAGE_UFO, help_tab_types.CONTROLLER_UFO, help_tab_types.KEYBOARD_UFO]
     },
     {
       title = "#hotkeys/ID_SUBMARINE_CONTROL_HEADER",
@@ -456,6 +463,29 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     },
 
+    [help_tab_types.IMAGE_UFO] = {
+       defaultValues = {
+        country = "ussr"
+      }
+      title = "#hotkeys/ID_COMMON_CONTROL_HEADER"
+      showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+      isShow = @(handler, params) !!params?.showControlsUfo
+      pageUnitType = ::g_unit_type.AIRCRAFT
+      pageUnitTag = "ufo"
+      pageBlkName = "gui/help/controlsUfo.blk"
+      imagePattern = "#ui/images/country_%s_ufo_controls_help.jpg?P1"
+      hasImageByCountries = [ "ussr" ]
+      linkLines = {
+        links = [
+          { start = "label_fire_air", end = "point_fire_air" }
+          { start = "label_fire_water", end = "point_fire_water" }
+          { start = "label_fire_ground", end = "point_fire_ground" }
+          { start = "label_torpedo", end = "point_torpedo" }
+          { start = "label_ufo_shield", end = "point_ufo_shield" }
+        ]
+      }
+    },
+
     [help_tab_types.CONTROLLER_AIR] = {
       title = controllerMarkup.title
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
@@ -498,6 +528,16 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       pageUnitType = ::g_unit_type.HELICOPTER
       pageUnitTag = null
+      pageBlkName = controllerMarkup.blk
+      pageFillfuncName = "initGamepadPage"
+    },
+
+    [help_tab_types.CONTROLLER_UFO] = {
+      title = controllerMarkup.title
+      showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+      isShow = @(handler, params) !!params?.showControlsUfo && !!params.hasController
+      pageUnitType = ::g_unit_type.AIRCRAFT
+      pageUnitTag = "ufo"
       pageBlkName = controllerMarkup.blk
       pageFillfuncName = "initGamepadPage"
     },
@@ -556,6 +596,15 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageBlkName = "gui/help/controllerKeyboard.blk"
       pageFillfuncName = "fillAllTexts"
     },
+    [help_tab_types.KEYBOARD_UFO] = {
+      title = "#controlType/mouse"
+      showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+      isShow = @(handler, params) !!params?.showControlsUfo && !!params.hasKeyboard
+      pageUnitType = ::g_unit_type.AIRCRAFT
+      pageUnitTag = "ufo"
+      pageBlkName = "gui/help/controllerKeyboard.blk"
+      pageFillfuncName = "fillAllTexts"
+    },
     [help_tab_types.KEYBOARD_SUBMARINE] = {
       title = "#controlType/mouse"
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
@@ -565,6 +614,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageBlkName = "gui/help/controllerKeyboard.blk"
       pageFillfuncName = "fillAllTexts"
     },
+
 
     [help_tab_types.MISSION_OBJECTIVES] = {
       title = "#mission_objectives"
@@ -606,9 +656,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if ((pageUnitType == ::g_unit_type.TANK && !hasFeatureTanks))
           pageUnitType = ::g_unit_type.AIRCRAFT
 
-    pageUnitTag = ::is_submarine(currentUnit) ? "submarine" : null
+    pageUnitTag = ::is_submarine(currentUnit)
+      ? "submarine" : currentUnit?.isUfo?()
+      ? "ufo"  : null
 
     local hasSubmarineControls  = ::has_feature("SpecialShips") || pageUnitTag == "submarine"
+    local hasUfoControls = ::has_feature("UfoControl") || pageUnitTag == "ufo"
 
     local basePresets = ::g_controls_manager.getCurPreset().getBasePresetNames()
     local isPresetCustomForPs4 = ::is_platform_ps4 &&
@@ -628,14 +681,16 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local params = {
-      showControlsAir  = (isContentControls || pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
-      showControlsTank = (isContentControls || pageUnitType == ::g_unit_type.TANK && pageUnitTag == null) && hasFeatureTanks
-      showControlsShip = (isContentControls || pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null)
-      showControlsHelicopter = (isContentControls || pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
-      showControlsSubmarine = (isContentControls || pageUnitType == ::g_unit_type.SHIP &&
-        pageUnitTag == "submarine") && hasSubmarineControls
+      showControlsAir  = isContentControls || (pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
+      showControlsTank = hasFeatureTanks && (isContentControls || (pageUnitType == ::g_unit_type.TANK && pageUnitTag == null))
+      showControlsShip = isContentControls || (pageUnitType == ::g_unit_type.SHIP && pageUnitTag == null)
+      showControlsHelicopter = isContentControls || (pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
+      showControlsUfo = hasUfoControls
+        && (isContentControls || (pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "ufo"))
+      showControlsSubmarine = hasSubmarineControls
+        && (isContentControls || (pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine"))
       hasController    = ::is_platform_ps4  || ::show_console_buttons
-      hasKeyboard      = ::is_platform_pc || ::is_platform_ps4 && isPresetCustomForPs4
+      hasKeyboard      = ::is_platform_pc || (::is_platform_ps4 && isPresetCustomForPs4)
       misHelpBlkPath = misHelpBlkPath
     }
 
@@ -657,12 +712,14 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (contentSet == HELP_CONTENT_SET.MISSION || contentSet == HELP_CONTENT_SET.CONTROLS)
     {
       local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
+      local unit = ::get_player_cur_unit()
       local isNewbie = ::is_me_newbie()
       local isAdvanced = difficulty == ::DIFFICULTY_HARDCORE
+      local isSpecialUnitType = ::is_submarine(unit) || unit?.isUfo()
 
       if (::check_joystick_thustmaster_hotas(false) && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
         return tabsCfg[help_tab_types.HOTAS4_COMMON]
-      if (!isNewbie && !isAdvanced && misHelpBlkPath != "")
+      if (!isNewbie && !isSpecialUnitType && !isAdvanced && misHelpBlkPath != "")
         return tabsCfg[help_tab_types.MISSION_OBJECTIVES]
       if (!isAdvanced && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
         return tabsCfg[help_tab_types.IMAGE_AIRCRAFT]
@@ -672,6 +729,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.IMAGE_SHIP]
       if (!isAdvanced && pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
         return tabsCfg[help_tab_types.IMAGE_HELICOPTER]
+      if (!isAdvanced && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "ufo")
+        return tabsCfg[help_tab_types.IMAGE_UFO]
       if (!isAdvanced && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
         return tabsCfg[help_tab_types.IMAGE_SUBMARINE]
       if (params.hasController && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
@@ -682,6 +741,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.CONTROLLER_SHIP]
       if (params.hasController && pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
         return tabsCfg[help_tab_types.CONTROLLER_HELICOPTER]
+      if (params.hasController && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "ufo")
+        return tabsCfg[help_tab_types.CONTROLLER_UFO]
       if (params.hasController && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
         return tabsCfg[help_tab_types.CONTROLLER_SUBMARINE]
       if (params.hasKeyboard && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == null)
@@ -692,6 +753,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         return tabsCfg[help_tab_types.KEYBOARD_SHIP]
       if (params.hasKeyboard && pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null)
         return tabsCfg[help_tab_types.KEYBOARD_HELICOPTER]
+      if (params.hasKeyboard && pageUnitType == ::g_unit_type.AIRCRAFT && pageUnitTag == "ufo")
+        return tabsCfg[help_tab_types.KEYBOARD_UFO]
       if (params.hasKeyboard && pageUnitType == ::g_unit_type.SHIP && pageUnitTag == "submarine")
         return tabsCfg[help_tab_types.KEYBOARD_SUBMARINE]
     }
@@ -936,6 +999,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       (pageUnitType == ::g_unit_type.TANK       && pageUnitTag == null) ? ::controlsHelp_shortcuts_ground :
       (pageUnitType == ::g_unit_type.SHIP       && pageUnitTag == null) ? ::controlsHelp_shortcuts_naval :
       (pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null) ? ::controlsHelp_shortcuts_helicopter :
+      (pageUnitType == ::g_unit_type.AIRCRAFT   && pageUnitTag == "ufo") ? ::controlsHelp_shortcuts_ufo :
       (pageUnitType == ::g_unit_type.SHIP       && pageUnitTag == "submarine")  ? ::controlsHelp_shortcuts_submarine :
       []
     for(local i=0; i<shortcutsList.len(); i++)

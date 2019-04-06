@@ -716,6 +716,18 @@ enums.addTypesByGlobalName("g_hud_messages", {
       if (!::checkObj(nest))
         return
 
+      //!!! TEMP HACK, Remove after ufo april event
+      local curUnit = ::get_player_cur_unit()
+      if (curUnit?.isUfo?() && messageData.type == ::HUD_MSG_DEATH_REASON)
+      {
+        if (messageData.id == DR_DESTRUCTION || messageData.id == DR_CREW_DEATH)
+          messageData.text = ::loc("death/ufoDestruction")
+        else if (messageData.id == DR_EXPLOSION)
+          messageData.text = ::loc("death/ufoExploded")
+        else if (messageData.id == DR_AIRPLANE_BURN)
+          messageData.text = ::loc("death/ufoBurn")
+      }
+
       local oldMessage = findMessageById(messageData.id)
       if (oldMessage)
         refreshMessage(messageData, oldMessage)

@@ -1753,6 +1753,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         title = col == "value" ? ::loc(tRow.icon, "")
           : col == "time" ? ::loc("icon/timer")
           : ""
+
+      //HACK: TEMPORARY HACK - DELETE AFTER UFO APRIL EVENT
+      if (title == null && col == "value" && ::u.isFunction(tRow.icon))
+        title = ::loc(tRow.icon())
+
       headerRow[col] <- ::colorize("fadedTextColor", title)
     }
     view.insert(0, headerRow)

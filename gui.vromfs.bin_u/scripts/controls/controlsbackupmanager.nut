@@ -1,11 +1,11 @@
-class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveDataDialog
+class ::gui_handlers.ControlsBackupManager extends ::gui_handlers.SaveDataDialog
 {
   function initScreen()
   {
     if (!isAvailable())
       return
 
-    getSaveDataContents = ::ps4_request_list_controls_backup
+    getSaveDataContents = ::request_list_controls_backup
     base.initScreen()
   }
 
@@ -18,7 +18,7 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
     blk.path = descr.path
 
     local cb = ::Callback(onBackupSaved, this)
-    ::ps4_request_save_controls_backup(@(result) cb(result), blk)
+    ::request_save_controls_backup(@(result) cb(result), blk)
   }
 
 
@@ -39,7 +39,7 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
     blk.comment = descr.comment
 
     local cb = ::Callback(onBackupLoaded, this)
-    ::ps4_request_load_controls_backup(@(result) cb(result), blk)
+    ::request_load_controls_backup(@(result) cb(result), blk)
   }
 
 
@@ -62,7 +62,7 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
     blk.comment = descr.comment
 
     local cb = ::Callback(onBackupDeleted, this)
-    ::ps4_request_delete_controls_backup(@(result) cb(result), blk)
+    ::request_delete_controls_backup(@(result) cb(result), blk)
   }
 
 
@@ -75,12 +75,12 @@ class ::gui_handlers.Ps4ControlsBackupManager extends ::gui_handlers.Ps4SaveData
 
   static function isAvailable()
   {
-    return ::is_platform_ps4 && "ps4_request_list_controls_backup" in ::getroottable()
+    return (::is_platform_ps4 || ::is_platform_xboxone) && "request_list_controls_backup" in ::getroottable()
   }
 
 
   static function open()
   {
-    ::handlersManager.loadHandler(::gui_handlers.Ps4ControlsBackupManager)
+    ::handlersManager.loadHandler(::gui_handlers.ControlsBackupManager)
   }
 }

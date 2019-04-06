@@ -659,6 +659,7 @@
     "sound": {
       "EngineName": "engine_sherman_m4a3",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_heavy",
       "TrackSoundNameCockpit": "tracks_heavy_interior",
       "turret_turn": "turret_turn_manual",
@@ -751,7 +752,8 @@
           "blk": "gameData/Weapons/groundModels_weapons/105mm_T15E2_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
-          "maxAdditionalPitch": 2.0,
+          "allowableDelta": 20.0,
+          "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -2191,9 +2193,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 11.0,
+      "zoomOutFov": 10.2,
       "zoomInFov": 9.2,
-      "sightFov": 6.0,
+      "sightFov": 7.5,
       "sightName": "telescope_m105c",
       "headPos": [0.0,3.7,-9.5],
       "headPosOnShooting": [-0.8,3.3,0.75],

@@ -56,6 +56,9 @@
   "multipointVisibilityMarkersTreeTransparencyThreshold": 0.01,
   "multipointVisibilityForMarkersDistK": 2.0,
   "multipointVisibilityOnePointBackDistK": 2.0,
+  "hitSpawnIndicatorRandomRange": [10.0,200.0],
+  "detectSpawnIndicatorRandomRange": [5.0,500.0],
+  "detectIndicatorTreeTransparencyThreshold": 0.01,
   "preciseForestall": false,
   "bombDropDownOnRendInstCollision": false,
   "criticalHillAngle": 25.0,
@@ -173,8 +176,11 @@
   "enableNoFirstMoveCooldown": true,
   "shipAiTargetMaxDist": 25000.0,
   "timeStayOnInGameForDisconnected": 300.0,
+  "impulseBasedAircraftToSceneCollision": false,
+  "impulseBasedAircraftToSceneCollisionWithCollisionObjects": false,
+  "impulseBasedAircraftToUnitCollision": false,
   "tracers": {
-    "headFadeTime": 2.0,
+    "headFadeTime": 4.0,
     "headSpeedScale": [400.0,900.0,0.1,1.0],
     "headNoiseFreq": 0.7,
     "headNoiseScale": 0.04,
@@ -184,6 +190,7 @@
     "headFadeLen": 0.5,
     "headHdrMultiplier": 15.0,
     "headHdrMultiplierCompatibility": 2.0,
+    "headVibratingRate": 30.0,
     "headLenScale": 1.0,
     "headRadiusScale": 1.0,
     "headMinPixelRadius": 2.0,
@@ -776,6 +783,15 @@
       "distScaleEnd": 4000.0,
       "distScale": 2.0,
       "radius": 0.12,
+      "color1": "#c3fffdc8",
+      "color2": "#34ffabc8"
+    },
+    "152mmGreenBlue": {
+      "halfSize": 5.0,
+      "distScaleStart": 1000.0,
+      "distScaleEnd": 7000.0,
+      "distScale": 4.0,
+      "radius": 0.17,
       "color1": "#c3fffdc8",
       "color2": "#34ffabc8"
     },
@@ -1398,6 +1414,28 @@
       "distScale": 5.0,
       "color1": "#fff83c78",
       "color2": "#fff83246"
+    },
+    "beamGreen": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.5,
+      "radius": 1.0,
+      "beam": true,
+      "color1": "#64c8ffdc",
+      "color2": "#0000ffdc",
+      "hdrK": 5.0
+    },
+    "beamRed": {
+      "halfSize": 4.0,
+      "distScaleStart": 50.0,
+      "distScaleEnd": 3000.0,
+      "distScale": 2.5,
+      "radius": 1.0,
+      "beam": true,
+      "color1": "#fa7878fa",
+      "color2": "#ff0000c8",
+      "hdrK": 5.0
     }
   },
   "tracerTrails": {
@@ -2256,6 +2294,21 @@
         "victimUnmaskingTime": 10.0,
         "shotSpawnTime": 0.0,
         "hitSpawnTime": 0.0,
+        "allowForestallWithoutMarkers": true
+      },
+      "team_worldwar": {
+        "hudMarkers": 4,
+        "useLockSphere": false,
+        "lockSphereAngularRadiusDeg": 5.0,
+        "lockSphereMaxRadius": 1.0,
+        "allowTargeting": true,
+        "hudTankDetectedByAircraft": false,
+        "offenderUnmaskingTime": 0.0,
+        "victimUnmaskingTime": 0.0,
+        "shotSpawnTime": 0.0,
+        "hitSpawnTime": 0.0,
+        "detectSpawnTime": 3.0,
+        "showNotTraceableDetectIndicators": false,
         "allowForestallWithoutMarkers": true
       }
     },
@@ -8052,6 +8105,9 @@
       },
       {
         "p": "radar"
+      },
+      {
+        "p": "ext_armor"
       }
     ],
     "body": [
@@ -8138,6 +8194,11 @@
       {
         "p": {
           "name": "gear"
+        }
+      },
+      {
+        "p": {
+          "name": "ext_armor"
         }
       }
     ],
