@@ -842,6 +842,17 @@ enums.addTypesByGlobalName("g_hud_hints", {
     lifeTime = 30.0
   }
 
+  UFO_HOVER_MODE_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/ufo/hover_mode"
+    shortcuts = "ID_GEAR_UFO"
+    showEvent = "hint:ufoHoverMode:show"
+    priority = CATASTROPHIC_HINT_PRIORITY
+    lifeTime = 5.0
+    totalCount = 5
+    maskId = 32
+  }
+
   ARTILLERY_MAP_HINT = {
     hintType = ::g_hud_hint_types.COMMON
     locId = "HUD/TXT_ARTILLERY_MAP"

@@ -907,3 +907,28 @@ function gui_start_spectator()
 {
   ::handlersManager.loadHandler(::gui_handlers.Hud, { spectatorMode = true })
 }
+
+// Temporary code for April fools day event 2019:
+::is_hovermode_hint_seen <- false
+::cross_call_api.distance_to_ground_changed <- function(distanceToGround)
+{
+  local hintDistanceThreshold = 200 // meters
+
+  if (distanceToGround > hintDistanceThreshold)
+  {
+    if (distanceToGround > hintDistanceThreshold * 2)
+      ::is_hovermode_hint_seen = false
+    return
+  }
+
+  if (::is_hovermode_hint_seen)
+    return
+
+  local hint = ::g_hud_hints.UFO_HOVER_MODE_HINT
+  local lastShow = ::g_hud_hints_manager.lastShowedTimeDict?[hint.maskId] ?? 0
+  if (lastShow >= ::dagor.getCurTime() + hint.lifeTime * 1000)
+    return
+
+  ::is_hovermode_hint_seen = true
+  ::g_hud_event_manager.onHudEvent(hint.showEvent, {})
+}

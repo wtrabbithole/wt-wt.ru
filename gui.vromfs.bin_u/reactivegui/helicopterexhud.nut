@@ -287,6 +287,12 @@ local verticalSpeedScale = function(line_style, width, height, isBackground) {
 }
 
 
+local getDistanceToGroundText = function(distanceToGround) {
+  ::cross_call.distance_to_ground_changed(distanceToGround)
+  return alienNumbers.getNumStr(::math.floor(distanceToGround))
+}
+
+
 local HelicopterVertSpeed = function(elemStyle, scaleWidth, height, posX, isBackground) {
 
   local getRelativeHeight = @() ::clamp(helicopterState.DistanceToGround.value * 2.0, 0, 100)
@@ -323,7 +329,7 @@ local HelicopterVertSpeed = function(elemStyle, scaleWidth, height, posX, isBack
           size = [scaleWidth*4,SIZE_TO_CONTENT]
           color = getColor(isBackground)
           watch = helicopterState.DistanceToGround
-          text = alienNumbers.getNumStr(::math.floor(helicopterState.DistanceToGround.value))
+          text = getDistanceToGroundText(helicopterState.DistanceToGround.value)
         })
       }
       @(){

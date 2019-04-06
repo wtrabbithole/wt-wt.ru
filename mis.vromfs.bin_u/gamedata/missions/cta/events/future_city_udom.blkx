@@ -126,6 +126,7 @@
       "missionBriefing": "",
       "environment": "Day",
       "weather": "hazy",
+      "impulseBasedAircraftToUnitCollision": true,
       "locName": "future_city_proto_AfD/name",
       "locDesc": "future_city_proto_AfD/desc",
       "scoreLimit": 15000,
@@ -134,7 +135,6 @@
       "ctaCaptureZoneEqualPenaltyMul": 0.0,
       "country_axis": "germany",
       "country_allies": "ussr",
-      "impulseBasedAircraftToUnitCollision": true,
       "missionType": {
         "_Dom": false,
         "_Conq": false,
@@ -238,7 +238,7 @@
         {
           "missionMarkAsCaptureZone": {
             "army": 0,
-            "timeMultiplier": 1.0,
+            "timeMultiplier": 0.3,
             "disableZone": false,
             "name_for_respawn_base": "",
             "target": "capture_area_01",
@@ -260,7 +260,8 @@
             "playAirfieldSound": false,
             "canCaptureInAir": true,
             "canCaptureByGM": false,
-            "onlyPlayersCanCapture": true
+            "onlyPlayersCanCapture": true,
+            "auto_smoke": true
           }
         },
         {
@@ -274,7 +275,8 @@
             "playAirfieldSound": false,
             "canCaptureInAir": true,
             "canCaptureByGM": false,
-            "onlyPlayersCanCapture": true
+            "onlyPlayersCanCapture": true,
+            "auto_smoke": true
           }
         }
       ],
