@@ -41,7 +41,6 @@ function is_measure_unit_user_option(user_opt)
 ::current_tag <- null
 ::aircraft_for_weapons <- null
 ::cur_aircraft_name <- null
-::enemy_aircraft_for_weapons <- null
 ::encyclopedia_data <- null
 ::measure_units <- []
 ::bullet_icons <- {}
@@ -54,9 +53,6 @@ function is_measure_unit_user_option(user_opt)
 ::crosshair_icons <- []
 ::crosshair_colors <- []
 ::num_players_for_private <- 0
-::aircrafts_filter_tags <- null
-::enemy_aircrafts_filter_tags <- null
-::filter_purchased_aircrafts <- false
 ::PlayersMissionType <- {
   MissionTypeSingle = 0,
   MissionTypeLocal = 1,
@@ -97,13 +93,12 @@ function image_for_air(air)
 
 ::available_mission_types <- ::PlayersMissionType.MissionTypeSingle;
 
-::acList <- []
 ::shopCountriesList <- []
 
 ::g_script_reloader.registerPersistentData("OptionsExtGlobals", ::getroottable(),
   [
     "game_mode_maps", "dynamic_layouts",
-    "shopCountriesList", "acList",
+    "shopCountriesList",
     "encyclopedia_data", "measure_units",
     "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
     "crosshair_icons", "crosshair_colors",
@@ -122,26 +117,6 @@ function image_for_air(air)
     }
   }
   return !isNotFound
-}
-
-function set_aircrafts_filter(tags)
-{
-  ::aircrafts_filter_tags = tags
-  ::enemy_aircrafts_filter_tags = tags
-}
-
-function set_enemy_aircrafts_filter(tags)
-{
-  ::enemy_aircrafts_filter_tags = tags
-}
-
-function sort_units_by_rank(a,b)
-{
-  if (a.rank != b.rank)
-    return (a.rank > b.rank) ? 1 : -1
-  if (a.name != b.name)
-    return (a.name > b.name) ? 1 : -1
-  return 0
 }
 
 function get_game_mode_maps()
@@ -469,109 +444,12 @@ function create_option_slider(id, value, cb, isFull, sliderType, params = {})
   return data
 }
 
-function update_aircraft_spinner(guiScene, obj, descr)
-{
-    if (obj.id == "aircraft_country")
-    {
-      if (guiScene != null && guiScene["aircraft"] != null)
-      {
-        if (isInArray("training", ::aircrafts_filter_tags))
-        {
-          ::aircrafts_filter_tags = ["training"]
-          ::aircrafts_filter_tags.append(::acList[obj.getValue()])
-          local descrAir = ::get_option(::USEROPT_AIRCRAFT)
-          dagor.debug("calling create_option_list")
-          local txt = ::create_option_list(descrAir.id, descrAir.items, descrAir.value, descrAir.cb, false)
-          dagor.debug("called create_option_list")
-          guiScene.replaceContentFromText("aircraft", txt, txt.len(), this)
-          ::generic_options.onAircraftUpdate(guiScene["aircraft"])
-          return descrAir
-        }
-      }
-    }
-    else if (obj.id == "enemy_aircraft_country")
-    {
-      if (guiScene != null && guiScene["enemy_aircraft"] != null)
-      {
-        if (isInArray("training", ::enemy_aircrafts_filter_tags))
-        {
-          ::enemy_aircrafts_filter_tags = ["training"]
-          ::enemy_aircrafts_filter_tags.append(::acList[obj.getValue()])
-          local descrAir = ::get_option(::USEROPT_ENEMY_AIRCRAFT)
-          local txt = ::create_option_list(descrAir.id, descrAir.items, descrAir.value,descrAir.cb, false)
-          guiScene.replaceContentFromText("enemy_aircraft", txt, txt.len(), this)
-          ::generic_options.onAircraftUpdate(guiScene["enemy_aircraft"])
-          return descrAir
-        }
-      }
-    }
-    return descr
-}
-
-function update_weapons_spinner(guiScene, obj, descr)
-{
-//  guiScene.performDelayed(getroottable(), function():(guiScene, obj, descr)
-  //{
-    if (obj.id == "aircraft")
-    {
-      if (guiScene != null && guiScene["weapons"] != null)
-      {
-        ::aircraft_for_weapons = descr.values[obj.getValue()]
-        local descrWeap = ::get_option(::USEROPT_WEAPONS)
-        local txt = ::create_option_list(descrWeap.id, descrWeap.items, descrWeap.value,descrWeap.cb, false)
-        guiScene.replaceContentFromText("weapons", txt, txt.len(), this)
-        return descrWeap
-      }
-    }
-    else if (obj.id == "enemy_aircraft")
-    {
-      ::enemy_aircraft_for_weapons = descr.values[obj.getValue()]
-      if (guiScene != null && obj.id == guiScene["enemy_weapons"] != null)
-      {
-        local descrWeap = ::get_option(::USEROPT_ENEMY_WEAPONS)
-        local txt = ::create_option_list(descrWeap.id,descrWeap.items, descrWeap.value, descrWeap.cb, false)
-        guiScene.replaceContentFromText("enemy_weapons", txt, txt.len(), this)
-        return descrWeap
-      }
-    }
-//  })
-}
-
 function player_have_skin_by_full_id(fullId)
 {
   local skinParams = ::g_string.split(fullId, "/")
   if (skinParams.len() < 2)
     return false
   return ::player_have_skin(skinParams[0], skinParams[1])
-}
-
-function update_skins_spinner(guiScene, obj, descr)
-{
-  if (obj.id == "aircraft" || obj.id == "enemy_aircraft")
-  {
-    local enemy = (obj.id == "enemy_aircraft")
-    local id = (enemy) ? "enemy_skin" : "skin"
-    if (guiScene != null && guiScene[id] != null)
-    {
-      if (enemy)
-        ::enemy_aircraft_for_weapons = descr.values[obj.getValue()]
-      else
-        ::aircraft_for_weapons = descr.values[obj.getValue()]
-      local descrSkin = ::get_option(enemy ? ::USEROPT_ENEMY_SKIN : ::USEROPT_SKIN)
-      local defSkin = hangar_get_default_skin(enemy ? ::enemy_aircraft_for_weapons : ::aircraft_for_weapons)
-      foreach (i, sk in descrSkin.values)
-      {
-        if (sk == defSkin)
-        {
-          descrSkin.value = i
-          break
-        }
-      }
-      local txt = ::create_option_list(descrSkin.id, descrSkin.items, descrSkin.value, descrSkin.cb, false)
-      guiScene.replaceContentFromText(id, txt, txt.len(), this)
-      return descrSkin
-    }
-  }
 }
 
 function get_mission_time_text(missionTime)
@@ -2293,78 +2171,6 @@ function get_option(type, context = null)
       descr.value = ::get_option_ai_gunner_time()
       break
 
-    case ::USEROPT_AIRCRAFT_COUNTRY:
-    case ::USEROPT_ENEMY_AIRCRAFT_COUNTRY:
-      descr.id = (type == ::USEROPT_AIRCRAFT_COUNTRY) ? "aircraft_country" : "enemy_aircraft_country"
-      descr.items = []
-      descr.values = acList
-      for (local i = 0; i < acList.len(); i++)
-        descr.items.append("#"+acList[i]);
-      descr.cb = "onAircraftCountryUpdate"
-
-      break
-    case ::USEROPT_AIRCRAFT:
-    case ::USEROPT_ENEMY_AIRCRAFT:
-      descr.id = (type == ::USEROPT_AIRCRAFT) ? "aircraft" : "enemy_aircraft"
-      descr.items = []
-      descr.values = []
-      descr.cost <- []
-      descr.trParams <- "iconType:t='aircraft';"
-      descr.cb = "onAircraftUpdate"
-
-      local tags = (type == ::USEROPT_AIRCRAFT) ? ::aircrafts_filter_tags : ::enemy_aircrafts_filter_tags
-      local unitsList = ::get_units_list((@(tags) function(unit) {
-          return ::check_aircraft_tags(unit.tags, tags)
-                 && (!::team_aircraft_list || ::isInArray(unit.name, ::team_aircraft_list))
-        })(tags))
-      unitsList.sort(::sort_units_by_rank)
-
-      for (local i = 0; i < unitsList.len(); i++)
-      {
-        local unit = unitsList[i]
-        local enable = !::filter_purchased_aircrafts || unit.isUsable()
-        local cost = ::wp_get_cost(unit.name)
-        descr.cost.append(cost)
-        descr.values.append(unit.name)
-        if (enable && defaultValue == null)
-          defaultValue = unit.name
-
-        descr.items.append({
-          text = (unit.rank > 0 ? ("[" + unit.rank + "] ") : "") + ::getUnitName(unit.name)
-          image = image_for_air(unit)
-          enable = enable
-        })
-      }
-
-      if (defaultValue == null)  //not exist any available aircrafts
-      {
-        dagor.debug("Error: Empty aircrafts list. check purchased = " + ::filter_purchased_aircrafts + ", tags:")
-        debugTableData(tags)
-        ::dagor.assertf(false, "No aircrafts to choose")
-      }
-      break
-
-    case ::USEROPT_WEAPONS:
-    case ::USEROPT_ENEMY_WEAPONS:
-      local aircraft = (type == ::USEROPT_WEAPONS) ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons
-      descr.id = (type == ::USEROPT_WEAPONS) ? "secondary_weapons" : "enemy_secondary_weapons"
-      descr.items = []
-      descr.values = []
-      descr.trParams <- "optionWidthInc:t='double';"
-      if (typeof aircraft == "string")
-      {
-        local testFlight = ::get_gui_options_mode() == ::OPTIONS_MODE_TRAINING
-        local checkAircraftPurchased = !testFlight
-        local checkWeaponPurchased = !testFlight && !::is_game_mode_with_spendable_weapons()
-        local weapons = ::get_weapons_list(aircraft, false, null, checkWeaponPurchased, checkAircraftPurchased)
-        descr.items = weapons.items
-        descr.values = weapons.values
-        descr.value = (type == ::USEROPT_WEAPONS)? ::find_in_array(descr.values, ::get_last_weapon(aircraft), 0) : 0
-        descr.hints <- weapons.hints;
-        descr.cb = (type == ::USEROPT_WEAPONS) ? "onMyWeaponOptionUpdate" : "onWeaponOptionUpdate"
-      }
-      break
-
     case ::USEROPT_BULLETS0:
     case ::USEROPT_BULLETS1:
     case ::USEROPT_BULLETS2:
@@ -2407,13 +2213,12 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_SKIN:
-    case ::USEROPT_ENEMY_SKIN:
-      local air = (type == ::USEROPT_SKIN) ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons
-      descr.id = (type == ::USEROPT_SKIN) ? "skin" : "enemy_skin"
+      local air = ::aircraft_for_weapons
+      descr.id = "skin"
       descr.trParams <- "optionWidthInc:t='double';"
       if (typeof ::aircraft_for_weapons == "string")
       {
-        local skins = ::g_decorator.getSkinsOption((type == ::USEROPT_SKIN) ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons)
+        local skins = ::g_decorator.getSkinsOption(::aircraft_for_weapons)
         descr.items = skins.items
         descr.values = skins.values
         descr.value = skins.value
@@ -4043,11 +3848,6 @@ function get_option(type, context = null)
     if (descr.values)
       descr.value = 0
 
-  if (type == ::USEROPT_AIRCRAFT && typeof descr.values == "array" && descr.values.len() > 0)
-    ::aircraft_for_weapons = descr.values[descr.value]
-  else if (type == ::USEROPT_ENEMY_AIRCRAFT && typeof descr.values == "array" && descr.values.len() > 0)
-    ::enemy_aircraft_for_weapons = descr.values[descr.value]
-
   return descr
 }
 
@@ -4497,31 +4297,14 @@ function set_option(type, value, descr = null)
       ::set_option_save_zoom_camera(value)
       break;
 
-    // gui settings:
-    case ::USEROPT_AIRCRAFT:
-      if (typeof descr.values == "array")
-      {
-        if (value >= 0 && value < descr.values.len())
-        {
-          ::set_gui_option(type, descr.values[value])
-        }
-        else
-          print("[ERROR] value '" + value + "' is out of range")
-      }
-      else
-        print("[ERROR] No values set for type '" + type + "'")
-      break
-
     case ::USEROPT_SKIN:
-    case ::USEROPT_ENEMY_SKIN:
       if (typeof descr.values == "array")
       {
-        local air = (type == ::USEROPT_SKIN ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons)
+        local air = ::aircraft_for_weapons
         if (value >= 0 && value < descr.values.len())
         {
           ::set_gui_option(type, descr.values[value] || ::g_decorator.getAutoSkin(air))
-          if (type == ::USEROPT_SKIN)
-            ::g_decorator.setLastSkin(air, descr.values[value])
+          ::g_decorator.setLastSkin(air, descr.values[value])
         }
         else
           print("[ERROR] value '" + value + "' is out of range")
@@ -4776,18 +4559,6 @@ function set_option(type, value, descr = null)
         ::set_unit_last_bullets(air, type - ::USEROPT_BULLETS0, bulletsValue)
       break
 
-    case ::USEROPT_WEAPONS:
-      if (typeof descr.values == "array")
-        if (value >= 0 && value < descr.values.len())
-        {
-          local weaponValue = descr.values[value]
-          ::set_gui_option(type, weaponValue)
-          local air = ::getAircraftByName(::aircraft_for_weapons)
-          if (air && ::shop_is_weapon_purchased(air.name, weaponValue))
-            ::set_last_weapon(air.name, weaponValue);
-        }
-      break;
-
     case ::USEROPT_HELPERS_MODE_GM:
      ::set_gui_option(::USEROPT_HELPERS_MODE, descr.values[value])
      break
@@ -4811,9 +4582,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_DYN_WINS_TO_COMPLETE:
     case ::USEROPT_TIME:
     case ::USEROPT_WEATHER:
-    case ::USEROPT_AIRCRAFT:
-    case ::USEROPT_ENEMY_WEAPONS:
-    case ::USEROPT_ENEMY_AIRCRAFT:
     case ::USEROPT_YEAR:
     case ::USEROPT_DIFFICULTY:
     case ::USEROPT_ALTITUDE:
@@ -4846,8 +4614,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_AUTOBALANCE:
     case ::USEROPT_MAX_PLAYERS:
     case ::USEROPT_MIN_PLAYERS:
-    case ::USEROPT_AIRCRAFT_COUNTRY:
-    case ::USEROPT_ENEMY_AIRCRAFT_COUNTRY:
     case ::USEROPT_ROUNDS:
     case ::USEROPT_COMPLAINT_CATEGORY:
     case ::USEROPT_BAN_PENALTY:
@@ -5050,7 +4816,10 @@ function show_selected_clusters(textObj)
   local currentClusterNames = get_current_clusters_texts()
   local first = true
   foreach(clusterName in currentClusterNames)
-    clustersText += (first && !(first = false) ? "" : "; ") + ::loc(clusterName)
+  {
+    clustersText += (first ? "" : "; ") + ::loc(clusterName)
+    first = false
+  }
   textObj.setValue(clustersText)
 }
 

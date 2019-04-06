@@ -93,7 +93,7 @@ class ::items_classes.Wager extends ::BaseItem
       return
 
     winIcon = getWinIcon(blk.win)
-    reqWinsNum = blk.win && blk.win.num || 0
+    reqWinsNum = blk.win?.num ?? 0
     rewardType = checkRewardType(blk)
     minWager = blk.minWager || 0
     if (curWager == null)

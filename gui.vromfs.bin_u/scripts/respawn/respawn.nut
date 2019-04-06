@@ -123,7 +123,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   spectator_switch_direction = ESwitchSpectatorTarget.E_DO_NOTHING
   lastSpectatorTargetName = ""
 
-  filterTags = []
   gunDescr = null
   bulletsDescr = array(::BULLETS_SETS_QUANTITY, null)
   fuelDescr = null
@@ -133,7 +132,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   skins = null
 
   missionRules = null
-  slotbarCheckTags = true
   slotbarInited = false
   leftRespawns = -1
   customStateCrewAvailableMask = 0
@@ -542,13 +540,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   function initAircraftSelect()
   {
     local team = ::get_mp_local_team()
-
-    filterTags = []
-    ::set_aircrafts_filter(filterTags)
-
-    foreach(tag in ::aircrafts_filter_tags)
-      dagor.debug("Filter by tag: "+tag.tostring());
-
     if (::show_aircraft == null)
       ::show_aircraft = getAircraftByName(::last_ca_aircraft)
 

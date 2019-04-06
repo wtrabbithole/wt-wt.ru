@@ -254,7 +254,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     {
       applyReady = ::loading_is_finished()
       local showStart = !::is_multiplayer() && gm != ::GM_TRAINING && !::start_mission_instead_of_queue
-      if (applyReady && !showStart || finished)
+      if ((applyReady && !showStart) || finished)
         finishLoading()
       else
       {

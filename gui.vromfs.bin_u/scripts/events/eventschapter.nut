@@ -103,7 +103,8 @@ class EventChaptersManager
       if (event == null)
         continue
       local chapterId = ::events.getEventsChapter(event)
-      getChapter(chapterId) || addChapter(chapterId)
+      if (!getChapter(chapterId))
+        addChapter(chapterId)
     }
 
     foreach (chapter in chapters)

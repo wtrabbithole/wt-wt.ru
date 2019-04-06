@@ -3,6 +3,7 @@ fillBlock {
   <<#action>> on_click:t='<<action>>' <</action>>
   flow:t='vertical';
   tdiv {
+    id:t = '<<id>>_items'
     smallItems:t='yes'
     position:t='relative'
     left:t='pw - w'

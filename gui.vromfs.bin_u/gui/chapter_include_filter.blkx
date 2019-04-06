@@ -1,29 +1,16 @@
 {
-  "tdiv": {
-    "flow": "horizontal",
-    "width": "pw",
-    "padding-left": "4",
-    "img": {
-      "id": "filter_magnifier_icon",
-      "size": "@cIco, @cIco",
-      "pos": "0, ph/2-h/2",
-      "position": "relative",
-      "background-image": "#ui/gameuiskin#btn_search.svg",
-      "background-svg-size": "@cIco, @cIco"
-    },
-    "EditBox": {
-      "id": "filter_edit_box",
-      "pos": "1@blockInterval, ph/2-h/2",
-      "position": "relative",
-      "width": "fw",
-      "on_activate": "onFilterEditBoxActivate",
-      "on_change_value": "onFilterEditBoxChangeValue",
-      "on_cancel_edit": "onFilterEditBoxCancel",
-      "on_wrap_up": "onWrapUp",
-      "on_wrap_down": "onWrapDown",
-      "text": "",
-      "edit-hint": "#contacts/search_placeholder",
-      "mouse-focusable": "yes"
-    }
+  "EditBox": {
+    "id": "filter_edit_box",
+    "pos": "1@blockInterval, ph/2-h/2",
+    "position": "relative",
+    "width": "fw",
+    "on_activate": "onFilterEditBoxActivate",
+    "on_change_value": "onFilterEditBoxChangeValue",
+    "on_cancel_edit": "onFilterEditBoxCancel",
+    "on_wrap_up": "onWrapUp",
+    "on_wrap_down": "onWrapDown",
+    "text": "",
+    "edit-hint": "#contacts/search_placeholder",
+    "mouse-focusable": "yes"
   }
 }

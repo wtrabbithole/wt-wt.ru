@@ -136,7 +136,6 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     fillTabs()
 
-    scene.findObject("btn_refresh").show(true)
     initFocusArray()
   }
 

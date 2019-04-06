@@ -138,7 +138,7 @@ function briefing_options_apply()
     return
   }
 
-  if (gt & ::GT_VERSUS || ::mission_settings.missionURL)
+  if ((gt & ::GT_VERSUS) || ::mission_settings.missionURL)
     ::SessionLobby.createRoom(::mission_settings)
   else
     ::get_cur_base_gui_handler().goForward(::gui_start_flight);
@@ -149,7 +149,7 @@ function briefing_options_apply()
 function get_briefing_options(gm, gt, missionBlk)
 {
   local optionItems = []
-  if (gm == ::GM_BENCHMARK)
+  if (gm == ::GM_BENCHMARK || ::custom_miss_flight)
     return optionItems
 
   if (::get_mission_types_from_meta_mission_info(missionBlk).len())
@@ -739,20 +739,13 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       else if (misBlk.url)
         ::add_last_played("url", misBlk.url, gm, false)
 
-    if (::SessionLobby.isInRoom())
-    {
-      if (gm == ::GM_DYNAMIC)
-      {
-        ::select_mission_full(misBlk, ::mission_settings.missionFull);
-      }
-      ::apply_host_settings(misBlk)
-      return
-    }
-
     if (gm == ::GM_DYNAMIC)
       ::select_mission_full(misBlk, ::mission_settings.missionFull);
     else
       ::select_mission(misBlk, false)
+
+    if (::SessionLobby.isInRoom())
+      ::apply_host_settings(misBlk)
   }
 
   function onFinalApply2()

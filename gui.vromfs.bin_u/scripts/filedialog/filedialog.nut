@@ -713,7 +713,11 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       foreach (idx, columnInfo in source)
       {
         if (::u.isString(columnInfo))
-          columnInfo = source[idx] = {column = columnInfo}
+        {
+          columnInfo = {column = columnInfo}
+          source[idx] = columnInfo
+        }
+
         if (::u.isString(columnInfo.column))
         {
           local columnName = columnInfo.column

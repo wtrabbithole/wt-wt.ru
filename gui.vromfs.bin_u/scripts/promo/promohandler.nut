@@ -31,7 +31,7 @@ class Promo
     recent_items_mainmenu_button = function() { return createRecentItemsHandler() }
   }
 
-  function constructor(_handler, _guiScene, _scene)
+  constructor(_handler, _guiScene, _scene)
   {
     owner = _handler
     guiScene = _guiScene
@@ -303,7 +303,7 @@ class Promo
     if (!show || !::checkObj(buttonObj))
       return
 
-    local buttonText = ::loc("missions/" + tutorialMission?.name + "/short", "")
+    local buttonText = ::loc("missions/" + (tutorialMission?.name ?? "") + "/short", "")
     if (!tutorialMission)
       buttonText = ::loc("mainmenu/btnTutorial")
     ::g_promo.setButtonText(buttonObj, id, buttonText)

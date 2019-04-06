@@ -553,8 +553,8 @@ function weaponVisual::getByCurBundle(air, bundle, func, defValue = "")
 
 function weaponVisual::isBullets(item)
 {
-  return ("isDefaultForGroup" in item) && (item.isDefaultForGroup >= 0) ||
-    (item.type == weaponsItem.modification && ::getModificationBulletsGroup(item.name) != "")
+  return (("isDefaultForGroup" in item) && (item.isDefaultForGroup >= 0))
+    || (item.type == weaponsItem.modification && ::getModificationBulletsGroup(item.name) != "")
 }
 
 function weaponVisual::getBulletsIconItem(air, item)
@@ -1115,7 +1115,8 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
 
     if(bulletsSet)
     {
-      foreach(p in ["caliber", "explosiveType", "explosiveMass"])
+      foreach(p in ["caliber", "explosiveType", "explosiveMass",
+        "proximityFuseArmDistance", "proximityFuseRadius" ])
       if (p in bulletsSet)
         param[p] <- bulletsSet[p]
 
@@ -1186,6 +1187,15 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
     if (explodeTreshold)
       addProp(p, ::loc("bullet_properties/explodeTreshold"),
                  explodeTreshold + " " + ::loc("measureUnits/mm"))
+
+    local proximityFuseArmDistance = stdMath.round(param?.proximityFuseArmDistance ?? 0)
+    if (proximityFuseArmDistance)
+      addProp(p, ::loc("torpedo/armingDistance"),
+        proximityFuseArmDistance + " " + ::loc("measureUnits/meters_alt"))
+    local proximityFuseRadius = stdMath.round(param?.proximityFuseRadius ?? 0)
+    if (proximityFuseRadius)
+      addProp(p, ::loc("bullet_properties/proximityFuze/triggerRadius"),
+        proximityFuseRadius + " " + ::loc("measureUnits/meters_alt"))
 
     local ricochetData = !isCountermeasure && ::g_dmg_model.getRicochetData(param.bulletType)
     if (ricochetData)
@@ -1310,7 +1320,7 @@ function weaponVisual::updateWeaponTooltip(obj, air, item, handler, params={}, e
 
   if (is_researching || is_paused || !is_researched)
   {
-    if (("reqExp" in item) && item.reqExp > curExp || is_paused)
+    if ((("reqExp" in item) && item.reqExp > curExp) || is_paused)
     {
       local expText = ""
       if (is_researching || is_paused)

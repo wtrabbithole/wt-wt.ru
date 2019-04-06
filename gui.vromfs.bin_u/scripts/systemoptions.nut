@@ -515,7 +515,7 @@
         local sides = split(resolution, "x")
         foreach (i, v in sides)
           sides[i] = strip(v).tointeger()
-        if (sides[0] >= minW && sides[1] >= minH || resolution == curResolution)
+        if ((sides[0] >= minW && sides[1] >= minH) || resolution == curResolution)
           data.append({
             resolution = resolution
             w = sides[0]

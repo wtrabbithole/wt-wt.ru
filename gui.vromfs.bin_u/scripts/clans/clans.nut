@@ -996,10 +996,7 @@ function is_in_my_clan(name = null, uid = null)
 function get_clan_info_table(clanInfo = null)
 {
   if (!clanInfo)
-  {
-    clanInfo = ::DataBlock();
-    clanInfo = clan_get_clan_info();
-  }
+    clanInfo = clan_get_clan_info()
 
   if (!clanInfo._id)
     return null
@@ -1044,6 +1041,17 @@ function get_clan_info_table(clanInfo = null)
   clan.members <- []
 
   local member_ratings = ::getTblValue("member_ratings", clanInfo, {})
+  local getTotalActivityPerPeriod = function(expActivity)
+  {
+    if (!expActivity)
+      return 0
+
+    local res = 0
+    foreach(period in expActivity)
+      res += period.activity
+
+    return res
+  }
   foreach(member in clanMembersInfo)
   {
     local memberItem = {}
@@ -1063,7 +1071,12 @@ function get_clan_info_table(clanInfo = null)
     foreach(key, value in ::empty_activity)
       memberItem[key + "Activity"] <- memberActivityInfo.getInt(key, value)
     memberItem["activityHistory"] <-
-        ::buildTableFromBlk(memberActivityInfo.getBlockByName("history"))
+      ::buildTableFromBlk(memberActivityInfo.getBlockByName("history"))
+    memberItem["curPeriodActivity"] <- memberActivityInfo?.activity ?? 0
+    memberItem["expActivity"] <-
+      ::buildTableFromBlk(memberActivityInfo.getBlockByName("expActivity"))
+    memberItem["totalPeriodActivity"] <-
+      getTotalActivityPerPeriod(memberActivityInfo.getBlockByName("expActivity"))
 
     clan.members.append(memberItem)
   }
@@ -1114,6 +1127,11 @@ function get_clan_info_table(clanInfo = null)
 
   clan.seasonRewards <- ::buildTableFromBlk(::getTblValue("clanSeasonRewards", clanInfo))
   clan.seasonRatingRewards <- ::buildTableFromBlk(::getTblValue("clanSeasonRatingRewards", clanInfo))
+
+  clan.maxActivityPerPeriod <- clanInfo?.maxActivityPerPeriod ?? 0
+  clan.maxClanActivity <- clanInfo?.maxClanActivity ?? 0
+  clan.rewardPeriodDays <- clanInfo?.rewardPeriodDays ?? 0
+  clan.expRewardEnabled <- clanInfo?.expRewardEnabled ?? false
 
   //dlog("GP: Show clan table");
   //debugTableData(clan);
@@ -1205,7 +1223,7 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
     _place,
     _seasonName,
     _clanTag,
-    _clanName,
+    _clanName
   )
   {
     seasonTime = _seasonTime

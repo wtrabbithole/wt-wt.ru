@@ -81,4 +81,5 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
 //----------------------------wop_1_87_0_X---------------------------------//
 ::apply_compatibilities({
   EULT_CLAN_UNITS = 58
+  clan_get_unit_open_cost_gold = @() 0
 })

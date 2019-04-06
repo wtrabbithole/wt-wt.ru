@@ -27,7 +27,7 @@ class DataBlockAdapter
   ___paramsList___ = null
   ___paramsListNames___ = null
 
-  function constructor(tbl, name = null)
+  constructor(tbl, name = null)
   {
     ___blockName___ = name
     ___originData___ = tbl

@@ -203,7 +203,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateTitle()
   {
     local title = ::loc(isUnitOwn && !previewMode? "mainmenu/showroom" : "mainmenu/btnPreview") + " " + ::loc("ui/mdash") + " "
-    if (!previewMode || previewMode & (PREVIEW_MODE.UNIT | PREVIEW_MODE.SKIN))
+    if (!previewMode || (previewMode & (PREVIEW_MODE.UNIT | PREVIEW_MODE.SKIN)))
       title += ::getUnitName(unit.name)
 
     if (previewMode & PREVIEW_MODE.SKIN)
@@ -696,8 +696,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateButtons(decoratorType = null, needUpdateSlotDivs = true)
   {
-    local profile_info = ::get_profile_info()
-
     local can_buyUnitOnline = ::canBuyUnitOnline(unit)
     local can_buyUnitIngame = !can_buyUnitOnline && ::canBuyUnit(unit)
 
@@ -888,10 +886,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local inBasicMode = currentState & decoratorEditState.NONE
     local showDecalsSlotDiv = access_Decals
-      && (inBasicMode || (decoratorType == ::g_decorator_type.DECALS && currentState & decoratorEditState.SELECT))
+      && (inBasicMode || (decoratorType == ::g_decorator_type.DECALS && (currentState & decoratorEditState.SELECT)))
 
     local showAttachableSlotsDiv = access_Attachables
-      && (inBasicMode || (decoratorType == ::g_decorator_type.ATTACHABLES && currentState & decoratorEditState.SELECT))
+      && (inBasicMode || (decoratorType == ::g_decorator_type.ATTACHABLES && (currentState & decoratorEditState.SELECT)))
 
     ::showBtnTable(scene, {
       decalslots_div = showDecalsSlotDiv
@@ -1163,7 +1161,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (::u.isEmpty(slot)
         || decoratorType == ::g_decorator_type.UNKNOWN
-        || currentState & decoratorEditState.NONE)
+        || (currentState & decoratorEditState.NONE))
       return
 
     local wObj = scene.findObject("decals_list")
@@ -1568,7 +1566,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     editableDecoratorId = null
     if (currentType == ::g_decorator_type.ATTACHABLES
-        && currentState & (decoratorEditState.REPLACE | decoratorEditState.EDITING | decoratorEditState.PURCHASE))
+        && (currentState & (decoratorEditState.REPLACE | decoratorEditState.EDITING | decoratorEditState.PURCHASE)))
       ::hangar_force_reload_model()
     stopDecalEdition()
   }

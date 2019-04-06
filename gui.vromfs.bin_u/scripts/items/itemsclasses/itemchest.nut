@@ -52,10 +52,9 @@ class ::items_classes.Chest extends ItemExternal {
   isContentPack             = @() getGenerator()?.isPack ?? false
   isAllowSkipOpeningAnim    = @() ::is_dev_version
   getOpeningAnimId          = @() itemDef?.tags?.isLongOpenAnim ? "LONG" : "DEFAULT"
-  getCantUseLocId           = @() "msgBox/chestOpen/cant"
   getConfirmMessageData    = @(recipe) getEmptyConfirmMessageData().__update({
-    text = ::loc("msgBox/chestOpen/confirm", { itemName = ::colorize("activeTextColor", getName()) })
-    headerRecipeMarkup = recipe.isMultipleItems ? ::loc("msgBox/extra_items_will_be_spent") : ""
+    text = ::loc(getLocIdsList().msgBoxConfirm, { itemName = ::colorize("activeTextColor", getName()) })
+    headerRecipeMarkup = recipe.getHeaderRecipeMarkupText()
     needRecipeMarkup = recipe.isMultipleItems
   })
 
@@ -145,4 +144,10 @@ class ::items_classes.Chest extends ItemExternal {
   }
 
   getContentNoRecursion = @() getContent()
+
+  getLocIdsListImpl = @() base.getLocIdsListImpl().__update({
+    descReceipesListHeaderPrefix = descReceipesListHeaderPrefix
+    msgBoxCantUse                = "msgBox/chestOpen/cant"
+    msgBoxConfirm                = "msgBox/chestOpen/confirm"
+  })
 }

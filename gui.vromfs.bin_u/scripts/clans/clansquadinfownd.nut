@@ -51,7 +51,7 @@ class ::gui_handlers.clanSquadInfoWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (leader == selectedMember)
       selectedIndex = memberViewIndex
     updateMemberView(memberViewIndex++, leader)
-    foreach(uid in squad?.members)
+    foreach(uid in squad?.members ?? [])
     {
       if (uid == leader)
         continue

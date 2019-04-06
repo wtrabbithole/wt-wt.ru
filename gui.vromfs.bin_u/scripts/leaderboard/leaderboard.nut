@@ -532,7 +532,10 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUserDblClick()
   {
-    forClans ? onClanInfo() : onUserCard()
+    if (forClans)
+      onClanInfo()
+    else
+      onUserCard()
   }
 
   function onUserRClick()
@@ -659,6 +662,10 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
   function isCountriesLeaderboard()
   {
     return false
+  }
+
+  function onDaySelect(obj)
+  {
   }
   //----END_CONTROLLER----//
 
@@ -920,7 +927,8 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
   {
     local res = {
       updateTime = [
-        dummy = 1
+        {
+        }
       ]
     }
     return res

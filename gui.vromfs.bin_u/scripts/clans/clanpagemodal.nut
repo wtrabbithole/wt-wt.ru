@@ -288,7 +288,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     else
       myRights = []
 
-    local showBtnLock = isMyClan && isInArray("CHANGE_INFO", myRights) || adminMode
+    local showBtnLock = (isMyClan && isInArray("CHANGE_INFO", myRights)) || adminMode
     local hasAdminRight = ::is_myself_clan_moderator()
     local hasLeaderRight = isInArray("LEADER", myRights)
     local showMembershipsReqEditorButton = ( ::has_feature("ClansMembershipEditor") ) && (
@@ -299,7 +299,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       btn_showRequests = ((isMyClan && (isInArray("MEMBER_ADDING", myRights) || isInArray("MEMBER_REJECT", myRights))) || adminMode) && clanData.candidates.len() > 0,
       btn_leaveClan = isMyClan && (!hasLeaderRight || ::g_clans.getLeadersCount(clanData) > 1),
       btn_edit_clan_info = ::ps4_is_ugc_enabled() && ((isMyClan && isInArray("CHANGE_INFO", myRights)) || adminMode)
-      btn_upgrade_clan = clanData.type.getNextType() != ::g_clan_type.UNKNOWN && (adminMode || isMyClan && hasLeaderRight)
+      btn_upgrade_clan = clanData.type.getNextType() != ::g_clan_type.UNKNOWN && (adminMode || (isMyClan && hasLeaderRight))
       btn_showBlacklist = isMyClan && isInArray("MEMBER_BLACKLIST", myRights) && clanData.blacklist.len()
       btn_lock_clan_req = showBtnLock
       img_lock_clan_req = !showBtnLock && clanData.status == "closed"
@@ -310,6 +310,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       clan_awards_container = showClanSeasonRewards
       btn_clan_membership_req_edit = showMembershipsReqEditorButton
       btn_clanSquads = ::has_feature("ClanSquads") && (isMyClan)
+      btn_clanActivity = ::has_feature("ClanVehicles") && isMyClan
     }
     ::showBtnTable(scene, buttonsList)
 
@@ -905,6 +906,12 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local curClan = getCurClan()
     if (curClan)
       ::g_clans.requestMembership(curClan)
+  }
+
+  function onClanAverageActivity(obj = null)
+  {
+    if (clanData)
+      ::gui_handlers.clanAverageActivityModal.open(clanData)
   }
 
   function onClanSquads(obj = null)

@@ -347,7 +347,7 @@ function g_squad_utils::checkAndShowHasOfflinePlayersPopup()
   text += ::g_string.implode(::u.map(offlineMembers,
                             @(memberData) ::colorize("warningTextColor", platformModule.getPlayerName(memberData.name))
                            ),
-                    ::loc("event_comma")
+                    ::loc("ui/comma")
                    )
 
   ::g_popups.add("", text)

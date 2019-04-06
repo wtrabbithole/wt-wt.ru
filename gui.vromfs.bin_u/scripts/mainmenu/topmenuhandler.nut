@@ -430,6 +430,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   {
     local res = {
       textsBlk = "gui/mainmenu/instantActionHelp.blk"
+      lineInterval = "0.6@helpLineInterval"
     }
 
     local links = [
@@ -445,17 +446,17 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       }
 
       //Top center
+      { obj = ["to_battle_button", "to_battle_console_image"]
+        msgId = "hint_battle_button"
+      }
+      { obj=["game_mode_change_button_text"]
+        msgId = "hint_game_mode_change_button"
+      }
       {obj = "gc_clanTag"
         msgId = "hint_clan"
       }
       { obj = "gc_profile"
         msgId = "hint_profile"
-      }
-      { obj = ["to_battle_button", "to_battle_console_image"]
-        msgId = "hint_battle_button"
-      }
-      { obj=["game_mode_change_button"]
-        msgId = "hint_game_mode_change_button"
       }
 
       //Top right
@@ -484,13 +485,13 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       }
 
       //bottom right
-      { obj = ::top_menu_shop_active ? null : "perform_action_recent_items_mainmenu_button"
+      { obj = ::top_menu_shop_active ? null : "perform_action_recent_items_mainmenu_button_items"
         msgId = "hint_recent_items"
       }
       { obj = ["gc_invites_btn", "gc_contacts", "gc_chat_btn", "gc_userlog_btn"]
         msgId = "hint_social"
       }
-      { obj = ::top_menu_shop_active ? null : "perform_action_invite_squad_mainmenu_button"
+      { obj = ::top_menu_shop_active || ::g_squad_manager.isInSquad() ? null : "btn_squadPlus"
         msgId = "hint_play_with_friends"
       }
     ]
@@ -499,15 +500,15 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     local slotbar = getSlotbar()
     if (slotbar)
     {
-      links.append(
-        { obj = slotbar.getBoxOfUnits()
-          msgId = "hint_my_crews"
-        })
-
       if (::unlocked_countries.len() > 1)
         links.append({
           obj = slotbar.getBoxOfCountries()
           msgId = "hint_my_country"
+        })
+
+      links.append(
+        { obj = slotbar.getBoxOfUnits()
+          msgId = "hint_my_crews"
         })
 
       local presetsList = getSlotbarPresetsList()

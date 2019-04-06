@@ -197,7 +197,7 @@ local WorkshopSet = class {
 
       local item = ItemsManager.getItemOrRecipeBundleById(itemdef)
       if (!item
-          || item.iType == itemType.RECIPES_BUNDLE && !item.getMyRecipes().len())
+          || (item.iType == itemType.RECIPES_BUNDLE && !item.getMyRecipes().len()))
         continue
 
       local newItem = item.makeEmptyInventoryItem()

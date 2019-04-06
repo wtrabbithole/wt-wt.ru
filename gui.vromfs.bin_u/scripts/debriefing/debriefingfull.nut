@@ -822,7 +822,7 @@ function get_debriefing_result_active_wager()
     if (wagerIds != null)
       break
   }
-  if (wagerIds == null || typeof(wagerIds) == "array" && wagerIds.len() == 0) // Nothing found.
+  if (wagerIds == null || (typeof(wagerIds) == "array" && wagerIds.len() == 0)) // Nothing found.
     return null
 
   local data = {
@@ -1034,8 +1034,8 @@ function recount_debriefing_result()
       row.value = ::getTblValue(row.type + row.getRewardId(), ::debriefing_result.exp, 0)
     isRowEmpty = isRowEmpty && !row.value
 
-    local isHide = row.showByValue && !row.showByValue(row.value)
-      || isRowEmpty && !row.isVisibleWhenEmpty()
+    local isHide = (row.showByValue && !row.showByValue(row.value))
+      || (isRowEmpty && !row.isVisibleWhenEmpty())
 
     if (isHide)
     {

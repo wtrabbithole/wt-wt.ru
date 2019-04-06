@@ -221,29 +221,6 @@ subscriptions.addListenersWithoutEnv({
 //--------------- </PlayStation> ----------------------
 
 //------------------ <Steam> --------------------------
-function addSteamFriendsOnStart()
-{
-  local cdb = ::get_local_custom_settings_blk();
-  if (cdb.steamFriendsAdded != null && cdb.steamFriendsAdded)
-    return;
-
-  local friendListFreeSpace = ::EPL_MAX_PLAYERS_IN_LIST - ::contacts[::EPL_FRIENDLIST].len();
-  if (friendListFreeSpace <= 0)
-    return;
-
-  if (::skip_steam_confirmations)
-    addSteamFriends()
-  else
-    ::scene_msg_box("add_steam_friend", null, ::loc("msgbox/add_steam_friends"),
-      [
-        ["yes", function() { addSteamFriends() }],
-        ["no",  function() {}],
-      ], "no")
-
-  cdb.steamFriendsAdded = true;
-  save_profile(false);
-}
-
 function addSteamFriends()
 {
   local taskId = ::steam_find_friends(::EPL_MAX_PLAYERS_IN_LIST)

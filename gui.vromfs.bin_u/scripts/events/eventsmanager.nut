@@ -2147,6 +2147,10 @@ class Events
       local locKey = "multiplayer/enemyTeamTooLowMembers" + (isFullText ? "" : "/short")
       data.reasonText = ::loc(locKey, locParams)
     }
+    else if (!haveEventAccessByCost(event))
+    {
+      data.reasonText = ::loc("events/notEnoughMoney")
+    }
     else if (::is_platform_xboxone && !isEventXboxOnlyAllowed(mGameMode) && !crossplayModule.isCrossPlayEnabled())
     {
       data.reasonText = ::loc("xbox/crossPlayRequired")
@@ -2302,9 +2306,7 @@ class Events
    */
   function getEventBattleCostText(event, valueColor = "activeTextColor", useShortText = false, colored = true)
   {
-    if (event == null)
-      return ""
-    local cost = ::Cost().setFromTbl(::get_tournament_battle_cost(event.economicName))
+    local cost = getEventBattleCost(event)
     if (cost <= ::zero_money)
       return ""
     local shortText = colored
@@ -2313,6 +2315,18 @@ class Events
     if (useShortText)
       return shortText
     return ::loc("events/battle_cost", { cost = ::colorize(valueColor, shortText) })
+  }
+
+  function getEventBattleCost(event)
+  {
+    if (event == null)
+      return ::Cost()
+    return ::Cost().setFromTbl(::get_tournament_battle_cost(event.economicName))
+  }
+
+  function haveEventAccessByCost(event)
+  {
+    return ::get_gui_balance() >= getEventBattleCost(event)
   }
 
   function hasEventTicket(event)

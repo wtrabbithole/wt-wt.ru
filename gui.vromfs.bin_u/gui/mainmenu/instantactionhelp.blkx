@@ -2,10 +2,10 @@
   {
     "tdiv": [
       {
-        "pos": "0.5@rw -0.5@titleLogoPlateWidth -3@gamercardHeight, 2.5@titleLogoPlateHeight"
+        "pos": "0.5@rw -0.5@titleLogoPlateWidth -1@buttonWidth +2@helpInterval, 1@infoPanelVertPosition +2@airInfoToggleButtonSize"
       },
       {
-        "position": "absolute"
+        "position": "root"
       },
       {
         "flow": "vertical"
@@ -22,102 +22,101 @@
           "id": "hint_game_mode_change_button",
           "max-width": "1.5@shopWidthMax",
           "margin-left": "0.5@shopWidthMax",
-          "text": "#help/game_mode_change_button"
+          "text": "#help/game_mode_change_button",
+          "width": "1@shopWidthMax"
         }
       }
     ]
   },
   {
-    "tdiv": [
-      {
-        "width": "@topGcPanelWidth - 1@gamercardHeight"
+    "tdiv": {
+      "pos": "sw -1@bw -1@helpInterval -w, @toBattleButtonBottom",
+      "position": "root",
+      "flow": "vertical",
+      "controlsHelpTextArea": {
+        "id": "hint_premium",
+        "width": "@shopWidthMax",
+        "left": "0.5(pw - w)",
+        "position": "relative",
+        "text": "#help/premium"
       },
-      {
-        "pos": "0.5sw + 0.5@gcToBattleButtonPlaceWidth, 1@toBattleButtonBottom"
-      },
-      {
-        "position": "root"
-      },
-      {
-        "flow": "vertical"
-      },
-      {
-        "controlsHelpTextArea": {
-          "id": "hint_currencies",
-          "max-width": "@shopWidthMax",
-          "pos": "pw - w + ( - 2 - 3@isWide)*1@gamercardHeight, 0",
-          "position": "relative",
-          "text": "#help/currencies"
-        }
-      },
-      {
-        "controlsHelpTextArea": {
-          "id": "hint_premium",
-          "max-width": "@shopWidthMax",
-          "pos": "pw - w + ( - 1 - 2@isWide)*1@gamercardHeight, 1@helpInterval",
-          "position": "relative",
-          "text": "#help/premium"
-        }
-      },
-      {
-        "controlsHelpTextArea": {
-          "id": "hint_onlineShop",
-          "max-width": "@shopWidthMax",
-          "pos": "pw - w, 1@helpInterval",
-          "position": "relative",
-          "text": "#help/onlineShop"
-        }
-      }
-    ]
-  },
-  {
-    "tdiv": [
-      {
-        "pos": "1@airInfoPanelRightSide + 1@helpInterval, @toBattleButtonBottom"
-      },
-      {
-        "position": "root"
-      },
-      {
-        "flow": "vertical"
-      },
-      {
-        "tdiv": [
-          {
-            "pos": "(1 + 2@isWide) * 1@gamercardHeight, 0"
-          },
-          {
-            "position": "relative"
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_clan",
-              "max-width": "@shopWidthMax",
-              "margin-right": "@helpInterval",
-              "text": "#help/clan"
-            }
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_profile",
-              "max-width": "@shopWidthMax",
-              "text": "#help/profile"
-            }
+      "tdiv": [
+        {
+          "margin-top": "1@helpInterval"
+        },
+        {
+          "width": "pw"
+        },
+        {
+          "controlsHelpTextArea": {
+            "id": "hint_currencies",
+            "width": "@shopWidthMax",
+            "text": "#help/currencies"
           }
-        ]
+        },
+        {
+          "controlsHelpTextArea": {
+            "id": "hint_onlineShop",
+            "width": "@shopWidthMax",
+            "margin-left": "1@helpInterval",
+            "text": "#help/onlineShop"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "tdiv": [
+      {
+        "pos": "0.5@rw -0.5@titleLogoPlateWidth -1@buttonWidth -w, 1@topBarHeight +2@helpInterval"
+      },
+      {
+        "position": "root"
+      },
+      {
+        "flow": "vertical"
+      },
+      {
+        "controlsHelpTextArea": {
+          "id": "hint_clan",
+          "width": "@shopWidthMax",
+          "text": "#help/clan"
+        }
+      },
+      {
+        "controlsHelpTextArea": {
+          "id": "hint_profile",
+          "width": "@shopWidthMax",
+          "margin-left": "1@helpInterval",
+          "margin-top": "1@helpInterval",
+          "text": "#help/profile"
+        }
+      }
+    ]
+  },
+  {
+    "tdiv": [
+      {
+        "pos": "1@airInfoPanelRightSide + 1@helpInterval, 1@infoPanelVertPosition +2@airInfoToggleButtonSize"
+      },
+      {
+        "position": "root"
+      },
+      {
+        "flow": "vertical"
       },
       {
         "controlsHelpTextArea": {
           "id": "hint_mainmenu",
-          "max-width": "@shopWidthMax",
-          "margin": "0, @helpInterval",
+          "width": "@shopWidthMax",
+          "margin-bottom": "1@helpInterval",
           "text": "#help/mainmenu"
         }
       },
       {
         "controlsHelpTextArea": {
           "id": "hint_unitInfo",
-          "max-width": "@shopWidthMax",
+          "width": "1.5@shopWidthMax",
           "text": "#help/unitInfo"
         }
       }
@@ -126,127 +125,7 @@
   {
     "tdiv": [
       {
-        "width": "sw"
-      },
-      {
-        "pos": "0, 1@battleBtnBottomOffset -1@battleButtonHeight -h -0.02@sf"
-      },
-      {
-        "position": "root"
-      },
-      {
-        "div": [
-          {
-            "pos": "1@slotbarButtonsOffset, 0"
-          },
-          {
-            "position": "relative"
-          },
-          {
-            "flow": "vertical"
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_presetsPlace",
-              "width": "@shopWidthMax + 4@helpInterval",
-              "pos": "-4@helpInterval, 0",
-              "position": "relative",
-              "margin-bottom": "",
-              "text": "#help/presets"
-            }
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_research",
-              "width": "@shopWidthMax",
-              "pos": "0, @helpInterval",
-              "position": "relative",
-              "text": "#help/research"
-            }
-          }
-        ]
-      },
-      {
-        "div": [
-          {
-            "pos": "sw -1@bw -w, 0.5sh"
-          },
-          {
-            "position": "root"
-          },
-          {
-            "flow": "vertical"
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_social",
-              "width": "@shopWidthMax",
-              "pos": "4@checkboxSize, 0",
-              "position": "relative",
-              "text": "#help/social"
-            }
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_autoweapon",
-              "width": "@shopWidthMax",
-              "margin-top": "1@helpInterval",
-              "pos": "2@checkboxSize, 0",
-              "position": "relative",
-              "text": "#help/autoweapon"
-            }
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_autorepair",
-              "width": "@shopWidthMax",
-              "margin-top": "1@helpInterval",
-              "pos": "1@helpInterval, 0",
-              "position": "relative",
-              "text": "#help/autorepair"
-            }
-          }
-        ]
-      },
-      {
-        "div": [
-          {
-            "pos": "0.5(sw-w), 0.6sh"
-          },
-          {
-            "position": "root"
-          },
-          {
-            "flow": "vertical"
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_my_country",
-              "width": "@shopWidthMax + 2@helpInterval",
-              "text": "#help/my_country"
-            }
-          },
-          {
-            "controlsHelpTextArea": {
-              "id": "hint_my_crews",
-              "width": "@shopWidthMax",
-              "margin-top": "1@helpInterval",
-              "pos": "4@checkboxSize, 0",
-              "position": "relative",
-              "text": "#help/my_crews"
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "tdiv": [
-      {
-        "left": "sw - 1@offsetBetweenScreenAndAirinfo - 2@itemHeight - 2@helpInterval - w"
-      },
-      {
-        "top": "1@battleBtnBottomOffset -h + 3@helpInterval"
+        "pos": "0.5(sw-1@bottomGcWidth), sh -h -1@slotbarOffset -1@slotbarHeight -1@slotbarTop -0.12@scrn_tgt"
       },
       {
         "position": "root"
@@ -256,24 +135,95 @@
       },
       {
         "controlsHelpTextArea": {
-          "id": "hint_recent_items",
-          "width": "@shopWidthMax",
-          "pos": "pw-w, 0",
-          "position": "relative",
-          "margin-bottom": "5@helpInterval",
-          "text": "#help/recent_items"
+          "id": "hint_presetsPlace",
+          "width": "1@shopWidthMax",
+          "text": "#help/presets"
         }
       },
       {
         "controlsHelpTextArea": {
-          "id": "hint_play_with_friends",
-          "width": "@shopWidthMax",
-          "pos": "pw-w, 0",
-          "position": "relative",
-          "margin-bottom": "@helpInterval",
-          "text": "#help/play_with_friends"
+          "id": "hint_my_country",
+          "width": "1@shopWidthMax",
+          "margin-left": "2@helpInterval",
+          "margin-top": "1@helpInterval",
+          "text": "#help/my_country"
+        }
+      },
+      {
+        "controlsHelpTextArea": {
+          "id": "hint_my_crews",
+          "width": "1@shopWidthMax",
+          "margin-left": "4@helpInterval",
+          "margin-top": "1@helpInterval",
+          "text": "#help/my_crews"
         }
       }
     ]
+  },
+  {
+    "controlsHelpTextArea": {
+      "id": "hint_research",
+      "width": "@shopWidthMax -2@helpInterval",
+      "pos": "0.5(sw-1@bottomGcWidth) +1@offsetFromEdge +1@helpInterval, sh -h -1@slotbarOffset -1@slotbarHeight -1@slotbarTop -0.04@scrn_tgt",
+      "position": "root",
+      "text": "#help/research"
+    }
+  },
+  {
+    "controlsHelpTextArea": {
+      "id": "hint_autorepair",
+      "width": "@shopWidthMax",
+      "pos": "sw -1@bw -1@maxPromoButtonWidth, 1@battleBtnBottomOffset -h -2@helpInterval",
+      "position": "root",
+      "text": "#help/autorepair"
+    }
+  },
+  {
+    "div": {
+      "pos": "sw -1@bw -w, sh -h -1@slotbarOffset -1@slotbarHeight -1@slotbarTop -1@promoButtonMinHeight -0.12@scrn_tgt",
+      "position": "root",
+      "flow": "vertical",
+      "div": [
+        {
+          "left": "pw-w"
+        },
+        {
+          "position": "relative"
+        },
+        {
+          "controlsHelpTextArea": {
+            "id": "hint_recent_items",
+            "width": "@shopWidthMax",
+            "text": "#help/recent_items"
+          }
+        },
+        {
+          "controlsHelpTextArea": {
+            "id": "hint_social",
+            "width": "@shopWidthMax",
+            "margin-left": "1@helpInterval",
+            "text": "#help/social"
+          }
+        }
+      ],
+      "controlsHelpTextArea": {
+        "id": "hint_autoweapon",
+        "width": "@shopWidthMax",
+        "margin-top": "1@helpInterval",
+        "left": "pw-w-1@helpInterval",
+        "position": "relative",
+        "text": "#help/autoweapon"
+      }
+    }
+  },
+  {
+    "controlsHelpTextArea": {
+      "id": "hint_play_with_friends",
+      "width": "@shopWidthMax",
+      "pos": "sw/2 +1@bottomGcWidth/2 -5@buttonCloseHeight -5@buttonTextPadding -w, sh -1@bottomBarHeight +1@blockInterval",
+      "position": "root",
+      "margin-bottom": "1@helpInterval",
+      "text": "#help/play_with_friends"
+    }
   }
 ]

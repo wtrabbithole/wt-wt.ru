@@ -12,7 +12,7 @@ local RespawnBase = class
 
   static MAP_ID_NOTHING = MAP_SELECT_NOTHING
 
-  function constructor(_id, _isAutoSelected = false)
+  constructor(_id, _isAutoSelected = false)
   {
     id = _id
     isAutoSelected = _isAutoSelected

@@ -75,7 +75,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     {
       spObj.show(!isVietnamese)
       spObj.setValue(lp.autoSave & 2)
-      spObj.enable(lp.autoSave & 1 && !isVietnamese)
+      spObj.enable((lp.autoSave & 1) != 0 && !isVietnamese)
       local text = ::loc("mainmenu/savePassword")
       if (!::is_platform_shield_tv())
         text += " " + ::loc("mainmenu/savePassword/unsecure")
@@ -93,7 +93,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
     initial_autologin = ::is_autologin_enabled()
 
-    local autoLoginEnable = lp.autoSave & 1 && lp.autoSave & 2
+    local autoLoginEnable = (lp.autoSave & 3) == 3 //!!FIX ME: make named constants instead of simple int
     local autoLogin = initial_autologin && autoLoginEnable
     local autoLoginObj = scene.findObject("loginbox_autologin")
     if (::checkObj(autoLoginObj))
@@ -350,24 +350,6 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
                              )
   }
 
-  function checkSteamActivation(no_dump_login)
-  {
-    local loggedInOnce = ::load_local_account_settings("loggedInOnce", false)
-    if (loggedInOnce != true)
-    {
-      ::save_local_account_settings("loggedInOnce", true)
-      ::skip_steam_confirmations = true
-    }
-
-    if (::steam_is_running())
-      ::save_local_account_settings("showNewSteamLogin", true)
-
-    if (::check_account_tag("wt_steam"))
-      ::skip_steam_confirmations = true
-
-    continueLogin(no_dump_login)
-  }
-
   function continueLogin(no_dump_login)
   {
     if (shardItems)
@@ -524,7 +506,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
           else if (res == ::YU2_ALREADY)
             ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, false)
         }
-        checkSteamActivation(no_dump_login)
+        continueLogin(no_dump_login)
         break
 
       case ::YU2_2STEP_AUTH: //error, received if user not logged, because he have 2step authorization activated

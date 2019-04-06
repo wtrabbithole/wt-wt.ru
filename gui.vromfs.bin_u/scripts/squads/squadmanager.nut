@@ -632,7 +632,8 @@ function g_squad_manager::joinSquadChatRoom()
 
   if (isSquadLeader() && ::u.isEmpty(password))
   {
-    password = squadData.chatInfo.password = ::gen_rnd_password(15)
+    password = ::gen_rnd_password(15)
+    squadData.chatInfo.password = password
 
     roomCreateInProgress = true
     callback = function() {
@@ -995,7 +996,8 @@ function g_squad_manager::requestMemberData(uid)
                       local isMemberDataChanged = ::g_squad_manager.isMemberDataChanged(memberData, receivedMemberData)
                       memberData.update(receivedMemberData)
                       local contact = ::getContact(memberData.uid, memberData.name)
-                      contact.online = memberData.online = response.online
+                      contact.online = response.online
+                      memberData.online = response.online
                       if (!response.online)
                         memberData.isReady = false
 

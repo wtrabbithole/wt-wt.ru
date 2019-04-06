@@ -272,7 +272,6 @@ function debug_dump_respawn_save(filename = "debug_dump_respawn.blk")
     "get_race_checkpioints_count"
     "get_race_winners_count"
     "last_ca_aircraft"
-    "aircrafts_filter_tags"
     "used_planes"
     "g_mis_loading_state.curState"
     "HudBattleLog.battleLog"
@@ -291,7 +290,6 @@ function debug_dump_respawn_save(filename = "debug_dump_respawn.blk")
         "shop_is_aircraft_purchased", "wp_get_cost", "wp_get_cost_gold", "get_aircraft_max_fuel" ])
         list.append({ id = id, args = [ unit.name ] })
       list.append({ id = "get_available_respawn_bases", args = [ unit.tags ] })
-      list.append({ id = "check_aircraft_tags", args = [ unit.tags, ::aircrafts_filter_tags ] })
       list.append({ id = "shop_get_spawn_score", args = [ unit.name, "" ] })
       list.append({ id = "is_crew_slot_was_ready_at_host", args = [ crew.idInCountry, unit.name, true ] })
       list.append({ id = "get_aircraft_fuel_consumption", args = [ unit.name, ::get_mission_difficulty(), true ] })

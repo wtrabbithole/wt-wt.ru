@@ -1360,7 +1360,7 @@
       "position": "root"
     },
     {
-      "style": "padding:15*@sf/@pf; color-factor:192;"
+      "style": "padding:1@dp,1@wwGlobeTooltipPadding; color-factor:192;"
     },
     {
       "display": "hide"
@@ -1371,6 +1371,9 @@
     {
       "textareaNoTab": {
         "id": "title",
+        "padding": "1@wwGlobeTooltipPadding, 0",
+        "position": "relative",
+        "left": "50%pw-50%w",
         "overlayTextColor": "active",
         "text": ""
       }
@@ -1378,11 +1381,29 @@
     {
       "textareaNoTab": {
         "id": "desc",
+        "padding": "1@wwGlobeTooltipPadding, 0",
+        "margin-top": "1@blockInterval",
         "position": "relative",
-        "top": "1@blockInterval",
+        "left": "50%pw-50%w",
         "hideEmptyText": "yes",
         "smallFont": "yes",
         "text": ""
+      }
+    },
+    {
+      "tdiv": {
+        "id": "statistics",
+        "margin-top": "1@blockInterval",
+        "position": "relative",
+        "left": "50%pw-50%w",
+        "flow": "vertical",
+        "display": "hide",
+        "animated_wait_icon": {
+          "background-rotation": "0",
+          "behavior": "increment",
+          "inc-target": "background-rotation",
+          "inc-factor": "120"
+        }
       }
     }
   ]

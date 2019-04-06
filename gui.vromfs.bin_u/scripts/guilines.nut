@@ -76,7 +76,7 @@ class ::GuiBox
   priority = 0
   isToStringForDebug = true
 
-  function constructor(_x1 = 0, _y1 = 0, _x2 = 0, _y2 = 0, _priority = 0)
+  constructor(_x1 = 0, _y1 = 0, _x2 = 0, _y2 = 0, _priority = 0)
   {
     c1 = [_x1, _y1]
     c2 = [_x2, _y2]
@@ -105,7 +105,8 @@ class ::GuiBox
 
   function _tostring()
   {
-    return ::format("GuiBox((%d,%d), (%d,%d), priority = %d)", c1[0], c1[1], c2[0], c2[1], priority)
+    return ::format("GuiBox((%d,%d), (%d,%d)%s)", c1[0], c1[1], c2[0], c2[1],
+      priority ? (", priority = " + priority) : "")
   }
 
   function isIntersect(box)
@@ -150,6 +151,16 @@ class ::GuiBox
     return cutList
   }
 
+  function incPos(inc)
+  {
+    for(local i=0; i < 2; i++)
+    {
+      c1[i] += inc[i]
+      c2[i] += inc[i]
+    }
+    return this
+  }
+
   function incSize(kAdd, kMul = 0)
   {
     for(local i=0; i < 2; i++)
@@ -163,6 +174,7 @@ class ::GuiBox
         c2[i] += inc
       }
     }
+    return this
   }
 
   function cloneBox(incSize = 0)
@@ -222,7 +234,7 @@ function LinesGenerator::getLinkLinesMarkup(config)
     links.append([endBlock.box, startBlock.box])
   }
 
-  local lineInterval = ::getTblValue("lineInterval", config, "@helpLineInterval")
+  local lineInterval = config?.lineInterval ?? "@helpLineInterval"
   local lineWidth = ::getTblValue("lineWidth", config, "@helpLineWidth")
 
   local obstacles = ::getTblValue("obstacles", config, null)
@@ -620,8 +632,8 @@ function LinesGenerator::doubleLineCutZoneList(zoneData, box)
       zone = newZone
     }
 
-    if (!wayAxis && zone.start > zEnd
-        || wayAxis && zone.end < zStart)
+    if ((!wayAxis && zone.start > zEnd)
+        || (wayAxis && zone.end < zStart))
       continue //inside corners not blocked by box
 
     local found = false

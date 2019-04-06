@@ -18,33 +18,6 @@
           "activeAccesskeys": "RS",
           "on_select": "onControlsGroupChange"
         },
-        "tdiv": {
-          "size": "fw, 1@frameHeaderHeight",
-          "top": "-1@frameHeaderPad",
-          "position": "relative",
-          "top_right_holder": {
-            "width": "pw",
-            "max-width": "0.5@scrn_tgt",
-            "hasCloseButton": "no",
-            "tdiv": {
-              "id": "listbox_filter_holder",
-              "width": "fw",
-              "top": "0.5(ph-h)",
-              "position": "relative"
-            },
-            "Button_text": {
-              "id": "btn_controlsHelp",
-              "class": "image",
-              "visualStyle": "noFrame",
-              "tooltip": "#options/help",
-              "_on_click": "onControlsHelp",
-              "imgSize": "big",
-              "img": {
-                "background-image": "#ui/gameuiskin#btn_current_assigned_buttons.svg"
-              }
-            }
-          }
-        },
         "Button_close": {
           "id": "btn_back"
         }
@@ -60,6 +33,27 @@
           "flow": "vertical",
           "width": "fw",
           "height": "ph",
+          "div": {
+            "id": "listbox_filter_holder",
+            "width": "pw-0.15@sf",
+            "padding": "2@blockInterval",
+            "pos": "50%pw-50%w, 0",
+            "position": "relative",
+            "EditBox": {
+              "id": "filter_edit_box",
+              "pos": "1@blockInterval, ph/2-h/2",
+              "position": "relative",
+              "width": "fw",
+              "on_activate": "onFilterEditBoxActivate",
+              "on_change_value": "onFilterEditBoxChangeValue",
+              "on_cancel_edit": "onFilterEditBoxCancel",
+              "on_wrap_up": "onWrapUp",
+              "on_wrap_down": "onWrapDown",
+              "text": "",
+              "edit-hint": "#contacts/search_placeholder",
+              "mouse-focusable": "yes"
+            }
+          },
           "HorizontalListBox": {
             "id": "helpers_mode",
             "pos": "50%pw-50%w, 0",
@@ -115,6 +109,19 @@
           },
           {
             "Button_text": {
+              "id": "btn_controlsHelp",
+              "class": "image",
+              "btnName": "LB",
+              "tooltip": "#options/help",
+              "_on_click": "onControlsHelp",
+              "ButtonImg": [],
+              "img": {
+                "background-image": "#ui/gameuiskin#btn_current_assigned_buttons.svg"
+              }
+            }
+          },
+          {
+            "Button_text": {
               "id": "btn_clearAll",
               "changeButtonStyleDependingOnPlatformTo": "image",
               "text": "#options/clearAll",
@@ -133,15 +140,6 @@
               "text": "#mainmenu/btnControlsDefault",
               "_on_click": "onDefaultPreset",
               "btnName": "Y",
-              "ButtonImg": []
-            }
-          },
-          {
-            "Button_text": {
-              "id": "btn_controlsHelp_gamepad",
-              "text": "#options/help",
-              "btnName": "LT",
-              "_on_click": "onControlsHelp",
               "ButtonImg": []
             }
           },

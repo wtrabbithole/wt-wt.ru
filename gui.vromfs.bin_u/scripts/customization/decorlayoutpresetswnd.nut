@@ -55,7 +55,7 @@ class ::gui_handlers.DecorLayoutPresets extends ::gui_handlers.BaseGuiHandlerWT
     {
       linkedSkinsInitial = 0
       foreach (idx, val in skinList.values)
-        if (val == masterSkinId || isPreset && presetBySkinIdx[idx] == masterPresetId)
+        if (val == masterSkinId || (isPreset && presetBySkinIdx[idx] == masterPresetId))
           linkedSkinsInitial = linkedSkinsInitial | (1 << idx)
       linkedSkinsCurrent = linkedSkinsInitial
     }

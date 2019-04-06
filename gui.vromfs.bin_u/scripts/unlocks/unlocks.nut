@@ -1920,9 +1920,9 @@ function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTim
         dagor.debug("unlock " + id + " is visible by time ? " + isVisibleUnlock)
         dagor.debug("curTime = " + currentTime + ", visibleDiapason = " + startTime + ", " + endTime
           + ", beginDate = " + cond.beginDate + ", endDate = " + cond.endDate
-          + ", visibleDaysBefore = " + unlock?.visibleDaysBefore
-          + ", visibleDays = " + unlock?.visibleDays
-          + ", visibleDaysAfter = " + unlock?.visibleDaysAfter
+          + ", visibleDaysBefore = " + (unlock?.visibleDaysBefore ?? "?")
+          + ", visibleDays = " + (unlock?.visibleDays ?? "?")
+          + ", visibleDaysAfter = " + (unlock?.visibleDaysAfter ?? "?")
         )
       }
 

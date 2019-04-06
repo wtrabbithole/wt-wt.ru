@@ -197,7 +197,7 @@ class GameModeManager
    * Constructor. Subscribes manager to events that
    * require it to update.
    */
-  function constructor()
+  constructor()
   {
     ::add_event_listener("EventsDataUpdated", _onEventsDataUpdated.bindenv(this))
     ::add_event_listener("MyStatsUpdated", _onMyStatsUpdated.bindenv(this))

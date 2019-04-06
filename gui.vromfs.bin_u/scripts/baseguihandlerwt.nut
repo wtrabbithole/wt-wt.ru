@@ -69,9 +69,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   widgetsList = null
   needVoiceChat = true
   canInitVoiceChatWithSquadWidget = false
-  isHudVisible = null
 
-  function constructor(gui_scene, params = {})
+  constructor(gui_scene, params = {})
   {
     base.constructor(gui_scene, params)
 
@@ -318,10 +317,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   {
     if (!isSceneActive())
       return
-    if (isHudVisible == show)
-      return
 
-    isHudVisible = show
     if (rootHandlerWeak)
       return rootHandlerWeak.onShowHud(show)
 
@@ -649,7 +645,10 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     local modName = ::getObjIdByPrefix(obj, "tooltip_")
     local unitName = obj.unitName
     if (!modName || !unitName)
-      return obj["class"] = "empty"
+    {
+      obj["class"] = "empty"
+      return
+    }
 
     local unit = ::getAircraftByName(unitName)
     if (!unit)

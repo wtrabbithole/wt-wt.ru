@@ -55,7 +55,7 @@ class ControlsPreset {
       params          = ::u.copy(data.params)
       deviceMapping   = ::u.copy(data.deviceMapping)
       controlsV4Blk   = ::u.copy(data.controlsV4Blk)
-      isLoaded        = isLoaded
+      isLoaded        = true
     }
   }
 

@@ -194,6 +194,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       : sheets.types
 
     local view = {
+      flow = true
       items = sheetsArray.map(@(sh) {
         text = ::loc(sh.locId)
         unseenIcon = SEEN.ITEMS_SHOP //intial to create unseen block.real value will be set on update.
@@ -419,11 +420,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventInventoryUpdate(p)
   {
-    if (curTab != itemsTab.SHOP)
-    {
-      itemsListValid = false
-      applyFilters(false)
-    }
+    updateInventoryItemsList()
   }
 
   function onEventUnitBought(params)
@@ -564,22 +561,14 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     item = item || getCurItem()
     obj = obj || getCurItemObj()
-    if (item != null)
-    {
-      item.doMainAction(function(result) { this && onMainActionComplete(result) }.bindenv(this),
-                        this,
-                        { obj = obj })
-      markItemSeen(item)
-    }
-  }
+    if (item == null)
+      return
 
-  function onMainActionComplete(result)
-  {
-    if (!::checkObj(scene))
-      return false
-    if (result.success)
-      updateItemInfo()
-    return result.success
+    item.doMainAction(
+      ::Callback(@(result) updateItemInfo(), this),
+      this,
+      { obj = obj })
+    markItemSeen(item)
   }
 
   function onAltAction(obj)
@@ -726,6 +715,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function onEventProfileUpdated(p)
   {
     updateWarbondsBalance()
+    updateInventoryItemsList()
   }
 
   //dependence by blk
@@ -737,4 +727,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
   }
 
+  function updateInventoryItemsList()
+  {
+    if (curTab != itemsTab.SHOP)
+    {
+      itemsListValid = false
+      applyFilters(false)
+    }
+  }
 }

@@ -34,7 +34,6 @@ if need - put commented in array above
 
 ::selected_crews <- []
 ::unlocked_countries <- []
-::fake_countries <- ["country_pkg6"]
 
 ::g_script_reloader.registerPersistentData("SlotbarGlobals", ::getroottable(), ["selected_crews", "unlocked_countries"])
 
@@ -817,13 +816,15 @@ function get_unit_item_research_progress_text(unit, params, priceText = "")
     return ""
   if (!::canResearchUnit(unit))
     return ""
-  local isSquadronVehicle = unit?.isSquadronVehicle?() ?? false
-  if (isSquadronVehicle && !::is_in_clan())
-    return ""
 
   local unitExpReq  = ::getUnitReqExp(unit)
   local unitExpCur  = ::getUnitExp(unit)
   if (unitExpReq <= 0 || unitExpReq <= unitExpCur)
+    return ""
+
+  local isSquadronVehicle = unit?.isSquadronVehicle?() ?? false
+  if (isSquadronVehicle && !::is_in_clan()
+    && min(::clan_get_exp(), unitExpReq - unitExpCur) <= 0)
     return ""
 
   return isSquadronVehicle
@@ -929,8 +930,6 @@ function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, cou
   local unlocked = !::is_crew_locked_by_prev_battle(crew)
   if (unit)
   {
-    local tags = ::getSlotbarTags(handler)
-    unlocked = unlocked && (!tags || ::check_aircraft_tags(unit.tags, tags))
     unlocked = unlocked && (!country || ::is_crew_available_in_session(curSlotIdInCountry, needDbg))
     unlocked = unlocked && (::isUnitAvailableForGM(unit, ::get_game_mode()) || ::is_in_flight())
     if (unlocked && !::SessionLobby.canChangeCrewUnits() && !::is_in_flight()
@@ -949,11 +948,6 @@ function isCountryAllCrewsUnlockedInHangar(countryId)
         if (::is_crew_locked_by_prev_battle(crew))
           return false
   return true
-}
-
-function getSlotbarTags(handler) //!!FIX ME: Why it here?
-{
-  return handler?.ownerWeak?.slotbarCheckTags ? ::aircrafts_filter_tags : null
 }
 
 function getBrokenSlotsCount(country)
@@ -1289,15 +1283,6 @@ function is_country_visible(country)
   return true
 }
 
-function isAnyBaseCountryUnlocked()
-{
-  local notBaseCount = 0
-  foreach(c in ::fake_countries)
-    if (::isInArray(c, ::unlocked_countries))
-      notBaseCount++
-  return ::unlocked_countries.len() > notBaseCount
-}
-
 function isAllBaseCountriesUnlocked()
 {
   foreach(c in ::g_crews_list.get())
@@ -1332,7 +1317,7 @@ function checkUnlockedCountries()
         curUnlocked.append(country)
       }
     }
-    else if (unlockAll || ::isInArray(country, ::fake_countries))
+    else if (unlockAll)
     {
       unlockCountry(country, !::g_login.isLoggedIn())
       curUnlocked.append(country)
@@ -1372,18 +1357,6 @@ function num_countries_unlocked_by_domination()
     if (::stat_get_value_respawns(d, 1) >= 0)
       return 1
   return 0
-}
-
-function get_slotbar_countries(cleared = false)
-{
-  local res = []
-  foreach(country in ::shopCountriesList)
-  {
-    if (cleared && ::isInArray(country, ::fake_countries))
-      continue
-    res.append(country)
-  }
-  return res
 }
 
 function addAirButtonsTimer(listObj, needTimerList, air, handler)

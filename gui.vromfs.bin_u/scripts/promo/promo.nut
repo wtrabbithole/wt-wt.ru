@@ -1,7 +1,6 @@
 local time = require("scripts/time.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 
-
 ::g_promo <- {
   PROMO_BUTTON_TYPE = {
     ARROW = "arrowButton"
@@ -675,17 +674,17 @@ function g_promo::openEventsWnd(owner, params = [])
 
 function g_promo::openItemsWnd(owner, params = [])
 {
-  local filter = ::ItemsManager.getInventoryItemType(::item_get_type_id_by_type_name(params?[0] ?? ""))
-
   local tab = getconsttable()?.itemsTab?[(params?[1] ?? "SHOP").toupper()] ?? itemsTab.INVENTORY
+
+  local curSheet = null
+  local sheetSearchId = params?[0] ?? null
+  if (sheetSearchId)
+    curSheet = {searchId = sheetSearchId}
 
   if (tab >= itemsTab.TOTAL)
     tab = itemsTab.INVENTORY
 
-  ::gui_start_items_list(tab, {filter = {
-    typeMask = filter
-    devItemsTab = false
-  }})
+  ::gui_start_items_list(tab, {curSheet = curSheet})
 }
 
 function g_promo::onOpenBattleTasksWnd(owner, params = {}, obj = null)

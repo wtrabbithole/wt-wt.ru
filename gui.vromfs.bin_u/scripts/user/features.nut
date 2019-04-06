@@ -164,6 +164,7 @@
     ClanSeasons_3_0 = false
     ClanChangedInfoData = false
     ClanSquads = false
+    ClanVehicles = false
 
     Warbonds = false
     WarbondsShop = false
@@ -204,6 +205,7 @@
     EnableMouse = true
 
     NewUnitTypeToBattleTutorial = false
+    AchievementsUrl = false
   }
 
   cache = {}

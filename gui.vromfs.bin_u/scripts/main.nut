@@ -44,7 +44,6 @@ local __math = require("math")
 ::is_debug_mode_enabled <- false
 ::first_generation <- true
 
-::skip_steam_confirmations <- false
 ::show_console_buttons <- false
 ::ps4_vsync_enabled <- true
 
@@ -59,8 +58,7 @@ const LOST_DELAYED_ACTION_MSEC = 500
   [
     "nda_version", "nda_version_tanks", "eula_version",
     "test_flight", "is_debug_mode_enabled", "first_generation",
-    "skip_steam_confirmations", "show_console_buttons",
-    "is_dev_version"
+    "show_console_buttons", "is_dev_version"
   ])
 
 //------- vvv enums vvv ----------
@@ -715,6 +713,7 @@ function load_scripts_after_login_once()
     "clans/clanChangeRoleModal.nut"
     "clans/clanBlacklistModal.nut"
     "clans/clanActivityModal.nut"
+    "clans/clanAverageActivityModal.nut"
     "clans/clanRequestsModal.nut"
     "clans/clanLogModal.nut"
     "clans/clanSeasonInfoModal.nut"

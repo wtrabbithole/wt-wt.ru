@@ -517,7 +517,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
         curMission.blk <- missionBlk
       else
       {
-        ::g_url_missions.loadBlk(curMission.urlMission, ::Callback(onUrlMissionLoaded, this))
+        ::g_url_missions.loadBlk(curMission, ::Callback(onUrlMissionLoaded, this))
         return
       }
     }
@@ -541,11 +541,12 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       save_tutorial_to_check_reward(curMission.blk)
   }
 
-  function onUrlMissionLoaded(success)
+  function onUrlMissionLoaded(success, mission)
   {
     if (!success || !checkStartBlkMission(true))
       return
 
+    curMission = mission
     curMission.blk <- curMission.urlMission.getMetaInfo()
     setMission()
   }
@@ -587,7 +588,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     local objButton = showSceneBtn("btn_select", showStartBtn)
     if (::checkObj(objButton) && showStartBtn)
     {
-      local enabled = isHeader || curMission && checkStartBlkMission()
+      local enabled = isHeader || (curMission && checkStartBlkMission())
       objButton.inactiveColor = enabled ? "no" : "yes"
       setDoubleTextToButton(scene, "btn_select", startText)
     }

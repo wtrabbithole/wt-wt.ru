@@ -1,5 +1,10 @@
 HorizontalListBox {
   id:t='sheets_list'
+
+  <<#flow>>
+  class:t='hflow'
+  <</flow>>
+
   max-width:t='pw'
   smallFont:t='yes'
 

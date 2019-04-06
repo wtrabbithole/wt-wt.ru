@@ -171,122 +171,6 @@ function session_clear_info(scene)
   }
 }
 
-function set_mplayer_info(scene, player, is_team, teamCountry=false)
-{
-  local teamObj = scene.findObject("player_team")
-  if (is_team && ::checkObj(teamObj))
-  {
-    local teamTxt = ""
-    local team = player? player.team : Team.Any
-    if (team == Team.A)
-      teamTxt = ::loc("multiplayer/teamA")
-    else if (team == Team.B)
-      teamTxt = ::loc("multiplayer/teamB")
-    else
-      teamTxt = ::loc("multiplayer/teamRandom")
-    teamObj.setValue(::loc("multiplayer/team") + ::loc("ui/colon") + teamTxt)
-  }
-
-  ::fill_gamer_card({
-                    name = player? player.name : ""
-                    clanTag = player? player.clanTag : ""
-                    icon = (!player || player.isBot)? "cardicon_bot" : avatars.getIconById(player.pilotId)
-                    country = player? player.country : ""
-                  },
-                  true, "player_", scene)
-}
-
-function updateCurrentPlayerInfo(handler, scene, playerInfo, unitParams = null)
-{
-  local mainObj = scene.findObject("player_info")
-  if (!::checkObj(mainObj) || !playerInfo)
-    return
-
-  local titleObj = mainObj.findObject("player_title")
-  if (::checkObj(titleObj))
-    titleObj.setValue((playerInfo.title != "") ? (::loc("title/title") + ::loc("ui/colon") + ::loc("title/" + playerInfo.title)) : "")
-
-  local spectatorObj = mainObj.findObject("player_spectator")
-  if (::checkObj(spectatorObj))
-  {
-    local desc = ::g_player_state.getStateByPlayerInfo(playerInfo).getText(playerInfo)
-    spectatorObj.setValue((desc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + desc) : "")
-  }
-
-  local myTeam = (::SessionLobby.status == lobbyStates.IN_LOBBY)? ::SessionLobby.team : ::get_mp_local_team()
-  mainObj.playerTeam = myTeam==Team.A? "a" : (myTeam == Team.B? "b" : "")
-
-  local teamObj = mainObj.findObject("player_team")
-  if (::checkObj(teamObj))
-  {
-    local teamTxt = ""
-    local teamStyle = ""
-    local team = playerInfo? playerInfo.team : Team.Any
-    if (team == Team.A)
-    {
-      teamStyle = "a"
-      teamTxt = ::loc("multiplayer/teamA")
-    }
-    else if (team == Team.B)
-    {
-      teamStyle = "b"
-      teamTxt = ::loc("multiplayer/teamB")
-    }
-
-    teamObj.team = teamStyle
-    local teamIcoObj = teamObj.findObject("player_team_ico")
-    teamIcoObj.show(teamTxt != "")
-    teamIcoObj.tooltip = ::loc("multiplayer/team") + ::loc("ui/colon") + teamTxt
-  }
-
-  local playerIcon = (!playerInfo || playerInfo.isBot)? "cardicon_bot" : avatars.getIconById(playerInfo.pilotId)
-  ::fill_gamer_card({
-                    name = playerInfo.name
-                    clanTag = playerInfo.clanTag
-                    icon = playerIcon
-                    country = playerInfo?.country ?? ""
-                  },
-                  true, "player_", mainObj)
-
-  local airObj = mainObj.findObject("curAircraft")
-  if (!::checkObj(airObj))
-    return
-
-  local showAirItem = ::SessionLobby.getMissionParam("maxRespawns", -1) == 1 && playerInfo.country && playerInfo.selAirs.len() > 0
-  airObj.show(showAirItem)
-
-  if (showAirItem)
-  {
-    local airName = ::getTblValue(playerInfo.country, playerInfo.selAirs, "")
-    local air = getAircraftByName(airName)
-    if (!air)
-    {
-      airObj.show(false)
-      return
-    }
-
-    local guiScene = scene.getScene()
-    local existingAirObj = airObj.findObject("curAircraft_place")
-    if (::checkObj(existingAirObj))
-      guiScene.destroyElement(existingAirObj)
-
-    local params = clone unitParams
-    params.status <- ::getUnitItemStatusText(bit_unit_status.owned)
-    local data = ::build_aircraft_item(airName, air, params)
-    data = "tdiv { id:t='curAircraft_place'; class:t='rankUpList';" + data + "}"
-    guiScene.appendWithBlk(airObj, data, handler)
-    ::fill_unit_item_timers(airObj.findObject(airName), air)
-  }
-}
-
-enum SessionStatus
-{
-  READY_TO_GO,
-  NOT_ENOUGH_PLAYERS,
-  TOO_FEW_A,
-  TOO_FEW_B
-}
-
 function session_player_rmenu(handler, player, chatLog = null, position = null, orientation = null)
 {
   if (!player || player.isBot || !("userId" in player) || !::g_login.isLoggedIn())
@@ -304,7 +188,7 @@ function session_player_rmenu(handler, player, chatLog = null, position = null, 
   })
 }
 
-function gui_start_mp_lobby(next_mission = false)
+function gui_start_mp_lobby()
 {
   if (::SessionLobby.status != lobbyStates.IN_LOBBY)
   {
@@ -315,15 +199,18 @@ function gui_start_mp_lobby(next_mission = false)
   if (::SessionLobby.getGameMode() == ::GM_SKIRMISH && !::g_missions_manager.isRemoteMission)
     ::back_from_lobby = ::gui_start_skirmish
   else
+  {
+    local lastEvent = ::SessionLobby.getRoomEvent()
+    if (lastEvent && ::events.eventRequiresTicket(lastEvent) && ::events.getEventActiveTicket(lastEvent) == null)
+    {
+      ::back_from_lobby()
+      return
+    }
     ::back_from_lobby = ::gui_start_mainmenu
+  }
 
   ::g_missions_manager.isRemoteMission = false
   ::handlersManager.loadHandler(::gui_handlers.MPLobby, { backSceneFunc = ::back_from_lobby })
-}
-
-function gui_start_mp_lobby_next_mission()
-{
-  gui_start_mp_lobby(true);
 }
 
 class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
@@ -522,9 +409,93 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function refreshPlayerInfo(player)
   {
-    ::updateCurrentPlayerInfo(this, scene, player, { getEdiffFunc = getCurrentEdiff.bindenv(this) })
+    updatePlayerInfo(player)
     showSceneBtn("btn_usercard", player != null && !::show_console_buttons)
     showSceneBtn("btn_user_options", player != null && ::show_console_buttons)
+  }
+
+  function updatePlayerInfo(player)
+  {
+    local mainObj = scene.findObject("player_info")
+    if (!::checkObj(mainObj) || !player)
+      return
+
+    local titleObj = mainObj.findObject("player_title")
+    if (::checkObj(titleObj))
+      titleObj.setValue((player.title != "") ? (::loc("title/title") + ::loc("ui/colon") + ::loc("title/" + player.title)) : "")
+
+    local spectatorObj = mainObj.findObject("player_spectator")
+    if (::checkObj(spectatorObj))
+    {
+      local desc = ::g_player_state.getStateByPlayerInfo(player).getText(player)
+      spectatorObj.setValue((desc != "") ? (::loc("multiplayer/state") + ::loc("ui/colon") + desc) : "")
+    }
+
+    local myTeam = (::SessionLobby.status == lobbyStates.IN_LOBBY)? ::SessionLobby.team : ::get_mp_local_team()
+    mainObj.playerTeam = myTeam==Team.A? "a" : (myTeam == Team.B? "b" : "")
+
+    local teamObj = mainObj.findObject("player_team")
+    if (::checkObj(teamObj))
+    {
+      local teamTxt = ""
+      local teamStyle = ""
+      local team = player? player.team : Team.Any
+      if (team == Team.A)
+      {
+        teamStyle = "a"
+        teamTxt = ::loc("multiplayer/teamA")
+      }
+      else if (team == Team.B)
+      {
+        teamStyle = "b"
+        teamTxt = ::loc("multiplayer/teamB")
+      }
+
+      teamObj.team = teamStyle
+      local teamIcoObj = teamObj.findObject("player_team_ico")
+      teamIcoObj.show(teamTxt != "")
+      teamIcoObj.tooltip = ::loc("multiplayer/team") + ::loc("ui/colon") + teamTxt
+    }
+
+    local playerIcon = (!player || player.isBot)? "cardicon_bot" : avatars.getIconById(player.pilotId)
+    ::fill_gamer_card({
+                      name = player.name
+                      clanTag = player.clanTag
+                      icon = playerIcon
+                      country = player?.country ?? ""
+                    },
+                    true, "player_", mainObj)
+
+    local airObj = mainObj.findObject("curAircraft")
+    if (!::checkObj(airObj))
+      return
+
+    local showAirItem = ::SessionLobby.getMissionParam("maxRespawns", -1) == 1 && player.country && player.selAirs.len() > 0
+    airObj.show(showAirItem)
+
+    if (showAirItem)
+    {
+      local airName = ::getTblValue(player.country, player.selAirs, "")
+      local air = getAircraftByName(airName)
+      if (!air)
+      {
+        airObj.show(false)
+        return
+      }
+
+      local existingAirObj = airObj.findObject("curAircraft_place")
+      if (::checkObj(existingAirObj))
+        guiScene.destroyElement(existingAirObj)
+
+      local params = {
+        getEdiffFunc = ::Callback(getCurrentEdiff, this)
+        status = ::getUnitItemStatusText(bit_unit_status.owned)
+      }
+      local data = ::build_aircraft_item(airName, air, params)
+      data = "tdiv { id:t='curAircraft_place'; class:t='rankUpList';" + data + "}"
+      guiScene.appendWithBlk(airObj, data, this)
+      ::fill_unit_item_timers(airObj.findObject(airName), air)
+    }
   }
 
   function getMyTeamDisbalanceMsg(isFullText = false)

@@ -357,7 +357,7 @@ function g_login::firstMainMenuLoad()
       ::loc("mainmenu/new_controls_version_msg_box", { patchnote = patchNoteText }),
       [["yes", function () { ::g_controls_presets.setHighestVersionOfCurrentPreset() }],
        ["no", function () { ::g_controls_presets.rejectHighestVersionOfCurrentPreset() }]
-      ], "yes", { cancel_fn = function () { ::g_controls_presets.rejectHighestVersionOfCurrentPreset }})
+      ], "yes", { cancel_fn = function () { ::g_controls_presets.rejectHighestVersionOfCurrentPreset() }})
   }
 
   if (

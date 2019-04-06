@@ -992,7 +992,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         return switchState()
 
       if (!isDebriefingResultFull() &&
-          !(gameType & ::GT_RACE &&
+          !((gameType & ::GT_RACE) &&
             ::debriefing_result.exp.result == ::STATS_RESULT_IN_PROGRESS))
         textArray.append(::loc("debriefing/most_award_after_battle"))
 
@@ -1588,11 +1588,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local id = getTooltipObjId(obj)
     if (!id) return
     if (!("exp" in ::debriefing_result) || !("aircrafts" in ::debriefing_result.exp))
-      return obj["class"] = "empty"
+    {
+      obj["class"] = "empty"
+      return
+    }
 
     local tRow = ::get_debriefing_row_by_id(id)
     if (!tRow)
-      return obj["class"] = "empty"
+    {
+      obj["class"] = "empty"
+      return
+    }
 
     local rowsCfg = []
     if (!tRow.joinRows)
@@ -1638,7 +1644,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
 
     if (!rowsCfg.len())
-      return obj["class"] = "empty"
+    {
+      obj["class"] = "empty"
+      return
+    }
 
     local tooltipView = {
       rows = getTrTooltipRowsView(rowsCfg, tRow)
@@ -2646,7 +2655,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function setGoNext()
   {
     ::go_debriefing_next_func = ::gui_start_mainmenu //default func
-    if (hasGoToOperationBtn())
+    if (needShowWorldWarOperationBtn())
     {
       if (!::g_squad_manager.isInSquad() || ::g_squad_manager.isSquadLeader())
         ::go_debriefing_next_func = function() {
@@ -2665,9 +2674,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (isMpMode && ::go_lobby_after_statistics() && gm != ::GM_DYNAMIC)
     {
-      ::go_debriefing_next_func = ::gui_start_mp_lobby_next_mission
-      if ((gt & ::GT_COOPERATIVE) && !::debriefing_result.isSucceed)
-        ::go_debriefing_next_func = ::gui_start_mp_lobby
+      ::go_debriefing_next_func = ::gui_start_mp_lobby
       return
     }
 
@@ -2881,14 +2888,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       && !::checkNonApprovedResearches(true, false)
   }
 
-  function hasGoToOperationBtn()
+  function needShowWorldWarOperationBtn()
   {
     return ::is_worldwar_enabled() && ::g_world_war.isLastFlightWasWwBattle
   }
 
   function switchWwOperationToCurrent()
   {
-    if (!hasGoToOperationBtn())
+    if (!needShowWorldWarOperationBtn())
       return
 
     local wwBattleRes = getWwBattleResults()
@@ -2916,14 +2923,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
 
     local isToBattleBtnVisible = isToBattleActionEnabled()
-    local isGoToOperationBtnVisible = hasGoToOperationBtn()
+    local showWorldWarOperationBtn = needShowWorldWarOperationBtn()
 
     ::showBtnTable(scene, {
       btn_next = true
-      btn_back = isToBattleBtnVisible || isGoToOperationBtnVisible
+      btn_back = isToBattleBtnVisible || showWorldWarOperationBtn
     })
 
-    local btnNextLocId = isGoToOperationBtnVisible ? "worldWar/stayInOperation"
+    local btnNextLocId = showWorldWarOperationBtn ? "worldWar/stayInOperation"
       : !isToBattleBtnVisible ? "mainmenu/btnOk"
       : ::g_squad_manager.isSquadMember() ? "mainmenu/btnReady"
       : "mainmenu/toBattle"
@@ -2933,7 +2940,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local backBtnTextLocId = "mainmenu/btnQuit"
     if (isToBattleBtnVisible)
       backBtnTextLocId = "mainmenu/toHangar"
-    else if (isGoToOperationBtnVisible)
+    else if (showWorldWarOperationBtn)
       backBtnTextLocId = (!::g_squad_manager.isInSquad() || ::g_squad_manager.isSquadLeader())
         ? "worldWar/btn_all_battles" : "mainmenu/toHangar"
     scene.findObject("btn_back").setValue(::loc(backBtnTextLocId))

@@ -61,7 +61,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
     countriesUnits = ::get_unit_types_in_countries()
     countries = []
-    foreach(country in ::get_slotbar_countries(true))
+    foreach(country in ::shopCountriesList)
       if (country in visibleCountries)
         countries.append(country)
 

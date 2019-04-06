@@ -258,7 +258,8 @@ function get_userlog_view_data(log)
       res.descriptionBlk += ::format("tdiv { width:t='pw'; flow:t='h-flow'; %s }", lbStatsBlk)
     }
 
-    local totalText = res.tooltip = (log.type==::EULT_SESSION_RESULT)? ::loc("debriefing/total") : ::loc("userlog/interimResults")
+    res.tooltip = (log.type==::EULT_SESSION_RESULT) ? ::loc("debriefing/total") : ::loc("userlog/interimResults");
+    local totalText = res.tooltip
     totalText = "<color=@userlogColoredText>" + totalText + ::loc("ui/colon") + "</color>"
 
     local total = ::Cost(wp, gold, xp, rp).toStringWithParams({isWpAlwaysShown = true})
@@ -1196,7 +1197,7 @@ function get_userlog_view_data(log)
       res.logImg = res.logImg || item.getSmallIconName()
 
       amount += quantity
-      itemsListText += "\n " + ::loc("event_dash") + " " + item.getNameWithCount(true, quantity)
+      itemsListText += "\n " + ::loc("ui/hyphen") + " " + item.getNameWithCount(true, quantity)
       if (itemsNumber == 0)
         firstItemName = item.getName()
 

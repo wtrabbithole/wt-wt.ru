@@ -38,10 +38,6 @@ function init_all_units()
 
 function update_all_units()
 {
-  ::acList.clear()
-  foreach(unit in ::all_units)
-    ::u.appendOnce(unit.shopCountry, ::acList, true)
-
   ::update_shop_countries_list()
   ::countUsageAmountOnce()
   ::generateUnitShopInfo()
@@ -150,8 +146,8 @@ function countUsageAmountOnce()
         local showPlatform = blkArticle.showPlatform
         local hidePlatform = blkArticle.hidePlatform
 
-        if (showPlatform && showPlatform != ::target_platform
-            || hidePlatform && hidePlatform == ::target_platform)
+        if ((showPlatform && showPlatform != ::target_platform)
+            || (hidePlatform && hidePlatform == ::target_platform))
           continue
 
         local articleDesc = {}

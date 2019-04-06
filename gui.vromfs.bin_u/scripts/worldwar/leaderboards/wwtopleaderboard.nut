@@ -1,11 +1,11 @@
 local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
 
 
-local function initTop(handler, obj, appId, mode, type, amount = 3, field = "rating")
+local function initTop(handler, obj, modeName, day = null, amount = 3, field = "rating")
 {
-  wwLeaderboardData.requestWwLeaderboardData(appId, mode, type, 0, amount, field,
+  wwLeaderboardData.requestWwLeaderboardData(modeName, "", day, 0, amount, field,
     function(lbData) {
-      displayTop(handler, obj, lbData, { mode = mode, type = type })
+      displayTop(handler, obj, lbData, { modeName = modeName, day = day })
     }.bindenv(this))
 }
 
@@ -54,11 +54,13 @@ local function displayTop(handler, obj, lbData, lbInfo)
     return
 
   local lbCategory = ::events.getLbCategoryByField("rating")
+  local locId = "worldwar/top/" + lbInfo.modeName + "/" +
+    (lbInfo.day && lbInfo.day > 0 ? "daily" : "season")
   local rowIdx = 0
   local topView = {
-    titleText = ::loc("worldwar/top/" + lbInfo.mode + "/" + lbInfo.type)
-    lbMode = lbInfo.mode
-    lbType = lbInfo.type
+    titleText = ::loc(locId)
+    lbMode = lbInfo.modeName
+    isDayLb = lbInfo.day && lbInfo.day > 0 ? "yes" : "no"
     rows = ::u.map(lbRows, @(row) { row = generateTableRow(row, rowIdx++, lbCategory) })
   }
   local topBlk = ::handyman.renderCached("gui/worldWar/wwTopLeaderboard", topView)

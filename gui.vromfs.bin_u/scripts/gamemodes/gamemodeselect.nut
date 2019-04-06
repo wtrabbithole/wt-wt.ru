@@ -562,8 +562,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   /* override */ function wrapNextSelect(obj = null, dir = 0)
   {
     local id = obj != null ? ::getTblValue("id", obj, "") : ""
-    local index = ::find_in_array(focusArray, id)
-    if (index == 0 && dir == -1 || index == focusArray.len() - 1 && dir == 1)
+    local index = ::find_in_array(focusArray, id) + dir
+    if (index != ::clamp(index, 0, focusArray.len() - 1))
       return
     base.wrapNextSelect(obj, dir)
   }

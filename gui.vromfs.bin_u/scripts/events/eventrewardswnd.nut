@@ -37,6 +37,7 @@ class ::gui_handlers.EventRewardsWnd extends ::gui_handlers.BaseGuiHandlerWT
         foreach(conditionName, condition in rewardsList)
           foreach (blk in condition)
           {
+            even = !even
             local item = {
               conditionId     = conditionName
               conditionText   = ::EventRewards.getConditionText(blk)
@@ -46,7 +47,7 @@ class ::gui_handlers.EventRewardsWnd extends ::gui_handlers.BaseGuiHandlerWT
               icon            = ::EventRewards.getRewardRowIcon(blk)
               rewardTooltipId = ::EventRewards.getRewardTooltipId(blk)
               received        = ::EventRewards.isRewardReceived(blk, event)
-              even            = (even = !even)
+              even            = even
             }
             res.append(item)
           }

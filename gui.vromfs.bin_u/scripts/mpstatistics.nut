@@ -2,9 +2,7 @@ local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
-
-::team_aircraft_list <- null
-
+local avatars = ::require("scripts/user/avatars.nut")
 
 ::time_to_kick_show_timer <- null
 ::time_to_kick_show_alert <- null
@@ -1331,7 +1329,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       numRows2 = 0
       if (tbl1.len() >= numMaxPlayers)
       {
-        numRows1 = numRows2 = numMaxPlayers
+        numRows1 = numMaxPlayers
+        numRows2 = numMaxPlayers
 
         for(local i = tbl1.len()-1; i >= numMaxPlayers; --i)
         {
@@ -1747,12 +1746,37 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
   function refreshPlayerInfo()
   {
-    local pInfo = getSelectedInfo()
-    ::set_mplayer_info(scene, pInfo, isTeam)
+    setPlayerInfo()
 
     local player = getSelectedPlayer()
     showSceneBtn("btn_user_options", isOnline && player && !player.isBot && !isSpectate && ::show_console_buttons)
     ::SquadIcon.updateListLabelsSquad()
+  }
+
+  function setPlayerInfo()
+  {
+    local playerInfo = getSelectedInfo()
+    local teamObj = scene.findObject("player_team")
+    if (isTeam && ::checkObj(teamObj))
+    {
+      local teamTxt = ""
+      local team = playerInfo? playerInfo.team : Team.Any
+      if (team == Team.A)
+        teamTxt = ::loc("multiplayer/teamA")
+      else if (team == Team.B)
+        teamTxt = ::loc("multiplayer/teamB")
+      else
+        teamTxt = ::loc("multiplayer/teamRandom")
+      teamObj.setValue(::loc("multiplayer/team") + ::loc("ui/colon") + teamTxt)
+    }
+
+    ::fill_gamer_card({
+                      name = playerInfo? playerInfo.name : ""
+                      clanTag = playerInfo? playerInfo.clanTag : ""
+                      icon = (!playerInfo || playerInfo.isBot)? "cardicon_bot" : avatars.getIconById(playerInfo.pilotId)
+                      country = playerInfo? playerInfo.country : ""
+                    },
+                    true, "player_", scene)
   }
 
   function onComplain(obj)

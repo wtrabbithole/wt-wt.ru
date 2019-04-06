@@ -429,6 +429,33 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         markDisabled = true
       }
     }
+    else if (blk.type == ::EULT_TICKETS_REMINDER)
+    {
+      local name = ::loc("userlog/" + ::getLogNameByType(blk.type))
+      local desc = [::colorize("userlogColoredText", ::events.getNameByEconomicName(blk.body.name))]
+      if (::getTblValue("battleLimitReminder", blk.body))
+        desc.append(::loc("userlog/battleLimitReminder") + ::loc("ui/colon") + blk.body.battleLimitReminder)
+      if (::getTblValue("defeatCountReminder", blk.body))
+        desc.append(::loc("userlog/defeatCountReminder") + ::loc("ui/colon") + blk.body.defeatCountReminder)
+      if (::getTblValue("sequenceDefeatCountReminder", blk.body))
+        desc.append(::loc("userlog/sequenceDefeatCountReminder") + ::loc("ui/colon") + blk.body.sequenceDefeatCountReminder)
+
+      ::g_popups.add(name, ::g_string.implode(desc, "\n"))
+      markDisabled = true
+    }
+    else if (blk.type == ::EULT_REMOVE_ITEM)
+    {
+      local reason = ::getTblValue("reason", blk.body, "unknown")
+      if (reason == "unknown" || reason == "consumed")
+      {
+        local locId = "userlog/" + ::getLogNameByType(blk.type) + "/" + reason
+        local itemId = ::getTblValue("id", blk.body, "")
+        local item = ::ItemsManager.findItemById(itemId)
+        if (item && item.iType == itemType.TICKET)
+          ::g_popups.add("", ::loc(locId, {itemName = ::colorize("userlogColoredText", item.getName())}))
+      }
+      markDisabled = true
+    }
 
     if (markDisabled)
     {
@@ -599,7 +626,9 @@ function getUserLogsList(filter)
       if (name == "aircrafts"
           || (name == "spare" && !::PrizesView.isPrizeMultiAward(blk.body)))
       {
-        (name in log) || (log[name] <- [])
+        if (!(name in log))
+          log[name] <- []
+
         for (local k = 0; k < block.paramCount(); k++)
           log[name].append({name = block.getParamName(k), value = block.getParamValue(k)})
       }
@@ -608,7 +637,8 @@ function getUserLogsList(filter)
         local reward = ::buildTableFromBlk(block)
         if (!grabStatickReward(reward, log))
         {
-          (name in log) || (log[name] <- [])
+          if (!(name in log))
+            log[name] <- []
           log[name].append(reward)
         }
       }

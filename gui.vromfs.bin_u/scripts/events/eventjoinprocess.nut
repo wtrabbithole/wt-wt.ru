@@ -54,7 +54,13 @@ class EventJoinProcess
   {
     if (::g_squad_manager.isSquadMember())
     {
-      ::g_squad_manager.setReadyFlag()
+      //Don't allow to change ready status, leader don't know about members balance
+      if (!::events.haveEventAccessByCost(event))
+        ::showInfoMsgBox(::loc("events/notEnoughMoney"))
+      else if (::events.eventRequiresTicket(event) && ::events.getEventActiveTicket(event) == null)
+        ::events.checkAndBuyTicket(event)
+      else
+        ::g_squad_manager.setReadyFlag()
       return remove()
     }
     // Same as checkedNewFlight in gui_handlers.BaseGuiHandlerWT.

@@ -155,6 +155,22 @@ ComboBox[btnPos=leftOutside] > button {
   background-image:@control_r_shoulder_pressed;
 }
 
+[show_console_buttons=yes] ComboBox[btnName=LT] > button {
+  _hasBtnImage:yes;
+  background-image:@control_l_trigger;
+}
+[show_console_buttons=yes] ComboBox[btnName=LT] > button:pushed {
+  background-image:@control_l_trigger_pressed;
+}
+
+[show_console_buttons=yes] ComboBox[btnName=L3] > button {
+  _hasBtnImage:yes;
+  background-image:@control_l_stick;
+}
+[show_console_buttons=yes] ComboBox[btnName=L3] > button:pushed {
+  background-image:@control_l_stick_pressed;
+}
+
 
 [show_console_buttons=yes] ComboBox[_hasBtnImage=yes]:expanded > button,
 [show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button,

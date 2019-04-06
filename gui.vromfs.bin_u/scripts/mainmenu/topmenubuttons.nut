@@ -225,6 +225,13 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !::has_feature("ItemsShopInTopMenu")
     unseenIcon = @() SEEN.ITEMS_SHOP
   }
+  WORKSHOP = {
+    text = "#items/workshop"
+    onClickFunc = @(...) ::gui_start_items_list(itemsTab.WORKSHOP)
+    image = "#ui/gameuiskin#btn_modifications.svg"
+    isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu()
+    unseenIcon = @() SEEN.WORKSHOP
+  }
   WARBONDS_SHOP = {
     text = "#mainmenu/btnWarbondsShop"
     onClickFunc = @(...) ::g_warbonds.openShop()

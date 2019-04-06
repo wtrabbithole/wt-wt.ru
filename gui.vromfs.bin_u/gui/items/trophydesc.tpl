@@ -72,9 +72,9 @@ tdiv {
 
   textareaNoTab {
     <<^widthByParentParent>>
-    width:t='pw -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>> <<#buttonsCount>>-1.5@sIco*<<buttonsCount>><</buttonsCount>>'
+    width:t='pw -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>> <<#buttonsCount>>-2@sIco*<<buttonsCount>><</buttonsCount>>'
     <</widthByParentParent>>
-    max-width:t='p.p.p.w -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>> <<#buttonsCount>>-1.5@sIco*<<buttonsCount>><</buttonsCount>>'
+    max-width:t='p.p.p.w -1@dIco -1@itemPadding <<#icon2>>-1@dIco<</icon2>> <<#buttonsCount>>-2@sIco*<<buttonsCount>><</buttonsCount>>'
     pos:t='1@itemPadding, ph/2-h/2'; position:t='relative'
     font-bold:t='@fontSmall'
     text:t='<<title>>'
@@ -93,9 +93,9 @@ tdiv {
 
   tdiv {
     <<^widthByParentParent>>
-    width:t='pw <<#classIco>>-1@dIco<</classIco>> -1@itemPadding <<#buttonsCount>>-1.5@sIco*<<buttonsCount>><</buttonsCount>>'
+    width:t='pw <<#classIco>>-1@dIco<</classIco>> -1@itemPadding <<#buttonsCount>>-2@sIco*<<buttonsCount>><</buttonsCount>>'
     <</widthByParentParent>>
-    max-width:t='p.p.p.w <<#classIco>>-1@dIco<</classIco>> -1@itemPadding <<#buttonsCount>>-1.5@sIco*<<buttonsCount>><</buttonsCount>>'
+    max-width:t='p.p.p.w <<#classIco>>-1@dIco<</classIco>> -1@itemPadding <<#buttonsCount>>-2@sIco*<<buttonsCount>><</buttonsCount>>'
     padding:t='-1@slot_interval, -1@slot_vert_pad'
     pos:t='1@itemPadding, ph/2-h/2'; position:t='relative'
     tdiv {

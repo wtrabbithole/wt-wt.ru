@@ -251,12 +251,10 @@ local preciseSecondsToString = function(value, canShowZeroMinutes = true) {
 
 
 local getRaceTimeFromSeconds = function(value, zeroIsValid = false) {
-  if (typeof value != "float" && typeof value != "integer") {
+  if (typeof value != "float" && typeof value != "integer")
     return ""
-  }
-  if (value < 0 || !zeroIsValid && value == 0) {
+  if (value < 0 || (!zeroIsValid && value == 0))
     return ::loc("leaderboards/notAvailable")
-  }
   return preciseSecondsToString(value)
 }
 

@@ -10,6 +10,7 @@ class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandle
   buttonCancelId = "btn_cancel"
   buttonOkId = "btn_ok"
 
+  curMission = null
   urlMission = null
   callback = null
 
@@ -21,9 +22,10 @@ class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandle
 
   function initScreen()
   {
-    if (!urlMission)
+    if (!curMission?.urlMission)
       return goBack()
 
+    urlMission = curMission.urlMission
     createButton(buttonCancelId, "#msgbox/btn_cancel" ,"onCancel")
     createButton(buttonOkId, "#msgbox/btn_ok" ,"goBack")
 
@@ -101,7 +103,8 @@ class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandle
     if (success)
     {
       errorText = ::validate_custom_mission(blk)
-      requestSuccess = success = ::u.isEmpty(errorText)
+      requestSuccess = ::u.isEmpty(errorText)
+      success = requestSuccess
       if (!success)
         errorText = ::loc("wait/ugm_not_valid", {errorText = errorText})
     }
@@ -143,6 +146,6 @@ class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandle
   function afterModalDestroy()
   {
     if (callback != null)
-      callback(requestSuccess)
+      callback(requestSuccess, curMission)
   }
 }

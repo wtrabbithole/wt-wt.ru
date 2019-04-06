@@ -87,9 +87,7 @@ function OnlineShopModel::getPriceBlk()
 function OnlineShopModel::__assyncActionWrap(action)
 {
   local isActual = ::configs.ENTITLEMENTS_PRICE.checkUpdate(
-    ::Callback((@(action) function () {
-      action && action()
-    })(action), this)
+    action ? (@() action()).bindenv(this) : null
     null,
     true,
     false

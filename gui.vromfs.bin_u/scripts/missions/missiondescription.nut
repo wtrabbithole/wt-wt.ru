@@ -323,7 +323,7 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onUrlMissionRefresh(obj)
   {
     if (::g_mislist_type.isUrlMission(curMission))
-      ::g_url_missions.loadBlk(curMission.urlMission)
+      ::g_url_missions.loadBlk(curMission)
   }
 
   function onEventUrlMissionLoaded(p)

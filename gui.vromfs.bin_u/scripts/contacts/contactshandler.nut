@@ -38,7 +38,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   searchShowNotFound = false
   searchShowDefaultOnReset = false
 
-  function constructor(gui_scene, params = {})
+  constructor(gui_scene, params = {})
   {
     base.constructor(gui_scene, params)
     ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)

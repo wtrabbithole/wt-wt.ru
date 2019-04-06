@@ -1,4 +1,7 @@
 local shopTree = require("scripts/shop/shopTree.nut")
+local shopSearchBox = require("scripts/shop/shopSearchBox.nut")
+local unitStatus = require("scripts/unit/unitStatus.nut")
+
 
 local lastUnitType = null
 
@@ -68,7 +71,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   navBarObj = null
   navBarGroupObj = null
 
+  searchBoxWeak = null
+  selCellOnSearchQuit = null
+
   unitActionsListTimer = null
+  hasSpendExpProcess = false
 
   function initScreen()
   {
@@ -91,6 +98,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     loadFullAircraftsTable(curAirName)
 
     fillPagesListBox()
+    initSearchBox()
     skipOpenGroup = false
   }
 
@@ -342,7 +350,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     ::update_gamercards()
 
     if (curName=="")
-      curName = curAirName
+      curName = getResearchingSquadronVehicle()?.name ?? curAirName
 
     local curRow = -1
     local curCol = -1
@@ -395,6 +403,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     ::gui_bhv.columnNavigator.selectCell(tableObj, curRow, curCol, false)
 
     updateButtons()
+
+    ::broadcastEvent("ShopUnitTypeSwitched", { esUnitType = getCurPageEsUnitType() })
   }
 
   function updateDiscountIcons()
@@ -1013,6 +1023,15 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     return findAirTableObjById("td_" + unitName)
   }
 
+  function getCellObjByRowCol(row, col)
+  {
+    local tableObj = scene.findObject("shop_items_list")
+    if (!::check_obj(tableObj))
+      return null
+    local rowObj = row < tableObj.childrenCount() ? tableObj.getChild(row) : null
+    return rowObj && col < rowObj.childrenCount() ? rowObj.getChild(col) : null
+  }
+
   function checkUnitItemAndUpdate(unit)
   {
     if (!unit || unit?.isFakeUnit)
@@ -1289,6 +1308,123 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       }
 
     return ::g_discount.generateDiscountInfo(discountsList)
+  }
+
+  function initSearchBox()
+  {
+    if (!::has_feature("UnitsSearchBoxInShop"))
+      return
+    local handler = shopSearchBox.init({
+      scene = scene.findObject("shop_search_box")
+      curCountry = curCountry
+      curEsUnitType = getCurPageEsUnitType()
+      cbOwnerSearchHighlight = ::Callback(searchHighlight, this)
+      cbOwnerSearchCancel    = ::Callback(searchCancel,    this)
+      cbOwnerShowUnit        = ::Callback(showUnitInShop,  this)
+      getEdiffFunc           = ::Callback(getCurrentEdiff, this)
+    })
+    registerSubHandler(handler)
+    searchBoxWeak = handler.weakref()
+  }
+
+  function searchHighlight(units, isClear)
+  {
+    if (isClear)
+      return highlightUnitsClear()
+    local slots = highlightUnitsInTree(units.map(@(unit) unit.name))
+    local tableObj = scene.findObject("shop_items_list")
+    if (!::check_obj(tableObj))
+      return
+    foreach (coords in [ slots.coordsLast, slots.coordsFirst ])
+    {
+      local cellObj = coords ? getCellObjByRowCol(coords[0], coords[1]) : null
+      if (::check_obj(cellObj))
+        cellObj.scrollToView()
+    }
+    selCellOnSearchQuit = slots.coordsFirst
+  }
+
+  function highlightUnitsInTree(units)
+  {
+    local shadingObj = scene.findObject("shop_dark_screen")
+    shadingObj.show(true)
+    guiScene.applyPendingChanges(true)
+
+    local res = { coordsFirst = null, coordsLast = null }
+    local highlightList = []
+    local tree = getCurTreeData().tree
+    local tableObj = scene.findObject("shop_items_list")
+    for(local row = 0; row < tree.len(); row++)
+      for(local col = 0; col < tree[row].len(); col++)
+      {
+        local cell = tree[row][col]
+        local isGroup = ::isUnitGroup(cell)
+        local isHighlight = !cell?.isFakeUnit && !isGroup && ::isInArray(cell?.name, units)
+        if (isGroup)
+          foreach (unit in cell.airsGroup)
+            isHighlight = isHighlight || ::isInArray(unit?.name, units)
+        if (!isHighlight)
+          continue
+        res.coordsFirst = res.coordsFirst || [ row, col ]
+        res.coordsLast  = [ row, col ]
+        local objData  = {
+          obj = getCellObjByRowCol(row, col)
+          id = ::format("high_%d_%d", row, col)
+          onClick = "onHighlightedCellClick"
+          isNoDelayOnClick = true
+        }
+        highlightList.append(::guiTutor.getBlockFromObjData(objData, tableObj))
+      }
+
+    ::guiTutor.createHighlight(shadingObj, highlightList, this, {
+      onClick = "onShadedCellClick"
+      lightBlock = "tdiv"
+      sizeIncAdd = 0
+      isFullscreen = false
+    })
+
+    return res
+  }
+
+  function searchCancel()
+  {
+    highlightUnitsClear()
+
+    if (selCellOnSearchQuit)
+    {
+      local tableObj = scene.findObject("shop_items_list")
+      if (::check_obj(tableObj))
+      {
+        skipOpenGroup = true
+        ::gui_bhv.OptionsNavigator.selectCell(tableObj, selCellOnSearchQuit[0], selCellOnSearchQuit[1])
+        skipOpenGroup = false
+      }
+      selCellOnSearchQuit = null
+    }
+
+    restoreFocus()
+  }
+
+  function highlightUnitsClear()
+  {
+    local shadingObj = scene.findObject("shop_dark_screen")
+    if (::check_obj(shadingObj))
+      shadingObj.show(false)
+  }
+
+  function onHighlightedCellClick(obj)
+  {
+    local coordsStr = ::g_string.cutPrefix(obj?.id, "high_") ?? ""
+    local coords = ::g_string.split(coordsStr, "_").map(@(c) ::to_integer_safe(c, -1, false))
+    if (coords?[0] >= 0 && coords?[1] >= 0)
+      selCellOnSearchQuit = coords
+    guiScene.performDelayed(this, @() searchBoxWeak && searchBoxWeak.searchCancel())
+  }
+
+  function onShadedCellClick(obj)
+  {
+    if (searchBoxWeak)
+      searchBoxWeak.searchCancel()
   }
 
   function openMenuForCurAir(obj)
@@ -1691,6 +1827,20 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     onEventUnitBought(params)
   }
 
+  function showUnitInShop(unitId)
+  {
+    if (!isSceneActive() || ::checkIsInQueue() || shopResearchMode)
+      return
+    local unit = ::getAircraftByName(unitId)
+    if (!unit || !unit.isVisibleInShop() || unitId == curAirName)
+      return
+
+    curAirName = unitId
+    setUnitType(unit.unitType)
+    ::switch_profile_country(::getUnitCountry(unit))
+    selectCellByUnitName(unitId)
+  }
+
   function selectCellByUnitName(unitName)
   {
     if (!unitName || unitName == "")
@@ -1802,10 +1952,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     local isSquadronVehicle = unit.isSquadronVehicle()
     local isInResearch = ::isUnitInResearch(unit)
-    local canFlushSquadronExp = isSquadronVehicle
+    local canFlushSquadronExp = ::has_feature("ClanVehicles") && isSquadronVehicle
       && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-    if (isSquadronVehicle && !::is_in_clan() && (!canFlushSquadronExp || !isInResearch))
-      return ::has_feature("Clans")? ::gui_modal_clans() : ::show_not_available_msg_box()
     if ((availableFlushExp > 0 || !setResearchManually
         || (isSquadronResearchMode && (canFlushSquadronExp || needChosenResearchOfSquadron())))
       && (::canResearchUnit(unit) || isInResearch))
@@ -1814,9 +1962,10 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return onConvert(obj)
 
     if (canFlushSquadronExp && isInResearch)
-    {
       return flushSquadronExp()
-    }
+    if (isInResearch && unitStatus.canBuyNotResearched(unit)
+      && isSquadronVehicle && ::is_in_clan())
+      return onBuy(obj)
     if (::checkForResearch(unit)) // Also shows msgbox about requirements for Research or Purchase
       return onResearch(obj)
   }
@@ -1834,19 +1983,20 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     local isSquadronVehicle = unit.isSquadronVehicle()
     local isInResearch = ::isUnitInResearch(unit)
-    local canFlushSquadronExp = isSquadronVehicle
+    local canFlushSquadronExp = ::has_feature("ClanVehicles") && isSquadronVehicle
       && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-    if (isSquadronVehicle && !::is_in_clan() && (!canFlushSquadronExp || !isInResearch))
-      return "#mainmenu/btnFindSquadron"
     if ((availableFlushExp > 0 || !setResearchManually
-        || (isSquadronResearchMode && (canFlushSquadronExp || needChosenResearchOfSquadron())))
+        || (isSquadronResearchMode && needChosenResearchOfSquadron())
+        || (isSquadronVehicle && !::is_in_clan() && !canFlushSquadronExp))
       && (::canResearchUnit(unit) || isInResearch))
       return "#mainmenu/btnResearch"
     if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle)
       return "#mainmenu/btnConvert"
 
-    if (canFlushSquadronExp && isInResearch)
+    if (canFlushSquadronExp && (isInResearch || isSquadronResearchMode))
       return "#mainmenu/btnInvestSquadronExp"
+    if (isInResearch && unitStatus.canBuyNotResearched(unit))
+      return "#mainmenu/btnOrder"
     if (!::isUnitUsable(unit) && !::isUnitGift(unit) && (!isSquadronVehicle || !isInResearch))
       return ::isUnitMaxExp(unit) ? "#mainmenu/btnOrder" : "#mainmenu/btnResearch"
     return ""
@@ -2140,29 +2290,44 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     checkUnitItemAndUpdate(::getAircraftByName(clan_get_researching_unit()))
   }
 
-  function flushSquadronExp()
+  function flushSquadronExp(afterDoneFunc = null)
   {
     local unit = getCurAircraft()
-     ::g_tasker.addTask(::char_send_action_and_load_profile("cln_flush_clan_exp_to_unit"),
-       null,
-       function() {
-         ::broadcastEvent("FlushSquadronExp", {unit = unit})
-       })
+    ::scene_msg_box("ask_flush_squadron_exp",
+      null,
+      ::loc("squadronExp/invest/needMoneyQuestion", {
+        exp = ::Cost().setSap(min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit))).tostring() }),
+      [
+        ["yes", @() ::g_tasker.addTask(::char_send_action_and_load_profile("cln_flush_clan_exp_to_unit"),
+           null,
+           function() {
+             if (afterDoneFunc)
+               afterDoneFunc()
+             ::broadcastEvent("FlushSquadronExp", {unit = unit})
+           })
+        ],
+        ["no", function() {
+          if (afterDoneFunc)
+            afterDoneFunc()
+          }
+        ]
+      ],
+      "yes")
   }
 
   function onEventFlushSquadronExp(params)
   {
-    doWhenActiveOnce("fillAircraftsList")
+    local unit = params?.unit
+    fillAircraftsList(unit?.name)
     updateResearchVariables()
     if (!isSquadronResearchMode)
       return
 
-    local unit = params?.unit
     if (hasSquadronVehicleToResearche() && ::isUnitResearched(unit))
       return
 
-    if (unit)
-      ::buyUnit(params?.unit)
+    if (unit && ::canBuyUnit(unit))
+      ::buyUnit(unit)
     onCloseShop()
   }
 
@@ -2173,5 +2338,19 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   getParamsForActionsList = @() {
     needChosenResearchOfSquadron = needChosenResearchOfSquadron()
     isSquadronResearchMode = isSquadronResearchMode
+  }
+  getResearchingSquadronVehicle = function()
+  {
+    if (::clan_get_exp() <= 0)
+      return null
+
+    local unit = ::getAircraftByName(::clan_get_researching_unit())
+    if(!unit)
+      return null
+
+    if (unit.shopCountry != curCountry || unit.unitType != lastUnitType)
+      return
+
+    return unit
   }
 }

@@ -227,7 +227,7 @@ function addWeaponsFromBlk(weapons, block, unit)
     local trIdx = -1
     foreach(idx, t in weapons[currentTypeName])
       if (weapon.trigger == t.trigger ||
-        (weaponName in t) && ::is_weapon_params_equal(item, t[weaponName]))
+          ((weaponName in t) && ::is_weapon_params_equal(item, t[weaponName])))
       {
         trIdx = idx
         break
@@ -1008,7 +1008,7 @@ function getBulletsSetData(air, modifName, noModList = null)
     }
 
     local isBulletBelt = weaponType == WEAPON_TYPE.GUN &&
-      (wBlk.isBulletBelt != false || wBlk.bulletsCartridge > 1 && !wBlk.useSingleIconForBullet)
+      (wBlk.isBulletBelt != false || (wBlk.bulletsCartridge > 1 && !wBlk.useSingleIconForBullet))
 
     foreach (b in bulletsList)
     {
@@ -1046,6 +1046,12 @@ function getBulletsSetData(air, modifName, noModList = null)
       foreach(param in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
         if (param in paramsBlk)
           res[param] <- paramsBlk[param]
+
+      if (paramsBlk?.proximityFuse)
+      {
+        res.proximityFuseArmDistance <- paramsBlk.proximityFuse?.armDistance ?? 0
+        res.proximityFuseRadius      <- paramsBlk.proximityFuse?.radius ?? 0
+      }
     }
 
     if (res)
@@ -2335,13 +2341,4 @@ function get_weapons_list(aircraft, need_cost, wtags, only_bought=false, check_a
   }
 
   return descr
-}
-
-function onWeaponOptionUpdate(obj)
-{
-  if (::generic_options != null)
-  {
-    local guiScene = ::get_gui_scene();
-    guiScene.performDelayed(this, function(){ ::generic_options.onHintUpdate(); });
-  }
 }

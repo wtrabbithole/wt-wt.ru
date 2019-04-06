@@ -34,7 +34,9 @@ tdiv {
     left:t='0.5(pw-w)'
     text:t='#mainmenu/titleLeaderboards'
     lb_mode:t='<<lbMode>>'
-    lb_type:t='<<lbType>>'
+    <<#isDayLb>>
+      is_day_lb:t='<<isDayLb>>'
+    <</isDayLb>>
     on_click:t='onOpenLeaderboard'
 
     hasConsoleImage:t='yes'

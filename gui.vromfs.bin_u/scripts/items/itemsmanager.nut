@@ -864,7 +864,7 @@ function ItemsManager::getActiveBoostersArray(effectType = null)
   {
     local uid = ::get_current_booster_uid(INVALID_USER_ID, i)
     local item = ::ItemsManager.findItemByUid(uid, itemType.BOOSTER)
-    if (!item || bonusType && item[bonusType] == 0 || !item.isActive(true))
+    if (!item || (bonusType && item[bonusType] == 0) || !item.isActive(true))
       continue
 
     array.append(item)

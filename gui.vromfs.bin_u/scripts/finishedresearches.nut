@@ -1463,7 +1463,10 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
       simpleText = ::format(textBlank, ::loc("weaponry/research"), showExp.tostring(), ::loc("currency/researchPoints/sign"))
     }
     else
-      coloredText = simpleText = ::loc("mainmenu/startToResearch")
+    {
+      coloredText = ::loc("mainmenu/startToResearch")
+      simpleText = coloredText
+    }
     setDoubleTextToButton(scene, "btn_apply", simpleText, coloredText)
   }
 

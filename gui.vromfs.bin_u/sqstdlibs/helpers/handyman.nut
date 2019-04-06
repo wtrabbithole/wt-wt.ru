@@ -712,6 +712,12 @@ class Scanner
         break
 
       local fName = template.slice(fNameStart, endIdx)
+      if (fName.slice(-4) == ".blk")
+      {
+        startIdx = endIdx + 1
+        continue
+      }
+
       local includeRes = ::load_template_text(fName)
       template = template.slice(0, startIdx) + includeRes + template.slice(endIdx + 1)
     }

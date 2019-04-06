@@ -1106,8 +1106,8 @@
         local isPrimaryTrigger    = weaponInfoBlk?.triggerGroup == "primary"
         local isSecondaryTrigger  = weaponInfoBlk?.triggerGroup == "secondary"
         return {
-          isPrimary     = isPrimaryTrigger   || isPrimaryName   && !isSecondaryTrigger
-          isSecondary   = isSecondaryTrigger || isSecondaryName && !isPrimaryTrigger
+          isPrimary     = isPrimaryTrigger   || (isPrimaryName   && !isSecondaryTrigger)
+          isSecondary   = isSecondaryTrigger || (isSecondaryName && !isPrimaryTrigger)
           isMachinegun  = weaponInfoBlk?.triggerGroup == "machinegun"
         }
       case ::ES_UNIT_TYPE_AIRCRAFT:
@@ -1130,14 +1130,14 @@
       { need = needAxisX, angles = weaponInfoBlk.limits?.yaw,   label = "shop/angleHorizontalGuidance" }
       { need = needAxisY, angles = weaponInfoBlk.limits?.pitch, label = "shop/angleVerticalGuidance"   }
     ]) {
-      if (!g.need || !g.angles?.x && !g.angles?.y)
+      if (!g.need || (!g.angles?.x && !g.angles?.y))
         continue
       local anglesText = (g.angles.x + g.angles.y == 0) ? ::format("±%d%s", g.angles.y, deg)
         : ::format("%d%s/+%d%s", g.angles.x, deg, g.angles.y, deg)
       desc.append(::loc(g.label) + " " + anglesText)
     }
 
-    if (needSingleAxis || status.isPrimary || ::isShip(unit) && status.isSecondary)
+    if (needSingleAxis || status.isPrimary || (::isShip(unit) && status.isSecondary))
     {
       local unitModificators = unit?.modificators?[difficulty.crewSkillName]
       foreach (a in [

@@ -289,7 +289,8 @@ function g_chat::_checkCleanThreadsList()
     if (room.type == ::g_chat_room_type.THREAD)
     {
       local threadInfo = getThreadInfo(room.id)
-      threadInfo && threadInfo.markUpdated()
+      if (threadInfo)
+        threadInfo.markUpdated()
     }
 
   //clear outdated threads

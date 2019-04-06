@@ -933,7 +933,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     local countryIdx = ::to_integer_safe(
       ::getObjIdByPrefix(obj.getChild(idx), "header_country"), curSlotCountryId)
     if (curSlotCountryId >= 0 && curSlotCountryId != countryIdx && countryIdx in ::g_crews_list.get()
-        && !::isCountryAvailable(::g_crews_list.get()[countryIdx].country) && ::isAnyBaseCountryUnlocked())
+        && !::isCountryAvailable(::g_crews_list.get()[countryIdx].country) && ::unlocked_countries.len())
     {
       msgBox("notAvailableCountry", ::loc("mainmenu/countryLocked/tooltip"),
              [["ok", (@(obj) function() {

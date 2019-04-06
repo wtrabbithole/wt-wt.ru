@@ -6,11 +6,10 @@ local Flags = {
 local replaceAxes = function(items, ctrlGroup, replacements, flags = Flags.NONE) {
   local isUpdated = false
   local groupAxes = []
-  foreach (item in items) {
-    if (item.checkGroup & ctrlGroup && item.type == CONTROL_TYPE.AXIS) {
+  foreach (item in items)
+    if ((item.checkGroup & ctrlGroup) && item.type == CONTROL_TYPE.AXIS)
       groupAxes.append(item.id)
-    }
-  }
+
   local controls = ::g_controls_manager.getCurPreset()
   foreach (axisName, axis in controls.axes) {
     if (groupAxes.find(axisName) == null || axis?.axisId == null)

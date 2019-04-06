@@ -1088,6 +1088,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local textTable = {
       btn_friendAdd = ""
       btn_blacklistAdd = ""
+      btn_achievements_url_text = ::loc("mainmenu/btnUnlockAchievement")
+      btn_achievements_url = ::loc("mainmenu/btnUnlockAchievement")
     }
 
     local isXBoxOnePlayer = platformModule.isXBoxPlayerName(player.name)
@@ -1112,6 +1114,9 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       if (!isFriend)
         textTable.btn_blacklistAdd = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
+
+      textTable.btn_achievements_url_text = ::loc("mainmenu/compareAchievements")
+      textTable.btn_achievements_url = textTable.btn_achievements_url_text
     }
 
     local sheet = getCurSheet()
@@ -1123,6 +1128,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       btn_blacklistAdd = showProfBar && textTable.btn_blacklistAdd != "" && (!::is_platform_xboxone || !isXBoxOnePlayer)
       btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
       btn_complain = showProfBar && !isMe
+      btn_achievements_url = showProfBar && ::has_feature("AchievementsUrl")
+        && ::has_feature("AllowExternalLink") && !::is_vendor_tencent()
     }
 
     ::showBtnTable(scene, buttonsList)
@@ -1242,6 +1249,13 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local focusObj = getMainFocusObj()
     if (focusObj)
       focusObj.select()
+  }
+
+  function onOpenAchievementsUrl()
+  {
+    ::open_url(::loc("url/achievements",
+        { appId = ::WT_APPID, name = player.name}),
+      false, false, "profile_page")
   }
 }
 

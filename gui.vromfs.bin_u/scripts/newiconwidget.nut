@@ -31,7 +31,7 @@ class NewIconWidget
 
   icon = null
 
-  function constructor(guiScene, containerObj = null)
+  constructor(guiScene, containerObj = null)
   {
     _guiScene = guiScene
     setContainer(containerObj)

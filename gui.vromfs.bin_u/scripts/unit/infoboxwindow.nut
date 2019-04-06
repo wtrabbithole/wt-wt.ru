@@ -20,7 +20,7 @@ class ::gui_handlers.showAircraftInfo extends ::gui_handlers.BaseGuiHandlerWT
 
     local btnLinkObj = scene.findObject("wiki_link")
     if (::checkObj(btnLinkObj))
-      btnLinkObj.show(!::is_vendor_tencent())
+      btnLinkObj.show(::has_feature("AllowExternalLink") && !::is_vendor_tencent())
   }
 
   function onWiki()

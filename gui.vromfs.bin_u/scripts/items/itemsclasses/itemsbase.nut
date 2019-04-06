@@ -741,7 +741,6 @@ class ::BaseItem
   getCraftTimeTextShort = @() ""
   getCraftTimeText = @() ""
   isCraftResult = @() false
-  getParentRecipe = @() null
   getCraftResultItem = @() null
   hasCraftResult = @() !!getCraftResultItem()
   isHiddenItem = @() !isEnabled() || isCraftResult()
@@ -749,7 +748,7 @@ class ::BaseItem
   cancelCrafting = @(...) false
   getRewardListLocId = @() "mainmenu/rewardsList"
   getItemsListLocId = @() "mainmenu/itemsList"
-  hasReachedMaxAmount = @() maxAmount >= 0 ? getAmount() >= maxAmount : false
+  hasReachedMaxAmount = @() isInventoryItem && maxAmount >= 0 ? getAmount() >= maxAmount : false
   isEnabled = @() true
   getContentItem = @() null
   needShowRewardWnd = @() true

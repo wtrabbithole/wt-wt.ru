@@ -110,7 +110,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_FULL
 
-  function constructor(gui_scene, params = {})
+  constructor(gui_scene, params = {})
   {
     ::g_script_reloader.registerPersistentData("MenuChatHandler", this, ["roomsInited"]) //!!FIX ME: must be in g_chat
 

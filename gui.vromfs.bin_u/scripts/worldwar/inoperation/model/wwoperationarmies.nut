@@ -3,7 +3,7 @@ class ::WwOperationArmies
   armiesByNameCache = null
   armiesByStatusCache = null
 
-  function constructor()
+  constructor()
   {
     armiesByNameCache = {}
     armiesByStatusCache = {}

@@ -508,7 +508,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
     local res = []
     foreach(item in ::shortcutsList)
-      if (item.type == CONTROL_TYPE.AXIS && item != axisItem && checkGroup & item.checkGroup)
+      if (item.type == CONTROL_TYPE.AXIS && item != axisItem && (checkGroup & item.checkGroup))
       {
         local axis = curJoyParams.getAxis(item.axisIndex)
         if (curAxisId == axis.axisId)

@@ -26,7 +26,7 @@ class WeaponsPurchase
   repairMsgLocId = ""
   msgLocParams = {}
 
-  function constructor(_unit, _additionalParams = {})
+  constructor(_unit, _additionalParams = {})
   {
     if (::u.isString(_unit))
       unit = ::getAircraftByName(_unit)

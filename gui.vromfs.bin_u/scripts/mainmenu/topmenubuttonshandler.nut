@@ -181,7 +181,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
           if (!show)
             continue
 
-          isVisualDisable = isVisualDisable || button.isInactiveInQueue && isInQueue
+          isVisualDisable = isVisualDisable || (button.isInactiveInQueue && isInQueue)
           btnObj.inactiveColor = isVisualDisable? "yes" : "no"
         }
       }

@@ -147,27 +147,6 @@ function colorize(color, text)
   return ::format("<color=%s>%s</color>", color, text)
 }
 
-function get_filtered_aircrafts_list(team)
-{
-  local tags = ::aircrafts_filter_tags
-  local arr = []
-  foreach(unit in ::all_units)
-  {
-    local isNotFound = false
-    for (local j = 0; j < tags.len(); j++)
-      if (::find_in_array(unit.tags, tags[j]) < 0)
-      {
-        isNotFound = true
-        break
-      }
-
-    if (!isNotFound)
-      arr.append(unit.name)
-  }
-
-  return arr
-}
-
 function getAircraftByName(name)
 {
   return ::getTblValue(name, ::all_units)
@@ -340,32 +319,6 @@ function close_tactical_map()
 {
   if (::tactical_map_handler != null)
     ::tactical_map_handler.onCancel(null)
-}
-
-function fill_weapons_list_tooltips(listObj, optionsList)
-{
-  local types = [::USEROPT_WEAPONS, ::USEROPT_ENEMY_WEAPONS]
-  foreach (option in optionsList)
-  {
-    if (!isInArray(option.type, types))
-      continue;
-
-    local weaponsObj = listObj.findObject(option.id);
-    if (!weaponsObj)
-      continue;
-    if (!("hints" in option))
-      continue;
-    if (weaponsObj.childrenCount() != option.hints.len())
-      continue;
-    for (local i = 0; i < weaponsObj.childrenCount(); i++)
-    {
-      local w = weaponsObj.getChild(i);
-      w.tooltip = option.hints[i];
-    }
-    local value = weaponsObj.getValue();
-    if (value >=0 && value < option.hints.len())
-      weaponsObj.tooltip = option.hints[value];
-  }
 }
 
 function set_current_campaign(id)
@@ -789,15 +742,37 @@ function getRangeString(val1, val2, formatStr = "%s")
   return (val1 == val2) ? ::format(formatStr, val1) : ::format(formatStr, val1) + ::loc("ui/mdash") + ::format(formatStr, val2)
 }
 
-function getRangeTextByPoint2(val, itemFormatStr = "%s", rangeFormatStr = "%s", romanNumerals = false)
+local FORMAT_PARAMS = {
+  rangeStr = "%s"
+  itemStr = "%s"
+  maxOnlyStr = "%s"
+  minOnlyStr = "%s"
+  bothStr = "%s"+ ::loc("ui/mdash") + "%s"
+}
+function getRangeTextByPoint2(val, formatParams = {}, romanNumerals = false)
 {
   if (!(type(val) == "instance" && (val instanceof ::Point2)) && !(type(val) == "table"))
     return ""
 
-  local a = romanNumerals ? ::get_roman_numeral(val.x) : val.x.tostring()
-  local b = romanNumerals ? ::get_roman_numeral(val.y) : val.y.tostring()
-  local range = ::getRangeString(a, b, itemFormatStr)
-  return ::format(rangeFormatStr, range)
+  formatParams = FORMAT_PARAMS.__merge(formatParams)
+  local a = val.x.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.x) : val.x.tostring() : ""
+  local b = val.y.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.y) : val.y.tostring() : ""
+  if (a == "" && b == "")
+    return ""
+
+  local range = ""
+  if (a != "" && b != "")
+    range = a == b
+      ? ::format(formatParams.itemStr, a)
+      : ::format(formatParams.bothStr,
+        ::format(formatParams.itemStr, a),
+        ::format(formatParams.itemStr, b))
+  else if (a == "")
+    range = ::format(formatParams.maxOnlyStr, ::format(formatParams.itemStr, b))
+  else
+    range = ::format(formatParams.minOnlyStr, ::format(formatParams.itemStr, a))
+
+  return ::format(formatParams.rangeStr, range)
 }
 
 function getVerticalText(text)
@@ -1510,7 +1485,7 @@ function getBonus(exp, wp, imgType, placeType="", airName="")
 
 function getBonusImage(type, multiplier, useBy)
 {
-  if(type != "item" && type != "country" || multiplier == 1.0)
+  if ((type != "item" && type != "country") || multiplier == 1.0)
     return ""
 
   local allowingMult = useBy=="country"? ::allowingMultCountry : ::allowingMultAircraft
@@ -2270,7 +2245,7 @@ function checkRemnantPremiumAccount()
     local deltaDaysReminder = currDays - lastDaysReminder
     local deltaDaysHavePremium = currDays - lastDaysHavePremium
     local gmBlk = ::get_game_settings_blk()
-    local daysCounter = gmBlk && gmBlk.reminderBuyPremiumDays || 7
+    local daysCounter = (gmBlk && gmBlk.reminderBuyPremiumDays) || 7
     if (2 * deltaDaysReminder >= deltaDaysHavePremium || deltaDaysReminder >= daysCounter)
       msgText = ::loc("msgbox/ended_premium_account")
   }

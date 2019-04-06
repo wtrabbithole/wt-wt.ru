@@ -254,10 +254,10 @@ function g_hud_hitcamera::onEnemyPartDamage(data)
 
   if (isVisible && unitInfo.unitId == unitId)
   {
-    local isKill = isPartKilled || unitInfo.isKilled && !unitInfo.isKillProcessed
+    local isKill = isPartKilled || (unitInfo.isKilled && !unitInfo.isKillProcessed)
 
     foreach (item in ::getTblValue(unitInfo.unitType, debuffsListsByUnitType, []))
-      if (!item.isUpdateOnKnownPartKillsOnly || isKill && ::isInArray(partName, item.parts))
+      if (!item.isUpdateOnKnownPartKillsOnly || (isKill && ::isInArray(partName, item.parts)))
         updateDebuffItem(item, camInfo, unitInfo, partName, data)
 
     if (unitInfo.isKilled)

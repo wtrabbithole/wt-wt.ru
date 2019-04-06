@@ -42,7 +42,7 @@ enum money_color {
   //privat
   __data_fields = ["gold", "wp", "frp", "rp", "sap"]
 
-  function constructor(type_in = money_type.cost, wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
+  constructor(type_in = money_type.cost, wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
     wp   = wp_in || 0
     gold = gold_in || 0
@@ -255,7 +255,7 @@ class Balance extends Money
 {
   type = money_type.balance
 
-  function constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
+  constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
     base.constructor(money_type.balance, wp_in, gold_in, frp_in, rp_in, sap_in)
   }
@@ -276,7 +276,7 @@ class Cost extends Money
 {
   type = money_type.cost
 
-  function constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
+  constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
     base.constructor(money_type.cost, wp_in, gold_in, frp_in, rp_in, sap_in)
   }

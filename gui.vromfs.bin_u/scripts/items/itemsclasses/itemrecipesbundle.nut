@@ -54,16 +54,22 @@ class ::items_classes.RecipesBundle extends ::items_classes.Chest {
   }
 
   getAssembleHeader     = @() isDisassemble() ? getName() : base.getAssembleHeader()
-  getAssembleText       = @() isDisassemble() ? ::loc("item/disassemble") : ::loc("item/assemble")
-  getAssembleButtonText = @() isDisassemble() ? ::loc("item/disassemble") : base.getAssembleButtonText()
-  getCantUseLocId       = @() isDisassemble() ? "msgBox/disassembleItem/cant" : "msgBox/assembleItem/cant"
+  getAssembleText       = @() isDisassemble() ? ::loc(getLocIdsList().disassemble) : ::loc(getLocIdsList().assemble)
+  getAssembleButtonText = @() isDisassemble() ? ::loc(getLocIdsList().disassemble) : base.getAssembleButtonText()
   getConfirmMessageData = @(recipe) !isDisassemble() ? ItemExternal.getConfirmMessageData.call(this, recipe)
     : getEmptyConfirmMessageData().__update({
-        text = ::loc("msgBox/disassembleItem/confirm")
+        text = ::loc(getLocIdsList().msgBoxConfirm)
         needRecipeMarkup = true
       })
 
   doMainAction          = @(cb, handler, params = null) assemble(cb, params)
 
   getRewardListLocId = @() isDisassemble() ? "mainmenu/itemsList" : base.getRewardListLocId()
+
+  getLocIdsListImpl = @() base.getLocIdsListImpl().__update({
+    msgBoxCantUse = isDisassemble()
+      ? "msgBox/disassembleItem/cant"
+      : "msgBox/assembleItem/cant"
+    msgBoxConfirm = "msgBox/disassembleItem/confirm"
+  })
 }

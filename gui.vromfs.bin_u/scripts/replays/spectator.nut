@@ -155,7 +155,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     gotRefereeRights = ::getTblValue("spectator", mplayerTable, 0) == 1
-    mode = isReplay ? SPECTATOR_MODE.REPLAY : gotRefereeRights ? SPECTATOR_MODE.SKIRMISH : SPECTATOR_MODE.SKIRMISH
+    mode = isReplay ? SPECTATOR_MODE.REPLAY : SPECTATOR_MODE.SKIRMISH
     isMultiplayer = !!(gameType & ::GT_VERSUS) || !!(gameType & ::GT_COOPERATIVE)
     canControlTimeline  = mode == SPECTATOR_MODE.REPLAY && ::getTblValue("timeSpeedAllowed", replayProps, false)
     canControlCameras   = mode == SPECTATOR_MODE.REPLAY || gotRefereeRights

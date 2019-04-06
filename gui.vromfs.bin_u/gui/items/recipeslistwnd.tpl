@@ -87,7 +87,7 @@ popup_menu {
   navBar {
     class:t='relative'
     //0.1@dico - is a visual space in item type icon.
-    style:t='height:<<maxRecipeLen>>@dIco + 1@buttonHeight - 0.2@dIco + 1@navBarTopPadding + 1@buttonMargin;'
+    style:t='height:(<<maxRecipeLen>><<#hasMarkers>>+1<</hasMarkers>>)@dIco + 1@buttonHeight + 1@navBarTopPadding + 1@buttonMargin;'
 
     navLeft {
       size:t='pw, ph - 1@navBarTopPadding'
@@ -101,13 +101,8 @@ popup_menu {
 
     navRight {
       height:t='ph - 1@navBarTopPadding'
-      width:t='pw'
-      tdiv {
-        id:t='selected_recipe_mark_info'
-        width:t='fw'
-        pos:t='0, ph - h + 1@buttonMargin'
-        position:t='relative'
-      }
+      left:t='pw - w'
+      position:t='relative'
       <<#hasMarkers>>
       Button_text {
         id:t = 'btn_mark'

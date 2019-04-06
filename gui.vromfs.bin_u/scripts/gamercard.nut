@@ -225,7 +225,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
                              gc_chat_btn = canChat
                              gc_shop = is_in_menu && canSpendGold
                              gc_eagles = canSpendGold
-                             gc_PremiumAccount = canSpendGold && featureEnablePremiumPurchase || hasPremiumAccount
+                             gc_PremiumAccount = (canSpendGold && featureEnablePremiumPurchase) || hasPremiumAccount
                              gc_dropdown_premium_button = featureEnablePremiumPurchase
                              gc_dropdown_shop_eagles_button = canSpendGold
                              gc_items_shop_button = ::ItemsManager.isEnabled() && ::has_feature("ItemsShop")

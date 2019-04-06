@@ -105,6 +105,7 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
         ::g_top_menu_buttons.WARPOINTS
         ::g_top_menu_buttons.INVENTORY
         ::g_top_menu_buttons.ITEMS_SHOP
+        ::g_top_menu_buttons.WORKSHOP
         ::g_top_menu_buttons.WARBONDS_SHOP
         ::g_top_menu_buttons.ONLINE_SHOP
         ::g_top_menu_buttons.MARKETPLACE

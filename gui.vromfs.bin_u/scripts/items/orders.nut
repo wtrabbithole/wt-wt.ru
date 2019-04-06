@@ -621,7 +621,7 @@ function g_orders::getScoreTableTexts()
 
 function g_orders::isOrderInfoVisible()
 {
-  return hasActiveOrder || cooldownTimeleft > 0 && prevActiveOrder != null
+  return hasActiveOrder || (cooldownTimeleft > 0 && prevActiveOrder != null)
 }
 
 

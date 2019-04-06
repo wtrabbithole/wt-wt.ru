@@ -13,9 +13,12 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
 
   function initScreen()
   {
+    hasChosenResearchOfSquadron = ::load_local_account_settings("has_chosen_research_of_squadron", false)
     base.initScreen()
     initFocusArray()
-    hasChosenResearchOfSquadron = ::load_local_account_settings("has_chosen_research_of_squadron", false)
+
+    if (isSquadronResearchMode)
+      slotbarActions = [ "research", "buy", "take", "weapons", "crew", "info", "repair" ]
 
     createSlotbar(
       {
@@ -92,12 +95,15 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
     local showSpendBtn = isSquadronResearchMode
       && (flushExp > 0 || needChosenResearchOfSquadron())
       && !::isUnitGroup(unit) && unit?.isSquadronVehicle?() && ::canResearchUnit(unit)
-      && (::is_in_clan() || ::isUnitInResearch(unit))
     local coloredText = ""
 
     if (showSpendBtn)
     {
-      local textSample = ::loc("shop/researchUnit", { unit = ::getUnitName(unit.name) }) + "%s"
+      local textSample = ::loc(
+        isSquadronResearchMode && (flushExp <= 0 || needChosenResearchOfSquadron())
+          ? "shop/researchUnit"
+          : "shop/investToUnit",
+        { unit = ::getUnitName(unit.name) }) + "%s"
       local textValue = flushExp > 0 ? ::loc("ui/parentheses/space",
         {text = ::Cost().setSap(flushExp).tostring()}) : ""
       coloredText = ::format(textSample, textValue)
@@ -121,20 +127,14 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
 
   function onSpendExcessExp()
   {
-    foreach(navBar in [navBarObj, navBarGroupObj])
-    {
-      if (!::checkObj(navBar))
-        continue
-
-      local spendExpBtn = navBar.findObject("btn_spend_exp")
-      if (::checkObj(spendExpBtn))
-        spendExpBtn.enable(false)
-    }
+    if (hasSpendExpProcess)
+      return
 
     local unit = getCurAircraft(true, true)
     if (!unit?.isSquadronVehicle?() || !::canResearchUnit(unit))
       return
 
+    hasSpendExpProcess = true
     local flushExp = min(::clan_get_exp(), ::getUnitReqExp(unit) - ::getUnitExp(unit))
     local canFlushExp = flushExp > 0
     local afterDoneFunc = function() {
@@ -144,9 +144,10 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
         hasChosenResearchOfSquadron = true
       }
       if(canFlushExp)
-        return flushSquadronExp()
-      else
-        onCloseShop()
+        return flushSquadronExp(function() {hasSpendExpProcess = false}.bindenv(this))
+
+      hasSpendExpProcess = false
+      onCloseShop()
     }
     if (::isUnitInResearch(unit))
       afterDoneFunc()

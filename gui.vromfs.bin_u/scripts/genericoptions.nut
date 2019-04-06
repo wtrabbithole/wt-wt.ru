@@ -45,7 +45,6 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(false, false);
     optionIdToObjCache.clear()
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
-    fill_weapons_list_tooltips(optListObj, container.descr.data)
     optionsContainers.push(container.descr)
     guiScene.setUpdatesEnabled(true, true)
 
@@ -296,26 +295,6 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     } else
       obj.setValue(option.value)
     isOptionInUpdate = false
-  }
-
-  function onAircraftUpdateSkin(obj)
-  {
-    updateOptionDescr(obj, ::update_skins_spinner)
-  }
-
-  function onAircraftUpdate(obj)
-  {
-    onAircraftUpdateSkin(obj)
-    updateOptionDescr(obj, ::update_weapons_spinner)
-  }
-
-  function onAircraftCountryUpdate(obj)
-  {
-    updateOptionDescr(obj, ::update_aircraft_spinner)
-    if (obj.id == "aircraft_country")
-      onAircraftUpdate(getObj("aircraft"))
-    else
-      onAircraftUpdate(getObj("enemy_aircraft"))
   }
 
   function onWeaponOptionUpdate(obj)
@@ -1104,7 +1083,6 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
   function setupSearch()
   {
     showSceneBtn("search_container", isSearchInCurrentGroupAvaliable())
-    showSceneBtn("filter_magnifier_icon", false)
     resetSearch()
   }
 

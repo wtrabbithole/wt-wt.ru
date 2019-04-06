@@ -296,6 +296,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
                           btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
                           btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::check_account_tag("steamlogin")
                           paginator_place = (sheet == "Statistics") && airStatsList && (airStatsList.len() > statsPerPage)
+                          btn_achievements_url = isProfileOpened && ::has_feature("AchievementsUrl")
+                            && ::has_feature("AllowExternalLink") && !::is_vendor_tencent()
                         }
     foreach(name, show in buttonsList)
       scene.findObject(name).show(show)
@@ -1623,5 +1625,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   {
     if (getCurSheet() == "UnlockAchievement")
       fillUnlocksList()
+  }
+
+  function onOpenAchievementsUrl()
+  {
+    ::open_url(::loc("url/achievements",
+        { appId = ::WT_APPID, name = ::get_profile_info().name}),
+      false, false, "profile_page")
   }
 }

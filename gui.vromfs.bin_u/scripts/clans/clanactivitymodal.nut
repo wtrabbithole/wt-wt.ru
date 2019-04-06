@@ -7,33 +7,48 @@ function gui_start_clan_activity_wnd(playerName = null, clanData = null)
   if (!playerName || !clanData)
     return
 
-  local memberData = u.search(clanData.members, @(member) member.nick == playerName)
-  if (memberData)
-    ::gui_start_modal_wnd(::gui_handlers.clanActivityModal, {memberData = memberData })
+  ::gui_start_modal_wnd(::gui_handlers.clanActivityModal,
+  {
+    clanData = clanData
+    playerName = playerName
+  })
+
 }
 
 class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
 {
-  wndType      = handlerType.MODAL
-  sceneBlkName = "gui/clans/clanActivityModal.blk"
-
-  memberData = null
+  wndType           = handlerType.MODAL
+  sceneBlkName      = "gui/clans/clanActivityModal.blk"
+  clanData          = null
+  playerName        = null
+  hasClanExperience = null
 
   function initScreen()
   {
+    local memberData = u.search.bindenv(this)(clanData.members, @(member) member.nick == playerName)
+    local maxActivityPerDay = clanData.rewardPeriodDays > 0
+      ? ::round(1.0 * clanData.maxActivityPerPeriod / clanData.rewardPeriodDays)
+      : 0
+    local isShowPeriodActivity = clanData.expRewardEnabled
+    hasClanExperience  = isShowPeriodActivity && ::clan_get_my_clan_id() == clanData.id
+    local history = isShowPeriodActivity ? memberData.expActivity : memberData.activityHistory
     local headerTextObj = scene.findObject("clan_activity_header_text")
-    headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"), platformModule.getPlayerName(memberData.nick)))
-
-    local history = memberData.activityHistory
-
-    scene.findObject("clan_activity_total_text").setValue(
-        ::loc("clan/activity_total", {count = history.len()}))
+    headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"),
+      platformModule.getPlayerName(memberData.nick)))
 
     scene.findObject("clan_activity_today_value").setValue(
-        ::format("%d", ::getTblValue("curActivity", memberData, 0)))
+      ::format("%d / %d",
+        isShowPeriodActivity ? memberData.curPeriodActivity : memberData.curActivity,
+        isShowPeriodActivity ? clanData.maxActivityPerPeriod : maxActivityPerDay
+      )
+    )
 
     scene.findObject("clan_activity_total_value").setValue(
-        ::format("%d", ::getTblValue("totalActivity", memberData, 0)))
+      ::format("%d / %d",
+        isShowPeriodActivity ? memberData.totalPeriodActivity : memberData.totalActivity,
+        isShowPeriodActivity ? clanData.maxActivityPerPeriod * history.len() : maxActivityPerDay * history.len()
+      )
+    )
 
     fillActivityHistory(history)
   }
@@ -41,9 +56,9 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
   function fillActivityHistory(history)
   {
     local historyArr = []
-    foreach (day, value in history)
+    foreach (day, data in history)
     {
-      historyArr.append({day = day.tointeger(), value = value})
+      historyArr.append({day = day.tointeger(), data = data})
     }
     historyArr.sort(function(left, right)
     {
@@ -64,7 +79,16 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
         text     = ::loc("clan/activity"),
         active   = false
       }
-     ];
+    ];
+
+    if (hasClanExperience)
+      rowHeader.append(
+        {
+          id       = "clan_activity_exp_col_value",
+          text     = ::loc("reward"),
+          active   = false
+        }
+      )
 
     rowBlock += ::buildTableRowNoPad("row_header", rowHeader, null,
         "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; ")
@@ -78,18 +102,16 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     foreach(entry in historyArr)
     {
       local rowParams = [
-        {
-          text = time.buildDateStr(time.daysToSeconds(entry.day))
-        },
-        {
-          text = ::format("%d", entry.value)
-        }
-      ];
+        { text = time.buildDateStr(time.daysToSeconds(entry.day)) },
+        { text = ::format("%d", entry.data?.activity ?? entry.data) }
+      ]
+
+      if (hasClanExperience)
+        rowParams.append({ text = ::format("%d", entry.data.exp) })
 
       rowBlock += ::buildTableRowNoPad("row_" + rowIdx, rowParams, null, "")
       rowIdx++
     }
     guiScene.replaceContentFromText(tableObj, rowBlock, rowBlock.len(), this)
   }
-
 }

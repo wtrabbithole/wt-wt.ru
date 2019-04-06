@@ -332,9 +332,8 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function isBuyOnce(item)
   {
-    return (("chapter" in item)
-             && (item.chapter=="campaign" || item.chapter=="license" || item.chapter=="bonuses")
-             || ("hideWhenUnbought" in item))
+    return (("chapter" in item) && (item.chapter=="campaign" || item.chapter=="license" || item.chapter=="bonuses"))
+      || ("hideWhenUnbought" in item)
   }
 
   function isBought(item)

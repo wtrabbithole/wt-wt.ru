@@ -2,6 +2,7 @@ local u = ::require("std/u.nut")
 local time = require("scripts/time.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 local contentPreview = require("scripts/customization/contentPreview.nut")
+local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 local stdMath = require("std/math.nut")
 
 local MOD_TIERS_COUNT = 4
@@ -228,6 +229,7 @@ local Unit = class
     if (customImage && !::isInArray(customImage.slice(0, 1), ["#", "!"]))
       customImage = ::get_unit_icon_by_unit(this, customImage)
     availableWeaponsByWeaponName = {}
+    shopSearchCore.cacheUnitSearchTokens(this)
 
     return errorsTextArray
   }
@@ -537,6 +539,7 @@ local Unit = class
   }
 
   isSquadronVehicle       = @() researchType == "clanVehicle"
+  getOpenCost             = @() ::Cost(0, clan_get_unit_open_cost_gold(name))
 }
 
 u.registerClass("Unit", Unit, @(u1, u2) u1.name == u2.name, @(unit) !unit.name.len())

@@ -17,12 +17,25 @@
             "id": "modes_list",
             "position": "relative",
             "pos": "1@blockInterval, 50%(ph-h)",
-            "width": "0.4@sf",
+            "width": "0.3@sf",
             "display": "hide",
             "enable": "no",
             "btnName": "X",
             "on_select": "onModeSelect",
             "on_cancel_edit": "onModeSelect"
+          }
+        },
+        {
+          "ComboBox": {
+            "id": "days_list",
+            "position": "relative",
+            "pos": "1@blockInterval, 50%(ph-h)",
+            "width": "0.2@sf",
+            "display": "hide",
+            "enable": "no",
+            "btnName": "LT",
+            "on_select": "onDaySelect",
+            "on_cancel_edit": "onDaySelect"
           }
         },
         {
@@ -33,7 +46,7 @@
             "width": "0.4@sf",
             "display": "hide",
             "enable": "no",
-            "btnName": "R3",
+            "btnName": "L3",
             "on_select": "onMapSelect",
             "on_cancel_edit": "onMapSelect"
           }
@@ -43,10 +56,10 @@
             "id": "countries_list",
             "position": "relative",
             "pos": "1@blockInterval, 50%(ph-h)",
-            "width": "0.25@sf",
+            "width": "0.2@sf",
             "display": "hide",
             "enable": "no",
-            "btnName": "RB",
+            "btnName": "R3",
             "on_select": "onCountrySelect",
             "on_cancel_edit": "onCountrySelect"
           }

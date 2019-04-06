@@ -114,7 +114,7 @@ function get_mission_mode()
   if (::cur_mission_mode >= 0)
     return ::cur_mission_mode
   local mission_name = get_selected_mission()
-  local mission_mode = mission_name && ::get_mission_type(mission_name) || 0
+  local mission_mode = (mission_name && ::get_mission_type(mission_name)) || 0
   dagor.debug("get_mission_mode "+mission_name+" mission_mode "+mission_mode)
   ::cur_mission_mode <- mission_mode
   return mission_mode

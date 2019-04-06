@@ -14,34 +14,6 @@ local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboa
   ::g_lb_category.AVG_SCORE
 ]
 
-::ww_leaderboard_modes <- [
-  {
-    mode  = "ww_users"
-    type  = "daily"
-    appId = "1134"
-    mask  = WW_LB_MODE.WW_USERS
-  },
-  {
-    mode  = "ww_users"
-    type  = "season"
-    appId = "1134"
-    mask  = WW_LB_MODE.WW_USERS
-  },
-  {
-    mode  = "ww_clans"
-    type  = "season"
-    appId = "1135"
-    mask  = WW_LB_MODE.WW_CLANS
-  },
-  {
-    mode  = "ww_countries"
-    type  = "season"
-    appId = "1136"
-    mask  = WW_LB_MODE.WW_COUNTRIES
-    needFeature = "WorldWarCountryLeaderboard"
-  }
-]
-
 
 class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 {
@@ -49,14 +21,16 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
   sceneBlkName = "gui/leaderboard.blk"
 
   beginningMode = null
-  beginningType = null
+  needDayOpen = false
 
+  lbDay = null
   lbMode = null
   lbModeData = null
   lbMap = null
   lbCountry = null
 
   lbModesList = null
+  lbDaysList = null
   lbMapsList = null
   lbCountriesList = null
 
@@ -93,24 +67,45 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     lbModesList = []
 
     local data = ""
-    foreach(modeData in ::ww_leaderboard_modes)
+    foreach(modeData in wwLeaderboardData.modes)
     {
       if (modeData?.needFeature && !::has_feature(modeData.needFeature))
         continue
 
       lbModesList.push(modeData)
       local optionText = ::g_string.stripTags(
-        ::loc("worldwar/leaderboard/" + modeData.mode + "/" + modeData.type))
+        ::loc("worldwar/leaderboard/" + modeData.mode))
       data += format("option {text:t='%s'}", optionText)
     }
 
     local modesObj = showSceneBtn("modes_list", true)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
-    local modeIdx = ::u.searchIndex(::ww_leaderboard_modes,
-      (@(m) m.mode == beginningMode && m.type == beginningType).bindenv(this))
+    local modeIdx = ::u.searchIndex(wwLeaderboardData.modes,
+      (@(m) m.mode == beginningMode).bindenv(this))
 
     modesObj.setValue(::max(modeIdx, 0))
+  }
+
+  function updateDaysComboBox(seasonDay)
+  {
+    lbDaysList = [null]
+    for (local i = 0; i < seasonDay; i++)
+      lbDaysList.append(seasonDay - i)
+
+    local data = ""
+    foreach(day in lbDaysList)
+    {
+      local optionText = ::g_string.stripTags(
+        day ? ::loc("enumerated_day", {number = day}) : ::loc("worldwar/allSeason"))
+      data += format("option {text:t='%s'}", optionText)
+    }
+
+    local hasDaySelection = isUsersLeaderboard()
+    local daysObj = showSceneBtn("days_list", hasDaySelection)
+    guiScene.replaceContentFromText(daysObj, data, data.len(), this)
+
+    daysObj.setValue(needDayOpen && lbDaysList.len() > 1 ? 1 : 0)
   }
 
   function updateMapsComboBox()
@@ -169,8 +164,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (!newRequestData)
       return
 
-    local isRequestDifferent = requestData?.mode != newRequestData.mode ||
-                               requestData?.type != newRequestData.type
+    local isRequestDifferent = requestData?.modeName != newRequestData.modeName ||
+                               requestData?.modePostFix != newRequestData.modePostFix ||
+                               requestData?.day != newRequestData.day
     if (!isRequestDifferent && !isForce)
       return
 
@@ -186,9 +182,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local cb = function(hasSelfRow = false)
     {
       wwLeaderboardData.requestWwLeaderboardData(
-        requestData.appId,
-        requestData.mode,
-        requestData.type,
+        requestData.modeName,
+        requestData.modePostFix,
+        requestData.day,
         pos, rowsInPage, lbField,
         function(lbPageData) {
           if (!isValid())
@@ -201,11 +197,11 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         }.bindenv(this))
     }
 
-    if (lbMode == "ww_users")
+    if (isUsersLeaderboard())
       wwLeaderboardData.requestWwLeaderboardData(
-        requestData.appId,
-        requestData.mode,
-        requestData.type,
+        requestData.modeName,
+        requestData.modePostFix,
+        requestData.day,
         null, 0, lbField,
         function(lbSelfData) {
           if (!isValid())
@@ -233,6 +229,22 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 
     checkLbCategory()
 
+    local mode = wwLeaderboardData.getModeByName(lbMode)
+    if (mode.hasDaysData)
+      wwLeaderboardData.requestWwLeaderboardModes(
+        lbMode,
+        function(modesData) {
+          if (!isValid())
+            return
+
+          updateModeComboBoxes(wwLeaderboardData.getSeasonDay(modesData))
+        }.bindenv(this))
+    else
+      updateModeComboBoxes()
+  }
+
+  function updateModeComboBoxes(seasonDay = 0)
+  {
     if (isCountriesLeaderboard())
     {
       lbCountry = null
@@ -241,13 +253,24 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     else
       updateMapsComboBox()
 
-    fetchLbData()
+    updateDaysComboBox(seasonDay)
   }
 
   function checkLbCategory()
   {
     if (!curLbCategory || !lbModel.checkLbRowVisibility(curLbCategory, this))
       curLbCategory = ::u.search(lb_presets, (@(row) lbModel.checkLbRowVisibility(row, this)).bindenv(this))
+  }
+
+  function onDaySelect(obj)
+  {
+    local dayObjValue = obj.getValue()
+    if (dayObjValue < 0 || dayObjValue >= lbDaysList.len())
+      return
+
+    lbDay = lbDaysList[dayObjValue]
+
+    fetchLbData()
   }
 
   function onMapSelect(obj)
@@ -292,9 +315,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local mapId = lbMap ? "__" + lbMap.getId() : ""
     local countryId = lbCountry ? "__" + lbCountry : ""
     return {
-      mode = lbModeData.mode + mapId + countryId
-      type = lbModeData.type
-      appId = lbModeData.appId
+      modeName = lbModeData.mode
+      modePostFix = mapId + countryId
+      day = lbDay
     }
   }
 
@@ -328,6 +351,11 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       countrries.append(country)
 
     return countrries
+  }
+
+  function isUsersLeaderboard()
+  {
+    return lbMode == "ww_users"
   }
 
   function isCountriesLeaderboard()

@@ -128,19 +128,7 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
   {
     local item = getCurItem()
     if (item != null)
-      item.doMainAction(function(result) { this && onMainActionComplete(result) }.bindenv(this), this)
-  }
-
-  function onMainActionComplete(result)
-  {
-    if (!::checkObj(scene))
-      return
-    if (result.success)
-    {
-      // Not proceeding to battle. Simply closing window.
-      // ::call_for_handler(null, afterBuyFunc)
-      goBack()
-    }
+      item.doMainAction(::Callback(@(result) result.success && goBack(), this), this)
   }
 
   function updateTicketCaptionsPosition()

@@ -299,18 +299,13 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
   function onSpendExcessExp()
   {
-    foreach(navBar in [navBarObj, navBarGroupObj])
-    {
-      if (!::checkObj(navBar))
-        continue
+    if (hasSpendExpProcess)
+      return
 
-      local spendExpBtn = navBar.findObject("btn_spend_exp")
-      if (::checkObj(spendExpBtn))
-        spendExpBtn.enable(false)
-    }
-
+    hasSpendExpProcess = true
     local unit = getCurAircraft(true, true)
     flushItemExp(unit, @() setUnitOnResearch(unit, function() {
+      hasSpendExpProcess = false
       sendChoosedNewResearchUnitStatistic(unit)
       sendUnitResearchedStatistic(unit)
     }))

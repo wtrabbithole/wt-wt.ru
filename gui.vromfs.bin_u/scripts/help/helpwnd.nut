@@ -13,16 +13,10 @@ local controlsMarkupSource = {
     blk = "gui/help/controllerXboxOne.blk"
     iconsPreset = gamepadIcons.ICO_PRESET_DEFAULT
     btnBackLocId = "xinp/Select"
-  },
-  xbox360 = {
-    title = "#controls/help/xinput"
-    blk = "gui/help/controllerXbox.blk"
-    iconsPreset = gamepadIcons.ICO_PRESET_DEFAULT
-    btnBackLocId = "xinp/Select"
   }
 }
 
-local controllerMarkup = ::getTblValue(::target_platform, controlsMarkupSource, controlsMarkupSource.xbox360)
+local controllerMarkup = ::getTblValue(::target_platform, controlsMarkupSource, controlsMarkupSource.xboxOne)
 
 enum help_tab_types
 {
@@ -667,7 +661,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isPresetCustomForPs4 = ::is_platform_ps4 &&
       !::isInArray("default", basePresets) && !::isInArray("dualshock4", basePresets)
 
-    if (isContentMission && ::is_in_flight() || isContentLoading)
+    if ((isContentMission && ::is_in_flight()) || isContentLoading)
     {
       local gm = ::get_game_mode()
       local gt = ::get_game_type_by_mode(gm)

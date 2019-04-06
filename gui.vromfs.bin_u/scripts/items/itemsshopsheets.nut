@@ -11,6 +11,7 @@ local isOnlyExtInventory = @(shopTab) shopTab != itemsTab.WORKSHOP && ::has_feat
 shopSheets.template <- {
   id = "" //used from type name
   sortId = 0
+  searchId = null // To Identify externally, because typeMask is not work
   locId = null //default: "itemTypes/" + id.tolower()
   emptyTabLocId = null //default: "items/shop/emptyTab/" + id.tolower()
 
@@ -62,6 +63,8 @@ shopSheets.addSheets <- function(sheetsTable)
         locId = "itemTypes/" + id.tolower()
       if (!emptyTabLocId)
         emptyTabLocId = "items/shop/emptyTab/" + id.tolower()
+      if (!searchId)
+        searchId = id
     },
     "id")
   shopSheets.types.sort(@(a, b) a.sortId <=> b.sortId)
@@ -101,7 +104,7 @@ shopSheets.findSheet <- function(config, defSheet = null)
         else
           isFullMatch = false
 
-    if (isFullMatch || isPartMatch && !res)
+    if (isFullMatch || (isPartMatch && !res))
       res = sh
     if (isFullMatch)
       break
@@ -208,6 +211,7 @@ shopSheets.updateWorkshopSheets <- function()
 {
   local sets = workshop.getSetsList()
   local newSheets = {}
+
   foreach(idx, set in sets)
   {
     local id = set.getShopTabId()
@@ -217,6 +221,7 @@ shopSheets.updateWorkshopSheets <- function()
     newSheets[id] <- {
       locId = set.locId
       typeMask = itemType.ALL
+      searchId = set.id
       isMarketplace = true
       sortId = sortId++
 

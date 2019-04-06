@@ -57,7 +57,7 @@ class ::ChatHandler
   visibleTime = 0
   chatInputText = ""
 
-  function constructor()
+  constructor()
   {
     ::g_script_reloader.registerPersistentData("mpChat", this,
       ["log_text", "curMode",

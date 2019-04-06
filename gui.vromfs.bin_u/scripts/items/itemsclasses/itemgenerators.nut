@@ -1,6 +1,7 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
 local time = require("scripts/time.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 local collection = {}
 
@@ -34,44 +35,45 @@ local ItemGenerator = class {
   _exchangeRecipes = null
   _exchangeRecipesUpdateTime = 0
 
-  function getRecipes()
+  function getRecipes(needUpdateRecipesList = true)
   {
-    if (!_exchangeRecipes || _exchangeRecipesUpdateTime <= ::ItemsManager.extInventoryUpdateTime)
+    if (!_exchangeRecipes
+      || (needUpdateRecipesList && _exchangeRecipesUpdateTime <= ::ItemsManager.extInventoryUpdateTime))
     {
       local generatorId = id
       local generatorCraftTime = craftTime
       local parsedRecipes = inventoryClient.parseRecipesString(exchange)
       local isDisassemble = tags?.isDisassemble ?? false
+      local localizationPresetName = tags?.customLocalizationPreset
       _exchangeRecipes = ::u.map(parsedRecipes, @(parsedRecipe) ExchangeRecipes({
          parsedRecipe = parsedRecipe,
          generatorId = generatorId
          craftTime = generatorCraftTime
          isDisassemble = isDisassemble
+         localizationPresetName = localizationPresetName
       }))
 
       // Adding additional recipes
-      local hasAdditionalRecipes
-      local wBlk = ::DataBlock("config/workshop.blk")
-      if (wBlk.additionalRecipes)
-        foreach (itemBlk in (wBlk.additionalRecipes % "item"))
-          if (::to_integer_safe(itemBlk.id) == id)
+      local hasAdditionalRecipes = false
+      foreach (itemBlk in workshop.getItemAdditionalRecipesById(id))
+      {
+        hasAdditionalRecipes = true
+        foreach (paramName in ["fakeRecipe", "trueRecipe"])
+          foreach (itemdefId in itemBlk % paramName)
           {
-            hasAdditionalRecipes = true
-            foreach (paramName in ["fakeRecipe", "trueRecipe"])
-              foreach (itemdefId in itemBlk % paramName)
-              {
-                local gen = collection?[itemdefId] ?? null
-                local additionalParsedRecipes = gen ? inventoryClient.parseRecipesString(gen.exchange) : []
-                _exchangeRecipes.extend(::u.map(additionalParsedRecipes, @(pr) ExchangeRecipes({
-                  parsedRecipe = pr,
-                  generatorId = gen.id
-                  craftTime = gen.craftTime
-                  isFake = paramName != "trueRecipe"
-                  isDisassemble = isDisassemble
-                })))
-              }
-            break
+            local gen = collection?[itemdefId] ?? null
+            local additionalParsedRecipes = gen ? inventoryClient.parseRecipesString(gen.exchange) : []
+            _exchangeRecipes.extend(::u.map(additionalParsedRecipes, @(pr) ExchangeRecipes({
+              parsedRecipe = pr,
+              generatorId = gen.id
+              craftTime = gen.craftTime
+              isFake = paramName != "trueRecipe"
+              isDisassemble = isDisassemble
+              localizationPresetName = localizationPresetName
+            })))
           }
+        break
+      }
       if (hasAdditionalRecipes)
       {
         local minIdx = _exchangeRecipes[0].idx
@@ -178,12 +180,10 @@ local add = function(itemDefDesc) {
     collection[itemDefDesc.itemdefid] <- ItemGenerator(itemDefDesc)
 }
 
-local findGenByReceptUid = function(recipeUid) {
-  foreach (gen in collection)
-    foreach (recipe in gen.getRecipes())
-      if (recipe.uid == recipeUid && (!gen.isDelayedxchange() || recipe.isDisassemble))
-        return gen
-}
+local findGenByReceptUid = @(recipeUid)
+  ::u.search(collection, @(gen) ::u.search(gen.getRecipes(false),
+    @(recipe) recipe.uid == recipeUid
+     && (recipe.isDisassemble || !gen.isDelayedxchange())) != null) //!!!FIX ME There should be no two recipes with the same uid.
 
 return {
   get = get

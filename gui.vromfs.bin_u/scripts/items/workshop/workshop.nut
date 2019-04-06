@@ -8,11 +8,14 @@ local OUT_OF_DATE_DAYS_WORKSHOP = 28
 
 local isInited = false
 local setsList = []
-local markingPresetsList = ::DataBlock()
+local markingPresetsList = {}
 local emptySet = Set(::DataBlock())
 
 local visibleSeenIds = null
 local seenIdCanBeNew = {}
+local additionalRecipes = {}
+
+local customLocalizationPresets = {}
 
 local function initOnce()
 {
@@ -41,17 +44,27 @@ local function initOnce()
   // Collecting itemdefs from additional recipes list
   if (wBlk.additionalRecipes)
     foreach (itemBlk in (wBlk.additionalRecipes % "item"))
+    {
+      local item = ::DataBlock()
+      item.setFrom(itemBlk)
+      local itemId = ::to_integer_safe(item.id)
+      if (!additionalRecipes?[itemId])
+        additionalRecipes[itemId] <- []
+      additionalRecipes[itemId].append(item)
       foreach (paramName in ["fakeRecipe", "trueRecipe"])
         inventoryClient.requestItemdefsByIds(itemBlk % paramName)
+    }
 
-  if (wBlk.itemMarkingPresets)
-    markingPresetsList.setFrom(wBlk.itemMarkingPresets)
+  markingPresetsList = ::buildTableFromBlk(wBlk.itemMarkingPresets)
+  customLocalizationPresets = ::buildTableFromBlk(wBlk.customLocalizationPresets)
 }
 
 local function invalidateCache()
 {
   setsList.clear()
-  markingPresetsList = ::DataBlock()
+  markingPresetsList = {}
+  customLocalizationPresets = {}
+  additionalRecipes = {}
   isInited = false
 }
 
@@ -109,6 +122,17 @@ local function canSeenIdBeNew(seenId)
   return seenIdCanBeNew[seenId]
 }
 
+local getCustomLocalizationPresets = function(name) {
+  initOnce()
+  return customLocalizationPresets?[name] ?? {}
+}
+
+local function getItemAdditionalRecipesById(id)
+{
+  initOnce()
+  return additionalRecipes?[id] ?? []
+}
+
 subscriptions.addListenersWithoutEnv({
   SignOut = @(p) invalidateCache()
   InventoryUpdate = @(p) invalidateItemsCache()
@@ -122,9 +146,11 @@ return {
   emptySet = emptySet
 
   isAvailable = @() u.search(getSetsList(), @(s) s.isVisible()) != null
-  getSetsList = @() getSetsList()
-  getMarkingPresetsById = @(presetName) getMarkingPresetsById(presetName)
+  getSetsList = getSetsList
+  getMarkingPresetsById = getMarkingPresetsById
   shouldDisguiseItem = shouldDisguiseItem
   getSetById = @(id) u.search(getSetsList(), @(s) s.id == id)
   getSetByItemId = @(itemId) u.search(getSetsList(), @(s) s.isItemIdInSet(itemId))
+  getCustomLocalizationPresets = getCustomLocalizationPresets
+  getItemAdditionalRecipesById = getItemAdditionalRecipesById
 }

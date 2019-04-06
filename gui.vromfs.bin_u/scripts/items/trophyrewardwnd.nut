@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local sheets = ::require("scripts/items/itemsShopSheets.nut")
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
 function gui_start_open_trophy(configsTable = {})
 {
@@ -86,7 +87,11 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       : isDisassemble && !shouldShowRewardItem ? ::loc("mainmenu/itemDisassembled/title")
       : isCreation() ? trophyItem.getCreationCaption()
       : trophyItem.getOpeningCaption()
-    scene.findObject("reward_title").setValue(title)
+    local titleObj = scene.findObject("reward_title")
+    titleObj.setValue(title)
+    if (daguiFonts.getStringWidthPx(title, "fontMedium", guiScene) >
+      ::to_pixels("1@trophyWndWidth - 1@buttonCloseHeight"))
+      titleObj.caption = "no"
 
     shrinkedConfigsArray = ::trophyReward.processUserlogData(configsArray)
     checkConfigsArray()

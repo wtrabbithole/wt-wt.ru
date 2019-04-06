@@ -440,7 +440,7 @@ enum AxisDirection {
     }
     { id="ID_CENTER_MOUSE_JOYSTICK"
       filterHide = [globalEnv.EM_MOUSE_AIM]
-      showFunc = @() ::is_mouse_available() && getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      showFunc = @() ::is_mouse_available() && (getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK)
       checkAssign = false
     }
 
@@ -1578,15 +1578,18 @@ enum AxisDirection {
       def_relative = true
       checkGroup = ctrlGroups.SUBMARINE
       axisDirection = AxisDirection.Y
+      checkAssign = false
     }
     { id = "submarine_steering"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.SUBMARINE
       axisDirection = AxisDirection.X
+      checkAssign = false
     }
     { id = "submarine_depth"
       type = CONTROL_TYPE.AXIS
       checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
     }
     { id = "ID_SUBMARINE_FULL_STOP"
       checkGroup = ctrlGroups.SUBMARINE
@@ -1602,6 +1605,7 @@ enum AxisDirection {
     }
     { id = "ID_SUBMARINE_WEAPON_TORPEDOES"
       checkGroup = ctrlGroups.SUBMARINE
+      checkAssign = false
     }
     { id = "ID_SUBMARINE_SWITCH_ACTIVE_SONAR"
       checkGroup = ctrlGroups.SUBMARINE
@@ -4587,12 +4591,16 @@ function switchControlsMode(value)
 
 function getUnmappedControlsForCurrentMission()
 {
+  local gm = ::get_game_mode()
+  if (gm == ::GM_BENCHMARK)
+    return []
+
   local unit = ::get_player_cur_unit()
   local helpersMode = ::getCurrentHelpersMode()
   local required = ::getRequiredControlsForUnit(unit, helpersMode)
 
   local unmapped = ::getUnmappedControls(required, helpersMode, true, false)
-  if (::is_in_flight() && ::get_mp_mode() == ::GM_TRAINING)
+  if (::is_in_flight() && gm == ::GM_TRAINING)
   {
     local tutorialUnmapped = ::getUnmappedControlsForTutorial(::current_campaign_mission, helpersMode)
     foreach (id in tutorialUnmapped)

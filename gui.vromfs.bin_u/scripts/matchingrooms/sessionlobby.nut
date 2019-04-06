@@ -635,7 +635,7 @@ function SessionLobby::onSettingsChanged(p)
 
   if ("last_round" in set)
   {
-    ::last_round == set.last_round
+    ::last_round = set.last_round
     dagor.debug("last round " + ::last_round)
   }
 
@@ -1746,7 +1746,7 @@ function SessionLobby::joinRoom(_roomId, senderId = "", _password = null,
 
 function SessionLobby::joinFoundRoom(room) //by default not a queue, but no id too
 {
-  if (("hasPassword" in room) && room.hasPassword)
+  if (("hasPassword" in room) && room.hasPassword && getRoomCreatorUid(room) != ::my_user_name)
     joinRoomWithPassword(room.roomId)
   else
     joinRoom(room.roomId)
@@ -2196,7 +2196,7 @@ function SessionLobby::getMembersReadyStatus()
     local ready = isMemberReady(member)
     local spectator = getMemberPublicParam(member, "spectator")
     local team = getMemberPublicParam(member, "team").tointeger()
-    res.haveNotReady = res.haveNotReady || !ready && !spectator
+    res.haveNotReady = res.haveNotReady || (!ready && !spectator)
     res.ableToStart = res.ableToStart || !spectator
     if (ready && !spectator)
     {
@@ -2260,7 +2260,7 @@ function SessionLobby::isPlayerInMyRoom(uid)
 
 function SessionLobby::needAutoInviteSquad()
 {
-  return isInRoom() && isRoomOwner || (haveLobby() && !isRoomByQueue)
+  return isInRoom() && (isRoomOwner || (haveLobby() && !isRoomByQueue))
 }
 
 function SessionLobby::checkSquadAutoInvite()

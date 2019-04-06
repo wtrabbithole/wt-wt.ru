@@ -7,7 +7,7 @@ class SlotbarPresetsList
 
   NULL_PRESET_DATA = { isEnabled = false, title = "" } //const
 
-  function constructor(handler)
+  constructor(handler)
   {
     ownerWeak = handler.weakref()
     if (!::checkObj(ownerWeak.scene))
