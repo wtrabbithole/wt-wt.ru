@@ -45,7 +45,7 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
         local type = " "
         if (val == null) { val = "null" }
         else if (typeof(val)=="integer") type = ":i"
-        else if (typeof(val)=="float") { type = ":r"; val = val.tostring() + (val % 1 ? "" : ".0") }
+        else if (typeof(val)=="float") { type = ":r"; val = val.tostring() + ((val % 1) ? "" : ".0") }
         else if (typeof(val)=="bool") type = ":b"
         else if (typeof(val)=="string") { type = ":t"; val = "'" + val + "'" }
         else if (u.isPoint2(val)) { type = ":p2"; val = ::format("%s, %s", val.x.tostring(), val.y.tostring()) }
@@ -98,7 +98,7 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
         else if (type=="string")
           printFn(prefix+addStr+idText+" = '" + data + "'")
         else if (type=="float")
-          printFn(prefix+addStr+idText+" = " + data + (data % 1 ? "" : ".0"))
+          printFn(prefix+addStr+idText+" = " + data + ((data % 1) ? "" : ".0"))
         else if (type=="null")
           printFn(prefix+addStr+idText+" = null")
         else
@@ -112,7 +112,7 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
       if (type=="string")
         printFn(prefix + addStr + "'" + info + "'")
       else if (type=="float")
-        printFn(prefix + addStr + info + (info % 1 ? "" : ".0"))
+        printFn(prefix + addStr + info + ((info % 1) ? "" : ".0"))
       else if (type=="null")
         printFn(prefix + addStr + "null")
       else
@@ -184,7 +184,7 @@ function toString(val, recursion = 1, addStr = "")
   if (type(val) == "string")
     return format("\"%s\"", val)
   if (type(val) == "float")
-    return val.tostring() + (val % 1 ? "" : ".0")
+    return val.tostring() + ((val % 1) ? "" : ".0")
   if (type(val) != "array" && type(val) != "table")
     return "" + val
   local isArray = type(val) == "array"

@@ -4061,7 +4061,6 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         return
       }
 
-      local device = ::joystick_get_default()
       local curPreset = ::g_controls_manager.getCurPreset()
       local msg = format(::loc("msg/zoomAssignmentsConflict"),
         ::remapAxisName(curPreset, axis.axisId))
@@ -4812,7 +4811,6 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
   local unitId = unit.name
   local unitType = unit.unitType
-  local unitClassType = unit.expClass
 
   local preset = ::g_controls_manager.getCurPreset()
   local actionBarShortcutFormat = null
@@ -4851,7 +4849,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
     if (preset.getAxis("fire").axisId == -1)
     {
-      if (w.gotMachineGuns || !w.gotCannons && w.gotGunnerTurrets) // Gunners require either Mguns or Cannons shortcut.
+      if (w.gotMachineGuns || (!w.gotCannons && w.gotGunnerTurrets)) // Gunners require either Mguns or Cannons shortcut.
         controls.append("ID_FIRE_LASERGUNS_UFO")
       if (w.gotCannons)
         controls.append("ID_FIRE_RAILGUNS_UFO")

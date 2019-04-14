@@ -190,7 +190,6 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
 
     local airfield = ::g_world_war.getAirfieldByIndex(index)
     local cooldownFormations = airfield.getCooldownsWithManageAccess()
-    local itemsView = []
     foreach (i, cooldown in cooldownFormations)
       cooldownView.army.append(cooldown.getView())
 

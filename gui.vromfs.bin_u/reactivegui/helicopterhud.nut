@@ -1,5 +1,4 @@
 local math = require("std/math.nut")
-local interopGet = require("daRg/helpers/interopGen.nut")
 local screenState = require("style/screenState.nut")
 local compass = require("compass.nut")
 local rwr = require("rwr.nut")
@@ -7,7 +6,6 @@ local helicopterState = require("helicopterState.nut")
 
 local style = {}
 
-local greenColor = Color(71, 232, 39, 200)
 local backgroundColor = Color(0, 0, 0, 150)
 local fontOutlineColor = Color(0, 0, 0, 235)
 

@@ -9,7 +9,7 @@ function gui_start_testflight(unit = null, afterCloseFunc = null, shouldSkipUnit
     unit =  unit || ::show_aircraft
     shouldSkipUnitCheck = shouldSkipUnitCheck
   })
-  ::last_called_gui_testflight <- ::handlersManager.getLastBaseHandlerStartFunc()
+  ::last_called_gui_testflight = ::handlersManager.getLastBaseHandlerStartFunc()
 }
 
 function mergeToBlk(sourceTable, blk)  //!!FIX ME: this used only for missionBuilderVehicleConfigForBlk and better to remove this also

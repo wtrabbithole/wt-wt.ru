@@ -43,7 +43,7 @@ class ::WwBattleResultsView
       {
         if (wwUnit.getWwUnitType().code == ::g_ww_unit_type.UNKNOWN)
         {
-          local unitName = wwUnit.name
+          local unitName = wwUnit.name // warning disable: -declared-never-used
           ::script_net_assert_once("UNKNOWN wwUnitType", "wwUnitType is UNKNOWN in wwBattleResultsView")
           continue
         }

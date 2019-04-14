@@ -21,8 +21,8 @@ function gui_start_session_list(prev_scene_func=null)
 function gui_start_missions() //!!FIX ME: is it really used in some cases?
 {
   ::quick_match_flag <- false
-  ::match_search_diff <- -1
-  ::match_search_gm <- -1
+  ::match_search_diff = -1
+  ::match_search_gm = -1
   ::match_search_map <- ""
   gui_start_session_list(gui_start_mainmenu)
 }
@@ -36,8 +36,8 @@ function gui_start_skirmish()
 function prepare_start_skirmish()
 {
   ::quick_match_flag <- false
-  ::match_search_diff <- -1
-  ::match_search_gm <- ::GM_SKIRMISH
+  ::match_search_diff = -1
+  ::match_search_gm = ::GM_SKIRMISH
   ::match_search_map <- ""
 }
 

@@ -35,6 +35,25 @@ class ::items_classes.Chest extends ItemExternal {
 
   canConsume = @() isInventoryItem
 
+  function consume(cb, params)
+  {
+    if (base.consume(cb, params))
+      return true
+
+    if (!uids || !uids.len() || !canConsume())
+      return false
+
+    if (shouldAutoConsume)
+    {
+      params.cb <- cb
+      params.shouldSkipMsgBox <- true
+      ExchangeRecipes.tryUse(getRelatedRecipes(), this, params)
+      return true
+    }
+
+    return false
+  }
+
   function getMainActionData(isShort = false)
   {
     local res = base.getMainActionData(isShort)

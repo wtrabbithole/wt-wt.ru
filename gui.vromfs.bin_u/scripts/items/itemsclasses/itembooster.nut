@@ -499,7 +499,6 @@ class ::items_classes.Booster extends ::BaseItem
       return ""
 
     local textsList = []
-    local mainCondition = ::UnlockConditions.getMainProgressCondition(stopConditions)
     // Shows progress as count down 6, 5, 4, ... instead of 0/6, 1/6, ...
     local curValue = getLeftStopSessions()
     local params = { locEnding = isActive() ? "/inverted" : "/activeFor" }

@@ -6,7 +6,7 @@ local time = require("scripts/time.nut")
 
 ::top_menu_borders <- [[0.01, 0.99], [0.05, 0.86]] //[x1,x2], [y1, y2] *rootSize - border for chat and contacts
 if (::is_platform_ps4)
-  ::top_menu_borders <- [[0.01, 0.99], [0.09, 0.86]]
+  ::top_menu_borders = [[0.01, 0.99], [0.09, 0.86]]
 
 ::g_script_reloader.registerPersistentData("topMenuGlobals", ::getroottable(), ["top_menu_shop_active"])
 

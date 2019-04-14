@@ -1,4 +1,5 @@
 local dbg_dump = require("scripts/debugTools/dbgDump.nut")
+local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 
 ::debug_dump_unload <- dbg_dump.unload
 ::debug_dump_is_loaded <- dbg_dump.isLoaded
@@ -369,7 +370,6 @@ function debug_dump_userlogs_load(filename = "debug_dump_userlogs.blk")
 
 function debug_dump_inventory_save(filename = "debug_dump_inventory.blk")
 {
-  local inventoryClient = require("scripts/inventory/inventoryClient.nut")
   dbg_dump.save(filename, [
     { id = "_inventoryClient_items",    value = inventoryClient.items }
     { id = "_inventoryClient_itemdefs", value = inventoryClient.itemdefs }
@@ -384,7 +384,6 @@ function debug_dump_inventory_load(filename = "debug_dump_inventory.blk")
   dbg_dump.loadFuncs({
     inventory = { request  = @(...) null }
   }, false)
-  local inventoryClient = require("scripts/inventory/inventoryClient.nut")
   inventoryClient.itemdefs = ::_inventoryClient_itemdefs
   inventoryClient.items    = ::_inventoryClient_items
   ::broadcastEvent("ItemDefChanged")

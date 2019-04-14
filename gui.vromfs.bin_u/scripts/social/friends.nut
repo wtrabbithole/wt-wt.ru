@@ -1,6 +1,5 @@
 local psnApi = require("scripts/social/psnWebApi.nut")
 
-local platformModule = require("scripts/clientState/platform.nut")
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 ::no_dump_facebook_friends <- {}
@@ -10,7 +9,6 @@ local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 ::g_script_reloader.registerPersistentData("SocialGlobals", ::getroottable(), ["no_dump_facebook_friends"])
 
-local ps4TitleId = ::is_platform_ps4? ::ps4_get_title_id() : ""
 local isFirstPs4FriendsUpdate = true
 
 function addSocialFriends(blk, group, silent = false)

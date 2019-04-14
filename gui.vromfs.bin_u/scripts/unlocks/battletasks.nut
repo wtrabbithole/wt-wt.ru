@@ -964,7 +964,6 @@ function BattleTasks::checkNewSpecialTasks()
 function BattleTasks::getDifficultyTypeGroup()
 {
   local result = []
-  local difficultyGroupArr = []
   foreach(type in ::g_battle_task_difficulty.types)
   {
     local difficultyGroup = type.getDifficultyGroup()

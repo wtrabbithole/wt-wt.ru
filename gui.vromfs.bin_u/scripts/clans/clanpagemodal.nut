@@ -241,7 +241,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     scene.findObject("clan-membershipReqRank").setValue(text)
 
-    local battlesConditionTypeText = ::loc("clan/battlesReqInfoCondType_and");
     local battlesReqText = "";
     local haveBattlesReq = false;
     foreach(diff in ::g_difficulty.types)
@@ -289,7 +288,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       myRights = []
 
     local showBtnLock = (isMyClan && isInArray("CHANGE_INFO", myRights)) || adminMode
-    local hasAdminRight = ::is_myself_clan_moderator()
     local hasLeaderRight = isInArray("LEADER", myRights)
     local showMembershipsReqEditorButton = ( ::has_feature("ClansMembershipEditor") ) && (
                                             ( isMyClan && isInArray("CHANGE_INFO", myRights) ) || clan_get_admin_editor_mode() )

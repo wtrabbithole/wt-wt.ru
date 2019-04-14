@@ -269,7 +269,6 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     joinButtonObj.tooltip = isSquadMember ? reasonData.reasonText : ""
     local availTeams = ::events.getAvailableTeams(roomMGM)
     local startText = ""
-    local startTextParams = {}
     if (isSquadMember)
       startText = ::loc(isReady ? "multiplayer/btnNotReady" : "mainmenu/btnReady")
     else if (roomMGM && !::events.isEventSymmetricTeams(roomMGM) && availTeams.len() == 1)

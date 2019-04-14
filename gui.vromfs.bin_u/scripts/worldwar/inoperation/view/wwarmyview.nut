@@ -333,8 +333,6 @@ class ::WwArmyView
     if (!isArtillery())
       return null
 
-    local cant_tire_text = ::loc("worldwar/artillery/cant_fire")
-
     if (formation.isMove())
       return ::loc("worldwar/artillery/is_move")
 
@@ -362,7 +360,7 @@ class ::WwArmyView
     return ::loc("worldwar/artillery/can_fire")
   }
 
-  function isAlert()
+  function isAlert() // warning disable: -named-like-return-bool
   {
     if (isDead() || getGroundSurroundingTime())
       return "yes"

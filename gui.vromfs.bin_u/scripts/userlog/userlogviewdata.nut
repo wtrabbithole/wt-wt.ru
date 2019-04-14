@@ -1360,7 +1360,7 @@ function get_userlog_view_data(log)
     local awardData = ::getTblValue("award", log)
     if (awardData)
     {
-      local wbPriceText = ::g_warbonds.getWarbondPriceText(log?.warbond, log?.stage, awardData?.cost ?? 0)
+      local wbPriceText = ::g_warbonds.getWarbondPriceText(awardData?.cost ?? 0)
       local awardBlk = ::DataBlockAdapter(awardData)
       local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
       res.name = awardType.getUserlogBuyText(awardBlk, wbPriceText)

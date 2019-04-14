@@ -14,7 +14,8 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
   })(scene)
 
   local div = getObj("gamercard_div")
-  local logoFound = ::checkObj(div) ? ::show_title_logo(true, div) : false
+  if (::check_obj(div))
+    ::show_title_logo(true, div)
   show = show && ::g_login.isLoggedIn()
   if (::checkObj(div))
     div.show(show)

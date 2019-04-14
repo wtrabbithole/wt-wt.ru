@@ -1,4 +1,3 @@
-local time = require("scripts/time.nut")
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
@@ -232,7 +231,6 @@ function ItemsManager::checkShopItemsUpdate()
     for (local i = 0; i < trophyBlk.blockCount(); i++)
     {
       local blk = trophyBlk.getBlock(i)
-      local id = blk.getBlockName()
       local item = createItem(itemType.TROPHY, blk)
       itemsListInternal.append(item)
     }
@@ -242,7 +240,6 @@ function ItemsManager::checkShopItemsUpdate()
   for(local i = 0; i < itemsBlk.blockCount(); i++)
   {
     local blk = itemsBlk.getBlock(i)
-    local id = blk.getBlockName()
     local iType = getInventoryItemType(blk.type)
     if (iType == itemType.UNKNOWN)
     {
@@ -258,7 +255,6 @@ function ItemsManager::checkShopItemsUpdate()
     for (local i = 0; i < fakeItemsList.blockCount(); i++)
     {
       local blk = fakeItemsList.getBlock(i)
-      local id = blk.getBlockName()
       local item = createItem(blk.type, blk)
       itemsListInternal.append(item)
     }
@@ -495,7 +491,6 @@ function ItemsManager::_checkInventoryUpdate()
 
   local itemsBlk = ::get_items_blk()
 
-  local total = get_items_count()
   local itemsCache = get_items_cache()
   foreach(slot in itemsCache)
   {
@@ -569,6 +564,8 @@ function ItemsManager::_checkInventoryUpdate()
       local item = createItem(iType, itemDefDesc, itemDesc)
       if (item.id in transferAmounts)
         item.transferAmount += delete transferAmounts[item.id]
+      if (item.shouldAutoConsume)
+        shouldCheckAutoConsume = true
       extInventoryItems.append(item)
     }
   }
@@ -723,7 +720,7 @@ function ItemsManager::_getItemsFromList(list, typeMask, filterFunc = null, item
 
   local res = []
   foreach(item in list)
-    if (::getTblValue(itemMaskProperty, item, item.iType) & typeMask
+    if (((item?[itemMaskProperty] ?? item.iType) & typeMask)
         && (!filterFunc || filterFunc(item)))
       res.append(item)
   return res

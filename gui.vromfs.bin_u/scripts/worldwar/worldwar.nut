@@ -756,7 +756,7 @@ function g_world_war::isGroupAvailable(group, accessList = null)
     accessList = getMyAccessLevelListForCurrentBattle()
 
   local access = ::getTblValue(group.owner.armyGroupIdx, accessList, WW_BATTLE_ACCESS.NONE)
-  return access & WW_BATTLE_ACCESS.MANAGER
+  return !!(access & WW_BATTLE_ACCESS.MANAGER)
 }
 
 // return array of WwArmyGroup
@@ -771,8 +771,7 @@ function g_world_war::getArmyGroups(filterFunc = null)
 // return array of WwArmyGroup
 function g_world_war::getArmyGroupsBySide(side, filterFunc = null)
 {
-  return getArmyGroups
-  (
+  return getArmyGroups(
     (@(side, filterFunc) function (group) {
       if (group.owner.side != side)
         return false

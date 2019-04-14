@@ -373,10 +373,10 @@ function create_option_row_multiselect(params)
     items = []
   }
   foreach (key in [ "id", "showTitle", "value", "cb" ])
-    if (option?[key] ?? "" != "")
+    if ((option?[key] ?? "") != "")
       view[key] <- option[key]
   foreach (key in [ "textAfter" ])
-    if (option?[key] ?? "" != "")
+    if ((option?[key] ?? "") != "")
       view[key] <- ::locOrStrip(option[key])
 
   foreach (v in option.items)
@@ -386,10 +386,10 @@ function create_option_row_multiselect(params)
     foreach (key in [ "enabled", "isVisible" ])
       viewItem[key] <- item?[key] ?? true
     foreach (key in [ "id", "image" ])
-      if (item?[key] ?? "" != "")
+      if ((item?[key] ?? "") != "")
         viewItem[key] <- item[key]
     foreach (key in [ "text", "tooltip" ])
-      if (item?[key] ?? "" != "")
+      if ((item?[key] ?? "") != "")
         viewItem[key] <- ::locOrStrip(item[key])
     view.items.append(viewItem)
   }
@@ -2186,7 +2186,6 @@ function get_option(type, context = null)
         local air = getAircraftByName(aircraft)
         if (air)
         {
-          local is_tank = ::isTank(air)
           local bullets = ::get_options_bullets_list(air, groupIndex, true)
           descr.title = ::get_bullets_list_header(air, bullets)
 
@@ -2213,7 +2212,6 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_SKIN:
-      local air = ::aircraft_for_weapons
       descr.id = "skin"
       descr.trParams <- "optionWidthInc:t='double';"
       if (typeof ::aircraft_for_weapons == "string")
@@ -2583,7 +2581,8 @@ function get_option(type, context = null)
 
       local missionBlk = ::get_mission_meta_info(context?.missionName ?? "")
       local isKillStreaksOptionAvailable = missionBlk && ::is_skirmish_with_killstreaks(missionBlk)
-      local useKillStreaks = isKillStreaksOptionAvailable && ::get_gui_option(::USEROPT_USE_KILLSTREAKS) ?? false
+      local useKillStreaks = isKillStreaksOptionAvailable
+        && (::get_gui_option(::USEROPT_USE_KILLSTREAKS) ?? false)
       local availableUnitTypesMask = ::get_mission_allowed_unittypes_mask(missionBlk, useKillStreaks)
 
       descr.availableUnitTypesMask <- availableUnitTypesMask

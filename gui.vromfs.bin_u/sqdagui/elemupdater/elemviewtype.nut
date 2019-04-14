@@ -33,16 +33,16 @@ viewType.get <- @(typeId) this?[typeId] ?? EMPTY
 
 viewType.buildBhvConfig <- function(params) {
   local tbl = (type(params)=="table") ? params : null
-  local viewType = get(tbl?.viewId ?? params)
+  local vt = get(tbl?.viewId ?? params)
   if (type(params)=="string")
-    tbl = viewType == EMPTY ? ::parse_json(params) : { viewId = params }
+    tbl = vt == EMPTY ? ::parse_json(params) : { viewId = params }
 
   if (!tbl?.viewId)
     return null
 
-  viewType = get(tbl.viewId)
+  vt = get(tbl.viewId)
   local res = tbl
-  res.viewType <- viewType
+  res.viewType <- vt
   if (!res?.subscriptions)
     res.subscriptions <- []
   return res

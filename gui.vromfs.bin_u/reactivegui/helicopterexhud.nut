@@ -500,24 +500,6 @@ local getThrottleText = function() {
 }
 
 
-local getAACaption = function() {
-  local text = ""
-  if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_STANDBY)
-    text = ::loc("HUD/IR_MISSILE_STANDBY")
-  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_WARMING_UP)
-    text = ::loc("HUD/TXT_IR_MISSILE_WARM_UP")
-  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_LOCKING)
-    text = ::loc("HUD/IR_MISSILE_LOCK")
-  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_TRACKING)
-    text = ::loc("HUD/IR_MISSILE_TRACK")
-
-  return text
-}
-
-
-local getAABullets = generateBulletsTextFunction(helicopterState.Aam.count, helicopterState.Aam.seconds)
-
-
 local createHelicopterParam = function(param, width, line_style, isBackground)
 {
   local rowHeight = hdpx(28)

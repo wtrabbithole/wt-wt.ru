@@ -64,7 +64,6 @@ class ::items_classes.ModUpgrade extends BaseItemModClass
     blk.unit = unit.name
     blk.mod = mod.name
 
-    local item = this
     ::g_tasker.addTask(
       ::char_send_blk("cln_upgrade_modification_item", blk),
       {

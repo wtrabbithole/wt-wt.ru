@@ -157,9 +157,9 @@ local defTostringParams = {
 }
 local function func2str(func, p={}){
   local compact = p?.compact ?? false
-  local showsrc = p?.showsrc ?? (false && compact)
-  local showparams = p?.showparams ?? (true && compact)
-  local showdefparams = p?.showdefparams ?? (true && compact)
+  local showsrc = p?.showsrc ?? false
+  local showparams = p?.showparams ?? compact
+  local showdefparams = p?.showdefparams ?? compact
   local tostr_func = p?.tostr_func ?? @(v) ""+v
 
   if (::type(func)=="thread") {
@@ -192,7 +192,7 @@ local function func2str(func, p={}){
     if (fname.slice(0,1)=="(")
       fname = "@"
     if (showsrc)
-      out += "(func): " + info?.src + " "
+      out += "(func): " + (info?.src ?? "") + " "
     out += fname +"("
     if (!showparams)
       out += params_str
@@ -247,12 +247,11 @@ local function tostring_any(input, tostringfunc=null, compact=true) {
   else if (typ == "weakreference"){
     return "#WEAKREF#"
   }
-  else
-    return input.tostring()
+  return input.tostring()
 }
+
 local table_types = ["table","class","instance"]
 local function tostring_r(input, params=defTostringParams) {
-  local out = ""
   local newline = params?.newline ?? defTostringParams.newline
   local maxdeeplevel = params?.maxdeeplevel ?? defTostringParams.maxdeeplevel
   local separator = params?.separator ?? defTostringParams.separator
@@ -261,7 +260,6 @@ local function tostring_r(input, params=defTostringParams) {
   local indentOnNewline = params?.indentOnNewline ?? defTostringParams.indentOnNewline
   local splitlines = params?.splitlines ?? defTostringParams.splitlines
   local compact = params?.compact ?? defTostringParams.compact
-  local deeplevel = 0
   local tostringfuncs = [
     {
       compare = @(val,typ) simple_types.find(typ) != null
@@ -338,7 +336,7 @@ local function tostring_r(input, params=defTostringParams) {
     newline = " "
     indentOnNewline = ""
   }
-  local function sub_tostring_r(input, indent, curdeeplevel, arrayElem = false, separator = newline, arrInd=null) {
+  local function sub_tostring_r(input, indent, curdeeplevel, arrayElem = false, sep = newline, arrInd=null) {
     if (arrInd==null)
       arrInd=indent
     local out = ""
@@ -348,12 +346,12 @@ local function tostring_r(input, params=defTostringParams) {
       local tostringLeafv=tostringLeaf(value)
       if (tostringLeafv[0]) {
         if (!arrayElem) {
-          out += separator
+          out += sep
           out += indent + tostring_any(key) +  " = "
         }
         out += tostringLeafv[1]
         if (arrayElem && key!=input.len()-1)
-          out += separator
+          out += sep
       }
       else if (maxdeeplevel != null && curdeeplevel == maxdeeplevel && !tostringLeafv[0]) {
         local brOp = openSym(value)
@@ -370,7 +368,7 @@ local function tostring_r(input, params=defTostringParams) {
           out += newline + indent + tostring_any(key, null, compact) +  " = "
         out += "[" + callee()(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
         if (arrayElem && key!=input.len()-1)
-          out += separator
+          out += sep
       }
       else if (table_types.find(typ) != null || (isArray && showArrIdx )) {
         local brOp = openSym(value)
@@ -559,14 +557,14 @@ local function countSubstrings(str, substr) {
 }
 
 //Change case to upper for set up number of symbols
-local function toUpper(string, symbolsNum = 0) {
+local function toUpper(str, symbolsNum = 0) {
   if (symbolsNum <= 0) {
-    symbolsNum = string.len()
+    symbolsNum = str.len()
   }
-  if (symbolsNum >= string.len()) {
-    return string.toupper()
+  if (symbolsNum >= str.len()) {
+    return str.toupper()
   }
-  return slice(string, 0, symbolsNum).toupper() + slice(string, symbolsNum)
+  return slice(str, 0, symbolsNum).toupper() + slice(str, symbolsNum)
 }
 
 

@@ -29,7 +29,6 @@ function _generateInterceptBombingMission(isFreeFlight, createGroundUnitsProc)
   local art_count = mgGetUnitsCount("#bomb_targets_art");
   local ships_count = mgGetUnitsCount("#bomb_targets_ships");
   local carrier_count = mgGetUnitsCount("#bomb_targets_carrier");
-  local bombTargets_count = mgGetUnitsCount("#bomb_target_buildings");
 
 
     if ( tanks_count > 0 && tanks_count > light_count && tanks_count > art_count)
@@ -122,7 +121,7 @@ function _generateInterceptBombingMission(isFreeFlight, createGroundUnitsProc)
   local enemyDist = timeToTarget*enemyBomberSpeed+5000;
 
   mgSetDistToAction(-(enemyDist+bombersCount*500/6.0));
-  local airfieldCreated = mgSetupAirfield(bombtargets, 6000);
+  mgSetupAirfield(bombtargets, 6000);
   local startLookAt = mgCreateStartLookAt();
 
   local playerStartAngle = rndRange(-30,30);
@@ -168,7 +167,6 @@ function _generateInterceptBombingMission(isFreeFlight, createGroundUnitsProc)
 
 //mission warpoint cost calculate
   local mission_mult = (bombersCount-12)/15.0+0.05;
-  local repairCost = playerPlaneCost*0.1;
   local missionWpCost = warpointCalculate(mission_preset_name, 1, 5, 1,
                                           playerFighterPlane, mission_mult);
   mgSetInt("mission_settings/mission/wpAward", missionWpCost);

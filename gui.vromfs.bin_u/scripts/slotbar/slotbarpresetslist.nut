@@ -111,7 +111,7 @@ class SlotbarPresetsList
     if (!needFullRecount && _lastListWidth == availWidth)
       return
 
-    _lastListWidth == availWidth
+    _lastListWidth = availWidth
     availWidth -= listObj.findObject("btn_slotbar_presets").getSize()[0]
 
     //count all sizes

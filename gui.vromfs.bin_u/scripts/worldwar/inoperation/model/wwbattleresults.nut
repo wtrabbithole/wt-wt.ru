@@ -305,7 +305,6 @@ class ::WwBattleResults
 
       local teamCountry = ""
       local teamArmyStates = {}
-      local teamUnitTypes = []
       local teamUnits = {}
       foreach (army in teamArmiesList)
       {

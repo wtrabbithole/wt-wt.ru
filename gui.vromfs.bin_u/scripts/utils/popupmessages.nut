@@ -81,9 +81,9 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
 
     local viewType = blk.viewType || POPUP_VIEW_TYPES.NEVER
     local viewDay = ::loadLocalByAccount("popup/" + popupId, 0)
-    local canShow = viewType == POPUP_VIEW_TYPES.EVERY_SESSION ||
-                    viewType == POPUP_VIEW_TYPES.ONCE && !viewDay ||
-                    viewType == POPUP_VIEW_TYPES.EVERY_DAY && viewDay < days
+    local canShow = (viewType == POPUP_VIEW_TYPES.EVERY_SESSION)
+                    || (viewType == POPUP_VIEW_TYPES.ONCE && !viewDay)
+                    || (viewType == POPUP_VIEW_TYPES.EVERY_DAY && viewDay < days)
     if (!canShow)
     {
       passedPopups[popupId] <- true

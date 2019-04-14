@@ -82,7 +82,6 @@ function g_shortcut_type::_getDeviceAxisDescription(shortcutId, isMouseHigherPri
 
   local joyParams = ::JoystickParams()
   joyParams.setFrom(::joystick_get_cur_settings())
-  local shortcutData = ::get_shortcut_by_id(shortcutId)
   local axisIndex = ::getTblValue("axisIndex", ::get_shortcut_by_id(shortcutId), -1)
   if (axisIndex < 0)
     return result

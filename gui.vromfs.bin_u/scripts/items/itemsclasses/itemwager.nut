@@ -674,7 +674,6 @@ class ::items_classes.Wager extends ::BaseItem
     }
     if (!activeRowPlaced && needActiveRow)
     {
-      activeRowPlaced = true
       local activeRewardData = getRewardDataByParam(numWins, winParamsData)
       view.rows.push(createRewardView("selected", activeRewardData, numWins))
     }

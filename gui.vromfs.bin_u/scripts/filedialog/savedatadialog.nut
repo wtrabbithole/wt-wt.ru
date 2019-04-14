@@ -1,6 +1,5 @@
 local u = require("std/u.nut")
 local time = require("scripts/time.nut")
-local stdpath = require("std/path.nut")
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
 const SAVEDATA_PROGRESS_MSG_ID = "SAVEDATA_IO_OPERATION"
 

@@ -5,7 +5,6 @@ function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
   local playerSide = mgGetPlayerSide();
   local enemySide = mgGetEnemySide();
   local bombtargets = createGroundUnitsProc(playerSide);
-  local ws = ::get_warpoints_blk();
 
 
   local enemy1Angle = rndRange(-45, 45);
@@ -92,6 +91,9 @@ function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
   if (playerFighterPlane == "" || enemyFighterPlane == "" || enemyAssaultPlane == "")
     return;
 
+  if (countToFail < 1)
+    countToFail = 1;
+
   mgReplace("mission_settings/briefing/part", "icontype", "carrier", ground_type);
   mgReplace("mission_settings/briefing/part", "point", "#bomb_targets", squad_type);
   mgReplace("mission_settings/briefing/part", "target", "#bomb_targets", squad_type);
@@ -106,9 +108,6 @@ function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
     mgReplace("mission_settings/briefing/part", "target", "target_waypoint_bombers", squad_type);
     mgReplace("mission_settings/briefing/part", "lookAt", "target_waypoint_bombers", squad_type);
   }
-
-  if (countToFail < 1)
-    countToFail = 1;
 
   if (bombersCount < 8)
     bombersCount = 8;
@@ -152,7 +151,6 @@ function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
 
 //battle distance calculate
   local rndHeight = rndRange(1500, 3000);
-  local playerSpeed = getDistancePerMinute(playerFighterPlane);
   local enemySpeed = getDistancePerMinute(enemyAssaultPlane);
 
 
@@ -211,7 +209,6 @@ function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
 
 //mission warpoint cost calculate
   local mission_mult = sqrt(bombersCount/11.0+0.05);
-  local repairCost = playerPlaneCost*0.1;
   local missionWpCost = warpointCalculate(mission_preset_name, allyFighterCount, enemyFightersCount+bombersCount*0.5, planeCost,
                                           playerFighterPlane, mission_mult);
   mgSetInt("mission_settings/mission/wpAward", missionWpCost);

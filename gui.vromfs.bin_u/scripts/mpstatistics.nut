@@ -159,7 +159,6 @@ function build_mp_table(table, markupData, hdr, max_rows)
       }
       else if (hdr[j] == "team")
       {
-        local team = ""
         local teamText = "teamImg{ text { halign:t='center'}} "
         tdData += "size:t='ph"+widthAdd+",ph'; css-hier-invalidate:t='yes'; team:t=''; " + teamText
       }
@@ -1840,10 +1839,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local val = selectedObj.cur_row.tointeger()
-    local numRows = selectedObj.num_rows.tointeger()
-    if (numRows < 0)
-      numRows = selectedObj.childrenCount()
-
     local table_name = (selectedObj.id == "table_kills_team2") ? "table_kills_team1" : "table_kills_team2"
     local tblObj = scene.findObject(table_name)
     local numRowsDst = tblObj.num_rows.tointeger()

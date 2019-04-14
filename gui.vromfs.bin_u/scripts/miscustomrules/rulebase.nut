@@ -406,7 +406,6 @@ class ::mission_rules.Base
     if (!randomUnitsGroup)
       return unitsList
 
-    local unit
     foreach (unitName, u in randomUnitsGroup)
     {
       unitsList.append(unitName)

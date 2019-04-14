@@ -1,6 +1,3 @@
-local time = require("scripts/time.nut")
-
-
 enum queueStates
 {
   ERROR,
@@ -162,7 +159,7 @@ class QueueManager {
   function getActiveQueueWithType(typeBit)
   {
     foreach(queue in queuesList)
-      if (typeBit & queue.typeBit && isQueueActive(queue))
+      if ((typeBit & queue.typeBit) && isQueueActive(queue))
         return queue
 
     return null
@@ -200,9 +197,8 @@ class QueueManager {
     if (typeBit < 0)
       return leaveAllQueues()
 
-    local res = []
     foreach(queue in queuesList)
-      if (typeBit & queue.typeBit && isQueueActive(queue))
+      if ((typeBit & queue.typeBit) && isQueueActive(queue))
         leaveQueue(queue)
   }
 
@@ -685,7 +681,7 @@ class QueueManager {
   }
 }
 
-::queues <- QueueManager()
+::queues = QueueManager()
 
 function checkIsInQueue()
 {

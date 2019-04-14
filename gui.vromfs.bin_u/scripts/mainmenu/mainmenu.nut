@@ -2,6 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local contentStateModule = ::require("scripts/clientState/contentState.nut")
+local itemNotifications = ::require("scripts/items/itemNotifications.nut")
 
 ::dbg_mainmenu_start_check <- 0
 ::_is_first_mainmenu_call <- true //only for comatible with 1.59.2.X executable
@@ -177,6 +178,7 @@ function on_mainmenu_return(handler, isAfterLogin)
 
     local hasModalObjectVal = guiScene.hasModalObject()
     handler.doWhenActive((@(hasModalObjectVal) function() { ::g_popup_msg.showPopupWndIfNeed(hasModalObjectVal) })(hasModalObjectVal))
+    handler.doWhenActive(function () { itemNotifications.checkOfferToBuyAtExpiration() })
   }
 
   handler.doWhenActive(::pop_gblk_error_popups)

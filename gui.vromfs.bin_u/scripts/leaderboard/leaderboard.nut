@@ -756,7 +756,6 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     local lbWaitBox = lbWrapObj.findObject("msgWaitAnimation")
     local noLbText = lbWrapObj.findObject("no_leaderboads_text")
 
-    local tableData = ""
     isLastPage = false
 
     local lbRows = getLbRows()

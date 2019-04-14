@@ -96,8 +96,6 @@ local createIndicator = function(line_style, stateWatched, arrowsParams = defArr
 
 
 local rwrComponent = function(line_style) {
-  local gap = hdpx(5)
-
   return {
     size = [sw(100), sh(100)]
     padding = screenState.safeAreaSizeHud.value.borders

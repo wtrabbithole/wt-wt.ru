@@ -1,5 +1,4 @@
 local interopGet = require("daRg/helpers/interopGen.nut")
-local chatBase = require("daRg/components/chat.nut")
 
 
 local shipState = {

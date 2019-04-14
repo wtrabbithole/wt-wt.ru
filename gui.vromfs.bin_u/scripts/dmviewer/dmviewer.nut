@@ -1268,7 +1268,7 @@
         ::loc("measureUnits/rounds_per_min"))
     if (reloadTimeS)
     {
-      reloadTimeS = reloadTimeS % 1 ? ::format("%.1f", reloadTimeS) : ::format("%d", reloadTimeS)
+      reloadTimeS = (reloadTimeS % 1) ? ::format("%.1f", reloadTimeS) : ::format("%d", reloadTimeS)
       desc.append(::loc("shop/reloadTime") + " " + reloadTimeS + " " + ::loc("measureUnits/seconds"))
     }
     return desc

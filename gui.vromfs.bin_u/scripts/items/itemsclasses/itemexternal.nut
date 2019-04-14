@@ -438,7 +438,8 @@ local ItemExternal = class extends ::BaseItem
     : (!hasMainActionDisassemble() && canDisassemble() && amount > 0 && !isCrafting() && !hasCraftResult())
       ? getDisassembleText()
     : ""
-  doAltAction        = @(params) canConsume() && assemble(null, params) || convertToWarbonds(params)
+  doAltAction        = @(params) (canConsume() && assemble(null, params))
+    || convertToWarbonds(params)
     || (!hasMainActionDisassemble() && disassemble(params))
 
   function consume(cb, params)
@@ -933,9 +934,13 @@ local ItemExternal = class extends ::BaseItem
   {
     if (!canRunCustomMission())
         return false
+
+    local misBlk = ::get_mission_meta_info(itemDef.tags.canRunCustomMission)
+    if (misBlk?.requiredPackage != null && !check_package_and_ask_download(misBlk.requiredPackage))
+      return true
+
     ::broadcastEvent("BeforeStartCustomMission")
     ::custom_miss_flight <- true
-    local misBlk = ::get_mission_meta_info(itemDef.tags.canRunCustomMission)
     ::current_campaign_mission <- itemDef.tags.canRunCustomMission
     ::select_training_mission(misBlk)
     return true
@@ -997,6 +1002,8 @@ local ItemExternal = class extends ::BaseItem
       : "item/create_header"
     craftingIconInAmmount        = needShowAsDisassemble() ? "hud/iconRepair" : "icon/gear"
   })
+
+  needOfferBuyAtExpiration = @() !isHiddenItem() && itemDef?.tags?.offerToBuyAtExpiration
 }
 
 return ItemExternal

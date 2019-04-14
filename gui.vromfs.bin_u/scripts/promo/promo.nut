@@ -156,7 +156,6 @@ function g_promo::recievePromoBlk()
   if (!::u.isEmpty(staticPromoBlk))
   {
     //---Check on non-unique block names-----
-    local doubles = []
     for (local i = 0; i < staticPromoBlk.blockCount(); i++)
     {
       local block = staticPromoBlk.getBlock(i)
@@ -248,7 +247,6 @@ function g_promo::getActionParamsData(blockId)
 
 function g_promo::generateBlockView(block)
 {
-  local data = ""
   local id = block.getBlockName()
   local view = ::buildTableFromBlk(block)
   view.id <- id
@@ -476,11 +474,11 @@ function g_promo::isValueCurrentInMultiBlock(id, value)
 
 function g_promo::checkBlockVisibility(block)
 {
-  return ::g_language.isAvailableForCurLang(block)
-         && checkBlockReqFeature(block)
-         && checkBlockUnlock(block)
-         && checkBlockTime(block)
-         && isVisibleByAction(block)
+  return (::g_language.isAvailableForCurLang(block)
+           && checkBlockReqFeature(block)
+           && checkBlockUnlock(block)
+           && checkBlockTime(block)
+           && isVisibleByAction(block))
          || getShowAllPromoBlocks()
 }
 

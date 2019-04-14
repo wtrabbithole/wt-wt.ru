@@ -296,7 +296,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
                           btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
                           btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::check_account_tag("steamlogin")
                           paginator_place = (sheet == "Statistics") && airStatsList && (airStatsList.len() > statsPerPage)
-                          btn_achievements_url = isProfileOpened && ::has_feature("AchievementsUrl")
+                          btn_achievements_url = (sheet == "UnlockAchievement") && ::has_feature("AchievementsUrl")
                             && ::has_feature("AllowExternalLink") && !::is_vendor_tencent()
                         }
     foreach(name, show in buttonsList)
@@ -1140,7 +1140,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   {
     local achievaAmount = unlocksList.len()
     local unlocksListObj = showSceneBtn("unlocks_list", true)
-    local itemDescObj = showSceneBtn("item_desc", false)
+    showSceneBtn("item_desc", false)
     local blockAmount = unlocksListObj.childrenCount()
 
     guiScene.setUpdatesEnabled(false, false)

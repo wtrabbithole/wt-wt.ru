@@ -1,6 +1,4 @@
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
-local guidParser = require("scripts/guidParser.nut")
-local contentPreview = require("scripts/customization/contentPreview.nut")
 
 const DEFAULT_SKIN_NAME = "default"
 

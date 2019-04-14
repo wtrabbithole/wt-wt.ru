@@ -447,7 +447,7 @@ function gather_debriefing_result()
 {
   local gm = ::get_game_mode()
   if (gm==::GM_DYNAMIC)
-    ::dynamic_result <- ::dynamic_apply_status();
+    ::dynamic_result = ::dynamic_apply_status();
 
   ::debriefing_result = {}
 
@@ -776,7 +776,6 @@ function debriefing_result_get_base_tournament_reward()
 
 function get_debriefing_result_active_boosters()
 {
-  local activeBoosters = []
   local logs = getUserLogsList({
     show = [
       ::EULT_EARLY_SESSION_LEAVE
@@ -1008,7 +1007,6 @@ function recount_debriefing_result()
 {
   local gm = ::get_game_mode()
   local gt = ::get_game_type()
-  local isDebriefingFull = ::isDebriefingResultFull()
 
   foreach(row in ::debriefing_rows)
   {

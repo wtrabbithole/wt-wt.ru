@@ -1871,9 +1871,9 @@ function SessionLobby::invitePlayer(uid)
 {
   if (roomId == INVALID_ROOM_ID) // we are not in room. nothere to invite
   {
-    local is_in_room = isInRoom()
-    local room_id = roomId
-    local last_session = ::LAST_SESSION_DEBUG_INFO
+    local is_in_room = isInRoom()                   // warning disable: -declared-never-used
+    local room_id = roomId                          // warning disable: -declared-never-used
+    local last_session = ::LAST_SESSION_DEBUG_INFO  // warning disable: -declared-never-used
     ::script_net_assert("trying to invite into room without roomId")
     return
   }

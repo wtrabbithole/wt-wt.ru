@@ -440,9 +440,7 @@ function get_unlock_rewards_text(config)
   if ("reward" in config)
     textsList.append(config.reward.tostring())
   if ("rewardWarbonds" in config)
-    textsList.append(
-      ::g_warbonds.getWarbondPriceText(config.rewardWarbonds.wbName, null, config.rewardWarbonds.wbAmount)
-    )
+    textsList.append(::g_warbonds.getWarbondPriceText(config.rewardWarbonds.wbAmount))
   return ::g_string.implode(textsList, ", ")
 }
 
@@ -547,7 +545,7 @@ function is_decal_visible(decalBlk)
 
 function is_unlock_tanks_related(unlockId = null, unlockBlk = null)
 {
-  unlockId = unlockId || unlockBlk && unlockBlk.id
+  unlockId = unlockId ?? unlockBlk?.id
   if (!unlockId)
     return false
   if (unlockId in ::tanks_related_unlocks)
@@ -744,7 +742,6 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
   {
     local unlocksList = unlocksLists[currentTab].unlocksList
     local listObj = scene.findObject("wnd_content")
-    local fObj = scene.findObject("wnd_frame")
 
     guiScene.setUpdatesEnabled(false, false)
     guiScene.replaceContentFromText(listObj, "", 0, this)

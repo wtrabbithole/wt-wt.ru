@@ -12,7 +12,7 @@ function on_enter_hangar()
   if (::lights_inited)
     return
 
-  ::lights_inited <- true
+  ::lights_inited = true
   local blk = ::DataBlock( "levels/hangar_winter_airfield_lights.blk" )
   local list = blk.lights ? blk.lights : ::DataBlock()
   for ( local i = 0 ; i < list.blockCount() ; ++i )
@@ -42,7 +42,7 @@ function on_leave_hangar()
   if (! ::lights_inited)
     return
 
-  ::lights_inited <- false
+  ::lights_inited = false
   local cnt = ::lights.len()
   for ( local i = 0 ; i < cnt ; ++i )
   {

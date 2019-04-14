@@ -354,7 +354,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local totalPointsToMax = ::g_crew.getSkillPointsToMaxAllSkills(crew, curCrewUnitType)
-    local btnObj = showSceneBtn("btn_buy_all", totalPointsToMax > 0)
+    showSceneBtn("btn_buy_all", totalPointsToMax > 0)
     local text = ::loc("mainmenu/btnBuyAll") + ::loc("ui/parentheses/space", { text = ::get_crew_sp_text(totalPointsToMax) })
     ::set_double_text_to_button(scene, "btn_buy_all", text)
   }

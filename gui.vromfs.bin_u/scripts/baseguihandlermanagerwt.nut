@@ -401,7 +401,7 @@ function handlersManager::initVoiceChatWidget(handler)
   if (handler.rootHandlerClass || getHandlerType(handler) == handlerType.CUSTOM)
     return
 
-  if (::g_login.isLoggedIn() && handler?.needVoiceChat ?? true)
+  if (::g_login.isLoggedIn() && (handler?.needVoiceChat ?? true))
     handler.guiScene.createElementByObject(handler.scene, "gui/chat/voiceChatWidget.blk", "widgets", null)
 }
 

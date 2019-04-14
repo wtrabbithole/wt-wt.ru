@@ -275,7 +275,6 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
     allowedUnitClassesList = []
 
     local checkedDsUnitTypes = []
-    local checkedUnitExpClasses = []
 
     foreach(unitType in ::g_unit_type.types)
     {

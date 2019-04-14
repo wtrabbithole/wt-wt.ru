@@ -241,10 +241,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
       if (!(i in rewardsArray))
         break
 
-      local rewardConfig = rewardsArray[i]
-      local rewardType = ::trophyReward.getType(rewardConfig)
-
-      layersData += ::trophyReward.getImageByConfig(rewardConfig, false)
+      layersData += ::trophyReward.getImageByConfig(rewardsArray[i], false)
     }
 
     if (layersData == "")

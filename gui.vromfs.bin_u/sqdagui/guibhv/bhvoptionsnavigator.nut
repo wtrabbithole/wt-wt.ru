@@ -123,7 +123,7 @@ class gui_bhv.OptionsNavigator
     if (!coords)
       return ::RETCODE_NOTHING
 
-    if (!is_up && bits&::BITS_MOUSE_DBL_CLICK && bits&::BITS_MOUSE_BTN_L)
+    if (!is_up && (bits&::BITS_MOUSE_DBL_CLICK) && (bits&::BITS_MOUSE_BTN_L))
     {
       if (getValue(obj) == coords[0])
       {

@@ -154,8 +154,6 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
   function updateTeamsInfo()
   {
-    local unitInfoHeight = 0
-
     foreach(side in ::g_world_war.getCommonSidesOrder())
     {
       local sideName = ::ww_side_val_to_name(side)
@@ -187,7 +185,7 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
   {
     local unitsList = map.getUnitInfoBySide(side)
     if (::u.isEmpty(unitsList))
-      return ""
+      return {}
 
     local wwUnitsList = u.filter(::WwUnit.loadUnitsFromNameCountTbl(unitsList),
       @(unit) !unit.isControlledByAI())

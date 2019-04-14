@@ -1,6 +1,7 @@
 function getNearestSelectableChildIndex(listObj, curIndex, way)
 {
-  if (!check_obj(listObj)) return
+  if (!check_obj(listObj))
+    return curIndex
 
   local step = (way >= 0)? 1 : -1
   local breakAt = (way >= 0)? listObj.childrenCount() : -1

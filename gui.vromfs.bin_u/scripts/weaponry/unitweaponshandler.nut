@@ -262,7 +262,6 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local groups = bulletsManager.getBulletsGroups(isForcedAvailable)
     local offset = res.columns.len() < modsInRow ? res.columns.len() : 0
-    local bulColumns = modsInRow - offset
     local totalColumns = ::min(offset + groups.len(), modsInRow)
     for(local i = res.columns.len(); i < totalColumns; i++)
       res.columns.append([])

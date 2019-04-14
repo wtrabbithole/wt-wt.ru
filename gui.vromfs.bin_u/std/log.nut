@@ -19,7 +19,6 @@ local function Log(tostringfunc=null) {
   }
 
   local function log(...) {
-    local out = ""
     if (vargv.len()==1)
       print_(tostring_r(vargv[0],{compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}))
     else

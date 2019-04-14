@@ -483,7 +483,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local btnId = "btn_buyAll"
     local cost = ::get_all_modifications_cost(air, true)
     local show = !cost.isZero() && ::isUnitUsable(air) && ::has_feature("BuyAllModifications")
-    local buttonObj = showSceneBtn(btnId, show)
+    showSceneBtn(btnId, show)
     if (show)
       ::placePriceTextToButton(scene, btnId, ::loc("mainmenu/btnBuyAll"), cost)
   }
@@ -826,7 +826,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     //add primary weapons bundle
     local primaryWeaponsNames = ::getPrimaryWeaponsList(air)
     local primaryWeaponsList = []
-    local curPrimWeapon = ::get_last_primary_weapon(air)
     foreach(i, modName in primaryWeaponsNames)
     {
       local mod = (modName=="")? null : ::getModificationByName(air, modName)
@@ -1403,7 +1402,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (checkCanDisable && equipped && !::weaponVisual.isCanBeDisabled(item))
       return
 
-    !equipped? ::play_gui_sound("check") : ::play_gui_sound("uncheck")
+    ::play_gui_sound(!equipped ? "check" : "uncheck")
 
     checkSaveBulletsAndDo((@(item, equipped) function() { doSwitchMod(item, equipped) })(item, equipped))
   }
@@ -1614,8 +1613,7 @@ class ::gui_handlers.MultiplePurchase extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("item_name_header").setValue(::weaponVisual.getItemName(unit, item))
 
     updateSlider()
-    local modItemObj = ::weaponVisual.createItem("mod_" + item.name, item, item.type, scene.findObject("icon"), this)
-
+    ::weaponVisual.createItem("mod_" + item.name, item, item.type, scene.findObject("icon"), this)
     ::weaponVisual.updateItem(unit, item, scene.findObject("icon"), false, this)
 
     local discountType = item.type == weaponsItem.spare? "spare" : (item.type == weaponsItem.weapon)? "weapons" : "mods"

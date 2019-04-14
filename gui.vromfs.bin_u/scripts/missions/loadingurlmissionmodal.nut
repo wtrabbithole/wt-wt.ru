@@ -1,5 +1,3 @@
-local stdMath = require("std/math.nut")
-
 class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL

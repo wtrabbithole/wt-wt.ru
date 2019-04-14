@@ -375,7 +375,6 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     if (bonusData)
     {
       local totalSkill = bonusData.mul * item.newValue + bonusData.add
-      local totalLevel = ::g_crew.getSkillCrewLevel(item, totalSkill)
       local bonusLevel = ::g_crew.getSkillCrewLevel(item, totalSkill, item.newValue)
       local addLevel   = ::g_crew.getSkillCrewLevel(item, totalSkill, totalSkill - bonusData.add)
 

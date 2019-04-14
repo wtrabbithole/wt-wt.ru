@@ -259,8 +259,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (itemsPerPage >= 1)
       return
 
-    local sizes = ::g_dagui_utils.adjustWindowSize(scene.findObject("wnd_items_shop"), getItemsListObj(),
-                                                   "@itemWidth", "@itemHeight", "@itemSpacing", "@itemSpacing")
+    local wndItemsShopObj = scene.findObject("wnd_items_shop")
+    local sizes = ::g_dagui_utils.adjustWindowSize(wndItemsShopObj, getItemsListObj(),
+      "@itemWidth", "@itemHeight", "@itemSpacing", "@itemSpacing", { windowSizeY = 0 })
+    scene.findObject("main_block").height = sizes.sizeY * sizes.itemsCountY //need const height of items list after resize
+      + (sizes.itemsCountY + 1) * sizes.spaceY
     itemsPerPage = sizes.itemsCountX * sizes.itemsCountY
   }
 
@@ -505,7 +508,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_preview", item ? (item.canPreview() && ::isInMenu()) : false)
 
     local altActionText = item ? item.getAltActionName() : ""
-    local actionBtn = showSceneBtn("btn_alt_action", altActionText != "")
+    showSceneBtn("btn_alt_action", altActionText != "")
     ::set_double_text_to_button(scene, "btn_alt_action", altActionText)
 
     local warningText = ""

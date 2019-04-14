@@ -12,8 +12,8 @@ class ::queue_stats_versions.StatsVer2 extends ::queue_stats_versions.Base
     if (!("queueId" in queueInfo) || !("cluster" in queueInfo))
       return false
 
-    if (!isClanStats && !("byTeams" in queueInfo)
-        || isClanStats && !("byClans" in queueInfo))
+    if ((!isClanStats && !("byTeams" in queueInfo))
+        || (isClanStats && !("byClans" in queueInfo)))
       return false
 
     local cluster = queueInfo.cluster

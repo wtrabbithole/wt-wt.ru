@@ -48,7 +48,7 @@
             "size": "fw, ph",
             "pos": "1@blockInterval, 0",
             "position": "relative",
-            "padding-top": "1@itemSpacing",
+            "padding": "0.01@scrn_tgt",
             "overflow-y": "auto",
             "scrollbarShortcuts": "yes",
             "tdiv": [
@@ -59,7 +59,7 @@
                 "width": "pw"
               },
               {
-                "padding": "@framePadding, 0"
+                "display": "hide"
               },
               {
                 "flow": "vertical"
@@ -170,7 +170,12 @@
                   }
                 ]
               }
-            ]
+            ],
+            "textareaNoTab": {
+              "id": "item_info_text",
+              "width": "pw",
+              "display": "hide"
+            }
           }
         }
       ]

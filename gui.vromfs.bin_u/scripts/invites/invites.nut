@@ -178,7 +178,6 @@ function g_invites::updateNewInvitesAmount()
   if (amount == newInvitesAmount)
     return
 
-  local chagnedHasNew = !amount != !newInvitesAmount
   newInvitesAmount = amount
   ::do_with_all_gamercards(::update_gc_invites)
 }

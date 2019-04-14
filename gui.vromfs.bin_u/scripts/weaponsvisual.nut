@@ -1150,7 +1150,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
       addProp(p, ::loc("bullet_properties/speed"),
                  ::format("%.0f %s", param.speed, ::loc("measureUnits/metersPerSecond_climbSpeed")))
 
-    local maxSpeed = param?.maxSpeed || param?.endSpeed ?? 0
+    local maxSpeed = (param?.maxSpeed || param?.endSpeed) ?? 0
     if (maxSpeed)
       addProp(p, ::loc("rocket/maxSpeed"), ::g_measure_type.SPEED_PER_SEC.getMeasureUnitsText(maxSpeed))
 
@@ -1253,7 +1253,6 @@ function weaponVisual::getArmorPiercingViewData(armorPiercing, dist)
     return res
 
   local angles = null
-  local p2 = []
   foreach(ind, armorTbl in armorPiercing)
   {
     if (armorTbl == null)

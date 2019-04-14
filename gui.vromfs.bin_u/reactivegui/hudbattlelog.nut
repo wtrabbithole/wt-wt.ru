@@ -3,9 +3,6 @@ local scrollableData = require("daRg/components/scrollableData.nut")
 local hudLog = require("components/hudLog.nut")
 local colors = require("style/colors.nut")
 local teamColors = require("style/teamColors.nut")
-local background = require("style/hudBackground.nut")
-local scrollbar = require("components/scrollbar.nut")
-local hudState = require("hudState.nut")
 local fontsState = require("reactiveGui/style/fontsState.nut")
 
 

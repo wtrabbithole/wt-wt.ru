@@ -475,7 +475,6 @@ function ItemsRoulette::insertHiddenTopPrize(readyItemsArray)
   if (isGotTopPrize)
     topPrizeLayout = ::g_string.implode(::u.map(readyItemsArray[insertRewardIdx], @(p) p.layout))
 
-  local totalLen = readyItemsArray.len()
   local insertIdx = 0
   if (isGotTopPrize)
     insertIdx = insertRewardIdx

@@ -48,7 +48,7 @@ function load_player_exp_table()
   local ranks_blk = ::get_ranks_blk()
   local efr = ranks_blk.exp_for_playerRank
 
-  ::exp_per_rank <- []
+  ::exp_per_rank = []
 
   if (efr)
     for (local i = 0; i < efr.paramCount(); i++)

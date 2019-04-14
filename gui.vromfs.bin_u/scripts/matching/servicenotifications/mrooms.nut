@@ -230,11 +230,11 @@ local MRoomsHandlers = class {
 
     if (!("room_key" in roomPub))
     {
-      local mePub = ::toString(::getTblValue("public", me), 3)
-      local mePrivate = ::toString(::getTblValue("private", me), 3)
-      local meStr = ::toString(me, 3)
-      local roomStr = ::toString(roomPub, 3)
-      local roomMission = ::toString(::getTblValue("mission", roomPub))
+      local mePub = ::toString(me?.public, 3)          // warning disable: -declared-never-used
+      local mePrivate = ::toString(me?.private, 3)     // warning disable: -declared-never-used
+      local meStr = ::toString(me, 3)                  // warning disable: -declared-never-used
+      local roomStr = ::toString(roomPub, 3)           // warning disable: -declared-never-used
+      local roomMission = ::toString(roomPub?.mission) // warning disable: -declared-never-used
       ::script_net_assert("missing room_key in room")
 
       ::send_error_log("missing room_key in room", false, "log")

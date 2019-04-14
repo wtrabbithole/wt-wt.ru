@@ -1,4 +1,3 @@
-local workshop = ::require("scripts/items/workshop/workshop.nut")
 function gui_start_open_trophy_rewards_list(params = {})
 {
   local rewardsArray = params?.rewardsArray
@@ -48,11 +47,24 @@ class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     local val = obj.getValue()
     local reward_config = rewardsArray[val]
-    local infoObj = scene.findObject("item_info")
-    if (!::checkObj(infoObj))
-      return
+    local isItem = reward_config?.item != null
+    local infoObj = showSceneBtn("item_info", isItem)
+    local infoTextObj = showSceneBtn("item_info_text", !isItem)
+    if (isItem)
+    {
+      if (!::check_obj(infoObj))
+        return
 
-    local item = ::ItemsManager.findItemById(reward_config.item)
-    ::ItemsManager.fillItemDescr(item, infoObj, this, true, item?.isPreferMarkupDescInTooltip ?? false, reward_config)
+      local item = ::ItemsManager.findItemById(reward_config.item)
+      ::ItemsManager.fillItemDescr(item, infoObj, this, true, item?.isPreferMarkupDescInTooltip ?? false, reward_config)
+    } else
+    {
+      if (!::check_obj(infoTextObj))
+        return
+
+      local text = [::trophyReward.getName(reward_config)]
+      text.append(::trophyReward.getDecription(reward_config, true))
+      infoTextObj.setValue(::g_string.implode(text, "\n"))
+    }
   }
 }

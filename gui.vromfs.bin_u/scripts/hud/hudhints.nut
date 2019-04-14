@@ -310,7 +310,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   buildText             = ::g_hud_hints._buildText
   getHintMarkupParams   = ::g_hud_hints._getHintMarkupParams
   getLifeTime           = ::g_hud_hints._getLifeTime
-  isEnabledByDifficulty = @() !isAllowedByDiff || isAllowedByDiff?[::get_mission_difficulty()] ?? true
+  isEnabledByDifficulty = @() !isAllowedByDiff || (isAllowedByDiff?[::get_mission_difficulty()] ?? true)
 
   selfRemove = false //will be true if lifeTime > 0
   lifeTime = 0.0

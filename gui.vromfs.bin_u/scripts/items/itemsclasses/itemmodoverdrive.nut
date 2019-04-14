@@ -1,5 +1,4 @@
 local BaseItemModClass = ::require("scripts/items/itemsClasses/itemModBase.nut")
-local callback = ::require("sqStdLibs/helpers/callback.nut")
 
 class ::items_classes.ModOverdrive extends BaseItemModClass
 {

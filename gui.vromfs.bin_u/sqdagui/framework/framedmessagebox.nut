@@ -48,7 +48,7 @@ class ::gui_handlers.FramedMessageBox extends ::BaseGuiHandler
     foreach(idx, button in buttons)
     {
       buttons[idx].funcName <- "onButtonClick"
-      buttons[idx].id <- button?.id ?? "button_" + idx
+      buttons[idx].id <- button?.id ?? ("button_" + idx)
     }
 
     return this

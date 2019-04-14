@@ -61,7 +61,7 @@ function gui_start_checkTutorial(checkId, checkSkip = true)
       if (!mData)
         return false
 
-      if (::launched_tutorial_questions_peer_session & (1 << i) && checkSkip)
+      if ((::launched_tutorial_questions_peer_session & (1 << i)) && checkSkip)
         return false
 
       ::launched_tutorial_questions_peer_session = ::launched_tutorial_questions_peer_session | (1 << i)

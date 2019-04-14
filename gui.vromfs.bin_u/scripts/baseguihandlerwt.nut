@@ -250,7 +250,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function goForwardCheckEntitlement(start_func, entitlement)
   {
     guiScene = ::get_cur_gui_scene()
-    local handler = this
 
     startFunc = start_func
 

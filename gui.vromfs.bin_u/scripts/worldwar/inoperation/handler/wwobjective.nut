@@ -324,8 +324,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
         local type = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
         local sideEnumVal = ::ww_side_val_to_name(side)
 
-        reinforcementSpeedup += type.getReinforcementSpeedupPercent
-          (objectiveBlk, statusBlock, sideEnumVal)
+        reinforcementSpeedup += type.getReinforcementSpeedupPercent(objectiveBlk, statusBlock, sideEnumVal)
       }
 
     ::ww_event("ReinforcementSpeedupUpdated", { speedup = reinforcementSpeedup })

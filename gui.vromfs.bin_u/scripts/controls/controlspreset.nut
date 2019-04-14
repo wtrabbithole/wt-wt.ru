@@ -1061,6 +1061,8 @@ class ControlsPreset {
         if (pair[j] != -1 &&
           pair[j] >= minAxis && pair[j]<= maxAxis)
             return true
+
+    return false
   }
 
 

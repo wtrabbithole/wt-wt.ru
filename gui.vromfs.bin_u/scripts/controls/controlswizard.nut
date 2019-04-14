@@ -687,7 +687,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
     if (curItem.type == CONTROL_TYPE.AXIS)
     {
-      local device = ::joystick_get_default()
       local axis = curJoyParams.getAxis(curItem.axisIndex[0])
       local curPreset = ::g_controls_manager.getCurPreset()
       if (axis.axisId >= 0)
@@ -884,7 +883,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     onButtonDone()
   }
 
-  function isKbdOrMouse(devs)
+  function isKbdOrMouse(devs) // warning disable: -named-like-return-bool
   {
     local isKbd = null
     foreach(d in devs)
@@ -1103,7 +1102,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       axisApplyParams.kAdd = -0.5*(config.min+config.max) / 32000 * axisApplyParams.kMul
     }
 
-    local device = ::joystick_get_default()
     local curPreset = ::g_controls_manager.getCurPreset()
     curBtnText = ::remapAxisName(curPreset, selectedAxisNum)
     showMsg(::loc("hotkeys/msg/axis_choosen") + "\n" + curBtnText, config)

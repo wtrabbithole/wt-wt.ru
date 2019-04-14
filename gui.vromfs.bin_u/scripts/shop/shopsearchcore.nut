@@ -43,9 +43,9 @@ local function findUnitsByLocName(searchStrRaw, needIncludeHidden = false, needI
   if (searchStr == "")
     return []
   return ::u.keys(searchTokensCache.filter(@(unit, tokens)
-    (::is_dev_version && needIncludeNotInShop || unit.isInShop) &&
-    (::is_dev_version && needIncludeHidden    || unit.isVisibleInShop()) &&
-    (tokensMatch(tokens, searchStr) || ::is_dev_version && unit.name == searchStrRaw)
+    ((::is_dev_version && needIncludeNotInShop) || unit.isInShop)
+      && ((::is_dev_version && needIncludeHidden)    || unit.isVisibleInShop())
+      && (tokensMatch(tokens, searchStr) || (::is_dev_version && unit.name == searchStrRaw))
   ))
 }
 

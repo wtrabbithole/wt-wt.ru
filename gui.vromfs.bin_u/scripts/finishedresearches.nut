@@ -107,7 +107,6 @@ function checkNonApprovedResearches(needUpdateResearchTable = false, needResearc
   if (!::researched_items_table || !::researched_items_table.len())
     return false
 
-  local choicesCount = 0
   for (local i = ::researched_items_table.len()-1; i >= 0; --i)
   {
     if (::isResearchAbandoned(::researched_items_table[i]) ||
@@ -1298,7 +1297,6 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
 
   function getAvailableUnits(unit)
   {
-    local data = ""
     local unitsArray = []
     local unitItems = []
     local unitType = ::get_es_unit_type(unit)
@@ -1356,7 +1354,6 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     unitsArray.resize(unitsArray.len() + emptyTd, "")
 
     local data = ""
-    local trCount = unitsArray.len()/unitsInTr
 
     for(local j = 0; j < unitsArray.len();  j+=unitsInTr)
     {

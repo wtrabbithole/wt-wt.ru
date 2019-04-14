@@ -128,7 +128,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     ::enableHangarControls(true)
-    ::instant_domination_handler <- this
+    ::instant_domination_handler = this
 
     // Causes drawer to initialize once.
     getGamercardDrawerHandler()
@@ -171,7 +171,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (queueTableContainer == null)
       return
 
-    local queue = getCurQueue()
     local params = {
       scene = queueTableContainer
       queueMask = queueMask
@@ -870,7 +869,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     leaveCurQueue()
 
     local modeName = ""
-    local isEventBattle = event != null
     if (event)
       modeName = event.name
     else
@@ -1175,7 +1173,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!tutorialPageId)
       return
 
-    local inst = this
     local steps = [
       {
         obj = [curCrewSlot]

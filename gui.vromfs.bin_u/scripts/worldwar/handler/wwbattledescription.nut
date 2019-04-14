@@ -1,4 +1,3 @@
-local time = require("scripts/time.nut")
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 
 // Temporary image. Has to be changed after receiving correct art
@@ -180,8 +179,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       curBattleListItems = clone view.items
       selectItemInList(closedGroups)
     }
-    else
-      updateBattlesStatusInList()
 
     updateSelectedItem(isForceUpdate)
     updateClosedGroups(closedGroups)
@@ -446,25 +443,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local battleName = ::colorize("newTextColor", battleView.getShortBattleName())
     local sectorName = battleData.getSectorName()
     return battleName + (!::u.isEmpty(sectorName) ? " " + sectorName : "")
-  }
-
-  function updateBattlesStatusInList()
-  {
-    local battleObj = null
-    local iconObj = null
-    foreach (groupId, groupData in curBattleListMap)
-      foreach (idx, battleData in groupData.childrenBattles)
-      {
-        battleObj = battlesListObj.findObject(battleData.id.tostring())
-        if (!::checkObj(battleObj))
-          continue
-
-        iconObj = battleObj.findObject("medal_icon")
-        if (!::checkObj(iconObj))
-          continue
-
-        iconObj.style = "background-color:" + battleData.isActive() ? "@wwTeamAllyColor" : "@wwTeamEnemyColor"
-      }
   }
 
   function updateSlotbar()

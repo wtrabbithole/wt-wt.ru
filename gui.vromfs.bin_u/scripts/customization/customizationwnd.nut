@@ -167,8 +167,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     access_Decals      = !previewMode && isUnitOwn && ::g_decorator_type.DECALS.isAvailable(unit)
     access_Attachables = !previewMode && isUnitOwn && ::g_decorator_type.ATTACHABLES.isAvailable(unit)
-    access_Skins = previewMode & (PREVIEW_MODE.UNIT | PREVIEW_MODE.SKIN) ? true
-      : previewMode & PREVIEW_MODE.DECORATOR ? false
+    access_Skins = (previewMode & (PREVIEW_MODE.UNIT | PREVIEW_MODE.SKIN)) ? true
+      : (previewMode & PREVIEW_MODE.DECORATOR) ? false
       : isUnitOwn || access_SkinsUnrestrictedPreview || access_SkinsUnrestrictedExport
 
     updateTitle()
@@ -1697,7 +1697,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           if (!buyDecorator(decorator, afterPurchDo))
             return forceResetInstalledDecorators()
 
-          local unlocked = decorator? decorator.isUnlocked() : false
           ::dmViewer.update()
           onFinishInstallDecoratorOnUnit(true)
         })(decorator, afterPurchDo)],

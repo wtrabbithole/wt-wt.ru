@@ -513,7 +513,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   function collectArmyStrengthData()
   {
     local result = {}
-    local collectedUnits = {}
 
     local currentStrenghtInfo = ::g_world_war.getSidesStrenghtInfo()
     for (local side = ::SIDE_NONE; side < ::SIDE_TOTAL; side++)

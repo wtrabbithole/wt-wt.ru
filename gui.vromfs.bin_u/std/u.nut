@@ -340,10 +340,10 @@ local function searchIndex(arr, predicate, defaultIndex = -1)
  * Returns the last element of an array. Passing n will return the last n
  * elements of the array.
  */
-local function last(arr, n = 1)
-{
-  if (arr.len() >= n && n > 0)
-    return arr[arr.len() - n]
+local function last(collection, n = 1) {
+  if (collection.len() >= n && n > 0)
+    return collection[collection.len() - n]
+  return null
 }
 
 /**
@@ -359,6 +359,7 @@ local function safeIndex(arr, n) {
     return arr[0]
   if (arr.len() >= -n && n < 0)
     return arr[arr.len() + n]
+  return null
 }
 
 local function max(arr, iteratee = null)

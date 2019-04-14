@@ -153,7 +153,7 @@ class ::gui_handlers.wheelMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       local index = ::find_in_array(btnSet, suffix, invalidIndex)
       local item = (index != invalidIndex && index < menu.len()) ? menu[index] : ""
       local isTable = type(item == "table")
-      local isShow = !isTable && item != "" || isTable && ::getTblValue("name", item, "") != ""
+      local isShow = (!isTable && item != "") || (isTable && (item?.name ?? "") != "")
       local enabled = isShow && (!isTable || ::getTblValue("wheelmenuEnabled", item, true))
       local bObj = showSceneBtn("wheelmenuItem" + suffix, isShow)
 

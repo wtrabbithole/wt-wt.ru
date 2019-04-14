@@ -56,7 +56,6 @@ function gui_start_debriefing()
   }
 
   local gm = ::get_game_mode()
-  local handler = null
   if (::back_from_replays != null)
   {
      dagor.debug("gui_nav gui_start_debriefing back_from_replays");

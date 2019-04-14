@@ -1,4 +1,3 @@
-local time = ::require("scripts/time.nut")
 local Unit = ::require("scripts/unit/unit.nut")
 
 ::all_units <- {}

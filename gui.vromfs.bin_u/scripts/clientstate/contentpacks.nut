@@ -296,7 +296,6 @@ function check_localization_package_and_ask_download(langId = null)
 
 function check_speech_country_unit_localization_package_and_ask_download()
 {
-  local shopBlk = ::get_shop_blk()
   local reqPacksList = []
 
   foreach(langId, langData in ::g_language.langsById)

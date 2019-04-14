@@ -1,5 +1,4 @@
 local time = require("scripts/time.nut")
-local ingame_chat = require("scripts/chat/mpChatModel.nut")
 local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 local replayMetadata = require("scripts/replays/replayMetadata.nut")
 
@@ -656,7 +655,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   function statTblGetSelectedPlayer(obj)
   {
     local teamNum = ::getObjIdByPrefix(obj, "table_team")
-    if (!teamNum || teamNum != "1" && teamNum != "2")
+    if (!teamNum || (teamNum != "1" && teamNum != "2"))
       return null
     local teamIndex = teamNum.tointeger() - 1
     local players =  teams[teamIndex].players
@@ -693,7 +692,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   function statTblUpdateSelection(obj)
   {
     local teamNum = ::getObjIdByPrefix(obj, "table_team")
-    if (!teamNum || teamNum != "1" && teamNum != "2")
+    if (!teamNum || (teamNum != "1" && teamNum != "2"))
       return
     local teamIndex = teamNum.tointeger() - 1
     local players =  teams[teamIndex].players
@@ -860,7 +859,9 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     for (local i = tbl.len() - 1; i >= 0; i--)
     {
       local player = tbl[i]
-      if (player.spectator || mode == SPECTATOR_MODE.SKIRMISH && (player.state != ::PLAYER_IN_FLIGHT || player.isDead) && !player.deaths)
+      if (player.spectator
+        || (mode == SPECTATOR_MODE.SKIRMISH
+          && (player.state != ::PLAYER_IN_FLIGHT || player.isDead) && !player.deaths))
       {
         tbl.remove(i)
         continue
@@ -887,7 +888,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   function mpstatSortSpectator(a, b)
   {
     return b.isActing <=> a.isActing
-      || !a.isActing && funcSortPlayersDefault(a, b)
+      || (!a.isActing && funcSortPlayersDefault(a, b))
       || a.isBot <=> b.isBot
       || a.id <=> b.id
   }

@@ -121,7 +121,7 @@ function g_dmg_model::getLinearValueFromP2blk(blk, x)
         max = p2
     }
   if (!min)
-    return max && max.y || 0.0
+    return max?.y ?? 0.0
   if (!max)
     return min.y
   return min.y + (max.y - min.y) * (x - min.x) / (max.x - min.x)
@@ -141,7 +141,7 @@ function g_dmg_model::getAngleByProbabilityFromP2blk(blk, x)
     local probability1 = p1.y
     local angle2 = p2.x
     local probability2 = p2.y
-    if (probability1 <= x && x <= probability2 || probability2 <= x && x <= probability1)
+    if ((probability1 <= x && x <= probability2) || (probability2 <= x && x <= probability1))
     {
       if (probability1 == probability2)
       {

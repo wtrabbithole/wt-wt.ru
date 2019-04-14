@@ -48,8 +48,6 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
   function fillOperationList()
   {
     local view = { items = [] }
-    local selIdx = -1
-    local selPriority = -1
 
     local sortedOperationsDataList = getSortedOperationsData()
     local isOperationListVisible = sortedOperationsDataList.len() > 0

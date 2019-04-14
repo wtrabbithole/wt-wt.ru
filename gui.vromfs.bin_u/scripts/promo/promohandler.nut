@@ -232,11 +232,11 @@ class Promo
   function isShowAllCheckBoxEnabled()
   {
     if (!isValid())
-      return null
+      return false
 
     local chBoxObj = scene.findObject("checkbox_show_all_promo_blocks")
     if (!::checkObj(chBoxObj))
-      return null
+      return false
 
     return chBoxObj.getValue()
   }

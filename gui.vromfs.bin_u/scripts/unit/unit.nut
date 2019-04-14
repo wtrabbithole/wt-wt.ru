@@ -176,7 +176,7 @@ local Unit = class
     commonWeaponImage         = uWpCost.commonWeaponImage ?? commonWeaponImage
     customClassIco            = uWpCost.customClassIco
     customTooltipImage        = uWpCost.customTooltipImage
-    isPkgDev                  = ::is_dev_version && uWpCost.pkgDev ?? false
+    isPkgDev                  = ::is_dev_version && (uWpCost.pkgDev ?? false)
     researchType              = uWpCost.researchType
 
     foreach (weapon in weapons)

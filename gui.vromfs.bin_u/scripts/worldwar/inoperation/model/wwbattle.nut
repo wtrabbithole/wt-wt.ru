@@ -193,7 +193,7 @@ class ::WwBattle
     local teamsBlk = blk.getBlockByName("teams")
     local descBlk = blk.getBlockByName("desc")
     local waitingTeamsBlk = descBlk ? descBlk.getBlockByName("teamsInfo") : null
-    if (!teamsBlk || isWaiting() && !waitingTeamsBlk)
+    if (!teamsBlk || (isWaiting() && !waitingTeamsBlk))
       return
 
     for (local i = 0; i < teamsBlk.blockCount(); ++i)

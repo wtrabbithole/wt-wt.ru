@@ -1,7 +1,6 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local menuChatRoom = require("scripts/chat/menuChatRoom.nut")
-local battleRating = ::require("scripts/battleRating.nut")
 
 enum MESSAGE_TYPE {
   MY          = "my"
@@ -956,7 +955,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if ( (code >= 0) && (code < ::get_pds_code_limit()) )
     {
-      local taskId = ::send_pds_presence_check_in( code )
+//      local taskId =
+      ::send_pds_presence_check_in( code )
 //      if (taskId >= 0)
 //      {
 //        ::set_char_cb(this, slotOpCb)
@@ -2321,7 +2321,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         return
 
       local childIndex = obj.childIndex.tointeger()
-      roomData.mBlocks[childIndex].text = ::g_chat.revertBlockedMsg(roomData.mBlocks[childIndex].text, link)
+      roomData.mBlocks[childIndex].text = ::g_chat.revealBlockedMsg(roomData.mBlocks[childIndex].text, link)
       obj.setValue(roomData.mBlocks[childIndex].text)
       updateChatText()
     }
@@ -2917,7 +2917,7 @@ function initEmptyMenuChat()
 {
   if (!::menu_chat_handler)
   {
-    ::menu_chat_handler <- ::MenuChatHandler(::get_gui_scene())
+    ::menu_chat_handler = ::MenuChatHandler(::get_gui_scene())
     ::menu_chat_handler.initChat(null)
   }
 }
@@ -2932,7 +2932,7 @@ function loadMenuChatToObj(obj)
 
   local guiScene = obj.getScene()
   if (!::menu_chat_handler)
-    ::menu_chat_handler <- ::MenuChatHandler(guiScene)
+    ::menu_chat_handler = ::MenuChatHandler(guiScene)
   ::menu_chat_handler.initChat(obj)
 }
 
@@ -3012,8 +3012,8 @@ function resetChat()
 {
   ::g_chat.rooms = []
   ::new_menu_chat_messages <- false
-  ::last_send_messages <- []
-  ::last_chat_scene_show <- false
+  ::last_send_messages = []
+  ::last_chat_scene_show = false
   if (::menu_chat_handler)
     ::menu_chat_handler.roomsInited = false
 }

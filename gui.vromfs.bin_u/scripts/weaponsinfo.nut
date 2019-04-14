@@ -2280,12 +2280,6 @@ function set_unit_last_bullets(unit, groupIndex, value)
   ::set_last_bullets(unit.name, groupIndex, value)
 }
 
-function isAirHaveBulletsGroups(air)
-{
-  if (!air)
-    return false
-}
-
 function isAirHaveAnyWeaponsTags(air, tags, checkPurchase = true)
 {
   if (!air)

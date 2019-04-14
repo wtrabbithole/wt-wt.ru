@@ -1,5 +1,3 @@
-local u = require("std/u.nut")
-
 local XboxShopPurchasableItem = class
 {
   defaultIconStyle = "default_chest_debug"

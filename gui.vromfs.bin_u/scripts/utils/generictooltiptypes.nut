@@ -732,7 +732,6 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       ::build_unlock_desc(config)
       local name = config.id
       local unlockType = config.unlockType
-      local isUnlocked = ::is_unlocked_scripted(unlockType, name)
       local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(unlockType)
       local guiScene = obj.getScene()
       if (decoratorType == ::g_decorator_type.DECALS

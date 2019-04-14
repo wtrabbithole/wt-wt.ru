@@ -83,9 +83,9 @@ class ::Input.Axis extends ::Input.InputBase
     return null
   }
 
-  function hasImage ()
+  function hasImage()
   {
-    return getImage() ?? "" != ""
+    return (getImage() ?? "") != ""
   }
 
   function getConfig()

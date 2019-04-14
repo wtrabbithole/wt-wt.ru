@@ -1263,7 +1263,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (!::checkObj(pagesObj))
       return
 
-    local shopBlk = ::get_shop_blk()
     foreach(country in shopData)
     {
       if (country.name != curCountry)
@@ -1506,7 +1505,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return
 
     local pos = animObj.getPosRC()
-    local animStart = tdPos[1]
     local topPart = (tdPos[1] - pos[1]).tofloat() / heightDiff
     local animFixedY = tdPos[1] + topPart * tdSize[1]
     animObj.top = format("%d - %fh", animFixedY.tointeger(), topPart)
@@ -1739,8 +1737,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function onResearch(obj)
   {
     local unit = getCurAircraft()
-    local unitName = unit.name
-    local handler = this
     if (!unit || isUnitGroup(unit) || unit?.isFakeUnit)
       return
     if (!::checkForResearch(unit))

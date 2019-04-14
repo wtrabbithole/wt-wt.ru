@@ -235,7 +235,7 @@ function on_lost_psn()
 
   if (!::isInMenu())
   {
-    ::gui_start_logout_scheduled <- true
+    ::gui_start_logout_scheduled = true
     ::destroy_session_scripted()
     ::quit_to_debriefing()
     ::interrupt_multiplayer(true)
@@ -258,7 +258,7 @@ function check_logout_scheduled()
 {
   if (::gui_start_logout_scheduled)
   {
-    ::gui_start_logout_scheduled <- false
+    ::gui_start_logout_scheduled = false
     on_lost_psn()
   }
 }
@@ -452,8 +452,6 @@ function havePremium()
 
 function get_mission_desc_text(missionBlk)
 {
-  local gt = ::get_game_type()
-  local gm = ::get_game_type()
   local descrAdd = ""
 
   local sm_location = missionBlk.getStr("locationName",
@@ -972,7 +970,7 @@ function enableHangarControls(value, save=true)
 {
   ::hangar_enable_controls(value)
   if (save)
-    ::is_hangar_controls_enabled <- value
+    ::is_hangar_controls_enabled = value
 }
 function restoreHangarControls()
 {

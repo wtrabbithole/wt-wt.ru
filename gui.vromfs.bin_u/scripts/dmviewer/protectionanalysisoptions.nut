@@ -173,7 +173,7 @@ options.addTypes({
           local searchName = ::getBulletsSearchName(unit, value)
           local useDefaultBullet = searchName != value
           local bulletParameters = ::calculate_tank_bullet_parameters(unit.name,
-            useDefaultBullet && weaponBlkName || ::getModificationBulletsEffect(searchName),
+            (useDefaultBullet && weaponBlkName) || ::getModificationBulletsEffect(searchName),
             useDefaultBullet)
 
           local bulletNames = isBulletBelt ? [] : (bulletsSet?.bulletNames ?? [])

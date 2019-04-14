@@ -1,5 +1,3 @@
-local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
-
 ::dagui_propid.add_name_id("task_id")
 ::dagui_propid.add_name_id("difficultyGroup")
 

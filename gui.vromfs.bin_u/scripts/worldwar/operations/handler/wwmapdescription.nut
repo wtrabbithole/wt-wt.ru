@@ -18,7 +18,7 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
       map = _map
     }
 
-    if (!_descItem && _map || _descItem instanceof ::WwOperation)
+    if ((!_descItem && _map) || (_descItem instanceof ::WwOperation))
       return ::handlersManager.loadHandler(::gui_handlers.WwOperationDescriptionCustomHandler, params)
     else if (_descItem instanceof ::WwQueue)
       return ::handlersManager.loadHandler(::gui_handlers.WwQueueDescriptionCustomHandler, params)

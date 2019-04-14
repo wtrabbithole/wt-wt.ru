@@ -1317,7 +1317,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       local mouse_aim_x = (pageUnitType == ::g_unit_type.AIRCRAFT) ? "controls/mouse_aim_x" : "controls/gm_mouse_aim_x"
       local mouse_aim_y = (pageUnitType == ::g_unit_type.AIRCRAFT) ? "controls/mouse_aim_y" : "controls/gm_mouse_aim_y"
 
-      local joyParams = ::joystick_get_cur_settings()
       local titleX = ::loc(mouse_aim_x)
       local titleY = ::loc(mouse_aim_y)
       local title = titleX + " + " + titleY

@@ -88,14 +88,25 @@ function g_chat::filterMessageText(text, isMyMessage)
 ::cross_call_api.filter_chat_message <- ::g_chat.filterMessageText
 
 
-function g_chat::makeBlockedMsg(msg, replacelocId = "chat/blocked_message")
+function g_chat::convertBlockedMsgToLink(msg)
 {
   //space work as close link. but non-breakable space - work as other symbols.
-  msg = ::stringReplace(msg, " ", " ")
-
   //rnd for duplicate blocked messages
-  return ::format("<Link=BL_%d_%s>%s</Link>",
-    ::math.rnd() % 99, msg, ::loc(replacelocId))
+  return ::format("BL_%02d_%s", ::math.rnd() % 99, ::stringReplace(msg, " ", ::nbsp))
+}
+
+
+function g_chat::convertLinkToBlockedMsg(link)
+{
+  local prefixLen = 6 // Prefix is "BL_NN_", where NN are digits.
+  return ::stringReplace(link.slice(prefixLen), ::nbsp, " ")
+}
+
+
+function g_chat::makeBlockedMsg(msg, replacelocId = "chat/blocked_message")
+{
+  local link = convertBlockedMsgToLink(msg)
+  return ::format("<Link=%s>%s</Link>", link, ::loc(replacelocId))
 }
 
 function g_chat::makeXBoxRestrictedMsg(msg)
@@ -109,19 +120,19 @@ function g_chat::checkBlockedLink(link)
 }
 
 
-function g_chat::revertBlockedMsg(text, link)
+function g_chat::revealBlockedMsg(text, link)
 {
   local start = text.find("<Link=" + link)
   if (start == null)
-    return
+    return text
 
   local end = text.find("</Link>", start)
   if (end == null)
-    return
+    return text
 
   end += "</Link>".len()
 
-  local msg = ::stringReplace(link.slice(6), " ", " ")
+  local msg = convertLinkToBlockedMsg(link)
   text = text.slice(0, start) + msg + text.slice(end)
   return text
 }

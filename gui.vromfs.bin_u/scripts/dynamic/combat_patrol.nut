@@ -90,13 +90,11 @@ missionGenFunctions.append( function (isFreeFlight)
   local offsetPoints = ["waypoint00", "waypoint01", "waypoint02"];
 
   local lastWp = "waypoint02";
-  local secondToLastWp = "waypoint01";
   if (wpMax > 2)
   {
     mgSetupArea("waypoint03", "waypoint02", "waypoint01", rndRange(-60,60), -wpDist2, 0);
     mgSetupArea("enemy_evac02", "waypoint03", "waypoint02", 90, 60000, 0);
     lastWp = "waypoint03";
-    secondToLastWp = "waypoint02";
     offsetPoints.append("waypoint03");
   }
   else
@@ -107,7 +105,6 @@ missionGenFunctions.append( function (isFreeFlight)
     mgSetupArea("waypoint04", "waypoint03", "waypoint02", rndRange(-60,60), -wpDist3, 0);
     mgSetupArea("enemy_evac03", "waypoint04", "waypoint03", 90, 60000, 0);
     lastWp = "waypoint04";
-    secondToLastWp = "waypoint03";
     offsetPoints.append("waypoint04");
   }
   else
@@ -409,7 +406,6 @@ missionGenFunctions.append( function (isFreeFlight)
 
 
 //mission warpoint cost calculate
-  local repairCost = playerPlaneCost*0.1;
   local missionWpCost = warpointCalculate(mission_preset_name, allyTotalCount, enemyTotalCount, planeCost,
                                           playerFighterPlane, mission_mult);
   mgSetInt("mission_settings/mission/wpAward", missionWpCost);

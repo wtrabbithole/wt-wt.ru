@@ -607,8 +607,6 @@ function LinesGenerator::doubleLineCutZoneList(zoneData, box)
   local wayAxis = zoneData.wayAxis
   local wayAltAxis = zoneData.wayAltAxis
 
-  local beforeZone = true
-  local afterZone = false
   local zStart = box.c1[axis]
   local zEnd   = box.c2[axis]
   local dStart = box.c1[1-axis]

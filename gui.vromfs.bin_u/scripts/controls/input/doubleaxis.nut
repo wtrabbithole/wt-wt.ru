@@ -49,7 +49,7 @@ class ::Input.DoubleAxis extends ::Input.InputBase
 
   function hasImage()
   {
-     return getImage() ?? "" !=""
+    return (getImage() ?? "") != ""
   }
 
   function getConfig()

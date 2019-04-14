@@ -32,7 +32,6 @@
     if (currentPreset.name == "")
       return false
 
-    local highestVersion = currentPreset.version
     local highestDisplayedVersion = getHighestDisplayedPresetVersion(currentPreset.name)
 
     foreach (value in controlsPresetsList)

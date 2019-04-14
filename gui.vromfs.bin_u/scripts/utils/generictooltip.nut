@@ -182,7 +182,7 @@ function g_tooltip::removeInvalidObjs(objs, tooltipId = null)
   for (local i = objs.len() - 1; i >= 0; --i)
   {
     local obj = objs[i].obj
-    if (!objs[i].isValid() || tooltipId && ::getTooltipObjId(obj) == tooltipId)
+    if (!objs[i].isValid() || (tooltipId && ::getTooltipObjId(obj) == tooltipId))
       objs.remove(i)
   }
 }

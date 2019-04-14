@@ -390,7 +390,7 @@ class ::BaseItem
     }
 
     local craftTimerText = params?.craftTimerText
-    if ((hasCraftTimer() && params?.hasCraftTimer ?? true) || craftTimerText)
+    if ((hasCraftTimer() && (params?.hasCraftTimer ?? true)) || craftTimerText)
       res.craftTime <- craftTimerText ?? getCraftTimeTextShort()
 
     if (hasTimer() && ::getTblValue("hasTimer", params, true))
@@ -753,4 +753,5 @@ class ::BaseItem
   getContentItem = @() null
   needShowRewardWnd = @() true
   skipRoulette = @() true
+  needOfferBuyAtExpiration = @() false
 }

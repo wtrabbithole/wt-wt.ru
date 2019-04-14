@@ -61,7 +61,7 @@ local  hoursToString = function(time, full = true, useSeconds = false, dontShowZ
       stdStr.format((time >= 1)? "%02d%s" : "%d%s", mm, ::loc("measureUnits/minutes")))
   }
 
-  if ((ss && useSeconds || !res.len()) && time < 1.0/6) { // < 10min
+  if (((ss && useSeconds) || !res.len()) && (time < 1.0 / 6)) { // < 10min
     res += (res.len() ? " " : "") +
       (fullUnits ? ::loc("measureUnits/full/seconds", { n = ss }) :
       stdStr.format("%02d%s", ss, ::loc("measureUnits/seconds")))

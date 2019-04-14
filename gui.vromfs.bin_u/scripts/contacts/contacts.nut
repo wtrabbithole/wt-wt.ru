@@ -543,7 +543,7 @@ function loadContactsToObj(obj, owner=null)
 
   local guiScene = obj.getScene()
   if (!::contacts_handler)
-    ::contacts_handler <- ::ContactsHandler(guiScene)
+    ::contacts_handler = ::ContactsHandler(guiScene)
   ::contacts_handler.owner = owner
   ::contacts_handler.initScreen(obj)
 }

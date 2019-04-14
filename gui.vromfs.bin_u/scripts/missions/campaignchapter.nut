@@ -927,7 +927,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(filterEditBox))
       return
 
-    local prevTextLen = filterText.len()
     filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
 
     local showChapter = false

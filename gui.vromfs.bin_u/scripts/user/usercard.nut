@@ -1088,8 +1088,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local textTable = {
       btn_friendAdd = ""
       btn_blacklistAdd = ""
-      btn_achievements_url_text = ::loc("mainmenu/btnUnlockAchievement")
-      btn_achievements_url = ::loc("mainmenu/btnUnlockAchievement")
     }
 
     local isXBoxOnePlayer = platformModule.isXBoxPlayerName(player.name)
@@ -1114,9 +1112,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       if (!isFriend)
         textTable.btn_blacklistAdd = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
-
-      textTable.btn_achievements_url_text = ::loc("mainmenu/compareAchievements")
-      textTable.btn_achievements_url = textTable.btn_achievements_url_text
     }
 
     local sheet = getCurSheet()
@@ -1337,7 +1332,7 @@ function get_country_medals(countryId, profileData = null)
   local unlocks = ::g_unlocks.getUnlocksByType("medal")
   foreach(id, cb in unlocks)
     if (cb.country == countryId)
-      if (!profileData && ::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id) || (medalsList?[id] ?? 0) > 0)
+      if ((!profileData && ::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id)) || (medalsList?[id] ?? 0) > 0)
         res.append(id)
   return res
 }

@@ -219,9 +219,10 @@
           return
 
     if ("callBack" in requestData)
-      ("handler" in requestData)
-        ? requestData.callBack.call(requestData.handler, blData)
-        : requestData.callBack(blData)
+      if ("handler" in requestData)
+        requestData.callBack.call(requestData.handler, blData)
+      else
+        requestData.callBack(blData)
   }
 
   function handleLbSelfRowRequest(requestData, id)
@@ -241,9 +242,10 @@
         if (request.id == id) return
 
     if ("callBack" in requestData)
-      ("handler" in requestData)
-        ? requestData.callBack.call(requestData.handler, blData)
-        : requestData.callBack(blData)
+      if ("handler" in requestData)
+        requestData.callBack.call(requestData.handler, blData)
+      else
+        requestData.callBack(blData)
   }
 
   /**

@@ -241,7 +241,6 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
 
   local inMenu = ::isInMenu()
   local isUsable  = unit.isUsable()
-  local profile   = ::get_profile_info()
   local crew = ::getCrewByAir(unit)
   local curEdiff = handler?.getCurrentEdiff ? handler.getCurrentEdiff() : -1
 
@@ -395,15 +394,14 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
       local isInResearch = ::isUnitInResearch(unit)
       local isSquadronVehicle = unit.isSquadronVehicle()
       local isInClan = ::is_in_clan()
-      local curExp = ::getUnitExp(unit)
-      local squadronExp = min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit))
+      local reqExp = ::getUnitReqExp(unit) - ::getUnitExp(unit)
+      local squadronExp = min(::clan_get_exp(), reqExp)
       local canFlushSquadronExp = ::has_feature("ClanVehicles") && isSquadronVehicle
         && squadronExp > 0
       if (isSquadronVehicle && isInClan && isInResearch && !canFlushSquadronExp && !p.needChosenResearchOfSquadron)
         continue
 
       local countryExp = ::shop_get_country_excess_exp(::getUnitCountry(unit), ::get_es_unit_type(unit))
-      local reqExp = ::getUnitReqExp(unit) - ::getUnitExp(unit)
       local getReqExp = reqExp < countryExp ? reqExp : countryExp
       local needToFlushExp = !isSquadronVehicle && handler?.shopResearchMode && countryExp > 0 //!!FIX ME: Direct search params in the handler not a good idea
       local squadronExpText = ::Cost().setSap(squadronExp).tostring()

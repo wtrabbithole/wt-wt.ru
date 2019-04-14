@@ -44,8 +44,6 @@ local showLiveCommunicationsRestrictionMsgBox = @() ::showInfoMsgBox(::loc("xbox
 local showCrossNetworkPlayRestrictionMsgBox = @() ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
 local showCrossNetworkCommunicationsRestrictionMsgBox = @() ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkCommunications"))
 local showNotAvailableActionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableDiffPlatform"))
-local showXboxFriendOnlySquadInvitePopup = @() ::g_popups.add(null, ::loc("squad/xbox/friendsOnly"))
-local showXboxSquadInviteOnlyOnlinePopup = @() ::g_popups.add(null, ::loc("squad/xbox/onlineOnly"))
 local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = platformModule.getPlayerName(playerName)}))
 local showNoInviteForDiffPlatformPopup = @() ::g_popups.add(null, ::loc("msg/squad/noPlayersForDiffConsoles"))
 
@@ -73,7 +71,7 @@ local getActions = function(contact, params)
   local isMPLobby = params?.isMPLobby ?? false
   local canInviteToChatRoom = params?.canInviteToChatRoom ?? true
 
-  local chatLog = params?.chatLog ?? roomData && roomData.getLogForBanhammer() ?? null
+  local chatLog = params?.chatLog ?? roomData?.getLogForBanhammer() ?? null
   local canInviteToSesson = isXBoxOnePlayer == ::is_platform_xboxone
 
   local actions = []
@@ -262,7 +260,7 @@ local getActions = function(contact, params)
       {
         text = ::loc("clan/activity")
         show = ::has_feature("ClanActivity")
-        action = @() ::gui_start_clan_activity_wnd(name, clanData)
+        action = @() ::gui_start_clan_activity_wnd(uid, clanData)
       }
       {
         text = ::loc("clan/btnChangeRole")

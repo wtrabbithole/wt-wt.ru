@@ -65,7 +65,6 @@ function g_crew::getDiscountInfo(countryId = -1, idInCountry = -1)
   local country = countrySlot.country
   local unitNames = ::getTblValue("trained", crewSlot, [])
 
-  local buyPointsDiscount = 0
   local packNames = []
   local blk = ::get_warpoints_blk()
   if (blk.crewSkillPointsCost)
@@ -657,7 +656,7 @@ function g_crew::hasSkillPointsToRunTutorial(crew, crewUnitType, skillPage)
 function load_crew_skills()
 {
   ::crew_skills=[]
-  ::crew_air_train_req <- {}
+  ::crew_air_train_req = {}
 
   local blk = ::get_skills_blk()
   ::g_crew.crewLevelBySkill = blk.skill_to_level_ratio || ::g_crew.crewLevelBySkill

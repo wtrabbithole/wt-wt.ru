@@ -1,5 +1,4 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
-local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 local contentStateModule = ::require("scripts/clientState/contentState.nut")
 
@@ -66,7 +65,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
     tooltip = @() ::g_world_war.getCantPlayWorldwarReasonText()
     isVisualDisabled = @() !::is_worldwar_enabled() || !::g_world_war.canPlayWorldwar()
-    unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() && SEEN.WW_MAPS_AVAILABLE
+    unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() ?
+      SEEN.WW_MAPS_AVAILABLE : null
   }
   TUTORIAL = {
     text = "#mainmenu/btnTutorial"

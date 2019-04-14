@@ -117,7 +117,7 @@ OrderedTable = class </ name = "OrderedTable" />{
     if (key in  __value)
       ::assert(false, "key %s already exists"%key)
     else {
-      local idx = __sorted_keys.find(key_after) ?? __sorted_keys.len()-1
+      local idx = __sorted_keys.find(key_after) ?? (__sorted_keys.len()-1)
       idx +=1
       if (idx<len-1)
         __sorted_keys.insert(idx, key)

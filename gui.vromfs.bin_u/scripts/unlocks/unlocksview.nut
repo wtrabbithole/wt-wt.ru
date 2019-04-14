@@ -122,7 +122,7 @@ function g_unlock_view::fillReward(unlockConfig, unlockObj)
     tooltipObj.tooltipId = tooltipId
 
   local showStages = ("stages" in unlockConfig) && (unlockConfig.stages.len() > 1)
-  if (showStages && unlockConfig.curStage >= 0 || "reward" in unlockConfig)
+  if ((showStages && unlockConfig.curStage >= 0) || ("reward" in unlockConfig))
     rewardText = getRewardText(unlockConfig, unlockConfig.curStage)
 
   rewardObj.show(rewardText != "")

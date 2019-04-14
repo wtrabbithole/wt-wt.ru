@@ -258,7 +258,6 @@ enums.addTypesByGlobalName("g_unit_info_type", [
           local mode = diff.getEgdName()
           local wpMuls = unit.getWpRewardMulList(diff)
           local value = (wpMuls.wpMul * wpMuls.premMul * 100.0 + 0.5).tointeger()
-          local premUnitMul = wpMuls.premMul * 1.0
           blk.value[mode] = value
           blk.valueText[mode] = ::format("%d%%", value)
         }

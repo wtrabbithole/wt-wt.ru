@@ -45,11 +45,14 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   objIdPrefixSelectAllCountry = "select_all_"
   formatCheckboxMapCountry = "map_%s_%s"
 
+  checkBoxesData = null
+
   function initScreen()
   {
     backSceneFunc = ::gui_start_mainmenu
     mapsListObj = scene.findObject("maps_list")
     setSceneTitle(::loc("mainmenu/btnWorldwar"))
+    updateCheckBoxesData()
 
     foreach (timerObjId in [
         "ww_status_check_timer",  // periodic ww status updates check
@@ -86,6 +89,21 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     })
     guiScene.replaceContentFromText(toBattleNest, toBattleBlk, toBattleBlk.len(), this)
     updateToBattleButton()
+  }
+
+  function updateCheckBoxesData()
+  {
+    collectMaps()
+
+    checkBoxesData = {}
+    foreach (mapId, map in mapsTbl)
+    {
+      if (!(mapId in checkBoxesData))
+        checkBoxesData[mapId] <- {}
+
+      foreach (countryId in map.getCountries())
+        checkBoxesData[mapId][countryId] <- map.getQueue().isMyClanJoined(countryId)
+    }
   }
 
   function updateToBattleButton()
@@ -144,10 +162,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     countryData = {}
     foreach (countryId in ::shopCountriesList)
       countryData[countryId] <- { selected = 0, total = 0 }
-    foreach (map in mapsTbl)
+    foreach (mapId, map in mapsTbl)
       foreach (countryId in map.getCountries())
       {
-        if (map.getQueue().isMyClanJoined(countryId))
+        if (checkBoxesData[mapId][countryId])
           countryData[countryId].selected++
         if (map.isActive())
           countryData[countryId].total++
@@ -205,7 +223,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         countries.append({
           id = ::format(formatCheckboxMapCountry, mapId, countryId)
           useImage = ::get_country_icon(countryId)
-          value = map.getQueue().isMyClanJoined(countryId)
+          value = checkBoxesData?[mapId]?[countryId] ?? false
           funcName = "onMapCountrySelect"
           specialParams = "mapId:t= '"+mapId+"'; countryId:t= '"+countryId+"';"
           isDisable = !map.isActive()
@@ -344,7 +362,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         if (!isValid())
           return
 
-        local seasonDay = wwLeaderboardData.getSeasonDay(modesData)
+        local seasonDay = wwLeaderboardData.getSeasonDay(modesData?.tables)
         if (seasonDay)
           wwTopLeaderboard.initTop(this, scene.findObject("top_daily_players"),
             "ww_users", seasonDay)
@@ -626,6 +644,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       else if (!isShow && idx == -1)
         collapsedChapters.append(itemObj.id)
     }
+
+    if (isShow)
+      updateQueueElementsInList()
   }
 
   function fillSelectAllCountriesList()
@@ -655,17 +676,22 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function onMapCountrySelect(obj)
   {
-    if (!::checkObj(obj))
+    if (!::check_obj(obj))
       return
 
     local mapId = obj.mapId
     if (!mapsTbl[mapId].isActive())
       return
 
+    if (!(mapId in checkBoxesData))
+      checkBoxesData[mapId] <- {}
+
     local value = obj.getValue()
     local countryId = obj.countryId
     local selected = countryData[countryId].selected + (value ? 1 : -1)
     countryData[countryId].selected = selected
+
+    checkBoxesData[mapId][countryId] <- value
 
     if (isCountryCheckBoxesUpdating)
       return
@@ -873,8 +899,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     }
 
     local obj = ::showBtn("select_all_countries", isSelectAllCountriesBlockVisible(), scene)
-      if (obj)
-        obj.enable(isQueueJoiningEnabled)
+    if (obj)
+      obj.enable(isQueueJoiningEnabled)
   }
 
   function switchMode(newMode)
@@ -1154,10 +1180,6 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (countries.len() > 2)
       return {}
 
-    local sortedStatistics = [
-      ::u.search(statistics, @(s) s.name == countries[0]),
-      ::u.search(statistics, @(s) s.name == countries[1])
-    ]
     local sideAHueOption = ::get_option(::USEROPT_HUE_SPECTATOR_ALLY)
     local sideBHueOption = ::get_option(::USEROPT_HUE_SPECTATOR_ENEMY)
     local view = {
@@ -1189,7 +1211,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     foreach (idx, country in statistics)
       rowView["side_" + idx] <-
         ::round((country?.battle_count ?? 0) * (country?.battle_winrate ?? 0))
-      if ((rowView?.side_0 ?? 0 > 0) || (rowView?.side_1 ?? 0 > 0))
+      if (((rowView?.side_0 ?? 0) > 0) || ((rowView?.side_1 ?? 0) > 0))
       view.rows.append(rowView)
 
     foreach (field in ["playerKills", "aiKills"])
@@ -1197,7 +1219,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       rowView = { text = ::g_lb_category.getTypeByField(field).visualKey }
       foreach (idx, country in statistics)
         rowView["side_" + idx] <- country?[field] ?? 0
-      if ((rowView?.side_0 ?? 0 > 0) || (rowView?.side_1 ?? 0 > 0))
+      if (((rowView?.side_0 ?? 0) > 0) || ((rowView?.side_1 ?? 0) > 0))
         view.rows.append(rowView)
     }
 

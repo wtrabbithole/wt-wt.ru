@@ -368,7 +368,7 @@
         blk.selected <- selected[countryId]
     }
     local cfgBlk = ::loadLocalByAccount("slotbar_presets/" + countryId)
-    if (::u.isEqual(blk, cfgBlk) || blk == null && cfgBlk == null)
+    if (::u.isEqual(blk, cfgBlk))
       return false
     ::saveLocalByAccount("slotbar_presets/" + countryId, blk, true, shouldSaveProfile)
     return true

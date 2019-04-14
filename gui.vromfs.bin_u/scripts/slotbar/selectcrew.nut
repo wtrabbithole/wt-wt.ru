@@ -49,7 +49,6 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     ::gui_handlers.ActionsList.removeActionsListFromObject(tdObj)
 
     local tdClone = tdObj.getClone(scene, this)
-    local tdSize = tdObj.getSize()
     tdClone.pos = tdPos[0] + ", " + tdPos[1]
     tdClone["class"] = cellClass
     tdClone.position = "root"
@@ -182,7 +181,6 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     //place headerMessage
     local headerPosY = top - interval - headerObj.getSize()[1]
     headerObj.top = headerPosY
-    top = headerPosY
   }
 
   function checkAvailableCrew()

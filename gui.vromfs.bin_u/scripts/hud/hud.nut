@@ -704,7 +704,6 @@ class HudTouchAir extends ::HudAir
       {
         local res = []
         local availActionsList = ::get_aircraft_available_actions()
-        local areaNum = 3
         foreach (name,  action in ::air_hud_actions)
           if (::isInArray(name, availActionsList))
             res.append(action)

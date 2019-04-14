@@ -68,7 +68,6 @@ function gui_start_briefing() //Is this function can be called from code atm?
 function gui_start_briefing_restart()
 {
   dagor.debug("gui_start_briefing_restart")
-  local gm = ::get_game_mode()
   local params = {
     isRestart = true
     backSceneFunc = ::gui_start_flight_menu
@@ -76,7 +75,6 @@ function gui_start_briefing_restart()
 
   local finalApplyFunc = function()
   {
-    local gm = ::get_game_mode()
     ::set_context_to_player("difficulty", ::get_mission_difficulty())
     ::restart_current_mission()
   }
@@ -87,7 +85,7 @@ function gui_start_briefing_restart()
       finalApplyFunc()
   })(finalApplyFunc)
 
-  local handler = ::handlersManager.loadHandler(::gui_handlers.Briefing, params)
+  ::handlersManager.loadHandler(::gui_handlers.Briefing, params)
   ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_briefing_restart)
 }
 
@@ -381,7 +379,6 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
 
     local aircraft = missionBlk.getStr("player_class", "")
     ::aircraft_for_weapons = aircraft
-    local descrAdd = ::get_mission_desc_text(missionBlk)
 
     ::mission_settings.name = missionName
     ::mission_settings.postfix = null
@@ -389,11 +386,9 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
     ::mission_settings.weapon = missionBlk.getStr("player_weapons", "")
     ::mission_settings.players = 4;
 
-    if (descrAdd.len() > 0)
-    {
+    local descrAdd = ::get_mission_desc_text(missionBlk)
+    if (descrAdd != "")
       desc += (desc.len() ? "\n\n" : "") + descrAdd
-      descrAdd = null
-    }
 
     scene.findObject("mission_title").setValue(title)
     scene.findObject("mission_desc").setValue(desc)

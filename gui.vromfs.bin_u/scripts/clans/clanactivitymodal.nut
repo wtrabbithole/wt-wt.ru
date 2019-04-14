@@ -2,17 +2,20 @@ local u = ::require("std/u.nut")
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-function gui_start_clan_activity_wnd(playerName = null, clanData = null)
+function gui_start_clan_activity_wnd(uid = null, clanData = null)
 {
-  if (!playerName || !clanData)
+  if (!uid || !clanData)
+    return
+
+  local memberData = u.search(clanData.members, @(member) member.uid == uid)
+  if (!memberData)
     return
 
   ::gui_start_modal_wnd(::gui_handlers.clanActivityModal,
   {
     clanData = clanData
-    playerName = playerName
+    memberData = memberData
   })
-
 }
 
 class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
@@ -20,12 +23,11 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
   wndType           = handlerType.MODAL
   sceneBlkName      = "gui/clans/clanActivityModal.blk"
   clanData          = null
-  playerName        = null
+  memberData        = null
   hasClanExperience = null
 
   function initScreen()
   {
-    local memberData = u.search.bindenv(this)(clanData.members, @(member) member.nick == playerName)
     local maxActivityPerDay = clanData.rewardPeriodDays > 0
       ? ::round(1.0 * clanData.maxActivityPerPeriod / clanData.rewardPeriodDays)
       : 0
@@ -36,19 +38,12 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"),
       platformModule.getPlayerName(memberData.nick)))
 
-    scene.findObject("clan_activity_today_value").setValue(
-      ::format("%d / %d",
-        isShowPeriodActivity ? memberData.curPeriodActivity : memberData.curActivity,
-        isShowPeriodActivity ? clanData.maxActivityPerPeriod : maxActivityPerDay
-      )
-    )
-
-    scene.findObject("clan_activity_total_value").setValue(
-      ::format("%d / %d",
-        isShowPeriodActivity ? memberData.totalPeriodActivity : memberData.totalActivity,
-        isShowPeriodActivity ? clanData.maxActivityPerPeriod * history.len() : maxActivityPerDay * history.len()
-      )
-    )
+    local maxActivityToday = [(isShowPeriodActivity ? memberData.curPeriodActivity : memberData.curActivity).tostring()]
+    if (maxActivityPerDay > 0)
+      maxActivityToday.append((isShowPeriodActivity ? clanData.maxActivityPerPeriod : maxActivityPerDay).tostring())
+    scene.findObject("clan_activity_today_value").setValue(::g_string.implode(maxActivityToday, " / "))
+    scene.findObject("clan_activity_total_value").setValue(::format("%d",
+      isShowPeriodActivity ? memberData.totalPeriodActivity : memberData.totalActivity))
 
     fillActivityHistory(history)
   }

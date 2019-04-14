@@ -147,9 +147,7 @@ class ::gui_handlers.CampaignPreview extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (blk.getInt("enemyStartCount", -1) >= 0)
     {
-      local a = ["none", "few", "normal", "many"];
-      ret.main <- format("<Color=@blogDateColor>%02d.%02d.%d</Color> <Color=@blogHeaderColor>%s</Color>\n"
-                    ,//+ "<Color=@blogCommonColor>%s\n%s\n%s</Color>\n",
+      ret.main <- format("<Color=@blogDateColor>%02d.%02d.%d</Color> <Color=@blogHeaderColor>%s %s</Color>\n",
         blk.getInt("dataDD",1),
         blk.getInt("dataMM",1),
         blk.getInt("dataYYYY",1941),
@@ -237,7 +235,6 @@ class ::gui_handlers.CampaignPreview extends ::gui_handlers.BaseGuiHandlerWT
   function onSelect(obj)
   {
     local gm = ::get_game_mode()
-    local gt = ::get_game_type()
     if (gm == ::GM_DYNAMIC)
     {
       if (::is_dynamic_won_by_player())

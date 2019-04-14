@@ -374,7 +374,7 @@ local ExchangeRecipes = class {
     {
       if (params?.shouldSkipMsgBox)
       {
-        recipe.doExchange(componentItem)
+        recipe.doExchange(componentItem, 1, params)
         return true
       }
 
@@ -513,6 +513,8 @@ local ExchangeRecipes = class {
   function onExchangeComplete(componentItem, resultItems, params = null)
   {
     ::ItemsManager.markInventoryUpdate()
+    if (params?.cb)
+      params.cb()
 
     local isShowOpening  = @(extItem) extItem?.itemdef?.type == "item"
       && !extItem?.itemdef?.tags?.devItem

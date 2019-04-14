@@ -71,7 +71,6 @@ function g_crew_skills::loadSkills()
 
       //!!FIX ME: need to full use the same skillItems as in g_crew instead of duplicate code
       // Max skill value
-      local crewSkillsBlk = skillsBlk.crew_skills
       local maxSkillValue = ::getTblValue("max_skill_level", skillBlk, DEFAULT_MAX_SKILL_LEVEL)
       maxSkillValueByMemberAndSkill[memberName][skillName] <- maxSkillValue
 

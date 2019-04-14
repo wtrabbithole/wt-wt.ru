@@ -183,7 +183,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function sortByUnitType(gameModeViews)
   {
-    gameModeViews.sort(function(a, b) {
+    gameModeViews.sort(function(a, b) { // warning disable: -return-different-types
       foreach(unitType in ::g_unit_type.types)
       {
         if(b.isWide != a.isWide)
@@ -314,12 +314,19 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCrossPlayRestrictionTooltipText(event)
   {
-    if (!::is_platform_xboxone || isEventXboxOnlyAllowed(event))
+    if (!::is_platform_xboxone) //No need tooltip on other platforms
       return null
 
+    //Always send to other platform if enabled
+    //Need to notify about it
     if (crossplayModule.isCrossPlayEnabled())
       return ::loc("xbox/crossPlayEnabled")
 
+    //If only xbox - no need to notify
+    if (isEventXboxOnlyAllowed(event))
+      return null
+
+    //Notify that crossplay is strongly required
     return ::loc("xbox/crossPlayRequired")
   }
 

@@ -267,7 +267,6 @@ class ChatThreadInfo
 
   function getLangsListheader(obj)
   {
-    local guiScene = obj.getScene()
     local contentObject = obj.findObject("thread_lang")
     local res = getLangsList()
     for(local i = 0; i < MAX_THREAD_LANG_VISIBLE; i++)

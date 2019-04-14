@@ -59,7 +59,6 @@ local function makeTblByBranch(branch, ranksHeight, headRow = null)
   //  res.tbl.append([null])  //place for headAir in rowIdx==rank generation
 
   local prevAir = null
-  local tblWidth = 0
   foreach(idx, item in branch)
   {
     local curAir = null
@@ -71,7 +70,6 @@ local function makeTblByBranch(branch, ranksHeight, headRow = null)
     }
     else {
       curAir = item
-      local reqGroup = false
       if (item?.reqAir)
         prevAir = getAircraftByName(item.reqAir)
       if (prevAir)

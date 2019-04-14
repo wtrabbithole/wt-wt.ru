@@ -166,7 +166,7 @@ function g_login::initConfigs(cb)
       if (!("initialContacts" in cdb) || !cdb.initialContacts)
       {
         cdb.initialContacts = true
-        ::player_lists <- ::get_player_lists() //no update, just pointer to DB in profile
+        ::player_lists = ::get_player_lists() //no update, just pointer to DB in profile
 
         //FIXME: maybe temporary, maybe not...
         local oldLists = ::get_obsolete_player_lists()

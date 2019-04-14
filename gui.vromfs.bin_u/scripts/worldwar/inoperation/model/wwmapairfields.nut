@@ -26,8 +26,8 @@ local function updateMapIcons()
     if (::u.isEqual(airfield, lastAirfield))
       continue
 
-    if (airfield.hasUnitsToFly && airfield.hasUnitsToFly != lastAirfield?.hasUnitsToFly ||
-        airfield.unitsAmount > lastAirfield?.unitsAmount ?? 0)
+    if ((airfield.hasUnitsToFly && airfield.hasUnitsToFly != lastAirfield?.hasUnitsToFly)
+         || (airfield.unitsAmount > (lastAirfield?.unitsAmount ?? 0)))
       ::ww_turn_on_sector_sprites("Airfield", [airfield.zoneName], 5000)
     else if (!airfield.hasUnitsToFly && airfield.hasUnitsToFly != lastAirfield?.hasUnitsToFly)
       ::ww_turn_off_sector_sprites("Airfield", [airfield.zoneName])

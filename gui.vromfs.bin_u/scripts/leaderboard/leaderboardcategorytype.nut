@@ -108,7 +108,6 @@ function g_lb_category::_getAdditionalTooltipPart(row)
 
   local res = ""
   local additionalCategory = null
-  local tooltipPart = ""
 
   foreach (categoryTypeName in additionalTooltipCategoryes)
   {

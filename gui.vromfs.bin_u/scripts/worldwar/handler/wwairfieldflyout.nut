@@ -349,9 +349,6 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local selUnitsInfo = getSelectedUnitsInfo()
-    local unitsFightersQty = getReqDataFromSelectedUnitsInfo(selUnitsInfo, WW_UNIT_CLASS.FIGHTER, "amount", 0)
-    local unitsBombersQty = getReqDataFromSelectedUnitsInfo(selUnitsInfo, WW_UNIT_CLASS.BOMBER, "amount", 0)
-
     local isEnable = !!selUnitsInfo.selectedUnitsMask
     foreach (unitClass, cl in selUnitsInfo.classes)
     {

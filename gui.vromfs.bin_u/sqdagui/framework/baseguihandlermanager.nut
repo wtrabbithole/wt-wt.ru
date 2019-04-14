@@ -114,7 +114,7 @@ function handlersManager::getHandlerClassDebugName(handlerClass)
   local className = getHandlerClassName(handlerClass)
   if (className)
     return "::gui_handlers." + className
-  return " sceneBlk = " + handlerClass?.sceneBlkName
+  return " sceneBlk = " + (handlerClass?.sceneBlkName ?? "null")
 }
 
 function handlersManager::onLoadHandlerDebug(handlerClass, params)

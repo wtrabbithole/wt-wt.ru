@@ -142,7 +142,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     showEmptySlot = showEmptySlot ?? !singleCountry
     hasExtraInfoBlock = hasExtraInfoBlock ?? !singleCountry
     shouldSelectAvailableUnit = shouldSelectAvailableUnit ?? ::is_in_flight()
-    needPresetsPanel = needPresetsPanel ?? !singleCountry && isCountryChoiceAllowed
+    needPresetsPanel = needPresetsPanel ?? (!singleCountry && isCountryChoiceAllowed)
     shouldCheckQueue = shouldCheckQueue ?? !::is_in_flight()
 
     onSlotDblClick = onSlotDblClick
@@ -229,7 +229,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       local listCountry = crewsListFull[c].country
-      if (singleCountry != null && singleCountry != listCountry
+      if ((singleCountry != null && singleCountry != listCountry)
           || !::is_country_visible(listCountry))
         continue
 
@@ -287,7 +287,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       local slotCostTbl = ::get_crew_slot_cost(listCountry)
-      if (!slotCostTbl || slotCostTbl.costGold > 0 && !::has_feature("SpendGold"))
+      if (!slotCostTbl || (slotCostTbl.costGold > 0 && !::has_feature("SpendGold")))
         continue
 
       addCrewData(countryData.crews,
@@ -339,9 +339,9 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         local crew = crewData.crew
         local unit = crewData.unit
         local isSelectable = crewData.isSelectable
-        if (crew && curCrewId == crew.id
-          || unit && unit == curUnit
-          || !crew && shouldSelectCrewRecruit)
+        if ((crew && curCrewId == crew.id)
+          || (unit && unit == curUnit)
+          || (!crew && shouldSelectCrewRecruit))
         {
           selCrewData = crewData
           isFoundCurUnit = true
@@ -381,7 +381,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         break
       }
 
-      if (!selCrewData || crewData.isSelectable && !selCrewData.isSelectable)
+      if (!selCrewData || (crewData.isSelectable && !selCrewData.isSelectable))
         selCrewData = crewData
     }
     return selCrewData
@@ -485,8 +485,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       countriesNestObj.isShort = "yes"
 
     local needEvent = selectedCrewData
-      && (curSlotCountryId >= 0 && curSlotCountryId != selectedCrewData.idCountry
-        || curSlotIdInCountry >= 0 && curSlotIdInCountry != selectedCrewData.idInCountry)
+      && ((curSlotCountryId >= 0 && curSlotCountryId != selectedCrewData.idCountry)
+        || (curSlotIdInCountry >= 0 && curSlotIdInCountry != selectedCrewData.idInCountry))
     if (needEvent)
     {
       local cObj = scene.findObject("airs_table_" + selectedCrewData.idCountry)
@@ -624,7 +624,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
   function getSlotbarActions()
   {
-    return slotbarActions || ownerWeak && ownerWeak.getSlotbarActions()
+    return slotbarActions ?? ownerWeak?.getSlotbarActions?()
   }
 
   function getCurFocusObj()
@@ -896,8 +896,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return -1
     if (tblObj.id != "airs_table_" + curSlotCountryId)
     {
-      local tblObjId = tblObj.id
-      local countryId = curSlotCountryId
+      local tblObjId = tblObj.id          // warning disable: -declared-never-used
+      local countryId = curSlotCountryId  // warning disable: -declared-never-used
       ::script_net_assert_once("bad slot country id", "Error: Try to select crew from wrong country")
       return -1
     }
@@ -910,7 +910,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       local id = ::getObjIdByPrefix(slotListObj.getChild(i), prefix)
       if (!id)
       {
-        local objId = slotListObj.getChild(i).id
+        local objId = slotListObj.getChild(i).id // warning disable: -declared-never-used
         ::script_net_assert_once("bad slot id", "Error: Bad slotbar slot id")
         continue
       }

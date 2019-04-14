@@ -148,10 +148,10 @@ function show_facebook_login_reminder()
     return;
 
   local gmBlk = ::get_game_settings_blk()
-  local daysCounter = gmBlk && gmBlk.reminderFacebookLikeDays || 0
+  local daysCounter = gmBlk?.reminderFacebookLikeDays ?? 0
   local lastDays = ::loadLocalByAccount("facebook/lastDayFacebookLikeReminder", 0)
   local days = time.getUtcDays()
-  if ( !lastDays || daysCounter > 0 && days - lastDays > daysCounter )
+  if ( !lastDays || (daysCounter > 0 && days - lastDays > daysCounter) )
   {
     ::gui_start_modal_wnd(::gui_handlers.facebookReminderModal);
     ::saveLocalByAccount( "facebook/lastDayFacebookLikeReminder", days )

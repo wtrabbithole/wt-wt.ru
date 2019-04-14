@@ -87,11 +87,16 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     modesObj.setValue(::max(modeIdx, 0))
   }
 
-  function updateDaysComboBox(seasonDay)
+  function updateDaysComboBox(seasonDays)
   {
+    local seasonDay = wwLeaderboardData.getSeasonDay(seasonDays)
     lbDaysList = [null]
     for (local i = 0; i < seasonDay; i++)
-      lbDaysList.append(seasonDay - i)
+    {
+      local dayNumber = seasonDay - i
+      if (::isInArray(wwLeaderboardData.getDayIdByNumber(dayNumber), seasonDays))
+        lbDaysList.append(dayNumber)
+    }
 
     local data = ""
     foreach(day in lbDaysList)
@@ -237,13 +242,13 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
           if (!isValid())
             return
 
-          updateModeComboBoxes(wwLeaderboardData.getSeasonDay(modesData))
+          updateModeComboBoxes(modesData?.tables)
         }.bindenv(this))
     else
       updateModeComboBoxes()
   }
 
-  function updateModeComboBoxes(seasonDay = 0)
+  function updateModeComboBoxes(seasonDays = null)
   {
     if (isCountriesLeaderboard())
     {
@@ -253,7 +258,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     else
       updateMapsComboBox()
 
-    updateDaysComboBox(seasonDay)
+    updateDaysComboBox(seasonDays)
   }
 
   function checkLbCategory()

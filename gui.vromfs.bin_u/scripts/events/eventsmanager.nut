@@ -2748,7 +2748,7 @@ class Events
 
   function isGameTypeOfEvent(event, gameTypeName)
   {
-    return event && ::get_meta_mission_info_by_name(getEventMission(event.name))?[gameTypeName] ?? false
+    return !!event && !!::get_meta_mission_info_by_name(getEventMission(event.name))?[gameTypeName]
   }
 
   function onEventEventBattleEnded(params)

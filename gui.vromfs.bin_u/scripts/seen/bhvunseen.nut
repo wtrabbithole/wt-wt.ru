@@ -12,8 +12,6 @@ local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback
   when need only listId without entities, you can setValue(listId) without preprocessing
 */
 
-local onSeenListEvent = null //to be able use it in behaviour
-
 local BhvUnseen = class
 {
   eventMask    = ::EV_ON_CMD

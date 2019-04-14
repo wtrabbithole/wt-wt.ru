@@ -375,8 +375,6 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local lbRows = lb_data ? ::getTblValue("rows", lb_data, []) : []
-    local tableData = ""
-    local headerRow = ""
     playersInTable = []
     guiScene.replaceContentFromText(lbTable, "", 0, this)
     lbWaitBox.show(!lb_data)

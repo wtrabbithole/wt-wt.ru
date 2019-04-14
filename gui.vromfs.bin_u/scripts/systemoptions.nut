@@ -1194,7 +1194,6 @@ function sysopt::onConfigApply()
     local func_restart = function() {
       ::sysopt.applyRestartClient()
     }
-    local cancel_func = function() {}
 
     if (canRestartClient())
     {

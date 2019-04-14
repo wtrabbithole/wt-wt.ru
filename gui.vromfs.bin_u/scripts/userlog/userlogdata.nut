@@ -276,11 +276,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         local awardBlk = blk.body.award
         if (awardBlk)
         {
-          local priceText = ::g_warbonds.getWarbondPriceText(
-                              blk.body.warbond || "",
-                              blk.body.stage || "",
-                              awardBlk.cost || ""
-                            )
+          local priceText = ::g_warbonds.getWarbondPriceText(awardBlk?.cost ?? 0)
           local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
           msg = awardType.getUserlogBuyText(awardBlk, priceText)
           if (awardType.id == ::EWBAT_BATTLE_TASK && awardType.canBuy(awardBlk))
@@ -406,26 +402,29 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       local item = ::ItemsManager.findItemById(blk.body?.itemDefId)
       if (item)
       {
-        local locId = "userlog/" + ::getLogNameByType(blk.type)
-        local numItems = blk.body?.quantity ?? 1
-        local name = ::loc(locId, {
-          numItemsColored = numItems
-          numItems = numItems
-          numItemsAdd = numItems
-          itemName = ""
-        })
+        if (!item.shouldAutoConsume)
+        {
+          local locId = "userlog/" + ::getLogNameByType(blk.type)
+          local numItems = blk.body?.quantity ?? 1
+          local name = ::loc(locId, {
+            numItemsColored = numItems
+            numItems = numItems
+            numItemsAdd = numItems
+            itemName = ""
+          })
 
-        local button = null
-        local wSet = workshop.getSetByItemId(item.id)
-        if (wSet)
-          button = [{
-            id = "workshop_button",
-            text = ::loc("items/workshop"),
-            func = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
-              : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
-          }]
+          local button = null
+          local wSet = workshop.getSetByItemId(item.id)
+          if (wSet)
+            button = [{
+              id = "workshop_button",
+              text = ::loc("items/workshop"),
+              func = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
+                : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
+            }]
 
-        ::g_popups.add(name, item && item.getName() ? item.getName() : "", null, button)
+          ::g_popups.add(name, item && item.getName() ? item.getName() : "", null, button)
+        }
         markDisabled = true
       }
     }
@@ -590,10 +589,10 @@ function getUserLogsList(filter)
     if (!::isUserlogVisible(blk, filter, i))
       continue
 
-    local isUnlockTypeNotSuitable = "unlockType" in blk.body &&
-                                       (blk.body.unlockType == ::UNLOCKABLE_TROPHY_PSN ||
-                                        blk.body.unlockType == ::UNLOCKABLE_TROPHY_XBOXONE ||
-                                        ("unlocks" in filter) && !::isInArray(blk.body.unlockType, filter.unlocks))
+    local isUnlockTypeNotSuitable = ("unlockType" in blk.body)
+      && (blk.body.unlockType == ::UNLOCKABLE_TROPHY_PSN
+        || blk.body.unlockType == ::UNLOCKABLE_TROPHY_XBOXONE
+        || (("unlocks" in filter) && !::isInArray(blk.body.unlockType, filter.unlocks)))
 
     local unlock = ::g_unlocks.getUnlockById(::getTblValue("unlockId", blk.body))
     local hideUnlockById = unlock != null && !::is_unlock_visible(unlock)

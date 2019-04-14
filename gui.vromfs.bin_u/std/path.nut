@@ -96,7 +96,7 @@ local function parentPath(path) {
     return path.slice(0, separatorIdx)
   else if (separatorIdx == 0)
     return "/"
-  else if (separatorIdx == -1)
+  else
     return null
 }
 

@@ -539,7 +539,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function initAircraftSelect()
   {
-    local team = ::get_mp_local_team()
     if (::show_aircraft == null)
       ::show_aircraft = getAircraftByName(::last_ca_aircraft)
 
@@ -893,7 +892,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     local hint = ""
     local hintIcon = ::show_console_buttons ? gamepadIcons.getTexture("r_trigger") : "#ui/gameuiskin#mouse_left"
-    local respBaseTimerText = ""
     if (!isRespawn)
       hint = ::colorize("activeTextColor", ::loc("voice_message_attention_to_point_2"))
     else
@@ -1311,7 +1309,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!missionRules.hasWeaponLimits())
       return
 
-    foreach(weapon in unit?.weapons)
+    foreach(weapon in (unit?.weapons ?? []))
       if (::is_weapon_visible(unit, weapon)
           && ::is_weapon_enabled(unit, weapon)
           && missionRules.getUnitWeaponRespawnsLeft(unit, weapon) > 0) //limited and available
@@ -1722,7 +1720,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     local readyCounts = bulletsManager.checkBulletsCountReady()
     if (readyCounts.status == bulletsAmountState.READY
-        || readyCounts.status == bulletsAmountState.HAS_UNALLOCATED && ::get_gui_option(::USEROPT_SKIP_LEFT_BULLETS_WARNING))
+        || (readyCounts.status == bulletsAmountState.HAS_UNALLOCATED && ::get_gui_option(::USEROPT_SKIP_LEFT_BULLETS_WARNING)))
       return true
 
     local msg = ""
@@ -1823,7 +1821,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return true
 
     local diffCode = ::get_mission_difficulty_int()
-    local difficulty = ::g_difficulty.getDifficultyByDiffCode(diffCode)
 
     local curPresetId = contentPreset.getCurPresetId(diffCode)
     local newPresetId = contentPreset.getPresetIdBySkin(diffCode, unit.name, skinId)

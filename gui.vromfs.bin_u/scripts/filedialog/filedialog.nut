@@ -664,7 +664,6 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     local objId = obj.id
     local columnName = cachedColumnNameByTableColumnId[objId]
-    local selectedColumn = null
     foreach (column in columns)
     {
       if (column.name != columnName)
@@ -1085,7 +1084,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     local filesList = readDirFiles(dirPath, maximumFilesToLoad)
     if (filesList.len() > maximumFilesToLoad)
-      filesList.slice(0, maximumFilesToLoad)
+      filesList = filesList.slice(0, maximumFilesToLoad)
     local filesTableData = []
 
     cachedFileFullPathByFileName.clear()
@@ -1233,8 +1232,6 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     }
     showSceneBtn("btn_navigation", isNavigationToggleAllowed)
 
-    local groupIdx = 0
-    local entryIdx = 0
     local view = {items = []}
     cachedPathByNavItemId.clear()
     foreach (idx, navData in navListData)

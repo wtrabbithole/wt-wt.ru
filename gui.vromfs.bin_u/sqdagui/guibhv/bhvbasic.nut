@@ -481,7 +481,6 @@ class gui_bhv_deprecated.massTransparency extends gui_bhv_deprecated.basicTransp
 function updateTransparencyRecursive(obj, transpNew)
 {
   local last_transp_PID = ::dagui_propid.add_name_id("_last_transp")
-  local lastTransp = obj.getIntProp(last_transp_PID, -1)
 
   obj.setIntProp(last_transp_PID, transpNew.tointeger())
   obj.set_prop_latent("color-factor", transpNew)

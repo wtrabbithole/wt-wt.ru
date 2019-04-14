@@ -534,9 +534,9 @@ class ::ChatHandler
     }
     else if (::g_chat.checkBlockedLink(link))
     {
-      log_text = ::g_chat.revertBlockedMsg(log_text, link)
+      log_text = ::g_chat.revealBlockedMsg(log_text, link)
 
-      local pureMessage = ::stringReplace(link.slice(6), " ", " ")
+      local pureMessage = ::g_chat.convertLinkToBlockedMsg(link)
       ingame_chat.unblockMessage(pureMessage)
       updateAllLogs()
     }

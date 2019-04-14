@@ -62,13 +62,13 @@ local function requestWwLeaderboardModes(modeName, cb)
   ::ww_leaderboard.request(requestData, cb)
 }
 
-local function getSeasonDay(lbModesData)
+local function getSeasonDay(days)
 {
-  if (!lbModesData)
+  if (!days)
     return 0
 
   local seasonDay = 0
-  foreach (dayId in lbModesData?.tables ?? [])
+  foreach (dayId in days)
     if (dayId.slice(0, 3) == "day")
     {
       local dayNumberText = dayId.slice(3)
@@ -133,6 +133,7 @@ local function convertWwLeaderboardData(result, applyLocalisationToName = false)
 return {
   modes = modes
   getSeasonDay = getSeasonDay
+  getDayIdByNumber = @(number) "day" + number
   getModeByName = @(mName) ::u.search(modes, @(m) m.mode == mName)
   requestWwLeaderboardData = requestWwLeaderboardData
   requestWwLeaderboardModes = requestWwLeaderboardModes

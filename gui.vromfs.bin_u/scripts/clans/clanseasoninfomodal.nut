@@ -190,7 +190,6 @@ class ::gui_handlers.clanSeasonInfoModal extends ::gui_handlers.BaseGuiHandlerWT
   function onItemSelect(obj)
   {
     local listChildrenCount = rewardsListObj.childrenCount()
-    local prevSelectedIndex = selectedIndex
     local index = obj.getValue()
     selectedIndex = (index >= 0 && index < listChildrenCount) ? index : 0
   }

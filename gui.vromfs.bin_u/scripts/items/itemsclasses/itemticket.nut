@@ -359,13 +359,8 @@ class ::items_classes.Ticket extends ::BaseItem
         text += (text.len() ? "\n\n" : "") + ::loc("tournaments/specialRewards") + ::loc("ui/colon")
         local specialRewards = ::EventRewards.getSortedRewardsByConditions(event)
         foreach (conditionId, rewardsList in specialRewards)
-        {
-          local condition = ::EventRewards.getCondition(conditionId)
           foreach (reward in rewardsList)
-          {
             text += "\n" + ::EventRewards.getConditionText(reward) + " - " + ::EventRewards.getRewardDescText(reward)
-          }
-        }
       }
     }
     return text

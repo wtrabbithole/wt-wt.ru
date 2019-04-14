@@ -352,7 +352,6 @@ function EventRewards::getRewardDescText(rewardBlk)
 
 function EventRewards::getRewardTooltipId(reward_blk)
 {
-  local tooltipId = ""
   foreach(cfg in _rewardsConfig)
   {
     local value = cfg.getValue(reward_blk)
@@ -365,7 +364,6 @@ function EventRewards::getRewardTooltipId(reward_blk)
 function EventRewards::getTotalRewardDescText(rewardsBlksArray)
 {
   local text = ""
-  local result = {}
   local money = ::Cost()
   foreach(rewardBlk in rewardsBlksArray)
     foreach(cfg in _rewardsConfig)

@@ -95,7 +95,6 @@
 
   function fixDeviceMapping()
   {
-    local usedMapping = curPreset.deviceMapping
     local realMapping = []
 
     local blkDeviceMapping = ::DataBlock()
