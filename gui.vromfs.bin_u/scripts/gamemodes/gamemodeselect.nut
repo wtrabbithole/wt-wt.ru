@@ -446,7 +446,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local event = getGameModeEvent(gameMode)
     if (!isCrossPlayEventAvailable(event))
     {
-      ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
+      ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
       return
     }
 

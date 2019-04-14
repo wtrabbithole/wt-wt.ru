@@ -40,9 +40,10 @@ local getPlayerCardInfoTable = function(uid, name)
   return info
 }
 
+local showLiveCommunicationsRestrictionMsgBox = @() ::showInfoMsgBox(::loc("xbox/actionNotAvailableLiveCommunications"))
+local showCrossNetworkPlayRestrictionMsgBox = @() ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
+local showCrossNetworkCommunicationsRestrictionMsgBox = @() ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkCommunications"))
 local showNotAvailableActionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableDiffPlatform"))
-local showPrivacySettingsRestrictionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableOnlinePrivacy"))
-local showCrossPlayRestrictionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
 local showXboxFriendOnlySquadInvitePopup = @() ::g_popups.add(null, ::loc("squad/xbox/friendsOnly"))
 local showXboxSquadInviteOnlyOnlinePopup = @() ::g_popups.add(null, ::loc("squad/xbox/onlineOnly"))
 local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = platformModule.getPlayerName(playerName)}))
@@ -85,7 +86,7 @@ local getActions = function(contact, params)
       if (!canInteractCrossConsole)
         return showNotAvailableActionPopup()
       if (!canInteractCrossPlatform)
-        return showCrossPlayRestrictionPopup()
+        return showCrossNetworkPlayRestrictionMsgBox()
 
       if (::isPlayerPS4Friend(name))
         ::g_psn_sessions.invite(::SessionLobby.getExternalId(), ::get_psn_account_id(name))
@@ -107,7 +108,7 @@ local getActions = function(contact, params)
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
           else if (!canInteractCrossPlatform)
-            showCrossPlayRestrictionPopup()
+            showCrossNetworkPlayRestrictionMsgBox()
           else
             ::queues.joinFriendsQueue(contact.inGameEx, eventId)
         }
@@ -126,7 +127,11 @@ local getActions = function(contact, params)
         if (!canInteract)
         {
           platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
-          return showPrivacySettingsRestrictionPopup()
+          if (isXBoxOnePlayer)
+            showLiveCommunicationsRestrictionMsgBox()
+          else
+            showCrossNetworkCommunicationsRestrictionMsgBox()
+          return
         }
 
         if (isBlock)
@@ -186,11 +191,10 @@ local getActions = function(contact, params)
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
           else if (!canInteractCrossPlatform)
-            showCrossPlayRestrictionPopup()
+            showCrossNetworkPlayRestrictionMsgBox()
           else if (!canInteract)
           {
             platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
-            showPrivacySettingsRestrictionPopup()
           }
           else if (!canInviteDiffConsole)
             showNoInviteForDiffPlatformPopup()
@@ -356,11 +360,10 @@ local getActions = function(contact, params)
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
           else if (!canInteractCrossPlatform)
-            showCrossPlayRestrictionPopup()
+            showCrossNetworkCommunicationsRestrictionMsgBox()
           else if (!canInteract)
           {
             platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
-            showPrivacySettingsRestrictionPopup()
           }
           else
             ::open_invite_menu(inviteMenu, params?.position)
@@ -470,5 +473,5 @@ return {
   getActions = getActions
   showMenu = showMenu
   showNotAvailableActionPopup = showNotAvailableActionPopup
-  showPrivacySettingsRestrictionPopup = showPrivacySettingsRestrictionPopup
+  showCrossNetworkCommunicationsRestrictionMsgBox = showCrossNetworkCommunicationsRestrictionMsgBox
 }

@@ -535,7 +535,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local event = getGameModeEvent(curGameMode)
     if (!isCrossPlayEventAvailable(event))
     {
-      ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
+      ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
       return
     }
 
