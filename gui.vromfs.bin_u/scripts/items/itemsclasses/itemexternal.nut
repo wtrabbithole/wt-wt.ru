@@ -1004,6 +1004,7 @@ local ItemExternal = class extends ::BaseItem
   })
 
   needOfferBuyAtExpiration = @() !isHiddenItem() && itemDef?.tags?.offerToBuyAtExpiration
+  isVisibleInWorkshopOnly = @() itemDef?.tags?.showInWorkshopOnly ?? false
 }
 
 return ItemExternal

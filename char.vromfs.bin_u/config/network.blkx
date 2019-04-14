@@ -15,12 +15,14 @@
       "fastModeTimeout": 3
     },
     "client": {
-      "loadLimitTime": 35000,
+      "loadLimitTime": 250000,
       "loadWaitTime": 4000,
-      "saveLimitTime": 35000,
+      "saveLimitTime": 250000,
       "saveWaitTime": 4000,
+      "retryLimitTime": 250000,
+      "retryWaitTime": 4000,
       "curlConnectionTimeout": 10,
-      "curlProcessingTimeout": 20,
+      "curlProcessingTimeout": 240,
       "fastModeTimeout": 3
     }
   },

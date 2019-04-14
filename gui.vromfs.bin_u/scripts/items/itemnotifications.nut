@@ -41,7 +41,7 @@ local checkOfferToBuyAtExpiration = function()
     local id = ::to_integer_safe(itemId, itemId, false)
     local inventoryItem = ::ItemsManager.getInventoryItemById(id)
     local shopItem = ::ItemsManager.findItemById(id)
-    if (inventoryItem || !shopItem)
+    if (inventoryItem && !inventoryItem.isExpired())
       continue
 
     if (!shopItem || !shopItem.isCanBuy() || !shopItem.needOfferBuyAtExpiration())

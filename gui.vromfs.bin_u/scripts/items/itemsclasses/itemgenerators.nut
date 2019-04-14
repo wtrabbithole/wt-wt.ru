@@ -57,10 +57,10 @@ local ItemGenerator = class {
       local hasAdditionalRecipes = false
       foreach (itemBlk in workshop.getItemAdditionalRecipesById(id))
       {
-        hasAdditionalRecipes = true
         foreach (paramName in ["fakeRecipe", "trueRecipe"])
           foreach (itemdefId in itemBlk % paramName)
           {
+            ::ItemsManager.findItemById(itemdefId) // calls pending generators list update
             local gen = collection?[itemdefId] ?? null
             local additionalParsedRecipes = gen ? inventoryClient.parseRecipesString(gen.exchange) : []
             _exchangeRecipes.extend(::u.map(additionalParsedRecipes, @(pr) ExchangeRecipes({
@@ -71,6 +71,7 @@ local ItemGenerator = class {
               isDisassemble = isDisassemble
               localizationPresetName = localizationPresetName
             })))
+            hasAdditionalRecipes = hasAdditionalRecipes || additionalParsedRecipes.len() > 0
           }
         break
       }

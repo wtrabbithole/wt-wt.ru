@@ -658,7 +658,7 @@ function can_crew_take_unit(unit)
 
 function canBuyUnitOnline(unit)
 {
-  return !::isUnitBought(unit) && ::isUnitGift(unit)
+  return !::isUnitBought(unit) && ::isUnitGift(unit) && unit.isVisibleInShop()
 }
 
 function isUnitInResearch(unit)

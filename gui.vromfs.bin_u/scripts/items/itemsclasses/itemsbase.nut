@@ -754,4 +754,5 @@ class ::BaseItem
   needShowRewardWnd = @() true
   skipRoulette = @() true
   needOfferBuyAtExpiration = @() false
+  isVisibleInWorkshopOnly = @() false
 }

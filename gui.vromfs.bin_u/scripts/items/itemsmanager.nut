@@ -347,8 +347,8 @@ function ItemsManager::getShopList(typeMask = itemType.INVENTORY_ALL, filterFunc
 function ItemsManager::getShopVisibleSeenIds()
 {
   if (!shopVisibleSeenIds)
-    shopVisibleSeenIds = getShopList(checkItemsMaskFeatures(itemType.INVENTORY_ALL), @(it) it.isCanBuy())
-      .map(@(it) it.getSeenId())
+    shopVisibleSeenIds = getShopList(checkItemsMaskFeatures(itemType.INVENTORY_ALL),
+      @(it) it.isCanBuy() && !it.isHiddenItem() && !it.isVisibleInWorkshopOnly()).map(@(it) it.getSeenId())
   return shopVisibleSeenIds
 }
 
@@ -625,7 +625,8 @@ function ItemsManager::getInventoryVisibleSeenIds()
   if (!inventoryVisibleSeenIds)
   {
     local itemsList = getInventoryListByShopMask(checkItemsMaskFeatures(itemType.INVENTORY_ALL))
-    inventoryVisibleSeenIds = itemsList.filter(@(idx, it) !it.isHiddenItem()).map(@(it) it.getSeenId())
+    inventoryVisibleSeenIds = itemsList.filter(
+      @(idx, it) !it.isHiddenItem() && !it.isVisibleInWorkshopOnly()).map(@(it) it.getSeenId())
   }
 
   return inventoryVisibleSeenIds

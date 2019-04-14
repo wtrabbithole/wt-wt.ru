@@ -1,6 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 local contentStateModule = ::require("scripts/clientState/contentState.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
@@ -229,7 +230,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#items/workshop"
     onClickFunc = @(...) ::gui_start_items_list(itemsTab.WORKSHOP)
     image = "#ui/gameuiskin#btn_modifications.svg"
-    isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu()
+    isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !workshop.isAvailable()
     unseenIcon = @() SEEN.WORKSHOP
   }
   WARBONDS_SHOP = {
