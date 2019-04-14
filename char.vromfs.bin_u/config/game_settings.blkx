@@ -1144,6 +1144,68 @@
         "condition": "summer2018Access;xboxOneAccess"
       }
     ],
+    "i180Spring2019Craft": {
+      "condition": "spring_2019_i180_access"
+    },
+    "i180Spring2019GoldShop": [
+      {
+        "condition": "i180Spring2019Craft;PS4Account"
+      },
+      {
+        "condition": "i180Spring2019Craft;xboxOneAccess"
+      }
+    ],
+    "i180Spring2019CraftFirstDropKit": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_1rd_craft_done"
+    },
+    "i180Spring2019CraftSecondDropKit": {
+      "condition": "i180Spring2019Craft;spring_2019_i180_1rd_craft_done;!spring_2019_i180_2rd_craft_done"
+    },
+    "i180Spring2019CraftExpertDropKits": {
+      "condition": "i180Spring2019Craft;spring_2019_i180_2rd_craft_done"
+    },
+    "i180Spring2019CraftDropDetailsPreset01": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset01"
+    },
+    "i180Spring2019CraftDropDetailsPreset02": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset02"
+    },
+    "i180Spring2019CraftDropDetailsPreset03": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset03"
+    },
+    "i180Spring2019CraftDropDetailsPreset04": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset04"
+    },
+    "i180Spring2019CraftDropDetailsPreset05": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset05"
+    },
+    "i180Spring2019CraftDropDetailsPreset06": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset06"
+    },
+    "i180Spring2019CraftDropDetailsPreset07": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset07"
+    },
+    "i180Spring2019DiagnosticsPreset01": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset01"
+    },
+    "i180Spring2019DiagnosticsPreset02": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset02"
+    },
+    "i180Spring2019DiagnosticsPreset03": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset03"
+    },
+    "i180Spring2019DiagnosticsPreset04": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset04"
+    },
+    "i180Spring2019DiagnosticsPreset05": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset05"
+    },
+    "i180Spring2019DiagnosticsPreset06": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset06"
+    },
+    "i180Spring2019DiagnosticsPreset07": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset07"
+    },
     "EnableFmTools": [
       {
         "condition": "role_GAIJIN"
@@ -1394,17 +1456,9 @@
     "DebriefingRowAdvancedTooltip": {
       "condition": ""
     },
-    "UnitsSearchBoxInShop": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      }
-    ],
+    "UnitsSearchBoxInShop": {
+      "condition": ""
+    },
     "ShowAllBattleTasks": {
       "condition": "role_DEVELOPER"
     },

@@ -5559,7 +5559,6 @@
     },
     "88mm_kwk_36_43_APCR_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
-      "reqModification": "88mm_kwk_36_43_HEAT_ammo_pack",
       "tier": 4,
       "deactivationIsAllowed": false,
       "modClass": "firepower"
@@ -8001,6 +8000,14 @@
         "additiveBulletMod": "57mm_britain_6pdr_APC_navy"
       }
     },
+    "76mm_uk_mk6_nc101_navy_he_radio_fuse": {
+      "image": "#ui/gameuiskin#he_frag_proxi_fuze_ship",
+      "isReserve": true,
+      "group": "76mm_HE",
+      "effects": {
+        "additiveBulletMod": "76mm_uk_mk6_nc101_navy_he_radio_fuse"
+      }
+    },
     "84mm_britain_20pdr_APDS": {
       "image": "#ui/gameuiskin#tank_ammo",
       "reqModification": "84mm_britain_20pdr_APDS_ammo_pack",
@@ -8202,6 +8209,28 @@
       }
     },
     "152mm_uk_navy_5_10crh_cpbc_ammo_pack": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "tier": 1,
+      "deactivationIsAllowed": false,
+      "modClass": "firepower"
+    },
+    "152mm_uk_mk5_navy_he": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "isReserve": true,
+      "group": "152mm_britain_HE",
+      "effects": {
+        "additiveBulletMod": "152mm_uk_mk5_navy_he"
+      }
+    },
+    "152mm_uk_mk5_navy_ap": {
+      "image": "#ui/gameuiskin#tank_ammo",
+      "reqModification": "152mm_uk_mk5_navy_ap_ammo_pack",
+      "group": "152mm_britain_APBC",
+      "effects": {
+        "additiveBulletMod": "152mm_uk_mk5_navy_ap"
+      }
+    },
+    "152mm_uk_mk5_navy_ap_ammo_pack": {
       "image": "#ui/gameuiskin#tank_ammo",
       "tier": 1,
       "deactivationIsAllowed": false,
@@ -12260,6 +12289,11 @@
       "modClass": "weapon",
       "deactivationIsAllowed": false
     },
+    "mig_19_pl2": {
+      "image": "#ui/gameuiskin#air_to_air_missile",
+      "modClass": "weapon",
+      "deactivationIsAllowed": false
+    },
     "mig_19_r13m": {
       "image": "#ui/gameuiskin#air_to_air_missile",
       "modClass": "weapon",
@@ -12436,6 +12470,15 @@
       "image": "#ui/gameuiskin#tank_additional_armor",
       "requiresModelReload": true,
       "tier": 4,
+      "modClass": "protection",
+      "effects": {
+        "fakeParam": 1.01
+      }
+    },
+    "vsw_flak_41_skirts_up": {
+      "image": "#ui/gameuiskin#tank_additional_armor",
+      "requiresModelReload": true,
+      "tier": 1,
       "modClass": "protection",
       "effects": {
         "fakeParam": 1.01
