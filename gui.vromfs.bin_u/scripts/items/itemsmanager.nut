@@ -583,7 +583,8 @@ function ItemsManager::_checkInventoryUpdate()
     local iType = getInventoryItemType(itemdef?.tags?.type ?? "")
     if (iType == itemType.UNKNOWN)
     {
-      ::dagor.logerr("Inventory: Unknown itemdef.tags.type in item " + itemdefid)
+      if (::isInArray(itemdef?.type, [ "item", "delayedexchange" ]))
+        ::dagor.logerr("Inventory: Transfer: Unknown itemdef.tags.type in item " + itemdefid)
       continue
     }
     local item = createItem(iType, itemdef, {})
