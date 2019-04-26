@@ -167,10 +167,10 @@
               "target": "antiTankGun_AADef"
             },
             {
-              "target": "teamA_antiTankGun_setLimit"
+              "target": "teamA_antiTankGun_needToSpawn"
             },
             {
-              "target": "teamB_antiTankGun_setLimit"
+              "target": "teamB_antiTankGun_needToSpawn"
             }
           ]
         }
@@ -219,6 +219,66 @@
             "accuracy": 1.0
           }
         ]
+      },
+      "else_actions": []
+    },
+    "teamA_antiTankGun_needToSpawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "defenseMissionTeam",
+          "type": "var",
+          "invertResult": true
+        },
+        "varCompareString": {
+          "var_value": "defenseMissionTeam",
+          "value": "teamA",
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "triggerEnable": {
+          "target": "teamA_antiTankGun_setLimit"
+        }
+      },
+      "else_actions": []
+    },
+    "teamB_antiTankGun_needToSpawn": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": {
+        "objectExists": {
+          "target": "defenseMissionTeam",
+          "type": "var",
+          "invertResult": true
+        },
+        "varCompareString": {
+          "var_value": "defenseMissionTeam",
+          "value": "teamB",
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "triggerEnable": {
+          "target": "teamB_antiTankGun_setLimit"
+        }
       },
       "else_actions": []
     },
