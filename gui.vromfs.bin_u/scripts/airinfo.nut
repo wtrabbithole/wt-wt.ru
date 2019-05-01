@@ -1214,6 +1214,9 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
       }
       air.minChars = effect.min
       air.maxChars = effect.max
+
+      if (::isUnitSpecial(air) && !::isUnitUsable(air))
+        air.modificators = effect.max
     }
     ::_afterUpdateAirModificators(air, callBack)
   })(air, callBack))

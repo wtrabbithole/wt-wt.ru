@@ -1474,6 +1474,51 @@ function get_userlog_view_data(log)
       res.description <- ::loc(descLoc, {unit = ::loc(log.unit + "_0"), cost = ::Cost(0, log.costGold)})
     }
   }
+  else if (log.type == ::EULT_WW_AWARD)
+  {
+    local awardsFor = log.awardsFor
+
+    local descLines = []
+    local day = ::g_string.cutPrefix(awardsFor.table, "day")
+
+    local period = day ? ::loc("enumerated_day", {number = day}) : ::loc("worldwar/allSeason")
+    local modeStr = ::g_string.split(awardsFor.mode, "__")
+    local mapName = null
+    local country = null
+    foreach (partStr in modeStr)
+    {
+      if(::g_string.startsWith(partStr, "country_"))
+        country = partStr
+      if(::g_string.endsWith(partStr, "_wwmap"))
+        mapName = partStr
+    }
+    country = country ? ::loc(country) : ::loc("worldwar/allCountries")
+    mapName = mapName ? ::loc("worldWar/map/" + mapName) : ::loc("worldwar/allMaps")
+    local leaderboard = ::loc("mainmenu/leaderboard") + ::loc("ui/colon")
+      + ::g_string.implode([period, mapName, country], ::loc("ui/comma"))
+    descLines.append(leaderboard)
+
+    switch (awardsFor.leaderboard_type)
+    {
+     case "user_leaderboards" :
+       res.name = ::loc("worldwar/personal/award")
+       descLines.append(::loc("multiplayer/place") + ::loc("ui/colon") + awardsFor.place)
+       break
+     case "clan_leaderboards" :
+       res.name = ::loc("worldwar/clan/award")
+       descLines.append(::loc("multiplayer/clan_place") + ::loc("ui/colon") + awardsFor.clan_place)
+       descLines.append(::loc("multiplayer/place_in_clan_leaderboard") + ::loc("ui/colon") + awardsFor.place)
+       break
+    }
+
+    local item = ::ItemsManager.findItemById(log.itemDefId)
+    if (item)
+      descLines.append(::colorize("activeTextColor", item.getName()))
+    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
+
+    res.descriptionBlk <- ::get_userlog_image_item(item)
+    res.description <- ::g_string.implode(descLines, "\n")
+  }
 
   if (::getTblValue("description", res, "") != "")
   {

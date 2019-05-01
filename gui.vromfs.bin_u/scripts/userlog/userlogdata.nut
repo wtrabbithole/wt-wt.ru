@@ -74,7 +74,8 @@ local logNameByType = {
   [::EULT_WW_START_OPERATION]            = "ww_start_operation",
   [::EULT_WW_END_OPERATION]              = "ww_end_operation",
   [::EULT_WW_CREATE_OPERATION]           = "ww_create_operation",
-  [::EULT_CLAN_UNITS]                    = "clan_units"
+  [::EULT_CLAN_UNITS]                    = "clan_units",
+  [::EULT_WW_AWARD]                      = "ww_award",
 }
 
 local clanActionNames = {
