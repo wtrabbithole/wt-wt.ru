@@ -251,12 +251,6 @@ local globalEnv = require_native("globalEnv")
     "ID_SENSOR_TARGET_LOCK_SWITCH",
     "ID_SENSOR_TARGET_LOCK_TANK",
     "ID_SENSOR_VIEW_SWITCH",
-    { id="sensor_designation_x_tank", type = CONTROL_TYPE.AXIS, msgType = "_horizontal",
-      buttonRelative = true }
-    { id="sensor_designation_y_tank", type = CONTROL_TYPE.AXIS, isVertical = true,
-      buttonRelative = true }
-    { id="sensor_designation_z_tank", type = CONTROL_TYPE.AXIS, isVertical = true,
-      buttonRelative = true }
 
   { id="ID_VIEW_CONTROL_HEADER", type= CONTROL_TYPE.HEADER }
     { id="gm_mouse_aim_x", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM], msgType = "_horizontal" }

@@ -266,6 +266,12 @@ enum xboxMediaItemType { //values by microsoft IDE, others not used
   GameConsumable = 5
 }
 
+enum contactEvent
+{
+  CONTACTS_UPDATED = "ContactsUpdated"
+  CONTACTS_GROUP_UPDATE = "ContactsGroupUpdate"
+}
+
 function randomize()
 {
   ::math.init_rnd(::get_local_time_sec())

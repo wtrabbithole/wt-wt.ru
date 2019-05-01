@@ -53,6 +53,22 @@ foreach (notificationName, callback in
         else (messageType == "wwNotification")
           ::ww_process_server_notification(params)
       }
-  }
-)
-::matching_rpc_subscribe(notificationName, callback)
+  })
+  ::matching_rpc_subscribe(notificationName, callback)
+
+
+foreach (notificationName, callback in
+  {
+    ["worldwar_forced_subscribe"] = function(params)
+      {
+        local operationId = params?.id
+        if (!operationId)
+          return
+
+        if (params?.subscribe ?? false)
+          ::ww_service.subscribeOperation(operationId)
+        else
+          ::ww_service.unsubscribeOperation(operationId)
+      }
+  })
+  ::web_rpc.register_handler(notificationName, callback)

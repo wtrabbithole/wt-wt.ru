@@ -272,26 +272,3 @@ function on_facebook_friends_loaded(blk)
       })
 }
 //-------------------- </Facebook> ----------------------------
-
-//----------------- <XBox One> --------------------------
-
-function xbox_on_add_remove_friend_closed(playerStatus)
-{
-  if (playerStatus == XBOX_PERSON_STATUS_CANCELED)
-    return
-
-  ::g_contacts.xboxFetchContactsList()
-}
-
-function xbox_get_people_list_callback(playersList = [])
-{
-  ::g_contacts.proceedXboxPlayersListFromCallback(playersList, ::EPL_FRIENDLIST)
-  ::xbox_get_avoid_list_async()
-}
-
-function xbox_get_avoid_list_callback(playersList = [])
-{
-  ::g_contacts.proceedXboxPlayersListFromCallback(playersList, ::EPL_BLOCKLIST)
-}
-
-//---------------- </XBox One> --------------------------

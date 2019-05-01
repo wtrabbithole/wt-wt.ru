@@ -61,6 +61,12 @@ style.lineForeground <- class {
   fontScale = getFontScale()
 }
 
+local isHitAimVisible = Watched(false)
+
+::interop.updateHitAim <- function(isVisible) {
+  isHitAimVisible.update(isVisible)
+}
+
 
 local HelicopterRocketAim = function(line_style, isBackground) {
 
@@ -135,6 +141,36 @@ local HelicopterAamAimTracker = function(line_style, isBackground) {
   }
 }
 
+
+local createHitMarker = function(elemStyle, isBackground) {
+  local width = hdpx(34)
+  local color = getColor(isBackground)
+
+  return @() elemStyle.__merge( {
+    rendObj = ROBJ_VECTOR_CANVAS
+    size = [width, width]
+    color = color
+    pos = [-0.5 * width, -0.5 * width]
+    commands = [
+      [VECTOR_LINE, 0, 0, 20, 20],
+      [VECTOR_LINE, 80, 80, 100, 100],
+      [VECTOR_LINE, 0, 100, 20, 80],
+      [VECTOR_LINE, 80, 20, 100, 0]
+    ]
+  })
+}
+
+
+local createHitMarkerComponent = function(elemStyle, isBackground, pos) {
+  return @() {
+    watch = isHitAimVisible
+    pos = pos
+    children = isHitAimVisible.value ? createHitMarker(elemStyle, isBackground) : null
+    size = SIZE_TO_CONTENT
+  }
+}
+
+
 local HelicopterGunDirection = function(line_style, isBackground) {
   local sqL = 80
   local l = 20
@@ -180,7 +216,6 @@ local HelicopterGunDirection = function(line_style, isBackground) {
     }
   }
 
-
   local lines = @() line_style.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
     size = [sh(2), sh(2)]
@@ -214,10 +249,11 @@ local HelicopterGunDirection = function(line_style, isBackground) {
 
 
 local HelicopterFixedGunsDirection = function(line_style, isBackground) {
+  local w = sh(0.625)
 
   local lines = @() line_style.__merge({
       rendObj = ROBJ_VECTOR_CANVAS
-      size = [sh(0.625), sh(0.625)]
+      size = [w, w]
       color = getColor(isBackground)
       commands = [
         [VECTOR_LINE, 0, 50, 0, 150],
@@ -228,7 +264,7 @@ local HelicopterFixedGunsDirection = function(line_style, isBackground) {
     })
 
   return @() {
-    size = SIZE_TO_CONTENT
+    size = [w, w]
     halign = HALIGN_CENTER
     valign = VALIGN_MIDDLE
     watch = [helicopterState.FixedGunDirectionVisible,
@@ -238,7 +274,10 @@ local HelicopterFixedGunsDirection = function(line_style, isBackground) {
     transform = {
       translate = [helicopterState.FixedGunDirectionX.value, helicopterState.FixedGunDirectionY.value]
     }
-    children = [lines]
+    children = [
+      lines,
+      createHitMarkerComponent(line_style, isBackground, [hdpx(14), hdpx(14)])
+    ]
   }
 }
 

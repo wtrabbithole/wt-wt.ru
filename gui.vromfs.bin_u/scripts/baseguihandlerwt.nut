@@ -2,6 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
 const MAIN_FOCUS_ITEM_IDX = 4
 
@@ -433,7 +434,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::isContactsWindowActive())
     {
       ::update_ps4_friends()
-      ::g_contacts.updateXboxOneFriends()
+      xboxContactsManager.updateXboxOneFriends()
     }
 
     onSwitchContacts()
