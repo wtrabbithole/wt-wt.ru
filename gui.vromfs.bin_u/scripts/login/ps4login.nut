@@ -33,8 +33,6 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
     if (isLoggingIn)
       return
 
-    //TODO: real login
-    //for now, revert to PC login scene
     if ((::ps4_initial_check_network() >= 0) && (::ps4_init_trophies() >= 0))
     {
       ::statsd_counter("gameStart.request_login.ps4")
