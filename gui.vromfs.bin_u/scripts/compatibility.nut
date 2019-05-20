@@ -87,4 +87,5 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
 //----------------------------wop_1_87_1_X---------------------------------//
 ::apply_compatibilities({
   EULT_WW_AWARD = 59
+  userstat = { request = @(...) null }
 })

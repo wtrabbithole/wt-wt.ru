@@ -1,3 +1,5 @@
+local time = require("scripts/time.nut")
+
 class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType      = handlerType.MODAL
@@ -5,6 +7,7 @@ class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
 
   isPlayerRewards = false
   rewardsBlk = null
+  rewardsTime = 0
   lbMode    = null
   lbDay     = null
   lbMap     = null
@@ -26,6 +29,9 @@ class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
       (lbCountry ? ::loc(lbCountry) : ::loc("worldwar/allCountries")),
     ], ::loc("ui/comma")) + " " + ::loc("ui/mdash") + " " + ::loc("worldwar/btn_rewards")
     scene.findObject("wnd_title").setValue(wndTitle)
+
+    showSceneBtn("nav-help", true)
+    updateRerwardsStartTime()
 
     rewards = []
     foreach (rewardBlk in rewardsBlk)
@@ -77,11 +83,13 @@ class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
     return ::handyman.renderCached("gui/items/item", view)
   }
 
-  getPlaceText = @(tillPlace, prevPlace)
-    tillPlace
-      ? ::loc("multiplayer/place") + ::loc("ui/colon")
-        + ((tillPlace - prevPlace == 1) ? tillPlace : (prevPlace + 1) + ::loc("ui/mdash") + tillPlace)
-      : ::loc("multiplayer/place/to_other")
+  function getPlaceText(tillPlace, prevPlace, isClan = false)
+  {
+    if (!tillPlace)
+      tillPlace = ::g_clan_type.NORMAL.maxMembers
+    return ::loc(isClan ? "multiplayer/clan_place" : "multiplayer/place") + ::loc("ui/colon")
+      + ((tillPlace - prevPlace == 1) ? tillPlace : (prevPlace + 1) + ::loc("ui/mdash") + tillPlace)
+  }
 
   function getRewardTitle(tillPlace, prevPlace)
   {
@@ -100,11 +108,10 @@ class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
   {
     local prevPlace = 0
     return {
-      isPlayerRewards = isPlayerRewards
       rewardsList = ::u.map(rewards, function(reward) {
         local rewardRowView = {
           title = getRewardTitle(reward.tillPlace, prevPlace)
-          condition = getPlaceText(reward.tillPlace, prevPlace)
+          condition = getPlaceText(reward.tillPlace, prevPlace, !isPlayerRewards)
         }
         prevPlace = reward.tillPlace
 
@@ -150,6 +157,22 @@ class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
         return rewardRowView
       }.bindenv(this))
     }
+  }
+
+  function updateRerwardsStartTime()
+  {
+    local text = ""
+    if (rewardsTime > 0)
+      text = ::loc("worldwar/rewards_start_time") + ::loc("ui/colon") +
+        time.buildDateTimeStr(rewardsTime, false, false)
+    scene.findObject("statusbar_text").setValue(text)
+  }
+
+  function onBtnMoreInfo(obj)
+  {
+    local rewardsArray = ::u.map(rewards?[0]?.internalRewards ?? rewards,
+      @(reward) { item = reward?.itemdefid })
+    ::gui_start_open_trophy_rewards_list({ rewardsArray = rewardsArray })
   }
 
   function onItemSelect(obj)

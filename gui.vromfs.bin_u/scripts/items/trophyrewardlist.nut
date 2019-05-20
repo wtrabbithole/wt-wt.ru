@@ -25,13 +25,17 @@ class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(titleObj))
       titleObj.setValue(::loc(tittleLocId))
 
-    local data = getItemsImages()
-    guiScene.replaceContentFromText(listObj, data, data.len(), this)
-
     if (rewardsArray.len() > 3)
       listObj.width = (listObj.getSize()[0] + guiScene.calcString("1@scrollBarSize", null)).tostring()
 
+    fillList(listObj)
     listObj.select()
+  }
+
+  function fillList(listObj)
+  {
+    local data = getItemsImages()
+    guiScene.replaceContentFromText(listObj, data, data.len(), this)
   }
 
   function getItemsImages()
@@ -56,7 +60,7 @@ class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
         return
 
       local item = ::ItemsManager.findItemById(reward_config.item)
-      ::ItemsManager.fillItemDescr(item, infoObj, this, true, item?.isPreferMarkupDescInTooltip ?? false, reward_config)
+      ::ItemsManager.fillItemDescr(item, infoObj, this, true, true, reward_config)
     } else
     {
       if (!::check_obj(infoTextObj))
@@ -66,5 +70,17 @@ class ::gui_handlers.trophyRewardsList extends ::gui_handlers.BaseGuiHandlerWT
       text.append(::trophyReward.getDecription(reward_config, true))
       infoTextObj.setValue(::g_string.implode(text, "\n"))
     }
+  }
+
+  function onEventItemsShopUpdate(p)
+  {
+    local listObj = scene.findObject("items_list")
+    if (!::check_obj(listObj))
+      return
+
+    fillList(listObj)
+    listObj.select()
+    if (listObj.childrenCount() > 0 && listObj.getValue() < 0)
+      listObj.setValue(0)
   }
 }

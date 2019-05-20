@@ -109,6 +109,7 @@ enum WW_BATTLE_CANT_JOIN_REASON
   SQUAD_UNITS_NOT_ENOUGH_AVAILABLE
   SQUAD_HAVE_UNACCEPTED_INVITES
   SQUAD_NOT_ALL_CREWS_READY
+  SQUAD_MEMBERS_NO_WW_ACCESS
 }
 
 enum mapObjectSelect {
@@ -485,7 +486,6 @@ function g_world_war::onEventSignOut(p)
 function g_world_war::onEventLoginComplete(p)
 {
   loadLastPlayed()
-  ::g_ww_global_status.refreshData()
   updateUserlogsAccess()
 }
 
@@ -1402,7 +1402,7 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
 
 function g_world_war::addOperationInvite(operationId, clanId, isStarted, inviteTime)
 {
-  if (!::is_worldwar_enabled() || !canPlayWorldwar())
+  if (!canJoinWorldwarBattle())
     return
 
   if (clanId.tostring() != ::clan_get_my_clan_id())

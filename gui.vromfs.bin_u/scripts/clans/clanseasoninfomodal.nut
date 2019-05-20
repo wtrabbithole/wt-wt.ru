@@ -198,4 +198,8 @@ class ::gui_handlers.clanSeasonInfoModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     return rewardsListObj
   }
+
+  function onBtnMoreInfo(obj)
+  {
+  }
 }

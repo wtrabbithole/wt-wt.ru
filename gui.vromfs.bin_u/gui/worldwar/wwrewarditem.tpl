@@ -16,12 +16,6 @@ expandable {
         activeText {
           text:t='<<title>>'
         }
-        text {
-          smallFont:t='yes'
-          <<^isPlayerRewards>>
-            text:t='#worldwar/rewards/of_squadron'
-          <</isPlayerRewards>>
-        }
       }
 
       <<#hasInternalRewards>>

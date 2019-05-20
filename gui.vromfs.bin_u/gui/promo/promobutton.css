@@ -161,6 +161,7 @@ promoButton[collapsed=no] > collapsedContainer {
 }
 
 promoButton > collapsedContainer > shortInfoBlock {
+  height:1@arrowButtonHeight;
   pos:pw-w, 0.5@arrowButtonHeight - 0.5h;
   position:relative;
 }
@@ -244,14 +245,12 @@ shortHeaderText, shortHeaderIcon {
   pos:0, 50%ph-50%h;
   position:relative;
 
-  font:@fontMedium;
+  font:@fontNormal;
   pare-text:yes;
   color:@commonPromoButtonTextColor;
   hideEmptyText:yes;
   text-align:right;
 }
-
-shortHeaderText { font:@fontNormal; }
 
 promoButton > collapsedContainer > shortHeaderText {
   margin-right:1@promoButtonTextPadding;

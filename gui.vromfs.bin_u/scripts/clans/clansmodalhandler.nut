@@ -234,14 +234,14 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
       requestWwMembersList()
       updateModesTabsContent(modesObj, {
-        tabs = [{
+        tabs = getModesTabsView(getCurDMode(), ::get_show_in_squadron_statistics).append({
           id = "worldwar_mode"
           hidden = (curWwMembers?.len() ?? 0) <= 0
           tabName = ::loc("userlog/page/worldWar")
           selected = false
           isWorldWarMode = true
           tooltip = ::loc("worldwar/ClanMembersLeaderboard/tooltip")
-        }].extend(getModesTabsView(getCurDMode(), ::get_show_in_squadron_statistics))
+        })
       })
     }
     initFocusArray()

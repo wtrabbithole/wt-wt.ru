@@ -896,12 +896,10 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function onSelect()
   {
     curPlayer = null
-    local memberTblObj = scene.findObject("clan_members_list")
-    local lbTblObj = scene.findObject("lb_table")
-    if (!::check_obj(memberTblObj) || !::check_obj(lbTblObj) || !clanData)
+    local tblObj = scene.findObject(isWorldWarMode ? "lb_table" : "clan_members_list")
+    if (!::check_obj(tblObj) || !clanData)
       return
 
-    local tblObj = memberTblObj.isVisible() ? memberTblObj : lbTblObj
     local index = tblObj.getValue()
     if (index <= 0 || index >= tblObj.childrenCount())
       return //0 - header selected

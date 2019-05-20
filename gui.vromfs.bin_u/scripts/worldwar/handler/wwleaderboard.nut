@@ -1,5 +1,6 @@
 local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
 local wwRewards = ::require("scripts/worldWar/handler/wwRewards.nut")
+local time = require("scripts/time.nut")
 
 ::ww_leaderboards_list <- [
   ::g_lb_category.EVENTS_PERSONAL_ELO
@@ -39,6 +40,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
   requestData = null
 
   rewardsBlk = null
+  rewardsTimeData = null
 
   function initScreen()
   {
@@ -55,6 +57,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     initModes()
     updateButtons()
     fetchRewardsData()
+    fetchRewardsTimeData()
   }
 
   function fetchRewardsData()
@@ -62,17 +65,38 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local requestBlk = ::DataBlock()
     requestBlk.configname = "ww_rewards"
     ::g_tasker.charRequestBlk("cmn_get_config_bin", requestBlk, null,
-      function(res) {
+      ::Callback(function(res) {
         rewardsBlk = ::DataBlock()
         local curCircuitRewardsBlk = res?.body?[::get_cur_circuit_name()]
         if (curCircuitRewardsBlk)
           rewardsBlk.setFrom(curCircuitRewardsBlk)
         updateButtons()
-      }.bindenv(this),
-      function(res) {
+      }, this),
+      ::Callback(function(res) {
         rewardsBlk = null
         updateButtons()
-      }.bindenv(this))
+      }, this))
+  }
+
+  function fetchRewardsTimeData()
+  {
+    local userstatRequestData = {
+      add_token = true
+      headers = { appid = "1134" }
+      action = "GetTablesInfo"
+    }
+
+    local callback = ::Callback(function(userstatTbl) {
+      rewardsTimeData = {}
+      foreach (key, val in userstatTbl)
+      {
+        local rewardTimeStr = val?.interval?.index == 0 && val?.prevInterval?.index != 0 ?
+          val?.prevInterval?.end : val?.interval?.end
+        rewardsTimeData[key] <- rewardTimeStr ? time.getTimestampFromIso8601(rewardTimeStr) : 0
+      }
+    }, this)
+
+    ::userstat.request(userstatRequestData, @(userstatTbl) callback(userstatTbl))
   }
 
   function fillMapsList()
@@ -400,6 +424,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     wwRewards.open({
       isPlayerRewards = isUsersLeaderboard()
       rewardsBlk = curRewardsBlk
+      rewardsTime = getCurRewardsTime()
       lbMode    = lbMode
       lbDay     = lbDay
       lbMap     = lbMap
@@ -417,12 +442,18 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
   function getCurModeAwards()
   {
     local rewardTableName = wwLeaderboardData.getModeByName(lbMode)?.rewardsTableName
-    if (!rewardTableName || !rewardsBlk)
+    if (!rewardTableName || !rewardsBlk || !requestData)
       return null
 
     local day = lbDay ? wwLeaderboardData.getDayIdByNumber(lbDay) : "season"
     local awardTableName = requestData.modeName + requestData.modePostFix
 
     return rewardsBlk?[rewardTableName]?[day]?.awards?[awardTableName]
+  }
+
+  function getCurRewardsTime()
+  {
+    local day = lbDay ? wwLeaderboardData.getDayIdByNumber(lbDay) : "season"
+    return rewardsTimeData?[day] ?? 0
   }
 }

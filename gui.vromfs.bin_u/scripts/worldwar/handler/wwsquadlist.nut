@@ -69,7 +69,9 @@ class ::gui_handlers.WwSquadList extends ::gui_handlers.BaseGuiHandlerWT
 
     local alertText = ""
     local fullAlertText = ""
-    if (!memberData.canPlayWorldWar)
+    if (!memberData.isWorldWarAvailable)
+      alertText = ::loc("worldWar/noAccess")
+    else if (!memberData.canPlayWorldWar)
     {
       alertText = ::loc("worldWar/noAccess")
       fullAlertText = ::g_world_war.getPlayWorldwarConditionText()

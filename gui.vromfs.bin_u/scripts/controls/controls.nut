@@ -908,6 +908,10 @@ enum AxisDirection {
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
     }
+    { id = "ID_CAMERA_VIRTUAL_TARGET_FPS_HELICOPTER"
+      checkGroup = ctrlGroups.HELICOPTER
+      checkAssign = false
+    }
     { id = "ID_CAMERA_GUNNER_HELICOPTER"
       checkGroup = ctrlGroups.HELICOPTER
       checkAssign = false
@@ -2234,6 +2238,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_TOGGLE_VIEW_HELICOPTER"
   "ID_CAMERA_FPS_HELICOPTER"
   "ID_CAMERA_TPS_HELICOPTER"
+  "ID_CAMERA_VIRTUAL_TARGET_FPS_HELICOPTER"
   "ID_CAMERA_GUNNER_HELICOPTER"
   "ID_LOCK_TARGETING_AT_POINT_HELICOPTER"
   "ID_TARGET_CAMERA_HELICOPTER"

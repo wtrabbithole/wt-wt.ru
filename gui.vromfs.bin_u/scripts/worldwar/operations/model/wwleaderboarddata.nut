@@ -147,7 +147,8 @@ return {
   modes = modes
   getSeasonDay = getSeasonDay
   getDayIdByNumber = @(number) "day" + number
-  getModeByName = @(mName) ::u.search(modes, @(m) m.mode == mName)
+  getModeByName = @(mName) ::u.search(modes, @(m) m.mode == mName
+    && (!m?.needFeature || ::has_feature(m.needFeature)))
   requestWwLeaderboardData = requestWwLeaderboardData
   requestWwLeaderboardModes = requestWwLeaderboardModes
   convertWwLeaderboardData = convertWwLeaderboardData

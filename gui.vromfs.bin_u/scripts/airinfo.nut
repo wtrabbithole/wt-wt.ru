@@ -1763,7 +1763,10 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   obj = holderObj.findObject("aircraft-countryImg")
   if (::checkObj(obj))
+  {
     obj["background-image"] = ::get_unit_country_icon(air, true)
+    obj["tooltip"] = ::loc("shop/unitCountry/tooltip") + ::loc("ui/colon") + ::loc(air.shopCountry)
+  }
 
   if (::has_feature("UnitTooltipImage"))
   {

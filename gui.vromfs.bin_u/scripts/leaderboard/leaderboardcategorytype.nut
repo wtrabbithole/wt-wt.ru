@@ -574,14 +574,14 @@ enums.addTypesByGlobalName("g_lb_category", {
     PLAYER_KILLS = {
       field = "playerKills"
       visualKey = "lb_kills_player"
-      headerImage = "average_active_kills_by_spawn"
+      headerImage = "average_active_kills"
       additionalTooltipCategoryes = ["AIR_KILLS_PLAYER", "GROUND_KILLS_PLAYER"]
     }
 
     AI_KILLS = {
       field = "aiKills"
       visualKey = "lb_kills_ai"
-      headerImage = "average_script_kills_by_spawn"
+      headerImage = "average_script_kills"
       additionalTooltipCategoryes = ["AIR_KILLS_AI", "GROUND_KILLS_AI"]
     }
 

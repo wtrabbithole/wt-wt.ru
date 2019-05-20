@@ -387,7 +387,7 @@ class Promo
   function updateWorldWarButton()
   {
     local id = "world_war_button"
-    local isWwEnabled = ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar()
+    local isWwEnabled = ::g_world_war.canJoinWorldwarBattle()
     local isVisible = ::g_promo.getShowAllPromoBlocks() || isWwEnabled
 
     local wwButton = ::showBtn(id, isVisible, scene)

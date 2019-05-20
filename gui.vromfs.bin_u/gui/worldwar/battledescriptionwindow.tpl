@@ -18,6 +18,25 @@ root {
       }
 
       Button_close {}
+      <<#hasRefreshButton>>
+      top_right_holder {
+        id:t='header_buttons'
+        behaviour:t='wrapNavigator'
+        navigatorShortcuts:t='yes'
+        childsActivate:t='yes'
+        on_wrap_up:t='onWrapUp'
+        on_wrap_down:t='onWrapDown'
+        Button_text {
+          id:t = 'btn_refresh'
+          on_click:t = 'onRefresh'
+          tooltip:t = '#mainmenu/btnRefresh'
+          class:t='image'
+          imgSize:t='big'
+          visualStyle:t='noFrame'
+          img{ background-image:t='#ui/gameuiskin#refresh.svg' }
+        }
+      }
+      <</hasRefreshButton>>
     }
 
     tdiv {
@@ -161,6 +180,8 @@ root {
           on_click:t='onOpenClusterSelect'
           btnName:t='X'
           refuseOpenHoverMenu:t='no'
+          display:t='hide'
+          enable:t='no'
 
           textarea {
             id:t='cluster_select_button_text'
@@ -179,6 +200,8 @@ root {
           text:t='#worldwar/inviteSquads'
           on_click:t='onOpenSquadsListModal'
           btnName:t='Y'
+          display:t='hide'
+          enable:t='no'
           ButtonImg {}
         }
 
@@ -187,6 +210,8 @@ root {
           text:t='<<?worldwar/battleFilters>>'
           _on_click:t='onOpenBattlesFilters'
           btnName:t='Y'
+          display:t='hide'
+          enable:t='no'
           ButtonImg {}
         }
       }
@@ -196,7 +221,9 @@ root {
           id:t='btn_auto_preset'
           text:t='#worldwar/btnAutoPreset'
           _on_click:t='onRunAutoPreset'
-          btnName:t='RT'
+          btnName:t='R3'
+          display:t='hide'
+          enable:t='no'
           ButtonImg {}
         }
         Button_text {
@@ -204,6 +231,8 @@ root {
           text:t='#mainmenu/btnCollapse'
           _on_click:t='onCollapsedChapter'
           btnName:t='A'
+          display:t='hide'
+          enable:t='no'
           ButtonImg {}
         }
         Button_text {
@@ -215,6 +244,8 @@ root {
           isCancel:t='no'
           btnName:t='A'
           inactive:t='no'
+          display:t='hide'
+          enable:t='no'
 
           pattern{}
           buttonWink { _transp-timer:t='0' }

@@ -2,6 +2,7 @@ local globalBattlesListData = require("scripts/worldWar/operations/model/wwGloba
 local WwGlobalBattle = require("scripts/worldWar/operations/model/wwGlobalBattle.nut")
 
 const WW_GLOBAL_BATTLES_FILTER_ID = "worldWar/ww_global_battles_filter"
+local WW_GLOBAL_BATTLES_TIME_UPDATE_MSEC = 300000
 
 class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescription
 {
@@ -47,6 +48,10 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
     updateBattlesFilter()
     base.initScreen()
+    local timerObj = scene.findObject("update_timer")
+    if (::check_obj(timerObj))
+      timerObj.timer_interval_msec = WW_GLOBAL_BATTLES_TIME_UPDATE_MSEC.tostring()
+
     globalBattlesListData.requestList()
 
     ::checkNonApprovedResearches(true)
@@ -60,10 +65,17 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function getSceneTplView()
   {
-    return {}
+    return {
+      hasRefreshButton = true
+    }
   }
 
   function onUpdate(obj, dt)
+  {
+    onRefresh()
+  }
+
+  function onRefresh()
   {
     requestQueuesData()
     refreshList()
@@ -160,7 +172,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function getOperationBackground()
   {
-    return WW_OPERATION_DEFAULT_BG_IMAGE
+    return "#ui/images/worldwar_window_bg_image_all_battles"
   }
 
   function getSelectedBattlePrefixText(battleData)
@@ -284,7 +296,8 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     local country = ::get_profile_country_sq()
 
     battlesList = globalBattlesListData.getList().filter(@(idx, battle)
-      battle.hasSideCountry(country) && battle.isOperationMapAvaliable())
+      battle.hasSideCountry(country) && battle.isOperationMapAvaliable()
+      && battle.hasAvailableUnits())
 
     if (currViewMode != WW_BATTLE_VIEW_MODES.BATTLE_LIST)
       return

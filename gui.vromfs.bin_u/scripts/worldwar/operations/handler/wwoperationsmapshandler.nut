@@ -52,7 +52,6 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     backSceneFunc = ::gui_start_mainmenu
     mapsListObj = scene.findObject("maps_list")
     setSceneTitle(::loc("mainmenu/btnWorldwar"))
-    updateCheckBoxesData()
 
     foreach (timerObjId in [
         "ww_status_check_timer",  // periodic ww status updates check
@@ -93,8 +92,6 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function updateCheckBoxesData()
   {
-    collectMaps()
-
     checkBoxesData = {}
     foreach (mapId, map in mapsTbl)
     {
@@ -124,13 +121,11 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     hasRightsToQueueClan = ::g_clans.hasRightsToQueueWWar()
     hasSelectAllCountriesBlock = ::g_world_war.getSetting("isAbleToSelectAllCountries", false)
 
-    collectMaps()
     collectCountryData()
 
     findMapForSelection()
     fillMapsList()
-    fillTrophyList()
-    fillTopList()
+    updateLeftPanel()
 
     if (hasSelectAllCountriesBlock)
       fillSelectAllCountriesList()
@@ -150,15 +145,19 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function collectMaps()
   {
-    mapsTbl = {}
-    local _mapsTbl = ::g_ww_global_status_type.MAPS.getList()
-    foreach (mapId, map in _mapsTbl)
+    local oldMapsTbl = clone mapsTbl
+    foreach (mapId, map in ::g_ww_global_status_type.MAPS.getList())
       if (map.isVisible())
         mapsTbl[mapId] <- map
+
+    if (!checkBoxesData || oldMapsTbl.len() != mapsTbl.len()
+      || ::u.search(mapsTbl, (@(m) !oldMapsTbl?[m.name]).bindenv(this)) != null)
+      updateCheckBoxesData()
   }
 
   function collectCountryData()
   {
+    collectMaps()
     countryData = {}
     foreach (countryId in ::shopCountriesList)
       countryData[countryId] <- { selected = 0, total = 0 }
@@ -297,11 +296,11 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local trophiesBlk = ::g_world_war.getSetting("dailyTrophies", ::DataBlock())
     local reqFeatureId = trophiesBlk?.reqFeature
     if (reqFeatureId && !::has_feature(reqFeatureId))
-      return
+      return false
 
     local trophiesAmount = trophiesBlk.blockCount()
     if (!trophiesAmount)
-      return
+      return false
 
     local updStatsText = time.buildTimeStr(time.getUtcMidnight(), false, false)
 
@@ -311,7 +310,6 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       trophy = []
     }
 
-    local isLeftPanelVisible = false
     local curDay = time.getUtcDays() - DAYS_TO_YEAR_1970 + 1
     local trophiesProgress = ::get_es_custom_blk(-1)?.customClientData
     for (local i = 0; i < trophiesAmount; i++)
@@ -342,19 +340,18 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         wwTrophyMarkup = trophyItem.getNameMarkup(trophyAmount, false)
         isTrophyRecieved = isProgressReached
       })
-      isLeftPanelVisible = true
     }
 
     local markup = ::handyman.renderCached("gui/worldWar/wwTrophiesList", view)
     local trophyBlockObj = scene.findObject("trophy_list")
     guiScene.replaceContentFromText(trophyBlockObj, markup, markup.len(), this)
-    showSceneBtn("panel_left", isLeftPanelVisible)
+    return true
   }
 
   function fillTopList()
   {
     if (!::has_feature("WorldWarLeaderboards"))
-      return
+      return false
 
     local callback = ::Callback(
       function(modesData) {
@@ -368,6 +365,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       @(modesData) callback(modesData))
     wwTopLeaderboard.initTop(this, scene.findObject("top_global_players"), "ww_users")
     wwTopLeaderboard.initTop(this, scene.findObject("top_global_clans"),   "ww_clans")
+    return true
   }
 
   function showTopListBlock(isVisible = false)
@@ -1297,6 +1295,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     btnObj.setValue(::loc("worldwar/urlBtn/" + worldWarUrlBtnKey))
     btnObj.link = ::loc("url/wWarBtn/" + worldWarUrlBtnKey)
     btnObj.findObject("btn_ww_url_text").setValue(::loc("worldwar/urlBtn/" + worldWarUrlBtnKey))
+  }
+
+  function updateLeftPanel()
+  {
+    local isTrophyListVisible = fillTrophyList()
+    local isTopListVisible =  fillTopList()
+    showSceneBtn("panel_left", isTrophyListVisible || isTopListVisible)
   }
 }
 

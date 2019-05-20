@@ -110,10 +110,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj()
   {
-    return battlesListObj
+    return "header_buttons"
   }
 
   function getMainFocusObj2()
+  {
+    return battlesListObj
+  }
+
+  function getMainFocusObj3()
   {
     return "squad_list"
   }
@@ -171,7 +176,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function reinitBattlesList(isForceUpdate = false)
   {
     if (!wwQueuesData.isDataValid())
-      return
+      return requestQueuesData()
 
     local closedGroups = getClosedGroups()
     local currentBattleListMap = createBattleListMap()
@@ -696,7 +701,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
           }
           else
           {
-            if (canPrerareSquadForBattle(cantJoinReasonData))
+            if (!canGatherAllSquadMembersForBattle(cantJoinReasonData))
+            {
+              isJoinBattleActive = false
+              warningText = cantJoinReasonData.reasonText
+            }
+            else if (canPrerareSquadForBattle(cantJoinReasonData))
             {
               isJoinBattleActive = false
               warningText = cantJoinReasonData.reasonText
@@ -777,8 +787,18 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function canPrerareSquadForBattle(cantJoinReasonData)
   {
     return !cantJoinReasonData.canJoin &&
-           (cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.WRONG_SIDE ||
-            cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.NOT_ACTIVE)
+           (cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.WRONG_SIDE
+            || cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.NOT_ACTIVE
+            || cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
+            || cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.QUEUE_FULL
+            || cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.TEAM_FULL
+            || cantJoinReasonData.code == WW_BATTLE_CANT_JOIN_REASON.NO_AVAILABLE_UNITS)
+  }
+
+  function canGatherAllSquadMembersForBattle(cantJoinReasonData)
+  {
+    return cantJoinReasonData.canJoin
+        || cantJoinReasonData.code != WW_BATTLE_CANT_JOIN_REASON.SQUAD_MEMBERS_NO_WW_ACCESS
   }
 
   function updateBattleStatus(battleView)
@@ -925,14 +945,21 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
               tryToJoin(side)
             else
             {
-              if (canPrerareSquadForBattle(cantJoinReasonData))
+              if (!canGatherAllSquadMembersForBattle(cantJoinReasonData))
+                ::showInfoMsgBox(cantJoinReasonData.fullReasonText)
+              else if (canPrerareSquadForBattle(cantJoinReasonData))
                 ::showInfoMsgBox(cantJoinReasonData.reasonText)
               else
                 ::g_squad_manager.startWWBattlePrepare(operationBattle.id)
             }
           }
           else
-            ::showInfoMsgBox(::loc("squad/not_all_ready"))
+          {
+            if (!canGatherAllSquadMembersForBattle(cantJoinReasonData))
+              ::showInfoMsgBox(cantJoinReasonData.fullReasonText)
+            else
+              ::showInfoMsgBox(::loc("squad/not_all_ready"))
+          }
         }
         else
           ::g_squad_manager.setReadyFlag()
@@ -1382,6 +1409,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     local side = getPlayerSide()
     local team = operationBattle.getTeamBySide(side)
+    if (!team)
+      return
+
     local teamUnits = operationBattle.getTeamRemainUnits(team)
     local country = team.country
 

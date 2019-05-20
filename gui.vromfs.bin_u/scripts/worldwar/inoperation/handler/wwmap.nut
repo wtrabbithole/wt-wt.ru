@@ -606,8 +606,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     local side2Data = ::getTblValue(side2Name, armyStrengthData, {})
 
     local view = {
-      armyCountryImg1 = ::u.map(side1Data.country, function(country) { return {image = ::get_country_icon(country)}})
-      armyCountryImg2 = ::u.map(side2Data.country, function(country) { return {image = ::get_country_icon(country)}})
+      armyCountryImg1 = (side1Data?.country ?? []).map(@(c) { image = ::get_country_icon(c) })
+      armyCountryImg2 = (side2Data?.country ?? []).map(@(c) { image = ::get_country_icon(c) })
       side1TotalVehicle = 0
       side2TotalVehicle = 0
       unitString = []

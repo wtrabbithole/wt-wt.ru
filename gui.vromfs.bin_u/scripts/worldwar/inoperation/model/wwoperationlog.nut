@@ -150,7 +150,7 @@ function g_ww_logs::getNewLogs(useLogMark, handler)
 {
   local logsBlk = ::ww_operation_get_log()
   if (useLogMark)
-    ::g_ww_logs.lastMark = logsBlk.lastMark
+    ::g_ww_logs.lastMark = logsBlk?.lastMark ?? ""
 
   saveLoadedLogs(logsBlk, useLogMark, handler)
 }

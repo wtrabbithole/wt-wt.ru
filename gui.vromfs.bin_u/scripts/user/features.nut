@@ -261,6 +261,18 @@ function has_feature_array(arr)
   return true
 }
 
+function has_feature_array_any(arr)
+{
+  if (arr == null || arr.len() <= 0)
+    return true
+
+  foreach (name in arr)
+    if (name && ::has_feature(name))
+      return true
+
+  return false
+}
+
 /**
  * Returns array of entitlements that
  * unlock feature with provided name.

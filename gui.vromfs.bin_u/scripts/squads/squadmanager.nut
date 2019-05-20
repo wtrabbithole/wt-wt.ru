@@ -37,6 +37,13 @@ local DEFAULT_SQUAD_PROPERTIES = {
   maxMembers = 4
   isApplicationsEnabled = true
 }
+
+local SQUAD_SIZE_FEATURES_CHECK = {
+  squad = ["Squad"]
+  platoon = ["Clans", "WorldWar"]
+  battleGroup = ["WorldWar"]
+}
+
 local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
 
 g_squad_manager <- {
@@ -117,7 +124,8 @@ function g_squad_manager::updateMyMemberData(data = null)
 
   data.isReady <- isMeReady()
   data.isCrewsReady <- isMyCrewsReady
-  data.canPlayWorldWar <- ::g_world_war.canJoinWorldwarBattle()
+  data.canPlayWorldWar <- ::g_world_war.canPlayWorldwar()
+  data.isWorldWarAvailable <- ::is_worldwar_enabled()
   data.squadsVersion <- SQUADS_VERSION
 
   local wwOperations = []
@@ -417,9 +425,14 @@ function g_squad_manager::initSquadSizes()
   local maxSize = 0
   for (local i = 0; i < sizesBlk.paramCount(); i++)
   {
+    local name = sizesBlk.getParamName(i)
+    local needAddSize = ::has_feature_array_any(SQUAD_SIZE_FEATURES_CHECK?[name] ?? [])
+    if (!needAddSize)
+      continue
+
     local size = sizesBlk.getParamValue(i)
     squadSizesList.append({
-      name = sizesBlk.getParamName(i)
+      name = name
       value = size
     })
     maxSize = ::max(maxSize, size)
@@ -1748,6 +1761,16 @@ function g_squad_manager::setLeaderData(isActualBR = true)
   data.leaderBattleRating = isActualBR ? battleRating.getBR() : 0
   data.leaderGameModeId = isActualBR ? battleRating.getRecentGameModeId() : currentGameModeId
   setSquadData(data)
+}
+
+function g_squad_manager::getMembersNotAllowedInWorldWar()
+{
+  local res = []
+  foreach (uid, member in getMembers())
+    if (!member.isWorldWarAvailable)
+      res.append(member)
+
+  return res
 }
 
 ::cross_call_api.squad_manger <- ::g_squad_manager

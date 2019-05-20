@@ -112,7 +112,8 @@ function g_clan_type::_getMembersUpgradeStep()
   _upgradeCost = null
   _tagDecorators = null
 
-  minMemberCountToWWar = 1
+  maxMembers = 0
+  maxCandidates = 0
 
   /** Returns cost of clan creation. */
   getCreateCost = ::g_clan_type._getCreateCost
@@ -168,12 +169,15 @@ enums.addTypesByGlobalName("g_clan_type", {
     code = ::ECT_NORMAL // 0
     color = "activeTextColor"
     nextTypeCode = ::ECT_UNKNOWN
+    maxMembers = 128
+    maxCandidates = 256
   }
   BATTALION = {
     code = ::ECT_BATTALION // 1
     color = "battalionSquadronColor"
     nextTypeCode = ::ECT_NORMAL
-    minMemberCountToWWar = 10
+    maxMembers = 10
+    maxCandidates = 20
   }
   UNKNOWN = {
     code = ::ECT_UNKNOWN // -1

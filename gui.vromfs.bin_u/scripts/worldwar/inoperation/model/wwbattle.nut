@@ -337,6 +337,20 @@ class ::WwBattle
       return res
     }
 
+    if (::g_squad_manager.isSquadLeader())
+    {
+      local notAllowedInWorldWarMembers = ::g_squad_manager.getMembersNotAllowedInWorldWar()
+      if (notAllowedInWorldWarMembers.len() > 0)
+      {
+        local tArr = notAllowedInWorldWarMembers.map(@(m) ::colorize("warningTextColor", m.name))
+        local text = ::g_string.implode(tArr, ",")
+        res.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_MEMBERS_NO_WW_ACCESS
+        res.reasonText = ::loc("worldwar/squad/notAllowedMembers")
+        res.fullReasonText = ::loc("worldwar/squad/notAllowedMembers") + ::loc("ui/colon") + "\n" + text
+        return res
+      }
+    }
+
     if ((::g_squad_manager.isSquadLeader() || !::g_squad_manager.isInSquad())
       && isLockedByExcessPlayers(side, team.name))
     {

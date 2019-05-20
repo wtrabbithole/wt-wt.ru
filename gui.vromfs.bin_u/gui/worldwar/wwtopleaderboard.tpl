@@ -42,7 +42,7 @@ tdiv {
     hasConsoleImage:t='yes'
     ButtonImg {
       showOnSelect:t='yes'
-      iconName:t='RT'
+      iconName:t='RB'
     }
   }
 }

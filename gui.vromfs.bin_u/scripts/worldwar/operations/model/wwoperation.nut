@@ -216,10 +216,11 @@ class WwOperation
     local myClanId = ::clan_get_my_clan_id().tointeger()
     foreach(ag in getArmyGroups())
     {
-      if (::getTblValue("clanId", ag) == myClanId)
-        _myClanGroup = ag
-      if (isAssignedToGroup(ag))
-        _assignCountry = getArmyGroupCountry(ag)
+      if (ag?.clanId != myClanId)
+        continue
+
+      _myClanGroup = ag
+      _assignCountry = getArmyGroupCountry(ag)
     }
   }
 
@@ -286,16 +287,6 @@ class WwOperation
     return ::getTblValue("cntr", armyGroup)
   }
 
-  function isAssignedToGroup(armyGroup)
-  {
-    return ::getTblValue("rel", armyGroup, ::EAOUR_NONE) != ::EAOUR_NONE
-  }
-
-  /*
-  return {
-    [side] = ["country_germany"]
-  }
-  */
   function getCountriesByTeams()
   {
     local res = {}

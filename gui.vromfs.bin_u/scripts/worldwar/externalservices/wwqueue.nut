@@ -159,16 +159,19 @@ class WwQueue
       res.reasonText = ::loc("worldwar/mapStatus/yourClanInQueue")
     else if (!::g_clans.hasRightsToQueueWWar())
       res.reasonText = ::loc("worldWar/onlyLeaderCanQueue")
-    else if (::g_clans.getMyClanMembersCount() < ::g_clans.getMyClanType().minMemberCountToWWar)
+    else
     {
       local myClanType = ::g_clans.getMyClanType()
-      res.reasonText = ::loc("clan/wwar/lacksMembers", {
-        clanType = myClanType.getTypeNameLoc()
-        count = myClanType.minMemberCountToWWar
-      })
+      local minMemberCountToWWar =
+        ::g_world_war.getSetting("minMemberCountToWWarByClanTypeCode", ::DataBlock())[myClanType.code.tostring()] ?? 1
+      if (::g_clans.getMyClanMembersCount() < minMemberCountToWWar)
+        res.reasonText = ::loc("clan/wwar/lacksMembers", {
+          clanType = myClanType.getTypeNameLoc()
+          count = minMemberCountToWWar
+        })
+      else
+        res.canJoin = true
     }
-    else
-      res.canJoin = true
 
     return res
   }
