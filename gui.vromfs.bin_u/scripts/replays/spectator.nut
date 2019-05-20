@@ -1492,7 +1492,7 @@ function spectator_debug_mode()
 {
   local handler = ::is_dev_version && ::handlersManager.findHandlerClassInScene(::Spectator)
   if (!handler)
-    return
+    return null
   handler.debugMode = !handler.debugMode
   return handler.debugMode
 }

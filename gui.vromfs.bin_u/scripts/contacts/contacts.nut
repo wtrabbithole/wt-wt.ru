@@ -489,14 +489,14 @@ function updateContact(config)
   if (::u.isInstance(config) && !configIsContact) //Contact no need update by instances because foreach use function as so constructor
   {
     ::script_net_assert_once("strange config for contact update", "strange config for contact update")
-    return
+    return null
   }
 
   local needReset = config?.needReset ?? false
   local uid = config.uid
   local contact = ::getContact(uid, config?.name)
   if (!contact)
-    return
+    return null
 
   //when config is instance of contact we no need update it to self
   if (!configIsContact)

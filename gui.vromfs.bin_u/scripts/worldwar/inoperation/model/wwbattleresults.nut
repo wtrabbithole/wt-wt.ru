@@ -266,7 +266,7 @@ class ::WwBattleResults
       local unitTypeTextCode = ::getTblValue("unitType", initialArmy, "")
       local wwUnitType = ::g_ww_unit_type.getUnitTypeByTextCode(unitTypeTextCode)
 
-      local view = {
+      local armyView = {
         getTeamColor      = side == sideInBattle ? "blue" : "red"
         isBelongsToMyClan = clanTag == ::clan_get_my_clan_tag()
         getTextAfterIcon  = clanTag
@@ -280,7 +280,7 @@ class ::WwBattleResults
         country = country
         unitType = wwUnitType.code
         deathReason = ""
-        getView = (@(view) function() { return view })(view)
+        getView = @() armyView
       }
     })(userlog))
 

@@ -174,15 +174,15 @@ class ::WwOperationLogView
       if (!wwArmy)
         return WW_LOG_COLORS.NEUTRAL_EVENT
 
-      local isMySide = wwArmy.isMySide(::ww_get_player_side())
+      local isMySideArmy = wwArmy.isMySide(::ww_get_player_side())
       switch (logBlk.type)
       {
         case WW_LOG_TYPES.ZONE_CAPTURED:
-          return isMySide ? WW_LOG_COLORS.GOOD_EVENT : WW_LOG_COLORS.BAD_EVENT
+          return isMySideArmy ? WW_LOG_COLORS.GOOD_EVENT : WW_LOG_COLORS.BAD_EVENT
         case WW_LOG_TYPES.ARMY_RETREAT:
-          return isMySide ? WW_LOG_COLORS.BAD_EVENT : WW_LOG_COLORS.GOOD_EVENT
+          return isMySideArmy ? WW_LOG_COLORS.BAD_EVENT : WW_LOG_COLORS.GOOD_EVENT
         case WW_LOG_TYPES.ARMY_DIED:
-          return isMySide ? WW_LOG_COLORS.BAD_EVENT : WW_LOG_COLORS.GOOD_EVENT
+          return isMySideArmy ? WW_LOG_COLORS.BAD_EVENT : WW_LOG_COLORS.GOOD_EVENT
       }
       return WW_LOG_COLORS.NEUTRAL_EVENT
     }

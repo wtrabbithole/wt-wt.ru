@@ -1560,11 +1560,11 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       ], "aviation")
   }
 
-  function startManualSetupForUnitType(unitType)
+  function startManualSetupForUnitType(esUnitType)
   {
-    if (unitType == ::ES_UNIT_TYPE_TANK)
+    if (esUnitType == ::ES_UNIT_TYPE_TANK)
       controls_wizard_config = ::tank_controls_wizard_config
-    else if (unitType == ::ES_UNIT_TYPE_AIRCRAFT)
+    else if (esUnitType == ::ES_UNIT_TYPE_AIRCRAFT)
       controls_wizard_config = ::aircraft_controls_wizard_config
     else
       ::script_net_assert_once("unsupported unit type", "Given unit type has not wizard config")

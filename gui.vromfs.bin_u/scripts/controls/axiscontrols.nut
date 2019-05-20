@@ -83,7 +83,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     }
   }
 
-  function getAxisRawValues(curDevice, idx)
+  function getAxisRawValues(device, idx)
   {
     local res = ::getTblValue(idx, axisRawValues)
     if (!res)
@@ -91,7 +91,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       if (axisRawValues.len() <= idx)
         axisRawValues.resize(idx + 1, null)
 
-      local rawPos = curDevice.getAxisPosRaw(idx)
+      local rawPos = device.getAxisPosRaw(idx)
       res = {
               def = rawPos,
               last = rawPos,

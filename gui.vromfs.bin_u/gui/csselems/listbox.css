@@ -54,11 +54,6 @@ HorizontalListBox, VerticalListBox{
   total-input-transparent:yes;
 }
 
-HorizontalListBox[useParentHeight=yes],
-VerticalListBox[useParentHeight=yes] {
-  height: ph;
-}
-
 shopFilter {
   re-type:fgPict;
   padding:0.02@scrn_tgt, 0;
@@ -68,7 +63,7 @@ shopFilter {
   height: @buttonHeight;
 }
 
-[useParentHeight=yes] > shopFilter {
+shopFilter[useParentHeight=yes] {
   height: ph;
 }
 

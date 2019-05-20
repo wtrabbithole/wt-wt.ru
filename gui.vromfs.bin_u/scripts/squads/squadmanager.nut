@@ -983,50 +983,52 @@ function g_squad_manager::requestMemberData(uid)
     ::broadcastEvent(squadEvent.DATA_UPDATED)
   }
 
-  local callback = (@(uid) function(response) {
-                      local receivedData = ::getTblValue("data", response, null)
-                      if (receivedData == null)
-                        return
-
-                      local memberData = ::g_squad_manager.getMemberData(uid)
-                      if (memberData == null)
-                        return
-
-                      local receivedMemberData = ::getTblValue("data", receivedData)
-                      local isMemberDataChanged = ::g_squad_manager.isMemberDataChanged(memberData, receivedMemberData)
-                      memberData.update(receivedMemberData)
-                      local contact = ::getContact(memberData.uid, memberData.name)
-                      contact.online = response.online
-                      memberData.online = response.online
-                      if (!response.online)
-                        memberData.isReady = false
-
-                      ::update_contacts_by_list([memberData.getData()])
-
-                      if (::g_squad_manager.isSquadLeader())
-                      {
-                        if (!::g_squad_manager.readyCheck())
-                          ::queues.leaveAllQueues()
-
-                        if (::SessionLobby.canInviteIntoSession()
-                            && memberData.canJoinSessionRoom()
-                            && ::g_squad_manager.canInvitePlayerToSessionByName(memberData.name))
-                        {
-                          ::SessionLobby.invitePlayer(memberData.uid)
-                        }
-                      }
-
-                      ::g_squad_manager.joinSquadChatRoom()
-
-                      ::broadcastEvent(squadEvent.DATA_UPDATED)
-                      if (::g_squad_manager.isSquadLeader() && isMemberDataChanged)
-                        battleRating.updateBattleRating()
-
-                      local memberSquadsVersion = ::getTblValue("squadsVersion", receivedMemberData, DEFAULT_SQUADS_VERSION)
-                      ::g_squad_utils.checkSquadsVersion(memberSquadsVersion)
-                    })(uid)
-
+  local callback = @(response) ::g_squad_manager.requestMemberDataCallback(uid, response)
   ::msquad.requestMemberData(uid, callback)
+}
+
+function g_squad_manager::requestMemberDataCallback(uid, response)
+{
+  local receivedData = response?.data
+  if (receivedData == null)
+    return
+
+  local memberData = ::g_squad_manager.getMemberData(uid)
+  if (memberData == null)
+    return
+
+  local receivedMemberData = receivedData?.data
+  local isMemberDataChanged = ::g_squad_manager.isMemberDataChanged(memberData, receivedMemberData)
+  memberData.update(receivedMemberData)
+  local contact = ::getContact(memberData.uid, memberData.name)
+  contact.online = response.online
+  memberData.online = response.online
+  if (!response.online)
+    memberData.isReady = false
+
+  ::update_contacts_by_list([memberData.getData()])
+
+  if (::g_squad_manager.isSquadLeader())
+  {
+    if (!::g_squad_manager.readyCheck())
+      ::queues.leaveAllQueues()
+
+    if (::SessionLobby.canInviteIntoSession()
+        && memberData.canJoinSessionRoom()
+        && ::g_squad_manager.canInvitePlayerToSessionByName(memberData.name))
+    {
+      ::SessionLobby.invitePlayer(memberData.uid)
+    }
+  }
+
+  ::g_squad_manager.joinSquadChatRoom()
+
+  ::broadcastEvent(squadEvent.DATA_UPDATED)
+  if (::g_squad_manager.isSquadLeader() && isMemberDataChanged)
+    battleRating.updateBattleRating()
+
+  local memberSquadsVersion = receivedMemberData?.squadsVersion ?? DEFAULT_SQUADS_VERSION
+  ::g_squad_utils.checkSquadsVersion(memberSquadsVersion)
 }
 
 function g_squad_manager::setMemberOnlineStatus(uid, isOnline)
@@ -1437,10 +1439,11 @@ function g_squad_manager::checkMembersPkg(pack) //return list of members dont ha
 
 function g_squad_manager::getSquadMembersDataForContact()
 {
-  if (!isInSquad())
-    return
-
   local contactsData = {}
+
+  if (!isInSquad())
+    return contactsData
+
   local leaderUid = getLeaderUid()
   if (leaderUid != ::my_user_id_str)
     contactsData[leaderUid] <- getLeaderNick()

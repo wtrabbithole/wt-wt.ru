@@ -2345,7 +2345,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return null
 
     if (unit.shopCountry != curCountry || unit.unitType != lastUnitType)
-      return
+      return null
 
     return unit
   }

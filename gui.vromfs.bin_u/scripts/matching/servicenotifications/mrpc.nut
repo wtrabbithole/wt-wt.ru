@@ -11,12 +11,12 @@ foreach (notificationName, callback in
                   inventoryClient.handleRpc(params)
               },
 
-            ["mrpc.generic_rpc"] = function (params, callback)
+            ["mrpc.generic_rpc"] = function (params, cb)
               {
                 local from = ::getTblValue("from", params)
                 if (from == "web-service")
                 {
-                  callback(::handle_web_rpc(params))
+                  cb(::handle_web_rpc(params))
                   return
                 }
                 else if (from == "inventory")
@@ -24,7 +24,7 @@ foreach (notificationName, callback in
                   inventoryClient.handleRpc(params)
                   return
                 }
-                callback({error = "unknown service"})
+                cb({error = "unknown service"})
               }
           }
         )

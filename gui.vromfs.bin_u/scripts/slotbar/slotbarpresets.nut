@@ -353,17 +353,17 @@
       if (curPreset && countryId == ::get_profile_country_sq())
         updatePresetFromSlotbar(curPreset, countryId)
 
-      local list = []
+      local presetsList = []
       foreach (idx, p in presets[countryId])
       {
-        list.append(::g_string.join([p.selected,
+        presetsList.append(::g_string.join([p.selected,
                                ::g_string.join(p.crews, ","),
                                ::g_string.join(p.units, ","),
                                p.title,
                                ::getTblValue("gameModeId", p, "")],
                               "|"))
       }
-      blk = ::array_to_blk(list, "preset")
+      blk = ::array_to_blk(presetsList, "preset")
       if (selected[countryId] != null)
         blk.selected <- selected[countryId]
     }
@@ -578,7 +578,7 @@
 
   function getPresetsList(countryId)
   {
-    local list = []
+    local res = []
     local blk = ::loadLocalByAccount("slotbar_presets/" + countryId)
     if (blk)
     {
@@ -616,14 +616,14 @@
           continue
 
         _updateInfo(preset)
-        list.append(preset)
-        if (list.len() == getMaxPresetsCount(countryId))
+        res.append(preset)
+        if (res.len() == getMaxPresetsCount(countryId))
           break
       }
     }
-    if (!list.len())
-      list.append(createPresetFromSlotbar(countryId))
-    return list
+    if (!res.len())
+      res.append(createPresetFromSlotbar(countryId))
+    return res
   }
 
   function _createPresetTemplate(presetIdx)
@@ -662,7 +662,7 @@
   function updatePresetFromSlotbar(preset, countryId)
   {
     if (isLoading)
-      return
+      return null
 
     ::init_selected_crews()
     preset.units = []

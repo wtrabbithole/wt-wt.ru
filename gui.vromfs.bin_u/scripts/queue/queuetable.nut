@@ -103,8 +103,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   function fillQueueInfo()
   {
     local txtPlayersWaiting = ""
-    local curQueue = getCurQueue()
-    local queueStats = curQueue?.queueStats
+    local queueStats = getCurQueue()?.queueStats
     if (queueStats)
     {
       local playersOfMyRank = queueStats?.isClanStats
@@ -123,8 +122,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   function updateWaitTime()
   {
     local txtWaitTime = ""
-    local curQueue = getCurQueue()
-    local waitTime = curQueue ? curQueue.getActiveTime() : 0
+    local waitTime = getCurQueue()?.getActiveTime() ?? 0
     if (waitTime > 0)
     {
       local minutes = time.secondsToMinutes(waitTime).tointeger()
@@ -137,16 +135,16 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateAvailableCountries()
   {
-    local curQueue = getCurQueue()
+    local queue = getCurQueue()
     local availCountriesObj = scene.findObject("available_countries")
 
-    if (curQueue == null)
+    if (!queue)
     {
       availCountriesObj.show(false)
       return
     }
 
-    local event = ::events.getEvent(curQueue.name)
+    local event = ::events.getEvent(queue.name)
     local countriesList = ::events.getAvailableCountriesByEvent(event)
 
     if (countriesList.len() == 0)
@@ -420,8 +418,9 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   // Event handlers
   //
 
-  function onEventQueueChangeState(_queue)
+  function onEventQueueChangeState(p)
   {
+    local _queue = p?.queue
     if (!::queues.checkQueueType(_queue, queueMask))
       return
 

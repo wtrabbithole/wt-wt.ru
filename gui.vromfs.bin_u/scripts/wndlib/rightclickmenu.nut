@@ -129,16 +129,16 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
       if (!::u.isFunction(onUpdateButton))
         continue
 
-      local obj = listObj.findObject(idPrefix + idx.tostring())
-      if (!::checkObj(obj))
+      local btnObj = listObj.findObject(idPrefix + idx.tostring())
+      if (!::check_obj(btnObj))
         continue
 
-      SecondsUpdater(obj,
-                       (@(onUpdateButton) function(obj, params) {
-                         local data = onUpdateButton(params)
-                         updateBtnByTable(obj, data)
-                         return ::getTblValue("stopUpdate", data, false)
-                       })(onUpdateButton).bindenv(this))
+      SecondsUpdater(btnObj, function(obj, params)
+      {
+        local data = onUpdateButton(params)
+        updateBtnByTable(obj, data)
+        return data?.stopUpdate ?? false
+      }.bindenv(this))
     }
   }
 

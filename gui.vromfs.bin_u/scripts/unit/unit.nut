@@ -102,8 +102,6 @@ local Unit = class
    maxChars = null //{} or null
    primaryWeaponMods = null //[] or null
    secondaryWeaponMods = null //{} or null
-   type = -1 //used in weapons.nut, but no any reason to be here
-   guiPosIdx = -1
    bulGroups = -1
    bulModsGroups = -1
    bulletsSets = null //{}
@@ -141,7 +139,7 @@ local Unit = class
   function initOnce()
   {
     if (isInited)
-      return
+      return null
     isInited = true
     local errorsTextArray = []
 

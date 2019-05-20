@@ -48,9 +48,9 @@ class Contact
 
   function update(contactData)
   {
-    foreach (name, val in contactData)
-      if (name in this)
-        this[name] = val
+    foreach (key, val in contactData)
+      if (key in this)
+        this[key] = val
 
     uidInt64 = uid != "" ? uid.tointeger() : null
 
@@ -124,6 +124,7 @@ class Contact
       return xboxId
 
     externalIDsService.reqPlayerExternalIDsByUserId(uid, {showProgressBox = true}, afterSuccessCb)
+    return null
   }
 
   function needCheckXboxId()

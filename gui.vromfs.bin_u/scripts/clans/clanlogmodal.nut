@@ -106,8 +106,13 @@ class ::gui_handlers.clanLogModal extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.appendWithBlk(logListObj, data, this)
       obj = logListObj.findObject(loadButtonId)
     }
-    guiScene.replaceContent(obj, "gui/userLogRow.blk", this)
-    obj.findObject("middle").setValue(::loc("userlog/showMore"))
+
+    local viewBlk = ::handyman.renderCached("gui/userLog/userLogRow",
+      {
+        middle = ::loc("userlog/showMore")
+        hasExpandImg = true
+      })
+    guiScene.replaceContentFromText(obj, viewBlk, viewBlk.len(), this)
   }
 
   function onItemSelect(obj)

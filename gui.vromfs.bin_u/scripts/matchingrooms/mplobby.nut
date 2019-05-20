@@ -34,7 +34,6 @@ function session_fill_info(scene, sessionInfo)
     setTextToObj(obj, option.getTitle() + ::loc("ui/colon"), displayValue)
   }
 
-  local gm = ("gm" in sessionInfo)? sessionInfo.gm : ::GM_SKIRMISH
   local gt = ::SessionLobby.getGameType(sessionInfo)
   local missionInfo = ("mission" in sessionInfo)? sessionInfo.mission : {}
   local isEventRoom = ::SessionLobby.isInRoom() && ::SessionLobby.isEventRoom
@@ -645,13 +644,6 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
   function onUpdate(obj, dt)
   {
     updateTimerInfo()
-  }
-
-  function onKick(obj)
-  {
-    local player = getSelectedPlayer()
-    if (player)
-      ::SessionLobby.kickPlayer(player)
   }
 
   function getChatLog()

@@ -440,7 +440,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     local obj = getItemsListObj()
     if (!::check_obj(obj))
-      return
+      return null
 
     return itemsList?[obj.getValue() + curPage * itemsPerPage]
   }

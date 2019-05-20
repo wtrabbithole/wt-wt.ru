@@ -590,7 +590,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
                   ::ItemsManager.findItemById(activeWagerData.wagerShopId)
     if (wager == null)
       return
-    local wagerResult = activeWagerData.wagerResult
     guiScene.replaceContent(obj, "gui/items/itemTooltip.blk", this)
     ::ItemsManager.fillItemDescr(wager, obj, this)
   }
@@ -647,7 +646,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function groupGiftsById(items)
   {
     if(!items)
-      return
+      return null
 
     local res = [items[0]]
     for(local i=1; i < items.len(); i++)
@@ -2365,13 +2364,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (cfgNames.len() == 0)
       return
 
-    local awardsList = cfgNames.map(@(id) ::build_log_unlock_data(
+    local awards = cfgNames.map(@(id) ::build_log_unlock_data(
       ::build_conditions_config(
         ::g_unlocks.getUnlockById(id)
     )))
 
     ::showUnlocksGroupWnd([{
-      unlocksList = awardsList
+      unlocksList = awards
       titleText = ::loc("unlocks/requirements")
     }])
   }
@@ -2866,7 +2865,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       {
         ::gui_start_modal_events()
         ::get_cur_gui_scene().performDelayed(::getroottable(), function() {
-          local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
+          handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
           if (handler)
             handler.goToBattleFromDebriefing()
         })

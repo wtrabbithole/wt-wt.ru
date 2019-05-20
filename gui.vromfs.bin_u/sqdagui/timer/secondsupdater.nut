@@ -10,7 +10,7 @@ local SecondsUpdater = class
   timerObj = null
   destroyTimerObjOnFinish = false
 
-  static function getUpdaterByNestObj(_nestObj)
+  function getUpdaterByNestObj(_nestObj)
   {
     local userData = _nestObj.getUserData()
     if (u.isSecondsUpdater(userData))

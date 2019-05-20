@@ -126,11 +126,11 @@ function updateContentPacks()
       })(reqPacksList)],
      ["cancel",
        (@(reqPacksList) function() {
-         local canceledBlk = ::loadLocalByAccount("canceledPacks", ::DataBlock())
+         local canceledPacks = ::loadLocalByAccount("canceledPacks") ?? ::DataBlock()
          foreach(pack in reqPacksList)
-           if (!(pack in canceledBlk))
-             canceledBlk[pack] = true
-         ::saveLocalByAccount("canceledPacks", canceledBlk)
+           if (!(pack in canceledPacks))
+             canceledPacks[pack] = true
+         ::saveLocalByAccount("canceledPacks", canceledPacks)
        })(reqPacksList)]
     ],
     "ok")

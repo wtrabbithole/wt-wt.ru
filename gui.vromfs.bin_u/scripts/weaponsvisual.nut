@@ -46,7 +46,7 @@ function weaponVisual::createItem(id, item, type, holderObj, handler, params = {
 function weaponVisual::createBundle(id, itemsList, itemsType, holderObj, handler, params = {})
 {
   if (itemsList.len()==0)
-    return
+    return null
 
   local maxItemsInColumn = ::getTblValue("maxItemsInColumn", params, 5)
   local createItemFunc = ::getTblValue("createItemFunc", params, createItem)

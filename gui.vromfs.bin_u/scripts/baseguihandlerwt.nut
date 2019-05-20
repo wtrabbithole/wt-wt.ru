@@ -147,15 +147,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
    * @param filterFunc Optional filter function with mode id
    *                   as parameter and boolean return type.
    */
-  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null)
+  function getModesTabsView(selectedDiffCode, filterFunc)
   {
-    if (!::checkObj(nest))
-      return
-    local modesObj = nest.findObject("modes_list")
-    if (!::checkObj(modesObj))
-      return
-
-    local view = { tabs = [] }
+    local tabsView = []
     local isFoundSelected = false
     foreach(diff in ::g_difficulty.types)
     {
@@ -164,20 +158,39 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
       local isSelected = selectedDiffCode == diff.diffCode
       isFoundSelected = isFoundSelected || isSelected
-      view.tabs.append({
+      tabsView.append({
         tabName = diff.getLocName(),
         selected = isSelected,
       })
     }
-    if (!isFoundSelected && view.tabs.len())
-      view.tabs[0].selected = true
+    if (!isFoundSelected && tabsView.len())
+      tabsView[0].selected = true
 
+    return tabsView
+  }
+
+  function updateModesTabsContent(modesObj, view)
+  {
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
     local selectCb = modesObj.on_select
     if (selectCb && (selectCb in this))
       this[selectCb](modesObj)
+  }
+
+  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null, hasWorldWarMode = false)
+  {
+    if (!::check_obj(nest))
+      return
+
+    local modesObj = nest.findObject("modes_list")
+    if (!::check_obj(modesObj))
+      return
+
+    updateModesTabsContent(modesObj, {
+      tabs = getModesTabsView(selectedDiffCode, filterFunc)
+    })
   }
 
   function onTopMenuGoBack(...)

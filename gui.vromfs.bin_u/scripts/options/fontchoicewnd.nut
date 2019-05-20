@@ -20,9 +20,9 @@ class ::gui_handlers.FontChoiceWnd extends ::gui_handlers.BaseGuiHandlerWT
     return ::load_local_account_settings(FONT_CHOICE_SAVE_ID, false)
   }
 
-  static function markSeen(isSeen = true)
+  static function markSeen(isMarkSeen = true)
   {
-    return ::save_local_account_settings(FONT_CHOICE_SAVE_ID, isSeen)
+    return ::save_local_account_settings(FONT_CHOICE_SAVE_ID, isMarkSeen)
   }
 
   function getSceneTplView()

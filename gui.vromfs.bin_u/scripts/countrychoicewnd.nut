@@ -330,7 +330,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
    * required to create newbie presets.
    * @see ::slotbarPresets.newbieInit(...)
    */
-  function createNewbiePresetsData(selectedCountry, selectedUnitType)
+  function createNewbiePresetsData(selCountry, selUnitType)
   {
     local presetDataItems = []
     local selEsUnitType = ::ES_UNIT_TYPE_INVALID
@@ -361,13 +361,13 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
         })
 
         if (hasUnits
-            && (unitType == selectedUnitType || selEsUnitType == ::ES_UNIT_TYPE_INVALID))
+            && (unitType == selUnitType || selEsUnitType == ::ES_UNIT_TYPE_INVALID))
           selEsUnitType = unitType.esUnitType
       }
     }
     return {
       presetDataItems = presetDataItems
-      selectedCountry = selectedCountry
+      selectedCountry = selCountry
       selectedUnitType = selEsUnitType
     }
   }

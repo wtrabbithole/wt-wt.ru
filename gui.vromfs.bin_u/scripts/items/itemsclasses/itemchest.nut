@@ -79,8 +79,7 @@ class ::items_classes.Chest extends ItemExternal {
 
   function getContent()
   {
-    local generator = getGenerator()
-    return generator ? generator.getContent() : []
+    return getGenerator()?.getContent() ?? []
   }
 
   getDescRecipesText    = @(params) ExchangeRecipes.getRequirementsText(getRelatedRecipes(), this, params)
@@ -134,22 +133,19 @@ class ::items_classes.Chest extends ItemExternal {
 
   function getHiddenItemsDesc()
   {
-    local generator = getGenerator()
-    if (!generator || !generator.hasHiddenItems || !getContent().len())
+    if (!getGenerator()?.hasHiddenItems || !getContent().len())
       return null
     return ::colorize("grayOptionColor", ::loc("trophy/chest_contents/other"))
   }
 
   function getHiddenTopPrizeParams()
   {
-    local generator = getGenerator()
-    return generator ? generator.hiddenTopPrizeParams : null
+    return getGenerator()?.hiddenTopPrizeParams ?? null
   }
 
   function isHiddenTopPrize(prize)
   {
-    local generator = getGenerator()
-    return generator != null && generator.isHiddenTopPrize(prize)
+    return getGenerator()?.isHiddenTopPrize(prize) ?? false
   }
 
   function doMainAction(cb, handler, params = null)

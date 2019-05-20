@@ -342,7 +342,7 @@ function set_mp_table(obj_tbl, table, params)
   local realTblRows = obj_tbl.childrenCount()
 
   if ((numRows <= 0)||(realTblRows <= 0))
-    return ""
+    return
 
   local showAirIcons = ::getTblValue("showAirIcons", params, true)
   local continueRowNum = ::getTblValue("continueRowNum", params, 0)
@@ -1119,8 +1119,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   {
     local team = ::getTblValue("team", tblConfig, -1)
     local num_rows = ::getTblValue("num_rows", tblConfig, numMaxPlayers)
-    local showAircrafts = ::getTblValue("showAircrafts", tblConfig, false)
-    local showAirIcons = ::getTblValue("showAirIcons", tblConfig, showAircrafts)
+    local showUnits     = tblConfig?.showAircrafts ?? false
+    local showAirIcons  = tblConfig?.showAirIcons  ?? showUnits
     local invert = ::getTblValue("invert", tblConfig, false)
 
     local tblData = [] // columns order
@@ -1151,7 +1151,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType, gameMode))
           tblData.append(id)
 
-      if (!showAircrafts)
+      if (!showUnits)
         ::u.removeFrom(tblData, "aircraft")
       if (!::SquadIcon.isShowSquad())
         ::u.removeFrom(tblData, "squad")
@@ -1640,74 +1640,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       posX += rowSize[0]
 
     return [posX, rowPos[1] + rowSize[1]]
-  }
-
-  function onFriends()
-  {
-    if (isApplyPressed)
-      return
-    local player = getSelectedPlayer()
-    if (player != null)
-    {
-      local id = player.id
-      local isBlocked = ::is_player_blocked(id)
-      local isFriend = ::is_player_friend(id)
-      if (isBlocked)
-        return
-      if (isFriend)
-        ::set_player_friend(id, false)
-      else
-        ::set_player_friend(id, true)
-    }
-
-    updateListsButtons()
-  }
-
-  function onBlocklist()
-  {
-    if (isApplyPressed)
-      return
-    local player = getSelectedPlayer()
-    if (player != null)
-    {
-      local id = player.id
-      local isBlocked = ::is_player_blocked(id)
-      local isFriend = ::is_player_friend(id)
-      if (isFriend)
-        return
-      if (isBlocked)
-        ::set_player_block(id, false)
-      else
-        ::set_player_block(id, true)
-    }
-
-    updateListsButtons()
-  }
-
-  function onMute()
-  {
-    if (isApplyPressed)
-      return
-    if (isSpectate)
-      return
-
-    local player = getSelectedPlayer()
-    if (player != null)
-      ::do_mute_player(player.id)
-  }
-
-  function onKick()
-  {
-    if (isApplyPressed)
-      return
-    if (isSpectate)
-      return
-    if (!::is_mplayer_host())
-      return
-
-    local player = getSelectedPlayer()
-    if (player != null)
-      ::do_kick_player(player.id)
   }
 
   function getPlayerInfo(name)

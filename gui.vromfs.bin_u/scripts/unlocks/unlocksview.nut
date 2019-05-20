@@ -232,7 +232,7 @@ function g_unlock_view::fillUnlockPurchaseButton(unlockData, unlockObj)
     else if (!isPurchaseTime)
     {
       msg += "not purchase time. see time before."
-      ::g_unlocks.isVisibleByTime(unlockId, false, true, true)
+      ::g_unlocks.debugLogVisibleByTimeInfo(unlockId)
     }
     dagor.debug(msg)
   }

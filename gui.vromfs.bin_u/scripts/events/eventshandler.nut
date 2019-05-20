@@ -276,9 +276,9 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::queues.leaveQueue(q, { isCanceledByPlayer = true })
   }
 
-  function onEventQueueChangeState(_queue)
+  function onEventQueueChangeState(p)
   {
-    if (!::queues.isEventQueue(_queue))
+    if (!::queues.isEventQueue(p?.queue))
       return
 
     updateQueueInterface()

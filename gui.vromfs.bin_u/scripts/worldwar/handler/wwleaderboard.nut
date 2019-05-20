@@ -1,4 +1,5 @@
 local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
+local wwRewards = ::require("scripts/worldWar/handler/wwRewards.nut")
 
 ::ww_leaderboards_list <- [
   ::g_lb_category.EVENTS_PERSONAL_ELO
@@ -37,6 +38,8 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
   wwMapsList = null
   requestData = null
 
+  rewardsBlk = null
+
   function initScreen()
   {
     if (!lbModel)
@@ -47,9 +50,29 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (!lb_presets)
       lb_presets = ::ww_leaderboards_list
 
+    initTable()
     fillMapsList()
     initModes()
     updateButtons()
+    fetchRewardsData()
+  }
+
+  function fetchRewardsData()
+  {
+    local requestBlk = ::DataBlock()
+    requestBlk.configname = "ww_rewards"
+    ::g_tasker.charRequestBlk("cmn_get_config_bin", requestBlk, null,
+      function(res) {
+        rewardsBlk = ::DataBlock()
+        local curCircuitRewardsBlk = res?.body?[::get_cur_circuit_name()]
+        if (curCircuitRewardsBlk)
+          rewardsBlk.setFrom(curCircuitRewardsBlk)
+        updateButtons()
+      }.bindenv(this),
+      function(res) {
+        rewardsBlk = null
+        updateButtons()
+      }.bindenv(this))
   }
 
   function fillMapsList()
@@ -69,7 +92,8 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local data = ""
     foreach(modeData in wwLeaderboardData.modes)
     {
-      if (modeData?.needFeature && !::has_feature(modeData.needFeature))
+      if (!modeData?.isInLeaderboardModes ||
+        (modeData?.needFeature && !::has_feature(modeData.needFeature)))
         continue
 
       lbModesList.push(modeData)
@@ -186,38 +210,38 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 
     local cb = function(hasSelfRow = false)
     {
+      local callback = ::Callback(
+        function(lbPageData) {
+          if (!hasSelfRow)
+            selfRowData = []
+          pageData = wwLeaderboardData.convertWwLeaderboardData(lbPageData, isCountriesLeaderboard())
+          fillLeaderboard(pageData)
+        }, this)
       wwLeaderboardData.requestWwLeaderboardData(
         requestData.modeName,
         requestData.modePostFix,
         requestData.day,
         pos, rowsInPage, lbField,
-        function(lbPageData) {
-          if (!isValid())
-            return
-
-          if (!hasSelfRow)
-            selfRowData = []
-          pageData = wwLeaderboardData.convertWwLeaderboardData(lbPageData, isCountriesLeaderboard())
-          fillLeaderboard(pageData)
-        }.bindenv(this))
+        @(lbPageData) callback(lbPageData))
     }
 
     if (isUsersLeaderboard())
-      wwLeaderboardData.requestWwLeaderboardData(
-        requestData.modeName,
-        requestData.modePostFix,
-        requestData.day,
-        null, 0, lbField,
+    {
+      local callback = ::Callback(
         function(lbSelfData) {
-          if (!isValid())
-            return
-
           selfRowData = wwLeaderboardData.convertWwLeaderboardData(lbSelfData, isCountriesLeaderboard()).rows
           if(afterLoadSelfRow)
             afterLoadSelfRow(getSelfPos())
           afterLoadSelfRow = null
           cb(true)
-        }.bindenv(this))
+        }, this)
+      wwLeaderboardData.requestWwLeaderboardData(
+        requestData.modeName,
+        requestData.modePostFix,
+        requestData.day,
+        null, 0, lbField,
+        @(lbSelfData) callback(lbSelfData))
+    }
     else
       cb()
   }
@@ -235,15 +259,14 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     checkLbCategory()
 
     local mode = wwLeaderboardData.getModeByName(lbMode)
+    local callback = ::Callback(
+      function(modesData) {
+        updateModeComboBoxes(modesData?.tables)
+      }, this)
     if (mode.hasDaysData)
       wwLeaderboardData.requestWwLeaderboardModes(
         lbMode,
-        function(modesData) {
-          if (!isValid())
-            return
-
-          updateModeComboBoxes(modesData?.tables)
-        }.bindenv(this))
+        @(modesData) callback(modesData))
     else
       updateModeComboBoxes()
   }
@@ -366,5 +389,40 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
   function isCountriesLeaderboard()
   {
     return lbMode == "ww_countries"
+  }
+
+  function onRewards()
+  {
+    local curRewardsBlk = getCurModeAwards()
+    if (!curRewardsBlk)
+      return ::showInfoMsgBox(::loc("leaderboards/has_no_rewards"))
+
+    wwRewards.open({
+      isPlayerRewards = isUsersLeaderboard()
+      rewardsBlk = curRewardsBlk
+      lbMode    = lbMode
+      lbDay     = lbDay
+      lbMap     = lbMap
+      lbCountry = lbCountry
+    })
+  }
+
+  function updateWwRewardsButton()
+  {
+    local curRewardsBlk = getCurModeAwards()
+    local rewardsBtn = showSceneBtn("btn_ww_rewards", true)
+    rewardsBtn.inactiveColor = curRewardsBlk ? "no" : "yes"
+  }
+
+  function getCurModeAwards()
+  {
+    local rewardTableName = wwLeaderboardData.getModeByName(lbMode)?.rewardsTableName
+    if (!rewardTableName || !rewardsBlk)
+      return null
+
+    local day = lbDay ? wwLeaderboardData.getDayIdByNumber(lbDay) : "season"
+    local awardTableName = requestData.modeName + requestData.modePostFix
+
+    return rewardsBlk?[rewardTableName]?[day]?.awards?[awardTableName]
   }
 }

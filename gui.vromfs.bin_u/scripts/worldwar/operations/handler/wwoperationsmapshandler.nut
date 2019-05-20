@@ -356,18 +356,16 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::has_feature("WorldWarLeaderboards"))
       return
 
-    wwLeaderboardData.requestWwLeaderboardModes(
-      "ww_users",
+    local callback = ::Callback(
       function(modesData) {
-        if (!isValid())
-          return
-
         local seasonDay = wwLeaderboardData.getSeasonDay(modesData?.tables)
         if (seasonDay)
           wwTopLeaderboard.initTop(this, scene.findObject("top_daily_players"),
             "ww_users", seasonDay)
-      }.bindenv(this))
-
+      }, this)
+    wwLeaderboardData.requestWwLeaderboardModes(
+      "ww_users",
+      @(modesData) callback(modesData))
     wwTopLeaderboard.initTop(this, scene.findObject("top_global_players"), "ww_users")
     wwTopLeaderboard.initTop(this, scene.findObject("top_global_clans"),   "ww_clans")
   }
@@ -824,6 +822,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       queuesJoinTime = isInQueue ? getLatestQueueJoinTime() : 0
     showSceneBtn("queues_wait_time_div", isInQueue)
     updateQueuesWaitTime()
+    updateWwarUrlButton()
 
     if (::show_console_buttons)
     {
@@ -1161,18 +1160,16 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       return
 
     statisticsObj.show(true)
-    wwLeaderboardData.requestWwLeaderboardData(
-      lbMode.mode, "__" + params.id, null, 0, 2, lbMode.field,
-      function(countriesData)
-      {
-        if (!isValid())
-          return
-
+    local callback = ::Callback(
+      function(countriesData) {
         local statistics = wwLeaderboardData.convertWwLeaderboardData(countriesData).rows
         local view = getStatisticsView(statistics, map.getCountries())
         local markup = ::handyman.renderCached("gui/worldWar/wwGlobeMapInfo", view)
         guiScene.replaceContentFromText(statisticsObj, markup, markup.len(), this)
-      }.bindenv(this))
+      }, this)
+    wwLeaderboardData.requestWwLeaderboardData(
+      lbMode.mode, "__" + params.id, null, 0, 2, lbMode.field,
+      @(countriesData) callback(countriesData))
   }
 
   function getStatisticsView(statistics, countries)
@@ -1284,6 +1281,22 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
     res.links <- links
     return res
+  }
+
+  function updateWwarUrlButton()
+  {
+    if (!::has_feature("AllowExternalLink") || ::is_vendor_tencent())
+      return
+
+    local worldWarUrlBtnKey = ::get_gui_regional_blk().worldWarUrlBtnKey
+    local isVisibleBtn = !::u.isEmpty(worldWarUrlBtnKey)
+    local btnObj = showSceneBtn("btn_ww_url", isVisibleBtn)
+    if (!isVisibleBtn || !::check_obj(btnObj))
+      return
+
+    btnObj.setValue(::loc("worldwar/urlBtn/" + worldWarUrlBtnKey))
+    btnObj.link = ::loc("url/wWarBtn/" + worldWarUrlBtnKey)
+    btnObj.findObject("btn_ww_url_text").setValue(::loc("worldwar/urlBtn/" + worldWarUrlBtnKey))
   }
 }
 

@@ -43,12 +43,12 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
     doMainAction()
   }
 
-  function createTicketsView(tickets)
+  function createTicketsView(ticketsList)
   {
     local view = { items = [] }
-    for (local i = 0; i < tickets.len(); ++i)
+    for (local i = 0; i < ticketsList.len(); ++i)
     {
-      view.items.push(tickets[i].getViewData({
+      view.items.push(ticketsList[i].getViewData({
         itemIndex = i.tostring()
         ticketBuyWindow = true
       }))

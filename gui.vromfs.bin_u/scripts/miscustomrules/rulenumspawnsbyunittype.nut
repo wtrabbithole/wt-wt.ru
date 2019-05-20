@@ -14,12 +14,12 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
   }
 
   //stateData is a table or blk
-  function getUnitLeftRespawnsByRestrictionRule(unit, restrictionRule, stateData = null)
+  function getUnitLeftRespawnsByRestrictionRule(unit, rule, stateData = null)
   {
     if (!unit)
       return 0
     stateData = stateData || getMyStateBlk()
-    switch (restrictionRule)
+    switch (rule)
     {
       case "type":
         return getUnitTypeLeftRespawns(::get_es_unit_type(unit), stateData)
@@ -31,6 +31,7 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
           getUnitClassLeftRespawns(unit.expClass.getExpClass(), stateData)
         )
     }
+    return 0
   }
 
   function hasCustomUnitRespawns()
@@ -107,8 +108,7 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
   //stateData is a table or blk
   function getRespawnInfoText(unit, stateData)
   {
-    local restrictionRule = getRestrictionRule()
-    switch(restrictionRule)
+    switch(getRestrictionRule())
     {
       case "type":
         local res = []
@@ -266,9 +266,9 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
   function collectAllowedTypeAndClasses(baseRules = null)
   {
     baseRules  = baseRules || getCustomRulesBlk()?.ruleSet
-    local restrictionRule = getRestrictionRule()
-    local needUnitTypes   = ::isInArray(restrictionRule, [ "type",  "type_and_class" ])
-    local needUnitClasses = ::isInArray(restrictionRule, [ "class", "type_and_class" ])
+    local rule = getRestrictionRule()
+    local needUnitTypes   = ::isInArray(rule, [ "type",  "type_and_class" ])
+    local needUnitClasses = ::isInArray(rule, [ "class", "type_and_class" ])
 
     knownUnitTypesList     = []
     allowedUnitTypesList   = []

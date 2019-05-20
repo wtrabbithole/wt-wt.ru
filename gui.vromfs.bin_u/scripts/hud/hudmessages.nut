@@ -686,6 +686,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
             return "FINALIZING"
           return ::getTblValue("result", stack, "")
       }
+      return ""
     }
 
     destroy = function()

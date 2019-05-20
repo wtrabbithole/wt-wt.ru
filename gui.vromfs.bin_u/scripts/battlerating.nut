@@ -141,7 +141,7 @@ local getUserData = function()
     })
   }
 
-  return gameModeId == "" || players == [] ? null : {
+  return gameModeId == "" || !players.len() ? null : {
     gameModeId = gameModeId
     players = players
   }

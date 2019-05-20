@@ -318,7 +318,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   function getFocusedSquad()
   {
     if (!squadsListObj.isFocused())
-      return
+      return null
 
     return selectedSquad
   }
@@ -326,7 +326,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   function getSquadByObj(obj)
   {
     if (!obj)
-      return
+      return null
 
     local leaderUidStr = obj.leaderUid || obj.getParent().leaderUid
     if (!leaderUidStr)
@@ -336,6 +336,8 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     foreach (squad in curList)
       if (squad?.leader && squad?.leader == leaderUid)
         return squad
+
+    return null
   }
 
   function onApplication(obj)

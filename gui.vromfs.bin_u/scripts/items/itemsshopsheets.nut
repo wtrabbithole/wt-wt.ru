@@ -232,8 +232,8 @@ shopSheets.updateWorkshopSheets <- function()
       isEnabled = @(shopTab) isAllowedForTab(shopTab)&& getSet().isVisible()
 
       getItemFilterFunc = function(shopTab) {
-        local set = getSet()
-        return set.isItemInSet.bindenv(set)
+        local s = getSet()
+        return s.isItemInSet.bindenv(s)
       }
 
       getItemsList = @(shopTab) getSet().getItemsList()

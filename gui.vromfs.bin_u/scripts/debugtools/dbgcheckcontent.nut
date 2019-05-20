@@ -82,7 +82,7 @@ function debug_check_unlocalized_resources()
 
 function debug_check_unit_naming()
 {
-  if (!::is_dev_version) return
+  if (!::is_dev_version) return 0
 
   local ids = {}
   local names = {}

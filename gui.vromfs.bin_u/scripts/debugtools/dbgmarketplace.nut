@@ -23,4 +23,5 @@ function debug_show_workshop_event_preview(id)
   }
   else
     workshopPreview.open(ws)
+  return "Success"
 }

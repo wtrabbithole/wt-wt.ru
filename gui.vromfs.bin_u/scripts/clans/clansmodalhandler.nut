@@ -39,6 +39,9 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     if (startPage == "")
       startPage = (::clan_get_my_clan_id() == "-1")? "clans_list" : "my_clan"
+
+    initLbTable()
+
     local pageIdx = find_in_array(pages, startPage)
     pageIdx = pageIdx == -1 ? 0 : pageIdx
     tabsObj = scene.findObject("clans_sheet_list")
@@ -83,7 +86,11 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function getMainFocusObj4()
   {
-    local focusId = curPage == "clans_list" ? "clan_lboard_table" : "clan-membersList"
+    local focusId = curPage == "clans_list"
+      ? "clan_lboard_table"
+      : isWorldWarMode
+        ? "lb_table"
+        : "clan_members_list"
     return scene.findObject(focusId)
   }
 
@@ -129,6 +136,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     foreach (field in ::clan_leaderboards_list)
       if (("field" in field ? field.field : field.id) == fieldName)
         return field
+    return null
   }
 
   function initMyClanPage()
@@ -220,7 +228,21 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
     else {
       clanData = ::my_clan_info
-      fillModeListBox(curPageObj, getCurDMode(), ::get_show_in_squadron_statistics)
+      local modesObj = curPageObj.findObject("modes_list")
+      if (!::check_obj(modesObj))
+        return
+
+      requestWwMembersList()
+      updateModesTabsContent(modesObj, {
+        tabs = [{
+          id = "worldwar_mode"
+          hidden = (curWwMembers?.len() ?? 0) <= 0
+          tabName = ::loc("userlog/page/worldWar")
+          selected = false
+          isWorldWarMode = true
+          tooltip = ::loc("worldwar/ClanMembersLeaderboard/tooltip")
+        }].extend(getModesTabsView(getCurDMode(), ::get_show_in_squadron_statistics))
+      })
     }
     initFocusArray()
   }
@@ -526,6 +548,19 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function onCategory(obj)
   {
+    if (!::check_obj(obj))
+      return
+
+    if (isClanInfo && isWorldWarMode)
+    {
+      if (curWwCategory?.id != obj.id)
+      {
+        curWwCategory = ::g_lb_category.getTypeById(obj.id)
+        fillClanWwMemberList()
+      }
+      return
+    }
+
     foreach(idx, category in ::clan_leaderboards_list)
       if (obj.id == category.id)
       {
@@ -586,7 +621,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     local objTbl = curPageObj.findObject("clan_lboard_table")
     if (!::check_obj(objTbl))
-      return
+      return null
 
     return clanByRow?[objTbl.getValue().tostring()]
   }
@@ -865,5 +900,17 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
     else if (curPage == "my_clan")
       return base.getWndHelpConfig()
+    return res
+  }
+
+  function updateWwMembersList()
+  {
+    if (!isClanInfo)
+      return
+
+    if(isWorldWarMode)
+      fillClanWwMemberList()
+    else
+      showSceneBtn("worldwar_mode", (curWwMembers?.len() ?? 0) > 0)
   }
 }

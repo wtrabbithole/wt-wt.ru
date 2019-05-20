@@ -202,16 +202,16 @@ class QueueManager {
         leaveQueue(queue)
   }
 
-  function changeState(queue, state)
+  function changeState(queue, queueState)
   {
-    if (queue.state == state)
+    if (queue.state == queueState)
       return
 
     local wasAnyActive = isAnyQueuesActive()
 
-    queue.state = state
+    queue.state = queueState
     queue.activateTime = isQueueActive(queue)? ::dagor.getCurTime() : -1
-    ::broadcastEvent("QueueChangeState", queue)
+    ::broadcastEvent("QueueChangeState", { queue = queue })
 
     if (wasAnyActive!=isAnyQueuesActive)
       ::update_gamercards()

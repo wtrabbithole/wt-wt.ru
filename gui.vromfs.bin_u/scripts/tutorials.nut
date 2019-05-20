@@ -91,6 +91,7 @@ function gui_start_checkTutorial(checkId, checkSkip = true)
 class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   canSkipTutorial = true
+
   function initScreen()
   {
     if (!tutorialMission)
@@ -102,7 +103,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
       msgText += "\n\n" + rewardText
     scene.findObject("msgText").setValue(msgText)
 
-    local canSkipTutorial = true
+    canSkipTutorial = true
     if (checkIdx in ::tutorials_to_check)
     {
       local tutorialBlock = ::tutorials_to_check[checkIdx]

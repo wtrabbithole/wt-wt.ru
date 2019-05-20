@@ -222,9 +222,9 @@ class ::WwFormation
     return null
   }
 
-  function setMapObjectName(name)
+  function setMapObjectName(mapObjName)
   {
-    mapObjectName = name
+    mapObjectName = mapObjName
   }
 
   function getUnitsNumber()

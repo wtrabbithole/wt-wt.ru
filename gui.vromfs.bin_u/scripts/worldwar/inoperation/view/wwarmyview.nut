@@ -79,20 +79,20 @@ class ::WwArmyView
   /** exclude infantry */
   function unitsCount(excludeInfantry = true, onlyArtillery = false)
   {
-    local unitsCount = 0
+    local res = 0
     foreach (unit in formation.getUnits(excludeInfantry))
-      unitsCount += (!onlyArtillery || unit.isArtillery()) ? unit.getActiveCount() : 0
+      res += (!onlyArtillery || unit.isArtillery()) ? unit.getActiveCount() : 0
 
-    return unitsCount
+    return res
   }
 
   function inactiveUnitsCount(excludeInfantry = true, onlyArtillery = false)
   {
-    local unitsCount = 0
+    local res = 0
     foreach (unit in formation.getUnits(excludeInfantry))
-      unitsCount += (!onlyArtillery || unit.isArtillery()) ? unit.inactiveCount : 0
+      res += (!onlyArtillery || unit.isArtillery()) ? unit.inactiveCount : 0
 
-    return unitsCount
+    return res
   }
 
   function isDead()

@@ -26,8 +26,8 @@ class ::gui_handlers.EventDescriptionWindow extends ::gui_handlers.BaseGuiHandle
     eventDescription = ::create_event_description(scene, event, false)
   }
 
-  function checkEvent(event)
+  function checkEvent(ev)
   {
-    return event != null
+    return ev != null
   }
 }

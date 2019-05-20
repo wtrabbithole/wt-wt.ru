@@ -344,8 +344,8 @@ local InventoryClient = class {
         cbList = [],
         shouldRefreshAll = false,
         fireCb = function() {
-          foreach(cb in cbList)
-            cb()
+          foreach(_cb in cbList)
+            _cb()
         }
       }
     pendingItemDefRequest.shouldRefreshAll = shouldRefreshAll || pendingItemDefRequest.shouldRefreshAll
@@ -469,7 +469,7 @@ local InventoryClient = class {
   {
     local tags = ::getTblValue("tags" , itemdef, null)
     if (!tags)
-      return
+      return null
 
     local parsedTags = ::DataBlock()
     foreach (pair in ::split(tags, ";")) {

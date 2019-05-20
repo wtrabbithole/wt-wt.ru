@@ -723,7 +723,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     local config = getCurrentConfig()
     if (::getTblValue("names", config, []).len() == 0)
-      return []
+      return
 
     local awardsList = []
     foreach(id in config.names)

@@ -124,7 +124,8 @@ local getActions = function(contact, params)
       action = function() {
         if (!canInteract)
         {
-          platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
+          if (::isInMenu())
+            platformModule.attemptShowOverlayMessage(name)
           if (isXBoxOnePlayer)
             showLiveCommunicationsRestrictionMsgBox()
           else
@@ -192,7 +193,8 @@ local getActions = function(contact, params)
             showCrossNetworkPlayRestrictionMsgBox()
           else if (!canInteract)
           {
-            platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
+            if (::isInMenu())
+              platformModule.attemptShowOverlayMessage(name)
           }
           else if (!canInviteDiffConsole)
             showNoInviteForDiffPlatformPopup()
@@ -361,7 +363,8 @@ local getActions = function(contact, params)
             showCrossNetworkCommunicationsRestrictionMsgBox()
           else if (!canInteract)
           {
-            platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
+            if (::isInMenu())
+              platformModule.attemptShowOverlayMessage(name)
           }
           else
             ::open_invite_menu(inviteMenu, params?.position)

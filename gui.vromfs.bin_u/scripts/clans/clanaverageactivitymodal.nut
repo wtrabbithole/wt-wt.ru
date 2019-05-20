@@ -11,7 +11,7 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
   wndType = handlerType.MODAL
   clanData = null
 
-  function open(clanData)
+  static function open(clanData)
   {
     ::gui_start_modal_wnd(
       ::gui_handlers.clanAverageActivityModal, { clanData = clanData })

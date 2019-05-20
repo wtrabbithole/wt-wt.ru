@@ -1034,13 +1034,13 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     foreach(idx, c in ::g_crews_list.get())
       if (c.country == country)
       {
-        local headerObj = scene.findObject("header_countries")
-        if (!::check_obj(headerObj) || headerObj.getValue() == idx)
+        local hObj = scene.findObject("header_countries")
+        if (!::check_obj(hObj) || hObj.getValue() == idx)
           break
 
         skipCheckCountrySelect = true
         skipCheckAirSelect = true
-        headerObj.setValue(idx)
+        hObj.setValue(idx)
         break
       }
   }
@@ -1258,14 +1258,14 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     return ::GuiBox().setFromDaguiObj(headerCountriesObj)
   }
 
-  function getSlotsData(unitId = null, crewId = -1, withEmptySlots = false)
+  function getSlotsData(unitId = null, slotCrewId = -1, withEmptySlots = false)
   {
     local unitSlots = []
     foreach(countryId, countryData in ::g_crews_list.get())
       if (!singleCountry || countryData.country == singleCountry)
         foreach (idInCountry, crew in countryData.crews)
         {
-          if (crewId != -1 && crewId != crew.id)
+          if (slotCrewId != -1 && slotCrewId != crew.id)
             continue
           local unit = ::g_crew.getCrewUnit(crew)
           if (unitId && unit && unitId != unit.name)

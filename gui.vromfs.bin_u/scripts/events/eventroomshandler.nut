@@ -627,13 +627,13 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateCollapseChapterStatus(chapterObj)
   {
     local index = ::find_in_array(collapsedChapterNamesArray, chapterObj.id)
-    local collapse = index < 0
-    if (collapse)
+    local isCollapse = index < 0
+    if (isCollapse)
       collapsedChapterNamesArray.append(chapterObj.id)
     else
       collapsedChapterNamesArray.remove(index)
 
-    chapterObj.collapsed = collapse? "yes" : "no"
+    chapterObj.collapsed = isCollapse ? "yes" : "no"
   }
 
   function collapse(itemName = null)
@@ -703,7 +703,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     })
   }
 
-  function onEventAfterJoinEventRoom(event)
+  function onEventAfterJoinEventRoom(ev)
   {
     ::handlersManager.requestHandlerRestore(this, ::gui_handlers.EventsHandler)
   }

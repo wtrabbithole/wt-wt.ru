@@ -544,11 +544,11 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onOnlinePurchase(task)
+  function onOnlinePurchase(purchaseTask)
   {
     local payMethods = yuplay2_get_payment_methods()
     if (!payMethods || ::steam_is_running() || !::has_feature("PaymentMethods"))
-      return ::OnlineShopModel.doBrowserPurchase(task)
+      return ::OnlineShopModel.doBrowserPurchase(purchaseTask)
 
     local items = []
     local selItem = null
@@ -560,7 +560,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         items.append({
           name = name
           icon = "!#ui/gameuiskin/payment_" + method.name + ".svg"
-          callback = ::Callback(@() onYuplayPurchase(task, payMethodId), this)
+          callback = ::Callback(@() onYuplayPurchase(purchaseTask, payMethodId), this)
         })
         selItem = selItem || name
       }
@@ -569,46 +569,47 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
     items.append({
       name = name
       icon = ""
-      callback = ::Callback(@() ::OnlineShopModel.doBrowserPurchase(task), this)
+      callback = ::Callback(@() ::OnlineShopModel.doBrowserPurchase(purchaseTask), this)
     })
     selItem = selItem || name
 
     ::gui_modal_payment({items = items, owner = this, selItem = selItem, cancel_fn = function() {}})
   }
 
-  function onYuplayPurchase(task, payMethod)
+  function onYuplayPurchase(purchaseTask, payMethod)
   {
-    local costGold = "goldCost" in goods[task]? ::get_entitlement_cost_gold(goods[task].name) : 0
+    local costGold = ("goldCost" in goods[purchaseTask]) ?
+      ::get_entitlement_cost_gold(goods[purchaseTask].name) : 0
     local msgText = warningIfGold(
       ::loc("onlineShop/needMoneyQuestion",
-        {purchase = ::get_entitlement_name(goods[task]), cost = getItemPriceText(task)}),
+        {purchase = ::get_entitlement_name(goods[purchaseTask]), cost = getItemPriceText(purchaseTask)}),
       ::Cost(0, costGold))
     msgBox("purchase_ask", msgText,
-      [ ["yes", (@(task, payMethod) function() {
-          doYuplayPurchase(task, payMethod)
-        })(task, payMethod)],
+      [ ["yes", @() doYuplayPurchase(purchaseTask, payMethod) ],
         ["no", function(){}]
       ], "yes", { cancel_fn = function(){}})
   }
 
-  function doYuplayPurchase(task, payMethod)
+  function doYuplayPurchase(purchaseTask, payMethod)
   {
-    local guid = ::loc("guid/" + task)
-    ::dagor.assertf(guid != "", "Error: not found guid for " + task)
+    local guid = ::loc("guid/" + purchaseTask)
+    ::dagor.assertf(guid != "", "Error: not found guid for " + purchaseTask)
 
     local response = (guid=="")? -1 : ::yuplay2_buy_entitlement(guid, payMethod)
     if (response != ::YU2_OK)
     {
       local errorText = ::get_yu2_error_text(response)
       msgBox("errorMessageBox", errorText, [["ok", function(){}]], "ok")
-      dagor.debug("yuplay2_buy_entitlement have returned " + response + " with task = " + task + ", guid = " + guid + ", payMethod = " + payMethod)
+      dagor.debug("yuplay2_buy_entitlement have returned " + response + " with task = " +
+        purchaseTask + ", guid = " + guid + ", payMethod = " + payMethod)
       return
     }
 
     ::update_entitlements()
 
-    msgBox("purchase_done", format(::loc("userlog/buy_entitlement"), ::get_entitlement_name(goods[task])),
-           [["ok", function(){}]], "ok", { cancel_fn = function(){}})
+    msgBox("purchase_done",
+      format(::loc("userlog/buy_entitlement"), ::get_entitlement_name(goods[purchaseTask])),
+      [["ok", @() null]], "ok", { cancel_fn = @() null})
   }
 
   function onApply(obj)

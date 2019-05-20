@@ -40,10 +40,10 @@ class ::gui_handlers.clanSeasonInfoModal extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.appendWithBlk(rewardsListObj, markup, this)
   }
 
-  function getRewardsView(difficulty)
+  function getRewardsView(diff)
   {
     local view = { rewardsList = [] }
-    local rewards = ::g_clan_seasons.getSeasonRewardsList(difficulty)
+    local rewards = ::g_clan_seasons.getSeasonRewardsList(diff)
     if (::u.isEmpty(rewards))
       return view
 
@@ -67,7 +67,7 @@ class ::gui_handlers.clanSeasonInfoModal extends ::gui_handlers.BaseGuiHandlerWT
           medal = reward.rating + "rating"
           break
       }
-      local medalIconMarkup = ::LayersIcon.getIconData(::format("clan_medal_%s_%s", medal, difficulty.egdLowercaseName),
+      local medalIconMarkup = ::LayersIcon.getIconData(::format("clan_medal_%s_%s", medal, diff.egdLowercaseName),
         null, null, null, { season_title = { text = seasonName } })
 
       local condition = ""

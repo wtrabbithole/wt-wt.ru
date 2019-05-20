@@ -15,9 +15,9 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
   function updateView()
   {
-    local isVisible = isVisible()
-    updateVisibilities(isVisible)
-    if (!isVisible)
+    local isShow = isVisible()
+    updateVisibilities(isShow)
+    if (!isShow)
       return
 
     updateDescription()

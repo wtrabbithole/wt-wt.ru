@@ -196,12 +196,12 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
         if (::getTblValue("isDirectory", file, false))
           return "."
 
-        local fileName = ::getTblValue("name", file)
-        local fileExtIdx = ::g_string.lastIndexOf(fileName, ".")
+        local filename = file?.name ?? ""
+        local fileExtIdx = ::g_string.lastIndexOf(filename, ".")
         if (fileExtIdx == ::g_string.INVALID_INDEX)
           return null
 
-        return ::g_string.utf8ToUpper(fileName.slice(fileExtIdx))
+        return ::g_string.utf8ToUpper(filename.slice(fileExtIdx))
       }
       comparator = function(lhs, rhs) {
         return ::gui_handlers.FileDialog.compareStringOrNull(lhs, rhs)
@@ -1094,12 +1094,12 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       local fileData = {}
       foreach (columnName, column in columns)
         fileData[columnName] <- column.getValue(file, this)
-      local fileName = getFileName(file)
+      local filename = getFileName(file)
       if (!isDirectory(file) && currentFilter != allFilesFilter &&
-        !::g_string.endsWith(fileName, currentFilter))
+        !::g_string.endsWith(filename, currentFilter))
         continue
-      fileData[fileNameMetaAttr] <- fileName
-      cachedFileFullPathByFileName[fileName] <- getFileFullPath(file)
+      fileData[fileNameMetaAttr] <- filename
+      cachedFileFullPathByFileName[filename] <- getFileFullPath(file)
       filesTableData.append(fileData)
     }
 
@@ -1134,9 +1134,9 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     foreach (idx, fileData in filesTableData)
     {
       local rowId = "file_row_" + idx
-      local fileName = fileData[fileNameMetaAttr]
-      cachedFileNameByTableRowId[rowId] <- fileName
-      cachedTableRowIdxByFileName[fileName] <- idx + 1
+      local filename = fileData[fileNameMetaAttr]
+      cachedFileNameByTableRowId[rowId] <- filename
+      cachedTableRowIdxByFileName[filename] <- idx + 1
       local rowView = {
         row_id = rowId
         even = isEven

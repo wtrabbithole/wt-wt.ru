@@ -407,6 +407,7 @@ class ActionBar
     foreach (item in actionItems)
       if (item.id == actionItemNum)
         return item
+    return null
   }
 
   function toggleKillStreakWheel(open)

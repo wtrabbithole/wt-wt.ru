@@ -42,7 +42,7 @@ class ::gui_handlers.DbgAvatars extends ::BaseGuiHandler
   lastMainBorderPos = null
   shouldUpdateBorder = true
 
-  static sliders = [
+  sliders = [
     {
       id = "size"
       getValue = @() getSelAvatarBlk().size

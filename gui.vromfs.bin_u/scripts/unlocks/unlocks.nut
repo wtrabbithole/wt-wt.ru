@@ -1884,7 +1884,7 @@ function g_unlocks::saveFavorites()
   ::save_local_account_settings(FAVORITE_UNLOCKS_LIST_SAVE_ID, saveBlk)
 }
 
-function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTimeLimit = true, shouldDebugTime = false)
+function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTimeLimit = true)
 {
   local unlock = getUnlockById(id)
   if (!unlock)
@@ -1911,22 +1911,44 @@ function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTim
       local currentTime = get_charserver_time_sec()
 
       isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
-
-      if (shouldDebugTime)
-      {
-        dagor.debug("unlock " + id + " is visible by time ? " + isVisibleUnlock)
-        dagor.debug("curTime = " + currentTime + ", visibleDiapason = " + startTime + ", " + endTime
-          + ", beginDate = " + cond.beginDate + ", endDate = " + cond.endDate
-          + ", visibleDaysBefore = " + (unlock?.visibleDaysBefore ?? "?")
-          + ", visibleDays = " + (unlock?.visibleDays ?? "?")
-          + ", visibleDaysAfter = " + (unlock?.visibleDaysAfter ?? "?")
-        )
-      }
-
       break
     }
   }
   return isVisibleUnlock
+}
+
+function g_unlocks::debugLogVisibleByTimeInfo(id)
+{
+  local unlock = getUnlockById(id)
+  if (!unlock)
+    return
+
+  if (::is_numeric(unlock.visibleDays)
+    || ::is_numeric(unlock.visibleDaysBefore)
+    || ::is_numeric(unlock.visibleDaysAfter))
+  {
+    foreach (cond in unlock.mode % "condition")
+    {
+      if (!::isInArray(cond.type, unlock_time_range_conditions))
+        continue
+
+      local startTime = time.getTimestampFromStringUtc(cond.beginDate) -
+        time.daysToSeconds(unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0).tointeger()
+      local endTime = time.getTimestampFromStringUtc(cond.endDate) +
+        time.daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+      local currentTime = get_charserver_time_sec()
+      local isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
+
+      dagor.debug("unlock " + id + " is visible by time ? " + isVisibleUnlock)
+      dagor.debug("curTime = " + currentTime + ", visibleDiapason = " + startTime + ", " + endTime
+        + ", beginDate = " + cond.beginDate + ", endDate = " + cond.endDate
+        + ", visibleDaysBefore = " + (unlock?.visibleDaysBefore ?? "?")
+        + ", visibleDays = " + (unlock?.visibleDays ?? "?")
+        + ", visibleDaysAfter = " + (unlock?.visibleDaysAfter ?? "?")
+      )
+      return
+    }
+  }
 }
 
 function g_unlocks::isHiddenByUnlockedUnlocks(unlockBlk)

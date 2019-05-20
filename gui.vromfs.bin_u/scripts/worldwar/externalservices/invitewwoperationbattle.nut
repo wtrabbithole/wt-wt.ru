@@ -96,8 +96,8 @@ class ::g_invites_classes.WwOperationBattle extends ::BaseInvite
 
   function onEventQueueChangeState(p)
   {
-    if (p?.params?.operationId == operationId &&
-        p?.params?.battleId == battleId)
+    if (p?.queue?.params?.operationId == operationId &&
+        p?.queue?.params?.battleId == battleId)
       remove()
   }
 }

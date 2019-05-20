@@ -205,6 +205,8 @@ local ExchangeRecipes = class {
 
     if (mark == MARK_RECIPE.BY_USER)
       return imgPrefix + "icon_primary_attention"
+
+    return ""
   }
 
   function getMarkLocIdByPath(path)
@@ -258,8 +260,8 @@ local ExchangeRecipes = class {
     local maxRecipes = (params?.maxRecipes ?? componentItem.getMaxRecipesToShow()) || recipes.len()
     local isFullRecipesList = recipes.len() <= maxRecipes
 
-    local isMultipleRecipes = recipes.len() > 1
-    local isMultipleExtraItems = false
+    local isMultiRecipes = recipes.len() > 1
+    local isMultiExtraItems = false
 
     local recipesToShow = recipes
     if (!isFullRecipesList)
@@ -278,13 +280,13 @@ local ExchangeRecipes = class {
     }
 
     foreach (recipe in recipesToShow)
-      isMultipleExtraItems = isMultipleExtraItems || recipe.isMultipleExtraItems
+      isMultiExtraItems = isMultiExtraItems || recipe.isMultipleExtraItems
 
     local headerFirst = ::colorize("grayOptionColor",
       componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
-                                            isMultipleExtraItems, hasFakeRecipes(recipes),
+                                            isMultiExtraItems, hasFakeRecipes(recipes),
                                             getRecipesCraftTimeText(recipes)))
-    local headerNext = isMultipleRecipes && isMultipleExtraItems ?
+    local headerNext = isMultiRecipes && isMultiExtraItems ?
       ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
 
     params.componentToHide <- componentItem
@@ -328,13 +330,13 @@ local ExchangeRecipes = class {
     local markRecipeBlk = ::load_local_account_settings(markRecipeSaveId)
     if (!markRecipeBlk)
       markRecipeBlk = ::DataBlock()
-    foreach(uid in newMarkedRecipesUid)
-      markRecipeBlk[uid] = MARK_RECIPE.USED
+    foreach(_uid in newMarkedRecipesUid)
+      markRecipeBlk[_uid] = MARK_RECIPE.USED
 
     ::save_local_account_settings(markRecipeSaveId, markRecipeBlk)
   }
 
-  static function getComponentQuantityText(component, params = null)
+  function getComponentQuantityText(component, params = null)
   {
     if (!(params?.showCurQuantities ?? true))
       return component.reqQuantity > 1 ?
@@ -348,7 +350,7 @@ local ExchangeRecipes = class {
     return locText
   }
 
-  static getComponentQuantityColor = @(component, needCheckRecipeLocked = false)
+  getComponentQuantityColor = @(component, needCheckRecipeLocked = false)
     isRecipeLocked() && needCheckRecipeLocked ? "fadedTextColor"
       : component.has ? "goodTextColor"
       : "badTextColor"
@@ -421,7 +423,7 @@ local ExchangeRecipes = class {
     return false
   }
 
-  function showUseErrorMsg(recipes, componentItem)
+  static function showUseErrorMsg(recipes, componentItem)
   {
     local locId = componentItem.getCantUseLocId()
     local text = ::colorize("badTextColor", ::loc(locId))
@@ -467,15 +469,15 @@ local ExchangeRecipes = class {
       local itemsList = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefId)
       foreach(item in itemsList)
       {
-        foreach(uid in item.uids)
+        foreach(_uid in item.uids)
         {
-          local leftByUid = usedUidsList?[uid] ?? item.amountByUids[uid]
+          local leftByUid = usedUidsList?[_uid] ?? item.amountByUids[_uid]
           if (leftByUid <= 0)
             continue
 
           local count = ::min(leftCount, leftByUid)
-          res.append([ uid, count ])
-          usedUidsList[uid] <- leftByUid - count
+          res.append([ _uid, count ])
+          usedUidsList[_uid] <- leftByUid - count
           leftCount -= count
           if (!leftCount)
             break
@@ -522,12 +524,12 @@ local ExchangeRecipes = class {
     local resultItemsShowOpening  = u.filter(resultItems, isShowOpening)
 
     local parentGen = componentItem.getParentGen()
-    local hasFakeRecipes = parentGen && hasFakeRecipes(parentGen.getRecipes())
+    local isHasFakeRecipes = parentGen && hasFakeRecipes(parentGen.getRecipes())
     local parentRecipe = parentGen?.getRecipeByUid?(componentItem.craftedFrom)
-    if (hasFakeRecipes && (parentRecipe?.markRecipe?() ?? false) && !parentRecipe?.isFake)
+    if (isHasFakeRecipes && (parentRecipe?.markRecipe?() ?? false) && !parentRecipe?.isFake)
       parentGen.markAllRecipes()
 
-    local rewardTitle = parentRecipe ? parentRecipe.getRewardTitleLocId(hasFakeRecipes) : ""
+    local rewardTitle = parentRecipe ? parentRecipe.getRewardTitleLocId(isHasFakeRecipes) : ""
     local rewardListLocId = params?.rewardListLocId ? params.rewardListLocId :
       parentRecipe ? componentItem.getItemsListLocId() : ""
 

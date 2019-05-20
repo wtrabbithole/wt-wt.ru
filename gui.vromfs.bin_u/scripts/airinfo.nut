@@ -1271,7 +1271,7 @@ function check_secondary_weapon_mods_recount(unit, callback = null)
       }
 
       ::calculate_mod_or_weapon_effect(unit.name, weaponName, false, this, function(effect, ...) {
-        local secondaryMods = unit.secondaryWeaponMods
+        secondaryMods = unit.secondaryWeaponMods
         if (!secondaryMods || weaponName != secondaryMods.weaponName)
           return
 
@@ -1497,6 +1497,7 @@ function getHighestRankDiffNoPenalty(inverse = false)
   for (local rankDif = 0; rankDif < ::max_country_rank; rankDif++)
     if (ranksBlk[paramPrefix + rankDif] < 0.8)
       return rankDif - 1
+  return 0
 }
 
 function get_battle_type_by_unit(unit)

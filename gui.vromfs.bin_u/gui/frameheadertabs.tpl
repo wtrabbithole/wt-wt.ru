@@ -15,6 +15,12 @@ shopFilter {
     selected:t='yes'
   <</selected>>
 
+  <<#isWorldWarMode>>
+    isWorldWarMode:t='yes'
+  <</isWorldWarMode>>
+
+  tooltip:t='<<tooltip>>'
+
   <<#tabImage>>
   shopFilterImg { background-image:t='<<tabImage>>' }
   <</tabImage>>

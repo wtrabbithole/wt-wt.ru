@@ -32,12 +32,12 @@ class SquadMember
                        "isReady", "isCrewsReady", "canPlayWorldWar", "cyberCafeId",
                        "unallowedEventsENames", "sessionRoomId", "crossplay"]
 
-  constructor(uid, isInvite = false, isApplication = false)
+  constructor(_uid, _isInvite = false, _isApplication = false)
   {
-    this.uid = uid.tostring()
-    this.isInvite = isInvite
-    this.isApplication = isApplication
-    this.isNewApplication = isApplication
+    uid = _uid.tostring()
+    isInvite = _isInvite
+    isApplication = _isApplication
+    isNewApplication = _isApplication
 
     initUniqueInstanceValues()
 

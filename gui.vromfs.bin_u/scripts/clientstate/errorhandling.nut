@@ -40,7 +40,7 @@ callback.setContextDbgNameFunction(function(context)
   return "unknown table"
 })
 
-callback.setAssertFunction(function(callback, assertText)
+callback.setAssertFunction(function(cb, assertText)
 {
   local eventText = ""
   local curEventName = subscriptions.getCurrentEventName()
@@ -52,7 +52,7 @@ callback.setAssertFunction(function(callback, assertText)
 
   ::script_net_assert_once("cb error " + eventText,
     format("Callback error ( %scontext = %s):\n%s",
-      eventText, callback.getContextDbgName(), assertText
+      eventText, cb.getContextDbgName(), assertText
     )
   )
 })

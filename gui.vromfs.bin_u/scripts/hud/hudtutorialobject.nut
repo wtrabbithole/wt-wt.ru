@@ -2,7 +2,6 @@
 
 class HudTutorialObject
 {
-  id = ""
   obj = null
   showUpTo = 0
   hasAabb = false

@@ -2973,8 +2973,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         if (entry.id != item.id)
           continue
 
-        local curItem = ::u.search(navItems,
-          (@(navId) function(item) {return item.id == navId})(navId))
+        local curItem = ::u.search(navItems, @(it) it.id == navId)
         if (curItem != null)
           navigationHandlerWeak.setCurrentItem(curItem)
 
@@ -3724,10 +3723,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     updateSceneOptions()
   }
 
-  function setAxisBind(axisIdx, bindAxisNum)
+  function setAxisBind(axisIdx, axisNum)
   {
     ::set_controls_preset("");
-    curJoyParams.bindAxis(axisIdx, bindAxisNum)
+    curJoyParams.bindAxis(axisIdx, axisNum)
     local device = ::joystick_get_default()
     curJoyParams.applyParams(device)
     updateSceneOptions()
@@ -4217,7 +4216,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function getShortcutsVisibilityMap()
   {
-    local filter = ::getCurrentHelpersMode()
+    local helpersMode = ::getCurrentHelpersMode()
     local isHeaderShowed = true
     local isSectionShowed = true
 
@@ -4226,8 +4225,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     foreach (entry in ::shortcutsList)
     {
       local isShowed =
-        (!("filterHide" in entry) || !::isInArray(filter, entry.filterHide)) &&
-        (!("filterShow" in entry) || ::isInArray(filter, entry.filterShow)) &&
+        (!("filterHide" in entry) || !::isInArray(helpersMode, entry.filterHide)) &&
+        (!("filterShow" in entry) || ::isInArray(helpersMode, entry.filterShow)) &&
         (!("showFunc" in entry) || entry.showFunc.call(this))
       if (entry.type == CONTROL_TYPE.HEADER)
       {

@@ -29,7 +29,7 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
   function getSceneTplView()
   {
     if (isSceneLoaded)
-      return
+      return null
 
     local view = {
       promoButtons = [{

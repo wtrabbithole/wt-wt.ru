@@ -167,7 +167,7 @@ class ::WwUnit
     return isForceControlledByAI || !wwUnitType.canBeControlledByPlayer
   }
 
-  function getUnitClassData(weaponPreset = null)
+  function getUnitClassData(weapPreset = null)
   {
     local res = {
       unitClass = WW_UNIT_CLASS.UNKNOWN
@@ -181,10 +181,10 @@ class ::WwUnit
     {
       res.unitClass = WW_UNIT_CLASS.FIGHTER
       res.flyOutUnitClass = WW_UNIT_CLASS.FIGHTER
-      if (weaponPreset)
+      if (weapPreset)
       {
         local wpcostBlk = ::get_wpcost_blk()
-        local weaponmask = wpcostBlk?[name]?.weapons?[weaponPreset]?.weaponmask ?? 0
+        local weaponmask = wpcostBlk?[name]?.weapons?[weapPreset]?.weaponmask ?? 0
         local requiredWeaponmask = ::g_world_war.getWWConfigurableValue("fighterToAssaultWeaponMask", 0)
         local isFighter = !(weaponmask & requiredWeaponmask)
         res.unitClass = isFighter ? WW_UNIT_CLASS.FIGHTER : WW_UNIT_CLASS.ASSAULT
@@ -233,7 +233,7 @@ class ::WwUnit
     return ""
   }
 
-  static function getUnitClassTooltipText(unitClass)
+  function getUnitClassTooltipText(unitClass)
   {
     if (expClass == "fighter" )
       return unitClass == WW_UNIT_CLASS.FIGHTER
@@ -335,10 +335,10 @@ class ::WwUnit
 
     local units = []
     ::WwUnit._loadingBlk.reset()
-    foreach(name, count in tbl)
+    foreach(_name, _count in tbl)
     {
-      ::WwUnit._loadingBlk["name"] = name
-      ::WwUnit._loadingBlk["count"] = count
+      ::WwUnit._loadingBlk["name"] = _name
+      ::WwUnit._loadingBlk["count"] = _count
 
       local unit = ::WwUnit(::WwUnit._loadingBlk)
       if (unit.isValid())
@@ -366,10 +366,9 @@ class ::WwUnit
 
   static function unitsCount(units = [])
   {
-    local unitsCount = 0
+    local res = 0
     foreach (wwUnit in units)
-      unitsCount += wwUnit.count
-
-    return unitsCount
+      res += wwUnit.count
+    return res
   }
 }

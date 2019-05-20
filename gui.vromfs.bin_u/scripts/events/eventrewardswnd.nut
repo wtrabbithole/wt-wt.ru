@@ -67,11 +67,11 @@ class ::gui_handlers.EventRewardsWnd extends ::gui_handlers.BaseGuiHandlerWT
         if (!::EventRewards.isRewardReceived(blk, event))
           ::EventRewards.getCondition(conditionId)
                         .updateProgress(blk, event, (@(blk) function (progress) {
-                            local conditionId = ::EventRewards.getRewardConditionId(blk)
+                            local condId = ::EventRewards.getRewardConditionId(blk)
                             local conditionValue = ::EventRewards.getConditionValue(blk)
                             local conditionField = ::EventRewards.getConditionField(blk)
                             local conditionTextObj = scene.findObject("reward_condition_text_" +
-                                                                      conditionId + "_" +
+                                                                      condId + "_" +
                                                                       conditionField + "_" +
                                                                       conditionValue)
                             if (::checkObj(conditionTextObj))

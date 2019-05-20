@@ -480,6 +480,7 @@ function load_scripts_after_login_once()
 
     "leaderboard/leaderboardDataType.nut"
     "leaderboard/leaderboardCategoryType.nut"
+    "leaderboard/leaderboardTable.nut"
     "leaderboard/leaderboard.nut"
 
     "queue/queueManager.nut"

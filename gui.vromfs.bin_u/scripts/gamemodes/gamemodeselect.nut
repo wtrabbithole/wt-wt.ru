@@ -44,7 +44,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       return
     if (value)
       updateContent()
-    local id = this.scene.id
     local params = {
       target = this.scene
       visible = value

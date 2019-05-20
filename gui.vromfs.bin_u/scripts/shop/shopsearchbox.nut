@@ -57,9 +57,9 @@ class ::gui_handlers.ShopSearchBox extends ::gui_handlers.BaseGuiHandlerWT
     cbOwnerSearchCancel()
   }
 
-  function updateHint(isClear, countGlobal, countLocal)
+  function updateHint(isEditboxClear, countGlobal, countLocal)
   {
-    local hintText = isClear ? ::loc("shop/search/hint")
+    local hintText = isEditboxClear ? ::loc("shop/search/hint")
       : !countGlobal ? ::loc("shop/search/global/notFound")
       : countLocal ? ::loc("shop/search/local/found", { count = countLocal })
       : ::loc("shop/search/local/notFound")
@@ -75,11 +75,11 @@ class ::gui_handlers.ShopSearchBox extends ::gui_handlers.BaseGuiHandlerWT
     searchString = obj.getValue()
   }
 
-  function doFastSearch(searchString)
+  function doFastSearch(searchStr)
   {
-    isClear = searchString == ""
-    prevSearchString = searchString
-    local units = shopSearchCore.findUnitsByLocName(searchString)
+    isClear = searchStr == ""
+    prevSearchString = searchStr
+    local units = shopSearchCore.findUnitsByLocName(searchStr)
     if (prevIsClear == isClear && ::u.isEqual(prevSearchResult, units))
       return
 
@@ -110,9 +110,9 @@ class ::gui_handlers.ShopSearchBox extends ::gui_handlers.BaseGuiHandlerWT
     obj = obj || scene.findObject("search_edit_box")
     if (!::check_obj(obj))
       return
-    local searchString = ::g_string.trim(obj.getValue())
-    if (searchString != "")
-      shopSearchWnd.open(searchString, cbOwnerShowUnit, getEdiffFunc)
+    local searchStr = ::g_string.trim(obj.getValue())
+    if (searchStr != "")
+      shopSearchWnd.open(searchStr, cbOwnerShowUnit, getEdiffFunc)
   }
 
   function onSearchButtonClick(obj)
@@ -138,7 +138,7 @@ class ::gui_handlers.ShopSearchBox extends ::gui_handlers.BaseGuiHandlerWT
 
   function onSearchEditBoxFocusChanged(obj)
   {
-    guiScene.performDelayed(this, @() onActiveStateChanged(obj.isFocused()))
+    guiScene.performDelayed(this, @() ::check_obj(obj) && onActiveStateChanged(obj.isFocused()))
   }
 
   function onAccesskeyActivateSearch(obj)

@@ -252,17 +252,17 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
         if (decor)
         {
           local decoratorType = decor.decoratorType
-          local unit = decoratorType == ::g_decorator_type.SKINS ?
+          local decorUnit = decoratorType == ::g_decorator_type.SKINS ?
             ::getAircraftByName(::g_unlocks.getPlaneBySkinId(decor.id)) :
             ::get_player_cur_unit()
 
-          if (unit && decoratorType.isAvailable(unit) && decor.canUse(unit))
+          if (decorUnit && decoratorType.isAvailable(decorUnit) && decor.canUse(decorUnit))
           {
-            local freeSlotIdx = decoratorType.getFreeSlotIdx(unit)
+            local freeSlotIdx = decoratorType.getFreeSlotIdx(decorUnit)
             local slotIdx = freeSlotIdx != -1 ? freeSlotIdx
-              : (decoratorType.getAvailableSlots(unit) - 1)
+              : (decoratorType.getAvailableSlots(decorUnit) - 1)
             decorator = decor
-            decoratorUnit = unit
+            decoratorUnit = decorUnit
             decoratorSlot = slotIdx
 
             local obj = scene.findObject("btn_use_decorator")

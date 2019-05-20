@@ -375,8 +375,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     return
   }
 
-  function onEventQueueChangeState(_queue)
+  function onEventQueueChangeState(p)
   {
+    local _queue = p?.queue
     if (!::queues.checkQueueType(_queue, queueMask))
       return
     setCurQueue(::queues.isQueueActive(_queue) ? _queue : null)
@@ -907,14 +908,14 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function leaveCurQueue(options = {})
   {
-    local curQueue = getCurQueue()
-    if (!curQueue)
+    local queue = getCurQueue()
+    if (!queue)
       return false
 
     if (options.len() && !::g_squad_utils.canJoinFlightMsgBox(options))
       return false
 
-    ::queues.leaveQueue(curQueue, options)
+    ::queues.leaveQueue(queue, options)
     return true
   }
 

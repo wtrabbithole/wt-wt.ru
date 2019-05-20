@@ -948,7 +948,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getCurrentDecoratorSlot(decoratorType)
   {
     if (decoratorType == ::g_decorator_type.UNKNOWN)
-      return
+      return -1
 
     if (decoratorType == ::g_decorator_type.ATTACHABLES)
       return curAttachSlot
@@ -1069,7 +1069,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local skinIndex = ::find_in_array(skinList.values, previewSkinId, 0)
     local skinDecorator = skinList.decorators[skinIndex]
-    local access = skinList.access[skinIndex]
 
     if (skinDecorator.canBuyUnlock(unit))
     {

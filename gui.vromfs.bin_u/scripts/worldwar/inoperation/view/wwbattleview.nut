@@ -20,12 +20,12 @@ class ::WwBattleView
 
   sceneTplArmyViewsName = "gui/worldWar/worldWarMapArmyItem"
 
-  static isControlHelpCentered = true
-  static controlHelpDesc = @() hasControlTooltip()
+  isControlHelpCentered = true
+  controlHelpDesc = @() hasControlTooltip()
     ? ::loc("worldwar/battle_open_info") : getBattleStatusText()
-  static consoleButtonsIconName = @() ::show_console_buttons && hasControlTooltip()
+  consoleButtonsIconName = @() ::show_console_buttons && hasControlTooltip()
     ? WW_MAP_CONSPLE_SHORTCUTS.LMB_IMITATION : null
-  static controlHelpText = @() !::show_console_buttons && hasControlTooltip()
+  controlHelpText = @() !::show_console_buttons && hasControlTooltip()
     ? ::loc("key/LMB") : null
 
   constructor(_battle = null)

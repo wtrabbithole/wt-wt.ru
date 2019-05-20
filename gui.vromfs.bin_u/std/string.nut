@@ -556,7 +556,7 @@ local function countSubstrings(str, substr) {
   return res
 }
 
-//Change case to upper for set up number of symbols
+//Next two methods change case to upper / lower for set up number of symbols
 local function toUpper(str, symbolsNum = 0) {
   if (symbolsNum <= 0) {
     symbolsNum = str.len()
@@ -567,6 +567,15 @@ local function toUpper(str, symbolsNum = 0) {
   return slice(str, 0, symbolsNum).toupper() + slice(str, symbolsNum)
 }
 
+local function toLower(str, symbolsNum = 0) {
+  if (symbolsNum <= 0) {
+    symbolsNum = str.len()
+  }
+  if (symbolsNum >= str.len()) {
+    return str.tolower()
+  }
+  return slice(str, 0, symbolsNum).tolower() + slice(str, symbolsNum)
+}
 
 local function replace(str, from, to) {
   if (str == null || str == "")
@@ -818,6 +827,7 @@ local export = {
   isStringFloat = isStringFloat
   intToUtf8Char = intToUtf8Char
   toUpper = toUpper
+  toLower = toLower
   utf8ToUpper = utf8ToUpper
   utf8ToLower = utf8ToLower
   hexStringToInt = hexStringToInt

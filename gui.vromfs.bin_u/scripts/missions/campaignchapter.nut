@@ -512,9 +512,9 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::getTblValue("blk", curMission) == null && ::g_mislist_type.isUrlMission(curMission))
     {
-      local missionBlk = curMission.urlMission.getMetaInfo()
-      if (missionBlk)
-        curMission.blk <- missionBlk
+      local misBlk = curMission.urlMission.getMetaInfo()
+      if (misBlk)
+        curMission.blk <- misBlk
       else
       {
         ::g_url_missions.loadBlk(curMission, ::Callback(onUrlMissionLoaded, this))

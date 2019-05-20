@@ -165,13 +165,13 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     local blk = ::DataBlock()
     ::get_news_blk(blk)
     local text = ::loc(blk.advert || "", "")
-    SecondsUpdater(obj, function(obj, params)
+    SecondsUpdater(obj, function(tObj, params)
     {
       local stopUpdate = text.find("{time_countdown=") == null
       local textResult = time.processTimeStamps(text)
-      local objText = obj.findObject("topmenu_advert_text")
+      local objText = tObj.findObject("topmenu_advert_text")
       objText.setValue(textResult)
-      obj.show(textResult != "")
+      tObj.show(textResult != "")
       return stopUpdate
     })
   }

@@ -18,27 +18,48 @@ tdiv {
 
 separatorLine{}
 
-tdiv {
+VerticalListBox {
   id:t='squad_list'
   size:t='pw, fh'
   flow:t = 'vertical'
+  mouse-focusable:t='yes'
+  navigator:t='posNavigator'
+  navigatorShortcuts:t='yes'
+  on_wrap_up:t='onWrapUp'
+  on_wrap_down:t='onWrapDown'
+  on_r_click:t='onMemberRClick'
 
   <<#members>>
-  tdiv {
+  memberView {
     width:t = 'pw'
     flow:t = 'vertical'
+    css-hier-invalidate:t='all'
 
     tdiv {
       width:t = 'pw'
 
-      textareaNoTab {
-        id:t='member_name'
+      tdiv {
         width:t='60%pw'
         top:t='50%ph-50%h'
         position:t='relative'
-        padding-left:t='1@framePadding'
-        text:t=''
+
+        textareaNoTab {
+          id:t='member_name'
+          top:t='50%ph-50%h'
+          position:t='relative'
+          padding-left:t='1@framePadding'
+          text:t=''
+        }
+        tdiv {
+          margin-left:t='1@dp'
+          ButtonImg {
+            class:t='independent'
+            iconName:t='X'
+            showOnSelect:t='yes'
+          }
+        }
       }
+
 
       tdiv {
         width:t='40%pw'
@@ -108,4 +129,11 @@ tdiv {
     separatorLine {}
   }
   <</members>>
+}
+
+DummyButton {
+  id:t= 'member_menu_open'
+  btnName:t = 'X'
+  on_click:t = 'onMemberRClick'
+  enable:t = 'no'
 }

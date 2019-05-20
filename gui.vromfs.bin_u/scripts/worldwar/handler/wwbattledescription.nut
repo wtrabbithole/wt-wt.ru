@@ -32,7 +32,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   hasSquadsInviteButton = true
   hasBattleFilter = false
 
-  inactiveGroupId = "group_inactive"
+  static inactiveGroupId = "group_inactive"
   curGroupIdInList = ""
   curBattleInList = null      // selected battle in list
   operationBattle = null      // battle to dasplay, check join enable, join, etc
@@ -113,6 +113,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return battlesListObj
   }
 
+  function getMainFocusObj2()
+  {
+    return "squad_list"
+  }
+
   function initQueueInfo()
   {
     local queueInfoObj = scene.findObject("queue_info")
@@ -155,7 +160,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local handler = ::handlersManager.loadHandler(::gui_handlers.WwSquadList,
-      { scene = squadInfoObj })
+      { scene = squadInfoObj
+        onWrapUpCb = ::Callback(onWrapUp, this)
+        onWrapDownCb = ::Callback(onWrapDown, this) })
     registerSubHandler(handler)
     squadListHandlerWeak = handler.weakref()
     updateBattleSquadListData()
@@ -595,9 +602,17 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     currViewMode = newViewMode
 
+    local isViewBattleList = currViewMode == WW_BATTLE_VIEW_MODES.BATTLE_LIST
+    local isViewSquadInfo = currViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO
     showSceneBtn("queue_info", currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO)
-    showSceneBtn("items_list", currViewMode == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
-    showSceneBtn("squad_info", currViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO)
+    showSceneBtn("items_list", isViewBattleList)
+    showSceneBtn("squad_info", isViewSquadInfo)
+    if (squadListHandlerWeak)
+      squadListHandlerWeak.updateButtons(isViewSquadInfo)
+    if (isViewBattleList && battlesListObj.childrenCount() > 0)
+      battlesListObj.select()
+    else if (!isViewSquadInfo)
+      restoreFocus()
 
     updateTitle()
   }
@@ -617,8 +632,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateButtons()
   {
-    showSceneBtn("btn_battles_filters", hasBattleFilter)
-    showSceneBtn("goto_global_battles_btn", currViewMode == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
+    local isViewBattleList = currViewMode == WW_BATTLE_VIEW_MODES.BATTLE_LIST
+    showSceneBtn("btn_battles_filters", hasBattleFilter && isViewBattleList)
+    showSceneBtn("cluster_select_button", isViewBattleList)
+    showSceneBtn("goto_global_battles_btn", isViewBattleList)
     showSceneBtn("invite_squads_button",
       hasSquadsInviteButton && ::g_world_war.isSquadsInviteEnable())
     local collapsedChapterBtn = showSceneBtn("btn_collapsed_chapter",
@@ -1261,7 +1278,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
   }
 
-  function getBattleArmyUnitTypesData(battleData)
+  static function getBattleArmyUnitTypesData(battleData)
   {
     local res = {
       text = ""
@@ -1311,7 +1328,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return getBattleById(battleId)
   }
 
-  function getPlayerSide(battle = null)
+  static function getPlayerSide(battle = null)
   {
     return ::ww_get_player_side()
   }

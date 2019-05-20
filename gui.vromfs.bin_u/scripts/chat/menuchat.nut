@@ -721,9 +721,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       drawRoomTo(roomToDraw, scene.findObject("menu_chat_messages_container"), sceneChanged)
   }
 
-  function drawRoomTo(room, messagesContainer, sceneChanged = false) {
+  function drawRoomTo(room, messagesContainer, isSceneChanged = false) {
     local lastMessageIndex = (room.mBlocks.len() == 0) ? -1:room.mBlocks.top().messageIndex
-    if (lastMessageIndex == lastShowedInRoomMessageIndex && !sceneChanged)
+    if (lastMessageIndex == lastShowedInRoomMessageIndex && !isSceneChanged)
       return
 
     lastShowedInRoomMessageIndex = lastMessageIndex

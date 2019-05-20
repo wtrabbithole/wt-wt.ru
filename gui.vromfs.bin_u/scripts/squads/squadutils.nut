@@ -118,7 +118,6 @@ function g_squad_utils::showRevokeNonAcceptInvitesMsgBox(okFunc = null, cancelFu
 
 function g_squad_utils::showLeaveSquadMsgBox(msgId, okFunc = null, cancelFunc = null)
 {
-  local isSquadLeader = ::g_squad_manager.isSquadLeader()
   showCantJoinSquadMsgBox(
     "cant_join",
     ::loc(msgId),

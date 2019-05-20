@@ -14,7 +14,7 @@ function gui_start_mainmenu(allowMainmenuActions = true)
     if (!::disable_network() && !::g_login.isLoggedIn()) //old executable reload scripts detected
     {
       ::gui_start_after_scripts_reload()
-      return
+      return null
     }
   }
 

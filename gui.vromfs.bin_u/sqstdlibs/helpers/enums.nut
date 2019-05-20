@@ -80,27 +80,27 @@ local function getCachedType(propName, propValue, cacheTable, enumTable, default
 
 local function addType(enumTable, typeTemplate, typeName, typeDefinition)
 {
-  local type = enumTable?[typeName] ?? {} //to not brake links on exist types
-  type.clear()
+  local typeTbl = enumTable?[typeName] ?? {} //to not brake links on exist types
+  typeTbl.clear()
   if (typeTemplate)
     foreach(key, value in typeTemplate)
-      type[key] <- value
+      typeTbl[key] <- value
 
   foreach (key, value in typeDefinition)
-    type[key] <- value
+    typeTbl[key] <- value
 
-  enumTable[typeName] <- type
+  enumTable[typeName] <- typeTbl
 
   local types = enumTable?.types
   if (isArray(types))
-    u.appendOnce(type, types)
+    u.appendOnce(typeTbl, types)
   else
   {
     assertOnce(
       "Not found types array",
       ::format("Unable to find 'types' array in enum table (type: %s).", typeName))
   }
-  return type
+  return typeTbl
 }
 
 local function addTypes(enumTable, typesToAdd, typeConstructor = null, addTypeNameKey = null )
@@ -108,11 +108,11 @@ local function addTypes(enumTable, typesToAdd, typeConstructor = null, addTypeNa
   local typeTemplate = enumTable?.template
   foreach (typeName, typeDefinition in typesToAdd)
   {
-    local type = addType(enumTable, typeTemplate, typeName, typeDefinition)
+    local typeTbl = addType(enumTable, typeTemplate, typeName, typeDefinition)
     if (addTypeNameKey)
-      type[addTypeNameKey] <- typeName
+      typeTbl[addTypeNameKey] <- typeName
     if (typeConstructor != null)
-      typeConstructor.call(type)
+      typeConstructor.call(typeTbl)
   }
 }
 

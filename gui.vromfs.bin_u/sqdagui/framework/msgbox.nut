@@ -96,7 +96,11 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
         if (showButtonsTimer>0)
           return
 
-        local delayedAction = (@(id, guiScene, buttons, sourceHandlerObj, boxId, boxObj) function(dummy) {
+        local srcHandlerObj = sourceHandlerObj
+        local bId = boxId
+        local bObj = boxObj
+
+        local delayedAction = function() {
           if (::check_obj(boxObj))
             foreach (b in buttons)
             {
@@ -107,18 +111,18 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
               {
                 if (isDestroy)
                 {
-                  ::remove_scene_box(boxId) //!!FIX ME: need refactoring about this list
+                  ::remove_scene_box(bId) //!!FIX ME: need refactoring about this list
                   ::saved_scene_msg_box = null
-                  ::destroyMsgBox(boxObj)
+                  ::destroyMsgBox(bObj)
                   ::clear_msg_boxes_list()
                 }
                 if (b.len()>1 && b[1])
-                  b[1].call(sourceHandlerObj)
+                  b[1].call(srcHandlerObj)
                 break
               }
             }
           startingDialogNow = false;
-        })(id, guiScene, buttons, sourceHandlerObj, boxId, boxObj)
+        }
         startingDialogNow = true;
         guiScene.performDelayed(this, delayedAction)
       }

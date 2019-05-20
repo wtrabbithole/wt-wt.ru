@@ -390,10 +390,6 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
 
   function gatherReplayCommentData(replayInfo)
   {
-    local replayComments = ::getTblValue("comments", replayInfo)
-    if (!replayComments)
-      return
-
     local data = {
       addDescr = ""
       playersRows = {}
@@ -403,6 +399,11 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       rowHeader = {}
       addTableParams = {}
     }
+
+    local replayComments = ::getTblValue("comments", replayInfo)
+    if (!replayComments)
+      return data
+
     local playersTables = {}
     local addTableParams = {teamA = {}, teamB = {}}
     local replayParams = ["timePlayed", "author"]

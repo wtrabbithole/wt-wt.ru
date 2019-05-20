@@ -292,12 +292,7 @@ function g_ww_logs::saveLastReadLogMark()
 
 function g_ww_logs::getLastReadLogMark()
 {
-  local log = ::u.search(::g_ww_logs.loaded, function(log) {
-      if (log.isReaded)
-        return log
-    }, true)
-
-  return log ? log.id : ""
+  return ::u.search(::g_ww_logs.loaded, @(l) l.isReaded, true)?.id ?? ""
 }
 
 function g_ww_logs::getUnreadedNumber()

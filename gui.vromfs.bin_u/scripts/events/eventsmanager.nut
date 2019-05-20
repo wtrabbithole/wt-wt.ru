@@ -137,6 +137,7 @@ class Events
           event.name.slice(0, eventPrefix.len()) == eventPrefix &&
           isEventEnabled(event))
         return event
+    return null
   }
 
   function getTankEventName(eventPrefix)
@@ -2072,7 +2073,7 @@ class Events
         data.reasonText = ::loc("events/event_disabled")
       data.actionFunc = function (reasonData) {
         local messageText = reasonData.reasonText
-        local startTime = ::events.getEventStartTime(reasonData.event)
+        startTime = ::events.getEventStartTime(reasonData.event)
         if (startTime > 0)
           messageText +=  "\n" + ::format(::loc("events/event_starts_in"), ::colorize("activeTextColor",
             time.hoursToString(time.secondsToHours(startTime))))

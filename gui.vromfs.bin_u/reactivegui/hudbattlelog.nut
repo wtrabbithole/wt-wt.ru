@@ -8,7 +8,6 @@ local fontsState = require("reactiveGui/style/fontsState.nut")
 
 local logEntryComponent = function (log_entry) {
   return function () {
-    local colorTable = teamColors()
     return  {
       watch = teamColors.trigger
       size = [flex(), SIZE_TO_CONTENT]

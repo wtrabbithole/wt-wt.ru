@@ -346,8 +346,8 @@
         ::sysopt.updateGuiNavbar(true)
       }
       local cancel_func = function() {
-        local quality = "low"
-        ::sysopt.setGuiValue("graphicsQuality", quality)
+        local lowQuality = "low"
+        ::sysopt.setGuiValue("graphicsQuality", lowQuality)
         ::sysopt.mShared.graphicsQualityClick()
         ::sysopt.updateGuiNavbar(true)
       }
@@ -886,7 +886,12 @@ function sysopt::fillGuiOptions(containerObj, handler)
 
 function sysopt::getGuiWidget(id)
 {
-  if (!(id in mSettings)) { logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table."); return }
+  if (!(id in mSettings))
+  {
+    logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
+    return null
+  }
+
   local widgetId = getOptionDesc(id).widgetId
   local obj = (widgetId && ::checkObj(mContainerObj)) ? mContainerObj.findObject(widgetId) : null
   return ::checkObj(obj) ? obj : null
@@ -894,16 +899,24 @@ function sysopt::getGuiWidget(id)
 
 function sysopt::getOptionDesc(id)
 {
-  if (!(id in mSettings)) { logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table."); return }
+  if (!(id in mSettings))
+  {
+    logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
+    return null
+  }
+
   return mSettings[id]
 }
 
 function sysopt::getOptionValue(id, defVal=null)
 {
-  if (id in mSettings)
-    return mSettings[id]?.def ?? defVal
+  if (!(id in mSettings))
+  {
+    logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
+    return null
+  }
 
-  logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
+  return mSettings[id]?.def ?? defVal
 }
 
 function sysopt::getGuiValue(id, defVal=null)

@@ -1377,8 +1377,8 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     ::gui_bhv.columnNavigator.selectCell(tableObj, row, col, true)
 
     if (!researchConfig.isMod)
-      foreach(idx, unitName in itemsTable)
-        ::showAirDiscount(tableObj.findObject(unitName + "-discount"), unitName)
+      foreach(idx, unitId in itemsTable)
+        ::showAirDiscount(tableObj.findObject(unitId + "-discount"), unitId)
 
     local textObj = scene.findObject("new_research_change_later_text")
     if (::checkObj(textObj))

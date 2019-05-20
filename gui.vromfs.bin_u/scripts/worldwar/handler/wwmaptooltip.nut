@@ -56,7 +56,7 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
 
   function getUpdatedSpecs(p = null)
   {
-    local specs = {
+    local res = {
       currentType = WW_MAP_TOOLTIP_TYPE.NONE
       currentId = ""
     }
@@ -65,12 +65,12 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
       local key = ::getTblValue("paramsKey", specifyTypeOrder[i])
       if (key in p)
       {
-        specs.currentType = i
-        specs.currentId = p[key]
+        res.currentType = i
+        res.currentId = p[key]
         break
       }
     }
-    return specs
+    return res
   }
 
   function hideTooltip()

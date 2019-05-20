@@ -433,7 +433,6 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       waitForMap = false
       if (briefing)
       {
-        local gt = ::get_game_type()
         local misObj = ""
         if (::current_campaign_mission)
           misObj = ::loc(format("mb/%s/objective", ::current_campaign_mission.tostring()), "")

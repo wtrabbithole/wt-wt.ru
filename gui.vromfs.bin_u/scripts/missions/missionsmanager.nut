@@ -36,12 +36,12 @@ function g_missions_manager::startRemoteMission(params)
   }
   mission.urlMission <- urlMission
 
-  local callback = function(success, mission) {
+  local callback = function(success, mis) {
                      if (!success)
                        return
 
-                     mission.blk <- urlMission.getMetaInfo()
-                     ::g_missions_manager.fastStartSkirmishMission(mission)
+                     mis.blk <- urlMission.getMetaInfo()
+                     ::g_missions_manager.fastStartSkirmishMission(mis)
                    }
 
   ::scene_msg_box("start_mission_from_live_confirmation",

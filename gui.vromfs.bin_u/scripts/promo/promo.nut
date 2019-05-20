@@ -104,7 +104,7 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 
   // block name in 'customSettings > accounts > <account> > seen' = function (must return days)
   oldRecordsCheckTable = {
-    promo = function(time) { return time }
+    promo = @(tm) tm
   }
 }
 
@@ -830,13 +830,13 @@ function g_promo::selectNextBlock(obj, dt)
 //----------------- </RADIOBUTTONS> -------------------------
 
 //------------------ <PLAYBACK> -----------------------------
-function g_promo::enablePlayMenuMusic(playlistArray, time)
+function g_promo::enablePlayMenuMusic(playlistArray, tm)
 {
   if (PLAYLIST_SONG_TIMER_TASK >= 0)
     return
 
   ::set_cached_music(::CACHED_MUSIC_MENU, ::u.chooseRandom(playlistArray), "")
-  PLAYLIST_SONG_TIMER_TASK = ::periodic_task_register(this, ::g_promo.requestTurnOffPlayMenuMusic, time)
+  PLAYLIST_SONG_TIMER_TASK = ::periodic_task_register(this, ::g_promo.requestTurnOffPlayMenuMusic, tm)
 }
 
 function g_promo::requestTurnOffPlayMenuMusic(dt)

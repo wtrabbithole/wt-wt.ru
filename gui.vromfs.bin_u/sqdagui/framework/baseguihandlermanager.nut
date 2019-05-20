@@ -141,13 +141,13 @@ function handlersManager::initHandler(handler)
     local handlerName = getHandlerClassDebugName(handler)
     local message = ::format("Error on init handler %s:\n%s", handlerName, errorMessage)
     ::script_net_assert_once(handlerName, message)
-    local type = getHandlerType(handler.getclass())
-    if (type == handlerType.MODAL)
+    local hType = getHandlerType(handler.getclass())
+    if (hType == handlerType.MODAL)
     {
       if (::check_obj(handler.scene))
         ::get_cur_gui_scene().destroyElement(handler.scene)
     }
-    else if (type == handlerType.CUSTOM)
+    else if (hType == handlerType.CUSTOM)
     {
       if (::check_obj(handler.scene))
         ::get_cur_gui_scene().replaceContentFromText(handler.scene, "", 0, null)
@@ -490,10 +490,10 @@ function handlersManager::setGuiRootOptions(guiScene, forceUpdate = true)
     return
 
   rootObj["css-hier-invalidate"] = "all"  //need to update scene after set this parameters
-  guiScene.performDelayed(this, (@(rootObj) function(dummy) {
+  guiScene.performDelayed(this, function() {
     if (::check_obj(rootObj))
       rootObj["css-hier-invalidate"] = "no"
-  })(rootObj))
+  })
 }
 
 function handlersManager::needReloadScene()

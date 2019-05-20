@@ -177,9 +177,9 @@ class ::GuiBox
     return this
   }
 
-  function cloneBox(incSize = 0)
+  function cloneBox(incSz = 0)
   {
-    return ::GuiBox(c1[0] - incSize, c1[1] - incSize, c2[0] + incSize, c2[1] + incSize)
+    return ::GuiBox(c1[0] - incSz, c1[1] - incSz, c2[0] + incSz, c2[1] + incSz)
   }
 
   function getBlkText(tag)
@@ -586,7 +586,6 @@ function LinesGenerator::doubleLineZoneCheckObstacles(zones, link, obstacles)
       if (!box.isIntersect(zoneData.box))
         continue
 
-      local axis = zoneData.axis
       if (link[0].isInside(box) || link[1].isInside(box))
         continue //ignore boxes intersect and full override this side
 

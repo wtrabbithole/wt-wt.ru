@@ -587,9 +587,9 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     checkSkillPointsAndDo(::gui_start_menuShop)
   }
 
-  function onSlotDblClick(crew)
+  function onSlotDblClick(slotCrew)
   {
-    local unit = ::g_crew.getCrewUnit(crew)
+    local unit = ::g_crew.getCrewUnit(slotCrew)
     if (unit)
       checkSkillPointsAndDo(@() ::open_weapons_for_unit(unit))
   }
@@ -665,16 +665,16 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::gui_modal_tutor(steps, this)
   }
 
-  function canUpgradeCrewSpec(crew)
+  function canUpgradeCrewSpec(upgCrew)
   {
-    local unit = ::g_crew.getCrewUnit(crew)
+    local unit = ::g_crew.getCrewUnit(upgCrew)
     if (!unit)
       return false
 
-    local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
-    local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(crew, unit)
+    local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(upgCrew, unit)
+    local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(upgCrew, unit)
     local reqLevel = curSpecType.getUpgradeReqCrewLevel(unit)
-    local crewLevel = ::g_crew.getCrewLevel(crew, unit.getCrewUnitType())
+    local crewLevel = ::g_crew.getCrewLevel(upgCrew, unit.getCrewUnitType())
 
     return ::get_cur_warpoints() >= wpSpecCost.wp &&
            curSpecType == ::g_crew_spec_type.BASIC &&

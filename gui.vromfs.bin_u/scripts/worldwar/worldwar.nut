@@ -601,6 +601,8 @@ function g_world_war::getArtilleryUnitParamsByBlk(blk)
     if (wwUnitName in artilleryUnits)
       return artilleryUnits[wwUnitName]
   }
+
+  return null
 }
 
 function g_world_war::updateRearZones()

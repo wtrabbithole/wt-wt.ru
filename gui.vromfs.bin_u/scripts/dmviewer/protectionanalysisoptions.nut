@@ -292,8 +292,8 @@ options.setAnalysisParams <- function() {
 
 options.get <- @(id) this?[id] ?? UNKNOWN
 
-options.getBySortId <- function(sortId) {
-  return enums.getCachedType("sortId", sortId, cache.bySortId, this, UNKNOWN)
+options.getBySortId <- function(idx) {
+  return enums.getCachedType("sortId", idx, cache.bySortId, this, UNKNOWN)
 }
 
 options.updateArmorPiercingText <- function(obj) {

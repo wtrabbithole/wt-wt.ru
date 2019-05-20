@@ -341,7 +341,7 @@ function SessionLobby::findParam(key, tbl1, tbl2)
 function SessionLobby::validateMissionCountry(country, fullCountriesList)
 {
   if (::isInArray(country, fullCountriesList))
-    return
+    return null
   if (::isInArray("country_" + country, fullCountriesList))
     return "country_" + country
   return null

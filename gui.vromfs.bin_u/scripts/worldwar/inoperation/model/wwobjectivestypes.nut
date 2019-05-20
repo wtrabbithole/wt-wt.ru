@@ -24,7 +24,7 @@ local time = require("scripts/time.nut")
   updateArray = []
   currentStateParam = ""
 
-  needStopTimer = function(statusBlk, time) { return true }
+  needStopTimer = function(statusBlk, tm) { return true }
   isDefender = function(blk, side)
   {
     if (blk.defenderSide && typeof side != typeof blk.defenderSide)
@@ -358,9 +358,9 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
       }
     }
 
-    needStopTimer = function(statusBlk, time)
+    needStopTimer = function(statusBlk, tm)
     {
-      return time < 0 || statusBlk.winner
+      return tm < 0 || statusBlk.winner
     }
 
     getUpdatableZonesParams = function(dataBlk, statusBlk, side)
@@ -463,9 +463,9 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
       }
     }
 
-    needStopTimer = function(statusBlk, time)
+    needStopTimer = function(statusBlk, tm)
     {
-      return time < 0 || statusBlk.winner
+      return tm < 0 || statusBlk.winner
     }
 
     specificClassParamConvertion = {
@@ -478,7 +478,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
       timeSec = function(nestObj, dataBlk, statusBlk, type, side)
       {
         if (!::checkObj(nestObj))
-          return
+          return false
 
         local attackerSide = ::g_world_war.getOppositeSide(::ww_side_name_to_val(dataBlk.defenderSide || ""))
         local zonesPercent = dataBlk.zonesPercent

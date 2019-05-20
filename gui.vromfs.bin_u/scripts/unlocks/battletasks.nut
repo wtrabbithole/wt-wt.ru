@@ -666,12 +666,12 @@ function BattleTasks::getUnlockConditionBlock(text, id, type, isUnlocked, isFina
 function BattleTasks::getPlaybackPath(playbackName, shouldUseDefaultLang = false)
 {
   if (::u.isEmpty(playbackName))
-    return
+    return ""
 
   local guiBlk = ::configs.GUI.get()
   local unlockPlaybackPath = guiBlk.unlockPlaybackPath
   if (!unlockPlaybackPath)
-    return
+    return ""
 
   local path = unlockPlaybackPath.mainPath
   local abbrev = shouldUseDefaultLang? "en" : ::g_language.getShortName()

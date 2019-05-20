@@ -4,24 +4,33 @@ local modes = [
     appId = "1134"
     mask  = WW_LB_MODE.WW_USERS
     field = ::g_lb_category.EVENTS_PERSONAL_ELO.field
+    isInLeaderboardModes = true
     hasDaysData = true
+    rewardsTableName = "user_leaderboards"
   },
   {
     mode  = "ww_clans"
     appId = "1135"
     mask  = WW_LB_MODE.WW_CLANS
     field = ::g_lb_category.EVENTS_PERSONAL_ELO.field
+    isInLeaderboardModes = true
     hasDaysData = false
+    rewardsTableName = "clan_leaderboards"
   },
   {
     mode  = "ww_countries"
     appId = "1136"
     mask  = WW_LB_MODE.WW_COUNTRIES
     field = ::g_lb_category.OPERATION_COUNT.field
+    isInLeaderboardModes = true
     hasDaysData = false
     needFeature = "WorldWarCountryLeaderboard"
-  }
-]
+  },
+  {
+    mode  = "ww_users_clan"
+    appId = "1134"
+    hasDaysData = false
+  }]
 
 local function requestWwLeaderboardData(modeName, modePostFix, day, start, amount, category, cb)
 {
@@ -34,11 +43,15 @@ local function requestWwLeaderboardData(modeName, modePostFix, day, start, amoun
     headers = { appid = mode.appId }
     action = "cln_get_leaderboard_json"
     data = {
-      gameMode = modeName + modePostFix,
-      table = day && day > 0 ? "day" + day : "season",
-      start = start,
-      count = amount,
-      category = category,
+      gameMode = modeName + modePostFix
+      table = day && day > 0 ? "day" + day : "season"
+      start = start
+      count = amount
+      category = category
+
+      //gameMode = mode
+      //table = type
+
       valueType = "value_total"
       resolveNick = true
     }

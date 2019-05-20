@@ -1,7 +1,7 @@
 function gui_start_voicemenu(config)
 {
   if (::isPlayerDedicatedSpectator())
-    return
+    return null
 
   local joyParams = ::joystick_get_cur_settings()
   local params = {

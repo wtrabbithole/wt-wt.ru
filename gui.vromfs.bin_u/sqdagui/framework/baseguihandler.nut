@@ -212,7 +212,7 @@ class ::BaseGuiHandler
   {
     if (wndType == handlerType.MODAL)
     {
-      guiScene.performDelayed(this, function(dummy)
+      guiScene.performDelayed(this, function()
       {
         ::handlersManager.destroyHandler(this)
         ::handlersManager.clearInvalidHandlers()

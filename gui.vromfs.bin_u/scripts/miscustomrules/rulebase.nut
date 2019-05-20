@@ -444,7 +444,7 @@ class ::mission_rules.Base
   {
     local randomGroups = getMyStateBlk()?.random_units?[groupName]
     if (!randomGroups)
-      return
+      return ""
 
     local ediff = ::get_mission_difficulty_int()
     local getBR = @(unit) unit.getBattleRating(ediff)
@@ -464,7 +464,7 @@ class ::mission_rules.Base
   {
     local randomGroups = getMyStateBlk()?.random_units?[groupName]
     if (!randomGroups)
-      return
+      return ""
 
     local getRank = function(unit) {return unit.rank}
     local valueRank = getRandomUnitsGroupValueRange(randomGroups, getRank)

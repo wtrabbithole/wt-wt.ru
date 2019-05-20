@@ -1509,11 +1509,11 @@ function getModificationInfo(air, modifName, isShortDesc=false, limitedName = fa
   local annotation = ""
   local usedLocs = []
   local infoFunc = function(name, addName=null) {
-    local res = ::loc(name + "/name/short")
-    if (addName) res += ::loc(addName + "/name/short")
-    res += " - " + ::loc(name + "/name")
-    if (addName) res += " " + ::loc(addName + "/name")
-    return res
+    local txt = ::loc(name + "/name/short")
+    if (addName) txt += ::loc(addName + "/name/short")
+    txt += " - " + ::loc(name + "/name")
+    if (addName) txt += " " + ::loc(addName + "/name")
+    return txt
   }
   local separator = ::loc("bullet_type_separator/name")
   local setText = ""

@@ -1,3 +1,7 @@
+@const selImgLeftPadding: 14*@sf/@pf;
+@const selImgRightPadding: 11*@sf/@pf;
+@const selImgBottomPadding: 8*@sf/@pf;
+
 expandable {
   re-type:9rect;
   width:pw-10*@sf/@pf_outdated;
@@ -15,12 +19,12 @@ expandable {
 expandable > selImg {
   width:pw+2*@sf/@pf_outdated;
   re-type:9rect;
-  padding:10*@sf/@pf_outdated,6*@sf/@pf_outdated, 8*@sf/@pf_outdated,6*@sf/@pf_outdated;
+  padding:1@selImgLeftPadding, 1@selImgBottomPadding, 1@selImgRightPadding ,1@selImgBottomPadding;
   flow:vertical;
 }
 
 promoButton expandable > selImg {
-  padding:10*@sf/@pf_outdated, 2*@sf/@pf_outdated, 4*@sf/@pf_outdated,2*@sf/@pf_outdated;
+  padding:1@selImgLeftPadding, 2*@sf/@pf_outdated, 4*@sf/@pf_outdated,2*@sf/@pf_outdated;
 }
 
 expandable.simple {

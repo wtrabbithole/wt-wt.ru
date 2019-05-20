@@ -475,7 +475,11 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(switchObj))
       return
 
-    switchObj.setValue(curMode)
+    local childrenCount = switchObj.childrenCount()
+    if (childrenCount <= 0)
+      return
+
+    switchObj.setValue(::clamp(curMode, 0, childrenCount - 1))
   }
 
   function onStatsModeChange(obj)
@@ -513,24 +517,24 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     fillAirStats()
   }
 
-  function fillAwardsBlock(player)
+  function fillAwardsBlock(pl)
   {
     if (::has_feature("ProfileMedals"))
-      fillMedalsBlock(player)
+      fillMedalsBlock(pl)
     else // Tencent
-      fillTitlesBlock(player)
+      fillTitlesBlock(pl)
   }
 
-  function fillMedalsBlock(player)
+  function fillMedalsBlock(pl)
   {
     local curCountryId = ::get_profile_country_sq()
     local maxMedals = 0
     if (!isOwnStats)
     {
-      maxMedals = player.countryStats[curCountryId].medalsCount
+      maxMedals = pl.countryStats[curCountryId].medalsCount
       foreach(idx, countryId in ::shopCountriesList)
       {
-        local medalsCount = player.countryStats[countryId].medalsCount
+        local medalsCount = pl.countryStats[countryId].medalsCount
         if (maxMedals < medalsCount)
         {
           curCountryId = countryId
@@ -549,7 +553,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
         id = countryId
         image = ::get_country_icon(countryId)
         tooltip = "#" + countryId
-        objects = ::format(countFmt, player.countryStats[countryId].medalsCount)
+        objects = ::format(countFmt, pl.countryStats[countryId].medalsCount)
       })
 
       if (countryId == curCountryId)
@@ -589,13 +593,13 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(nestObj, markup, markup.len(), this)
   }
 
-  function fillTitlesBlock(player)
+  function fillTitlesBlock(pl)
   {
     showSceneBtn("medals_block", false)
     showSceneBtn("titles_block", true)
 
     local titles = []
-    foreach (id in player.titles)
+    foreach (id in pl.titles)
     {
       local titleUnlock = ::g_unlocks.getUnlockById(id)
       if (!titleUnlock || titleUnlock.hidden)

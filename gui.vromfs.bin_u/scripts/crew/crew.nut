@@ -745,12 +745,9 @@ function load_crew_skills_once()
     ::load_crew_skills()
 }
 
-function get_crew_skill_value(crew_skills, crew_type, skill_name)
+function get_crew_skill_value(crewSkills, crewType, skillName)
 {
-  if (crew_skills && crew_skills[crew_type]
-      && crew_skills[crew_type][skill_name]!=null)
-      return crew_skills[crew_type][skill_name]
-  return 0
+  return crewSkills?[crewType]?[skillName] ?? 0
 }
 
 function count_available_skills(crew, crewUnitType) //return part of availbleskills 0..1

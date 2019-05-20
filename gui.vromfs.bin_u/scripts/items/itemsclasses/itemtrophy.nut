@@ -66,7 +66,7 @@ class ::items_classes.Trophy extends ::BaseItem
       ::debugTableData(recursionUsedIds)
       ::script_net_assert_once("trophy recursion",
                                "Infinite recursion detected in trophy: " + id + ". Array " + ::toString(recursionUsedIds))
-      return
+      return null
     }
 
     recursionUsedIds.append(id)

@@ -592,20 +592,20 @@ class ::ChatHandler
         text = ::g_chat.makeXBoxRestrictedMsg(message.text)
     }
 
-    local senderColor = getSenderColor(message)
+    local userColor = getSenderColor(message)
     local msgColor = getMessageColor(message)
     local clanTag = ::get_player_tag(message.sender)
     local fullName = ::g_contacts.getPlayerFullName(
       platformModule.getPlayerName(message.sender),
       clanTag
     )
-    message.userColor = senderColor
+    message.userColor = userColor
     message.msgColor = msgColor
     message.clanTag = clanTag
     return ::format(
       "%s <Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
       timeString
-      senderColor,
+      userColor,
       ::g_mp_chat_mode.getModeById(message.mode).getNameText(),
       message.sender,
       fullName,

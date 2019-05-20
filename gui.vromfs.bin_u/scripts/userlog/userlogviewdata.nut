@@ -21,6 +21,9 @@ function get_userlog_view_data(log)
     tooltip = ""
     logImg = null
     logImg2 = null
+    logBonus = null
+    logIdx = log.idx
+    buttonName = null
   }
   local logName = getLogNameByType(log.type)
   local priceText = ::Cost(("wpCost" in log) ? log.wpCost : 0,
@@ -288,7 +291,7 @@ function get_userlog_view_data(log)
     local expMul = log?.xpFirstWinInDayMul ?? 1.0
     local wpMul = log?.wpFirstWinInDayMul ?? 1.0
     if(expMul > 1.0 || wpMul > 1.0)
-      res["log_bonus"] <- getBonus(expMul, wpMul, "item", "Log")
+      res.logBonus = getBonus(expMul, wpMul, "item", "Log")
 
     if (::has_feature("ServerReplay"))
       if (::getTblValue("dedicatedReplay", log, false))
@@ -1452,6 +1455,8 @@ function get_userlog_view_data(log)
 
         if (desc!="")
           res.description <- desc
+        if (log?.battleId)
+          res.buttonName = ::loc("chat/btnJoin")
     }
   }
   else if (log.type == ::EULT_CLAN_UNITS)

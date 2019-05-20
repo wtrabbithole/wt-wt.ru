@@ -352,7 +352,7 @@ class Writer
     local nonSpace = false  // Is there a non-space char on the current line?
     local scanError = false
 
-    local start, type, value, chr, token, openSection
+    local start, tType, value, chr, token, openSection
     while (!scanner.eos())
     {
       start = scanner.pos
@@ -403,22 +403,22 @@ class Writer
 
       // Get the tag type.
       local scaned = scanner.scan(tagRe)
-      type = scaned == "" ? "name" : scaned
+      tType = scaned == "" ? "name" : scaned
       scanner.scan(whiteRe)
 
       // Get the tag value.
-      if (type == "=")
+      if (tType == "=")
       {
         value = scanner.scanUntil(equalsRe)
         scanner.scan(equalsRe)
         scanner.scanUntil(tagRes[1])
       }
-      else if (type == "{")
+      else if (tType == "{")
       {
         value = scanner.scanUntil(regexp("\\s*" + escapeRegExp("}" + tags[1])))
         scanner.scan(curlyRe)
         scanner.scanUntil(tagRes[1])
-        type = "&"
+        tType = "&"
       }
       else
       {
@@ -432,14 +432,14 @@ class Writer
         scanError = true
         break
       }
-      token = [ type, value, start, scanner.pos ]
+      token = [ tType, value, start, scanner.pos ]
       tokens.push(token)
 
-      if (type == "#" || type == "^")
+      if (tType == "#" || tType == "^")
       {
         sections.push(token)
       }
-      else if (type == "/")
+      else if (tType == "/")
       {
         // Check section nesting
         openSection = sections.len()? sections.pop() : null
@@ -458,11 +458,11 @@ class Writer
           break
         }
       }
-      else if (type == "name" || type == "{" || type == "&")
+      else if (tType == "name" || tType == "{" || tType == "&")
       {
         nonSpace = true
       }
-      else if (type == "=")
+      else if (tType == "=")
       {
         // Set the tags for the next time around.
         tags = value.split(spaceRe)

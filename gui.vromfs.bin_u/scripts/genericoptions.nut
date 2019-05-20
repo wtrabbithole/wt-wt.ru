@@ -401,17 +401,17 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateTripleAerobaticsSmokeOptions()
   {
-    local options = find_options_in_containers([
+    local aerobaticsSmokeOptions = find_options_in_containers([
       ::USEROPT_AEROBATICS_SMOKE_LEFT_COLOR,
       ::USEROPT_AEROBATICS_SMOKE_RIGHT_COLOR,
       ::USEROPT_AEROBATICS_SMOKE_TAIL_COLOR
     ])
 
-    if (!options.len())
+    if (!aerobaticsSmokeOptions.len())
       return
 
     local show = (::get_option_aerobatics_smoke_type() > ::MAX_AEROBATICS_SMOKE_INDEX * 2);
-    foreach(option in options)
+    foreach(option in aerobaticsSmokeOptions)
       showOptionRow(option, show)
   }
 

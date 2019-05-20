@@ -816,9 +816,9 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
       local timerObj = holderObj.findObject(timerData.id)
       local tData = timerData
       if (::check_obj(timerObj))
-        SecondsUpdater(timerObj, function(obj, params)
+        SecondsUpdater(timerObj, function(tObj, params)
         {
-          obj.setValue(tData.getText.call(item))
+          tObj.setValue(tData.getText.call(item))
           return !tData.needTimer.call(item)
         })
     }

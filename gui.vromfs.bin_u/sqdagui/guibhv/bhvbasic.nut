@@ -204,12 +204,12 @@ class gui_bhv_deprecated.basicSize
     return (prop)? prop : defaultRes
   }
 
-  function sendNetAssert(error, obj, header)
+  function sendNetAssert(err, obj, header)
   {
     ::script_net_assert_once("bhvBasic error",
                              "bhvBasic error (" + header
                              + ", obj = " + ::toString(obj)
-                             + "):\n" + error)
+                             + "):\n" + err)
   }
 
   function getIntObjProp(obj, name, defaultRes = 0)
@@ -222,9 +222,9 @@ class gui_bhv_deprecated.basicSize
     {
       res = res.tointeger()
     }
-    catch (error)
+    catch (err)
     {
-      sendNetAssert(error, obj, "to integer prop '" + name + "' = '" + res + "' ")
+      sendNetAssert(err, obj, "to integer prop '" + name + "' = '" + res + "' ")
       return defaultRes
     }
     return res
@@ -240,9 +240,9 @@ class gui_bhv_deprecated.basicSize
     {
       res = res.tofloat()
     }
-    catch (error)
+    catch (err)
     {
-      sendNetAssert(error, obj, "to float prop '" + name + "' = '" + res + "' ")
+      sendNetAssert(err, obj, "to float prop '" + name + "' = '" + res + "' ")
       return defaultRes
     }
     return res

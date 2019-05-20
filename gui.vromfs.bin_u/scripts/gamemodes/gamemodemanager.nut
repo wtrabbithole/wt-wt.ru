@@ -567,8 +567,8 @@ class GameModeManager
       getEvent = function() { return (::g_squad_manager.isNotAloneOnline() && eventForSquad) || source }
       getTooltipText = function()
       {
-        local event = getEvent()
-        return event ? ::events.getEventDescriptionText(event, null, true) : ""
+        local ev = getEvent()
+        return ev ? ::events.getEventDescriptionText(ev, null, true) : ""
       }
     }
     gameMode.unitTypes <- _getUnitTypesByGameMode(gameMode, false)
@@ -866,9 +866,9 @@ class GameModeManager
     updateManager()
   }
 
-  function onEventQueueChangeState(queue)
+  function onEventQueueChangeState(p)
   {
-    if (::queues.checkQueueType(queue, queueMask) && ::queues.isQueueActive(queue))
+    if (::queues.checkQueueType(p?.queue, queueMask) && ::queues.isQueueActive(p?.queue))
       _updateCurrentGameModeId()
   }
 

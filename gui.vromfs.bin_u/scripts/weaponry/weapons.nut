@@ -285,7 +285,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function fillPage()
   {
     guiScene.setUpdatesEnabled(false, false)
-    createItem(air, weaponsItem.curUnit, mainModsObj, 0.0, 0.0)
+    createItem(wrapUnitToItem(air), weaponsItem.curUnit, mainModsObj, 0.0, 0.0)
     fillModsTree(3.0)
 
     if (researchMode)
@@ -386,36 +386,38 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateAllItems()
   }
 
-  function isItemTypeUnit(type)
+  function isItemTypeUnit(iType)
   {
-    return type == weaponsItem.curUnit
+    return iType == weaponsItem.curUnit
   }
 
-  function addItemToList(item, type)
+  function addItemToList(item, iType)
   {
     local idx = items.len()
-    if (::u.isUnit(item)) //!!FIX ME: it a bad idea to unit be a direct item in weaponry list
-    {
-      item.type = type
-      item.guiPosIdx = idx
-    }
-    else
-    {
-      item.type <- type
-      item.guiPosIdx <- idx
-    }
+
+    item.type <- iType
+    item.guiPosIdx <- idx
+
     items.append(item)
     return "item_" + idx
   }
 
-  function createItem(item, type, holderObj, posX, posY)
+  function createItem(item, iType, holderObj, posX, posY)
   {
-    local id = addItemToList(item, type)
+    local id = addItemToList(item, iType)
 
-    if (isItemTypeUnit(type))
+    if (isItemTypeUnit(iType))
       return createUnitItemObj(id, item, holderObj, posX, posY)
 
-    return ::weaponVisual.createItem(id, item, type, holderObj, this, { posX = posX, posY = posY })
+    return ::weaponVisual.createItem(id, item, iType, holderObj, this, { posX = posX, posY = posY })
+  }
+
+  function wrapUnitToItem(unit)
+  {
+    return {
+      name = unit.name
+      unit = unit
+    }
   }
 
   function createUnitItemObj(id, item, holderObj, posX, posY)
@@ -434,10 +436,10 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     return unitObj
   }
 
-  function createItemForBundle(id, item, type, holderObj, handler, params = {})
+  function createItemForBundle(id, item, iType, holderObj, handler, params = {})
   {
-    id = addItemToList(item, type)
-    return ::weaponVisual.createItem(id, item, type, holderObj, handler, params)
+    id = addItemToList(item, iType)
+    return ::weaponVisual.createItem(id, item, iType, holderObj, handler, params)
   }
 
   function createBundle(itemsList, itemsType, subType, holderObj, posX, posY)
@@ -566,15 +568,15 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
                    && !showPurchaseButton)
   }
 
-  function updateUnitItem(unit, itemObj)
+  function updateUnitItem(item, itemObj)
   {
     local params = {
       slotbarActions = airActions
       getEdiffFunc  = getCurrentEdiff.bindenv(this)
     }
-    local unitBlk = ::build_aircraft_item("unit_item", unit, params)
+    local unitBlk = ::build_aircraft_item("unit_item", item.unit, params)
     guiScene.replaceContentFromText(itemObj, unitBlk, unitBlk.len(), this)
-    ::fill_unit_item_timers(itemObj.findObject("unit_item"), unit, params)
+    ::fill_unit_item_timers(itemObj.findObject("unit_item"), item.unit, params)
   }
 
   function isAnyModuleInResearch()
@@ -1326,7 +1328,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local open = false
 
     if (item.type==weaponsItem.bundle)
-      return ::weaponVisual.getByCurBundle(air, item, (@(idx, buyAmount) function(air, item) { return onBuy(item.guiPosIdx, buyAmount) })(idx, buyAmount))
+      return ::weaponVisual.getByCurBundle(air, item, @(a, it) onBuy(it.guiPosIdx, buyAmount))
 
     if (item.type==weaponsItem.weapon)
     {

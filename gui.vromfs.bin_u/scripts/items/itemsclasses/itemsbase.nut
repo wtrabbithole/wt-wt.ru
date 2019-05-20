@@ -583,8 +583,9 @@ class ::BaseItem
     local timeText = getExpireTimeTextShort()
     if (timeText != "")
     {
-      local locId = active ? "items/expireTimeLeft" : "items/expireTimeBeforeActivation"
-      res += ((res!="") ? "\n" : "") + ::loc(locId) + ::loc("ui/colon") + ::colorize("activeTextColor", timeText)
+      local labelLocId = active ? "items/expireTimeLeft" : "items/expireTimeBeforeActivation"
+      res += ((res!="") ? "\n" : "") + ::loc(labelLocId) + ::loc("ui/colon") +
+        ::colorize("activeTextColor", timeText)
     }
     return res
   }

@@ -88,6 +88,8 @@ function g_decorator::getDecoratorById(searchId)
     if (res)
       return res
   }
+
+  return null
 }
 
 function g_decorator::getDecoratorByResource(resource, resourceType)

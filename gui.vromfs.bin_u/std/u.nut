@@ -303,17 +303,17 @@ local function keysReplace(tbl, keysEqual, deepLevel = -1) {
  * element in the array (or a property name), returns an object with an index
  * of each item.
  */
-local function indexBy(array, iteratee) {
+local function indexBy(list, iteratee) {
   local res = {}
   if (isString(iteratee))
   {
-    foreach (idx, val in array)
+    foreach (idx, val in list)
       res[val[iteratee]] <- val
   }
   else if (isFunction(iteratee))
   {
-    foreach (idx, val in array)
-      res[iteratee(val, idx, array)] <- val
+    foreach (idx, val in list)
+      res[iteratee(val, idx, list)] <- val
   }
 
   return res
@@ -362,7 +362,7 @@ local function safeIndex(arr, n) {
   return null
 }
 
-local function max(arr, iteratee = null)
+local function getMax(arr, iteratee = null)
 {
   local result = null
   if (!arr)
@@ -385,7 +385,7 @@ local function max(arr, iteratee = null)
   return result
 }
 
-local function min(arr, iteratee = null)
+local function getMin(arr, iteratee = null)
 {
   local newIteratee = null
   if (!iteratee)
@@ -398,7 +398,7 @@ local function min(arr, iteratee = null)
     }
   }
 
-  return max(arr, newIteratee)
+  return getMax(arr, newIteratee)
 }
 
 local function appendOnce(v, arr, skipNull = false, customIsEqualFunc = null)
@@ -442,8 +442,8 @@ local export = underscore.__merge({
   chooseRandom = chooseRandom
   chooseRandomNoRepeat = chooseRandomNoRepeat
   shuffle = shuffle
-  min = min
-  max = max
+  min = getMin
+  max = getMax
   mapAdvanced = mapAdvanced
   indexBy = indexBy
   searchIndex = searchIndex

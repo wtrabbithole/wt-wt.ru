@@ -117,7 +117,6 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
     local nextType = specType.getNextType()
     local reqLevel = hasNextType ? nextType.getReqCrewLevel(unit) : 0
     local enableForBuy = reqLevel <= crewLevel
-    local crewLevel = ::g_crew.getCrewLevel(crew, unit.getCrewUnitType())
     local isProgressBarVisible = specType.needShowExpUpgrade(crew, unit)
     local progressBarValue = 0
     if (isProgressBarVisible)
@@ -155,9 +154,9 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function getRowSpecButtonConfig(specType, crewLevel, unit, curSpecType)
+  function getRowSpecButtonConfig(specType, crewLvl, unit, curSpecType)
   {
-    local icon = specType.getIcon(curSpecType.code, crewLevel, unit)
+    local icon = specType.getIcon(curSpecType.code, crewLvl, unit)
     return {
       id = specType.code
       icon = icon

@@ -65,7 +65,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnWorldwar"
     onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
     tooltip = @() ::g_world_war.getCantPlayWorldwarReasonText()
-    isVisualDisabled = @() !::is_worldwar_enabled() || !::g_world_war.canPlayWorldwar()
+    isVisualDisabled = @() !::g_world_war.canPlayWorldwar()
+    isHidden = @(...) !::is_worldwar_enabled()
     unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() ?
       SEEN.WW_MAPS_AVAILABLE : null
   }

@@ -500,9 +500,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(editboxObj))
       return
 
-    local searchText = ::clearBorderSymbols(editboxObj.getValue())
-    searchText = platformModule.getPlayerNameNoSpecSymbol(searchText)
-    if (searchText == "")
+    local txt = ::clearBorderSymbols(editboxObj.getValue())
+    txt = platformModule.getPlayerNameNoSpecSymbol(txt)
+    if (txt == "")
       return
 
     local contactsGroups = scene.findObject("contacts_groups")

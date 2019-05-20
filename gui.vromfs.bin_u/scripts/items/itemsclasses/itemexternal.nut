@@ -117,6 +117,7 @@ local ItemExternal = class extends ::BaseItem
     addResources()
 
     updateShopFilterMask()
+    updateItemDefParams()
   }
 
   function getTradebleTimestamp(itemDesc)
@@ -878,11 +879,11 @@ local ItemExternal = class extends ::BaseItem
 
   function getAdditionalTextInAmmount(needColorize = true)
   {
-    local locIdsList = getLocIdsList()
+    local locIds = getLocIdsList()
     local textIcon = isCrafting()
-      ? locIdsList.craftingIconInAmmount
+      ? locIds.craftingIconInAmmount
       : hasCraftResult()
-        ? locIdsList.craftResultIconInAmmount
+        ? locIds.craftResultIconInAmmount
         : ""
 
     if (textIcon == "")
@@ -1005,6 +1006,12 @@ local ItemExternal = class extends ::BaseItem
 
   needOfferBuyAtExpiration = @() !isHiddenItem() && itemDef?.tags?.offerToBuyAtExpiration
   isVisibleInWorkshopOnly = @() itemDef?.tags?.showInWorkshopOnly ?? false
+  updateItemDefParams = function() {
+    if (!u.isEmpty(itemDef.icon_url))
+      itemDef.icon_url = "!" + itemDef.icon_url
+    if (!::u.isEmpty(itemDef.icon_url_large))
+      itemDef.icon_url_large = "!" + itemDef.icon_url_large
+  }
 }
 
 return ItemExternal

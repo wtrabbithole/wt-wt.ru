@@ -135,7 +135,7 @@ class NewIconWidget
   function _getTextObj()
   {
     if (!::check_obj(_containerObj))
-      return
+      return null
     local obj = _containerObj.findObject("new_icon_widget_text")
     if (!::check_obj(obj))
       return null
@@ -145,7 +145,7 @@ class NewIconWidget
   function _getIconObj()
   {
     if (!::check_obj(_containerObj))
-      return
+      return null
     local obj = _containerObj.findObject("new_icon_widget_icon")
     return ::check_obj(obj) ? obj : null
   }

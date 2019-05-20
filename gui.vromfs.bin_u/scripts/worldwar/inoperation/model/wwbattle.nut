@@ -533,6 +533,8 @@ class ::WwBattle
       reasonData.shortReasonText = ::loc("squad/has_non_accept_invites")
       return reasonData
     }
+
+    return reasonData
   }
 
   function tryToJoin(side)

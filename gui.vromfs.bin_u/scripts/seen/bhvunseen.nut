@@ -25,7 +25,7 @@ local BhvUnseen = class
     return ::RETCODE_NOTHING
   }
 
-  static function buildConfig(value)
+  function buildConfig(value)
   {
     local valueTbl = u.isTable(value) ? value : null
     if (u.isString(value))

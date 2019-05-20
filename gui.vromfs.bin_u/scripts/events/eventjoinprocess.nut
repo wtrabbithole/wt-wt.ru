@@ -175,10 +175,10 @@ class EventJoinProcess
   // Helpers
   //
 
-  function checkEventTeamSize(event)
+  function checkEventTeamSize(ev)
   {
     local squadSize = ::g_squad_manager.getSquadSize()
-    local maxTeamSize = ::events.getMaxTeamSize(event)
+    local maxTeamSize = ::events.getMaxTeamSize(ev)
     if (squadSize > maxTeamSize)
     {
       local locParams = {
@@ -192,7 +192,7 @@ class EventJoinProcess
     return true
   }
 
-  function checkDiffTutorial(diff, unitType, needMsgBox = true, cancelFunc = null)
+  function checkDiffTutorial(diff, unitType, needMsgBox = true, cancelCb = null)
   {
     if (!::check_diff_pkg(diff, !needMsgBox))
       return true
@@ -224,10 +224,10 @@ class EventJoinProcess
             ::save_tutorial_to_check_reward(mData.mission)
             ::handlersManager.animatedSwitchScene(::gui_start_flight)
           })(mData, diff)],
-          ["cancel", cancelFunc]
+          ["cancel", cancelCb]
         ], "cancel")
-    else if(cancelFunc)
-      cancelFunc()
+    else if(cancelCb)
+      cancelCb()
     return true
   }
 

@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
 
 function showClanPage(id, name, tag)
 {
@@ -33,13 +34,19 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   curMode          = 0
   currentFocusItem = 5
 
+  lbTableWeak = null
+  isWorldWarMode = false
+  curWwCategory = null
+  curWwMembers = null
+
   function initScreen()
   {
-    if(clanIdStrReq == "" && clanNameReq == "" && clanTagReq == "")
+    if (clanIdStrReq == "" && clanNameReq == "" && clanTagReq == "")
     {
       goBack()
       return
     }
+
     curMode = getCurDMode()
     reinitClanWindow()
     initFocusArray()
@@ -97,6 +104,19 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       dagor.debug(::format("Failed to find clan by id: %s", clanIdStrReq))
       return
     }
+  }
+
+  function initLbTable()
+  {
+    lbTableWeak = ::gui_handlers.LeaderboardTable.create({
+      scene = scene.findObject("lb_table_nest")
+      onCategoryCb = ::Callback(onCategory, this)
+      onRowSelectCb = ::Callback(onSelect, this)
+      onRowDblClickCb = ::Callback(onUserCard, this)
+      onRowRClickCb = ::Callback(onUserRClick, this)
+      onWrapUpCb = ::Callback(onWrapUp, this)
+      onWrapDownCb = ::Callback(onWrapDown, this)
+    })
   }
 
   function onEventClanInfoUpdate(params = {})
@@ -357,7 +377,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local show = false
     if (::show_console_buttons)
     {
-      local obj = scene.findObject("clan-membersList")
+      local obj = scene.findObject("clan_members_list")
       show = ::checkObj(obj) && obj.isFocused()
     }
     showSceneBtn("btn_user_options", show)
@@ -411,6 +431,18 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function cp_onStatsModeChange(obj)
   {
     local value = obj.getValue()
+    local tabObj = obj.getChild(value)
+
+    isWorldWarMode = tabObj.isWorldWarMode == "yes"
+    showSceneBtn("clan_members_list", !isWorldWarMode)
+    showSceneBtn("lb_table_nest", isWorldWarMode)
+
+    if (isWorldWarMode)
+    {
+      fillClanWwMemberList()
+      return
+    }
+
     local diff = ::g_difficulty.getDifficultyByDiffCode(value)
     if(!::get_show_in_squadron_statistics(diff.crewSkillName))
       return
@@ -596,10 +628,34 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(clanTableObj, rowBlock, rowBlock.len(), this)
   }
 
+  function fillClanWwMemberList()
+  {
+    lbTableWeak.updateParams(
+      ::leaderboardModel,
+      ::ww_leaderboards_list,
+      curWwCategory,
+      {lbMode = "ww_users"})
+
+    sortWwMembers()
+
+    local myPos = ::u.searchIndex(curWwMembers, @(member) member.name == ::my_user_name)
+    lbTableWeak.fillTable(curWwMembers, null, myPos, true, true)
+  }
+
+  function sortWwMembers()
+  {
+    local field = curWwCategory.field
+    local addField = ::g_lb_category.EVENTS_PERSONAL_ELO.field
+    local idx = 0
+
+    curWwMembers = ::u.map(curWwMembers.sort(@(a, b) b?[field] <=> a?[field] || b?[addField] <=> a?[addField]),
+      @(member) member.__update({ pos = idx++ }))
+  }
+
   function fillClanMemberList(membersData)
   {
     sortMembers(membersData)
-    local tblObj = scene.findObject("clan-membersList")
+    local tblObj = scene.findObject("clan_members_list")
     local markUp = ""
     local rowIdx = 0
 
@@ -804,7 +860,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function drawIcon(nick, presence)
   {
-    local gObj = scene.findObject("clan-membersList")
+    local gObj = scene.findObject("clan_members_list")
     local imgObj = gObj.findObject("img_icon_" + nick)
     if (!::checkObj(imgObj))
       return
@@ -840,16 +896,18 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function onSelect()
   {
     curPlayer = null
-    local tblObj = scene.findObject("clan-membersList")
-    if (!::checkObj(tblObj) || !clanData)
+    local memberTblObj = scene.findObject("clan_members_list")
+    local lbTblObj = scene.findObject("lb_table")
+    if (!::check_obj(memberTblObj) || !::check_obj(lbTblObj) || !clanData)
       return
 
+    local tblObj = memberTblObj.isVisible() ? memberTblObj : lbTblObj
     local index = tblObj.getValue()
     if (index <= 0 || index >= tblObj.childrenCount())
       return //0 - header selected
 
     local row = tblObj.getChild(index)
-    if (::checkObj(row))
+    if (::check_obj(row))
       curPlayer = row.player_nick
   }
 
@@ -968,7 +1026,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getSelectedRowPos()
   {
-    local objTbl = scene.findObject("clan-membersList")
+    local objTbl = scene.findObject("clan_members_list")
     local rowNum = objTbl.getValue()
     if(rowNum >= objTbl.childrenCount())
       return null
@@ -1002,6 +1060,10 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       reinitClanWindow()
   }
 
+  function onCategory(obj)
+  {
+  }
+
   function getMainFocusObj()
   {
     return scene.findObject("btn_lock_clan_req")
@@ -1019,7 +1081,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj4()
   {
-    return scene.findObject("clan-membersList")
+    return scene.findObject("clan_members_list")
   }
 
   function getWndHelpConfig()
@@ -1062,4 +1124,23 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     res.links <- links
     return res
   }
+
+  function requestWwMembersList()
+  {
+    local cb = ::Callback(function(membersData) {
+        curWwCategory = curWwCategory ?? ::g_lb_category.EVENTS_PERSONAL_ELO
+        curWwMembers = ::u.filter(wwLeaderboardData.convertWwLeaderboardData(membersData).rows,
+          @(row) row.clanId.tostring() == ::clan_get_my_clan_id())
+        updateWwMembersList()
+      }, this)
+    wwLeaderboardData.requestWwLeaderboardData(
+      "ww_users_clan", "",
+      null,
+      0,
+      clanData.mlimit,
+      "clanId",
+      @(membersData) cb(membersData))
+  }
+
+  function updateWwMembersList() {}
 }

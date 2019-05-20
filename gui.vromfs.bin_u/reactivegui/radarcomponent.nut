@@ -373,7 +373,6 @@ local C_ScopeTargetSectorComponent = function(width, valueWatched, distWatched, 
 
 local createTargetOnRadar = function(index, radius, radarWidth, targetFunc) {
   local offset = targetFunc(index)
-  local commands = [[VECTOR_ELLIPSE, 50, 50, 50, 50]]
 
   local selectionFrame = null
   local frameWidth = 4.0 * radius

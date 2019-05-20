@@ -948,7 +948,7 @@ function debriefing_apply_first_win_in_day_mul(exp, debrResult)
 
   if (isNeedMulXp)
   {
-    local keys = [ "expTotal", "expFree", "expInvestUnit", "expInvestUnitTotal", "expInvestModuleTotal" ]
+    local keys = [ "expTotal", "expFree", "expInvestUnit", "expInvestUnitTotal" ]
     foreach (ut in ::g_unit_type.types)
       keys.extend([
         "expInvestUnit" + ut.name,

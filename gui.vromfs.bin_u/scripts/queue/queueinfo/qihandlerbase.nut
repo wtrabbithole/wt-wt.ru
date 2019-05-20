@@ -102,7 +102,7 @@ class ::gui_handlers.QiHandlerBase extends ::gui_handlers.BaseGuiHandlerWT
     textObj.setValue(msg)
   }
 
-  function onEventQueueChangeState(queue) { checkCurQueue() }
+  function onEventQueueChangeState(p)     { checkCurQueue() }
   function onEventQueueInfoUpdated(p)     { if (queue) updateStats() }
 
   function createStats() {}
