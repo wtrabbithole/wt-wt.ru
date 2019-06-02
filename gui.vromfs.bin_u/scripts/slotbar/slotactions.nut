@@ -11,6 +11,7 @@ local ACTION_FUNCTION_PARAMS = {
 local MAIN_FUNC_PARAMS = {
   onSpendExcessExp = null
   onTakeParams = {}
+  availableFlushExp = 0
   isSquadronResearchMode = false
   setResearchManually = true
   needChosenResearchOfSquadron = false
@@ -73,7 +74,7 @@ local function slotMainAction(unit, params = MAIN_FUNC_PARAMS)
   local isInResearch = ::isUnitInResearch(unit)
   local canFlushSquadronExp = ::has_feature("ClanVehicles") && isSquadronVehicle
     && ::min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-  if ((::shop_get_country_excess_exp(unit.shopCountry, unit.unitType.esUnitType) > 0
+  if (( params.availableFlushExp > 0
       || !params.setResearchManually
       || (params.isSquadronResearchMode && (canFlushSquadronExp || params.needChosenResearchOfSquadron)))
     && (::canResearchUnit(unit) || isInResearch))

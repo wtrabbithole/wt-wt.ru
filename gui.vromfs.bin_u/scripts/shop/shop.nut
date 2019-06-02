@@ -1919,6 +1919,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       isSquadronResearchMode = isSquadronResearchMode
       setResearchManually = setResearchManually
       needChosenResearchOfSquadron = needChosenResearchOfSquadron()
+      availableFlushExp = availableFlushExp
     })
   }
 

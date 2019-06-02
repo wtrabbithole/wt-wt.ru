@@ -646,6 +646,7 @@ function can_crew_take_unit(unit)
 function canBuyUnitOnline(unit)
 {
   return !::isUnitBought(unit) && ::isUnitGift(unit) && unit.isVisibleInShop()
+    && !::canBuyUnitOnMarketplace(unit)
     && ::OnlineShopModel.searchEntitlement({unitName = unit.name}).len() > 0
 }
 
