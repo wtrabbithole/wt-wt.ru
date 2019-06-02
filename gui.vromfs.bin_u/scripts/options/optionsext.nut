@@ -912,6 +912,20 @@ function get_option(optionId, context = null)
       defaultValue = true
       break
 
+    case ::USEROPT_GAMEPAD_VIBRATION_ENGINE:
+      descr.id = "gamepadVibrationForEngine"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
+    case ::USEROPT_JOY_MIN_VIBRATION:
+      descr.id = "gamepadMinVibration"
+      descr.controlType = optionControlType.SLIDER
+      descr.value = (100.0 * ::get_option_multiplier(::OPTION_JOY_MIN_VIBRATION)).tointeger()
+      defaultValue = 5
+      break
+
     case ::USEROPT_INVERTY:
       descr.id = "invertY"
       descr.controlType = optionControlType.CHECKBOX
@@ -4140,6 +4154,11 @@ function set_option(optionId, value, descr = null)
       ::set_option_multiplier(::OPTION_MOUSE_SENSE, val)
       break
 
+    case ::USEROPT_JOY_MIN_VIBRATION:
+      local val = value / 100.0
+      ::set_option_multiplier(::OPTION_JOY_MIN_VIBRATION, val)
+      break
+
     case ::USEROPT_MOUSE_AIM_SENSE:
       local val = value / 50.0
       ::set_option_multiplier(::OPTION_MOUSE_AIM_SENSE, val)
@@ -4646,6 +4665,8 @@ function set_option(optionId, value, descr = null)
     case ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR:
     case ::USEROPT_CONTENT_ALLOWED_PRESET:
+    case ::USEROPT_GAMEPAD_VIBRATION_ENGINE:
+    case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
       if (descr.controlType == optionControlType.LIST)
       {
         if (typeof descr.values != "array")

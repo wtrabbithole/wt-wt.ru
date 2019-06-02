@@ -1,4 +1,4 @@
-local u = require("std/u.nut")
+local u = require("sqStdLibs/helpers/u.nut")
 local time = require("scripts/time.nut")
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
 local DataBlock = require("DataBlock")

@@ -1,5 +1,5 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local asyncActions = ::require("sqStdLibs/helpers/asyncActions.nut")
 local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")

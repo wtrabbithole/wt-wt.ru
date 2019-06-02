@@ -145,6 +145,8 @@ local getMainOptions = function()
       [::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED, "slider", ::g_gamepad_cursor_controls.canChangeSpeed()],
       [::USEROPT_XCHG_STICKS, "spinner"],
       [::USEROPT_VIBRATION, "spinner"],
+      [::USEROPT_GAMEPAD_VIBRATION_ENGINE, "spinner", !::is_platform_ps4],
+      [::USEROPT_JOY_MIN_VIBRATION, "slider"],
       [::USEROPT_GAMEPAD_ENGINE_DEADZONE, "spinner"],
       [::USEROPT_USE_CONTROLLER_LIGHT, "spinner", ::is_platform_ps4 && ::has_feature("ControllerLight")],
 

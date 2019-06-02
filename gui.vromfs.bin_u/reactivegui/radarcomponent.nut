@@ -1086,6 +1086,7 @@ local forestallComponent = function() {
           ]
           behavior = Behaviors.RtPropUpdate
           update = @() {
+            opacity = radarState.selectedTargetBlinking ? getBlinkOpacity() : 1.0
             transform = {
               translate = [radarState.forestall.x - forestallRadius, radarState.forestall.y - forestallRadius]
             }
@@ -1169,6 +1170,7 @@ local forestallTargetLine = function() {
             local resLine = getForestallTargetLineCoords()
 
             return {
+              opacity = radarState.selectedTargetBlinking ? getBlinkOpacity() : 1.0
               commands = [
                 [VECTOR_LINE, resLine[0].x * 100.0 / w, resLine[0].y * 100.0 / h, resLine[1].x * 100.0 / w, resLine[1].y * 100.0 / h]
               ]

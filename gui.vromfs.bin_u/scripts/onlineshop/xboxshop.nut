@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local seenList = ::require("scripts/seen/seenList.nut").get(SEEN.EXT_XBOX_SHOP)
 

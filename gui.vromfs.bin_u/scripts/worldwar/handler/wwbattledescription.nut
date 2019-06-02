@@ -9,14 +9,6 @@ enum WW_BATTLE_VIEW_MODES
   SQUAD_INFO,
   QUEUE_INFO
 }
-enum UNAVAILABLE_BATTLES_CATEGORIES
-{
-  NO_AVAILABLE_UNITS  = 0x0001
-  NO_FREE_SPACE       = 0x0002
-  IS_UNBALANCED       = 0x0004
-  LOCK_BY_TIMER       = 0x0008
-  NOT_STARTED         = 0x0010
-}
 
 local DEFAULT_BATTLE_ITEM_CONGIG = {
   id = ""
@@ -57,7 +49,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   idPrefix = "btn_"
   needUpdatePrefixWidth = true
-  filterMask = 0
   minCountBattlesInList = 10
 
   static function open(battle)
@@ -108,6 +99,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     syncSquadCountry()
     updateViewMode()
+    updateDescription()
     reinitBattlesList()
     initSquadList()
     initFocusArray()
@@ -280,36 +272,30 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       local availableBattlesList = ::g_world_war.getBattles().filter(
         function(idx, battle) {
           return ::g_world_war.isBattleAvailableToPlay(battle)
-            && isMatchFilterMask(battle, country)
+            && isBattleAvailableToMatching(battle, country)
         }.bindenv(this))
 
       showSceneBtn("no_available_battles_alert_text", !availableBattlesList.len())
     }
   }
 
-  function isMatchFilterMask(battle, country)
+  function isBattleAvailableToMatching(battle, country)
   {
+    if (battle.getBattleActivateLeftTime() > 0)
+      return false
+
+    if(!battle.hasAvailableUnits())
+      return false
+
     local side = getPlayerSide(battle)
     local team = battle.getTeamBySide(side)
-
-    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.NO_AVAILABLE_UNITS & filterMask)
-        && !battle.hasUnitsToFight(country, team, side))
+    if (team && !battle.hasUnitsToFight(country, team, side))
       return false
 
-    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.NO_FREE_SPACE & filterMask)
-        && !battle.hasEnoughSpaceInTeam(team))
+    if (team && !battle.hasEnoughSpaceInTeam(team))
       return false
 
-    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.IS_UNBALANCED & filterMask)
-        && battle.isLockedByExcessPlayers(battle.getSide(country), team.name))
-      return false
-
-    if (!(UNAVAILABLE_BATTLES_CATEGORIES.LOCK_BY_TIMER & filterMask)
-        && battle.getBattleActivateLeftTime() > 0)
-      return false
-
-    if (!(UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED & filterMask)
-        && battle.isStarting())
+    if (team && battle.isLockedByExcessPlayers(battle.getSide(country), team.name))
       return false
 
     return true
@@ -359,7 +345,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       createActiveCountriesInfo()
 
     guiScene.setUpdatesEnabled(true, true)
-    if (!needUpdatePrefixWidth)
+    if (!needUpdatePrefixWidth || view.items.len() <= 0)
       return
 
     local maxSectorNameWidth = 0
@@ -374,9 +360,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    local sectorWidth = maxSectorNameWidth + guiScene.calcString("1@framePadding", null)
+    local sectorWidth = maxSectorNameWidth
     foreach(sectorNameTextObj in sectorNameTextObjs)
-      sectorNameTextObj.width = sectorWidth
+      sectorNameTextObj["min-width"] = sectorWidth
   }
 
   function battlesSort(battleA, battleB)
@@ -1115,6 +1101,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     updateViewMode()
     refreshSelBattle()
     updateButtons()
+    updateNoAvailableBattleInfo()
   }
 
   function onEventSlotbarPresetLoaded(params)

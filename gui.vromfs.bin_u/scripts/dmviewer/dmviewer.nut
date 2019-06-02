@@ -191,7 +191,8 @@
 
       if(commonWeapons != null)
         foreach (weapon in (commonWeapons % "Weapon"))
-          ::u.appendOnce(weapon, unitWeaponBlkList, false, compareWeaponFunc)
+          if (weapon.blk && !weapon.dummy)
+            ::u.appendOnce(weapon, unitWeaponBlkList, false, compareWeaponFunc)
     }
 
     foreach (preset in (unitBlk.weapon_presets % "preset"))
@@ -200,7 +201,8 @@
         continue
       local presetBlk = ::DataBlock(preset["blk"])
       foreach (weapon in (presetBlk % "Weapon"))  // preset can have many weapons in it or no one
-        ::u.appendOnce(::u.copy(weapon), unitWeaponBlkList, false, ::u.isEqual)
+        if (weapon.blk && !weapon.dummy)
+          ::u.appendOnce(::u.copy(weapon), unitWeaponBlkList, false, ::u.isEqual)
     }
   }
 
@@ -1099,7 +1101,9 @@
           local commonBlk = ::getCommonWeaponsBlk(dmViewer.unitBlk, "")
           foreach (weapon in (commonBlk % "Weapon"))
           {
-            isPrimary = weapon.blk && weapon.blk == blkPath
+            if (!weapon.blk || weapon.dummy)
+              continue
+            isPrimary = weapon.blk == blkPath
             break
           }
         }

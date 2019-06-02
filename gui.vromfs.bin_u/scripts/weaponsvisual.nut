@@ -1089,7 +1089,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
           continue
 
         if (d == idist || (d < idist && !i))
-          armor = ::u.map(bullet_params.armorPiercing[i], ::to_integer_safe)
+          armor = ::u.map(bullet_params.armorPiercing[i], @(f) stdMath.round(f).tointeger())
         else if (d < idist && i)
         {
           local prevDist = bullet_params.armorPiercingDist[i-1].tointeger()

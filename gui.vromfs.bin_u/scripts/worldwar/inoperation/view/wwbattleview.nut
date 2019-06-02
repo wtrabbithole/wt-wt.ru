@@ -63,7 +63,7 @@ class ::WwBattleView
 
   function getFullBattleName()
   {
-    return getBattleName() + ::loc("ui/comma") + battle.getLocName()
+    return ::g_string.implode([getBattleName(), battle.getLocName()], ::loc("ui/comma"))
   }
 
   function defineTeamBlock(playerSide, sides)

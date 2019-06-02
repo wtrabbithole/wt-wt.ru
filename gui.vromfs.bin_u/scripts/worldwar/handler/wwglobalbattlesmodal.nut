@@ -1,7 +1,18 @@
 local globalBattlesListData = require("scripts/worldWar/operations/model/wwGlobalBattlesList.nut")
 local WwGlobalBattle = require("scripts/worldWar/operations/model/wwGlobalBattle.nut")
+local wwBattlesFilterMenu = require("scripts/worldWar/handler/wwBattlesFilterMenu.nut")
 
 const WW_GLOBAL_BATTLES_FILTER_ID = "worldWar/ww_global_battles_filter"
+local MAX_VISIBLE_BATTLES_PER_GROUP = 5
+
+enum UNAVAILABLE_BATTLES_CATEGORIES
+{
+  NO_AVAILABLE_UNITS  = 0x0001
+  NO_FREE_SPACE       = 0x0002
+  IS_UNBALANCED       = 0x0004
+  LOCK_BY_TIMER       = 0x0008
+  NOT_STARTED         = 0x0010
+}
 
 class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescription
 {
@@ -13,30 +24,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   needUpdatePrefixWidth = false
   minCountBattlesInList = 100
   needFullUpdateList = true
-  multiSelectHandlerWeak = null
-
-  static battlesFilters = [
-    {
-      value = UNAVAILABLE_BATTLES_CATEGORIES.NO_AVAILABLE_UNITS
-      textLocId = "worldwar/battle/filter/show_if_no_avaliable_units"
-    },
-    {
-      value = UNAVAILABLE_BATTLES_CATEGORIES.NO_FREE_SPACE
-      textLocId = "worldwar/battle/filter/show_if_no_space"
-    },
-    {
-      value = UNAVAILABLE_BATTLES_CATEGORIES.IS_UNBALANCED
-      textLocId = "worldwar/battle/filter/show_unbalanced"
-    },
-    {
-      value = UNAVAILABLE_BATTLES_CATEGORIES.LOCK_BY_TIMER
-      textLocId = "worldwar/battle/filter/show_if_lock_by_timer"
-    },
-    {
-      value = UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED
-      textLocId = "worldwar/battle/filter/show_not_started"
-    }
-  ]
+  filterMask = null
 
   static function open(battle = null)
   {
@@ -61,8 +49,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function updateBattlesFilter()
   {
-    // tointeger() needs because it saves as boolean before
-    filterMask = ::loadLocalByAccount(WW_GLOBAL_BATTLES_FILTER_ID, 0).tointeger()
+    filterMask = wwBattlesFilterMenu.validateFilterMask(::loadLocalByAccount(WW_GLOBAL_BATTLES_FILTER_ID))
   }
 
   function getSceneTplView()
@@ -176,7 +163,10 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
         updateDescription()
         updateButtons()
       }
-      ::g_world_war.updateOperationPreviewAndDo(curBattleInList.operationId, cb)
+      if (curBattleInList.operationId != ::ww_get_operation_id())
+        ::g_world_war.updateOperationPreviewAndDo(curBattleInList.operationId, cb)
+      else
+        cb()
     }
     else
       cb()
@@ -198,9 +188,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     if (needFullUpdateList || curBattleListMap.len() <= 0)
     {
       needFullUpdateList = false
-      local battles = clone battlesList
-      battles.sort(battlesSort)
-      return battles
+      return getFilteredBattlesByMaxCountPerGroup()
     }
 
     local battleListMap = clone curBattleListMap
@@ -282,52 +270,19 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function onOpenBattlesFilters(obj)
   {
-    local unitAvailability = ::g_world_war.getSetting("checkUnitAvailability",
-      WW_BATTLE_UNITS_REQUIREMENTS.BATTLE_UNITS)
+    local applyFilter = ::Callback(function(selBitMask)
+      {
+        filterMask = selBitMask
+        ::saveLocalByAccount(WW_GLOBAL_BATTLES_FILTER_ID, filterMask)
+        reinitBattlesList(true)
+        refreshList(true)
+      }, this)
 
-    local curFilterMask = filterMask
-    local battlesFiltersView = ::u.map(battlesFilters,
-      @(filterData) {
-        selected = filterData.value & curFilterMask
-        show = filterData.value != UNAVAILABLE_BATTLES_CATEGORIES.NO_AVAILABLE_UNITS ||
-               unitAvailability != WW_BATTLE_UNITS_REQUIREMENTS.NO_REQUIREMENTS
-        text = ::loc(filterData.textLocId)
-      })
-
-     local applyFilter = ::Callback(function(selBitMask)
-       {
-         filterMask = selBitMask
-         ::saveLocalByAccount(WW_GLOBAL_BATTLES_FILTER_ID, filterMask)
-         reinitBattlesList(true)
-         refreshList(true)
-       }, this)
-
-    local handler = ::handlersManager.loadHandler(::gui_handlers.MultiSelectMenu,{
-      list = battlesFiltersView
-      align = "top"
+    wwBattlesFilterMenu.open({
       alignObj = scene.findObject("btn_battles_filters")
-      sndSwitchOn = "check"
-      sndSwitchOff = "uncheck"
-      onChangeValuesBitMaskCb = function(selBitMask) {
-        if (!(UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED & filterMask)
-          && (UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED & selBitMask))
-          msgBox("showNotStarted", ::loc("worldwar/showNotStarted/msgBox"),
-            [["yes", @() applyFilter(selBitMask) ],
-             ["no", function()
-               {
-                 if (!multiSelectHandlerWeak)
-                   return
-
-                 local multiSelectObj = multiSelectHandlerWeak.scene.findObject("multi_select")
-                 if (::check_obj(multiSelectObj))
-                   multiSelectObj.setValue(filterMask)
-               }]],
-            "no")
-        else
-          applyFilter(selBitMask)
-      }.bindenv(this)
+      filterBitMasks = clone filterMask
+      onChangeValuesBitMaskCb = applyFilter
     })
-    multiSelectHandlerWeak = handler.weakref()
   }
 
   function setFilteredBattles()
@@ -390,5 +345,67 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function updateNoAvailableBattleInfo()
   {
+  }
+
+  function isMatchFilterMask(battle, country)
+  {
+    local side = getPlayerSide(battle)
+    local team = battle.getTeamBySide(side)
+    local curFilterMask = filterMask?.by_available_battles ?? 0
+
+    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.NO_AVAILABLE_UNITS & curFilterMask)
+        && !battle.hasUnitsToFight(country, team, side))
+      return false
+
+    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.NO_FREE_SPACE & curFilterMask)
+        && !battle.hasEnoughSpaceInTeam(team))
+      return false
+
+    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.IS_UNBALANCED & curFilterMask)
+        && battle.isLockedByExcessPlayers(battle.getSide(country), team.name))
+      return false
+
+    if (!(UNAVAILABLE_BATTLES_CATEGORIES.LOCK_BY_TIMER & curFilterMask)
+        && battle.getBattleActivateLeftTime() > 0)
+      return false
+
+    if (!(UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED & curFilterMask)
+        && battle.isStarting())
+      return false
+
+    curFilterMask = filterMask?.by_unit_type ?? {}
+    if (!(curFilterMask?[battle.unitTypeMask.tostring()] ?? true))
+      return false
+
+    return true
+  }
+
+  function getFilteredBattlesByMaxCountPerGroup()
+  {
+    if (battlesList.len() == 0)
+      return []
+
+    local maxVisibleBattlesPerGroup = ::g_world_war.getSetting("maxVisibleGlobalBattlesPerGroup",
+      MAX_VISIBLE_BATTLES_PER_GROUP)
+
+    local battlesByGroups = {}
+    local res = []
+    foreach (battleData in battlesList)
+    {
+      local groupId = battleData.getGroupId()
+      if (!(groupId in battlesByGroups))
+        battlesByGroups[groupId] <- [battleData]
+      else
+        battlesByGroups[groupId].append(battleData)
+    }
+
+    foreach (group in battlesByGroups)
+    {
+      group.sort(battlesSort)
+      res.extend(group.resize(min(group.len(), maxVisibleBattlesPerGroup)))
+    }
+
+    res.sort(battlesSort)
+    return res
   }
 }

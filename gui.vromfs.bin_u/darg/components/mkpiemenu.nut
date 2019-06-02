@@ -98,8 +98,10 @@ local function mkPieMenu(params=defParams){
     return back
   local sangle = 360.0 / objsnum/2
 
+  local internalIdx = ::Watched(null)
   local curIdx = params?.curIdx ?? ::Watched(null)
   local curAngle = ::Watched(null)
+  internalIdx.subscribe(function(v) { if (v != null) curIdx(v)})
   local children = place_by_circle({
     radius=radius, objects=objs.map(@(v, i) v?.ctor?(curIdx, i) ?? mDefCtor(v?.text)(curIdx, i) ), offset=3.0/4
   })
@@ -157,7 +159,7 @@ local function mkPieMenu(params=defParams){
       skipDirPadNav = true
       devId = params?.devId ?? defParams.devId
       stickNo = params?.stickNo ?? defParams.stickNo
-      curSector = curIdx
+      curSector = internalIdx
       curAngle = curAngle
       sectorsCount = objsnum
       onClick = @(idx) params?.onClick?(idx)

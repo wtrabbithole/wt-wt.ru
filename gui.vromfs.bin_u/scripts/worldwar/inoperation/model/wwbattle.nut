@@ -28,6 +28,7 @@ class ::WwBattle
   sortFullnessFactor = null
 
   queueInfo = null
+  unitTypeMask = 0
 
   constructor(blk = ::DataBlock(), params = null)
   {
@@ -207,6 +208,7 @@ class ::WwBattle
     teams = {}
     totalPlayersNumber = 0
     maxPlayersNumber = 0
+    unitTypeMask = 0
 
     local teamsBlk = blk.getBlockByName("teams")
     local descBlk = blk.getBlockByName("desc")
@@ -257,6 +259,9 @@ class ::WwBattle
 
           teamArmyNames.push(armyName)
           ::u.appendOnce(army.unitType, teamUnitTypes)
+          local wwUnitType = ::g_ww_unit_type.getUnitTypeByCode(army.unitType)
+          if (wwUnitType.canBeControlledByPlayer)
+            unitTypeMask = unitTypeMask | ::g_unit_type.getByEsUnitType(wwUnitType.esUnitCode).bit
         }
       }
 
@@ -1048,5 +1053,21 @@ class ::WwBattle
   {
     sortTimeFactor = -battleStartMillisec / WW_BATTLES_SORT_TIME_STEP
     sortFullnessFactor = totalPlayersNumber / ::floor(maxPlayersNumber || 1)
+  }
+
+  function getGroupId()
+  {
+    local playerSide = getSide(::get_profile_country_sq())
+    local playerTeam = getTeamBySide(playerSide)
+    if (!playerTeam)
+      return ""
+
+    local unitTypeArray = playerTeam.unitTypes.map(@(u) u.tostring())
+    unitTypeArray.append("vs")
+
+    foreach(team in teams)
+      if (team.side != playerSide)
+        unitTypeArray.extend(team.unitTypes.map(@(u) u.tostring()))
+    return ::g_string.implode(unitTypeArray)
   }
 }

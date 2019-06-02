@@ -1,4 +1,4 @@
-local u = require("std/u.nut")
+local u = require("sqStdLibs/helpers/u.nut")
 local platform = require("scripts/clientState/platform.nut")
 local helpTypes = require("scripts/controls/help/controlsHelpTypes.nut")
 
@@ -95,7 +95,7 @@ function getPrefferableType(contentSet)
                 : null
 
   if (helpTypes.HOTAS4_COMMON.needShow(contentSet) && helpTypes.HOTAS4_COMMON.showByUnit(unitType, unitTag))
-    return HOTAS4_COMMON
+    return helpTypes.HOTAS4_COMMON
 
   //!!!FIXME appear in many files, change to common function
   local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode

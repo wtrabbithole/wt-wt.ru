@@ -281,7 +281,7 @@ randomize()
 //------- vvv files before login vvv ----------
 
 ::g_string <- ::require("std/string.nut") //put g_string to root_table
-::u <- ::require("std/u.nut") //put u to roottable
+::u <- ::require("sqStdLibs/helpers/u.nut") //put u to roottable
 ::Callback <- ::require("sqStdLibs/helpers/callback.nut").Callback
 
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")

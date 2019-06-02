@@ -651,7 +651,6 @@ local lockSight = function(line_style, width, height, isBackground) {
   })
 }
 
-
 local lockSightComponent = function(elemStyle, isBackground) {
   local width = hdpx(150)
   local height = hdpx(100)
@@ -665,6 +664,36 @@ local lockSightComponent = function(elemStyle, isBackground) {
   }
 }
 
+local laserDesignator = function(line_style, width, height, isBackground) {
+  local hl = 5
+  local vl = 7
+
+  return @() line_style.__merge({
+    rendObj = ROBJ_VECTOR_CANVAS
+    size = [width, height]
+    watch = helicopterState.IsAgmEmpty
+    color = !isBackground && helicopterState.IsAgmEmpty.value ? helicopterState.AlertColor.value : getColor(isBackground)
+    commands = [
+      [VECTOR_LINE, 50 - hl, 50 - vl, 50 + hl, 50 - vl],
+      [VECTOR_LINE, 50 - hl, 50 + vl, 50 + hl, 50 + vl],
+      [VECTOR_LINE, 50 - hl, 50 - vl, 50 - hl, 50 + vl],
+      [VECTOR_LINE, 50 + hl, 50 - vl, 50 + hl, 50 + vl],
+    ]
+  })
+}
+
+local laserDesignatorComponent = function(elemStyle, isBackground) {
+  local width = hdpx(150)
+  local height = hdpx(100)
+
+  return @() {
+    pos = [sw(50) - width * 0.5, sh(50) - height * 0.5]
+    watch = helicopterState.IsLaserDesignatorEnabled
+    opacity = helicopterState.IsLaserDesignatorEnabled.value ? 100 : 0
+    size = SIZE_TO_CONTENT
+    children = laserDesignator(elemStyle, width, height, isBackground)
+  }
+}
 
 local sight = function(line_style, height, isBackground) {
   local longL = 22
@@ -726,6 +755,26 @@ local rangeFinderComponent = function(elemStyle, isBackground) {
   return resCompoment
 }
 
+local function laserDesignatorStatusComponent(elemStyle, isBackground) {
+  local laserDesignatorStatus = @() elemStyle.__merge({
+    rendObj = ROBJ_DTEXT
+    halign = HALIGN_CENTER
+    text = ::loc("HUD/TXT_LASER_DESIGNATOR")
+    opacity = helicopterState.IsLaserDesignatorEnabled.value ? 100 : 0
+    watch = [helicopterState.RangefinderDist, helicopterState.IsLaserDesignatorEnabled]
+    color = getColor(isBackground)
+  })
+
+  local resCompoment = @() {
+    pos = [sw(50), sh(39)]
+    halign = HALIGN_CENTER
+    size = [0, 0]
+    children = laserDesignatorStatus
+  }
+
+  return resCompoment
+}
+
 
 local compassComponent = function(elemStyle, isBackground) {
   local color = getColor(isBackground)
@@ -767,8 +816,10 @@ local helicopterSightHud = function(elemStyle, isBackground) {
       turretAnglesComponent(elemStyle, isBackground)
       helicopterSightParamsTable(elemStyle, isBackground)
       lockSightComponent(elemStyle, isBackground)
+      laserDesignatorComponent(elemStyle, isBackground)
       sightComponent(elemStyle, isBackground)
       rangeFinderComponent(elemStyle, isBackground)
+      laserDesignatorStatusComponent(elemStyle, isBackground)
       compassComponent(elemStyle, isBackground)
     ]
     : null

@@ -1,5 +1,5 @@
 local g_string =  require("std/string.nut")
-local u = require("std/u.nut")
+local u = require("sqStdLibs/helpers/u.nut")
 
 
 enum ALIGN

@@ -763,8 +763,9 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local armorPiercing = params.armorPiercing;
       if(armorPiercing.len() > 2)
       {
-        blk.value[mode] = armorPiercing[0].tointeger()
-        blk.valueText[mode] = format("%d %s", armorPiercing[0].tointeger(), ::loc("measureUnits/mm"))
+        local val = stdMath.round(armorPiercing[0]).tointeger()
+        blk.value[mode] = val
+        blk.valueText[mode] = format("%d %s", val, ::loc("measureUnits/mm"))
       }
       else
       {
@@ -792,8 +793,9 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local armorPiercing = params.armorPiercing;
       if(armorPiercing.len() > 2)
       {
-        blk.value[mode] = armorPiercing[1].tointeger()
-        blk.valueText[mode] = format("%d %s", armorPiercing[1].tointeger(), ::loc("measureUnits/mm"))
+        local val = stdMath.round(armorPiercing[1]).tointeger()
+        blk.value[mode] = val
+        blk.valueText[mode] = format("%d %s", val, ::loc("measureUnits/mm"))
       }
       else
       {
@@ -822,8 +824,9 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local armorPiercing = params.armorPiercing;
       if(armorPiercing.len() > 2)
       {
-        blk.value[mode] = armorPiercing[2].tointeger()
-        blk.valueText[mode] = format("%d %s", armorPiercing[2].tointeger(), ::loc("measureUnits/mm"))
+        local val = stdMath.round(armorPiercing[2]).tointeger()
+        blk.value[mode] = val
+        blk.valueText[mode] = format("%d %s", val, ::loc("measureUnits/mm"))
       }
       else
       {

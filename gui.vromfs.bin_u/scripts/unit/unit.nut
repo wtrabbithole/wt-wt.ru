@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local time = require("scripts/time.nut")
 local contentPreview = require("scripts/customization/contentPreview.nut")
 local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
@@ -517,7 +517,7 @@ local Unit = class
           weaponDataBlock = ::DataBlock(block.blk)
           foreach(weap in (weaponDataBlock % "Weapon"))
           {
-            if (!weap.blk || ::isInArray(weap.blk, weaponsBlkArray))
+            if (!weap.blk || weap.dummy || ::isInArray(weap.blk, weaponsBlkArray))
               continue
             local weapBlk = ::DataBlock(weap.blk)
             if (weapBlk.bomb)

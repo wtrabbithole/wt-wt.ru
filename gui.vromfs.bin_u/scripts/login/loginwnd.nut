@@ -407,21 +407,6 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
   {
     ::disable_autorelogin_once <- false
     local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
-
-    if (!::g_string.validateEmail(no_dump_login) && (stoken == ""))  //invalid email
-    {
-      local locId = "msgbox/invalidEmail"
-      msgBox("invalid_email", ::loc(locId),
-        [["ok", ::Callback(function()
-                {
-                  local focusObj = scene.findObject("loginbox_username")
-                  if (::check_obj(focusObj))
-                    focusObj.select()
-                }, this)
-        ]], "ok")
-      return
-    }
-
     local result = requestLogin(no_dump_login)
     proceedAuthorizationResult(result, no_dump_login)
   }
@@ -667,6 +652,15 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
   function onForgetPassword()
   {
     ::open_url(::loc("url/recovery"), false, false, "login_wnd")
+  }
+
+  function onChangeLogin(obj)
+  {
+    //Don't save value to local, so it doens't appear in logs.
+    local res = !::g_string.validateEmail(obj.getValue()) && (stoken == "")
+    obj.warning = res? "yes" : "no"
+    obj.warningText = res? "yes" : "no"
+    obj.tooltip = res? ::loc("tooltip/invalidEmail/possibly") : ""
   }
 
   function onDoneEnter()

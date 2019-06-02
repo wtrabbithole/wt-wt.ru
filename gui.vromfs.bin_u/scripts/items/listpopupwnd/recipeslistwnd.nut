@@ -1,5 +1,5 @@
 local ExchangeRecipes = ::require("scripts/items/exchangeRecipes.nut")
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local stdMath = require("std/math.nut")
 
 local MIN_ITEMS_IN_ROW = 7

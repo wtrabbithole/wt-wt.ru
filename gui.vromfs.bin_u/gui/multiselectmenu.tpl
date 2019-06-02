@@ -18,39 +18,7 @@ popup_menu {
   pos:t='<<position>>'
   position:t='root'
 
-  MultiSelect {
-    id:t='multi_select'
-    flow:t='vertical'
+  include "gui/commonParts/multiSelect"
 
-    navigatorShortcuts:t='cancel'
-    on_select:t='onChangeValue'
-    _on_cancel_edit:t='close'
-
-    value:t='<<value>>'
-    snd_switch_on:t="<<#sndSwitchOn>><<sndSwitchOn>><</sndSwitchOn>><<^sndSwitchOn>>choose<</sndSwitchOn>>"
-    snd_switch_off:t="<<#sndSwitchOff>><<sndSwitchOff>><</sndSwitchOff>><<^sndSwitchOff>>choose<</sndSwitchOff>>"
-
-    <<#list>>
-    multiOption {
-      <<^show>>
-      enable:t='no'
-      display:t='hide'
-      <</show>>
-
-      CheckBoxImg {}
-      cardImg {
-        margin-right:t='@blockInterval'
-        background-image:t='<<icon>>'
-        <<#color>>
-        style:t='background-color:<<color>>;'
-        <</color>>
-        <<#size>>
-        type:t='<<size>>'
-        <</size>>
-      }
-      multiOptionText { text:t='<<text>>' }
-    }
-    <</list>>
-  }
   popup_menu_arrow{}
 }

@@ -1,5 +1,5 @@
 local bhvAvatar = ::require("scripts/user/bhvAvatar.nut")
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local stdPath = require("std/path.nut")
 local avatars = ::require("scripts/user/avatars.nut")
 local dagor_fs = require("dagor.fs")

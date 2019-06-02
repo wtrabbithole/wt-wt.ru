@@ -583,12 +583,12 @@ function g_world_war::updateArmyGroups()
 
 function g_world_war::updateInfantryUnits()
 {
-  infantryUnits = ::g_world_war.getWWConfigurableValue("infantryUnits", null)
+  infantryUnits = ::g_world_war.getWWConfigurableValue("infantryUnits", infantryUnits)
 }
 
 function g_world_war::updateArtilleryUnits()
 {
-  artilleryUnits = ::g_world_war.getWWConfigurableValue("artilleryUnits", null)
+  artilleryUnits = ::g_world_war.getWWConfigurableValue("artilleryUnits", artilleryUnits)
 }
 
 function g_world_war::getArtilleryUnitParamsByBlk(blk)

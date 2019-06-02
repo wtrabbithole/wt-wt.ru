@@ -31,6 +31,7 @@ local helicopterState = {
   TurretPitch = Watched(0.0)
 
   IsSightLocked = Watched(false)
+  IsLaserDesignatorEnabled = Watched(false)
 
   MainMask = Watched(0)
   SightMask = Watched(0)
@@ -67,6 +68,7 @@ local helicopterState = {
   Agm = {
     count = Watched(0)
     seconds = Watched(-1)
+    timeToTarget = Watched(-1)
   }
 
   Aam = {
@@ -123,7 +125,8 @@ local helicopterState = {
 
   GunOverheatState = Watched(0)
 
-  GuidanceLockState = Watched(-1)
+  AgmGuidanceLockState = Watched(-1)
+  AamGuidanceLockState = Watched(-1)
 
   IsCompassVisible = Watched(false)
 }
@@ -147,9 +150,10 @@ local helicopterState = {
   helicopterState.Rockets.seconds.update(sec)
 }
 
-::interop.updateAgm <- function(count, sec = -1) {
+::interop.updateAgm <- function(count, sec, timeToTarget) {
   helicopterState.Agm.count.update(count)
   helicopterState.Agm.seconds.update(sec)
+  helicopterState.Agm.timeToTarget.update(timeToTarget)
 }
 
 ::interop.updateAam <- function(count, sec = -1) {

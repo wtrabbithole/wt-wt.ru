@@ -94,7 +94,7 @@ options.addTypes({
       items = ::u.map(values, @(r) {
         text = ::format(::loc("conditions/unitRank/format"), get_roman_numeral(r))
       })
-      local preferredRank = ::getAircraftByName(::hangar_get_current_unit_name())?.rank ?? 0
+      local preferredRank = value ?? ::getAircraftByName(::hangar_get_current_unit_name())?.rank ?? 0
       value = values[::find_nearest(preferredRank, values)]
       update(handler, scene)
     }
@@ -332,7 +332,7 @@ options.updateArmorPiercingText <- function(obj) {
     if (pMin && pMax)
     {
       local armor = stdMath.lerp(pMin.dist, pMax.dist, pMin.armor, pMax.armor, distance)
-      desc = armor.tointeger() + " " + ::loc("measureUnits/mm")
+      desc = stdMath.round(armor).tointeger() + " " + ::loc("measureUnits/mm")
     }
   }
 

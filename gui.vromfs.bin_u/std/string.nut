@@ -397,7 +397,7 @@ local function tostring_r(input, params=defTostringParams) {
  * @return {string} - substring, or on error - part of substring or empty string.
  */
 local function slice(str, start = 0, end = null) {
-  str = str || ""
+  str = str ?? ""
   local total = str.len()
   if (start < 0)
     start += total
@@ -423,9 +423,8 @@ local function slice(str, start = 0, end = null) {
  */
 local function substring(str, start = 0, length = null) {
   local end = length
-  if (length != null && length >= 0)
-  {
-    str = str || ""
+  if (length != null && length >= 0) {
+    str = str ?? ""
     local total = str.len()
     if (start < 0)
       start += total
@@ -443,9 +442,9 @@ local function substring(str, start = 0, length = null) {
  * @return {boolean}
  */
 local function startsWith(str, value) {
-  str = str || ""
-  value = value || ""
-  return slice(str, 0, value.len()) == value
+  str = str ?? ""
+  value = value ?? ""
+  return string.startswith(str, value)
 }
 
 /**
@@ -456,9 +455,9 @@ local function startsWith(str, value) {
  * @return {boolean}
  */
 local function endsWith(str, value) {
-  str = str || ""
-  value = value || ""
-  return slice(str, - value.len()) == value
+  str = str ?? ""
+  value = value ?? ""
+  return string.endswith(str, value)
 }
 
 /**
@@ -470,10 +469,10 @@ local function endsWith(str, value) {
  * @return {integer} - index, or -1 if not found.
  */
 local function indexOf(str, value, startIndex = 0) {
-  str = str || ""
-  value = value || ""
+  str = str ?? ""
+  value = value ?? ""
   local idx = str.find(value, startIndex)
-  return idx != null ? idx : INVALID_INDEX
+  return idx ?? INVALID_INDEX
 }
 
 /**
@@ -485,8 +484,8 @@ local function indexOf(str, value, startIndex = 0) {
  * @return {integer} - index, or -1 if not found.
  */
 local function lastIndexOf(str, value, startIndex = 0) {
-  str = str || ""
-  value = value || ""
+  str = str ?? ""
+  value = value ?? ""
   local idx = INVALID_INDEX
   local curIdx = startIndex - 1
   local length = str.len()
@@ -508,8 +507,8 @@ local function lastIndexOf(str, value, startIndex = 0) {
  * @return {integer} - index, or -1 if not found.
  */
 local function indexOfAny(str, anyOf, startIndex = 0) {
-  str = str || ""
-  anyOf = anyOf || [ "" ]
+  str = str ?? ""
+  anyOf = anyOf ?? [ "" ]
   local idx = INVALID_INDEX
   foreach (value in anyOf) {
     local curIdx = indexOf(str, value, startIndex)
@@ -528,11 +527,10 @@ local function indexOfAny(str, anyOf, startIndex = 0) {
  * @return {integer} - index, or -1 if not found.
  */
 local function lastIndexOfAny(str, anyOf, startIndex = 0) {
-  str = str || ""
-  anyOf = anyOf || [ "" ]
+  str = str ?? ""
+  anyOf = anyOf ?? [ "" ]
   local idx = INVALID_INDEX
-  foreach (value in anyOf)
-  {
+  foreach (value in anyOf) {
     local curIdx = lastIndexOf(str, value, startIndex)
     if (curIdx != INVALID_INDEX && (idx == INVALID_INDEX || curIdx > idx))
       idx = curIdx
@@ -585,7 +583,7 @@ local function replace(str, from, to) {
  * @return {string} - String without whitespace chars.
  */
 local function trim(str) {
-  str = str || ""
+  str = str ?? ""
   return trimRegExp ? trimRegExp.replace("", str) : str
 }
 

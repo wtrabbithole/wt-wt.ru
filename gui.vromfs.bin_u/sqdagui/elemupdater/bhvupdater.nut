@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local elemViewType = ::require("sqDagui/elemUpdater/elemViewType.nut")
 local elemEvents = ::require("sqDagui/elemUpdater/elemUpdaterEvents.nut")
 local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback

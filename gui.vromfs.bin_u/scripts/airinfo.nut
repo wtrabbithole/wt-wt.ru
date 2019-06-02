@@ -1936,7 +1936,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local textParts = []
       local countOutputValue = min(armorPiercing.len(), 3)
       for(local i = 0; i < countOutputValue; i++)
-        textParts.append(armorPiercing[i].tointeger())
+        textParts.append(stdMath.round(armorPiercing[i]).tointeger())
       holderObj.findObject("aircraft-armorPiercing").setValue(format("%s %s", ::g_string.implode(textParts, " / "), ::loc("measureUnits/mm")))
       local armorPiercingDist = currentParams.armorPiercingDist;
       textParts.clear()

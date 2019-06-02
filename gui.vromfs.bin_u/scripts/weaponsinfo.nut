@@ -913,7 +913,7 @@ function getBulletsSetData(air, modifName, noModList = null)
     local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryMod)
     if (primaryBlk)
       foreach (weapon in (primaryBlk % "Weapon"))
-        if (weapon.blk && !::isInArray(weapon.blk, wpList))
+        if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
           wpList.append(weapon.blk)
   }
 
@@ -926,7 +926,7 @@ function getBulletsSetData(air, modifName, noModList = null)
           continue
 
         foreach (weapon in (pBlk % "Weapon"))
-          if (weapon.blk && !::isInArray(weapon.blk, wpList))
+          if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
             wpList.append(weapon.blk)
       }
 
@@ -1087,7 +1087,7 @@ function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk, weaponToFakeBulletMask
   local wpList = []
   if (weaponsBlk)
     foreach (weapon in (weaponsBlk % "Weapon"))
-      if (weapon.blk && !::isInArray(weapon.blk, wpList))
+      if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
         wpList.append(weapon.blk)
 
   if (wpList.len())
@@ -1234,7 +1234,7 @@ function getBulletsInfoForPrimaryGuns(air)
   local modsList = ::getBulletsModListByGroups(air)
   local wpList = {} // name = amount
   foreach (weapon in (commonWeaponBlk % "Weapon"))
-    if (weapon.blk)
+    if (weapon.blk && !weapon.dummy)
       if (weapon.blk in wpList)
         wpList[weapon.blk].guns++
       else

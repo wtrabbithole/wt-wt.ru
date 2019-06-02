@@ -206,7 +206,41 @@ local function shuffle(arr, randfunc) {
   return res
 }
 
+local customIsEqual = {}
+
+local function registerIsEqual(classRef, isEqualFunc){
+  customIsEqual[classRef] <- isEqualFunc
+}
+
+local function isEqual(val1, val2) {return false}//forward declaration to use in recursives
+isEqual = function(val1, val2){
+  if (val1 == val2)
+    return true
+  if (::type(val1) != ::type(val2))
+    return false
+  if (::type(val1)=="array" || ::type(val1)=="table") {
+    if (val1.len() != val2.len())
+      return false
+    foreach(key, val in val1) {
+      if (!(key in val2))
+        return false
+      if (!isEqual(val, val2[key]))
+        return false
+    }
+    return true
+  }
+
+  if (::type(val1)=="instance") {
+    foreach(classRef, func in customIsEqual)
+      if (val1 instanceof classRef && val2 instanceof classRef)
+        return func(val1, val2)
+    return false
+  }
+
+  return false
+}
 return {
+  isCallable = @(v) ["function","table","instance"].find(typeof(v) != null) && v.getfuncinfos() != null
   reduceTbl = reduceTbl
   search = search
   zip = zip
@@ -220,4 +254,6 @@ return {
   safeIndex = safeIndex
   last = last
   shuffle = shuffle
+  isEqual = isEqual
+  registerIsEqual = registerIsEqual
 }

@@ -203,7 +203,7 @@ function notify_session_start()
     "spectator", "isReady", "isInLobbySession", "team", "countryData", "myState",
     "isSpectatorSelectLocked", "crsSetTeamTo", "curEdiff",
     "needJoinSessionAfterMyInfoApply", "isLeavingLobbySession", "_syncedMyInfo",
-    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName", "lastEventName"
+    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName", "lastEventName, isReadyInSetStateRoom"
   ]
 
   settings = {}
@@ -258,6 +258,8 @@ function notify_session_start()
   delayedJoinRoomFunc = null
   needJoinSessionAfterMyInfoApply = false
   isLeavingLobbySession = false
+
+  isReadyInSetStateRoom = null // if null then not response is expected from room_set_ready_state
 
   roomTimers = [
     {
@@ -1310,9 +1312,11 @@ function SessionLobby::setReady(ready, silent = false, forceRequest = false) //r
     return ready
   }
 
+  isReadyInSetStateRoom = ready
   ::room_set_ready_state(
     {state = ready, roomId = roomId},
     (@(silent, ready) function(p) {
+      isReadyInSetStateRoom = null
       if (!isInRoom())
       {
         isReady = false
@@ -1347,7 +1351,7 @@ function SessionLobby::checkUpdateMatchingSlots()
   {
     if (isInLobbySession)
       joinEventSession(false, { update_profile = true })
-  } else if (isReady)
+  } else if (isReady && (isReadyInSetStateRoom == null || isReadyInSetStateRoom))
     setReady(isReady, true, true)
 }
 

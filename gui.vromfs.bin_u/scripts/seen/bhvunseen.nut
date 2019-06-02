@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local seenList = require("scripts/seen/seenList.nut")
 local seenListEvents = require("scripts/seen/seenListEvents.nut")
 local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback

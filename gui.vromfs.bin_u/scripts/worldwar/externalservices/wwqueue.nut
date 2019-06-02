@@ -162,8 +162,7 @@ class WwQueue
     else
     {
       local myClanType = ::g_clans.getMyClanType()
-      local minMemberCountToWWar =
-        ::g_world_war.getSetting("minMemberCountToWWarByClanTypeCode", ::DataBlock())[myClanType.code.tostring()] ?? 1
+      local minMemberCountToWWar = myClanType.getMinMemberCountToWWar()
       if (::g_clans.getMyClanMembersCount() < minMemberCountToWWar)
         res.reasonText = ::loc("clan/wwar/lacksMembers", {
           clanType = myClanType.getTypeNameLoc()

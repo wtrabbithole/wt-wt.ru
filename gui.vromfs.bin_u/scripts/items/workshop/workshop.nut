@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 local Set = ::require("workshopSet.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")

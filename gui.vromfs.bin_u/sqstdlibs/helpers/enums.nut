@@ -1,4 +1,4 @@
-local u = require("std/u.nut")
+local u = require("u.nut")
 
 local function isTable(v) {return type(v)=="table"}
 local function isArray(v) {return type(v)=="array"}

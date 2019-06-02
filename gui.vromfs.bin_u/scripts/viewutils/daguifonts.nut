@@ -1,5 +1,5 @@
 local fonts = require_native("fonts")
-local u = require("std/u.nut")
+local u = require("sqStdLibs/helpers/u.nut")
 
 local fontsList = {
   defaults = [

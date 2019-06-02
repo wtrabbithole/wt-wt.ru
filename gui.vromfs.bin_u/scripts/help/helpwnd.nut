@@ -1,6 +1,7 @@
-local u = require("std/u.nut")
+local u = require("sqStdLibs/helpers/u.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local helpTabs = require("scripts/controls/help/controlsHelpTabs.nut")
+local helpShortcuts = require("scripts/controls/help/controlsHelpShortcuts.nut")
 
 ::require("scripts/viewUtils/bhvHelpFrame.nut")
 
@@ -285,14 +286,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local tipTexts = {} //btnName = { text, isMain }
     modifierSymbols = {}
 
-    local shortcutsList  =
-      (pageUnitType == ::g_unit_type.AIRCRAFT   && pageUnitTag == null) ? ::controlsHelp_shortcuts :
-      (pageUnitType == ::g_unit_type.TANK       && pageUnitTag == null) ? ::controlsHelp_shortcuts_ground :
-      (pageUnitType == ::g_unit_type.SHIP       && pageUnitTag == null) ? ::controlsHelp_shortcuts_naval :
-      (pageUnitType == ::g_unit_type.HELICOPTER && pageUnitTag == null) ? ::controlsHelp_shortcuts_helicopter :
-      (pageUnitType == ::g_unit_type.AIRCRAFT   && pageUnitTag == "ufo") ? ::controlsHelp_shortcuts_ufo :
-      (pageUnitType == ::g_unit_type.SHIP       && pageUnitTag == "submarine")  ? ::controlsHelp_shortcuts_submarine :
-      []
+    local shortcutsList = helpShortcuts.getList(pageUnitType, pageUnitTag)
+
     for(local i=0; i<shortcutsList.len(); i++)
     {
       local item = shortcutsList[i]
