@@ -244,7 +244,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     base.onEventModalWndDestroy(p)
   }
 
-  function onEventHangarModelLoaded(params)
+  function onEventHangarModelLoading(params)
   {
     doWhenActiveOnce("updateAirInfo")
     doWhenActiveOnce("updateCrewInfo")

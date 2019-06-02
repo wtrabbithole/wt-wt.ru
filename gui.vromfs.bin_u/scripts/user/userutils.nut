@@ -73,7 +73,7 @@ function g_user_utils::getMyCrewAirsState(profileInfo = null)
 
 function g_user_utils::checkAutoShowSteamEmailRegistration()
 {
-  if (!::steam_is_running() || !::check_account_tag("steamlogin"))
+  if (!::steam_is_running() || !::check_account_tag("steamlogin") || !::has_feature("AllowSteamAccountLinking"))
     return
 
   if (::g_language.getLanguageName() != "Japanese")
@@ -129,4 +129,20 @@ function g_user_utils::checkAutoShowPS4EmailRegistration()
 function g_user_utils::launchPS4EmailRegistration()
 {
   ::ps4_open_url_logged_in(::loc("url/ps4_bind_url"), ::loc("url/ps4_bind_redirect"))
+}
+
+function g_user_utils::launchXboxEmailRegistration()
+{
+  ::gui_modal_editbox_wnd({
+    title = ::loc("mainmenu/XboxOneEmailRegistration")
+    editboxHeaderText = ::loc("mainmenu/XboxOneEmailRegistration/desc")
+    checkButtonFunc = ::g_string.validateEmail
+    allowEmpty = false
+    okFunc = @(val) ::xbox_link_email(val, function(status) {
+      ::g_popups.add("", ::colorize(
+        status == ::YU2_OK? "activeTextColor" : "warningTextColor",
+        ::loc("mainmenu/XboxOneEmailRegistration/result/" + status)
+      ))
+    })
+  })
 }

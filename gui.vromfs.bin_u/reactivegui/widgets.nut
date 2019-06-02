@@ -6,6 +6,7 @@ local helicopterHud = require("helicopterHud.nut")
 local shipHud = require("shipHud.nut")
 local shipExHud = require("shipExHud.nut")
 local shipObstacleRf = require("shipObstacleRangefinder.nut")
+local shipDeathTimer = require("shipDeathTimer.nut")
 local footballHud = require("footballHud.nut")
 local screenState = require("style/screenState.nut")
 local airHud = require("airHud.nut")
@@ -38,7 +39,7 @@ local widgetsMap = {
     return {
       size = flex()
       halign = HALIGN_CENTER
-      children = shipObstacleRf
+      children = [shipObstacleRf, shipDeathTimer]
     }
   },
 

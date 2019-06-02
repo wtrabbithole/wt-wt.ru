@@ -27,6 +27,8 @@ local WwGlobalBattle = class extends ::WwBattle
   function updateTeamsInfo(blk)
   {
     teams = {}
+    totalPlayersNumber = 0
+    maxPlayersNumber = 0
 
     local teamsBlk = blk.getBlockByName("teams")
     if (!teamsBlk)
@@ -74,6 +76,8 @@ local WwGlobalBattle = class extends ::WwBattle
                         unitsRemain = teamUnitsRemain
                         unitTypes = teamUnitTypes}
       teams[teamName] <- teamInfo
+      totalPlayersNumber += numPlayers
+      maxPlayersNumber += teamMaxPlayers
     }
   }
 

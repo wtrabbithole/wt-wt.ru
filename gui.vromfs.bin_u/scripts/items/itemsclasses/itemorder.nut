@@ -169,8 +169,7 @@ class ::items_classes.Order extends ::BaseItem
 
   function checkMissionRestriction(restrictionElement, missionName)
   {
-    local type = ::getTblValue("type", restrictionElement, null)
-    switch (type)
+    switch (restrictionElement?.type)
     {
       case "missionPostfix":
         local missionPostfix = ::getTblValue("postfix", restrictionElement, null)

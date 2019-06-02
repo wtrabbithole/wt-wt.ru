@@ -15,6 +15,8 @@ class ::gui_handlers.ControlType extends ::gui_handlers.BaseGuiHandlerWT
   onlyDevicesChoice = true
   startControlsWizard = false
 
+  focusArray = [ "controlType" ]
+
   function initScreen()
   {
     mainOptionsMode = ::get_gui_options_mode()
@@ -26,16 +28,14 @@ class ::gui_handlers.ControlType extends ::gui_handlers.BaseGuiHandlerWT
     showBtn("btn_back", onlyDevicesChoice)
 
     if (!onlyDevicesChoice)
-      updateProfileIcon()
+      updateProfileIcon(true)
 
-    if (!::have_xinput_device()) {  //!xinput
-      local obj = scene.findObject("ct_xinput")
-      if (obj)
-        guiScene.destroyElement(obj)
-    }
+    showSceneBtn("ct_xinput", ::have_xinput_device())
+    restoreFocus()
   }
 
-  function onChangePilotIcon() {
+  function onChangePilotIcon()
+  {
     avatars.openChangePilotIconWnd(onIconChoosen, this)
   }
 
@@ -46,14 +46,18 @@ class ::gui_handlers.ControlType extends ::gui_handlers.BaseGuiHandlerWT
     updateProfileIcon()
   }
 
-  function updateProfileIcon()
+  function updateProfileIcon(isOnInit = false)
   {
-    if (!::checkObj(scene))
+    if (!::check_obj(scene))
       return
 
     local obj = scene.findObject("prefIcon")
-    if (obj)
-      obj["background-image"] = "#ui/images/avatars/" + ::get_profile_info().icon
+    if (::check_obj(obj))
+    {
+      obj.setValue(::get_profile_info().icon)
+      if (isOnInit)
+        scene.findObject("unseen_avatar").setValue(SEEN.AVATARS)
+    }
   }
 
   function onBack()
@@ -73,7 +77,7 @@ class ::gui_handlers.ControlType extends ::gui_handlers.BaseGuiHandlerWT
   {
     local ct_id = "ct_mouse"
     local obj = scene.findObject("controlType")
-    if (obj)
+    if (::check_obj(obj))
     {
       local value = obj.getValue()
       if (value>=0 && value<obj.childrenCount())

@@ -1,6 +1,7 @@
 local u = require("std/u.nut")
 local time = require("scripts/time.nut")
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
+local DataBlock = require("DataBlock")
 const SAVEDATA_PROGRESS_MSG_ID = "SAVEDATA_IO_OPERATION"
 
 
@@ -54,9 +55,10 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     local entries = []
     foreach (id, meta in blk)
     {
-      if (::u.isDataBlock(meta))
+      if (meta instanceof DataBlock)
         entries.append({path=meta.path, comment=meta.comment, mtime=meta.mtime})
     }
+
     entries.sort(@(a,b) -(a.mtime <=> b.mtime))
 
     renderSaveDataContents(entries)

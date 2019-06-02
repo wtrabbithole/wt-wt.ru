@@ -797,18 +797,26 @@
 
       case "ammo_turret":
       case "ammo_body":
-        local info = unitBlk?.ammoStowages?.ammo1
-        if (info)
-          foreach (blockName in [ "shells", "charges" ])
-            foreach (block in (info % blockName))
-              if (block[partName] && (block.firstStage || block.autoLoad))
-              {
-                desc.append(::loc("xray/ammo/first_stage") + ::loc("ui/comma") +
-                  getFirstStageAmmoCount() + " " + ::loc("measureUnits/pcs"))
-                if (block.autoLoad)
-                  desc.append(::loc("xray/ammo/auto_load"))
-                break
-              }
+      case "ammunition_storage":
+        local isShip = unit.isShip()
+        if (isShip)
+        {
+          local ammoQuantity = getAmmoQuantityByPartName(partName)
+          if (ammoQuantity > 1)
+            desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
+        }
+        local stowageInfo = getAmmoStowageInfo(null, partName, isShip)
+        if (stowageInfo.isCharges)
+          params.partLocId <- isShip ? "ship_charges_storage" : "ammo_charges"
+        if (stowageInfo.firstStageCount)
+        {
+          local txt = ::loc("xray/ammo/first_stage")
+          if (unit.isTank())
+            txt += ::loc("ui/comma") + stowageInfo.firstStageCount + " " + ::loc("measureUnits/pcs")
+          desc.append(txt)
+        }
+        if (stowageInfo.isAutoLoad)
+            desc.append(::loc("xray/ammo/auto_load"))
         break
 
       case "drive_turret_h":
@@ -875,11 +883,11 @@
           local status = getWeaponStatus(weaponPartName, weaponInfoBlk)
           desc.extend(getWeaponShotFreqAndReloadTimeDesc(weaponName, weaponInfoBlk, status))
           desc.push(getMassInfo(::DataBlock(weaponBlkLink)))
-          if (status.isPrimary)
+          if (status.isPrimary || status.isSecondary)
           {
-            local firstStageAmmo = getFirstStageAmmoCount()
-            if (firstStageAmmo)
-              desc.push(::loc("xray/ammo/first_stage") + ::loc("ui/colon") + firstStageAmmo)
+            local firstStageCount = getAmmoStowageInfo(weaponInfoBlk?.trigger).firstStageCount
+            if (firstStageCount)
+              desc.push(::loc("xray/ammo/first_stage") + ::loc("ui/colon") + firstStageCount)
           }
           desc.extend(getWeaponDriveTurretDesc(weaponPartName, weaponInfoBlk, true, true))
         }
@@ -907,12 +915,6 @@
         if(tankInfo.len())
           desc.push(::g_string.implode(tankInfo, ", "))
 
-      break
-
-      case "ammunition_storage":              //ships ammo storages
-        local ammoQuantity = getAmmoQuantityByPartName(partName)
-        if (ammoQuantity > 0)
-          desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
       break
 
       case "composite_armor_hull":            // tank Composite armor
@@ -1038,10 +1040,13 @@
     local ammoStowages = unitBlk?.ammoStowages
     if (ammoStowages)
       for (local i = 0; i < ammoStowages.blockCount(); i++)
-        foreach (shells in ammoStowages.getBlock(i) % "shells")
-          if (shells[partName])
-            return shells[partName].count
-
+      {
+        local blk = ammoStowages.getBlock(i)
+        foreach (blockName in [ "shells", "charges" ])
+          foreach (shells in blk % blockName)
+            if (shells[partName])
+              return shells[partName].count
+      }
     return 0
   }
 
@@ -1274,20 +1279,39 @@
     return desc
   }
 
-  function getFirstStageAmmoCount()
+  // Gets info either by weaponTrigger (for guns and turrets)
+  // or by ammoStowageId (for tank stowage or ship ammo storage)
+  function getAmmoStowageInfo(weaponTrigger, ammoStowageId = null, collectOnlyThisStowage = false)
   {
-    local res = 0
-    local info = unitBlk?.ammoStowages?.ammo1
-    if (info)
+    local res = { firstStageCount = 0, isAutoLoad = false, isCharges = false }
+    for (local ammoNum = 1; ammoNum <= 20; ammoNum++) // tanks use 1, ships use 1 - ~10.
+    {
+      local stowage = unitBlk?.ammoStowages?["ammo" + ammoNum]
+      if (!stowage)
+        break
+      if (weaponTrigger && stowage.weaponTrigger != weaponTrigger)
+        continue
       foreach (blockName in [ "shells", "charges" ])
       {
-        if (res)
-          break
-        foreach (block in (info % blockName))
+        foreach (block in (stowage % blockName))
+        {
+          if (ammoStowageId && !block[ammoStowageId])
+            continue
+          res.isCharges = blockName == "charges"
+          if (block.autoLoad)
+            res.isAutoLoad = true
           if (block.firstStage || block.autoLoad)
-            for (local i = 0; i < block.blockCount(); i++)
-              res += block.getBlock(i).count || 0
+          {
+            if (ammoStowageId && collectOnlyThisStowage)
+              res.firstStageCount += block[ammoStowageId].count || 0
+            else
+              for (local i = 0; i < block.blockCount(); i++)
+                res.firstStageCount += block.getBlock(i).count || 0
+          }
+          return res
+        }
       }
+    }
     return res
   }
 

@@ -1,14 +1,17 @@
-local loc = ("loc" in ::getroottable()) ? loc : @(text) text
+local loc = ("loc" in ::getroottable()) ? ::loc : @(text) text
 
-local function text(text, params={}, addchildren = null) {
+local function text(text, params={}, addchildren = null) { //warning disable: -ident-hides-ident
   if (text == null)
     return null
-
+  if (::type(text)=="table") {
+    text = params?.text
+    params = text.__merge(params)
+  }
   local children = params?.children
-  if (children && type(children) !="array")
+  if (children && ::type(children) !="array")
     children = [children]
   if (addchildren && children) {
-    if (type(addchildren)=="array")
+    if (::type(addchildren) == "array")
       children.extend(addchildren)
     else
       children.append(addchildren)
@@ -19,18 +22,18 @@ local function text(text, params={}, addchildren = null) {
   local watchedtext = false
   local txt = ""
   local rendObj = params?.rendObj ?? ROBJ_DTEXT
-  assert (rendObj == ROBJ_DTEXT || rendObj == ROBJ_STEXT, "rendObj for text should be ROBJ_STEXT or ROBJ_DTEXT")
-  if (type(text) == "string")  {
+  ::assert(rendObj == ROBJ_DTEXT || rendObj == ROBJ_STEXT, "rendObj for text should be ROBJ_STEXT or ROBJ_DTEXT")
+  if (::type(text) == "string")  {
     txt = (localize) ? loc(text) : text
   }
-  if (type(text) == "instance" && text instanceof Watched) {
+  if (::type(text) == "instance" && text instanceof ::Watched) {
     txt = (localize) ? loc(text.value) : text.value
     watchedtext = true
   }
   local ret = {
     size = SIZE_TO_CONTENT
     halign = HALIGN_LEFT
-    font = Fonts.medium_text
+    font = ::Fonts.medium_text
   }.__update(params).__update({text = txt, rendObj = rendObj})
   ret.__update({children=children})
   if (watch || watchedtext)

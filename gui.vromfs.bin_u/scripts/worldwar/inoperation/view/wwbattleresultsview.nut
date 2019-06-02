@@ -45,7 +45,8 @@ class ::WwBattleResultsView
         {
           local unitName = wwUnit.name // warning disable: -declared-never-used
           local totalConfigurableValues = ::g_world_war.configurableValues?.blockCount() ?? -1 // warning disable: -declared-never-used
-          local totslInfantryUnits = ::g_world_war.infantryUnits?.blockCount() ?? -1 // warning disable: -declared-never-used
+          local totalInfantryUnits = ::g_world_war.infantryUnits?.blockCount() ?? -1 // warning disable: -declared-never-used
+          local alreadyHadInfantryUnits = ::g_world_war.debugAlreadyHadInfantryUnits // warning disable: -declared-never-used
           ::script_net_assert_once("UNKNOWN wwUnitType", "wwUnitType is UNKNOWN in wwBattleResultsView")
           continue
         }

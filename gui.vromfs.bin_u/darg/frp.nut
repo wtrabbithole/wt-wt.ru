@@ -1,22 +1,18 @@
 local function combine(obss, func) {
   //this function create and returns observable that is subscribed to list of observables
   // and its value is combination of their values by provided function
-  assert(["array","table"].find(type(obss))!=null, "frp combine supports only tables and arrays")
-  local function calc_array(...){
-    return func(obss.map(@(a) a.value))
+  ::assert(["array","table"].find(::type(obss))!=null, "frp combine supports only tables and arrays")
+
+  local curData = obss.map(@(v) v.value)
+  local res = Watched(func(curData))
+  foreach(id, w in obss) {
+    local key = id
+    w.subscribe(function(v) {
+      curData[key] = v
+      res(func(curData))
+    })
   }
-  local function calc_table(...){
-    local val = {}
-    foreach (k,v in obss){
-      val[k]<-v.value
-    }
-    return func(val)
-  }
-  local obs = ::Watched((type(obss)=="array") ? calc_array() : calc_table())
-  local handler = (type(obss)=="array") ? @(...) obs.update(calc_array()) : @(...) obs.update(calc_table())
-  foreach (k,v in obss)
-    v.subscribe(handler)
-  return obs
+  return res
 }
 
 local function map(src_observable, func) {
@@ -34,6 +30,10 @@ local function reduceAny(list) {
   return list.reduce(@(a, b) a||b)
 }
 
+local function reduceAll(list) {
+  return list.reduce(@(a, b) a&&b)
+}
+
 local function reduceNone(list) {
   return !list.reduce(@(a, b) a||b)
 }
@@ -47,6 +47,7 @@ return {
   combine = combine
   reduceAny = reduceAny
   reduceNone = reduceNone
+  reduceAll = reduceAll
   invertBool = invertBool
   map = map
   subscribe = subscribe

@@ -40,9 +40,11 @@ enum AIR_MOUSE_USAGE {
     "USEROPT_INVERTY_SHIP",
     "USEROPT_INVERTY_HELICOPTER",
     "USEROPT_INVERTY_UFO",
+    "USEROPT_INVERTY_WALKER",
     "USEROPT_INVERTY_SUBMARINE",
     "USEROPT_INVERTX",
     "USEROPT_GAMEPAD_ENGINE_DEADZONE",
+    "USEROPT_JOY_MIN_VIBRATION",
     "USEROPT_INVERTY_SPECTATOR",
     "USEROPT_JOYFX",
     "USEROPT_INVERTCAMERAY",
@@ -392,20 +394,20 @@ foreach(idx, useropt in ::user_option_names)
 delete options_mode_names
 delete user_option_names
 
-function get_option_in_mode(type, mode)
+function get_option_in_mode(optionId, mode)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(mode)
-  local res = get_option(type)
+  local res = get_option(optionId)
   ::set_gui_options_mode(mainOptionsMode)
   return res
 }
 
-function get_gui_option_in_mode(type, mode, defaultValue = null)
+function get_gui_option_in_mode(optionId, mode, defaultValue = null)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(mode)
-  local res = ::get_gui_option(type)
+  local res = ::get_gui_option(optionId)
   if (mainOptionsMode >= 0)
     ::set_gui_options_mode(mainOptionsMode)
   if (defaultValue != null && res == null)
@@ -413,10 +415,10 @@ function get_gui_option_in_mode(type, mode, defaultValue = null)
   return res
 }
 
-function set_gui_option_in_mode(type, value, mode)
+function set_gui_option_in_mode(optionId, value, mode)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(mode)
-  ::set_gui_option(type, value)
+  ::set_gui_option(optionId, value)
   ::set_gui_options_mode(mainOptionsMode)
 }

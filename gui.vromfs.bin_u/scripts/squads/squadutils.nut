@@ -137,13 +137,13 @@ function showCantJoinSquadMsgBox(id, msg, buttons, defBtn, options)
   ::scene_msg_box(id, null, msg, buttons, defBtn, options)
 }
 
-function g_squad_utils::checkSquadUnreadyAndDo(handler, func, cancelFunc = null,
+function g_squad_utils::checkSquadUnreadyAndDo(func, cancelFunc = null,
                                                shouldCheckCrewsReady = false)
 {
   if (!::g_squad_manager.isSquadMember() ||
       !::g_squad_manager.isMeReady() ||
       (!::g_squad_manager.isMyCrewsReady && shouldCheckCrewsReady))
-    return func.call(handler)
+    return func()
 
   local messageText = (::g_squad_manager.isMyCrewsReady && shouldCheckCrewsReady)
     ? ::loc("msg/switch_off_crews_ready_flag")
@@ -154,12 +154,12 @@ function g_squad_utils::checkSquadUnreadyAndDo(handler, func, cancelFunc = null,
       ::g_squad_manager.setCrewsReadyFlag(false)
     else
       ::g_squad_manager.setReadyFlag(false)
-    if (handler)
-      func.call(handler)
+
+    func()
   }
   local onCancelFunc = function() {
-    if (handler && cancelFunc)
-      cancelFunc.call(handler)
+    if (cancelFunc)
+      cancelFunc()
   }
 
   ::scene_msg_box("msg_need_unready", null, messageText,

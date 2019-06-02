@@ -359,6 +359,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     {
       buttonObj.visualStyle = "secondary"
       ::set_double_text_to_button(scene, "btn_main_action", ::loc("items/openIn/XboxStore"))
+      updateConsoleImage(buttonObj)
     }
 
     showSceneBtn("btn_preview", false)
@@ -427,6 +428,19 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (afterCloseFunc)
       afterCloseFunc()
+  }
+
+  function onItemsListFocusChange()
+  {
+    if (!isValid())
+      return
+
+    updateConsoleImage(scene.findObject("btn_main_action"))
+  }
+
+  function updateConsoleImage(buttonObj)
+  {
+    buttonObj.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
   }
 }
 

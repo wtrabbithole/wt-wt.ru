@@ -444,12 +444,12 @@ function LinesGenerator::monoLineGetBestPos(diapason, checkBox, axis, lineWidth,
   return found ? pos : null
 }
 
-function LinesGenerator::findGoodPos(obj, axis, obstacles, min, max, bestPos = null)
+function LinesGenerator::findGoodPos(obj, axis, obstacles, posMin, posMax, bestPos = null)
 {
   local box = ::GuiBox().setFromDaguiObj(obj)
   local objWidth = box.c2[axis] - box.c1[axis]
-  box.c1[axis] = min
-  box.c2[axis] = max
+  box.c1[axis] = posMin
+  box.c2[axis] = posMax
 
   local diapason = monoLineCountDiapason(null, box, axis, obstacles)
   if (diapason && diapason.len())

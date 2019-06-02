@@ -1,5 +1,6 @@
 local colors = require("style/colors.nut")
 
+const MAX_DOST = 5
 
 local images = {
   dotHole = Picture("!ui/gameuiskin#dot_hole")
@@ -98,7 +99,6 @@ local text = @(total_count, broken_count) {
 local dmModule = function (params) {
   local totalCountState = params.totalCountState
   local brokenCountState = params.brokenCountState
-  local iconState = params?.iconState
 
   local moduleIcon = moduleIconConstructor(params)
 
@@ -118,7 +118,7 @@ local dmModule = function (params) {
 
     local children = [moduleIcon(color)]
     if (totalCountState.value > 1) {
-      if (totalCountState.value < max_dost) {
+      if (totalCountState.value < MAX_DOST) {
         children.append(dots(totalCountState.value, brokenCountState.value))
       } else {
         children.append(text(totalCountState.value, brokenCountState.value))

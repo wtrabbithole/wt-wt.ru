@@ -101,10 +101,7 @@ function getFromSettingsBlk(path, defVal=null)
 
 function isInArray(v, arr)
 {
-  foreach(i in arr)
-    if (v==i)
-      return true
-  return false
+  return arr.find(v) != null
 }
 
 function locOrStrip(text)
@@ -502,10 +499,10 @@ function getShopCountry(airName)
 
 function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, forceMaxPrecise = false)
 {
-  local type = ::get_option_unit_type(unitNo)
+  local mType = ::get_option_unit_type(unitNo)
   local unit = null
   foreach(u in ::measure_units[unitNo])
-    if (u.name == type)
+    if (u.name == mType)
       unit = u
 
   if (!unit) return ""
@@ -984,183 +981,6 @@ function getStrSymbol(str, i)
   return null
 }
 
-function validate_email(no_dump_email)
-{
-  if (!no_dump_email.find("@"))
-  {
-    //dlog("not found @")
-    return null
-  }
-  //remove spaces
-  while(no_dump_email.slice(0,1)==" ")
-    no_dump_email = no_dump_email.slice(1)
-  while(no_dump_email.slice(no_dump_email.len()-1,no_dump_email.len())==" ")
-    no_dump_email = no_dump_email.slice(0, no_dump_email.len()-1)
-
-  local parts = []
-  local curPart = ""
-  local addCurPart = (@(parts) function(curPart) {
-    if (curPart=="")
-    {
-      //dlog("wrong . or @ place")
-      return false
-    }
-    parts.append(curPart)
-    return true
-  })(parts)
-
-  local specSym = ". \"(),:;<>@[]\\" //" // Fixes syntax highlighting.
-  local atFound = false
-  local strOpened = null
-
-  for(local i=0; i<no_dump_email.len(); i++)
-  {
-    local sym = no_dump_email.slice(i, i+1)
-    if (specSym.find(sym)==null)
-    {
-      curPart += sym
-      continue
-    }
-
-    if (strOpened)
-    {
-      if (strOpened=="\\\"" && sym=="\\" && getStrSymbol(no_dump_email, i+1)=="\"")
-      {
-        curPart+=strOpened
-        i++
-        strOpened=null
-        continue
-      }
-      if (strOpened==sym)
-      {
-        local nextSym = getStrSymbol(no_dump_email, i+1)
-        if (nextSym=="@" || nextSym=="." || nextSym==",")
-        {
-          curPart+=sym
-          strOpened=null
-          continue
-        } else
-        {
-          //dlog("quoted strings must be dot separated, or the only element making up the local-part")
-          return null
-        }
-      }
-      if (sym=="\\")
-      {
-        local nextSym = getStrSymbol(no_dump_email, i+1)
-        if (nextSym==" " || nextSym=="\"" || nextSym=="\\")
-        {
-          curPart+=sym+nextSym
-          i++
-          continue
-        }
-      }
-      if (sym==" " || sym=="\"" || sym=="\\")
-      {
-        //dlog("spaces, quotes, and backslashes may only exist when within quoted strings and preceded by a slash")
-        return null
-      }
-
-      curPart+=sym
-      continue
-    }
-
-    if (sym=="\\" && !atFound)  //string Insertion
-    {
-      local nextSym = getStrSymbol(no_dump_email, i+1)
-      if (nextSym=="\"")
-      {
-        strOpened="\\\""
-        curPart+=strOpened
-        i++
-      } else
-      {
-        //dlog("invalid \\")
-        return null
-      }
-    } else
-    if (sym=="\"" && !atFound)
-    {
-      if (curPart=="")
-      {
-        strOpened="\""
-        curPart+=strOpened
-      } else
-      {
-        //dlog("quoted strings must be dot separated, or the only element making up the local-part")
-        return null
-      }
-    } else
-    if (sym=="@")
-    {
-      if (atFound)
-      {
-        //dlog("double @")
-        return null
-      }
-      if (addCurPart(curPart))
-      {
-        curPart=""
-        parts.append("@")
-        atFound=true
-      } else
-        return null
-    } else
-    if (sym=="." || sym==",") //replace , by . to avoid some typing errors
-    {
-      if (addCurPart(curPart))
-        curPart=""
-      else
-        return null
-    } else
-    if (sym=="(") //comments
-    {
-      local endComment = no_dump_email.find(")", i+1)
-      if (endComment==null)
-      {
-        //dlog("not closed comment")
-        return null
-      }
-      i = endComment
-    } else
-    {
-      /*
-      if (atFound)
-        dlog("incorrect symbols in domain name")
-      else
-        dlog("incorrect symbols in local part outside quotation marks")
-      */
-      return null
-    }
-  }
-  if (strOpened)
-  {
-    //dlog("not closed quoters")
-    return null
-  }
-  if (!addCurPart(curPart))
-    return null
-  if (!atFound)
-  {
-    //dlog("not found correct @")
-    return null
-  }
-
-  local res = ""
-  local needPoint = false
-  foreach(idx, p in parts)
-    if (p=="@")
-    {
-      res+=p
-      needPoint=false
-    } else
-    {
-      res += (needPoint? ".":"") + p
-      needPoint=true
-    }
-  return res
-}
-
 function array_to_blk(arr, id)
 {
   local blk = ::DataBlock()
@@ -1168,11 +988,6 @@ function array_to_blk(arr, id)
     foreach (v in arr)
       blk[id] <- v
   return blk
-}
-
-function blk_to_array(blk, id)
-{
-  return blk % id
 }
 
 function buildTableFromBlk(blk)
@@ -1377,7 +1192,7 @@ function showCurBonus(obj, value, tooltipLocName="", isDiscount=true, fullUpdate
       obj.setValue("")
 }
 
-function addBonusToObj(handler, obj, value, tooltipLocName="", isDiscount=true, type="old")
+function addBonusToObj(handler, obj, value, tooltipLocName="", isDiscount=true, bType = "old")
 {
   if (!::checkObj(obj) || value < 2) return
 
@@ -1392,7 +1207,8 @@ function addBonusToObj(handler, obj, value, tooltipLocName="", isDiscount=true, 
     id = isDiscount? "discount" : "bonus"
     tooltip = ::format(::loc(prefix + tooltipLocName + "/tooltip"), value.tostring())
   }
-  local discountData = ::format("discount{id:t='%s'; type:t='%s'; tooltip:t='%s'; text:t='%s';}", id, type, tooltip, text)
+  local discountData = ::format("discount{id:t='%s'; type:t='%s'; tooltip:t='%s'; text:t='%s';}",
+    id, bType, tooltip, text)
 
   guiScene.appendWithBlk(obj, discountData, handler)
 }
@@ -1481,9 +1297,9 @@ function getBonus(exp, wp, imgType, placeType="", airName="")
   return data
 }
 
-function getBonusImage(type, multiplier, useBy)
+function getBonusImage(bType, multiplier, useBy)
 {
-  if ((type != "item" && type != "country") || multiplier == 1.0)
+  if ((bType != "item" && bType != "country") || multiplier == 1.0)
     return ""
 
   local allowingMult = useBy=="country"? ::allowingMultCountry : ::allowingMultAircraft
@@ -1493,7 +1309,7 @@ function getBonusImage(type, multiplier, useBy)
     return ""
 
   multiplier = ::stringReplace(multiplier.tostring(), ".", "_")
-  return ("#ui/gameuiskin#" + type + "_bonus_mult_" + multiplier)
+  return ("#ui/gameuiskin#" + bType + "_bonus_mult_" + multiplier)
 }
 
 function find_max_lower_value(val, list)
@@ -1880,11 +1696,11 @@ function onUpdateProfile(taskId, action, transactionType = ::EATT_UNKNOWN) //cod
   penalties.showBannedStatusMsgBox(true)
 }
 
-function getValueForMode(optionsMode, type)
+function getValueForMode(optionsMode, oType)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(optionsMode)
-  local value = get_option(type)
+  local value = get_option(oType)
   value = value.values[value.value]
   ::set_gui_options_mode(mainOptionsMode)
   return value
@@ -2115,11 +1931,6 @@ function quit_and_run_cmd(cmd)
   ::exit_game();
 }
 
-function check_feature_tanks()
-{
-  return ::has_feature("Tanks")
-}
-
 function get_bit_value_by_array(selValues, values)
 {
   local res = 0
@@ -2334,13 +2145,13 @@ function get_navigation_images_text(cur, total)
   local res = ""
   if (total > 1)
   {
-    local type = null
+    local style = null
     if (cur > 0)
-      type = (cur < total - 1)? "all" : "left"
+      style = (cur < total - 1)? "all" : "left"
     else
-      type = (cur < total - 1)? "right" : null
-    if (type)
-      res += "navImgStyle:t='" + type + "'; "
+      style = (cur < total - 1)? "right" : null
+    if (style)
+      res += "navImgStyle:t='" + style + "'; "
   }
   if (cur > 0)
     res += "navigationImage{ type:t='left' } "
@@ -2440,15 +2251,15 @@ function is_numeric(value)
 
 function getArrayFromInt(intNum)
 {
-  local array = []
+  local arr = []
   do {
     local div = intNum % 10
-    array.append(div)
+    arr.append(div)
     intNum = ::floor(intNum/10).tointeger()
   } while(intNum != 0)
 
-  array.reverse()
-  return array
+  arr.reverse()
+  return arr
 }
 
 function to_integer_safe(value, defValue = 0, needAssert = true)
@@ -2533,10 +2344,10 @@ function on_changed_cursor_visibility(old_value)
   ::call_darg("hudCursorVisibleUpdate", ::is_cursor_visible_in_gui())
 }
 
-function char_convert_blueprints(type)
+function char_convert_blueprints(bType)
 {
   local blk = ::DataBlock()
-  blk.setStr("type", type)
+  blk.setStr("type", bType)
   return ::char_send_blk("cln_convert_blueprints", blk)
 }
 
@@ -2606,16 +2417,16 @@ function is_multiplayer()
   return ::is_mplayer_host() || ::is_mplayer_peer()
 }
 
-function show_gblk_error_popup(type, path)
+function show_gblk_error_popup(errCode, path)
 {
   if (!::g_login.isLoggedIn())
   {
-    ::delayed_gblk_error_popups.append({ type = type, path = path })
+    ::delayed_gblk_error_popups.append({ type = errCode, path = path })
     return
   }
 
   local title = ::loc("gblk/saveError/title")
-  local msg = ::loc(::format("gblk/saveError/text/%d", type), {path=path})
+  local msg = ::loc(::format("gblk/saveError/text/%d", errCode), {path=path})
   ::g_popups.add(title, msg, null, [{id="copy_button",
                               text=::loc("gblk/saveError/copy"),
                               func=(@(msg) function() {::copy_to_clipboard(msg)})(msg)}])

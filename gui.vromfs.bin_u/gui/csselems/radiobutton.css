@@ -30,26 +30,27 @@ RadioButtonList[highlightSelected=yes] > RadioButton[selected=yes] {
 RadioButtonImg {
   size:@checkboxSize, @checkboxSize;
   position:absolute;
-  background-image:#ui/gameuiskin#radiobutton_unchecked_;
+  background-image:#ui/gameuiskin#radiobutton_unchecked_.svg;
+  background-svg-size:@checkboxSize, @checkboxSize;
   background-position:0;
   background-repeat:expand;
   background-color:@white;
   input-transparent:yes;
 }
 
-RadioButton:hover >            RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_unchecked_hover; }
+RadioButton:hover >            RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_unchecked_hover.svg; }
 
-RadioButton:current >          RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_; }
+RadioButton:current >          RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_.svg; }
 
-RadioButton:pushed >           RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_unchecked_active; }
+RadioButton:pushed >           RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_unchecked_active.svg; }
 
-RadioButton:disabled >         RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_unchecked_disabled; }
+RadioButton:disabled >         RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_unchecked_disabled.svg; }
 
-RadioButton:current:disabled > RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_disabled; }
+RadioButton:current:disabled > RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_disabled.svg; }
 
-RadioButton:current:hover >    RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_hover; }
+RadioButton:current:hover >    RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_hover.svg; }
 
-RadioButton:current:pushed >   RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_active; }
+RadioButton:current:pushed >   RadioButtonImg { background-image:#ui/gameuiskin#radiobutton_checked_active.svg; }
 
 RadioButtonList.promo {
   itemInterval:3@promoRadiobuttonSize;
@@ -66,7 +67,8 @@ RadioButtonList.promo {
 .promo > RadioButton > RadioButtonImg {
   size:@promoRadiobuttonSize, @promoRadiobuttonSize;
   background-color:@promoRadiobuttonBgColor;
-  background-image:#ui/gameuiskin#radiobutton_promo;
+  background-image:#ui/gameuiskin#radiobutton_promo.svg;
+  background-svg-size:@promoRadiobuttonSize, @promoRadiobuttonSize;
 }
 
 .promo > RadioButton:hover > RadioButtonImg {

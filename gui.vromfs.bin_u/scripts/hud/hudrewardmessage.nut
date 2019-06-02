@@ -91,9 +91,7 @@ enums.addTypesByGlobalName("g_hud_reward_message", {
   KILL = {
     code = ::EXP_EVENT_KILL
     locId = "exp_reasons/kill"
-    locFn = @(expClass) expClass == "exp_helicopter" ? "exp_reasons/kill_gm"
-      : expClass == "exp_ufo" ? "exp_reasons/killUfo"
-        : "exp_reasons/kill"
+    locFn = @(expClass) expClass == "exp_helicopter" ? "exp_reasons/kill_gm" : "exp_reasons/kill"
     viewClass = "kill"
     priority = REWARD_PRIORITY.kill
   }
@@ -101,7 +99,6 @@ enums.addTypesByGlobalName("g_hud_reward_message", {
   KILL_BY_TEAM = {
     code = ::EXP_EVENT_KILL_BY_TEAM
     locId = "exp_reasons/kill_by_team"
-    locFn = @(expClass) expClass == "exp_ufo" ? "exp_reasons/kill_by_teamUfo" : "exp_reasons/kill_by_team"
     viewClass = "kill"
     priority = REWARD_PRIORITY.assist
   }

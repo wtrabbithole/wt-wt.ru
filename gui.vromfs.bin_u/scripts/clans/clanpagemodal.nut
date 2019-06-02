@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local vehiclesModal = require("scripts/unit/vehiclesModal.nut")
 local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
 
 function showClanPage(id, name, tag)
@@ -327,8 +328,9 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       btn_season_reward_log = showClanSeasonRewards
       clan_awards_container = showClanSeasonRewards
       btn_clan_membership_req_edit = showMembershipsReqEditorButton
-      btn_clanSquads = ::has_feature("ClanSquads") && (isMyClan)
+      btn_clanSquads = ::has_feature("ClanSquads") && isMyClan
       btn_clanActivity = ::has_feature("ClanVehicles") && isMyClan
+      btn_clanVehicles = ::has_feature("ClanVehicles") && isMyClan
     }
     ::showBtnTable(scene, buttonsList)
 
@@ -401,7 +403,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local showActivity = ::has_feature("ClanActivity")
     if (showActivity)
     {
-      local clanActivity = ::getTblValue("activity", clanData.astat, 0)
+      local clanActivity = clanData.astat?.clan_activity_by_periods ?? clanData.astat?.activity ?? 0
       activityTextObj.setValue(clanActivity.tostring())
       activityIconObj["background-image"] = "#ui/gameuiskin#lb_activity.svg"
     }
@@ -726,7 +728,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     else
     {
       local category = ::u.search(::clan_member_list, (@(columnId) function(category) { return category.id == columnId })(columnId))
-      fieldName = ::getTblValue("field", category, columnId)
+      local field = category?.field ?? columnId
+      fieldName = ::u.isFunction(field) ? field(clanData?.expRewardEnabled) : field
     }
     return fieldName
   }
@@ -768,7 +771,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!("field" in column))
       return column.id
 
-    local fieldId = column.field
+    local field = column.field
+    local fieldId = ::u.isFunction(field) ? field(clanData?.expRewardEnabled) : field
     if (column.field == ::ranked_column_prefix)
       fieldId += curEra
     if (column.byDifficulty)
@@ -968,6 +972,11 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       ::gui_handlers.clanAverageActivityModal.open(clanData)
   }
 
+  function onClanVehicles(obj = null)
+  {
+    vehiclesModal.open(@(u)u.isSquadronVehicle() && u.isVisibleInShop())
+  }
+
   function onClanSquads(obj = null)
   {
     if (clanData)
@@ -1069,17 +1078,17 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj2()
   {
-    return "clan_actions"
+    return "modes_list"
   }
 
   function getMainFocusObj3()
   {
-    return scene.findObject("modes_list")
+    return scene.findObject("clan_members_list")
   }
 
   function getMainFocusObj4()
   {
-    return scene.findObject("clan_members_list")
+    return scene.findObject("clan_actions")
   }
 
   function getWndHelpConfig()
@@ -1134,7 +1143,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     wwLeaderboardData.requestWwLeaderboardData(
       "ww_users_clan", "",
       null,
-      0,
+      null,
       clanData.mlimit,
       "clanId",
       @(membersData) cb(membersData))

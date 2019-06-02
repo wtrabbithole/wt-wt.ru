@@ -1,4 +1,5 @@
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
+local unitActions = require("scripts/unit/unitActions.nut")
 
 ::delayed_unlock_wnd <- []
 function showUnlockWnd(config)
@@ -203,7 +204,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::show_facebook_screenshot_button(scene, ::getTblValue("showShareBtn", config, false))
   }
 
-  function onTake(unitToTake = null, isNewUnit = true)
+  function onTake(unitToTake = null)
   {
     if (!unitToTake && !unit)
       return
@@ -214,14 +215,12 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (needShowUnitTutorial)
       tutorialModule.saveShowedTutorial("takeUnit")
 
-    local handler = this
-    ::gui_start_selecting_crew({unit = unitToTake,
-                               unitObj = scene.findObject(unitToTake.name),
-                               isNewUnit = isNewUnit,
-                               cellClass = "slotbarClone",
-                               useTutorial = needShowUnitTutorial,
-                               afterSuccessFunc = (@(handler) function() { handler.goBack() })(handler)
-                              })
+    base.onTake(unitToTake, {
+      isNewUnit = true,
+      cellClass = "slotbarClone",
+      useTutorial = needShowUnitTutorial,
+      afterSuccessFunc = goBack.bindenv(this)
+    })
     needShowUnitTutorial = false
   }
 
@@ -241,10 +240,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function buyUnit()
   {
-    if (::canBuyUnitOnline(unit))
-      OnlineShopModel.showGoods({unitName = unit.name})
-    else
-      ::buyUnit(unit)
+    unitActions.buy(unit)
   }
 
   function onUnitHover(obj)

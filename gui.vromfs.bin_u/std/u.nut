@@ -3,7 +3,7 @@
  it also provide export for underscore.nut
  */
 
-local rootTable = getroottable()
+local rootTable = ::getroottable()
 local split = rootTable?.split
   ?? require("string")?.split
   ?? function(str,sep) {
@@ -75,7 +75,7 @@ local function registerClass(className, classRef, isEqualFunc = null, isEmptyFun
     if (value instanceof classRef)
       return true
     if ("dagor2" in rootTable && className in ::dagor2)
-      return value instanceof dagor2[className]
+      return value instanceof ::dagor2[className]
     return false
   }
 
@@ -280,7 +280,8 @@ local function removeFrom(data, value)
  * Create new table which have keys, replaced from keysEqual table.
  * deepLevel param set deep of recursion for replace keys in tbl childs
 */
-local function keysReplace(tbl, keysEqual, deepLevel = -1) {
+local function keysReplace(tbl, keysEqual, deepLevel = -1) {} //forward declaration to use in recursives
+keysReplace = function(tbl, keysEqual, deepLevel = -1) {
   local res = {}
   local newValue = null
   foreach(key, value in tbl) {
@@ -323,44 +324,6 @@ local function indexBy(list, iteratee) {
  ****************************** Array handling *********************************
  ******************************************************************************/
 
-/**
- * Returns the index at which value can be found in the array, or -1 if value
- * is not present in the array
- * <defaultIndex> is index tp return when value not found in the given array
- */
-local function searchIndex(arr, predicate, defaultIndex = -1)
-{
-  foreach (index, item in arr)
-    if (predicate(item))
-      return index
-  return defaultIndex
-}
-
-/**
- * Returns the last element of an array. Passing n will return the last n
- * elements of the array.
- */
-local function last(collection, n = 1) {
-  if (collection.len() >= n && n > 0)
-    return collection[collection.len() - n]
-  return null
-}
-
-/**
- * Safely returns the element of an array. Passing negative number will return element from end. 
- * If number is more than length array will return last one (first one for negative)
- */
-local function safeIndex(arr, n) {
-  if (n > arr.len()-1 && n >= 0)
-    return arr[arr.len()-1]
-  if (arr.len() > n && n >= 0)
-    return arr[n]
-  if (-n >= arr.len() && n < 0)
-    return arr[0]
-  if (arr.len() >= -n && n < 0)
-    return arr[arr.len() + n]
-  return null
-}
 
 local function getMax(arr, iteratee = null)
 {
@@ -437,6 +400,42 @@ local function chooseRandomNoRepeat(arr, prevIdx) {
   return arr[nextIdx]
 }
 
+local function setTblValueByArrayPath(tbl, pathArray, value) {
+  foreach(idx, key in pathArray) {
+    if (idx == pathArray.len()-1)
+      tbl[key]<-value
+    else {
+      if (!(key in tbl))
+        tbl[key] <- {}
+      tbl = tbl[key]
+    }
+  }
+}
+
+local function setTblValueByPath(tbl, path, value, separator = ".") {
+  if (::type(path) == "string") {
+    path = split(path, separator)
+  }
+  if (::type(path) == "array")
+    setTblValueByArrayPath(tbl, path, value)
+  else
+    tbl[path] <- value
+}
+
+local function getTblValueByPath(table, path, separator = ".") {
+  if (::type(path) == "string") {
+    path = split(path, separator)
+  }
+  ::assert(::type(path)=="array", "Path should be array or string with separator")
+  local ret = table
+  foreach(i,p in path) {
+    if (ret==null)
+      return null
+    ret = ret?[p]
+  }
+  return ret
+}
+
 local export = underscore.__merge({
   appendOnce = appendOnce
   chooseRandom = chooseRandom
@@ -446,7 +445,6 @@ local export = underscore.__merge({
   max = getMax
   mapAdvanced = mapAdvanced
   indexBy = indexBy
-  searchIndex = searchIndex
   removeFrom = removeFrom
   extend = extend
   registerClass = registerClass
@@ -454,11 +452,11 @@ local export = underscore.__merge({
   copy = copy
   isEqual = isEqual
   isEmpty = isEmpty
-  last = last
-  safeIndex=safeIndex
 //obsolete?
   map = map
   filter = filter
+  getTblValueByPath = getTblValueByPath
+  setTblValueByPath = setTblValueByPath
 })
 
 /**
@@ -470,7 +468,7 @@ local internalTypes = ["integer", "int64", "float", "string", "null",
                       "userdata", "thread", "weakref"]
 foreach (typeName in internalTypes) {
   local funcName = "is" + typeName.slice(0, 1).toupper() + typeName.slice(1)
-  export[funcName] <- (@(typeName) @(arg) typeof arg == typeName)(typeName)
+  export[funcName] <- (@(val) @(arg) typeof arg == val)(typeName)
 }
 
 foreach (className, config in dagorClasses)

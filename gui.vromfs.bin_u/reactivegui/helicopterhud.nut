@@ -429,7 +429,7 @@ local HelicopterHorizontalSpeedComponent = function(elemStyle, isBackground) {
 }
 
 
-local turretAngles = function(line_style, height, aspect, isBackground) {
+local function turretAngles(line_style, height, aspect, isBackground) {
   local hl = 20
   local vl = 20
 
@@ -826,7 +826,7 @@ local sightComponent = function(elemStyle, isBackground) {
   }
 }
 
-local rangeFinderComponent = function(elemStyle, isBackground) {
+local function rangeFinderComponent(elemStyle, isBackground) {
   local rangefinder = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
     halign = HALIGN_CENTER
@@ -847,7 +847,7 @@ local rangeFinderComponent = function(elemStyle, isBackground) {
 }
 
 
-local compassComponent = function(elemStyle, isBackground) {
+local function compassComponent(elemStyle, isBackground) {
   local color = getColor(isBackground)
   local getChildren = @() helicopterState.IsCompassVisible.value ? compass(elemStyle, compassWidth, compassHeight, color) : null
 
@@ -861,77 +861,77 @@ local compassComponent = function(elemStyle, isBackground) {
 }
 
 
-local helicopterMainHud = function(style, isBackground) {
+local function helicopterMainHud(elemStyle, isBackground) {
   return @(){
     watch = helicopterState.IsMainHudVisible
     children = helicopterState.IsMainHudVisible.value
     ? [
-      HelicopterRocketAim(style, isBackground)
-      HelicopterAamAimGimbal(style, isBackground)
-      HelicopterAamAimTracker(style, isBackground)
-      HelicopterGunDirection(style, isBackground)
-      HelicopterFixedGunsDirection(style, isBackground)
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
-      HelicopterHorizontalSpeedComponent(style, isBackground)
-      helicopterParamsTable(style, isBackground)
-      compassComponent(style, isBackground)
+      HelicopterRocketAim(elemStyle, isBackground)
+      HelicopterAamAimGimbal(elemStyle, isBackground)
+      HelicopterAamAimTracker(elemStyle, isBackground)
+      HelicopterGunDirection(elemStyle, isBackground)
+      HelicopterFixedGunsDirection(elemStyle, isBackground)
+      HelicopterVertSpeed(elemStyle, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
+      HelicopterHorizontalSpeedComponent(elemStyle, isBackground)
+      helicopterParamsTable(elemStyle, isBackground)
+      compassComponent(elemStyle, isBackground)
     ]
     : null
   }
 }
 
 
-local helicopterSightHud = function (style, isBackground) {
+local function helicopterSightHud(elemStyle, isBackground) {
   return @(){
     watch = helicopterState.IsSightHudVisible
     children = helicopterState.IsSightHudVisible.value
     ? [
-      HelicopterVertSpeed(style, sh(3.6), sh(30), sw(50) + hdpx(384), isBackground)
-      turretAnglesComponent(style, isBackground)
-      helicopterSightParamsTable(style, isBackground)
-      lockSightComponent(style, isBackground)
-      sightComponent(style, isBackground)
-      rangeFinderComponent(style, isBackground)
-      compassComponent(style, isBackground)
+      HelicopterVertSpeed(elemStyle, sh(3.6), sh(30), sw(50) + hdpx(384), isBackground)
+      turretAnglesComponent(elemStyle, isBackground)
+      helicopterSightParamsTable(elemStyle, isBackground)
+      lockSightComponent(elemStyle, isBackground)
+      sightComponent(elemStyle, isBackground)
+      rangeFinderComponent(elemStyle, isBackground)
+      compassComponent(elemStyle, isBackground)
     ]
     : null
   }
 }
 
 
-local gunnerHud = function (style, isBackground) {
+local function gunnerHud(elemStyle, isBackground) {
   return @(){
     watch = helicopterState.IsGunnerHudVisible
     children = helicopterState.IsGunnerHudVisible.value
     ? [
-      HelicopterRocketAim(style, isBackground)
-      HelicopterAamAimGimbal(style, isBackground)
-      HelicopterAamAimTracker(style, isBackground)
-      HelicopterGunDirection(style, isBackground)
-      HelicopterFixedGunsDirection(style, isBackground)
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
-      helicopterParamsTable(style, isBackground)
+      HelicopterRocketAim(elemStyle, isBackground)
+      HelicopterAamAimGimbal(elemStyle, isBackground)
+      HelicopterAamAimTracker(elemStyle, isBackground)
+      HelicopterGunDirection(elemStyle, isBackground)
+      HelicopterFixedGunsDirection(elemStyle, isBackground)
+      HelicopterVertSpeed(elemStyle, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
+      helicopterParamsTable(elemStyle, isBackground)
     ]
     : null
   }
 }
 
 
-local pilotHud = function (style, isBackground) {
+local function pilotHud(elemStyle, isBackground) {
   return @(){
     watch = helicopterState.IsPilotHudVisible
     children = helicopterState.IsPilotHudVisible.value
     ? [
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
-      helicopterParamsTable(style, isBackground)
+      HelicopterVertSpeed(elemStyle, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
+      helicopterParamsTable(elemStyle, isBackground)
     ]
     : null
   }
 }
 
 
-local rwrComponent = function (style, isBackground) {
-  local styleRwr = style.__merge({
+local function rwrComponent(elemStyle, isBackground) {
+  local styleRwr = elemStyle.__merge({
     color = isBackground ? backgroundColor : helicopterState.AlertColor.value
     fontScale = getFontScale() * 0.7
   })
@@ -939,7 +939,7 @@ local rwrComponent = function (style, isBackground) {
 }
 
 
-local helicopterHUDs = function (colorStyle, isBackground) {
+local function helicopterHUDs(colorStyle, isBackground) {
   return [
     helicopterMainHud(colorStyle, isBackground)
     helicopterSightHud(colorStyle, isBackground)

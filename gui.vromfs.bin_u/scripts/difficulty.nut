@@ -163,9 +163,9 @@ function g_difficulty::isDiffCodeAvailable(diffCode, gm = null)
 
 function g_difficulty::getDifficultyByChoiceType(searchChoiceType = "")
 {
-  foreach(type in types)
-    if (::isInArray(searchChoiceType, type.choiceType))
-      return type
+  foreach(t in types)
+    if (::isInArray(searchChoiceType, t.choiceType))
+      return t
 
   return ::g_difficulty.UNKNOWN
 }

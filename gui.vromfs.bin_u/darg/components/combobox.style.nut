@@ -1,3 +1,5 @@
+local Color = ::Color
+local defHeight = ::calc_comp_size({rendObj = ROBJ_DTEXT text="A"})[1]
 local function label(text, group, params=null) {
   local color = params?.disabled ? Color(160,160,160,255) : Color(255,255,255,255)
 
@@ -14,10 +16,14 @@ local function label(text, group, params=null) {
 
   local function popupArrow() {
     return {
-      rendObj = ROBJ_DTEXT
-      text = "V"
-      margin = sh(0.25)
+      rendObj = ROBJ_VECTOR_CANVAS
+      size = [defHeight/3,defHeight/3]
+      margin = sh(0.5)
       color = color
+      commands = [
+        [VECTOR_WIDTH, ::hdpx(1)],
+        [VECTOR_POLY, 0,0, 50,100, 100,0],
+      ]
     }.__update(params?.popArrow ?? {})
   }
 
@@ -40,7 +46,7 @@ local function listItem(text, action, is_current, params={}) {
   return function() {
     local textColor
     if (is_current)
-      textColor = Color(255,255,255)
+      textColor = Color(255,255,235)
     else
       textColor = (stateFlags.value & S_HOVER) ? Color(255,255,255) : Color(120,150,160)
 
@@ -57,6 +63,7 @@ local function listItem(text, action, is_current, params={}) {
         rendObj = ROBJ_DTEXT
         margin = sh(0.5)
         text = text
+        color = textColor
         group = group
       }.__update(params?.listItemText ?? {})
     }.__update(params?.listItem ?? {})

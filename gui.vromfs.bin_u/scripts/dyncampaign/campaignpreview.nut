@@ -300,7 +300,7 @@ class ::gui_handlers.CampaignPreview extends ::gui_handlers.BaseGuiHandlerWT
     local handlerClass = class {
       function goBack(obj)
       {
-        local delayedAction = (@(handler, guiScene, infoBoxObject) function(dummy) {
+        local delayedAction = (@(handler, guiScene, infoBoxObject) function() {
           guiScene.destroyElement(infoBoxObject)
           handler.isInInfo = false
           handler.showNav(true)

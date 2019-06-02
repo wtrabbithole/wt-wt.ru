@@ -492,7 +492,6 @@ function updateContact(config)
     return null
   }
 
-  local needReset = config?.needReset ?? false
   local uid = config.uid
   local contact = ::getContact(uid, config?.name)
   if (!contact)
@@ -501,10 +500,10 @@ function updateContact(config)
   //when config is instance of contact we no need update it to self
   if (!configIsContact)
   {
-    if (needReset)
+    if (config?.needReset ?? false)
       contact.resetMatchingParams()
-    else
-      contact.update(config)
+
+    contact.update(config)
   }
 
   //update presence

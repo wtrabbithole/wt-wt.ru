@@ -233,6 +233,26 @@ wwBattleIcon[status=Full] {
   background-image:#ui/gameuiskin#battles_closed;
 }
 
+wwBattleIcon[medalIcon] {
+  height:1@cIco;
+  max-height:@unlockStageIconSize;
+  width:h;
+  position:absolute;
+  pos:@bw + 0.2%sw, 50%ph-50%h;
+  background-svg-size:@cIco, @cIco;
+  background-repeat:aspect-ratio;
+}
+
+frame wwBattleIcon[medalIcon] {
+  pos:@missionBoxImageOffsetX - 50%w, 50%ph-50%h;
+  position:absolute;
+}
+
+[hasItemPrefixText] > wwBattleIcon[medalIcon] {
+  pos:@blockInterval, 50%ph-50%h;
+  position:relative;
+}
+
 armyIcon {
   size:1@wwArmyIco, 1@wwArmyIco;
   css-hier-invalidate:yes;

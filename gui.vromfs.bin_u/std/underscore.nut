@@ -57,7 +57,7 @@ local function search(data, predicate, reverseOrder = false) {
 local function zip(...) {
   local func = search(vargv, @(v) ::type(v)=="function")
   local datasets = vargv.filter(@(i,val) ::type(val)=="array")
-  assert (datasets.len()>1, "zip can work only with two or more datasources")
+  ::assert(datasets.len()>1, "zip can work only with two or more datasources")
   local res = datasets[0].map(@(v) [v])
   if (func == null) {
     for (local i = 1; i < datasets.len(); ++i)
@@ -81,7 +81,7 @@ local function zip(...) {
  */
 local function keys(table) {
   if (typeof table == "array"){
-    local res = array(table.len())
+    local res = ::array(table.len())
     foreach (i, k in res)
       res[i]=i
     return res
@@ -127,38 +127,6 @@ local function invert(table) {
 }
 
 /**
- * Return a copy of the table, filtered to only have values for the whitelisted
- * keys (or array of valid keys). Alternatively accepts a predicate indicating
- * which keys to pick.
- * pick can filter with function (value, key, table), with array, or set of
- * separate strings (each as a separate argument)
- */
-local function pick(table, ... /*keys*/) {
-  local res = {}
-  if (table == null)
-    return res
-
-  if (isFunction(vargv[0])) {
-    foreach (key, val in table) {
-      if (vargv[0](val, key, table))
-        res[key] <- val
-    }
-  }
-  else {
-    local keys = []
-    if (isArray(vargv[0]))
-      keys = vargv[0]
-    else
-      for (local i = 0; i < vargv.len(); i++)
-        keys.append(vargv[i])
-
-    foreach (key in keys)
-      if (key in table)
-        res[key] <- table[key]
-  }
-  return res
-}
-/**
  * Create new table which have all keys from both tables (or just first table,
    if addParams=true), and for each key maps value func(tbl1Value, tbl2Value)
  * If value not exist in one of table it will be pushed to func as defValue
@@ -178,40 +146,42 @@ local function tablesCombine(tbl1, tbl2, func=null, defValue = null, addParams =
 }
 
 
-local function setTblValueByArrayPath(tbl, pathArray, value) {
-  foreach(idx, key in pathArray) {
-    if (idx == pathArray.len()-1)
-      tbl[key]<-value
-    else {
-      if (!(key in tbl))
-        tbl[key] <- {}
-      tbl = tbl[key]
-    }
-  }
+/**
+ * Returns the index at which value can be found in the array, or -1 if value
+ * is not present in the array
+ * <defaultIndex> is index tp return when value not found in the given array
+ */
+local function searchIndex(arr, predicate, defaultIndex = -1) {
+  foreach (index, item in arr)
+    if (predicate(item))
+      return index
+  return defaultIndex
 }
 
-local function setTblValueByPath(tbl, path, value, separator = ".") {
-  if (::type(path) == "string") {
-    path = split(path, separator)
-  }
-  if (::type(path) == "array")
-    setTblValueByArrayPath(tbl, path, value)
-  else
-    tbl[path] <- value
+/**
+ * Returns the last element of an array. Passing n will return the last n
+ * elements of the array.
+ */
+local function last(collection, n = 1) {
+  if (collection.len() >= n && n > 0)
+    return collection[collection.len() - n]
+  return null
 }
 
-local function getTblValueByPath(table, path, separator = ".") {
-  if (::type(path) == "string") {
-    path = split(path, separator)
-  }
-  assert(::type(path)=="array", "Path should be array or string with separator")
-  local ret = table
-  foreach(i,p in path) {
-    if (ret==null)
-      return null
-    ret = ret?[p]
-  }
-  return ret
+/**
+ * Safely returns the element of an array. Passing negative number will return element from end. 
+ * If number is more than length array will return last one (first one for negative)
+ */
+local function safeIndex(arr, n) {
+  if (n > arr.len()-1 && n >= 0)
+    return arr[arr.len()-1]
+  if (arr.len() > n && n >= 0)
+    return arr[n]
+  if (-n >= arr.len() && n < 0)
+    return arr[0]
+  if (arr.len() >= -n && n < 0)
+    return arr[arr.len() + n]
+  return null
 }
 
 // * Returns random element of the given array, rand should be function that return int
@@ -244,10 +214,10 @@ return {
   values = values
   pairs = pairs
   invert = invert
-  pick = pick
   tablesCombine = tablesCombine
-  setTblValueByPath = setTblValueByPath
-  getTblValueByPath = getTblValueByPath
   chooseRandom = chooseRandom
+  searchIndex = searchIndex
+  safeIndex = safeIndex
+  last = last
   shuffle = shuffle
 }

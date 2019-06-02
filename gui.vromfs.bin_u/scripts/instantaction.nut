@@ -3,6 +3,7 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local battleRating = ::require("scripts/battleRating.nut")
+local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -142,6 +143,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     setCurQueue(::queues.findQueue({}, queueMask))
 
     updateStartButton()
+
+    setCurrentFocusObj(getSlotbar()?.getCurFocusObj())
 
     inited = true
     ::dmViewer.update()
@@ -1387,12 +1390,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!::isInMenu() || !::has_feature("ClanVehicles") || ::checkIsInQueue())
       return
 
-    local researchingUnitName = clan_get_researching_unit()
+    local researchingUnitName = ::clan_get_researching_unit()
     if (researchingUnitName == "")
       return
 
     local curSquadronExp = ::clan_get_exp()
-    local hasChosenResearchOfSquadron = ::load_local_account_settings("has_chosen_research_of_squadron", false)
+    local hasChosenResearchOfSquadron = squadronUnitAction.hasChosenResearch()
     if (hasChosenResearchOfSquadron && curSquadronExp <=0)
       return
 

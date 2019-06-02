@@ -274,10 +274,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     scene.findObject("unseen_avatar").setValue(SEEN.AVATARS)
   }
 
-  function getUnlockFiltersList(type, getCategoryFunc)
+  function getUnlockFiltersList(uType, getCategoryFunc)
   {
     local categories = []
-    local unlocks = ::g_unlocks.getUnlocksByType(type)
+    local unlocks = ::g_unlocks.getUnlocksByType(uType)
     foreach(unlock in unlocks)
       if (::is_unlock_visible(unlock))
         ::u.appendOnce(getCategoryFunc(unlock), categories, true)
@@ -290,15 +290,18 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local sheet = getCurSheet()
     local isProfileOpened = sheet == "Profile"
     local buttonsList = {
-                          btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
-                          btn_changeName = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
-                          btn_getLink = !::is_in_loading_screen() && isProfileOpened && ::has_feature("Invites")
-                          btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
-                          btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::check_account_tag("steamlogin")
-                          paginator_place = (sheet == "Statistics") && airStatsList && (airStatsList.len() > statsPerPage)
-                          btn_achievements_url = (sheet == "UnlockAchievement") && ::has_feature("AchievementsUrl")
-                            && ::has_feature("AllowExternalLink") && !::is_vendor_tencent()
-                        }
+      btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
+        && (!::steam_is_running() || ::has_feature("AllowSteamAccountLinking"))
+      btn_changeName = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
+      btn_getLink = !::is_in_loading_screen() && isProfileOpened && ::has_feature("Invites")
+      btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
+      btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::has_feature("AllowSteamAccountLinking") && ::check_account_tag("steamlogin")
+      btn_xboxRegistration = isProfileOpened && ::is_platform_xboxone && ::check_account_tag("livelogin")
+        && ::has_feature("AllowXboxAccountLinking")
+      paginator_place = (sheet == "Statistics") && airStatsList && (airStatsList.len() > statsPerPage)
+      btn_achievements_url = (sheet == "UnlockAchievement") && ::has_feature("AchievementsUrl")
+        && ::has_feature("AllowExternalLink") && !::is_vendor_tencent()
+    }
     foreach(name, show in buttonsList)
       scene.findObject(name).show(show)
   }
@@ -527,7 +530,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
       // Not showing skins for vehicles which
       // are not present or not visible in shop
-      if ( ! ::is_unit_visible_in_shop(unit))
+      if ( ! unit.isVisibleInShop())
         continue
 
       if (!decorator || !decorator.isVisible())
@@ -812,7 +815,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       return false
     if (!::has_feature("Tanks") && ::isTank(unit))
       return false
-    return ::is_unit_visible_in_shop(unit)
+    return unit.isVisibleInShop()
   }
 
   function collapse(itemName = null)
@@ -1409,11 +1412,20 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function onChangeName()
   {
-    msgBox("question_change_name", ::loc("mainmenu/questionChangeName"),
+    local textLocId = "mainmenu/questionChangeName"
+    local afterOkFunc = @() guiScene.performDelayed(this, function() { pending_logout = true})
+
+    if (::steam_is_running() && !::has_feature("AllowSteamAccountLinking"))
+    {
+      textLocId = "mainmenu/questionChangeNameSteam"
+      afterOkFunc = @() null
+    }
+
+    msgBox("question_change_name", ::loc(textLocId),
       [
         ["ok", function() {
           ::open_url(::loc("url/changeName"), false, false, "profile_page")
-          guiScene.performDelayed(this, function() { pending_logout = true})
+          afterOkFunc()
         }],
         ["cancel", function() { }]
       ], "cancel")
@@ -1588,6 +1600,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   function onBindSteamEmail()
   {
     ::g_user_utils.launchSteamEmailRegistration()
+    doWhenActiveOnce("updateButtons")
+  }
+
+  function onBindXboxEmail()
+  {
+    ::g_user_utils.launchXboxEmailRegistration()
     doWhenActiveOnce("updateButtons")
   }
 

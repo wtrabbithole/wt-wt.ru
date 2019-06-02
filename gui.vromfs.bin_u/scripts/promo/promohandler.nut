@@ -176,9 +176,7 @@ class Promo
     local list = block[langKey] || block[defaultName]
     if (!list)
       return []
-
-    local array = ::blk_to_array(list, "name")
-    return array
+    return list % "name"
   }
 
   function activateSelectedBlock(obj)

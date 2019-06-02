@@ -41,11 +41,31 @@
     TanksInCustomBattles = false
     TanksInRandomBattles = false
     SpendGoldForTanks = false
-    BritainTanksInFirstCountryChoice = false
-    JapanTanksInFirstCountryChoice = false
 
-    FranceAircraftsInFirstCountryChoice = false
-    FranceTanksInFirstCountryChoice = false
+    UsaAircraftsInFirstCountryChoice      = true
+    UsaTanksInFirstCountryChoice          = true
+    UsaShipsInFirstCountryChoice          = true
+    GermanyAircraftsInFirstCountryChoice  = true
+    GermanyTanksInFirstCountryChoice      = true
+    GermanyShipsInFirstCountryChoice      = true
+    UssrAircraftsInFirstCountryChoice     = true
+    UssrTanksInFirstCountryChoice         = true
+    UssrShipsInFirstCountryChoice         = true
+    BritainAircraftsInFirstCountryChoice  = true
+    BritainTanksInFirstCountryChoice      = true
+    BritainShipsInFirstCountryChoice      = true
+    JapanAircraftsInFirstCountryChoice    = true
+    JapanTanksInFirstCountryChoice        = ::disable_network()
+    JapanShipsInFirstCountryChoice        = ::disable_network()
+    ChinaAircraftsInFirstCountryChoice    = true
+    ChinaTanksInFirstCountryChoice        = true
+    ChinaShipsInFirstCountryChoice        = ::disable_network()
+    ItalyAircraftsInFirstCountryChoice    = true
+    ItalyTanksInFirstCountryChoice        = true
+    ItalyShipsInFirstCountryChoice        = ::disable_network()
+    FranceAircraftsInFirstCountryChoice   = true
+    FranceTanksInFirstCountryChoice       = ::disable_network()
+    FranceShipsInFirstCountryChoice       = ::disable_network()
 
     Helicopters = ::disable_network()
 
@@ -206,6 +226,9 @@
 
     NewUnitTypeToBattleTutorial = false
     AchievementsUrl = false
+
+    AllowSteamAccountLinking = true
+    AllowXboxAccountLinking = false
   }
 
   cache = {}

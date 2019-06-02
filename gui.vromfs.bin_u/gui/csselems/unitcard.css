@@ -827,6 +827,15 @@ weapon_item_unit > td:hover > shopItem
   showButtons:yes;
 }
 
+shopItem[isInTable=no] {
+  size:@slot_width, @slot_height;
+}
+
+unitItemContainer {
+  css-hier-invalidate:yes;
+  padding:1@slotPaddingNoTable;
+}
+
 shopLine, shopArrow, shopAngle {
   background-color:@shopItem;
   position:absolute;

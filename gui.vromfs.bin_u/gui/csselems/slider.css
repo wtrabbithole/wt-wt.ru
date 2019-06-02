@@ -48,7 +48,8 @@ slider[inactiveColor=yes]
 
 sliderButton {
   size:@sliderThumbWidth, @sliderThumbHeight;
-  background-image:#ui/gameuiskin#slider_thumb;
+  background-image:#ui/gameuiskin#slider_thumb.svg;
+  background-svg-size:@sliderThumbWidth, @sliderThumbHeight;
   background-repeat:stretch;
   background-color:@commonTextColor;
 }
@@ -57,7 +58,7 @@ sliderButton:hover,
 slider:focus > sliderButton,
 sliderButton:pushed {
   background-color:@white;
-  background-image:#ui/gameuiskin#slider_thumb_hover;
+  background-image:#ui/gameuiskin#slider_thumb_hover.svg;
 }
 
 sliderButton:disabled {
@@ -74,9 +75,11 @@ invisSlider {
 }
 invisSlider > sliderButton {
   size:0.3ph,ph;
+  background-svg-size:0.3ph,ph;
 }
 invisSlider > sliderButton[type=various] {
   size: @sliderThumbWidth, @sliderThumbHeight;
+  background-svg-size:@sliderThumbWidth, @sliderThumbHeight;
   css-hier-invalidate:yes;
 }
 
@@ -86,12 +89,13 @@ sliderButton[type=various] > img {
   pos:50%pw-50%w, 50%ph-50%h;
   position:absolute;
   background-repeat:expand;
-  background-image:#ui/gameuiskin#slider_thumb;
+  background-image:#ui/gameuiskin#slider_thumb.svg;
   background-color:@commonTextColor;
+  background-svg-size:@sliderThumbWidth, @sliderThumbHeight;
 }
 
 sliderButton[type=various]:hover > img {
-  background-image:#ui/gameuiskin#slider_thumb_hover;
+  background-image:#ui/gameuiskin#slider_thumb_hover.svg;
   background-color:@activeTextColor;
 }
 

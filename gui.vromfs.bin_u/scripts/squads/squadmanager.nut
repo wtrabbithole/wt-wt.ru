@@ -1010,9 +1010,11 @@ function g_squad_manager::requestMemberDataCallback(uid, response)
   if (memberData == null)
     return
 
+  local currentMemberData = memberData.getData()
   local receivedMemberData = receivedData?.data
-  local isMemberDataChanged = ::g_squad_manager.isMemberDataChanged(memberData, receivedMemberData)
-  memberData.update(receivedMemberData)
+  local isMemberDataChanged = memberData.update(receivedMemberData)
+  local isMemberDataVehicleChanged = isMemberDataChanged
+    && ::g_squad_manager.isMemberDataVehicleChanged(currentMemberData, memberData)
   local contact = ::getContact(memberData.uid, memberData.name)
   contact.online = response.online
   memberData.online = response.online
@@ -1037,7 +1039,7 @@ function g_squad_manager::requestMemberDataCallback(uid, response)
   ::g_squad_manager.joinSquadChatRoom()
 
   ::broadcastEvent(squadEvent.DATA_UPDATED)
-  if (::g_squad_manager.isSquadLeader() && isMemberDataChanged)
+  if (::g_squad_manager.isSquadLeader() && isMemberDataVehicleChanged)
     battleRating.updateBattleRating()
 
   local memberSquadsVersion = receivedMemberData?.squadsVersion ?? DEFAULT_SQUADS_VERSION
@@ -1719,12 +1721,14 @@ function g_squad_manager::onEventQueueChangeState(params)
   updatePresenceSquad(true)
 }
 
-function g_squad_manager::isMemberDataChanged(currentData, receivedData)
+function g_squad_manager::isMemberDataVehicleChanged(currentData, receivedData)
 {
-  if (currentData.country != receivedData.country)
+  local currentCountry = currentData?.country ?? ""
+  local receivedCountry = receivedData?.country ?? ""
+  if (currentCountry != receivedCountry)
     return true
 
-  if (currentData.selSlots?[currentData.country] != receivedData.selSlots?[receivedData.country])
+  if (currentData?.selSlots?[currentCountry] != receivedData?.selSlots?[receivedCountry])
     return true
 
   if (!::u.isEqual(battleRating.getCrafts(currentData), battleRating.getCrafts(receivedData)))

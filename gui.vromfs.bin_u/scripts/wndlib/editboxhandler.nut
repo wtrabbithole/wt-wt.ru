@@ -1,5 +1,8 @@
 function gui_modal_editbox_wnd(params)
 {
+  if (!params?.okFunc)
+    return
+
   ::gui_start_modal_wnd(::gui_handlers.EditBoxHandler, params)
 }
 
@@ -26,15 +29,11 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
 
   function initScreen()
   {
-    if (!okFunc)
-      return goBack()
-
     scene.findObject("edit_box_window_header").setValue(title)
     scene.findObject("editbox_header").setValue(editboxHeaderText)
 
-    editBoxObj = scene.findObject(multiline ? "edit_box_window_text_multiline" : "edit_box_window_text")
-    editBoxObj.show(true)
-    editBoxObj.enable(true)
+    editBoxObj = showSceneBtn(multiline ? "edit_box_window_text_multiline" : "edit_box_window_text", true)
+
     if (value)
       editBoxObj.setValue(value)
     if (maxLen)

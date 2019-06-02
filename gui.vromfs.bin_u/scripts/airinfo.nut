@@ -4,6 +4,7 @@ local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 local stdMath = require("std/math.nut")
 local unitInfoTexts = require("scripts/unit/unitInfoTexts.nut")
 local unitStatus = require("scripts/unit/unitStatus.nut")
+local unitActions = require("scripts/unit/unitActions.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -294,10 +295,10 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
           if (!handler.isValid())
             return
 
-          ::g_squad_utils.checkSquadUnreadyAndDo(this,
+          ::g_squad_utils.checkSquadUnreadyAndDo(
             ::Callback(function() {
               ::gui_start_select_unit(crew, handler.getSlotbar() || handler)
-            }, this),
+            }),
             @() null, handler?.shouldCheckCrewsReady)
         },
         null, "isCanModifyCrew")
@@ -350,7 +351,7 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
       haveWarning = true
       showAction = inMenu && isUsable && repairCost > 0 && ::SessionLobby.canChangeCrewUnits()
          && !::g_crews_list.isSlotbarOverrided
-      actionFunc = @() unit.repair()
+      actionFunc = @() unitActions.repairWithMsgBox(unit)
     }
     else if (action == "buy")
     {
@@ -405,6 +406,7 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
       local getReqExp = reqExp < countryExp ? reqExp : countryExp
       local needToFlushExp = !isSquadronVehicle && handler?.shopResearchMode && countryExp > 0 //!!FIX ME: Direct search params in the handler not a good idea
       local squadronExpText = ::Cost().setSap(squadronExp).tostring()
+      local setResearchManually = p?.setResearchManually ?? handler?.setResearchManually
 
       actionText = needToFlushExp || (p.isSquadronResearchMode && p.needChosenResearchOfSquadron)
         ? ::format(::loc("mainmenu/btnResearch")
@@ -414,7 +416,7 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
             : ::Cost().setRp(getReqExp).tostring())
         : canFlushSquadronExp && (isInResearch || p.isSquadronResearchMode)
           ? ::format(::loc("mainmenu/btnInvestSquadronExp") + " (%s)", squadronExpText)
-            : isInResearch && handler?.setResearchManually && !isSquadronVehicle
+            : isInResearch && setResearchManually && !isSquadronVehicle
               ? ::loc("mainmenu/btnConvert")
               : ::loc("mainmenu/btnResearch")
       //icon       = "#ui/gameuiskin#slot_research"
@@ -426,30 +428,16 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
         || (p.isSquadronResearchMode && (p.needChosenResearchOfSquadron || canFlushSquadronExp))
         ? function() {handler.onSpendExcessExp()}
         : canFlushSquadronExp && isInResearch
-          ? function() { ::scene_msg_box("ask_flush_squadron_exp",
-            null,
-            ::loc("squadronExp/invest/needMoneyQuestion", {
-              exp = squadronExpText }),
-            [
-              ["yes", @() ::g_tasker.addTask(::char_send_action_and_load_profile("cln_flush_clan_exp_to_unit"),
-                null,
-                function() {
-                  ::broadcastEvent("FlushSquadronExp", {unit = unit})
-                })
-              ],
-              ["no", @() null]
-            ],
-            "yes")}
-          : !handler?.setResearchManually
+          ? function() { unitActions.flushSquadronExp(unit) }
+          : !setResearchManually
             ? function () { handler.onCloseShop() }
             : isInResearch && !isSquadronVehicle
-              ? function () { ::gui_modal_convertExp(unit, handler) }
+              ? function () { ::gui_modal_convertExp(unit) }
               : function () {
                   if (!::checkForResearch(unit))
                     return
 
-                  ::add_big_query_record("choosed_new_research_unit", unit.name)
-                  ::researchUnit(unit)
+                  unitActions.research(unit)
                 }
     }
     else if (action == "testflight" || action == "testflightforced")
@@ -476,6 +464,18 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
         else
           ::gui_start_aircraft_info(unit.name)
       })(unit)
+    }
+    else if (action == "find_in_market")
+    {
+      actionText = ::loc("msgbox/btn_find_on_marketplace")
+      icon       = "#ui/gameuiskin#gc.svg"
+      showAction = canBuyUnitOnMarketplace(unit)
+      isLink     = true
+      actionFunc = function(){
+        local item = ::ItemsManager.findItemById(unit.marketplaceItemdefId)
+        if (item && item.hasLink())
+          item.openLink()
+      }
     }
 
     res.actions.append({
@@ -631,34 +631,29 @@ function canResearchUnit(unit)
 
 function canBuyUnit(unit)
 {
-  //temporary check while shop_is_unit_available is broken
-  /*
-  if (::isUnitGift(unit))
-    return false
+  if (::isUnitGift(unit))  //!!! FIX ME shop_unit_research_status may return ES_ITEM_STATUS_CAN_BUY
+    return false           // if vehicle could be bought in game, but it became a gift vehicle.
 
-  if (::isUnitSpecial(unit) && !::isUnitBought(unit))
-    return true
-
-  if(!("name" in unit))
-    return false
-  */
   local status = ::shop_unit_research_status(unit.name)
-  return (0 != (status & ::ES_ITEM_STATUS_CAN_BUY)) && ::is_unit_visible_in_shop(unit)
-}
-
-function is_unit_visible_in_shop(unit)
-{
-  return unit.isVisibleInShop()
+  return (0 != (status & ::ES_ITEM_STATUS_CAN_BUY)) && unit.isVisibleInShop()
 }
 
 function can_crew_take_unit(unit)
 {
-  return isUnitUsable(unit) && is_unit_visible_in_shop(unit)
+  return isUnitUsable(unit) && unit.isVisibleInShop()
 }
 
 function canBuyUnitOnline(unit)
 {
   return !::isUnitBought(unit) && ::isUnitGift(unit) && unit.isVisibleInShop()
+    && ::OnlineShopModel.searchEntitlement({unitName = unit.name}).len() > 0
+}
+
+function canBuyUnitOnMarketplace(unit)
+{
+  return unit.marketplaceItemdefId != null
+    && ::ItemsManager.isMarketplaceEnabled()
+    && (::ItemsManager.findItemById(unit.marketplaceItemdefId)?.hasLink() ?? false)
 }
 
 function isUnitInResearch(unit)
@@ -749,11 +744,6 @@ function isUnitUsable(unit)
 function isUnitFeatureLocked(unit)
 {
   return unit.reqFeature != null && !::has_feature(unit.reqFeature)
-}
-
-function checkUnitHideFeature(unit)
-{
-  return !unit.hideFeature || ::has_feature(unit.hideFeature)
 }
 
 function getUnitRepairCost(unit)
@@ -863,33 +853,6 @@ function impl_buyUnit(unit)
     })(unit, progressBox)
   )
   return true
-}
-
-function researchUnit(unit, checkCurrentUnit = true, afterDoneFunc = null)
-{
-  if (!::canResearchUnit(unit) || (checkCurrentUnit && ::isUnitInResearch(unit)))
-    return
-
-  local prevUnitName = ::shop_get_researchable_unit_name(::getUnitCountry(unit), ::get_es_unit_type(unit))
-  local taskId = -1
-  if (unit.isSquadronVehicle())
-  {
-     prevUnitName = clan_get_researching_unit()
-
-     local blk = ::DataBlock()
-     blk.addStr("unit", unit.name);
-     taskId = ::char_send_blk("cln_set_research_clan_unit", blk)
-  }
-  else
-    taskId = ::shop_set_researchable_unit(unit.name, ::get_es_unit_type(unit))
-  local progressBox = ::scene_msg_box("char_connecting", null, ::loc("charServer/purchase0"), null, null)
-  local unitName = unit.name
-  ::add_bg_task_cb(taskId, function() {
-    ::destroyMsgBox(progressBox)
-    if (afterDoneFunc)
-      afterDoneFunc()
-    ::broadcastEvent("UnitResearch", {unitName = unitName, prevUnitName = prevUnitName})
-  })
 }
 
 function can_spend_gold_on_unit_with_popup(unit)
@@ -1422,11 +1385,11 @@ function isUnitLocked(unit)
 
 function isUnitResearched(unit)
 {
-  if (::isUnitBought(unit))
+  if (::isUnitBought(unit) || ::canBuyUnit(unit))
     return true
 
   local status = ::shop_unit_research_status(unit.name)
-  return (0 != (status & (::ES_ITEM_STATUS_CAN_BUY | ::ES_ITEM_STATUS_RESEARCHED)))
+  return (0 != (status & ::ES_ITEM_STATUS_RESEARCHED))
 }
 
 function isPrevUnitResearched(unit)
@@ -1454,12 +1417,12 @@ function getNextUnits(unit)
   return res
 }
 
-function setOrClearNextUnitToResearch(unit, country, type) //return -1 when clear prev
+function setOrClearNextUnitToResearch(unit, country, uType) //return -1 when clear prev
 {
   if (unit)
-    return ::shop_set_researchable_unit(unit.name, type)
+    return ::shop_set_researchable_unit(unit.name, uType)
 
-  ::shop_reset_researchable_unit(country, type)
+  ::shop_reset_researchable_unit(country, uType)
   return -1
 }
 
@@ -1514,8 +1477,8 @@ function getCharacteristicActualValue(air, characteristicName, prepareTextFunc, 
     air.shop[characteristicName[0]] <- 0;
 
   local value = air.shop[characteristicName[0]] + (air[modificators] ? air[modificators][modeName][characteristicName[1]] : 0)
-  local min = air.minChars ? air.shop[characteristicName[0]] + air.minChars[modeName][characteristicName[1]] : value
-  local max = air.maxChars ? air.shop[characteristicName[0]] + air.maxChars[modeName][characteristicName[1]] : value
+  local vMin = air.minChars ? air.shop[characteristicName[0]] + air.minChars[modeName][characteristicName[1]] : value
+  local vMax = air.maxChars ? air.shop[characteristicName[0]] + air.maxChars[modeName][characteristicName[1]] : value
   local text = prepareTextFunc(value)
   if(air[modificators] && air[modificators][modeName][characteristicName[1]] == 0)
   {
@@ -1527,10 +1490,10 @@ function getCharacteristicActualValue(air, characteristicName, prepareTextFunc, 
   local weaponModText = ""
   if(weaponModValue != 0)
     weaponModText = "<color=@badTextColor>" + (weaponModValue > 0 ? " + " : " - ") + prepareTextFunc(fabs(weaponModValue)) + "</color>"
-  return [text, weaponModText, min, max, value, air.shop[characteristicName[0]], showReferenceText]
+  return [text, weaponModText, vMin, vMax, value, air.shop[characteristicName[0]], showReferenceText]
 }
 
-function setReferenceMarker(obj, min, max, refer, modeName)
+function setReferenceMarker(obj, vMin, vMax, refer, modeName)
 {
   if(!::checkObj(obj))
     return
@@ -1538,27 +1501,27 @@ function setReferenceMarker(obj, min, max, refer, modeName)
   local refMarkerObj = obj.findObject("aircraft-reference-marker")
   if (::checkObj(refMarkerObj))
   {
-    if(min == max || (modeName == "arcade"))
+    if(vMin == vMax || (modeName == "arcade"))
     {
       refMarkerObj.show(false)
       return
     }
 
     refMarkerObj.show(true)
-    local left = (refer - min) / (max - min)
+    local left = (refer - vMin) / (vMax - vMin)
     refMarkerObj.left = ::format("%.3fpw - 0.5w)", left)
   }
 }
 
-function fillAirCharProgress(progressObj, min, max, cur)
+function fillAirCharProgress(progressObj, vMin, vMax, cur)
 {
   if(!::checkObj(progressObj))
     return
-  if(min == max)
+  if(vMin == vMax)
     return progressObj.show(false)
   else
     progressObj.show(true)
-  local value = ((cur - min) / (max - min)) * 1000.0
+  local value = ((cur - vMin) / (vMax - vMin)) * 1000.0
   progressObj.setValue(value)
 }
 
@@ -1650,21 +1613,11 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   if (!show || !air)
     return
 
-  local isUfo = air.isUfo()
-
   local tableObj = holderObj.findObject("air_info_panel_table")
   if (::check_obj(tableObj))
   {
     local isShowProgress = ::isInArray(air.esUnitType, [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ])
     tableObj["showStatsProgress"] = isShowProgress ? "yes" : "no"
-  }
-
-  local normalTableObj = holderObj.findObject("air_info_panel_table") || holderObj.findObject("air_info_panel_table_tooltip")
-  local alienTableObj  = holderObj.findObject("air_info_panel_table_alien")
-  if (::check_obj(normalTableObj) && ::check_obj(alienTableObj))
-  {
-    normalTableObj.show(!isUfo)
-    alienTableObj.show(isUfo)
   }
 
   local isInFlight = ::is_in_flight()
@@ -1783,13 +1736,13 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       nameObj.setValue(::loc("shop/age") + ::loc("ui/colon"))
     local yearsObj = ageObj.findObject("age_years")
     if (::checkObj(yearsObj))
-      yearsObj.setValue(isUfo ? "ᛁᚼ" : ::get_roman_numeral(air.rank))
+      yearsObj.setValue(::get_roman_numeral(air.rank))
   }
 
   //count unit ratings
   local battleRating = air.getBattleRating(ediff)
   holderObj.findObject("aircraft-battle_rating-header").setValue(::loc("shop/battle_rating") + ::loc("ui/colon"))
-  holderObj.findObject("aircraft-battle_rating").setValue(isUfo ? "ᚿᚼᚼ" : format("%.1f", battleRating))
+  holderObj.findObject("aircraft-battle_rating").setValue(format("%.1f", battleRating))
 
   local meetObj = holderObj.findObject("aircraft-chance_to_met_tr")
   if (::checkObj(meetObj))
@@ -1893,7 +1846,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       waitObj.show(!isSecondaryModsValid)
   }
   local refTextObj = holderObj.findObject("references_text")
-  if (::checkObj(refTextObj)) refTextObj.show(showReferenceText && !isUfo)
+  if (::checkObj(refTextObj)) refTextObj.show(showReferenceText)
 
   holderObj.findObject("aircraft-speedAlt").setValue(air.shop.maxSpeedAlt>0? ::countMeasure(1, air.shop.maxSpeedAlt) : ::loc("shop/max_speed_alt_sea"))
 //    holderObj.findObject("aircraft-climbTime").setValue(format("%02d:%02d", air.shop.climbTime.tointeger() / 60, air.shop.climbTime.tointeger() % 60))
@@ -2313,7 +2266,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   }
   else
   {
-    if (::isUnitGift(air))
+    if (::canBuyUnitOnline(air))
       addInfoTextsList.append(::colorize("userlogColoredText",
         ::format(::loc("shop/giftAir/"+air.gift+"/info"), air.giftParam ? ::loc(air.giftParam) : "")))
     if (::isUnitDefault(air))
@@ -2323,6 +2276,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local priceText = ::colorize("activeTextColor", ::getUnitCost(air).getTextAccordingToBalance())
       addInfoTextsList.append(::colorize("userlogColoredText", ::loc("mainmenu/canBuyThisVehicle", { price = priceText })))
     }
+    if(canBuyUnitOnMarketplace(air))
+      addInfoTextsList.append(::colorize("userlogColoredText",::loc("shop/giftAir/coupon/info")))
   }
 
   local infoObj = holderObj.findObject("aircraft-addInfo")
@@ -2636,7 +2591,7 @@ function get_units_list(filterFunc)
   return res
 }
 
-function get_units_count_at_rank(rank, type, country, exact_rank, needBought = true)
+function get_units_count_at_rank(rank, esUnitType, country, exact_rank, needBought = true)
 {
   local count = 0
   foreach (unit in ::all_units)
@@ -2646,7 +2601,7 @@ function get_units_count_at_rank(rank, type, country, exact_rank, needBought = t
 
     // Keep this in sync with getUnitsCountAtRank() in chard
     if (
-        (::ES_UNIT_TYPE_TOTAL == type || ::get_es_unit_type(unit) == type) &&
+        (::ES_UNIT_TYPE_TOTAL == esUnitType || ::get_es_unit_type(unit) == esUnitType) &&
         (unit.rank == rank || (!exact_rank && unit.rank > rank) ) &&
         ("" == country || unit.shopCountry == country)
        )

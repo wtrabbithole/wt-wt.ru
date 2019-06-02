@@ -163,7 +163,7 @@ enums.addTypesByGlobalName("g_order_type", {
       local types = ::g_unit_class_type.getTypesFromCodeMask(scoreValue)
       if (types.len() == 0)
         return "-"
-      local names = ::u.map(types, function (type) { return type.getName() })
+      local names = types.map(@(t) t.getName())
       return ::g_string.implode(names, ", ")
     }
   }

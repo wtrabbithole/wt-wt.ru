@@ -1,3 +1,4 @@
+local Color = ::Color
 local contextStyle = {
   menuBgColor = Color(20, 30, 36)
   listItem = function (text, action) {

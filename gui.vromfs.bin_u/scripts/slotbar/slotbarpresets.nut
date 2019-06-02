@@ -213,7 +213,7 @@
     {
       if (unit.rank != eraIdForBonus ||
           ! unit.unitType.isAvailable() ||
-          ! ::is_unit_visible_in_shop(unit))
+          ! unit.isVisibleInShop())
         continue
 
       local countryName = ::getUnitCountry(unit)

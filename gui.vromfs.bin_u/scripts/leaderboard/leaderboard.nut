@@ -383,13 +383,13 @@ function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, para
  */
 function getLeaderboardItemWidgets(view)
 {
-  return ::handyman.renderCached("gui/leaderboardItemWidget", view)
+  return ::handyman.renderCached("gui/leaderboard/leaderboardItemWidget", view)
 }
 
 class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/leaderboard.blk"
+  sceneBlkName = "gui/leaderboard/leaderboard.blk"
 
   lbType        = ::ETTI_VALUE_INHISORY
   curLbCategory = null
@@ -752,7 +752,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local tplView = getTopItemsTplView()
-    local data = ::handyman.renderCached("gui/leaderboardTopItem", tplView)
+    local data = ::handyman.renderCached("gui/leaderboard/leaderboardTopItem", tplView)
 
     guiScene.replaceContentFromText(holder, data, data.len(), this)
   }

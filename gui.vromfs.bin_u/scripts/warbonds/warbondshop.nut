@@ -430,4 +430,6 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   {
     openUnitActionsList(obj, true, true)
   }
+
+  function onItemsListFocusChange() {}
 }

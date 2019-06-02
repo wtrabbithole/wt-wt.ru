@@ -21,8 +21,8 @@ local globalEnv = require_native("globalEnv")
       defValue = 1,
       onButton = function(value)
       {
-        local type = ::recomended_control_presets[value]
-        local preset = ::get_controls_preset_by_selected_type(type)
+        local cType = ::recomended_control_presets[value]
+        local preset = ::get_controls_preset_by_selected_type(cType)
         applyPreset(preset.fileName)
       }
     }
@@ -178,6 +178,15 @@ local globalEnv = require_native("globalEnv")
     { id="ID_TRIM", filterShow = [globalEnv.EM_FULL_REAL] }
     { id="ID_TRIM_RESET", filterShow = [globalEnv.EM_FULL_REAL] }
     { id="ID_TRIM_SAVE", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="helicopter_trim_elevator", type = CONTROL_TYPE.AXIS, isVertical = true, buttonRelative = true
+      images = ["wizard_elevator_up", "wizard_elevator_down"]
+      filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="helicopter_trim_ailerons", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true
+      images = ["wizard_ailerons_right", "wizard_ailerons_left"]
+      filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="helicopter_trim_rudder", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true
+      images = ["wizard_rudder_right", "wizard_rudder_left"]
+      filterShow = [globalEnv.EM_FULL_REAL] }
     { id="trim_elevator", type = CONTROL_TYPE.AXIS, isVertical = true, buttonRelative = true
       images = ["wizard_elevator_up", "wizard_elevator_down"]
       filterShow = [globalEnv.EM_FULL_REAL] }

@@ -1,7 +1,7 @@
 local defStyling = require("msgbox.style.nut")
 local frp = require("daRg/frp.nut")
 
-local widgets = Watched([])
+local widgets = persist("widgest", @() ::Watched([]))
 
 
 local function addWidget(w) {
@@ -55,14 +55,17 @@ local function show(params, styling=defStyling) {
     if ("onClose" in params && params.onClose)
       params.onClose()
   }
-  local uid = params?.uid ?? "msgbox_" + counter++
+  local uid = params?.uid ?? ("msgbox_" + counter++)
   removeByUid(uid)
 
   local skpdescr = {description = {skip=true}}
   local btnsDesc = params?.buttons || [{text="OK" customStyle={hotkeys=[["^Esc | Enter", skpdescr]]}}]
-  if (!(btnsDesc instanceof Watched))
-    btnsDesc = Watched(btnsDesc)
-
+  if (!(btnsDesc instanceof ::Watched))
+    btnsDesc = ::Watched(btnsDesc)
+  btnsDesc.update(function(v){
+    if (v.len()==1)
+      v[0].isCurrenty <- true
+  })
   local defCancel = null
   local curBtnIdx = frp.map(btnsDesc, function(btns) {
     local res = 0
@@ -82,18 +85,17 @@ local function show(params, styling=defStyling) {
 
       children = btnsDesc.value.map(function(desc, idx) {
         local conHover = desc?.onHover
-        local customStyle = desc?.customStyle ?? {}
         local onHover = function(on){
           curBtnIdx.update(idx)
           ::set_kb_focus(btnsDesc.value[curBtnIdx.value])
           conHover?()
         }
-        customStyle.__update({onHover=onHover})
+        local customStyle = (desc?.customStyle ?? {}).__merge({onHover=onHover})
         return styling.button(desc.__update({customStyle = customStyle}), @() doClose(desc?.action))
       })
       behavior = Behaviors.RecalcHandler
 
-      onRecalcLayout = function(elem, initial) {
+      onRecalcLayout = function(initial) {
         if (initial) {
           ::set_kb_focus(btnsDesc.value[curBtnIdx.value])
         }
@@ -118,10 +120,11 @@ local function show(params, styling=defStyling) {
       buttonsBlock
     ]
     hotkeys = [
-      ["Esc | J:B", {action= @() doClose(defCancel?.action, true), description = ::loc("Close")}],
-      ["Right | Tab", {action = @() moveBtnFocus(1) description = skip}],
-      ["Left", {action = @() moveBtnFocus(-1) description = skip}],
-      ["Enter", {action= activateCurBtn, description= skip}],
+      [styling?.closeKeys ?? "Esc", {action= @() doClose(defCancel?.action, true), description = ::loc("Close")}],
+      [styling?.rightKeys ?? "Right | Tab", {action = @() moveBtnFocus(1) description = skip}],
+      [styling?.leftKeys ?? "Left", {action = @() moveBtnFocus(-1) description = skip}],
+      [styling?.activateKeys ?? "Space | Enter", {action= activateCurBtn, description= skip}],
+      [styling?.maskKeys ?? "", {action = @() null, description = skip}]
     ]
   })
   self = styling.BgOverlay.__merge({

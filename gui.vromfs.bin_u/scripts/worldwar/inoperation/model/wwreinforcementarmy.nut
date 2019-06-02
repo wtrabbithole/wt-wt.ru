@@ -131,11 +131,11 @@ class ::WwReinforcementArmy extends ::WwFormation
 
   function getUnitsViewsArray()
   {
-    local array = []
+    local res = []
     foreach (unit in units)
-      array.append(unit.getShortStringView())
+      res.append(unit.getShortStringView())
 
-    return array
+    return res
   }
 
   static function sortReadyReinforcements(a, b)

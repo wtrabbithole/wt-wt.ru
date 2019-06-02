@@ -35,6 +35,7 @@ itemDiv > focus_border, recipe > focus_border {
   display:show;
 }
 
+[show_console_buttons=yes] :focus unitItemContainer[selected=yes] > shopItem > focus_border,
 table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_border,
 [show_console_buttons=yes] :focus > focus_border,
 [show_console_buttons=yes] .slotbarTable:focus [selected=yes] > shopItem > focus_border,
@@ -83,6 +84,7 @@ table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_b
 [show_console_buttons=yes] :focus > WwBattlesGroup:current,
 [show_console_buttons=yes] :focus > imgSelectable[selected=yes],
 [show_console_buttons=yes] listbox:focus > expandable[selected=yes],
+[show_console_buttons=yes] activateSelect:focus > shopFilter[selected=yes],
 [show_console_buttons=yes] VerticalListBox:focus > memberView[selected=yes] {
   re-type:9rect;
   foreground-color: @gamepadFocusFrameColor;

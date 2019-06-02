@@ -120,7 +120,6 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
       {
         local unit = ::get_player_cur_unit()
         local locId = (unit?.isHelicopter?()) ? "flightmenu/btnBailoutHelicopter"
-          : unit?.isUfo?() ? "flightmenu/btnBailoutUfo"
           : ::is_tank_interface() ? "flightmenu/btnLeaveTheTank"
           : "flightmenu/btnBailout"
         local txt = ::loc(locId)
@@ -414,7 +413,6 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
     {
       local unit = ::get_player_cur_unit()
       local locId = (unit?.isHelicopter?()) ? "flightmenu/questionBailoutHelicopter"
-        : unit?.isUfo?() ? "flightmenu/questionBailoutUfo"
         : ::is_tank_interface() ? "flightmenu/questionLeaveTheTank"
         : "flightmenu/questionBailout"
       msgBox("question_bailout", ::loc(locId),

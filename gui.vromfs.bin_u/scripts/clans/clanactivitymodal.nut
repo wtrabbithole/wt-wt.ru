@@ -98,11 +98,11 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     {
       local rowParams = [
         { text = time.buildDateStr(time.daysToSeconds(entry.day)) },
-        { text = ::format("%d", entry.data?.activity ?? entry.data) }
+        { text = (::u.isInteger(entry.data) ? entry.data : entry.data?.activity ?? 0).tostring() }
       ]
 
       if (hasClanExperience)
-        rowParams.append({ text = ::format("%d", entry.data.exp) })
+        rowParams.append({ text = (entry.data?.exp ?? 0).tostring() })
 
       rowBlock += ::buildTableRowNoPad("row_" + rowIdx, rowParams, null, "")
       rowIdx++

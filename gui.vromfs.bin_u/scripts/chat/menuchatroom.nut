@@ -165,14 +165,14 @@ local function newMessage(from, msg, privateMsg=false, myPrivate=false, overlayS
 }
 
 function newRoom(id, customScene = null, ownerHandler = null) {
-  local type = ::g_chat_room_type.getRoomType(id)
+  local rType = ::g_chat_room_type.getRoomType(id)
   local r = {
     id = id
 
-    type = type
-    canBeClosed = type.canBeClosed(id)
-    havePlayersList = type.havePlayersList
-    hasCustomViewHandler = type.hasCustomViewHandler
+    type = rType
+    canBeClosed = rType.canBeClosed(id)
+    havePlayersList = rType.havePlayersList
+    hasCustomViewHandler = rType.hasCustomViewHandler
 
     customScene = customScene
     ownerHandler = ownerHandler
@@ -246,7 +246,7 @@ function newRoom(id, customScene = null, ownerHandler = null) {
       return chatLogFormatForBanhammer().__merge({ chatLog = log })
     }
 
-    getRoomName = @(isColored = false) type.getRoomName(id, isColored)
+    getRoomName = @(isColored = false) rType.getRoomName(id, isColored)
   }
 
   return r

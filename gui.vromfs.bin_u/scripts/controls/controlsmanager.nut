@@ -235,9 +235,9 @@
   function clearGuiOptions()
   {
     local prefix = "USEROPT_"
-    foreach (type, value in curPreset.params)
-      if (type.len() > prefix.len() && type.slice(0, prefix.len()) == prefix)
-        delete curPreset.params[type]
+    foreach (oType, value in curPreset.params)
+      if (::g_string.startsWith(oType, prefix))
+        delete curPreset.params[oType]
   }
 
   function commitGuiOptions()
@@ -248,12 +248,10 @@
     local mainOptionsMode = ::get_gui_options_mode()
     ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)
     local prefix = "USEROPT_"
-    foreach (type, value in curPreset.params)
-      if (type.len() > prefix.len() && type.slice(0, prefix.len()) == prefix)
-      {
-        if (type in getroottable())
-          ::set_option(getroottable()[type], value)
-      }
+    foreach (oType, value in curPreset.params)
+      if (::g_string.startsWith(oType, prefix))
+        if (oType in ::getroottable())
+          ::set_option(::getroottable()[oType], value)
     ::set_gui_options_mode(mainOptionsMode)
     clearGuiOptions()
   }

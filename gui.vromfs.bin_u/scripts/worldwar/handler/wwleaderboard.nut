@@ -20,7 +20,7 @@ local time = require("scripts/time.nut")
 class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/leaderboard.blk"
+  sceneBlkName = "gui/leaderboard/leaderboard.blk"
 
   beginningMode = null
   needDayOpen = false

@@ -6,7 +6,7 @@ const CASE_PAIR_LOWER = "abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìí�
 const CASE_PAIR_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬĮIĲĴĶĹĻĽĿŁŃŅŇŊŌŎŐŒŔŖŘŚŜŞŠŢŤŦŨŪŬŮŰŲŴŶŹŻŽƂƄƇƋƑƘƠƢƤƧƬƯƳƵƸƼǄǇǊǍǏǑǓǕǗǙǛǞǠǢǤǦǨǪǬǮǱǴǺǼǾȀȂȄȆȈȊȌȎȐȒȔȖƁƆƊƎƏƐƓƔƗƖƜƝƟƩƮƱƲƷΆΈΉΊΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫΌΎΏϢϤϦϨϪϬϮАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЂЃЄЅІЇЈЉЊЋЌЎЏѠѢѤѦѨѪѬѮѰѲѴѶѸѺѼѾҀҐҒҔҖҘҚҜҞҠҢҤҦҨҪҬҮҰҲҴҶҸҺҼҾӁӃӇӋӐӒӔӖӘӚӜӞӠӢӤӦӨӪӮӰӲӴӸԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔՕՖႠႡႢႣႤႥႦႧႨႩႪႫႬႭႮႯႰႱႲႳႴႵႶႷႸႹႺႻႼႽႾႿჀჁჂჃჄჅḀḂḄḆḈḊḌḎḐḒḔḖḘḚḜḞḠḢḤḦḨḪḬḮḰḲḴḶḸḺḼḾṀṂṄṆṈṊṌṎṐṒṔṖṘṚṜṞṠṢṤṦṨṪṬṮṰṲṴṶṸṺṼṾẀẂẄẆẈẊẌẎẐẒẔẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"
 local INVALID_INDEX = -1
 
-local rootTable = getroottable()
+local rootTable = ::getroottable()
 local intRegExp = null
 local floatRegExp = null
 local trimRegExp = null
@@ -325,12 +325,6 @@ local function tostring_r(input, params=defTostringParams) {
     else
       return "}"
   }
-  local function idxStr(i) {
-    if (showArrIdx)
-      return (compact) ? i + " = " : "["+i+"] = "
-    else
-      return ""
-  }
   local arrSep = separator
   if (!splitlines) {
     newline = " "
@@ -366,7 +360,7 @@ local function tostring_r(input, params=defTostringParams) {
       else if (isArray && !showArrIdx) {
         if (!arrayElem)
           out += newline + indent + tostring_any(key, null, compact) +  " = "
-        out += "[" + callee()(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
+        out += "[" + ::callee()(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
         if (arrayElem && key!=input.len()-1)
           out += sep
       }
@@ -377,7 +371,7 @@ local function tostring_r(input, params=defTostringParams) {
         if (!arrayElem) {
           out += tostring_any(key,null, compact) +  " = "
         }
-        out += brOp + callee()(value, indent + indentOnNewline, curdeeplevel+1) + newline + indent + brCl
+        out += brOp + ::callee()(value, indent + indentOnNewline, curdeeplevel+1) + newline + indent + brCl
         if (arrayElem && key==input.len()-1 ){
           out += newline+arrInd
         }
@@ -407,12 +401,12 @@ local function slice(str, start = 0, end = null) {
   local total = str.len()
   if (start < 0)
     start += total
-  start = clamp(start, 0, total)
+  start = ::clamp(start, 0, total)
   if (end == null)
     end = total
   else if (end < 0)
     end += total
-  end = clamp(end, start, total)
+  end = ::clamp(end, start, total)
   return str.slice(start, end)
 }
 
@@ -435,7 +429,7 @@ local function substring(str, start = 0, length = null) {
     local total = str.len()
     if (start < 0)
       start += total
-    start = clamp(start, 0, total)
+    start = ::clamp(start, 0, total)
     end = start + length
   }
   return slice(str, start, end)
@@ -667,7 +661,7 @@ local function toIntegerSafe(str, defValue = 0, needAssert = true)
   if (isStringInteger(str))
     return str.tointeger()
   if (needAssert)
-    assert(false, "can't convert '" + str + "' to integer")
+    ::assert(false, "can't convert '" + str + "' to integer")
   return defValue
 }
 
@@ -739,7 +733,7 @@ local function stripTags(str) {
   if (!str || !str.len())
     return ""
   if (stripTagsConfig == null)
-    assert(stripTagsConfig != null, "stripTags is not working without regexp")
+    ::assert(stripTagsConfig != null, "stripTags is not working without regexp")
   foreach(test in stripTagsConfig)
     str = test.re2.replace(test.repl, str)
   return str
@@ -747,7 +741,7 @@ local function stripTags(str) {
 
 local function escape(str) {
   if (::type(str) != "string") {
-    assert(false, "wrong escape param type: " + ::type(str))
+    ::assert(false, "wrong escape param type: " + ::type(str))
     return ""
   }
   foreach(test in escapeConfig)
@@ -771,7 +765,7 @@ local function pprint(...){
     return ret
   }
   if (vargv.len()<=1)
-    print(tostring_r(vargv[0])+"\n")
+    ::print(tostring_r(vargv[0])+"\n")
   else {
     local a = vargv.map(@(i) tostring_r(i))
     local res = ""
@@ -800,11 +794,41 @@ local function pprint(...){
      else
        prev_val_newline = false
     }
-    print(res)
-    print("\n")
+    ::print(res)
+    ::print("\n")
   }
 }
 
+local function validateEmail(no_dump_email) {
+  if (::type(no_dump_email) != "string")
+    return false
+
+  local str = split(no_dump_email,"@")
+  if (str.len() < 2)
+    return false
+
+  local locpart = str[0]
+  if (str.len() > 2)
+    locpart = str.slice(0,-1).reduce(@(a,b) a + "@" + b)
+  if (locpart.len() > 64)
+    return false
+
+  local dompart = str[str.len()-1]
+  if (dompart.len() > 253 || dompart.len() < 4) //RFC + domain should be at least x.xx
+    return false
+
+  local quotes = locpart.find("\"")
+  if (quotes && quotes != 0)
+    return false //quotes only at the begining
+
+  if (quotes == null && locpart.find("@")!=null)
+    return false //no @ without quotes
+
+  if (dompart.find(".") == null || dompart.find(".") > dompart.len() - 3)
+    return false  //too short first level domain or no periods
+
+  return true
+}
 
 local export = {
   INVALID_INDEX = INVALID_INDEX
@@ -838,6 +862,7 @@ local export = {
   tostring_any  = tostring_any
   tostring_r = tostring_r
   pprint = pprint
+  validateEmail = validateEmail
 
   toIntegerSafe = toIntegerSafe
 }

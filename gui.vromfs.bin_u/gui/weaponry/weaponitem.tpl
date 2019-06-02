@@ -260,10 +260,25 @@ weaponry_item {
         pos:t='50%pw-50%w, -1*@sf/@pf_outdated'
         position:t='absolute'
         background-repeat:t='expand'
-        background-image:t='#ui/gameuiskin#drop_menu_icon';
+        background-image:t='#ui/gameuiskin#drop_menu_icon.svg'
+        background-svg-size:t='11*@sf/@pf_outdated, 8*@sf/@pf_outdated'
         background-color:t='@gray';
       }
     }
+  }
+
+  title:t='$tooltipObj';
+  tooltipObj {
+    id:t='tooltip_<<id>>'
+    <<^useGenericTooltip>>
+    on_tooltip_open:t='onModificationTooltipOpen'
+    <</useGenericTooltip>>
+    <<#useGenericTooltip>>
+    tooltipId:t=''
+    on_tooltip_open:t='onGenericTooltipOpen'
+    <</useGenericTooltip>>
+    on_tooltip_close:t='onTooltipObjClose'
+    display:t='hide';
   }
 
   modSlotButtonsNest {
@@ -309,18 +324,4 @@ weaponry_item {
     showOnSelect:t='yes'
   }
   <</shortcutIcon>>
-
-  title:t='$tooltipObj';
-  tooltipObj {
-    id:t='tooltip_<<id>>'
-    <<^useGenericTooltip>>
-    on_tooltip_open:t='onModificationTooltipOpen'
-    <</useGenericTooltip>>
-    <<#useGenericTooltip>>
-    tooltipId:t=''
-    on_tooltip_open:t='onGenericTooltipOpen'
-    <</useGenericTooltip>>
-    on_tooltip_close:t='onTooltipObjClose'
-    display:t='hide';
-  }
 }

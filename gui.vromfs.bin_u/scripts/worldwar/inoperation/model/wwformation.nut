@@ -105,11 +105,11 @@ class ::WwFormation
 
   function getUnitsNameArray()
   {
-    local array = []
+    local res = []
     foreach (unit in units)
-      array.append(unit.getFullName())
+      res.append(unit.getFullName())
 
-    return array
+    return res
   }
 
   function hasManageAccess()
@@ -154,9 +154,9 @@ class ::WwFormation
     return formationId
   }
 
-  function setUnitType(type)
+  function setUnitType(wwUnitTypeCode)
   {
-    unitType = type
+    unitType = wwUnitTypeCode
   }
 
   function getMoral()

@@ -203,14 +203,14 @@ class ::items_classes.Discount extends ::BaseItem
     return ::loc(locId, locParams)
   }
 
-  function getMaxDiscountByCategoryAndType(category, type)
+  function getMaxDiscountByCategoryAndType(category, dType)
   {
     if (discountDescriptionDataItems == null)
       return 0
     local result = 0
     foreach (dataItem in discountDescriptionDataItems)
     {
-      if (dataItem.category == category && dataItem.type == type)
+      if (dataItem.category == category && dataItem.type == dType)
         result = ::max(result, dataItem.discountValue)
     }
     return result

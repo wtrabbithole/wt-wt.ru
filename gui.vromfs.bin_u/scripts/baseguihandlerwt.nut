@@ -2,6 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local unitActions = require("scripts/unit/unitActions.nut")
 local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
 const MAIN_FOCUS_ITEM_IDX = 4
@@ -343,7 +344,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
   }
 
-  function startOnlineShop(type=null, afterCloseShop = null)
+  function startOnlineShop(chapter = null, afterCloseShop = null)
   {
     local handler = this
     goForwardIfOnline(function() {
@@ -353,7 +354,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
             if (handler)
               afterCloseShop.call(handler)
           }
-        ::OnlineShopModel.launchOnlineShop(handler, type, closeFunc)
+        ::OnlineShopModel.launchOnlineShop(handler, chapter, closeFunc)
       }, false, true)
   }
 
@@ -393,7 +394,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onConvertExp(obj)
   {
-    ::gui_modal_convertExp(null, this)
+    ::gui_modal_convertExp()
   }
 
   function notAvailableYetMsgBox()
@@ -484,17 +485,12 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return slotbar && slotbar.getCurCountry()
   }
 
-  function onTake(unit = null, isNewUnit = false)
+  function onTake(unit = null, params = {})
   {
-    checkedCrewAirChange( (@(unit) function () {
-      local curUnit = unit ? unit : getCurAircraft()
-      if (!curUnit || !curUnit.isUsable() || ::isUnitInSlotbar(curUnit))
-        return
-
-      ::gui_start_selecting_crew({ unit = curUnit
-        unitObj = scene.findObject(curUnit.name)
-        isNewUnit = isNewUnit })
-    })(unit))
+    unitActions.take(unit, {
+        unitObj = scene.findObject(unit.name)
+        shouldCheckCrewsReady = shouldCheckCrewsReady
+      }.__update(params))
   }
 
   function onSlotsChangeAutoRefill(obj)
@@ -593,12 +589,12 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
         presetsListWeak.destroy()
   }
 
-  function slotOpCb(id, type, result)
+  function slotOpCb(id, tType, result)
   {
     if (id != taskId)
     {
       dagor.debug("wrong ID in char server cb, ignoring");
-      ::g_tasker.charCallback(id, type, result)
+      ::g_tasker.charCallback(id, tType, result)
       return
     }
     ::g_tasker.restoreCharCallback()
@@ -892,14 +888,15 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function checkedCrewAirChange(func, cancelFunc=null) //change air in slot
   {
     checkAndStart(
-      (@(func, cancelFunc) function() {
-        ::g_squad_utils.checkSquadUnreadyAndDo(this, func, cancelFunc, shouldCheckCrewsReady)
-      })(func, cancelFunc),
+      function() {
+        ::g_squad_utils.checkSquadUnreadyAndDo(callback.make(func, this),
+          callback.make(cancelFunc, this), shouldCheckCrewsReady)
+      },
       cancelFunc, "isCanModifyCrew")
   }
-  function checkedModifyQueue(type, func, cancelFunc=null)
+  function checkedModifyQueue(qType, func, cancelFunc = null)
   {
-    checkAndStart(func, cancelFunc, "isCanModifyQueueParams", type)
+    checkAndStart(func, cancelFunc, "isCanModifyQueueParams", qType)
   }
 
   function onFacebookPostScrnshot(saved_screenshot_path)

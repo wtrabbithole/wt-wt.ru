@@ -27,7 +27,7 @@ class ::BaseGuiHandler
   ]
   currentFocusItem = 1 //main focus obj
 
-  function constructor(gui_scene, params = {})
+  constructor(gui_scene, params = {})
   {
     guiScene = gui_scene
     delayedActions = []

@@ -131,8 +131,8 @@ function update_ps4_friends()
 
 function getPS4FriendsFromIndex(index)
 {
-  local cb = function(response, error) {
-    if (error)
+  local cb = function(response, err) {
+    if (err)
       return
     if (index == 0 && ::isInArray(::EPLX_PS4_FRIENDS, ::contacts_groups)) // Initial chunk of friends from WebAPI
       ::resetPS4ContactsGroup()

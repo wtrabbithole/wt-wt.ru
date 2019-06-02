@@ -181,9 +181,9 @@ function()
 function g_unit_class_type::getTypesFromCodeMask(codeMask)
 {
   local resultTypes = []
-  foreach (type in types)
-    if (type.checkCode(codeMask))
-      resultTypes.push(type)
+  foreach (t in types)
+    if (t.checkCode(codeMask))
+      resultTypes.push(t)
   return resultTypes
 }
 
@@ -195,8 +195,8 @@ function g_unit_class_type::getTypeByExpClass(expClass)
 
 function g_unit_class_type::getTypesByEsUnitType(esUnitType = null) //null if all unit types
 {
-  return types.filter(@(idx, type) (esUnitType == null && type.unitTypeCode != ::ES_UNIT_TYPE_INVALID)
-    || type.unitTypeCode == esUnitType)
+  return types.filter(@(idx, t) (esUnitType == null && t.unitTypeCode != ::ES_UNIT_TYPE_INVALID)
+    || t.unitTypeCode == esUnitType)
 }
 
 ::g_unit_class_type_cache <- {

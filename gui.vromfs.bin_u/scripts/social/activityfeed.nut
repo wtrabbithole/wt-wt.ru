@@ -189,6 +189,6 @@ function ps4PostActivityFeed(config, customFeedParams)
 
   sendStat("post")
   psnApi.send(psnApi.feed.post(body),
-              function(response, error) { sendStat(error ? "fail."+error : "success") })
+              function(response, err) { sendStat(err ? "fail."+err : "success") })
 }
 //----------------------- </PlayStation> --------------------------

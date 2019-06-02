@@ -70,9 +70,9 @@ class ::gui_handlers.ShowImage extends ::gui_handlers.BaseGuiHandlerWT
     onUpdate(null, 0.0)
   }
 
-  function countProp(baseVal, max, t)
+  function countProp(baseVal, maxVal, t)
   {
-    local div = max - baseVal
+    local div = maxVal - baseVal
     div *= 1.0 - (t - 1)*(t - 1)
     return (baseVal+ div).tointeger().tostring()
   }

@@ -68,6 +68,10 @@ class SquadMember
       if (newValue == null)
         continue
 
+      if (::isInArray(property, ["brokenAirs", "missedPkg", "unallowedEventsENames"]) //!!!FIX ME If this parametrs is empty then msquad returns table instead array
+          && !::u.isArray(newValue))                                                  // Need remove this block after msquad fixed
+        newValue = []
+
       if (newValue != this[property])
       {
         this[property] = newValue

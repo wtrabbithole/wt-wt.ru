@@ -278,7 +278,7 @@ function check_tutorial_reward()
       })
     }
 
-    if (::isInArray(misName, ::req_tutorial))
+    if (::u.search(::req_tutorial, @(val) val == misName) != null)
     {
       newCountries = checkUnlockedCountries()
       foreach(c in newCountries)

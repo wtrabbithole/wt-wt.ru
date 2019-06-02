@@ -690,11 +690,11 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
       }
 
-      local onTaskError = function(error) {
+      local onTaskError = function(errorCode) {
         if (!::check_obj(obj))
           return
 
-        local content = ::handyman.renderCached("gui/commonParts/errorFrame", {errorNum = error})
+        local content = ::handyman.renderCached("gui/commonParts/errorFrame", {errorNum = errorCode})
         obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
       }
       ::g_tasker.addTask(taskId, {showProgressBox = false}, onTaskSuccess, onTaskError)

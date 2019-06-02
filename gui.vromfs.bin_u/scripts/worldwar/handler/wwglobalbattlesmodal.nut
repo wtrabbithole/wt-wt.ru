@@ -2,7 +2,6 @@ local globalBattlesListData = require("scripts/worldWar/operations/model/wwGloba
 local WwGlobalBattle = require("scripts/worldWar/operations/model/wwGlobalBattle.nut")
 
 const WW_GLOBAL_BATTLES_FILTER_ID = "worldWar/ww_global_battles_filter"
-local WW_GLOBAL_BATTLES_TIME_UPDATE_MSEC = 300000
 
 class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescription
 {
@@ -11,6 +10,10 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   battlesList = null
   operationBattle = null
   isBattleInited = false
+  needUpdatePrefixWidth = false
+  minCountBattlesInList = 100
+  needFullUpdateList = true
+  multiSelectHandlerWeak = null
 
   static battlesFilters = [
     {
@@ -28,6 +31,10 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     {
       value = UNAVAILABLE_BATTLES_CATEGORIES.LOCK_BY_TIMER
       textLocId = "worldwar/battle/filter/show_if_lock_by_timer"
+    },
+    {
+      value = UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED
+      textLocId = "worldwar/battle/filter/show_not_started"
     }
   ]
 
@@ -45,14 +52,9 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function initScreen()
   {
     battlesList = []
-
     updateBattlesFilter()
-    base.initScreen()
-    local timerObj = scene.findObject("update_timer")
-    if (::check_obj(timerObj))
-      timerObj.timer_interval_msec = WW_GLOBAL_BATTLES_TIME_UPDATE_MSEC.tostring()
-
     globalBattlesListData.requestList()
+    base.initScreen()
 
     ::checkNonApprovedResearches(true)
   }
@@ -72,13 +74,12 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function onUpdate(obj, dt)
   {
-    onRefresh()
+    refreshList()
   }
 
   function onRefresh()
   {
-    requestQueuesData()
-    refreshList()
+    refreshList(true)
   }
 
   function goBack()
@@ -87,9 +88,15 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     base.goBack()
   }
 
-  function refreshList()
+  function refreshList(isForce = false)
   {
+    requestQueuesData()
     globalBattlesListData.requestList()
+
+    if (!isForce)
+      return
+
+    needFullUpdateList = true
   }
 
   function onEventWWUpdateGlobalBattles(p)
@@ -149,6 +156,11 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     refreshSelBattle()
     local cb = ::Callback(function() {
       local newOperationBattle = ::g_world_war.getBattleById(curBattleInList.id)
+      if (!newOperationBattle.isValid() || newOperationBattle.isStale())
+      {
+        newOperationBattle = clone curBattleInList
+        newOperationBattle.setStatus(::EBS_FINISHED)
+      }
       local isBattleEqual = operationBattle.isEqual(newOperationBattle)
       operationBattle = newOperationBattle
 
@@ -183,26 +195,33 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function createBattleListMap()
   {
     setFilteredBattles()
-    local currentBattleListMap = {}
-    foreach (idx, battleData in battlesList)
+    if (needFullUpdateList || curBattleListMap.len() <= 0)
     {
-      local armyUnitTypesData = getBattleArmyUnitTypesData(battleData)
-      local armyUnitGroupId = armyUnitTypesData.groupId
-      if (!(armyUnitGroupId in currentBattleListMap))
-        currentBattleListMap[armyUnitGroupId] <- {
-          isCollapsed = false
-          isInactiveBattles = armyUnitTypesData.isInactiveBattles
-          text = armyUnitTypesData.text
-          childrenBattles = []
-          childrenBattlesIds = []
-        }
-
-      local groupBattleList = currentBattleListMap[armyUnitGroupId]
-      groupBattleList.childrenBattles.append(battleData)
-      groupBattleList.childrenBattlesIds.append(battleData.id)
+      needFullUpdateList = false
+      local battles = clone battlesList
+      battles.sort(battlesSort)
+      return battles
     }
 
-    return currentBattleListMap
+    local battleListMap = clone curBattleListMap
+    foreach(idx, battle in battleListMap)
+    {
+      local newBattle = getBattleById(battle.id, false)
+      if (newBattle.isValid())
+      {
+        battleListMap[idx] = newBattle
+        continue
+      }
+
+      if (battle.isFinished())
+        continue
+
+      newBattle.setFromBattle(battle)
+      newBattle.setStatus(::EBS_FINISHED)
+      battleListMap[idx] = newBattle
+    }
+
+    return battleListMap
   }
 
   function createActiveCountriesInfo()
@@ -235,12 +254,16 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function getActiveCountriesData()
   {
     local countriesData = {}
+    local globalBattlesList = globalBattlesListData.getList().filter(@(idx, battle)
+      battle.isOperationMapAvaliable())
     foreach (country in ::shopCountriesList)
     {
-      local globalBattlesList = globalBattlesListData.getList().filter(@(idx, battle)
-        battle.hasSideCountry(country) && battle.isOperationMapAvaliable())
+      local battlesListByCountry = globalBattlesList.filter(
+      function(idx, battle) {
+        return battle.hasSideCountry(country) && isMatchFilterMask(battle, country)
+      }.bindenv(this))
 
-      local battlesNumber = globalBattlesList.len()
+      local battlesNumber = battlesListByCountry.len()
       if (battlesNumber)
         countriesData[country] <- battlesNumber
     }
@@ -251,16 +274,10 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function onEventCountryChanged(p)
   {
     guiScene.performDelayed(this, function() {
-      updateBattlesWithFilter(true)
+      needFullUpdateList = true
+      reinitBattlesList(true)
+      updateTitle()
     })
-  }
-
-  function updateBattlesWithFilter(isForceUpdate = false)
-  {
-    setFilteredBattles()
-    curBattleInList = getBattleById(curBattleInList.id)
-    reinitBattlesList(isForceUpdate)
-    updateTitle()
   }
 
   function onOpenBattlesFilters(obj)
@@ -277,18 +294,40 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
         text = ::loc(filterData.textLocId)
       })
 
-    ::gui_start_multi_select_menu({
+     local applyFilter = ::Callback(function(selBitMask)
+       {
+         filterMask = selBitMask
+         ::saveLocalByAccount(WW_GLOBAL_BATTLES_FILTER_ID, filterMask)
+         reinitBattlesList(true)
+         refreshList(true)
+       }, this)
+
+    local handler = ::handlersManager.loadHandler(::gui_handlers.MultiSelectMenu,{
       list = battlesFiltersView
       align = "top"
       alignObj = scene.findObject("btn_battles_filters")
       sndSwitchOn = "check"
       sndSwitchOff = "uncheck"
       onChangeValuesBitMaskCb = function(selBitMask) {
-        filterMask = selBitMask
-        ::saveLocalByAccount(WW_GLOBAL_BATTLES_FILTER_ID, filterMask)
-        updateBattlesWithFilter()
+        if (!(UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED & filterMask)
+          && (UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED & selBitMask))
+          msgBox("showNotStarted", ::loc("worldwar/showNotStarted/msgBox"),
+            [["yes", @() applyFilter(selBitMask) ],
+             ["no", function()
+               {
+                 if (!multiSelectHandlerWeak)
+                   return
+
+                 local multiSelectObj = multiSelectHandlerWeak.scene.findObject("multi_select")
+                 if (::check_obj(multiSelectObj))
+                   multiSelectObj.setValue(filterMask)
+               }]],
+            "no")
+        else
+          applyFilter(selBitMask)
       }.bindenv(this)
     })
+    multiSelectHandlerWeak = handler.weakref()
   }
 
   function setFilteredBattles()
@@ -310,15 +349,17 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function battlesSort(battleA, battleB)
   {
-    return battleB.isConfirmed <=> battleA.isConfirmed
-        || battleA.sortTimeFactor <=> battleB.sortTimeFactor
-        || battleB.sortFullnessFactor <=> battleA.sortFullnessFactor
+    return battleB.isConfirmed() <=> battleA.isConfirmed()
+      || battleA.sortTimeFactor <=> battleB.sortTimeFactor
+      || battleB.sortFullnessFactor <=> battleA.sortFullnessFactor
   }
 
-  function getBattleById(battleId)
+  function getBattleById(battleId, searchInCurList = true)
   {
     return ::u.search(battlesList, @(battle) battle.id == battleId)
-      || WwGlobalBattle()
+      ?? (searchInCurList
+        ? (::u.search(curBattleListMap, @(battle) battle.id == battleId) ?? WwGlobalBattle())
+        : WwGlobalBattle())
   }
 
   function getPlayerSide(battle = null)

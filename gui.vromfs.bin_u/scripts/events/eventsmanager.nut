@@ -486,7 +486,7 @@ class Events
 
   function checkEventAccess(eventData)
   {
-    if (!::check_feature_tanks() && isUnitTypeAvailable(eventData, ::ES_UNIT_TYPE_TANK))
+    if (!::has_feature("Tanks") && isUnitTypeAvailable(eventData, ::ES_UNIT_TYPE_TANK))
       return false
     if (::use_touchscreen && eventData.diffWeight >= diffTable.hardcore)
       return false
@@ -495,7 +495,7 @@ class Events
       return true
     if (::isInArray("AccessTest", eventData.event_access) && !::has_entitlement("AccessTest"))
       return false
-    if (::isInArray("tankAccess", eventData.event_access) && !::check_feature_tanks()) //temporary here while not everywhere used new types
+    if (::isInArray("tankAccess", eventData.event_access) && !::has_feature("Tanks")) //temporary here while not everywhere used new types
       return false
     if (::isInArray("ps4", eventData.event_access) && !::is_platform_ps4)
       return false

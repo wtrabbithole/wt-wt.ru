@@ -348,9 +348,9 @@ class ::WwBattleView
 
   function getStatus()
   {
-    if (!battle.isStillInOperation() || battle.status == ::EBS_FINISHED_APPLIED)
+    if (!battle.isStillInOperation() || battle.isFinished())
       return "Finished"
-    if (battle.status == ::EBS_ACTIVE_STARTING || battle.status == ::EBS_ACTIVE_MATCHING)
+    if (battle.isStarting())
       return "Active"
     if (battle.status == ::EBS_ACTIVE_AUTO || battle.status == ::EBS_ACTIVE_FAKE)
       return "Fake"
@@ -362,19 +362,8 @@ class ::WwBattleView
 
   function getIconImage()
   {
-    return getStatus() == "Full" ?
+    return (getStatus() == "Full" || battle.isFinished()) ?
       "#ui/gameuiskin#battles_closed" : "#ui/gameuiskin#battles_open"
-  }
-
-  function getIconColor()
-  {
-    local status = getStatus()
-    if (status == "OnServer")
-      return "@battleColorOnServer"
-    if (status == "Active")
-      return "@battleColorActive"
-
-    return "@battleColorInactive"
   }
 
   function hasControlTooltip()
@@ -422,4 +411,5 @@ class ::WwBattleView
     return ::loc("worldwar/totalInQueue") + ::loc("ui/colon") +
       ::colorize("newTextColor", battle.getTotalPlayersInQueueInfo(side))
   }
+  needShowTimer = @() !battle.isFinished()
 }

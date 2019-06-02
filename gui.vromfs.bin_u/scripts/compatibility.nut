@@ -87,5 +87,11 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
 //----------------------------wop_1_87_1_X---------------------------------//
 ::apply_compatibilities({
   EULT_WW_AWARD = 59
+  AUTO_SAVE_FLG_LOGIN = 1
+  AUTO_SAVE_FLG_PASS = 2
+  AUTO_SAVE_FLG_DISABLE = 4
+  AUTO_SAVE_FLG_NOSSLCERT = 8
+  shell_purchase_in_steam = @(p) shell_purchase_in_browser(p)
   userstat = { request = @(...) null }
+  xbox_link_email = @(email, cb) cb(::YU2_FAIL)
 })

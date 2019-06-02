@@ -1,7 +1,7 @@
 class ::WwObjectiveView
 {
   id = ""
-  type = null
+  oType = null
   staticBlk = null
   dynamicBlk = null
   side = null
@@ -16,49 +16,49 @@ class ::WwObjectiveView
     staticBlk = _staticBlk
     dynamicBlk = _dynamicBlk
     side = ::ww_side_val_to_name(_side)
-    type = ::g_ww_objective_type.getTypeByTypeName(staticBlk.type)
+    oType = ::g_ww_objective_type.getTypeByTypeName(staticBlk.type)
     id = staticBlk.getBlockName()
     isLastObjective = _isLastObjective
 
-    local statusType = type.getObjectiveStatus(dynamicBlk.winner, side)
+    local statusType = oType.getObjectiveStatus(dynamicBlk.winner, side)
     status = statusType.name
     statusImg = statusType.wwMissionObjImg
-    zonesList = type.getUpdatableZonesParams(staticBlk, dynamicBlk, side)
+    zonesList = oType.getUpdatableZonesParams(staticBlk, dynamicBlk, side)
   }
 
   function getNameId()
   {
-    return type.getNameId(staticBlk, side)
+    return oType.getNameId(staticBlk, side)
   }
 
   function getName()
   {
-    return type.getName(staticBlk, dynamicBlk, side)
+    return oType.getName(staticBlk, dynamicBlk, side)
   }
 
   function getDesc()
   {
-    return type.getDesc(staticBlk, dynamicBlk, side)
+    return oType.getDesc(staticBlk, dynamicBlk, side)
   }
 
   function getParamsArray()
   {
-    return type.getParamsArray(staticBlk, side)
+    return oType.getParamsArray(staticBlk, side)
   }
 
   function getUpdatableData()
   {
-    return type.getUpdatableParamsArray(staticBlk, dynamicBlk, side)
+    return oType.getUpdatableParamsArray(staticBlk, dynamicBlk, side)
   }
 
   function getUpdatableDataDescriptionText()
   {
-    return type.getUpdatableParamsDescriptionText(staticBlk, dynamicBlk, side)
+    return oType.getUpdatableParamsDescriptionText(staticBlk, dynamicBlk, side)
   }
 
   function getUpdatableDataDescriptionTooltip()
   {
-    return type.getUpdatableParamsDescriptionTooltip(staticBlk, dynamicBlk, side)
+    return oType.getUpdatableParamsDescriptionTooltip(staticBlk, dynamicBlk, side)
   }
 
   function getUpdatableZonesData()

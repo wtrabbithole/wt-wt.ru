@@ -35,6 +35,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   rowsTexts      = {}
   tooltips       = {}
 
+  isAvailableByPeriods = false
+
   function initScreen()
   {
     if (startPage == "")
@@ -75,13 +77,18 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function getMainFocusObj2()
   {
-    return curPage == "clans_list" ? "search_edit" : "clan_actions"
+    if(curPage == "clans_list")
+      return scene.findObject("clans_list_content").findObject("search_edit")
+    else
+      return scene.findObject("clan_container").findObject("modes_list")
   }
 
   function getMainFocusObj3()
   {
-    local parentObj = scene.findObject(curPage == "clans_list" ? "clans_list_content" : "clan_container")
-    return parentObj.findObject("modes_list")
+    local focusId = curPage == "clans_list"
+      ? "modes_list"
+      : "clan_members_list"
+    return scene.findObject(focusId)
   }
 
   function getMainFocusObj4()
@@ -90,7 +97,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       ? "clan_lboard_table"
       : isWorldWarMode
         ? "lb_table"
-        : "clan_members_list"
+        : "clan_actions"
     return scene.findObject(focusId)
   }
 
@@ -134,8 +141,12 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     local fieldName = ::ranked_column_prefix + curEra
     foreach (field in ::clan_leaderboards_list)
-      if (("field" in field ? field.field : field.id) == fieldName)
+    {
+      local fieldParam = field?.field ?? field.id
+      fieldParam = ::u.isFunction(fieldParam) ? fieldParam(isAvailableByPeriods) : fieldParam
+      if (fieldParam == fieldName)
         return field
+    }
     return null
   }
 
@@ -250,7 +261,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function getClansLbFieldName(lbCategory = null, mode = null)
   {
     local actualCategory = lbCategory || clansLbSort
-    local fieldName = ("field" in actualCategory ? actualCategory.field : actualCategory.id)
+    local field = actualCategory?.field ?? actualCategory.id
+    local fieldName = ::u.isFunction(field) ? field(isAvailableByPeriods) : field
     if (actualCategory.byDifficulty)
       fieldName += ::g_difficulty.getDifficultyByDiffCode(mode ?? curMode).clanDataEnding
     return fieldName
@@ -353,6 +365,9 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function lbDataCb(lbBlk)
   {
+    local firstClan = lbBlk.clan
+    isAvailableByPeriods = (firstClan?.astat?.clan_activity_by_periods != null)
+      || (!firstClan && isAvailableByPeriods)
     if (!::checkObj(scene))
       return
 

@@ -1,4 +1,5 @@
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
+local unitActions = require("scripts/unit/unitActions.nut")
 
 class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 {
@@ -306,7 +307,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
     local unit = getCurAircraft(true, true)
     flushItemExp(unit, @() setUnitOnResearch(unit, function() {
       hasSpendExpProcess = false
-      sendChoosedNewResearchUnitStatistic(unit)
+      ::add_big_query_record("choosed_new_research_unit", unit.name)
       sendUnitResearchedStatistic(unit)
     }))
   }
@@ -351,8 +352,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
     if (unit)
     {
       lastResearchUnit = unit
-      sendChoosedNewResearchUnitStatistic(unit)
-      ::researchUnit(unit, false)
+      unitActions.research(unit, false)
     }
     else
       ::shop_reset_researchable_unit(unitCountry, unitType)

@@ -47,7 +47,7 @@ class Context
    * Creates a new context using the given view with this context
    * as the parent.
    */
-  function push(view)
+  function push(view) //warning disable: -ident-hides-ident
   {
     return Context(view, this)
   }
@@ -136,9 +136,9 @@ class Writer
    * Parses and caches the given `template` and returns the array of tokens
    * that is generated from the parse.
    */
-  function parse(template, tags = null)
+  function parse(template, tags = null) //warning disable: -ident-hides-ident
   {
-    local cache = this.cache
+    local cache = this.cache //warning disable: -ident-hides-ident
     local tokens = cache?[template]
 
     if (tokens == null)
@@ -182,7 +182,7 @@ class Writer
     // This function is used to render an arbitrary template
     // in the current context by higher-order sections.
     local self = this
-    local subRender = (@(self, context, partials) function (template) {
+    local subRender = (@(self, context, partials) function (template) {// warning disable: -ident-hides-ident
       return self.render(template, context, partials)
     })(self, context, partials)
 
@@ -321,7 +321,7 @@ class Writer
     return string
   }
 
-  function escapeTags(tags)
+  function escapeTags(tags) //warning disable: -ident-hides-ident
   {
     if (!(typeof tags == "array") || tags.len() != 2)
     {
@@ -336,7 +336,7 @@ class Writer
 
   function parseTemplate(template, _tags = null)
   {
-    local tags = _tags || tags
+    local tags = _tags || tags //warning disable: -ident-hides-ident
     template = template || ""
 
     if (typeof tags == "string")
@@ -535,7 +535,8 @@ class Writer
           collector.push(token)
           sections.push(token)
           token.resize(5, [])
-          collector = token[4] = []
+          collector = []
+          token[4] = collector
           break
 
         case "/":
@@ -586,7 +587,7 @@ class Scanner
     local match = re.search(this.tail)
 
     if (match && match.begin == 0) {
-      local string = this.tail.slice(0, match.end)
+      local string = this.tail.slice(0, match.end)//warning disable: -ident-hides-ident
       this.tail = this.tail.slice(match.end)
       this.pos += string.len()
       return string
@@ -732,7 +733,7 @@ class Scanner
   function renderNested(template, translate)
   {
     return (@(template, translate) function() {
-      return (@(template, translate) function(text, render) {
+      return (@(template, translate) function(text, render) {  // warning disable: -ident-hides-ident
         return ::handyman.render(template, translate(render(text)))
       })(template, translate)
     })(template, translate)

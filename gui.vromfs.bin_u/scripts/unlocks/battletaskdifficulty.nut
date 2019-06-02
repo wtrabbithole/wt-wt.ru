@@ -104,7 +104,7 @@ function g_battle_task_difficulty::getRequiredDifficultyTypeDone(diff)
 {
   local res = null
   if (diff.executeOrder >= 0)
-    res = ::u.search(types, @(type) type.executeOrder == (diff.executeOrder-1))
+    res = ::u.search(types, @(t) t.executeOrder == (diff.executeOrder-1))
 
   return res || ::g_battle_task_difficulty.UNKNOWN
 }
@@ -115,21 +115,21 @@ function g_battle_task_difficulty::getRefreshTimeForAllTypes(tasksArray, overrid
   if (!overrideStatus)
     foreach(task in tasksArray)
     {
-      local type = getDifficultyTypeByTask(task)
-      ::u.appendOnce(type.timeParamId, processedTimeParamIds)
+      local t = getDifficultyTypeByTask(task)
+      ::u.appendOnce(t.timeParamId, processedTimeParamIds)
     }
 
   local resultArray = []
-  foreach(type in types)
+  foreach(t in types)
   {
-    if (::isInArray(type.timeParamId, processedTimeParamIds))
+    if (::isInArray(t.timeParamId, processedTimeParamIds))
       continue
 
-    processedTimeParamIds.append(type.timeParamId)
+    processedTimeParamIds.append(t.timeParamId)
 
-    local timeText = type.getTimeLeftText()
+    local timeText = t.getTimeLeftText()
     if (timeText != "")
-      resultArray.append(type.getLocName() + ::loc("ui/parentheses/space", {text = timeText}))
+      resultArray.append(t.getLocName() + ::loc("ui/parentheses/space", {text = timeText}))
   }
 
   return resultArray
@@ -167,22 +167,22 @@ function g_battle_task_difficulty::canPlayerInteractWithDifficulty(diff, tasksAr
 
 function g_battle_task_difficulty::updateTimeParamsFromBlk(blk)
 {
-  foreach(type in types)
+  foreach(t in types)
   {
-    local genSuccessTimeId = type.timeParamId + "PersonalUnlocks_lastGenerationTimeOnSuccess"
-    type.lastGenTimeSuccess = blk[genSuccessTimeId] || -1
+    local genSuccessTimeId = t.timeParamId + "PersonalUnlocks_lastGenerationTimeOnSuccess"
+    t.lastGenTimeSuccess = blk[genSuccessTimeId] || -1
 
-    local genFailureTimeId = type.timeParamId + "PersonalUnlocks_lastGenerationTimeOnFailure"
-    type.lastGenTimeFailure = blk[genFailureTimeId] || -1
+    local genFailureTimeId = t.timeParamId + "PersonalUnlocks_lastGenerationTimeOnFailure"
+    t.lastGenTimeFailure = blk[genFailureTimeId] || -1
 
-    local genPerSecTimeId = type.timeParamId + "PersonalUnlocks_CUSTOM_generationPeriodSec"
-    type.generationPeriodSec = blk[genPerSecTimeId] || -1
+    local genPerSecTimeId = t.timeParamId + "PersonalUnlocks_CUSTOM_generationPeriodSec"
+    t.generationPeriodSec = blk[genPerSecTimeId] || -1
 
-    local genPeriodId = type.timeParamId + "PersonalUnlocks_WEEKLY_weeklyPeriod"
-    type.period = blk[genPeriodId] || 1
+    local genPeriodId = t.timeParamId + "PersonalUnlocks_WEEKLY_weeklyPeriod"
+    t.period = blk[genPeriodId] || 1
 
-    local genShiftId = type.timeParamId + "PersonalUnlocks_WEEKLY_weekStartDayShift"
-    type.daysShift = blk[genShiftId] || 0
+    local genShiftId = t.timeParamId + "PersonalUnlocks_WEEKLY_weekStartDayShift"
+    t.daysShift = blk[genShiftId] || 0
   }
 }
 
@@ -199,9 +199,9 @@ function g_battle_task_difficulty::checkAvailabilityByProgress(task, overrideSta
   return ::getTblValue("curVal", progress, 0) > 0
 }
 
-function g_battle_task_difficulty::withdrawTasksArrayByDifficulty(diff, array)
+function g_battle_task_difficulty::withdrawTasksArrayByDifficulty(diff, tasks)
 {
-  return ::u.filter(array, @(task) diff == ::g_battle_task_difficulty.getDifficultyTypeByTask(task) )
+  return ::u.filter(tasks, @(task) diff == ::g_battle_task_difficulty.getDifficultyTypeByTask(task) )
 }
 
 function g_battle_task_difficulty::getDefaultDifficultyGroup()

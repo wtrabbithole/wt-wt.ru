@@ -1,6 +1,7 @@
 @const comboListPadding:0;
 @const comboOptionPadding:5@sf/@pf_outdated;
 @const comboBtnWidth:@baseTrHeight - 4@dp;
+@const comboBtnHeight: 11@sf/@pf;
 
 @const comboBgColor:               #000000;
 @const comboHoveredBgColor:        #303030;
@@ -94,10 +95,11 @@ ComboBox:expanded {
 
 ComboBox > button {
   width:@comboBtnWidth;
-  height:11@sf/@pf;
+  height:@comboBtnHeight;
   top:0.5ph-0.5h;
   background-color:@navButtonImgColor;
-  background-image:#ui/gameuiskin#drop_menu_icon;
+  background-image:#ui/gameuiskin#drop_menu_icon.svg;
+  background-svg-size:@comboBtnWidth, @comboBtnHeight;
   background-repeat:aspect-ratio;
   color-factor:127;
 }

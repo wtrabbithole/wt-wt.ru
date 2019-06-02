@@ -12,10 +12,21 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
     ::show_title_logo(true, scene, "128")
     ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)
 
+    local lp = ::get_login_pass()
+    defaultSaveLoginFlagVal = lp.login != ""
+    defaultSavePasswordFlagVal = lp.password != ""
+    defaultSaveAutologinFlagVal = ::is_autologin_enabled()
+
     //Called init while in loading, so no need to call again authorization.
     //Just wait, when the loading will be over.
     if (::g_login.isAuthorized())
       return
+
+    if (!::has_feature("AllowSteamAccountLinking"))
+    {
+      authorizeSteam()
+      return
+    }
 
     local useSteamLoginAuto = ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID)
     if (useSteamLoginAuto == true)
@@ -30,10 +41,14 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
     }
 
     showSceneBtn("button_exit", true)
+    showLoginProposal()
+  }
 
+  function showLoginProposal()
+  {
     ::scene_msg_box("steam_link_method_question",
       guiScene,
-      ::loc("steam/login/linkQuestion"),
+      ::loc("steam/login/linkQuestion" + (::has_feature("AllowSteamAccountLinking")? "" : "/noLink")),
       [["#mainmenu/loginWithGaijin", ::Callback(goToLoginWnd, this) ],
        ["#mainmenu/loginWithSteam", ::Callback(authorizeSteam, this)],
        ["exit", ::exit_game]
@@ -49,9 +64,17 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
       case ::YU2_NOT_FOUND:
         goToLoginWnd()
         break
+      case ::YU2_OK:
+        if (::steam_is_running() && !::has_feature("AllowSteamAccountLinking"))
+          ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, true)
       default:
         base.proceedAuthorizationResult(result, no_dump_login)
     }
+  }
+
+  function onLoginErrorTryAgain()
+  {
+    showLoginProposal()
   }
 
   function authorizeSteam(steamKey = "steam")

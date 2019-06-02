@@ -27,7 +27,7 @@ local SecondsUpdater = class
     return null
   }
 
-  function constructor(_nestObj, _updateFunc, useNestAsTimerObj = true, _params = {})
+  constructor(_nestObj, _updateFunc, useNestAsTimerObj = true, _params = {})
   {
     if (!_updateFunc)
       return ::dagor.assertf(false, "Error: no updateFunc in seconds updater.")

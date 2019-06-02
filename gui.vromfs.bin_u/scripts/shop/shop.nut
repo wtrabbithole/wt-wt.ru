@@ -1,7 +1,8 @@
 local shopTree = require("scripts/shop/shopTree.nut")
 local shopSearchBox = require("scripts/shop/shopSearchBox.nut")
-local unitStatus = require("scripts/unit/unitStatus.nut")
-
+local slotActions = require("scripts/slotbar/slotActions.nut")
+local unitActions = require("scripts/unit/unitActions.nut")
+local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
 
 local lastUnitType = null
 
@@ -57,7 +58,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   _timer = 0.0
 
   shopData = null
-  slotbarActions = [ "research", "buy", "take", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
+  slotbarActions = [ "research", "find_in_market", "buy", "take", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
   needUpdateSlotbar = false
   needUpdateSquadInfo = false
   shopResearchMode = false
@@ -166,7 +167,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
             {
               selected = selected || (::get_es_unit_type(air) == selAirType && ::getUnitCountry(air) == selAirCountry)
 
-              if (!checkUnitShowInShop(air))
+              if (!air.isVisibleInShop())
                 continue
 
               airData.air <- air
@@ -181,7 +182,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
               {
                 local gAirBlk = airBlk.getBlock(ga)
                 air = getAircraftByName(gAirBlk.getBlockName())
-                if (!checkUnitShowInShop(air))
+                if (!air || !air.isVisibleInShop())
                   continue
 
                 if (!("rank" in airData))
@@ -243,17 +244,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       if (countryData.pages.len() > 0)
         shopData.append(countryData)
     }
-  }
-
-  function checkUnitShowInShop(unit)
-  {
-    if (unit == null)
-      return false
-    if (::isTank(unit) && !::check_feature_tanks())
-      return false
-    if (!::checkUnitHideFeature(unit))
-      return false
-    return ::is_unit_visible_in_shop(unit)
   }
 
   function getCurTreeData()
@@ -503,6 +493,11 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   {
     if (p.transactionType == ::EATT_UPDATE_ENTITLEMENTS || p.transactionType == ::EATT_BUY_ENTITLEMENT)
       doWhenActiveOnce("fillAircraftsList")
+  }
+
+  function onEventItemsShopUpdate(p)
+  {
+    doWhenActiveOnce("fillAircraftsList")
   }
 
   function onUpdate(obj, dt)
@@ -935,7 +930,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         local isOwn = ::isUnitBought(unit)
         if (isOwn)
           bought[unit.rank]++
-        if (isOwn || ::is_unit_visible_in_shop(unit))
+        if (isOwn || unit.isVisibleInShop())
           total[unit.rank]++
       }
 
@@ -1098,12 +1093,18 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return {}
 
     local is_unit = !::isUnitGroup(unit) && !unit?.isFakeUnit
+    local params = {
+      availableFlushExp = availableFlushExp
+      isSquadronResearchMode = isSquadronResearchMode
+      setResearchManually = setResearchManually
+      needChosenResearchOfSquadron = needChosenResearchOfSquadron()
+    }
     return {
              hasActions     = true,
              showInService  = true,
              fullGroupBlock = !is_unit
              mainActionFunc = is_unit? "onUnitMainFunc" : "",
-             mainActionText = is_unit? getMainFunctionName(unit) : ""
+             mainActionText = is_unit? slotActions.getSlotActionFunctionName(unit, params) : ""
              fullBlock      = true
              shopResearchMode = shopResearchMode
              isSquadronResearchMode = isSquadronResearchMode
@@ -1280,10 +1281,10 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
         local discountData = getDiscountByCountryAndArmyId(curCountry, page.name)
 
-        local max = ::getTblValue("maxDiscount", discountData, 0)
+        local maxDiscount = discountData?.maxDiscount ?? 0
         local discountTooltip = ::getTblValue("discountTooltip", discountData, "")
         tabObj.tooltip = discountTooltip
-        discountObj.setValue(max > 0? ("-" + max + "%") : "")
+        discountObj.setValue(maxDiscount > 0? ("-" + maxDiscount + "%") : "")
         discountObj.tooltip = discountTooltip
       }
       break
@@ -1705,16 +1706,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     checkUnitItemAndUpdate(::getAircraftByName(unitName))
   }
 
-  function onRepair(obj)
-  {
-    repairRequest(getCurAircraft());
-  }
-
-  function repairRequest(unit) {
-    if (unit)
-      unit.repair()
-  }
-
   function onOpenOnlineShop(obj)
   {
     OnlineShopModel.showGoods({
@@ -1722,28 +1713,18 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     })
   }
 
-  function onBuy(obj)
+  function onBuy()
   {
-    local unit = getCurAircraft(true, true)
-    if (!unit)
-      return
-
-    if (::canBuyUnitOnline(unit))
-      ::OnlineShopModel.showGoods({ unitName = unit.name })
-    else
-      ::buyUnit(unit)
+    unitActions.buy(getCurAircraft(true, true))
   }
 
   function onResearch(obj)
   {
     local unit = getCurAircraft()
-    if (!unit || isUnitGroup(unit) || unit?.isFakeUnit)
-      return
-    if (!::checkForResearch(unit))
+    if (!unit || ::isUnitGroup(unit) || unit?.isFakeUnit || !::checkForResearch(unit))
       return
 
-    sendChoosedNewResearchUnitStatistic(unit)
-    ::researchUnit(unit)
+    unitActions.research(unit)
   }
 
   function onConvert(obj)
@@ -1753,9 +1734,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return
 
     local unitName = unit.name
-    local handler = this
     selectCellByUnitName(unitName)
-    ::gui_modal_convertExp(unit, handler)
+    ::gui_modal_convertExp(unit)
   }
 
   function getUnitNameByBtnId(id)
@@ -1798,7 +1778,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (!unit)
       return
 
-    if (::getTblValue("receivedFromTrophy", params, false) && ::is_unit_visible_in_shop(unit))
+    if (::getTblValue("receivedFromTrophy", params, false) && unit.isVisibleInShop())
     {
       doWhenActiveOnce("loadFullAircraftsTable")
       doWhenActiveOnce("fillAircraftsList")
@@ -1813,7 +1793,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return
 
     if (!::checkIsInQueue() && !shopResearchMode)
-      onTake(unit, true)
+      onTake(unit, {isNewUnit = true})
     else if (shopResearchMode)
       selectRequiredUnit()
   }
@@ -1877,22 +1857,14 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     return false
   }
 
-  function onTake(unit = null, isNewUnit = false)
+  function onTake(unit, params = {})
   {
-    local handler = this
-    checkedCrewAirChange( (@(unit, handler) function () {
-      local curUnit = unit ? unit : getCurAircraft()
-      if (!curUnit || !curUnit.isUsable() || ::isUnitInSlotbar(curUnit))
-        return
-
-      ::gui_start_selecting_crew({
-        unit = curUnit,
-        unitObj = getAirObj(curUnit.name)
-        cellClass = "shopClone"
-        isNewUnit = isNewUnit
-        getEdiffFunc = getCurrentEdiff.bindenv(this)
-      })
-    })(unit, handler))
+    base.onTake(unit, {
+      unitObj = getAirObj(unit.name)
+      cellClass = "shopClone"
+      isNewUnit = false
+      getEdiffFunc = getCurrentEdiff.bindenv(this)
+    }.__merge(params))
   }
 
   function onEventExpConvert(params)
@@ -1932,70 +1904,22 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function onUnitMainFunc(obj)
   {
     local unit = getCurAircraft()
-    if (!unit || ::isUnitGroup(unit) || unit?.isFakeUnit)
+    if (!unit)
       return
 
-    if (::isUnitBroken(unit))
-      return onRepair(obj)
-    if (::isUnitInSlotbar(unit))
-      return ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
-    if (unit.isUsable() && !::isUnitInSlotbar(unit))
-      return onTake(unit)
-    if (::canBuyUnitOnline(unit))
-      return onOpenOnlineShop(obj)
-    if (::canBuyUnit(unit))
-      return onBuy(obj)
-
-    local isSquadronVehicle = unit.isSquadronVehicle()
-    local isInResearch = ::isUnitInResearch(unit)
-    local canFlushSquadronExp = ::has_feature("ClanVehicles") && isSquadronVehicle
-      && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-    if ((availableFlushExp > 0 || !setResearchManually
-        || (isSquadronResearchMode && (canFlushSquadronExp || needChosenResearchOfSquadron())))
-      && (::canResearchUnit(unit) || isInResearch))
-      return onSpendExcessExp()
-    if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle)
-      return onConvert(obj)
-
-    if (canFlushSquadronExp && isInResearch)
-      return flushSquadronExp()
-    if (isInResearch && unitStatus.canBuyNotResearched(unit)
-      && isSquadronVehicle && ::is_in_clan())
-      return onBuy(obj)
-    if (::checkForResearch(unit)) // Also shows msgbox about requirements for Research or Purchase
-      return onResearch(obj)
-  }
-
-  function getMainFunctionName(unit)
-  {
-    if (::isUnitBroken(unit))
-      return "#mainmenu/btnRepair"
-    if (::isUnitInSlotbar(unit))
-      return ""
-    if (unit.isUsable() && !::isUnitInSlotbar(unit))
-      return "#mainmenu/btnTakeAircraft"
-    if (::canBuyUnit(unit) || ::canBuyUnitOnline(unit))
-      return "#mainmenu/btnOrder"
-
-    local isSquadronVehicle = unit.isSquadronVehicle()
-    local isInResearch = ::isUnitInResearch(unit)
-    local canFlushSquadronExp = ::has_feature("ClanVehicles") && isSquadronVehicle
-      && min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-    if ((availableFlushExp > 0 || !setResearchManually
-        || (isSquadronResearchMode && needChosenResearchOfSquadron())
-        || (isSquadronVehicle && !::is_in_clan() && !canFlushSquadronExp))
-      && (::canResearchUnit(unit) || isInResearch))
-      return "#mainmenu/btnResearch"
-    if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle)
-      return "#mainmenu/btnConvert"
-
-    if (canFlushSquadronExp && (isInResearch || isSquadronResearchMode))
-      return "#mainmenu/btnInvestSquadronExp"
-    if (isInResearch && unitStatus.canBuyNotResearched(unit))
-      return "#mainmenu/btnOrder"
-    if (!::isUnitUsable(unit) && !::isUnitGift(unit) && (!isSquadronVehicle || !isInResearch))
-      return ::isUnitMaxExp(unit) ? "#mainmenu/btnOrder" : "#mainmenu/btnResearch"
-    return ""
+    slotActions.slotMainAction(unit, {
+      onSpendExcessExp = ::Callback(onSpendExcessExp, this)
+      onTakeParams = {
+        unitObj = getAirObj(unit.name)
+        cellClass = "shopClone"
+        isNewUnit = false
+        getEdiffFunc = getCurrentEdiff.bindenv(this)
+      }
+      curEdiff = getCurrentEdiff()
+      isSquadronResearchMode = isSquadronResearchMode
+      setResearchManually = setResearchManually
+      needChosenResearchOfSquadron = needChosenResearchOfSquadron()
+    })
   }
 
   function onModifications(obj)
@@ -2226,11 +2150,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function onSpendExcessExp() {}
   function updateResearchVariables() {}
 
-  function sendChoosedNewResearchUnitStatistic(unit)
-  {
-    ::add_big_query_record("choosed_new_research_unit", unit.name)
-  }
-
   static fakeUnitConfig = {
     name = ""
     image = "!#ui/unitskin#random_unit"
@@ -2286,31 +2205,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     checkUnitItemAndUpdate(::getAircraftByName(clan_get_researching_unit()))
   }
 
-  function flushSquadronExp(afterDoneFunc = null)
-  {
-    local unit = getCurAircraft()
-    ::scene_msg_box("ask_flush_squadron_exp",
-      null,
-      ::loc("squadronExp/invest/needMoneyQuestion", {
-        exp = ::Cost().setSap(min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit))).tostring() }),
-      [
-        ["yes", @() ::g_tasker.addTask(::char_send_action_and_load_profile("cln_flush_clan_exp_to_unit"),
-           null,
-           function() {
-             if (afterDoneFunc)
-               afterDoneFunc()
-             ::broadcastEvent("FlushSquadronExp", {unit = unit})
-           })
-        ],
-        ["no", function() {
-          if (afterDoneFunc)
-            afterDoneFunc()
-          }
-        ]
-      ],
-      "yes")
-  }
-
   function onEventFlushSquadronExp(params)
   {
     local unit = params?.unit
@@ -2321,6 +2215,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     if (hasSquadronVehicleToResearche() && ::isUnitResearched(unit))
       return
+
+    if (squadronUnitAction.isAllVehiclesResearched())
+      squadronUnitAction.saveResearchChosen(false)
 
     if (unit && ::canBuyUnit(unit))
       ::buyUnit(unit)

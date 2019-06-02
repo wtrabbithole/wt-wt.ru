@@ -11,6 +11,14 @@ function can_be_readed_as_datablock(blk) //can be overrided by dataBlockAdapter
   return u.isDataBlock(blk)
 }
 
+local function tableKeyToString(k) {
+  if (typeof(k) != "string")
+    return "[" + ::toString(k) + "]"
+  if (::g_string.isStringInteger(k) || ::g_string.isStringFloat(k) ||
+    ::isInArray(k, [ "true", "false", "null" ]))
+      return "[\"" + k + "\"]"
+  return k
+}
 
 function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrackets=true, silentMode=false, printFn=null})
 {
@@ -42,23 +50,23 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
       {
         local name = info.getParamName(i)
         local val = info.getParamValue(i)
-        local type = " "
+        local vType = " "
         if (val == null) { val = "null" }
-        else if (typeof(val)=="integer") type = ":i"
-        else if (typeof(val)=="float") { type = ":r"; val = val.tostring() + ((val % 1) ? "" : ".0") }
-        else if (typeof(val)=="bool") type = ":b"
-        else if (typeof(val)=="string") { type = ":t"; val = "'" + val + "'" }
-        else if (u.isPoint2(val)) { type = ":p2"; val = ::format("%s, %s", val.x.tostring(), val.y.tostring()) }
-        else if (u.isPoint3(val)) { type = ":p3"; val = ::format("%s, %s, %s", val.x.tostring(), val.y.tostring(), val.z.tostring()) }
-        else if (u.isColor4(val)) { type = ":c";  val = ::format("%d, %d, %d, %d", 255 * val.r, 255 * val.g, 255 * val.b, 255 * val.a) }
-        else if (u.isTMatrix(val)) { type = ":m"
+        else if (typeof(val)=="integer") vType = ":i"
+        else if (typeof(val)=="float") { vType = ":r"; val = val.tostring() + ((val % 1) ? "" : ".0") }
+        else if (typeof(val)=="bool") vType = ":b"
+        else if (typeof(val)=="string") { vType = ":t"; val = "'" + val + "'" }
+        else if (u.isPoint2(val)) { vType = ":p2"; val = ::format("%s, %s", val.x.tostring(), val.y.tostring()) }
+        else if (u.isPoint3(val)) { vType = ":p3"; val = ::format("%s, %s, %s", val.x.tostring(), val.y.tostring(), val.z.tostring()) }
+        else if (u.isColor4(val)) { vType = ":c";  val = ::format("%d, %d, %d, %d", 255 * val.r, 255 * val.g, 255 * val.b, 255 * val.a) }
+        else if (u.isTMatrix(val)) { vType = ":m"
           local arr = []
           for (local j = 0; j < 4; j++)
             arr.append("[" + ::g_string.implode([ val[j].x, val[j].y, val[j].z ], ", ") + "]")
           val = "[" + ::g_string.implode(arr, " ") + "]"
         }
         else val = ::toString(val)
-        printFn(prefix+addStr2+name+type+"= " + val)
+        printFn(prefix+addStr2+name+vType+"= " + val)
       }
       for (local j = 0; j < info.blockCount(); j++)
         if (recursionLevel)
@@ -71,49 +79,56 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
     }
     else if (typeof(info)=="array" || typeof(info)=="table")
     {
+      if (showBlockBrackets)
+        printFn(prefix + addStr + (typeof(info) == "array" ? "[" : "{"))
+      local addStr2 = addStr + (showBlockBrackets? "  " : "")
       foreach(id, data in info)
       {
-        local type = typeof(data)
-        local idText = (typeof(id) == "string")? "'" + id + "'" : ::toString(id) //in table can be row 65 and '65' at the same time
-        if (type=="array" || type=="table" ||  can_be_readed_as_datablock(data))
+        local dType = typeof(data)
+        local idText = tableKeyToString(id)
+        if (dType=="array" || dType=="table" ||  can_be_readed_as_datablock(data))
         {
-          local openBraket = ((type=="array")? "[": ((type=="table")? "{" : "DataBlock {"))
-          local closeBraket = ((type=="array")? "]":"}")
+          local openBraket = ((dType=="array")? "[": ((dType=="table")? "{" : "DataBlock {"))
+          local closeBraket = ((dType=="array")? "]":"}")
           if (recursionLevel)
           {
-            printFn(prefix + addStr + idText + " = " + openBraket)
+            printFn(prefix + addStr2 + idText + " = " + openBraket)
             ::debugTableData(data,
-              {recursionLevel = recursionLevel - 1, addStr = addStr + "  ", showBlockBrackets = false, silentMode = silentMode, printFn = printFn})
+              {recursionLevel = recursionLevel - 1, addStr = addStr2 + "  ", showBlockBrackets = false,
+                silentMode = silentMode, printFn = printFn})
 
-            printFn(prefix+addStr+closeBraket)
+            printFn(prefix+addStr2+closeBraket)
           }
           else
           {
-            local length = (type=="array" || type=="table") ? data.len() : (data.paramCount() + data.blockCount())
-            printFn(prefix + addStr + idText + " = " + openBraket + (length ? "..." : "") + closeBraket)
+            local length = (dType=="array" || dType=="table") ? data.len() : (data.paramCount() + data.blockCount())
+            printFn(prefix + addStr2 + idText + " = " + openBraket + (length ? "..." : "") + closeBraket)
           }
         }
-        else if (type=="instance")
-          printFn(prefix+addStr+idText+" = " + ::toString(data, ::min(1, recursionLevel), addStr))
-        else if (type=="string")
-          printFn(prefix+addStr+idText+" = '" + data + "'")
-        else if (type=="float")
-          printFn(prefix+addStr+idText+" = " + data + ((data % 1) ? "" : ".0"))
-        else if (type=="null")
-          printFn(prefix+addStr+idText+" = null")
+        else if (dType=="instance")
+          printFn(prefix+addStr2+idText+" = " + ::toString(data, ::min(1, recursionLevel), addStr2))
+        else if (dType=="string")
+          printFn(prefix+addStr2+idText+" = \"" + data + "\"")
+        else if (dType=="float")
+          printFn(prefix+addStr2+idText+" = " + data + ((data % 1) ? "" : ".0"))
+        else if (dType=="null")
+          printFn(prefix+addStr2+idText+" = null")
         else
-          printFn(prefix+addStr+idText+" = " + data)
+          printFn(prefix+addStr2+idText+" = " + data)
       }
+      if (showBlockBrackets)
+        printFn(prefix + addStr + (typeof(info) == "array" ? "]" : "}"))
     }
     else if (typeof(info)=="instance")
       printFn(prefix + addStr + toString(info, ::min(1, recursionLevel), addStr)) //not decrease recursion because it current instance
     else
     {
-      if (type=="string")
-        printFn(prefix + addStr + "'" + info + "'")
-      else if (type=="float")
+      local iType = typeof(info)
+      if (iType == "string")
+        printFn(prefix + addStr + "\"" + info + "\"")
+      else if (iType == "float")
         printFn(prefix + addStr + info + ((info % 1) ? "" : ".0"))
-      else if (type=="null")
+      else if (iType == "null")
         printFn(prefix + addStr + "null")
       else
         printFn(prefix + addStr + info)
@@ -194,8 +209,8 @@ function toString(val, recursion = 1, addStr = "")
     local iv = []
     foreach (i,v in val)
     {
-      local index = !isArray && ::isInArray(type(i), [ "float", "null" ]) ? ::toString(i) : i
-      iv.append("" + (isArray ? "[" + index + "]" : index) + " = " + ::toString(v, recursion - 1, ""))
+      local index = isArray ? ("[" + i + "]") : tableKeyToString(i)
+      iv.append("" + index + " = " + ::toString(v, recursion - 1, ""))
     }
     str = ::g_string.implode(iv, ", ")
   } else

@@ -73,9 +73,9 @@ function g_crew::getDiscountInfo(countryId = -1, idInCountry = -1)
 
   local result = {}
   result.buyPoints <- ::getDiscountByPath(["skills", country, packNames], ::get_price_blk())
-  foreach (type in ::g_crew_spec_type.types)
-    if (type.hasPrevType())
-      result[type.specName] <- type.getDiscountValueByUnitNames(unitNames)
+  foreach (t in ::g_crew_spec_type.types)
+    if (t.hasPrevType())
+      result[t.specName] <- t.getDiscountValueByUnitNames(unitNames)
   return result
 }
 
@@ -95,11 +95,11 @@ function g_crew::getDiscountsTooltipByInfo(discountInfo, showBuyPoints = true)
 
   local numPositiveDiscounts = 0
   local positiveDiscountCrewSpecType = null
-  foreach (type in ::g_crew_spec_type.types)
-    if (type.hasPrevType() && discountInfo[type.specName] > 0)
+  foreach (t in ::g_crew_spec_type.types)
+    if (t.hasPrevType() && discountInfo[t.specName] > 0)
     {
       ++numPositiveDiscounts
-      positiveDiscountCrewSpecType = type
+      positiveDiscountCrewSpecType = t
     }
 
   if (numPositiveDiscounts == 0)
@@ -114,9 +114,9 @@ function g_crew::getDiscountsTooltipByInfo(discountInfo, showBuyPoints = true)
     return positiveDiscountCrewSpecType.getDiscountTooltipByValue(maxDiscount)
 
   local table = {}
-  foreach(type in ::g_crew_spec_type.types)
-    if (type.hasPrevType())
-      table[type.getNameLocId()] <- discountInfo[type.specName]
+  foreach(t in ::g_crew_spec_type.types)
+    if (t.hasPrevType())
+      table[t.getNameLocId()] <- discountInfo[t.specName]
 
   if (showBuyPoints)
     table["mainmenu/btnBuySkillPoints"] <- discountInfo.buyPoints
@@ -710,12 +710,12 @@ function load_crew_skills()
   if (reqBlk == null)
     return
 
-  foreach (type in ::g_unit_type.types)
+  foreach (t in ::g_unit_type.types)
   {
-    if (!type.isAvailable() || ::crew_air_train_req?[type.crewUnitType] != null)
+    if (!t.isAvailable() || ::crew_air_train_req?[t.crewUnitType] != null)
       continue
 
-    local typeBlk = reqBlk[type.getCrewTag()]
+    local typeBlk = reqBlk[t.getCrewTag()]
     if (typeBlk == null)
       continue
 
@@ -735,7 +735,7 @@ function load_crew_skills()
     }
     while(costBlk!=null)
 
-    ::crew_air_train_req[type.crewUnitType] <- trainReq
+    ::crew_air_train_req[t.crewUnitType] <- trainReq
   }
 }
 

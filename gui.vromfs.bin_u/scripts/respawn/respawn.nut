@@ -2136,7 +2136,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     curChatData = ::loadGameChatToObj(chatObj, chatBlkName, this,
-      { selfHideInput = isSpectate, isInSpectateMode = isSpectate, isInputSelected = false })
+      { selfHideInput = isSpectate, isInSpectateMode = isSpectate, isInputSelected = isSpectate })
     curChatBlk = chatBlkName
 
     if (!isSpectate)
@@ -2277,6 +2277,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function onChatCancel()
   {
+    if (curChatData?.selfHideInput ?? false)
+      return
     onGamemenu(null)
   }
 
@@ -2294,18 +2296,21 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!isRespawn || !::can_request_aircraft_now())
       return
 
+    if (isSpectate && onSpectator() && ::has_available_slots())
+      return
+
     guiScene.performDelayed(this, function() {
       ::disable_flight_menu(false)
       gui_start_flight_menu()
     })
   }
 
-  function onSpectator(obj)
+  function onSpectator(obj = null)
   {
-    if (!::can_request_aircraft_now())
-      return
-    if (isRespawn)
-      setSpectatorMode(!isSpectate)
+    if (!::can_request_aircraft_now() || !isRespawn)
+      return false
+    setSpectatorMode(!isSpectate)
+    return true
   }
 
   function setHudVisibility(obj)

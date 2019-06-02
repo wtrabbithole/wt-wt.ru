@@ -4,7 +4,7 @@ local function makeSlotName(original_name, prefix, postfix) {
 }
 
 local makeUpdateState = @(state_object) function (new_value) { state_object.update(new_value) }
-local makeUpdateArrayState = @(state_array) function (idx, new_value) { state_array[idx].update(new_value)}
+
 local function generate(options) {
   local prefix = options?.prefix ?? ""
   local postfix = options?.postfix ?? ""

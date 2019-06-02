@@ -194,7 +194,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       : sheets.types
 
     local view = {
-      flow = true
       items = sheetsArray.map(@(sh) {
         text = ::loc(sh.locId)
         unseenIcon = SEEN.ITEMS_SHOP //intial to create unseen block.real value will be set on update.
@@ -501,6 +500,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       buttonObj.inactiveColor = mainActionData?.isInactive ? "yes" : "no"
       ::setDoubleTextToButton(scene, "btn_main_action", mainActionData.btnName,
                               mainActionData?.btnColoredName || mainActionData.btnName)
+      updateConsoleImage(buttonObj)
     }
 
     local activateText = !showMainAction && item?.isInventoryItem && item.amount ? item.getActivateInfo() : ""
@@ -737,5 +737,18 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       itemsListValid = false
       applyFilters(false)
     }
+  }
+
+  function onItemsListFocusChange()
+  {
+    if (!isValid())
+      return
+
+    updateConsoleImage(scene.findObject("btn_main_action"))
+  }
+
+  function updateConsoleImage(buttonObj)
+  {
+    buttonObj.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
   }
 }

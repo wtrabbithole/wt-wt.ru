@@ -48,7 +48,7 @@ class ::Warbond
 
     expiredTime = listBlk.expiredTime || -1
     canEarnTime = listBlk.endTime || -1
-    levelsArray = ::blk_to_array(listBlk.levels || ::DataBlock(), "level")
+    levelsArray = listBlk.levels ? (listBlk.levels % "level") : []
   }
 
   function getFullId()

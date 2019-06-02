@@ -281,6 +281,12 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::queues.isEventQueue(p?.queue))
       return
 
+    if (p.queue.state == queueStates.NOT_IN_QUEUE)
+      eventsListObj.select()
+    else
+      restoreFocus()
+
+    updateEventsListFocusStatus()
     updateQueueInterface()
     updateButtons()
   }
@@ -446,7 +452,6 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local slotbar = getSlotbar()
     if (slotbar)
       slotbar.shade(isInEventQueue())
-    restoreFocus()
   }
 
   function updateButtons()

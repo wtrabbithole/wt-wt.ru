@@ -16,6 +16,7 @@ local shipState = {
 
   obstacleIsNear = Watched(false)
   distanceToObstacle = Watched(-1)
+  timeToDeath = Watched(-1)
 
   //DM:
   enginesCount = Watched(0)

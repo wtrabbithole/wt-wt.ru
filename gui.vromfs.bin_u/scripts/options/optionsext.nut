@@ -211,14 +211,14 @@ function find_in_table(tab, val, notFoundValue = null)
   return find_in_array(tab, val, notFoundValue)
 }
 
-function option_check_arg(id, arg, type)
+function option_check_arg(id, arg, varType)
 {
-  if (typeof arg == type)
+  if (typeof arg == varType)
     return true
 
   local msg = "[ERROR] Wrong argument type supplied for option item '" + id + ".\n"
   msg += "Value = " + ::toString(arg) + ".\n"
-  msg += "Expected '" + type + "' found '" + typeof arg + "'."
+  msg += "Expected '" + varType + "' found '" + typeof arg + "'."
 
   ::script_net_assert_once(id, msg)
   return false
@@ -973,6 +973,13 @@ function get_option(optionId, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = ::get_option_invertY(AxisInvertOption.INVERT_UFO_Y) != 0
+      break
+
+    case ::USEROPT_INVERTY_WALKER:
+      descr.id = "invertY_walker"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_WALKER_Y) != 0
       break
 
     case ::USEROPT_INVERTY_SUBMARINE:
@@ -3942,6 +3949,9 @@ function set_option(optionId, value, descr = null)
     case ::USEROPT_INVERTY_UFO:
       ::set_option_invertY(AxisInvertOption.INVERT_UFO_Y, value ? 1 : 0)
       break
+    case ::USEROPT_INVERTY_WALKER:
+      ::set_option_invertY(AxisInvertOption.INVERT_WALKER_Y, value ? 1 : 0)
+      break
     case ::USEROPT_INVERTY_SUBMARINE:
       ::set_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y, value ? 1 : 0)
       break
@@ -4636,7 +4646,6 @@ function set_option(optionId, value, descr = null)
     case ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR:
     case ::USEROPT_CONTENT_ALLOWED_PRESET:
-    case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
       if (descr.controlType == optionControlType.LIST)
       {
         if (typeof descr.values != "array")
@@ -4848,21 +4857,21 @@ function get_diff_icon_by_name(diffName)
   return ""
 }
 
-function get_option_by_bit(type, idx)
+function get_option_by_bit(optionId, idx)
 {
-  local option = ::get_gui_option(type)
+  local option = ::get_gui_option(optionId)
   if (option==null || typeof(option) != "integer")
     return false
   return (option & (1 << idx)) != 0
 }
 
-function set_option_by_bit(type, idx, value)
+function set_option_by_bit(optionId, idx, value)
 {
-  local option = ::get_gui_option(type)
+  local option = ::get_gui_option(optionId)
   if (option==null || typeof(option) != "integer")
     option = 0
   option = (option & ~(1 << idx)) | (value? (1 << idx) : 0)
-  ::set_gui_option(type, option)
+  ::set_gui_option(optionId, option)
 }
 
 function create_options_container(name, options, is_focused, is_centered, columnsRatio = 0.5, fullTable = true, absolutePos=true, context = null)

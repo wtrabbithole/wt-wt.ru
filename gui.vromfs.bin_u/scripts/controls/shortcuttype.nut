@@ -5,9 +5,9 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
 
 function g_shortcut_type::getShortcutTypeByShortcutId(shortcutId)
 {
-  foreach (type in types)
-    if (type.isMe(shortcutId))
-      return type
+  foreach (t in types)
+    if (t.isMe(shortcutId))
+      return t
   return ::g_shortcut_type.COMMON_SHORTCUT
 }
 
@@ -304,6 +304,8 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       submarine_camy  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       ufo_camx        = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       ufo_camy        = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      walker_camx     = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      walker_camy     = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
     }
 
     getDirection = function(shortcutId)

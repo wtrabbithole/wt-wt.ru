@@ -344,12 +344,12 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     if (!isOpened || !rouletteAnimationFinished)
       return
 
-    local array = []
-    array.extend(rewardsArray)
-    array.extend(periodicRewardsArray)
+    local arr = []
+    arr.extend(rewardsArray)
+    arr.extend(periodicRewardsArray)
 
-    if (array.len() > 1 || haveItems)
-      ::gui_start_open_trophy_rewards_list({ rewardsArray = ::trophyReward.processUserlogData(array) })
+    if (arr.len() > 1 || haveItems)
+      ::gui_start_open_trophy_rewards_list({ rewardsArray = ::trophyReward.processUserlogData(arr) })
   }
 
   function onOpenChest(obj = null)

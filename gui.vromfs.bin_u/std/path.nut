@@ -135,8 +135,8 @@ local function fileName(path) {
  *   join("/", "/")              > "/"
  */
 local function _join(basePath, other) {
-  assert(::type(basePath) == "string")
-  assert(::type(other) == "string")
+  ::assert(::type(basePath) == "string")
+  ::assert(::type(other) == "string")
   if (basePath == "")
     return other
   else if (other == "" || other == "/")
@@ -160,10 +160,7 @@ local function _join(basePath, other) {
  *   joinArray(["/"])                > "/"
  */
 local function joinArray(pathArray) {
-  local path = ""
-  foreach (pathSegment in pathArray)
-    path = join(path, pathSegment)
-  return path
+  return pathArray.reduce(@(a,b) a+"/"+b) ?? ""
 }
 
 local function join(...) {
@@ -192,7 +189,7 @@ local function join(...) {
 local function splitToArray(path) {
   if (path == "")
     return []
-  assert(::type(path)=="string")
+  ::assert(::type(path)=="string")
   local segments = split(path, "/")
   if (path[0] == '/')
     segments.insert(0, "/")

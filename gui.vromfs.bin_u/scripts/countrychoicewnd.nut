@@ -394,6 +394,8 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
       blk.unlock <- country
     }
 
+    blk.unlock <- "chosen_" + presetsData.selectedCountry
+
     if (::get_first_chosen_unit_type() == ::ES_UNIT_TYPE_INVALID)
       if (selectedUnitType.firstChosenTypeUnlockName)
         blk.unlock <- selectedUnitType.firstChosenTypeUnlockName

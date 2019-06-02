@@ -101,6 +101,7 @@ subscriptions.addListenersWithoutEnv({
 }, ::g_listener_priority.CONFIG_VALIDATION)
 
 return {
+  targetPlatform = targetPlatform
   isPlatformXboxOne = isPlatformXboxOne
   isPlatformPS4 = isPlatformPS4
   isPlatformPC = isPlatformPC

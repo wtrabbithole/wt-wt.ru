@@ -174,7 +174,8 @@ frame {
                 pos:t='50%pw-20%w, 50%ph-50%h'
                 position:t='absolute'
                 size:t='1@mIco, 1@mIco'
-                background-image:t='#ui/gameuiskin#check'
+                background-image:t='#ui/gameuiskin#check.svg'
+                background-svg-size:t='1@mIco, 1@mIco'
                 input-transparent:t='yes'
               }
             <</isTrophyRecieved>>

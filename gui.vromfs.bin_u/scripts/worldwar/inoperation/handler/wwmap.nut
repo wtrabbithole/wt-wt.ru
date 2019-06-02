@@ -569,15 +569,15 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       if (!statBlk.mainObjective || !statBlk.defenderSide == playerSideName)
         continue
 
-      local type = ::g_ww_objective_type.getTypeByTypeName(statBlk.type)
-      if (type != ::g_ww_objective_type.OT_CAPTURE_ZONE)
+      local oType = ::g_ww_objective_type.getTypeByTypeName(statBlk.type)
+      if (oType != ::g_ww_objective_type.OT_CAPTURE_ZONE)
         continue
 
       local dynBlock = dynamicBlk[statBlk.getBlockName()]
       if (!dynBlock)
         continue
 
-      local zones = type.getUpdatableZonesParams(
+      local zones = oType.getUpdatableZonesParams(
         dynBlock, statBlk, ::ww_side_val_to_name(::ww_get_player_side())
       )
       if (!zones.len())
@@ -1253,8 +1253,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       if (!dataBlk.mainObjective)
         continue
 
-      local type = ::g_ww_objective_type.getTypeByTypeName(dataBlk.type)
-      objTarget = scene.findObject(type.getNameId(dataBlk, ::ww_get_player_side()))
+      local oType = ::g_ww_objective_type.getTypeByTypeName(dataBlk.type)
+      objTarget = scene.findObject(oType.getNameId(dataBlk, ::ww_get_player_side()))
       if (objTarget)
         break
     }

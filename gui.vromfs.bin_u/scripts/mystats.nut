@@ -278,7 +278,7 @@ local summaryNameArray = [
       return res
 
     local roles = ::u.map(::g_unit_class_type.getTypesByEsUnitType(filter?.unitType),
-       function (type) { return type.expClassName })
+       @(t) t.expClassName)
 
     foreach(idx, diffData in pvpSummary)
       foreach(unitRole, data in diffData)

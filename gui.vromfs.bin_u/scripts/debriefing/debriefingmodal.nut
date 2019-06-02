@@ -1186,12 +1186,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       row.curValues[p] = nextValue
       local showEmpty = ((p == "value") != row.isOverall) && row.isVisibleWhenEmpty()
-      local type = p == "value" ? row.type : row.rewardType
+      local paramType = p == "value" ? row.type : row.rewardType
 
-      if (row.isFreeRP && type=="exp")
-        type = "frp" //show exp as FreeRP currency
+      if (row.isFreeRP && paramType == "exp")
+        paramType = "frp" //show exp as FreeRP currency
 
-      local text = getTextByType(nextValue, type, showEmpty)
+      local text = getTextByType(nextValue, paramType, showEmpty)
       obj.setValue(text)
     }
     needPlayCount = needPlayCount || !finished
@@ -1205,11 +1205,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return !::u.isTable(row[name]) ? row[name] : ::getTblValue(tgtName, row[name], null)
   }
 
-  function getTextByType(value, type, showEmpty = false)
+  function getTextByType(value, paramType, showEmpty = false)
   {
-    if (!showEmpty && (value==0 || (value==1 && type=="mul")))
+    if (!showEmpty && (value == 0 || (value == 1 && paramType == "mul")))
       return ""
-    switch(type)
+    switch(paramType)
     {
       case "wp":  return ::Cost(value).toStringWithParams({isWpAlwaysShown = true})
       case "gold": return ::Cost(0, value).toStringWithParams({isGoldAlwaysShown = true})
@@ -1709,13 +1709,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       {
         local text = ""
 
-        local type = (p == "reward")? cfg.row.rewardType : p
-        local pId = type + cfg.row.id
+        local paramType = (p == "reward")? cfg.row.rewardType : p
+        local pId = paramType + cfg.row.id
         local showEmpty = false
         if (p == "time")
         {
           pId = "sessionTime"
-          type = "tim"
+          paramType = "tim"
           if (cfg.row.id == "sessionTime")
             pId = ""
           else
@@ -1725,17 +1725,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         {
           if (p == "value")
           {
-            type = cfg.row.type
+            paramType = cfg.row.type
             pId = cfg.row.customValueName? cfg.row.customValueName : cfg.row.type + cfg.row.id
           }
         }
         else if (p=="info")
         {
-          pId = ::getTblValue("infoName", cfg.row, "")
-          type = ::getTblValue("infoType", cfg.row, "")
+          pId = cfg.row?.infoName ?? ""
+          paramType = cfg.row?.infoType ?? ""
         }
 
-        text = getTextByType(::getTblValue(pId, cfg.expData, 0), type, showEmpty)
+        text = getTextByType(cfg.expData?[pId] ?? 0, paramType, showEmpty)
         rowView[p] <- text
       }
 
@@ -1760,11 +1760,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         title = col == "value" ? ::loc(tRow.icon, "")
           : col == "time" ? ::loc("icon/timer")
           : ""
-
-      //HACK: TEMPORARY HACK - DELETE AFTER UFO APRIL EVENT
-      if (title == null && col == "value" && ::u.isFunction(tRow.icon))
-        title = ::loc(tRow.icon())
-
       headerRow[col] <- ::colorize("fadedTextColor", title)
     }
     view.insert(0, headerRow)
@@ -2037,15 +2032,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getMplayersListByTeam(teamNum)
   {
-    if (!::debriefing_result)
-      return []
-
-    local array = []
-    foreach(player in ::debriefing_result.mplayers_list)
-      if (teamNum == player.team)
-        array.append(player)
-
-    return array
+    return (::debriefing_result?.mplayers_list ?? []).filter(@(idx, player) player.team == teamNum)
   }
 
   function updatePlayersTable(dt)

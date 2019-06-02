@@ -784,6 +784,14 @@ enum AxisDirection {
       def_relative = false
       checkAssign = false
     }
+//
+
+
+
+
+
+
+
     { id = "helicopter_cyclic_roll_sens"
       type = CONTROL_TYPE.SLIDER
       filterHide = [ globalEnv.EM_MOUSE_AIM ]
@@ -1034,6 +1042,91 @@ enum AxisDirection {
       filterShow = [globalEnv.EM_FULL_REAL]
     }
 
+{ id = "ID_HELICOPTER_JOYSTICK_HEADER"
+    type = CONTROL_TYPE.SECTION
+    filterHide = [globalEnv.EM_MOUSE_AIM]
+    showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+  }
+    { id = "mouse_joystick_mode_helicopter", type = CONTROL_TYPE.SPINNER,
+      filterHide = [globalEnv.EM_MOUSE_AIM],
+      options = ["#options/mouse_joy_mode_simple", "#options/mouse_joy_mode_standard"],
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams) ::get_option_int(::OPTION_HELICOPTER_MOUSE_JOYSTICK_MODE)
+      setValue = @(joyParams, objValue) ::set_option_int(::OPTION_HELICOPTER_MOUSE_JOYSTICK_MODE, objValue)
+    }
+    { id = "mouse_joystick_sensitivity_helicopter", type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams)
+        100.0*(::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SENSITIVITY) - ::minMouseJoystickSensitivity) /
+          (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SENSITIVITY, ::minMouseJoystickSensitivity + (objValue / 100.0) *
+          (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity))
+    }
+    { id = "mouse_joystick_deadzone_helicopter", type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_DEADZONE) / ::maxMouseJoystickDeadZone
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_DEADZONE,
+        (objValue / 100.0) * ::maxMouseJoystickDeadZone)
+    }
+    { id = "mouse_joystick_screensize_helicopter", type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams)
+        100.0*(::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENSIZE) - ::minMouseJoystickScreenSize) /
+          (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENSIZE, ::minMouseJoystickScreenSize + (objValue / 100.0) *
+          (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize))
+    }
+    { id = "mouse_joystick_screen_place_helicopter", type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENPLACE)
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENPLACE, objValue / 100.0)
+    }
+    { id = "mouse_joystick_aileron_helicopter", type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_AILERON_FACTOR) / ::maxMouseJoystickAileron
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_AILERON_FACTOR,
+        (objValue / 100.0) * ::maxMouseJoystickAileron)
+    }
+    { id = "mouse_joystick_rudder_helicopter", type = CONTROL_TYPE.SLIDER
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+      value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_RUDDER_FACTOR) / ::maxMouseJoystickRudder
+      setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_RUDDER_FACTOR,
+        (objValue / 100.0) * ::maxMouseJoystickRudder)
+    }
+    { id = "helicopter_mouse_joystick_square", type = CONTROL_TYPE.SWITCH_BOX
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+      value = @(joyParams) ::get_option_mouse_joystick_square()
+      setValue = @(joyParams, objValue) ::set_option_mouse_joystick_square(objValue)
+    }
+    { id="ID_HELICOPTER_CENTER_MOUSE_JOYSTICK"
+      filterHide = [globalEnv.EM_MOUSE_AIM]
+      showFunc = @() ::is_mouse_available() && (getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK)
+      checkAssign = false
+    }
+
+  { id = "ID_HELICOPTER_TRIM_CONTROL_HEADER", type = CONTROL_TYPE.SECTION
+    filterShow = [globalEnv.EM_FULL_REAL]
+  }
+
+    { id="ID_HELICOPTER_TRIM", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_HELICOPTER_TRIM_RESET", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="ID_HELICOPTER_TRIM_SAVE", filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="helicopter_trim_elevator", type = CONTROL_TYPE.AXIS
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="helicopter_trim_ailerons", type = CONTROL_TYPE.AXIS
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+    { id="helicopter_trim_rudder", type = CONTROL_TYPE.AXIS
+      filterShow = [globalEnv.EM_FULL_REAL], checkAssign = false }
+
   { id = "ID_TANK_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.TANK
@@ -1134,30 +1227,37 @@ enum AxisDirection {
       checkAssign = false
     }
     { id = "ID_SENSOR_SWITCH_TANK"
+      checkGroup = ctrlGroups.TANK
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
     { id = "ID_SENSOR_MODE_SWITCH_TANK"
+      checkGroup = ctrlGroups.TANK
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
     { id = "ID_SENSOR_SCAN_PATTERN_SWITCH_TANK"
+      checkGroup = ctrlGroups.TANK
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
     { id = "ID_SENSOR_RANGE_SWITCH_TANK"
+      checkGroup = ctrlGroups.TANK
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
     { id = "ID_SENSOR_TARGET_SWITCH_TANK"
+      checkGroup = ctrlGroups.TANK
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
     { id = "ID_SENSOR_TARGET_LOCK_TANK"
+      checkGroup = ctrlGroups.TANK
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
     { id = "ID_SENSOR_VIEW_SWITCH_TANK"
+      checkGroup = ctrlGroups.TANK
       showFunc = @() ::has_feature("Sensors")
       checkAssign = false
     }
@@ -1709,6 +1809,98 @@ enum AxisDirection {
       checkAssign = false
     }
 
+
+  { id = "ID_WALKER_CONTROL_HEADER"
+    unitType = ::g_unit_type.TANK
+    unitTag = "walker"
+    showFunc = @() ::has_feature("WalkerControl") || ::get_player_cur_unit()?.isWalker()
+    type = CONTROL_TYPE.HEADER
+  }
+  { id = "ID_WALKER_MOVE_HEADER", type = CONTROL_TYPE.SECTION }
+    { id="walker_throttle", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.WALKER, axisDirection = AxisDirection.Y, checkAssign = false }
+    { id="walker_steering", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.WALKER, axisDirection = AxisDirection.X, checkAssign = false }
+    { id="ID_WALKER_TORSO_UP",
+      checkGroup = ctrlGroups.WALKER,
+      checkAssign = false
+    }
+    { id="ID_WALKER_TORSO_DOWN",
+      checkGroup = ctrlGroups.WALKER,
+      checkAssign = false
+    }
+
+  { id = "ID_WALKER_FIRE_HEADER", type = CONTROL_TYPE.SECTION }
+    { id="ID_FIRE_WALKER"
+      checkGroup = ctrlGroups.WALKER
+      checkAssign = false
+    }
+    { id="ID_FIRE_WALKER_SECONDARY_GUN"
+      checkGroup = ctrlGroups.WALKER
+      checkAssign = false
+    }
+    { id="ID_FIRE_WALKER_MACHINE_GUN"
+      checkGroup = ctrlGroups.WALKER
+      checkAssign = false
+    }
+    { id="ID_FIRE_WALKER_SPECIAL_GUN",
+      checkGroup = ctrlGroups.WALKER
+      checkAssign = false
+    }
+    { id="ID_WALKER_SMOKE_SCREEN"
+      checkGroup = ctrlGroups.WALKER
+      checkAssign = false
+    }
+
+  { id = "ID_WALKER_VIEW_HEADER", type = CONTROL_TYPE.SECTION }
+    { id="ID_TOGGLE_VIEW_WALKER",       checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="walker_zoom", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="walker_camx", type = CONTROL_TYPE.AXIS,
+      checkGroup = ctrlGroups.WALKER, reqInMouseAim = false, axisDirection = AxisDirection.X, checkAssign = false }
+    { id="walker_camy", type = CONTROL_TYPE.AXIS,
+      checkGroup = ctrlGroups.WALKER, reqInMouseAim = false, axisDirection = AxisDirection.Y, checkAssign = false }
+    { id="invert_y_walker", type = CONTROL_TYPE.SWITCH_BOX
+      optionType = ::USEROPT_INVERTY_WALKER
+      onChangeValue = "doControlsGroupChangeDelayed"
+    }
+    { id="walker_mouse_aim_x", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.WALKER
+      reqInMouseAim = false
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.X
+    }
+    { id="walker_mouse_aim_y", type = CONTROL_TYPE.AXIS, checkGroup = ctrlGroups.WALKER
+      reqInMouseAim = false
+      hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+      axisDirection = AxisDirection.Y
+    }
+    { id = "aim_time_nonlinearity_walker", type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_WALKER)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_TIME_NONLINEARITY_WALKER, objValue / 100.0)
+    }
+    { id = "aim_acceleration_delay_walker", type = CONTROL_TYPE.SLIDER
+      value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_WALKER)
+      setValue = @(joyParams, objValue)
+        ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_WALKER, objValue / 100.0)
+    }
+
+  { id = "ID_WALKER_OTHER_HEADER", type = CONTROL_TYPE.SECTION }
+    { id="ID_REPAIR_WALKER",       checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_1", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_2", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_3", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_4", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_5", checkGroup = ctrlGroups.WALKER, checkAssign = false
+      showFunc = @() ::is_platform_pc && !::is_xinput_device()
+    }
+    { id="ID_WALKER_ACTION_BAR_ITEM_6", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_7", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_8", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_9", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_ACTION_BAR_ITEM_12", checkGroup = ctrlGroups.WALKER, checkAssign = false }
+    { id="ID_WALKER_KILLSTREAK_WHEEL_MENU", checkGroup = ctrlGroups.WALKER, checkAssign = false
+      showFunc = @() !(::is_platform_pc && !::is_xinput_device())
+    }
+
+
   { id = "ID_COMMON_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
   { id = "ID_COMMON_OPERATIONS_HEADER", type = CONTROL_TYPE.SECTION
     showFunc = @() ::is_xinput_device()
@@ -2091,6 +2283,7 @@ function get_shortcut_by_id(shortcutId)
   "ID_BOMBS",
   "ID_ROCKETS",
   "ID_AGM",
+  "ID_WEAPON_LOCK",
   "ID_AAM",
   "ID_SENSOR_SWITCH",
   "ID_SENSOR_MODE_SWITCH",
@@ -2139,13 +2332,6 @@ function get_shortcut_by_id(shortcutId)
   { id="gm_mouse_aim_y", axisShortcuts = ["rangeMin", "rangeMax", ""] }
   "ID_TRANS_GEAR_UP",
   "ID_TRANS_GEAR_DOWN",
-  "ID_SUSPENSION_PITCH_UP",
-  "ID_SUSPENSION_PITCH_DOWN",
-  "ID_SUSPENSION_ROLL_UP",
-  "ID_SUSPENSION_ROLL_DOWN",
-  "ID_SUSPENSION_CLEARANCE_UP",
-  "ID_SUSPENSION_CLEARANCE_DOWN",
-  "ID_SUSPENSION_RESET",
   "ID_ACTION_BAR_ITEM_1",
   "ID_ACTION_BAR_ITEM_2",
   "ID_ACTION_BAR_ITEM_3",
@@ -2157,6 +2343,19 @@ function get_shortcut_by_id(shortcutId)
   "ID_REPAIR_TANK",
   "ID_SHOW_HERO_MODULES",
   "ID_SMOKE_SCREEN_GENERATOR",
+  "ID_SENSOR_SWITCH_TANK",
+  "ID_SENSOR_MODE_SWITCH_TANK",
+  "ID_SENSOR_SCAN_PATTERN_SWITCH_TANK",
+  "ID_SENSOR_RANGE_SWITCH_TANK",
+  "ID_SENSOR_TARGET_SWITCH_TANK",
+  "ID_SENSOR_TARGET_LOCK_TANK",
+  "ID_SUSPENSION_PITCH_UP",
+  "ID_SUSPENSION_PITCH_DOWN",
+  "ID_SUSPENSION_ROLL_UP",
+  "ID_SUSPENSION_ROLL_DOWN",
+  "ID_SUSPENSION_CLEARANCE_UP",
+  "ID_SUSPENSION_CLEARANCE_DOWN",
+  "ID_SUSPENSION_RESET",
 
   { id ="ID_VIEW_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
   "ID_ZOOM_TOGGLE"
@@ -2233,6 +2432,8 @@ function get_shortcut_by_id(shortcutId)
   "ID_BOMBS_HELICOPTER"
   "ID_ROCKETS_HELICOPTER"
   "ID_ATGM_HELICOPTER"
+  "ID_WEAPON_LOCK_HELICOPTER"
+  "ID_AAM_HELICOPTER"
 
   { id ="ID_VIEW_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
   "ID_TOGGLE_VIEW_HELICOPTER"
@@ -2360,10 +2561,15 @@ function reset_default_control_settings()
   ::set_option_multiplier(::OPTION_GUNNER_VIEW_SENSE,           1); //::USEROPT_GUNNER_VIEW_SENSE
   ::set_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER,    1);
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE,     0.1); //mouseJoystickDeadZone
+  ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_DEADZONE,     0.1);
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENSIZE,   0.6); //mouseJoystickScreenSize
+  ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENSIZE,   0.6);
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SENSITIVITY,  2); //mouseJoystickSensitivity
+  ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SENSITIVITY,  2);
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE,  0); //mouseJoystickScreenPlace
+  ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENPLACE,  0);
   ::set_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR, 0.5); //mouseAileronRudderFactor
+  ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_RUDDER_FACTOR, 0.5);
   ::set_option_multiplier(::OPTION_CAMERA_SMOOTH,               0); //
   ::set_option_multiplier(::OPTION_CAMERA_SPEED,                1.13); //
   ::set_option_multiplier(::OPTION_CAMERA_MOUSE_SPEED,          4); //
@@ -2472,6 +2678,11 @@ local axisMappedOnMouse = {
   helicopter_mouse_aim_y = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
   submarine_mouse_aim_x  = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   submarine_mouse_aim_y  = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  walker_mouse_aim_x     = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  walker_mouse_aim_y     = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  mouse_aim_x_ufo        = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  mouse_aim_y_ufo        = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+
   camx                   = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   camy                   = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
   gm_camx                = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
@@ -2482,8 +2693,10 @@ local axisMappedOnMouse = {
   helicopter_camy        = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
   submarine_camx         = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   submarine_camy         = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
-  mouse_aim_x_ufo        = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
-  mouse_aim_y_ufo        = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  walker_camx            = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  walker_camy            = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  camx_ufo               = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
+  camy_ufo               = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
 }
 function is_axis_mapped_on_mouse(shortcutId, helpersMode = null, joyParams = null)
 {
@@ -3384,10 +3597,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     if ((curRow < mainTbl.childrenCount()) && (curRow >= 0))
     {
       local rowObj = mainTbl.getChild(curRow)
-      guiScene.performDelayed(this, (@(rowObj) function(dummy) {
+      guiScene.performDelayed(this, function() {
         if (::checkObj(rowObj))
           rowObj.scrollToView()
-      })(rowObj))
+      })
     }
 
     showSceneBtn("btn_preset", filter!=globalEnv.EM_MOUSE_AIM)
@@ -3467,7 +3680,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     if (!(item.shortcutId in shortcuts))
       return
 
-    guiScene.performDelayed(this, (@(item) function(dummy) {
+    guiScene.performDelayed(this, function() {
       if (scene && scene.isValid())
       {
         local obj = scene.findObject("controls_input_root")
@@ -3479,7 +3692,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       shortcuts[item.shortcutId] = []
       ::set_controls_preset("")
       updateShortcutText(item.shortcutId)
-    })(item))
+    })
   }
 
   function onWrapUp(obj)
@@ -4939,7 +5152,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
   }
   else if (unitType == ::g_unit_type.HELICOPTER)
   {
-    controls = [ "helicopter_collective", "helicopter_climb", "helicopter_cyclic_roll" ]
+    controls = [ "helicopter_collective", "helicopter_climb", "helicopter_cyclic_roll", "helicopter_propulsion" ]
 
     if (::is_xinput_device())
       controls.extend([ "helicopter_mouse_aim_x", "helicopter_mouse_aim_y" ])
@@ -4965,6 +5178,11 @@ function getRequiredControlsForUnit(unit, helpersMode)
       controls.append("ID_AAM_HELICOPTER")
     if (w.gotWeaponLock)
       controls.append("ID_WEAPON_LOCK_HELICOPTER")
+  }
+  else if (unitType == ::g_unit_type.TANK && unit.isWalker())
+  {
+    controls = [ "walker_throttle", "walker_steering", "walker_mouse_aim_x", "walker_mouse_aim_y",
+      "ID_TOGGLE_VIEW_WALKER", "ID_FIRE_WALKER", "ID_FIRE_WALKER_SPECIAL_GUN" ]
   }
   else if (unitType == ::g_unit_type.TANK)
   {

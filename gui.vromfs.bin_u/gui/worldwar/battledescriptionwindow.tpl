@@ -227,15 +227,6 @@ root {
           ButtonImg {}
         }
         Button_text {
-          id:t='btn_collapsed_chapter'
-          text:t='#mainmenu/btnCollapse'
-          _on_click:t='onCollapsedChapter'
-          btnName:t='A'
-          display:t='hide'
-          enable:t='no'
-          ButtonImg {}
-        }
-        Button_text {
           id:t='btn_join_battle'
           class:t='battle'
           navButtonFont:t='yes'

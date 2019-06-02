@@ -61,8 +61,6 @@ function build_aircraft_item(id, air, params = {})
     local isMounted           = ::isUnitInSlotbar(air)
     local canResearch         = ::canResearchUnit(air)
     local researched          = ::isUnitResearched(air)
-    local canBuy              = ::canBuyUnit(air)
-    local canBuyOnline        = ::canBuyUnitOnline(air)
     local special             = ::isUnitSpecial(air)
     local isVehicleInResearch = ::isUnitInResearch(air) && !forceNotInResearch
     local isSquadronVehicle   = air.isSquadronVehicle()
@@ -89,7 +87,7 @@ function build_aircraft_item(id, air, params = {})
         bitStatus = bit_unit_status.mounted
       else if (isOwn)
         bitStatus = bit_unit_status.owned
-      else if (canBuy || canBuyOnline)
+      else if (::canBuyUnit(air) || ::canBuyUnitOnline(air) || ::canBuyUnitOnMarketplace(air))
         bitStatus = bit_unit_status.canBuy
       else if (isLockedSquadronVehicle)
       {
@@ -240,6 +238,7 @@ function build_aircraft_item(id, air, params = {})
       slotId              = "td_" + id
       slotInactive        = inactive
       isSlotbarItem       = getVal("isSlotbarItem", false)
+      isInTable           = getVal("isInTable", true)
       shopItemId          = id
       unitName            = air.name
       premiumPatternType  = special
@@ -304,7 +303,7 @@ function build_aircraft_item(id, air, params = {})
 
     local nextAir = air.airsGroup[0]
     local country = nextAir.shopCountry
-    local type    = ::get_es_unit_type(nextAir)
+    local esUnitType = ::get_es_unit_type(nextAir)
     local forceUnitNameOnPlate = false
 
     local era = getUnitRank(nextAir)
@@ -372,7 +371,7 @@ function build_aircraft_item(id, air, params = {})
         bitStatus = bitStatus | bit_unit_status.mounted
       else if (isBought)
         bitStatus = bitStatus | bit_unit_status.owned
-      else if (::canBuyUnit(a) || ::canBuyUnitOnline(a))
+      else if (::canBuyUnit(a) || ::canBuyUnitOnline(a) || ::canBuyUnitOnMarketplace(a))
         bitStatus = bitStatus | bit_unit_status.canBuy
       else if (::isUnitResearched(a))
         bitStatus = bitStatus | bit_unit_status.researched
@@ -494,7 +493,7 @@ function build_aircraft_item(id, air, params = {})
       isMounted           = mountedUnit != null
       isElite             = isElite
       unitRankText        = ::get_unit_rank_text(unitForBR, null, showBR, curEdiff)
-      isItemLocked        = !::is_era_available(country, era, type)
+      isItemLocked        = !::is_era_available(country, era, esUnitType)
       hasTalismanIcon     = hasTalismanIcon
       talismanIncomplete  = talismanIncomplete
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
@@ -880,9 +879,6 @@ function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
 
   if (unit?.isFakeUnit)
     return unit?.isReqForFakeUnit ? "" : ::format(::loc("events/rank"), ::get_roman_numeral(unit.rank))
-
-  if (unit?.isUfo?())
-    return "ᚿᚼᚼ"
 
   local isReserve = ::isUnitDefault(unit)
   local isSpare = crew && isInFlight ? ::is_spare_aircraft_in_slot(crew.idInCountry) : false

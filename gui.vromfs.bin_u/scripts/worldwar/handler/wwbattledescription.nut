@@ -15,6 +15,15 @@ enum UNAVAILABLE_BATTLES_CATEGORIES
   NO_FREE_SPACE       = 0x0002
   IS_UNBALANCED       = 0x0004
   LOCK_BY_TIMER       = 0x0008
+  NOT_STARTED         = 0x0010
+}
+
+local DEFAULT_BATTLE_ITEM_CONGIG = {
+  id = ""
+  itemPrefixText = ""
+  imgTag = "wwBattleIcon"
+  itemIcon = ""
+  isHidden = true
 }
 
 class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
@@ -32,8 +41,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   hasSquadsInviteButton = true
   hasBattleFilter = false
 
-  static inactiveGroupId = "group_inactive"
-  curGroupIdInList = ""
   curBattleInList = null      // selected battle in list
   operationBattle = null      // battle to dasplay, check join enable, join, etc
   needEventHeader = true
@@ -49,7 +56,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   queueInfoHandlerWeak = null
 
   idPrefix = "btn_"
+  needUpdatePrefixWidth = true
   filterMask = 0
+  minCountBattlesInList = 10
 
   static function open(battle)
   {
@@ -72,7 +81,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     ::handlersManager.loadHandler(::gui_handlers.WwBattleDescription, {
         curBattleInList = battle
         operationBattle = ::WwBattle()
-        curGroupIdInList = getBattleArmyUnitTypesData(battle).groupId
       })
   }
 
@@ -91,11 +99,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     battlesListObj = scene.findObject("items_list")
-
+    local battleListData = ::handyman.renderCached(sceneTplBattleList,
+      { items = array(minCountBattlesInList, DEFAULT_BATTLE_ITEM_CONGIG)})
+    guiScene.appendWithBlk(battlesListObj, battleListData, this)
+    curBattleListMap = []
     initQueueInfo()
     updateForceSelectedBattle()
 
     syncSquadCountry()
+    updateViewMode()
     reinitBattlesList()
     initSquadList()
     initFocusArray()
@@ -104,7 +116,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(timerObj))
       timerObj.setUserData(this)
 
-    updateViewMode()
     requestQueuesData()
   }
 
@@ -135,7 +146,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     queueInfoHandlerWeak = handler.weakref()
   }
 
-  function updateForceSelectedBattle(closedGroups = [])
+  function updateForceSelectedBattle()
   {
     local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
     if (queue)
@@ -152,10 +163,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     if (!curBattleInList.isValid())
-      curBattleInList = getFirstBattleInListMap(closedGroups)
-
-    if (curBattleInList.isValid())
-      curGroupIdInList = getBattleArmyUnitTypesData(curBattleInList).groupId
+      curBattleInList = getFirstBattleInListMap()
   }
 
   function initSquadList()
@@ -178,7 +186,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!wwQueuesData.isDataValid())
       return requestQueuesData()
 
-    local closedGroups = getClosedGroups()
     local currentBattleListMap = createBattleListMap()
     local needRefillBattleList = isForceUpdate || hasChangedInBattleListMap(currentBattleListMap)
 
@@ -189,11 +196,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       local view = getBattleListView()
       fillBattleList(view)
       curBattleListItems = clone view.items
-      selectItemInList(closedGroups)
+      selectItemInList()
     }
 
     updateSelectedItem(isForceUpdate)
-    updateClosedGroups(closedGroups)
 
     validateSquadInfo()
     validateCurQueue()
@@ -220,26 +226,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       ::g_squad_manager.cancelWwBattlePrepare()
   }
 
-  function getClosedGroups()
-  {
-    local closedGroups = []
-    if (!curBattleListMap)
-      return closedGroups
-
-    foreach(groupId, groupData in curBattleListMap)
-      if (groupData.isCollapsed)
-        closedGroups.append(groupId)
-
-    return closedGroups
-  }
-
-  function updateClosedGroups(closedGroups)
-  {
-    foreach(groupId in closedGroups)
-      onCollapse(scene.findObject(idPrefix + groupId))
-  }
-
-  function getBattleById(battleId)
+  function getBattleById(battleId, searchInCurList = true)
   {
     return ::g_world_war.getBattleById(battleId)
   }
@@ -305,15 +292,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local side = getPlayerSide(battle)
     local team = battle.getTeamBySide(side)
 
-    if (!(UNAVAILABLE_BATTLES_CATEGORIES.NO_AVAILABLE_UNITS & filterMask)
+    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.NO_AVAILABLE_UNITS & filterMask)
         && !battle.hasUnitsToFight(country, team, side))
       return false
 
-    if (!(UNAVAILABLE_BATTLES_CATEGORIES.NO_FREE_SPACE & filterMask)
+    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.NO_FREE_SPACE & filterMask)
         && !battle.hasEnoughSpaceInTeam(team))
       return false
 
-    if (!(UNAVAILABLE_BATTLES_CATEGORIES.IS_UNBALANCED & filterMask)
+    if (team && !(UNAVAILABLE_BATTLES_CATEGORIES.IS_UNBALANCED & filterMask)
         && battle.isLockedByExcessPlayers(battle.getSide(country), team.name))
       return false
 
@@ -321,51 +308,59 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         && battle.getBattleActivateLeftTime() > 0)
       return false
 
+    if (!(UNAVAILABLE_BATTLES_CATEGORIES.NOT_STARTED & filterMask)
+        && battle.isStarting())
+      return false
+
     return true
   }
 
   function getBattleListView()
   {
-    local view = { items = [] }
-    local inactiveBattlesGroup = null
+    local wwBattlesView = ::u.map(curBattleListMap,
+      function(battle) {
+        return createBattleListItemView(battle)
+      }.bindenv(this))
 
-    foreach(groupId, groupData in curBattleListMap)
-      if (groupData.isInactiveBattles)
-        inactiveBattlesGroup = groupData
-      else
-        createBattleListGroupViewData(groupId, groupData, view.items)
-
-    if (inactiveBattlesGroup != null)
-      createBattleListGroupViewData(inactiveGroupId, inactiveBattlesGroup, view.items)
-
-    return view
+    return { items = wwBattlesView }
   }
 
-  function selectItemInList(closedGroups)
+  function selectItemInList()
   {
     if (!curBattleListItems.len())
     {
       curBattleInList = getEmptyBattle()
-      curGroupIdInList = ""
       return
     }
 
-    if (!curBattleInList.isValid() || !curGroupIdInList.len())
-      updateForceSelectedBattle(closedGroups)
+    if (!curBattleInList.isValid())
+      updateForceSelectedBattle()
 
     local itemId = curBattleInList.isValid() ? curBattleInList.id
-      : curGroupIdInList.len() ? curGroupIdInList
       : ""
 
     local idx = itemId.len() ? ::u.searchIndex(curBattleListItems, @(item) item.id == itemId) : -1
-    if (idx >= 0)
+    if (idx >= 0 && battlesListObj.getValue() != idx)
       battlesListObj.setValue(idx)
   }
 
   function fillBattleList(view)
   {
-    local battleListData = ::handyman.renderCached(sceneTplBattleList, view)
-    guiScene.replaceContentFromText(battlesListObj, battleListData, battleListData.len(), this)
+    guiScene.setUpdatesEnabled(false, false)
+    local newList = view.items
+    local total = ::max(newList.len(), curBattleListItems?.len?() ?? 0)
+    for(local i = 0; i < total; i++)
+      updateBattleInList(i, curBattleListItems?[i], newList?[i])
+
+    local showEmptyBattlesListInfo = !curBattleListMap.len()
+    showSceneBtn("no_active_battles_text", showEmptyBattlesListInfo)
+    showSceneBtn("active_country_info", showEmptyBattlesListInfo)
+    if (showEmptyBattlesListInfo)
+      createActiveCountriesInfo()
+
+    guiScene.setUpdatesEnabled(true, true)
+    if (!needUpdatePrefixWidth)
+      return
 
     local maxSectorNameWidth = 0
     local sectorNameTextObjs = []
@@ -382,38 +377,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local sectorWidth = maxSectorNameWidth + guiScene.calcString("1@framePadding", null)
     foreach(sectorNameTextObj in sectorNameTextObjs)
       sectorNameTextObj.width = sectorWidth
-
-    local showEmptyBattlesListInfo = !curBattleListMap.len()
-    showSceneBtn("no_active_battles_text", showEmptyBattlesListInfo)
-    showSceneBtn("active_country_info", showEmptyBattlesListInfo)
-    if (showEmptyBattlesListInfo)
-      createActiveCountriesInfo()
-  }
-
-  function createBattleListGroupViewData(groupId, groupData, items)
-  {
-    local view = {
-      isChapter = true
-      id = groupId
-      itemTag = "WwBattlesGroup"
-      itemText = groupData.text
-      isCollapsable = true
-      isSelected = !curBattleInList.isValid() && groupId == curGroupIdInList
-    }
-    items.append(view)
-
-    local wwBattlesView = ::u.map(groupData.childrenBattles,
-      function(battle) {
-        return createBattleListItemView(battle)
-      }.bindenv(this))
-
-    wwBattlesView.sort(battlesSort)
-    items.extend(wwBattlesView)
   }
 
   function battlesSort(battleA, battleB)
   {
-    return battleA.itemPrefixText <=> battleB.itemPrefixText
+    return battleB.isActive() <=> battleA.isActive()
+      || battleA.getOrdinalNumber() <=> battleB.getOrdinalNumber()
   }
 
   function createBattleListItemView(battleData)
@@ -421,17 +390,14 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local battleView = battleData.getView()
     local view = {
       id = battleData.id.tostring()
-      itemTag = "mission_item_unlocked"
       itemPrefixText = getSelectedBattlePrefixText(battleData)
+      itemText = ""
       itemIcon = battleView.getIconImage()
-      iconColor = battleView.getIconColor()
-      isSelected = false
-      isConfirmed = battleData.isConfirmed()
-      sortTimeFactor = battleData.getSortByTimeFactor()
-      sortFullnessFactor = battleData.getSortByFullnessFactor()
+      status = battleView.getStatus()
+      additionalDescription = ""
     }
 
-    if (battleData.isActive())
+    if (battleData.isActive() || battleData.isFinished())
       view.itemText <- battleData.getLocName()
     else
     {
@@ -513,14 +479,16 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     fillOperationBackground()
     fillOperationInfoText()
 
-    showSceneBtn("operation_loading_wait_anim", battle.isValid() && !isOperationBattleLoaded)
+    showSceneBtn("operation_loading_wait_anim", battle.isValid() && !isOperationBattleLoaded && !battle.isFinished())
 
     ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
-    if (!battle.isValid() || !isOperationBattleLoaded)
+    if (!battle.isValid() || !isOperationBattleLoaded || battle.isFinished())
     {
-      showSceneBtn("battle_info", false)
+      showSceneBtn("battle_info", battle.isFinished())
       showSceneBtn("teams_block", false)
       showSceneBtn("tactical_map_block", false)
+      if (battle.isFinished())
+        updateBattleStatus(battleView)
       return
     }
 
@@ -643,19 +611,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("goto_global_battles_btn", isViewBattleList)
     showSceneBtn("invite_squads_button",
       hasSquadsInviteButton && ::g_world_war.isSquadsInviteEnable())
-    local collapsedChapterBtn = showSceneBtn("btn_collapsed_chapter",
-      !curBattleInList.isValid() && isSelectedChapterValid())
 
     if (!curBattleInList.isValid())
     {
-      local isCollapsed = curBattleListMap?[curGroupIdInList]?.isCollapsed
-      collapsedChapterBtn.setValue(isCollapsed
-        ? ::loc("mainmenu/btnExpand")
-        : ::loc("mainmenu/btnCollapse"))
-
-      local warningTextObj = showSceneBtn("cant_join_reason_txt", isSelectedChapterValid())
-      warningTextObj.setValue(::loc("events/no_selected_event"))
-
+      showSceneBtn("cant_join_reason_txt", false)
       showSceneBtn("btn_join_battle", false)
       showSceneBtn("btn_leave_battle", false)
       showSceneBtn("btn_auto_preset", false)
@@ -808,7 +767,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       statusObj.setValue(battleView.getBattleStatusWithCanJoinText(getPlayerSide()))
 
     local battleTimeObj = scene.findObject("battle_time_text")
-    if (::check_obj(battleTimeObj) && battleView)
+    if (::check_obj(battleTimeObj) && battleView.needShowTimer())
     {
       local battleTimeText = ""
       if (battleView.hasBattleDurationTime())
@@ -1054,7 +1013,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     local country = null
     local remainUnits = null
-    if (operationBattle && operationBattle.isValid())
+    if (operationBattle && operationBattle.isValid() && !operationBattle.isFinished())
     {
       local side = getPlayerSide()
       local team = operationBattle.getTeamBySide(side)
@@ -1075,24 +1034,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(opObj))
       return
 
-    local newBattle = getEmptyBattle()
-    if (isObjIdChapter(opObj.id))
-      curGroupIdInList = opObj.id
-    else
-    {
-      newBattle = getBattleById(opObj.id)
-      curGroupIdInList = getBattleArmyUnitTypesData(newBattle).groupId
-    }
-
-    curBattleInList = newBattle
-  }
-
-  function isObjIdChapter(objId)
-  {
-    if (!objId)
-      return false
-
-    return objId.find("group") != null
+    curBattleInList = getBattleById(opObj.id)
   }
 
   function getEmptyBattle()
@@ -1130,12 +1072,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
       local isBattleDifferent = !curBattleInList || curBattleInList.id != wwBattleName
       if (isBattleDifferent)
-      {
         curBattleInList = getBattleById(wwBattleName)
-        local groupId = getBattleArmyUnitTypesData(curBattleInList).groupId
-        if (curBattleListMap?[groupId]?.isCollapsed)
-          onCollapse(scene.findObject(idPrefix + groupId))
-      }
 
       if (!::u.isEmpty(squadCountry) && ::get_profile_country_sq() != squadCountry)
         guiScene.performDelayed(this, function() {
@@ -1203,70 +1140,16 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     wwQueuesData.requestData()
   }
 
-  function onCollapse(obj)
-  {
-    if (!::check_obj(obj))
-      return
-
-    local headerId = ::g_string.slice(obj.id, idPrefix.len())
-    local headerData = curBattleListMap?[headerId]
-    if (headerData == null)
-      return
-
-    local headerObj = scene.findObject(headerId)
-    if (!::checkObj(headerObj))
-      return
-
-    guiScene.setUpdatesEnabled(false, false)
-
-    headerData.isCollapsed = !headerData.isCollapsed
-    foreach (idx, battleData in headerData.childrenBattles)
-      showSceneBtn(battleData.id, !headerData.isCollapsed)
-
-    local curBattleInListGroupId = getBattleArmyUnitTypesData(curBattleInList).groupId
-    if (headerData.isCollapsed && curBattleInListGroupId == headerId)
-    {
-      local idx = ::u.searchIndex(curBattleListItems,
-        @(item) item?.isChapter && item.id == headerId)
-      if (idx >= 0)
-        battlesListObj.setValue(idx)
-    }
-
-    headerObj.collapsed = headerData.isCollapsed ? "yes" : "no"
-
-    guiScene.setUpdatesEnabled(true, true)
-  }
-
-  function onCollapsedChapter()
-  {
-    onCollapse(scene.findObject(idPrefix + curGroupIdInList))
-    updateButtons()
-  }
-
-  function isSelectedChapterValid()
-  {
-    return curGroupIdInList.len() > 0 && curBattleListMap?[curGroupIdInList]
-  }
-
-  function getFirstBattleInListMap(closedGroups)
+  function getFirstBattleInListMap()
   {
     if (!curBattleListItems || !curBattleListItems.len())
       return getEmptyBattle()
 
-    local groupId = null
-    foreach(idx, item in curBattleListItems)
+    foreach(item in curBattleListItems)
     {
-      if (item?.isChapter)
-        groupId = item.id
-      else if (groupId)
-      {
-        if (::isInArray(groupId, closedGroups))
-          continue
-
-        local battle = getBattleById(item.id)
-        if (battle.isValid())
-          return battle
-      }
+      local battle = getBattleById(item.id)
+      if (battle.isValid())
+        return battle
     }
 
     return getEmptyBattle()
@@ -1274,76 +1157,13 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function createBattleListMap()
   {
-    local battles = ::g_world_war.getBattles()
-    local currentBattleListMap = {}
-
-    foreach (idx, battleData in battles)
-    {
-      if (!::g_world_war.isBattleAvailableToPlay(battleData))
-        continue
-
-      local armyUnitTypesData = getBattleArmyUnitTypesData(battleData)
-      local armyUnitGroupId = armyUnitTypesData.groupId
-      if (!(armyUnitGroupId in currentBattleListMap))
-        currentBattleListMap[armyUnitGroupId] <- {
-          isCollapsed = false
-          isInactiveBattles = armyUnitTypesData.isInactiveBattles
-          text = armyUnitTypesData.text
-          childrenBattles = []
-          childrenBattlesIds = []
-        }
-
-      local groupBattleList = currentBattleListMap[armyUnitGroupId]
-      groupBattleList.childrenBattles.append(battleData)
-      groupBattleList.childrenBattlesIds.append(battleData.id)
-    }
-
-    return currentBattleListMap
+    local battles = ::g_world_war.getBattles(::g_world_war.isBattleAvailableToPlay)
+    battles.sort(battlesSort)
+    return battles
   }
 
   function createActiveCountriesInfo()
   {
-  }
-
-  static function getBattleArmyUnitTypesData(battleData)
-  {
-    local res = {
-      text = ""
-      groupId = "group_"
-      isInactiveBattles = false
-    }
-
-    if (!battleData.isValid())
-      return res
-
-    if (!battleData.isActive())
-    {
-      res.groupId = inactiveGroupId
-      res.text = ::colorize("@white", ::loc("worldwar/battleNotActive"))
-      res.isInactiveBattles = true
-      return res
-    }
-
-    local playerSide = getPlayerSide(battleData)
-    local playerTeam = battleData.getTeamBySide(playerSide)
-    foreach(idx, unitType in playerTeam.unitTypes)
-    {
-      res.text += ::colorize("@wwTeamAllyColor", ::g_ww_unit_type.getUnitTypeFontIcon(unitType))
-      res.groupId += unitType.tostring()
-    }
-
-    res.text += " " + ::colorize("@white", ::loc("country/VS")) + " "
-    res.groupId += "vs"
-
-    foreach(team in battleData.teams)
-      if (team.side != playerSide)
-        foreach(unitType in team.unitTypes)
-        {
-          res.text += ::colorize("@wwTeamEnemyColor", ::g_ww_unit_type.getUnitTypeFontIcon(unitType))
-          res.groupId += unitType.tostring()
-        }
-
-    return res
   }
 
   function getQueueBattle(queue)
@@ -1368,23 +1188,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (newBattleListMap.len() != curBattleListMap.len())
       return true
 
-    foreach(groupId, newGroupData in newBattleListMap)
+    foreach(idx, newbattle in newBattleListMap)
     {
-      local curGroupData = curBattleListMap?[groupId]
-      if (!curGroupData)
+      local curBattle = curBattleListMap[idx]
+      if (newbattle.id != curBattle.id || newbattle.status != curBattle.status)
         return true
-
-      if (newGroupData.childrenBattles.len() != curGroupData.childrenBattles.len())
-        return true
-
-      // here we need to check battles statuses too (not only Id)
-      foreach(idx, newbattle in newGroupData.childrenBattles)
-      {
-        local curBattle = curGroupData.childrenBattles[idx]
-        if (newbattle.id != curBattle.id ||
-            newbattle.status != curBattle.status)
-          return true
-      }
     }
 
     return false
@@ -1398,7 +1206,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local cb = ::Callback(generateAutoPreset, this)
     ::queues.checkAndStart(
       ::Callback(function() {
-        ::g_squad_utils.checkSquadUnreadyAndDo(this, cb, @() null, true)
+        ::g_squad_utils.checkSquadUnreadyAndDo(cb, @() null, true)
       }, this),
       @() null,
       "isCanModifyCrew"
@@ -1575,5 +1383,42 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function getCurrentEdiff()
   {
     return ::g_world_war.defaultDiffCode
+  }
+
+  function updateBattleInList(idx, curBattle, newBattle)
+  {
+    if (curBattle == newBattle || (::u.isEqual(curBattle, newBattle)))
+      return
+
+    local obj = getBattleObj(idx)
+    local show = !!newBattle
+    obj.show(show)
+    obj.enable(show)
+    if (!show)
+      return
+
+    local oldId = obj.id
+    obj.id = newBattle.id
+    local childObj = obj.findObject("mission_item_prefix_text_" + oldId)
+    childObj.id = "mission_item_prefix_text_" +  newBattle.id
+    childObj.setValue(newBattle.itemPrefixText)
+    childObj = obj.findObject("txt_" + oldId)
+    childObj.id = "txt_" +  newBattle.id
+    childObj.setValue(newBattle.itemText)
+
+    local medalObj = obj.findObject("medal_icon")
+    medalObj["background-image"] = newBattle.itemIcon
+    medalObj["status"] = newBattle.status
+    local descriptionObj = obj.findObject("additional_desc")
+    guiScene.replaceContentFromText(descriptionObj, newBattle.additionalDescription,
+      newBattle.additionalDescription.len(), this)
+  }
+
+  function getBattleObj(idx)
+  {
+    if (battlesListObj.childrenCount() > idx)
+      return battlesListObj.getChild(idx)
+
+    return battlesListObj.getChild(idx-1).getClone(battlesListObj, this)
   }
 }

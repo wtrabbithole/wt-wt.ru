@@ -119,8 +119,8 @@ class ::BaseItem
 
     shopFilterMask = iType
     local types = blk % "additionalShopItemType"
-    foreach(type in types)
-      shopFilterMask = shopFilterMask | ::ItemsManager.getInventoryItemType(type)
+    foreach(t in types)
+      shopFilterMask = shopFilterMask | ::ItemsManager.getInventoryItemType(t)
 
     expiredTimeAfterActivationH = blk.expiredTimeHAfterActivation || 0
 

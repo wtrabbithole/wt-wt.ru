@@ -153,18 +153,18 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
   function getDifficultyRadioButtonsListByTasks(tasksArray, difficultyTypeArray, curDifficultyGroup)
   {
     local result = []
-    foreach(type in difficultyTypeArray)
+    foreach(btDiffType in difficultyTypeArray)
     {
-      local difficultyGroup = type.getDifficultyGroup()
+      local difficultyGroup = btDiffType.getDifficultyGroup()
       local tasksByDiff = ::u.search(tasksArray,
-          @(task) (::g_battle_task_difficulty.getDifficultyTypeByTask(task) == type))
+          @(task) (::g_battle_task_difficulty.getDifficultyTypeByTask(task) == btDiffType))
 
       if (!tasksByDiff)
         continue
 
       result.append({ radioButtonImage = ::g_battle_tasks.getDifficultyImage(tasksByDiff)
         difficultyGroup = difficultyGroup
-        difficultyLocName = type.getLocName()
+        difficultyLocName = btDiffType.getLocName()
         selected = (curDifficultyGroup == difficultyGroup) })
     }
     return result

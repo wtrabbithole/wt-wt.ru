@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local penalty = require_native("penalty")
 local decorLayoutPresets = require("scripts/customization/decorLayoutPresetsWnd.nut")
+local unitActions = require("scripts/unit/unitActions.nut")
 
 enum decoratorEditState
 {
@@ -81,7 +82,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   isLoadingRot = false
   isDecoratorsListOpen = false
   isDecoratorItemUsed = false
-  isSomeCategoryOpened = false
   showOnlyAvailableDecorators = false
 
   isUnitTank = false
@@ -777,7 +777,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           user_skins_block = !previewMode && access_UserSkins
           tank_skin_settings = !previewMode && isUnitTank
 
-          previewed_decorator      = !isInEditMode && decoratorPreview
+          previewed_decorator_div  = !isInEditMode && decoratorPreview
           previewed_decorator_unit = !isInEditMode && decoratorPreview && initialUnitId && initialUnitId != unit?.name
 
           slot_info = !isInEditMode && !isDecoratorsListOpen && !isDmgSkinPreviewMode
@@ -921,9 +921,12 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local obj = showSceneBtn("previewed_decorator_unit", isUnitAutoselected)
     if (obj && isUnitAutoselected)
       obj.findObject("label").setValue(::loc("decoratorPreview/autoselectedUnit", {
-        previewUnit = ::colorize("activeTextColor", ::getUnitName(unit))
-        hangarUnit  = ::colorize("activeTextColor", ::getUnitName(initialUnitId))
-      }))
+          previewUnit = ::colorize("activeTextColor", ::getUnitName(unit))
+          hangarUnit  = ::colorize("activeTextColor", ::getUnitName(initialUnitId))
+        }) + " " + ::loc("decoratorPreview/autoselectedUnit/desc", {
+          preview       = ::loc("mainmenu/btnPreview")
+          customization = ::loc("mainmenu/btnShowroom")
+        }))
 
     obj = showSceneBtn("previewed_decorator", true)
     if (obj)
@@ -1144,14 +1147,14 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     onDecoratorSlotDoubleClick(::g_decorator_type.ATTACHABLES)
   }
 
-  function onDecoratorSlotDoubleClick(type)
+  function onDecoratorSlotDoubleClick(decoratorType)
   {
-    local slotIdx = getCurrentDecoratorSlot(type)
-    local slotInfo = getSlotInfo(slotIdx, false, type)
+    local slotIdx = getCurrentDecoratorSlot(decoratorType)
+    local slotInfo = getSlotInfo(slotIdx, false, decoratorType)
     if (slotInfo.isEmpty)
       return
 
-    local decorator = ::g_decorator.getDecorator(slotInfo.decalId, type)
+    local decorator = ::g_decorator.getDecorator(slotInfo.decalId, decoratorType)
     currentState = decoratorEditState.REPLACE
     enterEditDecalMode(slotIdx, decorator)
   }
@@ -1171,13 +1174,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local view = { collapsableBlocks = [] }
 
-    local categoriesOrder = ::g_decorator.getCachedOrderByType(decoratorType)
-    if (::u.isEmpty(categoriesOrder))
-    {
-      ::dagor.debug("DecalMenu: Result of getCachedOrderByType for type " + decoratorType.name + " is empty. Skip build list.")
-      ::getstackinfos(0)
-      return
-    }
+    local filterFunc = (@(d) d.canUse(unit)).bindenv(this)
+    local categoriesOrder = showOnlyAvailableDecorators
+      ? ::g_decorator.getVisibleOrderByDecFilter(decoratorType, filterFunc)
+      : ::g_decorator.getCachedOrderByType(decoratorType)
 
     foreach (idx, category in categoriesOrder)
       view.collapsableBlocks.append({
@@ -1212,6 +1212,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       local categoryObj = wObj.findObject(decoratorType.categoryWidgetIdPrefix + selCategoryId)
       if (::checkObj(categoryObj))
         onDecalCategoryClick(categoryObj)
+      else
+        updateButtons(decoratorType)
     }
     else
       updateButtons(decoratorType)
@@ -1226,11 +1228,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     showOnlyAvailableDecorators = curVal
     ::saveLocalByAccount(DECORATORS_LIST_SHOW_ONLY_OWNED_SAVE_ID, showOnlyAvailableDecorators)
 
-    if (isSomeCategoryOpened)
-    {
-      local slotInfo = getSlotInfo(getCurrentDecoratorSlot(currentType), true, currentType)
-      generateDecorationsList(slotInfo, currentType)
-    }
+    local slotInfo = getSlotInfo(getCurrentDecoratorSlot(currentType), true, currentType)
+    generateDecorationsList(slotInfo, currentType)
   }
 
   function generateDecalCategoryContent(categoryId, decoratorType)
@@ -1485,7 +1484,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local categoriesOrder = ::g_decorator.getCachedOrderByType(decoratorType)
-    isSomeCategoryOpened = false
     foreach (idx, category in categoriesOrder)
     {
       local categoryBlockId = decoratorType.categoryWidgetIdPrefix + category
@@ -1513,7 +1511,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       if (isToggledCategory && open)
       {
-        isSomeCategoryOpened = true
         ::saveLocalByAccount(decoratorType.currentOpenedCategoryLocalSafePath, categoryId)
 
         local decalId = preSelectDecorator ? preSelectDecorator.id :
@@ -1979,14 +1976,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onBuy()
   {
-    ::buyUnit(unit)
-  }
-
-  function onBuyUnitOnline()
-  {
-    OnlineShopModel.showGoods({
-      unitName = unit.name
-    })
+    unitActions.buy(unit)
   }
 
   function onEventUnitBought(params)

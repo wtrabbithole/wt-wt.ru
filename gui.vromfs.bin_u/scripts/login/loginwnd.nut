@@ -15,6 +15,11 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
   was_using_stoken = false
   isLoginRequestInprogress = false
   requestGet2stepCodeAtempt = 0
+  isSteamAuth = false
+
+  defaultSaveLoginFlagVal = false
+  defaultSavePasswordFlagVal = false
+  defaultSaveAutologinFlagVal = false
 
   tabFocusArray = [
     "loginbox_username",
@@ -54,9 +59,9 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     local lp = ::get_login_pass()
     local isVietnamese = ::is_vietnamese_version()
     if (isVietnamese)
-      lp.autoSave = lp.autoSave & 1
+      lp.autoSave = lp.autoSave & ::AUTO_SAVE_FLG_LOGIN
 
-    local disableSSLCheck = lp.autoSave & 8
+    local disableSSLCheck = lp.autoSave & ::AUTO_SAVE_FLG_NOSSLCERT
 
     local unObj = scene.findObject("loginbox_username")
     if (::checkObj(unObj))
@@ -68,14 +73,14 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
     local alObj = scene.findObject("loginbox_autosave_login")
     if (::checkObj(alObj))
-      alObj.setValue(lp.autoSave & 1)
+      alObj.setValue(lp.autoSave & ::AUTO_SAVE_FLG_LOGIN)
 
     local spObj = scene.findObject("loginbox_autosave_password")
     if (::checkObj(spObj))
     {
       spObj.show(!isVietnamese)
-      spObj.setValue(lp.autoSave & 2)
-      spObj.enable((lp.autoSave & 1) != 0 && !isVietnamese)
+      spObj.setValue(lp.autoSave & ::AUTO_SAVE_FLG_PASS)
+      spObj.enable((lp.autoSave & ::AUTO_SAVE_FLG_LOGIN) != 0 && !isVietnamese)
       local text = ::loc("mainmenu/savePassword")
       if (!::is_platform_shield_tv())
         text += " " + ::loc("mainmenu/savePassword/unsecure")
@@ -93,7 +98,8 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
     initial_autologin = ::is_autologin_enabled()
 
-    local autoLoginEnable = (lp.autoSave & 3) == 3 //!!FIX ME: make named constants instead of simple int
+    local saveLoginAndPassMask = ::AUTO_SAVE_FLG_LOGIN | ::AUTO_SAVE_FLG_PASS
+    local autoLoginEnable = (lp.autoSave & saveLoginAndPassMask) == saveLoginAndPassMask
     local autoLogin = initial_autologin && autoLoginEnable
     local autoLoginObj = scene.findObject("loginbox_autologin")
     if (::checkObj(autoLoginObj))
@@ -360,19 +366,23 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
         ::set_network_circuit(shardItems[scene.findObject("sharding_list").getValue()].item)
     }
 
-    local autoSaveLogin = ::get_object_value(scene, "loginbox_autosave_login", false)
-    local autoSavePassword = ::get_object_value(scene, "loginbox_autosave_password", false)
+    local autoSaveLogin = ::get_object_value(scene, "loginbox_autosave_login", defaultSaveLoginFlagVal)
+    local autoSavePassword = ::get_object_value(scene, "loginbox_autosave_password", defaultSavePasswordFlagVal)
     local disableSSLCheck = ::get_object_value(scene, "loginbox_disable_ssl_cert", false)
-    local autoSave = (autoSaveLogin ? 1 : 0) + (autoSavePassword  ? 2 : 0) + (disableSSLCheck ? 8 : 0)
+    local autoSave = (autoSaveLogin     ? ::AUTO_SAVE_FLG_LOGIN     : 0) |
+                     (autoSavePassword  ? ::AUTO_SAVE_FLG_PASS      : 0) |
+                     (disableSSLCheck   ? ::AUTO_SAVE_FLG_NOSSLCERT : 0)
 
-    if (was_using_stoken)
-      autoSave = autoSave | 4
+    if (was_using_stoken || isSteamAuth)
+      autoSave = autoSave | ::AUTO_SAVE_FLG_DISABLE
 
     ::set_login_pass(no_dump_login.tostring(), ::get_object_value(scene, "loginbox_password", ""), autoSave)
     if (!::checkObj(scene)) //set_login_pass start onlineJob
       return
 
-    local autoLogin = (autoSaveLogin && autoSavePassword) ? scene.findObject("loginbox_autologin").getValue() : false
+    local autoLogin = (autoSaveLogin && autoSavePassword) ?
+                ::get_object_value(scene, "loginbox_autologin", defaultSaveAutologinFlagVal)
+                : false
     ::set_autologin_enabled(autoLogin)
     if (initial_autologin != autoLogin)
       ::save_profile(false)
@@ -398,12 +408,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     ::disable_autorelogin_once <- false
     local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
 
-    no_dump_login = ::validate_email(no_dump_login)
-
-    if (no_dump_login == null) //can be null after validate_email
-      no_dump_login = ""
-
-    if (no_dump_login == "" && (stoken == ""))  //invalid email
+    if (!::g_string.validateEmail(no_dump_login) && (stoken == ""))  //invalid email
     {
       local locId = "msgbox/invalidEmail"
       msgBox("invalid_email", ::loc(locId),
@@ -423,6 +428,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function onSteamAuthorization(steamSpecCode = null)
   {
+    isSteamAuth = true
     steamSpecCode = steamSpecCode || "steam"
     isLoginRequestInprogress = true
     ::disable_autorelogin_once <- false
@@ -479,7 +485,9 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function needTrySteamLink()
   {
-    return ::steam_is_running() && ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID) == null
+    return ::steam_is_running()
+           && ::has_feature("AllowSteamAccountLinking")
+           && ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID) == null
   }
 
   function proceedAuthorizationResult(result, no_dump_login)
@@ -506,6 +514,9 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
           else if (res == ::YU2_ALREADY)
             ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, false)
         }
+        else if (::steam_is_running() && !::has_feature("AllowSteamAccountLinking"))
+          ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, isSteamAuth)
+
         continueLogin(no_dump_login)
         break
 
@@ -542,7 +553,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
         [
           ["recovery", function() {::open_url(::loc("url/recovery"), false, false, "login_wnd")}],
           ["exit", ::exit_game],
-          ["tryAgain", function(){}]
+          ["tryAgain", ::Callback(onLoginErrorTryAgain, this)]
         ], "tryAgain")
         break
 
@@ -553,7 +564,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
         [
           ["disableSSLCheck", ::Callback(function() { setDisableSslCertBox(true) }, this)],
           ["exit", ::exit_game],
-          ["tryAgain", function(){}]
+          ["tryAgain", ::Callback(onLoginErrorTryAgain, this)]
         ], "tryAgain")
         break
 
@@ -565,10 +576,12 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
         ::error_message_box("yn1/connect_error", result,
         [
           ["exit", ::exit_game],
-          ["tryAgain", function(){}]
+          ["tryAgain", ::Callback(onLoginErrorTryAgain, this)]
         ], "tryAgain")
     }
   }
+
+  function onLoginErrorTryAgain() {}
 
   function onSelectAction(obj)
   {

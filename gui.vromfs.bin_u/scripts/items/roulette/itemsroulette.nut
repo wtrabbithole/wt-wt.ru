@@ -431,14 +431,14 @@ function ItemsRoulette::getRandomItem(trophyBlock)
 
 function ItemsRoulette::getCurrentReward(rewardsArray)
 {
-  local array = []
+  local res = []
   local shouldOnlyImage = rewardsArray.len() > 1
   foreach(idx, reward in rewardsArray)
   {
     rewardsArray[idx].layout <- ::ItemsRoulette.getRewardLayout(reward, shouldOnlyImage)
-    array.append(reward)
+    res.append(reward)
   }
-  return array
+  return res
 }
 
 function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray)
@@ -540,8 +540,8 @@ function ItemsRoulette::createItemsMarkup(completeArray)
 function ItemsRoulette::getRewardLayout(block, shouldOnlyImage = false)
 {
   local config = ::getTblValueByPath("reward.reward", block, block)
-  local type = ::trophyReward.getType(config)
-  if (::trophyReward.isRewardItem(type))
+  local rType = ::trophyReward.getType(config)
+  if (::trophyReward.isRewardItem(rType))
     return ::trophyReward.getImageByConfig(config, shouldOnlyImage, "roulette_item_place")
 
   local image = ::trophyReward.getImageByConfig(config, shouldOnlyImage, "item_place_single")

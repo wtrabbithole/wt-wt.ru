@@ -42,6 +42,7 @@ enum ctrlGroups {
   HELICOPTER    = 0x0008
   SUBMARINE     = 0x0010
   UFO           = 0x0020
+  WALKER        = 0x0040
   ONLY_COMMON   = 0x0080
 
   VOICE         = 0x0100
@@ -88,4 +89,11 @@ enum MOUSE_AXIS {
   MOUSE_MOVE = 0x3
 
   TOTAL = 3
+}
+
+enum CONTROL_HELP_PATTERN {
+  NONE,
+  IMAGE,
+  GAMEPAD,
+  KEYBOARD_MOUSE
 }

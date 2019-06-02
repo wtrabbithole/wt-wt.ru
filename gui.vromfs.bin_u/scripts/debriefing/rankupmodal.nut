@@ -95,7 +95,7 @@ class ::gui_handlers.RankUpModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function isShowUnit(unit, showAsUnlock)
   {
-    if (!unit || (::isTank(unit) && !::check_feature_tanks()))
+    if (!unit || !unit.unitType.isAvailable())
       return false
 
     local showUnit = isInArray(unit.rank, ranks)

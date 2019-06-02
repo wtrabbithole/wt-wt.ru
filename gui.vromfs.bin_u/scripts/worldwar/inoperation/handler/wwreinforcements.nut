@@ -133,7 +133,7 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
       ::g_world_war.playArmyActionSound("deploySound", wwArmy)
   }
 
-  function onSendReinforcementError(error)
+  function onSendReinforcementError(err)
   {
     ::g_world_war.popupCharErrorMsg("reinforcement_deploy_error")
     ::ww_event("ShowRearZones", {name = currentReinforcementName})

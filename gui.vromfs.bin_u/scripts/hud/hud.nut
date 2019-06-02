@@ -462,8 +462,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   {
     local option = ::get_option(optionNum)
     local value = (option && option.value != null) ? option.value : 0
-    local max   = (option && option.max != null && option.max != 0) ? option.max : 2
-    local size = 1.0 + 0.333 * value / max
+    local vMax   = (option?.max ?? 0) != 0 ? option.max : 2
+    local size = 1.0 + 0.333 * value / vMax
 
     local table = ::getTblValue(optionNum, objectsTable, {})
     foreach (id, cssConst in ::getTblValue("objectsToScale", table, {}))
@@ -599,7 +599,6 @@ class HudAir extends ::gui_handlers.BaseUnitHud
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
     updateShowHintsNest()
-    offerControlsHelpOnce()
 
     ::g_hud_event_manager.subscribe("DamageIndicatorToggleVisbility",
       function(ed) { updateDmgIndicatorVisibility() },
@@ -615,7 +614,6 @@ class HudAir extends ::gui_handlers.BaseUnitHud
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
     updateShowHintsNest()
-    offerControlsHelpOnce()
   }
 
   function updateTacticalMapVisibility()
@@ -655,17 +653,6 @@ class HudAir extends ::gui_handlers.BaseUnitHud
 
     chatObj["margin-bottom"] = offset.tostring()
     _chatOffset = offset
-  }
-
-  function offerControlsHelpOnce()
-  {
-    if (!::need_offer_controls_help)
-      return
-    if (::get_player_cur_unit()?.isUfo?())
-    {
-      ::need_offer_controls_help = false
-      ::g_hud_event_manager.onHudEvent("hint:controlsHelp:offer", {})
-    }
   }
 }
 
@@ -905,29 +892,4 @@ function gui_start_hud_no_chat()
 function gui_start_spectator()
 {
   ::handlersManager.loadHandler(::gui_handlers.Hud, { spectatorMode = true })
-}
-
-// Temporary code for April fools day event 2019:
-::is_hovermode_hint_seen <- false
-::cross_call_api.distance_to_ground_changed <- function(distanceToGround)
-{
-  local hintDistanceThreshold = 200 // meters
-
-  if (distanceToGround > hintDistanceThreshold)
-  {
-    if (distanceToGround > hintDistanceThreshold * 2)
-      ::is_hovermode_hint_seen = false
-    return
-  }
-
-  if (::is_hovermode_hint_seen)
-    return
-
-  local hint = ::g_hud_hints.UFO_HOVER_MODE_HINT
-  local lastShow = ::g_hud_hints_manager.lastShowedTimeDict?[hint.maskId] ?? 0
-  if (lastShow >= ::dagor.getCurTime() + hint.lifeTime * 1000)
-    return
-
-  ::is_hovermode_hint_seen = true
-  ::g_hud_event_manager.onHudEvent(hint.showEvent, {})
 }

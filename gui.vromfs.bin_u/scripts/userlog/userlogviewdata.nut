@@ -1200,7 +1200,7 @@ function get_userlog_view_data(log)
       res.logImg = res.logImg || item.getSmallIconName()
 
       amount += quantity
-      itemsListText += "\n " + ::loc("ui/hyphen") + " " + item.getNameWithCount(true, quantity)
+      itemsListText += "\n " + ::loc("event_dash") + " " + item.getNameWithCount(true, quantity)
       if (itemsNumber == 0)
         firstItemName = item.getName()
 

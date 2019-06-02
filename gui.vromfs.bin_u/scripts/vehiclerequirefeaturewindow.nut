@@ -133,7 +133,7 @@ class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiH
     {
       basePrice = priceText.tofloat()
     }
-    catch (error)
+    catch (err)
     {
       return formatPrice("0")
     }

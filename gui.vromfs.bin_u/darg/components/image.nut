@@ -1,16 +1,17 @@
+local Picture = ::Picture
 local function image(image, params={}, addchildren = null) {
 
   local children = params?.children
-  if (children && type(children) !="array")
+  if (children && ::type(children) !="array")
     children = [children]
   if (addchildren && children) {
-    if (type(addchildren)=="array")
+    if (::type(addchildren)=="array")
       children.extend(addchildren)
     else
       children.append(addchildren)
   }
 
-  if(type(image)=="string")
+  if (::type(image)=="string")
     image=Picture(image) //handle svg here!!
 
   return {

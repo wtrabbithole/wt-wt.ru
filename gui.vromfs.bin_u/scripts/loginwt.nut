@@ -169,6 +169,12 @@ function g_login::initConfigs(cb)
     }
     function() {
       ::ItemsManager.collectUserlogItemdefs()
+      local arr = []
+      foreach(unit in ::all_units)
+        if(unit.marketplaceItemdefId != null)
+          arr.append(unit.marketplaceItemdefId)
+
+      ::ItemsManager.requestItemsByItemdefIds(arr)
     }
     function() {
       ::g_discount.updateDiscountData(true)
@@ -180,7 +186,7 @@ function g_login::initConfigs(cb)
     function() {
       if (::steam_is_running())
         ::steam_process_dlc()
-  
+
       if (::is_dev_version)
         ::checkShopBlk()
 
@@ -207,7 +213,7 @@ function g_login::initConfigs(cb)
         catch(e) { dagor.assertf(0, "can't convert '"+l+"' to version "+sver) }
       }
 
-      ::nda_version = ::check_feature_tanks() ? ::nda_version_tanks : ::nda_version
+      ::nda_version = ::has_feature("Tanks") ? ::nda_version_tanks : ::nda_version
 
       if (should_agree_eula(::nda_version, ::TEXT_NDA))
         ::gui_start_eula(::TEXT_NDA)

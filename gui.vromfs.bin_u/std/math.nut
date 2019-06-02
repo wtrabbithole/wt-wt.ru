@@ -75,6 +75,7 @@ local function color2uint(r,g=0,b=0,a=255){
 local export = math.__merge({
   GOLDEN_RATIO = GOLDEN_RATIO
   minByAbs = minByAbs
+  maxByAbs = maxByAbs
   round_by_value = round_by_value
   number_of_set_bits = number_of_set_bits
   roundToDigits = roundToDigits

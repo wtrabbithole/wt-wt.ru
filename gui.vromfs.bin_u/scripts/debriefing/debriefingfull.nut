@@ -79,13 +79,11 @@ local stdMath = require("std/math.nut")
   { id = "AirKills"
     showByModes = ::is_gamemode_versus
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
-    // !!! TEMP HACK WITH SUBSTITUTION - DELETE AFTER UFO APRIL EVENT
-    getName = @() ::loc(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO ? "multiplayer/ufo_kills" : "multiplayer/air_kills")
-    icon = @() ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO ? "icon/mpstats/ufoKills" : "icon/mpstats/kills"
+    text = "multiplayer/air_kills"
+    icon = "icon/mpstats/kills"
     isVisibleWhenEmpty = function()
     {
-      return (::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_AIR) ||
-             (::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO)
+      return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_AIR
     }
   }
   { id = "GroundKills"
@@ -603,17 +601,17 @@ function update_debriefing_exp_investment_data()
 
 function calculate_debriefing_tabular_data(addVirtPremAcc = false)
 {
-  local getStatReward = function(row, type, keysArray = [])
+  local getStatReward = function(row, currency, keysArray = [])
   {
     if (!keysArray.len()) // empty means pre-calculated final value
     {
-      local finalId = type + row.getRewardId()
+      local finalId = currency + row.getRewardId()
       return ::getTblValue(finalId, ::debriefing_result.exp, 0)
     }
 
     local result = 0
     local tableId = ::get_table_name_by_id(row)
-    local currencyName = ::g_string.toUpper(type, 1)
+    local currencyName = ::g_string.toUpper(currency, 1)
     foreach(key in keysArray)
       result += ::get_tbl_value_by_path_array([tableId, key + currencyName], ::debriefing_result.exp, 0)
     return result

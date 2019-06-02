@@ -1,3 +1,4 @@
+local Color = ::Color
 return {
   BgNormal   = Color(0,0,0,200)
   BgHover    = Color(220, 220, 220, 200)

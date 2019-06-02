@@ -1,4 +1,5 @@
-local list = Watched([])
+local list = ::Watched([])
+local flex = ::flex // warning disable: -declared-never-used
 
 local WND_PARAMS = {
   key = null //generate automatically when not set

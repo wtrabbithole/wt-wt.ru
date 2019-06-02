@@ -349,7 +349,7 @@ function debug_show_units_by_loc_name(unitLocName, needIncludeNotInShop = false)
     local country = ::loc(::getUnitCountry(unit))
     local rank = ::get_roman_numeral(::getUnitRank(unit))
     local prem = (::isUnitSpecial(unit) || ::isUnitGift(unit)) ? ::loc("shop/premiumVehicle/short") : ""
-    local hidden = !unit.isInShop ? ::loc("controls/NA") : ::is_unit_visible_in_shop(unit) ? "" : ::loc("worldWar/hided_logs")
+    local hidden = !unit.isInShop ? ::loc("controls/NA") : unit.isVisibleInShop() ? "" : ::loc("worldWar/hided_logs")
     return unit.name + "; \"" + locName + "\" (" + ::g_string.implode([ army, country, rank, prem, hidden ], ", ") + ")"
   })
 
@@ -407,16 +407,16 @@ function debug_multiply_color(colorStr, multiplier)
 function debug_get_last_userlogs(num = 1)
 {
   local total = ::get_user_logs_count()
-  local array = []
+  local res = []
   for (local i = total - 1; i > (total - num - 1); i--)
   {
     local blk = ::DataBlock()
     ::get_user_log_blk_body(i, blk)
     ::dlog("print userlog " + ::getLogNameByType(blk.type) + " " + blk.id)
     ::debugTableData(blk)
-    array.append(blk)
+    res.append(blk)
   }
-  return array
+  return res
 }
 
 function to_pixels(value)

@@ -1,10 +1,11 @@
+local unitActions = require("scripts/unit/unitActions.nut")
+local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
+
 class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
 {
   wndType = handlerType.MODAL
   sceneBlkName = "gui/shop/shopCheckResearch.blk"
   sceneNavBlkName = "gui/shop/shopNav.blk"
-
-  hasChosenResearchOfSquadron = false
 
   static function open(params)
   {
@@ -13,7 +14,6 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
 
   function initScreen()
   {
-    hasChosenResearchOfSquadron = ::load_local_account_settings("has_chosen_research_of_squadron", false)
     base.initScreen()
     initFocusArray()
 
@@ -139,12 +139,10 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
     local canFlushExp = flushExp > 0
     local afterDoneFunc = function() {
       if (unit.isSquadronVehicle() && needChosenResearchOfSquadron())
-      {
-        ::save_local_account_settings("has_chosen_research_of_squadron", true)
-        hasChosenResearchOfSquadron = true
-      }
+        squadronUnitAction.saveResearchChosen(true)
       if(canFlushExp)
-        return flushSquadronExp(function() {hasSpendExpProcess = false}.bindenv(this))
+        return unitActions.flushSquadronExp(unit,
+          {afterDoneFunc = function() {hasSpendExpProcess = false}.bindenv(this)})
 
       hasSpendExpProcess = false
       onCloseShop()
@@ -152,10 +150,7 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
     if (::isUnitInResearch(unit))
       afterDoneFunc()
 
-    ::researchUnit(unit, true, function() {
-      sendChoosedNewResearchUnitStatistic(unit)
-      afterDoneFunc()
-    }.bindenv(this) )
+    unitActions.research(unit, true, afterDoneFunc.bindenv(this) )
   }
 
  function updateResearchVariables()
@@ -178,19 +173,17 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
       return
     }
 
+    local locId = "shop/distributeSquadronExp"
     local flushExp = ::clan_get_exp()
     if (flushExp <= 0 || needChosenResearchOfSquadron())
-    {
-      headerObj.setValue(::loc("mainmenu/nextResearchSquadronVehicle"))
-      return
-    }
+      locId = "mainmenu/nextResearchSquadronVehicle"
 
     local expText = flushExp ? ::loc("ui/parentheses/space",
         {text = ::Balance(0, 0, 0, 0, flushExp).getTextAccordingToBalance()}) : ""
-    expText = ::loc("shop/distributeSquadronExp") + expText
+    expText = ::loc(locId) + expText
 
     headerObj.setValue(expText)
   }
 
-  needChosenResearchOfSquadron = @() !hasChosenResearchOfSquadron
+  needChosenResearchOfSquadron = @() !squadronUnitAction.hasChosenResearch()
 }

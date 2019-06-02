@@ -1,6 +1,5 @@
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
-local alienNumbers = require("reactiveGui/alienNumbers.nut")
 
 const KGF_TO_NEWTON = 9.807
 
@@ -330,8 +329,6 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
   if (!air)
     return ""
 
-  local isUfo = air.isUfo()
-
   local airBlk = ::get_full_unit_blk(air.name)
   if( !airBlk )
     return ""
@@ -453,15 +450,11 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
             {
               tText += ::loc("weapons" + weaponName + "/short")
               if (weapon.ammo > 1)
-              {
-                local weaponAmmoText = isUfo ? ("ᛃ " + alienNumbers.getNumStr(weapon.ammo)) : ::format(::loc("weapons/counter/right/short"), weapon.ammo)
-                tText += " " + weaponAmmoText
-              }
+                tText += " " + ::format(::loc("weapons/counter/right/short"), weapon.ammo)
             }
             else
             {
-              local weaponAmmoText = isUfo ? ("ᛃ " + alienNumbers.getNumStr(weapon.ammo)) : ::format(::loc("weapons/counter"), weapon.ammo)
-              tText += ::loc("weapons" + weaponName) + weaponAmmoText
+              tText += ::loc("weapons" + weaponName) + ::format(::loc("weapons/counter"), weapon.ammo)
               if (weaponType == "torpedoes" && p.isPrimary != null &&
                   ::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])) // torpedoes drop for air only
               {
@@ -482,18 +475,10 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
             {
               tText += ::loc("weapons" + weaponName)
               if (weapon.num > 1)
-              {
-                local weaponNumText = isUfo ? ("ᛃ " + alienNumbers.getNumStr(weapon.num)) : ::format(::loc("weapons/counter"), weapon.num)
-                tText += weaponNumText
-              }
+                tText += ::format(::loc("weapons/counter"), weapon.num)
 
               if (weapon.ammo > 0)
-              {
-                if (isUfo)
-                  tText += "ᛃ ᚢᚮᚰ " + alienNumbers.getNumStr(weapon.ammo)
-                else
-                  tText += " (" + ::loc("shop/ammo") + ::loc("ui/colon") + weapon.ammo + ")"
-              }
+                tText += " (" + ::loc("shop/ammo") + ::loc("ui/colon") + weapon.ammo + ")"
 
               if (!air.unitType.canUseSeveralBulletsForGun)
               {
@@ -508,10 +493,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
                     if (speedK)
                       rTime = stdMath.round_by_value(rTime / speedK, 1.0).tointeger()
                   }
-                  if (isUfo)
-                    tText += "ᛃ ᚤᚥ " + alienNumbers.getNumStr(rTime)
-                  else
-                    tText += " " + ::loc("bullet_properties/cooldown") + " " + time.secondsToString(rTime, true, true)
+                  tText += " " + ::loc("bullet_properties/cooldown") + " " + time.secondsToString(rTime, true, true)
                 }
               }
             }
@@ -524,20 +506,10 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
       {
         if ("turrets" in trigger) // && !air.unitType.canUseSeveralBulletsForGun)
         {
-          if (isUfo)
-          {
-            if(trigger.turrets > 1)
-              tText = "ᚵᚶᚳᚳᚦᚵ " + alienNumbers.getNumStr(trigger.turrets) + " " + tText
-            else
-              tText = "ᚵᚶᚳᚳᚦᚵᛃ " + tText
-          }
+          if(trigger.turrets > 1)
+            tText = ::format(::loc("weapons/turret_number"), trigger.turrets) + tText
           else
-          {
-            if(trigger.turrets > 1)
-              tText = ::format(::loc("weapons/turret_number"), trigger.turrets) + tText
-            else
-              tText = ::g_string.utf8ToUpper(::loc("weapons_types/turrets"), 1) + ::loc("ui/colon") + tText
-          }
+            tText = ::g_string.utf8ToUpper(::loc("weapons_types/turrets"), 1) + ::loc("ui/colon") + tText
         }
       }
 
@@ -547,17 +519,10 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
     if (weapTypeCount>0)
     {
       if (text!="") text += p.newLine
-      if (isUfo)
-      {
-        text += (isShortDesc ? "ᛃ " : ("ᛃ"+::nbsp+"ᚹ"+::nbsp)) + alienNumbers.getNumStr(weapTypeCount)
-      }
+      if (isShortDesc)
+        text += ::loc("weapons_types/" + weaponType) + ::nbsp + ::format(::loc("weapons/counter/right/short"), weapTypeCount)
       else
-      {
-        if (isShortDesc)
-          text += ::loc("weapons_types/" + weaponType) + ::nbsp + ::format(::loc("weapons/counter/right/short"), weapTypeCount)
-        else
-          text += ::loc("weapons_types/" + weaponType) + ::format(::loc("weapons/counter"), weapTypeCount)
-      }
+        text += ::loc("weapons_types/" + weaponType) + ::format(::loc("weapons/counter"), weapTypeCount)
     }
   }
 

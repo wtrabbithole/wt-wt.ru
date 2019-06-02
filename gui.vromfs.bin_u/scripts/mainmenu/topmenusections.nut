@@ -13,7 +13,6 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
     mergeIndex = -1
     haveTmDiscount = false
     forceHoverWidth = null
-    unseenIconMainButton = null
     isWide = false
 
     getTopMenuButtonDivId = function() { return "topmenu_" + name }

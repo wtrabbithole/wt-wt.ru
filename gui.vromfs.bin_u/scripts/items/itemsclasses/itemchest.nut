@@ -148,6 +148,18 @@ class ::items_classes.Chest extends ItemExternal {
     return getGenerator()?.isHiddenTopPrize(prize) ?? false
   }
 
+  function canPreview()
+  {
+    local content = getContent()
+    return content.len() == 1 && content[0].item != null
+      && ::ItemsManager.findItemById(content[0].item)?.canPreview()
+  }
+
+  function doPreview()
+  {
+    ::ItemsManager.findItemById(getContent()?[0]?.item)?.doPreview()
+  }
+
   function doMainAction(cb, handler, params = null)
   {
     if (buy(cb, handler, params))

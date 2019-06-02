@@ -1,3 +1,5 @@
+local sqadronUnitAction = ::require("scripts/unit/sqadronUnitAction.nut")
+
 local PROGRESS_PARAMS = {
   type = "old"
   rotation = 0
@@ -38,8 +40,7 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
         local percentClanActivity = min(100.0 * clanActivity / maxActivity, 100)
         local myExp = min(min(1, 1.0 * percentMemberActivity/percentClanActivity) * clanActivity, clanData.maxClanActivity)
         local limit = min(100.0 * limitClanActivity / maxActivity, 100)
-        local isAllVehiclesResearched = u.search(::all_units,
-          @(unit) unit.isSquadronVehicle() && unit.isVisibleInShop() && !::isUnitResearched(unit)) == null
+        local isAllVehiclesResearched = sqadronUnitAction.isAllVehiclesResearched()
 
         view = {
           clan_activity_header_text = ::format( ::loc("clan/my_activity_in_period"),

@@ -43,6 +43,57 @@ local function showUnitSkin(unitId, skinId = null, isForApprove = false)
   return true
 }
 
+local function getBestUnitForDecoratorPreview(decoratorType, forcedUnitId = null)
+{
+  local unit = null
+  if (forcedUnitId)
+  {
+    unit = ::getAircraftByName(forcedUnitId)
+    return decoratorType.isAvailable(unit, false) ? unit : null
+  }
+
+  unit = ::get_player_cur_unit()
+  if (decoratorType.isAvailable(unit, false))
+    return unit
+
+  local countryId = ::get_profile_country_sq()
+  local crews = ::get_crews_list_by_country(countryId)
+
+  foreach (crew in crews)
+    if ((crew?.aircraft ?? "") != "")
+    {
+      unit = ::getAircraftByName(crew.aircraft)
+      if (decoratorType.isAvailable(unit, false))
+        return unit
+    }
+
+  foreach (crew in crews)
+    for (local i = crew.trained.len() - 1; i >= 0; i--)
+    {
+      unit = ::getAircraftByName(crew.trained[i])
+      if (decoratorType.isAvailable(unit, false))
+        return unit
+    }
+
+  unit = ::getAircraftByName(::getReserveAircraftName({
+    country = countryId
+    unitType = ::ES_UNIT_TYPE_TANK
+    ignoreSlotbarCheck = true
+  }))
+  if (decoratorType.isAvailable(unit, false))
+    return unit
+
+  unit = ::getAircraftByName(::getReserveAircraftName({
+    country = "country_usa"
+    unitType = ::ES_UNIT_TYPE_TANK
+    ignoreSlotbarCheck = true
+  }))
+  if (decoratorType.isAvailable(unit, false))
+    return unit
+
+  return null
+}
+
 /**
  * Starts Customization scene with some conpatible unit and given decorator.
  * @param {string|null} unitId - Unit to show. Use null to auto select some compatible unit.
@@ -62,34 +113,11 @@ local function showUnitDecorator(unitId, resource, resourceType)
   if (!decorator)
     return false
 
+  local unit = getBestUnitForDecoratorPreview(decoratorType, unitId)
+  if (!unit)
+    return false
+
   local hangarUnit = ::get_player_cur_unit()
-
-  local unit = null
-  if (unitId)
-  {
-    unit = ::getAircraftByName(unitId)
-    if (! decoratorType.isAvailable(unit))
-      return false
-  }
-  else
-  {
-    unit = hangarUnit
-    if (! decoratorType.isAvailable(unit))
-      unit = ::getAircraftByName(::getReserveAircraftName({
-        country = ::get_profile_country_sq()
-        unitType = ::ES_UNIT_TYPE_TANK
-        ignoreSlotbarCheck = true
-      }))
-    if (! decoratorType.isAvailable(unit))
-      unit = ::getAircraftByName(::getReserveAircraftName({
-        country = "country_usa"
-        unitType = ::ES_UNIT_TYPE_TANK
-        ignoreSlotbarCheck = true
-      }))
-    if (! decoratorType.isAvailable(unit))
-      return false
-  }
-
   ::broadcastEvent("BeforeStartShowroom")
   ::show_aircraft = unit
   local startFunc = function() {

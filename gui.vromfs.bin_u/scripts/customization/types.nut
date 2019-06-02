@@ -65,7 +65,7 @@ local skinLocations = ::require("scripts/customization/skinLocations.nut")
       return -1
     }
 
-    isAvailable = @(unit) false
+    isAvailable = @(unit, checkUnitUsable = true) false
     isAllowed = function(decoratorName) { return true }
     isVisible = function(block, decorator)
     {
@@ -166,7 +166,8 @@ enums.addTypesByGlobalName("g_decorator_type", {
     }
 
     isAllowed = function(decoratorName) { return ::is_decal_allowed(decoratorName, "") }
-    isAvailable = @(unit) unit && ::has_feature("DecalsUse") && unit.isUsable()
+    isAvailable = @(unit, checkUnitUsable = true) !!unit && ::has_feature("DecalsUse")
+      && (!checkUnitUsable || unit.isUsable())
     isPlayerHaveDecorator = function(decoratorName) { return ::player_have_decal(decoratorName) }
 
     getBlk = function() { return ::get_decals_blk() }
@@ -280,7 +281,8 @@ enums.addTypesByGlobalName("g_decorator_type", {
     getDecoratorNameInSlot = function(slotIdx, ...) { return ::hangar_get_attachable_name(slotIdx) }
     getDecoratorGroupInSlot = function(slotIdx, ...) { return ::hangar_get_attachable_group(slotIdx) }
 
-    isAvailable = @(unit) unit && ::has_feature("AttachablesUse") && unit.isUsable() && ::isTank(unit)
+    isAvailable = @(unit, checkUnitUsable = true) !!unit && ::has_feature("AttachablesUse")
+      && ::isTank(unit) && (!checkUnitUsable || unit.isUsable())
     isPlayerHaveDecorator = function(decoratorName) { return ::player_have_attachable(decoratorName) }
 
     getBlk = function() { return ::get_attachable_blk() }
@@ -387,7 +389,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     }
 
     getFreeSlotIdx = @(...) 0
-    isAvailable = @(unit) unit && unit.isUsable()
+    isAvailable = @(unit, checkUnitUsable = true) !!unit && (!checkUnitUsable || unit.isUsable())
     isPlayerHaveDecorator = function(decoratorName)
     {
       if (::g_unlocks.isDefaultSkin(decoratorName))

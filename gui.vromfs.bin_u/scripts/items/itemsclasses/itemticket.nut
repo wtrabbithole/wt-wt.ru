@@ -190,9 +190,9 @@ class ::items_classes.Ticket extends ::BaseItem
     return "deathmatch"
   }
 
-  function _getTournamentTypeLayer(type, small)
+  function _getTournamentTypeLayer(lType, small)
   {
-    return ::LayersIcon.findLayerCfg(getBasePartOfLayerId(small) + "_gt_" + type)
+    return ::LayersIcon.findLayerCfg(getBasePartOfLayerId(small) + "_gt_" + lType)
   }
 
   function _getNameForLayer(event, eventEconomicName = "")

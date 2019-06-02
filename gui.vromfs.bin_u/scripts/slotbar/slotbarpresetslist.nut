@@ -193,7 +193,7 @@ class SlotbarPresetsList
     ::queues.checkAndStart(
       ::Callback(function()
       {
-        ::g_squad_utils.checkSquadUnreadyAndDo(this,
+        ::g_squad_utils.checkSquadUnreadyAndDo(
           ::Callback(function()
           {
              if (!("beforeSlotbarChange" in ownerWeak))

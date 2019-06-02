@@ -114,10 +114,9 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
 
   AIR_KILLS = {
     id = "kills"
-    // !!! TEMP HACK WITH SUBSTITUTION - DELETE AFTER UFO APRIL EVENT
-    fontIcon = @() ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO ? "#icon/mpstats/ufoKills" : "#icon/mpstats/kills"
-    tooltip = @() ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_UFO ? "#multiplayer/ufo_kills" : "#multiplayer/air_kills"
-    missionObjective = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_UFO
+    fontIcon = "#icon/mpstats/kills"
+    tooltip = "#multiplayer/air_kills"
+    missionObjective = MISSION_OBJECTIVE.KILLS_AIR
   }
 
   GROUND_KILLS = {

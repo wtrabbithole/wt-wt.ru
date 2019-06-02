@@ -107,8 +107,8 @@ function g_dmg_model::resetData()
 
 function g_dmg_model::getLinearValueFromP2blk(blk, x)
 {
-  local min = null
-  local max = null
+  local pMin = null
+  local pMax = null
   if (::u.isDataBlock(blk))
     for (local i = 0; i < blk.paramCount(); i++)
     {
@@ -119,16 +119,16 @@ function g_dmg_model::getLinearValueFromP2blk(blk, x)
       if (p2.x == x)
         return p2.y
 
-      if (p2.x < x && (!min || p2.x > min.x))
-        min = p2
-      if (p2.x > x && (!max || p2.x < max.x))
-        max = p2
+      if (p2.x < x && (!pMin || p2.x > pMin.x))
+        pMin = p2
+      if (p2.x > x && (!pMax || p2.x < pMax.x))
+        pMax = p2
     }
-  if (!min)
-    return max?.y ?? 0.0
-  if (!max)
-    return min.y
-  return min.y + (max.y - min.y) * (x - min.x) / (max.x - min.x)
+  if (!pMin)
+    return pMax?.y ?? 0.0
+  if (!pMax)
+    return pMin.y
+  return pMin.y + (pMax.y - pMin.y) * (x - pMin.x) / (pMax.x - pMin.x)
 }
 
 /** Returns -1 if no such angle found. */

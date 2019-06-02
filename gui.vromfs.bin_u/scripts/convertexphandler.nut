@@ -5,19 +5,18 @@ enum windowState
   noUnit
 }
 
-function gui_modal_convertExp(unit = null, owner = null)
+function gui_modal_convertExp(unit = null)
 {
   if (unit && !::can_spend_gold_on_unit_with_popup(unit))
     return
 
-  ::gui_start_modal_wnd(::gui_handlers.ConvertExpHandler, {unit = unit, owner = owner})
+  ::gui_start_modal_wnd(::gui_handlers.ConvertExpHandler, {unit = unit})
 }
 
 class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType         = handlerType.MODAL
   sceneBlkName    = "gui/convertExp/convertExp.blk"
-  owner           = null
 
   expPerGold      = 1
   maxGoldForAir   = 0

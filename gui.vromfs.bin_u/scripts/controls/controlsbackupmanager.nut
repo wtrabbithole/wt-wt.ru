@@ -1,3 +1,5 @@
+local DataBlock = require("DataBlock")
+
 class ::gui_handlers.ControlsBackupManager extends ::gui_handlers.SaveDataDialog
 {
   function initScreen()
@@ -13,7 +15,7 @@ class ::gui_handlers.ControlsBackupManager extends ::gui_handlers.SaveDataDialog
   function doSave(descr)
   {
     showWaitAnimation(true)
-    local blk = ::DataBlock()
+    local blk = DataBlock()
     blk.comment = descr.comment
     blk.path = descr.path
 
@@ -34,7 +36,7 @@ class ::gui_handlers.ControlsBackupManager extends ::gui_handlers.SaveDataDialog
   function doLoad(descr)
   {
     showWaitAnimation(true)
-    local blk = ::DataBlock()
+    local blk = DataBlock()
     blk.path = descr.path
     blk.comment = descr.comment
 
@@ -57,7 +59,7 @@ class ::gui_handlers.ControlsBackupManager extends ::gui_handlers.SaveDataDialog
   function doDelete(descr)
   {
     showWaitAnimation(true)
-    local blk = ::DataBlock()
+    local blk = DataBlock()
     blk.path = descr.path
     blk.comment = descr.comment
 

@@ -256,6 +256,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   lastPlayedOperationCountry = null
 
   isDebugMode = false
+  debugAlreadyHadInfantryUnits = false
 
   myClanParticipateIcon = "#ui/gameuiskin#lb_victories_battles.svg"
   lastPlayedIcon = "#ui/gameuiskin#last_played_operation_marker"
@@ -848,15 +849,15 @@ function g_world_war::getAirfieldsCount()
 
 function g_world_war::getAirfieldsArrayBySide(side)
 {
-  local array = []
+  local res = []
   for (local index = 0; index < getAirfieldsCount(); index++)
   {
     local field = getAirfieldByIndex(index)
     if (field.isMySide(side))
-      array.append(field)
+      res.append(field)
   }
 
-  return array
+  return res
 }
 
 function g_world_war::getBattles(filterFunc = null, forced = false)
@@ -936,6 +937,8 @@ function g_world_war::updateConfigurableValues()
       fighterToAssaultWeaponMask = fighterToAssaultWeaponMask | (1 << i)
 
   configurableValues.fighterToAssaultWeaponMask = fighterToAssaultWeaponMask
+
+  debugAlreadyHadInfantryUnits = debugAlreadyHadInfantryUnits || !!configurableValues.infantryUnits
 }
 
 
@@ -983,7 +986,7 @@ function g_world_war::getReinforcementsArrayBySide(side)
   if (!reinforcementsInfo.reinforcements)
     return []
 
-  local array = []
+  local res = []
   for (local i = 0; i < reinforcementsInfo.reinforcements.blockCount(); i++)
   {
     local reinforcement = reinforcementsInfo.reinforcements.getBlock(i)
@@ -992,10 +995,10 @@ function g_world_war::getReinforcementsArrayBySide(side)
          (wwReinforcementArmy.isMySide(side)
          && wwReinforcementArmy.hasManageAccess())
        )
-        array.append(wwReinforcementArmy)
+        res.append(wwReinforcementArmy)
   }
 
-  return array
+  return res
 }
 
 function g_world_war::getMyReinforcementsArray()

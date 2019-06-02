@@ -82,9 +82,9 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function onAppliedOptions(appliedTypes)
   {
-    foreach (type in appliedTypes)
+    foreach (optionId in appliedTypes)
     {
-      if (::is_measure_unit_user_option(type))
+      if (::is_measure_unit_user_option(optionId))
       {
         ::broadcastEvent("MeasureUnitsChanged")
         break

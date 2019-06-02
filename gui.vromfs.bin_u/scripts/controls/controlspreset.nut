@@ -939,7 +939,7 @@ class ControlsPreset {
   function getBasePresetNames()
   {
     if (!::g_login.isLoggedIn())
-      return [] // Because g_controls_presets loads after login.
+      return {} // Because g_controls_presets loads after login.
     return ::u.map(basePresetPaths, function(path) {
       return ::g_controls_presets.parsePresetFileName(path).name
     })

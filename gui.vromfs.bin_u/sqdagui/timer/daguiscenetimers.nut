@@ -109,7 +109,7 @@ local DaguiSceneTimers = class
 
   function setObjTimeInterval(obj, interval)
   {
-     obj.timer_interval_msec = (1000 * updateInterval).tointeger().tostring()
+     obj.timer_interval_msec = (1000 * interval).tointeger().tostring()
   }
 }
 

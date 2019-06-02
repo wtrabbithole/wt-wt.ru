@@ -1,7 +1,16 @@
 local string = require("string")
+local Color = ::Color // warning disable: -declared-never-used
+local sh = ::sh // warning disable: -declared-never-used
+local flex = ::flex // warning disable: -declared-never-used
+local hdpx = ::hdpx // warning disable: -declared-never-used
+local fontH = ::fontH // warning disable: -declared-never-used
+local Fonts = ::Fonts // warning disable: -declared-never-used
+local pw = ::pw // warning disable: -declared-never-used
+local sw = ::sw // warning disable: -declared-never-used
+local ph = ::sh // warning disable: -declared-never-used
 /*
   todo:
-    - somehow provide result of validation - maybe more complex type of inputState, like Watched({text=text isValid=true}))
+    - somehow provide result of validation - maybe more complex type of inputState, like ::Watched({text=text isValid=true}))
     - important to know about language and CapsLock. The easiest way - show last symbol in password for 0.25 seconds before hide it with *
 
     - replace editor in enlisted with this component (it should be already suitable)
@@ -25,7 +34,7 @@ local function isStringLikelyEmail(str, verbose=true) {
 // Domain part also have at least one period and main domain at least 2 symbols
 // also come correct emails on google are against RFC, for example a.a.a@gmail.com.
 
-  if (type(str)!="string")
+  if (::type(str)!="string")
     return false
   local split = string.split(str,"@")
   if (split.len()<2)
@@ -84,11 +93,6 @@ local function isValidStrByType(str, inputType) {
   return true
 }
 
-local imeInputMap = {
-  integer = "num",
-  ["float"] = "num"
-}
-
 local defaultColors = {
   placeHolderColor = Color(160, 160, 160)
   textColor = Color(255,255,255)
@@ -113,8 +117,6 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
   local font = options?.font ?? Fonts.medium_text
   local colors = {}
   local inputType = options?.inputType
-  local imeInputType = imeInputMap?.inputType ?? inputType
-
   local function isValidResultByInput(new_value) {
     return isValidStrByType(new_value, inputType)
   }

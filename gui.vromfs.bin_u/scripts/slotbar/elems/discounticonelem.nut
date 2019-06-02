@@ -20,12 +20,12 @@ elemViewType.addTypes({
     {
       local discountData = ::g_discount.generateDiscountInfo(
         ::g_discount.getUnitDiscountList(obj.countryId))
-      local max = discountData?.maxDiscount ?? 0
-      local isVisible = ::top_menu_shop_active && max > 0
+      local maxDiscount = discountData?.maxDiscount ?? 0
+      local isVisible = ::top_menu_shop_active && maxDiscount > 0
       obj.show(isVisible)
       if (!isVisible)
         return
-      obj.text = "-" + max + "%"
+      obj.text = "-" + maxDiscount + "%"
       obj.tooltip = discountData?.discountTooltip ?? ""
     }
   }

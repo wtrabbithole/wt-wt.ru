@@ -295,15 +295,12 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     return ::LayersIcon.genDataFromLayer(layerCfg, layersData)
   }
 
-  function onTake(curUnit, isNewUnit = true)
+  function onTake(unitToTake)
   {
-    if (!curUnit.isUsable())
-      return
-
-    ::gui_start_selecting_crew({unit = curUnit,
-      isNewUnit = isNewUnit,
-      unitObj = scene.findObject(curUnit.name),
-      cellClass = "slotbarClone"})
+    base.onTake(unitToTake, {
+      cellClass = "slotbarClone"
+      isNewUnit = true
+    })
   }
 
   function onEventCrewTakeUnit(params)

@@ -143,12 +143,12 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function getUsingUnitsArray()
   {
-    local array = []
+    local res = []
     foreach(idx, c in ::g_crews_list.get()[countryId].crews)
       if (idx != idInCountry && ("aircraft" in c))
-        array.append(c.aircraft)
+        res.append(c.aircraft)
 
-    return array
+    return res
   }
 
   function initAvailableUnitsArray()

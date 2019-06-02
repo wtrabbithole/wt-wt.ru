@@ -435,10 +435,10 @@ class ::items_classes.Booster extends ::BaseItem
     if (isActive(true))
     {
       local effectTypes = getEffectTypes()
-      foreach(type in effectTypes)
+      foreach(t in effectTypes)
       {
-        local usingBoostersArray = ::ItemsManager.getActiveBoostersArray(type)
-        desc += "\n\n" + ::ItemsManager.getActiveBoostersDescription(usingBoostersArray, type, this)
+        local usingBoostersArray = ::ItemsManager.getActiveBoostersArray(t)
+        desc += "\n\n" + ::ItemsManager.getActiveBoostersDescription(usingBoostersArray, t, this)
       }
     }
     return desc

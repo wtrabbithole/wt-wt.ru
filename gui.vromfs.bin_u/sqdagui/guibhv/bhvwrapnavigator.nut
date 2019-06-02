@@ -77,8 +77,10 @@ class gui_bhv.wrapNavigator
     if (!obj.isEnabled())
       return
 
-    if (::wn_sideRecursion > 3)
-      return ::wn_sideRecursionFound = true
+    if (::wn_sideRecursion > 3) {
+      ::wn_sideRecursionFound = true
+      return
+    }
     ::wn_sideRecursion++
 
     local total = obj.childrenCount()

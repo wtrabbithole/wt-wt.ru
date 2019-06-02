@@ -517,15 +517,15 @@ function g_promo::cutActionParamsKey(id)
 
 function g_promo::getType(block)
 {
-  local type = PROMO_BUTTON_TYPE.ARROW
+  local res = PROMO_BUTTON_TYPE.ARROW
   if (block.blockCount() > 1)
-    type = PROMO_BUTTON_TYPE.IMAGE_ROULETTE
+    res = PROMO_BUTTON_TYPE.IMAGE_ROULETTE
   else if (::getTblValue("image", block, "") != "")
-    type = PROMO_BUTTON_TYPE.IMAGE
+    res = PROMO_BUTTON_TYPE.IMAGE
   else if (block.getBlockName().find("current_battle_tasks") != null)
-    type = PROMO_BUTTON_TYPE.BATTLE_TASK
+    res = PROMO_BUTTON_TYPE.BATTLE_TASK
 
-  return type
+  return res
 }
 
 function g_promo::setButtonText(buttonObj, id, text = "")
@@ -748,7 +748,7 @@ function g_promo::changeToggleStatus(id, value)
   return newValue
 }
 
-function g_promo::updateCollapseStatuses(array)
+function g_promo::updateCollapseStatuses(arr)
 {
   local blk = ::loadLocalByAccount("seen/promo_collapsed")
   if (!blk)
@@ -757,7 +757,7 @@ function g_promo::updateCollapseStatuses(array)
   local clearedBlk = ::DataBlock()
   foreach(id, status in blk)
   {
-    if (::isInArray(id, array))
+    if (::isInArray(id, arr))
       continue
 
     clearedBlk[id] = status

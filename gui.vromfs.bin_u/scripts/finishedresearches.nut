@@ -110,10 +110,8 @@ function checkNonApprovedResearches(needUpdateResearchTable = false, needResearc
   for (local i = ::researched_items_table.len()-1; i >= 0; --i)
   {
     if (::isResearchAbandoned(::researched_items_table[i]) ||
-         (::isTank(::getAircraftByName(::getUnitNameFromResearchItem(::researched_items_table[i]))) &&
-           !::check_feature_tanks()
-         )
-       )
+      !::getAircraftByName(::getUnitNameFromResearchItem(::researched_items_table[i]))?.unitType.isAvailable()
+    )
       ::removeResearchBlock(::researched_items_table[i])
   }
 
@@ -1304,7 +1302,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     foreach(item in ::all_units)
       if (item.shopCountry == unit.shopCountry &&
           ::get_es_unit_type(item) == unitType &&
-          ::is_unit_visible_in_shop(unit) &&
+          unit.isVisibleInShop() &&
           ::canResearchUnit(item) &&
           !::isUnitResearched(item) &&
           !::canBuyUnit(item)

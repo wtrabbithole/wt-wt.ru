@@ -1,13 +1,10 @@
-local colors = {}
-
-::with_table(colors, function () {
+local colors = {
   transparent = Color(0, 0, 0, 0)
   white = Color(255, 255, 255)
   green = Color(0, 255, 0)
-})
+}
 
-colors.menu <- {}
-::with_table(colors.menu, function () {
+colors.menu <- {
   chatTextBlockedColor =  Color(128, 128, 128)
   commonTextColor = Color(192, 192, 192)
   unlockActiveColor = Color(255, 255, 255)
@@ -32,10 +29,9 @@ colors.menu <- {}
   textInputBgColor = Color(2, 5, 9, 145)
 
   voiceChatIconActiveColor = Color(134, 216, 8)
-})
+}
 
-colors.hud <- {}
-::with_table(colors.hud, function () {
+colors.hud <- {
   spectatorColor = Color(128, 128, 128)
   chatActiveInfoColor = Color(255, 255, 5)
   mainPlayerColor = Color(221, 163, 57)
@@ -43,28 +39,28 @@ colors.hud <- {}
   componentBorder = Color(255, 255, 255)
   chatTextAllColor = colors.menu.commonTextColor
   hudLogBgColor = Color(0, 0, 0, 102)
-})
+}
 
-colors.hud.damageModule <- {}
-::with_table(colors.hud.damageModule, function () {
+local inactiveDMColor = Color(45, 55, 63, 80)
+local alertDMColor = Color(221, 17, 17)
+colors.hud.damageModule <- {
   active = Color(255, 255, 255)
-  alert = Color(221, 17, 17)
+  alert = alertDMColor
   alertHighlight = Color(255, 255, 255) //for flashing animations
-  inactive = Color(45, 55, 63, 80)
+  inactive = inactiveDMColor
   aiSwitchHighlight = colors.green
 
   dmModuleDamaged = Color(255, 176, 37)
-  dmModuleNormal = inactive
-  dmModuleDestroyed = alert
-})
+  dmModuleNormal = inactiveDMColor
+  dmModuleDestroyed = alertDMColor
+}
 
 
-colors.hud.shipSteeringGauge <- {}
-::with_table(colors.hud.shipSteeringGauge, function () {
+colors.hud.shipSteeringGauge <- {
   mark = Color(235, 235, 60, 200)
   serif = Color(135, 163, 160, 100)
   background = Color(0, 0, 0, 50)
-})
+}
 
 
 return colors

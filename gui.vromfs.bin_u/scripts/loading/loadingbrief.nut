@@ -171,8 +171,8 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
 
     if (gt & ::GT_VERSUS)
     {
-      local missionType = ::g_mission_type.getTypeByMissionName(::get_current_mission_name())
-      local haveHelp = missionType.helpBlkPath != ""
+      local missionHelpPath = ::g_mission_type.getHelpPathForCurrentMission()
+      local haveHelp = missionHelpPath != null
 
       local helpBtnObj = showSceneBtn("btn_help", haveHelp)
       if (helpBtnObj && !::show_console_buttons)
@@ -180,7 +180,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
 
       if (haveHelp)
       {
-        local parts = ::split(missionType.helpBlkPath, "/.")
+        local parts = ::split(missionHelpPath, "/.")
         local helpId = parts.len() >= 2 ? parts[parts.len() - 2] : ""
         local cfgPath = "seen/help_mission_type/" + helpId
         local isSeen = ::loadLocalByAccount(cfgPath, 0)

@@ -1336,11 +1336,11 @@ function sysopt::validateInternalConfigs()
           errorsList.append(logError("sysopt.validateInternalConfigs()",
             "Option '"+id+"' - 'widgetType'/'def' conflict."))
         local invalidVal = -1
-        local min = ::getTblValue("min", desc, invalidVal)
-        local max = ::getTblValue("max", desc, invalidVal)
+        local vMin = desc?.min ?? invalidVal
+        local vMax = desc?.max ?? invalidVal
         local safeDef = (def != null) ? def : invalidVal
-        if (!("min" in desc) || !("max" in desc) || type(min) != uiType || type(max) != uiType
-            || min > max || min > safeDef || safeDef > max )
+        if (!("min" in desc) || !("max" in desc) || type(vMin) != uiType || type(vMax) != uiType
+            || vMin > vMax || vMin > safeDef || safeDef > vMax )
           errorsList.append(logError("sysopt.validateInternalConfigs()",
             "Option '"+id+"' - 'min'/'def'/'max' conflict."))
         break
