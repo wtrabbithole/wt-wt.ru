@@ -41,19 +41,16 @@ function build_aircraft_item(id, air, params = {})
 {
   local res = ""
   local defaultStatus = "none"
-  local getVal = (@(params) function(val, defVal) {
-    return ::getTblValue(val, params, defVal)
-  })(params)
 
   local showBR = ::getTblValue("showBR", params, ::has_feature("GlobalShowBattleRating"))
   local curEdiff = ("getEdiffFunc" in params) ?  params.getEdiffFunc() : ::get_current_ediff()
 
   if (air && !::isUnitGroup(air) && !air?.isFakeUnit)
   {
-    local isLocalState        = getVal("isLocalState", true)
-    local forceNotInResearch  = getVal("forceNotInResearch", false)
-    local inactive            = getVal("inactive", false)
-    local shopResearchMode    = getVal("shopResearchMode", false)
+    local isLocalState        = params?.isLocalState ?? true
+    local forceNotInResearch  = params?.forceNotInResearch ?? false
+    local inactive            = params?.inactive ?? false
+    local shopResearchMode    = params?.shopResearchMode ?? false
     local disabled            = false
 
     local isOwn               = ::isUnitBought(air)
@@ -68,16 +65,16 @@ function build_aircraft_item(id, air, params = {})
     local unitExpGranted      = ::getUnitExp(air)
     local diffExp = isSquadronVehicle
       ? ::min(::clan_get_exp(), unitReqExp - unitExpGranted)
-      : getVal("diffExp", 0)
+      : (params?.diffExp ?? 0)
     if (isSquadronVehicle && isVehicleInResearch)
       unitExpGranted += diffExp
 
     local isBroken            = ::isUnitBroken(air)
     local unitRarity          = ::getUnitRarity(air)
     local isLockedSquadronVehicle = isSquadronVehicle && !::is_in_clan() && diffExp <= 0
-    local isSquadronResearchMode  = getVal("isSquadronResearchMode", false)
+    local isSquadronResearchMode  = params?.isSquadronResearchMode ?? false
 
-    local status = getVal("status", defaultStatus)
+    local status = params?.status ?? defaultStatus
     if (status == defaultStatus)
     {
       local bitStatus = 0
@@ -122,15 +119,15 @@ function build_aircraft_item(id, air, params = {})
       status = ::getUnitItemStatusText(bitStatus, false)
     }
 
-    local hasActions = getVal("hasActions", false) && !disabled
+    local hasActions = (params?.hasActions ?? false) && !disabled
 
     //
     // Bottom button view
     //
 
-    local mainButtonAction = ::show_console_buttons ? "onOpenActionsList" : getVal("mainActionFunc", "")
-    local mainButtonText = ::show_console_buttons ? "" : getVal("mainActionText", "")
-    local mainButtonIcon = ::show_console_buttons ? "#ui/gameuiskin#slot_menu" : getVal("mainActionIcon", "")
+    local mainButtonAction = ::show_console_buttons ? "onOpenActionsList" : (params?.mainActionFunc ?? "")
+    local mainButtonText = ::show_console_buttons ? "" : (params?.mainActionText ?? "")
+    local mainButtonIcon = ::show_console_buttons ? "#ui/gameuiskin#slot_menu" : (params?.mainActionIcon ?? "")
     local checkTexts = mainButtonAction.len() > 0 && (mainButtonText.len() > 0 || mainButtonIcon.len() > 0)
     local checkButton = !isVehicleInResearch || ::has_feature("SpendGold")
     local bottomButtonView = {
@@ -147,9 +144,9 @@ function build_aircraft_item(id, air, params = {})
     //
 
     local weaponsStatus = isLocalState && isUsable ? checkUnitWeapons(air) : ::UNIT_WEAPONS_READY
-    local crewId = getVal("crewId", -1)
-    local showWarningIcon = getVal("showWarningIcon", false)
-    local specType = getVal("specType", null)
+    local crewId = params?.crewId ?? -1
+    local showWarningIcon = params?.showWarningIcon ?? false
+    local specType = params?.specType
     local rentInfo = ::get_unit_item_rent_info(air, params)
     local spareCount = isLocalState ? ::get_spare_aircrafts_count(air.name) : 0
 
@@ -165,9 +162,9 @@ function build_aircraft_item(id, air, params = {})
 
     local itemButtonsView = {
       itemButtons = {
-        hasToBattleButton       = getVal("toBattle", false)
-        toBattleButtonAction    = getVal("toBattleButtonAction", "onSlotBattle")
-        hasExtraInfoBlock       = getVal("hasExtraInfoBlock", false)
+        hasToBattleButton       = params?.toBattle ?? false
+        toBattleButtonAction    = params?.toBattleButtonAction ?? "onSlotBattle"
+        hasExtraInfoBlock       = params?.hasExtraInfoBlock ?? false
 
         hasCrewInfo             = hasCrewInfo
         crewLevel               = hasCrewInfo ? crewLevelText : ""
@@ -237,8 +234,8 @@ function build_aircraft_item(id, air, params = {})
     local resView = {
       slotId              = "td_" + id
       slotInactive        = inactive
-      isSlotbarItem       = getVal("isSlotbarItem", false)
-      isInTable           = getVal("isInTable", true)
+      isSlotbarItem       = params?.isSlotbarItem ?? false
+      isInTable           = params?.isInTable ?? true
       shopItemId          = id
       unitName            = air.name
       premiumPatternType  = special
@@ -257,7 +254,7 @@ function build_aircraft_item(id, air, params = {})
       progressText        = progressText
       progressStatus      = showProgress? ::get_unit_item_progress_status(air, params) : ""
       progressBlk         = ::handyman.renderCached("gui/slotbar/airResearchProgress", airResearchProgressView)
-      showInService       = getVal("showInService", false) && isUsable
+      showInService       = (params?.showInService ?? false) && isUsable
       isMounted           = isMounted
       priceText           = priceText
       isLongPriceText     = ::is_unit_price_text_long(priceText)
@@ -266,7 +263,7 @@ function build_aircraft_item(id, air, params = {})
       isItemLocked        = isLocalState && !isUsable && !special && !isSquadronVehicle && !::isUnitsEraUnlocked(air)
       hasTalismanIcon     = isLocalState && (special || ::shop_is_modification_enabled(air.name, "premExpMul"))
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
-      tooltipId           = ::g_tooltip.getIdUnit(air.name, getVal("tooltipParams", null))
+      tooltipId           = ::g_tooltip.getIdUnit(air.name, params?.tooltipParams)
       bottomButton        = ::handyman.renderCached("gui/slotbar/slotbarItemBottomButton", bottomButtonView)
       hasHoverMenu        = hasActions
     }
@@ -292,11 +289,11 @@ function build_aircraft_item(id, air, params = {})
   }
   else if (air && ::isUnitGroup(air)) //group of aircrafts
   {
-    local groupStatus         = getVal("status", defaultStatus)
-    local forceNotInResearch  = getVal("forceNotInResearch", false)
-    local shopResearchMode    = getVal("shopResearchMode", false)
-    local showInService       = getVal("showInService", false)
-    local inactive            = getVal("inactive", false)
+    local groupStatus         = params?.status ?? defaultStatus
+    local forceNotInResearch  = params?.forceNotInResearch ?? false
+    local shopResearchMode    = params?.shopResearchMode ?? false
+    local showInService       = params?.showInService ?? false
+    local inactive            = params?.inactive ?? false
 
     local reserve           = false
     local special           = false
@@ -323,7 +320,7 @@ function build_aircraft_item(id, air, params = {})
     local unitRole          = null
     local bitStatus         = 0
 
-    local isSquadronResearchMode = getVal("isSquadronResearchMode", false)
+    local isSquadronResearchMode = params?.isSquadronResearchMode ?? false
 
     foreach(a in air.airsGroup)
     {
@@ -499,9 +496,9 @@ function build_aircraft_item(id, air, params = {})
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
       bonusId             = id
       primaryUnitId       = nextAir.name
-      tooltipId           = ::g_tooltip.getIdUnit(nextAir.name, getVal("tooltipParams", null))
+      tooltipId           = ::g_tooltip.getIdUnit(nextAir.name, params?.tooltipParams)
       bottomButton        = ::handyman.renderCached("gui/slotbar/slotbarItemBottomButton", bottomButtonView)
-      hasFullGroupBlock   = getVal("fullGroupBlock", true)
+      hasFullGroupBlock   = params?.fullGroupBlock ?? true
       fullGroupBlockId    = "td_" + id
       isGroupInactive     = inactive
     }
@@ -534,7 +531,7 @@ function build_aircraft_item(id, air, params = {})
   }
   else //empty air slot
   {
-    local specType = getVal("specType", null)
+    local specType = params?.specType
     local itemButtonsView = { itemButtons = {
       specIconBlock = specType != null
     }}
@@ -549,7 +546,7 @@ function build_aircraft_item(id, air, params = {})
     local unitForCrewInfo = params?.forceCrewInfoUnit
     if (unitForCrewInfo)
     {
-      local crewId = getVal("crewId", -1)
+      local crewId = params?.crewId ?? -1
       local crew = crewId >= 0 ? ::get_crew_by_id(crewId) : null
       if (crew)
       {
@@ -567,24 +564,24 @@ function build_aircraft_item(id, air, params = {})
       }
     }
 
-    local emptyCost = getVal("emptyCost", null)
+    local emptyCost = params?.emptyCost
     local priceText = emptyCost ? emptyCost.getTextAccordingToBalance() : ""
     local emptySlotView = {
       slotId = "td_" + id,
       shopItemId = id,
       shopItemTextId = id + "_txt",
-      shopItemTextValue = getVal("emptyText", ""),
+      shopItemTextValue = params?.emptyText ?? ""
       shopItemPriceText = priceText,
-      crewImage = getVal("crewImage", null),
-      isCrewRecruit = getVal("isCrewRecruit", false),
+      crewImage = params?.crewImage
+      isCrewRecruit = params?.isCrewRecruit ?? false
       itemButtons = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
-      isSlotbarItem = getVal("isSlotbarItem", false)
+      isSlotbarItem = params?.isSlotbarItem ?? false
       crewLevelInfo = crewLevelInfoData
     }
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotEmpty", emptySlotView)
   }
 
-  if (getVal("fullBlock", true))
+  if (params?.fullBlock ?? true)
     res = ::format("td{%s}", res)
 
   return res

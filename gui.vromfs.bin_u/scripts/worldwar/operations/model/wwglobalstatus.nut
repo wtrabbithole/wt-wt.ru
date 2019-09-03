@@ -1,5 +1,5 @@
 ::g_ww_global_status <- {
-  [PERSISTENT_DATA_PARAMS] = ["curData", "validListsMask", "lastUpdatetTime", "lastRequestTime", "clientStartServerTimeSec"]
+  [PERSISTENT_DATA_PARAMS] = ["curData", "validListsMask", "lastUpdatetTime", "lastRequestTime"]
 
   curData = null
   validListsMask = 0
@@ -8,7 +8,21 @@
   lastUpdatetTime = -1
   lastRequestTime = -1
 
-  clientStartServerTimeSec = -1
+  function getNearestAvailabelMapToBattle()
+  {
+    local nearestAvailabelMap = null
+    foreach(map in ::g_ww_global_status_type.MAPS.getList())
+      if (map.isAnnounceAndNotDebug(false))
+        if (map.isActive())
+          return map
+        else
+          nearestAvailabelMap = !nearestAvailabelMap ||
+            nearestAvailabelMap.getChangeStateTime() > map.getChangeStateTime()
+              ? map
+              : nearestAvailabelMap
+
+    return nearestAvailabelMap
+  }
 }
 
 function g_ww_global_status::reset()
@@ -44,9 +58,6 @@ function g_ww_global_status::actionRequest(actionName, requestBlk, taskOptions =
 function g_ww_global_status::onGlobalStatusReceived(newData, wasRequestTime)
 {
   lastUpdatetTime = ::dagor.getCurTime()
-  if (wasRequestTime == lastRequestTime)
-    updateDataReceiveTime(newData)
-
   local changedListsMask = 0
   foreach(gsType in ::g_ww_global_status_type.types)
     if (!::u.isEqual(gsType.getData(curData), gsType.getData(newData)))
@@ -78,21 +89,6 @@ function g_ww_global_status::canRefreshData(refreshDelay)
   if (!::has_feature("WorldWar"))
     return false
   return true
-}
-
-function g_ww_global_status::updateDataReceiveTime(newData)
-{
-  local newStartTime = ::getTblValue("serverTime", newData, ::get_charserver_time_sec())
-                       - (lastUpdatetTime + lastRequestTime) / 2000
-
-  if (abs(clientStartServerTimeSec - newStartTime) > 1)
-    clientStartServerTimeSec = newStartTime
-}
-
-function g_ww_global_status::getTimeSec()
-{
- //for more smother seconds tick make them switch sync with 0ms getCurTime()
-  return clientStartServerTimeSec + ::dagor.getCurTime() / 1000
 }
 
 function g_ww_global_status::getOperationById(operationId)

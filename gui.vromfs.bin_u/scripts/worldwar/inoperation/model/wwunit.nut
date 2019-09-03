@@ -143,18 +143,12 @@ class ::WwUnit
 
   function isInfantry()
   {
-    if (!::g_world_war.infantryUnits)
-      ::g_world_war.updateInfantryUnits()
-
-    return name == fakeInfantryUnitName || name in ::g_world_war.infantryUnits
+    return name == fakeInfantryUnitName || name in ::g_world_war.getInfantryUnits()
   }
 
   function isArtillery()
   {
-    if (!::g_world_war.artilleryUnits)
-      ::g_world_war.updateArtilleryUnits()
-
-    return name in ::g_world_war.artilleryUnits
+    return name in ::g_world_war.getArtilleryUnits()
   }
 
   function isAir()

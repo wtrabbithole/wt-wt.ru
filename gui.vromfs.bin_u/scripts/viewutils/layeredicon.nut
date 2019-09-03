@@ -62,12 +62,13 @@ function LayersIcon::refreshConfig()
   ::LayersIcon.initConfigOnce(null)
 }
 
-function LayersIcon::getIconData(iconStyle, image = null, ratio = null, defStyle = null, iconParams = null)
+function LayersIcon::getIconData(iconStyle, image=null, ratio=null, defStyle=null, iconParams=null, iconConfig=null)
 {
   initConfigOnce()
 
   local data = ""
-  local styleCfg = iconStyle && (iconStyle in config.styles) && config.styles[iconStyle]
+  local styleCfg = iconConfig ? iconConfig
+    : iconStyle && (iconStyle in config.styles) && config.styles[iconStyle]
   local defStyleCfg = defStyle && (defStyle in config.styles) && config.styles[defStyle]
 
   local usingStyle = styleCfg? styleCfg : defStyleCfg
@@ -184,13 +185,13 @@ function LayersIcon::genInsertedDataFromLayer(mainLayerCfg, insertLayersArrayCfg
   return ::LayersIcon.genDataFromLayer(mainLayerCfg, insertLayers)
 }
 
-function LayersIcon::replaceIcon(iconObj, iconStyle, image=null, ratio=null, defStyle = null, iconParams = null)
+function LayersIcon::replaceIcon(iconObj, iconStyle, image=null, ratio=null, defStyle=null, iconParams=null, iconConfig=null)
 {
   if (!::checkObj(iconObj))
     return
 
   local guiScene = iconObj.getScene()
-  local data = getIconData(iconStyle, image, ratio, defStyle, iconParams)
+  local data = getIconData(iconStyle, image, ratio, defStyle, iconParams, iconConfig)
   guiScene.replaceContentFromText(iconObj, data, data.len(), null)
 }
 

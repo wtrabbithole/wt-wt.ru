@@ -360,7 +360,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
           local markup = ""
           foreach (m in medals)
             markup += "layeredIconContainer { size:t='@clanMedalSizeMin, @clanMedalSizeMin'; overflow:t='hidden' " +
-              ::LayersIcon.getIconData(m.iconStyle, null, null, null, m.iconParams) + " }"
+              ::LayersIcon.getIconData(m.iconStyle, null, null, null, m.iconParams, m.iconConfig)+"}"
           guiScene.replaceContentFromText(containerObj, markup, markup.len(), this)
         })(containerObj, clanData))
     }

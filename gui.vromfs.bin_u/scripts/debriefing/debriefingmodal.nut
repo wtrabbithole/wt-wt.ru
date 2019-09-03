@@ -10,6 +10,14 @@ const DEBR_MYSTATS_TOP_BAR_GAP_MAX = 6
 const LAST_WON_VERSION_SAVE_ID = "lastWonInVersion"
 const VISIBLE_GIFT_NUMBER = 4
 
+enum DEBR_THEME {
+  WIN       = "win"
+  LOSE      = "lose"
+  PROGRESS  = "progress"
+}
+
+::go_debriefing_next_func <- null
+
 function gui_start_debriefingFull(params = {})
 {
   ::handlersManager.loadHandler(::gui_handlers.DebriefingModal, params)
@@ -246,7 +254,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         resTitle = ::loc("MISSION_SUCCESS")
         resTheme = DEBR_THEME.WIN
 
-        local victoryBonus = (isMp && ::isDebriefingResultFull()) ? ::get_mission_victory_bonus_text(gm) : ""
+        local victoryBonus = (isMp && ::isDebriefingResultFull()) ? getMissionVictoryBonusText() : ""
         if (victoryBonus != "")
           resReward = ::loc("debriefing/MissionWinReward") + ::loc("ui/colon") + victoryBonus
 
@@ -380,7 +388,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     local wpBattleTrophy = ::getTblValue("wpBattleTrophy", ::debriefing_result.exp, 0)
     if (wpBattleTrophy > 0)
-      streakAwardsList.append(::getFakeUnlockDataByWpBattleTrophy(wpBattleTrophy))
+      streakAwardsList.append(getFakeUnlockDataByWpBattleTrophy(wpBattleTrophy))
 
     unlockAwardsList = getAwardsList(awardsListsConfig.unlocks.filter)
 
@@ -394,6 +402,18 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     currentAwardsList = streakAwardsList
     currentAwardsListConfig = awardsListsConfig.streaks
+  }
+
+  function getFakeUnlockDataByWpBattleTrophy(wpBattleTrophy)
+  {
+    return ::get_fake_unlock_data(
+                            {
+                              iconStyle = ::trophyReward.getWPIcon(wpBattleTrophy)
+                              title = ::loc("debriefing/BattleTrophy"),
+                              desc = ::loc("debriefing/BattleTrophy/desc"),
+                              rewardText = ::Cost(wpBattleTrophy).toStringWithParams({isWpAlwaysShown = true}),
+                            }
+                          )
   }
 
   function getAwardsList(filter)
@@ -460,7 +480,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
 
     //find and update Total
-    totalRow = ::get_debriefing_row_by_id("Total")
+    totalRow = getDebriefingRowById("Total")
     if (!totalRow)
       return
 
@@ -1591,7 +1611,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
     }
 
-    local tRow = ::get_debriefing_row_by_id(id)
+    local tRow = getDebriefingRowById(id)
     if (!tRow)
     {
       obj["class"] = "empty"
@@ -1631,7 +1651,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       foreach (extId in extraRows)
       {
-        local extraRow = ::get_debriefing_row_by_id(extId)
+        local extraRow = getDebriefingRowById(extId)
         if (extraRow.show || extraRow.showInTooltips)
           rowsCfg.append({
             row     = extraRow
@@ -1767,6 +1787,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return view
   }
 
+  function getDebriefingRowById(id)
+  {
+    return ::u.search(::debriefing_rows, @(row) row.id == id)
+  }
+
   function getPremTeaserInfo()
   {
     local totalWp = ::getTblValue("wpTotal",  ::debriefing_result.exp)
@@ -1791,7 +1816,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function updateBuyPremiumAwardButton()
   {
-    local isShow = canSuggestBuyPremium() && gm == ::GM_DOMINATION && ::checkPremRewardAmount()
+    local isShow = canSuggestBuyPremium() && gm == ::GM_DOMINATION && checkPremRewardAmount()
 
     local obj = scene.findObject("buy_premium")
     if (!::check_obj(obj))
@@ -1801,7 +1826,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!isShow)
       return
 
-    local curAwardText = ::get_cur_award_text()
+    local curAwardText = getCurAwardText()
 
     local btnObj = obj.findObject("btn_buy_premium_award")
     if (::check_obj(btnObj))
@@ -1810,11 +1835,29 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     updateMyStatsTopBarArrangement()
   }
 
+  function getEntitlementWithAward()
+  {
+    foreach (name, block in ::OnlineShopModel.getPriceBlk())
+      if (block.allowBuyWithAward)
+        return name
+    return null
+  }
+
+  function checkPremRewardAmount()
+  {
+    if (!getEntitlementWithAward())
+      return false
+    if (::get_premium_reward_wp() >= ::min_values_to_show_reward_premium.wp)
+      return true
+    local exp = ::get_premium_reward_xp()
+    return exp >= ::min_values_to_show_reward_premium.exp
+  }
+
   function onBuyPremiumAward()
   {
     if (::havePremium())
       return
-    local entName = ::get_entitlement_with_award()
+    local entName = getEntitlementWithAward()
     if (!entName)
     {
       ::dagor.assertf(false, "Error: not found entitlement with premium award")
@@ -1826,7 +1869,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local goldCost = ("goldCost" in ent)? ent.goldCost : 0
     local cb = ::Callback(onBuyPremiumAward, this)
 
-    local msgText = format(::loc("msgbox/EarnNow"), entNameText, ::get_cur_award_text(), ::Cost(0, goldCost).tostring())
+    local msgText = format(::loc("msgbox/EarnNow"), entNameText, getCurAwardText(), ::Cost(0, goldCost).tostring())
     msgBox("not_all_mapped", msgText,
     [
       ["ok", (@(entName, goldCost, cb) function() {
@@ -2657,7 +2700,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (isMpMode && !::is_online_available())
       return
 
-    if (isMpMode && ::go_lobby_after_statistics() && gm != ::GM_DYNAMIC)
+    if (isMpMode && needGoLobbyAfterStatistics() && gm != ::GM_DYNAMIC)
     {
       ::go_debriefing_next_func = ::gui_start_mp_lobby
       return
@@ -2722,6 +2765,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       ::go_debriefing_next_func = ::gui_start_menu_builder
     else
       ::go_debriefing_next_func = ::gui_start_mainmenu
+  }
+
+  function needGoLobbyAfterStatistics()
+  {
+    return !((gameType & ::GT_COOPERATIVE) || (gameType & ::GT_VERSUS))
   }
 
   function recalcDynamicLayout()
@@ -3189,6 +3237,37 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function getChatLog()
   {
     return ::debriefing_result?.logForBanhammer
+  }
+
+  function getDebriefingCountry()
+  {
+    if (::debriefing_result)
+      return ::debriefing_result.country
+    return ""
+  }
+
+  function getMissionVictoryBonusText()
+  {
+    if (gm != ::GM_DOMINATION)
+      return ""
+
+    local bonusWp = ::get_warpoints_blk().winK || 0.0
+    local rBlk = ::get_ranks_blk()
+    local expPlaying = rBlk.expForPlayingVersus || 0
+    local expVictory = rBlk.expForVictoryVersus || 0
+    local bonusRpRaw = (expPlaying && expVictory) ?
+      (1.0 / (expPlaying.tofloat() / (expVictory - expPlaying))) :
+      0.0
+    local rp = ::floor(bonusRpRaw * 100).tointeger()
+    local wp = stdMath.round_by_value(bonusWp * 100, 1).tointeger()
+    local textRp = rp ? ::getRpPriceText("+" + rp + "%", true) : ""
+    local textWp = wp ? ::getWpPriceText("+" + wp + "%", true) : ""
+    return ::g_string.implode([ textRp, textWp ], ::loc("ui/comma"))
+  }
+
+  function getCurAwardText()
+  {
+    return ::Cost(::get_premium_reward_wp(), 0, ::get_premium_reward_xp()).tostring()
   }
 
   isInited = true

@@ -501,11 +501,11 @@
     {
       desc.append(::loc("armor_class/variable_thickness_armor"))
     }
-    else
+    else if (thickness)
     {
-      if (thickness)
-        desc.append(::loc("armor_class/thickness") + ::nbsp +
-          ::colorize("activeTextColor", ::round(thickness)) + ::nbsp + ::loc("measureUnits/mm"))
+      local thicknessStr = ::format((thickness % 1) ? "%.1f" : "%d", thickness)
+      desc.append(::loc("armor_class/thickness") + ::nbsp +
+        ::colorize("activeTextColor", thicknessStr) + ::nbsp + ::loc("measureUnits/mm"))
     }
 
     if (effectiveThickness)

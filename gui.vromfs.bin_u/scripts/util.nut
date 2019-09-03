@@ -1400,31 +1400,26 @@ function loc_current_mission_name(needComment = true)
 
 function get_combine_loc_name_mission(missionInfo)
 {
-  local getVal = function(info, val, defVal = "")
-  {
-    if (val in info)
-      return info[val]
-    return defVal
-  }
-
+  local misInfoName = missionInfo?.name ?? ""
   local locName = ""
   if ("locName" in missionInfo && missionInfo.locName.len() > 0)
     locName = ::get_locId_name(missionInfo, "locName")
   else
-    locName = ::loc("missions/" + getVal(missionInfo, "name"), "")
-  if (locName == "" && getVal(missionInfo, "postfix") != "")
+    locName = ::loc("missions/" + misInfoName, "")
+
+  if (locName == "")
   {
-    local missionName = getVal(missionInfo, "name")
-    local missionPostfix = getVal(missionInfo, "postfix")
-    if (missionName.find(missionPostfix))
+    local misInfoPostfix = missionInfo?.postfix ?? ""
+    if (misInfoPostfix != "" && misInfoName.find(misInfoPostfix))
     {
-      local name = missionName.slice(0, missionName.find(missionPostfix))
-      locName = "[" + ::loc("missions/" + missionPostfix) + "] " + ::loc("missions/" + name)
+      local name = misInfoName.slice(0, misInfoName.find(misInfoPostfix))
+      locName = "[" + ::loc("missions/" + misInfoPostfix) + "] " + ::loc("missions/" + name)
     }
   }
+
   //we dont have lang and postfix
-  if (!locName.len())
-    locName = "missions/" + getVal(missionInfo, "name")
+  if (locName == "")
+    locName = "missions/" + misInfoName
   return locName
 }
 

@@ -16,7 +16,11 @@ function gui_start_unlock_wnd(config)
 {
   local unlockType = ::getTblValue("type", config, -1)
   if (unlockType == ::UNLOCKABLE_COUNTRY)
-    return ::show_country_unlock(config)
+  {
+    if (::isInArray(config.id, ::shopCountriesList))
+      return ::checkRankUpWindow(config.id, -1, 1, config)
+    return false
+  }
   else if (unlockType == "TournamentReward")
     return ::gui_handlers.TournamentRewardReceivedWnd.open(config)
   else if (unlockType == ::UNLOCKABLE_AIRCRAFT)

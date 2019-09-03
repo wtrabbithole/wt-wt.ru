@@ -89,6 +89,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     penalties.showBannedStatusMsgBox(true)
     if (isAllowPopups && !::disable_network())
     {
+      handler.doWhenActive(::g_user_utils.checkShowRateWnd)
       handler.doWhenActive(::check_joystick_thustmaster_hotas)
       handler.doWhenActive(::check_tutorial_on_mainmenu)
     }

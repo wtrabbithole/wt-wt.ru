@@ -480,6 +480,7 @@ function g_clans::getRewardLogData(clanData, rewardId, maxCount)
   {
     list.append({
       iconStyle  = seasonReward.iconStyle()
+      iconConfig = seasonReward.iconConfig()
       iconParams = seasonReward.iconParams()
       name = seasonReward.name()
       desc = seasonReward.desc()
@@ -1106,9 +1107,10 @@ function get_clan_info_table(clanInfo = null)
     local log = []
     foreach (season in clanInfo[rewardBlockId])
     {
+      season.type = season.type ?? "duelClans"
       local seasonName = titleClass.getSeasonName(season)
       foreach (title in season % "titles")
-        log.append(titleClass.createFromClanReward(title, season.t, seasonName, clan))
+        log.append(titleClass.createFromClanReward(title, season.t, season.type, seasonName, clan))
     }
     return log
   })(clan)
@@ -1147,9 +1149,17 @@ class ClanSeasonTitle
 
   static function getSeasonName(blk)
   {
-    local year = ::get_utc_time_from_t(blk.seasonStartTimestamp || 0).year.tostring()
-    local num  = ::get_roman_numeral(::to_integer_safe(blk.numInYear || 0) + CLAN_SEASON_NUM_IN_YEAR_SHIFT)
-    return ::loc("clan/battle_season/name", { year = year, num = num })
+    local name = ""
+    if (blk.type == "worldWar")
+      name = ::loc("worldwar/season_name/" + ::split(blk.titles, "@")?[2])
+    else
+    {
+      local year = ::get_utc_time_from_t(blk.seasonStartTimestamp || 0).year.tostring()
+      local num  = ::get_roman_numeral(::to_integer_safe(blk.numInYear || 0)
+        + CLAN_SEASON_NUM_IN_YEAR_SHIFT)
+      name = ::loc("clan/battle_season/name", { year = year, num = num })
+    }
+    return name
   }
 
   function getBattleTypeTitle()
@@ -1177,15 +1187,19 @@ class ClanSeasonTitle
 class ClanSeasonPlaceTitle extends ClanSeasonTitle
 {
   place = ""
+  seasonType = ""
+  seasonTag = null
 
-
-  static function createFromClanReward (titleString, sTime, seasonName, clanData)
+  static function createFromClanReward (titleString, sTime, sType, seasonName, clanData)
   {
     local titleParts = ::split(titleString, "@")
     local place = ::getTblValue(0, titleParts, "")
     local difficultyName = ::getTblValue(1, titleParts, "")
+    local sTag = titleParts?[2]
     return ClanSeasonPlaceTitle(
       sTime,
+      sType,
+      sTag,
       difficultyName,
       place,
       seasonName,
@@ -1201,6 +1215,8 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
     local info = ::ClanSeasonPlaceTitle.getUpdatedClanInfo(unlockBlk)
     return ClanSeasonPlaceTitle(
       unlockBlk.t
+      "",
+      null,
       unlockBlk.rewardForDiff,
       idParts[0],
       ::ClanSeasonPlaceTitle.getSeasonName(unlockBlk),
@@ -1212,6 +1228,8 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
 
   constructor (
     _seasonTime,
+    _seasonType,
+    _seasonTag,
     _difficlutyName,
     _place,
     _seasonName,
@@ -1220,6 +1238,8 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
   )
   {
     seasonTime = _seasonTime
+    seasonType = _seasonType
+    seasonTag = _seasonTag
     difficultyName = _difficlutyName
     place = _place
     seasonName = _seasonName
@@ -1242,8 +1262,9 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
 
   function name()
   {
+    local path = seasonType == "worldWar" ? "clan/season_award_ww/title" : "clan/season_award/title"
     return ::loc(
-      "clan/season_award/title",
+      path,
       {
         achievement = getPlaceTitle()
         battleType = getBattleTypeTitle()
@@ -1255,21 +1276,35 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
   function desc()
   {
     local placeTitleColored = ::colorize("activeTextColor", getPlaceTitle())
-    return ::loc(
-      "clan/season_award/desc/" + (isWinner() ? "place" : "top"),
-      {
-        place = placeTitleColored
-        top = placeTitleColored
-        battleType = ::colorize("activeTextColor", getBattleTypeTitle())
-        squadron = ::colorize("activeTextColor", clanTag + ::nbsp + clanName)
-        season = ::colorize("activeTextColor", seasonName)
-      }
-    )
+    local params = {
+      place = placeTitleColored
+      top = placeTitleColored
+      squadron = ::colorize("activeTextColor", clanTag + ::nbsp + clanName)
+      season = ::colorize("activeTextColor", seasonName)
+    }
+    local winner = isWinner() ? "place" : "top"
+    local path = seasonType == "worldWar" ? "clan/season_award_ww/desc/" : "clan/season_award/desc/"
+
+    return ::loc(path + winner, seasonType == "worldWar"
+      ? params
+      : params.__merge({battleType = ::colorize("activeTextColor", getBattleTypeTitle())}))
   }
 
   function iconStyle()
   {
     return "clan_medal_" + place + "_" + difficultyName
+  }
+
+  function iconConfig()
+  {
+    if(seasonType != "worldWar" || !seasonTag)
+      return null
+
+    local bg_img = "clan_medal_ww_bg"
+    local path = isWinner() ? place : "rating"
+    local bin_img = "clan_medal_ww_" + seasonTag + "_bin_" + path
+    local place_img = "clan_medal_ww_" + place
+    return ::g_string.implode([bg_img, bin_img, place_img], ";")
   }
 
   function iconParams()

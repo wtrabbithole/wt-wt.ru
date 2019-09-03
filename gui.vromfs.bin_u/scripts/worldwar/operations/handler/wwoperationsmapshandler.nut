@@ -47,6 +47,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   checkBoxesData = null
 
+  nearestAvailabelMapToBattle = null
+
   function initScreen()
   {
     backSceneFunc = ::gui_start_mainmenu
@@ -57,6 +59,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         "ww_status_check_timer",  // periodic ww status updates check
         "queues_wait_timer",      // frequent queues wait time text update
         "globe_hint",             // globe tooltip update
+        "begin_map_wait_timer"    // frequent map begin wait time text update
       ])
     {
       local timerObj = scene.findObject(timerObjId)
@@ -812,7 +815,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local joinOpBtn = showSceneBtn("btn_join_operation", isModePlayer && hasMap)
     joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations() ? "no" : "yes"
 
-    local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue)
+    nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
+    local needShowBeginMapWaitTime = !(nearestAvailabelMapToBattle?.isActive?() ?? true)
+    local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue && !needShowBeginMapWaitTime)
     local joinQueueBtn = showSceneBtn("btn_join_queue", isQueueJoiningEnabled && !isInQueue)
     showSceneBtn("btn_leave_queue", isModeClan && hasRightsToQueueClan && isInQueue)
 
@@ -820,6 +825,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       queuesJoinTime = isInQueue ? getLatestQueueJoinTime() : 0
     showSceneBtn("queues_wait_time_div", isInQueue)
     updateQueuesWaitTime()
+    showSceneBtn("begin_map_wait_time_div", needShowBeginMapWaitTime)
+    updateBeginMapWaitTime()
     updateWwarUrlButton()
 
     if (::show_console_buttons)
@@ -868,7 +875,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::checkObj(queueInfoobj))
       return
 
-    local timeInQueue = ::g_ww_global_status.getTimeSec() - queuesJoinTime
+    local timeInQueue = ::get_charserver_time_sec() - queuesJoinTime
     queueInfoobj.setValue(::loc("worldwar/mapStatus/yourClanInQueue")
       + ::loc("ui/colon") + time.secondsToString(timeInQueue, false))
   }
@@ -1302,6 +1309,26 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local isTrophyListVisible = fillTrophyList()
     local isTopListVisible =  fillTopList()
     showSceneBtn("panel_left", isTrophyListVisible || isTopListVisible)
+  }
+
+  function onTimerBeginMapWaitTime(obj, dt)
+  {
+    updateBeginMapWaitTime()
+  }
+
+  function updateBeginMapWaitTime()
+  {
+    local waitTime = nearestAvailabelMapToBattle?.getChangeStateTime?() ?? -1
+    if (waitTime <= 0)
+      return
+
+    local waitMapInfoObj = scene.findObject("begin_map_wait_time_text")
+    if (!::check_obj(waitMapInfoObj))
+      return
+
+    waitMapInfoObj.setValue(::loc("worldwar/operation/willBegin", {
+      name = nearestAvailabelMapToBattle.getNameText()
+      time = nearestAvailabelMapToBattle.getChangeStateTimeText()}))
   }
 }
 

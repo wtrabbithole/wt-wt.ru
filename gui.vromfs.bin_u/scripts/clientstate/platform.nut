@@ -21,13 +21,14 @@ if (isPlatformXboxOne)
 
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 
+local isMePS4Player = @() isPS4PlayerName(::my_user_name)
+local isMeXBOXPlayer = @() isXBoxPlayerName(::my_user_name)
+
 local isPs4XboxOneInteractionAvailable = function(name)
 {
-  local isMePS4Player = isPS4PlayerName(::my_user_name)
-  local isMeXBOXPlayer = isXBoxPlayerName(::my_user_name)
   local isPS4Player = isPS4PlayerName(name)
   local isXBOXPlayer = isXBoxPlayerName(name)
-  if (((isMePS4Player && isXBOXPlayer) || (isMeXBOXPlayer && isPS4Player)) && !::has_feature("Ps4XboxOneInteraction"))
+  if (((isMePS4Player() && isXBOXPlayer) || (isMeXBOXPlayer() && isPS4Player)) && !::has_feature("Ps4XboxOneInteraction"))
     return false
   return true
 }
@@ -113,6 +114,9 @@ return {
   getPlayerName = getPlayerName
   getPlayerNameNoSpecSymbol = getPlayerNameNoSpecSymbol
   isPlayerFromXboxOne = isPlayerFromXboxOne
+
+  isMePS4Player = isMePS4Player
+  isMeXBOXPlayer = isMeXBOXPlayer
 
   isChatEnabled = isChatEnabled
   isChatEnableWithPlayer = isChatEnableWithPlayer

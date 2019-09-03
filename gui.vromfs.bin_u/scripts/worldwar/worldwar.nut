@@ -10,6 +10,8 @@ const WW_UNIT_WEAPON_PRESET_PATH = "worldWar/weaponPreset/"
 const WW_SKIP_BATTLE_WARNINGS_SAVE_ID = "worldWar/skipBattleWarnings"
 const WW_OBJECTIVE_OUT_OF_DATE_DAYS = 1
 
+local LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH = "worldWar/lastVisibleAvailableMapInPromo"
+
 enum WW_ARMY_ACTION_STATUS
 {
   IDLE = 0
@@ -256,12 +258,77 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   lastPlayedOperationCountry = null
 
   isDebugMode = false
-  debugAlreadyHadInfantryUnits = false
 
   myClanParticipateIcon = "#ui/gameuiskin#lb_victories_battles.svg"
   lastPlayedIcon = "#ui/gameuiskin#last_played_operation_marker"
 
   defaultDiffCode = ::DIFFICULTY_ARCADE
+
+  function clearUnitsLists()
+  {
+    infantryUnits = null
+    artilleryUnits = null
+  }
+
+  function getInfantryUnits()
+  {
+    if (infantryUnits == null)
+      ::g_world_war.updateInfantryUnits()
+
+    return infantryUnits
+  }
+
+  function getArtilleryUnits()
+  {
+    if (artilleryUnits == null)
+      ::g_world_war.updateArtilleryUnits()
+
+    return artilleryUnits
+  }
+
+  function getPlayedOperationText(needMapName = true)
+  {
+    if (lastPlayedOperationId)
+    {
+      local operation = ::g_ww_global_status.getOperationById(lastPlayedOperationId)
+      if (!::u.isEmpty(operation))
+        return operation.getMapText()
+    }
+
+    local nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
+    if(!nearestAvailabelMapToBattle)
+      return null
+
+    local name = needMapName ? nearestAvailabelMapToBattle.getNameText() : ::loc("mainmenu/btnWorldwar")
+    if (nearestAvailabelMapToBattle.isActive())
+      return ::loc("worldwar/operation/isNow", { name = name })
+
+    return ::loc("worldwar/operation/willBegin", { name = name
+      time = nearestAvailabelMapToBattle.getChangeStateTimeText()})
+  }
+
+  function hasNewNearestAvailabelMapToBattle()
+  {
+    if (lastPlayedOperationId && !::u.isEmpty(::g_ww_global_status.getOperationById(lastPlayedOperationId)))
+      return false
+
+    local nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
+    if (!nearestAvailabelMapToBattle)
+      return false
+
+    local lastVisibleAvailabelMap = ::load_local_account_settings(LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH)
+    if (lastVisibleAvailabelMap?.id == nearestAvailabelMapToBattle.getId()
+      && lastVisibleAvailabelMap?.changeStateTime == nearestAvailabelMapToBattle.getChangeStateTime())
+      return false
+
+    ::save_local_account_settings(LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH,
+      {
+        id = nearestAvailabelMapToBattle.getId()
+        changeStateTime = nearestAvailabelMapToBattle.getChangeStateTime()
+      })
+
+    return true
+  }
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_world_war")
@@ -914,8 +981,10 @@ function g_world_war::updateBattles(forced = false)
 
 function g_world_war::updateConfigurableValues()
 {
-  ::ww_get_configurable_values(configurableValues)
-
+  clearUnitsLists()
+  local blk = ::DataBlock()
+  ::ww_get_configurable_values(blk)
+  configurableValues = blk
   // ----- FIX ME: Weapon masks data should be received from char -----
   if (!("fighterCountAsAssault" in configurableValues))
   {
@@ -937,8 +1006,6 @@ function g_world_war::updateConfigurableValues()
       fighterToAssaultWeaponMask = fighterToAssaultWeaponMask | (1 << i)
 
   configurableValues.fighterToAssaultWeaponMask = fighterToAssaultWeaponMask
-
-  debugAlreadyHadInfantryUnits = debugAlreadyHadInfantryUnits || !!configurableValues.infantryUnits
 }
 
 

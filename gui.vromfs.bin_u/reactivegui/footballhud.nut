@@ -26,12 +26,13 @@ return @() {
 
   children = [
     @() {
+      watch = teamColors
       rendObj = ROBJ_BOX
       size = [sh(5), sh(6)]
       valign = VALIGN_MIDDLE
       halign = HALIGN_CENTER
-      fillColor = teamColors.teamBlueColor
-      borderColor = teamColors.teamBlueLightColor
+      fillColor = teamColors.value.teamBlueColor
+      borderColor = teamColors.value.teamBlueLightColor
       borderWidth = [hdpx(1)]
 
       children = @() style.scoreText.__merge({
@@ -55,12 +56,13 @@ return @() {
       }
     }
     @() {
+      watch = teamColors
       rendObj = ROBJ_BOX
       size = [sh(5), sh(6)]
       valign = VALIGN_MIDDLE
       halign = HALIGN_CENTER
-      fillColor = teamColors.teamRedColor
-      borderColor = teamColors.teamRedLightColor
+      fillColor = teamColors.value.teamRedColor
+      borderColor = teamColors.value.teamRedLightColor
       borderWidth = [hdpx(1)]
 
       children = @() style.scoreText.__merge({

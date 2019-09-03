@@ -26,6 +26,7 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
   checkButtonFunc = null
 
   editBoxObj = null
+  needOpenIMEonInit = true
 
   function initScreen()
   {
@@ -41,7 +42,8 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
     if (charMask)
       editBoxObj["char-mask"] = charMask
     editBoxObj.select()
-    editBoxObj.setValue(true) //opens IME, not change text.
+    if (needOpenIMEonInit)
+      editBoxObj.setValue(true) //opens IME, not change text.
 
     updateBtnByValue(value || "")
     value = null

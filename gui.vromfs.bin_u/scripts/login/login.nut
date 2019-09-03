@@ -73,7 +73,6 @@ function g_login::setState(newState)
   local wasLoggedIn = isLoggedIn()
 
   curState = newState
-  ::second_mainmenu <- !isLoggedIn() //compatibility with 1.59.2.X and below
 
   if (wasAuthorized != isAuthorized())
     onAuthorizeChanged()

@@ -839,7 +839,7 @@ function set_unlock_icon_by_config(obj, config, isForTooltip = false)
   local image = ("descrImage" in config)? config.descrImage : ""
   if (isForTooltip)
     image = config?.tooltipImage ?? image
-  ::LayersIcon.replaceIcon(obj, iconStyle, image, ratio, null, iconParams)
+  ::LayersIcon.replaceIcon(obj, iconStyle, image, ratio, null, iconParams, config?.iconConfig)
 }
 
 function build_unlock_tooltip_by_config(obj, config, handler)

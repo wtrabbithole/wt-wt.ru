@@ -8,6 +8,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   gameModeIdByValue = {}
   restoreFromModal = false
   newIconWidgetsByGameModeID = null
+  gameModesWithTimer = null
 
   static basePanelConfig = [
     ::ES_UNIT_TYPE_AIRCRAFT,
@@ -54,6 +55,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateContent()
   {
+    gameModesWithTimer = {}
     local view = {
       categories = [
         {
@@ -100,7 +102,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
         if (headerText)
           view.categoriesHeaderText <- headerText
       }
-
+    view.hasTimer <- gameModesWithTimer.len() > 0
     local blk = ::handyman.renderCached(("gui/gameModeSelect/gameModeSelect"), view)
     guiScene.replaceContentFromText(scene, blk, blk.len(), this)
 
@@ -109,6 +111,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       featuredGameModesObject.enable(featuredGameModesObject.childrenCount() > 0)
 
     registerNewIconWidgets()
+    setGameModesTimer()
     updateClusters()
     updateButtons()
     updateEventDescriptionConsoleButton(::game_mode_manager.getCurrentGameMode())
@@ -238,6 +241,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
         newIconWidgetId = getWidgetId(id)
         newIconWidgetContent = newIconWidgetContent
       })
+      if (mode?.updateByTimeFunc)
+        gameModesWithTimer[id] <- mode.updateByTimeFunc
     }
     return res
   }
@@ -275,6 +280,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local newIconWidgetContent = hasNewIconWidget? NewIconWidget.createLayout() : null
     local crossPlayRestricted = !isCrossPlayEventAvailable(event)
     local crossplayTooltip = getCrossPlayRestrictionTooltipText(event)
+    if (gameMode?.updateByTimeFunc)
+      gameModesWithTimer[id] <- mode.updateByTimeFunc
 
     return {
       hasContent = true
@@ -760,5 +767,20 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   function updateButtons()
   {
     ::showBtn("wiki_link", ::has_feature("AllowExternalLink") && !::is_vendor_tencent(), scene)
+  }
+
+  function setGameModesTimer()
+  {
+    local timerObj = scene.findObject("game_modes_timer")
+    if (::check_obj(timerObj))
+      timerObj.setUserData(this)
+  }
+
+  function onTimerUpdate(obj, dt)
+  {
+    foreach (gameModeId, updateFunc in gameModesWithTimer)
+    {
+      updateFunc(scene, gameModeId)
+    }
   }
 }

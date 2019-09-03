@@ -134,6 +134,7 @@ frame {
               <</crossPlayRestricted>>
             }
             textarea {
+              id:t='<<id>>_text_description'
               game_mode_textarea:t='yes';
               text:t='<<textDescription>>';
             }
@@ -290,4 +291,13 @@ frame {
       ButtonImg {}
     }
   }
+
+  <<#hasTimer>>
+  dummy {
+    id:t='game_modes_timer'
+    behavior:t='Timer'
+    timer_handler_func:t='onTimerUpdate'
+    timer_interval_msec:t='1000'
+  }
+  <</hasTimer>>
 }

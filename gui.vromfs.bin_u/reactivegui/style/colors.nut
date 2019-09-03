@@ -39,6 +39,7 @@ colors.hud <- {
   componentBorder = Color(255, 255, 255)
   chatTextAllColor = colors.menu.commonTextColor
   hudLogBgColor = Color(0, 0, 0, 102)
+  chatTextPrivateColor = Color(222, 187, 255)
 }
 
 local inactiveDMColor = Color(45, 55, 63, 80)

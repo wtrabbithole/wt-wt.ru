@@ -1,7 +1,8 @@
 local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
-local avatars = ::require("scripts/user/avatars.nut")
-local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local avatars = require("scripts/user/avatars.nut")
+local skinLocations = require("scripts/customization/skinLocations.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 enum profileEvent {
   AVATAR_CHANGED = "AvatarChanged"
@@ -292,7 +293,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local buttonsList = {
       btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
         && (!::steam_is_running() || ::has_feature("AllowSteamAccountLinking"))
-      btn_changeName = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
+      btn_changeName = ::isInMenu() && isProfileOpened && !platformModule.isMeXBOXPlayer() && !platformModule.isMePS4Player() && !::is_vendor_tencent()
       btn_getLink = !::is_in_loading_screen() && isProfileOpened && ::has_feature("Invites")
       btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
       btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::has_feature("AllowSteamAccountLinking") && ::check_account_tag("steamlogin")

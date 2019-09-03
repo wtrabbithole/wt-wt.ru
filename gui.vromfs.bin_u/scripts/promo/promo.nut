@@ -106,6 +106,10 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
   oldRecordsCheckTable = {
     promo = @(tm) tm
   }
+
+  needUpdateByTimerTable = {
+    world_war_button = true
+  }
 }
 
 function g_promo::checkOldRecordsOnInit()
@@ -347,6 +351,7 @@ function g_promo::generateBlockView(block)
   view.show <- checkBlockVisibility(block) && block.pollId == null
   view.collapsedIcon <- getCollapsedIcon(view, id)
   view.collapsedText <- getCollapsedText(view, id)
+  view.needUpdateByTimer <- view?.needUpdateByTimer ?? needUpdateByTimerTable?[id]
 
   return view
 }

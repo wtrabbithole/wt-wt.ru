@@ -2,7 +2,7 @@ local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 
-const WW_BATTLES_SORT_TIME_STEP = 120000
+const WW_BATTLES_SORT_TIME_STEP = 120
 const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
 
 class ::WwBattle
@@ -1051,7 +1051,7 @@ class ::WwBattle
 
   function updateSortParams()
   {
-    sortTimeFactor = -battleStartMillisec / WW_BATTLES_SORT_TIME_STEP
+    sortTimeFactor = getBattleDurationTime() / WW_BATTLES_SORT_TIME_STEP
     sortFullnessFactor = totalPlayersNumber / ::floor(maxPlayersNumber || 1)
   }
 

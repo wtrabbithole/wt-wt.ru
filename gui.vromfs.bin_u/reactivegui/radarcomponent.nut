@@ -1,4 +1,5 @@
 local math = require("std/math.nut")
+local screenState = require("style/screenState.nut")
 local interopGen = require("daRg/helpers/interopGen.nut")
 local compass = require("compass.nut")
 local compassState = require("compassState.nut")
@@ -24,7 +25,7 @@ local compassOneElementWidth = compassHeight
 
 local getFontScale = function()
 {
-  return max(sh(100) / 1080, 1)
+  return sh(100) / 1080
 }
 
 local getCompassStrikeWidth = @(oneElementWidth, step) 360.0 * oneElementWidth / step
@@ -1347,7 +1348,7 @@ local azimuthMarkStrike = function() {
 
 
 local radar = @(){
-  pos = [sw(5), sh(32)]
+  pos = [screenState.safeAreaSizeHud.value.borders[1] + sh(8), sh(32)]
   size = SIZE_TO_CONTENT
   children = function(){
     local width = sh(28)

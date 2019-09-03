@@ -1,8 +1,5 @@
 //::g_script_reloader.loadOnce("!temp/a_test.nut") //!!debug only!!
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
-local stdMath = require("std/math.nut")
-//!! When this handler will be finished it replace all debriefing handlers,
-//and we can replace debriefing.nut by this file.
 
 ::debriefing_skip_all_at_once <- true
 ::min_values_to_show_reward_premium <- { wp = 0, exp = 0 }
@@ -13,16 +10,9 @@ local stdMath = require("std/math.nut")
   ])
 
 ::debriefing_result <- null
-::go_debriefing_next_func <- null
 ::dynamic_result <- -1
 ::debriefing_countries <- {}
 ::check_for_victory <- false
-::wager_result_names <- [ // Names for user logs related to wager progress.
-  "WagerStageWin"
-  "WagerStageFail"
-  "WagerWin"
-  "WagerFail"
-]
 
 ::debriefing_row_defaults <- {
   id = ""
@@ -406,12 +396,6 @@ foreach(idx, row in ::debriefing_rows)
       ::debriefing_rows[idx][param] <- value
 }
 
-enum DEBR_THEME {
-  WIN       = "win"
-  LOSE      = "lose"
-  PROGRESS  = "progress"
-}
-
 enum debrState {
   init
   showPlayers
@@ -433,12 +417,6 @@ function isDebriefingResultFull()
                   && ::debriefing_result.exp.result != ::STATS_RESULT_IN_PROGRESS)
              )
          )
-}
-
-function  go_lobby_after_statistics()
-{
-  local gt = ::get_game_type()
-  return  !((gt & ::GT_COOPERATIVE) || (gt & ::GT_VERSUS))
 }
 
 function gather_debriefing_result()
@@ -993,14 +971,6 @@ function get_table_name_by_id(row)
   return "tbl" + row.getRewardId()
 }
 
-function get_debriefing_row_by_id(id)
-{
-  foreach(idx, row in ::debriefing_rows)
-    if (row.id == id)
-      return row
-  return null
-}
-
 function recount_debriefing_result()
 {
   local gm = ::get_game_mode()
@@ -1050,56 +1020,6 @@ function recount_debriefing_result()
   }
 }
 
-function getDebriefingCountry()
-{
-  if (::debriefing_result)
-    return ::debriefing_result.country
-  return ""
-}
-
-function get_cur_award_text()
-{
-  return ::Cost(::get_premium_reward_wp(), 0, ::get_premium_reward_xp()).tostring()
-}
-
-function get_mission_victory_bonus_text(gm)
-{
-  if (gm != ::GM_DOMINATION)
-    return ""
-  local bonusWp = get_warpoints_blk().winK || 0.0
-  local rBlk = get_ranks_blk()
-  local expPlaying = rBlk.expForPlayingVersus || 0
-  local expVictory = rBlk.expForVictoryVersus || 0
-  local bonusRpRaw = (expPlaying && expVictory) ?
-    (1.0 / (expPlaying.tofloat() / (expVictory - expPlaying))) :
-    0.0
-  local rp = ::floor(bonusRpRaw * 100).tointeger()
-  local wp = stdMath.round_by_value(bonusWp * 100, 1).tointeger()
-  local textRp = rp ? ::getRpPriceText("+" + rp + "%", true) : ""
-  local textWp = wp ? ::getWpPriceText("+" + wp + "%", true) : ""
-  return ::g_string.implode([ textRp, textWp ], ::loc("ui/comma"))
-}
-
-function get_entitlement_with_award()
-{
-  local pblk = ::DataBlock()
-  ::get_shop_prices(pblk)
-  foreach(name, block in pblk)
-    if (block.allowBuyWithAward)
-      return name
-  return null
-}
-
-function checkPremRewardAmount()
-{
-  if (!::get_entitlement_with_award())
-    return false
-  if (::get_premium_reward_wp() >= ::min_values_to_show_reward_premium.wp)
-    return true
-  local exp = ::get_premium_reward_xp()
-  return exp >= ::min_values_to_show_reward_premium.exp
-}
-
 ::delayed_rankUp_wnd <- []
 function checkRankUpWindow(country, old_rank, new_rank, unlockData = null)
 {
@@ -1118,19 +1038,6 @@ function checkRankUpWindow(country, old_rank, new_rank, unlockData = null)
     ::gui_start_modal_wnd(::gui_handlers.RankUpModal, config)
   ::debriefing_countries[country] <- new_rank
   return true
-}
-
-function checkAllCountriesForRankUp()
-{
-  foreach(c, rank in ::debriefing_countries)
-    ::checkRankUpWindow(c, rank, ::get_player_rank_by_country(c))
-}
-
-function show_country_unlock(unlockData)
-{
-  if (!::isInArray(unlockData.id, ::shopCountriesList))
-    return false
-  return ::checkRankUpWindow(unlockData.id, -1, 1, unlockData)
 }
 
 function getTournamentRewardData(log)
@@ -1156,18 +1063,6 @@ function getTournamentRewardData(log)
   }
 
   return res
-}
-
-function getFakeUnlockDataByWpBattleTrophy(wpBattleTrophy)
-{
-  return ::get_fake_unlock_data(
-                          {
-                            iconStyle = ::trophyReward.getWPIcon(wpBattleTrophy)
-                            title = ::loc("debriefing/BattleTrophy"),
-                            desc = ::loc("debriefing/BattleTrophy/desc"),
-                            rewardText = ::Cost(wpBattleTrophy).toStringWithParams({isWpAlwaysShown = true}),
-                          }
-                        )
 }
 
 function get_pve_reward_trophy_info(sessionTime, sessionActivity, isSuccess)

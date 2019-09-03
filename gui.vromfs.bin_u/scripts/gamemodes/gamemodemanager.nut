@@ -8,28 +8,24 @@ enum RB_GM_TYPE
   {
     modeId = "world_war_featured_game_mode"
     text = function() { return ::loc("mainmenu/btnWorldwar") }
-    textDescription = function() {
-                        if (::g_world_war.lastPlayedOperationId)
-                        {
-                          local operation = ::g_ww_global_status.getOperationById(::g_world_war.lastPlayedOperationId)
-                          if (!::u.isEmpty(operation))
-                            return operation.getMapText()
-                        }
-
-                        return null
-                      }
+    textDescription = @() ::g_world_war.getPlayedOperationText()
     startFunction = function() { ::g_world_war.openMainWnd() }
     isWide = @() ::is_me_newbie() || !::is_platform_pc
     image = function() {
         local operation = ::g_ww_global_status.getOperationById(::g_world_war.lastPlayedOperationId)
         if (!::u.isEmpty(operation))
-          return "#ui/images/game_modes_tiles/worldwar_active_" + (isWide ? "wide" : "thin") + ".jpg?P1"
+          return "#ui/images/game_modes_tiles/worldwar_active_" + (isWide() ? "wide" : "thin") + ".jpg?P1"
         else
-          return "#ui/images/game_modes_tiles/worldwar_live_" + (isWide ? "wide" : "thin") + ".jpg?P1"
+          return "#ui/images/game_modes_tiles/worldwar_live_" + (isWide() ? "wide" : "thin") + ".jpg?P1"
       }
     videoPreview = null
     isVisible = @() ::is_worldwar_enabled()
     hasNewIconWidget = true
+    updateByTimeFunc = function(scene, objId) {
+      local descObj = scene.findObject(objId + "_text_description")
+      if (::check_obj(descObj))
+        descObj.setValue(::g_world_war.getPlayedOperationText())
+    }
   }
   {
     /*TSS*/

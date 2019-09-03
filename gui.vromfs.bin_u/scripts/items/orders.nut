@@ -242,7 +242,6 @@ function g_orders::enableOrdersWithoutDagui()
     return
 
   ordersEnabled = true
-  updateActiveOrder()
 
   if (listenersEnabled)
     return

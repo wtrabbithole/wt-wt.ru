@@ -10,13 +10,14 @@ local hudState = require("hudState.nut")
 local hudLog = require("components/hudLog.nut")
 local fontsState = require("style/fontsState.nut")
 local hints = require("hints/hints.nut")
+local frp = require("daRg/frp.nut")
 
 local chatLog = state.log
 
 
 local function modeColor(mode) {
   local colorName = ::cross_call.mp_chat_mode.getModeColorName(mode)
-  return colors.hud?[colorName] ?? teamColors[colorName]
+  return colors.hud?[colorName] ?? teamColors.value[colorName]
 }
 
 
@@ -127,11 +128,11 @@ local getMessageColor = function(message)
   if (message.isAutomatic)
   {
     if (::cross_call.squad_manger.isInMySquad(message.sender))
-      return teamColors.squadColor
+      return teamColors.value.squadColor
     else if (message.team != hudState.playerArmyForHud.value)
-      return teamColors.teamRedColor
+      return teamColors.value.teamRedColor
     else
-      return teamColors.teamBlueColor
+      return teamColors.value.teamBlueColor
   }
   return modeColor(message.mode) ?? colors.white
 }
@@ -144,10 +145,10 @@ local getSenderColor = function (message)
   else if (::cross_call.isPlayerDedicatedSpectator(message.sender))
     return colors.hud.spectatorColor
   else if (message.team != hudState.playerArmyForHud.value || !::cross_call.is_mode_with_teams())
-    return teamColors.teamRedColor
+    return teamColors.value.teamRedColor
   else if (::cross_call.squad_manger.isInMySquad(message.sender))
-    return teamColors.squadColor
-  return teamColors.teamBlueColor
+    return teamColors.value.squadColor
+  return teamColors.value.teamBlueColor
 }
 
 
@@ -170,7 +171,7 @@ local messageComponent = @(message) function() {
     )
   }
   return {
-    watch = [teamColors.trigger, hudState.playerArmyForHud]
+    watch = [teamColors, hudState.playerArmyForHud]
     size = [flex(), SIZE_TO_CONTENT]
     rendObj = ROBJ_TEXTAREA
     behavior = Behaviors.TextArea
@@ -181,7 +182,7 @@ local messageComponent = @(message) function() {
 }
 
 
-local chatLogVisible = Watched(state.inputEnabled.value || hudState.cursorVisible.value)
+local chatLogVisible = frp.combine([state.inputEnabled, hudState.cursorVisible], frp.reduceAny)
 local onInputTriggered = function (new_val) { chatLogVisible.update(new_val || hudState.cursorVisible.value) }
 local logBox = hudLog({
   visibleState = chatLogVisible
@@ -189,7 +190,6 @@ local logBox = hudLog({
   messageComponent = messageComponent
   onAttach = function (elem) { state.inputEnabled.subscribe(onInputTriggered) }
   onDetach = function (elem) { state.inputEnabled.unsubscribe(onInputTriggered) }
-  onCursorVisible = function (new_val) { chatLogVisible.update(new_val || state.inputEnabled.value) }
 })
 
 
@@ -200,44 +200,44 @@ local onInputToggle = function (enable) {
     ::set_kb_focus(null)
 }
 
+local bottomPanel = @() {
+  size = [flex(), SIZE_TO_CONTENT]
+  flow = FLOW_VERTICAL
+  opacity = state.inputEnabled.value ? 1.0 : 0.0
+
+  children = [
+    inputField
+    chatHint
+  ]
+
+  onAttach = function (elem) {
+    state.inputEnabled.subscribe(onInputToggle)
+    if (state.inputEnabled.value)
+      ::gui_scene.setInterval(0.1,
+        function() {
+          ::gui_scene.clearTimer(callee())
+          onInputToggle(true)
+        })
+   }
+   onDetach = function (elem) {
+     state.inputEnabled.unsubscribe(onInputToggle)
+     ::set_kb_focus(null)
+   }
+   transitions = [transition()]
+}
+
 
 return function () {
+  local children = [ logBox ]
+  if (state.inputEnabled.value)
+    children.append(bottomPanel)
+
   return {
     size = [flex(), SIZE_TO_CONTENT]
     flow = FLOW_VERTICAL
     gap = ::fpx(8)
+    watch = state.inputEnabled
 
-    children = [
-      logBox
-      @() {
-        size = [flex(), SIZE_TO_CONTENT]
-        flow = FLOW_VERTICAL
-        opacity = state.inputEnabled.value ? 1.0 : 0.0
-
-        watch = state.inputEnabled
-
-        children = [
-          inputField
-          chatHint
-        ]
-
-        onAttach = function (elem) {
-          state.inputEnabled.subscribe(onInputToggle)
-          if (state.inputEnabled.value)
-            ::gui_scene.setInterval(0.1,
-              function() {
-                ::gui_scene.clearTimer(callee())
-                onInputToggle(true)
-            })
-          state.inputChatVisible.update(true)
-        }
-        onDetach = function (elem) {
-          state.inputEnabled.unsubscribe(onInputToggle)
-          ::set_kb_focus(null)
-          state.inputChatVisible.update(false)
-        }
-        transitions = [transition()]
-      }
-    ]
+    children = children
   }
 }

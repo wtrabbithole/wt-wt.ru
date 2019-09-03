@@ -21,6 +21,10 @@ local selectChatTab = function (enable) {
   }
 }
 
+currentTab.subscribe(function (new_val) {
+  hudChatState.inputChatVisible(new_val.id == "Chat")
+})
+
 local logsHeader = @(){
   size = [flex(), SIZE_TO_CONTENT]
   watch = [

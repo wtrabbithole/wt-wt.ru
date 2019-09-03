@@ -120,7 +120,10 @@ class WwMap
 
   function getChangeStateTimeText()
   {
-    return getMapChangeStateTimeText()
+    local changeStateTime = getChangeStateTime() - ::get_charserver_time_sec()
+    return changeStateTime > 0
+      ? time.hoursToString(time.secondsToHours(changeStateTime), false, true)
+      : ""
   }
 
   function getChangeStateTime()
@@ -162,9 +165,9 @@ class WwMap
       && (!isNearFuture || changeStateTime < operationAnnounceTimeSec)
   }
 
-  function isAnnounceAndNotDebug()
+  function isAnnounceAndNotDebug(isNearFuture = true)
   {
-    return (isActive() || isWillAvailable()) && !isDebugChapter()
+    return (isActive() || isWillAvailable(isNearFuture)) && !isDebugChapter()
   }
 
   function getCountryToSideTbl()

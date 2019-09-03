@@ -154,7 +154,7 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(obj) || !descItem)
       return
 
-    obj.setValue(descItem.getChangeStateTimeText())
+    obj.setValue(descItem.getMapChangeStateTimeText())
   }
 
   function onTimerDescriptionUpdate(obj, dt)

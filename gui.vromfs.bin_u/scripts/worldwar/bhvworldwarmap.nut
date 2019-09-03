@@ -99,7 +99,7 @@ class ::ww_gui_bhv.worldWarMapControls
       return
 
     local currentSelectedObject = getSelectedObject(obj)
-    local armyTargetName = ::ww_find_army_name_by_coordinates(clickPos.x, clickPos.y)
+    local armyTargetName = findHoverBattle(clickPos.x, clickPos.y)?.id ?? ::ww_find_army_name_by_coordinates(clickPos.x, clickPos.y)
 
     if (currentSelectedObject == mapObjectSelect.AIRFIELD)
     {

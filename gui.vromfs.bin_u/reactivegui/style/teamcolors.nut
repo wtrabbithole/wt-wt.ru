@@ -1,25 +1,44 @@
 local cc = ::require_native("colorCorrector")
 local string = require("std/string.nut")
 local missionState = require("reactiveGui/missionState.nut")
-local teamColors = {
-  teamBlueColor = Watched(null)
-  teamBlueLightColor = Watched(null)
-  teamBlueInactiveColor = Watched(null)
-  teamBlueDarkColor = Watched(null)
-  chatTextTeamColor = Watched(null)
-  teamRedColor = Watched(null)
-  teamRedLightColor = Watched(null)
-  teamRedInactiveColor = Watched(null)
-  teamRedDarkColor = Watched(null)
-  squadColor = Watched(null)
-  chatTextSquadColor = Watched(null)
-  trigger = Watched(null)
-  forcedTeamColors = Watched({})
-}
+local u = require("std/underscore.nut")
+local colors = require("colors.nut")
+
+local teamColors = Watched({
+  teamBlueColor         = null
+  teamBlueLightColor    = null
+  teamBlueInactiveColor = null
+  teamBlueDarkColor     = null
+  chatTextTeamColor     = null
+  teamRedColor          = null
+  teamRedLightColor     = null
+  teamRedInactiveColor  = null
+  teamRedDarkColor      = null
+  squadColor            = null
+  chatTextSquadColor    = null
+
+  hudColorRed           = null
+  hudColorBlue          = null
+  hudColorSquad         = null
+  hudColorDarkRed       = null
+  hudColorDarkBlue      = null
+  hudColorDeathAlly     = null
+  hudColorDeathEnemy    = null
+  //const colors
+  hudColorHero          = colors.hud.mainPlayerColor
+  chatTextPrivateColor  = colors.hud.chatTextPrivateColor
+  userlogColoredText    = colors.menu.userlogColoredText
+  unlockActiveColor     = colors.menu.unlockActiveColor
+  streakTextColor       = colors.menu.streakTextColor
+  silver                = colors.menu.silver
+
+  forcedTeamColors      = {}
+})
 
 
 ::interop.recalculateTeamColors <- function (forcedColors = {}) {
-  teamColors.forcedTeamColors.update(forcedColors)
+  local newTeamColors = clone teamColors.value
+  newTeamColors.forcedTeamColors = forcedColors
   local standardColors = !::cross_call.login.isLoggedIn() || !::cross_call.isPlayerDedicatedSpectator()
   local allyTeam, allyTeamColor, enemyTeamColor
   local isForcedColor = forcedColors && forcedColors.len() > 0
@@ -46,37 +65,29 @@ local teamColors = {
     { theme = squadTheme, baseColor = Color( 62, 158,  47), name = "squadColor" }
     { theme = squadTheme, baseColor = Color(198, 255, 189), name = "chatTextSquadColor" }
   ]) {
-    teamColors[cfg.name].update(isForcedColor
+    newTeamColors[cfg.name] = isForcedColor
       ? (cfg.theme == enemyTheme ? enemyTeamColor : allyTeamColor)
-      : cc.correctHueTarget(cfg.baseColor, cfg.theme()))
+      : cc.correctHueTarget(cfg.baseColor, cfg.theme())
   }
-  teamColors.teamBlueLightColor.update(cc.correctColorLightness(teamColors.teamBlueColor.value, 50))
-  teamColors.teamRedLightColor.update(cc.correctColorLightness(teamColors.teamRedColor.value, 50))
+  newTeamColors.teamBlueLightColor  = cc.correctColorLightness(newTeamColors.teamBlueColor, 50)
+  newTeamColors.teamRedLightColor   = cc.correctColorLightness(newTeamColors.teamRedColor, 50)
 
-  teamColors.trigger.trigger()
+  newTeamColors.hudColorRed         = newTeamColors.teamRedColor
+  newTeamColors.hudColorBlue        = newTeamColors.teamBlueColor
+  newTeamColors.hudColorSquad       = newTeamColors.squadColor
+  newTeamColors.hudColorDarkRed     = newTeamColors.teamRedInactiveColor
+  newTeamColors.hudColorDarkBlue    = newTeamColors.teamBlueInactiveColor
+  newTeamColors.hudColorDeathAlly   = newTeamColors.teamRedLightColor
+  newTeamColors.hudColorDeathEnemy  = newTeamColors.teamBlueLightColor
+
+  if (!u.isEqual(teamColors.value, newTeamColors))
+    teamColors.update(newTeamColors)
 }
 
 ::interop.recalculateTeamColors()
 
 missionState.localTeam.subscribe(function (new_val) {
-  ::interop.recalculateTeamColors(teamColors.forcedTeamColors.value)
+  ::interop.recalculateTeamColors(teamColors.value.forcedTeamColors)
 })
 
-local export = class {
-  watch = teamColors
-  trigger = teamColors.trigger
-
-  function _call(self) {
-    local colors = {}
-    foreach (colorName, colorWatch in teamColors) {
-      colors[colorName] <- colorWatch.value
-    }
-    return colors
-  }
-
-  function _get(colorName) {
-    return colorName in teamColors ? teamColors[colorName].value : null
-  }
-}()
-
-return export
+return teamColors
