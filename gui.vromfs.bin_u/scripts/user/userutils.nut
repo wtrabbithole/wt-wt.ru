@@ -1,6 +1,13 @@
 local crossplayModule = require("scripts/social/crossplay.nut")
 
+local needShowRateWnd = false //need this, because debriefing data destroys after debriefing modal is closed
+
 ::g_user_utils <- {
+  function setNeedShowRate(val)
+  {
+    needShowRateWnd = val
+  }
+
   function checkShowRateWnd()
   {
     if (!::has_feature("XboxRateGame"))
@@ -13,7 +20,7 @@ local crossplayModule = require("scripts/social/crossplay.nut")
       return
 
     //show only if player win last mp battle
-    if (!::debriefing_result?.isSucceed || (::debriefing_result?.gm != ::GM_DOMINATION))
+    if (!needShowRateWnd)
       return
 
     local path = "seen/rateWnd"
@@ -22,6 +29,7 @@ local crossplayModule = require("scripts/social/crossplay.nut")
 
     ::xbox_show_rate_and_review()
     ::save_local_account_settings(path, true)
+    needShowRateWnd = false
   }
 
   function getMyStateData()

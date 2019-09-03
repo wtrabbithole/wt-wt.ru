@@ -2817,6 +2817,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (::go_debriefing_next_func != ::gui_start_dynamic_summary)
       ::destroy_session_scripted()
 
+    ::g_user_utils.setNeedShowRate(::debriefing_result?.isSucceed && (::debriefing_result?.gm == ::GM_DOMINATION))
+
     ::debriefing_result = null
     playCountSound(false)
     isInProgress = false
