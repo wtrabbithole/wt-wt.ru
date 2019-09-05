@@ -1141,11 +1141,14 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
         updateWwMembersList()
       }, this)
     wwLeaderboardData.requestWwLeaderboardData(
-      "ww_users_clan", "",
-      null,
-      null,
-      clanData.mlimit,
-      "clanId",
+      "ww_users_clan"
+      {
+        gameMode = "ww_users_clan"
+        table    = "season"
+        start    = null
+        count    = clanData.mlimit
+        category = "clanId"
+      },
       @(membersData) cb(membersData))
   }
 

@@ -883,15 +883,12 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function updateQueueElementsInList()
   {
     local isModeClan = mode == WW_OM_WND_MODE.CLAN
-
-    foreach (mapId, map in mapsTbl)
-      ::showBtn("wait_icon_" + mapId, isModeClan && map.getQueue().isMyClanJoined(), mapsListObj)
-
     local show = isModeClan
     local isQueueJoiningEnabled = isModeClan && ::WwQueue.getCantJoinAnyQueuesReasonData().canJoin
 
     foreach (mapId, map in mapsTbl)
     {
+      ::showBtn("wait_icon_" + mapId, isModeClan && map.getQueue().isMyClanJoined(), mapsListObj)
       local canJoin = map.isActive() && map.getQueue().getCantJoinQueueReasonData().canJoin
       local obj = ::showBtn(objIdPrefixCountriesOfMap + mapId, show, mapsListObj)
       if (obj)
@@ -1173,7 +1170,14 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         guiScene.replaceContentFromText(statisticsObj, markup, markup.len(), this)
       }, this)
     wwLeaderboardData.requestWwLeaderboardData(
-      lbMode.mode, "__" + params.id, null, 0, 2, lbMode.field,
+      lbMode.mode,
+      {
+        gameMode = lbMode.mode + "__" + params.id
+        table    = "season"
+        start = 0
+        count = 2
+        category = lbMode.field
+      },
       @(countriesData) callback(countriesData))
   }
 

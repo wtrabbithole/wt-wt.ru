@@ -192,17 +192,19 @@ class ::gui_handlers.wwMapTooltip extends ::gui_handlers.BaseGuiHandlerWT
     local battleView = hoveredBattle.getView()
     local hasDurationTime = battleView.hasBattleDurationTime()
     local hasActivateLeftTime = battleView.hasBattleActivateLeftTime()
+    local timeStartAutoBattle = battleView.getTimeStartAutoBattle()
 
     local descText = hasDurationTime ? ::loc("debriefing/BattleTime")
       : hasActivateLeftTime ? ::loc("worldWar/can_join_countdown")
+      : timeStartAutoBattle != "" ? ::loc("worldWar/will_start_auto_battle")
       : ""
     local descValue = hasDurationTime ? battleView.getBattleDurationTime()
       : hasActivateLeftTime ? battleView.getBattleActivateLeftTime()
-      : ""
+      : timeStartAutoBattle
 
     battleTimerDescObj.setValue(descText + ::loc("ui/colon"))
     battleTimerValueObj.setValue(descValue)
-    battleTimerObj.show(hasDurationTime || hasActivateLeftTime)
+    battleTimerObj.show(hasDurationTime || hasActivateLeftTime || timeStartAutoBattle != "")
 
     local statusObj = scene.findObject("battle_status_text")
     if (::check_obj(statusObj))

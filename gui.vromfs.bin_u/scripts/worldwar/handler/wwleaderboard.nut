@@ -224,13 +224,15 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       return
 
     if (isRequestDifferent)
-    {
-      afterLoadSelfRow = requestSelfPage
       pos = 0
-    }
 
     lbField = curLbCategory.field
     requestData = newRequestData
+    local requestParams = {
+      gameMode = requestData.modeName + requestData.modePostFix
+      table    = requestData.day && requestData.day > 0 ? "day" + requestData.day : "season"
+      category = lbField
+    }
 
     local cb = function(hasSelfRow = false)
     {
@@ -243,9 +245,10 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         }, this)
       wwLeaderboardData.requestWwLeaderboardData(
         requestData.modeName,
-        requestData.modePostFix,
-        requestData.day,
-        pos, rowsInPage, lbField,
+        requestParams.__update({
+          start    = pos
+          count    = rowsInPage
+        }),
         @(lbPageData) callback(lbPageData))
     }
 
@@ -254,16 +257,16 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       local callback = ::Callback(
         function(lbSelfData) {
           selfRowData = wwLeaderboardData.convertWwLeaderboardData(lbSelfData, isCountriesLeaderboard()).rows
-          if(afterLoadSelfRow)
-            afterLoadSelfRow(getSelfPos())
-          afterLoadSelfRow = null
+          if(isRequestDifferent)
+            requestSelfPage(getSelfPos())
           cb(true)
         }, this)
       wwLeaderboardData.requestWwLeaderboardData(
         requestData.modeName,
-        requestData.modePostFix,
-        requestData.day,
-        null, 0, lbField,
+        requestParams.__update({
+          start = null
+          count = 0
+        }),
         @(lbSelfData) callback(lbSelfData))
     }
     else

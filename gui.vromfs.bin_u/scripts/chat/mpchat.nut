@@ -323,6 +323,7 @@ class ::ChatHandler
         sceneData.handler.onChatEntered()
     }
     enableChatInput(false)
+    ::call_darg("hudChatInputEnableUpdate", false)
   }
 
   function onWrapUp(obj)
@@ -345,6 +346,7 @@ class ::ChatHandler
     if (sceneData && sceneData.handler && ("onChatCancel" in sceneData.handler))
       sceneData.handler.onChatCancel()
     enableChatInput(false)
+    ::call_darg("hudChatInputEnableUpdate", false)
   }
 
   function checkAndPrintDevoiceMsg()

@@ -756,6 +756,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(battleTimeObj) && battleView.needShowTimer())
     {
       local battleTimeText = ""
+      local timeStartAutoBattle = battleView.getTimeStartAutoBattle()
       if (battleView.hasBattleDurationTime())
         battleTimeText = ::loc("debriefing/BattleTime") + ::loc("ui/colon") +
           battleView.getBattleDurationTime()
@@ -764,10 +765,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         isSelectedBattleActive = false
         battleTimeText = ::loc("worldWar/can_join_countdown") + ::loc("ui/colon") +
           battleView.getBattleActivateLeftTime()
+      } else if (timeStartAutoBattle != "")
+      {
+        isSelectedBattleActive = false
+        battleTimeText = ::loc("worldWar/will_start_auto_battle") + ::loc("ui/colon")
+          + timeStartAutoBattle
       }
       battleTimeObj.setValue(battleTimeText)
 
-      if (!isSelectedBattleActive && !battleView.hasBattleActivateLeftTime())
+      if (!isSelectedBattleActive && !battleView.hasBattleActivateLeftTime() && timeStartAutoBattle == "")
       {
         isSelectedBattleActive = true
         updateDescription()

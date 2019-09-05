@@ -10,9 +10,6 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
 
   function checkShowRateWnd()
   {
-    if (!::has_feature("XboxRateGame"))
-      return
-
     //can be on any platform in future,
     //no need to specify platform in func name
     //but now only for xbox have such ability.

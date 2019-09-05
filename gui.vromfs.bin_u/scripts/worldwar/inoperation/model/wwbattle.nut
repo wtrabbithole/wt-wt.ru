@@ -4,6 +4,7 @@ local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut
 
 const WW_BATTLES_SORT_TIME_STEP = 120
 const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
+const MAX_BATTLE_WAIT_TIME_MIN_DEFAULT = 30
 
 class ::WwBattle
 {
@@ -30,6 +31,9 @@ class ::WwBattle
   queueInfo = null
   unitTypeMask = 0
 
+  creationTimeMillisec = 0
+  operationTimeOnCreationMillisec = 0
+
   constructor(blk = ::DataBlock(), params = null)
   {
     id = blk.id || blk.getBlockName() || ""
@@ -45,6 +49,8 @@ class ::WwBattle
     missionName = blk.desc ? blk.desc.missionName : ""
     sessionId = blk.desc ? blk.desc.sessionId : ""
     missionInfo = ::get_mission_meta_info(missionName)
+    creationTimeMillisec = blk.creationTime ?? 0
+    operationTimeOnCreationMillisec = blk.operationTimeOnCreation ?? 0
 
     createLocalizeConfig(blk.desc)
 
@@ -1069,5 +1075,22 @@ class ::WwBattle
       if (team.side != playerSide)
         unitTypeArray.extend(team.unitTypes.map(@(u) u.tostring()))
     return ::g_string.implode(unitTypeArray)
+  }
+
+  function getTimeStartAutoBattle()
+  {
+    local hasOperationTimeOnCreation = operationTimeOnCreationMillisec > 0
+    local creationTime = hasOperationTimeOnCreation ? operationTimeOnCreationMillisec : creationTimeMillisec
+    if (creationTime <= 0)
+      return 0
+
+    local maxBattleWaitTimeSec = time.minutesToSeconds(
+      ::g_world_war.getWWConfigurableValue("maxBattleWaitTimeMin", MAX_BATTLE_WAIT_TIME_MIN_DEFAULT)).tointeger()
+    if (maxBattleWaitTimeSec <= 0)
+      return 0
+
+    return (maxBattleWaitTimeSec / (hasOperationTimeOnCreation ? ::ww_get_speedup_factor() : 1)).tointeger()
+      - ((hasOperationTimeOnCreation ? ::g_world_war.getOperationTimeSec() : ::get_charserver_time_sec())
+        - time.millisecondsToSecondsInt(creationTime))
   }
 }
