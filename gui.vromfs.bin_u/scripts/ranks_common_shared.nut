@@ -310,7 +310,7 @@ function calc_personal_boost(bostersArray)
 
 function get_spawn_score_param(paramName, defaultNum)
 {
-  local ws = get_warpoints_blk()
+  local ws = ::get_warpoints_blk()
   local misBlk = ::get_current_mission_info_cached()
   local sessionMRank = misBlk?.ranks?.max ?? 0
   local modeName = get_emode_name(get_mission_mode())

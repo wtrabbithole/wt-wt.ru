@@ -1,12 +1,4 @@
-div {
-  size:t='sw, sh'
-  pos:t='0, 0'
-  position:t='root'
-
-  behavior:t='button'
-  behavior:t='accesskey'
-  accessKey:t='Esc | J:B'
-
+rootUnderPopupMenu {
   on_click:t='goBack'
   on_r_click:t='goBack'
 }

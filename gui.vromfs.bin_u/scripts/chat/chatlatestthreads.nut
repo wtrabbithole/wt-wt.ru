@@ -198,7 +198,7 @@ function g_chat_latest_threads::onEventInitConfigs(p)
 {
   langsInited = false
 
-  local blk = get_game_settings_blk()
+  local blk = ::get_game_settings_blk()
   if (::u.isDataBlock(blk.chat))
   {
     autoUpdatePeriodMsec = blk.chat.threadsListAutoUpdatePeriodMsec || autoUpdatePeriodMsec

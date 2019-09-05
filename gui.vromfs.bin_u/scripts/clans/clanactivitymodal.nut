@@ -102,8 +102,28 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
       ]
 
       if (hasClanExperience)
-        rowParams.append({ text = (entry.data?.exp ?? 0).tostring() })
+      {
+        local exp = entry.data?.exp ?? 0
+        local expText = exp.tostring()
+        local boost = (entry.data?.expBoost ?? 0)/100.0
+        local hasBoost = boost > 0
+        if (hasBoost && exp > 0)
+        {
+          local baseExp = ::round(exp/(1 + boost))
+          expText = ::colorize("activeTextColor",baseExp.tostring()
+            + ::colorize("goodTextColor", " + " + (exp - baseExp).tostring()))
+        }
 
+        rowParams.append({ text = expText
+          textType = hasBoost ? "textAreaCentered" : "activeText"
+          textRawParam = "width:t='pw'; text-align:t='center'"
+          tooltip = hasBoost
+            ? ::loc("clan/activity_reward/wasBoost",
+              { bonus = ::colorize("activeTextColor",
+                "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(boost))})
+            : ""
+        })
+      }
       rowBlock += ::buildTableRowNoPad("row_" + rowIdx, rowParams, null, "")
       rowIdx++
     }

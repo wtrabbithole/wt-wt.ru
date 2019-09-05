@@ -625,8 +625,17 @@ class Events
 
     //no point to save duplicate array, just link on fullTeamsList
     if (!isSymmetric)
-      isSymmetric = sides.len() <= 1 ||
-        isTeamsEqual(getTeamData(event, sides[0]), getTeamData(event, sides[1]))
+    {
+      local teamDataA = getTeamData(event, sides[0])
+      local teamDataB = getTeamData(event, sides[1])
+      isSymmetric = sides.len() <= 1
+      if (!isSymmetric && (teamDataA == null || teamDataB == null))
+      {
+        local economicName = event?.economicName  // warning disable: -declared-never-used
+        ::script_net_assert_once("not found event teamdata", "missing teamdata in event")
+      } else
+        isSymmetric = isSymmetric || isTeamsEqual(teamDataA, teamDataB)
+    }
     if (isSymmetric && sides.len() > 1)
       sides = [sides[0]]
 

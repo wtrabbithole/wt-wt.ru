@@ -296,7 +296,7 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     local needSave = false
     if (logs)
       foreach(log in logs)
-        if (log.enabled && log.idx >= 0 && log.idx < get_user_logs_count())
+        if (log.enabled && log.idx >= 0 && log.idx < ::get_user_logs_count())
         {
           if (::disable_user_log_entry(log.idx))
             needSave = true
@@ -310,7 +310,7 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local needSave = false
 
-    local total = get_user_logs_count()
+    local total = ::get_user_logs_count()
     local counter = 0
     for(local i=total-1; i>=0; i--)
     {

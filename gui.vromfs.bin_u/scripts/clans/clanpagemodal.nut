@@ -3,6 +3,8 @@ local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local vehiclesModal = require("scripts/unit/vehiclesModal.nut")
 local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
+local clanMembershipAcceptance = ::require("scripts/clans/clanMembershipAcceptance.nut")
+local clanRewardsModal = require("scripts/rewards/clanRewardsModal.nut")
 
 function showClanPage(id, name, tag)
 {
@@ -122,8 +124,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventClanInfoUpdate(params = {})
   {
-    if (clanIdStrReq == clan_get_my_clan_id()
-        || (clanData && clanData.id == clan_get_my_clan_id()))
+    if (clanIdStrReq == ::clan_get_my_clan_id()
+        || (clanData && clanData.id == ::clan_get_my_clan_id()))
     {
       if (!::my_clan_info)
         return goBack()
@@ -161,14 +163,21 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     showSceneBtn("clan-icon", true)
 
-    fillClanInfoRow("clan-region", clanData.region, "ClanRegions")
-    fillClanInfoRow("clan-announcement", clanData.announcement, "ClanAnnouncements")
-    fillClanInfoRow("clan-motto", clanData.slogan)
-    fillClanInfoRow("clan-desc", clanData.desc)
+    fillClanInfoRow("clan-region",
+      clanData.region != "" ? ::loc("clan/clan_region") + ::loc("ui/colon") + clanData.region : "",
+      "ClanRegions")
+    fillClanInfoRow("clan-about",
+      clanData.desc != "" || clanData.announcement != ""
+        ? ::g_string.implode(
+            [clanData.desc, ::has_feature("ClanAnnouncements") ? clanData.announcement : ""],
+            "\n")
+        : "")
+    fillClanInfoRow("clan-motto",
+      clanData.slogan != "" ? ::loc("clan/clan_slogan") + ::loc("ui/colon") + clanData.slogan : "")
 
     fillCreatorData()
 
-    scene.findObject("nest_lock_clan_req").clan_locked = clanData.status == "closed" ? "yes" : "no"
+    scene.findObject("nest_lock_clan_req").clan_locked = !clanMembershipAcceptance.getValue(clanData) ? "yes" : "no"
 
         // Showing clan name in special header object if possible.
     local clanName = clanData.tag + " " + clanData.name
@@ -185,20 +194,21 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       clanTitleObj.setValue(::colorize(clanData.type.color, clanName))
 
     local clanDate = clanData.getCreationDateText()
-    scene.findObject("clan-creationDate").setValue(::loc("clan/creationDate") + " "
-      + ::colorize("activeTextColor", clanDate));
+    local dateText = ::loc("clan/creationDate") + " " + ::colorize("activeTextColor", clanDate)
 
     local membersCountText = ::g_clans.getClanMembersCountText(clanData)
-    local text = ::loc("clan/memberListTitle")
+    local countText = ::loc("clan/memberListTitle")
       + ::loc("ui/parentheses/space", { text = ::colorize("activeTextColor", membersCountText) })
-    scene.findObject("clan-memberCount").setValue(text)
+    scene.findObject("clan-memberCount-date").setValue(::g_string.implode([countText, dateText], " "))
 
     fillClanRequirements()
 
     local updStatsText = time.buildTimeStr(time.getUtcMidnight(), false, false)
 
-    updStatsText = format(::loc("clan/updateStatsTime"), updStatsText)
-    scene.findObject("update_stats_info_text").setValue(updStatsText)
+    updStatsText = ::loc("ui/parentheses/space",
+      { text = format(::loc("clan/updateStatsTime"), updStatsText) })
+    scene.findObject("update_stats_info_text").setValue(
+      "<b>{0}</b> {1}".subst(::colorize("commonTextColor", ::loc("clan/stats")), updStatsText))
 
     fillModeListBox(scene.findObject("clan_container"), getCurDMode(), ::get_show_in_squadron_statistics)
     fillClanManagment()
@@ -223,8 +233,13 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     {
       text += ::loc("clan/lastChanges") + ::loc("ui/colon")
       local color = ::my_user_id_str == clanData.changedByUid? "mainPlayerColor" : "activeTextColor"
-      text += ::colorize(color, platformModule.getPlayerName(clanData.changedByNick))
-      text += ::loc("ui/comma") + clanData.getInfoChangeDateText()
+      text += ::g_string.implode(
+        [
+          ::colorize(color, platformModule.getPlayerName(clanData.changedByNick))
+          clanData.getInfoChangeDateText()
+        ]
+        ::loc("ui/comma")
+      )
     }
     obj.setValue(text)
   }
@@ -295,33 +310,34 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!clanData)
       return
 
-    local adminMode = clan_get_admin_editor_mode()
-    local myClanId = clan_get_my_clan_id();
+    local adminMode = ::clan_get_admin_editor_mode()
+    local myClanId = ::clan_get_my_clan_id();
     local showMembershipsButton = false
     isMyClan = myClanId == clanData.id;
 
-    if (!isMyClan && myClanId == "-1" && clan_get_requested_clan_id() != clanData.id && clanData.status != "closed")
-      showMembershipsButton = true
+    if (!isMyClan && myClanId == "-1" && ::clan_get_requested_clan_id() != clanData.id &&
+      clanMembershipAcceptance.getValue(clanData))
+        showMembershipsButton = true
 
     if(isMyClan || adminMode)
-      myRights = clan_get_role_rights(adminMode ? ::ECMR_CLANADMIN : clan_get_my_role())
+      myRights = ::clan_get_role_rights(adminMode ? ::ECMR_CLANADMIN : ::clan_get_my_role())
     else
       myRights = []
 
-    local showBtnLock = (isMyClan && isInArray("CHANGE_INFO", myRights)) || adminMode
+    local showBtnLock = clanMembershipAcceptance.canChange(clanData)
     local hasLeaderRight = isInArray("LEADER", myRights)
     local showMembershipsReqEditorButton = ( ::has_feature("ClansMembershipEditor") ) && (
-                                            ( isMyClan && isInArray("CHANGE_INFO", myRights) ) || clan_get_admin_editor_mode() )
+                                            ( isMyClan && isInArray("CHANGE_INFO", myRights) ) || ::clan_get_admin_editor_mode() )
     local showClanSeasonRewards = ::has_feature("ClanSeasonRewardsLog") && (clanData.rewardLog.len() > 0)
 
     local buttonsList = {
-      btn_showRequests = ((isMyClan && (isInArray("MEMBER_ADDING", myRights) || isInArray("MEMBER_REJECT", myRights))) || adminMode) && clanData.candidates.len() > 0,
-      btn_leaveClan = isMyClan && (!hasLeaderRight || ::g_clans.getLeadersCount(clanData) > 1),
+      btn_showRequests = ((isMyClan && (isInArray("MEMBER_ADDING", myRights) || isInArray("MEMBER_REJECT", myRights))) || adminMode) && clanData.candidates.len() > 0
+      btn_leaveClan = isMyClan && (!hasLeaderRight || ::g_clans.getLeadersCount(clanData) > 1)
       btn_edit_clan_info = ::ps4_is_ugc_enabled() && ((isMyClan && isInArray("CHANGE_INFO", myRights)) || adminMode)
       btn_upgrade_clan = clanData.type.getNextType() != ::g_clan_type.UNKNOWN && (adminMode || (isMyClan && hasLeaderRight))
       btn_showBlacklist = isMyClan && isInArray("MEMBER_BLACKLIST", myRights) && clanData.blacklist.len()
       btn_lock_clan_req = showBtnLock
-      img_lock_clan_req = !showBtnLock && clanData.status == "closed"
+      img_lock_clan_req = !showBtnLock && !clanMembershipAcceptance.getValue(clanData)
       btn_complain = !isMyClan
       btn_membership_req = showMembershipsButton
       btn_log = ::has_feature("ClanLog") && (isMyClan || adminMode)
@@ -335,7 +351,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     ::showBtnTable(scene, buttonsList)
 
     showSceneBtn("clan_actions", buttonsList.btn_showRequests
-      || buttonsList.btn_membership_req
       || buttonsList.btn_clanSquads
       || buttonsList.btn_log)
 
@@ -358,9 +373,15 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
           local count = ::g_dagui_utils.countSizeInItems(containerObj.getParent(), "@clanMedalSizeMin", 1, 0, 0).itemsCountX
           local medals = ::g_clans.getClanPlaceRewardLogData(clanData, count)
           local markup = ""
+          local rest = min(medals.len(), ::get_warpoints_blk().maxClanBestRewards ?? 6)
           foreach (m in medals)
-            markup += "layeredIconContainer { size:t='@clanMedalSizeMin, @clanMedalSizeMin'; overflow:t='hidden' " +
-              ::LayersIcon.getIconData(m.iconStyle, null, null, null, m.iconParams, m.iconConfig)+"}"
+            if(clanRewardsModal.isRewardVisible(m, clanData))
+              if(rest-- > 0)
+                markup += "layeredIconContainer { size:t='@clanMedalSizeMin,"
+                  + "@clanMedalSizeMin'; overflow:t='hidden' "
+                  + ::LayersIcon.getIconData(m.iconStyle, null, null, null, m.iconParams, m.iconConfig)
+                  + "}"
+
           guiScene.replaceContentFromText(containerObj, markup, markup.len(), this)
         })(containerObj, clanData))
     }
@@ -505,14 +526,14 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       return
     if (enable && (!isClanInfo || !::is_myself_clan_moderator()))
       return
-    clan_set_admin_editor_mode(enable)
+    ::clan_set_admin_editor_mode(enable)
     fillClanManagment()
     onSelect()
   }
 
   function onShowRequests()
   {
-    if ((!isMyClan || !isInArray("MEMBER_ADDING", myRights)) && !clan_get_admin_editor_mode())
+    if ((!isMyClan || !isInArray("MEMBER_ADDING", myRights)) && !::clan_get_admin_editor_mode())
       return;
 
     showClanRequests(clanData.candidates, clanData.id, this)
@@ -520,23 +541,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onLockNewReqests()
   {
-    local clanId = clan_get_admin_editor_mode() ? clanData.id : "-1"
-    local locking = clanData.status == "closed" ? false : true
-
-    taskId =  clan_request_close_for_new_members(clanId, locking)
-    if (taskId >= 0)
-    {
-      ::set_char_cb(this, slotOpCb)
-      showTaskProgressBox()
-      if (clanId == "-1")
-        ::sync_handler_simulate_signal("clan_info_reload")
-      afterSlotOp = (@(locking) function() {
-          if(clan_get_admin_editor_mode())
-            reinitClanWindow()
-
-          msgBox("left_clan", ::loc("clan/" + (locking ? "was_closed" : "was_opened")), [["ok", function() {} ]], "ok")
-        })(locking)
-    }
+    local value = clanMembershipAcceptance.getValue(clanData)
+    clanMembershipAcceptance.setValue(clanData, !value, this)
   }
 
   function onLeaveClan()
@@ -559,7 +565,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!::is_in_clan())
       return afterClanLeave()
 
-    taskId = clan_request_leave()
+    taskId = ::clan_request_leave()
 
     if (taskId >= 0)
     {
@@ -609,7 +615,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       rowParams.append({
                          text = diff.getLocName(),
                          active = false,
-                         tdAlign="right"
+                         tdAlign="left"
                       })
 
       foreach(item in ::clan_data_list)
@@ -685,8 +691,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
         rowData.width <- "0.01@sf"
       headerRow.append(rowData)
     }
-    markUp = ::buildTableRowNoPad("row_header", headerRow, null,
-      "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; ")
+    markUp = ::buildTableRowNoPad("row_header", headerRow, true,
+      "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; insetHeader = 'yes';")
 
     foreach(member in membersData)
     {
@@ -704,7 +710,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
         rowData.append(getClanMembersCell(member, column))
       }
       local isMe = member.nick == ::my_user_name
-      markUp += ::buildTableRowNoPad(rowName, rowData, rowIdx % 2 == 0, (isMe ? "mainPlayer:t='yes';" : "") + "player_nick:t='" + nick + "';")
+      markUp += ::buildTableRowNoPad(rowName, rowData, rowIdx % 2 != 0, (isMe ? "mainPlayer:t='yes';" : "") + "player_nick:t='" + nick + "';")
       rowIdx++
     }
 
@@ -1026,8 +1032,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function goBack()
   {
-    if(clan_get_admin_editor_mode())
-      clan_set_admin_editor_mode(false)
+    if(::clan_get_admin_editor_mode())
+      ::clan_set_admin_editor_mode(false)
     base.goBack()
   }
 
@@ -1057,11 +1063,17 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventClanMembersUpgraded(p)
   {
-    if (clan_get_admin_editor_mode() && p.clanId == clanIdStrReq)
+    if (::clan_get_admin_editor_mode() && p.clanId == clanIdStrReq)
       reinitClanWindow()
   }
 
   function onEventClanMemberRoleChanged(p)
+  {
+    if (::clan_get_admin_editor_mode())
+      reinitClanWindow()
+  }
+
+  function onEventClanMembershipAcceptanceChanged(p)
   {
     if (::clan_get_admin_editor_mode())
       reinitClanWindow()

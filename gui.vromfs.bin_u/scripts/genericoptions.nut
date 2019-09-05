@@ -498,7 +498,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function onPTTChange(obj)
   {
-    set_option_ptt(get_option(::USEROPT_PTT).value ? 0 : 1);
+    ::set_option_ptt(get_option(::USEROPT_PTT).value ? 0 : 1);
     ::showBtn("ptt_buttons_block", obj.getValue(), scene)
   }
 

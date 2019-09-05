@@ -233,7 +233,7 @@ function g_invites::fetchNewInvitesFromUserlogs()
 {
   local needReshedule = false
   local now = ::get_charserver_time_sec();
-  local total = get_user_logs_count()
+  local total = ::get_user_logs_count()
   for (local i = total-1; i >= 0; i--)
   {
     local blk = ::DataBlock()

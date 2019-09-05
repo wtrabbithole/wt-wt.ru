@@ -94,7 +94,7 @@ function debug_debriefing_unlocks(unlocksAmount = 5)
 
 function debug_get_every_day_login_award_userlog(skip = 0, launchWindow = true)
 {
-  local total = get_user_logs_count()
+  local total = ::get_user_logs_count()
   for (local i = total-1; i > 0; i--)
   {
     local blk = ::DataBlock()

@@ -216,7 +216,7 @@ function gui_modal_event_leaderboards(eventId = null)
 
   function handleLbRequest(requestData)
   {
-    local LbBlk = get_leaderboard_blk()
+    local LbBlk = ::get_leaderboard_blk()
     leaderboardData = {}
     leaderboardData["rows"] <- lbBlkToArray(LbBlk, requestData)
     canRequestLb = true
@@ -236,7 +236,7 @@ function gui_modal_event_leaderboards(eventId = null)
 
   function handleSelfRowLbRequest(requestData)
   {
-    local sefRowblk = get_leaderboard_blk()
+    local sefRowblk = ::get_leaderboard_blk()
     selfRowData = lbBlkToArray(sefRowblk, requestData)
     canRequestLb = true
     if (!compareRequests(lastRequestSRData, requestData))

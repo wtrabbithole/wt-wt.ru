@@ -76,6 +76,20 @@ function is_skirmish_with_killstreaks(misBlk)
   return misBlk.getBool("allowedKillStreaks", false);
 }
 
+function upgrade_url_mission(fullMissionBlk)
+{
+  local misBlk = fullMissionBlk?.mission_settings?.mission
+  if (!fullMissionBlk || !misBlk)
+    return
+
+  if (misBlk.useKillStreaks && !misBlk.allowedKillStreaks)
+    misBlk.useKillStreaks = false
+
+  foreach (unitType in ::g_unit_type.types)
+    if (unitType.isAvailable() && !(unitType.missionSettingsAvailabilityFlag in misBlk))
+      misBlk[unitType.missionSettingsAvailabilityFlag] = ::has_unittype_in_full_mission_blk(fullMissionBlk, unitType.esUnitType)
+}
+
 function get_mission_allowed_unittypes_mask(misBlk, useKillStreaks = null)
 {
   local res = 0
@@ -108,6 +122,7 @@ function is_mission_for_unittype(misBlk, esUnitType, useKillStreaks = null)
 
 function has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
 {
+  // Searching by units of Single missions
   local unitsBlk = fullMissionBlk && fullMissionBlk.units
   local playerBlk = fullMissionBlk && ::get_blk_value_by_path(fullMissionBlk, "mission_settings/player")
   local wings = playerBlk ? (playerBlk % "wing") : []
@@ -124,6 +139,19 @@ function has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
           if (unitsCache[block.unit_class] == esUnitType)
             return true
         }
+    }
+
+  // Searching by respawn points of Multiplayer missions
+  local tag = ::g_unit_type.getByEsUnitType(esUnitType).tag
+  local triggersBlk = fullMissionBlk?.triggers
+  if (triggersBlk)
+    for (local i = 0; i < triggersBlk.blockCount(); i++)
+    {
+      local actionsBlk = triggersBlk.getBlock(i)?.getBlockByName("actions")
+      local respawnPointsList = actionsBlk ? (actionsBlk % "missionMarkAsRespawnPoint") : []
+      foreach (pointBlk in respawnPointsList)
+        if (pointBlk?.tags?[tag])
+          return true
     }
 
   return false
@@ -308,7 +336,7 @@ function gui_start_mislist(isModal=false, setGameMode=null, addParams = {})
   foreach(key, value in addParams)
     params[key] <- value
 
-  local gm = get_game_mode()
+  local gm = ::get_game_mode()
   if (setGameMode!=null)
   {
     params.wndGameMode <- setGameMode

@@ -7,7 +7,7 @@ elemModelType.addTypes({
     init = @() ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
 
     isVisible = @() ::has_feature("ClanVehicles")
-      && ::clan_get_exp() > 0 && clan_get_researching_unit() != ""
+      && ::clan_get_exp() > 0 && ::clan_get_researching_unit() != ""
 
     getTooltip = @() ::format(::loc("mainmenu/availableFreeExpForNewResearch"),
       ::Cost().setSap(::clan_get_exp()).tostring())
@@ -46,7 +46,7 @@ elemViewType.addTypes({
         return
       }
 
-      local unit = ::getAircraftByName(clan_get_researching_unit())
+      local unit = ::getAircraftByName(::clan_get_researching_unit())
       isVisible = isVisible && unit?.shopCountry == obj.countryId
       obj.show(isVisible)
       if (isVisible)
@@ -67,7 +67,7 @@ elemViewType.addTypes({
       }
 
       local objConfig = ::split(obj.id, ";")
-      local unit = ::getAircraftByName(clan_get_researching_unit())
+      local unit = ::getAircraftByName(::clan_get_researching_unit())
       isVisible = isVisible && unit?.shopCountry == objConfig?[0]
         && unit?.unitType?.armyId == objConfig?[1]
       obj.show(isVisible)

@@ -229,10 +229,10 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     if(!::my_clan_info)
     {
       local requestSent = false
-      if(::clan_get_requested_clan_id() != "-1" && clan_get_my_clan_name() != "")
+      if(::clan_get_requested_clan_id() != "-1" && ::clan_get_my_clan_name() != "")
       {
         requestSent = true
-        curPageObj.findObject("req_clan_name").setValue(::clan_get_my_clan_tag() + " " + clan_get_my_clan_name())
+        curPageObj.findObject("req_clan_name").setValue(::clan_get_my_clan_tag() + " " + ::clan_get_my_clan_name())
       }
       curPageObj.findObject("reques_to_clan_sent").show(requestSent)
       curPageObj.findObject("how_to_get_membership").show(!requestSent)
@@ -464,7 +464,9 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         block.callback <- "onCategory"
       headerRow.append(block)
     }
-    data = buildTableRow("row_header", headerRow, null, "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; ") + data
+    data = buildTableRow("row_header", headerRow, true,
+      "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes';" +
+      "style:t='height:0.05sh'; insetHeader = 'yes'") + data
     guiScene.setUpdatesEnabled(false, false)
     guiScene.replaceContentFromText(lbTableObj, data, data.len(), this)
     foreach(rowName, row in rowsTexts)
@@ -516,7 +518,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         rowData.append(getItemCell(item, rowBlk, rowName))
 
     ::dagor.assertf(typeof(rowBlk._id) == "string", "leaderboards receive _id type " + typeof(rowBlk._id) + ", instead of string on clan_request_page_of_leaderboard")
-    return buildTableRow(rowName, rowData, rowIdx % 2 == 0, highlightRow ? "mainPlayer:t='yes';" : "")
+    return buildTableRow(rowName, rowData, rowIdx % 2 != 0, highlightRow ? "mainPlayer:t='yes';" : "")
   }
 
   function colorizeClanText(clanType, clanText, isMainPlayer)
@@ -753,7 +755,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     local objEndsDuel = scene.findObject("clan_battle_season_ends")
     if (::checkObj(objEndsDuel))
     {
-      local endDateText = ::loc("clan/battle_season/ends") + ::loc("ui/colon") + "\n" + ::g_clan_seasons.getSeasonEndDate()
+      local endDateText = ::loc("clan/battle_season/ends") + ::loc("ui/colon") + " " + ::g_clan_seasons.getSeasonEndDate()
       objEndsDuel.setValue(endDateText)
     }
 
@@ -766,13 +768,13 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         diff
       )
       local rowBlock = ""
-      foreach (placeIndex, reward in rewards)
+      local rowData = []
+      foreach (reward in rewards)
       {
         local placeText = (reward.place >= 1 && reward.place <= 3) ?
           ::loc("clan/season_award/place/place" + reward.place) :
           ::loc("clan/season_award/place/placeN", { placeNum = reward.place })
 
-        local rowData = []
         rowData.append({
           text = placeText,
           active = false,
@@ -791,9 +793,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
           }",
           active = false
         })
-
-        rowBlock += ::buildTableRowNoPad("row_" + placeIndex, rowData, null, "")
       }
+      rowBlock += ::buildTableRowNoPad("row_0", rowData, null, "")
       guiScene.replaceContentFromText(clanTableObj, rowBlock, rowBlock.len(), this)
     }
 
@@ -848,9 +849,9 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       return
 
     local rowBlock = ""
+    local rowData = []
     for (local i=1; i<=3; i++)
     {
-      local rowData = []
       rowData.append({text = ::loc("clan/battle_season/place_"+i), active = false, tdAlign="right"})
       rowData.append({
         needText=false,
@@ -859,8 +860,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
           "'; size:t='pw,ph'; style:t='re-type:textarea; behaviour:textarea;'; }",
         active = false
       })
-      rowBlock += ::buildTableRowNoPad("row_"+i, rowData, null, "")
     }
+    rowBlock += ::buildTableRowNoPad("row_0", rowData, null, "")
     guiScene.replaceContentFromText(clanTableObj, rowBlock, rowBlock.len(), this)
   }
 

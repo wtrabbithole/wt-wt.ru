@@ -36,21 +36,21 @@ class ::gui_handlers.clanChangeRoleModal extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     roles = [];
-    adminMode = clan_get_admin_editor_mode()
+    adminMode = ::clan_get_admin_editor_mode()
     local roleOptions = "";
     local roleListObj = scene.findObject("change_role_list");
     local titleObj = scene.findObject("title_text");
-    local myRole = adminMode? ::ECMR_CLANADMIN : clan_get_my_role()
-    local myRank = clan_get_role_rank(myRole)
+    local myRole = adminMode? ::ECMR_CLANADMIN : ::clan_get_my_role()
+    local myRank = ::clan_get_role_rank(myRole)
 
     if (titleObj) titleObj.setValue(::loc("clan/changeRoleTitle")+" "+changeRolePlayer.name);
 
     for (local role = 0; role<::ECMR_MAX_TOTAL; role++)
     {
-       local roleName = clan_get_role_name(role);
+       local roleName = ::clan_get_role_name(role);
        if (!roleName)
          continue;
-       local rank = clan_get_role_rank(role);
+       local rank = ::clan_get_role_rank(role);
        if (rank != 0 && (role != ::ECMR_LEADER || adminMode)
            && !::isInArray("HIDDEN", ::clan_get_role_rights(role))
            && clanType.isRoleAllowed(role))
@@ -111,7 +111,7 @@ class ::gui_handlers.clanChangeRoleModal extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local msg = ::loc("clan/roleChanged") + " " + ::loc("clan/"+roles[newRoleIdx].name)
-    local taskId = clan_request_change_member_role(changeRolePlayer.uid, roles[newRoleIdx].name)
+    local taskId = ::clan_request_change_member_role(changeRolePlayer.uid, roles[newRoleIdx].name)
 
     if (taskId >= 0 && !adminMode)
       ::sync_handler_simulate_signal("clan_info_reload")

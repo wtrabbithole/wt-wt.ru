@@ -2203,7 +2203,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onEventSquadronExpChanged(params)
   {
-    checkUnitItemAndUpdate(::getAircraftByName(clan_get_researching_unit()))
+    checkUnitItemAndUpdate(::getAircraftByName(::clan_get_researching_unit()))
   }
 
   function onEventFlushSquadronExp(params)
@@ -2227,7 +2227,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   isDisabledCountry = @(countryData) false
   isDisabledUnitTypePage = @(countryData, unitTypePage) false
-  hasSquadronVehicleToResearche = @() clan_get_researching_unit() != ""
+  hasSquadronVehicleToResearche = @() ::clan_get_researching_unit() != ""
   needChosenResearchOfSquadron = @() false
   getParamsForActionsList = @() {
     needChosenResearchOfSquadron = needChosenResearchOfSquadron()

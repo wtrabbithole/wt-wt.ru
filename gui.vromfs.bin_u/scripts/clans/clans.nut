@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local clanRewardsModal = require("scripts/rewards/clanRewardsModal.nut")
 
 
 const CLAN_ID_NOT_INITED = ""
@@ -126,7 +127,7 @@ function g_clans::disbandClan(clanId, handler)
 {
   ::gui_modal_comment(handler, ::loc("clan/writeCommentary"), ::loc("clan/btnDisbandClan"),
                       (@(handler, clanId) function(comment) {
-                        handler.taskId = clan_request_disband(clanId, comment);
+                        handler.taskId = ::clan_request_disband(clanId, comment);
 
                         if (handler.taskId >= 0)
                         {
@@ -295,7 +296,7 @@ function g_clans::hasRightsToQueueWWar()
     return false
   if (!::has_feature("WorldWarClansQueue"))
     return false
-  local myRights = clan_get_role_rights(clan_get_my_role())
+  local myRights = ::clan_get_role_rights(::clan_get_my_role())
   return ::isInArray("WW_REGISTER", myRights)
 }
 
@@ -399,7 +400,7 @@ function g_clans::isHaveRightsToReviewCandidates()
 {
   if( ! ::is_in_clan())
     return false
-  local rights = clan_get_role_rights(clan_get_my_role())
+  local rights = ::clan_get_role_rights(::clan_get_my_role())
   return isInArray("MEMBER_ADDING", rights) || isInArray("MEMBER_REJECT", rights)
 }
 
@@ -476,15 +477,21 @@ function g_clans::getRewardLogData(clanData, rewardId, maxCount)
 {
   local list = []
   local count = 0
+
   foreach (seasonReward in clanData[rewardId])
   {
-    list.append({
+    local params = {
       iconStyle  = seasonReward.iconStyle()
       iconConfig = seasonReward.iconConfig()
       iconParams = seasonReward.iconParams()
       name = seasonReward.name()
       desc = seasonReward.desc()
+    }
+
+    params = params.__merge({
+      bestRewardsConfig = {seasonName = seasonReward.seasonIdx, title = seasonReward.seasonTitle}
     })
+    list.append(params)
 
     if (maxCount != -1 && ++count == maxCount)
       break
@@ -494,10 +501,10 @@ function g_clans::getRewardLogData(clanData, rewardId, maxCount)
 
 function g_clans::showClanRewardLog(clanData)
 {
-  ::showUnlocksGroupWnd([{
-    unlocksList = getClanPlaceRewardLogData(clanData)
-    titleText = ::loc("clan/clan_awards")
-  }])
+  clanRewardsModal.open({
+    rewards = getClanPlaceRewardLogData(clanData),
+    clanId = clanData?.id
+  })
 }
 
 function g_clans::getClanCreationDateText(clanData)
@@ -993,7 +1000,7 @@ function is_in_my_clan(name = null, uid = null)
 function get_clan_info_table(clanInfo = null)
 {
   if (!clanInfo)
-    clanInfo = clan_get_clan_info()
+    clanInfo = ::clan_get_clan_info()
 
   if (!clanInfo._id)
     return null
@@ -1105,20 +1112,25 @@ function get_clan_info_table(clanInfo = null)
       return []
 
     local log = []
-    foreach (season in clanInfo[rewardBlockId])
+    foreach (idx, season in clanInfo[rewardBlockId])
     {
-      season.type = season.type ?? "duelClans"
-      local seasonName = titleClass.getSeasonName(season)
       foreach (title in season % "titles")
-        log.append(titleClass.createFromClanReward(title, season.t, season.type, seasonName, clan))
+        log.append(titleClass.createFromClanReward(title, idx, season, clan))
     }
     return log
   })(clan)
 
   local sortRewardsInlog = @(a, b) b.seasonTime <=> a.seasonTime
+  local getBestRewardLog = function() {
+    local log = []
+    foreach (reward in clanInfo % "clanBestRewards")
+      log.append({seasonName = reward.seasonName, title = reward.title})
+    return log
+  }
 
   clan.rewardLog <- getRewardLog(clanInfo, "clanRewardLog", ::ClanSeasonPlaceTitle)
   clan.rewardLog.sort(sortRewardsInlog)
+  clan.clanBestRewards <- getBestRewardLog()
 
   clan.seasonRewards <- ::buildTableFromBlk(::getTblValue("clanSeasonRewards", clanInfo))
   clan.seasonRatingRewards <- ::buildTableFromBlk(::getTblValue("clanSeasonRatingRewards", clanInfo))
@@ -1133,6 +1145,21 @@ function get_clan_info_table(clanInfo = null)
   return getFilteredClanData(clan)
 }
 
+local function getSeasonName(blk)
+{
+  local name = ""
+  if (blk.type == "worldWar")
+    name = ::loc("worldwar/season_name/" + ::split(blk.titles, "@")?[2])
+  else
+  {
+    local year = ::get_utc_time_from_t(blk.seasonStartTimestamp || 0).year.tostring()
+    local num  = ::get_roman_numeral(::to_integer_safe(blk.numInYear || 0)
+      + CLAN_SEASON_NUM_IN_YEAR_SHIFT)
+    name = ::loc("clan/battle_season/name", { year = year, num = num })
+  }
+  return name
+}
+
 class ClanSeasonTitle
 {
   clanTag = ""
@@ -1145,21 +1172,6 @@ class ClanSeasonTitle
   constructor (...)
   {
     ::dagor.assertf(false, "Error: attempt to instantiate ClanSeasonTitle intreface class.")
-  }
-
-  static function getSeasonName(blk)
-  {
-    local name = ""
-    if (blk.type == "worldWar")
-      name = ::loc("worldwar/season_name/" + ::split(blk.titles, "@")?[2])
-    else
-    {
-      local year = ::get_utc_time_from_t(blk.seasonStartTimestamp || 0).year.tostring()
-      local num  = ::get_roman_numeral(::to_integer_safe(blk.numInYear || 0)
-        + CLAN_SEASON_NUM_IN_YEAR_SHIFT)
-      name = ::loc("clan/battle_season/name", { year = year, num = num })
-    }
-    return name
   }
 
   function getBattleTypeTitle()
@@ -1189,22 +1201,26 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
   place = ""
   seasonType = ""
   seasonTag = null
+  seasonIdx = ""
+  seasonTitle = ""
 
-  static function createFromClanReward (titleString, sTime, sType, seasonName, clanData)
+  static function createFromClanReward (titleString, sIdx, season, clanData)
   {
     local titleParts = ::split(titleString, "@")
     local place = ::getTblValue(0, titleParts, "")
     local difficultyName = ::getTblValue(1, titleParts, "")
     local sTag = titleParts?[2]
     return ClanSeasonPlaceTitle(
-      sTime,
-      sType,
+      season.t,
+      season.type,
       sTag,
       difficultyName,
       place,
-      seasonName,
+      getSeasonName(season),
       clanData.tag,
-      clanData.name
+      clanData.name,
+      sIdx,
+      titleString
     )
   }
 
@@ -1219,9 +1235,11 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
       null,
       unlockBlk.rewardForDiff,
       idParts[0],
-      ::ClanSeasonPlaceTitle.getSeasonName(unlockBlk),
+      getSeasonName(unlockBlk),
       info.clanTag,
-      info.clanName
+      info.clanName,
+      "",
+      ""
     )
   }
 
@@ -1234,7 +1252,9 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
     _place,
     _seasonName,
     _clanTag,
-    _clanName
+    _clanName,
+    _seasonIdx,
+    _seasonTitle
   )
   {
     seasonTime = _seasonTime
@@ -1245,6 +1265,8 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
     seasonName = _seasonName
     clanTag = _clanTag
     clanName = _clanName
+    seasonIdx = _seasonIdx
+    seasonTitle = _seasonTitle
   }
 
   function isWinner()

@@ -95,3 +95,12 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
   userstat = { request = @(...) null }
   xbox_link_email = @(email, cb) cb(::YU2_FAIL)
 })
+
+//----------------------------wop_1_89_1_X---------------------------------//
+::apply_compatibilities({
+  function warbonds_has_active_battle_task(name)
+  {
+    return !::warbonds_can_buy_battle_task(name)
+  }
+  function clan_get_exp_boost() {return 0}
+})

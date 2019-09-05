@@ -7,6 +7,7 @@ const VOTED_POLLS_SAVE_ID = "voted_polls"
   votedPolls = null
   pollBaseUrlById = {}
   pollIdByFullUrl = {}
+  authorizedPolls = []
 }
 
 function g_webpoll::loadVotedPolls()
@@ -42,6 +43,8 @@ function g_webpoll::webpollEvent(id, token, voted)
     ::set_blk_value_by_path(getVotedPolls(), id, true)
     saveVotedPolls()
   }
+  if (authorizedPolls.find(id) == null)
+    authorizedPolls.push(id)
   ::broadcastEvent("WebPollAuthResult", {pollId = id})
 }
 
@@ -88,11 +91,17 @@ function g_webpoll::generatePollUrl(pollId, needAuthorization = true)
       ::webpoll_authorize_with_url(pollBaseUrl, pollId.tointeger())
     return ""
   }
-  local url = ::loc("url/webpoll_url",
-    { base_url = pollBaseUrl, survey_id = pollId, disposable_token = cachedToken })
-  if( ! (url in pollIdByFullUrl))
-    pollIdByFullUrl[url] <- pollId
-  return url
+
+  if (authorizedPolls.find(pollId.tostring()) != null)
+  {
+    local url = ::loc("url/webpoll_url",
+      { base_url = pollBaseUrl, survey_id = pollId, disposable_token = cachedToken })
+    if( ! (url in pollIdByFullUrl))
+      pollIdByFullUrl[url] <- pollId
+    return url
+  }
+
+  return ""
 }
 
 function g_webpoll::isPollVoted(pollId)

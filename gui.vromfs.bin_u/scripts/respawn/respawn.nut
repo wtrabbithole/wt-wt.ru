@@ -1848,7 +1848,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function use_autostart()
   {
-    if (!(get_game_type() & ::GT_AUTO_SPAWN))
+    if (!(::get_game_type() & ::GT_AUTO_SPAWN))
       return false;
     local crew = getCurCrew()
     if (isSpectate || !crew || !::before_first_flight_in_session || missionRules.isWarpointsRespawnEnabled)
@@ -2600,10 +2600,10 @@ if ("get_available_respawn_bases_debug" in getroottable())
 
 function has_available_slots()
 {
-  if (!(get_game_type() & (::GT_VERSUS | ::GT_COOPERATIVE)))
+  if (!(::get_game_type() & (::GT_VERSUS | ::GT_COOPERATIVE)))
     return true
 
-  if (get_game_mode() == ::GM_SINGLE_MISSION || get_game_mode() == ::GM_DYNAMIC)
+  if (::get_game_mode() == ::GM_SINGLE_MISSION || ::get_game_mode() == ::GM_DYNAMIC)
     return true
 
   if (!::g_mis_loading_state.isCrewsListReceived())

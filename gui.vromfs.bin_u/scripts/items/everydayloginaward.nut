@@ -210,7 +210,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
   function getRewardsArray(awardName)
   {
     local userlogConfig = []
-    local total = get_user_logs_count()
+    local total = ::get_user_logs_count()
     for (local i = total-1; i >= 0; i--)
     {
       local blk = ::DataBlock()

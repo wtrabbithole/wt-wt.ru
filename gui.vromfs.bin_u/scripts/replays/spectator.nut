@@ -489,10 +489,9 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function getPlayerByUserId(userId)
   {
-    userIdStr = userId.tostring()
     foreach (info in teams)
       foreach (p in info.players)
-        if (p.userId == userIdStr)
+        if (p.userId == userId.tostring())
           return p
     return null
   }

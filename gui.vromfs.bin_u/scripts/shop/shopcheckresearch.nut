@@ -449,7 +449,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 function getSteamMarkUp()
 {
   local blk = ::DataBlock()
-  blk = get_discounts_blk()
+  blk = ::get_discounts_blk()
 
   foreach(name, block in blk)
     if(name == "steam_markup")

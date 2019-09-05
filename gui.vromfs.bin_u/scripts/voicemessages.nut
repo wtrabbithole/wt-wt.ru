@@ -224,11 +224,17 @@ function addFavoriteVoiceMessage(message_index)
   if (place < 0)
     return;
 
-  set_option_favorite_voice_message(place, message_index);
+  ::set_option_favorite_voice_message(place, message_index);
 }
 function removeFavoriteVoiceMessage(index)
 {
-  set_option_favorite_voice_message(index, -1);
+  ::set_option_favorite_voice_message(index, -1);
+}
+
+function reset_fast_voice_messages()
+{
+  for (local i = 0; i < ::NUM_FAST_VOICE_MESSAGES; i++)
+    ::removeFavoriteVoiceMessage(i)
 }
 
 function is_voice_messages_muted(name) //used from native code

@@ -426,7 +426,7 @@ function g_orders::orderCanBeActivated()
 /** Returns true if orders can be used as a feature. */
 function g_orders::ordersCanBeUsed()
 {
-  local checkGameType = (get_game_type() & ::GT_USE_ORDERS) != 0
+  local checkGameType = (::get_game_type() & ::GT_USE_ORDERS) != 0
   return checkGameType && ::is_in_flight() && ::has_feature("Orders")
 }
 
@@ -434,7 +434,7 @@ function g_orders::getActivateInfoText()
 {
   if (!::is_in_flight())
     return ::loc("order/usableOnlyInBattle")
-  if ((get_game_type() & ::GT_USE_ORDERS) == 0)
+  if ((::get_game_type() & ::GT_USE_ORDERS) == 0)
     return ::loc("order/notUsableInCurrentBattle")
   if (hasActiveOrder)
     return ::loc("order/onlyOneOrderCanBeActive")

@@ -137,7 +137,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
     if (!isAvailableByCrossPlay())
       return ::loc("xbox/crossPlayRequired")
     if (!isAvailableByChatRestriction())
-      return ::loc("xbox/actionNotAvailableOnlinePrivacy")
+      return ::loc("xbox/actionNotAvailableLiveCommunications")
     if (haveRestrictions())
       return ::loc("squad/cant_join_in_flight")
     return ""

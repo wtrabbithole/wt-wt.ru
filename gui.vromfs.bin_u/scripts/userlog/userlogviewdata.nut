@@ -568,12 +568,6 @@ function get_userlog_view_data(log)
       res.tooltip = config.desc
     }
 
-    if ("unit" in log)
-    {
-      local unitName = ::getUnitName(log.unit, false)
-      desc += ((desc=="")? "":"\n") + ::loc("userlog/used_vehicled") + ::loc("ui/colon") + unitName
-    }
-
     if (config.rewardText != "")
     {
       res.name += ::loc("ui/parentheses/space", {text = config.rewardText})
@@ -638,7 +632,7 @@ function get_userlog_view_data(log)
       action = ::getTblValue("clanActionType", log, -1)
       clan = ("clanName" in log)? ::ps4CheckAndReplaceContentDisabledText(log.clanName) : ""
       player = ::getTblValue("initiatorNick", log, "")
-      role = ("role" in log)? ::loc("clan/"+clan_get_role_name(log.role)) : ""
+      role = ("role" in log)? ::loc("clan/" + ::clan_get_role_name(log.role)) : ""
       status = ("enabled" in log) ? ::loc("clan/" + (log.enabled ? "opened" : "closed")) : ""
       tag = ::getTblValue("clanTag", log, "")
       tagOld = ::getTblValue("clanTagOld", log, "")
@@ -668,7 +662,7 @@ function get_userlog_view_data(log)
     else if (log.type==::EULT_BUYING_UNLOCK)
     {
       config = build_log_unlock_data(log)
-      resourceType = get_name_by_unlock_type(config.type)
+      resourceType = ::get_name_by_unlock_type(config.type)
     }
 
     res.name = format(::loc("userlog/"+logName+"/"+resourceType), config.name) + priceText

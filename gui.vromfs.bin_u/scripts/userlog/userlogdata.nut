@@ -163,7 +163,7 @@ function check_new_user_logs()
 
 function collectOldNotifications()
 {
-  local total = get_user_logs_count()
+  local total = ::get_user_logs_count()
   for(local i = 0; i < total; i++)
   {
     local blk = ::DataBlock()
@@ -217,7 +217,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
   local trophyRewardsTable = {}
   local rentsTable = {}
   local ignoreRentItems = []
-  local total = get_user_logs_count()
+  local total = ::get_user_logs_count()
   local unlocksNeedsPopupWnd = false
   local popupMask = ("getUserlogsMask" in handler) ? handler.getUserlogsMask() : USERLOG_POPUP.ALL
 
@@ -280,7 +280,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
           local priceText = ::g_warbonds.getWarbondPriceText(awardBlk?.cost ?? 0)
           local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
           msg = awardType.getUserlogBuyText(awardBlk, priceText)
-          if (awardType.id == ::EWBAT_BATTLE_TASK && awardType.canBuy(awardBlk))
+          if (awardType.id == ::EWBAT_BATTLE_TASK && !::warbonds_has_active_battle_task(awardBlk.name))
             ::broadcastEvent("BattleTasksIncomeUpdate")
         }
       }
@@ -604,7 +604,7 @@ function getUserLogsList(filter)
     local log = {
       idx = i
       type = blk.type
-      time = get_user_log_time_sec(i)
+      time = ::get_user_log_time_sec(i)
       enabled = !blk.disabled
       roomId = blk.roomId
     }

@@ -167,10 +167,10 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
   function update()
   {
     isMyClan = ::clan_get_my_clan_id() == clanData.id
-    adminMode = clan_get_admin_editor_mode()
+    adminMode = ::clan_get_admin_editor_mode()
     myRights = []
     if (isMyClan || adminMode)
-      myRights = clan_get_role_rights(adminMode ? ::ECMR_CLANADMIN : clan_get_my_role())
+      myRights = ::clan_get_role_rights(adminMode ? ::ECMR_CLANADMIN : ::clan_get_my_role())
 
     updateButtons()
   }
@@ -186,7 +186,7 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
 
     if (upgradeMembersButtonVisible)
     {
-      local cost = clan_get_admin_editor_mode() ? ::Cost() : clanData.type.getMembersUpgradeCost(clanData.mlimit)
+      local cost = ::clan_get_admin_editor_mode() ? ::Cost() : clanData.type.getMembersUpgradeCost(clanData.mlimit)
       local upgStep = clanData.type.getMembersUpgradeStep()
       ::placePriceTextToButton(scene, "btn_upg_members", ::loc("clan/members_upgrade_button", {step = upgStep}), cost)
     }
@@ -198,7 +198,7 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
   // Override
   function onUpgradeMembers()
   {
-    local cost = clan_get_admin_editor_mode() ? ::Cost() : clanData.type.getMembersUpgradeCost(clanData.mlimit)
+    local cost = ::clan_get_admin_editor_mode() ? ::Cost() : clanData.type.getMembersUpgradeCost(clanData.mlimit)
     if (::check_balance_msgBox(cost))
     {
       local step = clanData.type.getMembersUpgradeStep()
@@ -218,7 +218,7 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
   // Override
   function onEventClanInfoUpdate(p)
   {
-    if (clanData && clanData.id == clan_get_my_clan_id())
+    if (clanData && clanData.id == ::clan_get_my_clan_id())
     {
       if (!::my_clan_info)
         return goBack()
@@ -243,7 +243,7 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
 
   function onDisbandClan()
   {
-    if ((!isMyClan || !isInArray("LEADER", myRights)) && !clan_get_admin_editor_mode())
+    if ((!isMyClan || !isInArray("LEADER", myRights)) && !::clan_get_admin_editor_mode())
       return;
 
     msgBox("disband_clan", ::loc("clan/disbandClanConfirmation"),

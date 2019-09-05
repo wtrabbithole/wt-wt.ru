@@ -626,7 +626,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
     fObj["max-width"] = "1@maxWindowWidth"
     fObj["class"] = "wnd"
     local blocksCount = (getMaximumListlength(unlocksLists) > 3) ? 2 : 1
-    fObj.width = blocksCount + "@unlockBlockWidth + " + blocksCount + "*3@framePadding"
+    fObj.width = blocksCount + "@unlockBlockWidth + " + (blocksCount + 1) + "@framePadding"
 
     local listObj = scene.findObject("wnd_content")
     listObj.width = "pw"
@@ -717,6 +717,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
     local obj = guiScene.createElementByObject(listObj, "gui/unlocks/unlockBlock.blk", "frameBlock_dark", this)
     obj.id = objId
     obj.width = "1@unlockBlockWidth"
+    obj.pos = "1@framePadding, 1@framePadding"
 
     ::fill_unlock_block(obj, unlock)
   }

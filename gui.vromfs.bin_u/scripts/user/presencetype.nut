@@ -58,7 +58,7 @@ enums.addTypesByGlobalName("g_presence_type", {
                     || ::SessionLobby.isInRoom())
     canInviteToWWBattle = false
     updateParams = function(params) {
-      params.gameMod <- get_game_mode()
+      params.gameMod <- ::get_game_mode()
       params.eventName <- ::events.getEventEconomicName(::SessionLobby.getRoomEvent())
       params.country <- ::get_profile_country_sq()
     }

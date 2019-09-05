@@ -599,7 +599,7 @@ function g_chat::generatePlayerLink(name, uid = null)
 
 function g_chat::onEventInitConfigs(p)
 {
-  local blk = get_game_settings_blk()
+  local blk = ::get_game_settings_blk()
   if (!::u.isDataBlock(blk.chat))
     return
 

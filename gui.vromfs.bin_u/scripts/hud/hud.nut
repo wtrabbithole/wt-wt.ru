@@ -151,7 +151,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     loadGameChat()
 
     scene.findObject("hud_update").setUserData(this)
-    local gm = get_game_mode()
+    local gm = ::get_game_mode()
     showSceneBtn("stats", (gm == ::GM_DOMINATION || gm == ::GM_SKIRMISH))
     showSceneBtn("voice", (gm == ::GM_DOMINATION || gm == ::GM_SKIRMISH))
 

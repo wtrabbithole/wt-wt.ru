@@ -1,12 +1,7 @@
-div {
-  size:t='sw, sh'
-  position:t='root'
-  pos:t='0, 0'
-  behavior:t='button'
+rootUnderPopupMenu {
   on_click:t='goBack'
   on_r_click:t='goBack'
   input-transparent:t='yes'
-  accessKey:t='Esc | J:B'
 }
 
 popup_menu {

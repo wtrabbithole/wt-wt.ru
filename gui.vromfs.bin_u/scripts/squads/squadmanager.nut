@@ -418,7 +418,7 @@ function g_squad_manager::setSquadSize(newSize)
 function g_squad_manager::initSquadSizes()
 {
   squadSizesList.clear()
-  local sizesBlk = ::get_blk_value_by_path(get_game_settings_blk(), "squad/sizes")
+  local sizesBlk = ::get_game_settings_blk()?.squad?.sizes
   if (!::u.isDataBlock(sizesBlk))
     return
 

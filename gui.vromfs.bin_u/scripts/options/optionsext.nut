@@ -126,7 +126,7 @@ function get_game_mode_maps()
 
   for (local modeNo = 0; modeNo < ::GM_COUNT; ++modeNo)
   {
-    local mi = get_meta_missions_info(modeNo)
+    local mi = ::get_meta_missions_info(modeNo)
 
     local modeMap = {}
     modeMap.items <- []
@@ -509,7 +509,7 @@ function fill_dynmap(descr)
   local dynLayouts = ::get_dynamic_layouts()
   foreach(layout in dynLayouts)
   {
-    if (get_game_mode() == ::GM_BUILDER)
+    if (::get_game_mode() == ::GM_BUILDER)
     {
       local db = ::DataBlock(layout.mis_file)
       local tags = db.mission_settings.mission.tags % "tag"
@@ -1848,7 +1848,7 @@ function get_option(optionId, context = null)
       descr.items = ["#options/chat_messages_all", "#options/chat_messages_team_and_squad", "#options/chat_messages_squad",
         "#options/chat_messages_system", "#options/chat_messages_nothing"]
       descr.values = [0, 1, 2, 3, 4]
-      descr.value = get_option_chat_messages_filter()
+      descr.value = ::get_option_chat_messages_filter()
       break
 
     case ::USEROPT_CHAT_FILTER:
@@ -1938,7 +1938,7 @@ function get_option(optionId, context = null)
       descr.id = "show_indicators"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = (get_option_indicators_mode() & ::HUD_INDICATORS_SHOW) != 0
+      descr.value = (::get_option_indicators_mode() & ::HUD_INDICATORS_SHOW) != 0
       break
 
     case ::USEROPT_REPLAY_ALL_INDICATORS:
@@ -1968,14 +1968,14 @@ function get_option(optionId, context = null)
       descr.id = "hud_show_bonuses"
       descr.items = ["#options/no", "#options/inarcade", "#options/always"]
       descr.values = [0, 1, 2]
-      descr.value = get_option_hud_show_bonuses();
+      descr.value = ::get_option_hud_show_bonuses();
       break
 
     case ::USEROPT_HUD_SCREENSHOT_LOGO:
       descr.id = "hud_screenshot_logo"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = get_option_hud_screenshot_logo()
+      descr.value = ::get_option_hud_screenshot_logo()
       break
 
     case ::USEROPT_SAVE_ZOOM_CAMERA:
@@ -2051,7 +2051,7 @@ function get_option(optionId, context = null)
       descr.id = "autopilot_on_bombview"
       descr.items = ["#options/no", "#options/inmouseaim", "#options/always"]
       descr.values = [0, 1, 2]
-      descr.value = get_option_autopilot_on_bombview();
+      descr.value = ::get_option_autopilot_on_bombview();
       descr.trParams <- "optionWidthInc:t='half';"
       break
 
@@ -2059,28 +2059,28 @@ function get_option(optionId, context = null)
       descr.id = "autorearm_on_airfield"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = get_option_autorearm_on_airfield()
+      descr.value = ::get_option_autorearm_on_airfield()
       break
 
     case ::USEROPT_SAVE_AI_TARGET_TYPE:
       descr.id = "save_ai_target_type"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = get_option_ai_target_type()
+      descr.value = ::get_option_ai_target_type()
       break
 
     case ::USEROPT_DEFAULT_AI_TARGET_TYPE:
       descr.id = "default_ai_target_type"
       descr.items = ["#options/ai_gunner_disabled", "#options/ai_gunner_all", "#options/ai_gunner_air", "#options/ai_gunner_ground"]
       descr.values = [0, 1, 2, 3]
-      descr.value = get_option_default_ai_target_type()
+      descr.value = ::get_option_default_ai_target_type()
       break
 
     case ::USEROPT_SHOW_INDICATORS_TYPE:
       descr.id = "show_indicators_type"
       descr.items = ["#options/selected", "#options/centered", "#options/all"]
       descr.values = [0, 1, 2]
-      local val = get_option_indicators_mode();
+      local val = ::get_option_indicators_mode();
       descr.value = (val & ::HUD_INDICATORS_SELECT) ? 0 : ((val & ::HUD_INDICATORS_CENTER) ? 1 : 2);
       break
 
@@ -2088,28 +2088,28 @@ function get_option(optionId, context = null)
       descr.id = "show_indicators_nick"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = (get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_NICK) != 0
+      descr.value = (::get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_NICK) != 0
       break
 
     case ::USEROPT_SHOW_INDICATORS_TITLE:
       descr.id = "show_indicators_title"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = (get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_TITLE) != 0
+      descr.value = (::get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_TITLE) != 0
       break
 
     case ::USEROPT_SHOW_INDICATORS_AIRCRAFT:
       descr.id = "show_indicators_aircraft"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = (get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_AIRCRAFT) != 0
+      descr.value = (::get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_AIRCRAFT) != 0
       break
 
     case ::USEROPT_SHOW_INDICATORS_DIST:
       descr.id = "show_indicators_dist"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      descr.value = (get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_DIST) != 0
+      descr.value = (::get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_DIST) != 0
       break
 
     case ::USEROPT_USE_SIXAXIS:
@@ -3013,7 +3013,7 @@ function get_option(optionId, context = null)
         local isFuelFixed = false
         if(::cur_aircraft_name)
         {
-          prevValue = get_unit_option(::cur_aircraft_name, ::USEROPT_LOAD_FUEL_AMOUNT)
+          prevValue = ::get_unit_option(::cur_aircraft_name, ::USEROPT_LOAD_FUEL_AMOUNT)
           maxFuel = ::get_aircraft_max_fuel(::cur_aircraft_name)
           local difOpt = ::get_option(::USEROPT_DIFFICULTY)
           local difficulty = ::SessionLobby.isInRoom() ? ::SessionLobby.getMissionParam("difficulty", difOpt.values[0]) : difOpt.values[difOpt.value]
@@ -3330,77 +3330,77 @@ function get_option(optionId, context = null)
         }
 
       descr.cb = "onCDChange"
-      descr.value = get_cd_option(::USEROPT_CD_ENGINE)
+      descr.value = ::get_cd_option(::USEROPT_CD_ENGINE)
       break
     case ::USEROPT_CD_GUNNERY:
       descr.id = "realGunnery"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_GUNNERY)
+      descr.value = !!::get_cd_option(::USEROPT_CD_GUNNERY)
       break
     case ::USEROPT_CD_DAMAGE:
       descr.id = "realDamageModels"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_DAMAGE)
+      descr.value = !!::get_cd_option(::USEROPT_CD_DAMAGE)
       break
     case ::USEROPT_CD_FLUTTER:
       descr.id = "flutter"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_FLUTTER)
+      descr.value = !!::get_cd_option(::USEROPT_CD_FLUTTER)
       break
     case ::USEROPT_CD_STALLS:
       descr.id = "stallsAndSpins"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_STALLS)
+      descr.value = !!::get_cd_option(::USEROPT_CD_STALLS)
       break
     case ::USEROPT_CD_REDOUT:
       descr.id = "redOuts"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_REDOUT)
+      descr.value = !!::get_cd_option(::USEROPT_CD_REDOUT)
       break
     case ::USEROPT_CD_MORTALPILOT:
       descr.id = "mortalPilots"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_MORTALPILOT)
+      descr.value = !!::get_cd_option(::USEROPT_CD_MORTALPILOT)
       break
     case ::USEROPT_CD_BOMBS:
       descr.id = "limitedArmament"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_BOMBS)
+      descr.value = !!::get_cd_option(::USEROPT_CD_BOMBS)
       break
     case ::USEROPT_CD_BOOST:
       descr.id = "noArcadeBoost"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_BOOST)
+      descr.value = !!::get_cd_option(::USEROPT_CD_BOOST)
       break
     case ::USEROPT_CD_TPS:
       descr.id = "disableTpsViews"
       descr.items = ["#options/limitViewTps", "#options/limitViewFps", "#options/limitViewCockpit"]
       descr.values = [0, 1, 2]
       descr.cb = "onCDChange"
-      descr.value = get_cd_option(::USEROPT_CD_TPS)
+      descr.value = ::get_cd_option(::USEROPT_CD_TPS)
       break
     case ::USEROPT_CD_AIM_PRED:
       descr.id = "hudAimPrediction"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_AIM_PRED)
+      descr.value = !!::get_cd_option(::USEROPT_CD_AIM_PRED)
       break
     case ::USEROPT_CD_MARKERS:
       local teamAirSb = ::loc("options/ally") + ::loc("ui/parentheses/space", { text = ::loc("missions/air_event_simulator") })
@@ -3408,126 +3408,126 @@ function get_option(optionId, context = null)
       descr.items = ["#options/no", "#options/ally", "#options/all", teamAirSb]
       descr.values = [0, 1, 2, 3]
       descr.cb = "onCDChange"
-      descr.value = get_cd_option(::USEROPT_CD_MARKERS)
+      descr.value = ::get_cd_option(::USEROPT_CD_MARKERS)
       break
     case ::USEROPT_CD_ARROWS:
       descr.id = "hudMarkerArrows"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_ARROWS)
+      descr.value = !!::get_cd_option(::USEROPT_CD_ARROWS)
       break
     case ::USEROPT_CD_AIRCRAFT_MARKERS_MAX_DIST:
       descr.id = "hudAircraftMarkersMaxDist"
       descr.items = ["#options/near", "#options/normal", "#options/far", "#options/quality_max"]
       descr.values = [0, 1, 2, 3]
       descr.cb = "onCDChange"
-      descr.value = get_cd_option(::USEROPT_CD_AIRCRAFT_MARKERS_MAX_DIST)
+      descr.value = ::get_cd_option(::USEROPT_CD_AIRCRAFT_MARKERS_MAX_DIST)
       break
     case ::USEROPT_CD_INDICATORS:
       descr.id = "hudIndicators"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_INDICATORS)
+      descr.value = !!::get_cd_option(::USEROPT_CD_INDICATORS)
       break
     case ::USEROPT_CD_SPEED_VECTOR:
       descr.id = "hudShowSpeedVector"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_SPEED_VECTOR)
+      descr.value = !!::get_cd_option(::USEROPT_CD_SPEED_VECTOR)
       break
     case ::USEROPT_CD_TANK_DISTANCE:
       descr.id = "hudShowTankDistance"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_TANK_DISTANCE)
+      descr.value = !!::get_cd_option(::USEROPT_CD_TANK_DISTANCE)
       break
     case ::USEROPT_CD_MAP_AIRCRAFT_MARKERS:
       descr.id = "hudMapAircraftMarkers"
       descr.items = ["#options/no", "#options/ally", "#options/all", "#options/player"]
       descr.values = [0, 1, 2, 3]
       descr.cb = "onCDChange"
-      descr.value = get_cd_option(::USEROPT_CD_MAP_AIRCRAFT_MARKERS)
+      descr.value = ::get_cd_option(::USEROPT_CD_MAP_AIRCRAFT_MARKERS)
       break
     case ::USEROPT_CD_MAP_GROUND_MARKERS:
       descr.id = "hudMapGroundMarkers"
       descr.items = ["#options/no", "#options/ally", "#options/all"]
       descr.values = [0, 1, 2]
       descr.cb = "onCDChange"
-      descr.value = get_cd_option(::USEROPT_CD_MAP_GROUND_MARKERS)
+      descr.value = ::get_cd_option(::USEROPT_CD_MAP_GROUND_MARKERS)
       break
     case ::USEROPT_CD_MARKERS_BLINK:
       descr.id = "hudMarkersBlink"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_MARKERS_BLINK)
+      descr.value = !!::get_cd_option(::USEROPT_CD_MARKERS_BLINK)
       break
     case ::USEROPT_CD_RADAR:
       descr.id = "hudRadar"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_RADAR)
+      descr.value = !!::get_cd_option(::USEROPT_CD_RADAR)
       break
     case ::USEROPT_CD_DAMAGE_IND:
       descr.id = "hudDamageIndicator"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_DAMAGE_IND)
+      descr.value = !!::get_cd_option(::USEROPT_CD_DAMAGE_IND)
       break
     case ::USEROPT_CD_LARGE_AWARD_MESSAGES:
       descr.id = "hudLargeAwardMessages"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_LARGE_AWARD_MESSAGES)
+      descr.value = !!::get_cd_option(::USEROPT_CD_LARGE_AWARD_MESSAGES)
       break
     case ::USEROPT_CD_WARNINGS:
       descr.id = "hudWarnings"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange"
-      descr.value = !!get_cd_option(::USEROPT_CD_WARNINGS)
+      descr.value = !!::get_cd_option(::USEROPT_CD_WARNINGS)
       break
     case ::USEROPT_CD_AIR_HELPERS:
       descr.id = "aircraftHelpers";
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange";
-      descr.value = !!get_cd_option(::USEROPT_CD_AIR_HELPERS)
+      descr.value = !!::get_cd_option(::USEROPT_CD_AIR_HELPERS)
       break;
     case ::USEROPT_CD_COLLECTIVE_DETECTION:
       descr.id = "collectiveDetection";
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange";
-      descr.value = !!get_cd_option(::USEROPT_CD_COLLECTIVE_DETECTION)
+      descr.value = !!::get_cd_option(::USEROPT_CD_COLLECTIVE_DETECTION)
       break;
     case ::USEROPT_CD_DISTANCE_DETECTION:
       descr.id = "distanceDetection";
       descr.items = ["#options/near", "#options/normal", "#options/far"];
       descr.values = [0, 1, 2];
       descr.cb = "onCDChange";
-      descr.value = get_cd_option(::USEROPT_CD_DISTANCE_DETECTION)
+      descr.value = ::get_cd_option(::USEROPT_CD_DISTANCE_DETECTION)
       break;
     case ::USEROPT_CD_ALLOW_CONTROL_HELPERS:
       descr.id = "allowControlHelpers";
       descr.items = ["#options/allHelpers", "#options/Instructor", "#options/Realistic", "#options/no"];
       descr.values = [0, 1, 2, 3];
       descr.cb = "onCDChange";
-      descr.value = get_cd_option(::USEROPT_CD_ALLOW_CONTROL_HELPERS)
+      descr.value = ::get_cd_option(::USEROPT_CD_ALLOW_CONTROL_HELPERS)
       break;
     case ::USEROPT_CD_FORCE_INSTRUCTOR:
       descr.id = "forceInstructor";
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.cb = "onCDChange";
-      descr.value = !!get_cd_option(::USEROPT_CD_FORCE_INSTRUCTOR)
+      descr.value = !!::get_cd_option(::USEROPT_CD_FORCE_INSTRUCTOR)
       break;
 
     case ::USEROPT_INTERNET_RADIO_ACTIVE:
@@ -3931,7 +3931,7 @@ function set_option(optionId, value, descr = null)
           [::USEROPT_AEROBATICS_SMOKE_LEFT_COLOR, ::USEROPT_AEROBATICS_SMOKE_RIGHT_COLOR, ::USEROPT_AEROBATICS_SMOKE_TAIL_COLOR],
           optionId)
 
-        set_option_aerobatics_smoke_color(optIndex, descr.values[value]);
+        ::set_option_aerobatics_smoke_color(optIndex, descr.values[value]);
       }
       break;
 
@@ -4013,7 +4013,7 @@ function set_option(optionId, value, descr = null)
 
     case ::USEROPT_ZOOM_FOR_TURRET:
       dagor.debug("USEROPT_ZOOM_FOR_TURRET" + value.tostring())
-      set_option_zoom_turret(value)
+      ::set_option_zoom_turret(value)
       ::apply_joy_preset_xchange(null)
       break
 

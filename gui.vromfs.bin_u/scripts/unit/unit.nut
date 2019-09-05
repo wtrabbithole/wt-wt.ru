@@ -539,7 +539,7 @@ local Unit = class
   }
 
   isSquadronVehicle       = @() researchType == "clanVehicle"
-  getOpenCost             = @() ::Cost(0, clan_get_unit_open_cost_gold(name))
+  getOpenCost             = @() ::Cost(0, ::clan_get_unit_open_cost_gold(name))
 }
 
 u.registerClass("Unit", Unit, @(u1, u2) u1.name == u2.name, @(unit) !unit.name.len())

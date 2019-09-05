@@ -2,14 +2,14 @@
 
 function getEnemyPlaneByWpCost(playerPlaneCost, enemySide)
 {
-  local planeWpDiv = getPlaneWpDiv();
-  local planeWpAdd = getPlaneWpAdd();
+  local planeWpDiv = ::getPlaneWpDiv();
+  local planeWpAdd = ::getPlaneWpAdd();
 
   local enemyFighterPlaneWpCostMin = playerPlaneCost*(planeWpDiv-1)*1.0/planeWpDiv-planeWpAdd;
   local enemyFighterPlaneWpCostMax = playerPlaneCost*(1+1.0/planeWpDiv)+planeWpAdd;
 
-  local enemyFighterPlane = getAnyFighter(enemySide, enemyFighterPlaneWpCostMin, enemyFighterPlaneWpCostMax);
-  local enemyPlaneCost = getAircraftCost(enemyFighterPlane);
+  local enemyFighterPlane = ::getAnyFighter(enemySide, enemyFighterPlaneWpCostMin, enemyFighterPlaneWpCostMax);
+  local enemyPlaneCost = ::getAircraftCost(enemyFighterPlane);
 
   local i = 0;
 
@@ -22,8 +22,8 @@ function getEnemyPlaneByWpCost(playerPlaneCost, enemySide)
     else
       enemyFighterPlaneWpCostMax = 2*enemyFighterPlaneWpCostMax-playerPlaneCost;
 
-    enemyFighterPlane = getAnyFighter(enemySide, enemyFighterPlaneWpCostMin, enemyFighterPlaneWpCostMax);
-    enemyPlaneCost = getAircraftCost(enemyFighterPlane);
+    enemyFighterPlane = ::getAnyFighter(enemySide, enemyFighterPlaneWpCostMin, enemyFighterPlaneWpCostMax);
+    enemyPlaneCost = ::getAircraftCost(enemyFighterPlane);
 
     i++;
   }
@@ -34,8 +34,8 @@ function getEnemyPlaneByWpCost(playerPlaneCost, enemySide)
 
 function planeCostCalculate(playerPlaneCost, enemyPlaneCost)
 {
-  local planeWpDiv = getPlaneWpDiv();
-  local planeWpAdd = getPlaneWpAdd();
+  local planeWpDiv = ::getPlaneWpDiv();
+  local planeWpAdd = ::getPlaneWpAdd();
 
   local planeCost = (enemyPlaneCost+planeWpAdd*planeWpDiv)*(enemyPlaneCost+planeWpAdd*planeWpDiv)*1.0/
                     ((playerPlaneCost+planeWpAdd*planeWpDiv)*(playerPlaneCost+planeWpAdd*planeWpDiv));
@@ -50,7 +50,7 @@ function warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost
   if (enemyCount == 0 || planeCost == 0)
     return 0;
 
-  local missionWpBasicCost = getMissionCost(mission_preset_name);
+  local missionWpBasicCost = ::getMissionCost(mission_preset_name);
   local enemyAllyCoef = (enemyCount*1.0/(allyCount+4))*planeCost;
   if (enemyAllyCoef < 0.5)
     enemyAllyCoef = 0.5;
@@ -63,10 +63,10 @@ function warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost
   if (missionWpFighterCoef > 1.5)
     missionWpFighterCoef = 1.5;
 
-  local zeroWpAddCoef = getZeroWpAddCoef();
-  local repairCostMult = getRepairCostMult();
+  local zeroWpAddCoef = ::getZeroWpAddCoef();
+  local repairCostMult = ::getRepairCostMult();
   local missionWpCost = 0;
-  local playerPlaneCost = getAircraftCost(playerPlane);
+  local playerPlaneCost = ::getAircraftCost(playerPlane);
 
   missionWpCost = (zeroWpAddCoef*missionWpFighterCoef+playerPlaneCost*repairCostMult)*missionWpBasicCost;
 
@@ -78,7 +78,7 @@ function warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost
   if (missionWpCost < 0)
     missionWpCost = 0;
 
-  if (mgFullLogs())
+  if (::mgFullLogs())
     dagor.debug_dump_stack();
 
   return missionWpCost;
@@ -87,14 +87,14 @@ function warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost
 function slidesReplace(level, sector, playerPlaneName, enemyPlaneName, target_type)
 {
 
-  mgReplace("mission_settings/briefing", "picture", "dynamic_missions/berlin_02_01",
-    "dynamic_missions/"+level+"_"+sector+"_0"+rndRangeInt(1,3));
+  ::mgReplace("mission_settings/briefing", "picture", "dynamic_missions/berlin_02_01",
+    "dynamic_missions/"+level+"_"+sector+"_0"+::rndRangeInt(1,3));
 
-  mgReplace("mission_settings/briefing", "picture", "dynamic_missions/aircrafts/slide_a-20g",
+  ::mgReplace("mission_settings/briefing", "picture", "dynamic_missions/aircrafts/slide_a-20g",
     "dynamic_missions/aircrafts/slide_"+playerPlaneName);
 
   local target_side = "";
-  if (mgGetPlayerSide() == 1)
+  if (::mgGetPlayerSide() == 1)
   {
     target_side = "axis"
   }
@@ -102,10 +102,10 @@ function slidesReplace(level, sector, playerPlaneName, enemyPlaneName, target_ty
     target_side = "allies"
 
   if (target_type != "air")
-    mgReplace("mission_settings/briefing", "picture", "dynamic_missions/mission_targets/ruhr_allies_tank",
+    ::mgReplace("mission_settings/briefing", "picture", "dynamic_missions/mission_targets/ruhr_allies_tank",
       "dynamic_missions/mission_targets/"+level+"_"+target_side+"_"+target_type);
   else if (target_type != "none")
-    mgReplace("mission_settings/briefing", "picture", "dynamic_missions/mission_targets/ruhr_allies_tank",
+    ::mgReplace("mission_settings/briefing", "picture", "dynamic_missions/mission_targets/ruhr_allies_tank",
       "dynamic_missions/aircrafts/slide_"+enemyPlaneName);
 
   return

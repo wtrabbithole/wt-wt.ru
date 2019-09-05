@@ -171,7 +171,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   if(::checkObj(dObj))
     guiScene.destroyElement(dObj)
 
-  local haveDiscount = discount > 0 && itemCostText != ""
+  local haveDiscount = discount > 0 && statusTbl.canShowDiscount && itemCostText != ""
   if (haveDiscount)
   {
     local discountObj = itemObj.findObject("modItem_discount")
@@ -346,6 +346,7 @@ function weaponVisual::getItemStatusTbl(air, item)
     unlocked = false
     showPrice = true
     discountType = ""
+    canShowDiscount = true
     curUpgrade = 0
     maxUpgrade = 0
   }
@@ -399,7 +400,10 @@ function weaponVisual::getItemStatusTbl(air, item)
         if (item.type == weaponsItem.expendables)
           res.showPrice = !res.amount || ::canBuyMod(air, item)
         else
+        {
+          res.canShowDiscount = res.canBuyMore
           res.showPrice = !res.amount && ::canBuyMod(air, item)
+        }
 
         if (isOwn && res.amount && ::is_mod_upgradeable(item.name))
         {

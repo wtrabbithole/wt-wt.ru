@@ -330,7 +330,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
   function getTestFlightMisName(misName)
   {
     local lang = ::g_language.getLanguageName()
-    return ::get_blk_value_by_path(get_game_settings_blk(), "testFlight_override/" + lang + "/" + misName, misName)
+    return ::get_game_settings_blk()?.testFlight_override?[lang]?[misName] ?? misName
   }
 
   function saveAircraftOptions()

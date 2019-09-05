@@ -42,7 +42,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
         ::get_current_mission_desc(missionBlk)
         ::current_campaign_mission = missionBlk.getStr("name","")
       }
-      else if (get_game_type() & ::GT_DYNAMIC)
+      else if (::get_game_type() & ::GT_DYNAMIC)
         missionBlk.setFrom(::mission_settings.mission)
       else if (::current_campaign_mission)
         missionBlk.setFrom(::get_mission_meta_info(::current_campaign_mission))
@@ -52,7 +52,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       else
         country = ::getCountryByAircraftName(missionBlk.getStr("player_class", ""))
       dagor.debug("0 player_class = "+missionBlk.getStr("player_class", "") + "; country = " + country)
-      if (country != "" && !(get_game_type() & ::GT_VERSUS) && gm != ::GM_TRAINING)
+      if (country != "" && !(::get_game_type() & ::GT_VERSUS) && gm != ::GM_TRAINING)
         guiScene["briefing-flag"]["background-image"] = ::get_country_flag_img("bgflag_" + country)
 
       misObj_add = count_misObj_add(missionBlk)
@@ -77,7 +77,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       setSceneInfo(sceneInfo)
 
       music = briefing.getStr("music","action_01")
-      if ((get_game_type() & ::GT_DYNAMIC) && country != "")
+      if ((::get_game_type() & ::GT_DYNAMIC) && country != "")
         music = country + "_main_theme"
 
       local prevSlide = ""

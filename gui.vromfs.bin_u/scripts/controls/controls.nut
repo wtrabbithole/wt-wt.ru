@@ -3399,6 +3399,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
           preset = ::g_controls_presets.parsePresetName(preset)
           preset = ::g_controls_presets.getHighestVersionPreset(preset)
           applyChoosedPreset(preset.fileName)
+          ::reset_fast_voice_messages()
         }],
         ["cancel", @() null],
       ], "cancel"

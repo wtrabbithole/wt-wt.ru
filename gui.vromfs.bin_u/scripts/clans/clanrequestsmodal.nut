@@ -132,7 +132,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
       if (index in candidatesList)
         curCandidate = candidatesList[index];
     }
-    showSceneBtn("btn_approve", !::show_console_buttons && curCandidate != null && (isInArray("MEMBER_ADDING", myRights) || clan_get_admin_editor_mode()))
+    showSceneBtn("btn_approve", !::show_console_buttons && curCandidate != null && (isInArray("MEMBER_ADDING", myRights) || ::clan_get_admin_editor_mode()))
     showSceneBtn("btn_reject", !::show_console_buttons && curCandidate != null && isInArray("MEMBER_REJECT", myRights))
     showSceneBtn("btn_user_options", curCandidate != null && ::show_console_buttons)
   }
@@ -210,7 +210,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     if(memListModified)
     {
-      if(clan_get_admin_editor_mode() && (owner && "reinitClanWindow" in owner))
+      if(::clan_get_admin_editor_mode() && (owner && "reinitClanWindow" in owner))
         owner.reinitClanWindow()
       //else
       //  ::getMyClanData(true)

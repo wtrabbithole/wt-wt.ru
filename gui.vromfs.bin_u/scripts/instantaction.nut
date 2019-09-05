@@ -1387,7 +1387,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkNonApprovedSquadronResearches()
   {
-    if (!::isInMenu() || !::has_feature("ClanVehicles") || ::checkIsInQueue())
+    if (!::isInMenu() || !::has_feature("ClanVehicles") || ::checkIsInQueue()
+      || squadronUnitAction.isAllVehiclesResearched())
       return
 
     local researchingUnitName = ::clan_get_researching_unit()
