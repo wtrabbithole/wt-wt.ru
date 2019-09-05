@@ -10,7 +10,13 @@ tr {
       <<#active>> active:t='yes' <</active>>
       display:t='<<display>>'
       <<#cellType>> cellType:t='<<cellType>>' <</cellType>>
-      <<#width>>width:t='<<width>>' <</width>>
+      <<#width>>
+        width:t='<<width>>'
+        <<#autoScrollText>>
+          autoScrollText:t='<<autoScrollText>>'
+          overflow:t='hidden'
+        <</autoScrollText>>
+      <</width>>
       <<#tdalign>> tdalign:t='<<tdalign>>' <</tdalign>>
       <<#tooltipId>>tooltip:t='$tooltipObj'<</tooltipId>>
       <<^tooltipId>>
@@ -27,8 +33,10 @@ tr {
         <<@textType>> {
           id:t='txt_<<id>>'
           <<#width>>
-            width:t='fw'
-            pare-text:t='yes'
+            <<^autoScrollText>>
+              width:t='fw'
+              pare-text:t='yes'
+            <</autoScrollText>>
           <</width>>
           text:t='<<text>>'
           <<@textRawParam>>

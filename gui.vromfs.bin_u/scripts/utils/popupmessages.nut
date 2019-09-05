@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local promoConditions = require("scripts/promo/promoConditions.nut")
 
 enum POPUP_VIEW_TYPES {
   NEVER = "never"
@@ -80,11 +81,11 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
       return null
 
     local viewType = blk.viewType || POPUP_VIEW_TYPES.NEVER
-    local viewDay = ::loadLocalByAccount("popup/" + popupId, 0)
+    local viewDay = ::loadLocalByAccount("popup/" + (blk.saveId ?? popupId), 0)
     local canShow = (viewType == POPUP_VIEW_TYPES.EVERY_SESSION)
                     || (viewType == POPUP_VIEW_TYPES.ONCE && !viewDay)
                     || (viewType == POPUP_VIEW_TYPES.EVERY_DAY && viewDay < days)
-    if (!canShow)
+    if (!canShow || !promoConditions.isVisibleByConditions(blk))
     {
       passedPopups[popupId] <- true
       return null
@@ -142,7 +143,7 @@ function g_popup_msg::showPopupWndIfNeed(hasModalObject)
       passedPopups[popupId] <- true
       popupConfig["type"] <- "regionalPromoPopup"
       ::showUnlockWnd(popupConfig)
-      ::saveLocalByAccount("popup/" + popupId, days)
+      ::saveLocalByAccount("popup/" + (popupBlk.saveId ?? popupId), days)
       result = true
     }
   }

@@ -8,8 +8,6 @@ const CLAN_SEEN_CANDIDATES_SAVE_ID = "seen_clan_candidates"
 const MAX_CANDIDATES_NICKNAMES_IN_POPUP = 5
 const MY_CLAN_UPDATE_DELAY_MSEC = -60000
 
-const CLAN_RANK_ERA = 5 //really used only this rank, but in lb exist 5
-
 ::my_clan_info <- null
 ::last_update_my_clan_time <- MY_CLAN_UPDATE_DELAY_MSEC
 ::get_my_clan_data_free <- true
@@ -723,82 +721,7 @@ function g_clans::checkSquadronExpChangedEvent()
   ::broadcastEvent("SquadronExpChanged")
 }
 
-::ranked_column_prefix <- "dr_era"
-::clan_leaderboards_list <- [
-  {id = "dr_era1", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
-  {id = "dr_era2", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
-  {id = "dr_era3", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
-  {id = "dr_era4", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
-  {id = "dr_era5", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
-  {id = "members_cnt", sort = false, byDifficulty = false}
-  {id = "air_kills", field = "akills", sort = false}
-  {id = "ground_kills", field = "gkills", sort = false}
-  {id = "deaths", sort = false}
-  {id = "time_pvp_played", type = ::g_lb_data_type.TIME_MIN, field = "ftime", sort = false}
-  {id = "activity", field = @(isAvailableByPeriods) isAvailableByPeriods ? "clan_activity_by_periods" : "activity"
-     byDifficulty = false, showByFeature = "ClanActivity" }
-]
-
-::clan_member_list <- [
-  {id = "onlineStatus", type = ::g_lb_data_type.TEXT, myClanOnly = true, iconStyle = true, needHeader = false}
-  {id = "nick",         type = ::g_lb_data_type.TEXT, align = "left"}
-  {id = "dr_era",       type = ::g_lb_data_type.NUM, field = ::ranked_column_prefix, loc = "rating"}
-  {
-    id = "activity"
-    type = ::g_lb_data_type.NUM
-    field = @(isAvailableByPeriods) isAvailableByPeriods ? "totalPeriodActivity" : "totalActivity"
-    showByFeature = "ClanActivity"
-    byDifficulty = false
-    getCellTooltipText = function(data) { return loc("clan/personal/" + id + "/cell/desc") }
-  }
-  {
-    id = "role",
-    type = ::g_lb_data_type.ROLE,
-    sortId = "roleRank"
-    sortPrepare = function(member) { member[sortId] <- ::clan_get_role_rank(member.role) }
-    getCellTooltipText = function(data) { return type.getPrimaryTooltipText(::getTblValue(id, data)) }
-  }
-  {id = "date",         type = ::g_lb_data_type.DATE }
-]
-
-::clan_data_list <- [
-  {id = "air_kills", type = ::g_lb_data_type.NUM, field = "akills"}
-  {id = "ground_kills", type = ::g_lb_data_type.NUM, field = "gkills"}
-  {id = "deaths", type = ::g_lb_data_type.NUM, field = "deaths"}
-  {id = "time_pvp_played", type = ::g_lb_data_type.TIME_MIN, field = "ftime"}
-]
-
-::default_clan_member_list <- {
-  onlyMyClan = false
-  iconStyle = false
-  byDifficulty = true
-}
-foreach(idx, item in ::clan_member_list)
-{
-  foreach(param, value in ::default_clan_member_list)
-    if (!(param in item))
-      ::clan_member_list[idx][param] <- value
-
-  item.tooltip <-"#clan/personal/" + item.id + "/desc"
-}
-
-foreach(idx, category in ::clan_leaderboards_list)
-{
-  if (typeof(category) != "table")
-    ::clan_leaderboards_list[idx] = { id=category }
-  if (!("type" in ::clan_leaderboards_list[idx]))
-    ::clan_leaderboards_list[idx].type <- ::g_lb_data_type.NUM
-  if (!("sort" in ::clan_leaderboards_list[idx]))
-    ::clan_leaderboards_list[idx].sort <- true
-  if (!("byDifficulty" in ::clan_leaderboards_list[idx]))
-    ::clan_leaderboards_list[idx].byDifficulty <- true
-  if (!("field" in ::clan_leaderboards_list[idx]))
-    ::clan_leaderboards_list[idx].field <- ::clan_leaderboards_list[idx].id
-  if (!("icon" in ::clan_leaderboards_list[idx]))
-    ::clan_leaderboards_list[idx].icon <- "#ui/gameuiskin#lb_" + ::clan_leaderboards_list[idx].id + ".svg"
-  if (!("tooltip" in ::clan_leaderboards_list[idx]))
-    ::clan_leaderboards_list[idx].tooltip <- "#clan/" + ::clan_leaderboards_list[idx].id + "/desc"
-}
+::ranked_column_prefix <- "dr_era5"  //really used only rank 5, but in lb exist 5
 
 function getMyClanData(forceUpdate = false)
 {
@@ -887,25 +810,9 @@ function is_in_my_clan(name = null, uid = null)
 ];
 
 ::empty_rating <- {
-  dr_era1_arc = 0
-  dr_era1_hist = 0
-  dr_era1_sim = 0
-
-  dr_era2_arc = 0
-  dr_era2_hist = 0
-  dr_era2_sim = 0
-
-  dr_era3_arc = 0
-  dr_era3_hist = 0
-  dr_era3_sim = 0
-
-  dr_era4_arc = 0
-  dr_era4_hist = 0
-  dr_era4_sim = 0
-
-  dr_era5_arc = 0
-  dr_era5_hist = 0
-  dr_era5_sim = 0
+  [(::ranked_column_prefix + "_arc")]   = 0,
+  [(::ranked_column_prefix + "_hist")]  = 0,
+  [(::ranked_column_prefix + "_sim")]   = 0
 }
 
 ::empty_activity <- {

@@ -5,6 +5,51 @@ local vehiclesModal = require("scripts/unit/vehiclesModal.nut")
 local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
 local clanMembershipAcceptance = ::require("scripts/clans/clanMembershipAcceptance.nut")
 local clanRewardsModal = require("scripts/rewards/clanRewardsModal.nut")
+local clanInfoView = require("scripts/clans/clanInfoView.nut")
+
+local clan_member_list = [
+  {id = "onlineStatus", type = ::g_lb_data_type.TEXT, myClanOnly = true, iconStyle = true, needHeader = false}
+  {id = "nick", type = ::g_lb_data_type.TEXT, align = "left"}
+  {id = ::ranked_column_prefix, type = ::g_lb_data_type.NUM, loc = "rating", byDifficulty = true
+    tooltip = "#clan/personal/dr_era/desc"}
+  {
+    id = "activity"
+    type = ::g_lb_data_type.NUM
+    field = @() ::has_feature("ClanVehicles") ? "totalPeriodActivity" : "totalActivity"
+    showByFeature = "ClanActivity"
+    getCellTooltipText = function(data) { return loc("clan/personal/" + id + "/cell/desc") }
+  }
+  {
+    id = "role",
+    type = ::g_lb_data_type.ROLE,
+    sortId = "roleRank"
+    sortPrepare = function(member) { member[sortId] <- ::clan_get_role_rank(member.role) }
+    getCellTooltipText = function(data) { return type.getPrimaryTooltipText(::getTblValue(id, data)) }
+  }
+  {id = "date",         type = ::g_lb_data_type.DATE }
+]
+
+local clan_data_list = [
+  {id = "air_kills", type = ::g_lb_data_type.NUM, field = "akills"}
+  {id = "ground_kills", type = ::g_lb_data_type.NUM, field = "gkills"}
+  {id = "deaths", type = ::g_lb_data_type.NUM, field = "deaths"}
+  {id = "time_pvp_played", type = ::g_lb_data_type.TIME_MIN, field = "ftime"}
+]
+
+local default_clan_member_list = {
+  onlyMyClan = false
+  iconStyle = false
+  byDifficulty = false
+}
+foreach(idx, item in clan_member_list)
+{
+  foreach(param, value in default_clan_member_list)
+    if (!(param in item))
+      clan_member_list[idx][param] <- value
+
+  if (!("tooltip" in item))
+    item.tooltip <-"#clan/personal/" + item.id + "/desc"
+}
 
 function showClanPage(id, name, tag)
 {
@@ -32,7 +77,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   statsSortReverse = false
   statsSortBy      = ""
   clanData         = null
-  curEra           = CLAN_RANK_ERA
   curPlayer        = null
   curMode          = 0
   currentFocusItem = 5
@@ -57,7 +101,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function setDefaultSort()
   {
-    statsSortBy = ::ranked_column_prefix + curEra + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
+    statsSortBy = ::ranked_column_prefix + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
   }
 
   function reinitClanWindow()
@@ -249,59 +293,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!clanData)
       return
 
-    local rawRanksCond = clanData.membershipRequirements.getBlockByName("ranks") || ::DataBlock();
-
-    local ranksConditionTypeText = (rawRanksCond.type == "or")
-                                   ? ::loc("clan/rankReqInfoCondType_or")
-                                   : ::loc("clan/rankReqInfoCondType_and")
-
-    local ranksReqText = []
-    foreach (unitType in ::g_unit_type.types)
-    {
-      local req = rawRanksCond.getBlockByName("rank_" + unitType.name)
-      if (!req || req.type != "rank" || req.unitType != unitType.name)
-        continue
-
-      local ranksRequired = req.getInt("rank", 0)
-      if (ranksRequired > 0)
-        ranksReqText.append(::loc("clan/rankReqInfoRank" + unitType.name) + " " +
-          ::colorize("activeTextColor", ::get_roman_numeral(ranksRequired)))
-    }
-
-    local text = ""
-    if (ranksReqText.len())
-    {
-      text = ::g_string.implode(ranksReqText, " " + ranksConditionTypeText + " ")
-      text = ::loc("clan/rankReqInfoHead") + ::loc("ui/colon") + text
-    }
-
-    scene.findObject("clan-membershipReqRank").setValue(text)
-
-    local battlesReqText = "";
-    local haveBattlesReq = false;
-    foreach(diff in ::g_difficulty.types)
-      if (diff.egdCode != ::EGD_NONE)
-      {
-        local modeName = diff.getEgdName(false); // arcade, historical, simulation
-        local req = clanData.membershipRequirements.getBlockByName("battles_"+modeName);
-        if ( req  &&  (req.type == "battles")  &&  (req.difficulty == modeName) )
-        {
-          local battlesRequired = req.getInt("count", 0);
-          if ( battlesRequired > 0 )
-          {
-            if ( !haveBattlesReq )
-              battlesReqText = ::loc("clan/battlesReqInfoHead");
-            else
-              battlesReqText += " " + ranksConditionTypeText;
-
-            haveBattlesReq = true;
-            battlesReqText += ( " " + ::loc("clan/battlesReqInfoMode_"+modeName) + " " +
-                                ::colorize("activeTextColor", battlesRequired.tostring()) );
-          }
-        }
-      }
-
-    scene.findObject("clan-membershipReqBattles").setValue( battlesReqText );
+    scene.findObject("clan-membershipReq").setValue(
+      clanInfoView.getClanRequirementsText(clanData.membershipRequirements))
   }
 
 
@@ -408,7 +401,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillClanElo()
   {
-    local clanElo = clanData.astat?[::ranked_column_prefix + curEra + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding] ?? 0
+    local clanElo = clanData.astat?[::ranked_column_prefix + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding] ?? 0
     local eloTextObj = scene.findObject("clan_elo_value")
     if (::check_obj(eloTextObj))
       eloTextObj.setValue(clanElo.tostring())
@@ -482,7 +475,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (statsSortBy.len() >= ::ranked_column_prefix.len() &&
         statsSortBy.slice(0, ::ranked_column_prefix.len()) == ::ranked_column_prefix)
-      statsSortBy = ::ranked_column_prefix + curEra + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
+      statsSortBy = ::ranked_column_prefix + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
   }
 
   function updateAdminModeSwitch()
@@ -593,7 +586,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local rowBlock = ""
     local rowHeader = [{width = "0.25pw"}]
     /*header*/
-    foreach(item in ::clan_data_list)
+    foreach(item in clan_data_list)
     {
       rowHeader.append({
                        image = "#ui/gameuiskin#lb_" + item.id + ".svg"
@@ -618,7 +611,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
                          tdAlign="left"
                       })
 
-      foreach(item in ::clan_data_list)
+      foreach(item in clan_data_list)
       {
         local dataId = item.field + diff.clanDataEnding
         local value = dataId in data? data[dataId] : "0"
@@ -668,7 +661,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local rowIdx = 0
 
     local headerRow = [{text = "#clan/number", width = "0.1@sf"}]
-    foreach(column in ::clan_member_list)
+    foreach(column in clan_member_list)
     {
       if (::getTblValue("myClanOnly", column, false) && !isMyClan)
         continue
@@ -699,7 +692,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       local rowName = "row_" + rowIdx
       local nick = ::g_string.stripTags(member.nick)
       local rowData = [{ text = (rowIdx + 1).tostring() }]
-      foreach(column in ::clan_member_list)
+      foreach(column in clan_member_list)
       {
         if ((::getTblValue("myClanOnly", column, false) && !isMyClan))
           continue
@@ -726,16 +719,13 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function getFieldNameByColumn(columnId)
   {
     local fieldName = columnId
-    if (columnId.len() >= ::ranked_column_prefix.len() &&
-        columnId.slice(0, ::ranked_column_prefix.len()) == ::ranked_column_prefix)
-    {
-      fieldName = ::ranked_column_prefix + curEra + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
-    }
+    if (columnId == ::ranked_column_prefix)
+      fieldName = ::ranked_column_prefix + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
     else
     {
-      local category = ::u.search(::clan_member_list, (@(columnId) function(category) { return category.id == columnId })(columnId))
+      local category = ::u.search(clan_member_list, (@(columnId) function(category) { return category.id == columnId })(columnId))
       local field = category?.field ?? columnId
-      fieldName = ::u.isFunction(field) ? field(clanData?.expRewardEnabled) : field
+      fieldName = ::u.isFunction(field) ? field() : field
     }
     return fieldName
   }
@@ -774,13 +764,11 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getFieldId(column)
   {
-    if (!("field" in column))
+    if (!("field" in column) && !column.byDifficulty)
       return column.id
 
-    local field = column.field
-    local fieldId = ::u.isFunction(field) ? field(clanData?.expRewardEnabled) : field
-    if (column.field == ::ranked_column_prefix)
-      fieldId += curEra
+    local field = column?.field ?? column.id
+    local fieldId = ::u.isFunction(field) ? field() : field
     if (column.byDifficulty)
       fieldId += ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding
     return fieldId
@@ -882,7 +870,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getColumnDataById(id)
   {
-    return ::u.search(::clan_member_list, (@(id) function(c) { return c.id == id })(id))
+    return ::u.search(clan_member_list, (@(id) function(c) { return c.id == id })(id))
   }
 
   function onStatsCategory(obj)

@@ -1084,6 +1084,7 @@ function buildTableRow(rowName, rowData, even=null, trParams="", tablePad="@tblP
       needText = ::getTblValue("needText", cell, true)
       textType = ::getTblValue("textType", cell, "activeText")
       text = haveParams? ::getTblValue("text", cell, "") : cell.tostring()
+      autoScrollText = cell?.autoScrollText ?? false
       textRawParam = ::getTblValue("textRawParam", cell, "")
       imageType = ::getTblValue("imageType", cell, "cardImg")
       image = ::getTblValue("image", cell)

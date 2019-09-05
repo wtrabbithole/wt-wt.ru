@@ -1402,6 +1402,14 @@ tr[inactive=yes] {
   input-transparent:yes;
 }
 
+tr[selected=yes] > td[autoScrollText="hoverOrSelect"] > activeText,
+tr::hover > td[autoScrollText="hoverOrSelect"] > activeText {
+  behaviour:OverflowScroller;
+  move-pixel-per-sec:15*@scrn_tgt/100.0;
+  move-sleep-time:8000;
+  move-delay-time:2000;
+}
+
 .tooltipTable td {
   padding:0.5*@scrn_tgt/100.0, 2*@sf/@pf_outdated;
 }

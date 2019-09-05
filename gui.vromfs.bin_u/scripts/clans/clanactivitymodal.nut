@@ -31,7 +31,7 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     local maxActivityPerDay = clanData.rewardPeriodDays > 0
       ? ::round(1.0 * clanData.maxActivityPerPeriod / clanData.rewardPeriodDays)
       : 0
-    local isShowPeriodActivity = clanData.expRewardEnabled
+    local isShowPeriodActivity = ::has_feature("ClanVehicles")
     hasClanExperience  = isShowPeriodActivity && ::clan_get_my_clan_id() == clanData.id
     local history = isShowPeriodActivity ? memberData.expActivity : memberData.activityHistory
     local headerTextObj = scene.findObject("clan_activity_header_text")

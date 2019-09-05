@@ -405,7 +405,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       return data
 
     local playersTables = {}
-    local addTableParams = {teamA = {}, teamB = {}}
+    local addTableParams = { teamA = { team = "blue" }, teamB = { team = "red" } }
     local replayParams = ["timePlayed", "author"]
 
     local gameType = replayInfo?.gameType ?? 0
@@ -446,8 +446,8 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
 
         if (mplayer.isLocal && teamName != "")
         {
-          addTableParams[teamName].team <- "blue"
-          addTableParams[teamName == "teamA"? "teamB" : "teamA"].team <- "red"
+          addTableParams[teamName].team = "blue"
+          addTableParams[teamName == "teamA" ? "teamB" : "teamA"].team = "red"
         }
 
         playersTables[teamName].append(mplayer)

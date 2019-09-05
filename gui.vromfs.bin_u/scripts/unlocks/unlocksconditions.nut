@@ -44,10 +44,10 @@ local stdMath = require("std/math.nut")
   ]
 
   condWithValuesInside = [
-    "atLeastOneUnitsRankOnStartMission"
+    "atLeastOneUnitsRankOnStartMission", "eliteUnitsOnly"
   ]
 
-  additionalTypes = ["critical", "lesserTeam", "teamLeader", "inTurret"]
+  additionalTypes = ["critical", "lesserTeam", "teamLeader", "inTurret", "isBurning"]
 
   locGroupByType = {
     playerType             = "playerUnit"
@@ -766,6 +766,11 @@ function UnlockConditions::_addUniqConditionsText(groupsList, condition)
   {
     local valuesTexts = ::u.map(condition.values, ::get_roman_numeral)
     _addValueToGroup(groupsList, cType, ::g_string.implode(valuesTexts, "-"))
+    return true
+  }
+  else if (cType == "eliteUnitsOnly")
+  {
+    _addValueToGroup(groupsList, cType, "")
     return true
   }
   return false //not found, do as usual conditions.

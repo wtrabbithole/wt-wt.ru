@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local promoConditions = require("scripts/promo/promoConditions.nut")
 
 ::g_promo <- {
   PROMO_BUTTON_TYPE = {
@@ -483,7 +484,8 @@ function g_promo::checkBlockVisibility(block)
            && checkBlockReqFeature(block)
            && checkBlockUnlock(block)
            && checkBlockTime(block)
-           && isVisibleByAction(block))
+           && isVisibleByAction(block)
+           && promoConditions.isVisibleByConditions(block))
          || getShowAllPromoBlocks()
 }
 

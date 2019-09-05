@@ -498,9 +498,13 @@ function gather_debriefing_result()
 
   if (!("aircrafts" in ::debriefing_result.exp))
     ::debriefing_result.exp.aircrafts <- []
+
+  // Deleting killstreak flyout units (has zero sessionTime), because it has some stats,
+  // (kills, etc) which are calculated TWICE (in both player's unit, and in killstreak unit).
+  // So deleting info about killstreak units is very important.
   local aircraftsForDelete = []
   foreach(airName, airData in ::debriefing_result.exp.aircrafts)
-    if (!::getAircraftByName(airName))
+    if (airData.sessionTime == 0 || !::getAircraftByName(airName))
       aircraftsForDelete.append(airName)
   foreach(airName in aircraftsForDelete)
     ::debriefing_result.exp.aircrafts.rawdelete(airName)
