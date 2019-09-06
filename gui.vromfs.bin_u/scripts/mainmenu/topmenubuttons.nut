@@ -122,7 +122,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   BENCHMARK = {
     text = "#mainmenu/btnBenchmark"
     onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_benchmark)
-    isHidden = @(...) (!::has_feature("Benchmark") && !::is_dev_version) || !::has_feature("BenchmarkForDevs")
+    isHidden = @(...) !(::has_feature("Benchmark") || (::is_dev_version && ::has_feature("BenchmarkForDevs")))
     isInactiveInQueue = true
   }
   USER_MISSION = {

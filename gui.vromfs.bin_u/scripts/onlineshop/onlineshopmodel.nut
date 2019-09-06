@@ -1,6 +1,6 @@
 local xboxShop = ::require("scripts/onlineShop/xboxShop.nut")
-local SecondsUpdater = ::require("sqDagui/timer/secondsUpdater.nut")
 local platform = ::require("scripts/clientState/platform.nut")
+local callbackWhenAppWillActive = require("scripts/clientState/callbackWhenAppWillActive.nut")
 /*
  * Search in price.blk:
  * Search parapm is a table of request fields
@@ -441,37 +441,16 @@ function OnlineShopModel::openUpdateBalanceMenu(customUrl)
 
 function OnlineShopModel::startEntitlementsUpdater()
 {
-  if (entitlemetsUpdaterWeak)
-    return
-
-  local handler = ::handlersManager.getActiveBaseHandler()
-  if (!handler)
-    return
-
-  entitlemetsUpdaterWeak = SecondsUpdater(
-    handler.scene,
-    function(obj, params)
+  callbackWhenAppWillActive(function()
     {
-      local wasActive = ::getTblValue("active", params, true)
-      local isActive = ::is_app_active() && !::steam_is_overlay_active() && !::is_builtin_browser_active()
-      if (wasActive == isActive)
-        return false
-
-      if (!isActive)
-      {
-        params.active <- false
-        return false
-      }
       if (::is_online_available())
         ::g_tasker.addTask(::update_entitlements_limited(),
-                           {
-                             showProgressBox = true
-                             progressBoxText = ::loc("charServer/checking")
-                           })
-      return true
+          {
+            showProgressBox = true
+            progressBoxText = ::loc("charServer/checking")
+          })
     }
-    false
-  ).weakref()
+  )
 }
 
 function OnlineShopModel::launchOnlineShop(owner=null, chapter=null, afterCloseFunc=null)

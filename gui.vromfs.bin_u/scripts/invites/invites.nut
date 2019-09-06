@@ -256,6 +256,12 @@ function g_invites::fetchNewInvitesFromUserlogs()
     }
     else if (blk.type == ::EULT_INVITE_TO_TOURNAMENT)
     {
+      if (!::has_feature("TournamentInvites"))
+      {
+        ::disable_user_log_entry(i)
+        continue
+      }
+
       local ulogId = blk.id
       local battleId = ::getTblValue("battleId", blk.body, "")
       local inviteTime = ::getTblValue("inviteTime", blk.body, -1)

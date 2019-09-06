@@ -245,6 +245,8 @@
     AllowXboxAccountLinking = false
 
     ClansXBOXOnPC = false
+
+    TournamentInvites = true
   }
 
   cache = {}

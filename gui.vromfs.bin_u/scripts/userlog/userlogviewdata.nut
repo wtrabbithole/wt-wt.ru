@@ -1449,7 +1449,7 @@ function get_userlog_view_data(log)
 
         if (desc!="")
           res.description <- desc
-        if (log?.battleId)
+        if (log?.battleId && ::has_feature("TournamentInvites"))
           res.buttonName = ::loc("chat/btnJoin")
     }
   }

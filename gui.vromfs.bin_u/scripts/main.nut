@@ -861,6 +861,7 @@ function load_scripts_after_login_once()
   ::require("scripts/squads/elems/voiceChatElem.nut")
   ::require("scripts/slotbar/elems/discountIconElem.nut")
   ::require("scripts/slotbar/elems/squadronExpIconElem.nut")
+  ::require("scripts/matching/serviceNotifications/showInfo.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)
