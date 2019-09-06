@@ -33,6 +33,11 @@ return [
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_SMOOTH, (objValue / 100.0) * max_camera_smooth)
   }
   {
+    id = "zoom_sens"
+    type = CONTROL_TYPE.SLIDER
+    optionType = ::USEROPT_ZOOM_SENSE
+  }
+  {
     id = "hatview_mouse"
     type = CONTROL_TYPE.SWITCH_BOX
     value = @(joyParams) joyParams.isHatViewMouse

@@ -392,6 +392,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
   }
 
   START_BAILOUT = {
+    nearestOffenderLocId = "HUD_AWARD_NEAREST"
     awardGiveForLocId = "HUD_AWARD_GIVEN_FOR"
 
     getLocId = function (hintData)
@@ -409,6 +410,9 @@ enums.addTypesByGlobalName("g_hud_hints", {
     buildText = function (data) {
       local res = ::g_hud_hints._buildText.call(this, data)
       res += " " + ::g_hint_tag.TIMER.makeFullTag()
+      local nearest = ::getTblValue("nearestOffender", data, false)
+      if (nearest)
+        res +=  "\n" + ::loc(nearestOffenderLocId)
       local offenderName = ::getTblValue("offenderName", data, "")
       if (offenderName != "")
         res +=  "\n" + ::loc(awardGiveForLocId) + offenderName

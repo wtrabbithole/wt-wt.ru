@@ -33,12 +33,6 @@ return [
     showFunc = @() ::is_tracker_joystick()
   }
   {
-    id = "zoom_sens"
-    type = CONTROL_TYPE.SLIDER
-    showFunc = @() !::is_platform_xboxone
-    optionType = ::USEROPT_ZOOM_SENSE
-  }
-  {
     id = "trackIrZoom"
     type = CONTROL_TYPE.SWITCH_BOX
     showFunc = @() !::is_platform_xboxone || checkOptionValue("headtrack_enable", true)

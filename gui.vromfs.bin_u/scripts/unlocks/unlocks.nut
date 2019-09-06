@@ -129,7 +129,8 @@ function build_unlock_desc(item, params = {})
                        })
 
   local showProgress = ::getTblValue("showProgress", params, true)
-  local progressText = ::UnlockConditions.getMainConditionText(item.conditions, showProgress? "%d" : null, "%d", params)
+  local progressText = ::UnlockConditions.getMainConditionText(item.conditions,
+    item.curVal < item.maxVal ? "%d" : null, "%d", params)
                        //to generate progress text for stages
   item.showProgress <- showProgress && (progressText != "")
   item.progressText <- progressText
@@ -155,7 +156,7 @@ function getUnlockDescription(data, params = {})
 
   local curVal = ::getTblValue("curVal", params)
   if (curVal == null)
-    curVal = ::getTblValue("showProgress", data, true) ? data.curVal : null
+    curVal = data.curVal < data.maxVal ? data.curVal : null
 
   local maxVal = ::getTblValue("maxVal", params)
   if (maxVal == null)

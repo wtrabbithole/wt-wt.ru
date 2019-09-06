@@ -628,19 +628,31 @@ function get_entitlement_price(item)
   return ""
 }
 
-function update_purchases_return_mainmenu(afterCloseFunc = null)
+function update_purchases_return_mainmenu(afterCloseFunc = null, openStoreResult = -1)
 {
-  local taskId = ::update_entitlements()
+  //TODO: separate afterCloseFunc on Success and Error.
+  if (openStoreResult < 0)
+  {
+    //openStoreResult = -1 doesn't mean that we must not perform afterCloseFunc
+    if (afterCloseFunc)
+      afterCloseFunc()
+    return
+  }
+
+  local taskId = ::update_entitlements_limited()
+  //taskId = -1 doesn't mean that we must not perform afterCloseFunc
   if (taskId >= 0)
   {
     local progressBox = ::scene_msg_box("char_connecting", null, ::loc("charServer/checking"), null, null)
-    ::add_bg_task_cb(taskId, (@(progressBox) function() {
+    ::add_bg_task_cb(taskId, function() {
       ::destroyMsgBox(progressBox)
       ::gui_start_mainmenu_reload()
       if (afterCloseFunc)
         afterCloseFunc()
-    })(progressBox))
+    })
   }
+  else if (afterCloseFunc)
+    afterCloseFunc()
 }
 
 function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
@@ -682,13 +694,13 @@ function launch_ps4_store_by_chapter(chapter,afterCloseFunc = null)
       if (chapter == null || chapter == "")
       {
         //TODO: items shop
-        if (::ps4_open_store("WARTHUNDERAPACKS", false) >= 0)
-          ::update_purchases_return_mainmenu(afterCloseFunc)
+        local res = ::ps4_open_store("WARTHUNDERAPACKS", false)
+        ::update_purchases_return_mainmenu(afterCloseFunc, res)
       }
       else if (chapter == "eagles")
       {
-        if (::ps4_open_store("WARTHUNDEREAGLES", false) >= 0)
-          ::update_purchases_return_mainmenu(afterCloseFunc)
+        local res = ::ps4_open_store("WARTHUNDEREAGLES", false)
+        ::update_purchases_return_mainmenu(afterCloseFunc, res)
       }
     }
   )

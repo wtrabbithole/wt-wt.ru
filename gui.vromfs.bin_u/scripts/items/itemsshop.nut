@@ -588,6 +588,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onTimer(obj, dt)
   {
+    if (!itemsListValid)
+      return
+
     local startIdx = curPage * itemsPerPage
     local lastIdx = min((curPage + 1) * itemsPerPage, itemsList.len())
     for(local i=startIdx; i < lastIdx; i++)

@@ -257,7 +257,7 @@ function UnlockConditions::loadMainProgressCondition(blk)
     }
     else if (!res.hasCustomUnlockableList)
     {
-      res.values = unlock.mode % "unlock"
+      res.values = ("mode" in unlock) ? unlock.mode % "unlock" : []
       if( ! res.values.len())
         res.values.push(unlock.id)
     }
