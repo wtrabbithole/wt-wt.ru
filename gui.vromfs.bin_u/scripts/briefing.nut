@@ -68,6 +68,16 @@ function gui_start_briefing() //Is this function can be called from code atm?
 function gui_start_briefing_restart()
 {
   dagor.debug("gui_start_briefing_restart")
+  local missionName = ::current_campaign_mission
+  if (missionName != null)
+  {
+    local missionBlk = ::DataBlock()
+    missionBlk.setFrom(::get_meta_mission_info_by_name(::current_campaign_mission))
+    local briefingOptions = get_briefing_options(::get_game_mode(), ::get_game_type(), missionBlk)
+    if (briefingOptions.len() == 0)
+      return ::restart_current_mission()
+  }
+
   local params = {
     isRestart = true
     backSceneFunc = ::gui_start_flight_menu
@@ -176,7 +186,7 @@ function get_briefing_options(gm, gt, missionBlk)
   if (missionBlk.paramExists("disableAirfields"))
     optionItems.append([::USEROPT_DISABLE_AIRFIELDS, "spinner"])
 
-  if (missionBlk.isCustomVisualFilterAllowed!= false && gm == ::GM_SKIRMISH
+  if (missionBlk?.isCustomVisualFilterAllowed != false && gm == ::GM_SKIRMISH
       && (::has_feature("EnableLiveSkins") || ::has_feature("EnableLiveDecals"))
       && contentPreset.getContentPresets().len() > 0)
     optionItems.append([::USEROPT_CONTENT_ALLOWED_PRESET, "combobox"])
@@ -185,7 +195,7 @@ function get_briefing_options(gm, gt, missionBlk)
   {
     if (missionBlk.paramExists("takeoff_mode"))
     {
-        ::mission_name_for_takeoff <- missionBlk.name
+        ::mission_name_for_takeoff <- missionBlk?.name
         optionItems.append([::USEROPT_TAKEOFF_MODE, "spinner"])
     }
 //    if (missionBlk.paramExists("landing_mode"))
@@ -205,7 +215,7 @@ function get_briefing_options(gm, gt, missionBlk)
       optionItems.append([::USEROPT_TIME_LIMIT, "spinner"])
 //    if (!missionBlk.paramExists("rounds"))
 //      optionItems.append([::USEROPT_ROUNDS, "spinner"])
-    if (missionBlk.forceNoRespawnsByMission != true) //false or null
+    if (missionBlk?.forceNoRespawnsByMission != true) //false or null
       optionItems.append([::USEROPT_VERSUS_RESPAWN, "spinner"])
 
     if (missionBlk.paramExists("killLimit") && !(gt & ::GT_RACE))
@@ -237,7 +247,7 @@ function get_briefing_options(gm, gt, missionBlk)
     }
 
     local canUseBots = !(gt & ::GT_RACE)
-    local isBotsAllowed = missionBlk.isBotsAllowed
+    local isBotsAllowed = missionBlk?.isBotsAllowed
     if (canUseBots && isBotsAllowed == null)
     {
       optionItems.append([::USEROPT_IS_BOTS_ALLOWED, "spinner"])

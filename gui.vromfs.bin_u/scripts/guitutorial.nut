@@ -106,7 +106,7 @@ function guiTutor::getBlockFromObjData(objData, scene = null, defOnClick = null)
     {
       if (::checkObj(obj) && obj.isVisible())
         res = {
-          id = "_" + obj.id
+          id = "_" + (obj?.id ?? "null")
           box = ::GuiBox().setFromDaguiObj(obj)
         }
     } else if (obj instanceof ::GuiBox)

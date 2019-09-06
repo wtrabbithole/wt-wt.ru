@@ -496,7 +496,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local collapsedButtonObj = showSceneBtn("btn_collapsed_chapter", isHeader)
     if (isHeader)
     {
-      local isCollapsedChapter = getCollapsedChapters()[curChapterId]
+      local isCollapsedChapter = getCollapsedChapters()?[curChapterId]
       startText = ::loc(isCollapsedChapter ? "mainmenu/btnExpand" : "mainmenu/btnCollapse")
       collapsedButtonObj.setValue(startText)
     }

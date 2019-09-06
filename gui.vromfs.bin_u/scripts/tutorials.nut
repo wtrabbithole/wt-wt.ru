@@ -430,6 +430,9 @@ function is_tutorial_complete(tutorialName)
 
 function get_uncompleted_tutorial_data(misName, diff = -1, checkDebriefing = false)
 {
+  if (!::has_feature("Tutorials"))
+    return null
+
   local mainGameMode = ::get_mp_mode()
   ::set_mp_mode(::GM_TRAINING)  //req to check progress
 

@@ -469,15 +469,15 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     local msg = ::loc("hotkeys/msg/unbind_axis_question", {
       action=actionText
     })
-    msgBox("controls_unbind_question", msg, [
+    msgBox("controls_axis_bind_existing_axis", msg, [
       ["add", function() { doBindAxis() }],
-      ["replace", (@(alreadyBindedAxes) function() {
+      ["replace", function() {
         foreach(item in alreadyBindedAxes) {
           curJoyParams.bindAxis(item.axisIndex, -1)
           changedAxes.append(item)
         }
         doBindAxis()
-      })(alreadyBindedAxes)],
+      }],
       ["cancel", function() {}],
     ], "add")
   }
@@ -626,7 +626,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
     local msg = ::loc("hotkeys/msg/unbind_question", {action = actions})
 
-    msgBox("controls_unbind_question", msg, [
+    msgBox("controls_axis_bind_existing_shortcut", msg, [
       ["add", (@(devs, btns, item) function() {
         doBind(devs, btns, item)
       })(devs, btns, item)],

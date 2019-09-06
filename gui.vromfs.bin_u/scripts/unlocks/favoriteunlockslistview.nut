@@ -60,10 +60,11 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
       closeBtn.unlockId = unlockBlk.id
 
     local chapterAndGroupText = []
-    if(unlockBlk.chapter)
+    if (unlockBlk?.chapter)
       chapterAndGroupText.push(::loc("unlocks/chapter/" + unlockBlk.chapter))
-    if( ! ::u.isEmpty(unlockBlk.group))
+    if ((unlockBlk?.group ?? "") != "")
       chapterAndGroupText.push(::loc("unlocks/group/" + unlockBlk.group))
+
     if (chapterAndGroupText.len())
       chapterAndGroupText = "(" + ::g_string.implode(chapterAndGroupText, ", ") + ")"
     else

@@ -2,6 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local hudState = require_native("hudState")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
+local globalCallbacks = ::require("sqDagui/globalCallbacks/globalCallbacks.nut")
 
 local UNMAPPED_CONTROLS_WARNING_TIME_WINK = 3.0
 local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 180000.0 : 30.0
@@ -33,6 +34,15 @@ local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 
     action = "ID_BOMBS"
   }
 }
+
+globalCallbacks.addTypes({
+  onShortcutOn = {
+    onCb = @(obj, params) ::set_shortcut_on(obj.shortcut_id)
+  }
+  onShortcutOff = {
+    onCb = @(obj, params) ::set_shortcut_off(obj.shortcut_id)
+  }
+})
 
 function get_ingame_map_aabb()
 {
@@ -562,19 +572,6 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-::baseTouchActions <-
-{
-  onShortcutOn = function (obj)
-  {
-    ::set_shortcut_on(obj.shortcut_id)
-  }
-
-  onShortcutOff = function (obj)
-  {
-    ::set_shortcut_off(obj.shortcut_id)
-  }
-}
-
 class HudCutscene extends ::gui_handlers.BaseUnitHud
 {
   sceneBlkName = "gui/hud/hudCutscene.blk"
@@ -664,19 +661,14 @@ class HudTouchAir extends ::HudAir
 
   function initScreen()
   {
-    ::HudAir.initScreen()
+    base.initScreen()
     fillAirButtons()
   }
 
   function reinitScreen(params = {})
   {
-  }
-
-  function _get(idx)
-  {
-    if (idx in ::baseTouchActions)
-      return ::baseTouchActions.rawget(idx)
-    throw null
+    base.reinitScreen()
+    fillAirButtons()
   }
 
   function fillAirButtons()
@@ -779,7 +771,7 @@ class HudTouchTank extends ::HudTank
 
   function initScreen()
   {
-    ::HudTank.initScreen()
+    base.initScreen()
     setupTankControlStick()
     ::g_hud_event_manager.subscribe(
       "tankRepair:offerRepair",
@@ -799,7 +791,7 @@ class HudTouchTank extends ::HudTank
 
   function reinitScreen(params = {})
   {
-    ::HudTank.reinitScreen()
+    base.reinitScreen()
     setupTankControlStick()
   }
 
@@ -810,13 +802,6 @@ class HudTouchTank extends ::HudTank
       return
 
     register_tank_control_stick(stickObj)
-  }
-
-  function _get(idx)
-  {
-    if (idx in ::baseTouchActions)
-      return ::baseTouchActions.rawget(idx)
-    throw null
   }
 
   function onEventArtilleryTarget(p)

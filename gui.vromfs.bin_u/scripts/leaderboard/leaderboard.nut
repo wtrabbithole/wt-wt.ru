@@ -507,7 +507,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     local showClan = rowData != null && forClans
 
     ::showBtnTable(scene, {
-      btn_usercard = showPlayer
+      btn_usercard = showPlayer && ::has_feature("UserCards")
       btn_clan_info = showClan
       btn_membership_req = showClan && !::is_in_clan() && ::clan_get_requested_clan_id() != getLbClanUid(rowData)
     })

@@ -190,7 +190,7 @@ function g_anim_bg::initOnce()
     if (::u.isDataBlock(langBlk))
       applyBlkByLang(langBlk, curLang)
 
-  local presetBlk = bgBlk[::get_country_flags_preset()]
+  local presetBlk = bgBlk?[::get_country_flags_preset()]
   if (::u.isDataBlock(presetBlk))
     applyBlkToAllBgData(presetBlk)
 
@@ -200,8 +200,8 @@ function g_anim_bg::initOnce()
 
 function g_anim_bg::applyBlkByLang(langBlk, curLang)
 {
-  local langsInclude = langBlk.langsInclude
-  local langsExclude = langBlk.langsExclude
+  local langsInclude = langBlk?.langsInclude
+  local langsExclude = langBlk?.langsExclude
   if (::u.isDataBlock(langsInclude)
       && !::isInArray(curLang, langsInclude % "lang"))
     return
@@ -209,8 +209,8 @@ function g_anim_bg::applyBlkByLang(langBlk, curLang)
       && ::isInArray(curLang, langsExclude % "lang"))
     return
 
-  local platformInclude = langBlk.platformInclude
-  local platformExclude = langBlk.platformExclude
+  local platformInclude = langBlk?.platformInclude
+  local platformExclude = langBlk?.platformExclude
   if (::u.isDataBlock(platformInclude)
       && !::isInArray(::target_platform, platformInclude % "platform"))
     return
@@ -237,13 +237,14 @@ function g_anim_bg::applyBlkToBgData(bgData, blk)
 {
   local list = bgData.list
 
-  local defValue = blk[DEFAULT_VALUE_KEY]
+  local defValue = blk?[DEFAULT_VALUE_KEY]
   if (defValue != null)
     foreach(key, value in list)
       list[key] = defValue
 
-  if (::u.isString(blk[RESERVE_BG_KEY]))
-    bgData.reserveBg = blk[RESERVE_BG_KEY]
+  local reserveBg = blk?[RESERVE_BG_KEY]
+  if (::u.isString(reserveBg))
+    bgData.reserveBg = reserveBg
 
   for (local i = 0; i < blk.paramCount(); i++)
   {

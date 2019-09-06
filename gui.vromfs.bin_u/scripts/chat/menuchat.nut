@@ -412,7 +412,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local hasChatHeader = roomData.type.hasChatHeader
     local obj = showSceneBtn("menu_chat_header_block", hasChatHeader)
-    local isRoomChanged = obj.roomId != roomData.id
+    local isRoomChanged = obj?.roomId != roomData.id
     if (!isRoomChanged)
     {
       if (hasChatHeader)
@@ -610,13 +610,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(squadBRTextObj))
       return
 
-    local br = ::g_squad_manager.squadData?.leaderBattleRating
+    local br = ::g_squad_manager.getLeaderBattleRating()
     local isShow = br && ::g_squad_manager.isInSquad() && curRoom.id == ::g_chat.getMySquadRoomId()
 
     if(isShow)
     {
       local gmText = ::events.getEventNameText(
-                       ::events.getEvent(::g_squad_manager.squadData?.leaderGameModeId)
+                       ::events.getEvent(::g_squad_manager.getLeaderGameModeId())
                      ) ?? ""
       local desc = ::loc("shop/battle_rating") +" "+ format("%.1f", br)
       desc = ::g_string.implode([gmText, desc], "\n")
@@ -1419,14 +1419,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!db || !db.from)
       return
 
-    if (skipMyMessages && db.sender && db.sender.nick == ::my_user_name)
+    if (skipMyMessages && db?.sender.nick == ::my_user_name)
       return
 
-    if (db.type == "xpost")
+    if (db?.type == "xpost")
     {
-      if (db.message.len() > 0)
+      if (db?.message.len() > 0)
         foreach (room in ::g_chat.rooms)
-          if (room.id == db.sender.name)
+          if (room.id == db?.sender.name)
           {
             local idxLast = db.message.find(">")
             if ((db.message.slice(0,1)=="<") && (idxLast != null))
@@ -1440,7 +1440,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
               updateChatText();
           }
     }
-    else if (db.type == "groupchat" || db.type == "chat")
+    else if (db?.type == "groupchat" || db?.type == "chat")
     {
       local roomId = ""
       local user = ""
@@ -1449,22 +1449,22 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       local privateMsg = false
       local myPrivate = false
 
-      if (!db.sender || db.sender.debug)
+      if (!db?.sender || db.sender?.debug)
         return
 
-      local message = ::g_chat.localizeReceivedMessage(db.message)
+      local message = ::g_chat.localizeReceivedMessage(db?.message)
       if (::u.isEmpty(message))
         return
 
-      if (!db.sender.service)
+      if (!db?.sender.service)
       {
-        clanTag = db.tag? db.tag : ""
+        clanTag = db?.tag ?? ""
         user = db.sender.nick
-        if(db.userId && db.userId != "0")
+        if (db?.userId && db.userId != "0")
           userContact = getContact(db.userId, db.sender.nick, clanTag, true)
-        else if (db.sender.nick!=::my_user_name)
+        else if (db.sender.nick != ::my_user_name)
           ::clanUserTable[db.sender.nick] <- clanTag
-        roomId = db.sender.name
+        roomId = db?.sender.name
         privateMsg = (db.type == "chat") || !roomRegexp.match(roomId)
         local isSystemMessage = ::g_chat.isSystemUserName(user)
 
@@ -1513,16 +1513,16 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       addRoomMsg(roomId, userContact || user, message,
                  privateMsg, myPrivate, null, ::g_chat.isRoomSquad(roomId))
     }
-    else if (db.type == "error")
+    else if (db?.type == "error")
     {
-      if (!db.error)
+      if (db?.error == null)
         return
 
       checkLastActionRoom()
-      local errorName = db.error.errorName
+      local errorName = db.error?.errorName
       local roomId = lastActionRoom
-      local senderFrom = db.sender && db.sender.from
-      if (db.error.param1)
+      local senderFrom = db?.sender.from
+      if (db?.error.param1)
         roomId = db.error.param1
       else if (senderFrom && roomRegexp.match(senderFrom))
         roomId = senderFrom
@@ -1577,11 +1577,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       //remap roomnames in params
       local locParams = {}
-      local errParamCount = db.error.errorParamCount || db.error.getInt("paramCount", 0) //"paramCount" is a support old client
+      local errParamCount = db.error?.errorParamCount || db.error.getInt("paramCount", 0) //"paramCount" is a support old client
       for(local i = 0; i < errParamCount; i++)
       {
         local key = "param" + i
-        local value = db.error[key]
+        local value = db.error?[key]
         if (!value)
           continue
 
@@ -1604,7 +1604,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         showRoomPopup(menuChatRoom.newMessage("", errMsg), roomId)
     }
     else
-      ::dagor.debug("Chat error: Received message of unknown type = " + db.type)
+      ::dagor.debug("Chat error: Received message of unknown type = " + db?.type)
   }
 
   function joinRoom(id, password = "", onJoinFunc = null, customScene = null, ownerHandler = null, reconnect = false)
@@ -1633,7 +1633,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onJoinRoom(event, db, taskConfig)
   {
-    if (event != ::GCHAT_EVENT_TASK_ERROR && db && db.type!="error")
+    if (event != ::GCHAT_EVENT_TASK_ERROR && db?.type != "error")
     {
       local needNewRoom = true
       foreach(room in ::g_chat.rooms)
@@ -2676,14 +2676,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function isCustomRoomActionObj(obj)
   {
-    local id = obj && obj._customRoomId
-    return id!=null && id!=""
+    return (obj?._customRoomId ?? "") != ""
   }
 
   function findCustomRoomByObj(obj)
   {
-    local id = obj._customRoomId
-    if (id && id!="")
+    local id = obj?._customRoomId ?? ""
+    if (id != "")
       return ::g_chat.getRoomById(id)
 
     //try to find by scene

@@ -98,7 +98,7 @@ local xboxUpdateContactsList = function(usersTable)
 
   foreach (group, playersArray in pendingXboxContactsToUpdate)
   {
-    local existedXBoxContacts = ::get_contacts_array_by_regexp(group, platformModule.xboxNameRegexp)
+    local existedXBoxContacts = ::get_contacts_array_by_filter_func(group, platformModule.isXBoxPlayerName)
     foreach (xboxPlayerId in playersArray)
     {
       local contact = contactsTable?[xboxPlayerId]

@@ -3,7 +3,7 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local battleRating = ::require("scripts/battleRating.nut")
-local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
+local clanVehiclesModal = require("scripts/clans/clanVehiclesModal.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -243,6 +243,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     gameModeChangeButtonObj = rootHandlerWeak.scene.findObject("game_mode_change_button")
     countriesListObj = rootHandlerWeak.scene.findObject("countries_list")
 
+    if (!::has_feature("GameModeSelector"))
+    {
+      gameModeChangeButtonObj.show(false)
+      gameModeChangeButtonObj.enable(false)
+    }
+
     newGameModesWidgetsPlaceObj = rootHandlerWeak.scene.findObject("new_game_modes_widget_place")
     updateUnseenGameModesCounter()
   }
@@ -272,8 +278,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
     {
-      local gameModeId = ::g_squad_manager.squadData?.leaderGameModeId ?? ""
-      local leaderBR = ::g_squad_manager.squadData?.leaderBattleRating ?? 0
+      local gameModeId = ::g_squad_manager.getLeaderGameModeId()
+      local leaderBR = ::g_squad_manager.getLeaderBattleRating()
       if(gameModeId != "")
         name = ::events.getEventNameText(::events.getEvent(gameModeId))
       if(leaderBR > 0)
@@ -1340,11 +1346,14 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateNoticeGMChanged()
   {
+    if (!::has_feature("GameModeSelector"))
+      return
+
     local notice = null
     local alertObj = scene.findObject("game_mode_notice")
     if(::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
     {
-      local gameModeId = ::g_squad_manager.squadData?.leaderGameModeId
+      local gameModeId = ::g_squad_manager.getLeaderGameModeId()
       if(gameModeId && gameModeId != "")
         notice = ::loc("mainmenu/leader_gamemode_notice")
       alertObj.hideConsoleImage = "yes"
@@ -1387,38 +1396,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkNonApprovedSquadronResearches()
   {
-    if (!::isInMenu()
-      || !::has_feature("ClanVehicles")
-      || (::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
-      || ::checkIsInQueue()
-      || squadronUnitAction.isAllVehiclesResearched())
-      return
-
-    local researchingUnitName = ::clan_get_researching_unit()
-    if (researchingUnitName == "")
-      return
-
-    local curSquadronExp = ::clan_get_exp()
-    local hasChosenResearchOfSquadron = squadronUnitAction.hasChosenResearch()
-    if (hasChosenResearchOfSquadron && curSquadronExp <=0)
-      return
-
-    local unit = ::getAircraftByName(researchingUnitName)
-    if (!unit || !unit.isVisibleInShop())
-      return
-
-    if ((hasChosenResearchOfSquadron || !::is_in_clan())
-      && (curSquadronExp <= 0 || curSquadronExp < unit.reqExp - ::getUnitExp(unit)))
-      return
-
-    local country = unit.shopCountry
-    if (country != ::get_profile_country_sq())
-      ::switch_profile_country(country)
-
-    ::gui_handlers.ShopViewWnd.open({
-      curAirName = unit.name,
-      forceUnitType = unit.unitType,
-      isSquadronResearchMode = true})
+    if (clanVehiclesModal.isHaveNonApprovedResearches())
+      clanVehiclesModal.open()
   }
 
   function onEventClanChanged(params)
@@ -1572,8 +1551,9 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
 {
   if (repairInfo.weaponWarning && repairInfo.unreadyAmmoList && !::get_gui_option(::USEROPT_SKIP_WEAPON_WARNING))
   {
+    local price = ::Cost(repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold)
     local msg = ::loc(repairInfo.haveRespawns ? "msgbox/all_planes_zero_ammo_warning" : "controls/no_ammo_left_warning")
-    msg += "\n\n" + format(::loc("buy_unsufficient_ammo"), ::Cost(repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold).tostring())
+    msg += "\n\n" + ::format(::loc("buy_unsufficient_ammo"), price.getTextAccordingToBalance())
 
     ::gui_start_modal_wnd(::gui_handlers.WeaponWarningHandler,
       {
@@ -1581,16 +1561,18 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
         message = msg
         startBtnText = ::loc("mainmenu/btnBuy")
         ableToStartAndSkip = true
-        onStartPressed = (@(repairInfo, handler, startFunc, canRepairWholeCountry) function() {
-          buyAllAmmoAndApply(handler, repairInfo.unreadyAmmoList,
-            (@(repairInfo, handler, startFunc, canRepairWholeCountry) function() {
+        onStartPressed = function() {
+          buyAllAmmoAndApply(
+            handler,
+            repairInfo.unreadyAmmoList,
+            function() {
               repairInfo.weaponWarning = false
               repairInfo.canFlyout = repairInfo.canFlyoutIfRefill
               ::checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCountry)
-            })(repairInfo, handler, startFunc, canRepairWholeCountry),
-            repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold
+            },
+            price
           )
-        })(repairInfo, handler, startFunc, canRepairWholeCountry)
+        }
         cancelFunc = cancelFunc
       })
     return
@@ -1689,7 +1671,7 @@ function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCance
   }
 }
 
-function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost = 0, totalCostGold = 0)
+function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost = ::Cost())
 {
   if (!handler)
     return
@@ -1700,7 +1682,7 @@ function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost =
     return
   }
 
-  if (!::old_check_balance_msgBox(totalCost, totalCostGold))
+  if (!::check_balance_msgBox(totalCost))
     return
 
   local ammo = unreadyAmmoList[0]

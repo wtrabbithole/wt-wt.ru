@@ -177,7 +177,7 @@ function g_dagui_utils::setObjPosition(obj, _reqPos, _border)
   local posX = ::clamp(reqPos[0], border[0], screenSize[0] - border[0] - objSize[0])
   local posY = ::clamp(reqPos[1], border[1], screenSize[1] - border[1] - objSize[1])
 
-  if (obj.pos != null)
+  if (obj?.pos != null)
     obj.pos = ::format("%d, %d", posX, posY)
   else
   {

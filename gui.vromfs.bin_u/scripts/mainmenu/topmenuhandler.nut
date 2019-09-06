@@ -30,6 +30,8 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   topMenuInited = false
   menuConfig = null /*::topMenu_config*/
 
+  canQuitByGoBack = false
+
   shopWeak = null
 
   checkAdvertTimer = 0.0

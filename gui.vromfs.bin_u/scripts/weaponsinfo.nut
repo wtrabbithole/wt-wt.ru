@@ -791,14 +791,14 @@ function get_last_primary_weapon(air)
 
 function getCommonWeaponsBlk(airBlk, primaryMod)
 {
-  if (primaryMod=="" && airBlk.commonWeapons)
+  if (primaryMod == "" && airBlk?.commonWeapons)
     return airBlk.commonWeapons
 
-  if(airBlk.modifications)
+  if (airBlk?.modifications)
     foreach(modName, modification in airBlk.modifications)
-      if (modName==primaryMod)
+      if (modName == primaryMod)
       {
-        if (modification.effects && modification.effects.commonWeapons)
+        if (modification?.effects.commonWeapons)
           return modification.effects.commonWeapons
         break
       }

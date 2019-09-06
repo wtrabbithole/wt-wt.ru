@@ -230,6 +230,7 @@ function handlersManager::loadHandlerScene(handler)
   {
     local rootObj = handler.guiScene.getRoot()
     handler.scene = handler.guiScene.createElementByObject(rootObj, handler.sceneBlkName, "rootScene", handler)
+    handler.initHandlerSceneTpl()
     handler.scene.id = id
     return null
   }

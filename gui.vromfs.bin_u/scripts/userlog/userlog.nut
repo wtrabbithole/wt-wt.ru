@@ -275,7 +275,6 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     local viewBlk = ::handyman.renderCached(logRowTplName,
       {
         middle = ::loc("userlog/showMore")
-        hasExpandImg = true
       })
     guiScene.replaceContentFromText(rowObj, viewBlk, viewBlk.len(), this)
   }
@@ -461,7 +460,7 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUserLogAction(obj)
   {
-    local logIdx = obj.logIdx
+    local logIdx = obj?.logIdx
     local log = logIdx != null
       ? ::u.search(logs, @(l) l.idx == logIdx.tointeger())
       : logs?[selectedIndex]

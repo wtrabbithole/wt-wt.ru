@@ -388,6 +388,39 @@ function update_msg_boxes()
   }
 }
 
+function get_text_urls_data(text)
+{
+  if (!text.len() || !::has_feature("AllowExternalLink"))
+    return null
+
+  local urls = []
+  local start = 0
+  local startText = "<url="
+  local urlEndText = ">"
+  local endText = "</url>"
+  do {
+    start = text.find(startText, start)
+    if (start == null)
+      break
+    local urlEnd = text.find(urlEndText, start + startText.len())
+    if (!urlEnd)
+      break
+    local end = text.find(endText, urlEnd)
+    if (!end)
+      break
+
+    urls.append({
+      url = text.slice(start + startText.len(), urlEnd)
+      text = text.slice(urlEnd + urlEndText.len(), end)
+    })
+    text = text.slice(0, start) + text.slice(end + endText.len())
+  } while (start != null && start < text.len())
+
+  if (!urls.len())
+    return null
+  return { text = text, urls = urls }
+}
+
 function add_msg_box(id, text, buttons, def_btn, options = null)
 {
   for (local i = 0; i < ::gui_scene_boxes.len(); i++)

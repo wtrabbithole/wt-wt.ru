@@ -151,7 +151,7 @@ function build_aircraft_item(id, air, params = {})
     local rentInfo = ::get_unit_item_rent_info(air, params)
     local spareCount = isLocalState ? ::get_spare_aircrafts_count(air.name) : 0
 
-    local hasCrewInfo = crewId >= 0
+    local hasCrewInfo = ::has_feature("CrewInfo") && crewId >= 0
     local crew = hasCrewInfo ? ::get_crew_by_id(crewId) : null
 
     local forceCrewInfoUnit = params?.forceCrewInfoUnit
@@ -557,7 +557,7 @@ function build_aircraft_item(id, air, params = {})
 
         local crewLevelInfoView = { itemButtons = {
           hasExtraInfoBlock = true
-          hasCrewInfo       = true
+          hasCrewInfo       = ::has_feature("CrewInfo")
           crewLevel         = crewLevelText
           crewSpecIcon      = crewSpecIcon
         }}

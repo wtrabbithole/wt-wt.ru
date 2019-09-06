@@ -7,6 +7,8 @@ enum windowState
 
 function gui_modal_convertExp(unit = null)
 {
+  if (!::has_feature("SpendGold") || !::has_feature("SpendFreeRP"))
+    return
   if (unit && !::can_spend_gold_on_unit_with_popup(unit))
     return
 

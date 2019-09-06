@@ -408,7 +408,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
   function refreshPlayerInfo(player)
   {
     updatePlayerInfo(player)
-    showSceneBtn("btn_usercard", player != null && !::show_console_buttons)
+    showSceneBtn("btn_usercard", player != null && !::show_console_buttons && ::has_feature("UserCards"))
     showSceneBtn("btn_user_options", player != null && ::show_console_buttons)
   }
 

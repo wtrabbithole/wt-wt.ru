@@ -932,7 +932,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     foreach(binding in curBinding)
       actionText += ((actionText=="")? "":", ") + ::loc("hotkeys/"+shortcutNames[binding[0]])
     local msg = ::loc("hotkeys/msg/unbind_question", { action=actionText })
-    msgBox("controls_unbind_question", msg, [
+    msgBox("controls_wizard_bind_existing_shortcut", msg, [
       ["add", (@(curBinding, devs, btns, shortcutId) function() {
         doBind(devs, btns, shortcutId)
         onButtonDone()
@@ -1152,7 +1152,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     local msg = ::loc("hotkeys/msg/unbind_axis_question", {
       button=curBtnText, action=actionText
     })
-    msgBox("controls_unbind_question", msg, [
+    msgBox("controls_wizard_bind_existing_axis", msg, [
       ["add", function() { bindAxis() }],
       ["replace", (@(curBinding) function() {
         repeatItemsList.extend(curBinding)
@@ -1425,7 +1425,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
         if (::u.isString(btn))
           text = btn
 
-        if (::getStrSymbol(text, 0) != "#")
+        if (getStrSymbol(text, 0) != "#")
           text = "#" + text
 
         view.items.append({
@@ -1445,6 +1445,13 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     }
 
     waitMsgButton = true
+  }
+
+  function getStrSymbol(str, i)
+  {
+    if (i < str.len())
+      return str.slice(i, i+1)
+    return null
   }
 
   function onMsgButton(obj)

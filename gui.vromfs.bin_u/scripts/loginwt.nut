@@ -317,7 +317,10 @@ function g_login::firstMainMenuLoad()
     else if (::is_platform_shield_tv())
       setControlTypeByID("ct_xinput")
     else
-      handler.doWhenActive(function() { ::gui_start_controls_type_choice(false) })
+    {
+      local onlyDevicesChoice = !::has_feature("Profile")
+      handler.doWhenActive(function() { ::gui_start_controls_type_choice(onlyDevicesChoice) })
+    }
   }
   else if (!fetch_devices_inited_once())
     handler.doWhenActive(function() { ::gui_start_controls_type_choice() })

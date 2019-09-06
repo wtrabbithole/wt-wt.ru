@@ -444,8 +444,9 @@ local InventoryClient = class {
 
   function addItemDefIdToRequest(itemdefid)
   {
-    if (itemdefid in itemdefs)
+    if (itemdefid == null || itemdefid in itemdefs)
       return false
+
     itemdefs[itemdefid] <- {}
     return true
   }

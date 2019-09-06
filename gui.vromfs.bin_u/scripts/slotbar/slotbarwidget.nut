@@ -563,7 +563,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         curSlotIdInCountry = crew.idInCountry
         curSlotCountryId = crew.idCountry
         unlocked = crewData.isUnlocked
-        tooltipParams = { needCrewInfo = !::g_crews_list.isSlotbarOverrided }
+        tooltipParams = { needCrewInfo = ::has_feature("CrewInfo") && !::g_crews_list.isSlotbarOverrided }
         missionRules = missionRules
         forceCrewInfoUnit = unitForSpecType
       }
@@ -817,14 +817,14 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       local country = ::g_crews_list.get()[curSlotCountryId].country
 
       local rawCost = ::get_crew_slot_cost(country)
-      local cost = rawCost && ::Cost(rawCost.cost, rawCost.costGold)
-      if (cost && ::old_check_balance_msgBox(cost.wp, cost.gold))
+      local cost = rawCost? ::Cost(rawCost.cost, rawCost.costGold) : ::Cost()
+      if (::check_balance_msgBox(cost))
       {
         if (cost > ::zero_money)
         {
-          local msgText = warningIfGold(
+          local msgText = ::warningIfGold(
             format(::loc("shop/needMoneyQuestion_purchaseCrew"),
-              cost.tostring()),
+              cost.getTextAccordingToBalance()),
             cost)
           ignoreCheckSlotbar = true
           msgBox("need_money", msgText,

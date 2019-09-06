@@ -64,9 +64,10 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       blockObj.show(true)
 
     goods = {}
-    groupCost = {}
-    bundles = {}
     chImages = {}
+    bundles = {}
+    groupCost = {}
+
     local data = ""
     local curChapter = ""
     local idx = 0
@@ -76,21 +77,23 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
     local first = true
     foreach (name, ib in eblk)
     {
-      if (chapter==null && ::isInArray(ib.chapter, skipChapters))
+      if (chapter == null && ::isInArray(ib?.chapter, skipChapters))
         continue
-      if (chapter!=null && ib.chapter!=chapter)
+      if (chapter != null && ib?.chapter != chapter)
         continue
-      if (ib.hideWhenUnbought && !has_entitlement(name))
+      if (ib?.hideWhenUnbought && !::has_entitlement(name))
         continue
-      goods[name] <- {}
+
+      goods[name] <- {
+        name = name
+      }
       //load data from eBlk
       for (local j = 0; j < ib.paramCount(); j++)
         goods[name][ib.getParamName(j)] <- ib.getParamValue(j)
-      if (ib.bundle)
+
+      if (ib?.bundle)
         bundles[name] <- ib.bundle % "item"
 
-      if (!("name" in goods[name]))
-        goods[name].name <- name
       foreach(param in ["entitlementGift", "aircraftGift", "showEntAsGift"])
       {
         local arr = []
@@ -100,25 +103,26 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
             arr.append(l)
         goods[name][param] <- arr
       }
-      if (("showEntitlementGift" in goods[name]) && goods[name].showEntitlementGift)
+
+      if (goods[name]?.showEntitlementGift)
         goods[name].entitlementGift.extend(goods[name].showEntAsGift)
       else
         goods[name].entitlementGift = goods[name].showEntAsGift
       //load done
 
-      if (("group" in goods[name]) && !(goods[name].group in groupCost))
+      if (goods[name]?.group && !groupCost?[goods[name].group])
         groupCost[goods[name].group] <- getPricePerItem(goods[name])
 
       if (useRowVisual)
       {
-        data += format("tr { id:t='%s'; even:t='%s' } ", name, (idx%2 == 0)? "yes":"no")
-        if ("chapterImage" in goods[name])
+        data += ::format("tr { id:t='%s'; even:t='%s' } ", name, (idx%2 == 0)? "yes":"no")
+        if (goods[name]?.chapterImage)
           chImages[goods[name].chapter] <- goods[name].chapterImage
         idx++
       }
       else
       {
-        if ("chapter" in goods[name])
+        if (goods[name]?.chapter)
         {
           if (goods[name].chapter != curChapter)
           {
@@ -130,7 +134,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
             }
             data += ::handyman.renderCached("gui/missions/missionBoxItem", view)
           }
-          if ("chapterImage" in goods[name])
+          if (goods[name]?.chapterImage)
             chImages[goods[name].chapter] <- goods[name].chapterImage
         }
 
@@ -163,7 +167,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       data = "textarea { id:t = 'item_desc_text'; width:t = '@onlineShopWidth'; wrapRight:t='yes'; font-bold:t='@fontMedium'; padding-left:t='0.02@sf';}" + data
 
       if (chapter in chImages)
-        data = format("img { size:t='0.9@onlineShopWidth, 0.125w'; halign:t='center' background-image:t='%s' }", "#ui/onlineShop/" + chImages[chapter]) + data
+        data = ::format("img { size:t='0.9@onlineShopWidth, 0.125w'; halign:t='center' background-image:t='%s' }", "#ui/onlineShop/" + chImages[chapter]) + data
 
       local rootObj = scene.findObject("wnd_frame")
       rootObj["class"] = "wnd"
@@ -195,7 +199,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         {
           savingText = ::loc("ui/parentheses", {text = ::loc("charServer/entitlement/firstBuy")})
         }
-        else if (("group" in item) && (item.group in groupCost))
+        else if (item?.group && item.group in groupCost)
         {
           local itemPrice = getPrice(item)
           local defItemPrice = groupCost[item.group]
@@ -205,11 +209,11 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
             local saving = (1 - ((itemPrice * (1 - discount*0.01)) / (calcAmount * defItemPrice))) * 100
             saving = saving.tointeger()
             if (saving != 0)
-              savingText = format(::loc("charServer/entitlement/discount"), saving)
+              savingText = ::format(::loc("charServer/entitlement/discount"), saving)
           }
         }
 
-        local isTimeAmount = ("httl" in item) || ("ttl" in item)
+        local isTimeAmount = item?.httl || item?.ttl
         if (isTimeAmount)
           amount *= 24
 
@@ -260,7 +264,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
           local text = ::get_entitlement_name(item)
           local priceText = getItemPriceText(name)
           if (priceText!="")
-            text = format("(%s) %s", priceText, text)
+            text = ::format("(%s) %s", priceText, text)
           obj.setValue(text)
         }
         if (name in bundles)
@@ -270,9 +274,9 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local rBlk = ::get_ranks_blk()
     local wBlk = ::get_warpoints_blk()
-    premiumRpMult = rBlk.xpMultiplier || 1.0
-    premiumWpMult = wBlk.wpMultiplier || 1.0
-    premiumBattleTimeWpMult = premiumWpMult * (wBlk.battleTimePremMul || 1.0)
+    premiumRpMult = rBlk?.xpMultiplier || 1.0
+    premiumWpMult = wBlk?.wpMultiplier || 1.0
+    premiumBattleTimeWpMult = premiumWpMult * (wBlk?.battleTimePremMul || 1.0)
     premiumOtherModesWpMult = premiumWpMult
 
     scene.findObject("items_list").select()
@@ -301,26 +305,26 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getPrice(item)
   {
     local cost = -1
-    if (("onlinePurchase" in item) && item.onlinePurchase)
+    if (item?.onlinePurchase)
     {
-      local costText = ::loc("price/"+item.name, "")
-      if (costText!="")
+      local costText = ::loc("price/" + item.name, "")
+      if (costText != "")
         cost = costText.tointeger()
-    } else
-    if ("goldCost" in item)
+    }
+    else if (item?.goldCost)
       cost = item.goldCost
+
     return cost
   }
 
   function getPricePerItem(item)
   {
-    local cost = getPrice(item)
     local value = ::get_entitlement_amount(item)
+    if (value <= 0)
+      return 0
 
-    if (value > 0)
-      return cost.tofloat() / value
-
-    return 0
+    local cost = getPrice(item)
+    return cost.tofloat() / value
   }
 
   function getItemPriceText(name)
@@ -332,21 +336,25 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function isBuyOnce(item)
   {
-    return (("chapter" in item) && (item.chapter=="campaign" || item.chapter=="license" || item.chapter=="bonuses"))
-      || ("hideWhenUnbought" in item)
+    return (item?.chapter
+            && (item.chapter == "campaign"
+                || item.chapter == "license"
+                || item.chapter == "bonuses")
+            )
+            || item?.hideWhenUnbought
   }
 
   function isBought(item)
   {
-    if (item.name in bundles)
+    if (item?.name != null && bundles?[item.name] != null)
     {
       foreach(name in bundles[item.name])
-        if (!(name in goods) || !isBought(goods[name]))
+        if (!goods?[name] || !isBought(goods[name]))
           return false
       return true
     }
-    local realname = ("alias" in item) ? item.alias : item.name
-    return (isBuyOnce(item) && has_entitlement(realname))
+    local realname = item?.alias ?? item.name
+    return (isBuyOnce(item) && ::has_entitlement(realname))
   }
 
   function getItemIcon(name)
@@ -530,17 +538,20 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         return onOnlinePurchase(task)
 
       local costGold = "goldCost" in goods[task]? ::get_entitlement_cost_gold(goods[task].name) : 0
-      local msgText = warningIfGold(
+      local price = ::Cost(0, costGold)
+      local msgText = ::warningIfGold(
         ::loc("onlineShop/needMoneyQuestion",
           {purchase = ::get_entitlement_name(goods[task]), cost = getItemPriceText(task)}),
-        ::Cost(0, costGold))
+        price)
       msgBox("purchase_ask", msgText,
-        [ ["yes", (@(costGold) function() {
-            if (costGold && ::old_check_balance_msgBox(0, costGold))
+        [
+          ["yes", function() {
+            if (::check_balance_msgBox(price))
               goForwardIfPurchase()
-          })(costGold)],
-          ["no", function(){}]
-        ], "yes", { cancel_fn = function(){}})
+          }],
+          ["no", @() null ]
+        ], "yes", { cancel_fn = @() null }
+      )
     }
   }
 

@@ -64,16 +64,25 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   WORLDWAR = {
     text = "#mainmenu/btnWorldwar"
-    onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
+    onClickFunc = function(obj, handler)
+    {
+      ::queues.checkAndStart(
+        ::Callback(@() goForwardIfOnline(@() ::g_world_war.openOperationsOrQueues(), false), handler),
+        null,
+        "isCanNewflight"
+      )
+    }
     tooltip = @() ::g_world_war.getCantPlayWorldwarReasonText()
     isVisualDisabled = @() !::g_world_war.canPlayWorldwar()
     isHidden = @(...) !::is_worldwar_enabled()
+    isInactiveInQueue = true
     unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() ?
       SEEN.WW_MAPS_AVAILABLE : null
   }
   TUTORIAL = {
     text = "#mainmenu/btnTutorial"
     onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_tutorial)
+    isHidden = @(...) !::has_feature("Tutorials")
     isInactiveInQueue = true
   }
   SINGLE_MISSION = {
@@ -113,7 +122,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   BENCHMARK = {
     text = "#mainmenu/btnBenchmark"
     onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_benchmark)
-    isHidden = @(...) !::has_feature("Benchmark") && !::is_dev_version
+    isHidden = @(...) (!::has_feature("Benchmark") && !::is_dev_version) || !::has_feature("BenchmarkForDevs")
     isInactiveInQueue = true
   }
   USER_MISSION = {
@@ -133,6 +142,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   LEADERBOARDS = {
     text = "#mainmenu/btnLeaderboards"
     onClickFunc = @(obj, handler) handler.goForwardIfOnline(::gui_modal_leaderboards, false, true)
+    isHidden = @(...) !::has_feature("Leaderboards")
   }
   CLANS = {
     text = "#mainmenu/btnClans"
@@ -290,7 +300,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
 
       ::gui_handlers.HelpInfoHandlerModal.open(handler.getWndHelpConfig(), handler.scene)
     }
-    isHidden = @(handler = null) !("getWndHelpConfig" in handler)
+    isHidden = @(handler = null) !("getWndHelpConfig" in handler) || !::has_feature("HangarWndHelp")
   }
   FAQ = {
     text = "#mainmenu/faq"
@@ -323,7 +333,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/licenseAgreement"
     onClickFunc = @(obj, handler) ::gui_start_eula(::TEXT_EULA, true)
     isDelayed = false
-    isHidden = @(...) !::isInMenu()
+    isHidden = @(...) !::has_feature("EulaInMenu") || !::isInMenu()
   }
   EMPTY = {
     elementType = TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON

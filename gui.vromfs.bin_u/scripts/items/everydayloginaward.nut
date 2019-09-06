@@ -74,7 +74,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
   function updateGuiBlkData()
   {
     local guiBlk = ::configs.GUI.get()
-    local data = guiBlk.every_day_login_award
+    local data = guiBlk?.every_day_login_award
     if (!data)
       return
     local imageSectionName = "image"
@@ -256,11 +256,11 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     if (!guiBlkEDLAdata)
     {
       local guiBlk = ::configs.GUI.get()
-      guiBlkEDLAdata = guiBlk.every_day_login_award
+      guiBlkEDLAdata = guiBlk?.every_day_login_award
     }
 
     if (!::u.isDataBlock(guiBlkEDLAdata)
-        || !::u.isDataBlock(guiBlkEDLAdata.periodic_award))
+        || !::u.isDataBlock(guiBlkEDLAdata?.periodic_award))
       return
 
     curPeriodicAwardData = ::u.copy(guiBlkEDLAdata.periodic_award)
@@ -283,7 +283,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(pawObj) || !curentRewardData || !isOpened)
       return
 
-    local bgImage = curentRewardData.trophy
+    local bgImage = curentRewardData?.trophy
     if (::u.isEmpty(bgImage))
     {
       ::dagor.assertf(isDefault, "Every Day Login Award: empty trophy param for config for period " + period)

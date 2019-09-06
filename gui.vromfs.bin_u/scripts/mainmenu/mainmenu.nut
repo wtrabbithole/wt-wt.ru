@@ -5,19 +5,8 @@ local contentStateModule = ::require("scripts/clientState/contentState.nut")
 local itemNotifications = ::require("scripts/items/itemNotifications.nut")
 
 ::dbg_mainmenu_start_check <- 0
-::_is_first_mainmenu_call <- true //only for comatible with 1.59.2.X executable
 function gui_start_mainmenu(allowMainmenuActions = true)
 {
-  if (::_is_first_mainmenu_call)
-  {
-    ::_is_first_mainmenu_call = false
-    if (!::disable_network() && !::g_login.isLoggedIn()) //old executable reload scripts detected
-    {
-      ::gui_start_after_scripts_reload()
-      return null
-    }
-  }
-
   if (::dbg_mainmenu_start_check++)
   {
     local msg = "Error: recursive start mainmenu call. loginState = " + ::g_login.curState
@@ -296,6 +285,8 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
   function initPromoBlock()
   {
     if (promoHandler != null)
+      return
+    if (!::has_feature("PromoBlocks"))
       return
 
     promoHandler = ::create_promo_blocks(this)

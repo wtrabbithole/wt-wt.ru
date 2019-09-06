@@ -27,10 +27,10 @@ local time = require("scripts/time.nut")
   needStopTimer = function(statusBlk, tm) { return true }
   isDefender = function(blk, side)
   {
-    if (blk.defenderSide && typeof side != typeof blk.defenderSide)
+    if (blk?.defenderSide && typeof side != typeof blk.defenderSide)
       ::script_net_assert_once("invalid operation objective data", "Func isDefender: " + blk.defenderSide + " never be equal " + side)
 
-    return blk.defenderSide == side
+    return blk?.defenderSide == side
   }
   getActionString = function(blk, side) { return isDefender(blk, side)
                                     ? defenderString
@@ -68,6 +68,9 @@ local time = require("scripts/time.nut")
     if (name != "" && name == currentStateParam)
       return ::loc("wwar_obj/params/currentState/name")
     local locText = ::loc(prefix + name + postfix, "", params)
+    if (blk?.type == null)
+      return locText
+
     if (locText == "")
       locText = ::loc(prefix + blk.type + "/" + name + postfix, "", params)
     if (locText == "")
@@ -78,7 +81,7 @@ local time = require("scripts/time.nut")
       locText = ::loc(prefix + blk.type + postfix, "", params)
     return locText
   }
-  getTitleLocId = function(dataBlk, statusBlk) { return dataBlk.id }
+  getTitleLocId = function(dataBlk, statusBlk) { return dataBlk?.id }
   getTitleLocParams = function(dataBlk, statusBlk, side)
   {
     local res = {}
@@ -110,7 +113,7 @@ local time = require("scripts/time.nut")
     zonesPercent = @(value, blk)
       ::g_measure_type.getTypeByName("percent", true).getMeasureUnitsText(value)
     unitCount = @(value, blk)
-      value + ::g_ww_unit_type.getUnitTypeByTextCode(blk.unitType).fontIcon
+      value + ::g_ww_unit_type.getUnitTypeByTextCode(blk?.unitType).fontIcon
     advantage = @(value, blk)
       ::loc("wwar_obj/params/advantage/value", {advantageFactor = ::round(value, 2)})
   }
@@ -125,7 +128,7 @@ local time = require("scripts/time.nut")
   getColorizeByParam = function(param) { return ::getTblValue(param, colorize) }
 
   getValueByParam = function(param, blk, side = null, useConverter = true) {
-    local value = blk[param]
+    local value = blk?[param]
     if (param in specificClassParamConvertion)
       value = specificClassParamConvertion[param](value, blk, side, this)
     if (useConverter && param in convertParamValue)
@@ -193,7 +196,7 @@ local time = require("scripts/time.nut")
           res.append({
             id = checkName
             pName = getParamName(dataBlk, side, pValueParam)
-            pValue = paramName in convertParamValue? convertParamValue[pValueParam](value, dataBlk) : value
+            pValue = paramName in convertParamValue? convertParamValue?[pValueParam](value, dataBlk) : value
             colorize = getColorizeByParam(pValueParam)
           })
         }
@@ -215,7 +218,7 @@ local time = require("scripts/time.nut")
         return true
 
       local sideName = ::ww_side_val_to_name(side)
-      local operationTime = (statusBlk.timeSecScaled || 0) - ::g_world_war.getOperationTimeSec()
+      local operationTime = (statusBlk?.timeSecScaled ?? 0) - ::g_world_war.getOperationTimeSec()
       nestObj.setValue(t.getName(dataBlk, statusBlk, sideName))
       local needStopTimer = t.needStopTimer(statusBlk, operationTime)
       return needStopTimer
@@ -227,7 +230,7 @@ local time = require("scripts/time.nut")
         return true
 
       local captureTimeSec = ::ww_get_zone_capture_time_sec(zoneName)
-      local captureTimeEnd = dataBlk.holdTimeSec
+      local captureTimeEnd = dataBlk?.holdTimeSec
 
       valueObj.setValue(time.hoursToString(time.secondsToHours(captureTimeSec), false, true))
 
@@ -266,8 +269,8 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
     getNameId = function(dataBlk, side) { return getParamId(dataBlk, "timeSecScaled") }
     getTitleLocId = function(dataBlk, statusBlk)
     {
-      local hasAmount = dataBlk.num != null
-      local hasTime = (statusBlk.timeSecScaled || 0 ) - ::g_world_war.getOperationTimeSec() > 0
+      local hasAmount = dataBlk?.num != null
+      local hasTime = (statusBlk?.timeSecScaled ?? 0 ) - ::g_world_war.getOperationTimeSec() > 0
       return (hasAmount ? "Amount" : "Specified") + (hasTime ? "" : "Timeless")
     }
 
@@ -296,7 +299,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
           minCapturedTimeSec = minCapturedTimeSec < 0 ? zoneCapturedTimeSec : ::min(minCapturedTimeSec, zoneCapturedTimeSec)
         }
 
-        local timeSec = (statusBlk.timeSecScaled || 0) - ::g_world_war.getOperationTimeSec()
+        local timeSec = (statusBlk?.timeSecScaled ?? 0) - ::g_world_war.getOperationTimeSec()
         nestObj.setValue(t.getName(dataBlk, statusBlk, sideName))
 
         local stopTimer = t.needStopTimer(statusBlk, timeSec)
@@ -318,8 +321,8 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
             minCapturedTimeSec = ::min(minCapturedTimeSec, ::ww_get_zone_capture_time_sec(zonesArray[i]))
         }
 
-        local leftTime = (dataBlk[updateParam] - minCapturedTimeSec) / ::ww_get_speedup_factor()
-        local pValueText = t.convertParamValue[updateParam](leftTime, dataBlk)
+        local leftTime = ((dataBlk?[updateParam] ?? 0) - minCapturedTimeSec) / ::ww_get_speedup_factor()
+        local pValueText = t.convertParamValue?[updateParam](leftTime, dataBlk)
         pValueObj.setValue(pValueText)
         nestObj.show(!::u.isEmpty(pValueText))
 
@@ -360,7 +363,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
 
     needStopTimer = function(statusBlk, tm)
     {
-      return tm < 0 || statusBlk.winner
+      return tm < 0 || statusBlk?.winner
     }
 
     getUpdatableZonesParams = function(dataBlk, statusBlk, side)
@@ -369,7 +372,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
         return []
 
       local zonesArray = []
-      local data = statusBlk.zones || dataBlk.zones
+      local data = statusBlk?.zones ?? dataBlk?.zones
       if (::u.isDataBlock(data))
       {
         local num = data.paramCount()
@@ -399,7 +402,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
     getUpdatableParamsArray = function(dataBlk, statusBlk, side)
     {
       local paramName = "holdTimeSec"
-      local paramValue = dataBlk[paramName]
+      local paramValue = dataBlk?[paramName]
 
       return isParamVisible[paramName](paramValue)
         ? [{ id = getParamId(dataBlk, paramName)
@@ -435,7 +438,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
       if (!zonesNeeded)
         return ""
 
-      local zonesData = dataBlk.zones || statusBlk.zones
+      local zonesData = dataBlk?.zones ?? statusBlk?.zones
       local zonesCount = ::u.isDataBlock(zonesData) ? zonesData.paramCount() : 0
       return zonesNeeded < zonesCount ? "/approximate" : "/accurate"
     }
@@ -451,7 +454,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
     getNameId = function(dataBlk, side) { return getParamId(dataBlk, "timeSecScaled") }
     getTitleLocId = function(dataBlk, statusBlk)
     {
-      local hasTime = (statusBlk.timeSecScaled || 0 ) - ::g_world_war.getOperationTimeSec() > 0
+      local hasTime = (statusBlk?.timeSecScaled ?? 0 ) - ::g_world_war.getOperationTimeSec() > 0
       return "Percentage" + (hasTime ? "" : "Timeless")
     }
 
@@ -465,7 +468,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
 
     needStopTimer = function(statusBlk, tm)
     {
-      return tm < 0 || statusBlk.winner
+      return tm < 0 || statusBlk?.winner
     }
 
     specificClassParamConvertion = {
@@ -480,9 +483,9 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
         if (!::checkObj(nestObj))
           return false
 
-        local attackerSide = ::g_world_war.getOppositeSide(::ww_side_name_to_val(dataBlk.defenderSide || ""))
-        local zonesPercent = dataBlk.zonesPercent
-        local capturedPercent = statusBlk["zonePercent_" + attackerSide]
+        local attackerSide = ::g_world_war.getOppositeSide(::ww_side_name_to_val(dataBlk?.defenderSide ?? ""))
+        local zonesPercent = dataBlk?.zonesPercent ?? 0
+        local capturedPercent = statusBlk?["zonePercent_" + attackerSide] ?? 0
 
         local isVisible = zonesPercent <= capturedPercent
         nestObj.show(isVisible)
@@ -499,14 +502,14 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
     invertUpdateValue = true
 
     specificClassParamConvertion = {
-      num = function(value, blk, side, t) { return value + ::g_ww_unit_type.getUnitTypeByTextCode(blk.unitType).fontIcon }
+      num = function(value, blk, side, t) { return value + ::g_ww_unit_type.getUnitTypeByTextCode(blk?.unitType).fontIcon }
     }
   }
 
   OT_DOMINATION_UNIT = {
     titleParams = ["fontIcon", "advantageFactor"]
     defaultValuesTable = {
-      fontIcon = @(dataBlk) ::g_ww_unit_type.getUnitTypeByTextCode(dataBlk.unitType).fontIcon
+      fontIcon = @(dataBlk) ::g_ww_unit_type.getUnitTypeByTextCode(dataBlk?.unitType).fontIcon
     }
     updateArray = ["advantage"]
   }

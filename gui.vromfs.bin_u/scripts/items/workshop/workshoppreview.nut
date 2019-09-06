@@ -25,8 +25,8 @@ class ::gui_handlers.WorkshopPreview extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     return {
-      headerText = ::loc(blk.main_header ?? "items/workshop")
-      bgImage = blk.main_image
+      headerText = ::loc(blk?.main_header ?? "items/workshop")
+      bgImage = blk?.main_image
       infoBlocks = infoBlocks
     }
   }

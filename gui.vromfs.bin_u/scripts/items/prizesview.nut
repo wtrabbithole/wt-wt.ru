@@ -58,35 +58,35 @@ function PrizesView::getPrizeType(prize)
 {
   if (isPrizeMultiAward(prize))
     return PRIZE_TYPE.MULTI_AWARD
-  if (prize.item)
+  if (prize?.item)
     return PRIZE_TYPE.ITEM
-  if (prize.trophy)
+  if (prize?.trophy)
     return PRIZE_TYPE.TROPHY
-  if (prize.unit)
-    return prize.mod ? PRIZE_TYPE.MODIFICATION : PRIZE_TYPE.UNIT
-  if (prize.rentedUnit)
+  if (prize?.unit)
+    return prize?.mod ? PRIZE_TYPE.MODIFICATION : PRIZE_TYPE.UNIT
+  if (prize?.rentedUnit)
     return PRIZE_TYPE.RENTED_UNIT
-  if (prize.spare)
+  if (prize?.spare)
     return PRIZE_TYPE.SPARE
-  if (prize.specialization)
+  if (prize?.specialization)
     return PRIZE_TYPE.SPECIALIZATION
-  if (prize.premium_in_hours)
+  if (prize?.premium_in_hours)
     return PRIZE_TYPE.PREMIUM_ACCOUNT
-  if (prize.entitlement)
+  if (prize?.entitlement)
     return PRIZE_TYPE.ENTITLEMENT
-  if (prize.unlock)
+  if (prize?.unlock)
     return PRIZE_TYPE.UNLOCK
-  if (prize.unlocktype)
+  if (prize?.unlocktype)
     return PRIZE_TYPE.UNLOCK_TYPE
-  if (prize.gold)
+  if (prize?.gold)
     return PRIZE_TYPE.GOLD
-  if (prize.warpoints)
+  if (prize?.warpoints)
     return PRIZE_TYPE.WARPOINTS
-  if (prize.exp)
+  if (prize?.exp)
     return PRIZE_TYPE.EXP
-  if (prize.warbonds)
+  if (prize?.warbonds)
     return PRIZE_TYPE.WARBONDS
-  if (prize.resource)
+  if (prize?.resource)
     return PRIZE_TYPE.RESOURCE
   return PRIZE_TYPE.UNKNOWN
 }
@@ -124,7 +124,7 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
     } else
       name = ::TrophyMultiAward(prize).getName()
   }
-  else if (prize.unit)
+  else if (prize?.unit)
   {
     if (_typeName)
       name = ::loc("trophy/unlockables_names/aircraft")
@@ -134,7 +134,7 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
       color = ::getUnitClassColor(prize.unit)
     }
   }
-  else if (prize.rentedUnit)
+  else if (prize?.rentedUnit)
   {
     if (_typeName)
       name = ::loc("shop/unitRent")
@@ -144,13 +144,13 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
       local unitColor = ::getUnitClassColor(unitName)
       name = ::loc("shop/rentUnitFor", {
         unit = ::colorize(unitColor, ::getUnitName(unitName, true))
-        time = ::colorize("userlogColoredText", time.hoursToString(prize.timeHours || 0))
+        time = ::colorize("userlogColoredText", time.hoursToString(prize?.timeHours ?? 0))
       })
     }
   }
-  else if (prize.item || prize.trophy)
+  else if (prize?.item || prize?.trophy)
   {
-    local id = prize.item || prize.trophy
+    local id = prize?.item || prize?.trophy
     local item = ::ItemsManager.findItemById(id)
     if (_typeName)
     {
@@ -168,7 +168,7 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
           item = item.makeEmptyInventoryItem()
           item.setDisguise(true)
         }
-        name = item.getPrizeDescription(prize.count || 1)
+        name = item.getPrizeDescription(prize?.count ?? 1)
         if (name)
           showCount = false
         else
@@ -177,17 +177,17 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
       color = item ? "activeTextColor" : "red"
     }
   }
-  else if (prize.premium_in_hours)
+  else if (prize?.premium_in_hours)
   {
     name = ::loc("charServer/entitlement/PremiumAccount") + ::loc("ui/colon") + time.hoursToString(prize.premium_in_hours)
     color = "userlogColoredText"
   }
-  else if (prize.entitlement)
+  else if (prize?.entitlement)
   {
     name = ::get_entitlement_name(::get_entitlement_config(prize.entitlement))
     color = "userlogColoredText"
   }
-  else if (prize.unlock)
+  else if (prize?.unlock)
   {
     local unlockId = prize.unlock
     local unlockType = ::get_unlock_type_by_id(unlockId)
@@ -210,11 +210,11 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
       name += "\n" + ::get_unlock_description(unlockId)
     color = "commonTextColor"
   }
-  else if (prize.unlockType)
+  else if (prize?.unlockType)
     name = ::loc("trophy/unlockables_names/" + prize.unlockType)
-  else if (prize.resource)
+  else if (prize?.resource)
   {
-    if (prize.resourceType)
+    if (prize?.resourceType)
     {
       local decoratorType = ::g_decorator_type.getTypeByResourceType(prize.resourceType)
       local locName = decoratorType.getLocName(prize.resource, true)
@@ -230,24 +230,22 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
         name = ::colorize(nameColor, name)
       }
 
-      if (prize.gold)
+      if (prize?.gold)
         name += " " + ::Cost(0, prize.gold).toStringWithParams({isGoldAlwaysShown = true, isColored = colored})
     }
   }
-  else if (prize.resourceType)
-  {
+  else if (prize?.resourceType)
     name = ::loc("trophy/unlockables_names/" + prize.resourceType)
-  }
-  else if (prize.gold)
+  else if (prize?.gold)
     name = ::Cost(0, prize.gold).toStringWithParams({isGoldAlwaysShown = true, isColored = colored})
-  else if (prize.warpoints)
+  else if (prize?.warpoints)
     name = ::Cost(prize.warpoints).toStringWithParams({isWpAlwaysShown = true, isColored = colored})
-  else if (prize.exp)
+  else if (prize?.exp)
     name = ::Cost().setFrp(prize.exp).toStringWithParams({isColored = colored})
-  else if (prize.warbonds)
+  else if (prize?.warbonds)
   {
     local wb = ::g_warbonds.findWarbond(prize.warbonds)
-    name = wb && prize.count ? wb.getPriceText(prize.count, true, false) : ""
+    name = wb && prize?.count ? wb.getPriceText(prize.count, true, false) : ""
     showCount = false
   }
   else
@@ -259,11 +257,13 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
   local countText = ""
   if (showCount)
   {
-    countText = (!_typeName && (prize.count || 1) > 1) ? " x" + prize.count : ""
-    countText = colored ? ::colorize("commonTextColor", countText) : countText
+    local count = prize?.count ?? 1
+    countText = (!_typeName && count > 1) ? " x" + count : ""
+    if (colored)
+      countText = ::colorize("commonTextColor", countText)
   }
 
-  local commentText = prize.commentText || ""
+  local commentText = prize?.commentText ?? ""
 
   name = colored && color.len() ? ::colorize(color, name) : name
   return name + countText + commentText
@@ -276,20 +276,20 @@ function PrizesView::_getItemTypeName(item)
 
 function PrizesView::getPrizeTypeIcon(prize, unitImage = false)
 {
-  if (!prize || prize.noIcon)
+  if (!prize || prize?.noIcon)
     return ""
   if (isPrizeMultiAward(prize))
     return ::TrophyMultiAward(prize).getTypeIcon()
-  if (prize.unit)
+  if (prize?.unit)
     return unitImage ? ::image_for_air(prize.unit) : ::getUnitClassIco(prize.unit)
-  if (prize.rentedUnit)
+  if (prize?.rentedUnit)
     return "#ui/gameuiskin#item_type_rent"
-  if (prize.item)
+  if (prize?.item)
   {
     local item = ::ItemsManager.findItemById(prize.item)
     return item ? item.typeIcon : ::BaseItem.typeIcon
   }
-  if (prize.trophy)
+  if (prize?.trophy)
   {
     local item = ::ItemsManager.findItemById(prize.trophy)
     if (!item)
@@ -297,36 +297,36 @@ function PrizesView::getPrizeTypeIcon(prize, unitImage = false)
     local topPrize = item.getTopPrize()
     return topPrize ? getPrizeTypeIcon(topPrize) : "#ui/gameuiskin#item_type_trophies"
   }
-  if (prize.premium_in_hours)
+  if (prize?.premium_in_hours)
     return "#ui/gameuiskin#item_type_premium"
-  if (prize.entitlement)
+  if (prize?.entitlement)
     return "#ui/gameuiskin#item_type_premium"
-  if (prize.unlock || prize.unlockType)
+  if (prize?.unlock || prize?.unlockType)
   {
-    local unlockType = prize.unlockType || ::get_unlock_type_by_id(prize.unlock)
+    local unlockType = prize?.unlockType || ::get_unlock_type_by_id(prize?.unlock)
     if (typeof(unlockType) == "string")
       unlockType = ::get_unlock_type(unlockType)
     return ::g_decorator_type.getTypeByUnlockedItemType(unlockType).prizeTypeIcon
   }
 
-  if (prize.resourceType)
+  if (prize?.resourceType)
     return ::g_decorator_type.getTypeByResourceType(prize.resourceType).prizeTypeIcon
 
-  if (prize.gold)
+  if (prize?.gold)
     return "#ui/gameuiskin#item_type_eagles"
-  if (prize.warpoints)
+  if (prize?.warpoints)
     return "#ui/gameuiskin#item_type_warpoints"
-  if (prize.exp)
+  if (prize?.exp)
     return "#ui/gameuiskin#item_type_Free_RP"
-  if (prize.warbonds)
+  if (prize?.warbonds)
     return "#ui/gameuiskin#item_type_warbonds"
   return "#ui/gameuiskin#item_type_placeholder"
 }
 
 function PrizesView::isPrizeMultiAward(prize)
 {
-  return prize.multiAwardsOnWorthGold != null
-         || prize.modsForBoughtUnit != null
+  return prize?.multiAwardsOnWorthGold != null
+         || prize?.modsForBoughtUnit != null
 }
 
 function PrizesView::miltiplyPrizeCount(prize, countMul)
@@ -343,7 +343,7 @@ function PrizesView::_getContentFixedAmount(content)
   local res = -1
   foreach (prize in content)
   {
-    local itemCount = prize.count || 1
+    local itemCount = prize?.count ?? 1
     if (res == itemCount)
       continue
     if (res >= 1)
@@ -364,7 +364,7 @@ function PrizesView::_getContentFixedAmount(content)
 //}
 function PrizesView::_createStack(prize)
 {
-  local count = prize.count || 1
+  local count = prize?.count ?? 1
   return {
     prizeType = getPrizeType(prize)
     stackType = getStackType(prize)
@@ -388,18 +388,18 @@ function PrizesView::_findOneStack(stackList, prizeType, checkFunc = function(s)
 
 function PrizesView::_addPrizeItemToStack(stack, item, prize, stackLevel)
 {
-  local count = prize.count || 1
+  local count = prize?.count ?? 1
   stack.countMin = ::min(stack.countMin, count)
   stack.countMax = ::max(stack.countMax, count)
   stack.level    = ::max(stack.level, stackLevel)
   stack.size++
-  if (stack.params)
+  if (stack?.params)
     item.updateStackParams(stack.params)
 }
 
 function PrizesView::_findAndStackPrizeItem(prize, stackList, stackLevel)
 {
-  local item = ::ItemsManager.findItemById(prize.item)
+  local item = ::ItemsManager.findItemById(prize?.item)
   if (!item)
     return true
 
@@ -708,13 +708,13 @@ function PrizesView::getViewDataSpare(unitName, count, params)
 
 function PrizesView::getViewDataSpecialization(prize, params)
 {
-  local specLevel = prize.specialization || 1
-  local unitName = prize.unitName
+  local specLevel = prize?.specialization ?? 1
+  local unitName = prize?.unitName
   local unit = ::getAircraftByName(unitName)
   if (!unit)
     return null
 
-  local crew = ::get_crew_by_id(prize.crew || 0)
+  local crew = ::get_crew_by_id(prize?.crew ?? 0)
   local title = ::colorize("userlogColoredText", ::g_crew.getCrewName(crew)) + ::loc("ui/colon")
               + ::colorize("activeTextColor", ::getUnitName(unit))
               + ", " + ::colorize("userlogColoredText", ::loc("crew/qualification/" + specLevel))
@@ -728,8 +728,8 @@ function PrizesView::getViewDataSpecialization(prize, params)
 
 function PrizesView::getViewDataDecorator(prize, params = null)
 {
-  local id = prize.resource
-  local decoratorType = ::g_decorator_type.getTypeByResourceType(prize.resourceType)
+  local id = prize?.resource
+  local decoratorType = ::g_decorator_type.getTypeByResourceType(prize?.resourceType)
   local isHave = decoratorType.isPlayerHaveDecorator(id)
   local isReceivedPrizes = params?.receivedPrizes ?? false
   local buttons = getPrizeActionButtonsView(prize, params)
@@ -747,15 +747,15 @@ function PrizesView::getViewDataDecorator(prize, params = null)
 
 function PrizesView::getViewDataItem(prize, showCount, params = null)
 {
-  local primaryIcon = prize.primaryIcon
+  local primaryIcon = prize?.primaryIcon
   local itemIcon = getPrizeTypeIcon(prize)
   local buttons = getPrizeActionButtonsView(prize, params)
-  local item = ::ItemsManager.findItemById(prize.item)
+  local item = ::ItemsManager.findItemById(prize?.item)
   return {
     icon  = primaryIcon ? primaryIcon : itemIcon
     icon2 = primaryIcon ? itemIcon : null
     title = getPrizeText(prize, !params?.isLocked, false, showCount, true)
-    tooltipId = item && !item.shouldAutoConsume ? ::g_tooltip.getIdItem(prize.item, params) : null
+    tooltipId = item && !item.shouldAutoConsume ? ::g_tooltip.getIdItem(prize?.item, params) : null
     buttons = buttons
     buttonsCount = buttons.len()
   }
@@ -777,13 +777,13 @@ function PrizesView::getViewDataDefault(prize, showCount, params = null)
   //Now we have function getPrizeType() for prize type detection.
   local title = getPrizeText(prize, true, false, showCount, true)
   local icon = getPrizeTypeIcon(prize)
-  local tooltipId = prize.trophy ? ::g_tooltip.getIdSubtrophy(prize.trophy)
-                  : prize.unlock ? ::g_tooltip.getIdUnlock(prize.unlock, params)
+  local tooltipId = prize?.trophy ? ::g_tooltip.getIdSubtrophy(prize.trophy)
+                  : prize?.unlock ? ::g_tooltip.getIdUnlock(prize.unlock, params)
                   : null
 
   local previewImage = null
   local commentText = null
-  if (prize.unlock)
+  if (prize?.unlock)
   {
     if (params?.showAsTrophyContent && ::is_unlocked_scripted(-1, prize.unlock))
       commentText = ::colorize("badTextColor", ::loc("mainmenu/receiveOnlyOnce"))
@@ -805,23 +805,23 @@ function PrizesView::getPrizesViewData(prize, showCount = true, params = null)
   if (isPrizeMultiAward(prize))
     return getViewDataMultiAward(prize, params)
 
-  local unitName = prize.unit
+  local unitName = prize?.unit
   if (unitName)
-    if (prize.mod)
-      return getViewDataMod(unitName, prize.mod, params)
+    if (prize?.mod)
+      return getViewDataMod(unitName, prize?.mod, params)
     else
       return getViewDataUnit(unitName, params)
-  if (prize.rentedUnit)
-    return getViewDataRentedUnit(prize.rentedUnit, params, prize.timeHours, prize.numSpares)
-  if (prize.spare)
-    return getViewDataSpare(prize.spare, showCount ? prize.count : 0, params)
-  if (prize.specialization)
+  if (prize?.rentedUnit)
+    return getViewDataRentedUnit(prize?.rentedUnit, params, prize?.timeHours, prize?.numSpares)
+  if (prize?.spare)
+    return getViewDataSpare(prize?.spare, showCount ? prize?.count : 0, params)
+  if (prize?.specialization)
     return getViewDataSpecialization(prize, params)
-  if (prize.resourceType)
+  if (prize?.resourceType)
     return getViewDataDecorator(prize, params)
-  if (prize.item)
+  if (prize?.item)
     return getViewDataItem(prize, showCount, params)
-  if (prize.warbonds)
+  if (prize?.warbonds)
     return getViewDataDefault(prize, false, params)
   return getViewDataDefault(prize, showCount, params)
 }

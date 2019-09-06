@@ -4,7 +4,7 @@ local function getClanRequirementsText(membershipRequirements)
     return ""
 
   local rawRanksCond = membershipRequirements.getBlockByName("ranks") || ::DataBlock();
-  local ranksConditionTypeText = (rawRanksCond.type == "or")
+  local ranksConditionTypeText = (rawRanksCond?.type == "or")
     ? ::loc("clan/rankReqInfoCondType_or")
     : ::loc("clan/rankReqInfoCondType_and")
 
@@ -12,7 +12,7 @@ local function getClanRequirementsText(membershipRequirements)
   foreach (unitType in ::g_unit_type.types)
   {
     local req = rawRanksCond.getBlockByName("rank_" + unitType.name)
-    if (!req || req.type != "rank" || req.unitType != unitType.name)
+    if (req?.type != "rank" || req?.unitType != unitType.name)
       continue
 
     local ranksRequired = req.getInt("rank", 0)
@@ -35,7 +35,7 @@ local function getClanRequirementsText(membershipRequirements)
     {
       local modeName = diff.getEgdName(false); // arcade, historical, simulation
       local req = membershipRequirements.getBlockByName("battles_"+modeName);
-      if ( req  &&  (req.type == "battles")  &&  (req.difficulty == modeName) )
+      if (req?.type == "battles" && req?.difficulty == modeName)
       {
         local battlesRequired = req.getInt("count", 0);
         if ( battlesRequired > 0 )

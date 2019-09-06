@@ -66,14 +66,14 @@ function g_dmg_model::getDestructionInfoTexts(explosiveType, explosiveMass, ammo
     return res
 
   //armored vehicles data
-  local explMassInTNT = explosiveMass * (explTypeBlk.strengthEquivalent || 0)
-  local splashParamsBlk = blk.explosiveTypeToSplashParams
+  local explMassInTNT = explosiveMass * (explTypeBlk?.strengthEquivalent ?? 0)
+  local splashParamsBlk = blk?.explosiveTypeToSplashParams
   if (explMassInTNT && ::u.isDataBlock(splashParamsBlk))
   {
-    local maxPenetration = getLinearValueFromP2blk(splashParamsBlk.explosiveMassToPenetration, explMassInTNT)
-    local innerRadius = getLinearValueFromP2blk(splashParamsBlk.explosiveMassToInnerRadius, explMassInTNT)
-    local outerRadius = getLinearValueFromP2blk(splashParamsBlk.explosiveMassToOuterRadius, explMassInTNT)
-    local armorToShowRadus = blk.penetrationToCalcDestructionRadius || DEFAULT_ARMOR_FOR_PENETRATION_RADIUS
+    local maxPenetration = getLinearValueFromP2blk(splashParamsBlk?.explosiveMassToPenetration, explMassInTNT)
+    local innerRadius = getLinearValueFromP2blk(splashParamsBlk?.explosiveMassToInnerRadius, explMassInTNT)
+    local outerRadius = getLinearValueFromP2blk(splashParamsBlk?.explosiveMassToOuterRadius, explMassInTNT)
+    local armorToShowRadus = blk?.penetrationToCalcDestructionRadius ?? DEFAULT_ARMOR_FOR_PENETRATION_RADIUS
 
     if (maxPenetration)
       res.maxArmorPenetrationText = ::g_measure_type.getTypeByName("mm", true).getMeasureUnitsText(maxPenetration)
@@ -86,8 +86,8 @@ function g_dmg_model::getDestructionInfoTexts(explosiveType, explosiveMass, ammo
 
   //not armored vehicles data
   local fillingRatio = ammoMass ? explosiveMass / ammoMass : 1.0
-  local brisanceMass = explosiveMass * (explTypeBlk.brisanceEquivalent || 0)
-  local destroyRadiusNotArmored = calcDestroyRadiusNotArmored(blk.explosiveTypeToShattersParams,
+  local brisanceMass = explosiveMass * (explTypeBlk?.brisanceEquivalent ?? 0)
+  local destroyRadiusNotArmored = calcDestroyRadiusNotArmored(blk?.explosiveTypeToShattersParams,
                                                               fillingRatio,
                                                               brisanceMass)
   if (destroyRadiusNotArmored > 0)
@@ -185,8 +185,8 @@ function g_dmg_model::initRicochetDataOnce()
   if (!blk)
     return
 
-  local typesList = blk.bulletTypes
-  local ricBlk = blk.ricochetPresets
+  local typesList = blk?.bulletTypes
+  local ricBlk = blk?.ricochetPresets
   if (!typesList || !ricBlk)
   {
     ::dagor.assertf(false, "ERROR: Can't load ricochet params from damageModel.blk")
@@ -252,7 +252,7 @@ function g_dmg_model::getRicochetDataByPreset(preset, ricBlk, defaultData = null
 
 function g_dmg_model::getRichochetPresetBlkByName(presetName, ricBlk)
 {
-  if (presetName == null || ricBlk[presetName] == null)
+  if (presetName == null || ricBlk?[presetName] == null)
     return null
   local presetData = ricBlk[presetName]
   // First cycle through all preset blocks searching
@@ -284,10 +284,10 @@ function g_dmg_model::calcDestroyRadiusNotArmored(shattersParamsBlk, fillingRati
   for (local i = 0; i < shattersParamsBlk.blockCount(); i++)
   {
     local blk = shattersParamsBlk.getBlock(i)
-    if (fillingRatio > (blk.fillingRatio || 0))
+    if (fillingRatio > (blk?.fillingRatio ?? 0))
       continue
 
-    return getLinearValueFromP2blk(blk.explosiveMassToRadius, brisanceMass)
+    return getLinearValueFromP2blk(blk?.explosiveMassToRadius, brisanceMass)
   }
   return 0
 }

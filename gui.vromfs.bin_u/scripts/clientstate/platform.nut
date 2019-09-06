@@ -18,30 +18,31 @@ local isPlatformXboxOne = targetPlatform == "xboxOne"
 local isPlatformPS4 = targetPlatform == "ps4"
 local isPlatformPC = ["win32", "win64", "macosx", "linux64"].find(targetPlatform) >= 0
 
-local xboxNameRegexp = ::regexp2(@"^['^']")
-local isXBoxPlayerName = @(name) xboxNameRegexp.match(name)
+local xboxPrefixNameRegexp = ::regexp2(@"^['" + XBOX_ONE_PLAYER_PREFIX + "']")
+local xboxPostfixNameRegexp = ::regexp2(@".+(" + XBOX_ONE_PLAYER_POSTFIX + ")")
+local isXBoxPlayerName = @(name) xboxPrefixNameRegexp.match(name) || xboxPostfixNameRegexp.match(name)
 
-local ps4NameRegexp = ::regexp2(@"^['*']")
-local isPS4PlayerName = @(name) ps4NameRegexp.match(name)
+local ps4PrefixNameRegexp = ::regexp2(@"^['" + PS4_PLAYER_PREFIX + "']")
+local ps4PostfixNameRegexp = ::regexp2(@".+(" + PS4_PLAYER_POSTFIX + ")")
+local isPS4PlayerName = @(name) ps4PrefixNameRegexp.match(name) || ps4PostfixNameRegexp.match(name)
 
-local getPlayerNameNoSpecSymbol = function(name, remove_prefix=true, remove_suffix=true) {
-  if (remove_prefix)
-    name = string.cutPrefix(name, PS4_PLAYER_PREFIX, string.cutPrefix(name, XBOX_ONE_PLAYER_PREFIX, name))
-  if (remove_suffix)
-    name = string.cutPostfix(name, PS4_PLAYER_POSTFIX, string.cutPostfix(name XBOX_ONE_PLAYER_POSTFIX, name))
-  return name
-}
+local cutPlayerNamePrefix = @(name) string.cutPrefix(name, PS4_PLAYER_PREFIX,
+                                    string.cutPrefix(name, XBOX_ONE_PLAYER_PREFIX, name))
+local cutPlayerNamePostfix = @(name) string.cutPostfix(name, PS4_PLAYER_POSTFIX,
+                                     string.cutPostfix(name XBOX_ONE_PLAYER_POSTFIX, name))
 
 local getPlayerName = @(name) name
-if (isPlatformXboxOne || isPlatformPS4)
-  getPlayerName = @(name) getPlayerNameNoSpecSymbol(name, !isPlatformPS4, true)
+if (isPlatformXboxOne)
+  getPlayerName = @(name) cutPlayerNamePrefix(cutPlayerNamePostfix(name))
+else if (isPlatformPS4)
+  getPlayerName = @(name) isPS4PlayerName(name)? name : cutPlayerNamePostfix(name)
 
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 
 local isMePS4Player = @() ::g_user_utils.haveTag("ps4")
 local isMeXBOXPlayer = @() ::g_user_utils.haveTag("xbone")
 
-local canSpendRealMoney = @() !isPlatformPC || !::has_entitlement("XBOXAccount")
+local canSpendRealMoney = @() !isPlatformPC || !::has_entitlement("XBOXAccount") || !::has_entitlement("PSNAccount")
 
 local isPs4XboxOneInteractionAvailable = function(name)
 {
@@ -126,12 +127,11 @@ return {
   isPlatformPS4 = isPlatformPS4
   isPlatformPC = isPlatformPC
 
-  xboxNameRegexp = xboxNameRegexp
   isXBoxPlayerName = isXBoxPlayerName
-  ps4NameRegexp = ps4NameRegexp
   isPS4PlayerName = isPS4PlayerName
   getPlayerName = getPlayerName
-  getPlayerNameNoSpecSymbol = getPlayerNameNoSpecSymbol
+  cutPlayerNamePrefix = cutPlayerNamePrefix
+  cutPlayerNamePostfix = cutPlayerNamePostfix
   isPlayerFromXboxOne = isPlayerFromXboxOne
 
   isMePS4Player = isMePS4Player

@@ -242,7 +242,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local genCode = event.name + "_" + ::queues.getQueueCountry(queue) + "_" + ::queues.getMyRankInQueue(queue)
-    if (nestObj._queueTableGenCode == genCode)
+    if (nestObj?._queueTableGenCode == genCode)
     {
       updateTabContent()
       return

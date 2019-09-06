@@ -59,7 +59,7 @@ class HudTutorialObject
     if (!isValid())
       return
 
-    aabbFromName = obj._set_aabb_by_object
+    aabbFromName = obj?._set_aabb_by_object
     if (aabbFromName && !aabbFromName.len())
       aabbFromName = null
     updateAabb()

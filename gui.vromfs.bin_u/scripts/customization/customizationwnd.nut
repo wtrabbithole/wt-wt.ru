@@ -173,9 +173,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     updateTitle()
 
-    local cObj = scene.findObject("btn_toggle_damaged")
-    if (::checkObj(cObj))
-      cObj.setValue(::hangar_get_loaded_model_damage_state(unit.name) == MDS_DAMAGED)
+    setDmgSkinMode(::hangar_get_loaded_model_damage_state(unit.name) == MDS_DAMAGED)
 
     local bObj = scene.findObject("btn_testflight")
     if (::checkObj(bObj))
@@ -664,8 +662,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       buttonTooltip = "#mainmenu/decalUnitLocked"
     else if (!canEditDecals)
       buttonTooltip = "#mainmenu/decalSkinLocked"
-    else if (!slot.unlocked)
+    else if (!slot.unlocked && ::has_feature("EnablePremiumPurchase"))
       buttonTooltip = "#mainmenu/onlyWithPremium"
+    else
+      buttonTooltip = "#charServer/notAvailableYet"
 
     return {
       id = null
@@ -673,7 +673,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       onDblClick = null
       onDeleteClick = null
       ratio = slotRatio
-      statusLock = slot.unlocked? getStatusLockText(decorator) : "noPremium_" + slotRatio
+      statusLock = slot.unlocked? getStatusLockText(decorator)
+        : ::has_feature("EnablePremiumPurchase") ? "noPremium_" + slotRatio
+        : "achievement"
       unlocked = slot.unlocked && (!decorator || decorator.isUnlocked())
       emptySlot = slot.isEmpty || !decorator
       image = decoratorType.getImage(decorator)
@@ -780,7 +782,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           previewed_decorator_div  = !isInEditMode && decoratorPreview
           previewed_decorator_unit = !isInEditMode && decoratorPreview && initialUnitId && initialUnitId != unit?.name
 
-          slot_info = !isInEditMode && !isDecoratorsListOpen && !isDmgSkinPreviewMode
+          slot_info_side_panel = !isInEditMode && !isDecoratorsListOpen && !isDmgSkinPreviewMode
           btn_dm_viewer = !isInEditMode && !isDecoratorsListOpen && ::dmViewer.canUse()
 
           decor_layout_presets = !isInEditMode && !isDecoratorsListOpen && isUnitOwn &&
@@ -1875,11 +1877,14 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
         local bObj = scene.findObject("dmg_skin_state")
         if (::checkObj(bObj))
           bObj.setValue(::hangar_get_loaded_model_damage_state(unit.name))
-      } else
+      }
+      else
         ::hangar_show_model_damaged(MDS_ORIGINAL)
-      updateButtons()
-    } else
+    }
+    else
       ::hangar_show_model_damaged(obj.getValue() ? MDS_DAMAGED : MDS_UNDAMAGED)
+
+    updateButtons()
   }
 
   function onBuySkin()
@@ -2063,8 +2068,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onWeaponsInfo(obj)
   {
-    ::aircraft_for_weapons = unit.name
-    ::gui_modal_weapons()
+    ::open_weapons_for_unit(unit)
   }
 
   function getTwoSidedState()

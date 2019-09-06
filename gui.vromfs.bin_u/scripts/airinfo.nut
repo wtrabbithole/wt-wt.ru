@@ -315,7 +315,7 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
       icon       = "#ui/gameuiskin#slot_crew.svg"
       haveWarning = ::isInArray(::get_crew_status_by_id(crew.id), [ "ready", "full" ])
       haveDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo) > 0
-      showAction = inMenu && !::g_crews_list.isSlotbarOverrided
+      showAction = inMenu && ::has_feature("CrewInfo") && !::g_crews_list.isSlotbarOverrided
       actionFunc = @() crew && ::gui_modal_crew({
         countryId = crew.idCountry,
         idInCountry = crew.idInCountry,
@@ -420,7 +420,7 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
               ? ::loc("mainmenu/btnConvert")
               : ::loc("mainmenu/btnResearch")
       //icon       = "#ui/gameuiskin#slot_research"
-      showAction = inMenu && (!isInResearch || ::has_feature("SpendGold"))
+      showAction = inMenu && (!isInResearch || (::has_feature("SpendGold") && ::has_feature("SpendFreeRP")))
         && (::isUnitFeatureLocked(unit) || ::canResearchUnit(unit)
           || canFlushSquadronExp || (isSquadronVehicle && !::is_in_clan()))
       enabled = showAction
@@ -695,7 +695,9 @@ function getUnitName(unit, shopName = true)
 
 function isUnitDescriptionValid(unit)
 {
-  if (::is_platform_pc)
+  if (!::has_feature("UnitInfo"))
+    return false
+  if (::is_platform_pc && ::has_feature("WikiUnitInfo"))
     return true // Because there is link to wiki.
   local desc = unit ? ::loc("encyclopedia/" + unit.name + "/desc", "") : ""
   return desc != "" && desc != ::loc("encyclopedia/no_unit_description")
@@ -1337,7 +1339,7 @@ function generateUnitShopInfo()
           local airBlk = rblk.getBlock(a)
           local air = ::getAircraftByName(airBlk.getBlockName())
 
-          if (airBlk.reqAir != null)
+          if (airBlk?.reqAir != null)
             prevAir = airBlk.reqAir
 
           if (air)
@@ -1377,7 +1379,7 @@ function generateUnitShopInfo()
 
 function has_platform_from_blk_str(blk, fieldName, defValue = false, separator = "; ")
 {
-  local listStr = blk[fieldName]
+  local listStr = blk?[fieldName]
   if (!::u.isString(listStr))
     return defValue
   return ::isInArray(::target_platform, ::split(listStr, separator))
@@ -2651,6 +2653,6 @@ function get_fm_file(unitId, unitBlkData = null)
   if (nodes.len())
     nodes.pop()
   local unitDir = ::g_string.implode(nodes, "/")
-  local fmPath = unitDir + "/" + (unitBlkData.fmFile || ("fm/" + unitId))
+  local fmPath = unitDir + "/" + (unitBlkData?.fmFile ?? ("fm/" + unitId))
   return ::DataBlock(fmPath)
 }

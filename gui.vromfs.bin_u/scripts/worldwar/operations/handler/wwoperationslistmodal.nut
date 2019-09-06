@@ -113,7 +113,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     for (local i = 0; i < containerObj.childrenCount(); i++)
     {
       local itemObj = containerObj.getChild(i)
-      if (!itemObj.collapse_header && itemObj.isEnabled())
+      if (!itemObj?.collapse_header && itemObj.isEnabled())
       {
         selOperation = null //force refresh description
         containerObj.setValue(i)
@@ -133,7 +133,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     if(!::checkObj(opObj))
       return false
 
-    local newOperation = opObj.collapse_header ? null
+    local newOperation = opObj?.collapse_header ? null
       : ::g_ww_global_status.getOperationById(::to_integer_safe(opObj.id))
     if (newOperation == selOperation)
       return false
@@ -187,7 +187,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       }
       else
       {
-        if (itemObj.collapse_header)
+        if (itemObj?.collapse_header)
           break
         itemObj.show(isShow)
         itemObj.enable(isShow)

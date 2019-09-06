@@ -7,7 +7,7 @@ local handlerClass = class extends vehiclesModal.handlerClass
   canQuitByGoBack       = false
 
   wndTitleLocId         = "clan/vehicles"
-  slotbarActions        = [ "research", "buy", "take", "weapons", "crew", "info" ]
+  slotbarActions        = [ "research", "buy", "take", "weapons", "info" ]
   unitsFilter = @(u) u.isVisibleInShop() && u.isSquadronVehicle() && ::canResearchUnit(u)
 
   hasSpendExpProcess = false
@@ -151,6 +151,7 @@ local handlerClass = class extends vehiclesModal.handlerClass
     setResearchManually  = true
     isSquadronResearchMode = true
     needChosenResearchOfSquadron = needChosenResearchOfSquadron()
+    isSlotbarEnabled = false
   }
 
   needChosenResearchOfSquadron = @() !squadronUnitAction.hasChosenResearch()
@@ -200,6 +201,14 @@ local handlerClass = class extends vehiclesModal.handlerClass
     if (unit && ::canBuyUnit(unit))
       ::buyUnit(unit)
     goBack()
+  }
+
+  function onEventUnitBought(p)
+  {
+    if (squadronUnitAction.isAllVehiclesResearched())
+      return goBack()
+
+    base.onEventFlushSquadronExp(p)
   }
 }
 

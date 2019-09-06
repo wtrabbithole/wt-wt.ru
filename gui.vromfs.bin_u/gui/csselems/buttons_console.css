@@ -1678,17 +1678,6 @@ top_right_holder[smallIcon=yes] > Button_text {
   height:1@buttonHeight;
 }
 
-Button_text[visualStyle=header] > ShadeDiv {
-  height:ph-4;
-  pos:0,50%ph-50%h;
-  position:relative;
-  margin-right:2@dp;
-}
-
-Button_text[visualStyle=header] > ShadeDiv > cardImg {
-  margin:0.5(ph-@cIco), 0;
-}
-
 Button_text > BonusCorner {
   re-type:9rect;
   background-repeat:stretch;
@@ -2053,6 +2042,10 @@ Button_text[type=weaponryAmount] {
 [show_console_buttons=yes] weaponry_item:hover Button_text[type=weaponryAmount][bulletsLimit=no],
 [show_console_buttons=yes] :focus weaponry_item[selected=yes] Button_text[type=weaponryAmount][bulletsLimit=no] {
   enable:yes;
+}
+
+[show_console_buttons=yes] [move=yes] weaponBundleBlock:focus weaponry_item[selected=yes] Button_text {
+  display:hide;
 }
 
 [show_console_buttons=no] td[selected=yes] :hover Button_text.bottomAirItem,

@@ -18,6 +18,8 @@ local selMedalIdx = {}
 
 function gui_start_profile(params = {})
 {
+  if (!::has_feature("Profile"))
+    return
   ::gui_start_modal_wnd(::gui_handlers.Profile, params)
 }
 
@@ -704,24 +706,24 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     foreach(idx, cb in ::g_unlocks.getAllUnlocksWithBlkOrder())
     {
       local name = cb.getStr("id", "")
-      local unlockType = cb.type || ""
+      local unlockType = cb?.type ?? ""
       local unlockTypeId = ::get_unlock_type(unlockType)
       if (unlockTypeId != pageTypeId
           && (!isUnlockTree || !::isInArray(unlockTypeId, unlockTypesToShow)))
         continue
-      if (isUnlockTree && cb.isRevenueShare)
+      if (isUnlockTree && cb?.isRevenueShare)
         continue
       if (!::is_unlock_visible(cb))
         continue
-      if (cb.showAsBattleTask || ::BattleTasks.isBattleTask(cb))
+      if (cb?.showAsBattleTask || ::BattleTasks.isBattleTask(cb))
         continue
 
       if (isCustomMenuTab)
       {
-        if (!cb.customMenuTab || cb.customMenuTab.tolower() != lowerCurPage)
+        if (!cb?.customMenuTab || cb?.customMenuTab.tolower() != lowerCurPage)
           continue
       }
-      else if (cb.customMenuTab)
+      else if (cb?.customMenuTab)
         continue
 
       if (curFilterType == "country" && cb.getStr("country","") != curFilter)

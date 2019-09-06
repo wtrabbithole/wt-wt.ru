@@ -86,15 +86,15 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   movingWidgets = { ["spectator_hud_damage"] = [] }
 
   supportedMsgTypes = [
-    ::HUD_MSG_MULTIPLAYER_DMG
-    ::HUD_MSG_STREAK_EX
-    ::HUD_MSG_STREAK
-    ::HUD_MSG_OBJECTIVE
-    ::HUD_MSG_DIALOG
-    ::HUD_MSG_DAMAGE
-    ::HUD_MSG_ENEMY_DAMAGE
-    ::HUD_MSG_DEATH_REASON
-    ::HUD_MSG_EVENT
+    ::HUD_MSG_MULTIPLAYER_DMG,
+    ::HUD_MSG_STREAK_EX,
+    ::HUD_MSG_STREAK,
+    ::HUD_MSG_OBJECTIVE,
+    ::HUD_MSG_DIALOG,
+    ::HUD_MSG_DAMAGE,
+    ::HUD_MSG_ENEMY_DAMAGE,
+    ::HUD_MSG_DEATH_REASON,
+    ::HUD_MSG_EVENT,
     -200 // historyLogCustomMsgType
   ]
 
@@ -213,7 +213,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     for (local i = 0; i < objReplayControls.childrenCount(); i++)
     {
       local obj = objReplayControls.getChild(i)
-      if (obj && obj.is_shortcut && obj.id)
+      if (obj?.is_shortcut && obj?.id)
       {
         local hotkeys = ::get_shortcut_text(::get_shortcuts([ obj.id ]), 0, false, true)
         if (hotkeys.len())
@@ -1454,7 +1454,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       if (!positions.len())
       {
         local idx = 1
-        while (obj["pos" + idx])
+        while (obj?["pos" + idx])
           positions.append(obj["pos" + idx++])
       }
 

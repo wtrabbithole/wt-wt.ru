@@ -147,7 +147,7 @@ local getActions = function(contact, params)
     }
     {
       text = ::loc("mainmenu/btnUserCard")
-      show = getPlayerCardInfoTable(uid, name).len() > 0
+      show = ::has_feature("UserCards") && getPlayerCardInfoTable(uid, name).len() > 0
       action = @() ::gui_modal_userCard(getPlayerCardInfoTable(uid, name))
     }
     {

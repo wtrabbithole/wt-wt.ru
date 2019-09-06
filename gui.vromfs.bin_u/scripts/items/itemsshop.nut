@@ -549,7 +549,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemAction(buttonObj)
   {
-    local id = buttonObj && buttonObj.holderId
+    local id = buttonObj?.holderId ?? "-1"
     local item = ::getTblValue(id.tointeger(), itemsList)
     local obj = scene.findObject("shop_item_" + id)
     doMainAction(item, obj)

@@ -1,12 +1,10 @@
 const MIN_SLIDE_TIME = 2.0
 
-function gui_finish_loading()
-{
-  if (::stop_gui_sound != null)
-    stop_gui_sound("slide_loop")
+::add_event_listener("FinishLoading", function(p) {
+  ::stop_gui_sound("slide_loop")
   ::loading_stop_voice()
   ::loading_stop_music()
-}
+})
 
 class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -172,7 +170,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     if (gt & ::GT_VERSUS)
     {
       local missionHelpPath = ::g_mission_type.getHelpPathForCurrentMission()
-      local haveHelp = missionHelpPath != null
+      local haveHelp = ::has_feature("ControlsHelp") && missionHelpPath != null
 
       local helpBtnObj = showSceneBtn("btn_help", haveHelp)
       if (helpBtnObj && !::show_console_buttons)
@@ -438,9 +436,8 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
           misObj = ::loc(format("mb/%s/objective", ::current_campaign_mission.tostring()), "")
         if ((gt & ::GT_VERSUS) && ::current_campaign_mission)
           misObj = ::loc_current_mission_desc()
-        if (misObj == "")
-          if (::current_campaign_mission)
-            misObj = ::loc(format("missions/%s/objective", ::current_campaign_mission.tostring()), "")
+        if (misObj == "" && ::current_campaign_mission)
+          misObj = ::loc(format("missions/%s/objective", ::current_campaign_mission.tostring()), "")
         if (misObj == "")
           misObj = ::loc(briefing.getStr("objective_loc", ""))
         if (misObj_add != "")
@@ -457,10 +454,10 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
         guiScene["darkscreen"].animShow = "show"
       setSceneInfo("")
 
-      local obj = guiScene["tactical-map"]
+      local obj = guiScene?["tactical-map"]
       if (obj)
       {
-        if (obj.animShow != "show")
+        if (obj?.animShow != "show")
           play_gui_sound("show_map")
         obj.animShow = "show"
         obj.show(true)

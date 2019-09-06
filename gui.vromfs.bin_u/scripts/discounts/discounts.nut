@@ -228,7 +228,7 @@ function g_discount::onEventXboxShopDataUpdated(p)
 
 function g_discount::getDiscount(id, defVal = false)
 {
-  return discountsList[id] || defVal
+  return discountsList?[id] ?? defVal
 }
 
 function g_discount::getEntitlementDiscount(id)

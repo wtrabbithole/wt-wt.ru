@@ -38,7 +38,7 @@ function is_mission_unlocked(info)
 
 function is_user_mission(missionBlk)
 {
-  return missionBlk.userMission == true //can be null
+  return missionBlk?.userMission == true //can be null
 }
 
 function can_play_gamemode_by_squad(gm)
@@ -68,7 +68,7 @@ function get_max_players_for_gamemode(gm)
 
 function get_game_mode_loc_name(gm)
 {
-  return ::loc(format("multiplayer/%sMode", ::get_game_mode_name(gm)))
+  return ::loc(::format("multiplayer/%sMode", ::get_game_mode_name(gm)))
 }
 
 function is_skirmish_with_killstreaks(misBlk)
@@ -82,7 +82,7 @@ function upgrade_url_mission(fullMissionBlk)
   if (!fullMissionBlk || !misBlk)
     return
 
-  if (misBlk.useKillStreaks && !misBlk.allowedKillStreaks)
+  if (misBlk?.useKillStreaks && !misBlk?.allowedKillStreaks)
     misBlk.useKillStreaks = false
 
   foreach (unitType in ::g_unit_type.types)
@@ -113,7 +113,7 @@ function is_mission_for_unittype(misBlk, esUnitType, useKillStreaks = null)
   if (url != null)
     fullMissionBlk = ::getTblValue("fullMissionBlk", ::g_url_missions.findMissionByUrl(url))
   else
-    fullMissionBlk = misBlk && misBlk.mis_file && ::DataBlock(misBlk.mis_file)
+    fullMissionBlk = ::DataBlock(misBlk?.mis_file ?? "")
   if (fullMissionBlk)
     return has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
 
@@ -123,7 +123,7 @@ function is_mission_for_unittype(misBlk, esUnitType, useKillStreaks = null)
 function has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
 {
   // Searching by units of Single missions
-  local unitsBlk = fullMissionBlk && fullMissionBlk.units
+  local unitsBlk = fullMissionBlk?.units
   local playerBlk = fullMissionBlk && ::get_blk_value_by_path(fullMissionBlk, "mission_settings/player")
   local wings = playerBlk ? (playerBlk % "wing") : []
   local unitsCache = {}
@@ -166,17 +166,17 @@ function select_next_avail_campaign_mission(chapterName, missionName)
     local isCurFound = false
     foreach(mission in misList)
     {
-      if (mission.isHeader || !mission.isUnlocked)
+      if (mission?.isHeader || !mission?.isUnlocked)
         continue
 
       if (!isCurFound)
       {
-        if (mission.id == missionName && mission.chapter == chapterName)
+        if (mission?.id == missionName && mission?.chapter == chapterName)
           isCurFound = true
         continue
       }
 
-      ::add_last_played(mission.chapter, mission.id, ::GM_CAMPAIGN, false)
+      ::add_last_played(mission?.chapter, mission?.id, ::GM_CAMPAIGN, false)
       break
     }
 
@@ -200,24 +200,24 @@ function getRewardTextByBlk(dataBlk, misName, diff, langId, highlighted=false, c
                             additionalReward = false, rewardMoney = null)
 {
   local res = ""
-  local misDataBlk = dataBlk[misName]
+  local misDataBlk = dataBlk?[misName]
 
   if (!rewardMoney)
   {
-    local getRewValue = (@(dataBlk, misDataBlk, diff) function(key, def = null) {
+    local getRewValue = function(key, def = 0) {
       local pId = key + "EarnedWinDiff" + diff
-      return (misDataBlk && misDataBlk[pId]!=null) ? misDataBlk[pId] : (dataBlk[pId]!=null)? dataBlk[pId] : def
-    })(dataBlk, misDataBlk, diff)
+      return misDataBlk?[pId] ?? dataBlk?[pId] ?? def
+    }
 
     local muls = ::get_player_multipliers()
-    rewardMoney = ::Cost(getRewValue("wp", 0) * muls.wpMultiplier,
-                            getRewValue("gold", 0),
+    rewardMoney = ::Cost(getRewValue("wp") * muls.wpMultiplier,
+                            getRewValue("gold"),
                             0,
-                            getRewValue("xp", 0) * muls.xpMultiplier)
+                            getRewValue("xp") * muls.xpMultiplier)
   }
 
-  res = buildRewardText(::loc(langId), rewardMoney, highlighted, coloredIcon, additionalReward)
-  if (diff == 0 && misDataBlk && misDataBlk.slot)
+  res = ::buildRewardText(::loc(langId), rewardMoney, highlighted, coloredIcon, additionalReward)
+  if (diff == 0 && misDataBlk?.slot)
   {
     local slot = misDataBlk.slot;
     foreach(c in ::g_crews_list.get())

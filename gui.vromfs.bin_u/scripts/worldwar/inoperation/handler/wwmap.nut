@@ -39,6 +39,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]
 
+  canQuitByGoBack = false
+
   function initScreen()
   {
     backSceneFunc = ::gui_start_mainmenu

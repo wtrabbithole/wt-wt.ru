@@ -250,7 +250,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     getIcon = function (killStreakTag = null, unit = null)
     {
       local mis = ::get_current_mission_info_cached()
-      return mis && mis.useCustomSuperArtillery ? "#ui/gameuiskin#artillery_fire_on_target" : "#ui/gameuiskin#artillery_fire"
+      return mis?.useCustomSuperArtillery ? "#ui/gameuiskin#artillery_fire_on_target" : "#ui/gameuiskin#artillery_fire"
     }
   }
 

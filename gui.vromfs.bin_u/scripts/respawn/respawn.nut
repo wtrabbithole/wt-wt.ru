@@ -2382,7 +2382,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local obj = scene.findObject("respawn_screen")
-    local isHidden = obj.display == "hide" //until scene recount obj.isVisible will return false, because it was full hidden
+    local isHidden = obj?.display == "hide" //until scene recount obj.isVisible will return false, because it was full hidden
     if (isHidden != show)
       return
 

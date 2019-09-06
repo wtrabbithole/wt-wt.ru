@@ -50,7 +50,7 @@ class gui_bhv.wrapNavigator
 
   function isActiveObj(obj)
   {
-    return obj.isEnabled() && obj.isVisible() && obj.inactive != "yes"
+    return obj.isEnabled() && obj.isVisible() && obj?.inactive != "yes"
   }
 
   function isFlowVertical(obj)

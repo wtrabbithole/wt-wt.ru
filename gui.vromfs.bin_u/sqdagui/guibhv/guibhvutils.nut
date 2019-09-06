@@ -10,7 +10,7 @@ function getNearestSelectableChildIndex(listObj, curIndex, way)
     local iObj = listObj.getChild(i)
     if (!check_obj(iObj))
       continue
-    if (!iObj.isVisible() || !iObj.isEnabled() || iObj.inactive=="yes")
+    if (!iObj.isVisible() || !iObj.isEnabled() || iObj?.inactive=="yes")
       continue
     return i
   }
@@ -22,7 +22,7 @@ function is_obj_have_active_childs(obj)
   for(local i = 0; i < obj.childrenCount(); i++)
   {
     local iObj = obj.getChild(i)
-    if (iObj.isVisible() && iObj.isEnabled() && iObj.inactive!="yes")
+    if (iObj.isVisible() && iObj.isEnabled() && iObj?.inactive!="yes")
       return true
   }
   return false

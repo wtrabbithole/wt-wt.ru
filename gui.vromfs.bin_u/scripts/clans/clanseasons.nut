@@ -62,7 +62,7 @@ enum CLAN_SEASON_MEDAL_TYPE
     local rewards = []
     local blk = getRewardsBlk()
     local currentPlace = 0
-    if (!blk.reward || !blk.reward.subRewards)
+    if (!blk?.reward.subRewards)
       return rewards
 
     foreach (rewardBlockName, rewardBlock in blk.reward.subRewards)
@@ -145,7 +145,7 @@ enum CLAN_SEASON_MEDAL_TYPE
     for (local i = 0; i < lBlk.blockCount(); i++)
     {
       local block = lBlk.getBlock(i)
-      limits[block.getBlockName()] <- block[regalia] || 0
+      limits[block.getBlockName()] <- block?[regalia] ?? 0
     }
     return limits
   }
@@ -292,13 +292,13 @@ enum CLAN_SEASON_MEDAL_TYPE
 
   function getSeasonEndDate()
   {
-    return time.buildDateTimeStr(::clan_get_current_season_info().rewardDay, false, false)
+    return time.buildDateTimeStr(::clan_get_current_season_info()?.rewardDay, false, false)
   }
 
 
   function isLeprRewards(rewardsDataBlk)
   {
-    return rewardsDataBlk.tillPlace
+    return rewardsDataBlk?.tillPlace
   }
 
 

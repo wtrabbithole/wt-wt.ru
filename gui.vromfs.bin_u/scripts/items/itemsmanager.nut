@@ -226,7 +226,7 @@ function ItemsManager::checkShopItemsUpdate()
   itemsListInternal.clear()
 
   local pBlk = ::get_price_blk()
-  local trophyBlk = pBlk && pBlk.trophy
+  local trophyBlk = pBlk?.trophy
   if (trophyBlk)
     for (local i = 0; i < trophyBlk.blockCount(); i++)
     {
@@ -236,14 +236,14 @@ function ItemsManager::checkShopItemsUpdate()
     }
 
   local itemsBlk = ::get_items_blk()
-  ignoreItemLimits = !!itemsBlk.ignoreItemLimits
+  ignoreItemLimits = !!itemsBlk?.ignoreItemLimits
   for(local i = 0; i < itemsBlk.blockCount(); i++)
   {
     local blk = itemsBlk.getBlock(i)
-    local iType = getInventoryItemType(blk.type)
+    local iType = getInventoryItemType(blk?.type)
     if (iType == itemType.UNKNOWN)
     {
-      ::dagor.debug("Error: unknown item type in items blk = " + blk.type)
+      ::dagor.debug("Error: unknown item type in items blk = " + blk?.type)
       continue
     }
     local item = createItem(iType, blk)
@@ -255,7 +255,7 @@ function ItemsManager::checkShopItemsUpdate()
     for (local i = 0; i < fakeItemsList.blockCount(); i++)
     {
       local blk = fakeItemsList.getBlock(i)
-      local item = createItem(blk.type, blk)
+      local item = createItem(blk?.type, blk)
       itemsListInternal.append(item)
     }
   return true
@@ -528,7 +528,7 @@ function ItemsManager::_checkInventoryUpdate()
     local blk = fakeItemsList.getBlockByName(id)
     if (blk)
     {
-      local item = createItem(blk.type, blk, ::DataBlock(), {uids = [::FAKE_ITEM_CYBER_CAFE_BOOSTER_UID]})
+      local item = createItem(blk?.type, blk, ::DataBlock(), {uids = [::FAKE_ITEM_CYBER_CAFE_BOOSTER_UID]})
       inventory.append(item)
     }
   }

@@ -2,12 +2,12 @@ function setProjectAwards(handler)
 {
   local guiScene = ::get_cur_gui_scene()
   local awardsObj = guiScene && guiScene["project-awards"]
-  if(! ::checkObj(awardsObj)) return
+  if (! ::checkObj(awardsObj)) return
   local blk = ::configs.GUI.get()
-  if (!blk.project_awards || !blk.project_awards.en) return
+  if (!blk?.project_awards?.en) return
 
   local lang = ::loc("current_lang")
-  lang = blk.project_awards[lang] ? lang : "en"
+  lang = blk.project_awards?[lang] ? lang : "en"
   local set = blk.project_awards[lang] % "i"
   local data = ""
   for (local i=0; i<set.len(); i++)

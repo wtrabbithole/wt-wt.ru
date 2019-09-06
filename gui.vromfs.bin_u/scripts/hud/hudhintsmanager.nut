@@ -1,6 +1,5 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local DaguiSceneTimers = require("sqDagui/timer/daguiSceneTimers.nut")
-local time = require("scripts/time.nut")
 
 const TIMERS_CHECK_INTEVAL = 0.25
 
@@ -299,8 +298,8 @@ enum HintShowState {
       if (!::checkObj(textObj))
         return false
 
-      local lifeTime = hintData.hint.getLifeTime(hintData.eventData)
-      local offset = time.millisecondsToSeconds(::dagor.getCurTime() - hintData.addTime)
+      local lifeTime = hintData.hint.getTimerTotalTimeSec(hintData.eventData)
+      local offset = hintData.hint.getTimerCurrentTimeSec(hintData.eventData, hintData.addTime)
       local timeLeft = (lifeTime - offset + 0.5).tointeger()
 
       if (timeLeft < 0)

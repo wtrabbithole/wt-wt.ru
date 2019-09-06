@@ -312,7 +312,7 @@ class gui_bhv.posNavigator
 
   function moveFromObj(obj, objFrom, axis, dir, isFromOutside = false)
   {
-    local moveType = obj[axis? "moveY" : "moveX"]
+    local moveType = obj?[axis? "moveY" : "moveX"]
     if (moveType=="linear")
       return moveSelectLinear(obj, objFrom, axis, dir, isFromOutside)
     return moveSelectClosest(obj, objFrom, axis, dir, isFromOutside)

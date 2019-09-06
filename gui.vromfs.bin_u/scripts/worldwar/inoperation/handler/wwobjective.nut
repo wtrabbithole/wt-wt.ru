@@ -72,7 +72,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     foreach (id, dataBlk in staticBlk)
     {
       local statusBlk = getStatusBlock(dataBlk)
-      local oType = ::g_ww_objective_type.getTypeByTypeName(dataBlk.type)
+      local oType = ::g_ww_objective_type.getTypeByTypeName(dataBlk?.type)
       local handler = this
       foreach (param, func in oType.timersArrayByParamName)
         timersArray.extend(func(handler, scene, param, dataBlk, statusBlk, oType, side))
@@ -85,8 +85,8 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     if (!objectivesBlk)
       return
 
-    staticBlk = ::u.copy(objectivesBlk.data) || ::DataBlock()
-    dynamicBlk = ::u.copy(objectivesBlk.status) || ::DataBlock()
+    staticBlk = ::u.copy(objectivesBlk?.data) || ::DataBlock()
+    dynamicBlk = ::u.copy(objectivesBlk?.status) || ::DataBlock()
   }
 
   function canShowObjective(objBlock, checkType = true, isForceVisible = false)
@@ -94,18 +94,18 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     if (::g_world_war.isDebugModeEnabled())
       return true
 
-    if (needShowOperationDesc && !isForceVisible && !objBlock.showInOperationDesc)
+    if (needShowOperationDesc && !isForceVisible && !objBlock?.showInOperationDesc)
       return false
 
     if (checkType)
     {
-      local oType = ::g_ww_objective_type.getTypeByTypeName(objBlock.type)
+      local oType = ::g_ww_objective_type.getTypeByTypeName(objBlock?.type)
       local isDefender = oType.isDefender(objBlock, ::ww_side_val_to_name(side))
 
-      if (objBlock.showOnlyForDefenders)
+      if (objBlock?.showOnlyForDefenders)
         return isDefender
 
-      if (objBlock.showOnlyForAttackers)
+      if (objBlock?.showOnlyForAttackers)
         return !isDefender
     }
 
@@ -156,7 +156,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     foreach (block in staticBlk)
       if (canShowObjective(block, checkType))
       {
-        if (block.mainObjective)
+        if (block?.mainObjective)
           objectivesCount.x++
         else
           objectivesCount.y++
@@ -230,7 +230,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       if (!canShowObjective(objBlock, checkType, true))
         continue
 
-      list.primaryCount += objBlock.mainObjective ? 1 : 0
+      list.primaryCount += objBlock?.mainObjective ? 1 : 0
 
       if (usedObjectiveSlots.x >= availableObjectiveSlots.x
         && usedObjectiveSlots.y >= availableObjectiveSlots.y)
@@ -241,7 +241,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
       objBlock.id <- objBlock.getBlockName()
 
-      if (objBlock.mainObjective && usedObjectiveSlots.x < availableObjectiveSlots.x)
+      if (objBlock?.mainObjective && usedObjectiveSlots.x < availableObjectiveSlots.x)
       {
         usedObjectiveSlots.x++
         list.primary.append(objBlock)
@@ -274,7 +274,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
   function getReinforcementSpeedup(objectiveBlk)
   {
-    local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
+    local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk?.type)
     if (side == ::ww_get_player_side())
      return oType.getReinforcementSpeedupPercent(
        objectiveBlk, statusBlock, ::ww_side_val_to_name(side))
@@ -303,7 +303,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
   function updateDynamicData(objectivesBlk)
   {
-    dynamicBlk = ::u.copy(objectivesBlk.status) || ::DataBlock()
+    dynamicBlk = ::u.copy(objectivesBlk?.status) || ::DataBlock()
     updateDynamicDataBlocks()
     updateReinforcementSpeedup()
   }
@@ -321,7 +321,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       if (canShowObjective(objectiveBlk, true))
       {
         local statusBlock = getStatusBlock(objectiveBlk)
-        local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
+        local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk?.type)
         local sideEnumVal = ::ww_side_val_to_name(side)
 
         reinforcementSpeedup += oType.getReinforcementSpeedupPercent(objectiveBlk, statusBlock, sideEnumVal)
@@ -335,7 +335,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     local objectiveBlockId = objectiveBlk.getBlockName()
     local statusBlock = getStatusBlock(objectiveBlk)
 
-    local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
+    local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk?.type)
     local sideEnumVal = ::ww_side_val_to_name(side)
     local result = oType.getUpdatableParamsArray(objectiveBlk, statusBlock, sideEnumVal)
     local zones = oType.getUpdatableZonesParams(objectiveBlk, statusBlock, sideEnumVal)
@@ -344,7 +344,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     if (!::checkObj(objectiveObj))
       return
 
-    local statusType = oType.getObjectiveStatus(statusBlock.winner, sideEnumVal)
+    local statusType = oType.getObjectiveStatus(statusBlock?.winner, sideEnumVal)
     objectiveObj.status = statusType.name
 
     local imageObj = objectiveObj.findObject("statusImg")
@@ -365,12 +365,12 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
         continue
 
       foreach (textId in ["pName", "pValue"])
-      if (textId in block)
-      {
-        local nameObj = updatableParamObj.findObject(textId)
-        if (::checkObj(nameObj))
-          nameObj.setValue(block[textId])
-      }
+        if (textId in block)
+        {
+          local nameObj = updatableParamObj.findObject(textId)
+          if (::checkObj(nameObj))
+            nameObj.setValue(block[textId])
+        }
 
       if ("team" in block)
         updatableParamObj.team = block.team
@@ -394,7 +394,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
   function getStatusBlock(blk)
   {
-    return dynamicBlk.getBlockByName(blk?.guiStatusBlk || blk.getBlockName())
+    return dynamicBlk.getBlockByName(blk?.guiStatusBlk ?? blk.getBlockName())
   }
 
   function onOpenFullMissionObjects()

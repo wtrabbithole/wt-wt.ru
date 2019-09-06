@@ -500,7 +500,7 @@ function checkShopBlk()
                 resText += ((resText!="")? "\n":"") + "Not found aircraft " + gAirBlk.getBlockName() + " in " + country
             }
           } else
-            if (airBlk.reqAir!=null && airBlk.reqAir!="")
+            if ((airBlk?.reqAir ?? "") != "")
             {
               local reqAir = getAircraftByName(airBlk.reqAir)
               if (!reqAir && !isInArray(airBlk.reqAir, groups))

@@ -1,17 +1,22 @@
 local MAX_SLOT_COUNT_X = 4
 local MAX_SLOT_COUNT_Y = 6
 
-class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
+local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType              = handlerType.MODAL
-  slotbarActions       = [ "research", "buy", "take", "weapons", "testflight", "info", "repair" ]
-  focusArray           = [ "countries_boxes", "units_boxes", "units_list" ]
+  focusArray           = [ "units_list", "countries_boxes", "units_boxes" ]
+  currentFocusItem     = 0
   unitsFilter          = null
   units                = null
+  filteredUnits        = null
   countries            = null
   unitsTypes           = null
+  lastSelectedUnit     = null
+  needSkipFocus        = false
   sceneTplName         = "gui/unit/vehiclesModal"
   sceneCheckBoxListTpl = "gui/commonParts/checkbox"
+  wndTitleLocId         = "itemTypes/vehicles"
+  slotbarActions        = [ "research", "buy", "take", "weapons", "showroom", "testflight", "info", "repair" ]
 
   function getSceneTplView()
   {
@@ -19,23 +24,32 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
     return {
       slotCountX = MAX_SLOT_COUNT_X
       slotCountY = min( units.len() / MAX_SLOT_COUNT_X + 1, MAX_SLOT_COUNT_Y)
+      hasScrollBar = MAX_SLOT_COUNT_X * MAX_SLOT_COUNT_Y < units.len()
       filters = [
         {id = "countries_boxes", boxes = getCountriesCheckBoxesData()},
         {id = "units_boxes", isRightAlign = true, boxes = getUnitTypesCheckBoxesData()}
       ]
       unitsList = getUnitsListData()
+
+      wndTitle = getWndTitle()
+      needCloseBtn = canQuitByGoBack
+      navBar = getNavBarView()
     }
   }
 
   function initScreen()
   {
+    local listObj = scene.findObject("units_list")
+    restoreLastUnitSelection(listObj)
     initFocusArray()
-    scene.findObject("countries_boxes").select()
   }
+
+  getWndTitle = @() ::loc(wndTitleLocId)
+  getNavBarView = @() null
+  updateButtons = @() null
 
   function collectUnitData()
   {
-    local curCountry = ::get_profile_country_sq()
     units = []
     countries = {}
     unitsTypes = {}
@@ -44,16 +58,16 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
       if (!unitsFilter || unitsFilter(unit))
       {
         local country = unit.shopCountry
-        local id = unit.unitType.esUnitType
+        local unitTypeStr = unit.unitType.esUnitType.tostring()
         units.append(unit)
         if (!(country in countries))
           countries[country] <- {
             id = country
             idx = ::u.searchIndex(::shopCountriesList, @(id) id == country, -1)
-            value = country == curCountry
+            value = true
           }
-        if (!(id.tostring() in unitsTypes))
-          unitsTypes[id.tostring()] <- {unitType = unit.unitType, value = true}
+        if (!(unitTypeStr in unitsTypes))
+          unitsTypes[unitTypeStr] <- {unitType = unit.unitType, value = true}
       }
   }
 
@@ -92,7 +106,7 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
         useImage = inst.unitType.testFlightIcon
         tooltip = inst.unitType.getArmyLocName()
         value = inst.value
-        funcName = "onUnitChange"
+        funcName = "onUnitTypesChange"
       })
     }
 
@@ -110,8 +124,17 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getUnitsListData()
   {
+    filteredUnits = []
+    foreach(unit in units)
+    {
+      local country = unit.shopCountry
+      if (!countries[country].value || !unitsTypes[unit.unitType.esUnitType.tostring()].value)
+        continue
+      filteredUnits.append(unit)
+    }
+
     local data = ""
-    foreach(idx, unit in units)
+    foreach(unit in filteredUnits)
     {
       local country = unit.shopCountry
       if (!countries[country].value || !unitsTypes[unit.unitType.esUnitType.tostring()].value)
@@ -140,6 +163,31 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
 
       updateAdditionalProp(unit, placeObj)
       ::updateAirAfterSwitchMod(unit)
+    }
+
+    restoreLastUnitSelection(listObj)
+  }
+
+  function restoreLastUnitSelection(listObj)
+  {
+    local newIdx = -1
+    if (lastSelectedUnit)
+    {
+      local unit = lastSelectedUnit
+      newIdx = ::u.searchIndex(filteredUnits, @(u) u == unit)
+    }
+    local total = listObj.childrenCount()
+    if (newIdx == -1 && total)
+      newIdx = 0
+
+    needSkipFocus = true
+    listObj.setValue(newIdx)
+    needSkipFocus = false
+
+    if (newIdx == -1)
+    {
+      lastSelectedUnit = null
+      updateButtons()
     }
   }
 
@@ -196,7 +244,7 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
     fillUnitsList()
   }
 
-  function onUnitChange(obj)
+  function onUnitTypesChange(obj)
   {
     if (!::check_obj(obj))
       return
@@ -206,21 +254,30 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
     fillUnitsList()
   }
 
-  function onClick(obj)
+  function onUnitSelect(obj)
   {
     if (!::check_obj(obj))
       return
 
+    if (!::show_console_buttons || !needSkipFocus)
+      obj.select()
+
+    lastSelectedUnit = null
+
     local idx = obj.getValue()
-    if (idx == -1 || idx > obj.childrenCount()- 1)
-      return
+    if (idx >= 0 && idx < obj.childrenCount())
+    {
+      local slot = obj.getChild(idx)?.getChild(0) ?? null
+      if (::check_obj(slot))
+      {
+        if (!::show_console_buttons)
+          openUnitActionsList(slot, true, true)
 
-    local slot = obj.getChild(idx)?.getChild(0) ?? null
-    if (!::check_obj(slot))
-      return
+        lastSelectedUnit = ::getAircraftByName(slot.id)
+      }
+    }
 
-    openUnitActionsList(slot, true, true)
-    scene.findObject("units_list").select()
+    updateButtons()
   }
 
   function onOpenActionsList(obj)
@@ -248,14 +305,9 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
     checkUnitItemAndUpdate(::getAircraftByName(p?.unitName ?? null))
   }
 
-  function onEventSquadronExpChanged(p)
-  {
-    checkUnitItemAndUpdate(::getAircraftByName(::clan_get_researching_unit()))
-  }
-
   function onEventFlushSquadronExp(p)
   {
-    checkUnitItemAndUpdate(p?.unit ?? null)
+    fillUnitsList()
   }
 
   function onEventModificationPurchased(p)
@@ -276,9 +328,13 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
+::gui_handlers.vehiclesModal <- handlerClass
+
 return {
-  open = function(unitsFilter=null)
+  handlerClass = handlerClass
+  open = function(unitsFilter = null, params = null)
   {
-    ::gui_start_modal_wnd(::gui_handlers.vehiclesModal, {unitsFilter = unitsFilter})
+    local handlerParams = params.__merge({ unitsFilter = unitsFilter })
+    ::handlersManager.loadHandler(handlerClass, handlerParams)
   }
 }

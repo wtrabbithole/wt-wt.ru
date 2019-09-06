@@ -170,19 +170,19 @@ function g_battle_task_difficulty::updateTimeParamsFromBlk(blk)
   foreach(t in types)
   {
     local genSuccessTimeId = t.timeParamId + "PersonalUnlocks_lastGenerationTimeOnSuccess"
-    t.lastGenTimeSuccess = blk[genSuccessTimeId] || -1
+    t.lastGenTimeSuccess = blk?[genSuccessTimeId] ?? -1
 
     local genFailureTimeId = t.timeParamId + "PersonalUnlocks_lastGenerationTimeOnFailure"
-    t.lastGenTimeFailure = blk[genFailureTimeId] || -1
+    t.lastGenTimeFailure = blk?[genFailureTimeId] ?? -1
 
     local genPerSecTimeId = t.timeParamId + "PersonalUnlocks_CUSTOM_generationPeriodSec"
-    t.generationPeriodSec = blk[genPerSecTimeId] || -1
+    t.generationPeriodSec = blk?[genPerSecTimeId] ?? -1
 
     local genPeriodId = t.timeParamId + "PersonalUnlocks_WEEKLY_weeklyPeriod"
-    t.period = blk[genPeriodId] || 1
+    t.period = blk?[genPeriodId] ?? 1
 
     local genShiftId = t.timeParamId + "PersonalUnlocks_WEEKLY_weekStartDayShift"
-    t.daysShift = blk[genShiftId] || 0
+    t.daysShift = blk?[genShiftId] ?? 0
   }
 }
 

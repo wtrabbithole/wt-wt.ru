@@ -304,7 +304,7 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
         "#options/count"
         + "'; } }"
       optlist = buildCountOptions(minCount, maxCount, count)
-      elemText = control_for_count(maxCount-minCount+1, "spinnerListBox") + " { size:t='pw, ph'; " +
+      elemText = "ComboBox { size:t='pw, ph'; " +
         "id:t = '" + i.tostring() + "_c'; " + optlist
         + " }"
       rowData += "td { cellType:t='right'; width:t='" + wRight + "'; padding-left:t='@optPad'; " + elemText + " }"

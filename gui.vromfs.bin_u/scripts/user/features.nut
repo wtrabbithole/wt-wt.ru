@@ -2,6 +2,8 @@
   DEFAULTS = {  //def value when feature not found in game_settings.blk
                // not in this list are false
     SpendGold = true
+    SpendFreeRP = true
+    CrewInfo = true
     CrewSkills = true
     CrewBuyAllSkills = false
     UserLog = true
@@ -85,6 +87,11 @@
     CustomBattlesPc = true
     CustomBattlesPs4 = true
     HistoricalCampaign = true
+    Leaderboards = true
+    HangarWndHelp = true
+    EulaInMenu = true
+    WarpointsInMenu = true
+    BenchmarkForDevs = true
 
     WorldWar = false
     worldWarMaster = false
@@ -129,10 +136,12 @@
 
     UnlockAllCountries = false
 
+    GameModeSelector = true
     AllModesInRandomBattles = true
     SimulatorDifficulty = true
     SimulatorDifficultyInRandomBattles = true
 
+    Tutorials = true
     AllowedToSkipBaseTutorials = true
     AllowedToSkipBaseTankTutorials = true
     EnableGoldPurchase = true
@@ -159,10 +168,12 @@
 
     ActiveScouting = false
 
+    PromoBlocks = true
     ShowAllPromoBlocks = ::disable_network()
     ShowAllBattleTasks = false
 
     ExtendedCrewSkillsDescription = ::disable_network()
+    UnitInfo = true
     WikiUnitInfo = true
     ExpertToAce = false
 
@@ -171,7 +182,9 @@
     streakVoiceovers = ::disable_network()
     SpectatorUnitDmgIndicator = ::disable_network()
 
+    Profile = true
     ProfileMedals = true
+    UserCards = true
     SlotbarShowBattleRating = true
     GlobalShowBattleRating = false
     VideoPreview = ::disable_network()
@@ -208,6 +221,7 @@
 
     XRayDescription = ::disable_network()
     GamepadCursorControl = true
+    ControlsHelp = true
 
     SeparateTopMenuButtons = false
 

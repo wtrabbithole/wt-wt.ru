@@ -31,18 +31,18 @@ class ::items_classes.Trophy extends ::BaseItem
   {
     base.constructor(blk, invBlk, slotData)
 
-    subtrophyShowAsPack = blk.subtrophyShowAsPack
-    showTypeInName = blk.showTypeInName
-    showRangePrize = blk.showRangePrize || false
-    instantOpening = blk.instantOpening || false
-    showCountryFlag = blk.showCountryFlag || ""
-    numTotal = blk.numTotal || 0
-    isGroupTrophy = numTotal > 0 && !blk.repeatable //for repeatable work as usual
-    groupTrophyStyle = blk.groupTrophyStyle || iconStyle
-    openingCaptionLocId = blk.captionLocId
+    subtrophyShowAsPack = blk?.subtrophyShowAsPack
+    showTypeInName = blk?.showTypeInName
+    showRangePrize = blk?.showRangePrize ?? false
+    instantOpening = blk?.instantOpening ?? false
+    showCountryFlag = blk?.showCountryFlag ?? ""
+    numTotal = blk?.numTotal ?? 0
+    isGroupTrophy = numTotal > 0 && !blk?.repeatable //for repeatable work as usual
+    groupTrophyStyle = blk?.groupTrophyStyle ?? iconStyle
+    openingCaptionLocId = blk?.captionLocId
 
     local blksArray = [blk]
-    if (::u.isDataBlock(blk.prizes))
+    if (::u.isDataBlock(blk?.prizes))
       blksArray.insert(0, blk.prizes) //if prizes block exist, it's content must be shown in the first place
 
     contentRaw = []
@@ -131,10 +131,10 @@ class ::items_classes.Trophy extends ::BaseItem
     _recursionUsedIds.append(id)
     foreach(prize in contentRaw)
     {
-      if (prize.ignoreForTrophyType)
+      if (prize?.ignoreForTrophyType)
         continue
 
-      if (prize.trophy)
+      if (prize?.trophy)
       {
         local subTrophy = ::ItemsManager.findItemById(prize.trophy)
         topPrize = subTrophy ? subTrophy.getTopPrize(_recursionUsedIds) : null
@@ -267,7 +267,7 @@ class ::items_classes.Trophy extends ::BaseItem
       return res
 
     res = { contentIcon = icon }
-    if (prize.unit)
+    if (prize?.unit)
       res.contentType <- "unit"
     return res
   }

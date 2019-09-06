@@ -27,21 +27,21 @@ local WorkshopSet = class {
   constructor(blk)
   {
     id = blk.getBlockName() || ""
-    reqFeature = blk.reqFeature
-    locId = blk.locId || id
+    reqFeature = blk?.reqFeature
+    locId = blk?.locId || id
 
     itemdefsSorted = []
     itemdefs = {}
     requiredItemsTbl = {}
     alwaysVisibleItemdefs = {}
 
-    itemdefsSorted.extend(getItemsFromBlk(blk.items, 0))
-    local itemsBlk = blk.items
+    local itemsBlk = blk?.items
+    itemdefsSorted.extend(getItemsFromBlk(itemsBlk, 0))
     if (itemsBlk)
       foreach (idx, itemBlk in itemsBlk % "itemBlock")
         itemdefsSorted.extend(getItemsFromBlk(itemBlk, idx + 1))
 
-    if (blk.eventPreview)
+    if (blk?.eventPreview)
     {
       previewBlk = ::DataBlock()
       previewBlk.setFrom(blk.eventPreview)

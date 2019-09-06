@@ -12,14 +12,14 @@ class ::items_classes.ModUpgrade extends BaseItemModClass
 
   level = 0
 
-  getConditionsBlk = @(configBlk) configBlk.modUpgradeParams
+  getConditionsBlk = @(configBlk) configBlk?.modUpgradeParams
 
   getActivateInfo  = @() ::loc("item/modUpgrade/activateInModifications")
 
   function initConditions(conditionsBlk)
   {
     base.initConditions(conditionsBlk)
-    level = conditionsBlk.level || 0
+    level = conditionsBlk?.level ?? 0
   }
 
   function getDescriptionIntroArray()

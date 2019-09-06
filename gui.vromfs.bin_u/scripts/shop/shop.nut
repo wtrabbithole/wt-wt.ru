@@ -2,7 +2,6 @@ local shopTree = require("scripts/shop/shopTree.nut")
 local shopSearchBox = require("scripts/shop/shopSearchBox.nut")
 local slotActions = require("scripts/slotbar/slotActions.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
-local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
 
 local lastUnitType = null
 
@@ -62,7 +61,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   needUpdateSlotbar = false
   needUpdateSquadInfo = false
   shopResearchMode = false
-  isSquadronResearchMode = false
   setResearchManually = true
   lastPurchase = null
 
@@ -361,9 +359,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         {
           local item = rowArr[col]
           local config = getItemStatusData(item, curName)
-          if (config.checkAir
-            || (!isSquadronResearchMode && (curRow < 0) && !item?.isFakeUnit)
-            || (isSquadronResearchMode && item?.isSquadronVehicle?()))
+          if (config.checkAir || ((curRow < 0) && !item?.isFakeUnit))
           {
             curRow = row
             curCol = col
@@ -1100,9 +1096,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local is_unit = !::isUnitGroup(unit) && !unit?.isFakeUnit
     local params = {
       availableFlushExp = availableFlushExp
-      isSquadronResearchMode = isSquadronResearchMode
       setResearchManually = setResearchManually
-      needChosenResearchOfSquadron = needChosenResearchOfSquadron()
     }
     return {
              hasActions     = true,
@@ -1112,7 +1106,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
              mainActionText = is_unit? slotActions.getSlotActionFunctionName(unit, params) : ""
              fullBlock      = true
              shopResearchMode = shopResearchMode
-             isSquadronResearchMode = isSquadronResearchMode
              forceNotInResearch = !setResearchManually
              flushExp = availableFlushExp
              showBR = ::has_feature("GlobalShowBattleRating")
@@ -1227,9 +1220,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       local view = { tabs = [] }
       foreach(idx, page in countryData.pages)
       {
-        if (isDisabledUnitTypePage(countryData, page))
-          continue
-
         local name = page.name
         view.tabs.append({
           id = name
@@ -1317,7 +1307,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function initSearchBox()
   {
-    if (!::has_feature("UnitsSearchBoxInShop"))
+    if (shopResearchMode || !::has_feature("UnitsSearchBoxInShop"))
       return
     local handler = shopSearchBox.init({
       scene = scene.findObject("shop_search_box")
@@ -1804,6 +1794,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       selectRequiredUnit()
   }
 
+  function onEventDebugUnlockEnabled(params)
+  {
+    doWhenActiveOnce("loadFullAircraftsTable")
+    doWhenActiveOnce("fillAircraftsList")
+  }
+
   function onEventUnitRented(params)
   {
     onEventUnitBought(params)
@@ -1922,9 +1918,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         getEdiffFunc = getCurrentEdiff.bindenv(this)
       }
       curEdiff = getCurrentEdiff()
-      isSquadronResearchMode = isSquadronResearchMode
       setResearchManually = setResearchManually
-      needChosenResearchOfSquadron = needChosenResearchOfSquadron()
       availableFlushExp = availableFlushExp
     })
   }
@@ -1970,7 +1964,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     curDiffCode = -1
     showModeList = []
     foreach(diff in ::g_difficulty.types)
-      if (diff.diffCode == -1 || (!shopResearchMode && !isSquadronResearchMode && diff.isAvailable()))
+      if (diff.diffCode == -1 || (!shopResearchMode && diff.isAvailable()))
       {
         showModeList.append({
           text = diff.diffCode == -1 ? ::loc("options/auto") : ::colorize("warningTextColor", diff.getLocName())
@@ -2214,31 +2208,9 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onEventFlushSquadronExp(params)
   {
-    local unit = params?.unit
-    fillAircraftsList(unit?.name)
-    updateResearchVariables()
-    if (!isSquadronResearchMode)
-      return
-
-    if (hasSquadronVehicleToResearche() && ::isUnitResearched(unit))
-      return
-
-    if (squadronUnitAction.isAllVehiclesResearched())
-      squadronUnitAction.saveResearchChosen(false)
-
-    if (unit && ::canBuyUnit(unit))
-      ::buyUnit(unit)
-    onCloseShop()
+    fillAircraftsList(params?.unit?.name)
   }
 
-  isDisabledCountry = @(countryData) false
-  isDisabledUnitTypePage = @(countryData, unitTypePage) false
-  hasSquadronVehicleToResearche = @() ::clan_get_researching_unit() != ""
-  needChosenResearchOfSquadron = @() false
-  getParamsForActionsList = @() {
-    needChosenResearchOfSquadron = needChosenResearchOfSquadron()
-    isSquadronResearchMode = isSquadronResearchMode
-  }
   getResearchingSquadronVehicle = function()
   {
     if (::clan_get_exp() <= 0)

@@ -233,25 +233,25 @@ function get_weapon_image(unitType, weaponBlk, costBlk)
 {
   if (unitType == ::ES_UNIT_TYPE_TANK)
   {
-    return (costBlk != null ? costBlk.image_tank : null) ||
-      (weaponBlk != null ? weaponBlk.image_tank : null) ||
-      (costBlk != null ? costBlk.image : null) ||
-      (weaponBlk != null ? weaponBlk.image : null) ||
-      ""
+    return costBlk?.image_tank
+           ?? weaponBlk?.image_tank
+           ?? costBlk?.image
+           ?? weaponBlk?.image
+           ?? ""
   }
   else if (::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER]))
   {
-    return (costBlk != null ? costBlk.image_aircraft : null) ||
-      (weaponBlk != null ? weaponBlk.image_aircraft : null) ||
-      (costBlk != null ? costBlk.image : null) ||
-      (weaponBlk != null ? weaponBlk.image : null) ||
-      ""
+    return costBlk?.image_aircraft
+           ?? weaponBlk?.image_aircraft
+           ?? costBlk?.image
+           ?? weaponBlk?.image
+           ?? ""
   }
   else // unitType == ::ES_UNIT_TYPE_INVALID
   {
-    return (costBlk != null ? costBlk.image : null) ||
-      (weaponBlk != null ? weaponBlk.image : null) ||
-      ""
+    return costBlk?.image
+           ?? weaponBlk?.image
+           ?? ""
   }
 }
 

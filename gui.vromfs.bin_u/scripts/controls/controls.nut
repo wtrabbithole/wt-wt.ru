@@ -513,6 +513,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     showSceneBtn("btn_controlsWizard", !isTutorial && showWizard)
     showSceneBtn("btn_controlsDefault", !isTutorial && !showWizard)
     showSceneBtn("btn_clearAll", !isTutorial)
+    showSceneBtn("btn_controlsHelp", ::has_feature("ControlsHelp"))
   }
 
   function fillControlGroupsList()
@@ -1360,7 +1361,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         ::loc("ui/comma")
       )
     })
-    msgBox("controls_unbind_question", msg, [
+    msgBox("controls_bind_existing_shortcut", msg, [
       ["add", (@(curBinding, devs, btns, shortcutId) function() {
         doBind(devs, btns, shortcutId)
       })(curBinding, devs, btns, shortcutId)],
@@ -2364,7 +2365,7 @@ function getUnmappedControlsForTutorial(missionId, helpersMode)
         break
       }
   local missionBlk = mis_file && ::DataBlock(mis_file)
-  if (!missionBlk || !missionBlk.triggers)
+  if (!missionBlk || !missionBlk?.triggers)
     return res
 
   local tutorialControlAliases = {
@@ -2383,7 +2384,7 @@ function getUnmappedControlsForTutorial(missionId, helpersMode)
   }
 
   local isXinput = ::is_xinput_device()
-  local isAllowedCondition = @(condition) condition.gamepadControls == null || condition.gamepadControls == isXinput
+  local isAllowedCondition = @(condition) condition?.gamepadControls == null || condition.gamepadControls == isXinput
 
   local conditionsList = []
   foreach (trigger in missionBlk.triggers)
@@ -2394,7 +2395,7 @@ function getUnmappedControlsForTutorial(missionId, helpersMode)
     local condition = (trigger.props && trigger.props.conditionsType != "ANY") ? "ALL" : "ANY"
 
     local shortcuts = []
-    if (trigger.conditions)
+    if (trigger?.conditions)
     {
       foreach (playerShortcutPressed in trigger.conditions % "playerShortcutPressed")
         if (playerShortcutPressed.control && isAllowedCondition(playerShortcutPressed))
@@ -2507,31 +2508,31 @@ local function getWeaponFeatures(weaponsBlkList)
 
     foreach (w in (weaponSet % "Weapon"))
     {
-      if (!w.blk || w.dummy)
+      if (!w?.blk || w?.dummy)
         continue
 
-      if (w.trigger == "machine gun")
+      if (w?.trigger == "machine gun")
         res.gotMachineGuns = true
-      if (w.trigger == "cannon")
+      if (w?.trigger == "cannon")
         res.gotCannons = true
-      if (w.trigger == "additional gun")
+      if (w?.trigger == "additional gun")
         res.gotAdditionalGuns = true
-      if (w.trigger == "bombs")
+      if (w?.trigger == "bombs")
         res.gotBombs = true
-      if (w.trigger == "torpedoes")
+      if (w?.trigger == "torpedoes")
         res.gotTorpedoes = true
-      if (w.trigger == "rockets")
+      if (w?.trigger == "rockets")
         res.gotRockets = true
-      if (w.trigger == "agm" || w.trigger == "atgm")
+      if (w?.trigger == "agm" || w?.trigger == "atgm")
         res.gotAGM = true
-      if (w.trigger == "aam")
+      if (w?.trigger == "aam")
         res.gotAAM = true
-      if (::g_string.startsWith(w.trigger || "", "gunner"))
+      if (::g_string.startsWith(w?.trigger ?? "", "gunner"))
         res.gotGunnerTurrets = true
-      if (::is_platform_pc && w.schraegeMusikAngle != null)
+      if (::is_platform_pc && w?.schraegeMusikAngle != null)
         res.gotSchraegeMusik = true
       local weaponBlk = ::DataBlock(w.blk)
-      if (weaponBlk?.rocket?.guidance)
+      if (weaponBlk?.rocket.guidance)
         res.gotWeaponLock = true
     }
   }
@@ -2551,26 +2552,24 @@ function getRequiredControlsForUnit(unit, helpersMode)
   local preset = ::g_controls_manager.getCurPreset()
   local actionBarShortcutFormat = null
 
-  local unitBlk = null
-  local blkCommonWeapons = null
-  local blkWeaponPreset = null
-  local hasControllableRadar = false
+  local unitBlk = ::get_full_unit_blk(unitId)
+  local blkCommonWeapons = ::getCommonWeaponsBlk(unitBlk, ::get_last_primary_weapon(unit)) || ::DataBlock()
+  local blkWeaponPreset = ::DataBlock()
 
-  unitBlk = ::get_full_unit_blk(unitId)
-  blkCommonWeapons = ::getCommonWeaponsBlk(unitBlk, ::get_last_primary_weapon(unit)) || ::DataBlock()
   local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : ::get_last_weapon(unitId)
-  blkWeaponPreset = ::DataBlock()
-  if (unitBlk.weapon_presets)
+
+  if (unitBlk?.weapon_presets)
     foreach (idx, presetBlk in (unitBlk.weapon_presets % "preset"))
-      if (presetBlk.name == curWeaponPresetId || (curWeaponPresetId == "" && idx == 0))
+      if (presetBlk?.name == curWeaponPresetId || (curWeaponPresetId == "" && idx == 0))
       {
-        blkWeaponPreset = ::DataBlock(presetBlk.blk)
+        blkWeaponPreset = ::DataBlock(presetBlk?.blk ?? "")
         break
       }
 
-  if (unitBlk.sensors)
+  local hasControllableRadar = false
+  if (unitBlk?.sensors)
     foreach (sensor in (unitBlk.sensors % "sensor"))
-      hasControllableRadar = hasControllableRadar || ::DataBlock(sensor.blk ?? "").type == "radar"
+      hasControllableRadar = hasControllableRadar || ::DataBlock(sensor?.blk ?? "")?.type == "radar"
 
   local isMouseAimMode = helpersMode == globalEnv.EM_MOUSE_AIM
 
@@ -2585,18 +2584,18 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
     if (preset.getAxis("fire").axisId == -1)
     {
-      if (w.gotMachineGuns || (!w.gotCannons && w.gotGunnerTurrets)) // Gunners require either Mguns or Cannons shortcut.
+      if (w?.gotMachineGuns || (!w?.gotCannons && w?.gotGunnerTurrets)) // Gunners require either Mguns or Cannons shortcut.
         controls.append("ID_FIRE_LASERGUNS_UFO")
-      if (w.gotCannons)
+      if (w?.gotCannons)
         controls.append("ID_FIRE_RAILGUNS_UFO")
     }
-    if (w.gotTorpedoes)
+    if (w?.gotTorpedoes)
       controls.append("ID_TORPEDOES_UFO")
   }
   else if (unitType == ::g_unit_type.AIRCRAFT)
   {
     local fmBlk = ::get_fm_file(unitId, unitBlk)
-    local unitControls = fmBlk.AvailableControls || ::DataBlock()
+    local unitControls = fmBlk?.AvailableControls || ::DataBlock()
 
     local gotInstructor = isMouseAimMode || helpersMode == globalEnv.EM_INSTRUCTOR
     local option = ::get_option_in_mode(::USEROPT_INSTRUCTOR_GEAR_CONTROL, ::OPTIONS_MODE_GAMEPLAY)
@@ -2608,19 +2607,19 @@ function getRequiredControlsForUnit(unit, helpersMode)
       controls.extend([ "mouse_aim_x", "mouse_aim_y" ])
     else
     {
-      if (unitControls.hasAileronControl)
+      if (unitControls?.hasAileronControl)
         controls.append("ailerons")
-      if (unitControls.hasElevatorControl)
+      if (unitControls?.hasElevatorControl)
         controls.append("elevator")
-      if (unitControls.hasRudderControl)
+      if (unitControls?.hasRudderControl)
         controls.append("rudder")
     }
 
-    if (unitControls.hasGearControl && !instructorGearControl)
+    if (unitControls?.hasGearControl && !instructorGearControl)
       controls.append("ID_GEAR")
-    if (unitControls.hasAirbrake)
+    if (unitControls?.hasAirbrake)
       controls.append("ID_AIR_BRAKE")
-    if (unitControls.hasFlapsControl)
+    if (unitControls?.hasFlapsControl)
     {
       local shortcuts = ::get_shortcuts([ "ID_FLAPS", "ID_FLAPS_UP", "ID_FLAPS_DOWN" ])
       local flaps   = ::isShortcutMapped(shortcuts[0])
@@ -2635,7 +2634,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
         controls.append("ID_FLAPS_DOWN")
     }
 
-    if (unitBlk.parachutes)
+    if (unitBlk?.parachutes)
       controls.append("ID_CHUTE")
 
     local w = getWeaponFeatures([ blkCommonWeapons, blkWeaponPreset ])
@@ -2786,13 +2785,12 @@ function getRequiredControlsForUnit(unit, helpersMode)
 
       foreach (weapon in (weaponSet % "Weapon"))
       {
-        if (!weapon.blk || weapon.dummy)
+        if (!weapon?.blk || weapon?.dummy)
           continue
 
         foreach (group in weaponGroups)
         {
-          if ("isRequired" in group ||
-            group.triggerGroup != ::getTblValue("triggerGroup", weapon))
+          if (group?.isRequired || group.triggerGroup != weapon?.triggerGroup)
             continue
 
           group.isRequired <- true
@@ -2802,7 +2800,7 @@ function getRequiredControlsForUnit(unit, helpersMode)
     }
 
     foreach (group in weaponGroups)
-      if ("isRequired" in group)
+      if (group?.isRequired)
       {
         local isMapped = false
         foreach (shortcut in group.shortcuts)
@@ -2914,7 +2912,7 @@ function autorestore_preset()
     if (!blk)
       continue
 
-    if (!blk.hotkeys || !blk.joysticks)
+    if (!blk?.hotkeys || !blk?.joysticks)
       continue
 
     if (!::compare_axis_with_blk(blk.joysticks))
@@ -2969,8 +2967,8 @@ function compare_shortcuts_with_blk(names, scList, scBlk, dbg = false)
       res = false
       if (dbg)
       {
-        dagor.debug("PRESETS: found unmapped shortcut: " + names[idx])
-        debugTableData(sc)
+        ::dagor.debug("PRESETS: found unmapped shortcut: " + names[idx])
+        ::debugTableData(sc)
         continue
       }
       break
@@ -2981,9 +2979,9 @@ function compare_shortcuts_with_blk(names, scList, scBlk, dbg = false)
       res = false
       if (dbg)
       {
-        dagor.debug("PRESETS: not equal shortcuts: " + names[idx])
-        debugTableData(sc)
-        debugTableData(scb)
+        ::dagor.debug("PRESETS: not equal shortcuts: " + names[idx])
+        ::debugTableData(sc)
+        ::debugTableData(scb)
         continue
       }
       break
@@ -3037,7 +3035,7 @@ function get_shortcuts_from_blk(names, scBlk)
   local res = array(names.len(), null)
   foreach(event in scBlk % "event")
   {
-    local idx = ::find_in_array(names, event.name)
+    local idx = ::find_in_array(names, event?.name)
     if (idx >= 0)
       res[idx] = ::get_shortcut_data_from_blk(event, res[idx])
   }
@@ -3065,7 +3063,7 @@ function get_shortcut_data_from_blk(blk, mergedRes = null)
 
 function compare_axis_with_blk(blk)
 {
-  local joyBlk = blk.joystickSettings
+  local joyBlk = blk?.joystickSettings
   if (!joyBlk)
     return true
 
@@ -3082,7 +3080,7 @@ function compare_axis_with_blk(blk)
                     "useMouseForVoiceMessage"
                     "mouseJoystick"]
   foreach(p in paramsList)
-    if (joyBlk[p] != null && joyBlk[p] != joyParams[p])
+    if (joyBlk?[p] != null && joyBlk[p] != joyParams?[p])
       return false
 
   foreach(item in ::shortcutsList)
@@ -3090,7 +3088,7 @@ function compare_axis_with_blk(blk)
     if (item.type != CONTROL_TYPE.AXIS)
       continue
 
-    local axisBlk = joyBlk[item.id]
+    local axisBlk = joyBlk?[item.id]
     local axis = joyParams.getAxis(item.axisIndex)
     if (!axisBlk || !axis)
       continue
@@ -3099,7 +3097,7 @@ function compare_axis_with_blk(blk)
       return false
   }
 
-  if (joyBlk.mouse)
+  if (joyBlk?.mouse)
     foreach(i, value in joyBlk.mouse % "axis")
     {
       local name = ::get_axis_name(value) || ""
@@ -3116,8 +3114,8 @@ function compare_blk_axis(blk, axis)
                     "keepDisabledValue",
                     /*"useSliders"*/ //nonLinearity sliers not use yet
                    ]
-  foreach(p in axisBase)
-    if (blk[p] != null && blk[p] != axis[p])
+  foreach (p in axisBase)
+    if (blk?[p] != null && blk[p] != axis?[p])
       return false
 
   local axisFloats = ["innerDeadzone", /*"outerDeadzone",*/
@@ -3127,15 +3125,9 @@ function compare_blk_axis(blk, axis)
                       "relSens", "relStep",
                      ]
   foreach(p in axisFloats)
-    if (blk[p] != null && fabs(blk[p] - axis[p]) > 0.001)
+    if (blk?[p] != null && fabs(blk[p] - (axis?[p] ?? 0)) > 0.001)
       return false
 
-  /*  //nonLinearitySliders not used yet.
-  if (blk.useSliders)
-    foreach(idx, value in axis.nonLinearitySliders)
-      if (blk["nonLinearitySlider" + idx] != value)
-        return false
-  */
   return true
 }
 
@@ -3165,10 +3157,10 @@ function is_device_connected(devId = null)
   for (local i = 0; i < blk.blockCount(); i++)
   {
     local device = blk.getBlock(i)
-    if (device.disconnected)
+    if (device?.disconnected)
       continue
 
-    if (device.devId && device.devId.tolower() == devId.tolower())
+    if (device?.devId && device.devId.tolower() == devId.tolower())
       return true
   }
 

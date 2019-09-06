@@ -95,9 +95,9 @@ function g_item_limits::onRequestComplete(resultBlk)
     local itemBlk = resultBlk.getBlock(i)
     local itemName = itemBlk.getBlockName()
     local limitData = getLimitDataByItemName(itemName)
-    limitData.countGlobal = itemBlk.countGlobal || 0
-    limitData.countPersonalTotal = itemBlk.countPersonalTotal || 0
-    limitData.countPersonalAtTime = itemBlk.countPersonalAtTime || 0
+    limitData.countGlobal = itemBlk?.countGlobal ?? 0
+    limitData.countPersonalTotal = itemBlk?.countPersonalTotal ?? 0
+    limitData.countPersonalAtTime = itemBlk?.countPersonalAtTime ?? 0
     limitData.lastUpdateTime = ::dagor.getCurTime()
   }
   requestLimits()

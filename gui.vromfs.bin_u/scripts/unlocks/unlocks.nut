@@ -190,8 +190,8 @@ function set_image_by_unlock_type(config, unlockBlk)
 
     return
   }
-  else if (unlockType == ::UNLOCKABLE_CHALLENGE && unlockBlk.showAsBattleTask)
-    config.image <- unlockBlk.image
+  else if (unlockType == ::UNLOCKABLE_CHALLENGE && unlockBlk?.showAsBattleTask)
+    config.image <- unlockBlk?.image
 
   local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(unlockType)
   if (decoratorType != ::g_decorator_type.UNKNOWN && !::is_in_loading_screen())
@@ -355,8 +355,8 @@ function build_conditions_config(blk, showStage = -1)
         {
           if (config.unlockType == ::UNLOCKABLE_STREAK)
           {
-            config.minVal <- mode.minVal ?? 0
-            config.maxVal = mode.maxVal ?? 0
+            config.minVal <- mode?.minVal ?? 0
+            config.maxVal = mode?.maxVal ?? 0
             config.multiplier <- ::UnlockConditions.getMultipliersTable(mode)
           }
           else
@@ -871,13 +871,13 @@ function get_unlock_reward(unlockName)
   if (!unlock)
     return ""
 
-  local wpReward = typeof(unlock.amount_warpoints) == "instance"
+  local wpReward = typeof(unlock?.amount_warpoints) == "instance"
                    ? unlock.amount_warpoints.x.tointeger()
                    : unlock.getInt("amount_warpoints", 0)
-  local goldReward = typeof(unlock.amount_gold) == "instance"
+  local goldReward = typeof(unlock?.amount_gold) == "instance"
                      ? unlock.amount_gold.x.tointeger()
                      : unlock.getInt("amount_gold", 0)
-  local xpReward = typeof(unlock.amount_exp) == "instance"
+  local xpReward = typeof(unlock?.amount_exp) == "instance"
                    ? unlock.amount_exp.x.tointeger()
                    : unlock.getInt("amount_exp", 0)
   local reward = ::Cost(wpReward, goldReward, xpReward)
@@ -933,7 +933,7 @@ function get_mode_localization_text(modeInt)
   if (::map_mission_type_to_localization == null)
   {
     local blk = ::get_game_settings_blk()
-    if (!blk.mapIntDiffToName)
+    if (!blk?.mapIntDiffToName)
       return null
 
     ::map_mission_type_to_localization = ::buildTableFromBlk(blk.mapIntDiffToName)
@@ -1066,15 +1066,15 @@ function build_log_unlock_data(config)
   local needTitle      = config?.needTitle ?? true
 
   local res = ::create_default_unlock_data()
-  local realId = ("unlockId" in config)? config.unlockId : ("id" in config)? config.id : ""
+  local realId = config?.unlockId ?? config?.id ?? ""
   local unlockBlk = ::g_unlocks.getUnlockById(realId)
 
   local uType = config?.unlockType ?? config?.type ?? -1
   if (uType < 0)
     uType = unlockBlk?.type != null ? ::get_unlock_type(unlockBlk.type) : -1
   local stage = ("stage" in config)? config.stage : -1
-  local isMultiStage = (unlockBlk && unlockBlk.isMultiStage) ? true : false // means stages are auto-generated (used only for streaks).
-  local id = ("displayId" in config)? config.displayId : realId
+  local isMultiStage = unlockBlk?.isMultiStage ? true : false // means stages are auto-generated (used only for streaks).
+  local id = config?.displayId ?? realId
 
   res.desc = ""
   local cond = {}
@@ -1089,9 +1089,9 @@ function build_log_unlock_data(config)
     local description = ::build_unlock_desc(cond, {showProgress = haveProgress})
     res.desc = description.text
     res.link = ::g_promo.getLinkText(unlockBlk)
-    res.forceExternalBrowser = unlockBlk.forceExternalBrowser || false
+    res.forceExternalBrowser = unlockBlk?.forceExternalBrowser ?? false
   }
-  if (res.desc == "" && id!=realId)
+  if (res.desc == "" && id != realId)
     res.desc = ::loc(id + "/desc", "")
 
   res.id = id
@@ -1181,11 +1181,11 @@ function build_log_unlock_data(config)
       local desc = ::loc("streaks/" + id + "/desc", "")
       local iconStyle = "streak_" + id
 
-      if (isMultiStage && stage >= 0 && unlockBlk.stage && unlockBlk.stage.param != null)
+      if (isMultiStage && stage >= 0 && unlockBlk?.stage.param != null)
       {
         res.stage = stage
         local maxStreak = unlockBlk.stage.param.tointeger() + stage
-        if ("similarAwards" in config && config.similarAwards.len() > 0)
+        if (config?.similarAwards.len() > 0)
         {
           ::checkAwardsAmountPeerSession(res, config, maxStreak, name)
           maxStreak = res.similarAwardNamesList.maxStreak
@@ -1208,7 +1208,7 @@ function build_log_unlock_data(config)
           name = ::loc("streaks/" + id + "/multiple")
         if (desc.find("%d") != null)
         {
-          local descValue = unlockBlk.stage ? ::getTblValue("param", unlockBlk.stage, 0) : ::getTblValue("num", unlockBlk.mode, 0)
+          local descValue = unlockBlk?.stage ? (unlockBlk?.stage.param ?? 0) : (unlockBlk?.mode.num ?? 0)
           if (descValue > 0)
             desc = ::format(desc, descValue)
           else
@@ -1250,7 +1250,7 @@ function build_log_unlock_data(config)
 
     case ::UNLOCKABLE_DYNCAMPAIGN:
     case ::UNLOCKABLE_YEAR:
-      if(unlockBlk && unlockBlk.mode && unlockBlk.mode.country)
+      if (unlockBlk?.mode.country)
         res.image = ::get_country_icon(unlockBlk.mode.country)
       break
 
@@ -1258,7 +1258,7 @@ function build_log_unlock_data(config)
       local slotId = ::getTblValue("slot", config, -1)
       local crew = ::get_crew_by_id(slotId)
       local crewName = crew? ::g_crew.getCrewName(crew) : ::loc("options/crew")
-      local country = crew? crew.country : ("country" in config)? config.country : ""
+      local country = crew? crew.country : config?.country ?? ""
       local skillPoints = ::getTblValue("sp" ,config, 0)
       local skillPointsStr = ::getCrewSpText(skillPoints)
 
@@ -1290,9 +1290,9 @@ function build_log_unlock_data(config)
       break
   }
 
-  if (unlockBlk && unlockBlk.locId)
+  if (unlockBlk?.locId)
     res.name = ::get_locId_name(unlockBlk)
-  if (unlockBlk && unlockBlk.customDescription && unlockBlk.customDescription != "")
+  if ((unlockBlk?.customDescription ?? "") != "")
     res.desc = ::loc(unlockBlk.customDescription, "")
 
   local rewards = {wp = "amount_warpoints", exp = "amount_exp", gold = "amount_gold"}
@@ -1324,7 +1324,7 @@ function build_log_unlock_data(config)
   if (unlockBlk)
   {
     local rBlock = ::DataBlock()
-    rewardsWasLoadedFromLog = rewardsWasLoadedFromLog || unlockBlk.aircraftPresentExtMoneyback == true
+    rewardsWasLoadedFromLog = rewardsWasLoadedFromLog || unlockBlk?.aircraftPresentExtMoneyback == true
 
     // stage >= 0 means there are stages.
     // isMultiStage=false means stages are hard-coded (usually used for challenges and achievements).
@@ -1364,7 +1364,7 @@ function build_log_unlock_data(config)
     if (stage<0)  //no stages
       rBlock = unlockBlk
 
-    if (rBlock.iconStyle)
+    if (rBlock?.iconStyle)
       res.iconStyle <- rBlock.iconStyle
 
     if (::getTblValue("descrImage", res, "") == "")
@@ -1381,12 +1381,12 @@ function build_log_unlock_data(config)
     {
       foreach( nameInConfig, nameInBlk in rewards)
       {
-        res[nameInConfig] = rBlock[nameInBlk]? rBlock[nameInBlk] : 0
+        res[nameInConfig] = rBlock?[nameInBlk] ?? 0
         if (typeof(res[nameInConfig]) == "instance")
           res[nameInConfig] = res[nameInConfig].x
       }
-      if (rBlock["amount_exp"])
-        res.frp = (typeof(rBlock["amount_exp"]) == "instance") ? rBlock["amount_exp"].x : rBlock["amount_exp"]
+      if (rBlock?.amount_exp)
+        res.frp = (typeof(rBlock.amount_exp) == "instance") ? rBlock.amount_exp.x : rBlock.amount_exp
     }
 
     local popupImage = ::g_language.getLocTextFromConfig(rBlock, "popupImage", "")
@@ -1924,13 +1924,13 @@ function g_unlocks::debugLogVisibleByTimeInfo(id)
   if (!unlock)
     return
 
-  if (::is_numeric(unlock.visibleDays)
-    || ::is_numeric(unlock.visibleDaysBefore)
-    || ::is_numeric(unlock.visibleDaysAfter))
+  if (::is_numeric(unlock?.visibleDays)
+    || ::is_numeric(unlock?.visibleDaysBefore)
+    || ::is_numeric(unlock?.visibleDaysAfter))
   {
     foreach (cond in unlock.mode % "condition")
     {
-      if (!::isInArray(cond.type, unlock_time_range_conditions))
+      if (!::isInArray(cond?.type, unlock_time_range_conditions))
         continue
 
       local startTime = time.getTimestampFromStringUtc(cond.beginDate) -

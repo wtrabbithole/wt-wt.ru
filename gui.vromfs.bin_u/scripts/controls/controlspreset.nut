@@ -350,7 +350,7 @@ class ControlsPreset {
 
   function loadFromBlk(blk, presetChain = [])
   {
-    local controlsBlk = blk["controls"]
+    local controlsBlk = blk?.controls
     local version
 
     version = controlsBlk != null ?
@@ -364,10 +364,10 @@ class ControlsPreset {
       ::getTblValue("shouldForgetBasePresets", blk, false)
 
 
-    if (version < PRESET_ACTUAL_VERSION && ::u.isString(blk["hotkeysPreset"]) &&
-      blk["hotkeysPreset"] != "")
+    if (version < PRESET_ACTUAL_VERSION && ::u.isString(blk?.hotkeysPreset) &&
+      blk?.hotkeysPreset != "")
     {
-      loadFromPreset(blk["hotkeysPreset"], presetChain)
+      loadFromPreset(blk?.hotkeysPreset, presetChain)
       return
     }
 
@@ -760,7 +760,7 @@ class ControlsPreset {
 
       for (local j = 0; ; j++)
       {
-        local blkPair = blkAxes["square" + j]
+        local blkPair = blkAxes?["square" + j]
         if (!::u.isDataBlock(blkPair))
           break
 
@@ -792,7 +792,7 @@ class ControlsPreset {
 
   function loadJoyMappingFromBlk(blk, version)
   {
-    local blkJoyMapping = blk["deviceMapping"]
+    local blkJoyMapping = blk?.deviceMapping
     if (blkJoyMapping == null)
       return
 

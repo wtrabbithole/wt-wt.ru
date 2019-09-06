@@ -78,7 +78,7 @@ function ItemsRoulette::reinitParams()
   local blk = ::configs.GUI.get()
   foreach(param in params)
   {
-    local val = blk[param] || 1.0
+    local val = blk?[param] ?? 1.0
     ::ItemsRoulette[param] <- val
     ::ItemsRoulette.debugData[param] <- val
   }
@@ -109,8 +109,8 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
 
   ownerHandler = handler
 
-  local totalLen = ::to_integer_safe(placeObj.totalLen, 1)
-  local insertRewardFromEnd = ::to_integer_safe(placeObj.insertRewardFromEnd, 1)
+  local totalLen = ::to_integer_safe(placeObj?.totalLen, 1)
+  local insertRewardFromEnd = ::to_integer_safe(placeObj?.insertRewardFromEnd, 1)
   insertRewardIdx = totalLen - insertRewardFromEnd - 1
   if (insertRewardIdx < 0 || insertRewardIdx >= totalLen)
   {
@@ -204,7 +204,7 @@ function ItemsRoulette::generateItemsArray(trophyName)
   local shouldOnlyImage = countContent > 1
   foreach(block in content)
   {
-    if (block.trophy)
+    if (block?.trophy)
     {
       local table = clone commonParams
       local trophyData = ::ItemsRoulette.generateItemsArray(block.trophy)
@@ -242,7 +242,7 @@ function ItemsRoulette::getUniqueTableKey(rewardBlock)
   }
 
   local tKey = ::trophyReward.getType(rewardBlock)
-  local tVal = rewardBlock[tKey]
+  local tVal = rewardBlock?[tKey]
   return tKey + "_" + tVal
 }
 

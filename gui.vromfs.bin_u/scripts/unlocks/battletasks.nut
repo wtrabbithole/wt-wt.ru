@@ -102,8 +102,8 @@ function BattleTasks::updatedProposedTasks()
 {
   local tasksDataBlock = ::get_proposed_personal_unlocks_blk()
   ::g_battle_task_difficulty.updateTimeParamsFromBlk(tasksDataBlock)
-  lastGenerationId = tasksDataBlock[dailyTasksId + "_lastGenerationId"]
-  specTasksLastGenerationId = tasksDataBlock[specialTasksId + "_lastGenerationId"]
+  lastGenerationId = tasksDataBlock?[dailyTasksId + "_lastGenerationId"] ?? 0
+  specTasksLastGenerationId = tasksDataBlock?[specialTasksId + "_lastGenerationId"] ?? 0
 
   updateRerollCost(tasksDataBlock)
 
@@ -669,7 +669,7 @@ function BattleTasks::getPlaybackPath(playbackName, shouldUseDefaultLang = false
     return ""
 
   local guiBlk = ::configs.GUI.get()
-  local unlockPlaybackPath = guiBlk.unlockPlaybackPath
+  local unlockPlaybackPath = guiBlk?.unlockPlaybackPath
   if (!unlockPlaybackPath)
     return ""
 

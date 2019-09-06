@@ -162,6 +162,7 @@ function handlersManager::generatePreLoadCssString()
 
   local config = [
     { name = "target_pc",         value = ::is_ps4_or_xbox ? "no" : "yes" }
+    { name = "isTripleHead",      value = "0" }
     { name = "_safearea_menu",    value = ::format("%.2f", safeAreaMenu.getValue()) }
     { name = "_safearea_hud_w",   value = ::format("%.2f", hudSafearea[0]) }
     { name = "_safearea_hud_h",   value = ::format("%.2f", hudSafearea[1]) }
@@ -405,6 +406,13 @@ function handlersManager::initVoiceChatWidget(handler)
     handler.guiScene.createElementByObject(handler.scene, "gui/chat/voiceChatWidget.blk", "widgets", null)
 }
 
+function handlersManager::validateHandlersAfterLoading()
+{
+  clearInvalidHandlers()
+  updateLoadingFlag()
+  ::broadcastEvent("FinishLoading")
+}
+
 function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. really no need to create instance of base handler without scene.
 {
   local handler = ::handlersManager.getActiveBaseHandler()
@@ -429,6 +437,11 @@ function is_low_width_screen() //change this function simultaneously with isWide
 function isInMenu()
 {
   return !::is_in_loading_screen() && !::is_in_flight()
+}
+
+function gui_finish_loading()
+{
+  ::handlersManager.validateHandlersAfterLoading()
 }
 
 handlersManager.init()

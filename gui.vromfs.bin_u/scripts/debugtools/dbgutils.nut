@@ -231,6 +231,7 @@ function gui_do_debug_unlock()
   ::is_debug_mode_enabled = true
   ::update_all_units();
   ::add_warpoints(500000, false);
+  ::broadcastEvent("DebugUnlockEnabled")
 }
 
 function dbg_loading_brief(missionName = "malta_ship_mission", slidesAmount = 0)
@@ -422,6 +423,11 @@ function debug_get_last_userlogs(num = 1)
 function to_pixels(value)
 {
   return ::g_dagui_utils.toPixels(::get_cur_gui_scene(), value)
+}
+
+function to_pixels_float(value)
+{
+  return ::to_pixels("(" + value + ") * 1000000") / 1000000.0
 }
 
 function debug_reset_unseen()

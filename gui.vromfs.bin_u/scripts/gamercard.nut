@@ -222,13 +222,16 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
 
   local buttonsShowTable = {
                              gc_clanTag = showClanTag
+                             gc_profile = ::has_feature("Profile")
                              gc_contacts = canHaveFriends
                              gc_chat_btn = canChat
                              gc_shop = is_in_menu && canSpendGold
                              gc_eagles = canSpendGold
+                             gc_warpoints = ::has_feature("WarpointsInMenu")
                              gc_PremiumAccount = (canSpendGold && featureEnablePremiumPurchase) || hasPremiumAccount
                              gc_dropdown_premium_button = featureEnablePremiumPurchase
                              gc_dropdown_shop_eagles_button = canSpendGold
+                             gc_free_exp = ::has_feature("SpendGold") && ::has_feature("SpendFreeRP")
                              gc_items_shop_button = ::ItemsManager.isEnabled() && ::has_feature("ItemsShop")
                              gc_online_shop_button = ::has_feature("OnlineShopPacks")
                              gc_clanAlert = ::g_clans.getUnseenCandidatesCount() > 0

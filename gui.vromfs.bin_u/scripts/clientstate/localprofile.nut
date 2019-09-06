@@ -59,7 +59,7 @@ function loadLocalByScreenSize(name, defValue=null)
     return defValue
 
   local cdb = ::get_local_custom_settings_blk()
-  if (cdb[rootName]!=null && typeof(cdb[rootName])=="instance" && cdb[rootName][name]!=null)
+  if (cdb?[rootName][name])
     return cdb[rootName][name]
   return defValue
 }
@@ -71,9 +71,9 @@ function saveLocalByScreenSize(name, value)
     return
 
   local cdb = ::get_local_custom_settings_blk()
-  if (cdb[rootName]==null || typeof(cdb[rootName])!="instance")
+  if (cdb?[rootName] == null || typeof(cdb[rootName]) != "instance")
     cdb[rootName] <- ::DataBlock()
-  if (cdb[rootName][name]==null)
+  if (cdb?[rootName][name] == null)
     cdb[rootName][name] <- value
   else
     if (cdb[rootName][name] == value)
@@ -113,14 +113,14 @@ function loadLocalByAccount(path, defValue=null)
 {
   local cdb = ::get_local_custom_settings_blk()
   local id = ::my_user_id_str + "." + (::isProductionCircuit() ? "production" : ::get_cur_circuit_name())
-  local profileBlk = cdb.accounts && cdb.accounts[id]
+  local profileBlk = cdb?.accounts?[id]
   if (profileBlk)
   {
     local value = ::get_blk_value_by_path(profileBlk, path)
     if (value != null)
       return value
   }
-  profileBlk = cdb.accounts && cdb.accounts[::my_user_id_str]
+  profileBlk = cdb?.accounts?[::my_user_id_str]
   if (profileBlk)
   {
     local value = ::get_blk_value_by_path(profileBlk, path)

@@ -2541,9 +2541,16 @@ class Events
   function getEventRewardText(event)
   {
     local muls = ::events.getEventRewardMuls(event.name)
-    local wpText =  ::buildBonusText((100.0 * (muls.wp  - 1.0) + 0.5).tointeger(), "% " + ::loc("warpoints/short/colored"))
-    local expText = ::buildBonusText((100.0 * (muls.exp - 1.0) + 0.5).tointeger(), "% " + ::loc("currency/researchPoints/sign/colored"))
+    local wpText = buildBonusText((100.0 * (muls.wp  - 1.0) + 0.5).tointeger(), "% " + ::loc("warpoints/short/colored"))
+    local expText = buildBonusText((100.0 * (muls.exp - 1.0) + 0.5).tointeger(), "% " + ::loc("currency/researchPoints/sign/colored"))
     return wpText + ((wpText.len() && expText.len())? ", " : "") + expText
+  }
+
+  function buildBonusText(value, endingText)
+  {
+    if (!value || value <= 0)
+      return ""
+    return "+" + value + endingText
   }
 
   function getEventDescriptionText(event, mroom = null, hasEventFeatureReasonText = false)

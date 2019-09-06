@@ -21,11 +21,11 @@ foreach (fn in [
 
 function open_url_by_obj(obj)
 {
-  if (!check_obj(obj) || obj.link == null || obj.link == "")
+  if (!check_obj(obj) || obj?.link == null || obj?.link == "")
     return
   if (!("open_url" in ::getroottable()))
     return
 
   local link = (obj.link.slice(0, 1) == "#") ? ::loc(obj.link.slice(1)) : obj.link
-  ::open_url(link, false, false, obj.bqKey || obj.id)
+  ::open_url(link, false, false, obj?.bqKey ?? obj.id)
 }

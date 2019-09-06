@@ -139,7 +139,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     else if ("id" in config)
     {
       local unlockBlk = ::g_unlocks.getUnlockById(config.id)
-      if (unlockBlk && unlockBlk.aspect_ratio)
+      if (unlockBlk?.aspect_ratio)
         imgObj["height"] = unlockBlk.aspect_ratio + "w"
     }
   }
@@ -161,7 +161,13 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
                                  && ::getTblValue("showPostLink", config, false))
 
     local linkText = ::g_promo.getLinkText(config)
-    local show = ::has_feature("AllowExternalLink") && linkText != ""
+    if (config?.pollId && config?.link)
+    {
+      ::g_webpoll.setPollBaseUrl(config.pollId, config.link)
+      linkText = ::g_webpoll.generatePollUrl(config.pollId)
+    }
+
+    local show = linkText != "" && ::g_promo.isLinkVisible(config)
     local linkObj = showSceneBtn("btn_link_to_site", show)
     if (show)
     {
@@ -235,11 +241,10 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onMsgLink(obj)
   {
-    if(::getTblValue("type", config) == "regionalPromoPopup")
+    if (::getTblValue("type", config) == "regionalPromoPopup")
       ::add_big_query_record("promo_popup_click",
         ::save_to_json({ id = config?.id ?? config?.link ?? config?.popupImage ?? - 1 }))
-    ::g_promo.openLink(this, [obj.link, ::getTblValue("forceExternalBrowser", config, false)],
-      "show_unlock")
+    ::g_promo.openLinkWithSource(this, [ obj?.link, config?.forceExternalBrowser ?? false ], "show_unlock")
   }
 
   function buyUnit()
@@ -325,10 +330,6 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!actionData)
       return
 
-    local action = ::g_promo.performActionTable?[actionData?.action]
-    if (!action)
-      return
-
-    action(this,actionData.paramsArray, "btn_action")
+    ::g_promo.launchAction(actionData, this, null)
   }
 }

@@ -17,7 +17,7 @@ class ::WarbondAward
 
   constructor(warbond, awardBlk, idxInWbList)
   {
-    id = awardBlk.name
+    id = awardBlk?.name
     idx = idxInWbList
     warbondWeak = warbond.weakref()
     blk = ::DataBlock()
@@ -53,7 +53,7 @@ class ::WarbondAward
 
   function getCost()
   {
-    return blk.cost || 0
+    return blk?.cost ?? 0
   }
 
   function getCostText()
@@ -341,7 +341,7 @@ class ::WarbondAward
   function price() { return getCostText() }
   function contentIconData() { return awardType.getContentIconData(blk) }
   function tooltipId() { return awardType.getTooltipId(blk, warbondWeak) }
-  function amount() { return blk.amount }
+  function amount() { return blk?.amount ?? 0 }
   function itemIndex() { return getFullId() }
   function headerText() { return awardType.getIconHeaderText(blk) }
   unseenIcon = @() !isItemLocked() && bhvUnseen.makeConfigStr(SEEN.WARBONDS_SHOP, getSeenId())

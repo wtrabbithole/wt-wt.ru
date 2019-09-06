@@ -34,6 +34,15 @@ function gui_modal_help(isStartedFromMenu, contentSet)
 
 function gui_start_flight_menu_help()
 {
+  if (!::has_feature("ControlsHelp"))
+  {
+    ::get_gui_scene().performDelayed(::getroottable(), function() {
+      ::close_ingame_gui()
+      if (::is_game_paused())
+        ::pause_game(false)
+    })
+    return
+  }
   local needFlightMenu = !::get_is_in_flight_menu() && !::is_flight_menu_disabled();
   if (needFlightMenu)
     ::get_cur_base_gui_handler().goForward(function(){::gui_start_flight_menu()})

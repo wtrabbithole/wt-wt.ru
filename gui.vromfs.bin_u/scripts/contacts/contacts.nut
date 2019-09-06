@@ -697,12 +697,12 @@ function clear_contacts()
     ::contacts_handler.curGroup = ::EPL_FRIENDLIST
 }
 
-function get_contacts_array_by_regexp(groupName, regexp)
+function get_contacts_array_by_filter_func(groupName, filterFunc)
 {
   if (!(groupName in ::contacts))
     return
 
-  return ::u.filter(::contacts[groupName], @(contact) regexp.match(contact.name))
+  return ::u.filter(::contacts[groupName], @(contact) filterFunc(contact.name))
 }
 
 function add_squad_to_contacts()

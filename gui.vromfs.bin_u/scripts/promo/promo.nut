@@ -2,6 +2,86 @@ local time = require("scripts/time.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local promoConditions = require("scripts/promo/promoConditions.nut")
 
+local function openLink(owner, params = [], source = "promo_open_link")
+{
+  local link = ""
+  local forceBrowser = false
+  if (::u.isString(params))
+    link = params
+  else if (::u.isArray(params) && params.len() > 0)
+  {
+    link = params[0]
+    forceBrowser = params.len() > 1? params[1] : false
+  }
+
+  local processedLink = ::g_url.validateLink(link)
+  if (processedLink == null)
+    return
+  ::open_url(processedLink, forceBrowser, false, source)
+}
+
+local function onOpenTutorial(owner, params = [])
+{
+  local tutorialId = ""
+  if (::u.isString(params))
+    tutorialId = params
+  else if (::u.isArray(params) && params.len() > 0)
+    tutorialId = params[0]
+
+  owner.checkedNewFlight((@(tutorialId) function() {
+    if (!::gui_start_checkTutorial(tutorialId, false))
+      ::gui_start_tutorial()
+  })(tutorialId))
+}
+
+local function openEventsWnd(owner, params = [])
+{
+  local eventId = params.len() > 0? params[0] : null
+  owner.checkedForward((@(eventId) function() {
+    goForwardIfOnline((@(eventId) function() {
+      ::gui_start_modal_events({event = eventId})
+    })(eventId), false, true)
+  })(eventId), null)
+}
+
+local function openItemsWnd(owner, params = [])
+{
+  local tab = getconsttable()?.itemsTab?[(params?[1] ?? "SHOP").toupper()] ?? itemsTab.INVENTORY
+
+  local curSheet = null
+  local sheetSearchId = params?[0] ?? null
+  if (sheetSearchId)
+    curSheet = {searchId = sheetSearchId}
+
+  if (tab >= itemsTab.TOTAL)
+    tab = itemsTab.INVENTORY
+
+  ::gui_start_items_list(tab, {curSheet = curSheet})
+}
+
+local function onOpenBattleTasksWnd(owner, params = {}, obj = null)
+{
+  local taskId = obj?.task_id
+  if (taskId == null && params.len() > 0)
+    taskId = params[0]
+
+  ::g_warbonds_view.resetShowProgressBarFlag()
+  ::gui_start_battle_tasks_wnd(taskId)
+}
+
+local function onLaunchEmailRegistration(params)
+{
+  local platformName = params?[0] ?? ""
+  if (platformName == "")
+    return
+
+  local launchFunctionName = ::format("launch%sEmailRegistration", platformName)
+  local launchFunction = ::g_user_utils?[launchFunctionName]
+  if (launchFunction)
+    launchFunction()
+}
+
+
 ::g_promo <- {
   PROMO_BUTTON_TYPE = {
     ARROW = "arrowButton"
@@ -65,6 +145,7 @@ local promoConditions = require("scripts/promo/promoConditions.nut")
       else
         showUnitInShop()
     }
+    email_registration = function(handler, params, obj) { return onLaunchEmailRegistration(params) }
   }
 
   collapsedParams = {
@@ -111,6 +192,8 @@ local promoConditions = require("scripts/promo/promoConditions.nut")
   needUpdateByTimerTable = {
     world_war_button = true
   }
+
+  openLinkWithSource = openLink
 }
 
 function g_promo::checkOldRecordsOnInit()
@@ -485,8 +568,14 @@ function g_promo::checkBlockVisibility(block)
            && checkBlockUnlock(block)
            && checkBlockTime(block)
            && isVisibleByAction(block)
-           && promoConditions.isVisibleByConditions(block))
+           && promoConditions.isVisibleByConditions(block)
+           && isLinkVisible(block))
          || getShowAllPromoBlocks()
+}
+
+function g_promo::isLinkVisible(block)
+{
+  return ::u.isEmpty(block?.link) || ::has_feature("AllowExternalLink")
 }
 
 function g_promo::getUTCTimeFromBlock(block, timeProperty)
@@ -495,15 +584,6 @@ function g_promo::getUTCTimeFromBlock(block, timeProperty)
   if (!::u.isString(timeText) || timeText.len() == 0)
     return -1
   return time.getTimestampFromStringUtc(timeText)
-}
-
-function g_promo::getDefaultBoolParamFromBlock(block, param, defaultValue = false)
-{
-  local value = ::getTblValue(param, block, defaultValue)
-  if (::u.isString(value))
-    value = value == "yes"
-
-  return !!value
 }
 
 function g_promo::initWidgets(obj, widgetsTable, widgetsWithCounter = [])
@@ -621,6 +701,11 @@ function g_promo::performAction(handler, obj)
     return false
   }
 
+  return launchAction(actionData, handler, obj)
+}
+
+function g_promo::launchAction(actionData, handler, obj)
+{
   local action = actionData.action
   local actionFunc = ::getTblValue(action, performActionTable)
   if (!actionFunc)
@@ -634,74 +719,6 @@ function g_promo::performAction(handler, obj)
   actionFunc(handler, actionData.paramsArray, obj)
   return true
 }
-
-function g_promo::openLink(owner, params = [], source = "promo_open_link")
-{
-  local link = ""
-  local forceBrowser = false
-  if (::u.isString(params))
-    link = params
-  else if (::u.isArray(params) && params.len() > 0)
-  {
-    link = params[0]
-    forceBrowser = params.len() > 1? params[1] : false
-  }
-
-  local processedLink = ::g_url.validateLink(link)
-  if (processedLink == null)
-    return
-  ::open_url(processedLink, forceBrowser, false, source)
-}
-
-function g_promo::onOpenTutorial(owner, params = [])
-{
-  local tutorialId = ""
-  if (::u.isString(params))
-    tutorialId = params
-  else if (::u.isArray(params) && params.len() > 0)
-    tutorialId = params[0]
-
-  owner.checkedNewFlight((@(tutorialId) function() {
-    if (!::gui_start_checkTutorial(tutorialId, false))
-      ::gui_start_tutorial()
-  })(tutorialId))
-}
-
-function g_promo::openEventsWnd(owner, params = [])
-{
-  local eventId = params.len() > 0? params[0] : null
-  owner.checkedForward((@(eventId) function() {
-    goForwardIfOnline((@(eventId) function() {
-      ::gui_start_modal_events({event = eventId})
-    })(eventId), false, true)
-  })(eventId), null)
-}
-
-function g_promo::openItemsWnd(owner, params = [])
-{
-  local tab = getconsttable()?.itemsTab?[(params?[1] ?? "SHOP").toupper()] ?? itemsTab.INVENTORY
-
-  local curSheet = null
-  local sheetSearchId = params?[0] ?? null
-  if (sheetSearchId)
-    curSheet = {searchId = sheetSearchId}
-
-  if (tab >= itemsTab.TOTAL)
-    tab = itemsTab.INVENTORY
-
-  ::gui_start_items_list(tab, {curSheet = curSheet})
-}
-
-function g_promo::onOpenBattleTasksWnd(owner, params = {}, obj = null)
-{
-  local taskId = obj.task_id
-  if (taskId == null && params.len() > 0)
-    taskId = params[0]
-
-  ::g_warbonds_view.resetShowProgressBarFlag()
-  ::gui_start_battle_tasks_wnd(taskId)
-}
-
 //---------------- </ACTIONS> -----------------------------
 
 //-------------- <SHOW ALL CHECK BOX> ---------------------

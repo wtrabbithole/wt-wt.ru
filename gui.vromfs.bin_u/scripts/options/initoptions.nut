@@ -66,7 +66,7 @@ function countUsageAmountOnce()
     return
 
   local statsblk = ::get_global_stats_blk()
-  if (!statsblk["aircrafts"])
+  if (!statsblk?.aircrafts)
     return
 
   local shopStatsAirs = []
@@ -84,9 +84,9 @@ function countUsageAmountOnce()
         for (local a = 0; a < rblk.blockCount(); a++)
         {
           local airBlk = rblk.getBlock(a)
-          local stats = statsblk["aircrafts"][airBlk.getBlockName()]
-          if (stats && stats["flyouts_factor"])
-            shopStatsAirs.append(stats["flyouts_factor"])
+          local stats = statsblk.aircrafts?[airBlk.getBlockName()]
+          if (stats?.flyouts_factor)
+            shopStatsAirs.append(stats.flyouts_factor)
         }
       }
     }
@@ -142,11 +142,11 @@ function countUsageAmountOnce()
       for (local articleNo = 0; articleNo < blkChapter.blockCount(); articleNo++)
       {
         local blkArticle = blkChapter.getBlock(articleNo)
-        local showPlatform = blkArticle.showPlatform
-        local hidePlatform = blkArticle.hidePlatform
+        local showPlatform = blkArticle.getStr("showPlatform", "")
+        local hidePlatform = blkArticle.getStr("hidePlatform", "")
 
-        if ((showPlatform && showPlatform != ::target_platform)
-            || (hidePlatform && hidePlatform == ::target_platform))
+        if ((showPlatform.len() > 0 && showPlatform != ::target_platform)
+            || hidePlatform == ::target_platform)
           continue
 
         local articleDesc = {}
@@ -157,7 +157,7 @@ function countUsageAmountOnce()
 
         articleDesc.haveHint <- blkArticle.getBool("haveHint",false)
 
-        if (blkArticle.images)
+        if (blkArticle?.images != null)
         {
           local imgList = blkArticle.images % "image"
           if (imgList.len() > 0)

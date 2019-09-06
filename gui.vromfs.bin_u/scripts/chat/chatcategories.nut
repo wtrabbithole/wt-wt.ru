@@ -27,7 +27,7 @@ function g_chat_categories::initThreadCategories()
   defaultCategoryName = ""
 
   local guiBlk = ::configs.GUI.get()
-  local listBlk = guiBlk.chat_categories
+  local listBlk = guiBlk?.chat_categories
   if (!::u.isDataBlock(listBlk))
     return
 
@@ -41,7 +41,7 @@ function g_chat_categories::initThreadCategories()
     list[name] <- category
     listSorted.append(category)
 
-    if (cBlk.isDefault || defaultCategoryName == "")
+    if (cBlk?.isDefault == true || defaultCategoryName == "")
       defaultCategoryName = name
   }
 
@@ -54,7 +54,7 @@ function g_chat_categories::loadSearchCategories()
   if (::u.isDataBlock(blk))
   {
     foreach(cat in listSorted)
-      if (blk[cat.id])
+      if (blk?[cat.id])
         searchCategories.append(cat.id)
   }
   if (!searchCategories.len())

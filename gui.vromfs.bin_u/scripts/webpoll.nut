@@ -22,7 +22,7 @@ function g_webpoll::saveVotedPolls()
 
 function g_webpoll::getVotedPolls()
 {
-  if(votedPolls == null)
+  if (votedPolls == null)
     loadVotedPolls()
   return votedPolls
 }

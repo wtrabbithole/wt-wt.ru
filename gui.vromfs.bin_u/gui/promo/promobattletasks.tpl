@@ -1,4 +1,6 @@
 <<#items>>
+bgGradientRight {}
+
 expandable {
   id:t='<<performActionId>>'
   type:t='battleTask'

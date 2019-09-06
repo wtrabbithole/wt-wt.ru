@@ -12,14 +12,14 @@ callbacks.template <- {
   onCb = @(params) null
   paramsKey = "actionData"
   getParamsMarkup = @(params) ::format("%s:t='%s';", paramsKey, ::save_to_json(params))
-  cbFromObj = @(obj) onCb(::check_obj(obj) ? ::parse_json(obj?[paramsKey] ?? "") : {})
+  cbFromObj = @(obj) onCb(obj, ::check_obj(obj) ? ::parse_json(obj?[paramsKey] ?? "") : {})
 }
 
 callbacks.addTypes <- function(typesTable)
 {
   enums.addTypes(this, typesTable,
     function() {
-      cbName = "::g_callbacks." + id
+      cbName = "::gcb." + id
       ::dagor.assertf(!(id in cbTbl), "globalCallbacks: Found duplicating id: " + id)
       cbTbl[id] <- cbFromObj.bindenv(this)
     },
@@ -32,6 +32,6 @@ callbacks.addTypes({
 
 callbacks.get <- @(typeId) this?[typeId] ?? EMPTY
 
-::g_callbacks <- cbTbl
+::gcb <- cbTbl
 
 return callbacks

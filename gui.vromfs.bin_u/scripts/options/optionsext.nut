@@ -224,11 +224,6 @@ function option_check_arg(id, arg, varType)
   return false
 }
 
-function control_for_count(len, def)
-{
-  return "ComboBox" //now comboboxes for all counts
-}
-
 function get_block_hsv_color(h, s = 0.7, v = 0.7)
 {
   if (h > 360)
@@ -290,7 +285,7 @@ function create_option_list(id, items, value, cb, isFull, spinnerType=null, opti
 
   if (isFull)
   {
-    local controlTag = spinnerType || ::control_for_count(items.len(),"spinnerListBox")
+    local controlTag = spinnerType || "ComboBox"
     view.controlTag <- controlTag
     if (controlTag == "dropright")
       view.isDropright <- true

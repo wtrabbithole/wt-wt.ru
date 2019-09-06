@@ -22,7 +22,7 @@ function g_personal_unlocks::update()
   reset()
 
   foreach(unlockBlk in ::g_unlocks.getAllUnlocksWithBlkOrder())
-    if (unlockBlk.showAsBattleTask && (showAllUnlocksValue || ::is_unlock_visible(unlockBlk)))
+    if (unlockBlk?.showAsBattleTask && (showAllUnlocksValue || ::is_unlock_visible(unlockBlk)))
     {
       unlocksArray.append(unlockBlk)
       newIconWidgetById[unlockBlk.id] <- null

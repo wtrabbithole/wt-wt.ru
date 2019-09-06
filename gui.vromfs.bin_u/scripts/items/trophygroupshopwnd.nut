@@ -185,7 +185,7 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemAction(obj)
   {
-    if (::checkObj(obj) && obj.holderId)
+    if (::checkObj(obj) && obj?.holderId)
       doAction(obj.holderId.tointeger())
   }
 

@@ -80,6 +80,9 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
     if (!::g_language.isAvailableForCurLang(blk))
       return null
 
+    if (blk.pollId && ::g_webpoll.isPollVoted(blk.pollId))
+      return null
+
     local viewType = blk.viewType || POPUP_VIEW_TYPES.NEVER
     local viewDay = ::loadLocalByAccount("popup/" + (blk.saveId ?? popupId), 0)
     local canShow = (viewType == POPUP_VIEW_TYPES.EVERY_SESSION)
@@ -114,6 +117,9 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
   popupTable.ratioHeight <- blk.imageRatio || null
   popupTable.forceExternalBrowser <- blk.forceExternalBrowser || false
   popupTable.action <- blk.action
+
+  if (blk.pollId)
+    popupTable.pollId <- blk.pollId
 
   local ps4ActivityFeedData = ps4ActivityFeedFromPopup(blk)
   if (ps4ActivityFeedData)

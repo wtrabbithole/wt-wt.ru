@@ -7,8 +7,8 @@ function g_clan_type::_getCreateCost()
 {
   local blk = ::get_warpoints_blk()
   local cost = ::Cost()
-  cost.gold = blk[::clan_get_gold_cost_param_name(code)] || 0
-  cost.wp = blk[::clan_get_wp_cost_param_name(code)] || 0
+  cost.gold = blk?[::clan_get_gold_cost_param_name(code)] ?? 0
+  cost.wp = blk?[::clan_get_wp_cost_param_name(code)] ?? 0
   return cost
 }
 
@@ -18,8 +18,8 @@ function g_clan_type::_getPrimaryInfoChangeCost()
   local cost = ::Cost()
   if (!::clan_get_admin_editor_mode())
   {
-    cost.gold = blk[::clan_get_primary_info_gold_cost_param_name(code)] || 0
-    cost.wp = blk[::clan_get_primary_info_wp_cost_param_name(code)] || 0
+    cost.gold = blk?[::clan_get_primary_info_gold_cost_param_name(code)] ?? 0
+    cost.wp = blk?[::clan_get_primary_info_wp_cost_param_name(code)] ?? 0
   }
   return cost
 }
@@ -30,8 +30,8 @@ function g_clan_type::_getSecondaryInfoChangeCost()
   local cost = ::Cost()
   if (!::clan_get_admin_editor_mode())
   {
-    cost.gold = blk[::clan_get_secondary_info_gold_cost_param_name(code)] || 0
-    cost.wp = blk[::clan_get_secondary_info_wp_cost_param_name(code)] || 0
+    cost.gold = blk?[::clan_get_secondary_info_gold_cost_param_name(code)] ?? 0
+    cost.wp = blk?[::clan_get_secondary_info_wp_cost_param_name(code)] ?? 0
   }
   return cost
 }
@@ -214,8 +214,8 @@ function g_clan_type::getUpgradeCost(oldType, newType)
   local cost = ::Cost()
   if (!::clan_get_admin_editor_mode())
   {
-    cost.gold = blk[::clan_get_upgrade_gold_cost_param_name(oldType.code, newType.code)] || 0
-    cost.wp = blk[::clan_get_upgrade_wp_cost_param_name(oldType.code, newType.code)] || 0
+    cost.gold = blk?[::clan_get_upgrade_gold_cost_param_name(oldType.code, newType.code)] ?? 0
+    cost.wp = blk?[::clan_get_upgrade_wp_cost_param_name(oldType.code, newType.code)] ?? 0
   }
   return cost
 }

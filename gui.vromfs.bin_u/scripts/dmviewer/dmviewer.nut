@@ -173,7 +173,10 @@
     if( ! unitBlk)
       return
 
-    local primaryList = ::getPrimaryWeaponsList(unit)
+    local primaryList = [ ::get_last_primary_weapon(unit) ]
+    foreach (modName in ::getPrimaryWeaponsList(unit))
+      ::u.appendOnce(modName, primaryList)
+
     foreach(modName in primaryList)
     {
       local commonWeapons = ::getCommonWeaponsBlk(unitBlk, modName)
@@ -195,7 +198,12 @@
             ::u.appendOnce(weapon, unitWeaponBlkList, false, compareWeaponFunc)
     }
 
-    foreach (preset in (unitBlk.weapon_presets % "preset"))
+    local curPresetName =  ::get_last_weapon(unit.name)
+    local rawPresetsList = unitBlk.weapon_presets % "preset"
+    local presetsList = ::u.filter(rawPresetsList, @(p) p?.name == curPresetName).extend(
+      ::u.filter(rawPresetsList, @(p) p?.name != curPresetName))
+
+    foreach (preset in presetsList)
     {
       if( ! ("blk" in preset))
         continue
@@ -759,10 +767,11 @@
         local info = unitBlk?.VehiclePhys?.mechanics
         if (info)
         {
-          local manufacturer = ::loc("transmission_manufacturer/" + info.manufacturer,
+          local manufacturer = info?.manufacturer ? ::loc("transmission_manufacturer/" + info.manufacturer,
             ::loc("engine_manufacturer/" + info.manufacturer, ""))
-          local model = ::loc("transmission_model/" + info.model, "")
-          local props = ::g_string.utf8ToLower(::loc("transmission_type/" + info.type, ""))
+                               : ""
+          local model = info?.model ? ::loc("transmission_model/" + info.model, "") : ""
+          local props = info?.type ? ::g_string.utf8ToLower(::loc("transmission_type/" + info.type, "")) : ""
           desc.push(::g_string.implode([ manufacturer, model ], " ") +
             (props == "" ? "" : ::loc("ui/parentheses/space", { text = props })))
 
@@ -808,16 +817,16 @@
             desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
         }
         local stowageInfo = getAmmoStowageInfo(null, partName, isShip)
-        if (stowageInfo.isCharges)
+        if (stowageInfo?.isCharges)
           params.partLocId <- isShip ? "ship_charges_storage" : "ammo_charges"
-        if (stowageInfo.firstStageCount)
+        if (stowageInfo?.firstStageCount)
         {
           local txt = ::loc("xray/ammo/first_stage")
           if (unit.isTank())
             txt += ::loc("ui/comma") + stowageInfo.firstStageCount + " " + ::loc("measureUnits/pcs")
           desc.append(txt)
         }
-        if (stowageInfo.isAutoLoad)
+        if (stowageInfo?.isAutoLoad)
             desc.append(::loc("xray/ammo/auto_load"))
         break
 
@@ -885,7 +894,7 @@
           local status = getWeaponStatus(weaponPartName, weaponInfoBlk)
           desc.extend(getWeaponShotFreqAndReloadTimeDesc(weaponName, weaponInfoBlk, status))
           desc.push(getMassInfo(::DataBlock(weaponBlkLink)))
-          if (status.isPrimary || status.isSecondary)
+          if (status?.isPrimary || status?.isSecondary)
           {
             local firstStageCount = getAmmoStowageInfo(weaponInfoBlk?.trigger).firstStageCount
             if (firstStageCount)
@@ -1470,8 +1479,18 @@
 
   function onEventUnitModsRecount(p)
   {
-    if (p?.unit == unit)
-      resetXrayCache()
+    if (p?.unit != unit)
+      return
+    recacheWeapons()
+    resetXrayCache()
+  }
+
+  function onEventUnitWeaponChanged(p)
+  {
+    if (!unit || p?.unitName != unit.name)
+      return
+    recacheWeapons()
+    resetXrayCache()
   }
 
   function onEventCurrentGameModeIdChanged(p)

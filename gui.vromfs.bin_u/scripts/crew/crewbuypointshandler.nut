@@ -66,19 +66,19 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function onButtonRowApply(obj)
   {
-    if (!checkObj(obj) || obj.id != "buttonRowApply")
+    if (!::check_obj(obj) || obj?.id != "buttonRowApply")
     {
       local tblObj = scene.findObject("buy_table")
-      if (!::checkObj(tblObj))
+      if (!::check_obj(tblObj))
         return
       local idx = tblObj.getValue()
       local rowObj = tblObj.getChild(idx)
-      if (!::checkObj(rowObj))
+      if (!::check_obj(rowObj))
         return
       obj = rowObj.findObject("buttonRowApply")
     }
 
-    if (::checkObj(obj))
+    if (::check_obj(obj))
       doBuyPoints(obj)
   }
 

@@ -66,7 +66,7 @@ function get_blk_by_path_array(path, blk, defaultValue = null)
   for (local i = 0; i < path.len(); ++i)
   {
     if (typeof(currentBlk) == "instance" && currentBlk instanceof ::DataBlock)
-      currentBlk = currentBlk[path[i]]
+      currentBlk = currentBlk?[path[i]]
     else
       return defaultValue
   }
@@ -86,7 +86,7 @@ function get_blk_value_by_path(blk, path, defVal=null)
   blk = ::get_blk_by_path_array(nodes, blk, defVal)
   if (blk == defVal || !::u.isDataBlock(blk))
     return defVal
-  local val = blk[key]
+  local val = blk?[key]
   val = (val!=null && (defVal == null || type(val) == type(defVal))) ? val : defVal
   return val
 }
@@ -395,13 +395,13 @@ function get_current_bonuses_text(effectType)
     if (effectType == ::BoosterEffectType.WP)
     {
       local blk = ::get_warpoints_blk()
-      rate = "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText((blk.wpMultiplier || 1.0) - 1.0)
+      rate = "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText((blk?.wpMultiplier ?? 1.0) - 1.0)
       rate = ::getWpPriceText(::colorize("activeTextColor", rate), true)
     }
     else if (effectType == ::BoosterEffectType.RP)
     {
       local blk = ::get_ranks_blk()
-      rate = "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText((blk.xpMultiplier|| 1.0) - 1.0)
+      rate = "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText((blk?.xpMultiplier ?? 1.0) - 1.0)
       rate = ::getRpPriceText(::colorize("activeTextColor", rate), true)
     }
     tooltipText.append(::loc("mainmenu/activePremium") + ::loc("ui/colon") + rate)
@@ -444,7 +444,7 @@ function add_bg_task_cb(taskId, actionFunc, handler = null)
 
 function havePremium()
 {
-  return entitlement_expires_in("PremiumAccount") > 0
+  return ::entitlement_expires_in("PremiumAccount") > 0
 }
 
 function get_mission_desc_text(missionBlk)
@@ -492,9 +492,7 @@ function getCountryByAircraftName(airName) //used in code
 function getShopCountry(airName)
 {
   local air = ::getAircraftByName(airName)
-  if (air && ("shopCountry" in air))
-    return air.shopCountry
-  return ""
+  return air?.shopCountry ?? ""
 }
 
 function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, forceMaxPrecise = false)
@@ -635,7 +633,7 @@ function setCrewUnlockTime(obj, air)
       if(show && ::checkObj(tObj))
       {
         local wpBlk = ::get_warpoints_blk()
-        if (wpBlk && wpBlk.lockTimeMaxLimitSec && waitTime > wpBlk.lockTimeMaxLimitSec)
+        if (wpBlk?.lockTimeMaxLimitSec && waitTime > wpBlk.lockTimeMaxLimitSec)
         {
           waitTime = wpBlk.lockTimeMaxLimitSec
           ::dagor.debug("crew.lockedTillSec " + lockTime)
@@ -697,21 +695,6 @@ function set_menu_title(text, scene, name="gc_title")
     textObj.setValue(text.tostring())
 }
 
-function buildNavBarButton(name, hotkey, enable = true)
-{
-  return format("Button_text { id:t = 'btn_%s'; " +
-                            "text:t = '#mainmenu/btn%s'; " +
-                            "_on_click:t = 'on%s'; " +
-                            "enable:t='%s'; " +
-                            "btnName:t='%s'; " +
-                            "ButtonImg {} " +
-                          "}\n",
-                 name.tolower(), name, name,
-                 enable? "yes" : "no", hotkey
-               )
-}
-
-
 function stringReplace(str, replstr, value)
 {
   local findex = 0;
@@ -730,60 +713,6 @@ function stringReplace(str, replstr, value)
   return s;
 }
 
-function getRangeString(val1, val2, formatStr = "%s")
-{
-  val1 = val1.tostring()
-  val2 = val2.tostring()
-  return (val1 == val2) ? ::format(formatStr, val1) : ::format(formatStr, val1) + ::loc("ui/mdash") + ::format(formatStr, val2)
-}
-
-local FORMAT_PARAMS = {
-  rangeStr = "%s"
-  itemStr = "%s"
-  maxOnlyStr = "%s"
-  minOnlyStr = "%s"
-  bothStr = "%s"+ ::loc("ui/mdash") + "%s"
-}
-function getRangeTextByPoint2(val, formatParams = {}, romanNumerals = false)
-{
-  if (!(type(val) == "instance" && (val instanceof ::Point2)) && !(type(val) == "table"))
-    return ""
-
-  formatParams = FORMAT_PARAMS.__merge(formatParams)
-  local a = val.x.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.x) : val.x.tostring() : ""
-  local b = val.y.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.y) : val.y.tostring() : ""
-  if (a == "" && b == "")
-    return ""
-
-  local range = ""
-  if (a != "" && b != "")
-    range = a == b
-      ? ::format(formatParams.itemStr, a)
-      : ::format(formatParams.bothStr,
-        ::format(formatParams.itemStr, a),
-        ::format(formatParams.itemStr, b))
-  else if (a == "")
-    range = ::format(formatParams.maxOnlyStr, ::format(formatParams.itemStr, b))
-  else
-    range = ::format(formatParams.minOnlyStr, ::format(formatParams.itemStr, a))
-
-  return ::format(formatParams.rangeStr, range)
-}
-
-function getVerticalText(text)
-{
-  local res = ""
-  local total = ::utf8(text).charCount()
-  for(local i = 0; i < total; i++)
-  {
-    local nextChar = ::utf8(text).slice(i, i + 1)
-    if (nextChar == "\t")
-      continue
-    res += (res.len() ? "\n" : "") + nextChar
-  }
-  return res
-}
-
 ::last_update_entitlements_time <- ::dagor.getCurTime()
 function get_update_entitlements_timeout_msec()
 {
@@ -800,12 +729,6 @@ function update_entitlements_limited()
     return ::update_entitlements()
   }
   return -1
-}
-
-//remove
-function old_check_balance_msgBox(cost, costGold=0, afterCheck = null)
-{
-  return ::check_balance_msgBox(::Cost(cost, costGold), afterCheck)
 }
 
 function check_balance_msgBox(cost, afterCheck = null, silent = false)
@@ -951,17 +874,6 @@ function getTooltipObjId(obj)
   return obj.tooltipId || ::getObjIdByPrefix(obj, "tooltip_")
 }
 
-function getYumPriceByLoc(price)
-{
-  local loc = ::loc("yum/price_scale", "")
-  if (loc!="")
-  {
-    local scale = loc.tofloat()
-    return scale*price
-  }
-  return price
-}
-
 ::is_hangar_controls_enabled <- false
 function enableHangarControls(value, save=true)
 {
@@ -972,13 +884,6 @@ function enableHangarControls(value, save=true)
 function restoreHangarControls()
 {
   ::hangar_enable_controls(::is_hangar_controls_enabled)
-}
-
-function getStrSymbol(str, i)
-{
-  if (i < str.len())
-    return str.slice(i, i+1)
-  return null
 }
 
 function array_to_blk(arr, id)
@@ -1104,39 +1009,6 @@ function buildTableRowNoPad(rowName, rowData, even=null, trParams="")
   return buildTableRow(rowName, rowData, even, trParams, "0")
 }
 
-function get_text_urls_data(text)
-{
-  if (!text.len() || !::has_feature("AllowExternalLink"))
-    return null
-
-  local urls = []
-  local start = 0
-  local startText = "<url="
-  local urlEndText = ">"
-  local endText = "</url>"
-  do {
-    start = text.find(startText, start)
-    if (start == null)
-      break
-    local urlEnd = text.find(urlEndText, start + startText.len())
-    if (!urlEnd)
-      break
-    local end = text.find(endText, urlEnd)
-    if (!end)
-      break
-
-    urls.append({
-      url = text.slice(start + startText.len(), urlEnd)
-      text = text.slice(urlEnd + urlEndText.len(), end)
-    })
-    text = text.slice(0, start) + text.slice(end + endText.len())
-  } while (start != null && start < text.len())
-
-  if (!urls.len())
-    return null
-  return { text = text, urls = urls }
-}
-
 function invoke_multi_array(multiArray, invokeCallback)
 {
   ::_invoke_multi_array(multiArray, [], 0, invokeCallback)
@@ -1191,49 +1063,6 @@ function showCurBonus(obj, value, tooltipLocName="", isDiscount=true, fullUpdate
   } else
     if (fullUpdate)
       obj.setValue("")
-}
-
-function addBonusToObj(handler, obj, value, tooltipLocName="", isDiscount=true, bType = "old")
-{
-  if (!::checkObj(obj) || value < 2) return
-
-  local guiScene = obj.getScene()
-  local text = ""
-  local id = ""
-  local tooltip = ""
-  text = isDiscount? "-" + value + "%" : "x" + stdMath.roundToDigits(value, 2)
-  if(tooltipLocName != "")
-  {
-    local prefix = isDiscount? "discount/" : "bonus/"
-    id = isDiscount? "discount" : "bonus"
-    tooltip = ::format(::loc(prefix + tooltipLocName + "/tooltip"), value.tostring())
-  }
-  local discountData = ::format("discount{id:t='%s'; type:t='%s'; tooltip:t='%s'; text:t='%s';}",
-    id, bType, tooltip, text)
-
-  guiScene.appendWithBlk(obj, discountData, handler)
-}
-
-function showBonus(obj, name, tooltipLocId=null, fullUpdate=false, discTbl = null)
-{
-  if (!obj) return
-
-  if (!discTbl)
-    discTbl = ::discounts
-
-  if (name in discTbl)
-    ::showCurBonus(obj, discTbl[name], name, true, fullUpdate)
-  else
-    if (name in ::event_muls)
-      ::showCurBonus(obj, ::event_muls[name], name, false, fullUpdate)
-    else
-      if (fullUpdate)
-        ::hideBonus(obj)
-}
-
-function showBonusByTbl(obj, name, discTbl)
-{
-  showBonus(obj, name, null, false, discTbl)
 }
 
 function hideBonus(obj)
@@ -1336,13 +1165,6 @@ function find_max_lower_value(val, list)
   return res
 }
 
-function buildBonusText(value, endingText)
-{
-  if (!value || value <= 0)
-    return ""
-  return "+" + value + endingText
-}
-
 function checkObj(obj)
 {
   return obj!=null && obj.isValid()
@@ -1382,17 +1204,17 @@ function loc_current_mission_name(needComment = true)
   local misBlk = ::DataBlock()
   ::get_current_mission_desc(misBlk)
   local ret = ""
-  if ("locName" in misBlk && misBlk.locName.len() > 0)
+  if (misBlk?.locName.len() > 0)
     ret = ::get_locId_name(misBlk, "locName")
-  else if ("loc_name" in misBlk && misBlk.loc_name != "")
+  else if ((misBlk?.loc_name ?? "") != "")
     ret = ::loc("missions/" + misBlk.loc_name, "")
   if (ret == "")
     ret = get_combine_loc_name_mission(misBlk)
   if (needComment && (::get_game_type() & ::GT_VERSUS))
   {
-    if (misBlk.maxRespawns == 1)
+    if (misBlk?.maxRespawns == 1)
       ret = ret + " " + ::loc("template/noRespawns")
-    else if ((misBlk.maxRespawns != null) && (misBlk.maxRespawns > 1))
+    else if ((misBlk?.maxRespawns ?? 1) > 1)
       ret = ret + " " +
         ::loc("template/limitedRespawns/num/plural", { num = misBlk.maxRespawns })
   }
@@ -1403,7 +1225,7 @@ function get_combine_loc_name_mission(missionInfo)
 {
   local misInfoName = missionInfo?.name ?? ""
   local locName = ""
-  if ("locName" in missionInfo && missionInfo.locName.len() > 0)
+  if (missionInfo?.locName.len() > 0)
     locName = ::get_locId_name(missionInfo, "locName")
   else
     locName = ::loc("missions/" + misInfoName, "")
@@ -2039,7 +1861,7 @@ function checkRemnantPremiumAccount()
     return
 
   local currDays = time.getUtcDays()
-  local expire = entitlement_expires_in("PremiumAccount")
+  local expire = ::entitlement_expires_in("PremiumAccount")
   if (expire > 0)
     ::saveLocalByAccount("premium/lastDayHavePremium", currDays)
   if (expire >= NOTIFY_EXPIRE_PREMIUM_ACCOUNT)
@@ -2058,7 +1880,7 @@ function checkRemnantPremiumAccount()
     local deltaDaysReminder = currDays - lastDaysReminder
     local deltaDaysHavePremium = currDays - lastDaysHavePremium
     local gmBlk = ::get_game_settings_blk()
-    local daysCounter = (gmBlk && gmBlk.reminderBuyPremiumDays) || 7
+    local daysCounter = gmBlk?.reminderBuyPremiumDays ?? 7
     if (2 * deltaDaysReminder >= deltaDaysHavePremium || deltaDaysReminder >= daysCounter)
       msgText = ::loc("msgbox/ended_premium_account")
   }

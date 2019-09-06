@@ -124,7 +124,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       if (useSingleAnimation)
       {
         ::play_gui_sound("chest_open")
-        local delay = ::to_integer_safe(animObj.chestReplaceDelay, 0)
+        local delay = ::to_integer_safe(animObj?.chestReplaceDelay, 0)
         ::Timer(animObj, 0.001 * delay, openChest, this)
         ::Timer(animObj, 1.0, onOpenAnimFinish, this) //!!FIX ME: Some times animation finish not apply css, and we miss onOpenAnimFinish
       }

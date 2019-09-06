@@ -19,6 +19,13 @@ excludesdataEnglish <-
     ]
   },
   {
+    key = "h",
+    arr =
+    [
+      "hor[admnrs]",
+    ]
+  },
+  {
     key = "j",
     arr =
     [

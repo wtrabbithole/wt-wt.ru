@@ -23,8 +23,8 @@ function gui_start_choose_next_research(researchBlock = null)
   }
   else
   {
-    ::aircraft_for_weapons = ::getUnitNameFromResearchItem(researchBlock)
-    ::gui_modal_weapons({ researchMode = true, researchBlock = researchBlock })
+    local unit = ::getAircraftByName(::getUnitNameFromResearchItem(researchBlock))
+    ::open_weapons_for_unit(unit, { researchMode = true, researchBlock = researchBlock })
   }
 }
 
@@ -683,11 +683,16 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
       return
     }
 
-    local msgText = ::format(::loc("shop/needMoneyQuestion_all_researched"), ::getPriceAccordingToPlayersCurrency(totalPrice, 0))
-    msgBox("msgbox_buy_all", msgText, [["ok", (@(totalPrice) function () {
-                                                if (::old_check_balance_msgBox(totalPrice, 0))
-                                                  buyNext()
-                                              })(totalPrice)], ["cancel", function (){ buyQueue = [] }]], "ok", mboxComment)
+    local price = ::Cost(totalPrice, 0)
+    local msgText = ::format(::loc("shop/needMoneyQuestion_all_researched"), price.getTextAccordingToBalance())
+    msgBox("msgbox_buy_all", msgText, [
+      ["ok", function () {
+        if (::check_balance_msgBox(price))
+          buyNext()
+
+      }],
+      ["cancel", @() buyQueue = [] ]
+    ], "ok", mboxComment)
   }
 
   function onBuyItem()
@@ -964,18 +969,21 @@ function checkNotBoughtModsAfterFinishedResearches(handler, afterFunc = null)
   ::dagor.debug("List of not purchased mods for units")
   debugTableData(unitsAndModsTableForDebug)
 
+  local price = ::Cost(cost, 0)
   ::scene_msg_box("buy_all_available_mods", null,
     ::loc("msgbox/buy_all_researched_modifications",
-          { unitsList = stringOfUnits, cost = ::getPriceAccordingToPlayersCurrency(cost, 0, true) }),
-    [["yes", (@(handler, cost, afterFunc, unitsWithNBMods) function() {
-      if (!::old_check_balance_msgBox(cost, 0))
+          { unitsList = stringOfUnits, cost = price.getTextAccordingToBalance() }),
+    [
+      ["yes", function() {
+      if (!::check_balance_msgBox(cost))
         return
 
       local progressBox = ::scene_msg_box("char_connecting", null, ::loc("charServer/purchase"), null, null)
       ::buyModsForUnitAndGoNext(handler, afterFunc, progressBox, unitsWithNBMods)
-    })(handler, cost, afterFunc, unitsWithNBMods)],
-    ["no", function(){} ]],
-    "yes", { cancel_fn = function() {}})
+      }],
+      ["no", @() null ]
+    ],
+    "yes", { cancel_fn = @() null })
 }
 
 function buyModsForUnitAndGoNext(handler, afterFunc, progressBox, unitsArray)
@@ -1226,7 +1234,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
   function onRepair()
   {
     local repairPrice = ::getUnitRepairCost(researchConfig.unit)
-    if(::old_check_balance_msgBox(repairPrice, 0, afterSlotOp))
+    if (::check_balance_msgBox(::Cost(repairPrice, 0), afterSlotOp))
     {
       taskId = shop_repair_aircraft(researchConfig.unitName)
       if (taskId >= 0)

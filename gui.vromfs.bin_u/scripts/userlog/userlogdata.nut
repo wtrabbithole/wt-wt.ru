@@ -226,7 +226,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     local blk = ::DataBlock()
     ::get_user_log_blk_body(i, blk)
 
-    if (blk.disabled || ::isInArray(blk.id, ::shown_userlog_notifications))
+    if (blk?.disabled || ::isInArray(blk?.id, ::shown_userlog_notifications))
       continue
 
     //gamercard popups
@@ -237,30 +237,30 @@ function checkNewNotificationUserlogs(onStartAwards = false)
 
       local title = ""
       local msg = ""
-      local logName = getLogNameByType(blk.type)
-      if (blk.type == ::EULT_SESSION_RESULT)
+      local logName = getLogNameByType(blk?.type)
+      if (blk?.type == ::EULT_SESSION_RESULT)
       {
         local mission = ""
-        if ("locName" in blk.body && blk.body.locName.len() > 0)
+        if (blk?.body.locName.len() > 0)
           mission = ::get_locId_name(blk.body, "locName")
         else
-          mission = ::loc("missions/" + blk.body.mission)
-        local nameLoc = "userlog/"+logName + (blk.body.win? "/win":"/lose")
+          mission = ::loc("missions/" + blk?.body.mission)
+        local nameLoc = "userlog/"+logName + (blk?.body.win? "/win":"/lose")
         msg = format(::loc(nameLoc), mission) //need more info in log, maybe title.
         ::my_stats.markStatsReset()
         if (popupMask & USERLOG_POPUP.FINISHED_RESEARCHES)
           ::checkNonApprovedResearches(true)
-        ::broadcastEvent("BattleEnded", {eventId = blk.body.eventId})
+        ::broadcastEvent("BattleEnded", {eventId = blk?.body.eventId})
       }
-      else if (blk.type == ::EULT_CHARD_AWARD)
+      else if (blk?.type == ::EULT_CHARD_AWARD)
       {
-        local rewardType = ::getTblValue("rewardType", blk.body)
+        local rewardType = blk?.body.rewardType
         if (rewardType == "WagerWin" ||
             rewardType == "WagerFail" ||
             rewardType == "WagerStageWin" ||
             rewardType == "WagerStageFail")
         {
-          local itemId = ::getTblValue("id", blk.body)
+          local itemId = blk?.body.id
           local item = ::ItemsManager.findItemById(itemId)
           if (item != null)
           {
@@ -274,20 +274,20 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       }
       else if (blk.type == ::EULT_EXCHANGE_WARBONDS)
       {
-        local awardBlk = blk.body.award
+        local awardBlk = blk?.body.award
         if (awardBlk)
         {
           local priceText = ::g_warbonds.getWarbondPriceText(awardBlk?.cost ?? 0)
           local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
           msg = awardType.getUserlogBuyText(awardBlk, priceText)
-          if (awardType.id == ::EWBAT_BATTLE_TASK && !::warbonds_has_active_battle_task(awardBlk.name))
+          if (awardType.id == ::EWBAT_BATTLE_TASK && !::warbonds_has_active_battle_task(awardBlk?.name))
             ::broadcastEvent("BattleTasksIncomeUpdate")
         }
       }
       else
         msg = ::loc("userlog/" + logName)
       ::g_popups.add(title, msg)
-      ::shown_userlog_notifications.append(blk.id)
+      ::shown_userlog_notifications.append(blk?.id)
       /*---^^^^---show notifications---^^^^---*/
     }
 
@@ -295,12 +295,12 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       continue
 
     local markDisabled = false
-    if (blk.type == ::EULT_NEW_UNLOCK)
+    if (blk?.type == ::EULT_NEW_UNLOCK)
     {
-      if (!blk.body || !blk.body.unlockId)
+      if (!blk?.body.unlockId)
         continue
 
-      if (blk.body.unlockType == ::UNLOCKABLE_TITLE && !onStartAwards)
+      if (blk?.body.unlockType == ::UNLOCKABLE_TITLE && !onStartAwards)
         ::my_stats.markStatsReset()
 
       if ((! ::is_unlock_need_popup(blk.body.unlockId)
@@ -314,7 +314,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         // we need to check if there is Popup Dialog
         // needed to be shown by this unlock
         // (check is at verifyPopupBlk)
-        ::shown_userlog_notifications.append(blk.id)
+        ::shown_userlog_notifications.append(blk?.id)
         unlocksNeedsPopupWnd = true
         continue
       }
@@ -329,7 +329,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       ::shown_userlog_notifications.append(blk.id)
       continue
     }
-    else if (blk.type == ::EULT_RENT_UNIT || blk.type == ::EULT_RENT_UNIT_EXPIRED)
+    else if (blk?.type == ::EULT_RENT_UNIT || blk?.type == ::EULT_RENT_UNIT_EXPIRED)
     {
       local logTypeName = ::getLogNameByType(blk.type)
       local logName = ::getTblValue("rentContinue", blk.body, false)? "rent_unit_extended" : logTypeName
@@ -358,14 +358,14 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       rentsTable[unitName + "_" + logTypeName] <- config
       markDisabled = true
     }
-    else if (blk.type == ::EULT_OPEN_ALL_IN_TIER)
+    else if (blk?.type == ::EULT_OPEN_ALL_IN_TIER)
     {
       if (onStartAwards || !(popupMask & USERLOG_POPUP.FINISHED_RESEARCHES))
         continue
       ::combineUserLogs(combinedUnitTiersUserLogs, blk, "unit", ["expToInvUnit", "expToExcess"])
       markDisabled = true
     }
-    else if (blk.type == ::EULT_OPEN_TROPHY
+    else if (blk?.type == ::EULT_OPEN_TROPHY
              && !::getTblValue("everyDayLoginAward", blk.body, false))
     {
       if ("rentedUnit" in blk.body)
@@ -386,24 +386,24 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         markDisabled = true
       }
     }
-    else if (blk.type == ::EULT_CHARD_AWARD
+    else if (blk?.type == ::EULT_CHARD_AWARD
              && ::getTblValue("rewardType", blk.body, "") == "EveryDayLoginAward"
              && !::is_me_newbie())
     {
       handler.doWhenActive((@(blk) function() {::gui_start_show_login_award(blk)})(blk))
       markDisabled = true
     }
-    else if (blk.type == ::EULT_PUNLOCK_NEW_PROPOSAL)
+    else if (blk?.type == ::EULT_PUNLOCK_NEW_PROPOSAL)
     {
       ::broadcastEvent("BattleTasksIncomeUpdate")
       markDisabled = true
     }
-    else if (blk.type == ::EULT_INVENTORY_ADD_ITEM)
+    else if (blk?.type == ::EULT_INVENTORY_ADD_ITEM)
     {
       local item = ::ItemsManager.findItemById(blk.body?.itemDefId)
       if (item)
       {
-        if (!item.shouldAutoConsume)
+        if (!item?.shouldAutoConsume)
         {
           local locId = "userlog/" + ::getLogNameByType(blk.type)
           local numItems = blk.body?.quantity ?? 1
@@ -429,21 +429,21 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         markDisabled = true
       }
     }
-    else if (blk.type == ::EULT_TICKETS_REMINDER)
+    else if (blk?.type == ::EULT_TICKETS_REMINDER)
     {
       local name = ::loc("userlog/" + ::getLogNameByType(blk.type))
-      local desc = [::colorize("userlogColoredText", ::events.getNameByEconomicName(blk.body.name))]
+      local desc = [::colorize("userlogColoredText", ::events.getNameByEconomicName(blk?.body.name))]
       if (::getTblValue("battleLimitReminder", blk.body))
-        desc.append(::loc("userlog/battleLimitReminder") + ::loc("ui/colon") + blk.body.battleLimitReminder)
+        desc.append(::loc("userlog/battleLimitReminder") + ::loc("ui/colon") + blk?.body.battleLimitReminder)
       if (::getTblValue("defeatCountReminder", blk.body))
-        desc.append(::loc("userlog/defeatCountReminder") + ::loc("ui/colon") + blk.body.defeatCountReminder)
+        desc.append(::loc("userlog/defeatCountReminder") + ::loc("ui/colon") + blk?.body.defeatCountReminder)
       if (::getTblValue("sequenceDefeatCountReminder", blk.body))
-        desc.append(::loc("userlog/sequenceDefeatCountReminder") + ::loc("ui/colon") + blk.body.sequenceDefeatCountReminder)
+        desc.append(::loc("userlog/sequenceDefeatCountReminder") + ::loc("ui/colon") + blk?.body.sequenceDefeatCountReminder)
 
       ::g_popups.add(name, ::g_string.implode(desc, "\n"))
       markDisabled = true
     }
-    else if (blk.type == ::EULT_REMOVE_ITEM)
+    else if (blk?.type == ::EULT_REMOVE_ITEM)
     {
       local reason = ::getTblValue("reason", blk.body, "unknown")
       if (reason == "unknown" || reason == "consumed")
@@ -483,7 +483,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     if (!::isInArray(key, ignoreRentItems))
     {
       if (onStartAwards)
-        handler.doWhenActive((@(config) function() {::showUnlockWnd(config)})(config))
+        handler.doWhenActive(@() ::showUnlockWnd(config))
       else
         ::showUnlockWnd(config)
     }
@@ -501,10 +501,10 @@ function combineUserLogs(currentData, newUserLog, combineKey = null, sumParamsAr
     return
 
   if (combineKey)
-    combineKey = body[combineKey]
+    combineKey = body?[combineKey]
 
   if (!combineKey)
-    combineKey = newUserLog.id
+    combineKey = newUserLog?.id
 
   if (!(combineKey in currentData))
     currentData[combineKey] <- {}

@@ -33,8 +33,8 @@ class ::items_classes.Discount extends ::BaseItem
     if (blk == null)
       return
     purchasesMaxCount = ::getTblValue("purchasesMaxCount", blk, 0)
-    discountDescriptionDataItems = ::parse_discount_description(blk.discountsDesc)
-    local sortData = ::create_discount_description_sort_data(blk.discountsDesc)
+    discountDescriptionDataItems = ::parse_discount_description(blk?.discountsDesc)
+    local sortData = ::create_discount_description_sort_data(blk?.discountsDesc)
     ::sort_discount_description_items(discountDescriptionDataItems, sortData)
   }
 

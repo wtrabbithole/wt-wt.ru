@@ -1,3 +1,5 @@
+bgGradientRight {}
+
 fillBlock {
   id:t = '<<id>>'
   <<#action>> on_click:t='<<action>>' <</action>>

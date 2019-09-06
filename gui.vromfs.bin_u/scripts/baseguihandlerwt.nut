@@ -40,6 +40,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   currentTopGCPanelIdx = 0
   currentBottomGCPanelIdx = 2
 
+  canQuitByGoBack = true
+
   squadWidgetHandlerWeak = null
   squadWidgetNestObjId = "gamercard_squad_widget"
   voiceChatWidgetNestObjId = "base_voice_chat_widget"
@@ -102,9 +104,15 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function fillGamercard()
   {
     ::fill_gamer_card(null, true, "gc_", scene)
+    initGcBackButton()
     initSquadWidget()
     initVoiceChatWidget()
     initRightSection()
+  }
+
+  function initGcBackButton()
+  {
+    showSceneBtn("gc_nav_back", canQuitByGoBack && ::use_touchscreen && !::is_in_loading_screen())
   }
 
   function initSquadWidget()

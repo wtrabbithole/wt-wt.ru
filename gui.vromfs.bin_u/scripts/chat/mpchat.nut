@@ -712,7 +712,7 @@ class ::ChatHandler
     obj = sceneData.scene.findObject("chat_log_tdiv")
     if (::checkObj(obj))
     {
-      obj.height = visible ? obj["max-height"] : null
+      obj.height = visible ? obj?["max-height"] : null
       obj.scrollType = visible ? "" : "hidden"
     }
   }

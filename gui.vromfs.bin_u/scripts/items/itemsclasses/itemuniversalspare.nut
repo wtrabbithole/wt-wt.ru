@@ -18,7 +18,7 @@ class ::items_classes.UniversalSpare extends BaseItemModClass
   function initConditions(conditionsBlk)
   {
     base.initConditions(conditionsBlk)
-    numSpares = conditionsBlk.numSpares || 1
+    numSpares = conditionsBlk?.numSpares ?? 1
   }
 
   function getDescriptionIntroArray()

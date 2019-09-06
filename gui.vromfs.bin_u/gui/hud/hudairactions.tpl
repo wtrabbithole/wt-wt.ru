@@ -16,8 +16,8 @@ tdiv {
       }
 
       shortcut_id:t=<<action>>;
-      on_click:t='onShortcutOff';
-      on_pushed:t='onShortcutOn';
+      on_click:t='::gcb.onShortcutOff';
+      on_pushed:t='::gcb.onShortcutOn';
       touch-area-id:t='<<areaId>>'
     }
   <</items>>

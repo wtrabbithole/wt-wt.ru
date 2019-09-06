@@ -17,6 +17,7 @@ enum WW_OM_WND_MODE
 class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName   = "gui/worldWar/wwOperationsMaps.blk"
+  backSceneFunc = @() ::gui_start_mainmenu()
 
   needToOpenBattles = false
   autoOpenMapOperation = null
@@ -51,7 +52,6 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function initScreen()
   {
-    backSceneFunc = ::gui_start_mainmenu
     mapsListObj = scene.findObject("maps_list")
     setSceneTitle(::loc("mainmenu/btnWorldwar"))
 
@@ -318,7 +318,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     for (local i = 0; i < trophiesAmount; i++)
     {
       local trophy = trophiesBlk.getBlock(i)
-      local trophyId = trophy.itemName || trophy.trophyName || trophy.mainTrophyId
+      local trophyId = trophy?.itemName || trophy?.trophyName || trophy?.mainTrophyId
       local trophyItem = ::ItemsManager.findItemById(trophyId)
       if (!trophyItem)
         continue
@@ -336,7 +336,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       if (isProgressReached)
         progressText = ::colorize("activeTextColor", progressText)
 
-      local trophyAmount = trophy.amount || 1
+      local trophyAmount = trophy?.amount ?? 1
       view.trophy.append({
         titleText = getTrophyDesc(trophy) + " " + progressText
         tooltipText = getTrophyTooltip(trophy, updStatsText)
@@ -376,7 +376,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     showSceneBtn("top_list", isVisible)
   }
 
-  getTrophyLocId = @(blk) blk.locId || "worldwar/" + blk.getBlockName()
+  getTrophyLocId = @(blk) blk?.locId ?? ("worldwar/" + blk.getBlockName())
   getTrophyDesc = @(blk) ::loc(getTrophyLocId(blk))
   getTrophyTooltip = @(blk, timeText) ::loc(getTrophyLocId(blk) + "/desc", {time = timeText})
 
@@ -390,7 +390,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     for (local idx = 0; idx < mapsListObj.childrenCount(); idx++)
     {
       local mapObj = mapsListObj.getChild(idx)
-      if(::checkObj(mapObj) && mapObj.collapse_header == null && mapObj.id == id)
+      if(::checkObj(mapObj) && mapObj?.collapse_header == null && mapObj?.id == id)
       {
         mapsListObj.setValue(idx)
         return
@@ -407,7 +407,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if(!::checkObj(mapObj))
       return false
 
-    local isHeader = mapObj.collapse_header != null
+    local isHeader = mapObj?.collapse_header != null
     local newMap = isHeader ? null : ::g_ww_global_status.getMapByName(mapObj.id)
     if (newMap == selMap)
       return false
@@ -449,7 +449,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::check_obj(mapObj))
       return false
 
-    return mapObj.selected == "yes" ? false : true
+    return mapObj?.selected == "yes" ? false : true
   }
 
   function getSelectedMapEditBtnText(mapObj)
@@ -457,7 +457,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::check_obj(mapObj))
       return ""
 
-    if (mapObj.collapse_header)
+    if (mapObj?.collapse_header)
       return mapObj.collapsed == "yes"
         ? ::loc("mainmenu/btnExpand")
         : ::loc("mainmenu/btnCollapse")
@@ -485,7 +485,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function onSelectCountriesBlock()
   {
     local mapObj = getSelectedMapObj()
-    if (!::check_obj(mapObj) || mapObj.collapse_header)
+    if (!::check_obj(mapObj) || mapObj?.collapse_header)
       return
 
     local countryContainerObj = getCountryBlockObj(mapObj)
@@ -496,7 +496,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     updateButtons()
   }
 
-  isMapObjChapter = @(obj) !!obj.collapse_header
+  isMapObjChapter = @(obj) !!obj?.collapse_header
   getCountryBlockObj = @(obj) obj.findObject("countries_selection_" + obj.id)
   canEditMapCountries = @(obj) ::check_obj(obj) && obj.isVisible() && obj.isEnabled()
 
@@ -555,7 +555,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function onSelectCountry()
   {
     local mapObj = getSelectedMapObj()
-    if (!::check_obj(mapObj) || mapObj.collapse_header)
+    if (!::check_obj(mapObj) || mapObj?.collapse_header)
       return
 
     local countryContainerObj = mapObj.findObject("countries_selection_" + mapObj.id)
@@ -576,13 +576,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   {
     if (!::check_obj(obj))
       return
-    local itemObj = obj.collapse_header ? obj : obj.getParent()
+    local itemObj = obj?.collapse_header ? obj : obj.getParent()
     local listObj = ::check_obj(itemObj) ? itemObj.getParent() : null
-    if (!::check_obj(listObj) || !itemObj.collapse_header)
+    if (!::check_obj(listObj) || !itemObj?.collapse_header)
       return
 
     itemObj.collapsing = "yes"
-    local isShow = itemObj.collapsed == "yes"
+    local isShow = itemObj?.collapsed == "yes"
     local listLen = listObj.childrenCount()
     local selIdx = listObj.getValue()
     local headerIdx = -1
@@ -594,7 +594,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       local child = listObj.getChild(i)
       if (!found)
       {
-        if (child.collapsing == "yes")
+        if (child?.collapsing == "yes")
         {
           child.collapsing = "no"
           child.collapsed  = isShow ? "no" : "yes"
@@ -604,7 +604,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       }
       else
       {
-        if (child.collapse_header)
+        if (child?.collapse_header)
           break
         child.show(isShow)
         child.enable(isShow)
@@ -625,7 +625,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       foreach (idx in indexes)
       {
         local child = listObj.getChild(idx)
-        if (!child.collapse_header && child.isEnabled())
+        if (!child?.collapse_header && child.isEnabled())
         {
           newIdx = idx
           break
@@ -926,8 +926,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     {
       local modeId = "Mode" + (isSelectAllCountriesBlockVisible() ? "Clans" : "Normal")
       foreach (p in [ "height", "pos" ])
-        containerObj[p] = containerObj[p + modeId]
-      containerObj["width"] = containerObj["widthModeNormal"] + "+" + flagsWidth
+        containerObj[p] = containerObj?[p + modeId]
+      containerObj["width"] = (containerObj?["widthModeNormal"] ?? 0) + "+" + flagsWidth
     }
 
     updateWindow()
@@ -1126,8 +1126,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function onEventClanInfoUpdate(params)
   {
-    updateDescription()
-    updateButtons()
+    updateWindow()
   }
 
   function onEventWWGlobeMarkerClick(params)

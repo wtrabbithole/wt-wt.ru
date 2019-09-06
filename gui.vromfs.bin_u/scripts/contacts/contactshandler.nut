@@ -423,7 +423,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (btnObj && showSquadInvite && contact?.uidInt64)
       updateButtonInviteText(btnObj, contact.uidInt64)
 
-    showBtn("btn_usercard", true, contact_buttons_holder)
+    showBtn("btn_usercard", ::has_feature("UserCards"), contact_buttons_holder)
     showBtn("btn_facebookFriends", ::has_feature("Facebook") && !::is_platform_ps4, contact_buttons_holder)
     showBtn("btn_steamFriends", ::steam_is_running(), contact_buttons_holder)
     showBtn("btn_squadInvite_bottom", false, contact_buttons_holder)
@@ -501,7 +501,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local txt = ::clearBorderSymbols(editboxObj.getValue())
-    txt = platformModule.getPlayerNameNoSpecSymbol(txt)
+    txt = platformModule.cutPlayerNamePrefix(platformModule.cutPlayerNamePostfix(txt))
     if (txt == "")
       return
 
@@ -854,12 +854,12 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local childObj = obj.getChild(value)
-    if(!::check_obj(childObj))
+    if (!::check_obj(childObj))
       return
 
-    if (childObj.contact_buttons_contact_uid)
+    if (childObj?.contact_buttons_contact_uid)
       showCurPlayerRClickMenu(childObj.getPosRC())
-    else if (childObj.isButton == "yes")
+    else if (childObj?.isButton == "yes")
       sendClickButton(childObj)
   }
 
@@ -992,14 +992,14 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local contactButtonsObject = button_object.getParent().getParent()
-    local contactUID = contactButtonsObject.contact_buttons_contact_uid
+    local contactUID = contactButtonsObject?.contact_buttons_contact_uid
     if (!contactUID)
       return
 
     local contact = ::getContact(contactUID)
     curPlayer = contact
 
-    local idx = contacts[curGroup].find(contact)
+    local idx = ::contacts[curGroup].find(contact)
     if (idx >= 0)
     {
       local groupObject = scene.findObject("contacts_groups")

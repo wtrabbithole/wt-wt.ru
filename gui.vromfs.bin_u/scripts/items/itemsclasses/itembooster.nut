@@ -47,7 +47,7 @@ class ::items_classes.Booster extends ::BaseItem
   constructor(blk, invBlk = null, slotData = null)
   {
     base.constructor(blk, invBlk, slotData)
-    _initBoosterParams(blk.rateBoosterParams)
+    _initBoosterParams(blk?.rateBoosterParams)
     if (isActive())
       stopProgress = ::getTblValue("progress", invBlk, 0)
   }
@@ -57,19 +57,20 @@ class ::items_classes.Booster extends ::BaseItem
     if (!blk)
       return
 
-    xpRate = blk.xpRate || 0
-    wpRate = blk.wpRate || 0
-    personal = ::getTblValue("personal", blk, true)
+    xpRate = blk?.xpRate ?? 0
+    wpRate = blk?.wpRate ?? 0
+    personal = blk?.personal ?? true
 
-    spentInSessionTimeMin = blk.spentInSessionTimeMin || 0
+    spentInSessionTimeMin = blk?.spentInSessionTimeMin ?? 0
 
-    if (blk.event)
+    local event = blk?.event
+    if (event != null)
     {
-      eventType = blk.event.type
-      foreach(cond in blk.event % "conditon")
+      eventType = event?.type
+      foreach(cond in event % "conditon")
         if (typeof(cond)=="instance" && (cond instanceof ::DataBlock))
           conditions.append(::buildTableFromBlk(cond))
-      eventConditions = ::UnlockConditions.loadConditionsFromBlk(blk.event)
+      eventConditions = ::UnlockConditions.loadConditionsFromBlk(event)
     }
 
     foreach(idx, block in eventTypesTable)
@@ -80,7 +81,7 @@ class ::items_classes.Booster extends ::BaseItem
         break
       }
 
-    if (blk.stop)
+    if (blk?.stop != null)
     {
       stopData = ::buildTableFromBlk(blk.stop)
       stopConditions = ::UnlockConditions.loadConditionsFromBlk(blk.stop)

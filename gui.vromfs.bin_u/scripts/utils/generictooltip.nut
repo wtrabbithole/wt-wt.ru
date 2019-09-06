@@ -138,12 +138,12 @@ function g_tooltip::close(obj)
   local guiScene = obj.getScene()
   obj.show(false)
 
-  guiScene.performDelayed(this, (@(obj, guiScene) function() {
+  guiScene.performDelayed(this, function() {
     if (!::checkObj(obj) || !obj.childrenCount())
       return
 
     //for debug and catch rare bug
-    local dbg_event = obj.on_tooltip_open
+    local dbg_event = obj?.on_tooltip_open
     if (!dbg_event)
       return
 
@@ -151,13 +151,13 @@ function g_tooltip::close(obj)
     {
       local metric = "errors.brokenTooltip." + ::toString(this) + ";" + dbg_event
       dagor.debug("Error: " + metric + ";" + ::toString(obj))
-      statsd_counter(metric)
+      ::statsd_counter(metric)
       guiScene.replaceContentFromText(obj, "", 0, null) //after it tooltip dosnt open again
       return
     }
 
     guiScene.replaceContentFromText(obj, "", 0, this)
-  })(obj, guiScene))
+  })
 }
 
 function g_tooltip::init()

@@ -449,7 +449,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local value = obj.getValue()
     local tabObj = obj.getChild(value)
 
-    isWorldWarMode = tabObj.isWorldWarMode == "yes"
+    isWorldWarMode = tabObj?.isWorldWarMode == "yes"
     showSceneBtn("clan_members_list", !isWorldWarMode)
     showSceneBtn("lb_table_nest", isWorldWarMode)
 
@@ -927,7 +927,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUserCard()
   {
-    if (curPlayer)
+    if (curPlayer && ::has_feature("UserCards"))
       ::gui_modal_userCard({ name = curPlayer })
   }
 
@@ -968,7 +968,10 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onClanVehicles(obj = null)
   {
-    vehiclesModal.open(@(u)u.isSquadronVehicle() && u.isVisibleInShop())
+    vehiclesModal.open(@(u)u.isSquadronVehicle() && u.isVisibleInShop(), {
+      wndTitleLocId = "clan/vehicles"
+      lastSelectedUnit = ::getAircraftByName(::clan_get_researching_unit())
+    })
   }
 
   function onClanSquads(obj = null)

@@ -94,13 +94,13 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
 
       local ranksRequired = 0
       local req = rawRanksCond.getBlockByName("rank_" + unitType.name)
-      if (req && req.type == "rank" && req.unitType == unitType.name)
+      if (req?.type == "rank" && req?.unitType == unitType.name)
         ranksRequired = req.getInt("rank", 0)
 
       obj.setValue(ranksRequired)
     }
 
-    minRankCondTypeObject.setValue(rawRanksCond.type != "or")
+    minRankCondTypeObject.setValue(rawRanksCond?.type != "or")
   }
 
   function getNonEmptyRankReqCount()

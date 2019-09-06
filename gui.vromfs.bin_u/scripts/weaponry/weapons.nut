@@ -28,17 +28,12 @@ function enable_current_modifications(unitName)
   return ::shop_enable_modifications(db)
 }
 
-function gui_modal_weapons(params = {})
-{
-  ::gui_start_modal_wnd(::gui_handlers.WeaponsModalHandler, params)
-}
-
 function open_weapons_for_unit(unit, params = {})
 {
   if (!("name" in unit))
     return
   ::aircraft_for_weapons = unit.name
-  ::gui_modal_weapons(params)
+  ::handlersManager.loadHandler(::gui_handlers.WeaponsModalHandler, params)
 }
 
 class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
@@ -973,8 +968,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getItemIdxByObj(obj)
   {
     if (!obj) return -1
-    local id = obj.holderId
-    if (!id || id=="")
+    local id = obj?.holderId ?? ""
+    if (id == "")
       id = obj.id
     if (id.len() <= 5 || id.slice(0,5) != "item_")
       return -1

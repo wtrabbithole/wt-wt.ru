@@ -84,9 +84,14 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
               progress = [
                 PROGRESS_PARAMS.__merge({type = "new", markerDisplay = "hide"})
                 PROGRESS_PARAMS.__merge({
+                  type = "inactive"
                   value = percentClanActivity * 10
-                  markerPos = percentClanActivity
-                  text = ::round(percentClanActivity) + "%"
+                  markerDisplay = "hide"
+                })
+                PROGRESS_PARAMS.__merge({
+                  value = min(limit, percentClanActivity) * 10
+                  markerPos = min(limit, percentClanActivity)
+                  text = ::round(min(limit, percentClanActivity)) + "%"
                 })
               ]
             }
@@ -120,9 +125,14 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
               progress = [
                 PROGRESS_PARAMS.__merge({type = "new", markerDisplay = "hide"})
                 PROGRESS_PARAMS.__merge({
+                  type = "inactive"
                   value = percentMemberActivity * 10
-                  markerPos = percentMemberActivity
-                  text = ::round(percentMemberActivity) + "%"
+                  markerDisplay = "hide"
+                })
+                PROGRESS_PARAMS.__merge({
+                  value = min(limit, percentMemberActivity) * 10
+                  markerPos = min(limit, percentMemberActivity)
+                  text = ::round(min(limit, percentMemberActivity)) + "%"
                 })
               ]
             }

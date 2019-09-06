@@ -124,7 +124,7 @@ const WW_LOG_MAX_DISPLAY_AMOUNT = 40
 function g_ww_logs::getObjectivesBlk()
 {
   local objectivesBlk = ::g_world_war.getOperationObjectives()
-  return objectivesBlk ? ::u.copy(objectivesBlk.data) : ::DataBlock()
+  return objectivesBlk ? ::u.copy(objectivesBlk?.data) : ::DataBlock()
 }
 
 function g_ww_logs::requestNewLogs(loadAmount, useLogMark, handler = null)
@@ -177,17 +177,17 @@ function g_ww_logs::saveLoadedLogs(loadedLogsBlk, useLogMark, handler)
   {
     local logBlk = loadedLogsBlk.getBlock(i)
 
-    if (!useLogMark && logBlk.thisLogId == firstLogId)
+    if (!useLogMark && logBlk?.thisLogId == firstLogId)
       break
 
-    local logType = ::g_ww_log_type.getLogTypeByName(logBlk.type)
+    local logType = ::g_ww_log_type.getLogTypeByName(logBlk?.type)
     if (logType == unknownLogType)
       continue
 
     local logTable = {
-      id = logBlk.thisLogId
+      id = logBlk?.thisLogId
       blk = ::u.copy(logBlk)
-      time = logBlk.time
+      time = logBlk?.time
       category = logType.category
       isReaded = false
     }
@@ -229,10 +229,10 @@ function g_ww_logs::saveLoadedLogs(loadedLogsBlk, useLogMark, handler)
   local isLastReadedLogFounded = false
   for (local i = ::g_ww_logs.loaded.len() - 1; i >= 0; i--)
   {
-    if (::g_ww_logs.loaded[i].isReaded)
+    if (::g_ww_logs.loaded[i]?.isReaded)
       break
 
-    if (!isLastReadedLogFounded && ::g_ww_logs.loaded[i].id == lastReadLogMark)
+    if (!isLastReadedLogFounded && ::g_ww_logs.loaded[i]?.id == lastReadLogMark)
       isLastReadedLogFounded = true
 
     if (isLastReadedLogFounded)
@@ -255,15 +255,15 @@ function g_ww_logs::saveLogView(log)
 
 function g_ww_logs::saveLogBattle(blk)
 {
-  if (!blk.battle)
+  if (!blk?.battle)
     return
-  local savedData = ::getTblValue(blk.battle.id, logsBattles)
-  if (savedData && savedData.time >= blk.time)
+  local savedData = ::getTblValue(blk.battle?.id, logsBattles)
+  if (savedData?.time && savedData.time >= blk?.time)
     return
 
   logsBattles[blk.battle.id] <- {
-    battle = ::WwBattle(blk.battle)
-    time = blk.time
+    battle = ::WwBattle(blk?.battle)
+    time = blk?.time
     logBlk = blk
   }
 }
@@ -273,9 +273,9 @@ function g_ww_logs::saveLogArmies(blk, logId)
   if ("armies" in blk)
     foreach (armyBlk in blk.armies)
     {
-      local armyId = getLogArmyId(logId, armyBlk.name)
+      local armyId = getLogArmyId(logId, armyBlk?.name)
       if (!(armyId in logsArmies))
-        logsArmies[armyId] <- ::WwArmy(armyBlk.name, armyBlk)
+        logsArmies[armyId] <- ::WwArmy(armyBlk?.name, armyBlk)
     }
 }
 
@@ -299,7 +299,7 @@ function g_ww_logs::getUnreadedNumber()
 {
   local unreadedNumber = 0
   foreach (log in loaded)
-    if (!log.isReaded)
+    if (!log?.isReaded)
       unreadedNumber ++
 
   return unreadedNumber
@@ -315,7 +315,7 @@ function g_ww_logs::applyLogsFilter()
 
 function g_ww_logs::playLogSound(logBlk)
 {
-  switch (logBlk.type)
+  switch (logBlk?.type)
   {
     case WW_LOG_TYPES.ARTILLERY_STRIKE_DAMAGE:
       local wwArmy = getLogArmy(logBlk)
@@ -343,17 +343,17 @@ function g_ww_logs::playLogSound(logBlk)
 function g_ww_logs::isPlayerWinner(logBlk)
 {
   local mySideName = ::ww_side_val_to_name(::ww_get_player_side())
-  if (logBlk.type == WW_LOG_TYPES.BATTLE_FINISHED)
+  if (logBlk?.type == WW_LOG_TYPES.BATTLE_FINISHED)
     for (local i = 0; i < logBlk.battle.teams.blockCount(); i++)
       if (logBlk.battle.teams.getBlock(i).side == mySideName)
-        return logBlk.battle.teams.getBlock(i).isWinner
+        return logBlk.battle.teams.getBlock(i)?.isWinner
 
-  return logBlk.winner == mySideName
+  return logBlk?.winner == mySideName
 }
 
 function g_ww_logs::getLogArmy(logBlk)
 {
-  local wwArmyId = getLogArmyId(logBlk.thisLogId, logBlk.army)
+  local wwArmyId = getLogArmyId(logBlk?.thisLogId, logBlk?.army)
   return ::getTblValue(wwArmyId, logsArmies)
 }
 

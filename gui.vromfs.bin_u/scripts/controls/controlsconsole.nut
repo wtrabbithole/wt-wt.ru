@@ -82,6 +82,7 @@ class ::gui_handlers.ControlsConsole extends ::gui_handlers.GenericOptionsModal
   {
     showSceneBtn("btn_switchMode", true)
     showSceneBtn("btn_controlsWizard", ::get_game_mode() != ::GM_TRAINING && !::is_platform_xboxone)
+    showSceneBtn("btn_controlsHelp", ::has_feature("ControlsHelp"))
     local btnObj = scene.findObject("btn_calibrate")
     if (::checkObj(btnObj))
       btnObj.inactiveColor = ::ps4_headtrack_is_active()? "no" : "yes"

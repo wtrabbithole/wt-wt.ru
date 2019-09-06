@@ -28,8 +28,8 @@ class ::gui_handlers.ShowImage extends ::gui_handlers.BaseGuiHandlerWT
 
     local image = showObj["background-image"]
     maxSize = [
-      ::g_dagui_utils.toPixels(guiScene, showObj["max-width"]  || "@rw", showObj),
-      ::g_dagui_utils.toPixels(guiScene, showObj["max-height"] || "@rh", showObj)
+      ::g_dagui_utils.toPixels(guiScene, showObj?["max-width"]  ?? "@rw", showObj),
+      ::g_dagui_utils.toPixels(guiScene, showObj?["max-height"] ?? "@rh", showObj)
     ]
 
     if (!image || image=="" || !maxSize[0] || !maxSize[1])
@@ -63,7 +63,7 @@ class ::gui_handlers.ShowImage extends ::gui_handlers.BaseGuiHandlerWT
     imgObj["max-height"] = maxSize[1].tostring()
     imgObj["background-image"] = image
     imgObj["background-svg-size"] = ::format("%d, %d", maxSize[0], maxSize[1])
-    imgObj["background-repeat"] = showObj["background-repeat"] || "aspect-ratio"
+    imgObj["background-repeat"] = showObj?["background-repeat"] ?? "aspect-ratio"
 
     frameObj = scene.findObject("imgFrame")
     shadeObj = scene.findObject("root-box")

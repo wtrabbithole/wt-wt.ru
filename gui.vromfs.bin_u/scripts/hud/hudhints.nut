@@ -410,8 +410,8 @@ enums.addTypesByGlobalName("g_hud_hints", {
     buildText = function (data) {
       local res = ::g_hud_hints._buildText.call(this, data)
       res += " " + ::g_hint_tag.TIMER.makeFullTag()
-      local nearest = ::getTblValue("nearestOffender", data, false)
-      if (nearest)
+      local leaveKill = ::getTblValue("leaveKill", data, false)
+      if (leaveKill)
         res +=  "\n" + ::loc(nearestOffenderLocId)
       local offenderName = ::getTblValue("offenderName", data, "")
       if (offenderName != "")

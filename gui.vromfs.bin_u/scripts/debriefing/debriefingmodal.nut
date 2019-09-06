@@ -1866,14 +1866,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     local ent = ::get_entitlement_config(entName)
     local entNameText = ::get_entitlement_name(ent)
-    local goldCost = ("goldCost" in ent)? ent.goldCost : 0
+    local price = ::Cost(0, ent?.goldCost ?? 0)
     local cb = ::Callback(onBuyPremiumAward, this)
 
-    local msgText = format(::loc("msgbox/EarnNow"), entNameText, getCurAwardText(), ::Cost(0, goldCost).tostring())
+    local msgText = format(::loc("msgbox/EarnNow"), entNameText, getCurAwardText(), price.getTextAccordingToBalance())
     msgBox("not_all_mapped", msgText,
     [
-      ["ok", (@(entName, goldCost, cb) function() {
-        if (!::old_check_balance_msgBox(0, goldCost, cb))
+      ["ok", function() {
+        if (!::check_balance_msgBox(price, cb))
           return false
 
         taskId = ::purchase_entitlement_and_get_award(entName)
@@ -1883,9 +1883,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
           showTaskProgressBox()
           afterSlotOp = function() { addPremium() }
         }
-      })(entName, goldCost, cb)],
-      ["cancel", function() {}]
-    ], "ok")
+      }],
+      ["cancel", @() null]
+    ], "ok", {cancel_fn = @() null})
   }
 
   function addPremium()

@@ -144,13 +144,12 @@ function g_crew::getButtonRow(obj, scene, tblObj = null)
   local newRow = curRow
   if (obj)
   {
-    local holderId = obj.holderId
-    if (holderId)
-      newRow = holderId.tointeger()
+    if (obj?.holderId)
+      newRow = obj.holderId.tointeger()
     else
     {
       local pObj = obj.getParent()
-      if (pObj)
+      if (pObj?.id)
       {
         local row = pObj.id.tointeger()
         if (row >= 0)

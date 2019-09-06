@@ -36,23 +36,23 @@ class ::WwBattle
 
   constructor(blk = ::DataBlock(), params = null)
   {
-    id = blk.id || blk.getBlockName() || ""
-    status = blk.status? ::ww_battle_status_name_to_val(blk.status) : 0
-    pos = blk.pos ? ::Point2(blk.pos.x, blk.pos.y) : ::Point2()
-    maxPlayersPerArmy = blk.maxPlayersPerArmy || 0
-    minPlayersPerArmy = blk.minTeamSize || 0
-    battleActivateMillisec = (blk.activationTime || 0).tointeger()
-    battleStartMillisec = (blk.battleStartTimestamp || 0).tointeger()
-    ordinalNumber = blk.ordinalNumber || 0
-    opponentsType = blk.opponentsType || -1
-    updateAppliedOnHost = blk.updateAppliedOnHost || -1
-    missionName = blk.desc ? blk.desc.missionName : ""
-    sessionId = blk.desc ? blk.desc.sessionId : ""
+    id = blk?.id ?? blk.getBlockName() ?? ""
+    status = blk?.status? ::ww_battle_status_name_to_val(blk.status) : 0
+    pos = blk?.pos ? ::Point2(blk.pos.x, blk.pos.y) : ::Point2()
+    maxPlayersPerArmy = blk?.maxPlayersPerArmy ?? 0
+    minPlayersPerArmy = blk?.minTeamSize ?? 0
+    battleActivateMillisec = (blk?.activationTime ?? 0).tointeger()
+    battleStartMillisec = (blk?.battleStartTimestamp ?? 0).tointeger()
+    ordinalNumber = blk?.ordinalNumber ?? 0
+    opponentsType = blk?.opponentsType ?? -1
+    updateAppliedOnHost = blk?.updateAppliedOnHost ?? -1
+    missionName = blk?.desc.missionName ?? ""
+    sessionId = blk?.desc.sessionId ?? ""
     missionInfo = ::get_mission_meta_info(missionName)
-    creationTimeMillisec = blk.creationTime ?? 0
-    operationTimeOnCreationMillisec = blk.operationTimeOnCreation ?? 0
+    creationTimeMillisec = blk?.creationTime ?? 0
+    operationTimeOnCreationMillisec = blk?.operationTimeOnCreation ?? 0
 
-    createLocalizeConfig(blk.desc)
+    createLocalizeConfig(blk?.desc)
 
     updateParams(blk, params)
     updateTeamsInfo(blk)

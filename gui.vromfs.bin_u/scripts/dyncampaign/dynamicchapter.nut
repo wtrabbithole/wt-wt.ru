@@ -377,11 +377,11 @@ class ::gui_handlers.DynamicLayouts extends ::gui_handlers.CampaignChapter
 function is_dynamic_country_allowed(country)
 {
   local sBlk = ::get_game_settings_blk()
-  local list = sBlk && sBlk.dynamicCountries
+  local list = sBlk?.dynamicCountries
 
   if (!list || !list.paramCount())
     return true
-  return list[country] == true
+  return list?[country] == true
 }
 
 function get_mission_team_countries(layout)
@@ -392,16 +392,16 @@ function get_mission_team_countries(layout)
 
   local lblk = ::DataBlock()
   lblk.load(layout)
-  local mBlk = lblk.mission_settings && lblk.mission_settings.mission
+  local mBlk = lblk?.mission_settings.mission
   if (!mBlk)
     return res
 
-  local checkDynamic = mBlk.type == "dynamic"
+  local checkDynamic = mBlk?.type == "dynamic"
 
   res = []
   foreach(cTag in ["country_allies", "country_axis"])
   {
-    local c = mBlk[cTag] || "ussr"
+    local c = mBlk?[cTag] ?? "ussr"
     if (!checkDynamic || ::is_dynamic_country_allowed(c))
       c = "country_" + c
     else

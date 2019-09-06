@@ -14,6 +14,26 @@ local stdMath = require("std/math.nut")
 ::dagui_propid.add_name_id("_iconBulletName")
 
 ::weaponVisual <- {
+  function addBonusToObj(handler, obj, value, tooltipLocName="", isDiscount=true, bType = "old")
+  {
+    if (!::checkObj(obj) || value < 2) return
+
+    local guiScene = obj.getScene()
+    local text = ""
+    local id = ""
+    local tooltip = ""
+    text = isDiscount? "-" + value + "%" : "x" + stdMath.roundToDigits(value, 2)
+    if(tooltipLocName != "")
+    {
+      local prefix = isDiscount? "discount/" : "bonus/"
+      id = isDiscount? "discount" : "bonus"
+      tooltip = ::format(::loc(prefix + tooltipLocName + "/tooltip"), value.tostring())
+    }
+    local discountData = ::format("discount{id:t='%s'; type:t='%s'; tooltip:t='%s'; text:t='%s';}",
+      id, bType, tooltip, text)
+
+    guiScene.appendWithBlk(obj, discountData, handler)
+  }
 }
 
 function weaponVisual::createItemLayout(id, item, iType, params = {})
@@ -176,7 +196,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   {
     local discountObj = itemObj.findObject("modItem_discount")
     if (discountObj)
-      ::addBonusToObj(handler, discountObj, discount, statusTbl.discountType, true, "weaponryItem")
+      addBonusToObj(handler, discountObj, discount, statusTbl.discountType, true, "weaponryItem")
     if (priceText != "")
       priceText = "<color=@goodTextColor>" + priceText +"</color>"
   }

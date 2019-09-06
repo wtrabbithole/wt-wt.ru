@@ -86,6 +86,9 @@ g_squad_manager <- {
   roomCreateInProgress = false
   hasNewApplication = false
   delayedInvites = []
+
+  getLeaderGameModeId = @() squadData?.leaderGameModeId ?? ""
+  getLeaderBattleRating = @() squadData?.leaderBattleRating ?? 0
 }
 
 function g_squad_manager::setState(newState)

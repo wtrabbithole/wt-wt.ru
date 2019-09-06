@@ -505,12 +505,13 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
     local isTrained = (unit.name in crew?.trainedSpec) || unit.trainCost == 0
     local isEnabled = ::is_unit_enabled_for_slotbar(unit, config)
+    local canShowCrewSpec = ::has_feature("CrewInfo")
 
     local unitItemParams = {
       status = !isEnabled ? "disabled"
         : isTrained ? "mounted"
         : "canBuy"
-      showWarningIcon = haveMoreQualifiedCrew(unit)
+      showWarningIcon = canShowCrewSpec && haveMoreQualifiedCrew(unit)
       showBR = ::has_feature("SlotbarShowBattleRating")
       getEdiffFunc = getCurrentEdiff.bindenv(this)
       fullBlock = false
@@ -520,7 +521,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
       unitItemParams.overlayPrice <- unit.trainCost
 
     local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
-    if (specType != ::g_crew_spec_type.UNKNOWN)
+    if (canShowCrewSpec && specType != ::g_crew_spec_type.UNKNOWN)
       unitItemParams.specType <- specType
 
     local id = unit.name

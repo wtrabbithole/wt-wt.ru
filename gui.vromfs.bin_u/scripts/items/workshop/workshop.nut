@@ -42,7 +42,7 @@ local function initOnce()
   Set.clearOutdatedData(setsList)
 
   // Collecting itemdefs from additional recipes list
-  if (wBlk.additionalRecipes)
+  if (wBlk?.additionalRecipes)
     foreach (itemBlk in (wBlk.additionalRecipes % "item"))
     {
       local item = ::DataBlock()
@@ -55,8 +55,8 @@ local function initOnce()
         inventoryClient.requestItemdefsByIds(itemBlk % paramName)
     }
 
-  markingPresetsList = ::buildTableFromBlk(wBlk.itemMarkingPresets)
-  customLocalizationPresets = ::buildTableFromBlk(wBlk.customLocalizationPresets)
+  markingPresetsList = ::buildTableFromBlk(wBlk?.itemMarkingPresets)
+  customLocalizationPresets = ::buildTableFromBlk(wBlk?.customLocalizationPresets)
 }
 
 local function invalidateCache()

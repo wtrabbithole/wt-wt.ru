@@ -123,6 +123,8 @@ foreach(idx, stat in ::stats_config)
 
 function gui_modal_userCard(playerInfo)  // uid, id (in session), name
 {
+  if (!::has_feature("UserCards"))
+    return
   ::gui_start_modal_wnd(::gui_handlers.UserCardHandler, {info = playerInfo})
 }
 

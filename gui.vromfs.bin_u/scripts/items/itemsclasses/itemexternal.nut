@@ -341,7 +341,7 @@ local ItemExternal = class extends ::BaseItem
 
   function getResourceDesc()
   {
-    if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)
+    if (!metaBlk || !metaBlk?.resource || !metaBlk?.resourceType)
       return ""
     local decoratorType = ::g_decorator_type.getTypeByResourceType(metaBlk.resourceType)
     local decorator = ::g_decorator.getDecorator(metaBlk.resource, decoratorType)
