@@ -975,9 +975,9 @@
         local info = unitBlk.cockpit
         if (info?.sightName)
         {
-          local fovToZoom = @(fov) (2*asin(sin((80/2)/(180/PI))/fov))*(180/PI)
+          local fovToZoom = @(fov) (2*::asin(::sin((80/2)/(180/PI))/fov))*(180/PI)
           local zoom = ::u.map([info.zoomOutFov, info.zoomInFov], @(fov) fovToZoom(fov))
-          if (abs(zoom[0] - zoom[1]) < 0.1)
+          if (::abs(zoom[0] - zoom[1]) < 0.1)
             zoom.remove(0)
           local zoomTexts = ::u.map(zoom, @(zoom) zoom ? ::format("%.1fx", zoom) : "")
           zoomTexts = ::g_string.implode(zoomTexts, ::loc("ui/mdash"))

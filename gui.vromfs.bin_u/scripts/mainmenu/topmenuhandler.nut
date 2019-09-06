@@ -253,6 +253,13 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     if (!isValid())
       return
 
+    if (::is_small_screen)
+    {
+      ::top_menu_shop_active = false
+      ::gui_handlers.ShopViewWnd.open({forceUnitType = unitType})
+      return
+    }
+
     ::top_menu_shop_active = !::top_menu_shop_active
     local shopMove = getObj("shop_wnd_move")
     shopMove.moveOut = ::top_menu_shop_active ? "yes" : "no"

@@ -1387,7 +1387,10 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkNonApprovedSquadronResearches()
   {
-    if (!::isInMenu() || !::has_feature("ClanVehicles") || ::checkIsInQueue()
+    if (!::isInMenu()
+      || !::has_feature("ClanVehicles")
+      || (::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
+      || ::checkIsInQueue()
       || squadronUnitAction.isAllVehiclesResearched())
       return
 

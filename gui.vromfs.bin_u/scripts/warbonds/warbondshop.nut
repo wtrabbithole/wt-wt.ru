@@ -142,7 +142,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function updatePaginator()
   {
-    local totalPages = curWb ? ceil(curWb.getAwardsList().len().tofloat() / itemsPerPage) : 1
+    local totalPages = curWb ? ::ceil(curWb.getAwardsList().len().tofloat() / itemsPerPage) : 1
     ::generatePaginator(scene.findObject("paginator_place"), this,
       curPage, totalPages - 1, null, true /*show last page*/)
   }

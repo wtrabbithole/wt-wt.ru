@@ -13,10 +13,10 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
   sceneTplName         = "gui/unit/vehiclesModal"
   sceneCheckBoxListTpl = "gui/commonParts/checkbox"
 
-  function initScreen()
+  function getSceneTplView()
   {
     collectUnitData()
-    local view = {
+    return {
       slotCountX = MAX_SLOT_COUNT_X
       slotCountY = min( units.len() / MAX_SLOT_COUNT_X + 1, MAX_SLOT_COUNT_Y)
       filters = [
@@ -25,11 +25,11 @@ class ::gui_handlers.vehiclesModal extends ::gui_handlers.BaseGuiHandlerWT
       ]
       unitsList = getUnitsListData()
     }
+  }
 
-    local data = ::handyman.renderCached(sceneTplName, view)
-    guiScene.replaceContentFromText(scene, data, data.len(), this)
+  function initScreen()
+  {
     initFocusArray()
-
     scene.findObject("countries_boxes").select()
   }
 

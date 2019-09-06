@@ -66,7 +66,7 @@ local getMainOptions = function()
       [::USEROPT_HUE_HELICOPTER_HUD, "spinner"],
       [::USEROPT_HUE_HELICOPTER_HUD_ALERT, "spinner"],
       [::USEROPT_HORIZONTAL_SPEED, "spinner"],
-      [::USEROPT_HELICOPTER_HELMET_AIM, "spinner"],
+      [::USEROPT_HELICOPTER_HELMET_AIM, "spinner", !::is_ps4_or_xbox],
 
       ["options/header/tank"],
       [::USEROPT_GRASS_IN_TANK_VISION, "spinner"],

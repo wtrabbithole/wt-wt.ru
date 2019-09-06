@@ -166,7 +166,7 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
       || stage == ::UPDATER_COPYING)
     {
       text += ": ";
-      text += floor(percent)
+      text += ::floor(percent)
       text += "%"
     }
     if (stage == ::UPDATER_DOWNLOADING)

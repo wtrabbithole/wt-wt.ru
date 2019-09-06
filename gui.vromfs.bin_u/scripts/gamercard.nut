@@ -65,7 +65,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
             ::g_language.decimalFormat(cfg.exp)
           break
         case "clanTag":
-          local isVisible = val != "" && ::has_feature("Clans")
+          local isVisible = val != ""
           showClanTag = isVisible
           if (isVisible)
           {

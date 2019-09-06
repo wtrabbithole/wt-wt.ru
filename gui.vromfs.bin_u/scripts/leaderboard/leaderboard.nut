@@ -460,7 +460,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       pos = 0
       return
     }
-    local selfPagePos = rowsInPage * floor(selfPos / rowsInPage)
+    local selfPagePos = rowsInPage * ::floor(selfPos / rowsInPage)
     pos = selfPagePos / rowsInPage < maxRows ? selfPagePos : 0
   }
 
@@ -658,7 +658,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     if (curLbCategory.id == obj.id)
     {
       local selfPos = getSelfPos()
-      local selfPagePos = rowsInPage * floor(selfPos / rowsInPage)
+      local selfPagePos = rowsInPage * ::floor(selfPos / rowsInPage)
       if (pos != selfPagePos)
         requestSelfPage(selfPos)
       else
@@ -830,7 +830,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     {
       local lastPageNumber = curPage + (tableWeak.isLastPage ? 0 : 1)
       local myPlace = getSelfPos()
-      local myPage = myPlace >= 0 ? floor(myPlace / rowsInPage) : null
+      local myPage = myPlace >= 0 ? ::floor(myPlace / rowsInPage) : null
       ::generatePaginator(nestObj, this, curPage, lastPageNumber, myPage)
     }
   }

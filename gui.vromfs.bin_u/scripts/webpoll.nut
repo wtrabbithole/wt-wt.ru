@@ -1,4 +1,4 @@
-const WEBPOLL_TOKENS_VALIDATION_TIMEOUT_MS = 3600000
+const WEBPOLL_TOKENS_VALIDATION_TIMEOUT_MS = 3000000
 const VOTED_POLLS_SAVE_ID = "voted_polls"
 
 ::g_webpoll <- {
@@ -59,14 +59,22 @@ function g_webpoll::checkTokensCacheTimeout()
     invalidateTokensCache()
 }
 
-function g_webpoll::invalidateTokensCache()
+function g_webpoll::updateTokensCache(params)
 {
-  tokenInvalidationTime = -1
-  if(::u.isEmpty(cachedToken))
-    return
-  cachedToken = ""
+  cachedToken = params?.new_dtoken ?? ""
+  if (cachedToken != "")
+    tokenInvalidationTime = ::dagor.getCurTime() + WEBPOLL_TOKENS_VALIDATION_TIMEOUT_MS
+  else
+    tokenInvalidationTime = -1
+
   ::get_cur_gui_scene().performDelayed(this,
     function(){ ::broadcastEvent("WebPollTokenInvalidated") })
+}
+
+function g_webpoll::invalidateTokensCache()
+{
+  if (cachedToken != "" || tokenInvalidationTime != -1)
+    updateTokensCache({})
 }
 
 function g_webpoll::getPollIdByFullUrl(url)
@@ -83,9 +91,9 @@ function g_webpoll::getPollToken(pollId)
 function g_webpoll::generatePollUrl(pollId, needAuthorization = true)
 {
   local pollBaseUrl = getPollBaseUrl(pollId)
-  if(pollBaseUrl == null)
+  if (pollBaseUrl == null)
     return ""
-  if(cachedToken.len() == 0)
+  if (cachedToken == "")
   {
     if(needAuthorization)
       ::webpoll_authorize_with_url(pollBaseUrl, pollId.tointeger())
@@ -124,14 +132,9 @@ function g_webpoll::clearOldVotedPolls(pollsTable)
 function g_webpoll::onEventSignOut(p)
 {
   votedPolls = null
+  authorizedPolls.clear()
   invalidateTokensCache()
   pollIdByFullUrl.clear()
-}
-
-function g_webpoll::onEventBrowserOpened(p)
-{
-  if(getPollIdByFullUrl(p.url))
-    invalidateTokensCache()
 }
 
 function g_webpoll::setPollBaseUrl(pollId, pollUrl)
@@ -146,6 +149,7 @@ function g_webpoll::getPollBaseUrl(pollId)
 }
 
 web_rpc.register_handler("survey_vote_result", ::g_webpoll.onSurveyVoteResult.bindenv(::g_webpoll))
+web_rpc.register_handler("webpoll_dtoken_invalidate", ::g_webpoll.updateTokensCache.bindenv(::g_webpoll))
 ::subscribe_handler(::g_webpoll, ::g_listener_priority.CONFIG_VALIDATION)
 
 function webpoll_event(id, token, voted)

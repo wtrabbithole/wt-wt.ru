@@ -282,7 +282,7 @@ function _generateCoverMission(isFreeFlight, createGroundUnitsProc)
 
 
 //mission warpoint cost calculate
-  local mission_mult = sqrt(enemyTotalCount/20.0+0.05);
+  local mission_mult = ::sqrt(enemyTotalCount/20.0+0.05);
   local missionWpCost = warpointCalculate(mission_preset_name, allyFightersCount+bombersCount*0.5, enemyCount, planeCost,
                                           playerFighterPlane, mission_mult);
   ::mgSetInt("mission_settings/mission/wpAward", missionWpCost);

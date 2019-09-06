@@ -35,7 +35,7 @@ local BhvHelpFrame = class
       needToFlow = true;
 
     if (obj.getParent().getSize()[0] < obj.getSize()[0])
-      obj.getParent().width = "0.02@sf+" + ceil(obj.getSize()[0])
+      obj.getParent().width = "0.02@sf+" + ::ceil(obj.getSize()[0])
 
     obj.getParent()["verticalFlow"] = needToFlow ? "yes":"no"
 

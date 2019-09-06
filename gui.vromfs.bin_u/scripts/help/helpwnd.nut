@@ -2,6 +2,7 @@ local u = require("sqStdLibs/helpers/u.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local helpTabs = require("scripts/controls/help/controlsHelpTabs.nut")
 local helpShortcuts = require("scripts/controls/help/controlsHelpShortcuts.nut")
+local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
 
 ::require("scripts/viewUtils/bhvHelpFrame.nut")
 
@@ -265,13 +266,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (id in modifierSymbols)
       return modifierSymbols[id]
 
-    foreach(item in ::shortcutsAxisList)
-      if (typeof(item) == "table" && item.id==id)
-      {
-        if ("symbol" in item)
-          modifierSymbols[id] <- "<color=@axisSymbolColor>" + ::loc(item.symbol) + ::loc("ui/colon") + "</color>"
-        return modifierSymbols[id]
-      }
+    local item = shortcutsAxisListModule[id]
+    {
+      if ("symbol" in item)
+        modifierSymbols[id] <- ::colorize("axisSymbolColor", ::loc(item.symbol) + ::loc("ui/colon"))
+      return modifierSymbols[id]
+    }
 
     modifierSymbols[id] <- ""
     return modifierSymbols[id]

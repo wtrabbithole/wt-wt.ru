@@ -424,7 +424,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         local defItemPrice = groupCost[goods[task].group]
         if (itemPrice && defItemPrice)
         {
-          local discount = floor(100.5 - 100.0 * itemPrice / defItemPrice)
+          local discount = ::floor(100.5 - 100.0 * itemPrice / defItemPrice)
           if (discount != 0)
             desc += format(::loc("charServer/entitlement/discount"), discount)
         }
@@ -438,7 +438,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
               bundlePrice += getPrice(goods[name])
           if (bundlePrice>0)
           {
-            local discount = floor(100.5 - 100.0 * itemPrice / bundlePrice)
+            local discount = ::floor(100.5 - 100.0 * itemPrice / bundlePrice)
             desc += format(::loc("charServer/entitlement/discount"), discount)
           }
         }

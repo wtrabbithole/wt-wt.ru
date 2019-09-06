@@ -461,7 +461,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
     {
       if (::disable_user_log_entry(i))
         saveJob = true
-      ::u.appendOnce(blk.i, ::shown_userlog_notifications)
+      ::u.appendOnce(blk.id, ::shown_userlog_notifications)
     }
   }
 

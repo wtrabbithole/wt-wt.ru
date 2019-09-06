@@ -627,7 +627,7 @@ function weaponVisual::getBulletsIconView(bulletsSet, tooltipId = null, tooltipD
       local maxAmountInView = 4
       if (bulletsSet.catridge)
         maxAmountInView = ::min(bulletsSet.catridge, maxAmountInView)
-      local count = isBelt ? length * max(1,floor(maxAmountInView / length)) : 1
+      local count = isBelt ? length * max(1,::floor(maxAmountInView / length)) : 1
       local totalWidth = 100.0
       local itemWidth = isBelt ? totalWidth / 5 : totalWidth
       local itemHeight = totalWidth

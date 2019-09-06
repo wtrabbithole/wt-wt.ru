@@ -4,9 +4,10 @@ local unitActions = require("scripts/unit/unitActions.nut")
 class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/shop/shopCheckResearch.blk"
+  sceneTplName = "gui/shop/shopCheckResearch"
   sceneNavBlkName = "gui/shop/shopNav.blk"
   shouldBlurSceneBg = true
+  canQuitByGoBack = false
 
   researchedUnit = null
   researchBlock = null
@@ -21,6 +22,8 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
   shopResearchMode = true
   slotbarActions = [ "research", "buy", "take", "weapons", "info", "repair" ]
+
+  function getSceneTplView() { return {hasMaxWindowSize = ::is_small_screen} }
 
   function initScreen()
   {
@@ -37,15 +40,16 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
     showSceneBtn("modesRadiobuttons", false)
 
-    createSlotbar(
-      {
-        showNewSlot = true,
-        showEmptySlot = true,
-        isCountryChoiceAllowed = false,
-        customCountry = unitCountry,
-        showTopPanel = false
-      },
-      "slotbar_place")
+    if(!::is_small_screen)
+      createSlotbar(
+        {
+          showNewSlot = true,
+          showEmptySlot = true,
+          isCountryChoiceAllowed = false,
+          customCountry = unitCountry,
+          showTopPanel = false
+        },
+        "slotbar_place")
 
     selectRequiredUnit()
   }

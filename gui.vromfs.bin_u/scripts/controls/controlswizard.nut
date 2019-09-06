@@ -320,7 +320,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
   waitAxisAddTime = 3.0
 
   presetSelected = ""
-  modifierSymbols = null
   curJoyParams = null
   presetupAxisRawValues = null
   shortcutNames = null
@@ -391,13 +390,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
   function initShortcutsNames()
   {
-    modifierSymbols = { rangeMin="", rangeMax="" }
-
-    for(local i=0; i < ::shortcutsAxisList.len(); i++)
-      if ((::shortcutsAxisList[i].id in modifierSymbols)
-          && ("symbol" in ::shortcutsAxisList[i]))
-         modifierSymbols[::shortcutsAxisList[i].id] = ::loc(::shortcutsAxisList[i].symbol) + ::loc("ui/colon")
-
     shortcutNames = []
     shortcutItems = []
 
@@ -1092,7 +1084,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
     if (!axisApplyParams.isSlider)
     {
-      local minDev = min(abs(config.max), abs(config.min))
+      local minDev = min(::abs(config.max), ::abs(config.min))
       if (minDev>=3200) //10%
         axisApplyParams.kMul = 0.1*::floor(320000.0/minDev)
       else

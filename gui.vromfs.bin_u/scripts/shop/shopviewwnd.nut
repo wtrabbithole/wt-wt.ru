@@ -4,13 +4,15 @@ local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
 class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/shop/shopCheckResearch.blk"
+  sceneTplName = "gui/shop/shopCheckResearch"
   sceneNavBlkName = "gui/shop/shopNav.blk"
 
   static function open(params)
   {
     ::handlersManager.loadHandler(::gui_handlers.ShopViewWnd, params)
   }
+
+  function getSceneTplView() { return {hasMaxWindowSize = ::is_small_screen} }
 
   function initScreen()
   {
@@ -24,16 +26,17 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
     if (::check_obj(extraBgShadeObj))
       extraBgShadeObj.show(isSquadronResearchMode)
 
-    createSlotbar(
-      {
-        showNewSlot = true,
-        showEmptySlot = true,
-        showTopPanel = isSquadronResearchMode
-        enableCountryList = isSquadronResearchMode
-          ? ::u.filter(shopData, @(c) c?.hasSquadronUnits).map(@(c) c.name)
-          : null
-      },
-      "slotbar_place")
+    if(!::is_small_screen)
+      createSlotbar(
+        {
+          showNewSlot = true,
+          showEmptySlot = true,
+          showTopPanel = isSquadronResearchMode
+          enableCountryList = isSquadronResearchMode
+            ? ::u.filter(shopData, @(c) c?.hasSquadronUnits).map(@(c) c.name)
+            : null
+        },
+        "slotbar_place")
 
     updateResearchVariables()
   }

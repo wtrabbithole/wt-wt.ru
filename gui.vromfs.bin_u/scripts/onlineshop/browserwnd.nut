@@ -150,10 +150,8 @@ class ::gui_handlers.BrowserModalHandler extends ::BaseGuiHandler
         break;
       case ::BROWSER_EVENT_BROWSER_CRASHED:
         statsd_counter("browser." + params.errorDesc)
-        msgBox("error", ::loc("browser/crashed"),
-            [["#browser/open_external", browserForceExternal],
-             ["#mainmenu/btnBack", browserCloseAndUpdateEntitlements]],
-             "#browser/open_external")
+        browserForceExternal()
+        goBack()
         break;
       default:
         dagor.debug("onEventEmbeddedBrowser: unknown event type "

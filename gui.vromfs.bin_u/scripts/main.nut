@@ -386,6 +386,9 @@ foreach (fn in [
 
   //used for SSO login
   "scripts/onlineshop/browserWnd.nut"
+
+  //used in login process for check profile tag
+  "scripts/user/userUtils.nut"
 ])
 {
   ::g_script_reloader.loadOnce(fn)
@@ -412,6 +415,10 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   // end of Independed Modules
 
 ::cross_call_api.platform <- ::require("scripts/clientState/platform.nut")
+
+::use_touchscreen <- ::init_use_touchscreen()
+::is_small_screen <- ::use_touchscreen // FIXME: Touch screen is not always small.
+
 //------- ^^^ files before login ^^^ ----------
 
 
@@ -631,7 +638,6 @@ function load_scripts_after_login_once()
     "myStats.nut"
     "user/usersInfoManager.nut"
     "user/partnerUnlocks.nut"
-    "user/userUtils.nut"
     "user/userCard.nut"
     "user/profileHandler.nut"
     "user/viralAcquisition.nut"
@@ -877,4 +883,3 @@ if (::g_login.isAuthorized() //scripts reload
 }
 
 //------- ^^^ files after login ^^^ ----------
-::use_touchscreen <- ::init_use_touchscreen()

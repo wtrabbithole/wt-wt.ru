@@ -1366,7 +1366,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     guiScene.replaceContentFromText(tableObj, data, data.len(), this)
     foreach (unitItem in unitItems)
       ::fill_unit_item_timers(tableObj.findObject(unitItem.id), unitItem.unit, unitItem.params)
-    local row = floor(selIdx/unitsInTr)
+    local row = ::floor(selIdx/unitsInTr)
     local col = (selIdx % unitsInTr)
     tableObj.cur_row = row.tostring()
     tableObj.cur_col = col.tostring()

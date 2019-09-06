@@ -257,7 +257,7 @@ function _generateBombingMission(isFreeFlight, ground_type, createGroundUnitsPro
   ::mgSetMinMaxAircrafts("enemy", "fighter", 0, 44);
 
 //mission warpoint cost calculate
-  local mission_mult = sqrt(enemyTotalCount/20.0+0.05);
+  local mission_mult = ::sqrt(enemyTotalCount/20.0+0.05);
   local ally_all_count = allyFightersCount + (bombersCount-4)*0.5;
   local missionWpCost = warpointCalculate(mission_preset_name, ally_all_count, enemyTotalCount, 1,
                                           playerBomberPlane, mission_mult);

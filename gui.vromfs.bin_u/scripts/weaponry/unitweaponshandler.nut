@@ -292,8 +292,8 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       if (totalMods > 0)
       {
-        local totalRows = ceil(totalMods.tofloat() / modsInRow * res.itemWidth).tointeger()
-        totalColumns = ceil(totalMods.tofloat() / totalRows).tointeger()
+        local totalRows = ::ceil(totalMods.tofloat() / modsInRow * res.itemWidth).tointeger()
+        totalColumns = ::ceil(totalMods.tofloat() / totalRows).tointeger()
       }
 
       for(local i = res.columns.len(); i < totalColumns; i++)

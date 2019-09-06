@@ -929,20 +929,30 @@ function checkForResearch(unit)
         return false
       }
 
-      local button = [["#mainmenu/btnFindSquadron", @() ::gui_modal_clans()]]
+      local button = []
+      local defButton = "cancel"
       local msg = [::loc("mainmenu/needJoinSquadronForResearch")]
+      if (::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
+        msg.append(::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC")))
+      else
+      {
+        button.append(["#mainmenu/btnFindSquadron", @() ::gui_modal_clans()])
+        defButton = "#mainmenu/btnFindSquadron"
+      }
 
       local canBuyNotResearchedUnit = unitStatus.canBuyNotResearched(unit)
       local priceText = unit.getOpenCost().getTextAccordingToBalance()
       if (canBuyNotResearchedUnit)
       {
         button.append(["purchase", @() ::buyUnit(unit, true)])
+        defButton = "purchase"
+        msg.append("\n")
         msg.append(::loc("mainmenu/canOpenVehicle", {price = priceText}))
       }
       button.append(["cancel", function() {}])
 
-      ::scene_msg_box("cant_research_squadron_vehicle", null, ::g_string.implode(msg, "\n\n"),
-        button, "#mainmenu/btnFindSquadron")
+      ::scene_msg_box("cant_research_squadron_vehicle", null, ::g_string.implode(msg, "\n"),
+        button, defButton)
 
       return false
     } else
@@ -1539,7 +1549,7 @@ function fillAirInfoTimers(holderObj, air, needShopInfo)
     if (hpTrObj)
       if (isBroken)
       {
-        //local hpText = format("%d%%", floor(hp*100))
+        //local hpText = format("%d%%", ::floor(hp*100))
         //hpText += (hp < 1)? " (" + time.hoursToString(shop_time_until_repair(air.name)) + ")" : ""
         local hpText = ::loc("shop/damaged") + " (" + time.hoursToString(shop_time_until_repair(air.name), false, true) + ")"
         hpTrObj.show(true)
@@ -2203,10 +2213,15 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
         addInfoTextsList.append(::loc("mainmenu/leaveSquadronNotClearProgress"))
     }
     else if (!isResearched)
+    {
       if (expCur > 0)
         addInfoTextsList.append(::colorize("badTextColor", ::loc("mainmenu/needJoinSquadronForResearch/continue")))
       else
         addInfoTextsList.append(::colorize("badTextColor", ::loc("mainmenu/needJoinSquadronForResearch")))
+
+      if (::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
+        addInfoTextsList.append(::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC")))
+    }
   }
 
   if (isInFlight)

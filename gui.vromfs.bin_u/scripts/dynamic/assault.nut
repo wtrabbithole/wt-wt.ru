@@ -209,7 +209,7 @@ function _generateGAttackMission(isFreeFlight, createGroundUnitsProc)
 
 
 //mission warpoint cost calculate
-  local mission_mult = sqrt(bombersCount/20.0+0.05);
+  local mission_mult = ::sqrt(bombersCount/20.0+0.05);
   local ally_all_count = allyFightersCount + (bombersCount)*0.5-4;
   local missionWpCost = warpointCalculate(mission_preset_name, ally_all_count, enemyTotalCount, planeCost,
                                           playerAssaultPlane, mission_mult);

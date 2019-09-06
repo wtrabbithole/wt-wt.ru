@@ -314,7 +314,7 @@ function _generateBombingDefMission(isFreeFlight, createGroundUnitsProc)
   ::mgSetMinMaxAircrafts("enemy", "bomber", 8, 32);
 
 //mission warpoint cost calculate
-  local mission_mult = sqrt(bombersCount/15.0+0.05);
+  local mission_mult = ::sqrt(bombersCount/15.0+0.05);
   local missionWpCost = warpointCalculate(mission_preset_name, allyCount/0.6, enemyFightersCount+bombersCount*0.5, planeCost,
                                           playerFighterPlane, mission_mult);
   ::mgSetInt("mission_settings/mission/wpAward", missionWpCost);

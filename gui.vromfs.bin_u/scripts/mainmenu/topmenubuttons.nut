@@ -2,6 +2,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
 local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 local contentStateModule = ::require("scripts/clientState/contentState.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
+local platform = require("scripts/clientState/platform.nut")
 
 enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
@@ -176,7 +177,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   TSS = {
     text = "#topmenu/tss"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/tss"
     isLink = @() true
@@ -184,7 +185,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   STREAMS_AND_REPLAYS = {
     text = "#topmenu/streamsAndReplays"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/streamsAndReplays"
     isLink = @() true
@@ -244,15 +245,33 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     unseenIcon = @() SEEN.WARBONDS_SHOP
   }
   ONLINE_SHOP = {
-    text = @() xboxShopData.canUseIngameShop()? "#topmenu/xboxIngameShop" : "#msgbox/btn_onlineShop"
+    text = "#msgbox/btn_onlineShop"
     onClickFunc = @(obj, handler) handler.startOnlineShop()
+    link = ""
+    isLink = @() true
+    isFeatured = @() true
+    image = "#ui/gameuiskin#store_icon.svg"
+    isHidden = @(...) !::is_platform_pc || !::has_feature("SpendGold") || !::isInMenu() || !platform.canSpendRealMoney()
+  }
+  XBOX_ONLINE_SHOP = {
+    text = xboxShopData.canUseIngameShop()? "#topmenu/xboxIngameShop" : "#msgbox/btn_onlineShop"
+    onClickFunc = @(...) ::OnlineShopModel.launchXboxMarketplace()
     link = ""
     isLink = @() !xboxShopData.canUseIngameShop()
     isFeatured = @() !xboxShopData.canUseIngameShop()
     image = @() xboxShopData.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
     needDiscountIcon = true
-    isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
+    isHidden = @(...) !::is_platform_xboxone || !::isInMenu()
     unseenIcon = @() SEEN.EXT_XBOX_SHOP
+  }
+  PS4_ONLINE_SHOP = {
+    text = "#msgbox/btn_onlineShop"
+    onClickFunc = @(...) ::OnlineShopModel.launchPS4Store()
+    link = ""
+    isLink = @() true
+    isFeatured = @() true
+    image = "#ui/gameuiskin#store_icon.svg"
+    isHidden = @(...) !::is_platform_ps4 || !::isInMenu()
   }
   MARKETPLACE = {
     text = "#mainmenu/marketplace"

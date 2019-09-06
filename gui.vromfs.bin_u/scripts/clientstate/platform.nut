@@ -2,6 +2,10 @@ local string = require("std/string.nut")
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local XBOX_ONE_PLAYER_PREFIX = "^"
+local XBOX_ONE_PLAYER_POSTFIX = "@live"
+
+local PS4_PLAYER_PREFIX = "*"
+local PS4_PLAYER_POSTFIX = "@psn"
 
 local PS4_REGION_NAMES = {
   [::SCE_REGION_SCEE]  = "scee",
@@ -20,15 +24,24 @@ local isXBoxPlayerName = @(name) xboxNameRegexp.match(name)
 local ps4NameRegexp = ::regexp2(@"^['*']")
 local isPS4PlayerName = @(name) ps4NameRegexp.match(name)
 
-local getPlayerNameNoSpecSymbol = @(name) string.cutPrefix(name, "*", string.cutPrefix(name, XBOX_ONE_PLAYER_PREFIX, name))
+local getPlayerNameNoSpecSymbol = function(name, remove_prefix=true, remove_suffix=true) {
+  if (remove_prefix)
+    name = string.cutPrefix(name, PS4_PLAYER_PREFIX, string.cutPrefix(name, XBOX_ONE_PLAYER_PREFIX, name))
+  if (remove_suffix)
+    name = string.cutPostfix(name, PS4_PLAYER_POSTFIX, string.cutPostfix(name XBOX_ONE_PLAYER_POSTFIX, name))
+  return name
+}
+
 local getPlayerName = @(name) name
-if (isPlatformXboxOne)
-  getPlayerName = getPlayerNameNoSpecSymbol
+if (isPlatformXboxOne || isPlatformPS4)
+  getPlayerName = @(name) getPlayerNameNoSpecSymbol(name, !isPlatformPS4, true)
 
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 
-local isMePS4Player = @() isPS4PlayerName(::my_user_name)
-local isMeXBOXPlayer = @() isXBoxPlayerName(::my_user_name)
+local isMePS4Player = @() ::g_user_utils.haveTag("ps4")
+local isMeXBOXPlayer = @() ::g_user_utils.haveTag("xbone")
+
+local canSpendRealMoney = @() !isPlatformPC || !::has_entitlement("XBOXAccount")
 
 local isPs4XboxOneInteractionAvailable = function(name)
 {
@@ -131,5 +144,8 @@ return {
   getXboxChatEnableStatus = getXboxChatEnableStatus
   canInteractCrossConsole = canInteractCrossConsole
   isPs4XboxOneInteractionAvailable = isPs4XboxOneInteractionAvailable
+
+  canSpendRealMoney = canSpendRealMoney
+
   ps4RegionName = @() PS4_REGION_NAMES[::ps4_get_region()]
 }

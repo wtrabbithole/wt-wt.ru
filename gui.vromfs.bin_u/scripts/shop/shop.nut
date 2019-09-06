@@ -89,7 +89,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     }
 
     skipOpenGroup = true
-
     scene.findObject("shop_timer").setUserData(this)
     brokenList = []
 
@@ -590,7 +589,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                        (c0 > c1) ? "-90" : "90")
       lines += format(arrowFormat,
                        "horizontal",  //type
-                       (abs(c1 - c0) - 0.5) + "@shop_width + " + interval1, //width
+                       (::abs(c1 - c0) - 0.5) + "@shop_width + " + interval1, //width
                        "1@modArrowWidth", //height
                        (c1 > c0 ? (c0 + 0.5) : c0) + "@shop_width" + (c1 > c0 ? "" : (" - " + interval1)), //posX
                        (r1 + 0.5) + "@shop_height - 0.5@modArrowWidth", // posY
@@ -616,7 +615,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                        (c0 > c1) ? "-90" : "90")
 
       lines += format(lineFormat,
-                      (abs(c1-c0) - offset) + "@shop_width",
+                      (::abs(c1-c0) - offset) + "@shop_width",
                       "1@modLineWidth", //height
                       (::min(c0, c1) + 0.5 + (c0 > c1 ? 0 : offset)) + "@shop_width",
                       (lh + r0 + 1) + "@shop_height - 0.5@modLineWidth",
@@ -694,7 +693,10 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     }
 
     local sectionsTotal = treeData.sectionsPos.len() - 1
-    local totalWidth = guiScene.calcString("1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize", null)
+    local widthStr = ::is_small_screen
+      ? "1@maxWindowWidth -1@modBlockTierNumHeight -1@scrollBarSize"
+      : "1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize"
+    local totalWidth = guiScene.calcString(widthStr, null)
     local itemWidth = guiScene.calcString("@shop_width", null)
 
     local extraWidth = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
@@ -741,7 +743,10 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local tiersTotal = min(lastFilledRank, treeData.tree.len())
     local sectionsTotal = treeData.sectionsPos.len() - 1
 
-    local totalWidth = guiScene.calcString("1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize", null)
+    local widthStr = ::is_small_screen
+      ? "1@maxWindowWidth -1@modBlockTierNumHeight -1@scrollBarSize"
+      : "1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize"
+    local totalWidth = guiScene.calcString(widthStr, null)
     local itemWidth = guiScene.calcString("@shop_width", null)
 
     local extraRight = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
@@ -1514,6 +1519,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function updateGroupObjNavBar()
   {
     navBarGroupObj = groupChooseObj.findObject("nav-help-group")
+    navBarGroupObj.hasMaxWindowSize = ::is_small_screen ? "yes" : "no"
     initShowMode(navBarGroupObj)
     updateButtons()
   }

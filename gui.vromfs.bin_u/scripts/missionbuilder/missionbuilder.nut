@@ -278,6 +278,28 @@ class ::gui_handlers.MissionBuilder extends ::gui_handlers.GenericOptionsModal
   {
     local desc = ::get_option(optName)
     local obj = scene.findObject(desc.id)
+    if(desc.values.len() == 0)
+    {
+      local settings = ::toString({                      // warning disable: -declared-never-used
+          DYN_MAP = getSceneOptValue(::USEROPT_DYN_MAP),
+          DYN_ZONE = getSceneOptValue(::USEROPT_DYN_ZONE),
+          DYN_SURROUND = getSceneOptValue(::USEROPT_DYN_SURROUND),
+          DMP_MAP = getSceneOptValue(::USEROPT_DMP_MAP),
+          FRIENDLY_SKILL = getSceneOptValue(::USEROPT_FRIENDLY_SKILL),
+          ENEMY_SKILL = getSceneOptValue(::USEROPT_ENEMY_SKILL),
+          DIFFICULTY = getSceneOptValue(::USEROPT_DIFFICULTY),
+          TIME = getSceneOptValue(::USEROPT_TIME),
+          WEATHER = getSceneOptValue(::USEROPT_WEATHER),
+          TAKEOFF_MODE = getSceneOptValue(::USEROPT_TAKEOFF_MODE),
+          LIMITED_FUEL = scene.findObject(::get_option(::USEROPT_LIMITED_FUEL)?.id ?? "").getValue(),
+          LIMITED_AMMO = scene.findObject(::get_option(::USEROPT_LIMITED_AMMO)?.id ?? "").getValue()
+        })
+      local currentUnit = ::get_cur_slotbar_unit()?.name // warning disable: -declared-never-used
+      local optId = desc.id                              // warning disable: -declared-never-used
+      local values = ::toString(desc.values)             // warning disable: -declared-never-used
+      ::script_net_assert_once("MissionBuilder", "ERROR: Empty value in options.")
+      return
+    }
     if (obj) obj.setValue(::math.rnd() % desc.values.len())
   }
 

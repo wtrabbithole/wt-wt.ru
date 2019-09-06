@@ -57,7 +57,7 @@ function warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost
   if (enemyAllyCoef > 1.5)
     enemyAllyCoef = 1.5;
 
-  local missionWpFighterCoef = sqrt(enemyAllyCoef*mission_mult);
+  local missionWpFighterCoef = ::sqrt(enemyAllyCoef*mission_mult);
   if (missionWpFighterCoef < 0.5)
     missionWpFighterCoef = 0.5;
   if (missionWpFighterCoef > 1.5)

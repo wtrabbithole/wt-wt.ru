@@ -164,8 +164,8 @@ function get_unit_type_by_unit_name(unitId)
 
 function round(value, digits=0)
 {
-  local mul = pow(10, digits)
-  return floor(0.5 + value.tofloat()*mul) / mul
+  local mul = ::pow(10, digits)
+  return ::floor(0.5 + value.tofloat()*mul) / mul
 }
 
 function calc_battle_rating_from_rank(economicRank)
@@ -198,12 +198,12 @@ function player_activity_coef(score, time)
   
   local scoreToTime = 0.0
   if (time > standartMissionTime)
-    time = standartMissionTime+pow(time-standartMissionTime, standartMissionTimePow)
+    time = standartMissionTime + ::pow(time-standartMissionTime, standartMissionTimePow)
 
   if (time > 0.01)
-    scoreToTime = pow(customScore.tofloat(), mScorePow)/time
+    scoreToTime = ::pow(customScore.tofloat(), mScorePow)/time
 
-  local activity_coef = (1.0 - pow(mScoreBase, scoreToTime))
+  local activity_coef = (1.0 - ::pow(mScoreBase, scoreToTime))
 
   dagor.debug("player_activity_coef: "+activity_coef+" score "+score+" time "+time+" customScore "+customScore+" mScoreBase "+mScoreBase+ " scoreToTime "+scoreToTime+" mScorePow "+mScorePow+" customScoreMul "+customScoreMul)
 

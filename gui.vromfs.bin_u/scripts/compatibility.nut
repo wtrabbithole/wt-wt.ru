@@ -103,4 +103,7 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
     return !::warbonds_can_buy_battle_task(name)
   }
   function clan_get_exp_boost() {return 0}
+  YU2_DOI_INCOMPLETE = 31
+  get_authenticated_url_sso = @(u, s) get_authenticated_url_table(u)
+  get_player_tags = @() null
 })

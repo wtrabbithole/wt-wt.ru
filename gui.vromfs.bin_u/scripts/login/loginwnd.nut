@@ -553,6 +553,8 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
         ], "tryAgain")
         break
 
+      case ::YU2_DOI_INCOMPLETE:
+        ::showInfoMsgBox(::loc("yn1/login/DOI_INCOMPLETE"), "verification_email_to_complete")
         break
 
       default:

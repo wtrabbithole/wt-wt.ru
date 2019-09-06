@@ -256,7 +256,7 @@ function g_crew::getMaxSkillValue(skillItem)
 function g_crew::getSkillStepSize(skillItem)
 {
   local maxSkill = getMaxSkillValue(skillItem)
-  return ceil(maxSkill.tofloat() / getTotalSteps(skillItem)).tointeger() || 1
+  return ::ceil(maxSkill.tofloat() / getTotalSteps(skillItem)).tointeger() || 1
 }
 
 function g_crew::getTotalSteps(skillItem)

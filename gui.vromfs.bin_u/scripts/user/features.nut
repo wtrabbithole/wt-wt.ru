@@ -229,6 +229,8 @@
 
     AllowSteamAccountLinking = true
     AllowXboxAccountLinking = false
+
+    ClansXBOXOnPC = false
   }
 
   cache = {}

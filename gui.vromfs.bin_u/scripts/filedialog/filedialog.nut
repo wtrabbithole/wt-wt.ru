@@ -858,7 +858,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local isForward = shift > 0
-    local numSteps = abs(shift)
+    local numSteps = ::abs(shift)
 
     local sourceList = isForward ? dirHistoryAfter : dirHistoryBefore
     local targetList = isForward ? dirHistoryBefore : dirHistoryAfter

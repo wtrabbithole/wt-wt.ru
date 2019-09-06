@@ -267,7 +267,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
       local newProgressOb = sliderDivObj.findObject("new_exp_progress")
 
       local diffExp = unitReqExp - unitExpGranted
-      local maxGoldDiff = ceil(diffExp.tofloat() / expPerGold).tointeger()
+      local maxGoldDiff = ::ceil(diffExp.tofloat() / expPerGold).tointeger()
       minGoldValue  = (unitExpGranted.tofloat() / expPerGold).tointeger()
       maxGoldForAir = minGoldValue + maxGoldDiff
 

@@ -1,5 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
+local unitStatus = require("scripts/unit/unitStatus.nut")
 
 /*
 if need - put commented in array above
@@ -86,7 +87,7 @@ function build_aircraft_item(id, air, params = {})
         bitStatus = bit_unit_status.owned
       else if (::canBuyUnit(air) || ::canBuyUnitOnline(air) || ::canBuyUnitOnMarketplace(air))
         bitStatus = bit_unit_status.canBuy
-      else if (isLockedSquadronVehicle)
+      else if (isLockedSquadronVehicle && (!air.unitType.canSpendGold() || !unitStatus.canBuyNotResearched(air)))
       {
         bitStatus = bit_unit_status.locked
         inactive = shopResearchMode

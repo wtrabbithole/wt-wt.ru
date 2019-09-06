@@ -23,7 +23,7 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
     foreach(idx, pack in buyPointsPacks)
     {
       local skills = pack.skills || 1
-      local bonusDiscount = price ? floor(100.5 - 100.0 * pack.cost.gold / skills / price) : 0
+      local bonusDiscount = price ? ::floor(100.5 - 100.0 * pack.cost.gold / skills / price) : 0
       local bonusText = bonusDiscount ? format(::loc("charServer/entitlement/discount"), bonusDiscount) : ""
 
       rows.append({

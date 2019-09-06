@@ -70,7 +70,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
       local preset = presets[chosenValue]
       local hasFeatureTanks = ::has_feature("Tanks")
       local perRow = 3
-      local cells = ceil(preset.units.len() / perRow.tofloat()) * perRow
+      local cells = ::ceil(preset.units.len() / perRow.tofloat()) * perRow
       local unitItems = []
 
       local presetBattleRatingText = ""

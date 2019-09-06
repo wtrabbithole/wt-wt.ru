@@ -63,7 +63,7 @@ function g_discount::onEventUnitBought(p)
 
 function g_discount::updateXboxShopDiscounts()
 {
-  discountsList[::g_top_menu_buttons.ONLINE_SHOP.id] = xboxShopData.haveDiscount()
+  discountsList[::g_top_menu_buttons.XBOX_ONLINE_SHOP.id] = xboxShopData.haveDiscount()
   updateDiscountNotifications()
 }
 
@@ -101,7 +101,7 @@ function g_discount::updateDiscountData(isSilentUpdate = false)
     checkEntitlement(entName, entBlock, giftUnits)
 
   if (xboxShopData.canUseIngameShop())
-    discountsList[::g_top_menu_buttons.ONLINE_SHOP.id] = xboxShopData.haveDiscount()
+    discountsList[::g_top_menu_buttons.XBOX_ONLINE_SHOP.id] = xboxShopData.haveDiscount()
 
   local isShopDiscountVisible = false
   foreach(airName, discount in discountsList.airList)
@@ -142,9 +142,9 @@ function g_discount::checkEntitlement(entName, entlBlock, giftUnits)
   discountsList.entitlements[entName] <- discount
 
   if (chapter == "campaign" || chapter == "bonuses")
-    chapter = ::g_top_menu_buttons.ONLINE_SHOP.id
+    chapter = ::g_top_menu_buttons.XBOX_ONLINE_SHOP.id
 
-  discountsList[chapter] <- chapter == ::g_top_menu_buttons.ONLINE_SHOP.id ?
+  discountsList[chapter] <- chapter == ::g_top_menu_buttons.XBOX_ONLINE_SHOP.id ?
       (xboxShopData.canUseIngameShop() || ::is_platform_pc)
     : true
 

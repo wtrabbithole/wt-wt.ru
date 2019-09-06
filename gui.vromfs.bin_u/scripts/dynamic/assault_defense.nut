@@ -208,7 +208,7 @@ function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
   ::mgSetMinMaxAircrafts("enemy", "assault", 8, 24);
 
 //mission warpoint cost calculate
-  local mission_mult = sqrt(bombersCount/11.0+0.05);
+  local mission_mult = ::sqrt(bombersCount/11.0+0.05);
   local missionWpCost = warpointCalculate(mission_preset_name, allyFighterCount, enemyFightersCount+bombersCount*0.5, planeCost,
                                           playerFighterPlane, mission_mult);
   ::mgSetInt("mission_settings/mission/wpAward", missionWpCost);

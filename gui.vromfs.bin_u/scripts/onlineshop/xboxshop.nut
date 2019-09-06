@@ -177,7 +177,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     updateItemInfo()
 
     generatePaginator(scene.findObject("paginator_place"), this,
-      curPage, ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
+      curPage, ::ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
 
     if (!itemsList.len())
       focusSheetsList()

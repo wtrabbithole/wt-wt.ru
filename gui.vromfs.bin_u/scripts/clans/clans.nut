@@ -396,7 +396,7 @@ function g_clans::markClanCandidatesAsViewed()
 
 function g_clans::isHaveRightsToReviewCandidates()
 {
-  if( ! ::is_in_clan())
+  if (!::is_in_clan() || !::has_feature("Clans"))
     return false
   local rights = ::clan_get_role_rights(::clan_get_my_role())
   return isInArray("MEMBER_ADDING", rights) || isInArray("MEMBER_REJECT", rights)
@@ -404,7 +404,10 @@ function g_clans::isHaveRightsToReviewCandidates()
 
 function g_clans::parseSeenCandidates()
 {
-  if( ! seenCandidatesBlk)
+  if (!::has_feature("Clans"))
+    return
+
+  if (!seenCandidatesBlk)
     seenCandidatesBlk = loadSeenCandidates()
 
   local isChanged = false
@@ -626,7 +629,10 @@ function g_clans::membershipRequestSend(clanId)
       return
     }
 
-    ::g_popups.add("", ::loc("clan/requestSent"))
+    local text = ::loc("clan/requestSent")
+    if (::has_feature("ClansXBOXOnPC"))
+      text += "\n" + ::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC"))
+    ::g_popups.add("", text)
     ::broadcastEvent("ClanMembershipRequested")
   }
   ::g_tasker.addTask(taskId, {showProgressBox = true}, onSuccess)

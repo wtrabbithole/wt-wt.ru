@@ -3,6 +3,7 @@ local time = require("scripts/time.nut")
 local contentPreview = require("scripts/customization/contentPreview.nut")
 local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 local stdMath = require("std/math.nut")
+local platform = require("scripts/clientState/platform.nut")
 
 local MOD_TIERS_COUNT = 4
 
@@ -365,7 +366,9 @@ local Unit = class
       return false
     if (showOnlyWhenResearch && !isUnitInResearch(this) && getUnitExp(this) <= 0)
       return false
-    if(hideFeature != null && ::has_feature(hideFeature))
+    if (hideFeature != null && ::has_feature(hideFeature))
+      return false
+    if (::isUnitGift(this) && !platform.canSpendRealMoney())
       return false
     return true
   }

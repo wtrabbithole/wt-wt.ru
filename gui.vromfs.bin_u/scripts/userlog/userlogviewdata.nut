@@ -914,7 +914,7 @@ function get_userlog_view_data(log)
       goldBalance = log.goldBalance
 
     local suffix = (goldAdd >= 0) ? "/positive" : "/negative"
-    res.name = ::loc("userlog/"+logName+suffix, { gold = ::Cost(0, abs(goldAdd)).toStringWithParams({isGoldAlwaysShown = true}),
+    res.name = ::loc("userlog/"+logName+suffix, { gold = ::Cost(0, ::abs(goldAdd)).toStringWithParams({isGoldAlwaysShown = true}),
       balance = ::getGpPriceText(goldBalance, true) })
     res.description <- comment  // not localized
   }
@@ -1408,7 +1408,7 @@ function get_userlog_view_data(log)
           {
             if (award_val.type == "gold")
               desc += "\n" + "<color=@activeTextColor>" +
-                ::Cost(0, abs(award_val.award)).toStringWithParams({isGoldAlwaysShown = true}) + "</color>"
+                ::Cost(0, ::abs(award_val.award)).toStringWithParams({isGoldAlwaysShown = true}) + "</color>"
             if (award_val.type == "premium")
               desc += "\n" + "<color=@activeTextColor>" + award_val.award + "</color>"
             if (award_val.type == "booster")

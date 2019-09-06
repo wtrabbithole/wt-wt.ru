@@ -104,7 +104,7 @@ function countUsageAmountOnce()
 
   for(local i = 0; i<::usageRating_amount.len(); i++)
   {
-    local idx = floor((i+1).tofloat() * shopStatsAirs.len() / (::usageRating_amount.len()+1) + 0.5)
+    local idx = ::floor((i+1).tofloat() * shopStatsAirs.len() / (::usageRating_amount.len()+1) + 0.5)
     ::usageRating_amount[i] = (idx==shopStatsAirs.len()-1)? shopStatsAirs[idx] : 0.5 * (shopStatsAirs[idx] + shopStatsAirs[idx+1])
   }
   usageAmountCounted = true

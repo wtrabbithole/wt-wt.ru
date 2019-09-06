@@ -113,9 +113,10 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     }
     scene.findObject("queue_players_total").setValue(txtPlayersWaiting)
     local params = getCurQueue().params
-    if("mrank" in params)
-      scene.findObject("battle_rating").setValue(
-        ::loc("shop/battle_rating") +" "+ format("%.1f", ::calc_battle_rating_from_rank(params.mrank)))
+    local strBR = "mrank" in params
+      ? ::loc("shop/battle_rating") +" "+ format("%.1f", ::calc_battle_rating_from_rank(params.mrank))
+      : ""
+    scene.findObject("battle_rating").setValue(strBR)
     updateAvailableCountries()
   }
 

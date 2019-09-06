@@ -2223,7 +2223,7 @@ function SessionLobby::getMembersReadyStatus()
   local haveBots = getMissionParam("isBotsAllowed", false)
   local maxInTeam = (0.5*getMaxMembersCount() + 0.5).tointeger()
 
-  if ((!haveBots && (abs(teamsCount[Team.A] - teamsCount[Team.B]) - teamsCount[Team.Any] > 1))
+  if ((!haveBots && (::abs(teamsCount[Team.A] - teamsCount[Team.B]) - teamsCount[Team.Any] > 1))
       || teamsCount[Team.A] > maxInTeam || teamsCount[Team.B] > maxInTeam)
   {
     res.readyToStart = false

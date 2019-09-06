@@ -197,7 +197,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function createPrefferedUnitTypeCountries()
   {
-    local rows = ::max(2, ceil(sqrt(4.0/3 * countries.len())).tointeger())
+    local rows = ::max(2, ::ceil(::sqrt(4.0/3 * countries.len())).tointeger())
     setFrameWidth(format("%d@countryChoiceImageWidth + %d@countryChoiceInterval", rows, rows - 1))
 
     local availCountries = selectedUnitType ? ::get_countries_by_unit_type(selectedUnitType.esUnitType) : countries

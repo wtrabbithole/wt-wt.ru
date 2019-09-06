@@ -398,7 +398,7 @@ missionGenFunctions.append( function (isFreeFlight)
   ::mgSetupArmada("#player_cut.any", "waypoint00", Point3(0, 0, 0), "waypoint01", "", 4, 4, playerFighterPlane);
   ::gmMarkCutsceneArmadaLooksLike("#player_cut.any", "#player.fighter");
 
-  local mission_mult = sqrt(enemyTotalCount/15.0);
+  local mission_mult = ::sqrt(enemyTotalCount/15.0);
 
   ::mgSetMinMaxAircrafts("player", "", 1, 8);
   ::mgSetMinMaxAircrafts("ally", "fighter", 0, 44);

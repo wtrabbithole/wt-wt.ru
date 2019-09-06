@@ -3,10 +3,10 @@ local Flags = {
   WITHOUT_MODIFIERS = 1
 }
 
-local replaceAxes = function(items, ctrlGroup, replacements, flags = Flags.NONE) {
+local replaceAxes = function(ctrlGroup, replacements, flags = Flags.NONE) {
   local isUpdated = false
   local groupAxes = []
-  foreach (item in items)
+  foreach (item in ::shortcutsList)
     if ((item.checkGroup & ctrlGroup) && item.type == CONTROL_TYPE.AXIS)
       groupAxes.append(item.id)
 
@@ -29,14 +29,14 @@ local replaceAxes = function(items, ctrlGroup, replacements, flags = Flags.NONE)
   return isUpdated
 }
 
-local swapGamepadSticks = function(items, ctrlGroup, flags = Flags.NONE) {
+local swapGamepadSticks = function(ctrlGroup, flags = Flags.NONE) {
   local replacements = {
     [::AXIS.LEFTSTICK_X] = ::AXIS.RIGHTSTICK_X,
     [::AXIS.LEFTSTICK_Y] = ::AXIS.RIGHTSTICK_Y,
     [::AXIS.RIGHTSTICK_X] = ::AXIS.LEFTSTICK_X,
     [::AXIS.RIGHTSTICK_Y] = ::AXIS.LEFTSTICK_Y,
   }
-  return replaceAxes(items, ctrlGroup, replacements, flags)
+  return replaceAxes(ctrlGroup, replacements, flags)
 }
 
 return {

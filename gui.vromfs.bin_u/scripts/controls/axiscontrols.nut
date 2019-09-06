@@ -1,3 +1,5 @@
+local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
+
 class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 {
   wndType = handlerType.MODAL
@@ -49,12 +51,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
     if ("modifiersId" in axisItem)
       foreach(name, shortcutId in axisItem.modifiersId)
-        foreach(idx, block in ::shortcutsAxisList)
-          if (name == block.id)
-          {
-            block.shortcutId = shortcutId
-            break
-          }
+        shortcutsAxisListModule[name].shortcutId = shortcutId
 
     fillAxisDropright()
     fillAxisTable(axis)
@@ -109,18 +106,16 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     if (!::checkObj(axisControlsTbl))
       return
 
-    local hideAxisOptionsArray = []
-    if (axisItem && ("hideAxisOptions" in axisItem))
-      hideAxisOptionsArray = axisItem.hideAxisOptions
+    local hideAxisOptionsArray = axisItem?.hideAxisOptions ?? []
 
     local data = ""
-    for(local i=0; i < ::shortcutsAxisList.len(); i++)
+    foreach (idx, item in shortcutsAxisListModule.types)
     {
       local addTrParams = ""
-      if (isInArray(::shortcutsAxisList[i].id, hideAxisOptionsArray))
+      if (::isInArray(item.id, hideAxisOptionsArray))
         addTrParams = "hiddenTr:t='yes'; inactive:t='yes';"
 
-      local hotkeyData = ::buildHotkeyItem(i, shortcuts, ::shortcutsAxisList[i], axis, i%2 == 0, addTrParams)
+      local hotkeyData = ::buildHotkeyItem(item.id, shortcuts, item, axis, idx%2 == 0, addTrParams)
       data += hotkeyData.markup
     }
 
@@ -137,7 +132,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     updateAxisItemsPos([0,0])
     updateButtons()
 
-    foreach(item in ::shortcutsAxisList)
+    foreach(item in shortcutsAxisListModule.types)
       if (item.type == CONTROL_TYPE.SLIDER)
       {
         local slideObj = scene.findObject(item.id)
@@ -158,26 +153,23 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   {
     local txtObj = null
     txtObj = scene.findObject("txt_rangeMax")
-    if (::checkObj(txtObj))
+    if (::check_obj(txtObj))
       txtObj.setValue(::loc(isRelative? "hotkeys/rangeInc" : "hotkeys/rangeMax"))
 
     txtObj = scene.findObject("txt_rangeMin")
-    if (::checkObj(txtObj))
+    if (::check_obj(txtObj))
       txtObj.setValue(::loc(isRelative? "hotkeys/rangeDec" : "hotkeys/rangeMin"))
 
-    for(local i=0; i < ::shortcutsAxisList.len(); i++)
+    foreach (item in [shortcutsAxisListModule.kRelSpd, shortcutsAxisListModule.kRelStep])
     {
-      local item = ::shortcutsAxisList[i]
-      if (item.id == "kRelSpd" || item.id == "kRelStep")
-      {
-        local obj = scene.findObject("table_row_" + i)
-        if (!::checkObj(obj))
-          continue
+      local obj = scene.findObject("table_row_" + item.id)
+      if (!::check_obj(obj))
+        continue
 
-        obj.inactive = isRelative? "no" : "yes"
-        obj.enable = isRelative? "yes" : "no"
-      }
+      obj.inactive = isRelative? "no" : "yes"
+      obj.enable = isRelative? "yes" : "no"
     }
+
     restoreFocus()
   }
 
@@ -187,15 +179,8 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     if (!::checkObj(textObj))
       return
 
-    local reqItem = null
-    foreach(item in ::shortcutsAxisList)
-      if (item.type == CONTROL_TYPE.SLIDER && item.id == obj.id)
-      {
-        reqItem = item
-        break
-      }
-
-    if (reqItem == null)
+    local reqItem = shortcutsAxisListModule?[obj.id]
+    if (reqItem?.type != CONTROL_TYPE.SLIDER)
       return
 
     local value = obj.getValue()
@@ -203,7 +188,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     if ("showValueMul" in reqItem)
       valueText = (reqItem.showValueMul * value).tostring()
     else
-      valueText = value * (("showValuePercMul" in reqItem)? reqItem.showValuePercMul : 1) + "%"
+      valueText = value * (reqItem?.showValuePercMul ?? 1) + "%"
 
     textObj.setValue(valueText)
   }
@@ -284,7 +269,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     axis.relative = false
     axis.keepDisabledValue = false
 
-    foreach(item in ::shortcutsAxisList)
+    foreach (item in shortcutsAxisListModule.types)
     {
       if (item.type == CONTROL_TYPE.SLIDER || item.type == CONTROL_TYPE.SPINNER || item.type == CONTROL_TYPE.SWITCH_BOX)
       {
@@ -320,14 +305,10 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   function getCurItem()
   {
     local objTbl = scene.findObject(optionTableId)
-    if (!::checkObj(objTbl))
+    if (!::check_obj(objTbl))
       return null
 
-    local idx = objTbl.cur_row.tointeger()
-    if (idx < 0 || idx >= ::shortcutsAxisList.len())
-      return null
-
-    return ::shortcutsAxisList[idx]
+    return shortcutsAxisListModule.types?[objTbl.cur_row.tointeger()]
   }
 
   function onAxisInputTimer(obj, dt)
@@ -355,10 +336,10 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       }
       local dPos = rawPos - rawValues.def
 
-      if (abs(dPos) > deviation)
+      if (::abs(dPos) > deviation)
       {
         foundAxis = i
-        deviation = abs(dPos)
+        deviation = ::abs(dPos)
 
         if (fabs(rawPos-rawValues.last) < 1000)  //check stucked axes
         {
@@ -415,7 +396,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
     val = fabs(val) < deadzone? 0 : valSign * ((fabs(val) - deadzone) / (1.0 - deadzone))
 
-    val = valSign * (pow(fabs(val), (1 + nonlin)))
+    val = valSign * (::pow(fabs(val), (1 + nonlin)))
 
     updateAxisItemsPos([val, devVal])
   }

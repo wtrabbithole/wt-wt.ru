@@ -713,7 +713,7 @@ function LinesGenerator::doubleLineChooseBestInZone(zoneData, link, lineWidth)
     if (!dFound)
       continue
 
-    local _bestDiff = abs(_posAxis - bestPos) + abs(_posAltAxis - altBestPos)
+    local _bestDiff = ::abs(_posAxis - bestPos) + ::abs(_posAltAxis - altBestPos)
     if (!found || _bestDiff < bestDiff)
     {
       found = true

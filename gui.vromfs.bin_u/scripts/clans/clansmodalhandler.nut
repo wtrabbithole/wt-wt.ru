@@ -393,6 +393,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         curPageObj.findObject("req_clan_name").setValue(::clan_get_my_clan_tag() + " " + ::clan_get_my_clan_name())
       }
       curPageObj.findObject("reques_to_clan_sent").show(requestSent)
+      curPageObj.findObject("clans_console_pc_warning").show(::has_feature("ClansXBOXOnPC"))
       curPageObj.findObject("how_to_get_membership").show(!requestSent)
     }
     else {
@@ -560,7 +561,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     printLeaderboards(lbBlk)
 
     local paginatorObj = lbPageObj.findObject("mid_nav_bar")
-    local myPage = (myClanLbData != null && "pos" in myClanLbData) ? floor(myClanLbData.pos / clansPerPage) : null
+    local myPage = (myClanLbData != null && "pos" in myClanLbData) ? ::floor(myClanLbData.pos / clansPerPage) : null
     generatePaginator(paginatorObj, this, curClanLbPage, curClanLbPage + (isLastPage? 0 : 1), myPage)
   }
 

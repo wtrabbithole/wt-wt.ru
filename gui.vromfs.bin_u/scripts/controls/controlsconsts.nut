@@ -97,3 +97,8 @@ enum CONTROL_HELP_PATTERN {
   GAMEPAD,
   KEYBOARD_MOUSE
 }
+
+enum AxisDirection {
+  X,
+  Y
+}

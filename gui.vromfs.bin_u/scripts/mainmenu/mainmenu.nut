@@ -155,8 +155,8 @@ function on_mainmenu_return(handler, isAfterLogin)
 
   if (!guiScene.hasModalObject() && isAllowPopups)
   {
-    handler.doWhenActive(::g_user_utils.checkAutoShowPS4EmailRegistration)
-    handler.doWhenActive(::g_user_utils.checkAutoShowSteamEmailRegistration)
+    handler.doWhenActive(@() ::g_user_utils.checkAutoShowPS4EmailRegistration())
+    handler.doWhenActive(@() ::g_user_utils.checkAutoShowSteamEmailRegistration())
   }
 
   if (isAllowPopups && !guiScene.hasModalObject() && !::is_platform_ps4 && ::has_feature("Facebook"))

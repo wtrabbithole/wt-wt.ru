@@ -355,33 +355,31 @@ function g_login::firstMainMenuLoad()
     handler.doWhenActive(::check_tutorial_on_start)
   handler.doWhenActive(::check_joystick_thustmaster_hotas)
 
-  if (::has_feature("CheckEmailVerified"))
-    if (!::check_account_tag("email_verified"))
-      handler.doWhenActive(function () {
-        msgBox(
-        "email_not_verified_msg_box",
-        ::loc("mainmenu/email_not_verified"),
-        [
-          ["later", function() {} ],
-          ["verify", function() {::go_to_account_web_page("email_verification_popup")}]
-        ],
-        "later", { cancel_fn = function() {}}
-      )})
+  if (::has_feature("CheckEmailVerified") && !::g_user_utils.haveTag("email_verified"))
+    handler.doWhenActive(function () {
+      msgBox(
+      "email_not_verified_msg_box",
+      ::loc("mainmenu/email_not_verified"),
+      [
+        ["later", function() {} ],
+        ["verify", function() {::go_to_account_web_page("email_verification_popup")}]
+      ],
+      "later", { cancel_fn = function() {}}
+    )})
 
-  if (::has_feature("CheckTwoStepAuth"))
-    if (!::check_account_tag("2step"))
-      handler.doWhenActive(function () {
-        ::g_popups.add(
-          ::loc("mainmenu/two_step_popup_header"),
-          ::loc("mainmenu/two_step_popup_text"),
-          null,
-          [{
-            id = "acitvate"
-            text = ::loc("msgbox/btn_activate")
-            func = function() {::go_to_account_web_page("2step_auth_popup")}
-          }]
-        )
-      })
+  if (::has_feature("CheckTwoStepAuth") && !::g_user_utils.haveTag("2step"))
+    handler.doWhenActive(function () {
+      ::g_popups.add(
+        ::loc("mainmenu/two_step_popup_header"),
+        ::loc("mainmenu/two_step_popup_text"),
+        null,
+        [{
+          id = "acitvate"
+          text = ::loc("msgbox/btn_activate")
+          func = function() {::go_to_account_web_page("2step_auth_popup")}
+        }]
+      )
+    })
 
   ::queues.init()
   ::set_host_cb(null, function(p) { ::SessionLobby.hostCb(p) })

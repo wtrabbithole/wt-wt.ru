@@ -715,6 +715,17 @@ local function cutPrefix(id, prefix, defValue = null) {
   return defValue
 }
 
+local function cutPostfix(id, postfix, defValue = null) {
+  if (!id)
+    return defValue
+
+  local pLen = postfix.len()
+  local idLen = id.len()
+  if ((idLen >= pLen) && (id.slice(-1 * pLen) == postfix))
+    return id.slice(0, idLen - pLen)
+  return defValue
+}
+
 local function intToStrWithDelimiter(value, delimiter = " ", charsAmount = 3) {
   local res = value.tointeger().tostring()
   local negativeSignCorrection = value < 0 ? 1 : 0
@@ -854,6 +865,7 @@ local export = {
   utf8ToLower = utf8ToLower
   hexStringToInt = hexStringToInt
   cutPrefix = cutPrefix
+  cutPostfix = cutPostfix
   intToStrWithDelimiter = intToStrWithDelimiter
   stripTags = stripTags
   escape = escape

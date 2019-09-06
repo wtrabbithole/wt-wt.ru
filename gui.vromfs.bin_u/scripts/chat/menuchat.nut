@@ -1254,6 +1254,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::g_chat.isSystemChatRoom(roomId))
         return
 
+      if (::g_chat.isRoomClan(roomId) && !::has_feature("Clans"))
+        return
+
       local room = ::g_chat.getRoomById(roomId)
       if (!room)
         room = addRoom(roomId)

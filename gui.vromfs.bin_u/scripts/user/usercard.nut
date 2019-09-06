@@ -930,7 +930,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
           rowObj.findObject(name).tooltip = value
     }
     local nestObj = scene.findObject("paginator_place")
-    ::generatePaginator(nestObj, this, curStatsPage, floor((airStatsList.len() - 1)/statsPerPage))
+    ::generatePaginator(nestObj, this, curStatsPage, ::floor((airStatsList.len() - 1)/statsPerPage))
     updateButtons()
   }
 

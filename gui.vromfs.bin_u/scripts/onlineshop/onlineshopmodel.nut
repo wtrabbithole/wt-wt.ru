@@ -322,7 +322,7 @@ function OnlineShopModel::doBrowserPurchase(goodsName)
 
 function OnlineShopModel::doBrowserPurchaseByGuid(guid, dbgGoodsName = "")
 {
-  if (::steam_is_running() && (::check_account_tag("steam") || ::has_feature("AllowSteamAccountLinking"))) //temporary use old code pass for steam
+  if (::steam_is_running() && (::g_user_utils.haveTag("steam") || ::has_feature("AllowSteamAccountLinking"))) //temporary use old code pass for steam
   {
     local response = ::shell_purchase_in_steam(guid);
     if (response > 0)
@@ -651,7 +651,7 @@ function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
   if (::isInArray(chapter, [null, ""]))
   {
     local webStoreUrl = ::loc("url/webstore", "")
-    if (::steam_is_running() && (::check_account_tag("steam") || ::has_feature("AllowSteamAccountLinking")))
+    if (::steam_is_running() && (::g_user_utils.haveTag("steam") || ::has_feature("AllowSteamAccountLinking")))
       webStoreUrl = ::format(::loc("url/webstore/steam"), ::steam_get_my_id())
 
     if (webStoreUrl != "")

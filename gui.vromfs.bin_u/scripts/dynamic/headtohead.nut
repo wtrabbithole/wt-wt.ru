@@ -129,7 +129,7 @@ missionGenFunctions.append( function (isFreeFlight)
   local winCount = enemyCount/5.0;
   if (winCount < 2){winCount = 2}
 
-  local mission_mult = sqrt(winCount/4.0+0.05);
+  local mission_mult = ::sqrt(winCount/4.0+0.05);
 
   local missionWpCost = warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost, playerFighterPlane, mission_mult);
   ::mgSetInt("mission_settings/mission/wpAward", missionWpCost);

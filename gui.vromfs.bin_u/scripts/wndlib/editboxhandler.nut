@@ -17,6 +17,8 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
   maxLen = 0
   multiline = false
   charMask = null
+  editBoxEnableFunc = null
+  editBoxTextOnDisable = null
 
   title = ::loc("mainmenu/password")
   editboxHeaderText = ""
@@ -35,13 +37,18 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
 
     editBoxObj = showSceneBtn(multiline ? "edit_box_window_text_multiline" : "edit_box_window_text", true)
 
+    local isEnabled = editBoxEnableFunc? editBoxEnableFunc() : true
+    editBoxObj.enable(isEnabled)
+    if (isEnabled)
+      editBoxObj.select()
+    if (editBoxTextOnDisable)
+      editBoxObj["edit-hint"] = editBoxTextOnDisable
     if (value)
       editBoxObj.setValue(value)
     if (maxLen)
       editBoxObj["max-len"] = maxLen.tostring()
     if (charMask)
       editBoxObj["char-mask"] = charMask
-    editBoxObj.select()
     if (needOpenIMEonInit)
       editBoxObj.setValue(true) //opens IME, not change text.
 

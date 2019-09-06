@@ -24,8 +24,10 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
     if (::load_local_account_settings(path, false))
       return
 
-    ::xbox_show_rate_and_review()
-    ::save_local_account_settings(path, true)
+    if (::xbox_show_rate_and_review()) //if success - save show status
+      ::save_local_account_settings(path, true)
+
+    // in case of error, show in next launch.
     needShowRateWnd = false
   }
 
@@ -101,7 +103,7 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
 
   function checkAutoShowSteamEmailRegistration()
   {
-    if (!::steam_is_running() || !::check_account_tag("steamlogin") || !::has_feature("AllowSteamAccountLinking"))
+    if (!::steam_is_running() || !haveTag("steamlogin") || !::has_feature("AllowSteamAccountLinking"))
       return
 
     if (::g_language.getLanguageName() != "Japanese")
@@ -135,7 +137,7 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
 
   function checkAutoShowPS4EmailRegistration()
   {
-    if (!::is_platform_ps4 || !::check_account_tag("psnlogin"))
+    if (!::is_platform_ps4 || !haveTag("psnlogin"))
       return
 
     if (::loadLocalByAccount("PS4EmailRegistrationShowed", false))
@@ -165,6 +167,8 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
       checkButtonFunc = ::g_string.validateEmail
       allowEmpty = false
       needOpenIMEonInit = false
+      editBoxEnableFunc = @() ::g_user_utils.haveTag("livelogin")
+      editBoxTextOnDisable = ::loc("mainmenu/alreadyBinded")
       okFunc = @(val) ::xbox_link_email(val, function(status) {
         ::g_popups.add("", ::colorize(
           status == ::YU2_OK? "activeTextColor" : "warningTextColor",
@@ -172,5 +176,12 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
         ))
       })
     })
+  }
+
+  function haveTag(tag)
+  {
+    local playerTags = ::get_player_tags()
+    return playerTags == null ? ::check_account_tag(tag)
+      : playerTags.find(tag) != null
   }
 }

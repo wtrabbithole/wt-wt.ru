@@ -20,7 +20,7 @@ focusFrame.setAnimFunction(function(animObj, curTgt, prevTgt)
     local offsetMin = ::g_dagui_utils.toPixels(animObj.getScene(), "@focusFrameAnimOffsetMin")
     local sh = ::screen_height()
     local minSh = 0.2 * sh
-    local dist = ::max(abs(prevTgt.pos[0] - curTgt.pos[0]), abs(prevTgt.pos[1] - curTgt.pos[1]))
+    local dist = ::max(::abs(prevTgt.pos[0] - curTgt.pos[0]), ::abs(prevTgt.pos[1] - curTgt.pos[1]))
     dist = ::clamp(dist, minSh, sh)
     offset = stdMath.lerp(minSh, sh, offsetMin, offsetMax, dist)
   }

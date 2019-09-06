@@ -8,6 +8,7 @@ enum FONT_SAVE_ID {
   COMPACT = "compact"
   MEDIUM = "medium"
   LARGE = "big"
+  HUGE = "huge"
 
   //wop_1_69_3_x fonts
   PX = "px"
@@ -26,6 +27,7 @@ enum FONT_SIZE_ORDER {
   MEDIUM
   LARGE
   SCALE  //wop_1_69_3_X
+  HUGE
 }
 
 local hasNewFontsSizes = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63")
@@ -120,6 +122,15 @@ enums.addTypesByGlobalName("g_font",
     sizeOrder = FONT_SIZE_ORDER.LARGE
     saveIdCompatibility = [FONT_SAVE_ID.SCALE]
   }
+
+  HUGE = {
+    fontGenId = "_set_huge"
+    saveId = FONT_SAVE_ID.HUGE
+    sizeMultiplier = 1.2
+    sizeOrder = FONT_SIZE_ORDER.HUGE
+
+    isAvailable = @(sWidth, sHeight) ::is_small_screen
+  }
 },
 null,
 "id")
@@ -176,6 +187,8 @@ function g_font::getDefault()
 
   if (::is_platform_shield_tv() || ::is_ps4_or_xbox || ::is_steam_big_picture())
     return LARGE
+  if (::is_small_screen)
+    return HUGE
 
   local displayScale = ::display_scale()
   local sWidth = ::screen_width()

@@ -187,7 +187,7 @@ function get_profile_info()
   if (::current_user_profile.country!="country_0")
     ::current_user_profile.countryRank <- ::get_player_rank_by_country(::current_user_profile.country)
 
-  local isInClan = ::has_feature("Clans") && (::clan_get_my_clan_id() != "-1")
+  local isInClan = ::clan_get_my_clan_id() != "-1"
   ::current_user_profile.clanTag <- isInClan ? ::clan_get_my_clan_tag() : ""
   ::current_user_profile.clanName <- isInClan  ? ::clan_get_my_clan_name() : ""
   ::current_user_profile.clanType <- isInClan  ? ::clan_get_my_clan_type() : ""
