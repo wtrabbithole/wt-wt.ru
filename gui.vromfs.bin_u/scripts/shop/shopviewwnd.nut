@@ -20,6 +20,10 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
     if (isSquadronResearchMode)
       slotbarActions = [ "research", "buy", "take", "weapons", "crew", "info", "repair" ]
 
+    local extraBgShadeObj = scene.findObject("shop_wnd_bg_extra_shade")
+    if (::check_obj(extraBgShadeObj))
+      extraBgShadeObj.show(isSquadronResearchMode)
+
     createSlotbar(
       {
         showNewSlot = true,
@@ -121,7 +125,11 @@ class ::gui_handlers.ShopViewWnd extends ::gui_handlers.ShopMenuHandler
       spendExpBtn.show(showSpendBtn)
       spendExpBtn.enable(showSpendBtn)
       if (showSpendBtn)
+      {
+        spendExpBtn["visualStyle"] = ""
+        spendExpBtn["class"] = "battle"
         ::set_double_text_to_button(navBar, "btn_spend_exp", coloredText)
+      }
     }
   }
 
