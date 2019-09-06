@@ -3,6 +3,12 @@ local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local XBOX_ONE_PLAYER_PREFIX = "^"
 
+local PS4_REGION_NAMES = {
+  [::SCE_REGION_SCEE]  = "scee",
+  [::SCE_REGION_SCEA]  = "scea",
+  [::SCE_REGION_SCEJ]  = "scej"
+}
+
 local targetPlatform = ::get_platform()
 local isPlatformXboxOne = targetPlatform == "xboxOne"
 local isPlatformPS4 = targetPlatform == "ps4"
@@ -125,4 +131,5 @@ return {
   getXboxChatEnableStatus = getXboxChatEnableStatus
   canInteractCrossConsole = canInteractCrossConsole
   isPs4XboxOneInteractionAvailable = isPs4XboxOneInteractionAvailable
+  ps4RegionName = @() PS4_REGION_NAMES[::ps4_get_region()]
 }

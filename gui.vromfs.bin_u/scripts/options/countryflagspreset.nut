@@ -6,6 +6,8 @@ function get_country_flags_preset()
 {
   if (::is_vendor_tencent())
     return "tencent"
+  if (::is_chinese_version())
+    return "chinese"
   if (::is_vietnamese_version())
     return "vietnam"
   return "default"

@@ -1,5 +1,6 @@
 local xboxShop = ::require("scripts/onlineShop/xboxShop.nut")
 local SecondsUpdater = ::require("sqDagui/timer/secondsUpdater.nut")
+local platform = ::require("scripts/clientState/platform.nut")
 /*
  * Search in price.blk:
  * Search parapm is a table of request fields
@@ -39,9 +40,6 @@ function OnlineShopModel::showGoods(searchRequest)
       return openShopUrl(customUrl)
   }
 
-  if (::is_platform_ps4)
-    return launchPS4Store()
-
   __assyncActionWrap(function ()
     {
       local searchResult = searchEntitlement(searchRequest)
@@ -53,11 +51,22 @@ function OnlineShopModel::showGoods(searchRequest)
           if (xboxId != "")
             return ::xbox_show_details(xboxId)
         }
+        else if (::is_platform_ps4)
+        {
+          local psnId = getPsnIdForGoods(goodsName)
+          if (psnId != "")
+            return ::ps4_open_store(psnId, true)
+        }
         else if (getGuidForGoods(goodsName) != "")
           return doBrowserPurchase(goodsName)
       }
 
-      return ::is_platform_xboxone? launchXboxMarketplace() : ::gui_modal_onlineShop()
+      if (::is_platform_xboxone)
+        return launchXboxMarketplace()
+      else if (::is_platform_ps4)
+        return launchPS4Store()
+
+      return ::gui_modal_onlineShop()
     }.bindenv(OnlineShopModel))
 }
 /*end API methods*/
@@ -145,6 +154,14 @@ function OnlineShopModel::getGuidForGoods(goodsName)
 function OnlineShopModel::getXboxIdForGoods(goodsName)
 {
   return ::loc("xboxId/" + goodsName, "")
+}
+
+function OnlineShopModel::getPsnIdForGoods(goodsName)
+{
+  local key = "npmtId/" + platform.ps4RegionName() + "/" + goodsName
+  local id = ::loc(key, "")
+  ::dagor.debug("PSN STORE: " + goodsName + " (" + key + ") -> " + id)
+  return id
 }
 
 function OnlineShopModel::getCustomPurchaseLink(goodsName)

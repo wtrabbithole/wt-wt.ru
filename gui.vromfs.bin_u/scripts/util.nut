@@ -1964,6 +1964,14 @@ function is_vietnamese_version()
   return ::get_current_language() == "Vietnamese" //we need to check language too early when get_language from profile not work
 }
 
+function is_chinese_version()
+{
+  local language = ::get_current_language()
+  return language == "Chinese"
+    || language == "TChinese"
+    || language == "Korean"
+}
+
 function is_platform_shield_tv()
 {
   return ::getFromSettingsBlk("deviceType", "") == "shieldTv"
