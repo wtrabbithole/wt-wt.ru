@@ -1,25 +1,18 @@
 local interopGen = require("daRg/helpers/interopGen.nut")
 
 const NUM_ENGINES_MAX = 3
+const NUM_TRANSMISSIONS_MAX = 6
 
 local helicopterState = {
   IndicatorsVisible = Watched(false)
+  CurrentTime = Watched(false)
+
   DistanceToGround = Watched(0.0)
   VerticalSpeed = Watched(0.0)
 
   RocketAimX = Watched(0.0)
   RocketAimY = Watched(0.0)
   RocketAimVisible = Watched(false)
-
-  AamAimGimbalX = Watched(0.0)
-  AamAimGimbalY = Watched(0.0)
-  AamAimGimbalSize = Watched(0.0)
-  AamAimGimbalVisible = Watched(false)
-
-  AamAimTrackerX = Watched(0.0)
-  AamAimTrackerY = Watched(0.0)
-  AamAimTrackerSize = Watched(0.0)
-  AamAimTrackerVisible = Watched(false)
 
   GunDirectionX = Watched(0.0)
   GunDirectionY = Watched(0.0)
@@ -29,6 +22,17 @@ local helicopterState = {
 
   TurretYaw = Watched(0.0)
   TurretPitch = Watched(0.0)
+
+  IsAgmLaunchZoneVisible = Watched(false)
+  AgmLaunchZoneYawMin = Watched(0.0)
+  AgmLaunchZoneYawMax = Watched(0.0)
+  AgmLaunchZonePitchMin = Watched(0.0)
+  AgmLaunchZonePitchMax = Watched(0.0)
+  AgmLaunchZoneDistMin = Watched(0.0)
+  AgmLaunchZoneDistMax = Watched(0.0)
+
+  IsInsideLaunchZoneYawPitch = Watched(false)
+  IsInsideLaunchZoneDist = Watched(false)
 
   IsSightLocked = Watched(false)
   IsLaserDesignatorEnabled = Watched(false)
@@ -68,7 +72,8 @@ local helicopterState = {
   Agm = {
     count = Watched(0)
     seconds = Watched(-1)
-    timeToTarget = Watched(-1)
+    timeToHit = Watched(-1)
+    timeToWarning = Watched(-1)
   }
 
   Aam = {
@@ -113,10 +118,12 @@ local helicopterState = {
   OilState = []
   WaterState = []
   EngineState = []
+  TransmissionOilState = []
 
   IsOilAlert = []
   IsWaterAlert = []
   IsEngineAlert = []
+  IsTransmissionOilAlert = []
 
   IsMainHudVisible = Watched(false)
   IsSightHudVisible = Watched(false)
@@ -126,7 +133,6 @@ local helicopterState = {
   GunOverheatState = Watched(0)
 
   AgmGuidanceLockState = Watched(-1)
-  AamGuidanceLockState = Watched(-1)
 
   IsCompassVisible = Watched(false)
 }
@@ -143,6 +149,7 @@ local helicopterState = {
 
 ::interop.updateAdditionalCannons <- function(count, sec = -1) {
   helicopterState.CannonsAdditional.count.update(count)
+  helicopterState.CannonsAdditional.seconds.update(sec)
 }
 
 ::interop.updateRockets <- function(count, sec = -1) {
@@ -150,10 +157,11 @@ local helicopterState = {
   helicopterState.Rockets.seconds.update(sec)
 }
 
-::interop.updateAgm <- function(count, sec, timeToTarget) {
+::interop.updateAgm <- function(count, sec, timeToHit, timeToWarning) {
   helicopterState.Agm.count.update(count)
   helicopterState.Agm.seconds.update(sec)
-  helicopterState.Agm.timeToTarget.update(timeToTarget)
+  helicopterState.Agm.timeToHit.update(timeToHit)
+  helicopterState.Agm.timeToWarning.update(timeToWarning)
 }
 
 ::interop.updateAam <- function(count, sec = -1) {
@@ -186,6 +194,12 @@ for (local i = 0; i < NUM_ENGINES_MAX; ++i)
   helicopterState.IsEngineAlert.append(Watched(false))
 }
 
+for (local i = 0; i < NUM_TRANSMISSIONS_MAX; ++i)
+{
+  helicopterState.TransmissionOilState.append(Watched(0))
+  helicopterState.IsTransmissionOilAlert.append(Watched(false))
+}
+
 interopGen({
   stateTable = helicopterState
   prefix = "helicopter"
@@ -207,8 +221,16 @@ interopGen({
   helicopterState.EngineState[index].update(state)
 }
 
+::interop.updateTransmissionOilState <- function (state, index) {
+  helicopterState.TransmissionOilState[index].update(state)
+}
+
 ::interop.updateOilAlert <- function (value, index) {
   helicopterState.IsOilAlert[index].update(value)
+}
+
+::interop.updateTransmissionOilAlert <- function (value, index) {
+  helicopterState.IsTransmissionOilAlert[index].update(value)
 }
 
 ::interop.updateWaterAlert <- function (value, index) {

@@ -53,7 +53,7 @@ class BulletGroup
       return false
 
     local bulletIdx = bullets.values.find(bulletName)
-    if (bulletIdx < 0)
+    if (bulletIdx == null)
       return false
 
     selectedName = bulletName

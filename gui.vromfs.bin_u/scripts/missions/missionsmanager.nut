@@ -3,7 +3,7 @@ g_missions_manager <- {
   isRemoteMission = false
 }
 
-function g_missions_manager::fastStartSkirmishMission(mission)
+g_missions_manager.fastStartSkirmishMission <- function fastStartSkirmishMission(mission)
 {
   local params = {
     canSwitchMisListType = false
@@ -17,7 +17,7 @@ function g_missions_manager::fastStartSkirmishMission(mission)
   ::handlersManager.loadHandler(::gui_handlers.RemoteMissionModalHandler, params)
 }
 
-function g_missions_manager::startRemoteMission(params)
+g_missions_manager.startRemoteMission <- function startRemoteMission(params)
 {
   local url = params.url
   local name = params.name || "remote_mission"
@@ -53,7 +53,7 @@ function g_missions_manager::startRemoteMission(params)
                 )
 }
 
-function on_start_remote_mission(params)
+::on_start_remote_mission <- function on_start_remote_mission(params)
 {
   ::g_missions_manager.startRemoteMission(params)
 }

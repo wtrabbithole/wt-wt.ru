@@ -14,7 +14,7 @@ return [
   }
   {
     id = "ID_TRACKER_RESET_POSITION"
-    showFunc = @() !::is_platform_xboxone || checkOptionValue("headtrack_enable", true)
+    showFunc = @() !::is_platform_xboxone || ::g_controls_utils.checkOptionValue(::USEROPT_HEADTRACK_ENABLE, true)
     checkGroup = ctrlGroups.COMMON
     checkAssign = false
   }
@@ -35,7 +35,7 @@ return [
   {
     id = "trackIrZoom"
     type = CONTROL_TYPE.SWITCH_BOX
-    showFunc = @() !::is_platform_xboxone || checkOptionValue("headtrack_enable", true)
+    showFunc = @() !::is_platform_xboxone || ::g_controls_utils.checkOptionValue(::USEROPT_HEADTRACK_ENABLE, true)
     value = @(joyParams) joyParams.trackIrZoom
     setValue = function(joyParams, objValue) {
       local prev = joyParams.trackIrZoom
@@ -59,7 +59,7 @@ return [
   {
     id = "trackIrAsHeadInTPS"
     type = CONTROL_TYPE.SWITCH_BOX
-    showFunc = @() !::is_platform_xboxone || checkOptionValue("headtrack_enable", true)
+    showFunc = @() !::is_platform_xboxone || ::g_controls_utils.checkOptionValue(::USEROPT_HEADTRACK_ENABLE, true)
     value = @(joyParams) joyParams.trackIrAsHeadInTPS
     setValue = function(joyParams, objValue) {
       local prev = joyParams.trackIrAsHeadInTPS
@@ -71,13 +71,13 @@ return [
   {
     id = "headtrack_scale_x"
     type = CONTROL_TYPE.SLIDER
-    showFunc = @() checkOptionValue("headtrack_enable", true)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_HEADTRACK_ENABLE, true)
     optionType = ::USEROPT_HEADTRACK_SCALE_X
   }
   {
     id = "headtrack_scale_y"
     type = CONTROL_TYPE.SLIDER
-    showFunc = @() checkOptionValue("headtrack_enable", true)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_HEADTRACK_ENABLE, true)
     optionType = ::USEROPT_HEADTRACK_SCALE_Y
   }
 ]

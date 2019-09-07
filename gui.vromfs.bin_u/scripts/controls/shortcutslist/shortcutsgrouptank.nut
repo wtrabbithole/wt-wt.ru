@@ -6,6 +6,7 @@ return [
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.TANK
     showFunc = @() ::has_feature("Tanks")
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
@@ -51,12 +52,14 @@ return [
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.TANK
     axisDirection = AxisDirection.Y
+    needShowInHelp = true
   }
   {
     id = "gm_steering"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.TANK
     axisDirection = AxisDirection.X
+    needShowInHelp = true
   }
   {
     id = "ID_SHORT_BRAKE"
@@ -79,17 +82,19 @@ return [
     id = "ID_TRANS_GEAR_UP"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_TRANS_GEAR_DOWN"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_TRANS_GEAR_NEUTRAL"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
-    showFunc = @() checkOptionValue("gm_automatic_transmission", false)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_AUTOMATIC_TRANSMISSION_TANK, false)
   }
   {
     id = "ID_ENABLE_GM_DIRECTION_DRIVING"
@@ -105,6 +110,7 @@ return [
     id = "ID_FIRE_GM"
     checkGroup = ctrlGroups.TANK
     conflictGroup = ConflictGroups.TANK_FIRE
+    needShowInHelp = true
   }
   {
     id = "ID_FIRE_GM_SECONDARY_GUN"
@@ -151,6 +157,7 @@ return [
     id = "ID_SMOKE_SCREEN_GENERATOR"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CHANGE_SHOT_FREQ"
@@ -165,43 +172,42 @@ return [
   {
     id = "ID_SENSOR_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_MODE_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_SCAN_PATTERN_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_RANGE_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_TARGET_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_TARGET_LOCK_TANK"
     checkGroup = ctrlGroups.TANK
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_VIEW_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
   }
 //-------------------------------------------------------
@@ -217,6 +223,7 @@ return [
   {
     id = "ID_TOGGLE_VIEW_GM"
     checkGroup = ctrlGroups.TANK
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_DRIVER"
@@ -271,6 +278,7 @@ return [
     reqInMouseAim = false
     hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     axisDirection = AxisDirection.X
+    needShowInHelp = true
   }
   {
     id = "gm_mouse_aim_y"
@@ -279,6 +287,7 @@ return [
     reqInMouseAim = false
     hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     axisDirection = AxisDirection.Y
+    needShowInHelp = true
   }
   {
     id = "aim_time_nonlinearity_tank"
@@ -318,36 +327,43 @@ return [
     id = "ID_SUSPENSION_PITCH_UP"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUSPENSION_PITCH_DOWN"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUSPENSION_ROLL_UP"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUSPENSION_ROLL_DOWN"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUSPENSION_CLEARANCE_UP"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUSPENSION_CLEARANCE_DOWN"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUSPENSION_RESET"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
@@ -357,62 +373,74 @@ return [
   {
     id = "ID_REPAIR_TANK"
     checkGroup = ctrlGroups.TANK
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_1"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_2"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_3"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_4"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_5"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
     showFunc = @() ::is_platform_pc && !::is_xinput_device()
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_6"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_7"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_8"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_9"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_10"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_ACTION_BAR_ITEM_12"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_KILLSTREAK_WHEEL_MENU"

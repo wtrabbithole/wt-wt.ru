@@ -250,7 +250,7 @@ class TrophyMultiAward
 
     for(local i = 0; ; i++)
     {
-      local unlockName = unlocksBlk["unlock" + i]
+      local unlockName = unlocksBlk?["unlock" + i]
       if (!unlockName)
         break
 
@@ -347,7 +347,7 @@ class TrophyMultiAward
 
   function _addResSpecialization(resBlk, resList)
   {
-    local qBlk = resBlk.specialization
+    local qBlk = resBlk?.specialization
     if (!::can_be_readed_as_datablock(qBlk))
       return
 

@@ -12,6 +12,7 @@ return [
       ::g_unit_class_type.ASSAULT
     ]
     isHelpersVisible = true
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
@@ -48,7 +49,8 @@ return [
   {
     id = "mouse_usage_no_aim"
     type = CONTROL_TYPE.SPINNER
-    showFunc = @() ::has_feature("SimulatorDifficulty") && (getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
+    showFunc = @() ::has_feature("SimulatorDifficulty")
+      && (::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
     optionType = ::USEROPT_MOUSE_USAGE_NO_AIM
     onChangeValue = "onAircraftHelpersChanged"
   }
@@ -69,6 +71,12 @@ return [
     id = "ID_TOGGLE_INSTRUCTOR"
     checkAssign = false
   }
+  {
+    id="ID_FBW_MODE"
+    showFunc = @() ::has_feature("AirplaneFbw"),
+    checkGroup = ctrlGroups.HELICOPTER
+    filterShow = [globalEnv.EM_FULL_REAL]
+  }
 //-------------------------------------------------------
   {
     id = "ID_PLANE_FIRE_HEADER"
@@ -77,14 +85,17 @@ return [
   {
     id = "ID_FIRE_MGUNS"
     conflictGroup = ConflictGroups.PLANE_FIRE
+    needShowInHelp = true
   }
   {
     id = "ID_FIRE_CANNONS"
     conflictGroup = ConflictGroups.PLANE_FIRE
+    needShowInHelp = true
   }
   {
     id = "ID_FIRE_ADDITIONAL_GUNS"
     conflictGroup = ConflictGroups.PLANE_FIRE
+    needShowInHelp = true
   }
   {
     id = "fire"
@@ -98,19 +109,32 @@ return [
   {
     id = "ID_BAY_DOOR"
     checkAssign = false
+    needShowInHelp = true
   }
-  "ID_BOMBS"
+  {
+    id = "ID_BOMBS"
+    needShowInHelp = true
+  }
   {
     id = "ID_BOMBS_SERIES"
     alternativeIds = [ "ID_BOMBS" ]
   }
-  "ID_ROCKETS"
+  {
+    id = "ID_ROCKETS"
+    needShowInHelp = true
+  }
   {
     id = "ID_ROCKETS_SERIES"
     alternativeIds = [ "ID_ROCKETS" ]
   }
-  "ID_AGM"
-  "ID_AAM"
+  {
+    id = "ID_AGM"
+    needShowInHelp = true
+  }
+  {
+    id = "ID_AAM"
+    needShowInHelp = true
+  }
   {
     id = "ID_FUEL_TANKS"
     showFunc = @() ::has_feature("Payload")
@@ -121,7 +145,10 @@ return [
     showFunc = @() ::has_feature("Payload")
     checkAssign = false
   }
-  "ID_WEAPON_LOCK"
+  {
+    id = "ID_WEAPON_LOCK"
+    needShowInHelp = true
+  }
   {
     id = "ID_FLARES"
     checkAssign = false
@@ -138,46 +165,47 @@ return [
   }
   {
     id = "ID_SENSOR_SWITCH"
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_MODE_SWITCH"
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_SCAN_PATTERN_SWITCH"
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_RANGE_SWITCH"
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_TARGET_SWITCH"
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_TARGET_LOCK"
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_VIEW_SWITCH"
-    showFunc = @() ::has_feature("Sensors")
     checkAssign = false
   }
   {
     id = "ID_SCHRAEGE_MUSIK"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_RELOAD_GUNS"
     checkAssign = false
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
@@ -203,6 +231,7 @@ return [
     id = "throttle"
     type = CONTROL_TYPE.AXIS
     def_relative = true
+    needShowInHelp = true
   }
   {
     id = "holdThrottleForWEP"
@@ -221,17 +250,20 @@ return [
     type = CONTROL_TYPE.AXIS
     reqInMouseAim = false
     hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    needShowInHelp = true
   }
   {
     id = "elevator"
     type = CONTROL_TYPE.AXIS
     reqInMouseAim = false
     hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    needShowInHelp = true
   }
   {
     id = "rudder"
     type = CONTROL_TYPE.AXIS
     reqInMouseAim = false
+    needShowInHelp = true
   }
   {
     id = "roll_sens"
@@ -259,10 +291,10 @@ return [
   }
   {
     id = "invert_x"
-    type = CONTROL_TYPE.SPINNER
+    type = CONTROL_TYPE.SWITCH_BOX
     filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
     optionType = ::USEROPT_INVERTX
-    showFunc = @() checkOptionValue("invert_y", true)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_INVERTY, true)
   }
   {
     id = "joyFX"
@@ -303,7 +335,10 @@ return [
     id = "ID_AIR_BRAKE"
     reqInMouseAim = false
   }
-  "ID_GEAR"
+  {
+    id = "ID_GEAR"
+    needShowInHelp = true
+  }
   {
     id = "brake_left"
     type = CONTROL_TYPE.AXIS
@@ -365,38 +400,49 @@ return [
     id = "ID_PLANE_VIEW_HEADER"
     type = CONTROL_TYPE.SECTION
   }
-  "ID_TOGGLE_VIEW"
+  {
+    id = "ID_TOGGLE_VIEW"
+    needShowInHelp = true
+  }
   {
     id = "ID_CAMERA_FPS"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_TPS"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_VIRTUAL_FPS"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_DEFAULT"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_GUNNER"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_BOMBVIEW"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_FOLLOW_OBJECT"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_TARGET_CAMERA"
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_AIM_CAMERA"
@@ -457,11 +503,6 @@ return [
     type = CONTROL_TYPE.AXIS
     checkAssign = false
     dontCheckDupes = true
-  }
-  {
-    id = "fps_camera_physics"
-    type = CONTROL_TYPE.SLIDER
-    optionType = ::USEROPT_FPS_CAMERA_PHYSICS
   }
 //-------------------------------------------------------
   {
@@ -567,14 +608,14 @@ return [
     id = "ID_PLANE_JOYSTICK_HEADER"
     type = CONTROL_TYPE.SECTION
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
   }
   {
     id = "mouse_joystick_mode"
     type = CONTROL_TYPE.SPINNER
     filterHide = [globalEnv.EM_MOUSE_AIM]
     options = ["#options/mouse_joy_mode_simple", "#options/mouse_joy_mode_standard"]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams) ::get_option_int(::OPTION_MOUSE_JOYSTICK_MODE)
     setValue = @(joyParams, objValue) ::set_option_int(::OPTION_MOUSE_JOYSTICK_MODE, objValue)
   }
@@ -582,7 +623,7 @@ return [
     id = "mouse_joystick_sensitivity"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams)
       100.0*(::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SENSITIVITY) - ::minMouseJoystickSensitivity) /
         (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity)
@@ -594,7 +635,7 @@ return [
     id = "mouse_joystick_deadzone"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE) / ::maxMouseJoystickDeadZone
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE,
       (objValue / 100.0) * ::maxMouseJoystickDeadZone)
@@ -603,7 +644,7 @@ return [
     id = "mouse_joystick_screensize"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams)
       100.0*(::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENSIZE) - ::minMouseJoystickScreenSize) /
         (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize)
@@ -615,7 +656,7 @@ return [
     id = "mouse_joystick_screen_place"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE)
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENPLACE, objValue / 100.0)
   }
@@ -623,7 +664,7 @@ return [
     id = "mouse_joystick_aileron"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
     value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_AILERON_AILERON_FACTOR) / ::maxMouseJoystickAileron
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_AILERON_AILERON_FACTOR,
       (objValue / 100.0) * ::maxMouseJoystickAileron)
@@ -632,7 +673,7 @@ return [
     id = "mouse_joystick_rudder"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
     value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR) / ::maxMouseJoystickRudder
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_MOUSE_AILERON_RUDDER_FACTOR,
       (objValue / 100.0) * ::maxMouseJoystickRudder)
@@ -641,14 +682,14 @@ return [
     id = "mouse_joystick_square"
     type = CONTROL_TYPE.SWITCH_BOX
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams) ::get_option_mouse_joystick_square()
     setValue = @(joyParams, objValue) ::set_option_mouse_joystick_square(objValue)
   }
   {
     id = "ID_CENTER_MOUSE_JOYSTICK"
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() ::is_mouse_available() && (getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK)
+    showFunc = @() ::is_mouse_available() && (::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK)
     checkAssign = false
   }
 //-------------------------------------------------------

@@ -1,4 +1,4 @@
-function gui_modal_editbox_wnd(params)
+::gui_modal_editbox_wnd <- function gui_modal_editbox_wnd(params)
 {
   if (!params?.okFunc)
     return

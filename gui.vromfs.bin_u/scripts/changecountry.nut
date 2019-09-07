@@ -61,9 +61,7 @@ class ::gui_handlers.ChangeCountry extends ::gui_handlers.BaseGuiHandlerWT
           ::instant_domination_handler.onCountryChoose(chosenCountry)
         break
       case ChangeCountryAction.CHANGE_GAME_MODE:
-          local handler = ::instant_domination_handler.getGameModeSelectHandler()
-          if (handler != null)
-            handler.setShowGameModeSelect(true)
+          ::gui_handlers.GameModeSelect.open()
         break
     }
   }

@@ -74,7 +74,8 @@ local Rand = class{
     if (end==null && start==0)
       return random.uint_noise1D(_seed, _count)
     else {
-      end = end ?? DEFAULT_MAX_INT_RAND
+      end = end?.tointeger() ?? DEFAULT_MAX_INT_RAND
+      start = start.tointeger()
       return randint_uniform(::min(end,start), ::max(end,start), @() random.uint_noise1D(_seed, _count))
     }
   }
@@ -84,18 +85,53 @@ local Rand = class{
   uint_noise1D = random.uint_noise1D
 }
 
-function testfloat(){
-  local rand = Rand()
-  local res = {}
-  for (local i=0;i<100000;i++){
-    local v = rand.rfloat(0,100)
-    v = ((v*100).tointeger()/100).tointeger()
-    if (res?[v] != null)
-      res[v]=res[v]+1
-    else
-      res[v]<-1
+//test is random is reandom enough by Pirson criteria
+/*
+local function isRandomEnoughByPirsonCriteria(){
+  local pp = @(...) print(vargv.reduce(@(a,b) a+" " +b, "")+"\n")
+  local ppa = @(v) pp.acall([null].extend(v))
+  local module = @(v) v<0 ? -v : v
+
+  local function mkDistribution(buckets, runs, func){
+    local rand = Rand()
+    local res = {}
+    for (local i=0;i<runs;i++){
+      local v = rand[func](0,(buckets-0.000001))//epsilon
+      v = ((v*buckets).tointeger()/buckets).tointeger()
+      if (res?[v] != null)
+        res[v]=res[v]+1
+      else
+        res[v]<-1
+    }
+    return(res)
   }
-  return(res)
+  local hitable = [
+    //index - degree of freedom, first - 0.05 of sufficiency, second - 0.01
+    [3.841, 6.635],[5.991,9.21],[7.815,11.345],[9.488,13.277],[11.07,15.086],[12.592,16.812],[14.067,18.475],[15.507,20.09],[16.919,21.666],[18.307,23.209],[19.675,24.725],[21.026,26.217],[22.362,27.688],
+    [23.685,29.141],[24.996,30.578],[26.296,32],[27.587,33.409],[28.869,34.805],[30.144,36.191],[31.41,37.566],
+  ]
+  local function doit(funcname, buckets=hitable.len()-1, samplesTotal=100000){
+    samplesTotal = samplesTotal.tofloat()
+    local samples = mkDistribution(buckets, samplesTotal, funcname).values()
+    local prob = samplesTotal / buckets
+    local diffs = samples.map(@(v) module(v-prob)-0.5)
+    local krit = diffs.map(@(v) v*v/prob)
+    local hiObserved = krit.reduce(@(a,b) a+b)
+    local degreeOfFreedom = buckets-1
+    pp("pirson criteria for " + funcname)
+    ppa(["samples:"].extend(samples))
+    ppa(["diffs:"].extend(diffs))
+    local hiTheor5 = hitable[degreeOfFreedom][0]
+    local hiTheor1 = hitable[degreeOfFreedom][1]
+    pp(hiObserved, hiTheor1, "pirson criteria of suff. 0.01: ", hiObserved<hiTheor1)
+    pp(hiObserved, hiTheor5, "pirson criteria of suff. 0.05: ", hiObserved<hiTheor5)
+    return hiObserved<hiTheor1
+  }
+  return doit("rint",10) && doit("rfloat",10)
 }
+
+if (::callee().getfuncinfos().name == "__main__")
+  isRandomEnoughByPirsonCriteria()
+*/
 
 return Rand

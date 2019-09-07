@@ -13,7 +13,7 @@
  * Each value will be pushed to root table only of there is no same
  * key in root table
  */
-function apply_compatibilities(comp_table)
+::apply_compatibilities <- function apply_compatibilities(comp_table)
 {
   local rootTable = getroottable()
   local constTable = getconsttable()

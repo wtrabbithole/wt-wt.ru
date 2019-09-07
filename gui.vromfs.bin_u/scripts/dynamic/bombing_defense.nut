@@ -1,4 +1,4 @@
-function _generateBombingDefMission(isFreeFlight, createGroundUnitsProc)
+::_generateBombingDefMission <- function _generateBombingDefMission(isFreeFlight, createGroundUnitsProc)
 {
   local mission_preset_name = "ground_defense_preset01";
   ::mgBeginMission("gameData/missions/dynamic_campaign/objectives/"+mission_preset_name+".blk");

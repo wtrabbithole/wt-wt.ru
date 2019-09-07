@@ -1,14 +1,43 @@
+local mapPreferencesModal = require("scripts/missions/mapPreferencesModal.nut")
+local mapPreferencesParams = require("scripts/missions/mapPreferencesParams.nut")
+local clustersModule = require("scripts/clusterSelect.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
+local Callback = require("sqStdLibs/helpers/callback.nut").Callback
+
+::dagui_propid.add_name_id("modeId")
 
 class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 {
-  wndType = handlerType.CUSTOM
-  focusArray = ["general_game_modes", "featured_game_modes", "debug_game_modes"]
-  valueByGameModeId = {}
-  gameModeIdByValue = {}
+  sceneTplName = "gui/gameModeSelect/gameModeSelect"
+  shouldBlurSceneBg = true
+  backSceneFunc = @() ::gui_start_mainmenu()
+  needAnimatedSwitchScene = false
+
   restoreFromModal = false
-  newIconWidgetsByGameModeID = null
-  gameModesWithTimer = null
+  newIconWidgetsByGameModeID = {}
+  gameModesWithTimer = {}
+
+  filledGameModes = []
+
+  categories = [
+    {
+      id = "general_game_modes"
+      separator = false
+      modesGenFunc = "createGameModesView"
+      textWhenEmpty = "#mainmenu/gamemodesNotLoaded/desc"
+    }
+    {
+      id = "featured_game_modes"
+      separator = true
+      modesGenFunc = "createFeaturedModesView"
+    }
+    {
+      id = "debug_game_modes"
+      separator = false
+      modesGenFunc = "createDebugGameModesView"
+    }
+  ]
 
   static basePanelConfig = [
     ::ES_UNIT_TYPE_AIRCRAFT,
@@ -16,134 +45,97 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     ::ES_UNIT_TYPE_SHIP
   ]
 
+  static function open()
+  {
+    ::gui_start_modal_wnd(::gui_handlers.GameModeSelect)
+  }
+
+  function getSceneTplView()
+  {
+    return { categories = categories }
+  }
+
   function initScreen()
   {
-    newIconWidgetsByGameModeID = {}
+    updateContent()
   }
 
-  function getShowGameModeSelect() { return scene.isVisible() }
-  function setShowGameModeSelect(value)
+  function fillModesList()
   {
-    checkedCrewAirChange(
-      function() {
-        if (value)
-          goForwardIfOnline(_setShowGameModeSelectEnabled.bindenv(this), false, true)
-        else
-          _setShowGameModeSelect(false)
-      },
-    null)
-  }
+    filledGameModes.clear()
 
-  function _setShowGameModeSelectEnabled()
-  {
-    _setShowGameModeSelect(true)
-  }
+    foreach (cat in categories)
+    {
+      local modes = this[cat.modesGenFunc]()
+      if (modes.len() == 0)
+      {
+        filledGameModes.append({
+          isEmpty = true
+          textWhenEmpty = cat?.textWhenEmpty || ""
+          isMode = false
+        })
+        continue
+      }
 
-  function _setShowGameModeSelect(value)
-  {
-    if (!::checkObj(scene) || scene.isVisible() == value)
-      return
-    if (value)
-      updateContent()
-    local params = {
-      target = this.scene
-      visible = value
-      isBlockOtherRestoreFocus = value
+      if (cat?.separator)
+        filledGameModes.append({ separator = true, isMode = false })
+      filledGameModes.extend(modes)
     }
-    ::broadcastEvent("RequestToggleVisibility", params)
+
+    local placeObj = scene.findObject("general_game_modes")
+    if (!::check_obj(placeObj))
+      return
+
+    local data = ::handyman.renderCached("gui/gameModeSelect/gameModeBlock", { block = filledGameModes })
+    guiScene.replaceContentFromText(placeObj, data, data.len(), this)
+
+    setGameModesTimer()
   }
 
   function updateContent()
   {
-    gameModesWithTimer = {}
-    local view = {
-      categories = [
-        {
-          separator = false
-          id = "general_game_modes"
-          onActivate = "onGeneralGameModeActivate"
-          onSetFocus = "onGameModeSelectFocus"
-          modes = createGameModesView()
-          blackBackground = true
-          onSelectOption = {
-            onSelect = "onGameModeGamepadSelect"
-          }
-          textWhenEmpty = "#mainmenu/gamemodesNotLoaded/desc"
-        }
-        {
-          separator = true
-          id = "featured_game_modes"
-          onActivate = "onFeaturedGameModeActivate"
-          onSetFocus = "onGameModeSelectFocus"
-          modes = createFeaturedModesView()
-          blackBackground = false
-          onSelectOption = null
-        }
-        {
-          separator = false
-          id = "debug_game_modes"
-          onActivate = "onGeneralGameModeActivate"
-          onSetFocus = "onGameModeSelectFocus"
-          modes = createDebugGameModesView()
-          blackBackground = true
-          onSelectOption = {
-            onSelect = "onGameModeGamepadSelect"
-          }
-        }
-      ]
-    }
+    gameModesWithTimer.clear()
+    newIconWidgetsByGameModeID.clear()
 
-    // Removing empty categories
-    for (local i = view.categories.len() - 1; i >= 0; --i)
-      if (view.categories[i].modes.len() == 0)
-      {
-        local cat = view.categories.remove(i)
-        local headerText = ::getTblValue("textWhenEmpty", cat)
-        if (headerText)
-          view.categoriesHeaderText <- headerText
-      }
-    view.hasTimer <- gameModesWithTimer.len() > 0
-    local blk = ::handyman.renderCached(("gui/gameModeSelect/gameModeSelect"), view)
-    guiScene.replaceContentFromText(scene, blk, blk.len(), this)
-
-    local featuredGameModesObject = getObj("featured_game_modes")
-    if (featuredGameModesObject != null)
-      featuredGameModesObject.enable(featuredGameModesObject.childrenCount() > 0)
+    fillModesList()
 
     registerNewIconWidgets()
-    setGameModesTimer()
     updateClusters()
     updateButtons()
     updateEventDescriptionConsoleButton(::game_mode_manager.getCurrentGameMode())
+
+    updateSelection()
+  }
+
+  function updateSelection()
+  {
+    local curGM = ::game_mode_manager.getCurrentGameMode()
+    if (curGM == null)
+      return
+
+    local curGameModeObj = scene.findObject("general_game_modes")
+    if (!::check_obj(curGameModeObj))
+      return
+
+    local index = filledGameModes.searchIndex(@(gm) gm.isMode && gm?.hasContent && gm.modeId == curGM.id) ?? 0
+    curGameModeObj.setValue(index)
+    curGameModeObj.select()
   }
 
   function registerNewIconWidgets()
   {
-    foreach (gameMode in ::game_mode_manager.getAllVisibleGameModes())
+    foreach (gameMode in filledGameModes)
     {
-      local modePlateId = ::game_mode_manager.getGameModeItemId(gameMode.id)
-      local widgetObj = scene.findObject(getWidgetId(modePlateId))
+      if (!gameMode.isMode || !gameMode?.hasContent)
+        continue
+
+      local widgetObj = scene.findObject(getWidgetId(gameMode.id))
       if (!::check_obj(widgetObj))
         continue
 
       local widget = NewIconWidget(guiScene, widgetObj)
-      newIconWidgetsByGameModeID[modePlateId] <- widget
-      widget.setWidgetVisible(!::game_mode_manager.isSeen(modePlateId))
-    }
-
-    foreach (mode in ::featured_modes)
-    {
-      if (!mode.hasNewIconWidget)
-        continue
-
-      local modePlateId = ::game_mode_manager.getGameModeItemId(mode.modeId)
-      local widgetObj = scene.findObject(getWidgetId(modePlateId))
-      if (!::check_obj(widgetObj))
-        continue
-
-      local widget = NewIconWidget(guiScene, widgetObj)
-      newIconWidgetsByGameModeID[modePlateId] <- widget
-      widget.setWidgetVisible(!::game_mode_manager.isSeen(modePlateId))
+      newIconWidgetsByGameModeID[gameMode.id] <- widget
+      widget.setWidgetVisible(!::game_mode_manager.isSeen(gameMode.id))
     }
   }
 
@@ -190,8 +182,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       {
         if(b.isWide != a.isWide)
           return b.isWide <=> a.isWide
-        local isAContainsType = a.gameMode.unitTypes.find(unitType.esUnitType) >= 0
-        local isBContainsType = b.gameMode.unitTypes.find(unitType.esUnitType) >= 0
+        local isAContainsType = a.gameMode.unitTypes.find(unitType.esUnitType) != null
+        local isBContainsType = b.gameMode.unitTypes.find(unitType.esUnitType) != null
         if( ! isAContainsType && ! isBContainsType)
           continue
         return isBContainsType <=> isAContainsType
@@ -223,20 +215,22 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       local newIconWidgetContent = hasNewIconWidget? NewIconWidget.createLayout() : null
 
       res.append({
-        hasContent = true
         id = id
+        modeId = mode.modeId
+        hasContent = true
+        isMode = true
         text  = mode.text
         textDescription = mode.textDescription
-        value = idx
+        value = mode.modeId
         hasCountries = false
         isWide = mode.isWide
         image = mode.image()
+        gameMode = mode
         checkBox = false
         linkIcon = true
         isFeatured = true
-        onClick = "onFeaturedModeSelect"
+        onClick = "onGameModeSelect"
         onHover = "markGameModeSeen"
-        separator = false
         showEventDescription = false
         newIconWidgetId = getWidgetId(id)
         newIconWidgetContent = newIconWidgetContent
@@ -257,7 +251,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       if (partitionView)
         gameModesView.extend(partitionView)
     }
-    saveValuesByGameModeId(gameModesView)
     return gameModesView
   }
 
@@ -266,8 +259,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (gameMode == null)
       return {
         hasContent = false
-        separator = separator
         isNarrow = isNarrow
+        isMode = true
       }
 
     local countries = createGameModeCountriesView(gameMode)
@@ -284,9 +277,12 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       gameModesWithTimer[id] <- mode.updateByTimeFunc
 
     return {
-      hasContent = true
       id = id
+      modeId = gameMode.id
+      hasContent = true
+      isMode = true
       text = gameMode.text
+      getEvent = gameMode?.getEvent
       textDescription = ::getTblValue("textDescription", gameMode, null)
       tooltip = gameMode.getTooltipText()
       value = gameMode.id
@@ -304,7 +300,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       isFeatured = true
       onClick = "onGameModeSelect"
       onHover = "markGameModeSeen"
-      separator = separator
       // Used to easily backtrack corresponding game mode.
       gameMode = gameMode
       eventDescriptionValue = gameMode.id
@@ -315,6 +310,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       showEventDescription = !isLink && ::events.isEventNeedInfoButton(event)
       eventTrophyImage = getTrophyMarkUpData(trophyName)
       isTrophyRecieved = trophyName == ""? false : !::can_receive_pve_trophy(-1, trophyName)
+      mapPreferences = isShowMapPreferences(gameMode?.getEvent())
+      prefTitle = mapPreferencesParams.getPrefTitle(gameMode?.getEvent())
     }
   }
 
@@ -421,64 +418,44 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
         @(idx, esUType) ::isInArray(esUType, esUnitTypesFilter))) == esUnitType)
   }
 
-  function saveValuesByGameModeId(gameModesView)
-  {
-    local valueCounter = 0
-    foreach (gameModeView in gameModesView)
-    {
-      if (gameModeView.separator)
-        ++valueCounter
-      local gameMode = ::getTblValue("gameMode", gameModeView, null)
-      if (gameMode != null)
-      {
-        valueByGameModeId[gameMode.id] <- valueCounter
-        gameModeIdByValue[valueCounter] <- gameMode.id
-      }
-      ++valueCounter
-    }
-  }
-
   function getGameModeByCondition(gameModes, conditionFunc)
   {
     return ::u.search(gameModes, conditionFunc)
   }
 
-  function goBack()
-  {
-    setShowGameModeSelect(false)
-  }
-
   function onGameModeSelect(obj)
   {
     markGameModeSeen(obj)
-    local gameMode = ::game_mode_manager.getGameModeById(obj.value)
-    if (gameMode.diffCode == ::DIFFICULTY_HARDCORE &&
+    local gameModeView = u.search(filledGameModes, @(gm) gm.isMode && gm?.hasContent && gm.modeId == obj.value)
+    performGameModeSelect(gameModeView.gameMode)
+  }
+
+  function performGameModeSelect(gameMode)
+  {
+    if (gameMode?.diffCode == ::DIFFICULTY_HARDCORE &&
         !::check_package_and_ask_download("pkg_main"))
       return
 
     local event = getGameModeEvent(gameMode)
-    if (!isCrossPlayEventAvailable(event))
+    if (event && !isCrossPlayEventAvailable(event))
     {
       ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
       return
     }
 
-    performGameModeSelect(gameMode)
-  }
-
-  function performGameModeSelect(gameMode)
-  {
-    if (gameMode.displayType.showInEventsWindow)
-      ::gui_start_modal_events({ event = gameMode.id })
-    else
-      ::game_mode_manager.setCurrentGameModeById(gameMode.id, true)
-
     goBack()
+
+    if ("startFunction" in gameMode)
+      gameMode.startFunction()
+    else if (gameMode?.displayType?.showInEventsWindow)
+      ::gui_start_modal_events({ event = event?.name })
+    else
+      ::game_mode_manager.setCurrentGameModeById(gameMode.modeId, true)
   }
 
   function markGameModeSeen(obj)
   {
-    if (::game_mode_manager.isSeen(obj.id))
+    if (!obj?.id || ::game_mode_manager.isSeen(obj.id))
       return
 
     local widget = ::getTblValue(obj.id, newIconWidgetsByGameModeID)
@@ -491,41 +468,20 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function onGameModeGamepadSelect(obj)
   {
-    local gameModeId = ::getTblValue(obj.getValue(), gameModeIdByValue)
-    local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
-    updateEventDescriptionConsoleButton(gameMode)
-  }
+    local val = obj.getValue()
+    if (val < 0 || val >= obj.childrenCount())
+      return
 
-  function onFeaturedModeSelect(obj)
-  {
-    markGameModeSeen(obj)
-    goBack()
-    ::featured_modes[obj.value.tointeger()].startFunction()
-  }
+    local gmView = filledGameModes[val]
+    local modeObj = scene.findObject(gmView.id)
 
-  function onEventCurrentGameModeIdChanged(params)
-  {
-    if (scene.isVisible())
-      updateContent()
-  }
-
-  function onEventGameModesUpdated(params)
-  {
-    if (scene.isVisible())
-      updateContent()
+    markGameModeSeen(modeObj)
+    updateEventDescriptionConsoleButton(gmView.gameMode)
   }
 
   function onOpenClusterSelect(obj)
   {
-    if (!::handlersManager.isHandlerValid(::instant_domination_handler))
-      return
-
-    ::queues.checkAndStart(
-      ::Callback(function() {
-         restoreFromModal = true
-         ::gui_handlers.ClusterSelect.open(obj, "top") }, this),
-      null,
-      "isCanChangeCluster")
+    clustersModule.createClusterSelectMenu(obj)
   }
 
   function onEventClusterChange(params)
@@ -535,50 +491,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateClusters()
   {
-    local obj = scene.findObject("cluster_select_button")
-    if (obj != null)
-      ::show_selected_clusters(obj)
-  }
-
-  function onEventGamercardDrawerOpened(params)
-  {
-    local target = params.target
-    if (target != null && target.id == scene.id)
-      updateSelection()
-  }
-
-  /**
-   * This method tries to set focues either on
-   * main game modes group or on clan battle group.
-   */
-  function updateSelection()
-  {
-    local currentGameMode = ::game_mode_manager.getCurrentGameMode()
-    if (currentGameMode == null)
-      return
-
-    local curGameModeObj = scene.findObject("game_mode_item_" + currentGameMode.id)
-    if (!::check_obj(curGameModeObj))
-      return
-
-    local gameModesObject = curGameModeObj.getParent()
-
-    local value = ::getTblValue(currentGameMode.id, valueByGameModeId, 0)
-    gameModesObject.select()
-    gameModesObject.setValue(value)
-
-    // This call restores focus array index that could've
-    // lost on return from some other modal window.
-    checkCurrentFocusItem(gameModesObject)
-  }
-
-  /* override */ function wrapNextSelect(obj = null, dir = 0)
-  {
-    local id = obj != null ? ::getTblValue("id", obj, "") : ""
-    local index = ::find_in_array(focusArray, id) + dir
-    if (index != ::clamp(index, 0, focusArray.len() - 1))
-      return
-    base.wrapNextSelect(obj, dir)
+    clustersModule.updateClusters(scene.findObject("cluster_select_button_text"))
   }
 
   function onClusterSelectActivate(obj)
@@ -589,58 +502,12 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       onOpenClusterSelect(childObj)
   }
 
-  function onGeneralGameModeActivate(obj)
+  function onGameModeActivate(obj)
   {
     local value = obj.getValue()
-    local childObj = (value >= 0 && value < obj.childrenCount()) ? obj.getChild(value) : null
-    if (::checkObj(childObj))
-      onGameModeSelect(childObj)
-  }
+    local gameModeView = filledGameModes[value]
 
-  function onFeaturedGameModeActivate(obj)
-  {
-    local value = obj.getValue()
-    local childObj = (value >= 0 && value < obj.childrenCount()) ? obj.getChild(value) : null
-    if (::checkObj(childObj))
-      onActivateConsoleButton(childObj)
-  }
-
-  function onGameModeSelectFocus(obj)
-  {
-    // This is a legal workaround for game mode
-    // select window not opening sometimes.
-    if (!getShowGameModeSelect() || !isSceneActiveNoModals())
-      return
-
-    guiScene.performDelayed(this, function() {
-      if (!isSceneActiveNoModals())
-        return
-
-      local hasFocusedObject = false
-      foreach (id in focusArray)
-      {
-        local object = getObj(id)
-        if (object != null && object.isFocused())
-        {
-          hasFocusedObject = true
-          break
-        }
-      }
-
-      if (!hasFocusedObject)
-        if (restoreFromModal)
-        {
-          local modesObj = scene.findObject("general_game_modes")
-          if (::check_obj(modesObj))
-            modesObj.select()
-          restoreFromModal = false //!!FIXME: no need to trick topmenu here.
-                                   //Need to create gcDrawer as subhandler of top menu
-                                   //and resolve restore focus in topmenu correct.
-                                   // or make this window modal.
-        }
-        else
-          setShowGameModeSelect(false)
-    })
+    performGameModeSelect(gameModeView.gameMode)
   }
 
   function getGameModeEvent(gameModeTbl)
@@ -650,21 +517,24 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventDescription(obj)
   {
-    local gameModeId = ""
-    if (obj.id == "event_description_console_button")
-    {
-      if (!getEventDescriptionConsoleButtonActive())
-        return
-      local gameModesObject = getObj("general_game_modes")
-      if (!::checkObj(gameModesObject))
-        return
-      local value = gameModesObject.getValue()
-      gameModeId = ::getTblValue(value, gameModeIdByValue)
-    }
-    else
-      gameModeId = obj.value
+    openEventDescription(::game_mode_manager.getGameModeById(obj.value))
+  }
 
-    local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
+  function onGamepadEventDescription(obj)
+  {
+    local gameModesObject = getObj("general_game_modes")
+    if (!::checkObj(gameModesObject))
+      return
+
+    local value = gameModesObject.getValue()
+    if (value < 0)
+      return
+
+    openEventDescription(filledGameModes[value].gameMode)
+  }
+
+  function openEventDescription(gameMode)
+  {
     local event = getGameModeEvent(gameMode)
     if (event != null)
     {
@@ -673,96 +543,26 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  _eventDescriptionConsoleButtonActive = false
-  function getEventDescriptionConsoleButtonActive() { return _eventDescriptionConsoleButtonActive }
-  function setEventDescriptionConsoleButtonActive(value)
-  {
-    if (_eventDescriptionConsoleButtonActive == value)
-      return
-    _eventDescriptionConsoleButtonActive = value
-    local obj = scene.findObject("event_description_console_button")
-    if (!::checkObj(obj))
-      return
-    obj.show(value)
-    obj.enable(value)
-  }
-
   function updateEventDescriptionConsoleButton(gameMode)
   {
-    setEventDescriptionConsoleButtonActive(gameMode != null && gameMode.forClan && ::show_console_buttons)
-  }
+    showSceneBtn("event_description_console_button", gameMode != null && gameMode?.forClan && ::show_console_buttons)
+    ::showBtn("map_preferences_console_button",
+      isShowMapPreferences(gameMode?.getEvent()) && ::show_console_buttons, scene)
 
-  function onFocusItemSelected(obj)
-  {
-    base.onFocusItemSelected(obj)
-
-    if (obj.id != "general_game_modes")
-      setEventDescriptionConsoleButtonActive(false)
-    local gameModeId = ::getTblValue(obj.getValue(), gameModeIdByValue)
-    local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
-    updateEventDescriptionConsoleButton(gameMode)
-  }
-
-  function getFeaturedGameModesObj()
-  {
-    local obj = scene.findObject("featured_game_modes")
-    return ::checkObj(obj) ? obj : null
-  }
-
-  function getDebugGameModesObj()
-  {
-    local obj = scene.findObject("debug_game_modes")
-    return ::checkObj(obj) ? obj : null
-  }
-
-  function onActivateConsoleButton(obj)
-  {
-    local value = getGameModesObjValue("featured_game_modes")
-    if (value != -1)
-    {
-      local childObj = getFeaturedGameModesObj().getChild(value)
-
-      // Name can be "onGameModeSelect" or "onFeaturedModeSelect".
-      local onClickCallbackName = ::getTblValue("on_click", childObj)
-
-      local onClickCallback = ::getTblValue(onClickCallbackName, this, null)
-      if (onClickCallback)
-        guiScene.performDelayed(this, function()
-        {
-          if (isValid())
-            onClickCallback(childObj)
-        })
+    local prefObj = scene.findObject("map_preferences_console_button")
+    if(!::check_obj(prefObj))
       return
-    }
-    value = getGameModesObjValue("debug_game_modes")
-    if (value != -1)
-    {
-      guiScene.performDelayed(this, function()
-      {
-        if (isValid())
-          onGameModeSelect(getDebugGameModesObj().getChild(value))
-      })
-      return
-    }
+
+    prefObj.setValue(mapPreferencesParams.getPrefTitle(gameMode?.getEvent()))
+    prefObj.modeId = gameMode?.id
   }
 
-  function getGameModesObjValue(gameModesId)
-  {
-    local gameModesObj = scene.findObject(gameModesId)
-    if (!::checkObj(gameModesObj))
-      return -1
-    if (!gameModesObj.isFocused())
-      return -1
-    local value = gameModesObj.getValue()
-    if (value < 0 || value >= gameModesObj.childrenCount())
-      return -1
-    return value
-  }
-
-  function onEventWWLoadOperation(p) { doWhenActiveOnce("updateContent") }
-  function onEventWWStopWorldWar(p) { doWhenActiveOnce("updateContent") }
-  function onEventWWGlobalStatusChanged(p) { doWhenActiveOnce("updateContent") }
-  function onEventXboxSystemUIReturn(p) { doWhenActiveOnce("updateContent") }
+  function onEventCurrentGameModeIdChanged(p) { updateContent() }
+  function onEventGameModesUpdated(p) { updateContent() }
+  function onEventWWLoadOperation(p) { updateContent() }
+  function onEventWWStopWorldWar(p) { updateContent() }
+  function onEventWWGlobalStatusChanged(p) { updateContent() }
+  function onEventXboxSystemUIReturn(p) { updateContent() }
 
   function updateButtons()
   {
@@ -773,7 +573,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   {
     local timerObj = scene.findObject("game_modes_timer")
     if (::check_obj(timerObj))
-      timerObj.setUserData(this)
+      timerObj.setUserData(gameModesWithTimer.len()? this : null)
   }
 
   function onTimerUpdate(obj, dt)
@@ -782,5 +582,22 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     {
       updateFunc(scene, gameModeId)
     }
+  }
+
+  function isShowMapPreferences(curEvent)
+  {
+    return ::has_feature("MapPreferences") && !::is_me_newbie()
+      && mapPreferencesParams.hasPreferences(curEvent)
+      && ((curEvent?.maxDislikedMissions ?? 0) > 0 || (curEvent?.maxBannedMissions ?? 0) > 0)
+  }
+
+  function onMapPreferences(obj)
+  {
+    local curEvent = obj?.modeId != null
+      ? ::game_mode_manager.getGameModeById(obj.modeId)?.getEvent()
+      : ::game_mode_manager.getCurrentGameMode()?.getEvent()
+    ::g_squad_utils.checkSquadUnreadyAndDo(
+      Callback(@() mapPreferencesModal.open({curEvent = curEvent}), this),
+      null, shouldCheckCrewsReady)
   }
 }

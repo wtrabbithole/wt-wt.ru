@@ -12,7 +12,7 @@ local time = require("scripts/time.nut")
   types = []
 }
 
-function g_measure_type::_getMeasureUnitsText(value, addMeasureUnits = true, forceMaxPrecise = false)
+g_measure_type._getMeasureUnitsText <- function _getMeasureUnitsText(value, addMeasureUnits = true, forceMaxPrecise = false)
 {
   if (userOptCode != -1)
     return ::countMeasure(orderCode, value, " - ", addMeasureUnits, forceMaxPrecise)
@@ -22,7 +22,7 @@ function g_measure_type::_getMeasureUnitsText(value, addMeasureUnits = true, for
   return result
 }
 
-function g_measure_type::_getMeasureUnitsName()
+g_measure_type._getMeasureUnitsName <- function _getMeasureUnitsName()
 {
   local unitName = (userOptCode != -1) ? ::get_option_unit_type(orderCode) : name
   return ::loc(::format("measureUnits/%s", unitName))
@@ -196,7 +196,7 @@ enums.addTypesByGlobalName("g_measure_type", {
   }
 })
 
-function g_measure_type::getTypeByName(name, createIfNotFound = false)
+g_measure_type.getTypeByName <- function getTypeByName(name, createIfNotFound = false)
 {
   local res = enums.getCachedType("name", name, ::g_measure_type_cache.byName,
                                       ::g_measure_type, ::g_measure_type.UNKNOWN)

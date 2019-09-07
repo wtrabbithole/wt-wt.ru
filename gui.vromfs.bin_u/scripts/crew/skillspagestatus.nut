@@ -53,7 +53,7 @@ enums.addTypesByGlobalName("g_skills_page_status", {
   */
 })
 
-function g_skills_page_status::getPageStatus(crew, page, crewUnitType, skillPoints)
+g_skills_page_status.getPageStatus <- function getPageStatus(crew, page, crewUnitType, skillPoints)
 {
   local res = ::g_skills_page_status.NONE
   local items = ::getTblValue("items", page)

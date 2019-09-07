@@ -184,7 +184,6 @@ enums.addTypesByGlobalName("g_dbg_hud_object_type", {
         eventId = "hint:missionHint:set"
         shortcuts = [
           "@ID_ZOOM",
-          "@ID_ZOOM_MORE",
           "ID_ZOOM_TOGGLE",
           "@zoom=max",
         ]

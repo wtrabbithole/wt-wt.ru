@@ -1,7 +1,7 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, save_scene=true)
+::fill_gamer_card <- function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, save_scene=true)
 {
   if (!::checkObj(scene))
   {
@@ -275,7 +275,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
   ::update_gc_invites(scene)
 }
 
-function update_gamercards()
+::update_gamercards <- function update_gamercards()
 {
   local info = ::get_profile_info()
   for(local idx=::last_gamercard_scenes.len()-1; idx>=0; idx--)
@@ -290,7 +290,7 @@ function update_gamercards()
   ::broadcastEvent("UpdateGamercard")
 }
 
-function do_with_all_gamercards(func)
+::do_with_all_gamercards <- function do_with_all_gamercards(func)
 {
   foreach(scene in ::last_gamercard_scenes)
     if (::checkObj(scene))
@@ -298,7 +298,7 @@ function do_with_all_gamercards(func)
 }
 
 ::last_gamercard_scenes <- []
-function add_gamercard_scene(scene)
+::add_gamercard_scene <- function add_gamercard_scene(scene)
 {
   for(local idx=::last_gamercard_scenes.len()-1; idx>=0; idx--)
   {
@@ -311,7 +311,7 @@ function add_gamercard_scene(scene)
   ::last_gamercard_scenes.append(scene)
 }
 
-function set_last_gc_scene_if_exist(scene)
+::set_last_gc_scene_if_exist <- function set_last_gc_scene_if_exist(scene)
 {
   foreach(idx, gcs in ::last_gamercard_scenes)
     if (::check_obj(gcs) && scene.isEqual(gcs)
@@ -323,7 +323,7 @@ function set_last_gc_scene_if_exist(scene)
     }
 }
 
-function getLastGamercardScene()
+::getLastGamercardScene <- function getLastGamercardScene()
 {
   if(::last_gamercard_scenes.len() > 0)
     for(local i = ::last_gamercard_scenes.len() - 1; i >= 0; i--)
@@ -334,13 +334,13 @@ function getLastGamercardScene()
   return null
 }
 
-function update_gc_invites(scene)
+::update_gc_invites <- function update_gc_invites(scene)
 {
   local haveNew = ::g_invites.newInvitesAmount > 0
   ::update_gc_button(scene.findObject("gc_invites_btn"), haveNew)
 }
 
-function update_gc_button(obj, isNew, tooltip = null)
+::update_gc_button <- function update_gc_button(obj, isNew, tooltip = null)
 {
   if(!::check_obj(obj))
     return
@@ -358,14 +358,14 @@ function update_gc_button(obj, isNew, tooltip = null)
     objGlow.wink = isNew ? "yes" : "no"
 }
 
-function get_active_gc_popup_nest_obj()
+::get_active_gc_popup_nest_obj <- function get_active_gc_popup_nest_obj()
 {
   local gcScene = ::getLastGamercardScene()
   local nestObj = gcScene ? gcScene.findObject("chatPopupNest") : null
   return ::check_obj(nestObj) ? nestObj : null
 }
 
-function update_clan_alert_icon()
+::update_clan_alert_icon <- function update_clan_alert_icon()
 {
   local needAlert = ::g_clans.getUnseenCandidatesCount() > 0
   ::do_with_all_gamercards(

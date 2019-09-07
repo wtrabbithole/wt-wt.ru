@@ -1,7 +1,7 @@
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local stdMath = require("std/math.nut")
 
-function gui_modal_crew(params = {})
+::gui_modal_crew <- function gui_modal_crew(params = {})
 {
   if (::has_feature("CrewSkills"))
     ::gui_start_modal_wnd(::gui_handlers.CrewModalHandler, params)

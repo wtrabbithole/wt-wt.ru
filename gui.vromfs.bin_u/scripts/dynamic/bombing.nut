@@ -1,4 +1,4 @@
-function _generateBombingMission(isFreeFlight, ground_type, createGroundUnitsProc)
+::_generateBombingMission <- function _generateBombingMission(isFreeFlight, ground_type, createGroundUnitsProc)
 {
   local mission_preset_name = "bombing_preset01";
   ::mgBeginMission("gameData/missions/dynamic_campaign/objectives/"+mission_preset_name+".blk");

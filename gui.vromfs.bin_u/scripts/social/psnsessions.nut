@@ -73,7 +73,7 @@ local sessionParams = {
 }
 
 
-function g_psn_sessions::create(sType, cb = psn.noOpCb)
+g_psn_sessions.create <- function create(sType, cb = psn.noOpCb)
 {
   local params = sessionParams[sType] // Cache info for use in callback
   pendingSessions[sType] <- { type = sType, info = params.info }
@@ -87,13 +87,13 @@ function g_psn_sessions::create(sType, cb = psn.noOpCb)
   psn.send(psn.session.create(formatSessionInfo(params.info()), params.image(), params.data()), saveSession, this)
 }
 
-function g_psn_sessions::invite(session, invitee, cb=psn.noOpCb)
+g_psn_sessions.invite <- function invite(session, invitee, cb=psn.noOpCb)
 {
   if (session in sessions)
     psn.send(psn.session.invite(session, invitee), cb)
 }
 
-function g_psn_sessions::join(session, invitation=null, cb=psn.noOpCb)
+g_psn_sessions.join <- function join(session, invitation=null, cb=psn.noOpCb)
 {
   // If we're in this session, just mark invitation used, favor rate limits
   if (session in sessions && invitation?.invitationId)
@@ -119,7 +119,7 @@ function g_psn_sessions::join(session, invitation=null, cb=psn.noOpCb)
   }
 }
 
-function g_psn_sessions::update(session, info)
+g_psn_sessions.update <- function update(session, info)
 {
   local psnSession = sessions?[session]
   local shouldUpdate = !u.isEqual((psnSession && psnSession?.info) || {}, info)
@@ -132,7 +132,7 @@ function g_psn_sessions::update(session, info)
         })
 }
 
-function g_psn_sessions::leave(session, cb=psn.noOpCb)
+g_psn_sessions.leave <- function leave(session, cb=psn.noOpCb)
 {
   if (session in sessions)
   {
@@ -148,7 +148,7 @@ function g_psn_sessions::leave(session, cb=psn.noOpCb)
 }
 
 
-function g_psn_sessions::checkAfterFlight()
+g_psn_sessions.checkAfterFlight <- function checkAfterFlight()
 {
   if (!::is_platform_ps4)
     return
@@ -158,7 +158,7 @@ function g_psn_sessions::checkAfterFlight()
 }
 
 
-function g_psn_sessions::onEventRoomJoined(params)
+g_psn_sessions.onEventRoomJoined <- function onEventRoomJoined(params)
 {
   if (!::is_platform_ps4 || ::get_game_mode() != ::GM_SKIRMISH)
     return
@@ -171,7 +171,7 @@ function g_psn_sessions::onEventRoomJoined(params)
     join(session, {key=PSN_SESSION_TYPE.SKIRMISH})
 }
 
-function g_psn_sessions::onEventLobbyStatusChange(params)
+g_psn_sessions.onEventLobbyStatusChange <- function onEventLobbyStatusChange(params)
 {
   ::dagor.debug("[PSSI] onEventLobbyStatusChange in room "+::SessionLobby.isInRoom())
   // Leave psn session, join has its own event. Actually leave all skirmishes,
@@ -181,7 +181,7 @@ function g_psn_sessions::onEventLobbyStatusChange(params)
       leave(id)
 }
 
-function g_psn_sessions::onEventLobbySettingsChange(params)
+g_psn_sessions.onEventLobbySettingsChange <- function onEventLobbySettingsChange(params)
 {
   local session = ::SessionLobby.getExternalId()
   if (!::is_platform_ps4 || u.isEmpty(session))
@@ -195,7 +195,7 @@ function g_psn_sessions::onEventLobbySettingsChange(params)
 }
 
 
-function g_psn_sessions::onEventSquadStatusChanged(params)
+g_psn_sessions.onEventSquadStatusChanged <- function onEventSquadStatusChanged(params)
 {
   if (!::is_platform_ps4)
     return
@@ -240,7 +240,7 @@ function g_psn_sessions::onEventSquadStatusChanged(params)
 }
 
 
-function g_psn_sessions::onPsnInvitation(invitation)
+g_psn_sessions.onPsnInvitation <- function onPsnInvitation(invitation)
 {
   ::dagor.debug("[PSSI] PSN invite "+invitation.invitationId+" to "+invitation.sessionId)
   local delayInvitation = function(i, cb) {

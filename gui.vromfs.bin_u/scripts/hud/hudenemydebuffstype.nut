@@ -224,12 +224,12 @@ enums.addTypesByGlobalName("g_hud_enemy_debuffs", {
   }
 }, null, "id")
 
-function g_hud_enemy_debuffs::getTypeById(id)
+g_hud_enemy_debuffs.getTypeById <- function getTypeById(id)
 {
   return enums.getCachedType("id", id, cache.byId, this, UNKNOWN)
 }
 
-function g_hud_enemy_debuffs::getTypesArrayByUnitType(unitType)
+g_hud_enemy_debuffs.getTypesArrayByUnitType <- function getTypesArrayByUnitType(unitType)
 {
   local unitTypeBit = ::g_unit_type.getByEsUnitType(unitType).bit
   local list = []
@@ -239,7 +239,7 @@ function g_hud_enemy_debuffs::getTypesArrayByUnitType(unitType)
   return list
 }
 
-function g_hud_enemy_debuffs::getTrackedPartNamesByUnitType(unitType)
+g_hud_enemy_debuffs.getTrackedPartNamesByUnitType <- function getTrackedPartNamesByUnitType(unitType)
 {
   local unitTypeBit = ::g_unit_type.getByEsUnitType(unitType).bit
   local list = []

@@ -32,6 +32,13 @@ excludesdataEnglish <-
       "japan"
     ]
   },
+  {
+    key = "t",
+    arr =
+    [
+      "titan"
+    ]
+  },
 ];
 
 

@@ -1,4 +1,4 @@
-enum WW_MAP_TOOLTIP_TYPE
+global enum WW_MAP_TOOLTIP_TYPE
 {
   BATTLE,
   ARMY,

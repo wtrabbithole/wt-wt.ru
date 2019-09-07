@@ -1,4 +1,4 @@
-function embedded_browser_event(event_type, url, error_desc, error_code,
+::embedded_browser_event <- function embedded_browser_event(event_type, url, error_desc, error_code,
   is_main_frame)
 {
   ::broadcastEvent(
@@ -8,22 +8,22 @@ function embedded_browser_event(event_type, url, error_desc, error_code,
   );
 }
 
-function notify_browser_window(params)
+::notify_browser_window <- function notify_browser_window(params)
 {
   ::broadcastEvent("EmbeddedBrowser", params)
 }
 
-function is_builtin_browser_active()
+::is_builtin_browser_active <- function is_builtin_browser_active()
 {
   return ::isHandlerInScene(::gui_handlers.BrowserModalHandler)
 }
 
-function open_browser_modal(url="", tags=[])
+::open_browser_modal <- function open_browser_modal(url="", tags=[])
 {
   ::gui_start_modal_wnd(::gui_handlers.BrowserModalHandler, {url = url, urlTags = tags})
 }
 
-function close_browser_modal()
+::close_browser_modal <- function close_browser_modal()
 {
   local handler = ::handlersManager.findHandlerClassInScene(
     ::gui_handlers.BrowserModalHandler);
@@ -37,7 +37,7 @@ function close_browser_modal()
   handler.goBack()
 }
 
-function browser_set_external_url(url)
+::browser_set_external_url <- function browser_set_external_url(url)
 {
   local handler = ::handlersManager.findHandlerClassInScene(
     ::gui_handlers.BrowserModalHandler);

@@ -164,8 +164,8 @@ class ::gui_handlers.ChooseMissionsListWnd extends ::gui_handlers.BaseGuiHandler
 
     if (!curMission || curMission.id != id)
     {
-      local idx = ::u.searchIndex(missionsList, function(m) { return m.id == id })
-      if (idx == -1)
+      local idx = missionsList.searchIndex(@(m) m.id == id)
+      if (idx == null)
         return
 
       misListObj.setValue(idx)

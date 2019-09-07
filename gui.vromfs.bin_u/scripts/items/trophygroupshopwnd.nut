@@ -1,6 +1,6 @@
 local stdMath = require("std/math.nut")
 
-function gui_start_open_trophy_group_shop_wnd(trophy)
+::gui_start_open_trophy_group_shop_wnd <- function gui_start_open_trophy_group_shop_wnd(trophy)
 {
   if (!trophy)
     return

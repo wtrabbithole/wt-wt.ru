@@ -11,7 +11,7 @@ enum mislistTabsOrder {
   types = []
 }
 
-function g_mislist_type::_getMissionConfig(id, isHeader = false, isCampaign = false, isUnlocked = true)
+g_mislist_type._getMissionConfig <- function _getMissionConfig(id, isHeader = false, isCampaign = false, isUnlocked = true)
 {
   return {
     id = id
@@ -26,7 +26,7 @@ function g_mislist_type::_getMissionConfig(id, isHeader = false, isCampaign = fa
   }
 }
 
-function g_mislist_type::_getMissionsByBlkArray(campaignName, missionBlkArray)
+g_mislist_type._getMissionsByBlkArray <- function _getMissionsByBlkArray(campaignName, missionBlkArray)
 {
   local res = []
   local gm = ::get_game_mode()
@@ -109,7 +109,7 @@ function g_mislist_type::_getMissionsByBlkArray(campaignName, missionBlkArray)
   return res
 }
 
-function g_mislist_type::_getMissionsList(isShowCampaigns, callback, customChapterId = null, customChapters = null)
+g_mislist_type._getMissionsList <- function _getMissionsList(isShowCampaigns, callback, customChapterId = null, customChapters = null)
 {
   local gm = ::get_game_mode()
   if (customChapterId)
@@ -196,7 +196,7 @@ function g_mislist_type::_getMissionsList(isShowCampaigns, callback, customChapt
   callback(res)
 }
 
-function g_mislist_type::_getMissionsListByNames(namesList)
+g_mislist_type._getMissionsListByNames <- function _getMissionsListByNames(namesList)
 {
   local blkList = []
   foreach(name in namesList)
@@ -208,7 +208,7 @@ function g_mislist_type::_getMissionsListByNames(namesList)
   return getMissionsByBlkArray("", blkList)
 }
 
-function g_mislist_type::_getCurMission()
+g_mislist_type._getCurMission <- function _getCurMission()
 {
   if (::SessionLobby.isInRoom())
   {
@@ -225,7 +225,7 @@ function g_mislist_type::_getCurMission()
   return res
 }
 
-function g_mislist_type::_getMissionNameText(mission)
+g_mislist_type._getMissionNameText <- function _getMissionNameText(mission)
 {
   if (mission?.isHeader)
     return ::loc((mission?.isCampaign ? "campaigns/" : "chapters/") + mission?.id)
@@ -435,13 +435,13 @@ enums.addTypesByGlobalName("g_mislist_type", {
   return 0
 })
 
-function g_mislist_type::getTypeByName(typeName)
+g_mislist_type.getTypeByName <- function getTypeByName(typeName)
 {
   local res = ::getTblValue(typeName, ::g_mislist_type)
   return ::u.isTable(res) ? res : BASE
 }
 
-function g_mislist_type::isUrlMission(mission)
+g_mislist_type.isUrlMission <- function isUrlMission(mission)
 {
   return "urlMission" in mission
 }

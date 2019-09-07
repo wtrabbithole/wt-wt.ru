@@ -35,7 +35,7 @@ local stdMath = require("std/math.nut")
   }
 }
 
-function g_language::standartStyleNumberCut(num)
+g_language.standartStyleNumberCut <- function standartStyleNumberCut(num)
 {
   local needSymbol = num >= 9999.5
   local roundNum = stdMath.roundToDigits(num, needSymbol ? 3 : 4)
@@ -49,7 +49,7 @@ function g_language::standartStyleNumberCut(num)
   return (0.001 * roundNum) + "K"
 }
 
-function g_language::chineseStyleNumberCut(num)
+g_language.chineseStyleNumberCut <- function chineseStyleNumberCut(num)
 {
   local needSymbol = num >= 99999.5
   local roundNum = stdMath.roundToDigits(num, needSymbol ? 4 : 5)
@@ -61,7 +61,7 @@ function g_language::chineseStyleNumberCut(num)
   return (0.0001 * roundNum) + ::loc("10k_shortSymbol")
 }
 
-function g_language::tencentAddLineBreaks(text)
+g_language.tencentAddLineBreaks <- function tencentAddLineBreaks(text)
 {
   local res = ""
   local total = ::utf8(text).charCount()
@@ -75,7 +75,7 @@ function g_language::tencentAddLineBreaks(text)
   return res
 }
 
-function g_language::initFunctionsTable()
+g_language.initFunctionsTable <- function initFunctionsTable()
 {
   local table = {
     getShortTextFromNum = {
@@ -113,7 +113,7 @@ function g_language::initFunctionsTable()
 }
 ::g_language.initFunctionsTable()
 
-function g_language::updateFunctions()
+g_language.updateFunctions <- function updateFunctions()
 {
   foreach (funcName, block in replaceFunctionsTable)
   {
@@ -134,28 +134,28 @@ function g_language::updateFunctions()
   }
 }
 
-function g_language::getLanguageName()
+g_language.getLanguageName <- function getLanguageName()
 {
   return currentLanguage
 }
 
-function g_language::getShortName()
+g_language.getShortName <- function getShortName()
 {
   return shortLangName
 }
 
-function g_language::getCurLangInfo()
+g_language.getCurLangInfo <- function getCurLangInfo()
 {
   return getLangInfoById(currentLanguage)
 }
 
-function g_language::onChangeLanguage()
+g_language.onChangeLanguage <- function onChangeLanguage()
 {
   ::g_language.currentSteamLanguage = ::getTblValue(currentLanguage, steamLanguages, "english");
   ::g_language.updateFunctions()
 }
 
-function g_language::saveLanguage(langName)
+g_language.saveLanguage <- function saveLanguage(langName)
 {
   if (currentLanguage == langName)
     return
@@ -165,7 +165,7 @@ function g_language::saveLanguage(langName)
 }
 ::g_language.saveLanguage(get_settings_blk()?.language ?? get_settings_blk()?.game_start?.language ?? "English")
 
-function g_language::setGameLocalization(langId, reloadScene = false, suggestPkgDownload = false, isForced = false)
+g_language.setGameLocalization <- function setGameLocalization(langId, reloadScene = false, suggestPkgDownload = false, isForced = false)
 {
   if (langId == currentLanguage && !isForced)
     return
@@ -187,12 +187,12 @@ function g_language::setGameLocalization(langId, reloadScene = false, suggestPkg
   ::broadcastEvent("GameLocalizationChanged")
 }
 
-function g_language::reload()
+g_language.reload <- function reload()
 {
   setGameLocalization(currentLanguage, true, false, true)
 }
 
-function g_language::onEventNewSceneLoaded(p)
+g_language.onEventNewSceneLoaded <- function onEventNewSceneLoaded(p)
 {
   if (!needCheckLangPack)
     return
@@ -201,12 +201,12 @@ function g_language::onEventNewSceneLoaded(p)
   needCheckLangPack = false
 }
 
-function canSwitchGameLocalization()
+::canSwitchGameLocalization <- function canSwitchGameLocalization()
 {
   return !::is_ps4_or_xbox && !::is_vendor_tencent() && !::is_vietnamese_version()
 }
 
-function g_language::getEmptyLangInfo()
+g_language.getEmptyLangInfo <- function getEmptyLangInfo()
 {
   local langInfo = {
     id = "empty"
@@ -219,7 +219,7 @@ function g_language::getEmptyLangInfo()
   return langInfo
 }
 
-function g_language::_addLangOnce(id, icon = null, chatId = null, hasUnitSpeech = null)
+g_language._addLangOnce <- function _addLangOnce(id, icon = null, chatId = null, hasUnitSpeech = null)
 {
   if (id in langsById)
     return
@@ -241,7 +241,7 @@ function g_language::_addLangOnce(id, icon = null, chatId = null, hasUnitSpeech 
     langInfo.isMainChatId = false
 }
 
-function g_language::checkInitList()
+g_language.checkInitList <- function checkInitList()
 {
   if (isListInited)
     return
@@ -254,12 +254,12 @@ function g_language::checkInitList()
 
   local locBlk = ::DataBlock()
   ::get_localization_blk_copy(locBlk)
-  local ttBlk = locBlk.text_translation || ::DataBlock()
+  local ttBlk = locBlk?.text_translation ?? ::DataBlock()
   local existingLangs = ttBlk % "lang"
 
   local guiBlk = ::configs.GUI.get()
   local blockName = ::is_vendor_tencent() ? "tencent" : ::is_vietnamese_version() ? "vietnam" : "default"
-  local preset = guiBlk.game_localization ? guiBlk.game_localization[blockName] : ::DataBlock()
+  local preset = guiBlk?.game_localization[blockName] ?? ::DataBlock()
   for (local l = 0; l < preset.blockCount(); l++)
   {
     local lang = preset.getBlock(l)
@@ -269,7 +269,7 @@ function g_language::checkInitList()
 
   if (::is_dev_version)
   {
-    local blk = guiBlk.game_localization || ::DataBlock()
+    local blk = guiBlk?.game_localization ?? ::DataBlock()
     for (local p = 0; p < blk.blockCount(); p++)
     {
       local devPreset = blk.getBlock(p)
@@ -287,7 +287,7 @@ function g_language::checkInitList()
   local curLangId = ::g_language.getLanguageName()
   _addLangOnce(curLangId)
 
-  local inventoryBlk = locBlk.inventory_abbreviated_languages_table || ::DataBlock()
+  local inventoryBlk = locBlk?.inventory_abbreviated_languages_table ?? ::DataBlock()
   for (local l = 0; l < inventoryBlk.paramCount(); ++l)
   {
     local param = inventoryBlk.getParamValue(l)
@@ -299,19 +299,19 @@ function g_language::checkInitList()
   }
 }
 
-function g_language::getGameLocalizationInfo()
+g_language.getGameLocalizationInfo <- function getGameLocalizationInfo()
 {
   checkInitList()
   return langsList
 }
 
-function g_language::getLangInfoById(id)
+g_language.getLangInfoById <- function getLangInfoById(id)
 {
   checkInitList()
   return ::getTblValue(id, langsById)
 }
 
-function g_language::getLangInfoByChatId(chatId)
+g_language.getLangInfoByChatId <- function getLangInfoByChatId(chatId)
 {
   checkInitList()
   return ::getTblValue(chatId, langsByChatId)
@@ -331,7 +331,7 @@ function g_language::getLangInfoByChatId(chatId)
     text_en = "localized text"  //english text. already localized.
   }
 */
-function g_language::getLocTextFromConfig(config, id = "text", defaultValue = null)
+g_language.getLocTextFromConfig <- function getLocTextFromConfig(config, id = "text", defaultValue = null)
 {
   local res = null
   local key = id + "_" + shortLangName
@@ -348,7 +348,7 @@ function g_language::getLocTextFromConfig(config, id = "text", defaultValue = nu
   return res
 }
 
-function g_language::isAvailableForCurLang(block)
+g_language.isAvailableForCurLang <- function isAvailableForCurLang(block)
 {
   if (!::getTblValue("showForLangs", block))
     return true
@@ -357,24 +357,24 @@ function g_language::isAvailableForCurLang(block)
   return ::isInArray(getLanguageName(), availableForLangs)
 }
 
-function g_language::onEventInitConfigs(p)
+g_language.onEventInitConfigs <- function onEventInitConfigs(p)
 {
   isListInited = false
 }
 
-function get_current_language()
+::get_current_language <- function get_current_language()
 {
   return ::g_language.getLanguageName()
 }
 
-function getShortTextFromNum(num)
+::getShortTextFromNum <- function getShortTextFromNum(num)
 {
   return ::g_language.getShortTextFromNum(num)
 }
 
 // using from C++ to convert current language to inventory's abbreviation language
 // to properly load localization for its goods
-function get_abbreviated_language_for_inventory(fullLang)
+::get_abbreviated_language_for_inventory <- function get_abbreviated_language_for_inventory(fullLang)
 {
   local abbrevLang = "en"
   if (fullLang in ::g_language.langsListForInventory)
@@ -384,18 +384,18 @@ function get_abbreviated_language_for_inventory(fullLang)
 }
 
 // called from native playerProfile on language change, so at this point we can use get_language
-function on_language_changed()
+::on_language_changed <- function on_language_changed()
 {
   ::g_language.saveLanguage(::get_language())
 }
 
-function g_language::getCurrentSteamLanguage()
+g_language.getCurrentSteamLanguage <- function getCurrentSteamLanguage()
 {
   return currentSteamLanguage
 }
 
 // used in native code
-function get_current_steam_language()
+::get_current_steam_language <- function get_current_steam_language()
 {
   return g_language.getCurrentSteamLanguage()
 }

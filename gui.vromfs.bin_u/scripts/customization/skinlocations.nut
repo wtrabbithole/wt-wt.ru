@@ -69,11 +69,11 @@ local function loadSkinMasksOnce()
     skinsMask[blk.getBlockName()] <- getLocationMaskByNamesArray(blk % "camoType")
   }
   camoTypesVisibleList = []
-  if (skinsBlk.camo_type_visible)
+  if (skinsBlk?.camo_type_visible)
     foreach(b in skinsBlk.camo_type_visible % "camoType")
       camoTypesVisibleList.append(b.name)
   camoTypesIconPriority = []
-  if (skinsBlk.camo_type_icons)
+  if (skinsBlk?.camo_type_icons)
     foreach(b in skinsBlk.camo_type_icons % "camoType")
       camoTypesIconPriority.append(b.name)
 }

@@ -176,6 +176,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       contentObj.flow = "vertical"
       guiScene.replaceContentFromText(contentObj, data, data.len(), this)
 
+      local isGold = chapter == "eagles"
       local tblObj = scene.findObject("items_list")
       foreach(name, item in goods)
       {
@@ -183,7 +184,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!rowObj) continue
 
         local useExternalLinksView = {
-          externalLink = chapter == "eagles"
+          externalLink = isGold
         }
         local onlineShopRowBlk = ::handyman.renderCached(("gui/onlineShopRow"), useExternalLinksView)
         guiScene.replaceContentFromText(rowObj, onlineShopRowBlk, onlineShopRowBlk.len(), this)
@@ -203,7 +204,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         {
           local itemPrice = getPrice(item)
           local defItemPrice = groupCost[item.group]
-          if (itemPrice && defItemPrice)
+          if (itemPrice && defItemPrice && (!isGold || !::steam_is_running()))
           {
             local calcAmount = amount + additionalAmount
             local saving = (1 - ((itemPrice * (1 - discount*0.01)) / (calcAmount * defItemPrice))) * 100
@@ -221,7 +222,6 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
           amountText = time.hoursToString(amount, false, false, true)
         else
         {
-          local isGold = chapter == "eagles"
           amount = amount.tointeger()
 
           local originAmount = isGold? ::Cost(0, amount) : ::Cost(amount, 0)
@@ -307,7 +307,12 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
     local cost = -1
     if (item?.onlinePurchase)
     {
-      local costText = ::loc("price/" + item.name, "")
+      local costText = ""
+      if (::steam_is_running())
+        costText = ::loc("price/steam/" + item.name, "")
+      if (costText == "")
+        costText = ::loc("price/" + item.name, "")
+
       if (costText != "")
         cost = costText.tointeger()
     }
@@ -541,7 +546,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       local price = ::Cost(0, costGold)
       local msgText = ::warningIfGold(
         ::loc("onlineShop/needMoneyQuestion",
-          {purchase = ::get_entitlement_name(goods[task]), cost = getItemPriceText(task)}),
+          {purchase = ::get_entitlement_name(goods[task]), cost = price.getTextAccordingToBalance()}),
         price)
       msgBox("purchase_ask", msgText,
         [
@@ -591,10 +596,11 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local costGold = ("goldCost" in goods[purchaseTask]) ?
       ::get_entitlement_cost_gold(goods[purchaseTask].name) : 0
-    local msgText = warningIfGold(
+    local price = ::Cost(0, costGold)
+    local msgText = ::warningIfGold(
       ::loc("onlineShop/needMoneyQuestion",
-        {purchase = ::get_entitlement_name(goods[purchaseTask]), cost = getItemPriceText(purchaseTask)}),
-      ::Cost(0, costGold))
+        {purchase = ::get_entitlement_name(goods[purchaseTask]), cost = price.getTextAccordingToBalance()}),
+      price)
     msgBox("purchase_ask", msgText,
       [ ["yes", @() doYuplayPurchase(purchaseTask, payMethod) ],
         ["no", function(){}]
@@ -634,7 +640,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local pObj = obj.getParent()
-    if (!pObj || !(pObj.id in goods))
+    if (!pObj || !(pObj?.id in goods))
       return
     local id = pObj.id
 

@@ -313,7 +313,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       trophy = []
     }
 
-    local curDay = time.getUtcDays() - DAYS_TO_YEAR_1970 + 1
+    local curDay = time.getUtcDays() - time.DAYS_TO_YEAR_1970 + 1
     local trophiesProgress = ::get_es_custom_blk(-1)?.customClientData
     for (local i = 0; i < trophiesAmount; i++)
     {
@@ -408,7 +408,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       return false
 
     local isHeader = mapObj?.collapse_header != null
-    local newMap = isHeader ? null : ::g_ww_global_status.getMapByName(mapObj.id)
+    local newMap = isHeader ? null : ::g_ww_global_status.getMapByName(mapObj?.id)
     if (newMap == selMap)
       return false
     local isChanged = !newMap || !selMap || !selMap.isEqual(newMap)
@@ -458,7 +458,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       return ""
 
     if (mapObj?.collapse_header)
-      return mapObj.collapsed == "yes"
+      return mapObj?.collapsed == "yes"
         ? ::loc("mainmenu/btnExpand")
         : ::loc("mainmenu/btnCollapse")
 
@@ -475,7 +475,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       onCollapse(mapObj)
     else
     {
-      if (mapObj.selected == "yes")
+      if (mapObj?.selected == "yes")
         onSelectCountriesBlock()
       else
         onSelectCountry()
@@ -635,7 +635,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       listObj.setValue(selIdx)
     }
 
-    if (collapsedChapters && !::u.isEmpty(itemObj.id))
+    if (collapsedChapters && !::u.isEmpty(itemObj?.id))
     {
       local idx = ::find_in_array(collapsedChapters, itemObj.id)
       if (isShow && idx != -1)
@@ -736,7 +736,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function onOpenLeaderboard(obj)
   {
-    openLeaderboard(obj.lb_mode, obj.is_day_lb == "yes")
+    openLeaderboard(obj.lb_mode, obj?.is_day_lb == "yes")
   }
 
   function onOpenSelectedTopLeaderboard(obj)
@@ -752,7 +752,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local topObj = topsObj.getChild(val)
     local btnObj = topObj?.findObject?("btn_open_leaderboard")
     if (::check_obj(btnObj))
-      openLeaderboard(btnObj.lb_mode, btnObj.is_day_lb == "yes")
+      openLeaderboard(btnObj.lb_mode, btnObj?.is_day_lb == "yes")
   }
 
   function openLeaderboard(modeName, isDayLb)
@@ -1296,7 +1296,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::has_feature("AllowExternalLink") || ::is_vendor_tencent())
       return
 
-    local worldWarUrlBtnKey = ::get_gui_regional_blk().worldWarUrlBtnKey
+    local worldWarUrlBtnKey = ::get_gui_regional_blk()?.worldWarUrlBtnKey
     local isVisibleBtn = !::u.isEmpty(worldWarUrlBtnKey)
     local btnObj = showSceneBtn("btn_ww_url", isVisibleBtn)
     if (!isVisibleBtn || !::check_obj(btnObj))
@@ -1335,12 +1335,12 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   }
 }
 
-function on_globe_marker_hover(id, hover) // called from client
+::on_globe_marker_hover <- function on_globe_marker_hover(id, hover) // called from client
 {
   ::ww_event("GlobeMarkerHover", { id = id, hover = hover })
 }
 
-function on_globe_marker_click(id) // called from client
+::on_globe_marker_click <- function on_globe_marker_click(id) // called from client
 {
   ::ww_event("GlobeMarkerClick", { id = id })
 }

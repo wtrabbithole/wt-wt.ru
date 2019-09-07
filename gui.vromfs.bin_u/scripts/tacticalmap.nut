@@ -1,10 +1,10 @@
-function gui_start_tactical_map(use_tactical_control = false)
+::gui_start_tactical_map <- function gui_start_tactical_map(use_tactical_control = false)
 {
   ::tactical_map_handler = ::handlersManager.loadHandler(::gui_handlers.TacticalMap,
                            { forceTacticalControl = use_tactical_control })
 }
 
-function gui_start_tactical_map_tc()
+::gui_start_tactical_map_tc <- function gui_start_tactical_map_tc()
 {
   gui_start_tactical_map(true);
 }
@@ -115,7 +115,7 @@ class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
     if (gt & ::GT_VERSUS)
       titleText = ::loc("multiplayer/" + ::get_cur_game_mode_name() + "Mode")
 
-    ::set_menu_title(titleText, scene, "menu-title")
+    setSceneTitle(titleText, scene, "menu-title")
   }
 
   function update(obj, dt)
@@ -420,7 +420,7 @@ class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
   function onSelect (obj) { onStart(obj) }
 }
 
-function addHideToObjStringById(data, objId)
+::addHideToObjStringById <- function addHideToObjStringById(data, objId)
 {
   local pos = data.find("id:t = '" + objId + "';")
   if (pos)
@@ -428,7 +428,7 @@ function addHideToObjStringById(data, objId)
   return data
 }
 
-function is_tactical_map_active()
+::is_tactical_map_active <- function is_tactical_map_active()
 {
   if (!("TacticalMap" in ::gui_handlers))
     return false

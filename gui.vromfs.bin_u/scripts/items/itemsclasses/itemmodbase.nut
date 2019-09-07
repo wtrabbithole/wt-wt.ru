@@ -29,8 +29,8 @@ local ModificationBase = class extends ::BaseItem
     if ("country" in conditionsBlk)
       countries = conditionsBlk % "country"
 
-    local minRank = conditionsBlk.minRank
-    local maxRank = conditionsBlk.maxRank
+    local minRank = conditionsBlk?.minRank
+    local maxRank = conditionsBlk?.maxRank
     if (shouldAlwaysShowRank || minRank || maxRank)
       rankRange = ::Point2(minRank || 1, maxRank || ::max_country_rank)
   }

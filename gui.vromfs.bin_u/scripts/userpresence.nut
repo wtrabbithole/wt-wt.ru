@@ -4,7 +4,7 @@
   helperObj = {}
 }
 
-function g_user_presence::init()
+g_user_presence.init <- function init()
 {
   updateBattlePresence()
 
@@ -19,7 +19,7 @@ function g_user_presence::init()
   }
 }
 
-function g_user_presence::updateBattlePresence()
+g_user_presence.updateBattlePresence <- function updateBattlePresence()
 {
   if (::is_in_flight() || ::SessionLobby.isInRoom())
     setBattlePresence("in_game", ::SessionLobby.getRoomEvent())
@@ -33,7 +33,7 @@ function g_user_presence::updateBattlePresence()
     setBattlePresence(null)
 }
 
-function g_user_presence::setBattlePresence(presenceName = null, event = null)
+g_user_presence.setBattlePresence <- function setBattlePresence(presenceName = null, event = null)
 {
   if (presenceName == null || event == null)
     setPresence({status = null}) // Sets presence to "Online".
@@ -49,28 +49,28 @@ function g_user_presence::setBattlePresence(presenceName = null, event = null)
   }
 }
 
-function g_user_presence::updateClanTagPresence()
+g_user_presence.updateClanTagPresence <- function updateClanTagPresence()
 {
   local clanTag = ::getTblValue("tag", ::my_clan_info, null) || ""
   setPresence({ clanTag = clanTag })
 }
 
-function g_user_presence::onEventLobbyStatusChange(params)
+g_user_presence.onEventLobbyStatusChange <- function onEventLobbyStatusChange(params)
 {
   updateBattlePresence()
 }
 
-function g_user_presence::onEventQueueChangeState(params)
+g_user_presence.onEventQueueChangeState <- function onEventQueueChangeState(params)
 {
   updateBattlePresence()
 }
 
-function g_user_presence::onEventClanInfoUpdate(params)
+g_user_presence.onEventClanInfoUpdate <- function onEventClanInfoUpdate(params)
 {
   updateClanTagPresence()
 }
 
-function g_user_presence::setPresence(presence)
+g_user_presence.setPresence <- function setPresence(presence)
 {
   if (!::g_login.isLoggedIn() || !checkPresence(presence))
     return
@@ -88,7 +88,7 @@ function g_user_presence::setPresence(presence)
  * to skip 'set_presence' call if nothing
  * changed.
  */
-function g_user_presence::checkPresence(presence)
+g_user_presence.checkPresence <- function checkPresence(presence)
 {
   if (presence == null)
     return false

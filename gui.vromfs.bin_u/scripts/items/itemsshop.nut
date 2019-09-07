@@ -3,17 +3,17 @@ local workshop = ::require("scripts/items/workshop/workshop.nut")
 local seenList = ::require("scripts/seen/seenList.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 
-function gui_start_itemsShop(params = null)
+::gui_start_itemsShop <- function gui_start_itemsShop(params = null)
 {
   ::gui_start_items_list(itemsTab.SHOP, params)
 }
 
-function gui_start_inventory(params = null)
+::gui_start_inventory <- function gui_start_inventory(params = null)
 {
   ::gui_start_items_list(itemsTab.INVENTORY, params)
 }
 
-function gui_start_items_list(curTab, params = null)
+::gui_start_items_list <- function gui_start_items_list(curTab, params = null)
 {
   if (!::ItemsManager.isEnabled())
     return

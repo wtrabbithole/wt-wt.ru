@@ -1,6 +1,6 @@
 local time = require("scripts/time.nut")
 
-function gui_start_battle_tasks_wnd(taskId = null)
+::gui_start_battle_tasks_wnd <- function gui_start_battle_tasks_wnd(taskId = null)
 {
   if (!::g_battle_tasks.isAvailableForUser())
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))

@@ -1,4 +1,4 @@
-function setProjectAwards(handler)
+::setProjectAwards <- function setProjectAwards(handler)
 {
   local guiScene = ::get_cur_gui_scene()
   local awardsObj = guiScene && guiScene["project-awards"]

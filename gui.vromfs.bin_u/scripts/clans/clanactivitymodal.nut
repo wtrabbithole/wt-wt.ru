@@ -2,7 +2,7 @@ local u = ::require("sqStdLibs/helpers/u.nut")
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-function gui_start_clan_activity_wnd(uid = null, clanData = null)
+::gui_start_clan_activity_wnd <- function gui_start_clan_activity_wnd(uid = null, clanData = null)
 {
   if (!uid || !clanData)
     return

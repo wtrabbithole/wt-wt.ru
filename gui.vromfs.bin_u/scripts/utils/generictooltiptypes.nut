@@ -764,7 +764,7 @@ enums.addTypesByGlobalName("g_tooltip_type", {
 
 }, null, "typeName")
 
-function g_tooltip_type::getTypeByName(typeName)
+g_tooltip_type.getTypeByName <- function getTypeByName(typeName)
 {
   local res = ::getTblValue(typeName, ::g_tooltip_type)
   return ::u.isTable(res) ? res : EMPTY

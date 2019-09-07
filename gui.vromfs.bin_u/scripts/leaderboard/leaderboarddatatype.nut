@@ -11,7 +11,7 @@ local stdMath = require("std/math.nut")
   byId = {}
 }
 
-function g_lb_data_type::_getStandartTooltip(lbDataType, value)
+g_lb_data_type._getStandartTooltip <- function _getStandartTooltip(lbDataType, value)
 {
   local shortText = lbDataType.getShortTextByValue(value)
   local fullText = lbDataType.getFullTextByValue(value)
@@ -187,7 +187,7 @@ enums.addTypesByGlobalName("g_lb_data_type", {
   }
 })
 
-function g_lb_data_type::getTypeById(id)
+g_lb_data_type.getTypeById <- function getTypeById(id)
 {
   return enums.getCachedType("id", id, ::g_lb_data_type_cache.byId,
                                        ::g_lb_data_type, ::g_lb_data_type.UNKNOWN)

@@ -4,7 +4,7 @@ local time = require("scripts/time.nut")
 
 ::g_qi_view_utils <- {}
 
-function g_qi_view_utils::createViewByCountries(nestObj, queue, event)
+g_qi_view_utils.createViewByCountries <- function createViewByCountries(nestObj, queue, event)
 {
   local needRankInfo = ::events.needRankInfoInQueue(event)
   local headerColumns = []
@@ -67,7 +67,7 @@ function g_qi_view_utils::createViewByCountries(nestObj, queue, event)
   nestObj.getScene().replaceContentFromText(nestObj, markup, markup.len(), this)
 }
 
-function g_qi_view_utils::updateViewByCountries(nestObj, queue, curCluster)
+g_qi_view_utils.updateViewByCountries <- function updateViewByCountries(nestObj, queue, curCluster)
 {
   local queueStats = queue && queue.queueStats
   if (!queueStats)
@@ -104,7 +104,7 @@ function g_qi_view_utils::updateViewByCountries(nestObj, queue, curCluster)
 }
 
 //update text and icon of queue each second until all queues finish.
-function g_qi_view_utils::updateShortQueueInfo(timerObj, textObj, iconObj)
+g_qi_view_utils.updateShortQueueInfo <- function updateShortQueueInfo(timerObj, textObj, iconObj)
 {
   if (!::check_obj(timerObj))
     return

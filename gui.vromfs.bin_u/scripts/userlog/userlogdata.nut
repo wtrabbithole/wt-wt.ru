@@ -2,7 +2,7 @@ local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
 
-enum USERLOG_POPUP {
+global enum USERLOG_POPUP {
   UNLOCK                = 0x0001
   FINISHED_RESEARCHES   = 0x0002
   OPEN_TROPHY           = 0x0004
@@ -105,7 +105,7 @@ local clanActionNames = {
 ::getLogNameByType <- @(logType) logNameByType?[logType] ?? "unknown"
 ::getClanActionName <- @(action) clanActionNames?[action] ?? "unknown"
 
-function get_userlog_image_item(item, params = {})
+::get_userlog_image_item <- function get_userlog_image_item(item, params = {})
 {
   local defaultParams = {
     enableBackground = false,
@@ -121,7 +121,7 @@ function get_userlog_image_item(item, params = {})
 }
 
 
-function get_link_markup(text, url, acccessKeyName=null)
+::get_link_markup <- function get_link_markup(text, url, acccessKeyName=null)
 {
   if (!::u.isString(url) || url.len() == 0 || !::has_feature("AllowExternalLink"))
     return ""
@@ -138,7 +138,7 @@ function get_link_markup(text, url, acccessKeyName=null)
 }
 
 
-function check_new_user_logs()
+::check_new_user_logs <- function check_new_user_logs()
 {
   local total = ::get_user_logs_count()
   local newUserlogsArray = []
@@ -146,10 +146,10 @@ function check_new_user_logs()
   {
     local blk = ::DataBlock()
     ::get_user_log_blk_body(i, blk)
-    if (blk.disabled || ::isInArray(blk.type, ::hidden_userlogs))
+    if (blk?.disabled || ::isInArray(blk?.type, ::hidden_userlogs))
       continue
 
-    local unlockId = ::getTblValue("unlockId", blk.body)
+    local unlockId = blk?.body.unlockId
     if (unlockId != null && !::is_unlock_visible(::g_unlocks.getUnlockById(unlockId)))
     {
       ::disable_user_log_entry(i)
@@ -161,20 +161,20 @@ function check_new_user_logs()
   return newUserlogsArray
 }
 
-function collectOldNotifications()
+::collectOldNotifications <- function collectOldNotifications()
 {
   local total = ::get_user_logs_count()
   for(local i = 0; i < total; i++)
   {
     local blk = ::DataBlock()
     ::get_user_log_blk_body(i, blk)
-    if (!blk.disabled && checkPopupUserLog(blk)
+    if (!blk?.disabled && checkPopupUserLog(blk)
         && !::isInArray(blk.id, ::shown_userlog_notifications))
       ::shown_userlog_notifications.append(blk.id)
   }
 }
 
-function checkPopupUserLog(user_log_blk)
+::checkPopupUserLog <- function checkPopupUserLog(user_log_blk)
 {
   if (user_log_blk == null)
     return false
@@ -182,27 +182,27 @@ function checkPopupUserLog(user_log_blk)
   {
     if (::u.isTable(popupItem))
     {
-      if (popupItem.type != user_log_blk.type)
+      if (popupItem.type != user_log_blk?.type)
         continue
-      local rewardType = user_log_blk.body.rewardType
+      local rewardType = user_log_blk?.body.rewardType
       local rewardTypeFilter = popupItem.rewardType
       if (typeof(rewardTypeFilter) == "string" && rewardTypeFilter == rewardType)
         return true
       if (typeof(rewardTypeFilter) == "array" && ::isInArray(rewardType, rewardTypeFilter))
         return true
     }
-    else if (popupItem == user_log_blk.type)
+    else if (popupItem == user_log_blk?.type)
       return true
   }
   return false
 }
 
-function checkAwardsOnStartFrom()
+::checkAwardsOnStartFrom <- function checkAwardsOnStartFrom()
 {
   checkNewNotificationUserlogs(true)
 }
 
-function checkNewNotificationUserlogs(onStartAwards = false)
+::checkNewNotificationUserlogs <- function checkNewNotificationUserlogs(onStartAwards = false)
 {
   if (::getFromSettingsBlk("debug/skipPopups"))
     return
@@ -241,8 +241,8 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       if (blk?.type == ::EULT_SESSION_RESULT)
       {
         local mission = ""
-        if (blk?.body.locName.len() > 0)
-          mission = ::get_locId_name(blk.body, "locName")
+        if ((blk?.body.locName.len() ?? 0) > 0)
+          mission = ::get_locId_name(blk?.body, "locName")
         else
           mission = ::loc("missions/" + blk?.body.mission)
         local nameLoc = "userlog/"+logName + (blk?.body.win? "/win":"/lose")
@@ -272,7 +272,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         else
           continue
       }
-      else if (blk.type == ::EULT_EXCHANGE_WARBONDS)
+      else if (blk?.type == ::EULT_EXCHANGE_WARBONDS)
       {
         local awardBlk = blk?.body.award
         if (awardBlk)
@@ -344,7 +344,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         disableLogId = blk.id
       }
 
-      if (blk.type == ::EULT_RENT_UNIT)
+      if (blk?.type == ::EULT_RENT_UNIT)
       {
         config.desc += "\n"
 
@@ -494,9 +494,9 @@ function checkNewNotificationUserlogs(onStartAwards = false)
   }
 }
 
-function combineUserLogs(currentData, newUserLog, combineKey = null, sumParamsArray = [])
+::combineUserLogs <- function combineUserLogs(currentData, newUserLog, combineKey = null, sumParamsArray = [])
 {
-  local body = newUserLog.body
+  local body = newUserLog?.body
   if (!body)
     return
 
@@ -521,7 +521,7 @@ function combineUserLogs(currentData, newUserLog, combineKey = null, sumParamsAr
   }
 }
 
-function checkCountry(country, assertText, country_0_available = false)
+::checkCountry <- function checkCountry(country, assertText, country_0_available = false)
 {
   if (!country || country=="")
     return false
@@ -547,9 +547,9 @@ function checkCountry(country, assertText, country_0_available = false)
  *   filters (table) - any custom key -> value pairs to filter userlogs
  *   disableVisible (boolean) - marks all related userlogs as seen
  */
-function isUserlogVisible(blk, filter, idx)
+::isUserlogVisible <- function isUserlogVisible(blk, filter, idx)
 {
-  if (blk.type == null)
+  if (blk?.type == null)
     return false
   if (("show" in filter) && !::isInArray(blk.type, filter.show))
     return false
@@ -562,7 +562,7 @@ function isUserlogVisible(blk, filter, idx)
   return true
 }
 
-function getUserLogsList(filter)
+::getUserLogsList <- function getUserLogsList(filter)
 {
   local logs = [];
   local total = ::get_user_logs_count()
@@ -603,10 +603,10 @@ function getUserLogsList(filter)
 
     local log = {
       idx = i
-      type = blk.type
+      type = blk?.type
       time = ::get_user_log_time_sec(i)
-      enabled = !blk.disabled
-      roomId = blk.roomId
+      enabled = !blk?.disabled
+      roomId = blk?.roomId
     }
 
     for (local j = 0, c = blk.body.paramCount(); j < c; j++)
@@ -675,7 +675,7 @@ function getUserLogsList(filter)
   return logs;
 }
 
-function get_decorator_unlock(resourceId, resourceType)
+::get_decorator_unlock <- function get_decorator_unlock(resourceId, resourceType)
 {
   local unlock = ::create_default_unlock_data()
   local decoratorType = null

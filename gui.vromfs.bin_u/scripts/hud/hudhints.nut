@@ -11,7 +11,7 @@ enum MISSION_HINT_TYPE {
   BOTTOM     = "bottom"
 }
 
-enum HINT_INTERVAL {
+global enum HINT_INTERVAL {
   ALWAYS_VISIBLE = 0
   HIDDEN = -1
 }
@@ -21,12 +21,12 @@ enum HINT_INTERVAL {
   cache = { byName = {} }
 }
 
-function g_hud_hints::_buildMarkup(eventData, hintObjId)
+g_hud_hints._buildMarkup <- function _buildMarkup(eventData, hintObjId)
 {
   return ::g_hints.buildHintMarkup(buildText(eventData), getHintMarkupParams(eventData, hintObjId))
 }
 
-function g_hud_hints::_getHintMarkupParams(eventData, hintObjId)
+g_hud_hints._getHintMarkupParams <- function _getHintMarkupParams(eventData, hintObjId)
 {
   return {
     id = hintObjId || name
@@ -53,7 +53,7 @@ local getRawShortcutsArray = function(shortcuts)
   return rawShortcutsArray
 }
 
-function g_hud_hints::_buildText(data)
+g_hud_hints._buildText <- function _buildText(data)
 {
   local shortcuts = getShortcuts(data)
   if (shortcuts == null)
@@ -89,7 +89,7 @@ function g_hud_hints::_buildText(data)
 /**
  * Return true if only one shortcut should be picked from @shortcutArray
  */
-function g_hud_hints::shouldPickFirstValid(shortcutArray)
+g_hud_hints.shouldPickFirstValid <- function shouldPickFirstValid(shortcutArray)
 {
   foreach (shortcutId in shortcutArray)
     if (::g_string.startsWith(shortcutId, "@"))
@@ -97,7 +97,7 @@ function g_hud_hints::shouldPickFirstValid(shortcutArray)
   return false
 }
 
-function g_hud_hints::pickFirstValidShortcut(shortcutArray)
+g_hud_hints.pickFirstValidShortcut <- function pickFirstValidShortcut(shortcutArray)
 {
   foreach (shortcutId in shortcutArray)
   {
@@ -112,7 +112,7 @@ function g_hud_hints::pickFirstValidShortcut(shortcutArray)
   return null
 }
 
-function g_hud_hints::removeUnmappedShortcuts(shortcutArray)
+g_hud_hints.removeUnmappedShortcuts <- function removeUnmappedShortcuts(shortcutArray)
 {
   for (local i = shortcutArray.len() - 1; i >= 0; --i)
   {
@@ -124,27 +124,27 @@ function g_hud_hints::removeUnmappedShortcuts(shortcutArray)
   return shortcutArray
 }
 
-function g_hud_hints::_getLocId(data)
+g_hud_hints._getLocId <- function _getLocId(data)
 {
   return locId
 }
 
-function g_hud_hints::_getNoKeyLocId()
+g_hud_hints._getNoKeyLocId <- function _getNoKeyLocId()
 {
   return noKeyLocId
 }
 
-function g_hud_hints::_getLifeTime(data)
+g_hud_hints._getLifeTime <- function _getLifeTime(data)
 {
   return lifeTime || ::getTblValue("lifeTime", data, 0)
 }
 
-function g_hud_hints::_getShortcuts(data)
+g_hud_hints._getShortcuts <- function _getShortcuts(data)
 {
   return shortcuts
 }
 
-function g_hud_hints::_wrapShortsCutIdWithTags(shortNamesArray)
+g_hud_hints._wrapShortsCutIdWithTags <- function _wrapShortsCutIdWithTags(shortNamesArray)
 {
   local result = ""
   local separator = ::loc("hints/shortcut_separator")
@@ -158,12 +158,12 @@ function g_hud_hints::_wrapShortsCutIdWithTags(shortNamesArray)
   return result
 }
 
-function g_hud_hints::_getHintNestId()
+g_hud_hints._getHintNestId <- function _getHintNestId()
 {
   return hintType.nestId
 }
 
-function g_hud_hints::_getHintStyle()
+g_hud_hints._getHintStyle <- function _getHintStyle()
 {
   return hintType.hintStyle
 }
@@ -275,6 +275,8 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     }
     return !isInstant
   }
+  isHideOnWatchedHeroChanged = false
+  isShowedInVR = true
 }
 
 ::g_hud_hints.template <- {
@@ -327,6 +329,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
     return false
   }
   isHideOnDeath = true
+  isHideOnWatchedHeroChanged = true
 
   showEvent = null
   hideEvent = null
@@ -430,14 +433,15 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:xrayCamera:showSkipHint"
     hideEvent = "hint:xrayCamera:hideSkipHint"
     isHideOnDeath = false
+    isHideOnWatchedHeroChanged = false
   }
 
 
   CREW_BUSY_EXTINGUISHING_HINT = {
     locId      = "hints/crew_busy_extinguishing"
     noKeyLocId = "hints/crew_busy_extinguishing_no_key"
-    showEvent = "hint:extinguish:begin"
-    hideEvent = "hint:extinguish:end"
+    showEvent = "hint:crew_busy_extinguishing:begin"
+    hideEvent = "hint:crew_busy_extinguishing:end"
   }
 
 
@@ -521,7 +525,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
   }
 
   ATGM_AIM_HINT = {
-    hintType = ::g_hud_hint_types.COMMON
+    hintType = ::g_hud_hint_types.ACTIONBAR
     locId = "hints/atgm_aim"
     showEvent = "hint:atgm_aim:show"
     lifeTime = 10.0
@@ -576,6 +580,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:dead_pilot:show"
     lifeTime = 5.0
     isHideOnDeath = false
+    isHideOnWatchedHeroChanged = false
     priority = CATASTROPHIC_HINT_PRIORITY
     totalCount = 20
     maskId = 12
@@ -1359,7 +1364,7 @@ function() {
 },
 "typeName")
 
-function g_hud_hints::getByName(hintName)
+g_hud_hints.getByName <- function getByName(hintName)
 {
   return enums.getCachedType("name", hintName, cache.byName, this, UNKNOWN)
 }

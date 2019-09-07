@@ -1,4 +1,4 @@
-function gui_start_change_role_wnd(contact, clanData)
+::gui_start_change_role_wnd <- function gui_start_change_role_wnd(contact, clanData)
 {
   if (!::clan_get_admin_editor_mode())
   {

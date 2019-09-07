@@ -65,14 +65,22 @@ enum HintShowState {
     animatedRemovedHints.clear()
   }
 
-
-  function onLocalPlayerDead()
+  function removeAllHints(hintFilterField = "isHideOnDeath")
   {
-    local hints = ::u.filter(activeHints, @(hintData) hintData.hint.isHideOnDeath)
+    local hints = ::u.filter(activeHints, @(hintData) hintData.hint[hintFilterField])
     foreach (hintData in hints)
       removeHint(hintData, true)
   }
 
+  function onLocalPlayerDead()
+  {
+    removeAllHints()
+  }
+
+  function onWatchedHeroChanged()
+  {
+    removeAllHints("isHideOnWatchedHeroChanged")
+  }
 
   //return false if can't
   function findSceneObjects()
@@ -98,6 +106,10 @@ enum HintShowState {
   {
     ::g_hud_event_manager.subscribe("LocalPlayerDead", function (eventData) {
       onLocalPlayerDead()
+    }, this)
+
+    ::g_hud_event_manager.subscribe("WatchedHeroChanged", function (eventData) {
+      onWatchedHeroChanged()
     }, this)
 
     foreach (hint in ::g_hud_hints.types)
@@ -209,8 +221,8 @@ enum HintShowState {
 
   function removeFromList(hintData)
   {
-    local idx = ::u.searchIndex(activeHints, (@(hintData) function (item) { return item == hintData })(hintData) )
-    if (idx >= 0)
+    local idx = activeHints.searchIndex(@(item) item == hintData)
+    if (idx != null)
       activeHints.remove(idx)
   }
 

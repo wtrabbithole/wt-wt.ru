@@ -596,7 +596,7 @@ class ::items_classes.FakeBooster extends ::items_classes.Booster
   constructor(blk, invBlk = null, slotData = null)
   {
     base.constructor(blk, invBlk, slotData)
-    iconStyle = blk.iconStyle || id
+    iconStyle = blk?.iconStyle ?? id
   }
 
   function getIcon(addItemName = true)

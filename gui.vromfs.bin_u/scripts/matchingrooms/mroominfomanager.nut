@@ -2,7 +2,7 @@
   infoByRoomId = {}
 }
 
-function g_mroom_info::get(roomId)
+g_mroom_info.get <- function get(roomId)
 {
   clearOutdated()
   local info = ::getTblValue(roomId, infoByRoomId)
@@ -14,7 +14,7 @@ function g_mroom_info::get(roomId)
   return info
 }
 
-function g_mroom_info::clearOutdated()
+g_mroom_info.clearOutdated <- function clearOutdated()
 {
   foreach(roomId, info in infoByRoomId)
     if (!info.isValid())

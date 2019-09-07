@@ -31,7 +31,7 @@ class ::gui_handlers.ShopSearchBox extends ::gui_handlers.BaseGuiHandlerWT
       local obj = scene.findObject(id)
       if (::check_obj(obj))
         obj["tooltip"] += ::colorize("hotkeyColor",
-        ::loc("ui/parentheses/space", { text = ::loc(obj["hotkeyLoc"] ?? "") }))
+        ::loc("ui/parentheses/space", { text = ::loc(obj?["hotkeyLoc"] ?? "") }))
     }
 
     searchClear()

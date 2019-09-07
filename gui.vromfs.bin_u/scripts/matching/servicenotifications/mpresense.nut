@@ -1,7 +1,7 @@
 local avatars = ::require("scripts/user/avatars.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-function on_presences_update(params)
+::on_presences_update <- function on_presences_update(params)
 {
   local contactsDataList = []
   if ("presences" in params)
@@ -93,12 +93,6 @@ function on_presences_update(params)
       )
       ::addContactGroup(::EPL_FACEBOOK)
 
-    if( ::steam_is_running() &&
-        (::EPL_STEAM in params.groups) &&
-        (params.groups[::EPL_STEAM].len()>0)
-      )
-      ::addContactGroup(::EPL_STEAM)
-
     local friendsToRemove = []
     foreach(listName, list in params.groups)
     {
@@ -146,13 +140,13 @@ function on_presences_update(params)
   update_gamercards()
 }
 
-function reload_contact_list()
+::reload_contact_list <- function reload_contact_list()
 {
   matching_api_func("mpresence.reload_contact_list",
                     function(...){})
 }
 
-function set_presence(presence)
+::set_presence <- function set_presence(presence)
 {
   matching_api_func("mpresence.set_presence", function(...) {}, presence)
 }

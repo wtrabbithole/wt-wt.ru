@@ -328,7 +328,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     if (!obj)
       return null
 
-    local leaderUidStr = obj.leaderUid || obj.getParent().leaderUid
+    local leaderUidStr = obj?.leaderUid ?? obj.getParent()?.leaderUid
     if (!leaderUidStr)
       return getFocusedSquad()
 
@@ -400,9 +400,8 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   function updateSquadOnlineStatus(contact)
   {
     local contactUid = contact.uid.tointeger()
-    local idx = ::u.searchIndex(curList, @(squad)
-      squad.leader == contactUid)
-    if (idx < 0)
+    local idx = curList.searchIndex(@(squad) squad.leader == contactUid)
+    if (idx == null)
       return
 
     local obj = getSquadObj(idx)

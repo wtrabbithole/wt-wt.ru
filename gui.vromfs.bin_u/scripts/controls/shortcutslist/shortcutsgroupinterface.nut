@@ -23,11 +23,13 @@ return [
     id = "ID_GAME_PAUSE"
     checkGroup = ctrlGroups.COMMON
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_HIDE_HUD"
     checkGroup = ctrlGroups.COMMON
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHOW_MOUSE_CURSOR"
@@ -41,12 +43,14 @@ return [
     checkGroup = ctrlGroups.COMMON
     checkAssign = false
     condition = @() ::is_platform_pc // See AcesApp::makeScreenshot()
+    needShowInHelp = true
   }
   {
     id = "ID_SCREENSHOT_WO_HUD"
     checkGroup = ctrlGroups.COMMON
     checkAssign = false
     condition = @() ::is_platform_pc // See AcesApp::makeScreenshot()
+    needShowInHelp = true
   }
   {
     id = "decal_move_x"

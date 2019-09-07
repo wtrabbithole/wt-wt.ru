@@ -5,7 +5,7 @@ local visibleConditionsList = {
 
 local function isVisibleByConditions(blk)
 {
-  local visibleConditions = blk.visibleConditions
+  local visibleConditions = blk?.visibleConditions
   if (visibleConditions == null)
     return true
 

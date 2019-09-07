@@ -76,7 +76,7 @@ enums.addTypesByGlobalName("g_player_state", {
   }
 }, null, "name")
 
-function g_player_state::getStateByPlayerInfo(playerInfo)
+g_player_state.getStateByPlayerInfo <- function getStateByPlayerInfo(playerInfo)
 {
   if (::getTblValue("isBot", playerInfo, false))
     return ::g_player_state.BOT

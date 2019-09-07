@@ -1,4 +1,4 @@
-enum HangarModelLoadState
+global enum HangarModelLoadState
 {
   LOADING
   LOADED
@@ -46,7 +46,7 @@ class HangarModelLoadManager
 ::hangar_model_load_manager <- HangarModelLoadManager()
 
 /** This method is called from within C++. */
-function on_hangar_model_loaded()
+::on_hangar_model_loaded <- function on_hangar_model_loaded()
 {
   ::hangar_model_load_manager._onHangarModelLoaded()
 }

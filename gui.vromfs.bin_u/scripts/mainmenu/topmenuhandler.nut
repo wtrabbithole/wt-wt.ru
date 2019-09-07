@@ -111,27 +111,11 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     if (!hasResearch)
       closeShop()
 
-    if (!::getTblValue("hasGameModeSelect", handler, true))
-      closeGameModeSelect()
-
     if (isWaitForContentToActivateScene)
     {
       isWaitForContentToActivateScene = false
       onSceneActivate(true)
     }
-  }
-
-  function closeGameModeSelect()
-  {
-    if (!::handlersManager.isHandlerValid(::instant_domination_handler))
-      return
-
-    local gmHandler = ::instant_domination_handler.getGameModeSelectHandler()
-    if (!gmHandler)
-      return
-
-    if (gmHandler.getShowGameModeSelect())
-      gmHandler.setShowGameModeSelect(false)
   }
 
   function onTopMenuUpdate(obj, dt)
@@ -166,7 +150,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
     local blk = ::DataBlock()
     ::get_news_blk(blk)
-    local text = ::loc(blk.advert || "", "")
+    local text = ::loc(blk?.advert ?? "", "")
     SecondsUpdater(obj, function(tObj, params)
     {
       local stopUpdate = text.find("{time_countdown=") == null

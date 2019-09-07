@@ -6,7 +6,7 @@
   totalChance = 0
 }
 
-function g_hud_debug_objects::start(newEventsPerSec = 10.0)
+g_hud_debug_objects.start <- function start(newEventsPerSec = 10.0)
 {
   eventsPerSec = newEventsPerSec
 
@@ -18,13 +18,13 @@ function g_hud_debug_objects::start(newEventsPerSec = 10.0)
   updateActiveObjectsTypes()
 }
 
-function g_hud_debug_objects::stop()
+g_hud_debug_objects.stop <- function stop()
 {
   if (::checkObj(curTimerObj))
     curTimerObj.getScene().destroyElement(curTimerObj)
 }
 
-function g_hud_debug_objects::createTimerObjOnce()
+g_hud_debug_objects.createTimerObjOnce <- function createTimerObjOnce()
 {
    if (::checkObj(curTimerObj))
      return
@@ -42,7 +42,7 @@ function g_hud_debug_objects::createTimerObjOnce()
   curTimerObj.setUserData(this)
 }
 
-function g_hud_debug_objects::getCurHudType()
+g_hud_debug_objects.getCurHudType <- function getCurHudType()
 {
   local hudHandler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
   if (!hudHandler)
@@ -50,7 +50,7 @@ function g_hud_debug_objects::getCurHudType()
   return hudHandler.hudType
 }
 
-function g_hud_debug_objects::updateActiveObjectsTypes()
+g_hud_debug_objects.updateActiveObjectsTypes <- function updateActiveObjectsTypes()
 {
   local hudType = getCurHudType()
   activeObjectTypes.clear()
@@ -64,7 +64,7 @@ function g_hud_debug_objects::updateActiveObjectsTypes()
   }
 }
 
-function g_hud_debug_objects::onUpdate(obj, dt)
+g_hud_debug_objects.onUpdate <- function onUpdate(obj, dt)
 {
   if (!eventsPerSec || dt < 0.0001)
     return
@@ -75,7 +75,7 @@ function g_hud_debug_objects::onUpdate(obj, dt)
       genRandomEvent()
 }
 
-function g_hud_debug_objects::genRandomEvent()
+g_hud_debug_objects.genRandomEvent <- function genRandomEvent()
 {
   if (!totalChance)
     return

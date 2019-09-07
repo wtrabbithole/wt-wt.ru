@@ -7,13 +7,24 @@ local function register(actionId, action) {
     return
   }
 
+  local infos = action.getfuncinfos()
+  local paramsNum = infos.parameters.len()
+  ::assert(paramsNum >= 2, "Action {0} has lower than 1 parameter".subst(actionId))
+
   refreshedActionsIds[actionId] <- true
   actions[actionId] <- action
 }
 
 local function make(actionId, params) {
   ::assert(actionId in refreshedActionsIds, "Not registered persist action " + actionId)
-  return @() actions?[actionId](params)
+
+  return function(...) {
+    local action = actions?[actionId]
+    if (!action) //not recreated after script reload
+      return
+    ::assert(vargv.len() == action.getfuncinfos().parameters.len() - 2, "Incorrect params count on call action " + actionId)
+    return action.acall([this, params].extend(vargv))
+  }
 }
 
 return {

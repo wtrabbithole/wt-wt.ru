@@ -180,9 +180,9 @@ local time = require("scripts/time.nut")
       local checkName = paramName in statusBlk? paramName : paramName + side
       if (checkName in statusBlk)
       {
-        local val = statusBlk[checkName]
+        local val = statusBlk?[checkName]
 
-        local block = statusBlk[checkName]
+        local block = statusBlk?[checkName]
         local isDataBlock = ::u.isDataBlock(val)
         if (!isDataBlock)
         {
@@ -337,7 +337,7 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
           return false
 
         local show = false
-        if (statusBlk.winner == null)
+        if (statusBlk?.winner == null)
         {
           local sideName = ::ww_side_val_to_name(side)
           local block = statusBlk.getBlockByName("zones")
@@ -516,12 +516,12 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
 
 }, null, "typeName")
 
-function g_ww_objective_type::getTypeByTypeName(typeName)
+g_ww_objective_type.getTypeByTypeName <- function getTypeByTypeName(typeName)
 {
   return enums.getCachedType("typeName", typeName, ::g_ww_objective_type.cache.byTypeName, ::g_ww_objective_type, ::g_ww_objective_type.UNKNOWN)
 }
 
-function g_ww_objective_type::getTimerUpdateFuncByParam(t, param)
+g_ww_objective_type.getTimerUpdateFuncByParam <- function getTimerUpdateFuncByParam(t, param)
 {
   if (param in t.timerUpdateFunctionTables)
     return t.timerUpdateFunctionTables[param]
@@ -529,7 +529,7 @@ function g_ww_objective_type::getTimerUpdateFuncByParam(t, param)
   return function(...){}
 }
 
-function g_ww_objective_type::getTimerSetVisibleFunctionTableByParam(t, param)
+g_ww_objective_type.getTimerSetVisibleFunctionTableByParam <- function getTimerSetVisibleFunctionTableByParam(t, param)
 {
   if (param in t.timerSetVisibleFunctionTable)
     return t.timerSetVisibleFunctionTable[param]

@@ -4,7 +4,7 @@
 
 ::defaultScreenSize <- [1280, 720]
 
-function basicFunction(funcName, time) { //time >= -1, time <= 1
+::basicFunction <- function basicFunction(funcName, time) { //time >= -1, time <= 1
   if (time < 0)
     time = -time
 //    return 1.0 - basicFunction(funcName, 1.0 + time)
@@ -58,7 +58,7 @@ function basicFunction(funcName, time) { //time >= -1, time <= 1
   }
 }
 
-function blendProp(curX, newX, blendTime, dt) {
+::blendProp <- function blendProp(curX, newX, blendTime, dt) {
   if ((blendTime <= 0) || (fabs(newX - curX) < 1))
     return newX
 
@@ -341,8 +341,8 @@ class gui_bhv_deprecated.basicPos extends gui_bhv_deprecated.basicSize
     }
     else
     {
-      hStart = hStart || 0.0
-      hEnd  = hEnd ||  0.0
+      hStart = hStart ?? 0.0
+      hEnd  = hEnd ?? 0.0
     }
 
     local vStart = getFloatObjProp(obj, "top-base", null)
@@ -358,8 +358,8 @@ class gui_bhv_deprecated.basicPos extends gui_bhv_deprecated.basicSize
     }
     else
     {
-      vStart = vStart || 0.0
-      vEnd = vEnd || 0.0
+      vStart = vStart ?? 0.0
+      vEnd = vEnd ?? 0.0
     }
 
     props.pos0 <- [hStart, vStart]
@@ -478,7 +478,7 @@ class gui_bhv_deprecated.massTransparency extends gui_bhv_deprecated.basicTransp
   }
 }
 
-function updateTransparencyRecursive(obj, transpNew)
+::updateTransparencyRecursive <- function updateTransparencyRecursive(obj, transpNew)
 {
   local last_transp_PID = ::dagui_propid.add_name_id("_last_transp")
 

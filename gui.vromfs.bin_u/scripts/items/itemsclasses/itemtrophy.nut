@@ -73,14 +73,14 @@ class ::items_classes.Trophy extends ::BaseItem
     local content = []
     foreach (i in contentRaw)
     {
-      if (!i.trophy || i.showAsPack)
+      if (!i?.trophy || i?.showAsPack)
       {
         content.append(i)
         continue
       }
 
-      local subTrophy = ::ItemsManager.findItemById(i.trophy)
-      local countMul = i.count || 1
+      local subTrophy = ::ItemsManager.findItemById(i?.trophy)
+      local countMul = i?.count ?? 1
       if (subTrophy)
       {
         if (::getTblValue("subtrophyShowAsPack", subTrophy) || !useRecursion)
@@ -94,7 +94,7 @@ class ::items_classes.Trophy extends ::BaseItem
             si.setFrom(_si)
 
             if (countMul != 1)
-              si.count = (si.count || 1) * countMul
+              si.count = (si?.count ?? 1) * countMul
 
             content.append(si)
           }

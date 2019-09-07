@@ -61,7 +61,7 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
   function applyRowButton(obj)
   {
     // Here 'scene' is table object with id "specs_table".
-    if (!checkObj(obj) || obj.id != "buttonRowApply")
+    if (!checkObj(obj) || obj?.id != "buttonRowApply")
     {
       if (!::checkObj(scene))
         return

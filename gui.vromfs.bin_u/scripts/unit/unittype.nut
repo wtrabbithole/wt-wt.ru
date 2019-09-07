@@ -223,12 +223,12 @@ function()
   return 0
 })
 
-function g_unit_type::getByEsUnitType(esUnitType)
+g_unit_type.getByEsUnitType <- function getByEsUnitType(esUnitType)
 {
   return enums.getCachedType("esUnitType", esUnitType, cache.byEsUnitType, this, INVALID)
 }
 
-function g_unit_type::getArrayBybitMask(bitMask)
+g_unit_type.getArrayBybitMask <- function getArrayBybitMask(bitMask)
 {
   local typesArray = []
   foreach (t in ::g_unit_type.types)
@@ -239,34 +239,34 @@ function g_unit_type::getArrayBybitMask(bitMask)
   return typesArray
 }
 
-function g_unit_type::getByBit(bit)
+g_unit_type.getByBit <- function getByBit(bit)
 {
   return enums.getCachedType("bit", bit, cache.byBit, this, INVALID)
 }
 
-function g_unit_type::getByName(typeName, caseSensitive = true)
+g_unit_type.getByName <- function getByName(typeName, caseSensitive = true)
 {
   local cacheTbl = caseSensitive ? cache.byName : cache.byNameNoCase
   return enums.getCachedType("name", typeName, cacheTbl, this, INVALID, caseSensitive)
 }
 
-function g_unit_type::getByArmyId(armyId)
+g_unit_type.getByArmyId <- function getByArmyId(armyId)
 {
   return enums.getCachedType("armyId", armyId, cache.byArmyId, this, INVALID)
 }
 
-function g_unit_type::getByTag(tag)
+g_unit_type.getByTag <- function getByTag(tag)
 {
   return enums.getCachedType("tag", tag, cache.byTag, this, INVALID)
 }
 
-function g_unit_type::getByUnitName(unitId)
+g_unit_type.getByUnitName <- function getByUnitName(unitId)
 {
   local unit = ::getAircraftByName(unitId)
   return unit ? unit.unitType : INVALID
 }
 
-function g_unit_type::getTypeMaskByTagsString(listStr, separator = "; ", bitMaskName = "bit")
+g_unit_type.getTypeMaskByTagsString <- function getTypeMaskByTagsString(listStr, separator = "; ", bitMaskName = "bit")
 {
   local res = 0
   local list = ::split(listStr, separator)
@@ -275,7 +275,7 @@ function g_unit_type::getTypeMaskByTagsString(listStr, separator = "; ", bitMask
   return res
 }
 
-function g_unit_type::getEsUnitTypeMaskByCrewUnitTypeMask(crewUnitTypeMask)
+g_unit_type.getEsUnitTypeMaskByCrewUnitTypeMask <- function getEsUnitTypeMaskByCrewUnitTypeMask(crewUnitTypeMask)
 {
   local res = 0
   foreach(t in g_unit_type.types)
@@ -289,17 +289,17 @@ function g_unit_type::getEsUnitTypeMaskByCrewUnitTypeMask(crewUnitTypeMask)
 //********************but better to work with g_unit_type*****************//
 //************************************************************************//
 
-function getUnitTypeText(esUnitType)
+::getUnitTypeText <- function getUnitTypeText(esUnitType)
 {
   return ::g_unit_type.getByEsUnitType(esUnitType).name
 }
 
-function getUnitTypeByText(typeName, caseSensitive = false)
+::getUnitTypeByText <- function getUnitTypeByText(typeName, caseSensitive = false)
 {
   return ::g_unit_type.getByName(typeName, caseSensitive).esUnitType
 }
 
-function get_first_chosen_unit_type(defValue = ::ES_UNIT_TYPE_INVALID)
+::get_first_chosen_unit_type <- function get_first_chosen_unit_type(defValue = ::ES_UNIT_TYPE_INVALID)
 {
   foreach(unitType in ::g_unit_type.types)
     if (unitType.isFirstChosen())
@@ -307,36 +307,36 @@ function get_first_chosen_unit_type(defValue = ::ES_UNIT_TYPE_INVALID)
   return defValue
 }
 
-function get_unit_class_icon_by_unit(unit, iconName)
+::get_unit_class_icon_by_unit <- function get_unit_class_icon_by_unit(unit, iconName)
 {
   local esUnitType = ::get_es_unit_type(unit)
   local t = ::g_unit_type.getByEsUnitType(esUnitType)
   return t.uiClassSkin + iconName
 }
 
-function get_unit_icon_by_unit(unit, iconName)
+::get_unit_icon_by_unit <- function get_unit_icon_by_unit(unit, iconName)
 {
   local esUnitType = ::get_es_unit_type(unit)
   local t = ::g_unit_type.getByEsUnitType(esUnitType)
   return t.uiSkin + iconName
 }
 
-function get_tomoe_unit_icon(iconName)
+::get_tomoe_unit_icon <- function get_tomoe_unit_icon(iconName)
 {
   return "!#ui/unitskin#tomoe_" + iconName
 }
 
-function get_unit_type_font_icon(esUnitType)
+::get_unit_type_font_icon <- function get_unit_type_font_icon(esUnitType)
 {
   return ::g_unit_type.getByEsUnitType(esUnitType).fontIcon
 }
 
-function get_army_id_by_es_unit_type(esUnitType)
+::get_army_id_by_es_unit_type <- function get_army_id_by_es_unit_type(esUnitType)
 {
   return ::g_unit_type.getByEsUnitType(esUnitType).armyId
 }
 
-function get_unit_type_army_text(esUnitType)
+::get_unit_type_army_text <- function get_unit_type_army_text(esUnitType)
 {
   return ::g_unit_type.getByEsUnitType(esUnitType).getArmyLocName()
 }

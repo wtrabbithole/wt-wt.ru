@@ -1,4 +1,4 @@
-function debug_wnd(blkName = null, tplParams = {}, callbacksContext = null)
+::debug_wnd <- function debug_wnd(blkName = null, tplParams = {}, callbacksContext = null)
 {
   ::gui_start_modal_wnd(::gui_handlers.debugWndHandler, { blkName = blkName, tplParams = tplParams, callbacksContext = callbacksContext })
 }

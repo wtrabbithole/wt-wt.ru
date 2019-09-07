@@ -1,20 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
-local platform = require("scripts/clientState/platform.nut")
-
-local controlsMarkupSource = {
-  ps4 = {
-    title = "#controls/help/dualshock4"
-    blk = "gui/help/controllerDualshock.blk"
-    btnBackLocId = "controls/help/dualshock4_btn_share"
-  },
-  xboxOne = {
-    title = "#controls/help/xboxone"
-    blk = "gui/help/controllerXboxOne.blk"
-    btnBackLocId = "xinp/Select"
-  }
-}
-
-local controllerMarkup = controlsMarkupSource?[platform.targetPlatform] ?? controlsMarkupSource.xboxOne
+local helpMarkup = require("scripts/controls/help/controlsHelpMarkup.nut")
 
 local result = {
   types = []
@@ -397,33 +382,8 @@ enums.addTypes(result, {
       ]
     }
   }
-  IMAGE_UFO = {
-    subTabName = "#hotkeys/ID_COMMON_CONTROL_HEADER"
-
-    showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
-    helpPattern = CONTROL_HELP_PATTERN.IMAGE
-
-    checkFeature = @() ::g_unit_type.AIRCRAFT.isAvailable() && ::has_feature("UfoControl")
-    pageUnitType = ::g_unit_type.AIRCRAFT
-    pageUnitTag = "ufo"
-
-    pageBlkName = "gui/help/controlsUfo.blk"
-
-    defaultValues = { country = "ussr" }
-    imagePattern = "#ui/images/country_%s_ufo_controls_help.jpg?P1"
-    hasImageByCountries = [ "ussr" ]
-    linkLines = {
-      links = [
-        { start = "label_fire_air", end = "point_fire_air" }
-        { start = "label_fire_water", end = "point_fire_water" }
-        { start = "label_fire_ground", end = "point_fire_ground" }
-        { start = "label_torpedo", end = "point_torpedo" }
-        { start = "label_ufo_shield", end = "point_ufo_shield" }
-      ]
-    }
-  }
   CONTROLLER_AIRCRAFT = {
-    subTabName = controllerMarkup.title
+    subTabName = helpMarkup.title
     showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
     helpPattern = CONTROL_HELP_PATTERN.GAMEPAD
 
@@ -431,11 +391,11 @@ enums.addTypes(result, {
     checkFeature = ::g_unit_type.AIRCRAFT.isAvailable
     pageUnitType = ::g_unit_type.AIRCRAFT
 
-    pageBlkName = controllerMarkup.blk
+    pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
   }
   CONTROLLER_TANK = {
-    subTabName = controllerMarkup.title
+    subTabName = helpMarkup.title
 
     showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
     helpPattern = CONTROL_HELP_PATTERN.GAMEPAD
@@ -444,11 +404,11 @@ enums.addTypes(result, {
     checkFeature = ::g_unit_type.TANK.isAvailable
     pageUnitType = ::g_unit_type.TANK
 
-    pageBlkName = controllerMarkup.blk
+    pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
   }
   CONTROLLER_SHIP = {
-    subTabName = controllerMarkup.title
+    subTabName = helpMarkup.title
 
     showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
     helpPattern = CONTROL_HELP_PATTERN.GAMEPAD
@@ -457,11 +417,11 @@ enums.addTypes(result, {
     checkFeature = ::g_unit_type.SHIP.isAvailable
     pageUnitType = ::g_unit_type.SHIP
 
-    pageBlkName = controllerMarkup.blk
+    pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
   }
   CONTROLLER_HELICOPTER = {
-    subTabName = controllerMarkup.title
+    subTabName = helpMarkup.title
 
     showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
     helpPattern = CONTROL_HELP_PATTERN.GAMEPAD
@@ -470,11 +430,11 @@ enums.addTypes(result, {
     checkFeature = ::g_unit_type.HELICOPTER.isAvailable
     pageUnitType = ::g_unit_type.HELICOPTER
 
-    pageBlkName = controllerMarkup.blk
+    pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
   }
   CONTROLLER_SUBMARINE = {
-    subTabName = controllerMarkup.title
+    subTabName = helpMarkup.title
 
     showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
     helpPattern = CONTROL_HELP_PATTERN.GAMEPAD
@@ -484,21 +444,7 @@ enums.addTypes(result, {
     pageUnitType = ::g_unit_type.SHIP
     pageUnitTag = "submarine"
 
-    pageBlkName = controllerMarkup.blk
-    pageFillfuncName = "initGamepadPage"
-  }
-  CONTROLLER_UFO = {
-    subTabName = controllerMarkup.title
-
-    showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
-    helpPattern = CONTROL_HELP_PATTERN.GAMEPAD
-
-    specificCheck = @() ::show_console_buttons
-    checkFeature = @() ::g_unit_type.AIRCRAFT.isAvailable() && ::has_feature("UfoControl")
-    pageUnitType = ::g_unit_type.AIRCRAFT
-    pageUnitTag = "ufo"
-
-    pageBlkName = controllerMarkup.blk
+    pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
   }
   KEYBOARD_AIRCRAFT = {
@@ -597,27 +543,6 @@ enums.addTypes(result, {
     checkFeature = @() ::g_unit_type.SHIP.isAvailable() && ::has_feature("SpecialShips")
     pageUnitType = ::g_unit_type.SHIP
     pageUnitTag = "submarine"
-
-    pageBlkName = "gui/help/controllerKeyboard.blk"
-    pageFillfuncName = "fillAllTexts"
-  }
-  KEYBOARD_UFO = {
-    subTabName = "#controlType/mouse"
-
-    showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
-    helpPattern = CONTROL_HELP_PATTERN.KEYBOARD_MOUSE
-
-    specificCheck = function() {
-      if (::is_platform_pc)
-        return true
-
-      //!!!FIXME need to rewrite with controllerState module usage
-      local basePresets = ::g_controls_manager.getCurPreset().getBasePresetNames()
-      return ::is_platform_ps4 && ::u.search(basePresets, @(val) val == "default"|| val == "dualshock4") != null
-    }
-    checkFeature = @() ::g_unit_type.AIRCRAFT.isAvailable() && ::has_feature("UfoControl")
-    pageUnitType = ::g_unit_type.AIRCRAFT
-    pageUnitTag = "ufo"
 
     pageBlkName = "gui/help/controllerKeyboard.blk"
     pageFillfuncName = "fillAllTexts"

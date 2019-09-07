@@ -1,4 +1,4 @@
-function gui_modal_comment(owner=null, titleText=null, buttonText=null, callbackFunc=null, isCommentRequired=false)
+::gui_modal_comment <- function gui_modal_comment(owner=null, titleText=null, buttonText=null, callbackFunc=null, isCommentRequired=false)
 {
   ::gui_start_modal_wnd(::gui_handlers.commentModalHandler, {
     titleText = titleText

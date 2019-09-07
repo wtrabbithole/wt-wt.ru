@@ -482,7 +482,7 @@ class ::BaseItem
 
     local name = getName()
     local price = getCost().getTextAccordingToBalance()
-    local msgText = warningIfGold(
+    local msgText = ::warningIfGold(
       ::loc("onlineShop/needMoneyQuestion",{purchase = name, cost = price }),
       getCost())
     local item = this

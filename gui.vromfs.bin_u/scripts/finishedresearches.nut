@@ -9,12 +9,12 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 ::g_script_reloader.registerPersistentData("finishedResearchesGlobals", ::getroottable(),
   ["researched_items_table", "abandoned_researched_items_for_session", "units_with_finished_researches"])
 
-function gui_show_all_researches_wnd(researchData = null)
+::gui_show_all_researches_wnd <- function gui_show_all_researches_wnd(researchData = null)
 {
   ::gui_start_modal_wnd(::gui_handlers.showAllResearchedItems, {researchData = researchData})
 }
 
-function gui_start_choose_next_research(researchBlock = null)
+::gui_start_choose_next_research <- function gui_start_choose_next_research(researchBlock = null)
 {
   if (!::isResearchForModification(researchBlock))
   {
@@ -28,7 +28,7 @@ function gui_start_choose_next_research(researchBlock = null)
   }
 }
 
-function isResearchEqual(research1, research2)
+::isResearchEqual <- function isResearchEqual(research1, research2)
 {
   foreach(key in ["name", ::researchedModForCheck, ::researchedUnitForCheck])
   {
@@ -41,7 +41,7 @@ function isResearchEqual(research1, research2)
   return true
 }
 
-function isResearchAbandoned(research)
+::isResearchAbandoned <- function isResearchAbandoned(research)
 {
   foreach(idx, abandoned in ::abandoned_researched_items_for_session)
     if (::isResearchEqual(research, abandoned))
@@ -49,7 +49,7 @@ function isResearchAbandoned(research)
   return false
 }
 
-function isResearchLast(research, checkUnit = false)
+::isResearchLast <- function isResearchLast(research, checkUnit = false)
 {
   if (isResearchForModification(research))
     return ::getTblValue("mod", research, "") == ""
@@ -58,14 +58,14 @@ function isResearchLast(research, checkUnit = false)
   return false
 }
 
-function isResearchForModification(research)
+::isResearchForModification <- function isResearchForModification(research)
 {
   if ("name" in research && ::researchedModForCheck in research)
     return true
   return false
 }
 
-function removeResearchBlock(researchBlock)
+::removeResearchBlock <- function removeResearchBlock(researchBlock)
 {
   if (!researchBlock)
     return
@@ -81,19 +81,19 @@ function removeResearchBlock(researchBlock)
     }
 }
 
-function getNextResearchItem(research)
+::getNextResearchItem <- function getNextResearchItem(research)
 {
   local searchParam = ::isResearchForModification(research)? "mod" : "unit"
   return ::getTblValue(searchParam, research, "")
 }
 
-function getUnitNameFromResearchItem(research)
+::getUnitNameFromResearchItem <- function getUnitNameFromResearchItem(research)
 {
   local searchParam = ::isResearchForModification(research)? "name" : "unit"
   return ::getTblValue(searchParam, research, "")
 }
 
-function checkNonApprovedResearches(needUpdateResearchTable = false, needResearchAction = true)
+::checkNonApprovedResearches <- function checkNonApprovedResearches(needUpdateResearchTable = false, needResearchAction = true)
 {
   if (!::isInMenu() || ::checkIsInQueue())
     return false
@@ -164,7 +164,7 @@ function checkNonApprovedResearches(needUpdateResearchTable = false, needResearc
   return true
 }
 
-function checkNewModuleResearchForUnit(unit)
+::checkNewModuleResearchForUnit <- function checkNewModuleResearchForUnit(unit)
 {
   local resList = ::shop_get_units_list_with_autoset_modules()
   foreach(research in resList)
@@ -176,7 +176,7 @@ function checkNewModuleResearchForUnit(unit)
   return false
 }
 
-function checkNewUnitResearchForCountry(country, unitType)
+::checkNewUnitResearchForCountry <- function checkNewUnitResearchForCountry(country, unitType)
 {
   local resList = ::shop_get_countries_list_with_autoset_units()
   foreach(research in resList)
@@ -467,7 +467,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
 
   function getCurRowTbl()
   {
-    if (!::checkObj(researchTableObj) || !researchTableObj.cur_row)
+    if (!::check_obj(researchTableObj) || !researchTableObj?.cur_row)
       return null
 
     local idx = researchTableObj.cur_row.tointeger()
@@ -816,7 +816,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
     local nameLoc = ::getModificationName(unit.name, modName)
     local buyMsgText = warningIfGold(
       ::loc("onlineShop/needMoneyQuestion",
-        {purchase = nameLoc, cost = price.tostring()}),
+        {purchase = nameLoc, cost = price.getTextAccordingToBalance()}),
       price)
     msgBox("msgbox_buy_item" , buyMsgText, [["ok", (@(unit, modName) function () {
                                       impl_buyModification(unit, modName)
@@ -935,7 +935,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
   }
 }
 
-function checkNotBoughtModsAfterFinishedResearches(handler, afterFunc = null)
+::checkNotBoughtModsAfterFinishedResearches <- function checkNotBoughtModsAfterFinishedResearches(handler, afterFunc = null)
 {
   local cost = 0
   local unitsWithNBMods = []
@@ -986,7 +986,7 @@ function checkNotBoughtModsAfterFinishedResearches(handler, afterFunc = null)
     "yes", { cancel_fn = @() null })
 }
 
-function buyModsForUnitAndGoNext(handler, afterFunc, progressBox, unitsArray)
+::buyModsForUnitAndGoNext <- function buyModsForUnitAndGoNext(handler, afterFunc, progressBox, unitsArray)
 {
   if (unitsArray.len() == 0)
   {

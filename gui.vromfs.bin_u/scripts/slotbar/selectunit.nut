@@ -6,7 +6,7 @@ enum SEL_UNIT_BUTTON {
 
 const MIN_NON_EMPTY_SLOTS_IN_COUNTRY = 1
 
-function gui_start_select_unit(crew, slotbar)
+::gui_start_select_unit <- function gui_start_select_unit(crew, slotbar)
 {
   if (!::SessionLobby.canChangeCrewUnits())
     return
@@ -263,7 +263,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function onDoneSlotChoose(obj)
   {
-    local row = ::to_integer_safe(obj.cur_row, -1)
+    local row = ::to_integer_safe(obj?.cur_row, -1)
     if (row < 0)
       return
 
@@ -418,7 +418,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(true, true)
 
     local sizeChoosePopupMenu = objChoosePopupMenu.getSize()
-    local scrWidth = ::screen_width()
+    local scrWidth = ::g_dagui_utils.toPixels(guiScene, "@bw + @rw")
     objChoosePopupMenu.side = ((objChoosePopupMenu.getPosRC()[0] + sizeChoosePopupMenu[0]) > scrWidth) ? "left" : "right"
   }
 
@@ -462,7 +462,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function onSelectedOptionChooseUnit(obj)
   {
-    if (!checkObj(obj) || !obj.idx)
+    if (!checkObj(obj) || !obj?.idx)
       return
 
     local maskOptions = getTblValue(obj.idx.tointeger(), curOptionsMasks, null)

@@ -27,12 +27,12 @@ local clanVehiclesModal = require("scripts/clans/clanVehiclesModal.nut")
   }
 */
 
-function update_start_mission_instead_of_queue()
+::update_start_mission_instead_of_queue <- function update_start_mission_instead_of_queue()
 {
   local rBlk = ::get_ranks_blk()
 
-  local mInfo = rBlk.custom_single_mission
-  if (!mInfo || !mInfo.name)
+  local mInfo = rBlk?.custom_single_mission
+  if (!mInfo || !mInfo?.name)
     ::start_mission_instead_of_queue = null
   else
   {
@@ -42,7 +42,7 @@ function update_start_mission_instead_of_queue()
   }
 }
 
-function get_req_tutorial(unitType)
+::get_req_tutorial <- function get_req_tutorial(unitType)
 {
   return ::getTblValue(unitType, ::req_tutorial, "")
 }
@@ -112,18 +112,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     return null
   }
 
-  gameModeSelectHandler = null
   newGameModeIconWidget = null
-  function getGameModeSelectHandler()
-  {
-    if (!::handlersManager.isHandlerValid(gameModeSelectHandler))
-      initGameModeSelectHandler()
-    if (::handlersManager.isHandlerValid(gameModeSelectHandler))
-      return gameModeSelectHandler
-    ::dagor.assertf(false, "Failed to get gameModeSelectHandler.")
-    return null
-  }
-
   slotbarPresetsTutorial = null
 
   function initScreen()
@@ -201,22 +190,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     }
     gamercardDrawerHandler = ::handlersManager.loadHandler(::gui_handlers.GamercardDrawer, params)
     registerSubHandler(gamercardDrawerHandler)
-  }
-
-  function initGameModeSelectHandler()
-  {
-    local drawer = getGamercardDrawerHandler()
-    if (drawer == null)
-      return
-
-    local gameModeSelectContainer = drawer.scene.findObject("game_mode_select_container")
-    if (gameModeSelectContainer == null)
-      return
-
-    local params = {
-      scene = gameModeSelectContainer
-    }
-    gameModeSelectHandler = ::handlersManager.loadHandler(::gui_handlers.GameModeSelect, params)
   }
 
   function initToBattleButton()
@@ -336,20 +309,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       doWhenActiveOnce("onCountrySelectAction")
   }
 
-  function onEventUpdateModesInfo(p)
-  {
-    doWhenActiveOnce("doWhenActiveOnce_reinitScreen")
-  }
-
-  /**
-   * This is a 'reinitScreen' wrapper that
-   * fixes 'wrong number of parameters' error.
-   */
-  function doWhenActiveOnce_reinitScreen()
-  {
-    reinitScreen(null)
-  }
-
   function onEventSquadSetReady(params)
   {
     doWhenActiveOnce("updateStartButton")
@@ -456,12 +415,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       isCanceledByPlayer = true }))
       return
 
-    if (getGameModeSelectHandler().getShowGameModeSelect())
-    {
-      getGameModeSelectHandler().setShowGameModeSelect(false)
-      return
-    }
-
     if (checkTopMenuButtons && ::top_menu_handler && ::top_menu_handler.leftSectionHandlerWeak)
     {
       ::top_menu_handler.leftSectionHandlerWeak.switchMenuFocus()
@@ -479,12 +432,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!params.isOpening)
       restoreFocus()
-
-    // This deactivates "To battle" button when game mode select is active.
-    //FIX ME: better to ask about cur handler from drawer, but he doesn't know about it atm
-    if (::handlersManager.isHandlerValid(gameModeSelectHandler))
-      setToBattleButtonAccessKeyActive(!params.isOpening
-        || gameModeSelectHandler.scene.id != getGamercardDrawerHandler()?.currentTarget?.id)
   }
 
   _isToBattleAccessKeyActive = true
@@ -516,6 +463,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function onStart()
   {
+    if (!::is_eac_inited())
+    {
+      ::scene_msg_box(::loc("eac/eac_violation"), null, ::loc("eac/eac_not_inited"),
+                  [["ok", function() {} ]], "ok", {})
+      return
+    }
     ::game_mode_manager.setUserGameModeId(::game_mode_manager.getCurrentGameModeId())
     determineAndStartAction()
   }
@@ -1111,7 +1064,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!obj)
       return
     local isGold = false
-    if (obj.id == "btn_unlock_crew_gold")
+    if (obj?.id == "btn_unlock_crew_gold")
       isGold = true
     local unit = ::get_player_cur_unit()
     if (!unit)
@@ -1411,12 +1364,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function is_need_check_tutorial(diff)
+::is_need_check_tutorial <- function is_need_check_tutorial(diff)
 {
   return diff > 0
 }
 
-function isDiffUnlocked(diff, checkUnitType)
+::isDiffUnlocked <- function isDiffUnlocked(diff, checkUnitType)
 {
   //check played before
   for(local d = diff; d<3; d++)
@@ -1446,7 +1399,7 @@ function isDiffUnlocked(diff, checkUnitType)
   return true
 }
 
-function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
+::getBrokenAirsInfo <- function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
 {
   local res = {
           canFlyout = true
@@ -1547,7 +1500,7 @@ function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
   return res
 }
 
-function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCountry = true, cancelFunc = null)
+::checkBrokenAirsAndDo <- function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCountry = true, cancelFunc = null)
 {
   if (repairInfo.weaponWarning && repairInfo.unreadyAmmoList && !::get_gui_option(::USEROPT_SKIP_WEAPON_WARNING))
   {
@@ -1599,7 +1552,7 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
       msgText = ::format(::loc(::format(msgText, "repared")), ::Cost(repairInfo.repairCost).tostring())
     else
       msgText = ::format(::loc(::format(msgText, "available")),
-        time.secondsToString(::get_warpoints_blk().lockTimeMaxLimitSec || 0))
+        time.secondsToString(::get_warpoints_blk()?.lockTimeMaxLimitSec ?? 0))
 
     local repairBtnName = respawns ? "RepairAll" : "Repair"
     local buttons = repairInfo.canFlyoutIfRepair ?
@@ -1625,7 +1578,7 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
     startFunc.call(handler)
 }
 
-function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCancelFunc, canRepairWholeCountry = true, totalRCost=null)
+::repairAllAirsAndApply <- function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCancelFunc, canRepairWholeCountry = true, totalRCost=null)
 {
   if (!handler)
     return
@@ -1671,7 +1624,7 @@ function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCance
   }
 }
 
-function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost = ::Cost())
+::buyAllAmmoAndApply <- function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost = ::Cost())
 {
   if (!handler)
     return

@@ -14,48 +14,48 @@
   unit = null
 }
 
-function g_crew_short_cache::resetCache(newCrewId)
+g_crew_short_cache.resetCache <- function resetCache(newCrewId)
 {
   cache.clear()
   cacheCrewid = newCrewId
   unit = ::g_crew.getCrewUnit(::get_crew_by_id(cacheCrewid))
 }
 
-function g_crew_short_cache::getData(crewId, cacheUid)
+g_crew_short_cache.getData <- function getData(crewId, cacheUid)
 {
   if (crewId != cacheCrewid)
     return null
   return ::getTblValue(cacheUid, cache)
 }
 
-function g_crew_short_cache::setData(crewId, cacheUid, data)
+g_crew_short_cache.setData <- function setData(crewId, cacheUid, data)
 {
   if (crewId != cacheCrewid)
     resetCache(crewId)
   cache[cacheUid] <- data
 }
 
-function g_crew_short_cache::onEventCrewSkillsChanged(params)
+g_crew_short_cache.onEventCrewSkillsChanged <- function onEventCrewSkillsChanged(params)
 {
   resetCache(cacheCrewid)
 }
 
-function g_crew_short_cache::onEventCrewNewSkillsChanged(params)
+g_crew_short_cache.onEventCrewNewSkillsChanged <- function onEventCrewNewSkillsChanged(params)
 {
   resetCache(cacheCrewid)
 }
 
-function g_crew_short_cache::onEventCrewTakeUnit(params)
+g_crew_short_cache.onEventCrewTakeUnit <- function onEventCrewTakeUnit(params)
 {
   resetCache(cacheCrewid)
 }
 
-function g_crew_short_cache::onEventQualificationIncreased(params)
+g_crew_short_cache.onEventQualificationIncreased <- function onEventQualificationIncreased(params)
 {
   resetCache(cacheCrewid)
 }
 
-function g_crew_short_cache::onEventCrewSkillsReloaded(params)
+g_crew_short_cache.onEventCrewSkillsReloaded <- function onEventCrewSkillsReloaded(params)
 {
   resetCache(cacheCrewid)
 }

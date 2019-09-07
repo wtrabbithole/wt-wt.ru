@@ -181,8 +181,14 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _name = "smoke_screen"
     isForWheelMenu = @() true
     _icon = "#ui/gameuiskin#smoke_screen"
-    _title = ::loc("hotkeys/ID_SMOKE_SCREEN")
-    getShortcut = @(actionItem, unit = null) "ID_SMOKE_SCREEN"
+    getTitle = @(killStreakTag = null)
+      !::isShip(::getAircraftByName(::get_action_bar_unit_name()))
+        ? ::loc("hotkeys/ID_SMOKE_SCREEN")
+        : ::loc("hotkeys/ID_SHIP_SMOKE_GRENADE")
+    getShortcut = @(actionItem, unit = null)
+      !::isShip(unit)
+        ? "ID_SMOKE_SCREEN"
+        : "ID_SHIP_SMOKE_GRENADE"
   }
 
   SMOKE_SCREEN = {
@@ -396,12 +402,12 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
   }
 })
 
-function g_hud_action_bar_type::getTypeByCode(code)
+g_hud_action_bar_type.getTypeByCode <- function getTypeByCode(code)
 {
   return enums.getCachedType("code", code, cache.byCode, this, UNKNOWN)
 }
 
-function g_hud_action_bar_type::getByActionItem(actionItem)
+g_hud_action_bar_type.getByActionItem <- function getByActionItem(actionItem)
 {
   return getTypeByCode(actionItem.type)
 }

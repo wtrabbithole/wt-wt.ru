@@ -17,7 +17,7 @@ local WwGlobalBattle = class extends ::WwBattle
     for (local i = 0; i < teamsBlk.blockCount(); i++)
     {
       local teamBlk = teamsBlk.getBlock(i)
-      local teamSide = teamBlk.side
+      local teamSide = teamBlk?.side
       local teamCountry = countries?[teamSide]
       if (teamSide && teamCountry)
         sidesByCountry[teamCountry] <- ::ww_side_name_to_val(teamSide)
@@ -44,12 +44,12 @@ local WwGlobalBattle = class extends ::WwBattle
       if (teamName.len() == 0)
         continue
 
-      local teamSideName = teamBlk.side || ""
+      local teamSideName = teamBlk?.side ?? ""
       if (teamSideName.len() == 0)
         continue
 
-      local numPlayers = teamBlk.players || 0
-      local teamMaxPlayers = teamBlk.maxPlayers || 0
+      local numPlayers = teamBlk?.players ?? 0
+      local teamMaxPlayers = teamBlk?.maxPlayers ?? 0
       local teamUnitTypes = []
 
       local teamUnitsRemain = []

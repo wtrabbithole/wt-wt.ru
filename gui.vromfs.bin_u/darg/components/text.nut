@@ -1,11 +1,11 @@
 local loc = ("loc" in ::getroottable()) ? ::loc : @(text) text
 
-local function text(text, params={}, addchildren = null) { //warning disable: -ident-hides-ident
-  if (text == null)
+local function text(val, params={}, addchildren = null) { //warning disable: -ident-hides-ident
+  if (val == null)
     return null
-  if (::type(text)=="table") {
-    text = params?.text
-    params = text.__merge(params)
+  if (::type(val)=="table") {
+    params = val.__merge(params)
+    val = params?.text
   }
   local children = params?.children
   if (children && ::type(children) !="array")
@@ -23,11 +23,11 @@ local function text(text, params={}, addchildren = null) { //warning disable: -i
   local txt = ""
   local rendObj = params?.rendObj ?? ROBJ_DTEXT
   ::assert(rendObj == ROBJ_DTEXT || rendObj == ROBJ_STEXT, "rendObj for text should be ROBJ_STEXT or ROBJ_DTEXT")
-  if (::type(text) == "string")  {
-    txt = (localize) ? loc(text) : text
+  if (::type(val) == "string")  {
+    txt = (localize) ? loc(val) : val
   }
-  if (::type(text) == "instance" && text instanceof ::Watched) {
-    txt = (localize) ? loc(text.value) : text.value
+  if (::type(val) == "instance" && val instanceof ::Watched) {
+    txt = (localize) ? loc(val.value) : val.value
     watchedtext = true
   }
   local ret = {

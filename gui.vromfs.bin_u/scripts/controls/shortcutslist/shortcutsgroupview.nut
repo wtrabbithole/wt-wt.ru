@@ -3,16 +3,19 @@ return [
   {
     id = "ID_VIEW_CONTROL_HEADER"
     type = CONTROL_TYPE.SECTION
+    needShowInHelp = true
   }
   {
     id = "ID_ZOOM_TOGGLE"
     checkGroup = ctrlGroups.NO_GROUP
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_NEUTRAL"
     checkGroup = ctrlGroups.NO_GROUP
     checkAssign = false
     showFunc = @() ::has_feature("EnableMouse")
+    needShowInHelp = true
   }
   {
     id = "mouse_sensitivity"
@@ -36,17 +39,6 @@ return [
     id = "zoom_sens"
     type = CONTROL_TYPE.SLIDER
     optionType = ::USEROPT_ZOOM_SENSE
-  }
-  {
-    id = "hatview_mouse"
-    type = CONTROL_TYPE.SWITCH_BOX
-    value = @(joyParams) joyParams.isHatViewMouse
-    setValue = function(joyParams, objValue) {
-      local prev = joyParams.isHatViewMouse
-      joyParams.isHatViewMouse = objValue
-      if (prev != objValue)
-        ::set_controls_preset("")
-    }
   }
   {
     id = "invert_y_spectator"

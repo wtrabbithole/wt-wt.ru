@@ -8,14 +8,14 @@ local CLAN_LEADERBOARD_FILTER_ID = "clan/leaderboard_filter"
 
 local function isFitsRequirements(clanData)
 {
-  local requirements = clanData.membership_req
+  local requirements = clanData?.membership_req
   if (requirements == null ||
     (requirements.blockCount() == 0 && requirements.paramCount() == 0))
     return true
 
   local resultBlk = ::DataBlock()
   clan_evaluate_membership_requirements(requirements, resultBlk)
-  return resultBlk.result
+  return resultBlk?.result
 }
 
 local clanLeaderboardsListByPage = {
@@ -25,7 +25,7 @@ local clanLeaderboardsListByPage = {
       getCellImage = @(clanData) isFitsRequirements(clanData) ? "#ui/gameuiskin#favorite"
         : "#ui/gameuiskin#icon_primary_fail.svg"
       getCellTooltipText = function(clanData) {
-        local reqText = clanInfoView.getClanRequirementsText(clanData.membership_req)
+        local reqText = clanInfoView.getClanRequirementsText(clanData?.membership_req)
         return reqText != "" ? reqText : ::loc("clan/no_requirements")
       }
     }
@@ -485,10 +485,10 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
                                       local myClanId = ::clan_get_my_clan_id()
                                       local found = false
                                       foreach(row in myClanRowBlk % "clan")
-                                        if(row._id == myClanId)
+                                        if(row?._id == myClanId)
                                         {
                                           myClanLbData = ::buildTableFromBlk(row)
-                                          myClanLbData.astat <- ::buildTableFromBlk(row.astat)
+                                          myClanLbData.astat <- ::buildTableFromBlk(row?.astat)
                                           found = true
                                           break
                                         }
@@ -709,7 +709,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     local itemId = getClansLbFieldName(item)
 
-    if(!("astat" in rowBlk) && !rowBlk.astat)
+    if(!rowBlk?.astat)
       rowBlk.astat = ::DataBlock()
     local value = itemId == "members_cnt" ? rowBlk?[itemId] ?? 0
       : itemId == "slogan" ? ::g_chat.filterMessageText(rowBlk?[itemId] ?? "", false)

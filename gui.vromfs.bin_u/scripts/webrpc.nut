@@ -18,7 +18,7 @@ web_rpc <- {
   }
 }
 
-function handle_web_rpc(call)
+::handle_web_rpc <- function handle_web_rpc(call)
 {
   try {
     return web_rpc.handle_web_rpc_unsafe(call)
@@ -33,7 +33,7 @@ function handle_web_rpc(call)
 /*
  this is just example
 */
-function rpc_add(params)
+::rpc_add <- function rpc_add(params)
 {
   return (params.a + params.b).tostring()
 }

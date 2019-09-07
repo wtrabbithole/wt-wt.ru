@@ -1,10 +1,10 @@
-function gui_start_menu_builder()
+::gui_start_menu_builder <- function gui_start_menu_builder()
 {
   ::gui_start_mainmenu()
   ::gui_start_builder()
 }
 
-function gui_start_builder()
+::gui_start_builder <- function gui_start_builder()
 {
   ::gui_start_modal_wnd(::gui_handlers.MissionBuilder)
 }
@@ -53,7 +53,7 @@ class ::gui_handlers.MissionBuilder extends ::gui_handlers.GenericOptionsModal
     local optListObj = scene.findObject("optionslist")
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
     optionsContainers.push(container.descr)
-    ::set_menu_title(::loc("mainmenu/btnDynamicTraining"), scene, "menu-title")
+    setSceneTitle(::loc("mainmenu/btnDynamicTraining"), scene, "menu-title")
 
     local desc = ::get_option(::USEROPT_DYN_ZONE)
     local dynZoneObj = guiScene["dyn_zone"]

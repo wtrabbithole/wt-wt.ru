@@ -4,6 +4,7 @@
 @import "cssElems\buttons.css"
 @import "cssElems\checkbox.css"
 @import "cssElems\switchbox.css"
+@import "missions\mapPreferences.css"
 
 @import "optionlist.css"
 @import "tacticalscr.css"
@@ -756,6 +757,12 @@ widthLine {
   pos:1*@scrn_tgt/100.0, -1*@scrn_tgt/100.0;
   padding-left:0.01*@scrn_tgt + 0.01*@scrn_tgt*@isWide;
   position:relative;
+  hideEmptyText:yes;
+}
+
+[textStyle=mis-map] > textareaNoTab {
+  width:pw-2@blockInterval;
+  font:@fontNormal;
   hideEmptyText:yes;
 }
 
@@ -2396,7 +2403,7 @@ GameLogoPlate {
 GameLogoPlate > Shadow {
   re-type:9rect;
   position:relative;
-  padding:3*@sf/@pf_outdated, 2*@sf/@pf_outdated;
+  padding:@titleLogoShadePaddingW, @titleLogoShadePaddingH;
   background-image:#ui/gameuiskin#window_body_shadow;
   background-color:@white;
   background-position:6;
@@ -2405,7 +2412,7 @@ GameLogoPlate > Shadow {
 
 GameLogoPlate redPlate {
   re-type:9rect;
-  padding:3*@sf/@pf_outdated, 2*@sf/@pf_outdated;
+  padding:@titleLogoShadePaddingW, @titleLogoShadePaddingH;
   background-image:#ui/gameuiskin#red_plate;
   background-color:@white;
   background-position:6;
@@ -2483,7 +2490,7 @@ airInfoBlock {
 }
 
 airInfoBlock > bgGradientLeft {
-  size:pw - (1/3sw * @isTripleHead), ph;
+  size:pw - 0.5(sw - @swMain), ph;
   pos:pw-w, 0;
   position:absolute;
   background-image: #ui/gameuiskin#expandable_item_ww_transp_reflect;
@@ -2508,6 +2515,10 @@ airInfoBlock text {
 
 crewUnitSpecUpgradeTooltip textareaNoTab[exp_upgrade_text_area=yes] {
   font:@fontSmall;
+}
+
+mapNest[selected=yes] textareaNoTab{
+  color:@hoverMenuButtonColor;
 }
 
 airInfoBlock textarea[crew_data=yes], airInfoBlock text[crew_data=yes] {
@@ -2686,11 +2697,6 @@ ShadowPlate {
 ShadeDiv {
   background-color:#91020509;
 }
-
-ShadeDiv.authorization {
-  position:relative;
-  pos:50%pw-50%w;
-  width:pw-2@dp;    padding:0.015@scrn_tgt + 1@framePadding,0.01@scrn_tgt; }
 
 debriefingTab {
   size:pw, ph;

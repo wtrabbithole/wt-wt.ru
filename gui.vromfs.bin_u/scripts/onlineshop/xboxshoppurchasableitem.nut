@@ -28,38 +28,38 @@ local XboxShopPurchasableItem = class
   constructor(blk)
   {
     id = blk.getBlockName()
-    mediaItemType = blk.MediaItemType
+    mediaItemType = blk?.MediaItemType
     isMultiConsumable = mediaItemType == xboxMediaItemType.GameConsumable
     if (isMultiConsumable)
       defaultIconStyle = "reward_gold"
 
-    name = blk.Name || ""
-    shortName = blk.ReducedName || ""
-    description = blk.Description || ""
+    name = blk?.Name ?? ""
+    shortName = blk?.ReducedName ?? ""
+    description = blk?.Description ?? ""
 
-    releaseDate = blk.ReleaseDate || 0
+    releaseDate = blk?.ReleaseDate ?? 0
 
-    price = blk.Price || 0.0
-    priceText = blk.DisplayPrice || ""
-    listPrice = blk.ListPrice || 0.0
-    listPriceText = blk.DisplayListPrice || ""
-    currencyCode = blk.CurrencyCode || ""
+    price = blk?.Price ?? 0.0
+    priceText = blk?.DisplayPrice ?? ""
+    listPrice = blk?.ListPrice ?? 0.0
+    listPriceText = blk?.DisplayListPrice ?? ""
+    currencyCode = blk?.CurrencyCode ?? ""
 
-    isPurchasable = blk.IsPurchasable || false
-    isBundle = blk.IsBundle || false
-    isPartOfAnyBundle = blk.IsPartOfAnyBundle || false
-    isBought = !!blk.isBought
+    isPurchasable = blk?.IsPurchasable ?? false
+    isBundle = blk?.IsBundle ?? false
+    isPartOfAnyBundle = blk?.IsPartOfAnyBundle ?? false
+    isBought = !!blk?.isBought
 
-    consumableQuantity = blk.ConsumableQuantity || 0
-    signedOffer = blk.SignedOffer || ""
+    consumableQuantity = blk?.ConsumableQuantity ?? 0
+    signedOffer = blk?.SignedOffer ?? ""
 
     if (isPurchasable)
       amount = getPriceText()
 
-    local guiCfg = ::configs.GUI.get()
-    local ingameShopImages = guiCfg.xbox_ingame_shop_items_images
-    if (ingameShopImages && id in ingameShopImages)
-      imagePath = "!" + ingameShopImages.mainPart + id + ingameShopImages.fileExtension
+    local xboxShopBlk = ::configs.GUI.get()?.xbox_ingame_shop
+    local ingameShopImages = xboxShopBlk?.items
+    if (ingameShopImages?[id] && xboxShopBlk?.mainPart && xboxShopBlk?.fileExtension)
+      imagePath = "!" + xboxShopBlk.mainPart + id + xboxShopBlk.fileExtension
   }
 
   getPriceText = @() ::colorize(haveDiscount()? "goodTextColor" : "" , price == 0? ::loc("shop/free") : (price + " " + currencyCode))

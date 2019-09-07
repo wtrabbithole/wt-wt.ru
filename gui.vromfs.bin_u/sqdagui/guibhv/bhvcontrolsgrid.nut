@@ -75,7 +75,7 @@ class gui_bhv.ControlsGrid
       do {
         if (--curRow < 0)
         {
-          local navObjName = obj.nav_overflow_up
+          local navObjName = obj?.nav_overflow_up
           if (navObjName == null)
             curRow = obj.childrenCount()-1;
           else
@@ -91,7 +91,7 @@ class gui_bhv.ControlsGrid
           }
           selectCell(obj, curRow, obj.cur_col.tointeger())
         }
-      } while (obj.getChild(curRow).inactive)
+      } while (obj.getChild(curRow)?.inactive)
 
       selectCell(obj, curRow, obj.cur_col.tointeger());
       obj.cur_row = curRow.tostring();
@@ -109,7 +109,7 @@ class gui_bhv.ControlsGrid
       do {
         if (++curRow >= obj.childrenCount())
         {
-          local navObjName = obj.nav_overflow_down
+          local navObjName = obj?.nav_overflow_down
           if (navObjName == null)
             curRow = 0
           else
@@ -125,7 +125,7 @@ class gui_bhv.ControlsGrid
           }
           selectCell(obj, curRow, obj.cur_col.tointeger())
         }
-      } while (obj.getChild(curRow).inactive)
+      } while (obj.getChild(curRow)?.inactive)
 
       selectCell(obj, curRow, obj.cur_col.tointeger());
       obj.cur_row = curRow.tostring();

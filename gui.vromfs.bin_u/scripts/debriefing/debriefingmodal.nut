@@ -18,12 +18,12 @@ enum DEBR_THEME {
 
 ::go_debriefing_next_func <- null
 
-function gui_start_debriefingFull(params = {})
+::gui_start_debriefingFull <- function gui_start_debriefingFull(params = {})
 {
   ::handlersManager.loadHandler(::gui_handlers.DebriefingModal, params)
 }
 
-function gui_start_debriefing_replay()
+::gui_start_debriefing_replay <- function gui_start_debriefing_replay()
 {
   gui_start_debriefing()
 
@@ -53,7 +53,7 @@ function gui_start_debriefing_replay()
   ::update_msg_boxes()
 }
 
-function gui_start_debriefing()
+::gui_start_debriefing <- function gui_start_debriefing()
 {
   if (::need_logout_after_session)
   {
@@ -165,6 +165,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   shouldBattleTasksListUpdate = false
 
   giftItems = null
+  isAllGiftItemsKnown = false
+
   isFirstWinInMajorUpdate = false
 
   debugUnlocks = 0  //show at least this amount of unlocks received from userlogs even disabled.
@@ -205,6 +207,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     playerStatsObj = scene.findObject("stat_table")
     numberOfWinningPlaces = ::getTblValue("numberOfWinningPlaces", ::debriefing_result, -1)
     pveRewardInfo = ::getTblValue("pveRewardInfo", ::debriefing_result)
+    giftItems = groupGiftsById(::debriefing_result?.giftItemsInfo)
     foreach(idx, row in ::debriefing_rows)
       if (row.show)
       {
@@ -640,22 +643,32 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function handleGiftItems()
   {
-    giftItems = groupGiftsById(::debriefing_result?.giftItemsInfo)
-    if (!giftItems)
+    if (!giftItems || isAllGiftItemsKnown)
       return
 
     local obj = scene.findObject("inventory_gift_icon")
-    local giftsMarkup = ""
-    local showLen = min(giftItems.len(), VISIBLE_GIFT_NUMBER)
-    for (local i=0; i < showLen; i++)
-      giftsMarkup += ::trophyReward.getImageByConfig(giftItems[i], false)
-
-    guiScene.replaceContentFromText(obj, giftsMarkup, giftsMarkup.len(), this)
-
     local leftBlockHeight = scene.findObject("left_block").getSize()[1]
     local itemHeight = ::g_dagui_utils.toPixels(guiScene, "1@itemHeight")
-    if (itemHeight * giftItems.len() > leftBlockHeight / 2)
-      obj.smallItems = "yes"
+    obj.smallItems = (itemHeight * giftItems.len() > leftBlockHeight / 2) ? "yes" : "no"
+
+    local giftsMarkup = ""
+    local showLen = min(giftItems.len(), VISIBLE_GIFT_NUMBER)
+    isAllGiftItemsKnown = true
+    for (local i=0; i < showLen; i++)
+    {
+      local markup = ::trophyReward.getImageByConfig(giftItems[i], false)
+      isAllGiftItemsKnown = isAllGiftItemsKnown && markup != ""
+      giftsMarkup += markup
+    }
+    guiScene.replaceContentFromText(obj, giftsMarkup, giftsMarkup.len(), this)
+  }
+
+  function onEventItemsShopUpdate(p)
+  {
+    if (state >= debrState.showMyStats)
+      handleGiftItems()
+    if (state >= debrState.done)
+      updateInventoryButton()
   }
 
   function onViewRewards()
@@ -947,7 +960,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
     else if (state == debrState.showMyStats)
     {
-      handleGiftItems()
       if (!is_show_my_stats())
         return switchState()
 
@@ -963,6 +975,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       })
       showMyPlaceInTable()
       updateMyStatsTopBarArrangement()
+      handleGiftItems()
     }
     else if (state == debrState.showBonuses)
     {
@@ -1838,7 +1851,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function getEntitlementWithAward()
   {
     foreach (name, block in ::OnlineShopModel.getPriceBlk())
-      if (block.allowBuyWithAward)
+      if (block?.allowBuyWithAward)
         return name
     return null
   }
@@ -2798,7 +2811,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       misBlk.setInt("_gameMode", ::GM_DYNAMIC)
       ::mission_settings.missionFull = ::mission_settings.dynlist[::mission_settings.currentMissionIdx]
       ::select_mission_full(misBlk, ::mission_settings.missionFull);
-      ::apply_host_settings(misBlk);
     }
     else
     {
@@ -3253,10 +3265,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (gm != ::GM_DOMINATION)
       return ""
 
-    local bonusWp = ::get_warpoints_blk().winK || 0.0
+    local bonusWp = ::get_warpoints_blk()?.winK ?? 0.0
     local rBlk = ::get_ranks_blk()
-    local expPlaying = rBlk.expForPlayingVersus || 0
-    local expVictory = rBlk.expForVictoryVersus || 0
+    local expPlaying = rBlk?.expForPlayingVersus ?? 0
+    local expVictory = rBlk?.expForVictoryVersus ?? 0
     local bonusRpRaw = (expPlaying && expVictory) ?
       (1.0 / (expPlaying.tofloat() / (expVictory - expPlaying))) :
       0.0

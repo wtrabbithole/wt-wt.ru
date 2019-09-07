@@ -1,6 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 
-enum WW_MAP_CONSPLE_SHORTCUTS
+global enum WW_MAP_CONSPLE_SHORTCUTS
 {
   LMB_IMITATION = "RT"
   MOVE = "A"
@@ -131,7 +131,7 @@ enums.addTypesByGlobalName("g_ww_map_controls_buttons",
   }
 }, null, "name")
 
-function g_ww_map_controls_buttons::setSelectedObjectCode(code)
+g_ww_map_controls_buttons.setSelectedObjectCode <- function setSelectedObjectCode(code)
 {
   selectedObjectCode = code
 }

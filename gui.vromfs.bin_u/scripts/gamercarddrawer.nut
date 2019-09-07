@@ -78,7 +78,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local p = target.getParent()
-    if (p == null || p.id != contentObject.id)
+    if (p?.id == null || p.id != contentObject.id)
       return
 
     currentTarget = target
@@ -143,27 +143,27 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
 
   function setShowContent(obj = null)
   {
+    local objId = obj?.id
     local contentObject = getObj("gamercard_drawer_content")
-    if (contentObject == null)
+    if (!objId || !contentObject)
       return
-    local objId = obj != null ? obj.id : null
     for (local i = 0; i < contentObject.childrenCount(); ++i)
     {
       local child = contentObject.getChild(i)
-      child.show(child.id == objId)
+      child.show(child?.id == objId)
     }
   }
 
   function setEnableContent(obj = null)
   {
+    local objId = obj?.id
     local contentObject = getObj("gamercard_drawer_content")
-    if (contentObject == null)
+    if (!objId || !contentObject)
       return
-    local objId = obj != null ? obj.id : null
     for (local i = 0; i < contentObject.childrenCount(); ++i)
     {
       local child = contentObject.getChild(i)
-      child.enable(child.id == objId)
+      child.enable(child?.id == objId)
     }
   }
 }

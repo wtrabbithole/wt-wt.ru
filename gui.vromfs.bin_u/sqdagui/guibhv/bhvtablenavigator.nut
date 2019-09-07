@@ -104,7 +104,7 @@ class gui_bhv.TableNavigator extends ::gui_bhv.OptionsNavigator
   }
 }
 
-function selectTableNavigatorObj(obj)
+::selectTableNavigatorObj <- function selectTableNavigatorObj(obj)
 {
   if (!obj) return
   ::gui_bhv.TableNavigator.selectCurItem.call(::gui_bhv.TableNavigator, obj)

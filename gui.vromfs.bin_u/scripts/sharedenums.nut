@@ -1,10 +1,9 @@
-
 // Note:
 // This enums is shared between squirrel and C++ code
 // any change requires version.nut update.
 // Also do not reorder mouse axes order in order to
 // keep compatibility with old controls presets.
-enum MouseAxis
+global enum MouseAxis
 {
   MOUSE_X,
   MOUSE_Y,
@@ -13,11 +12,10 @@ enum MouseAxis
   MOUSE_SCROLL_SHIP,
   MOUSE_SCROLL_SUBMARINE,
   MOUSE_SCROLL_HELICOPTER,
-  MOUSE_SCROLL_UFO,
   NUM_MOUSE_AXIS_TOTAL
 };
 
-enum CtrlsInGui
+global enum CtrlsInGui
 {
   CTRL_ALLOW_VEHICLE_KEYBOARD = 0x0001,
   CTRL_ALLOW_VEHICLE_XINPUT   = 0x0002,
@@ -46,7 +44,7 @@ enum CtrlsInGui
   CTRL_ALLOW_VEHICLE_FULL     = 0x000F
 };
 
-enum AxisInvertOption
+global enum AxisInvertOption
 {
   INVERT_Y,
   INVERT_GUNNER_Y,
@@ -54,13 +52,12 @@ enum AxisInvertOption
   INVERT_TANK_Y,
   INVERT_SHIP_Y,
   INVERT_HELICOPTER_Y,
-  INVERT_UFO_Y,
   INVERT_WALKER_Y,
   INVERT_SPECTATOR_Y,
   INVERT_SUBMARINE_Y
 };
 
-enum DargWidgets
+global enum DargWidgets
 {
    NONE = 0
   ,HUD
@@ -68,7 +65,7 @@ enum DargWidgets
   ,FOOTBALL
 };
 
-enum HelicopterParams
+global enum HelicopterParams
 {
   RPM = 0,
   THROTTLE = 1,
@@ -90,10 +87,16 @@ enum HelicopterParams
   WATER_3 = 17,
   ENGINE_1 = 18,
   ENGINE_2 = 19,
-  ENGINE_3 = 20
+  ENGINE_3 = 20,
+  TRANSMISSION_1 = 21,
+  TRANSMISSION_2 = 22,
+  TRANSMISSION_3 = 23,
+  TRANSMISSION_4 = 24,
+  TRANSMISSION_5 = 25,
+  TRANSMISSION_6 = 26
 };
 
-enum TemperatureState
+global enum TemperatureState
 {
   DEFAULT_TEMPERATURE = 0,
   OVERHEAT = 1,
@@ -102,7 +105,7 @@ enum TemperatureState
   BLANK = 4
 };
 
-enum HelicopterThrottleMode
+global enum HelicopterThrottleMode
 {
   DEFAULT_MODE = 0,
   BRAKE = 1,
@@ -110,9 +113,10 @@ enum HelicopterThrottleMode
   WEP = 3
 };
 
-enum RadarViewMode
+global enum RadarViewMode
 {
   B_SCOPE_ROUND = 0,
   B_SCOPE_SQUARE = 1,
   MODE_COUNT = 2
 };
+

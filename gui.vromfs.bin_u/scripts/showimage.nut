@@ -1,4 +1,4 @@
-function view_fullscreen_image(obj)
+::view_fullscreen_image <- function view_fullscreen_image(obj)
 {
   ::handlersManager.loadHandler(::gui_handlers.ShowImage, { showObj = obj })
 }
@@ -26,7 +26,7 @@ class ::gui_handlers.ShowImage extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(showObj))
       return goBack()
 
-    local image = showObj["background-image"]
+    local image = showObj?["background-image"]
     maxSize = [
       ::g_dagui_utils.toPixels(guiScene, showObj?["max-width"]  ?? "@rw", showObj),
       ::g_dagui_utils.toPixels(guiScene, showObj?["max-height"] ?? "@rh", showObj)
@@ -120,7 +120,7 @@ class ::gui_handlers.ShowImage extends ::gui_handlers.BaseGuiHandlerWT
  * ratio   @float  - image width/height ratio (default = 1)
  * maxSize @array|@integer - max size in pixels. Array ([w, h]) or integer (used for both sides) (0 = unlimited).
  **/
-function gui_start_image_wnd(image = null, ratio = 1, maxSize = 0)
+::gui_start_image_wnd <- function gui_start_image_wnd(image = null, ratio = 1, maxSize = 0)
 {
   if (::u.isEmpty(image))
     return

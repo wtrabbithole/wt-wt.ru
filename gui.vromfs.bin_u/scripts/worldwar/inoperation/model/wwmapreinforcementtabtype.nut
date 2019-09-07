@@ -105,7 +105,7 @@ enums.addTypesByGlobalName("g_ww_map_reinforcement_tab_type", {
 }, null, "name")
 
 
-function g_ww_map_reinforcement_tab_type::getTypeByCode(code)
+g_ww_map_reinforcement_tab_type.getTypeByCode <- function getTypeByCode(code)
 {
   return enums.getCachedType(
     "code",

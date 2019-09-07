@@ -396,7 +396,7 @@ foreach(idx, row in ::debriefing_rows)
       ::debriefing_rows[idx][param] <- value
 }
 
-enum debrState {
+global enum debrState {
   init
   showPlayers
   showMyStats
@@ -405,7 +405,7 @@ enum debrState {
   done
 }
 
-function isDebriefingResultFull()
+::isDebriefingResultFull <- function isDebriefingResultFull()
 {
   return (::debriefing_result != null
           && (!::debriefing_result.isMp
@@ -419,7 +419,7 @@ function isDebriefingResultFull()
          )
 }
 
-function gather_debriefing_result()
+::gather_debriefing_result <- function gather_debriefing_result()
 {
   local gm = ::get_game_mode()
   if (gm==::GM_DYNAMIC)
@@ -556,7 +556,7 @@ function gather_debriefing_result()
   ::recount_debriefing_result()
 }
 
-function update_debriefing_exp_investment_data()
+::update_debriefing_exp_investment_data <- function update_debriefing_exp_investment_data()
 {
   local gatheredTotalModsExp = 0
   local gatheredTotalUnitExp = 0
@@ -581,7 +581,7 @@ function update_debriefing_exp_investment_data()
   ::debriefing_result.exp.expUnitTotal <- gatheredTotalUnitExp
 }
 
-function calculate_debriefing_tabular_data(addVirtPremAcc = false)
+::calculate_debriefing_tabular_data <- function calculate_debriefing_tabular_data(addVirtPremAcc = false)
 {
   local getStatReward = function(row, currency, keysArray = [])
   {
@@ -628,7 +628,7 @@ function calculate_debriefing_tabular_data(addVirtPremAcc = false)
   }
 }
 
-function get_counted_result_id(row, state, currency)
+::get_counted_result_id <- function get_counted_result_id(row, state, currency)
 {
   return ::get_table_name_by_id(row) + "_debrState" + state + "_" + currency
 }
@@ -636,7 +636,7 @@ function get_counted_result_id(row, state, currency)
 /**
  * Emulates last mission rewards gain (by adding virtPremAccWp/virtPremAccExp) on byuing Premium Account from Debriefing window.
  */
-function debriefing_add_virtual_prem_acc()
+::debriefing_add_virtual_prem_acc <- function debriefing_add_virtual_prem_acc()
 {
   if (!::havePremium())
     return
@@ -651,7 +651,7 @@ function debriefing_add_virtual_prem_acc()
   ::recount_debriefing_result()
 }
 
-function debriefing_add_virtual_prem_acc_to_stat_tbl(data, isRoot)
+::debriefing_add_virtual_prem_acc_to_stat_tbl <- function debriefing_add_virtual_prem_acc_to_stat_tbl(data, isRoot)
 {
   local totalVirtPremAccExp = ::getTblValueByPath("tblTotal.virtPremAccExp", data, 0)
   if (totalVirtPremAccExp > 0)
@@ -705,7 +705,7 @@ function debriefing_add_virtual_prem_acc_to_stat_tbl(data, isRoot)
 /**
  * Returns proper "haveTeamkills" value from related userlogs.
  */
-function debriefing_result_have_teamkills()
+::debriefing_result_have_teamkills <- function debriefing_result_have_teamkills()
 {
   local logs = getUserLogsList({
     show = [
@@ -721,7 +721,7 @@ function debriefing_result_have_teamkills()
   return result
 }
 
-function debriefing_result_get_base_tournament_reward()
+::debriefing_result_get_base_tournament_reward <- function debriefing_result_get_base_tournament_reward()
 {
   local result = ::Cost()
 
@@ -754,7 +754,7 @@ function debriefing_result_get_base_tournament_reward()
   return result
 }
 
-function get_debriefing_result_active_boosters()
+::get_debriefing_result_active_boosters <- function get_debriefing_result_active_boosters()
 {
   local logs = getUserLogsList({
     show = [
@@ -783,7 +783,7 @@ function get_debriefing_result_active_boosters()
  *   wagerResult = ... (null - if result is unknown)
  * }
  */
-function get_debriefing_result_active_wager()
+::get_debriefing_result_active_wager <- function get_debriefing_result_active_wager()
 {
   // First, we see is there's any active wager at all.
   local logs = getUserLogsList({
@@ -852,7 +852,7 @@ function get_debriefing_result_active_wager()
   return data
 }
 
-function get_debriefing_result_event_id()
+::get_debriefing_result_event_id <- function get_debriefing_result_event_id()
 {
   local logs = ::getUserLogsList({
     show = [::EULT_SESSION_RESULT]
@@ -865,7 +865,7 @@ function get_debriefing_result_event_id()
 /**
  * Joins multiple rows rewards into new single row.
  */
-function debriefing_join_rows_into_row(exp, destRowId, srcRowIdsArray)
+::debriefing_join_rows_into_row <- function debriefing_join_rows_into_row(exp, destRowId, srcRowIdsArray)
 {
   local tables = [ exp ]
   if (exp?.aircrafts)
@@ -905,7 +905,7 @@ function debriefing_join_rows_into_row(exp, destRowId, srcRowIdsArray)
  * free exp, units and mods research (but not to expTotal in aircrafts).
  * Adds FirstWinInDay as a separate bonus row.
  */
-function debriefing_apply_first_win_in_day_mul(exp, debrResult)
+::debriefing_apply_first_win_in_day_mul <- function debriefing_apply_first_win_in_day_mul(exp, debrResult)
 {
   local logs = ::getUserLogsList({ show = [::EULT_SESSION_RESULT], currentRoomOnly = true })
   if (!logs.len())
@@ -957,7 +957,7 @@ function debriefing_apply_first_win_in_day_mul(exp, debrResult)
   }
 }
 
-function count_whole_reward_in_table(table, currency, specParam = null)
+::count_whole_reward_in_table <- function count_whole_reward_in_table(table, currency, specParam = null)
 {
   if (!table || table.len() == 0)
     return 0
@@ -970,12 +970,12 @@ function count_whole_reward_in_table(table, currency, specParam = null)
   return reward
 }
 
-function get_table_name_by_id(row)
+::get_table_name_by_id <- function get_table_name_by_id(row)
 {
   return "tbl" + row.getRewardId()
 }
 
-function recount_debriefing_result()
+::recount_debriefing_result <- function recount_debriefing_result()
 {
   local gm = ::get_game_mode()
   local gt = ::get_game_type()
@@ -1025,7 +1025,7 @@ function recount_debriefing_result()
 }
 
 ::delayed_rankUp_wnd <- []
-function checkRankUpWindow(country, old_rank, new_rank, unlockData = null)
+::checkRankUpWindow <- function checkRankUpWindow(country, old_rank, new_rank, unlockData = null)
 {
   if (country == "country_0" || country == "")
     return false
@@ -1044,7 +1044,7 @@ function checkRankUpWindow(country, old_rank, new_rank, unlockData = null)
   return true
 }
 
-function getTournamentRewardData(log)
+::getTournamentRewardData <- function getTournamentRewardData(log)
 {
   local res = []
 
@@ -1069,7 +1069,7 @@ function getTournamentRewardData(log)
   return res
 }
 
-function get_pve_reward_trophy_info(sessionTime, sessionActivity, isSuccess)
+::get_pve_reward_trophy_info <- function get_pve_reward_trophy_info(sessionTime, sessionActivity, isSuccess)
 {
   local pveTrophyName = ::getTblValue("pveTrophyName", ::get_current_mission_info_cached())
   if (::u.isEmpty(pveTrophyName))
@@ -1123,7 +1123,7 @@ function get_pve_reward_trophy_info(sessionTime, sessionActivity, isSuccess)
   }
 }
 
-function get_debriefing_gift_items_info(skipItemId = null)
+::get_debriefing_gift_items_info <- function get_debriefing_gift_items_info(skipItemId = null)
 {
   local res = []
 
@@ -1140,6 +1140,7 @@ function get_debriefing_gift_items_info(skipItemId = null)
         continue
 
       res.append({item=data.itemDefId, count=data?.quantity ?? 1, needOpen=false, enableBackground=true})
+      ::ItemsManager.findItemById(data.itemDefId) // Requests itemdefs for unknown items
     }
 
   // Collecting trophies and items

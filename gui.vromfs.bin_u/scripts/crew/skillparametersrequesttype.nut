@@ -3,7 +3,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   types = []
 }
 
-function g_skill_parameters_request_type::_getParameters(crewId)
+g_skill_parameters_request_type._getParameters <- function _getParameters(crewId)
 {
   local cacheUid = getCachePrefix() + "Current"
   local res = ::g_crew_short_cache.getData(crewId, cacheUid)
@@ -16,12 +16,12 @@ function g_skill_parameters_request_type::_getParameters(crewId)
   return res
 }
 
-function g_skill_parameters_request_type::_getValues()
+g_skill_parameters_request_type._getValues <- function _getValues()
 {
   return {}
 }
 
-function g_skill_parameters_request_type::_getSelectedParameters(crewId)
+g_skill_parameters_request_type._getSelectedParameters <- function _getSelectedParameters(crewId)
 {
   local cacheUid = getCachePrefix() + "Selected"
   local res = ::g_crew_short_cache.getData(crewId, cacheUid)
@@ -50,7 +50,7 @@ function g_skill_parameters_request_type::_getSelectedParameters(crewId)
   return res
 }
 
-function g_skill_parameters_request_type::_getCachePrefix()
+g_skill_parameters_request_type._getCachePrefix <- function _getCachePrefix()
 {
   return "skillParamRqst" + typeName
 }
@@ -71,7 +71,7 @@ enums.addTypesByGlobalName("g_skill_parameters_request_type", {
     getValues = function ()
     {
       local skillsBlk = ::get_skills_blk()
-      local calcBlk = skillsBlk.crew_skills_calc
+      local calcBlk = skillsBlk?.crew_skills_calc
       if (calcBlk == null)
         return {}
 
@@ -132,7 +132,7 @@ enums.addTypesByGlobalName("g_skill_parameters_request_type", {
     getValues = function ()
     {
       local skillsBlk = ::get_skills_blk()
-      local calcBlk = skillsBlk.crew_skills_calc
+      local calcBlk = skillsBlk?.crew_skills_calc
       if (calcBlk == null)
         return {}
 

@@ -96,12 +96,12 @@ local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
   }
 ]
 
-function gui_modal_leaderboards(lb_presets = null)
+::gui_modal_leaderboards <- function gui_modal_leaderboards(lb_presets = null)
 {
   gui_start_modal_wnd(::gui_handlers.LeaderboardWindow, {lb_presets = lb_presets})
 }
 
-function gui_modal_event_leaderboards(eventId = null)
+::gui_modal_event_leaderboards <- function gui_modal_event_leaderboards(eventId = null)
 {
   gui_start_modal_wnd(::gui_handlers.EventsLeaderboardWindow, {eventId = eventId})
 }
@@ -355,7 +355,7 @@ function gui_modal_event_leaderboards(eventId = null)
  *
  * @return view for getLeaderboardItemWidgets(...)
  */
-function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, params = null)
+::getLeaderboardItemView <- function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, params = null)
 {
   local view = lbCategory.getItemCell(lb_value)
   view.name <- lbCategory.headerTooltip
@@ -381,7 +381,7 @@ function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, para
  * @param view  - { items = array of ::getLeaderboardItemView(...) }
  * @return markup ready for insertion into scene
  */
-function getLeaderboardItemWidgets(view)
+::getLeaderboardItemWidgets <- function getLeaderboardItemWidgets(view)
 {
   return ::handyman.renderCached("gui/leaderboard/leaderboardItemWidget", view)
 }
@@ -902,7 +902,7 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
   }
 }
 
-function getLbItemCell(id, value, dataType, allowNegative = false)
+::getLbItemCell <- function getLbItemCell(id, value, dataType, allowNegative = false)
 {
   local res = {
     id   = id

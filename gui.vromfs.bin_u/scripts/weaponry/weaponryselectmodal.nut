@@ -21,7 +21,7 @@
     ]
   }
 */
-function gui_start_weaponry_select_modal(config)
+::gui_start_weaponry_select_modal <- function gui_start_weaponry_select_modal(config)
 {
   ::handlersManager.loadHandler(::gui_handlers.WeaponrySelectModal, config)
 }
@@ -33,7 +33,7 @@ local CHOOSE_WEAPON_PARAMS = {
   isForcedAvailable = false
   isWorldWarUnit = false
 }
-function gui_start_choose_unit_weapon(unit, cb, params = CHOOSE_WEAPON_PARAMS)
+::gui_start_choose_unit_weapon <- function gui_start_choose_unit_weapon(unit, cb, params = CHOOSE_WEAPON_PARAMS)
 {
   params = CHOOSE_WEAPON_PARAMS.__merge(params)
 
@@ -192,7 +192,7 @@ class ::gui_handlers.WeaponrySelectModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onModItemClick(obj)
   {
-    local idx = ::to_integer_safe(obj.holderId, -1)
+    local idx = ::to_integer_safe(obj?.holderId, -1)
     if (idx < 0)
       return
     selIdx = idx

@@ -348,8 +348,8 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
   function onSkillRowTooltipOpen(obj)
   {
     local crewUnitType = crewModalHandlerWeak?.curCrewUnitType ?? ::CUT_AIRCRAFT
-    local memberName = obj.memberName || ""
-    local skillName = obj.skillName || ""
+    local memberName = obj?.memberName ?? ""
+    local skillName = obj?.skillName ?? ""
     local difficulty = ::get_current_shop_difficulty()
     local view = ::g_crew_skill_parameters.getSkillDescriptionView(
       crew, difficulty, memberName, skillName, crewUnitType)

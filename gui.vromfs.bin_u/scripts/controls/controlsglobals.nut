@@ -2,7 +2,7 @@
 
 ::is_last_load_controls_succeeded <- false
 
-function load_controls(blkOrPresetPath)
+::load_controls <- function load_controls(blkOrPresetPath)
 {
   local otherPreset = ::ControlsPreset(blkOrPresetPath)
   if (otherPreset.isLoaded && otherPreset.hotkeys.len() > 0)
@@ -19,7 +19,7 @@ function load_controls(blkOrPresetPath)
   }
 }
 
-function save_controls_to_blk(blk, defaultPreset)
+::save_controls_to_blk <- function save_controls_to_blk(blk, defaultPreset)
 {
   if (!::g_controls_manager.getCurPreset().isLoaded)
     ::g_controls_manager.setCurPreset(
@@ -28,7 +28,7 @@ function save_controls_to_blk(blk, defaultPreset)
   ::g_controls_manager.clearGuiOptions()
 }
 
-function controls_fix_device_mapping()
+::controls_fix_device_mapping <- function controls_fix_device_mapping()
 {
   ::g_controls_manager.fixDeviceMapping()
   ::g_controls_manager.commitControls(false)

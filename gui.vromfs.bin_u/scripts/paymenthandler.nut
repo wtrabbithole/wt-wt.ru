@@ -1,4 +1,4 @@
-function gui_modal_payment(params)
+::gui_modal_payment <- function gui_modal_payment(params)
 {
   ::gui_start_modal_wnd(::gui_handlers.PaymentHandler, params)
 }

@@ -656,7 +656,7 @@ local ItemExternal = class extends ::BaseItem
   }
 
   function addResources() {
-    if (!metaBlk || !metaBlk.resource || !metaBlk.resourceType)
+    if (!metaBlk || !metaBlk?.resource || !metaBlk?.resourceType)
       return
     local resource = metaBlk.resource
     if (!guidParser.isGuid(resource))
@@ -896,8 +896,17 @@ local ItemExternal = class extends ::BaseItem
   function cancelCrafting(cb = null, params = {})
   {
     local craftingItem = getCraftingItem()
+
     if (!craftingItem || craftingItem?.itemDef?.type != "delayedexchange")
       return false
+
+    // prevent infinite recursion on incorrectly configured delayedexchange
+    if (craftingItem == this)
+    {
+      ::dagor.logerr("Inventory: delayedexchange " + id + " instance has type " +
+          ::getEnumValName("itemType", iType) + " which does not implement cancelCrafting()")
+      return false
+    }
 
     params.parentItem <- this
     params.isDisassemble <- needShowAsDisassemble()

@@ -21,19 +21,19 @@ const MISSING_TIPS_IN_A_ROW_ALLOWED = 3
   isTipsValid = false
 }
 
-function g_tips::getTip(unitTypeMask = 0)
+g_tips.getTip <- function getTip(unitTypeMask = 0)
 {
   if (unitTypeMask != curTipUnitTypeMask || nextTipTime <= ::dagor.getCurTime())
     genNewTip(unitTypeMask)
   return curTip
 }
 
-function g_tips::resetTipTimer()
+g_tips.resetTipTimer <- function resetTipTimer()
 {
   nextTipTime = -1
 }
 
-function g_tips::validate()
+g_tips.validate <- function validate()
 {
   if (isTipsValid)
     return
@@ -63,7 +63,7 @@ function g_tips::validate()
 }
 
 //for global tips typeName = null
-function g_tips::getKeyFormat(typeName, isNewbie)
+g_tips.getKeyFormat <- function getKeyFormat(typeName, isNewbie)
 {
   local path = typeName ? [ typeName.tolower() ] : []
   if (isNewbie)
@@ -73,7 +73,7 @@ function g_tips::getKeyFormat(typeName, isNewbie)
 }
 
 //for global tips unitType = null
-function g_tips::loadTipsKeysByUnitType(unitType, isNeedOnlyNewbieTips)
+g_tips.loadTipsKeysByUnitType <- function loadTipsKeysByUnitType(unitType, isNeedOnlyNewbieTips)
 {
   local res = []
 
@@ -113,12 +113,12 @@ function g_tips::loadTipsKeysByUnitType(unitType, isNeedOnlyNewbieTips)
   return res
 }
 
-function g_tips::isMeNewbieOnUnitType(esUnitType)
+g_tips.isMeNewbieOnUnitType <- function isMeNewbieOnUnitType(esUnitType)
 {
   return ("my_stats" in ::getroottable()) && ::my_stats.isMeNewbieOnUnitType(esUnitType)
 }
 
-function g_tips::getNewbieUnitTypeMask()
+g_tips.getNewbieUnitTypeMask <- function getNewbieUnitTypeMask()
 {
   local mask = 0
   foreach(unitType in ::g_unit_type.types)
@@ -131,7 +131,7 @@ function g_tips::getNewbieUnitTypeMask()
   return mask
 }
 
-function g_tips::getDefaultUnitTypeMask()
+g_tips.getDefaultUnitTypeMask <- function getDefaultUnitTypeMask()
 {
   if (!::g_login.isLoggedIn() || ::isInMenu())
     return existTipsMask
@@ -153,7 +153,7 @@ function g_tips::getDefaultUnitTypeMask()
   return (res & existTipsMask) || existTipsMask
 }
 
-function g_tips::genNewTip(unitTypeMask = 0)
+g_tips.genNewTip <- function genNewTip(unitTypeMask = 0)
 {
   nextTipTime = ::dagor.getCurTime() + TIP_LIFE_TIME_MSEC
 
@@ -221,7 +221,7 @@ function g_tips::genNewTip(unitTypeMask = 0)
   }
 }
 
-function g_tips::onEventAuthorizeComplete(p) { isTipsValid = false }
-function g_tips::onEventGameLocalizationChanged(p) { isTipsValid = false }
+g_tips.onEventAuthorizeComplete <- function onEventAuthorizeComplete(p) { isTipsValid = false }
+g_tips.onEventGameLocalizationChanged <- function onEventGameLocalizationChanged(p) { isTipsValid = false }
 
 ::subscribe_handler(::g_tips, ::g_listener_priority.DEFAULT_HANDLER)

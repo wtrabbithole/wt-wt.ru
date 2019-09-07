@@ -4,14 +4,14 @@ enum CChoiceState {
   APPLY
 }
 
-function is_need_first_country_choice()
+::is_need_first_country_choice <- function is_need_first_country_choice()
 {
   return ::get_first_chosen_unit_type() == ::ES_UNIT_TYPE_INVALID
          && !::stat_get_value_respawns(0, 1)
          && !::disable_network()
 }
 
-function gui_start_countryChoice()
+::gui_start_countryChoice <- function gui_start_countryChoice()
 {
   ::handlersManager.loadHandler(::gui_handlers.CountryChoiceHandler)
 }

@@ -7,6 +7,7 @@ local template = {
   checkGroup = ctrlGroups.DEFAULT
   checkAssign = true
   reqInMouseAim = null
+  needShowInHelp = false
 
   isHidden = false
   shortcutId = -1

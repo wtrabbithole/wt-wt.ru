@@ -82,7 +82,7 @@ class ::gui_handlers.DecorLayoutPresets extends ::gui_handlers.BaseGuiHandlerWT
   function getIndexBySkinId(skinId)
   {
     local selSkinId = skinId
-    return ::u.searchIndex(skinList.values, @(id) id == selSkinId)
+    return skinList.values.searchIndex(@(id) id == selSkinId) ?? -1
   }
 
   function updateButtons()
@@ -155,7 +155,7 @@ class ::gui_handlers.DecorLayoutPresets extends ::gui_handlers.BaseGuiHandlerWT
     {
       local id = skinList.values[i]
       local val = (linkedSkinsCurrent & (1 << i)) != 0
-      if ((isPreset && masterPresetId == presetBySkinIdx[i]) != val)
+      if ((isPreset && masterPresetId == presetBySkinIdx[i]) != val) // warning disable: -compared-with-bool
         if (val)
           listAttach.append(id)
         else

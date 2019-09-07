@@ -6,7 +6,6 @@ local XBOX_ONE_PLAYER_POSTFIX = "@live"
 
 local PS4_PLAYER_PREFIX = "*"
 local PS4_PLAYER_POSTFIX = "@psn"
-
 local PS4_REGION_NAMES = {
   [::SCE_REGION_SCEE]  = "scee",
   [::SCE_REGION_SCEA]  = "scea",
@@ -16,7 +15,7 @@ local PS4_REGION_NAMES = {
 local targetPlatform = ::get_platform()
 local isPlatformXboxOne = targetPlatform == "xboxOne"
 local isPlatformPS4 = targetPlatform == "ps4"
-local isPlatformPC = ["win32", "win64", "macosx", "linux64"].find(targetPlatform) >= 0
+local isPlatformPC = ["win32", "win64", "macosx", "linux64"].find(targetPlatform) != null
 
 local xboxPrefixNameRegexp = ::regexp2(@"^['" + XBOX_ONE_PLAYER_PREFIX + "']")
 local xboxPostfixNameRegexp = ::regexp2(@".+(" + XBOX_ONE_PLAYER_POSTFIX + ")")

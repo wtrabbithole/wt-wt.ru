@@ -175,7 +175,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   function onSliderChange(obj)
   {
-    local textObj = obj.getParent().findObject(obj.id + "_value")
+    local textObj = obj?.id && obj.getParent().findObject(obj.id + "_value")
     if (!::checkObj(textObj))
       return
 
@@ -668,7 +668,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     local obj = scene.findObject("txt_sc_"+ itemId)
 
     if (::checkObj(obj))
-      obj.setValue(::get_shortcut_text(shortcuts, shortcutId))
+      obj.setValue(::get_shortcut_text({shortcuts = shortcuts, shortcutId = shortcutId}))
   }
 
   function onShortcutChange(shortcutId)

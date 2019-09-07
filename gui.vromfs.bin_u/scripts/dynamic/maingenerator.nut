@@ -1,6 +1,6 @@
 ::missionGenFunctions <- [];
 
-function getEnemyPlaneByWpCost(playerPlaneCost, enemySide)
+::getEnemyPlaneByWpCost <- function getEnemyPlaneByWpCost(playerPlaneCost, enemySide)
 {
   local planeWpDiv = ::getPlaneWpDiv();
   local planeWpAdd = ::getPlaneWpAdd();
@@ -32,7 +32,7 @@ function getEnemyPlaneByWpCost(playerPlaneCost, enemySide)
 }
 
 
-function planeCostCalculate(playerPlaneCost, enemyPlaneCost)
+::planeCostCalculate <- function planeCostCalculate(playerPlaneCost, enemyPlaneCost)
 {
   local planeWpDiv = ::getPlaneWpDiv();
   local planeWpAdd = ::getPlaneWpAdd();
@@ -45,7 +45,7 @@ function planeCostCalculate(playerPlaneCost, enemyPlaneCost)
   return planeCost;
 }
 
-function warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost, playerPlane, mission_mult)
+::warpointCalculate <- function warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost, playerPlane, mission_mult)
 {
   if (enemyCount == 0 || planeCost == 0)
     return 0;
@@ -84,7 +84,7 @@ function warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost
   return missionWpCost;
 }
 
-function slidesReplace(level, sector, playerPlaneName, enemyPlaneName, target_type)
+::slidesReplace <- function slidesReplace(level, sector, playerPlaneName, enemyPlaneName, target_type)
 {
 
   ::mgReplace("mission_settings/briefing", "picture", "dynamic_missions/berlin_02_01",
@@ -125,12 +125,12 @@ function slidesReplace(level, sector, playerPlaneName, enemyPlaneName, target_ty
 
 ::currentMissionNo <- 0;
 
-function beginMissionsGeneration()
+::beginMissionsGeneration <- function beginMissionsGeneration()
 {
   ::currentMissionNo = 0;
 }
 
-function generateNextMission(isFreeFlight) // isFreeFlight = Mission Editor
+::generateNextMission <- function generateNextMission(isFreeFlight) // isFreeFlight = Mission Editor
 {
   if (::currentMissionNo < ::missionGenFunctions.len())
   {

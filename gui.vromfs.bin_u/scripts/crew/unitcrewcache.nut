@@ -8,7 +8,7 @@
   lastUnitCrewId = -1
 }
 
-function g_unit_crew_cache::getUnitCrewDataById(crewId)
+g_unit_crew_cache.getUnitCrewDataById <- function getUnitCrewDataById(crewId)
 {
   if (crewId != lastUnitCrewId)
   {
@@ -19,7 +19,7 @@ function g_unit_crew_cache::getUnitCrewDataById(crewId)
   return lastUnitCrewData
 }
 
-function g_unit_crew_cache::initCache()
+g_unit_crew_cache.initCache <- function initCache()
 {
   ::add_event_listener("CrewSkillsChanged", onEventCrewSkillsChanged,
     this, ::g_listener_priority.UNIT_CREW_CACHE_UPDATE)
@@ -27,12 +27,12 @@ function g_unit_crew_cache::initCache()
     this, ::g_listener_priority.UNIT_CREW_CACHE_UPDATE)
 }
 
-function g_unit_crew_cache::onEventCrewSkillsChanged(params)
+g_unit_crew_cache.onEventCrewSkillsChanged <- function onEventCrewSkillsChanged(params)
 {
   lastUnitCrewId = -1
 }
 
-function g_unit_crew_cache::onEventCrewChanged(params)
+g_unit_crew_cache.onEventCrewChanged <- function onEventCrewChanged(params)
 {
   lastUnitCrewId = -1
 }

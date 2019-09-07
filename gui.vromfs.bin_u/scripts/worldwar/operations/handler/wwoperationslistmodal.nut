@@ -134,7 +134,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       return false
 
     local newOperation = opObj?.collapse_header ? null
-      : ::g_ww_global_status.getOperationById(::to_integer_safe(opObj.id))
+      : ::g_ww_global_status.getOperationById(::to_integer_safe(opObj?.id))
     if (newOperation == selOperation)
       return false
     local isChanged = !newOperation || !selOperation || !selOperation.isEqual(newOperation)
@@ -169,7 +169,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
 
     local containerLen = containerObj.childrenCount()
     local isHeaderFound = false
-    local isShow = obj.collapsed == "yes"
+    local isShow = obj?.collapsed == "yes"
     local selectIdx = containerObj.getValue()
     local needReselect = false
 
@@ -178,7 +178,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       local itemObj = containerObj.getChild(i)
       if (!isHeaderFound)
       {
-        if (itemObj.collapsing == "yes")
+        if (itemObj?.collapsing == "yes")
         {
           itemObj.collapsing = "no"
           itemObj.collapsed = isShow ? "no" : "yes"
@@ -254,7 +254,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       {
         local rowObj = opListObj.getChild(opListObj.getValue())
         if (::check_obj(rowObj))
-          collapsedChapterBtnObj.setValue(rowObj.collapsed == "yes"
+          collapsedChapterBtnObj.setValue(rowObj?.collapsed == "yes"
             ? ::loc("mainmenu/btnExpand")
             : ::loc("mainmenu/btnCollapse"))
       }

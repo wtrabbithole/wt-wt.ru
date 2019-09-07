@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-enum CLAN_SEASON_MEDAL_TYPE
+global enum CLAN_SEASON_MEDAL_TYPE
 {
   PLACE
   TOP
@@ -139,7 +139,7 @@ enum CLAN_SEASON_MEDAL_TYPE
   {
     local limits = {}
     local blk = getRewardsBlk()
-    local lBlk = blk && blk["uiUniqueAwardCount"]
+    local lBlk = blk?["uiUniqueAwardCount"]
     if (!lBlk)
       return limits
     for (local i = 0; i < lBlk.blockCount(); i++)
@@ -168,7 +168,7 @@ enum CLAN_SEASON_MEDAL_TYPE
   {
     local rewards = []
     local blk = getRewardsBlk()
-    if (!blk.reward || !blk.reward.subRewards)
+    if (!blk?.reward.subRewards)
       return rewards
 
     local rewardTemplate = {
@@ -201,7 +201,7 @@ enum CLAN_SEASON_MEDAL_TYPE
           local isNewItem = regalia == "" || regalia != prevRegalia
           if (isNewItem)
           {
-            local gold = rewardsData["place" + place + "Gold"] || 0
+            local gold = rewardsData?["place" + place + "Gold"] ?? 0
 
             local hasAnyRewards = gold > 0 || getRegaliaPrizes(regalia).len() > 0
             if (hasAnyRewards)
@@ -235,8 +235,8 @@ enum CLAN_SEASON_MEDAL_TYPE
       {
         local place = maxPlaceForBlock
         local regalia = getRagalia(rewardsData, place)
-        local goldMin = rewardsData["lerpRewardLowPlace"] || 0
-        local goldMax = rewardsData["lerpRewardHiPlace"] || 0
+        local goldMin = rewardsData?["lerpRewardLowPlace"] ?? 0
+        local goldMax = rewardsData?["lerpRewardHiPlace"] ?? 0
         local isGoldRange = goldMin != goldMax
 
         local hasAnyRewards = goldMin > 0 || getRegaliaPrizes(regalia).len() > 0
@@ -269,7 +269,7 @@ enum CLAN_SEASON_MEDAL_TYPE
       mergeTbl(reward, {
         rType   = CLAN_SEASON_MEDAL_TYPE.RATING
         regalia = regalia
-        rating  = rewardBlock.rating || 0
+        rating  = rewardBlock?.rating ?? 0
       })
       rewards.append(reward)
     }

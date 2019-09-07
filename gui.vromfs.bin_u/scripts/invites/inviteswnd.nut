@@ -1,4 +1,4 @@
-function gui_start_invites()
+::gui_start_invites <- function gui_start_invites()
 {
   ::handlersManager.loadHandler(::gui_handlers.InvitesWnd)
 }
@@ -53,14 +53,14 @@ class ::gui_handlers.InvitesWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function getInviteByObj(obj = null)
   {
-    local uid = obj && obj.inviteUid
+    local uid = obj?.inviteUid
     if (uid)
       return ::g_invites.findInviteByUid(uid)
 
     local listObj = scene.findObject("invites_list")
     local value = listObj.getValue() || 0
     if (0 <= value && value < listObj.childrenCount())
-      return ::g_invites.findInviteByUid(listObj.getChild(value).inviteUid)
+      return ::g_invites.findInviteByUid(listObj.getChild(value)?.inviteUid)
     return null
   }
 

@@ -10,7 +10,7 @@ const WW_ENABLE_RENDER_CATEGORY_ID = "ww_enable_render_category_bitmask"
 }
 
 
-function g_world_war_render::init()
+g_world_war_render.init <- function init()
 {
   flags = ::loadLocalByAccount(WW_ENABLE_RENDER_CATEGORY_ID, DEFAULT_FLAGS)
   for (local cat = ::ERC_ARMY_RADIUSES; cat < ::ERC_TOTAL; ++cat)
@@ -18,19 +18,19 @@ function g_world_war_render::init()
 }
 
 
-function g_world_war_render::isCategoryEnabled(category)
+g_world_war_render.isCategoryEnabled <- function isCategoryEnabled(category)
 {
   return stdMath.is_bit_set(flags, category)
 }
 
 
-function g_world_war_render::isCategoryVisible(category)
+g_world_war_render.isCategoryVisible <- function isCategoryVisible(category)
 {
   return true
 }
 
 
-function g_world_war_render::setPreviewCategories()
+g_world_war_render.setPreviewCategories <- function setPreviewCategories()
 {
   for (local cat = ::ERC_ARMY_RADIUSES; cat < ::ERC_TOTAL; ++cat)
   {
@@ -40,7 +40,7 @@ function g_world_war_render::setPreviewCategories()
 }
 
 
-function g_world_war_render::setCategory(category, enable)
+g_world_war_render.setCategory <- function setCategory(category, enable)
 {
   flags = stdMath.change_bit(flags, category, enable)
   ::saveLocalByAccount(WW_ENABLE_RENDER_CATEGORY_ID, flags)

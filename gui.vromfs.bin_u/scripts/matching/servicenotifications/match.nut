@@ -1,12 +1,12 @@
 local crossplayModule = require("scripts/social/crossplay.nut")
 
-function notify_clusters_changed(params)
+::notify_clusters_changed <- function notify_clusters_changed(params)
 {
   dagor.debug("notify_clusters_changed")
   ::g_clusters.onClustersChanged(params)
 }
 
-function notify_game_modes_changed(params)
+::notify_game_modes_changed <- function notify_game_modes_changed(params)
 {
   if (!::is_online_available())
     return
@@ -23,7 +23,7 @@ function notify_game_modes_changed(params)
                                                  getTblValue("changed", params, null))
 }
 
-function notify_game_modes_changed_rnd_delay(params)
+::notify_game_modes_changed_rnd_delay <- function notify_game_modes_changed_rnd_delay(params)
 {
   local maxFetchDelaySec = 60
   local rndDelaySec = ::math.rnd() % maxFetchDelaySec
@@ -32,43 +32,43 @@ function notify_game_modes_changed_rnd_delay(params)
                         rndDelaySec * 1000)
 }
 
-function on_queue_info_updated(params)
+::on_queue_info_updated <- function on_queue_info_updated(params)
 {
   ::broadcastEvent("QueueInfoRecived", {queue_info = params})
 }
 
-function notify_queue_join(params)
+::notify_queue_join <- function notify_queue_join(params)
 {
   local queue = ::queues.createQueue(params)
   ::queues.afterJoinQueue(queue)
 }
 
-function notify_queue_leave(params)
+::notify_queue_leave <- function notify_queue_leave(params)
 {
   ::queues.afterLeaveQueues(params)
 }
 
-function fetch_clusters_list(params, cb)
+::fetch_clusters_list <- function fetch_clusters_list(params, cb)
 {
   matching_api_func("match.fetch_clusters_list", cb, params)
 }
 
-function fetch_game_modes_info(params, cb)
+::fetch_game_modes_info <- function fetch_game_modes_info(params, cb)
 {
   matching_api_func("match.fetch_game_modes_info", cb, params)
 }
 
-function fetch_game_modes_digest(params, cb)
+::fetch_game_modes_digest <- function fetch_game_modes_digest(params, cb)
 {
   matching_api_func("match.fetch_game_modes_digest", cb, params)
 }
 
-function leave_session_queue(params, cb)
+::leave_session_queue <- function leave_session_queue(params, cb)
 {
   matching_api_func("match.leave_queue", cb, params)
 }
 
-function enqueue_in_session(params, cb)
+::enqueue_in_session <- function enqueue_in_session(params, cb)
 {
   local missionName = get_forced_network_mission()
   if (missionName.len() > 0)

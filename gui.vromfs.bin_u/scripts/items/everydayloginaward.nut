@@ -1,7 +1,7 @@
 local time = require("scripts/time.nut")
 
 
-function gui_start_show_login_award(blk)
+::gui_start_show_login_award <- function gui_start_show_login_award(blk)
 {
   if (!blk)
     return
@@ -371,7 +371,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
       if (useSingleAnimation)
       {
         ::play_gui_sound("chest_open")
-        local delay = ::to_integer_safe(animObj.chestReplaceDelay, 0)
+        local delay = ::to_integer_safe(animObj?.chestReplaceDelay, 0)
         ::Timer(animObj, 0.001 * delay, fillOpenedChest, this)
       }
     }

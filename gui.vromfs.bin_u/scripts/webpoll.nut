@@ -10,24 +10,24 @@ const VOTED_POLLS_SAVE_ID = "voted_polls"
   authorizedPolls = []
 }
 
-function g_webpoll::loadVotedPolls()
+g_webpoll.loadVotedPolls <- function loadVotedPolls()
 {
   votedPolls = ::load_local_account_settings(VOTED_POLLS_SAVE_ID, ::DataBlock())
 }
 
-function g_webpoll::saveVotedPolls()
+g_webpoll.saveVotedPolls <- function saveVotedPolls()
 {
   ::save_local_account_settings(VOTED_POLLS_SAVE_ID, votedPolls)
 }
 
-function g_webpoll::getVotedPolls()
+g_webpoll.getVotedPolls <- function getVotedPolls()
 {
   if (votedPolls == null)
     loadVotedPolls()
   return votedPolls
 }
 
-function g_webpoll::webpollEvent(id, token, voted)
+g_webpoll.webpollEvent <- function webpollEvent(id, token, voted)
 {
   id = ::to_integer_safe(id)
   if( ! id || token == null)
@@ -48,18 +48,18 @@ function g_webpoll::webpollEvent(id, token, voted)
   ::broadcastEvent("WebPollAuthResult", {pollId = id})
 }
 
-function g_webpoll::onSurveyVoteResult(params)
+g_webpoll.onSurveyVoteResult <- function onSurveyVoteResult(params)
 {
   webpollEvent(params.survey_id, "", params.has_vote)
 }
 
-function g_webpoll::checkTokensCacheTimeout()
+g_webpoll.checkTokensCacheTimeout <- function checkTokensCacheTimeout()
 {
   if(tokenInvalidationTime < ::dagor.getCurTime())
     invalidateTokensCache()
 }
 
-function g_webpoll::updateTokensCache(params)
+g_webpoll.updateTokensCache <- function updateTokensCache(params)
 {
   cachedToken = params?.new_dtoken ?? ""
   if (cachedToken != "")
@@ -71,24 +71,24 @@ function g_webpoll::updateTokensCache(params)
     function(){ ::broadcastEvent("WebPollTokenInvalidated") })
 }
 
-function g_webpoll::invalidateTokensCache()
+g_webpoll.invalidateTokensCache <- function invalidateTokensCache()
 {
   if (cachedToken != "" || tokenInvalidationTime != -1)
     updateTokensCache({})
 }
 
-function g_webpoll::getPollIdByFullUrl(url)
+g_webpoll.getPollIdByFullUrl <- function getPollIdByFullUrl(url)
 {
   return ::getTblValue(url, pollIdByFullUrl)
 }
 
-function g_webpoll::getPollToken(pollId)
+g_webpoll.getPollToken <- function getPollToken(pollId)
 {
   checkTokensCacheTimeout()
   return cachedToken
 }
 
-function g_webpoll::generatePollUrl(pollId, needAuthorization = true)
+g_webpoll.generatePollUrl <- function generatePollUrl(pollId, needAuthorization = true)
 {
   local pollBaseUrl = getPollBaseUrl(pollId)
   if (pollBaseUrl == null)
@@ -112,12 +112,12 @@ function g_webpoll::generatePollUrl(pollId, needAuthorization = true)
   return ""
 }
 
-function g_webpoll::isPollVoted(pollId)
+g_webpoll.isPollVoted <- function isPollVoted(pollId)
 {
   return pollId in getVotedPolls()
 }
 
-function g_webpoll::clearOldVotedPolls(pollsTable)
+g_webpoll.clearOldVotedPolls <- function clearOldVotedPolls(pollsTable)
 {
   local votedCount = getVotedPolls().paramCount() - 1
   for (local i = votedCount; i >= 0; i--)
@@ -129,7 +129,7 @@ function g_webpoll::clearOldVotedPolls(pollsTable)
   saveVotedPolls()
 }
 
-function g_webpoll::onEventSignOut(p)
+g_webpoll.onEventSignOut <- function onEventSignOut(p)
 {
   votedPolls = null
   authorizedPolls.clear()
@@ -137,13 +137,13 @@ function g_webpoll::onEventSignOut(p)
   pollIdByFullUrl.clear()
 }
 
-function g_webpoll::setPollBaseUrl(pollId, pollUrl)
+g_webpoll.setPollBaseUrl <- function setPollBaseUrl(pollId, pollUrl)
 {
   if( ! (pollId in pollBaseUrlById))
     pollBaseUrlById[pollId] <- pollUrl
 }
 
-function g_webpoll::getPollBaseUrl(pollId)
+g_webpoll.getPollBaseUrl <- function getPollBaseUrl(pollId)
 {
   return ::getTblValue(pollId, pollBaseUrlById)
 }
@@ -152,7 +152,7 @@ web_rpc.register_handler("survey_vote_result", ::g_webpoll.onSurveyVoteResult.bi
 web_rpc.register_handler("webpoll_dtoken_invalidate", ::g_webpoll.updateTokensCache.bindenv(::g_webpoll))
 ::subscribe_handler(::g_webpoll, ::g_listener_priority.CONFIG_VALIDATION)
 
-function webpoll_event(id, token, voted)
+::webpoll_event <- function webpoll_event(id, token, voted)
 {
   ::g_webpoll.webpollEvent(id, token, voted)
 }

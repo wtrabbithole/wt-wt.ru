@@ -74,9 +74,9 @@ local WorkshopSet = class {
     if (!itemsBlk)
       return items
 
-    local sortByParam = itemsBlk.sortByParam
+    local sortByParam = itemsBlk?.sortByParam
     local requiredItems = []
-    local passBySavedReqItems = itemsBlk.passBySavedReqItems || false
+    local passBySavedReqItems = itemsBlk?.passBySavedReqItems ?? false
     foreach(reqItems in itemsBlk % "reqItems")
     {
       local reqItemsList = ::u.map(::split(reqItems, ","), @(item) item.tointeger())
@@ -211,9 +211,9 @@ local WorkshopSet = class {
     }
 
     itemsListCache.sort((@(a, b)
-      itemdefs?[a.id].blockNumber <=> itemdefs?[b.id].blockNumber
+      (itemdefs?[a.id].blockNumber ?? -1) <=> (itemdefs?[b.id].blockNumber ?? -1)
       || (itemdefs?[a.id].sortByParam == "name" && a.getName(false) <=> b.getName(false))
-      || itemdefs?[a.id].itemNumber <=> itemdefs?[b.id].itemNumber).bindenv(this))
+      || (itemdefs?[a.id].itemNumber ?? -1) <=> (itemdefs?[b.id].itemNumber ?? -1)).bindenv(this))
 
     return itemsListCache
   }

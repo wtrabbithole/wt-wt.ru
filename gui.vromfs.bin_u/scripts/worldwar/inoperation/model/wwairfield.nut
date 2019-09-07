@@ -46,9 +46,9 @@ class ::WwAirfield
 
     if ("specs" in blk)
     {
-      side = blk.specs.side? ::ww_side_name_to_val(blk.specs.side) : side
-      size = blk.specs.size || size
-      pos = blk.specs.pos || pos
+      side = blk.specs?.side ? ::ww_side_name_to_val(blk.specs.side) : side
+      size = blk.specs?.size || size
+      pos = blk.specs?.pos || pos
     }
 
     if ("groups" in blk)

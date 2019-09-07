@@ -57,7 +57,7 @@ enums.addTypesByGlobalName("g_pseudo_axes_list", {
   }
 })
 
-function g_pseudo_axes_list::isPseudoAxis(shortcutId)
+g_pseudo_axes_list.isPseudoAxis <- function isPseudoAxis(shortcutId)
 {
   foreach (pseudoAxis in types)
     if (shortcutId == pseudoAxis.id)
@@ -65,7 +65,7 @@ function g_pseudo_axes_list::isPseudoAxis(shortcutId)
   return false
 }
 
-function g_pseudo_axes_list::getPseudoAxisById(shortcutId)
+g_pseudo_axes_list.getPseudoAxisById <- function getPseudoAxisById(shortcutId)
 {
   return ::u.search(types, (@(shortcutId) function (item) {
       return item.id == shortcutId

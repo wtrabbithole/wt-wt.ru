@@ -44,25 +44,25 @@
   }
 }
 
-function LayersIcon::initConfigOnce(blk = null)
+LayersIcon.initConfigOnce <- function initConfigOnce(blk = null)
 {
   if (config)
     return
 
   if (!blk)
     blk = ::configs.GUI.get()
-  config = blk.layered_icons? ::buildTableFromBlk(blk.layered_icons) : {}
+  config = blk?.layered_icons ? ::buildTableFromBlk(blk.layered_icons) : {}
   if (!("styles" in config)) config.styles <- {}
   if (!("layers" in config)) config.layers <- {}
 }
 
-function LayersIcon::refreshConfig()
+LayersIcon.refreshConfig <- function refreshConfig()
 {
   ::LayersIcon.config = null
   ::LayersIcon.initConfigOnce(null)
 }
 
-function LayersIcon::getIconData(iconStyle, image=null, ratio=null, defStyle=null, iconParams=null, iconConfig=null)
+LayersIcon.getIconData <- function getIconData(iconStyle, image=null, ratio=null, defStyle=null, iconParams=null, iconConfig=null)
 {
   initConfigOnce()
 
@@ -106,22 +106,22 @@ function LayersIcon::getIconData(iconStyle, image=null, ratio=null, defStyle=nul
   return data
 }
 
-function LayersIcon::getCustomSizeIconData(image, size)
+LayersIcon.getCustomSizeIconData <- function getCustomSizeIconData(image, size)
 {
   return ::format(iconLayer, "id:t='iconLayer0'", size, "(pw-w)/2", "(ph-h)/2", "absolute", image, "")
 }
 
-function LayersIcon::findLayerCfg(id)
+LayersIcon.findLayerCfg <- function findLayerCfg(id)
 {
   return "layers" in config ? ::getTblValue(id.tolower(), config.layers) : null
 }
 
-function LayersIcon::findStyleCfg(id)
+LayersIcon.findStyleCfg <- function findStyleCfg(id)
 {
   return "styles" in config ? ::getTblValue(id.tolower(), config?.styles) : null
 }
 
-function LayersIcon::genDataFromLayer(layerCfg, insertLayers = "")  //need to move it to handyman,
+LayersIcon.genDataFromLayer <- function genDataFromLayer(layerCfg, insertLayers = "")  //need to move it to handyman,
                                      //but before need to correct cashe it or it will decrease performance
 {
   local getResultsTable = (@(layersCfgParams, layerCfg) function() {
@@ -170,7 +170,7 @@ function LayersIcon::genDataFromLayer(layerCfg, insertLayers = "")  //need to mo
 }
 
 // For icon customization it is much easier to use replaceIcon() with iconParams, or getIconData() with iconParams.
-function LayersIcon::genInsertedDataFromLayer(mainLayerCfg, insertLayersArrayCfg)
+LayersIcon.genInsertedDataFromLayer <- function genInsertedDataFromLayer(mainLayerCfg, insertLayersArrayCfg)
 {
   local insertLayers = ""
   foreach(layerCfg in insertLayersArrayCfg)
@@ -185,7 +185,7 @@ function LayersIcon::genInsertedDataFromLayer(mainLayerCfg, insertLayersArrayCfg
   return ::LayersIcon.genDataFromLayer(mainLayerCfg, insertLayers)
 }
 
-function LayersIcon::replaceIcon(iconObj, iconStyle, image=null, ratio=null, defStyle=null, iconParams=null, iconConfig=null)
+LayersIcon.replaceIcon <- function replaceIcon(iconObj, iconStyle, image=null, ratio=null, defStyle=null, iconParams=null, iconConfig=null)
 {
   if (!::checkObj(iconObj))
     return
@@ -195,7 +195,7 @@ function LayersIcon::replaceIcon(iconObj, iconStyle, image=null, ratio=null, def
   guiScene.replaceContentFromText(iconObj, data, data.len(), null)
 }
 
-function LayersIcon::getTextDataFromLayer(layerCfg)
+LayersIcon.getTextDataFromLayer <- function getTextDataFromLayer(layerCfg)
 {
   local props = ::format("color:t='%s';", ::getTblValue("color", layerCfg, "@commonTextColor"))
   props += ::format("font:t='%s';", ::getTblValue("font", layerCfg, "@fontNormal"))

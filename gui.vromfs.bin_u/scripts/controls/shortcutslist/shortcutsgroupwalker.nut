@@ -35,6 +35,11 @@ return [
     checkGroup = ctrlGroups.WALKER
     checkAssign = false
   }
+  {
+    id = "ID_WALKER_BOOST"
+    checkGroup = ctrlGroups.WALKER
+    checkAssign = false
+  }
 //-------------------------------------------------------
   {
     id = "ID_WALKER_FIRE_HEADER"

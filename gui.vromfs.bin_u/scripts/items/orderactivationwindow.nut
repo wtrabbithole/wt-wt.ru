@@ -1,6 +1,6 @@
 local sheets = ::require("scripts/items/itemsShopSheets.nut")
 
-function gui_start_order_activation_window(params = null)
+::gui_start_order_activation_window <- function gui_start_order_activation_window(params = null)
 {
   if (params == null)
     params = {}

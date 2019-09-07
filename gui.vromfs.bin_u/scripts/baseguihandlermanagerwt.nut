@@ -1,5 +1,6 @@
 local colorCorrector = require_native("colorCorrector")
 local fonts = require_native("fonts")
+local screenInfo = ::require("scripts/options/screenInfo.nut")
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
@@ -28,9 +29,9 @@ handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurS
   [handlerType.CUSTOM] = false,
 }
 
-function handlersManager::beforeClearScene(guiScene)
+handlersManager.beforeClearScene <- function beforeClearScene(guiScene)
 {
-  local sh = ::min(0.75 * ::screen_width(), ::screen_height())
+  local sh = screenInfo.getScreenHeightForFonts(::screen_width(), ::screen_height())
   if (lastScreenHeightForFont && lastScreenHeightForFont != sh)
     shouldResetFontsCache = true
   lastScreenHeightForFont = sh
@@ -42,7 +43,7 @@ function handlersManager::beforeClearScene(guiScene)
   }
 }
 
-function handlersManager::onClearScene(guiScene)
+handlersManager.onClearScene <- function onClearScene(guiScene)
 {
   if (isMainGuiSceneActive()) //is_in_flight function not available before first loading screen
     lastInFlight = ::is_in_flight()
@@ -55,17 +56,17 @@ function handlersManager::onClearScene(guiScene)
     guiScene.setPatternSizeMul(guiScene.calcString("@dp", null))
 }
 
-function handlersManager::isNeedFullReloadAfterClearScene()
+handlersManager.isNeedFullReloadAfterClearScene <- function isNeedFullReloadAfterClearScene()
 {
   return !isMainGuiSceneActive()
 }
 
-function handlersManager::isNeedReloadSceneSpecific()
+handlersManager.isNeedReloadSceneSpecific <- function isNeedReloadSceneSpecific()
 {
   return isMainGuiSceneActive() && lastInFlight != ::is_in_flight()
 }
 
-function handlersManager::beforeLoadHandler(hType)
+handlersManager.beforeLoadHandler <- function beforeLoadHandler(hType)
 {
   //clear main gui scene when load to battle or from battle
   if ((hType == handlerType.BASE || hType == handlerType.ROOT)
@@ -76,7 +77,7 @@ function handlersManager::beforeLoadHandler(hType)
     clearScene(lastGuiScene)
 }
 
-function handlersManager::onBaseHandlerLoadFailed(handler)
+handlersManager.onBaseHandlerLoadFailed <- function onBaseHandlerLoadFailed(handler)
 {
   if (!::g_login.isLoggedIn()
       || handler.getclass() == ::gui_handlers.MainMenu
@@ -89,7 +90,7 @@ function handlersManager::onBaseHandlerLoadFailed(handler)
     ::gui_start_mainmenu()
 }
 
-function handlersManager::onSwitchBaseHandler()
+handlersManager.onSwitchBaseHandler <- function onSwitchBaseHandler()
 {
   if (!::g_login.isLoggedIn())
     return
@@ -98,12 +99,12 @@ function handlersManager::onSwitchBaseHandler()
     ::set_last_gc_scene_if_exist(curHandler.scene)
 }
 
-function handlersManager::animatedSwitchScene(startFunc)
+handlersManager.animatedSwitchScene <- function animatedSwitchScene(startFunc)
 {
   ::switch_gui_scene(startFunc)
 }
 
-function handlersManager::updatePostLoadCss()
+handlersManager.updatePostLoadCss <- function updatePostLoadCss()
 {
   local haveChanges = false
 
@@ -122,10 +123,11 @@ function handlersManager::updatePostLoadCss()
   local cssStringPre = font.genCssString() + "\n" + generatePreLoadCssString() + "\n" + gamepadIcons.getCssString()
   if (::get_dagui_pre_include_css_str() != cssStringPre)
   {
+    local safearea = safeAreaHud.getSafearea()
     ::set_dagui_pre_include_css_str(cssStringPre)
-    ::set_hud_width_limit(safeAreaHud.getHudWidthLimit())
+    ::set_hud_width_limit(safearea[0])
     ::call_darg("updateHudSafeArea", {
-      safeAreaHud = safeAreaHud.getSafearea()
+      safeAreaHud = safearea
     })
     haveChanges = true
   }
@@ -147,7 +149,7 @@ function handlersManager::updatePostLoadCss()
   return haveChanges
 }
 
-function handlersManager::generatePreLoadCssString()
+handlersManager.generatePreLoadCssString <- function generatePreLoadCssString()
 {
   local countriesCount = 7
   if (::g_login.isLoggedIn())
@@ -159,11 +161,13 @@ function handlersManager::generatePreLoadCssString()
   }
 
   local hudSafearea = safeAreaHud.getSafearea()
+  local menuSafearea = safeAreaMenu.getSafearea()
 
   local config = [
     { name = "target_pc",         value = ::is_ps4_or_xbox ? "no" : "yes" }
-    { name = "isTripleHead",      value = "0" }
-    { name = "_safearea_menu",    value = ::format("%.2f", safeAreaMenu.getValue()) }
+    { name = "swMain",            value = screenInfo.getMainScreenSizePx()[0].tostring() }
+    { name = "_safearea_menu_w",  value = ::format("%.2f", menuSafearea[0]) }
+    { name = "_safearea_menu_h",  value = ::format("%.2f", menuSafearea[1]) }
     { name = "_safearea_hud_w",   value = ::format("%.2f", hudSafearea[0]) }
     { name = "_safearea_hud_h",   value = ::format("%.2f", hudSafearea[1]) }
     { name = "slotbarCountries",  value = countriesCount.tostring() }
@@ -173,7 +177,7 @@ function handlersManager::generatePreLoadCssString()
 }
 
 
-function handlersManager::generateColorConstantsConfig()
+handlersManager.generateColorConstantsConfig <- function generateColorConstantsConfig()
 {
   if (!::g_login.isAuthorized())
     return []
@@ -238,7 +242,7 @@ function handlersManager::generateColorConstantsConfig()
 }
 
 
-function handlersManager::generatePostLoadCssString()
+handlersManager.generatePostLoadCssString <- function generatePostLoadCssString()
 {
   local controlCursorWithStick = ::g_gamepad_cursor_controls.getValue()
   local config = [
@@ -266,7 +270,7 @@ function handlersManager::generatePostLoadCssString()
 }
 
 
-function handlersManager::generateCssString(config)
+handlersManager.generateCssString <- function generateCssString(config)
 {
   local res = ""
   foreach (cfg in config)
@@ -274,7 +278,7 @@ function handlersManager::generateCssString(config)
   return res
 }
 
-function handlersManager::getHandlerControlsAllowMask(handler)
+handlersManager.getHandlerControlsAllowMask <- function getHandlerControlsAllowMask(handler)
 {
   local res = null
   if ("getControlsAllowMask" in handler)
@@ -284,7 +288,7 @@ function handlersManager::getHandlerControlsAllowMask(handler)
   return ::getTblValue(handler.wndType, controlsAllowMaskDefaults, CtrlsInGui.CTRL_ALLOW_FULL)
 }
 
-function handlersManager::calcCurrentControlsAllowMask()
+handlersManager.calcCurrentControlsAllowMask <- function calcCurrentControlsAllowMask()
 {
   if (::check_obj(::current_wait_screen))
     return CtrlsInGui.CTRL_ALLOW_NONE
@@ -306,13 +310,13 @@ function handlersManager::calcCurrentControlsAllowMask()
   return res
 }
 
-function handlersManager::updateControlsAllowMask()
+handlersManager.updateControlsAllowMask <- function updateControlsAllowMask()
 {
   if (!_loadHandlerRecursionLevel)
     _updateControlsAllowMask()
 }
 
-function handlersManager::_updateControlsAllowMask()
+handlersManager._updateControlsAllowMask <- function _updateControlsAllowMask()
 {
   local newMask = calcCurrentControlsAllowMask()
   if (newMask == curControlsAllowMask)
@@ -323,7 +327,7 @@ function handlersManager::_updateControlsAllowMask()
   //dlog(::format("GP: controls changed to 0x%X", curControlsAllowMask))
 }
 
-function handlersManager::_updateWidgets()
+handlersManager._updateWidgets <- function _updateWidgets()
 {
   local widgetsList = []
 
@@ -338,7 +342,7 @@ function handlersManager::_updateWidgets()
   ::call_darg("updateWidgets", widgetsList)
 }
 
-function handlersManager::calcCurrentSceneBgBlur()
+handlersManager.calcCurrentSceneBgBlur <- function calcCurrentSceneBgBlur()
 {
   foreach(wndType, group in handlers)
   {
@@ -351,14 +355,14 @@ function handlersManager::calcCurrentSceneBgBlur()
   return false
 }
 
-function handlersManager::updateSceneBgBlur(forced = false)
+handlersManager.updateSceneBgBlur <- function updateSceneBgBlur(forced = false)
 {
   if (!_loadHandlerRecursionLevel)
     _updateSceneBgBlur(forced)
 }
 
 
-function handlersManager::_updateSceneBgBlur(forced = false)
+handlersManager._updateSceneBgBlur <- function _updateSceneBgBlur(forced = false)
 {
   local isBlur = calcCurrentSceneBgBlur()
   if (!forced && isBlur == isCurSceneBgBlurred)
@@ -368,7 +372,7 @@ function handlersManager::_updateSceneBgBlur(forced = false)
   ::hangar_blur(isCurSceneBgBlurred)
 }
 
-function handlersManager::onActiveHandlersChanged()
+handlersManager.onActiveHandlersChanged <- function onActiveHandlersChanged()
 {
   _updateControlsAllowMask()
   _updateWidgets()
@@ -376,14 +380,14 @@ function handlersManager::onActiveHandlersChanged()
   ::broadcastEvent("ActiveHandlersChanged")
 }
 
-function handlersManager::onEventWaitBoxCreated(p)
+handlersManager.onEventWaitBoxCreated <- function onEventWaitBoxCreated(p)
 {
   _updateControlsAllowMask()
   _updateWidgets()
   _updateSceneBgBlur()
 }
 
-function handlersManager::beforeInitHandler(handler)
+handlersManager.beforeInitHandler <- function beforeInitHandler(handler)
 {
   if (handler.rootHandlerClass || getHandlerType(handler) == handlerType.CUSTOM)
     return
@@ -397,7 +401,7 @@ function handlersManager::beforeInitHandler(handler)
   initVoiceChatWidget(handler)
 }
 
-function handlersManager::initVoiceChatWidget(handler)
+handlersManager.initVoiceChatWidget <- function initVoiceChatWidget(handler)
 {
   if (handler.rootHandlerClass || getHandlerType(handler) == handlerType.CUSTOM)
     return
@@ -406,14 +410,14 @@ function handlersManager::initVoiceChatWidget(handler)
     handler.guiScene.createElementByObject(handler.scene, "gui/chat/voiceChatWidget.blk", "widgets", null)
 }
 
-function handlersManager::validateHandlersAfterLoading()
+handlersManager.validateHandlersAfterLoading <- function validateHandlersAfterLoading()
 {
   clearInvalidHandlers()
   updateLoadingFlag()
   ::broadcastEvent("FinishLoading")
 }
 
-function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. really no need to create instance of base handler without scene.
+::get_cur_base_gui_handler <- function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. really no need to create instance of base handler without scene.
 {
   local handler = ::handlersManager.getActiveBaseHandler()
   if (handler)
@@ -421,7 +425,7 @@ function get_cur_base_gui_handler() //!!FIX ME: better to not use it at all. rea
   return ::gui_handlers.BaseGuiHandlerWT(::get_cur_gui_scene())
 }
 
-function gui_start_empty_screen()
+::gui_start_empty_screen <- function gui_start_empty_screen()
 {
   ::handlersManager.emptyScreen()
   local guiScene = ::get_cur_gui_scene()
@@ -429,17 +433,17 @@ function gui_start_empty_screen()
     guiScene.clearDelayed() //delayed actions doesn't work in empty screen.
 }
 
-function is_low_width_screen() //change this function simultaneously with isWide constant in css
+::is_low_width_screen <- function is_low_width_screen() //change this function simultaneously with isWide constant in css
 {
-  return ::handlersManager.currentFont.isLowWidthScreen(::screen_width(), ::screen_height())
+  return ::handlersManager.currentFont.isLowWidthScreen()
 }
 
-function isInMenu()
+::isInMenu <- function isInMenu()
 {
   return !::is_in_loading_screen() && !::is_in_flight()
 }
 
-function gui_finish_loading()
+::gui_finish_loading <- function gui_finish_loading()
 {
   ::handlersManager.validateHandlersAfterLoading()
 }

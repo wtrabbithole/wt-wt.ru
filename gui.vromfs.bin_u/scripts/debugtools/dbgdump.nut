@@ -157,7 +157,7 @@ local save = function(filename, list)
       local caseBlk = datablockConverter.dataToBlk({ result = value })
       if (args.len())
         caseBlk["args"] <- datablockConverter.dataToBlk(args)
-      if (!blk[id])
+      if (!blk?[id])
         blk[id] <- datablockConverter.dataToBlk({ __function = true })
       blk[id]["case"] <- caseBlk
     }
@@ -183,12 +183,12 @@ local load = function(filename, needUnloadPrev = true)
     local id = datablockConverter.strToKey(data.getBlockName())
     if (!(id in persist.backup))
       persist.backup[id] <- pathGet(rootTable, id, "__destroy")
-    if (data.__function)
+    if (data?.__function)
     {
       local cases = []
       foreach (c in (data % "case"))
         cases.append({
-          args = datablockConverter.blkToData(c.args || []),
+          args = datablockConverter.blkToData(c?.args ?? []),
           result = datablockConverter.blkToData(c.result)
         })
       local origFunc = ::u.isFunction(persist.backup[id]) ? persist.backup[id] : null

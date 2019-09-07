@@ -9,7 +9,7 @@ local avatars = ::require("scripts/user/avatars.nut")
 ::in_battle_time_to_kick_show_timer <- null
 ::in_battle_time_to_kick_show_alert <- null
 
-function get_time_to_kick_show_timer()
+::get_time_to_kick_show_timer <- function get_time_to_kick_show_timer()
 {
   if (::time_to_kick_show_timer == null)
   {
@@ -20,7 +20,7 @@ function get_time_to_kick_show_timer()
   return ::time_to_kick_show_timer
 }
 
-function get_time_to_kick_show_alert()
+::get_time_to_kick_show_alert <- function get_time_to_kick_show_alert()
 {
   if (::time_to_kick_show_alert == null)
   {
@@ -31,7 +31,7 @@ function get_time_to_kick_show_alert()
   return ::time_to_kick_show_alert
 }
 
-function get_in_battle_time_to_kick_show_timer()
+::get_in_battle_time_to_kick_show_timer <- function get_in_battle_time_to_kick_show_timer()
 {
   if (::in_battle_time_to_kick_show_timer == null)
   {
@@ -42,7 +42,7 @@ function get_in_battle_time_to_kick_show_timer()
   return ::in_battle_time_to_kick_show_timer
 }
 
-function get_in_battle_time_to_kick_show_alert()
+::get_in_battle_time_to_kick_show_alert <- function get_in_battle_time_to_kick_show_alert()
 {
   if (::in_battle_time_to_kick_show_alert == null)
   {
@@ -53,12 +53,12 @@ function get_in_battle_time_to_kick_show_alert()
   return ::in_battle_time_to_kick_show_alert
 }
 
-function get_local_team_for_mpstats(team = null)
+::get_local_team_for_mpstats <- function get_local_team_for_mpstats(team = null)
 {
   return (team ?? ::get_mp_local_team()) != Team.B ? Team.A : Team.B
 }
 
-function gui_start_mpstatscreen_(is_from_game)
+::gui_start_mpstatscreen_ <- function gui_start_mpstatscreen_(is_from_game)
 {
   local handler = ::handlersManager.loadHandler(::gui_handlers.MPStatScreen,
                     { backSceneFunc = is_from_game? null : ::handlersManager.getLastBaseHandlerStartFunc(),
@@ -68,24 +68,24 @@ function gui_start_mpstatscreen_(is_from_game)
     ::statscreen_handler = handler
 }
 
-function gui_start_mpstatscreen()
+::gui_start_mpstatscreen <- function gui_start_mpstatscreen()
 {
   gui_start_mpstatscreen_(false)
   ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mpstatscreen)
 }
 
-function gui_start_mpstatscreen_from_game()
+::gui_start_mpstatscreen_from_game <- function gui_start_mpstatscreen_from_game()
 {
   gui_start_mpstatscreen_(true)
   ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mpstatscreen_from_game)
 }
 
-function gui_start_flight_menu_stat()
+::gui_start_flight_menu_stat <- function gui_start_flight_menu_stat()
 {
   gui_start_mpstatscreen_from_game()
 }
 
-function is_mpstatscreen_active()
+::is_mpstatscreen_active <- function is_mpstatscreen_active()
 {
   if (!::g_login.isLoggedIn())
     return false
@@ -93,7 +93,7 @@ function is_mpstatscreen_active()
   return curHandler != null && (curHandler instanceof ::gui_handlers.MPStatScreen)
 }
 
-function build_mp_table(table, markupData, hdr, max_rows)
+::build_mp_table <- function build_mp_table(table, markupData, hdr, max_rows)
 {
   local numTblRows = table.len()
   local numRows = ::max(numTblRows, max_rows)
@@ -326,7 +326,7 @@ function build_mp_table(table, markupData, hdr, max_rows)
   return data
 }
 
-function update_team_css_label(nestObj)
+::update_team_css_label <- function update_team_css_label(nestObj)
 {
   if (!::check_obj(nestObj))
     return
@@ -334,7 +334,7 @@ function update_team_css_label(nestObj)
   nestObj.playerTeam = ::g_team.getTeamByCode(teamCode).cssLabel
 }
 
-function set_mp_table(obj_tbl, table, params)
+::set_mp_table <- function set_mp_table(obj_tbl, table, params)
 {
   local max_rows = ::getTblValue("max_rows", params, 0)
   local numTblRows = table.len()
@@ -380,7 +380,7 @@ function set_mp_table(obj_tbl, table, params)
     for (local idx = 0; idx < totalCells; idx++)
     {
       local objTd = objTr.getChild(idx)
-      local id = objTd.id
+      local id = objTd?.id
       if (!id || id.len()<4 || id.slice(0, 3)!="td_")
         continue
 
@@ -469,7 +469,7 @@ function set_mp_table(obj_tbl, table, params)
           if (("invitedName" in table[i]) && table[i].invitedName != item)
           {
             local color = ""
-            if (obj_tbl.team)
+            if (obj_tbl?.team)
               if (obj_tbl.team == "red")
                 color = "teamRedInactiveColor"
               else if (obj_tbl.team == "blue")
@@ -678,7 +678,7 @@ function set_mp_table(obj_tbl, table, params)
   }
 }
 
-function sort_units_for_br_tooltip(u1, u2)
+::sort_units_for_br_tooltip <- function sort_units_for_br_tooltip(u1, u2)
 {
   if (u1.rating != u2.rating)
     return u1.rating > u2.rating ? -1 : 1
@@ -687,7 +687,7 @@ function sort_units_for_br_tooltip(u1, u2)
   return 0
 }
 
-function getCurMpTitle()
+::getCurMpTitle <- function getCurMpTitle()
 {
   local text = ""
 
@@ -718,7 +718,7 @@ function getCurMpTitle()
   return text
 }
 
-function getPlayerStateTextId(playerInfo)
+::getPlayerStateTextId <- function getPlayerStateTextId(playerInfo)
 {
   if (::getTblValue("isBot", playerInfo, false))
     return "bot_ready"
@@ -745,7 +745,7 @@ function getPlayerStateTextId(playerInfo)
   return ""
 }
 
-function getUnitClassIco(unit)
+::getUnitClassIco <- function getUnitClassIco(unit)
 {
   if (::u.isString(unit))
     unit = ::getAircraftByName(unit)
@@ -754,7 +754,7 @@ function getUnitClassIco(unit)
   return unit.customClassIco ?? ::get_unit_class_icon_by_unit(unit, unit.name + "_ico")
 }
 
-function getUnitClassColor(unit)
+::getUnitClassColor <- function getUnitClassColor(unit)
 {
   local role = ::get_unit_role(unit) //  "fighter", "bomber", "assault", "transport", "diveBomber", "none"
   if (role == null || role == "" || role == "none")
@@ -762,7 +762,7 @@ function getUnitClassColor(unit)
   return role + "Color"
 }
 
-function getWeaponTypeIcoByWeapon(airName, weapon, tankWeapons = false)
+::getWeaponTypeIcoByWeapon <- function getWeaponTypeIcoByWeapon(airName, weapon, tankWeapons = false)
 {
   local config = {bomb = "", rocket = "", torpedo = "", additionalGuns = ""}
   local air = getAircraftByName(airName)
@@ -781,7 +781,7 @@ function getWeaponTypeIcoByWeapon(airName, weapon, tankWeapons = false)
   return config
 }
 
-function get_weapon_icons_text(unitName, weaponName)
+::get_weapon_icons_text <- function get_weapon_icons_text(unitName, weaponName)
 {
   if (!weaponName || ::u.isEmpty(weaponName))
     return ""
@@ -803,7 +803,7 @@ function get_weapon_icons_text(unitName, weaponName)
   return ::colorize("weaponPresetColor", weaponIconsText)
 }
 
-function get_mp_country_by_team(team)
+::get_mp_country_by_team <- function get_mp_country_by_team(team)
 {
   local info = ::get_mp_session_info()
   if (!info)
@@ -815,7 +815,7 @@ function get_mp_country_by_team(team)
   return "country_0"
 }
 
-function count_width_for_mptable(objTbl, markup)
+::count_width_for_mptable <- function count_width_for_mptable(objTbl, markup)
 {
   local guiScene = objTbl.getScene()
   local usedWidth = 0
@@ -2131,7 +2131,7 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
   playersInfo = {}
 }
 
-function SquadIcon::initListLabelsSquad()
+SquadIcon.initListLabelsSquad <- function initListLabelsSquad()
 {
   listLabelsSquad.clear()
   nextLabel.team1 = 1
@@ -2141,19 +2141,19 @@ function SquadIcon::initListLabelsSquad()
   updateListLabelsSquad()
 }
 
-function SquadIcon::getPlayersInfo()
+SquadIcon.getPlayersInfo <- function getPlayersInfo()
 {
   return playersInfo
 }
 
-function SquadIcon::updatePlayersInfo()
+SquadIcon.updatePlayersInfo <- function updatePlayersInfo()
 {
   local sessionPlayersInfo = ::SessionLobby.getPlayersInfo()
   if (sessionPlayersInfo.len() > 0 && !::u.isEqual(playersInfo, sessionPlayersInfo))
     playersInfo = clone sessionPlayersInfo
 }
 
-function SquadIcon::updateListLabelsSquad()
+SquadIcon.updateListLabelsSquad <- function updateListLabelsSquad()
 {
   foreach(label in listLabelsSquad)
     label.count = 0;
@@ -2190,7 +2190,7 @@ function SquadIcon::updateListLabelsSquad()
   }
 }
 
-function SquadIcon::getSquadInfo(idSquad)
+SquadIcon.getSquadInfo <- function getSquadInfo(idSquad)
 {
   if (idSquad == INVALID_SQUAD_ID)
     return null
@@ -2202,7 +2202,7 @@ function SquadIcon::getSquadInfo(idSquad)
   return squad
 }
 
-function SquadIcon::getSquadInfoByMemberName(name)
+SquadIcon.getSquadInfoByMemberName <- function getSquadInfoByMemberName(name)
 {
   if (name == "")
     return null
@@ -2214,7 +2214,7 @@ function SquadIcon::getSquadInfoByMemberName(name)
   return null
 }
 
-function SquadIcon::updateTopSquadScore(mplayers)
+SquadIcon.updateTopSquadScore <- function updateTopSquadScore(mplayers)
 {
   if (!isShowSquad())
     return
@@ -2261,12 +2261,12 @@ function SquadIcon::updateTopSquadScore(mplayers)
   topSquads[teamId] <- topSquadId
 }
 
-function SquadIcon::getTopSquadId(teamId)
+SquadIcon.getTopSquadId <- function getTopSquadId(teamId)
 {
   return ::getTblValue(teamId, topSquads)
 }
 
-function SquadIcon::isShowSquad()
+SquadIcon.isShowSquad <- function isShowSquad()
 {
   if (::SessionLobby.getGameMode() == ::GM_SKIRMISH)
     return false

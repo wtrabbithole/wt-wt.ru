@@ -1,4 +1,4 @@
-function show_clan_season_info(difficulty)
+::show_clan_season_info <- function show_clan_season_info(difficulty)
 {
   ::gui_start_modal_wnd(
     ::gui_handlers.clanSeasonInfoModal,

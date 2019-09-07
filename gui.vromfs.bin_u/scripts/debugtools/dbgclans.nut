@@ -1,4 +1,4 @@
-function debug_show_all_clan_awards()
+::debug_show_all_clan_awards <- function debug_show_all_clan_awards()
 {
   if (!::is_dev_version)
     return
@@ -12,7 +12,7 @@ function debug_show_all_clan_awards()
   ])
 }
 
-function debug_get_clan_blk()
+::debug_get_clan_blk <- function debug_get_clan_blk()
 {
   return ::DataBlock("../prog/scripts/debugData/debugClan.blk")
 }

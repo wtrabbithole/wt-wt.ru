@@ -144,6 +144,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     ::g_hud_event_manager.subscribe("TankDebuffs:MoveCooldown", onMoveCooldown, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Rearm", onRearm, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Repair", onRepair, this)
+    ::g_hud_event_manager.subscribe("ShipDebuffs:Cooldown", onMoveCooldown, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:RepairBreaches", onRepairBreaches, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Extinguish", onExtinguish, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:CancelRepairBreaches", onCancelRepairBreaches, this)

@@ -1,10 +1,11 @@
-local enums = ::require("sqStdlibs/helpers/enums.nut")
-local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
-local contentStateModule = ::require("scripts/clientState/contentState.nut")
-local workshop = ::require("scripts/items/workshop/workshop.nut")
+local enums = require("sqStdlibs/helpers/enums.nut")
+local xboxShopData = require("scripts/onlineShop/xboxShopData.nut")
+local contentStateModule = require("scripts/clientState/contentState.nut")
+local workshop = require("scripts/items/workshop/workshop.nut")
 local platform = require("scripts/clientState/platform.nut")
+local encyclopedia = require("scripts/encyclopedia.nut")
 
-enum TOP_MENU_ELEMENT_TYPE {
+global enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
   EMPTY_BUTTON,
   CHECKBOX,
@@ -122,7 +123,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   BENCHMARK = {
     text = "#mainmenu/btnBenchmark"
     onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_benchmark)
-    isHidden = @(...) !(::has_feature("Benchmark") || (::is_dev_version && ::has_feature("BenchmarkForDevs")))
+    isHidden = @(...) !::has_feature("Benchmark")
     isInactiveInQueue = true
   }
   USER_MISSION = {
@@ -177,7 +178,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   ENCYCLOPEDIA = {
     text = "#mainmenu/btnEncyclopedia"
-    onClickFunc = @(...) ::gui_start_encyclopedia()
+    onClickFunc = @(...) encyclopedia.open()
     isHidden = @(...) !::has_feature("Encyclopedia")
   }
   CREDITS = {
@@ -347,7 +348,7 @@ function() {
 },
 "typeName")
 
-function g_top_menu_buttons::getTypeById(id)
+g_top_menu_buttons.getTypeById <- function getTypeById(id)
 {
   return enums.getCachedType("id", id, ::g_top_menu_buttons.cache.byId,
     ::g_top_menu_buttons, ::g_top_menu_buttons.UNKNOWN)

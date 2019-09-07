@@ -450,7 +450,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
   }
 }
 
-function getSteamMarkUp()
+::getSteamMarkUp <- function getSteamMarkUp()
 {
   local blk = ::DataBlock()
   blk = ::get_discounts_blk()
@@ -462,7 +462,7 @@ function getSteamMarkUp()
   return 0
 }
 
-function checkShopBlk()
+::checkShopBlk <- function checkShopBlk()
 {
   local resText = ""
   local shopBlk = ::get_shop_blk()

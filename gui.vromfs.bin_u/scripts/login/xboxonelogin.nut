@@ -5,7 +5,7 @@ local function checkMultiplayerSessionsPrivilegeSq(showMarket, cb)
   ::check_multiplayer_sessions_privilege(showMarket)
 }
 
-function check_multiplayer_sessions_privilege_callback(isAllowed)
+::check_multiplayer_sessions_privilege_callback <- function check_multiplayer_sessions_privilege_callback(isAllowed)
 {
   if (multiplayerSessionPrivelegeCallback)
     multiplayerSessionPrivelegeCallback(isAllowed)

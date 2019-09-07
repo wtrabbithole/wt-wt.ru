@@ -22,7 +22,7 @@ class ::WwPathTracker
     moveType = blk.moveType
 
     path = blk.getBlockByName("path")
-    checkPoints(path.points)
+    checkPoints(path?.points)
   }
 
   function checkPoints(pointsBlk)

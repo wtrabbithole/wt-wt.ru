@@ -10,7 +10,7 @@
   }
 }
 
-function g_localization::getFilledFeedTextByLang(locIdsArray, customFeedParams = {})
+g_localization.getFilledFeedTextByLang <- function getFilledFeedTextByLang(locIdsArray, customFeedParams = {})
 {
   local localizedKeyWords = {}
   if ("requireLocalization" in customFeedParams)
@@ -48,7 +48,7 @@ function g_localization::getFilledFeedTextByLang(locIdsArray, customFeedParams =
   return captions
 }
 
-function g_localization::formatLangTextsInStringStyle(langTextsArray)
+g_localization.formatLangTextsInStringStyle <- function formatLangTextsInStringStyle(langTextsArray)
 {
   local formatedArray = ::u.map(langTextsArray, @(table) ::format("\"%s\":\"%s\"", table.abbreviation, table.text))
   return ::g_string.implode(formatedArray, ",")

@@ -1,6 +1,6 @@
 local string=require("string")
 local math=require("math")
-
+local hash_by_string = require("hash_by_string.nut")
 //pairs list taken from http://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/nls/rbagslowtoupmaptable.htm
 const CASE_PAIR_LOWER = "abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿāăąćĉċčďđēĕėęěĝğġģĥħĩīĭįıĳĵķĺļľŀłńņňŋōŏőœŕŗřśŝşšţťŧũūŭůűųŵŷźżžƃƅƈƌƒƙơƣƥƨƭưƴƶƹƽǆǉǌǎǐǒǔǖǘǚǜǟǡǣǥǧǩǫǭǯǳǵǻǽǿȁȃȅȇȉȋȍȏȑȓȕȗɓɔɗɘəɛɠɣɨɩɯɲɵʃʈʊʋʒάέήίαβγδεζηθικλμνξοπρστυφχψωϊϋόύώϣϥϧϩϫϭϯабвгдежзийклмнопрстуфхцчшщъыьэюяёђѓєѕіїјљњћќўџѡѣѥѧѩѫѭѯѱѳѵѷѹѻѽѿҁґғҕҗҙқҝҟҡңҥҧҩҫҭүұҳҵҷҹһҽҿӂӄӈӌӑӓӕӗәӛӝӟӡӣӥӧөӫӯӱӳӵӹաբգդեզէըթժիլխծկհձղճմյնշոչպջռսվտրցւփքօֆაბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰჱჲჳჴჵḁḃḅḇḉḋḍḏḑḓḕḗḙḛḝḟḡḣḥḧḩḫḭḯḱḳḵḷḹḻḽḿṁṃṅṇṉṋṍṏṑṓṕṗṙṛṝṟṡṣṥṧṩṫṭṯṱṳṵṷṹṻṽṿẁẃẅẇẉẋẍẏẑẓẕạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱἲἳἴἵἶἷὀὁὂὃὄὅὑὓὕὗὠὡὢὣὤὥὦὧᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗᾠᾡᾢᾣᾤᾥᾦᾧᾰᾱῐῑῠῡⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"
 const CASE_PAIR_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬĮIĲĴĶĹĻĽĿŁŃŅŇŊŌŎŐŒŔŖŘŚŜŞŠŢŤŦŨŪŬŮŰŲŴŶŹŻŽƂƄƇƋƑƘƠƢƤƧƬƯƳƵƸƼǄǇǊǍǏǑǓǕǗǙǛǞǠǢǤǦǨǪǬǮǱǴǺǼǾȀȂȄȆȈȊȌȎȐȒȔȖƁƆƊƎƏƐƓƔƗƖƜƝƟƩƮƱƲƷΆΈΉΊΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫΌΎΏϢϤϦϨϪϬϮАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЂЃЄЅІЇЈЉЊЋЌЎЏѠѢѤѦѨѪѬѮѰѲѴѶѸѺѼѾҀҐҒҔҖҘҚҜҞҠҢҤҦҨҪҬҮҰҲҴҶҸҺҼҾӁӃӇӋӐӒӔӖӘӚӜӞӠӢӤӦӨӪӮӰӲӴӸԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔՕՖႠႡႢႣႤႥႦႧႨႩႪႫႬႭႮႯႰႱႲႳႴႵႶႷႸႹႺႻႼႽႾႿჀჁჂჃჄჅḀḂḄḆḈḊḌḎḐḒḔḖḘḚḜḞḠḢḤḦḨḪḬḮḰḲḴḶḸḺḼḾṀṂṄṆṈṊṌṎṐṒṔṖṘṚṜṞṠṢṤṦṨṪṬṮṰṲṴṶṸṺṼṾẀẂẄẆẈẊẌẎẐẒẔẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"
@@ -22,7 +22,7 @@ local escapeConfig = null
  */
 // Reverse operation to split()
 local function implode(pieces = [], glue = "") {
-  return pieces.filter(@(index,val) val != "" && val != null).reduce(@(prev, cur) prev + glue + cur) ?? ""
+  return (pieces.filter(@(index,val) val != "" && val != null).reduce(@(prev, cur) prev + glue + cur) ?? "").tostring()
 }
 
 /**
@@ -36,7 +36,7 @@ local function implode(pieces = [], glue = "") {
  *                    with the glue string between each element.
  */
 local function join(pieces, glue="") {
-  return pieces.reduce(@(prev, cur) prev + glue + cur) ?? ""
+  return (pieces.reduce(@(prev, cur) prev + glue + cur) ?? "").tostring()
 }
 
 /**
@@ -301,20 +301,10 @@ local function tostring_r(input, params=defTostringParams) {
     local typ = ::type(value)
     if (typ=="array")
       return "["
-    if (typ=="class") {
-      local className = value.getattributes(null)?.name
-      if (!compact)
-        className = implode(["class", className]," ")
-      return implode([className, "{"]," ")
-    }
-    else if (typ=="instance") {
-      local className = ""
-      if (value?.getclass)
-         className = value?.getclass().getattributes(null)?.name
-      if (!compact)
-        className = implode(["inst", className]," ")
-      return implode([className,"{"]," ")
-    }
+    if (typ=="class")
+      return "class {"
+    else if (typ=="instance")
+      return "instance {"
     else
       return "{"
   }
@@ -360,7 +350,7 @@ local function tostring_r(input, params=defTostringParams) {
       else if (isArray && !showArrIdx) {
         if (!arrayElem)
           out += newline + indent + tostring_any(key, null, compact) +  " = "
-        out += "[" + ::callee()(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
+        out += "[" + sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
         if (arrayElem && key!=input.len()-1)
           out += sep
       }
@@ -371,7 +361,7 @@ local function tostring_r(input, params=defTostringParams) {
         if (!arrayElem) {
           out += tostring_any(key,null, compact) +  " = "
         }
-        out += brOp + ::callee()(value, indent + indentOnNewline, curdeeplevel+1) + newline + indent + brCl
+        out += brOp + sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1) + newline + indent + brCl
         if (arrayElem && key==input.len()-1 ){
           out += newline+arrInd
         }
@@ -833,7 +823,7 @@ local function validateEmail(no_dump_email) {
   if (quotes == null && locpart.find("@")!=null)
     return false //no @ without quotes
 
-  if (dompart.find(".") == null || dompart.find(".") > dompart.len() - 3)
+  if (dompart.find(".") == null || dompart.find(".") > dompart.len() - 3) // warning disable: -func-can-return-null
     return false  //too short first level domain or no periods
 
   return true
@@ -875,6 +865,7 @@ local export = {
   validateEmail = validateEmail
 
   toIntegerSafe = toIntegerSafe
+  hash_by_string = hash_by_string
 }
 
 return export

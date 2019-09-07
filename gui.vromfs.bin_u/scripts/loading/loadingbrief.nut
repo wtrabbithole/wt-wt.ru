@@ -60,7 +60,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     if (briefing)
     {
       local guiBlk = ::configs.GUI.get()
-      local exclBlock = guiBlk.slides_exclude && guiBlk.slides_exclude[get_country_flags_preset()]
+      local exclBlock = guiBlk?.slides_exclude?[get_country_flags_preset()]
       local excludeArray = exclBlock? (exclBlock % "name") : []
 
       local sceneInfo = ""
@@ -114,7 +114,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
               }
             }
             local slide = {
-              time = (slideBlock.minTime || 0).tofloat()
+              time = (slideBlock?.minTime ?? 0).tofloat()
               image = image
               map = slideBlock.getBool("map", false)
             }
@@ -134,7 +134,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
           {
             local partTime = part.voiceLen
             if (partTime <= 0)
-              partTime = (partBlock.minTime || 0).tofloat()
+              partTime = (partBlock?.minTime ?? 0).tofloat()
             part.slides.append({
               time = ::max(partTime, MIN_SLIDE_TIME)
               image = prevSlide

@@ -9,12 +9,12 @@ foreach (fn in [
                ])
   ::g_script_reloader.loadOnce("scripts/misCustomRules/" + fn) // no need to includeOnce to correct reload this scripts pack runtime
 
-function on_custom_mission_state_changed()
+::on_custom_mission_state_changed <- function on_custom_mission_state_changed()
 {
   ::g_mis_custom_state.onMissionStateChanged()
 }
 
-function on_custom_user_state_changed(userId64)
+::on_custom_user_state_changed <- function on_custom_user_state_changed(userId64)
 {
   ::g_mis_custom_state.onUserStateChanged(userId64)
 }
@@ -24,7 +24,7 @@ function on_custom_user_state_changed(userId64)
   isCurRulesValid = false
 }
 
-function g_mis_custom_state::getCurMissionRules()
+g_mis_custom_state.getCurMissionRules <- function getCurMissionRules()
 {
   if (isCurRulesValid)
     return curRules
@@ -44,32 +44,32 @@ function g_mis_custom_state::getCurMissionRules()
   return curRules
 }
 
-function g_mis_custom_state::getCurMissionRulesName()
+g_mis_custom_state.getCurMissionRulesName <- function getCurMissionRulesName()
 {
   local mis = ::is_in_flight() ? ::get_current_mission_info_cached() : null
   return ::getTblValueByPath("customRules.guiName", mis) || ::getTblValueByPath("customRules.name", mis)
 }
 
-function g_mis_custom_state::findRulesClassByName(rulesName)
+g_mis_custom_state.findRulesClassByName <- function findRulesClassByName(rulesName)
 {
   return ::getTblValue(::g_string.toUpper(rulesName, 1), ::mission_rules, ::mission_rules.Empty)
 }
 
-function g_mis_custom_state::onMissionStateChanged()
+g_mis_custom_state.onMissionStateChanged <- function onMissionStateChanged()
 {
   if (curRules)
     curRules.onMissionStateChanged()
   ::broadcastEvent("MissionCustomStateChanged")
 }
 
-function g_mis_custom_state::onUserStateChanged(userId64)
+g_mis_custom_state.onUserStateChanged <- function onUserStateChanged(userId64)
 {
   if (userId64 == ::my_user_id_int64)
     ::broadcastEvent("MyCustomStateChanged")
   //::broadcastEvent("UserCustomStateChanged", { userId64 = userId64 }) //not used ATM but maybe needed in future
 }
 
-function g_mis_custom_state::onEventLoadingStateChange(p)
+g_mis_custom_state.onEventLoadingStateChange <- function onEventLoadingStateChange(p)
 {
   isCurRulesValid = false
 }

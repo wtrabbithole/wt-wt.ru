@@ -6,7 +6,7 @@
 
 ::g_script_reloader.registerPersistentData("SessionsList", ::getroottable(), ["match_search_gm", "match_search_diff"])
 
-function gui_start_session_list(prev_scene_func=null)
+::gui_start_session_list <- function gui_start_session_list(prev_scene_func=null)
 {
   if (prev_scene_func)
     ::back_sessions_func = prev_scene_func
@@ -18,7 +18,7 @@ function gui_start_session_list(prev_scene_func=null)
                   })
 }
 
-function gui_start_missions() //!!FIX ME: is it really used in some cases?
+::gui_start_missions <- function gui_start_missions() //!!FIX ME: is it really used in some cases?
 {
   ::quick_match_flag <- false
   ::match_search_diff = -1
@@ -27,13 +27,13 @@ function gui_start_missions() //!!FIX ME: is it really used in some cases?
   gui_start_session_list(gui_start_mainmenu)
 }
 
-function gui_start_skirmish()
+::gui_start_skirmish <- function gui_start_skirmish()
 {
   prepare_start_skirmish()
   gui_start_session_list(gui_start_mainmenu)
 }
 
-function prepare_start_skirmish()
+::prepare_start_skirmish <- function prepare_start_skirmish()
 {
   ::quick_match_flag <- false
   ::match_search_diff = -1
@@ -41,7 +41,7 @@ function prepare_start_skirmish()
   ::match_search_map <- ""
 }
 
-function gui_start_mp_menu_reload()
+::gui_start_mp_menu_reload <- function gui_start_mp_menu_reload()
 {
   local gt = ::get_game_type()
   local mpMode = ::get_mp_mode()
@@ -54,7 +54,7 @@ function gui_start_mp_menu_reload()
     ::gui_start_mainmenu_reload()
 }
 
-function build_check_table(session, gm=0)
+::build_check_table <- function build_check_table(session, gm=0)
 {
   local ret = {}
 
@@ -84,11 +84,11 @@ function build_check_table(session, gm=0)
   return ret
 }
 
-function is_gamemode_coop(gm)
+::is_gamemode_coop <- function is_gamemode_coop(gm)
 {
   return gm == -1 || gm == ::GM_SINGLE_MISSION || gm == ::GM_DYNAMIC || gm == ::GM_BUILDER
 }
-function is_gamemode_versus(gm)
+::is_gamemode_versus <- function is_gamemode_versus(gm)
 {
   return gm == -1 || gm == ::GM_SKIRMISH || gm == ::GM_DOMINATION
 }
@@ -518,7 +518,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
   }
 }
 
-function fillCountriesList(obj, countries, handler = null)
+::fillCountriesList <- function fillCountriesList(obj, countries, handler = null)
 {
   if (!::check_obj(obj))
     return

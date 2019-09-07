@@ -158,7 +158,7 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
   {
     obj.show(true)
     local logId = logView.getId()
-    if (obj.id == logId)
+    if (obj?.id == logId)
       return
 
     obj.id = logId
@@ -330,7 +330,7 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local lastFilteredLogId = ::g_ww_logs.loaded[::g_ww_logs.filtered.top()].id
-    if (lastContainerObj.id != lastFilteredLogId)
+    if (lastContainerObj?.id != lastFilteredLogId)
       return
 
     local visibleBox = ::GuiBox().setFromDaguiObj(logFrameObj)
@@ -372,7 +372,7 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
 
       local logBox = ::GuiBox().setFromDaguiObj(logObj)
       if (logBox.isInside(visibleBox))
-        scrollTargetId = logObj.id
+        scrollTargetId = logObj?.id
       else
         if (scrollTargetId)
           break

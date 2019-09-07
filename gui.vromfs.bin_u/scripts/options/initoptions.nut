@@ -12,7 +12,7 @@ foreach(name, unit in ::all_units)
 if (::show_aircraft)
   ::show_aircraft = ::all_units?[::show_aircraft.name]
 
-function init_options()
+::init_options <- function init_options()
 {
   if (::measure_units.len() > 0 && (::g_login.isAuthorized() || ::disable_network()))
     return
@@ -24,7 +24,7 @@ function init_options()
     } while (stepStatus == PT_STEP_STATUS.SUSPEND)
 }
 
-function init_all_units()
+::init_all_units <- function init_all_units()
 {
   ::all_units.clear()
   local all_units_array = ::gather_and_build_aircrafts_list()
@@ -35,7 +35,7 @@ function init_all_units()
   }
 }
 
-function update_all_units()
+::update_all_units <- function update_all_units()
 {
   ::update_shop_countries_list()
   ::countUsageAmountOnce()
@@ -44,7 +44,7 @@ function update_all_units()
   dagor.debug("update_all_units called, got "+::all_units.len()+" items");
 }
 
-function update_shop_countries_list()
+::update_shop_countries_list <- function update_shop_countries_list()
 {
   local shopBlk = ::get_shop_blk()
   ::shopCountriesList = []
@@ -60,7 +60,7 @@ function update_shop_countries_list()
 }
 
 ::usageAmountCounted <- false
-function countUsageAmountOnce()
+::countUsageAmountOnce <- function countUsageAmountOnce()
 {
   if (usageAmountCounted)
     return
@@ -125,56 +125,6 @@ function countUsageAmountOnce()
 
   function()
   {
-    local blk = ::DataBlock("config/encyclopedia.blk")
-    ::encyclopedia_data = []
-    local defSize = [blk.getInt("image_width", 10), blk.getInt("image_height", 10)]
-    for (local chapterNo = 0; chapterNo < blk.blockCount(); chapterNo++)
-    {
-      local blkChapter = blk.getBlock(chapterNo)
-      local name = blkChapter.getBlockName()
-
-      if (::is_vendor_tencent() && name == "history")
-        continue
-
-      local chapterDesc = {}
-      chapterDesc.id <- name
-      chapterDesc.articles <- []
-      for (local articleNo = 0; articleNo < blkChapter.blockCount(); articleNo++)
-      {
-        local blkArticle = blkChapter.getBlock(articleNo)
-        local showPlatform = blkArticle.getStr("showPlatform", "")
-        local hidePlatform = blkArticle.getStr("hidePlatform", "")
-
-        if ((showPlatform.len() > 0 && showPlatform != ::target_platform)
-            || hidePlatform == ::target_platform)
-          continue
-
-        local articleDesc = {}
-        articleDesc.id <- blkArticle.getBlockName()
-
-        if (::is_vietnamese_version() && ::isInArray(articleDesc.id, ["historical_battles", "realistic_battles"]))
-          continue
-
-        articleDesc.haveHint <- blkArticle.getBool("haveHint",false)
-
-        if (blkArticle?.images != null)
-        {
-          local imgList = blkArticle.images % "image"
-          if (imgList.len() > 0)
-          {
-            articleDesc.images <- imgList
-            articleDesc.imgSize <- [blkArticle.getInt("image_width", defSize[0]),
-                                    blkArticle.getInt("image_height", defSize[1])]
-          }
-        }
-        chapterDesc.articles.append(articleDesc)
-      }
-      ::encyclopedia_data.append(chapterDesc)
-    }
-  }
-
-  function()
-  {
     local blk = ::DataBlock("config/measureUnits.blk")
     ::measure_units = []
     for (local i = 0; i < blk.blockCount(); i++)
@@ -203,9 +153,9 @@ function countUsageAmountOnce()
     ::init_bullet_icons(blk)
 
     foreach(name in ["bullets_locId_by_caliber", "modifications_locId_by_caliber"])
-      getroottable()[name] = blk[name]? (blk[name] % "ending") : []
+      getroottable()[name] = blk?[name] ? (blk[name] % "ending") : []
 
-    if (typeof blk.unlocks_punctuation_without_space == "string")
+    if (typeof blk?.unlocks_punctuation_without_space == "string")
       ::unlocks_punctuation_without_space = blk.unlocks_punctuation_without_space
 
     ::LayersIcon.initConfigOnce(blk)
@@ -214,7 +164,7 @@ function countUsageAmountOnce()
   function()
   {
     local blk = ::DataBlock("config/hud.blk")
-    if (!blk.crosshair)
+    if (!blk?.crosshair)
       return
 
     local crosshairs = blk.crosshair % "pictureTpsView"
@@ -232,7 +182,7 @@ function countUsageAmountOnce()
   {
     local blk = ::DataBlock("config/gameplay.blk")
     ::reload_cooldown_time = {}
-    local cooldown_time = blk.reloadCooldownTimeByCaliber
+    local cooldown_time = blk?.reloadCooldownTimeByCaliber
     if (!cooldown_time)
       return
 
@@ -249,7 +199,7 @@ function countUsageAmountOnce()
   function()
   {
     local blk = ::DataBlock("config/postFxOptions.blk")
-    if (blk.lut_list)
+    if (blk?.lut_list)
     {
       ::lut_list = []
       ::lut_textures = []

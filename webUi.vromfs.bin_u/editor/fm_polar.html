@@ -599,12 +599,12 @@
     stabilizer: "Stabilizer",
     fin: "Fin",
     fuselage: "Fuselage",
-    propeller1Blade: "Propeller 1 blade",
-    propeller2Blade: "Propeller 2 blade",
-    propeller3Blade: "Propeller 3 blade",
-    propeller4Blade: "Propeller 4 blade",
-    propeller5Blade: "Propeller 5 blade",
-    propeller6Blade: "Propeller 6 blade"
+    propeller1Blade: "Propeller Type 1 blade",
+    propeller2Blade: "Propeller Type 2 blade",
+    propeller3Blade: "Propeller Type 3 blade",
+    propeller4Blade: "Propeller Type 4 blade",
+    propeller5Blade: "Propeller Type 5 blade",
+    propeller6Blade: "Propeller Type 6 blade"
   }
   
   function selectChartVariant(group, variant)
@@ -816,7 +816,7 @@
     for (var i = 0; i < 6; ++i)
     {
       var polarName = "propeller" + (i + 1).toString() + "Blade";
-      var propellerName = "Propeller" + i.toString();
+      var propellerName = "PropellerType" + i.toString();
       var propeller = fmBlk[propellerName]
       if (propeller != undefined)
         tbl.polar[polarName] = readPolarFromBlk(propeller.Polar)

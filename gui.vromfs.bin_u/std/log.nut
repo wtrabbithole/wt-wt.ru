@@ -21,8 +21,7 @@ local function Log(tostringfunc=null) {
     if (vargv.len()==1)
       print_(tostring_r(vargv[0],{compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}))
     else
-      foreach (a in vargv)
-        print_(tostring_r(a,{compact=true, maxdeeplevel=4 tostringfunc=tostringfunc})," ")
+      print_(vargv.reduce(@(a,b) a+" " + tostring_r(b,{compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}),""))
   }
 
   local function dlog(...) {
@@ -60,7 +59,8 @@ local function Log(tostringfunc=null) {
   }
 
   local function with_prefix(prefix) {
-    return @(...) log(vargv.map(string.tostring_any).reduce(@(a, b) a + " " + b, prefix))
+    return @(...) log(vargv.map(@(val) tostring_r(val, {compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}))
+      .reduce(@(a, b) a + " " + b, prefix))
   }
 
   return {

@@ -54,7 +54,7 @@ const UNITS_STACK_BY_TYPE_COUNT  = 6
   template = "gui/items/trophyDesc"
 }
 
-function PrizesView::getPrizeType(prize)
+PrizesView.getPrizeType <- function getPrizeType(prize)
 {
   if (isPrizeMultiAward(prize))
     return PRIZE_TYPE.MULTI_AWARD
@@ -91,7 +91,7 @@ function PrizesView::getPrizeType(prize)
   return PRIZE_TYPE.UNKNOWN
 }
 
-function PrizesView::getStackType(prize)
+PrizesView.getStackType <- function getStackType(prize)
 {
   local prizeType = getPrizeType(prize)
   if (prizeType == PRIZE_TYPE.ITEM)
@@ -103,12 +103,12 @@ function PrizesView::getStackType(prize)
   return STACK_TYPE.UNKNOWN
 }
 
-function PrizesView::getPrizeTypeName(prize, colored = true)
+PrizesView.getPrizeTypeName <- function getPrizeTypeName(prize, colored = true)
 {
   return getPrizeText(prize, colored, true)
 }
 
-function PrizesView::getPrizeText(prize, colored = true, _typeName = false, showCount = true, full = false)
+PrizesView.getPrizeText <- function getPrizeText(prize, colored = true, _typeName = false, showCount = true, full = false)
 {
   if (!prize)
     return ""
@@ -269,12 +269,12 @@ function PrizesView::getPrizeText(prize, colored = true, _typeName = false, show
   return name + countText + commentText
 }
 
-function PrizesView::_getItemTypeName(item)
+PrizesView._getItemTypeName <- function _getItemTypeName(item)
 {
   return item ? item.getTypeName() : ""
 }
 
-function PrizesView::getPrizeTypeIcon(prize, unitImage = false)
+PrizesView.getPrizeTypeIcon <- function getPrizeTypeIcon(prize, unitImage = false)
 {
   if (!prize || prize?.noIcon)
     return ""
@@ -323,13 +323,13 @@ function PrizesView::getPrizeTypeIcon(prize, unitImage = false)
   return "#ui/gameuiskin#item_type_placeholder"
 }
 
-function PrizesView::isPrizeMultiAward(prize)
+PrizesView.isPrizeMultiAward <- function isPrizeMultiAward(prize)
 {
   return prize?.multiAwardsOnWorthGold != null
          || prize?.modsForBoughtUnit != null
 }
 
-function PrizesView::miltiplyPrizeCount(prize, countMul)
+PrizesView.miltiplyPrizeCount <- function miltiplyPrizeCount(prize, countMul)
 {
   local b = ::DataBlock()
   b.setFrom(prize)
@@ -338,7 +338,7 @@ function PrizesView::miltiplyPrizeCount(prize, countMul)
   return b
 }
 
-function PrizesView::_getContentFixedAmount(content)
+PrizesView._getContentFixedAmount <- function _getContentFixedAmount(content)
 {
   local res = -1
   foreach (prize in content)
@@ -362,7 +362,7 @@ function PrizesView::_getContentFixedAmount(content)
 //  params = table of custom params filled by item type, see updateStackParams(),
 //    or filled by prize type for non-item prize types.
 //}
-function PrizesView::_createStack(prize)
+PrizesView._createStack <- function _createStack(prize)
 {
   local count = prize?.count ?? 1
   return {
@@ -378,7 +378,7 @@ function PrizesView::_createStack(prize)
   }
 }
 
-function PrizesView::_findOneStack(stackList, prizeType, checkFunc = function(s) { return true } )
+PrizesView._findOneStack <- function _findOneStack(stackList, prizeType, checkFunc = function(s) { return true } )
 {
   foreach(stack in stackList)
     if (prizeType == stack.prizeType && checkFunc(stack))
@@ -386,7 +386,7 @@ function PrizesView::_findOneStack(stackList, prizeType, checkFunc = function(s)
   return null
 }
 
-function PrizesView::_addPrizeItemToStack(stack, item, prize, stackLevel)
+PrizesView._addPrizeItemToStack <- function _addPrizeItemToStack(stack, item, prize, stackLevel)
 {
   local count = prize?.count ?? 1
   stack.countMin = ::min(stack.countMin, count)
@@ -397,7 +397,7 @@ function PrizesView::_addPrizeItemToStack(stack, item, prize, stackLevel)
     item.updateStackParams(stack.params)
 }
 
-function PrizesView::_findAndStackPrizeItem(prize, stackList, stackLevel)
+PrizesView._findAndStackPrizeItem <- function _findAndStackPrizeItem(prize, stackList, stackLevel)
 {
   local item = ::ItemsManager.findItemById(prize?.item)
   if (!item)
@@ -431,15 +431,15 @@ function PrizesView::_findAndStackPrizeItem(prize, stackList, stackLevel)
   return true
 }
 
-function PrizesView::getPrizeCurrencyCfg(prize)
+PrizesView.getPrizeCurrencyCfg <- function getPrizeCurrencyCfg(prize)
 {
-  if (prize?.gold > 0)
+  if ((prize?.gold ?? 0) > 0)
     return { type = PRIZE_TYPE.GOLD, val = prize.gold, printFunc = @(val) ::Cost(0, val).tostring() }
-  if (prize?.warpoints > 0)
+  if ((prize?.warpoints ?? 0) > 0)
     return {  type = PRIZE_TYPE.WARPOINTS, val = prize.warpoints, printFunc = @(val) ::Cost(val).tostring() }
-  if (prize?.exp > 0)
+  if ((prize?.exp ?? 0) > 0)
     return {  type = PRIZE_TYPE.EXP, val = prize.exp, printFunc = @(val) ::Cost().setFrp(val).tostring() }
-  if (prize?.warbonds && prize?.count > 0)
+  if (prize?.warbonds && (prize?.count ?? 0) > 0)
   {
     local wbId = prize.warbonds
     return {  type = PRIZE_TYPE.WARBONDS, val = prize.count, printFunc = @(val) ::g_warbonds.findWarbond(wbId).getPriceText(val, true, false) }
@@ -447,7 +447,7 @@ function PrizesView::getPrizeCurrencyCfg(prize)
   return null
 }
 
-function PrizesView::_findAndStackPrizeCurrency(prize, stackList)
+PrizesView._findAndStackPrizeCurrency <- function _findAndStackPrizeCurrency(prize, stackList)
 {
   local prizeType = getPrizeType(prize)
 
@@ -473,7 +473,7 @@ function PrizesView::_findAndStackPrizeCurrency(prize, stackList)
   return true
 }
 
-function PrizesView::getStackCurrencyText(stack)
+PrizesView.getStackCurrencyText <- function getStackCurrencyText(stack)
 {
   local printFunc = stack.params.printFunc
   local res = printFunc(stack.countMin)
@@ -482,7 +482,7 @@ function PrizesView::getStackCurrencyText(stack)
   return ::colorize("activeTextColor", res)
 }
 
-function PrizesView::_findAndStackPrizeUnit(prize, stackList, stackLevel, shopDesc)
+PrizesView._findAndStackPrizeUnit <- function _findAndStackPrizeUnit(prize, stackList, stackLevel, shopDesc)
 {
   if (shopDesc)
     return false
@@ -512,7 +512,7 @@ function PrizesView::_findAndStackPrizeUnit(prize, stackList, stackLevel, shopDe
   return true
 }
 
-function PrizesView::_getStackUnitsText(stack)
+PrizesView._getStackUnitsText <- function _getStackUnitsText(stack)
 {
   local isDetailed = stack.level == prizesStack.DETAILED
   local prizeType = getPrizeType(stack.prize)
@@ -536,7 +536,7 @@ function PrizesView::_getStackUnitsText(stack)
   return header + headerSeparator + ::g_string.implode(units, unitsSeparator)
 }
 
-function PrizesView::_stackContent(content, stackLevel = prizesStack.BY_TYPE, shopDesc = false)
+PrizesView._stackContent <- function _stackContent(content, stackLevel = prizesStack.BY_TYPE, shopDesc = false)
 {
   local res = []
   foreach (prize in content)
@@ -555,7 +555,7 @@ function PrizesView::_stackContent(content, stackLevel = prizesStack.BY_TYPE, sh
   return res
 }
 
-function PrizesView::getPrizesListText(content, fixedAmountHeaderFunc = null, hasHeaderWithoutContent = true)
+PrizesView.getPrizesListText <- function getPrizesListText(content, fixedAmountHeaderFunc = null, hasHeaderWithoutContent = true)
 {
   if (!hasHeaderWithoutContent && !content.len())
     return ""
@@ -601,7 +601,7 @@ function PrizesView::getPrizesListText(content, fixedAmountHeaderFunc = null, ha
   return ::g_string.implode(list, "\n")
 }
 
-function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0, numSpares = 0)
+PrizesView.getViewDataUnit <- function getViewDataUnit(unitName, params = null, rentTimeHours = 0, numSpares = 0)
 {
   local unit = ::getAircraftByName(unitName)
   if (!unit)
@@ -645,7 +645,7 @@ function PrizesView::getViewDataUnit(unitName, params = null, rentTimeHours = 0,
   }
 }
 
-function PrizesView::getViewDataRentedUnit(unitName, params, timeHours, numSpares)
+PrizesView.getViewDataRentedUnit <- function getViewDataRentedUnit(unitName, params, timeHours, numSpares)
 {
   if (!timeHours)
     return null
@@ -653,7 +653,7 @@ function PrizesView::getViewDataRentedUnit(unitName, params, timeHours, numSpare
   return getViewDataUnit(unitName, params, timeHours, numSpares)
 }
 
-function PrizesView::_getUnitRentComment(rentTimeHours = 0, numSpares = 0, short = false)
+PrizesView._getUnitRentComment <- function _getUnitRentComment(rentTimeHours = 0, numSpares = 0, short = false)
 {
   if (!rentTimeHours)
     return ""
@@ -665,7 +665,7 @@ function PrizesView::_getUnitRentComment(rentTimeHours = 0, numSpares = 0, short
   return short ? ::loc("ui/parentheses/space", { text = text }) : text
 }
 
-function PrizesView::getViewDataMod(unitName, modName, params)
+PrizesView.getViewDataMod <- function getViewDataMod(unitName, modName, params)
 {
   local unit = ::getAircraftByName(unitName)
   if (!unit)
@@ -686,7 +686,7 @@ function PrizesView::getViewDataMod(unitName, modName, params)
   }
 }
 
-function PrizesView::getViewDataSpare(unitName, count, params)
+PrizesView.getViewDataSpare <- function getViewDataSpare(unitName, count, params)
 {
   local unit = ::getAircraftByName(unitName)
   local spare = ::getTblValue("spare", unit)
@@ -706,7 +706,7 @@ function PrizesView::getViewDataSpare(unitName, count, params)
   }
 }
 
-function PrizesView::getViewDataSpecialization(prize, params)
+PrizesView.getViewDataSpecialization <- function getViewDataSpecialization(prize, params)
 {
   local specLevel = prize?.specialization ?? 1
   local unitName = prize?.unitName
@@ -726,7 +726,7 @@ function PrizesView::getViewDataSpecialization(prize, params)
   }
 }
 
-function PrizesView::getViewDataDecorator(prize, params = null)
+PrizesView.getViewDataDecorator <- function getViewDataDecorator(prize, params = null)
 {
   local id = prize?.resource
   local decoratorType = ::g_decorator_type.getTypeByResourceType(prize?.resourceType)
@@ -745,7 +745,7 @@ function PrizesView::getViewDataDecorator(prize, params = null)
   }
 }
 
-function PrizesView::getViewDataItem(prize, showCount, params = null)
+PrizesView.getViewDataItem <- function getViewDataItem(prize, showCount, params = null)
 {
   local primaryIcon = prize?.primaryIcon
   local itemIcon = getPrizeTypeIcon(prize)
@@ -761,7 +761,7 @@ function PrizesView::getViewDataItem(prize, showCount, params = null)
   }
 }
 
-function PrizesView::getViewDataMultiAward(prize, params = null)
+PrizesView.getViewDataMultiAward <- function getViewDataMultiAward(prize, params = null)
 {
   local multiAward = ::TrophyMultiAward(prize)
   return {
@@ -770,7 +770,7 @@ function PrizesView::getViewDataMultiAward(prize, params = null)
   }
 }
 
-function PrizesView::getViewDataDefault(prize, showCount, params = null)
+PrizesView.getViewDataDefault <- function getViewDataDefault(prize, showCount, params = null)
 {
   //!!FIX ME: better to refactor this. it used only here, but each function try do detect prize type by self
   //much faster will be to get viewData array and gen desc by it than in each function detect prize type.
@@ -800,7 +800,7 @@ function PrizesView::getViewDataDefault(prize, showCount, params = null)
   }
 }
 
-function PrizesView::getPrizesViewData(prize, showCount = true, params = null)
+PrizesView.getPrizesViewData <- function getPrizesViewData(prize, showCount = true, params = null)
 {
   if (isPrizeMultiAward(prize))
     return getViewDataMultiAward(prize, params)
@@ -826,7 +826,7 @@ function PrizesView::getPrizesViewData(prize, showCount = true, params = null)
   return getViewDataDefault(prize, showCount, params)
 }
 
-function PrizesView::getPrizesListView(content, params = null, hasHeaderWithoutContent = true)
+PrizesView.getPrizesListView <- function getPrizesListView(content, params = null, hasHeaderWithoutContent = true)
 {
   if (!hasHeaderWithoutContent && !content.len())
     return ""
@@ -852,7 +852,7 @@ function PrizesView::getPrizesListView(content, params = null, hasHeaderWithoutC
   return ::handyman.renderCached(template, view)
 }
 
-function PrizesView::getPrizesStacksView(content, fixedAmountHeaderFunc = null, params = null)
+PrizesView.getPrizesStacksView <- function getPrizesStacksView(content, fixedAmountHeaderFunc = null, params = null)
 {
   local shopDesc = ::getTblValue("shopDesc", params, false)
   local stackLevel = ::getTblValue("stackLevel", params, prizesStack.DETAILED)
@@ -912,7 +912,7 @@ function PrizesView::getPrizesStacksView(content, fixedAmountHeaderFunc = null, 
   return ::handyman.renderCached(template, view)
 }
 
-function PrizesView::getPrizeActionButtonsView(prize, params = null)
+PrizesView.getPrizeActionButtonsView <- function getPrizeActionButtonsView(prize, params = null)
 {
   local view = []
   if (!params?.shopDesc)

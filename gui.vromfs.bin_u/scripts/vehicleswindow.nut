@@ -31,7 +31,7 @@ class ::gui_handlers.VehiclesWindow extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function update_vehicle_info_button(scene, room)
+::update_vehicle_info_button <- function update_vehicle_info_button(scene, room)
 {
   ::showBtn("vehicles_info_button_block",
     !::SessionLobby.isSlotbarOverrided(room)

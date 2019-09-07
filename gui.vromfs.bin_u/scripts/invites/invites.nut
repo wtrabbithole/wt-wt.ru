@@ -9,7 +9,7 @@
   knownTournamentInvites = []
 }
 
-function g_invites::addInvite(inviteClass, params)
+g_invites.addInvite <- function addInvite(inviteClass, params)
 {
   checkCleanList()
 
@@ -33,24 +33,24 @@ function g_invites::addInvite(inviteClass, params)
   return invite
 }
 
-function g_invites::broadcastInviteReceived(invite)
+g_invites.broadcastInviteReceived <- function broadcastInviteReceived(invite)
 {
   if (!invite.isDelayed && !invite.isAutoAccepted)
     ::broadcastEvent("InviteReceived", { invite = invite })
 }
 
-function g_invites::broadcastInviteUpdated(invite)
+g_invites.broadcastInviteUpdated <- function broadcastInviteUpdated(invite)
 {
   if (invite.isVisible())
     ::broadcastEvent("InviteUpdated", { invite = invite })
 }
 
-function g_invites::addChatRoomInvite(roomId, inviterName)
+g_invites.addChatRoomInvite <- function addChatRoomInvite(roomId, inviterName)
 {
   return addInvite(::g_invites_classes.ChatRoom, { roomId = roomId, inviterName = inviterName })
 }
 
-function g_invites::addSessionRoomInvite(roomId, inviterUid, inviterName, password = null)
+g_invites.addSessionRoomInvite <- function addSessionRoomInvite(roomId, inviterUid, inviterName, password = null)
 {
   return addInvite(::g_invites_classes.SessionRoom,
                    {
@@ -61,7 +61,7 @@ function g_invites::addSessionRoomInvite(roomId, inviterUid, inviterName, passwo
                    })
 }
 
-function g_invites::addTournamentBattleInvite(battleId, inviteTime, startTime, endTime)
+g_invites.addTournamentBattleInvite <- function addTournamentBattleInvite(battleId, inviteTime, startTime, endTime)
 {
   return addInvite(::g_invites_classes.TournamentBattle,
                    {
@@ -72,12 +72,12 @@ function g_invites::addTournamentBattleInvite(battleId, inviteTime, startTime, e
                    })
 }
 
-function g_invites::addInviteToSquad(squadId, leaderId)
+g_invites.addInviteToSquad <- function addInviteToSquad(squadId, leaderId)
 {
   return addInvite(::g_invites_classes.Squad, {squadId = squadId, leaderId = leaderId})
 }
 
-function g_invites::removeInviteToSquad(squadId)
+g_invites.removeInviteToSquad <- function removeInviteToSquad(squadId)
 {
   local uid = ::g_invites_classes.Squad.getUidByParams({squadId = squadId})
   local invite = findInviteByUid(uid)
@@ -85,7 +85,7 @@ function g_invites::removeInviteToSquad(squadId)
     remove(invite)
 }
 
-function g_invites::addFriendInvite(name, uid)
+g_invites.addFriendInvite <- function addFriendInvite(name, uid)
 {
   if (::u.isEmpty(name) || ::u.isEmpty(uid))
     return
@@ -93,7 +93,7 @@ function g_invites::addFriendInvite(name, uid)
 }
 
 ::g_invites._lastCleanTime <- -1
-function g_invites::checkCleanList()
+g_invites.checkCleanList <- function checkCleanList()
 {
   local isRemoved = false
   for(local i = list.len() - 1; i >= 0; i--)
@@ -106,7 +106,7 @@ function g_invites::checkCleanList()
     ::broadcastEvent("InviteRemoved")
 }
 
-function g_invites::remove(invite)
+g_invites.remove <- function remove(invite)
 {
   foreach(idx, inv in list)
     if (inv == invite)
@@ -119,7 +119,7 @@ function g_invites::remove(invite)
     }
 }
 
-function g_invites::findInviteByChatLink(link)
+g_invites.findInviteByChatLink <- function findInviteByChatLink(link)
 {
   foreach(invite in list)
     if (invite.checkChatLink(link))
@@ -127,7 +127,7 @@ function g_invites::findInviteByChatLink(link)
   return null
 }
 
-function g_invites::findInviteByUid(uid)
+g_invites.findInviteByUid <- function findInviteByUid(uid)
 {
   foreach(invite in list)
     if (invite.uid == uid)
@@ -135,7 +135,7 @@ function g_invites::findInviteByUid(uid)
   return null
 }
 
-function g_invites::acceptInviteByLink(link)
+g_invites.acceptInviteByLink <- function acceptInviteByLink(link)
 {
   if (!::g_string.startsWith(link, ::BaseInvite.chatLinkPrefix))
     return false
@@ -148,17 +148,17 @@ function g_invites::acceptInviteByLink(link)
   return true
 }
 
-function g_invites::showExpiredInvitePopup()
+g_invites.showExpiredInvitePopup <- function showExpiredInvitePopup()
 {
   ::g_popups.add(null, ::colorize(popupTextColor, ::loc("multiplayer/invite_is_overtimed")))
 }
 
-function g_invites::showLeaveSessionFirstPopup()
+g_invites.showLeaveSessionFirstPopup <- function showLeaveSessionFirstPopup()
 {
   ::g_popups.add(null, ::colorize(popupTextColor, ::loc("multiplayer/leave_session_first")))
 }
 
-function g_invites::markAllSeen()
+g_invites.markAllSeen <- function markAllSeen()
 {
   local changed = false
   foreach(invite in list)
@@ -169,7 +169,7 @@ function g_invites::markAllSeen()
     updateNewInvitesAmount()
 }
 
-function g_invites::updateNewInvitesAmount()
+g_invites.updateNewInvitesAmount <- function updateNewInvitesAmount()
 {
   local amount = 0
   foreach(invite in list)
@@ -182,7 +182,7 @@ function g_invites::updateNewInvitesAmount()
   ::do_with_all_gamercards(::update_gc_invites)
 }
 
-function g_invites::_timedInvitesUpdate( dt = 0 )
+g_invites._timedInvitesUpdate <- function _timedInvitesUpdate( dt = 0 )
 {
   local now = ::get_charserver_time_sec()
   checkCleanList()
@@ -195,7 +195,7 @@ function g_invites::_timedInvitesUpdate( dt = 0 )
   ::g_invites.rescheduleInvitesTask()
 }
 
-function g_invites::rescheduleInvitesTask()
+g_invites.rescheduleInvitesTask <- function rescheduleInvitesTask()
 {
   if ( refreshInvitesTask >= 0 )
   {
@@ -229,7 +229,7 @@ function g_invites::rescheduleInvitesTask()
   ::dagor.debug("Rescheduled refreshInvitesTask " + refreshInvitesTask+" with delay "+triggerDelay);
 }
 
-function g_invites::fetchNewInvitesFromUserlogs()
+g_invites.fetchNewInvitesFromUserlogs <- function fetchNewInvitesFromUserlogs()
 {
   local needReshedule = false
   local now = ::get_charserver_time_sec();
@@ -242,7 +242,7 @@ function g_invites::fetchNewInvitesFromUserlogs()
     if ( blk.type == ::EULT_WW_CREATE_OPERATION ||
          blk.type == ::EULT_WW_START_OPERATION )
     {
-      if (blk.disabled)
+      if (blk?.disabled)
         continue
 
       ::g_world_war.addOperationInvite(
@@ -284,18 +284,18 @@ function g_invites::fetchNewInvitesFromUserlogs()
     ::g_invites.rescheduleInvitesTask()
 }
 
-function g_invites::onEventProfileUpdated(p)
+g_invites.onEventProfileUpdated <- function onEventProfileUpdated(p)
 {
   if (::g_login.isLoggedIn())
     fetchNewInvitesFromUserlogs()
 }
 
-function g_invites::onEventLoginComplete(p)
+g_invites.onEventLoginComplete <- function onEventLoginComplete(p)
 {
   fetchNewInvitesFromUserlogs()
 }
 
-function g_invites::onEventScriptsReloaded(p)
+g_invites.onEventScriptsReloaded <- function onEventScriptsReloaded(p)
 {
   list = ::u.map(list, function(invite)
   {

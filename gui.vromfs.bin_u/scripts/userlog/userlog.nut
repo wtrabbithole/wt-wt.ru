@@ -45,11 +45,11 @@
             ::EULT_BUYENTITLEMENT, ::EULT_OPEN_TROPHY, ::EULT_CLAN_UNITS]
     checkFunc = function(userlogBlk)
     {
-      local body = userlogBlk.body
+      local body = userlogBlk?.body
       if (!body)
         return true
 
-      local logType = userlogBlk.type
+      local logType = userlogBlk?.type
       if (logType == ::EULT_CLAN_ACTION
           || logType == ::EULT_BUYING_UNLOCK
           || logType == ::EULT_BUYING_RESOURCE)
@@ -101,12 +101,12 @@
   }
 ]
 
-function save_online_job()
+::save_online_job <- function save_online_job()
 {
   return ::save_online_single_job(223) //super secure digit for job tag :)
 }
 
-function gui_modal_userLog()
+::gui_modal_userLog <- function gui_modal_userLog()
 {
   ::gui_start_modal_wnd(::gui_handlers.UserLogHandler)
 }
@@ -183,7 +183,7 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
       local blk = ::DataBlock()
       ::get_user_log_blk_body(i, blk)
 
-      if (blk.disabled) // was seen
+      if (blk?.disabled) // was seen
         continue
 
       foreach(idx, page in ::userlog_pages)
@@ -315,9 +315,9 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local blk = ::DataBlock()
       ::get_user_log_blk_body(i, blk)
-      if (!::isInArray(blk.type, ::hidden_userlogs))
+      if (!::isInArray(blk?.type, ::hidden_userlogs))
       {
-        if (index == counter && !blk.disabled)
+        if (index == counter && !blk?.disabled)
         {
           if (::disable_user_log_entry(i))
           {

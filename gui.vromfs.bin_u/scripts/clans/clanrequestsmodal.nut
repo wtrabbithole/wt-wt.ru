@@ -1,6 +1,6 @@
 local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
 
-function showClanRequests(candidatesData, clanId, owner)
+::showClanRequests <- function showClanRequests(candidatesData, clanId, owner)
 {
   ::gui_start_modal_wnd(::gui_handlers.clanRequestsModal,
     {
@@ -178,7 +178,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onRequestReject()
   {
-    ::g_clans.rejectPlayerRequest(curCandidate.uid)
+    ::g_clans.rejectPlayerRequest(curCandidate.uid, clanId)
   }
 
   function hideCandidateByName(name)

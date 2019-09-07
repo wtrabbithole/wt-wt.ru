@@ -204,8 +204,8 @@ class ::WwBattle
   function createLocalizeConfig(descBlk)
   {
     localizeConfig = {
-      locName = descBlk ? (descBlk.locName || "") : ""
-      locDesc = descBlk ? (descBlk.locDesc || "") : ""
+      locName = descBlk?.locName ?? ""
+      locDesc = descBlk?.locDesc ?? ""
     }
   }
 
@@ -229,12 +229,12 @@ class ::WwBattle
       if (teamName.len() == 0)
         continue
 
-      local teamSideName = teamBlk.side || ""
+      local teamSideName = teamBlk?.side ?? ""
       if (teamSideName.len() == 0)
         continue
 
-      local numPlayers = teamBlk.players || 0
-      local teamMaxPlayers = teamBlk.maxPlayers || 0
+      local numPlayers = teamBlk?.players ?? 0
+      local teamMaxPlayers = teamBlk?.maxPlayers ?? 0
 
       local armyNamesBlk = teamBlk.getBlockByName("armyNames")
       local teamArmyNames = []

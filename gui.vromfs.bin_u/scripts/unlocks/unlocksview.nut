@@ -5,7 +5,7 @@
 //  build_conditions_config(unlockBlk)
 //  ::build_unlock_desc(unlockConfig)
 
-function g_unlock_view::fillUnlockConditions(unlockConfig, unlockObj, context)
+g_unlock_view.fillUnlockConditions <- function fillUnlockConditions(unlockConfig, unlockObj, context)
 {
   if( ! ::checkObj(unlockObj))
     return
@@ -47,7 +47,7 @@ function g_unlock_view::fillUnlockConditions(unlockConfig, unlockObj, context)
     expandImgObj.show(false)
 }
 
-function g_unlock_view::fillUnlockProgressBar(unlockConfig, unlockObj)
+g_unlock_view.fillUnlockProgressBar <- function fillUnlockProgressBar(unlockConfig, unlockObj)
 {
   local obj = unlockObj.findObject("progress_bar")
   local data = unlockConfig.getProgressBarData()
@@ -56,12 +56,12 @@ function g_unlock_view::fillUnlockProgressBar(unlockConfig, unlockObj)
     obj.setValue(data.value)
 }
 
-function g_unlock_view::fillUnlockDescription(unlockConfig, unlockObj)
+g_unlock_view.fillUnlockDescription <- function fillUnlockDescription(unlockConfig, unlockObj)
 {
   unlockObj.findObject("description").setValue(getUnlockDescription(unlockConfig))
 }
 
-function g_unlock_view::fillUnlockImage(unlockConfig, unlockObj)
+g_unlock_view.fillUnlockImage <- function fillUnlockImage(unlockConfig, unlockObj)
 {
   local unlockType = unlockConfig.unlockType
   local isUnlocked = ::is_unlocked_scripted(-1, unlockConfig.id)
@@ -89,7 +89,7 @@ function g_unlock_view::fillUnlockImage(unlockConfig, unlockObj)
   )
 }
 
-function g_unlock_view::fillReward(unlockConfig, unlockObj)
+g_unlock_view.fillReward <- function fillReward(unlockConfig, unlockObj)
 {
   local id = unlockConfig.id
   local rewardObj = unlockObj.findObject("reward")
@@ -129,7 +129,7 @@ function g_unlock_view::fillReward(unlockConfig, unlockObj)
   rewardObj.setValue(rewardText)
 }
 
-function g_unlock_view::fillStages(unlockConfig, unlockObj, context)
+g_unlock_view.fillStages <- function fillStages(unlockConfig, unlockObj, context)
 {
   if( ! ::checkObj(unlockObj))
     return
@@ -161,7 +161,7 @@ function g_unlock_view::fillStages(unlockConfig, unlockObj, context)
     unlockConfig.curStage = currentStage
 }
 
-function g_unlock_view::fillUnlockTitle(unlockConfig, unlockObj)
+g_unlock_view.fillUnlockTitle <- function fillUnlockTitle(unlockConfig, unlockObj)
 {
   local name = ""
   local isUnlocked = ::is_unlocked_scripted(-1, unlockConfig.id)
@@ -171,7 +171,7 @@ function g_unlock_view::fillUnlockTitle(unlockConfig, unlockObj)
   return title
 }
 
-function g_unlock_view::getRewardText(unlockConfig, stageNum)
+g_unlock_view.getRewardText <- function getRewardText(unlockConfig, stageNum)
 {
   if (("stages" in unlockConfig) && (stageNum in unlockConfig.stages))
     unlockConfig = unlockConfig.stages[stageNum]
@@ -183,7 +183,7 @@ function g_unlock_view::getRewardText(unlockConfig, stageNum)
   return ""
 }
 
-function g_unlock_view::fillUnlockFav(unlockId, unlockObj)
+g_unlock_view.fillUnlockFav <- function fillUnlockFav(unlockId, unlockObj)
 {
   local checkboxFavorites = unlockObj.findObject("checkbox-favorites")
   if( ! ::checkObj(checkboxFavorites))
@@ -192,7 +192,7 @@ function g_unlock_view::fillUnlockFav(unlockId, unlockObj)
   ::g_unlock_view.fillUnlockFavCheckbox(checkboxFavorites)
 }
 
-function g_unlock_view::fillUnlockFavCheckbox(obj)
+g_unlock_view.fillUnlockFavCheckbox <- function fillUnlockFavCheckbox(obj)
 {
   local isUnlockInFavorites = obj.unlockId in ::g_unlocks.getFavoriteUnlocks()
   obj.setValue(isUnlockInFavorites)
@@ -201,7 +201,7 @@ function g_unlock_view::fillUnlockFavCheckbox(obj)
     "mainmenu/UnlockAchievementsToFavorite/hint")
 }
 
-function g_unlock_view::fillUnlockPurchaseButton(unlockData, unlockObj)
+g_unlock_view.fillUnlockPurchaseButton <- function fillUnlockPurchaseButton(unlockData, unlockObj)
 {
   local purchButtonObj = unlockObj.findObject("purchase_button")
   if (!::check_obj(purchButtonObj))

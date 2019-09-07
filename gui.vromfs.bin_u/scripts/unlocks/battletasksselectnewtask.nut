@@ -1,4 +1,4 @@
-function gui_start_battle_tasks_select_new_task_wnd(battleTasksArray = null)
+::gui_start_battle_tasks_select_new_task_wnd <- function gui_start_battle_tasks_select_new_task_wnd(battleTasksArray = null)
 {
   if (!::g_battle_tasks.isAvailableForUser() || ::u.isEmpty(battleTasksArray))
     return
@@ -43,7 +43,7 @@ class ::gui_handlers.BattleTasksSelectNewTaskWnd extends ::gui_handlers.BaseGuiH
 
       local index = 0
       if (filteredTasksArray.len())
-        index = ::u.searchIndex(battleTasksArray, @(task) filteredTasksArray[0].id == task.id, 0)
+        index = battleTasksArray.searchIndex(@(task) filteredTasksArray[0].id == task.id) ?? 0
 
       listObj.setValue(index)
     }

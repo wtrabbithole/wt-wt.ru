@@ -1,4 +1,4 @@
-enum optionControlType {
+global enum optionControlType {
   LIST
   BIT_LIST
   SLIDER
@@ -7,7 +7,7 @@ enum optionControlType {
   HEADER
 }
 
-enum AIR_MOUSE_USAGE {
+global enum AIR_MOUSE_USAGE {
   NOT_USED    = 0x0001
   AIM         = 0x0002
   JOYSTICK    = 0x0004
@@ -39,7 +39,6 @@ enum AIR_MOUSE_USAGE {
     "USEROPT_INVERTY_TANK",
     "USEROPT_INVERTY_SHIP",
     "USEROPT_INVERTY_HELICOPTER",
-    "USEROPT_INVERTY_UFO",
     "USEROPT_INVERTY_WALKER",
     "USEROPT_INVERTY_SUBMARINE",
     "USEROPT_INVERTX",
@@ -55,6 +54,7 @@ enum AIR_MOUSE_USAGE {
     "USEROPT_BULLET_FALL_INDICATOR_SHIP",
     "USEROPT_BULLET_FALL_SOUND_SHIP",
     "USEROPT_AUTO_TARGET_CHANGE_SHIP",
+    "USEROPT_REALISTIC_AIMING_SHIP",
     "USEROPT_ZOOM_FOR_TURRET",
     "USEROPT_SUBTITLES",
     "USEROPT_SUBTITLES_RADIO",
@@ -67,9 +67,11 @@ enum AIR_MOUSE_USAGE {
     "USEROPT_MEASUREUNITS_WING_LOADING",
     "USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO",
     "USEROPT_AUTOSAVE_REPLAYS",
+    "USEROPT_HIDE_MOUSE_SPECTATOR",
     "USEROPT_XRAY_DEATH",
     "USEROPT_XRAY_KILL",
     "USEROPT_CAMERA_SHAKE_MULTIPLIER"
+    "USEROPT_VR_CAMERA_SHAKE_MULTIPLIER"
     "USEROPT_VIBRATION",
     "USEROPT_SOUND_ENABLE"
     "USEROPT_SOUND_SPEAKERS_MODE"
@@ -346,6 +348,7 @@ enum AIR_MOUSE_USAGE {
     "USEROPT_MISSION_NAME_POSTFIX",
     "USEROPT_SHOW_DESTROYED_PARTS",
     "USEROPT_FPS_CAMERA_PHYSICS",
+    "USEROPT_FPS_VR_CAMERA_PHYSICS",
     "USEROPT_FREE_CAMERA_INERTIA",
     "USEROPT_REPLAY_CAMERA_WIGGLE",
 
@@ -395,7 +398,7 @@ foreach(idx, useropt in ::user_option_names)
 delete options_mode_names
 delete user_option_names
 
-function get_option_in_mode(optionId, mode)
+::get_option_in_mode <- function get_option_in_mode(optionId, mode)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(mode)
@@ -404,7 +407,7 @@ function get_option_in_mode(optionId, mode)
   return res
 }
 
-function get_gui_option_in_mode(optionId, mode, defaultValue = null)
+::get_gui_option_in_mode <- function get_gui_option_in_mode(optionId, mode, defaultValue = null)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(mode)
@@ -416,7 +419,7 @@ function get_gui_option_in_mode(optionId, mode, defaultValue = null)
   return res
 }
 
-function set_gui_option_in_mode(optionId, value, mode)
+::set_gui_option_in_mode <- function set_gui_option_in_mode(optionId, value, mode)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(mode)

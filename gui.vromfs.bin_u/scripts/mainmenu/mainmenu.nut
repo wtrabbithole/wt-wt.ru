@@ -5,7 +5,7 @@ local contentStateModule = ::require("scripts/clientState/contentState.nut")
 local itemNotifications = ::require("scripts/items/itemNotifications.nut")
 
 ::dbg_mainmenu_start_check <- 0
-function gui_start_mainmenu(allowMainmenuActions = true)
+::gui_start_mainmenu <- function gui_start_mainmenu(allowMainmenuActions = true)
 {
   if (::dbg_mainmenu_start_check++)
   {
@@ -27,7 +27,7 @@ function gui_start_mainmenu(allowMainmenuActions = true)
   return handler
 }
 
-function gui_start_mainmenu_reload(showShop = false)
+::gui_start_mainmenu_reload <- function gui_start_mainmenu_reload(showShop = false)
 {
   dagor.debug("Forced reload mainmenu")
   if (::dbg_mainmenu_start_check)
@@ -43,12 +43,12 @@ function gui_start_mainmenu_reload(showShop = false)
   ::gui_start_mainmenu()
 }
 
-function gui_start_menuShop()
+::gui_start_menuShop <- function gui_start_menuShop()
 {
   ::gui_start_mainmenu_reload(true)
 }
 
-function mainmenu_preFunc()
+::mainmenu_preFunc <- function mainmenu_preFunc()
 {
   ::back_from_replays = null
 
@@ -62,7 +62,7 @@ function mainmenu_preFunc()
 }
 
  //called after all first mainmenu actions
-function on_mainmenu_return(handler, isAfterLogin)
+::on_mainmenu_return <- function on_mainmenu_return(handler, isAfterLogin)
 {
   if (!handler)
     return
@@ -109,15 +109,15 @@ function on_mainmenu_return(handler, isAfterLogin)
     {
       local cdb = ::get_local_custom_settings_blk()
       local days = time.getUtcDays()
-      if(!cdb.viralAcquisition)
+      if(!cdb?.viralAcquisition)
         cdb.viralAcquisition = ::DataBlock()
 
       local gmBlk = ::get_game_settings_blk()
       local resetTime = false
-      if (gmBlk && gmBlk.resetViralAcquisitionDaysCounter)
+      if (gmBlk?.resetViralAcquisitionDaysCounter)
       {
         local num = gmBlk.resetViralAcquisitionDaysCounter
-        if (!cdb.viralAcquisition.resetDays)
+        if (!cdb.viralAcquisition?.resetDays)
           cdb.viralAcquisition.resetDays = 0
         if (num > cdb.viralAcquisition.resetDays)
         {
@@ -126,10 +126,10 @@ function on_mainmenu_return(handler, isAfterLogin)
         }
       }
 
-      if(!cdb.viralAcquisition.lastShowTime || resetTime)
+      if(!cdb.viralAcquisition?.lastShowTime || resetTime)
         cdb.viralAcquisition.lastShowTime = 0
 
-      if(!cdb.viralAcquisition.lastLoginDay)
+      if(!cdb.viralAcquisition?.lastLoginDay)
         cdb.viralAcquisition.lastLoginDay = days
 
       if((cdb.viralAcquisition.lastLoginDay - cdb.viralAcquisition.lastShowTime) > 10)
@@ -235,7 +235,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
                       battles = ::online_stats.rooms_total
                     })
 
-    ::set_menu_title(text, ::top_menu_handler.scene, "online_info")
+    setSceneTitle(text, ::top_menu_handler.scene, "online_info")
   }
 
   function onEventClanInfoUpdate(params)
@@ -330,7 +330,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
     local unit = ::getAircraftByName(unitName)
     local lockObj = scene.findObject("crew-notready-topmenu")
     lockObj.tooltip = ::format(::loc("msgbox/no_available_aircrafts"),
-      time.secondsToString(::get_warpoints_blk().lockTimeMaxLimitSec || 0))
+      time.secondsToString(::get_warpoints_blk()?.lockTimeMaxLimitSec ?? 0))
     ::setCrewUnlockTime(lockObj, unit)
 
     updateUnitRentInfo(unit)

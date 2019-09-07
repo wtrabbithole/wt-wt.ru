@@ -29,6 +29,10 @@
 @const buttonFontColorSecondary: #d0f2ff;
 @const buttonWinkColorSecondary: #000170a1;
 
+@const buttonColorTranslucent:       #2d051527;
+@const buttonColorTranslucentHover:  #8d051527;
+@const buttonColorTranslucentPushed: #d8051527;
+
 @const buttonHeaderTextColor: #e0e0e0;
 
 @const buttonCloseColorHover: #ffb2391d;
@@ -1131,6 +1135,11 @@ Button_text[visualStyle=noFrame] underline {
 }
 
 Button_text[visualStyle=noFrame] > additionalIconsDiv {
+  pos:5*@sf/@pf_outdated, 50%ph-50%h;
+  position:relative;
+}
+
+topMenuButtons > Button_text[visualStyle=noFrame] > additionalIconsDiv {
   pos:pw-w-5*@sf/@pf_outdated, 50%ph-50%h;
   position:absolute;
 }
@@ -1601,7 +1610,7 @@ Button_text.switch[inactiveColor=yes] > img {
 }
 
 [show_console_buttons=yes] Button_text.switch > img {
-  background-color:@transparent;
+  display:hide;
 }
 
 .smallFont > Button_text {
@@ -1638,39 +1647,31 @@ cardImg.button, activeText.button, img.button, root.button, div.button {
   padding-right:1@buttonImgPadding;
 }
 
-Button_text[visualStyle=header] {
-  height:@headerButtonHeight;
-  min-width:h;
-  margin:0;
-  total-input-transparent:yes;
+Button_text[visualStyle=translucent] {
+  background-color:@buttonColorTranslucent;
 }
 
-Button_text[visualStyle=header] > activeText,
-Button_text[visualStyle=header] > text {
+Button_text[visualStyle=translucent]:hover {
+  background-color:@buttonColorTranslucentHover;
+  border-color:@buttonColorTranslucentHover;
+}
+
+Button_text[visualStyle=translucent]:pushed {
+  background-color:@buttonColorTranslucentPushed;
+  border-color:@buttonColorTranslucentPushed;
+}
+
+Button_text[visualStyle=translucent] > text {
   color: @buttonHeaderTextColor;
 }
 
-Button_text[visualStyle=header]:hover > activeText,
-Button_text[visualStyle=header]:hover > text,
-Button_text[visualStyle=header]:focus > activeText,
-Button_text[visualStyle=header]:focus > text {
+Button_text[visualStyle=translucent]:hover > text,
+Button_text[visualStyle=translucent]:focus > text {
   color:@hoverMenuButtonColor;
 }
 
-Button_text[visualStyle=header]:pushed > activeText,
-Button_text[visualStyle=header]:pushed > text {
+Button_text[visualStyle=translucent]:pushed > text {
   color:@pushedMenuButtonColor;
-}
-
-Button_text[visualStyle=header] > img {
-  size:@dIco,@dIco;
-  background-color:@white;
-  background-repeat:aspect-ratio;
-  padding:0;
-  margin:0;
-  min-width:h;
-  pos:50%pw-50%w, 50%ph-50%h;
-  position:absolute;
 }
 
 top_right_holder[smallIcon=yes] > Button_text {
@@ -1709,25 +1710,6 @@ Button_text > BonusCorner[bonusType=common] {
 
 Button_text:disabled > BonusCorner {
   background-color:@buttonFontColorDisabled;
-}
-
-Button_text[visualStyle=header] {
-  background-image:#ui/gameuiskin#header_button_;
-  background-position:5;
-  background-repeat:expand;
-  border:no;
-  background-color:@white;
-}
-
-Button_text[visualStyle=header]:hover {
-  background-image:#ui/gameuiskin#header_button_hover;
-}
-Button_text[visualStyle=header]:pushed {
-  background-image:#ui/gameuiskin#header_button_active;
-}
-
-Button_text[visualStyle=header]:disabled {
-  background-image:#ui/gameuiskin#header_button_disabled;
 }
 
 .dropDown > Button_text {
@@ -1844,15 +1826,20 @@ Button_text[showOn=hoverOrSelect] {
   display:hide;
 }
 
-tr[selected=yes] Button_text[showOn=hoverOrSelect], tr:hover Button_text[showOn=hoverOrSelect] {
+tr[selected=yes] Button_text[showOn=hoverOrSelect], tr:hover Button_text[showOn=hoverOrSelect],
+gameModeBlock[current_mode=yes] Button_text[showOn=hoverOrSelect],
+gameModeBlock:hover Button_text[showOn=hoverOrSelect] {
   display:show;
 }
 
-[show_console_buttons=yes] tr Button_text[showOn=hoverOrSelect] ButtonImg {
+[show_console_buttons=yes] tr Button_text[showOn=hoverOrSelect] ButtonImg,
+[show_console_buttons=yes] gameModeBlock Button_text[showOn=hoverOrSelect] {
   display:hide;
 }
 
-[show_console_buttons=yes] tr[selected=yes] Button_text[showOn=hoverOrSelect] ButtonImg {
+[show_console_buttons=yes] tr[selected=yes] Button_text[showOn=hoverOrSelect] ButtonImg,
+[show_console_buttons=yes] gameModeBlock[selected=yes] Button_text[showOn=hoverOrSelect],
+[show_console_buttons=yes] gameModeBlock:hover Button_text[showOn=hoverOrSelect] {
   display:show;
 }
 
@@ -2017,8 +2004,7 @@ Button_text.bottomAirItem[inactiveColor=yes]
   background-color: @weaponWarning;
 }
 
-[show_console_buttons=yes] :focus td[selected=yes] Button_text.bottomAirItem,
-[show_console_buttons=no]         td[selected=yes] Button_text.bottomAirItem,
+:focus td[selected=yes] Button_text.bottomAirItem,
 [show_console_buttons=yes] :focus unitItemContainer[selected=yes] > shopItem Button_text.bottomAirItem,
 weapon_item_unit[selected=yes] Button_text.bottomAirItem {
   display:show;

@@ -1,4 +1,4 @@
-function _generateCoverMission(isFreeFlight, createGroundUnitsProc)
+::_generateCoverMission <- function _generateCoverMission(isFreeFlight, createGroundUnitsProc)
 {
   local mission_preset_name = "cover_bombers_preset01";
   ::mgBeginMission("gameData/missions/dynamic_campaign/objectives/"+mission_preset_name+".blk");

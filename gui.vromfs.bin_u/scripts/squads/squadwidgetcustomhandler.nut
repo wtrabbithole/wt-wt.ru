@@ -3,7 +3,7 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
 const SQUAD_MEMBERS_TO_HIDE_TITLE = 3
 
-function init_squad_widget_handler(parentHandler, nestObj)
+::init_squad_widget_handler <- function init_squad_widget_handler(parentHandler, nestObj)
 {
   if (!::has_feature("Squad") || !::has_feature("SquadWidget"))
     return null

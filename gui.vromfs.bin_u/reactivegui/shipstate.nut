@@ -21,6 +21,7 @@ local shipState = {
   //DM:
   enginesCount = Watched(0)
   brokenEnginesCount = Watched(0)
+  enginesInCooldown = Watched(false)
 
   steeringGearsCount = Watched(0)
   brokenSteeringGearsCount = Watched(0)
@@ -34,6 +35,7 @@ local shipState = {
 
   transmissionCount = Watched(0)
   brokenTransmissionCount = Watched(0)
+  transmissionsInCooldown = Watched(false)
 
   aiGunnersState = Watched(0)
   hasAiGunners = Watched(true)

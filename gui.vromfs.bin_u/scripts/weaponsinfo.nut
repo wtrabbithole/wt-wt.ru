@@ -1,20 +1,20 @@
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
 
-const KGF_TO_NEWTON = 9.807
+global const KGF_TO_NEWTON = 9.807
 
 ::UNIT_WEAPONS_ZERO    <- 0
 ::UNIT_WEAPONS_WARNING <- 1
 ::UNIT_WEAPONS_READY   <- 2
 
-enum AMMO {
+global enum AMMO {
   PRIMARY = 0, //bullets, modifications
   MODIFICATION = 0,
   SECONDARY = 1,  //weapon presets
   WEAPON = 1
 }
 
-enum WEAPON_TYPE {
+global enum WEAPON_TYPE {
   GUN             = 0
   ROCKET          = 1 // Rocket
   AAM             = 2 // Air-to-Air Missile
@@ -27,7 +27,7 @@ enum WEAPON_TYPE {
 
 if (!("_set_last_weapon" in ::getroottable()))
   ::_set_last_weapon <- ::set_last_weapon
-function set_last_weapon(unitName, weaponName)
+::set_last_weapon <- function set_last_weapon(unitName, weaponName)
 {
   if (weaponName == ::get_last_weapon(unitName))
     return
@@ -37,7 +37,7 @@ function set_last_weapon(unitName, weaponName)
 
 if (!("_get_last_weapon" in ::getroottable()))
   ::_get_last_weapon <- ::get_last_weapon
-function get_last_weapon(unitName)
+::get_last_weapon <- function get_last_weapon(unitName)
 {
   local res = ::_get_last_weapon(unitName)
   if (res != "")
@@ -57,7 +57,7 @@ function get_last_weapon(unitName)
   return res
 }
 
-function checkUnitWeapons(unit)
+::checkUnitWeapons <- function checkUnitWeapons(unit)
 {
   local weapon = ::get_last_weapon(unit.name)
   local weaponText = ::getAmmoAmountData(unit, weapon, AMMO.WEAPON)
@@ -78,7 +78,7 @@ function checkUnitWeapons(unit)
   return ::UNIT_WEAPONS_READY;
 }
 
-function getUnitNotReadyAmmoList(unit, readyStatus = ::UNIT_WEAPONS_WARNING)
+::getUnitNotReadyAmmoList <- function getUnitNotReadyAmmoList(unit, readyStatus = ::UNIT_WEAPONS_WARNING)
 {
   local res = []
   local addAmmoData = function(ammoData) {
@@ -101,16 +101,18 @@ function getUnitNotReadyAmmoList(unit, readyStatus = ::UNIT_WEAPONS_WARNING)
   return res
 }
 
-function addWeaponsFromBlk(weapons, block, unit)
+::addWeaponsFromBlk <- function addWeaponsFromBlk(weapons, block, unit)
 {
   local unitType = ::get_es_unit_type(unit)
 
   foreach (weapon in (block % "Weapon"))
   {
-    if (weapon.dummy)
+    if (weapon?.dummy)
       continue
 
-    local weaponName = ::get_weapon_name_by_blk_path(weapon.blk)
+    if (!weapon?.blk)
+      continue
+
     local weaponBlk = ::DataBlock( weapon.blk )
     if (!weaponBlk)
       continue
@@ -118,10 +120,10 @@ function addWeaponsFromBlk(weapons, block, unit)
     local currentTypeName = "turrets"
     local unitName = "bullet"
 
-    if (weaponBlk.rocketGun)
+    if (weaponBlk?.rocketGun)
     {
       currentTypeName = ""
-      switch (weapon.trigger)
+      switch (weapon?.trigger)
       {
         case "atgm":
         case "agm":     currentTypeName = "agm";      break
@@ -129,16 +131,16 @@ function addWeaponsFromBlk(weapons, block, unit)
         case "flares":  currentTypeName = "flares";   break
         default:        currentTypeName = "rockets"
       }
-      if (weapon.triggerGroup == "smoke")
+      if (weapon?.triggerGroup == "smoke")
         currentTypeName = "smoke"
       unitName = "rocket"
     }
-    else if (weaponBlk.bombGun)
+    else if (weaponBlk?.bombGun)
     {
       currentTypeName = "bombs"
       unitName = "bomb"
     }
-    else if (weaponBlk.torpedoGun)
+    else if (weaponBlk?.torpedoGun)
     {
       currentTypeName = "torpedoes"
       unitName = "torpedo"
@@ -148,22 +150,18 @@ function addWeaponsFromBlk(weapons, block, unit)
                   "agm", "aam", "bombs", "torpedoes", "smoke", "flares" ]))
     { //not a turret
       currentTypeName = "guns"
-      if (weaponBlk.bullet && typeof(weaponBlk.bullet) == "instance"
-          && ::isCaliberCannon(1000 * ::getTblValue("caliber", weaponBlk.bullet, 0)))
+      if (weaponBlk?.bullet && typeof(weaponBlk?.bullet) == "instance"
+          && ::isCaliberCannon(1000 * ::getTblValue("caliber", weaponBlk?.bullet, 0)))
         currentTypeName = "cannons"
     }
-    else if (weaponBlk.fuelTankGun || weaponBlk.boosterGun || weaponBlk.airDropGun || weaponBlk.undercarriageGun)
+    else if (weaponBlk?.fuelTankGun || weaponBlk?.boosterGun || weaponBlk?.airDropGun || weaponBlk?.undercarriageGun)
       continue
 
     local isTurret = currentTypeName == "turrets"
 
-    local bullets = weapon.bullets
+    local bullets = weapon?.bullets ?? 0
     if (bullets <= 0)
-    {
-      bullets = weaponBlk.bullets
-      if (bullets < 0)
-        bullets = 0
-    }
+      bullets = ::max(weaponBlk?.bullets, 0)
 
     local item = {
       turret = null
@@ -180,23 +178,27 @@ function addWeaponsFromBlk(weapons, block, unit)
 
     local needBulletParams = !::isInArray(currentTypeName, [ "smoke", "flares" ])
 
-    if (needBulletParams && unitName.len() && weaponBlk[unitName])
+    if (needBulletParams && unitName.len() && weaponBlk?[unitName])
     {
       local itemBlk = weaponBlk[unitName]
-      item.caliber = itemBlk.caliber || 0
-      item.massKg = itemBlk.mass || 0
-      item.massLbs = itemBlk.mass_lbs || 0
-      item.explosiveType = itemBlk.explosiveType
-      item.explosiveMass = itemBlk.explosiveMass || 0
+      item.caliber = itemBlk?.caliber ?? item.caliber
+      item.massKg = itemBlk?.mass ?? item.massKg
+      item.massLbs = itemBlk?.mass_lbs ?? item.massLbs
+      item.explosiveType = itemBlk?.explosiveType ?? item.explosiveType
+      item.explosiveMass = itemBlk?.explosiveMass ?? item.explosiveMass
 
       if (::isInArray(currentTypeName, [ "rockets", "agm", "aam" ]))
       {
-        item.maxSpeed <- itemBlk.maxSpeed || itemBlk.endSpeed || 0
+        item.maxSpeed <- itemBlk?.maxSpeed ?? itemBlk?.endSpeed ?? 0
         if (currentTypeName == "aam")
         {
-          item.loadFactorMax <- itemBlk.loadFactorMax || 0
-          item.seekerRangeRearAspect <- itemBlk.irSeeker?.rangeBand0 || 0
-          item.seekerRangeAllAspect      <- itemBlk.irSeeker?.rangeBand1 || 0
+          item.loadFactorMax <- itemBlk?.loadFactorMax ?? 0
+          item.seekerRangeRearAspect <- itemBlk?.irSeeker?.rangeBand0 ?? 0
+          item.seekerRangeAllAspect  <- itemBlk?.irSeeker?.rangeBand1 ?? 0
+        }
+        else if (currentTypeName == "agm")
+        {
+          item.operatedDist <- itemBlk?.operatedDist ?? 0
         }
       }
       else  if (currentTypeName == "torpedoes")
@@ -207,10 +209,10 @@ function addWeaponsFromBlk(weapons, block, unit)
         item.dropHeightRange = itemBlk.getPoint2("dropHeightRange", Point2(0,0))
         if (item.dropHeightRange.x == 0 && item.dropHeightRange.y == 0)
           item.dropHeightRange = null
-        item.maxSpeedInWater <- itemBlk.maxSpeedInWater || 0
-        item.distToLive <- itemBlk.distToLive || 0
-        item.diveDepth <- itemBlk.diveDepth || 0
-        item.armDistance <- itemBlk.armDistance || 0
+        item.maxSpeedInWater <- itemBlk?.maxSpeedInWater ?? 0
+        item.distToLive <- itemBlk?.distToLive ?? 0
+        item.diveDepth <- itemBlk?.diveDepth ?? 0
+        item.armDistance <- itemBlk?.armDistance ?? 0
       }
     }
 
@@ -223,6 +225,7 @@ function addWeaponsFromBlk(weapons, block, unit)
     if (!(currentTypeName in weapons))
       weapons[ currentTypeName ] <- []
 
+    local weaponName = ::get_weapon_name_by_blk_path(weapon.blk)
     local trIdx = -1
     foreach(idx, t in weapons[currentTypeName])
       if (weapon.trigger == t.trigger ||
@@ -263,7 +266,7 @@ function addWeaponsFromBlk(weapons, block, unit)
   return weapons
 }
 
-function get_weapon_name_by_blk_path(weaponBlkLink)
+::get_weapon_name_by_blk_path <- function get_weapon_name_by_blk_path(weaponBlkLink)
 {
   local weaponName = weaponBlkLink
   if ( weaponName.slice(-4) == ".blk" )
@@ -280,7 +283,7 @@ function get_weapon_name_by_blk_path(weaponBlkLink)
   return weaponName
 }
 
-function is_weapon_params_equal(item1, item2)
+::is_weapon_params_equal <- function is_weapon_params_equal(item1, item2)
 {
   if (typeof(item1) != "table" || typeof(item2) != "table" || !item1.len() || !item2.len())
     return false
@@ -307,7 +310,7 @@ enum EWeaponType {          // weapon type for getWeaponInfoText
   additional= 0x80 // additional weapons, it's all weapons, exclude common
 }
 
-function getWeaponNameText(air, isPrimary = null, weaponPreset=-1, newLine=", ")
+::getWeaponNameText <- function getWeaponNameText(air, isPrimary = null, weaponPreset=-1, newLine=", ")
 {
   return getWeaponInfoText(air,
     { isPrimary = isPrimary, weaponPreset = weaponPreset, newLine = newLine, detail = INFO_DETAIL.SHORT })
@@ -322,7 +325,7 @@ local WEAPON_TEXT_PARAMS = { //const
   ediff = null //int. when not set, uses get_current_ediff() function
   isLocalState = true //should apply my local parameters to unit (modifications, crew skills, etc)
 }
-function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
+::getWeaponInfoText <- function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
 {
   if (typeof(air) == "string")
     air = getAircraftByName(air)
@@ -369,7 +372,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
       text += ::loc("weapon/noPrimaryWeapon")
   }
 
-  if (airBlk.weapon_presets != null && !p.isPrimary)
+  if (airBlk?.weapon_presets != null && !p.isPrimary)
   {
     local wpBlk = null
     foreach (wp in (airBlk.weapon_presets % "preset"))
@@ -537,7 +540,7 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
 }
 
 //weapon - is a weaponData gathered by addWeaponsFromBlk
-function _get_weapon_extended_info(weapon, weaponType, unit, ediff, newLine)
+::_get_weapon_extended_info <- function _get_weapon_extended_info(weapon, weaponType, unit, ediff, newLine)
 {
   local res = ""
 
@@ -555,6 +558,7 @@ function _get_weapon_extended_info(weapon, weaponType, unit, ediff, newLine)
     if (maxSpeed)
       res += newLine + ::loc("rocket/maxSpeed") + ::loc("ui/colon")
              + ::g_measure_type.SPEED_PER_SEC.getMeasureUnitsText(maxSpeed)
+
     if (weapon?.seekerRangeRearAspect)
       res += newLine + ::loc("missile/seekerRange/rearAspect") + ::loc("ui/colon")
              + ::g_measure_type.DISTANCE.getMeasureUnitsText(weapon.seekerRangeRearAspect)
@@ -564,6 +568,10 @@ function _get_weapon_extended_info(weapon, weaponType, unit, ediff, newLine)
     if (weapon?.loadFactorMax)
       res += newLine + ::loc("missile/loadFactorMax") + ::loc("ui/colon")
              + ::g_measure_type.GFORCE.getMeasureUnitsText(weapon.loadFactorMax)
+
+    if (weapon?.operatedDist)
+      res += newLine + ::loc("firingRange") + ::loc("ui/colon")
+             + ::g_measure_type.DISTANCE.getMeasureUnitsText(weapon.operatedDist)
   }
   else if (weaponType == "torpedoes")
   {
@@ -634,7 +642,7 @@ function _get_weapon_extended_info(weapon, weaponType, unit, ediff, newLine)
   return res
 }
 
-function getWeaponShortTypeFromWpName(wpName, air = null)
+::getWeaponShortTypeFromWpName <- function getWeaponShortTypeFromWpName(wpName, air = null)
 {
   if (!wpName || typeof(wpName) != "string")
     return ""
@@ -655,7 +663,7 @@ function getWeaponShortTypeFromWpName(wpName, air = null)
 }
 
 // return short desc of air.weapons[weaponPresetNo], like M\C\B\T
-function getWeaponShortType(air, weaponPresetNo=0)
+::getWeaponShortType <- function getWeaponShortType(air, weaponPresetNo=0)
 {
   if (typeof(air) == "string")
     air = getAircraftByName(air)
@@ -695,12 +703,12 @@ function getWeaponShortType(air, weaponPresetNo=0)
   return text
 }
 
-function isCaliberCannon(caliber_mm)
+::isCaliberCannon <- function isCaliberCannon(caliber_mm)
 {
   return caliber_mm >= 15
 }
 
-function getWeaponXrayDescText(weaponBlk, unit, ediff)
+::getWeaponXrayDescText <- function getWeaponXrayDescText(weaponBlk, unit, ediff)
 {
   local weaponsBlk = ::DataBlock()
   weaponsBlk["Weapon"] = weaponBlk
@@ -712,7 +720,7 @@ function getWeaponXrayDescText(weaponBlk, unit, ediff)
           return _get_weapon_extended_info(weapon, weaponType, unit, ediff, "\n")
 }
 
-function getWeaponDescTextByTriggerGroup(triggerGroup, unit, ediff)
+::getWeaponDescTextByTriggerGroup <- function getWeaponDescTextByTriggerGroup(triggerGroup, unit, ediff)
 {
   local unitBlk = ::get_full_unit_blk(unit.name)
   local primaryWeapon = ::get_last_primary_weapon(unit)
@@ -722,7 +730,7 @@ function getWeaponDescTextByTriggerGroup(triggerGroup, unit, ediff)
   local weaponTypes = {}
   if (primaryBlk)
     weaponTypes = addWeaponsFromBlk(weaponTypes, primaryBlk, unit)
-  if (unitBlk.weapon_presets)
+  if (unitBlk?.weapon_presets)
     foreach (wp in (unitBlk.weapon_presets % "preset"))
       if (wp.name == secondaryWeapon)
       {
@@ -742,7 +750,7 @@ function getWeaponDescTextByTriggerGroup(triggerGroup, unit, ediff)
   return ""
 }
 
-function isAirHaveSecondaryWeapons(air)
+::isAirHaveSecondaryWeapons <- function isAirHaveSecondaryWeapons(air)
 {
   local foundWeapon = false
   for (local i = 0; i < air.weapons.len(); i++)
@@ -754,7 +762,7 @@ function isAirHaveSecondaryWeapons(air)
   return "" != getWeaponInfoText(air, { isPrimary = false, weaponPreset = 0, needTextWhenNoWeapons = false })
 }
 
-function get_expendable_modifications_array(unit)
+::get_expendable_modifications_array <- function get_expendable_modifications_array(unit)
 {
   if (!("modifications" in unit))
     return []
@@ -762,7 +770,7 @@ function get_expendable_modifications_array(unit)
   return ::u.filter(unit.modifications, ::is_modclass_expendable)
 }
 
-function getPrimaryWeaponsList(air)
+::getPrimaryWeaponsList <- function getPrimaryWeaponsList(air)
 {
   if(air.primaryWeaponMods)
     return air.primaryWeaponMods
@@ -770,17 +778,17 @@ function getPrimaryWeaponsList(air)
   air.primaryWeaponMods = [""]
 
   local airBlk = ::get_full_unit_blk(air.name)
-  if(!airBlk || !airBlk.modifications)
+  if(!airBlk || !airBlk?.modifications)
     return air.primaryWeaponMods
 
   foreach(modName, modification in airBlk.modifications)
-    if (modification.effects && modification.effects.commonWeapons)
+    if (modification?.effects?.commonWeapons)
       air.primaryWeaponMods.append(modName)
 
   return air.primaryWeaponMods
 }
 
-function get_last_primary_weapon(air)
+::get_last_primary_weapon <- function get_last_primary_weapon(air)
 {
   local primaryList = ::getPrimaryWeaponsList(air)
   foreach(modName in primaryList)
@@ -789,7 +797,7 @@ function get_last_primary_weapon(air)
   return ""
 }
 
-function getCommonWeaponsBlk(airBlk, primaryMod)
+::getCommonWeaponsBlk <- function getCommonWeaponsBlk(airBlk, primaryMod)
 {
   if (primaryMod == "" && airBlk?.commonWeapons)
     return airBlk.commonWeapons
@@ -805,7 +813,7 @@ function getCommonWeaponsBlk(airBlk, primaryMod)
   return null
 }
 
-function getAmmoAmount(unit, ammoName, ammoType)
+::getAmmoAmount <- function getAmmoAmount(unit, ammoName, ammoType)
 {
   if (!ammoName)
     return 0
@@ -813,7 +821,7 @@ function getAmmoAmount(unit, ammoName, ammoType)
     return ::shop_is_modification_purchased(unit.name, ammoName)
   return  ::shop_is_weapon_purchased(unit.name, ammoName)
 }
-function getAmmoMaxAmount(unit, ammoName, ammoType)
+::getAmmoMaxAmount <- function getAmmoMaxAmount(unit, ammoName, ammoType)
 {
   if (ammoType==AMMO.MODIFICATION)
   {
@@ -826,14 +834,14 @@ function getAmmoMaxAmount(unit, ammoName, ammoType)
   return  ::wp_get_weapon_max_count(unit.name, ammoName)
 }
 
-function getAmmoMaxAmountInSession(unit, ammoName, ammoType)
+::getAmmoMaxAmountInSession <- function getAmmoMaxAmountInSession(unit, ammoName, ammoType)
 {
   if (ammoType==AMMO.MODIFICATION)
     return ::shop_get_modification_baseval(unit.name, ammoName)
   return  ::shop_get_weapon_baseval(unit.name, ammoName)
 }
 
-function getAmmoCost(unit, ammoName, ammoType)
+::getAmmoCost <- function getAmmoCost(unit, ammoName, ammoType)
 {
   local res = ::Cost()
   if (ammoType==AMMO.MODIFICATION)
@@ -848,19 +856,19 @@ function getAmmoCost(unit, ammoName, ammoType)
   return  res
 }
 
-function isAmmoFree(unit, ammoName, ammoType)
+::isAmmoFree <- function isAmmoFree(unit, ammoName, ammoType)
 {
   return ::getAmmoCost(unit, ammoName, ammoType) <= ::zero_money
 }
 
-function getAmmoWarningMinimum(ammoType, unit, maxAmount)
+::getAmmoWarningMinimum <- function getAmmoWarningMinimum(ammoType, unit, maxAmount)
 {
   if (unit.unitType == ::g_unit_type.SHIP)
     return max(1, maxAmount / 10)
   return (ammoType==AMMO.MODIFICATION)? ::weaponsWarningMinimumPrimary : ::weaponsWarningMinimumSecondary
 }
 
-function getAmmoAmountData(unit, ammoName, ammoType)
+::getAmmoAmountData <- function getAmmoAmountData(unit, ammoName, ammoType)
 {
   local res = {text = "", warning = false, amount = 0, buyAmount = 0,
                airName = unit.name, ammoName = ammoName, ammoType = ammoType }
@@ -884,7 +892,7 @@ function getAmmoAmountData(unit, ammoName, ammoType)
   return res
 }
 
-function getBulletsSetData(air, modifName, noModList = null)
+::getBulletsSetData <- function getBulletsSetData(air, modifName, noModList = null)
     //noModList!=null -> generate sets for fake bullets. return setsAmount
     //id of thoose sets = modifName + setNum + "_default"
 {
@@ -893,7 +901,7 @@ function getBulletsSetData(air, modifName, noModList = null)
 
   local res = null
   local airBlk = ::get_full_unit_blk(air.name)
-  if(!airBlk || !airBlk.modifications)
+  if (!airBlk?.modifications)
     return res
 
   local searchName = ""
@@ -913,20 +921,20 @@ function getBulletsSetData(air, modifName, noModList = null)
     local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryMod)
     if (primaryBlk)
       foreach (weapon in (primaryBlk % "Weapon"))
-        if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
+        if (weapon?.blk && !weapon?.dummy && !::isInArray(weapon.blk, wpList))
           wpList.append(weapon.blk)
   }
 
-  if (airBlk.weapon_presets && !noModList) //not for fake bullets
+  if (airBlk?.weapon_presets && !noModList) //not for fake bullets
     foreach (preset in (airBlk.weapon_presets % "preset"))
-      if (preset.blk)
+      if (preset?.blk)
       {
         local pBlk = ::DataBlock(preset.blk)
         if (!pBlk)
           continue
 
         foreach (weapon in (pBlk % "Weapon"))
-          if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
+          if (weapon?.blk && !weapon?.dummy && !::isInArray(weapon.blk, wpList))
             wpList.append(weapon.blk)
       }
 
@@ -935,21 +943,22 @@ function getBulletsSetData(air, modifName, noModList = null)
   foreach (wBlkName in wpList)
   {
     local wBlk = ::DataBlock(wBlkName)
-    if (!wBlk || (!wBlk[getModificationBulletsEffect(searchName)] && !noModList))
+    if (!wBlk || (!wBlk?[getModificationBulletsEffect(searchName)] && !noModList))
       continue
     if (noModList)
     {
       local skip = false
       foreach(modName in noModList)
-        if (wBlk[getModificationBulletsEffect(modName)])
+        if (wBlk?[getModificationBulletsEffect(modName)])
         {
           skip = true
           break
         }
-      if (skip) continue
+      if (skip)
+        continue
     }
 
-    local bulletsModBlk = wBlk[getModificationBulletsEffect(modifName)]
+    local bulletsModBlk = wBlk?[getModificationBulletsEffect(modifName)]
     local bulletsBlk = bulletsModBlk ? bulletsModBlk : wBlk
     local bulletsList = bulletsBlk % "bullet"
     local weaponType = WEAPON_TYPE.GUN
@@ -959,13 +968,13 @@ function getBulletsSetData(air, modifName, noModList = null)
       if (bulletsList.len())
       {
         local rocket = bulletsList[0]
-        if (rocket.smokeShell == true)
+        if (rocket?.smokeShell == true)
           weaponType = WEAPON_TYPE.SMOKE_SCREEN
-        else if (rocket.smokeShell == false)
+        else if (rocket?.smokeShell == false)
            weaponType = WEAPON_TYPE.FLARES
-        else if (rocket.guidance)
+        else if (rocket?.guidance)
           weaponType = WEAPON_TYPE.AAM
-        else if (rocket.bulletType == "atgm_tank")
+        else if (rocket?.bulletType == "atgm_tank")
           weaponType = WEAPON_TYPE.AGM
         else
           weaponType = WEAPON_TYPE.ROCKET
@@ -973,27 +982,27 @@ function getBulletsSetData(air, modifName, noModList = null)
     }
 
     local isBulletBelt = weaponType == WEAPON_TYPE.GUN &&
-      (wBlk.isBulletBelt != false || (wBlk.bulletsCartridge > 1 && !wBlk.useSingleIconForBullet))
+      (wBlk?.isBulletBelt != false || ((wBlk?.bulletsCartridge ?? 0) > 1 && !wBlk?.useSingleIconForBullet))
 
     foreach (b in bulletsList)
     {
-      local paramsBlk = ::u.isDataBlock(b.rocket) ? b.rocket : b
+      local paramsBlk = ::u.isDataBlock(b?.rocket) ? b.rocket : b
       if (!res)
-        if (paramsBlk.caliber)
+        if (paramsBlk?.caliber)
           res = { caliber = 1000.0 * paramsBlk.caliber,
                   bullets = [],
                   isBulletBelt = isBulletBelt
-                  catridge = wBlk.bulletsCartridge || 0
+                  catridge = wBlk?.bulletsCartridge ?? 0
                   weaponType = weaponType
-                  useDefaultBullet = !wBlk.notUseDefaultBulletInGui,
+                  useDefaultBullet = !wBlk?.notUseDefaultBulletInGui,
                   weaponBlkName = wBlkName
-                  maxToRespawn = ::getTblValue("maxToRespawn", mod, 0)
+                  maxToRespawn = mod?.maxToRespawn ?? 0
                 }
         else
           continue
 
       local bulletType = b.bulletType || b.getBlockName()
-      if (paramsBlk.selfDestructionInAir)
+      if (paramsBlk?.selfDestructionInAir)
         bulletType += "@s_d"
       res.bullets.append(bulletType)
 
@@ -1020,19 +1029,21 @@ function getBulletsSetData(air, modifName, noModList = null)
     }
 
     if (res)
+    {
       if (noModList)
       {
-
         if (!bulSetForIconParam && !noModList.len()
             && !res.isBulletBelt) //really first default bullet set. can have default icon params
           bulSetForIconParam = res
         fakeBulletsSets.append(res)
         res = null
-      } else
+      }
+      else
       {
         bulSetForIconParam = res
         break
       }
+    }
   }
 
   if (bulSetForIconParam)
@@ -1066,7 +1077,7 @@ function getBulletsSetData(air, modifName, noModList = null)
   return noModList? fakeBulletsSets.len() : res
 }
 
-function getBulletsSearchName(unit, modifName) //need for default bullets, which not exist as modifications
+::getBulletsSearchName <- function getBulletsSearchName(unit, modifName) //need for default bullets, which not exist as modifications
 {
   if (!("modifications" in unit))
     return ""
@@ -1081,13 +1092,13 @@ function getBulletsSearchName(unit, modifName) //need for default bullets, which
   return ""
 }
 
-function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk, weaponToFakeBulletMask)
+::getActiveBulletsIntByWeaponsBlk <- function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk, weaponToFakeBulletMask)
 {
   local res = 0
   local wpList = []
   if (weaponsBlk)
     foreach (weapon in (weaponsBlk % "Weapon"))
-      if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
+      if (weapon?.blk && !weapon?.dummy && !::isInArray(weapon.blk, wpList))
         wpList.append(weapon.blk)
 
   if (wpList.len())
@@ -1106,7 +1117,7 @@ function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk, weaponToFakeBulletMask
         continue
 
       foreach(idx, modName in modsList)
-        if (wBlk[getModificationBulletsEffect(modName)])
+        if (wBlk?[getModificationBulletsEffect(modName)])
         {
           res = stdMath.change_bit(res, idx, 1)
           break
@@ -1116,7 +1127,7 @@ function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk, weaponToFakeBulletMask
   return res
 }
 
-function getActiveBulletsGroupInt(air, checkPurchased = true)
+::getActiveBulletsGroupInt <- function getActiveBulletsGroupInt(air, checkPurchased = true)
 {
   local primaryWeapon = ::get_last_primary_weapon(air)
   local secondaryWeapon = ::get_last_weapon(air.name)
@@ -1153,7 +1164,7 @@ function getActiveBulletsGroupInt(air, checkPurchased = true)
     {
       local secondary = 0
       local airBlk = ::get_full_unit_blk(air.name)
-      if (airBlk && airBlk.weapon_presets)
+      if (airBlk?.weapon_presets)
         foreach (wp in (airBlk.weapon_presets % "preset"))
           if (wp.name == secondaryWeapon)
           {
@@ -1174,7 +1185,7 @@ function getActiveBulletsGroupInt(air, checkPurchased = true)
   return res
 }
 
-function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true)
+::getActiveBulletsGroupIntForDuplicates <- function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true)
 {
   local res = 0
   local groupsCount = ::getBulletsGroupCount(unit, false)
@@ -1213,7 +1224,7 @@ function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true)
   groupIndex = -1
   forcedMaxBulletsInRespawn = false
 }
-function getBulletsInfoForPrimaryGuns(air)
+::getBulletsInfoForPrimaryGuns <- function getBulletsInfoForPrimaryGuns(air)
 {
   if (air.primaryBulletsInfo)
     return air.primaryBulletsInfo
@@ -1234,7 +1245,7 @@ function getBulletsInfoForPrimaryGuns(air)
   local modsList = ::getBulletsModListByGroups(air)
   local wpList = {} // name = amount
   foreach (weapon in (commonWeaponBlk % "Weapon"))
-    if (weapon.blk && !weapon.dummy)
+    if (weapon?.blk && !weapon?.dummy)
       if (weapon.blk in wpList)
         wpList[weapon.blk].guns++
       else
@@ -1243,18 +1254,18 @@ function getBulletsInfoForPrimaryGuns(air)
         if (!("bullets" in weapon))
           continue
 
-        wpList[weapon.blk].total = weapon.bullets || 0
+        wpList[weapon.blk].total = weapon?.bullets ?? 0
         local wBlk = ::DataBlock(weapon.blk)
         if (!wBlk)
           continue
 
-        wpList[weapon.blk].catridge = wBlk.bulletsCartridge || 1
+        wpList[weapon.blk].catridge = wBlk?.bulletsCartridge || 1
         local totalBullets = wpList[weapon.blk].total
         wpList[weapon.blk].total = (wpList[weapon.blk].total / wpList[weapon.blk].catridge).tointeger()
         if (wpList[weapon.blk].total * wpList[weapon.blk].catridge < totalBullets)
           wpList[weapon.blk].total += 1
         foreach(idx, modName in modsList)
-          if (wBlk[getModificationBulletsEffect(modName)])
+          if (wBlk?[getModificationBulletsEffect(modName)])
           {
             wpList[weapon.blk].groupIndex = idx
             break
@@ -1276,19 +1287,19 @@ function getBulletsInfoForPrimaryGuns(air)
   return res
 }
 
-function getBulletsInfoForGun(unit, gunIdx)
+::getBulletsInfoForGun <- function getBulletsInfoForGun(unit, gunIdx)
 {
   local bulletsInfo = ::getBulletsInfoForPrimaryGuns(unit)
   return ::getTblValue(gunIdx, bulletsInfo)
 }
 
-function isBulletGroupActive(air, group)
+::isBulletGroupActive <- function isBulletGroupActive(air, group)
 {
   local groupsActive = ::getActiveBulletsGroupInt(air)
   return (groupsActive & (1 << group)) != 0
 }
 
-function is_bullets_group_active_by_mod(air, mod)
+::is_bullets_group_active_by_mod <- function is_bullets_group_active_by_mod(air, mod)
 {
   local groupIdx = ::getTblValue("isDefaultForGroup", mod, -1)
   if (groupIdx < 0)
@@ -1296,7 +1307,7 @@ function is_bullets_group_active_by_mod(air, mod)
   return ::isBulletGroupActive(air, groupIdx)
 }
 
-function updateRelationModificationList(air, modifName)
+::updateRelationModificationList <- function updateRelationModificationList(air, modifName)
 {
   local mod = ::getModificationByName(air, modifName)
   if (mod && !("relationModification" in mod))
@@ -1307,27 +1318,27 @@ function updateRelationModificationList(air, modifName)
     {
       if ("reqModification" in m && ::isInArray(modifName, m.reqModification))
       {
-        local modification = blk.modifications[m.name];
-        if (modification && "effects" in modification && modification.effects)
-        foreach (effectType, effect in modification.effects)
-        {
-          if (effectType == "additiveBulletMod")
+        local modification = blk?.modifications?[m.name]
+        if (modification?.effects)
+          foreach (effectType, effect in modification.effects)
           {
-            mod.relationModification.append(m.name)
-            break;
+            if (effectType == "additiveBulletMod")
+            {
+              mod.relationModification.append(m.name)
+              break;
+            }
           }
-        }
       }
     }
   }
 }
 
-function get_premExpMul_add_value(unit)
+::get_premExpMul_add_value <- function get_premExpMul_add_value(unit)
 {
-  return (::get_ranks_blk().goldPlaneExpMul || 1.0) - 1.0
+  return (::get_ranks_blk()?.goldPlaneExpMul ?? 1.0) - 1.0
 }
 
-function get_uniq_modification_text(unit, modifName, isShortDesc)
+::get_uniq_modification_text <- function get_uniq_modification_text(unit, modifName, isShortDesc)
 {
   if (modifName == "premExpMul")
   {
@@ -1338,13 +1349,13 @@ function get_uniq_modification_text(unit, modifName, isShortDesc)
   return null
 }
 
-function getModificationName(air, modifName, limitedName = false)
+::getModificationName <- function getModificationName(air, modifName, limitedName = false)
 {
   return ::getModificationInfo(air, modifName, true, limitedName).desc
 }
 
 // Generate text description for air.modifications[modificationNo]
-function getModificationInfo(air, modifName, isShortDesc=false, limitedName = false,
+::getModificationInfo <- function getModificationInfo(air, modifName, isShortDesc=false, limitedName = false,
                                  obj = null, itemDescrRewriteFunc = null)
 {
   local res = {desc = "", delayed = false}
@@ -1363,7 +1374,7 @@ function getModificationInfo(air, modifName, isShortDesc=false, limitedName = fa
   local mod = ::getModificationByName(air, modifName)
 
   local ammo_pack_len = 0
-  if (modifName.find("_ammo_pack") && mod)
+  if (modifName.find("_ammo_pack") != null && mod)
   {
     updateRelationModificationList(air, modifName);
     if ("relationModification" in mod && mod.relationModification.len() > 0)
@@ -1510,15 +1521,15 @@ function getModificationInfo(air, modifName, isShortDesc=false, limitedName = fa
   return res
 }
 
-function getModificationBulletsGroup(modifName)
+::getModificationBulletsGroup <- function getModificationBulletsGroup(modifName)
 {
   local blk = ::get_modifications_blk();
-  local modification = blk.modifications[modifName];
+  local modification = blk?.modifications?[modifName]
   if (modification)
   {
-    if (!modification.group)
+    if (!modification?.group)
       return "" //new_gun etc. - not a bullets list
-    if (modification.effects)
+    if (modification?.effects)
       foreach (effectType, effect in modification.effects)
       {
         if (effectType == "additiveBulletMod")
@@ -1537,7 +1548,7 @@ function getModificationBulletsGroup(modifName)
   return "";
 }
 
-function getDefaultBulletName(unit)
+::getDefaultBulletName <- function getDefaultBulletName(unit)
 {
   if (!("modifications" in unit))
     return ""
@@ -1552,8 +1563,8 @@ function getDefaultBulletName(unit)
     if (::isInArray(groupName, ignoreGroups))
       continue
 
-    local bData = getBulletsSetData(unit, modifName)
-    if (!bData || bData.useDefaultBullet)
+    local bData = ::getBulletsSetData(unit, modifName)
+    if (!bData || bData?.useDefaultBullet)
       return groupName + "_default"
 
     ignoreGroups.append(groupName)
@@ -1561,11 +1572,11 @@ function getDefaultBulletName(unit)
   return ""
 }
 
-function getModificationBulletsEffect(modifName)
+::getModificationBulletsEffect <- function getModificationBulletsEffect(modifName)
 {
   local blk = ::get_modifications_blk();
-  local modification = blk.modifications[modifName];
-  if (modification && modification.effects)
+  local modification = blk?.modifications?[modifName]
+  if (modification?.effects)
   {
     foreach (effectType, effect in modification.effects)
     {
@@ -1578,7 +1589,7 @@ function getModificationBulletsEffect(modifName)
   return "";
 }
 
-function getBulletsGroupCount(air, full = false)
+::getBulletsGroupCount <- function getBulletsGroupCount(air, full = false)
 {
   if (!air)
     return 0
@@ -1609,7 +1620,7 @@ function getBulletsGroupCount(air, full = false)
   return full? air.bulGroups : air.bulModsGroups
 }
 
-function getBulletsModListByGroups(air)
+::getBulletsModListByGroups <- function getBulletsModListByGroups(air)
 {
   local modList = []
   local groups = []
@@ -1627,7 +1638,7 @@ function getBulletsModListByGroups(air)
   return modList
 }
 /*
-function getActiveBulletsModificationName(air, group_index)
+::getActiveBulletsModificationName <- function getActiveBulletsModificationName(air, group_index)
 {
   if (typeof(air) == "string")
     air = getAircraftByName(air)
@@ -1646,7 +1657,7 @@ function getActiveBulletsModificationName(air, group_index)
 }
 */
 
-function check_bad_weapons()
+::check_bad_weapons <- function check_bad_weapons()
 {
   foreach(unit in ::all_units)
   {
@@ -1662,7 +1673,7 @@ function check_bad_weapons()
   }
 }
 
-function get_reload_time_by_caliber(caliber, ediff = null)
+::get_reload_time_by_caliber <- function get_reload_time_by_caliber(caliber, ediff = null)
 {
   local diff = ::get_difficulty_by_ediff(ediff ?? ::get_current_ediff())
   if (diff != ::g_difficulty.ARCADE)
@@ -1670,17 +1681,17 @@ function get_reload_time_by_caliber(caliber, ediff = null)
   return ::reload_cooldown_time?[caliber]
 }
 
-function isModMaxExp(air, mod)
+::isModMaxExp <- function isModMaxExp(air, mod)
 {
   return ::shop_get_module_exp(air.name, mod.name) >= ::getTblValue("reqExp", mod, 0)
 }
 
-function can_buy_weapons_item(air, item)
+::can_buy_weapons_item <- function can_buy_weapons_item(air, item)
 {
   return ::g_weaponry_types.getUpgradeTypeByItem(item).canBuy(air, item)
 }
 
-function canBuyMod(air, mod)
+::canBuyMod <- function canBuyMod(air, mod)
 {
   local status = ::shop_get_module_research_status(air.name, mod.name)
   if (status & ::ES_ITEM_STATUS_CAN_BUY)
@@ -1696,7 +1707,7 @@ function canBuyMod(air, mod)
   return false
 }
 
-function isModResearched(air, mod)
+::isModResearched <- function isModResearched(air, mod)
 {
   local status = ::shop_get_module_research_status(air.name, mod.name)
   if (status & (::ES_ITEM_STATUS_CAN_BUY | ES_ITEM_STATUS_OWNED | ES_ITEM_STATUS_MOUNTED | ES_ITEM_STATUS_RESEARCHED))
@@ -1705,7 +1716,7 @@ function isModResearched(air, mod)
   return false
 }
 
-function find_any_not_researched_mod(unit)
+::find_any_not_researched_mod <- function find_any_not_researched_mod(unit)
 {
   if (!("modifications" in unit))
     return null
@@ -1717,17 +1728,17 @@ function find_any_not_researched_mod(unit)
   return null
 }
 
-function isModClassPremium(moduleData)
+::isModClassPremium <- function isModClassPremium(moduleData)
 {
   return ::getTblValue("modClass", moduleData, "") == "premium"
 }
 
-function is_modclass_expendable(moduleData)
+::is_modclass_expendable <- function is_modclass_expendable(moduleData)
 {
   return ::getTblValue("modClass", moduleData, "") == "expendable"
 }
 
-function canResearchMod(air, mod, checkCurrent = false)
+::canResearchMod <- function canResearchMod(air, mod, checkCurrent = false)
 {
   local status = ::shop_get_module_research_status(air.name, mod.name)
   local canResearch = checkCurrent ? status == ::ES_ITEM_STATUS_CAN_RESEARCH :
@@ -1736,7 +1747,7 @@ function canResearchMod(air, mod, checkCurrent = false)
   return canResearch
 }
 
-function is_mod_available_or_free(unitName, modName)
+::is_mod_available_or_free <- function is_mod_available_or_free(unitName, modName)
 {
   return (::shop_is_modification_available(unitName, modName, true)
           || (!::wp_get_modification_cost(unitName, modName) && !wp_get_modification_cost_gold(unitName, modName)))
@@ -1756,7 +1767,7 @@ local getModBlock = function(modName, blockName, templateKey)
 ::has_active_overdrive <- @(unitName, modName) ::get_modifications_overdrive(unitName).len() > 0
   && getModBlock(modName, "overdriveEffect", "modOverdriveType")
 
-function is_weapon_enabled(unit, weapon)
+::is_weapon_enabled <- function is_weapon_enabled(unit, weapon)
 {
   return ::shop_is_weapon_available(unit.name, weapon.name, true, false) //no point to check purchased unit even in respawn screen
          //temporary hack: check ammo amount for forced units by mission,
@@ -1768,7 +1779,7 @@ function is_weapon_enabled(unit, weapon)
          && (!::is_in_flight() || ::g_mis_custom_state.getCurMissionRules().isUnitWeaponAllowed(unit, weapon))
 }
 
-function is_weapon_unlocked(unit, weapon)
+::is_weapon_unlocked <- function is_weapon_unlocked(unit, weapon)
 {
   foreach(rp in ["reqWeapon", "reqModification"])
       if (rp in weapon)
@@ -1781,7 +1792,7 @@ function is_weapon_unlocked(unit, weapon)
   return true
 }
 
-function is_weapon_visible(unit, weapon, onlyBought = true, weaponTags = null)
+::is_weapon_visible <- function is_weapon_visible(unit, weapon, onlyBought = true, weaponTags = null)
 {
   if (::isWeaponAux(weapon))
     return false
@@ -1806,7 +1817,7 @@ function is_weapon_visible(unit, weapon, onlyBought = true, weaponTags = null)
   return true
 }
 
-function get_weapon_by_name(unit, weaponName)
+::get_weapon_by_name <- function get_weapon_by_name(unit, weaponName)
 {
   if (!("weapons" in unit))
     return null
@@ -1816,7 +1827,7 @@ function get_weapon_by_name(unit, weaponName)
     })(weaponName))
 }
 
-function getAllModsPrice(unit, countGold = true)
+::getAllModsPrice <- function getAllModsPrice(unit, countGold = true)
 {
   if (!unit)
     return ::zero_money
@@ -1836,7 +1847,7 @@ function getAllModsPrice(unit, countGold = true)
   return totalPrice
 }
 
-function get_all_modifications_cost(unit, open = false)
+::get_all_modifications_cost <- function get_all_modifications_cost(unit, open = false)
 {
   local modsCost = ::Cost()
   foreach(modification in ::getTblValue("modifications", unit, {}))
@@ -1956,7 +1967,7 @@ function get_all_modifications_cost(unit, open = false)
   }
 }
 
-function init_bullet_icons(blk = null)
+::init_bullet_icons <- function init_bullet_icons(blk = null)
 {
   if (::bullet_icons.len())
     return
@@ -1964,23 +1975,23 @@ function init_bullet_icons(blk = null)
   if (!blk)
     blk = ::configs.GUI.get()
 
-  local ib = blk.bullet_icons
+  local ib = blk?.bullet_icons
   if (ib)
     foreach(key, value in ib)
       ::bullet_icons[key] <- value
 
-  local bf = blk.bullets_features_icons
+  local bf = blk?.bullets_features_icons
   if (bf)
     foreach(item in ::bullets_features_img)
       item.values = bf % item.id
 }
 
-function is_fake_bullet(modName)
+::is_fake_bullet <- function is_fake_bullet(modName)
 {
   return ::g_string.startsWith(modName, ::fakeBullets_prefix)
 }
 
-function getModificationByName(unit, modName, isFakeBulletsAllowed = false)
+::getModificationByName <- function getModificationByName(unit, modName, isFakeBulletsAllowed = false)
 {
   if (!("modifications" in unit))
     return null
@@ -2012,7 +2023,7 @@ function getModificationByName(unit, modName, isFakeBulletsAllowed = false)
   return null
 }
 
-function append_one_bullets_item(descr, modifName, air, amountText, genTexts, enabled = true)
+::append_one_bullets_item <- function append_one_bullets_item(descr, modifName, air, amountText, genTexts, enabled = true)
 {
   local item =  { enabled = enabled }
   descr.items.append(item)
@@ -2025,7 +2036,7 @@ function append_one_bullets_item(descr, modifName, air, amountText, genTexts, en
   item.tooltip <- ::g_string.implode([ amountText, ::getModificationInfo(air, modifName).desc ], " ")
 }
 
-function get_bullet_group_index(airName, bulletName)
+::get_bullet_group_index <- function get_bullet_group_index(airName, bulletName)
 {
   local group = -1;
 
@@ -2057,26 +2068,26 @@ function get_bullet_group_index(airName, bulletName)
   return group;
 }
 
-function get_linked_gun_index(group_index, total_groups, canBeDuplicate = true)
+::get_linked_gun_index <- function get_linked_gun_index(group_index, total_groups, canBeDuplicate = true)
 {
   if (!canBeDuplicate)
     return group_index
   return (group_index.tofloat() * total_groups / ::BULLETS_SETS_QUANTITY + 0.001).tointeger()
 }
 
-function can_bullets_be_duplicate(unit)
+::can_bullets_be_duplicate <- function can_bullets_be_duplicate(unit)
 {
   return unit.unitType.canUseSeveralBulletsForGun
 }
 
-function get_last_fake_bullets_index(unit)
+::get_last_fake_bullets_index <- function get_last_fake_bullets_index(unit)
 {
   if (!::can_bullets_be_duplicate(unit))
     return ::getBulletsGroupCount(unit, true)
   return ::BULLETS_SETS_QUANTITY - ::getBulletsGroupCount(unit, false) + ::getBulletsGroupCount(unit, true)
 }
 
-function get_fake_bullet_name(bulletIdx)
+::get_fake_bullet_name <- function get_fake_bullet_name(bulletIdx)
 {
   return ::fakeBullets_prefix + bulletIdx + "_default"
 }
@@ -2088,7 +2099,7 @@ local BULLETS_LIST_PARAMS = {
   needTexts = false
   isForcedAvailable = false
 }
-function get_bullets_list(airName, groupIdx, params = BULLETS_LIST_PARAMS)
+::get_bullets_list <- function get_bullets_list(airName, groupIdx, params = BULLETS_LIST_PARAMS)
 {
   params = BULLETS_LIST_PARAMS.__merge(params)
   local descr = {
@@ -2177,7 +2188,7 @@ function get_bullets_list(airName, groupIdx, params = BULLETS_LIST_PARAMS)
   return descr
 }
 
-function get_bullets_list_header(unit, bulletsList)
+::get_bullets_list_header <- function get_bullets_list_header(unit, bulletsList)
 {
   local locId = ""
   if (bulletsList.weaponType == WEAPON_TYPE.ROCKET)
@@ -2199,7 +2210,7 @@ function get_bullets_list_header(unit, bulletsList)
 }
 
 //to get exact same bullets list as in standart options
-function get_options_bullets_list(air, groupIndex, needTexts = false, isForcedAvailable = false)
+::get_options_bullets_list <- function get_options_bullets_list(air, groupIndex, needTexts = false, isForcedAvailable = false)
 {
   local checkPurchased = ::get_gui_options_mode() != ::OPTIONS_MODE_TRAINING
   local res = ::get_bullets_list(air.name, groupIndex, {
@@ -2231,21 +2242,26 @@ function get_options_bullets_list(air, groupIndex, needTexts = false, isForcedAv
   return res
 }
 
-function set_unit_last_bullets(unit, groupIndex, value)
+::set_unit_last_bullets <- function set_unit_last_bullets(unit, groupIndex, value)
 {
   if (unit.unitType.canUseSeveralBulletsForGun)
     ::set_unit_option(unit.name, ::USEROPT_BULLETS0 + groupIndex, value)
 
+  local saveValue = value
   local modif = ::getModificationByName(unit, value)
   if (!modif) //default modification
-    value = ""
+    saveValue = ""
 
   //if (bulletsValue != null && ::get_gui_options_mode() == ::OPTIONS_MODE_TRAINING)
   dagor.debug("set_last_bullets " + value)
-  ::set_last_bullets(unit.name, groupIndex, value)
+  local curBullets = ::get_last_bullets(unit.name, groupIndex)
+  if (curBullets != saveValue) {
+    ::set_last_bullets(unit.name, groupIndex, saveValue)
+    ::broadcastEvent("UnitBulletsChanged", { unit = unit, groupIdx = groupIndex, bulletName = value })
+  }
 }
 
-function isAirHaveAnyWeaponsTags(air, tags, checkPurchase = true)
+::isAirHaveAnyWeaponsTags <- function isAirHaveAnyWeaponsTags(air, tags, checkPurchase = true)
 {
   if (!air)
     return false
@@ -2258,7 +2274,7 @@ function isAirHaveAnyWeaponsTags(air, tags, checkPurchase = true)
   return false
 }
 
-function get_weapons_list(aircraft, need_cost, wtags, only_bought=false, check_aircraft_purchased=true)
+::get_weapons_list <- function get_weapons_list(aircraft, need_cost, wtags, only_bought=false, check_aircraft_purchased=true)
 {
   local descr = {}
   descr.items <- []

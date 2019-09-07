@@ -5,7 +5,7 @@ local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 
-enum MARK_RECIPE {
+global enum MARK_RECIPE {
   NONE
   BY_USER
   USED

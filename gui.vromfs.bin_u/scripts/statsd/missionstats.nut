@@ -6,28 +6,28 @@ MissionStats <- {
   _spawnTime = -1
 }
 
-function MissionStats::init()
+MissionStats.init <- function init()
 {
   ::subscribe_handler(this)
   reset()
 }
 
-function MissionStats::reset()
+MissionStats.reset <- function reset()
 {
   _spawnTime = -1
 }
 
-function MissionStats::onEventRoomJoined(p)
+MissionStats.onEventRoomJoined <- function onEventRoomJoined(p)
 {
   reset()
 }
 
-function MissionStats::onEventPlayerSpawn(p)
+MissionStats.onEventPlayerSpawn <- function onEventPlayerSpawn(p)
 {
   _spawnTime = ::dagor.getCurTime()
 }
 
-function MissionStats::onEventPlayerQuitMission(p)
+MissionStats.onEventPlayerQuitMission <- function onEventPlayerQuitMission(p)
 {
   if (_spawnTime >= 0 && (::dagor.getCurTime() - _spawnTime > 1000 * sendDelaySec))
     return

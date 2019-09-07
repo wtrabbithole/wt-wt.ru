@@ -16,11 +16,13 @@ local groupList = [
   {
     id = "ID_SHOW_VOICE_MESSAGE_LIST"
     checkGroup = ctrlGroups.COMMON
+    needShowInHelp = true
   }
   {
     id = "ID_SHOW_VOICE_MESSAGE_LIST_SQUAD"
     checkGroup = ctrlGroups.COMMON
     checkAssign = ::is_platform_pc
+    needShowInHelp = true
   }
 ]
 

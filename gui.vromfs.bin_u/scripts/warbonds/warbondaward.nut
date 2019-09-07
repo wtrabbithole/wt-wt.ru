@@ -24,9 +24,9 @@ class ::WarbondAward
     blk.setFrom(awardBlk)
     awardType = ::g_wb_award_type.getTypeByBlk(blk)
     maxBoughtCount = awardType.getMaxBoughtCount(blk)
-    ordinaryTasks = blk.Ordinary || 0
-    specialTasks = blk.Special || 0
-    reqMaxUnitRank = blk.reqMaxUnitRank || -1
+    ordinaryTasks = blk?.Ordinary ?? 0
+    specialTasks = blk?.Special ?? 0
+    reqMaxUnitRank = blk?.reqMaxUnitRank ?? -1
   }
 
   function isValid()

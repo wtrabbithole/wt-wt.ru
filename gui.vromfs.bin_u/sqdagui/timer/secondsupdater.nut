@@ -58,7 +58,7 @@ local SecondsUpdater = class
     _nestObj.getScene().appendWithBlk(_nestObj, blkText, null)
     local index = _nestObj.childrenCount() - 1
     local resObj = index >= 0 ? _nestObj.getChild(index) : null
-    if (resObj && resObj.tag == "dummy")
+    if (resObj?.tag == "dummy")
       return resObj
     return null
   }
@@ -81,7 +81,7 @@ local SecondsUpdater = class
 
   function getTimerObjIdByNestObj(_nestObj)
   {
-    return "seconds_updater_" + _nestObj.id
+    return "seconds_updater_" + (_nestObj?.id ?? "")
   }
 }
 

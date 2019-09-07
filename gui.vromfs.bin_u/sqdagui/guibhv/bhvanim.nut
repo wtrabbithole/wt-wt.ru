@@ -1,4 +1,4 @@
-function create_ObjMoveToOBj(scene, objStart, objTarget, config = null)
+::create_ObjMoveToOBj <- function create_ObjMoveToOBj(scene, objStart, objTarget, config = null)
   //createBlk == null -> create objTarget clone
 {
   if (!::check_obj(scene) || !::check_obj(objStart) || !::check_obj(objTarget))

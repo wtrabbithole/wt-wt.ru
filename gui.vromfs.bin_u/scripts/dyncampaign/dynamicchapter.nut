@@ -1,6 +1,6 @@
 ::dynamic_req_country_rank <- 1
 
-function gui_start_dynamic_layouts()
+::gui_start_dynamic_layouts <- function gui_start_dynamic_layouts()
 {
   ::handlersManager.loadHandler(::gui_handlers.DynamicLayouts)
 }
@@ -374,7 +374,7 @@ class ::gui_handlers.DynamicLayouts extends ::gui_handlers.CampaignChapter
 }
 
 //country without "country_" prefix
-function is_dynamic_country_allowed(country)
+::is_dynamic_country_allowed <- function is_dynamic_country_allowed(country)
 {
   local sBlk = ::get_game_settings_blk()
   local list = sBlk?.dynamicCountries
@@ -384,7 +384,7 @@ function is_dynamic_country_allowed(country)
   return list?[country] == true
 }
 
-function get_mission_team_countries(layout)
+::get_mission_team_countries <- function get_mission_team_countries(layout)
 {
   local res = null
   if (!layout)

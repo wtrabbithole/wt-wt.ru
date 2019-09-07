@@ -115,6 +115,8 @@ foreach (fn in [
   itemsListExternal = []
   itemsByItemdefId = {}
 
+  rawInventoryItemAmountsByItemdefId = {}
+
   itemTypeClasses = {} //itemtype = itemclass
 
   //lists cache for optimization
@@ -145,7 +147,7 @@ foreach (fn in [
   boostersTaskUpdateFlightTime = -1
 }
 
-function ItemsManager::fillFakeItemsList()
+ItemsManager.fillFakeItemsList <- function fillFakeItemsList()
 {
   local curLevel = ::get_cyber_cafe_level()
   if (curLevel == genericItemsForCyberCafeLevel)
@@ -193,7 +195,7 @@ function ItemsManager::fillFakeItemsList()
 /////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------SHOP ITEMS----------------------------------------------//
 /////////////////////////////////////////////////////////////////////////////////////////////
-function ItemsManager::_checkUpdateList()
+ItemsManager._checkUpdateList <- function _checkUpdateList()
 {
   local hasChanges = checkShopItemsUpdate()
   if (checkItemDefsUpdate())
@@ -218,7 +220,7 @@ function ItemsManager::_checkUpdateList()
     ::dagor.assertf(false, "Items shop: found duplicate items id = \n" + ::g_string.implode(duplicatesId, ", "))
 }
 
-function ItemsManager::checkShopItemsUpdate()
+ItemsManager.checkShopItemsUpdate <- function checkShopItemsUpdate()
 {
   if (!_reqUpdateList)
     return false
@@ -261,7 +263,7 @@ function ItemsManager::checkShopItemsUpdate()
   return true
 }
 
-function ItemsManager::checkItemDefsUpdate()
+ItemsManager.checkItemDefsUpdate <- function checkItemDefsUpdate()
 {
   if (!_reqUpdateItemDefsList)
     return false
@@ -296,7 +298,7 @@ function ItemsManager::checkItemDefsUpdate()
   return true
 }
 
-function ItemsManager::onEventEntitlementsUpdatedFromOnlineShop(params)
+ItemsManager.onEventEntitlementsUpdatedFromOnlineShop <- function onEventEntitlementsUpdatedFromOnlineShop(params)
 {
   local curLevel = ::get_cyber_cafe_level()
   if (genericItemsForCyberCafeLevel != curLevel)
@@ -306,7 +308,7 @@ function ItemsManager::onEventEntitlementsUpdatedFromOnlineShop(params)
   }
 }
 
-function ItemsManager::initItemsClasses()
+ItemsManager.initItemsClasses <- function initItemsClasses()
 {
   foreach(name, itemClass in ::items_classes)
   {
@@ -321,30 +323,30 @@ function ItemsManager::initItemsClasses()
 }
 ::ItemsManager.initItemsClasses() //init classes right after scripts load.
 
-function ItemsManager::createItem(itemType, blk, inventoryBlk = null, slotData = null)
+ItemsManager.createItem <- function createItem(itemType, blk, inventoryBlk = null, slotData = null)
 {
   local iClass = (itemType in itemTypeClasses)? itemTypeClasses[itemType] : ::BaseItem
   return iClass(blk, inventoryBlk, slotData)
 }
 
-function ItemsManager::getItemClass(itemType)
+ItemsManager.getItemClass <- function getItemClass(itemType)
 {
   return (itemType in itemTypeClasses)? itemTypeClasses[itemType] : ::BaseItem
 }
 
-function ItemsManager::getItemsList(typeMask = itemType.ALL, filterFunc = null)
+ItemsManager.getItemsList <- function getItemsList(typeMask = itemType.ALL, filterFunc = null)
 {
   _checkUpdateList()
   return _getItemsFromList(itemsList, typeMask, filterFunc)
 }
 
-function ItemsManager::getShopList(typeMask = itemType.INVENTORY_ALL, filterFunc = null)
+ItemsManager.getShopList <- function getShopList(typeMask = itemType.INVENTORY_ALL, filterFunc = null)
 {
   _checkUpdateList()
   return _getItemsFromList(itemsList, typeMask, filterFunc, "shopFilterMask")
 }
 
-function ItemsManager::getShopVisibleSeenIds()
+ItemsManager.getShopVisibleSeenIds <- function getShopVisibleSeenIds()
 {
   if (!shopVisibleSeenIds)
     shopVisibleSeenIds = getShopList(checkItemsMaskFeatures(itemType.INVENTORY_ALL),
@@ -352,7 +354,7 @@ function ItemsManager::getShopVisibleSeenIds()
   return shopVisibleSeenIds
 }
 
-function ItemsManager::findItemById(id, typeMask = itemType.ALL)
+ItemsManager.findItemById <- function findItemById(id, typeMask = itemType.ALL)
 {
   _checkUpdateList()
   local item = shopItemById?[id] ?? itemsByItemdefId?[id]
@@ -361,17 +363,17 @@ function ItemsManager::findItemById(id, typeMask = itemType.ALL)
   return item
 }
 
-function ItemsManager::isItemdefId(id)
+ItemsManager.isItemdefId <- function isItemdefId(id)
 {
   return typeof id == "integer"
 }
 
-function ItemsManager::requestItemsByItemdefIds(itemdefIdsList)
+ItemsManager.requestItemsByItemdefIds <- function requestItemsByItemdefIds(itemdefIdsList)
 {
   inventoryClient.requestItemdefsByIds(itemdefIdsList)
 }
 
-function ItemsManager::getItemOrRecipeBundleById(id)
+ItemsManager.getItemOrRecipeBundleById <- function getItemOrRecipeBundleById(id)
 {
   local item = findItemById(id)
   if (item || !ItemGenerators.get(id))
@@ -388,19 +390,19 @@ function ItemsManager::getItemOrRecipeBundleById(id)
   return item
 }
 
-function ItemsManager::isMarketplaceEnabled()
+ItemsManager.isMarketplaceEnabled <- function isMarketplaceEnabled()
 {
   return ::has_feature("Marketplace") && ::has_feature("AllowExternalLink") &&
     inventoryClient.getMarketplaceBaseUrl() != null
 }
 
-function ItemsManager::goToMarketplace()
+ItemsManager.goToMarketplace <- function goToMarketplace()
 {
   if (isMarketplaceEnabled())
     ::open_url(inventoryClient.getMarketplaceBaseUrl(), false, false, "marketplace")
 }
 
-function ItemsManager::markItemsListUpdate()
+ItemsManager.markItemsListUpdate <- function markItemsListUpdate()
 {
   _reqUpdateList = true
   shopVisibleSeenIds = null
@@ -409,7 +411,7 @@ function ItemsManager::markItemsListUpdate()
   ::broadcastEvent("ItemsShopUpdate")
 }
 
-function ItemsManager::markItemsDefsListUpdate()
+ItemsManager.markItemsDefsListUpdate <- function markItemsDefsListUpdate()
 {
   _reqUpdateItemDefsList = true
   shopVisibleSeenIds = null
@@ -418,7 +420,7 @@ function ItemsManager::markItemsDefsListUpdate()
 }
 
 local lastItemDefsUpdatedelayedCall = 0
-function ItemsManager::markItemsDefsListUpdateDelayed()
+ItemsManager.markItemsDefsListUpdateDelayed <- function markItemsDefsListUpdateDelayed()
 {
   if (_reqUpdateItemDefsList)
     return
@@ -433,7 +435,7 @@ function ItemsManager::markItemsDefsListUpdateDelayed()
   }.bindenv(this))
 }
 
-function ItemsManager::onEventItemDefChanged(p)
+ItemsManager.onEventItemDefChanged <- function onEventItemDefChanged(p)
 {
   markItemsDefsListUpdateDelayed()
 }
@@ -444,7 +446,7 @@ function ItemsManager::onEventItemDefChanged(p)
 /////////////////////////////////////////////////////////////////////////////////////////////
 //---------------------------------INVENTORY ITEMS-----------------------------------------//
 /////////////////////////////////////////////////////////////////////////////////////////////
-function ItemsManager::getInventoryItemType(blkType)
+ItemsManager.getInventoryItemType <- function getInventoryItemType(blkType)
 {
   if (typeof(blkType) == "string") {
     switch (blkType)
@@ -481,7 +483,7 @@ function ItemsManager::getInventoryItemType(blkType)
   return itemType.UNKNOWN
 }
 
-function ItemsManager::_checkInventoryUpdate()
+ItemsManager._checkInventoryUpdate <- function _checkInventoryUpdate()
 {
   if (!_needInventoryUpdate)
     return
@@ -491,7 +493,7 @@ function ItemsManager::_checkInventoryUpdate()
 
   local itemsBlk = ::get_items_blk()
 
-  local itemsCache = get_items_cache()
+  local itemsCache = ::get_items_cache()
   foreach(slot in itemsCache)
   {
     if (!slot.uids.len())
@@ -502,15 +504,15 @@ function ItemsManager::_checkInventoryUpdate()
     if (::getTblValue("expiredTime", invItemBlk, 0) < 0)
       continue
 
-    local iType = getInventoryItemType(invItemBlk.type)
+    local iType = getInventoryItemType(invItemBlk?.type)
     if (iType == itemType.UNKNOWN)
     {
       //debugTableData(invItemBlk)
-      //::dagor.assertf(false, "Inventory: unknown item type = " + invItemBlk.type)
+      //::dagor.assertf(false, "Inventory: unknown item type = " + invItemBlk?.type)
       continue
     }
 
-    local blk = itemsBlk[slot.id]
+    local blk = itemsBlk?[slot.id]
     if (!blk)
     {
       if (::is_dev_version)
@@ -539,10 +541,17 @@ function ItemsManager::_checkInventoryUpdate()
     transferAmounts[data.itemDefId] <- (transferAmounts?[data.itemDefId] ?? 0) + 1
 
   // Collecting external inventory items
+  rawInventoryItemAmountsByItemdefId = {}
   local extInventoryItems = []
   foreach (itemDesc in inventoryClient.getItems())
   {
     local itemDefDesc = itemDesc.itemdef
+    local itemDefId = itemDesc.itemdefid
+    if (itemDefId in rawInventoryItemAmountsByItemdefId)
+      rawInventoryItemAmountsByItemdefId[itemDefId] += itemDesc.quantity
+    else
+      rawInventoryItemAmountsByItemdefId[itemDefId] <- itemDesc.quantity
+
     if (!itemDefDesc.len()) //item not full updated, or itemDesc no more exist.
       continue
     local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
@@ -599,7 +608,7 @@ function ItemsManager::_checkInventoryUpdate()
   extInventoryUpdateTime = ::dagor.getCurTime()
 }
 
-function ItemsManager::checkAutoConsume()
+ItemsManager.checkAutoConsume <- function checkAutoConsume()
 {
   if (!shouldCheckAutoConsume)
     return
@@ -607,21 +616,21 @@ function ItemsManager::checkAutoConsume()
   autoConsumeItems()
 }
 
-function ItemsManager::getInventoryList(typeMask = itemType.ALL, filterFunc = null)
+ItemsManager.getInventoryList <- function getInventoryList(typeMask = itemType.ALL, filterFunc = null)
 {
   _checkInventoryUpdate()
   checkAutoConsume()
   return _getItemsFromList(inventory, typeMask, filterFunc)
 }
 
-function ItemsManager::getInventoryListByShopMask(typeMask, filterFunc = null)
+ItemsManager.getInventoryListByShopMask <- function getInventoryListByShopMask(typeMask, filterFunc = null)
 {
   _checkInventoryUpdate()
   checkAutoConsume()
   return _getItemsFromList(inventory, typeMask, filterFunc, "shopFilterMask")
 }
 
-function ItemsManager::getInventoryVisibleSeenIds()
+ItemsManager.getInventoryVisibleSeenIds <- function getInventoryVisibleSeenIds()
 {
   if (!inventoryVisibleSeenIds)
   {
@@ -638,7 +647,7 @@ ItemsManager.getInventoryItemById <- @(id) ::u.search(getInventoryList(), @(item
 ItemsManager.getInventoryItemByCraftedFrom <- @(uid) ::u.search(getInventoryList(),
   @(item) item.isCraftResult() && item.craftedFrom == uid)
 
-function ItemsManager::markInventoryUpdate()
+ItemsManager.markInventoryUpdate <- function markInventoryUpdate()
 {
   if (_needInventoryUpdate)
     return
@@ -655,7 +664,7 @@ function ItemsManager::markInventoryUpdate()
 }
 
 local lastInventoryUpdateDelayedCall = 0
-function ItemsManager::markInventoryUpdateDelayed()
+ItemsManager.markInventoryUpdateDelayed <- function markInventoryUpdateDelayed()
 {
   if (_needInventoryUpdate)
     return
@@ -670,14 +679,14 @@ function ItemsManager::markInventoryUpdateDelayed()
   }.bindenv(this))
 }
 
-function ItemsManager::onItemsLoaded()
+ItemsManager.onItemsLoaded <- function onItemsLoaded()
 {
   isInventoryInternalUpdated = true
   markInventoryUpdate()
 }
 
 local isAutoConsumeInProgress = false
-function ItemsManager::autoConsumeItems()
+ItemsManager.autoConsumeItems <- function autoConsumeItems()
 {
   if (isAutoConsumeInProgress)
     return
@@ -695,8 +704,8 @@ function ItemsManager::autoConsumeItems()
     }
 }
 
-function ItemsManager::onEventLoginComplete(p) { shouldCheckAutoConsume = true }
-function ItemsManager::onEventSignOut(p)
+ItemsManager.onEventLoginComplete <- function onEventLoginComplete(p) { shouldCheckAutoConsume = true }
+ItemsManager.onEventSignOut <- function onEventSignOut(p)
 {
   isInventoryFullUpdated = false
   isInventoryInternalUpdated = false
@@ -707,7 +716,7 @@ function ItemsManager::onEventSignOut(p)
 //---------------------------------ITEM UTILS----------------------------------------------//
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-function ItemsManager::checkItemsMaskFeatures(itemsMask) //return itemss mask only of available features
+ItemsManager.checkItemsMaskFeatures <- function checkItemsMaskFeatures(itemsMask) //return itemss mask only of available features
 {
   foreach(iType, feature in itemTypeFeatures)
     if ((itemsMask & iType) && !::has_feature(feature))
@@ -715,7 +724,7 @@ function ItemsManager::checkItemsMaskFeatures(itemsMask) //return itemss mask on
   return itemsMask
 }
 
-function ItemsManager::_getItemsFromList(list, typeMask, filterFunc = null, itemMaskProperty = "iType")
+ItemsManager._getItemsFromList <- function _getItemsFromList(list, typeMask, filterFunc = null, itemMaskProperty = "iType")
 {
   if (typeMask == itemType.ALL && !filterFunc)
     return list
@@ -728,7 +737,7 @@ function ItemsManager::_getItemsFromList(list, typeMask, filterFunc = null, item
   return res
 }
 
-function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc = false, preferMarkup = false, params = null)
+ItemsManager.fillItemDescr <- function fillItemDescr(item, holderObj, handler = null, shopDesc = false, preferMarkup = false, params = null)
 {
   handler = handler || ::get_cur_base_gui_handler()
 
@@ -824,7 +833,7 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
     }
 }
 
-function ItemsManager::fillItemTableInfo(item, holderObj)
+ItemsManager.fillItemTableInfo <- function fillItemTableInfo(item, holderObj)
 {
   if (!::checkObj(holderObj))
     return
@@ -840,7 +849,7 @@ function ItemsManager::fillItemTableInfo(item, holderObj)
     obj.setValue(item && item?.getDescriptionUnderTable ? item.getDescriptionUnderTable() : "")
 }
 
-function ItemsManager::fillItemTable(item, holderObj)
+ItemsManager.fillItemTable <- function fillItemTable(item, holderObj)
 {
   local containerObj = holderObj.findObject("item_table_container")
   if (!::checkObj(containerObj))
@@ -854,7 +863,7 @@ function ItemsManager::fillItemTable(item, holderObj)
     holderObj.getScene().replaceContentFromText(containerObj, tableData, tableData.len(), this)
 }
 
-function ItemsManager::getActiveBoostersArray(effectType = null)
+ItemsManager.getActiveBoostersArray <- function getActiveBoostersArray(effectType = null)
 {
   local res = []
   local total = ::get_current_booster_count(INVALID_USER_ID)
@@ -876,7 +885,7 @@ function ItemsManager::getActiveBoostersArray(effectType = null)
 }
 
 //just update gamercards atm.
-function ItemsManager::registerBoosterUpdateTimer(boostersList)
+ItemsManager.registerBoosterUpdateTimer <- function registerBoosterUpdateTimer(boostersList)
 {
   if (!::is_in_flight())
     return
@@ -911,26 +920,26 @@ function ItemsManager::registerBoosterUpdateTimer(boostersList)
                                                    )
 }
 
-function ItemsManager::_onBoosterExpiredInFlight(dt = 0)
+ItemsManager._onBoosterExpiredInFlight <- function _onBoosterExpiredInFlight(dt = 0)
 {
   removeRefreshBoostersTask()
   if (::is_in_flight())
     ::update_gamercards()
 }
 
-function ItemsManager::removeRefreshBoostersTask()
+ItemsManager.removeRefreshBoostersTask <- function removeRefreshBoostersTask()
 {
   if (refreshBoostersTask >= 0)
     ::periodic_task_unregister(refreshBoostersTask)
   refreshBoostersTask = -1
 }
 
-function ItemsManager::refreshExtInventory()
+ItemsManager.refreshExtInventory <- function refreshExtInventory()
 {
   inventoryClient.refreshItems()
 }
 
-function ItemsManager::forceRefreshExtInventory()
+ItemsManager.forceRefreshExtInventory <- function forceRefreshExtInventory()
 {
   itemsByItemdefId = {}
   inventoryClient.forceRefreshItemDefs()
@@ -939,13 +948,13 @@ function ItemsManager::forceRefreshExtInventory()
 ItemsManager.onEventExtInventoryChanged    <- @(p) markInventoryUpdateDelayed()
 ItemsManager.onEventSendingItemsChanged    <- @(p) markInventoryUpdateDelayed()
 
-function ItemsManager::onEventLoadingStateChange(p)
+ItemsManager.onEventLoadingStateChange <- function onEventLoadingStateChange(p)
 {
   if (!::is_in_flight())
     removeRefreshBoostersTask()
 }
 
-function ItemsManager::onEventGameLocalizationChanged(p)
+ItemsManager.onEventGameLocalizationChanged <- function onEventGameLocalizationChanged(p)
 {
   forceRefreshExtInventory()
 }
@@ -962,7 +971,7 @@ function ItemsManager::onEventGameLocalizationChanged(p)
  * }
  * Public and personal arrays of boosters sorted by effect type
  */
-function ItemsManager::sortBoosters(boosters, effectType)
+ItemsManager.sortBoosters <- function sortBoosters(boosters, effectType)
 {
   local res = {
     maxSortOrder = 0
@@ -995,7 +1004,7 @@ function ItemsManager::sortBoosters(boosters, effectType)
  *   <BoosterEffectType.name> = <value in percent>
  * }
  */
-function ItemsManager::getBoostersEffects(boosters)
+ItemsManager.getBoostersEffects <- function getBoostersEffects(boosters)
 {
   local result = {}
   foreach (effectType in ::BoosterEffectType)
@@ -1013,7 +1022,7 @@ function ItemsManager::getBoostersEffects(boosters)
   return result
 }
 
-function ItemsManager::getBoostersEffectsArray(itemsArray, effectType)
+ItemsManager.getBoostersEffectsArray <- function getBoostersEffectsArray(itemsArray, effectType)
 {
   local res = []
   foreach(item in itemsArray)
@@ -1021,7 +1030,7 @@ function ItemsManager::getBoostersEffectsArray(itemsArray, effectType)
   return res
 }
 
-function ItemsManager::getActiveBoostersDescription(boostersArray, effectType, selectedItem = null)
+ItemsManager.getActiveBoostersDescription <- function getActiveBoostersDescription(boostersArray, effectType, selectedItem = null)
 {
   if (!boostersArray || boostersArray.len() == 0)
     return ""
@@ -1120,7 +1129,7 @@ function ItemsManager::getActiveBoostersDescription(boostersArray, effectType, s
   return description + ::g_string.implode(separateBoosters, "\n") + ::g_string.implode(detailedDescription, "\n\n")
 }
 
-function ItemsManager::hasActiveBoosters(effectType, personal)
+ItemsManager.hasActiveBoosters <- function hasActiveBoosters(effectType, personal)
 {
   local items = ::ItemsManager.getInventoryList(itemType.BOOSTER, (@(effectType, personal) function (item) {
     return item.isActive(true) && effectType.checkBooster(item) && item.personal == personal
@@ -1128,14 +1137,14 @@ function ItemsManager::hasActiveBoosters(effectType, personal)
   return items.len() != 0
 }
 
-function ItemsManager::sortEffectsArray(a, b)
+ItemsManager.sortEffectsArray <- function sortEffectsArray(a, b)
 {
   if (a != b)
     return a > b? -1 : 1
   return 0
 }
 
-function ItemsManager::sortByParam(arr, param)
+ItemsManager.sortByParam <- function sortByParam(arr, param)
 {
   local sortByBonus = (@(param) function(a, b) {
     if (a[param] != b[param])
@@ -1147,14 +1156,14 @@ function ItemsManager::sortByParam(arr, param)
   return arr
 }
 
-function ItemsManager::findItemByUid(uid, filterType = itemType.ALL)
+ItemsManager.findItemByUid <- function findItemByUid(uid, filterType = itemType.ALL)
 {
   local itemsArray = ::ItemsManager.getInventoryList(filterType)
   local res = u.search(itemsArray, @(item) ::isInArray(uid, item.uids) )
   return res
 }
 
-function ItemsManager::collectUserlogItemdefs()
+ItemsManager.collectUserlogItemdefs <- function collectUserlogItemdefs()
 {
   for(local i = 0; i < ::get_user_logs_count(); i++)
   {
@@ -1166,7 +1175,7 @@ function ItemsManager::collectUserlogItemdefs()
   }
 }
 
-function ItemsManager::isEnabled()
+ItemsManager.isEnabled <- function isEnabled()
 {
   local checkNewbie = !::my_stats.isMeNewbie()
     || seenInventory.hasSeen()
@@ -1174,7 +1183,7 @@ function ItemsManager::isEnabled()
   return ::has_feature("Items") && checkNewbie && ::isInMenu()
 }
 
-function ItemsManager::canPreviewItems()
+ItemsManager.canPreviewItems <- function canPreviewItems()
 {
   local can = ::isInMenu() && !::checkIsInQueue()
       && !(::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
@@ -1184,7 +1193,7 @@ function ItemsManager::canPreviewItems()
   return can
 }
 
-function ItemsManager::getItemsSortComparator(itemsSeenList = null)
+ItemsManager.getItemsSortComparator <- function getItemsSortComparator(itemsSeenList = null)
 {
   return function(item1, item2)
   {
@@ -1199,6 +1208,11 @@ function ItemsManager::getItemsSortComparator(itemsSeenList = null)
       || item1.id <=> item2.id
       || item1.tradeableTimestamp <=> item2.tradeableTimestamp
   }
+}
+
+ItemsManager.getRawInventoryItemAmount <- function getRawInventoryItemAmount(itemdefid)
+{
+  return rawInventoryItemAmountsByItemdefId?[itemdefid] ?? 0
 }
 
 ::subscribe_handler(::ItemsManager, ::g_listener_priority.DEFAULT_HANDLER)

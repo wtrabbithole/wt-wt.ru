@@ -245,7 +245,7 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
       config.objective <- "\n"+config.maintext
       config.maintext = ""
     }
-    else if (gm == ::GM_DOMINATION && blk.timeLimit)
+    else if (gm == ::GM_DOMINATION && blk?.timeLimit)
     {
       local option = ::get_option(::USEROPT_TIME_LIMIT)
       local timeLimitText = option.getTitle() + ::loc("ui/colon") + option.getValueLocText(blk.timeLimit)
@@ -257,12 +257,11 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (blk.getStr("recommendedPlayers","") != "")
       config.maintext += ::format(::loc("players_recommended"), blk.getStr("recommendedPlayers","1-4")) + "\n"
 
-    local rBlk = ::DataBlock()
-    rBlk = ::get_pve_awards_blk()
+    local rBlk = ::get_pve_awards_blk()
     if (gm == ::GM_CAMPAIGN || gm == ::GM_SINGLE_MISSION || gm == ::GM_TRAINING)
     {
       config.status <- max(mission.singleProgress, mission.onlineProgress)
-      local dataBlk = rBlk[::get_game_mode_name(gm)]
+      local dataBlk = rBlk?[::get_game_mode_name(gm)]
       if (dataBlk)
       {
         //local misDataBlk = dataBlk[mission.id]
@@ -272,7 +271,7 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
           config["reward"+diff] <- ::getRewardTextByBlk(dataBlk, mission.id, diff, langId, diff > config.status, true, diff > 0)
       }
     } else
-    if (gm == ::GM_DYNAMIC && rBlk.dynamic)
+    if (gm == ::GM_DYNAMIC && rBlk?.dynamic)
     {
       local dataBlk = rBlk.dynamic
       local rewMoney = ::Cost()
@@ -280,11 +279,11 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
       local wpId = "wpEarnedWinDiff0"
       local muls = ::get_player_multipliers()
 
-      rewMoney.rp = (dataBlk[xpId] != null)
+      rewMoney.rp = (dataBlk?[xpId] != null)
                      ? dataBlk[xpId] * muls.xpMultiplier
                      : 0
 
-      rewMoney.wp = (dataBlk[wpId] != null)
+      rewMoney.wp = (dataBlk?[wpId] != null)
                     ? dataBlk[wpId] * muls.wpMultiplier
                     : 0
 

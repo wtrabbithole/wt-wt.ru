@@ -1,4 +1,4 @@
-function replay_status(params)
+::replay_status <- function replay_status(params)
 {
   return {
     status = ::get_replay_status(),
@@ -6,7 +6,7 @@ function replay_status(params)
   }
 }
 
-function replay_start(params)
+::replay_start <- function replay_start(params)
 {
   local status = ::get_replay_status()
   if (status != "ok")

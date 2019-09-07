@@ -31,7 +31,7 @@ _matching <- {
   translate old API functions into new ones
   TODO: remove them by search&replace
 */
-function matching_api_func(name, cb, params = null)
+::matching_api_func <- function matching_api_func(name, cb, params = null)
 {
   dagor.debug("send matching request: " + name)
   matching.rpc_call(name, _matching.translate_matching_params(params),
@@ -42,27 +42,27 @@ function matching_api_func(name, cb, params = null)
     })
 }
 
-function matching_api_notify(name, params = null)
+::matching_api_notify <- function matching_api_notify(name, params = null)
 {
   dagor.debug("send matching notify: " + name)
   matching.notify(name, _matching.translate_matching_params(params))
 }
 
-function is_matching_error(code)
+::is_matching_error <- function is_matching_error(code)
 {
   if ("matching" in getroottable())
     return ::matching.is_matching_error(code)
   return false
 }
 
-function matching_error_string(code)
+::matching_error_string <- function matching_error_string(code)
 {
   if ("matching" in getroottable())
     return ::matching.error_string(code)
   return false
 }
 
-function matching_rpc_subscribe(name, cb)
+::matching_rpc_subscribe <- function matching_rpc_subscribe(name, cb)
 {
   if ("matching" in getroottable())
     ::matching.subscribe(name, cb)

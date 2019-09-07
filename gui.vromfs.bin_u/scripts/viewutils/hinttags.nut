@@ -106,15 +106,8 @@ enums.addTypesByGlobalName("g_hint_tag", {
     getViewSlices = function(tagName, params)
     {
       local attempts = ::get_num_attempts_left()
-      local attemptsText = ""
-      if (attempts < 0)
-        attemptsText = ::loc("options/attemptsUnlimited")
-      else
-      {
-        if (!::is_player_unit_alive())
-          attempts--
-        attemptsText = attempts
-      }
+      local attemptsText = attempts < 0 ? ::loc("options/attemptsUnlimited") : attempts
+
       if (tagName.len() > typeName.len() + 1) //{{attempts_left=locId}}
       {
         local locId = tagName.slice(typeName.len() + 1)
@@ -158,7 +151,7 @@ enums.addTypesByGlobalName("g_hint_tag", {
   return 0
 })
 
-function g_hint_tag::getHintTagType(tagName)
+g_hint_tag.getHintTagType <- function getHintTagType(tagName)
 {
   foreach(tagType in types)
     if (tagType.checkTag(tagName))

@@ -130,7 +130,7 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
     local sizes = ::u.map(::g_squad_manager.squadSizesList,
       @(s) s.value + ::loc("ui/comma") + ::loc("squadSize/" + s.name))
     local curValue = ::g_squad_manager.getMaxSquadSize()
-    local curIdx = ::u.searchIndex(::g_squad_manager.squadSizesList, @(s) s.value == curValue, 0)
+    local curIdx = ::g_squad_manager.squadSizesList.searchIndex(@(s) s.value == curValue) ?? 0
 
     local optionObj = scene.findObject("squad_size_option")
     local markup = ::create_option_combobox("", sizes, curIdx, null, false)

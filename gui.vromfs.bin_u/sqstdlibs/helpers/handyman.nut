@@ -29,8 +29,75 @@
 
 local g_string =  require("std/string.nut")
 
-class Context
-{
+/**
+ * A simple string scanner that is used by the template parser to find
+ * tokens in template strings.
+ */
+local Scanner = class {
+  string = ""
+  tail   = ""
+  pos    = 0
+
+  constructor (_string)
+  {
+    string = _string
+    tail = string
+    pos = 0
+  }
+
+  /**
+   * Returns `true` if the tail is empty (end of string).
+   */
+  function eos () {
+    return tail == ""
+  }
+
+  /**
+   * Tries to match the given regular expression at the current position.
+   * Returns the matched text if it can match, the empty string otherwise.
+   */
+  function scan (re) {
+    local match = re.search(this.tail)
+
+    if (match && match.begin == 0) {
+      local string = this.tail.slice(0, match.end)//warning disable: -ident-hides-ident
+      this.tail = this.tail.slice(match.end)
+      this.pos += string.len()
+      return string
+    }
+
+    return ""
+  }
+
+  /**
+   * Skips all text until the given regular expression can be matched. Returns
+   * the skipped string, which is the entire tail if no match can be made.
+   */
+  function scanUntil(re)
+  {
+    local res = re.search(tail)
+    local match
+
+    if (res == null)
+    {
+      match = tail
+      tail = ""
+    }
+    else if (res.begin == 0)
+      match = ""
+    else
+    {
+      match = tail.slice(0, res.begin)
+      tail = tail.slice(res.begin)
+    }
+
+    this.pos += match.len()
+    return match
+  }
+}
+
+local Context
+Context = class {
   view          = {}
   cache         = {}
   parentContext = null
@@ -66,11 +133,11 @@ class Context
     {
       while (context)
       {
-        if (name.find(".") > 0)
+        if ((name.find(".") ?? -1) > 0)
         {
           value = context.view
 
-          local names = ::split(name, ".")
+          local names = g_string.split(name, ".")
           local i = 0
           while (value != null && i < names.len())
           {
@@ -106,18 +173,17 @@ class Context
  * avoid the need to parse the same template twice.
  */
 
-class Writer
-{
+local Writer = class {
   cache = {}
   tags = ["<<", ">>"]
 
-  static whiteRe  = regexp(@"\s*")
-  static spaceRe  = regexp(@"\s+")
-  static equalsRe = regexp(@"\s*=")
-  static curlyRe  = regexp(@"\s*\}")
-  static tagRe    = regexp(@"#|\^|\/|>|\{|&|=|!|@|?")
-  static escapeRe = regexp(@"[\-\[\]{}()*+?.,\\\^$|#\s]")
-  static nonSpaceRe = regexp(@"\S")
+  static whiteRe  = ::regexp(@"\s*")
+  static spaceRe  = ::regexp(@"\s+")
+  static equalsRe = ::regexp(@"\s*=")
+  static curlyRe  = ::regexp(@"\s*\}")
+  static tagRe    = ::regexp(@"#|\^|\/|>|\{|&|=|!|@|?")
+  static escapeRe = ::regexp(@"[\-\[\]{}()*+?.,\\\^$|#\s]")
+  static nonSpaceRe = ::regexp(@"\S")
 
   constructor()
   {
@@ -162,7 +228,7 @@ class Writer
   function render(template, view, partials = null)
   {
     local tokens = this.parse(template)
-    local context = (typeof view == "instance" && view instanceof ::Context) ? view : ::Context(view)
+    local context = (typeof view == "instance" && view instanceof Context) ? view : Context(view)
     return this.renderTokens(tokens, context, partials, template)
   }
 
@@ -329,8 +395,8 @@ class Writer
     }
 
     return [
-      regexp(escapeRegExp(tags[0]) + "\\s*"),
-      regexp("\\s*" + escapeRegExp(tags[1]))
+      ::regexp(escapeRegExp(tags[0]) + "\\s*"),
+      ::regexp("\\s*" + escapeRegExp(tags[1]))
     ]
   }
 
@@ -340,7 +406,7 @@ class Writer
     template = template || ""
 
     if (typeof tags == "string")
-     tags = split(tags, spaceRe)
+     tags = g_string.split(tags, spaceRe)
 
     local tagRes  = escapeTags(tags)
     local scanner = Scanner(template)
@@ -415,7 +481,7 @@ class Writer
       }
       else if (tType == "{")
       {
-        value = scanner.scanUntil(regexp("\\s*" + escapeRegExp("}" + tags[1])))
+        value = scanner.scanUntil(::regexp("\\s*" + escapeRegExp("}" + tags[1])))
         scanner.scan(curlyRe)
         scanner.scanUntil(tagRes[1])
         tType = "&"
@@ -555,74 +621,6 @@ class Writer
   }
 }
 
-/**
- * A simple string scanner that is used by the template parser to find
- * tokens in template strings.
- */
-class Scanner
-{
-  string = ""
-  tail   = ""
-  pos    = 0
-
-  constructor (_string)
-  {
-    string = _string
-    tail = string
-    pos = 0
-  }
-
-  /**
-   * Returns `true` if the tail is empty (end of string).
-   */
-  function eos () {
-    return tail == ""
-  }
-
-  /**
-   * Tries to match the given regular expression at the current position.
-   * Returns the matched text if it can match, the empty string otherwise.
-   */
-  function scan (re) {
-    local match = re.search(this.tail)
-
-    if (match && match.begin == 0) {
-      local string = this.tail.slice(0, match.end)//warning disable: -ident-hides-ident
-      this.tail = this.tail.slice(match.end)
-      this.pos += string.len()
-      return string
-    }
-
-    return ""
-  }
-
-  /**
-   * Skips all text until the given regular expression can be matched. Returns
-   * the skipped string, which is the entire tail if no match can be made.
-   */
-  function scanUntil(re)
-  {
-    local res = re.search(tail)
-    local match
-
-    if (res == null)
-    {
-      match = tail
-      tail = ""
-    }
-    else if (res.begin == 0)
-      match = ""
-    else
-    {
-      match = tail.slice(0, res.begin)
-      tail = tail.slice(res.begin)
-    }
-
-    this.pos += match.len()
-    return match
-  }
-}
-
 ::handyman <- {
 
   // All high-level functions use this writer.
@@ -674,7 +672,7 @@ class Scanner
         updateCache(partialPath)
     local tokens = tokensByTemplatePath[templatePath]
     local template = tokensByTemplatePath[templatePath]
-    local context = (typeof view == "instance" && view instanceof ::Context) ? view : Context(view)
+    local context = (typeof view == "instance" && view instanceof Context) ? view : Context(view)
     return defaultWriter.renderTokens(tokens, context, partials, template)
   }
 
@@ -748,8 +746,7 @@ class Scanner
  ******************************************************************************/
 
 
-function testhandyman(_temaple = null, _view = null, partails = null)
-{
+local function testhandyman(_temaple = null, _view = null, partails = null) { // warning disable: -declared-never-used
   local testTemplate = @"text{
   text:t='<<header>>';
 }
@@ -799,6 +796,6 @@ local partials = {
     }
     layout_insertion = "wink:t='yes';"
   }
-  dlog("before render" + 1)
-  dlog(handyman.render(testTemplate, testView, partials))
+  ::dlog("before render" + 1)
+  ::dlog(handyman.render(testTemplate, testView, partials))
 }

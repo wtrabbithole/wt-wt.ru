@@ -71,6 +71,38 @@ local function color2uint(r,g=0,b=0,a=255){
   return ::clamp(r+g*256+b*65536+a*16777216, 0, 4294967295)
 }
 
+local romanNumeralLookup = [
+  "","I","II","III","IV","V","VI","VII","VIII","IX",
+  "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+  "","C","CC","CCC","CD","D","DC","DCC","DCCC","CM"
+]
+local maxRomanDigit = 3
+
+//Function from http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
+local function getRomanNumeral(num) {
+  local t = typeof num
+  if ((t != "integer" && t != "float") || num < 0)
+    return ""
+
+  num = num.tointeger()
+  if (num >= 4000)
+    return num.tostring()
+
+  local thousands = ""
+  for (local n = 0; n < num / 1000; n++)
+    thousands += "M"
+
+  local roman = ""
+  local i = -1
+  while (num > 0 && i++ < maxRomanDigit)
+  {
+    local digit = num % 10
+    num = num / 10
+    roman = (romanNumeralLookup?[digit + (i * 10)] ?? "") + roman
+  }
+  return thousands + roman
+}
+
 //EXPORT content for require
 local export = math.__merge({
   GOLDEN_RATIO = GOLDEN_RATIO
@@ -85,6 +117,7 @@ local export = math.__merge({
   lerp = lerp
   calc_golden_ratio_columns = calc_golden_ratio_columns
   color2uint = color2uint
+  getRomanNumeral = getRomanNumeral
 })
 
 return export

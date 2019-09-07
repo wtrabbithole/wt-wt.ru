@@ -243,7 +243,7 @@ class Decorator
   function getTagsLoc()
   {
     local res = rarity.tag ? [ rarity.tag ] : []
-    local tagsVisibleBlk = ::configs.GUI.get().decorator_tags_visible
+    local tagsVisibleBlk = ::configs.GUI.get()?.decorator_tags_visible
     if (tagsVisibleBlk && tags)
       foreach (tagBlk in tagsVisibleBlk % "i")
         if (tags?[tagBlk.tag])

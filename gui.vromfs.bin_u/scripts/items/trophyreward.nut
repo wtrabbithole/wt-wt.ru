@@ -27,7 +27,7 @@
   ]
 }
 
-function trophyReward::processUserlogData(configsArray = [])
+trophyReward.processUserlogData <- function processUserlogData(configsArray = [])
 {
   if (configsArray.len() == 0)
     return []
@@ -79,7 +79,7 @@ function trophyReward::processUserlogData(configsArray = [])
   return res
 }
 
-function trophyReward::rewardsSortComparator(a, b)
+trophyReward.rewardsSortComparator <- function rewardsSortComparator(a, b)
 {
   if (!a || !b)
     return b <=> a
@@ -97,10 +97,10 @@ function trophyReward::rewardsSortComparator(a, b)
       return ::ItemsManager.getItemsSortComparator()(itemA, itemB)
   }
 
-  return a?[typeA] <=> b?[typeB]
+  return (a?[typeA] ?? "") <=> (b?[typeB] ?? "")
 }
 
-function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCfgName = "item_place_single", imageAsItem = false)
+trophyReward.getImageByConfig <- function getImageByConfig(config = null, onlyImage = true, layerCfgName = "item_place_single", imageAsItem = false)
 {
   local image = ""
   local rewardType = ::trophyReward.getType(config)
@@ -169,7 +169,7 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
   return ::handyman.renderCached(("gui/items/item"), {items = [{layered_image = resultImage}]})
 }
 
-function trophyReward::getDecoratorVisualConfig(config)
+trophyReward.getDecoratorVisualConfig <- function getDecoratorVisualConfig(config)
 {
   local res = {
     style = ""
@@ -196,7 +196,7 @@ function trophyReward::getDecoratorVisualConfig(config)
   return res
 }
 
-function trophyReward::getMoneyLayer(config)
+trophyReward.getMoneyLayer <- function getMoneyLayer(config)
 {
   local currencyCfg = ::PrizesView.getPrizeCurrencyCfg(config)
   if (!currencyCfg)
@@ -210,7 +210,7 @@ function trophyReward::getMoneyLayer(config)
   return ::LayersIcon.getTextDataFromLayer(layerCfg)
 }
 
-function trophyReward::getWPIcon(wp)
+trophyReward.getWPIcon <- function getWPIcon(wp)
 {
   local icon = ""
   foreach (v in wpIcons)
@@ -219,7 +219,7 @@ function trophyReward::getWPIcon(wp)
   return icon
 }
 
-function trophyReward::getFullWPIcon(wp)
+trophyReward.getFullWPIcon <- function getFullWPIcon(wp)
 {
   local layer = ::LayersIcon.findLayerCfg("item_warpoints")
   local wpLayer = ::LayersIcon.findLayerCfg(getWPIcon(wp))
@@ -228,14 +228,14 @@ function trophyReward::getFullWPIcon(wp)
   return ::LayersIcon.genDataFromLayer(layer)
 }
 
-function trophyReward::getFullWarbondsIcon(wbId)
+trophyReward.getFullWarbondsIcon <- function getFullWarbondsIcon(wbId)
 {
   local layer = ::LayersIcon.findLayerCfg("item_warpoints")
   layer.img <- "#ui/gameuiskin#item_warbonds"
   return ::LayersIcon.genDataFromLayer(layer)
 }
 
-function trophyReward::getRestRewardsNumLayer(configsArray, maxNum)
+trophyReward.getRestRewardsNumLayer <- function getRestRewardsNumLayer(configsArray, maxNum)
 {
   local restRewards = configsArray.len() - maxNum
   if (restRewards <= 0)
@@ -249,7 +249,7 @@ function trophyReward::getRestRewardsNumLayer(configsArray, maxNum)
   return ::LayersIcon.getTextDataFromLayer(layer)
 }
 
-function trophyReward::getReward(configsArray = [])
+trophyReward.getReward <- function getReward(configsArray = [])
 {
   if (configsArray.len() == 1)
     return ::trophyReward.getRewardText(configsArray[0])
@@ -257,12 +257,12 @@ function trophyReward::getReward(configsArray = [])
   return ::trophyReward.getCommonRewardText(configsArray)
 }
 
-function trophyReward::isRewardItem(rewardType)
+trophyReward.isRewardItem <- function isRewardItem(rewardType)
 {
   return ::isInArray(rewardType, ["item", "trophy"])
 }
 
-function trophyReward::getType(config)
+trophyReward.getType <- function getType(config)
 {
   if (isRewardMultiAward(config))
     return "multiAwardsOnWorthGold" in config? "multiAwardsOnWorthGold" : "modsForBoughtUnit"
@@ -277,7 +277,7 @@ function trophyReward::getType(config)
   return ""
 }
 
-function trophyReward::getName(config)
+trophyReward.getName <- function getName(config)
 {
   local rewardType = ::trophyReward.getType(config)
   if (!::trophyReward.isRewardItem(rewardType))
@@ -290,7 +290,7 @@ function trophyReward::getName(config)
   return ""
 }
 
-function trophyReward::getDecription(config, isFull = false)
+trophyReward.getDecription <- function getDecription(config, isFull = false)
 {
   local rewardType = ::trophyReward.getType(config)
   if (!::trophyReward.isRewardItem(rewardType))
@@ -303,12 +303,12 @@ function trophyReward::getDecription(config, isFull = false)
   return ""
 }
 
-function trophyReward::getRewardText(config, isFull = false)
+trophyReward.getRewardText <- function getRewardText(config, isFull = false)
 {
   return ::PrizesView.getPrizeText(::DataBlockAdapter(config), true, false, true, isFull)
 }
 
-function trophyReward::getCommonRewardText(configsArray)
+trophyReward.getCommonRewardText <- function getCommonRewardText(configsArray)
 {
   local result = {}
   local currencies = {}
@@ -377,18 +377,18 @@ function trophyReward::getCommonRewardText(configsArray)
   return ::colorize("activeTextColor", returnData)
 }
 
-function trophyReward::isRewardMultiAward(config)
+trophyReward.isRewardMultiAward <- function isRewardMultiAward(config)
 {
   return ::getTblValue("multiAwardsOnWorthGold", config) != null
          || ::getTblValue("modsForBoughtUnit", config) != null
 }
 
-function trophyReward::showInResults(rewardType)
+trophyReward.showInResults <- function showInResults(rewardType)
 {
   return rewardType != "unlockType" && rewardType != "resourceType"
 }
 
-function trophyReward::getRewardList(config)
+trophyReward.getRewardList <- function getRewardList(config)
 {
   if (isRewardMultiAward(config))
     return ::TrophyMultiAward(::DataBlockAdapter(config)).getResultPrizesList()
@@ -411,7 +411,7 @@ function trophyReward::getRewardList(config)
   return prizes
 }
 
-function trophyReward::getRewardsListViewData(config, params = {})
+trophyReward.getRewardsListViewData <- function getRewardsListViewData(config, params = {})
 {
   local rewardsList = []
   local singleReward = config
@@ -433,7 +433,7 @@ function trophyReward::getRewardsListViewData(config, params = {})
   return ::PrizesView.getPrizesListView(rewardsList, params)
 }
 
-function trophyReward::getRewardType(prize)
+trophyReward.getRewardType <- function getRewardType(prize)
 {
   foreach (rewardType in rewardTypes)
     if (rewardType in prize)

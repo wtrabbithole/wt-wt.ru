@@ -1,6 +1,6 @@
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
 
-function debug_check_unlocalized_resources()
+::debug_check_unlocalized_resources <- function debug_check_unlocalized_resources()
 {
   if (!::is_dev_version) return
 
@@ -80,7 +80,7 @@ function debug_check_unlocalized_resources()
   dlog(count + " decals")
 }
 
-function debug_check_unit_naming()
+::debug_check_unit_naming <- function debug_check_unit_naming()
 {
   if (!::is_dev_version) return 0
 
@@ -262,7 +262,7 @@ function debug_check_unit_naming()
   return total
 }
 
-function debug_cur_level_auto_skins()
+::debug_cur_level_auto_skins <- function debug_cur_level_auto_skins()
 {
   local level = ::is_in_flight() ? ::get_current_mission_info_cached()?.level : null
   local fullDebugtext = "Auto skins for " + (level || "TestFlight")
@@ -282,7 +282,7 @@ function debug_cur_level_auto_skins()
   return "Total units found = " + total
 }
 
-function debug_all_skins_without_location_mask()
+::debug_all_skins_without_location_mask <- function debug_all_skins_without_location_mask()
 {
   local totalList = []
   foreach(unit in ::all_units)

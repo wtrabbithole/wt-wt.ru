@@ -7,7 +7,7 @@ if (!("EUCT_TOTAL" in ::getroottable()))
 
 ::max_player_rank <- 100
 ::max_country_rank <- 7
-::MAX_ECONOMIC_RANK <- ::get_ranks_blk().maxEconomicRank || 29
+::MAX_ECONOMIC_RANK <- ::get_ranks_blk()?.maxEconomicRank ?? 29
 
 ::discounts <- { //count from const in warpointsBlk by (name + "Mul")
 }
@@ -43,10 +43,10 @@ if (!("EUCT_TOTAL" in ::getroottable()))
     "exp_per_rank", "max_player_rank", "prestige_by_rank"
   ])
 
-function load_player_exp_table()
+::load_player_exp_table <- function load_player_exp_table()
 {
   local ranks_blk = ::get_ranks_blk()
-  local efr = ranks_blk.exp_for_playerRank
+  local efr = ranks_blk?.exp_for_playerRank
 
   ::exp_per_rank = []
 
@@ -57,10 +57,10 @@ function load_player_exp_table()
   ::max_player_rank = ::exp_per_rank.len()
 }
 
-function init_prestige_by_rank()
+::init_prestige_by_rank <- function init_prestige_by_rank()
 {
   local blk = ::get_ranks_blk()
-  local prestigeByRank = blk.prestige_by_rank
+  local prestigeByRank = blk?.prestige_by_rank
 
   ::prestige_by_rank = []
   if (!prestigeByRank)
@@ -70,7 +70,7 @@ function init_prestige_by_rank()
     ::prestige_by_rank.append(prestigeByRank.getParamValue(i))
 }
 
-function get_cur_exp_table(country = "", profileData = null, rank = null, exp = null)
+::get_cur_exp_table <- function get_cur_exp_table(country = "", profileData = null, rank = null, exp = null)
 {
   local res = null //{ exp, rankExp }
   if (rank == null)
@@ -97,7 +97,7 @@ function get_cur_exp_table(country = "", profileData = null, rank = null, exp = 
   return res
 }
 
-function get_player_rank_by_country(c = null, profileData=null)
+::get_player_rank_by_country <- function get_player_rank_by_country(c = null, profileData=null)
 {
   if (!profileData)
     profileData = ::current_user_profile
@@ -108,7 +108,7 @@ function get_player_rank_by_country(c = null, profileData=null)
   return 0
 }
 
-function get_player_exp_by_country(c = null, profileData=null)
+::get_player_exp_by_country <- function get_player_exp_by_country(c = null, profileData=null)
 {
   if (!profileData)
     profileData = ::current_user_profile
@@ -119,7 +119,7 @@ function get_player_exp_by_country(c = null, profileData=null)
   return 0
 }
 
-function get_rank_by_exp(exp)
+::get_rank_by_exp <- function get_rank_by_exp(exp)
 {
   local rank = 0
   local rankTbl = ::exp_per_rank
@@ -130,7 +130,7 @@ function get_rank_by_exp(exp)
   return rank
 }
 
-function calc_rank_progress(profileData = null)
+::calc_rank_progress <- function calc_rank_progress(profileData = null)
 {
   local rankTbl = ::get_cur_exp_table("", profileData)
   if (rankTbl)
@@ -138,7 +138,7 @@ function calc_rank_progress(profileData = null)
   return -1
 }
 
-function get_prestige_by_rank(rank)
+::get_prestige_by_rank <- function get_prestige_by_rank(rank)
 {
   for (local i = ::prestige_by_rank.len() - 1; i >= 0; i--)
     if (rank >= ::prestige_by_rank[i])
@@ -146,7 +146,7 @@ function get_prestige_by_rank(rank)
   return 0
 }
 
-function get_cur_session_country()
+::get_cur_session_country <- function get_cur_session_country()
 {
   if (::is_multiplayer())
   {
@@ -160,7 +160,7 @@ function get_cur_session_country()
   return null
 }
 
-function get_profile_info()
+::get_profile_info <- function get_profile_info()
 {
   local info = ::get_cur_rank_info()
 
@@ -202,24 +202,24 @@ function get_profile_info()
   return ::current_user_profile
 }
 
-function get_balance()
+::get_balance <- function get_balance()
 {
   local info = ::get_cur_rank_info()
   return { wp = info.wp, gold = info.gold }
 }
 
-function get_gui_balance()
+::get_gui_balance <- function get_gui_balance()
 {
   local info = ::get_cur_rank_info()
   return ::Balance(info.wp, info.gold, ::shop_get_free_exp())
 }
 
-function get_player_rank()
+::get_player_rank <- function get_player_rank()
 {
   return get_profile_info().rank;
 }
 
-function on_mission_started_mp()
+::on_mission_started_mp <- function on_mission_started_mp()
 {
   dagor.debug("on_mission_started_mp - CLIENT")
   ::g_streaks.clear()
@@ -229,7 +229,7 @@ function on_mission_started_mp()
   ::broadcastEvent("MissionStarted")
 }
 
-function get_weapon_image(unitType, weaponBlk, costBlk)
+::get_weapon_image <- function get_weapon_image(unitType, weaponBlk, costBlk)
 {
   if (unitType == ::ES_UNIT_TYPE_TANK)
   {
@@ -256,7 +256,7 @@ function get_weapon_image(unitType, weaponBlk, costBlk)
 }
 
 //!!FIX ME: should to remove from this function all what not about unit.
-function update_aircraft_warpoints(maxCallTimeMsec = 0)
+::update_aircraft_warpoints <- function update_aircraft_warpoints(maxCallTimeMsec = 0)
 {
   local startTime = ::dagor.getCurTime()
   local errorsTextArray = []
@@ -279,22 +279,22 @@ function update_aircraft_warpoints(maxCallTimeMsec = 0)
   //update discounts info
   local ws = ::get_warpoints_blk()
   foreach(name, value in ::discounts)
-    if (ws[name+"DiscountMul"]!=null)
+    if (ws?[name+"DiscountMul"] != null)
       ::discounts[name] = (100.0*(1.0 - ws[name+"DiscountMul"])+0.5).tointeger()
 
   //update bonuses info
   foreach(name, value in ::event_muls)
-    if (ws[name]!=null)
+    if (ws?[name] != null)
       ::event_muls[name] = ws[name]
 
-  ::min_values_to_show_reward_premium.wp = ws.wp_to_show_premium_reward || 0
-  ::min_values_to_show_reward_premium.exp = ws.exp_to_show_premium_reward || 0
+  ::min_values_to_show_reward_premium.wp = ws?.wp_to_show_premium_reward ?? 0
+  ::min_values_to_show_reward_premium.exp = ws?.exp_to_show_premium_reward ?? 0
 
   ::dagor.assertf(errorsTextArray.len() == 0, ::g_string.implode(errorsTextArray, "\n"))
   return PT_STEP_STATUS.NEXT_STEP
 }
 
-function checkAllowed(tbl)
+::checkAllowed <- function checkAllowed(tbl)
 {
   if (::disable_network())
     return true;
@@ -391,13 +391,12 @@ function checkAllowed(tbl)
   return true;
 }
 
-function get_aircraft_rank(curAir)
+::get_aircraft_rank <- function get_aircraft_rank(curAir)
 {
-  local wpcost = ::get_wpcost_blk()
-  return (curAir in wpcost) ? wpcost[curAir].rank : 0
+  return ::get_wpcost_blk()?[curAir]?.rank ?? 0
 }
 
-function haveCountryRankAir(country, rank)
+::haveCountryRankAir <- function haveCountryRankAir(country, rank)
 {
   local crews = ::g_crews_list.get()
   foreach (c in crews)
@@ -408,7 +407,7 @@ function haveCountryRankAir(country, rank)
   return false
 }
 
-function getExpMulWithDiff(diff)
+::getExpMulWithDiff <- function getExpMulWithDiff(diff)
 {
   local blk = ::get_ranks_blk()
   return blk.getReal("expMulWithDiff"+diff.tostring(), 1.0)

@@ -1,4 +1,5 @@
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
+local contentSignKeys = ::require("scripts/inventory/inventoryContentSign.nut")
 
 enum validationCheckBitMask {
   VARTYPE    = 0x01
@@ -12,6 +13,23 @@ enum validationCheckBitMask {
 
 const INVENTORY_PROGRESS_MSG_ID = "INVENTORY_REQUEST"
 const WAR_THUNDER_EAGLES = "WTE"
+
+
+local requestInternal = function(requestData, data, callback, progressBoxData = null) {
+  if (data) {
+    requestData["data"] <- data;
+  }
+
+  if (progressBoxData)
+    progressMsg.create(INVENTORY_PROGRESS_MSG_ID, progressBoxData)
+
+  ::inventory.request(requestData, function(res) {
+    callback(res)
+    if (progressBoxData)
+      progressMsg.destroy(INVENTORY_PROGRESS_MSG_ID, true)
+  })
+}
+
 
 local InventoryClient = class {
   items = {}
@@ -29,6 +47,8 @@ local InventoryClient = class {
   needRefreshItems = false
   hasInventoryChanges = false
   hasItemDefChanges = false
+
+  haveInitializedPublicKeys = false
 
   validateResponseData = {
     item_json = {
@@ -99,6 +119,7 @@ local InventoryClient = class {
     requestPrices()
   }
 
+
   function request(action, headers, data, callback, progressBoxData = null)
   {
     headers.appid <- WT_APPID
@@ -107,21 +128,25 @@ local InventoryClient = class {
       headers = headers,
       action = action
     }
-
-    if (data) {
-      requestData["data"] <- data;
-    }
-
-    if (progressBoxData)
-      progressMsg.create(INVENTORY_PROGRESS_MSG_ID, progressBoxData)
-    callback = ::Callback(callback, this)
-
-    ::inventory.request(requestData, function(res) {
-      callback(res)
-      if (progressBoxData)
-        progressMsg.destroy(INVENTORY_PROGRESS_MSG_ID, true)
-    })
+    requestInternal(requestData, data, callback.bindenv(this), progressBoxData)
   }
+
+
+  function requestWithSignCheck(action, headers, data, callback, progressBoxData = null)
+  {
+    if (!contentSignKeys.initialized)
+      return request(action, headers, data, callback, progressBoxData)
+
+    headers.appid <- WT_APPID
+    local requestData = {
+      content_sign_check = true,
+      add_token = true,
+      headers = headers,
+      action = action
+    }
+    requestInternal(requestData, data, callback.bindenv(this), progressBoxData)
+  }
+
 
   function getResultData(result, name)
   {
@@ -239,7 +264,8 @@ local InventoryClient = class {
   function addInventoryItem(item)
   {
     local shouldUpdateItemdDefs = addItemDefIdToRequest(item.itemdef)
-    item.itemdef = itemdefs[item.itemdef] //fix me: why we use same field name for other purposes?
+    item.itemdefid <- item.itemdef
+    item.itemdef = itemdefs[item.itemdefid] //fix me: why we use same field name for other purposes?
     items[item.itemid] <- item
     return shouldUpdateItemdDefs
   }
@@ -263,12 +289,6 @@ local InventoryClient = class {
     needRefreshItems = true
     dagor.debug("schedule requestItems")
     g_delayed_actions.add(requestItemsInternal.bindenv(this), 100)
-  }
-
-  function refreshItemsRun()
-  {
-    if (needRefreshItems)
-      requestItems()
   }
 
   isWaitForInventory = @() canRefreshData() && lastUpdateTime < 0
@@ -393,7 +413,7 @@ local InventoryClient = class {
 
     lastItemdefsRequestTime = ::dagor.getCurTime()
     local steamLanguage = ::g_language.getCurrentSteamLanguage()
-    request("GetItemDefsClient", {itemdefids = itemdefidsString, language = steamLanguage}, null,
+    requestWithSignCheck("GetItemDefsClient", {itemdefids = itemdefidsString, language = steamLanguage}, null,
       function(result) {
         lastItemdefsRequestTime = -1
         local itemdef_json = getResultData(result, "itemdef_json");
@@ -585,7 +605,7 @@ local InventoryClient = class {
     local taskId = ::char_send_custom_action("cln_inventory_exchange_items",
                                              EATT_JSON_REQUEST,
                                              ::DataBlock(),
-                                             json_to_string(json, false),
+                                             ::json_to_string(json, false),
                                              -1)
     ::g_tasker.addTask(taskId, { showProgressBox = true }, internalCb, null, TASK_CB_TYPE.REQUEST_DATA)
   }

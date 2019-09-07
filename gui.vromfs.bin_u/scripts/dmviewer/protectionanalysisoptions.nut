@@ -113,9 +113,7 @@ options.addTypes({
       list = ::u.map(list, @(u) { unit = u, id = u.name, br = u.getBattleRating(ediff) })
       list.sort(@(a, b) a.br <=> b.br)
       local preferredBR = ::getAircraftByName(::hangar_get_current_unit_name()).getBattleRating(ediff)
-      local idx = ::u.searchIndex(list, @(v) v.id == unitId)
-      if (idx == -1)
-        idx = ::find_nearest(preferredBR, ::u.map(list, @(v) v.br))
+      local idx = list.searchIndex(@(v) v.id == unitId) ?? ::find_nearest(preferredBR, ::u.map(list, @(v) v.br))
       values = ::u.map(list, @(v) v.unit)
       items = ::u.map(list, @(v) {
         text  = ::format("[%.1f] %s", v.br, ::getUnitName(v.id))

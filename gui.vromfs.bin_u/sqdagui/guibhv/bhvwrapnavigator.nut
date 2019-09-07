@@ -95,10 +95,11 @@ class gui_bhv.wrapNavigator
     ::wn_sideRecursion--
     if (::wn_sideRecursionFound)
     {
-      dagor.debug("Error: recursion of select side item. obj.id = " + obj.id + ", childrenCount = " + obj.childrenCount())
+      local objId = obj?.id ?? "null"
+      dagor.debug("Error: recursion of select side item. obj.id = " + objId + ", childrenCount = " + obj.childrenCount())
       if (::wn_sideRecursion <= 0)
       {
-        ::dagor.assertf(false, "Error: wrapNavigator found recursion in selectSideItem. obj.id = " + obj.id)
+        ::dagor.assertf(false, "Error: wrapNavigator found recursion in selectSideItem. obj.id = " + objId)
         ::wn_sideRecursionFound = false
       }
     }

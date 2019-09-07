@@ -1,6 +1,8 @@
+local screenInfo = ::require("scripts/options/screenInfo.nut")
+
 local defValue  = 1.0
 local values    = [ 1.0, 0.95, 0.9 ]
-local items     = ["#options/no", "5%", "10%"]
+local items     = ["100%", "95%", "90%"]
 
 local getFixedValue = function() //return -1 when not fixed
 {
@@ -48,11 +50,14 @@ local getValueOptionIndex = @() values.find(getValue())
 
 local canChangeValue = @() getFixedValue() == -1
 
+local getSafearea = @() screenInfo.getFinalSafearea(getValue(), screenInfo.getMenuWidthLimit())
+
 local export = {
   getValue = getValue
   setValue = setValue
   canChangeValue = canChangeValue
   getValueOptionIndex = getValueOptionIndex
+  getSafearea = getSafearea
 
   values = values
   items = items

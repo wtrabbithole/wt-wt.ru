@@ -13,16 +13,16 @@ local buildReplayMpTable = function(replayPath)
     return res
 
   local gameType = replayInfo?.gameType ?? 0
-  local authorUserId = ::to_integer_safe(commentsBlk.authorUserId, -1000, false)
-  local authorBlk = ::u.search(playersBlkList, @(v) ::to_integer_safe(v.userId, 0, false) == authorUserId)
+  local authorUserId = ::to_integer_safe(commentsBlk?.authorUserId ?? "", -1000, false)
+  local authorBlk = ::u.search(playersBlkList, @(v) ::to_integer_safe(v?.userId ?? "", 0, false) == authorUserId)
   local authorSquadId = authorBlk?.squadId ?? INVALID_SQUAD_ID
 
   foreach (b in playersBlkList)
   {
-    local userId = ::to_integer_safe(b.userId, 0, false)
+    local userId = ::to_integer_safe(b?.userId ?? "", 0, false)
     if (userId == 0)
       continue
-    if ((b.name ?? "") == "" && (b.nick ?? "") == "")
+    if ((b?.name ?? "") == "" && (b?.nick ?? "") == "")
       continue
 
     local mplayer = {

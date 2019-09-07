@@ -8,7 +8,7 @@ const AUTH_ERROR_LOG_COLLECTION = "log"
 
 ::g_url <- {}
 
-function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = false)
+g_url.open <- function open(baseUrl, forceExternal=false, isAlreadyAuthenticated = false)
 {
   if (!::has_feature("AllowExternalLink"))
     return
@@ -85,21 +85,21 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
   })(url))
 }
 
-function g_url::openByObj(obj, forceExternal=false, isAlreadyAuthenticated = false)
+g_url.openByObj <- function openByObj(obj, forceExternal=false, isAlreadyAuthenticated = false)
 {
-  if (!::check_obj(obj) || obj.link == null || obj.link == "")
+  if (!::check_obj(obj) || obj?.link == null || obj.link == "")
     return
 
   local link = (obj.link.slice(0, 1) == "#") ? ::loc(obj.link.slice(1)) : obj.link
   open(link, forceExternal, isAlreadyAuthenticated)
 }
 
-function g_url::canAutoLogin()
+g_url.canAutoLogin <- function canAutoLogin()
 {
   return !::is_ps4_or_xbox && !::is_vendor_tencent() && ::g_login.isAuthorized()
 }
 
-function g_url::validateLink(link)
+g_url.validateLink <- function validateLink(link)
 {
   if (link == null)
     return null
@@ -130,7 +130,7 @@ function g_url::validateLink(link)
   return null
 }
 
-function open_url(baseUrl, forceExternal=false, isAlreadyAuthenticated = false, biqQueryKey = "")
+::open_url <- function open_url(baseUrl, forceExternal=false, isAlreadyAuthenticated = false, biqQueryKey = "")
 {
   if (!::has_feature("AllowExternalLink"))
     return

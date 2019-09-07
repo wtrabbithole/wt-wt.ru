@@ -1,4 +1,4 @@
-function _generateInterceptBombingMission(isFreeFlight, createGroundUnitsProc)
+::_generateInterceptBombingMission <- function _generateInterceptBombingMission(isFreeFlight, createGroundUnitsProc)
 {
   local mission_preset_name = "intercept_bombers_preset01";
   ::mgBeginMission("gameData/missions/dynamic_campaign/objectives/"+mission_preset_name+".blk");

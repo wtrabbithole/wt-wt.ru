@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local screenInfo = ::require("scripts/options/screenInfo.nut")
 const FONTS_SAVE_PATH = "fonts_css"
 const FONTS_SAVE_PATH_CONFIG = "video/fonts"
 
@@ -33,6 +34,8 @@ enum FONT_SIZE_ORDER {
 local hasNewFontsSizes = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.63")
 local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.72")
 
+local getFontsSh = screenInfo.getScreenHeightForFonts
+
 ::g_font <- {
   types = []
   cache = { bySaveId = {} }
@@ -48,14 +51,15 @@ local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.72"
   sizeOrder = 0 //FONT_SIZE_ORDER
 
   isAvailable = @(sWidth, sHeight) true
-  getFontSizePx = @(sWidth, sHeight) ::min(sHeight, sWidth * 0.75) * sizeMultiplier
+  getFontSizePx = @(sWidth, sHeight) getFontsSh(sWidth, sHeight) * sizeMultiplier
   getPixelToPixelFontSizeOutdatedPx = @(sWidth, sHeight) 800 //!!TODO: remove this together with old fonts
-  isLowWidthScreen = function(sWidth, sHeight)
+  isLowWidthScreen = function()
   {
-    if (::is_triple_head(sWidth, sHeight)) //triple screen
-      sWidth = sWidth / 3
+    local sWidth = ::screen_width()
+    local sHeight = ::screen_height()
+    local mainScreenSize = screenInfo.getMainScreenSizePx(sWidth, sHeight)
     local sf = getFontSizePx(sWidth, sHeight)
-    return 10.0 / 16 * sWidth / sf < 0.99
+    return 10.0 / 16 * mainScreenSize[0] / sf < 0.99
   }
 
   genCssString = function()
@@ -65,6 +69,7 @@ local hasNewFonts = ::is_dev_version || ::is_version_equals_or_newer("1.71.1.72"
     local config = {
       set = fontGenId
       scrnTgt = getFontSizePx(sWidth, sHeight)
+      isWide = isLowWidthScreen() ? 0 : 1
       pxFontTgtOutdated = getPixelToPixelFontSizeOutdatedPx(sWidth, sHeight)
     }
     return ::handyman.renderCached("gui/const/const_fonts_css", config)
@@ -84,7 +89,7 @@ enums.addTypesByGlobalName("g_font",
     sizeMultiplier = 0.5
     sizeOrder = FONT_SIZE_ORDER.TINY
 
-    isAvailable = @(sWidth, sHeight) hasNewFonts && ::min(0.75 * sWidth, sHeight) >= 800
+    isAvailable = @(sWidth, sHeight) hasNewFonts && getFontsSh(sWidth, sHeight) >= 800
   }
 
   SMALL = {
@@ -93,7 +98,7 @@ enums.addTypesByGlobalName("g_font",
     sizeMultiplier = 0.667
     sizeOrder = FONT_SIZE_ORDER.SMALL
 
-    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFontsSizes ? 768 : 900)
+    isAvailable = @(sWidth, sHeight) getFontsSh(sWidth, sHeight) >= (hasNewFontsSizes ? 768 : 900)
   }
 
   COMPACT = {
@@ -102,7 +107,7 @@ enums.addTypesByGlobalName("g_font",
     sizeMultiplier = 0.75
     sizeOrder = FONT_SIZE_ORDER.COMPACT
 
-    isAvailable = @(sWidth, sHeight) hasNewFonts && ::min(0.75 * sWidth, sHeight) >= 720
+    isAvailable = @(sWidth, sHeight) hasNewFonts && getFontsSh(sWidth, sHeight) >= 720
   }
 
   MEDIUM = {
@@ -112,7 +117,7 @@ enums.addTypesByGlobalName("g_font",
     saveIdCompatibility = [FONT_SAVE_ID.PX]
     sizeOrder = FONT_SIZE_ORDER.MEDIUM
 
-    isAvailable = @(sWidth, sHeight) ::min(0.75 * sWidth, sHeight) >= (hasNewFontsSizes ? 720 : 800)
+    isAvailable = @(sWidth, sHeight) getFontsSh(sWidth, sHeight) >= (hasNewFontsSizes ? 720 : 800)
   }
 
   LARGE = {
@@ -137,7 +142,7 @@ null,
 
 ::g_font.types.sort(@(a, b) a.sizeOrder <=> b.sizeOrder)
 
-function g_font::getAvailableFontBySaveId(saveId)
+g_font.getAvailableFontBySaveId <- function getAvailableFontBySaveId(saveId)
 {
   local res = enums.getCachedType("saveId", saveId, cache.bySaveId, this, null)
   if (res && res.isAvailable(::screen_width(), ::screen_height()))
@@ -152,14 +157,14 @@ function g_font::getAvailableFontBySaveId(saveId)
   return null
 }
 
-function g_font::getAvailableFonts()
+g_font.getAvailableFonts <- function getAvailableFonts()
 {
   local sWidth = ::screen_width()
   local sHeight = ::screen_height()
   return ::u.filter(types, @(f) f.isAvailable(sWidth, sHeight))
 }
 
-function g_font::getSmallestFont(sWidth, sHeight)
+g_font.getSmallestFont <- function getSmallestFont(sWidth, sHeight)
 {
   local res = null
   foreach(font in types)
@@ -168,18 +173,18 @@ function g_font::getSmallestFont(sWidth, sHeight)
   return res
 }
 
-function g_font::getFixedFont() //return null if can change fonts
+g_font.getFixedFont <- function getFixedFont() //return null if can change fonts
 {
   local availableFonts = getAvailableFonts()
   return availableFonts.len() == 1 ? availableFonts[0] : null
 }
 
-function g_font::canChange()
+g_font.canChange <- function canChange()
 {
   return getFixedFont() == null
 }
 
-function g_font::getDefault()
+g_font.getDefault <- function getDefault()
 {
   local fixedFont = getFixedFont()
   if (fixedFont)
@@ -200,7 +205,7 @@ function g_font::getDefault()
   return LARGE
 }
 
-function g_font::getCurrent()
+g_font.getCurrent <- function getCurrent()
 {
   if (!canChange())
     return getDefault()
@@ -229,7 +234,7 @@ function g_font::getCurrent()
 }
 
 //return isChanged
-function g_font::setCurrent(font)
+g_font.setCurrent <- function setCurrent(font)
 {
   if (!canChange())
     return false
@@ -243,13 +248,13 @@ function g_font::setCurrent(font)
   return isChanged
 }
 
-function g_font::saveFontToConfig(font)
+g_font.saveFontToConfig <- function saveFontToConfig(font)
 {
   if (::getSystemConfigOption(FONTS_SAVE_PATH_CONFIG) != font.saveId)
     ::setSystemConfigOption(FONTS_SAVE_PATH_CONFIG, font.saveId)
 }
 
-function g_font::validateSavedConfigFonts()
+g_font.validateSavedConfigFonts <- function validateSavedConfigFonts()
 {
   if (canChange())
     saveFontToConfig(getCurrent())

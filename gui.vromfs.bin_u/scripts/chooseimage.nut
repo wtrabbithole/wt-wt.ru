@@ -10,7 +10,7 @@ local stdMath = require("std/math.nut")
     value = 0
   }
 */
-function gui_choose_image(config, applyFunc, owner)
+::gui_choose_image <- function gui_choose_image(config, applyFunc, owner)
 {
   ::handlersManager.loadHandler(::gui_handlers.ChooseImage, {
                                   config = config

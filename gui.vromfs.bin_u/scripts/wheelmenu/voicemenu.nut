@@ -1,4 +1,4 @@
-function gui_start_voicemenu(config)
+::gui_start_voicemenu <- function gui_start_voicemenu(config)
 {
   if (::isPlayerDedicatedSpectator())
     return null
@@ -21,7 +21,7 @@ function gui_start_voicemenu(config)
   return handler
 }
 
-function close_cur_voicemenu()
+::close_cur_voicemenu <- function close_cur_voicemenu()
 {
   local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.voiceMenuHandler)
   if (handler && handler.isActive)

@@ -33,7 +33,7 @@ class ::gui_handlers.clanRewardsModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getSceneTplView()
   {
-    maxClanBestRewards = ::get_warpoints_blk().maxClanBestRewards ?? maxClanBestRewards
+    maxClanBestRewards = ::get_warpoints_blk()?.maxClanBestRewards ?? maxClanBestRewards
     local blocksCount = rewards.len() > 3 ? 2 : 1
     local myClanRights = ::g_clans.getMyClanRights()
     canEditBestRewards = clanId == ::clan_get_my_clan_id() && ::isInArray("CHANGE_INFO", myClanRights)
@@ -71,10 +71,10 @@ class ::gui_handlers.clanRewardsModal extends ::gui_handlers.BaseGuiHandlerWT
   function updateBestRewardsIds(id, isChecked)
   {
     local rIdx = ::g_string.cutPrefix(id, "reward_").tointeger()
-    local bridx = ::u.searchIndex(bestIds, @(i) i == rIdx)
-    if(bridx < 0 && isChecked)
+    local bridx = bestIds.searchIndex(@(i) i == rIdx)
+    if(bridx == null && isChecked)
       bestIds.append(rIdx)
-    if(bridx >= 0 && !isChecked)
+    if(bridx != null && !isChecked)
       bestIds.remove(bridx)
   }
 
@@ -113,7 +113,7 @@ class ::gui_handlers.clanRewardsModal extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local taskId = ::char_send_custom_action("cln_set_clan_best_rewards",
-      EATT_JSON_REQUEST,
+      EATT_SIMPLE_OK,
       ::DataBlock(),
       ::json_to_string({clanId = clanId, bestRewards = getBestRewardsConfig()}, false),
       -1)

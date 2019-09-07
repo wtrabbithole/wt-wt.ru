@@ -87,7 +87,7 @@ enums.addTypesByGlobalName("g_ww_unit_type", {
 })
 
 
-function g_ww_unit_type::getUnitTypeByCode(wwUnitTypeCode)
+g_ww_unit_type.getUnitTypeByCode <- function getUnitTypeByCode(wwUnitTypeCode)
 {
   return enums.getCachedType(
     "code",
@@ -99,7 +99,7 @@ function g_ww_unit_type::getUnitTypeByCode(wwUnitTypeCode)
 }
 
 
-function g_ww_unit_type::getUnitTypeByTextCode(wwUnitTypeTextCode)
+g_ww_unit_type.getUnitTypeByTextCode <- function getUnitTypeByTextCode(wwUnitTypeTextCode)
 {
   return enums.getCachedType(
     "textCode",
@@ -111,7 +111,7 @@ function g_ww_unit_type::getUnitTypeByTextCode(wwUnitTypeTextCode)
 }
 
 
-function g_ww_unit_type::getUnitTypeByEsUnitCode(esUnitCode)
+g_ww_unit_type.getUnitTypeByEsUnitCode <- function getUnitTypeByEsUnitCode(esUnitCode)
 {
   return enums.getCachedType(
     "esUnitCode",
@@ -123,7 +123,7 @@ function g_ww_unit_type::getUnitTypeByEsUnitCode(esUnitCode)
 }
 
 
-function g_ww_unit_type::getUnitTypeByWwUnit(wwUnit)
+g_ww_unit_type.getUnitTypeByWwUnit <- function getUnitTypeByWwUnit(wwUnit)
 {
   if (wwUnit.name in cache.byName)
     return cache.byName[wwUnit.name]
@@ -140,42 +140,42 @@ function g_ww_unit_type::getUnitTypeByWwUnit(wwUnit)
 }
 
 
-function g_ww_unit_type::getUnitTypeFontIcon(wwUnitTypeCode)
+g_ww_unit_type.getUnitTypeFontIcon <- function getUnitTypeFontIcon(wwUnitTypeCode)
 {
   return getUnitTypeByCode(wwUnitTypeCode).fontIcon
 }
 
 
-function g_ww_unit_type::isAir(wwUnitTypeCode)
+g_ww_unit_type.isAir <- function isAir(wwUnitTypeCode)
 {
   return wwUnitTypeCode == AIR.code
 }
 
 
-function g_ww_unit_type::isGround(wwUnitTypeCode)
+g_ww_unit_type.isGround <- function isGround(wwUnitTypeCode)
 {
   return wwUnitTypeCode == GROUND.code
 }
 
 
-function g_ww_unit_type::isWater(wwUnitTypeCode)
+g_ww_unit_type.isWater <- function isWater(wwUnitTypeCode)
 {
   return wwUnitTypeCode == WATER.code
 }
 
 
-function g_ww_unit_type::isInfantry(wwUnitTypeCode)
+g_ww_unit_type.isInfantry <- function isInfantry(wwUnitTypeCode)
 {
   return wwUnitTypeCode == INFANTRY.code
 }
 
 
-function g_ww_unit_type::isArtillery(wwUnitTypeCode)
+g_ww_unit_type.isArtillery <- function isArtillery(wwUnitTypeCode)
 {
   return wwUnitTypeCode == ARTILLERY.code
 }
 
-function g_ww_unit_type::canBeSurrounded(wwUnitTypeCode)
+g_ww_unit_type.canBeSurrounded <- function canBeSurrounded(wwUnitTypeCode)
 {
   return isGround(wwUnitTypeCode) ||
          isInfantry(wwUnitTypeCode) ||

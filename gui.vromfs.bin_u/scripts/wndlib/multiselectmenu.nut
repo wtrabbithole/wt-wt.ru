@@ -22,7 +22,7 @@
 */
 local stdMath = require("std/math.nut")
 
-function gui_start_multi_select_menu(config)
+::gui_start_multi_select_menu <- function gui_start_multi_select_menu(config)
 {
   ::handlersManager.loadHandler(::gui_handlers.MultiSelectMenu, config)
 }

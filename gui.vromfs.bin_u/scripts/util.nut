@@ -4,6 +4,7 @@ local penalty = require_native("penalty")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
+local string = require("string")
 
 ::usageRating_amount <- [0.0003, 0.0005, 0.001, 0.002]
 ::allowingMultCountry <- [1.5, 2, 2.5, 3, 4, 5]
@@ -60,7 +61,7 @@ foreach (i, v in ::cssColorsMapDark)
 ::global_max_players_versus <- 64
 ::global_max_players_coop <- 4
 
-function get_blk_by_path_array(path, blk, defaultValue = null)
+::get_blk_by_path_array <- function get_blk_by_path_array(path, blk, defaultValue = null)
 {
   local currentBlk = blk
   for (local i = 0; i < path.len(); ++i)
@@ -73,7 +74,7 @@ function get_blk_by_path_array(path, blk, defaultValue = null)
   return currentBlk
 }
 
-function get_blk_value_by_path(blk, path, defVal=null)
+::get_blk_value_by_path <- function get_blk_value_by_path(blk, path, defVal=null)
 {
   if (!blk || !path)
     return defVal
@@ -91,7 +92,7 @@ function get_blk_value_by_path(blk, path, defVal=null)
   return val
 }
 
-function getFromSettingsBlk(path, defVal=null)
+::getFromSettingsBlk <- function getFromSettingsBlk(path, defVal=null)
 {
   // Important: On production, settings blk does NOT contain all variables from config.blk, use getSystemConfigOption() instead.
   local blk = ::get_settings_blk()
@@ -99,17 +100,17 @@ function getFromSettingsBlk(path, defVal=null)
   return (val != null) ? val : defVal
 }
 
-function isInArray(v, arr)
+::isInArray <- function isInArray(v, arr)
 {
   return arr.find(v) != null
 }
 
-function locOrStrip(text)
+::locOrStrip <- function locOrStrip(text)
 {
   return (text.len() && text.slice(0,1)!="#")? ::g_string.stripTags(text) : text
 }
 
-function get_gamepad_specific_localization(locId)
+::get_gamepad_specific_localization <- function get_gamepad_specific_localization(locId)
 {
   if (!::show_console_buttons)
     return ::loc(locId)
@@ -119,7 +120,7 @@ function get_gamepad_specific_localization(locId)
 ::cross_call_api.get_gamepad_specific_localization <- ::get_gamepad_specific_localization
 
 
-function locEnding(locId, ending, defValue = null)
+::locEnding <- function locEnding(locId, ending, defValue = null)
 {
   local res = ::loc(locId + ending, "")
   if (res == "" && ending!="")
@@ -127,12 +128,12 @@ function locEnding(locId, ending, defValue = null)
   return res
 }
 
-function getCompoundedText(firstPart, secondPart, color)
+::getCompoundedText <- function getCompoundedText(firstPart, secondPart, color)
 {
   return firstPart + colorize(color, secondPart)
 }
 
-function colorize(color, text)
+::colorize <- function colorize(color, text)
 {
   text = text.tostring()
   if (!color.len() || !text.len())
@@ -144,14 +145,14 @@ function colorize(color, text)
   return ::format("<color=%s>%s</color>", color, text)
 }
 
-function getAircraftByName(name)
+::getAircraftByName <- function getAircraftByName(name)
 {
   return ::getTblValue(name, ::all_units)
 }
 
 
 ::current_wait_screen_txt <- ""
-function show_wait_screen(txt)
+::show_wait_screen <- function show_wait_screen(txt)
 {
   dagor.debug("GuiManager: show_wait_screen "+txt)
   if (::checkObj(::current_wait_screen))
@@ -183,7 +184,7 @@ function show_wait_screen(txt)
   ::broadcastEvent("WaitBoxCreated")
 }
 
-function close_wait_screen()
+::close_wait_screen <- function close_wait_screen()
 {
   dagor.debug("close_wait_screen")
   if (!::checkObj(::current_wait_screen))
@@ -198,12 +199,12 @@ function close_wait_screen()
   guiScene.performDelayed(getroottable(), ::update_msg_boxes)
 }
 
-function on_lost_controller()
+::on_lost_controller <- function on_lost_controller()
 {
   ::add_msg_box("cannot_session", ::loc("pl1/lostController"), [["ok", function() {}]], "ok")
 }
 
-function on_cannot_create_session()
+::on_cannot_create_session <- function on_cannot_create_session()
 {
   ::add_msg_box("cannot_session", ::loc("NET_CANNOT_CREATE_SESSION"), [["ok", function() {}]], "ok")
 }
@@ -211,7 +212,7 @@ function on_cannot_create_session()
 ::in_on_lost_psn <- false
 
 // leaved for future ps3/ps4 realisation
-function on_lost_psn()
+::on_lost_psn <- function on_lost_psn()
 {
   dagor.debug("on_lost_psn")
   local guiScene = ::get_gui_scene()
@@ -251,7 +252,7 @@ function on_lost_psn()
   }
 }
 
-function check_logout_scheduled()
+::check_logout_scheduled <- function check_logout_scheduled()
 {
   if (::gui_start_logout_scheduled)
   {
@@ -260,7 +261,7 @@ function check_logout_scheduled()
   }
 }
 
-function get_options_mode(game_mode)
+::get_options_mode <- function get_options_mode(game_mode)
 {
   switch (game_mode)
   {
@@ -277,13 +278,13 @@ function get_options_mode(game_mode)
   }
 }
 
-function restart_current_mission()
+::restart_current_mission <- function restart_current_mission()
 {
   ::set_gui_options_mode(::get_options_mode(::get_game_mode()))
   ::restart_mission()
 }
 
-function build_menu_blk(menu_items, default_text_prefix = "#mainmenu/btn", is_flight_menu = false)
+::build_menu_blk <- function build_menu_blk(menu_items, default_text_prefix = "#mainmenu/btn", is_flight_menu = false)
 {
   local result = ""
   foreach (idx, item in menu_items)
@@ -312,39 +313,7 @@ function build_menu_blk(menu_items, default_text_prefix = "#mainmenu/btn", is_fl
   return result
 }
 
-function close_tactical_map()
-{
-  if (::tactical_map_handler != null)
-    ::tactical_map_handler.onCancel(null)
-}
-
-function set_current_campaign(id)
-{
-  ::current_campaign_id = id
-}
-
-::last_mb <- 0
-
-function gui_msg_nobuttons_show(text)
-{
-  ::last_mb ++;
-  add_msg_box("msg_nobuttons" + ::last_mb, text, null, null)
-}
-
-function gui_msg_nobuttons_hide()
-{
-  remove_scene_box("msg_nobuttons" + ::last_mb)
-}
-
-function gui_msg_okbox(key, ptr)
-{
-  add_msg_box("msg_okbox", ::loc(key),
-  [
-    ["ok", (@(ptr) function() {::ps3_mb_cb(0, ptr); })(ptr)],
-  ], "ok")
-}
-
-function preload_ingame_scenes()
+::preload_ingame_scenes <- function preload_ingame_scenes()
 {
   ::mp_stat_handler = null
   ::tactical_map_handler = null
@@ -358,7 +327,7 @@ function preload_ingame_scenes()
 }
 
 
-function have_active_bonuses_by_effect_type(effectType, personal = false)
+::have_active_bonuses_by_effect_type <- function have_active_bonuses_by_effect_type(effectType, personal = false)
 {
   return ::ItemsManager.hasActiveBoosters(effectType, personal)
     || (personal
@@ -366,7 +335,7 @@ function have_active_bonuses_by_effect_type(effectType, personal = false)
             || ::get_squad_bonus_for_same_cyber_cafe(effectType)))
 }
 
-function get_squad_bonus_for_same_cyber_cafe(effectType, num = -1)
+::get_squad_bonus_for_same_cyber_cafe <- function get_squad_bonus_for_same_cyber_cafe(effectType, num = -1)
 {
   if (num < 0)
     num = ::g_squad_manager.getSameCyberCafeMembersNum()
@@ -375,7 +344,7 @@ function get_squad_bonus_for_same_cyber_cafe(effectType, num = -1)
   return value
 }
 
-function get_cyber_cafe_bonus_by_effect_type(effectType, cyberCafeLevel = -1)
+::get_cyber_cafe_bonus_by_effect_type <- function get_cyber_cafe_bonus_by_effect_type(effectType, cyberCafeLevel = -1)
 {
   if (cyberCafeLevel < 0)
     cyberCafeLevel = ::get_cyber_cafe_level()
@@ -384,7 +353,7 @@ function get_cyber_cafe_bonus_by_effect_type(effectType, cyberCafeLevel = -1)
   return value
 }
 
-function get_current_bonuses_text(effectType)
+::get_current_bonuses_text <- function get_current_bonuses_text(effectType)
 {
   local havePremium = ::havePremium()
   local tooltipText = []
@@ -434,7 +403,7 @@ function get_current_bonuses_text(effectType)
   return ::g_string.implode(tooltipText, "\n")
 }
 
-function add_bg_task_cb(taskId, actionFunc, handler = null)
+::add_bg_task_cb <- function add_bg_task_cb(taskId, actionFunc, handler = null)
 {
   local taskCallback = ::Callback((@(actionFunc, handler) function(result = ::YU2_OK) {
     ::call_for_handler(handler, actionFunc)
@@ -442,12 +411,12 @@ function add_bg_task_cb(taskId, actionFunc, handler = null)
   ::g_tasker.addTask(taskId, null, taskCallback, taskCallback)
 }
 
-function havePremium()
+::havePremium <- function havePremium()
 {
   return ::entitlement_expires_in("PremiumAccount") > 0
 }
 
-function get_mission_desc_text(missionBlk)
+::get_mission_desc_text <- function get_mission_desc_text(missionBlk)
 {
   local descrAdd = ""
 
@@ -480,7 +449,7 @@ function get_mission_desc_text(missionBlk)
   return descrAdd
 }
 
-function getCountryByAircraftName(airName) //used in code
+::getCountryByAircraftName <- function getCountryByAircraftName(airName) //used in code
 {
   local country = ::getShopCountry(airName)
   local cPrefixLen = "country_".len()
@@ -489,13 +458,13 @@ function getCountryByAircraftName(airName) //used in code
   return ""
 }
 
-function getShopCountry(airName)
+::getShopCountry <- function getShopCountry(airName)
 {
   local air = ::getAircraftByName(airName)
   return air?.shopCountry ?? ""
 }
 
-function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, forceMaxPrecise = false)
+::countMeasure <- function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, forceMaxPrecise = false)
 {
   local mType = ::get_option_unit_type(unitNo)
   local unit = null
@@ -531,7 +500,7 @@ function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, 
   return result
 }
 
-function isInArrayRecursive(v, arr)
+::isInArrayRecursive <- function isInArrayRecursive(v, arr)
 {
   foreach(i in arr)
     if (v==i)
@@ -542,13 +511,13 @@ function isInArrayRecursive(v, arr)
   return false
 }
 
-function showBtn(id, status, scene=null)
+::showBtn <- function showBtn(id, status, scene=null)
 {
   local obj = ::checkObj(scene) ? scene.findObject(id) : ::get_cur_gui_scene()[id]
   return ::show_obj(obj, status)
 }
 
-function enableBtnTable(obj, table, setInactive = false)
+::enableBtnTable <- function enableBtnTable(obj, table, setInactive = false)
 {
   if(!::checkObj(obj))
     return
@@ -566,7 +535,7 @@ function enableBtnTable(obj, table, setInactive = false)
   }
 }
 
-function showBtnTable(obj, table)
+::showBtnTable <- function showBtnTable(obj, table)
 {
   if (!::checkObj(obj))
     return
@@ -575,20 +544,15 @@ function showBtnTable(obj, table)
     ::showBtn(id, status, obj)
 }
 
-function show_title_logo(show, scene = null, logoHeight = "", name_id = "id_full_title")
+::show_title_logo <- function show_title_logo(show, scene = null, logoHeight = "", name_id = "id_full_title")
 {
   local guiScene = ::get_cur_gui_scene()
   local pic = null
   pic = scene? scene.findObject("titleLogo") : guiScene["titleLogo"]
   if(logoHeight == "")
   {
-    local root = guiScene.getRoot()
-    if(root)
-    {
-      local rootSize = root.getSize()
-      local scrn_tgt = ::min(0.75*rootSize[0], rootSize[1])
-      logoHeight = min(max(((scrn_tgt + 200) / 400).tointeger() * 32, 64), 128)
-    }
+    local displayHeight = ::g_dagui_utils.toPixels(guiScene, "@titleLogoPlateHeight")
+    logoHeight = ::min(::max(displayHeight.tointeger(), 64), 128)
   }
 
   if(::checkObj(pic))
@@ -600,7 +564,7 @@ function show_title_logo(show, scene = null, logoHeight = "", name_id = "id_full
   return false
 }
 
-function getAmountAndMaxAmountText(amount, maxAmount, showMaxAmount = false)
+::getAmountAndMaxAmountText <- function getAmountAndMaxAmountText(amount, maxAmount, showMaxAmount = false)
 {
   local amountText = ""
   if (maxAmount > 1 || showMaxAmount)
@@ -608,14 +572,14 @@ function getAmountAndMaxAmountText(amount, maxAmount, showMaxAmount = false)
   return amountText;
 }
 
-function is_game_mode_with_spendable_weapons()
+::is_game_mode_with_spendable_weapons <- function is_game_mode_with_spendable_weapons()
 {
   local mode = ::get_mp_mode();
   return mode == ::GM_DOMINATION || mode == ::GM_TOURNAMENT;
 }
 
 ::skip_crew_unlock_assert <- false
-function setCrewUnlockTime(obj, air)
+::setCrewUnlockTime <- function setCrewUnlockTime(obj, air)
 {
   if(!::checkObj(obj))
     return
@@ -671,7 +635,7 @@ function setCrewUnlockTime(obj, air)
   })(air))
 }
 
-function fillCountryInfo(scene, country, expChange=0, showMedals = false, profileData=null)
+::fillCountryInfo <- function fillCountryInfo(scene, country, expChange=0, showMedals = false, profileData=null)
 {
   if (!scene) return
   local rank = ::get_player_rank_by_country(country, profileData)
@@ -684,18 +648,7 @@ function fillCountryInfo(scene, country, expChange=0, showMedals = false, profil
   if (obj) obj["background-image"] = (country!="")? ::get_country_icon(country) : "#ui/gameuiskin#prestige0"
 }
 
-function set_menu_title(text, scene, name="gc_title")
-{
-  if (text == null ||
-    !::checkObj(scene))
-    return
-
-  local textObj = scene.findObject(name)
-  if (::checkObj(textObj))
-    textObj.setValue(text.tostring())
-}
-
-function stringReplace(str, replstr, value)
+::stringReplace <- function stringReplace(str, replstr, value)
 {
   local findex = 0;
   local s = str;
@@ -714,12 +667,12 @@ function stringReplace(str, replstr, value)
 }
 
 ::last_update_entitlements_time <- ::dagor.getCurTime()
-function get_update_entitlements_timeout_msec()
+::get_update_entitlements_timeout_msec <- function get_update_entitlements_timeout_msec()
 {
   return ::last_update_entitlements_time - ::dagor.getCurTime() + 20000
 }
 
-function update_entitlements_limited()
+::update_entitlements_limited <- function update_entitlements_limited()
 {
   if (!::is_online_available())
     return -1
@@ -731,7 +684,7 @@ function update_entitlements_limited()
   return -1
 }
 
-function check_balance_msgBox(cost, afterCheck = null, silent = false)
+::check_balance_msgBox <- function check_balance_msgBox(cost, afterCheck = null, silent = false)
 {
   if (cost.isZero())
     return true
@@ -774,7 +727,7 @@ function check_balance_msgBox(cost, afterCheck = null, silent = false)
 }
 
 //need to remove
-function getPriceText(wp, gold=0, colored = true, showWp=false, showGold=false)
+::getPriceText <- function getPriceText(wp, gold=0, colored = true, showWp=false, showGold=false)
 {
   local text = ""
   if (gold!=0 || showGold)
@@ -784,7 +737,7 @@ function getPriceText(wp, gold=0, colored = true, showWp=false, showGold=false)
   return text
 }
 
-function getPriceAccordingToPlayersCurrency(wpCurrency, eaglesCurrency, colored = true)
+::getPriceAccordingToPlayersCurrency <- function getPriceAccordingToPlayersCurrency(wpCurrency, eaglesCurrency, colored = true)
 {
   local cost = ::Cost(wpCurrency, eaglesCurrency)
   if (colored)
@@ -792,32 +745,32 @@ function getPriceAccordingToPlayersCurrency(wpCurrency, eaglesCurrency, colored 
   return cost.getUncoloredText()
 }
 
-function getWpPriceText(wp, colored=false)
+::getWpPriceText <- function getWpPriceText(wp, colored=false)
 {
   return getPriceText(wp, 0, colored, true)
 }
 
-function getGpPriceText(gold, colored=false)
+::getGpPriceText <- function getGpPriceText(gold, colored=false)
 {
   return getPriceText(0, gold, colored, false, true)
 }
 
 //need to remove
-function getRpPriceText(rp, colored=false)
+::getRpPriceText <- function getRpPriceText(rp, colored=false)
 {
   if (rp == 0)
     return ""
   return rp.tostring() + ::loc("currency/researchPoints/sign" + (colored? "/colored" : ""))
 }
 
-function get_crew_sp_text(sp, showEmpty = true)
+::get_crew_sp_text <- function get_crew_sp_text(sp, showEmpty = true)
 {
   if (!showEmpty && sp == 0)
     return ""
   return ::g_language.decimalFormat(sp) + ::loc("currency/skillPoints/sign/colored")
 }
 
-function get_flush_exp_text(exp_value)
+::get_flush_exp_text <- function get_flush_exp_text(exp_value)
 {
   if (exp_value == null || exp_value < 0)
     return ""
@@ -826,14 +779,14 @@ function get_flush_exp_text(exp_value)
   return ::format(::loc("mainmenu/availableFreeExpForNewResearch"), coloredPriceText)
 }
 
-function getFreeRpPriceText(frp, colored=false)
+::getFreeRpPriceText <- function getFreeRpPriceText(frp, colored=false)
 {
   if (frp == 0)
     return ""
   return frp.tostring() + ::loc("currency/freeResearchPoints/sign" + (colored? "/colored" : ""))
 }
 
-function getCrewSpText(sp, colored=true)
+::getCrewSpText <- function getCrewSpText(sp, colored=true)
 {
   if (sp == 0)
     return ""
@@ -841,7 +794,7 @@ function getCrewSpText(sp, colored=true)
     + ::loc("currency/skillPoints/sign" + (colored? "/colored" : ""))
 }
 
-function colorTextByValues(text, val1, val2, useNeutral = true, useGood = true)
+::colorTextByValues <- function colorTextByValues(text, val1, val2, useNeutral = true, useGood = true)
 {
   local color = ""
   if (val1 >= val2)
@@ -860,33 +813,33 @@ function colorTextByValues(text, val1, val2, useNeutral = true, useGood = true)
   return ::format("<color=@%s>%s</color>", color, text)
 }
 
-function getObjIdByPrefix(obj, prefix, idProp = "id")
+::getObjIdByPrefix <- function getObjIdByPrefix(obj, prefix, idProp = "id")
 {
   if (!obj) return null
-  local id = obj[idProp]
+  local id = obj?[idProp]
   if (!id) return null
 
   return ::g_string.cutPrefix(id, prefix)
 }
 
-function getTooltipObjId(obj)
+::getTooltipObjId <- function getTooltipObjId(obj)
 {
-  return obj.tooltipId || ::getObjIdByPrefix(obj, "tooltip_")
+  return obj?.tooltipId ?? ::getObjIdByPrefix(obj, "tooltip_")
 }
 
 ::is_hangar_controls_enabled <- false
-function enableHangarControls(value, save=true)
+::enableHangarControls <- function enableHangarControls(value, save=true)
 {
   ::hangar_enable_controls(value)
   if (save)
     ::is_hangar_controls_enabled = value
 }
-function restoreHangarControls()
+::restoreHangarControls <- function restoreHangarControls()
 {
   ::hangar_enable_controls(::is_hangar_controls_enabled)
 }
 
-function array_to_blk(arr, id)
+::array_to_blk <- function array_to_blk(arr, id)
 {
   local blk = ::DataBlock()
   if (arr)
@@ -895,7 +848,7 @@ function array_to_blk(arr, id)
   return blk
 }
 
-function buildTableFromBlk(blk)
+::buildTableFromBlk <- function buildTableFromBlk(blk)
 {
   if (!blk)
     return {}
@@ -911,7 +864,7 @@ function buildTableFromBlk(blk)
   return res
 }
 
-function build_blk_from_container(container, arrayKey = "array")
+::build_blk_from_container <- function build_blk_from_container(container, arrayKey = "array")
 {
   local blk = ::DataBlock()
   local isContainerArray = ::u.isArray(container)
@@ -933,7 +886,7 @@ function build_blk_from_container(container, arrayKey = "array")
   return blk
 }
 
-function create_new_pair_key_value_to_blk(blk, index, value)
+::create_new_pair_key_value_to_blk <- function create_new_pair_key_value_to_blk(blk, index, value)
 {
   /*Known feature - cannot create a pair, if index is used for other type
    i.e. ["string", 1, 2, 3, "string"] in this case will be ("string", "string") result
@@ -942,7 +895,7 @@ function create_new_pair_key_value_to_blk(blk, index, value)
   blk[index] <- value
 }
 
-function assign_value_to_blk(blk, index, value)
+::assign_value_to_blk <- function assign_value_to_blk(blk, index, value)
 {
   blk[index] = value
 }
@@ -951,7 +904,7 @@ function assign_value_to_blk(blk, index, value)
  * Adds value to table that may already
  * have some value with the same key.
  */
-function buildTableFromBlk_AddElement(table, elementKey, elementValue)
+::buildTableFromBlk_AddElement <- function buildTableFromBlk_AddElement(table, elementKey, elementValue)
 {
   if (!(elementKey in table))
     table[elementKey] <- elementValue
@@ -961,7 +914,7 @@ function buildTableFromBlk_AddElement(table, elementKey, elementValue)
     table[elementKey] <- [table[elementKey], elementValue]
 }
 
-function buildTableRow(rowName, rowData, even=null, trParams="", tablePad="@tblPad")
+::buildTableRow <- function buildTableRow(rowName, rowData, even=null, trParams="", tablePad="@tblPad")
 {
   //tablePad not using, but passed through many calls of this function
   local view = {
@@ -1004,17 +957,17 @@ function buildTableRow(rowName, rowData, even=null, trParams="", tablePad="@tblP
   return ::handyman.renderCached("gui/commonParts/tableRow", view)
 }
 
-function buildTableRowNoPad(rowName, rowData, even=null, trParams="")
+::buildTableRowNoPad <- function buildTableRowNoPad(rowName, rowData, even=null, trParams="")
 {
   return buildTableRow(rowName, rowData, even, trParams, "0")
 }
 
-function invoke_multi_array(multiArray, invokeCallback)
+::invoke_multi_array <- function invoke_multi_array(multiArray, invokeCallback)
 {
   ::_invoke_multi_array(multiArray, [], 0, invokeCallback)
 }
 
-function _invoke_multi_array(multiArray, currentArray, currentIndex, invokeCallback)
+::_invoke_multi_array <- function _invoke_multi_array(multiArray, currentArray, currentIndex, invokeCallback)
 {
   if (currentIndex == multiArray.len())
   {
@@ -1038,7 +991,7 @@ function _invoke_multi_array(multiArray, currentArray, currentIndex, invokeCallb
   }
 }
 
-function showCurBonus(obj, value, tooltipLocName="", isDiscount=true, fullUpdate=false, tooltip = null)
+::showCurBonus <- function showCurBonus(obj, value, tooltipLocName="", isDiscount=true, fullUpdate=false, tooltip = null)
 {
   if (!::checkObj(obj))
     return
@@ -1065,13 +1018,13 @@ function showCurBonus(obj, value, tooltipLocName="", isDiscount=true, fullUpdate
       obj.setValue("")
 }
 
-function hideBonus(obj)
+::hideBonus <- function hideBonus(obj)
 {
   if (::checkObj(obj))
     obj.setValue("")
 }
 
-function showAirExpWpBonus(obj, airName, showExp = true, showWp = true)
+::showAirExpWpBonus <- function showAirExpWpBonus(obj, airName, showExp = true, showWp = true)
 {
   if (!obj) return
 
@@ -1095,7 +1048,7 @@ function showAirExpWpBonus(obj, airName, showExp = true, showWp = true)
     obj[name] = result
 }
 
-function getBonus(exp, wp, imgType, placeType="", airName="")
+::getBonus <- function getBonus(exp, wp, imgType, placeType="", airName="")
 {
   local imgColor = ""
   if(exp > 1.0)
@@ -1127,7 +1080,7 @@ function getBonus(exp, wp, imgType, placeType="", airName="")
   return data
 }
 
-function getBonusImage(bType, multiplier, useBy)
+::getBonusImage <- function getBonusImage(bType, multiplier, useBy)
 {
   if ((bType != "item" && bType != "country") || multiplier == 1.0)
     return ""
@@ -1142,7 +1095,7 @@ function getBonusImage(bType, multiplier, useBy)
   return ("#ui/gameuiskin#" + bType + "_bonus_mult_" + multiplier)
 }
 
-function find_max_lower_value(val, list)
+::find_max_lower_value <- function find_max_lower_value(val, list)
 {
   local res = null
   local found = false
@@ -1165,12 +1118,12 @@ function find_max_lower_value(val, list)
   return res
 }
 
-function checkObj(obj)
+::checkObj <- function checkObj(obj)
 {
   return obj!=null && obj.isValid()
 }
 
-function clearBorderSymbols(value, symList = [" "])
+::clearBorderSymbols <- function clearBorderSymbols(value, symList = [" "])
 {
   while(value!="" && ::isInArray(value.slice(0,1), symList))
     value = value.slice(1)
@@ -1179,11 +1132,11 @@ function clearBorderSymbols(value, symList = [" "])
   return value
 }
 
-function clearBorderSymbolsMultiline(str) {
+::clearBorderSymbolsMultiline <- function clearBorderSymbolsMultiline(str) {
   return clearBorderSymbols(str, [" ", 0x0A.tochar(), 0x0D.tochar()])
 }
 
-function get_mission_name(missionId, config, locNameKey = "locName")
+::get_mission_name <- function get_mission_name(missionId, config, locNameKey = "locName")
 {
   local locNameValue = getTblValue(locNameKey, config, null)
   if (locNameValue && locNameValue.len())
@@ -1192,19 +1145,19 @@ function get_mission_name(missionId, config, locNameKey = "locName")
   return ::loc("missions/" + missionId)
 }
 
-function get_current_mission_name()
+::get_current_mission_name <- function get_current_mission_name()
 {
   local misBlk = ::DataBlock()
   ::get_current_mission_desc(misBlk)
   return misBlk.name
 }
 
-function loc_current_mission_name(needComment = true)
+::loc_current_mission_name <- function loc_current_mission_name(needComment = true)
 {
   local misBlk = ::DataBlock()
   ::get_current_mission_desc(misBlk)
   local ret = ""
-  if (misBlk?.locName.len() > 0)
+  if ((misBlk?.locName.len() ?? 0) > 0)
     ret = ::get_locId_name(misBlk, "locName")
   else if ((misBlk?.loc_name ?? "") != "")
     ret = ::loc("missions/" + misBlk.loc_name, "")
@@ -1221,11 +1174,11 @@ function loc_current_mission_name(needComment = true)
   return ret
 }
 
-function get_combine_loc_name_mission(missionInfo)
+::get_combine_loc_name_mission <- function get_combine_loc_name_mission(missionInfo)
 {
   local misInfoName = missionInfo?.name ?? ""
   local locName = ""
-  if (missionInfo?.locName.len() > 0)
+  if ((missionInfo?.locName.len() ?? 0) > 0)
     locName = ::get_locId_name(missionInfo, "locName")
   else
     locName = ::loc("missions/" + misInfoName, "")
@@ -1246,7 +1199,7 @@ function get_combine_loc_name_mission(missionInfo)
   return locName
 }
 
-function loc_current_mission_desc()
+::loc_current_mission_desc <- function loc_current_mission_desc()
 {
   local misBlk = ::DataBlock()
   ::get_current_mission_desc(misBlk)
@@ -1273,7 +1226,7 @@ function loc_current_mission_desc()
   return locDesc
 }
 
-function save_to_json(obj)
+::save_to_json <- function save_to_json(obj)
 {
   ::dagor.assertf(::isInArray(type(obj), [ "table", "array" ]),
     "Data type not suitable for save_to_json: " + type(obj))
@@ -1281,7 +1234,7 @@ function save_to_json(obj)
   return ::json_to_string(obj, false)
 }
 
-function get_country_by_team(team_index)
+::get_country_by_team <- function get_country_by_team(team_index)
 {
   local countries = null
   if (::mission_settings && ::mission_settings.layout)
@@ -1301,7 +1254,7 @@ function get_country_by_team(team_index)
 ::max_roman_digit <- 3
 
 //Function from http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
-function get_roman_numeral(num)
+::get_roman_numeral <- function get_roman_numeral(num)
 {
   if (!::is_numeric(num) || num < 0)
   {
@@ -1329,14 +1282,14 @@ function get_roman_numeral(num)
 }
 
 
-function increment_parameter(object, parameter)
+::increment_parameter <- function increment_parameter(object, parameter)
 {
   if (!(parameter in object))
     object[parameter] <- 0;
   object[parameter]++;
 }
 
-function get_number_of_units_by_years(country)
+::get_number_of_units_by_years <- function get_number_of_units_by_years(country)
 {
   local result = {}
   for (local year = ::unit_year_selection_min; year <= ::unit_year_selection_max; year++)
@@ -1372,7 +1325,7 @@ function get_number_of_units_by_years(country)
   return result;
 }
 
-function scene_objects_under_cursor()
+::scene_objects_under_cursor <- function scene_objects_under_cursor()
 {
   local db = ::DataBlock();
   ::get_scene_objects_under_cursor(db);
@@ -1380,12 +1333,12 @@ function scene_objects_under_cursor()
 }
 
 
-function isProductionCircuit()
+::isProductionCircuit <- function isProductionCircuit()
 {
   return ::get_cur_circuit_name().find("production") != null
 }
 
-function generatePaginator(nest_obj, handler, cur_page, last_page, my_page = null, show_last_page = false, hasSimpleNavButtons = false)
+::generatePaginator <- function generatePaginator(nest_obj, handler, cur_page, last_page, my_page = null, show_last_page = false, hasSimpleNavButtons = false)
 {
   if(!::checkObj(nest_obj))
     return
@@ -1449,7 +1402,7 @@ function generatePaginator(nest_obj, handler, cur_page, last_page, my_page = nul
   prevObj.to_page = max(0, cur_page - 1).tostring()
 }
 
-function hidePaginator(nestObj)
+::hidePaginator <- function hidePaginator(nestObj)
 {
   local paginatorObj = nestObj.findObject("paginator_container")
   if(!paginatorObj)
@@ -1458,7 +1411,7 @@ function hidePaginator(nestObj)
   paginatorObj.enable(false)
 }
 
-function paginator_set_unseen(nestObj, prevUnseen, nextUnseen)
+::paginator_set_unseen <- function paginator_set_unseen(nestObj, prevUnseen, nextUnseen)
 {
   local paginatorObj = nestObj.findObject("paginator_container")
   if (!::check_obj(paginatorObj))
@@ -1472,7 +1425,7 @@ function paginator_set_unseen(nestObj, prevUnseen, nextUnseen)
     nextObj.setValue(nextUnseen || "")
 }
 
-function on_have_to_start_chard_op(message)
+::on_have_to_start_chard_op <- function on_have_to_start_chard_op(message)
 {
 //  dlog("GP: on have to start char op message! = " +message)
   dagor.debug("on_have_to_start_chard_op "+message)
@@ -1504,7 +1457,7 @@ function on_have_to_start_chard_op(message)
   }
 }
 
-function onUpdateProfile(taskId, action, transactionType = ::EATT_UNKNOWN) //code callback on profile update
+::onUpdateProfile <- function onUpdateProfile(taskId, action, transactionType = ::EATT_UNKNOWN) //code callback on profile update
 {
   ::broadcastEvent("ProfileUpdated", { taskId = taskId, action = action, transactionType = transactionType })
 
@@ -1514,7 +1467,7 @@ function onUpdateProfile(taskId, action, transactionType = ::EATT_UNKNOWN) //cod
   penalties.showBannedStatusMsgBox(true)
 }
 
-function getValueForMode(optionsMode, oType)
+::getValueForMode <- function getValueForMode(optionsMode, oType)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(optionsMode)
@@ -1524,7 +1477,7 @@ function getValueForMode(optionsMode, oType)
   return value
 }
 
-function startCreateWndByGamemode(handler, obj)
+::startCreateWndByGamemode <- function startCreateWndByGamemode(handler, obj)
 {
   if("stopSearch" in handler)
     handler.stopSearch = false;
@@ -1559,7 +1512,7 @@ function startCreateWndByGamemode(handler, obj)
   ::update_gamercards()
 }
 
-function checkAndCreateGamemodeWnd(handler, gm)
+::checkAndCreateGamemodeWnd <- function checkAndCreateGamemodeWnd(handler, gm)
 {
   if (!::check_gamemode_pkg(gm))
     return
@@ -1575,7 +1528,7 @@ function checkAndCreateGamemodeWnd(handler, gm)
   })(handler, gm))
 }
 
-function setDoubleTextToButton(nestObj, firstBtnId, firstText, secondText = null)
+::setDoubleTextToButton <- function setDoubleTextToButton(nestObj, firstBtnId, firstText, secondText = null)
 {
   if (!::checkObj(nestObj) || firstBtnId == "")
     return null
@@ -1595,7 +1548,7 @@ function setDoubleTextToButton(nestObj, firstBtnId, firstText, secondText = null
   return fObj
 }
 
-function set_double_text_to_button(nestObj, btnId, coloredText)
+::set_double_text_to_button <- function set_double_text_to_button(nestObj, btnId, coloredText)
 {
   return ::setDoubleTextToButton(nestObj, btnId, ::g_dagui_utils.removeTextareaTags(coloredText), coloredText)
 }
@@ -1606,7 +1559,7 @@ function set_double_text_to_button(nestObj, btnId, coloredText)
  * placePriceTextToButton(nestObj, btnId, localizedText, wpCost (int), goldCost (int))
  * placePriceTextToButton(nestObj, btnId, localizedText, cost (Cost) )
  */
-function placePriceTextToButton(nestObj, btnId, localizedText, arg1=0, arg2=0)
+::placePriceTextToButton <- function placePriceTextToButton(nestObj, btnId, localizedText, arg1=0, arg2=0)
 {
   local cost = ::u.isMoney(arg1) ? arg1 : ::Cost(arg1, arg2)
   local textFormat = "%s" + (cost.isZero() ? "" : " (%s)")
@@ -1617,7 +1570,7 @@ function placePriceTextToButton(nestObj, btnId, localizedText, arg1=0, arg2=0)
 
 ::get_profile_country_sq <- @() ::get_profile_country() ?? "country_0"
 
-function switch_profile_country(country)
+::switch_profile_country <- function switch_profile_country(country)
 {
   if (country == ::get_profile_country_sq())
     return
@@ -1627,7 +1580,7 @@ function switch_profile_country(country)
   ::broadcastEvent("CountryChanged")
 }
 
-function set_help_text_on_loading(nestObj = null)
+::set_help_text_on_loading <- function set_help_text_on_loading(nestObj = null)
 {
   if (!::checkObj(nestObj))
     return
@@ -1636,14 +1589,14 @@ function set_help_text_on_loading(nestObj = null)
   nestObj.setValue(text)
 }
 
-function setVersionText(scene=null)
+::setVersionText <- function setVersionText(scene=null)
 {
   local verObj = scene ? scene.findObject("version_text") : ::get_cur_gui_scene()["version_text"]
   if(::checkObj(verObj))
     verObj.setValue(::format(::loc("mainmenu/version"), ::get_game_version_str()))
 }
 
-function flushExcessExpToUnit(unit)
+::flushExcessExpToUnit <- function flushExcessExpToUnit(unit)
 {
   local blk = ::DataBlock()
   blk.setStr("unit", unit)
@@ -1651,7 +1604,7 @@ function flushExcessExpToUnit(unit)
   return ::char_send_blk("cln_move_exp_to_unit", blk)
 }
 
-function flushExcessExpToModule(unit, module)
+::flushExcessExpToModule <- function flushExcessExpToModule(unit, module)
 {
   local blk = ::DataBlock()
   blk.setStr("unit", unit)
@@ -1660,7 +1613,7 @@ function flushExcessExpToModule(unit, module)
   return ::char_send_blk("cln_move_exp_to_module", blk)
 }
 
-function buySchemeForUnit(unit)
+::buySchemeForUnit <- function buySchemeForUnit(unit)
 {
   local blk = ::DataBlock()
   blk.setStr("unit", unit)
@@ -1673,7 +1626,7 @@ function buySchemeForUnit(unit)
  * Checks for identity before save.
  * If value in specified slot was changed returns true. Otherwise return false.
  */
-function set_blk_value_by_path(blk, path, val)
+::set_blk_value_by_path <- function set_blk_value_by_path(blk, path, val)
 {
   if (!blk || !path)
     return
@@ -1688,15 +1641,15 @@ function set_blk_value_by_path(blk, path, val)
     blk = blk.addBlock(dir)
 
   //If current value is equal to existent in DataBlock don't override it
-  if (::u.isEqual(blk[key], val))
+  if (::u.isEqual(blk?[key], val))
     return u.isInstance(val) //If the same instance was changed, then need to save
 
   //Remove DataBlock slot if it contains an instance or if it has different type
   //from new value
-  local destType = type(blk[key])
+  local destType = type(blk?[key])
   if (destType == "instance")
     blk[key] <- null
-  else if (blk[key] != null && destType != type(val))
+  else if (blk?[key] != null && destType != type(val))
     blk[key] = null
 
   if (::isInArray(type(val), [ "string", "bool", "float", "integer", "int64", "instance", "null"]))
@@ -1716,7 +1669,7 @@ function set_blk_value_by_path(blk, path, val)
   return true
 }
 
-function get_config_blk_paths()
+::get_config_blk_paths <- function get_config_blk_paths()
 {
   // On PS4 path is "/app0/config.blk", but it is read-only.
   return {
@@ -1725,7 +1678,7 @@ function get_config_blk_paths()
   }
 }
 
-function getSystemConfigOption(path, defVal=null)
+::getSystemConfigOption <- function getSystemConfigOption(path, defVal=null)
 {
   local filename = ::get_config_blk_paths().read
   if (!filename) return defVal
@@ -1734,7 +1687,7 @@ function getSystemConfigOption(path, defVal=null)
   return (val != null) ? val : defVal
 }
 
-function setSystemConfigOption(path, val)
+::setSystemConfigOption <- function setSystemConfigOption(path, val)
 {
   local filename = ::get_config_blk_paths().write
   if (!filename) return
@@ -1743,13 +1696,13 @@ function setSystemConfigOption(path, val)
     blk.saveToTextFile(filename)
 }
 
-function quit_and_run_cmd(cmd)
+::quit_and_run_cmd <- function quit_and_run_cmd(cmd)
 {
   ::direct_launch(cmd); //FIXME: mac???
   ::exit_game();
 }
 
-function get_bit_value_by_array(selValues, values)
+::get_bit_value_by_array <- function get_bit_value_by_array(selValues, values)
 {
   local res = 0
   foreach(i, val in values)
@@ -1758,7 +1711,7 @@ function get_bit_value_by_array(selValues, values)
   return res
 }
 
-function get_array_by_bit_value(bitValue, values)
+::get_array_by_bit_value <- function get_array_by_bit_value(bitValue, values)
 {
   local res = []
   foreach(i, val in values)
@@ -1767,7 +1720,7 @@ function get_array_by_bit_value(bitValue, values)
   return res
 }
 
-function call_for_handler(handler, func)
+::call_for_handler <- function call_for_handler(handler, func)
 {
   if (!func)
     return
@@ -1776,17 +1729,17 @@ function call_for_handler(handler, func)
   return func()
 }
 
-function is_vendor_tencent()
+::is_vendor_tencent <- function is_vendor_tencent()
 {
   return ::get_current_language() == "HChinese" || ::use_tencent_login() //we need to check language too early when get_language from profile not work
 }
 
-function is_vietnamese_version()
+::is_vietnamese_version <- function is_vietnamese_version()
 {
   return ::get_current_language() == "Vietnamese" //we need to check language too early when get_language from profile not work
 }
 
-function is_chinese_version()
+::is_chinese_version <- function is_chinese_version()
 {
   local language = ::get_current_language()
   return language == "Chinese"
@@ -1794,24 +1747,24 @@ function is_chinese_version()
     || language == "Korean"
 }
 
-function is_platform_shield_tv()
+::is_platform_shield_tv <- function is_platform_shield_tv()
 {
   return ::getFromSettingsBlk("deviceType", "") == "shieldTv"
 }
 
-function is_worldwar_enabled()
+::is_worldwar_enabled <- function is_worldwar_enabled()
 {
   return ::has_feature("WorldWar") && ("g_world_war" in ::getroottable())
 }
 
-function init_use_touchscreen()
+::init_use_touchscreen <- function init_use_touchscreen()
 {
   if (::is_platform_shield_tv())
     return false
   return "is_thouchscreen_enabled" in getroottable() ? ::is_thouchscreen_enabled() : false
 }
 
-function check_tanks_available(silent = false)
+::check_tanks_available <- function check_tanks_available(silent = false)
 {
   if (::is_platform_pc && "is_tanks_allowed" in getroottable() && !::is_tanks_allowed())
   {
@@ -1822,7 +1775,7 @@ function check_tanks_available(silent = false)
   return true
 }
 
-function find_nearest(val, arrayOfVal)
+::find_nearest <- function find_nearest(val, arrayOfVal)
 {
   if (arrayOfVal.len() == 0)
     return -1;
@@ -1842,7 +1795,7 @@ function find_nearest(val, arrayOfVal)
   return bestIdx;
 }
 
-function combine_tables(primaryTable, secondaryTable)
+::combine_tables <- function combine_tables(primaryTable, secondaryTable)
 {
   local primTable = clone primaryTable
 
@@ -1854,7 +1807,7 @@ function combine_tables(primaryTable, secondaryTable)
   return primTable
 }
 
-function checkRemnantPremiumAccount()
+::checkRemnantPremiumAccount <- function checkRemnantPremiumAccount()
 {
   if (!::has_feature("EnablePremiumPurchase") ||
       !::has_feature("SpendGold"))
@@ -1898,7 +1851,7 @@ function checkRemnantPremiumAccount()
 }
 
 ::informTexQualityRestrictedDone <- false
-function informTexQualityRestricted()
+::informTexQualityRestricted <- function informTexQualityRestricted()
 {
   if (::informTexQualityRestrictedDone)
     return
@@ -1910,7 +1863,7 @@ function informTexQualityRestricted()
   ::informTexQualityRestrictedDone = true
 }
 
-function get_localized_text_with_abbreviation(locId)
+::get_localized_text_with_abbreviation <- function get_localized_text_with_abbreviation(locId)
 {
   if (!locId || (!("getLocTextForLang" in ::dagor)))
     return {}
@@ -1946,12 +1899,12 @@ function get_localized_text_with_abbreviation(locId)
   return output
 }
 
-function is_myself_anyof_moderators()
+::is_myself_anyof_moderators <- function is_myself_anyof_moderators()
 {
   return ::is_myself_moderator() || ::is_myself_grand_moderator() || ::is_myself_chat_moderator()
 }
 
-function unlockCrew(crewId, byGold)
+::unlockCrew <- function unlockCrew(crewId, byGold)
 {
   local blk = ::DataBlock()
   blk.setInt("crew", crewId)
@@ -1960,13 +1913,13 @@ function unlockCrew(crewId, byGold)
   return ::char_send_blk("cln_unlock_crew", blk)
 }
 
-function statsd_counter(metric, value = 1)
+::statsd_counter <- function statsd_counter(metric, value = 1)
 {
   if ("statsd_report" in getroottable())
     ::statsd_report("counter", "sq." + metric, value)
 }
 
-function get_navigation_images_text(cur, total)
+::get_navigation_images_text <- function get_navigation_images_text(cur, total)
 {
   local res = ""
   if (total > 1)
@@ -1993,7 +1946,7 @@ function get_navigation_images_text(cur, total)
 ::server_message_text <- ""
 ::server_message_end_time <- 0
 
-function show_aas_notify(text, timeseconds)
+::show_aas_notify <- function show_aas_notify(text, timeseconds)
 {
   ::server_message_text = ::loc(text)
   ::server_message_end_time = ::dagor.getCurTime() + timeseconds * 1000
@@ -2001,7 +1954,7 @@ function show_aas_notify(text, timeseconds)
   ::update_gamercards()
 }
 
-function server_message_update_scene(scene)
+::server_message_update_scene <- function server_message_update_scene(scene)
 {
   if (!::checkObj(scene))
     return false
@@ -2025,7 +1978,7 @@ function server_message_update_scene(scene)
  * @param str String to work with.
  * @return Same string with all characters in lower case.
  */
-function english_russian_to_lower_case(str)
+::english_russian_to_lower_case <- function english_russian_to_lower_case(str)
 {
   return utf8(str).strtr(::alphabet.upper, ::alphabet.lower)
 }
@@ -2036,7 +1989,7 @@ function english_russian_to_lower_case(str)
  * @param arr Array to perform operation with.
  * @return The first element (of any data type) in an array.
  */
-function array_shift(arr)
+::array_shift <- function array_shift(arr)
 {
   if (arr.len() == 0)
     return null
@@ -2057,7 +2010,7 @@ function array_shift(arr)
  *            be inserted at the beginning of the array.
  * @return An integer representing the new length of the array.
  */
-function array_unshift(arr, ...)
+::array_unshift <- function array_unshift(arr, ...)
 {
   local oldLen = arr.len()
   for (local i = vargv.len() - 1; i >= 0; --i)
@@ -2069,13 +2022,13 @@ function array_unshift(arr, ...)
   return arr.len()
 }
 
-function is_numeric(value)
+::is_numeric <- function is_numeric(value)
 {
   local t = typeof value
   return t == "integer" || t == "float" || t == "int64"
 }
 
-function getArrayFromInt(intNum)
+::getArrayFromInt <- function getArrayFromInt(intNum)
 {
   local arr = []
   do {
@@ -2088,7 +2041,7 @@ function getArrayFromInt(intNum)
   return arr
 }
 
-function to_integer_safe(value, defValue = 0, needAssert = true)
+::to_integer_safe <- function to_integer_safe(value, defValue = 0, needAssert = true)
 {
   if (!::is_numeric(value)
     && (!::u.isString(value) || !::g_string.isStringFloat(value)))
@@ -2100,7 +2053,7 @@ function to_integer_safe(value, defValue = 0, needAssert = true)
   return value.tointeger()
 }
 
-function to_float_safe(value, defValue = 0, needAssert = true)
+::to_float_safe <- function to_float_safe(value, defValue = 0, needAssert = true)
 {
   if (!::is_numeric(value)
     && (!::u.isString(value) || !::g_string.isStringFloat(value)))
@@ -2116,7 +2069,7 @@ function to_float_safe(value, defValue = 0, needAssert = true)
  * Uses gui scene if specified scene is not valid.
  * Returns null if object was found but is not valid.
  */
-function get_object_from_scene(name, scene = null)
+::get_object_from_scene <- function get_object_from_scene(name, scene = null)
 {
   local obj
   if (::checkObj(scene))
@@ -2131,7 +2084,7 @@ function get_object_from_scene(name, scene = null)
 }
 
 const PASSWORD_SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-function gen_rnd_password(charsAmount)
+::gen_rnd_password <- function gen_rnd_password(charsAmount)
 {
   local res = ""
   local total = PASSWORD_SYMBOLS.len()
@@ -2140,13 +2093,13 @@ function gen_rnd_password(charsAmount)
   return res
 }
 
-function assembleBlueprints()
+::assembleBlueprints <- function assembleBlueprints()
 {
 
   return ::char_send_action_and_load_profile("cln_assemble_blueprints")
 }
 
-function sellBlueprints(uid, count)
+::sellBlueprints <- function sellBlueprints(uid, count)
 {
   local blk = ::DataBlock()
   blk.setStr("uid", uid)
@@ -2154,13 +2107,13 @@ function sellBlueprints(uid, count)
   return ::char_send_blk("cln_sell_blueprints", blk)
 }
 
-function inherit_table(parent_table, child_table)
+::inherit_table <- function inherit_table(parent_table, child_table)
 {
   return ::u.extend(::u.copy(parent_table), child_table)
 }
 
 /** Triggered from C++ when in-game cursor visibility toggles. */
-function on_changed_cursor_visibility(old_value)
+::on_changed_cursor_visibility <- function on_changed_cursor_visibility(old_value)
 {
   ::broadcastEvent("ChangedCursorVisibility", {
     oldValue = old_value
@@ -2170,21 +2123,21 @@ function on_changed_cursor_visibility(old_value)
   ::call_darg("hudCursorVisibleUpdate", ::is_cursor_visible_in_gui())
 }
 
-function char_convert_blueprints(bType)
+::char_convert_blueprints <- function char_convert_blueprints(bType)
 {
   local blk = ::DataBlock()
   blk.setStr("type", bType)
   return ::char_send_blk("cln_convert_blueprints", blk)
 }
 
-function is_mode_with_friendly_units(gt = null)
+::is_mode_with_friendly_units <- function is_mode_with_friendly_units(gt = null)
 {
   if (gt == null)
     gt = ::get_game_type()
   return !!(gt & ::GT_RACE) || !(gt & (::GT_FFA_DEATHMATCH | ::GT_FFA))
 }
 
-function is_mode_with_teams(gt = null)
+::is_mode_with_teams <- function is_mode_with_teams(gt = null)
 {
   if (gt == null)
     gt = ::get_game_type()
@@ -2193,18 +2146,18 @@ function is_mode_with_teams(gt = null)
 ::cross_call_api.is_mode_with_teams <- ::is_mode_with_teams
 
 
-function is_team_friendly(teamId)
+::is_team_friendly <- function is_team_friendly(teamId)
 {
   return ::is_mode_with_teams() &&
     teamId == ::get_player_army_for_hud()
 }
 
-function get_team_color(teamId)
+::get_team_color <- function get_team_color(teamId)
 {
   return is_team_friendly(teamId) ? "hudColorBlue" : "hudColorRed"
 }
 
-function get_mplayer_color(player)
+::get_mplayer_color <- function get_mplayer_color(player)
 {
   return !player ? "" :
     player.isLocal ? "hudColorHero" :
@@ -2212,7 +2165,7 @@ function get_mplayer_color(player)
     ::get_team_color(player.team)
 }
 
-function build_mplayer_name(player, colored = true, withClanTag = true, withUnit = false, unitNameLoc = "")
+::build_mplayer_name <- function build_mplayer_name(player, colored = true, withClanTag = true, withUnit = false, unitNameLoc = "")
 {
   if (!player)
     return ""
@@ -2238,12 +2191,12 @@ function build_mplayer_name(player, colored = true, withClanTag = true, withUnit
   return colored ? ::colorize(::get_mplayer_color(player), name) : name
 }
 
-function is_multiplayer()
+::is_multiplayer <- function is_multiplayer()
 {
   return ::is_mplayer_host() || ::is_mplayer_peer()
 }
 
-function show_gblk_error_popup(errCode, path)
+::show_gblk_error_popup <- function show_gblk_error_popup(errCode, path)
 {
   if (!::g_login.isLoggedIn())
   {
@@ -2258,7 +2211,7 @@ function show_gblk_error_popup(errCode, path)
                               func=(@(msg) function() {::copy_to_clipboard(msg)})(msg)}])
 }
 
-function pop_gblk_error_popups()
+::pop_gblk_error_popups <- function pop_gblk_error_popups()
 {
   if (!::g_login.isLoggedIn())
     return
@@ -2272,7 +2225,7 @@ function pop_gblk_error_popups()
   ::delayed_gblk_error_popups.clear()
 }
 
-function get_dagui_obj_aabb(obj)
+::get_dagui_obj_aabb <- function get_dagui_obj_aabb(obj)
 {
   if (!::checkObj(obj))
     return null
@@ -2287,7 +2240,7 @@ function get_dagui_obj_aabb(obj)
   }
 }
 
-function get_object_value(parentObj, id, defValue = null)
+::get_object_value <- function get_object_value(parentObj, id, defValue = null)
 {
   if (!::checkObj(parentObj))
     return defValue
@@ -2299,7 +2252,7 @@ function get_object_value(parentObj, id, defValue = null)
   return defValue
 }
 
-function destroy_session_scripted()
+::destroy_session_scripted <- function destroy_session_scripted()
 {
   local needEvent = ::is_mplayer_peer()
   ::destroy_session()
@@ -2307,17 +2260,17 @@ function destroy_session_scripted()
     ::broadcastEvent("SessionDestroyed")
 }
 
-function show_not_available_msg_box()
+::show_not_available_msg_box <- function show_not_available_msg_box()
 {
   ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"), "not_available", true)
 }
 
-function is_hangar_blur_available()
+::is_hangar_blur_available <- function is_hangar_blur_available()
 {
   return ("enable_dof" in ::getroottable())
 }
 
-function hangar_blur(enable, params = null)
+::hangar_blur <- function hangar_blur(enable, params = null)
 {
   if (!::is_hangar_blur_available())
     return
@@ -2334,8 +2287,114 @@ function hangar_blur(enable, params = null)
     ::disable_dof()
 }
 
-function warningIfGold(text, cost){
-  if(cost?.gold > 0)
+::warningIfGold <- function warningIfGold(text, cost){
+  if ((cost?.gold ?? 0) > 0)
     text = ::colorize("@red", ::loc("shop/needMoneyQuestion_warning"))+ "\n" + text
   return text
+}
+
+::aaaa <- function aaaa()
+{
+  local function deftostr(def){
+    local typ = ::type(def)
+    if(["integer","float","null","boolean"].find(typ)!=null)
+      return def
+    else if (typ=="string")
+      return "\"\""
+    else if (typ=="table")
+      return "{}"
+    else if (typ=="array")
+      return "[]"
+    else if (typ=="function")
+      return "@(...) null"
+    else
+      return "null"
+  }
+
+  local function arrstr(params, defs, native){
+    params = params ?? []
+    defs = defs ?? []
+    params = params.filter(@(i,v) v!="this" && v!="vargv")
+    local defslen = defs.len()
+    local paramslen = params.len()
+    local ret = ""
+    for (local i=0; i<params.len(); i++){
+      if (i < paramslen - defslen) {
+        if (i==0)
+          ret = params[0]
+        else
+          ret += ", " + (params[i] ?? ("arg"+i))
+      }
+      else {
+        if (i==0)
+          ret = params[0] + " = " + deftostr(defs[0])
+        else
+          ret += ", " + params[i] + " = "  + deftostr(defs[i-(paramslen-defslen)])
+      }
+    }
+    if (native && paramslen==0)
+      return "..."
+    return ret
+  }
+
+  local function indents(n){
+    if (n < 1) return ""
+    local ret = ""
+    for (local i=0; i<n;i++)
+      ret+="  "
+    return ret
+  }
+
+  local function isIdentifier(name)
+  {
+    for (local i = 0; i < name.len(); i++)
+    {
+      local c = name[i];
+      if (!(c == '_' || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9' && i > 0)))
+        return false;
+    }
+    return true;
+  }
+
+
+  local maxrecursion = 4
+  local pp
+  pp = function(v, indent=0, recursion=0){
+    if (::type(v) == "function") {
+      local infos = v.getfuncinfos()
+      v = arrstr(infos?.parameters, infos?.defparams, infos?.native)
+      return "function(" + v + "){}\n"
+    }
+    else if (::type(v) == "class") {
+      return "{}\n"
+    }
+    else if (::type(v) == "table") {
+      local ret = ""
+      if (recursion < maxrecursion) {
+        ret += "{\n"
+        foreach (k, val in v) {
+          if (k != "globals" && ::type(k) == "string" && k.len() > 0 && (isIdentifier(k)))
+            ret += (indent == 0 ? "::" : indents(indent)) + k + (indent == 0 ? " <- " : " = ") + pp(val, indent+1, recursion+1)
+        }
+        ret += indents(indent-1)+"}\n"
+      }
+      else
+        ret ="{}\n"
+      return ret
+    }
+    else if (::type(v) == "array")
+      return "[]\n"
+    else if (::type(v) == "string")
+      return "\"\"\n"
+    else
+      return "0" + "\n"
+  }
+
+  ::dagor.debug("consttable:\n")
+  foreach (s in string.split(pp(getconsttable()), "\n"))
+    ::dagor.debug(s);
+
+  ::dagor.debug("roottable:\n")
+  foreach (s in string.split(pp(getroottable()), "\n"))
+    ::dagor.debug(s);
 }

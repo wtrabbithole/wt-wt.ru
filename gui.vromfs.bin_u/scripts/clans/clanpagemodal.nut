@@ -51,7 +51,7 @@ foreach(idx, item in clan_member_list)
     item.tooltip <-"#clan/personal/" + item.id + "/desc"
 }
 
-function showClanPage(id, name, tag)
+::showClanPage <- function showClanPage(id, name, tag)
 {
   ::gui_start_modal_wnd(::gui_handlers.clanPageModal,
     {
@@ -328,7 +328,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       btn_leaveClan = isMyClan && (!hasLeaderRight || ::g_clans.getLeadersCount(clanData) > 1)
       btn_edit_clan_info = ::ps4_is_ugc_enabled() && ((isMyClan && isInArray("CHANGE_INFO", myRights)) || adminMode)
       btn_upgrade_clan = clanData.type.getNextType() != ::g_clan_type.UNKNOWN && (adminMode || (isMyClan && hasLeaderRight))
-      btn_showBlacklist = isMyClan && isInArray("MEMBER_BLACKLIST", myRights) && clanData.blacklist.len()
+      btn_showBlacklist = ((isMyClan && isInArray("MEMBER_BLACKLIST", myRights)) || adminMode) && clanData.blacklist.len()
       btn_lock_clan_req = showBtnLock
       img_lock_clan_req = !showBtnLock && !clanMembershipAcceptance.getValue(clanData)
       btn_complain = !isMyClan
@@ -366,7 +366,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
           local count = ::g_dagui_utils.countSizeInItems(containerObj.getParent(), "@clanMedalSizeMin", 1, 0, 0).itemsCountX
           local medals = ::g_clans.getClanPlaceRewardLogData(clanData, count)
           local markup = ""
-          local rest = min(medals.len(), ::get_warpoints_blk().maxClanBestRewards ?? 6)
+          local rest = ::min(medals.len(), ::get_warpoints_blk()?.maxClanBestRewards ?? 6)
           foreach (m in medals)
             if(clanRewardsModal.isRewardVisible(m, clanData))
               if(rest-- > 0)
@@ -639,7 +639,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     sortWwMembers()
 
-    local myPos = ::u.searchIndex(curWwMembers, @(member) member.name == ::my_user_name)
+    local myPos = curWwMembers.searchIndex(@(member) member.name == ::my_user_name) ?? -1
     lbTableWeak.fillTable(curWwMembers, null, myPos, true, true)
   }
 
@@ -649,7 +649,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local addField = ::g_lb_category.EVENTS_PERSONAL_ELO.field
     local idx = 0
 
-    curWwMembers = ::u.map(curWwMembers.sort(@(a, b) b?[field] <=> a?[field] || b?[addField] <=> a?[addField]),
+    curWwMembers = ::u.map(curWwMembers.sort(@(a, b) (b?[field] ?? "") <=> (a?[field] ?? "") || (b?[addField] ?? "") <=> (a?[addField] ?? "")),
       @(member) member.__update({ pos = idx++ }))
   }
 
@@ -922,7 +922,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenClanBlacklist()
   {
-    ::gui_start_modal_wnd(::gui_handlers.clanBlacklistModal)
+    ::gui_start_clan_blacklist(clanData)
   }
 
   function onUserCard()

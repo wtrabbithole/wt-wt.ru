@@ -85,7 +85,7 @@ class ::gui_handlers.FramedMessageBox extends ::BaseGuiHandler
   function onButtonClick(obj)
   {
     foreach(button in buttons)
-      if (button.id == obj.id)
+      if (button.id == obj?.id)
       {
         performAction(button?.cb)
         break

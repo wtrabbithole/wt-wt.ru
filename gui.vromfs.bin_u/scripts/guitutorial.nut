@@ -1,4 +1,4 @@
-enum tutorAction {
+global enum tutorAction {
   ANY_CLICK
   OBJ_CLICK
   WAIT_ONLY
@@ -16,7 +16,7 @@ enum tutorAction {
   _isNoDelayOnClick = false //optional no delay on_click for lightboxes
 }
 
-function guiTutor::createHighlight(scene, objDataArray, handler = null, params = null)
+guiTutor.createHighlight <- function createHighlight(scene, objDataArray, handler = null, params = null)
   //obj Config = [{
   //    obj          //    DaGuiObject,
                      // or string obj name in scene,
@@ -77,7 +77,7 @@ function guiTutor::createHighlight(scene, objDataArray, handler = null, params =
   return scene.findObject(view.id)
 }
 
-function guiTutor::getBlockFromObjData(objData, scene = null, defOnClick = null)
+guiTutor.getBlockFromObjData <- function getBlockFromObjData(objData, scene = null, defOnClick = null)
 {
   local res = null
   local obj = ::getTblValue("obj", objData) || objData
@@ -125,7 +125,7 @@ function guiTutor::getBlockFromObjData(objData, scene = null, defOnClick = null)
   return res
 }
 
-function guiTutor::blockToView(block)
+guiTutor.blockToView <- function blockToView(block)
 {
   local box = block.box
   for(local i = 0; i < 2; i++)
@@ -136,13 +136,13 @@ function guiTutor::blockToView(block)
   return block
 }
 
-function gui_modal_tutor(stepsConfig, wndHandler, isTutorialCancelable = false)
+::gui_modal_tutor <- function gui_modal_tutor(stepsConfig, wndHandler, isTutorialCancelable = false)
 //stepsConfig = [
 //  {
 //    obj     - array of objects to show in this step.
 //              (some of object can be array of objects, - they will be combined in one)
 //    text    - text to view
-//    actionType = enum tutorAction    - type of action for the next step (default = tutorAction.ANY_CLICK)
+//    actionType = global enum tutorAction    - type of action for the next step (default = tutorAction.ANY_CLICK)
 //    cb      - callback on finish tutor step
 //  }
 //]

@@ -1,0 +1,181 @@
+@const mapPreferenceIconSize: (113*@sf/@pf) \ 1;
+@const mapPreferencePreviewSize: (370*@sf/@pf) \ 1;
+@const checkBoxBannedCheckColor:            #d93e3e;
+@const checkBoxBannedCheckHoveredColor:     #941d1d;
+@const checkboxBannedUncheckedColor:        #C0C0C0C0;
+@const checkboxBannedHoveredUncheckedColor: #FFFFFFFF;
+@const checkboxBannedHoveredDisabledColor:  #FF6b8c98;
+
+mapImg {
+  height:1@mapPreferenceIconSize + 2@blockInterval;
+  width:h;
+  background-color: #cccccc;
+  position:relative;
+  pos:0.5pw - 0.5w, 0.5ph - 0.5h;
+  css-hier-invalidate:yes;
+}
+
+mapStateBox {
+  height:@checkboxSize;
+  re-type:9rect;
+  behaviour:check;
+  color:@commonMenuButtonColor;
+  font:@fontSmall;
+  text-align:left;
+  padding-left:h+5@sf/@pf;
+  css-hier-invalidate:yes;
+  snd_change_value:check;
+}
+
+mapStateBoxImg {
+  re-type:rotationFg;
+  size:@checkboxImgSize, @checkboxImgSize;
+  top:50%ph-50%h;
+  left:50%ph-50%w;
+  position:absolute;
+  foreground-svg-size:@checkboxImgSize, @checkboxImgSize;
+  input-transparent:yes;
+}
+
+mapNest[selected=yes] {
+  background-color: @lockedDecal;
+}
+
+[selected=yes] mapImg {
+  background-color: @white;
+}
+
+mapImg[enabled=no] {
+  background-color: @lockedDecal;
+}
+
+mapNest > iconMap mapStateBox {
+  display: hide;
+  enabled: no;
+}
+
+mapNest[selected=yes] > iconMap mapStateBox,
+mapNest:hover > iconMap mapStateBox{
+  display: show;
+  enabled: yes;
+}
+
+mapNest > iconMap[state=banned] mapStateBox[type=banned] {
+  display: show;
+  enabled: yes;
+}
+
+mapNest > iconMap[state=disliked] mapStateBox[type=disliked] {
+  display: show;
+  enabled: yes;
+}
+
+mapNest > iconMap mapStateBox[type=banned],
+mapNest > iconMap mapStateBox[type=disliked] {
+  height: 1@checkboxImgSize;
+  padding: 0;
+  padding-left:0;
+  margin: 5@sf/@pf;
+}
+
+mapStateBox[type=banned] > mapStateBoxImg,
+mapStateBox[type=disliked] > mapStateBoxImg {
+  background-color:@transparent;
+  border-color:@transparent;
+}
+
+mapNest > iconMap mapStateBox[type=banned] > mapStateBoxImg,
+mapNest > iconMap mapStateBox[type=disliked] > mapStateBoxImg {
+  position: relative;
+}
+
+mapNest > iconMap[state=banned] mapStateBox[type=disliked],
+[hasPremium=no] mapNest > iconMap mapStateBox[type=banned],
+[hasMaxBanned=yes] mapNest > iconMap mapStateBox[type=banned],
+[hasMaxDisliked=yes] mapNest > iconMap mapStateBox[type=disliked] {
+  inactiveColor: yes;
+}
+
+[hasMaxBanned=yes] mapNest > iconMap[state=banned] mapStateBox[type=banned],
+[hasMaxDisliked=yes] mapNest > iconMap[state=disliked] mapStateBox[type=disliked] {
+  inactiveColor: no;
+}
+
+mapStateBox[type=banned] > mapStateBoxImg,
+mapStateBox[type=disliked] > mapStateBoxImg {
+  foreground-color:@checkboxBannedUncheckedColor;
+}
+
+mapStateBox[type=disliked] > mapStateBoxImg {
+  foreground-image:#ui/gameuiskin#dislike_icon.svg;
+}
+
+mapStateBox[type=banned] > mapStateBoxImg {
+  foreground-image:#ui/gameuiskin#ban_icon.svg;
+}
+
+mapStateBox[type=banned]:hover > mapStateBoxImg,
+mapStateBox[type=disliked]:hover > mapStateBoxImg {
+  foreground-color:@checkboxBannedHoveredUncheckedColor;
+}
+
+mapStateBox[type=banned]:checked > mapStateBoxImg,
+mapStateBox[type=disliked]:checked > mapStateBoxImg {
+  foreground-color:@checkBoxBannedCheckColor;
+}
+
+mapStateBox[type=banned]:hover:checked > mapStateBoxImg,
+mapStateBox[type=disliked]:hover:checked > mapStateBoxImg {
+  foreground-color:@checkBoxBannedCheckHoveredColor;
+}
+
+mapStateBox[type=banned][inactiveColor=yes] > mapStateBoxImg,
+mapStateBox[type=disliked][inactiveColor=yes] > mapStateBoxImg {
+  foreground-color:@checkboxCheckDisabledColor;
+}
+
+mapStateBox[type=banned][inactiveColor=yes]:hover > mapStateBoxImg,
+mapStateBox[type=disliked][inactiveColor=yes]:hover > mapStateBoxImg {
+  foreground-color:@checkboxBannedHoveredDisabledColor;
+}
+
+mapNest > iconMap mapStateBox[type=banned] {
+  tooltip: #maps/preferences/ban;
+}
+
+mapNest > iconMap mapStateBox[type=disliked] {
+  tooltip: #maps/preferences/dislike;
+}
+
+[hasMaxBanned=yes] mapNest > iconMap mapStateBox[type=banned] {
+  tooltip: #maps/preferences/notice/maxBannedCount;
+}
+
+[hasMaxDisliked=yes] mapNest > iconMap mapStateBox[type=disliked] {
+  tooltip: #maps/preferences/notice/maxDislikedCount;
+}
+
+mapNest > iconMap[state=banned] mapStateBox[type=banned] {
+  tooltip: #maps/preferences/removeBan;
+}
+
+mapNest > iconMap[state=disliked] mapStateBox[type=disliked] {
+  tooltip: #maps/preferences/removeDislike;
+}
+
+[hasPremium=no] mapNest > iconMap mapStateBox[type=banned] {
+  tooltip: #mainmenu/onlyWithPremium;
+}
+
+[show_console_buttons=yes] mapStateBox[btnName]
+{
+  padding-left:h + 1@cIco + 0.005*@sf;
+}
+
+mapStateBox[btnName] > ButtonImg
+{
+  size:@cIco, @cIco;
+  left:h + 1@buttonImgMargin;
+  top:50%ph-50%h;
+  position:'absolute';
+}

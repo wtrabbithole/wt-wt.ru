@@ -1,9 +1,10 @@
-enum Layers {
+global enum Layers {
   Default
   Tooltip
   Inspector
 }
 
+global const LINE_WIDTH = 1.6
 
 ::cross_call <- class {
   path = null

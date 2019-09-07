@@ -1,4 +1,4 @@
-function gui_choose_slotbar_preset(owner = null)
+::gui_choose_slotbar_preset <- function gui_choose_slotbar_preset(owner = null)
 {
   return ::handlersManager.loadHandler(::gui_handlers.ChooseSlotbarPreset, { ownerWeak = owner })
 }

@@ -80,15 +80,6 @@ class ::gui_handlers.ChooseAmountWnd extends ::gui_handlers.BaseGuiHandlerWT
   function onButtonDec(obj) { changeSliderValue(curValue - valueStep) }
   function onButtonInc(obj) { changeSliderValue(curValue + valueStep) }
 
-  function onMainButton(obj)
-  {
-    wagerItem.activate((@(cb) function (result) {
-      if (result.success)
-        goBack()
-      cb(result)
-    })(cb).bindenv(this), this)
-  }
-
   function onCancel()
   {
     if (onCancelCb)

@@ -1,9 +1,7 @@
-@const isWide    :(((10(sw + 1)) \ (16@scrn_tgt))) $min 1;   
+@const dp: ((sh/@pf + 0.5) \ 1) $max 1; 
 
-@const dp: ((@sf/900 + 0.5) \ 1) $max 1; 
-
-@const rw: (@_safearea_menu)*sw $min (sw -2*@debugRowHeight);
-@const rh: (@_safearea_menu)*sh $min (sh -2*@debugRowHeight);
+@const rw: (@_safearea_menu_w)*sw $min (sw -2*@debugRowHeight);
+@const rh: (@_safearea_menu_h)*sh $min (sh -2*@debugRowHeight);
 @const bw:0.5(sw-1@rw);  @const bh:0.5(sh-1@rh);  
 @const srw:16/9*1@sf $min 1@rw;
 @const srh:1@sf $min 1@rh;
@@ -91,6 +89,8 @@
 @const optionsHeaderRowHeight:(0.02@sf)\1 + 4@dp;
 
 @const gamercardHeight:(1@bigButtonHeight)\1;
+@const gamercardDrawerPosY: 1@gameModeSelectPaddingTop + 1@bh + 1@buttonHeight + 2@buttonMargin;
+@const gameModeSelectPaddingTop: 1@topMenuBattleButtonHeight + 0.5@buttonIconHeight;
 @const topBarHeight:1@gamercardHeight + 1@topGamercardButtonsPos + 1@dp;
 @const topGamercardButtonsPos:1@bh + 1@topGamercardRedLineHeight;
 @const topGamercardRedLineHeight: 2@dp;
@@ -114,23 +114,33 @@
 @const freeAttachablesHeight: sh - 1@minYposWindow - 1@bh - 2@customizationDecoratorBlockWidth - 1@bottomBarHeight - 1@buttonHeight;
 @const countDecalsInWidth:  ((0.35*sw \@customizationDecoratorBlockWidth) $max 4) $min 6;
 
-@const titleLogoPlateHeight: (((1@scrn_tgt+200)\400) * 32) $max 64) $min 128;
+@const titleLogoSizeMul: 1.3;
+@const titleLogoBgToTextRatio: 64/50; 
+@const titleLogoIdealHeight: (1@topBarHeight - 1@bh) * 1@titleLogoSizeMul * 1@titleLogoBgToTextRatio;
+@const titleLogoPlateHeight: ((1@titleLogoIdealHeight + 16) \ 32 * 32) $max 64;
 @const titleLogoPlateWidth: 2*@titleLogoPlateHeight;
 @const titleLogoPlatePadding: -1*@titleLogoPlateWidth / 128; 
+@const titleLogoPlatePaddingTop: 1@bh;
+@const titleLogoShadePaddingW: 5@sf/@pf;
+@const titleLogoShadePaddingH: 3@sf/@pf;
+@const titleLogoFullWidth: 1@titleLogoPlateWidth + 2@titleLogoPlatePadding + 4@titleLogoShadePaddingW;
+@const titleLogoFullHeight: 1@titleLogoPlateHeight + 1@titleLogoPlatePaddingTop + 4@titleLogoShadePaddingH;
+@const titleLogoSafeareaOffsetTop: 0 -1@titleLogoPlateHeight * ((1 - (1 / (1@titleLogoBgToTextRatio))) / 2) -1@titleLogoPlatePaddingTop -2@titleLogoShadePaddingH;
+
 @const loginLogoScale: ((@sf/@pf_outdated) \ 1) $max 1;
 @const loginFramePadding: 0.015@scrn_tgt;
 
-@const gcBattleBlockPadding: 0.04@scrn_tgt*1@isWide;
 @const toBattleButtonBottom: 1@titleLogoPlateHeight + 1@bh + 0.006@sf;
-@const gcToBattleButtonPlaceWidth: 1@titleLogoPlateWidth + 2@gcBattleBlockPadding;
-@const maxToBattleButtonTextWidth: 1@gcToBattleButtonPlaceWidth - 2@buttonTextPadding;
+@const gcToBattleButtonWidth = 192@sf/@pf + (0.08@sf * 1@isWide);
+@const gcToBattleButtonPlaceWidth: 1@gcToBattleButtonWidth $max 1@titleLogoFullWidth;
+@const maxToBattleButtonTextWidth: 1@gcToBattleButtonWidth - 2@buttonTextPadding;
+
 @const gcWidthFull: sw - 2@offsetBetweenScreenAndAirinfo;
 @const topGcPanelWidth: 0.5@gcWidthFull - 0.5@gcToBattleButtonPlaceWidth;
 @const bottomGcWidth: @slotbarWidthFull;
 
 @const queueTableColumnWidth: 0.05@sf;
 @const gameModeSelectBlockWidth: 6*(0.06*@sf + 0.01*@scrn_tgt + 2);
-@const gameModeSelectWindowWidth: 1.12@scrn_tgt;
 
 @const bigOptionsHeight: ((0.63@sf) \ (1@baseTrHeight)) * 1@baseTrHeight + 1;
 
@@ -232,12 +242,13 @@
 @const maxWindowHeight: 1@maxWindowHeightNoSrh $min 1@srh;
 @const maxWindowHeightWithSlotbar: sh - 1@bh - 1@titleLogoPlateHeight - 1@wndWithSlotbarBottomOffset;
 @const maxWindowHeightWithFullSlotbar: 1@maxWindowHeightWithSlotbar - 1@slotbarTop;
-@const maxWeaponsWindowHeight: sh -1@bh -1@gamercardHeight -1@wndWithSlotbarBottomOffset;
+@const maxWeaponsWindowHeight: sh -1@topBarHeight -1@wndWithSlotbarBottomOffset;
+@const maxWeaponsWindowHeightNoSlotbar: sh -1@topBarHeight -1@bottomBarHeight;
 
 @const maxWindowWidth: 1@rw;
 
 @const minXposWindow: 1@bw;
-@const minYposWindow: 1@bh + 1@titleLogoPlateHeight;
+@const minYposWindow: 1@bh + 1@titleLogoSafeareaOffsetTop + 1@titleLogoFullHeight;
 
 @const chapterSeparatorSize: 2 * (2@sf/@pf_outdated \ 1);
 
@@ -280,11 +291,6 @@
 
 @const infoPanelVertPosition: 1@titleLogoPlateHeight + 1@bh + 0.04@sf;
 @const maxInfoPanelContentHeightWithSlotbar: sh - 1@infoPanelVertPosition - 1@airInfoToggleButtonSize - 2@framePadding - 1@wndWithSlotbarBottomOffset - 0.04@sf;
-
-@const gameModeSelectPaddingTop: 1@topMenuBattleButtonHeight + 0.5@buttonIconHeight + 3@dp';
-@const gameModeSelectPaddingBottom: 3@dp;
-@const gameModeSelectPadding: 1@gameModeSelectPaddingTop + 1@gameModeSelectPaddingBottom;
-
 
 
 @const minChatHeight:0.11@scrn_tgt; @const maxChatHeight:0.33@scrn_tgt;

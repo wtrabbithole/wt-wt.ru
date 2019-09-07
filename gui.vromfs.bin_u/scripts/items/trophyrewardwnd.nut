@@ -2,7 +2,7 @@ local time = require("scripts/time.nut")
 local sheets = ::require("scripts/items/itemsShopSheets.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
-function gui_start_open_trophy(configsTable = {})
+::gui_start_open_trophy <- function gui_start_open_trophy(configsTable = {})
 {
   if (configsTable.len() == 0)
     return
@@ -243,7 +243,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       {
         unit = ::getAircraftByName(reward[rewardType]) || unit
         //Datablock adapter used only to avoid bug with duplicate timeHours in userlog.
-        rentTimeHours = ::DataBlockAdapter(reward).timeHours || rentTimeHours
+        rentTimeHours = ::DataBlockAdapter(reward)?.timeHours || rentTimeHours
       }
 
       if (rewardType == "resource" || rewardType == "resourceType")

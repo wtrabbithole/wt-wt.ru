@@ -12,7 +12,6 @@ local shGroupShip = require("scripts/controls/shortcutsList/shortcutsGroupShip.n
 local shGroupSubmarine = require("scripts/controls/shortcutsList/shortcutsGroupSubmarine.nut")
 local shGroupTank = require("scripts/controls/shortcutsList/shortcutsGroupTank.nut")
 local shGroupTrackIR = require("scripts/controls/shortcutsList/shortcutsGroupTrackIR.nut")
-local shGroupUfo = require("scripts/controls/shortcutsList/shortcutsGroupUfo.nut")
 local shGroupView = require("scripts/controls/shortcutsList/shortcutsGroupView.nut")
 local shGroupVoice = require("scripts/controls/shortcutsList/shortcutsGroupVoice.nut")
 local shGroupWalker = require("scripts/controls/shortcutsList/shortcutsGroupWalker.nut")
@@ -26,7 +25,6 @@ local shortcutsList = {
 foreach (list in [
   shHelpersMode
   shGroupAircraft
-  shGroupUfo
   shGroupHelicopter
   shGroupTank
   shGroupShip

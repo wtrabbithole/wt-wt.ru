@@ -311,6 +311,11 @@ local getActions = function(contact, params)
         action = @() ::editContactMsgBox(contact, ::EPL_FRIENDLIST, false)
       }
       {
+        text = ::loc("contacts/facebooklist/remove")
+        show = params?.curContactGroup == ::EPL_FACEBOOK && ::isPlayerInContacts(uid, ::EPL_FACEBOOK)
+        action = @() ::editContactMsgBox(contact, ::EPL_FACEBOOK, false)
+      }
+      {
         text = ::loc("contacts/blacklist/add")
         show = !isMe && !isFriend && !isBlock && canBlock
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, true)

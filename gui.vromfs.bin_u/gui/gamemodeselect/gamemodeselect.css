@@ -1,4 +1,9 @@
 @const gameModeChangeButtonHeight: 0.028@sf;
+@const gameModeSelectWindowBlockMargin: 2@dp;
+@const gameModeSelectWindowBlockWidth: 2*(0.2@scrn_tgt \ 1); 
+@const gameModeSelectWindowBlockWidthWide: 3@gameModeSelectWindowBlockWidth + 2@gameModeSelectWindowBlockMargin;
+@const gameModeSelectWindowBlockWidthHalf: 1.5@gameModeSelectWindowBlockWidth + 0.5@gameModeSelectWindowBlockMargin;
+@const gameModeSelectWindowWidth: 3@gameModeSelectWindowBlockWidth + 4@gameModeSelectWindowBlockMargin + 1@scrollBarSize;
 
 gameModeChangeButton {
   behavior:button;
@@ -48,7 +53,7 @@ gameModeChangeButton > dropMenuSeparator {
 }
 
 
-game_mode_select separator {
+gameModeSelect separator {
   width: 0.9pw;
   height: 1@dp;
   margin: 0, 0.01@scrn_tgt;
@@ -57,31 +62,30 @@ game_mode_select separator {
   background-color: @gameModesSeparatorColor;
 }
 
-general_game_modes {
+generalGameModes {
   position: relative;
   width:pw;
   flow: h-flow;
   total-input-transparent: yes;
   css-hier-invalidate:yes;
-  padding: 0.005@scrn_tgt;
 }
 
-game_mode_block {
-  width: 0.5pw-0.0017@scrn_tgt;
+gameModeBlock {
+  width: 1@gameModeSelectWindowBlockWidthHalf;
   height: 0.094@scrn_tgt;
-  margin: 0.0014@scrn_tgt;
+  margin: 1@gameModeSelectWindowBlockMargin;
   padding: 0.0014@scrn_tgt;
   font:@fontNormal;
   color:@commonMenuButtonColor;
   css-hier-invalidate:yes;
 }
 
-game_mode_block[wide=yes] {
-  width: pw-0.0007@scrn_tgt;
+gameModeBlock[wide=yes] {
+  width: 1@gameModeSelectWindowBlockWidthWide;
 }
 
-game_mode_block[narrow=yes] {
-  width: pw/3-0.0017@scrn_tgt;
+gameModeBlock[narrow=yes] {
+  width: 1@gameModeSelectWindowBlockWidth;
 }
 
 glow {
@@ -94,66 +98,69 @@ glow {
   background-position: 4, 4, 4, 9;
 }
 
-game_mode_block[current_mode=yes] > glow {
+gameModeBlock[current_mode=yes] > glow {
   background-color: #e99777;
 }
 
-game_mode_block:hover > glow {
+gameModeBlock:hover > glow,
+[show_console_buttons=yes] gameModeBlock[selected=yes] > glow {
   background-color: #daad9c;
 }
 
-game_mode_block > movie {
+gameModeBlock > movie {
   position: absolute;
   pos: 2, 3;
   size: pw - 4, ph - 7;
   display: hide;
 }
-[show_console_buttons=no] game_mode_block:hover > movie {
+[show_console_buttons=no] gameModeBlock:hover > movie {
   display: show;
 }
 
-[show_console_buttons=yes] game_mode_block[selected=yes] > movie {
+[show_console_buttons=yes] gameModeBlock[selected=yes] > movie {
   display: show;
 }
 
-[show_console_buttons=no] game_mode_block:hover[inactiveColor=yes] > movie {
+[show_console_buttons=no] gameModeBlock:hover[inactiveColor=yes] > movie {
   display: hide;
 }
 
-[show_console_buttons=yes] game_mode_block[selected=yes][inactiveColor=yes] > movie {
+[show_console_buttons=yes] gameModeBlock[selected=yes][inactiveColor=yes] > movie {
   display: hide;
 }
 
-game_mode_block > img {
+gameModeBlock > img {
   position: absolute;
   pos: 2, 3;
   size: pw - 4, ph - 7;
   color-factor: 100;
+  background-color: @gray60;
 }
 
-game_mode_block:hover > img,
-game_mode_block[current_mode=yes] > img {
+gameModeBlock:hover > img,
+[show_console_buttons=yes] gameModeBlock[selected=yes] > img,
+gameModeBlock[current_mode=yes] > img {
   color-factor: 255;
 }
 
-game_mode_block[inactiveColor=yes] {
+gameModeBlock[inactiveColor=yes] {
   background-color: #505050;
 }
 
-game_mode_block[inactiveColor=yes] img {
+gameModeBlock[inactiveColor=yes] img {
   color-factor:50;
 }
 
-game_mode_block[current_mode=yes][inactiveColor=yes] {
+gameModeBlock[current_mode=yes][inactiveColor=yes] {
   background-color: @inactiveButtonBgColor;
 }
 
-game_mode_block[inactiveColor=yes]:hover img,
-game_mode_block[current_mode=yes][inactiveColor=yes] img {
+gameModeBlock[inactiveColor=yes]:hover img,
+gameModeBlock[current_mode=yes][inactiveColor=yes] img {
   color-factor:50;
 }
 
-game_mode_block > title {
+gameModeBlock > title {
   background-color: #80111111;
   width: pw;
   position: absolute;
@@ -161,33 +168,43 @@ game_mode_block > title {
   padding: 0.0125@scrn_tgt, 0.003@scrn_tgt;
 }
 
-game_mode_block[featured=yes] > title {
+gameModeBlock[featured=yes] > title {
   background-color: #00000000;
 }
 
-game_mode_block > title > tdiv > textarea {
+gameModeBlock > title > tdiv > textarea {
   width: pw;
-  color: @white;
+  color: @commonTextColor;
   paragraph-indent:0;
   wrap-indent:0;
   pare-text:yes;
 }
 
-game_mode_block[inactiveColor=yes] > title > tdiv > textarea,
-game_mode_block[inactiveColor=yes] > tdiv > textareaNoTab {
+gameModeBlock[current_mode=yes] > title > tdiv > textarea {
+  color: @activeTextColor;
+}
+
+gameModeBlock:hover > title > tdiv > textarea,
+[show_console_buttons=yes] gameModeBlock[selected=yes] > title > tdiv > textarea {
+  color: @highlightedTextColor;
+}
+
+gameModeBlock[inactiveColor=yes] > title > tdiv > textarea,
+gameModeBlock[inactiveColor=yes] > tdiv > textareaNoTab {
   color:@disabledActiveTextColor;
 }
 
-game_mode_block > CheckBoxImg {
+gameModeBlock > CheckBoxImg {
   pos: pw - w - @blockInterval, ph - h - @blockInterval;
   display: hide;
 }
 
-game_mode_block[current_mode=yes] > CheckBoxImg {
+gameModeBlock[current_mode=yes] > CheckBoxImg {
   display: show;
 }
 
-game_mode_block:hover > CheckBoxImg {
+gameModeBlock:hover > CheckBoxImg,
+[show_console_buttons=yes] gameModeBlock[selected=yes] > CheckBoxImg {
   display: show;
 }
 

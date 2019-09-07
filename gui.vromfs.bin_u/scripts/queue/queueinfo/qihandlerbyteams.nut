@@ -77,7 +77,7 @@ class ::gui_handlers.QiHandlerByTeams extends ::gui_handlers.QiHandlerBase
       return
 
     teamObj.bgTeamColor = teamColor
-    teamObj.show(teamData && teamData.len())
+    teamObj.show(!!(teamData && teamData.len()))
     fillCountriesList(teamObj.findObject("countries"), ::events.getCountries(teamData))
     teamObj.findObject("team_name").setValue(teamName)
     teamObj.findObject("players_count").setValue(playersCountText)

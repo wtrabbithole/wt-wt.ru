@@ -9,13 +9,13 @@
 
 /******************* Public ********************/
 
-function g_operations::forcedFullUpdate()
+g_operations.forcedFullUpdate <- function forcedFullUpdate()
 {
   isUpdateRequired = true
   fullUpdate()
 }
 
-function g_operations::fullUpdate()
+g_operations.fullUpdate <- function fullUpdate()
 {
   if (!isUpdateRequired)
     return
@@ -30,17 +30,17 @@ function g_operations::fullUpdate()
   isUpdateRequired = false
 }
 
-function g_operations::getArmiesByStatus(status)
+g_operations.getArmiesByStatus <- function getArmiesByStatus(status)
 {
   return getCurrentOperation().armies.getArmiesByStatus(status)
 }
 
-function g_operations::getArmiesCache()
+g_operations.getArmiesCache <- function getArmiesCache()
 {
   return getCurrentOperation().armies.armiesByStatusCache
 }
 
-function g_operations::getAirArmiesNumberByGroupIdx(groupIdx)
+g_operations.getAirArmiesNumberByGroupIdx <- function getAirArmiesNumberByGroupIdx(groupIdx)
 {
   local armyCount = 0
   foreach (wwArmyByStatus in getArmiesCache())
@@ -54,17 +54,17 @@ function g_operations::getAirArmiesNumberByGroupIdx(groupIdx)
   return armyCount
 }
 
-function g_operations::getAllOperationUnitsBySide(side)
+g_operations.getAllOperationUnitsBySide <- function getAllOperationUnitsBySide(side)
 {
   local operationUnits = {}
   local blk = ::DataBlock()
   ::ww_get_sides_info(blk)
 
-  local sidesBlk = blk["sides"]
+  local sidesBlk = blk?["sides"]
   if (sidesBlk == null)
     return operationUnits
 
-  local sideBlk = sidesBlk[side.tostring()]
+  local sideBlk = sidesBlk?[side.tostring()]
   if (sideBlk == null)
     return operationUnits
 
@@ -77,7 +77,7 @@ function g_operations::getAllOperationUnitsBySide(side)
 
 /***************** Private ********************/
 
-function g_operations::getCurrentOperation()
+g_operations.getCurrentOperation <- function getCurrentOperation()
 {
   local operationId = ::ww_get_operation_id()
   if (!(operationId in operationStatusById))
@@ -88,17 +88,17 @@ function g_operations::getCurrentOperation()
 
 /************* onEvent Handlers ***************/
 
-function g_operations::onEventWWFirstLoadOperation(params)
+g_operations.onEventWWFirstLoadOperation <- function onEventWWFirstLoadOperation(params)
 {
   isUpdateRequired = true
 }
 
-function g_operations::onEventWWLoadOperation(params)
+g_operations.onEventWWLoadOperation <- function onEventWWLoadOperation(params)
 {
   forcedFullUpdate()
 }
 
-function g_operations::onEventWWArmyPathTrackerStatus(params)
+g_operations.onEventWWArmyPathTrackerStatus <- function onEventWWArmyPathTrackerStatus(params)
 {
   local armyName = ::getTblValue("army", params)
   getCurrentOperation().armies.updateArmyStatus(armyName)

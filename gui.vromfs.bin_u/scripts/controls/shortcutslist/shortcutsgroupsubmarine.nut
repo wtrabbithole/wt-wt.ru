@@ -7,6 +7,7 @@ return [
     unitType = ::g_unit_type.SHIP
     unitTag = "submarine"
     showFunc = @() ::has_feature("SpecialShips") || ::is_submarine(::get_player_cur_unit())
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
@@ -43,6 +44,7 @@ return [
     checkGroup = ctrlGroups.SUBMARINE
     axisDirection = AxisDirection.Y
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "submarine_steering"
@@ -50,47 +52,56 @@ return [
     checkGroup = ctrlGroups.SUBMARINE
     axisDirection = AxisDirection.X
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "submarine_depth"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUBMARINE_FULL_STOP"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
     id = "ID_SUBMARINE_FIRE_HEADER"
     type = CONTROL_TYPE.SECTION
+    needShowInHelp = true
   }
   {
     id = "ID_TOGGLE_VIEW_SUBMARINE"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUBMARINE_WEAPON_TORPEDOES"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUBMARINE_SWITCH_ACTIVE_SONAR"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUBMARINE_WEAPON_TOGGLE_ACTIVE_SENSOR"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUBMARINE_WEAPON_TOGGLE_SELF_HOMMING"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
@@ -176,6 +187,7 @@ return [
     id = "ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUBMARINE_KILLSTREAK_WHEEL_MENU"
@@ -187,10 +199,12 @@ return [
     id = "ID_SUBMARINE_ACTION_BAR_ITEM_11"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SUBMARINE_REPAIR_BREACHES"
     checkGroup = ctrlGroups.SUBMARINE
     checkAssign = false
+    needShowInHelp = true
   }
 ]

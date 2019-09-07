@@ -1,4 +1,4 @@
-function gui_start_eula(eulaType, isForView = false)
+::gui_start_eula <- function gui_start_eula(eulaType, isForView = false)
 {
   ::gui_start_modal_wnd(::gui_handlers.EulaWndHandler, { eulaType = eulaType, isForView = isForView })
 }

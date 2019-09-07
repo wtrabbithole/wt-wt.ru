@@ -13,23 +13,23 @@ const DEFAULT_ARMOR_FOR_PENETRATION_RADIUS = 50
 /*************************************PUBLIC FUNCTIONS *******************************************/
 /*************************************************************************************************/
 
-function g_dmg_model::getDmgModelBlk()
+g_dmg_model.getDmgModelBlk <- function getDmgModelBlk()
 {
   return ::DataBlock("config/damageModel.blk")
 }
 
-function g_dmg_model::getExplosiveBlk()
+g_dmg_model.getExplosiveBlk <- function getExplosiveBlk()
 {
   return ::DataBlock("gameData/damage_model/explosive.blk")
 }
 
-function g_dmg_model::getRicochetData(bulletType)
+g_dmg_model.getRicochetData <- function getRicochetData(bulletType)
 {
   initRicochetDataOnce()
   return ::getTblValue(bulletType, ricochetDataByBulletType)
 }
 
-function g_dmg_model::getTntEquivalentText(explosiveType, explosiveMass)
+g_dmg_model.getTntEquivalentText <- function getTntEquivalentText(explosiveType, explosiveMass)
 {
   if(explosiveType == "tnt")
     return ""
@@ -41,7 +41,7 @@ function g_dmg_model::getTntEquivalentText(explosiveType, explosiveMass)
   return ::g_dmg_model.getMeasuredExplosionText(explosiveMass.tofloat() * explMassInTNT)
 }
 
-function g_dmg_model::getMeasuredExplosionText(weightValue)
+g_dmg_model.getMeasuredExplosionText <- function getMeasuredExplosionText(weightValue)
 {
   local typeName = "kg"
   if (weightValue < 1.0)
@@ -52,7 +52,7 @@ function g_dmg_model::getMeasuredExplosionText(weightValue)
   return ::g_measure_type.getTypeByName(typeName, true).getMeasureUnitsText(weightValue)
 }
 
-function g_dmg_model::getDestructionInfoTexts(explosiveType, explosiveMass, ammoMass)
+g_dmg_model.getDestructionInfoTexts <- function getDestructionInfoTexts(explosiveType, explosiveMass, ammoMass)
 {
   local res = {
     maxArmorPenetrationText = ""
@@ -100,12 +100,12 @@ function g_dmg_model::getDestructionInfoTexts(explosiveType, explosiveMass, ammo
 /************************************PRIVATE FUNCTIONS *******************************************/
 /*************************************************************************************************/
 
-function g_dmg_model::resetData()
+g_dmg_model.resetData <- function resetData()
 {
   ricochetDataByBulletType = null
 }
 
-function g_dmg_model::getLinearValueFromP2blk(blk, x)
+g_dmg_model.getLinearValueFromP2blk <- function getLinearValueFromP2blk(blk, x)
 {
   local pMin = null
   local pMax = null
@@ -132,7 +132,7 @@ function g_dmg_model::getLinearValueFromP2blk(blk, x)
 }
 
 /** Returns -1 if no such angle found. */
-function g_dmg_model::getAngleByProbabilityFromP2blk(blk, x)
+g_dmg_model.getAngleByProbabilityFromP2blk <- function getAngleByProbabilityFromP2blk(blk, x)
 {
   for (local i = 0; i < blk.paramCount() - 1; ++i)
   {
@@ -163,7 +163,7 @@ function g_dmg_model::getAngleByProbabilityFromP2blk(blk, x)
 }
 
 /** Returns -1 if nothing found. */
-function g_dmg_model::getMaxProbabilityFromP2blk(blk)
+g_dmg_model.getMaxProbabilityFromP2blk <- function getMaxProbabilityFromP2blk(blk)
 {
   local result = -1
   for (local i = 0; i < blk.paramCount(); ++i)
@@ -175,7 +175,7 @@ function g_dmg_model::getMaxProbabilityFromP2blk(blk)
   return result
 }
 
-function g_dmg_model::initRicochetDataOnce()
+g_dmg_model.initRicochetDataOnce <- function initRicochetDataOnce()
 {
   if (ricochetDataByBulletType)
     return
@@ -207,7 +207,7 @@ function g_dmg_model::initRicochetDataOnce()
   }
 }
 
-function g_dmg_model::getRicochetDataByPreset(preset, ricBlk, defaultData = null)
+g_dmg_model.getRicochetDataByPreset <- function getRicochetDataByPreset(preset, ricBlk, defaultData = null)
 {
   local res = {
     angleProbabilityMap = []
@@ -250,7 +250,7 @@ function g_dmg_model::getRicochetDataByPreset(preset, ricBlk, defaultData = null
   return res
 }
 
-function g_dmg_model::getRichochetPresetBlkByName(presetName, ricBlk)
+g_dmg_model.getRichochetPresetBlkByName <- function getRichochetPresetBlkByName(presetName, ricBlk)
 {
   if (presetName == null || ricBlk?[presetName] == null)
     return null
@@ -260,7 +260,7 @@ function g_dmg_model::getRichochetPresetBlkByName(presetName, ricBlk)
   for (local i = 0; i < presetData.blockCount(); ++i)
   {
     local presetBlock = presetData.getBlock(i)
-    if (presetBlock.caliberToArmor == 1)
+    if (presetBlock?.caliberToArmor == 1)
       return presetBlock
   }
   // If no such block found then try to find block
@@ -276,7 +276,7 @@ function g_dmg_model::getRichochetPresetBlkByName(presetName, ricBlk)
   return presetData
 }
 
-function g_dmg_model::calcDestroyRadiusNotArmored(shattersParamsBlk, fillingRatio, brisanceMass)
+g_dmg_model.calcDestroyRadiusNotArmored <- function calcDestroyRadiusNotArmored(shattersParamsBlk, fillingRatio, brisanceMass)
 {
   if (!::u.isDataBlock(shattersParamsBlk) || !brisanceMass)
     return 0
@@ -292,7 +292,7 @@ function g_dmg_model::calcDestroyRadiusNotArmored(shattersParamsBlk, fillingRati
   return 0
 }
 
-function g_dmg_model::onEventSignOut(p)
+g_dmg_model.onEventSignOut <- function onEventSignOut(p)
 {
   resetData()
 }

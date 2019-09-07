@@ -26,7 +26,7 @@
   text - text to set
   prevShowIdx - previous text index returned by this function. if never called before, than -1
 */
-function g_promo_view_utils::animSwitchCollapsedText(scene, blockId, text)
+g_promo_view_utils.animSwitchCollapsedText <- function animSwitchCollapsedText(scene, blockId, text)
 {
   local animSizeObj = getCollapsedAnimSizeObj(scene, blockId)
   if (!::checkObj(animSizeObj))
@@ -64,7 +64,7 @@ function g_promo_view_utils::animSwitchCollapsedText(scene, blockId, text)
   }
 }
 
-function g_promo_view_utils::getVisibleCollapsedTextObj(scene, blockId)
+g_promo_view_utils.getVisibleCollapsedTextObj <- function getVisibleCollapsedTextObj(scene, blockId)
 {
   local idx = 0
   local sizeObj = getCollapsedAnimSizeObj(scene, blockId)
@@ -73,7 +73,7 @@ function g_promo_view_utils::getVisibleCollapsedTextObj(scene, blockId)
   return scene.findObject(blockId + collapsedTextBlocksAnim[idx].blockEnding)
 }
 
-function g_promo_view_utils::getCollapsedAnimSizeObj(scene, blockId)
+g_promo_view_utils.getCollapsedAnimSizeObj <- function getCollapsedAnimSizeObj(scene, blockId)
 {
   return scene.findObject(blockId + "_collapsed_size_obj")
 }

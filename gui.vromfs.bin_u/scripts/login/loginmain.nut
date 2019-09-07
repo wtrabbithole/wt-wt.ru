@@ -12,12 +12,12 @@ foreach (fn in [
                ])
   ::g_script_reloader.loadOnce("scripts/login/" + fn)
 
-function use_tencent_login()
+::use_tencent_login <- function use_tencent_login()
 {
   return ::is_platform_windows && ::getFromSettingsBlk("yunetwork/useTencentLogin", false)
 }
 
-function use_dmm_login()
+::use_dmm_login <- function use_dmm_login()
 {
   return ::dgs_get_argv("dmm_user_id") && ::dgs_get_argv("dmm_token")
 }

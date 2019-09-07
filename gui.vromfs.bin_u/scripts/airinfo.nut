@@ -8,7 +8,7 @@ local unitActions = require("scripts/unit/unitActions.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
-enum bit_unit_status
+global enum bit_unit_status
 {
   locked      = 1
   canResearch = 2
@@ -30,7 +30,7 @@ enum unit_rarity
   gift
 }
 
-enum CheckFeatureLockAction
+global enum CheckFeatureLockAction
 {
   BUY,
   RESEARCH
@@ -43,7 +43,7 @@ enum CheckFeatureLockAction
   { text = "chance_to_met/never",   color = "@chanceNeverColor",   brDiff = 1.01 }
 ]
 
-function getUnitItemStatusText(bitStatus, isGroup = false)
+::getUnitItemStatusText <- function getUnitItemStatusText(bitStatus, isGroup = false)
 {
   local statusText = ""
   if (bit_unit_status.locked & bitStatus)
@@ -73,8 +73,8 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
 
 
 ::basic_unit_roles <- {
-  [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber", "ufo"],
-  [::ES_UNIT_TYPE_TANK] = ["tank", "light_tank", "medium_tank", "heavy_tank", "tank_destroyer", "spaa"],
+  [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber"],
+  [::ES_UNIT_TYPE_TANK] = ["tank", "light_tank", "medium_tank", "heavy_tank", "tank_destroyer", "spaa", "lbv", "mbv", "hbv"],
   [::ES_UNIT_TYPE_SHIP] = ["ship", "boat", "heavy_boat", "barge", "destroyer", "light_cruiser",
     "cruiser", "battlecruiser", "battleship", "submarine"],
   [::ES_UNIT_TYPE_HELICOPTER] = ["attack_helicopter", "utility_helicopter"],
@@ -86,12 +86,14 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
   bomber                   = ::loc("icon/unitclass/bomber"),
   attack_helicopter        = ::loc("icon/unitclass/attack_helicopter"),
   utility_helicopter       = ::loc("icon/unitclass/utility_helicopter"),
-  ufo                      = ::loc("icon/unitclass/ufo"),
   light_tank               = ::loc("icon/unitclass/light_tank"),
   medium_tank              = ::loc("icon/unitclass/medium_tank"),
   heavy_tank               = ::loc("icon/unitclass/heavy_tank"),
   tank_destroyer           = ::loc("icon/unitclass/tank_destroyer"),
   spaa                     = ::loc("icon/unitclass/spaa"),
+  lbv                      = ::loc("icon/unitclass/light_tank")
+  mbv                      = ::loc("icon/unitclass/medium_tank")
+  hbv                      = ::loc("icon/unitclass/heavy_tank")
   ship                     = ::loc("icon/unitclass/ship"),
   boat                     = ::loc("icon/unitclass/gun_boat")
   heavy_boat               = ::loc("icon/unitclass/heavy_gun_boat")
@@ -121,7 +123,6 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
   type_strike_fighter   = "strike_fighter",
   type_attack_helicopter  = "attack_helicopter",
   type_utility_helicopter = "utility_helicopter",
-  type_ufo              = "ufo",
   //tanks:
   type_tank             = "tank" //used in profile stats
   type_light_tank       = "light_tank",
@@ -129,6 +130,10 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
   type_heavy_tank       = "heavy_tank",
   type_tank_destroyer   = "tank_destroyer",
   type_spaa             = "spaa",
+  //battle vehicles:
+  type_lbv              = "lbv",
+  type_mbv              = "mbv",
+  type_hbv              = "hbv",
   //ships:
   type_ship             = "ship",
   type_boat             = "boat",
@@ -166,7 +171,7 @@ function getUnitItemStatusText(bitStatus, isGroup = false)
     typeStrikeFighter = ::ES_UNIT_TYPE_AIRCRAFT
 }
 
-function get_unit_role(unitData) //  "fighter", "bomber", "assault", "transport", "diveBomber", "none"
+::get_unit_role <- function get_unit_role(unitData) //  "fighter", "bomber", "assault", "transport", "diveBomber", "none"
 {
   local unit = unitData
   if (typeof(unitData) == "string")
@@ -190,12 +195,12 @@ function get_unit_role(unitData) //  "fighter", "bomber", "assault", "transport"
   return role
 }
 
-function haveUnitRole(unit, role)
+::haveUnitRole <- function haveUnitRole(unit, role)
 {
   return ::isInArray("type_" + role, unit.tags)
 }
 
-function get_unit_basic_role(unit)
+::get_unit_basic_role <- function get_unit_basic_role(unit)
 {
   local unitType = ::get_es_unit_type(unit)
   local basicRoles = ::getTblValue(unitType, ::basic_unit_roles)
@@ -208,7 +213,7 @@ function get_unit_basic_role(unit)
   return basicRoles[0]
 }
 
-function get_role_text(role)
+::get_role_text <- function get_role_text(role)
 {
   return ::loc("mainmenu/type_" + role)
 }
@@ -217,7 +222,7 @@ function get_role_text(role)
   typeof @source == Unit     -> @source is unit
   typeof @source == "string" -> @source is role id
 */
-function get_unit_role_icon(source)
+::get_unit_role_icon <- function get_unit_role_icon(source)
 {
   local role = ::u.isString(source) ? source
     : ::get_unit_basic_role(source)
@@ -229,7 +234,7 @@ local ACTION_LIST_PARAMS = {
   needChosenResearchOfSquadron = false
   isSquadronResearchMode = false
 }
-function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
+::get_unit_actions_list <- function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
 {
   p = ACTION_LIST_PARAMS.__merge(p)
   local res = {
@@ -494,37 +499,37 @@ function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
   return res
 }
 
-function isAircraft(unit)
+::isAircraft <- function isAircraft(unit)
 {
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_AIRCRAFT
 }
 
-function isShip(unit)
+::isShip <- function isShip(unit)
 {
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_SHIP
 }
 
-function isTank(unit)
+::isTank <- function isTank(unit)
 {
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_TANK
 }
 
-function is_submarine(unit)
+::is_submarine <- function is_submarine(unit)
 {
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_SHIP && ::isInArray("submarine", ::getTblValue("tags", unit, []))
 }
 
-function get_es_unit_type(unit)
+::get_es_unit_type <- function get_es_unit_type(unit)
 {
   return ::getTblValue("esUnitType", unit, ::ES_UNIT_TYPE_INVALID)
 }
 
-function getUnitTypeTextByUnit(unit)
+::getUnitTypeTextByUnit <- function getUnitTypeTextByUnit(unit)
 {
   return ::getUnitTypeText(::get_es_unit_type(unit))
 }
 
-function isCountryHaveUnitType(country, unitType)
+::isCountryHaveUnitType <- function isCountryHaveUnitType(country, unitType)
 {
   foreach(unit in ::all_units)
     if (unit.shopCountry == country && ::get_es_unit_type(unit) == unitType)
@@ -532,7 +537,7 @@ function isCountryHaveUnitType(country, unitType)
   return false
 }
 
-function getUnitRarity(unit)
+::getUnitRarity <- function getUnitRarity(unit)
 {
   if (::isUnitDefault(unit))
     return "reserve"
@@ -545,12 +550,12 @@ function getUnitRarity(unit)
   return "common"
 }
 
-function isUnitsEraUnlocked(unit)
+::isUnitsEraUnlocked <- function isUnitsEraUnlocked(unit)
 {
   return ::is_era_available(::getUnitCountry(unit), ::getUnitRank(unit), ::get_es_unit_type(unit))
 }
 
-function getUnitsNeedBuyToOpenNextInEra(countryId, unitType, rank, ranksBlk = null)
+::getUnitsNeedBuyToOpenNextInEra <- function getUnitsNeedBuyToOpenNextInEra(countryId, unitType, rank, ranksBlk = null)
 {
   ranksBlk = ranksBlk || ::get_ranks_blk()
   local unitTypeText = getUnitTypeText(unitType)
@@ -568,51 +573,51 @@ function getUnitsNeedBuyToOpenNextInEra(countryId, unitType, rank, ranksBlk = nu
   return -1
 }
 
-function getUnitRank(unit)
+::getUnitRank <- function getUnitRank(unit)
 {
   if (!unit)
     return -1
   return unit.rank
 }
 
-function getUnitCountry(unit)
+::getUnitCountry <- function getUnitCountry(unit)
 {
   return ::getTblValue("shopCountry", unit, "")
 }
 
-function isUnitDefault(unit)
+::isUnitDefault <- function isUnitDefault(unit)
 {
   if (!("name" in unit))
     return false
   return ::is_default_aircraft(unit.name)
 }
 
-function isUnitGift(unit)
+::isUnitGift <- function isUnitGift(unit)
 {
   return unit.gift != null
 }
 
-function get_unit_country_icon(unit, needOriginCountry = false)
+::get_unit_country_icon <- function get_unit_country_icon(unit, needOriginCountry = false)
 {
   return ::get_country_icon(needOriginCountry ? unit.getOriginCountry() : unit.shopCountry)
 }
 
-function checkAirShopReq(air)
+::checkAirShopReq <- function checkAirShopReq(air)
 {
   return ::getTblValue("shopReq", air, true)
 }
 
-function isUnitGroup(unit)
+::isUnitGroup <- function isUnitGroup(unit)
 {
   return unit && "airsGroup" in unit
 }
 
-function isGroupPart(unit)
+::isGroupPart <- function isGroupPart(unit)
 {
   return unit && unit.group != null
 }
 
-function canResearchUnit(unit)
+::canResearchUnit <- function canResearchUnit(unit)
 {
   local isInShop = ::getTblValue("isInShop", unit)
   if (isInShop == null)
@@ -629,7 +634,7 @@ function canResearchUnit(unit)
   return (0 != (status & (::ES_ITEM_STATUS_IN_RESEARCH | ::ES_ITEM_STATUS_CAN_RESEARCH))) && !::isUnitMaxExp(unit)
 }
 
-function canBuyUnit(unit)
+::canBuyUnit <- function canBuyUnit(unit)
 {
   if (::isUnitGift(unit))  //!!! FIX ME shop_unit_research_status may return ES_ITEM_STATUS_CAN_BUY
     return false           // if vehicle could be bought in game, but it became a gift vehicle.
@@ -638,26 +643,26 @@ function canBuyUnit(unit)
   return (0 != (status & ::ES_ITEM_STATUS_CAN_BUY)) && unit.isVisibleInShop()
 }
 
-function can_crew_take_unit(unit)
+::can_crew_take_unit <- function can_crew_take_unit(unit)
 {
   return isUnitUsable(unit) && unit.isVisibleInShop()
 }
 
-function canBuyUnitOnline(unit)
+::canBuyUnitOnline <- function canBuyUnitOnline(unit)
 {
   return !::isUnitBought(unit) && ::isUnitGift(unit) && unit.isVisibleInShop()
     && !::canBuyUnitOnMarketplace(unit)
     && ::OnlineShopModel.searchEntitlement({unitName = unit.name}).len() > 0
 }
 
-function canBuyUnitOnMarketplace(unit)
+::canBuyUnitOnMarketplace <- function canBuyUnitOnMarketplace(unit)
 {
   return unit.marketplaceItemdefId != null
     && ::ItemsManager.isMarketplaceEnabled()
     && (::ItemsManager.findItemById(unit.marketplaceItemdefId)?.hasLink() ?? false)
 }
 
-function isUnitInResearch(unit)
+::isUnitInResearch <- function isUnitInResearch(unit)
 {
   if (!unit)
     return false
@@ -669,7 +674,7 @@ function isUnitInResearch(unit)
   return (status == ::ES_ITEM_STATUS_IN_RESEARCH) && !::isUnitMaxExp(unit)
 }
 
-function findUnitNoCase(unitName)
+::findUnitNoCase <- function findUnitNoCase(unitName)
 {
   unitName = unitName.tolower()
   foreach(name, unit in ::all_units)
@@ -678,13 +683,13 @@ function findUnitNoCase(unitName)
   return null
 }
 
-function getCountryResearchUnit(countryName, unitType)
+::getCountryResearchUnit <- function getCountryResearchUnit(countryName, unitType)
 {
   local unitName = ::shop_get_researchable_unit_name(countryName, unitType)
   return ::getAircraftByName(unitName)
 }
 
-function getUnitName(unit, shopName = true)
+::getUnitName <- function getUnitName(unit, shopName = true)
 {
   local unitId = ::u.isUnit(unit) ? unit.name
     : ::u.isString(unit) ? unit
@@ -693,7 +698,7 @@ function getUnitName(unit, shopName = true)
   return shopName ? ::stringReplace(localized, " ", ::nbsp) : localized
 }
 
-function isUnitDescriptionValid(unit)
+::isUnitDescriptionValid <- function isUnitDescriptionValid(unit)
 {
   if (!::has_feature("UnitInfo"))
     return false
@@ -703,34 +708,34 @@ function isUnitDescriptionValid(unit)
   return desc != "" && desc != ::loc("encyclopedia/no_unit_description")
 }
 
-function getUnitRealCost(unit)
+::getUnitRealCost <- function getUnitRealCost(unit)
 {
   return ::Cost(unit.cost, unit.costGold)
 }
 
-function getUnitCost(unit)
+::getUnitCost <- function getUnitCost(unit)
 {
   return ::Cost(::wp_get_cost(unit.name),
                 ::wp_get_cost_gold(unit.name))
 }
 
-function isUnitBought(unit)
+::isUnitBought <- function isUnitBought(unit)
 {
   return unit ? unit.isBought() : false
 }
 
-function isUnitEliteByStatus(status)
+::isUnitEliteByStatus <- function isUnitEliteByStatus(status)
 {
   return status > ::ES_UNIT_ELITE_STAGE1
 }
 
-function isUnitElite(unit)
+::isUnitElite <- function isUnitElite(unit)
 {
   local unitName = ::getTblValue("name", unit)
   return unitName ? ::isUnitEliteByStatus(::get_unit_elite_status(unitName)) : false
 }
 
-function isUnitBroken(unit)
+::isUnitBroken <- function isUnitBroken(unit)
 {
   return ::getUnitRepairCost(unit) > 0
 }
@@ -739,24 +744,24 @@ function isUnitBroken(unit)
  * Returns true if unit can be installed in slotbar,
  * unit can be decorated with decals, etc...
  */
-function isUnitUsable(unit)
+::isUnitUsable <- function isUnitUsable(unit)
 {
   return unit ? unit.isUsable() : false
 }
 
-function isUnitFeatureLocked(unit)
+::isUnitFeatureLocked <- function isUnitFeatureLocked(unit)
 {
   return unit.reqFeature != null && !::has_feature(unit.reqFeature)
 }
 
-function getUnitRepairCost(unit)
+::getUnitRepairCost <- function getUnitRepairCost(unit)
 {
   if ("name" in unit)
     return ::wp_get_repair_cost(unit.name)
   return 0
 }
 
-function buyUnit(unit, silent = false)
+::buyUnit <- function buyUnit(unit, silent = false)
 {
   if (!::checkFeatureLock(unit, CheckFeatureLockAction.BUY))
     return false
@@ -777,7 +782,7 @@ function buyUnit(unit, silent = false)
     return ::impl_buyUnit(unit)
 
   local unitName  = ::colorize("userlogColoredText", ::getUnitName(unit, true))
-  local unitPrice = ::colorize("activeTextColor", unitCost)
+  local unitPrice = unitCost.getTextAccordingToBalance()
   local msgText = warningIfGold(::loc("shop/needMoneyQuestion_purchaseAircraft",
       {unitName = unitName, cost = unitPrice}),
     unitCost)
@@ -804,7 +809,7 @@ function buyUnit(unit, silent = false)
   return true
 }
 
-function impl_buyUnit(unit)
+::impl_buyUnit <- function impl_buyUnit(unit)
 {
   if (!unit)
     return false
@@ -858,7 +863,7 @@ function impl_buyUnit(unit)
   return true
 }
 
-function can_spend_gold_on_unit_with_popup(unit)
+::can_spend_gold_on_unit_with_popup <- function can_spend_gold_on_unit_with_popup(unit)
 {
   if (unit.unitType.canSpendGold())
     return true
@@ -868,7 +873,7 @@ function can_spend_gold_on_unit_with_popup(unit)
   return false
 }
 
-function show_cant_buy_or_research_unit_msgbox(unit)
+::show_cant_buy_or_research_unit_msgbox <- function show_cant_buy_or_research_unit_msgbox(unit)
 {
   local reason = ::getCantBuyUnitReason(unit)
   if (::u.isEmpty(reason))
@@ -889,7 +894,7 @@ function show_cant_buy_or_research_unit_msgbox(unit)
   return false
 }
 
-function checkFeatureLock(unit, lockAction)
+::checkFeatureLock <- function checkFeatureLock(unit, lockAction)
 {
   if (!::isUnitFeatureLocked(unit))
     return true
@@ -903,7 +908,7 @@ function checkFeatureLock(unit, lockAction)
   return false
 }
 
-function checkForResearch(unit)
+::checkForResearch <- function checkForResearch(unit)
 {
   // Feature lock has higher priority than ::canResearchUnit.
   if (!::checkFeatureLock(unit, CheckFeatureLockAction.RESEARCH))
@@ -967,7 +972,7 @@ function checkForResearch(unit)
 /**
  * Used in shop tooltip display logic.
  */
-function need_buy_prev_unit(unit)
+::need_buy_prev_unit <- function need_buy_prev_unit(unit)
 {
   if (::isUnitBought(unit) || ::isUnitGift(unit) || unit?.isSquadronVehicle?())
     return false
@@ -978,7 +983,7 @@ function need_buy_prev_unit(unit)
   return false
 }
 
-function getCantBuyUnitReason(unit, isShopTooltip = false)
+::getCantBuyUnitReason <- function getCantBuyUnitReason(unit, isShopTooltip = false)
 {
   if (!unit)
     return ::loc("leaderboards/notAvailable")
@@ -1055,7 +1060,7 @@ function getCantBuyUnitReason(unit, isShopTooltip = false)
   return ""
 }
 
-function isUnitAvailableForGM(air, gm)
+::isUnitAvailableForGM <- function isUnitAvailableForGM(air, gm)
 {
   if (!air.unitType.isAvailable())
     return false
@@ -1066,7 +1071,7 @@ function isUnitAvailableForGM(air, gm)
   return true
 }
 
-function isTestFlightAvailable(unit, skipUnitCheck = false)
+::isTestFlightAvailable <- function isTestFlightAvailable(unit, skipUnitCheck = false)
 {
   if (!::isUnitAvailableForGM(unit, ::GM_TEST_FLIGHT))
     return false
@@ -1084,7 +1089,7 @@ function isTestFlightAvailable(unit, skipUnitCheck = false)
   return false
 }
 
-function getMaxRankUnboughtUnitByCountry(country, unitType)
+::getMaxRankUnboughtUnitByCountry <- function getMaxRankUnboughtUnitByCountry(country, unitType)
 {
   local unit = null
   foreach (newUnit in ::all_units)
@@ -1098,7 +1103,7 @@ function getMaxRankUnboughtUnitByCountry(country, unitType)
   return unit
 }
 
-function getMaxRankResearchingUnitByCountry(country, unitType)
+::getMaxRankResearchingUnitByCountry <- function getMaxRankResearchingUnitByCountry(country, unitType)
 {
   local unit = null
   foreach (newUnit in ::all_units)
@@ -1108,7 +1113,7 @@ function getMaxRankResearchingUnitByCountry(country, unitType)
   return unit
 }
 
-function _afterUpdateAirModificators(unit, callback)
+::_afterUpdateAirModificators <- function _afterUpdateAirModificators(unit, callback)
 {
   if (unit.secondaryWeaponMods)
     unit.secondaryWeaponMods = null //invalidate secondary weapons cache
@@ -1118,7 +1123,7 @@ function _afterUpdateAirModificators(unit, callback)
 }
 
 //return true when modificators already valid.
-function check_unit_mods_update(air, callBack = null, forceUpdate = false)
+::check_unit_mods_update <- function check_unit_mods_update(air, callBack = null, forceUpdate = false)
 {
   if (!air.isInited)
   {
@@ -1200,7 +1205,7 @@ function check_unit_mods_update(air, callBack = null, forceUpdate = false)
 }
 
 // modName == ""  mean 'all mods'.
-function updateAirAfterSwitchMod(air, modName = null)
+::updateAirAfterSwitchMod <- function updateAirAfterSwitchMod(air, modName = null)
 {
   if (!air)
     return
@@ -1222,7 +1227,7 @@ function updateAirAfterSwitchMod(air, modName = null)
 }
 
 //return true when already counted
-function check_secondary_weapon_mods_recount(unit, callback = null)
+::check_secondary_weapon_mods_recount <- function check_secondary_weapon_mods_recount(unit, callback = null)
 {
   switch(::get_es_unit_type(unit))
   {
@@ -1280,24 +1285,24 @@ function check_secondary_weapon_mods_recount(unit, callback = null)
   }
 }
 
-function getUnitExp(unit)
+::getUnitExp <- function getUnitExp(unit)
 {
   return ::shop_get_unit_exp(unit.name)
 }
 
-function getUnitReqExp(unit)
+::getUnitReqExp <- function getUnitReqExp(unit)
 {
   if(!("reqExp" in unit))
     return 0
   return unit.reqExp
 }
 
-function isUnitMaxExp(unit) //temporary while not exist correct status between in_research and canBuy
+::isUnitMaxExp <- function isUnitMaxExp(unit) //temporary while not exist correct status between in_research and canBuy
 {
   return ::isUnitSpecial(unit) || (::getUnitReqExp(unit) <= ::getUnitExp(unit))
 }
 
-function getNextTierModsCount(unit, tier)
+::getNextTierModsCount <- function getNextTierModsCount(unit, tier)
 {
   if (tier < 1 || tier > unit.needBuyToOpenNextInTier.len() || !("modifications" in unit))
     return 0
@@ -1313,7 +1318,7 @@ function getNextTierModsCount(unit, tier)
   return max(req, 0)
 }
 
-function generateUnitShopInfo()
+::generateUnitShopInfo <- function generateUnitShopInfo()
 {
   local blk = ::get_shop_blk()
   local totalCountries = blk.blockCount()
@@ -1377,7 +1382,7 @@ function generateUnitShopInfo()
   }
 }
 
-function has_platform_from_blk_str(blk, fieldName, defValue = false, separator = "; ")
+::has_platform_from_blk_str <- function has_platform_from_blk_str(blk, fieldName, defValue = false, separator = "; ")
 {
   local listStr = blk?[fieldName]
   if (!::u.isString(listStr))
@@ -1385,18 +1390,18 @@ function has_platform_from_blk_str(blk, fieldName, defValue = false, separator =
   return ::isInArray(::target_platform, ::split(listStr, separator))
 }
 
-function getPrevUnit(unit)
+::getPrevUnit <- function getPrevUnit(unit)
 {
   return "reqAir" in unit ? ::getAircraftByName(unit.reqAir) : null
 }
 
-function isUnitLocked(unit)
+::isUnitLocked <- function isUnitLocked(unit)
 {
   local status = ::shop_unit_research_status(unit.name)
   return 0 != (status & ::ES_ITEM_STATUS_LOCKED)
 }
 
-function isUnitResearched(unit)
+::isUnitResearched <- function isUnitResearched(unit)
 {
   if (::isUnitBought(unit) || ::canBuyUnit(unit))
     return true
@@ -1405,7 +1410,7 @@ function isUnitResearched(unit)
   return (0 != (status & ::ES_ITEM_STATUS_RESEARCHED))
 }
 
-function isPrevUnitResearched(unit)
+::isPrevUnitResearched <- function isPrevUnitResearched(unit)
 {
   local prevUnit = ::getPrevUnit(unit)
   if (!prevUnit || ::isUnitResearched(prevUnit))
@@ -1413,7 +1418,7 @@ function isPrevUnitResearched(unit)
   return false
 }
 
-function isPrevUnitBought(unit)
+::isPrevUnitBought <- function isPrevUnitBought(unit)
 {
   local prevUnit = ::getPrevUnit(unit)
   if (!prevUnit || ::isUnitBought(prevUnit))
@@ -1421,7 +1426,7 @@ function isPrevUnitBought(unit)
   return false
 }
 
-function getNextUnits(unit)
+::getNextUnits <- function getNextUnits(unit)
 {
   local res = []
   foreach (item in ::all_units)
@@ -1430,7 +1435,7 @@ function getNextUnits(unit)
   return res
 }
 
-function setOrClearNextUnitToResearch(unit, country, uType) //return -1 when clear prev
+::setOrClearNextUnitToResearch <- function setOrClearNextUnitToResearch(unit, country, uType) //return -1 when clear prev
 {
   if (unit)
     return ::shop_set_researchable_unit(unit.name, uType)
@@ -1439,7 +1444,7 @@ function setOrClearNextUnitToResearch(unit, country, uType) //return -1 when cle
   return -1
 }
 
-function getMinBestLevelingRank(unit)
+::getMinBestLevelingRank <- function getMinBestLevelingRank(unit)
 {
   if (!unit)
     return -1
@@ -1451,7 +1456,7 @@ function getMinBestLevelingRank(unit)
   return result > 0 ? result : 1
 }
 
-function getMaxBestLevelingRank(unit)
+::getMaxBestLevelingRank <- function getMaxBestLevelingRank(unit)
 {
   if (!unit)
     return -1
@@ -1463,7 +1468,7 @@ function getMaxBestLevelingRank(unit)
   return result <= ::max_country_rank ? result : ::max_country_rank
 }
 
-function getHighestRankDiffNoPenalty(inverse = false)
+::getHighestRankDiffNoPenalty <- function getHighestRankDiffNoPenalty(inverse = false)
 {
   local ranksBlk = ::get_ranks_blk()
   local paramPrefix = inverse
@@ -1476,12 +1481,12 @@ function getHighestRankDiffNoPenalty(inverse = false)
   return 0
 }
 
-function get_battle_type_by_unit(unit)
+::get_battle_type_by_unit <- function get_battle_type_by_unit(unit)
 {
   return (::get_es_unit_type(unit) == ::ES_UNIT_TYPE_TANK)? BATTLE_TYPES.TANK : BATTLE_TYPES.AIR
 }
 
-function getCharacteristicActualValue(air, characteristicName, prepareTextFunc, modeName, showLocalState = true)
+::getCharacteristicActualValue <- function getCharacteristicActualValue(air, characteristicName, prepareTextFunc, modeName, showLocalState = true)
 {
   local modificators = showLocalState ? "modificators" : "modificatorsBase"
 
@@ -1506,7 +1511,7 @@ function getCharacteristicActualValue(air, characteristicName, prepareTextFunc, 
   return [text, weaponModText, vMin, vMax, value, air.shop[characteristicName[0]], showReferenceText]
 }
 
-function setReferenceMarker(obj, vMin, vMax, refer, modeName)
+::setReferenceMarker <- function setReferenceMarker(obj, vMin, vMax, refer, modeName)
 {
   if(!::checkObj(obj))
     return
@@ -1526,7 +1531,7 @@ function setReferenceMarker(obj, vMin, vMax, refer, modeName)
   }
 }
 
-function fillAirCharProgress(progressObj, vMin, vMax, cur)
+::fillAirCharProgress <- function fillAirCharProgress(progressObj, vMin, vMax, cur)
 {
   if(!::checkObj(progressObj))
     return
@@ -1538,7 +1543,7 @@ function fillAirCharProgress(progressObj, vMin, vMax, cur)
   progressObj.setValue(value)
 }
 
-function fillAirInfoTimers(holderObj, air, needShopInfo)
+::fillAirInfoTimers <- function fillAirInfoTimers(holderObj, air, needShopInfo)
 {
   SecondsUpdater(holderObj, (@(air, needShopInfo) function(obj, params) {
     local isActive = false
@@ -1589,17 +1594,17 @@ function fillAirInfoTimers(holderObj, air, needShopInfo)
   })(air, needShopInfo))
 }
 
-function get_show_aircraft_name()
+::get_show_aircraft_name <- function get_show_aircraft_name()
 {
   return ::show_aircraft? ::show_aircraft.name : ::hangar_get_current_unit_name()
 }
 
-function get_show_aircraft()
+::get_show_aircraft <- function get_show_aircraft()
 {
   return ::show_aircraft? ::show_aircraft : ::getAircraftByName(::hangar_get_current_unit_name())
 }
 
-function set_show_aircraft(unit)
+::set_show_aircraft <- function set_show_aircraft(unit)
 {
   if (!unit)
     return
@@ -1607,7 +1612,7 @@ function set_show_aircraft(unit)
   ::hangar_model_load_manager.loadModel(unit.name)
 }
 
-function showAirInfo(air, show, holderObj = null, handler = null, params = null)
+::showAirInfo <- function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 {
   handler = handler || ::handlersManager.getActiveBaseHandler()
 
@@ -1784,10 +1789,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       local tdValueObj = prevUnitObj.findObject("aircraft-prevUnit_bonus")
       if (::checkObj(tdValueObj))
       {
-        local curVal = 1
         local param_name = "prevAirExpMulMode"
-        if(rBlk[param_name + diffCode.tostring()]!=null)
-          curVal = rBlk[param_name + diffCode.tostring()]
+        local curVal = rBlk?[param_name + diffCode.tostring()] ?? 1
 
         if (curVal != 1)
           tdValueObj.setValue(::format("<color=@userlogColoredText>%s%%</color>", (curVal*100).tostring()))
@@ -1833,6 +1836,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ],
     [::ES_UNIT_TYPE_HELICOPTER] = [
       {id = "maxSpeed", id2 = "speed", prepareTextFunc = function(value){return ::countMeasure(0, value)}}
+      {id = "climbSpeed", id2 = "climb", prepareTextFunc = function(value){return ::countMeasure(3, value)}}
     ]
   }
 
@@ -1873,8 +1877,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   if (::check_obj(totalCrewObj))
     totalCrewObj.setValue(air.getCrewTotalCount().tostring())
 
-  local airplaneParameters = ::has_feature("CardAirplaneParameters")
-  local airplanePowerParameters = airplaneParameters && ::has_feature("CardAirplanePowerParameters")
+  local cardAirplaneWingLoadingParameter = ::has_feature("CardAirplaneWingLoadingParameter")
+  local cardAirplanePowerParameter = ::has_feature("CardAirplanePowerParameter")
+  local cardHelicopterClimbParameter = ::has_feature("CardHelicopterClimbParameter")
 
   local showCharacteristics = {
     ["aircraft-turnTurretTime-tr"]        = [ ::ES_UNIT_TYPE_TANK ],
@@ -1895,9 +1900,9 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     ["aircraft-speedAlt-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ],
     ["aircraft-altitude-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ],
     ["aircraft-turnTime-tr"]              = [ ::ES_UNIT_TYPE_AIRCRAFT ],
-    ["aircraft-climbSpeed-tr"]            = [ ::ES_UNIT_TYPE_AIRCRAFT ],
+    ["aircraft-climbSpeed-tr"]            = cardHelicopterClimbParameter ? [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ] : [ ::ES_UNIT_TYPE_AIRCRAFT ],
     ["aircraft-airfieldLen-tr"]           = [ ::ES_UNIT_TYPE_AIRCRAFT ],
-    ["aircraft-wingLoading-tr"]           = airplaneParameters ? [ ::ES_UNIT_TYPE_AIRCRAFT ] : [],
+    ["aircraft-wingLoading-tr"]           = cardAirplaneWingLoadingParameter ? [ ::ES_UNIT_TYPE_AIRCRAFT ] : [],
     ["aircraft-visibilityFactor-tr"]      = [ ::ES_UNIT_TYPE_TANK ]
   }
 
@@ -1909,7 +1914,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   }
 
   local powerToWeightRatioObject = holderObj.findObject("aircraft-powerToWeightRatio-tr")
-  if (airplanePowerParameters
+  if (cardAirplanePowerParameter
     && ::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])
     && "powerToWeightRatio" in air.shop)
   {
@@ -1920,7 +1925,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     powerToWeightRatioObject.show(false)
 
   local thrustToWeightRatioObject = holderObj.findObject("aircraft-thrustToWeightRatio-tr")
-  if (airplanePowerParameters && unitType == ::ES_UNIT_TYPE_AIRCRAFT && air.shop?.thrustToWeightRatio)
+  if (cardAirplanePowerParameter && unitType == ::ES_UNIT_TYPE_AIRCRAFT && air.shop?.thrustToWeightRatio)
   {
     holderObj.findObject("aircraft-thrustToWeightRatio").setValue(format("%.2f", air.shop.thrustToWeightRatio))
     thrustToWeightRatioObject.show(true)
@@ -2012,10 +2017,14 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     holderObj.findObject("ship-citadelArmor-tr").show(armorThicknessCitadel != null)
     if(armorThicknessCitadel != null)
     {
+      local val = [
+        stdMath.round(armorThicknessCitadel.x).tointeger(),
+        stdMath.round(armorThicknessCitadel.y).tointeger(),
+        stdMath.round(armorThicknessCitadel.z).tointeger(),
+      ]
       holderObj.findObject("ship-citadelArmor-title").setValue(::loc("info/ship/citadelArmor") + ::loc("ui/colon"))
       holderObj.findObject("ship-citadelArmor-value").setValue(
-        format("%d / %d / %d %s", armorThicknessCitadel.x.tointeger(), armorThicknessCitadel.y.tointeger(),
-          armorThicknessCitadel.z.tointeger(), ::loc("measureUnits/mm")))
+        format("%d / %d / %d %s", val[0], val[1],val[2], ::loc("measureUnits/mm")))
     }
 
     // ship-mainFireTower
@@ -2023,10 +2032,14 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     holderObj.findObject("ship-mainFireTower-tr").show(armorThicknessMainFireTower != null)
     if(armorThicknessMainFireTower != null)
     {
+      local val = [
+        stdMath.round(armorThicknessMainFireTower.x).tointeger(),
+        stdMath.round(armorThicknessMainFireTower.y).tointeger(),
+        stdMath.round(armorThicknessMainFireTower.z).tointeger(),
+      ]
       holderObj.findObject("ship-mainFireTower-title").setValue(::loc("info/ship/mainFireTower") + ::loc("ui/colon"))
       holderObj.findObject("ship-mainFireTower-value").setValue(
-        format("%d / %d / %d %s", armorThicknessMainFireTower.x.tointeger(), armorThicknessMainFireTower.y.tointeger(),
-          armorThicknessMainFireTower.z.tointeger(), ::loc("measureUnits/mm")))
+        format("%d / %d / %d %s", val[0], val[1],val[2], ::loc("measureUnits/mm")))
     }
 
     local shipMaterials = unitInfoTexts.getShipMaterialTexts(air.name)
@@ -2094,8 +2107,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
         multiplier    = air.expMul
         premUnitMul   = 1.0
         noBonus       = 1.0
-        premAccBonus  = hasPremium  ? ((rBlk.xpMultiplier || 1.0) - 1.0)    : 0.0
-        premModBonus  = hasTalisman ? ((rBlk.goldPlaneExpMul || 1.0) - 1.0) : 0.0
+        premAccBonus  = hasPremium  ? ((rBlk?.xpMultiplier ?? 1.0) - 1.0)    : 0.0
+        premModBonus  = hasTalisman ? ((rBlk?.goldPlaneExpMul ?? 1.0) - 1.0) : 0.0
         boosterBonus  = ::getTblValue(::BoosterEffectType.RP.name, boosterEffects, 0) / 100.0
       }
       wp = {
@@ -2104,7 +2117,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
         multiplier    = wpMuls.wpMul
         premUnitMul   = wpMuls.premMul
         noBonus       = 1.0
-        premAccBonus  = hasPremium ? ((wBlk.wpMultiplier || 1.0) - 1.0) : 0.0
+        premAccBonus  = hasPremium ? ((wBlk?.wpMultiplier ?? 1.0) - 1.0) : 0.0
         premModBonus  = 0.0
         boosterBonus  = ::getTblValue(::BoosterEffectType.WP.name, boosterEffects, 0) / 100.0
       }
@@ -2151,7 +2164,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
       repairCostData = ::format("textareaNoTab { smallFont:t='yes'; text:t='%s' }", ::loc("shop/free"))
     else
     {
-      local avgRepairMul = wBlk.avgRepairMul? wBlk.avgRepairMul : 1.0
+      local avgRepairMul = wBlk?.avgRepairMul ?? 1.0
       local avgCost = (avgRepairMul * ::wp_get_repair_cost_by_mode(air.name, egdCode, showLocalState)).tointeger()
       local modeName = ::get_name_by_gamemode(egdCode, false)
       discountsList[modeName] <- modeName + "-discount"
@@ -2365,22 +2378,22 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   if (::has_entitlement("AccessTest") && needShopInfo && holderObj.findObject("aircraft-surviveRating"))
   {
     local blk = ::get_global_stats_blk()
-    if (blk["aircrafts"])
+    if (blk?["aircrafts"])
     {
-      local stats = blk["aircrafts"][air.name]
+      local stats = blk["aircrafts"]?[air.name]
       local surviveText = ::loc("multiplayer/notAvailable")
       local winsText = ::loc("multiplayer/notAvailable")
       local usageText = ::loc("multiplayer/notAvailable")
       local rating = -1
       if (stats)
       {
-        local survive = (stats["flyouts_deaths"]!=null)? stats["flyouts_deaths"] : 1.0
+        local survive = stats?.flyouts_deaths ?? 1.0
         survive = (survive==0)? 0 : 1.0 - 1.0/survive
         surviveText = (survive * 100).tointeger() + "%"
-        local wins = (stats["wins_flyouts"]!=null)? stats["wins_flyouts"] : 0.0
+        local wins = stats?.wins_flyouts ?? 0.0
         winsText = (wins * 100).tointeger() + "%"
 
-        local usage = (stats["flyouts_factor"]!=null)? stats["flyouts_factor"] : 0.0
+        local usage = stats?.flyouts_factor ?? 0.0
         if (usage >= 0.000001)
         {
           rating = 0
@@ -2486,7 +2499,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
   }
 }
 
-function get_max_era_available_by_country(country, unitType = ::ES_UNIT_TYPE_INVALID)
+::get_max_era_available_by_country <- function get_max_era_available_by_country(country, unitType = ::ES_UNIT_TYPE_INVALID)
 {
   for(local era = 1; era <= ::max_country_rank; era++)
     if (!::is_era_available(country, era, unitType))
@@ -2494,7 +2507,7 @@ function get_max_era_available_by_country(country, unitType = ::ES_UNIT_TYPE_INV
   return ::max_country_rank
 }
 
-function fill_progress_bar(obj, curExp, newExp, maxExp, isPaused = false)
+::fill_progress_bar <- function fill_progress_bar(obj, curExp, newExp, maxExp, isPaused = false)
 {
   if (!::checkObj(obj) || !maxExp)
     return
@@ -2523,7 +2536,7 @@ function fill_progress_bar(obj, curExp, newExp, maxExp, isPaused = false)
 }
 
 ::__types_for_coutries <- null //for avoid recalculations
-function get_unit_types_in_countries()
+::get_unit_types_in_countries <- function get_unit_types_in_countries()
 {
   if (::__types_for_coutries)
     return ::__types_for_coutries
@@ -2550,7 +2563,7 @@ function get_unit_types_in_countries()
   return ::__types_for_coutries
 }
 
-function get_countries_by_unit_type(unitType)
+::get_countries_by_unit_type <- function get_countries_by_unit_type(unitType)
 {
   local res = []
   foreach (countryName, countryData in ::get_unit_types_in_countries())
@@ -2560,7 +2573,7 @@ function get_countries_by_unit_type(unitType)
   return res
 }
 
-function is_country_has_any_es_unit_type(country, esUnitTypeMask)
+::is_country_has_any_es_unit_type <- function is_country_has_any_es_unit_type(country, esUnitTypeMask)
 {
   local typesList = ::getTblValue(country, ::get_unit_types_in_countries(), {})
   foreach(esUnitType, isInCountry in typesList)
@@ -2569,7 +2582,7 @@ function is_country_has_any_es_unit_type(country, esUnitTypeMask)
   return false
 }
 
-function get_player_cur_unit()
+::get_player_cur_unit <- function get_player_cur_unit()
 {
   local unit = null
   if (::is_in_flight())
@@ -2582,14 +2595,14 @@ function get_player_cur_unit()
   return unit
 }
 
-function is_loaded_model_high_quality(def = true)
+::is_loaded_model_high_quality <- function is_loaded_model_high_quality(def = true)
 {
   if (::hangar_get_loaded_unit_name() == "")
     return def
   return ::hangar_is_high_quality()
 }
 
-function getNotResearchedUnitByFeature(country = null, unitType = null)
+::getNotResearchedUnitByFeature <- function getNotResearchedUnitByFeature(country = null, unitType = null)
 {
   foreach(unit in ::all_units)
     if (    (!country || ::getUnitCountry(unit) == country)
@@ -2600,7 +2613,7 @@ function getNotResearchedUnitByFeature(country = null, unitType = null)
   return null
 }
 
-function get_units_list(filterFunc)
+::get_units_list <- function get_units_list(filterFunc)
 {
   local res = []
   foreach(unit in ::all_units)
@@ -2609,7 +2622,7 @@ function get_units_list(filterFunc)
   return res
 }
 
-function get_units_count_at_rank(rank, esUnitType, country, exact_rank, needBought = true)
+::get_units_count_at_rank <- function get_units_count_at_rank(rank, esUnitType, country, exact_rank, needBought = true)
 {
   local count = 0
   foreach (unit in ::all_units)
@@ -2644,7 +2657,7 @@ function get_units_count_at_rank(rank, esUnitType, country, exact_rank, needBoug
   }
 }
 
-function get_fm_file(unitId, unitBlkData = null)
+::get_fm_file <- function get_fm_file(unitId, unitBlkData = null)
 {
   local unitPath = ::get_unit_file_name(unitId)
   if (unitBlkData == null)

@@ -6,6 +6,7 @@ class ::Input.Axis extends ::Input.InputBase
   axisId = null
   //AXIS_MODIFIERS
   axisModifyer = null
+  preset = null
 
   deviceId = null
 
@@ -14,12 +15,13 @@ class ::Input.Axis extends ::Input.InputBase
   mouseAxis = null
 
   // @deviceAxisDescription is a result of g_shortcut_type::_getDeviceAxisDescription
-  constructor (deviceAxisDescription, axisMod = AXIS_MODIFIERS.NONE)
+  constructor (deviceAxisDescription, axisMod = AXIS_MODIFIERS.NONE, _preset = null)
   {
     deviceId = deviceAxisDescription.deviceId
     axisId = deviceAxisDescription.axisId
     mouseAxis = deviceAxisDescription.mouseAxis
     axisModifyer = axisMod
+    preset = _preset || ::g_controls_manager.getCurPreset()
   }
 
   function getMarkup()
@@ -59,8 +61,8 @@ class ::Input.Axis extends ::Input.InputBase
     local device = ::joystick_get_default()
     if (!device)
       return ""
-    local curPreset = ::g_controls_manager.getCurPreset()
-    return ::remapAxisName(curPreset, axisId)
+
+    return ::remapAxisName(preset, axisId)
   }
 
   function getDeviceId()

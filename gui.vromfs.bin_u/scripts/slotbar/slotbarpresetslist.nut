@@ -62,6 +62,9 @@ class SlotbarPresetsList
 
   function update()
   {
+    if(::is_small_screen)
+      return
+
     local listObj = getListObj()
     if (!listObj)
       return

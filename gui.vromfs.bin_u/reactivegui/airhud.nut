@@ -7,7 +7,7 @@ local Root = function() {
     valign = VALIGN_TOP
     size = [sw(100), sh(100)]
     children = [
-      radarComponent
+      radarComponent()
     ]
   }
 }

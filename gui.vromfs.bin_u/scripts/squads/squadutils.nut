@@ -4,7 +4,7 @@ local platformModule = require("scripts/clientState/platform.nut")
 
 const MEMBER_STATUS_LOC_TAG_PREFIX = "#msl"
 
-enum memberStatus {
+global enum memberStatus {
   READY
   SELECTED_AIRS_BROKEN
   NO_REQUIRED_UNITS
@@ -34,7 +34,7 @@ systemMsg.registerLocTags(locTags)
   getMemberStatusLocTag = @(status) MEMBER_STATUS_LOC_TAG_PREFIX + (status in memberStatusLocId ? status : "")
 }
 
-function g_squad_utils::canJoinFlightMsgBox(options = null,
+g_squad_utils.canJoinFlightMsgBox <- function canJoinFlightMsgBox(options = null,
                                             okFunc = null, cancelFunc = null)
 {
   if (!::isInMenu())
@@ -88,7 +88,7 @@ function g_squad_utils::canJoinFlightMsgBox(options = null,
   return false
 }
 
-function g_squad_utils::checkCrossPlayCondition()
+g_squad_utils.checkCrossPlayCondition <- function checkCrossPlayCondition()
 {
   local members = ::g_squad_manager.getDiffCrossPlayConditionMembers()
   if (!members.len())
@@ -103,7 +103,7 @@ function g_squad_utils::checkCrossPlayCondition()
   return false
 }
 
-function g_squad_utils::showRevokeNonAcceptInvitesMsgBox(okFunc = null, cancelFunc = null)
+g_squad_utils.showRevokeNonAcceptInvitesMsgBox <- function showRevokeNonAcceptInvitesMsgBox(okFunc = null, cancelFunc = null)
 {
   showCantJoinSquadMsgBox(
     "revoke_non_accept_invitees",
@@ -116,7 +116,7 @@ function g_squad_utils::showRevokeNonAcceptInvitesMsgBox(okFunc = null, cancelFu
   )
 }
 
-function g_squad_utils::showLeaveSquadMsgBox(msgId, okFunc = null, cancelFunc = null)
+g_squad_utils.showLeaveSquadMsgBox <- function showLeaveSquadMsgBox(msgId, okFunc = null, cancelFunc = null)
 {
   showCantJoinSquadMsgBox(
     "cant_join",
@@ -132,12 +132,12 @@ function g_squad_utils::showLeaveSquadMsgBox(msgId, okFunc = null, cancelFunc = 
   )
 }
 
-function showCantJoinSquadMsgBox(id, msg, buttons, defBtn, options)
+::showCantJoinSquadMsgBox <- function showCantJoinSquadMsgBox(id, msg, buttons, defBtn, options)
 {
   ::scene_msg_box(id, null, msg, buttons, defBtn, options)
 }
 
-function g_squad_utils::checkSquadUnreadyAndDo(func, cancelFunc = null,
+g_squad_utils.checkSquadUnreadyAndDo <- function checkSquadUnreadyAndDo(func, cancelFunc = null,
                                                shouldCheckCrewsReady = false)
 {
   if (!::g_squad_manager.isSquadMember() ||
@@ -170,7 +170,7 @@ function g_squad_utils::checkSquadUnreadyAndDo(func, cancelFunc = null,
     "ok", { cancel_fn = function() {}})
 }
 
-function g_squad_utils::updateMyCountryData(needUpdateSessionLobbyData = true)
+g_squad_utils.updateMyCountryData <- function updateMyCountryData(needUpdateSessionLobbyData = true)
 {
   local memberData = ::g_user_utils.getMyStateData()
   ::g_squad_manager.updateMyMemberData(memberData)
@@ -185,7 +185,7 @@ function g_squad_utils::updateMyCountryData(needUpdateSessionLobbyData = true)
     })
 }
 
-function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canChangeMemberCountry = true)
+g_squad_utils.getMembersFlyoutData <- function getMembersFlyoutData(teamData, respawn, ediff = -1, canChangeMemberCountry = true)
 {
   local res = {
     canFlyout = true,
@@ -214,6 +214,8 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
             selAirs = memberData.selAirs
             selSlots = memberData.selSlots
             isSelfCountry = false
+            dislikedMissions = memberData?.dislikedMissions ?? []
+            bannedMissions = memberData?.bannedMissions ?? []
           }
 
     local haveAvailCountries = false
@@ -289,7 +291,7 @@ function g_squad_utils::getMembersFlyoutData(teamData, respawn, ediff = -1, canC
   return res
 }
 
-function g_squad_utils::getMembersAvailableUnitsCheckingData(remainUnits, country)
+g_squad_utils.getMembersAvailableUnitsCheckingData <- function getMembersAvailableUnitsCheckingData(remainUnits, country)
 {
   local res = []
   foreach (uid, memberData in ::g_squad_manager.getMembers())
@@ -298,7 +300,7 @@ function g_squad_utils::getMembersAvailableUnitsCheckingData(remainUnits, countr
   return res
 }
 
-function g_squad_utils::getMemberAvailableUnitsCheckingData(memberData, remainUnits, country)
+g_squad_utils.getMemberAvailableUnitsCheckingData <- function getMemberAvailableUnitsCheckingData(memberData, remainUnits, country)
 {
   local memberCantJoinData = {
                                canFlyout = true
@@ -326,14 +328,14 @@ function g_squad_utils::getMemberAvailableUnitsCheckingData(memberData, remainUn
   if (remainUnits && memberAvailableUnits.len() == 0)
   {
     memberCantJoinData.canFlyout = false
-    memberCantJoinData.joinStatus = hasBrokenUnits ? memberStatus.ALL_AVAILABLE_AIRS_BROKEN
-                                                   : memberStatus.AIRS_NOT_AVAILABLE
+    memberCantJoinData.joinStatus = brokenUnits.len() ? memberStatus.ALL_AVAILABLE_AIRS_BROKEN
+                                                      : memberStatus.AIRS_NOT_AVAILABLE
   }
 
   return memberCantJoinData
 }
 
-function g_squad_utils::checkAndShowHasOfflinePlayersPopup()
+g_squad_utils.checkAndShowHasOfflinePlayersPopup <- function checkAndShowHasOfflinePlayersPopup()
 {
   if (!::g_squad_manager.isSquadLeader())
     return
@@ -352,7 +354,7 @@ function g_squad_utils::checkAndShowHasOfflinePlayersPopup()
   ::g_popups.add("", text)
 }
 
-function g_squad_utils::checkSquadsVersion(memberSquadsVersion)
+g_squad_utils.checkSquadsVersion <- function checkSquadsVersion(memberSquadsVersion)
 {
   if (memberSquadsVersion <= SQUADS_VERSION)
     return
@@ -381,7 +383,7 @@ function g_squad_utils::checkSquadsVersion(memberSquadsVersion)
 
     availableUnitsArrayIndex - recursion param
 **/
-function g_squad_utils::checkAvailableUnits(availableUnitsArrays, controlUnits, availableUnitsArrayIndex = 0)
+g_squad_utils.checkAvailableUnits <- function checkAvailableUnits(availableUnitsArrays, controlUnits, availableUnitsArrayIndex = 0)
 {
   if (availableUnitsArrays.len() >= availableUnitsArrayIndex)
     return true
@@ -402,7 +404,7 @@ function g_squad_utils::checkAvailableUnits(availableUnitsArrays, controlUnits, 
   return false
 }
 
-function g_squad_utils::canJoinByMySquad(operationId = null, controlCountry = "")
+g_squad_utils.canJoinByMySquad <- function canJoinByMySquad(operationId = null, controlCountry = "")
 {
   if (operationId == null)
     operationId = ::g_squad_manager.getWwOperationId()
@@ -424,7 +426,7 @@ function g_squad_utils::canJoinByMySquad(operationId = null, controlCountry = ""
   return true
 }
 
-function g_squad_utils::isEventAllowedForAllMembers(eventEconomicName, isSilent = false)
+g_squad_utils.isEventAllowedForAllMembers <- function isEventAllowedForAllMembers(eventEconomicName, isSilent = false)
 {
   if (!::g_squad_manager.isInSquad())
     return true
@@ -447,7 +449,7 @@ function g_squad_utils::isEventAllowedForAllMembers(eventEconomicName, isSilent 
   return res
 }
 
-function g_squad_utils::showMemberMenu(obj)
+g_squad_utils.showMemberMenu <- function showMemberMenu(obj)
 {
   if (!::checkObj(obj))
     return
@@ -470,12 +472,12 @@ function g_squad_utils::showMemberMenu(obj)
 }
 
 /*use by client .cpp code*/
-function is_in_my_squad(name, checkAutosquad = true)
+::is_in_my_squad <- function is_in_my_squad(name, checkAutosquad = true)
 {
   return ::g_squad_manager.isInMySquad(name, checkAutosquad)
 }
 
-function is_in_squad(forChat = false)
+::is_in_squad <- function is_in_squad(forChat = false)
 {
   return ::g_squad_manager.isInSquad(forChat)
 }

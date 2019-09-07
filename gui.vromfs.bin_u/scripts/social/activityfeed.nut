@@ -12,7 +12,7 @@ local psnApi = require("scripts/social/psnWebApi.nut")
   sourceCount = "$SOURCE_COUNT"
 }
 
-function prepareMessageForWallPostAndSend(config, customFeedParams = {}, reciever = bit_activity.NONE)
+::prepareMessageForWallPostAndSend <- function prepareMessageForWallPostAndSend(config, customFeedParams = {}, reciever = bit_activity.NONE)
 {
   local copy_config = clone config
   local copy_customFeedParams = clone customFeedParams
@@ -23,7 +23,7 @@ function prepareMessageForWallPostAndSend(config, customFeedParams = {}, recieve
 }
 
 // specialization getters below expect valid data, validated by the caller
-function getActivityFeedImageByParam(feed, imagesConfig)
+::getActivityFeedImageByParam <- function getActivityFeedImageByParam(feed, imagesConfig)
 {
   local config = imagesConfig.other?[feed.blkParamName]
 
@@ -43,7 +43,7 @@ function getActivityFeedImageByParam(feed, imagesConfig)
   return ""
 }
 
-function getActivityFeedImageByCountry(feed, imagesConfig)
+::getActivityFeedImageByCountry <- function getActivityFeedImageByCountry(feed, imagesConfig)
 {
   local aircraft = ::getAircraftByName(feed.unitNameId)
   local esUnitType = ::get_es_unit_type(aircraft)
@@ -58,7 +58,7 @@ function getActivityFeedImageByCountry(feed, imagesConfig)
   return ""
 }
 
-function getActivityFeedImages(feed)
+::getActivityFeedImages <- function getActivityFeedImages(feed)
 {
   local guiBlk = ::configs.GUI.get()
   local imagesConfig = guiBlk?.activity_feed_image_url
@@ -98,7 +98,7 @@ function getActivityFeedImages(feed)
 }
 
 //---------------- <Facebook> --------------------------
-function facebookPostActivityFeed(config, customFeedParams)
+::facebookPostActivityFeed <- function facebookPostActivityFeed(config, customFeedParams)
 {
   if (!::has_feature("FacebookWallPost"))
     return
@@ -129,7 +129,7 @@ function facebookPostActivityFeed(config, customFeedParams)
 //------------------ </Facebook> --------------------------------
 
 //----------------- <PlayStation> -------------------------------
-function ps4PostActivityFeed(config, customFeedParams)
+::ps4PostActivityFeed <- function ps4PostActivityFeed(config, customFeedParams)
 {
   if (!::is_platform_ps4 || !::has_feature("ActivityFeedPs4"))
     return

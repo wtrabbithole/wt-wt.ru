@@ -2,6 +2,7 @@
 
 
 @const scrn_tgt       : sh $min (0.75sw);
+@const isWide         : (((10(sw + 1)) \ (16@scrn_tgt))) $min 1;
 @const pf_outdated    : 900 $min 1@scrn_tgt; 
 @const sf: @scrn_tgt;
 @const pf: 1080; 

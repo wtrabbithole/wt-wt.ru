@@ -3,17 +3,35 @@ local clanBlackList = [
   { id = "initiator_nick", type = ::g_lb_data_type.TEXT },
   { id = "date", type = ::g_lb_data_type.DATE }]
 
+::gui_start_clan_blacklist <- function gui_start_clan_blacklist(clanData = null)
+{
+  clanData = clanData || ::my_clan_info
+  if (!clanData)
+    return
+
+  ::gui_start_modal_wnd(::gui_handlers.clanBlacklistModal, {clanData = clanData})
+}
+
 class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
 {
+  sceneBlkName = "gui/clans/clanRequests.blk"
+  wndType = handlerType.MODAL
+
+  myRights = []
+  curCandidate = null
+  blacklistRow = ["nick", "initiator_nick", { id="date", type = ::g_lb_data_type.DATE }]
+
+  clanData = null
+  blacklistData = null
+
+  curPage = 0
+  rowsPerPage = 10
+
   function initScreen()
   {
-    if(!::my_clan_info)
-      return
+    myRights = ::clan_get_role_rights(::clan_get_admin_editor_mode() ? ::ECMR_CLANADMIN : ::clan_get_my_role())
 
-    myRights = ::clan_get_role_rights(clan_get_admin_editor_mode() ? ::ECMR_CLANADMIN : clan_get_my_role())
-    memListModified = false
-
-    blacklistData = ::my_clan_info.blacklist
+    blacklistData = clanData.blacklist
     updateBlacklistTable()
     local tObj = scene.findObject("clan_title_table")
     if(tObj)
@@ -22,8 +40,8 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateBlacklistTable()
   {
-    if (!::checkObj(scene) || !blacklistData)
-      return;
+    if (!::check_obj(scene) || !blacklistData)
+      return
 
     if (curPage > 0 && blacklistData.len() <= curPage * rowsPerPage)
       curPage--
@@ -32,7 +50,7 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
     local data = ""
 
     local headerRow = []
-    foreach(item in clan_blacklist)
+    foreach(item in blacklistRow)
     {
       local itemName = (typeof(item) != "table")? item : item.id
       local name = "#clan/"+(itemName == "date"? "bannedDate" : itemName)
@@ -42,7 +60,7 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
         tdAlign="center",
       })
     }
-    data = buildTableRow("row_header", headerRow, null, "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; ")
+    data = ::buildTableRow("row_header", headerRow, null, "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; ")
 
     local startIdx = curPage * rowsPerPage
     local lastIdx = min((curPage + 1) * rowsPerPage, blacklistData.len())
@@ -51,7 +69,7 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
       local rowName = "row_" + i
       local rowData = []
 
-      foreach(item in clan_blacklist)
+      foreach(item in blacklistRow)
       {
          local itemName = (typeof(item) != "table")? item : item.id
          rowData.append({
@@ -59,7 +77,7 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
           text = "",
          })
       }
-      data += buildTableRow(rowName, rowData, (i-curPage*rowsPerPage)%2==0, "")
+      data += ::buildTableRow(rowName, rowData, (i-curPage*rowsPerPage)%2==0, "")
     }
     guiScene.setUpdatesEnabled(false, false)
     guiScene.replaceContentFromText(tblObj, data, data.len(), this)
@@ -67,11 +85,11 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
       fillRow(tblObj, i)
 
     tblObj.cur_row = "1" //after header
-    guiScene.setUpdatesEnabled(true, true);
+    guiScene.setUpdatesEnabled(true, true)
     selectOptionsNavigatorObj(tblObj)
     onSelect()
 
-    generatePaginator(scene.findObject("paginator_place"), this, curPage, ((blacklistData.len()-1) / rowsPerPage).tointeger())
+    ::generatePaginator(scene.findObject("paginator_place"), this, curPage, ((blacklistData.len()-1) / rowsPerPage).tointeger())
   }
 
   function fillRow(tblObj, i)
@@ -102,13 +120,13 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onSelect()
   {
-    curCandidate = null;
+    curCandidate = null
     if (blacklistData && blacklistData.len()>0)
     {
       local objTbl = scene.findObject("candidatesList");
-      local index = objTbl.cur_row.tointeger() + curPage*rowsPerPage - 1; //header
+      local index = objTbl.cur_row.tointeger() + curPage*rowsPerPage - 1 //header
       if (index in blacklistData)
-        curCandidate = blacklistData[index];
+        curCandidate = blacklistData[index]
     }
 
     showSceneBtn("btn_removeBlacklist", curCandidate != null && ::isInArray("MEMBER_BLACKLIST", myRights))
@@ -127,7 +145,7 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
   function onDeleteFromBlacklist()
   {
     if (curCandidate)
-      ::g_clans.blacklistAction(curCandidate.uid, false)
+      ::g_clans.blacklistAction(curCandidate.uid, false, clanData == ::my_clan_info? "-1" : clanData.id)
   }
 
   function onUserRClick()
@@ -173,7 +191,6 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!name)
       return
 
-    memListModified = true
     foreach(idx, candidate in blacklistData)
       if (candidate.nick == name)
       {
@@ -193,23 +210,4 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
     local candidate = ::u.search(blacklistData, @(candidate) candidate.uid == uid )
     hideCandidateByName(candidate?.nick)
   }
-
-  function afterModalDestroy()
-  {
-    //if(memListModified)
-    //  ::getMyClanData(true)
-  }
-
-  myRights = []
-  curCandidate = null
-  memListModified = false
-  clan_blacklist = ["nick", "initiator_nick", { id="date", type = ::g_lb_data_type.DATE }]
-  blacklistData = null
-
-  curPage = 0
-  rowsPerPage = 10
-
-  owner = null
-  wndType = handlerType.MODAL
-  sceneBlkName = "gui/clans/clanRequests.blk"
 }

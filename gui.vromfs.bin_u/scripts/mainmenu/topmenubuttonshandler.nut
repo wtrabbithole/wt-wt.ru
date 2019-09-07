@@ -151,7 +151,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
   function onHoverSizeMove(obj)
   {
-    if(obj["class"]!="dropDown")
+    if(obj?["class"] != "dropDown")
       obj = obj.getParent()
 
     local hover = obj.findObject(obj.id+"_list_hover")

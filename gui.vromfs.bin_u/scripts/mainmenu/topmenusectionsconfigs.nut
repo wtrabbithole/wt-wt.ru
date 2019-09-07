@@ -25,9 +25,9 @@ enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
   {
     name = "menu"
     btnName = "start"
-    getText = function(totalSections = 0) { return totalSections == 1? "#topmenu/menu" : null }
+    getText =  @(totalSections = 0) (totalSections == 1 || ::show_console_buttons) ? "#topmenu/menu" : null
     mergeIndex = topMenuLeftSideMergeIndex.MENU
-    getImage = function(totalSections = 0) { return totalSections == 1? null : "#ui/gameuiskin#btn_modifications.svg" }
+    getImage = @(totalSections = 0) (totalSections == 1 || ::show_console_buttons) ? null : "#ui/gameuiskin#btn_modifications.svg"
     buttons = [
       [
         "pvp"

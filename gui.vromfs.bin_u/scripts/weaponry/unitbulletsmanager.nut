@@ -1,6 +1,6 @@
 local stdMath = require("std/math.nut")
 
-enum bulletsAmountState {
+global enum bulletsAmountState {
   READY
   HAS_UNALLOCATED
   LOW_AMOUNT
@@ -420,7 +420,7 @@ class UnitBulletsManager
 
   function onEventUnitBulletsChanged(p)
   {
-    if (unit && unit.name == p.unit?.name)
-      changeBulletsValue(bulGroups[p.groupIdx], p.bullet.name)
+    if (unit && unit.name == p.unit?.name && p.groupIdx in bulGroups)
+      changeBulletsValue(bulGroups[p.groupIdx], p.bulletName)
   }
 }

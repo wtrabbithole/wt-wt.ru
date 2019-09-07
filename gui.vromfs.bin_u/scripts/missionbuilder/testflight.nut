@@ -1,7 +1,7 @@
 ::missionBuilderVehicleConfigForBlk <- {} //!!FIX ME: Should to remove this
 ::last_called_gui_testflight <- null
 
-function gui_start_testflight(unit = null, afterCloseFunc = null, shouldSkipUnitCheck = false)
+::gui_start_testflight <- function gui_start_testflight(unit = null, afterCloseFunc = null, shouldSkipUnitCheck = false)
 {
   ::gui_start_modal_wnd(::gui_handlers.TestFlight,
   {
@@ -12,7 +12,7 @@ function gui_start_testflight(unit = null, afterCloseFunc = null, shouldSkipUnit
   ::last_called_gui_testflight = ::handlersManager.getLastBaseHandlerStartFunc()
 }
 
-function mergeToBlk(sourceTable, blk)  //!!FIX ME: this used only for missionBuilderVehicleConfigForBlk and better to remove this also
+::mergeToBlk <- function mergeToBlk(sourceTable, blk)  //!!FIX ME: this used only for missionBuilderVehicleConfigForBlk and better to remove this also
 {
   foreach (idx, val in sourceTable)
     blk[idx] = val

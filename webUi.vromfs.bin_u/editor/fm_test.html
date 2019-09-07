@@ -226,7 +226,6 @@
         fileName: '',
         fileTime: undefined,
       },
-      mouseAimImpl: ControlImpl.AUTO,
       indicationFlags: [ false, false, false, false, true, false, false ],
       damagePartOfInterestId: -1,
       animPartOfInterestId: -1,
@@ -1746,11 +1745,6 @@
       
       //Controlable properties
               
-      state.mouseAimImpl = data.mouseAimImpl
-      var comboBoxMouseAimImpl = document.getElementById("ComboBoxMouseAimImpl")
-      if (state.mouseAimImpl.toString() != comboBoxMouseAimImpl.value)
-        comboBoxMouseAimImpl.value = state.mouseAimImpl
-
       state.indicationFlags = data.indicationFlags
       for (var i = 0; i < IndicationFlag.MAX; ++i)
       {
@@ -2030,11 +2024,7 @@
       var value = onParamChange(flightParams[paramName], edit) 
       Cookies.set('flightParams_' + paramName, value.toString(), {expires:cookieLifeTime})
     }
-            
-    function onMouseAimImplChange(combo) {
-      setMouseAimImpl(combo.value)
-    }
-    
+                
     function onRealTimeFlightTestChange(combo) {
       realTimeTest['params']['test'] = combo.value      
       Cookies.set('realTimeFlightTest_test', realTimeTest['params']['test'], {expires:cookieLifeTime})
@@ -2307,13 +2297,7 @@
       var mass = flightParams['mass']['value']
       setCommand( {cmd: 'setMass', value: mass.toString() }, fillMasses )
     }
-            
-    function setMouseAimImpl(mouseAimImpl) {
-      state.mouseAimImpl = mouseAimImpl
-      blockChangeablePropsUpdate(state)
-      setCommand( {cmd: 'setMouseAimImpl', value: mouseAimImpl}, function(data) { unblockChangeablePropsUpdate(state, data) } )
-    }
-    
+                
     function setCoolantOrHeadTemperature() {
       var coolantOrHeadTemperature = flightParams['coolantOrHeadTemperature']['value']
       setCommand( {cmd: 'setCoolantOrHeadTemperature', value: coolantOrHeadTemperature.toString() } )
@@ -2997,17 +2981,11 @@
             <td><input  class="small-button-box" type="button" id="ButtonSetPressure" value="Set" onClick="setPressure()"></td>  
           </tr>          
           <tr>
-            <td class="editLabel">Mouse-Aim</td>  
-            <td colspan="2">
-              <select id="ComboBoxMouseAimImpl" onchange="onMouseAimImplChange(this)" style="width:100%">
-                <option selected value="0">Auto</option>
-                <option value="1">Basic</option>
-                <option value="2">Advanced</option>
-              </select>      
-            </td>
             <td class="editLabel" id="LabelTimeSpeed">Time Speed</td>  
             <td><input class="number-box" type="number" step="1" id="EditTimeSpeed" value="1.0" onchange="onFlightParamChange('timeSpeed', this)"></td>  
             <td><input class="small-button-box" type="button" id="ButtonSetTimeSpeed" value="Set" onClick="setTimeSpeed()"></td>  
+            <td></td>  
+            <td colspan="2"></td>
           </tr>
         </table>
       </td>  

@@ -1,4 +1,4 @@
-function gui_load_mission_objectives(nestObj, leftAligned, typesMask = 0)
+::gui_load_mission_objectives <- function gui_load_mission_objectives(nestObj, leftAligned, typesMask = 0)
 {
   return ::handlersManager.loadHandler(::gui_handlers.misObjectivesView,
                                        { scene = nestObj,

@@ -37,7 +37,7 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
 ]
 ::voice_message_names_initialized <- false;
 
-function init_voice_message_list()
+::init_voice_message_list <- function init_voice_message_list()
 {
   for (local i = 0; i < ::voice_message_names.len(); i++)
   {
@@ -45,12 +45,12 @@ function init_voice_message_list()
     add_voice_message(line);
   }
 }
-function get_category_loc(category)
+::get_category_loc <- function get_category_loc(category)
 {
   return ::loc("voice_message_category/" + category);
 }
 
-function get_favorite_voice_messages_variants()
+::get_favorite_voice_messages_variants <- function get_favorite_voice_messages_variants()
 {
   local result = ["#options/none"];
   local categoryName = "";
@@ -74,7 +74,7 @@ function get_favorite_voice_messages_variants()
   return result;
 }
 
-function get_voice_message_list_line(index, is_category, name, squad, targetName, messageIndex = -1)
+::get_voice_message_list_line <- function get_voice_message_list_line(index, is_category, name, squad, targetName, messageIndex = -1)
 {
   local scText = ""
   if (!::is_platform_ps4)
@@ -87,7 +87,7 @@ function get_voice_message_list_line(index, is_category, name, squad, targetName
 
     for(local sc=0; sc<shortcuts.len(); sc++)
       if (shortcuts[sc].len())
-        scText += ((scText != "") ? "; " : "") + ::get_shortcut_text(shortcuts, 0)
+        scText += ((scText != "") ? "; " : "") + ::get_shortcut_text({shortcuts = shortcuts, shortcutId = 0})
   }
 
   return {
@@ -97,7 +97,7 @@ function get_voice_message_list_line(index, is_category, name, squad, targetName
   }
 }
 
-function show_voice_message_list(show, category, squad, targetName)
+::show_voice_message_list <- function show_voice_message_list(show, category, squad, targetName)
 {
   if (!show)
   {
@@ -199,12 +199,12 @@ function show_voice_message_list(show, category, squad, targetName)
                                 category = category}) != null
 }
 
-function onVoiceMessageAnswer(index)
+::onVoiceMessageAnswer <- function onVoiceMessageAnswer(index)
 {
   ::on_voice_message_button(index) //-1 means "close"
 }
 
-function getFirstUnassignedFavoriteVoiceMessage()
+::getFirstUnassignedFavoriteVoiceMessage <- function getFirstUnassignedFavoriteVoiceMessage()
 {
   for (local i = 0; i < NUM_FAVORITE_VOICE_MESSAGES; i++)
   {
@@ -214,11 +214,11 @@ function getFirstUnassignedFavoriteVoiceMessage()
   }
   return -1; //not found
 }
-function canFavoriteVoiceMessageBeAdded()
+::canFavoriteVoiceMessageBeAdded <- function canFavoriteVoiceMessageBeAdded()
 {
   return getFirstUnassignedFavoriteVoiceMessage() >= 0 ;
 }
-function addFavoriteVoiceMessage(message_index)
+::addFavoriteVoiceMessage <- function addFavoriteVoiceMessage(message_index)
 {
   local place = getFirstUnassignedFavoriteVoiceMessage();
   if (place < 0)
@@ -226,18 +226,18 @@ function addFavoriteVoiceMessage(message_index)
 
   ::set_option_favorite_voice_message(place, message_index);
 }
-function removeFavoriteVoiceMessage(index)
+::removeFavoriteVoiceMessage <- function removeFavoriteVoiceMessage(index)
 {
   ::set_option_favorite_voice_message(index, -1);
 }
 
-function reset_fast_voice_messages()
+::reset_fast_voice_messages <- function reset_fast_voice_messages()
 {
   for (local i = 0; i < ::NUM_FAST_VOICE_MESSAGES; i++)
     ::removeFavoriteVoiceMessage(i)
 }
 
-function is_voice_messages_muted(name) //used from native code
+::is_voice_messages_muted <- function is_voice_messages_muted(name) //used from native code
 {
   return localDevoice.isMuted(name, localDevoice.DEVOICE_RADIO)
     || ::isPlayerNickInContacts(name, ::EPL_BLOCKLIST)

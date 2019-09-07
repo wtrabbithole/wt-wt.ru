@@ -96,7 +96,7 @@ local function removeAllListenersByEnv(listener_env)
 /*
  * Subscribes all handler functions named "onEvent<eventName>" to event <eventName>
 */
-function subscribeHandler(handler, listener_priority = -1)
+::subscribeHandler <- function subscribeHandler(handler, listener_priority = -1)
 {
   if (handler == null)
     return
@@ -115,7 +115,7 @@ function subscribeHandler(handler, listener_priority = -1)
 /*
  * Subscribes all events in list without enviroment
 */
-function addListenersWithoutEnv(eventsList, listenerPriority = -1)
+::addListenersWithoutEnv <- function addListenersWithoutEnv(eventsList, listenerPriority = -1)
 {
   foreach (eventName, func in eventsList)
     addEventListener(eventName, func, null, listenerPriority)

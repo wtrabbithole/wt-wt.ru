@@ -99,6 +99,7 @@ local text = @(total_count, broken_count) {
 local dmModule = function (params) {
   local totalCountState = params.totalCountState
   local brokenCountState = params.brokenCountState
+  local cooldownState = params?.cooldownState
 
   local moduleIcon = moduleIconConstructor(params)
 
@@ -110,7 +111,9 @@ local dmModule = function (params) {
     }
 
     local color = colors.hud.damageModule.dmModuleNormal
-    if (totalCountState.value == brokenCountState.value)
+    if (cooldownState && cooldownState.value)
+      color = colors.hud.componentFill
+    else if (totalCountState.value == brokenCountState.value)
       color = colors.hud.damageModule.dmModuleDestroyed
     else if (brokenCountState.value > 0)
       color = colors.hud.damageModule.dmModuleDamaged
@@ -132,6 +135,7 @@ local dmModule = function (params) {
       watch = [
         totalCountState
         brokenCountState
+        cooldownState
       ]
 
       children = children

@@ -6,7 +6,7 @@
 local g_path = require("std/path.nut")
 local dagor_fs = require("dagor.fs")
 
-function debug_svg(image, size = null, bgColor = "#808080")
+::debug_svg <- function debug_svg(image, size = null, bgColor = "#808080")
 {
   local baseHeight = ::u.isInteger(size) ? 1080 : ::screen_height()
   local view = {
@@ -49,7 +49,7 @@ function debug_svg(image, size = null, bgColor = "#808080")
 
 
 
-function debug_svg_list(fileMask = null, size = null, bgColor = null)
+::debug_svg_list <- function debug_svg_list(fileMask = null, size = null, bgColor = null)
 {
   fileMask  = fileMask  || "*.svg"
   size      = size      || "64@sf/@pf"

@@ -5,7 +5,7 @@ local wwBattlesFilterMenu = require("scripts/worldWar/handler/wwBattlesFilterMen
 const WW_GLOBAL_BATTLES_FILTER_ID = "worldWar/ww_global_battles_filter"
 local MAX_VISIBLE_BATTLES_PER_GROUP = 5
 
-enum UNAVAILABLE_BATTLES_CATEGORIES
+global enum UNAVAILABLE_BATTLES_CATEGORIES
 {
   NO_AVAILABLE_UNITS  = 0x0001
   NO_FREE_SPACE       = 0x0002

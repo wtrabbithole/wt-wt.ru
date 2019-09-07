@@ -344,7 +344,7 @@ class ::WwUnit
 
   static function getFakeUnitsArray(blk)
   {
-    if (!blk || !blk.fakeInfantry)
+    if (!blk?.fakeInfantry)
       return []
 
     local resArray = []

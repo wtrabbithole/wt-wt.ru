@@ -516,9 +516,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     local blockObj = obj.getParent()
     local unitName = blockObj.unitName
     local armyGroupIdx = blockObj.armyGroupIdx.tointeger()
-    return ::u.searchIndex(unitsList, (@(unitName, armyGroupIdx) function(unitTable) {
-        return unitTable.unitName == unitName && unitTable.armyGroupIdx == armyGroupIdx
-      })(unitName, armyGroupIdx))
+    return unitsList.searchIndex(@(unitTable) unitTable.unitName == unitName && unitTable.armyGroupIdx == armyGroupIdx) ?? -1
   }
 
   function updateUnitValue(unitIndex, value)

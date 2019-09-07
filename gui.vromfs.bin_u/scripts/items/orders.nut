@@ -7,7 +7,7 @@ local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
  * This method is called from within C++.
  * Triggered only when some player gets a reward.
  */
-function on_order_result_received(player, orderId, param, wp, exp)
+::on_order_result_received <- function on_order_result_received(player, orderId, param, wp, exp)
 {
   // Parameter 'orderId' comes as a string (e.g. "::g_orders.activeOrder.orderId")
   // this is a misleading naming. But 'winnerScoreDataByOrderId' uses actual
@@ -148,7 +148,7 @@ function on_order_result_received(player, orderId, param, wp, exp)
 // Public methods
 //
 
-function g_orders::openOrdersInventory(checkOrdersToActivate)
+g_orders.openOrdersInventory <- function openOrdersInventory(checkOrdersToActivate)
 {
   if (checkOrdersToActivate && !::g_orders.hasOrdersToActivate())
   {
@@ -158,7 +158,7 @@ function g_orders::openOrdersInventory(checkOrdersToActivate)
   ::gui_start_order_activation_window()
 }
 
-function g_orders::hasOrdersToActivate()
+g_orders.hasOrdersToActivate <- function hasOrdersToActivate()
 {
   local list = ::ItemsManager.getInventoryList(itemType.ORDER, function (item) {
     // This takes in account fact that item was used during current battle.
@@ -168,7 +168,7 @@ function g_orders::hasOrdersToActivate()
   return list.len() > 0
 }
 
-function g_orders::getActivateButtonLabel()
+g_orders.getActivateButtonLabel <- function getActivateButtonLabel()
 {
   local label = ::loc("flightmenu/btnActivateOrder")
   if (cooldownTimeleft > 0)
@@ -183,7 +183,7 @@ function g_orders::getActivateButtonLabel()
  * Warning text with explanation why player can't activate item.
  * Returns empty string if player can activate item.
  */
-function g_orders::getWarningText(selectedOrderItem = null)
+g_orders.getWarningText <- function getWarningText(selectedOrderItem = null)
 {
   if (hasActiveOrder)
     return ::loc("items/order/activateOrderWarning/hasActiveOrder")
@@ -198,7 +198,7 @@ function g_orders::getWarningText(selectedOrderItem = null)
   return ""
 }
 
-function g_orders::checkCurrentMission(selectedOrderItem)
+g_orders.checkCurrentMission <- function checkCurrentMission(selectedOrderItem)
 {
   if (selectedOrderItem == null)
     return true
@@ -212,7 +212,7 @@ function g_orders::checkCurrentMission(selectedOrderItem)
   return true
 }
 
-function g_orders::enableOrders(statusObj)
+g_orders.enableOrders <- function enableOrders(statusObj)
 {
   if (!ordersCanBeUsed() || ::u.isEqual(statusObj, ordersStatusObj))
     return
@@ -236,7 +236,7 @@ function g_orders::enableOrders(statusObj)
 }
 
 
-function g_orders::enableOrdersWithoutDagui()
+g_orders.enableOrdersWithoutDagui <- function enableOrdersWithoutDagui()
 {
   if (!ordersCanBeUsed())
     return
@@ -255,7 +255,7 @@ function g_orders::enableOrdersWithoutDagui()
 }
 
 
-function g_orders::disableOrders()
+g_orders.disableOrders <- function disableOrders()
 {
   if (!ordersEnabled)
   {
@@ -280,13 +280,13 @@ function g_orders::disableOrders()
   localPlayerData = null
 }
 
-function g_orders::updateOrderStatus(fullUpdate)
+g_orders.updateOrderStatus <- function updateOrderStatus(fullUpdate)
 {
   saveOrderStatusPositionAndSize()
   updateOrderStatusObject(ordersStatusObj, fullUpdate)
 }
 
-function g_orders::updateActiveOrder(dispatchEvents = true, isForced = false)
+g_orders.updateActiveOrder <- function updateActiveOrder(dispatchEvents = true, isForced = false)
 {
   local activeOrderChanged = false
   local orderStatusChanged = false
@@ -381,7 +381,7 @@ function g_orders::updateActiveOrder(dispatchEvents = true, isForced = false)
   })
 }
 
-function g_orders::updateOrderVisibility()
+g_orders.updateOrderVisibility <- function updateOrderVisibility()
 {
   if (!::checkObj(ordersStatusObj))
     return
@@ -391,7 +391,7 @@ function g_orders::updateOrderVisibility()
     ordersBlockObj.show(!isOrdersHidden)
 }
 
-function g_orders::updateHideOrderBlock()
+g_orders.updateHideOrderBlock <- function updateHideOrderBlock()
 {
   if (!::checkObj(ordersStatusObj))
     return
@@ -415,7 +415,7 @@ function g_orders::updateHideOrderBlock()
 
 
 /** Returns true if player can activate some order now. */
-function g_orders::orderCanBeActivated()
+g_orders.orderCanBeActivated <- function orderCanBeActivated()
 {
   if (!ordersCanBeUsed() || !hasOrdersToActivate())
     return false
@@ -424,13 +424,13 @@ function g_orders::orderCanBeActivated()
 }
 
 /** Returns true if orders can be used as a feature. */
-function g_orders::ordersCanBeUsed()
+g_orders.ordersCanBeUsed <- function ordersCanBeUsed()
 {
   local checkGameType = (::get_game_type() & ::GT_USE_ORDERS) != 0
   return checkGameType && ::is_in_flight() && ::has_feature("Orders")
 }
 
-function g_orders::getActivateInfoText()
+g_orders.getActivateInfoText <- function getActivateInfoText()
 {
   if (!::is_in_flight())
     return ::loc("order/usableOnlyInBattle")
@@ -441,17 +441,17 @@ function g_orders::getActivateInfoText()
   return ""
 }
 
-function g_orders::isInSpectatorMode()
+g_orders.isInSpectatorMode <- function isInSpectatorMode()
 {
   return ::isPlayerDedicatedSpectator() || ::is_replay_playing()
 }
 
-function g_orders::showActivateOrderButton()
+g_orders.showActivateOrderButton <- function showActivateOrderButton()
 {
   return !isInSpectatorMode() && ordersCanBeUsed()
 }
 
-function g_orders::activateOrder(orderItem, onComplete = null)
+g_orders.activateOrder <- function activateOrder(orderItem, onComplete = null)
 {
   if (activatingLocalOrderId != null)
   {
@@ -483,7 +483,7 @@ function g_orders::activateOrder(orderItem, onComplete = null)
  * Returns amount of times item was used by this player during
  * current session. This data is reset when battle ends.
  */
-function g_orders::getTimesUsedOrderItem(orderItem)
+g_orders.getTimesUsedOrderItem <- function getTimesUsedOrderItem(orderItem)
 {
   return ::getTblValue(orderItem.id, timesUsedByOrderItemId, 0)
 }
@@ -492,7 +492,7 @@ function g_orders::getTimesUsedOrderItem(orderItem)
  * Manually managing activated order items as there's no way
  * to retrieve this kind of info from server.
  */
-function g_orders::isOrderItemActive(orderItem)
+g_orders.isOrderItemActive <- function isOrderItemActive(orderItem)
 {
   return ::isInArray(orderItem.id, activeLocalOrderIds)
 }
@@ -502,7 +502,7 @@ function g_orders::isOrderItemActive(orderItem)
  * to rebuild whole status object content.
  * Used to avoid multiple 'replaceContent' calls.
  */
-function g_orders::updateOrderStatusObject(statusObj, fullUpdate)
+g_orders.updateOrderStatusObject <- function updateOrderStatusObject(statusObj, fullUpdate)
 {
   if (!::checkObj(statusObj))
     return
@@ -566,7 +566,7 @@ function g_orders::updateOrderStatusObject(statusObj, fullUpdate)
   }
 }
 
-function g_orders::setStatusObjVisibility(statusObj, visible)
+g_orders.setStatusObjVisibility <- function setStatusObjVisibility(statusObj, visible)
 {
   if (!::checkObj(statusObj))
     return
@@ -576,13 +576,13 @@ function g_orders::setStatusObjVisibility(statusObj, visible)
     ordersBlockObj.show(visible && !isOrdersHidden)
 }
 
-function g_orders::getRowObjByIndex(rowIndex, statusObj)
+g_orders.getRowObjByIndex <- function getRowObjByIndex(rowIndex, statusObj)
 {
   local rowObj = statusObj.findObject("order_score_row_" + rowIndex)
   return ::checkObj(rowObj) ? rowObj : null
 }
 
-function g_orders::setRowObjTexts(rowObj, nameText, scoreText, pilotIconVisible)
+g_orders.setRowObjTexts <- function setRowObjTexts(rowObj, nameText, scoreText, pilotIconVisible)
 {
   if (!::checkObj(rowObj))
     return
@@ -598,7 +598,7 @@ function g_orders::setRowObjTexts(rowObj, nameText, scoreText, pilotIconVisible)
 }
 
 
-function g_orders::getScoreTableTexts()
+g_orders.getScoreTableTexts <- function getScoreTableTexts()
 {
   local showOrder = isOrderInfoVisible()
   if ( !showOrder )
@@ -618,13 +618,13 @@ function g_orders::getScoreTableTexts()
 }
 
 
-function g_orders::isOrderInfoVisible()
+g_orders.isOrderInfoVisible <- function isOrderInfoVisible()
 {
   return hasActiveOrder || (cooldownTimeleft > 0 && prevActiveOrder != null)
 }
 
 
-function g_orders::getStatusText()
+g_orders.getStatusText <- function getStatusText()
 {
   local orderObject = hasActiveOrder ? activeOrder : prevActiveOrder
   if (orderObject == null)
@@ -665,14 +665,14 @@ function g_orders::getStatusText()
  * Returns true if order was activated less
  * than specified amount of time ago.
  */
-function g_orders::checkOrderActivationTime(timeSeconds)
+g_orders.checkOrderActivationTime <- function checkOrderActivationTime(timeSeconds)
 {
   if (activeOrder.orderItem == null)
     return false
   return getOrderTimeleft(activeOrder) >= activeOrder.orderItem.timeTotal - timeSeconds
 }
 
-function g_orders::getStatusTextBottom()
+g_orders.getStatusTextBottom <- function getStatusTextBottom()
 {
   if (hasActiveOrder || prevActiveOrder == null)
     return ""
@@ -683,12 +683,12 @@ function g_orders::getStatusTextBottom()
   return result
 }
 
-function g_orders::showOrdersContainer(isShown)
+g_orders.showOrdersContainer <- function showOrdersContainer(isShown)
 {
   isOrdersContainerVisible = isShown
 }
 
-function g_orders::getStatusContent(orderObject, isHalignRight = false)
+g_orders.getStatusContent <- function getStatusContent(orderObject, isHalignRight = false)
 {
   local orderType = orderObject == null ? g_order_type.UNKNOWN : orderObject.orderType
   local view = {
@@ -708,7 +708,7 @@ function g_orders::getStatusContent(orderObject, isHalignRight = false)
  * Implementation of this method will change after
  * switching to multiple active orders by same player.
  */
-function g_orders::updateActiveLocalOrders()
+g_orders.updateActiveLocalOrders <- function updateActiveLocalOrders()
 {
   local starterUid = ::getTblValue("userId", activeOrder.starterPlayer, null)
   local itemId = ::getTblValue("id", activeOrder.orderItem, null)
@@ -735,7 +735,7 @@ function g_orders::updateActiveLocalOrders()
   }
 }
 
-function g_orders::getActiveOrderObjective()
+g_orders.getActiveOrderObjective <- function getActiveOrderObjective()
 {
   local objectives = get_objectives_list()
   foreach (objective in objectives)
@@ -750,7 +750,7 @@ function g_orders::getActiveOrderObjective()
   return null
 }
 
-function g_orders::onOrderAccepted(useResultCode)
+g_orders.onOrderAccepted <- function onOrderAccepted(useResultCode)
 {
   local useResult = ::g_order_use_result.getOrderUseResultByCode(useResultCode)
   debugPrint("g_orders::onOrderAccepted: Activation complete. Result: "
@@ -784,7 +784,7 @@ function g_orders::onOrderAccepted(useResultCode)
 }
 
 /** This is order counter local in scope of one battle. */
-function g_orders::getOrderId(orderObjective)
+g_orders.getOrderId <- function getOrderId(orderObjective)
 {
   return ::getTblValue("id", orderObjective, -1)
 }
@@ -793,13 +793,13 @@ function g_orders::getOrderId(orderObjective)
  * Order status is: running, failed, succeed.
  * @see ::g_objective_status
  */
-function g_orders::getOrderStatus(orderObjective)
+g_orders.getOrderStatus <- function getOrderStatus(orderObjective)
 {
   local statusCode = ::getTblValue("status", orderObjective, -1)
   return ::g_objective_status.getObjectiveStatusByCode(statusCode)
 }
 
-function g_orders::getOrderType(orderObjective)
+g_orders.getOrderType <- function getOrderType(orderObjective)
 {
   local orderItem = getOrderItem(orderObjective)
   if (orderItem == null)
@@ -807,19 +807,19 @@ function g_orders::getOrderType(orderObjective)
   return orderItem.orderType
 }
 
-function g_orders::getOrderItem(orderObjective)
+g_orders.getOrderItem <- function getOrderItem(orderObjective)
 {
   local objectiveId = ::getTblValue("objectiveId", orderObjective, null)
   return ::ItemsManager.findItemById(objectiveId, itemType.ORDER)
 }
 
 /** Called only when no active order. */
-function g_orders::updateCooldownTimeleft()
+g_orders.updateCooldownTimeleft <- function updateCooldownTimeleft()
 {
   cooldownTimeleft = ::max(getCooldownTimeleft(), 0)
 }
 
-function g_orders::getCooldownTimeleft()
+g_orders.getCooldownTimeleft <- function getCooldownTimeleft()
 {
   // Returns 1 or 2 as team indices.
   local playerTeam = ::get_mp_local_team()
@@ -835,7 +835,7 @@ function g_orders::getCooldownTimeleft()
  * @param fullUpdate Setting to 'true' will update parameters
  * that are not changing for same order.
  */
-function g_orders::updateStatusTextView(orderObject, fullUpdate)
+g_orders.updateStatusTextView <- function updateStatusTextView(orderObject, fullUpdate)
 {
   // Possible when another player activates an order.
   if (orderObject == null)
@@ -877,13 +877,13 @@ function g_orders::updateStatusTextView(orderObject, fullUpdate)
     view.timeToSwitchTarget <- time.secondsToString(orderObject.timeToSwitchTarget)
 }
 
-function g_orders::getOrderTimeleft(orderObject)
+g_orders.getOrderTimeleft <- function getOrderTimeleft(orderObject)
 {
   return ::getTblValueByPath("orderObjective.timeLeft", orderObject, 0)
 }
 
 /** Returns null-object player data if nothing found. */
-function g_orders::getPlayerDataById(playerId)
+g_orders.getPlayerDataById <- function getPlayerDataById(playerId)
 {
   if (!ordersEnabled)
   {
@@ -901,7 +901,7 @@ function g_orders::getPlayerDataById(playerId)
   return playerData
 }
 
-function g_orders::getPlayerDataByScoreData(scoreData)
+g_orders.getPlayerDataByScoreData <- function getPlayerDataByScoreData(scoreData)
 {
   if (scoreData.playerId != -1)
     return getPlayerDataById(scoreData.playerId)
@@ -912,25 +912,25 @@ function g_orders::getPlayerDataByScoreData(scoreData)
 //
 // Handlers
 //
-function g_orders::onChangeOrderVisibility(obj, dt)
+g_orders.onChangeOrderVisibility <- function onChangeOrderVisibility(obj, dt)
 {
   isOrdersHidden = !isOrdersHidden
   updateHideOrderBlock()
   updateOrderVisibility()
 }
 
-function g_orders::onOrderTimerUpdate(obj, dt)
+g_orders.onOrderTimerUpdate <- function onOrderTimerUpdate(obj, dt)
 {
   ::g_orders.updateActiveOrder()
 }
 
-function g_orders::onEventLobbyStatusChange(params)
+g_orders.onEventLobbyStatusChange <- function onEventLobbyStatusChange(params)
 {
   if (!::SessionLobby.isInRoom())
     disableOrders()
 }
 
-function g_orders::onEventActiveOrderChanged(params)
+g_orders.onEventActiveOrderChanged <- function onEventActiveOrderChanged(params)
 {
   updateOrderStatus(true)
   local text
@@ -955,23 +955,23 @@ function g_orders::onEventActiveOrderChanged(params)
   })
 }
 
-function g_orders::onEventOrderUpdated(params)
+g_orders.onEventOrderUpdated <- function onEventOrderUpdated(params)
 {
   updateOrderStatus(false)
   updateHideOrderBlock()
 }
 
-function g_orders::onEventWatchedHeroSwitched(params)
+g_orders.onEventWatchedHeroSwitched <- function onEventWatchedHeroSwitched(params)
 {
   updateActiveOrder(true, true)
 }
 
-function g_orders::onEventChangedCursorVisibility(params)
+g_orders.onEventChangedCursorVisibility <- function onEventChangedCursorVisibility(params)
 {
   updateHideOrderBlock()
 }
 
-function g_orders::debugPrint(message)
+g_orders.debugPrint <- function debugPrint(message)
 {
   if (enableDebugPrint)
     ::dagor.debug("g_orders::debugPrint:\n" + message)
@@ -981,7 +981,7 @@ function g_orders::debugPrint(message)
  * Returns valid order scores, taking in account fact that when order
  * finishes it's objective-object does not hold valid score for winner.
  */
-function g_orders::getOrderScores(orderObject)
+g_orders.getOrderScores <- function getOrderScores(orderObject)
 {
   local scores = ::getTblValueByPath("orderObjective.score", orderObject, null)
   if (scores != null)
@@ -1009,7 +1009,7 @@ function g_orders::getOrderScores(orderObject)
   return scores
 }
 
-function g_orders::prepareStatusScores(statusScores, orderObject)
+g_orders.prepareStatusScores <- function prepareStatusScores(statusScores, orderObject)
 {
   statusScores.sort(orderObject.orderType.sortPlayerScores)
 
@@ -1050,7 +1050,7 @@ function g_orders::prepareStatusScores(statusScores, orderObject)
  * Adds local player data and score
  * dummy to specified scores array.
  */
-function g_orders::addLocalPlayerScoreData(scores)
+g_orders.addLocalPlayerScoreData <- function addLocalPlayerScoreData(scores)
 {
   local checkFunc = ::is_replay_playing() ?
     function(p) { return p.id == spectatorWatchedHero.id } :
@@ -1072,7 +1072,7 @@ function g_orders::addLocalPlayerScoreData(scores)
   })
 }
 
-function g_orders::saveOrderStatusPositionAndSize()
+g_orders.saveOrderStatusPositionAndSize <- function saveOrderStatusPositionAndSize()
 {
   if (!::checkObj(ordersStatusObj))
     return
@@ -1098,7 +1098,7 @@ function g_orders::saveOrderStatusPositionAndSize()
   orderStatusPosition[1] -= statusObjPosition[1]
 }
 
-function g_orders::getLocalPlayerData()
+g_orders.getLocalPlayerData <- function getLocalPlayerData()
 {
   if (::is_replay_playing())
     localPlayerData = getPlayerDataById(spectatorWatchedHero.id)

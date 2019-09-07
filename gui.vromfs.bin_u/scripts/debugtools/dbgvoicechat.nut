@@ -4,7 +4,7 @@
   lastStepTime = 0
 }
 
-function g_voice_chat::start(newAvgEventPerSec = 10)
+g_voice_chat.start <- function start(newAvgEventPerSec = 10)
 {
   isChatOn = !isChatOn
   avgEventPerSec = newAvgEventPerSec
@@ -12,7 +12,7 @@ function g_voice_chat::start(newAvgEventPerSec = 10)
   runVoiceChatStep()
 }
 
-function g_voice_chat::stop()
+g_voice_chat.stop <- function stop()
 {
   foreach (uid, member in ::g_squad_manager.getMembers())
     imitateUserSpeaking(uid, false)
@@ -23,7 +23,7 @@ function g_voice_chat::stop()
   isChatOn = false
 }
 
-function g_voice_chat::runVoiceChatStep()
+g_voice_chat.runVoiceChatStep <- function runVoiceChatStep()
 {
   if (!::g_squad_manager.isInSquad() && !::my_clan_info)
     return stop()
@@ -40,7 +40,7 @@ function g_voice_chat::runVoiceChatStep()
   }.bindenv(this))
 }
 
-function g_voice_chat::immitateVoiceChat()
+g_voice_chat.immitateVoiceChat <- function immitateVoiceChat()
 {
   local curStepTime = ::dagor.getCurTime()
   local dt = curStepTime - lastStepTime
@@ -58,7 +58,7 @@ function g_voice_chat::immitateVoiceChat()
   imitateUserSpeaking(::u.chooseRandom(members).uid, ::u.chooseRandom([true, false]))
 }
 
-function g_voice_chat::imitateUserSpeaking(uid, isSpeaking)
+g_voice_chat.imitateUserSpeaking <- function imitateUserSpeaking(uid, isSpeaking)
 {
   menuChatCb(::GCHAT_EVENT_VOICE, null, { uid = uid, type = "update", is_speaking = isSpeaking })
 }

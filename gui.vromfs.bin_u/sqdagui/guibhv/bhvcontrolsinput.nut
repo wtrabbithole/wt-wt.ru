@@ -147,7 +147,7 @@ class gui_bhv.ControlsInput
           {
             if (!isExistsShortcut(obj, id.tostring(), btn_idx.tostring()))
             {
-              local checkAnalog = obj["check_analog"]
+              local checkAnalog = obj?["check_analog"]
               if (checkAnalog == null || checkAnalog.tointeger() == 0 ||
                 (obj["device0"] != "" && obj["button0"] != "") || !isAnalog(id, btn_idx))
               {

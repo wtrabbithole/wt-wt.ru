@@ -84,7 +84,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(focusObj))
       if (::show_console_buttons)
         mask = CtrlsInGui.CTRL_ALLOW_VEHICLE_FULL & ~CtrlsInGui.CTRL_ALLOW_VEHICLE_XINPUT
-      else if (focusObj.id == "search_edit_box")
+      else if (focusObj?.id == "search_edit_box")
         mask =CtrlsInGui.CTRL_ALLOW_VEHICLE_FULL & ~CtrlsInGui.CTRL_ALLOW_VEHICLE_KEYBOARD
 
     switchControlsAllowMask(mask)
@@ -294,8 +294,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         playerListView.playerButton.push(createPlayerButtonView("btnInviteFriend", "#ui/gameuiskin#btn_invite_friend", "onInviteFriend"))
       if (::has_feature("Facebook"))
         playerListView.playerButton.push(createPlayerButtonView("btnFacebookFriendsAdd", "#ui/gameuiskin#btn_facebook_friends_add", "onFacebookFriendsAdd"))
-      if (::steam_is_running())
-        playerListView.playerButton.push(createPlayerButtonView("btnSteamFriendsAdd", "#ui/gameuiskin#btn_steam_friends_add.svg", "onSteamFriendsAdd"))
     }
 
     listNotPlayerChildsByGroup[gName] <- playerListView.playerButton.len()
@@ -425,7 +423,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     showBtn("btn_usercard", ::has_feature("UserCards"), contact_buttons_holder)
     showBtn("btn_facebookFriends", ::has_feature("Facebook") && !::is_platform_ps4, contact_buttons_holder)
-    showBtn("btn_steamFriends", ::steam_is_running(), contact_buttons_holder)
     showBtn("btn_squadInvite_bottom", false, contact_buttons_holder)
   }
 
@@ -462,7 +459,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local childObject = contactsGroups.getChild(idx)
       local groupListObject = childObject.getChild(childObject.childrenCount() - 1)
-      if (groupListObject.id == "group_" + group_name)
+      if (groupListObject?.id == "group_" + group_name)
       {
         return idx
       }
@@ -559,7 +556,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::show_console_buttons)
       {
         local focusObj = getCurFocusObj(true)
-        showAdvice = focusObj && focusObj.id == "search_edit_box"
+        showAdvice = focusObj?.id == "search_edit_box"
       }
       setSearchAdviceVisibility(showAdvice)
     }, this))
@@ -653,6 +650,16 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateContactsGroup(groupName)
   {
+    if (groupName && !(groupName in ::contacts))
+    {
+      if (curGroup == groupName)
+        curGroup = ""
+      fillContactsList()
+      if (searchText == "")
+        closeSearchGroup()
+      return
+    }
+
     local sel = 0
     if (groupName && groupName in ::contacts)
     {
@@ -865,7 +872,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function sendClickButton(obj)
   {
-    local clickName = obj.on_click
+    local clickName = obj?.on_click
     if (!clickName || !(clickName in this))
       return
 
@@ -934,7 +941,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function showCurPlayerRClickMenu(position = null)
   {
-    playerContextMenu.showMenu(curPlayer, this, {position = position} )
+    playerContextMenu.showMenu(curPlayer, this, {position = position, curContactGroup = curGroup})
   }
 
   function isContactsWindowActive()
@@ -1000,7 +1007,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     curPlayer = contact
 
     local idx = ::contacts[curGroup].find(contact)
-    if (idx >= 0)
+    if (idx != null)
     {
       local groupObject = scene.findObject("contacts_groups")
       local listObject = groupObject.findObject("group_" + curGroup)
@@ -1198,31 +1205,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function fillDefaultSearchList()
   {
     ::contacts[searchGroup] <- []
-  }
-
-  function onSteamFriendsAdd()
-  {
-    if(!isInArray(::EPL_STEAM, ::contacts_groups))
-      ::addContactGroup(::EPL_STEAM)
-
-    local friendListFreeSpace = ::EPL_MAX_PLAYERS_IN_LIST - ::contacts[::EPL_STEAM].len();
-
-    if (friendListFreeSpace <= 0)
-    {
-      msgBox("cant_add_contact",
-             format(::loc("msg/cant_add/too_many_contacts"), ::EPL_MAX_PLAYERS_IN_LIST),
-             [["ok", function() { } ]], "ok");
-      return;
-    }
-
-    msgBox("add_steam_friend", ::loc("msgbox/add_steam_friends"),
-      [
-        ["yes", function()
-        {
-          addSteamFriends();
-        }],
-        ["no",  function() {} ],
-      ], "no");
   }
 
   function onInviteFriend()

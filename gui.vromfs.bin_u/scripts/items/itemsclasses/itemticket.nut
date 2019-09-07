@@ -25,15 +25,15 @@ class ::items_classes.Ticket extends ::BaseItem
   {
     base.constructor(blk, invBlk, slotData)
 
-    local params = blk.tournamentTicketParams
+    local params = blk?.tournamentTicketParams
     if (!params)
       return
 
-    maxDefeatCount = params.maxDefeatCount || 0
-    maxSequenceDefeatCount = params.maxSequenceDefeatCount || 0
-    haveAwards = params.awards || false
-    battleLimit = params.battleLimit || 0
-    customLayers = blk.customLayers || {}
+    maxDefeatCount = params?.maxDefeatCount ?? 0
+    maxSequenceDefeatCount = params?.maxSequenceDefeatCount ?? 0
+    haveAwards = params?.awards ?? false
+    battleLimit = params?.battleLimit ?? 0
+    customLayers = blk?.customLayers ?? {}
 
     eventEconomicNamesArray = params % "tournamentName"
     if (!eventEconomicNamesArray.len())
@@ -49,7 +49,7 @@ class ::items_classes.Ticket extends ::BaseItem
       {
         local tBlk = ::DataBlock()
         ::get_tournament_info_blk(eventEconomicNamesArray[0], tBlk)
-        isActiveTicket = ::isInArray(tBlk.activeTicketUID, uids)
+        isActiveTicket = ::isInArray(tBlk?.activeTicketUID, uids)
       }
     }
   }

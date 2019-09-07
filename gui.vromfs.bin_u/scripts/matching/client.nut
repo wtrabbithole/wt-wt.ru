@@ -1,35 +1,35 @@
-function on_online_unavailable()
+::on_online_unavailable <- function on_online_unavailable()
 {
   dagor.debug("on_online_unavailable")
   ::g_matching_connect.onDisconnect()
 }
 
-function on_online_available()
+::on_online_available <- function on_online_available()
 {
   dagor.debug("on_online_available")
   ::g_matching_connect.onConnect()
 }
 
-function logout_with_msgbox(params)
+::logout_with_msgbox <- function logout_with_msgbox(params)
 {
   local message = "message" in params ? params["message"] : null
   ::g_matching_connect.logoutWithMsgBox(params.reason, message, params.reasonDomain)
 }
 
-function exit_with_msgbox(params)
+::exit_with_msgbox <- function exit_with_msgbox(params)
 {
   local message = "message" in params ? params["message"] : null
   ::g_matching_connect.exitWithMsgBox(params.reason, message, params.reasonDomain)
 }
 
-function punish_show_tips(params)
+::punish_show_tips <- function punish_show_tips(params)
 {
   dagor.debug("punish_show_tips")
   if ("reason" in params)
     showInfoMsgBox(params.reason)
 }
 
-function punish_close_client(params)
+::punish_close_client <- function punish_close_client(params)
 {
   dagor.debug("punish_close_client")
   local message = ("reason" in params) ? ::g_language.addLineBreaks(params.reason) : ::loc("matching/hacker_kicked_notice")
@@ -49,7 +49,7 @@ function punish_close_client(params)
 requestOptions:
   - showError (defaultValue = true) - show error by checkMatchingError function if it is
 **/
-function request_matching(functionName, onSuccess = null, onError = null, params = null, requestOptions = null)
+::request_matching <- function request_matching(functionName, onSuccess = null, onError = null, params = null, requestOptions = null)
 {
   local showError = ::getTblValue("showError", requestOptions, true)
 
@@ -66,7 +66,7 @@ function request_matching(functionName, onSuccess = null, onError = null, params
   matching_api_func(functionName, callback, params)
 }
 
-function checkMatchingError(params, showError = true)
+::checkMatchingError <- function checkMatchingError(params, showError = true)
 {
   if (params.error == OPERATION_COMPLETE)
     return true

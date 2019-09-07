@@ -1,14 +1,14 @@
-const max_deadzone = 0.5
-const max_nonlinearity = 4
-const max_camera_smooth = 0.9
+global const max_deadzone = 0.5
+global const max_nonlinearity = 4
+global const max_camera_smooth = 0.9
 
-const min_camera_speed = 0.5
-const max_camera_speed = 8
+global const min_camera_speed = 0.5
+global const max_camera_speed = 8
 
 const ACTION_BAR_NUM_SHELL_TYPE_ACTIONS = 4
 const ACTION_BAR_FIRE_EXTINGUISHER_IDX = 5
 
-enum CONTROL_TYPE {
+global enum CONTROL_TYPE {
   HEADER
   SECTION
   SHORTCUT
@@ -33,7 +33,7 @@ enum AXIS_DEVICES {
   MOUSE,
   UNKNOWN
 }
-enum ctrlGroups {
+global enum ctrlGroups {
   //base bit groups
   DEFAULT       = 0x0001 //== AIR
   AIR           = 0x0001
@@ -41,7 +41,6 @@ enum ctrlGroups {
   SHIP          = 0x0004
   HELICOPTER    = 0x0008
   SUBMARINE     = 0x0010
-  UFO           = 0x0020
   WALKER        = 0x0040
   ONLY_COMMON   = 0x0080
 
@@ -56,14 +55,14 @@ enum ctrlGroups {
   COMMON        = 0x00FF
 }
 
-enum AXIS_MODIFIERS {
+global enum AXIS_MODIFIERS {
   NONE = 0x0,
   MIN = 0x8000,
   MAX = 0x4000,
 }
 
 //gamepad axes bitmask
-enum GAMEPAD_AXIS {
+global enum GAMEPAD_AXIS {
   NOT_AXIS = 0
 
   LEFT_STICK_HORIZONTAL = 0x1
@@ -79,7 +78,7 @@ enum GAMEPAD_AXIS {
 }
 
 //mouse axes bitmask
-enum MOUSE_AXIS {
+global enum MOUSE_AXIS {
   NOT_AXIS = 0x0
 
   HORIZONTAL_AXIS = 0x1
@@ -91,14 +90,14 @@ enum MOUSE_AXIS {
   TOTAL = 3
 }
 
-enum CONTROL_HELP_PATTERN {
+global enum CONTROL_HELP_PATTERN {
   NONE,
   IMAGE,
   GAMEPAD,
   KEYBOARD_MOUSE
 }
 
-enum AxisDirection {
+global enum AxisDirection {
   X,
   Y
 }

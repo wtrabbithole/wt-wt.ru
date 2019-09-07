@@ -28,6 +28,7 @@
       margin:t='0,@blockInterval'
       overflow-y:t='auto'
       scrollbarShortcuts:t='yes'
+      total-input-transparent:t='yes'
 
       <<#condition>>
         <<#isHeader>>unlockConditionHeader<</isHeader>>

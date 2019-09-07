@@ -129,10 +129,8 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local modesObj = showSceneBtn("modes_list", true)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
-    local modeIdx = ::u.searchIndex(wwLeaderboardData.modes,
-      (@(m) m.mode == beginningMode).bindenv(this))
-
-    modesObj.setValue(::max(modeIdx, 0))
+    local modeIdx = wwLeaderboardData.modes.searchIndex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
+    modesObj.setValue(modeIdx)
   }
 
   function updateDaysComboBox(seasonDays)
@@ -180,10 +178,10 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbMap)
     {
       local selectedMapId = lbMap.getId()
-      mapObjValue = ::u.searchIndex(lbMapsList, @(m) m && m.getId() == selectedMapId)
+      mapObjValue = lbMapsList.searchIndex(@(m) m && m.getId() == selectedMapId) ?? 0
     }
     lbMap = null
-    mapsObj.setValue(::max(mapObjValue, 0))
+    mapsObj.setValue(mapObjValue)
   }
 
   function updateCountriesComboBox(filterMap = null, isVisible = true)
@@ -205,10 +203,10 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbCountry)
     {
       local selectedCountry = lbCountry
-      countryObjValue = ::u.searchIndex(lbCountriesList, @(c) c && c == selectedCountry)
+      countryObjValue = lbCountriesList.searchIndex(@(c) c && c == selectedCountry) ?? 0
     }
     lbCountry = null
-    countriesObj.setValue(::max(countryObjValue, 0))
+    countriesObj.setValue(countryObjValue)
   }
 
   function fetchLbData(isForce = false)
@@ -252,7 +250,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         @(lbPageData) callback(lbPageData))
     }
 
-    if (isUsersLeaderboard())
+    if (isUsersLeaderboard() || (forClans && ::is_in_clan()))
     {
       local callback = ::Callback(
         function(lbSelfData) {
@@ -267,7 +265,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
           start = null
           count = 0
         }),
-        @(lbSelfData) callback(lbSelfData))
+        @(lbSelfData) callback(lbSelfData),
+        { userId = isUsersLeaderboard() ? ::my_user_id_int64
+          : ::clan_get_my_clan_id() })
     }
     else
       cb()

@@ -18,11 +18,11 @@ enum HINT_PIECE_TYPE
   * time        //0 - only to show time in text
   * timeoffset  //0 - only to show time in text
 */
-function g_hints::buildHintMarkup(text, params = {}) {
+g_hints.buildHintMarkup <- function buildHintMarkup(text, params = {}) {
   return ::handyman.renderCached("gui/hint", getHintSlices(text, params))
 }
 
-function g_hints::getHintSlices(text, params = {})
+g_hints.getHintSlices <- function getHintSlices(text, params = {})
 {
   local rows = ::split(text, "\n")
   local view = {
@@ -126,7 +126,7 @@ function g_hints::getHintSlices(text, params = {})
  * Split row to atomic parts to work with
  * @return array of strings with type specifieres (text or tag)
  */
-function g_hints::splitRowToPieces(row)
+g_hints.splitRowToPieces <- function splitRowToPieces(row)
 {
   local slices = []
   while (row.len() > 0)
@@ -174,7 +174,7 @@ function g_hints::splitRowToPieces(row)
   return slices
 }
 
-function g_hints::getTextSlice(text)
+g_hints.getTextSlice <- function getTextSlice(text)
 {
   return { text = text }
 }

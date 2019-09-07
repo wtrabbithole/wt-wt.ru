@@ -1,4 +1,5 @@
 local crossplayModule = require("scripts/social/crossplay.nut")
+local mapPreferencesParams = require("scripts/missions/mapPreferencesParams.nut")
 
 local needShowRateWnd = false //need this, because debriefing data destroys after debriefing modal is closed
 
@@ -34,6 +35,11 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
   function getMyStateData()
   {
     local profileInfo = ::get_profile_info()
+    local gameModeId = ::g_squad_manager.isSquadMember()
+      ? ::g_squad_manager.getLeaderGameModeId()
+      : ::game_mode_manager.getCurrentGameModeId()
+    local event = ::events.getEvent(gameModeId)
+    local prefParams = mapPreferencesParams.getParams(event)
     local myData = {
       name = profileInfo.name,
       clanTag = profileInfo.clanTag,
@@ -47,6 +53,8 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
       cyberCafeId = ::get_cyber_cafe_id()
       unallowedEventsENames = ::events.getUnallowedEventEconomicNames(),
       crossplay = crossplayModule.isCrossPlayEnabled()
+      bannedMissions = prefParams.bannedMissions
+      dislikedMissions = prefParams.dislikedMissions
     }
 
     local airs = getMyCrewAirsState(profileInfo)
@@ -180,8 +188,6 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
 
   function haveTag(tag)
   {
-    local playerTags = ::get_player_tags()
-    return playerTags == null ? ::check_account_tag(tag)
-      : playerTags.find(tag) != null
+    return ::get_player_tags().find(tag) != null
   }
 }

@@ -2,7 +2,7 @@
 
 ::country_flags_preset <- {}
 
-function get_country_flags_preset()
+::get_country_flags_preset <- function get_country_flags_preset()
 {
   if (::is_vendor_tencent())
     return "tencent"
@@ -13,23 +13,23 @@ function get_country_flags_preset()
   return "default"
 }
 
-function get_country_flag_img(id)
+::get_country_flag_img <- function get_country_flag_img(id)
 {
   return (id in ::country_flags_preset)? ::country_flags_preset[id] : ""
 }
 
-function get_country_icon(countryId, big=false, locked=false)
+::get_country_icon <- function get_country_icon(countryId, big=false, locked=false)
 {
   local id = countryId + (big ? "_big" : "") + (locked ? "_locked" : "")
   return ::get_country_flag_img(id)
 }
 
-function init_country_flags_preset()
+::init_country_flags_preset <- function init_country_flags_preset()
 {
   local blk = ::configs.GUI.get()
   if (!blk)
     return
-  local texBlk = blk.texture_presets
+  local texBlk = blk?.texture_presets
   if (!texBlk || typeof(texBlk)!="instance" || !(texBlk instanceof ::DataBlock))
   {
     ::script_net_assert_once("flags_presets", "Error: not texture_presets block in gui.blk")
@@ -45,7 +45,7 @@ function init_country_flags_preset()
 
   foreach(blockName in presetsList)
   {
-    local block = texBlk[blockName]
+    local block = texBlk?[blockName]
     if (!block || typeof(block)!="instance" || !(block instanceof ::DataBlock))
       continue
 

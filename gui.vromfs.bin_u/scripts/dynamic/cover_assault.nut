@@ -1,4 +1,4 @@
-function _generateCoverGattackMission(isFreeFlight, createGroundUnitsProc)
+::_generateCoverGattackMission <- function _generateCoverGattackMission(isFreeFlight, createGroundUnitsProc)
 {
   local mission_preset_name = "cover_gattack_preset01";
   ::mgBeginMission("gameData/missions/dynamic_campaign/objectives/"+mission_preset_name+".blk");

@@ -145,19 +145,6 @@ local function tablesCombine(tbl1, tbl2, func=null, defValue = null, addParams =
   return res
 }
 
-
-/**
- * Returns the index at which value can be found in the array, or -1 if value
- * is not present in the array
- * <defaultIndex> is index tp return when value not found in the given array
- */
-local function searchIndex(arr, predicate, defaultIndex = -1) {
-  foreach (index, item in arr)
-    if (predicate(item))
-      return index
-  return defaultIndex
-}
-
 /**
  * Returns the last element of an array. Passing n will return the last n
  * elements of the array.
@@ -169,7 +156,7 @@ local function last(collection, n = 1) {
 }
 
 /**
- * Safely returns the element of an array. Passing negative number will return element from end. 
+ * Safely returns the element of an array. Passing negative number will return element from end.
  * If number is more than length array will return last one (first one for negative)
  */
 local function safeIndex(arr, n) {
@@ -183,6 +170,32 @@ local function safeIndex(arr, n) {
     return arr[arr.len() + n]
   return null
 }
+
+/**
+* memoize(function, [hashFunction])
+  Memoizes a given function by caching the computed result. Useful for speeding up slow-running computations.
+  If passed an optional hashFunction, it will be used to compute the hash key for storing the result, based on the arguments to the original function.
+  The default hashFunction just uses the first argument to the memoized function as the key.
+*/
+local function memoize(func, hashfunc=null){
+  local cache = {}
+  local parameters = func.getfuncinfos().parameters.slice(0)
+  assert(parameters.len()>0)
+  hashfunc = hashfunc ?? function(...) {return vargv[0]}
+  local function memoizedfunc(...){
+    local args = [null].extend(vargv)
+    local hash = hashfunc.pacall(args)
+    if (hash in cache) {
+      return cache[hash]
+    }
+    local result = func.pacall(args)
+    cache[hash] <- result
+      return result
+  }
+  return memoizedfunc
+}
+
+
 
 // * Returns random element of the given array, rand should be function that return int
 local function chooseRandom(arr, randfunc) {
@@ -206,14 +219,7 @@ local function shuffle(arr, randfunc) {
   return res
 }
 
-local customIsEqual = {}
-
-local function registerIsEqual(classRef, isEqualFunc){
-  customIsEqual[classRef] <- isEqualFunc
-}
-
-local function isEqual(val1, val2) {return false}//forward declaration to use in recursives
-isEqual = function(val1, val2){
+local function isEqual(val1, val2, customIsEqual={}){
   if (val1 == val2)
     return true
   if (::type(val1) != ::type(val2))
@@ -239,6 +245,7 @@ isEqual = function(val1, val2){
 
   return false
 }
+
 return {
   isCallable = @(v) ["function","table","instance"].find(typeof(v) != null) && v.getfuncinfos() != null
   reduceTbl = reduceTbl
@@ -250,10 +257,9 @@ return {
   invert = invert
   tablesCombine = tablesCombine
   chooseRandom = chooseRandom
-  searchIndex = searchIndex
   safeIndex = safeIndex
   last = last
   shuffle = shuffle
   isEqual = isEqual
-  registerIsEqual = registerIsEqual
+  memoize = memoize
 }

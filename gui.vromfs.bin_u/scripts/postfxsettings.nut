@@ -10,7 +10,7 @@
 
 local firstColumnWidth = 0.45
 
-function get_lut_index_by_texture(texture)
+::get_lut_index_by_texture <- function get_lut_index_by_texture(texture)
 {
   foreach(index, listName in ::lut_textures)
   {
@@ -20,12 +20,12 @@ function get_lut_index_by_texture(texture)
   return 0;
 }
 
-function get_default_lut_texture()
+::get_default_lut_texture <- function get_default_lut_texture()
 {
   return ::getTblValue(0, ::lut_textures, "")
 }
 
-function check_cur_lut_texture()
+::check_cur_lut_texture <- function check_cur_lut_texture()
 {
   if (!::isInArray(::get_lut_texture(), ::lut_textures))
     ::set_lut_texture(::get_default_lut_texture())
@@ -329,7 +329,7 @@ class ::gui_handlers.PostFxSettings extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function gui_start_postfx_settings()
+::gui_start_postfx_settings <- function gui_start_postfx_settings()
 {
   ::postfx_settings_handler = ::handlersManager.loadHandler(::gui_handlers.PostFxSettings)
 }

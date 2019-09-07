@@ -38,7 +38,7 @@ class ::Warbond
 
     fontIcon = ::g_warbonds.defaultWbFontIcon
 
-    local guiWarbondsBlock = ::configs.GUI.get().warbonds
+    local guiWarbondsBlock = ::configs.GUI.get()?.warbonds
     medalIcon = ::getTblValue(listId, ::getTblValue("medalIcons", guiWarbondsBlock), medalIcon)
     levelIcon = ::getTblValue(listId, ::getTblValue("levelIcons", guiWarbondsBlock), levelIcon)
     medalForSpecialTasks = ::getTblValue("specialTasksByMedal", guiWarbondsBlock, 1)
@@ -46,9 +46,9 @@ class ::Warbond
     //No need to show medal progress if a single medal is required.
     needShowSpecialTasksProgress = medalForSpecialTasks > 1
 
-    expiredTime = listBlk.expiredTime || -1
-    canEarnTime = listBlk.endTime || -1
-    levelsArray = listBlk.levels ? (listBlk.levels % "level") : []
+    expiredTime = listBlk?.expiredTime ?? -1
+    canEarnTime = listBlk?.endTime ?? -1
+    levelsArray = listBlk?.levels ? (listBlk.levels % "level") : []
   }
 
   function getFullId()

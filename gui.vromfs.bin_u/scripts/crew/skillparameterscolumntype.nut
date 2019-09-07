@@ -18,41 +18,41 @@ enum skillColumnOrder {
   types = []
 }
 
-function g_skill_parameters_column_type::_checkSkill(memberName, skillName)
+g_skill_parameters_column_type._checkSkill <- function _checkSkill(memberName, skillName)
 {
   return true
 }
 
-function g_skill_parameters_column_type::_checkCrewUnitType(crewUnitType)
+g_skill_parameters_column_type._checkCrewUnitType <- function _checkCrewUnitType(crewUnitType)
 {
   return true
 }
 
-function g_skill_parameters_column_type::_getHeaderText()
+g_skill_parameters_column_type._getHeaderText <- function _getHeaderText()
 {
   if (headerLocId.len() == 0)
     return null
   return ::loc(headerLocId)
 }
 
-function g_skill_parameters_column_type::_getHeaderImage(params)
+g_skill_parameters_column_type._getHeaderImage <- function _getHeaderImage(params)
 {
   if (imageName.len() == 0 || imageSize <= 0)
     return null
   return imageName
 }
 
-function g_skill_parameters_column_type::_getHeaderImageLegendText()
+g_skill_parameters_column_type._getHeaderImageLegendText <- function _getHeaderImageLegendText()
 {
   return ::loc("crewSkillParameter/legend/" + id.tolower())
 }
 
-function g_skill_parameters_column_type::_createValueItem(
-  prevValue, curValue, prevSelectedValue, curSelectedValue, measureType)
+g_skill_parameters_column_type._createValueItem <- function _createValueItem(
+  prevValue, curValue, prevSelectedValue, curSelectedValue, measureType, sign)
 {
-  local itemText = getDiffText(prevValue, curValue, measureType, textColor)
+  local itemText = getDiffText(prevValue, curValue, sign, measureType, textColor)
   local selectedDiffText = getDiffText(prevSelectedValue - prevValue,
-    curSelectedValue - curValue, measureType, "userlogColoredText", true)
+    curSelectedValue - curValue, sign, measureType, "userlogColoredText", true)
   itemText += selectedDiffText
 
   if (addMeasureUnits)
@@ -63,7 +63,7 @@ function g_skill_parameters_column_type::_createValueItem(
   return valueItem
 }
 
-function g_skill_parameters_column_type::_getDiffText(prevValue, curValue, measureType, colorName, isAdditionalText = false)
+g_skill_parameters_column_type._getDiffText <- function _getDiffText(prevValue, curValue, sign, measureType, colorName, isAdditionalText = false)
 {
   local diffAbsValue = ::fabs(curValue - prevValue)
   if (isAdditionalText && !diffAbsValue)
@@ -74,7 +74,7 @@ function g_skill_parameters_column_type::_getDiffText(prevValue, curValue, measu
     return ""
 
   local diffSignChar = ""
-  if (curValue - prevValue < 0)
+  if ((curValue - prevValue < 0) || (addSignChar && !diffAbsValue && !sign))
     diffSignChar = "-"
   else if (addSignChar || isAdditionalText)
     diffSignChar = "+"
@@ -85,7 +85,7 @@ function g_skill_parameters_column_type::_getDiffText(prevValue, curValue, measu
   return diffText
 }
 
-function g_skill_parameters_column_type::_isSkillNotOnlyForTotalAndTop(memberName, skillName)
+g_skill_parameters_column_type._isSkillNotOnlyForTotalAndTop <- function _isSkillNotOnlyForTotalAndTop(memberName, skillName)
 {
   return (memberName != "commander" || skillName != "leadership")
          && (memberName != "ship_commander" || skillName != "leadership")
@@ -210,7 +210,7 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
       return pad + ::loc("crew/forUnit", { unitName = unitName }) + pad
     }
 
-    createValueItem = function (prevValue, curValue, prevSelectedValue, curSelectedValue, measureType)
+    createValueItem = function (prevValue, curValue, prevSelectedValue, curSelectedValue, measureType, sign)
     {
       local crewId = ::g_crew_short_cache.cacheCrewid
       local unit = ::g_crew_short_cache.unit
@@ -273,7 +273,7 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
     sortOrder = skillColumnOrder.EMPTY
     addDummyBlock = true
 
-    createValueItem = function (prevValue, curValue, prevSelectedValue, curSelectedValue, measureType)
+    createValueItem = function (prevValue, curValue, prevSelectedValue, curSelectedValue, measureType, sign)
     {
       return {
         itemDummy = true
@@ -286,7 +286,7 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
    */
   EQUALS_SIGN = {
     sortOrder = skillColumnOrder.EQUALS_SIGN
-    createValueItem = function (prevValue, curValue, prevSelectedValue, curSelectedValue, measureType)
+    createValueItem = function (prevValue, curValue, prevSelectedValue, curSelectedValue, measureType, sign)
     {
       return {
         itemText = "="

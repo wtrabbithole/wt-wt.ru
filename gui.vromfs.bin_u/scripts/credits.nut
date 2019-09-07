@@ -1,9 +1,9 @@
-function gui_start_credits()
+::gui_start_credits <- function gui_start_credits()
 {
   ::handlersManager.loadHandler(::gui_handlers.CreditsMenu)
 }
 
-function gui_start_credits_ingame()
+::gui_start_credits_ingame <- function gui_start_credits_ingame()
 {
   ::credits_handler = ::handlersManager.loadHandler(::gui_handlers.CreditsMenu, { backSceneFunc = null })
 }
@@ -13,7 +13,6 @@ class ::gui_handlers.CreditsMenu extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName = "gui/credits.blk"
   rootHandlerClass = ::gui_handlers.TopMenu
   static hasTopMenuResearch = false
-  static hasGameModeSelect = false
 
   function initScreen()
   {

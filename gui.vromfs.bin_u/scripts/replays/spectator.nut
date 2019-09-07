@@ -93,6 +93,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     ::HUD_MSG_DIALOG,
     ::HUD_MSG_DAMAGE,
     ::HUD_MSG_ENEMY_DAMAGE,
+    ::HUD_MSG_ENEMY_CRITICAL_DAMAGE,
+    ::HUD_MSG_ENEMY_FATAL_DAMAGE,
     ::HUD_MSG_DEATH_REASON,
     ::HUD_MSG_EVENT,
     -200 // historyLogCustomMsgType
@@ -180,7 +182,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     local objReplayControls = scene.findObject("controls_div")
     ::showBtnTable(objReplayControls, {
-        ID_MPSTATSCREEN  = mode != SPECTATOR_MODE.REPLAY
+        ID_FLIGHTMENU               = ::use_touchscreen
+        ID_MPSTATSCREEN             = mode != SPECTATOR_MODE.REPLAY
         controls_mpstats_replays    = mode == SPECTATOR_MODE.REPLAY
         ID_PREV_PLANE               = true
         ID_NEXT_PLANE               = true
@@ -215,7 +218,12 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       local obj = objReplayControls.getChild(i)
       if (obj?.is_shortcut && obj?.id)
       {
-        local hotkeys = ::get_shortcut_text(::get_shortcuts([ obj.id ]), 0, false, true)
+        local hotkeys = ::get_shortcut_text({
+          shortcuts = ::get_shortcuts([ obj.id ])
+          shortcutId = 0
+          cantBeEmpty = false
+          strip_tags = true
+        })
         if (hotkeys.len())
           hotkeys = "<color=@hotkeyColor>" + ::loc("ui/parentheses/space", {text = hotkeys}) + "</color>"
         obj.tooltip = ::loc("hotkeys/" + obj.id) + hotkeys
@@ -795,7 +803,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function onBtnShortcut(obj)
   {
-    local id = (::checkObj(obj) && obj.id) || ""
+    local id = ::check_obj(obj) ? (obj?.id ?? "") : ""
     if (id.len() > 3 && id.slice(0, 3) == "ID_")
       ::toggle_shortcut(id)
   }
@@ -819,7 +827,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!::checkObj(obj) || !("toggleObj" in obj))
       return
-    local toggleObj = scene.findObject(obj.toggleObj)
+    local toggleObj = scene.findObject(obj?.toggleObj)
     if (!::checkObj(toggleObj))
       return
 
@@ -913,12 +921,12 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     if (isTeamplay || !canSeeOppositeTeam)
     {
       local localTeam = ::get_mp_local_team() != 2 ? 1 : 2
-      local myTeamFriendly = localTeam == ::get_player_army_for_hud()
+      local isMyTeamFriendly = localTeam == ::get_player_army_for_hud()
 
       for (local i = 0; i < 2; i++)
       {
         local teamId = ((i == 0) == (localTeam == 1)) ? Team.A : Team.B
-        local color = ((i == 0) == myTeamFriendly)? "blue" : "red"
+        local color = ((i == 0) == isMyTeamFriendly)? "blue" : "red"
         local players = getTeamPlayers(teamId)
 
         _teams[i] = {
@@ -1188,8 +1196,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local tabObj = obj.getChild(tabIdx)
-    local newTabId = tabObj.id
-    if (newTabId == curTabId)
+    local newTabId = tabObj?.id
+    if (!newTabId || newTabId == curTabId)
       return
 
     foreach(tab in tabsList)
@@ -1237,13 +1245,13 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local obj = scene.findObject("btnToggleLog")
-    if (::checkObj(obj) && obj.toggled != "yes")
+    if (::checkObj(obj) && obj?.toggled != "yes")
       onToggleButtonClick(obj)
 
     obj = scene.findObject("tabs")
     local chatTabId = SPECTATOR_CHAT_TAB.CHAT
     if (::checkObj(obj) && curTabId != chatTabId)
-      obj.setValue(::u.searchIndex(tabsList, @(t) t.id == chatTabId))
+      obj.setValue(tabsList.searchIndex(@(t) t.id == chatTabId) ?? -1)
 
     if (::getTblValue("activate", params, false))
       ::game_chat_input_toggle_request(true)
@@ -1385,6 +1393,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       // Hero (spectated target) messages
       case ::HUD_MSG_DAMAGE: // Hero air unit damaged
       case ::HUD_MSG_ENEMY_DAMAGE: // Hero target air unit damaged
+      case ::HUD_MSG_ENEMY_CRITICAL_DAMAGE: // Hero target air unit damaged
+      case ::HUD_MSG_ENEMY_FATAL_DAMAGE: // Hero target air unit damaged
       case ::HUD_MSG_DEATH_REASON: // Hero unit destroyed, killer name
       case ::HUD_MSG_EVENT: // Hero tank unit damaged, and some system messages
       case historyLogCustomMsgType: // Custom messages sent by script
@@ -1411,7 +1421,11 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
             local locNames = []
             foreach (idx, data in shortcuts)
             {
-              local shortcutsText = ::get_shortcut_text(shortcuts, idx, true, true)
+              local shortcutsText = ::get_shortcut_text({
+                shortcuts = shortcuts,
+                shortcutId = idx,
+                strip_tags = true
+              })
               if (shortcutsText != "")
                 locNames.append(shortcutsText)
             }
@@ -1425,7 +1439,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
           if (hotkeys != "")
           {
-            local tooltip = obj.tooltip || ""
+            local tooltip = obj?.tooltip ?? ""
             local add = "<color=@hotkeyColor>" + ::loc("ui/parentheses/space", {text = hotkeys}) + "</color>"
             obj.tooltip = tooltip + add
           }
@@ -1481,13 +1495,13 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         if (fits)
           break
       }
-      if (obj.pos != posStr)
+      if (obj?.pos != posStr)
         obj.pos = posStr
     }
   }
 }
 
-function spectator_debug_mode()
+::spectator_debug_mode <- function spectator_debug_mode()
 {
   local handler = ::is_dev_version && ::handlersManager.findHandlerClassInScene(::Spectator)
   if (!handler)
@@ -1496,7 +1510,7 @@ function spectator_debug_mode()
   return handler.debugMode
 }
 
-function isPlayerDedicatedSpectator(name = null)
+::isPlayerDedicatedSpectator <- function isPlayerDedicatedSpectator(name = null)
 {
   if (name)
   {
@@ -1508,12 +1522,12 @@ function isPlayerDedicatedSpectator(name = null)
 ::cross_call_api.isPlayerDedicatedSpectator <- ::isPlayerDedicatedSpectator
 
 ::spectator_air_hud_offset_x <- 0
-function get_spectator_air_hud_offset_x() // called from client
+::get_spectator_air_hud_offset_x <- function get_spectator_air_hud_offset_x() // called from client
 {
   return ::spectator_air_hud_offset_x
 }
 
-function on_player_requested_artillery(userId) // called from client
+::on_player_requested_artillery <- function on_player_requested_artillery(userId) // called from client
 {
   local handler = ::handlersManager.findHandlerClassInScene(::Spectator)
   if (handler)

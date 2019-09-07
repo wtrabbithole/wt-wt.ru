@@ -58,6 +58,9 @@ loading_bg
 
 local fileCheck = require("scripts/clientState/fileCheck.nut")
 
+const MODIFY_UNKNOWN = -1
+const MODIFY_NO_FILE = -2
+
 local createBgData = @() {
   list = {}
   reserveBg = ""
@@ -74,10 +77,11 @@ local createBgData = @() {
   BLOCK_BEFORE_LOGIN_KEY = "beforeLogin"
 
   isDebugMode = false
-  debugLastModified = -1
+  debugLastModified = MODIFY_UNKNOWN
+  loadErrorText = null
 }
 
-function g_anim_bg::load(animBgBlk = "", obj = null)
+g_anim_bg.load <- function load(animBgBlk = "", obj = null)
 {
   initOnce()
 
@@ -121,38 +125,51 @@ function g_anim_bg::load(animBgBlk = "", obj = null)
     && curBgData.reserveBg.len())
     bgBlk = loadBgBlk(curBgData.reserveBg) || bgBlk
 
-  obj.getScene().replaceContentFromDataBlock(obj, bgBlk, this)
-  debugLastModified = -1
+  if (isDebugMode && loadErrorText) {
+    local markup = "textAreaCentered { pos:t='pw/2-w/2, ph/2-h/2'; position:t='absolute'; text:t='{0}' }".subst(loadErrorText)
+    obj.getScene().replaceContentFromText(obj, markup, markup.len(), this)
+  } else
+    obj.getScene().replaceContentFromDataBlock(obj, bgBlk, this)
+  debugLastModified = MODIFY_UNKNOWN
 }
 
-function g_anim_bg::getFullFileName(name)
+g_anim_bg.getFullFileName <- function getFullFileName(name)
 {
   return "config/loadingbg/" + name + ".blk"
 }
 
-function g_anim_bg::loadBgBlk(name)
+g_anim_bg.loadBgBlk <- function loadBgBlk(name)
 {
+  loadErrorText = null
   local res = ::DataBlock()
-  if (!res.load(getFullFileName(name)))
-  {
-    res = null
-    removeFromBgLists(name)
-    ::dagor.assertf(false, "Error: cant load login bg blk: " + getFullFileName(name))
-  }
+  local fullName = getFullFileName(name)
+  local isLoaded = res.load(fullName)
+  if (isLoaded)
+    return res
+
+  local errText = ::dd_file_exist(fullName) ? "errors in file" : "not found file"
+  loadErrorText = "Error: cant load login bg blk {0}: {1}".subst(::colorize("userlogColoredText", fullName), errText)
+
+  if (isDebugMode)
+    return res //no need to change bg in debugMode
+
+  res = null
+  removeFromBgLists(name)
+  ::dagor.assertf(false, loadErrorText)
   return res
 }
 
-function g_anim_bg::getLastBgFileName()
+g_anim_bg.getLastBgFileName <- function getLastBgFileName()
 {
   return lastBg.len() ? getFullFileName(lastBg) : ""
 }
 
-function g_anim_bg::getCurBgData()
+g_anim_bg.getCurBgData <- function getCurBgData()
 {
   return !::g_login.isLoggedIn() ? bgDataBeforeLogin : bgDataAfterLogin
 }
 
-function g_anim_bg::removeFromBgLists(name)
+g_anim_bg.removeFromBgLists <- function removeFromBgLists(name)
 {
   foreach(data in [bgDataAfterLogin, bgDataBeforeLogin])
   {
@@ -163,12 +180,12 @@ function g_anim_bg::removeFromBgLists(name)
   }
 }
 
-function g_anim_bg::reset()
+g_anim_bg.reset <- function reset()
 {
   inited = false
 }
 
-function g_anim_bg::initOnce()
+g_anim_bg.initOnce <- function initOnce()
 {
   if (inited)
     return
@@ -179,7 +196,7 @@ function g_anim_bg::initOnce()
 
   local blk = ::configs.GUI.get()
 
-  local bgBlk = blk.loading_bg
+  local bgBlk = blk?.loading_bg
   if (!bgBlk)
     return
 
@@ -198,7 +215,7 @@ function g_anim_bg::initOnce()
   validateBgData(bgDataBeforeLogin)
 }
 
-function g_anim_bg::applyBlkByLang(langBlk, curLang)
+g_anim_bg.applyBlkByLang <- function applyBlkByLang(langBlk, curLang)
 {
   local langsInclude = langBlk?.langsInclude
   local langsExclude = langBlk?.langsExclude
@@ -224,16 +241,16 @@ function g_anim_bg::applyBlkByLang(langBlk, curLang)
   applyBlkToAllBgData(langBlk)
 }
 
-function g_anim_bg::applyBlkToAllBgData(blk)
+g_anim_bg.applyBlkToAllBgData <- function applyBlkToAllBgData(blk)
 {
   applyBlkToBgData(bgDataAfterLogin, blk)
   applyBlkToBgData(bgDataBeforeLogin, blk)
-  local beforeLoginBlk = blk[BLOCK_BEFORE_LOGIN_KEY]
+  local beforeLoginBlk = blk?[BLOCK_BEFORE_LOGIN_KEY]
   if (::u.isDataBlock(beforeLoginBlk))
     applyBlkToBgData(bgDataBeforeLogin, beforeLoginBlk)
 }
 
-function g_anim_bg::applyBlkToBgData(bgData, blk)
+g_anim_bg.applyBlkToBgData <- function applyBlkToBgData(bgData, blk)
 {
   local list = bgData.list
 
@@ -258,7 +275,7 @@ function g_anim_bg::applyBlkToBgData(bgData, blk)
     delete list[DEFAULT_VALUE_KEY]
 }
 
-function g_anim_bg::validateBgData(bgData)
+g_anim_bg.validateBgData <- function validateBgData(bgData)
 {
   local list = bgData.list
   local keys = ::u.keys(list)
@@ -272,17 +289,17 @@ function g_anim_bg::validateBgData(bgData)
   }
 }
 
-function g_anim_bg::onEventSignOut(p)
+g_anim_bg.onEventSignOut <- function onEventSignOut(p)
 {
   lastBg = ""
 }
 
-function g_anim_bg::onEventGameLocalizationChanged(p)
+g_anim_bg.onEventGameLocalizationChanged <- function onEventGameLocalizationChanged(p)
 {
   reset()
 }
 
-function g_anim_bg::enableDebugUpdate()
+g_anim_bg.enableDebugUpdate <- function enableDebugUpdate()
 {
   local timerObj = ::get_cur_gui_scene()["debug_timer_update"]
   if (!::checkObj(timerObj))
@@ -292,30 +309,25 @@ function g_anim_bg::enableDebugUpdate()
   return true
 }
 
-function g_anim_bg::onDebugTimerUpdate(obj, dt)
+g_anim_bg.onDebugTimerUpdate <- function onDebugTimerUpdate(obj, dt)
 {
   local fileName = getLastBgFileName()
   if (!fileName.len())
     return
   local modified = ::get_file_modify_time_sec(fileName)
   if (modified < 0)
-    return
-
-  if (debugLastModified < 0)
-  {
-    debugLastModified = modified
-    return
-  }
+    modified = ::dd_file_exist(fileName) ? MODIFY_UNKNOWN : MODIFY_NO_FILE
 
   if (debugLastModified == modified)
     return
 
+  if (debugLastModified != MODIFY_UNKNOWN)
+    load(lastBg)
   debugLastModified = modified
-  load(lastBg)
 }
 
 //animBgBlk == null - swith debug mode off.
-function g_anim_bg::debugLoading(animBgBlk = "")
+g_anim_bg.debugLoading <- function debugLoading(animBgBlk = "")
 {
   isDebugMode = animBgBlk != null
   if (!isDebugMode)

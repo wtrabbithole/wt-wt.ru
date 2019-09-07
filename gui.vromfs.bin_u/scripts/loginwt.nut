@@ -1,5 +1,4 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
-local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local contentStateModule = ::require("scripts/clientState/contentState.nut")
 
@@ -17,7 +16,7 @@ local contentStateModule = ::require("scripts/clientState/contentState.nut")
 ::g_login.shouldRestartPseudoThread <- false
 ::g_login[PERSISTENT_DATA_PARAMS].append("initOptionsPseudoThread")
 
-function gui_start_startscreen()
+::gui_start_startscreen <- function gui_start_startscreen()
 {
   ::dagor.debug("target_platform is '" + ::target_platform + "'")
   ::pause_game(false);
@@ -27,13 +26,13 @@ function gui_start_startscreen()
   ::g_login.startLoginProcess()
 }
 
-function gui_start_after_scripts_reload()
+::gui_start_after_scripts_reload <- function gui_start_after_scripts_reload()
 {
   ::g_login.setState(LOGIN_STATE.AUTHORIZED) //already authorized to char
   ::g_login.startLoginProcess(true)
 }
 
-function on_sign_out()  //!!FIX ME: better to full replace this function by SignOut event
+::on_sign_out <- function on_sign_out()  //!!FIX ME: better to full replace this function by SignOut event
 {
   if (!("resetChat" in getroottable())) //scripts not loaded
     return
@@ -51,12 +50,12 @@ function on_sign_out()  //!!FIX ME: better to full replace this function by Sign
   ::check_tutorial_reward_data = null
 }
 
-function can_logout()
+::can_logout <- function can_logout()
 {
   return !::disable_network() && !::is_vendor_tencent()
 }
 
-function gui_start_logout()
+::gui_start_logout <- function gui_start_logout()
 {
   if (!::can_logout())
     return ::exit_game()
@@ -82,20 +81,20 @@ function gui_start_logout()
   ::handlersManager.startSceneFullReload(::gui_start_startscreen)
 }
 
-function go_to_account_web_page(bqKey = "")
+::go_to_account_web_page <- function go_to_account_web_page(bqKey = "")
 {
   local urlBase = ::format("/user.php?skin_lang=%s", ::g_language.getShortName())
   ::open_url(::get_authenticated_url_table(urlBase).url, false, false, bqKey)
 }
 
-function g_login::debugState(shouldShowNotSetBits = false)
+g_login.debugState <- function debugState(shouldShowNotSetBits = false)
 {
   if (shouldShowNotSetBits)
     return ::dlog("not set loginState = " + ::bit_mask_to_string("LOGIN_STATE", LOGIN_STATE.LOGGED_IN & ~curState))
   return ::dlog("loginState = " + ::bit_mask_to_string("LOGIN_STATE", curState))
 }
 
-function g_login::loadLoginHandler()
+g_login.loadLoginHandler <- function loadLoginHandler()
 {
   local hClass = ::gui_handlers.LoginWndHandler
   if (::is_platform_ps4)
@@ -111,7 +110,7 @@ function g_login::loadLoginHandler()
   ::handlersManager.loadHandler(hClass)
 }
 
-function g_login::onAuthorizeChanged()
+g_login.onAuthorizeChanged <- function onAuthorizeChanged()
 {
   if (!isAuthorized())
   {
@@ -127,7 +126,7 @@ function g_login::onAuthorizeChanged()
     })
 }
 
-function g_login::initConfigs(cb)
+g_login.initConfigs <- function initConfigs(cb)
 {
   ::broadcastEvent("AuthorizeComplete")
   ::load_scripts_after_login_once()
@@ -149,7 +148,6 @@ function g_login::initConfigs(cb)
       ::get_profile_info() //update ::my_user_name
       ::init_selected_crews(true)
       ::set_show_attachables(::has_feature("AttachablesUse"))
-      safeAreaHud.checkCompatibility()
 
       ::g_font.validateSavedConfigFonts()
       local value = clamp(::get_sound_volume(::SND_TYPE_MY_ENGINE), 0.2, 1.0)
@@ -255,7 +253,7 @@ function g_login::initConfigs(cb)
   ::start_pseudo_thread(initOptionsPseudoThread, ::gui_start_logout)
 }
 
-function g_login::onEventGuiSceneCleared(p)
+g_login.onEventGuiSceneCleared <- function onEventGuiSceneCleared(p)
 {
   //work only after scripts reload
   if (!shouldRestartPseudoThread)
@@ -272,13 +270,13 @@ function g_login::onEventGuiSceneCleared(p)
     })
 }
 
-function g_login::afterScriptsReload()
+g_login.afterScriptsReload <- function afterScriptsReload()
 {
   if (initOptionsPseudoThread)
     shouldRestartPseudoThread = true
 }
 
-function g_login::onLoggedInChanged()
+g_login.onLoggedInChanged <- function onLoggedInChanged()
 {
   if (!isLoggedIn())
     return
@@ -297,7 +295,7 @@ function g_login::onLoggedInChanged()
   })
 }
 
-function g_login::firstMainMenuLoad()
+g_login.firstMainMenuLoad <- function firstMainMenuLoad()
 {
   local handler = ::gui_start_mainmenu(false)
   if (!handler)
@@ -395,7 +393,7 @@ function g_login::firstMainMenuLoad()
   ::on_mainmenu_return(handler, true)
 }
 
-function g_login::statsdOnLogin()
+g_login.statsdOnLogin <- function statsdOnLogin()
 {
   ::statsd_counter("gameStart.login")
 
@@ -426,7 +424,7 @@ function g_login::statsdOnLogin()
       {
         ::statsd_counter("ug.goodum")
         anyUG = true
-        ::dagor.debug("statsd_on_login ug.goodum " + misBlk.name)
+        ::dagor.debug("statsd_on_login ug.goodum " + (misBlk?.name ?? "null"))
         break
       }
 

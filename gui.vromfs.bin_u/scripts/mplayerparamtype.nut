@@ -10,11 +10,11 @@ local stdMath = require("std/math.nut")
   }
 }
 
-function g_mplayer_param_type::_substract(old, new) {
+g_mplayer_param_type._substract <- function _substract(old, new) {
   return ::to_integer_safe(new) - ::to_integer_safe(old)
 }
 
-function g_mplayer_param_type::_newer(old, new) {
+g_mplayer_param_type._newer <- function _newer(old, new) {
   return new
 }
 
@@ -367,7 +367,7 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
   }
 })
 
-function g_mplayer_param_type::getTypeById(id)
+g_mplayer_param_type.getTypeById <- function getTypeById(id)
 {
   return enums.getCachedType("id", id, ::g_mplayer_param_type.cache.byId,
     ::g_mplayer_param_type, ::g_mplayer_param_type.UNKNOWN)

@@ -558,7 +558,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!::checkObj(obj))
       return
-    local groupIndex = ::to_integer_safe(obj.groupIdx, -1)
+    local groupIndex = ::to_integer_safe(obj?.groupIdx ?? "", -1)
     local bulGroup= getBulletGroupByIndex(groupIndex)
     if (!bulGroup)
       return

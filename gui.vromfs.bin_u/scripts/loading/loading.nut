@@ -1,4 +1,4 @@
-function gui_start_loading(isMissionLoading = false)
+::gui_start_loading <- function gui_start_loading(isMissionLoading = false)
 {
   if (::u.isString(isMissionLoading))
     isMissionLoading = isMissionLoading != "gui/loading.blk" //compatibility with 1.67.2.X

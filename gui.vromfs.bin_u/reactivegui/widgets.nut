@@ -11,8 +11,6 @@ local footballHud = require("footballHud.nut")
 local screenState = require("style/screenState.nut")
 local airHud = require("airHud.nut")
 local tankHud = require("tankHud.nut")
-local helicopterExHud = require("helicopterExHud.nut")
-
 
 local widgetsMap = {
   [DargWidgets.HUD] = function() {
@@ -21,16 +19,14 @@ local widgetsMap = {
 
     if (hudUnitType.isHelicopter())
       return helicopterHud
-    else if (hudUnitType.isAir() && !hudState.isPlayingReplay.value)
+    else if (hudUnitType.isAir())
       return airHud
-    else if (hudUnitType.isTank() && !hudState.isPlayingReplay.value)
+    else if (hudUnitType.isTank())
       return tankHud
     else if (hudUnitType.isShip() && !hudState.isPlayingReplay.value)
       return shipHud
     else if (hudUnitType.isSubmarine() && !hudState.isPlayingReplay.value)
       return shipExHud
-    else if (hudUnitType.isUfo())
-      return helicopterExHud
     else
       return null
   },

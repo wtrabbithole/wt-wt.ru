@@ -7,6 +7,7 @@ return [
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.HELICOPTER
     isHelpersVisible = true
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
@@ -43,7 +44,7 @@ return [
   {
     id = "mouse_usage_no_aim_helicopter"
     type = CONTROL_TYPE.SPINNER
-    showFunc = @() ::has_feature("SimulatorDifficulty") && (getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
+    showFunc = @() ::has_feature("SimulatorDifficulty") && (::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
     optionType = ::USEROPT_MOUSE_USAGE_NO_AIM
     onChangeValue = "onAircraftHelpersChanged"
   }
@@ -70,6 +71,7 @@ return [
     checkGroup = ctrlGroups.HELICOPTER
     filterShow = [globalEnv.EM_MOUSE_AIM, globalEnv.EM_INSTRUCTOR]
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_FBW_MODE_HELICOPTER"
@@ -86,6 +88,7 @@ return [
     id = "helicopter_collective"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.HELICOPTER
+    needShowInHelp = true
   }
   {
     id = "helicopter_holdThrottleForWEP"
@@ -110,6 +113,7 @@ return [
     checkGroup = ctrlGroups.HELICOPTER
     def_relative = false
     reqInMouseAim = false
+    needShowInHelp = true
   }
   {
     id = "helicopter_cyclic_pitch"
@@ -117,6 +121,7 @@ return [
     checkGroup = ctrlGroups.HELICOPTER
     def_relative = false
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "helicopter_pedals"
@@ -124,6 +129,7 @@ return [
     checkGroup = ctrlGroups.HELICOPTER
     def_relative = false
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "helicopter_cyclic_roll_sens"
@@ -158,16 +164,19 @@ return [
     id = "ID_FIRE_MGUNS_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     conflictGroup = ConflictGroups.HELICOPTER_FIRE
+    needShowInHelp = true
   }
   {
     id = "ID_FIRE_CANNONS_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     conflictGroup = ConflictGroups.HELICOPTER_FIRE
+    needShowInHelp = true
   }
   {
     id = "ID_FIRE_ADDITIONAL_GUNS_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     conflictGroup = ConflictGroups.HELICOPTER_FIRE
+    needShowInHelp = true
   }
   {
     id = "helicopter_fire"
@@ -182,6 +191,7 @@ return [
   {
     id = "ID_BOMBS_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
+    needShowInHelp = true
   }
   {
     id = "ID_BOMBS_SERIES_HELICOPTER"
@@ -191,6 +201,7 @@ return [
   {
     id = "ID_ROCKETS_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
+    needShowInHelp = true
   }
   {
     id = "ID_ROCKETS_SERIES_HELICOPTER"
@@ -200,10 +211,12 @@ return [
   {
     id = "ID_WEAPON_LOCK_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
+    needShowInHelp = true
   }
   {
     id = "ID_TOGGLE_LASER_DESIGNATOR_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
+    needShowInHelp = true
   }
   {
     id = "ID_FLARES_HELICOPTER"
@@ -218,10 +231,12 @@ return [
   {
     id = "ID_ATGM_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
+    needShowInHelp = true
   }
   {
     id = "ID_AAM_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
+    needShowInHelp = true
   }
   {
     id = "helicopter_atgm_aim_x"
@@ -258,21 +273,25 @@ return [
     id = "ID_TOGGLE_VIEW_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_LOCK_TARGETING_AT_POINT_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_FPS_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_TPS_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_VIRTUAL_FPS_HELICOPTER"
@@ -283,16 +302,19 @@ return [
     id = "ID_CAMERA_VIRTUAL_TARGET_FPS_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_CAMERA_GUNNER_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_TARGET_CAMERA_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_AIM_CAMERA_HELICOPTER"
@@ -415,6 +437,7 @@ return [
     id = "ID_GEAR_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_TOGGLE_COCKPIT_DOOR_HELICOPTER"
@@ -437,14 +460,14 @@ return [
     id = "ID_HELICOPTER_JOYSTICK_HEADER"
     type = CONTROL_TYPE.SECTION
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
   }
   {
     id = "mouse_joystick_mode_helicopter"
     type = CONTROL_TYPE.SPINNER
     filterHide = [globalEnv.EM_MOUSE_AIM]
     options = ["#options/mouse_joy_mode_simple", "#options/mouse_joy_mode_standard"]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams) ::get_option_int(::OPTION_HELICOPTER_MOUSE_JOYSTICK_MODE)
     setValue = @(joyParams, objValue) ::set_option_int(::OPTION_HELICOPTER_MOUSE_JOYSTICK_MODE, objValue)
   }
@@ -452,7 +475,7 @@ return [
     id = "mouse_joystick_sensitivity_helicopter"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams)
       100.0*(::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SENSITIVITY) - ::minMouseJoystickSensitivity) /
         (::maxMouseJoystickSensitivity - ::minMouseJoystickSensitivity)
@@ -464,7 +487,7 @@ return [
     id = "mouse_joystick_deadzone_helicopter"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_DEADZONE) / ::maxMouseJoystickDeadZone
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_DEADZONE,
       (objValue / 100.0) * ::maxMouseJoystickDeadZone)
@@ -473,7 +496,7 @@ return [
     id = "mouse_joystick_screensize_helicopter"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams)
       100.0*(::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENSIZE) - ::minMouseJoystickScreenSize) /
         (::maxMouseJoystickScreenSize - ::minMouseJoystickScreenSize)
@@ -485,7 +508,7 @@ return [
     id = "mouse_joystick_screen_place_helicopter"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENPLACE)
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_SCREENPLACE, objValue / 100.0)
   }
@@ -493,7 +516,7 @@ return [
     id = "mouse_joystick_aileron_helicopter"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
     value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_AILERON_FACTOR) / ::maxMouseJoystickAileron
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_AILERON_FACTOR,
       (objValue / 100.0) * ::maxMouseJoystickAileron)
@@ -502,7 +525,7 @@ return [
     id = "mouse_joystick_rudder_helicopter"
     type = CONTROL_TYPE.SLIDER
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & (AIR_MOUSE_USAGE.JOYSTICK | AIR_MOUSE_USAGE.RELATIVE)
     value = @(joyParams) 100.0*::get_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_RUDDER_FACTOR) / ::maxMouseJoystickRudder
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_AILERON_RUDDER_FACTOR,
       (objValue / 100.0) * ::maxMouseJoystickRudder)
@@ -511,14 +534,14 @@ return [
     id = "helicopter_mouse_joystick_square"
     type = CONTROL_TYPE.SWITCH_BOX
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
+    showFunc = @() ::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK
     value = @(joyParams) ::get_option_mouse_joystick_square()
     setValue = @(joyParams, objValue) ::set_option_mouse_joystick_square(objValue)
   }
   {
     id = "ID_HELICOPTER_CENTER_MOUSE_JOYSTICK"
     filterHide = [globalEnv.EM_MOUSE_AIM]
-    showFunc = @() ::is_mouse_available() && (getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK)
+    showFunc = @() ::is_mouse_available() && (::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.JOYSTICK)
     checkAssign = false
   }
 //-------------------------------------------------------

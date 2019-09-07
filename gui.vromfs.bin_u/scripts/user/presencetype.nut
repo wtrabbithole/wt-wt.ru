@@ -155,7 +155,7 @@ enums.addTypesByGlobalName("g_presence_type", {
 
 ::g_presence_type.types.sort(@(a, b) a.checkOrder <=> b.checkOrder)
 
-function g_presence_type::getCurrent()
+g_presence_type.getCurrent <- function getCurrent()
 {
   foreach(presenceType in types)
     if (presenceType.isMatch())
@@ -163,7 +163,7 @@ function g_presence_type::getCurrent()
   return IDLE
 }
 
-function g_presence_type::getByPresenceParams(presenceParams)
+g_presence_type.getByPresenceParams <- function getByPresenceParams(presenceParams)
 {
   return this?[presenceParams?.presenceId] ?? IDLE
 }

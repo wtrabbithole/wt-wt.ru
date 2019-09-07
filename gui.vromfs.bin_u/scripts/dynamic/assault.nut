@@ -1,4 +1,4 @@
-function _generateGAttackMission(isFreeFlight, createGroundUnitsProc)
+::_generateGAttackMission <- function _generateGAttackMission(isFreeFlight, createGroundUnitsProc)
 {
   local mission_preset_name = "ground_attack_preset01";
   ::mgBeginMission("gameData/missions/dynamic_campaign/objectives/"+mission_preset_name+".blk");

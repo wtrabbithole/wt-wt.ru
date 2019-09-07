@@ -87,7 +87,7 @@ local function propValue(desc, key) {
   local val = desc[key]
   local tp = ::type(val)
 
-  if (tp == "instance" && (val instanceof ::PictureHolder)) {
+  if (tp == "instance" && (val instanceof ::Picture)) {
     return {
       rendObj = ROBJ_IMAGE
       size = [fontH(100), fontH(100)]

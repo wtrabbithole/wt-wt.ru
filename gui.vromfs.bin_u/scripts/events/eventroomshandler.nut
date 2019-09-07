@@ -1,4 +1,5 @@
 local stdMath = require("std/math.nut")
+local clustersModule = require("scripts/clusterSelect.nut")
 
 enum eRoomFlags { //bit enum. sorted by priority
   CAN_JOIN              = 0x8000 //set by CAN_JOIN_MASK, used for sorting
@@ -87,7 +88,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     refreshList()
     fillRoomsList()
     updateWindow()
-    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
+    updateClusters()
 
     scene.findObject("wnd_title").setValue(::events.getEventNameText(event))
     scene.findObject("event_update").setUserData(this)
@@ -154,7 +155,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (selItemIdx < 0 || selItemIdx >= roomsListObj.childrenCount())
       return
     local selItemObj = roomsListObj.getChild(selItemIdx)
-    if (!::checkObj(selItemObj))
+    if (!::check_obj(selItemObj) || !selItemObj?.id)
       return
 
     local selChapterId = getChapterNameByObjId(selItemObj.id)
@@ -222,15 +223,20 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onOpenClusterSelect(obj)
   {
     ::queues.checkAndStart(
-      ::Callback(@() ::gui_handlers.ClusterSelect.open(obj, "bottom"), this),
+      ::Callback(@() clustersModule.createClusterSelectMenu(obj, "bottom"), this),
       null,
       "isCanChangeCluster")
   }
 
   function onEventClusterChange(params)
   {
-    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
+    updateClusters()
     fillRoomsList()
+  }
+
+  function updateClusters()
+  {
+    clustersModule.updateClusters(scene.findObject("cluster_select_button_text"))
   }
 
   function onEventSquadStatusChanged(params)
@@ -299,7 +305,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurFilter()
   {
-    return { clusters = ::get_current_clusters(), hasFullRooms = true }
+    return { clusters = clustersModule.getCurrentClusters(), hasFullRooms = true }
   }
 
   function checkRoomsOrder()

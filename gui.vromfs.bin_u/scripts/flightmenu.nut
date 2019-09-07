@@ -1,14 +1,14 @@
-function gui_start_flight_menu()
+::gui_start_flight_menu <- function gui_start_flight_menu()
 {
   ::flight_menu_handler = ::handlersManager.loadHandler(::gui_handlers.FlightMenu)
 }
 
-function gui_start_flight_menu_failed()
+::gui_start_flight_menu_failed <- function gui_start_flight_menu_failed()
 {
   ::flight_menu_handler = ::handlersManager.loadHandler(::gui_handlers.FlightMenu, { isMissionFailed = true })
 }
 
-function gui_start_flight_menu_psn() {} //unused atm, but still have a case in code
+::gui_start_flight_menu_psn <- function gui_start_flight_menu_psn() {} //unused atm, but still have a case in code
 
 class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -392,7 +392,7 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function quit_mission()
+::quit_mission <- function quit_mission()
 {
   ::in_flight_menu(false)
   ::pause_game(false)

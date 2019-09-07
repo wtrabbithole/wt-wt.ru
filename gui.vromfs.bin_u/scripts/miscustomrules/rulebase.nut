@@ -382,8 +382,8 @@ class ::mission_rules.Base
       return -1
 
     foreach(blk in weaponLimitsBlk % unit.name)
-      if (blk.name == weapon.name)
-        return ::max(blk.respawnsLeft || 0, 0)
+      if (blk?.name == weapon.name)
+        return ::max(blk?.respawnsLeft ?? 0, 0)
     return 0
   }
 

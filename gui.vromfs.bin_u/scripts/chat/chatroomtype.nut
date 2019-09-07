@@ -270,7 +270,7 @@ enums.addTypesByGlobalName("g_chat_room_type", {
   return 0
 })
 
-function g_chat_room_type::getRoomType(roomId)
+g_chat_room_type.getRoomType <- function getRoomType(roomId)
 {
   foreach(roomType in types)
     if (roomType.checkRoomId(roomId))

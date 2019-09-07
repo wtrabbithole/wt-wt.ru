@@ -2,7 +2,7 @@ local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 
 ::delayed_unlock_wnd <- []
-function showUnlockWnd(config)
+::showUnlockWnd <- function showUnlockWnd(config)
 {
   if (::isHandlerInScene(::gui_handlers.ShowUnlockHandler) ||
       ::isHandlerInScene(::gui_handlers.RankUpModal) ||
@@ -12,7 +12,7 @@ function showUnlockWnd(config)
   ::gui_start_unlock_wnd(config)
 }
 
-function gui_start_unlock_wnd(config)
+::gui_start_unlock_wnd <- function gui_start_unlock_wnd(config)
 {
   local unlockType = ::getTblValue("type", config, -1)
   if (unlockType == ::UNLOCKABLE_COUNTRY)
@@ -33,7 +33,7 @@ function gui_start_unlock_wnd(config)
   return true
 }
 
-function check_delayed_unlock_wnd(prevUnlockData = null)
+::check_delayed_unlock_wnd <- function check_delayed_unlock_wnd(prevUnlockData = null)
 {
   local disableLogId = ::getTblValue("disableLogId", prevUnlockData, null)
   if (disableLogId != null && ::disable_user_log_entry_by_id(disableLogId))

@@ -1,11 +1,11 @@
-function exportUnitInfo(params)
+::exportUnitInfo <- function exportUnitInfo(params)
 {
     UnitInfoExporter(params["langs"], params["path"])
     return "ok"
 }
 
 const COUNTRY_GROUP = "country"
-const ARMY_GROUP = "army"
+global const ARMY_GROUP = "army"
 const RANK_GROUP = "rank"
 const COMMON_PARAMS_GROUP = "common"
 const BASE_GROUP = "base"

@@ -13,23 +13,23 @@ const REPLAY_SESSION_ID_MIN_LENGHT = 16
 
 ::g_script_reloader.registerPersistentData("ReplayScreenGlobals", ::getroottable(), ["current_replay", "current_replay_author"])
 
-function gui_start_replays()
+::gui_start_replays <- function gui_start_replays()
 {
   ::gui_start_modal_wnd(::gui_handlers.ReplayScreen)
 }
 
-function gui_start_menuReplays()
+::gui_start_menuReplays <- function gui_start_menuReplays()
 {
   ::gui_start_mainmenu()
   ::gui_start_replays()
 }
 
-function gui_start_worldWar()
+::gui_start_worldWar <- function gui_start_worldWar()
 {
   ::g_world_war.openMainWnd()
 }
 
-function gui_start_replay_battle(sessionId, backFunc)
+::gui_start_replay_battle <- function gui_start_replay_battle(sessionId, backFunc)
 {
   ::back_from_replays = function() {
     ::SessionLobby.resetPlayersInfo()
@@ -41,13 +41,13 @@ function gui_start_replay_battle(sessionId, backFunc)
   ::on_view_replay(::current_replay)
 }
 
-function get_replay_url_by_session_id(sessionId)
+::get_replay_url_by_session_id <- function get_replay_url_by_session_id(sessionId)
 {
   local sessionIdText = ::format("%0" + REPLAY_SESSION_ID_MIN_LENGHT + "s", sessionId.tostring())
   return ::loc("url/server_wt_game_replay", {sessionId = sessionIdText})
 }
 
-function gui_modal_rename_replay(base_name, base_path, func_owner, after_rename_func, after_func = null)
+::gui_modal_rename_replay <- function gui_modal_rename_replay(base_name, base_path, func_owner, after_rename_func, after_func = null)
 {
   ::gui_start_modal_wnd(::gui_handlers.RenameReplayHandler, {
                                                               baseName = base_name
@@ -58,14 +58,14 @@ function gui_modal_rename_replay(base_name, base_path, func_owner, after_rename_
                                                             })
 }
 
-function gui_modal_name_and_save_replay(func_owner, after_func)
+::gui_modal_name_and_save_replay <- function gui_modal_name_and_save_replay(func_owner, after_func)
 {
   local baseName = ::get_new_replay_filename();
   local basePath = ::get_replays_dir() + "\\" + baseName;
   ::gui_modal_rename_replay(baseName, basePath, func_owner, null, after_func);
 }
 
-function autosave_replay()
+::autosave_replay <- function autosave_replay()
 {
   if (::is_replay_saved())
     return;

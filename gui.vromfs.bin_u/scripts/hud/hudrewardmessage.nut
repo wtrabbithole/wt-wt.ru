@@ -7,19 +7,19 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   }
 }
 
-function g_hud_reward_message::getMessageByCode(code)
+g_hud_reward_message.getMessageByCode <- function getMessageByCode(code)
 {
   return enums.getCachedType("code", code, cache.byCode,
     ::g_hud_reward_message, ::g_hud_reward_message.UNKNOWN)
 }
 
 
-function g_hud_reward_message::_getViewClass(rewardValue)
+g_hud_reward_message._getViewClass <- function _getViewClass(rewardValue)
 {
   return rewardValue >= 0 ? viewClass : "penalty"
 }
 
-function g_hud_reward_message::_getText(rewardValue, counter, expClass)
+g_hud_reward_message._getText <- function _getText(rewardValue, counter, expClass)
 {
   local result = ::loc(locFn(expClass))
   if (rewardValue < 0)
@@ -31,7 +31,7 @@ function g_hud_reward_message::_getText(rewardValue, counter, expClass)
   return result
 }
 
-enum REWARD_PRIORITY {
+global enum REWARD_PRIORITY {
   noPriority, //for null message. any real type priority is higher
   common,
   scout,

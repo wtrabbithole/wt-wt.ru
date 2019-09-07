@@ -1,4 +1,4 @@
-function getNearestSelectableChildIndex(listObj, curIndex, way)
+::getNearestSelectableChildIndex <- function getNearestSelectableChildIndex(listObj, curIndex, way)
 {
   if (!check_obj(listObj))
     return curIndex
@@ -17,7 +17,7 @@ function getNearestSelectableChildIndex(listObj, curIndex, way)
   return curIndex
 }
 
-function is_obj_have_active_childs(obj)
+::is_obj_have_active_childs <- function is_obj_have_active_childs(obj)
 {
   for(local i = 0; i < obj.childrenCount(); i++)
   {

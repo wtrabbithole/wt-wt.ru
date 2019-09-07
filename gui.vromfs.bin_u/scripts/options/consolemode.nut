@@ -1,4 +1,4 @@
-function get_is_console_mode_force_enabled()
+::get_is_console_mode_force_enabled <- function get_is_console_mode_force_enabled()
 {
   return ::is_ps4_or_xbox
          || ::is_platform_android
@@ -6,7 +6,7 @@ function get_is_console_mode_force_enabled()
          || ::is_steam_big_picture()
 }
 
-function get_is_console_mode_enabled()
+::get_is_console_mode_enabled <- function get_is_console_mode_enabled()
 {
   if (::get_is_console_mode_force_enabled())
     return true
@@ -17,7 +17,7 @@ function get_is_console_mode_enabled()
   return ::getSystemConfigOption("use_gamepad_interface", false)
 }
 
-function switch_show_console_buttons(showCB)
+::switch_show_console_buttons <- function switch_show_console_buttons(showCB)
 {
   if (::get_is_console_mode_force_enabled() && !showCB)
     return false

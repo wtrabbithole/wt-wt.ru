@@ -1,25 +1,25 @@
 ::lights <- []
 
-function light_lerp(t1, t2, v)
+::light_lerp <- function light_lerp(t1, t2, v)
 {
   return t1 + (t2 - t1) * v
 }
 
 ::lights_inited <- false
 
-function on_enter_hangar()
+::on_enter_hangar <- function on_enter_hangar()
 {
   if (::lights_inited)
     return
 
   ::lights_inited = true
   local blk = ::DataBlock( "levels/hangar_winter_airfield_lights.blk" )
-  local list = blk.lights ? blk.lights : ::DataBlock()
+  local list = blk?.lights ?? ::DataBlock()
   for ( local i = 0 ; i < list.blockCount() ; ++i )
   {
     local src = list.getBlock( i )
 
-    local light = 
+    local light =
     {
       id = 0
       pos = src.pos
@@ -37,7 +37,7 @@ function on_enter_hangar()
   }
 }
 
-function on_leave_hangar()
+::on_leave_hangar <- function on_leave_hangar()
 {
   if (! ::lights_inited)
     return
@@ -53,7 +53,7 @@ function on_leave_hangar()
 }
 
 ::update_hangar_timer <- 0.0
-function on_update_hangar( dt )
+::on_update_hangar <- function on_update_hangar( dt )
 {
   if (! ::lights_inited)
     on_enter_hangar()

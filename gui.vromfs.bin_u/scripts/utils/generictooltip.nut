@@ -3,64 +3,64 @@
   inited = false
 }
 
-function g_tooltip::getIdUnlock(unlockId, params = null)
+g_tooltip.getIdUnlock <- function getIdUnlock(unlockId, params = null)
 {
   return ::g_tooltip_type.UNLOCK.getTooltipId(unlockId, params)
 }
 
-function g_tooltip::getIdItem(itemName, params = null)
+g_tooltip.getIdItem <- function getIdItem(itemName, params = null)
 {
   return ::g_tooltip_type.ITEM.getTooltipId(itemName, params)
 }
 
-function g_tooltip::getIdInventoryItem(itemUid)
+g_tooltip.getIdInventoryItem <- function getIdInventoryItem(itemUid)
 {
   return ::g_tooltip_type.INVENTORY.getTooltipId(itemUid)
 }
 
 //only trophy content without trophy info. for hidden trophy items content.
-function g_tooltip::getIdSubtrophy(itemName)
+g_tooltip.getIdSubtrophy <- function getIdSubtrophy(itemName)
 {
   return ::g_tooltip_type.SUBTROPHY.getTooltipId(itemName)
 }
 
-function g_tooltip::getIdUnit(unitName, params = null)
+g_tooltip.getIdUnit <- function getIdUnit(unitName, params = null)
 {
   return ::g_tooltip_type.UNIT.getTooltipId(unitName, params)
 }
 
-function g_tooltip::getIdModification(unitName, modName, params = null)
+g_tooltip.getIdModification <- function getIdModification(unitName, modName, params = null)
 {
   return ::g_tooltip_type.MODIFICATION.getTooltipId(unitName, modName, params)
 }
 
-function g_tooltip::getIdSpare(unitName)
+g_tooltip.getIdSpare <- function getIdSpare(unitName)
 {
   return ::g_tooltip_type.SPARE.getTooltipId(unitName)
 }
 
-function g_tooltip::getIdCrewSkillCategory(categoryName, unitTypeName)
+g_tooltip.getIdCrewSkillCategory <- function getIdCrewSkillCategory(categoryName, unitTypeName)
 {
   return ::g_tooltip_type.SKILL_CATEGORY.getTooltipId(categoryName, unitTypeName)
 }
 
 //specTypeCode == -1  -> current crew specialization
-function g_tooltip::getIdCrewSpecialization(crewId, unitName, specTypeCode = -1)
+g_tooltip.getIdCrewSpecialization <- function getIdCrewSpecialization(crewId, unitName, specTypeCode = -1)
 {
   return ::g_tooltip_type.CREW_SPECIALIZATION.getTooltipId(crewId, unitName, specTypeCode)
 }
 
-function g_tooltip::getIdBuyCrewSpec(crewId, unitName, specTypeCode = -1)
+g_tooltip.getIdBuyCrewSpec <- function getIdBuyCrewSpec(crewId, unitName, specTypeCode = -1)
 {
   return ::g_tooltip_type.BUY_CREW_SPEC.getTooltipId(crewId, unitName, specTypeCode)
 }
 
-function g_tooltip::getIdDecorator(decoratorId, unlockedItemType, params = null)
+g_tooltip.getIdDecorator <- function getIdDecorator(decoratorId, unlockedItemType, params = null)
 {
   return ::g_tooltip_type.DECORATION.getTooltipId(decoratorId, unlockedItemType, params)
 }
 
-function g_tooltip::open(obj, handler)
+g_tooltip.open <- function open(obj, handler)
 {
   ::g_tooltip.removeInvalidObjs(::g_tooltip.openedTooltipObjs)
 
@@ -89,7 +89,7 @@ function g_tooltip::open(obj, handler)
   register(obj, handler, tooltipType, id, params)
 }
 
-function g_tooltip::register(obj, handler, tooltipType, id, params)
+g_tooltip.register <- function register(obj, handler, tooltipType, id, params)
 {
   local data = {
     obj         = obj
@@ -112,7 +112,7 @@ function g_tooltip::register(obj, handler, tooltipType, id, params)
   openedTooltipObjs.push(data)
 }
 
-function g_tooltip::fill(obj, handler, tooltipType, id, params)
+g_tooltip.fill <- function fill(obj, handler, tooltipType, id, params)
 {
   local isSucceed = true
   if (tooltipType.isCustomTooltipFill)
@@ -128,7 +128,7 @@ function g_tooltip::fill(obj, handler, tooltipType, id, params)
   return isSucceed
 }
 
-function g_tooltip::close(obj)
+g_tooltip.close <- function close(obj)
 {
   local tooltipId = ::checkObj(obj) ? ::getTooltipObjId(obj) : null
   ::g_tooltip.removeInvalidObjs(::g_tooltip.openedTooltipObjs, tooltipId)
@@ -160,7 +160,7 @@ function g_tooltip::close(obj)
   })
 }
 
-function g_tooltip::init()
+g_tooltip.init <- function init()
 {
   if (inited)
     return
@@ -168,7 +168,7 @@ function g_tooltip::init()
   ::add_event_listener("ChangedCursorVisibility", onEventChangedCursorVisibility, this)
 }
 
-function g_tooltip::onEventChangedCursorVisibility(params)
+g_tooltip.onEventChangedCursorVisibility <- function onEventChangedCursorVisibility(params)
 {
   // Proceed if cursor is hidden now.
   if (params.newValue)
@@ -177,7 +177,7 @@ function g_tooltip::onEventChangedCursorVisibility(params)
   removeAll()
 }
 
-function g_tooltip::removeInvalidObjs(objs, tooltipId = null)
+g_tooltip.removeInvalidObjs <- function removeInvalidObjs(objs, tooltipId = null)
 {
   for (local i = objs.len() - 1; i >= 0; --i)
   {
@@ -187,7 +187,7 @@ function g_tooltip::removeInvalidObjs(objs, tooltipId = null)
   }
 }
 
-function g_tooltip::removeAll()
+g_tooltip.removeAll <- function removeAll()
 {
   removeInvalidObjs(openedTooltipObjs)
 

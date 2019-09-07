@@ -3,22 +3,22 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 
 ::callstack <- dagor.debug_dump_stack
 
-function reload()
+::reload <- function reload()
 {
   return ::g_script_reloader.reload(::reload_main_script_module)
 }
 
-function get_stack_string(level = 2)
+::get_stack_string <- function get_stack_string(level = 2)
 {
   return ::toString(getstackinfos(level), 2)
 }
 
-function print_func_and_enum_state_string(enumString, currentState)
+::print_func_and_enum_state_string <- function print_func_and_enum_state_string(enumString, currentState)
 {
   dlog(::getstackinfos(2).func + " " + ::getEnumValName(enumString, currentState))
 }
 
-function charAddAllItems(count = 1)
+::charAddAllItems <- function charAddAllItems(count = 1)
 {
   local params = {
     items = ::ItemsManager.getItemsList()
@@ -28,7 +28,7 @@ function charAddAllItems(count = 1)
   ::_charAddAllItemsHelper(params)
 }
 
-function _charAddAllItemsHelper(params)
+::_charAddAllItemsHelper <- function _charAddAllItemsHelper(params)
 {
   if (params.currentIndex >= params.items.len())
     return
@@ -52,7 +52,7 @@ function _charAddAllItemsHelper(params)
 
 //must to be switched on before we get to debrifing.
 //but after it you can restart derifing with full recalc by usual reload()
-function switch_on_debug_debriefing_recount()
+::switch_on_debug_debriefing_recount <- function switch_on_debug_debriefing_recount()
 {
   if ("_stat_get_exp" in ::getroottable())
     return
@@ -66,7 +66,7 @@ function switch_on_debug_debriefing_recount()
   }
 }
 
-function debug_reload_and_restart_debriefing()
+::debug_reload_and_restart_debriefing <- function debug_reload_and_restart_debriefing()
 {
   local rows = ::debriefing_rows
   local result = ::debriefing_result
@@ -87,12 +87,12 @@ function debug_reload_and_restart_debriefing()
     ::gather_debriefing_result = recountFunc
 }
 
-function debug_debriefing_unlocks(unlocksAmount = 5)
+::debug_debriefing_unlocks <- function debug_debriefing_unlocks(unlocksAmount = 5)
 {
   ::gui_start_debriefingFull({ debugUnlocks = unlocksAmount })
 }
 
-function debug_get_every_day_login_award_userlog(skip = 0, launchWindow = true)
+::debug_get_every_day_login_award_userlog <- function debug_get_every_day_login_award_userlog(skip = 0, launchWindow = true)
 {
   local total = ::get_user_logs_count()
   for (local i = total-1; i > 0; i--)
@@ -121,12 +121,12 @@ function debug_get_every_day_login_award_userlog(skip = 0, launchWindow = true)
   dlog("!!!! NOT FOUND ANY EVERY DAY LOGIN AWARD")
 }
 
-function show_hotas_window_image()
+::show_hotas_window_image <- function show_hotas_window_image()
 {
   ::gui_start_image_wnd(::loc("thrustmaster_tflight_hotas_4_controls_image", ""), 1.41)
 }
 
-function debug_export_unit_weapons_descriptions()
+::debug_export_unit_weapons_descriptions <- function debug_export_unit_weapons_descriptions()
 {
   dbgExportToFile.export({
     resultFilePath = "export/unitsWeaponry.blk"
@@ -162,7 +162,7 @@ function debug_export_unit_weapons_descriptions()
   })
 }
 
-function debug_export_unit_xray_parts_descriptions()
+::debug_export_unit_xray_parts_descriptions <- function debug_export_unit_xray_parts_descriptions()
 {
   ::dmViewer.toggle(::DM_VIEWER_XRAY)
   dbgExportToFile.export({
@@ -207,7 +207,7 @@ function debug_export_unit_xray_parts_descriptions()
   })
 }
 
-function dbg_ww_destroy_cur_operation()
+::dbg_ww_destroy_cur_operation <- function dbg_ww_destroy_cur_operation()
 {
   if (!::ww_is_operation_loaded())
     return ::dlog("No operation loaded!")
@@ -225,7 +225,7 @@ function dbg_ww_destroy_cur_operation()
                              )
 }
 
-function gui_do_debug_unlock()
+::gui_do_debug_unlock <- function gui_do_debug_unlock()
 {
   ::debug_unlock_all();
   ::is_debug_mode_enabled = true
@@ -234,18 +234,18 @@ function gui_do_debug_unlock()
   ::broadcastEvent("DebugUnlockEnabled")
 }
 
-function dbg_loading_brief(missionName = "malta_ship_mission", slidesAmount = 0)
+::dbg_loading_brief <- function dbg_loading_brief(missionName = "malta_ship_mission", slidesAmount = 0)
 {
   local missionBlk = ::get_meta_mission_info_by_name(missionName)
   if (!::u.isDataBlock(missionBlk))
     return dlog("Not found mission " + missionName)
 
-  local filePath = missionBlk.mis_file
+  local filePath = missionBlk?.mis_file
   local fullBlk = filePath && ::DataBlock(filePath)
   if (!::u.isDataBlock(fullBlk))
     return dlog("Not found mission blk " + filePath)
 
-  local briefing = fullBlk.mission_settings && fullBlk.mission_settings.briefing
+  local briefing = fullBlk?.mission_settings.briefing
   if (!::u.isDataBlock(briefing) || !briefing.blockCount())
     return dlog("Mission does not have briefing")
 
@@ -289,7 +289,7 @@ function dbg_loading_brief(missionName = "malta_ship_mission", slidesAmount = 0)
   ::handlersManager.loadHandler(::gui_handlers.LoadingBrief, { briefing = briefingClone })
 }
 
-function dbg_content_patch_open(isProd = false)
+::dbg_content_patch_open <- function dbg_content_patch_open(isProd = false)
 {
   local restoreData = {
     start_content_patch_download = start_content_patch_download
@@ -339,7 +339,7 @@ function dbg_content_patch_open(isProd = false)
   })(updaterData)
 }
 
-function debug_show_units_by_loc_name(unitLocName, needIncludeNotInShop = false)
+::debug_show_units_by_loc_name <- function debug_show_units_by_loc_name(unitLocName, needIncludeNotInShop = false)
 {
   local units = shopSearchCore.findUnitsByLocName(unitLocName, true, needIncludeNotInShop)
   units.sort(function(a, b) { return a.name == b.name ? 0 : a.name < b.name ? -1 : 1 })
@@ -359,7 +359,7 @@ function debug_show_units_by_loc_name(unitLocName, needIncludeNotInShop = false)
   return res.len()
 }
 
-function debug_show_unit(unitId)
+::debug_show_unit <- function debug_show_unit(unitId)
 {
   local unit = ::getAircraftByName(unitId)
   if (!unit)
@@ -369,43 +369,45 @@ function debug_show_unit(unitId)
   return "Done"
 }
 
-function debug_change_language(isNext = true)
+::debug_change_language <- function debug_change_language(isNext = true)
 {
   local list = ::g_language.getGameLocalizationInfo()
   local curLang = ::get_current_language()
-  local curIdx = ::u.searchIndex(list, @(l) l.id == curLang, 0)
+  local curIdx = list.searchIndex( @(l) l.id == curLang ) ?? 0
   local newIdx = curIdx + (isNext ? 1 : -1 + list.len())
   local newLang = list[newIdx % list.len()]
   ::g_language.setGameLocalization(newLang.id, true, false)
   dlog("Set language: " + newLang.id)
 }
 
-function debug_change_resolution(shouldIncrease = true)
+::debug_change_resolution <- function debug_change_resolution(shouldIncrease = true)
 {
-  local curResolution = ::format("%d x %d", ::screen_width(), ::screen_height())
+  local curResolution = ::getSystemConfigOption("video/resolution")
   local list = ::sysopt.mShared.getVideoModes(curResolution, false)
   local curIdx = list.find(curResolution) || 0
   local newIdx = ::clamp(curIdx + (shouldIncrease ? 1 : -1), 0, list.len() - 1)
   local newResolution = list[newIdx]
-  if (newResolution != curResolution) {
-    ::setSystemConfigOption("video/resolution", newResolution)
-    ::on_renderer_settings_change()
-    ::handlersManager.markfullReloadOnSwitchScene()
-    ::call_darg("updateScreenOptions", {
-      resolution = newResolution
-    })
-  }
-  dlog("Set resolution: " + newResolution)
+  local done = @() dlog("Set resolution: " + newResolution +
+    " (" + screen_width() + "x" + screen_height() + ")")
+  if (newResolution == curResolution)
+    return done()
+  ::setSystemConfigOption("video/resolution", newResolution)
+  ::on_renderer_settings_change()
+  ::perform_delayed(function() {
+    ::handlersManager.getActiveBaseHandler().fullReloadScene()
+    ::call_darg("updateScreenOptions", { resolution = newResolution })
+    done()
+  })
 }
 
-function debug_multiply_color(colorStr, multiplier)
+::debug_multiply_color <- function debug_multiply_color(colorStr, multiplier)
 {
   local res = ::g_dagui_utils.multiplyDaguiColorStr(colorStr, multiplier)
   ::copy_to_clipboard(res)
   return res
 }
 
-function debug_get_last_userlogs(num = 1)
+::debug_get_last_userlogs <- function debug_get_last_userlogs(num = 1)
 {
   local total = ::get_user_logs_count()
   local res = []
@@ -420,22 +422,28 @@ function debug_get_last_userlogs(num = 1)
   return res
 }
 
-function to_pixels(value)
+::to_pixels <- function to_pixels(value)
 {
   return ::g_dagui_utils.toPixels(::get_cur_gui_scene(), value)
 }
 
-function to_pixels_float(value)
+::to_pixels_float <- function to_pixels_float(value)
 {
   return ::to_pixels("(" + value + ") * 1000000") / 1000000.0
 }
 
-function debug_reset_unseen()
+::perform_delayed <- function perform_delayed(func, handler = null)
+{
+  handler = handler ?? ::get_cur_base_gui_handler()
+  ::get_gui_scene().performDelayed(handler, func)
+}
+
+::debug_reset_unseen <- function debug_reset_unseen()
 {
   ::require("scripts/seen/seenList.nut").clearAllSeenData()
 }
 
-function debug_check_dirty_words(path = null)
+::debug_check_dirty_words <- function debug_check_dirty_words(path = null)
 {
   local blk = ::DataBlock()
   blk.load(path || "debugDirtyWords.blk")
@@ -453,7 +461,7 @@ function debug_check_dirty_words(path = null)
   dlog("DIRTYWORDS: FINISHED, checked " + blk.paramCount() + ", failed check " + failed)
 }
 
-function debug_unit_rent(unitId = null, seconds = 60)
+::debug_unit_rent <- function debug_unit_rent(unitId = null, seconds = 60)
 {
   if (!("_debug_unit_rent" in ::getroottable()))
   {

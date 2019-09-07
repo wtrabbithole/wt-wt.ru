@@ -1,7 +1,7 @@
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 
 ::CLAN_LOG_ROWS_IN_PAGE <- 10
-function show_clan_log(clanId)
+::show_clan_log <- function show_clan_log(clanId)
 {
   ::gui_start_modal_wnd(
     ::gui_handlers.clanLogModal,
@@ -127,7 +127,7 @@ class ::gui_handlers.clanLogModal extends ::gui_handlers.BaseGuiHandlerWT
 
     selectedIndex = index
     local selectedObj = obj.getChild(index)
-    if (::checkObj(selectedObj) && selectedObj.id == loadButtonId)
+    if (::check_obj(selectedObj) && selectedObj?.id == loadButtonId)
       fetchLogPage()
   }
 

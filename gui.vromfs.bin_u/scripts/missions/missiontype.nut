@@ -1,5 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
-enum MISSION_OBJECTIVE
+global enum MISSION_OBJECTIVE
 {
   KILLS_AIR           = 0x0001
   KILLS_GROUND        = 0x0002
@@ -162,6 +162,12 @@ enums.addTypesByGlobalName("g_mission_type", {
     objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_TOTAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
   }
 
+  N_CONQ = {  // Naval: Conquest
+    reMisName = ::regexp2(@"_NConq(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.ZONE_CAPTURE
+    objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_TOTAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
+  }
+
   N_CNV = {  // Naval: Convoy
     reMisName = ::regexp2(@"_NCnv(A|B|_|$)(_|$)")
     objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_NAVAL_AI
@@ -187,7 +193,7 @@ enums.addTypesByGlobalName("g_mission_type", {
   }
 }, null, "_typeName")
 
-function g_mission_type::getTypeByMissionName(misName)
+g_mission_type.getTypeByMissionName <- function getTypeByMissionName(misName)
 {
   if (!misName)
     return UNKNOWN
@@ -208,17 +214,17 @@ function g_mission_type::getTypeByMissionName(misName)
   return res
 }
 
-function g_mission_type::getCurrent()
+g_mission_type.getCurrent <- function getCurrent()
 {
   return getTypeByMissionName(::get_current_mission_name())
 }
 
-function g_mission_type::getCurrentObjectives()
+g_mission_type.getCurrentObjectives <- function getCurrentObjectives()
 {
   return getCurrent().getObjectives(::get_current_mission_info_cached())
 }
 
-function g_mission_type::getHelpPathForCurrentMission()
+g_mission_type.getHelpPathForCurrentMission <- function getHelpPathForCurrentMission()
 {
   local path = getCurrent().helpBlkPath
   if (path != "" && !::u.isEmpty(::DataBlock(path)))

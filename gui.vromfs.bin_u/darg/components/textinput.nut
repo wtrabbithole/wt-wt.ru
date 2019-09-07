@@ -52,7 +52,7 @@ local function isStringLikelyEmail(str, verbose=true) {
     return false //quotes only at the begining
   if (quotes==null && locpart.find("@")!=null)
     return false //no @ without quotes
-  if (dompart.find(".")==null || dompart.find(".")>dompart.len()-3)
+  if (dompart.find(".")==null || dompart.find(".")>dompart.len()-3) // warning disable: -func-can-return-null
     return false  //too short first level domain or no periods
   return true
 }

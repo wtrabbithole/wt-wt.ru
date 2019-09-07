@@ -4,6 +4,7 @@ local shipStateModule = require("shipStateModule.nut")
 local hudLogs = require("hudLogs.nut")
 local voiceChat = require("chat/voiceChat.nut")
 local screenState = require("style/screenState.nut")
+local radarComponent = require("radarComponent.nut")
 
 
 local shipHud = @(){
@@ -26,5 +27,8 @@ local shipHud = @(){
 
 return {
   size = flex()
-  children = [shipHud]
+  children = [
+    shipHud,
+    radarComponent(sh(4), sh(18))
+  ]
 }

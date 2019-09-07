@@ -9,7 +9,7 @@ local currentPenaltyDesc = Watched({})
 local function isDevoiced() {
   currentPenaltyDesc.update(penalty.getPenaltyStatus())
   //currentPenaltyDesc.update({ status = penalty.DEVOICE, duration = 360091, category="FOUL", comment="test ban", seconds_left=2012})
-  local penaltyStatus = currentPenaltyDesc.value.__get("status")
+  local penaltyStatus = currentPenaltyDesc.value?.status
   return penaltyStatus == penalty.DEVOICE || penaltyStatus == penalty.SILENT_DEVOICE
 }
 
@@ -25,7 +25,7 @@ local function getDevoiceDescriptionText(highlightColor = Color(255, 255, 255)) 
       time.hoursToString(durationHours, false))
     txt += stdStr.format(::loc("charServer/mute/timed"), timeText)
 
-    if (currentPenaltyDesc.value.__get("seconds_left") > 0) {
+    if ((currentPenaltyDesc.value?.seconds_left ?? 0) > 0) {
       local leftHours = time.secondsToHours(currentPenaltyDesc.value.seconds_left)
       timeText = stdStr.format("<color=%d>%s</color>",
         highlightColor,

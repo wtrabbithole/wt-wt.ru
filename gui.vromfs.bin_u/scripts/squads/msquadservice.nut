@@ -1,4 +1,4 @@
-enum msquadErrorId
+global enum msquadErrorId
 {
   ALREADY_IN_SQUAD = "ALREADY_IN_SQUAD"
   NOT_SQUAD_LEADER = "NOT_SQUAD_LEADER"

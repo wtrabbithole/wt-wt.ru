@@ -1,4 +1,4 @@
-function gui_start_gamepad_cursor_controls_splash(onEnable)
+::gui_start_gamepad_cursor_controls_splash <- function gui_start_gamepad_cursor_controls_splash(onEnable)
 {
   ::gui_start_modal_wnd(::gui_handlers.GampadCursorControlsSplash, {onEnable = onEnable})
 }

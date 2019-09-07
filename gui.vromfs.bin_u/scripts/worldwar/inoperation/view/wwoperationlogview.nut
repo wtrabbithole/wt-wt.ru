@@ -227,7 +227,7 @@ class ::WwOperationLogView
 
   function getObjectiveType(statBlk)
   {
-    return statBlk.mainObjective ? "_main" : "_additional"
+    return statBlk?.mainObjective ? "_main" : "_additional"
   }
 
   function getZoneText()

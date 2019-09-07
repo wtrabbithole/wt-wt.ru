@@ -1,4 +1,4 @@
-function gui_start_dynamic_results()
+::gui_start_dynamic_results <- function gui_start_dynamic_results()
 {
   ::handlersManager.loadHandler(::gui_handlers.CampaignResults)
 }

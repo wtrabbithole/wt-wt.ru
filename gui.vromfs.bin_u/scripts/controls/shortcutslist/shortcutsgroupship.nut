@@ -5,6 +5,7 @@ return [
     id = "ID_SHIP_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.SHIP
+    needShowInHelp = true
   }
 //-------------------------------------------------------
   {
@@ -43,15 +44,16 @@ return [
     type = CONTROL_TYPE.AXIS
     def_relative = true
     checkGroup = ctrlGroups.SHIP
-    showFunc = @() checkOptionValue("ship_seperated_engine_control", false)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP, false)
     axisDirection = AxisDirection.Y
+    needShowInHelp = true
   }
   {
     id = "ship_port_engine"
     type = CONTROL_TYPE.AXIS
     def_relative = true
     checkGroup = ctrlGroups.SHIP
-    showFunc = @() checkOptionValue("ship_seperated_engine_control", true)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP, true)
     checkAssign = false
   }
   {
@@ -59,7 +61,7 @@ return [
     type = CONTROL_TYPE.AXIS
     def_relative = true
     checkGroup = ctrlGroups.SHIP
-    showFunc = @() checkOptionValue("ship_seperated_engine_control", true)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP, true)
     checkAssign = false
   }
   {
@@ -67,6 +69,7 @@ return [
     type = CONTROL_TYPE.AXIS,
     checkGroup = ctrlGroups.SHIP,
     axisDirection = AxisDirection.X
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_FULL_STOP"
@@ -86,6 +89,7 @@ return [
   {
     id = "ID_SHIP_WEAPON_ALL"
     checkGroup = ctrlGroups.SHIP
+    needShowInHelp = true
   }
   {
     id = "selectWheelShipEnable"
@@ -98,61 +102,71 @@ return [
     id = "ID_SHIP_SELECTWEAPON_WHEEL_MENU"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
-    showFunc = @() checkOptionValue("selectWheelShipEnable", true)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_WHEEL_CONTROL_SHIP, true)
       && (::is_xinput_device() || ::is_ps4_or_xbox)
   }
   {
     id = "ID_SHIP_WEAPON_PRIMARY"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
-    showFunc = @() checkOptionValue("selectWheelShipEnable", false)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_WHEEL_CONTROL_SHIP, false)
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_SECONDARY"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
-    showFunc = @() checkOptionValue("selectWheelShipEnable", false)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_WHEEL_CONTROL_SHIP, false)
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_MACHINEGUN"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
-    showFunc = @() checkOptionValue("selectWheelShipEnable", false)
+    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_WHEEL_CONTROL_SHIP, false)
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_TORPEDOES"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_DEPTH_CHARGE"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_MINE"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_MORTAR"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_ROCKETS"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_SMOKE_SCREEN_GENERATOR"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_TORPEDO_SIGHT"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_TOGGLE_GUNNERS"
@@ -187,6 +201,7 @@ return [
   {
     id = "ID_TOGGLE_VIEW_SHIP"
     checkGroup = ctrlGroups.SHIP
+    needShowInHelp = true
   }
   {
     id = "ID_TARGETING_HOLD_SHIP"
@@ -277,26 +292,31 @@ return [
     id = "ID_SHIP_ACTION_BAR_ITEM_1"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_ACTION_BAR_ITEM_2"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_ACTION_BAR_ITEM_3"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_ACTION_BAR_ITEM_4"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_ACTION_BAR_ITEM_5"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_KILLSTREAK_WHEEL_MENU"
@@ -308,21 +328,25 @@ return [
     id = "ID_SHIP_ACTION_BAR_ITEM_6"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_ACTION_BAR_ITEM_11"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_REPAIR_BREACHES"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_ACTION_BAR_ITEM_10"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SHIP_LOCK_SHOOT_DISTANCE"

@@ -91,7 +91,6 @@
     HangarWndHelp = true
     EulaInMenu = true
     WarpointsInMenu = true
-    BenchmarkForDevs = true
 
     WorldWar = false
     worldWarMaster = false
@@ -246,13 +245,14 @@
 
     ClansXBOXOnPC = false
 
+    MapPreferences = false
     TournamentInvites = true
   }
 
   cache = {}
 }
 
-function g_features::hasFeatureBasic(name)
+g_features.hasFeatureBasic <- function hasFeatureBasic(name)
 {
   if (name in cache)
     return cache[name]
@@ -265,21 +265,21 @@ function g_features::hasFeatureBasic(name)
   return res
 }
 
-function g_features::getFeaturePack(name)
+g_features.getFeaturePack <- function getFeaturePack(name)
 {
   local sBlk = ::get_game_settings_blk()
-  local featureBlk = sBlk && sBlk.features && sBlk.features[name]
+  local featureBlk = sBlk?.features[name]
   if (!::u.isDataBlock(featureBlk))
     return null
-  return featureBlk.reqPack
+  return featureBlk?.reqPack
 }
 
-function g_features::onEventProfileUpdated(p)
+g_features.onEventProfileUpdated <- function onEventProfileUpdated(p)
 {
   cache.clear()
 }
 
-function has_feature(name)
+::has_feature <- function has_feature(name)
 {
   local confirmingResult = true
   if (name.len() > 1 && name.slice(0,1) == "!")
@@ -290,7 +290,7 @@ function has_feature(name)
   return ::g_features.hasFeatureBasic(name) == confirmingResult
 }
 
-function has_feature_array(arr)
+::has_feature_array <- function has_feature_array(arr)
 {
   if (arr == null || arr.len() <= 0)
     return true
@@ -302,7 +302,7 @@ function has_feature_array(arr)
   return true
 }
 
-function has_feature_array_any(arr)
+::has_feature_array_any <- function has_feature_array_any(arr)
 {
   if (arr == null || arr.len() <= 0)
     return true
@@ -318,14 +318,12 @@ function has_feature_array_any(arr)
  * Returns array of entitlements that
  * unlock feature with provided name.
  */
-function get_entitlements_by_feature(name)
+::get_entitlements_by_feature <- function get_entitlements_by_feature(name)
 {
   local entitlements = []
   if (name == null)
     return entitlements
-  local sBlk = ::get_game_settings_blk()
-  local blk = sBlk && sBlk.features
-  local feature = blk && blk[name]
+  local feature = ::get_game_settings_blk()?.features?[name]
   if (feature == null)
     return entitlements
   foreach(condition in (feature % "condition"))

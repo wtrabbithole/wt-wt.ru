@@ -69,9 +69,6 @@ local globalEnv = require_native("globalEnv")
         }
       skip = ["msg/holdThrottleForWEP"] //dont work in axis, but need to correct prevItem work, when skipList used in onAxisDone
     }
-    { id="thrust_vector_forward",              needSkip = @() !::has_feature("UfoControl")  }
-    { id="thrust_vector_lateral",              needSkip = @() !::has_feature("UfoControl")  }
-    { id="thrust_vector_vertical",             needSkip = @() !::has_feature("UfoControl")  }
     { id="msg/holdThrottleForWEP", type= CONTROL_TYPE.MSG_BOX
       options = ["#options/yes", "#options/no", "options/skip"],
       onButton = function(value) { if (value<2) curJoyParams.holdThrottleForWEP = value==0 }
@@ -86,13 +83,13 @@ local globalEnv = require_native("globalEnv")
     "ID_FLARES",
     "ID_FUEL_TANKS",
     "ID_AIR_DROP",
-    { id="ID_SENSOR_SWITCH",              needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_MODE_SWITCH",         needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_SCAN_PATTERN_SWITCH", needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_RANGE_SWITCH",        needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_TARGET_SWITCH",       needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_TARGET_LOCK",         needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_VIEW_SWITCH",         needSkip = @() !::has_feature("Sensors") }
+    "ID_SENSOR_SWITCH",
+    "ID_SENSOR_MODE_SWITCH",
+    "ID_SENSOR_SCAN_PATTERN_SWITCH",
+    "ID_SENSOR_RANGE_SWITCH",
+    "ID_SENSOR_TARGET_SWITCH",
+    "ID_SENSOR_TARGET_LOCK",
+    "ID_SENSOR_VIEW_SWITCH",
     { id="weapon_aim_heading", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true }
     { id="weapon_aim_pitch",   type = CONTROL_TYPE.AXIS, isVertical = true,       buttonRelative = true }
     "ID_RELOAD_GUNS",
@@ -276,7 +273,7 @@ local globalEnv = require_native("globalEnv")
   { id="msg/wizard_done_msg", type= CONTROL_TYPE.MSG_BOX }
 ]
 
-function initControlsWizardConfig(arr)
+::initControlsWizardConfig <- function initControlsWizardConfig(arr)
 {
   for(local i=0; i < arr.len(); i++)
   {
@@ -297,7 +294,7 @@ function initControlsWizardConfig(arr)
   }
 }
 
-function gui_modal_controlsWizard()
+::gui_modal_controlsWizard <- function gui_modal_controlsWizard()
 {
   ::gui_start_modal_wnd(::gui_handlers.controlsWizardModalHandler)
 }
@@ -687,10 +684,18 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       if (axis.axisId >= 0)
         axisAssignText = ::addHotkeyTxt(::remapAxisName(curPreset, axis.axisId))
       if (isButtonsListenInCurBox)
-        buttonAssignText = ::get_shortcut_text(shortcuts, curItem.modifiersId[axisMaxChoosen? "rangeMin" : "rangeMax"][0], false)
+        buttonAssignText = ::get_shortcut_text({
+          shortcuts = shortcuts,
+          shortcutId = curItem.modifiersId[axisMaxChoosen? "rangeMin" : "rangeMax"][0],
+          cantBeEmpty = false
+        })
     }
     else if (curItem.type == CONTROL_TYPE.SHORTCUT)
-      buttonAssignText = ::get_shortcut_text(shortcuts, curItem.shortcutId, false)
+      buttonAssignText = ::get_shortcut_text({
+        shortcuts = shortcuts,
+        shortcutId = curItem.shortcutId,
+        cantBeEmpty = false
+      })
 
     local assignText = axisAssignText + ((buttonAssignText == "" || axisAssignText == "")? "" : ::loc("ui/semicolon")) + buttonAssignText
     if (assignText == "")

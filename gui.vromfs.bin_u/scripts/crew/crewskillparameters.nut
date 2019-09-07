@@ -9,7 +9,7 @@
   }
 }
 
-function g_crew_skill_parameters::init()
+g_crew_skill_parameters.init <- function init()
 {
   ::add_event_listener("CrewSkillsChanged", onEventCrewSkillsChanged, this)
   ::add_event_listener("SignOut", onEventSignOut, this)
@@ -17,7 +17,7 @@ function g_crew_skill_parameters::init()
   ::add_event_listener("CrewChanged", onEventCrewChanged, this)
 }
 
-function g_crew_skill_parameters::getParametersByCrewId(crewId)
+g_crew_skill_parameters.getParametersByCrewId <- function getParametersByCrewId(crewId)
 {
   local parameters = ::getTblValue(crewId, _parametersByCrewId, null)
   if (parameters == null)
@@ -48,12 +48,12 @@ function g_crew_skill_parameters::getParametersByCrewId(crewId)
   return parameters
 }
 
-function getBaseParameters(crewId)
+::getBaseParameters <- function getBaseParameters(crewId)
 {
   if (_baseParameters == null)
   {
     local skillsBlk = ::get_skills_blk()
-    local calcBlk = skillsBlk.crew_skills_calc
+    local calcBlk = skillsBlk?.crew_skills_calc
     if (calcBlk == null)
       return null
 
@@ -70,29 +70,29 @@ function getBaseParameters(crewId)
   return _baseParameters
 }
 
-function g_crew_skill_parameters::onEventCrewSkillsChanged(params)
+g_crew_skill_parameters.onEventCrewSkillsChanged <- function onEventCrewSkillsChanged(params)
 {
   local crewId = params.crew.id
   _parametersByCrewId[crewId] <- null
 }
 
-function g_crew_skill_parameters::onEventSignOut(params)
+g_crew_skill_parameters.onEventSignOut <- function onEventSignOut(params)
 {
   _parametersByCrewId.clear()
   _baseParameters = null
 }
 
-function g_crew_skill_parameters::onEventCrewTakeUnit(params)
+g_crew_skill_parameters.onEventCrewTakeUnit <- function onEventCrewTakeUnit(params)
 {
   _baseParameters = null
 }
 
-function g_crew_skill_parameters::onEventCrewChanged(params)
+g_crew_skill_parameters.onEventCrewChanged <- function onEventCrewChanged(params)
 {
   _baseParameters = null
 }
 
-function g_crew_skill_parameters::getBaseDescriptionText(memberName, skillName, crew)
+g_crew_skill_parameters.getBaseDescriptionText <- function getBaseDescriptionText(memberName, skillName, crew)
 {
   local locId = ::format("crew/%s/%s/tooltip", memberName, skillName)
   local locParams = null
@@ -102,35 +102,29 @@ function g_crew_skill_parameters::getBaseDescriptionText(memberName, skillName, 
     locId = "crew/eyesight/tank/tooltip"
 
     local blk = ::dgs_get_game_params()
-    local detectDefaults = blk.detectDefaults
+    local detectDefaults = blk?.detectDefaults
     locParams = {
       targetingMul = ::getTblValue("distanceMultForTargetingView", detectDefaults, 1.0)
       binocularMul = ::getTblValue("distanceMultForBinocularView", detectDefaults, 1.0)
     }
   }
-  else if (skillName == "loading_time_mult" && memberName == "loader")
-  {
-      local wBlk = ::get_wpcost_blk()
-      local unit = ::g_crew.getCrewUnit(crew)
-      if (unit)
-      {
-        local uBlk = wBlk[unit.name]
-        local value = uBlk && uBlk["primaryWeaponAutoLoader"]
-        if (value)
-          locId = "crew/loader/loading_time_mult/tooltipauto"
-      }
-  }
 
   return ::loc(locId, locParams)
 }
 
-function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew, difficulty)
+g_crew_skill_parameters.getTooltipText <- function getTooltipText(memberName, skillName, crewUnitType, crew, difficulty)
 {
   local resArray = [getBaseDescriptionText(memberName, skillName, crew)]
 
-  if (crew && memberName == "groundService" && skillName == "repair")
+  local unit = ::g_crew.getCrewUnit(crew)
+
+  if (unit && unit.unitType.crewUnitType != crewUnitType)
   {
-    local unit = ::g_crew.getCrewUnit(crew)
+    local text = ::loc("crew/skillsWorkWithUnitsSameType")
+    resArray.append(::colorize("warningTextColor", text))
+  }
+  else if (crew && memberName == "groundService" && skillName == "repair")
+  {
     local fullParamsList = ::g_skill_parameters_request_type.CURRENT_VALUES.getParameters(crew.id)
     local parametersPath = [difficulty.crewSkillName, memberName, "repairRank", "groundServiceRepairRank"]
     local repairRank = ::get_tbl_value_by_path_array(parametersPath, fullParamsList, 0)
@@ -144,12 +138,21 @@ function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew, di
       resArray.append(::colorize("warningTextColor", text))
     }
   }
+  else if (memberName == "loader" && skillName == "loading_time_mult")
+  {
+    local wBlk = ::get_wpcost_blk()
+    if (unit && wBlk?[unit.name].primaryWeaponAutoLoader)
+    {
+      local text = ::loc("crew/loader/loading_time_mult/tooltipauto")
+      resArray.append(::colorize("warningTextColor", text))
+    }
+  }
 
   return ::g_string.implode(resArray, "\n")
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]
-function g_crew_skill_parameters::getColumnsTypesList(skillsList, crewUnitType)
+g_crew_skill_parameters.getColumnsTypesList <- function getColumnsTypesList(skillsList, crewUnitType)
 {
   local columnTypes = []
   foreach (columnType in ::g_skill_parameters_column_type.types)
@@ -167,7 +170,7 @@ function g_crew_skill_parameters::getColumnsTypesList(skillsList, crewUnitType)
   return columnTypes
 }
 
-function g_crew_skill_parameters::getSkillListHeaderRow(crew, columnTypes)
+g_crew_skill_parameters.getSkillListHeaderRow <- function getSkillListHeaderRow(crew, columnTypes)
 {
   local res = {
     descriptionLabel = ::loc("crewSkillParameterTable/descriptionLabel")
@@ -193,7 +196,7 @@ function g_crew_skill_parameters::getSkillListHeaderRow(crew, columnTypes)
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]
-function g_crew_skill_parameters::getParametersByRequestType(crewId, skillsList, difficulty, requestType, useSelectedParameters)
+g_crew_skill_parameters.getParametersByRequestType <- function getParametersByRequestType(crewId, skillsList, difficulty, requestType, useSelectedParameters)
 {
   local res = {}
   local fullParamsList = useSelectedParameters
@@ -221,7 +224,7 @@ function g_crew_skill_parameters::getParametersByRequestType(crewId, skillsList,
   return res
 }
 
-function g_crew_skill_parameters::getSortedArrayByParamsTable(parameters, crewUnitType)
+g_crew_skill_parameters.getSortedArrayByParamsTable <- function getSortedArrayByParamsTable(parameters, crewUnitType)
 {
   local res = []
   foreach(name, valuesArr in parameters)
@@ -244,7 +247,7 @@ function g_crew_skill_parameters::getSortedArrayByParamsTable(parameters, crewUn
   return res
 }
 
-function g_crew_skill_parameters::parseParameters(columnTypes,
+g_crew_skill_parameters.parseParameters <- function parseParameters(columnTypes,
   currentParametersByRequestType, selectedParametersByRequestType, crewUnitType)
 {
   local res = []
@@ -262,7 +265,7 @@ function g_crew_skill_parameters::parseParameters(columnTypes,
   return res
 }
 
-function g_crew_skill_parameters::filterSkillsList(skillsList)
+g_crew_skill_parameters.filterSkillsList <- function filterSkillsList(skillsList)
 {
   local res = []
   foreach(skill in skillsList)
@@ -283,7 +286,7 @@ function g_crew_skill_parameters::filterSkillsList(skillsList)
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]
-function g_crew_skill_parameters::getSkillListParameterRowsView(crew, difficulty, notFilteredSkillsList, crewUnitType)
+g_crew_skill_parameters.getSkillListParameterRowsView <- function getSkillListParameterRowsView(crew, difficulty, notFilteredSkillsList, crewUnitType)
 {
   local skillsList = filterSkillsList(notFilteredSkillsList)
 
@@ -318,7 +321,7 @@ function g_crew_skill_parameters::getSkillListParameterRowsView(crew, difficulty
   return res
 }
 
-function g_crew_skill_parameters::getSkillDescriptionView(crew, difficulty, memberName, skillName, crewUnitType)
+g_crew_skill_parameters.getSkillDescriptionView <- function getSkillDescriptionView(crew, difficulty, memberName, skillName, crewUnitType)
 {
   local skillsList = [{
     memberName = memberName
@@ -327,7 +330,7 @@ function g_crew_skill_parameters::getSkillDescriptionView(crew, difficulty, memb
 
   local view = {
     skillName = ::loc("crew/" + skillName)
-    tooltipText = getTooltipText(memberName, skillName, crew, difficulty)
+    tooltipText = getTooltipText(memberName, skillName, crewUnitType, crew, difficulty)
 
     // First item in this array is table's header.
     parameterRows = getSkillListParameterRowsView(crew, difficulty, skillsList, crewUnitType)

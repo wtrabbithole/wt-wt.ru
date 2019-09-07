@@ -7,7 +7,7 @@ mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDeb
 
 //::use_debug_fake_players <- false
 
-function session_fill_info(scene, sessionInfo)
+::session_fill_info <- function session_fill_info(scene, sessionInfo)
 {
   if (!::checkObj(scene))
     return
@@ -148,7 +148,7 @@ function session_fill_info(scene, sessionInfo)
   scene.findObject("slotbar_override").setValue(slotOverrideText)
 }
 
-function session_clear_info(scene)
+::session_clear_info <- function session_clear_info(scene)
 {
   foreach (name in ["session_creator", "session_mapName", "session_hasPassword",
                     "session_environment", "session_difficulty", "session_timeLimit",
@@ -169,7 +169,7 @@ function session_clear_info(scene)
   }
 }
 
-function session_player_rmenu(handler, player, chatLog = null, position = null, orientation = null)
+::session_player_rmenu <- function session_player_rmenu(handler, player, chatLog = null, position = null, orientation = null)
 {
   if (!player || player.isBot || !("userId" in player) || !::g_login.isLoggedIn())
     return
@@ -186,7 +186,7 @@ function session_player_rmenu(handler, player, chatLog = null, position = null, 
   })
 }
 
-function gui_start_mp_lobby()
+::gui_start_mp_lobby <- function gui_start_mp_lobby()
 {
   if (::SessionLobby.status != lobbyStates.IN_LOBBY)
   {
@@ -810,7 +810,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function gui_modal_joiningGame()
+::gui_modal_joiningGame <- function gui_modal_joiningGame()
 {
   ::gui_start_modal_wnd(::gui_handlers.JoiningGame)
 }

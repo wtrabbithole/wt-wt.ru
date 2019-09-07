@@ -1,4 +1,4 @@
-function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
+::_generateAssaultDefMission <- function _generateAssaultDefMission(isFreeFlight, createGroundUnitsProc)
 {
   local mission_preset_name = "ground_defense_preset02";
   ::mgBeginMission("gameData/missions/dynamic_campaign/objectives/"+mission_preset_name+".blk");

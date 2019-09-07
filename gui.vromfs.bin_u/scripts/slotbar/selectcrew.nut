@@ -1,4 +1,4 @@
-function gui_start_selecting_crew(config)
+::gui_start_selecting_crew <- function gui_start_selecting_crew(config)
 {
   if (::CrewTakeUnitProcess.safeInterrupt())
     ::handlersManager.destroyPrevHandlerAndLoadNew(::gui_handlers.SelectCrew, config)

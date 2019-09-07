@@ -3,7 +3,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   types = []
 }
 
-function g_clan_type::_getCreateCost()
+g_clan_type._getCreateCost <- function _getCreateCost()
 {
   local blk = ::get_warpoints_blk()
   local cost = ::Cost()
@@ -12,7 +12,7 @@ function g_clan_type::_getCreateCost()
   return cost
 }
 
-function g_clan_type::_getPrimaryInfoChangeCost()
+g_clan_type._getPrimaryInfoChangeCost <- function _getPrimaryInfoChangeCost()
 {
   local blk = ::get_warpoints_blk()
   local cost = ::Cost()
@@ -24,7 +24,7 @@ function g_clan_type::_getPrimaryInfoChangeCost()
   return cost
 }
 
-function g_clan_type::_getSecondaryInfoChangeCost()
+g_clan_type._getSecondaryInfoChangeCost <- function _getSecondaryInfoChangeCost()
 {
   local blk = ::get_warpoints_blk()
   local cost = ::Cost()
@@ -36,44 +36,44 @@ function g_clan_type::_getSecondaryInfoChangeCost()
   return cost
 }
 
-function g_clan_type::_checkTagText(tagText)
+g_clan_type._checkTagText <- function _checkTagText(tagText)
 {
   if (tagText.find(start) != 0 || tagText.len() < end.len())
     return false
   return tagText.slice(-end.len()) == end
 }
 
-function g_clan_type::_getTagLengthLimit()
+g_clan_type._getTagLengthLimit <- function _getTagLengthLimit()
 {
   return ::clan_get_tag_length_limit(code)
 }
 
-function g_clan_type::_isDescriptionChangeAllowed()
+g_clan_type._isDescriptionChangeAllowed <- function _isDescriptionChangeAllowed()
 {
   return ::clan_is_desc_allowed_for_type(code)
 }
 
-function g_clan_type::_isAnnouncementAllowed()
+g_clan_type._isAnnouncementAllowed <- function _isAnnouncementAllowed()
 {
   return ::clan_is_announcement_allowed_for_type(code)
 }
 
-function g_clan_type::_isRoleAllowed(roleCode)
+g_clan_type._isRoleAllowed <- function _isRoleAllowed(roleCode)
 {
   return ::clan_is_role_allowed_for_type(roleCode, code)
 }
 
-function g_clan_type::_getTypeName()
+g_clan_type._getTypeName <- function _getTypeName()
 {
   return ::clan_type_to_string(code)
 }
 
-function g_clan_type::_isEnabled()
+g_clan_type._isEnabled <- function _isEnabled()
 {
   return getCreateCost().gold != -1
 }
 
-function g_clan_type::_getNextType()
+g_clan_type._getNextType <- function _getNextType()
 {
   local nextType = ::g_clan_type.getTypeByCode(nextTypeCode)
   if (nextType == ::g_clan_type.UNKNOWN || !::g_clan_type.isUpgradeAllowed(this, nextType))
@@ -81,22 +81,22 @@ function g_clan_type::_getNextType()
   return nextType
 }
 
-function g_clan_type::_getNextTypeUpgradeCost()
+g_clan_type._getNextTypeUpgradeCost <- function _getNextTypeUpgradeCost()
 {
   return ::g_clan_type.getUpgradeCost(this, getNextType())
 }
 
-function g_clan_type::_canUpgradeMembers(current_limit)
+g_clan_type._canUpgradeMembers <- function _canUpgradeMembers(current_limit)
 {
   return ::clan_get_members_upgrade_cost(code, current_limit) >= 0
 }
 
-function g_clan_type::_getMembersUpgradeCost(current_limit)
+g_clan_type._getMembersUpgradeCost <- function _getMembersUpgradeCost(current_limit)
 {
   return ::Cost(0, ::max(0, ::clan_get_members_upgrade_cost(code, current_limit)))
 }
 
-function g_clan_type::_getMembersUpgradeStep()
+g_clan_type._getMembersUpgradeStep <- function _getMembersUpgradeStep()
 {
   return ::clan_get_members_upgrade_step(code)
 }
@@ -164,7 +164,7 @@ function g_clan_type::_getMembersUpgradeStep()
   /** Returns members upgrade step */
   getMembersUpgradeStep = ::g_clan_type._getMembersUpgradeStep
 
-  getMinMemberCountToWWar = @() ::get_warpoints_blk()[minMemberCountToWWarParamName] ?? 1
+  getMinMemberCountToWWar = @() ::get_warpoints_blk()?[minMemberCountToWWarParamName] ?? 1
 }
 
 enums.addTypesByGlobalName("g_clan_type", {
@@ -191,24 +191,24 @@ enums.addTypesByGlobalName("g_clan_type", {
   }
 })
 
-function g_clan_type::getTypeByCode(code)
+g_clan_type.getTypeByCode <- function getTypeByCode(code)
 {
   return enums.getCachedType("code", code, ::g_clan_type_cache.byCode,
                                        ::g_clan_type, ::g_clan_type.UNKNOWN)
 }
 
-function g_clan_type::getTypeByName(typeName)
+g_clan_type.getTypeByName <- function getTypeByName(typeName)
 {
   local code = ::string_to_clan_type(typeName)
   return getTypeByCode(code)
 }
 
-function g_clan_type::isUpgradeAllowed(oldType, newType)
+g_clan_type.isUpgradeAllowed <- function isUpgradeAllowed(oldType, newType)
 {
   return ::clan_is_upgrade_allowed(oldType.code, newType.code)
 }
 
-function g_clan_type::getUpgradeCost(oldType, newType)
+g_clan_type.getUpgradeCost <- function getUpgradeCost(oldType, newType)
 {
   local blk = ::get_warpoints_blk()
   local cost = ::Cost()

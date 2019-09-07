@@ -26,7 +26,7 @@ shopData = [
 ]
 */
 
-function gui_start_shop_research(config)
+::gui_start_shop_research <- function gui_start_shop_research(config)
 {
   ::gui_start_modal_wnd(::gui_handlers.ShopCheckResearch, config)
 }
@@ -197,16 +197,16 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                 airData.rawdelete("airsGroup")
               }
 
-              airData.image <- airBlk.image
+              airData.image <- airBlk?.image
             }
-            if (airBlk.reqAir!=null)
+            if (airBlk?.reqAir != null)
               airData.reqAir <- airBlk.reqAir
             if (airBlk?.rankPosXY)
             {
               airData.rankPosXY <- airBlk.rankPosXY
               hasRankPosXY = true
             }
-            if ("fakeReqUnitType" in airBlk)
+            if (airBlk?.fakeReqUnitType)
             {
               local fakeUnitRanges = genFakeUnitRanges(airBlk, countryData.name)
               airData.fakeReqUnits <- fakeUnitRanges.map(@(range) (range.top()).name)
@@ -1411,7 +1411,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   {
     local coordsStr = ::g_string.cutPrefix(obj?.id, "high_") ?? ""
     local coords = ::g_string.split(coordsStr, "_").map(@(c) ::to_integer_safe(c, -1, false))
-    if (coords?[0] >= 0 && coords?[1] >= 0)
+    if ((coords?[0] ?? -1) >= 0 && (coords?[1] ?? -1) >= 0)
       selCellOnSearchQuit = coords
     guiScene.performDelayed(this, @() searchBoxWeak && searchBoxWeak.searchCancel())
   }
@@ -1434,6 +1434,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onAircraftClick(obj)
   {
+    scene.findObject("shop_items_list").select()
     checkSelectAirGroup()
     openMenuForCurAir(obj)
   }

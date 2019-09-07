@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local controllerState = require_native("controllerState")
+local kwarg = require("std/functools.nut").kwarg
 
 ::classic_control_preset <- "classic"
 ::shooter_control_preset <- "shooter"
@@ -16,11 +17,70 @@ if (::is_platform_xboxone)
 ::g_controls_utils <- {
   [PERSISTENT_DATA_PARAMS] = ["eventHandler"]
   eventHandler = null
+
+  getControlsList = kwarg(function(unitType = null, classType = null, unitTags = [])
+  {
+    local isHeaderPassed = true
+    local isSectionPassed = true
+    local controlsList = ::shortcutsList.filter(function(idx, sc)
+    {
+      if (sc.type != CONTROL_TYPE.HEADER && sc.type != CONTROL_TYPE.SECTION)
+      {
+        if (isHeaderPassed && isSectionPassed && "showFunc" in sc)
+          return sc.showFunc()
+
+        return isHeaderPassed && isSectionPassed
+      }
+
+      if (sc.type == CONTROL_TYPE.HEADER) //unitType and other params below exist only in header
+      {
+        isHeaderPassed = sc?.unitType == null || unitType == sc?.unitType
+        isSectionPassed = true // reset previous sectino setting
+
+        if (isHeaderPassed && classType != null)
+          isHeaderPassed = sc?.unitClassTypes == null || ::isInArray(classType, sc.unitClassTypes)
+
+        if (isHeaderPassed)
+          isHeaderPassed = (unitTags.len() == 0 && sc?.unitTag == null) || ::isInArray(sc?.unitTag ?? "", unitTags)
+      }
+      else if (sc.type == CONTROL_TYPE.SECTION)
+        isSectionPassed = isHeaderPassed
+
+      if ("showFunc" in sc)
+      {
+        if (sc.type == CONTROL_TYPE.HEADER && isHeaderPassed)
+          isHeaderPassed = sc.showFunc()
+        else if (sc.type == CONTROL_TYPE.SECTION && isSectionPassed)
+          isSectionPassed = sc.showFunc()
+      }
+
+      return isHeaderPassed && isSectionPassed
+    })
+
+    return controlsList
+  })
+
+  function getMouseUsageMask()
+  {
+    local usage = ::g_aircraft_helpers.getOptionValue(
+      ::USEROPT_MOUSE_USAGE)
+    local usageNoAim = ::g_aircraft_helpers.getOptionValue(
+      ::USEROPT_MOUSE_USAGE_NO_AIM)
+    return (usage ? usage : 0) | (usageNoAim ? usageNoAim : 0)
+  }
+
+  function checkOptionValue(optName, checkValue)
+  {
+    local val = ::get_gui_option(optName)
+    if (val != null)
+      return val == checkValue
+    return ::get_option(optName).value == checkValue
+  }
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_controls_utils")
 
-function on_connected_controller()
+::on_connected_controller <- function on_connected_controller()
 {
   //calls from c++ code, no event on PS4 or XBoxOne
   if (!::isInMenu())
@@ -87,7 +147,7 @@ if (::g_controls_utils.eventHandler && controllerState?.remove_event_handler)
 if (controllerState?.add_event_handler)
   controllerState.add_event_handler(::g_controls_utils.eventHandler)
 
-function get_controls_preset_by_selected_type(cType = "")
+::get_controls_preset_by_selected_type <- function get_controls_preset_by_selected_type(cType = "")
 {
   local presets = ::is_platform_ps4 ? {
     [::classic_control_preset] = "default",

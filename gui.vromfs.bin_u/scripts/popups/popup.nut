@@ -100,7 +100,7 @@ class Popup
   function onPopupButtonClick(obj)
   {
     foreach(button in buttons)
-      if (button.id == obj.id)
+      if (button.id == obj?.id)
       {
         performPopupAction(button?.func)
         break

@@ -1,5 +1,6 @@
 local shipState = require("shipState.nut")
 local crewState = require("crewState.nut")
+local hudState = require("hudState.nut")
 local dmModule = require("dmModule.nut")
 local colors = require("style/colors.nut")
 local setHudBg = require("style/hudBackground.nut")
@@ -134,6 +135,7 @@ local engine = dmModule({
   iconSize = [STATE_ICON_SIZE, STATE_ICON_SIZE]
   totalCountState = shipState.enginesCount
   brokenCountState = shipState.brokenEnginesCount
+  cooldownState = shipState.enginesInCooldown
 })
 
 local transmission = dmModule({
@@ -141,6 +143,7 @@ local transmission = dmModule({
   iconSize = [STATE_ICON_SIZE, STATE_ICON_SIZE]
   totalCountState = shipState.transmissionCount
   brokenCountState = shipState.brokenTransmissionCount
+  cooldownState = shipState.transmissionsInCooldown
 })
 local torpedo = dmModule({
   icon = images.torpedo
@@ -225,7 +228,7 @@ local aiGunners = @() {
   marigin = [hdpx(STATE_ICON_MARGIN), 0]
 
   rendObj = ROBJ_IMAGE
-  image = images.gunnerState.__get(shipState.aiGunnersState.value, images.gunnerState[0])
+  image = images.gunnerState?[shipState.aiGunnersState.value] ?? images.gunnerState[0]
   color = colors.hud.damageModule.active
   watch = shipState.aiGunnersState
   onAttach = @(elem) shipState.aiGunnersState.subscribe(playAiSwithAnimation)
@@ -317,7 +320,8 @@ local steering = function () {
     image = images.steeringMark
     color = colors.hud.shipSteeringGauge.mark
     size = [hdpx(12), hdpx(10)]
-    pos = @() [p * pw(100) - w(100)/2 + 1, -h(100)/2]
+    hplace = HALIGN_CENTER
+    pos = [pw(p*100), -hdpx(5)]
   }
 
   local line = {
@@ -350,7 +354,7 @@ local steering = function () {
         ]
 
       }
-      mark((-shipState.steering.value)/2 + 0.5)
+      mark(-shipState.steering.value)
     ]
   }
 }
@@ -363,7 +367,7 @@ local fov = function (pivot) {
       shipState.sightAngle
       shipState.fov
     ]
-    pos = @() [pivot[0] - w(50), pivot[1] - h(50)]
+    pos = [pivot[0] - sh(15), pivot[1] - sh(15)]
     size = [sh(30), sh(30)]
     transform = {
       pivot = [0.5, 0.5]
@@ -434,20 +438,45 @@ local shipStateDisplay = @() {
   ]
 }
 
+local updateFunc = null
 
 return @() setHudBg({
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
-  padding = hdpx(10)
-  gap = {size=[flex(),hdpx(5)]}
-  onAttach = @(elem) gui_scene.setTimeout(0.1,
-    @() ::cross_call.update_damage_panel_state({
-      pos = [elem.getScreenPosX(), elem.getScreenPosY()]
-      size = [elem.getWidth(), elem.getHeight()]
-      visible = true }))
-  onDetach = @(elem) ::cross_call.update_damage_panel_state(null)
-  children = [
-    speed
-    shipStateDisplay
-  ]
+  padding = hudState.isVisibleDmgIndicator.value ? hdpx(10) : 0
+  gap = hudState.isVisibleDmgIndicator.value ? {size=[flex(),hdpx(5)]} : 0
+  watch = hudState.isVisibleDmgIndicator
+  onAttach = function(elem)
+  {
+    if(updateFunc)
+      ::gui_scene.clearTimer(updateFunc)
+    updateFunc = function() {
+      if(elem.getWidth() > 1 && elem.getHeight() > 1)
+      {
+        ::gui_scene.clearTimer(callee())
+        ::cross_call.update_damage_panel_state({
+          pos = [elem.getScreenPosX(), elem.getScreenPosY()]
+          size = [elem.getWidth(), elem.getHeight()]
+          visible = true })
+      }
+    }
+    gui_scene.setInterval(0.1, updateFunc)
+  }
+  onDetach = function(elem) {
+    ::cross_call.update_damage_panel_state(null)
+    if(updateFunc)
+    {
+      ::gui_scene.clearTimer(updateFunc)
+      updateFunc = null
+    }
+  }
+  children = hudState.isVisibleDmgIndicator.value
+    ? [
+        speed
+        shipStateDisplay
+      ]
+    : {
+        rendObj = ROBJ_XRAYDOLL     ///Need add ROBJ_XRAYDOLL in scene for correct update isVisibleDmgIndicator state
+        size = [1, 1]
+      }
 })

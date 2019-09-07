@@ -859,7 +859,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
     if (hasActions)
     {
-      local slotItem = ::get_slot_obj(obj, curSlotCountryId, ::to_integer_safe(obj.cur_col))
+      local slotItem = ::get_slot_obj(obj, curSlotCountryId, ::to_integer_safe(obj?.cur_col))
       openUnitActionsList(slotItem, true)
     }
 
@@ -894,9 +894,9 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!tblObj.childrenCount())
       return -1
-    if (tblObj.id != "airs_table_" + curSlotCountryId)
+    if (tblObj?.id != "airs_table_" + curSlotCountryId)
     {
-      local tblObjId = tblObj.id          // warning disable: -declared-never-used
+      local tblObjId = tblObj?.id         // warning disable: -declared-never-used
       local countryId = curSlotCountryId  // warning disable: -declared-never-used
       ::script_net_assert_once("bad slot country id", "Error: Try to select crew from wrong country")
       return -1
@@ -927,6 +927,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     onSlotDblClick(getCurCrew())
   }
 
+  function onSlotbarClick(obj)
+  {
+    obj.select()
+  }
+
   function checkSelectCountryByIdx(obj)
   {
     local idx = obj.getValue()
@@ -952,7 +957,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     for (local i = 0; i < countriesCount; i++)
     {
       local animObj = crewsObj.getChild(i)
-      animObj.animation = animObj.id == animBlockId ? "show" : "hide"
+      animObj.animation = animObj?.id == animBlockId ? "show" : "hide"
     }
 
     local animBlockObj = crewsObj.findObject(animBlockId)

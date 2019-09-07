@@ -2,7 +2,7 @@ local protectionAnalysis = ::require("scripts/dmViewer/protectionAnalysis.nut")
 
 const SLOT_INFO_CFG_SAVE_PATH = "show_slot_info_panel_tab"
 
-function create_slot_info_panel(parent_scene, show_tabs, configSaveId)
+::create_slot_info_panel <- function create_slot_info_panel(parent_scene, show_tabs, configSaveId)
 {
   if (!::check_obj(parent_scene))
     return null
@@ -236,7 +236,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       doWhenActiveOnce("updateVisibleTabContent")
     }
     base.onSceneActivate(show)
-    infoPanelObj.show(show)
+    if (::check_obj(infoPanelObj))
+      infoPanelObj.show(show)
   }
 
   function onEventShopWndVisible(p)

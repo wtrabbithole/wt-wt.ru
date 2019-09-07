@@ -16,16 +16,16 @@ enum POPUP_VIEW_TYPES {
   days = 0
 }
 
-function getTimeIntByString(stringDate, defaultValue = 0)
+::getTimeIntByString <- function getTimeIntByString(stringDate, defaultValue = 0)
 {
   local t = stringDate ? time.getTimestampFromStringUtc(stringDate) : -1
   return t >= 0 ? t : defaultValue
 }
 
 
-function g_popup_msg::ps4ActivityFeedFromPopup(blk)
+g_popup_msg.ps4ActivityFeedFromPopup <- function ps4ActivityFeedFromPopup(blk)
 {
-  if (blk.ps4ActivityFeedType != "update")
+  if (blk?.ps4ActivityFeedType != "update")
     return null
 
   local ver = split(::get_game_version_str(), ".")
@@ -56,7 +56,7 @@ function g_popup_msg::ps4ActivityFeedFromPopup(blk)
   return feed
 }
 
-function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = true)
+g_popup_msg.verifyPopupBlk <- function verifyPopupBlk(blk, hasModalObject, needDisplayCheck = true)
 {
   local popupId = blk.getBlockName()
 
@@ -68,23 +68,23 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
     if (hasModalObject && !blk.getBool("showOverModalObject", false))
       return null
 
-    if (blk.reqFeature && !::has_feature(blk.reqFeature))
+    if (blk?.reqFeature && !::has_feature(blk.reqFeature))
       return null
 
-    if (blk.reqUnlock && !::is_unlocked_scripted(-1, blk.reqUnlock))
+    if (blk?.reqUnlock && !::is_unlocked_scripted(-1, blk.reqUnlock))
       return null
 
-    if (!::g_partner_unlocks.isPartnerUnlockAvailable(blk.partnerUnlock, blk.partnerUnlockDurationMin))
+    if (!::g_partner_unlocks.isPartnerUnlockAvailable(blk?.partnerUnlock, blk?.partnerUnlockDurationMin))
       return null
 
     if (!::g_language.isAvailableForCurLang(blk))
       return null
 
-    if (blk.pollId && ::g_webpoll.isPollVoted(blk.pollId))
+    if (blk?.pollId && ::g_webpoll.isPollVoted(blk.pollId))
       return null
 
-    local viewType = blk.viewType || POPUP_VIEW_TYPES.NEVER
-    local viewDay = ::loadLocalByAccount("popup/" + (blk.saveId ?? popupId), 0)
+    local viewType = blk?.viewType ?? POPUP_VIEW_TYPES.NEVER
+    local viewDay = ::loadLocalByAccount("popup/" + (blk?.saveId ?? popupId), 0)
     local canShow = (viewType == POPUP_VIEW_TYPES.EVERY_SESSION)
                     || (viewType == POPUP_VIEW_TYPES.ONCE && !viewDay)
                     || (viewType == POPUP_VIEW_TYPES.EVERY_DAY && viewDay < days)
@@ -95,10 +95,10 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
     }
 
     local secs = ::get_charserver_time_sec()
-    if (getTimeIntByString(blk.startTime, 0) > secs)
+    if (getTimeIntByString(blk?.startTime, 0) > secs)
       return null
 
-    if (getTimeIntByString(blk.endTime, 2114380800) < secs)
+    if (getTimeIntByString(blk?.endTime, 2114380800) < secs)
     {
       passedPopups[popupId] <- true
       return null
@@ -106,19 +106,26 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
   }
 
   local localizedTbl = {name = platformModule.getPlayerName(::my_user_name), uid = ::my_user_id_str}
-  local popupTable = { name = "" }
+  local popupTable = {
+    name = ""
+    popupImage = ""
+    ratioHeight = null
+    forceExternalBrowser = false
+    action = null
+  }
+
   foreach (key in ["name", "desc", "link", "linkText", "actionText"])
   {
     local text = ::g_language.getLocTextFromConfig(blk, key, "")
     if (text != "")
       popupTable[key] <- text.subst(localizedTbl)
   }
-  popupTable.popupImage <- ::g_language.getLocTextFromConfig(blk, "image", "")
-  popupTable.ratioHeight <- blk.imageRatio || null
-  popupTable.forceExternalBrowser <- blk.forceExternalBrowser || false
-  popupTable.action <- blk.action
+  popupTable.popupImage = ::g_language.getLocTextFromConfig(blk, "image", "")
+  popupTable.ratioHeight = blk?.imageRatio
+  popupTable.forceExternalBrowser = blk?.forceExternalBrowser ?? false
+  popupTable.action = blk?.action
 
-  if (blk.pollId)
+  if (blk?.pollId != null)
     popupTable.pollId <- blk.pollId
 
   local ps4ActivityFeedData = ps4ActivityFeedFromPopup(blk)
@@ -128,13 +135,13 @@ function g_popup_msg::verifyPopupBlk(blk, hasModalObject, needDisplayCheck = tru
   return popupTable
 }
 
-function g_popup_msg::showPopupWndIfNeed(hasModalObject)
+g_popup_msg.showPopupWndIfNeed <- function showPopupWndIfNeed(hasModalObject)
 {
   days = time.getUtcDays()
   if (!::get_gui_regional_blk())
     return false
 
-  local popupsBlk = ::get_gui_regional_blk().popupItems
+  local popupsBlk = ::get_gui_regional_blk()?.popupItems
   if (!::u.isDataBlock(popupsBlk))
     return false
 
@@ -149,16 +156,16 @@ function g_popup_msg::showPopupWndIfNeed(hasModalObject)
       passedPopups[popupId] <- true
       popupConfig["type"] <- "regionalPromoPopup"
       ::showUnlockWnd(popupConfig)
-      ::saveLocalByAccount("popup/" + (popupBlk.saveId ?? popupId), days)
+      ::saveLocalByAccount("popup/" + (popupBlk?.saveId ?? popupId), days)
       result = true
     }
   }
   return result
 }
 
-function g_popup_msg::showPopupDebug(dbgId)
+g_popup_msg.showPopupDebug <- function showPopupDebug(dbgId)
 {
-  local popupsBlk = ::get_gui_regional_blk().popupItems
+  local popupsBlk = ::get_gui_regional_blk()?.popupItems
   if (!::u.isDataBlock(popupsBlk))
   {
     dlog("POPUP ERROR: No popupItems in gui_regional_blk")
