@@ -2297,7 +2297,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 ::switchControlsMode <- function switchControlsMode(value)
 {
   local cdb = ::get_local_custom_settings_blk()
-  if (value == cdb[ps4ControlsModeActivatedParamName])
+  if (value == cdb?[ps4ControlsModeActivatedParamName])
     return
 
   cdb[ps4ControlsModeActivatedParamName] = value

@@ -205,9 +205,12 @@ g_streaks.clear <- function clear()
 {
   local messageArr = []
   if (wp)
-    messageArr.append(::format(::loc("warpoints/received"),  "+", ::g_language.decimalFormat(wp)))
+    messageArr.append(::loc("warpoints/received/by_param", {
+      sign  = "+"
+      value =::g_language.decimalFormat(wp)
+    }))
   if (exp)
-    messageArr.append(::format(::loc("exp_received"), ::g_language.decimalFormat(exp)))
+    messageArr.append(::loc("exp_received/by_param", { value = ::g_language.decimalFormat(exp) }))
 
   ::broadcastEvent("StreakArrived", { id = id })
   ::g_streaks.addStreak(id, header, ::g_string.implode(messageArr, ::loc("ui/comma")))

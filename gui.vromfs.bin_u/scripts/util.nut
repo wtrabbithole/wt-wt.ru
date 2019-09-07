@@ -672,11 +672,11 @@ foreach (i, v in ::cssColorsMapDark)
   return ::last_update_entitlements_time - ::dagor.getCurTime() + 20000
 }
 
-::update_entitlements_limited <- function update_entitlements_limited()
+::update_entitlements_limited <- function update_entitlements_limited(force=false)
 {
   if (!::is_online_available())
     return -1
-  if (::get_update_entitlements_timeout_msec() < 0)
+  if (force || ::get_update_entitlements_timeout_msec() < 0)
   {
     ::last_update_entitlements_time = ::dagor.getCurTime()
     return ::update_entitlements()

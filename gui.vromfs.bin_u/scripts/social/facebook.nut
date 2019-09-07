@@ -46,14 +46,14 @@ local time = require("scripts/time.nut")
   dagor.debug("UPLOAD: " + path)
   local cdb = ::get_local_custom_settings_blk();
 
-  if (cdb.facebook == null)
+  if (cdb?.facebook == null)
     cdb.facebook = ::DataBlock()
-  if (cdb.facebook.uploads == null)
+  if (cdb.facebook?.uploads == null)
     cdb.facebook.uploads = ::DataBlock()
 
   local ltm = ::get_utc_time_from_t(::get_charserver_time_sec())
   local curDate = ltm.year +"/"+ ltm.month +"/"+ ltm.day;
-  local postDate = (cdb.facebook.uploads.postDate != null)? cdb.facebook.uploads.postDate : "";
+  local postDate = cdb.facebook.uploads?.postDate ?? ""
   local uploads = cdb.facebook.uploads % "path";
 
   if (curDate == postDate)
@@ -87,13 +87,13 @@ local time = require("scripts/time.nut")
     return
 
   local cdb = ::get_local_custom_settings_blk();
-  if (cdb.facebook == null)
+  if (cdb?.facebook == null)
     cdb.facebook = ::DataBlock()
-  if (cdb.facebook.uploads == null)
+  if (cdb.facebook?.uploads == null)
     cdb.facebook.uploads = ::DataBlock()
   cdb.facebook.uploads.path <- path
 
-  if (cdb.facebook.uploads.postDate == null)
+  if (cdb.facebook.uploads?.postDate == null)
   {
     local ltm = ::get_utc_time_from_t(::get_charserver_time_sec())
     local date = ltm.year +"/"+ ltm.month +"/"+ ltm.day;

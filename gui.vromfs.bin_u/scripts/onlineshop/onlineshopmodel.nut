@@ -55,7 +55,15 @@ OnlineShopModel.showGoods <- function showGoods(searchRequest)
         {
           local psnId = getPsnIdForGoods(goodsName)
           if (psnId != "")
-            return ::ps4_open_store(psnId, true)
+          {
+            local res = ::ps4_open_store(psnId, true)
+            ::g_tasker.addTask(::update_entitlements_limited(true),
+              {
+                showProgressBox = true
+                progressBoxText = ::loc("charServer/checking")
+              })
+            return res
+          }
         }
         else if (getGuidForGoods(goodsName) != "")
           return doBrowserPurchase(goodsName)
@@ -623,7 +631,7 @@ OnlineShopModel.onPurchasesUpdated <- function onPurchasesUpdated()
     return
   }
 
-  local taskId = ::update_entitlements_limited()
+  local taskId = ::update_entitlements_limited(true)
   //taskId = -1 doesn't mean that we must not perform afterCloseFunc
   if (taskId >= 0)
   {
