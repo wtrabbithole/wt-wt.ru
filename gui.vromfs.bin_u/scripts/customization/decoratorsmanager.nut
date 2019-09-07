@@ -1,6 +1,4 @@
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
-local guidParser = require("scripts/guidParser.nut")
-local contentPreview = require("scripts/customization/contentPreview.nut")
 
 const DEFAULT_SKIN_NAME = "default"
 
@@ -59,6 +57,13 @@ function g_decorator::getCachedOrderByType(decType)
   return data.categories
 }
 
+function g_decorator::getVisibleOrderByDecFilter(decType, filterFunc)
+{
+  local data = ::g_decorator.getCachedDataByType(decType)
+  return data.categories.filter(@(idx, c) (c in data.decorators)
+    && ::u.search(data.decorators[c], @(d) filterFunc(d)) != null)
+}
+
 function g_decorator::getCachedDecoratorsListByType(decType)
 {
   local data = ::g_decorator.getCachedDataByType(decType)
@@ -84,12 +89,14 @@ function g_decorator::getDecoratorById(searchId)
   if (::u.isEmpty(searchId))
     return null
 
-  foreach (type in ::g_decorator_type.types)
+  foreach (t in ::g_decorator_type.types)
   {
-    local res = getDecorator(searchId, type)
+    local res = getDecorator(searchId, t)
     if (res)
       return res
   }
+
+  return null
 }
 
 function g_decorator::getDecoratorByResource(resource, resourceType)

@@ -8,7 +8,6 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
   curJoyParams = null
   shortcuts = null
   shortcutItems = null
-  onFinalApplyAxisShortcuts = null //function(changedShortcutsList, changedAxes)
 
   setupAxisMode = null
   autodetectAxis = false
@@ -84,7 +83,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
     }
   }
 
-  function getAxisRawValues(curDevice, idx)
+  function getAxisRawValues(device, idx)
   {
     local res = ::getTblValue(idx, axisRawValues)
     if (!res)
@@ -92,7 +91,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
       if (axisRawValues.len() <= idx)
         axisRawValues.resize(idx + 1, null)
 
-      local rawPos = curDevice.getAxisPosRaw(idx)
+      local rawPos = device.getAxisPosRaw(idx)
       res = {
               def = rawPos,
               last = rawPos,
@@ -509,7 +508,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
     local res = []
     foreach(item in ::shortcutsList)
-      if (item.type == CONTROL_TYPE.AXIS && item != axisItem && checkGroup & item.checkGroup)
+      if (item.type == CONTROL_TYPE.AXIS && item != axisItem && (checkGroup & item.checkGroup))
       {
         local axis = curJoyParams.getAxis(item.axisIndex)
         if (curAxisId == axis.axisId)
@@ -720,8 +719,8 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
 
   function afterModalDestroy()
   {
-    if (onFinalApplyAxisShortcuts)
-      onFinalApplyAxisShortcuts(changedShortcuts, changedAxes)
+    ::broadcastEvent("ControlsChangedShortcuts", {changedShortcuts = changedShortcuts})
+    ::broadcastEvent("ControlsChangedAxes", {changedAxes = changedAxes})
   }
 
   function goBack()

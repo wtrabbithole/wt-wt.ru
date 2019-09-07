@@ -128,15 +128,15 @@ class ::gui_handlers.ChangeCountry extends ::gui_handlers.BaseGuiHandlerWT
    */
   function getAvailableCountries()
   {
-    local availableCountries = []
+    local res = []
     local currentMode = ::game_mode_manager.getCurrentGameMode()
     local source = ::getTblValue("source", currentMode, {})
     for (local i = 0; i < ::shopCountriesList.len(); ++i)
     {
       if (::events.isCountryAvailable(source, ::shopCountriesList[i]))
-        availableCountries.push(::shopCountriesList[i])
+        res.push(::shopCountriesList[i])
     }
-    return availableCountries
+    return res
   }
 
   function isCountryUnlocked(country)

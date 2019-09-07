@@ -13,7 +13,7 @@ const maxrndfloatmask = 16777215 // (1<24)-1
 local maxnoiseint = 0xffffffff // 32 bits
 local function randint_uniform(lo, hi, rand) { // returns random int in range [lo,hi], closed interval
   local n = hi - lo + 1
-  assert(n != 0)
+  ::assert(n != 0)
   local maxx = maxnoiseint - (maxnoiseint % n)
   local x
   do
@@ -79,22 +79,23 @@ local Rand = class{
     }
   }
 
-  function testfloat(){
-    local res = {}
-    for (local i=0;i<100000;i++){
-      local v = rand.rfloat(0,100)
-      v = ((v*100).tointeger()/100).tointeger()
-      if (res?[v] != null)
-        res[v]=res[v]+1
-      else
-        res[v]<-1
-    }
-    return(res)
-  }
-
   grnd = random.grnd
   gauss_rnd = random.gauss_rnd
   uint_noise1D = random.uint_noise1D
+}
+
+function testfloat(){
+  local rand = Rand()
+  local res = {}
+  for (local i=0;i<100000;i++){
+    local v = rand.rfloat(0,100)
+    v = ((v*100).tointeger()/100).tointeger()
+    if (res?[v] != null)
+      res[v]=res[v]+1
+    else
+      res[v]<-1
+  }
+  return(res)
 }
 
 return Rand

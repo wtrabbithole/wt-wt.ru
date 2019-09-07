@@ -41,7 +41,6 @@ function is_measure_unit_user_option(user_opt)
 ::current_tag <- null
 ::aircraft_for_weapons <- null
 ::cur_aircraft_name <- null
-::enemy_aircraft_for_weapons <- null
 ::encyclopedia_data <- null
 ::measure_units <- []
 ::bullet_icons <- {}
@@ -54,9 +53,6 @@ function is_measure_unit_user_option(user_opt)
 ::crosshair_icons <- []
 ::crosshair_colors <- []
 ::num_players_for_private <- 0
-::aircrafts_filter_tags <- null
-::enemy_aircrafts_filter_tags <- null
-::filter_purchased_aircrafts <- false
 ::PlayersMissionType <- {
   MissionTypeSingle = 0,
   MissionTypeLocal = 1,
@@ -97,13 +93,12 @@ function image_for_air(air)
 
 ::available_mission_types <- ::PlayersMissionType.MissionTypeSingle;
 
-::acList <- []
 ::shopCountriesList <- []
 
 ::g_script_reloader.registerPersistentData("OptionsExtGlobals", ::getroottable(),
   [
     "game_mode_maps", "dynamic_layouts",
-    "shopCountriesList", "acList",
+    "shopCountriesList",
     "encyclopedia_data", "measure_units",
     "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
     "crosshair_icons", "crosshair_colors",
@@ -122,26 +117,6 @@ function image_for_air(air)
     }
   }
   return !isNotFound
-}
-
-function set_aircrafts_filter(tags)
-{
-  ::aircrafts_filter_tags = tags
-  ::enemy_aircrafts_filter_tags = tags
-}
-
-function set_enemy_aircrafts_filter(tags)
-{
-  ::enemy_aircrafts_filter_tags = tags
-}
-
-function sort_units_by_rank(a,b)
-{
-  if (a.rank != b.rank)
-    return (a.rank > b.rank) ? 1 : -1
-  if (a.name != b.name)
-    return (a.name > b.name) ? 1 : -1
-  return 0
 }
 
 function get_game_mode_maps()
@@ -236,14 +211,14 @@ function find_in_table(tab, val, notFoundValue = null)
   return find_in_array(tab, val, notFoundValue)
 }
 
-function option_check_arg(id, arg, type)
+function option_check_arg(id, arg, varType)
 {
-  if (typeof arg == type)
+  if (typeof arg == varType)
     return true
 
   local msg = "[ERROR] Wrong argument type supplied for option item '" + id + ".\n"
   msg += "Value = " + ::toString(arg) + ".\n"
-  msg += "Expected '" + type + "' found '" + typeof arg + "'."
+  msg += "Expected '" + varType + "' found '" + typeof arg + "'."
 
   ::script_net_assert_once(id, msg)
   return false
@@ -271,7 +246,7 @@ function build_option_blk(text, image, selected, enabled = true, textStyle = "",
            ((image=="")? "" : "optionImg { background-image:t='" + image + "' } ") +
            ( expImg ?         "optionImg { airExpIcon:t='yes' } " : "") +
            addDiv +
-           ((text=="")? "" : "optiontext { id:t='option_text'; text:t = '" + ::locOrStrip(text) + "'; " + textStyle + "} ") +
+           ((text=="")? "" : "optiontext { id:t='option_text'; text:t = '" + ::g_string.stripTags(text) + "'; " + textStyle + "} ") +
            ((tooltip=="")? "" : "tooltip:t = '" + ::locOrStrip(tooltip) + "'; ") +
            ( selected ?       "selected:t = 'yes'; " : "") +
          " pare-text:t='yes'} ")
@@ -398,10 +373,10 @@ function create_option_row_multiselect(params)
     items = []
   }
   foreach (key in [ "id", "showTitle", "value", "cb" ])
-    if (option?[key] ?? "" != "")
+    if ((option?[key] ?? "") != "")
       view[key] <- option[key]
   foreach (key in [ "textAfter" ])
-    if (option?[key] ?? "" != "")
+    if ((option?[key] ?? "") != "")
       view[key] <- ::locOrStrip(option[key])
 
   foreach (v in option.items)
@@ -411,10 +386,10 @@ function create_option_row_multiselect(params)
     foreach (key in [ "enabled", "isVisible" ])
       viewItem[key] <- item?[key] ?? true
     foreach (key in [ "id", "image" ])
-      if (item?[key] ?? "" != "")
+      if ((item?[key] ?? "") != "")
         viewItem[key] <- item[key]
     foreach (key in [ "text", "tooltip" ])
-      if (item?[key] ?? "" != "")
+      if ((item?[key] ?? "") != "")
         viewItem[key] <- ::locOrStrip(item[key])
     view.items.append(viewItem)
   }
@@ -469,109 +444,12 @@ function create_option_slider(id, value, cb, isFull, sliderType, params = {})
   return data
 }
 
-function update_aircraft_spinner(guiScene, obj, descr)
-{
-    if (obj.id == "aircraft_country")
-    {
-      if (guiScene != null && guiScene["aircraft"] != null)
-      {
-        if (isInArray("training", ::aircrafts_filter_tags))
-        {
-          ::aircrafts_filter_tags = ["training"]
-          ::aircrafts_filter_tags.append(::acList[obj.getValue()])
-          local descrAir = ::get_option(::USEROPT_AIRCRAFT)
-          dagor.debug("calling create_option_list")
-          local txt = ::create_option_list(descrAir.id, descrAir.items, descrAir.value, descrAir.cb, false)
-          dagor.debug("called create_option_list")
-          guiScene.replaceContentFromText("aircraft", txt, txt.len(), this)
-          ::generic_options.onAircraftUpdate(guiScene["aircraft"])
-          return descrAir
-        }
-      }
-    }
-    else if (obj.id == "enemy_aircraft_country")
-    {
-      if (guiScene != null && guiScene["enemy_aircraft"] != null)
-      {
-        if (isInArray("training", ::enemy_aircrafts_filter_tags))
-        {
-          ::enemy_aircrafts_filter_tags = ["training"]
-          ::enemy_aircrafts_filter_tags.append(::acList[obj.getValue()])
-          local descrAir = ::get_option(::USEROPT_ENEMY_AIRCRAFT)
-          local txt = ::create_option_list(descrAir.id, descrAir.items, descrAir.value,descrAir.cb, false)
-          guiScene.replaceContentFromText("enemy_aircraft", txt, txt.len(), this)
-          ::generic_options.onAircraftUpdate(guiScene["enemy_aircraft"])
-          return descrAir
-        }
-      }
-    }
-    return descr
-}
-
-function update_weapons_spinner(guiScene, obj, descr)
-{
-//  guiScene.performDelayed(getroottable(), function():(guiScene, obj, descr)
-  //{
-    if (obj.id == "aircraft")
-    {
-      if (guiScene != null && guiScene["weapons"] != null)
-      {
-        ::aircraft_for_weapons = descr.values[obj.getValue()]
-        local descrWeap = ::get_option(::USEROPT_WEAPONS)
-        local txt = ::create_option_list(descrWeap.id, descrWeap.items, descrWeap.value,descrWeap.cb, false)
-        guiScene.replaceContentFromText("weapons", txt, txt.len(), this)
-        return descrWeap
-      }
-    }
-    else if (obj.id == "enemy_aircraft")
-    {
-      ::enemy_aircraft_for_weapons = descr.values[obj.getValue()]
-      if (guiScene != null && obj.id == guiScene["enemy_weapons"] != null)
-      {
-        local descrWeap = ::get_option(::USEROPT_ENEMY_WEAPONS)
-        local txt = ::create_option_list(descrWeap.id,descrWeap.items, descrWeap.value, descrWeap.cb, false)
-        guiScene.replaceContentFromText("enemy_weapons", txt, txt.len(), this)
-        return descrWeap
-      }
-    }
-//  })
-}
-
 function player_have_skin_by_full_id(fullId)
 {
   local skinParams = ::g_string.split(fullId, "/")
   if (skinParams.len() < 2)
     return false
   return ::player_have_skin(skinParams[0], skinParams[1])
-}
-
-function update_skins_spinner(guiScene, obj, descr)
-{
-  if (obj.id == "aircraft" || obj.id == "enemy_aircraft")
-  {
-    local enemy = (obj.id == "enemy_aircraft")
-    local id = (enemy) ? "enemy_skin" : "skin"
-    if (guiScene != null && guiScene[id] != null)
-    {
-      if (enemy)
-        ::enemy_aircraft_for_weapons = descr.values[obj.getValue()]
-      else
-        ::aircraft_for_weapons = descr.values[obj.getValue()]
-      local descrSkin = ::get_option(enemy ? ::USEROPT_ENEMY_SKIN : ::USEROPT_SKIN)
-      local defSkin = hangar_get_default_skin(enemy ? ::enemy_aircraft_for_weapons : ::aircraft_for_weapons)
-      foreach (i, sk in descrSkin.values)
-      {
-        if (sk == defSkin)
-        {
-          descrSkin.value = i
-          break
-        }
-      }
-      local txt = ::create_option_list(descrSkin.id, descrSkin.items, descrSkin.value, descrSkin.cb, false)
-      guiScene.replaceContentFromText(id, txt, txt.len(), this)
-      return descrSkin
-    }
-  }
 }
 
 function get_mission_time_text(missionTime)
@@ -738,13 +616,13 @@ function create_option()
   }
 }
 
-function get_option(type, context = null)
+function get_option(optionId, context = null)
 {
   local descr = create_option()
-  descr.type = type
+  descr.type = optionId
   descr.context = context
 
-  if(::u.isString(type))
+  if(::u.isString(optionId))
   {
     descr.controlType = optionControlType.HEADER
     descr.controlName <- ""
@@ -759,7 +637,7 @@ function get_option(type, context = null)
   local defaultValue = 0
   local prevValue = null
 
-  switch (type)
+  switch (optionId)
   {
     // global settings:
     case ::USEROPT_LANGUAGE:
@@ -792,7 +670,7 @@ function get_option(type, context = null)
 
     case ::USEROPT_MOUSE_USAGE:
     case ::USEROPT_MOUSE_USAGE_NO_AIM:
-      local ignoreAim = type == USEROPT_MOUSE_USAGE_NO_AIM
+      local ignoreAim = optionId == ::USEROPT_MOUSE_USAGE_NO_AIM
       descr.id = ignoreAim ? "mouse_usage_no_aim" : "mouse_usage"
       descr.items = [
         "#options/nothing"
@@ -817,21 +695,21 @@ function get_option(type, context = null)
       }
 
       defaultValue = descr.values.find(
-        ::g_aircraft_helpers.getOptionValue(type))
+        ::g_aircraft_helpers.getOptionValue(optionId))
       break;
 
     case ::USEROPT_INSTRUCTOR_ENABLED:
       descr.id = "instructor_enabled"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      defaultValue = ::g_aircraft_helpers.getOptionValue(type)
+      defaultValue = ::g_aircraft_helpers.getOptionValue(optionId)
       break
 
     case ::USEROPT_AUTOTRIM:
       descr.id = "autotrim"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      defaultValue = ::g_aircraft_helpers.getOptionValue(type)
+      defaultValue = ::g_aircraft_helpers.getOptionValue(optionId)
       break
 
     case ::USEROPT_INSTRUCTOR_GROUND_AVOIDANCE:
@@ -964,7 +842,7 @@ function get_option(type, context = null)
       {
         local optIndex = find_in_array(
           [::USEROPT_AEROBATICS_SMOKE_LEFT_COLOR, ::USEROPT_AEROBATICS_SMOKE_RIGHT_COLOR, ::USEROPT_AEROBATICS_SMOKE_TAIL_COLOR],
-          type );
+          optionId)
 
         descr.id = ["aerobatics_smoke_left_color", "aerobatics_smoke_right_color", "aerobatics_smoke_tail_color"][optIndex];
 
@@ -1034,6 +912,20 @@ function get_option(type, context = null)
       defaultValue = true
       break
 
+    case ::USEROPT_GAMEPAD_VIBRATION_ENGINE:
+      descr.id = "gamepadVibrationForEngine"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
+    case ::USEROPT_JOY_MIN_VIBRATION:
+      descr.id = "gamepadMinVibration"
+      descr.controlType = optionControlType.SLIDER
+      descr.value = (100.0 * ::get_option_multiplier(::OPTION_JOY_MIN_VIBRATION)).tointeger()
+      defaultValue = 5
+      break
+
     case ::USEROPT_INVERTY:
       descr.id = "invertY"
       descr.controlType = optionControlType.CHECKBOX
@@ -1045,6 +937,15 @@ function get_option(type, context = null)
       descr.id = "invertX"
       descr.items = ["#options/no", "#options/yes"]
       descr.value = ::get_option_invertX() == 0 ? 0 : 1
+      break
+
+    case ::USEROPT_JOYFX:
+      descr.id = "joyFX"
+      descr.hint = ::loc("options/joyFX") + "\n" +
+        ::colorize("warningTextColor", ::loc("guiHints/restart_required"))
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
       break
 
     case ::USEROPT_INVERT_THROTTLE:
@@ -1079,6 +980,20 @@ function get_option(type, context = null)
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y) != 0
+      break
+
+    case ::USEROPT_INVERTY_UFO:
+      descr.id = "invertY_ufo"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_UFO_Y) != 0
+      break
+
+    case ::USEROPT_INVERTY_WALKER:
+      descr.id = "invertY_walker"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_WALKER_Y) != 0
       break
 
     case ::USEROPT_INVERTY_SUBMARINE:
@@ -1324,37 +1239,37 @@ function get_option(type, context = null)
     case ::USEROPT_MEASUREUNITS_WING_LOADING:
     case ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO:
       local unitNo = 0
-      if (type == ::USEROPT_MEASUREUNITS_SPEED)
+      if (optionId == ::USEROPT_MEASUREUNITS_SPEED)
       {
         unitNo = 0
         descr.id = "measure_units_speed"
       }
-      else if (type == ::USEROPT_MEASUREUNITS_ALT)
+      else if (optionId == ::USEROPT_MEASUREUNITS_ALT)
       {
         unitNo = 1
         descr.id = "measure_units_alt"
       }
-      else if (type == ::USEROPT_MEASUREUNITS_DIST)
+      else if (optionId == ::USEROPT_MEASUREUNITS_DIST)
       {
         unitNo = 2
         descr.id = "measure_units_dist"
       }
-      else if (type == ::USEROPT_MEASUREUNITS_CLIMBSPEED)
+      else if (optionId == ::USEROPT_MEASUREUNITS_CLIMBSPEED)
       {
         unitNo = 3
         descr.id = "measure_units_climbSpeed"
       }
-      else if (type == ::USEROPT_MEASUREUNITS_TEMPERATURE)
+      else if (optionId == ::USEROPT_MEASUREUNITS_TEMPERATURE)
       {
         unitNo = 4
         descr.id = "measure_units_temperature"
       }
-      else if (type == ::USEROPT_MEASUREUNITS_WING_LOADING)
+      else if (optionId == ::USEROPT_MEASUREUNITS_WING_LOADING)
       {
         unitNo = 5
         descr.id = "measure_units_wing_loading"
       }
-      else if (type == ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO)
+      else if (optionId == ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO)
       {
         unitNo = 6
         descr.id = "measure_units_power_to_weight_ratio"
@@ -1706,9 +1621,9 @@ function get_option(type, context = null)
 
     case ::USEROPT_TAKEOFF_MODE:
     case ::USEROPT_LANDING_MODE:
-      descr.id = (type == ::USEROPT_TAKEOFF_MODE) ? "takeoff_mode" : "landing_mode"
+      descr.id = (optionId == ::USEROPT_TAKEOFF_MODE) ? "takeoff_mode" : "landing_mode"
 
-      if (type == ::USEROPT_TAKEOFF_MODE &&
+      if (optionId == ::USEROPT_TAKEOFF_MODE &&
         (::mission_name_for_takeoff == "dynamic_free_flight01" ||
          ::mission_name_for_takeoff == "dynamic_free_flight02"))
       {
@@ -1793,7 +1708,7 @@ function get_option(type, context = null)
         descr.value = descr.getValueIdxByValue(prevValue)
       }
       if(descr.value == null || descr.value == -1)
-        descr.value = ::get_gui_option(type)
+        descr.value = ::get_gui_option(optionId)
       break
 
     case ::USEROPT_AUTOBALANCE:
@@ -1949,7 +1864,7 @@ function get_option(type, context = null)
       descr.min <- -2
       descr.max <- 2
       descr.step <- 1
-      descr.value = ::get_gui_option_in_mode(type, ::OPTIONS_MODE_GAMEPLAY)
+      descr.value = ::get_gui_option_in_mode(optionId, ::OPTIONS_MODE_GAMEPLAY)
       defaultValue = 0
       descr.getValueLocText = @(val) (100 + 33.3 * val / max).tointeger() + "%"
       break
@@ -1960,7 +1875,7 @@ function get_option(type, context = null)
       descr.min <- -2
       descr.max <- 2
       descr.step <- 1
-      descr.value = ::get_gui_option_in_mode(type, ::OPTIONS_MODE_GAMEPLAY)
+      descr.value = ::get_gui_option_in_mode(optionId, ::OPTIONS_MODE_GAMEPLAY)
       defaultValue = 0
       descr.getValueLocText = @(val) (100 + 33.3 * val / max).tointeger() + "%"
       break
@@ -2220,7 +2135,7 @@ function get_option(type, context = null)
         globalEnv.EM_FULL_REAL
       ];
       descr.cb = "onHelpersModeChange";
-      defaultValue = ::g_aircraft_helpers.getOptionValue(type)
+      defaultValue = ::g_aircraft_helpers.getOptionValue(optionId)
       break;
 
     case ::USEROPT_HELPERS_MODE_GM:
@@ -2277,84 +2192,12 @@ function get_option(type, context = null)
       descr.value = ::get_option_ai_gunner_time()
       break
 
-    case ::USEROPT_AIRCRAFT_COUNTRY:
-    case ::USEROPT_ENEMY_AIRCRAFT_COUNTRY:
-      descr.id = (type == ::USEROPT_AIRCRAFT_COUNTRY) ? "aircraft_country" : "enemy_aircraft_country"
-      descr.items = []
-      descr.values = acList
-      for (local i = 0; i < acList.len(); i++)
-        descr.items.append("#"+acList[i]);
-      descr.cb = "onAircraftCountryUpdate"
-
-      break
-    case ::USEROPT_AIRCRAFT:
-    case ::USEROPT_ENEMY_AIRCRAFT:
-      descr.id = (type == ::USEROPT_AIRCRAFT) ? "aircraft" : "enemy_aircraft"
-      descr.items = []
-      descr.values = []
-      descr.cost <- []
-      descr.trParams <- "iconType:t='aircraft';"
-      descr.cb = "onAircraftUpdate"
-
-      local tags = (type == ::USEROPT_AIRCRAFT) ? ::aircrafts_filter_tags : ::enemy_aircrafts_filter_tags
-      local unitsList = ::get_units_list((@(tags) function(unit) {
-          return ::check_aircraft_tags(unit.tags, tags)
-                 && (!::team_aircraft_list || ::isInArray(unit.name, ::team_aircraft_list))
-        })(tags))
-      unitsList.sort(::sort_units_by_rank)
-
-      for (local i = 0; i < unitsList.len(); i++)
-      {
-        local unit = unitsList[i]
-        local enable = !::filter_purchased_aircrafts || unit.isUsable()
-        local cost = ::wp_get_cost(unit.name)
-        descr.cost.append(cost)
-        descr.values.append(unit.name)
-        if (enable && defaultValue == null)
-          defaultValue = unit.name
-
-        descr.items.append({
-          text = (unit.rank > 0 ? ("[" + unit.rank + "] ") : "") + ::getUnitName(unit.name)
-          image = image_for_air(unit)
-          enable = enable
-        })
-      }
-
-      if (defaultValue == null)  //not exist any available aircrafts
-      {
-        dagor.debug("Error: Empty aircrafts list. check purchased = " + ::filter_purchased_aircrafts + ", tags:")
-        debugTableData(tags)
-        ::dagor.assertf(false, "No aircrafts to choose")
-      }
-      break
-
-    case ::USEROPT_WEAPONS:
-    case ::USEROPT_ENEMY_WEAPONS:
-      local aircraft = (type == ::USEROPT_WEAPONS) ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons
-      descr.id = (type == ::USEROPT_WEAPONS) ? "secondary_weapons" : "enemy_secondary_weapons"
-      descr.items = []
-      descr.values = []
-      descr.trParams <- "optionWidthInc:t='double';"
-      if (typeof aircraft == "string")
-      {
-        local testFlight = ::get_gui_options_mode() == ::OPTIONS_MODE_TRAINING
-        local checkAircraftPurchased = !testFlight
-        local checkWeaponPurchased = !testFlight && !::is_game_mode_with_spendable_weapons()
-        local weapons = ::get_weapons_list(aircraft, false, null, checkWeaponPurchased, checkAircraftPurchased)
-        descr.items = weapons.items
-        descr.values = weapons.values
-        descr.value = (type == ::USEROPT_WEAPONS)? ::find_in_array(descr.values, ::get_last_weapon(aircraft), 0) : 0
-        descr.hints <- weapons.hints;
-        descr.cb = (type == ::USEROPT_WEAPONS) ? "onMyWeaponOptionUpdate" : "onWeaponOptionUpdate"
-      }
-      break
-
     case ::USEROPT_BULLETS0:
     case ::USEROPT_BULLETS1:
     case ::USEROPT_BULLETS2:
     case ::USEROPT_BULLETS3:
       local aircraft = ::aircraft_for_weapons
-      local groupIndex = type - ::USEROPT_BULLETS0;
+      local groupIndex = optionId - ::USEROPT_BULLETS0
       descr.id = "bullets" + groupIndex;
       descr.items = []
       descr.values = []
@@ -2364,7 +2207,6 @@ function get_option(type, context = null)
         local air = getAircraftByName(aircraft)
         if (air)
         {
-          local is_tank = ::isTank(air)
           local bullets = ::get_options_bullets_list(air, groupIndex, true)
           descr.title = ::get_bullets_list_header(air, bullets)
 
@@ -2391,13 +2233,11 @@ function get_option(type, context = null)
       break
 
     case ::USEROPT_SKIN:
-    case ::USEROPT_ENEMY_SKIN:
-      local air = (type == ::USEROPT_SKIN) ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons
-      descr.id = (type == ::USEROPT_SKIN) ? "skin" : "enemy_skin"
+      descr.id = "skin"
       descr.trParams <- "optionWidthInc:t='double';"
       if (typeof ::aircraft_for_weapons == "string")
       {
-        local skins = ::g_decorator.getSkinsOption((type == ::USEROPT_SKIN) ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons)
+        local skins = ::g_decorator.getSkinsOption(::aircraft_for_weapons)
         descr.items = skins.items
         descr.values = skins.values
         descr.value = skins.value
@@ -2454,7 +2294,7 @@ function get_option(type, context = null)
     case USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
     case USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR:
     case USEROPT_CONTENT_ALLOWED_PRESET:
-      local difficulty = contentPreset.getDifficultyByOptionId(type)
+      local difficulty = contentPreset.getDifficultyByOptionId(optionId)
       defaultValue = difficulty.contentAllowedPresetOptionDefVal
       descr.id = "content_allowed_preset"
       descr.title = ::loc("options/content_allowed_preset")
@@ -2683,7 +2523,7 @@ function get_option(type, context = null)
 
     case ::USEROPT_BIT_COUNTRIES_TEAM_A:
     case ::USEROPT_BIT_COUNTRIES_TEAM_B:
-      local team = type == ::USEROPT_BIT_COUNTRIES_TEAM_A ? ::g_team.A : ::g_team.B
+      local team = optionId == ::USEROPT_BIT_COUNTRIES_TEAM_A ? ::g_team.A : ::g_team.B
       descr.id = "countries_team_" + team.id
       descr.sideTag <- team == ::g_team.A ? "country_allies" : "country_axis"
       descr.controlType = optionControlType.BIT_LIST
@@ -2730,7 +2570,7 @@ function get_option(type, context = null)
         if (cList)
           prevValue = ::get_bit_value_by_array(cList, ::shopCountriesList)
       }
-      descr.value = prevValue || ::get_gui_option(type)
+      descr.value = prevValue || ::get_gui_option(optionId)
       if (!descr.value || !::u.isInteger(descr.value))
         descr.value = allowedMask
       else
@@ -2758,11 +2598,12 @@ function get_option(type, context = null)
       descr.hint = descr.title
 
       defaultValue = ::g_unit_type.types.reduce(@(res, v) res = res | v.bit, 0)
-      prevValue = ::get_gui_option(type) ?? defaultValue
+      prevValue = ::get_gui_option(optionId) ?? defaultValue
 
       local missionBlk = ::get_mission_meta_info(context?.missionName ?? "")
       local isKillStreaksOptionAvailable = missionBlk && ::is_skirmish_with_killstreaks(missionBlk)
-      local useKillStreaks = isKillStreaksOptionAvailable && ::get_gui_option(::USEROPT_USE_KILLSTREAKS) ?? false
+      local useKillStreaks = isKillStreaksOptionAvailable
+        && (::get_gui_option(::USEROPT_USE_KILLSTREAKS) ?? false)
       local availableUnitTypesMask = ::get_mission_allowed_unittypes_mask(missionBlk, useKillStreaks)
 
       descr.availableUnitTypesMask <- availableUnitTypesMask
@@ -2790,7 +2631,7 @@ function get_option(type, context = null)
 
     case ::USEROPT_BR_MIN:
     case ::USEROPT_BR_MAX:
-      local isMin = type == ::USEROPT_BR_MIN
+      local isMin = optionId == ::USEROPT_BR_MIN
       descr.id = isMin ? "battle_rating_min" : "battle_rating_max"
       descr.controlName <- "combobox"
       descr.cb = "onInstantOptionApply"
@@ -2992,7 +2833,7 @@ function get_option(type, context = null)
     case ::USEROPT_MP_TEAM_COUNTRY:
       descr.id = "mp_team"
       descr.items <- []
-      if (type==::USEROPT_MP_TEAM_COUNTRY_RAND)
+      if (optionId == ::USEROPT_MP_TEAM_COUNTRY_RAND)
         descr.values = [0, 1, 2]
       else
         descr.values = [1, 2]
@@ -3313,7 +3154,7 @@ function get_option(type, context = null)
 
     case ::USEROPT_FRIENDLY_SKILL:
     case ::USEROPT_ENEMY_SKILL:
-      descr.id = (type == USEROPT_FRIENDLY_SKILL) ? "friendly_skill" : "enemy_skill"
+      descr.id = (optionId == ::USEROPT_FRIENDLY_SKILL) ? "friendly_skill" : "enemy_skill"
       descr.items = ["#options/skill0", "#options/skill1", "#options/skill2"]
       descr.values = [0, 1, 2]
       defaultValue = 2
@@ -3394,13 +3235,13 @@ function get_option(type, context = null)
         }
       }
 
-      prevValue = ::get_gui_option_in_mode(type, ::OPTIONS_MODE_MP_DOMINATION)
-      if (type == ::USEROPT_CLUSTER)
+      prevValue = ::get_gui_option_in_mode(optionId, ::OPTIONS_MODE_MP_DOMINATION)
+      if (optionId == ::USEROPT_CLUSTER)
       {
         if (::SessionLobby.isInRoom())
           prevValue = ::SessionLobby.getPublicParam("cluster", null)
       }
-      else if (type == ::USEROPT_RANDB_CLUSTER)
+      else if (optionId == ::USEROPT_RANDB_CLUSTER)
       {
         descr.controlType = optionControlType.BIT_LIST
         descr.value = 0
@@ -3849,12 +3690,12 @@ function get_option(type, context = null)
 
     case ::USEROPT_CLAN_REQUIREMENTS_MIN_AIR_RANK:
     case ::USEROPT_CLAN_REQUIREMENTS_MIN_TANK_RANK:
-      if (type == ::USEROPT_CLAN_REQUIREMENTS_MIN_AIR_RANK)
+      if (optionId == ::USEROPT_CLAN_REQUIREMENTS_MIN_AIR_RANK)
       {
         descr.id = "rankReqAircraft"
         descr.title = ::loc("clan/rankReqAircraft")
       }
-      else if (type == ::USEROPT_CLAN_REQUIREMENTS_MIN_TANK_RANK)
+      else if (optionId == ::USEROPT_CLAN_REQUIREMENTS_MIN_TANK_RANK)
       {
         descr.id = "rankReqTank"
         descr.title = ::loc("clan/rankReqTank")
@@ -3880,17 +3721,17 @@ function get_option(type, context = null)
     case ::USEROPT_CLAN_REQUIREMENTS_MIN_ARCADE_BATTLES:
     case ::USEROPT_CLAN_REQUIREMENTS_MIN_SYM_BATTLES:
     case ::USEROPT_CLAN_REQUIREMENTS_MIN_REAL_BATTLES:
-      if (type == ::USEROPT_CLAN_REQUIREMENTS_MIN_ARCADE_BATTLES)
+      if (optionId == ::USEROPT_CLAN_REQUIREMENTS_MIN_ARCADE_BATTLES)
       {
         descr.id = "battles_arcade"
         descr.title = ::loc("clan/battlesSelect_arcade")
       }
-      else if (type == ::USEROPT_CLAN_REQUIREMENTS_MIN_SYM_BATTLES)
+      else if (optionId == ::USEROPT_CLAN_REQUIREMENTS_MIN_SYM_BATTLES)
       {
         descr.id = "battles_simulation"
         descr.title = ::loc("clan/battlesSelect_simulation")
       }
-      else if (type == USEROPT_CLAN_REQUIREMENTS_MIN_REAL_BATTLES)
+      else if (optionId == ::USEROPT_CLAN_REQUIREMENTS_MIN_REAL_BATTLES)
       {
         descr.id = "battles_historical"
         descr.title = ::loc("clan/battlesSelect_historical")
@@ -3950,7 +3791,7 @@ function get_option(type, context = null)
       break
 
     default:
-      print("[ERROR] Unsupported type " + type)
+      print("[ERROR] Unsupported type " + optionId)
   }
 
   if (!descr.hint)
@@ -3958,7 +3799,7 @@ function get_option(type, context = null)
 
   local valueToSet = defaultValue
   if (prevValue == null)
-    prevValue = ::get_gui_option(type)
+    prevValue = ::get_gui_option(optionId)
   if (prevValue != null)
     valueToSet = prevValue
 
@@ -4027,20 +3868,15 @@ function get_option(type, context = null)
     if (descr.values)
       descr.value = 0
 
-  if (type == ::USEROPT_AIRCRAFT && typeof descr.values == "array" && descr.values.len() > 0)
-    ::aircraft_for_weapons = descr.values[descr.value]
-  else if (type == ::USEROPT_ENEMY_AIRCRAFT && typeof descr.values == "array" && descr.values.len() > 0)
-    ::enemy_aircraft_for_weapons = descr.values[descr.value]
-
   return descr
 }
 
-function set_option(type, value, descr = null)
+function set_option(optionId, value, descr = null)
 {
   if (!descr)
-    descr = ::get_option(type)
+    descr = ::get_option(optionId)
 
-  switch (type)
+  switch (optionId)
   {
     // global settings:
     case ::USEROPT_LANGUAGE:
@@ -4065,9 +3901,9 @@ function set_option(type, value, descr = null)
       ::set_option_bomb_activation_time(bombActivationDelay)
       break
     case ::USEROPT_LOAD_FUEL_AMOUNT:
-      ::set_gui_option(type, descr.values[value])
+      ::set_gui_option(optionId, descr.values[value])
       if (::aircraft_for_weapons)
-       ::set_unit_option(::aircraft_for_weapons, type, descr.values[value])
+       ::set_unit_option(::aircraft_for_weapons, optionId, descr.values[value])
       break
     case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
       ::set_option_depthcharge_activation_time(descr.values[value])
@@ -4081,7 +3917,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_ROCKET_FUSE_DIST:
       ::set_option_rocket_fuse_dist(descr.values[value])
       if (::aircraft_for_weapons)
-        ::set_unit_option(::aircraft_for_weapons, type, descr.values[value])
+        ::set_unit_option(::aircraft_for_weapons, optionId, descr.values[value])
       break
     case ::USEROPT_AEROBATICS_SMOKE_TYPE:
       ::set_option_aerobatics_smoke_type(descr.values[value])
@@ -4093,7 +3929,7 @@ function set_option(type, value, descr = null)
       {
         local optIndex = find_in_array(
           [::USEROPT_AEROBATICS_SMOKE_LEFT_COLOR, ::USEROPT_AEROBATICS_SMOKE_RIGHT_COLOR, ::USEROPT_AEROBATICS_SMOKE_TAIL_COLOR],
-          type );
+          optionId)
 
         set_option_aerobatics_smoke_color(optIndex, descr.values[value]);
       }
@@ -4123,6 +3959,12 @@ function set_option(type, value, descr = null)
       break
     case ::USEROPT_INVERTY_HELICOPTER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y, value ? 1 : 0)
+      break
+    case ::USEROPT_INVERTY_UFO:
+      ::set_option_invertY(AxisInvertOption.INVERT_UFO_Y, value ? 1 : 0)
+      break
+    case ::USEROPT_INVERTY_WALKER:
+      ::set_option_invertY(AxisInvertOption.INVERT_WALKER_Y, value ? 1 : 0)
       break
     case ::USEROPT_INVERTY_SUBMARINE:
       ::set_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y, value ? 1 : 0)
@@ -4250,17 +4092,17 @@ function set_option(type, value, descr = null)
       if (typeof descr.values == "array" && value >= 0 && value < descr.values.len())
       {
         local unitType = 0
-        if (type == ::USEROPT_MEASUREUNITS_ALT)
+        if (optionId == ::USEROPT_MEASUREUNITS_ALT)
           unitType = 1
-        else if (type == ::USEROPT_MEASUREUNITS_DIST)
+        else if (optionId == ::USEROPT_MEASUREUNITS_DIST)
           unitType = 2
-        else if (type == ::USEROPT_MEASUREUNITS_CLIMBSPEED)
+        else if (optionId == ::USEROPT_MEASUREUNITS_CLIMBSPEED)
           unitType = 3
-        else if (type == ::USEROPT_MEASUREUNITS_TEMPERATURE)
+        else if (optionId == ::USEROPT_MEASUREUNITS_TEMPERATURE)
           unitType = 4
-        else if (type == ::USEROPT_MEASUREUNITS_WING_LOADING)
+        else if (optionId == ::USEROPT_MEASUREUNITS_WING_LOADING)
           unitType = 5
-        else if (type == ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO)
+        else if (optionId == ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO)
           unitType = 6
         ::set_option_unit_type(unitType, descr.values[value])
       }
@@ -4310,6 +4152,11 @@ function set_option(type, value, descr = null)
     case ::USEROPT_MOUSE_SENSE:
       local val = value / 50.0
       ::set_option_multiplier(::OPTION_MOUSE_SENSE, val)
+      break
+
+    case ::USEROPT_JOY_MIN_VIBRATION:
+      local val = value / 100.0
+      ::set_option_multiplier(::OPTION_JOY_MIN_VIBRATION, val)
       break
 
     case ::USEROPT_MOUSE_AIM_SENSE:
@@ -4478,37 +4325,20 @@ function set_option(type, value, descr = null)
       ::set_option_save_zoom_camera(value)
       break;
 
-    // gui settings:
-    case ::USEROPT_AIRCRAFT:
-      if (typeof descr.values == "array")
-      {
-        if (value >= 0 && value < descr.values.len())
-        {
-          ::set_gui_option(type, descr.values[value])
-        }
-        else
-          print("[ERROR] value '" + value + "' is out of range")
-      }
-      else
-        print("[ERROR] No values set for type '" + type + "'")
-      break
-
     case ::USEROPT_SKIN:
-    case ::USEROPT_ENEMY_SKIN:
       if (typeof descr.values == "array")
       {
-        local air = (type == ::USEROPT_SKIN ? ::aircraft_for_weapons : ::enemy_aircraft_for_weapons)
+        local air = ::aircraft_for_weapons
         if (value >= 0 && value < descr.values.len())
         {
-          ::set_gui_option(type, descr.values[value] || ::g_decorator.getAutoSkin(air))
-          if (type == ::USEROPT_SKIN)
-            ::g_decorator.setLastSkin(air, descr.values[value])
+          ::set_gui_option(optionId, descr.values[value] || ::g_decorator.getAutoSkin(air))
+          ::g_decorator.setLastSkin(air, descr.values[value])
         }
         else
           print("[ERROR] value '" + value + "' is out of range")
       }
       else
-        print("[ERROR] No values set for type '" + type + "'")
+        print("[ERROR] No values set for type '" + optionId + "'")
       break
 
     case ::USEROPT_USER_SKIN:
@@ -4578,11 +4408,11 @@ function set_option(type, value, descr = null)
       break
 
     case ::USEROPT_AIR_DAMAGE_DISPLAY:
-      ::set_gui_option(type, value)
+      ::set_gui_option(optionId, value)
       break
 
     case ::USEROPT_GUNNER_FPS_CAMERA:
-      ::set_gui_option(type, value)
+      ::set_gui_option(optionId, value)
       break
 
     case ::USEROPT_HUE_HELICOPTER_HUD:
@@ -4641,24 +4471,24 @@ function set_option(type, value, descr = null)
       if (descr.controlType == optionControlType.CHECKBOX)
       {
         optionValue = value
-        ::set_gui_option(type, value)
-        ::set_cd_option(type, value ? 1 : 0)
+        ::set_gui_option(optionId, value)
+        ::set_cd_option(optionId, value ? 1 : 0)
       }
       else if (descr.controlType == optionControlType.LIST)
       {
         if (value in descr.values)
         {
           optionValue = descr.values[value]
-          ::set_gui_option(type, optionValue)
-          ::set_cd_option(type, optionValue)
+          ::set_gui_option(optionId, optionValue)
+          ::set_cd_option(optionId, optionValue)
         }
         else
-          ::dagor.assertf(false, "[ERROR] Value '" + value + "' is out of range in type " + type)
+          ::dagor.assertf(false, "[ERROR] Value '" + value + "' is out of range in type " + optionId)
       }
       else
-        ::dagor.assertf(false, "[ERROR] No values set for type '" + type + "'")
+        ::dagor.assertf(false, "[ERROR] No values set for type '" + optionId + "'")
       if (optionValue != null && descr.onChangeCb)
-        descr.onChangeCb(type, optionValue, value)
+        descr.onChangeCb(optionId, optionValue, value)
       break
 
     case ::USEROPT_HELPERS_MODE:
@@ -4666,7 +4496,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_MOUSE_USAGE_NO_AIM:
     case ::USEROPT_INSTRUCTOR_ENABLED:
     case ::USEROPT_AUTOTRIM:
-      ::g_aircraft_helpers.setOptionValue(type,
+      ::g_aircraft_helpers.setOptionValue(optionId,
           descr.values != null ? ::getTblValue(value, descr.values, 0) : value)
       break
 
@@ -4688,7 +4518,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_MISSION_COUNTRIES_TYPE:
       if (value in descr.values)
       {
-        ::set_gui_option(type, descr.values[value])
+        ::set_gui_option(optionId, descr.values[value])
         ::mission_settings.countriesType <- descr.values[value]
       }
       break
@@ -4700,17 +4530,17 @@ function set_option(type, value, descr = null)
       if (value <= 0)
         break
 
-      ::set_gui_option(type, value)
+      ::set_gui_option(optionId, value)
       ::mission_settings[descr.sideTag + "_bitmask"] <- value
       if (descr.onChangeCb)
-        descr.onChangeCb(type, value, value)
+        descr.onChangeCb(optionId, value, value)
       break
 
     case ::USEROPT_BIT_UNIT_TYPES:
       if (value <= 0)
         break
 
-      ::set_gui_option(type, value)
+      ::set_gui_option(optionId, value)
       ::mission_settings.userAllowedUnitTypesMask <- descr.availableUnitTypesMask & value
       break
 
@@ -4719,8 +4549,8 @@ function set_option(type, value, descr = null)
       if (value in descr.values)
       {
         local optionValue = descr.values[value]
-        ::set_gui_option(type, optionValue)
-        ::mission_settings[type == ::USEROPT_BR_MIN ? "mrankMin" : "mrankMax"] <- optionValue
+        ::set_gui_option(optionId, optionValue)
+        ::mission_settings[optionId == ::USEROPT_BR_MIN ? "mrankMin" : "mrankMax"] <- optionValue
       }
       break
 
@@ -4730,7 +4560,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE:
     case ::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_CUSTOM_LIST:
     case ::USEROPT_BOTS_RANKS:
-      ::set_gui_option(type, value)
+      ::set_gui_option(optionId, value)
       break
 
     case ::USEROPT_MP_TEAM_COUNTRY_RAND:
@@ -4751,23 +4581,11 @@ function set_option(type, value, descr = null)
       if (bulletsValue == null)
         break
 
-      ::set_gui_option(type, bulletsValue)
+      ::set_gui_option(optionId, bulletsValue)
       local air = ::getAircraftByName(::aircraft_for_weapons)
       if (air)
-        ::set_unit_last_bullets(air, type - ::USEROPT_BULLETS0, bulletsValue)
+        ::set_unit_last_bullets(air, optionId - ::USEROPT_BULLETS0, bulletsValue)
       break
-
-    case ::USEROPT_WEAPONS:
-      if (typeof descr.values == "array")
-        if (value >= 0 && value < descr.values.len())
-        {
-          local weaponValue = descr.values[value]
-          ::set_gui_option(type, weaponValue)
-          local air = ::getAircraftByName(::aircraft_for_weapons)
-          if (air && ::shop_is_weapon_purchased(air.name, weaponValue))
-            ::set_last_weapon(air.name, weaponValue);
-        }
-      break;
 
     case ::USEROPT_HELPERS_MODE_GM:
      ::set_gui_option(::USEROPT_HELPERS_MODE, descr.values[value])
@@ -4792,9 +4610,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_DYN_WINS_TO_COMPLETE:
     case ::USEROPT_TIME:
     case ::USEROPT_WEATHER:
-    case ::USEROPT_AIRCRAFT:
-    case ::USEROPT_ENEMY_WEAPONS:
-    case ::USEROPT_ENEMY_AIRCRAFT:
     case ::USEROPT_YEAR:
     case ::USEROPT_DIFFICULTY:
     case ::USEROPT_ALTITUDE:
@@ -4827,8 +4642,6 @@ function set_option(type, value, descr = null)
     case ::USEROPT_AUTOBALANCE:
     case ::USEROPT_MAX_PLAYERS:
     case ::USEROPT_MIN_PLAYERS:
-    case ::USEROPT_AIRCRAFT_COUNTRY:
-    case ::USEROPT_ENEMY_AIRCRAFT_COUNTRY:
     case ::USEROPT_ROUNDS:
     case ::USEROPT_COMPLAINT_CATEGORY:
     case ::USEROPT_BAN_PENALTY:
@@ -4841,6 +4654,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_USE_KILLSTREAKS:
     case ::USEROPT_AUTOMATIC_TRANSMISSION_TANK:
     case ::USEROPT_WHEEL_CONTROL_SHIP:
+    case ::USEROPT_JOYFX:
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
     case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
     case ::USEROPT_BULLET_FALL_SOUND_SHIP:
@@ -4851,6 +4665,7 @@ function set_option(type, value, descr = null)
     case ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR:
     case ::USEROPT_CONTENT_ALLOWED_PRESET:
+    case ::USEROPT_GAMEPAD_VIBRATION_ENGINE:
     case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
       if (descr.controlType == optionControlType.LIST)
       {
@@ -4859,12 +4674,12 @@ function set_option(type, value, descr = null)
         if (value < 0 || value >= descr.values.len())
           break
 
-        ::set_gui_option(type, descr.values[value])
+        ::set_gui_option(optionId, descr.values[value])
       }
       else if (descr.controlType == optionControlType.CHECKBOX)
       {
         if (::u.isBool(value))
-          ::set_gui_option(type, value)
+          ::set_gui_option(optionId, value)
       }
       break
 
@@ -4878,14 +4693,14 @@ function set_option(type, value, descr = null)
       if (value >= ::getTblValue("min", descr, 0) && value <= ::getTblValue("max", descr, 1)
           && (!("step" in descr) || value % descr.step == 0))
       {
-        ::set_gui_option_in_mode(type, value, ::OPTIONS_MODE_GAMEPLAY)
-        ::broadcastEvent("HudIndicatorChangedSize", {option = type})
+        ::set_gui_option_in_mode(optionId, value, ::OPTIONS_MODE_GAMEPLAY)
+        ::broadcastEvent("HudIndicatorChangedSize", { option = optionId })
       }
       break
 
     case ::USEROPT_CLUSTER:
       if (value >= 0 && value < descr.values.len())
-        ::set_gui_option_in_mode(type, descr.values[value], ::OPTIONS_MODE_MP_DOMINATION)
+        ::set_gui_option_in_mode(optionId, descr.values[value], ::OPTIONS_MODE_MP_DOMINATION)
       break
     case ::USEROPT_RANDB_CLUSTER:
       if (value >= 0 && value <= (1 << descr.values.len()) - 1)
@@ -4896,7 +4711,7 @@ function set_option(type, value, descr = null)
           if (value & 1 << i)
             newVal += (newVal.len() > 0 ? ";" : "") + descr.values[i]
         }
-        ::set_gui_option_in_mode(type, newVal, ::OPTIONS_MODE_MP_DOMINATION)
+        ::set_gui_option_in_mode(optionId, newVal, ::OPTIONS_MODE_MP_DOMINATION)
         ::broadcastEvent("ClusterChange")
       }
       break
@@ -4951,7 +4766,7 @@ function set_option(type, value, descr = null)
             ::mission_settings.postfix = optValue
           else
             ::mission_settings.postfix = values[::math.rnd() % values.len()]
-          ::set_gui_option(type, optValue)
+          ::set_gui_option(optionId, optValue)
         }
       }
       break
@@ -4996,7 +4811,7 @@ function set_option(type, value, descr = null)
       break
 
     default:
-      print("[ERROR] Unsupported type " + type)
+      print("[ERROR] Unsupported type " + optionId)
   }
   return true
 }
@@ -5030,7 +4845,10 @@ function show_selected_clusters(textObj)
   local currentClusterNames = get_current_clusters_texts()
   local first = true
   foreach(clusterName in currentClusterNames)
-    clustersText += (first && !(first = false) ? "" : "; ") + ::loc(clusterName)
+  {
+    clustersText += (first ? "" : "; ") + ::loc(clusterName)
+    first = false
+  }
   textObj.setValue(clustersText)
 }
 
@@ -5060,21 +4878,21 @@ function get_diff_icon_by_name(diffName)
   return ""
 }
 
-function get_option_by_bit(type, idx)
+function get_option_by_bit(optionId, idx)
 {
-  local option = ::get_gui_option(type)
+  local option = ::get_gui_option(optionId)
   if (option==null || typeof(option) != "integer")
     return false
   return (option & (1 << idx)) != 0
 }
 
-function set_option_by_bit(type, idx, value)
+function set_option_by_bit(optionId, idx, value)
 {
-  local option = ::get_gui_option(type)
+  local option = ::get_gui_option(optionId)
   if (option==null || typeof(option) != "integer")
     option = 0
   option = (option & ~(1 << idx)) | (value? (1 << idx) : 0)
-  ::set_gui_option(type, option)
+  ::set_gui_option(optionId, option)
 }
 
 function create_options_container(name, options, is_focused, is_centered, columnsRatio = 0.5, fullTable = true, absolutePos=true, context = null)

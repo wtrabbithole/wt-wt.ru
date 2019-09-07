@@ -1,7 +1,6 @@
 local time = require("scripts/time.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 
-
 ::g_promo <- {
   PROMO_BUTTON_TYPE = {
     ARROW = "arrowButton"
@@ -105,7 +104,7 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 
   // block name in 'customSettings > accounts > <account> > seen' = function (must return days)
   oldRecordsCheckTable = {
-    promo = function(time) { return time }
+    promo = @(tm) tm
   }
 }
 
@@ -157,7 +156,6 @@ function g_promo::recievePromoBlk()
   if (!::u.isEmpty(staticPromoBlk))
   {
     //---Check on non-unique block names-----
-    local doubles = []
     for (local i = 0; i < staticPromoBlk.blockCount(); i++)
     {
       local block = staticPromoBlk.getBlock(i)
@@ -249,7 +247,6 @@ function g_promo::getActionParamsData(blockId)
 
 function g_promo::generateBlockView(block)
 {
-  local data = ""
   local id = block.getBlockName()
   local view = ::buildTableFromBlk(block)
   view.id <- id
@@ -477,11 +474,11 @@ function g_promo::isValueCurrentInMultiBlock(id, value)
 
 function g_promo::checkBlockVisibility(block)
 {
-  return ::g_language.isAvailableForCurLang(block)
-         && checkBlockReqFeature(block)
-         && checkBlockUnlock(block)
-         && checkBlockTime(block)
-         && isVisibleByAction(block)
+  return (::g_language.isAvailableForCurLang(block)
+           && checkBlockReqFeature(block)
+           && checkBlockUnlock(block)
+           && checkBlockTime(block)
+           && isVisibleByAction(block))
          || getShowAllPromoBlocks()
 }
 
@@ -520,15 +517,15 @@ function g_promo::cutActionParamsKey(id)
 
 function g_promo::getType(block)
 {
-  local type = PROMO_BUTTON_TYPE.ARROW
+  local res = PROMO_BUTTON_TYPE.ARROW
   if (block.blockCount() > 1)
-    type = PROMO_BUTTON_TYPE.IMAGE_ROULETTE
+    res = PROMO_BUTTON_TYPE.IMAGE_ROULETTE
   else if (::getTblValue("image", block, "") != "")
-    type = PROMO_BUTTON_TYPE.IMAGE
+    res = PROMO_BUTTON_TYPE.IMAGE
   else if (block.getBlockName().find("current_battle_tasks") != null)
-    type = PROMO_BUTTON_TYPE.BATTLE_TASK
+    res = PROMO_BUTTON_TYPE.BATTLE_TASK
 
-  return type
+  return res
 }
 
 function g_promo::setButtonText(buttonObj, id, text = "")
@@ -675,17 +672,17 @@ function g_promo::openEventsWnd(owner, params = [])
 
 function g_promo::openItemsWnd(owner, params = [])
 {
-  local filter = ::ItemsManager.getInventoryItemType(::item_get_type_id_by_type_name(params?[0] ?? ""))
-
   local tab = getconsttable()?.itemsTab?[(params?[1] ?? "SHOP").toupper()] ?? itemsTab.INVENTORY
+
+  local curSheet = null
+  local sheetSearchId = params?[0] ?? null
+  if (sheetSearchId)
+    curSheet = {searchId = sheetSearchId}
 
   if (tab >= itemsTab.TOTAL)
     tab = itemsTab.INVENTORY
 
-  ::gui_start_items_list(tab, {filter = {
-    typeMask = filter
-    devItemsTab = false
-  }})
+  ::gui_start_items_list(tab, {curSheet = curSheet})
 }
 
 function g_promo::onOpenBattleTasksWnd(owner, params = {}, obj = null)
@@ -751,7 +748,7 @@ function g_promo::changeToggleStatus(id, value)
   return newValue
 }
 
-function g_promo::updateCollapseStatuses(array)
+function g_promo::updateCollapseStatuses(arr)
 {
   local blk = ::loadLocalByAccount("seen/promo_collapsed")
   if (!blk)
@@ -760,7 +757,7 @@ function g_promo::updateCollapseStatuses(array)
   local clearedBlk = ::DataBlock()
   foreach(id, status in blk)
   {
-    if (::isInArray(id, array))
+    if (::isInArray(id, arr))
       continue
 
     clearedBlk[id] = status
@@ -833,13 +830,13 @@ function g_promo::selectNextBlock(obj, dt)
 //----------------- </RADIOBUTTONS> -------------------------
 
 //------------------ <PLAYBACK> -----------------------------
-function g_promo::enablePlayMenuMusic(playlistArray, time)
+function g_promo::enablePlayMenuMusic(playlistArray, tm)
 {
   if (PLAYLIST_SONG_TIMER_TASK >= 0)
     return
 
   ::set_cached_music(::CACHED_MUSIC_MENU, ::u.chooseRandom(playlistArray), "")
-  PLAYLIST_SONG_TIMER_TASK = ::periodic_task_register(this, ::g_promo.requestTurnOffPlayMenuMusic, time)
+  PLAYLIST_SONG_TIMER_TASK = ::periodic_task_register(this, ::g_promo.requestTurnOffPlayMenuMusic, tm)
 }
 
 function g_promo::requestTurnOffPlayMenuMusic(dt)

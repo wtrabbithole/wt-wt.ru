@@ -7,7 +7,7 @@
     frp  = 0; - free research points
     rp   = 0; - reserach points
     sap  = 0; - sqadron activity points
-    type = money_type.none; - cost or balance (defined in enum)
+    mType = money_type.none; - cost or balance (defined in enum)
   }
 
   API
@@ -37,19 +37,19 @@ enum money_color {
   frp  = 0
   rp   = 0
   sap  = 0
-  type = money_type.none
+  mType = money_type.none
 
   //privat
   __data_fields = ["gold", "wp", "frp", "rp", "sap"]
 
-  function constructor(type_in = money_type.cost, wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
+  constructor(type_in = money_type.cost, wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
     wp   = wp_in || 0
     gold = gold_in || 0
     frp  = frp_in || 0
     rp   = rp_in || 0
     sap  = sap_in || 0
-    type = type_in
+    mType = type_in
   }
 }
 
@@ -134,10 +134,10 @@ function Money::__impl_cost_to_balance_cmp(balance, cost)
 
 function Money::_cmp(that)
 {
-  if (this.type == money_type.balance && that.type == money_type.cost)
+  if (this.mType == money_type.balance && that.mType == money_type.cost)
     return __impl_cost_to_balance_cmp(this, that)
 
-  if (this.type == money_type.cost && that.type == money_type.balance)
+  if (this.mType == money_type.cost && that.mType == money_type.balance)
     return __impl_cost_to_balance_cmp(that, this) * -1
 
   foreach(key in __data_fields)
@@ -253,9 +253,9 @@ function Money::__impl_get_text(params = null)
 
 class Balance extends Money
 {
-  type = money_type.balance
+  mType = money_type.balance
 
-  function constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
+  constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
     base.constructor(money_type.balance, wp_in, gold_in, frp_in, rp_in, sap_in)
   }
@@ -274,9 +274,9 @@ class Balance extends Money
 
 class Cost extends Money
 {
-  type = money_type.cost
+  mType = money_type.cost
 
-  function constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
+  constructor(wp_in = 0, gold_in = 0, frp_in = 0, rp_in = 0, sap_in = 0)
   {
     base.constructor(money_type.cost, wp_in, gold_in, frp_in, rp_in, sap_in)
   }

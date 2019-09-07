@@ -11,6 +11,7 @@ local isOnlyExtInventory = @(shopTab) shopTab != itemsTab.WORKSHOP && ::has_feat
 shopSheets.template <- {
   id = "" //used from type name
   sortId = 0
+  searchId = null // To Identify externally, because typeMask is not work
   locId = null //default: "itemTypes/" + id.tolower()
   emptyTabLocId = null //default: "items/shop/emptyTab/" + id.tolower()
 
@@ -26,8 +27,9 @@ shopSheets.template <- {
     && (shopTab != itemsTab.SHOP || getItemsList(shopTab).len() > 0)
 
   getItemFilterFunc = @(shopTab)
-    shopTab == itemsTab.SHOP ? (@(item) item.isCanBuy() && isDevItemsTab == item.isDevItem && !item.isHiddenItem())
-    : (@(item) !item.isHiddenItem())
+    shopTab == itemsTab.SHOP ? (@(item) item.isCanBuy() && isDevItemsTab == item.isDevItem
+      && !item.isHiddenItem() && !item.isVisibleInWorkshopOnly())
+    : (@(item) !item.isHiddenItem() && !item.isVisibleInWorkshopOnly())
 
   getItemsList = function(shopTab)
   {
@@ -62,6 +64,8 @@ shopSheets.addSheets <- function(sheetsTable)
         locId = "itemTypes/" + id.tolower()
       if (!emptyTabLocId)
         emptyTabLocId = "items/shop/emptyTab/" + id.tolower()
+      if (!searchId)
+        searchId = id
     },
     "id")
   shopSheets.types.sort(@(a, b) a.sortId <=> b.sortId)
@@ -101,7 +105,7 @@ shopSheets.findSheet <- function(config, defSheet = null)
         else
           isFullMatch = false
 
-    if (isFullMatch || isPartMatch && !res)
+    if (isFullMatch || (isPartMatch && !res))
       res = sh
     if (isFullMatch)
       break
@@ -208,6 +212,7 @@ shopSheets.updateWorkshopSheets <- function()
 {
   local sets = workshop.getSetsList()
   local newSheets = {}
+
   foreach(idx, set in sets)
   {
     local id = set.getShopTabId()
@@ -217,6 +222,7 @@ shopSheets.updateWorkshopSheets <- function()
     newSheets[id] <- {
       locId = set.locId
       typeMask = itemType.ALL
+      searchId = set.id
       isMarketplace = true
       sortId = sortId++
 
@@ -226,8 +232,8 @@ shopSheets.updateWorkshopSheets <- function()
       isEnabled = @(shopTab) isAllowedForTab(shopTab)&& getSet().isVisible()
 
       getItemFilterFunc = function(shopTab) {
-        local set = getSet()
-        return set.isItemInSet.bindenv(set)
+        local s = getSet()
+        return s.isItemInSet.bindenv(s)
       }
 
       getItemsList = @(shopTab) getSet().getItemsList()

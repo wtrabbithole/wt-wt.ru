@@ -4,13 +4,12 @@
   },
   {
     "tdiv": {
-      "pos": "50%pw-50%w, 0",
-      "position": "relative",
+      "width": "pw",
       "textAreaCentered": {
         "id": "item_name",
-        "max-width": "@itemInfoWidth",
+        "max-width": "pw",
         "overlayTextColor": "active",
-        "pos": "0, 50%ph-50%h",
+        "pos": "50%pw-50%w, 50%ph-50%h",
         "position": "relative"
       },
       "cardImg": {
@@ -26,7 +25,7 @@
   {
     "textAreaCentered": {
       "id": "item_desc_under_title",
-      "width": "@itemInfoWidth",
+      "max-width": "pw",
       "overlayTextColor": "active",
       "pos": "50%pw-50%w, 0",
       "position": "relative",
@@ -47,7 +46,7 @@
     "textareaNoTab": {
       "id": "item_desc",
       "position": "relative",
-      "width": "1@itemInfoWidth",
+      "width": "pw",
       "font-bold": "@fontMedium",
       "padding-top": "1@blockInterval"
     }
@@ -55,7 +54,7 @@
   {
     "div": {
       "id": "item_desc_div",
-      "width": "@itemInfoWidth",
+      "width": "pw",
       "flow": "vertical"
     }
   },
@@ -64,7 +63,7 @@
       "id": "item_desc_under_div",
       "pos": "50%pw-50%w, 12@sf/@pf",
       "position": "relative",
-      "width": "@itemInfoWidth",
+      "width": "pw",
       "smallFont": "yes",
       "hideEmptyText": "yes"
     }
@@ -72,7 +71,7 @@
   {
     "div": [
       {
-        "width": "@itemInfoWidth"
+        "width": "pw"
       },
       {
         "pos": "50%pw-50%w, 0"
@@ -84,7 +83,7 @@
         "flow": "vertical"
       },
       {
-        "margin": "0.02@sf, 0.01@scrn_tgt"
+        "padding": "0.02@sf, 0.01@scrn_tgt"
       },
       {
         "textareaNoTab": {

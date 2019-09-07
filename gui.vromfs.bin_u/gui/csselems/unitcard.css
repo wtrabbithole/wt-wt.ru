@@ -532,6 +532,7 @@ classIcon[shopItemType=cruiser]             { color:@cruiserColor; }
 classIcon[shopItemType=battlecruiser]       { color:@battlecruiserColor; }
 classIcon[shopItemType=battleship]          { color:@battleshipColor; }
 classIcon[shopItemType=submarine]           { color:@submarineColor; }
+classIcon[shopItemType=ufo]                 { color:@ufoColor; }
 
 classIcon[shopItemType=infantry]            { color:@infantryColor; }
 classIcon[shopItemType=artillery]           { color:@artilleryColor; }
@@ -564,6 +565,7 @@ img[shopItemType=cruiser]           { background-color:@cruiserColor; }
 img[shopItemType=battlecruiser]     { background-color:@battlecruiserColor; }
 img[shopItemType=battleship]        { background-color:@battleshipColor; }
 img[shopItemType=submarine]         { background-color:@submarineColor; }
+img[shopItemType=ufo]               { background-color:@ufoColor; }
 
 img[shopItemType=infantry]          { background-color:@infantryColor; }
 img[shopItemType=artillery]         { background-color:@artilleryColor; }
@@ -823,6 +825,15 @@ td[selected=yes] > shopItem,
 weapon_item_unit > td:hover > shopItem
 {
   showButtons:yes;
+}
+
+shopItem[isInTable=no] {
+  size:@slot_width, @slot_height;
+}
+
+unitItemContainer {
+  css-hier-invalidate:yes;
+  padding:1@slotPaddingNoTable;
 }
 
 shopLine, shopArrow, shopAngle {

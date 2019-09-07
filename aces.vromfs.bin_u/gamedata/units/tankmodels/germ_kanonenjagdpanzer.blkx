@@ -1444,6 +1444,7 @@
     "sound": {
       "EngineName": "engine_stug40",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_manual",
@@ -1463,6 +1464,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/90mm_BK_90_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "allowableDelta": 20.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -2297,9 +2299,7 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
-      "90mm_us_M431_HEAT": {
-        "modCostMul": 4.0
-      },
+      "90mm_us_M431_HEAT": [],
       "90mm_us_M431_HEAT_ammo_pack": [],
       "90mm_us_M71_HE": [],
       "90mm_ger_DM502_JPz_HESH": [],
@@ -2314,6 +2314,7 @@
                 "blk": "gameData/Weapons/groundModels_weapons/90mm_BK_90_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
+                "allowableDelta": 20.0,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "barrelDP": "gun_barrel_dm",
@@ -2492,7 +2493,7 @@
                   "triggerGroup": "smoke"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/76mm_nato_smoke_grenade_launcher.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/76mm_modern_smoke_grenade_launcher.blk"
                 },
                 {
                   "weaponType": "rockets"
@@ -2642,7 +2643,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {

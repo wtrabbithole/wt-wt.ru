@@ -79,20 +79,20 @@ class ::WwArmyView
   /** exclude infantry */
   function unitsCount(excludeInfantry = true, onlyArtillery = false)
   {
-    local unitsCount = 0
+    local res = 0
     foreach (unit in formation.getUnits(excludeInfantry))
-      unitsCount += (!onlyArtillery || unit.isArtillery()) ? unit.getActiveCount() : 0
+      res += (!onlyArtillery || unit.isArtillery()) ? unit.getActiveCount() : 0
 
-    return unitsCount
+    return res
   }
 
   function inactiveUnitsCount(excludeInfantry = true, onlyArtillery = false)
   {
-    local unitsCount = 0
+    local res = 0
     foreach (unit in formation.getUnits(excludeInfantry))
-      unitsCount += (!onlyArtillery || unit.isArtillery()) ? unit.inactiveCount : 0
+      res += (!onlyArtillery || unit.isArtillery()) ? unit.inactiveCount : 0
 
-    return unitsCount
+    return res
   }
 
   function isDead()
@@ -333,8 +333,6 @@ class ::WwArmyView
     if (!isArtillery())
       return null
 
-    local cant_tire_text = ::loc("worldwar/artillery/cant_fire")
-
     if (formation.isMove())
       return ::loc("worldwar/artillery/is_move")
 
@@ -362,7 +360,7 @@ class ::WwArmyView
     return ::loc("worldwar/artillery/can_fire")
   }
 
-  function isAlert()
+  function isAlert() // warning disable: -named-like-return-bool
   {
     if (isDead() || getGroundSurroundingTime())
       return "yes"

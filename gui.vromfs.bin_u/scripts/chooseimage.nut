@@ -74,25 +74,25 @@ class ::gui_handlers.ChooseImage extends ::gui_handlers.BaseGuiHandlerWT
   {
     guiScene.applyPendingChanges(false)
     local listObj = scene.findObject("images_list")
-    local config = ::g_dagui_utils.countSizeInItems(listObj, imageButtonSize, imageButtonSize, imageButtonInterval, imageButtonInterval)
+    local cfg = ::g_dagui_utils.countSizeInItems(listObj, imageButtonSize, imageButtonSize, imageButtonInterval, imageButtonInterval)
 
     //update size for single page
-    if (config.itemsCountX * config.itemsCountY > options.len())
+    if (cfg.itemsCountX * cfg.itemsCountY > options.len())
     {
       local total = ::max(options.len(), minAmountButtons)
-      local columns = ::min(stdMath.calc_golden_ratio_columns(total), config.itemsCountX)
+      local columns = ::min(stdMath.calc_golden_ratio_columns(total), cfg.itemsCountX)
       local rows = ::ceil(total.tofloat() / columns).tointeger()
-      if (rows > config.itemsCountY)
+      if (rows > cfg.itemsCountY)
       {
-        rows = config.itemsCountY
+        rows = cfg.itemsCountY
         columns = ::ceil(total.tofloat() / rows).tointeger()
       }
-      config.itemsCountX = columns
-      config.itemsCountY = rows
+      cfg.itemsCountX = columns
+      cfg.itemsCountY = rows
     }
 
-    ::g_dagui_utils.adjustWindowSizeByConfig(scene.findObject("wnd_frame"), listObj, config)
-    itemsPerPage = config.itemsCountX * config.itemsCountY
+    ::g_dagui_utils.adjustWindowSizeByConfig(scene.findObject("wnd_frame"), listObj, cfg)
+    itemsPerPage = cfg.itemsCountX * cfg.itemsCountY
   }
 
   function fillPage()

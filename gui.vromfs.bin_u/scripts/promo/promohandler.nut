@@ -31,7 +31,7 @@ class Promo
     recent_items_mainmenu_button = function() { return createRecentItemsHandler() }
   }
 
-  function constructor(_handler, _guiScene, _scene)
+  constructor(_handler, _guiScene, _scene)
   {
     owner = _handler
     guiScene = _guiScene
@@ -176,9 +176,7 @@ class Promo
     local list = block[langKey] || block[defaultName]
     if (!list)
       return []
-
-    local array = ::blk_to_array(list, "name")
-    return array
+    return list % "name"
   }
 
   function activateSelectedBlock(obj)
@@ -232,11 +230,11 @@ class Promo
   function isShowAllCheckBoxEnabled()
   {
     if (!isValid())
-      return null
+      return false
 
     local chBoxObj = scene.findObject("checkbox_show_all_promo_blocks")
     if (!::checkObj(chBoxObj))
-      return null
+      return false
 
     return chBoxObj.getValue()
   }
@@ -303,7 +301,7 @@ class Promo
     if (!show || !::checkObj(buttonObj))
       return
 
-    local buttonText = ::loc("missions/" + tutorialMission?.name + "/short", "")
+    local buttonText = ::loc("missions/" + (tutorialMission?.name ?? "") + "/short", "")
     if (!tutorialMission)
       buttonText = ::loc("mainmenu/btnTutorial")
     ::g_promo.setButtonText(buttonObj, id, buttonText)
@@ -387,7 +385,7 @@ class Promo
   function updateWorldWarButton()
   {
     local id = "world_war_button"
-    local isWwEnabled = ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar()
+    local isWwEnabled = ::g_world_war.canJoinWorldwarBattle()
     local isVisible = ::g_promo.getShowAllPromoBlocks() || isWwEnabled
 
     local wwButton = ::showBtn(id, isVisible, scene)

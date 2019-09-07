@@ -145,55 +145,45 @@ class UnitInfoExporter
     processUnits()
   }
 
-  function finishExport(fullBlk)
+  function finishExport(fBlk)
   {
-    fullBlk.saveToTextFile(getFullPath())
+    fBlk.saveToTextFile(getFullPath())
     ::get_main_gui_scene().performDelayed(this, nextLangExport) //delay to show exporter logs
   }
 
-  function exportUnitType(fullBlk)
+  function exportUnitType(fBlk)
   {
-    fullBlk[ARMY_GROUP] = ::DataBlock()
+    fBlk[ARMY_GROUP] = ::DataBlock()
 
     foreach(unitType in ::g_unit_type.types)
-    {
       if (unitType != ::g_unit_type.INVALID)
-      {
-        fullBlk[ARMY_GROUP][unitType.armyId] = unitType.getArmyLocName()
-      }
-    }
+        fBlk[ARMY_GROUP][unitType.armyId] = unitType.getArmyLocName()
   }
 
-  function exportCountry(fullBlk)
+  function exportCountry(fBlk)
   {
-    fullBlk[COUNTRY_GROUP] = ::DataBlock()
+    fBlk[COUNTRY_GROUP] = ::DataBlock()
 
     foreach(country in ::shopCountriesList)
-    {
-      fullBlk[COUNTRY_GROUP][country] = ::loc(country)
-    }
+      fBlk[COUNTRY_GROUP][country] = ::loc(country)
   }
 
-  function exportRank(fullBlk)
+  function exportRank(fBlk)
   {
-    fullBlk[RANK_GROUP] = ::DataBlock()
-    fullBlk[RANK_GROUP].header = ::loc("shop/age")
-    fullBlk[RANK_GROUP].texts = ::DataBlock()
+    fBlk[RANK_GROUP] = ::DataBlock()
+    fBlk[RANK_GROUP].header = ::loc("shop/age")
+    fBlk[RANK_GROUP].texts = ::DataBlock()
 
     for(local rank = 1; rank <= ::max_country_rank; rank++)
-    {
-      fullBlk[RANK_GROUP]["texts"][rank.tostring()] = ::get_roman_numeral(rank)
-    }
+      fBlk[RANK_GROUP]["texts"][rank.tostring()] = ::get_roman_numeral(rank)
   }
 
-  function exportCommonParams(fullBlk)
+  function exportCommonParams(fBlk)
   {
-    fullBlk[COMMON_PARAMS_GROUP] = ::DataBlock()
+    fBlk[COMMON_PARAMS_GROUP] = ::DataBlock()
 
     foreach(infoType in ::g_unit_info_type.types)
-    {
-      fullBlk[COMMON_PARAMS_GROUP][infoType.id] = infoType.exportCommonToDataBlock()
-    }
+      fBlk[COMMON_PARAMS_GROUP][infoType.id] = infoType.exportCommonToDataBlock()
   }
 
   function onEventUnitModsRecount(params)
@@ -212,7 +202,7 @@ class UnitInfoExporter
     finishExport(fullBlk)
   }
 
-  function exportCurUnit(fullBlk, curUnit)
+  function exportCurUnit(fBlk, curUnit)
   {
     if(!curUnit.isInShop || curUnit.isHelicopter())
       return true
@@ -244,7 +234,7 @@ class UnitInfoExporter
       unitBlk[infoType.id] = blk
     }
 
-    local targetBlk = fullBlk.addBlock(groupId).addBlock(armyId).addBlock(countryId).addBlock(rankId)
+    local targetBlk = fBlk.addBlock(groupId).addBlock(armyId).addBlock(countryId).addBlock(rankId)
     targetBlk[curUnit.name] = unitBlk
     return true
   }

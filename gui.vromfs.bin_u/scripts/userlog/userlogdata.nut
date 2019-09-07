@@ -74,6 +74,8 @@ local logNameByType = {
   [::EULT_WW_START_OPERATION]            = "ww_start_operation",
   [::EULT_WW_END_OPERATION]              = "ww_end_operation",
   [::EULT_WW_CREATE_OPERATION]           = "ww_create_operation",
+  [::EULT_CLAN_UNITS]                    = "clan_units",
+  [::EULT_WW_AWARD]                      = "ww_award",
 }
 
 local clanActionNames = {
@@ -275,11 +277,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         local awardBlk = blk.body.award
         if (awardBlk)
         {
-          local priceText = ::g_warbonds.getWarbondPriceText(
-                              blk.body.warbond || "",
-                              blk.body.stage || "",
-                              awardBlk.cost || ""
-                            )
+          local priceText = ::g_warbonds.getWarbondPriceText(awardBlk?.cost ?? 0)
           local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
           msg = awardType.getUserlogBuyText(awardBlk, priceText)
           if (awardType.id == ::EWBAT_BATTLE_TASK && awardType.canBuy(awardBlk))
@@ -405,28 +403,58 @@ function checkNewNotificationUserlogs(onStartAwards = false)
       local item = ::ItemsManager.findItemById(blk.body?.itemDefId)
       if (item)
       {
-        local locId = "userlog/" + ::getLogNameByType(blk.type)
-        local numItems = blk.body?.quantity ?? 1
-        local name = ::loc(locId, {
-          numItemsColored = numItems
-          numItems = numItems
-          numItemsAdd = numItems
-          itemName = ""
-        })
+        if (!item.shouldAutoConsume)
+        {
+          local locId = "userlog/" + ::getLogNameByType(blk.type)
+          local numItems = blk.body?.quantity ?? 1
+          local name = ::loc(locId, {
+            numItemsColored = numItems
+            numItems = numItems
+            numItemsAdd = numItems
+            itemName = ""
+          })
 
-        local button = null
-        local wSet = workshop.getSetByItemId(item.id)
-        if (wSet)
-          button = [{
-            id = "workshop_button",
-            text = ::loc("items/workshop"),
-            func = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
-              : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
-          }]
+          local button = null
+          local wSet = workshop.getSetByItemId(item.id)
+          if (wSet)
+            button = [{
+              id = "workshop_button",
+              text = ::loc("items/workshop"),
+              func = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
+                : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
+            }]
 
-        ::g_popups.add(name, item && item.getName() ? item.getName() : "", null, button)
+          ::g_popups.add(name, item && item.getName() ? item.getName() : "", null, button)
+        }
         markDisabled = true
       }
+    }
+    else if (blk.type == ::EULT_TICKETS_REMINDER)
+    {
+      local name = ::loc("userlog/" + ::getLogNameByType(blk.type))
+      local desc = [::colorize("userlogColoredText", ::events.getNameByEconomicName(blk.body.name))]
+      if (::getTblValue("battleLimitReminder", blk.body))
+        desc.append(::loc("userlog/battleLimitReminder") + ::loc("ui/colon") + blk.body.battleLimitReminder)
+      if (::getTblValue("defeatCountReminder", blk.body))
+        desc.append(::loc("userlog/defeatCountReminder") + ::loc("ui/colon") + blk.body.defeatCountReminder)
+      if (::getTblValue("sequenceDefeatCountReminder", blk.body))
+        desc.append(::loc("userlog/sequenceDefeatCountReminder") + ::loc("ui/colon") + blk.body.sequenceDefeatCountReminder)
+
+      ::g_popups.add(name, ::g_string.implode(desc, "\n"))
+      markDisabled = true
+    }
+    else if (blk.type == ::EULT_REMOVE_ITEM)
+    {
+      local reason = ::getTblValue("reason", blk.body, "unknown")
+      if (reason == "unknown" || reason == "consumed")
+      {
+        local locId = "userlog/" + ::getLogNameByType(blk.type) + "/" + reason
+        local itemId = ::getTblValue("id", blk.body, "")
+        local item = ::ItemsManager.findItemById(itemId)
+        if (item && item.iType == itemType.TICKET)
+          ::g_popups.add("", ::loc(locId, {itemName = ::colorize("userlogColoredText", item.getName())}))
+      }
+      markDisabled = true
     }
 
     if (markDisabled)
@@ -562,10 +590,10 @@ function getUserLogsList(filter)
     if (!::isUserlogVisible(blk, filter, i))
       continue
 
-    local isUnlockTypeNotSuitable = "unlockType" in blk.body &&
-                                       (blk.body.unlockType == ::UNLOCKABLE_TROPHY_PSN ||
-                                        blk.body.unlockType == ::UNLOCKABLE_TROPHY_XBOXONE ||
-                                        ("unlocks" in filter) && !::isInArray(blk.body.unlockType, filter.unlocks))
+    local isUnlockTypeNotSuitable = ("unlockType" in blk.body)
+      && (blk.body.unlockType == ::UNLOCKABLE_TROPHY_PSN
+        || blk.body.unlockType == ::UNLOCKABLE_TROPHY_XBOXONE
+        || (("unlocks" in filter) && !::isInArray(blk.body.unlockType, filter.unlocks)))
 
     local unlock = ::g_unlocks.getUnlockById(::getTblValue("unlockId", blk.body))
     local hideUnlockById = unlock != null && !::is_unlock_visible(unlock)
@@ -598,7 +626,9 @@ function getUserLogsList(filter)
       if (name == "aircrafts"
           || (name == "spare" && !::PrizesView.isPrizeMultiAward(blk.body)))
       {
-        (name in log) || (log[name] <- [])
+        if (!(name in log))
+          log[name] <- []
+
         for (local k = 0; k < block.paramCount(); k++)
           log[name].append({name = block.getParamName(k), value = block.getParamValue(k)})
       }
@@ -607,7 +637,8 @@ function getUserLogsList(filter)
         local reward = ::buildTableFromBlk(block)
         if (!grabStatickReward(reward, log))
         {
-          (name in log) || (log[name] <- [])
+          if (!(name in log))
+            log[name] <- []
           log[name].append(reward)
         }
       }

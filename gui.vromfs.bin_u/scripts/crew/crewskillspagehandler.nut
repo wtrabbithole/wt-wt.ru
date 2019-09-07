@@ -375,7 +375,6 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     if (bonusData)
     {
       local totalSkill = bonusData.mul * item.newValue + bonusData.add
-      local totalLevel = ::g_crew.getSkillCrewLevel(item, totalSkill)
       local bonusLevel = ::g_crew.getSkillCrewLevel(item, totalSkill, item.newValue)
       local addLevel   = ::g_crew.getSkillCrewLevel(item, totalSkill, totalSkill - bonusData.add)
 
@@ -394,7 +393,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     }
 
     local unit = getCurUnit()
-    local crewLevel = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
+    local level = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
 
     return {
       id = getRowName(idx)
@@ -421,17 +420,17 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       incCost = ::get_crew_sp_text(::g_crew.getNextSkillStepCost(item, item.newValue), false)
 
       btnSpec = [
-        getRowSpecButtonConfig(::g_crew_spec_type.EXPERT, crewLevel, unit, bonusData),
-        getRowSpecButtonConfig(::g_crew_spec_type.ACE, crewLevel, unit, bonusData)
+        getRowSpecButtonConfig(::g_crew_spec_type.EXPERT, level, unit, bonusData),
+        getRowSpecButtonConfig(::g_crew_spec_type.ACE, level, unit, bonusData)
       ]
     }
   }
 
-  function getRowSpecButtonConfig(specType, crewLevel, unit, bonusData)
+  function getRowSpecButtonConfig(specType, crewLvl, unit, bonusData)
   {
     local icon = ""
     if (bonusData && bonusData.haveSpec)
-      icon = specType.getIcon(bonusData.specType.code, crewLevel, unit)
+      icon = specType.getIcon(bonusData.specType.code, crewLvl, unit)
     return {
       id = specType.code
       icon = icon

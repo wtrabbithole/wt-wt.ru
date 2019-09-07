@@ -138,18 +138,18 @@ local WorkshopSet = class {
       local isHidden = true
       foreach (items in requiredItems)
       {
-        local isVisible = true
+        local canShow = true
         foreach (itemId in items)
         {
           if ((reqItemsAmountTbl?[itemId] ?? 0) > 0 ||
               (itemData.passBySavedReqItems && knownReqItemdefs?[itemId]))
             continue
 
-          isVisible = false
+          canShow = false
           break
         }
 
-        if (isVisible)
+        if (canShow)
         {
           isHidden = false
           break
@@ -197,7 +197,7 @@ local WorkshopSet = class {
 
       local item = ItemsManager.getItemOrRecipeBundleById(itemdef)
       if (!item
-          || item.iType == itemType.RECIPES_BUNDLE && !item.getMyRecipes().len())
+          || (item.iType == itemType.RECIPES_BUNDLE && !item.getMyRecipes().len()))
         continue
 
       local newItem = item.makeEmptyInventoryItem()
@@ -255,9 +255,9 @@ local WorkshopSet = class {
       return
 
     local knownList = knownBlk % KNOWN_ITEMS_SAVE_KEY
-    foreach(id in knownList)
-      if (isItemIdInSet(id))
-        knownItemdefs[id] <- true
+    foreach(_id in knownList)
+      if (isItemIdInSet(_id))
+        knownItemdefs[_id] <- true
   }
 
   function loadKnownReqItemsOnce()
@@ -271,8 +271,8 @@ local WorkshopSet = class {
       return
 
     local knownList = knownBlk % KNOWN_ITEMS_SAVE_KEY
-    foreach(id in knownList)
-      knownReqItemdefs[id] <- true
+    foreach(_id in knownList)
+      knownReqItemdefs[_id] <- true
   }
 
   function initKnownItemsOnce()
@@ -319,8 +319,8 @@ local WorkshopSet = class {
     local knownBlk = ::load_local_account_settings(saveId)
     if (!knownBlk)
       knownBlk = ::DataBlock()
-    foreach(id in newKnownIds)
-      knownBlk[KNOWN_ITEMS_SAVE_KEY] <- id
+    foreach(_id in newKnownIds)
+      knownBlk[KNOWN_ITEMS_SAVE_KEY] <- _id
 
     ::save_local_account_settings(saveId, knownBlk)
   }

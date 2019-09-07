@@ -1514,6 +1514,7 @@
     "sound": {
       "EngineName": "engine_m1",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_wheels",
       "TrackSoundNameCockpit": "tracks_wheels_interior",
       "turret_turn": "turret_turn_t34_manual",
@@ -1757,7 +1758,9 @@
           "wheel_l_02": 0.0,
           "wheel_r_01": 25.0,
           "wheel_r_02": 0.0,
-          "steeringTau": 1.0
+          "steeringTau": 1000000.0,
+          "steeringSpd": 1.0,
+          "steeringNeutralSpd": 3.0
         },
         "driven": {
           "wheel_l_01": true,

@@ -155,6 +155,15 @@
         },
         "turret_top_dm": {
           "armorThickness": 29.0
+        },
+        "ex_armor_turret_03_dm": {
+          "armorThickness": 6.0
+        },
+        "ex_armor_turret_02_dm": {
+          "armorThickness": 6.0
+        },
+        "turret_01_back_dm": {
+          "armorThickness": 30.0
         }
       },
       "turret": {
@@ -1627,6 +1636,7 @@
     "sound": {
       "EngineName": "engine_centurion",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
@@ -1753,7 +1763,7 @@
           },
           "limits": {
             "yaw": [0.0,0.0],
-            "pitch": [-10.0,18.0]
+            "pitch": [-10.0,5.0]
           }
         }
       },
@@ -2573,12 +2583,8 @@
       "105mm_usa_HESH_ammo_pack": {
         "tier": 1
       },
-      "105mm_usa_HEAT_FS": {
-        "modCostMul": 1.6
-      },
-      "105mm_usa_HEAT_FS_ammo_pack": {
-        "tier": 2
-      },
+      "105mm_usa_M735_APDS_FS": [],
+      "105mm_usa_M735_APDS_FS_ammo_pack": [],
       "105mm_us_M416_Smoke": [],
       "105mm_us_M416_Smoke_ammo_pack": [],
       "tank_smoke_screen_system_mod": {
@@ -2701,7 +2707,7 @@
                 },
                 "limits": {
                   "yaw": [0.0,0.0],
-                  "pitch": [-10.0,18.0]
+                  "pitch": [-10.0,5.0]
                 }
               }
             },
@@ -2871,7 +2877,7 @@
               "Weapon": {
                 "trigger": "gunner4",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,

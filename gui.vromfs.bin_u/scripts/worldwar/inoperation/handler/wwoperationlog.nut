@@ -359,10 +359,10 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
 
   function getScrollTargetId()
   {
-    if (!::check_obj(logContainerObj))
-      return
-
     local scrollTargetId = null
+    if (!::check_obj(logContainerObj))
+      return scrollTargetId
+
     local visibleBox = ::GuiBox().setFromDaguiObj(logFrameObj)
     for(local i = 0; i < logContainerObj.childrenCount(); i++)
     {

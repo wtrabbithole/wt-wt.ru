@@ -47,7 +47,7 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
   local needAnim = ::need_new_msg_box_anim()
 
   local cancel_fn = options?.cancel_fn
-  local need_cancel_fn = options?.need_cancel_fn
+  local needCancelFn = options?.need_cancel_fn
   if (!cancel_fn && buttons && buttons.len() == 1)
     cancel_fn = buttons[0].len() >= 2 ? buttons[0][1] : function(){}
 
@@ -70,11 +70,11 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
   {
     rootNode = ""
     if (!::check_obj(gui_scene.getRoot()))
-      return
+      return null
   }
   local msgbox = gui_scene.loadModal(rootNode, "gui/msgBox.blk", needAnim ? "massTransp" : "div", null)
   if (!msgbox)
-    return
+    return null
   msgbox.id = id
   dagor.debug("GuiManager: load msgbox = " + id)
 //  ::enableHangarControls(false, false) //to disable hangar controls need restore them on destroy msgBox
@@ -96,7 +96,11 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
         if (showButtonsTimer>0)
           return
 
-        local delayedAction = (@(id, guiScene, buttons, sourceHandlerObj, boxId, boxObj) function(dummy) {
+        local srcHandlerObj = sourceHandlerObj
+        local bId = boxId
+        local bObj = boxObj
+
+        local delayedAction = function() {
           if (::check_obj(boxObj))
             foreach (b in buttons)
             {
@@ -107,18 +111,18 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
               {
                 if (isDestroy)
                 {
-                  ::remove_scene_box(boxId) //!!FIX ME: need refactoring about this list
+                  ::remove_scene_box(bId) //!!FIX ME: need refactoring about this list
                   ::saved_scene_msg_box = null
-                  ::destroyMsgBox(boxObj)
+                  ::destroyMsgBox(bObj)
                   ::clear_msg_boxes_list()
                 }
                 if (b.len()>1 && b[1])
-                  b[1].call(sourceHandlerObj)
+                  b[1].call(srcHandlerObj)
                 break
               }
             }
           startingDialogNow = false;
-        })(id, guiScene, buttons, sourceHandlerObj, boxId, boxObj)
+        }
         startingDialogNow = true;
         guiScene.performDelayed(this, delayedAction)
       }
@@ -163,7 +167,6 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
       }
 
       sourceHandlerObj = null
-      buttons = null
       guiScene = null
       boxId = null
       boxObj = null
@@ -223,12 +226,10 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
 
     handlerObj = handlerClass()
     handlerObj.sourceHandlerObj = baseHandler
-    handlerObj.buttons = buttons
     handlerObj.guiScene = gui_scene
     handlerObj.boxId = msgbox.id
     handlerObj.boxObj = msgbox
-    handlerObj.need_cancel_fn = need_cancel_fn
-
+    handlerObj.need_cancel_fn = needCancelFn
 
     local holderObj = msgbox.findObject("buttons_holder")
     if (holderObj != null)
@@ -315,7 +316,7 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
 ::last_scene_msg_box_time <- -1
 function reset_msg_box_check_anim_time()
 {
-  ::last_scene_msg_box_time <- ::dagor.getCurTime()
+  ::last_scene_msg_box_time = ::dagor.getCurTime()
 }
 function need_new_msg_box_anim()
 {

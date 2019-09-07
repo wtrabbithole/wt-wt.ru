@@ -26,7 +26,7 @@
 @const wwLogTimeColumnWidth: 78@sf/@pf;
 @const wwLogZoneColumnWidth: 36*@sf/@pf_outdated;
 
-@const wwBattleInfoMapMaxSize: 0.4@scrn_tgt+0.2@wwBattleInfoScreenIncHeight;
+@const wwBattleInfoMapMaxSize: 0.33@scrn_tgt+0.2@wwBattleInfoScreenIncHeight;
 @const wwBattleMapShadowPadding: 6*@sf/@pf_outdated;
 @const wwBlockTabMinWidth: 22*@sf/@pf_outdated;
 
@@ -46,6 +46,8 @@
 @const wwArmySmallIconWidth: 36*@sf/@pf;
 @const wwSmallCountryFlagWidth: 67*@sf/@pf;
 @const wwSmallCountryFlagHeight: 35*@sf/@pf;
+
+@const wwGlobeTooltipPadding: 15@sf/@pf;
 
 
 
@@ -229,6 +231,26 @@ wwBattleIcon[status=Finished] {
 
 wwBattleIcon[status=Full] {
   background-image:#ui/gameuiskin#battles_closed;
+}
+
+wwBattleIcon[medalIcon] {
+  height:1@cIco;
+  max-height:@unlockStageIconSize;
+  width:h;
+  position:absolute;
+  pos:@bw + 0.2%sw, 50%ph-50%h;
+  background-svg-size:@cIco, @cIco;
+  background-repeat:aspect-ratio;
+}
+
+frame wwBattleIcon[medalIcon] {
+  pos:@missionBoxImageOffsetX - 50%w, 50%ph-50%h;
+  position:absolute;
+}
+
+[hasItemPrefixText] > wwBattleIcon[medalIcon] {
+  pos:@blockInterval, 50%ph-50%h;
+  position:relative;
 }
 
 armyIcon {

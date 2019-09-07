@@ -80,13 +80,11 @@ class ::gui_handlers.HelpInfoHandlerModal extends ::gui_handlers.BaseGuiHandlerW
     scene.findObject("anim_arrow_block").show(false)
   }
 
-  function getLinesGeneratorConfig()
-  {
-    return {
-             startObjContainer = scene
-             endObjContainer = objContainer
-             links = ::u.keysReplace(config.links, { msgId = "start", obj = "end" })
-           }
+  getLinesGeneratorConfig = @() {
+    startObjContainer = scene
+    endObjContainer = objContainer
+    lineInterval = config?.lineInterval
+    links = ::u.keysReplace(config.links, { msgId = "start", obj = "end" })
   }
 
   function consoleNext()

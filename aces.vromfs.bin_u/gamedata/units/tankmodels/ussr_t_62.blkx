@@ -105,6 +105,21 @@
     "type": "typeMediumTank"
   },
   {
+    "smokeScreenActivateTime": 5.0
+  },
+  {
+    "smokeScreenEffectTime": 7.0
+  },
+  {
+    "smokeScreenRad": 12.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
+  },
+  {
+    "smokeScreenFxType": "tank_smokescreen"
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -682,6 +697,7 @@
     "sound": {
       "EngineName": "engine_su100",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_su100",
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_manual_y",
@@ -2522,12 +2538,8 @@
       },
       "115mm_APDS_FS_ammo_pack": [],
       "115mm_HEAT_FS_ammo_pack": [],
-      "115mm_ussr_APDS_FS": {
-        "modCostMul": 1.1
-      },
-      "115mm_ussr_HEAT_FS": {
-        "modCostMul": 4.0
-      },
+      "115mm_ussr_APDS_FS": [],
+      "115mm_ussr_HEAT_FS": [],
       "115mm_ussr_HE": []
     }
   },
@@ -2745,6 +2757,11 @@
         "from": "ussr_camo_green*",
         "to": "ussr_camo_winter_lines*"
       }
+    }
+  },
+  {
+    "smokeScreenExhaustEmitters": {
+      "emitter": "emtr_exhaust_01"
     }
   }
 ]

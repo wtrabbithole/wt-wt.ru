@@ -870,6 +870,9 @@ top_right_holder {
   pos:pw-w -1@buttonCloseHeight-1@frameHeaderPad, 1@frameHeaderPad;
   position:absolute;
 }
+top_right_holder[hasCloseButton=no] {
+  pos:pw -w -1@frameHeaderPad, 1@frameHeaderPad;
+}
 
 top_right_holder[hasRightIndent=yes] {
   pos:pw-w -1@buttonCloseHeight-1@frameHeaderPad - 1@framePadding, 1@frameHeaderPad;
@@ -890,6 +893,10 @@ top_right_holder > Button_text[imgSize=big] {
 
 top_right_holder[vCentered=yes] {
   height:1@buttonCloseHeight;
+}
+
+inlineHolder > Button_text{
+  margin:1@buttonMargin, 0;
 }
 
 
@@ -915,7 +922,7 @@ Button_text[btnName=LB], CheckBox[btnName=LB], playbackCheckbox[btnName=LB],
 DummyButton[btnName=LB], emptyButton[btnName=LB]
                                        { accessKey:'J:LB'; }
 Button_text[btnName=RT]                { accessKey:'J:RT'; }
-Button_text[btnName=LT], CheckBox[btnName=LT]
+Button_text[btnName=LT], CheckBox[btnName=LT], ComboBox[btnName=LT]
                                        { accessKey:'J:LT'; }
 Button_text[btnName=RLB]               { accessKey:'J:RB | J:LB'; }
 Button_text[btnName=DpadUp]            { accessKey:'J:Dpad.Up'; }
@@ -923,7 +930,8 @@ Button_text[btnName=DpadDown]          { accessKey:'J:Dpad.Down'; }
 
 Button_text[btnName=R3], ComboBox[btnName=R3]
                                        { accessKey:'J:R.Thumb'; }
-Button_text[btnName=L3]                { accessKey:'J:L.Thumb'; }
+Button_text[btnName=L3], ComboBox[btnName=L3]
+                                       { accessKey:'J:L.Thumb'; }
 
 Button_text[btnName=RSLeft], DummyButton[btnName=RSLeft]
                                        { accessKey:"J:R.Thumb.Left"; }
@@ -1060,6 +1068,7 @@ ButtonImg[iconName=B] { background-image:@control_button_b; }
 ButtonImg[iconName=X] { background-image:@control_button_x; }
 ButtonImg[iconName=Y] { background-image:@control_button_y; }
 ButtonImg[iconName=RT] { background-image:@control_r_trigger; }
+ButtonImg[iconName=RB] { background-image:@control_r_shoulder; }
 
 
 
@@ -1912,6 +1921,11 @@ Button_text.profileImg > img {
   size: 1@profileUnlockIconSize, 1@profileUnlockIconSize;
 }
 
+Button_text.profileImg > ButtonImg {
+  pos:pw - w - 4@dp, ph - h - 4@dp;
+  height:@buttonIconHeight;
+}
+
 Button_text.profileImg:hover {
   background-image:#ui/gameuiskin#header_button_hover;
 }
@@ -2016,6 +2030,7 @@ Button_text.bottomAirItem[inactiveColor=yes]
 
 [show_console_buttons=yes] :focus td[selected=yes] Button_text.bottomAirItem,
 [show_console_buttons=no]         td[selected=yes] Button_text.bottomAirItem,
+[show_console_buttons=yes] :focus unitItemContainer[selected=yes] > shopItem Button_text.bottomAirItem,
 weapon_item_unit[selected=yes] Button_text.bottomAirItem {
   display:show;
   enable:yes;

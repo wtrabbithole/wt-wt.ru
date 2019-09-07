@@ -112,7 +112,9 @@ function g_clan_type::_getMembersUpgradeStep()
   _upgradeCost = null
   _tagDecorators = null
 
-  minMemberCountToWWar = 1
+  maxMembers = 0
+  maxCandidates = 0
+  minMemberCountToWWarParamName = ""
 
   /** Returns cost of clan creation. */
   getCreateCost = ::g_clan_type._getCreateCost
@@ -161,6 +163,8 @@ function g_clan_type::_getMembersUpgradeStep()
 
   /** Returns members upgrade step */
   getMembersUpgradeStep = ::g_clan_type._getMembersUpgradeStep
+
+  getMinMemberCountToWWar = @() ::get_warpoints_blk()[minMemberCountToWWarParamName] ?? 1
 }
 
 enums.addTypesByGlobalName("g_clan_type", {
@@ -168,12 +172,17 @@ enums.addTypesByGlobalName("g_clan_type", {
     code = ::ECT_NORMAL // 0
     color = "activeTextColor"
     nextTypeCode = ::ECT_UNKNOWN
+    maxMembers = 128
+    maxCandidates = 256
+    minMemberCountToWWarParamName = "minClanMembersToRegister"
   }
   BATTALION = {
     code = ::ECT_BATTALION // 1
     color = "battalionSquadronColor"
     nextTypeCode = ::ECT_NORMAL
-    minMemberCountToWWar = 10
+    maxMembers = 10
+    maxCandidates = 20
+    minMemberCountToWWarParamName = "minBattalionMembersToRegister"
   }
   UNKNOWN = {
     code = ::ECT_UNKNOWN // -1

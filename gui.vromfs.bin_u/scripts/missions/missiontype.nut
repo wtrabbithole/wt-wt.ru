@@ -217,3 +217,11 @@ function g_mission_type::getCurrentObjectives()
 {
   return getCurrent().getObjectives(::get_current_mission_info_cached())
 }
+
+function g_mission_type::getHelpPathForCurrentMission()
+{
+  local path = getCurrent().helpBlkPath
+  if (path != "" && !::u.isEmpty(::DataBlock(path)))
+    return path
+  return null
+}

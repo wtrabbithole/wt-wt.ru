@@ -237,7 +237,7 @@ class gui_bhv.posNavigator
     if (is_up)
       return ::RETCODE_NOTHING
 
-    if (!is_up && bits&::BITS_MOUSE_DBL_CLICK && bits&::BITS_MOUSE_BTN_L)
+    if (!is_up && (bits&::BITS_MOUSE_DBL_CLICK) && (bits&::BITS_MOUSE_BTN_L))
     {
       activateAction(obj)
       return ::RETCODE_HALT;

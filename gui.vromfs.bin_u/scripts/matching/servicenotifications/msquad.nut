@@ -143,7 +143,6 @@ foreach (notificationName, callback in
             ["msquad.notify_application_revoked"] = function(params)
               {
                 local applicant = params?.applicant
-                local squad = params?.squad
 
                 if (!::g_squad_manager.isInSquad())
                   return

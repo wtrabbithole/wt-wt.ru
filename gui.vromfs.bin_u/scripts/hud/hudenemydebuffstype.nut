@@ -78,11 +78,11 @@ local getPercentValueByCounts = function(alive, total, aliveMin)
   return ::clamp(stdMath.lerp(aliveMin - 1, total, 0.0, 1.0, alive), 0.0, 1.0)
 }
 
-local getStateByValue = function(cur, max, crit, min)
+local getStateByValue = function(cur, vMax, crit, vMin)
 {
-  return cur <  min ? PART_STATE.KILLED
+  return cur < vMin ? PART_STATE.KILLED
        : cur < crit ? PART_STATE.CRITICAL
-       : cur <  max ? PART_STATE.GOOD
+       : cur < vMax ? PART_STATE.GOOD
        :              PART_STATE.HEALTHY
 }
 

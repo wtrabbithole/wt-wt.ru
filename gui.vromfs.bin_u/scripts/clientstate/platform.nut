@@ -70,16 +70,25 @@ local isChatEnabled = function(needOverlayMessage = false)
   return getXboxChatEnableStatus(needOverlayMessage) != XBOX_COMMUNICATIONS_BLOCKED
 }
 
-local isChatEnableWithPlayer = function(playerName, needOverlayMessage = false) //when you have contact, you can use direct contact.canInteract
+local isChatEnableWithPlayer = function(playerName) //when you have contact, you can use direct contact.canInteract
 {
   local contact = ::Contact.getByName(playerName)
   if (contact)
-    return contact.canInteract(needOverlayMessage)
+    return contact.canInteract(false)
 
-  if (getXboxChatEnableStatus(needOverlayMessage) == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
+  if (getXboxChatEnableStatus(false) == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
     return ::isPlayerInFriendsGroup(null, false, playerName)
 
   return isChatEnabled()
+}
+
+local attemptShowOverlayMessage = function(playerName) //tries to display Xbox overlay message
+{
+  local contact = ::Contact.getByName(playerName)
+  if (contact)
+    contact.canInteract(true)
+  else
+    getXboxChatEnableStatus(true)
 }
 
 local invalidateCache = function()
@@ -92,6 +101,7 @@ subscriptions.addListenersWithoutEnv({
 }, ::g_listener_priority.CONFIG_VALIDATION)
 
 return {
+  targetPlatform = targetPlatform
   isPlatformXboxOne = isPlatformXboxOne
   isPlatformPS4 = isPlatformPS4
   isPlatformPC = isPlatformPC
@@ -106,6 +116,7 @@ return {
 
   isChatEnabled = isChatEnabled
   isChatEnableWithPlayer = isChatEnableWithPlayer
+  attemptShowOverlayMessage = attemptShowOverlayMessage
   canSquad = @() getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
   getXboxChatEnableStatus = getXboxChatEnableStatus
   canInteractCrossConsole = canInteractCrossConsole

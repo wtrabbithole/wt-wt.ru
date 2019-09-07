@@ -1,14 +1,17 @@
 local globalState = require("globalState.nut")
 local widgetsState = require("widgetsState.nut")
 local hudState = require("hudState.nut")
+local hudUnitType = require("hudUnitType.nut")
 local helicopterHud = require("helicopterHud.nut")
 local shipHud = require("shipHud.nut")
 local shipExHud = require("shipExHud.nut")
 local shipObstacleRf = require("shipObstacleRangefinder.nut")
+local shipDeathTimer = require("shipDeathTimer.nut")
 local footballHud = require("footballHud.nut")
 local screenState = require("style/screenState.nut")
 local airHud = require("airHud.nut")
 local tankHud = require("tankHud.nut")
+local helicopterExHud = require("helicopterExHud.nut")
 
 
 local widgetsMap = {
@@ -16,16 +19,18 @@ local widgetsMap = {
     if (!globalState.isInFlight.value)
       return null
 
-    if (hudState.unitType.value == "helicopter")
+    if (hudUnitType.isHelicopter())
       return helicopterHud
-    else if (hudState.unitType.value == "aircraft" && !hudState.isPlayingReplay.value)
+    else if (hudUnitType.isAir() && !hudState.isPlayingReplay.value)
       return airHud
-    else if (hudState.unitType.value == "tank" && !hudState.isPlayingReplay.value)
+    else if (hudUnitType.isTank() && !hudState.isPlayingReplay.value)
       return tankHud
-    else if (hudState.unitType.value == "ship" && !hudState.isPlayingReplay.value)
+    else if (hudUnitType.isShip() && !hudState.isPlayingReplay.value)
       return shipHud
-    else if (hudState.unitType.value == "shipEx" && !hudState.isPlayingReplay.value)
+    else if (hudUnitType.isSubmarine() && !hudState.isPlayingReplay.value)
       return shipExHud
+    else if (hudUnitType.isUfo())
+      return helicopterExHud
     else
       return null
   },
@@ -34,7 +39,7 @@ local widgetsMap = {
     return {
       size = flex()
       halign = HALIGN_CENTER
-      children = shipObstacleRf
+      children = [shipObstacleRf, shipDeathTimer]
     }
   },
 

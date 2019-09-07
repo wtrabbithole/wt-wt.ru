@@ -226,7 +226,7 @@ function addWeaponsFromBlk(weapons, block, unit)
     local trIdx = -1
     foreach(idx, t in weapons[currentTypeName])
       if (weapon.trigger == t.trigger ||
-        (weaponName in t) && ::is_weapon_params_equal(item, t[weaponName]))
+          ((weaponName in t) && ::is_weapon_params_equal(item, t[weaponName])))
       {
         trIdx = idx
         break
@@ -913,7 +913,7 @@ function getBulletsSetData(air, modifName, noModList = null)
     local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryMod)
     if (primaryBlk)
       foreach (weapon in (primaryBlk % "Weapon"))
-        if (weapon.blk && !::isInArray(weapon.blk, wpList))
+        if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
           wpList.append(weapon.blk)
   }
 
@@ -926,7 +926,7 @@ function getBulletsSetData(air, modifName, noModList = null)
           continue
 
         foreach (weapon in (pBlk % "Weapon"))
-          if (weapon.blk && !::isInArray(weapon.blk, wpList))
+          if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
             wpList.append(weapon.blk)
       }
 
@@ -973,7 +973,7 @@ function getBulletsSetData(air, modifName, noModList = null)
     }
 
     local isBulletBelt = weaponType == WEAPON_TYPE.GUN &&
-      (wBlk.isBulletBelt != false || wBlk.bulletsCartridge > 1 && !wBlk.useSingleIconForBullet)
+      (wBlk.isBulletBelt != false || (wBlk.bulletsCartridge > 1 && !wBlk.useSingleIconForBullet))
 
     foreach (b in bulletsList)
     {
@@ -1011,6 +1011,12 @@ function getBulletsSetData(air, modifName, noModList = null)
       foreach(param in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
         if (param in paramsBlk)
           res[param] <- paramsBlk[param]
+
+      if (paramsBlk?.proximityFuse)
+      {
+        res.proximityFuseArmDistance <- paramsBlk.proximityFuse?.armDistance ?? 0
+        res.proximityFuseRadius      <- paramsBlk.proximityFuse?.radius ?? 0
+      }
     }
 
     if (res)
@@ -1081,7 +1087,7 @@ function getActiveBulletsIntByWeaponsBlk(air, weaponsBlk, weaponToFakeBulletMask
   local wpList = []
   if (weaponsBlk)
     foreach (weapon in (weaponsBlk % "Weapon"))
-      if (weapon.blk && !::isInArray(weapon.blk, wpList))
+      if (weapon.blk && !weapon.dummy && !::isInArray(weapon.blk, wpList))
         wpList.append(weapon.blk)
 
   if (wpList.len())
@@ -1228,7 +1234,7 @@ function getBulletsInfoForPrimaryGuns(air)
   local modsList = ::getBulletsModListByGroups(air)
   local wpList = {} // name = amount
   foreach (weapon in (commonWeaponBlk % "Weapon"))
-    if (weapon.blk)
+    if (weapon.blk && !weapon.dummy)
       if (weapon.blk in wpList)
         wpList[weapon.blk].guns++
       else
@@ -1468,11 +1474,11 @@ function getModificationInfo(air, modifName, isShortDesc=false, limitedName = fa
   local annotation = ""
   local usedLocs = []
   local infoFunc = function(name, addName=null) {
-    local res = ::loc(name + "/name/short")
-    if (addName) res += ::loc(addName + "/name/short")
-    res += " - " + ::loc(name + "/name")
-    if (addName) res += " " + ::loc(addName + "/name")
-    return res
+    local txt = ::loc(name + "/name/short")
+    if (addName) txt += ::loc(addName + "/name/short")
+    txt += " - " + ::loc(name + "/name")
+    if (addName) txt += " " + ::loc(addName + "/name")
+    return txt
   }
   local separator = ::loc("bullet_type_separator/name")
   local setText = ""
@@ -2239,12 +2245,6 @@ function set_unit_last_bullets(unit, groupIndex, value)
   ::set_last_bullets(unit.name, groupIndex, value)
 }
 
-function isAirHaveBulletsGroups(air)
-{
-  if (!air)
-    return false
-}
-
 function isAirHaveAnyWeaponsTags(air, tags, checkPurchase = true)
 {
   if (!air)
@@ -2300,13 +2300,4 @@ function get_weapons_list(aircraft, need_cost, wtags, only_bought=false, check_a
   }
 
   return descr
-}
-
-function onWeaponOptionUpdate(obj)
-{
-  if (::generic_options != null)
-  {
-    local guiScene = ::get_gui_scene();
-    guiScene.performDelayed(this, function(){ ::generic_options.onHintUpdate(); });
-  }
 }

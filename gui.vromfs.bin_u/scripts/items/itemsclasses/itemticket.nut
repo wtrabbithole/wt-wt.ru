@@ -190,9 +190,9 @@ class ::items_classes.Ticket extends ::BaseItem
     return "deathmatch"
   }
 
-  function _getTournamentTypeLayer(type, small)
+  function _getTournamentTypeLayer(lType, small)
   {
-    return ::LayersIcon.findLayerCfg(getBasePartOfLayerId(small) + "_gt_" + type)
+    return ::LayersIcon.findLayerCfg(getBasePartOfLayerId(small) + "_gt_" + lType)
   }
 
   function _getNameForLayer(event, eventEconomicName = "")
@@ -359,13 +359,8 @@ class ::items_classes.Ticket extends ::BaseItem
         text += (text.len() ? "\n\n" : "") + ::loc("tournaments/specialRewards") + ::loc("ui/colon")
         local specialRewards = ::EventRewards.getSortedRewardsByConditions(event)
         foreach (conditionId, rewardsList in specialRewards)
-        {
-          local condition = ::EventRewards.getCondition(conditionId)
           foreach (reward in rewardsList)
-          {
             text += "\n" + ::EventRewards.getConditionText(reward) + " - " + ::EventRewards.getRewardDescText(reward)
-          }
-        }
       }
     }
     return text

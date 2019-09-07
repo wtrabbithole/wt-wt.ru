@@ -13,7 +13,7 @@ local function makeInputField(form_state, send_function) {
 
 
 local function makeChatBlock(log_state, send_message_fn) {
-  local chatMessageState = Watched("")
+  local chatMessageState = ::Watched("")
   local logInstance = scrollableData.make(log_state)
 
   return {

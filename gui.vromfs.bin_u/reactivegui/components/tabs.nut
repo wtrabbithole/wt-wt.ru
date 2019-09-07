@@ -3,7 +3,7 @@ local colors = require("reactiveGui/style/colors.nut")
 local fontsState = require("reactiveGui/style/fontsState.nut")
 
 
-local tab = function(tab, is_current, handler) {
+local function tabCtor(tab, is_current, handler) {
   local grp = ::ElemGroup()
   local stateFlags = ::Watched(0)
 
@@ -65,4 +65,4 @@ local tabsHolder = @(params){
 }
 
 
-return tabsBase(tabsHolder, tab)
+return tabsBase(tabsHolder, tabCtor)

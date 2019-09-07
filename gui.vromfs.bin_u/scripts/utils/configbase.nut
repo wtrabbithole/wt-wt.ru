@@ -54,7 +54,8 @@ class ::ConfigBase
   {
     if (isActual())
     {
-      fireCbWhenNoRequest && cb && cb()
+      if (fireCbWhenNoRequest)
+        cb?()
       return true
     }
 
@@ -112,7 +113,7 @@ class ::ConfigBase
       if (isRequestInProgress())
         addCbToList(cb, onErrorCb)
       else
-        onErrorCb && onErrorCb(-2)
+        onErrorCb?(-2)
       return
     }
 
@@ -120,7 +121,7 @@ class ::ConfigBase
     if (taskId == -1)
     {
       ::update_entitlements_limited() //code sure that he better know about prices actuality, so need to update profile
-      onErrorCb && onErrorCb(-2)
+      onErrorCb?(-2)
       return
     }
 

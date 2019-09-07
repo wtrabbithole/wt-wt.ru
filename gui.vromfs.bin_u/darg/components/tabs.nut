@@ -1,10 +1,14 @@
+local Color = ::Color
+local sh = ::sh
+local flex = ::flex
+
 local function defTab(tab_item, is_current, handler) {
   local grp = ::ElemGroup()
   local stateFlags = ::Watched(0)
 
   return function () {
     local isHover = (stateFlags.value & S_HOVER)
-    local fillColor, textColor, borderColor
+    local fillColor, textColor
     if (is_current) {
       textColor = isHover ? Color(255, 255,255) : Color(0, 255, 0)
       fillColor = isHover ? Color(100, 100, 100) : Color(150, 150, 150)
@@ -62,7 +66,7 @@ local function tabs(holder = defHolder, tab = defTab) {
     })
 
     local result = (typeof holder == "function") ? holder(params) : holder
-    result.children <- extend_to_array(result?.children, children)
+    result.children <- ::extend_to_array(result?.children, children)
     return result
   }
 }

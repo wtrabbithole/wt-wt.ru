@@ -177,7 +177,7 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
     if ( validateResult == "" )
       return true;
 
-    local errText = ::format("ERROR: [ClanMembershipReq] validation error '%s':\n%s", validateResult )
+    local errText = ::format("ERROR: [ClanMembershipReq] validation error '%s'", validateResult)
     callstack()
     ::script_net_assert_once("bad clan requirements", errText)
     return false

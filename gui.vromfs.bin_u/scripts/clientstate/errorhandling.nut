@@ -1,6 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local netAssertsList = []
@@ -24,7 +24,7 @@ function assertf_once(id, msg)
 function unreachable()
 {
   local info = ::getstackinfos(2) // get calling function
-  local id = info?.src + ":" + info?.line + " (" + info?.func + ")"
+  local id = (info?.src ?? "?") + ":" + (info?.line ?? "?") + " (" + (info?.func ?? "?") + ")"
   local msg = "Entered unreachable code: " + id
   script_net_assert_once(id, msg)
 }
@@ -40,7 +40,7 @@ callback.setContextDbgNameFunction(function(context)
   return "unknown table"
 })
 
-callback.setAssertFunction(function(callback, assertText)
+callback.setAssertFunction(function(cb, assertText)
 {
   local eventText = ""
   local curEventName = subscriptions.getCurrentEventName()
@@ -52,7 +52,7 @@ callback.setAssertFunction(function(callback, assertText)
 
   ::script_net_assert_once("cb error " + eventText,
     format("Callback error ( %scontext = %s):\n%s",
-      eventText, callback.getContextDbgName(), assertText
+      eventText, cb.getContextDbgName(), assertText
     )
   )
 })

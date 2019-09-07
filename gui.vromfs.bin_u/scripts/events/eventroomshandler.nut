@@ -269,7 +269,6 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     joinButtonObj.tooltip = isSquadMember ? reasonData.reasonText : ""
     local availTeams = ::events.getAvailableTeams(roomMGM)
     local startText = ""
-    local startTextParams = {}
     if (isSquadMember)
       startText = ::loc(isReady ? "multiplayer/btnNotReady" : "mainmenu/btnReady")
     else if (roomMGM && !::events.isEventSymmetricTeams(roomMGM) && availTeams.len() == 1)
@@ -327,16 +326,16 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return res
     res = res | eRoomFlags.HAS_COUNTRY
 
-    if (!isMultiSlot && ::events.isCurUnitMatchesRoomRules(event, room)
-        || isMultiSlot && ::events.checkPlayersCraftsRoomRules(event, room))
+    if ((!isMultiSlot && ::events.isCurUnitMatchesRoomRules(event, room))
+        || (isMultiSlot && ::events.checkPlayersCraftsRoomRules(event, room)))
     {
       res = res | eRoomFlags.HAS_UNIT_MATCH_RULES
       if (::events.checkRequiredUnits(mGameMode, room))
         res = res | eRoomFlags.HAS_REQUIRED_UNIT
     }
 
-    if (!isMultiSlot && ::events.checkCurrentCraft(mGameMode)
-        || isMultiSlot && ::events.checkPlayersCrafts(mGameMode))
+    if ((!isMultiSlot && ::events.checkCurrentCraft(mGameMode))
+        || (isMultiSlot && ::events.checkPlayersCrafts(mGameMode)))
       res = res | eRoomFlags.HAS_AVAILABLE_UNITS
 
     if (::events.isAllowedByRoomBalance(mGameMode, room))
@@ -628,13 +627,13 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateCollapseChapterStatus(chapterObj)
   {
     local index = ::find_in_array(collapsedChapterNamesArray, chapterObj.id)
-    local collapse = index < 0
-    if (collapse)
+    local isCollapse = index < 0
+    if (isCollapse)
       collapsedChapterNamesArray.append(chapterObj.id)
     else
       collapsedChapterNamesArray.remove(index)
 
-    chapterObj.collapsed = collapse? "yes" : "no"
+    chapterObj.collapsed = isCollapse ? "yes" : "no"
   }
 
   function collapse(itemName = null)
@@ -704,7 +703,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     })
   }
 
-  function onEventAfterJoinEventRoom(event)
+  function onEventAfterJoinEventRoom(ev)
   {
     ::handlersManager.requestHandlerRestore(this, ::gui_handlers.EventsHandler)
   }
@@ -743,8 +742,8 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::events.openCreateRoomWnd(event)
   }
 
-  function onSlotbarPrevAir() { slotbarWeak && slotbarWeak.onSlotbarPrevAir() }
-  function onSlotbarNextAir() { slotbarWeak && slotbarWeak.onSlotbarNextAir() }
+  function onSlotbarPrevAir() { slotbarWeak?.onSlotbarPrevAir?() }
+  function onSlotbarNextAir() { slotbarWeak?.onSlotbarNextAir?() }
 
   function goBackShortcut() { goBack() }
   function onRoomsList()    { goBack() }

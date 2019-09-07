@@ -92,9 +92,9 @@ function g_matching_connect::destroyProgressBox()
 
 // special handlers for char errors that require more complex actions than
 // showing message box and logout
-function g_matching_connect::checkSpecialCharErrors(error)
+function g_matching_connect::checkSpecialCharErrors(errorCode)
 {
-  if (error == ::ERRCODE_EMPTY_NICK)
+  if (errorCode == ::ERRCODE_EMPTY_NICK)
   {
     if (::is_vendor_tencent())
     {

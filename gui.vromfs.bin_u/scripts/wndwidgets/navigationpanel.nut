@@ -45,6 +45,7 @@ class ::gui_handlers.navigationPanel extends ::gui_handlers.BaseGuiHandlerWT
       headerOffsetX     = headerOffsetX
       headerOffsetY     = headerOffsetY
       collapseShortcut  = collapseShortcut
+      needShowCollapseButton = ::is_low_width_screen()
       expandShortcut    = expandShortcut || collapseShortcut
       navShortcutGroup  = navShortcutGroup
       prevShortcut      = prevShortcut || navShortcutGroup + "Up"

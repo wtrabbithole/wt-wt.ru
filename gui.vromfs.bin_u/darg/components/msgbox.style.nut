@@ -1,5 +1,6 @@
+local Color = ::Color
 local cursorC = Color(180,180,180,180)
-local cursorCF = Color(80,80,80,200)
+
 local styling = {
   cursor = {
     rendObj = ROBJ_VECTOR_CANVAS
@@ -20,10 +21,15 @@ local styling = {
     padding = sh(2)
   }
 
+  closeKeys = "Esc"
+  leftKeys = "Left"
+  rightKeys = "Right | Tab"
+  activateKeys = "Space | Enter"
+  maskKeys = ""
   BgOverlay = {
     rendObj = ROBJ_SOLID
     size = [sw(100), sh(100)]
-    color = Color(00, 00, 00, 150)
+    color = Color(0, 0, 0, 150)
     behavior = Behaviors.Button
     transform = {}
     animations = [
@@ -37,16 +43,17 @@ local styling = {
 
   button = function(desc, on_click) {
     local buttonGrp = ::ElemGroup()
-    local stateFlags = Watched(0)
+    local stateFlags = ::Watched(0)
     return function(){
       local sf = stateFlags.value
       return {
         key = desc
         behavior = Behaviors.Button
+        focusOnClick = true
         group = buttonGrp
 
         rendObj = ROBJ_BOX
-        onElemState = @(sf) stateFlags(sf)
+        onElemState = @(v) stateFlags(v)
         fillColor = (sf & S_HOVER)
                     ? (sf & S_ACTIVE)
                       ? Color(0,0,0,255)

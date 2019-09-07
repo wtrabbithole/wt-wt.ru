@@ -462,8 +462,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   {
     local option = ::get_option(optionNum)
     local value = (option && option.value != null) ? option.value : 0
-    local max   = (option && option.max != null && option.max != 0) ? option.max : 2
-    local size = 1.0 + 0.333 * value / max
+    local vMax   = (option?.max ?? 0) != 0 ? option.max : 2
+    local size = 1.0 + 0.333 * value / vMax
 
     local table = ::getTblValue(optionNum, objectsTable, {})
     foreach (id, cssConst in ::getTblValue("objectsToScale", table, {}))
@@ -691,7 +691,6 @@ class HudTouchAir extends ::HudAir
       {
         local res = []
         local availActionsList = ::get_aircraft_available_actions()
-        local areaNum = 3
         foreach (name,  action in ::air_hud_actions)
           if (::isInArray(name, availActionsList))
             res.append(action)

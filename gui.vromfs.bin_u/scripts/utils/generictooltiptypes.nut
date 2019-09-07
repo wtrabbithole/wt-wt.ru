@@ -690,11 +690,11 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
       }
 
-      local onTaskError = function(error) {
+      local onTaskError = function(errorCode) {
         if (!::check_obj(obj))
           return
 
-        local content = ::handyman.renderCached("gui/commonParts/errorFrame", {errorNum = error})
+        local content = ::handyman.renderCached("gui/commonParts/errorFrame", {errorNum = errorCode})
         obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
       }
       ::g_tasker.addTask(taskId, {showProgressBox = false}, onTaskSuccess, onTaskError)
@@ -732,7 +732,6 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       ::build_unlock_desc(config)
       local name = config.id
       local unlockType = config.unlockType
-      local isUnlocked = ::is_unlocked_scripted(unlockType, name)
       local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(unlockType)
       local guiScene = obj.getScene()
       if (decoratorType == ::g_decorator_type.DECALS

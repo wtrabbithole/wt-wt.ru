@@ -107,14 +107,11 @@ function checkNonApprovedResearches(needUpdateResearchTable = false, needResearc
   if (!::researched_items_table || !::researched_items_table.len())
     return false
 
-  local choicesCount = 0
   for (local i = ::researched_items_table.len()-1; i >= 0; --i)
   {
     if (::isResearchAbandoned(::researched_items_table[i]) ||
-         (::isTank(::getAircraftByName(::getUnitNameFromResearchItem(::researched_items_table[i]))) &&
-           !::check_feature_tanks()
-         )
-       )
+      !::getAircraftByName(::getUnitNameFromResearchItem(::researched_items_table[i]))?.unitType.isAvailable()
+    )
       ::removeResearchBlock(::researched_items_table[i])
   }
 
@@ -1298,7 +1295,6 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
 
   function getAvailableUnits(unit)
   {
-    local data = ""
     local unitsArray = []
     local unitItems = []
     local unitType = ::get_es_unit_type(unit)
@@ -1306,7 +1302,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     foreach(item in ::all_units)
       if (item.shopCountry == unit.shopCountry &&
           ::get_es_unit_type(item) == unitType &&
-          ::is_unit_visible_in_shop(unit) &&
+          unit.isVisibleInShop() &&
           ::canResearchUnit(item) &&
           !::isUnitResearched(item) &&
           !::canBuyUnit(item)
@@ -1356,7 +1352,6 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     unitsArray.resize(unitsArray.len() + emptyTd, "")
 
     local data = ""
-    local trCount = unitsArray.len()/unitsInTr
 
     for(local j = 0; j < unitsArray.len();  j+=unitsInTr)
     {
@@ -1380,8 +1375,8 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     ::gui_bhv.columnNavigator.selectCell(tableObj, row, col, true)
 
     if (!researchConfig.isMod)
-      foreach(idx, unitName in itemsTable)
-        ::showAirDiscount(tableObj.findObject(unitName + "-discount"), unitName)
+      foreach(idx, unitId in itemsTable)
+        ::showAirDiscount(tableObj.findObject(unitId + "-discount"), unitId)
 
     local textObj = scene.findObject("new_research_change_later_text")
     if (::checkObj(textObj))
@@ -1463,7 +1458,10 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
       simpleText = ::format(textBlank, ::loc("weaponry/research"), showExp.tostring(), ::loc("currency/researchPoints/sign"))
     }
     else
-      coloredText = simpleText = ::loc("mainmenu/startToResearch")
+    {
+      coloredText = ::loc("mainmenu/startToResearch")
+      simpleText = coloredText
+    }
     setDoubleTextToButton(scene, "btn_apply", simpleText, coloredText)
   }
 

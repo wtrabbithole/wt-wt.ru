@@ -39,7 +39,7 @@ tdiv {
         td {
           optiontext {
             id:t='max_players_text'
-            text:t='#event_dash'
+            text:t='#ui/hyphen'
             overlayTextColor:t='active'
           }
         }
@@ -57,7 +57,7 @@ tdiv {
         td {
           optiontext {
             id:t='players_in_clans_count'
-            text:t='#event_dash'
+            text:t='#ui/hyphen'
           }
         }
       }
@@ -73,7 +73,7 @@ tdiv {
         td {
           optiontext {
             id:t='other_players_count'
-            text:t='#event_dash'
+            text:t='#ui/hyphen'
           }
         }
       }

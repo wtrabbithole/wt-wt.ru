@@ -1,8 +1,11 @@
 local defStyle = require("textButton.style.nut")
 local fa = require("fontawesome.map.nut")
+local Fonts = ::Fonts
+local hdpx = ::hdpx
+local pw = ::pw
 
 local function textColor(sf, style=null, isEnabled = true) {
-  local styling = (style) ? mergeRecursive(defStyle, style) : defStyle
+  local styling = (style) ? ::mergeRecursive(defStyle, style) : defStyle
   if (!isEnabled) return styling.TextDisabled
   if (sf & S_ACTIVE)    return styling.TextActive
   if (sf & S_HOVER)     return styling.TextHover
@@ -11,7 +14,7 @@ local function textColor(sf, style=null, isEnabled = true) {
 }
 
 local function borderColor(sf, style=null, isEnabled = true) {
-  local styling = (style) ? mergeRecursive(defStyle, style) : defStyle
+  local styling = (style) ? ::mergeRecursive(defStyle, style) : defStyle
   if (!isEnabled) return styling.BdDisabled
   if (sf & S_ACTIVE)    return styling.BdActive
   if (sf & S_HOVER)     return styling.BdHover
@@ -20,7 +23,7 @@ local function borderColor(sf, style=null, isEnabled = true) {
 }
 
 local function fillColor(sf, style=null, isEnabled = true) {
-  local styling = (style) ? mergeRecursive(defStyle, style) : defStyle
+  local styling = (style) ? ::mergeRecursive(defStyle, style) : defStyle
   if (!isEnabled) return styling.BgDisabled
   if (sf & S_ACTIVE)    return styling.BgActive
   if (sf & S_HOVER)     return styling.BgHover
@@ -29,18 +32,18 @@ local function fillColor(sf, style=null, isEnabled = true) {
 }
 
 local function fillColorTransp(sf, style=null, isEnabled = true) {
-  local styling = (style) ? mergeRecursive(defStyle, style) : defStyle
+  local styling = (style) ? ::mergeRecursive(defStyle, style) : defStyle
   if (sf & S_ACTIVE)    return styling.BgActive
   if (sf & S_HOVER)     return styling.BgHover
   if (sf & S_KB_FOCUS)  return styling.BgFocused
-  return Color(0,0,0,0)
+  return 0
 }
 
-
+local defTextCtor = @(text, params, handler, group, sf) text
 local textButton = @(fill_color, border_width) function(text, handler, params={}) {
   local isEnabled = params?.isEnabled ?? true
   local group = ::ElemGroup()
-  local stateFlags = Watched(0)
+  local stateFlags = params?.stateFlags ?? ::Watched(0)
   local style = params?.style ?? defStyle
   local btnMargin =  params?.margin ?? defStyle.btnMargin
   local textMargin = params?.textMargin ?? defStyle.textMargin
@@ -50,9 +53,11 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
   local halign = params?.halign ?? HALIGN_LEFT
   local valign = params?.valign ?? VALIGN_MIDDLE
   local sound = params?.style?.sound ?? {}
-  local textCtor = params?.textCtor ?? @(text, params, stateFlags, handler, group, sf) text
+  local textCtor = params?.textCtor ?? defTextCtor
   local function builder(sf) {
     return {
+      watch = stateFlags
+      onElemState = @(v) stateFlags(v)
       margin = params?.margin ?? btnMargin
       key = ("key" in params) ? params.key : handler
 
@@ -71,7 +76,7 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
 
       children = textCtor({
         rendObj = ROBJ_DTEXT
-        text = (type(text)=="function") ? text() : text
+        text = (::type(text)=="function") ? text() : text
         scrollOnHover=true
         delay = 0.5
         speed = [hdpx(100),hdpx(700)]
@@ -83,14 +88,15 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
         group = group
         behavior = [Behaviors.Marquee]
         color = textColor(sf, style, isEnabled)
-      }.__update(params?.textParams ?? {}), params, stateFlags, handler, group, sf)
+      }.__update(params?.textParams ?? {}), params, handler, group, sf)
 
       behavior = Behaviors.Button
+      focusOnClick = true
       onClick = isEnabled ? handler : null
     }.__update(params)
   }
 
-  return watchElemState(builder)
+  return @() builder(stateFlags.value)
 }
 
 

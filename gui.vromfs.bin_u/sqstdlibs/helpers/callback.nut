@@ -1,4 +1,4 @@
-local u = require("std/u.nut")
+local u = require("u.nut")
 /**
  * Callback - wrapper for regular callback functions with context validation.
  *
@@ -85,9 +85,9 @@ local Callback = class
         return
       return callbackFn.acall([origin_this].extend(vargv))
     }
-    catch (error)
+    catch (err)
     {
-      assertFunc(this, error)
+      assertFunc(this, err)
     }
   }
 
@@ -102,9 +102,9 @@ local Callback = class
         return
       return callbackFn.acall([origin_this].extend(vargv))
     }
-    catch (error)
+    catch (err)
     {
-      assertFunc(this, error)
+      assertFunc(this, err)
     }
   }
 

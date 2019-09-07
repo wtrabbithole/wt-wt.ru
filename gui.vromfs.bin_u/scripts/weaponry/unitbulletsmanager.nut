@@ -301,7 +301,7 @@ class UnitBulletsManager
       {
         local gIdx = bulGroup.getGunIdx()
         if (!forceBulletGroupByGun?[gIdx])
-          forceBulletGroupByGun?[gIdx] <- []
+          forceBulletGroupByGun[gIdx] <- []
 
         forceBulletGroupByGun[gIdx].append(bulGroup)
       }

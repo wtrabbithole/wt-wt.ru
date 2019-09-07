@@ -268,9 +268,6 @@
         "gun_mask_01_dm": {
           "armorThickness": 12.7,
           "hidableInViewer": true
-        },
-        "gun_mask_02_dm": {
-          "armorThickness": 350.0
         }
       },
       "optics": {
@@ -689,6 +686,7 @@
     "sound": {
       "EngineName": "engine_sherman_m4a3",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_heavy",
       "TrackSoundNameCockpit": "tracks_heavy_interior",
       "turret_turn": "turret_turn_manual_y",
@@ -2476,7 +2474,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {

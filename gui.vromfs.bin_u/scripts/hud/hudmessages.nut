@@ -112,7 +112,10 @@ enums.addTypesByGlobalName("g_hud_messages", {
       stack.insert(0, mainMessage)
 
       if (!::checkObj(nest))
-        return stack[0].needShowAfterReinit <- true
+      {
+        stack[0].needShowAfterReinit <- true
+        return
+      }
 
       showNest(true)
       local view = {
@@ -683,6 +686,7 @@ enums.addTypesByGlobalName("g_hud_messages", {
             return "FINALIZING"
           return ::getTblValue("result", stack, "")
       }
+      return ""
     }
 
     destroy = function()

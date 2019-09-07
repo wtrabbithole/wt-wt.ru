@@ -26,26 +26,28 @@ function g_missions_manager::startRemoteMission(params)
     return
 
   local urlMission = UrlMission(name, url)
-  local callback = (@(urlMission) function(success) {
-                     local mission = {
-                       id = urlMission.name
-                       isHeader = false
-                       isCampaign = false
-                       isUnlocked = true
-                       campaign = ""
-                       chapter = ""
-                     }
+  local mission = {
+    id = urlMission.name
+    isHeader = false
+    isCampaign = false
+    isUnlocked = true
+    campaign = ""
+    chapter = ""
+  }
+  mission.urlMission <- urlMission
 
-                     mission.urlMission <- urlMission
-                     mission.blk <- urlMission.getMetaInfo()
+  local callback = function(success, mis) {
+                     if (!success)
+                       return
 
-                     ::g_missions_manager.fastStartSkirmishMission(mission)
-                   })(urlMission)
+                     mis.blk <- urlMission.getMetaInfo()
+                     ::g_missions_manager.fastStartSkirmishMission(mis)
+                   }
 
   ::scene_msg_box("start_mission_from_live_confirmation",
                   null,
                   ::loc("urlMissions/live/loadAndStartConfirmation", params),
-                  [["yes", (@(urlMission, callback) function() { ::g_url_missions.loadBlk(urlMission, callback) })(urlMission, callback) ],
+                  [["yes", function() { ::g_url_missions.loadBlk(mission, callback) }],
                    ["no", function() {} ]],
                   "yes", { cancel_fn = function() {}}
                 )

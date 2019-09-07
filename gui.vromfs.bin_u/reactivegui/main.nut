@@ -9,7 +9,7 @@ if ("gui_scene" in ::getroottable()) {
 }
 
 local widgets = require("reactiveGui/widgets.nut")
-local ctrlsState = require("ctrlsState.nut") //need this for controls mask updated
+require("ctrlsState.nut") //need this for controls mask updated
 
 /*scale px by font size*/
 local fontsState = require("style/fontsState.nut")

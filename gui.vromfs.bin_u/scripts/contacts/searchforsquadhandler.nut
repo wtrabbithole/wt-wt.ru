@@ -1,5 +1,6 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
 function gui_start_search_squadPlayer()
 {
@@ -10,7 +11,7 @@ function gui_start_search_squadPlayer()
   }
 
   ::update_ps4_friends()
-  ::g_contacts.updateXboxOneFriends()
+  xboxContactsManager.updateXboxOneFriends()
   ::handlersManager.loadHandler(::gui_handlers.SearchForSquadHandler)
 }
 

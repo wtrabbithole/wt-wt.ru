@@ -284,8 +284,7 @@ function build_conditions_config(blk, showStage = -1)
   config.id = id
   config.imgRatio = blk.getReal("aspect_ratio", 1.0)
 
-  local type = blk.getStr("type", "")
-  config.unlockType = ::get_unlock_type(type)
+  config.unlockType = ::get_unlock_type(blk.type ?? "")
   config.locId = blk.getStr("locId", "")
   config.locDescId = blk.getStr("locDescId", "")
   config.link = ::g_promo.getLinkText(blk)
@@ -440,9 +439,7 @@ function get_unlock_rewards_text(config)
   if ("reward" in config)
     textsList.append(config.reward.tostring())
   if ("rewardWarbonds" in config)
-    textsList.append(
-      ::g_warbonds.getWarbondPriceText(config.rewardWarbonds.wbName, null, config.rewardWarbonds.wbAmount)
-    )
+    textsList.append(::g_warbonds.getWarbondPriceText(config.rewardWarbonds.wbAmount))
   return ::g_string.implode(textsList, ", ")
 }
 
@@ -547,7 +544,7 @@ function is_decal_visible(decalBlk)
 
 function is_unlock_tanks_related(unlockId = null, unlockBlk = null)
 {
-  unlockId = unlockId || unlockBlk && unlockBlk.id
+  unlockId = unlockId ?? unlockBlk?.id
   if (!unlockId)
     return false
   if (unlockId in ::tanks_related_unlocks)
@@ -744,7 +741,6 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
   {
     local unlocksList = unlocksLists[currentTab].unlocksList
     local listObj = scene.findObject("wnd_content")
-    local fObj = scene.findObject("wnd_frame")
 
     guiScene.setUpdatesEnabled(false, false)
     guiScene.replaceContentFromText(listObj, "", 0, this)
@@ -983,7 +979,7 @@ function get_unlock_name_text(unlockType, id)
       local index = id.find("/")
       if (index != null)
         return ::loc("missions/" + id.slice(index + 1))
-      return res.name = ::loc("missions/" + id)
+      return ::loc("missions/" + id)
 
     case ::UNLOCKABLE_TITLE:
       return ::loc("title/"+id)
@@ -1071,9 +1067,9 @@ function build_log_unlock_data(config)
   local realId = ("unlockId" in config)? config.unlockId : ("id" in config)? config.id : ""
   local unlockBlk = ::g_unlocks.getUnlockById(realId)
 
-  local type = ("unlockType" in config)? config.unlockType : ("type" in config)? config.type : -1
-  if (type < 0)
-    type = (unlockBlk && unlockBlk.type)? ::get_unlock_type(unlockBlk.type) : -1
+  local uType = config?.unlockType ?? config?.type ?? -1
+  if (uType < 0)
+    uType = unlockBlk?.type != null ? ::get_unlock_type(unlockBlk.type) : -1
   local stage = ("stage" in config)? config.stage : -1
   local isMultiStage = (unlockBlk && unlockBlk.isMultiStage) ? true : false // means stages are auto-generated (used only for streaks).
   local id = ("displayId" in config)? config.displayId : realId
@@ -1097,7 +1093,7 @@ function build_log_unlock_data(config)
     res.desc = ::loc(id + "/desc", "")
 
   res.id = id
-  res.type = type
+  res.type = uType
   res.rewardText = ""
   res.amount = ::getTblValue("amount", config, res.amount)
 
@@ -1108,20 +1104,20 @@ function build_log_unlock_data(config)
     res.name = ::g_battle_tasks.getLocalizedTaskNameById(realId)
   } else
   {
-    res.name = ::get_unlock_name_text(type, id)
+    res.name = ::get_unlock_name_text(uType, id)
     if (needTitle)
-      res.title = ::get_unlock_type_text(type, id)
+      res.title = ::get_unlock_type_text(uType, id)
   }
 
   if (config?.showAsTrophyContent)
     res.showAsTrophyContent <- true
 
-  switch (type)
+  switch (uType)
   {
     case ::UNLOCKABLE_SKIN:
     case ::UNLOCKABLE_ATTACHABLE:
     case ::UNLOCKABLE_DECAL:
-      local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(type)
+      local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(uType)
       res.image = decoratorType.userlogPurchaseIcon
       res.name = decoratorType.getLocName(id)
 
@@ -1275,8 +1271,8 @@ function build_log_unlock_data(config)
       local item = ::ItemsManager.findItemById(id)
       if (item)
       {
-        res.title = ::get_unlock_type_text(type, realId)
-        res.name = ::get_unlock_name_text(type, realId)
+        res.title = ::get_unlock_type_text(uType, realId)
+        res.name = ::get_unlock_name_text(uType, realId)
         res.image = item.getSmallIconName()
         res.desc = item.getDescription()
         res.rewardText = item.getName()
@@ -1332,7 +1328,7 @@ function build_log_unlock_data(config)
     // isMultiStage=false means stages are hard-coded (usually used for challenges and achievements).
     // isMultiStage=true means stages are auto-generated (usually used only for streaks).
     // there are streaks with stages and isMultiStage=false and they should have own name, icon, etc
-    if (stage >= 0 && !isMultiStage && type != ::UNLOCKABLE_STREAK)
+    if (stage >= 0 && !isMultiStage && uType != ::UNLOCKABLE_STREAK)
     {
       local curStage = -1
       for (local j = 0; j < unlockBlk.blockCount(); j++)
@@ -1375,7 +1371,7 @@ function build_log_unlock_data(config)
       if (icon)
         res.descrImage <- icon
       else if (::getTblValue("iconStyle", res, "") == "")
-        res.iconStyle <- !showLocalState || ::is_unlocked_scripted(type, id) ? "default_unlocked"
+        res.iconStyle <- !showLocalState || ::is_unlocked_scripted(uType, id) ? "default_unlocked"
           : "default_locked"
     }
 
@@ -1570,9 +1566,9 @@ function combineSimilarAwards(awardsList)
       continue
 
     res.append(award)
-    local array = res.top()
-    array.amount <- 1
-    array.similarAwards <- []
+    local tbl = res.top()
+    tbl.amount <- 1
+    tbl.similarAwards <- []
   }
 
   return res
@@ -1887,7 +1883,7 @@ function g_unlocks::saveFavorites()
   ::save_local_account_settings(FAVORITE_UNLOCKS_LIST_SAVE_ID, saveBlk)
 }
 
-function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTimeLimit = true, shouldDebugTime = false)
+function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTimeLimit = true)
 {
   local unlock = getUnlockById(id)
   if (!unlock)
@@ -1914,22 +1910,44 @@ function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTim
       local currentTime = get_charserver_time_sec()
 
       isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
-
-      if (shouldDebugTime)
-      {
-        dagor.debug("unlock " + id + " is visible by time ? " + isVisibleUnlock)
-        dagor.debug("curTime = " + currentTime + ", visibleDiapason = " + startTime + ", " + endTime
-          + ", beginDate = " + cond.beginDate + ", endDate = " + cond.endDate
-          + ", visibleDaysBefore = " + unlock?.visibleDaysBefore
-          + ", visibleDays = " + unlock?.visibleDays
-          + ", visibleDaysAfter = " + unlock?.visibleDaysAfter
-        )
-      }
-
       break
     }
   }
   return isVisibleUnlock
+}
+
+function g_unlocks::debugLogVisibleByTimeInfo(id)
+{
+  local unlock = getUnlockById(id)
+  if (!unlock)
+    return
+
+  if (::is_numeric(unlock.visibleDays)
+    || ::is_numeric(unlock.visibleDaysBefore)
+    || ::is_numeric(unlock.visibleDaysAfter))
+  {
+    foreach (cond in unlock.mode % "condition")
+    {
+      if (!::isInArray(cond.type, unlock_time_range_conditions))
+        continue
+
+      local startTime = time.getTimestampFromStringUtc(cond.beginDate) -
+        time.daysToSeconds(unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0).tointeger()
+      local endTime = time.getTimestampFromStringUtc(cond.endDate) +
+        time.daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+      local currentTime = get_charserver_time_sec()
+      local isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
+
+      dagor.debug("unlock " + id + " is visible by time ? " + isVisibleUnlock)
+      dagor.debug("curTime = " + currentTime + ", visibleDiapason = " + startTime + ", " + endTime
+        + ", beginDate = " + cond.beginDate + ", endDate = " + cond.endDate
+        + ", visibleDaysBefore = " + (unlock?.visibleDaysBefore ?? "?")
+        + ", visibleDays = " + (unlock?.visibleDays ?? "?")
+        + ", visibleDaysAfter = " + (unlock?.visibleDaysAfter ?? "?")
+      )
+      return
+    }
+  }
 }
 
 function g_unlocks::isHiddenByUnlockedUnlocks(unlockBlk)

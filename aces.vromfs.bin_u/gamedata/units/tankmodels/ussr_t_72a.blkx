@@ -102,6 +102,21 @@
     "canReloadNonGuns": true
   },
   {
+    "smokeScreenActivateTime": 5.0
+  },
+  {
+    "smokeScreenEffectTime": 7.0
+  },
+  {
+    "smokeScreenRad": 12.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
+  },
+  {
+    "smokeScreenFxType": "tank_smokescreen"
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank_modern",
@@ -208,18 +223,29 @@
       "turret_composite_armor": {
         "armorClass": "t_80b_composite_armor",
         "hidableInXrayViewer": true,
-        "composite_armor_turret_01_dm": {
-          "armorThickness": 120.0,
+        "composite_armor_turret_03_dm": {
+          "armorClass": "CHA_tank_modern",
+          "hidableInXrayViewer": true,
+          "armorThickness": 0.0,
           "genericArmorQuality": 0.0,
-          "cumulativeArmorQuality": 2.3,
-          "armorEffectiveThicknessMax": 500.0,
+          "cumulativeArmorQuality": 0.0,
+          "createSecondaryShatters": false
+        },
+        "composite_armor_turret_01_dm": {
+          "armorClass": "t_80b_composite_armor",
+          "hidableInXrayViewer": true,
+          "armorThickness": 0.0,
+          "genericArmorQuality": 0.0,
+          "cumulativeArmorQuality": 0.0,
           "createSecondaryShatters": false
         },
         "composite_armor_turret_02_dm": {
-          "armorThickness": 95.0,
+          "armorClass": "CHA_tank_modern",
+          "hidableInXrayViewer": true,
+          "armorThickness": 0.0,
           "genericArmorQuality": 0.0,
-          "cumulativeArmorQuality": 2.3,
-          "armorEffectiveThicknessMax": 150.0
+          "cumulativeArmorQuality": 0.0,
+          "createSecondaryShatters": false
         }
       },
       "turret": {
@@ -250,9 +276,10 @@
           "cumulativeArmorQuality": 0.0
         },
         "turret_02_side_dm": {
-          "armorThickness": 102.0,
-          "armorEffectiveThicknessMax": 300.0,
-          "cumulativeArmorQuality": 0.0
+          "armorThickness": 250.0,
+          "armorClass": "CHA_tank_modern",
+          "variableThickness": true,
+          "solidArmorTestDepth": 900.0
         },
         "turret_03_side_dm": {
           "armorThickness": 90.0,
@@ -315,7 +342,8 @@
           "armorThickness": 40.0
         },
         "gun_mask_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 50.0,
+          "variableThickness": true
         },
         "gun_mask_01_dm": {
           "armorThickness": 50.0
@@ -349,11 +377,6 @@
         },
         "turret_04_bottom_dm": {
           "armorThickness": 80.0
-        },
-        "composite_armor_turret_03_dm": {
-          "armorThickness": 1.0,
-          "createSecondaryShatters": false,
-          "hidableInXrayViewer": true
         }
       },
       "body_side_screens": {
@@ -662,7 +685,7 @@
         },
         "cannon_breech_dm": {
           "armorThickness": 10.0,
-          "armorThrough": 450.0,
+          "armorThrough": 300.0,
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
@@ -944,6 +967,7 @@
     "sound": {
       "EngineName": "engine_t90a",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_su100",
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_servo",
@@ -1924,12 +1948,12 @@
           ],
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-6.0,13.0]
+            "pitch": [-6.22,13.78]
           },
           "limitsTable": {
-            "lim1": [-180.0,-150.0,-3.0,15.0],
-            "lim2": [-150.0,150.0,-4.0,15.0],
-            "lim3": [150.0,180.0,-3.0,15.0]
+            "lim1": [-180.0,-150.0,-3.78,13.78],
+            "lim2": [-150.0,150.0,-6.22,13.78],
+            "lim3": [150.0,180.0,-3.78,13.78]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
@@ -2080,11 +2104,6 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-5.0,60.0]
-          },
-          "limitsTable": {
-            "lim1": [-180.0,102.0,-2.0,60.0],
-            "lim2": [102.0,130.0,25.0,60.0],
-            "lim3": [130.0,180.0,-5.0,60.0]
           }
         }
       },
@@ -2758,18 +2777,14 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },
-      "modern_tank_stereo_rangefinder": {
+      "modern_tank_laser_rangefinder": {
         "tier": 3
       },
       "125mm_ussr_3BM15_APDS_FS_ammo_pack": [],
       "125mm_ussr_3BM12_APDS_FS_ammo_pack": [],
       "125mm_ussr_3BK12_HEAT_FS_ammo_pack": [],
-      "125mm_ussr_3BM15_APDS_FS": {
-        "modCostMul": 2.2
-      },
-      "125mm_ussr_3BM12_APDS_FS": {
-        "modCostMul": 1.5
-      },
+      "125mm_ussr_3BM15_APDS_FS": [],
+      "125mm_ussr_3BM12_APDS_FS": [],
       "125mm_ussr_3BK12_HEAT_FS": [],
       "125mm_ussr_HE": [],
       "tank_smoke_screen_system_mod": {
@@ -2843,12 +2858,12 @@
                 ],
                 "limits": {
                   "yaw": [-180.0,180.0],
-                  "pitch": [-6.0,13.0]
+                  "pitch": [-6.22,13.78]
                 },
                 "limitsTable": {
-                  "lim1": [-180.0,-150.0,-3.0,15.0],
-                  "lim2": [-150.0,150.0,-4.0,15.0],
-                  "lim3": [150.0,180.0,-3.0,15.0]
+                  "lim1": [-180.0,-150.0,-3.78,13.78],
+                  "lim2": [-150.0,150.0,-6.22,13.78],
+                  "lim3": [150.0,180.0,-3.78,13.78]
                 },
                 "gunStabilizer": {
                   "hasVerticalGunFreeMode": false,
@@ -2999,11 +3014,6 @@
                 "limits": {
                   "yaw": [-180.0,180.0],
                   "pitch": [-5.0,60.0]
-                },
-                "limitsTable": {
-                  "lim1": [-180.0,102.0,-2.0,60.0],
-                  "lim2": [102.0,130.0,25.0,60.0],
-                  "lim3": [130.0,180.0,-5.0,60.0]
                 }
               }
             },
@@ -3517,6 +3527,11 @@
           }
         }
       ]
+    }
+  },
+  {
+    "smokeScreenExhaustEmitters": {
+      "emitter": "emtr_exhaust_01"
     }
   }
 ]

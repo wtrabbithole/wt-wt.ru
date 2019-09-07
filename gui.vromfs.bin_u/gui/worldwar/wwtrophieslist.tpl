@@ -40,7 +40,8 @@ ww_map_item {
           size:t='1@cIco, 1@cIco'
           pos:t='50%pw-20%w, 50%ph-50%h'
           position:t='absolute'
-          background-image:t='#ui/gameuiskin#check'
+          background-image:t='#ui/gameuiskin#check.svg'
+          background-svg-size:t='1@cIco, 1@cIco'
           input-transparent:t='yes'
         }
         <</isTrophyRecieved>>

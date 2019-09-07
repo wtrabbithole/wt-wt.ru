@@ -1,5 +1,3 @@
-local u = require("std/u.nut")
-
 local XboxShopPurchasableItem = class
 {
   defaultIconStyle = "default_chest_debug"
@@ -69,16 +67,16 @@ local XboxShopPurchasableItem = class
   haveDiscount = @() !isBought && listPrice > 0 && price != listPrice
 
   getDescription = function() {
-    local priceText = getPriceText()
+    local strPrice = getPriceText()
     if (haveDiscount())
-      priceText = ::loc("ugm/price") + " "
+      strPrice = ::loc("ugm/price") + " "
         + ::loc("ugm/withDiscount") + ::loc("ui/colon")
         + ::colorize("oldPrice", listPrice + " " + currencyCode)
-        + " " + priceText
+        + " " + strPrice
     else
-      priceText = ::loc("ugm/price") + ::loc("ui/colon") + priceText
+      strPrice = ::loc("ugm/price") + ::loc("ui/colon") + strPrice
 
-    return priceText + "\n" + description
+    return strPrice + "\n" + description
   }
 
   getViewData = @(params = {}) {

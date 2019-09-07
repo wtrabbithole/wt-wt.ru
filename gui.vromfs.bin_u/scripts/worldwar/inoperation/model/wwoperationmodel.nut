@@ -6,7 +6,7 @@ class ::WwOperationModel
 
   maxUniqueUnitsOnFlyout = 0
 
-  function constructor()
+  constructor()
   {
     armies = ::WwOperationArmies()
     maxUniqueUnitsOnFlyout = ::g_world_war.getWWConfigurableValue("maxUniqueUnitsOnFlyout", 0)

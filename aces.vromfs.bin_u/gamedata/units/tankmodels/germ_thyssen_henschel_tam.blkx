@@ -650,6 +650,7 @@
     "sound": {
       "EngineName": "engine_chaffee_m24",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_light",
       "TrackSoundNameCockpit": "tracks_light_interior",
       "EngineNameAi": "engine_tank_ai_light",
@@ -1638,6 +1639,15 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "turret": [
@@ -1780,6 +1790,15 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "mount": [
@@ -1815,6 +1834,15 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2067,13 +2095,13 @@
       },
       "engine": {
         "horsePowers": 720.0,
-        "maxRPM": 2600.0,
+        "maxRPM": 2400.0,
         "minRPM": 800.0
       },
       "mechanics": {
         "maxBrakeForce": 125000.0,
         "driveGearRadius": 0.35,
-        "mainGearRatio": 1.6,
+        "mainGearRatio": 1.48,
         "sideGearRatio": 2.85,
         "neutralGearRatio": 12.0,
         "gearRatios": [
@@ -2895,15 +2923,11 @@
       "105mm_usa_HESH_ammo_pack": {
         "tier": 1
       },
-      "105mm_usa_HEAT_FS": {
-        "modCostMul": 1.6
-      },
+      "105mm_usa_HEAT_FS": [],
       "105mm_usa_HEAT_FS_ammo_pack": {
         "tier": 2
       },
-      "105mm_usa_M735_APDS_FS": {
-        "modCostMul": 3.15
-      },
+      "105mm_usa_M735_APDS_FS": [],
       "105mm_usa_M735_APDS_FS_ammo_pack": [],
       "105mm_us_M416_Smoke": [],
       "105mm_us_M416_Smoke_ammo_pack": {
@@ -3124,7 +3148,7 @@
                   "triggerGroup": "smoke"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/76mm_nato_smoke_grenade_launcher.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/76mm_modern_smoke_grenade_launcher.blk"
                 },
                 {
                   "weaponType": "rockets"

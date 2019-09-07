@@ -572,7 +572,7 @@
         },
         "cannon_breech_dm": {
           "armorThickness": 10.0,
-          "armorThrough": 450.0,
+          "armorThrough": 300.0,
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
@@ -891,6 +891,7 @@
     "sound": {
       "EngineName": "engine_abrams",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_heavy",
       "TrackSoundNameCockpit": "tracks_heavy_interior",
       "turret_turn": "turret_turn_manual_y",
@@ -2700,7 +2701,7 @@
           "weaponTrigger": "gunner0"
         },
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "replenishmentTime": 15.0
@@ -2921,15 +2922,15 @@
       "105mm_usa_HESH_ammo_pack": {
         "tier": 1
       },
-      "105mm_usa_HEAT_FS": {
-        "modCostMul": 4.0
-      },
+      "105mm_usa_HEAT_FS": [],
       "105mm_usa_HEAT_FS_ammo_pack": {
         "tier": 2
       },
       "105mm_us_M416_Smoke": [],
       "105mm_us_M416_Smoke_ammo_pack": [],
-      "105mm_usa_M735_APDS_FS": [],
+      "105mm_usa_M735_APDS_FS": {
+        "modCostMul": 2.5
+      },
       "105mm_usa_M735_APDS_FS_ammo_pack": [],
       "modern_tank_laser_rangefinder": []
     }

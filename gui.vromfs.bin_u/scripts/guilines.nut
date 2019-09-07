@@ -76,7 +76,7 @@ class ::GuiBox
   priority = 0
   isToStringForDebug = true
 
-  function constructor(_x1 = 0, _y1 = 0, _x2 = 0, _y2 = 0, _priority = 0)
+  constructor(_x1 = 0, _y1 = 0, _x2 = 0, _y2 = 0, _priority = 0)
   {
     c1 = [_x1, _y1]
     c2 = [_x2, _y2]
@@ -105,7 +105,8 @@ class ::GuiBox
 
   function _tostring()
   {
-    return ::format("GuiBox((%d,%d), (%d,%d), priority = %d)", c1[0], c1[1], c2[0], c2[1], priority)
+    return ::format("GuiBox((%d,%d), (%d,%d)%s)", c1[0], c1[1], c2[0], c2[1],
+      priority ? (", priority = " + priority) : "")
   }
 
   function isIntersect(box)
@@ -150,6 +151,16 @@ class ::GuiBox
     return cutList
   }
 
+  function incPos(inc)
+  {
+    for(local i=0; i < 2; i++)
+    {
+      c1[i] += inc[i]
+      c2[i] += inc[i]
+    }
+    return this
+  }
+
   function incSize(kAdd, kMul = 0)
   {
     for(local i=0; i < 2; i++)
@@ -163,11 +174,12 @@ class ::GuiBox
         c2[i] += inc
       }
     }
+    return this
   }
 
-  function cloneBox(incSize = 0)
+  function cloneBox(incSz = 0)
   {
-    return ::GuiBox(c1[0] - incSize, c1[1] - incSize, c2[0] + incSize, c2[1] + incSize)
+    return ::GuiBox(c1[0] - incSz, c1[1] - incSz, c2[0] + incSz, c2[1] + incSz)
   }
 
   function getBlkText(tag)
@@ -222,7 +234,7 @@ function LinesGenerator::getLinkLinesMarkup(config)
     links.append([endBlock.box, startBlock.box])
   }
 
-  local lineInterval = ::getTblValue("lineInterval", config, "@helpLineInterval")
+  local lineInterval = config?.lineInterval ?? "@helpLineInterval"
   local lineWidth = ::getTblValue("lineWidth", config, "@helpLineWidth")
 
   local obstacles = ::getTblValue("obstacles", config, null)
@@ -432,12 +444,12 @@ function LinesGenerator::monoLineGetBestPos(diapason, checkBox, axis, lineWidth,
   return found ? pos : null
 }
 
-function LinesGenerator::findGoodPos(obj, axis, obstacles, min, max, bestPos = null)
+function LinesGenerator::findGoodPos(obj, axis, obstacles, posMin, posMax, bestPos = null)
 {
   local box = ::GuiBox().setFromDaguiObj(obj)
   local objWidth = box.c2[axis] - box.c1[axis]
-  box.c1[axis] = min
-  box.c2[axis] = max
+  box.c1[axis] = posMin
+  box.c2[axis] = posMax
 
   local diapason = monoLineCountDiapason(null, box, axis, obstacles)
   if (diapason && diapason.len())
@@ -574,7 +586,6 @@ function LinesGenerator::doubleLineZoneCheckObstacles(zones, link, obstacles)
       if (!box.isIntersect(zoneData.box))
         continue
 
-      local axis = zoneData.axis
       if (link[0].isInside(box) || link[1].isInside(box))
         continue //ignore boxes intersect and full override this side
 
@@ -595,8 +606,6 @@ function LinesGenerator::doubleLineCutZoneList(zoneData, box)
   local wayAxis = zoneData.wayAxis
   local wayAltAxis = zoneData.wayAltAxis
 
-  local beforeZone = true
-  local afterZone = false
   local zStart = box.c1[axis]
   local zEnd   = box.c2[axis]
   local dStart = box.c1[1-axis]
@@ -620,8 +629,8 @@ function LinesGenerator::doubleLineCutZoneList(zoneData, box)
       zone = newZone
     }
 
-    if (!wayAxis && zone.start > zEnd
-        || wayAxis && zone.end < zStart)
+    if ((!wayAxis && zone.start > zEnd)
+        || (wayAxis && zone.end < zStart))
       continue //inside corners not blocked by box
 
     local found = false

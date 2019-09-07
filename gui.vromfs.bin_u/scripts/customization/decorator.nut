@@ -243,9 +243,9 @@ class Decorator
   function getTagsLoc()
   {
     local res = rarity.tag ? [ rarity.tag ] : []
-    local blk = ::configs.GUI.get().decorator_tags_visible
-    if (blk && tags)
-      foreach (tagBlk in blk % "i")
+    local tagsVisibleBlk = ::configs.GUI.get().decorator_tags_visible
+    if (tagsVisibleBlk && tags)
+      foreach (tagBlk in tagsVisibleBlk % "i")
         if (tags?[tagBlk.tag])
           res.append(::loc("content/tag/" + tagBlk.tag))
     return res

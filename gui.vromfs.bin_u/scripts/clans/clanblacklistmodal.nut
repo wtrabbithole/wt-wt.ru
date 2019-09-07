@@ -48,7 +48,6 @@ class ::gui_handlers.clanBlacklistModal extends ::gui_handlers.BaseGuiHandlerWT
     local lastIdx = min((curPage + 1) * rowsPerPage, blacklistData.len())
     for(local i=startIdx; i < lastIdx; i++)
     {
-      local block = blacklistData[i]
       local rowName = "row_" + i
       local rowData = []
 

@@ -102,19 +102,19 @@
     "type": "typeMediumTank"
   },
   {
-    "smokeScreenActivateTime": 10.0
+    "smokeScreenActivateTime": 5.0
   },
   {
-    "smokeScreenEffectTime": 30.0
+    "smokeScreenEffectTime": 7.0
   },
   {
-    "smokeScreenRad": 15.0
+    "smokeScreenRad": 12.0
   },
   {
     "smokeScreenOffset": [-3.0,0.0,2.0]
   },
   {
-    "smokeScreenDmPart": "engine_dm"
+    "smokeScreenFxType": "tank_smokescreen"
   },
   {
     "DamageParts": {
@@ -631,6 +631,7 @@
     "sound": {
       "EngineName": "engine_su100",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_su100",
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_manual_y",
@@ -2459,16 +2460,10 @@
       "100mm_BR412D_ammo_pack": [],
       "100mm_ussr_Smoke_ammo_pack": [],
       "100mm_3BK17M_ammo_pack": [],
-      "100mm_ussr_Smoke": {
-        "modCostMul": 0.5
-      },
+      "100mm_ussr_Smoke": [],
       "100mm_ussr_BR412D": [],
-      "100mm_ussr_3BK25": {
-        "modCostMul": 2.0
-      },
-      "100mm_ussr_3BK17M": {
-        "modCostMul": 1.5
-      },
+      "100mm_ussr_3BK25": [],
+      "100mm_ussr_3BK17M": [],
       "100mm_ussr_HE": []
     }
   },
@@ -2695,6 +2690,11 @@
         "from": "ussr_camo_green*",
         "to": "ussr_camo_winter_lines*"
       }
+    }
+  },
+  {
+    "smokeScreenExhaustEmitters": {
+      "emitter": "emtr_exhaust_01"
     }
   }
 ]

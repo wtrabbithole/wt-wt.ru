@@ -60,7 +60,7 @@ class EventChapter
     sortPriority = -1
   }
 
-  function sortChapterEvents(eventId1, eventId2)
+  function sortChapterEvents(eventId1, eventId2) // warning disable: -return-different-types
   {
     local event1 = ::events.getEvent(eventId1)
     local event2 = ::events.getEvent(eventId2)
@@ -103,7 +103,8 @@ class EventChaptersManager
       if (event == null)
         continue
       local chapterId = ::events.getEventsChapter(event)
-      getChapter(chapterId) || addChapter(chapterId)
+      if (!getChapter(chapterId))
+        addChapter(chapterId)
     }
 
     foreach (chapter in chapters)

@@ -17,7 +17,7 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
   configPath = ""
 
   stage = -1
-  error = -1
+  errorCode = -1
 
   percent = 0
   dspeed = 0
@@ -60,12 +60,12 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
     showSceneBtn(buttonCancelId, false)
   }
 
-  function onUpdaterCallback(type, p0, p1, p2)
+  function onUpdaterCallback(cbType, p0, p1, p2)
   {
     if (isFinished || !isValid())
       return
 
-    switch(type)
+    switch(cbType)
     {
     case ::UPDATER_CB_STAGE:
       stage = p0
@@ -80,7 +80,7 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
       updateProgressbar()
       break;
     case ::UPDATER_CB_ERROR:
-      error = p0
+      errorCode = p0
       break;
     case ::UPDATER_CB_FINISH:
       onFinish();
@@ -143,11 +143,11 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
 
     isFinished = true
 
-    if (error < 0)
+    if (errorCode < 0)
       goBack()
     else
     {
-      local errorText = ::loc("updater/error/"+error.tostring())
+      local errorText = ::loc("updater/error/" + errorCode.tostring())
       msgBox("updater_error", errorText, [["ok", goBack ]], "ok")
     }
   }

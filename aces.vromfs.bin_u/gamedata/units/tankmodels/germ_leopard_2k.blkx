@@ -534,7 +534,8 @@
         "drive_turret_h_dm": [],
         "drive_turret_h_01_dm": [],
         "drive_turret_v_01_dm": [],
-        "radio_station_dm": []
+        "radio_station_dm": [],
+        "radio_station_01_dm": []
       },
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
@@ -936,6 +937,7 @@
     "sound": {
       "EngineName": "engine_leo2a5",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_servo",
@@ -2629,10 +2631,8 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
-      "modern_tank_stereo_rangefinder": [],
-      "120mm_NATO_APDS_FS": {
-        "modCostMul": 2.2
-      },
+      "modern_tank_laser_rangefinder": [],
+      "120mm_NATO_APDS_FS": [],
       "120mm_NATO_APDS_FS_ammo_pack": [],
       "120mm_NATO_HEAT_FS": [],
       "tank_smoke_screen_system_mod": {
@@ -2858,7 +2858,7 @@
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/76mm_nato_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/76mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,

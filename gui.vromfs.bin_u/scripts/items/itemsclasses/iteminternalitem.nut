@@ -24,7 +24,7 @@ class ::items_classes.InternalItem extends ItemExternal
       foreach (blk in item.getContent())
       {
         local decoratorType = ::g_decorator_type.getTypeByResourceType(blk.resourceType)
-        if (!decoratorType || blk.resource && !decoratorType.isPlayerHaveDecorator(blk.resource))
+        if (!blk.resource || !decoratorType.isPlayerHaveDecorator(blk.resource))
           return true
       }
 

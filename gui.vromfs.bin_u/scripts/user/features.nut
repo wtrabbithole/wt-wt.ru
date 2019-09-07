@@ -41,11 +41,31 @@
     TanksInCustomBattles = false
     TanksInRandomBattles = false
     SpendGoldForTanks = false
-    BritainTanksInFirstCountryChoice = false
-    JapanTanksInFirstCountryChoice = false
 
-    FranceAircraftsInFirstCountryChoice = false
-    FranceTanksInFirstCountryChoice = false
+    UsaAircraftsInFirstCountryChoice      = true
+    UsaTanksInFirstCountryChoice          = true
+    UsaShipsInFirstCountryChoice          = true
+    GermanyAircraftsInFirstCountryChoice  = true
+    GermanyTanksInFirstCountryChoice      = true
+    GermanyShipsInFirstCountryChoice      = true
+    UssrAircraftsInFirstCountryChoice     = true
+    UssrTanksInFirstCountryChoice         = true
+    UssrShipsInFirstCountryChoice         = true
+    BritainAircraftsInFirstCountryChoice  = true
+    BritainTanksInFirstCountryChoice      = true
+    BritainShipsInFirstCountryChoice      = true
+    JapanAircraftsInFirstCountryChoice    = true
+    JapanTanksInFirstCountryChoice        = ::disable_network()
+    JapanShipsInFirstCountryChoice        = ::disable_network()
+    ChinaAircraftsInFirstCountryChoice    = true
+    ChinaTanksInFirstCountryChoice        = true
+    ChinaShipsInFirstCountryChoice        = ::disable_network()
+    ItalyAircraftsInFirstCountryChoice    = true
+    ItalyTanksInFirstCountryChoice        = true
+    ItalyShipsInFirstCountryChoice        = ::disable_network()
+    FranceAircraftsInFirstCountryChoice   = true
+    FranceTanksInFirstCountryChoice       = ::disable_network()
+    FranceShipsInFirstCountryChoice       = ::disable_network()
 
     Helicopters = ::disable_network()
 
@@ -164,6 +184,7 @@
     ClanSeasons_3_0 = false
     ClanChangedInfoData = false
     ClanSquads = false
+    ClanVehicles = false
 
     Warbonds = false
     WarbondsShop = false
@@ -204,6 +225,10 @@
     EnableMouse = true
 
     NewUnitTypeToBattleTutorial = false
+    AchievementsUrl = false
+
+    AllowSteamAccountLinking = true
+    AllowXboxAccountLinking = false
   }
 
   cache = {}
@@ -257,6 +282,18 @@ function has_feature_array(arr)
       return false
 
   return true
+}
+
+function has_feature_array_any(arr)
+{
+  if (arr == null || arr.len() <= 0)
+    return true
+
+  foreach (name in arr)
+    if (name && ::has_feature(name))
+      return true
+
+  return false
 }
 
 /**

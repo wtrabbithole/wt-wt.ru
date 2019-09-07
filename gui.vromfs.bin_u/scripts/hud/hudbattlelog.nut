@@ -187,9 +187,9 @@ enum BATTLE_LOG_FILTER
       local t1Friendly = ::is_team_friendly(msg?.team ?? Team.A)
       local t2Friendly = ::is_team_friendly(msg?.victimTeam ?? Team.B)
 
-      if (p1 && p1.isLocal || p2 && p2.isLocal)
+      if (p1?.isLocal || p2?.isLocal)
         filters = filters | BATTLE_LOG_FILTER.HERO
-      if (p1 && p1.isInHeroSquad || p2 && p2.isInHeroSquad)
+      if (p1?.isInHeroSquad || p2?.isInHeroSquad)
         filters = filters | BATTLE_LOG_FILTER.SQUADMATE
       if (t1Friendly || t2Friendly)
         filters = filters | BATTLE_LOG_FILTER.ALLY

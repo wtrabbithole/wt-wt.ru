@@ -1,4 +1,3 @@
-local time = require("scripts/time.nut")
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
@@ -232,7 +231,6 @@ function ItemsManager::checkShopItemsUpdate()
     for (local i = 0; i < trophyBlk.blockCount(); i++)
     {
       local blk = trophyBlk.getBlock(i)
-      local id = blk.getBlockName()
       local item = createItem(itemType.TROPHY, blk)
       itemsListInternal.append(item)
     }
@@ -242,7 +240,6 @@ function ItemsManager::checkShopItemsUpdate()
   for(local i = 0; i < itemsBlk.blockCount(); i++)
   {
     local blk = itemsBlk.getBlock(i)
-    local id = blk.getBlockName()
     local iType = getInventoryItemType(blk.type)
     if (iType == itemType.UNKNOWN)
     {
@@ -258,7 +255,6 @@ function ItemsManager::checkShopItemsUpdate()
     for (local i = 0; i < fakeItemsList.blockCount(); i++)
     {
       local blk = fakeItemsList.getBlock(i)
-      local id = blk.getBlockName()
       local item = createItem(blk.type, blk)
       itemsListInternal.append(item)
     }
@@ -351,8 +347,8 @@ function ItemsManager::getShopList(typeMask = itemType.INVENTORY_ALL, filterFunc
 function ItemsManager::getShopVisibleSeenIds()
 {
   if (!shopVisibleSeenIds)
-    shopVisibleSeenIds = getShopList(checkItemsMaskFeatures(itemType.INVENTORY_ALL), @(it) it.isCanBuy())
-      .map(@(it) it.getSeenId())
+    shopVisibleSeenIds = getShopList(checkItemsMaskFeatures(itemType.INVENTORY_ALL),
+      @(it) it.isCanBuy() && !it.isHiddenItem() && !it.isVisibleInWorkshopOnly()).map(@(it) it.getSeenId())
   return shopVisibleSeenIds
 }
 
@@ -495,7 +491,6 @@ function ItemsManager::_checkInventoryUpdate()
 
   local itemsBlk = ::get_items_blk()
 
-  local total = get_items_count()
   local itemsCache = get_items_cache()
   foreach(slot in itemsCache)
   {
@@ -569,6 +564,8 @@ function ItemsManager::_checkInventoryUpdate()
       local item = createItem(iType, itemDefDesc, itemDesc)
       if (item.id in transferAmounts)
         item.transferAmount += delete transferAmounts[item.id]
+      if (item.shouldAutoConsume)
+        shouldCheckAutoConsume = true
       extInventoryItems.append(item)
     }
   }
@@ -586,7 +583,8 @@ function ItemsManager::_checkInventoryUpdate()
     local iType = getInventoryItemType(itemdef?.tags?.type ?? "")
     if (iType == itemType.UNKNOWN)
     {
-      ::dagor.logerr("Inventory: Unknown itemdef.tags.type in item " + itemdefid)
+      if (::isInArray(itemdef?.type, [ "item", "delayedexchange" ]))
+        ::dagor.logerr("Inventory: Transfer: Unknown itemdef.tags.type in item " + itemdefid)
       continue
     }
     local item = createItem(iType, itemdef, {})
@@ -628,7 +626,8 @@ function ItemsManager::getInventoryVisibleSeenIds()
   if (!inventoryVisibleSeenIds)
   {
     local itemsList = getInventoryListByShopMask(checkItemsMaskFeatures(itemType.INVENTORY_ALL))
-    inventoryVisibleSeenIds = itemsList.filter(@(idx, it) !it.isHiddenItem()).map(@(it) it.getSeenId())
+    inventoryVisibleSeenIds = itemsList.filter(
+      @(idx, it) !it.isHiddenItem() && !it.isVisibleInWorkshopOnly()).map(@(it) it.getSeenId())
   }
 
   return inventoryVisibleSeenIds
@@ -723,7 +722,7 @@ function ItemsManager::_getItemsFromList(list, typeMask, filterFunc = null, item
 
   local res = []
   foreach(item in list)
-    if (::getTblValue(itemMaskProperty, item, item.iType) & typeMask
+    if (((item?[itemMaskProperty] ?? item.iType) & typeMask)
         && (!filterFunc || filterFunc(item)))
       res.append(item)
   return res
@@ -817,9 +816,9 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
       local timerObj = holderObj.findObject(timerData.id)
       local tData = timerData
       if (::check_obj(timerObj))
-        SecondsUpdater(timerObj, function(obj, params)
+        SecondsUpdater(timerObj, function(tObj, params)
         {
-          obj.setValue(tData.getText.call(item))
+          tObj.setValue(tData.getText.call(item))
           return !tData.needTimer.call(item)
         })
     }
@@ -857,23 +856,23 @@ function ItemsManager::fillItemTable(item, holderObj)
 
 function ItemsManager::getActiveBoostersArray(effectType = null)
 {
-  local array = []
+  local res = []
   local total = ::get_current_booster_count(INVALID_USER_ID)
   local bonusType = effectType ? effectType.name : null
   for (local i = 0; i < total; i++)
   {
     local uid = ::get_current_booster_uid(INVALID_USER_ID, i)
     local item = ::ItemsManager.findItemByUid(uid, itemType.BOOSTER)
-    if (!item || bonusType && item[bonusType] == 0 || !item.isActive(true))
+    if (!item || (bonusType && item[bonusType] == 0) || !item.isActive(true))
       continue
 
-    array.append(item)
+    res.append(item)
   }
 
-  if (array.len())
-    registerBoosterUpdateTimer(array)
+  if (res.len())
+    registerBoosterUpdateTimer(res)
 
-  return array
+  return res
 }
 
 //just update gamercards atm.
@@ -985,8 +984,8 @@ function ItemsManager::sortBoosters(boosters, effectType)
 
   for (local i = 0; i <= res.maxSortOrder; i++)
     if (i in res && res[i].len())
-      foreach (array in res[i])
-        ::ItemsManager.sortByParam(array, effectType.name)
+      foreach (arr in res[i])
+        ::ItemsManager.sortByParam(arr, effectType.name)
   return res
 }
 
@@ -1068,16 +1067,16 @@ function ItemsManager::getActiveBoostersDescription(boostersArray, effectType, s
 
     foreach(j, arrayName in ["personal", "public"])
     {
-      local array = arraysList[arrayName]
-      if (array.len() == 0)
+      local arr = arraysList[arrayName]
+      if (arr.len() == 0)
         continue
 
-      local personal = array[0].personal
+      local personal = arr[0].personal
       local boostNum = personal? personalTotal : publicTotal
 
       header = ::loc("mainmenu/boosterType/common")
-      if (array[0].eventConditions)
-        header = ::UnlockConditions.getConditionsText(array[0].eventConditions, null, null, { inlineText = true })
+      if (arr[0].eventConditions)
+        header = ::UnlockConditions.getConditionsText(arr[0].eventConditions, null, null, { inlineText = true })
 
       local subHeader = "* " + ::loc("mainmenu/booster/" + arrayName)
       if (isBothBoosterTypesAvailable)
@@ -1089,16 +1088,16 @@ function ItemsManager::getActiveBoostersDescription(boostersArray, effectType, s
       detailedArray.append(subHeader)
 
       local effectsArray = []
-      foreach(idx, item in array)
+      foreach(idx, item in arr)
       {
         local effOld = personal? ::calc_personal_boost(effectsArray) : ::calc_public_boost(effectsArray)
         effectsArray.append(item[effectType.name])
         local effNew = personal? ::calc_personal_boost(effectsArray) : ::calc_public_boost(effectsArray)
 
-        local string = array.len() == 1? "" : (idx+1) + ") "
+        local string = arr.len() == 1? "" : (idx+1) + ") "
         string += item.getEffectDesc(false) + ::loc("ui/comma")
         string += ::loc("items/booster/giveRealBonus", {realBonus = getColoredNumByType(::format("%.02f", effNew - effOld).tofloat())})
-        string += (idx == array.len()-1? ::loc("ui/dot") : ::loc("ui/semicolon"))
+        string += (idx == arr.len()-1? ::loc("ui/dot") : ::loc("ui/semicolon"))
 
         if (selectedItem != null && selectedItem.id == item.id)
           string = ::colorize("userlogColoredText", string)
@@ -1136,7 +1135,7 @@ function ItemsManager::sortEffectsArray(a, b)
   return 0
 }
 
-function ItemsManager::sortByParam(array, param)
+function ItemsManager::sortByParam(arr, param)
 {
   local sortByBonus = (@(param) function(a, b) {
     if (a[param] != b[param])
@@ -1144,8 +1143,8 @@ function ItemsManager::sortByParam(array, param)
     return 0
   })(param)
 
-  array.sort(sortByBonus)
-  return array
+  arr.sort(sortByBonus)
+  return arr
 }
 
 function ItemsManager::findItemByUid(uid, filterType = itemType.ALL)

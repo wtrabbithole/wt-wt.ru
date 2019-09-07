@@ -1,7 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
-local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 local contentStateModule = ::require("scripts/clientState/contentState.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
@@ -65,8 +65,10 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnWorldwar"
     onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
     tooltip = @() ::g_world_war.getCantPlayWorldwarReasonText()
-    isVisualDisabled = @() !::is_worldwar_enabled() || !::g_world_war.canPlayWorldwar()
-    unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() && SEEN.WW_MAPS_AVAILABLE
+    isVisualDisabled = @() !::g_world_war.canPlayWorldwar()
+    isHidden = @(...) !::is_worldwar_enabled()
+    unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() ?
+      SEEN.WW_MAPS_AVAILABLE : null
   }
   TUTORIAL = {
     text = "#mainmenu/btnTutorial"
@@ -224,6 +226,13 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     image = "#ui/gameuiskin#store_icon.svg"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !::has_feature("ItemsShopInTopMenu")
     unseenIcon = @() SEEN.ITEMS_SHOP
+  }
+  WORKSHOP = {
+    text = "#items/workshop"
+    onClickFunc = @(...) ::gui_start_items_list(itemsTab.WORKSHOP)
+    image = "#ui/gameuiskin#btn_modifications.svg"
+    isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !workshop.isAvailable()
+    unseenIcon = @() SEEN.WORKSHOP
   }
   WARBONDS_SHOP = {
     text = "#mainmenu/btnWarbondsShop"

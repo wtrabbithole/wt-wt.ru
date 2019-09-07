@@ -475,7 +475,11 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(switchObj))
       return
 
-    switchObj.setValue(curMode)
+    local childrenCount = switchObj.childrenCount()
+    if (childrenCount <= 0)
+      return
+
+    switchObj.setValue(::clamp(curMode, 0, childrenCount - 1))
   }
 
   function onStatsModeChange(obj)
@@ -513,24 +517,24 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     fillAirStats()
   }
 
-  function fillAwardsBlock(player)
+  function fillAwardsBlock(pl)
   {
     if (::has_feature("ProfileMedals"))
-      fillMedalsBlock(player)
+      fillMedalsBlock(pl)
     else // Tencent
-      fillTitlesBlock(player)
+      fillTitlesBlock(pl)
   }
 
-  function fillMedalsBlock(player)
+  function fillMedalsBlock(pl)
   {
     local curCountryId = ::get_profile_country_sq()
     local maxMedals = 0
     if (!isOwnStats)
     {
-      maxMedals = player.countryStats[curCountryId].medalsCount
+      maxMedals = pl.countryStats[curCountryId].medalsCount
       foreach(idx, countryId in ::shopCountriesList)
       {
-        local medalsCount = player.countryStats[countryId].medalsCount
+        local medalsCount = pl.countryStats[countryId].medalsCount
         if (maxMedals < medalsCount)
         {
           curCountryId = countryId
@@ -549,7 +553,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
         id = countryId
         image = ::get_country_icon(countryId)
         tooltip = "#" + countryId
-        objects = ::format(countFmt, player.countryStats[countryId].medalsCount)
+        objects = ::format(countFmt, pl.countryStats[countryId].medalsCount)
       })
 
       if (countryId == curCountryId)
@@ -589,13 +593,13 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(nestObj, markup, markup.len(), this)
   }
 
-  function fillTitlesBlock(player)
+  function fillTitlesBlock(pl)
   {
     showSceneBtn("medals_block", false)
     showSceneBtn("titles_block", true)
 
     local titles = []
-    foreach (id in player.titles)
+    foreach (id in pl.titles)
     {
       local titleUnlock = ::g_unlocks.getUnlockById(id)
       if (!titleUnlock || titleUnlock.hidden)
@@ -1123,6 +1127,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       btn_blacklistAdd = showProfBar && textTable.btn_blacklistAdd != "" && (!::is_platform_xboxone || !isXBoxOnePlayer)
       btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
       btn_complain = showProfBar && !isMe
+      btn_achievements_url = showProfBar && ::has_feature("AchievementsUrl")
+        && ::has_feature("AllowExternalLink") && !::is_vendor_tencent()
     }
 
     ::showBtnTable(scene, buttonsList)
@@ -1243,6 +1249,13 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (focusObj)
       focusObj.select()
   }
+
+  function onOpenAchievementsUrl()
+  {
+    ::open_url(::loc("url/achievements",
+        { appId = ::WT_APPID, name = player.name}),
+      false, false, "profile_page")
+  }
 }
 
 function build_profile_summary_rowData(config, summary, diffCode, textId = "")
@@ -1323,7 +1336,7 @@ function get_country_medals(countryId, profileData = null)
   local unlocks = ::g_unlocks.getUnlocksByType("medal")
   foreach(id, cb in unlocks)
     if (cb.country == countryId)
-      if (!profileData && ::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id) || (medalsList?[id] ?? 0) > 0)
+      if ((!profileData && ::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id)) || (medalsList?[id] ?? 0) > 0)
         res.append(id)
   return res
 }

@@ -45,7 +45,6 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(false, false);
     optionIdToObjCache.clear()
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
-    fill_weapons_list_tooltips(optListObj, container.descr.data)
     optionsContainers.push(container.descr)
     guiScene.setUpdatesEnabled(true, true)
 
@@ -83,9 +82,9 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function onAppliedOptions(appliedTypes)
   {
-    foreach (type in appliedTypes)
+    foreach (optionId in appliedTypes)
     {
-      if (::is_measure_unit_user_option(type))
+      if (::is_measure_unit_user_option(optionId))
       {
         ::broadcastEvent("MeasureUnitsChanged")
         break
@@ -298,26 +297,6 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     isOptionInUpdate = false
   }
 
-  function onAircraftUpdateSkin(obj)
-  {
-    updateOptionDescr(obj, ::update_skins_spinner)
-  }
-
-  function onAircraftUpdate(obj)
-  {
-    onAircraftUpdateSkin(obj)
-    updateOptionDescr(obj, ::update_weapons_spinner)
-  }
-
-  function onAircraftCountryUpdate(obj)
-  {
-    updateOptionDescr(obj, ::update_aircraft_spinner)
-    if (obj.id == "aircraft_country")
-      onAircraftUpdate(getObj("aircraft"))
-    else
-      onAircraftUpdate(getObj("enemy_aircraft"))
-  }
-
   function onWeaponOptionUpdate(obj)
   {
     if (::generic_options != null)
@@ -422,17 +401,17 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateTripleAerobaticsSmokeOptions()
   {
-    local options = find_options_in_containers([
+    local aerobaticsSmokeOptions = find_options_in_containers([
       ::USEROPT_AEROBATICS_SMOKE_LEFT_COLOR,
       ::USEROPT_AEROBATICS_SMOKE_RIGHT_COLOR,
       ::USEROPT_AEROBATICS_SMOKE_TAIL_COLOR
     ])
 
-    if (!options.len())
+    if (!aerobaticsSmokeOptions.len())
       return
 
     local show = (::get_option_aerobatics_smoke_type() > ::MAX_AEROBATICS_SMOKE_INDEX * 2);
-    foreach(option in options)
+    foreach(option in aerobaticsSmokeOptions)
       showOptionRow(option, show)
   }
 
@@ -1104,7 +1083,6 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
   function setupSearch()
   {
     showSceneBtn("search_container", isSearchInCurrentGroupAvaliable())
-    showSceneBtn("filter_magnifier_icon", false)
     resetSearch()
   }
 

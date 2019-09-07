@@ -6,7 +6,6 @@ local contentStateModule = ::require("scripts/clientState/contentState.nut")
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
 ::my_user_name <- ""
-::player_lists <- null
 ::need_logout_after_session <- false
 
 ::g_script_reloader.registerPersistentData("LoginWTGlobals", ::getroottable(),
@@ -157,54 +156,25 @@ function g_login::initConfigs(cb)
       ::set_sound_volume(::SND_TYPE_MY_ENGINE, value, true)
       if (::handlersManager.checkPostLoadCss(true))
         dagor.debug("Login: forced to reload waitforLogin window.")
+      return null
     }
     function() {
       if (!::g_login.hasState(LOGIN_STATE.MATCHING_CONNECTED))
         return PT_STEP_STATUS.SUSPEND
 
-      local cdb = ::get_local_custom_settings_blk()
-      if (!("initialContacts" in cdb) || !cdb.initialContacts)
-      {
-        cdb.initialContacts = true
-        ::player_lists <- ::get_player_lists() //no update, just pointer to DB in profile
-
-        //FIXME: maybe temporary, maybe not...
-        local oldLists = ::get_obsolete_player_lists()
-        local editBlk = ::DataBlock()
-        local contactsChanged = false
-        foreach (name, list in oldLists)
-        {
-          editBlk[name] <- ::DataBlock()
-          local groupChanged = false
-          foreach (uid, nick in list)
-          {
-            editBlk[name][uid] <- true
-            dagor.debug("Adding player '"+nick+"' ("+uid+") to "+name);
-
-            local player = ::getContact(uid, nick)
-            if ((name in ::contacts) && !::isPlayerInContacts(uid, name))
-            {
-              ::contacts[name].append(player)
-              groupChanged = true
-            }
-          }
-          if (groupChanged)
-          {
-            ::contacts[name].sort(::sortContacts)
-            contactsChanged = true
-          }
-        }
-
-        ::request_edit_player_lists(editBlk)
-      }
-    }
-    function() {
       ::shown_userlog_notifications.clear()
       ::collectOldNotifications()
       ::check_bad_weapons()
+      return null
     }
     function() {
       ::ItemsManager.collectUserlogItemdefs()
+      local arr = []
+      foreach(unit in ::all_units)
+        if(unit.marketplaceItemdefId != null)
+          arr.append(unit.marketplaceItemdefId)
+
+      ::ItemsManager.requestItemsByItemdefIds(arr)
     }
     function() {
       ::g_discount.updateDiscountData(true)
@@ -216,7 +186,7 @@ function g_login::initConfigs(cb)
     function() {
       if (::steam_is_running())
         ::steam_process_dlc()
-  
+
       if (::is_dev_version)
         ::checkShopBlk()
 
@@ -238,12 +208,12 @@ function g_login::initConfigs(cb)
       local versions = ["nda_version", "nda_version_tanks", "eula_version"]
       foreach (sver in versions)
       {
-        local l = ::loc(sver)
+        local l = ::loc(sver, "-1")
         try { getroottable()[sver] = l.tointeger() }
         catch(e) { dagor.assertf(0, "can't convert '"+l+"' to version "+sver) }
       }
 
-      ::nda_version = ::check_feature_tanks() ? ::nda_version_tanks : ::nda_version
+      ::nda_version = ::has_feature("Tanks") ? ::nda_version_tanks : ::nda_version
 
       if (should_agree_eula(::nda_version, ::TEXT_NDA))
         ::gui_start_eula(::TEXT_NDA)
@@ -255,6 +225,7 @@ function g_login::initConfigs(cb)
     {
       if (should_agree_eula(::nda_version, ::TEXT_NDA) || should_agree_eula(::eula_version, ::TEXT_EULA))
         return PT_STEP_STATUS.SUSPEND
+      return null
     }
     function()
     {
@@ -272,6 +243,7 @@ function g_login::initConfigs(cb)
     {
       if (::is_need_first_country_choice())
         return PT_STEP_STATUS.SUSPEND
+      return null
     }
     function()
     {
@@ -357,7 +329,7 @@ function g_login::firstMainMenuLoad()
       ::loc("mainmenu/new_controls_version_msg_box", { patchnote = patchNoteText }),
       [["yes", function () { ::g_controls_presets.setHighestVersionOfCurrentPreset() }],
        ["no", function () { ::g_controls_presets.rejectHighestVersionOfCurrentPreset() }]
-      ], "yes", { cancel_fn = function () { ::g_controls_presets.rejectHighestVersionOfCurrentPreset }})
+      ], "yes", { cancel_fn = function () { ::g_controls_presets.rejectHighestVersionOfCurrentPreset() }})
   }
 
   if (

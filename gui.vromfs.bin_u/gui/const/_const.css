@@ -126,7 +126,7 @@
 @const maxToBattleButtonTextWidth: 1@gcToBattleButtonPlaceWidth - 2@buttonTextPadding;
 @const gcWidthFull: sw - 2@offsetBetweenScreenAndAirinfo;
 @const topGcPanelWidth: 0.5@gcWidthFull - 0.5@gcToBattleButtonPlaceWidth;
-@const bottomGcWidth: @gcWidthFull;
+@const bottomGcWidth: @slotbarWidthFull;
 
 @const queueTableColumnWidth: 0.05@sf;
 @const gameModeSelectBlockWidth: 6*(0.06*@sf + 0.01*@scrn_tgt + 2);
@@ -167,6 +167,7 @@
 @const slot_vert_pad: 0.005*@scrn_tgt\1;
 @const slot_height:   @shopAirHeight + 10*@sf/@pf_outdated;
 @const slot_hdr_width:@cIco +12@sf/@pf\1;
+@const slotPaddingNoTable 16@sf/@pf;
 @const shop_vert_arrow_width: 15*@sf/@pf_outdated;
 @const shop_hor_arrow_height: 15*@sf/@pf_outdated;
 @const slotScrollButtonWidth: (0.025@sf)\1;
@@ -260,7 +261,7 @@
 @const chatIndent:    (120@sf/@pf) \ 1;
 @const airInfoPadding:   10@sf/@pf;
 @const helpInterval:     0.01@sf;
-@const helpLineInterval: @helpInterval;
+@const helpLineInterval: 0.5@helpInterval;
 @const helpLineWidth:    1@dp;
 @const itemsInterval:    0.015@scrn_tgt;
 @const itemsIntervalBig: 0.03@scrn_tgt;

@@ -2,6 +2,11 @@
   id:t='<<id>>'
   css-hier-invalidate:t='yes'
 
+  <<#isHidden>>
+  display:t='hide'
+  enable:t='no'
+  <</isHidden>>
+
   <<#isSelected>>
   selected:t='yes'
   <</isSelected>>
@@ -25,7 +30,7 @@
   }
   <</itemPrefixText>>
 
-  img {
+  <<imgTag>><<^imgTag>>img<</imgTag>> {
     id:t='medal_icon'
     medalIcon:t='yes'
     background-image:t='<<itemIcon>>'
@@ -66,7 +71,10 @@
     }
     <</unseenIcon>>
 
-    <<@additionalDescription>>
+    tdiv {
+      id:t= 'additional_desc'
+      <<@additionalDescription>>
+    }
 
     mission_item_text {
       id:t = 'txt_<<id>>'

@@ -5,7 +5,6 @@ function _generateGAttackMission(isFreeFlight, createGroundUnitsProc)
   local playerSide = mgGetPlayerSide();
   local enemySide = mgGetEnemySide();
   local bombtargets = createGroundUnitsProc(enemySide);
-  local ws = ::get_warpoints_blk();
 
   local enemy1Angle = rndRange(-90, 90);
   local evacAngle = rndRange(-10, 10);
@@ -21,7 +20,6 @@ function _generateGAttackMission(isFreeFlight, createGroundUnitsProc)
   local light_count = mgGetUnitsCount("#bomb_targets_light");
   local art_count = mgGetUnitsCount("#bomb_targets_art");
   local ships_count = mgGetUnitsCount("#bomb_targets_ships");
-  local debug_count = mgGetUnitsCount("#bomb_targets_cover");
 
 //planes cost calculate
   local wpMax = 1000000;

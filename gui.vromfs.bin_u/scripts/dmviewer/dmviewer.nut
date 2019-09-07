@@ -191,7 +191,8 @@
 
       if(commonWeapons != null)
         foreach (weapon in (commonWeapons % "Weapon"))
-          ::u.appendOnce(weapon, unitWeaponBlkList, false, compareWeaponFunc)
+          if (weapon.blk && !weapon.dummy)
+            ::u.appendOnce(weapon, unitWeaponBlkList, false, compareWeaponFunc)
     }
 
     foreach (preset in (unitBlk.weapon_presets % "preset"))
@@ -200,7 +201,8 @@
         continue
       local presetBlk = ::DataBlock(preset["blk"])
       foreach (weapon in (presetBlk % "Weapon"))  // preset can have many weapons in it or no one
-        ::u.appendOnce(::u.copy(weapon), unitWeaponBlkList, false, ::u.isEqual)
+        if (weapon.blk && !weapon.dummy)
+          ::u.appendOnce(::u.copy(weapon), unitWeaponBlkList, false, ::u.isEqual)
     }
   }
 
@@ -797,18 +799,26 @@
 
       case "ammo_turret":
       case "ammo_body":
-        local info = unitBlk?.ammoStowages?.ammo1
-        if (info)
-          foreach (blockName in [ "shells", "charges" ])
-            foreach (block in (info % blockName))
-              if (block[partName] && (block.firstStage || block.autoLoad))
-              {
-                desc.append(::loc("xray/ammo/first_stage") + ::loc("ui/comma") +
-                  getFirstStageAmmoCount() + " " + ::loc("measureUnits/pcs"))
-                if (block.autoLoad)
-                  desc.append(::loc("xray/ammo/auto_load"))
-                break
-              }
+      case "ammunition_storage":
+        local isShip = unit.isShip()
+        if (isShip)
+        {
+          local ammoQuantity = getAmmoQuantityByPartName(partName)
+          if (ammoQuantity > 1)
+            desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
+        }
+        local stowageInfo = getAmmoStowageInfo(null, partName, isShip)
+        if (stowageInfo.isCharges)
+          params.partLocId <- isShip ? "ship_charges_storage" : "ammo_charges"
+        if (stowageInfo.firstStageCount)
+        {
+          local txt = ::loc("xray/ammo/first_stage")
+          if (unit.isTank())
+            txt += ::loc("ui/comma") + stowageInfo.firstStageCount + " " + ::loc("measureUnits/pcs")
+          desc.append(txt)
+        }
+        if (stowageInfo.isAutoLoad)
+            desc.append(::loc("xray/ammo/auto_load"))
         break
 
       case "drive_turret_h":
@@ -875,11 +885,11 @@
           local status = getWeaponStatus(weaponPartName, weaponInfoBlk)
           desc.extend(getWeaponShotFreqAndReloadTimeDesc(weaponName, weaponInfoBlk, status))
           desc.push(getMassInfo(::DataBlock(weaponBlkLink)))
-          if (status.isPrimary)
+          if (status.isPrimary || status.isSecondary)
           {
-            local firstStageAmmo = getFirstStageAmmoCount()
-            if (firstStageAmmo)
-              desc.push(::loc("xray/ammo/first_stage") + ::loc("ui/colon") + firstStageAmmo)
+            local firstStageCount = getAmmoStowageInfo(weaponInfoBlk?.trigger).firstStageCount
+            if (firstStageCount)
+              desc.push(::loc("xray/ammo/first_stage") + ::loc("ui/colon") + firstStageCount)
           }
           desc.extend(getWeaponDriveTurretDesc(weaponPartName, weaponInfoBlk, true, true))
         }
@@ -907,12 +917,6 @@
         if(tankInfo.len())
           desc.push(::g_string.implode(tankInfo, ", "))
 
-      break
-
-      case "ammunition_storage":              //ships ammo storages
-        local ammoQuantity = getAmmoQuantityByPartName(partName)
-        if (ammoQuantity > 0)
-          desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
       break
 
       case "composite_armor_hull":            // tank Composite armor
@@ -1038,10 +1042,13 @@
     local ammoStowages = unitBlk?.ammoStowages
     if (ammoStowages)
       for (local i = 0; i < ammoStowages.blockCount(); i++)
-        foreach (shells in ammoStowages.getBlock(i) % "shells")
-          if (shells[partName])
-            return shells[partName].count
-
+      {
+        local blk = ammoStowages.getBlock(i)
+        foreach (blockName in [ "shells", "charges" ])
+          foreach (shells in blk % blockName)
+            if (shells[partName])
+              return shells[partName].count
+      }
     return 0
   }
 
@@ -1094,7 +1101,9 @@
           local commonBlk = ::getCommonWeaponsBlk(dmViewer.unitBlk, "")
           foreach (weapon in (commonBlk % "Weapon"))
           {
-            isPrimary = weapon.blk && weapon.blk == blkPath
+            if (!weapon.blk || weapon.dummy)
+              continue
+            isPrimary = weapon.blk == blkPath
             break
           }
         }
@@ -1106,8 +1115,8 @@
         local isPrimaryTrigger    = weaponInfoBlk?.triggerGroup == "primary"
         local isSecondaryTrigger  = weaponInfoBlk?.triggerGroup == "secondary"
         return {
-          isPrimary     = isPrimaryTrigger   || isPrimaryName   && !isSecondaryTrigger
-          isSecondary   = isSecondaryTrigger || isSecondaryName && !isPrimaryTrigger
+          isPrimary     = isPrimaryTrigger   || (isPrimaryName   && !isSecondaryTrigger)
+          isSecondary   = isSecondaryTrigger || (isSecondaryName && !isPrimaryTrigger)
           isMachinegun  = weaponInfoBlk?.triggerGroup == "machinegun"
         }
       case ::ES_UNIT_TYPE_AIRCRAFT:
@@ -1130,14 +1139,14 @@
       { need = needAxisX, angles = weaponInfoBlk.limits?.yaw,   label = "shop/angleHorizontalGuidance" }
       { need = needAxisY, angles = weaponInfoBlk.limits?.pitch, label = "shop/angleVerticalGuidance"   }
     ]) {
-      if (!g.need || !g.angles?.x && !g.angles?.y)
+      if (!g.need || (!g.angles?.x && !g.angles?.y))
         continue
       local anglesText = (g.angles.x + g.angles.y == 0) ? ::format("±%d%s", g.angles.y, deg)
         : ::format("%d%s/+%d%s", g.angles.x, deg, g.angles.y, deg)
       desc.append(::loc(g.label) + " " + anglesText)
     }
 
-    if (needSingleAxis || status.isPrimary || ::isShip(unit) && status.isSecondary)
+    if (needSingleAxis || status.isPrimary || (::isShip(unit) && status.isSecondary))
     {
       local unitModificators = unit?.modificators?[difficulty.crewSkillName]
       foreach (a in [
@@ -1268,26 +1277,45 @@
         ::loc("measureUnits/rounds_per_min"))
     if (reloadTimeS)
     {
-      reloadTimeS = reloadTimeS % 1 ? ::format("%.1f", reloadTimeS) : ::format("%d", reloadTimeS)
+      reloadTimeS = (reloadTimeS % 1) ? ::format("%.1f", reloadTimeS) : ::format("%d", reloadTimeS)
       desc.append(::loc("shop/reloadTime") + " " + reloadTimeS + " " + ::loc("measureUnits/seconds"))
     }
     return desc
   }
 
-  function getFirstStageAmmoCount()
+  // Gets info either by weaponTrigger (for guns and turrets)
+  // or by ammoStowageId (for tank stowage or ship ammo storage)
+  function getAmmoStowageInfo(weaponTrigger, ammoStowageId = null, collectOnlyThisStowage = false)
   {
-    local res = 0
-    local info = unitBlk?.ammoStowages?.ammo1
-    if (info)
+    local res = { firstStageCount = 0, isAutoLoad = false, isCharges = false }
+    for (local ammoNum = 1; ammoNum <= 20; ammoNum++) // tanks use 1, ships use 1 - ~10.
+    {
+      local stowage = unitBlk?.ammoStowages?["ammo" + ammoNum]
+      if (!stowage)
+        break
+      if (weaponTrigger && stowage.weaponTrigger != weaponTrigger)
+        continue
       foreach (blockName in [ "shells", "charges" ])
       {
-        if (res)
-          break
-        foreach (block in (info % blockName))
+        foreach (block in (stowage % blockName))
+        {
+          if (ammoStowageId && !block[ammoStowageId])
+            continue
+          res.isCharges = blockName == "charges"
+          if (block.autoLoad)
+            res.isAutoLoad = true
           if (block.firstStage || block.autoLoad)
-            for (local i = 0; i < block.blockCount(); i++)
-              res += block.getBlock(i).count || 0
+          {
+            if (ammoStowageId && collectOnlyThisStowage)
+              res.firstStageCount += block[ammoStowageId].count || 0
+            else
+              for (local i = 0; i < block.blockCount(); i++)
+                res.firstStageCount += block.getBlock(i).count || 0
+          }
+          return res
+        }
       }
+    }
     return res
   }
 

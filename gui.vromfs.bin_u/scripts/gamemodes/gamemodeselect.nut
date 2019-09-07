@@ -44,7 +44,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       return
     if (value)
       updateContent()
-    local id = this.scene.id
     local params = {
       target = this.scene
       visible = value
@@ -183,7 +182,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function sortByUnitType(gameModeViews)
   {
-    gameModeViews.sort(function(a, b) {
+    gameModeViews.sort(function(a, b) { // warning disable: -return-different-types
       foreach(unitType in ::g_unit_type.types)
       {
         if(b.isWide != a.isWide)
@@ -314,12 +313,19 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCrossPlayRestrictionTooltipText(event)
   {
-    if (!::is_platform_xboxone || isEventXboxOnlyAllowed(event))
+    if (!::is_platform_xboxone) //No need tooltip on other platforms
       return null
 
+    //Always send to other platform if enabled
+    //Need to notify about it
     if (crossplayModule.isCrossPlayEnabled())
       return ::loc("xbox/crossPlayEnabled")
 
+    //If only xbox - no need to notify
+    if (isEventXboxOnlyAllowed(event))
+      return null
+
+    //Notify that crossplay is strongly required
     return ::loc("xbox/crossPlayRequired")
   }
 
@@ -446,7 +452,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local event = getGameModeEvent(gameMode)
     if (!isCrossPlayEventAvailable(event))
     {
-      ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
+      ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
       return
     }
 
@@ -562,8 +568,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   /* override */ function wrapNextSelect(obj = null, dir = 0)
   {
     local id = obj != null ? ::getTblValue("id", obj, "") : ""
-    local index = ::find_in_array(focusArray, id)
-    if (index == 0 && dir == -1 || index == focusArray.len() - 1 && dir == 1)
+    local index = ::find_in_array(focusArray, id) + dir
+    if (index != ::clamp(index, 0, focusArray.len() - 1))
       return
     base.wrapNextSelect(obj, dir)
   }

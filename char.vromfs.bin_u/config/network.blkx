@@ -15,12 +15,14 @@
       "fastModeTimeout": 3
     },
     "client": {
-      "loadLimitTime": 35000,
+      "loadLimitTime": 250000,
       "loadWaitTime": 4000,
-      "saveLimitTime": 35000,
+      "saveLimitTime": 250000,
       "saveWaitTime": 4000,
+      "retryLimitTime": 250000,
+      "retryWaitTime": 4000,
       "curlConnectionTimeout": 10,
-      "curlProcessingTimeout": 20,
+      "curlProcessingTimeout": 240,
       "fastModeTimeout": 3
     }
   },
@@ -155,19 +157,22 @@
       "vivoxEcho": "tamvchn://echo123"
     },
     {
-      "ircServer": "chat05sl-nl.warthunder.com:443"
+      "ircServer": "chat-lw-nl-02.warthunder.com:443"
     },
     {
-      "ircServer": "chat06sl-nl.warthunder.com:443"
+      "ircServer": "chat-lw-nl-03.warthunder.com:443"
     },
     {
-      "charServer": "https://char19sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-2.warthunder.com/char"
     },
     {
-      "charServer": "https://char21sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-3.warthunder.com/char"
     },
     {
-      "charServer": "https://char22sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-4.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char-lw-nl-005-5.warthunder.com/char"
     },
     {
       "enableSslCertCheck": true
@@ -227,13 +232,28 @@
       "ww_leaderboard": {
         "servers": [
           {
-            "url": "https://char19sl-nl.warthunder.com/char"
+            "url": "https://char-lw-nl-005-2.warthunder.com/char"
           },
           {
-            "url": "https://char21sl-nl.warthunder.com/char"
+            "url": "https://char-lw-nl-005-3.warthunder.com/char"
           },
           {
-            "url": "https://char22sl-nl.warthunder.com/char"
+            "url": "https://char-lw-nl-005-4.warthunder.com/char"
+          },
+          {
+            "url": "https://char-lw-nl-005-5.warthunder.com/char"
+          }
+        ]
+      }
+    },
+    {
+      "userstat": {
+        "servers": [
+          {
+            "url": "https://userstat-sv-lx-109.gaijin.net:443/char"
+          },
+          {
+            "url": "https://userstat-sv-lx-110.gaijin.net:443/char"
           }
         ]
       }
@@ -272,19 +292,22 @@
       "vivoxEcho": "tamvchn://echo123"
     },
     {
-      "ircServer": "chat05sl-nl.warthunder.com:443"
+      "ircServer": "chat-lw-nl-02.warthunder.com:443"
     },
     {
-      "ircServer": "chat06sl-nl.warthunder.com:443"
+      "ircServer": "chat-lw-nl-03.warthunder.com:443"
     },
     {
-      "charServer": "https://char19sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-2.warthunder.com/char"
     },
     {
-      "charServer": "https://char21sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-3.warthunder.com/char"
     },
     {
-      "charServer": "https://char22sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-4.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char-lw-nl-005-5.warthunder.com/char"
     },
     {
       "enableSslCertCheck": true
@@ -336,19 +359,22 @@
       "vivoxEcho": "tamvchn://echo123"
     },
     {
-      "ircServer": "chat05sl-nl.warthunder.com:443"
+      "ircServer": "chat-lw-nl-02.warthunder.com:443"
     },
     {
-      "ircServer": "chat06sl-nl.warthunder.com:443"
+      "ircServer": "chat-lw-nl-03.warthunder.com:443"
     },
     {
-      "charServer": "https://char19sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-2.warthunder.com/char"
     },
     {
-      "charServer": "https://char21sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-3.warthunder.com/char"
     },
     {
-      "charServer": "https://char22sl-nl.warthunder.com/char"
+      "charServer": "https://char-lw-nl-005-4.warthunder.com/char"
+    },
+    {
+      "charServer": "https://char-lw-nl-005-5.warthunder.com/char"
     },
     {
       "enableSslCertCheck": true
@@ -437,6 +463,18 @@
           }
         ]
       }
+    },
+    {
+      "userstat": {
+        "servers": [
+          {
+            "url": "https://char-dev-01.gaijin.net:3443/char"
+          },
+          {
+            "url": "https://char-dev-02.gaijin.net:3443/char"
+          }
+        ]
+      }
     }
   ],
   "dev": [
@@ -505,6 +543,18 @@
           },
           {
             "url": "https://char-dev-11.warthunder.com:443/char"
+          }
+        ]
+      }
+    },
+    {
+      "userstat": {
+        "servers": [
+          {
+            "url": "https://char-dev-01.gaijin.net:3443/char"
+          },
+          {
+            "url": "https://char-dev-02.gaijin.net:3443/char"
           }
         ]
       }
@@ -695,6 +745,13 @@
           }
         ]
       }
+    },
+    {
+      "userstat": {
+        "servers": {
+          "url": "http://test-char-01.gaijin.lan:13080/char"
+        }
+      }
     }
   ],
   "test.webVromfs.baseUrls": {
@@ -881,16 +938,16 @@
   },
   "china-test-1": [
     {
-      "matchServer": "183.61.160.139:7852"
+      "matchServer": "testmgate01.warthunder.qq.com:7852"
     },
     {
-      "ircServer": "183.61.160.139:12123"
+      "ircServer": "testchat01.warthunder.qq.com:12123"
     },
     {
-      "chatNotificatorURL": "http://183.61.160.139:7000"
+      "chatNotificatorURL": "http://10.208.40.157:7000"
     },
     {
-      "charServer": "https://183.61.160.139:1443/char"
+      "charServer": "https://testchar03.warthunder.qq.com:1443/char"
     },
     {
       "skinsDecalsCDN_useCommon": false
@@ -924,25 +981,25 @@
   ],
   "china-test-2": [
     {
-      "matchServer": "121.14.134.57:7852"
+      "matchServer": "expmgate01.warthunder.qq.com:7852"
     },
     {
-      "matchServer": "121.12.114.121:7852"
+      "matchServer": "expmgate02.warthunder.qq.com:7852"
     },
     {
-      "ircServer": "183.61.227.171:12123"
+      "ircServer": "expchat01.warthunder.qq.com:12123"
     },
     {
-      "ircServer": "121.12.114.12:12123"
+      "ircServer": "expchat02.warthunder.qq.com:12123"
     },
     {
-      "chatNotificatorURL": "http://121.12.114.18:7000"
+      "chatNotificatorURL": "http://10.140.136.19:7000"
     },
     {
-      "charServer": "https://183.61.227.171:1443/char"
+      "charServer": "https://expchar01.warthunder.qq.com:1443/char"
     },
     {
-      "charServer": "https://121.12.114.121:1443/char"
+      "charServer": "https://expchar02.warthunder.qq.com:1443/char"
     },
     {
       "skinsDecalsCDN_useCommon": false
@@ -958,7 +1015,7 @@
     },
     {
       "yuplay": {
-        "loginURL": "https://121.12.114.242:2001/login.php"
+        "loginURL": "https://expauth.warthunder.qq.com:2001/login.php"
       }
     },
     {
@@ -1024,8 +1081,8 @@
     },
     {
       "skinsDecalsCDN": {
-        "replaceUrls": "china_exp.skinsDecalsCDN.baseUrls",
-        "hashesReqUrl": "http://down.qq.com/warthunder/decals/production_exp/dldata_obt.info"
+        "replaceUrls": "china_obt.skinsDecalsCDN.baseUrls",
+        "hashesReqUrl": "http://down.qq.com/warthunder/decals/production_obt/dldata_obt.info"
       }
     }
   ],
@@ -1040,16 +1097,16 @@
       "ircServer": "111.161.57.67:12123"
     },
     {
-      "ircServer": "123.126.125.156:12123"
+      "ircServer": "111.161.62.12:12123"
     },
     {
       "chatNotificatorURL": "http://10.170.6.99:7000"
     },
     {
-      "charServer": "https://111.161.62.142:1443/char"
+      "charServer": "https://111.161.57.67:1443/char"
     },
     {
-      "charServer": "https://111.161.62.143:1443/char"
+      "charServer": "https://111.161.62.12:1443/char"
     },
     {
       "skinsDecalsCDN_useCommon": false
@@ -1076,8 +1133,8 @@
     },
     {
       "skinsDecalsCDN": {
-        "replaceUrls": "china_exp.skinsDecalsCDN.baseUrls",
-        "hashesReqUrl": "http://down.qq.com/warthunder/decals/production_exp/dldata_obt.info"
+        "replaceUrls": "china_obt.skinsDecalsCDN.baseUrls",
+        "hashesReqUrl": "http://down.qq.com/warthunder/decals/production_obt/dldata_obt.info"
       }
     }
   ],

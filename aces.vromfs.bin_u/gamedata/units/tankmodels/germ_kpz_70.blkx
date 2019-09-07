@@ -567,7 +567,7 @@
         },
         "cannon_breech_dm": {
           "armorThickness": 10.0,
-          "armorThrough": 450.0,
+          "armorThrough": 300.0,
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
@@ -782,6 +782,7 @@
     "sound": {
       "EngineName": "engine_leo2a5",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_servo",
@@ -2744,13 +2745,9 @@
       },
       "152mm_usa_XM578E1_APDS_FS_ammo_pack": [],
       "152mm_XM410E1_Smoke_ammo_pack": [],
-      "152mm_usa_XM578E1_APDS_FS": {
-        "modCostMul": 1.3
-      },
+      "152mm_usa_XM578E1_APDS_FS": [],
       "152mm_M409A1_HEAT": [],
-      "152mm_XM410E1_Smoke": {
-        "modCostMul": 0.5
-      },
+      "152mm_XM410E1_Smoke": [],
       "152mm_usa_MGM61C_HEAT": [],
       "modern_tank_laser_rangefinder": [],
       "tank_smoke_screen_system_mod": {
@@ -2933,7 +2930,7 @@
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,

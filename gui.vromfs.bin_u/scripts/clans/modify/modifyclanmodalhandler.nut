@@ -219,7 +219,7 @@ class ::gui_handlers.ModifyClanModalHandler extends ::gui_handlers.BaseGuiHandle
     prepareClanDataTextValue("newClanRegion",         "newclan_region")
     prepareClanDataTextValue("newClanAnnouncement",   "newclan_announcement")
 
-    local error          = ""
+    local err            = ""
 
     newClanName          = newClanName.len() > 0 ? ::clearBorderSymbols(newClanName, [" "]) : ""
     newClanTag           = newClanTag.len() > 0 ? ::clearBorderSymbols(newClanTag, [" "]) : ""
@@ -230,22 +230,22 @@ class ::gui_handlers.ModifyClanModalHandler extends ::gui_handlers.BaseGuiHandle
     newClanAnnouncement  = newClanAnnouncement.len() > 0 ? ::clearBorderSymbols(newClanAnnouncement, [" "]) : ""
 
     if(!::checkClanTagForDirtyWords(newClanTag, false))
-      error += ::loc("clan/error/bad_words_in_clanTag")
+      err += ::loc("clan/error/bad_words_in_clanTag")
 
     if(newClanTag.len() <= 0)
-      error += ::loc("clan/error/empty_tag") + "\n"
+      err += ::loc("clan/error/empty_tag") + "\n"
 
     local tagLengthLimit = newClanType.getTagLengthLimit()
     if (!edit && tagLengthLimit > 0 && ::utf8_strlen(newClanTag) > tagLengthLimit)
-      error += ::loc("clan/error/tag_length", { maxLength = tagLengthLimit }) + "\n"
+      err += ::loc("clan/error/tag_length", { maxLength = tagLengthLimit }) + "\n"
 
     if((!edit && newClanName.len() <= 0) || newClanName.len() < 3)
-      error += ::loc("clan/error/empty_name") + "\n"
+      err += ::loc("clan/error/empty_name") + "\n"
 
-    if(error.len() > 0)
+    if(err.len() > 0)
     {
       if (!silent)
-        msgBox("clan_create_error", error, [["ok"]], "ok")
+        msgBox("clan_create_error", err, [["ok"]], "ok")
       return false
     }
 

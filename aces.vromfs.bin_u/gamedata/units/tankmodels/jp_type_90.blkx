@@ -301,6 +301,10 @@
       },
       "optics": {
         "armorClass": "optics_tank",
+        "optic_gun_dm": {
+          "armorThickness": 10.0,
+          "hp": 50.0
+        },
         "optic_turret_01_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
@@ -509,7 +513,7 @@
         },
         "cannon_breech_dm": {
           "armorThickness": 10.0,
-          "armorThrough": 450.0,
+          "armorThrough": 300.0,
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
@@ -1774,6 +1778,7 @@
     "sound": {
       "EngineName": "engine_type90",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_servo",
@@ -2690,9 +2695,7 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_jp"
       },
-      "120mm_NATO_APDS_FS": {
-        "modCostMul": 2.2
-      },
+      "120mm_NATO_APDS_FS": [],
       "120mm_NATO_APDS_FS_ammo_pack": {
         "tier": 4
       },
@@ -2921,7 +2924,7 @@
                   "triggerGroup": "smoke"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/66mm_type_90_modern_smoke_grenade_launcher.blk"
                 },
                 {
                   "weaponType": "rockets"
@@ -2954,7 +2957,7 @@
                   "allowableDelta": 360.0
                 },
                 {
-                  "salvo": 2
+                  "salvo": 1
                 },
                 {
                   "speedYaw": 24.0
@@ -3027,7 +3030,7 @@
                   "triggerGroup": "smoke"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/66mm_type_90_modern_smoke_grenade_launcher.blk"
                 },
                 {
                   "weaponType": "rockets"
@@ -3060,7 +3063,7 @@
                   "allowableDelta": 360.0
                 },
                 {
-                  "salvo": 2
+                  "salvo": 1
                 },
                 {
                   "speedYaw": 24.0

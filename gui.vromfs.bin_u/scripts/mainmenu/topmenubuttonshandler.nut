@@ -1,3 +1,5 @@
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+
 class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -126,10 +128,25 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
         columns = columns
         btnName = sectionData.btnName
         isLast = topMenuButtonIndex == sectionsOrder.len() - 1
-        unseenIconMainButton = sectionData.unseenIconMainButton
+        unseenIconMainButton = getSectionUnseenIcon(columns)
       })
     }
     return sectionsView
+  }
+
+  function getSectionUnseenIcon(columns)
+  {
+    local unseenList = []
+    foreach (column in columns)
+      foreach (button in column.buttons)
+      if (!button.isHidden() && !button.isVisualDisabled())
+      {
+        local unseenIcon = button.unseenIcon?()
+        if (unseenIcon)
+          unseenList.append(unseenIcon)
+      }
+
+    return unseenList.len() ? bhvUnseen.makeConfigStrByList(unseenList) : null
   }
 
   function onHoverSizeMove(obj)
@@ -181,7 +198,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
           if (!show)
             continue
 
-          isVisualDisable = isVisualDisable || button.isInactiveInQueue && isInQueue
+          isVisualDisable = isVisualDisable || (button.isInactiveInQueue && isInQueue)
           btnObj.inactiveColor = isVisualDisable? "yes" : "no"
         }
       }

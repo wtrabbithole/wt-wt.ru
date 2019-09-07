@@ -634,7 +634,7 @@
         },
         "cannon_breech_dm": {
           "armorThickness": 10.0,
-          "armorThrough": 450.0,
+          "armorThrough": 300.0,
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
@@ -1994,6 +1994,7 @@
     "sound": {
       "EngineName": "engine_chieftain",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
@@ -2009,7 +2010,7 @@
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/groundModels_weapons/120mm_L11A5_user_cannon.blk",
-          "shotFreq": 0.1667,
+          "shotFreq": 0.2,
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
           "defaultYaw": 0.0,
@@ -2270,13 +2271,13 @@
             "ratio": -4.11
           },
           {
-            "ratio": -14.0
+            "ratio": -10.0
           },
           {
             "ratio": 0.0
           },
           {
-            "ratio": 14.0
+            "ratio": 10.0
           },
           {
             "ratio": 4.11
@@ -2888,19 +2889,13 @@
       },
       "modern_tank_laser_rangefinder": [],
       "120mm_britain_L37A7_HESH": [],
-      "120mm_britain_L23A1_APDSFS": {
-        "modCostMul": 2.2
-      },
+      "120mm_britain_L23A1_APDSFS": [],
       "120mm_britain_L23A1_APDSFS_ammo_pack": [],
-      "120mm_britain_L23_APDSFS": {
-        "modCostMul": 1.5
-      },
+      "120mm_britain_L23_APDSFS": [],
       "120mm_britain_L23_APDSFS_ammo_pack": {
         "tier": 2
       },
-      "120mm_britain_Smoke": {
-        "modCostMul": 0.5
-      },
+      "120mm_britain_Smoke": [],
       "120mm_britain_Smoke_ammo_pack": {
         "tier": 3
       },
@@ -2913,7 +2908,7 @@
               "Weapon": {
                 "trigger": "gunner0",
                 "blk": "gameData/Weapons/groundModels_weapons/120mm_L11A5_user_cannon.blk",
-                "shotFreq": 0.1667,
+                "shotFreq": 0.2,
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
                 "defaultYaw": 0.0,
@@ -3119,7 +3114,7 @@
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,
@@ -3216,7 +3211,7 @@
         },
         {
           "shells": {
-            "reloadTimeMult": 1.111,
+            "reloadTimeMult": 1.333,
             "ammo_turret_21_dm": {
               "count": 1
             },
@@ -3272,7 +3267,7 @@
         },
         {
           "charges": {
-            "reloadTimeMult": 1.111,
+            "reloadTimeMult": 1.333,
             "ammo_body_02_dm": {
               "count": 1
             },
@@ -3328,7 +3323,7 @@
         },
         {
           "shells": {
-            "reloadTimeMult": 1.667,
+            "reloadTimeMult": 2.0,
             "ammo_turret_19_dm": {
               "count": 1
             },
@@ -3429,7 +3424,7 @@
         },
         {
           "charges": {
-            "reloadTimeMult": 1.667,
+            "reloadTimeMult": 2.0,
             "ammo_body_30_dm": {
               "count": 1
             },

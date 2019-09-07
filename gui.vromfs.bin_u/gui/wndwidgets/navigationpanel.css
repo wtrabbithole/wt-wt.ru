@@ -1,4 +1,4 @@
-emptyButton.navigationCollapse, emptyButton.navigationExpand {
+emptyButton {
   min-width:'h';
   background-color:'@transparent';
   css-hier-invalidate:'yes';
@@ -6,13 +6,11 @@ emptyButton.navigationCollapse, emptyButton.navigationExpand {
   padding:'0.1h, 0';
 }
 
-emptyButton.navigationCollapse:hover,
-emptyButton.navigationExpand:hover {
+emptyButton:hover {
   background-color:'@menuButtonColorHover';
 }
 
-emptyButton.navigationCollapse:pushed,
-emptyButton.navigationExpand:pushed {
+emptyButton:pushed {
   background-color:'@menuButtonColorPushed';
 }
 
@@ -43,9 +41,9 @@ emptyButton.navigationCollapse:hover > icon {
 }
 
 
-[show_console_buttons=yes] emptyButton.navigationExpand > ButtonImg
+[show_console_buttons=yes] emptyButton.navigationExpand > ButtonImg,
 [show_console_buttons=yes] emptyButton.navigationCollapse > ButtonImg {
-  valign:t = 'center';
+  valign:center;
 }
 
 
@@ -60,11 +58,11 @@ listbox.navigationItemList > mission_item_unlocked > img {
 }
 
 listbox.navigationItemList[nav_btn_group=RS] > mission_item_unlocked > img {
-  background-image:'@control_r_stick_4';
+  background-image:'@control_r_stick_to_up_n_down';
 }
 
 listbox.navigationItemList[nav_btn_group=LS] > mission_item_unlocked > img {
-  background-image:'@control_l_stick_4';
+  background-image:'@control_l_stick_to_up_n_down';
 }
 
 listbox.navigationItemList[nav_btn_group=Dpad] > mission_item_unlocked > img {

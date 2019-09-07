@@ -16,10 +16,10 @@ local stdMath = require("std/math.nut")
 ::weaponVisual <- {
 }
 
-function weaponVisual::createItemLayout(id, item, type, params = {})
+function weaponVisual::createItemLayout(id, item, iType, params = {})
 {
   if (!("type" in item))
-    item.type <- type
+    item.type <- iType
   local view = {
     id = id
     itemWidth = ::getTblValue("itemWidth", params, 1)
@@ -36,9 +36,9 @@ function weaponVisual::createItemLayout(id, item, type, params = {})
   return ::handyman.renderCached("gui/weaponry/weaponItem", view)
 }
 
-function weaponVisual::createItem(id, item, type, holderObj, handler, params = {})
+function weaponVisual::createItem(id, item, iType, holderObj, handler, params = {})
 {
-  local data = createItemLayout(id, item, type, params)
+  local data = createItemLayout(id, item, iType, params)
   holderObj.getScene().appendWithBlk(holderObj, data, handler)
   return holderObj.findObject(id)
 }
@@ -46,7 +46,7 @@ function weaponVisual::createItem(id, item, type, holderObj, handler, params = {
 function weaponVisual::createBundle(id, itemsList, itemsType, holderObj, handler, params = {})
 {
   if (itemsList.len()==0)
-    return
+    return null
 
   local maxItemsInColumn = ::getTblValue("maxItemsInColumn", params, 5)
   local createItemFunc = ::getTblValue("createItemFunc", params, createItem)
@@ -300,6 +300,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   //alternative action button
   local altBtn = itemObj.findObject("altActionBtn")
   local altBtnText = ""
+  local altBtnTooltip = ""
   if (statusTbl.goldUnlockable && !(::getTblValue("researchMode", params, false) && flushExp > 0))
     altBtnText = getItemUnlockCost(air, item).tostring()
   if (altBtnText != "")
@@ -307,7 +308,10 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   else if (visualItem.type == weaponsItem.spare && isOwn)
   {
     if (::ItemsManager.getInventoryList(itemType.UNIVERSAL_SPARE).len() && statusTbl.canBuyMore)
+    {
       altBtnText = ::loc("items/universalSpare/activate", { icon = ::loc("icon/universalSpare") })
+      altBtnTooltip = ::loc("items/universalSpare/activate/tooltip")
+    }
   }
   else if (statusTbl.amount && statusTbl.maxAmount > 1
             && statusTbl.amount < statusTbl.maxAmount
@@ -320,6 +324,8 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
     altBtnText = ::loc("mainmenu/btnUpgrade")
 
   altBtn.canShow = (altBtnText == "") ? "no" : "yes"
+  if (altBtnTooltip != "")
+    altBtn.tooltip = altBtnTooltip
   local textObj = altBtn.findObject("item_buy_text")
   if (::checkObj(textObj))
     textObj.setValue(altBtnText)
@@ -553,8 +559,8 @@ function weaponVisual::getByCurBundle(air, bundle, func, defValue = "")
 
 function weaponVisual::isBullets(item)
 {
-  return ("isDefaultForGroup" in item) && (item.isDefaultForGroup >= 0) ||
-    (item.type == weaponsItem.modification && ::getModificationBulletsGroup(item.name) != "")
+  return (("isDefaultForGroup" in item) && (item.isDefaultForGroup >= 0))
+    || (item.type == weaponsItem.modification && ::getModificationBulletsGroup(item.name) != "")
 }
 
 function weaponVisual::getBulletsIconItem(air, item)
@@ -878,8 +884,8 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
       if (upgradesCount?[1])
         addDesc = "\n" + ::loc("weaponry/weaponsUpgradeInstalled",
                                { current = upgradesCount[0], total = upgradesCount[1] })
-      foreach(array in upgradesList)
-        foreach(upgrade in array)
+      foreach(arr in upgradesList)
+        foreach(upgrade in arr)
         {
           if(upgrade == null)
             continue
@@ -1083,7 +1089,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
           continue
 
         if (d == idist || (d < idist && !i))
-          armor = ::u.map(bullet_params.armorPiercing[i], ::to_integer_safe)
+          armor = ::u.map(bullet_params.armorPiercing[i], @(f) stdMath.round(f).tointeger())
         else if (d < idist && i)
         {
           local prevDist = bullet_params.armorPiercingDist[i-1].tointeger()
@@ -1115,7 +1121,8 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
 
     if(bulletsSet)
     {
-      foreach(p in ["caliber", "explosiveType", "explosiveMass"])
+      foreach(p in ["caliber", "explosiveType", "explosiveMass",
+        "proximityFuseArmDistance", "proximityFuseRadius" ])
       if (p in bulletsSet)
         param[p] <- bulletsSet[p]
 
@@ -1149,7 +1156,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
       addProp(p, ::loc("bullet_properties/speed"),
                  ::format("%.0f %s", param.speed, ::loc("measureUnits/metersPerSecond_climbSpeed")))
 
-    local maxSpeed = param?.maxSpeed || param?.endSpeed ?? 0
+    local maxSpeed = (param?.maxSpeed || param?.endSpeed) ?? 0
     if (maxSpeed)
       addProp(p, ::loc("rocket/maxSpeed"), ::g_measure_type.SPEED_PER_SEC.getMeasureUnitsText(maxSpeed))
 
@@ -1171,7 +1178,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
       addProp(p, ::loc("bullet_properties/explosiveMass"),
         ::g_dmg_model.getMeasuredExplosionText(explosiveMass))
 
-    if (explosiveType && explosiveType)
+    if (explosiveType && explosiveMass)
     {
       local tntEqText = ::g_dmg_model.getTntEquivalentText(explosiveType, explosiveMass)
       if (tntEqText.len())
@@ -1186,6 +1193,15 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
     if (explodeTreshold)
       addProp(p, ::loc("bullet_properties/explodeTreshold"),
                  explodeTreshold + " " + ::loc("measureUnits/mm"))
+
+    local proximityFuseArmDistance = stdMath.round(param?.proximityFuseArmDistance ?? 0)
+    if (proximityFuseArmDistance)
+      addProp(p, ::loc("torpedo/armingDistance"),
+        proximityFuseArmDistance + " " + ::loc("measureUnits/meters_alt"))
+    local proximityFuseRadius = stdMath.round(param?.proximityFuseRadius ?? 0)
+    if (proximityFuseRadius)
+      addProp(p, ::loc("bullet_properties/proximityFuze/triggerRadius"),
+        proximityFuseRadius + " " + ::loc("measureUnits/meters_alt"))
 
     local ricochetData = !isCountermeasure && ::g_dmg_model.getRicochetData(param.bulletType)
     if (ricochetData)
@@ -1243,7 +1259,6 @@ function weaponVisual::getArmorPiercingViewData(armorPiercing, dist)
     return res
 
   local angles = null
-  local p2 = []
   foreach(ind, armorTbl in armorPiercing)
   {
     if (armorTbl == null)
@@ -1310,7 +1325,7 @@ function weaponVisual::updateWeaponTooltip(obj, air, item, handler, params={}, e
 
   if (is_researching || is_paused || !is_researched)
   {
-    if (("reqExp" in item) && item.reqExp > curExp || is_paused)
+    if ((("reqExp" in item) && item.reqExp > curExp) || is_paused)
     {
       local expText = ""
       if (is_researching || is_paused)

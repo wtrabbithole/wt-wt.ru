@@ -1,4 +1,3 @@
-local interopGet = require("daRg/helpers/interopGen.nut")
 local compassState = require("compassState.nut")
 
 

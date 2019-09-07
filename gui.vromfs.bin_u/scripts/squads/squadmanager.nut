@@ -37,6 +37,13 @@ local DEFAULT_SQUAD_PROPERTIES = {
   maxMembers = 4
   isApplicationsEnabled = true
 }
+
+local SQUAD_SIZE_FEATURES_CHECK = {
+  squad = ["Squad"]
+  platoon = ["Clans", "WorldWar"]
+  battleGroup = ["WorldWar"]
+}
+
 local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
 
 g_squad_manager <- {
@@ -117,7 +124,8 @@ function g_squad_manager::updateMyMemberData(data = null)
 
   data.isReady <- isMeReady()
   data.isCrewsReady <- isMyCrewsReady
-  data.canPlayWorldWar <- ::g_world_war.canJoinWorldwarBattle()
+  data.canPlayWorldWar <- ::g_world_war.canPlayWorldwar()
+  data.isWorldWarAvailable <- ::is_worldwar_enabled()
   data.squadsVersion <- SQUADS_VERSION
 
   local wwOperations = []
@@ -417,9 +425,14 @@ function g_squad_manager::initSquadSizes()
   local maxSize = 0
   for (local i = 0; i < sizesBlk.paramCount(); i++)
   {
+    local name = sizesBlk.getParamName(i)
+    local needAddSize = ::has_feature_array_any(SQUAD_SIZE_FEATURES_CHECK?[name] ?? [])
+    if (!needAddSize)
+      continue
+
     local size = sizesBlk.getParamValue(i)
     squadSizesList.append({
-      name = sizesBlk.getParamName(i)
+      name = name
       value = size
     })
     maxSize = ::max(maxSize, size)
@@ -632,7 +645,8 @@ function g_squad_manager::joinSquadChatRoom()
 
   if (isSquadLeader() && ::u.isEmpty(password))
   {
-    password = squadData.chatInfo.password = ::gen_rnd_password(15)
+    password = ::gen_rnd_password(15)
+    squadData.chatInfo.password = password
 
     roomCreateInProgress = true
     callback = function() {
@@ -982,49 +996,54 @@ function g_squad_manager::requestMemberData(uid)
     ::broadcastEvent(squadEvent.DATA_UPDATED)
   }
 
-  local callback = (@(uid) function(response) {
-                      local receivedData = ::getTblValue("data", response, null)
-                      if (receivedData == null)
-                        return
-
-                      local memberData = ::g_squad_manager.getMemberData(uid)
-                      if (memberData == null)
-                        return
-
-                      local receivedMemberData = ::getTblValue("data", receivedData)
-                      local isMemberDataChanged = ::g_squad_manager.isMemberDataChanged(memberData, receivedMemberData)
-                      memberData.update(receivedMemberData)
-                      local contact = ::getContact(memberData.uid, memberData.name)
-                      contact.online = memberData.online = response.online
-                      if (!response.online)
-                        memberData.isReady = false
-
-                      ::update_contacts_by_list([memberData.getData()])
-
-                      if (::g_squad_manager.isSquadLeader())
-                      {
-                        if (!::g_squad_manager.readyCheck())
-                          ::queues.leaveAllQueues()
-
-                        if (::SessionLobby.canInviteIntoSession()
-                            && memberData.canJoinSessionRoom()
-                            && ::g_squad_manager.canInvitePlayerToSessionByName(memberData.name))
-                        {
-                          ::SessionLobby.invitePlayer(memberData.uid)
-                        }
-                      }
-
-                      ::g_squad_manager.joinSquadChatRoom()
-
-                      ::broadcastEvent(squadEvent.DATA_UPDATED)
-                      if (::g_squad_manager.isSquadLeader() && isMemberDataChanged)
-                        battleRating.updateBattleRating()
-
-                      local memberSquadsVersion = ::getTblValue("squadsVersion", receivedMemberData, DEFAULT_SQUADS_VERSION)
-                      ::g_squad_utils.checkSquadsVersion(memberSquadsVersion)
-                    })(uid)
-
+  local callback = @(response) ::g_squad_manager.requestMemberDataCallback(uid, response)
   ::msquad.requestMemberData(uid, callback)
+}
+
+function g_squad_manager::requestMemberDataCallback(uid, response)
+{
+  local receivedData = response?.data
+  if (receivedData == null)
+    return
+
+  local memberData = ::g_squad_manager.getMemberData(uid)
+  if (memberData == null)
+    return
+
+  local currentMemberData = memberData.getData()
+  local receivedMemberData = receivedData?.data
+  local isMemberDataChanged = memberData.update(receivedMemberData)
+  local isMemberDataVehicleChanged = isMemberDataChanged
+    && ::g_squad_manager.isMemberDataVehicleChanged(currentMemberData, memberData)
+  local contact = ::getContact(memberData.uid, memberData.name)
+  contact.online = response.online
+  memberData.online = response.online
+  if (!response.online)
+    memberData.isReady = false
+
+  ::update_contacts_by_list([memberData.getData()])
+
+  if (::g_squad_manager.isSquadLeader())
+  {
+    if (!::g_squad_manager.readyCheck())
+      ::queues.leaveAllQueues()
+
+    if (::SessionLobby.canInviteIntoSession()
+        && memberData.canJoinSessionRoom()
+        && ::g_squad_manager.canInvitePlayerToSessionByName(memberData.name))
+    {
+      ::SessionLobby.invitePlayer(memberData.uid)
+    }
+  }
+
+  ::g_squad_manager.joinSquadChatRoom()
+
+  ::broadcastEvent(squadEvent.DATA_UPDATED)
+  if (::g_squad_manager.isSquadLeader() && isMemberDataVehicleChanged)
+    battleRating.updateBattleRating()
+
+  local memberSquadsVersion = receivedMemberData?.squadsVersion ?? DEFAULT_SQUADS_VERSION
+  ::g_squad_utils.checkSquadsVersion(memberSquadsVersion)
 }
 
 function g_squad_manager::setMemberOnlineStatus(uid, isOnline)
@@ -1435,10 +1454,11 @@ function g_squad_manager::checkMembersPkg(pack) //return list of members dont ha
 
 function g_squad_manager::getSquadMembersDataForContact()
 {
-  if (!isInSquad())
-    return
-
   local contactsData = {}
+
+  if (!isInSquad())
+    return contactsData
+
   local leaderUid = getLeaderUid()
   if (leaderUid != ::my_user_id_str)
     contactsData[leaderUid] <- getLeaderNick()
@@ -1701,12 +1721,14 @@ function g_squad_manager::onEventQueueChangeState(params)
   updatePresenceSquad(true)
 }
 
-function g_squad_manager::isMemberDataChanged(currentData, receivedData)
+function g_squad_manager::isMemberDataVehicleChanged(currentData, receivedData)
 {
-  if (currentData.country != receivedData.country)
+  local currentCountry = currentData?.country ?? ""
+  local receivedCountry = receivedData?.country ?? ""
+  if (currentCountry != receivedCountry)
     return true
 
-  if (currentData.selSlots?[currentData.country] != receivedData.selSlots?[receivedData.country])
+  if (currentData?.selSlots?[currentCountry] != receivedData?.selSlots?[receivedCountry])
     return true
 
   if (!::u.isEqual(battleRating.getCrafts(currentData), battleRating.getCrafts(receivedData)))
@@ -1743,6 +1765,16 @@ function g_squad_manager::setLeaderData(isActualBR = true)
   data.leaderBattleRating = isActualBR ? battleRating.getBR() : 0
   data.leaderGameModeId = isActualBR ? battleRating.getRecentGameModeId() : currentGameModeId
   setSquadData(data)
+}
+
+function g_squad_manager::getMembersNotAllowedInWorldWar()
+{
+  local res = []
+  foreach (uid, member in getMembers())
+    if (!member.isWorldWarAvailable)
+      res.append(member)
+
+  return res
 }
 
 ::cross_call_api.squad_manger <- ::g_squad_manager

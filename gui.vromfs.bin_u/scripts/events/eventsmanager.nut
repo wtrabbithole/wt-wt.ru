@@ -137,6 +137,7 @@ class Events
           event.name.slice(0, eventPrefix.len()) == eventPrefix &&
           isEventEnabled(event))
         return event
+    return null
   }
 
   function getTankEventName(eventPrefix)
@@ -485,7 +486,7 @@ class Events
 
   function checkEventAccess(eventData)
   {
-    if (!::check_feature_tanks() && isUnitTypeAvailable(eventData, ::ES_UNIT_TYPE_TANK))
+    if (!::has_feature("Tanks") && isUnitTypeAvailable(eventData, ::ES_UNIT_TYPE_TANK))
       return false
     if (::use_touchscreen && eventData.diffWeight >= diffTable.hardcore)
       return false
@@ -494,7 +495,7 @@ class Events
       return true
     if (::isInArray("AccessTest", eventData.event_access) && !::has_entitlement("AccessTest"))
       return false
-    if (::isInArray("tankAccess", eventData.event_access) && !::check_feature_tanks()) //temporary here while not everywhere used new types
+    if (::isInArray("tankAccess", eventData.event_access) && !::has_feature("Tanks")) //temporary here while not everywhere used new types
       return false
     if (::isInArray("ps4", eventData.event_access) && !::is_platform_ps4)
       return false
@@ -2072,7 +2073,7 @@ class Events
         data.reasonText = ::loc("events/event_disabled")
       data.actionFunc = function (reasonData) {
         local messageText = reasonData.reasonText
-        local startTime = ::events.getEventStartTime(reasonData.event)
+        startTime = ::events.getEventStartTime(reasonData.event)
         if (startTime > 0)
           messageText +=  "\n" + ::format(::loc("events/event_starts_in"), ::colorize("activeTextColor",
             time.hoursToString(time.secondsToHours(startTime))))
@@ -2146,6 +2147,10 @@ class Events
       }
       local locKey = "multiplayer/enemyTeamTooLowMembers" + (isFullText ? "" : "/short")
       data.reasonText = ::loc(locKey, locParams)
+    }
+    else if (!haveEventAccessByCost(event))
+    {
+      data.reasonText = ::loc("events/notEnoughMoney")
     }
     else if (::is_platform_xboxone && !isEventXboxOnlyAllowed(mGameMode) && !crossplayModule.isCrossPlayEnabled())
     {
@@ -2302,9 +2307,7 @@ class Events
    */
   function getEventBattleCostText(event, valueColor = "activeTextColor", useShortText = false, colored = true)
   {
-    if (event == null)
-      return ""
-    local cost = ::Cost().setFromTbl(::get_tournament_battle_cost(event.economicName))
+    local cost = getEventBattleCost(event)
     if (cost <= ::zero_money)
       return ""
     local shortText = colored
@@ -2313,6 +2316,18 @@ class Events
     if (useShortText)
       return shortText
     return ::loc("events/battle_cost", { cost = ::colorize(valueColor, shortText) })
+  }
+
+  function getEventBattleCost(event)
+  {
+    if (event == null)
+      return ::Cost()
+    return ::Cost().setFromTbl(::get_tournament_battle_cost(event.economicName))
+  }
+
+  function haveEventAccessByCost(event)
+  {
+    return ::get_gui_balance() >= getEventBattleCost(event)
   }
 
   function hasEventTicket(event)
@@ -2734,7 +2749,7 @@ class Events
 
   function isGameTypeOfEvent(event, gameTypeName)
   {
-    return event && ::get_meta_mission_info_by_name(getEventMission(event.name))?[gameTypeName] ?? false
+    return !!event && !!::get_meta_mission_info_by_name(getEventMission(event.name))?[gameTypeName]
   }
 
   function onEventEventBattleEnded(params)

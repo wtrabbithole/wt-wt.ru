@@ -100,7 +100,10 @@
             "id": "main_block"
           },
           {
-            "size": "pw, fh"
+            "width": "pw"
+          },
+          {
+            "height": "fh"
           },
           {
             "frameBlock": [
@@ -172,6 +175,7 @@
               "moveY": "linear",
               "clearOnFocusLost": "no",
               "on_select": "updateItemInfo",
+              "_on_set_focus": "onItemsListFocusChange",
               "on_wrap_up": "onWrapUp",
               "on_wrap_down": "onWrapDown"
             }
@@ -209,13 +213,12 @@
                   },
                   {
                     "tdiv": {
-                      "pos": "50%pw-50%w, 0",
-                      "position": "relative",
+                      "width": "pw",
                       "textAreaCentered": {
                         "id": "item_name",
-                        "max-width": "@itemInfoWidth",
+                        "max-width": "pw",
                         "overlayTextColor": "active",
-                        "pos": "0, 50%ph-50%h",
+                        "pos": "50%pw-50%w, 50%ph-50%h",
                         "position": "relative"
                       },
                       "cardImg": {
@@ -231,7 +234,7 @@
                   {
                     "textAreaCentered": {
                       "id": "item_desc_under_title",
-                      "width": "@itemInfoWidth",
+                      "max-width": "pw",
                       "overlayTextColor": "active",
                       "pos": "50%pw-50%w, 0",
                       "position": "relative",
@@ -252,7 +255,7 @@
                     "textareaNoTab": {
                       "id": "item_desc",
                       "position": "relative",
-                      "width": "1@itemInfoWidth",
+                      "width": "pw",
                       "font-bold": "@fontMedium",
                       "padding-top": "1@blockInterval"
                     }
@@ -260,7 +263,7 @@
                   {
                     "div": {
                       "id": "item_desc_div",
-                      "width": "@itemInfoWidth",
+                      "width": "pw",
                       "flow": "vertical"
                     }
                   },
@@ -269,7 +272,7 @@
                       "id": "item_desc_under_div",
                       "pos": "50%pw-50%w, 12@sf/@pf",
                       "position": "relative",
-                      "width": "@itemInfoWidth",
+                      "width": "pw",
                       "smallFont": "yes",
                       "hideEmptyText": "yes"
                     }
@@ -277,7 +280,7 @@
                   {
                     "div": [
                       {
-                        "width": "@itemInfoWidth"
+                        "width": "pw"
                       },
                       {
                         "pos": "50%pw-50%w, 0"
@@ -289,7 +292,7 @@
                         "flow": "vertical"
                       },
                       {
-                        "margin": "0.02@sf, 0.01@scrn_tgt"
+                        "padding": "0.02@sf, 0.01@scrn_tgt"
                       },
                       {
                         "textareaNoTab": {
@@ -481,7 +484,7 @@
                 "id": "btn_link_action",
                 "text": "#mainmenu/btnBrowser",
                 "btnName": "Y",
-                "_on_click": "onLinkAction",
+                "on_click": "onLinkAction",
                 "hideText": "yes",
                 "css-hier-invalidate": "yes",
                 "showButtonImageOnConsole": "no",
@@ -525,16 +528,19 @@
               "Button_text": {
                 "id": "btn_main_action",
                 "text": "",
-                "btnName": "A",
-                "_on_click": "onMainAction",
+                "btnName": "",
+                "on_click": "onMainAction",
                 "hideText": "yes",
                 "css-hier-invalidate": "yes",
                 "showButtonImageOnConsole": "no",
                 "display": "hide",
+                "hideConsoleImage": "yes",
                 "visualStyle": "secondary",
                 "buttonWink": [],
                 "buttonGlance": [],
-                "ButtonImg": [],
+                "ButtonImg": {
+                  "iconName": "A"
+                },
                 "textarea": {
                   "id": "btn_main_action_text",
                   "class": "buttonText"
@@ -1465,6 +1471,10 @@
         }
       }
     ]
+  },
+  "DummyButton": {
+    "btnName": "A",
+    "on_click": "onMainAction"
   },
   "dummy": {
     "id": "update_timer",

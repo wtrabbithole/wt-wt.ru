@@ -69,9 +69,9 @@ function g_crew_spec_type::_getDiscountValueByUnitNames(unitNames)
 
 function g_crew_spec_type::_getPrevType()
 {
-  foreach (type in ::g_crew_spec_type.types)
-    if (type.nextCode == code)
-      return type
+  foreach (t in ::g_crew_spec_type.types)
+    if (t.nextCode == code)
+      return t
   return ::g_crew_spec_type.UNKNOWN
 }
 

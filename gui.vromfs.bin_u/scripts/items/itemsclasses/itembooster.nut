@@ -435,10 +435,10 @@ class ::items_classes.Booster extends ::BaseItem
     if (isActive(true))
     {
       local effectTypes = getEffectTypes()
-      foreach(type in effectTypes)
+      foreach(t in effectTypes)
       {
-        local usingBoostersArray = ::ItemsManager.getActiveBoostersArray(type)
-        desc += "\n\n" + ::ItemsManager.getActiveBoostersDescription(usingBoostersArray, type, this)
+        local usingBoostersArray = ::ItemsManager.getActiveBoostersArray(t)
+        desc += "\n\n" + ::ItemsManager.getActiveBoostersDescription(usingBoostersArray, t, this)
       }
     }
     return desc
@@ -499,7 +499,6 @@ class ::items_classes.Booster extends ::BaseItem
       return ""
 
     local textsList = []
-    local mainCondition = ::UnlockConditions.getMainProgressCondition(stopConditions)
     // Shows progress as count down 6, 5, 4, ... instead of 0/6, 1/6, ...
     local curValue = getLeftStopSessions()
     local params = { locEnding = isActive() ? "/inverted" : "/activeFor" }

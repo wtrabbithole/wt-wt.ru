@@ -1,3 +1,5 @@
+local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
+
 enum POINTING_DEVICE
 {
   MOUSE
@@ -266,11 +268,48 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       if (::getTblValue("show", info, true))
       {
         data += data.len() ? "controlsHelpHint { text:t='    ' }" : ""
-        data += ::get_shortcut_frame_for_help(info.primaryShortcut)
+        data += getShortcutFrameForHelp(info.primaryShortcut)
         data += ::format("controlsHelpHint { text:t='#%s' }", info.title)
       }
 
     guiScene.replaceContentFromText(placeObj, data, data.len(), this)
+  }
+
+  function getShortcutFrameForHelp(shortcut)
+  {
+    local data = "";
+    if (!shortcut)
+      return "text { text-align:t='center'; text:t='---' }"
+
+    local curPreset = ::g_controls_manager.getCurPreset()
+    for (local k = 0; k < shortcut.dev.len(); k++)
+    {
+      local name = ::getLocalizedControlName(curPreset, shortcut.dev[k], shortcut.btn[k]);
+      local buttonFrame = format("controlsHelpBtn { text:t='%s'; font:t='%s' }", ::g_string.stripTags(name), (name.len()>2)? "@fontTiny" : "@fontMedium");
+
+      if (shortcut.dev[k] == ::STD_MOUSE_DEVICE_ID)
+      {
+        local mouseBtnImg = "controlsHelpMouseBtn { background-image:t='#ui/gameuiskin#%s'; }"
+        if (shortcut.btn[k] == 0)
+          buttonFrame = format(mouseBtnImg, "mouse_left");
+        else if (shortcut.btn[k] == 1)
+          buttonFrame = format(mouseBtnImg, "mouse_right");
+        else if (shortcut.btn[k] == 2)
+          buttonFrame = format(mouseBtnImg, "mouse_center");
+      }
+
+      if (shortcut.dev[k] == ::JOYSTICK_DEVICE_0_ID)
+      {
+        local btnId = shortcut.btn[k]
+        if (gamepadIcons.hasTextureByButtonIdx(btnId))
+          buttonFrame = format("controlsHelpJoystickBtn { background-image:t='%s' }",
+            gamepadIcons.getTextureByButtonIdx(btnId))
+      }
+
+      data += ((k != 0)? "text { pos:t='0,0.5ph-0.5h';position:t='relative';text-align:t='center';text:t='+'}":"") + buttonFrame;
+    }
+
+    return data;
   }
 
   function checkArtilleryEnabledByTimer(dt = 0.0)

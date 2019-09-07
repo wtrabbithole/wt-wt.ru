@@ -8,7 +8,6 @@ function _generateCoverMission(isFreeFlight, createGroundUnitsProc)
 
   local enemy1Angle = rndRange(-90, 90);
   local enemy2Angle = rndRange(-90, 90);
-  local enemy3Angle = rndRange(-90, 90);
   local evacAngle = rndRange(-10, 10);
 
 //planes cost and warpoint ratio calculate
@@ -202,7 +201,6 @@ function _generateCoverMission(isFreeFlight, createGroundUnitsProc)
   local enemy3Speed = getDistancePerMinute(enemyFighterPlane);
 
   local timeToTarget = rndRange(120 + wave1*45 + wave2*45, 120 + wave1*60 + wave2*60)/60.0;
-  local timeToEvac = rndRange(90+wave3*60, 90+wave3*90)/60.0;
   local timeToEnemy1 = 0;
   if (wave1 == 1)
     timeToEnemy1 = rndRange(30, timeToTarget*60/4.0)/60.0;
@@ -285,7 +283,6 @@ function _generateCoverMission(isFreeFlight, createGroundUnitsProc)
 
 //mission warpoint cost calculate
   local mission_mult = sqrt(enemyTotalCount/20.0+0.05);
-  local repairCost = playerPlaneCost*0.1;
   local missionWpCost = warpointCalculate(mission_preset_name, allyFightersCount+bombersCount*0.5, enemyCount, planeCost,
                                           playerFighterPlane, mission_mult);
   mgSetInt("mission_settings/mission/wpAward", missionWpCost);

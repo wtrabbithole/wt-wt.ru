@@ -181,7 +181,7 @@ class ::gui_handlers.MissionBuilder extends ::gui_handlers.GenericOptionsModal
 
     local settings = ::DataBlock();
     settings.setStr("player_class", ::show_aircraft.name)
-    settings.setStr("player_weapons", getSceneOptValue(::USEROPT_WEAPONS) || "")
+    settings.setStr("player_weapons", ::get_gui_option(::USEROPT_WEAPONS) ?? "")
     settings.setStr("player_skin", getSceneOptValue(::USEROPT_SKIN) || "")
     settings.setStr("wishSector", getSceneOptValue(::USEROPT_DYN_ZONE))
     settings.setInt("sectorSurround", getSceneOptValue(::USEROPT_DYN_SURROUND))

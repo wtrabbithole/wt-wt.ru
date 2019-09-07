@@ -1,39 +1,49 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-function gui_start_clan_activity_wnd(playerName = null, clanData = null)
+function gui_start_clan_activity_wnd(uid = null, clanData = null)
 {
-  if (!playerName || !clanData)
+  if (!uid || !clanData)
     return
 
-  local memberData = u.search(clanData.members, @(member) member.nick == playerName)
-  if (memberData)
-    ::gui_start_modal_wnd(::gui_handlers.clanActivityModal, {memberData = memberData })
+  local memberData = u.search(clanData.members, @(member) member.uid == uid)
+  if (!memberData)
+    return
+
+  ::gui_start_modal_wnd(::gui_handlers.clanActivityModal,
+  {
+    clanData = clanData
+    memberData = memberData
+  })
 }
 
 class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
 {
-  wndType      = handlerType.MODAL
-  sceneBlkName = "gui/clans/clanActivityModal.blk"
-
-  memberData = null
+  wndType           = handlerType.MODAL
+  sceneBlkName      = "gui/clans/clanActivityModal.blk"
+  clanData          = null
+  memberData        = null
+  hasClanExperience = null
 
   function initScreen()
   {
+    local maxActivityPerDay = clanData.rewardPeriodDays > 0
+      ? ::round(1.0 * clanData.maxActivityPerPeriod / clanData.rewardPeriodDays)
+      : 0
+    local isShowPeriodActivity = clanData.expRewardEnabled
+    hasClanExperience  = isShowPeriodActivity && ::clan_get_my_clan_id() == clanData.id
+    local history = isShowPeriodActivity ? memberData.expActivity : memberData.activityHistory
     local headerTextObj = scene.findObject("clan_activity_header_text")
-    headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"), platformModule.getPlayerName(memberData.nick)))
+    headerTextObj.setValue(::format("%s - %s", ::loc("clan/activity"),
+      platformModule.getPlayerName(memberData.nick)))
 
-    local history = memberData.activityHistory
-
-    scene.findObject("clan_activity_total_text").setValue(
-        ::loc("clan/activity_total", {count = history.len()}))
-
-    scene.findObject("clan_activity_today_value").setValue(
-        ::format("%d", ::getTblValue("curActivity", memberData, 0)))
-
-    scene.findObject("clan_activity_total_value").setValue(
-        ::format("%d", ::getTblValue("totalActivity", memberData, 0)))
+    local maxActivityToday = [(isShowPeriodActivity ? memberData.curPeriodActivity : memberData.curActivity).tostring()]
+    if (maxActivityPerDay > 0)
+      maxActivityToday.append((isShowPeriodActivity ? clanData.maxActivityPerPeriod : maxActivityPerDay).tostring())
+    scene.findObject("clan_activity_today_value").setValue(::g_string.implode(maxActivityToday, " / "))
+    scene.findObject("clan_activity_total_value").setValue(::format("%d",
+      isShowPeriodActivity ? memberData.totalPeriodActivity : memberData.totalActivity))
 
     fillActivityHistory(history)
   }
@@ -41,9 +51,9 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
   function fillActivityHistory(history)
   {
     local historyArr = []
-    foreach (day, value in history)
+    foreach (day, data in history)
     {
-      historyArr.append({day = day.tointeger(), value = value})
+      historyArr.append({day = day.tointeger(), data = data})
     }
     historyArr.sort(function(left, right)
     {
@@ -64,7 +74,16 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
         text     = ::loc("clan/activity"),
         active   = false
       }
-     ];
+    ];
+
+    if (hasClanExperience)
+      rowHeader.append(
+        {
+          id       = "clan_activity_exp_col_value",
+          text     = ::loc("reward"),
+          active   = false
+        }
+      )
 
     rowBlock += ::buildTableRowNoPad("row_header", rowHeader, null,
         "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; ")
@@ -78,18 +97,16 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     foreach(entry in historyArr)
     {
       local rowParams = [
-        {
-          text = time.buildDateStr(time.daysToSeconds(entry.day))
-        },
-        {
-          text = ::format("%d", entry.value)
-        }
-      ];
+        { text = time.buildDateStr(time.daysToSeconds(entry.day)) },
+        { text = (::u.isInteger(entry.data) ? entry.data : entry.data?.activity ?? 0).tostring() }
+      ]
+
+      if (hasClanExperience)
+        rowParams.append({ text = (entry.data?.exp ?? 0).tostring() })
 
       rowBlock += ::buildTableRowNoPad("row_" + rowIdx, rowParams, null, "")
       rowIdx++
     }
     guiScene.replaceContentFromText(tableObj, rowBlock, rowBlock.len(), this)
   }
-
 }

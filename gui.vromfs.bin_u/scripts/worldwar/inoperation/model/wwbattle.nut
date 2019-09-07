@@ -2,7 +2,7 @@ local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 
-const WW_BATTLES_SORT_TIME_STEP = 60000
+const WW_BATTLES_SORT_TIME_STEP = 120000
 const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
 
 class ::WwBattle
@@ -22,8 +22,13 @@ class ::WwBattle
   battleStartMillisec = 0
   ordinalNumber = 0
   sessionId = ""
+  totalPlayersNumber = 0
+  maxPlayersNumber = 0
+  sortTimeFactor = null
+  sortFullnessFactor = null
 
   queueInfo = null
+  unitTypeMask = 0
 
   constructor(blk = ::DataBlock(), params = null)
   {
@@ -46,6 +51,7 @@ class ::WwBattle
     updateParams(blk, params)
     updateTeamsInfo(blk)
     applyBattleUpdates(blk)
+    updateSortParams()
   }
 
   function updateParams(blk, params) {}
@@ -117,11 +123,22 @@ class ::WwBattle
            status == ::EBS_STALE
   }
 
+  function isStale()
+  {
+    return status == ::EBS_STALE
+  }
+
   function isActive()
   {
     return status == ::EBS_ACTIVE_STARTING ||
            status == ::EBS_ACTIVE_MATCHING ||
            status == ::EBS_ACTIVE_CONFIRMED
+  }
+
+  function isStarting()
+  {
+    return status == ::EBS_ACTIVE_STARTING ||
+           status == ::EBS_ACTIVE_MATCHING
   }
 
   function isStarted()
@@ -189,11 +206,14 @@ class ::WwBattle
   function updateTeamsInfo(blk)
   {
     teams = {}
+    totalPlayersNumber = 0
+    maxPlayersNumber = 0
+    unitTypeMask = 0
 
     local teamsBlk = blk.getBlockByName("teams")
     local descBlk = blk.getBlockByName("desc")
     local waitingTeamsBlk = descBlk ? descBlk.getBlockByName("teamsInfo") : null
-    if (!teamsBlk || isWaiting() && !waitingTeamsBlk)
+    if (!teamsBlk || (isWaiting() && !waitingTeamsBlk))
       return
 
     for (local i = 0; i < teamsBlk.blockCount(); ++i)
@@ -239,6 +259,9 @@ class ::WwBattle
 
           teamArmyNames.push(armyName)
           ::u.appendOnce(army.unitType, teamUnitTypes)
+          local wwUnitType = ::g_ww_unit_type.getUnitTypeByCode(army.unitType)
+          if (wwUnitType.canBeControlledByPlayer)
+            unitTypeMask = unitTypeMask | ::g_unit_type.getByEsUnitType(wwUnitType.esUnitCode).bit
         }
       }
 
@@ -262,6 +285,8 @@ class ::WwBattle
                         unitsRemain = teamUnitsRemain
                         unitTypes = teamUnitTypes}
       teams[teamName] <- teamInfo
+      totalPlayersNumber += numPlayers
+      maxPlayersNumber += teamMaxPlayers
     }
   }
 
@@ -280,6 +305,13 @@ class ::WwBattle
       res.code = WW_BATTLE_CANT_JOIN_REASON.NO_WW_ACCESS
       res.reasonText = ::loc("worldWar/noAccess")
       res.fullReasonText = ::g_world_war.getPlayWorldwarConditionText()
+      return res
+    }
+
+    if (isFinished())
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.NOT_ACTIVE
+      res.reasonText = ::loc("worldwar/battle_finished_need_refresh")
       return res
     }
 
@@ -335,6 +367,20 @@ class ::WwBattle
       res.code = WW_BATTLE_CANT_JOIN_REASON.NO_COUNTRY_IN_TEAM
       res.reasonText = ::loc("msgbox/internal_error_header")
       return res
+    }
+
+    if (::g_squad_manager.isSquadLeader())
+    {
+      local notAllowedInWorldWarMembers = ::g_squad_manager.getMembersNotAllowedInWorldWar()
+      if (notAllowedInWorldWarMembers.len() > 0)
+      {
+        local tArr = notAllowedInWorldWarMembers.map(@(m) ::colorize("warningTextColor", m.name))
+        local text = ::g_string.implode(tArr, ",")
+        res.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_MEMBERS_NO_WW_ACCESS
+        res.reasonText = ::loc("worldwar/squad/notAllowedMembers")
+        res.fullReasonText = ::loc("worldwar/squad/notAllowedMembers") + ::loc("ui/colon") + "\n" + text
+        return res
+      }
     }
 
     if ((::g_squad_manager.isSquadLeader() || !::g_squad_manager.isInSquad())
@@ -533,6 +579,8 @@ class ::WwBattle
       reasonData.shortReasonText = ::loc("squad/has_non_accept_invites")
       return reasonData
     }
+
+    return reasonData
   }
 
   function tryToJoin(side)
@@ -627,7 +675,7 @@ class ::WwBattle
         fullWarningText = ""
       }
 
-    if (!isValid())
+    if (!isValid() || isFinished())
     {
       return res
     }
@@ -757,16 +805,6 @@ class ::WwBattle
     return sectorIdx >= 0 ? ::ww_get_zone_name(sectorIdx) : ""
   }
 
-  function getSortByTimeFactor()
-  {
-    return -battleStartMillisec / WW_BATTLES_SORT_TIME_STEP
-  }
-
-  function getSortByFullnessFactor()
-  {
-    return getTotalPlayersNumber() / ::floor(getMaxPlayersNumber())
-  }
-
   function getBattleActivateLeftTime()
   {
     if (!isStarted() || isConfirmed())
@@ -817,15 +855,10 @@ class ::WwBattle
     return false
   }
 
-  function getTotalPlayersNumber()
-  {
-    return getPlayersNumberByParam("players")
-  }
-
   function getTotalPlayersInfo(side)
   {
     if (!::has_feature("worldWarMaster") && !getMyAssignCountry())
-      return getPlayersNumberByParam("players")
+      return totalPlayersNumber
 
     local friendlySideNumber = 0
     local enemySideNumber = 0
@@ -852,21 +885,6 @@ class ::WwBattle
       return friendlySideNumber + enemySideNumber
 
     return friendlySideNumber + " " + ::loc("country/VS") + " " + enemySideNumber
-  }
-
-  function getMaxPlayersNumber()
-  {
-    return getPlayersNumberByParam("maxPlayers")
-  }
-
-  function getPlayersNumberByParam(paramName)
-  {
-    local playersNumber = 0
-    if (teams)
-      foreach(teamData in teams)
-        playersNumber += teamData?[paramName] ?? 0
-
-    return playersNumber
   }
 
   function getExcessPlayersSide(side, joinPlayersCount)
@@ -1013,5 +1031,43 @@ class ::WwBattle
     }
 
     return true
+  }
+
+  function setFromBattle(battle)
+  {
+    foreach(key, value in battle)
+      if (!u.isFunction(value)
+        && (key in this)
+        && !u.isFunction(this[key])
+      )
+        this[key] = value
+    return this
+  }
+
+  function setStatus(newStatus)
+  {
+    status = newStatus
+  }
+
+  function updateSortParams()
+  {
+    sortTimeFactor = -battleStartMillisec / WW_BATTLES_SORT_TIME_STEP
+    sortFullnessFactor = totalPlayersNumber / ::floor(maxPlayersNumber || 1)
+  }
+
+  function getGroupId()
+  {
+    local playerSide = getSide(::get_profile_country_sq())
+    local playerTeam = getTeamBySide(playerSide)
+    if (!playerTeam)
+      return ""
+
+    local unitTypeArray = playerTeam.unitTypes.map(@(u) u.tostring())
+    unitTypeArray.append("vs")
+
+    foreach(team in teams)
+      if (team.side != playerSide)
+        unitTypeArray.extend(team.unitTypes.map(@(u) u.tostring()))
+    return ::g_string.implode(unitTypeArray)
   }
 }

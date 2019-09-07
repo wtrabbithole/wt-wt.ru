@@ -726,8 +726,9 @@
   },
   {
     "sound": {
-      "EngineName": "engine_sherman_m4a1",
+      "EngineName": "engine_chieftain",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_servo",
@@ -2616,7 +2617,7 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "bullets": 2000,
+          "bullets": 2050,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
           "ChainfireTime": 0.5,
@@ -2638,10 +2639,6 @@
           "limits": {
             "yaw": [-120.0,120.0],
             "pitch": [-10.0,45.0]
-          },
-          "limitsTable": {
-            "lim1": [-120.0,70.0,-8.0,20.0],
-            "lim2": [70.0,120.0,-5.0,20.0]
           }
         }
       }
@@ -2846,7 +2843,7 @@
                 "parkInDeadzone": false,
                 "speedYaw": 30.0,
                 "speedPitch": 20.0,
-                "bullets": 2000,
+                "bullets": 2050,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
                 "ChainfireTime": 0.5,
@@ -2868,10 +2865,6 @@
                 "limits": {
                   "yaw": [-120.0,120.0],
                   "pitch": [-10.0,45.0]
-                },
-                "limitsTable": {
-                  "lim1": [-120.0,70.0,-8.0,20.0],
-                  "lim2": [70.0,120.0,-5.0,20.0]
                 }
               }
             },
@@ -2879,7 +2872,7 @@
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/76mm_nato_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/76mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,

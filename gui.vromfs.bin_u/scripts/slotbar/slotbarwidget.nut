@@ -67,7 +67,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   loadedCountries = null //loaded countries versions
   lastUpdatedVersion = null // version IDX which has already updated
   focusArray = ["autorefill-settings", "header_countries", @() getFocusObj()]
-  currentFocusItem = 0
+  currentFocusItem = 2
 
   curSlotCountryId = -1
   curSlotIdInCountry = -1
@@ -142,7 +142,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     showEmptySlot = showEmptySlot ?? !singleCountry
     hasExtraInfoBlock = hasExtraInfoBlock ?? !singleCountry
     shouldSelectAvailableUnit = shouldSelectAvailableUnit ?? ::is_in_flight()
-    needPresetsPanel = needPresetsPanel ?? !singleCountry && isCountryChoiceAllowed
+    needPresetsPanel = needPresetsPanel ?? (!singleCountry && isCountryChoiceAllowed)
     shouldCheckQueue = shouldCheckQueue ?? !::is_in_flight()
 
     onSlotDblClick = onSlotDblClick
@@ -229,7 +229,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       local listCountry = crewsListFull[c].country
-      if (singleCountry != null && singleCountry != listCountry
+      if ((singleCountry != null && singleCountry != listCountry)
           || !::is_country_visible(listCountry))
         continue
 
@@ -287,7 +287,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         continue
 
       local slotCostTbl = ::get_crew_slot_cost(listCountry)
-      if (!slotCostTbl || slotCostTbl.costGold > 0 && !::has_feature("SpendGold"))
+      if (!slotCostTbl || (slotCostTbl.costGold > 0 && !::has_feature("SpendGold")))
         continue
 
       addCrewData(countryData.crews,
@@ -339,9 +339,9 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         local crew = crewData.crew
         local unit = crewData.unit
         local isSelectable = crewData.isSelectable
-        if (crew && curCrewId == crew.id
-          || unit && unit == curUnit
-          || !crew && shouldSelectCrewRecruit)
+        if ((crew && curCrewId == crew.id)
+          || (unit && unit == curUnit)
+          || (!crew && shouldSelectCrewRecruit))
         {
           selCrewData = crewData
           isFoundCurUnit = true
@@ -381,7 +381,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         break
       }
 
-      if (!selCrewData || crewData.isSelectable && !selCrewData.isSelectable)
+      if (!selCrewData || (crewData.isSelectable && !selCrewData.isSelectable))
         selCrewData = crewData
     }
     return selCrewData
@@ -485,8 +485,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       countriesNestObj.isShort = "yes"
 
     local needEvent = selectedCrewData
-      && (curSlotCountryId >= 0 && curSlotCountryId != selectedCrewData.idCountry
-        || curSlotIdInCountry >= 0 && curSlotIdInCountry != selectedCrewData.idInCountry)
+      && ((curSlotCountryId >= 0 && curSlotCountryId != selectedCrewData.idCountry)
+        || (curSlotIdInCountry >= 0 && curSlotIdInCountry != selectedCrewData.idInCountry))
     if (needEvent)
     {
       local cObj = scene.findObject("airs_table_" + selectedCrewData.idCountry)
@@ -624,7 +624,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
   function getSlotbarActions()
   {
-    return slotbarActions || ownerWeak && ownerWeak.getSlotbarActions()
+    return slotbarActions ?? ownerWeak?.getSlotbarActions?()
   }
 
   function getCurFocusObj()
@@ -896,8 +896,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return -1
     if (tblObj.id != "airs_table_" + curSlotCountryId)
     {
-      local tblObjId = tblObj.id
-      local countryId = curSlotCountryId
+      local tblObjId = tblObj.id          // warning disable: -declared-never-used
+      local countryId = curSlotCountryId  // warning disable: -declared-never-used
       ::script_net_assert_once("bad slot country id", "Error: Try to select crew from wrong country")
       return -1
     }
@@ -910,7 +910,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       local id = ::getObjIdByPrefix(slotListObj.getChild(i), prefix)
       if (!id)
       {
-        local objId = slotListObj.getChild(i).id
+        local objId = slotListObj.getChild(i).id // warning disable: -declared-never-used
         ::script_net_assert_once("bad slot id", "Error: Bad slotbar slot id")
         continue
       }
@@ -933,7 +933,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     local countryIdx = ::to_integer_safe(
       ::getObjIdByPrefix(obj.getChild(idx), "header_country"), curSlotCountryId)
     if (curSlotCountryId >= 0 && curSlotCountryId != countryIdx && countryIdx in ::g_crews_list.get()
-        && !::isCountryAvailable(::g_crews_list.get()[countryIdx].country) && ::isAnyBaseCountryUnlocked())
+        && !::isCountryAvailable(::g_crews_list.get()[countryIdx].country) && ::unlocked_countries.len())
     {
       msgBox("notAvailableCountry", ::loc("mainmenu/countryLocked/tooltip"),
              [["ok", (@(obj) function() {
@@ -1034,13 +1034,13 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     foreach(idx, c in ::g_crews_list.get())
       if (c.country == country)
       {
-        local headerObj = scene.findObject("header_countries")
-        if (!::check_obj(headerObj) || headerObj.getValue() == idx)
+        local hObj = scene.findObject("header_countries")
+        if (!::check_obj(hObj) || hObj.getValue() == idx)
           break
 
         skipCheckCountrySelect = true
         skipCheckAirSelect = true
-        headerObj.setValue(idx)
+        hObj.setValue(idx)
         break
       }
   }
@@ -1258,14 +1258,14 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     return ::GuiBox().setFromDaguiObj(headerCountriesObj)
   }
 
-  function getSlotsData(unitId = null, crewId = -1, withEmptySlots = false)
+  function getSlotsData(unitId = null, slotCrewId = -1, withEmptySlots = false)
   {
     local unitSlots = []
     foreach(countryId, countryData in ::g_crews_list.get())
       if (!singleCountry || countryData.country == singleCountry)
         foreach (idInCountry, crew in countryData.crews)
         {
-          if (crewId != -1 && crewId != crew.id)
+          if (slotCrewId != -1 && slotCrewId != crew.id)
             continue
           local unit = ::g_crew.getCrewUnit(crew)
           if (unitId && unit && unitId != unit.name)

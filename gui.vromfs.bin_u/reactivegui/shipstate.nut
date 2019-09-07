@@ -1,5 +1,4 @@
 local interopGet = require("daRg/helpers/interopGen.nut")
-local chatBase = require("daRg/components/chat.nut")
 
 
 local shipState = {
@@ -17,6 +16,7 @@ local shipState = {
 
   obstacleIsNear = Watched(false)
   distanceToObstacle = Watched(-1)
+  timeToDeath = Watched(-1)
 
   //DM:
   enginesCount = Watched(0)

@@ -110,12 +110,9 @@ function g_warbonds_view::getLevelStatus(wbClass, level)
 
 function g_warbonds_view::calculateProgressBarValue(wbClass, level, steps, curTasksDone)
 {
-  local nextLevel = level + 1
   if (wbClass.isMaxLevelReached() && steps == 1)
-  {
-    nextLevel = level
     level -= 1
-  }
+
   local levelTasks = wbClass.getShopLevelTasks(level)
   local nextLevelTasks = wbClass.getShopLevelTasks(level + 1)
 

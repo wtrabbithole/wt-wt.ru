@@ -257,13 +257,13 @@
           {
             "onHit": {
               "smoke": 0.1,
-              "fire": 0.01,
-              "expl": 0.1
+              "fire": 0.01
             }
           },
           {
             "onKill": {
-              "expl": 1.0
+              "expl": 1.0,
+              "smoke": 0.5
             }
           }
         ]
@@ -294,8 +294,9 @@
   },
   {
     "sound": {
-      "path": "sounds/engines/boat",
-      "engine": "boat_engine"
+      "path": "sounds/engines",
+      "pathStudio": "aircraft/engines",
+      "engine": "boat"
     }
   },
   {

@@ -60,7 +60,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
     //if we already at finish state, there will be no anim event.
     //so we need to call it self to go to the next state
     local timerValue = gamercardDrawerObject["_size-timer"]
-    if (open && timerValue == "1" || !open && timerValue == "0")
+    if ((open && timerValue == "1") || (!open && timerValue == "0"))
       onDrawerDeactivate(gamercardDrawerObject)
   }
 
@@ -87,8 +87,8 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
     // Disable all objects.
     setEnableContent()
 
-    if (isTargetChanged && currentState != GamercardDrawerState.STATE_CLOSED
-        || !isTargetChanged && !currentVisible)
+    if ((isTargetChanged && currentState != GamercardDrawerState.STATE_CLOSED)
+        || (!isTargetChanged && !currentVisible))
     {
       closeDrawer()
       return

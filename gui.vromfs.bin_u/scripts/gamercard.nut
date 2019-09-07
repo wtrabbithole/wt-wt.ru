@@ -14,7 +14,8 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
   })(scene)
 
   local div = getObj("gamercard_div")
-  local logoFound = ::checkObj(div) ? ::show_title_logo(true, div) : false
+  if (::check_obj(div))
+    ::show_title_logo(true, div)
   show = show && ::g_login.isLoggedIn()
   if (::checkObj(div))
     div.show(show)
@@ -225,7 +226,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
                              gc_chat_btn = canChat
                              gc_shop = is_in_menu && canSpendGold
                              gc_eagles = canSpendGold
-                             gc_PremiumAccount = canSpendGold && featureEnablePremiumPurchase || hasPremiumAccount
+                             gc_PremiumAccount = (canSpendGold && featureEnablePremiumPurchase) || hasPremiumAccount
                              gc_dropdown_premium_button = featureEnablePremiumPurchase
                              gc_dropdown_shop_eagles_button = canSpendGold
                              gc_items_shop_button = ::ItemsManager.isEnabled() && ::has_feature("ItemsShop")

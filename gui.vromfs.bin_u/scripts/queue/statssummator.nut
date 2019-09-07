@@ -33,7 +33,7 @@
       local val2 = q2.len() >= i ? q2[i] : null
       local _sum = null
       local isStructs = ::isInArray(typeof val1, structTypes) || ::isInArray(typeof val2, structTypes)
-      local summable = !isStructs && (::isInArray(typeof val1, summableTypes) || ::isInArray(typeof val1, summableTypes))
+      local summable = !isStructs && (::isInArray(typeof val1, summableTypes) || ::isInArray(typeof val2, summableTypes))
 
       if (isStructs)
         _sum = sum(val1 ? val1 : null, val2 ? val2 : null)

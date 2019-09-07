@@ -1,7 +1,8 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local asyncActions = ::require("sqStdLibs/helpers/asyncActions.nut")
 local time = require("scripts/time.nut")
+local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 
 enum MARK_RECIPE {
@@ -11,6 +12,16 @@ enum MARK_RECIPE {
 }
 
 local markRecipeSaveId = "markRecipe/"
+
+local defaultLocIdsList = {
+  craftTime                 = "msgBox/assembleItem/time"
+  rewardTitle               = "mainmenu/itemAssembled/title"
+  headerRecipeMarkup        = "msgBox/items_will_be_spent"
+  craftFinishedTitlePrefix  = "mainmenu/craftFinished/title/"
+  markTooltipPrefix         = "item/recipes/markTooltip/"
+  markDescPrefix            = "item/recipes/markDesc/"
+  markMsgBoxCantUsePrefix   = "msgBox/craftProcess/cant/"
+}
 
 local lastRecipeIdx = 0
 local ExchangeRecipes = class {
@@ -25,10 +36,14 @@ local ExchangeRecipes = class {
   isMultipleItems = false
   isMultipleExtraItems = false
   isFake = false
+  hasChestInComponents = false
 
   craftTime = 0
   initedComponents = null
   isDisassemble = false
+
+  locIdsList = null
+  localizationPresetName = null
 
   constructor(params)
   {
@@ -37,6 +52,7 @@ local ExchangeRecipes = class {
     isFake = params?.isFake ?? false
     craftTime = params?.craftTime ?? 0
     isDisassemble = params?.isDisassemble ?? false
+    localizationPresetName = params?.localizationPresetName
     local parsedRecipe = params.parsedRecipe
 
     initedComponents = parsedRecipe.components
@@ -56,11 +72,13 @@ local ExchangeRecipes = class {
 
     local extraItemsCount = 0
     components = []
+    local componentItemdefArray = initedComponents.map(@(c) c.itemdefid)
+    local items = ::ItemsManager.getInventoryList(itemType.ALL,
+      @(item) ::isInArray(item.id, componentItemdefArray))
+    hasChestInComponents = ::u.search(items, @(i) i.iType == itemType.CHEST) != null
     foreach (component in initedComponents)
     {
-      local items = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefid)
-
-      local curQuantity = items.reduce(@(res, item) res + item.amount, 0)
+      local curQuantity = ::u.search(items, @(i) i.id == component.itemdefid)?.amount ?? 0
       local reqQuantity = component.quantity
       local isHave = curQuantity >= reqQuantity
       isUsable = isUsable && isHave
@@ -150,7 +168,7 @@ local ExchangeRecipes = class {
 
   function getCraftTimeText()
   {
-    return ::loc(isDisassemble ? "msgBox/disassembleItem/time" : "msgBox/assembleItem/time",
+    return ::loc(getLocIdsList().craftTime,
       {time = ::loc("icon/hourglass") + " " + time.secondsToString(craftTime, true, true)})
   }
 
@@ -187,6 +205,8 @@ local ExchangeRecipes = class {
 
     if (mark == MARK_RECIPE.BY_USER)
       return imgPrefix + "icon_primary_attention"
+
+    return ""
   }
 
   function getMarkLocIdByPath(path)
@@ -203,8 +223,8 @@ local ExchangeRecipes = class {
     return ""
   }
 
-  getMarkText = @() getMarkLocIdByPath("item/recipes/markDesc/")
-  getMarkTooltip = @() getMarkLocIdByPath("item/recipes/markTooltip/")
+  getMarkText = @() getMarkLocIdByPath(getLocIdsList().markDescPrefix)
+  getMarkTooltip = @() getMarkLocIdByPath(getLocIdsList().markTooltipPrefix)
 
   function getMarkDescMarkup()
   {
@@ -223,9 +243,7 @@ local ExchangeRecipes = class {
   }
 
   isRecipeLocked = @() mark == MARK_RECIPE.BY_USER || (mark == MARK_RECIPE.USED && isFake)
-  getCantAssembleMarkedFakeLocId = @() mark == MARK_RECIPE.BY_USER ? "msgBox/craftProcess/cant/markByUser"
-    : (mark == MARK_RECIPE.USED && isFake) ? "msgBox/craftProcess/cant/isFake"
-    : ""
+  getCantAssembleMarkedFakeLocId = @() getMarkLocIdByPath(getLocIdsList().markMsgBoxCantUsePrefix)
 
   static function getRequirementsMarkup(recipes, componentItem, params)
   {
@@ -242,8 +260,8 @@ local ExchangeRecipes = class {
     local maxRecipes = (params?.maxRecipes ?? componentItem.getMaxRecipesToShow()) || recipes.len()
     local isFullRecipesList = recipes.len() <= maxRecipes
 
-    local isMultipleRecipes = recipes.len() > 1
-    local isMultipleExtraItems = false
+    local isMultiRecipes = recipes.len() > 1
+    local isMultiExtraItems = false
 
     local recipesToShow = recipes
     if (!isFullRecipesList)
@@ -262,13 +280,13 @@ local ExchangeRecipes = class {
     }
 
     foreach (recipe in recipesToShow)
-      isMultipleExtraItems = isMultipleExtraItems || recipe.isMultipleExtraItems
+      isMultiExtraItems = isMultiExtraItems || recipe.isMultipleExtraItems
 
     local headerFirst = ::colorize("grayOptionColor",
       componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
-                                            isMultipleExtraItems, hasFakeRecipes(recipes),
+                                            isMultiExtraItems, hasFakeRecipes(recipes),
                                             getRecipesCraftTimeText(recipes)))
-    local headerNext = isMultipleRecipes && isMultipleExtraItems ?
+    local headerNext = isMultiRecipes && isMultiExtraItems ?
       ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
 
     params.componentToHide <- componentItem
@@ -296,11 +314,9 @@ local ExchangeRecipes = class {
 
     local timeText = ::loc("icon/hourglass") + " " + time.secondsToString(minSeconds, true, true)
     if (minSeconds != maxSeconds)
-      timeText += " " + ::loc("event_dash") + " " + time.secondsToString(maxSeconds, true, true)
+      timeText += " " + ::loc("ui/ndash") + " " + time.secondsToString(maxSeconds, true, true)
 
-    return ::loc(recipes[0].isDisassemble
-        ? "msgBox/disassembleItem/time"
-        : "msgBox/assembleItem/time",
+    return ::loc(recipes[0].getLocIdsList().craftTime,
       {time = timeText})
   }
 
@@ -314,13 +330,13 @@ local ExchangeRecipes = class {
     local markRecipeBlk = ::load_local_account_settings(markRecipeSaveId)
     if (!markRecipeBlk)
       markRecipeBlk = ::DataBlock()
-    foreach(uid in newMarkedRecipesUid)
-      markRecipeBlk[uid] = MARK_RECIPE.USED
+    foreach(_uid in newMarkedRecipesUid)
+      markRecipeBlk[_uid] = MARK_RECIPE.USED
 
     ::save_local_account_settings(markRecipeSaveId, markRecipeBlk)
   }
 
-  static function getComponentQuantityText(component, params = null)
+  function getComponentQuantityText(component, params = null)
   {
     if (!(params?.showCurQuantities ?? true))
       return component.reqQuantity > 1 ?
@@ -334,7 +350,7 @@ local ExchangeRecipes = class {
     return locText
   }
 
-  static getComponentQuantityColor = @(component, needCheckRecipeLocked = false)
+  getComponentQuantityColor = @(component, needCheckRecipeLocked = false)
     isRecipeLocked() && needCheckRecipeLocked ? "fadedTextColor"
       : component.has ? "goodTextColor"
       : "badTextColor"
@@ -356,12 +372,11 @@ local ExchangeRecipes = class {
         break
       }
 
-    local iType = componentItem.iType
     if (recipe)
     {
       if (params?.shouldSkipMsgBox)
       {
-        recipe.doExchange(componentItem)
+        recipe.doExchange(componentItem, 1, params)
         return true
       }
 
@@ -408,7 +423,7 @@ local ExchangeRecipes = class {
     return false
   }
 
-  function showUseErrorMsg(recipes, componentItem)
+  static function showUseErrorMsg(recipes, componentItem)
   {
     local locId = componentItem.getCantUseLocId()
     local text = ::colorize("badTextColor", ::loc(locId))
@@ -454,15 +469,15 @@ local ExchangeRecipes = class {
       local itemsList = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefId)
       foreach(item in itemsList)
       {
-        foreach(uid in item.uids)
+        foreach(_uid in item.uids)
         {
-          local leftByUid = usedUidsList?[uid] ?? item.amountByUids[uid]
+          local leftByUid = usedUidsList?[_uid] ?? item.amountByUids[_uid]
           if (leftByUid <= 0)
             continue
 
           local count = ::min(leftCount, leftByUid)
-          res.append([ uid, count ])
-          usedUidsList[uid] <- leftByUid - count
+          res.append([ _uid, count ])
+          usedUidsList[_uid] <- leftByUid - count
           leftCount -= count
           if (!leftCount)
             break
@@ -500,18 +515,21 @@ local ExchangeRecipes = class {
   function onExchangeComplete(componentItem, resultItems, params = null)
   {
     ::ItemsManager.markInventoryUpdate()
+    if (params?.cb)
+      params.cb()
 
-    local isShowOpening  = @(extItem) extItem?.itemdef?.type == "item" &&
-                                      !extItem?.itemdef?.tags?.devItem
+    local isShowOpening  = @(extItem) extItem?.itemdef?.type == "item"
+      && !extItem?.itemdef?.tags?.devItem
+      && (extItem.itemdef?.tags?.showWithFeature == null || ::has_feature(extItem.itemdef.showWithFeature))
     local resultItemsShowOpening  = u.filter(resultItems, isShowOpening)
 
     local parentGen = componentItem.getParentGen()
-    local hasFakeRecipes = parentGen && hasFakeRecipes(parentGen.getRecipes())
+    local isHasFakeRecipes = parentGen && hasFakeRecipes(parentGen.getRecipes())
     local parentRecipe = parentGen?.getRecipeByUid?(componentItem.craftedFrom)
-    if (hasFakeRecipes && (parentRecipe?.markRecipe?() ?? false) && !parentRecipe?.isFake)
+    if (isHasFakeRecipes && (parentRecipe?.markRecipe?() ?? false) && !parentRecipe?.isFake)
       parentGen.markAllRecipes()
 
-    local rewardTitle = parentRecipe ? parentRecipe.getRewardTitleLocId(hasFakeRecipes) : ""
+    local rewardTitle = parentRecipe ? parentRecipe.getRewardTitleLocId(isHasFakeRecipes) : ""
     local rewardListLocId = params?.rewardListLocId ? params.rewardListLocId :
       parentRecipe ? componentItem.getItemsListLocId() : ""
 
@@ -556,13 +574,38 @@ local ExchangeRecipes = class {
   }
 
   getRewardTitleLocId = @(hasFakeRecipes = true) hasFakeRecipes
-    ? getMarkLocIdByPath("mainmenu/craftFinished/title/")
-    : isDisassemble ? "mainmenu/itemDisassembled/title" : "mainmenu/itemAssembled/title"
+    ? getMarkLocIdByPath(getLocIdsList().craftFinishedTitlePrefix)
+    : getLocIdsList().rewardTitle
 
   getRecipeStr = @() ::g_string.implode(
     u.map(initedComponents, @(component) component.itemdefid.tostring()
       + (component.quantity > 1 ? ("x" + component.quantity) : "")),
     ",")
+
+  getLocIdsList = function() {
+    if (locIdsList)
+      return locIdsList
+
+    locIdsList = defaultLocIdsList.__merge({
+      craftTime   = isDisassemble
+        ? "msgBox/disassembleItem/time"
+        : "msgBox/assembleItem/time"
+      rewardTitle = isDisassemble
+        ? "mainmenu/itemDisassembled/title"
+        : "mainmenu/itemAssembled/title"
+      headerRecipeMarkup = (isMultipleItems && (isDisassemble || hasChestInComponents))
+        ? "msgBox/extra_items_will_be_spent"
+        : hasChestInComponents ? ""
+        : "msgBox/items_will_be_spent"
+    })
+
+    if (localizationPresetName)
+      locIdsList.__update(workshop.getCustomLocalizationPresets(localizationPresetName))
+
+    return locIdsList
+  }
+
+  getHeaderRecipeMarkupText = @() ::loc(getLocIdsList().headerRecipeMarkup)
 }
 
 u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.idx == r2.idx)

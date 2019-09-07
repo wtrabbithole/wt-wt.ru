@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 
 /*
 ItemsRoulette API:
@@ -125,9 +125,10 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
   local trophyData = ::ItemsRoulette.generateItemsArray(trophyName)
   ::ItemsRoulette.debugData.trophyData = trophyData
 
+  local trophyArray = trophyData?.trophy ?? []
   if (!::has_feature("ItemsRoulette")
-      || trophyData.trophy.len() == 0
-      || (trophyData.trophy.len() == 1 && !("trophy" in trophyData.trophy[0]))
+      || trophyArray.len() == 0
+      || (trophyArray.len() == 1 && !("trophy" in trophyArray[0]))
      )
     return false
 
@@ -430,14 +431,14 @@ function ItemsRoulette::getRandomItem(trophyBlock)
 
 function ItemsRoulette::getCurrentReward(rewardsArray)
 {
-  local array = []
+  local res = []
   local shouldOnlyImage = rewardsArray.len() > 1
   foreach(idx, reward in rewardsArray)
   {
     rewardsArray[idx].layout <- ::ItemsRoulette.getRewardLayout(reward, shouldOnlyImage)
-    array.append(reward)
+    res.append(reward)
   }
-  return array
+  return res
 }
 
 function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray)
@@ -474,7 +475,6 @@ function ItemsRoulette::insertHiddenTopPrize(readyItemsArray)
   if (isGotTopPrize)
     topPrizeLayout = ::g_string.implode(::u.map(readyItemsArray[insertRewardIdx], @(p) p.layout))
 
-  local totalLen = readyItemsArray.len()
   local insertIdx = 0
   if (isGotTopPrize)
     insertIdx = insertRewardIdx
@@ -540,8 +540,8 @@ function ItemsRoulette::createItemsMarkup(completeArray)
 function ItemsRoulette::getRewardLayout(block, shouldOnlyImage = false)
 {
   local config = ::getTblValueByPath("reward.reward", block, block)
-  local type = ::trophyReward.getType(config)
-  if (::trophyReward.isRewardItem(type))
+  local rType = ::trophyReward.getType(config)
+  if (::trophyReward.isRewardItem(rType))
     return ::trophyReward.getImageByConfig(config, shouldOnlyImage, "roulette_item_place")
 
   local image = ::trophyReward.getImageByConfig(config, shouldOnlyImage, "item_place_single")

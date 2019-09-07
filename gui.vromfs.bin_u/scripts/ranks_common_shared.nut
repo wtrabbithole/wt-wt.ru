@@ -26,6 +26,7 @@
   exp_cruiser = DS_UT_SHIP
   exp_naval_ferry_barge = DS_UT_SHIP
   exp_helicopter = DS_UT_AIRCRAFT
+  exp_ufo = DS_UT_AIRCRAFT
 }
 
 ::dsClassToMatchingClass <-
@@ -113,9 +114,9 @@ function get_mission_mode()
   if (::cur_mission_mode >= 0)
     return ::cur_mission_mode
   local mission_name = get_selected_mission()
-  local mission_mode = mission_name && ::get_mission_type(mission_name) || 0
+  local mission_mode = (mission_name && ::get_mission_type(mission_name)) || 0
   dagor.debug("get_mission_mode "+mission_name+" mission_mode "+mission_mode)
-  ::cur_mission_mode <- mission_mode
+  ::cur_mission_mode = mission_mode
   return mission_mode
 }
 
@@ -131,7 +132,7 @@ function get_econRank_emode_name(ediff)
 
 function clear_spawn_score()
 {
-  ::spawn_score_tbl <- {}
+  ::spawn_score_tbl = {}
 }
 
 function getWpcostUnitClass(unitId)
@@ -356,7 +357,7 @@ function get_unit_spawn_score_weapon_mul(unitname, weapon)
 
 function validate_custom_mission(misblk)
 {
-  ::validate_custom_mission_last_error <- ""
+  ::validate_custom_mission_last_error = ""
 
   local err = function(str)
   {

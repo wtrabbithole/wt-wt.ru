@@ -1,4 +1,4 @@
-local u = require("std/u.nut")
+local u = require("sqStdLibs/helpers/u.nut")
 ::g_script_reloader.loadOnce("sqDagui/daguiUtil.nut")  //!!FIX ME: better to make this modules too
 
 local SecondsUpdater = class
@@ -10,24 +10,24 @@ local SecondsUpdater = class
   timerObj = null
   destroyTimerObjOnFinish = false
 
-  static function getUpdaterByNestObj(nestObj)
+  function getUpdaterByNestObj(_nestObj)
   {
-    local userData = nestObj.getUserData()
+    local userData = _nestObj.getUserData()
     if (u.isSecondsUpdater(userData))
       return userData
 
-    local timerObj = nestObj.findObject(getTimerObjIdByNestObj(nestObj))
-    if (timerObj == null)
+    local _timerObj = _nestObj.findObject(getTimerObjIdByNestObj(_nestObj))
+    if (_timerObj == null)
       return null
 
-    userData = timerObj.getUserData()
+    userData = _timerObj.getUserData()
     if (u.isSecondsUpdater(userData))
       return userData
 
     return null
   }
 
-  function constructor(_nestObj, _updateFunc, useNestAsTimerObj = true, _params = {})
+  constructor(_nestObj, _updateFunc, useNestAsTimerObj = true, _params = {})
   {
     if (!_updateFunc)
       return ::dagor.assertf(false, "Error: no updateFunc in seconds updater.")
@@ -52,12 +52,12 @@ local SecondsUpdater = class
     timerObj.setUserData(this)
   }
 
-  function createTimerObj(nestObj)
+  function createTimerObj(_nestObj)
   {
-    local blkText = "dummy {id:t = '" + getTimerObjIdByNestObj(nestObj) + "' behavior:t = 'Timer' }"
-    nestObj.getScene().appendWithBlk(nestObj, blkText, null)
-    local index = nestObj.childrenCount() - 1
-    local resObj = index >= 0 ? nestObj.getChild(index) : null
+    local blkText = "dummy {id:t = '" + getTimerObjIdByNestObj(_nestObj) + "' behavior:t = 'Timer' }"
+    _nestObj.getScene().appendWithBlk(_nestObj, blkText, null)
+    local index = _nestObj.childrenCount() - 1
+    local resObj = index >= 0 ? _nestObj.getChild(index) : null
     if (resObj && resObj.tag == "dummy")
       return resObj
     return null
@@ -79,9 +79,9 @@ local SecondsUpdater = class
       timerObj.getScene().destroyElement(timerObj)
   }
 
-  function getTimerObjIdByNestObj(nestObj)
+  function getTimerObjIdByNestObj(_nestObj)
   {
-    return "seconds_updater_" + nestObj.id
+    return "seconds_updater_" + _nestObj.id
   }
 }
 

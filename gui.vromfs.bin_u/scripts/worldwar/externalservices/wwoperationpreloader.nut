@@ -49,7 +49,7 @@ local WwOperationPreloader = class
       this)
 
     local errorCb = ::Callback(
-      function() {
+      function(res) {
         isRequestInProgress = false
         if (operationId != curTask?.operationId)
           requestPreview()

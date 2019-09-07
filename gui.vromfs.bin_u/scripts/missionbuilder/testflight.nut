@@ -9,7 +9,7 @@ function gui_start_testflight(unit = null, afterCloseFunc = null, shouldSkipUnit
     unit =  unit || ::show_aircraft
     shouldSkipUnitCheck = shouldSkipUnitCheck
   })
-  ::last_called_gui_testflight <- ::handlersManager.getLastBaseHandlerStartFunc()
+  ::last_called_gui_testflight = ::handlersManager.getLastBaseHandlerStartFunc()
 }
 
 function mergeToBlk(sourceTable, blk)  //!!FIX ME: this used only for missionBuilderVehicleConfigForBlk and better to remove this also
@@ -119,9 +119,10 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     delayedRestoreFocus()
   }
 
-  function getCantFlyText(unit)
+  function getCantFlyText(checkUnit)
   {
-    return !unit.unitType.isAvailable() ? ::loc("mainmenu/unitTypeLocked") : unit.unitType.getTestFlightUnavailableText()
+    return !checkUnit.unitType.isAvailable() ?
+      ::loc("mainmenu/unitTypeLocked") : checkUnit.unitType.getTestFlightUnavailableText()
   }
 
   function updateOptionsArray()
@@ -359,11 +360,11 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
       updateBulletCountOptions(unit)
   }
 
-  function updateBulletCountOptions(unit)
+  function updateBulletCountOptions(updUnit)
   {
     //prepare data to calc amounts
-    local groupsCount = ::getBulletsGroupCount(unit, false)
-    local bulletsInfo = ::getBulletsInfoForPrimaryGuns(unit)
+    local groupsCount = ::getBulletsGroupCount(updUnit, false)
+    local bulletsInfo = ::getBulletsInfoForPrimaryGuns(updUnit)
     local gunsData = []
     for(local i = 0; i < groupsCount; i++)
     {
@@ -379,18 +380,18 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     local bulDataList = []
     for (local groupIdx = 0; groupIdx < ::BULLETS_SETS_QUANTITY; groupIdx++)
     {
-      local isActive = ::isBulletGroupActive(unit, groupIdx)
+      local isActive = ::isBulletGroupActive(updUnit, groupIdx)
 
       local gunIdx = ::get_linked_gun_index(groupIdx, groupsCount)
-      local modName = ::get_last_bullets(unit.name, groupIdx)
+      local modName = ::get_last_bullets(updUnit.name, groupIdx)
       local maxToRespawn = 0
 
       if (isActive)
       {
-        local bulletsSet = ::getBulletsSetData(unit, modName)
+        local bulletsSet = ::getBulletsSetData(updUnit, modName)
         maxToRespawn = ::getTblValue("maxToRespawn", bulletsSet, 0)
         if (maxToRespawn <= 0)
-          maxToRespawn = ::getAmmoMaxAmount(unit, modName, AMMO.PRIMARY)
+          maxToRespawn = ::getAmmoMaxAmount(updUnit, modName, AMMO.PRIMARY)
 
         gunsData[gunIdx].leftGroups++
       }
@@ -440,7 +441,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     foreach(bulIdx, bulData in bulDataList)
     {
       local modName = bulData.isActive ? bulData.modName : ""
-      ::set_unit_option(unit.name, ::USEROPT_BULLETS0 + bulIdx, modName)
+      ::set_unit_option(updUnit.name, ::USEROPT_BULLETS0 + bulIdx, modName)
       ::set_gui_option(::USEROPT_BULLETS0 + bulIdx, modName)
       ::set_gui_option(::USEROPT_BULLET_COUNT0 + bulIdx, bulData.amountToSet)
     }

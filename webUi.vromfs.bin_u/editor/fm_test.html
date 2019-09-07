@@ -197,12 +197,7 @@
       flightTest: true,
       repair: true
     }
-    
-    const FmType = {
-      PLAYER: 0,
-      AI: 1
-    }
-    
+       
     const ControlImpl = {
       AUTO: 0,
       BASIC: 1,
@@ -231,12 +226,10 @@
         fileName: '',
         fileTime: undefined,
       },
-      fmType: FmType.PLAYER,
       mouseAimImpl: ControlImpl.AUTO,
       indicationFlags: [ false, false, false, false, true, false, false ],
       damagePartOfInterestId: -1,
       animPartOfInterestId: -1,
-      playerFmLocked: false
     }
     
     const FlapsControl = {
@@ -1216,7 +1209,6 @@
         document.getElementById('LaunchMaxRollRateTests').disabled =
           //value
           !state.connected
-        document.getElementById('ComboBoxFmType').disabled = !state.connected || state.playerFmLocked
         if (!state.connected)
         {
           resetChangeablePropsBlock(state)
@@ -1753,22 +1745,11 @@
         return;
       
       //Controlable properties
-      
-      state.fmType = data.fmType
-      var comboBoxFmType = document.getElementById("ComboBoxFmType")
-      if (state.fmType != comboBoxFmType.value)
-        comboBoxFmType.value = state.fmType
-        
+              
       state.mouseAimImpl = data.mouseAimImpl
       var comboBoxMouseAimImpl = document.getElementById("ComboBoxMouseAimImpl")
       if (state.mouseAimImpl.toString() != comboBoxMouseAimImpl.value)
         comboBoxMouseAimImpl.value = state.mouseAimImpl
-
-      if (state.playerFmLocked != data.playerFmLocked)
-      {
-        state.playerFmLocked = data.playerFmLocked
-        document.getElementById('ComboBoxFmType').disabled = state.playerFmLocked
-      }
 
       state.indicationFlags = data.indicationFlags
       for (var i = 0; i < IndicationFlag.MAX; ++i)
@@ -2049,11 +2030,7 @@
       var value = onParamChange(flightParams[paramName], edit) 
       Cookies.set('flightParams_' + paramName, value.toString(), {expires:cookieLifeTime})
     }
-        
-    function onFmTypeChange(combo) {
-      setFmType(combo.value)
-    }
-    
+            
     function onMouseAimImplChange(combo) {
       setMouseAimImpl(combo.value)
     }
@@ -2330,13 +2307,7 @@
       var mass = flightParams['mass']['value']
       setCommand( {cmd: 'setMass', value: mass.toString() }, fillMasses )
     }
-    
-   function setFmType(fmType) {
-      state.fmType = fmType
-      blockChangeablePropsUpdate(state)
-      setCommand( {cmd: 'setFmType', value: fmType }, function(data) { unblockChangeablePropsUpdate(state, data) } )
-    }
-        
+            
     function setMouseAimImpl(mouseAimImpl) {
       state.mouseAimImpl = mouseAimImpl
       blockChangeablePropsUpdate(state)
@@ -3026,19 +2997,7 @@
             <td><input  class="small-button-box" type="button" id="ButtonSetPressure" value="Set" onClick="setPressure()"></td>  
           </tr>          
           <tr>
-            <td class="editLabel">FM</td>  
-            <td colspan="2">
-              <select id="ComboBoxFmType" onchange="onFmTypeChange(this)" style="width:100%">
-                <option selected value="0">Player</option>
-                <option value="1">AI</option>
-              </select>      
-            </td>  
-            <td class="editLabel" id="LabelTimeSpeed">Time Speed</td>  
-            <td><input class="number-box" type="number" step="1" id="EditTimeSpeed" value="1.0" onchange="onFlightParamChange('timeSpeed', this)"></td>  
-            <td><input class="small-button-box" type="button" id="ButtonSetTimeSpeed" value="Set" onClick="setTimeSpeed()"></td>  
-          </tr>
-          <tr>
-            <td class="editLabel">Mouse Aim</td>
+            <td class="editLabel">Mouse-Aim</td>  
             <td colspan="2">
               <select id="ComboBoxMouseAimImpl" onchange="onMouseAimImplChange(this)" style="width:100%">
                 <option selected value="0">Auto</option>
@@ -3046,8 +3005,9 @@
                 <option value="2">Advanced</option>
               </select>      
             </td>
-            <td colspan="3">
-            </td>
+            <td class="editLabel" id="LabelTimeSpeed">Time Speed</td>  
+            <td><input class="number-box" type="number" step="1" id="EditTimeSpeed" value="1.0" onchange="onFlightParamChange('timeSpeed', this)"></td>  
+            <td><input class="small-button-box" type="button" id="ButtonSetTimeSpeed" value="Set" onClick="setTimeSpeed()"></td>  
           </tr>
         </table>
       </td>  

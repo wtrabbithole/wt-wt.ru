@@ -197,6 +197,46 @@
       }
     ]
   },
+  "locked_on_i_exchange": {
+    "locId": "workshop/locked_on_i",
+    "reqFeature": "ConsolesWorkshopExchange",
+    "items": [
+      {
+        "alwaysVisibleItem": 760102
+      },
+      {
+        "alwaysVisibleItem": 760106
+      },
+      {
+        "alwaysVisibleItem": 760107
+      },
+      {
+        "alwaysVisibleItem": 760108
+      },
+      {
+        "alwaysVisibleItem": 760109
+      },
+      {
+        "alwaysVisibleItem": 760110
+      },
+      {
+        "alwaysVisibleItem": 760111
+      },
+      {
+        "alwaysVisibleItem": 760112
+      },
+      {
+        "alwaysVisibleItem": 760113
+      }
+    ]
+  },
+  "worldwar_recon_by_fire_exchange": {
+    "locId": "workshop/worldwar_exchange",
+    "reqFeature": "WorldWar",
+    "items": {
+      "alwaysVisibleItem": 750128
+    }
+  },
   "additionalRecipes": [
     {
       "item": {
@@ -855,7 +895,7 @@
     },
     "brokenDetail": {
       "color": "#ff8989",
-      "markIconLocId": "icon/hud_msg_mp_dmg/crash_t",
+      "markIconLocId": "icon/gear_broken",
       "additionalDesc": "workshop/itemMarkingPresets/brokenDetail"
     },
     "unexaminedItem": {
@@ -867,6 +907,38 @@
       "color": "#89ff89",
       "markIconLocId": "icon/gear",
       "additionalDesc": "workshop/itemMarkingPresets/newWorkingDetail"
+    }
+  },
+  "customLocalizationPresets": {
+    "itemExamination": {
+      "disassemble": "item/examine",
+      "descReceipesListHeaderPrefix": "item/requires/examination/",
+      "msgBoxCantUse": "msgBox/examineItem/cant",
+      "msgBoxConfirm": "msgBox/cancelExamination/confirm",
+      "msgBoxConfirmWhithItemName": "msgBox/examineItem/confirm",
+      "msgBoxConfirmWhithItemNameDisassemble": "msgBox/examineItem/confirmWhithItemName",
+      "craftCountdown": "items/craft_process/countdown/examination",
+      "craftingIconInAmmount": "icon/search",
+      "cancelTitle": "mainmenu/craftCanceled/title/examination",
+      "craftTime": "msgBox/examineItem/time",
+      "rewardTitle": "mainmenu/itemExamined/title"
+    },
+    "quizDiagnostics": {
+      "assemble": "item/quiz_answer",
+      "tryCreateRecipes": "item/try_create_recipes/quiz_diagnostics",
+      "recipes": "item/quiz_answers",
+      "msgBoxConfirm": "msgBox/quiz_cancel_check/confirm",
+      "msgBoxConfirmWhithItemName": "msgBox/quiz_answer/confirm",
+      "rewardTitle": "mainmenu/quiz_answered/title",
+      "cancelTitle": "mainmenu/quiz_canceled/title",
+      "craftingIconInAmmount": "icon/news",
+      "headerRecipeMarkup": "msgBox/quiz_selected_answer",
+      "headerRecipesList": "item/create_header/quiz_diagnostics",
+      "craftCountdown": "items/quiz_answered/countdown",
+      "markMsgBoxCantUsePrefix": "msgBox/quiz_answered/cant/",
+      "craftTime": "msgBox/quiz_answer/time",
+      "markTooltipPrefix": "item/quiz_answers/markTooltip/",
+      "craftFinishedTitlePrefix": "mainmenu/quiz_answered/title/"
     }
   }
 }

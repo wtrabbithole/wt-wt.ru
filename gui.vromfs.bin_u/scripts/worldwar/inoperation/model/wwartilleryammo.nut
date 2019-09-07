@@ -1,8 +1,6 @@
 local time = require("scripts/time.nut")
 class ::WwArtilleryAmmo
 {
-  static _strikesBlk = ::DataBlock()
-
   hasArtilleryStrike = false
   strikesDone = null
   ammoCount = 0
@@ -25,20 +23,14 @@ class ::WwArtilleryAmmo
 
   function updateStrike(armyName)
   {
-    _strikesBlk.reset()
-
     hasArtilleryStrike = false
     nextStrikeTimeMillis = 0
     strikesDone = null
 
-    local _strikesBlk = ::DataBlock()
-    ::ww_get_artillery_strikes(_strikesBlk)
+    local strikesBlk = ::DataBlock()
+    ::ww_get_artillery_strikes(strikesBlk)
 
-    local strikesBlk = _strikesBlk["artilleryStrikes"]
-    if (!strikesBlk)
-      return
-
-    local strikeBlk = strikesBlk[armyName]
+    local strikeBlk = strikesBlk?.artilleryStrikes?[armyName]
     if (!strikeBlk)
       return
 

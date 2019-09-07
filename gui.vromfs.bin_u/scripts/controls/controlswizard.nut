@@ -21,8 +21,8 @@ local globalEnv = require_native("globalEnv")
       defValue = 1,
       onButton = function(value)
       {
-        local type = ::recomended_control_presets[value]
-        local preset = ::get_controls_preset_by_selected_type(type)
+        local cType = ::recomended_control_presets[value]
+        local preset = ::get_controls_preset_by_selected_type(cType)
         applyPreset(preset.fileName)
       }
     }
@@ -69,10 +69,13 @@ local globalEnv = require_native("globalEnv")
         }
       skip = ["msg/holdThrottleForWEP"] //dont work in axis, but need to correct prevItem work, when skipList used in onAxisDone
     }
-      { id="msg/holdThrottleForWEP", type= CONTROL_TYPE.MSG_BOX
-        options = ["#options/yes", "#options/no", "options/skip"],
-        onButton = function(value) { if (value<2) curJoyParams.holdThrottleForWEP = value==0 }
-      }
+    { id="thrust_vector_forward",              needSkip = @() !::has_feature("UfoControl")  }
+    { id="thrust_vector_lateral",              needSkip = @() !::has_feature("UfoControl")  }
+    { id="thrust_vector_vertical",             needSkip = @() !::has_feature("UfoControl")  }
+    { id="msg/holdThrottleForWEP", type= CONTROL_TYPE.MSG_BOX
+      options = ["#options/yes", "#options/no", "options/skip"],
+      onButton = function(value) { if (value<2) curJoyParams.holdThrottleForWEP = value==0 }
+    }
     "ID_IGNITE_BOOSTERS",
     "ID_FIRE_MGUNS",
     "ID_FIRE_CANNONS",
@@ -175,6 +178,15 @@ local globalEnv = require_native("globalEnv")
     { id="ID_TRIM", filterShow = [globalEnv.EM_FULL_REAL] }
     { id="ID_TRIM_RESET", filterShow = [globalEnv.EM_FULL_REAL] }
     { id="ID_TRIM_SAVE", filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="helicopter_trim_elevator", type = CONTROL_TYPE.AXIS, isVertical = true, buttonRelative = true
+      images = ["wizard_elevator_up", "wizard_elevator_down"]
+      filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="helicopter_trim_ailerons", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true
+      images = ["wizard_ailerons_right", "wizard_ailerons_left"]
+      filterShow = [globalEnv.EM_FULL_REAL] }
+    { id="helicopter_trim_rudder", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true
+      images = ["wizard_rudder_right", "wizard_rudder_left"]
+      filterShow = [globalEnv.EM_FULL_REAL] }
     { id="trim_elevator", type = CONTROL_TYPE.AXIS, isVertical = true, buttonRelative = true
       images = ["wizard_elevator_up", "wizard_elevator_down"]
       filterShow = [globalEnv.EM_FULL_REAL] }
@@ -248,12 +260,6 @@ local globalEnv = require_native("globalEnv")
     "ID_SENSOR_TARGET_LOCK_SWITCH",
     "ID_SENSOR_TARGET_LOCK_TANK",
     "ID_SENSOR_VIEW_SWITCH",
-    { id="sensor_designation_x_tank", type = CONTROL_TYPE.AXIS, msgType = "_horizontal",
-      buttonRelative = true }
-    { id="sensor_designation_y_tank", type = CONTROL_TYPE.AXIS, isVertical = true,
-      buttonRelative = true }
-    { id="sensor_designation_z_tank", type = CONTROL_TYPE.AXIS, isVertical = true,
-      buttonRelative = true }
 
   { id="ID_VIEW_CONTROL_HEADER", type= CONTROL_TYPE.HEADER }
     { id="gm_mouse_aim_x", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM], msgType = "_horizontal" }
@@ -684,7 +690,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
     if (curItem.type == CONTROL_TYPE.AXIS)
     {
-      local device = ::joystick_get_default()
       local axis = curJoyParams.getAxis(curItem.axisIndex[0])
       local curPreset = ::g_controls_manager.getCurPreset()
       if (axis.axisId >= 0)
@@ -881,7 +886,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     onButtonDone()
   }
 
-  function isKbdOrMouse(devs)
+  function isKbdOrMouse(devs) // warning disable: -named-like-return-bool
   {
     local isKbd = null
     foreach(d in devs)
@@ -1100,7 +1105,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       axisApplyParams.kAdd = -0.5*(config.min+config.max) / 32000 * axisApplyParams.kMul
     }
 
-    local device = ::joystick_get_default()
     local curPreset = ::g_controls_manager.getCurPreset()
     curBtnText = ::remapAxisName(curPreset, selectedAxisNum)
     showMsg(::loc("hotkeys/msg/axis_choosen") + "\n" + curBtnText, config)
@@ -1565,11 +1569,11 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       ], "aviation")
   }
 
-  function startManualSetupForUnitType(unitType)
+  function startManualSetupForUnitType(esUnitType)
   {
-    if (unitType == ::ES_UNIT_TYPE_TANK)
+    if (esUnitType == ::ES_UNIT_TYPE_TANK)
       controls_wizard_config = ::tank_controls_wizard_config
-    else if (unitType == ::ES_UNIT_TYPE_AIRCRAFT)
+    else if (esUnitType == ::ES_UNIT_TYPE_AIRCRAFT)
       controls_wizard_config = ::aircraft_controls_wizard_config
     else
       ::script_net_assert_once("unsupported unit type", "Given unit type has not wizard config")

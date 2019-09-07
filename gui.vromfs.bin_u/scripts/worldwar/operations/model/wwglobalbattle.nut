@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 
 local WwGlobalBattle = class extends ::WwBattle
 {
@@ -27,6 +27,9 @@ local WwGlobalBattle = class extends ::WwBattle
   function updateTeamsInfo(blk)
   {
     teams = {}
+    totalPlayersNumber = 0
+    maxPlayersNumber = 0
+    unitTypeMask = 0
 
     local teamsBlk = blk.getBlockByName("teams")
     if (!teamsBlk)
@@ -64,8 +67,10 @@ local WwGlobalBattle = class extends ::WwBattle
       teamUnitsRemain.sort(@(a, b) a.wwUnitType.sortCode <=> b.wwUnitType.sortCode)
       foreach(unit in teamUnitsRemain)
         if (!unit.isControlledByAI())
+        {
           u.appendOnce(unit.wwUnitType.code, teamUnitTypes)
-
+          unitTypeMask = unitTypeMask | ::g_unit_type.getByEsUnitType(unit.wwUnitType.esUnitCode).bit
+        }
       local teamInfo = {name = teamName
                         players = numPlayers
                         maxPlayers = teamMaxPlayers
@@ -74,6 +79,8 @@ local WwGlobalBattle = class extends ::WwBattle
                         unitsRemain = teamUnitsRemain
                         unitTypes = teamUnitTypes}
       teams[teamName] <- teamInfo
+      totalPlayersNumber += numPlayers
+      maxPlayersNumber += teamMaxPlayers
     }
   }
 

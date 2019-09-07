@@ -84,7 +84,7 @@ local InventoryClient = class {
   }
 
 
-  function constructor()
+  constructor()
   {
     ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
     if (::g_login.isAuthorized())
@@ -344,8 +344,8 @@ local InventoryClient = class {
         cbList = [],
         shouldRefreshAll = false,
         fireCb = function() {
-          foreach(cb in cbList)
-            cb()
+          foreach(_cb in cbList)
+            _cb()
         }
       }
     pendingItemDefRequest.shouldRefreshAll = shouldRefreshAll || pendingItemDefRequest.shouldRefreshAll
@@ -357,7 +357,7 @@ local InventoryClient = class {
   function requestItemDefs(cb = null, shouldRefreshAll = false) {
     updatePendingItemDefRequest(cb, shouldRefreshAll)
     if (isItemdefRequestInProgress()
-        || _lastDelayedItemdefsRequestTime && _lastDelayedItemdefsRequestTime < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC)
+        || (_lastDelayedItemdefsRequestTime && _lastDelayedItemdefsRequestTime < ::dagor.getCurTime() + LOST_DELAYED_ACTION_MSEC))
       return
     _lastDelayedItemdefsRequestTime = ::dagor.getCurTime()
     ::handlersManager.doDelayed(function() {
@@ -469,7 +469,7 @@ local InventoryClient = class {
   {
     local tags = ::getTblValue("tags" , itemdef, null)
     if (!tags)
-      return
+      return null
 
     local parsedTags = ::DataBlock()
     foreach (pair in ::split(tags, ";")) {

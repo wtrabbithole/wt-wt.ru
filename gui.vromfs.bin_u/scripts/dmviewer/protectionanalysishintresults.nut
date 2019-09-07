@@ -24,9 +24,8 @@ enums.addTypes(results, {
   }
   POSSIBLEEFFECTIVE = {
     checkOrder = checkOrder++
-    checkParams = @(params) params?.lower?.effectiveHit &&
-      params?.lower?.ricochet == ::CHECK_PROT_RICOCHET_POSSIBLE ||
-      params?.upper?.effectiveHit
+    checkParams = @(params) (params?.upper?.effectiveHit ?? false)
+      || ((params?.lower?.effectiveHit ?? false) && params?.lower?.ricochet == ::CHECK_PROT_RICOCHET_POSSIBLE)
     color = "cardProgressTextBonusColor"
     loc = "protection_analysis/result/possible_effective"
     infoSrc = [ "lower", "upper" ]
@@ -34,8 +33,8 @@ enums.addTypes(results, {
   }
   EFFECTIVE = {
     checkOrder = checkOrder++
-    checkParams = @(params) params?.lower?.effectiveHit &&
-      params?.lower?.ricochet != ::CHECK_PROT_RICOCHET_POSSIBLE
+    checkParams = @(params) (params?.lower?.effectiveHit ?? false)
+      && params?.lower?.ricochet != ::CHECK_PROT_RICOCHET_POSSIBLE
     color = "goodTextColor"
     loc = "protection_analysis/result/effective"
     infoSrc = [ "lower", "upper"]
@@ -43,8 +42,8 @@ enums.addTypes(results, {
   }
   NOTPENETRATED = {
     checkOrder = checkOrder++
-    checkParams = @(params) params?.max?.effectiveHit &&
-      (params?.max?.penetratedArmor?.generic || params?.max?.penetratedArmor?.cumulative)
+    checkParams = @(params) (params?.max?.effectiveHit ?? false)
+      && ((params?.max?.penetratedArmor?.generic ?? false) || (params?.max?.penetratedArmor?.cumulative ?? false))
     color = "badTextColor"
     loc = "protection_analysis/result/not_penetrated"
     infoSrc = [ "max" ]

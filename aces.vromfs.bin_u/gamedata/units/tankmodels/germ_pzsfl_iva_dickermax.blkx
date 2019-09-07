@@ -613,6 +613,10 @@
         "gun_mask_dm": {
           "armorThickness": 50.0,
           "hp": 2000.0
+        },
+        "gun_barrel_armor_dm": {
+          "variableThickness": true,
+          "armorThickness": 50.0
         }
       },
       "chassis": {
@@ -650,7 +654,7 @@
         "ex_armor_01_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 15.0,
+          "armorThickness": 20.0,
           "hp": 150.0,
           "ex_armor_body_r_01_dm": [],
           "ex_armor_body_l_01_dm": []
@@ -1929,6 +1933,7 @@
     "sound": {
       "EngineName": "engine_panzer3",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_manual_y",
@@ -1947,6 +1952,7 @@
         "emitter": "bone_gun_barrel",
         "flash": "emtr_gun_flame",
         "recoilOffset": 0.92,
+        "allowableDelta": 20.0,
         "maxAdditionalPitch": 0.0,
         "defaultYaw": 0.0,
         "defaultPitch": 0.0,
@@ -2676,9 +2682,7 @@
       },
       "105mm_kwk_46_APCBC_ammo_pack": [],
       "105mm_germany_HE": [],
-      "105mm_germany_APCBC": {
-        "modCostMul": 1.5
-      }
+      "105mm_germany_APCBC": []
     }
   },
   {

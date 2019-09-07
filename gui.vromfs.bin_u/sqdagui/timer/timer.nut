@@ -11,7 +11,7 @@ class Timer
 
   static timeNowPID = ::dagui_propid.add_name_id("timer-timenow")
 
-  function constructor(parentObj, _delay, _onTimeOut, handler = null, _cycled = false, _isDelayed = false)
+  constructor(parentObj, _delay, _onTimeOut, handler = null, _cycled = false, _isDelayed = false)
   {
     if (!_onTimeOut)
       return ::dagor.assertf(false, "Error: no onTimeOut in Timer.")

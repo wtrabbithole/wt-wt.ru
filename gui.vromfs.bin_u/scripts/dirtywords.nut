@@ -229,11 +229,11 @@ class DirtyWords
 
     local out = [];
 
-    foreach ( word in words )
+    foreach ( w in words )
     {
-      if ( (word.len() < 3) && ! prepareex.match (word) )
+      if ( w.len() < 3 && ! prepareex.match (w) )
       {
-        buffer += word;
+        buffer += w
       }
       else
       {
@@ -243,7 +243,7 @@ class DirtyWords
           buffer = "";
         }
 
-        out.push ( word );
+        out.push ( w )
       }
     }
 
@@ -292,9 +292,9 @@ class DirtyWords
   }
 
 
-  function getMaskedWord(word = " ")
+  function getMaskedWord(w = " ")
   {
-    local length = ::utf8(word).charCount()
+    local length = ::utf8(w).charCount()
     local res = ""
     for (local i = 0; i < length; i++)
       res += "*"

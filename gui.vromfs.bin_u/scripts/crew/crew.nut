@@ -65,7 +65,6 @@ function g_crew::getDiscountInfo(countryId = -1, idInCountry = -1)
   local country = countrySlot.country
   local unitNames = ::getTblValue("trained", crewSlot, [])
 
-  local buyPointsDiscount = 0
   local packNames = []
   local blk = ::get_warpoints_blk()
   if (blk.crewSkillPointsCost)
@@ -74,9 +73,9 @@ function g_crew::getDiscountInfo(countryId = -1, idInCountry = -1)
 
   local result = {}
   result.buyPoints <- ::getDiscountByPath(["skills", country, packNames], ::get_price_blk())
-  foreach (type in ::g_crew_spec_type.types)
-    if (type.hasPrevType())
-      result[type.specName] <- type.getDiscountValueByUnitNames(unitNames)
+  foreach (t in ::g_crew_spec_type.types)
+    if (t.hasPrevType())
+      result[t.specName] <- t.getDiscountValueByUnitNames(unitNames)
   return result
 }
 
@@ -96,11 +95,11 @@ function g_crew::getDiscountsTooltipByInfo(discountInfo, showBuyPoints = true)
 
   local numPositiveDiscounts = 0
   local positiveDiscountCrewSpecType = null
-  foreach (type in ::g_crew_spec_type.types)
-    if (type.hasPrevType() && discountInfo[type.specName] > 0)
+  foreach (t in ::g_crew_spec_type.types)
+    if (t.hasPrevType() && discountInfo[t.specName] > 0)
     {
       ++numPositiveDiscounts
-      positiveDiscountCrewSpecType = type
+      positiveDiscountCrewSpecType = t
     }
 
   if (numPositiveDiscounts == 0)
@@ -115,9 +114,9 @@ function g_crew::getDiscountsTooltipByInfo(discountInfo, showBuyPoints = true)
     return positiveDiscountCrewSpecType.getDiscountTooltipByValue(maxDiscount)
 
   local table = {}
-  foreach(type in ::g_crew_spec_type.types)
-    if (type.hasPrevType())
-      table[type.getNameLocId()] <- discountInfo[type.specName]
+  foreach(t in ::g_crew_spec_type.types)
+    if (t.hasPrevType())
+      table[t.getNameLocId()] <- discountInfo[t.specName]
 
   if (showBuyPoints)
     table["mainmenu/btnBuySkillPoints"] <- discountInfo.buyPoints
@@ -657,7 +656,7 @@ function g_crew::hasSkillPointsToRunTutorial(crew, crewUnitType, skillPage)
 function load_crew_skills()
 {
   ::crew_skills=[]
-  ::crew_air_train_req <- {}
+  ::crew_air_train_req = {}
 
   local blk = ::get_skills_blk()
   ::g_crew.crewLevelBySkill = blk.skill_to_level_ratio || ::g_crew.crewLevelBySkill
@@ -711,12 +710,12 @@ function load_crew_skills()
   if (reqBlk == null)
     return
 
-  foreach (type in ::g_unit_type.types)
+  foreach (t in ::g_unit_type.types)
   {
-    if (!type.isAvailable() || ::crew_air_train_req?[type.crewUnitType] != null)
+    if (!t.isAvailable() || ::crew_air_train_req?[t.crewUnitType] != null)
       continue
 
-    local typeBlk = reqBlk[type.getCrewTag()]
+    local typeBlk = reqBlk[t.getCrewTag()]
     if (typeBlk == null)
       continue
 
@@ -736,7 +735,7 @@ function load_crew_skills()
     }
     while(costBlk!=null)
 
-    ::crew_air_train_req[type.crewUnitType] <- trainReq
+    ::crew_air_train_req[t.crewUnitType] <- trainReq
   }
 }
 
@@ -746,12 +745,9 @@ function load_crew_skills_once()
     ::load_crew_skills()
 }
 
-function get_crew_skill_value(crew_skills, crew_type, skill_name)
+function get_crew_skill_value(crewSkills, crewType, skillName)
 {
-  if (crew_skills && crew_skills[crew_type]
-      && crew_skills[crew_type][skill_name]!=null)
-      return crew_skills[crew_type][skill_name]
-  return 0
+  return crewSkills?[crewType]?[skillName] ?? 0
 }
 
 function count_available_skills(crew, crewUnitType) //return part of availbleskills 0..1

@@ -119,8 +119,8 @@ class ::BaseItem
 
     shopFilterMask = iType
     local types = blk % "additionalShopItemType"
-    foreach(type in types)
-      shopFilterMask = shopFilterMask | ::ItemsManager.getInventoryItemType(type)
+    foreach(t in types)
+      shopFilterMask = shopFilterMask | ::ItemsManager.getInventoryItemType(t)
 
     expiredTimeAfterActivationH = blk.expiredTimeHAfterActivation || 0
 
@@ -390,7 +390,7 @@ class ::BaseItem
     }
 
     local craftTimerText = params?.craftTimerText
-    if ((hasCraftTimer() && params?.hasCraftTimer ?? true) || craftTimerText)
+    if ((hasCraftTimer() && (params?.hasCraftTimer ?? true)) || craftTimerText)
       res.craftTime <- craftTimerText ?? getCraftTimeTextShort()
 
     if (hasTimer() && ::getTblValue("hasTimer", params, true))
@@ -583,8 +583,9 @@ class ::BaseItem
     local timeText = getExpireTimeTextShort()
     if (timeText != "")
     {
-      local locId = active ? "items/expireTimeLeft" : "items/expireTimeBeforeActivation"
-      res += ((res!="") ? "\n" : "") + ::loc(locId) + ::loc("ui/colon") + ::colorize("activeTextColor", timeText)
+      local labelLocId = active ? "items/expireTimeLeft" : "items/expireTimeBeforeActivation"
+      res += ((res!="") ? "\n" : "") + ::loc(labelLocId) + ::loc("ui/colon") +
+        ::colorize("activeTextColor", timeText)
     }
     return res
   }
@@ -616,6 +617,7 @@ class ::BaseItem
   function updateStackParams(stackParams) {}
 
   function getContent() { return [] }
+  function getContentNoRecursion() { return [] }
 
   function getStackName(stackParams)
   {
@@ -740,7 +742,6 @@ class ::BaseItem
   getCraftTimeTextShort = @() ""
   getCraftTimeText = @() ""
   isCraftResult = @() false
-  getParentRecipe = @() null
   getCraftResultItem = @() null
   hasCraftResult = @() !!getCraftResultItem()
   isHiddenItem = @() !isEnabled() || isCraftResult()
@@ -748,9 +749,11 @@ class ::BaseItem
   cancelCrafting = @(...) false
   getRewardListLocId = @() "mainmenu/rewardsList"
   getItemsListLocId = @() "mainmenu/itemsList"
-  hasReachedMaxAmount = @() maxAmount >= 0 ? getAmount() >= maxAmount : false
+  hasReachedMaxAmount = @() isInventoryItem && maxAmount >= 0 ? getAmount() >= maxAmount : false
   isEnabled = @() true
   getContentItem = @() null
   needShowRewardWnd = @() true
   skipRoulette = @() true
+  needOfferBuyAtExpiration = @() false
+  isVisibleInWorkshopOnly = @() false
 }

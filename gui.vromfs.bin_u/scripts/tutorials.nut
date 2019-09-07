@@ -61,7 +61,7 @@ function gui_start_checkTutorial(checkId, checkSkip = true)
       if (!mData)
         return false
 
-      if (::launched_tutorial_questions_peer_session & (1 << i) && checkSkip)
+      if ((::launched_tutorial_questions_peer_session & (1 << i)) && checkSkip)
         return false
 
       ::launched_tutorial_questions_peer_session = ::launched_tutorial_questions_peer_session | (1 << i)
@@ -91,6 +91,7 @@ function gui_start_checkTutorial(checkId, checkSkip = true)
 class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   canSkipTutorial = true
+
   function initScreen()
   {
     if (!tutorialMission)
@@ -102,7 +103,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
       msgText += "\n\n" + rewardText
     scene.findObject("msgText").setValue(msgText)
 
-    local canSkipTutorial = true
+    canSkipTutorial = true
     if (checkIdx in ::tutorials_to_check)
     {
       local tutorialBlock = ::tutorials_to_check[checkIdx]
@@ -277,7 +278,7 @@ function check_tutorial_reward()
       })
     }
 
-    if (::isInArray(misName, ::req_tutorial))
+    if (::u.search(::req_tutorial, @(val) val == misName) != null)
     {
       newCountries = checkUnlockedCountries()
       foreach(c in newCountries)

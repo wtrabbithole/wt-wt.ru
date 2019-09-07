@@ -35,7 +35,6 @@ function set_shortcuts(shortcutList, nameList, preset = null)
   if (preset == null)
     preset = ::g_controls_manager.getCurPreset()
 
-  local result = []
   foreach (i, name in nameList)
   {
     local hotkey = []

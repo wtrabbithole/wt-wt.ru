@@ -4,9 +4,11 @@
   "bullets": 1,
   "shotFreq": 0.15,
   "sound_path": "tanks/weapon_tanks/atgm",
+  "sound_pathStudio": "ground/weapon/atgm",
   "sound": "atgm_LPC",
   "sound_inside": "atgm_LPC_interior",
   "reload_sound_path": "tanks/effects_tanks",
+  "reload_sound_pathStudio": "ground/effects",
   "reload_sound": "reload_rocket",
   "reload_sound_keyoff_timer": 2.0,
   "isBulletBelt": false,
@@ -86,6 +88,21 @@
       "steel": {
         "fx": "cannon_hit_armor_cumulative",
         "fxScale": [3.0,4.0]
+      },
+      "buildings": {
+        "fx": "atgm_hit",
+        "fxScale": [1.7,2.1]
+      },
+      "wood": {
+        "fx": "atgm_hit",
+        "fxScale": [1.7,2.1]
+      }
+    },
+    "DamageParts": {
+      "body": {
+        "hp": 5.0,
+        "armorClass": "tank_structural_steel",
+        "armorThickness": 1.0
       }
     },
     "cumulativeDamage": {

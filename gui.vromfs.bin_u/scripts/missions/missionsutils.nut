@@ -352,9 +352,9 @@ function is_custom_battles_enabled() { return ::enable_custom_battles }
 
 function init_coop_flags()
 {
-  ::enable_coop_in_QMB            <- ::has_feature(::is_platform_ps4 ? "QmbCoopPs4"            : "QmbCoopPc")
-  ::enable_coop_in_DynCampaign    <- ::has_feature(::is_platform_ps4 ? "DynCampaignCoopPs4"    : "DynCampaignCoopPc")
-  ::enable_coop_in_SingleMissions <- ::has_feature(::is_platform_ps4 ? "SingleMissionsCoopPs4" : "SingleMissionsCoopPc")
-  ::enable_custom_battles         <- ::has_feature(::is_platform_ps4 ? "CustomBattlesPs4"      : "CustomBattlesPc")
+  ::enable_coop_in_QMB            = ::has_feature(::is_platform_ps4 ? "QmbCoopPs4"            : "QmbCoopPc")
+  ::enable_coop_in_DynCampaign    = ::has_feature(::is_platform_ps4 ? "DynCampaignCoopPs4"    : "DynCampaignCoopPc")
+  ::enable_coop_in_SingleMissions = ::has_feature(::is_platform_ps4 ? "SingleMissionsCoopPs4" : "SingleMissionsCoopPc")
+  ::enable_custom_battles         = ::has_feature(::is_platform_ps4 ? "CustomBattlesPs4"      : "CustomBattlesPc")
   ::broadcastEvent("GameModesAvailability")
 }

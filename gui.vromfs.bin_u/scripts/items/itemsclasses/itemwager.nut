@@ -93,7 +93,7 @@ class ::items_classes.Wager extends ::BaseItem
       return
 
     winIcon = getWinIcon(blk.win)
-    reqWinsNum = blk.win && blk.win.num || 0
+    reqWinsNum = blk.win?.num ?? 0
     rewardType = checkRewardType(blk)
     minWager = blk.minWager || 0
     if (curWager == null)
@@ -139,25 +139,15 @@ class ::items_classes.Wager extends ::BaseItem
     return rewardDataTypes[bestIndex].name
   }
 
-  function getWinParamsDescription(winParamsData)
-  {
-    if (winParamsData == null || winParamsData.len() == 0)
-      return ""
-    local desc = ::loc("items/wager/winParams")
-    for (local i = 0; i < winParamsData.len(); ++i)
-      desc += "\n" + getRewardDescription(winParamsData[i])
-    return desc
-  }
-
-  function getRewardText(rewardData, stakeValue)
+  function getRewardText(rewData, stakeValue)
   {
     local text = ""
-    foreach (rewardDataTypeName, rewardParams in rewardData.rewardParamsTable)
+    foreach (rewardDataTypeName, rewardParams in rewData.rewardParamsTable)
     {
       if (text != "")
         text += ", "
       local rewardDataType = getRewardDataTypeByName(rewardDataTypeName)
-      local rewardValue = getRewardValueByNumWins(rewardParams, rewardData.winCount, stakeValue)
+      local rewardValue = getRewardValueByNumWins(rewardParams, rewData.winCount, stakeValue)
       text += ::g_language.decimalFormat(rewardValue) + ::loc(rewardDataType.icon)
     }
     return text
@@ -166,39 +156,39 @@ class ::items_classes.Wager extends ::BaseItem
   /** Creates array with reward data objects sorted by param value. */
   function createWinParamsData(blk)
   {
-    local winParamsData = []
+    local res = []
     if (blk == null)
-      return winParamsData
+      return res
     foreach (reward in blk % "reward")
     {
-      local rewardData = createRewardData(reward)
+      local rewData = createRewardData(reward)
       // No need to add empty rewards.
-      if (!rewardData.isEmpty)
-        winParamsData.push(rewardData)
+      if (!rewData.isEmpty)
+        res.push(rewData)
     }
-    winParamsData.sort(function (rd1, rd2)
+    res.sort(function (rd1, rd2)
     {
       if (rd1.winCount != rd2.winCount)
         return rd1.winCount < rd2.winCount ? -1 : 1
       return 0
     })
-    return winParamsData
+    return res
   }
 
   /** Returns closest reward data to specified param value. */
-  function getRewardDataByParam(winCount, winParamsData)
+  function getRewardDataByParam(winCount, winParams)
   {
     if (winCount < 1 || winCount > maxWins)
       return null
-    local rewardData = null
-    for (local i = 0; i < winParamsData.len(); ++i)
+    local res = null
+    for (local i = 0; i < winParams.len(); ++i)
     {
-      local nextRewardData = winParamsData[i]
+      local nextRewardData = winParams[i]
       if (nextRewardData.winCount > winCount)
         break
-      rewardData = nextRewardData
+      res = nextRewardData
     }
-    return rewardData
+    return res
   }
 
   /** Creates object with data binding reward parameters to win count (param). */
@@ -206,7 +196,7 @@ class ::items_classes.Wager extends ::BaseItem
   {
     if (blk == null || ::getTblValue("param", blk, 0) == 0)
       return {}
-    local rewardData = {
+    local res = {
       winCount = blk.param
       rewardParamsTable = {}
       isEmpty = true
@@ -219,20 +209,20 @@ class ::items_classes.Wager extends ::BaseItem
         continue
       if (p3.x == 0 && p3.y == 0 && p3.z == 0)
         continue
-      rewardData.rewardParamsTable[rewardDataTypeName] <- {
+      res.rewardParamsTable[rewardDataTypeName] <- {
         a = p3.x
         b = p3.y
         c = p3.z
         //iconName = ::LayersIcon.findLayerCfg(getBasePartOfLayerId(/*small*/true) + "_" + rewardDataTypeName)
       }
-      rewardData.isEmpty = false
+      res.isEmpty = false
     }
-    return rewardData
+    return res
   }
 
-  function getRewardValueByNumWins(rewardParams, numWins, wagerValue)
+  function getRewardValueByNumWins(rewardParams, winsNum, wagerValue)
   {
-    return rewardParams.a * wagerValue * ::pow(numWins, rewardParams.b) + rewardParams.c
+    return rewardParams.a * wagerValue * ::pow(winsNum, rewardParams.b) + rewardParams.c
   }
 
   function getWinIcon(winBlk)
@@ -623,7 +613,7 @@ class ::items_classes.Wager extends ::BaseItem
     return ::handyman.renderCached("gui/items/wagerRewardsTable", view)
   }
 
-  function createTableDataView(winParamsData, numWins)
+  function createTableDataView(winParams, winsNum)
   {
     local view = {
       rows = []
@@ -642,41 +632,40 @@ class ::items_classes.Wager extends ::BaseItem
 
     local previousRewardData = null
     local activeRowPlaced = false
-    local needActiveRow = isActive() && numWins != 0
-    for (local i = 0; i < winParamsData.len(); ++i)
+    local needActiveRow = isActive() && winsNum != 0
+    for (local i = 0; i < winParams.len(); ++i)
     {
-      local rewardData = winParamsData[i]
-      if (rewardData.winCount > numWins && !activeRowPlaced && needActiveRow)
+      local rewData = winParams[i]
+      if (rewData.winCount > winsNum && !activeRowPlaced && needActiveRow)
       {
         activeRowPlaced = true
-        local activeRewardData = getRewardDataByParam(numWins, winParamsData)
-        view.rows.push(createRewardView("selected", activeRewardData, numWins))
+        local activeRewardData = getRewardDataByParam(winsNum, winParams)
+        view.rows.push(createRewardView("selected", activeRewardData, winsNum))
         previousRewardData = activeRewardData
       }
-      local isActive = rewardData.winCount == numWins && !activeRowPlaced && needActiveRow
+      local isMeActive = rewData.winCount == winsNum && !activeRowPlaced && needActiveRow
       // Skipping rows with equal reward data.
-      if (!isActive && compareRewardData(previousRewardData, rewardData))
+      if (!isMeActive && compareRewardData(previousRewardData, rewData))
         continue
 
       local rowTypeName
-      if (isActive)
+      if (isMeActive)
         rowTypeName = "selected"
-      else if (rewardData.winCount < numWins)
+      else if (rewData.winCount < winsNum)
         rowTypeName = "disabled"
       else
         rowTypeName = "regular"
 
-      previousRewardData = rewardData
-      local rewardView = createRewardView(rowTypeName, rewardData)
+      previousRewardData = rewData
+      local rewardView = createRewardView(rowTypeName, rewData)
       view.rows.push(rewardView)
-      if (isActive)
+      if (isMeActive)
         activeRowPlaced = true
     }
     if (!activeRowPlaced && needActiveRow)
     {
-      activeRowPlaced = true
-      local activeRewardData = getRewardDataByParam(numWins, winParamsData)
-      view.rows.push(createRewardView("selected", activeRewardData, numWins))
+      local activeRewardData = getRewardDataByParam(winsNum, winParams)
+      view.rows.push(createRewardView("selected", activeRewardData, winsNum))
     }
     return view
   }
@@ -699,23 +688,23 @@ class ::items_classes.Wager extends ::BaseItem
   }
 
   /**
-   * @param numWins Useful when creating reward view for current wager progress.
+   * @param winsNum Useful when creating reward view for current wager progress.
    */
-  function createRewardView(rowTypeName, rewardData, numWins = -1)
+  function createRewardView(rowTypeName, rewData, winsNum = -1)
   {
-    if (numWins == -1)
-      numWins = ::getTblValue("winCount", rewardData, 0)
+    if (winsNum == -1)
+      winsNum = rewData?.winCount ?? 0
     local view = (rowTypeName in tableRowTypeByName)
       ? clone tableRowTypeByName[rowTypeName]
       : {}
-    view.winCount <- numWins.tostring()
+    view.winCount <- winsNum.tostring()
     if (isActive())
-      view.rewardText <- rewardData == null ? "" : getRewardText(rewardData, curWager)
+      view.rewardText <- rewData == null ? "" : getRewardText(rewData, curWager)
     else
     {
-      view.rewardText <- rewardData == null ? "" : getRewardText(rewardData, minWager)
+      view.rewardText <- rewData == null ? "" : getRewardText(rewData, minWager)
       if (minWager != maxWager)
-        view.secondaryRewardText <- rewardData == null ? "" : getRewardText(rewardData, maxWager)
+        view.secondaryRewardText <- rewData == null ? "" : getRewardText(rewData, maxWager)
     }
     return view
   }

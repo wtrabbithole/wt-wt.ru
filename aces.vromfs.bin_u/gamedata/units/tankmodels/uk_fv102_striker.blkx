@@ -105,6 +105,9 @@
     "rearmTimeOnField": 35.0
   },
   {
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "aluminum_armor_AA_7017",
@@ -1031,9 +1034,30 @@
   },
   {
     "MetaParts": {
-      "turret": [
+      "body": [
         {
-          "hp": 10000.0
+          "hp": 2000.0
+        },
+        {
+          "part": "body_front_dm"
+        },
+        {
+          "part": "body_top_dm"
+        },
+        {
+          "part": "body_bottom_dm"
+        },
+        {
+          "part": "body_side_dm"
+        },
+        {
+          "part": "body_back_dm"
+        },
+        {
+          "part": "ex_armor_01_dm"
+        },
+        {
+          "part": "ex_armor_02_dm"
         },
         {
           "part": "superstructure_front_dm"
@@ -1060,7 +1084,119 @@
           "part": "body_side_dm"
         },
         {
-          "part": "turret_commander_dm"
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 600.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
+      "suspension": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "wheel_l_front_dm"
+        },
+        {
+          "part": "wheel_l_01_dm"
+        },
+        {
+          "part": "wheel_l_02_dm"
+        },
+        {
+          "part": "wheel_l_03_dm"
+        },
+        {
+          "part": "wheel_l_04_dm"
+        },
+        {
+          "part": "wheel_l_05_dm"
+        },
+        {
+          "part": "wheel_l_06_dm"
+        },
+        {
+          "part": "wheel_l_drive_dm"
+        },
+        {
+          "part": "wheel_r_front_dm"
+        },
+        {
+          "part": "wheel_r_01_dm"
+        },
+        {
+          "part": "wheel_r_02_dm"
+        },
+        {
+          "part": "wheel_r_03_dm"
+        },
+        {
+          "part": "wheel_r_04_dm"
+        },
+        {
+          "part": "wheel_r_05_dm"
+        },
+        {
+          "part": "wheel_r_06_dm"
+        },
+        {
+          "part": "wheel_r_drive_dm"
+        },
+        {
+          "part": "track_r_dm"
+        },
+        {
+          "part": "track_l_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 400.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 400.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        }
+      ],
+      "mount": [
+        {
+          "hp": 2000.0
+        },
+        {
+          "part": "turret_bottom_dm"
+        },
+        {
+          "part": "gun_mask_dm"
         },
         {
           "part": "turret_front_dm"
@@ -1075,13 +1211,33 @@
           "part": "turret_back_dm"
         },
         {
-          "fireParamsPreset": "default_metapart"
+          "part": "turret_commander_dm"
         },
         {
-          "fireParams": {
-            "fireDamagePower": 1.0,
-            "maxTankFireTime": [20.0,30.0],
-            "firePart": "transmission_dm"
+          "effect": {
+            "conditionDamageType": "explosion",
+            "expl": 1.0,
+            "conditionDamage": 600.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "cumulative",
+            "expl": 1.0,
+            "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
           }
         }
       ]
@@ -1091,6 +1247,7 @@
     "sound": {
       "EngineName": "engine_stug40",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_rocket_turn",
@@ -1126,7 +1283,7 @@
             "verOriginLimits": [-180.0,180.0]
           },
           "limits": {
-            "yaw": [-90.0,90.0],
+            "yaw": [-50.0,130.0],
             "pitch": [-10.0,20.0]
           }
         }
@@ -1240,13 +1397,12 @@
             "gunnerDm": "commander_dm"
           },
           "limits": {
-            "yaw": [-45.0,45.0],
-            "pitch": [-5.0,25.0]
+            "yaw": [-180.0,180.0],
+            "pitch": [-10.0,50.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-140.0,20.0,50.0],
-            "lim2": [-140.0,170.0,-10.0,50.0],
-            "lim3": [170.0,180.0,20.0,50.0]
+            "lim1": [-180.0,115.0,-10.0,50.0],
+            "lim2": [115.0,180.0,20.0,50.0]
           }
         }
       }
@@ -2015,7 +2171,7 @@
                   "verOriginLimits": [-180.0,180.0]
                 },
                 "limits": {
-                  "yaw": [-90.0,90.0],
+                  "yaw": [-50.0,130.0],
                   "pitch": [-10.0,20.0]
                 }
               }
@@ -2129,13 +2285,12 @@
                   "gunnerDm": "commander_dm"
                 },
                 "limits": {
-                  "yaw": [-45.0,45.0],
-                  "pitch": [-5.0,25.0]
+                  "yaw": [-180.0,180.0],
+                  "pitch": [-10.0,50.0]
                 },
                 "limitsTable": {
-                  "lim1": [-180.0,-140.0,20.0,50.0],
-                  "lim2": [-140.0,170.0,-10.0,50.0],
-                  "lim3": [170.0,180.0,20.0,50.0]
+                  "lim1": [-180.0,115.0,-10.0,50.0],
+                  "lim2": [115.0,180.0,20.0,50.0]
                 }
               }
             },
@@ -2143,7 +2298,7 @@
               "Weapon": {
                 "trigger": "gunner4",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,

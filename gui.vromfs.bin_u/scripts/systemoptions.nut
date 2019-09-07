@@ -346,8 +346,8 @@
         ::sysopt.updateGuiNavbar(true)
       }
       local cancel_func = function() {
-        local quality = "low"
-        ::sysopt.setGuiValue("graphicsQuality", quality)
+        local lowQuality = "low"
+        ::sysopt.setGuiValue("graphicsQuality", lowQuality)
         ::sysopt.mShared.graphicsQualityClick()
         ::sysopt.updateGuiNavbar(true)
       }
@@ -515,7 +515,7 @@
         local sides = split(resolution, "x")
         foreach (i, v in sides)
           sides[i] = strip(v).tointeger()
-        if (sides[0] >= minW && sides[1] >= minH || resolution == curResolution)
+        if ((sides[0] >= minW && sides[1] >= minH) || resolution == curResolution)
           data.append({
             resolution = resolution
             w = sides[0]
@@ -886,7 +886,12 @@ function sysopt::fillGuiOptions(containerObj, handler)
 
 function sysopt::getGuiWidget(id)
 {
-  if (!(id in mSettings)) { logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table."); return }
+  if (!(id in mSettings))
+  {
+    logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
+    return null
+  }
+
   local widgetId = getOptionDesc(id).widgetId
   local obj = (widgetId && ::checkObj(mContainerObj)) ? mContainerObj.findObject(widgetId) : null
   return ::checkObj(obj) ? obj : null
@@ -894,16 +899,24 @@ function sysopt::getGuiWidget(id)
 
 function sysopt::getOptionDesc(id)
 {
-  if (!(id in mSettings)) { logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table."); return }
+  if (!(id in mSettings))
+  {
+    logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
+    return null
+  }
+
   return mSettings[id]
 }
 
 function sysopt::getOptionValue(id, defVal=null)
 {
-  if (id in mSettings)
-    return mSettings[id]?.def ?? defVal
+  if (!(id in mSettings))
+  {
+    logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
+    return null
+  }
 
-  logError("sysopt.getGuiWidget()", "Option '"+id+"' is UNKNOWN. It must be added to sysopt.settings table.")
+  return mSettings[id]?.def ?? defVal
 }
 
 function sysopt::getGuiValue(id, defVal=null)
@@ -1194,7 +1207,6 @@ function sysopt::onConfigApply()
     local func_restart = function() {
       ::sysopt.applyRestartClient()
     }
-    local cancel_func = function() {}
 
     if (canRestartClient())
     {
@@ -1324,11 +1336,11 @@ function sysopt::validateInternalConfigs()
           errorsList.append(logError("sysopt.validateInternalConfigs()",
             "Option '"+id+"' - 'widgetType'/'def' conflict."))
         local invalidVal = -1
-        local min = ::getTblValue("min", desc, invalidVal)
-        local max = ::getTblValue("max", desc, invalidVal)
+        local vMin = desc?.min ?? invalidVal
+        local vMax = desc?.max ?? invalidVal
         local safeDef = (def != null) ? def : invalidVal
-        if (!("min" in desc) || !("max" in desc) || type(min) != uiType || type(max) != uiType
-            || min > max || min > safeDef || safeDef > max )
+        if (!("min" in desc) || !("max" in desc) || type(vMin) != uiType || type(vMax) != uiType
+            || vMin > vMax || vMin > safeDef || safeDef > vMax )
           errorsList.append(logError("sysopt.validateInternalConfigs()",
             "Option '"+id+"' - 'min'/'def'/'max' conflict."))
         break

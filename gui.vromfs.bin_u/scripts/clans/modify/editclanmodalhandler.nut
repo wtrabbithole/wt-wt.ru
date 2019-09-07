@@ -192,7 +192,7 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
     }
 
     showSceneBtn("btn_upg_members", upgradeMembersButtonVisible)
-    showSceneBtn("btn_disbandClan", isMyClan && isInArray("DISBAND", myRights) || adminMode)
+    showSceneBtn("btn_disbandClan", (isMyClan && isInArray("DISBAND", myRights)) || adminMode)
   }
 
   // Override

@@ -21,6 +21,9 @@ function get_userlog_view_data(log)
     tooltip = ""
     logImg = null
     logImg2 = null
+    logBonus = null
+    logIdx = log.idx
+    buttonName = null
   }
   local logName = getLogNameByType(log.type)
   local priceText = ::Cost(("wpCost" in log) ? log.wpCost : 0,
@@ -258,7 +261,8 @@ function get_userlog_view_data(log)
       res.descriptionBlk += ::format("tdiv { width:t='pw'; flow:t='h-flow'; %s }", lbStatsBlk)
     }
 
-    local totalText = res.tooltip = (log.type==::EULT_SESSION_RESULT)? ::loc("debriefing/total") : ::loc("userlog/interimResults")
+    res.tooltip = (log.type==::EULT_SESSION_RESULT) ? ::loc("debriefing/total") : ::loc("userlog/interimResults");
+    local totalText = res.tooltip
     totalText = "<color=@userlogColoredText>" + totalText + ::loc("ui/colon") + "</color>"
 
     local total = ::Cost(wp, gold, xp, rp).toStringWithParams({isWpAlwaysShown = true})
@@ -287,7 +291,7 @@ function get_userlog_view_data(log)
     local expMul = log?.xpFirstWinInDayMul ?? 1.0
     local wpMul = log?.wpFirstWinInDayMul ?? 1.0
     if(expMul > 1.0 || wpMul > 1.0)
-      res["log_bonus"] <- getBonus(expMul, wpMul, "item", "Log")
+      res.logBonus = getBonus(expMul, wpMul, "item", "Log")
 
     if (::has_feature("ServerReplay"))
       if (::getTblValue("dedicatedReplay", log, false))
@@ -1359,7 +1363,7 @@ function get_userlog_view_data(log)
     local awardData = ::getTblValue("award", log)
     if (awardData)
     {
-      local wbPriceText = ::g_warbonds.getWarbondPriceText(log?.warbond, log?.stage, awardData?.cost ?? 0)
+      local wbPriceText = ::g_warbonds.getWarbondPriceText(awardData?.cost ?? 0)
       local awardBlk = ::DataBlockAdapter(awardData)
       local awardType = ::g_wb_award_type.getTypeByBlk(awardBlk)
       res.name = awardType.getUserlogBuyText(awardBlk, wbPriceText)
@@ -1394,7 +1398,132 @@ function get_userlog_view_data(log)
     local statsWpText = ::Cost(::getTblValue("wpStats", log, 0)).toStringWithParams({isWpAlwaysShown = true})
     res.description <- ::loc("worldWar/userlog/endOperation/stats", { reward = statsWpText })
   }
+  else if (log.type == ::EULT_INVITE_TO_TOURNAMENT)
+  {
+    if ("action_tss" in log)
+    {
+      local action_tss = log.action_tss
+      local desc = ""
 
+      switch (action_tss)
+      {
+        case "awards_tournament":
+          res.name = ::loc("userlog/awards_tss_tournament", {TournamentName = log.tournament_name})
+
+          foreach(award_idx, award_val in log.awards)
+          {
+            if (award_val.type == "gold")
+              desc += "\n" + "<color=@activeTextColor>" +
+                ::Cost(0, abs(award_val.award)).toStringWithParams({isGoldAlwaysShown = true}) + "</color>"
+            if (award_val.type == "premium")
+              desc += "\n" + "<color=@activeTextColor>" + award_val.award + "</color>"
+            if (award_val.type == "booster")
+            {
+              foreach(block in award_val.award)
+                {
+                  local item = ::ItemsManager.findItemById(block)
+                  if (!("descriptionBlk" in res))
+                    res.descriptionBlk <- ""
+                  res.descriptionBlk += ::get_userlog_image_item(item)
+                }
+            }
+            if (award_val.type == "title")
+              desc += "\n" + "<color=@activeTextColor>" + ::loc("trophy/unlockables_names/title") + ": " +
+                ::get_unlock_name_text(::UNLOCKABLE_TITLE, award_val.award) + "</color>"
+          }
+          break;
+
+        case "invite_to_pick_tss":
+          res.name = ::loc("userlog/invite_to_pick_tss", {TournamentName = log.tournament_name})
+          if (!("descriptionBlk" in res))
+            res.descriptionBlk <- ""
+          if("circuit" in log)
+            res.descriptionBlk += ::get_link_markup(::loc("mainmenu/btnPickTSS"),
+              ::loc("url/serv_pick_tss", {port = log.port, circuit = log.circuit}), "Y")
+          desc += ::loc("invite_to_pick_tss/desc")
+          break;
+
+        case "invite_to_tournament":
+          res.name = ::loc("userlog/invite_to_tournament_name", {TournamentName = log.tournament_name})
+          if("name_battle" in log)
+          {
+            desc += ::loc("invite_to_tournament/desc")
+            desc += "\n" + log.name_battle
+          }
+          break;
+        }
+
+        if (desc!="")
+          res.description <- desc
+        if (log?.battleId)
+          res.buttonName = ::loc("chat/btnJoin")
+    }
+  }
+  else if (log.type == ::EULT_CLAN_UNITS)
+  {
+    local textLocId = "userlog/clanUnits/" + log.optype
+    res.name = ::loc(textLocId + "/name")
+
+    local descLoc = textLocId + "/desc"
+
+    if (log.optype == "flush")
+    {
+      res.description <- ::loc(descLoc, {unit = ::loc(log.unit + "_0"), rp = ::Cost().setSap(log.rp).tostring()})
+    }
+    else if (log.optype == "add_unit")
+    {
+      res.description <- ::loc(descLoc, {unit = ::loc(log.unit + "_0")})
+    }
+    else if (log.optype == "buy_closed_unit")
+    {
+      res.description <- ::loc(descLoc, {unit = ::loc(log.unit + "_0"), cost = ::Cost(0, log.costGold)})
+    }
+  }
+  else if (log.type == ::EULT_WW_AWARD)
+  {
+    local awardsFor = log.awardsFor
+
+    local descLines = []
+    local day = ::g_string.cutPrefix(awardsFor.table, "day")
+
+    local period = day ? ::loc("enumerated_day", {number = day}) : ::loc("worldwar/allSeason")
+    local modeStr = ::g_string.split(awardsFor.mode, "__")
+    local mapName = null
+    local country = null
+    foreach (partStr in modeStr)
+    {
+      if(::g_string.startsWith(partStr, "country_"))
+        country = partStr
+      if(::g_string.endsWith(partStr, "_wwmap"))
+        mapName = partStr
+    }
+    country = country ? ::loc(country) : ::loc("worldwar/allCountries")
+    mapName = mapName ? ::loc("worldWar/map/" + mapName) : ::loc("worldwar/allMaps")
+    local leaderboard = ::loc("mainmenu/leaderboard") + ::loc("ui/colon")
+      + ::g_string.implode([period, mapName, country], ::loc("ui/comma"))
+    descLines.append(leaderboard)
+
+    switch (awardsFor.leaderboard_type)
+    {
+     case "user_leaderboards" :
+       res.name = ::loc("worldwar/personal/award")
+       descLines.append(::loc("multiplayer/place") + ::loc("ui/colon") + awardsFor.place)
+       break
+     case "clan_leaderboards" :
+       res.name = ::loc("worldwar/clan/award")
+       descLines.append(::loc("multiplayer/clan_place") + ::loc("ui/colon") + awardsFor.clan_place)
+       descLines.append(::loc("multiplayer/place_in_clan_leaderboard") + ::loc("ui/colon") + awardsFor.place)
+       break
+    }
+
+    local item = ::ItemsManager.findItemById(log.itemDefId)
+    if (item)
+      descLines.append(::colorize("activeTextColor", item.getName()))
+    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
+
+    res.descriptionBlk <- ::get_userlog_image_item(item)
+    res.description <- ::g_string.implode(descLines, "\n")
+  }
 
   if (::getTblValue("description", res, "") != "")
   {

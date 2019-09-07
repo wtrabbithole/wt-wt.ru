@@ -55,7 +55,7 @@ class ControlsPreset {
       params          = ::u.copy(data.params)
       deviceMapping   = ::u.copy(data.deviceMapping)
       controlsV4Blk   = ::u.copy(data.controlsV4Blk)
-      isLoaded        = isLoaded
+      isLoaded        = true
     }
   }
 
@@ -939,7 +939,7 @@ class ControlsPreset {
   function getBasePresetNames()
   {
     if (!::g_login.isLoggedIn())
-      return [] // Because g_controls_presets loads after login.
+      return {} // Because g_controls_presets loads after login.
     return ::u.map(basePresetPaths, function(path) {
       return ::g_controls_presets.parsePresetFileName(path).name
     })
@@ -1061,6 +1061,8 @@ class ControlsPreset {
         if (pair[j] != -1 &&
           pair[j] >= minAxis && pair[j]<= maxAxis)
             return true
+
+    return false
   }
 
 

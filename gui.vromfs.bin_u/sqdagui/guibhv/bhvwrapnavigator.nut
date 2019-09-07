@@ -77,8 +77,10 @@ class gui_bhv.wrapNavigator
     if (!obj.isEnabled())
       return
 
-    if (::wn_sideRecursion > 3)
-      return ::wn_sideRecursionFound = true
+    if (::wn_sideRecursion > 3) {
+      ::wn_sideRecursionFound = true
+      return
+    }
     ::wn_sideRecursion++
 
     local total = obj.childrenCount()
@@ -143,7 +145,6 @@ class gui_bhv.wrapNavigator
   {
     local idx = getValue(obj)
     local childrenCount = obj.childrenCount()
-    local newSel = null
     for(local i = 0; i < childrenCount; i++)
     {
       idx += dir

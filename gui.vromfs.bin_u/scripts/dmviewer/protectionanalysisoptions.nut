@@ -94,7 +94,7 @@ options.addTypes({
       items = ::u.map(values, @(r) {
         text = ::format(::loc("conditions/unitRank/format"), get_roman_numeral(r))
       })
-      local preferredRank = ::getAircraftByName(::hangar_get_current_unit_name())?.rank ?? 0
+      local preferredRank = value ?? ::getAircraftByName(::hangar_get_current_unit_name())?.rank ?? 0
       value = values[::find_nearest(preferredRank, values)]
       update(handler, scene)
     }
@@ -173,7 +173,7 @@ options.addTypes({
           local searchName = ::getBulletsSearchName(unit, value)
           local useDefaultBullet = searchName != value
           local bulletParameters = ::calculate_tank_bullet_parameters(unit.name,
-            useDefaultBullet && weaponBlkName || ::getModificationBulletsEffect(searchName),
+            (useDefaultBullet && weaponBlkName) || ::getModificationBulletsEffect(searchName),
             useDefaultBullet)
 
           local bulletNames = isBulletBelt ? [] : (bulletsSet?.bulletNames ?? [])
@@ -292,8 +292,8 @@ options.setAnalysisParams <- function() {
 
 options.get <- @(id) this?[id] ?? UNKNOWN
 
-options.getBySortId <- function(sortId) {
-  return enums.getCachedType("sortId", sortId, cache.bySortId, this, UNKNOWN)
+options.getBySortId <- function(idx) {
+  return enums.getCachedType("sortId", idx, cache.bySortId, this, UNKNOWN)
 }
 
 options.updateArmorPiercingText <- function(obj) {
@@ -332,7 +332,7 @@ options.updateArmorPiercingText <- function(obj) {
     if (pMin && pMax)
     {
       local armor = stdMath.lerp(pMin.dist, pMax.dist, pMin.armor, pMax.armor, distance)
-      desc = armor.tointeger() + " " + ::loc("measureUnits/mm")
+      desc = stdMath.round(armor).tointeger() + " " + ::loc("measureUnits/mm")
     }
   }
 

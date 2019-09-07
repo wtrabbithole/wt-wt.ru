@@ -35,6 +35,25 @@ class ::items_classes.Chest extends ItemExternal {
 
   canConsume = @() isInventoryItem
 
+  function consume(cb, params)
+  {
+    if (base.consume(cb, params))
+      return true
+
+    if (!uids || !uids.len() || !canConsume())
+      return false
+
+    if (shouldAutoConsume)
+    {
+      params.cb <- cb
+      params.shouldSkipMsgBox <- true
+      ExchangeRecipes.tryUse(getRelatedRecipes(), this, params)
+      return true
+    }
+
+    return false
+  }
+
   function getMainActionData(isShort = false)
   {
     local res = base.getMainActionData(isShort)
@@ -52,17 +71,15 @@ class ::items_classes.Chest extends ItemExternal {
   isContentPack             = @() getGenerator()?.isPack ?? false
   isAllowSkipOpeningAnim    = @() ::is_dev_version
   getOpeningAnimId          = @() itemDef?.tags?.isLongOpenAnim ? "LONG" : "DEFAULT"
-  getCantUseLocId           = @() "msgBox/chestOpen/cant"
   getConfirmMessageData    = @(recipe) getEmptyConfirmMessageData().__update({
-    text = ::loc("msgBox/chestOpen/confirm", { itemName = ::colorize("activeTextColor", getName()) })
-    headerRecipeMarkup = recipe.isMultipleItems ? ::loc("msgBox/extra_items_will_be_spent") : ""
+    text = ::loc(getLocIdsList().msgBoxConfirm, { itemName = ::colorize("activeTextColor", getName()) })
+    headerRecipeMarkup = recipe.getHeaderRecipeMarkupText()
     needRecipeMarkup = recipe.isMultipleItems
   })
 
   function getContent()
   {
-    local generator = getGenerator()
-    return generator ? generator.getContent() : []
+    return getGenerator()?.getContent() ?? []
   }
 
   getDescRecipesText    = @(params) ExchangeRecipes.getRequirementsText(getRelatedRecipes(), this, params)
@@ -116,22 +133,31 @@ class ::items_classes.Chest extends ItemExternal {
 
   function getHiddenItemsDesc()
   {
-    local generator = getGenerator()
-    if (!generator || !generator.hasHiddenItems || !getContent().len())
+    if (!getGenerator()?.hasHiddenItems || !getContent().len())
       return null
     return ::colorize("grayOptionColor", ::loc("trophy/chest_contents/other"))
   }
 
   function getHiddenTopPrizeParams()
   {
-    local generator = getGenerator()
-    return generator ? generator.hiddenTopPrizeParams : null
+    return getGenerator()?.hiddenTopPrizeParams ?? null
   }
 
   function isHiddenTopPrize(prize)
   {
-    local generator = getGenerator()
-    return generator != null && generator.isHiddenTopPrize(prize)
+    return getGenerator()?.isHiddenTopPrize(prize) ?? false
+  }
+
+  function canPreview()
+  {
+    local content = getContent()
+    return content.len() == 1 && content[0].item != null
+      && ::ItemsManager.findItemById(content[0].item)?.canPreview()
+  }
+
+  function doPreview()
+  {
+    ::ItemsManager.findItemById(getContent()?[0]?.item)?.doPreview()
   }
 
   function doMainAction(cb, handler, params = null)
@@ -143,4 +169,12 @@ class ::items_classes.Chest extends ItemExternal {
 
     return ExchangeRecipes.tryUse(getRelatedRecipes(), this, params)
   }
+
+  getContentNoRecursion = @() getContent()
+
+  getLocIdsListImpl = @() base.getLocIdsListImpl().__update({
+    descReceipesListHeaderPrefix = descReceipesListHeaderPrefix
+    msgBoxCantUse                = "msgBox/chestOpen/cant"
+    msgBoxConfirm                = "msgBox/chestOpen/confirm"
+  })
 }

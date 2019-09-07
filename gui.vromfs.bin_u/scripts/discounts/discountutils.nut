@@ -8,13 +8,13 @@ function getDiscountByPath(path, blk = null, idx = 0)
   local result = {
     maxDiscount = 0
   }
-  ::invoke_multi_array(path, (@(blk, result) function (array) {
-    local block = ::get_blk_by_path_array(array, blk)
+  ::invoke_multi_array(path, function (arr) {
+    local block = ::get_blk_by_path_array(arr, blk)
     local discountValue = ::getTblValue("discount", block, 0)
     result.maxDiscount = ::max(result.maxDiscount, discountValue)
-    local personalDiscountValue = personalDiscount.getDiscountByPath(array)
+    local personalDiscountValue = personalDiscount.getDiscountByPath(arr)
     result.maxDiscount = ::max(result.maxDiscount, personalDiscountValue)
-  })(blk, result))
+  })
   return result.maxDiscount
 }
 

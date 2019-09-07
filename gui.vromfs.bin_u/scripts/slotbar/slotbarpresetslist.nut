@@ -7,7 +7,7 @@ class SlotbarPresetsList
 
   NULL_PRESET_DATA = { isEnabled = false, title = "" } //const
 
-  function constructor(handler)
+  constructor(handler)
   {
     ownerWeak = handler.weakref()
     if (!::checkObj(ownerWeak.scene))
@@ -111,7 +111,7 @@ class SlotbarPresetsList
     if (!needFullRecount && _lastListWidth == availWidth)
       return
 
-    _lastListWidth == availWidth
+    _lastListWidth = availWidth
     availWidth -= listObj.findObject("btn_slotbar_presets").getSize()[0]
 
     //count all sizes
@@ -193,7 +193,7 @@ class SlotbarPresetsList
     ::queues.checkAndStart(
       ::Callback(function()
       {
-        ::g_squad_utils.checkSquadUnreadyAndDo(this,
+        ::g_squad_utils.checkSquadUnreadyAndDo(
           ::Callback(function()
           {
              if (!("beforeSlotbarChange" in ownerWeak))

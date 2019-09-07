@@ -64,10 +64,14 @@ function g_tooltip::open(obj, handler)
 {
   ::g_tooltip.removeInvalidObjs(::g_tooltip.openedTooltipObjs)
 
-  if (!::handlersManager.isHandlerValid(handler) || !::checkObj(obj))
+  if (!::check_obj(obj))
+    return
+  obj["class"] = "empty"
+
+  if (!::handlersManager.isHandlerValid(handler))
     return
   local tooltipId = ::getTooltipObjId(obj)
-  if (!tooltipId)
+  if (!tooltipId || tooltipId == "")
     return
   local params = ::parse_json(tooltipId)
   if (type(params) != "table" || !("ttype" in params) || !("id" in params))
@@ -78,13 +82,11 @@ function g_tooltip::open(obj, handler)
 
   local isSucceed = fill(obj, handler, tooltipType, id, params)
 
-  if (!::checkObj(obj))
+  if (!isSucceed || !::check_obj(obj))
     return
 
-  obj["class"] = isSucceed ? "" : "empty"
-
-  if (isSucceed)
-    register(obj, handler, tooltipType, id, params)
+  obj["class"] = ""
+  register(obj, handler, tooltipType, id, params)
 }
 
 function g_tooltip::register(obj, handler, tooltipType, id, params)
@@ -180,7 +182,7 @@ function g_tooltip::removeInvalidObjs(objs, tooltipId = null)
   for (local i = objs.len() - 1; i >= 0; --i)
   {
     local obj = objs[i].obj
-    if (!objs[i].isValid() || tooltipId && ::getTooltipObjId(obj) == tooltipId)
+    if (!objs[i].isValid() || (tooltipId && ::getTooltipObjId(obj) == tooltipId))
       objs.remove(i)
   }
 }

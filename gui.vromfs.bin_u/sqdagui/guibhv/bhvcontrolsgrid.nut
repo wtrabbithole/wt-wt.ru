@@ -26,7 +26,7 @@ class gui_bhv.ControlsGrid
     if (is_up)
       return ::RETCODE_NOTHING;
 
-    if (!is_up && bits&::BITS_MOUSE_DBL_CLICK && bits&::BITS_MOUSE_BTN_L)
+    if (!is_up && (bits&::BITS_MOUSE_DBL_CLICK) && (bits&::BITS_MOUSE_BTN_L))
     {
       obj.sendNotify("dbl_click");
       return ::RETCODE_HALT;

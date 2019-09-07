@@ -19,16 +19,28 @@ enum RB_GM_TYPE
                         return null
                       }
     startFunction = function() { ::g_world_war.openMainWnd() }
-    isWide = true
+    isWide = @() ::is_me_newbie() || !::is_platform_pc
     image = function() {
         local operation = ::g_ww_global_status.getOperationById(::g_world_war.lastPlayedOperationId)
         if (!::u.isEmpty(operation))
-          return "#ui/images/game_modes_tiles/worldwar_active_wide.jpg?P1"
+          return "#ui/images/game_modes_tiles/worldwar_active_" + (isWide ? "wide" : "thin") + ".jpg?P1"
         else
-          return "#ui/images/game_modes_tiles/worldwar_live_wide.jpg?P1"
+          return "#ui/images/game_modes_tiles/worldwar_live_" + (isWide ? "wide" : "thin") + ".jpg?P1"
       }
     videoPreview = null
-    isVisible = function() { return ::is_worldwar_enabled() }
+    isVisible = @() ::is_worldwar_enabled()
+    hasNewIconWidget = true
+  }
+  {
+    /*TSS*/
+    modeId = "tss_featured_game_mode"
+    text = @() ::loc("mainmenu/btnTournamentsTSS")
+    textDescription = @() null
+    startFunction = @() ::g_url.open(::loc("url/tss_all_tournaments"), false, false)
+    isWide = false
+    image = @() "#ui/images/game_modes_tiles/tss_" + (isWide ? "wide" : "thin") + ".jpg?P1"
+    videoPreview = null
+    isVisible = @() !::is_me_newbie() && ::is_platform_pc
     hasNewIconWidget = true
   }
   {
@@ -197,7 +209,7 @@ class GameModeManager
    * Constructor. Subscribes manager to events that
    * require it to update.
    */
-  function constructor()
+  constructor()
   {
     ::add_event_listener("EventsDataUpdated", _onEventsDataUpdated.bindenv(this))
     ::add_event_listener("MyStatsUpdated", _onMyStatsUpdated.bindenv(this))
@@ -567,8 +579,8 @@ class GameModeManager
       getEvent = function() { return (::g_squad_manager.isNotAloneOnline() && eventForSquad) || source }
       getTooltipText = function()
       {
-        local event = getEvent()
-        return event ? ::events.getEventDescriptionText(event, null, true) : ""
+        local ev = getEvent()
+        return ev ? ::events.getEventDescriptionText(ev, null, true) : ""
       }
     }
     gameMode.unitTypes <- _getUnitTypesByGameMode(gameMode, false)
@@ -577,9 +589,9 @@ class GameModeManager
     local inactiveColor = !::events.checkEventFeature(event, true)
 
     if (!inactiveColor)
-      foreach(type in reqUnitTypes)
+      foreach(esUnitType in reqUnitTypes)
       {
-        inactiveColor = !::g_unit_type.getByEsUnitType(type).isAvailable()
+        inactiveColor = !::g_unit_type.getByEsUnitType(esUnitType).isAvailable()
         if (inactiveColor)
           break
       }
@@ -866,9 +878,9 @@ class GameModeManager
     updateManager()
   }
 
-  function onEventQueueChangeState(queue)
+  function onEventQueueChangeState(p)
   {
-    if (::queues.checkQueueType(queue, queueMask) && ::queues.isQueueActive(queue))
+    if (::queues.checkQueueType(p?.queue, queueMask) && ::queues.isQueueActive(p?.queue))
       _updateCurrentGameModeId()
   }
 

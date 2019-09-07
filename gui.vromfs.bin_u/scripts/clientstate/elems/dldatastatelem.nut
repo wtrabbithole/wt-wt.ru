@@ -47,7 +47,7 @@ elemModelType.addTypes({
       local filesFailed = (curStat?.filesFailed ?? 0) - (prevStat?.filesFailed ?? 0)
       local filesFailedSizeKB = (curStat?.filesFailedSizeKB ?? 0) - (prevStat?.filesFailedSizeKB ?? 0)
       if (filesFailed > 0)
-        failedText = ::loc("event_comma") +
+        failedText = ::loc("ui/comma") +
           ::colorize("badTextColor", ::loc("loadDlDataStat/failed",
           { filesFailed = filesFailed
             filesFailedSizeKB = filesFailedSizeKB }))

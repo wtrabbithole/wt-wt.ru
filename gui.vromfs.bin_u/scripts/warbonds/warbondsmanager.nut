@@ -1,4 +1,3 @@
-local time = require("scripts/time.nut")
 local seenWarbondsShop = ::require("scripts/seen/seenList.nut").get(SEEN.WARBONDS_SHOP)
 
 const MAX_ALLOWED_WARBONDS_BALANCE = 0x7fffffff
@@ -133,12 +132,10 @@ function g_warbonds::getWarbondAwardByFullId(wbAwardFullId)
   return wb && wb.getAwardByIdx(data[2])
 }
 
-function g_warbonds::getWarbondPriceText(wbId, wbListId, amount)
+function g_warbonds::getWarbondPriceText(amount)
 {
   if (!amount)
     return ""
-  if (!wbListId)
-    wbListId = ::get_warbond_curr_stage_name(wbId)
   return amount + ::loc(defaultWbFontIcon)
 }
 

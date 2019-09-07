@@ -1,6 +1,5 @@
 local psnApi = require("scripts/social/psnWebApi.nut")
 
-local platformModule = require("scripts/clientState/platform.nut")
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 ::no_dump_facebook_friends <- {}
@@ -10,7 +9,6 @@ local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 ::g_script_reloader.registerPersistentData("SocialGlobals", ::getroottable(), ["no_dump_facebook_friends"])
 
-local ps4TitleId = ::is_platform_ps4? ::ps4_get_title_id() : ""
 local isFirstPs4FriendsUpdate = true
 
 function addSocialFriends(blk, group, silent = false)
@@ -133,8 +131,8 @@ function update_ps4_friends()
 
 function getPS4FriendsFromIndex(index)
 {
-  local cb = function(response, error) {
-    if (error)
+  local cb = function(response, err) {
+    if (err)
       return
     if (index == 0 && ::isInArray(::EPLX_PS4_FRIENDS, ::contacts_groups)) // Initial chunk of friends from WebAPI
       ::resetPS4ContactsGroup()
@@ -221,29 +219,6 @@ subscriptions.addListenersWithoutEnv({
 //--------------- </PlayStation> ----------------------
 
 //------------------ <Steam> --------------------------
-function addSteamFriendsOnStart()
-{
-  local cdb = ::get_local_custom_settings_blk();
-  if (cdb.steamFriendsAdded != null && cdb.steamFriendsAdded)
-    return;
-
-  local friendListFreeSpace = ::EPL_MAX_PLAYERS_IN_LIST - ::contacts[::EPL_FRIENDLIST].len();
-  if (friendListFreeSpace <= 0)
-    return;
-
-  if (::skip_steam_confirmations)
-    addSteamFriends()
-  else
-    ::scene_msg_box("add_steam_friend", null, ::loc("msgbox/add_steam_friends"),
-      [
-        ["yes", function() { addSteamFriends() }],
-        ["no",  function() {}],
-      ], "no")
-
-  cdb.steamFriendsAdded = true;
-  save_profile(false);
-}
-
 function addSteamFriends()
 {
   local taskId = ::steam_find_friends(::EPL_MAX_PLAYERS_IN_LIST)
@@ -297,26 +272,3 @@ function on_facebook_friends_loaded(blk)
       })
 }
 //-------------------- </Facebook> ----------------------------
-
-//----------------- <XBox One> --------------------------
-
-function xbox_on_add_remove_friend_closed(playerStatus)
-{
-  if (playerStatus == XBOX_PERSON_STATUS_CANCELED)
-    return
-
-  ::g_contacts.xboxFetchContactsList()
-}
-
-function xbox_get_people_list_callback(playersList = [])
-{
-  ::g_contacts.proceedXboxPlayersListFromCallback(playersList, ::EPL_FRIENDLIST)
-  ::xbox_get_avoid_list_async()
-}
-
-function xbox_get_avoid_list_callback(playersList = [])
-{
-  ::g_contacts.proceedXboxPlayersListFromCallback(playersList, ::EPL_BLOCKLIST)
-}
-
-//---------------- </XBox One> --------------------------

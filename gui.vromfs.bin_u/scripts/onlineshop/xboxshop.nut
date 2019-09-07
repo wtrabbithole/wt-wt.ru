@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local seenList = ::require("scripts/seen/seenList.nut").get(SEEN.EXT_XBOX_SHOP)
 
@@ -359,6 +359,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     {
       buttonObj.visualStyle = "secondary"
       ::set_double_text_to_button(scene, "btn_main_action", ::loc("items/openIn/XboxStore"))
+      updateConsoleImage(buttonObj)
     }
 
     showSceneBtn("btn_preview", false)
@@ -374,7 +375,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
   {
     local obj = getItemsListObj()
     if (!::check_obj(obj))
-      return
+      return null
 
     return itemsList?[obj.getValue() + curPage * itemsPerPage]
   }
@@ -427,6 +428,19 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (afterCloseFunc)
       afterCloseFunc()
+  }
+
+  function onItemsListFocusChange()
+  {
+    if (!isValid())
+      return
+
+    updateConsoleImage(scene.findObject("btn_main_action"))
+  }
+
+  function updateConsoleImage(buttonObj)
+  {
+    buttonObj.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
   }
 }
 

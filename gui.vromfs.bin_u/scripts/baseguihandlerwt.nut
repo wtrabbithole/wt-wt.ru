@@ -2,6 +2,8 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local unitActions = require("scripts/unit/unitActions.nut")
+local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
 const MAIN_FOCUS_ITEM_IDX = 4
 
@@ -69,9 +71,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   widgetsList = null
   needVoiceChat = true
   canInitVoiceChatWithSquadWidget = false
-  isHudVisible = null
 
-  function constructor(gui_scene, params = {})
+  constructor(gui_scene, params = {})
   {
     base.constructor(gui_scene, params)
 
@@ -147,15 +148,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
    * @param filterFunc Optional filter function with mode id
    *                   as parameter and boolean return type.
    */
-  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null)
+  function getModesTabsView(selectedDiffCode, filterFunc)
   {
-    if (!::checkObj(nest))
-      return
-    local modesObj = nest.findObject("modes_list")
-    if (!::checkObj(modesObj))
-      return
-
-    local view = { tabs = [] }
+    local tabsView = []
     local isFoundSelected = false
     foreach(diff in ::g_difficulty.types)
     {
@@ -164,20 +159,39 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
       local isSelected = selectedDiffCode == diff.diffCode
       isFoundSelected = isFoundSelected || isSelected
-      view.tabs.append({
+      tabsView.append({
         tabName = diff.getLocName(),
         selected = isSelected,
       })
     }
-    if (!isFoundSelected && view.tabs.len())
-      view.tabs[0].selected = true
+    if (!isFoundSelected && tabsView.len())
+      tabsView[0].selected = true
 
+    return tabsView
+  }
+
+  function updateModesTabsContent(modesObj, view)
+  {
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
     local selectCb = modesObj.on_select
     if (selectCb && (selectCb in this))
       this[selectCb](modesObj)
+  }
+
+  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null, hasWorldWarMode = false)
+  {
+    if (!::check_obj(nest))
+      return
+
+    local modesObj = nest.findObject("modes_list")
+    if (!::check_obj(modesObj))
+      return
+
+    updateModesTabsContent(modesObj, {
+      tabs = getModesTabsView(selectedDiffCode, filterFunc)
+    })
   }
 
   function onTopMenuGoBack(...)
@@ -251,7 +265,6 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function goForwardCheckEntitlement(start_func, entitlement)
   {
     guiScene = ::get_cur_gui_scene()
-    local handler = this
 
     startFunc = start_func
 
@@ -318,10 +331,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   {
     if (!isSceneActive())
       return
-    if (isHudVisible == show)
-      return
 
-    isHudVisible = show
     if (rootHandlerWeak)
       return rootHandlerWeak.onShowHud(show)
 
@@ -334,7 +344,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
   }
 
-  function startOnlineShop(type=null, afterCloseShop = null)
+  function startOnlineShop(chapter = null, afterCloseShop = null)
   {
     local handler = this
     goForwardIfOnline(function() {
@@ -344,7 +354,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
             if (handler)
               afterCloseShop.call(handler)
           }
-        ::OnlineShopModel.launchOnlineShop(handler, type, closeFunc)
+        ::OnlineShopModel.launchOnlineShop(handler, chapter, closeFunc)
       }, false, true)
   }
 
@@ -384,7 +394,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onConvertExp(obj)
   {
-    ::gui_modal_convertExp(null, this)
+    ::gui_modal_convertExp()
   }
 
   function notAvailableYetMsgBox()
@@ -438,7 +448,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::isContactsWindowActive())
     {
       ::update_ps4_friends()
-      ::g_contacts.updateXboxOneFriends()
+      xboxContactsManager.updateXboxOneFriends()
     }
 
     onSwitchContacts()
@@ -475,17 +485,12 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return slotbar && slotbar.getCurCountry()
   }
 
-  function onTake(unit = null, isNewUnit = false)
+  function onTake(unit = null, params = {})
   {
-    checkedCrewAirChange( (@(unit) function () {
-      local curUnit = unit ? unit : getCurAircraft()
-      if (!curUnit || !curUnit.isUsable() || ::isUnitInSlotbar(curUnit))
-        return
-
-      ::gui_start_selecting_crew({ unit = curUnit
-        unitObj = scene.findObject(curUnit.name)
-        isNewUnit = isNewUnit })
-    })(unit))
+    unitActions.take(unit, {
+        unitObj = scene.findObject(unit.name)
+        shouldCheckCrewsReady = shouldCheckCrewsReady
+      }.__update(params))
   }
 
   function onSlotsChangeAutoRefill(obj)
@@ -584,12 +589,12 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
         presetsListWeak.destroy()
   }
 
-  function slotOpCb(id, type, result)
+  function slotOpCb(id, tType, result)
   {
     if (id != taskId)
     {
       dagor.debug("wrong ID in char server cb, ignoring");
-      ::g_tasker.charCallback(id, type, result)
+      ::g_tasker.charCallback(id, tType, result)
       return
     }
     ::g_tasker.restoreCharCallback()
@@ -649,7 +654,10 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     local modName = ::getObjIdByPrefix(obj, "tooltip_")
     local unitName = obj.unitName
     if (!modName || !unitName)
-      return obj["class"] = "empty"
+    {
+      obj["class"] = "empty"
+      return
+    }
 
     local unit = ::getAircraftByName(unitName)
     if (!unit)
@@ -880,14 +888,15 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function checkedCrewAirChange(func, cancelFunc=null) //change air in slot
   {
     checkAndStart(
-      (@(func, cancelFunc) function() {
-        ::g_squad_utils.checkSquadUnreadyAndDo(this, func, cancelFunc, shouldCheckCrewsReady)
-      })(func, cancelFunc),
+      function() {
+        ::g_squad_utils.checkSquadUnreadyAndDo(callback.make(func, this),
+          callback.make(cancelFunc, this), shouldCheckCrewsReady)
+      },
       cancelFunc, "isCanModifyCrew")
   }
-  function checkedModifyQueue(type, func, cancelFunc=null)
+  function checkedModifyQueue(qType, func, cancelFunc = null)
   {
-    checkAndStart(func, cancelFunc, "isCanModifyQueueParams", type)
+    checkAndStart(func, cancelFunc, "isCanModifyQueueParams", qType)
   }
 
   function onFacebookPostScrnshot(saved_screenshot_path)

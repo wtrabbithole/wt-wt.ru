@@ -1,5 +1,5 @@
 local ExchangeRecipes = ::require("scripts/items/exchangeRecipes.nut")
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local stdMath = require("std/math.nut")
 
 local MIN_ITEMS_IN_ROW = 7
@@ -79,7 +79,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
   function updateCurRecipeInfo()
   {
     local infoObj = scene.findObject("selected_recipe_info")
-    local markup = curRecipe ? curRecipe.getTextMarkup() : ""
+    local markup = curRecipe ? curRecipe.getTextMarkup() + curRecipe.getMarkDescMarkup() : ""
     guiScene.replaceContentFromText(infoObj, markup, markup.len(), this)
 
     updateButtons()
@@ -92,16 +92,11 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
 
     local btnText = ::loc(buttonText)
     if (curRecipe.hasCraftTime())
-      btnText += " " + ::loc("ui/parentheses", {text = curRecipe.hasCraftTime()})
+      btnText += " " + ::loc("ui/parentheses", {text = curRecipe.getCraftTimeText()})
     btnObj.setValue(btnText)
-
 
     if (!needMarkRecipes)
       return
-
-    local infoObj = scene.findObject("selected_recipe_mark_info")
-    local markup = curRecipe ? curRecipe.getMarkDescMarkup() : ""
-    guiScene.replaceContentFromText(infoObj, markup, markup.len(), this)
 
     btnObj = scene.findObject("btn_mark")
     btnObj.show(needMarkRecipes && curRecipe?.mark < MARK_RECIPE.USED)

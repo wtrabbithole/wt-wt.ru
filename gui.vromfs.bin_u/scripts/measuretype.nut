@@ -198,14 +198,14 @@ enums.addTypesByGlobalName("g_measure_type", {
 
 function g_measure_type::getTypeByName(name, createIfNotFound = false)
 {
-  local type = enums.getCachedType("name", name, ::g_measure_type_cache.byName,
+  local res = enums.getCachedType("name", name, ::g_measure_type_cache.byName,
                                       ::g_measure_type, ::g_measure_type.UNKNOWN)
-  if (type == UNKNOWN && createIfNotFound)
+  if (res == UNKNOWN && createIfNotFound)
   {
-    type = ::inherit_table(::g_measure_type.template, { name = name })
-    types.push(type)
+    res = ::inherit_table(::g_measure_type.template, { name = name })
+    types.push(res)
   }
-  return type
+  return res
 }
 
 ::g_measure_type_cache <- {

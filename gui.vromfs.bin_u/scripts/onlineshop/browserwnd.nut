@@ -91,8 +91,8 @@ class ::gui_handlers.BrowserModalHandler extends ::BaseGuiHandler
     local taggedUrl = ::browser_get_current_url()
     if (!u.isEmpty(urlTags))
         taggedUrl = ::g_string.implode(urlTags, " ") + " " + taggedUrl
-    local url = u.isEmpty(externalUrl) ? taggedUrl : externalUrl
-    ::open_url(u.isEmpty(url) ? originalUrl : url, true, false, "internal_browser")
+    local newUrl = u.isEmpty(externalUrl) ? taggedUrl : externalUrl
+    ::open_url(u.isEmpty(newUrl) ? originalUrl : newUrl, true, false, "internal_browser")
   }
 
   function setTitle(title)

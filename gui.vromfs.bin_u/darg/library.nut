@@ -1,13 +1,12 @@
-local string = require("string")
 local s = require("std/string.nut")
-local math = require("math")
 ::tostring_r <- s.tostring_r
 local dagorMath = require("dagor.math")
+local Color = ::Color // warning disable: -declared-never-used
 
 local tostringfuncTbl = [
   {
-    compare = @(val) val instanceof Watched
-    tostring = @(val) "Watched: " + ::tostring_r(val.value,{maxdeeplevel = 3, splitlines=false})
+    compare = @(val) val instanceof ::Watched
+    tostring = @(val) "::Watched: " + ::tostring_r(val.value,{maxdeeplevel = 3, splitlines=false})
   }
   {
     compare = @(val) val instanceof dagorMath.Point3
@@ -36,13 +35,13 @@ local tostringfuncTbl = [
 local log = require("std/log.nut")(tostringfuncTbl)
 
 ::dlog <- log.dlog
-::log <- log
+::log <- log  //warning disable: -ident-hides-ident
 ::dlogsplit <- log.dlogsplit
 ::vlog <- log.vlog
 ::console_print <- log.console_print
 
 function make_persists(val){
-  assert(type(val)=="table", "not a table value passed!")
+  ::assert(::type(val)=="table", "not a table value passed!")
 //  local ret = {}
   foreach (k,v in val)
     val[k]<-persist(k, @() v)
@@ -72,18 +71,6 @@ function isDargComponent(comp) {
 }
 
 
-function with_table(tbl, func) {
-  local roottbl = ::getroottable()
-  local accessor = class {
-    _get = @(field) tbl?[field] ?? roottbl[field]
-    _set = @(field, val) tbl[field] <- val
-  }()
-
-  func.bindenv(accessor)()
-
-  return tbl
-}
-
 /*
   this function returns new array that is combination of two arrays, or extended arrays
   is safe wrapper to array.extend(). Can handle obj and val of any type.
@@ -92,7 +79,7 @@ function with_table(tbl, func) {
 function extend_to_array (obj, val, skipNulls=true) {
   local isObjArray = ::type(obj) == "array"
   local isValArray = ::type(val) == "array"
-  
+
   if (obj == null && val == null && skipNulls)
     return []
   if (obj == null && skipNulls)
@@ -147,14 +134,14 @@ function watchElemState(builder) {
   this function returns sh() for pixels for fullhd resolution (1080p)
 */
 function hdpx(pixels) {
-  return sh(100.0 * pixels / 1080)
+  return ::sh(100.0 * pixels / 1080)
 }
 
 
 local complex_types = ["table", "array", "instance"]
 
-local function deep_clone_complex(source) {
-  local deep_clone_complex = ::callee()
+local function deep_clone_complex(source) {}
+deep_clone_complex = function(source) {
   local result = clone source
   foreach (attr, value in result)
     if (complex_types.find(::type(value)) != null)
@@ -170,12 +157,10 @@ function deep_clone(source) {
 
 
 function mergeRecursive(target, source) {
-  local mergeRecursive = ::callee()
-
   local res = clone target
   foreach (key, value in source) {
     if (::type(value) == "table" && key in target) {
-      res[key] = mergeRecursive(target[key], value)
+      res[key] = ::mergeRecursive(target[key], value)
     } else {
       res[key] <- source[key]
     }
@@ -189,26 +174,26 @@ function mergeRecursive(target, source) {
   you can insert array in a certain index of another array safely
 */
 
-function insert_array(array, index, value) {
+function insert_array(list, index, value) {
   if (index < 0)
-    index = max(0, array.len() + index)
-  if (index > array.len()) {
-    index = array.len()
+    index = ::max(0, list.len() + index)
+  if (index > list.len()) {
+    index = list.len()
   }
-  if (index == array.len()) {
-    array.extend(value)
+  if (index == list.len()) {
+    list.extend(value)
     return
   } else {
-    local prev_len = array.len()
+    local prev_len = list.len()
     local head_len = index
-    local add_elems = (type(value)=="array") ? value.len() : 1
-    local tail = array.slice(index)
-    array.resize(prev_len + add_elems)
-    foreach (idx, val in array) {
+    local add_elems = (::type(value)=="array") ? value.len() : 1
+    local tail = list.slice(index)
+    list.resize(prev_len + add_elems)
+    foreach (idx, val in list) {
       if (idx >= head_len && idx < head_len + add_elems)
-        array[idx] = (type(value)=="array") ? value[idx - head_len] : value
+        list[idx] = (::type(value)=="array") ? value[idx - head_len] : value
       if (idx >= head_len + add_elems)
-        array[idx] = tail[idx - head_len - add_elems]
+        list[idx] = tail[idx - head_len - add_elems]
     }
     return
   }
@@ -222,44 +207,41 @@ function wrap(elems, params=wrapParams) {
   local paddingTop=params?.paddingTop
   local paddingBottom=params?.paddingBottom
   local flow = params?.flow ?? FLOW_HORIZONTAL
-  assert([FLOW_HORIZONTAL, FLOW_VERTICAL].find(flow)!=null, "flow should be FLOW_VERTICAL or FLOW_HORIZONTAL")
+  ::assert([FLOW_HORIZONTAL, FLOW_VERTICAL].find(flow)!=null, "flow should be FLOW_VERTICAL or FLOW_HORIZONTAL")
   local isFlowHor = flow==FLOW_HORIZONTAL
   local height = params?.height ?? SIZE_TO_CONTENT
   local width = params?.width ?? SIZE_TO_CONTENT
   local dimensionLim = isFlowHor ? width : height
-  local secondaryDimensionLim = isFlowHor ? height : width
-  assert(["array"].find(type(elems))!=null, "elems should be array")
-  assert(["float","integer"].find(type(dimensionLim))!=null, "can't flow over {0} non numeric type".subst(isFlowHor ? "width" :"height"))
+  ::assert(["array"].find(::type(elems))!=null, "elems should be array")
+  ::assert(["float","integer"].find(::type(dimensionLim))!=null, "can't flow over {0} non numeric type".subst(isFlowHor ? "width" :"height"))
   local hgap = params?.hGap ?? wrapParams?.hGap
   local vgap = params?.vGap ?? wrapParams?.vGap
   local gap = isFlowHor ? hgap : vgap
   local secondaryGap = isFlowHor ? vgap : hgap
-  if (["float","integer"].find(type(gap)) !=null)
+  if (["float","integer"].find(::type(gap)) !=null)
     gap = isFlowHor ? {size=[gap,0]} : {size=[0,gap]}
   gap = gap ?? 0
   local flowElemProto = params?.flowElemProto ?? {}
-  local flowSizeIdx = isFlowHor ? 0 : 1
-  local secondaryFlowSizeIdx = isFlowHor ? 1 : 0
   local flowElems = []
   if (paddingTop && isFlowHor)
     flowElems.append(paddingTop)
   if (paddingLeft && !isFlowHor)
     flowElems.append(paddingLeft)
-  local ret = {}
   local tail = elems
-  local function buildFlowElem(elems, gap, flowElemProto, dimensionLim) {
+  local function buildFlowElem(elems, gap, flowElemProto, dimensionLim) {  //warning disable: -ident-hides-ident
     local children = []
     local curwidth=0.0
     local tailidx = 0
+    local flowSizeIdx = isFlowHor ? 0 : 1
     foreach (i, elem in elems) {
-      local esize = calc_comp_size(elem)[flowSizeIdx]
-      local gapsize = isDargComponent(gap) ? calc_comp_size(gap)[flowSizeIdx] : gap
-      if (i==0 && curwidth + esize <= dimensionLim) {
+      local esize = ::calc_comp_size(elem)[flowSizeIdx]
+      local gapsize = isDargComponent(gap) ? ::calc_comp_size(gap)[flowSizeIdx] : gap
+      if (i==0 && ((curwidth + esize) <= dimensionLim)) {
         children.append(elem)
         curwidth = curwidth + esize
         tailidx = i
       }
-      else if (curwidth + esize + gapsize <= dimensionLim) {
+      else if ((curwidth + esize + gapsize) <= dimensionLim) {
         children.extend([gap, elem])
         curwidth = curwidth + esize + gapsize
         tailidx = i
@@ -268,13 +250,16 @@ function wrap(elems, params=wrapParams) {
         tail = elems.slice(tailidx+1)
         break
       }
-      if (i==elems.len()-1)
+      if (i==elems.len()-1){
         tail = []
+        break
+      }
     }
     flowElems.append(flowElemProto.__merge({children=children flow=isFlowHor ? FLOW_HORIZONTAL : FLOW_VERTICAL size=SIZE_TO_CONTENT}))
   }
+
   do {
-    buildFlowElem(tail,gap,flowElemProto, dimensionLim)
+    buildFlowElem(tail, gap, flowElemProto, dimensionLim)
   } while (tail.len()>0)
   if (paddingTop && isFlowHor)
     flowElems.append(paddingBottom)
@@ -283,8 +268,8 @@ function wrap(elems, params=wrapParams) {
   return {flow=isFlowHor ? FLOW_VERTICAL : FLOW_HORIZONTAL gap=secondaryGap children=flowElems halign = params?.halign valign=params?.valign hplace=params?.hplace vplace=params?.vplace size=[width?? SIZE_TO_CONTENT, height ?? SIZE_TO_CONTENT]}
 }
 
-
-function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []}) {
+local function deep_compare_impl(a, b, params = {ignore_keys = [], compare_only_keys = []}){}
+deep_compare_impl = function(a, b, params = {ignore_keys = [], compare_only_keys = []}) {
   local compare_only_keys = params?.compare_only_keys ?? []
   local ignore_keys = params?.ignore_keys ?? []
   local type_a = ::type(a)
@@ -296,14 +281,12 @@ function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []})
   if (type_a == "integer" || type_a == "float" || type_a == "bool" || type_a == "string")
     return a == b
 
-  local deep_compare = ::callee()
-
   if (type_a == "array") {
     if (a.len() != b.len())
       return false
 
     foreach (idx, val in a) {
-      if (!deep_compare(val, b[idx], params)) {
+      if (!deep_compare_impl(val, b[idx], params)) {
         return false
       }
     }
@@ -316,17 +299,17 @@ function deep_compare(a, b, params = {ignore_keys = [], compare_only_keys = []})
         return false
       }
       if (compare_only_keys.len() > 0) {
-        if (compare_only_keys.find(key)!=null && !deep_compare(val, b[key], params)) {
+        if (compare_only_keys.find(key)!=null && !deep_compare_impl(val, b[key], params)) {
           return false
         }
-      } else if (ignore_keys.find(key)==null && !deep_compare(val, b[key], params)) {
+      } else if (ignore_keys.find(key)==null && !deep_compare_impl(val, b[key], params)) {
         return false
       }
     }
   }
   return true
 }
-
+::deep_compare <- deep_compare_impl
 
 function dump_observables() {
   local list = ::gui_scene.getAllObservables()
@@ -336,8 +319,8 @@ function dump_observables() {
 }
 
 function mul_color(color, mult) {
-  return Color(min(255, ((color >> 16) & 0xff) * mult),
-               min(255, ((color >>  8) & 0xff) * mult),
-               min(255, (color & 0xff) * mult),
-               min(255, ((color >> 24) & 0xff) * mult))
+  return ::Color(::min(255, ((color >> 16) & 0xff) * mult),
+               ::min(255, ((color >>  8) & 0xff) * mult),
+               ::min(255, (color & 0xff) * mult),
+               ::min(255, ((color >> 24) & 0xff) * mult))
 }

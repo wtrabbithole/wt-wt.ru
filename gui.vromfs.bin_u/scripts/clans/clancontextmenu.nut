@@ -55,7 +55,8 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
 
         if (!canInteract)
         {
-          platformModule.isChatEnableWithPlayer(name, ::isInMenu()) //to display Xbox overlay message on pressing action
+          if (::isInMenu())
+            platformModule.attemptShowOverlayMessage(name)
           return playerContextMenu.showPrivacySettingsRestrictionPopup()
         }
 

@@ -42,7 +42,6 @@ class ::gui_handlers.clanChangeRoleModal extends ::gui_handlers.BaseGuiHandlerWT
     local titleObj = scene.findObject("title_text");
     local myRole = adminMode? ::ECMR_CLANADMIN : clan_get_my_role()
     local myRank = clan_get_role_rank(myRole)
-    local myRights = clan_get_role_rights(myRole)
 
     if (titleObj) titleObj.setValue(::loc("clan/changeRoleTitle")+" "+changeRolePlayer.name);
 

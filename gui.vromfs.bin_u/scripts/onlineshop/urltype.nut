@@ -108,6 +108,8 @@ enums.addTypesByGlobalName("g_url_type", {
       regexp(@"^https?:\/\/live\.warthunder\.com" + URL_ANY_ENDING),
       regexp(@"^https?:\/\/trade\.gaijin\.net" + URL_ANY_ENDING),
       regexp(@"^https?:\/\/inventory-test-01\.gaijin\.lan" + URL_ANY_ENDING),
+      regexp(@"^https?:\/\/achievements\.gaijin\.net" + URL_ANY_ENDING)
+      regexp(@"^https?:\/\/support\.gaijin\.net" + URL_ANY_ENDING)
     ]
   }
 

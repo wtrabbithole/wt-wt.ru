@@ -72,10 +72,10 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     foreach (id, dataBlk in staticBlk)
     {
       local statusBlk = getStatusBlock(dataBlk)
-      local type = ::g_ww_objective_type.getTypeByTypeName(dataBlk.type)
+      local oType = ::g_ww_objective_type.getTypeByTypeName(dataBlk.type)
       local handler = this
-      foreach (param, func in type.timersArrayByParamName)
-        timersArray.extend(func(handler, scene, param, dataBlk, statusBlk, type, side))
+      foreach (param, func in oType.timersArrayByParamName)
+        timersArray.extend(func(handler, scene, param, dataBlk, statusBlk, oType, side))
     }
   }
 
@@ -99,8 +99,8 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
     if (checkType)
     {
-      local type = ::g_ww_objective_type.getTypeByTypeName(objBlock.type)
-      local isDefender = type.isDefender(objBlock, ::ww_side_val_to_name(side))
+      local oType = ::g_ww_objective_type.getTypeByTypeName(objBlock.type)
+      local isDefender = oType.isDefender(objBlock, ::ww_side_val_to_name(side))
 
       if (objBlock.showOnlyForDefenders)
         return isDefender
@@ -202,13 +202,13 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     local objectiveBlocks = []
     foreach (name in ["primary", "secondary"])
     {
-      local array = objectivesList[name]
+      local arr = objectivesList[name]
       objectiveBlocks.append({
           id = name,
           isPrimary = name == "primary"
           countryIcon = countryIcon
-          hide = array.len() == 0
-          objectives = getObjectiveViewsArray(array)
+          hide = arr.len() == 0
+          objectives = getObjectiveViewsArray(arr)
         })
     }
 
@@ -262,21 +262,21 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
   function getObjectiveViewsArray(objectives)
   {
     return ::u.mapAdvanced(objectives, ::Callback(
-      @(dataBlk, idx, array)
+      @(dataBlk, idx, arr)
         ::WwObjectiveView(
           dataBlk,
           getStatusBlock(dataBlk),
           side,
-          array.len() == 1 || idx == (array.len() - 1)
+          arr.len() == 1 || idx == (arr.len() - 1)
         ),
       this))
   }
 
   function getReinforcementSpeedup(objectiveBlk)
   {
-    local type = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
+    local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
     if (side == ::ww_get_player_side())
-     return type.getReinforcementSpeedupPercent(
+     return oType.getReinforcementSpeedupPercent(
        objectiveBlk, statusBlock, ::ww_side_val_to_name(side))
   }
 
@@ -321,11 +321,10 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       if (canShowObjective(objectiveBlk, true))
       {
         local statusBlock = getStatusBlock(objectiveBlk)
-        local type = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
+        local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
         local sideEnumVal = ::ww_side_val_to_name(side)
 
-        reinforcementSpeedup += type.getReinforcementSpeedupPercent
-          (objectiveBlk, statusBlock, sideEnumVal)
+        reinforcementSpeedup += oType.getReinforcementSpeedupPercent(objectiveBlk, statusBlock, sideEnumVal)
       }
 
     ::ww_event("ReinforcementSpeedupUpdated", { speedup = reinforcementSpeedup })
@@ -336,25 +335,25 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     local objectiveBlockId = objectiveBlk.getBlockName()
     local statusBlock = getStatusBlock(objectiveBlk)
 
-    local type = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
+    local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk.type)
     local sideEnumVal = ::ww_side_val_to_name(side)
-    local result = type.getUpdatableParamsArray(objectiveBlk, statusBlock, sideEnumVal)
-    local zones = type.getUpdatableZonesParams(objectiveBlk, statusBlock, sideEnumVal)
+    local result = oType.getUpdatableParamsArray(objectiveBlk, statusBlock, sideEnumVal)
+    local zones = oType.getUpdatableZonesParams(objectiveBlk, statusBlock, sideEnumVal)
 
     local objectiveObj = scene.findObject(objectiveBlockId)
     if (!::checkObj(objectiveObj))
       return
 
-    local statusType = type.getObjectiveStatus(statusBlock.winner, sideEnumVal)
+    local statusType = oType.getObjectiveStatus(statusBlock.winner, sideEnumVal)
     objectiveObj.status = statusType.name
 
     local imageObj = objectiveObj.findObject("statusImg")
     if (::checkObj(imageObj))
       imageObj["background-image"] = statusType.wwMissionObjImg
 
-    local titleObj = objectiveObj.findObject(type.getNameId(objectiveBlk, side))
+    local titleObj = objectiveObj.findObject(oType.getNameId(objectiveBlk, side))
     if (::checkObj(titleObj))
-      titleObj.setValue(type.getName(objectiveBlk, statusBlock, sideEnumVal))
+      titleObj.setValue(oType.getName(objectiveBlk, statusBlock, sideEnumVal))
 
     foreach (block in result)
     {
@@ -388,7 +387,7 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     local descObj = objectiveObj.findObject("updatable_data_text")
     if (::check_obj(descObj))
     {
-      local text = type.getUpdatableParamsDescriptionText(objectiveBlk, statusBlock, sideEnumVal)
+      local text = oType.getUpdatableParamsDescriptionText(objectiveBlk, statusBlock, sideEnumVal)
       descObj.setValue(text)
     }
   }

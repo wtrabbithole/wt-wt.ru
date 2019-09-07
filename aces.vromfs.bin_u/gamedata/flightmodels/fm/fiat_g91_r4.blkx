@@ -5,7 +5,7 @@
   "ElevatorsEffectiveSpeed": 660.005,
   "AileronPowerLoss": 2.0,
   "RudderPowerLoss": 1.8,
-  "ElevatorPowerLoss": 2.1,
+  "ElevatorPowerLoss": 1.95,
   "AlphaAileronMin": 0.1,
   "AlphaRudderMin": 0.2,
   "AlphaElevatorMin": 0.26,
@@ -41,10 +41,10 @@
   "RudderInterceptor": false,
   "Elevon": false,
   "VSlats": [150.0,200.0],
-  "Vne": 1011.0,
+  "Vne": 1128.0,
   "VneMach": 0.97,
-  "MaxSpeedNearGround": 950.0,
-  "MaxSpeedAtAltitude": 950.0,
+  "MaxSpeedNearGround": 1117.0,
+  "MaxSpeedAtAltitude": 1060.0,
   "MaxSpeedFlaps": 250.0,
   "MinSpeedFlaps": 121.8,
   "MinimalSpeed": 160.0,
@@ -402,11 +402,11 @@
       "CarbueretorType": 0,
       "Mass": 439.0,
       "Thrust": 2200.0,
-      "ThrottleBoost": 1.0,
+      "ThrottleBoost": 1.01,
       "AfterburnerBoost": 1.0,
       "RPMMin": 3500.0,
-      "RPMMax": 9900.0,
-      "RPMMaxAllowed": 10000.0,
+      "RPMMax": 10120.0,
+      "RPMMaxAllowed": 14000.0,
       "FuelConsumptionOnIdle": 0.108,
       "FuelConsumptionOnHalfThr": 0.476,
       "FuelConsumptionOnFullThr": 1.15,
@@ -418,7 +418,7 @@
       "OptimalSpeed": 324.0,
       "EngineInertiaMoment": 1.0,
       "EngineAcceleration": 0.15,
-      "RPMAmplitude0": [9900.0,0.0],
+      "RPMAmplitude0": [10120.0,0.0],
       "RPMAmplitude1": [0.0,70.0],
       "ConsumptionOmegaMax": 1.05,
       "ConsumptionOmegaMinCoeff": 3.5872,
@@ -441,23 +441,30 @@
       },
       "Mode2": {
         "Throttle": 0.5,
-        "RPM": 0.8,
-        "ThrustMult": 0.5,
-        "TorqueMult": 0.5,
+        "RPM": 0.85,
+        "ThrustMult": 0.56,
+        "TorqueMult": 0.56,
         "ConsumptionMult": 1.4
       },
       "Mode3": {
-        "Throttle": 0.9,
-        "RPM": 0.95,
-        "ThrustMult": 0.852,
-        "TorqueMult": 0.852,
+        "Throttle": 0.95,
+        "RPM": 0.98,
+        "ThrustMult": 0.914,
+        "TorqueMult": 0.914,
         "ConsumptionMult": 1.2
       },
       "Mode4": {
         "Throttle": 1.0,
-        "RPM": 1.0,
+        "RPM": 0.99,
         "ThrustMult": 1.0,
         "TorqueMult": 1.0,
+        "ConsumptionMult": 1.0
+      },
+      "Mode5": {
+        "Throttle": 1.01,
+        "RPM": 1.0,
+        "ThrustMult": 1.01,
+        "TorqueMult": 1.01,
         "ConsumptionMult": 1.0
       },
       "ThrustMax": {
@@ -474,7 +481,7 @@
         "Velocity_4": 800.0,
         "Velocity_5": 1000.0,
         "Velocity_6": 1200.0,
-        "ThrustMax0": 2140.0,
+        "ThrustMax0": 2190.0,
         "ThrustMaxCoeff_0_0": 1.01,
         "ThrustMaxCoeff_0_1": 0.93,
         "ThrustMaxCoeff_0_2": 0.86,
@@ -647,20 +654,26 @@
       "Mode1": {
         "Altitude": 1000.0,
         "RPM": 9450.0,
-        "WaterTemperature": 630.0,
+        "WaterTemperature": 610.0,
         "OilTemperature": 90.0
       },
       "Mode2": {
         "Altitude": 1000.0,
         "RPM": 9700.0,
-        "WaterTemperature": 675.0,
+        "WaterTemperature": 655.0,
         "OilTemperature": 95.0
       },
       "Mode3": {
         "Altitude": 1000.0,
-        "RPM": 9900.0,
-        "WaterTemperature": 715.0,
-        "OilTemperature": 100.0
+        "RPM": 9920.0,
+        "WaterTemperature": 685.5,
+        "OilTemperature": 98.2
+      },
+      "Mode4": {
+        "Altitude": 1000.0,
+        "RPM": 10120.0,
+        "WaterTemperature": 730.0,
+        "OilTemperature": 100.1
       },
       "Load0": {
         "WaterTemperature": 500.0,
@@ -669,29 +682,29 @@
       "Load1": {
         "WaterTemperature": 520.0,
         "OilTemperature": 80.0,
+        "WorkTime": 7200.0,
+        "RecoverTime": 3600.0
+      },
+      "Load2": {
+        "WaterTemperature": 655.0,
+        "OilTemperature": 90.0,
         "WorkTime": 3600.0,
         "RecoverTime": 1800.0
       },
-      "Load2": {
-        "WaterTemperature": 625.0,
-        "OilTemperature": 90.0,
+      "Load3": {
+        "WaterTemperature": 685.0,
+        "OilTemperature": 95.0,
         "WorkTime": 1800.0,
         "RecoverTime": 900.0
       },
-      "Load3": {
-        "WaterTemperature": 670.0,
-        "OilTemperature": 95.0,
-        "WorkTime": 1000.0,
+      "Load4": {
+        "WaterTemperature": 730.0,
+        "OilTemperature": 100.0,
+        "WorkTime": 900.0,
         "RecoverTime": 600.0
       },
-      "Load4": {
-        "WaterTemperature": 710.0,
-        "OilTemperature": 100.0,
-        "WorkTime": 600.0,
-        "RecoverTime": 300.0
-      },
       "Load5": {
-        "WaterTemperature": 725.0,
+        "WaterTemperature": 740.0,
         "OilTemperature": 105.0,
         "WorkTime": 300.0,
         "RecoverTime": 150.0
@@ -737,7 +750,7 @@
     }
   },
   "Mass": {
-    "EmptyMass": 3340.0,
+    "EmptyMass": 3477.0,
     "MaxFuelMass0": 1256.0,
     "FuelAccumulatorCapacity0": 7.0,
     "FuelAccumulatorLink0": 2,

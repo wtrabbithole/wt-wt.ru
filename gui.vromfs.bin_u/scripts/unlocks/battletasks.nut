@@ -423,9 +423,9 @@ function BattleTasks::generateUpdateDescription(log)
 
   local data = ""
   local lastUserLogHeader = ""
-  foreach(userlogHeader, array in res)
+  foreach(userlogHeader, arr in res)
   {
-    if (array.len() == 0)
+    if (arr.len() == 0)
       continue
 
     data += data == ""? "" : "\n"
@@ -434,7 +434,7 @@ function BattleTasks::generateUpdateDescription(log)
       data += ::loc("userlog/battletask/type/" + userlogHeader) + ::loc("ui/colon")
       lastUserLogHeader = userlogHeader
     }
-    data += ::g_string.implode(array, "\n")
+    data += ::g_string.implode(arr, "\n")
   }
 
   return data
@@ -650,14 +650,14 @@ function BattleTasks::setUpdateTimer(task, taskBlockObj)
     })
 }
 
-function BattleTasks::getUnlockConditionBlock(text, id, type, isUnlocked, isFinal, hasCustomUnlockableList, typeOR = false, isBitMode = true)
+function BattleTasks::getUnlockConditionBlock(text, id, mType, isUnlocked, isFinal, hasCustomUnlockableList, typeOR = false, isBitMode = true)
 {
   local unlockDesc = typeOR ? ::loc("hints/shortcut_separator") + "\n" : ""
   unlockDesc += text
   unlockDesc += typeOR? "" : ::loc(isFinal? "ui/dot" : "ui/comma")
 
   return {
-    tooltipId = ::UnlockConditions.getTooltipIdByModeType(type, id, hasCustomUnlockableList)
+    tooltipId = ::UnlockConditions.getTooltipIdByModeType(mType, id, hasCustomUnlockableList)
     overlayTextColor = (isBitMode && isUnlocked) ? "userlog" : "active"
     text = unlockDesc
   }
@@ -666,12 +666,12 @@ function BattleTasks::getUnlockConditionBlock(text, id, type, isUnlocked, isFina
 function BattleTasks::getPlaybackPath(playbackName, shouldUseDefaultLang = false)
 {
   if (::u.isEmpty(playbackName))
-    return
+    return ""
 
   local guiBlk = ::configs.GUI.get()
   local unlockPlaybackPath = guiBlk.unlockPlaybackPath
   if (!unlockPlaybackPath)
-    return
+    return ""
 
   local path = unlockPlaybackPath.mainPath
   local abbrev = shouldUseDefaultLang? "en" : ::g_language.getShortName()
@@ -780,14 +780,14 @@ function BattleTasks::getTasksArrayByIncreasingDifficulty()
   ]
 
   local result = []
-  foreach(type in typesArray)
+  foreach(t in typesArray)
   {
-    local array = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(type, currentTasksArray)
-    if (array.len() == 0)
+    local arr = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(t, currentTasksArray)
+    if (arr.len() == 0)
       continue
 
-    if (::g_battle_task_difficulty.canPlayerInteractWithDifficulty(type, array))
-      result.extend(array)
+    if (::g_battle_task_difficulty.canPlayerInteractWithDifficulty(t, arr))
+      result.extend(arr)
   }
 
   return result
@@ -957,21 +957,20 @@ function BattleTasks::checkNewSpecialTasks()
   if (!canActivateHardTasks())
     return
 
-  local array = ::u.filter(proposedTasksArray, ::Callback(isSpecialBattleTask, this) )
-  ::gui_start_battle_tasks_select_new_task_wnd(array)
+  local arr = ::u.filter(proposedTasksArray, ::Callback(isSpecialBattleTask, this) )
+  ::gui_start_battle_tasks_select_new_task_wnd(arr)
 }
 
 function BattleTasks::getDifficultyTypeGroup()
 {
   local result = []
-  local difficultyGroupArr = []
-  foreach(type in ::g_battle_task_difficulty.types)
+  foreach(t in ::g_battle_task_difficulty.types)
   {
-    local difficultyGroup = type.getDifficultyGroup()
+    local difficultyGroup = t.getDifficultyGroup()
     if (difficultyGroup =="")
       continue
 
-    result.append(type)
+    result.append(t)
   }
   return result
 }

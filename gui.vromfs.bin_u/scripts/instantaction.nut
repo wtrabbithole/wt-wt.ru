@@ -3,6 +3,7 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local battleRating = ::require("scripts/battleRating.nut")
+local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -128,7 +129,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     ::enableHangarControls(true)
-    ::instant_domination_handler <- this
+    ::instant_domination_handler = this
 
     // Causes drawer to initialize once.
     getGamercardDrawerHandler()
@@ -142,6 +143,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     setCurQueue(::queues.findQueue({}, queueMask))
 
     updateStartButton()
+
+    setCurrentFocusObj(getSlotbar()?.getCurFocusObj())
 
     inited = true
     ::dmViewer.update()
@@ -171,7 +174,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (queueTableContainer == null)
       return
 
-    local queue = getCurQueue()
     local params = {
       scene = queueTableContainer
       queueMask = queueMask
@@ -376,8 +378,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     return
   }
 
-  function onEventQueueChangeState(_queue)
+  function onEventQueueChangeState(p)
   {
+    local _queue = p?.queue
     if (!::queues.checkQueueType(_queue, queueMask))
       return
     setCurQueue(::queues.isQueueActive(_queue) ? _queue : null)
@@ -535,7 +538,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local event = getGameModeEvent(curGameMode)
     if (!isCrossPlayEventAvailable(event))
     {
-      ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
+      ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
       return
     }
 
@@ -870,7 +873,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     leaveCurQueue()
 
     local modeName = ""
-    local isEventBattle = event != null
     if (event)
       modeName = event.name
     else
@@ -909,14 +911,14 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function leaveCurQueue(options = {})
   {
-    local curQueue = getCurQueue()
-    if (!curQueue)
+    local queue = getCurQueue()
+    if (!queue)
       return false
 
     if (options.len() && !::g_squad_utils.canJoinFlightMsgBox(options))
       return false
 
-    ::queues.leaveQueue(curQueue, options)
+    ::queues.leaveQueue(queue, options)
     return true
   }
 
@@ -1175,7 +1177,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!tutorialPageId)
       return
 
-    local inst = this
     local steps = [
       {
         obj = [curCrewSlot]
@@ -1386,15 +1387,15 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkNonApprovedSquadronResearches()
   {
-    if (!::isInMenu() || ::checkIsInQueue())
+    if (!::isInMenu() || !::has_feature("ClanVehicles") || ::checkIsInQueue())
       return
 
-    local researchingUnitName = clan_get_researching_unit()
+    local researchingUnitName = ::clan_get_researching_unit()
     if (researchingUnitName == "")
       return
 
     local curSquadronExp = ::clan_get_exp()
-    local hasChosenResearchOfSquadron = ::load_local_account_settings("has_chosen_research_of_squadron", false)
+    local hasChosenResearchOfSquadron = squadronUnitAction.hasChosenResearch()
     if (hasChosenResearchOfSquadron && curSquadronExp <=0)
       return
 
@@ -1417,6 +1418,11 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onEventClanChanged(params)
+  {
+    doWhenActiveOnce("checkNonApprovedSquadronResearches")
+  }
+
+  function onEventSquadronExpChanged(params)
   {
     doWhenActiveOnce("checkNonApprovedSquadronResearches")
   }

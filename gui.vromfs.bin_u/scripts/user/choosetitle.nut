@@ -40,7 +40,6 @@ class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
         isSelected = name == curTitle
         unseenIcon = hasUnseen && bhvUnseen.makeConfigStr(SEEN.TITLES, name)
       }
-      return res
     }.bindenv(this))
 
     local titleWidth = daguiFonts.getStringWidthPx(titlesData.map(@(t) t.text), "fontNormal", guiScene)

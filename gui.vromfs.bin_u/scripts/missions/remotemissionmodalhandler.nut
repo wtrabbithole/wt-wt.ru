@@ -10,6 +10,7 @@ class ::gui_handlers.RemoteMissionModalHandler extends ::gui_handlers.CampaignCh
     if (mission == null)
       return goBack()
 
+    gm = ::get_game_mode()
     curMission = mission
     setMission()
   }
@@ -19,7 +20,7 @@ class ::gui_handlers.RemoteMissionModalHandler extends ::gui_handlers.CampaignCh
     return {
       options = optionItems
       applyAtClose = false
-      wndOptionsMode = ::get_options_mode(::get_game_mode())
+      wndOptionsMode = ::get_options_mode(gm)
       owner = this
       applyFunc = applyFunc
       cancelFunc = ::Callback(function() {

@@ -1,5 +1,6 @@
 local math = require("math")
 local timeBase = require("std/time.nut")
+local dagor_iso8601 = require("dagor.iso8601")
 
 
 /**
@@ -165,26 +166,6 @@ local getTimestampFromStringLocal = function(str, fillMissedByTimestamp) {
 }
 
 
-local reIso8601FullUtc = ::regexp2(@"^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d(\.\d+)?Z$")
-
-
-local getIso8601FromTimestamp = function(timestamp) {
-  local t = ::get_utc_time_from_t(timestamp)
-  return format("%04d-%02d-%02dT%02d:%02d:%02dZ", t.year, t.month + 1, t.day, t.hour, t.min, t.sec)
-}
-
-local getTimestampFromIso8601 = function(str) {
-  if (!str || !reIso8601FullUtc.match(str))
-    return -1
-  local timeArray = ::split(str, "-T:Z")
-  local timeTbl = {}
-  foreach (i, k in timeOrder)
-    timeTbl[k] <- timeArray[i].tointeger()
-  timeTbl.month -= 1
-  return ::get_t_from_utc_time(timeTbl)
-}
-
-
 local isInTimerangeByUtcStrings = function(beginDateStr, endDateStr) {
   if (!::u.isEmpty(beginDateStr) &&
     getTimestampFromStringUtc(beginDateStr) > ::get_charserver_time_sec())
@@ -251,12 +232,10 @@ local preciseSecondsToString = function(value, canShowZeroMinutes = true) {
 
 
 local getRaceTimeFromSeconds = function(value, zeroIsValid = false) {
-  if (typeof value != "float" && typeof value != "integer") {
+  if (typeof value != "float" && typeof value != "integer")
     return ""
-  }
-  if (value < 0 || !zeroIsValid && value == 0) {
+  if (value < 0 || (!zeroIsValid && value == 0))
     return ::loc("leaderboards/notAvailable")
-  }
   return preciseSecondsToString(value)
 }
 
@@ -295,8 +274,8 @@ timeBase.__update({
   preciseSecondsToString = preciseSecondsToString
   getRaceTimeFromSeconds = getRaceTimeFromSeconds
 
-  getIso8601FromTimestamp = getIso8601FromTimestamp
-  getTimestampFromIso8601 = getTimestampFromIso8601
+  getIso8601FromTimestamp = dagor_iso8601.format_unix_time
+  getTimestampFromIso8601 = dagor_iso8601.parse_unix_time
 })
 
 return timeBase

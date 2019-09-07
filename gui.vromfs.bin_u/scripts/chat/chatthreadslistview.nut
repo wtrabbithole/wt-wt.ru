@@ -144,9 +144,9 @@ class ::gui_handlers.ChatThreadsListView extends ::gui_handlers.BaseGuiHandlerWT
 
   function getThreadByObj(obj = null)
   {
-    local roomId = obj && obj.roomId
-    if (roomId && roomId.len())
-      return ::g_chat.getThreadInfo(roomId)
+    local rId = obj?.roomId
+    if (rId && rId.len())
+      return ::g_chat.getThreadInfo(rId)
 
     if (!::checkObj(listObj))
       return null

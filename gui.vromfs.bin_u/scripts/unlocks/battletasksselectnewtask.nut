@@ -61,8 +61,6 @@ class ::gui_handlers.BattleTasksSelectNewTaskWnd extends ::gui_handlers.BaseGuiH
   function onSelectTask(obj)
   {
     local config = getCurrentConfig()
-    local task = ::g_battle_tasks.getTaskById(config)
-
     local taskObj = getCurrentTaskObj()
 
     ::showBtn("btn_reroll", false, taskObj)

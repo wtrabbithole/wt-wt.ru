@@ -123,7 +123,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   spectator_switch_direction = ESwitchSpectatorTarget.E_DO_NOTHING
   lastSpectatorTargetName = ""
 
-  filterTags = []
   gunDescr = null
   bulletsDescr = array(::BULLETS_SETS_QUANTITY, null)
   fuelDescr = null
@@ -133,7 +132,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   skins = null
 
   missionRules = null
-  slotbarCheckTags = true
   slotbarInited = false
   leftRespawns = -1
   customStateCrewAvailableMask = 0
@@ -162,7 +160,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     "chat_input"
     function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
-  focusItemAirsTable = 2
+  focusItemAirsTable = 0
   focusItemChatTabs  = 4
   focusItemChatInput = 5
 
@@ -541,14 +539,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function initAircraftSelect()
   {
-    local team = ::get_mp_local_team()
-
-    filterTags = []
-    ::set_aircrafts_filter(filterTags)
-
-    foreach(tag in ::aircrafts_filter_tags)
-      dagor.debug("Filter by tag: "+tag.tostring());
-
     if (::show_aircraft == null)
       ::show_aircraft = getAircraftByName(::last_ca_aircraft)
 
@@ -902,7 +892,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     local hint = ""
     local hintIcon = ::show_console_buttons ? gamepadIcons.getTexture("r_trigger") : "#ui/gameuiskin#mouse_left"
-    local respBaseTimerText = ""
     if (!isRespawn)
       hint = ::colorize("activeTextColor", ::loc("voice_message_attention_to_point_2"))
     else
@@ -1320,7 +1309,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!missionRules.hasWeaponLimits())
       return
 
-    foreach(weapon in unit?.weapons)
+    foreach(weapon in (unit?.weapons ?? []))
       if (::is_weapon_visible(unit, weapon)
           && ::is_weapon_enabled(unit, weapon)
           && missionRules.getUnitWeaponRespawnsLeft(unit, weapon) > 0) //limited and available
@@ -1731,7 +1720,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     local readyCounts = bulletsManager.checkBulletsCountReady()
     if (readyCounts.status == bulletsAmountState.READY
-        || readyCounts.status == bulletsAmountState.HAS_UNALLOCATED && ::get_gui_option(::USEROPT_SKIP_LEFT_BULLETS_WARNING))
+        || (readyCounts.status == bulletsAmountState.HAS_UNALLOCATED && ::get_gui_option(::USEROPT_SKIP_LEFT_BULLETS_WARNING)))
       return true
 
     local msg = ""
@@ -1832,7 +1821,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return true
 
     local diffCode = ::get_mission_difficulty_int()
-    local difficulty = ::g_difficulty.getDifficultyByDiffCode(diffCode)
 
     local curPresetId = contentPreset.getCurPresetId(diffCode)
     local newPresetId = contentPreset.getPresetIdBySkin(diffCode, unit.name, skinId)
@@ -2148,7 +2136,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     curChatData = ::loadGameChatToObj(chatObj, chatBlkName, this,
-                                      { selfHideInput = isSpectate, isInSpectateMode = isSpectate })
+      { selfHideInput = isSpectate, isInSpectateMode = isSpectate, isInputSelected = isSpectate })
     curChatBlk = chatBlkName
 
     if (!isSpectate)
@@ -2289,6 +2277,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function onChatCancel()
   {
+    if (curChatData?.selfHideInput ?? false)
+      return
     onGamemenu(null)
   }
 
@@ -2306,18 +2296,21 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!isRespawn || !::can_request_aircraft_now())
       return
 
+    if (isSpectate && onSpectator() && ::has_available_slots())
+      return
+
     guiScene.performDelayed(this, function() {
       ::disable_flight_menu(false)
       gui_start_flight_menu()
     })
   }
 
-  function onSpectator(obj)
+  function onSpectator(obj = null)
   {
-    if (!::can_request_aircraft_now())
-      return
-    if (isRespawn)
-      setSpectatorMode(!isSpectate)
+    if (!::can_request_aircraft_now() || !isRespawn)
+      return false
+    setSpectatorMode(!isSpectate)
+    return true
   }
 
   function setHudVisibility(obj)

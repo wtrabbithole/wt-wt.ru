@@ -35,15 +35,15 @@ function trophyReward::processUserlogData(configsArray = [])
   local tempBuffer = {}
   foreach(idx, config in configsArray)
   {
-    local type = ::trophyReward.getType(config)
-    local typeVal = ::getTblValue(type, config)
+    local rType = ::trophyReward.getType(config)
+    local typeVal = config?[rType]
     local count = config?.count ?? 1
 
     local checkBuffer = typeVal
     if (typeof typeVal != "string")
-      checkBuffer = type + "_" + typeVal
+      checkBuffer = rType + "_" + typeVal
 
-    if (type == "resourceType" && ::g_decorator_type.getTypeByResourceType(typeVal))
+    if (rType == "resourceType" && ::g_decorator_type.getTypeByResourceType(typeVal))
       checkBuffer = checkBuffer + "_" + idx
 
     if (!::getTblValue(checkBuffer, tempBuffer))
@@ -56,13 +56,13 @@ function trophyReward::processUserlogData(configsArray = [])
     else
       tempBuffer[checkBuffer].count += count
 
-    if (type == "unit")
+    if (rType == "unit")
       ::broadcastEvent("UnitBought", { unitName = typeVal, receivedFromTrophy = true })
-    else if (type == "rentedUnit")
+    else if (rType == "rentedUnit")
       ::broadcastEvent("UnitRented", { unitName = typeVal, receivedFromTrophy = true })
-    else if (type == "resourceType" && typeVal == g_decorator_type.DECALS.resourceType)
+    else if (rType == "resourceType" && typeVal == g_decorator_type.DECALS.resourceType)
       ::broadcastEvent("DecalReceived", { id = config?.resource })
-    else if (type == "resourceType" && typeVal == g_decorator_type.ATTACHABLES.resourceType)
+    else if (rType == "resourceType" && typeVal == g_decorator_type.ATTACHABLES.resourceType)
       ::broadcastEvent("AttachableReceived", { id = config?.resource })
   }
 

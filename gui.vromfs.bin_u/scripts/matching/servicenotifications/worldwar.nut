@@ -42,7 +42,13 @@ foreach (notificationName, callback in
 
         if (messageType == "operation_finished")
         {
-          local operationId = ::g_world_war.lastPlayedOperationId
+          if (!::is_in_flight())
+            return
+
+          local operationId = params?.operationId
+          if (!operationId || operationId != ::ww_get_operation_id())
+            return
+
           local operation = ::g_ww_global_status.getOperationById(operationId)
           local text = operation
             ? ::loc("worldwar/operation_complete_battle_results_ignored_full_text",
@@ -53,6 +59,22 @@ foreach (notificationName, callback in
         else (messageType == "wwNotification")
           ::ww_process_server_notification(params)
       }
-  }
-)
-::matching_rpc_subscribe(notificationName, callback)
+  })
+  ::matching_rpc_subscribe(notificationName, callback)
+
+
+foreach (notificationName, callback in
+  {
+    ["worldwar_forced_subscribe"] = function(params)
+      {
+        local operationId = params?.id
+        if (!operationId)
+          return
+
+        if (params?.subscribe ?? false)
+          ::ww_service.subscribeOperation(operationId)
+        else
+          ::ww_service.unsubscribeOperation(operationId)
+      }
+  })
+  ::web_rpc.register_handler(notificationName, callback)

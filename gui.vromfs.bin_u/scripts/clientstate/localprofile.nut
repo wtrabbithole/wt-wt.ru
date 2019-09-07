@@ -85,7 +85,6 @@ function saveLocalByScreenSize(name, value)
 
 //remove all data by screen size from all size blocks
 //also clear empty size blocks
-local screenSizeRegexp = regexp2(@"^\d+x\d+$")
 function clear_local_by_screen_size(name)
 {
   local cdb = ::get_local_custom_settings_blk()

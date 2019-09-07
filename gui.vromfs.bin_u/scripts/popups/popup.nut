@@ -14,7 +14,7 @@ class Popup
   selfObj = null
   onClickPopupAction = null
 
-  function constructor(config)
+  constructor(config)
   {
     onClickPopupAction = config.onClickPopupAction
     buttons = config.buttons || []

@@ -117,6 +117,9 @@
     "smokeScreenOffset": [-3.0,0.0,2.0]
   },
   {
+    "smokeScreenFxType": "tank_smokescreen"
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank_modern",
@@ -567,7 +570,7 @@
         },
         "cannon_breech_dm": {
           "armorThickness": 10.0,
-          "armorThrough": 450.0,
+          "armorThrough": 300.0,
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
@@ -845,6 +848,7 @@
     "sound": {
       "EngineName": "engine_t64a",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_su100",
       "TrackSoundNameCockpit": "tracks_su100_interior",
       "turret_turn": "turret_turn_servo",
@@ -2628,12 +2632,8 @@
       "125mm_ussr_3BM12_APDS_FS_ammo_pack": [],
       "125mm_ussr_3BK12_HEAT_FS_ammo_pack": [],
       "125mm_ussr_3OF26_HE_ammo_pack": [],
-      "125mm_ussr_3BM15_APDS_FS": {
-        "modCostMul": 2.2
-      },
-      "125mm_ussr_3BM12_APDS_FS": {
-        "modCostMul": 1.5
-      },
+      "125mm_ussr_3BM15_APDS_FS": [],
+      "125mm_ussr_3BM12_APDS_FS": [],
       "125mm_ussr_3BK12_HEAT_FS": [],
       "125mm_ussr_HE": [],
       "125mm_ussr_3OF26_HE": [],
@@ -2987,6 +2987,11 @@
         "from": "ussr_camo_green*",
         "to": "ussr_camo_finland_polygonal_threecolor*"
       }
+    }
+  },
+  {
+    "smokeScreenExhaustEmitters": {
+      "emitter": "emtr_exhaust_01"
     }
   }
 ]

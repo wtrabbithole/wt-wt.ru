@@ -16,12 +16,6 @@ local hudFrame = function(inputObj, group, sf) {
 }
 
 
-local makeTextInput = function(text_state, options, handlers, frameCtor) {
-  options.colors <- textInputColors
-  return
-}
-
-
 local export = class {
   hud = @(text_state, options={}, handlers={}) textInputBase(text_state, options, handlers, hudFrame)
   _call = @(self, text_state, options={}, handlers={}) textInputBase(text_state, options, handlers)

@@ -1,5 +1,5 @@
 local string = ::require("std/string.nut")
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 
 local intIconToString = @(id) ""
 local getIconPath = @(icon) icon
@@ -81,7 +81,6 @@ local BhvAvatar = class
     local size = ::clamp(imgBlk?.size || 1.0, 0.01, 1.0)
     local x = imgBlk?.pos?.x ?? 0.0
     local y = imgBlk?.pos?.y ?? 0.0
-    local fullSize = 1.0 / size
     obj.set_prop_latent("background-repeat",  "part")
     obj.set_prop_latent("background-position",
       ::format("%d,%d,%d,%d",

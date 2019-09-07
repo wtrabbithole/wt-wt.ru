@@ -50,8 +50,13 @@
 
     //trigging callback if data is lready here
     if (cachedData)
-      return context ? callback.call(context, cachedData) : callback(cachedData)
-
+    {
+      if (context)
+        callback.call(context, cachedData)
+      else
+        callback(cachedData)
+      return
+    }
 
     requestData.callBack <- ::Callback(callback, context)
     updateEventLb(requestData, id)
@@ -76,7 +81,13 @@
 
     //trigging callback if data is lready here
     if (cachedData)
-      return context ? callback.call(context, cachedData) : callback(cachedData)
+    {
+      if (context)
+        callback.call(context, cachedData)
+      else
+        callback(cachedData)
+      return
+    }
 
     requestData.callBack <- ::Callback(callback, context)
     updateEventLbSelfRow(requestData, id)
@@ -219,9 +230,10 @@
           return
 
     if ("callBack" in requestData)
-      ("handler" in requestData)
-        ? requestData.callBack.call(requestData.handler, blData)
-        : requestData.callBack(blData)
+      if ("handler" in requestData)
+        requestData.callBack.call(requestData.handler, blData)
+      else
+        requestData.callBack(blData)
   }
 
   function handleLbSelfRowRequest(requestData, id)
@@ -241,9 +253,10 @@
         if (request.id == id) return
 
     if ("callBack" in requestData)
-      ("handler" in requestData)
-        ? requestData.callBack.call(requestData.handler, blData)
-        : requestData.callBack(blData)
+      if ("handler" in requestData)
+        requestData.callBack.call(requestData.handler, blData)
+      else
+        requestData.callBack(blData)
   }
 
   /**

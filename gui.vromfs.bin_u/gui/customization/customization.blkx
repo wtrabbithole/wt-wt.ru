@@ -352,6 +352,60 @@
           {
             "tdiv": [
               {
+                "id": "previewed_decorator_div"
+              },
+              {
+                "left": "pw-w-1@buttonMargin"
+              },
+              {
+                "position": "relative"
+              },
+              {
+                "height": "fh"
+              },
+              {
+                "flow": "vertical"
+              },
+              {
+                "tdiv": {
+                  "height": "fh"
+                }
+              },
+              {
+                "frame": {
+                  "id": "previewed_decorator_unit",
+                  "min-width": "1@customizationBlockWidth",
+                  "display": "hide",
+                  "textareaNoTab": {
+                    "id": "label",
+                    "pos": "1@blockInterval, ph/2-h/2",
+                    "position": "relative",
+                    "width": "pw",
+                    "text": "#decoratorPreview/autoselectedUnit",
+                    "tinyFont": "yes"
+                  }
+                }
+              },
+              {
+                "frame": {
+                  "id": "previewed_decorator",
+                  "min-width": "1@customizationBlockWidth",
+                  "text": {
+                    "id": "label",
+                    "left": "1@framePadding",
+                    "text": "#decals",
+                    "overlayTextColor": "active"
+                  },
+                  "tdiv": {
+                    "id": "decorator_preview_div"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "tdiv": [
+              {
                 "left": "pw-w-1@buttonMargin"
               },
               {
@@ -425,36 +479,6 @@
                       "on_activate": "onDecalSlotActivate",
                       "on_select": "onDecalSlotSelect"
                     }
-                  }
-                }
-              },
-              {
-                "frame": {
-                  "id": "previewed_decorator_unit",
-                  "min-width": "1@customizationBlockWidth",
-                  "display": "hide",
-                  "textareaNoTab": {
-                    "id": "label",
-                    "pos": "1@blockInterval, ph/2-h/2",
-                    "position": "relative",
-                    "width": "pw",
-                    "text": "#decoratorPreview/autoselectedUnit",
-                    "smallFont": "yes"
-                  }
-                }
-              },
-              {
-                "frame": {
-                  "id": "previewed_decorator",
-                  "min-width": "1@customizationBlockWidth",
-                  "text": {
-                    "id": "label",
-                    "left": "1@framePadding",
-                    "text": "#decals",
-                    "overlayTextColor": "active"
-                  },
-                  "tdiv": {
-                    "id": "decorator_preview_div"
                   }
                 }
               },
@@ -659,7 +683,7 @@
             "Button_text": {
               "id": "btn_buy_online",
               "text": "#mainmenu/btnOrder",
-              "on_click": "onBuyUnitOnline",
+              "on_click": "onBuy",
               "showButtonImageOnConsole": "no",
               "class": "image",
               "display": "hide",

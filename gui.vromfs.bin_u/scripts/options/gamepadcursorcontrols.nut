@@ -93,7 +93,7 @@ const GAMEPAD_CURSOR_CONTROL_SPEED_DEFAULT = 100
   function pause(isPause)
   {
     local shouldPause = canChangeValue() && getValue()
-    if (shouldPause || isPaused && !isPause)
+    if (shouldPause || (isPaused && !isPause))
       isPaused = isPause
     if (shouldPause)
       ::set_use_gamepad_cursor_control(!isPause)

@@ -61,7 +61,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
     countriesUnits = ::get_unit_types_in_countries()
     countries = []
-    foreach(country in ::get_slotbar_countries(true))
+    foreach(country in ::shopCountriesList)
       if (country in visibleCountries)
         countries.append(country)
 
@@ -330,7 +330,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
    * required to create newbie presets.
    * @see ::slotbarPresets.newbieInit(...)
    */
-  function createNewbiePresetsData(selectedCountry, selectedUnitType)
+  function createNewbiePresetsData(selCountry, selUnitType)
   {
     local presetDataItems = []
     local selEsUnitType = ::ES_UNIT_TYPE_INVALID
@@ -361,13 +361,13 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
         })
 
         if (hasUnits
-            && (unitType == selectedUnitType || selEsUnitType == ::ES_UNIT_TYPE_INVALID))
+            && (unitType == selUnitType || selEsUnitType == ::ES_UNIT_TYPE_INVALID))
           selEsUnitType = unitType.esUnitType
       }
     }
     return {
       presetDataItems = presetDataItems
-      selectedCountry = selectedCountry
+      selectedCountry = selCountry
       selectedUnitType = selEsUnitType
     }
   }
@@ -393,6 +393,8 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
       ::unlockCountry(country, true, false) //now unlock all countries
       blk.unlock <- country
     }
+
+    blk.unlock <- "chosen_" + presetsData.selectedCountry
 
     if (::get_first_chosen_unit_type() == ::ES_UNIT_TYPE_INVALID)
       if (selectedUnitType.firstChosenTypeUnlockName)

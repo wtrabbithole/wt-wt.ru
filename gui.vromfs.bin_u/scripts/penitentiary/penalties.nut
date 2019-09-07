@@ -66,33 +66,33 @@ local showBannedStatusMsgBox = function(showBanOnly = false) {
 
   local txt = ""
   local fn = function() {}
-  local type = ""
+  local banType = ""
   local onlyDecalsDisabled = false
 
   if (st.status == penalty.BAN) {
-    type  = "ban"
+    banType  = "ban"
     fn = function() { ::gui_start_logout() }
     ::queues.leaveAllQueuesSilent()
     ::SessionLobby.leaveRoom()
   } else if (st.status == penalty.DEVOICE) {
     if (is_decals_disabled()) {
-      type = "mutedecal"
+      banType = "mutedecal"
     } else {
-      type = "mute"
+      banType = "mute"
     }
   } else if (is_decals_disabled()) {
     onlyDecalsDisabled = true
-    type = "decal"
+    banType = "decal"
   } else {
     return
   }
 
   if (st.duration >= penalty.BAN_USER_INFINITE_PENALTY || onlyDecalsDisabled) {
-    txt += ::loc("charServer/"+type+"/permanent")
+    txt += ::loc("charServer/" + banType + "/permanent")
   } else {
     local timeLeft = time.secondsToHours(::get_time_till_decals_disabled() || st.seconds_left)
     local durationHours = time.secondsToHours(st.duration)
-    txt += ::format(::loc("charServer/"+type+"/timed"), time.hoursToString(durationHours, false))
+    txt += ::format(::loc("charServer/" + banType + "/timed"), time.hoursToString(durationHours, false))
     txt += " " + ::format(::loc("charServer/ban/timeLeft"), time.hoursToString(timeLeft, false, true))
   }
 

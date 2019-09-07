@@ -4,6 +4,7 @@
   "bullets": 1,
   "shotFreq": 3.0,
   "sound_path": "tanks/weapon_tanks/rockets",
+  "sound_pathStudio": "ground/weapon/rockets",
   "sound": "82mm_m8",
   "sound_inside": "82mm_m8_interior",
   "isBulletBelt": false,
@@ -77,6 +78,21 @@
       "steel": {
         "fx": "cannon_hit_armor_cumulative",
         "fxScale": [3.0,4.0]
+      },
+      "buildings": {
+        "fx": "atgm_hit",
+        "fxScale": [1.7,2.1]
+      },
+      "wood": {
+        "fx": "atgm_hit",
+        "fxScale": [1.7,2.1]
+      }
+    },
+    "DamageParts": {
+      "body": {
+        "hp": 5.0,
+        "armorClass": "tank_structural_steel",
+        "armorThickness": 1.0
       }
     }
   }

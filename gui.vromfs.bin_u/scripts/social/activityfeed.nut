@@ -40,6 +40,7 @@ function getActivityFeedImageByParam(feed, imagesConfig)
 
   ::dagor.debug("getActivityFeedImagesByParam: no image name in '"+feed.blkParamName)
   debugTableData(config)
+  return ""
 }
 
 function getActivityFeedImageByCountry(feed, imagesConfig)
@@ -54,6 +55,7 @@ function getActivityFeedImageByCountry(feed, imagesConfig)
 
   ::dagor.debug("getActivityFeedImagesByCountry: no config for '"+country+"/"+unit+" ("+feed.unitNameId+")")
   debugTableData(imagesConfig)
+  return ""
 }
 
 function getActivityFeedImages(feed)
@@ -63,7 +65,7 @@ function getActivityFeedImages(feed)
   if (u.isEmpty(imagesConfig))
   {
     ::dagor.debug("getActivityFeedImages: empty or missing activity_feed_image_url block in gui.blk")
-    return
+    return null
   }
 
   local feedUrl = imagesConfig?.mainPart
@@ -72,7 +74,7 @@ function getActivityFeedImages(feed)
   {
     ::dagor.debug("getActivityFeedImages: invalid feed config, url base '"+feedUrl+"', image extension '"+imgExt)
     debugTableData(imagesConfig)
-    return
+    return null
   }
 
   local logo = imagesConfig?.logoEnd || ""
@@ -92,6 +94,7 @@ function getActivityFeedImages(feed)
 
   ::dagor.debug("getActivityFeedImages: could not select method to build image URLs from gui.blk and feed config")
   debugTableData(feed)
+  return null
 }
 
 //---------------- <Facebook> --------------------------
@@ -152,9 +155,9 @@ function ps4PostActivityFeed(config, customFeedParams)
 
   local activityFeed_config = ::combine_tables(::ps4_activityFeed_requestsTable, customFeedParams)
 
-  local getFilledFeedTextByLang = (@(activityFeed_config, localizedKeyWords) function(locId) {
+  local getFilledFeedTextByLang = function(key) {
     local captions = {}
-    local localizedTable = ::get_localized_text_with_abbreviation(locId)
+    local localizedTable = ::get_localized_text_with_abbreviation(key)
 
     foreach(lang, string in localizedTable)
     {
@@ -166,7 +169,7 @@ function ps4PostActivityFeed(config, customFeedParams)
     }
 
     return captions
-  })(activityFeed_config, localizedKeyWords)
+  }
 
   local images = ::getActivityFeedImages(customFeedParams)
   local largeImage = customFeedParams?.images?.large || images?.large
@@ -186,6 +189,6 @@ function ps4PostActivityFeed(config, customFeedParams)
 
   sendStat("post")
   psnApi.send(psnApi.feed.post(body),
-              function(response, error) { sendStat(error ? "fail."+error : "success") })
+              function(response, err) { sendStat(err ? "fail."+err : "success") })
 }
 //----------------------- </PlayStation> --------------------------

@@ -44,11 +44,12 @@ local __math = require("math")
 ::is_debug_mode_enabled <- false
 ::first_generation <- true
 
-::skip_steam_confirmations <- false
 ::show_console_buttons <- false
 ::ps4_vsync_enabled <- true
 
 ::cross_call_api <- {}
+
+if (::is_platform_ps4 && !::is_dev_version) ::exit_game <- function() {::gui_start_logout()}
 
 ::FORCE_UPDATE <- true
 const LOST_DELAYED_ACTION_MSEC = 500
@@ -57,8 +58,7 @@ const LOST_DELAYED_ACTION_MSEC = 500
   [
     "nda_version", "nda_version_tanks", "eula_version",
     "test_flight", "is_debug_mode_enabled", "first_generation",
-    "skip_steam_confirmations", "show_console_buttons",
-    "is_dev_version"
+    "show_console_buttons", "is_dev_version"
   ])
 
 //------- vvv enums vvv ----------
@@ -266,6 +266,12 @@ enum xboxMediaItemType { //values by microsoft IDE, others not used
   GameConsumable = 5
 }
 
+enum contactEvent
+{
+  CONTACTS_UPDATED = "ContactsUpdated"
+  CONTACTS_GROUP_UPDATE = "ContactsGroupUpdate"
+}
+
 function randomize()
 {
   ::math.init_rnd(::get_local_time_sec())
@@ -275,7 +281,7 @@ randomize()
 //------- vvv files before login vvv ----------
 
 ::g_string <- ::require("std/string.nut") //put g_string to root_table
-::u <- ::require("std/u.nut") //put u to roottable
+::u <- ::require("sqStdLibs/helpers/u.nut") //put u to roottable
 ::Callback <- ::require("sqStdLibs/helpers/callback.nut").Callback
 
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
@@ -324,6 +330,11 @@ foreach (fn in [
   "scripts/options/optionsManager.nut"
   "scripts/options/optionsBeforeLogin.nut"
 
+  //probably used before login on ps4
+  "scripts/controls/controlsConsts.nut"
+  "scripts/controls/rawShortcuts.nut"
+  "scripts/controls/controlsManager.nut"
+
   "scripts/baseGuiHandlerManagerWT.nut"
 
   "scripts/langUtils/localization.nut"
@@ -369,11 +380,6 @@ foreach (fn in [
   "scripts/debugTools/dbgFonts.nut"
   "scripts/debugTools/dbgAvatarsList.nut"
   "scripts/debugTools/dbgMarketplace.nut"
-
-  //probably used before login on ps4
-  "scripts/controls/controlsConsts.nut"
-  "scripts/controls/rawShortcuts.nut"
-  "scripts/controls/controlsManager.nut"
 
   //used before xbox login
   "scripts/social/xboxSquadManager.nut"
@@ -474,6 +480,7 @@ function load_scripts_after_login_once()
 
     "leaderboard/leaderboardDataType.nut"
     "leaderboard/leaderboardCategoryType.nut"
+    "leaderboard/leaderboardTable.nut"
     "leaderboard/leaderboard.nut"
 
     "queue/queueManager.nut"
@@ -563,6 +570,7 @@ function load_scripts_after_login_once()
     "controls/controlsPresets.nut"
     "controls/controlsUtils.nut"
     "controls/controls.nut"
+    "controls/assignButtonWnd.nut"
     "controls/controlsConsole.nut"
     "controls/input/inputBase.nut"
     "controls/input/nullInput.nut"
@@ -712,6 +720,7 @@ function load_scripts_after_login_once()
     "clans/clanChangeRoleModal.nut"
     "clans/clanBlacklistModal.nut"
     "clans/clanActivityModal.nut"
+    "clans/clanAverageActivityModal.nut"
     "clans/clanRequestsModal.nut"
     "clans/clanLogModal.nut"
     "clans/clanSeasonInfoModal.nut"
@@ -819,8 +828,8 @@ function load_scripts_after_login_once()
     "utils/popupMessages.nut"
     "utils/soundManager.nut"
     "fileDialog/fileDialog.nut"
-    "fileDialog/ps4SaveDataDialog.nut"
-    "controls/ps4ControlsBackupManager.nut"
+    "fileDialog/saveDataDialog.nut"
+    "controls/controlsBackupManager.nut"
 
     "matching/serviceNotifications/match.nut"
     "matching/serviceNotifications/mlogin.nut"

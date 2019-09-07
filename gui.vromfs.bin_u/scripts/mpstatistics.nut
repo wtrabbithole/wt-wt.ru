@@ -2,9 +2,7 @@ local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
-
-::team_aircraft_list <- null
-
+local avatars = ::require("scripts/user/avatars.nut")
 
 ::time_to_kick_show_timer <- null
 ::time_to_kick_show_alert <- null
@@ -161,7 +159,6 @@ function build_mp_table(table, markupData, hdr, max_rows)
       }
       else if (hdr[j] == "team")
       {
-        local team = ""
         local teamText = "teamImg{ text { halign:t='center'}} "
         tdData += "size:t='ph"+widthAdd+",ph'; css-hier-invalidate:t='yes'; team:t=''; " + teamText
       }
@@ -345,7 +342,7 @@ function set_mp_table(obj_tbl, table, params)
   local realTblRows = obj_tbl.childrenCount()
 
   if ((numRows <= 0)||(realTblRows <= 0))
-    return ""
+    return
 
   local showAirIcons = ::getTblValue("showAirIcons", params, true)
   local continueRowNum = ::getTblValue("continueRowNum", params, 0)
@@ -1117,8 +1114,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   {
     local team = ::getTblValue("team", tblConfig, -1)
     local num_rows = ::getTblValue("num_rows", tblConfig, numMaxPlayers)
-    local showAircrafts = ::getTblValue("showAircrafts", tblConfig, false)
-    local showAirIcons = ::getTblValue("showAirIcons", tblConfig, showAircrafts)
+    local showUnits     = tblConfig?.showAircrafts ?? false
+    local showAirIcons  = tblConfig?.showAirIcons  ?? showUnits
     local invert = ::getTblValue("invert", tblConfig, false)
 
     local tblData = [] // columns order
@@ -1149,7 +1146,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         if (::g_mplayer_param_type.getTypeById(id).isVisible(missionObjectives, gameType, gameMode))
           tblData.append(id)
 
-      if (!showAircrafts)
+      if (!showUnits)
         ::u.removeFrom(tblData, "aircraft")
       if (!::SquadIcon.isShowSquad())
         ::u.removeFrom(tblData, "squad")
@@ -1326,7 +1323,8 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       numRows2 = 0
       if (tbl1.len() >= numMaxPlayers)
       {
-        numRows1 = numRows2 = numMaxPlayers
+        numRows1 = numMaxPlayers
+        numRows2 = numMaxPlayers
 
         for(local i = tbl1.len()-1; i >= numMaxPlayers; --i)
         {
@@ -1639,74 +1637,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     return [posX, rowPos[1] + rowSize[1]]
   }
 
-  function onFriends()
-  {
-    if (isApplyPressed)
-      return
-    local player = getSelectedPlayer()
-    if (player != null)
-    {
-      local id = player.id
-      local isBlocked = ::is_player_blocked(id)
-      local isFriend = ::is_player_friend(id)
-      if (isBlocked)
-        return
-      if (isFriend)
-        ::set_player_friend(id, false)
-      else
-        ::set_player_friend(id, true)
-    }
-
-    updateListsButtons()
-  }
-
-  function onBlocklist()
-  {
-    if (isApplyPressed)
-      return
-    local player = getSelectedPlayer()
-    if (player != null)
-    {
-      local id = player.id
-      local isBlocked = ::is_player_blocked(id)
-      local isFriend = ::is_player_friend(id)
-      if (isFriend)
-        return
-      if (isBlocked)
-        ::set_player_block(id, false)
-      else
-        ::set_player_block(id, true)
-    }
-
-    updateListsButtons()
-  }
-
-  function onMute()
-  {
-    if (isApplyPressed)
-      return
-    if (isSpectate)
-      return
-
-    local player = getSelectedPlayer()
-    if (player != null)
-      ::do_mute_player(player.id)
-  }
-
-  function onKick()
-  {
-    if (isApplyPressed)
-      return
-    if (isSpectate)
-      return
-    if (!::is_mplayer_host())
-      return
-
-    local player = getSelectedPlayer()
-    if (player != null)
-      ::do_kick_player(player.id)
-  }
-
   function getPlayerInfo(name)
   {
     if (name && name != "")
@@ -1742,12 +1672,37 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
   function refreshPlayerInfo()
   {
-    local pInfo = getSelectedInfo()
-    ::set_mplayer_info(scene, pInfo, isTeam)
+    setPlayerInfo()
 
     local player = getSelectedPlayer()
     showSceneBtn("btn_user_options", isOnline && player && !player.isBot && !isSpectate && ::show_console_buttons)
     ::SquadIcon.updateListLabelsSquad()
+  }
+
+  function setPlayerInfo()
+  {
+    local playerInfo = getSelectedInfo()
+    local teamObj = scene.findObject("player_team")
+    if (isTeam && ::checkObj(teamObj))
+    {
+      local teamTxt = ""
+      local team = playerInfo? playerInfo.team : Team.Any
+      if (team == Team.A)
+        teamTxt = ::loc("multiplayer/teamA")
+      else if (team == Team.B)
+        teamTxt = ::loc("multiplayer/teamB")
+      else
+        teamTxt = ::loc("multiplayer/teamRandom")
+      teamObj.setValue(::loc("multiplayer/team") + ::loc("ui/colon") + teamTxt)
+    }
+
+    ::fill_gamer_card({
+                      name = playerInfo? playerInfo.name : ""
+                      clanTag = playerInfo? playerInfo.clanTag : ""
+                      icon = (!playerInfo || playerInfo.isBot)? "cardicon_bot" : avatars.getIconById(playerInfo.pilotId)
+                      country = playerInfo? playerInfo.country : ""
+                    },
+                    true, "player_", scene)
   }
 
   function onComplain(obj)
@@ -1811,10 +1766,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local val = selectedObj.cur_row.tointeger()
-    local numRows = selectedObj.num_rows.tointeger()
-    if (numRows < 0)
-      numRows = selectedObj.childrenCount()
-
     local table_name = (selectedObj.id == "table_kills_team2") ? "table_kills_team1" : "table_kills_team2"
     local tblObj = scene.findObject(table_name)
     local numRowsDst = tblObj.num_rows.tointeger()

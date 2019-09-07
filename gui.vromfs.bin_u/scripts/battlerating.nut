@@ -39,14 +39,15 @@ local calcBattleRating = function (brData)
 local getCrafts = function (data, country = null)
 {
   local crafts = []
-  local craftData = data.crewAirs?[country ?? data.country]
+  local craftData = data?.crewAirs?[country ?? data?.country ?? ""]
   if (craftData == null)
     return crafts
 
+  local brokenAirs = data?.brokenAirs ?? []
   foreach (name in craftData)
   {
      local craft = ::getAircraftByName(name)
-     if (craft == null || ::isInArray(name, data.brokenAirs))
+     if (craft == null || ::isInArray(name, brokenAirs))
        continue
 
      crafts.append({
@@ -141,7 +142,7 @@ local getUserData = function()
     })
   }
 
-  return gameModeId == "" || players == [] ? null : {
+  return gameModeId == "" || !players.len() ? null : {
     gameModeId = gameModeId
     players = players
   }

@@ -77,3 +77,21 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
   WEAPON_MACHINEGUN = 24
   get_option_use_oculus_to_aim_helicopter = @() null
 })
+
+//----------------------------wop_1_87_0_X---------------------------------//
+::apply_compatibilities({
+  EULT_CLAN_UNITS = 58
+  clan_get_unit_open_cost_gold = @() 0
+})
+
+//----------------------------wop_1_87_1_X---------------------------------//
+::apply_compatibilities({
+  EULT_WW_AWARD = 59
+  AUTO_SAVE_FLG_LOGIN = 1
+  AUTO_SAVE_FLG_PASS = 2
+  AUTO_SAVE_FLG_DISABLE = 4
+  AUTO_SAVE_FLG_NOSSLCERT = 8
+  shell_purchase_in_steam = @(p) shell_purchase_in_browser(p)
+  userstat = { request = @(...) null }
+  xbox_link_email = @(email, cb) cb(::YU2_FAIL)
+})

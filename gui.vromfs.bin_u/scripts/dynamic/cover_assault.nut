@@ -121,7 +121,6 @@ function _generateCoverGattackMission(isFreeFlight, createGroundUnitsProc)
 
 //battle distance calculate
   local rndHeight = rndRange(2000, 4000);
-  local playerSpeed = getDistancePerMinute(playerFighterPlane);
   local allySpeed = getDistancePerMinute(allyAssaultPlane);
   local enemySpeed = getDistancePerMinute(enemyFighterPlane);
 
@@ -178,7 +177,6 @@ function _generateCoverGattackMission(isFreeFlight, createGroundUnitsProc)
 
 //mission warpoint cost calculate
   local mission_mult = sqrt(enemyTotalCount/20.0+0.05);
-  local repairCost = playerPlaneCost*0.1;
   local missionWpCost = warpointCalculate(mission_preset_name, allyFightersCount+bombersCount*0.5, enemyTotalCount, planeCost,
                                           playerFighterPlane, mission_mult);
   mgSetInt("mission_settings/mission/wpAward", missionWpCost);

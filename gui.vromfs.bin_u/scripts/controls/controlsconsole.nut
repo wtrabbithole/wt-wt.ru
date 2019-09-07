@@ -15,7 +15,7 @@ class ::gui_handlers.ControlsConsole extends ::gui_handlers.GenericOptionsModal
 
   function initScreen()
   {
-    local options = [
+    options = [
       [::USEROPT_INVERTY, "spinner"],
       [::USEROPT_INVERTY_TANK, "spinner", ::has_feature("Tanks")],
       [::USEROPT_INVERTCAMERAY, "spinner"],

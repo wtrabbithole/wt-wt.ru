@@ -3,7 +3,8 @@
   ::EULT_SESSION_START,
   ::EULT_WW_START_OPERATION,
   ::EULT_WW_CREATE_OPERATION,
-  ::EULT_WW_END_OPERATION
+  ::EULT_WW_END_OPERATION,
+  ::EULT_WW_AWARD
 ]
 
 ::popup_userlogs <- [
@@ -41,7 +42,7 @@
             ::EULT_BUYING_MODIFICATION_MULTI, ::EULT_BUYING_MODIFICATION_FAIL, ::EULT_BUY_ITEM,
             ::EULT_BUY_BATTLE, ::EULT_CONVERT_EXPERIENCE, ::EULT_SELL_BLUEPRINT,
             ::EULT_EXCHANGE_WARBONDS, ::EULT_CLAN_ACTION,
-            ::EULT_BUYENTITLEMENT, ::EULT_OPEN_TROPHY]
+            ::EULT_BUYENTITLEMENT, ::EULT_OPEN_TROPHY, ::EULT_CLAN_UNITS]
     checkFunc = function(userlogBlk)
     {
       local body = userlogBlk.body
@@ -96,7 +97,7 @@
   {
     id="worldWar"
     reqFeature = "WorldWar"
-    show = [::EULT_WW_START_OPERATION, ::EULT_WW_CREATE_OPERATION, ::EULT_WW_END_OPERATION]
+    show = [::EULT_WW_START_OPERATION, ::EULT_WW_CREATE_OPERATION, ::EULT_WW_END_OPERATION, ::EULT_WW_AWARD]
   }
 ]
 
@@ -127,6 +128,8 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   slotbarActions = [ "take", "showroom", "testflight", "weapons", "info" ]
 
+  logRowTplName = "gui/userLog/userLogRow"
+
   function initScreen()
   {
     if (!::checkObj(scene))
@@ -136,7 +139,6 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     fillTabs()
 
-    scene.findObject("btn_refresh").show(true)
     initFocusArray()
   }
 
@@ -247,40 +249,16 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local rowName = "row"+log.idx
     local rowObj = listObj.findObject(rowName)
-    guiScene.replaceContent(rowObj, "gui/userLogRow.blk", this)
-
     local rowData = ::get_userlog_view_data(log)
+    if ((rowData?.descriptionBlk ?? "") != "")
+      rowData.hasExpandImg <- true
+    local viewBlk = ::handyman.renderCached(logRowTplName, rowData)
 
-    if (::getTblValue("descriptionBlk", rowData, "") != "")
-    {
-      guiScene.appendWithBlk(rowObj.findObject("hiddenDiv"), rowData.descriptionBlk, this)
-    }
-    else
-    {
-      guiScene.destroyElement(rowObj.findObject("hiddenDiv"))
-      guiScene.destroyElement(rowObj.findObject("expandImg"))
-    }
+    guiScene.replaceContentFromText(rowObj, viewBlk, viewBlk.len(), this)
 
-    //fillData
-    foreach(name, value in rowData)
-    {
-      local obj = rowObj.findObject(name)
-      if (!::checkObj(obj))
-        continue
-
-      if (typeof(value)=="table")
-        foreach(oKey, oValue in value)
-          obj[oKey] = oValue
-      else
-        obj.setValue(value)
-    }
     rowObj.tooltip = rowData.tooltip
     if (log.enabled)
       rowObj.status="owned"
-    if (rowData.logImg)
-      rowObj.findObject("log_image")["background-image"] = rowData.logImg
-    if (rowData.logImg2)
-      rowObj.findObject("log_image2")["background-image"] = rowData.logImg2
   }
 
   function addNextButton(log)
@@ -293,8 +271,13 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.appendWithBlk(listObj, data, this)
       rowObj = listObj.findObject(rowName)
     }
-    guiScene.replaceContent(rowObj, "gui/userLogRow.blk", this)
-    rowObj.findObject("middle").setValue(::loc("userlog/showMore"))
+
+    local viewBlk = ::handyman.renderCached(logRowTplName,
+      {
+        middle = ::loc("userlog/showMore")
+        hasExpandImg = true
+      })
+    guiScene.replaceContentFromText(rowObj, viewBlk, viewBlk.len(), this)
   }
 
   function saveOnlineJobWithUpdate()
@@ -476,4 +459,24 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     doWhenActiveOnce("onUpdateItemsDef")
   }
 
+  function onUserLogAction(obj)
+  {
+    local logIdx = obj.logIdx
+    local log = logIdx != null
+      ? ::u.search(logs, @(l) l.idx == logIdx.tointeger())
+      : logs?[selectedIndex]
+    if (!log)
+      return
+
+    if (log.type == ::EULT_INVITE_TO_TOURNAMENT)    //!!!FIX ME need create eNum by userlog type and put action definition into it
+    {
+      if (!log?.battleId)
+        return
+
+      if (!::isInMenu())
+        return ::g_invites.showLeaveSessionFirstPopup()
+
+      ::SessionLobby.joinBattle(log.battleId)
+    }
+  }
 }

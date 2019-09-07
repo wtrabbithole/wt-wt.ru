@@ -617,6 +617,10 @@
         },
         "turret_01_front_dm": {
           "armorThickness": 10.0
+        },
+        "gun_barrel_armor_dm": {
+          "variableThickness": true,
+          "armorThickness": 50.0
         }
       },
       "chassis": {
@@ -1942,6 +1946,7 @@
     "sound": {
       "EngineName": "engine_panzer3",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_manual_y",
@@ -1960,6 +1965,7 @@
         "emitter": "bone_gun_barrel",
         "flash": "emtr_gun_flame",
         "recoilOffset": 0.52,
+        "allowableDelta": 20.0,
         "maxAdditionalPitch": 0.0,
         "defaultYaw": 0.0,
         "defaultPitch": 0.0,
@@ -2661,9 +2667,7 @@
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
       "128mm_ger_HE": [],
-      "128mm_ger_APCBC": {
-        "modCostMul": 1.5
-      },
+      "128mm_ger_APCBC": [],
       "128mm_ger_APCBC_ammo_pack": []
     }
   },

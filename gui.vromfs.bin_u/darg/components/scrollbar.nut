@@ -1,3 +1,4 @@
+local Color = ::Color
 local defStyling = {
   Bar = function(has_scroll) {
     if (has_scroll) {
@@ -56,7 +57,7 @@ local function scrollbar(scroll_handler, options={}) {
         key = scroll_handler
         behavior = Behaviors.Slider
         watch = scroll_handler
-        size = calcBarSize(cls, axis)
+        size = (options?.needReservePlace ?? true) ? calcBarSize(cls, axis) : null
       }
     }
 
@@ -77,13 +78,13 @@ local function scrollbar(scroll_handler, options={}) {
         key = scroll_handler
         behavior = Behaviors.Slider
         watch = scroll_handler
-        size = calcBarSize(cls, axis)
+        size = (options?.needReservePlace ?? true) ? calcBarSize(cls, axis) : null
       }
     }
 
 
-    local min = 0
-    local max = contentSize - elemSize
+    local minV = 0
+    local maxV = contentSize - elemSize
     local fValue = scrollPos
 
     local color = ("colorCalc" in knobClass) ? knobClass.colorCalc(stateFlags.value)
@@ -107,8 +108,8 @@ local function scrollbar(scroll_handler, options={}) {
       fValue = fValue
 
       knob = knob
-      min = min
-      max = max
+      min = minV //warning disable : -ident-hides-std-function
+      max = maxV //warning disable : -ident-hides-std-function
       unit = 1
 
       flow = axis==0 ? FLOW_HORIZONTAL : FLOW_VERTICAL
@@ -121,7 +122,7 @@ local function scrollbar(scroll_handler, options={}) {
       children = [
         {size=[flex(fValue), flex(fValue)]}
         knob
-        {size=[flex(max-fValue), flex(max-fValue)]}
+        {size=[flex(maxV-fValue), flex(maxV-fValue)]}
       ]
 
       onChange = function(val) {
@@ -142,6 +143,10 @@ local DEF_SIDE_SCROLL_OPTIONS = { //const
   rootBase = null
   scrollAlign = HALIGN_RIGHT
   orientation = O_VERTICAL
+  size = flex()
+  maxWidth = null
+  maxHeight = null
+  needReservePlace = true //need reserve place for scrollbar when it not visible
 }
 
 local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
@@ -159,10 +164,13 @@ local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
     bhv.extend([Behaviors.WheelScroll, Behaviors.ScrollEvent])
 
     return class extends rootBase {
+      size = options.size
       behavior = bhv
       scrollHandler = scrollHandler
       orientation = options.orientation
       joystickScroll = true
+      maxHeight = options.maxHeight
+      maxWidth = options.maxWidth
 
       children = content
     }
@@ -181,7 +189,9 @@ local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
     ]
 
   return {
-    size = flex()
+    size = options.size
+    maxHeight = options.maxHeight
+    maxWidth = options.maxWidth
     flow = (options.orientation == O_VERTICAL) ? FLOW_HORIZONTAL : FLOW_VERTICAL
     clipChildren = true
 

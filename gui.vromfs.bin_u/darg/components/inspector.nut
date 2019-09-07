@@ -1,3 +1,12 @@
+local Color = ::Color // warning disable: -declared-never-used
+local sh = ::sh // warning disable: -declared-never-used
+local flex = ::flex // warning disable: -declared-never-used
+local hdpx = ::hdpx // warning disable: -declared-never-used
+local fontH = ::fontH // warning disable: -declared-never-used
+local Fonts = ::Fonts // warning disable: -declared-never-used
+local pw = ::pw // warning disable: -declared-never-used
+local sw = ::sw // warning disable: -declared-never-used
+local ph = ::sh // warning disable: -declared-never-used
 local string = require("string")
 
 local cursors = {
@@ -6,16 +15,16 @@ local cursors = {
 }
 
 local inspectorState = persist("state", @() {
-  shown = Watched(false)
-  halign = Watched(HALIGN_RIGHT)
-  pickerActive = Watched(false)
-  highlight = Watched(null)
-  selection = Watched(null)
+  shown = ::Watched(false)
+  halign = ::Watched(HALIGN_RIGHT)
+  pickerActive = ::Watched(false)
+  highlight = ::Watched(null)
+  selection = ::Watched(null)
 })
 
 
 local function textButton(text, action) {
-  local stateFlags = Watched(0)
+  local stateFlags = ::Watched(0)
 
   return function() {
     local sf = stateFlags.value
@@ -28,6 +37,7 @@ local function textButton(text, action) {
       size = SIZE_TO_CONTENT
       margin = [sh(0.5), sh(1)]
       behavior = Behaviors.Button
+      focusOnClick = true
       color = color
       padding = 5
       children = {
@@ -36,7 +46,7 @@ local function textButton(text, action) {
       }
 
       watch = stateFlags
-      onElemState = @(sf) stateFlags.update(sf)
+      onElemState = @(val) stateFlags.update(val)
       onClick = action
     }
   }
@@ -75,7 +85,7 @@ local function join(arr, sep) {
 
 local function propValue(desc, key) {
   local val = desc[key]
-  local tp = type(val)
+  local tp = ::type(val)
 
   if (tp == "instance" && (val instanceof ::PictureHolder)) {
     return {
@@ -97,18 +107,7 @@ local function propValue(desc, key) {
     text = "<userdata/userpointer>"
   } else {
     local s = val.tostring()
-    text = s.slice(0, min(100, s.len()))
-  }
-
-  local function applyChange(new_val_text) {
-    local s = new_val_text
-    if (tp == "string") {
-      desc[key] = s
-    } else if (tp == "integer") {
-      if (s.len()) {
-        desc[key] = s.tointeger()
-      }
-    }
+    text = s.slice(0, ::min(100, s.len()))
   }
 
   return {

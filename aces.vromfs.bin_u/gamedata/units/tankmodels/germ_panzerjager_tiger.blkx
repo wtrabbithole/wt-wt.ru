@@ -166,16 +166,20 @@
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
         "hidableInViewer": true,
+        "ex_decor_body_r_01_dm": [],
+        "ex_decor_body_r_02_dm": [],
         "ex_decor_body_r_03_dm": [],
         "ex_decor_body_r_04_dm": [],
         "ex_decor_body_r_05_dm": [],
         "ex_decor_body_r_06_dm": [],
-        "ex_decor_body_r_02_dm": [],
+        "ex_decor_body_r_07_dm": [],
+        "ex_decor_body_l_01_dm": [],
+        "ex_decor_body_l_02_dm": [],
         "ex_decor_body_l_03_dm": [],
         "ex_decor_body_l_04_dm": [],
         "ex_decor_body_l_05_dm": [],
         "ex_decor_body_l_06_dm": [],
-        "ex_decor_body_l_02_dm": []
+        "ex_decor_body_l_07_dm": []
       },
       "mask": {
         "armorClass": "CHA_tank",
@@ -363,7 +367,8 @@
         "drive_turret_h_dm": [],
         "drive_turret_h_01_dm": [],
         "drive_turret_v_01_dm": [],
-        "radio_station_dm": []
+        "radio_station_dm": [],
+        "radio_station_01_dm": []
       },
       "cannon_breech": {
         "armorClass": "tank_structural_steel",
@@ -791,6 +796,7 @@
     "sound": {
       "EngineName": "engine_panzer6",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_heavy",
       "TrackSoundNameCockpit": "tracks_heavy_interior",
       "turret_turn": "turret_turn_manual_y",
@@ -809,6 +815,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/128mm_PaK44_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "allowableDelta": 20.0,
           "maxAdditionalPitch": 0.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -2610,9 +2617,7 @@
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
       "128mm_ger_HE": [],
-      "128mm_ger_APCBC": {
-        "modCostMul": 1.5
-      },
+      "128mm_ger_APCBC": [],
       "128mm_ger_APCBC_ammo_pack": [],
       "tank_smoke_screen_system_mod": {
         "tier": 4,
@@ -2624,6 +2629,7 @@
                 "blk": "gameData/Weapons/groundModels_weapons/128mm_PaK44_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
+                "allowableDelta": 20.0,
                 "maxAdditionalPitch": 0.0,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,

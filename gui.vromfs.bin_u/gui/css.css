@@ -1623,8 +1623,9 @@ animated_wait_icon
 {
   re-type:rotation;
   background-color:@white;
-  background-image:ui/loadinganim;
-  size:32*@sf/@pf_outdated, 32*@sf/@pf_outdated;
+  background-image:#ui/gameuiskin#throbber.svg;
+  background-svg-size:44@sf/@pf, 44@sf/@pf;
+  size:44@sf/@pf, 44@sf/@pf;
   behavior:increment;
   inc-target:background-rotation;
   inc-factor:120;
@@ -1633,30 +1634,35 @@ animated_wait_icon
 }
 
 animated_wait_icon.inTextRow {
-  size:12@sf/@pf_outdated,12@sf/@pf_outdated;
-  pos:2@sf/@pf_outdated,50%ph-50%h;
+  size:16@sf/@pf, 16@sf/@pf;
+  pos:3@sf/@pf, 50%ph-50%h;
   position:relative;
+  background-svg-size:16@sf/@pf, 16@sf/@pf;
 }
 
 animated_wait_icon.inTextRowAbsolute {
-  size:12@sf/@pf_outdated,12@sf/@pf_outdated;
+  size:16@sf/@pf, 16@sf/@pf;
   position:absolute;
+  background-svg-size:16@sf/@pf, 16@sf/@pf;
 }
 
 animated_wait_icon.missionBox {
-  size:16*@sf/@pf_outdated, 16*@sf/@pf_outdated;
+  size:22@sf/@pf, 22@sf/@pf;
   position:absolute;
-  pos:12*@sf/@pf_outdated-50%w, 50%ph-50%h;
+  pos:16@sf/@pf-50%w, 50%ph-50%h;
+  background-svg-size:22@sf/@pf, 22@sf/@pf;
 }
 
 Button_text > animated_wait_icon, animated_wait_icon.byParent {
-  size:ph - 4*@sf/@pf_outdated, ph - 4*@sf/@pf_outdated;
+  size:ph -6@sf/@pf, ph -6@sf/@pf;
+  background-svg-size:ph -6@sf/@pf, ph -6@sf/@pf;
 }
 
 Button_text.squadWidgetMember > animated_wait_icon {
   size:@dIco, @dIco;
   pos:50%pw-50%w,50%ph-50%h;
   position:absolute;
+  background-svg-size:@dIco, @dIco;
 }
 
 animated_wait_icon[circle] {
@@ -2013,7 +2019,9 @@ fieldReq{
 slotbarDiv {
   width:1@slotbarWidthFull;
 }
-slotbarDiv[hasHeader=yes] {
+
+slotbarNest > slotbarDiv,
+optionlist_container > slotbarDiv  {
   width:1@slotbarWidthFullExt;
 }
 

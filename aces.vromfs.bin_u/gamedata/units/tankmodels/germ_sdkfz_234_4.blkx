@@ -1329,8 +1329,9 @@
           "wheel_l_04": -40.0,
           "wheel_r_03": -20.0,
           "wheel_r_04": -40.0,
-          "steeringTau": 1.0,
-          "steeringNeutralTau": 0.1
+          "steeringTau": 1000000.0,
+          "steeringSpd": 1.0,
+          "steeringNeutralSpd": 3.0
         },
         "wheelsWidth": {
           "wheel_l_03": 0.4,
@@ -2886,6 +2887,7 @@
     "sound": {
       "EngineName": "engine_m1",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_wheels",
       "TrackSoundNameCockpit": "tracks_wheels_interior",
       "turret_turn": "turret_turn_t34_manual",
@@ -2904,6 +2906,7 @@
           "flash": "emtr_gun_flame",
           "recoilTimes": [0.1,0.65],
           "recoilOffset": 0.57,
+          "allowableDelta": 20.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -3042,6 +3045,8 @@
       },
       "75mm_ger_kwk40_HEAT": [],
       "75mm_ger_kwk40_APCR": [],
+      "75mm_ger_Smoke": [],
+      "75mm_ger_Smoke_ammo_pack": [],
       "75mm_kwk_37_40_HEAT_ammo_pack": [],
       "75mm_kwk_40_APCR_ammo_pack": [],
       "75mm_ger_kwk40_37_HE": []

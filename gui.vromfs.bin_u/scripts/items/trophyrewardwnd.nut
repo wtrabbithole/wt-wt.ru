@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local sheets = ::require("scripts/items/itemsShopSheets.nut")
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
 function gui_start_open_trophy(configsTable = {})
 {
@@ -86,7 +87,11 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
       : isDisassemble && !shouldShowRewardItem ? ::loc("mainmenu/itemDisassembled/title")
       : isCreation() ? trophyItem.getCreationCaption()
       : trophyItem.getOpeningCaption()
-    scene.findObject("reward_title").setValue(title)
+    local titleObj = scene.findObject("reward_title")
+    titleObj.setValue(title)
+    if (daguiFonts.getStringWidthPx(title, "fontMedium", guiScene) >
+      ::to_pixels("1@trophyWndWidth - 1@buttonCloseHeight"))
+      titleObj.caption = "no"
 
     shrinkedConfigsArray = ::trophyReward.processUserlogData(configsArray)
     checkConfigsArray()
@@ -247,17 +252,17 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
         if (decor)
         {
           local decoratorType = decor.decoratorType
-          local unit = decoratorType == ::g_decorator_type.SKINS ?
+          local decorUnit = decoratorType == ::g_decorator_type.SKINS ?
             ::getAircraftByName(::g_unlocks.getPlaneBySkinId(decor.id)) :
             ::get_player_cur_unit()
 
-          if (unit && decoratorType.isAvailable(unit) && decor.canUse(unit))
+          if (decorUnit && decoratorType.isAvailable(decorUnit) && decor.canUse(decorUnit))
           {
-            local freeSlotIdx = decoratorType.getFreeSlotIdx(unit)
+            local freeSlotIdx = decoratorType.getFreeSlotIdx(decorUnit)
             local slotIdx = freeSlotIdx != -1 ? freeSlotIdx
-              : (decoratorType.getAvailableSlots(unit) - 1)
+              : (decoratorType.getAvailableSlots(decorUnit) - 1)
             decorator = decor
-            decoratorUnit = unit
+            decoratorUnit = decorUnit
             decoratorSlot = slotIdx
 
             local obj = scene.findObject("btn_use_decorator")
@@ -290,15 +295,12 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     return ::LayersIcon.genDataFromLayer(layerCfg, layersData)
   }
 
-  function onTake(curUnit, isNewUnit = true)
+  function onTake(unitToTake)
   {
-    if (!curUnit.isUsable())
-      return
-
-    ::gui_start_selecting_crew({unit = curUnit,
-      isNewUnit = isNewUnit,
-      unitObj = scene.findObject(curUnit.name),
-      cellClass = "slotbarClone"})
+    base.onTake(unitToTake, {
+      cellClass = "slotbarClone"
+      isNewUnit = true
+    })
   }
 
   function onEventCrewTakeUnit(params)

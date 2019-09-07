@@ -109,6 +109,7 @@ enum WW_BATTLE_CANT_JOIN_REASON
   SQUAD_UNITS_NOT_ENOUGH_AVAILABLE
   SQUAD_HAVE_UNACCEPTED_INVITES
   SQUAD_NOT_ALL_CREWS_READY
+  SQUAD_MEMBERS_NO_WW_ACCESS
 }
 
 enum mapObjectSelect {
@@ -255,6 +256,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   lastPlayedOperationCountry = null
 
   isDebugMode = false
+  debugAlreadyHadInfantryUnits = false
 
   myClanParticipateIcon = "#ui/gameuiskin#lb_victories_battles.svg"
   lastPlayedIcon = "#ui/gameuiskin#last_played_operation_marker"
@@ -485,7 +487,6 @@ function g_world_war::onEventSignOut(p)
 function g_world_war::onEventLoginComplete(p)
 {
   loadLastPlayed()
-  ::g_ww_global_status.refreshData()
   updateUserlogsAccess()
 }
 
@@ -582,12 +583,12 @@ function g_world_war::updateArmyGroups()
 
 function g_world_war::updateInfantryUnits()
 {
-  infantryUnits = ::g_world_war.getWWConfigurableValue("infantryUnits", null)
+  infantryUnits = ::g_world_war.getWWConfigurableValue("infantryUnits", infantryUnits)
 }
 
 function g_world_war::updateArtilleryUnits()
 {
-  artilleryUnits = ::g_world_war.getWWConfigurableValue("artilleryUnits", null)
+  artilleryUnits = ::g_world_war.getWWConfigurableValue("artilleryUnits", artilleryUnits)
 }
 
 function g_world_war::getArtilleryUnitParamsByBlk(blk)
@@ -601,6 +602,8 @@ function g_world_war::getArtilleryUnitParamsByBlk(blk)
     if (wwUnitName in artilleryUnits)
       return artilleryUnits[wwUnitName]
   }
+
+  return null
 }
 
 function g_world_war::updateRearZones()
@@ -756,7 +759,7 @@ function g_world_war::isGroupAvailable(group, accessList = null)
     accessList = getMyAccessLevelListForCurrentBattle()
 
   local access = ::getTblValue(group.owner.armyGroupIdx, accessList, WW_BATTLE_ACCESS.NONE)
-  return access & WW_BATTLE_ACCESS.MANAGER
+  return !!(access & WW_BATTLE_ACCESS.MANAGER)
 }
 
 // return array of WwArmyGroup
@@ -771,8 +774,7 @@ function g_world_war::getArmyGroups(filterFunc = null)
 // return array of WwArmyGroup
 function g_world_war::getArmyGroupsBySide(side, filterFunc = null)
 {
-  return getArmyGroups
-  (
+  return getArmyGroups(
     (@(side, filterFunc) function (group) {
       if (group.owner.side != side)
         return false
@@ -847,15 +849,15 @@ function g_world_war::getAirfieldsCount()
 
 function g_world_war::getAirfieldsArrayBySide(side)
 {
-  local array = []
+  local res = []
   for (local index = 0; index < getAirfieldsCount(); index++)
   {
     local field = getAirfieldByIndex(index)
     if (field.isMySide(side))
-      array.append(field)
+      res.append(field)
   }
 
-  return array
+  return res
 }
 
 function g_world_war::getBattles(filterFunc = null, forced = false)
@@ -935,6 +937,8 @@ function g_world_war::updateConfigurableValues()
       fighterToAssaultWeaponMask = fighterToAssaultWeaponMask | (1 << i)
 
   configurableValues.fighterToAssaultWeaponMask = fighterToAssaultWeaponMask
+
+  debugAlreadyHadInfantryUnits = debugAlreadyHadInfantryUnits || !!configurableValues.infantryUnits
 }
 
 
@@ -982,7 +986,7 @@ function g_world_war::getReinforcementsArrayBySide(side)
   if (!reinforcementsInfo.reinforcements)
     return []
 
-  local array = []
+  local res = []
   for (local i = 0; i < reinforcementsInfo.reinforcements.blockCount(); i++)
   {
     local reinforcement = reinforcementsInfo.reinforcements.getBlock(i)
@@ -991,10 +995,10 @@ function g_world_war::getReinforcementsArrayBySide(side)
          (wwReinforcementArmy.isMySide(side)
          && wwReinforcementArmy.hasManageAccess())
        )
-        array.append(wwReinforcementArmy)
+        res.append(wwReinforcementArmy)
   }
 
-  return array
+  return res
 }
 
 function g_world_war::getMyReinforcementsArray()
@@ -1401,7 +1405,7 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
 
 function g_world_war::addOperationInvite(operationId, clanId, isStarted, inviteTime)
 {
-  if (!::is_worldwar_enabled() || !canPlayWorldwar())
+  if (!canJoinWorldwarBattle())
     return
 
   if (clanId.tostring() != ::clan_get_my_clan_id())

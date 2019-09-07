@@ -131,7 +131,6 @@ missionGenFunctions.append( function (isFreeFlight)
 
   local mission_mult = sqrt(winCount/4.0+0.05);
 
-  local repairCost = playerPlaneCost*0.1;
   local missionWpCost = warpointCalculate(mission_preset_name, allyCount, enemyCount, planeCost, playerFighterPlane, mission_mult);
   mgSetInt("mission_settings/mission/wpAward", missionWpCost);
 //  mgDebugDump("E:/dagor2/skyquake/develop/gameBase/gameData/missions/dynamic_campaign/objectives/test_temp.blk");

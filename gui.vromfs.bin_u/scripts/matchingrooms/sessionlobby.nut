@@ -203,7 +203,7 @@ function notify_session_start()
     "spectator", "isReady", "isInLobbySession", "team", "countryData", "myState",
     "isSpectatorSelectLocked", "crsSetTeamTo", "curEdiff",
     "needJoinSessionAfterMyInfoApply", "isLeavingLobbySession", "_syncedMyInfo",
-    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName", "lastEventName"
+    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName", "lastEventName, isReadyInSetStateRoom"
   ]
 
   settings = {}
@@ -258,6 +258,8 @@ function notify_session_start()
   delayedJoinRoomFunc = null
   needJoinSessionAfterMyInfoApply = false
   isLeavingLobbySession = false
+
+  isReadyInSetStateRoom = null // if null then not response is expected from room_set_ready_state
 
   roomTimers = [
     {
@@ -341,7 +343,7 @@ function SessionLobby::findParam(key, tbl1, tbl2)
 function SessionLobby::validateMissionCountry(country, fullCountriesList)
 {
   if (::isInArray(country, fullCountriesList))
-    return
+    return null
   if (::isInArray("country_" + country, fullCountriesList))
     return "country_" + country
   return null
@@ -635,7 +637,7 @@ function SessionLobby::onSettingsChanged(p)
 
   if ("last_round" in set)
   {
-    ::last_round == set.last_round
+    ::last_round = set.last_round
     dagor.debug("last round " + ::last_round)
   }
 
@@ -1310,9 +1312,11 @@ function SessionLobby::setReady(ready, silent = false, forceRequest = false) //r
     return ready
   }
 
+  isReadyInSetStateRoom = ready
   ::room_set_ready_state(
     {state = ready, roomId = roomId},
     (@(silent, ready) function(p) {
+      isReadyInSetStateRoom = null
       if (!isInRoom())
       {
         isReady = false
@@ -1347,7 +1351,7 @@ function SessionLobby::checkUpdateMatchingSlots()
   {
     if (isInLobbySession)
       joinEventSession(false, { update_profile = true })
-  } else if (isReady)
+  } else if (isReady && (isReadyInSetStateRoom == null || isReadyInSetStateRoom))
     setReady(isReady, true, true)
 }
 
@@ -1746,7 +1750,7 @@ function SessionLobby::joinRoom(_roomId, senderId = "", _password = null,
 
 function SessionLobby::joinFoundRoom(room) //by default not a queue, but no id too
 {
-  if (("hasPassword" in room) && room.hasPassword)
+  if (("hasPassword" in room) && room.hasPassword && getRoomCreatorUid(room) != ::my_user_name)
     joinRoomWithPassword(room.roomId)
   else
     joinRoom(room.roomId)
@@ -1871,9 +1875,9 @@ function SessionLobby::invitePlayer(uid)
 {
   if (roomId == INVALID_ROOM_ID) // we are not in room. nothere to invite
   {
-    local is_in_room = isInRoom()
-    local room_id = roomId
-    local last_session = ::LAST_SESSION_DEBUG_INFO
+    local is_in_room = isInRoom()                   // warning disable: -declared-never-used
+    local room_id = roomId                          // warning disable: -declared-never-used
+    local last_session = ::LAST_SESSION_DEBUG_INFO  // warning disable: -declared-never-used
     ::script_net_assert("trying to invite into room without roomId")
     return
   }
@@ -2196,7 +2200,7 @@ function SessionLobby::getMembersReadyStatus()
     local ready = isMemberReady(member)
     local spectator = getMemberPublicParam(member, "spectator")
     local team = getMemberPublicParam(member, "team").tointeger()
-    res.haveNotReady = res.haveNotReady || !ready && !spectator
+    res.haveNotReady = res.haveNotReady || (!ready && !spectator)
     res.ableToStart = res.ableToStart || !spectator
     if (ready && !spectator)
     {
@@ -2260,7 +2264,7 @@ function SessionLobby::isPlayerInMyRoom(uid)
 
 function SessionLobby::needAutoInviteSquad()
 {
-  return isInRoom() && isRoomOwner || (haveLobby() && !isRoomByQueue)
+  return isInRoom() && (isRoomOwner || (haveLobby() && !isRoomByQueue))
 }
 
 function SessionLobby::checkSquadAutoInvite()

@@ -96,7 +96,7 @@
     "type": "typeTankDestroyer"
   },
   {
-    "cruiseVelocity": 5.0
+    "cruiseVelocity": 10.0
   },
   {
     "rearmSmokeTimeOnField": 60.0
@@ -567,6 +567,7 @@
     "sound": {
       "EngineName": "engine_stuart_m5a",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_light",
       "TrackSoundNameCockpit": "tracks_light_interior",
       "EngineNameAi": "engine_tank_ai_light",
@@ -1565,6 +1566,15 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -1680,6 +1690,15 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ]
     }
@@ -1700,10 +1719,19 @@
         "emitterGenFmt": "bone_rocket_%02d",
         "ammoDpGenFmt": "ammo_turret_%02d_dm",
         "recoilMultiplier": 0.1,
+        "stopForFire": true,
+        "readyToFireVar": "m901_itv_action",
+        "readyToFireTime": 2.5,
+        "maxSpeedForFire": 11.0,
+        "lagStopForFireTime": 1.0,
+        "reloadAnimVar": "m901_reload_var",
         "createGunEffects": true,
+        "parkForReload": true,
+        "waitShellForPark": true,
         "barrelDP": "gun_barrel_02_dm",
         "defaultYaw": 0.0,
         "defaultPitch": 0.0,
+        "notReadyToFireYaw": -180.0,
         "speedYaw": 45.0,
         "speedPitch": 25.0,
         "fireConeAngle": 1.0,
@@ -1730,10 +1758,47 @@
           "rotatedTurret": "bone_turret"
         },
         "limits": {
-          "yaw": [-45.0,45.0],
-          "pitch": [-19.0,29.0]
+          "yaw": [-180.0,180.0],
+          "pitch": [-30.0,35.0]
+        },
+        "limitsTable": [
+          {
+            "lim1": [-180.0,-118.0,-13.0,25.0]
+          },
+          {
+            "lim3": [-118.0,-105.0,-30.0,25.0]
+          },
+          {
+            "lim3": [-105.0,-58.0,-30.0,35.0]
+          },
+          {
+            "lim4": [-58.0,-12.5,-25.0,35.0]
+          },
+          {
+            "lim5": [-12.5,12.5,-30.0,35.0]
+          },
+          {
+            "lim6": [12.5,50.0,-25.0,35.0]
+          },
+          {
+            "lim7": [50.0,105.0,-30.0,35.0]
+          },
+          {
+            "lim8": [105.0,127.0,-33.0,25.0]
+          },
+          {
+            "lim9": [127.0,180.0,-13.0,25.0]
+          }
+        ]
+      },
+      "animatedBones": [
+        {
+          "node": "bone_gun"
+        },
+        {
+          "node": "bone_roll_01"
         }
-      }
+      ]
     }
   },
   {
@@ -2429,10 +2494,19 @@
                 "emitterGenFmt": "bone_rocket_%02d",
                 "ammoDpGenFmt": "ammo_turret_%02d_dm",
                 "recoilMultiplier": 0.1,
+                "stopForFire": true,
+                "readyToFireVar": "m901_itv_action",
+                "readyToFireTime": 2.5,
+                "maxSpeedForFire": 11.0,
+                "lagStopForFireTime": 1.0,
+                "reloadAnimVar": "m901_reload_var",
                 "createGunEffects": true,
+                "parkForReload": true,
+                "waitShellForPark": true,
                 "barrelDP": "gun_barrel_02_dm",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
+                "notReadyToFireYaw": -180.0,
                 "speedYaw": 45.0,
                 "speedPitch": 25.0,
                 "fireConeAngle": 1.0,
@@ -2459,16 +2533,55 @@
                   "rotatedTurret": "bone_turret"
                 },
                 "limits": {
-                  "yaw": [-45.0,45.0],
-                  "pitch": [-19.0,29.0]
-                }
+                  "yaw": [-180.0,180.0],
+                  "pitch": [-30.0,35.0]
+                },
+                "limitsTable": [
+                  {
+                    "lim1": [-180.0,-118.0,-13.0,25.0]
+                  },
+                  {
+                    "lim3": [-118.0,-105.0,-30.0,25.0]
+                  },
+                  {
+                    "lim3": [-105.0,-58.0,-30.0,35.0]
+                  },
+                  {
+                    "lim4": [-58.0,-12.5,-25.0,35.0]
+                  },
+                  {
+                    "lim5": [-12.5,12.5,-30.0,35.0]
+                  },
+                  {
+                    "lim6": [12.5,50.0,-25.0,35.0]
+                  },
+                  {
+                    "lim7": [50.0,105.0,-30.0,35.0]
+                  },
+                  {
+                    "lim8": [105.0,127.0,-33.0,25.0]
+                  },
+                  {
+                    "lim9": [127.0,180.0,-13.0,25.0]
+                  }
+                ]
               }
+            },
+            {
+              "animatedBones": [
+                {
+                  "node": "bone_gun"
+                },
+                {
+                  "node": "bone_roll_01"
+                }
+              ]
             },
             {
               "Weapon": {
                 "trigger": "gunner1",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,
@@ -2586,38 +2699,38 @@
     }
   },
   {
-    "ammoLoadDistribution": {
-      "removeLoadedAmmo": false,
-      "primaryShells": {
-        "ammo_turret_03_dm": {
-          "count": 1
-        },
-        "ammo_turret_04_dm": {
-          "count": 1
-        },
-        "ammo_turret_05_dm": {
-          "count": 1
-        },
-        "ammo_turret_06_dm": {
-          "count": 1
-        },
-        "ammo_turret_07_dm": {
-          "count": 1
-        },
-        "ammo_turret_08_dm": {
-          "count": 1
-        },
-        "ammo_turret_09_dm": {
-          "count": 1
-        },
-        "ammo_turret_10_dm": {
-          "count": 1
-        },
-        "ammo_turret_01_dm": {
-          "count": 1
-        },
-        "ammo_turret_02_dm": {
-          "count": 1
+    "ammoStowages": {
+      "ammo1": {
+        "weaponTrigger": "gunner0",
+        "fatalFire": true,
+        "fatalExplosion": true,
+        "replenishmentDelay": 0.1,
+        "replenishmentTime": 0.1,
+        "shells": {
+          "ammo_turret_03_dm": {
+            "count": 1
+          },
+          "ammo_turret_04_dm": {
+            "count": 1
+          },
+          "ammo_turret_05_dm": {
+            "count": 1
+          },
+          "ammo_turret_06_dm": {
+            "count": 1
+          },
+          "ammo_turret_07_dm": {
+            "count": 1
+          },
+          "ammo_turret_08_dm": {
+            "count": 1
+          },
+          "ammo_turret_09_dm": {
+            "count": 1
+          },
+          "ammo_turret_10_dm": {
+            "count": 1
+          }
         }
       }
     }

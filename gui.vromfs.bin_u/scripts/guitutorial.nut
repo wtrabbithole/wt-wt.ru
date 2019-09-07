@@ -8,10 +8,12 @@ enum tutorAction {
 //req handyman
 ::guiTutor <- {
   _id = "tutor_screen_root"
+  _isFullscreen = true
   _lightBlock = "tutorLight"
   _darkBlock = "tutorDark"
   _sizeIncMul = 0
   _sizeIncAdd = -2 //boxes size decreased for more accurate view of close objects
+  _isNoDelayOnClick = false //optional no delay on_click for lightboxes
 }
 
 function guiTutor::createHighlight(scene, objDataArray, handler = null, params = null)
@@ -24,24 +26,25 @@ function guiTutor::createHighlight(scene, objDataArray, handler = null, params =
   //    id, onClick
   //  }...]
 {
+  local guiScene = scene.getScene()
   local sizeIncMul = ::getTblValue("sizeIncMul", params, _sizeIncMul)
   local sizeIncAdd = ::getTblValue("sizeIncAdd", params, _sizeIncAdd)
+  local isFullscreen = params?.isFullscreen ?? _isFullscreen
+  local rootBox = ::GuiBox().setFromDaguiObj(isFullscreen ? guiScene.getRoot() : scene)
+  local rootPosCompensation = [ - rootBox.c1[0], - rootBox.c1[1] ]
   local defOnClick = ::getTblValue("onClick", params, null)
   local view = {
     id = ::getTblValue("id", params, _id)
+    isFullscreen = isFullscreen
     lightBlock = ::getTblValue("lightBlock", params, _lightBlock)
     darkBlock = ::getTblValue("darkBlock", params, _darkBlock)
     lightBlocks = []
     darkBlocks = []
   }
 
-  local guiScene = scene.getScene()
   local darkBoxes = []
   if (view.darkBlock && view.darkBlock != "")
-  {
-    local rootSize = guiScene.getRoot().getSize()
-    darkBoxes.append(::GuiBox(0, 0, rootSize[0], rootSize[1]))
-  }
+    darkBoxes.append(rootBox.cloneBox().incPos(rootPosCompensation))
 
   foreach(config in objDataArray)
   {
@@ -50,6 +53,7 @@ function guiTutor::createHighlight(scene, objDataArray, handler = null, params =
       continue
 
     block.box.incSize(sizeIncAdd, sizeIncMul)
+    block.box.incPos(rootPosCompensation)
     block.onClick <- ::getTblValue("onClick", block) || defOnClick
     view.lightBlocks.append(blockToView(block))
 
@@ -117,6 +121,7 @@ function guiTutor::getBlockFromObjData(objData, scene = null, defOnClick = null)
   if (id)
     res.id <- id
   res.onClick <- ::getTblValue("onClick", objData, defOnClick)
+  res.isNoDelayOnClick <- objData?.isNoDelayOnClick ?? _isNoDelayOnClick
   return res
 }
 

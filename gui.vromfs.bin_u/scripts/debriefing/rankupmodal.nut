@@ -14,7 +14,6 @@ class ::gui_handlers.RankUpModal extends ::gui_handlers.BaseGuiHandlerWT
     local topRank = 0;
     local airRow = "";
     local unitItems = []
-    local cImgName = ::get_country_icon(country, true)
     ::show_facebook_screenshot_button(scene)
 
     ::play_gui_sound("new_rank")
@@ -96,7 +95,7 @@ class ::gui_handlers.RankUpModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function isShowUnit(unit, showAsUnlock)
   {
-    if (!unit || (::isTank(unit) && !::check_feature_tanks()))
+    if (!unit || !unit.unitType.isAvailable())
       return false
 
     local showUnit = isInArray(unit.rank, ranks)

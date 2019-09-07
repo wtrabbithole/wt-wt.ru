@@ -133,6 +133,7 @@ local modsTree = {
       }
       return mergeOffset
     }
+    return 0
   }
 
   function getTiersWidth(tiersTable, minWidth = 0)

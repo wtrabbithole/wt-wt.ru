@@ -5,9 +5,9 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
 
 function g_shortcut_type::getShortcutTypeByShortcutId(shortcutId)
 {
-  foreach (type in types)
-    if (type.isMe(shortcutId))
-      return type
+  foreach (t in types)
+    if (t.isMe(shortcutId))
+      return t
   return ::g_shortcut_type.COMMON_SHORTCUT
 }
 
@@ -82,7 +82,6 @@ function g_shortcut_type::_getDeviceAxisDescription(shortcutId, isMouseHigherPri
 
   local joyParams = ::JoystickParams()
   joyParams.setFrom(::joystick_get_cur_settings())
-  local shortcutData = ::get_shortcut_by_id(shortcutId)
   local axisIndex = ::getTblValue("axisIndex", ::get_shortcut_by_id(shortcutId), -1)
   if (axisIndex < 0)
     return result
@@ -303,6 +302,10 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       helicopter_camy = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       submarine_camx  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       submarine_camy  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      ufo_camx        = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      ufo_camy        = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      walker_camx     = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
+      walker_camy     = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
     }
 
     getDirection = function(shortcutId)

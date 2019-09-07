@@ -1,4 +1,3 @@
-local u = ::require("std/u.nut")
 local rouletteAnim = ::require("rouletteAnim.nut")
 
 local BhvRoulette = class

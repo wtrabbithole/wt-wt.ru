@@ -8,7 +8,8 @@ local function combobox(watches, options, combo_style=comboStyle) {
   local doClose = @() comboOpen.update(false)
   local wdata, wdisable
   local dropDirDown = combo_style?.dropDir != "up"
-
+  local itemHeight = options.len() > 0 ? ::calc_comp_size(combo_style.listItem(options[0], @() null, false))[1] : sh(5)
+  local itemGapHt = ::calc_comp_size(combo_style?.itemGap)[1]
   if (type(watches) == "table") {
     wdata = watches.value
     wdisable = watches.disable
@@ -51,7 +52,6 @@ local function combobox(watches, options, combo_style=comboStyle) {
       size = [19999, 19999]
       behavior = Behaviors.ComboPopup
       eventPassThrough = true
-
       onClick = doClose
     }
 
@@ -64,12 +64,17 @@ local function combobox(watches, options, combo_style=comboStyle) {
       borderColor = combo_style?.popupBdColor ?? Color(80,80,80)
       borderWidth = combo_style?.popupBorderWidth ?? 0
       padding = combo_style?.popupBorderWidth ?? 0
-      flow = FLOW_VERTICAL
       stopMouse = true
       clipChildren = true
-
-      children = children
-      gap = combo_style?.itemGap
+      children = {
+        behavior = Behaviors.WheelScroll
+        flow = FLOW_VERTICAL
+        children = children
+        gap = combo_style?.itemGap
+        size = [flex(), SIZE_TO_CONTENT]
+        maxHeight = itemHeight*10.5 + itemGapHt*9 //this is ugly workaround with overflow of combobox size
+        //we need something much more clever - we need understand how close we to the bottom\top of the screen and set limit to make all elements visible
+      }
 
       transform = {
         pivot = [0.5, dropDirDown ? 0 : 1]
@@ -89,7 +94,7 @@ local function combobox(watches, options, combo_style=comboStyle) {
       //color = Color(0,100,0,50)
       children = [
         {size = [flex(), ph(100)]}
-        {size = [flex(), 2]}
+        {size = [flex(), hdpx(2)]}
         popupContent
       ]
     }
@@ -126,11 +131,10 @@ local function combobox(watches, options, combo_style=comboStyle) {
       } else if (item == curValue)
         break
     }
-    local sf = stateFlags.value
 
     local children = (combo_style?.rootCtor !=null) ?
       [
-        combo_style?.rootCtor({group=group, stateFlags=stateFlags, disabled=wdisable.value, comboOpen=comboOpen, text=labelText})
+        combo_style.rootCtor({group=group, stateFlags=stateFlags, disabled=wdisable.value, comboOpen=comboOpen, text=labelText})
       ]
     :
       [
@@ -143,11 +147,11 @@ local function combobox(watches, options, combo_style=comboStyle) {
 
     local clickHandler = wdisable.value ? null : @() comboOpen.update(!comboOpen.value)
 
-    local desc = (combo_style?.root ?? {}).__update({
+    local desc = (combo_style?.root ?? {}).__merge({
       size = flex()
       //behavior = wdisable.value ? null : Behaviors.Button
       behavior = Behaviors.Button
-      watch = [comboOpen, watches?.disable]
+      watch = [comboOpen, watches?.disable, wdata]
       group = group
       onElemState=@(sf) stateFlags(sf)
 

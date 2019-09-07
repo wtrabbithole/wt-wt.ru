@@ -11,6 +11,24 @@ local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 local emptyBlk = ::DataBlock()
 
+local defaultLocIdsList = {
+  assemble                              = "item/assemble"
+  disassemble                           = "item/disassemble"
+  recipes                               = "item/recipes"
+  descReceipesListHeaderPrefix          = ""
+  msgBoxCantUse                         = "msgBox/assembleItem/cant"
+  msgBoxConfirm                         = ""
+  msgBoxConfirmWhithItemName            = "msgBox/assembleItem/confirm"
+  msgBoxConfirmWhithItemNameDisassemble = "msgBox/disassembleItem/confirmWhithItemName"
+  craftCountdown                        = "items/craft_process/countdown"
+  header                                = "item/create_header"
+  craftingIconInAmmount                 = "icon/gear"
+  craftResultIconInAmmount              = "icon/chest2"
+  tryCreateRecipes                      = "item/try_create_recipes"
+  createRecipes                         = "item/create_recipes"
+  cancelTitle                           = ""
+}
+
 local ItemExternal = class extends ::BaseItem
 {
   static defaultLocId = ""
@@ -43,6 +61,7 @@ local ItemExternal = class extends ::BaseItem
   requirement = null
 
   aditionalConfirmationMsg = null
+  locIdsList = null
 
   constructor(itemDefDesc, itemDesc = null, slotData = null)
   {
@@ -55,7 +74,7 @@ local ItemExternal = class extends ::BaseItem
     requirement = itemDefDesc?.tags?.showWithFeature
 
     aditionalConfirmationMsg = {}
-    local confirmationActions = itemDefDesc?.tags % "confirmationAction"
+    local confirmationActions = itemDefDesc?.tags ? (itemDefDesc.tags % "confirmationAction") : []
     if (confirmationActions.len())
     {
        local confirmationMsg = itemDefDesc.tags % "confirmationMsg"
@@ -98,6 +117,7 @@ local ItemExternal = class extends ::BaseItem
     addResources()
 
     updateShopFilterMask()
+    updateItemDefParams()
   }
 
   function getTradebleTimestamp(itemDesc)
@@ -286,6 +306,8 @@ local ItemExternal = class extends ::BaseItem
         resultContent = getDisassembleResultContent(recipe)
       }
     }
+    else if(hasReachedMaxAmount())
+      headers.append({ header = ::loc("item/reached_max_amount") })
     else
       recipes = getMyRecipes()
     return ::PrizesView.getPrizesListView(content, params)
@@ -334,7 +356,7 @@ local ItemExternal = class extends ::BaseItem
   function getDescRecipeListHeader(showAmount, totalAmount, isMultipleExtraItems, hasFakeRecipes = false, timeText = "")
   {
     if (showAmount < totalAmount)
-      return ::loc(hasFakeRecipes ? "item/try_create_recipes" : "item/create_recipes",
+      return ::loc(hasFakeRecipes ? getLocIdsList().tryCreateRecipes : getLocIdsList().createRecipes,
         {
           count = totalAmount
           countColored = ::colorize("activeTextColor", totalAmount)
@@ -349,8 +371,7 @@ local ItemExternal = class extends ::BaseItem
       : "item"
 
     return (timeText.len() ? timeText + "\n" : "") +
-      ::loc(descReceipesListHeaderPrefix + headerSuffix
-        + (needShowAsDisassemble() ? "/disassemble" : ""))
+      ::loc(getLocIdsList().descReceipesListHeaderPrefix + headerSuffix)
   }
 
   isRare              = @() isDisguised ? base.isRare() : rarity.isRare
@@ -364,7 +385,6 @@ local ItemExternal = class extends ::BaseItem
   canDisassemble       = @() isInventoryItem && itemDef?.tags?.canBeDisassembled
     && !isExpired() && getDisassembleRecipe() != null
   getMaxRecipesToShow = @() 1
-  canRunCustomMission = @() itemDef?.tags?.canRunCustomMission != null
 
   hasMainActionDisassemble  = @() itemDef?.tags?.canBeDisassembled == "mainAction"
   needShowAsDisassemble     = @() hasMainActionDisassemble() || (canDisassemble() && !canAssemble())
@@ -414,14 +434,13 @@ local ItemExternal = class extends ::BaseItem
       || runCustomMission()
   }
 
-  getAltActionName   = @() amount && canConsume() && canAssemble()
-    ? ::loc("item/assemble")
-    : canConvertToWarbonds()
-      ? ::loc("items/exchangeTo", { currency = getWarbondExchangeAmountText() })
-      : !hasMainActionDisassemble() && canDisassemble() && amount > 0 && !isCrafting() && !hasCraftResult()
-        ? getDisassembleText()
-        : ""
-  doAltAction        = @(params) canConsume() && assemble(null, params) || convertToWarbonds(params)
+  getAltActionName   = @() (amount && canConsume() && canAssemble()) ? ::loc(getLocIdsList().assemble)
+    : canConvertToWarbonds() ? ::loc("items/exchangeTo", { currency = getWarbondExchangeAmountText() })
+    : (!hasMainActionDisassemble() && canDisassemble() && amount > 0 && !isCrafting() && !hasCraftResult())
+      ? getDisassembleText()
+    : ""
+  doAltAction        = @(params) (canConsume() && assemble(null, params))
+    || convertToWarbonds(params)
     || (!hasMainActionDisassemble() && disassemble(params))
 
   function consume(cb, params)
@@ -487,18 +506,17 @@ local ItemExternal = class extends ::BaseItem
     ::g_tasker.addTask(taskId, { showProgressBox = !shouldAutoConsume }, taskCallback)
   }
 
-  getAssembleHeader       = @() ::loc(getAssembleHeaderLocId(), { itemName = getName() })
-  getAssembleHeaderLocId  = @() ExchangeRecipes.hasFakeRecipes(getMyRecipes())
-    ? "item/create_header/findTrue"
-    : "item/create_header"
-  getAssembleText         = @() ::loc("item/assemble")
-  getAssembleButtonText   = @() getMyRecipes().len() > 1 ? ::loc("item/recipes") : getAssembleText()
-  getCantUseLocId         = @() needShowAsDisassemble() ? "msgBox/disassembleItem/cant" : "msgBox/assembleItem/cant"
+  getAssembleHeader       = @() ::loc(getLocIdsList().headerRecipesList, { itemName = getName() })
+  getAssembleText         = @() ::loc(getLocIdsList().assemble)
+  getAssembleButtonText   = @() getMyRecipes().len() > 1 ? ::loc(getLocIdsList().recipes) : getAssembleText()
+  getCantUseLocId         = @() getLocIdsList().msgBoxCantUse
   getConfirmMessageData   = @(recipe) getEmptyConfirmMessageData().__update({
-    text = ::loc(recipe.isDisassemble ? "msgBox/disassembleItem/confirmWhithItemName" : "msgBox/assembleItem/confirm",
-        { itemName = ::colorize("activeTextColor", getName()) })
+    text = ::loc(recipe.isDisassemble
+        ? getLocIdsList().msgBoxConfirmWhithItemNameDisassemble
+        : getLocIdsList().msgBoxConfirmWhithItemName,
+          { itemName = ::colorize("activeTextColor", getName()) })
       + (recipe.hasCraftTime() ? "\n" + recipe.getCraftTimeText() : "")
-    headerRecipeMarkup = ::loc("msgBox/items_will_be_spent")
+    headerRecipeMarkup = recipe.getHeaderRecipeMarkupText()
     needRecipeMarkup = true
   })
 
@@ -541,7 +559,7 @@ local ItemExternal = class extends ::BaseItem
     return warbondItem.getWarbondsAmount() + ::loc(warbond.fontIcon)
   }
 
-  getDisassembleText = @() ::loc("item/disassemble")
+  getDisassembleText = @() ::loc(getLocIdsList().disassemble)
   function disassemble(params = null)
   {
     if (!canDisassemble() || amount <= 0 || isCrafting() || hasCraftResult())
@@ -808,7 +826,7 @@ local ItemExternal = class extends ::BaseItem
     if (craftTime == -1)
       return ""
 
-    return ::colorize(craftColor, ::loc(getCraftCountdownLocId(), {
+    return ::colorize(craftColor, ::loc(getLocIdsList().craftCountdown, {
       datetime = time.buildDateTimeStr(craftTime)
       timeleft = getCraftTimeTextShort()
     }))
@@ -821,15 +839,6 @@ local ItemExternal = class extends ::BaseItem
       return
 
     return ItemGenerators.findGenByReceptUid(craftedFrom)
-  }
-
-  function getParentRecipe()
-  {
-    local gen = getParentGen()
-    if (!gen)
-      return
-
-    return gen.getRecipeByUid(craftedFrom)
   }
 
   function getCraftResultItem()
@@ -870,12 +879,11 @@ local ItemExternal = class extends ::BaseItem
 
   function getAdditionalTextInAmmount(needColorize = true)
   {
+    local locIds = getLocIdsList()
     local textIcon = isCrafting()
-      ? needShowAsDisassemble()
-        ? "hud/iconRepair"
-        : "icon/gear"
+      ? locIds.craftingIconInAmmount
       : hasCraftResult()
-        ? "icon/chest2"
+        ? locIds.craftResultIconInAmmount
         : ""
 
     if (textIcon == "")
@@ -908,14 +916,33 @@ local ItemExternal = class extends ::BaseItem
      return delimiter + ::loc("confirmationMsg/" + locKey)
   }
 
-  getCustomMissionButtonText = @() ::loc("missions/" + itemDef.tags.canRunCustomMission)
+  getCustomMissionBlk = function() {
+    local misName = itemDef?.tags?.canRunCustomMission
+    if (!misName)
+      return null
+
+    local misBlk = ::get_mission_meta_info(misName)
+    if (!misBlk || (("reqFeature" in misBlk) && !::has_feature(misBlk.reqFeature)))
+      return null
+
+    return misBlk
+  }
+
+  canRunCustomMission = @() amount > 0 && getCustomMissionBlk() != null
+  getCustomMissionButtonText = @() get_mission_name(itemDef.tags.canRunCustomMission, getCustomMissionBlk())
+
   function runCustomMission()
   {
     if (!canRunCustomMission())
         return false
+
+    local misBlk = ::get_mission_meta_info(itemDef.tags.canRunCustomMission)
+    if (misBlk?.requiredPackage != null && !check_package_and_ask_download(misBlk.requiredPackage))
+      return true
+
     ::broadcastEvent("BeforeStartCustomMission")
     ::custom_miss_flight <- true
-    local misBlk = ::get_mission_meta_info(itemDef.tags.canRunCustomMission)
+    ::current_campaign_mission <- itemDef.tags.canRunCustomMission
     ::select_training_mission(misBlk)
     return true
   }
@@ -951,8 +978,40 @@ local ItemExternal = class extends ::BaseItem
     return ::colorize(data.color, ::loc(data.additionalDesc))
   }
 
-  getCraftCountdownLocId = @() "items/craft_process/countdown"
-    + (needShowAsDisassemble() ? "/disassemble" : "")
+  getLocIdsList = function() {
+    if (locIdsList)
+      return locIdsList
+
+    locIdsList = getLocIdsListImpl()
+    local localizationPreset = itemDef?.tags?.customLocalizationPreset
+    if (localizationPreset)
+      locIdsList.__update(workshop.getCustomLocalizationPresets(localizationPreset))
+
+    return locIdsList
+  }
+
+  getLocIdsListImpl = @() defaultLocIdsList.__merge({
+    descReceipesListHeaderPrefix = descReceipesListHeaderPrefix
+      + (needShowAsDisassemble() ? "disassemble/" : "")
+    msgBoxCantUse                = needShowAsDisassemble()
+      ? "msgBox/disassembleItem/cant"
+      : "msgBox/assembleItem/cant"
+    craftCountdown               = "items/craft_process/countdown"
+      + (needShowAsDisassemble() ? "/disassemble" : "")
+    headerRecipesList            = ExchangeRecipes.hasFakeRecipes(getMyRecipes())
+      ? "item/create_header/findTrue"
+      : "item/create_header"
+    craftingIconInAmmount        = needShowAsDisassemble() ? "hud/iconRepair" : "icon/gear"
+  })
+
+  needOfferBuyAtExpiration = @() !isHiddenItem() && itemDef?.tags?.offerToBuyAtExpiration
+  isVisibleInWorkshopOnly = @() itemDef?.tags?.showInWorkshopOnly ?? false
+  updateItemDefParams = function() {
+    if (!u.isEmpty(itemDef.icon_url))
+      itemDef.icon_url = "!" + itemDef.icon_url
+    if (!::u.isEmpty(itemDef.icon_url_large))
+      itemDef.icon_url_large = "!" + itemDef.icon_url_large
+  }
 }
 
 return ItemExternal

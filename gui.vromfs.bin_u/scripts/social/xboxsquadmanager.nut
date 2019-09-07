@@ -1,3 +1,5 @@
+local extContactsService = require("scripts/contacts/externalContactsService.nut")
+
 ::g_xbox_squad_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["lastReceivedUsersCache", "isSquadStatusCheckedOnce",
                               "currentUsersListCache", "xboxIsGameStartedByInvite",
@@ -52,8 +54,7 @@
     validateList(xboxIdsList)
     ::dagor.debug("XBOX SQUAD MANAGER: notFoundIds " + notFoundIds.len())
 
-    if (notFoundIds.len())
-      requestUnknownIds(notFoundIds)
+    requestUnknownIds(notFoundIds)
   }
 
   isMeLeaderByList = @(xboxIdsList) xboxIdsList?[0] == ::get_my_external_id(::EPL_XBOXONE)
@@ -196,13 +197,7 @@
     if (!idsList.len())
       return
 
-    local taskId = ::xbox_find_friends(idsList)
-    ::g_tasker.addTask(taskId, null, ::Callback(function() {
-      local blk = ::DataBlock()
-      blk = ::xbox_find_friends_result()
-      local table = ::buildTableFromBlk(blk)
-      checkFoundIds(table)
-    }, this))
+    extContactsService.requestUnknownXboxIds(idsList, {}, ::Callback(checkFoundIds, this))
   }
 
   function checkExistedSquads()

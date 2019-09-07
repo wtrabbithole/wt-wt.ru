@@ -262,8 +262,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     local armyCount = ::g_operations.getAirArmiesNumberByGroupIdx(selectedGroupIdx)
     for (local idx = 0; idx < ::g_world_war.getAirfieldsCount(); idx++)
     {
-      local airfield = ::g_world_war.getAirfieldByIndex(idx)
-      armyCount += airfield.getCooldownArmiesNumberByGroupIdx(selectedGroupIdx)
+      local af = ::g_world_war.getAirfieldByIndex(idx)
+      armyCount += af.getCooldownArmiesNumberByGroupIdx(selectedGroupIdx)
     }
 
     return armyCount
@@ -349,9 +349,6 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local selUnitsInfo = getSelectedUnitsInfo()
-    local unitsFightersQty = getReqDataFromSelectedUnitsInfo(selUnitsInfo, WW_UNIT_CLASS.FIGHTER, "amount", 0)
-    local unitsBombersQty = getReqDataFromSelectedUnitsInfo(selUnitsInfo, WW_UNIT_CLASS.BOMBER, "amount", 0)
-
     local isEnable = !!selUnitsInfo.selectedUnitsMask
     foreach (unitClass, cl in selUnitsInfo.classes)
     {

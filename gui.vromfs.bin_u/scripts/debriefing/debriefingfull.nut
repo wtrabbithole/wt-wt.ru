@@ -445,7 +445,7 @@ function gather_debriefing_result()
 {
   local gm = ::get_game_mode()
   if (gm==::GM_DYNAMIC)
-    ::dynamic_result <- ::dynamic_apply_status();
+    ::dynamic_result = ::dynamic_apply_status();
 
   ::debriefing_result = {}
 
@@ -601,17 +601,17 @@ function update_debriefing_exp_investment_data()
 
 function calculate_debriefing_tabular_data(addVirtPremAcc = false)
 {
-  local getStatReward = function(row, type, keysArray = [])
+  local getStatReward = function(row, currency, keysArray = [])
   {
     if (!keysArray.len()) // empty means pre-calculated final value
     {
-      local finalId = type + row.getRewardId()
+      local finalId = currency + row.getRewardId()
       return ::getTblValue(finalId, ::debriefing_result.exp, 0)
     }
 
     local result = 0
     local tableId = ::get_table_name_by_id(row)
-    local currencyName = ::g_string.toUpper(type, 1)
+    local currencyName = ::g_string.toUpper(currency, 1)
     foreach(key in keysArray)
       result += ::get_tbl_value_by_path_array([tableId, key + currencyName], ::debriefing_result.exp, 0)
     return result
@@ -774,7 +774,6 @@ function debriefing_result_get_base_tournament_reward()
 
 function get_debriefing_result_active_boosters()
 {
-  local activeBoosters = []
   local logs = getUserLogsList({
     show = [
       ::EULT_EARLY_SESSION_LEAVE
@@ -820,7 +819,7 @@ function get_debriefing_result_active_wager()
     if (wagerIds != null)
       break
   }
-  if (wagerIds == null || typeof(wagerIds) == "array" && wagerIds.len() == 0) // Nothing found.
+  if (wagerIds == null || (typeof(wagerIds) == "array" && wagerIds.len() == 0)) // Nothing found.
     return null
 
   local data = {
@@ -947,7 +946,7 @@ function debriefing_apply_first_win_in_day_mul(exp, debrResult)
 
   if (isNeedMulXp)
   {
-    local keys = [ "expTotal", "expFree", "expInvestUnit", "expInvestUnitTotal", "expInvestModuleTotal" ]
+    local keys = [ "expTotal", "expFree", "expInvestUnit", "expInvestUnitTotal" ]
     foreach (ut in ::g_unit_type.types)
       keys.extend([
         "expInvestUnit" + ut.name,
@@ -1006,7 +1005,6 @@ function recount_debriefing_result()
 {
   local gm = ::get_game_mode()
   local gt = ::get_game_type()
-  local isDebriefingFull = ::isDebriefingResultFull()
 
   foreach(row in ::debriefing_rows)
   {
@@ -1032,8 +1030,8 @@ function recount_debriefing_result()
       row.value = ::getTblValue(row.type + row.getRewardId(), ::debriefing_result.exp, 0)
     isRowEmpty = isRowEmpty && !row.value
 
-    local isHide = row.showByValue && !row.showByValue(row.value)
-      || isRowEmpty && !row.isVisibleWhenEmpty()
+    local isHide = (row.showByValue && !row.showByValue(row.value))
+      || (isRowEmpty && !row.isVisibleWhenEmpty())
 
     if (isHide)
     {

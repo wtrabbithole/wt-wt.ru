@@ -479,7 +479,7 @@
       },
       "chassis": {
         "hp": 250.0,
-        "armorThickness": 2.0,
+        "armorThickness": 10.0,
         "armorClass": "car_wheels",
         "wheel_r_01_dm": [],
         "wheel_l_01_dm": [],
@@ -1097,6 +1097,7 @@
     "sound": {
       "EngineName": "engine_m1",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_wheels",
       "TrackSoundNameCockpit": "tracks_wheels_interior",
       "turret_turn": "turret_turn_t34_manual",
@@ -1243,7 +1244,9 @@
         "steeringDeflection": {
           "wheel_l_01": 35.0,
           "wheel_r_01": 35.0,
-          "steeringTau": 1.0
+          "steeringTau": 1000000.0,
+          "steeringSpd": 1.0,
+          "steeringNeutralSpd": 3.0
         },
         "wheelsWidth": {
           "wheel_l_02": 0.3,

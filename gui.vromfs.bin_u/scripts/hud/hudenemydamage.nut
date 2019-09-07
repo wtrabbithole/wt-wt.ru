@@ -249,9 +249,9 @@
       local crewCount = ::getTblValue("crewAliveCount", data, -1)
       local crewCountTotal = ::getTblValue("crewTotalCount", data, -1)
       local isCrewChanged = crewCount != -1 && lastTargetCrew != crewCount
-      local isShowCrew = (lastTargetType == ::ES_UNIT_TYPE_SHIP
-        || !::has_feature("HitCameraTargetStateIconsTank") && cfg.section == "crew" && cfg.show && partKilled)
-        && !lastTargetKilled && isCrewChanged
+      local isShowCrew = !lastTargetKilled && isCrewChanged
+        && (lastTargetType == ::ES_UNIT_TYPE_SHIP
+          || (!::has_feature("HitCameraTargetStateIconsTank") && cfg.section == "crew" && cfg.show && partKilled))
 
       if (isShowCrew)
       {

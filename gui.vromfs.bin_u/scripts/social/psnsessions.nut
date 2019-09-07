@@ -73,16 +73,16 @@ local sessionParams = {
 }
 
 
-function g_psn_sessions::create(type, cb=psn.noOpCb)
+function g_psn_sessions::create(sType, cb = psn.noOpCb)
 {
-  local params = sessionParams[type] // Cache info for use in callback
-  pendingSessions[type] <- { type = type, info = params.info }
-  local saveSession = function(response, error) {
-    if (!error && response?.sessionId)
-      sessions[response.sessionId] <- pendingSessions[type]
-    delete pendingSessions[type]
+  local params = sessionParams[sType] // Cache info for use in callback
+  pendingSessions[sType] <- { type = sType, info = params.info }
+  local saveSession = function(response, err) {
+    if (!err && response?.sessionId)
+      sessions[response.sessionId] <- pendingSessions[sType]
+    delete pendingSessions[sType]
 
-    cb(response, error)
+    cb(response, err)
   }
   psn.send(psn.session.create(formatSessionInfo(params.info()), params.image(), params.data()), saveSession, this)
 }
@@ -102,9 +102,9 @@ function g_psn_sessions::join(session, invitation=null, cb=psn.noOpCb)
   {
     sessions[session] <- { type = invitation.key } // consider ourselves in session early
     pendingSessions[invitation.key] <- { type = invitation.key }
-    local afterJoin = function(response, error) {
+    local afterJoin = function(response, err) {
       delete pendingSessions[invitation.key]
-      if (error)
+      if (err)
         delete sessions[session]
       else // Mark all invitations to this particular session as used
         psn.send(psn.invitation.list(), function(r, e) {
@@ -113,7 +113,7 @@ function g_psn_sessions::join(session, invitation=null, cb=psn.noOpCb)
               toMark.apply(@(i) psn.send(psn.invitation.use(i.invitationId)))
             })
 
-      cb(response, error)
+      cb(response, err)
     }
     psn.send(psn.session.join(session), afterJoin, this)
   }
@@ -136,10 +136,10 @@ function g_psn_sessions::leave(session, cb=psn.noOpCb)
 {
   if (session in sessions)
   {
-    local afterLeave = function(response, error) {
+    local afterLeave = function(response, err) {
       if (session in sessions)
         delete sessions[session]
-      cb(response, error)
+      cb(response, err)
     }
     psn.send(psn.session.leave(session), afterLeave, this)
   }
@@ -276,9 +276,9 @@ function g_psn_sessions::onPsnInvitation(invitation)
     return
   }
 
-  local acceptInvitation = function(response, error) {
-    ::dagor.debug("[PSSI] ready to accept PSN invite, error "+error)
-    if (!error)
+  local acceptInvitation = function(response, err) {
+    ::dagor.debug("[PSSI] ready to accept PSN invite, error " + err)
+    if (!err)
     {
       local fullInfo = ::u.extend(response, invitation)
       switch (response.key)

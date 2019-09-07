@@ -375,7 +375,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     code = ::EII_SHIP_CURRENT_TRIGGER_GROUP
     _name = "ship_current_trigger_group"
     getShortcut = @(actionItem, unit = null)
-      ::get_option(::USEROPT_WHEEL_CONTROL_SHIP)?.value ?? false
+      ::get_option(::USEROPT_WHEEL_CONTROL_SHIP)?.value
         && (::is_xinput_device() || ::is_ps4_or_xbox)
           ? "ID_SHIP_SELECTWEAPON_WHEEL_MENU"
           : null

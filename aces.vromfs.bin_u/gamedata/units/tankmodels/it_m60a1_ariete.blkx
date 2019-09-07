@@ -111,6 +111,7 @@
     "sound": {
       "EngineName": "engine_sherman_m4a3",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
@@ -2519,9 +2520,7 @@
       "art_support": [],
       "105mm_usa_HESH": [],
       "105mm_usa_HESH_ammo_pack": [],
-      "105mm_usa_HEAT_FS": {
-        "modCostMul": 4.0
-      },
+      "105mm_usa_HEAT_FS": [],
       "105mm_usa_HEAT_FS_ammo_pack": [],
       "105mm_us_M416_Smoke": [],
       "105mm_us_M416_Smoke_ammo_pack": [],
@@ -2574,33 +2573,6 @@
                   "lim1": [-180.0,-125.0,0.0,19.0],
                   "lim2": [-125.0,125.0,-9.0,19.0],
                   "lim3": [125.0,180.0,0.0,19.0]
-                },
-                "gunStabilizer": {
-                  "hasVerticalGunFreeMode": false,
-                  "hasHorizontal": true,
-                  "horizontalOmegaMult": 1.0,
-                  "horizontalSpeedLimitKPH": 75.0,
-                  "hasVertical": true,
-                  "verticalOmegaMult": 1.0,
-                  "verticalSpeedLimitKPH": 75.0,
-                  "speedFromVehicleVerticalMult": -1.0,
-                  "errorKPHToDegrees": [
-                    {
-                      "row": [5.0,0.0]
-                    },
-                    {
-                      "row": [25.0,0.015]
-                    },
-                    {
-                      "row": [35.0,0.02]
-                    },
-                    {
-                      "row": [45.0,0.1]
-                    },
-                    {
-                      "row": [50.0,0.3]
-                    }
-                  ]
                 }
               }
             },
@@ -2749,7 +2721,7 @@
                   "triggerGroup": "smoke"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/76mm_nato_smoke_grenade_launcher.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/76mm_modern_smoke_grenade_launcher.blk"
                 },
                 {
                   "weaponType": "rockets"
@@ -2897,33 +2869,6 @@
             "lim1": [-180.0,-125.0,0.0,19.0],
             "lim2": [-125.0,125.0,-9.0,19.0],
             "lim3": [125.0,180.0,0.0,19.0]
-          },
-          "gunStabilizer": {
-            "hasVerticalGunFreeMode": false,
-            "hasHorizontal": true,
-            "horizontalOmegaMult": 1.0,
-            "horizontalSpeedLimitKPH": 75.0,
-            "hasVertical": true,
-            "verticalOmegaMult": 1.0,
-            "verticalSpeedLimitKPH": 75.0,
-            "speedFromVehicleVerticalMult": -1.0,
-            "errorKPHToDegrees": [
-              {
-                "row": [5.0,0.0]
-              },
-              {
-                "row": [25.0,0.015]
-              },
-              {
-                "row": [35.0,0.02]
-              },
-              {
-                "row": [45.0,0.1]
-              },
-              {
-                "row": [50.0,0.3]
-              }
-            ]
           }
         }
       },
@@ -3075,9 +3020,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 11.0,
+      "zoomOutFov": 10.2,
       "zoomInFov": 9.2,
-      "sightFov": 6.0,
+      "sightFov": 7.5,
       "sightName": "telescope_m105c",
       "headPos": [0.0,3.9,-8.7],
       "headPosOnShooting": [-0.3,3.7,0.5],

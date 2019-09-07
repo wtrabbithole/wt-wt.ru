@@ -154,7 +154,6 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
     local wLeft  = "45%pw"
     local wRight = "55%pw"
     local selectedRow = 0
-    local iRow = 0
     local separator = ""
 
     local isFreeFlight = ::mission_settings.missionFull.mission_settings.mission.isFreeFlight;

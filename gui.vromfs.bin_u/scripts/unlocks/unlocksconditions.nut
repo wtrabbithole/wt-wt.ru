@@ -373,20 +373,32 @@ function UnlockConditions::loadCondition(blk)
     if (blk.inSessionAnd)
       res.type = "crewsUnitRank"
 
-    local range = (blk.minRank && blk.maxRank) ? ::Point2(blk.minRank, blk.maxRank) : blk.range
-    res.values = ::getRangeTextByPoint2(range, "%s", ::loc("conditions/unitRank/format", "%s"), true)
+    local range = blk.minRank || blk.maxRank ? ::Point2(blk.minRank, blk.maxRank) : blk.range
+    local v = ::getRangeTextByPoint2(range, {
+      rangeStr = ::loc("events/rank")
+      maxOnlyStr = ::loc("conditions/unitRank/format_max")
+      minOnlyStr = ::loc("conditions/unitRank/format_min")
+    }, true)
+    res.values = v != "" ? v : null
   }
   else if (t == "playerUnitMRank")
   {
     if (blk.inSessionAnd)
       res.type = "crewsUnitMRank"
 
-    local range = (blk.minMRank && blk.maxMRank) ? ::Point2(blk.minMRank, blk.maxMRank) : blk.range
+    local range = blk.minMRank || blk.maxMRank
+      ? ::Point2(blk.minMRank, blk.maxMRank)
+      : blk.range ?? {x = 0, y = 0}
     range = {
-      x = ::get_battle_rating_string_from_rank(range.x)
-      y = ::get_battle_rating_string_from_rank(range.y)
+      x = range.x.tointeger() > 0 ? ::get_battle_rating_string_from_rank(range.x) : 0
+      y = range.y.tointeger() > 0 ? ::get_battle_rating_string_from_rank(range.y) : 0
     }
-    res.values = ::getRangeTextByPoint2(range, "%s", ::loc("events/br", "%s"))
+    local v = ::getRangeTextByPoint2(range, {
+      rangeStr = ::loc("events/br")
+      maxOnlyStr = ::loc("conditions/unitRank/format_max")
+      minOnlyStr = ::loc("conditions/unitRank/format_min")
+    })
+    res.values = v != "" ? v : null
   }
   else if (t == "playerUnitClass")
   {
@@ -603,8 +615,11 @@ function UnlockConditions::addTextToCondTextList(condTextsList, group, valuesDat
     valuesText = ::colorize("unlockActiveColor", valuesText)
 
   text = !::isInArray(group, customLocTypes) ? ::loc("conditions/" + group, { value = valuesText }) : customLocGroupText
-  if (valuesText != "" && !::isInArray(group, condWithValuesInside))
-    text += (text.len() ? ::loc("ui/colon") : "") + valuesText
+  if (!::isInArray(group, condWithValuesInside))
+    if (valuesText != "")
+      text += (text.len() ? ::loc("ui/colon") : "") + valuesText
+    else
+      text = ""
 
   condTextsList.append(text)
 }

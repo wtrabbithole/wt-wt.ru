@@ -11,10 +11,10 @@ local stdMath = require("std/math.nut")
   byId = {}
 }
 
-function g_lb_data_type::_getStandartTooltip(type, value)
+function g_lb_data_type::_getStandartTooltip(lbDataType, value)
 {
-  local shortText = type.getShortTextByValue(value)
-  local fullText = type.getFullTextByValue(value)
+  local shortText = lbDataType.getShortTextByValue(value)
+  local fullText = lbDataType.getFullTextByValue(value)
   return fullText != shortText ? (::loc("leaderboards/exactValue") + ::loc("ui/colon") + fullText) : ""
 }
 

@@ -276,11 +276,17 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::queues.leaveQueue(q, { isCanceledByPlayer = true })
   }
 
-  function onEventQueueChangeState(_queue)
+  function onEventQueueChangeState(p)
   {
-    if (!::queues.isEventQueue(_queue))
+    if (!::queues.isEventQueue(p?.queue))
       return
 
+    if (p.queue.state == queueStates.NOT_IN_QUEUE)
+      eventsListObj.select()
+    else
+      restoreFocus()
+
+    updateEventsListFocusStatus()
     updateQueueInterface()
     updateButtons()
   }
@@ -399,8 +405,8 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::handlersManager.loadHandler(::gui_handlers.FramedOptionsWnd, params)
   }
 
-  function onSlotbarPrevAir() { slotbarWeak && slotbarWeak.onSlotbarPrevAir() }
-  function onSlotbarNextAir() { slotbarWeak && slotbarWeak.onSlotbarNextAir() }
+  function onSlotbarPrevAir() { slotbarWeak?.onSlotbarPrevAir?() }
+  function onSlotbarNextAir() { slotbarWeak?.onSlotbarNextAir?() }
 
   function onCreateRoom() {}
 
@@ -446,7 +452,6 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local slotbar = getSlotbar()
     if (slotbar)
       slotbar.shade(isInEventQueue())
-    restoreFocus()
   }
 
   function updateButtons()
@@ -462,7 +467,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local joinButtonObj = scene.findObject("btn_join_event")
     joinButtonObj.show(showJoinBtn)
     joinButtonObj.enable(showJoinBtn)
-    joinButtonObj.inactiveColor = (reasonData.activeJoinButton && !isInQueue) || isSquadMember
+    joinButtonObj.inactiveColor = (reasonData.activeJoinButton && !isInQueue)
                                   ? "no"
                                   : "yes"
     joinButtonObj.tooltip = isSquadMember ? reasonData.reasonText : ""
@@ -475,7 +480,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local uncoloredStartText = startText
 
     local battlePriceText = ::events.getEventBattleCostText(event, "activeTextColor", true, true)
-    if (battlePriceText.len() > 0 && reasonData.activeJoinButton)
+    if (battlePriceText.len() > 0)
     {
       startText += ::format(" (%s)", battlePriceText)
       uncoloredStartText += ::format(" (%s)", ::events.getEventBattleCostText(

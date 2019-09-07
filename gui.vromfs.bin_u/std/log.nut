@@ -1,11 +1,10 @@
 local dagorDebug = require("dagor.debug")
 local string = require("string.nut")
 local tostring_r = string.tostring_r
-local implode = string.implode //like join, but skip emptylines
 local join = string.join //like join, but skip emptylines
 
 local function print_(val, separator="\n"){
-  print(val+separator)
+  ::print(val+separator)
 }
 
 local function Log(tostringfunc=null) {
@@ -15,11 +14,10 @@ local function Log(tostringfunc=null) {
       out += tostring_r(vargv[0],{splitlines=false, compact=true, maxdeeplevel=4, tostringfunc=tostringfunc})
     else
       out = join(vargv.map(@(val) tostring_r(val,{splitlines=false, compact=true, maxdeeplevel=4, tostringfunc=tostringfunc}))," ")
-    dagorDebug.screenlog(out.slice(0,min(out.len(),200)))
+    dagorDebug.screenlog(out.slice(0,::min(out.len(),200)))
   }
 
   local function log(...) {
-    local out = ""
     if (vargv.len()==1)
       print_(tostring_r(vargv[0],{compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}))
     else
@@ -38,7 +36,7 @@ local function Log(tostringfunc=null) {
       vargv=vargv[0]
     local out = tostring_r(vargv,{tostringfunc=tostringfunc})
     local s = string.split(out,"\n")
-    for (local i=0; i < min(80,s.len()); i++) {
+    for (local i=0; i < ::min(80,s.len()); i++) {
       dagorDebug.screenlog(s[i])
     }
   }
@@ -61,6 +59,10 @@ local function Log(tostringfunc=null) {
     debugTableData(data, params.__merge({printFn=dagorDebug.console_print}))
   }
 
+  local function with_prefix(prefix) {
+    return @(...) log(vargv.map(string.tostring_any).reduce(@(a, b) a + " " + b, prefix))
+  }
+
   return {
     vlog = vlog
     v = vlog
@@ -70,6 +72,7 @@ local function Log(tostringfunc=null) {
     dlogsplit = dlogsplit
     debugTableData = debugTableData
     console_print = console_print
+    with_prefix = with_prefix
     //lowlevel dagor functions
     debug = dagorDebug.debug
     logerr = dagorDebug.logerr

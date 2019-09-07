@@ -102,9 +102,25 @@
     "canReloadNonGuns": true
   },
   {
+    "smokeScreenActivateTime": 5.0
+  },
+  {
+    "smokeScreenEffectTime": 7.0
+  },
+  {
+    "smokeScreenRad": 12.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
+  },
+  {
+    "smokeScreenFxType": "tank_smokescreen"
+  },
+  {
     "sound": {
       "EngineName": "engine_su100",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_heavy",
       "TrackSoundNameCockpit": "tracks_heavy_interior",
       "EngineNameAi": "engine_tank_ai_heavy",
@@ -754,6 +770,11 @@
     }
   },
   {
+    "smokeScreenExhaustEmitters": {
+      "emitter": "emtr_exhaust_01"
+    }
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -1395,6 +1416,7 @@
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame_01",
           "recoilMultiplier": 0.5,
+          "allowableDelta": 20.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -1510,9 +1532,7 @@
       },
       "152mm_ussr_HE": [],
       "152mm_ussr_M64_APBC": [],
-      "152mm_ussr_M64_HEAT": {
-        "modCostMul": 2.0
-      },
+      "152mm_ussr_M64_HEAT": [],
       "152mm_ussr_M64_HEAT_ammo_pack": [],
       "tank_rangefinder": [],
       "tank_smoke_screen_system_mod": {
@@ -1526,6 +1546,7 @@
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame_01",
                 "recoilMultiplier": 0.5,
+                "allowableDelta": 20.0,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "barrelDP": "gun_barrel_dm",

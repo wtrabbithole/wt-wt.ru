@@ -47,7 +47,7 @@ class Context
    * Creates a new context using the given view with this context
    * as the parent.
    */
-  function push(view)
+  function push(view) //warning disable: -ident-hides-ident
   {
     return Context(view, this)
   }
@@ -136,9 +136,9 @@ class Writer
    * Parses and caches the given `template` and returns the array of tokens
    * that is generated from the parse.
    */
-  function parse(template, tags = null)
+  function parse(template, tags = null) //warning disable: -ident-hides-ident
   {
-    local cache = this.cache
+    local cache = this.cache //warning disable: -ident-hides-ident
     local tokens = cache?[template]
 
     if (tokens == null)
@@ -182,7 +182,7 @@ class Writer
     // This function is used to render an arbitrary template
     // in the current context by higher-order sections.
     local self = this
-    local subRender = (@(self, context, partials) function (template) {
+    local subRender = (@(self, context, partials) function (template) {// warning disable: -ident-hides-ident
       return self.render(template, context, partials)
     })(self, context, partials)
 
@@ -321,7 +321,7 @@ class Writer
     return string
   }
 
-  function escapeTags(tags)
+  function escapeTags(tags) //warning disable: -ident-hides-ident
   {
     if (!(typeof tags == "array") || tags.len() != 2)
     {
@@ -336,7 +336,7 @@ class Writer
 
   function parseTemplate(template, _tags = null)
   {
-    local tags = _tags || tags
+    local tags = _tags || tags //warning disable: -ident-hides-ident
     template = template || ""
 
     if (typeof tags == "string")
@@ -352,7 +352,7 @@ class Writer
     local nonSpace = false  // Is there a non-space char on the current line?
     local scanError = false
 
-    local start, type, value, chr, token, openSection
+    local start, tType, value, chr, token, openSection
     while (!scanner.eos())
     {
       start = scanner.pos
@@ -403,22 +403,22 @@ class Writer
 
       // Get the tag type.
       local scaned = scanner.scan(tagRe)
-      type = scaned == "" ? "name" : scaned
+      tType = scaned == "" ? "name" : scaned
       scanner.scan(whiteRe)
 
       // Get the tag value.
-      if (type == "=")
+      if (tType == "=")
       {
         value = scanner.scanUntil(equalsRe)
         scanner.scan(equalsRe)
         scanner.scanUntil(tagRes[1])
       }
-      else if (type == "{")
+      else if (tType == "{")
       {
         value = scanner.scanUntil(regexp("\\s*" + escapeRegExp("}" + tags[1])))
         scanner.scan(curlyRe)
         scanner.scanUntil(tagRes[1])
-        type = "&"
+        tType = "&"
       }
       else
       {
@@ -432,14 +432,14 @@ class Writer
         scanError = true
         break
       }
-      token = [ type, value, start, scanner.pos ]
+      token = [ tType, value, start, scanner.pos ]
       tokens.push(token)
 
-      if (type == "#" || type == "^")
+      if (tType == "#" || tType == "^")
       {
         sections.push(token)
       }
-      else if (type == "/")
+      else if (tType == "/")
       {
         // Check section nesting
         openSection = sections.len()? sections.pop() : null
@@ -458,11 +458,11 @@ class Writer
           break
         }
       }
-      else if (type == "name" || type == "{" || type == "&")
+      else if (tType == "name" || tType == "{" || tType == "&")
       {
         nonSpace = true
       }
-      else if (type == "=")
+      else if (tType == "=")
       {
         // Set the tags for the next time around.
         tags = value.split(spaceRe)
@@ -535,7 +535,8 @@ class Writer
           collector.push(token)
           sections.push(token)
           token.resize(5, [])
-          collector = token[4] = []
+          collector = []
+          token[4] = collector
           break
 
         case "/":
@@ -586,7 +587,7 @@ class Scanner
     local match = re.search(this.tail)
 
     if (match && match.begin == 0) {
-      local string = this.tail.slice(0, match.end)
+      local string = this.tail.slice(0, match.end)//warning disable: -ident-hides-ident
       this.tail = this.tail.slice(match.end)
       this.pos += string.len()
       return string
@@ -712,6 +713,12 @@ class Scanner
         break
 
       local fName = template.slice(fNameStart, endIdx)
+      if (fName.slice(-4) == ".blk")
+      {
+        startIdx = endIdx + 1
+        continue
+      }
+
       local includeRes = ::load_template_text(fName)
       template = template.slice(0, startIdx) + includeRes + template.slice(endIdx + 1)
     }
@@ -726,7 +733,7 @@ class Scanner
   function renderNested(template, translate)
   {
     return (@(template, translate) function() {
-      return (@(template, translate) function(text, render) {
+      return (@(template, translate) function(text, render) {  // warning disable: -ident-hides-ident
         return ::handyman.render(template, translate(render(text)))
       })(template, translate)
     })(template, translate)

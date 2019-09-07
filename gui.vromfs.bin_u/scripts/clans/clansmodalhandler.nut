@@ -35,10 +35,15 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   rowsTexts      = {}
   tooltips       = {}
 
+  isAvailableByPeriods = false
+
   function initScreen()
   {
     if (startPage == "")
       startPage = (::clan_get_my_clan_id() == "-1")? "clans_list" : "my_clan"
+
+    initLbTable()
+
     local pageIdx = find_in_array(pages, startPage)
     pageIdx = pageIdx == -1 ? 0 : pageIdx
     tabsObj = scene.findObject("clans_sheet_list")
@@ -72,18 +77,27 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function getMainFocusObj2()
   {
-    return curPage == "clans_list" ? "search_edit" : "clan_actions"
+    if(curPage == "clans_list")
+      return scene.findObject("clans_list_content").findObject("search_edit")
+    else
+      return scene.findObject("clan_container").findObject("modes_list")
   }
 
   function getMainFocusObj3()
   {
-    local parentObj = scene.findObject(curPage == "clans_list" ? "clans_list_content" : "clan_container")
-    return parentObj.findObject("modes_list")
+    local focusId = curPage == "clans_list"
+      ? "modes_list"
+      : "clan_members_list"
+    return scene.findObject(focusId)
   }
 
   function getMainFocusObj4()
   {
-    local focusId = curPage == "clans_list" ? "clan_lboard_table" : "clan-membersList"
+    local focusId = curPage == "clans_list"
+      ? "clan_lboard_table"
+      : isWorldWarMode
+        ? "lb_table"
+        : "clan_actions"
     return scene.findObject(focusId)
   }
 
@@ -127,8 +141,13 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     local fieldName = ::ranked_column_prefix + curEra
     foreach (field in ::clan_leaderboards_list)
-      if (("field" in field ? field.field : field.id) == fieldName)
+    {
+      local fieldParam = field?.field ?? field.id
+      fieldParam = ::u.isFunction(fieldParam) ? fieldParam(isAvailableByPeriods) : fieldParam
+      if (fieldParam == fieldName)
         return field
+    }
+    return null
   }
 
   function initMyClanPage()
@@ -220,7 +239,21 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
     else {
       clanData = ::my_clan_info
-      fillModeListBox(curPageObj, getCurDMode(), ::get_show_in_squadron_statistics)
+      local modesObj = curPageObj.findObject("modes_list")
+      if (!::check_obj(modesObj))
+        return
+
+      requestWwMembersList()
+      updateModesTabsContent(modesObj, {
+        tabs = getModesTabsView(getCurDMode(), ::get_show_in_squadron_statistics).append({
+          id = "worldwar_mode"
+          hidden = (curWwMembers?.len() ?? 0) <= 0
+          tabName = ::loc("userlog/page/worldWar")
+          selected = false
+          isWorldWarMode = true
+          tooltip = ::loc("worldwar/ClanMembersLeaderboard/tooltip")
+        })
+      })
     }
     initFocusArray()
   }
@@ -228,7 +261,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function getClansLbFieldName(lbCategory = null, mode = null)
   {
     local actualCategory = lbCategory || clansLbSort
-    local fieldName = ("field" in actualCategory ? actualCategory.field : actualCategory.id)
+    local field = actualCategory?.field ?? actualCategory.id
+    local fieldName = ::u.isFunction(field) ? field(isAvailableByPeriods) : field
     if (actualCategory.byDifficulty)
       fieldName += ::g_difficulty.getDifficultyByDiffCode(mode ?? curMode).clanDataEnding
     return fieldName
@@ -331,6 +365,9 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function lbDataCb(lbBlk)
   {
+    local firstClan = lbBlk.clan
+    isAvailableByPeriods = (firstClan?.astat?.clan_activity_by_periods != null)
+      || (!firstClan && isAvailableByPeriods)
     if (!::checkObj(scene))
       return
 
@@ -526,6 +563,19 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
   function onCategory(obj)
   {
+    if (!::check_obj(obj))
+      return
+
+    if (isClanInfo && isWorldWarMode)
+    {
+      if (curWwCategory?.id != obj.id)
+      {
+        curWwCategory = ::g_lb_category.getTypeById(obj.id)
+        fillClanWwMemberList()
+      }
+      return
+    }
+
     foreach(idx, category in ::clan_leaderboards_list)
       if (obj.id == category.id)
       {
@@ -586,7 +636,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     local objTbl = curPageObj.findObject("clan_lboard_table")
     if (!::check_obj(objTbl))
-      return
+      return null
 
     return clanByRow?[objTbl.getValue().tostring()]
   }
@@ -865,5 +915,17 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
     else if (curPage == "my_clan")
       return base.getWndHelpConfig()
+    return res
+  }
+
+  function updateWwMembersList()
+  {
+    if (!isClanInfo)
+      return
+
+    if(isWorldWarMode)
+      fillClanWwMemberList()
+    else
+      showSceneBtn("worldwar_mode", (curWwMembers?.len() ?? 0) > 0)
   }
 }

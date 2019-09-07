@@ -8,9 +8,9 @@ const MAX_URL_MISSION_NAME_LENGHT = 24
   listSavePath = "url_missions_list"
 }
 
-function g_url_missions::loadBlk(urlMission, callback = null)
+function g_url_missions::loadBlk(curMission, callback = null)
 {
-  ::gui_start_modal_wnd(::gui_handlers.LoadingUrlMissionModal, {urlMission = urlMission, callback = callback})
+  ::gui_start_modal_wnd(::gui_handlers.LoadingUrlMissionModal, {curMission = curMission, callback = callback})
 }
 
 function g_url_missions::loadOnce()

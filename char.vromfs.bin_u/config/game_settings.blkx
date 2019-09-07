@@ -4,7 +4,7 @@
   "resetViralAcquisitionDaysCounter": 1,
   "moderatorPresenceCheckMaxCode": 65536,
   "moderatorPresenceCheckPeriodSec": 1200,
-  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;dblDom;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;PvE_6;I2M;H2M;Tdm;Capt;NTDM;NDom;NTdm;NBttl;nctf;NCnv;NS;NA;NAleft;NAright;4x4_norespawn;2x2_norespawn;1x1_norespawn;FFA;BDB;BDA;MBD;MDB;GSA;GSB;CnvA;CnvB;BR;ctf;HS;HfD;HA",
+  "mapTypes": "AfDto;AfD;BC;BfDn;BfD;ADto;AD;GS;GSA;GSB;DF;BfD_norespawn;GS_norespawn;BfDn_arcade;GSn;BfD_noresp;Dom;Dom_no_respawn;dblDom;Conq;Conq_no_respawn;Bttl;Bttl_no_respawn;bfd_norespawn;day_norespawn;bfd_norespawn;duel;AfDn;tm;race;race_straight;race_inverted;Bto;Conq1;Conq2;Conq3;Conq4;Conq5;Conq6;DBttlA;DBttlB;PvE;PvE_1;PvE_2;PvE_3;PvE_4;PvE_5;PvE_6;I2M;H2M;Tdm;Capt;NTDM;NDom;NTdm;NBttl;nctf;NCnv;NS;NA;NAleft;NAright;4x4_norespawn;2x2_norespawn;1x1_norespawn;FFA;BDB;BDA;MBD;MDB;GSA;GSB;CnvA;CnvB;BR;ctf;HS;HfD;HA;UDom",
   "ordersPerSession": 3,
   "randomBattle": {
     "classiness": {
@@ -174,7 +174,8 @@
       "tm": 3,
       "Capt": 3,
       "ArtDA": 3,
-      "ArtDB": 3
+      "ArtDB": 3,
+      "UDom": 0
     }
   },
   "mapIntDiffToName": {
@@ -333,18 +334,19 @@
     "checkUnitAvailability": "allow",
     "minCraftRank": 3,
     "maxBattlePlayersDisbalance": 2,
+    "maxVisibleGlobalBattlesPerGroup": 5,
     "operationAnnounceTimeSec": 86400,
     "joinBattleDelayTimeSec": 300,
     "dailyTrophies": {
       "locId": "worldwar/dailyTrophies",
       "reqFeature": "WorldWarDailyTrophies",
       "wwDaily1battle": {
-        "itemName": "booster_rp_100_1mp",
+        "trophyName": "worldwar_daily_1battle_trophy",
         "progressParamName": "wwDaily1battleBattlesCount",
         "rewardedParamValue": 1
       },
       "wwDaily3wins": {
-        "trophyName": "ww_cbt_reward_trophy",
+        "trophyName": "worldwar_daily_3wins_trophy",
         "amount": 1,
         "progressParamName": "wwDaily3winsWinsCount",
         "rewardedParamValue": 3
@@ -584,7 +586,43 @@
     "SpendGoldForTanks": {
       "condition": "Tanks"
     },
+    "UsaAircraftsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "UsaTanksInFirstCountryChoice": {
+      "condition": ""
+    },
+    "UsaShipsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "GermanyAircraftsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "GermanyTanksInFirstCountryChoice": {
+      "condition": ""
+    },
+    "GermanyShipsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "UssrAircraftsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "UssrTanksInFirstCountryChoice": {
+      "condition": ""
+    },
+    "UssrShipsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "BritainAircraftsInFirstCountryChoice": {
+      "condition": ""
+    },
     "BritainTanksInFirstCountryChoice": {
+      "condition": ""
+    },
+    "BritainShipsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "JapanAircraftsInFirstCountryChoice": {
       "condition": ""
     },
     "JapanTanksInFirstCountryChoice": [
@@ -598,7 +636,27 @@
         "condition": "role_ALPHA_TESTER"
       }
     ],
+    "JapanShipsInFirstCountryChoice": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      }
+    ],
+    "ChinaAircraftsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "ChinaTanksInFirstCountryChoice": {
+      "condition": ""
+    },
     "ItalyAircraftsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "ItalyTanksInFirstCountryChoice": {
       "condition": ""
     },
     "FranceAircraftsInFirstCountryChoice": {
@@ -615,12 +673,6 @@
         "condition": "role_ALPHA_TESTER"
       }
     ],
-    "BritainShipsInFirstCountryChoice": {
-      "condition": ""
-    },
-    "ItalyTanksInFirstCountryChoice": {
-      "condition": ""
-    },
     "Helicopters": [
       {
         "condition": "role_GAIJIN"
@@ -670,29 +722,10 @@
     "CustomBattlesPs4": {
       "condition": ""
     },
-    "WorldWar": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      },
-      {
-        "condition": "worldwar_cbt_access_nonclan_player"
-      },
-      {
-        "platform_lock": "android"
-      }
-    ],
+    "WorldWar": {
+      "condition": "",
+      "platform_lock": "android;xboxOne"
+    },
     "worldWarMaster": {
       "condition": "role_WW_MASTER"
     },
@@ -705,23 +738,6 @@
       },
       {
         "condition": "role_ALPHA_TESTER"
-      }
-    ],
-    "WorldWarClansQueue": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
       }
     ],
     "WorldWarReplay": [
@@ -738,103 +754,24 @@
         "condition": "role_ALPHA_TESTER"
       }
     ],
-    "WorldWarSquadInfo": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      },
-      {
-        "condition": "worldwar_cbt_access_nonclan_player"
-      }
-    ],
-    "WorldWarSquadInvite": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      }
-    ],
-    "WorldWarGlobalBattles": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      },
-      {
-        "condition": "worldwar_cbt_access_nonclan_player"
-      }
-    ],
-    "WorldWarDailyTrophies": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      },
-      {
-        "condition": "worldwar_cbt_access_nonclan_player"
-      }
-    ],
-    "WorldWarLeaderboards": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "worldwar_cbt_access"
-      },
-      {
-        "condition": "worldwar_cbt_access_nonclan_player"
-      }
-    ],
+    "WorldWarClansQueue": {
+      "condition": "WorldWar"
+    },
+    "WorldWarSquadInfo": {
+      "condition": "WorldWar"
+    },
+    "WorldWarSquadInvite": {
+      "condition": "WorldWar"
+    },
+    "WorldWarGlobalBattles": {
+      "condition": "WorldWar"
+    },
+    "WorldWarDailyTrophies": {
+      "condition": "WorldWar"
+    },
+    "WorldWarLeaderboards": {
+      "condition": "WorldWar"
+    },
     "WorldWarCountryLeaderboard": [
       {
         "condition": "role_GAIJIN"
@@ -1143,6 +1080,74 @@
         "condition": "summer2018Access;xboxOneAccess"
       }
     ],
+    "i180Spring2019Craft": {
+      "condition": ""
+    },
+    "i180Spring2019GoldShop": [
+      {
+        "condition": "i180Spring2019Craft;PS4Account"
+      },
+      {
+        "condition": "i180Spring2019Craft;xboxOneAccess"
+      },
+      {
+        "condition": "i180Spring2019Craft;DMMAccount"
+      }
+    ],
+    "i180Spring2019CraftFirstDropKit": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_1rd_craft_done"
+    },
+    "i180Spring2019CraftSecondDropKit": {
+      "condition": "i180Spring2019Craft;spring_2019_i180_1rd_craft_done;!spring_2019_i180_2rd_craft_done"
+    },
+    "i180Spring2019CraftExpertDropKits": {
+      "condition": "i180Spring2019Craft;spring_2019_i180_2rd_craft_done"
+    },
+    "i180Spring2019CraftDropDetailsPreset01": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset01"
+    },
+    "i180Spring2019CraftDropDetailsPreset02": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset02"
+    },
+    "i180Spring2019CraftDropDetailsPreset03": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset03"
+    },
+    "i180Spring2019CraftDropDetailsPreset04": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset04"
+    },
+    "i180Spring2019CraftDropDetailsPreset05": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset05"
+    },
+    "i180Spring2019CraftDropDetailsPreset06": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset06"
+    },
+    "i180Spring2019CraftDropDetailsPreset07": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;spring_2019_i180_craft_preset07"
+    },
+    "i180Spring2019CraftDropDetailsAfter3rdCraft": {
+      "condition": "i180Spring2019Craft;spring_2019_i180_3rd_craft_done"
+    },
+    "i180Spring2019DiagnosticsPreset01": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset01"
+    },
+    "i180Spring2019DiagnosticsPreset02": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset02"
+    },
+    "i180Spring2019DiagnosticsPreset03": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset03"
+    },
+    "i180Spring2019DiagnosticsPreset04": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset04"
+    },
+    "i180Spring2019DiagnosticsPreset05": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset05"
+    },
+    "i180Spring2019DiagnosticsPreset06": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset06"
+    },
+    "i180Spring2019DiagnosticsPreset07": {
+      "condition": "i180Spring2019Craft;!spring_2019_i180_3rd_craft_done;!spring_2019_i180_disable_quiz_preset07"
+    },
     "EnableFmTools": [
       {
         "condition": "role_GAIJIN"
@@ -1393,6 +1398,10 @@
     "DebriefingRowAdvancedTooltip": {
       "condition": ""
     },
+    "UnitsSearchBoxInShop": {
+      "condition": "",
+      "platform_lock": "ps4;android;xboxOne"
+    },
     "ShowAllBattleTasks": {
       "condition": "role_DEVELOPER"
     },
@@ -1462,6 +1471,20 @@
     "ItalyTankUnlocked": {
       "condition": ""
     },
+    "JapanShipsUnlocked": [
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      },
+      {
+        "condition": "role_ALPHA_TESTER"
+      },
+      {
+        "condition": "wt_access_japan_ships_unlocks"
+      }
+    ],
     "CountryChina": {
       "condition": "role_DEVELOPER"
     },
@@ -1691,6 +1714,50 @@
     },
     "Parachute": {
       "condition": ""
-    }
+    },
+    "UfoControl": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "WalkerControl": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "AchievementsUrl": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ],
+    "AllowXboxAccountLinking": [
+      {
+        "condition": "role_GAIJIN"
+      },
+      {
+        "condition": "role_DEVELOPER"
+      },
+      {
+        "condition": "role_TESTER"
+      }
+    ]
   }
 }

@@ -1,4 +1,5 @@
 local dbgExportToFile = require("scripts/debugTools/dbgExportToFile.nut")
+local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 
 ::callstack <- dagor.debug_dump_stack
 
@@ -339,7 +340,7 @@ function dbg_content_patch_open(isProd = false)
 
 function debug_show_units_by_loc_name(unitLocName, needIncludeNotInShop = false)
 {
-  local units = ::find_units_by_loc_name(unitLocName, true, needIncludeNotInShop)
+  local units = shopSearchCore.findUnitsByLocName(unitLocName, true, needIncludeNotInShop)
   units.sort(function(a, b) { return a.name == b.name ? 0 : a.name < b.name ? -1 : 1 })
 
   local res = ::u.map(units, function(unit) {
@@ -348,7 +349,7 @@ function debug_show_units_by_loc_name(unitLocName, needIncludeNotInShop = false)
     local country = ::loc(::getUnitCountry(unit))
     local rank = ::get_roman_numeral(::getUnitRank(unit))
     local prem = (::isUnitSpecial(unit) || ::isUnitGift(unit)) ? ::loc("shop/premiumVehicle/short") : ""
-    local hidden = !unit.isInShop ? ::loc("controls/NA") : ::is_unit_visible_in_shop(unit) ? "" : ::loc("worldWar/hided_logs")
+    local hidden = !unit.isInShop ? ::loc("controls/NA") : unit.isVisibleInShop() ? "" : ::loc("worldWar/hided_logs")
     return unit.name + "; \"" + locName + "\" (" + ::g_string.implode([ army, country, rank, prem, hidden ], ", ") + ")"
   })
 
@@ -406,16 +407,16 @@ function debug_multiply_color(colorStr, multiplier)
 function debug_get_last_userlogs(num = 1)
 {
   local total = ::get_user_logs_count()
-  local array = []
+  local res = []
   for (local i = total - 1; i > (total - num - 1); i--)
   {
     local blk = ::DataBlock()
     ::get_user_log_blk_body(i, blk)
     ::dlog("print userlog " + ::getLogNameByType(blk.type) + " " + blk.id)
     ::debugTableData(blk)
-    array.append(blk)
+    res.append(blk)
   }
-  return array
+  return res
 }
 
 function to_pixels(value)
@@ -444,4 +445,34 @@ function debug_check_dirty_words(path = null)
     }
   }
   dlog("DIRTYWORDS: FINISHED, checked " + blk.paramCount() + ", failed check " + failed)
+}
+
+function debug_unit_rent(unitId = null, seconds = 60)
+{
+  if (!("_debug_unit_rent" in ::getroottable()))
+  {
+    ::_debug_unit_rent <- {}
+    ::_shop_is_unit_rented <- ::shop_is_unit_rented
+    ::_rented_units_get_last_max_full_rent_time <- ::rented_units_get_last_max_full_rent_time
+    ::_rented_units_get_expired_time_sec <- ::rented_units_get_expired_time_sec
+    ::shop_is_unit_rented = @(id) (::_debug_unit_rent?[id] ? true : ::_shop_is_unit_rented(id))
+    ::rented_units_get_last_max_full_rent_time = @(id) (::_debug_unit_rent?[id]?.time ??
+      ::_rented_units_get_last_max_full_rent_time(id))
+    ::rented_units_get_expired_time_sec = function(id) {
+      if (!::_debug_unit_rent?[id])
+        return ::_rented_units_get_expired_time_sec(id)
+      local remain = ::_debug_unit_rent[id].expire - ::get_charserver_time_sec()
+      if (remain <= 0)
+        delete ::_debug_unit_rent[id]
+      return remain
+    }
+  }
+
+  if (unitId)
+  {
+    ::_debug_unit_rent[unitId] <- { time = seconds, expire = ::get_charserver_time_sec() + seconds }
+    ::broadcastEvent("UnitRented", { unitName = unitId })
+  }
+  else
+    ::_debug_unit_rent.clear()
 }

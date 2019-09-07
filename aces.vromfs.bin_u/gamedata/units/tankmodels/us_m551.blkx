@@ -625,6 +625,7 @@
     "sound": {
       "EngineName": "engine_chaffee_m24",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_light",
       "TrackSoundNameCockpit": "tracks_light_interior",
       "EngineNameAi": "engine_tank_ai_light",
@@ -1559,62 +1560,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 380.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 170.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 190.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -1656,7 +1601,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1665,7 +1610,16 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1765,7 +1719,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1774,7 +1728,16 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2132,7 +2095,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {
@@ -2729,9 +2692,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 24.7,
-      "zoomInFov": 7.37,
-      "sightFov": 6.0,
+      "zoomOutFov": 9.21,
+      "zoomInFov": 6.14,
+      "sightFov": 5.333,
       "sightName": "telescope_m127",
       "headPos": [0.0,3.5,-8.0],
       "headPosOnShooting": [-0.6,3.3,0.5],
@@ -2976,7 +2939,7 @@
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,

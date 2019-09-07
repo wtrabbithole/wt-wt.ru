@@ -265,9 +265,9 @@ function g_clans::requestClanLog(clanId, rowsCount, requestMarker, callbackFnSuc
         if (logType.needDetails(logEntryTable))
         {
           local commonFields = logType.getLogDetailsCommonFields()
-          local shortCommonDetails = ::u.pick(logEntryTable, commonFields)
+          local shortCommonDetails = logEntryTable.filter(@(k,v) commonFields.find(k)!=null)
           local individualFields = logType.getLogDetailsIndividualFields()
-          local shortIndividualDetails = ::u.pick(logEntryTable, individualFields)
+          local shortIndividualDetails = logEntryTable.filter(@(k,v) individualFields.find(k)!=null)
 
           local fullDetails = shortCommonDetails
           foreach (key, value in shortIndividualDetails)
@@ -470,11 +470,6 @@ function g_clans::onClanCandidatesChanged()
 function g_clans::getClanPlaceRewardLogData(clanData, maxCount = -1)
 {
   return getRewardLogData(clanData, "rewardLog", maxCount)
-}
-
-function g_clans::getClanRaitingRewardLogData(clanData, maxCount = -1)
-{
-  return getRewardLogData(clanData, "raitingRewardLog", maxCount)
 }
 
 function g_clans::getRewardLogData(clanData, rewardId, maxCount)
@@ -732,7 +727,8 @@ function g_clans::checkSquadronExpChangedEvent()
   {id = "ground_kills", field = "gkills", sort = false}
   {id = "deaths", sort = false}
   {id = "time_pvp_played", type = ::g_lb_data_type.TIME_MIN, field = "ftime", sort = false}
-  {id = "activity", byDifficulty = false, showByFeature = "ClanActivity" }
+  {id = "activity", field = @(isAvailableByPeriods) isAvailableByPeriods ? "clan_activity_by_periods" : "activity"
+     byDifficulty = false, showByFeature = "ClanActivity" }
 ]
 
 ::clan_member_list <- [
@@ -742,7 +738,7 @@ function g_clans::checkSquadronExpChangedEvent()
   {
     id = "activity"
     type = ::g_lb_data_type.NUM
-    field = "totalActivity"
+    field = @(isAvailableByPeriods) isAvailableByPeriods ? "totalPeriodActivity" : "totalActivity"
     showByFeature = "ClanActivity"
     byDifficulty = false
     getCellTooltipText = function(data) { return loc("clan/personal/" + id + "/cell/desc") }
@@ -996,10 +992,7 @@ function is_in_my_clan(name = null, uid = null)
 function get_clan_info_table(clanInfo = null)
 {
   if (!clanInfo)
-  {
-    clanInfo = ::DataBlock();
-    clanInfo = clan_get_clan_info();
-  }
+    clanInfo = clan_get_clan_info()
 
   if (!clanInfo._id)
     return null
@@ -1044,6 +1037,17 @@ function get_clan_info_table(clanInfo = null)
   clan.members <- []
 
   local member_ratings = ::getTblValue("member_ratings", clanInfo, {})
+  local getTotalActivityPerPeriod = function(expActivity)
+  {
+    if (!expActivity)
+      return 0
+
+    local res = 0
+    foreach(period in expActivity)
+      res += period.activity
+
+    return res
+  }
   foreach(member in clanMembersInfo)
   {
     local memberItem = {}
@@ -1063,7 +1067,12 @@ function get_clan_info_table(clanInfo = null)
     foreach(key, value in ::empty_activity)
       memberItem[key + "Activity"] <- memberActivityInfo.getInt(key, value)
     memberItem["activityHistory"] <-
-        ::buildTableFromBlk(memberActivityInfo.getBlockByName("history"))
+      ::buildTableFromBlk(memberActivityInfo.getBlockByName("history"))
+    memberItem["curPeriodActivity"] <- memberActivityInfo?.activity ?? 0
+    memberItem["expActivity"] <-
+      ::buildTableFromBlk(memberActivityInfo.getBlockByName("expActivity"))
+    memberItem["totalPeriodActivity"] <-
+      getTotalActivityPerPeriod(memberActivityInfo.getBlockByName("expActivity"))
 
     clan.members.append(memberItem)
   }
@@ -1109,11 +1118,13 @@ function get_clan_info_table(clanInfo = null)
   clan.rewardLog <- getRewardLog(clanInfo, "clanRewardLog", ::ClanSeasonPlaceTitle)
   clan.rewardLog.sort(sortRewardsInlog)
 
-  clan.raitingRewardLog <- getRewardLog(clanInfo, "clanRewardRatingLog", ClanSeasonRaitingTitle)
-  clan.raitingRewardLog.sort(sortRewardsInlog)
-
   clan.seasonRewards <- ::buildTableFromBlk(::getTblValue("clanSeasonRewards", clanInfo))
   clan.seasonRatingRewards <- ::buildTableFromBlk(::getTblValue("clanSeasonRatingRewards", clanInfo))
+
+  clan.maxActivityPerPeriod <- clanInfo?.maxActivityPerPeriod ?? 0
+  clan.maxClanActivity <- clanInfo?.maxClanActivity ?? 0
+  clan.rewardPeriodDays <- clanInfo?.rewardPeriodDays ?? 0
+  clan.expRewardEnabled <- clanInfo?.expRewardEnabled ?? false
 
   //dlog("GP: Show clan table");
   //debugTableData(clan);
@@ -1205,7 +1216,7 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
     _place,
     _seasonName,
     _clanTag,
-    _clanName,
+    _clanName
   )
   {
     seasonTime = _seasonTime
@@ -1259,99 +1270,6 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
   function iconStyle()
   {
     return "clan_medal_" + place + "_" + difficultyName
-  }
-
-  function iconParams()
-  {
-    return { season_title = { text = seasonName } }
-  }
-}
-
-
-class ClanSeasonRaitingTitle extends ClanSeasonTitle
-{
-  difficultyName = ""
-  rating = ""
-
-
-  static function createFromClanReward (titleString, sTime, seasonName, clanData)
-  {
-    local titleParts = ::split(titleString, "@")
-    local rating = ::getTblValue(0, titleParts, "")
-    rating = ::g_string.slice(rating, 0, ::g_string.indexOf(rating, "rating"))
-    local difficultyName = ::getTblValue(1, titleParts, "")
-    return ClanSeasonRaitingTitle(
-      sTime
-      difficultyName,
-      rating,
-      seasonName,
-      clanData.tag,
-      clanData.name
-    )
-  }
-
-
-  static function createFromUnlockBlk (unlockBlk)
-  {
-    local info = ::ClanSeasonRaitingTitle.getUpdatedClanInfo(unlockBlk)
-    return ClanSeasonRaitingTitle(
-      seasonTime,
-      difficultyName,
-      rating,
-      seasonName,
-      info.clanTag,
-      info.clanName
-    )
-  }
-
-
-  constructor (
-    _seasonTime,
-    _dufficultyName,
-    _rating,
-    _seasonName,
-    _clanTag,
-    _clanName
-  )
-  {
-    seasonTime = _seasonTime
-    difficultyName = _dufficultyName
-    rating = _rating
-    seasonName = _seasonName
-    clanTag = _clanTag
-    clanName = _clanName
-  }
-
-
-  function name()
-  {
-    return ::loc(
-      "clan/season_award/title",
-      {
-        achievement = ::loc("clan/season_award/rating", { ratingValue = rating })
-        battleType = getBattleTypeTitle()
-        season = seasonName
-      }
-    )
-  }
-
-  function desc()
-  {
-    local coloredRating = ::colorize("activeTextColor", rating)
-    return ::loc(
-      "clan/season_award/desc/rating",
-      {
-        ratingValue = coloredRating
-        battleType = ::colorize("activeTextColor", getBattleTypeTitle())
-        squadron = ::colorize("activeTextColor", clanTag + ::nbsp + clanName)
-        season = ::colorize("activeTextColor", seasonName)
-      }
-    )
-  }
-
-  function iconStyle()
-  {
-    return "clan_medal_" + rating + "rating_" + difficultyName
   }
 
   function iconParams()

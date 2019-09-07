@@ -676,6 +676,15 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -839,6 +848,15 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1006,6 +1024,7 @@
     "sound": {
       "EngineName": "engine_object120",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_heavy",
       "TrackSoundNameCockpit": "tracks_heavy_interior",
       "turret_turn": "turret_turn_manual",
@@ -2628,9 +2647,7 @@
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },
       "152mm_M69_HE": [],
-      "152mm_M69_APDS_FS": {
-        "modCostMul": 2.0
-      },
+      "152mm_M69_APDS_FS": [],
       "152mm_M69_APDS_FS_ammo_pack": []
     }
   },

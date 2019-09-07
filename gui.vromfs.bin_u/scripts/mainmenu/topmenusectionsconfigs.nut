@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+
 // Priority for separation on buttons.
 enum topMenuLeftSideMergeIndex {
   MENU
@@ -44,7 +45,6 @@ enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
     name = "pvp"
     getText = function(totalSections = 0) { return "#topmenu/battle" }
     mergeIndex = topMenuLeftSideMergeIndex.PVP
-    unseenIconMainButton = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() && SEEN.WW_MAPS_AVAILABLE
     buttons = [
       [
         ::g_top_menu_buttons.SKIRMISH
@@ -105,6 +105,7 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
         ::g_top_menu_buttons.WARPOINTS
         ::g_top_menu_buttons.INVENTORY
         ::g_top_menu_buttons.ITEMS_SHOP
+        ::g_top_menu_buttons.WORKSHOP
         ::g_top_menu_buttons.WARBONDS_SHOP
         ::g_top_menu_buttons.ONLINE_SHOP
         ::g_top_menu_buttons.MARKETPLACE

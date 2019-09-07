@@ -204,7 +204,7 @@
         "suffix": "2"
       },
       {
-        "dmName": "commander_dm"
+        "dmName": "loader_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -356,7 +356,7 @@
         "suffix": "4"
       },
       {
-        "dmName": "loader_dm"
+        "dmName": "commander_dm"
       },
       {
         "deadHeadAttitudeMin": -40.0
@@ -972,6 +972,7 @@
     "sound": {
       "EngineName": "engine_sherman_m4a1",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_manual_y",
@@ -1862,14 +1863,37 @@
   {
     "tank_crew": {
       "changeTimeMult": 1.0,
-      "gunner": {
-        "dmPart": "gunner_dm",
-        "role": "tank_gunner",
-        "substitute": "commander"
-      },
-      "driver": {
-        "dmPart": "driver_dm",
-        "role": "driver",
+      "gunner": [
+        {
+          "dmPart": "gunner_dm"
+        },
+        {
+          "role": "tank_gunner"
+        },
+        {
+          "substitute": "commander"
+        },
+        {
+          "substitute": "loader"
+        }
+      ],
+      "driver": [
+        {
+          "dmPart": "driver_dm"
+        },
+        {
+          "role": "driver"
+        },
+        {
+          "substitute": "commander"
+        },
+        {
+          "substitute": "loader"
+        }
+      ],
+      "loader": {
+        "dmPart": "loader_dm",
+        "role": "loader",
         "substitute": "commander"
       },
       "commander": {

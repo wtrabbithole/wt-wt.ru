@@ -1,5 +1,5 @@
 local fonts = require_native("fonts")
-local u = require("std/u.nut")
+local u = require("sqStdLibs/helpers/u.nut")
 
 local fontsList = {
   defaults = [
@@ -62,11 +62,11 @@ local daguiFonts = {
   */
   getMaxFontTextByWidth = function(text, WidthPx, fontKeyName)
   {
-    foreach (font in fontsList[fontKeyName] ?? fontsList.defaults)
-    {
+    local list = fontsList?[fontKeyName] ?? fontsList.defaults
+    foreach (font in list)
       if (getStringWidthPx(text,font) < WidthPx)
         return font
-    }
+    return list?[list.len() - 1] ?? ""
   }
 
 }

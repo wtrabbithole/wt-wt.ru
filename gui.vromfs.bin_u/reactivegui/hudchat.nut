@@ -14,13 +14,13 @@ local hints = require("hints/hints.nut")
 local chatLog = state.log
 
 
-local modeColor = function (mode) {
+local function modeColor(mode) {
   local colorName = ::cross_call.mp_chat_mode.getModeColorName(mode)
   return colors.hud?[colorName] ?? teamColors[colorName]
 }
 
 
-local send = function (message) {
+local function sendFunc(message) {
   if (!penalty.isDevoiced()) {
     ::chat_on_send()
   } else {
@@ -29,13 +29,13 @@ local send = function (message) {
 }
 
 
-local chat = chatBase(chatLog, send)
+local chat = chatBase(chatLog, sendFunc)
 state.input.subscribe(function (new_val) {
   chat.form.update(new_val)
 })
 
 
-local chatInputCtor = function (field, send) {
+local function chatInputCtor(field, send) {
   local restoreControle = function () {
     ::toggle_ingame_chat(false)
   }
@@ -79,7 +79,7 @@ local chatInputCtor = function (field, send) {
 }
 
 
-local getHintText = function () {
+local function getHintText() {
   local config = hints(
     ::cross_call.mp_chat_mode.getChatHint(),
     { font = fontsState.get("small")

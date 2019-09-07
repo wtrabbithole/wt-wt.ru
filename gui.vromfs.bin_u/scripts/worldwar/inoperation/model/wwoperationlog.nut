@@ -150,7 +150,7 @@ function g_ww_logs::getNewLogs(useLogMark, handler)
 {
   local logsBlk = ::ww_operation_get_log()
   if (useLogMark)
-    ::g_ww_logs.lastMark = logsBlk.lastMark
+    ::g_ww_logs.lastMark = logsBlk?.lastMark ?? ""
 
   saveLoadedLogs(logsBlk, useLogMark, handler)
 }
@@ -292,12 +292,7 @@ function g_ww_logs::saveLastReadLogMark()
 
 function g_ww_logs::getLastReadLogMark()
 {
-  local log = ::u.search(::g_ww_logs.loaded, function(log) {
-      if (log.isReaded)
-        return log
-    }, true)
-
-  return log ? log.id : ""
+  return ::u.search(::g_ww_logs.loaded, @(l) l.isReaded, true)?.id ?? ""
 }
 
 function g_ww_logs::getUnreadedNumber()

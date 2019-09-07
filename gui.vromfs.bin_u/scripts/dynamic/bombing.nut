@@ -8,7 +8,6 @@ function _generateBombingMission(isFreeFlight, ground_type, createGroundUnitsPro
 
   local enemy1Angle = rndRange(-90, 90);
   local enemy2Angle = rndRange(-90, 90);
-  local enemy3Angle = rndRange(-90, 90);
   local evacAngle = rndRange(-10, 10);
   local bombersCountMin = 0;
   local bombersCountMax = 0;

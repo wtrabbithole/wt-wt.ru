@@ -68,7 +68,7 @@ local crewUnitTypeConfig = {
   getTestFlightText = function() { return ::loc("mainmenu/btn" + testFlightName ) }
   getTestFlightUnavailableText = function() { return ::loc("mainmenu/cant" + testFlightName ) }
   getArmyLocName = function() { return ::loc("mainmenu/" + armyId, "") }
-  getCrewArmyLocName = @() ::loc("unit_type/" + crewUnitTypeConfig?[crewUnitType]?.crewTag ?? "")
+  getCrewArmyLocName = @() ::loc("unit_type/" + (crewUnitTypeConfig?[crewUnitType]?.crewTag ?? ""))
   getCrewTag = @() crewUnitTypeConfig?[crewUnitType]?.crewTag ?? ""
   getLocName = function() { return ::loc(::format("unit_type/%s", tag), "") }
   canUseSeveralBulletsForGun = false
@@ -114,11 +114,10 @@ enums.addTypesByGlobalName("g_unit_type", {
     {
       if (!isAvailable())
         return false
-      if (country == "country_italy")
-        return ::has_feature("ItalyAircraftsInFirstCountryChoice")
-      if (country == "country_france")
-        return ::has_feature("FranceAircraftsInFirstCountryChoice")
-      return true
+      if (!country)
+        return true
+      local countryShort = ::g_string.toUpper(::g_string.cutPrefix(country, "country_") ?? "", 1)
+      return ::has_feature(countryShort + "AircraftsInFirstCountryChoice")
     }
     canUseSeveralBulletsForGun = false
     canChangeViewType = true
@@ -143,16 +142,10 @@ enums.addTypesByGlobalName("g_unit_type", {
     {
       if (!isAvailable() || !::check_tanks_available(true))
         return false
-
       if (!country)
         return true
-      if (country == "country_britain")
-        return ::has_feature("BritainTanksInFirstCountryChoice")
-      if (country == "country_japan")
-        return ::has_feature("JapanTanksInFirstCountryChoice")
-      if (country == "country_france")
-        return ::has_feature("FranceTanksInFirstCountryChoice")
-      return true
+      local countryShort = ::g_string.toUpper(::g_string.cutPrefix(country, "country_") ?? "", 1)
+      return ::has_feature(countryShort + "TanksInFirstCountryChoice")
     }
     canUseSeveralBulletsForGun = true
     modClassOrder = ["mobility", "protection", "firepower"]
@@ -177,7 +170,14 @@ enums.addTypesByGlobalName("g_unit_type", {
     isAvailable = function() { return ::has_feature("Ships") }
     isVisibleInShop = function() { return isAvailable() && ::has_feature("ShipsVisibleInShop") }
     isAvailableForFirstChoice = function(country = null)
-      { return isAvailable() && ::has_feature("ShipsFirstChoice") }
+    {
+      if (!isAvailable() || !::has_feature("ShipsFirstChoice"))
+        return false
+      if (!country)
+        return true
+      local countryShort = ::g_string.toUpper(::g_string.cutPrefix(country, "country_") ?? "", 1)
+      return ::has_feature(countryShort + "ShipsInFirstCountryChoice")
+    }
     canUseSeveralBulletsForGun = true
     modClassOrder = ["seakeeping", "unsinkability", "firepower"]
     canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForShips")
@@ -231,10 +231,10 @@ function g_unit_type::getByEsUnitType(esUnitType)
 function g_unit_type::getArrayBybitMask(bitMask)
 {
   local typesArray = []
-  foreach (type in ::g_unit_type.types)
+  foreach (t in ::g_unit_type.types)
   {
-    if ((type.bit & bitMask) != 0)
-      typesArray.append(type)
+    if ((t.bit & bitMask) != 0)
+      typesArray.append(t)
   }
   return typesArray
 }
@@ -278,9 +278,9 @@ function g_unit_type::getTypeMaskByTagsString(listStr, separator = "; ", bitMask
 function g_unit_type::getEsUnitTypeMaskByCrewUnitTypeMask(crewUnitTypeMask)
 {
   local res = 0
-  foreach(type in g_unit_type.types)
-    if (crewUnitTypeMask & (1 << type.crewUnitType))
-      res = res | type.esUnitType
+  foreach(t in g_unit_type.types)
+    if (crewUnitTypeMask & (1 << t.crewUnitType))
+      res = res | t.esUnitType
   return res
 }
 
@@ -310,15 +310,15 @@ function get_first_chosen_unit_type(defValue = ::ES_UNIT_TYPE_INVALID)
 function get_unit_class_icon_by_unit(unit, iconName)
 {
   local esUnitType = ::get_es_unit_type(unit)
-  local type = ::g_unit_type.getByEsUnitType(esUnitType)
-  return type.uiClassSkin + iconName
+  local t = ::g_unit_type.getByEsUnitType(esUnitType)
+  return t.uiClassSkin + iconName
 }
 
 function get_unit_icon_by_unit(unit, iconName)
 {
   local esUnitType = ::get_es_unit_type(unit)
-  local type = ::g_unit_type.getByEsUnitType(esUnitType)
-  return type.uiSkin + iconName
+  local t = ::g_unit_type.getByEsUnitType(esUnitType)
+  return t.uiSkin + iconName
 }
 
 function get_tomoe_unit_icon(iconName)

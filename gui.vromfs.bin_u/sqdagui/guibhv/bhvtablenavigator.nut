@@ -74,7 +74,6 @@ class gui_bhv.TableNavigator extends ::gui_bhv.OptionsNavigator
     for (local iRow=0; iRow < obj.childrenCount(); ++iRow)
     {
       local tr = obj.getChild(iRow)
-      local numTrChildren = tr.childrenCount()
       if (iRow == row) {
         tr["selected"] = "yes"
         obj.cur_row = row.tostring()

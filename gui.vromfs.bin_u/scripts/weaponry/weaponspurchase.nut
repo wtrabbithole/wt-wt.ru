@@ -26,7 +26,7 @@ class WeaponsPurchase
   repairMsgLocId = ""
   msgLocParams = {}
 
-  function constructor(_unit, _additionalParams = {})
+  constructor(_unit, _additionalParams = {})
   {
     if (::u.isString(_unit))
       unit = ::getAircraftByName(_unit)
@@ -290,7 +290,6 @@ class WeaponsPurchase
     checkRepair = false
     msgLocId = "onlineShop/needMoneyQuestion"
     repairMsgLocId = "msgBox/repair_and_single_mod_purchase"
-    silent = silent
     msgLocParams = {
       purchase = getItemTextWithAmount(amount)
       unitName = ::colorize("userlogColoredText", ::getUnitName(unit))

@@ -2084,6 +2084,7 @@
     "sound": {
       "EngineName": "engine_m1",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_wheels",
       "TrackSoundNameCockpit": "tracks_wheels_interior",
       "turret_turn": "turret_turn_t34_manual",
@@ -2169,7 +2170,7 @@
           "turret": {
             "head": "bone_mg_aa_h_01",
             "gun": "bone_mg_aa_v_01",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "loader_dm"
           },
           "limits": {
             "yaw": [-20.0,20.0],
@@ -2207,7 +2208,7 @@
           "turret": {
             "head": "bone_mg_aa_h_02",
             "gun": "bone_mg_aa_v_02",
-            "gunnerDm": "commander_dm"
+            "gunnerDm": "machine_gunner_dm"
           },
           "limits": {
             "yaw": [-20.0,20.0],
@@ -2295,7 +2296,9 @@
         "steeringDeflection": {
           "wheel_r_01": 30.0,
           "wheel_l_01": 30.0,
-          "steeringTau": 1.5
+          "steeringTau": 1000000.0,
+          "steeringSpd": 0.75,
+          "steeringNeutralSpd": 2.3
         },
         "driven": {
           "wheel_l_01": true,

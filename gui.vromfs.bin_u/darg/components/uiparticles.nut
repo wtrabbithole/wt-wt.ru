@@ -1,8 +1,10 @@
 local Rand = require("std/rand.nut")
 local math = require("math")
+local flex = ::flex
+local hdpx = ::hdpx
 
 local FLOW_PARAMS = {
-  part = { size = [hdpx(10), hdpx(10)], rendObj = ROBJ_SOLID, color = Color(100, 10, 10, 150) } //table or function that return table
+  part = { size = [hdpx(10), hdpx(10)], rendObj = ROBJ_SOLID, color = ::Color(100, 10, 10, 150) } //table or function that return table
   emitterSize = [hdpx(20), hdpx(20)]
   seed = null //when null, will be generated self seed
   key = null //when null, key will be seed
@@ -43,8 +45,8 @@ local function baseParticles(params=defParams){
     local scaleTo = rnd2(scaleEndRange)
     local partW = part?.size[0] ?? hdpx(10)
     local partH = part?.size[1] ?? hdpx(10)
-    local partMax = min(partH,partW)*2/3
-    local partMin = max(partH,partW)/3
+    local partMax = ::min(partH,partW)*2/3
+    local partMin = ::max(partH,partW)/3
     local posTo = [rnd_a([0-partMin,emitter_sz[0]-partMax]), rnd_a([0-partMin,emitter_sz[1]-partMax])]
     local rotateTo = rnd_a([-rotEndSpr,rotEndSpr])
     local animations = [
@@ -121,7 +123,7 @@ local function flow(p = FLOW_PARAMS) {
 
   p = FLOW_PARAMS.__merge(p)
   if (p.spawnPeriod == 0 && p.totalParts == 0) {
-    assert(false, "Particles: Flow: can't spawn unlimited parts at once (spawnPeriod and totalParts can't be zero at once)")
+    ::assert(false, "Particles: Flow: can't spawn unlimited parts at once (spawnPeriod and totalParts can't be zero at once)")
     return {}
   }
 
@@ -131,8 +133,8 @@ local function flow(p = FLOW_PARAMS) {
 
   p.curParts <- []
   p.partsCreated <- 0
-  p.partsNeeded <- Watched(p.spawnPeriod > 0 ? 1 : p.totalParts)
-  p.partsRemoved <- Watched(0)
+  p.partsNeeded <- ::Watched(p.spawnPeriod > 0 ? 1 : p.totalParts)
+  p.partsRemoved <- ::Watched(0)
 
   local emitterUi = function() {
     for(p.partsCreated; p.partsCreated < p.partsNeeded.value; p.partsCreated++) {
@@ -142,7 +144,7 @@ local function flow(p = FLOW_PARAMS) {
         idx = idx
         ui = flowPart(idx, lifeTime, p)
       })
-      gui_scene.setTimeout(lifeTime, function() {
+      ::gui_scene.setTimeout(lifeTime, function() {
         foreach(i, part in p.curParts)
           if (idx == part.idx) {
             p.onPartDestroy(idx)
@@ -166,10 +168,10 @@ local function flow(p = FLOW_PARAMS) {
   }
 
   if (p.spawnPeriod > 0)
-    gui_scene.setInterval(p.spawnPeriod, function() {
+    ::gui_scene.setInterval(p.spawnPeriod, function() {
       p.partsNeeded(p.partsNeeded.value + 1)
       if (p.totalParts && p.partsNeeded.value >= p.totalParts)
-        gui_scene.clearTimer(callee())
+        ::gui_scene.clearTimer(::callee())
     })
 
   if (p.key != null)

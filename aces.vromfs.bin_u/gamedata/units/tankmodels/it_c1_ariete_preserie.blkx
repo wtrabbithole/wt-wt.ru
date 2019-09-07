@@ -643,7 +643,7 @@
         },
         "cannon_breech_dm": {
           "armorThickness": 10.0,
-          "armorThrough": 450.0,
+          "armorThrough": 300.0,
           "hp": 150.0,
           "fireProtectionHp": 10.0
         },
@@ -1784,6 +1784,7 @@
       {
         "armorArrayHullTop": {
           "xrayDmPart": "composite_armor_hull_01_dm",
+          "titleLoc": "spaced_armor",
           "armorArrayText": [
             {
               "layer": {
@@ -1904,6 +1905,7 @@
       {
         "armorArrayTurret": {
           "xrayDmPart": "composite_armor_turret_02_dm",
+          "titleLoc": "spaced_armor",
           "armorArrayText": [
             {
               "layer": {
@@ -1926,6 +1928,7 @@
       {
         "armorArrayTurret": {
           "xrayDmPart": "composite_armor_turret_03_dm",
+          "titleLoc": "spaced_armor",
           "armorArrayText": [
             {
               "layer": {
@@ -2054,6 +2057,7 @@
     "sound": {
       "EngineName": "engine_leo2a5",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_turn_servo",
@@ -2117,9 +2121,9 @@
             "pitch": [-10.0,20.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-130.0,1.0,20.0],
+            "lim1": [-180.0,-130.0,0.0,20.0],
             "lim2": [-130.0,130.0,-10.0,20.0],
-            "lim3": [130.0,180.0,1.0,20.0]
+            "lim3": [130.0,180.0,0.0,20.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
@@ -2327,7 +2331,7 @@
       },
       "engine": {
         "horsePowers": 1300.0,
-        "maxRPM": 2200.0,
+        "maxRPM": 2300.0,
         "minRPM": 800.0,
         "manufacturer": "fiat",
         "model": "mtca"
@@ -2343,7 +2347,7 @@
         "type": "auto",
         "gearRatios": [
           {
-            "ratio": -1.3387
+            "ratio": -2.1
           },
           {
             "ratio": -4.2648
@@ -2361,7 +2365,7 @@
             "ratio": 1.5937
           },
           {
-            "ratio": 0.9562
+            "ratio": 1.0
           }
         ]
       },
@@ -2944,9 +2948,7 @@
         "image": "#ui/gameuiskin#tank_reinforcement_it"
       },
       "120mm_DM_HEAT_FS": [],
-      "120mm_DM_APDS_FS": {
-        "modCostMul": 2.2
-      },
+      "120mm_DM_APDS_FS": [],
       "120mm_DM_APDS_FS_ammo_pack": [],
       "120mm_DM_HEAT_FS_ammo_pack": [],
       "modern_tank_laser_rangefinder": [],
@@ -2997,9 +2999,9 @@
                   "pitch": [-10.0,20.0]
                 },
                 "limitsTable": {
-                  "lim1": [-180.0,-130.0,1.0,20.0],
+                  "lim1": [-180.0,-130.0,0.0,20.0],
                   "lim2": [-130.0,130.0,-10.0,20.0],
-                  "lim3": [130.0,180.0,1.0,20.0]
+                  "lim3": [130.0,180.0,0.0,20.0]
                 },
                 "gunStabilizer": {
                   "hasVerticalGunFreeMode": false,
@@ -3175,12 +3177,12 @@
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/76mm_nato_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/76mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,
                 "emitter": "emtr_mortar_flame_01",
-                "emitterGenRange": [1,16],
+                "emitterGenRange": [1,8],
                 "emitterGenFmt": "emtr_mortar_flame_%02d",
                 "createGunEffects": true,
                 "defaultYaw": 0.0,

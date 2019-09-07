@@ -310,7 +310,7 @@ local genMissionHint = @(hintType, checkHintTypeNameFunc)
   buildText             = ::g_hud_hints._buildText
   getHintMarkupParams   = ::g_hud_hints._getHintMarkupParams
   getLifeTime           = ::g_hud_hints._getLifeTime
-  isEnabledByDifficulty = @() !isAllowedByDiff || isAllowedByDiff?[::get_mission_difficulty()] ?? true
+  isEnabledByDifficulty = @() !isAllowedByDiff || (isAllowedByDiff?[::get_mission_difficulty()] ?? true)
 
   selfRemove = false //will be true if lifeTime > 0
   lifeTime = 0.0
@@ -821,6 +821,16 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:you_can_exit:show"
     hideEvent = "hint:you_can_exit:hide"
     shouldBlink = true
+  }
+
+  CONTROLS_HELP_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/help_controls"
+    noKeyLocId = "hints/help_controls/nokey"
+    shortcuts = "ID_HELP"
+    showEvent = "hint:controlsHelp:offer"
+    hideEvent = "hint:controlsHelp:remove"
+    lifeTime = 30.0
   }
 
   ARTILLERY_MAP_HINT = {

@@ -69,6 +69,9 @@
     "sound_path": "tanks/weapon_tanks/atgm"
   },
   {
+    "sound_pathStudio": "ground/weapon/atgm"
+  },
+  {
     "sound": "atgm_LPC"
   },
   {
@@ -76,6 +79,9 @@
   },
   {
     "reload_sound_path": "tanks/effects_tanks"
+  },
+  {
+    "reload_sound_pathStudio": "ground/effects"
   },
   {
     "reload_sound": "reload_rocket"
@@ -105,6 +111,7 @@
       "mass": 19.9,
       "caliber": 0.152,
       "sound_path": "tanks/weapon_tanks/atgm",
+      "sound_pathStudio": "ground/weapon/atgm",
       "sound": "atgm_LPC",
       "sound_inside": "atgm_LPC_interior",
       "mesh": "type_79_rocket",
@@ -176,6 +183,21 @@
           "steel": {
             "fx": "cannon_hit_armor_cumulative",
             "fxScale": [4.0,5.0]
+          },
+          "buildings": {
+            "fx": "atgm_hit",
+            "fxScale": [2.2,2.5]
+          },
+          "wood": {
+            "fx": "atgm_hit",
+            "fxScale": [2.2,2.5]
+          }
+        },
+        "DamageParts": {
+          "body": {
+            "hp": 5.0,
+            "armorClass": "tank_structural_steel",
+            "armorThickness": 1.0
           }
         },
         "armorpower": {

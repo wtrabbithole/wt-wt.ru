@@ -1,4 +1,4 @@
-local u = ::require("std/u.nut")
+local u = ::require("sqStdLibs/helpers/u.nut")
 local seenList = require("scripts/seen/seenList.nut")
 local seenListEvents = require("scripts/seen/seenListEvents.nut")
 local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback
@@ -11,8 +11,6 @@ local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback
 
   when need only listId without entities, you can setValue(listId) without preprocessing
 */
-
-local onSeenListEvent = null //to be able use it in behaviour
 
 local BhvUnseen = class
 {
@@ -27,12 +25,31 @@ local BhvUnseen = class
     return ::RETCODE_NOTHING
   }
 
-  static function buildConfig(value)
+  function buildConfig(value)
   {
-    local valueTbl = u.isTable(value) ? value : null
-    if (u.isString(value))
-      valueTbl = seenList.isSeenList(value) ? { listId = value } : ::parse_json(value)
+    local seenData = getVerifiedData(value)
 
+    if (!::u.isArray(seenData))
+      return [getConfig(seenData)]
+
+    seenData = ::u.map(seenData, (@(s) getVerifiedData(s)).bindenv(this))
+
+    return ::u.map(seenData, (@(s) getConfig(s)).bindenv(this))
+  }
+
+  function getVerifiedData(value)
+  {
+    return ::u.isString(value)
+      ? seenList.isSeenList(value)
+        ? { listId = value }
+        : ::parse_json(value)
+      : ::u.isTable(value)
+        ? value
+        : null
+  }
+
+  function getConfig(valueTbl)
+  {
     if (!valueTbl?.listId)
       return null
 
@@ -40,6 +57,7 @@ local BhvUnseen = class
     local list = u.isArray(entity) ? entity
       : u.isString(entity) ? [entity]
       : null
+
     return {
       seen = seenList.get(valueTbl.listId)
       entitiesList = list
@@ -61,18 +79,24 @@ local BhvUnseen = class
     if (!config)
       return
 
-    local entities = config.entitiesList
-    if (entities)
-      foreach(entity in entities)
-        if (config.seen.isSubList(entity))
-        {
-          entities = null //when has sublist, need to subscribe for any changes for current seen list
-          config.hasCounter = true
-          break
-        }
+    foreach (seenData in config)
+    {
+      if (!seenData?.seen)
+        continue
 
-    seenListEvents.subscribe(config.seen.id, entities,
-      Callback(getOnSeenChangedCb(obj), config))
+      local entities = seenData?.entitiesList
+      if (entities)
+        foreach(entity in entities)
+          if (seenData.seen.isSubList(entity))
+          {
+            entities = null //when has sublist, need to subscribe for any changes for current seen list
+            seenData.hasCounter = true
+            break
+          }
+
+      seenListEvents.subscribe(seenData.seen.id, entities,
+        Callback(getOnSeenChangedCb(obj), seenData))
+    }
   }
 
   function getOnSeenChangedCb(obj)
@@ -84,15 +108,27 @@ local BhvUnseen = class
   function updateView(obj)
   {
     local config = obj.getUserData()
-    local count = config ? config.seen.getNewCount(config.entitiesList) : 0
+    local hasCounter = false
+    local count = 0
+
+    if (config)
+      foreach (seenData in config)
+        if (seenData)
+        {
+          count += seenData.seen.getNewCount(seenData.entitiesList)
+          hasCounter = hasCounter || seenData.hasCounter
+        }
+
     obj.isActive = count ? "yes" : "no"
-    if (count && obj.childrenCount())
-    {
-      local textObj = obj.getChild(0)
-      textObj.isActive = config.hasCounter ? "yes" : "no"
-      if (config.hasCounter)
-        textObj.setValue(count.tostring())
-    }
+
+    if (!count || !obj.childrenCount())
+      return
+
+    local textObj = obj.getChild(0)
+    textObj.isActive = hasCounter ? "yes" : "no"
+
+    if (hasCounter)
+      textObj.setValue(count.tostring())
   }
 }
 
@@ -101,5 +137,7 @@ local BhvUnseen = class
 return {
   configToString = @(config) ::save_to_json(config)
   makeConfig = @(listId, entity = null) { listId = listId, entity = entity }
-  makeConfigStr = @(listId, entity = null) entity ? configToString(makeConfig(listId, entity)) : listId
+  makeConfigStr = @(listId, entity = null)
+    entity ? configToString(makeConfig(listId, entity)) : listId
+  makeConfigStrByList = @(unseenList) configToString(unseenList)
 }

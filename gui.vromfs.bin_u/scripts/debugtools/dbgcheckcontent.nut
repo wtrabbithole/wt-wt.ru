@@ -82,9 +82,9 @@ function debug_check_unlocalized_resources()
 
 function debug_check_unit_naming()
 {
-  if (!::is_dev_version) return
+  if (!::is_dev_version) return 0
 
-  local unitIds = []
+  local ids = {}
   local names = {}
   local suffixes = ["_shop", "_0", "_1", "_2"]
   local count = 0
@@ -96,93 +96,162 @@ function debug_check_unit_naming()
 
   foreach (unit in ::all_units)
     if (unit.isInShop)
-      unitIds.append(unit.name)
-  foreach (suffix in suffixes)
-    names[suffix] <- []
+    {
+      if (!ids?[unit.shopCountry])
+        ids[unit.shopCountry] <- []
+      ids[unit.shopCountry].append(unit.name)
+    }
+  foreach (c, unitIds in ids)
+  {
+    unitIds.sort()
+    names[c] <- {}
+    foreach (suffix in suffixes)
+      names[c][suffix] <- []
+  }
 
   dagor.debug("UNLOCALIZED UNIT NAMES:")
   count = 0
-  foreach (unitId in unitIds)
-    foreach (suffix in suffixes)
-    {
-      local locId = unitId + suffix
-      local locName = ::loc(locId)
-      if (locName == locId)
+  foreach (c, unitIds in ids)
+    foreach (unitId in unitIds)
+      foreach (suffix in suffixes)
       {
-        locName = ""
-        dagor.debug(::format("    '%s' - not found in localization", locId))
-        count++
+        local locId = unitId + suffix
+        local locName = ::loc(locId)
+        if (locName == locId)
+        {
+          locName = ""
+          dagor.debug(::format("    \"%s\" - not found in localization", locId))
+          count++
+        }
+        names[c][suffix].append(locName)
       }
-      names[suffix].append(locName)
-    }
   brief.append(count + " unlocalized unit names")
   dagor.debug(brief[brief.len() - 1])
   total += count
 
   dagor.debug("NAME_SHOP CONFLICTS (IMPORTANT!):")
   count = 0
-  for (local i = 0; i < unitIds.len(); i++)
-    for (local j = i + 1; j < unitIds.len(); j++)
-      if (names._shop[i] != "" && names._shop[j] != "" && names._shop[i] == names._shop[j])
-      {
-        dagor.debug(::format("    '%s_shop', '%s_shop' - both units named '%s'", unitIds[i], unitIds[j], names._shop[i]))
-        count++
-      }
+  foreach (c, unitIds in ids)
+    for (local i = 0; i < unitIds.len(); i++)
+      for (local j = i + 1; j < unitIds.len(); j++)
+        if (names[c]._shop[i] != "" && names[c]._shop[j] != "" && names[c]._shop[i] == names[c]._shop[j])
+        {
+          dagor.debug(::format("    '%s_shop', '%s_shop' - both units named \"%s\"",
+            unitIds[i], unitIds[j], names[c]._shop[i]))
+          count++
+        }
   brief.append(count + " name_shop conflicts:")
   dagor.debug(brief[brief.len() - 1])
   total += count
 
   dagor.debug("NAME_0 CONFLICTS:")
   count = 0
-  for (local i = 0; i < unitIds.len(); i++)
-    for (local j = i + 1; j < unitIds.len(); j++)
-      if (names._0[i] != "" && names._0[j] != "" && names._0[i] == names._0[j])
-      {
-        dagor.debug(::format("    '%s_0', '%s_0' - both units named '%s'", unitIds[i], unitIds[j], names._0[i]))
-        count++
-      }
+  foreach (c, unitIds in ids)
+    for (local i = 0; i < unitIds.len(); i++)
+      for (local j = i + 1; j < unitIds.len(); j++)
+        if (names[c]._0[i] != "" && names[c]._0[j] != "" && names[c]._0[i] == names[c]._0[j])
+        {
+          dagor.debug(::format("    '%s_0', '%s_0' - both units named \"%s\"",
+            unitIds[i], unitIds[j], names[c]._0[i]))
+          count++
+        }
   brief.append(count + " name_0 conflicts")
   dagor.debug(brief[brief.len() - 1])
   total += count
 
-  dagor.debug("MIXED-UP _SHOP AND _0 NAMES:")
+  dagor.debug("MIXED-UP _SHOP AND _0 NAMES:") // HERE
   count = 0
-  for (local i = 0; i < unitIds.len(); i++)
-    if (names._shop[i] != "" && names._0[i] != "" && ::utf8_strlen(names._shop[i]) > ::utf8_strlen(names._0[i]))
-    {
-      dagor.debug(::format("    '%s_shop' ('%s') is longer than '%s_0' ('%s'), probably names are mixed up", unitIds[i], names._shop[i], unitIds[i], names._0[i]))
-      count++
-    }
+  foreach (c, unitIds in ids)
+    for (local i = 0; i < unitIds.len(); i++)
+      if (names[c]._shop[i] != "" && names[c]._0[i] != "" &&
+        ::utf8_strlen(names[c]._shop[i]) > ::utf8_strlen(names[c]._0[i]))
+      {
+        dagor.debug(::format("    '%s_shop' (\"%s\") is longer than '%s_0' (\"%s\"), probably names are mixed up",
+          unitIds[i], names[c]._shop[i], unitIds[i], names[c]._0[i]))
+        count++
+      }
   brief.append(count + " _shop and _0 names mixed-up")
   dagor.debug(brief[brief.len() - 1])
   total += count
 
   dagor.debug("MIXED-UP _SHOP AND _1 NAMES:")
   count = 0
-  for (local i = 0; i < unitIds.len(); i++)
-    if (names._shop[i] != "" && names._1[i] != "" && ::utf8_strlen(names._1[i]) > ::utf8_strlen(names._shop[i]))
-    {
-      dagor.debug(::format("    '%s_1' ('%s') is longer than '%s_shop' ('%s'), probably names are mixed up", unitIds[i], names._1[i], unitIds[i], names._shop[i]))
-      count++
-    }
+  foreach (c, unitIds in ids)
+    for (local i = 0; i < unitIds.len(); i++)
+      if (names[c]._shop[i] != "" && names[c]._1[i] != "" &&
+        ::utf8_strlen(names[c]._1[i]) > ::utf8_strlen(names[c]._shop[i]))
+      {
+        dagor.debug(::format("    '%s_1' (\"%s\") is longer than '%s_shop' (\"%s\"), probably names are mixed up",
+          unitIds[i], names[c]._1[i], unitIds[i], names[c]._shop[i]))
+        count++
+      }
   brief.append(count + " _shop and _1 names mixed-up")
   dagor.debug(brief[brief.len() - 1])
   total += count
 
   dagor.debug("NAMES WITH WASTED SPACE:")
   count = 0
-  foreach (idx, unitId in unitIds)
-    foreach (suffix in suffixes)
-    {
-      local name = names[suffix][idx]
-      local fixed = regexp2(@"\s\s").replace(" ", strip(name))
-      if (name.len() > fixed.len())
+  foreach (c, unitIds in ids)
+    foreach (idx, unitId in unitIds)
+      foreach (suffix in suffixes)
       {
-        dagor.debug(::format("    '%s%s' - need to trim space characters here: '%s'", unitId, suffix, name))
+        local name = names[c][suffix][idx]
+        local fixed = regexp2(@"\s\s").replace(" ", strip(name))
+        if (name.len() > fixed.len())
+        {
+          dagor.debug(::format("    \"%s%s\" - need to trim space characters here: \"%s\"",
+            unitId, suffix, name))
+          count++
+        }
+      }
+  brief.append(count + " names with wasted space")
+  dagor.debug(brief[brief.len() - 1])
+  total += count
+
+  dagor.debug("NAMES WITH SUSPICIOUS CHARACTERS (" + ::get_current_language() + "):")
+  count = 0
+  local locale = ::get_current_language()
+  local configs = {
+    Russian = {
+      suspiciousChars = ::regexp2(@"[abcehkmoptx]")
+      unsuspiciousChars = ::regexp2(@"[dfgijlnqrsuvwyz]")
+      foreignAbc = ::regexp2(@"[ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]")
+      foreignName = "Latin"
+      allowWithPrefix = "▂"
+      countriesCheck = [ "country_ussr" ]
+    }
+    Other = {
+      suspiciousChars = ::regexp2(@"[абвгдеёжзийклмнопрстуфхцчшщъыьэюя]")
+      foreignAbc = ::regexp2(@"[АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя]")
+      foreignName = "Cyrillic"
+    }
+  }
+  local cfg = configs?[locale] ?? configs.Other
+  foreach (c, unitIds in ids)
+  {
+    if (cfg?.countriesCheck && !::isInArray(c, cfg.countriesCheck))
+      continue
+    foreach (idx, unitId in unitIds)
+      foreach (suffix in suffixes)
+      {
+        local origName = names[c][suffix][idx]
+        local nameLow = ::g_string.utf8ToLower(origName)
+        local fixed = cfg.suspiciousChars.replace("_", nameLow)
+
+        if (fixed == nameLow)
+          continue
+        if (cfg?.allowWithPrefix && ::g_string.startsWith(nameLow, cfg.allowWithPrefix))
+          continue
+        if (cfg?.unsuspiciousChars && cfg.unsuspiciousChars.match(nameLow))
+          continue
+
+        local allForeignChars = cfg.foreignAbc.replace("_", origName)
+        dagor.debug(::format("    \"%s%s\" - %s chars in name: \"%s\" -> \"%s\"",
+          unitId, suffix, cfg.foreignName, origName, allForeignChars))
         count++
       }
-    }
-  brief.append(count + " names with wasted space")
+  }
+  brief.append(count + " names with suspicious characters")
   dagor.debug(brief[brief.len() - 1])
   total += count
 

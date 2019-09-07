@@ -30,20 +30,22 @@ tdiv {
         tooltip:t = '#mainmenu/navigation';
       }
 
-      emptyButton {
-        id:t = 'collapse_button';
-        class:t = 'navigationCollapse';
-        height:t = 'ph';
-        tooltip:t = '#mainmenu/btnCollapse';
-        <<#collapseShortcut>>
-          btnName:t = '<<collapseShortcut>>';
-        <</collapseShortcut>>
-        on_click:t = 'onCollapse';
-        icon {
-          rotation:t = '270';
+      <<#needShowCollapseButton>>
+        emptyButton {
+          id:t = 'collapse_button';
+          class:t = 'navigationCollapse';
+          height:t = '1@buttonHeight';
+          tooltip:t = '#mainmenu/btnCollapse';
+          <<#collapseShortcut>>
+            btnName:t = '<<collapseShortcut>>';
+          <</collapseShortcut>>
+          on_click:t = 'onCollapse';
+          icon {
+            rotation:t = '270';
+          }
+          ButtonImg {}
         }
-        ButtonImg {}
-      }
+      <</needShowCollapseButton>>
     }
 
     listbox {
@@ -84,7 +86,7 @@ emptyButton {
   position:t = 'absolute';
   left:t = '<<headerOffsetX>>';
   top:t  = '<<headerOffsetY>>';
-  height:t = '<<headerHeight>><<^headerHeight>>0.05@sf<</headerHeight>>';
+  height:t = '1@buttonHeight';
   tooltip:t = '#mainmenu/navigationExpand';
   <<#expandShortcut>>
     btnName:t = '<<expandShortcut>>'

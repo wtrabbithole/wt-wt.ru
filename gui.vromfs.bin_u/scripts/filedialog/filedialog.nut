@@ -196,12 +196,12 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
         if (::getTblValue("isDirectory", file, false))
           return "."
 
-        local fileName = ::getTblValue("name", file)
-        local fileExtIdx = ::g_string.lastIndexOf(fileName, ".")
+        local filename = file?.name ?? ""
+        local fileExtIdx = ::g_string.lastIndexOf(filename, ".")
         if (fileExtIdx == ::g_string.INVALID_INDEX)
           return null
 
-        return ::g_string.utf8ToUpper(fileName.slice(fileExtIdx))
+        return ::g_string.utf8ToUpper(filename.slice(fileExtIdx))
       }
       comparator = function(lhs, rhs) {
         return ::gui_handlers.FileDialog.compareStringOrNull(lhs, rhs)
@@ -664,7 +664,6 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
   {
     local objId = obj.id
     local columnName = cachedColumnNameByTableColumnId[objId]
-    local selectedColumn = null
     foreach (column in columns)
     {
       if (column.name != columnName)
@@ -713,7 +712,11 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       foreach (idx, columnInfo in source)
       {
         if (::u.isString(columnInfo))
-          columnInfo = source[idx] = {column = columnInfo}
+        {
+          columnInfo = {column = columnInfo}
+          source[idx] = columnInfo
+        }
+
         if (::u.isString(columnInfo.column))
         {
           local columnName = columnInfo.column
@@ -1081,7 +1084,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     local filesList = readDirFiles(dirPath, maximumFilesToLoad)
     if (filesList.len() > maximumFilesToLoad)
-      filesList.slice(0, maximumFilesToLoad)
+      filesList = filesList.slice(0, maximumFilesToLoad)
     local filesTableData = []
 
     cachedFileFullPathByFileName.clear()
@@ -1091,12 +1094,12 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       local fileData = {}
       foreach (columnName, column in columns)
         fileData[columnName] <- column.getValue(file, this)
-      local fileName = getFileName(file)
+      local filename = getFileName(file)
       if (!isDirectory(file) && currentFilter != allFilesFilter &&
-        !::g_string.endsWith(fileName, currentFilter))
+        !::g_string.endsWith(filename, currentFilter))
         continue
-      fileData[fileNameMetaAttr] <- fileName
-      cachedFileFullPathByFileName[fileName] <- getFileFullPath(file)
+      fileData[fileNameMetaAttr] <- filename
+      cachedFileFullPathByFileName[filename] <- getFileFullPath(file)
       filesTableData.append(fileData)
     }
 
@@ -1131,9 +1134,9 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     foreach (idx, fileData in filesTableData)
     {
       local rowId = "file_row_" + idx
-      local fileName = fileData[fileNameMetaAttr]
-      cachedFileNameByTableRowId[rowId] <- fileName
-      cachedTableRowIdxByFileName[fileName] <- idx + 1
+      local filename = fileData[fileNameMetaAttr]
+      cachedFileNameByTableRowId[rowId] <- filename
+      cachedTableRowIdxByFileName[filename] <- idx + 1
       local rowView = {
         row_id = rowId
         even = isEven
@@ -1229,8 +1232,6 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
     }
     showSceneBtn("btn_navigation", isNavigationToggleAllowed)
 
-    local groupIdx = 0
-    local entryIdx = 0
     local view = {items = []}
     cachedPathByNavItemId.clear()
     foreach (idx, navData in navListData)

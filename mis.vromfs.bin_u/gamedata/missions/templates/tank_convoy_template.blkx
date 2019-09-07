@@ -261,7 +261,8 @@
             "object": "@convoy_sq_name",
             "accuracy": 0.5,
             "speed": 20.0,
-            "lockSpeed": true
+            "lockSpeed": true,
+            "advancedCollisionAvoidance": true
           }
         },
         {
@@ -670,6 +671,7 @@
             "radius": 50.0,
             "onlyOnePlayerPerSpawnPoint": false,
             "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "@current_spawnpoint_str",
             "team": "A",
             "separate_fuel_time": false,
@@ -703,6 +705,7 @@
             "radius": 50.0,
             "onlyOnePlayerPerSpawnPoint": false,
             "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "@prev_spawnpoint_str",
             "team": "A",
             "separate_fuel_time": false,
@@ -780,6 +783,7 @@
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
             "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "@current_spawnpoint_str",
             "team": "B",
             "separate_fuel_time": false,
@@ -813,6 +817,7 @@
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
             "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "@prev_spawnpoint_str",
             "team": "B",
             "separate_fuel_time": false,
@@ -4312,6 +4317,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_convoy_01"
           },
           {
@@ -4444,6 +4452,9 @@
           [2224.16,4.48985,3363.35]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_convoy_01"
           },

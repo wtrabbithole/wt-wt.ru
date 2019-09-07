@@ -2,6 +2,7 @@
   "model": "f_86f35",
   "fmFile": "fm/f-86f-25.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
+  "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.16,
   "gearSinkRangeC": 0.142,
   "type": "typeFighter",
@@ -1063,24 +1064,6 @@
           "name": "tail_dm"
         },
         {
-          "onHit": {
-            "damage": 30.0,
-            "cut": 0.25
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "cut": 0.5
-          }
-        },
-        {
-          "onHit": {
-            "damage": 65.0,
-            "cut": 1.0
-          }
-        },
-        {
           "onKill": {
             "tailcontrol_dm": 1.0,
             "nothing": 19.0
@@ -1091,33 +1074,6 @@
             "damage": 10.0,
             "tailcontrol_dm": 1.0,
             "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
-            "cut": 1.0,
-            "nothing": 4.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "cut": 1.0,
-            "nothing": 3.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 2.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 65.0,
-            "cut": 1.0
           }
         }
       ]
@@ -2131,6 +2087,35 @@
       "reqModification": "frc_mk2"
     }
   },
+  "default_skin_tomoe": [
+    {
+      "name": "default_tomoe"
+    },
+    {
+      "replace_tex": {
+        "from": "f_86f35_usaaf_skyblazers_c*",
+        "to": "f_86f35_usaaf_skyblazers_c_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_86f35_usaaf_skyblazers_c_dmg*",
+        "to": "f_86f35_usaaf_skyblazers_c_tomoe_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_86f35_usaaf_skyblazers_n*",
+        "to": "f_86f35_usaaf_skyblazers_tomoe_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_86f35_usaaf_skyblazers_n_dmg*",
+        "to": "f_86f35_usaaf_skyblazers_tomoe_n_dmg*"
+      }
+    }
+  ],
   "user_skin": [
     {
       "name": "f_86f35"

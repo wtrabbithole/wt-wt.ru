@@ -129,22 +129,22 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     local filteredByDiffArray = []
     local haveRewards = false
-    foreach(type in difficultiesByTabType[tabType])
+    foreach(t in difficultiesByTabType[tabType])
     {
       // 0) Prepare: Receive tasks list by available battle tasks difficulty
-      local array = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(type, currentTasksArray)
-      if (array.len() == 0)
+      local arr = ::g_battle_task_difficulty.withdrawTasksArrayByDifficulty(t, currentTasksArray)
+      if (arr.len() == 0)
         continue
 
       // 1) Search for task with reward, to put it first in list
-      local taskWithReward = ::g_battle_tasks.getTaskWithAvailableAward(array)
+      local taskWithReward = ::g_battle_tasks.getTaskWithAvailableAward(arr)
       if (!::g_battle_tasks.showAllTasksValue && !::u.isEmpty(taskWithReward))
       {
         filteredByDiffArray.append(taskWithReward)
         haveRewards = true
       }
-      else if (::g_battle_task_difficulty.canPlayerInteractWithDifficulty(type, array, ::g_battle_tasks.showAllTasksValue))
-        filteredByDiffArray.extend(array)
+      else if (::g_battle_task_difficulty.canPlayerInteractWithDifficulty(t, arr, ::g_battle_tasks.showAllTasksValue))
+        filteredByDiffArray.extend(arr)
     }
 
     local resultArray = filteredByDiffArray
@@ -446,7 +446,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
     showSceneBtn("btn_requirements_list", ::show_console_buttons && ::getTblValue("names", config, []).len() != 0)
 
-    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config.id)] = ::g_sound.canPlay(config.id)}, true)
+    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config.id)] = ::g_sound.canPlay(config.id)})
   }
 
   function updateTabButtons()
@@ -512,8 +512,8 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       if (diff.diffCode < 0 || !diff.isAvailable(::GM_DOMINATION))
         continue
 
-      local array = ::g_battle_tasks.getTasksArrayByDifficulty(::g_battle_tasks.getTasksArray(), diff)
-      if (array.len() == 0)
+      local arr = ::g_battle_tasks.getTasksArrayByDifficulty(::g_battle_tasks.getTasksArray(), diff)
+      if (arr.len() == 0)
         continue
 
       tplView.append({
@@ -723,7 +723,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     local config = getCurrentConfig()
     if (::getTblValue("names", config, []).len() == 0)
-      return []
+      return
 
     local awardsList = []
     foreach(id in config.names)

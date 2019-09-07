@@ -36,7 +36,6 @@ function _generateBombingDefMission(isFreeFlight, createGroundUnitsProc)
   local art_count = mgGetUnitsCount("#bomb_targets_art");
   local ships_count = mgGetUnitsCount("#bomb_targets_ships");
   local carrier_count = mgGetUnitsCount("#bomb_targets_carrier");
-  local bombTargets_count = mgGetUnitsCount("#bomb_target_buildings");
   local indicator_icon = "";
   local countToFail = 1;
 
@@ -232,7 +231,6 @@ function _generateBombingDefMission(isFreeFlight, createGroundUnitsProc)
 
   local playerSpeed = getDistancePerMinute(playerFighterPlane);
   local enemyBomberSpeed = 250*1000/60.0;
-  local enemyFighterSpeed = getDistancePerMinute(enemyFighterPlane);
 
 
   local enemy1TimeToRadar = rndRange(20, 30)/60.0;
@@ -249,7 +247,7 @@ function _generateBombingDefMission(isFreeFlight, createGroundUnitsProc)
                      playerSpeed*timeToEnemy1;
 
   mgSetDistToAction(-enemy1Dist);
-  local airfieldCreated = mgSetupAirfield(bombtargets, 6000);
+  mgSetupAirfield(bombtargets, 6000);
   local startLookAt = mgCreateStartLookAt();
 
   mgSetReal("variables/enemy1_onRadar", enemy1Dist-enemy1TimeToRadar*enemyBomberSpeed);
@@ -317,7 +315,6 @@ function _generateBombingDefMission(isFreeFlight, createGroundUnitsProc)
 
 //mission warpoint cost calculate
   local mission_mult = sqrt(bombersCount/15.0+0.05);
-  local repairCost = playerPlaneCost*0.1;
   local missionWpCost = warpointCalculate(mission_preset_name, allyCount/0.6, enemyFightersCount+bombersCount*0.5, planeCost,
                                           playerFighterPlane, mission_mult);
   mgSetInt("mission_settings/mission/wpAward", missionWpCost);

@@ -1,4 +1,5 @@
 local dbg_dump = require("scripts/debugTools/dbgDump.nut")
+local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 
 ::debug_dump_unload <- dbg_dump.unload
 ::debug_dump_is_loaded <- dbg_dump.isLoaded
@@ -272,7 +273,6 @@ function debug_dump_respawn_save(filename = "debug_dump_respawn.blk")
     "get_race_checkpioints_count"
     "get_race_winners_count"
     "last_ca_aircraft"
-    "aircrafts_filter_tags"
     "used_planes"
     "g_mis_loading_state.curState"
     "HudBattleLog.battleLog"
@@ -291,7 +291,6 @@ function debug_dump_respawn_save(filename = "debug_dump_respawn.blk")
         "shop_is_aircraft_purchased", "wp_get_cost", "wp_get_cost_gold", "get_aircraft_max_fuel" ])
         list.append({ id = id, args = [ unit.name ] })
       list.append({ id = "get_available_respawn_bases", args = [ unit.tags ] })
-      list.append({ id = "check_aircraft_tags", args = [ unit.tags, ::aircrafts_filter_tags ] })
       list.append({ id = "shop_get_spawn_score", args = [ unit.name, "" ] })
       list.append({ id = "is_crew_slot_was_ready_at_host", args = [ crew.idInCountry, unit.name, true ] })
       list.append({ id = "get_aircraft_fuel_consumption", args = [ unit.name, ::get_mission_difficulty(), true ] })
@@ -371,7 +370,6 @@ function debug_dump_userlogs_load(filename = "debug_dump_userlogs.blk")
 
 function debug_dump_inventory_save(filename = "debug_dump_inventory.blk")
 {
-  local inventoryClient = require("scripts/inventory/inventoryClient.nut")
   dbg_dump.save(filename, [
     { id = "_inventoryClient_items",    value = inventoryClient.items }
     { id = "_inventoryClient_itemdefs", value = inventoryClient.itemdefs }
@@ -386,7 +384,6 @@ function debug_dump_inventory_load(filename = "debug_dump_inventory.blk")
   dbg_dump.loadFuncs({
     inventory = { request  = @(...) null }
   }, false)
-  local inventoryClient = require("scripts/inventory/inventoryClient.nut")
   inventoryClient.itemdefs = ::_inventoryClient_itemdefs
   inventoryClient.items    = ::_inventoryClient_items
   ::broadcastEvent("ItemDefChanged")

@@ -1,21 +1,95 @@
-local function requestWwLeaderboardData(appId, mode, type, start, amount, category, cb)
+local modes = [
+  {
+    mode  = "ww_users"
+    appId = "1134"
+    mask  = WW_LB_MODE.WW_USERS
+    field = ::g_lb_category.EVENTS_PERSONAL_ELO.field
+    isInLeaderboardModes = true
+    hasDaysData = true
+    rewardsTableName = "user_leaderboards"
+  },
+  {
+    mode  = "ww_clans"
+    appId = "1135"
+    mask  = WW_LB_MODE.WW_CLANS
+    field = ::g_lb_category.EVENTS_PERSONAL_ELO.field
+    isInLeaderboardModes = true
+    hasDaysData = false
+    rewardsTableName = "clan_leaderboards"
+  },
+  {
+    mode  = "ww_countries"
+    appId = "1136"
+    mask  = WW_LB_MODE.WW_COUNTRIES
+    field = ::g_lb_category.OPERATION_COUNT.field
+    isInLeaderboardModes = true
+    hasDaysData = false
+    needFeature = "WorldWarCountryLeaderboard"
+  },
+  {
+    mode  = "ww_users_clan"
+    appId = "1134"
+    hasDaysData = false
+  }]
+
+local function requestWwLeaderboardData(modeName, modePostFix, day, start, amount, category, cb)
 {
+  local mode = getModeByName(modeName)
+  if (!mode)
+    return
+
   local requestData = {
     add_token = true
-    headers = { appid = appId }
+    headers = { appid = mode.appId }
     action = "cln_get_leaderboard_json"
     data = {
-      gameMode = mode,
-      table = type,
-      start = start,
-      count = amount,
-      category = category,
+      gameMode = modeName + modePostFix
+      table = day && day > 0 ? "day" + day : "season"
+      start = start
+      count = amount
+      category = category
+
+      //gameMode = mode
+      //table = type
+
       valueType = "value_total"
       resolveNick = true
     }
   }
 
   ::ww_leaderboard.request(requestData, cb)
+}
+
+local function requestWwLeaderboardModes(modeName, cb)
+{
+  local mode = getModeByName(modeName)
+  if (!mode)
+    return
+
+  local requestData = {
+    add_token = true
+    headers = { appid = mode.appId }
+    action = "cmn_get_global_leaderboard_modes"
+  }
+
+  ::ww_leaderboard.request(requestData, cb)
+}
+
+local function getSeasonDay(days)
+{
+  if (!days)
+    return 0
+
+  local seasonDay = 0
+  foreach (dayId in days)
+    if (dayId.slice(0, 3) == "day")
+    {
+      local dayNumberText = dayId.slice(3)
+      if (::g_string.isStringInteger(dayNumberText))
+        seasonDay = ::max(seasonDay, dayNumberText.tointeger())
+    }
+
+  return seasonDay
 }
 
 local wwLeaderboardValueFactors = {
@@ -47,6 +121,9 @@ local function convertWwLeaderboardData(result, applyLocalisationToName = false)
     foreach (columnId, columnData in rowData)
     {
       local key = wwLeaderboardKeyCorrection?[columnId] ?? columnId
+      if (key in lbData && ::u.isEmpty(columnData))
+        continue
+
       local valueFactor = wwLeaderboardValueFactors?[columnId]
       local value = typeof(columnData) == "table"
         ? columnData?.value_total
@@ -65,7 +142,14 @@ local function convertWwLeaderboardData(result, applyLocalisationToName = false)
   return { rows = list }
 }
 
+
 return {
+  modes = modes
+  getSeasonDay = getSeasonDay
+  getDayIdByNumber = @(number) "day" + number
+  getModeByName = @(mName) ::u.search(modes, @(m) m.mode == mName
+    && (!m?.needFeature || ::has_feature(m.needFeature)))
   requestWwLeaderboardData = requestWwLeaderboardData
+  requestWwLeaderboardModes = requestWwLeaderboardModes
   convertWwLeaderboardData = convertWwLeaderboardData
 }

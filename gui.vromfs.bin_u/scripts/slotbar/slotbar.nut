@@ -34,7 +34,6 @@ if need - put commented in array above
 
 ::selected_crews <- []
 ::unlocked_countries <- []
-::fake_countries <- ["country_pkg6"]
 
 ::g_script_reloader.registerPersistentData("SlotbarGlobals", ::getroottable(), ["selected_crews", "unlocked_countries"])
 
@@ -62,10 +61,7 @@ function build_aircraft_item(id, air, params = {})
     local isMounted           = ::isUnitInSlotbar(air)
     local canResearch         = ::canResearchUnit(air)
     local researched          = ::isUnitResearched(air)
-    local canBuy              = ::canBuyUnit(air)
-    local canBuyOnline        = ::canBuyUnitOnline(air)
     local special             = ::isUnitSpecial(air)
-    local reserve             = ::isUnitDefault(air)
     local isVehicleInResearch = ::isUnitInResearch(air) && !forceNotInResearch
     local isSquadronVehicle   = air.isSquadronVehicle()
     local unitReqExp          = ::getUnitReqExp(air)
@@ -91,7 +87,7 @@ function build_aircraft_item(id, air, params = {})
         bitStatus = bit_unit_status.mounted
       else if (isOwn)
         bitStatus = bit_unit_status.owned
-      else if (canBuy || canBuyOnline)
+      else if (::canBuyUnit(air) || ::canBuyUnitOnline(air) || ::canBuyUnitOnMarketplace(air))
         bitStatus = bit_unit_status.canBuy
       else if (isLockedSquadronVehicle)
       {
@@ -242,6 +238,7 @@ function build_aircraft_item(id, air, params = {})
       slotId              = "td_" + id
       slotInactive        = inactive
       isSlotbarItem       = getVal("isSlotbarItem", false)
+      isInTable           = getVal("isInTable", true)
       shopItemId          = id
       unitName            = air.name
       premiumPatternType  = special
@@ -264,7 +261,7 @@ function build_aircraft_item(id, air, params = {})
       isMounted           = isMounted
       priceText           = priceText
       isLongPriceText     = ::is_unit_price_text_long(priceText)
-      isElite             = isLocalState && (isOwn && ::isUnitElite(air)) || (!isOwn && special)
+      isElite             = (isLocalState && isOwn && ::isUnitElite(air)) || (!isOwn && special)
       unitRankText        = ::get_unit_rank_text(air, crew, showBR, curEdiff)
       isItemLocked        = isLocalState && !isUsable && !special && !isSquadronVehicle && !::isUnitsEraUnlocked(air)
       hasTalismanIcon     = isLocalState && (special || ::shop_is_modification_enabled(air.name, "premExpMul"))
@@ -306,7 +303,7 @@ function build_aircraft_item(id, air, params = {})
 
     local nextAir = air.airsGroup[0]
     local country = nextAir.shopCountry
-    local type    = ::get_es_unit_type(nextAir)
+    local esUnitType = ::get_es_unit_type(nextAir)
     local forceUnitNameOnPlate = false
 
     local era = getUnitRank(nextAir)
@@ -333,7 +330,6 @@ function build_aircraft_item(id, air, params = {})
       local isInResearch = !forceNotInResearch && ::isUnitInResearch(a)
       local isBought = ::isUnitBought(a)
       local isUsable = ::isUnitUsable(a)
-      local isMounted =  ::isUnitInSlotbar(a)
 
       if (isInResearch || (::canResearchUnit(a) && !researchingUnit))
       {
@@ -375,7 +371,7 @@ function build_aircraft_item(id, air, params = {})
         bitStatus = bitStatus | bit_unit_status.mounted
       else if (isBought)
         bitStatus = bitStatus | bit_unit_status.owned
-      else if (::canBuyUnit(a) || ::canBuyUnitOnline(a))
+      else if (::canBuyUnit(a) || ::canBuyUnitOnline(a) || ::canBuyUnitOnMarketplace(a))
         bitStatus = bitStatus | bit_unit_status.canBuy
       else if (::isUnitResearched(a))
         bitStatus = bitStatus | bit_unit_status.researched
@@ -405,9 +401,12 @@ function build_aircraft_item(id, air, params = {})
         inactive = true
       }
 
-    // Unit selection priority: 1) rented, 2) researching, 3) mounted, 4) first unbougt, 5) last bought, 6) first in group.
-    nextAir = rentedUnit || mountedUnit || isGroupInResearch && researchingUnit || firstUnboughtUnit || lastBoughtUnit || nextAir
-    forceUnitNameOnPlate = rentedUnit != null || mountedUnit  != null || isGroupInResearch && researchingUnit != null || firstUnboughtUnit != null
+    // Unit selection priority: 1) rented, 2) researching, 3) mounted, 4) first unbougt,
+    //   5) last bought, 6) first in group.
+    nextAir = rentedUnit || mountedUnit || (isGroupInResearch && researchingUnit)
+      || firstUnboughtUnit || lastBoughtUnit || nextAir
+    forceUnitNameOnPlate = rentedUnit != null || mountedUnit  != null
+      || (isGroupInResearch && researchingUnit != null) || firstUnboughtUnit != null
     local unitForBR = rentedUnit || researchingUnit || firstUnboughtUnit || air
 
     //
@@ -494,7 +493,7 @@ function build_aircraft_item(id, air, params = {})
       isMounted           = mountedUnit != null
       isElite             = isElite
       unitRankText        = ::get_unit_rank_text(unitForBR, null, showBR, curEdiff)
-      isItemLocked        = !::is_era_available(country, era, type)
+      isItemLocked        = !::is_era_available(country, era, esUnitType)
       hasTalismanIcon     = hasTalismanIcon
       talismanIncomplete  = talismanIncomplete
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
@@ -730,7 +729,6 @@ function get_unit_item_price_text(unit, params)
   local haveRespawnCost     = ::getTblValue("haveRespawnCost", params, false)
   local haveSpawnDelay      = ::getTblValue("haveSpawnDelay", params, false)
   local curSlotIdInCountry  = ::getTblValue("curSlotIdInCountry", params, -1)
-  local curSlotCountryId    = ::getTblValue("curSlotCountryId", params, -1)
   local slotDelayData       = ::getTblValue("slotDelayData", params, null)
 
   local priceText = ""
@@ -801,7 +799,7 @@ function get_unit_item_price_text(unit, params)
       priceText = ::getPriceAccordingToPlayersCurrency(overlayPrice, 0, true)
     else if (!isUsable && gift)
       priceText = ::g_string.stripTags(::loc("shop/giftAir/" + unit.gift, "shop/giftAir/alpha"))
-    else if (!isUsable && (canBuy || special || !special && researched))
+    else if (!isUsable && (canBuy || special || (!special && researched)))
       priceText = ::getPriceAccordingToPlayersCurrency(::wp_get_cost(unit.name), ::wp_get_cost_gold(unit.name), true)
 
     if (priceText == "" && isBought && showAsTrophyContent && !isReceivedPrizes)
@@ -817,13 +815,15 @@ function get_unit_item_research_progress_text(unit, params, priceText = "")
     return ""
   if (!::canResearchUnit(unit))
     return ""
-  local isSquadronVehicle = unit?.isSquadronVehicle?() ?? false
-  if (isSquadronVehicle && !::is_in_clan())
-    return ""
 
   local unitExpReq  = ::getUnitReqExp(unit)
   local unitExpCur  = ::getUnitExp(unit)
   if (unitExpReq <= 0 || unitExpReq <= unitExpCur)
+    return ""
+
+  local isSquadronVehicle = unit?.isSquadronVehicle?() ?? false
+  if (isSquadronVehicle && !::is_in_clan()
+    && min(::clan_get_exp(), unitExpReq - unitExpCur) <= 0)
     return ""
 
   return isSquadronVehicle
@@ -891,30 +891,6 @@ function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
              : ::get_roman_numeral(unit.rank)
 }
 
-function updateAirStatus(obj, air)
-{
-  if (!air)
-    return
-
-  if (::checkObj(obj))
-  {
-    local isMounted = ::isUnitInSlotbar(air)
-    local bitStatus = 0
-    if (isMounted)
-      bitStatus = bit_unit_status.mounted
-    else
-      bitStatus = bit_unit_status.owned
-
-    obj.shopStat = ::getUnitItemStatusText(bitStatus, false)
-
-    local inServiceObj = obj.findObject("inService")
-    if (::checkObj(inServiceObj))
-      inServiceObj.show(isMounted)
-  }
-
-  ::updateAirAfterSwitchMod(air)
-}
-
 function is_crew_locked_by_prev_battle(crew)
 {
   return ::isInMenu() && ::getTblValue("lockedTillSec", crew, 0) > 0
@@ -926,8 +902,6 @@ function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, cou
   local unlocked = !::is_crew_locked_by_prev_battle(crew)
   if (unit)
   {
-    local tags = ::getSlotbarTags(handler)
-    unlocked = unlocked && (!tags || ::check_aircraft_tags(unit.tags, tags))
     unlocked = unlocked && (!country || ::is_crew_available_in_session(curSlotIdInCountry, needDbg))
     unlocked = unlocked && (::isUnitAvailableForGM(unit, ::get_game_mode()) || ::is_in_flight())
     if (unlocked && !::SessionLobby.canChangeCrewUnits() && !::is_in_flight()
@@ -946,11 +920,6 @@ function isCountryAllCrewsUnlockedInHangar(countryId)
         if (::is_crew_locked_by_prev_battle(crew))
           return false
   return true
-}
-
-function getSlotbarTags(handler) //!!FIX ME: Why it here?
-{
-  return handler?.ownerWeak?.slotbarCheckTags ? ::aircrafts_filter_tags : null
 }
 
 function getBrokenSlotsCount(country)
@@ -1089,7 +1058,7 @@ function init_selected_crews(forceReload = false)
   ::selected_crews = array(::g_crews_list.get().len(), 0)
   foreach(cIdx, country in ::g_crews_list.get())
   {
-    local crewIdx = selCrewsBlk && selCrewsBlk[country.country] || 0
+    local crewIdx = selCrewsBlk?[country.country] ?? 0
     if (("crews" in country)
         && (crewIdx in country.crews)
         && ("aircraft" in country.crews[crewIdx])
@@ -1286,23 +1255,6 @@ function is_country_visible(country)
   return true
 }
 
-function isAnyBaseCountryUnlocked()
-{
-  local notBaseCount = 0
-  foreach(c in ::fake_countries)
-    if (::isInArray(c, ::unlocked_countries))
-      notBaseCount++
-  return ::unlocked_countries.len() > notBaseCount
-}
-
-function isAllBaseCountriesUnlocked()
-{
-  foreach(c in ::g_crews_list.get())
-    if (!::isInArray(c.country, ::unlocked_countries))
-      return false
-  return true
-}
-
 function unlockCountry(country, hideInUserlog = false, reqUnlock = true)
 {
   if (reqUnlock)
@@ -1329,7 +1281,7 @@ function checkUnlockedCountries()
         curUnlocked.append(country)
       }
     }
-    else if (unlockAll || ::isInArray(country, ::fake_countries))
+    else if (unlockAll)
     {
       unlockCountry(country, !::g_login.isLoggedIn())
       curUnlocked.append(country)
@@ -1353,62 +1305,6 @@ function checkUnlockedCountriesByAirs() //starter packs
   if (haveUnlocked)
     ::broadcastEvent("UnlockedCountriesUpdate")
   return haveUnlocked
-}
-
-function getNextCountryToUnlock()
-{
-  foreach(country in ::shopCountriesList)
-    if (!isCountryAvailable(country))
-      return country
-  return null
-}
-
-function num_countries_unlocked_by_domination()
-{
-  for(local d=0; d<3; d++)
-    if (::stat_get_value_respawns(d, 1) >= 0)
-      return 1
-  return 0
-}
-
-function get_slotbar_countries(cleared = false)
-{
-  local res = []
-  foreach(country in ::shopCountriesList)
-  {
-    if (cleared && ::isInArray(country, ::fake_countries))
-      continue
-    res.append(country)
-  }
-  return res
-}
-
-function addAirButtonsTimer(listObj, needTimerList, air, handler)
-{
-  SecondsUpdater(listObj, (@(needTimerList, air, handler) function(obj, params) {
-    foreach(name in needTimerList)
-    {
-      local btnObj = obj.findObject("slot_action_" + name)
-      if (!::checkObj(btnObj))
-        continue
-
-      if (name == "repair")
-      {
-        local repairCost = ::wp_get_repair_cost(air.name)
-        local text = ::Cost(repairCost).getUncoloredText()
-        btnObj.setValue(format(::loc("mainmenu/btnRepairNow"), text))
-
-        local taObj = btnObj.findObject("textarea")
-        if (::checkObj(taObj))
-        {
-          local coloredText = ::Cost(repairCost).tostring()
-          if (get_balance().wp < repairCost)
-            coloredText = "<color=@badTextColor>" + coloredText + "</color>"
-          taObj.setValue(format(::loc("mainmenu/btnRepairNow"), coloredText))
-        }
-      }
-    }
-  })(needTimerList, air, handler))
 }
 
 function gotTanksInSlots(checkCountryId=null, checkUnitId=null)

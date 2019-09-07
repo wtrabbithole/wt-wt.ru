@@ -249,57 +249,41 @@
     }
   },
   "apds_fs_long": {
-    "residualPenetrationToArmorShatterPenetrationMult": [20.0,200.0,0.1,1.0],
-    "residualPenetrationToArmorShatterDamageMult": [20.0,200.0,0.2,1.0],
-    "residualPenetrationToShellShatterPenetrationMult": [20.0,200.0,0.1,1.0],
-    "residualPenetrationToShellShatterDamageMult": [20.0,200.0,0.1,1.0],
-    "armorMassToShatterCount": [0.5,10.0,20.0,40.0],
-    "shellMassToShatterCount": [1.0,20.0,30.0,70.0],
-    "section_shellShatters0": {
-      "angles": [0.0,5.0],
+    "residualArmorPenetrationToShatterCountMult": [30.0,150.0,0.9,1.0],
+    "residualArmorPenetrationToShatterPenetrationMult": [20.0,150.0,0.85,1.0],
+    "residualArmorPenetrationToShatterDamageMult": [20.0,150.0,0.85,1.0],
+    "caliberToArmorToShatterCountMult": [0.5,1.0,0.9,1.0],
+    "section0": {
+      "angles": [0.0,2.5],
       "shatter": {
-        "shellShatter": true,
-        "distance": 6.0,
-        "size": 0.04,
-        "countPortion": 0.2,
-        "penetration": [25.0,20.0],
-        "damage": [45.0,40.0],
-        "onHitChanceMultFire": 3.0
-      }
-    },
-    "section_shellShatters1": {
-      "angles": [0.0,15.0],
-      "shatter": {
-        "shellShatter": true,
         "distance": 5.0,
-        "size": 0.02,
-        "countPortion": 0.3,
-        "penetration": [12.0,11.0],
-        "damage": [20.0,17.0],
-        "onHitChanceMultFire": 0.0
+        "size": 0.03,
+        "count": 15,
+        "penetration": [17.0,10.0],
+        "damage": [30.0,25.0],
+        "onHitChanceMultFire": 3.2
       }
     },
-    "section_shellShatters2": {
-      "angles": [0.0,45.0],
+    "section1": {
+      "angles": [0.0,10.0],
       "shatter": {
-        "shellShatter": true,
-        "distance": 4.0,
+        "distance": 3.5,
+        "size": 0.015,
+        "count": 40,
+        "penetration": [10.0,8.0],
+        "damage": [20.0,15.0],
+        "onHitChanceMultFire": 1.0
+      }
+    },
+    "section2": {
+      "angles": [0.0,50.0],
+      "shatter": {
         "size": 0.01,
-        "countPortion": 0.6,
-        "penetration": [5.0,4.0],
-        "damage": [7.0,5.0],
-        "onHitChanceMultFire": 0.0
-      }
-    },
-    "section_armorShatters0": {
-      "angles": [0.0,20.0],
-      "shatter": {
-        "distance": 5.0,
-        "size": 0.05,
-        "countPortion": 0.4,
-        "penetration": [7.0,5.0],
-        "damage": [15.0,12.0],
-        "onHitChanceMultFire": 2.0
+        "distance": 1.5,
+        "count": 50,
+        "penetration": [4.0,3.0],
+        "damage": [14.0,12.0],
+        "onHitChanceMultFire": 1.0
       }
     }
   },
@@ -506,28 +490,40 @@
     }
   },
   "atgm": {
-    "residualArmorPenetrationToShatterCountMult": [20.0,200.0,0.7,1.0],
-    "residualArmorPenetrationToShatterPenetrationMult": [20.0,200.0,0.5,1.0],
-    "residualArmorPenetrationToShatterDamageMult": [20.0,200.0,0.7,1.0],
-    "caliberToArmorToShatterCountMult": [0.5,1.0,0.5,1.0],
+    "residualArmorPenetrationToShatterCountMult": [20.0,400.0,0.5,1.0],
+    "residualArmorPenetrationToShatterPenetrationMult": [20.0,400.0,0.5,1.0],
+    "residualArmorPenetrationToShatterDamageMult": [20.0,400.0,0.5,1.0],
+    "caliberToArmorToShatterCountMult": [0.5,1.0,1.0,1.0],
     "section0": {
       "angles": [0.0,3.0],
       "shatter": {
         "distance": 5.0,
         "size": 0.01,
-        "count": 15,
-        "penetration": [12.0,7.0],
-        "damage": [45.0,35.0],
+        "count": 10,
+        "penetration": [50.0,30.0],
+        "damage": [60.0,50.0],
         "aggregateDamage": false,
-        "onHitChanceMultFire": 3.0
+        "onHitChanceMultFire": 5.0
       }
     },
     "section1": {
-      "angles": [0.0,45.0],
+      "angles": [0.0,10.0],
+      "shatter": {
+        "distance": 5.0,
+        "size": 0.01,
+        "count": 30,
+        "penetration": [20.0,17.0],
+        "damage": [60.0,50.0],
+        "aggregateDamage": false,
+        "onHitChanceMultFire": 5.0
+      }
+    },
+    "section2": {
+      "angles": [0.0,50.0],
       "shatter": {
         "distance": 1.5,
         "size": 0.01,
-        "count": 45,
+        "count": 60,
         "penetration": [4.0,3.0],
         "damage": [20.0,10.0],
         "onHitChanceMultFire": 1.0

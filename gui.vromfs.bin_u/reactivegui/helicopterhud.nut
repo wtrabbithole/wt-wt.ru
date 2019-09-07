@@ -1,12 +1,11 @@
 local math = require("std/math.nut")
-local interopGet = require("daRg/helpers/interopGen.nut")
 local screenState = require("style/screenState.nut")
 local compass = require("compass.nut")
 local rwr = require("rwr.nut")
+local helicopterState = require("helicopterState.nut")
 
 local style = {}
 
-local greenColor = Color(71, 232, 39, 200)
 local backgroundColor = Color(0, 0, 0, 150)
 local fontOutlineColor = Color(0, 0, 0, 235)
 
@@ -43,220 +42,6 @@ local getVelocityUnit = function(){
 
   velocityUnit = ::cross_call.measureTypes.SPEED.getMeasureUnitsName()
   return velocityUnit
-}
-
-
-local helicopterState = {
-  IndicatorsVisible = Watched(false)
-  DistanceToGround = Watched(0.0)
-  VerticalSpeed = Watched(0.0)
-
-  RocketAimX = Watched(0.0)
-  RocketAimY = Watched(0.0)
-  RocketAimVisible = Watched(false)
-
-  AamAimGimbalX = Watched(0.0)
-  AamAimGimbalY = Watched(0.0)
-  AamAimGimbalSize = Watched(0.0)
-  AamAimGimbalVisible = Watched(false)
-
-  AamAimTrackerX = Watched(0.0)
-  AamAimTrackerY = Watched(0.0)
-  AamAimTrackerSize = Watched(0.0)
-  AamAimTrackerVisible = Watched(false)
-
-  GunDirectionX = Watched(0.0)
-  GunDirectionY = Watched(0.0)
-  GunDirectionVisible = Watched(false)
-
-  HorAngle = Watched(0.0)
-
-  TurretYaw = Watched(0.0)
-  TurretPitch = Watched(0.0)
-
-  IsSightLocked = Watched(false)
-
-  MainMask = Watched(0)
-  SightMask = Watched(0)
-
-  HudColor = Watched(Color(71, 232, 39, 240))
-  AlertColor = Watched(Color(255, 0, 0, 240))
-
-  TrtMode = Watched(0)
-
-  Rpm = Watched(0)
-  Trt = Watched(0)
-  Spd = Watched(0)
-
-  Cannons = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
-
-  MachineGuns = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
-
-  CannonsAdditional = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
-
-  Rockets = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
-
-  Agm = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
-
-  Aam = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
-
-  Bombs = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
-
-  Flares = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
-
-  IsCanEmpty = Watched(false)
-  IsMachineGunEmpty = Watched(false)
-  IsCanAdditionalEmpty = Watched(false)
-  IsRktEmpty = Watched(false)
-  IsAgmEmpty = Watched(false)
-  IsAamEmpty = Watched(false)
-  IsBmbEmpty = Watched(false)
-  IsFlrEmpty = Watched(false)
-
-  IsHighRateOfFire = Watched(false)
-
-  IsRpmCritical = Watched(false)
-
-  FixedGunDirectionX = Watched(-100)
-  FixedGunDirectionY = Watched(-100)
-  FixedGunDirectionVisible = Watched(false)
-
-  IsRangefinderEnabled = Watched(false)
-  RangefinderDist = Watched(0)
-
-  OilTemperature = []
-  WaterTemperature = []
-  EngineTemperature = []
-
-  OilState = []
-  WaterState = []
-  EngineState = []
-
-  IsOilAlert = []
-  IsWaterAlert = []
-  IsEngineAlert = []
-
-  IsMainHudVisible = Watched(false)
-  IsSightHudVisible = Watched(false)
-  IsPilotHudVisible = Watched(false)
-  IsGunnerHudVisible = Watched(false)
-
-  GunOverheatState = Watched(0)
-
-  GuidanceLockState = Watched(-1)
-
-  IsCompassVisible = Watched(false)
-}
-
-::interop.updateCannons <- function(count, sec = -1) {
-  helicopterState.Cannons.count.update(count)
-  helicopterState.Cannons.seconds.update(sec)
-}
-
-::interop.updateMachineGuns <- function(count, sec = -1) {
-  helicopterState.MachineGuns.count.update(count)
-  helicopterState.MachineGuns.seconds.update(sec)
-}
-
-::interop.updateAdditionalCannons <- function(count, sec = -1) {
-  helicopterState.CannonsAdditional.count.update(count)
-}
-
-::interop.updateRockets <- function(count, sec = -1) {
-  helicopterState.Rockets.count.update(count)
-  helicopterState.Rockets.seconds.update(sec)
-}
-
-::interop.updateAgm <- function(count, sec = -1) {
-  helicopterState.Agm.count.update(count)
-  helicopterState.Agm.seconds.update(sec)
-}
-
-::interop.updateAam <- function(count, sec = -1) {
-  helicopterState.Aam.count.update(count)
-  helicopterState.Aam.seconds.update(sec)
-}
-
-::interop.updateBombs <- function(count, sec = -1) {
-  helicopterState.Bombs.count.update(count)
-  helicopterState.Bombs.seconds.update(sec)
-}
-
-::interop.updateFlares <- function(count, sec = -1) {
-  helicopterState.Flares.count.update(count)
-  helicopterState.Flares.seconds.update(sec)
-}
-
-for (local i = 0; i < NUM_ENGINES_MAX; ++i)
-{
-  helicopterState.OilTemperature.append(Watched(0))
-  helicopterState.WaterTemperature.append(Watched(0))
-  helicopterState.EngineTemperature.append(Watched(0))
-
-  helicopterState.OilState.append(Watched(0))
-  helicopterState.WaterState.append(Watched(0))
-  helicopterState.EngineState.append(Watched(0))
-
-  helicopterState.IsOilAlert.append(Watched(false))
-  helicopterState.IsWaterAlert.append(Watched(false))
-  helicopterState.IsEngineAlert.append(Watched(false))
-}
-
-interopGet({
-  stateTable = helicopterState
-  prefix = "helicopter"
-  postfix = "Update"
-})
-
-::interop.updateOilTemperature <- function (temperature, state, index) {
-  helicopterState.OilTemperature[index].update(temperature)
-  helicopterState.OilState[index].update(state)
-}
-
-::interop.updateWaterTemperature <- function (temperature, state, index) {
-  helicopterState.WaterTemperature[index].update(temperature)
-  helicopterState.WaterState[index].update(state)
-}
-
-::interop.updateEngineTemperature <- function (temperature, state, index) {
-  helicopterState.EngineTemperature[index].update(temperature)
-  helicopterState.EngineState[index].update(state)
-}
-
-::interop.updateOilAlert <- function (value, index) {
-  helicopterState.IsOilAlert[index].update(value)
-}
-
-::interop.updateWaterAlert <- function (value, index) {
-  helicopterState.IsWaterAlert[index].update(value)
-}
-
-::interop.updateEngineAlert <- function (value, index) {
-  helicopterState.IsEngineAlert[index].update(value)
 }
 
 
@@ -644,7 +429,7 @@ local HelicopterHorizontalSpeedComponent = function(elemStyle, isBackground) {
 }
 
 
-local turretAngles = function(line_style, height, aspect, isBackground) {
+local function turretAngles(line_style, height, aspect, isBackground) {
   local hl = 20
   local vl = 20
 
@@ -698,19 +483,21 @@ local turretAnglesComponent = function(elemStyle, isBackground) {
 }
 
 
-local generateBulletsTextFunction = function(countWatched, secondsWatched) {
+local generateBulletsTextFunction = function(countWatched, secondsWatched, timeToTarget) {
   return function() {
+    local str = ""
     if (secondsWatched.value >= 0)
     {
-      local str = ::string.format("%d:%02d", ::math.floor(secondsWatched.value / 60), secondsWatched.value % 60)
+      str = ::string.format("%d:%02d", ::math.floor(secondsWatched.value / 60), secondsWatched.value % 60)
       if (countWatched.value > 0)
         str += " (" + countWatched.value + ")"
       return str
     }
     else if (countWatched.value >= 0)
-      return countWatched.value
-    else
-      return ""
+      str = countWatched.value
+    if (timeToTarget.value > 0)
+      str = str + ::string.format("[%d]", timeToTarget.value)
+    return str
   }
 }
 
@@ -751,24 +538,41 @@ local getThrottleCaption = function() {
     : ::loc("HUD/PROP_PITCH_SHORT")
 }
 
+local getAGCaption = function() {
+  local text = ""
+  if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_INVALID)
+    text = ::loc("HUD/AGM_SHORT")
+  else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_STANDBY)
+    text = ::loc("HUD/TXT_LASER_MISSILE_STANDBY")
+  else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_WARMING_UP)
+    text = ::loc("HUD/TXT_LASER_MISSILE_WARM_UP")
+  else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_LOCKING)
+    text = ::loc("HUD/TXT_LASER_MISSILE_LOCK")
+  else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_TRACKING)
+    text = ::loc("HUD/TXT_LASER_MISSILE_TRACK")
+
+  return text
+}
 
 local getAACaption = function() {
   local text = ""
-  if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_STANDBY)
+  if (helicopterState.AamGuidanceLockState.value == GuidanceLockResult.RESULT_STANDBY)
     text = ::loc("HUD/IR_MISSILE_STANDBY")
-  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_WARMING_UP)
+  else if (helicopterState.AamGuidanceLockState.value == GuidanceLockResult.RESULT_WARMING_UP)
     text = ::loc("HUD/TXT_IR_MISSILE_WARM_UP")
-  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_LOCKING)
+  else if (helicopterState.AamGuidanceLockState.value == GuidanceLockResult.RESULT_LOCKING)
     text = ::loc("HUD/IR_MISSILE_LOCK")
-  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_TRACKING)
+  else if (helicopterState.AamGuidanceLockState.value == GuidanceLockResult.RESULT_TRACKING)
     text = ::loc("HUD/IR_MISSILE_TRACK")
 
   return text
 }
 
+local timeToTargetDummy = { value = -1 }
 
-local getAABullets = generateBulletsTextFunction(helicopterState.Aam.count, helicopterState.Aam.seconds)
+local getAGBullets = generateBulletsTextFunction(helicopterState.Agm.count, helicopterState.Agm.seconds, helicopterState.Agm.timeToTarget)
 
+local getAABullets = generateBulletsTextFunction(helicopterState.Aam.count, helicopterState.Aam.seconds, timeToTargetDummy)
 
 local createHelicopterParam = function(param, width, line_style, isBackground)
 {
@@ -827,19 +631,19 @@ local textParamsMap = {
   },
   [HelicopterParams.CANNON] = {
     title = @() ::loc("HUD/CANNONS_SHORT")
-    value = generateBulletsTextFunction(helicopterState.Cannons.count, helicopterState.Cannons.seconds)
+    value = generateBulletsTextFunction(helicopterState.Cannons.count, helicopterState.Cannons.seconds, timeToTargetDummy)
     valuesWatched = [helicopterState.Cannons.count, helicopterState.Cannons.seconds, helicopterState.IsCanEmpty]
     alertWatched = helicopterState.IsCanEmpty
   },
    [HelicopterParams.MACHINE_GUN] = {
     title = @() ::loc("HUD/MACHINE_GUNS_SHORT")
-    value = generateBulletsTextFunction(helicopterState.MachineGuns.count, helicopterState.MachineGuns.seconds)
+    value = generateBulletsTextFunction(helicopterState.MachineGuns.count, helicopterState.MachineGuns.seconds, timeToTargetDummy)
     valuesWatched = [helicopterState.MachineGuns.count, helicopterState.MachineGuns.seconds, helicopterState.IsMachineGunEmpty]
     alertWatched = helicopterState.IsMachineGunEmpty
   },
   [HelicopterParams.CANNON_ADDITIONAL] = {
     title = @() ::loc("HUD/ADDITIONAL_GUNS_SHORT")
-    value = generateBulletsTextFunction(helicopterState.CannonsAdditional.count, helicopterState.CannonsAdditional.seconds)
+    value = generateBulletsTextFunction(helicopterState.CannonsAdditional.count, helicopterState.CannonsAdditional.seconds, timeToTargetDummy)
     valuesWatched = [
       helicopterState.CannonsAdditional.count,
       helicopterState.CannonsAdditional.seconds,
@@ -849,19 +653,21 @@ local textParamsMap = {
   },
   [HelicopterParams.ROCKET] = {
     title = @() ::loc("HUD/RKT")
-    value = generateBulletsTextFunction(helicopterState.Rockets.count, helicopterState.Rockets.seconds)
+    value = generateBulletsTextFunction(helicopterState.Rockets.count, helicopterState.Rockets.seconds, timeToTargetDummy)
     valuesWatched = [helicopterState.Rockets.count, helicopterState.Rockets.seconds, helicopterState.IsRktEmpty]
     alertWatched = helicopterState.IsRktEmpty
   },
   [HelicopterParams.AGM] = {
-    title = @() ::loc("HUD/AGM_SHORT")
-    value = generateBulletsTextFunction(helicopterState.Agm.count, helicopterState.Agm.seconds)
-    valuesWatched = [helicopterState.Agm.count, helicopterState.Agm.seconds, helicopterState.IsAgmEmpty]
+    title = @() getAGCaption()
+    value = @() getAGBullets()
+    titleWatched = helicopterState.AgmGuidanceLockState
+    valuesWatched = [helicopterState.Agm.count, helicopterState.Agm.seconds, helicopterState.Agm.timeToTarget,
+      helicopterState.IsAgmEmpty, helicopterState.AgmGuidanceLockState]
     alertWatched = helicopterState.IsAgmEmpty
   },
   [HelicopterParams.BOMBS] = {
     title = @() ::loc("HUD/BOMBS_SHORT")
-    value = generateBulletsTextFunction(helicopterState.Bombs.count, helicopterState.Bombs.seconds)
+    value = generateBulletsTextFunction(helicopterState.Bombs.count, helicopterState.Bombs.seconds, timeToTargetDummy)
     valuesWatched = [helicopterState.Bombs.count, helicopterState.Bombs.seconds, helicopterState.IsBmbEmpty]
     alertWatched = helicopterState.IsBmbEmpty
   },
@@ -872,15 +678,15 @@ local textParamsMap = {
   },
   [HelicopterParams.AAM] = {
     title = @() getAACaption()
-    value = @() helicopterState.GuidanceLockState.value != GuidanceLockResult.RESULT_INVALID ? getAABullets() : ""
-    titleWatched = helicopterState.GuidanceLockState
+    value = @() helicopterState.AamGuidanceLockState.value != GuidanceLockResult.RESULT_INVALID ? getAABullets() : ""
+    titleWatched = helicopterState.AamGuidanceLockState
     valuesWatched = [helicopterState.Aam.count, helicopterState.Aam.seconds, helicopterState.IsAamEmpty,
-      helicopterState.GuidanceLockState]
+      helicopterState.AamGuidanceLockState]
     alertWatched = helicopterState.IsAamEmpty
   },
   [HelicopterParams.FLARES] = {
     title = @() ::loc("HUD/FLARES_SHORT")
-    value = generateBulletsTextFunction(helicopterState.Flares.count, helicopterState.Flares.seconds)
+    value = generateBulletsTextFunction(helicopterState.Flares.count, helicopterState.Flares.seconds, timeToTargetDummy)
     valuesWatched = [helicopterState.Flares.count, helicopterState.Flares.seconds, helicopterState.IsFlrEmpty]
     alertWatched = helicopterState.IsFlrEmpty
   },
@@ -1000,6 +806,36 @@ local lockSightComponent = function(elemStyle, isBackground) {
   }
 }
 
+local laserDesignator = function(line_style, width, height, isBackground) {
+  local hl = 5
+  local vl = 7
+
+  return @() line_style.__merge({
+    rendObj = ROBJ_VECTOR_CANVAS
+    size = [width, height]
+    watch = helicopterState.IsAgmEmpty
+    color = !isBackground && helicopterState.IsAgmEmpty.value ? helicopterState.AlertColor.value : getColor(isBackground)
+    commands = [
+      [VECTOR_LINE, 50 - hl, 50 - vl, 50 + hl, 50 - vl],
+      [VECTOR_LINE, 50 - hl, 50 + vl, 50 + hl, 50 + vl],
+      [VECTOR_LINE, 50 - hl, 50 - vl, 50 - hl, 50 + vl],
+      [VECTOR_LINE, 50 + hl, 50 - vl, 50 + hl, 50 + vl],
+    ]
+  })
+}
+
+local laserDesignatorComponent = function(elemStyle, isBackground) {
+  local width = hdpx(150)
+  local height = hdpx(100)
+
+  return @() {
+    pos = [sw(50) - width * 0.5, sh(50) - height * 0.5]
+    watch = helicopterState.IsLaserDesignatorEnabled
+    opacity = helicopterState.IsLaserDesignatorEnabled.value ? 100 : 0
+    size = SIZE_TO_CONTENT
+    children = laserDesignator(elemStyle, width, height, isBackground)
+  }
+}
 
 local sight = function(line_style, height, isBackground) {
   local longL = 22
@@ -1041,7 +877,7 @@ local sightComponent = function(elemStyle, isBackground) {
   }
 }
 
-local rangeFinderComponent = function(elemStyle, isBackground) {
+local function rangeFinderComponent(elemStyle, isBackground) {
   local rangefinder = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
     halign = HALIGN_CENTER
@@ -1061,8 +897,27 @@ local rangeFinderComponent = function(elemStyle, isBackground) {
   return resCompoment
 }
 
+local function laserDesignatorStatusComponent(elemStyle, isBackground) {
+  local laserDesignatorStatus = @() elemStyle.__merge({
+    rendObj = ROBJ_DTEXT
+    halign = HALIGN_CENTER
+    text = ::loc("HUD/TXT_LASER_DESIGNATOR")
+    opacity = helicopterState.IsLaserDesignatorEnabled.value ? 100 : 0
+    watch = [helicopterState.RangefinderDist, helicopterState.IsLaserDesignatorEnabled]
+    color = getColor(isBackground)
+  })
 
-local compassComponent = function(elemStyle, isBackground) {
+  local resCompoment = @() {
+    pos = [sw(50), sh(39)]
+    halign = HALIGN_CENTER
+    size = [0, 0]
+    children = laserDesignatorStatus
+  }
+
+  return resCompoment
+}
+
+local function compassComponent(elemStyle, isBackground) {
   local color = getColor(isBackground)
   local getChildren = @() helicopterState.IsCompassVisible.value ? compass(elemStyle, compassWidth, compassHeight, color) : null
 
@@ -1076,77 +931,79 @@ local compassComponent = function(elemStyle, isBackground) {
 }
 
 
-local helicopterMainHud = function(style, isBackground) {
+local function helicopterMainHud(elemStyle, isBackground) {
   return @(){
     watch = helicopterState.IsMainHudVisible
     children = helicopterState.IsMainHudVisible.value
     ? [
-      HelicopterRocketAim(style, isBackground)
-      HelicopterAamAimGimbal(style, isBackground)
-      HelicopterAamAimTracker(style, isBackground)
-      HelicopterGunDirection(style, isBackground)
-      HelicopterFixedGunsDirection(style, isBackground)
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
-      HelicopterHorizontalSpeedComponent(style, isBackground)
-      helicopterParamsTable(style, isBackground)
-      compassComponent(style, isBackground)
+      HelicopterRocketAim(elemStyle, isBackground)
+      HelicopterAamAimGimbal(elemStyle, isBackground)
+      HelicopterAamAimTracker(elemStyle, isBackground)
+      HelicopterGunDirection(elemStyle, isBackground)
+      HelicopterFixedGunsDirection(elemStyle, isBackground)
+      HelicopterVertSpeed(elemStyle, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
+      HelicopterHorizontalSpeedComponent(elemStyle, isBackground)
+      helicopterParamsTable(elemStyle, isBackground)
+      compassComponent(elemStyle, isBackground)
     ]
     : null
   }
 }
 
 
-local helicopterSightHud = function (style, isBackground) {
+local function helicopterSightHud(elemStyle, isBackground) {
   return @(){
     watch = helicopterState.IsSightHudVisible
     children = helicopterState.IsSightHudVisible.value
     ? [
-      HelicopterVertSpeed(style, sh(3.6), sh(30), sw(50) + hdpx(384), isBackground)
-      turretAnglesComponent(style, isBackground)
-      helicopterSightParamsTable(style, isBackground)
-      lockSightComponent(style, isBackground)
-      sightComponent(style, isBackground)
-      rangeFinderComponent(style, isBackground)
-      compassComponent(style, isBackground)
+      HelicopterVertSpeed(elemStyle, sh(3.6), sh(30), sw(50) + hdpx(384), isBackground)
+      turretAnglesComponent(elemStyle, isBackground)
+      helicopterSightParamsTable(elemStyle, isBackground)
+      lockSightComponent(elemStyle, isBackground)
+      laserDesignatorComponent(elemStyle, isBackground)
+      sightComponent(elemStyle, isBackground)
+      rangeFinderComponent(elemStyle, isBackground)
+      laserDesignatorStatusComponent(elemStyle, isBackground)
+      compassComponent(elemStyle, isBackground)
     ]
     : null
   }
 }
 
 
-local gunnerHud = function (style, isBackground) {
+local function gunnerHud(elemStyle, isBackground) {
   return @(){
     watch = helicopterState.IsGunnerHudVisible
     children = helicopterState.IsGunnerHudVisible.value
     ? [
-      HelicopterRocketAim(style, isBackground)
-      HelicopterAamAimGimbal(style, isBackground)
-      HelicopterAamAimTracker(style, isBackground)
-      HelicopterGunDirection(style, isBackground)
-      HelicopterFixedGunsDirection(style, isBackground)
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
-      helicopterParamsTable(style, isBackground)
+      HelicopterRocketAim(elemStyle, isBackground)
+      HelicopterAamAimGimbal(elemStyle, isBackground)
+      HelicopterAamAimTracker(elemStyle, isBackground)
+      HelicopterGunDirection(elemStyle, isBackground)
+      HelicopterFixedGunsDirection(elemStyle, isBackground)
+      HelicopterVertSpeed(elemStyle, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
+      helicopterParamsTable(elemStyle, isBackground)
     ]
     : null
   }
 }
 
 
-local pilotHud = function (style, isBackground) {
+local function pilotHud(elemStyle, isBackground) {
   return @(){
     watch = helicopterState.IsPilotHudVisible
     children = helicopterState.IsPilotHudVisible.value
     ? [
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
-      helicopterParamsTable(style, isBackground)
+      HelicopterVertSpeed(elemStyle, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
+      helicopterParamsTable(elemStyle, isBackground)
     ]
     : null
   }
 }
 
 
-local rwrComponent = function (style, isBackground) {
-  local styleRwr = style.__merge({
+local function rwrComponent(elemStyle, isBackground) {
+  local styleRwr = elemStyle.__merge({
     color = isBackground ? backgroundColor : helicopterState.AlertColor.value
     fontScale = getFontScale() * 0.7
   })
@@ -1154,7 +1011,7 @@ local rwrComponent = function (style, isBackground) {
 }
 
 
-local helicopterHUDs = function (colorStyle, isBackground) {
+local function helicopterHUDs(colorStyle, isBackground) {
   return [
     helicopterMainHud(colorStyle, isBackground)
     helicopterSightHud(colorStyle, isBackground)

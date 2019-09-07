@@ -1,3 +1,4 @@
+local Color = ::Color
 /* Collection of all 'standard' ui widgets
   you can use it:
     this.__update(require("daRg/components/std.nut"))

@@ -44,7 +44,7 @@ function OnlineShopModel::showGoods(searchRequest)
 
   __assyncActionWrap(function ()
     {
-      local searchResult = __searchEntitlement(searchRequest)
+      local searchResult = searchEntitlement(searchRequest)
       foreach (goodsName in searchResult)
       {
         if (::is_platform_xboxone)
@@ -87,9 +87,7 @@ function OnlineShopModel::getPriceBlk()
 function OnlineShopModel::__assyncActionWrap(action)
 {
   local isActual = ::configs.ENTITLEMENTS_PRICE.checkUpdate(
-    ::Callback((@(action) function () {
-      action && action()
-    })(action), this)
+    action ? (@() action()).bindenv(this) : null
     null,
     true,
     false
@@ -121,7 +119,7 @@ function OnlineShopModel::isEntitlement(name)
   return false
 }
 
-function OnlineShopModel::__searchEntitlement(searchRequest)
+function OnlineShopModel::searchEntitlement(searchRequest)
 {
   local result = []
   if (!searchRequest || typeof searchRequest != "table")
@@ -307,14 +305,14 @@ function OnlineShopModel::doBrowserPurchase(goodsName)
 
 function OnlineShopModel::doBrowserPurchaseByGuid(guid, dbgGoodsName = "")
 {
-  if (::steam_is_running()) //temporary use old code pass for steam
+  if (::steam_is_running() && ::check_account_tag("steam")) //temporary use old code pass for steam
   {
-    local response = ::shell_purchase_in_browser(guid);
+    local response = ::shell_purchase_in_steam(guid);
     if (response > 0)
     {
       local errorText = ::get_yu2_error_text(response)
       ::showInfoMsgBox(errorText, "errorMessageBox")
-      dagor.debug("shell_purchase_in_browser have returned " + response + " with guid/" + dbgGoodsName)
+      dagor.debug("shell_purchase_in_steam have returned " + response + " with guid/" + dbgGoodsName)
     }
     return
   }
@@ -636,7 +634,7 @@ function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
   if (::isInArray(chapter, [null, ""]))
   {
     local webStoreUrl = ::loc("url/webstore", "")
-    if (::steam_is_running())
+    if (::steam_is_running() && ::check_account_tag("steam"))
       webStoreUrl = ::format(::loc("url/webstore/steam"), ::steam_get_my_id())
 
     if (webStoreUrl != "")

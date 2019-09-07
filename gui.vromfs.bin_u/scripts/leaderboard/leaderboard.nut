@@ -1,5 +1,4 @@
 local time = require("scripts/time.nut")
-local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
 
@@ -143,7 +142,13 @@ function gui_modal_event_leaderboards(eventId = null)
 
     //trigging callback if data is lready here
     if(leaderboardData && compareRequests(lastRequestData, requestData))
-      return context ? callback.call(context, leaderboardData) : callback(leaderboardData)
+    {
+      if (context)
+        callback.call(context, leaderboardData)
+      else
+        callback(leaderboardData)
+      return
+    }
 
     requestData.callBack <- ::Callback(callback, context)
     loadLeaderboard(requestData)
@@ -161,7 +166,13 @@ function gui_modal_event_leaderboards(eventId = null)
 
     //trigging callback if data is lready here
     if(selfRowData && compareRequests(lastRequestSRData, requestData))
-      return context ? callback.call(context, selfRowData) : callback(selfRowData)
+    {
+      if (context)
+        callback.call(context, selfRowData)
+      else
+        callback(selfRowData)
+      return
+    }
 
     requestData.callBack <- ::Callback(callback, context)
     loadSeflRow(requestData)
@@ -372,13 +383,13 @@ function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, para
  */
 function getLeaderboardItemWidgets(view)
 {
-  return ::handyman.renderCached("gui/leaderboardItemWidget", view)
+  return ::handyman.renderCached("gui/leaderboard/leaderboardItemWidget", view)
 }
 
 class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/leaderboard.blk"
+  sceneBlkName = "gui/leaderboard/leaderboard.blk"
 
   lbType        = ::ETTI_VALUE_INHISORY
   curLbCategory = null
@@ -392,7 +403,6 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   pos         = 0
   rowsInPage  = 16
-  isLastPage  = false
   maxRows     = 1000
 
   request = {
@@ -406,6 +416,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
   selfRowData = null
 
   afterLoadSelfRow = null
+  tableWeak = null
 
   function initScreen()
   {
@@ -423,8 +434,9 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     curLbCategory = lb_presets[0]
     lbType = ::loadLocalByAccount("leaderboards_type", ::ETTI_VALUE_INHISORY)
     pos = 0
-    rowsInPage  = 16
+    rowsInPage = 16
 
+    initTable()
     initModes()
     initTopItems()
     fetchLbData()
@@ -499,6 +511,13 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       btn_clan_info = showClan
       btn_membership_req = showClan && !::is_in_clan() && ::clan_get_requested_clan_id() != getLbClanUid(rowData)
     })
+
+    updateWwRewardsButton()
+  }
+
+  function updateWwRewardsButton()
+  {
+    showSceneBtn("btn_ww_rewards", false)
   }
 
   function getLbPlayerUid(rowData)
@@ -532,7 +551,10 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUserDblClick()
   {
-    forClans ? onClanInfo() : onUserCard()
+    if (forClans)
+      onClanInfo()
+    else
+      onUserCard()
   }
 
   function onUserRClick()
@@ -557,6 +579,10 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       uid = getLbPlayerUid(rowData)
       canInviteToChatRoom = false
     })
+  }
+
+  function onRewards()
+  {
   }
 
   function onClanInfo()
@@ -660,9 +686,28 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
   {
     return false
   }
+
+  function onDaySelect(obj)
+  {
+  }
   //----END_CONTROLLER----//
 
   //----VIEW----//
+  function initTable()
+  {
+    tableWeak = ::gui_handlers.LeaderboardTable.create({
+      scene = scene.findObject("lb_table_nest")
+      rowsInPage = rowsInPage
+      onCategoryCb = ::Callback(onCategory, this)
+      onRowSelectCb = ::Callback(onSelect, this)
+      onRowDblClickCb = ::Callback(onUserDblClick, this)
+      onRowRClickCb = ::Callback(onUserRClick, this)
+      onWrapUpCb = ::Callback(onWrapUp, this)
+      onWrapDownCb = ::Callback(onWrapDown, this)
+    }).weakref()
+    registerSubHandler(tableWeak)
+  }
+
   function initModes()
   {
     lbMode      = ""
@@ -707,32 +752,37 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local tplView = getTopItemsTplView()
-    local data = ::handyman.renderCached("gui/leaderboardTopItem", tplView)
+    local data = ::handyman.renderCached("gui/leaderboard/leaderboardTopItem", tplView)
 
     guiScene.replaceContentFromText(holder, data, data.len(), this)
   }
 
   function fetchLbData(isForce = false)
   {
+    if (tableWeak)
+      tableWeak.showLoadingAnimation()
+
     lbField = curLbCategory.field
     lbModel.getSelfRow(
-                      prepareRequest(),
-                      function (self_row_data)
-                      {
-                        selfRowData = self_row_data
-                        if(!selfRowData)
-                          return
-                        if(afterLoadSelfRow)
-                          afterLoadSelfRow(getSelfPos())
-                        afterLoadSelfRow = null
-                        lbModel.getLeaderboard(prepareRequest(),
-                                              function (leaderboard_data) {
-                                                pageData = leaderboard_data
-                                                fillLeaderboard(pageData)
-                                              },
-                                              this)
-                      },
-                      this)
+      prepareRequest(),
+      function (self_row_data)
+      {
+        selfRowData = self_row_data
+        if(!selfRowData)
+          return
+
+        if(afterLoadSelfRow)
+          afterLoadSelfRow(getSelfPos())
+
+        afterLoadSelfRow = null
+        lbModel.getLeaderboard(prepareRequest(),
+          function (leaderboard_data) {
+            pageData = leaderboard_data
+            fillLeaderboard(pageData)
+          },
+          this)
+      },
+      this)
   }
 
   function getLbRows()
@@ -740,137 +790,45 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     return ::getTblValue("rows", pageData, [])
   }
 
-  function fillLeaderboard(pageData)
+  function fillLeaderboard(pgData)
   {
     if (!::checkObj(scene))
       return
-    local lbWrapObj = scene.findObject("lb_wrap")
-    local lbTable = lbWrapObj.findObject("lb_table")
-    local lbWaitBox = lbWrapObj.findObject("msgWaitAnimation")
-    local noLbText = lbWrapObj.findObject("no_leaderboads_text")
-
-    local tableData = ""
-    isLastPage = false
 
     local lbRows = getLbRows()
-
-    local showHeader = pageData != null
+    local showHeader = pgData != null
     local showTable = (pos > 0 || lbRows.len() > 0) && selfRowData != null
 
-    lbWaitBox.show(!showTable && !pageData)
-    noLbText.show(!showTable && pageData)
-
-    local data = ""
-
-    if (showHeader)
+    if (tableWeak)
     {
-      local headerRow = [{ text = "#multiplayer/place", width = "0.1@sf"},
-                         { text = forClans ? "#clan/clan_name" : "#multiplayer/name", tdAlign = "center" }
-                        ]
-      foreach(lbCategory in lb_presets)
-      {
-        if (!lbModel.checkLbRowVisibility(lbCategory, this))
-          continue
-        local block = {
-          id = lbCategory.id
-          image = lbCategory.headerImage
-          tooltip = lbCategory.headerTooltip
-          needText = false
-          active = curLbCategory == lbCategory
-          callback = "onCategory"
-        }
-        headerRow.append(block)
-      }
-      data += buildTableRow("row_header", headerRow, null, "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; ")
+      tableWeak.updateParams(lbModel, lb_presets, curLbCategory, this, forClans)
+      tableWeak.fillTable(lbRows, selfRowData, getSelfPos(), showHeader, showTable)
     }
 
     if (showTable)
-    {
-      local rowIdx = 0
-      foreach(row in lbRows)
-        data += generateRowTableData(row, rowIdx++)
-
-      if (rowIdx < rowsInPage)
-      {
-        for(local i = rowIdx; i<rowsInPage; i++)
-          data += buildTableRow("row_"+i, [], i%2==0, "inactive:t='yes';")
-        isLastPage = true
-      }
-
-      data += generateSelfRow()
-    }
-
-    guiScene.replaceContentFromText(lbTable, data, data.len(), this)
-
-    if (showTable)
-    {
-      lbTable.select()
       fillPagintator()
-      onSelect()
-    }
     else
     {
       ::hidePaginator(scene.findObject("paginator_place"))
       updateButtons()
     }
 
-    fillAdditionalLeaderboardInfo(pageData)
+    fillAdditionalLeaderboardInfo(pgData)
   }
 
-  function fillAdditionalLeaderboardInfo(pageData)
+  function fillAdditionalLeaderboardInfo(pgData)
   {
-  }
-
-  function generateRowTableData(row, rowIdx)
-  {
-    local rowName = "row_" + rowIdx
-    local rowData = [
-      {
-        text = row.pos >= 0 ? (row.pos + 1).tostring() : ::loc("leaderboards/notAvailable")
-      }
-      {
-        id = "name"
-        tdAlign = "left"
-        text = platformModule.getPlayerName(row?.name ?? "")
-      }
-    ]
-    foreach(lbCategory in lb_presets)
-    {
-      if (!lbModel.checkLbRowVisibility(lbCategory, this))
-        continue
-
-      rowData.append(getItemCell(lbCategory, row))
-    }
-    local highlightRow = getSelfPos() == row.pos && row.pos >= 0
-    local data = buildTableRow(rowName, rowData, rowIdx % 2 == 0, highlightRow ? "mainPlayer:t='yes';" : "")
-    return data
-  }
-
-  function getItemCell(lbCategory, row)
-  {
-    local value = lbCategory.field in row ? row[lbCategory.field] : 0
-    local res = lbCategory.getItemCell(value, row)
-    res.active <- curLbCategory == lbCategory
-    return res
-  }
-
-  function generateSelfRow()
-  {
-    if (!selfRowData || selfRowData.len() <= 0)
-      return ""
-    local emptyRow = buildTableRow("row_"+rowsInPage, ["..."], null, "inactive:t='yes'; commonTextColor:t='yes'; style:t='height:0.7@leaderboardTrHeight;'; ")
-    return emptyRow + generateRowTableData(selfRowData[0], rowsInPage+1)
   }
 
   function fillPagintator()
   {
     local nestObj = scene.findObject("paginator_place")
     local curPage = (pos / rowsInPage).tointeger()
-    if(isLastPage && (curPage == 0))
+    if (tableWeak.isLastPage && (curPage == 0))
       ::hidePaginator(nestObj)
     else
     {
-      local lastPageNumber = curPage + (isLastPage? 0 : 1)
+      local lastPageNumber = curPage + (tableWeak.isLastPage ? 0 : 1)
       local myPlace = getSelfPos()
       local myPage = myPlace >= 0 ? floor(myPlace / rowsInPage) : null
       ::generatePaginator(nestObj, this, curPage, lastPageNumber, myPage)
@@ -905,8 +863,8 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
       ? ::g_lb_category.getTypeByField(sortLeaderboard)
       : ::events.getTableConfigShortRowByEvent(eventData)
 
+    initTable()
     initTopItems()
-
     fetchLbData()
 
     local headerName = scene.findObject("lb_name")
@@ -920,7 +878,8 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
   {
     local res = {
       updateTime = [
-        dummy = 1
+        {
+        }
       ]
     }
     return res

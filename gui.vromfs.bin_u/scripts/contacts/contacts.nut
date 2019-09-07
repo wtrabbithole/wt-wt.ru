@@ -1,10 +1,5 @@
 local platformModule = require("scripts/clientState/platform.nut")
-
-enum contactEvent
-{
-  CONTACTS_UPDATED = "ContactsUpdated"
-  CONTACTS_GROUP_UPDATE = "ContactsGroupUpdate"
-}
+local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
 ::contacts_handler <- null
 ::ps4_console_friends <- {}
@@ -39,11 +34,7 @@ enum contactEvent
 }
 */
 
-::g_contacts <- {
-  [PERSISTENT_DATA_PARAMS] = ["isInitedXboxContacts"]
-
-  isInitedXboxContacts = false
-}
+::g_contacts <- {}
 
 foreach (fn in [
     "contactPresence.nut"
@@ -76,165 +67,20 @@ function g_contacts::onEventUpdateExternalsIDs(params)
   ::updateContact(config)
 }
 
-function g_contacts::updateContactXBoxPresence(xboxId, isAllowed)
-{
-  local contact = ::findContactByXboxId(xboxId)
-  if (!contact)
-    return
-
-  local forceOffline = !isAllowed
-  if (contact.forceOffline == forceOffline && contact.isForceOfflineChecked)
-    return
-
-  ::updateContact({
-    uid = contact.uid
-    forceOffline = forceOffline
-    isForceOfflineChecked = true
-  })
-}
-
-function g_contacts::updateXboxOneFriends(needIgnoreInitedFlag = false)
-{
-  if (!::is_platform_xboxone || !::isInMenu())
-  {
-    if (needIgnoreInitedFlag && isInitedXboxContacts)
-      isInitedXboxContacts = false
-    return
-  }
-
-  if (!needIgnoreInitedFlag && isInitedXboxContacts)
-    return
-
-  isInitedXboxContacts = true
-  ::g_contacts.xboxFetchContactsList()
-}
-
-function g_contacts::proceedXboxPlayersListFromCallback(playersList, group)
-{
-  local broadcastEventName = group == ::EPL_FRIENDLIST
-    ? "FriendsXboxContactsUpdated"
-    : "BlockListXboxContactsUpdated"
-
-  local knownUsers = {}
-  for (local i = playersList.len() - 1; i >= 0; i--)
-  {
-    local contact = ::findContactByXboxId(playersList[i])
-    if (contact)
-    {
-      knownUsers[contact.uid] <- {
-        nick = contact.name
-        id = playersList.remove(i)
-      }
-    }
-  }
-
-  if (!playersList.len())
-  {
-    //Need to update contacts list, because empty list - means no users,
-    //and returns -1, for not to send empty array to char.
-    //So, contacts list must be cleared in this case from xbox users.
-    //Send knownUsers if we already have all required data,
-    //playersList is not empty and no need to
-    //request char-server for known data.
-    ::broadcastEvent(broadcastEventName, knownUsers)
-    return
-  }
-
-  local taskId = ::xbox_find_friends(playersList)
-  ::g_tasker.addTask(taskId, null, function() {
-      local blk = ::DataBlock()
-      blk = ::xbox_find_friends_result()
-
-      local table = ::buildTableFromBlk(blk)
-      table.__update(knownUsers)
-      ::broadcastEvent(broadcastEventName, table)
-    }.bindenv(this)
-  )
-}
-
-function g_contacts::onEventXboxSystemUIReturn(params)
-{
-  if (!::g_login.isLoggedIn())
-    return
-
-  updateXboxOneFriends(true)
-}
-
-function g_contacts::xboxFetchContactsList()
-{
-  //Because update contacts better make consistent,
-  //make separate function, to call it where update required
-  //first called friends update, after it - blacklist.
-  ::xbox_get_people_list_async()
-}
-
-function g_contacts::onEventContactsUpdated(params)
-{
-  if (!::is_platform_xboxone)
-    return
-
-  local xboxContactsToCheck = ::u.filter(::contacts_players, @(contact) contact.needCheckForceOffline())
-  foreach (contact in xboxContactsToCheck)
-  {
-    if (contact.xboxId != "")
-      ::can_view_target_presence(contact.xboxId)
-    else
-      contact.getXboxId(@() ::can_view_target_presence(contact.xboxId))
-  }
-
-  updateXboxOneFriends()
-}
-
-function g_contacts::onEventSignOut(p)
-{
-  isInitedXboxContacts = false
-}
-
-function g_contacts::onEventFriendsXboxContactsUpdated(p)
-{
-  ::g_contacts.xboxUpdateContactsList(p, ::EPL_FRIENDLIST)
-}
-
-function g_contacts::onEventBlockListXboxContactsUpdated(p)
-{
-  ::g_contacts.xboxUpdateContactsList(p, ::EPL_BLOCKLIST)
-}
-
 function g_contacts::removeContactGroup(group)
 {
   ::u.removeFrom(::contacts, group)
   ::u.removeFrom(::contacts_groups, group)
 }
 
-function g_contacts::xboxUpdateContactsList(p, group)
+function g_contacts::removeContact(uid, group)
 {
-  local friendsTable = clone p
-  local existedXBoxContacts = ::get_contacts_array_by_regexp(group, platformModule.xboxNameRegexp)
-  for (local i = existedXBoxContacts.len() - 1; i >= 0; i--)
-  {
-    if (existedXBoxContacts[i].uid in friendsTable)
-    {
-      local contact = existedXBoxContacts.remove(i)
-      delete friendsTable[contact.uid]
-    }
-  }
+  local uidIdx = ::u.searchIndex(::contacts[group], @(p) p.uid == uid)
+  if (uidIdx >= 0)
+    ::contacts[group].remove(uidIdx)
 
-  local xboxFriendsList = []
-  foreach(uid, data in friendsTable)
-  {
-    local contact = ::getContact(uid, data.nick)
-    contact.update({xboxId = data.id})
-    xboxFriendsList.append(contact)
-  }
-
-  local requestTable = {}
-  requestTable[true] <- xboxFriendsList //addList
-  requestTable[false] <- existedXBoxContacts //removeList
-
-  ::edit_players_list_in_contacts(requestTable, group)
-
-  //To remove players from opposite group
-  ::edit_players_list_in_contacts({[false] = xboxFriendsList}, group == ::EPL_FRIENDLIST? ::EPL_BLOCKLIST : ::EPL_FRIENDLIST)
+  if (::g_contacts.isFriendsGroupName(group))
+    ::clearContactPresence(uid)
 }
 
 function g_contacts::getPlayerFullName(name, clanTag = "", addInfo = "")
@@ -242,6 +88,10 @@ function g_contacts::getPlayerFullName(name, clanTag = "", addInfo = "")
   return ::g_string.implode([::has_feature("Clans")? clanTag : "", name, addInfo], " ")
 }
 
+function g_contacts::isFriendsGroupName(group)
+{
+  return group == ::EPLX_PS4_FRIENDS || group == ::EPL_FRIENDLIST
+}
 
 ::missed_contacts_data <- {}
 
@@ -543,7 +393,7 @@ function loadContactsToObj(obj, owner=null)
 
   local guiScene = obj.getScene()
   if (!::contacts_handler)
-    ::contacts_handler <- ::ContactsHandler(guiScene)
+    ::contacts_handler = ::ContactsHandler(guiScene)
   ::contacts_handler.owner = owner
   ::contacts_handler.initScreen(obj)
 }
@@ -639,22 +489,21 @@ function updateContact(config)
   if (::u.isInstance(config) && !configIsContact) //Contact no need update by instances because foreach use function as so constructor
   {
     ::script_net_assert_once("strange config for contact update", "strange config for contact update")
-    return
+    return null
   }
 
-  local needReset = config?.needReset ?? false
   local uid = config.uid
   local contact = ::getContact(uid, config?.name)
   if (!contact)
-    return
+    return null
 
   //when config is instance of contact we no need update it to self
   if (!configIsContact)
   {
-    if (needReset)
+    if (config?.needReset ?? false)
       contact.resetMatchingParams()
-    else
-      contact.update(config)
+
+    contact.update(config)
   }
 
   //update presence
@@ -869,8 +718,11 @@ function add_squad_to_contacts()
 if (!::contacts)
   clear_contacts()
 
-::g_script_reloader.registerPersistentDataFromRoot("g_contacts")
 ::subscribe_handler(::g_contacts, ::g_listener_priority.DEFAULT_HANDLER)
 
-::can_view_target_presence_callback <- ::g_contacts.updateContactXBoxPresence
 ::xbox_on_returned_from_system_ui <- @() ::broadcastEvent("XboxSystemUIReturn")
+
+::can_view_target_presence_callback <- xboxContactsManager.updateContactXBoxPresence
+::xbox_on_add_remove_friend_closed <- xboxContactsManager.xboxOverlayContactClosedCallback
+::xbox_get_people_list_callback <- @(list) xboxContactsManager.onReceivedXboxListCallback(list, ::EPL_FRIENDLIST)
+::xbox_get_avoid_list_callback <- @(list) xboxContactsManager.onReceivedXboxListCallback(list, ::EPL_BLOCKLIST)

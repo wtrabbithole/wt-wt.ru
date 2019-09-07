@@ -489,6 +489,7 @@
     "sound": {
       "EngineName": "engine_chaffee_m24",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_light",
       "TrackSoundNameCockpit": "tracks_light_interior",
       "EngineNameAi": "engine_tank_ai_light",
@@ -1056,6 +1057,15 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -1171,6 +1181,15 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 800.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
             "kill": true,
             "killEffect": "fire"
           }

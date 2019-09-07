@@ -81,10 +81,10 @@ class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiH
       ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
   }
 
-  function createEntitlementsView(purchases)
+  function createEntitlementsView(purchasesList)
   {
     local view = []
-    foreach (i, purchase in purchases)
+    foreach (i, purchase in purchasesList)
     {
       local entitlementItem = ::get_entitlement_config(purchase.sourceEntitlement)
       local entitlementPrice = getEntitlementPrice(entitlementItem)
@@ -133,7 +133,7 @@ class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiH
     {
       basePrice = priceText.tofloat()
     }
-    catch (error)
+    catch (err)
     {
       return formatPrice("0")
     }

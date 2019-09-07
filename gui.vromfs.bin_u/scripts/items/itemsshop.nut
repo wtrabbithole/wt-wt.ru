@@ -258,8 +258,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (itemsPerPage >= 1)
       return
 
-    local sizes = ::g_dagui_utils.adjustWindowSize(scene.findObject("wnd_items_shop"), getItemsListObj(),
-                                                   "@itemWidth", "@itemHeight", "@itemSpacing", "@itemSpacing")
+    local wndItemsShopObj = scene.findObject("wnd_items_shop")
+    local sizes = ::g_dagui_utils.adjustWindowSize(wndItemsShopObj, getItemsListObj(),
+      "@itemWidth", "@itemHeight", "@itemSpacing", "@itemSpacing", { windowSizeY = 0 })
+    scene.findObject("main_block").height = sizes.sizeY * sizes.itemsCountY //need const height of items list after resize
+      + (sizes.itemsCountY + 1) * sizes.spaceY
     itemsPerPage = sizes.itemsCountX * sizes.itemsCountY
   }
 
@@ -419,11 +422,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventInventoryUpdate(p)
   {
-    if (curTab != itemsTab.SHOP)
-    {
-      itemsListValid = false
-      applyFilters(false)
-    }
+    updateInventoryItemsList()
   }
 
   function onEventUnitBought(params)
@@ -440,7 +439,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     local obj = getItemsListObj()
     if (!::check_obj(obj))
-      return
+      return null
 
     return itemsList?[obj.getValue() + curPage * itemsPerPage]
   }
@@ -501,6 +500,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       buttonObj.inactiveColor = mainActionData?.isInactive ? "yes" : "no"
       ::setDoubleTextToButton(scene, "btn_main_action", mainActionData.btnName,
                               mainActionData?.btnColoredName || mainActionData.btnName)
+      updateConsoleImage(buttonObj)
     }
 
     local activateText = !showMainAction && item?.isInventoryItem && item.amount ? item.getActivateInfo() : ""
@@ -508,7 +508,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_preview", item ? (item.canPreview() && ::isInMenu()) : false)
 
     local altActionText = item ? item.getAltActionName() : ""
-    local actionBtn = showSceneBtn("btn_alt_action", altActionText != "")
+    showSceneBtn("btn_alt_action", altActionText != "")
     ::set_double_text_to_button(scene, "btn_alt_action", altActionText)
 
     local warningText = ""
@@ -564,22 +564,14 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     item = item || getCurItem()
     obj = obj || getCurItemObj()
-    if (item != null)
-    {
-      item.doMainAction(function(result) { this && onMainActionComplete(result) }.bindenv(this),
-                        this,
-                        { obj = obj })
-      markItemSeen(item)
-    }
-  }
+    if (item == null)
+      return
 
-  function onMainActionComplete(result)
-  {
-    if (!::checkObj(scene))
-      return false
-    if (result.success)
-      updateItemInfo()
-    return result.success
+    item.doMainAction(
+      ::Callback(@(result) updateItemInfo(), this),
+      this,
+      { obj = obj })
+    markItemSeen(item)
   }
 
   function onAltAction(obj)
@@ -726,6 +718,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function onEventProfileUpdated(p)
   {
     updateWarbondsBalance()
+    updateInventoryItemsList()
   }
 
   //dependence by blk
@@ -737,4 +730,25 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
   }
 
+  function updateInventoryItemsList()
+  {
+    if (curTab != itemsTab.SHOP)
+    {
+      itemsListValid = false
+      applyFilters(false)
+    }
+  }
+
+  function onItemsListFocusChange()
+  {
+    if (!isValid())
+      return
+
+    updateConsoleImage(scene.findObject("btn_main_action"))
+  }
+
+  function updateConsoleImage(buttonObj)
+  {
+    buttonObj.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
+  }
 }

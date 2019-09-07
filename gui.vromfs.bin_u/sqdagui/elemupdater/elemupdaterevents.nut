@@ -1,5 +1,4 @@
 local stdSubscriptions = require("sqStdLibs/helpers/subscriptions.nut")
-local Callback = ::require("sqStdLibs/helpers/callback.nut").Callback
 local function isArray(v) {return type(v)=="array"}
 
 const SUBSCRPTIONS_LIST_ID = -123

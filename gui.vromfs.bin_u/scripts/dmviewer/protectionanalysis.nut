@@ -37,6 +37,7 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 
     ::enableHangarControls(true)
     ::dmViewer.init(this)
+    ::hangar_focus_model(true)
     guiScene.performDelayed(this, @() ::hangar_set_dm_viewer_mode(protectionAnalysisMode))
     setSceneTitle(::loc("mainmenu/btnProtectionAnalysis") + " " +
       ::loc("ui/mdash") + " " + ::getUnitName(unit.name))
@@ -85,6 +86,7 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 
   function goBack()
   {
+    ::hangar_focus_model(false)
     ::hangar_set_dm_viewer_mode(::DM_VIEWER_NONE)
     base.goBack()
   }

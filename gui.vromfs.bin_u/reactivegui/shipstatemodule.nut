@@ -9,8 +9,6 @@ local mathEx = require("std/math.nut")
 const STATE_ICON_MARGIN = 1
 const STATE_ICON_SIZE = 54
 
-const max_dost = 5
-
 local machineDirectionLoc = [
   ::loc("HUD/ENGINE_REV_BACK_SHORT")
   ::loc("HUD/ENGINE_REV_BACK_SHORT")
@@ -252,10 +250,10 @@ local aiGunners = @() {
 }
 
 
-local crewCountColor = function(min, current) {
-  if (current < min) {
+local crewCountColor = function(minimum, current) {
+  if (current < minimum) {
     return colors.hud.damageModule.dmModuleDestroyed
-  } else if (current < min * 1.1) {
+  } else if (current < minimum * 1.1) {
     return colors.hud.damageModule.dmModuleDamaged
   }
   return colors.hud.damageModule.active

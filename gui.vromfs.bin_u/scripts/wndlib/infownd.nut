@@ -56,14 +56,14 @@ class ::gui_handlers.InfoWnd extends ::BaseGuiHandler
     return true
   }
 
-  static function canShowAgain(_checkId)
+  static function canShowAgain(chkId)
   {
-    return !_checkId || ::load_local_account_settings(INFO_WND_SAVE_PATH + "/" + _checkId, true)
+    return !chkId || ::load_local_account_settings(INFO_WND_SAVE_PATH + "/" + chkId, true)
   }
 
-  static function setCanShowAgain(_checkId, canShowAgain)
+  static function setCanShowAgain(chkId, isCanShowAgain)
   {
-    ::save_local_account_settings(INFO_WND_SAVE_PATH + "/" + _checkId, canShowAgain)
+    ::save_local_account_settings(INFO_WND_SAVE_PATH + "/" + chkId, isCanShowAgain)
   }
 
   static function clearAllSaves()

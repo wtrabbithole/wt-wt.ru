@@ -1,3 +1,4 @@
+<<#isInTable>>
 id:t='<<slotId>>'
 
 <<#slotInactive>>
@@ -11,12 +12,17 @@ slotbarCurAir {
   }
 }
 <</isSlotbarItem>>
+<</isInTable>>
 
 shopItem {
   id:t='<<shopItemId>>'
   behavior:t='Timer'
   timer_interval_msec:t='1000'
   unit_name:t='<<unitName>>'
+
+  <<^isInTable>>
+  isInTable:t='no'
+  <</isInTable>>
 
   <<^hasHoverMenu>>refuseOpenHoverMenu:t='yes'<</hasHoverMenu>>
   <<#hasHoverMenu>>on_hover:t='onUnitHover'<</hasHoverMenu>>

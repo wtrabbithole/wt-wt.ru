@@ -18,7 +18,7 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
       map = _map
     }
 
-    if (!_descItem && _map || _descItem instanceof ::WwOperation)
+    if ((!_descItem && _map) || (_descItem instanceof ::WwOperation))
       return ::handlersManager.loadHandler(::gui_handlers.WwOperationDescriptionCustomHandler, params)
     else if (_descItem instanceof ::WwQueue)
       return ::handlersManager.loadHandler(::gui_handlers.WwQueueDescriptionCustomHandler, params)
@@ -51,9 +51,9 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateView()
   {
-    local isVisible = isVisible()
-    updateVisibilities(isVisible)
-    if (!isVisible)
+    local isShow = isVisible()
+    updateVisibilities(isShow)
+    if (!isShow)
       return
 
     updateName()
@@ -69,12 +69,12 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     return descItem != null && map != null
   }
 
-  function updateVisibilities(isVisible)
+  function updateVisibilities(isShow)
   {
     if (scene.id == rootDescId)
-      scene.show(isVisible)
+      scene.show(isShow)
     else
-      showSceneBtn(rootDescId, isVisible)
+      showSceneBtn(rootDescId, isShow)
   }
 
   function checkAndUpdateVisible()

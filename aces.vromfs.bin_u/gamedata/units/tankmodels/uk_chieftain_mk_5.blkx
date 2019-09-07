@@ -136,6 +136,18 @@
         },
         "ex_armor_body_02_dm": {
           "armorThickness": 8.0
+        },
+        "turret_02_side_dm": {
+          "armorThickness": 86.0
+        },
+        "turret_01_side_dm": {
+          "armorThickness": 45.0
+        },
+        "turret_06_top_dm": {
+          "armorThickness": 45.0
+        },
+        "turret_08_back_dm": {
+          "armorThickness": 30.0
         }
       },
       "hull_turret_cha": {
@@ -228,12 +240,6 @@
         "turret_03_side_dm": {
           "armorThickness": 93.0
         },
-        "turret_02_side_dm": {
-          "armorThickness": 86.0
-        },
-        "turret_01_side_dm": {
-          "armorThickness": 45.0
-        },
         "turret_back_dm": {
           "armorThickness": 45.0
         },
@@ -258,9 +264,6 @@
         },
         "turret_06_back_dm": {
           "armorThickness": 19.0
-        },
-        "turret_06_top_dm": {
-          "armorThickness": 45.0
         },
         "turret_06_side_dm": {
           "armorThickness": 19.0
@@ -1634,6 +1637,7 @@
     "sound": {
       "EngineName": "engine_chieftain",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
@@ -2810,7 +2814,7 @@
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,
@@ -2821,7 +2825,7 @@
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "allowableDelta": 360.0,
-                "salvo": 12,
+                "salvo": 6,
                 "speedYaw": 24.0,
                 "speedPitch": 15.0,
                 "fireConeAngle": 1.0,

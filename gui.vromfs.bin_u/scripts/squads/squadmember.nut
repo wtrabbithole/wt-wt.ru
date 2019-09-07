@@ -16,6 +16,7 @@ class SquadMember
   isReady = false
   isCrewsReady = false
   canPlayWorldWar = false
+  isWorldWarAvailable = false
   cyberCafeId = ""
   unallowedEventsENames = null
   sessionRoomId = ""
@@ -29,15 +30,15 @@ class SquadMember
 
   updatedProperties = ["name", "rank", "country", "clanTag", "pilotIcon", "selAirs",
                        "selSlots", "crewAirs", "brokenAirs", "missedPkg", "wwOperations",
-                       "isReady", "isCrewsReady", "canPlayWorldWar", "cyberCafeId",
+                       "isReady", "isCrewsReady", "canPlayWorldWar", "isWorldWarAvailable", "cyberCafeId",
                        "unallowedEventsENames", "sessionRoomId", "crossplay"]
 
-  constructor(uid, isInvite = false, isApplication = false)
+  constructor(_uid, _isInvite = false, _isApplication = false)
   {
-    this.uid = uid.tostring()
-    this.isInvite = isInvite
-    this.isApplication = isApplication
-    this.isNewApplication = isApplication
+    uid = _uid.tostring()
+    isInvite = _isInvite
+    isApplication = _isApplication
+    isNewApplication = _isApplication
 
     initUniqueInstanceValues()
 
@@ -66,6 +67,10 @@ class SquadMember
       newValue = ::getTblValue(property, data, null)
       if (newValue == null)
         continue
+
+      if (::isInArray(property, ["brokenAirs", "missedPkg", "unallowedEventsENames"]) //!!!FIX ME If this parametrs is empty then msquad returns table instead array
+          && !::u.isArray(newValue))                                                  // Need remove this block after msquad fixed
+        newValue = []
 
       if (newValue != this[property])
       {

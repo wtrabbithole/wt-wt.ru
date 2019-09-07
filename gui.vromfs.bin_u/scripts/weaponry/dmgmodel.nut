@@ -15,9 +15,12 @@ const DEFAULT_ARMOR_FOR_PENETRATION_RADIUS = 50
 
 function g_dmg_model::getDmgModelBlk()
 {
-  local blk = ::DataBlock()
-  blk.load("config/damageModel.blk")
-  return blk
+  return ::DataBlock("config/damageModel.blk")
+}
+
+function g_dmg_model::getExplosiveBlk()
+{
+  return ::DataBlock("gameData/damage_model/explosive.blk")
 }
 
 function g_dmg_model::getRicochetData(bulletType)
@@ -30,8 +33,9 @@ function g_dmg_model::getTntEquivalentText(explosiveType, explosiveMass)
 {
   if(explosiveType == "tnt")
     return ""
-  local blk = getDmgModelBlk()
-  local explMassInTNT = ::getTblValueByPath("explosiveTypes." + explosiveType + ".strengthEquivalent", blk, 0)
+  local blk = getExplosiveBlk()
+  ::dagor.assertf(!!blk?.explosiveTypes, "ERROR: Can't load explosiveTypes from explosive.blk")
+  local explMassInTNT = blk?.explosiveTypes?[explosiveType]?.strengthEquivalent ?? 0
   if (!explosiveMass || explMassInTNT <= 0)
     return ""
   return ::g_dmg_model.getMeasuredExplosionText(explosiveMass.tofloat() * explMassInTNT)
@@ -56,20 +60,20 @@ function g_dmg_model::getDestructionInfoTexts(explosiveType, explosiveMass, ammo
     destroyRadiusNotArmoredText = ""
   }
 
-  local dmgModelBlk = getDmgModelBlk()
-  local explTypeBlk = ::getTblValueByPath("explosiveTypes." + explosiveType, dmgModelBlk)
+  local blk = getExplosiveBlk()
+  local explTypeBlk = blk?.explosiveTypes?[explosiveType]
   if (!::u.isDataBlock(explTypeBlk))
     return res
 
   //armored vehicles data
   local explMassInTNT = explosiveMass * (explTypeBlk.strengthEquivalent || 0)
-  local splashParamsBlk = dmgModelBlk.explosiveTypeToSplashParams
+  local splashParamsBlk = blk.explosiveTypeToSplashParams
   if (explMassInTNT && ::u.isDataBlock(splashParamsBlk))
   {
     local maxPenetration = getLinearValueFromP2blk(splashParamsBlk.explosiveMassToPenetration, explMassInTNT)
     local innerRadius = getLinearValueFromP2blk(splashParamsBlk.explosiveMassToInnerRadius, explMassInTNT)
     local outerRadius = getLinearValueFromP2blk(splashParamsBlk.explosiveMassToOuterRadius, explMassInTNT)
-    local armorToShowRadus = dmgModelBlk.penetrationToCalcDestructionRadius || DEFAULT_ARMOR_FOR_PENETRATION_RADIUS
+    local armorToShowRadus = blk.penetrationToCalcDestructionRadius || DEFAULT_ARMOR_FOR_PENETRATION_RADIUS
 
     if (maxPenetration)
       res.maxArmorPenetrationText = ::g_measure_type.getTypeByName("mm", true).getMeasureUnitsText(maxPenetration)
@@ -83,7 +87,7 @@ function g_dmg_model::getDestructionInfoTexts(explosiveType, explosiveMass, ammo
   //not armored vehicles data
   local fillingRatio = ammoMass ? explosiveMass / ammoMass : 1.0
   local brisanceMass = explosiveMass * (explTypeBlk.brisanceEquivalent || 0)
-  local destroyRadiusNotArmored = calcDestroyRadiusNotArmored(dmgModelBlk.explosiveTypeToShattersParams,
+  local destroyRadiusNotArmored = calcDestroyRadiusNotArmored(blk.explosiveTypeToShattersParams,
                                                               fillingRatio,
                                                               brisanceMass)
   if (destroyRadiusNotArmored > 0)
@@ -103,8 +107,8 @@ function g_dmg_model::resetData()
 
 function g_dmg_model::getLinearValueFromP2blk(blk, x)
 {
-  local min = null
-  local max = null
+  local pMin = null
+  local pMax = null
   if (::u.isDataBlock(blk))
     for (local i = 0; i < blk.paramCount(); i++)
     {
@@ -115,16 +119,16 @@ function g_dmg_model::getLinearValueFromP2blk(blk, x)
       if (p2.x == x)
         return p2.y
 
-      if (p2.x < x && (!min || p2.x > min.x))
-        min = p2
-      if (p2.x > x && (!max || p2.x < max.x))
-        max = p2
+      if (p2.x < x && (!pMin || p2.x > pMin.x))
+        pMin = p2
+      if (p2.x > x && (!pMax || p2.x < pMax.x))
+        pMax = p2
     }
-  if (!min)
-    return max && max.y || 0.0
-  if (!max)
-    return min.y
-  return min.y + (max.y - min.y) * (x - min.x) / (max.x - min.x)
+  if (!pMin)
+    return pMax?.y ?? 0.0
+  if (!pMax)
+    return pMin.y
+  return pMin.y + (pMax.y - pMin.y) * (x - pMin.x) / (pMax.x - pMin.x)
 }
 
 /** Returns -1 if no such angle found. */
@@ -141,7 +145,7 @@ function g_dmg_model::getAngleByProbabilityFromP2blk(blk, x)
     local probability1 = p1.y
     local angle2 = p2.x
     local probability2 = p2.y
-    if (probability1 <= x && x <= probability2 || probability2 <= x && x <= probability1)
+    if ((probability1 <= x && x <= probability2) || (probability2 <= x && x <= probability1))
     {
       if (probability1 == probability2)
       {

@@ -85,7 +85,6 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
     local lastIdx = min((curPage + 1) * rowsPerPage, rowTexts.len())
     for(local i=startIdx; i < lastIdx; i++)
     {
-      local candidate = rowTexts[i]
       local rowName = "row_"+i;
       local rowData = [];
 

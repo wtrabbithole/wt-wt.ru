@@ -114,9 +114,9 @@ function on_presences_update(params)
         local player = ::getContact(p?.userId, p?.nick)
         if (!player)
         {
-          local myUserId = ::my_user_id_int64
-          local playerUid = p?.userId
-          local playerName = p?.nick
+          local myUserId = ::my_user_id_int64 // warning disable: -declared-never-used
+          local playerUid = p?.userId         // warning disable: -declared-never-used
+          local playerName = p?.nick          // warning disable: -declared-never-used
           local errText = p?.userId ? "player not found" : "not valid data"
           ::script_net_assert_once("not found contact for group", errText)
           continue

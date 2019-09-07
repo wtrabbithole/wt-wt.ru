@@ -68,7 +68,6 @@ function gui_start_briefing() //Is this function can be called from code atm?
 function gui_start_briefing_restart()
 {
   dagor.debug("gui_start_briefing_restart")
-  local gm = ::get_game_mode()
   local params = {
     isRestart = true
     backSceneFunc = ::gui_start_flight_menu
@@ -76,7 +75,6 @@ function gui_start_briefing_restart()
 
   local finalApplyFunc = function()
   {
-    local gm = ::get_game_mode()
     ::set_context_to_player("difficulty", ::get_mission_difficulty())
     ::restart_current_mission()
   }
@@ -87,7 +85,7 @@ function gui_start_briefing_restart()
       finalApplyFunc()
   })(finalApplyFunc)
 
-  local handler = ::handlersManager.loadHandler(::gui_handlers.Briefing, params)
+  ::handlersManager.loadHandler(::gui_handlers.Briefing, params)
   ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_briefing_restart)
 }
 
@@ -138,7 +136,7 @@ function briefing_options_apply()
     return
   }
 
-  if (gt & ::GT_VERSUS || ::mission_settings.missionURL)
+  if ((gt & ::GT_VERSUS) || ::mission_settings.missionURL)
     ::SessionLobby.createRoom(::mission_settings)
   else
     ::get_cur_base_gui_handler().goForward(::gui_start_flight);
@@ -149,7 +147,7 @@ function briefing_options_apply()
 function get_briefing_options(gm, gt, missionBlk)
 {
   local optionItems = []
-  if (gm == ::GM_BENCHMARK)
+  if (gm == ::GM_BENCHMARK || ::custom_miss_flight)
     return optionItems
 
   if (::get_mission_types_from_meta_mission_info(missionBlk).len())
@@ -381,7 +379,6 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
 
     local aircraft = missionBlk.getStr("player_class", "")
     ::aircraft_for_weapons = aircraft
-    local descrAdd = ::get_mission_desc_text(missionBlk)
 
     ::mission_settings.name = missionName
     ::mission_settings.postfix = null
@@ -389,11 +386,9 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
     ::mission_settings.weapon = missionBlk.getStr("player_weapons", "")
     ::mission_settings.players = 4;
 
-    if (descrAdd.len() > 0)
-    {
+    local descrAdd = ::get_mission_desc_text(missionBlk)
+    if (descrAdd != "")
       desc += (desc.len() ? "\n\n" : "") + descrAdd
-      descrAdd = null
-    }
 
     scene.findObject("mission_title").setValue(title)
     scene.findObject("mission_desc").setValue(desc)
@@ -739,20 +734,13 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       else if (misBlk.url)
         ::add_last_played("url", misBlk.url, gm, false)
 
-    if (::SessionLobby.isInRoom())
-    {
-      if (gm == ::GM_DYNAMIC)
-      {
-        ::select_mission_full(misBlk, ::mission_settings.missionFull);
-      }
-      ::apply_host_settings(misBlk)
-      return
-    }
-
     if (gm == ::GM_DYNAMIC)
       ::select_mission_full(misBlk, ::mission_settings.missionFull);
     else
       ::select_mission(misBlk, false)
+
+    if (::SessionLobby.isInRoom())
+      ::apply_host_settings(misBlk)
   }
 
   function onFinalApply2()

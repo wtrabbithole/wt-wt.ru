@@ -84,7 +84,6 @@ function get_voice_message_list_line(index, is_category, name, squad, targetName
     shortcutNames.append(key);
 
     local shortcuts = ::get_shortcuts(shortcutNames)
-    local btnList = {} //btnName = isMain
 
     for(local sc=0; sc<shortcuts.len(); sc++)
       if (shortcuts[sc].len())

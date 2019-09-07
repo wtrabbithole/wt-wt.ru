@@ -1,14 +1,10 @@
 local Rand = require("rand.nut")
-local math = require("math")
 
-local function get_rand_norm_value(totalWeight=1) {
-  return math.rand().tofloat()*totalWeight/math.RAND_MAX
-}
 local function pickword(dictionary, seed=null, allow_cache=false){
   local rand = Rand(seed)
-  local totalWeight = 0
-  assert(["table","array"].find(::type(dictionary))!=null, "dictionary should be array or table")
-  if (type(dictionary) == "table"){
+  local totalWeight = 0.0
+  ::assert(["table","array"].find(::type(dictionary))!=null, "dictionary should be array or table")
+  if (::type(dictionary) == "table"){
     if (!("___totalWeight___" in dictionary)) {
       foreach (word, weight in dictionary)
         totalWeight += weight
@@ -32,8 +28,9 @@ local function pickword(dictionary, seed=null, allow_cache=false){
     if (word == "___totalWeight___")
       continue
     cur_rand_sum += weight
+    ret = word
     if (rand_val <= cur_rand_sum)
-      return word
+      break
   }
   return ret
 }

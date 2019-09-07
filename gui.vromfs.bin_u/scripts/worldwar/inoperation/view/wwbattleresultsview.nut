@@ -41,9 +41,12 @@ class ::WwBattleResultsView
     {
       foreach (wwUnit in team.unitsInitial)
       {
-        if (wwUnit.getWwUnitType().code == ::g_ww_unit_type.UNKNOWN)
+        if (wwUnit.getWwUnitType() == ::g_ww_unit_type.UNKNOWN)
         {
-          local unitName = wwUnit.name
+          local unitName = wwUnit.name // warning disable: -declared-never-used
+          local totalConfigurableValues = ::g_world_war.configurableValues?.blockCount() ?? -1 // warning disable: -declared-never-used
+          local totalInfantryUnits = ::g_world_war.infantryUnits?.blockCount() ?? -1 // warning disable: -declared-never-used
+          local alreadyHadInfantryUnits = ::g_world_war.debugAlreadyHadInfantryUnits // warning disable: -declared-never-used
           ::script_net_assert_once("UNKNOWN wwUnitType", "wwUnitType is UNKNOWN in wwBattleResultsView")
           continue
         }
@@ -108,7 +111,7 @@ class ::WwBattleResultsView
     })(side))
   }
 
-  function getTeamStats(teamInfo, battleUnitTypes, inactiveUnitTypes)
+  function getTeamStats(teamInfo, unitTypesBattle, unitTypesInactive)
   {
     local res = {
       unitTypes = []
@@ -116,7 +119,7 @@ class ::WwBattleResultsView
     }
 
     local unitTypeStats = array(::UT_TOTAL)
-    foreach (wwUnitTypeCode in battleUnitTypes)
+    foreach (wwUnitTypeCode in unitTypesBattle)
       if (!unitTypeStats[wwUnitTypeCode])
         unitTypeStats[wwUnitTypeCode] = array(UNIT_STATS.TOTAL, 0)
 
@@ -172,7 +175,7 @@ class ::WwBattleResultsView
       if (wwUnitType.esUnitCode == ::ES_UNIT_TYPE_INVALID) // fake unit
         continue
 
-      local isShowInactiveCount = ::isInArray(wwUnitTypeCode, inactiveUnitTypes)
+      local isShowInactiveCount = ::isInArray(wwUnitTypeCode, unitTypesInactive)
 
       local stats = array(UNIT_STATS.TOTAL, 0)
       stats[UNIT_STATS.INITIAL]   = initialActive
@@ -192,7 +195,7 @@ class ::WwBattleResultsView
         continue
 
       local wwUnitType = ::g_ww_unit_type.getUnitTypeByCode(wwUnitTypeCode)
-      local isShowInactiveCount = ::isInArray(wwUnitTypeCode, inactiveUnitTypes)
+      local isShowInactiveCount = ::isInArray(wwUnitTypeCode, unitTypesInactive)
 
       res.unitTypes.append({
         name = "#debriefing/ww_total_" + wwUnitType.name

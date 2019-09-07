@@ -1,4 +1,9 @@
 //This is list of all darg native functions and consts, to use in mockups
+function Color(r,g,b,a=255) {
+  return (a << 24) + (r << 16) + (g << 8) + b;
+}
+
+
 ::Watched <-class {
   value=null
   subscribers = null
@@ -17,7 +22,7 @@
       func(val)
   }
   _tostring = function(){
-    return "Watched: " + value
+    return "::Watched: " + value
   }
   function trigger() {return null}
   function trace() {return ""}
@@ -33,11 +38,22 @@
 ::calc_comp_size <- @(comp) [0,0]
 ::gui_scene <-{
   setShutdownHandler = @(val) null
+  circleButtonAsAction = false
   config = {
     defaultFont = 0
     joystickScrollCursor = true
+    gamepadCursorSpeed = 1.0
+    defSceneBgColor =Color(10,10,10,160)
+    setJoystickClickButtons = @(list) null
+    gamepadCursorControl = true
+    reportNestedWatchedUpdate = false
+    gamepadCursorDeadZone = 0.05
+    gamepadCursorNonLin = 1.5
+    gamepadCursorHoverMinMul = 0.005
+    gamepadCursorHoverMaxMul = 0.1
+    gamepadCursorHoverMaxTime = 0.5
   }
-  cursorPresent = Watched(true)
+  cursorPresent = ::Watched(true)
   setHotkeysNavHandler = function(func){assert(::type(func)=="function")}
   setUpdateHandler = function(dt) {}
   setTimeout = function(timeout, func){
@@ -50,20 +66,21 @@
 }
 ::ScrollHandler <- class{}
 ::ElemGroup <- @() {}
-::AnimProp<-{}
-foreach(idx, prop in [
-  "color"
-  "bgColor"
-  "fgColor"
-  "fillColor"
-  "borderColor"
-  "opacity"
-  "rotate"
-  "scale"
-  "translate"
-])
-::AnimProp[prop] <- idx
+enum AnimProp{
+  color
+  bgColor
+  fgColor
+  fillColor
+  borderColor
+  opacity
+  rotate
+  scale
+  translate
+  fValue
+}
 
+::anim_start<-@(anim) null
+::anim_request_stop<-@(anim) null
 
 function vlog(val) {
   print("" +val + "\n")
@@ -77,10 +94,6 @@ function debug(val) {
   print("" +val + "\n")
 }
 
-function Color(r,g,b,a=255) {
-  return (a << 24) + (r << 16) + (g << 8) + b;
-}
-
 function fontH(height) {
   return height
 }
@@ -91,6 +104,14 @@ function flex(weight=1) {
 
 function sw(val) {
   return val*1920
+}
+
+function w(val) {
+  return val.tointeger()
+}
+
+function h(val) {
+  return val.tointeger()
 }
 
 function sh(val) {
@@ -114,6 +135,16 @@ function ph(val) {
 }
 
 function Picture(val){return val}
+function Cursor(val) {return val}
+
+enum Layers {
+  Default
+  Upper
+  ComboPopup
+  MsgBox
+  Tooltip
+  Inspector
+}
 
 const ROBJ_IMAGE = "ROBJ_IMAGE"
 const ROBJ_STEXT = "ROBJ_STEXT"
@@ -163,24 +194,69 @@ const TOVERFLOW_LINE="TOVERFLOW_LINE"
 const EVENT_BREAK = "EVENT_BREAK"
 const EVENT_CONTINUE= "EVENT_CONTINUE"
 
-const Linear="Linear"
-const InQuad="InQuad"
-const OutQuad="OutQuad"
-const OutQuintic="OutQuintic"
-const InOutQuad="InOutQuad"
-const InCubic="InCubic"
-const OutCubic="OutCubic"
-const InOutCubic="InOutCubic"
-const InQuart="InQuart"
-const OutQuart="OutQuart"
-const InOutQuart="InOutQuart"
-const InOutBezier="InOutBezier"
-const CosineFull="CosineFull"
-const InStep="InStep"
-const OutStep="OutStep"
-const Discrete8 = "Discrete8"
-const OutBack = "OutBack"
+
+
+
+
+const Linear = "Linear"
+
+const InQuad = "InQuad"
+const OutQuad = "OutQuad"
+const InOutQuad = "InOutQuad"
+
+const InCubic = "InCubic"
+const OutCubic = "OutCubic"
+const InOutCubic = "InOutCubic"
+
+const InQuintic = "InQuintic"
+const OutQuintic = "OutQuintic"
+const InOutQuintic = "InOutQuintic"
+
+const InQuart = "InQuart"
+const OutQuart = "OutQuart"
+const InOutQuart = "InOutQuart"
+
+const InSine = "InSine"
+const OutSine = "OutSine"
+const InOutSine = "InOutSine"
+
+const InCirc = "InCirc"
+const OutCirc = "OutCirc"
+const InOutCirc = "InOutCirc"
+
+const InExp = "InExp"
+const OutExp = "OutExp"
+const InOutExp = "InOutExp"
+
+const InElastic = "InElastic"
+const OutElastic = "OutElastic"
+const InOutElastic = "InOutElastic"
+
 const InBack = "InBack"
+const OutBack = "OutBack"
+const InOutBack = "InOutBack"
+
+const InBounce = "InBounce"
+const OutBounce = "OutBounce"
+const InOutBounce = "InOutBounce"
+
+const InOutBezier = "InOutBezier"
+const CosineFull = "CosineFull"
+
+const InStep = "InStep"
+const OutStep = "OutStep"
+
+const Blink = "Blink"
+const DoubleBlink = "DoubleBlink"
+const BlinkSin = "BlinkSin"
+const BlinkCos = "BlinkCos"
+
+const Discrete8 = "Discrete8"
+
+const Shake4 = "Shake4"
+const Shake6 = "Shake6"
+
+
 
 const S_KB_FOCUS=0
 const S_HOVER=1

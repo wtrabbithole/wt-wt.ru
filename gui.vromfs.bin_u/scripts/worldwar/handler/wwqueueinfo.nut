@@ -124,7 +124,7 @@ class ::gui_handlers.WwQueueInfo extends ::gui_handlers.BaseGuiHandlerWT
   function getPlayersCountFromBattleQueueInfo(battleQueueInfo, teamName, field)
   {
     if (!battleQueueInfo)
-      return ::loc("event_dash")
+      return ::loc("ui/hyphen")
 
     local teamData = ::getTblValue(teamName, battleQueueInfo, null)
     if (field == "playersInClans")

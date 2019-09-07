@@ -171,8 +171,8 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
 
     if (gt & ::GT_VERSUS)
     {
-      local missionType = ::g_mission_type.getTypeByMissionName(::get_current_mission_name())
-      local haveHelp = missionType.helpBlkPath != ""
+      local missionHelpPath = ::g_mission_type.getHelpPathForCurrentMission()
+      local haveHelp = missionHelpPath != null
 
       local helpBtnObj = showSceneBtn("btn_help", haveHelp)
       if (helpBtnObj && !::show_console_buttons)
@@ -180,7 +180,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
 
       if (haveHelp)
       {
-        local parts = ::split(missionType.helpBlkPath, "/.")
+        local parts = ::split(missionHelpPath, "/.")
         local helpId = parts.len() >= 2 ? parts[parts.len() - 2] : ""
         local cfgPath = "seen/help_mission_type/" + helpId
         local isSeen = ::loadLocalByAccount(cfgPath, 0)
@@ -254,7 +254,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     {
       applyReady = ::loading_is_finished()
       local showStart = !::is_multiplayer() && gm != ::GM_TRAINING && !::start_mission_instead_of_queue
-      if (applyReady && !showStart || finished)
+      if ((applyReady && !showStart) || finished)
         finishLoading()
       else
       {
@@ -433,7 +433,6 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       waitForMap = false
       if (briefing)
       {
-        local gt = ::get_game_type()
         local misObj = ""
         if (::current_campaign_mission)
           misObj = ::loc(format("mb/%s/objective", ::current_campaign_mission.tostring()), "")

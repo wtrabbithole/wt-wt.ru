@@ -87,7 +87,7 @@ if (::g_controls_utils.eventHandler && controllerState?.remove_event_handler)
 if (controllerState?.add_event_handler)
   controllerState.add_event_handler(::g_controls_utils.eventHandler)
 
-function get_controls_preset_by_selected_type(type = "")
+function get_controls_preset_by_selected_type(cType = "")
 {
   local presets = ::is_platform_ps4 ? {
     [::classic_control_preset] = "default",
@@ -102,8 +102,8 @@ function get_controls_preset_by_selected_type(type = "")
   }
 
   local preset = ""
-  if (type in presets) {
-    preset = presets[type]
+  if (cType in presets) {
+    preset = presets[cType]
   } else {
     ::script_net_assert_once("wrong controls type", "Passed wrong controls type")
   }

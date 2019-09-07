@@ -512,12 +512,12 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::getTblValue("blk", curMission) == null && ::g_mislist_type.isUrlMission(curMission))
     {
-      local missionBlk = curMission.urlMission.getMetaInfo()
-      if (missionBlk)
-        curMission.blk <- missionBlk
+      local misBlk = curMission.urlMission.getMetaInfo()
+      if (misBlk)
+        curMission.blk <- misBlk
       else
       {
-        ::g_url_missions.loadBlk(curMission.urlMission, ::Callback(onUrlMissionLoaded, this))
+        ::g_url_missions.loadBlk(curMission, ::Callback(onUrlMissionLoaded, this))
         return
       }
     }
@@ -541,11 +541,12 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       save_tutorial_to_check_reward(curMission.blk)
   }
 
-  function onUrlMissionLoaded(success)
+  function onUrlMissionLoaded(success, mission)
   {
     if (!success || !checkStartBlkMission(true))
       return
 
+    curMission = mission
     curMission.blk <- curMission.urlMission.getMetaInfo()
     setMission()
   }
@@ -587,7 +588,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     local objButton = showSceneBtn("btn_select", showStartBtn)
     if (::checkObj(objButton) && showStartBtn)
     {
-      local enabled = isHeader || curMission && checkStartBlkMission()
+      local enabled = isHeader || (curMission && checkStartBlkMission())
       objButton.inactiveColor = enabled ? "no" : "yes"
       setDoubleTextToButton(scene, "btn_select", startText)
     }
@@ -926,7 +927,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(filterEditBox))
       return
 
-    local prevTextLen = filterText.len()
     filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
 
     local showChapter = false

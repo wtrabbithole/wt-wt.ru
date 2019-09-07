@@ -82,7 +82,7 @@ function g_discount::updateDiscountData(isSilentUpdate = false)
   foreach(air in ::all_units)
     if (::isCountryAvailable(air.shopCountry)
         && !air.isBought()
-        && ::is_unit_visible_in_shop(air))
+        && air.isVisibleInShop())
     {
       if (::is_platform_pc && ::isUnitGift(air))
       {
@@ -149,12 +149,9 @@ function g_discount::checkEntitlement(entName, entlBlock, giftUnits)
     : true
 
   if (entlBlock.aircraftGift)
-  {
-    local array = entlBlock % "aircraftGift"
-    foreach(unitName in array)
+    foreach(unitName in entlBlock % "aircraftGift")
       if (unitName in giftUnits)
         discountsList.entitlementUnits[unitName] <- discount
-  }
 }
 
 function g_discount::generateDiscountInfo(discountsTable, headerLocId = "")

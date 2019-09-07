@@ -36,6 +36,12 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "radarAnimVar": "radar_drive"
+  },
+  {
+    "radarDeployTime": 0.0
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -570,6 +576,12 @@
           "hidableInViewer": true
         }
       },
+      "sensor": {
+        "armorClass": "tank_structural_steel",
+        "armorThickness": 15.0,
+        "hp": 200.0,
+        "antenna_target_tagging_dm": []
+      },
       "optics": {
         "armorClass": "optics_tank",
         "optic_body_01_dm": {
@@ -616,13 +628,7 @@
         "ex_decor_r_02_dm": [],
         "ex_decor_r_03_dm": [],
         "ex_decor_r_04_dm": [],
-        "ex_decor_r_05_dm": [],
-        "ex_armor_turret_l_01_dm": {
-          "armorThickness": 100.0
-        },
-        "ex_armor_turret_l_02_dm": {
-          "armorThickness": 100.0
-        }
+        "ex_decor_r_05_dm": []
       },
       "chassis": {
         "armorClass": "tank_steel_wheels",
@@ -948,6 +954,7 @@
     "sound": {
       "EngineName": "engine_stuart_m5a",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_light",
       "TrackSoundNameCockpit": "tracks_light_interior",
       "EngineNameAi": "engine_tank_ai_light",
@@ -1946,6 +1953,15 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -2061,6 +2077,15 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ]
     }
@@ -2116,10 +2141,17 @@
             "gunnerDm": "gunner_dm"
           },
           {
+            "selfDirectedPart": {
+              "node": "antenna_target_tagging_mount",
+              "limits": [0.0,0.0],
+              "turnSpeed": 0.0
+            }
+          },
+          {
             "linkedAnimPart": {
-              "verNode": "bone_gun_radar",
-              "verLimits": [-0.0,90.0],
-              "verOriginLimits": [-0.0,90.0]
+              "verNode": "antenna_target_tagging",
+              "verLimits": [0.0,90.0],
+              "verOriginLimits": [0.0,90.0]
             }
           },
           {
@@ -2146,7 +2178,15 @@
           "lim2": [130.0,155.0,-1.0,80.0],
           "lim3": [155.0,180.0,-5.0,80.0]
         }
-      }
+      },
+      "animatedBones": [
+        {
+          "node": "antenna_target_tagging"
+        },
+        {
+          "node": "antenna_target_tagging_mount"
+        }
+      ]
     }
   },
   {
@@ -2160,9 +2200,9 @@
   {
     "sensors": {
       "sensor": {
-        "blk": "gameData/sensors/an_vps_2.blk",
+        "blk": "gameData/sensors/us_an_vps_2.blk",
         "turretIndex": 0,
-        "dmPart": "radar_dm"
+        "dmPart": "antenna_target_tagging_dm"
       }
     }
   },

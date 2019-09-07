@@ -19,6 +19,7 @@
   "fxGroundDust": "ground_shock_wave_dust",
   "shouldCollideWithRendinsts": true,
   "sound_path": "tanks/weapon_tanks/cannons",
+  "sound_pathStudio": "ground/weapon/cannons",
   "sound": "115mm_u5ts",
   "sound_inside": "115mm_u5ts_interior",
   "sfxReloadBullet": "grd_cannon_reload",
@@ -621,6 +622,7 @@
       "bulletName": "115mm_9m_117",
       "caliber": 0.115,
       "sound_path": "tanks/weapon_tanks/atgm",
+      "sound_pathStudio": "ground/weapon/atgm",
       "sound": "atgm",
       "sound_inside": "atgm_interior",
       "sfxReloadBullet": "grd_cannon_reload_auto",
@@ -669,7 +671,7 @@
         "relativeVelArmorShift": [200.0,1000.0],
         "distanceFuse": false,
         "explosionOffset": 0.05,
-        "explodeTreshold": 0.01,
+        "explodeTreshold": 0.1,
         "rendinstDamageRadius": 5.0,
         "explodeHitPower": 400.0,
         "explodeArmorPower": 19.0,
@@ -692,6 +694,14 @@
           "steel": {
             "fx": "cannon_hit_armor_cumulative",
             "fxScale": [3.0,4.0]
+          },
+          "buildings": {
+            "fx": "atgm_hit",
+            "fxScale": [1.7,2.1]
+          },
+          "wood": {
+            "fx": "atgm_hit",
+            "fxScale": [1.7,2.1]
           }
         },
         "armorpower": {

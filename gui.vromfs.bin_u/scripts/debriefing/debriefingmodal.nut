@@ -56,7 +56,6 @@ function gui_start_debriefing()
   }
 
   local gm = ::get_game_mode()
-  local handler = null
   if (::back_from_replays != null)
   {
      dagor.debug("gui_nav gui_start_debriefing back_from_replays");
@@ -591,7 +590,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
                   ::ItemsManager.findItemById(activeWagerData.wagerShopId)
     if (wager == null)
       return
-    local wagerResult = activeWagerData.wagerResult
     guiScene.replaceContent(obj, "gui/items/itemTooltip.blk", this)
     ::ItemsManager.fillItemDescr(wager, obj, this)
   }
@@ -648,7 +646,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function groupGiftsById(items)
   {
     if(!items)
-      return
+      return null
 
     local res = [items[0]]
     for(local i=1; i < items.len(); i++)
@@ -992,7 +990,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         return switchState()
 
       if (!isDebriefingResultFull() &&
-          !(gameType & ::GT_RACE &&
+          !((gameType & ::GT_RACE) &&
             ::debriefing_result.exp.result == ::STATS_RESULT_IN_PROGRESS))
         textArray.append(::loc("debriefing/most_award_after_battle"))
 
@@ -1188,12 +1186,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       row.curValues[p] = nextValue
       local showEmpty = ((p == "value") != row.isOverall) && row.isVisibleWhenEmpty()
-      local type = p == "value" ? row.type : row.rewardType
+      local paramType = p == "value" ? row.type : row.rewardType
 
-      if (row.isFreeRP && type=="exp")
-        type = "frp" //show exp as FreeRP currency
+      if (row.isFreeRP && paramType == "exp")
+        paramType = "frp" //show exp as FreeRP currency
 
-      local text = getTextByType(nextValue, type, showEmpty)
+      local text = getTextByType(nextValue, paramType, showEmpty)
       obj.setValue(text)
     }
     needPlayCount = needPlayCount || !finished
@@ -1207,11 +1205,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     return !::u.isTable(row[name]) ? row[name] : ::getTblValue(tgtName, row[name], null)
   }
 
-  function getTextByType(value, type, showEmpty = false)
+  function getTextByType(value, paramType, showEmpty = false)
   {
-    if (!showEmpty && (value==0 || (value==1 && type=="mul")))
+    if (!showEmpty && (value == 0 || (value == 1 && paramType == "mul")))
       return ""
-    switch(type)
+    switch(paramType)
     {
       case "wp":  return ::Cost(value).toStringWithParams({isWpAlwaysShown = true})
       case "gold": return ::Cost(0, value).toStringWithParams({isGoldAlwaysShown = true})
@@ -1588,11 +1586,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local id = getTooltipObjId(obj)
     if (!id) return
     if (!("exp" in ::debriefing_result) || !("aircrafts" in ::debriefing_result.exp))
-      return obj["class"] = "empty"
+    {
+      obj["class"] = "empty"
+      return
+    }
 
     local tRow = ::get_debriefing_row_by_id(id)
     if (!tRow)
-      return obj["class"] = "empty"
+    {
+      obj["class"] = "empty"
+      return
+    }
 
     local rowsCfg = []
     if (!tRow.joinRows)
@@ -1638,7 +1642,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }
 
     if (!rowsCfg.len())
-      return obj["class"] = "empty"
+    {
+      obj["class"] = "empty"
+      return
+    }
 
     local tooltipView = {
       rows = getTrTooltipRowsView(rowsCfg, tRow)
@@ -1702,13 +1709,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       {
         local text = ""
 
-        local type = (p == "reward")? cfg.row.rewardType : p
-        local pId = type + cfg.row.id
+        local paramType = (p == "reward")? cfg.row.rewardType : p
+        local pId = paramType + cfg.row.id
         local showEmpty = false
         if (p == "time")
         {
           pId = "sessionTime"
-          type = "tim"
+          paramType = "tim"
           if (cfg.row.id == "sessionTime")
             pId = ""
           else
@@ -1718,17 +1725,17 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         {
           if (p == "value")
           {
-            type = cfg.row.type
+            paramType = cfg.row.type
             pId = cfg.row.customValueName? cfg.row.customValueName : cfg.row.type + cfg.row.id
           }
         }
         else if (p=="info")
         {
-          pId = ::getTblValue("infoName", cfg.row, "")
-          type = ::getTblValue("infoType", cfg.row, "")
+          pId = cfg.row?.infoName ?? ""
+          paramType = cfg.row?.infoType ?? ""
         }
 
-        text = getTextByType(::getTblValue(pId, cfg.expData, 0), type, showEmpty)
+        text = getTextByType(cfg.expData?[pId] ?? 0, paramType, showEmpty)
         rowView[p] <- text
       }
 
@@ -2025,15 +2032,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getMplayersListByTeam(teamNum)
   {
-    if (!::debriefing_result)
-      return []
-
-    local array = []
-    foreach(player in ::debriefing_result.mplayers_list)
-      if (teamNum == player.team)
-        array.append(player)
-
-    return array
+    return (::debriefing_result?.mplayers_list ?? []).filter(@(idx, player) player.team == teamNum)
   }
 
   function updatePlayersTable(dt)
@@ -2352,13 +2351,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (cfgNames.len() == 0)
       return
 
-    local awardsList = cfgNames.map(@(id) ::build_log_unlock_data(
+    local awards = cfgNames.map(@(id) ::build_log_unlock_data(
       ::build_conditions_config(
         ::g_unlocks.getUnlockById(id)
     )))
 
     ::showUnlocksGroupWnd([{
-      unlocksList = awardsList
+      unlocksList = awards
       titleText = ::loc("unlocks/requirements")
     }])
   }
@@ -2641,7 +2640,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function setGoNext()
   {
     ::go_debriefing_next_func = ::gui_start_mainmenu //default func
-    if (hasGoToOperationBtn())
+    if (needShowWorldWarOperationBtn())
     {
       if (!::g_squad_manager.isInSquad() || ::g_squad_manager.isSquadLeader())
         ::go_debriefing_next_func = function() {
@@ -2660,9 +2659,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (isMpMode && ::go_lobby_after_statistics() && gm != ::GM_DYNAMIC)
     {
-      ::go_debriefing_next_func = ::gui_start_mp_lobby_next_mission
-      if ((gt & ::GT_COOPERATIVE) && !::debriefing_result.isSucceed)
-        ::go_debriefing_next_func = ::gui_start_mp_lobby
+      ::go_debriefing_next_func = ::gui_start_mp_lobby
       return
     }
 
@@ -2855,7 +2852,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       {
         ::gui_start_modal_events()
         ::get_cur_gui_scene().performDelayed(::getroottable(), function() {
-          local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
+          handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
           if (handler)
             handler.goToBattleFromDebriefing()
         })
@@ -2876,14 +2873,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       && !::checkNonApprovedResearches(true, false)
   }
 
-  function hasGoToOperationBtn()
+  function needShowWorldWarOperationBtn()
   {
     return ::is_worldwar_enabled() && ::g_world_war.isLastFlightWasWwBattle
   }
 
   function switchWwOperationToCurrent()
   {
-    if (!hasGoToOperationBtn())
+    if (!needShowWorldWarOperationBtn())
       return
 
     local wwBattleRes = getWwBattleResults()
@@ -2911,14 +2908,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
 
     local isToBattleBtnVisible = isToBattleActionEnabled()
-    local isGoToOperationBtnVisible = hasGoToOperationBtn()
+    local showWorldWarOperationBtn = needShowWorldWarOperationBtn()
 
     ::showBtnTable(scene, {
       btn_next = true
-      btn_back = isToBattleBtnVisible || isGoToOperationBtnVisible
+      btn_back = isToBattleBtnVisible || showWorldWarOperationBtn
     })
 
-    local btnNextLocId = isGoToOperationBtnVisible ? "worldWar/stayInOperation"
+    local btnNextLocId = showWorldWarOperationBtn ? "worldWar/stayInOperation"
       : !isToBattleBtnVisible ? "mainmenu/btnOk"
       : ::g_squad_manager.isSquadMember() ? "mainmenu/btnReady"
       : "mainmenu/toBattle"
@@ -2928,7 +2925,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local backBtnTextLocId = "mainmenu/btnQuit"
     if (isToBattleBtnVisible)
       backBtnTextLocId = "mainmenu/toHangar"
-    else if (isGoToOperationBtnVisible)
+    else if (showWorldWarOperationBtn)
       backBtnTextLocId = (!::g_squad_manager.isInSquad() || ::g_squad_manager.isSquadLeader())
         ? "worldWar/btn_all_battles" : "mainmenu/toHangar"
     scene.findObject("btn_back").setValue(::loc(backBtnTextLocId))

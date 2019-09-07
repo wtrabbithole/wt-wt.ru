@@ -69,9 +69,7 @@
                         "behavior": "bhvAvatar",
                         "isFull": "yes"
                       },
-                      "ButtonImg": {
-                        "style": "pos:pw - w - 4@dp, ph - h - 4@dp; height:@buttonIconHeight;"
-                      },
+                      "ButtonImg": [],
                       "unseenIcon": {
                         "id": "unseen_avatar",
                         "pos": "4@dp, 4@dp",
@@ -727,6 +725,22 @@
             },
             {
               "Button_text": {
+                "id": "btn_achievements_url",
+                "text": "#mainmenu/compareAchievements",
+                "btnName": "R3",
+                "on_click": "onOpenAchievementsUrl",
+                "display": "hide",
+                "externalLink": "yes",
+                "hideText": "yes",
+                "ButtonImg": [],
+                "btnText": {
+                  "text": "#mainmenu/compareAchievements",
+                  "underline": []
+                }
+              }
+            },
+            {
+              "Button_text": {
                 "id": "btn_ps4Registration",
                 "text": "#mainmenu/binding",
                 "tooltip": "#mainmenu/PS4EmailRegistration/desc",
@@ -745,6 +759,19 @@
                 "tooltip": "#mainmenu/SteamEmailRegistration/desc",
                 "btnName": "L3",
                 "_on_click": "onBindSteamEmail",
+                "visualStyle": "secondary",
+                "buttonGlance": [],
+                "buttonWink": [],
+                "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_xboxRegistration",
+                "text": "#mainmenu/binding",
+                "tooltip": "#mainmenu/XboxOneEmailRegistration/desc",
+                "btnName": "L3",
+                "_on_click": "onBindXboxEmail",
                 "visualStyle": "secondary",
                 "buttonGlance": [],
                 "buttonWink": [],

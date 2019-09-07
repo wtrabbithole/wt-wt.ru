@@ -1,4 +1,4 @@
-local cc = require_native("colorCorrector")
+local cc = ::require_native("colorCorrector")
 local string = require("std/string.nut")
 local missionState = require("reactiveGui/missionState.nut")
 local teamColors = {

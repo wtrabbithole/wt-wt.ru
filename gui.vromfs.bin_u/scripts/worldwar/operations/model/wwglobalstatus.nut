@@ -21,7 +21,7 @@ function g_ww_global_status::reset()
     refreshData()
 }
 
-function g_ww_global_status::refreshData(refreshDelay = WWGS_REFRESH_DELAY.EXTERNAL_REQUEST, taskOptions = null)
+function g_ww_global_status::refreshData(refreshDelay = WWGS_REFRESH_DELAY.LATENT_QUEUE_REFRESH, taskOptions = null)
 {
   if (canRefreshData(refreshDelay))
     actionRequest("cln_ww_global_status", null, taskOptions)

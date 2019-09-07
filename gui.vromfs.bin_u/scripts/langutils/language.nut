@@ -257,7 +257,6 @@ function g_language::checkInitList()
   local ttBlk = locBlk.text_translation || ::DataBlock()
   local existingLangs = ttBlk % "lang"
 
-  local info = []
   local guiBlk = ::configs.GUI.get()
   local blockName = ::is_vendor_tencent() ? "tencent" : ::is_vietnamese_version() ? "vietnam" : "default"
   local preset = guiBlk.game_localization ? guiBlk.game_localization[blockName] : ::DataBlock()

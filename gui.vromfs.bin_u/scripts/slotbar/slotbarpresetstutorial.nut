@@ -204,10 +204,10 @@ class SlotbarPresetsTutorial
       { gameModeName = tutorialGameMode.text })
   }
 
-  function getPresetIndex(preset)
+  function getPresetIndex(prst)
   {
     local presets = ::getTblValue(currentCountry, ::slotbarPresets.presets, null)
-    return ::find_in_array(presets, preset, -1)
+    return ::find_in_array(presets, prst, -1)
   }
 
   /**
@@ -260,9 +260,9 @@ class SlotbarPresetsTutorial
   /**
    * Returns -1 if no such unit found.
    */
-  function getAllowedUnitIndexByPreset(preset)
+  function getAllowedUnitIndexByPreset(prst)
   {
-    local units = ::getTblValue("units", preset, null)
+    local units = prst?.units
     if (units == null)
       return -1
     for (local i = 0; i < units.len(); ++i)

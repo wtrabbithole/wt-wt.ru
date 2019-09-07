@@ -101,6 +101,42 @@ local ps4TouchpadImagesByMouseIdx = [
   "touchpad_pressed"
 ]
 
+local gamepadAxesImages = {
+  [GAMEPAD_AXIS.NOT_AXIS] = "",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL] = "l_stick_to_left_n_right",
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL] = "l_stick_to_up_n_down",
+  [GAMEPAD_AXIS.LEFT_STICK] = "l_stick_4",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL] = "r_stick_to_left_n_right",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL] = "r_stick_to_up_n_down",
+  [GAMEPAD_AXIS.RIGHT_STICK] = "r_stick_4",
+  [GAMEPAD_AXIS.LEFT_TRIGGER] = "l_trigger",
+  [GAMEPAD_AXIS.RIGHT_TRIGGER] = "r_trigger",
+
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "l_stick_down",
+  [GAMEPAD_AXIS.LEFT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "l_stick_up",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "l_stick_left",
+  [GAMEPAD_AXIS.LEFT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "l_stick_right",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MIN] = "r_stick_down",
+  [GAMEPAD_AXIS.RIGHT_STICK_VERTICAL | AXIS_MODIFIERS.MAX] = "r_stick_up",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MIN] = "r_stick_left",
+  [GAMEPAD_AXIS.RIGHT_STICK_HORIZONTAL | AXIS_MODIFIERS.MAX] = "r_stick_right",
+}
+
+local mouseAxesImages = {
+  [MOUSE_AXIS.NOT_AXIS] = "",
+  [MOUSE_AXIS.HORIZONTAL_AXIS] = "mouse_move_l_r",
+  [MOUSE_AXIS.VERTICAL_AXIS] = "mouse_move_up_down",
+  [MOUSE_AXIS.MOUSE_MOVE] = "mouse_move_4_sides",
+  [MOUSE_AXIS.WHEEL_AXIS] = "mouse_center_up_down",
+
+  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MIN] = "mouse_center_down",
+  [MOUSE_AXIS.WHEEL_AXIS | AXIS_MODIFIERS.MAX] = "mouse_center_up",
+  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MIN] = "mouse_move_l",
+  [MOUSE_AXIS.HORIZONTAL_AXIS | AXIS_MODIFIERS.MAX] = "mouse_move_r",
+  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MIN] = "mouse_move_down",
+  [MOUSE_AXIS.VERTICAL_AXIS | AXIS_MODIFIERS.MAX] = "mouse_move_up",
+}
+
 local curPreset = ::is_platform_ps4 ? ICO_PRESET_PS4 : ICO_PRESET_DEFAULT
 
 local getTexture = @(id, preset = curPreset) (id in controlsList) ? preset + id : ""
@@ -118,16 +154,21 @@ local getCssString = function()
   return cssString
 }
 
+local getGamepadAxisTexture = @(axisVal, preset = curPreset) getTexture(gamepadAxesImages?[axisVal])
+
 local getMouseTexture = function(idx, preset = curPreset)
 {
-  if (::is_platform_ps4 && idx in ps4TouchpadImagesByMouseIdx)
+  if (preset == ICO_PRESET_PS4 && idx in ps4TouchpadImagesByMouseIdx)
     return preset + ps4TouchpadImagesByMouseIdx[idx]
 
   if (idx in mouseButtonTextures)
     return "#ui/gameuiskin#" + mouseButtonTextures[idx]
 
-  return getTextureByButtonIdx(idx, preset)
+  return getTextureByButtonIdx(idx)
 }
+
+local getMouseAxisTexture = @(axisVal)
+  axisVal in mouseAxesImages ? "#ui/gameuiskin#"+mouseAxesImages[axisVal] : ""
 
 return {
   TOTAL_BUTTON_INDEXES = btnNameByIndex.len()
@@ -138,7 +179,9 @@ return {
 
   getTexture = getTexture
   getTextureByButtonIdx = getTextureByButtonIdx
+  getGamepadAxisTexture = getGamepadAxisTexture
   getMouseTexture = getMouseTexture
+  getMouseAxisTexture = getMouseAxisTexture
   hasMouseTexture = @(idx) mouseButtonTextures?[idx] != null
   hasTextureByButtonIdx = @(idx) btnNameByIndex?[idx] != null
   getButtonNameByIdx = @(idx) btnNameByIndex?[idx] ?? ""

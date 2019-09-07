@@ -765,6 +765,7 @@
     "sound": {
       "EngineName": "engine_sherman_m4a3",
       "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
       "TrackSoundNameCockpit": "tracks_interior",
       "EngineNameAi": "engine_tank_ai_middle",
@@ -1698,37 +1699,6 @@
     }
   },
   {
-    "MetaParts": {
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ]
-    }
-  },
-  {
     "class_tags": []
   },
   {
@@ -1925,7 +1895,7 @@
           "flash": "emtr_gun_flame",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
-          "barrelDP": "gun_barrel_01_dm",
+          "barrelDP": "gun_barrel_dm",
           "breechDP": "cannon_breech_dm",
           "speedYaw": 36.0,
           "speedPitch": 4.0,
@@ -2125,7 +2095,10 @@
       "tracks": {
         "animationMultiplier": 0.71,
         "height": 0.06,
-        "width": 0.53
+        "width": 0.53,
+        "fricFrontal": [1.5,1.5],
+        "criticalHillAngle": 27.0,
+        "hillClimbingDeclineFricKoef": 15.0
       },
       "collisionProps": {
         "cls_turret_01": "convex_hull",
@@ -2140,30 +2113,33 @@
       "mechanics": {
         "maxBrakeForce": 155000.0,
         "driveGearRadius": 0.33,
-        "mainGearRatio": 6.04,
-        "sideGearRatio": 4.25,
-        "neutralGearRatio": 3.0,
+        "mainGearRatio": 3.05,
+        "sideGearRatio": 2.2,
+        "neutralGearRatio": 15.0,
         "gearRatios": [
           {
-            "ratio": -2.0
+            "ratio": -4.18
           },
           {
             "ratio": 0.0
           },
           {
-            "ratio": 2.0
+            "ratio": 5.23
           },
           {
-            "ratio": 1.5
+            "ratio": 3.7
           },
           {
-            "ratio": 1.0
+            "ratio": 1.85
           },
           {
-            "ratio": 0.428
+            "ratio": 1.64
           },
           {
-            "ratio": 0.244
+            "ratio": 1.15
+          },
+          {
+            "ratio": 0.924
           }
         ]
       },

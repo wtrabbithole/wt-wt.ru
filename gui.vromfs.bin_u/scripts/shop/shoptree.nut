@@ -11,10 +11,10 @@ local function checkBranchPos(tree, branch, row, col)
 {
   for(local i = 0; i < branch.len(); i++)
   {
-    local max = branch[i].len()
-    if (max > tree[i+row].len() - col)
-      max = tree[i+row].len()-col
-    for(local j = 0; j < max; j++)
+    local idxMax = branch[i].len()
+    if (idxMax > tree[i+row].len() - col)
+      idxMax = tree[i+row].len()-col
+    for(local j = 0; j < idxMax; j++)
       if (tree[i+row][j+col] != null && branch[i][j] != null)
         return false
   }
@@ -59,7 +59,6 @@ local function makeTblByBranch(branch, ranksHeight, headRow = null)
   //  res.tbl.append([null])  //place for headAir in rowIdx==rank generation
 
   local prevAir = null
-  local tblWidth = 0
   foreach(idx, item in branch)
   {
     local curAir = null
@@ -71,7 +70,6 @@ local function makeTblByBranch(branch, ranksHeight, headRow = null)
     }
     else {
       curAir = item
-      local reqGroup = false
       if (item?.reqAir)
         prevAir = getAircraftByName(item.reqAir)
       if (prevAir)
