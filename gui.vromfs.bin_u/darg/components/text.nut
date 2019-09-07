@@ -17,7 +17,7 @@ local function text(text, params={}, addchildren = null) {
   local localize = params?.localize ?? true
   local watch = params?.watch
   local watchedtext = false
-  local txt = "" 
+  local txt = ""
   local rendObj = params?.rendObj ?? ROBJ_DTEXT
   assert (rendObj == ROBJ_DTEXT || rendObj == ROBJ_STEXT, "rendObj for text should be ROBJ_STEXT or ROBJ_DTEXT")
   if (type(text) == "string")  {
@@ -33,17 +33,17 @@ local function text(text, params={}, addchildren = null) {
     font = Fonts.medium_text
   }.__update(params).__update({text = txt, rendObj = rendObj})
   ret.__update({children=children})
-  if (watch || watchedtext) 
+  if (watch || watchedtext)
     return @() ret
   else
     return ret
 }
 
 local function dtext(text_val, params={}, children=[]) {
-  return text(text_val, params.__merge({rendObj = ROBJ_DTEXT}), children)  
+  return text(text_val, params.__merge({rendObj = ROBJ_DTEXT}), children)
 }
 local function stext(text_val, params={}, children = []) {
-  return text(text_val, params.__merge({rendObj = ROBJ_STEXT}), children)  
+  return text(text_val, params.__merge({rendObj = ROBJ_STEXT}), children)
 }
 return {
   text = text

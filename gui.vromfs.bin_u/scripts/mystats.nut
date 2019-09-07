@@ -32,6 +32,7 @@ local summaryNameArray = [
   _newPlayersBattles = {}
 
   newbie = false
+  newbieByUnitType = {}
   newbieNextEvent = {}
   _needRecountNewbie = true
   _unitTypeByNewbieEventId = {}
@@ -170,7 +171,19 @@ local summaryNameArray = [
     }
     _needRecountNewbie = false
 
+    newbieByUnitType.clear()
+    foreach (unitType in ::g_unit_type.types)
+    {
+      if (!unitType.isAvailable())
+        continue
+      local killsReq = _newPlayersBattles?[unitType.esUnitType]?.minKills ?? 0
+      if (killsReq <= 0)
+        continue
+      local kills = getKillsOnUnitType(unitType.esUnitType)
+      newbieByUnitType[unitType.esUnitType] <- kills < killsReq
+    }
     newbie = __isNewbie()
+
     newbieNextEvent.clear()
     foreach(unitType, config in _newPlayersBattles)
     {
@@ -213,14 +226,9 @@ local summaryNameArray = [
    */
   function __isNewbie()
   {
-    foreach (unitType in ::g_unit_type.types)
-    {
-      local newbieProgress = ::getTblValue(unitType.esUnitType, _newPlayersBattles)
-      local killsReq = (newbieProgress && newbieProgress.minKills) || 0
-      local kills = getKillsOnUnitType(unitType.esUnitType)
-      if (kills >= killsReq)
+    foreach (esUnitType, isNewbie in newbieByUnitType)
+      if (!isNewbie)
         return false
-    }
     return true
   }
 
@@ -348,6 +356,12 @@ local summaryNameArray = [
     return newbie
   }
 
+  function isMeNewbieOnUnitType(esUnitType, defVal = false)
+  {
+    checkRecountNewbie()
+    return newbieByUnitType?[esUnitType] ?? defVal
+  }
+
   function getNextNewbieEvent(country = null, unitType = null, checkSlotbar = true) //return null when no newbie event
   {
     checkRecountNewbie()
@@ -416,17 +430,33 @@ local summaryNameArray = [
     return saveBlk
   }
 
-  function getMissionsComplete()
+  function getMissionsComplete(summaryArray = summaryNameArray)
   {
     local res = 0
     local myStats = getStats()
-    foreach (summaryName in summaryNameArray)
+    foreach (summaryName in summaryArray)
     {
       local summary = myStats?.summary?[summaryName] ?? {}
       foreach(diffData in summary)
         res += diffData?.missionsComplete ?? 0
     }
     return res
+  }
+
+  function resetStatsParams()
+  {
+    clearStats()
+    _is_in_update = false
+    _resetStats = false
+    newbie = false
+    newbieNextEvent.clear()
+    _needRecountNewbie = true
+    _maxUnitsUsedRank = null
+  }
+
+  function onEventSignOut(p)
+  {
+    resetStatsParams()
   }
 }
 

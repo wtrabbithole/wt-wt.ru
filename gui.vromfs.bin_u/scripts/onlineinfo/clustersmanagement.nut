@@ -87,6 +87,9 @@ g_clusters <- {
     ::fetch_clusters_list(null,
       function(params)
       {
+        if (!this)
+          return
+
         __clusters_fetching = false
 
         if (::checkMatchingError(params, false)

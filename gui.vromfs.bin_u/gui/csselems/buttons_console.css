@@ -74,6 +74,8 @@
 @const buttonCloseHeight: @bigButtonHeight;
 @const smallButtonCloseHeight: @smallButtonHeight;
 
+@const buttonImgMargin: 0.2*@scrn_tgt/100.0;
+
 ButtonImg
 {
   re-type:9rect;
@@ -91,8 +93,8 @@ ButtonImg
 
 Button_text > ButtonImg,
 button > ButtonImg {
-  left:0.2*@scrn_tgt/100.0;
-  top:ph-h-2*@sf/@pf_outdated;
+  left:1@buttonImgMargin;
+  top:50%ph-50%h;
   position:'absolute';
 }
 
@@ -124,8 +126,8 @@ Button_text:disabled > ButtonImg {
 CheckBox[btnName] > ButtonImg
 {
   size:@cIco, @cIco;
-  left:h + 0.002*@scrn_tgt;
-  top:ph-h-2*@sf/@pf_outdated;
+  left:h + 1@buttonImgMargin;
+  top:50%ph-50%h;
   position:'absolute';
 }
 
@@ -169,6 +171,13 @@ Button_text, btnCollapse
 Button_text[type=wwArmyFlyOut]
 {
   snd_click:ww_airfield_send;
+}
+
+.optionsTable > tr > td > Button_text {
+  height:ph-4@dp;
+  pos:0, 50%ph-50%h;
+  position:relative;
+  noMargin:yes;
 }
 
 top_right_holder > Button_text {
@@ -215,6 +224,20 @@ Button_text underline {
   background-color: @buttonFontColor;
 }
 
+modSlotButtonsNest {
+  width:pw;
+  pos:0, ph;
+  position:absolute;
+  flow:vertical;
+  bgcolor:@weaponryButtonsNestColor;
+  order-popup:yes;
+  css-hier-invalidate:yes;
+  not-input-transparent:yes;
+}
+hoverSize modSlotButtonsNest {
+  not-input-transparent:no;
+}
+
 Button_text:focus,
 Button_text[active=yes],
 [show_console_buttons=yes] Button_text[inactiveColor=yes][selected=yes],
@@ -224,13 +247,15 @@ Button_text[active=yes],
   color: @buttonFontColorFocus;
 }
 
-buttonsNest > Button_text:focus {
+buttonsNest > Button_text:focus,
+modSlotButtonsNest > Button_text:focus {
   background-color: @buttonColor;
   color: @buttonFontColor;
   border-color:@buttonBorderColor;
 }
 
-[show_console_buttons=yes] buttonsNest > Button_text:focus {
+[show_console_buttons=yes] buttonsNest > Button_text:focus,
+[show_console_buttons=yes] modSlotButtonsNest > Button_text:focus {
   background-color: @buttonColorFocus;
   border-color:@buttonBorderColorFocus;
   color: @buttonFontColorFocus;
@@ -867,7 +892,7 @@ Button_text[btnName=start], button[btnName=start] { accessKey:'J:Start'; }
 Button_text[btnName=ww_menu]           { accessKey:'J:Start | Esc'; }
 Button_text[btnName=back]              { accessKey:'J:Back'; }
 Button_text[btnName=X], CheckBox[btnName=X], DummyButton[btnName=X],
-dropright[btnName=X], ComboBox[btnName=X]
+dropright[btnName=X], ComboBox[btnName=X], SwitchBox[btnName=X]
                                        { accessKey:'J:X'; }
 Button_text.battle[btnName=X]          { accessKey:'J:X | Enter'; }
 Button_text.battle[btnName=X][noEnter] { accessKey:'J:X'; }
@@ -877,7 +902,7 @@ textareaNoTab.highlightButton[btnName=Y], DummyButton[btnName=Y]
                                        { accessKey:'J:Y'; }
 Button_text.switch[btnName=Y]          { accessKey:'J:Y | Space'; }
 Button_text[btnName=RB], CheckBox[btnName=RB],
-DummyButton[btnName=RB], emptyButton[btnName=RB]
+DummyButton[btnName=RB], emptyButton[btnName=RB], ComboBox[btnName=RB]
                                        { accessKey:'J:RB'; }
 Button_text[btnName=LB], CheckBox[btnName=LB], playbackCheckbox[btnName=LB],
 DummyButton[btnName=LB], emptyButton[btnName=LB]
@@ -1397,6 +1422,10 @@ topMenuLinePlace {
   width:1@mainMenuButtonWidth;
 }
 
+topMenuButtons[isWide = yes] > topMenuLinePlace {
+  width:1@mainMenuButtonWideWidth;
+}
+
 menuLine {
   pos:50%pw-50%w, 0;
   position:relative;
@@ -1534,7 +1563,7 @@ Button_text.switch[isOpened=no] > img
   rotation:180;
 }
 
-cardImg.button, activeText.button, img.button, root.button, div.button, .hoverFrame > imgFrame {
+cardImg.button, activeText.button, img.button, root.button, div.button {
   behaviour:button;
   snd_click:click;
   input-transparent:no;
@@ -1789,12 +1818,14 @@ ButtonImg[showOn=selectedAndEnabled] {
   display:hide;
 }
 
+multiOption ButtonImg[showOn=selectedOnConsole],
 [show_console_buttons=no]  multiOption ButtonImg[showOrNoneOn=selectedOnConsole] {
   display:hide;
 }
 [show_console_buttons=yes] multiOption ButtonImg[showOrNoneOn=selectedOnConsole] {
   display:none;
 }
+[show_console_buttons=yes] multiOption[selected=yes] ButtonImg[showOn=selectedOnConsole],
 [show_console_buttons=yes] multiOption[selected=yes] ButtonImg[showOrNoneOn=selectedOnConsole] {
   display:show;
 }
@@ -1851,25 +1882,21 @@ Button_text.additional {
   height:0.7@buttonHeight;
   min-width:pw;
   font:@fontSmall;
-  position:absolute;
+  margin:1@smallButtonMargin;
+  margin-top:2@smallButtonMargin;
+}
+Button_text.additional[hasIncreasedTopMargin] {
+  margin-top:3@smallButtonMargin;
 }
 
-Button_text.additional[vertPos=up] {
-  pos:0,-h;
-}
-
-Button_text.additional[vertPos=down] {
-  pos:0, ph-1*@sf/@pf_outdated;
-}
-
-weaponry_item:hover > Button_text.additional[canShow=yes],
+weaponry_item:hover > modSlotButtonsNest > Button_text.additional[canShow=yes],
+weaponry_item > modSlotButtonsNest:hover > Button_text.additional[canShow=yes],
 weapon_item_unit:hover > Button_text.additional[canShow=yes],
 Button_text.additional:hover[canShow=yes],
- :focus > weaponry_item[selected=yes] > Button_text.additional[canShow=yes],
- :focus > weaponry_item[selected=yes] > Button_text.additional[canShow=selected],
-[show_console_buttons=yes] :focus > weaponry_item[selected=yes] > Button_text.additional[canShow=console] {
+:focus > weaponry_item[selected=yes] > modSlotButtonsNest > Button_text.additional[canShow=yes],
+:focus > weaponry_item[selected=yes] > modSlotButtonsNest > Button_text.additional[canShow=selected],
+[show_console_buttons=yes] :focus > weaponry_item[selected=yes] > modSlotButtonsNest > Button_text.additional[canShow=console] {
   display:show;
-  input-transparent:yes;
 }
 
 Button_text > textarea.buttonText {
@@ -2133,6 +2160,14 @@ topMenuButtons > Button_text {
   width:1@mainMenuButtonWidth;
 }
 
+topMenuButtons[isWide = yes] {
+  width:1@mainMenuButtonWideWidth + 2@dp;
+}
+
+topMenuButtons[isWide = yes] > Button_text {
+  width:1@mainMenuButtonWideWidth;
+}
+
 Button_text[reduceMinimalWidth=yes]  {
   min-width:0;
 }
@@ -2246,6 +2281,35 @@ Button_text[useParentHeight=yes] {
 
 Button_text > newIconWidget[widgetClass=text] {
   margin-left:-1@buttonTextPadding-1@newWidgetIconImgOffsetX;
+}
+
+Button_text[visualStyle=noBgr] {
+  padding-left:1@buttonHeight+1@buttonTextPadding;
+  behavior:textarea;
+  re-type:textarea;
+  min-height:@buttonHeight;
+  height:0;
+  text-align:center;
+  text-shade:smooth;
+  text-shade-x:1;
+  text-shade-y:1;
+  text-shade-color:#CC000000;
+  background-color: @transparent;
+  border-color:@transparent;
+  reduceMinimalWidth:yes;
+}
+
+Button_text[visualStyle=noBgr] > ButtonImg{
+  pos:1@buttonImgMargin, 50%ph-50%h;
+  height:@buttonHeight;
+}
+
+Button_text[visualStyle=noBgr]:hover {
+  color:@white;
+}
+
+Button_text[visualStyle=noBgr]:pushed {
+  color:@white;
 }
 
 buttonPlayer {

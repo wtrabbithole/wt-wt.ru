@@ -84,6 +84,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
     setDisableSslCertBox(disableSSLCheck)
     showSceneBtn("steam_login_action_button", ::steam_is_running())
+    showSceneBtn("sso_login_action_button", ::webauth_start(this, onSsoAuthorizationComplete))
 
     if (lp.login != "")
       currentFocusItem = 1
@@ -133,6 +134,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function onDestroy()
   {
+    ::webauth_stop()
     ::enable_keyboard_layout_change_tracking(false)
     ::enable_keyboard_locks_change_tracking(false)
   }
@@ -364,43 +366,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     if (::check_account_tag("wt_steam"))
       ::skip_steam_confirmations = true
 
-    local activate = (@(no_dump_login) function() {
-      local ret = ::steam_do_activation()
-      if (ret > 0)
-      {
-        local errorText = ""
-        if (ret == ::YU2_NOT_OWNER)
-          errorText = ::loc("steam/dlc_activated_error")
-        else if (ret == ::YU2_PSN_RESTRICTED)
-          errorText = ::loc("yn1/error/PSN_RESTRICTED")
-        else
-          errorText = ::loc("charServer/notAvailableYet")
-
-        msgBox("steam", errorText,
-          [["ok", (@(no_dump_login) function() {continueLogin(no_dump_login)})(no_dump_login) ]], "ok")
-        ::dagor.debug("steam_do_activation have returned " + ret)
-      }
-      else
-        continueLogin(no_dump_login)
-    })(no_dump_login)
-
-    if (::steam_is_running() && ::steam_need_activation() &&
-      (!("is_gui_about_to_reload" in getroottable()) || ! ::is_gui_about_to_reload()))
-    {
-      if (::skip_steam_confirmations)
-      {
-        activate()
-      }
-      else msgBox("steam", ::loc("steam/ask_dlc_activate"),
-        [
-          ["yes", (@(activate) function() {
-            activate()
-          })(activate) ],
-          ["no", (@(no_dump_login) function() { continueLogin(no_dump_login) })(no_dump_login) ]
-        ], "yes")
-    }
-    else
-      continueLogin(no_dump_login)
+    continueLogin(no_dump_login)
   }
 
   function continueLogin(no_dump_login)
@@ -483,6 +449,25 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     ::dagor.debug("Steam Login: check_login_pass")
     local result = ::check_login_pass("", "", "steam", "steam", false, false)
     proceedAuthorizationResult(result, "")
+  }
+
+  function onSsoAuthorization()
+  {
+    local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
+    local no_dump_url = ::webauth_get_url(no_dump_login)
+    ::open_url(no_dump_url)
+    ::browser_set_external_url(no_dump_url)
+  }
+
+  function onSsoAuthorizationComplete(params)
+  {
+    ::close_browser_modal()
+
+    if (params.success)
+    {
+      local no_dump_login = ::get_object_value(scene, "loginbox_username", "")
+      continueLogin(no_dump_login);
+    }
   }
 
   function proceedGetTwoStepCode(data)

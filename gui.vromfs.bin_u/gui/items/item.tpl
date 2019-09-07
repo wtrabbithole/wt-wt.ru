@@ -138,15 +138,6 @@ itemDiv {
     }
     <</headerText>>
 
-    <<#newIconWidget>> //!!FIX ME: still used in warbonds new icons
-    newIconWidget {
-      id:t='item_new_icon_widget'
-      position:t='absolute'
-      pos:t='pw-w, 0'
-      <<@newIconWidget>>
-    }
-    <</newIconWidget>>
-
     <<#unseenIcon>>
     unseenIcon {
       pos:t='pw-w, 0'

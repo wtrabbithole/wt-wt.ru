@@ -1,4 +1,6 @@
 @const wwMapActiveWidth: 1@_safearea_menu*sw;
+@const wwMapOffset: ((sw - 1@wwMapActiveWidth) / 2) \ 1;
+@const wwMapQueueInfoYpos: 1@topBarHeight + 3@sf/@pf;
 
 @const headerIndent: 0.02@scrn_tgt;
 @const bigArmyGroupIconSize: 48*@sf/@pf_outdated;
@@ -39,6 +41,7 @@
 
 @const wwBattleInfoScreenIncHeight: sh - 1@sf;
 @const wwFlyOutAirTypeTitleHeight: 44@sf/@pf;
+@const wwFlyOutScreenInfoWidth: 1@slot_interval +1@flyOutSliderWidth +2@sliderButtonSquareHeight +1@buttonWidth +1@slot_button_fullWidth +2@slot_interval +1@modItemWidth +1@modItemHeight;
 
 
 
@@ -616,3 +619,31 @@ wwUnitActiveBlock:hover
 {
   background-color:#ff2d3841;
 }
+
+wwUnitClassNest
+{
+  css-hier-invalidate:yes;
+}
+wwUnitClassNest[isEnabled=no] textareaNoTab
+{
+  color:@disabledTextColor;
+}
+
+wwUnitClass
+{
+  css-hier-invalidate:yes;
+}
+wwUnitClass > classIcon
+{
+  font: @fontBigBold;
+}
+wwUnitClass > classIcon[zeroPos=yes]
+{
+  pos: 0, 0;
+  position: relative;
+}
+
+wwUnitClass > classIcon[unitType=fighter]  { color: @medium_fighterColor; }
+wwUnitClass > classIcon[unitType=assault]  { color: @common_assaultColor; }
+wwUnitClass > classIcon[unitType=bomber]   { color: @medium_bomberColor; }
+[isEnabled=no] wwUnitClass > classIcon     { color: @fadedTextColor; }

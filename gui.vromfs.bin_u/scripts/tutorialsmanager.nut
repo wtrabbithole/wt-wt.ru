@@ -44,6 +44,8 @@
 
     if (::isTank(unit))
       return ::gui_start_checkTutorial("lightTank")
+    else if (::isShip(unit))
+      return ::gui_start_checkTutorial("boat")
     else if (::gui_start_checkTutorial("fighter"))
       return true
 

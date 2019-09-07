@@ -55,7 +55,10 @@ class ::gui_handlers.UpgradeClanModalHandler extends ::gui_handlers.ModifyClanMo
       upgradeClan()
     else if (::check_balance_msgBox(upgradeCost))
     {
-      local msgText = format(::loc("clan/needMoneyQuestion_upgradeClanPrimaryInfo"), upgradeCost.tostring())
+      local msgText = warningIfGold(
+        format(::loc("clan/needMoneyQuestion_upgradeClanPrimaryInfo"),
+          upgradeCost.tostring()),
+        upgradeCost)
       msgBox("need_money", msgText, [["ok", function() { upgradeClan() }],
         ["cancel"]], "ok")
     }

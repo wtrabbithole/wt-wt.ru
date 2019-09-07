@@ -56,6 +56,11 @@ local function Log(tostringfunc=null) {
       printFn("DD: START")
     printFn(tostring_r(value,{compact=false, maxdeeplevel=maxdeeplevel, newline=newline, showArrIdx=false, tostringfunc=tostringfunc}))
   }
+
+  local function console_print(data,params={}) {
+    debugTableData(data, params.__merge({printFn=dagorDebug.console_print}))
+  }
+
   return {
     vlog = vlog
     v = vlog
@@ -64,7 +69,7 @@ local function Log(tostringfunc=null) {
     d = dlog
     dlogsplit = dlogsplit
     debugTableData = debugTableData
-
+    console_print = console_print
     //lowlevel dagor functions
     debug = dagorDebug.debug
     logerr = dagorDebug.logerr

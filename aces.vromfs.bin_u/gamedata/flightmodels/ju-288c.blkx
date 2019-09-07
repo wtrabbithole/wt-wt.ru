@@ -9,6 +9,9 @@
     "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/2x_engine_bomber_metaparts.blk"
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk"
   },
   {
@@ -69,7 +72,7 @@
     "fireParamsPreset": "600kph"
   },
   {
-    "fightAiBehaviour": "fighter"
+    "fightAiBehaviour": "bomber"
   },
   {
     "hasQualityModels": true
@@ -3406,6 +3409,22 @@
           "name": "Ju-288C_2x1800kg",
           "blk": "gameData/FlightModels/weaponPresets/ju_288c_2x1800.blk",
           "reqModification": "ju_88_SC1800"
+        }
+      }
+    ]
+  },
+  {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "ju288_c_green_a*",
+          "to": "ju288_c_green_a_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "ju288_c_green_a_dmg*",
+          "to": "ju288_c_green_a_tomoe_dmg*"
         }
       }
     ]

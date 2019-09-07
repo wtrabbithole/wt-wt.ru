@@ -35,7 +35,12 @@ class ::g_invites_classes.ChatRoom extends ::BaseInvite
 
   function isValid()
   {
-    return roomId != "" && roomType.isAllowed()
+    return roomId != "" && roomType.isAllowed() && !haveRestrictions()
+  }
+
+  function haveRestrictions()
+  {
+    return !isAvailableByChatRestriction()
   }
 
   function getChatInviteText()

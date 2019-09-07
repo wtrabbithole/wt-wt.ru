@@ -14,6 +14,7 @@ frame {
 
   max-width:t='1@rw'
   max-height:t='1@rh'
+  largeNavBarHeight:t='yes'
 
   frame_header {
     HorizontalListBox {
@@ -45,19 +46,8 @@ frame {
     <<#unitString>>
       weaponry_item {
         id:t='<<unitName>>_<<armyGroupIdx>>'
+        margin-top:t='1@framePadding'
         css-hier-invalidate:t='yes'
-
-        <<#unitClassText>>
-          margin-top:t='1@wwFlyOutAirTypeTitleHeight'
-          textareaNoTab {
-            top:t='-0.5@wwFlyOutAirTypeTitleHeight - h/2'
-            position:t='absolute'
-            text:t='#worldwar/airfield/<<unitClassText>>'
-          }
-        <</unitClassText>>
-        <<^unitClassText>>
-          margin-top:t='1@framePadding'
-        <</unitClassText>>
 
         textareaNoTab {
           pos:t='1@flyOutSliderWidth + 2@sliderButtonSquareHeight + 1@buttonWidth - w, 2@framePadding'
@@ -68,9 +58,9 @@ frame {
         }
 
         tdiv {
-          pos:t='1@slot_interval, ph - h - 1@slot_vert_pad'
-          position:t='relative'
           width:t='1@flyOutSliderWidth + 2@sliderButtonSquareHeight + 1@buttonWidth'
+          pos:t='1@slot_interval, ph-h'
+          position:t='relative'
           unitName:t='<<unitName>>'
           armyGroupIdx:t='<<armyGroupIdx>>'
           css-hier-invalidate:t='yes'
@@ -88,30 +78,67 @@ frame {
           id:t='secondary_weapon'
           width:t='1@modItemWidth'
           height:t='1@modItemHeight'
-          css-hier-invalidate:t="yes"
+          css-hier-invalidate:t='yes'
+        }
+        wwUnitClass {
+          size:t='1@modItemHeight, 1@modItemHeight'
+
+          classIcon {
+            id:t='unit_class_icon_text'
+            text:t='<<unitClassIconText>>'
+            tooltip:t='<<unitClassTooltipText>>'
+            unitType:t='<<unitClassName>>'
+          }
         }
       }
     <</unitString>>
   }
 
-  textareaNoTab {
-    id:t='armies_limit_text'
-    smallFont:t='yes'
-    margin-top:t='1@framePadding'
-    text:t=''
-  }
+  tdiv {
+    width:t='1@wwFlyOutScreenInfoWidth'
+    left:t='0.5(pw-w)'
+    position:t='relative'
+    flow:t='vertical'
 
-  textareaNoTab {
-    id:t='unit_fly_conditions_title'
-    smallFont:t='yes'
-    margin-top:t='1@framePadding'
-    text:t='#worldwar/airfield/unit_fly_conditions'
-  }
+    textareaNoTab {
+      id:t='armies_limit_text'
+      width:t='pw'
+      margin:t='2@blockInterval'
+      text-align:t='center'
+      text:t=''
+      smallFont:t='yes'
+    }
 
-  textareaNoTab {
-    id:t='unit_fly_conditions_text'
-    smallFont:t='yes'
-    text:t=''
+    tdiv {
+      width:t='pw'
+      padding:t='1@blockInterval'
+      bgcolor:t='@objectiveHeaderBackground'
+
+      textareaNoTab {
+        id:t='army_info_text'
+        width:t='fw'
+        top:t='0.5(ph-h)'
+        position:t='relative'
+        text-align:t='center'
+        text:t=''
+        tooltip:t=''
+        smallFont:t='yes'
+      }
+
+      <<#hintText>>
+      cardImg {
+        background-image:t='#ui/gameuiskin#btn_help.svg'
+        tooltip:t='<<hintText>>'
+      }
+      <</hintText>>
+    }
+
+    tdiv {
+      width:t='0.85pw'
+      left:t='0.5(pw-w)'
+      position:t='relative'
+      include "gui/worldWar/airfieldFlyOutUnitTypeInfo"
+    }
   }
 
   navBar{}

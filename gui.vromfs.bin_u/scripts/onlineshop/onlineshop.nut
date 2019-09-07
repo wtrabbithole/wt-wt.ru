@@ -134,8 +134,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
             chImages[goods[name].chapter] <- goods[name].chapterImage
         }
 
-        local discount = ::getTblValue(name, ::visibleDiscountNotifications.entitlements, 0)
-
+        local discount = ::g_discount.getEntitlementDiscount(name)
         local view = {
           itemIcon = getItemIcon(name)
           id = name
@@ -191,7 +190,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         local amountText = ""
         local savingText = ""
 
-        local discount = ::getTblValue(item.name, ::visibleDiscountNotifications.entitlements, 0)
+        local discount = ::g_discount.getEntitlementDiscount(item.name)
 
         if (additionalAmount > 0)
         {
@@ -477,7 +476,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       scene.findObject("btn_buy_online").setValue(::loc("mainmenu/btnBuy") + ((priceText=="")? "" : format(" (%s)", priceText)))
 
       local discountText = ""
-      local discount = ::getTblValue(goods[task].name, ::visibleDiscountNotifications.entitlements, 0)
+      local discount = ::g_discount.getEntitlementDiscount(goods[task].name)
       if (isGoods && discount > 0)
         discountText = "-" + discount + "%"
       scene.findObject("buy_online-discount").setValue(discountText)
@@ -533,8 +532,10 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         return onOnlinePurchase(task)
 
       local costGold = "goldCost" in goods[task]? ::get_entitlement_cost_gold(goods[task].name) : 0
-      local msgText = ::loc("onlineShop/needMoneyQuestion",
-                            { purchase = ::get_entitlement_name(goods[task]), cost = getItemPriceText(task) })
+      local msgText = warningIfGold(
+        ::loc("onlineShop/needMoneyQuestion",
+          {purchase = ::get_entitlement_name(goods[task]), cost = getItemPriceText(task)}),
+        ::Cost(0, costGold))
       msgBox("purchase_ask", msgText,
         [ ["yes", (@(costGold) function() {
             if (costGold && ::old_check_balance_msgBox(0, costGold))
@@ -579,8 +580,11 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onYuplayPurchase(task, payMethod)
   {
-    local msgText = ::loc("onlineShop/needMoneyQuestion",
-                          { purchase = ::get_entitlement_name(goods[task]), cost = getItemPriceText(task) })
+    local costGold = "goldCost" in goods[task]? ::get_entitlement_cost_gold(goods[task].name) : 0
+    local msgText = warningIfGold(
+      ::loc("onlineShop/needMoneyQuestion",
+        {purchase = ::get_entitlement_name(goods[task]), cost = getItemPriceText(task)}),
+      ::Cost(0, costGold))
     msgBox("purchase_ask", msgText,
       [ ["yes", (@(task, payMethod) function() {
           doYuplayPurchase(task, payMethod)

@@ -1,17 +1,6 @@
-/**
-* Main get personal discount method.
-*/
-function get_personal_discount_by_path(path)
-{
-  if (path.len() == 0)
-    return 0
-  local method = ::getTblValue(path[0], ::personal_discount_get_method_by_categeory, null)
-  if (typeof(method) == "function")
-    return method(path)
-  return 0
-}
+/** Main get personal discount method. */
 
-::personal_discount_get_method_by_categeory <- {
+local getMethodByCategory = {
   aircrafts = function (path)
   {
     if (path.len() == 2)
@@ -52,4 +41,19 @@ function get_personal_discount_by_path(path)
       return 0
     return ::item_get_personal_discount_for_exp_convert(path[1])
   }
+}
+
+local getDiscountByPath = function(path)
+{
+  if (path.len() == 0)
+    return 0
+
+  local method = getMethodByCategory?[path[0]] ?? null
+  if (typeof(method) == "function")
+    return method(path)
+  return 0
+}
+
+return {
+  getDiscountByPath = getDiscountByPath
 }

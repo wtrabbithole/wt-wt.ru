@@ -18,16 +18,8 @@
  * the iteratee is not invoked on the first element of the list.
  * The first element is instead passed as the memo in the
  * invocation of the iteratee on the next element in the list.
+  the reduce function for table */
 
- Note: it is slightly different from native reduce of squirrel by memo option
- */
-local function reduce(list, iteratee, memo = null) {
-  foreach (item in list)
-    memo = iteratee(item, memo)
-
-  return memo
-}
-/*the same reduce function for table */
 local function reduceTbl(table, iteratee, memo = null) {
   foreach (key,value in table)
     memo = iteratee(key, value, memo)
@@ -104,7 +96,7 @@ local function keys(table) {
  * Return all of the values of the table's properties.
  */
 local function values(data) {
-  if (::type(data)=="array")
+  if (typeof data == "array")
     return clone data
   local res = []
   foreach (val in data)
@@ -147,8 +139,10 @@ local function pick(table, ... /*keys*/) {
     return res
 
   if (isFunction(vargv[0])) {
-    foreach (key, val in table)
-      if (vargv[0](value, key, obj)) res[key] <- val
+    foreach (key, val in table) {
+      if (vargv[0](val, key, table))
+        res[key] <- val
+    }
   }
   else {
     local keys = []
@@ -185,7 +179,6 @@ local function tablesCombine(tbl1, tbl2, func=null, defValue = null, addParams =
 
 
 return {
-  reduce = reduce
   reduceTbl = reduceTbl
   search = search
   zip = zip

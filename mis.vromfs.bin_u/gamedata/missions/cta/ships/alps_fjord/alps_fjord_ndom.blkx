@@ -130,9 +130,9 @@
       "locName": "missions/_NDom;alps_fjord/name",
       "locDesc": "alps_fjord/desc;missions/_NDom/desc",
       "scoreLimit": 20000,
-      "timeLimit": 25,
+      "timeLimit": 30,
       "deathPenaltyMul": 0.5,
-      "ctaCaptureZoneEqualPenaltyMul": 0.5,
+      "ctaCaptureZoneEqualPenaltyMul": 0.0,
       "allowedKillStreaks": true,
       "country_axis": "germany",
       "country_allies": "ussr",
@@ -245,21 +245,21 @@
             "icon": {
               "icontype": "basezone_A",
               "side": "neutral",
-              "target": "briefing_center"
+              "target": "briefing_capture_area_01"
             }
           },
           {
             "icon": {
               "icontype": "basezone_B",
               "side": "neutral",
-              "target": "briefing_right"
+              "target": "briefing_capture_area_02"
             }
           },
           {
             "icon": {
               "icontype": "basezone_C",
               "side": "neutral",
-              "target": "briefing_left"
+              "target": "briefing_capture_area_03"
             }
           }
         ]
@@ -435,13 +435,13 @@
       "objLayer": 3,
       "props": []
     },
-    "briefing_center": {
+    "briefing_capture_area_02": {
       "type": "Point",
       "tm": [
         [0.278287,0.0,-0.960498],
         [0.0,1.0,0.0],
         [0.960498,0.0,0.278287],
-        [651.9,-30.9,4070.15]
+        [605.983,-30.9,4070.15]
       ],
       "objLayer": 0,
       "props": []
@@ -468,24 +468,24 @@
       "objLayer": 3,
       "props": []
     },
-    "briefing_left": {
+    "briefing_capture_area_03": {
       "type": "Point",
       "tm": [
         [0.278287,0.0,-0.960498],
         [0.0,1.0,0.0],
         [0.960498,0.0,0.278287],
-        [-4507.55,-38.95,4105.9]
+        [-4527.44,-38.95,4105.9]
       ],
       "objLayer": 0,
       "props": []
     },
-    "briefing_right": {
+    "briefing_capture_area_01": {
       "type": "Point",
       "tm": [
         [0.278287,0.0,-0.960498],
         [0.0,1.0,0.0],
         [0.960498,0.0,0.278287],
-        [4961.25,-30.65,4118.5]
+        [4981.84,-30.65,4118.5]
       ],
       "objLayer": 0,
       "props": []

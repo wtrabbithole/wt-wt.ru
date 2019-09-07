@@ -568,11 +568,15 @@ bonus {
 }
 
 bonusNoFrame {
+  size:1@slot_hdr_width, 1.577@slot_hdr_width;
   pos:50%pw-50%w, 0.5ph - 0.5(h - 1@cIco); 
   position:relative;
-  size:1@slot_hdr_width, 1.577@slot_hdr_width;
-  background-color:@transparent;
-  background-repeat:expand;
+}
+
+shopFilter.slotsHeader > bonusNoFrame {
+  size: ph, ph;
+  pos: 0, 0;
+  position: absolute;
 }
 
 bonus[bonusType=wp], bonusNoFrame[bonusType=wp]     { background-color:@WPMultiplierColor; }
@@ -1766,6 +1770,26 @@ imgButton.decal_image:hover, .hoverFrame > imgButton:hover {
 imgButton.decal_image[unlocked=no]:hover {
   background-image:#ui/gameuiskin#header_button_active;
 }
+
+imgSelectable {
+  size:1.5@profileMedalSize, 1.5@profileMedalSize;
+}
+imgSelectable > img {
+  size:@profileMedalSize, @profileMedalSize;
+}
+imgSelectable.smallMedals {
+  size:1.5@profileMedalSizeList, 1.5@profileMedalSizeList;
+}
+imgSelectable.smallMedals > img {
+  size:@profileMedalSizeList, @profileMedalSizeList;
+}
+imgSelectable:hover {
+  background-color:@listboxHoverOptionColor;
+}
+imgSelectable[selected=yes] {
+  background-color:@listboxSelOptionColor;
+}
+
 LockedImg{
   size:pw, ph;
   pos:50%pw-50%w, 50%ph-50%h;
@@ -1893,10 +1917,16 @@ fieldReq{
   border-offset:@dp;
 }
 
+slotbarDiv {
+  width:1@slotbarWidthFull;
+}
+slotbarDiv[hasHeader=yes] {
+  width:1@slotbarWidthFullExt;
+}
+
 navBar > slotbarDiv {
   pos:50%sw-50%w, sh-h-1@slotbarOffset;
   position:root;
-  width:@slotbarWidthFull;
 }
 
 optionlist_container[mislist=yes] {
@@ -2291,17 +2321,17 @@ TopMenuPanel > infoBlock {
 }
 
 gamercard_div[type=wwMap] > gamercard > TopMenuPanel > infoBlock {
-  pos: sw -w -1@wwMapPanelInfoWidth -3@framePadding, 1@topBarHeight;
+  pos: sw -1@wwMapOffset -w -1@wwMapPanelInfoWidth -2@framePadding, 1@wwMapQueueInfoYpos;
 }
 gamercard_div[type=wwMap][switchBtnStat=switchOff] > gamercard > TopMenuPanel > infoBlock {
-  pos: sw -w -1@wwMapPanelInfoWidth -3@framePadding -1@baseToggleButtonWidth -1@blockInterval, 1@topBarHeight;
+  pos: sw -1@wwMapOffset -w -1@wwMapPanelInfoWidth -2@framePadding -1@baseToggleButtonWidth -1@blockInterval, 1@wwMapQueueInfoYpos;
 }
 gamercard_div[type=wwMap][switchBtnStat=switchOn] > gamercard > TopMenuPanel > infoBlock {
-  pos: sw -w -3@framePadding -1@baseToggleButtonWidth -1@blockInterval, 1@topBarHeight;
+  pos: sw -1@wwMapOffset -w -1@framePadding -1@baseToggleButtonWidth -1@blockInterval, 1@wwMapQueueInfoYpos;
 }
 
-slotbarTop > tdiv[offset=yes] {
-  padding-left:1@offsetFromEdge + 1@shopWidthMax + 10@sf/@pf_outdated;
+slotbarTop[offset=yes] {
+  padding-left:1@slotbarShopBtnOffset;
 }
 
 bottomButtonsDiv {
@@ -2452,7 +2482,7 @@ fadedImageFrame {
   foreground-color:@white;
   foreground-position:4,4;
   foreground-image:#ui/gameuiskin#pattern_bright_hor_lines;
-  padding:3;
+  padding: 1@fadedImageFramePad;
 }
 
 fadingBox {
@@ -2568,7 +2598,7 @@ ShadeDiv {
 ShadeDiv.authorization {
   position:relative;
   pos:50%pw-50%w;
-  width:pw-2@dp;    padding:0.015@scrn_tgt + 1@framePadding,0.015@scrn_tgt; }
+  width:pw-2@dp;    padding:0.015@scrn_tgt + 1@framePadding,0.01@scrn_tgt; }
 
 debriefingTab {
   size:pw, ph;

@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -338,6 +341,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
         "cannon_breech_02_dm": []
@@ -1634,18 +1638,6 @@
       "explodeTreshold": 0.0001,
       "explodeArmorPower": 30.0,
       "explodeRadius": [1.5,10.0]
-    }
-  },
-  {
-    "wreckedParts": {
-      "part": {
-        "node": "bone_turret",
-        "mass": 1500.0,
-        "cutDamage": 200.0,
-        "deviation": 0.5,
-        "rotation": 0.5,
-        "collisionNode": "cls_gun"
-      }
     }
   },
   {

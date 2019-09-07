@@ -64,6 +64,11 @@ activateSelect {
   padding:@listboxPad-1@listboxItemsInterval;
 }
 
+activateSelect.slotsHeader {
+  background-color: @transparent;
+  padding: 0;
+}
+
 activateSelect > shopFilter {
   margin:1@listboxItemsInterval;
 }
@@ -94,6 +99,10 @@ activateSelect[smallFont=yes] > shopFilter {
 
 activateSelect[normalFont=yes] > shopFilter {
   padding:0.5*@scrn_tgt/100.0, 0;
+}
+
+activateSelect[normalFont=yes] > shopFilter.slotsHeader {
+  padding:1@slotsHeaderBoxPadding, 0;
 }
 
 activateSelect[smallFont=yes] > shopFilter[canClose=yes] {

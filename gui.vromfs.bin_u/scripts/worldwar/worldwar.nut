@@ -69,9 +69,10 @@ enum WW_UNIT_CLASS
 {
   FIGHTER  = 0x0001
   BOMBER   = 0x0002
-  UNKNOWN  = 0x0004
+  ASSAULT  = 0x0004
+  UNKNOWN  = 0x0008
 
-  NONE   = 0x0000
+  NONE     = 0x0000
   COMBINED = 0x0003
 }
 
@@ -97,10 +98,12 @@ enum WW_BATTLE_CANT_JOIN_REASON
   NO_TEAM_NAME_BY_SIDE
   NO_AVAILABLE_UNITS
   TEAM_FULL
+  QUEUE_FULL
   UNITS_NOT_ENOUGH_AVAILABLE
   SQUAD_NOT_LEADER
   SQUAD_WRONG_SIDE
   SQUAD_TEAM_FULL
+  SQUAD_QUEUE_FULL
   SQUAD_NOT_ALL_READY
   SQUAD_MEMBER_ERROR
   SQUAD_UNITS_NOT_ENOUGH_AVAILABLE
@@ -903,6 +906,28 @@ function g_world_war::updateBattles(forced = false)
 function g_world_war::updateConfigurableValues()
 {
   ::ww_get_configurable_values(configurableValues)
+
+  // ----- FIX ME: Weapon masks data should be received from char -----
+  if (!("fighterCountAsAssault" in configurableValues))
+  {
+    configurableValues.fighterCountAsAssault = ::DataBlock()
+    configurableValues.fighterCountAsAssault.mgun    = false
+    configurableValues.fighterCountAsAssault.cannon  = false
+    configurableValues.fighterCountAsAssault.gunner  = false
+    configurableValues.fighterCountAsAssault.bomb    = true
+    configurableValues.fighterCountAsAssault.torpedo = false
+    configurableValues.fighterCountAsAssault.rockets = true
+    configurableValues.fighterCountAsAssault.gunpod  = false
+  }
+  // ------------------------------------------------------------------
+
+  local fighterToAssaultWeaponMask = 0
+  local fighterCountAsAssault = configurableValues.fighterCountAsAssault
+  for (local i = 0; i < fighterCountAsAssault.paramCount(); i++)
+    if (fighterCountAsAssault.getParamValue(i))
+      fighterToAssaultWeaponMask = fighterToAssaultWeaponMask | (1 << i)
+
+  configurableValues.fighterToAssaultWeaponMask = fighterToAssaultWeaponMask
 }
 
 

@@ -42,7 +42,6 @@ function on_sign_out()  //!!FIX ME: better to full replace this function by Sign
   ::clear_contacts()
   ::g_squad_manager.reset()
   ::SessionLobby.leaveRoom()
-  ::my_stats.clearStats()
   if (::g_battle_tasks)
     ::g_battle_tasks.reset()
   if (::g_recent_items)
@@ -205,7 +204,7 @@ function g_login::initConfigs(cb)
       ::ItemsManager.collectUserlogItemdefs()
     }
     function() {
-      ::updateDiscountData(true)
+      ::g_discount.updateDiscountData(true)
     }
     function() {
      ::slotbarPresets.init()

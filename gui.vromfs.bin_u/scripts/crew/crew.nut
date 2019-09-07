@@ -110,7 +110,7 @@ function g_crew::getDiscountsTooltipByInfo(discountInfo, showBuyPoints = true)
   if (showBuyPoints)
     table["mainmenu/btnBuySkillPoints"] <- discountInfo.buyPoints
 
-  return ::generateDiscountInfo(table, ::format(::loc("discount/specialization/tooltip"), maxDiscount)).discountTooltip
+  return ::g_discount.generateDiscountInfo(table, ::format(::loc("discount/specialization/tooltip"), maxDiscount)).discountTooltip
 }
 
 function g_crew::createCrewBuyPointsHandler(crew)
@@ -455,13 +455,13 @@ function g_crew::upgradeUnitSpec(crew, unit, crewUnitTypeToCheck = null, nextSpe
   if (cost.isZero())
     return _upgradeUnitSpec(crew, unit, upgradesAmount)
 
-  local msgText = ::loc(msgLocId, msgLocParams) + "\n\n"
-                + ::loc("shop/crewQualifyBonuses",
-                        {
-                          qualification = ::colorize("userlogColoredText", nextSpecType.getName())
-                          bonuses = nextSpecType.getFullBonusesText(crewUnitType, curSpecType.code)
-                        })
-                + "\n" + unitTypeSkillsMsg
+  local msgText = warningIfGold(
+    ::loc(msgLocId, msgLocParams) + "\n\n"
+      + ::loc("shop/crewQualifyBonuses",
+        {qualification = ::colorize("userlogColoredText", nextSpecType.getName())
+          bonuses = nextSpecType.getFullBonusesText(crewUnitType, curSpecType.code)})
+      + "\n" + unitTypeSkillsMsg,
+    cost)
   ::scene_msg_box("purchase_ask", null, msgText,
     [
       ["yes", (@(cost, crew, unit, upgradesAmount) function() {

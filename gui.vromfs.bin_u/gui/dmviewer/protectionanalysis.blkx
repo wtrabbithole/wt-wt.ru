@@ -48,7 +48,7 @@
   {
     "tdiv": [
       {
-        "pos": "pw-w, sh -1@bottomBarHeight -1@blockInterval -h"
+        "pos": "pw - 1@bw - w, sh -1@bottomBarHeight -1@blockInterval -h"
       },
       {
         "position": "absolute"
@@ -58,6 +58,50 @@
       },
       {
         "flow-align": "reverse"
+      },
+      {
+        "frame": {
+          "id": "analysis_hint",
+          "pos": "pw-w-1@buttonMargin, -h",
+          "position": "absolute",
+          "display": "hide",
+          "table": {
+            "class": "transpTable",
+            "tr-incsize": "1",
+            "td-incsize": "4",
+            "tr": [
+              {
+                "id": "analysis_hint_shot"
+              },
+              {
+                "display": "hide"
+              },
+              {
+                "td": {
+                  "cellType": "tdRight",
+                  "activeText": {
+                    "id": "push_to_shot"
+                  }
+                }
+              },
+              {
+                "td": {
+                  "cellType": "tdCenter",
+                  "activeText": {
+                    "text": "#ui/mdash"
+                  }
+                }
+              },
+              {
+                "td": {
+                  "activeText": {
+                    "text": "#protectionAnalysis/hint/shot"
+                  }
+                }
+              }
+            ]
+          }
+        }
       },
       {
         "Button_text": {
@@ -149,13 +193,6 @@
                 "pos": "50%pw-50%w, 0",
                 "display": "hide",
                 "enable": "no",
-                "behaviour": "wrapNavigator",
-                "navigatorShortcuts": "yes",
-                "childsActivate": "yes",
-                "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown",
-                "on_wrap_left": "onTopGCPanelLeft",
-                "on_wrap_right": "onTopGCPanelRight",
                 "gameModeChangeButton": [
                   {
                     "id": "game_mode_change_button"
@@ -1011,5 +1048,22 @@
         }
       }
     ]
+  },
+  {
+    "hitCamera": {
+      "id": "dmviewer_hitcamera",
+      "position": "absolute",
+      "pos": "pw -w -1@bw, 1@topBarHeight +2@blockInterval",
+      "result": "",
+      "hitCameraLine": [],
+      "hitCameraRender": {
+        "hitCameraTitle": {
+          "id": "title"
+        },
+        "hitCameraInfo": {
+          "id": "info"
+        }
+      }
+    }
   }
 ]

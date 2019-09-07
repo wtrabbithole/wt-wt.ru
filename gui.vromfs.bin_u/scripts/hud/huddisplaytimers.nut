@@ -108,6 +108,11 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       color = "@white"
       icon = "#ui/gameuiskin#icon_weapons_relocation_in_progress.svg"
     }
+    {
+      id = "move_cooldown_status"
+      color = "@white"
+      icon = "#ui/gameuiskin#icon_repair_in_progress.svg"
+    }
   ]
 
   scene = null
@@ -136,6 +141,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     ::g_hud_event_manager.subscribe("TankDebuffs:Rearm", onRearm, this)
     ::g_hud_event_manager.subscribe("TankDebuffs:Replenish", onReplenish, this)
     ::g_hud_event_manager.subscribe("TankDebuffs:Repair", onRepair, this)
+    ::g_hud_event_manager.subscribe("TankDebuffs:MoveCooldown", onMoveCooldown, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Repair", onRepair, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:RepairBreaches", onRepairBreaches, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Extinguish", onExtinguish, this)
@@ -346,6 +352,29 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       })(debuffs_data, createTime))
     }
 
+    ::g_time_bar.setPeriod(timebarObj, debuffs_data.time)
+    ::g_time_bar.setCurrentTime(timebarObj, 0)
+  }
+
+  function onMoveCooldown(debuffs_data)
+  {
+    local placeObj = scene.findObject("move_cooldown_status")
+    if (!::checkObj(placeObj))
+      return
+
+    local showTimer = debuffs_data.time >= 0
+    placeObj.animation = showTimer ? "show" : "hide"
+
+    local timebarObj = placeObj.findObject("timer")
+
+    if (!showTimer)
+    {
+      ::g_time_bar.setPeriod(timebarObj, 0)
+      ::g_time_bar.setCurrentTime(timebarObj, 0)
+      return
+    }
+
+    ::g_time_bar.setDirectionBackward(timebarObj)
     ::g_time_bar.setPeriod(timebarObj, debuffs_data.time)
     ::g_time_bar.setCurrentTime(timebarObj, 0)
   }

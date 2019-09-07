@@ -945,6 +945,9 @@ function sysopt::setGuiValue(id, value, skipUI=false)
 
 function sysopt::validateGuiValue(id, value)
 {
+  if (!::is_platform_pc)
+    return value
+
   local desc = getOptionDesc(id)
 
   if (type(value) != desc.uiType)

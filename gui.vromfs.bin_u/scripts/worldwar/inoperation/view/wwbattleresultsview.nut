@@ -216,7 +216,7 @@ class ::WwBattleResultsView
     foreach (valueIds in columnsMap)
     {
       local values = ::u.map(valueIds, (@(stats) function(id) { return stats[id] })(stats))
-      local valuesSum = ::u.reduce(values, function (v, sum) { return sum + v }, 0)
+      local valuesSum = values.reduce(@(sum, v) sum + v, 0)
 
       local val = isShowInactiveCount ? ::g_string.implode(values, " + ") : valuesSum.tostring()
 

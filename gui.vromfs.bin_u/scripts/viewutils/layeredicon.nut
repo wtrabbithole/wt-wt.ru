@@ -105,6 +105,11 @@ function LayersIcon::getIconData(iconStyle, image = null, ratio = null, defStyle
   return data
 }
 
+function LayersIcon::getCustomSizeIconData(image, size)
+{
+  return ::format(iconLayer, "id:t='iconLayer0'", size, "(pw-w)/2", "(ph-h)/2", "absolute", image, "")
+}
+
 function LayersIcon::findLayerCfg(id)
 {
   return "layers" in config ? ::getTblValue(id.tolower(), config.layers) : null

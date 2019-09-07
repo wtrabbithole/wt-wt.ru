@@ -3,6 +3,7 @@ local ingame_chat = require("scripts/chat/mpChatModel.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 
 ::game_chat_handler <- null
 
@@ -301,8 +302,8 @@ class ::ChatHandler
 
   function onChatIngameRequestEnter(obj)
   {
-    local editboxObj = (::checkObj(obj) && obj.getParent()) ? obj.getParent().findObject("chat_input") : null
-    if (::checkObj(editboxObj) && ("onChatEntered" in editboxObj))
+    local editboxObj = ::check_obj(obj) ? obj.getParent().findObject("chat_input") : null
+    if (::check_obj(editboxObj) && editboxObj["on_activate"] == "onChatEntered")
       onChatEntered(editboxObj)
   }
 
@@ -547,7 +548,7 @@ class ::ChatHandler
     }
   }
 
-  function onEventFriendlyTeamSwitched(params)
+  function onEventWatchedHeroSwitched(params)
   {
     makeChatTextFromLog()
   }
@@ -622,13 +623,13 @@ class ::ChatHandler
 
   function getSenderColor(message)
   {
-    if (message.isMyself)
+    if (isSenderMe(message))
       return senderMeColor
     else if (::isPlayerDedicatedSpectator(message.sender))
       return senderSpectatorColor
     else if (message.team != ::get_player_army_for_hud() || !::is_mode_with_teams())
       return senderEnemyColor
-    else if (::g_squad_manager.isInMySquad(message.sender))
+    else if (isSenderInMySquad(message))
       return senderMySquadColor
     return senderColor
   }
@@ -639,7 +640,7 @@ class ::ChatHandler
       return blockedColor
     else if (message.isAutomatic)
     {
-      if (::g_squad_manager.isInMySquad(message.sender))
+      if (isSenderInMySquad(message))
         return voiceSquadColor
       else if (message.team != ::get_player_army_for_hud())
         return voiceEnemyColor
@@ -649,6 +650,22 @@ class ::ChatHandler
     return ::g_mp_chat_mode.getModeById(message.mode).textColor
   }
 
+  function isSenderMe(message)
+  {
+    return ::is_replay_playing() ?
+      message.sender == spectatorWatchedHero.name :
+      message.isMyself
+  }
+
+  function isSenderInMySquad(message)
+  {
+    if (::is_replay_playing())
+    {
+      local player = ::u.search(::get_mplayers_list(::GET_MPLAYERS_LIST, true), @(p) p.name == message.sender)
+      return ::SessionLobby.isEqualSquadId(spectatorWatchedHero.squadId, player?.squadId)
+    }
+    return ::g_squad_manager.isInMySquad(message.sender)
+  }
 
   function updateAllLogs()
   {

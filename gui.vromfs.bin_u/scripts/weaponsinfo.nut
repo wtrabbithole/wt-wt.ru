@@ -15,10 +15,13 @@ enum AMMO {
 
 enum WEAPON_TYPE {
   GUN             = 0
-  ROCKET          = 1
-  SMOKE_SCREEN    = 2
-  TORPEDO         = 3
-  DEPTH_CHARGE    = 4
+  ROCKET          = 1 // Rocket
+  AAM             = 2 // Air-to-Air Missile
+  AGM             = 3 // Air-to-Ground Missile, Anti-Tank Guided Missile
+  FLARES          = 4 // Flares (countermeasure)
+  SMOKE_SCREEN    = 5
+  TORPEDO         = 6
+  DEPTH_CHARGE    = 7
 }
 
 if (!("_set_last_weapon" in ::getroottable()))
@@ -116,7 +119,17 @@ function addWeaponsFromBlk(weapons, block, unit)
 
     if (weaponBlk.rocketGun)
     {
-      currentTypeName = "rockets"
+      currentTypeName = ""
+      switch (weapon.trigger)
+      {
+        case "atgm":
+        case "agm":     currentTypeName = "agm";      break
+        case "aam":     currentTypeName = "aam";      break
+        case "flares":  currentTypeName = "flares";   break
+        default:        currentTypeName = "rockets"
+      }
+      if (weapon.triggerGroup == "smoke")
+        currentTypeName = "smoke"
       unitName = "rocket"
     }
     else if (weaponBlk.bombGun)
@@ -130,14 +143,15 @@ function addWeaponsFromBlk(weapons, block, unit)
       unitName = "torpedo"
     }
     else if (unitType == ::ES_UNIT_TYPE_TANK
-             || ::isInArray(weapon.trigger, ["machine gun", "cannon", "additional gun", "rockets", "bombs", "torpedoes"]))
+             || ::isInArray(weapon.trigger, [ "machine gun", "cannon", "additional gun", "rockets",
+                  "agm", "aam", "bombs", "torpedoes", "smoke", "flares" ]))
     { //not a turret
       currentTypeName = "guns"
       if (weaponBlk.bullet && typeof(weaponBlk.bullet) == "instance"
           && ::isCaliberCannon(1000 * ::getTblValue("caliber", weaponBlk.bullet, 0)))
         currentTypeName = "cannons"
     }
-    else if (weaponBlk.fuelTankGun || weaponBlk.boosterGun || weaponBlk.airDropGun)
+    else if (weaponBlk.fuelTankGun || weaponBlk.boosterGun || weaponBlk.airDropGun || weaponBlk.undercarriageGun)
       continue
 
     local isTurret = currentTypeName == "turrets"
@@ -163,7 +177,9 @@ function addWeaponsFromBlk(weapons, block, unit)
       dropHeightRange = null
     }
 
-    if (unitName.len() && weaponBlk[unitName])
+    local needBulletParams = !::isInArray(currentTypeName, [ "smoke", "flares" ])
+
+    if (needBulletParams && unitName.len() && weaponBlk[unitName])
     {
       local itemBlk = weaponBlk[unitName]
       item.caliber = itemBlk.caliber || 0
@@ -171,8 +187,17 @@ function addWeaponsFromBlk(weapons, block, unit)
       item.massLbs = itemBlk.mass_lbs || 0
       item.explosiveType = itemBlk.explosiveType
       item.explosiveMass = itemBlk.explosiveMass || 0
-      if (currentTypeName == "rockets")
+
+      if (::isInArray(currentTypeName, [ "rockets", "agm", "aam" ]))
+      {
         item.maxSpeed <- itemBlk.maxSpeed || itemBlk.endSpeed || 0
+        if (currentTypeName == "aam")
+        {
+          item.loadFactorMax <- itemBlk.loadFactorMax || 0
+          item.seekerRangeRearAspect <- itemBlk.irSeeker?.rangeBand0 || 0
+          item.seekerRangeAllAspect      <- itemBlk.irSeeker?.rangeBand1 || 0
+        }
+      }
       else  if (currentTypeName == "torpedoes")
       {
         item.dropSpeedRange = itemBlk.getPoint2("dropSpeedRange", Point2(0,0))
@@ -360,8 +385,9 @@ function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
     weapons = addWeaponsFromBlk(weapons, wpBlk, air)
   }
 
-  local weaponTypeList = ["cannons", "rockets", "guns", "turrets", "torpedoes", "bombs"]
-  local consumableWeapons = ["rockets", "torpedoes", "bombs"]
+  local weaponTypeList = [ "cannons", "guns", "aam", "agm", "rockets", "turrets", "torpedoes",
+    "bombs", "smoke", "flares" ]
+  local consumableWeapons = [ "aam", "agm", "rockets", "torpedoes", "bombs", "smoke", "flares" ]
   local stackableWeapons = ["turrets"]
   foreach (index, weaponType in weaponTypeList)
   {
@@ -522,12 +548,21 @@ function _get_weapon_extended_info(weapon, weaponType, unit, ediff, newLine)
   if (massText)
     res += newLine + ::loc("shop/tank_mass") + " " + massText
 
-  if (weaponType == "rockets")
+  if (::isInArray(weaponType, [ "rockets", "agm", "aam" ]))
   {
     local maxSpeed = ::getTblValue("maxSpeed", weapon, 0)
     if (maxSpeed)
       res += newLine + ::loc("rocket/maxSpeed") + ::loc("ui/colon")
              + ::g_measure_type.SPEED_PER_SEC.getMeasureUnitsText(maxSpeed)
+    if (weapon?.seekerRangeRearAspect)
+      res += newLine + ::loc("missile/seekerRange/rearAspect") + ::loc("ui/colon")
+             + ::g_measure_type.DISTANCE.getMeasureUnitsText(weapon.seekerRangeRearAspect)
+    if (weapon?.seekerRangeAllAspect)
+      res += newLine + ::loc("missile/seekerRange/allAspect") + ::loc("ui/colon")
+             + ::g_measure_type.DISTANCE.getMeasureUnitsText(weapon.seekerRangeAllAspect)
+    if (weapon?.loadFactorMax)
+      res += newLine + ::loc("missile/loadFactorMax") + ::loc("ui/colon")
+             + ::g_measure_type.GFORCE.getMeasureUnitsText(weapon.loadFactorMax)
   }
   else if (weaponType == "torpedoes")
   {
@@ -890,19 +925,33 @@ function getBulletsSetData(air, modifName, noModList = null)
     if (!bulletsList.len())
     {
       bulletsList = bulletsBlk % "rocket"
-      weaponType = WEAPON_TYPE.ROCKET
-      if (bulletsList.len() && bulletsList[0].smokeShell)
-        weaponType = WEAPON_TYPE.SMOKE_SCREEN
+      if (bulletsList.len())
+      {
+        local rocket = bulletsList[0]
+        if (rocket.smokeShell == true)
+          weaponType = WEAPON_TYPE.SMOKE_SCREEN
+        else if (rocket.smokeShell == false)
+           weaponType = WEAPON_TYPE.FLARES
+        else if (rocket.guidance)
+          weaponType = WEAPON_TYPE.AAM
+        else if (rocket.bulletType == "atgm_tank")
+          weaponType = WEAPON_TYPE.AGM
+        else
+          weaponType = WEAPON_TYPE.ROCKET
+      }
     }
+
+    local isBulletBelt = weaponType == WEAPON_TYPE.GUN &&
+      (wBlk.isBulletBelt != false || wBlk.bulletsCartridge > 1 && !wBlk.useSingleIconForBullet)
+
     foreach (b in bulletsList)
     {
-      local bulletType = b.bulletType || b.getBlockName()
       local paramsBlk = ::u.isDataBlock(b.rocket) ? b.rocket : b
       if (!res)
         if (paramsBlk.caliber)
           res = { caliber = 1000.0 * paramsBlk.caliber,
                   bullets = [],
-                  isBulletBelt = (wBlk.isBulletBelt != false || wBlk.bulletsCartridge > 1 && !wBlk.useSingleIconForBullet),
+                  isBulletBelt = isBulletBelt
                   catridge = wBlk.bulletsCartridge || 0
                   weaponType = weaponType
                   useDefaultBullet = !wBlk.notUseDefaultBulletInGui,
@@ -911,6 +960,11 @@ function getBulletsSetData(air, modifName, noModList = null)
                 }
         else
           continue
+
+      local bulletType = b.bulletType || b.getBlockName()
+      if (paramsBlk.selfDestructionInAir)
+        bulletType += "@s_d"
+      res.bullets.append(bulletType)
 
       if ("bulletName" in b)
       {
@@ -926,10 +980,6 @@ function getBulletsSetData(air, modifName, noModList = null)
       foreach(param in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
         if (param in paramsBlk)
           res[param] <- paramsBlk[param]
-
-      if (paramsBlk.selfDestructionInAir)
-        bulletType += "@s_d"
-      res.bullets.append(bulletType)
     }
 
     if (res)
@@ -1253,26 +1303,27 @@ function get_uniq_modification_text(unit, modifName, isShortDesc)
 
 function getModificationName(air, modifName, limitedName = false)
 {
-  return ::getModificationInfoText(air, modifName, true, limitedName)
+  return ::getModificationInfo(air, modifName, true, limitedName).desc
 }
 
 // Generate text description for air.modifications[modificationNo]
-function getModificationInfoText(air, modifName, isShortDesc=false, limitedName = false,
+function getModificationInfo(air, modifName, isShortDesc=false, limitedName = false,
                                  obj = null, itemDescrRewriteFunc = null)
 {
-  local res = ""
+  local res = {desc = "", delayed = false}
   if (typeof(air) == "string")
     air = getAircraftByName(air)
   if (!air)
     return res
 
-  local mod = ::getModificationByName(air, modifName)
-  if (isShortDesc && !mod && !air.unitType.canUseSeveralBulletsForGun)
-    return ::loc("modification/default_bullets")
-
   local uniqText = ::get_uniq_modification_text(air, modifName, isShortDesc)
   if (uniqText)
-    return uniqText
+  {
+    res.desc = uniqText
+    return res
+  }
+
+  local mod = ::getModificationByName(air, modifName)
 
   local ammo_pack_len = 0
   if (modifName.find("_ammo_pack") && mod)
@@ -1290,16 +1341,19 @@ function getModificationInfoText(air, modifName, isShortDesc=false, limitedName 
   if (groupName=="") //not bullets
   {
     if (!isShortDesc && itemDescrRewriteFunc)
+    {
+      res.delayed = true
       ::calculate_mod_or_weapon_effect(air.name, modifName, true, obj, itemDescrRewriteFunc, null);
+    }
 
     local locId = modifName
     local ending = isShortDesc? (limitedName? "/short" : "") : "/desc"
 
-    res = ::loc("modification/" + locId + ending, "")
-    if (res == "" && isShortDesc && limitedName)
-      res = ::loc("modification/" + locId, "")
+    res.desc = ::loc("modification/" + locId + ending, "")
+    if (res.desc == "" && isShortDesc && limitedName)
+      res.desc = ::loc("modification/" + locId, "")
 
-    if (res == "")
+    if (res.desc == "")
     {
       local caliber = 0.0
       foreach(n in ::modifications_locId_by_caliber)
@@ -1314,21 +1368,28 @@ function getModificationInfoText(air, modifName, isShortDesc=false, limitedName 
 
       locId = "modification/" + locId
       if (::isCaliberCannon(caliber))
-        res = ::locEnding(locId + "/cannon", ending, "")
-      if (res=="")
-        res = ::locEnding(locId, ending)
+        res.desc = ::locEnding(locId + "/cannon", ending, "")
+      if (res.desc=="")
+        res.desc = ::locEnding(locId, ending)
       if (caliber > 0)
-        res = ::format(res, caliber.tostring())
+        res.desc = ::format(res.desc, caliber.tostring())
     }
     return res //without effects atm
   }
 
   //bullets sets
   local set = getBulletsSetData(air, modifName)
+
+  if (isShortDesc && !mod && set?.weaponType == WEAPON_TYPE.GUN && !air.unitType.canUseSeveralBulletsForGun)
+  {
+    res.desc = ::loc("modification/default_bullets")
+    return res
+  }
+
   if (!set)
   {
-    if (res == "")
-      res = modifName + " not found bullets"
+    if (res.desc == "")
+      res.desc = modifName + " not found bullets"
     return res
   }
 
@@ -1347,22 +1408,32 @@ function getModificationInfoText(air, modifName, isShortDesc=false, limitedName 
       shortDescr = ::loc(locId + "/name/short", "")
     if (shortDescr == "")
       shortDescr = ::loc(locId + "/name")
-    if ("bulletNames" in set && typeof(set.bulletNames) == "array" && set.bulletNames.len()
-        && (!set.isBulletBelt || (::isCaliberCannon(caliber) && air.unitType.canUseSeveralBulletsForGun)))
-      shortDescr = ::loc(set.bulletNames[0])
+    if (set?.bulletNames?[0]
+      && (set.weaponType != WEAPON_TYPE.GUN || !set.isBulletBelt ||
+      (::isCaliberCannon(caliber) && air.unitType.canUseSeveralBulletsForGun)))
+    {
+      locId = set.bulletNames[0]
+      shortDescr = ::loc(locId, ::loc("weapons/" + locId + "/short", locId))
+    }
     if (!mod && air.unitType.canUseSeveralBulletsForGun && set.isBulletBelt)
       shortDescr = ::loc("modification/default_bullets")
     shortDescr = format(shortDescr, caliber.tostring())
   }
   if (isShortDesc)
-    return shortDescr
+  {
+    res.desc = shortDescr
+    return res
+  }
 
   if (ammo_pack_len)
   {
     if ("bulletNames" in set && typeof(set.bulletNames) == "array" && set.bulletNames.len())
       shortDescr = format(::loc(set.isBulletBelt ? "modification/ammo_pack_belt/desc" : "modification/ammo_pack/desc"), shortDescr)
     if (ammo_pack_len > 1)
-      return shortDescr
+    {
+      res.desc = shortDescr
+      return res
+    }
   }
 
   //bullets description
@@ -1398,10 +1469,10 @@ function getModificationInfoText(air, modifName, isShortDesc=false, limitedName 
   }
 
   if (ammo_pack_len)
-    res = shortDescr + "\n"
+    res.desc = shortDescr + "\n"
   if (set.bullets.len() > 1)
-    res += format(::loc("caliber_" + set.caliber + "/desc"), setText) + "\n\n"
-  res += annotation
+    res.desc += format(::loc("caliber_" + set.caliber + "/desc"), setText) + "\n\n"
+  res.desc += annotation
   return res
 }
 
@@ -1701,46 +1772,6 @@ function is_weapon_visible(unit, weapon, onlyBought = true, weaponTags = null)
   return true
 }
 
-function is_unit_available_use_rocket_diffuse(unit)
-{
-  if (!unit)
-    return true
-
-  local unitBlk = ::get_full_unit_blk(unit.name)
-  if(!unitBlk)
-    return true
-
-  local secondaryWep = ::get_last_weapon(unit.name)
-  local weaponDataBlock = ::DataBlock()
-  local isDistanceFuseEnable = false
-  local weaponsBlkArray = []
-
-  if(unitBlk.weapon_presets != null && secondaryWep != "")
-    foreach(block in (unitBlk.weapon_presets % "preset"))
-      if (block.name == secondaryWep)
-      {
-        weaponDataBlock = ::DataBlock(block.blk)
-        foreach(weap in (weaponDataBlock % "Weapon"))
-          if (weap.blk != null && !::isInArray(weap.blk, weaponsBlkArray))
-            weaponsBlkArray.append(weap.blk)
-        break
-      }
-
-  foreach(blkString in weaponsBlkArray)
-  {
-    local rocketDataBlock = ::DataBlock(blkString)
-    if (rocketDataBlock.rocket != null
-        && (!("distanceFuse" in rocketDataBlock.rocket)
-        || rocketDataBlock.rocket.distanceFuse))
-    {
-      isDistanceFuseEnable = true
-      break
-    }
-  }
-
-  return isDistanceFuseEnable
-}
-
 function get_weapon_by_name(unit, weaponName)
 {
   if (!("weapons" in unit))
@@ -1957,7 +1988,7 @@ function append_one_bullets_item(descr, modifName, air, amountText, genTexts, en
     return
 
   item.text    <- ::g_string.implode([ amountText, ::getModificationName(air, modifName)     ], " ")
-  item.tooltip <- ::g_string.implode([ amountText, ::getModificationInfoText(air, modifName) ], " ")
+  item.tooltip <- ::g_string.implode([ amountText, ::getModificationInfo(air, modifName).desc ], " ")
 }
 
 function get_bullet_group_index(airName, bulletName)
@@ -2116,13 +2147,20 @@ function get_bullets_list_header(unit, bulletsList)
 {
   local locId = ""
   if (bulletsList.weaponType == WEAPON_TYPE.ROCKET)
-    locId = "modification/_rocket_pack"
+    locId = "modification/_rockets"
+  else if (::isInArray(bulletsList.weaponType, [ WEAPON_TYPE.AAM, WEAPON_TYPE.AGM ]))
+    locId = "modification/_missiles"
+  else if (bulletsList.weaponType == WEAPON_TYPE.FLARES)
+    locId = "modification/_flares"
   else if (bulletsList.weaponType == WEAPON_TYPE.SMOKE_SCREEN)
     locId = "modification/_smoke_screen"
-  else if (unit.unitType.canUseSeveralBulletsForGun)
-    locId = ::isCaliberCannon(bulletsList.caliber)? "modification/_tank_gun_pack" : "modification/_tank_minigun_pack"
-  else
-    locId = bulletsList.isTurretBelt ? "modification/_turret_belt_pack/short" : "modification/_belt_pack/short"
+  else if (bulletsList.weaponType == WEAPON_TYPE.GUN)
+  {
+    if (unit.unitType.canUseSeveralBulletsForGun)
+      locId = ::isCaliberCannon(bulletsList.caliber)? "modification/_tank_gun_pack" : "modification/_tank_minigun_pack"
+    else
+      locId = bulletsList.isTurretBelt ? "modification/_turret_belt_pack/short" : "modification/_belt_pack/short"
+  }
   return ::format(::loc(locId), bulletsList.caliber.tostring())
 }
 

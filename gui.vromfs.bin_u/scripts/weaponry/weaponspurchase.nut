@@ -225,7 +225,8 @@ class WeaponsPurchase
         remove()
     })(removeOnCancel)
 
-    local text = ::loc(repairCost.isZero()? msgLocId : repairMsgLocId, msgLocParams)
+    local text = warningIfGold(::loc(repairCost.isZero()? msgLocId : repairMsgLocId, msgLocParams),
+      msgLocParams.cost)
     local defButton = "yes"
     local buttons = [
       ["yes", performAction ],

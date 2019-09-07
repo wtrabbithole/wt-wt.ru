@@ -23,6 +23,7 @@ enum CONTROL_TYPE {
   MSG_BOX
   SHORTCUT_GROUP
   LISTBOX
+  BUTTON
 }
 
 enum AXIS_DEVICES {
@@ -40,6 +41,7 @@ enum ctrlGroups {
   SHIP          = 0x0004
   HELICOPTER    = 0x0008
   SUBMARINE     = 0x0010
+  ONLY_COMMON   = 0x0080
 
   VOICE         = 0x0100
   REPLAY        = 0x0200

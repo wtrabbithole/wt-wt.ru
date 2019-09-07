@@ -201,6 +201,7 @@ function handlersManager::generateColorConstantsConfig()
   local config = [
     { style = "squad", baseColor = "3E9E2F", names = [ "mySquadColor", "hudColorSquad", "chatSenderMySquadColor", "chatTextSquadVoiceColor" ] }
     { style = "squad", baseColor = "65FF4D", names = [ "chatTextSquadColor" ] }
+    { style = "squad", baseColor = "A5FF97", names = [ "mySquadLightColor" ] }
     { style = "ally",  baseColor = "527AFF", names = [ "teamBlueColor", "hudColorBlue", "chatSenderFriendColor", "chatTextTeamVoiceColor" ] }
     { style = "ally",  baseColor = "99B1FF", names = [ "teamBlueLightColor", "hudColorDeathEnemy" ] }
     { style = "ally",  baseColor = "5C637A", names = [ "teamBlueInactiveColor", "hudColorDarkBlue" ] }

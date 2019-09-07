@@ -20,7 +20,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   gamercardTopIds = [ //OVERRIDE
     function() { return leftSectionHandlerWeak && leftSectionHandlerWeak.getFocusObj() }
     "gamercard_panel_left"
-    "gamercard_panel_center"
     "gamercard_panel_right"
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]
@@ -76,7 +75,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
         {
           needOffset = true
           mainMenuSlotbar = true
-          afterFullUpdate = afterSlotbarFullUpdate
         },
         "nav-topMenu"
       )
@@ -259,7 +257,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
     ::dmViewer.update()
 
-    focusShopTable()
     if(showButton)
       ::play_gui_sound("menu_appear")
     if(::checkObj(closeResearch))
@@ -267,6 +264,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     activateShopImpl(::top_menu_shop_active, unitType)
     if (shopWeak && shopWeak.getCurrentEdiff() != ::get_current_ediff())
       shopWeak.updateSlotbarDifficulty()
+    focusShopTable()
 
     ::broadcastEvent("ShopWndSwitched")
   }
@@ -315,16 +313,10 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   function updateOnShopWndAnim(isVisible)
   {
     local isShow = ::top_menu_shop_active
-    updateSlotbarTopPanelVisibility(!isShow)
     updateSceneShade()
     if (isVisible)
       ::broadcastEvent("ShopWndVisible", { isShopShow = isShow })
     ::broadcastEvent("ShopWndAnimation", { isShow = isShow, isVisible = isVisible })
-  }
-
-  function updateSlotbarTopPanelVisibility(isShow)
-  {
-    showSceneBtn("slotbar_buttons_place", isShow)
   }
 
   function activateShopImpl(shouldActivate, unitType = null)
@@ -355,12 +347,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     enableHangarControls(!shouldActivate, false)
-  }
-
-  function afterSlotbarFullUpdate()
-  {
-    if (::top_menu_shop_active)
-      updateSlotbarTopPanelVisibility(false)
   }
 
   function goBack(obj)

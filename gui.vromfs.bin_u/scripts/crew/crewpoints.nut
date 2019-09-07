@@ -37,7 +37,7 @@ function g_crew_points::buyPack(crew, packsList, onSuccess = null)
     cost = cost.tostring()
   }
 
-  local msgText = ::loc("shop/needMoneyQuestion_buySkillPoints", locParams)
+  local msgText = warningIfGold(::loc("shop/needMoneyQuestion_buySkillPoints", locParams), cost)
   ::scene_msg_box("purchase_ask", null, msgText,
     [["yes", ::Callback(function()
       {

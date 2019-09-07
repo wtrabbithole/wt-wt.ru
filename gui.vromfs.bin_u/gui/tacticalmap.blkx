@@ -98,13 +98,13 @@
             "height": "fh",
             "overflow": "hidden",
             "tdiv": {
+              "id": "secondary_tasks_list",
               "width": "pw",
               "min-height": "ph",
               "pos": "0,ph-h",
               "position": "relative",
               "padding-bottom": "0.8*@scrn_tgt/100.0",
-              "flow": "vertical",
-              "id": "secondary_tasks_list"
+              "flow": "vertical"
             }
           }
         }
@@ -138,6 +138,7 @@
             "selType": "left",
             "text-valign": "center",
             "behavior": "TableNavigator",
+            "selfFocusBorder": "yes",
             "total-input-transparent": "yes",
             "navigatorShortcuts": "yes",
             "cur_row": "0",
@@ -194,7 +195,7 @@
     "dummy": {
       "_on_click": "onSelect",
       "behaviour": "accesskey",
-      "accessKey": "Esc"
+      "accessKey": "Esc | J:B"
     }
   },
   "root_button": {

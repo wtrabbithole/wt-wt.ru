@@ -178,7 +178,7 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
 
       if (::check_joystick_thustmaster_hotas(false) && gm == ::GM_TRAINING)
       {
-        if (::is_mission_for_tanks(blk))
+        if (::is_mission_for_unittype(blk, ::ES_UNIT_TYPE_TANK))
           config.hotas4_tutorial_usage_restriction <- ::loc("tutorials/hotas_restriction/tank")
         else if (mission.chapter == "tutorial_adv")
           config.hotas4_tutorial_usage_restriction <- ::loc("tutorials/hotas_restriction")
@@ -186,7 +186,9 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
     if (gm == ::GM_SINGLE_MISSION)
     {
-      local missionAvailableForCoop = blk.getBool("gt_cooperative", false) && ::can_play_gamemode_by_squad(gm)
+      local missionAvailableForCoop = blk.getBool("gt_cooperative", false)
+        && ::can_play_gamemode_by_squad(gm)
+        && !::is_user_mission(blk)
       config.coop <- missionAvailableForCoop? ::loc("single_mission/available_for_coop") : ""
     }
     if (gm == ::GM_CAMPAIGN || gm == ::GM_DYNAMIC)

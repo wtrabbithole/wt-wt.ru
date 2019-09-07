@@ -108,7 +108,8 @@
           "armorThickness": 30.0,
           "genericArmorQuality": 1.2,
           "armorEffectiveThicknessMax": 70.0,
-          "createSecondaryShatters": false
+          "createSecondaryShatters": false,
+          "hidableInViewer": true
         },
         "superstructure_front_dm": {
           "armorThickness": 60.0,
@@ -119,6 +120,7 @@
         },
         "composite_armor_hull_01_dm": {
           "armorClass": "tank_textolite",
+          "hidableInXrayViewer": true,
           "armorThickness": 100.0,
           "genericArmorQuality": 0.0,
           "cumulativeArmorQuality": 0.83,
@@ -175,11 +177,13 @@
           "armorThickness": 30.0
         },
         "turret_04_back_dm": {
-          "armorThickness": 30.0
+          "armorThickness": 30.0,
+          "hidableInViewer": true
         },
         "ex_armor_body_01_dm": {
           "armorThickness": 20.0,
-          "armorClass": "RHA_tank_modern"
+          "armorClass": "RHA_tank_modern",
+          "hidableInViewer": true
         },
         "turret_08_back_dm": {
           "armorThickness": 20.0
@@ -187,10 +191,14 @@
         "turret_07_bottom_dm": {
           "armorThickness": 45.0,
           "armorEffectiveThicknessMax": 90.0
+        },
+        "turret_08_bottom_dm": {
+          "armorThickness": 5.0
         }
       },
       "turret_composite_armor": {
         "armorClass": "t_80b_composite_armor",
+        "hidableInXrayViewer": true,
         "composite_armor_turret_01_dm": {
           "armorThickness": 120.0,
           "genericArmorQuality": 0.0,
@@ -330,7 +338,7 @@
           "armorThickness": 140.0
         },
         "turret_08_top_dm": {
-          "armorThickness": 45.0
+          "armorThickness": 30.0
         },
         "turret_05_top_dm": {
           "armorThickness": 45.0,
@@ -352,7 +360,7 @@
           "armorThickness": 80.0
         },
         "turret_08_side_dm": {
-          "armorThickness": 45.0
+          "armorThickness": 5.0
         },
         "turret_09_side_dm": {
           "armorThickness": 80.0
@@ -363,7 +371,8 @@
         },
         "composite_armor_turret_03_dm": {
           "armorThickness": 1.0,
-          "createSecondaryShatters": false
+          "createSecondaryShatters": false,
+          "hidableInXrayViewer": true
         }
       },
       "era_turret_hull": {
@@ -375,6 +384,8 @@
         "genericArmorQuality": 0.08,
         "genericDamageMult": 3.0,
         "stopChanceOnDeadPart": 0.0,
+        "hidableInViewer": true,
+        "hidableInXrayViewer": true,
         "ex_era_turret_01_dm": [],
         "ex_era_turret_02_dm": [],
         "ex_era_turret_03_dm": [],
@@ -426,6 +437,7 @@
         "armorThickness": 4.0,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
+        "hidableInViewer": true,
         "ex_armor_l_09_dm": [],
         "ex_armor_l_10_dm": [],
         "ex_armor_body_l_01_dm": [],
@@ -630,12 +642,13 @@
         "armorThickness": 2.0,
         "armorThrough": 15.0,
         "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
         "drive_turret_v_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_h_dm": {
-          "hp": 40.0,
+          "hp": 150.0,
           "armorThrough": 15.0
         },
         "drive_turret_v_01_dm": {
@@ -2172,9 +2185,6 @@
             "node": "ex_armor_l_08"
           },
           {
-            "node": "ex_armor_01"
-          },
-          {
             "node": "body_dz_mount"
           },
           {
@@ -2889,7 +2899,7 @@
         "group": "t80b_ERA",
         "effects": {
           "rcostAddParam": 0.01,
-          "changeMass": 1100.0,
+          "changeMass": 500.0,
           "commonWeapons": [
             {
               "Weapon": {
@@ -3694,9 +3704,6 @@
                   "node": "ex_armor_l_08"
                 },
                 {
-                  "node": "ex_armor_01"
-                },
-                {
                   "node": "body_dz_mount"
                 },
                 {
@@ -3790,7 +3797,7 @@
           "weaponTrigger": "gunner0"
         },
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "fatalFire": true

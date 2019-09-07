@@ -115,26 +115,44 @@ function g_contacts::proceedXboxPlayersListFromCallback(playersList, group)
     ? "FriendsXboxContactsUpdated"
     : "BlockListXboxContactsUpdated"
 
-  local taskId = ::xbox_find_friends(playersList)
-  if (taskId < 0 && !playersList.len())
+  local knownUsers = {}
+  for (local i = playersList.len() - 1; i >= 0; i--)
+  {
+    local contact = ::findContactByXboxId(playersList[i])
+    if (contact)
+    {
+      knownUsers[contact.uid] <- {
+        nick = contact.name
+        id = playersList.remove(i)
+      }
+    }
+  }
+
+  if (!playersList.len())
   {
     //Need to update contacts list, because empty list - means no users,
     //and returns -1, for not to send empty array to char.
     //So, contacts list must be cleared in this case from xbox users.
-    ::broadcastEvent(broadcastEventName)
+    //Send knownUsers if we already have all required data,
+    //playersList is not empty and no need to
+    //request char-server for known data.
+    ::broadcastEvent(broadcastEventName, knownUsers)
     return
   }
 
+  local taskId = ::xbox_find_friends(playersList)
   ::g_tasker.addTask(taskId, null, function() {
       local blk = ::DataBlock()
       blk = ::xbox_find_friends_result()
+
       local table = ::buildTableFromBlk(blk)
+      table.__update(knownUsers)
       ::broadcastEvent(broadcastEventName, table)
-    }
+    }.bindenv(this)
   )
 }
 
-function g_contacts::onReturnFromXBoxOneOverlay()
+function g_contacts::onEventXboxSystemUIReturn(params)
 {
   if (!::g_login.isLoggedIn())
     return
@@ -203,7 +221,11 @@ function g_contacts::xboxUpdateContactsList(p, group)
 
   local xboxFriendsList = []
   foreach(uid, data in friendsTable)
-    xboxFriendsList.append(::getContact(uid, data.nick))
+  {
+    local contact = ::getContact(uid, data.nick)
+    contact.update({xboxId = data.id})
+    xboxFriendsList.append(contact)
+  }
 
   local requestTable = {}
   requestTable[true] <- xboxFriendsList //addList
@@ -851,4 +873,4 @@ if (!::contacts)
 ::subscribe_handler(::g_contacts, ::g_listener_priority.DEFAULT_HANDLER)
 
 ::can_view_target_presence_callback <- ::g_contacts.updateContactXBoxPresence
-::xbox_on_returned_from_system_ui <- @() ::g_contacts.onReturnFromXBoxOneOverlay.call(::g_contacts)
+::xbox_on_returned_from_system_ui <- @() ::broadcastEvent("XboxSystemUIReturn")

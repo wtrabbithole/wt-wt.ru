@@ -14,7 +14,7 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
     local data = ::handyman.renderCached("gui/commonParts/button", {
       id = "authorization_button"
       text = "#HUD_PRESS_A_CNT"
-      shortcut = "SpaceA"
+      shortcut = "A"
       funcName = "onOk"
       delayed = true
       isToBattle = true

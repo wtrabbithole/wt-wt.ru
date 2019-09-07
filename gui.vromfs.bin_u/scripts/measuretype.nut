@@ -113,6 +113,12 @@ enums.addTypesByGlobalName("g_measure_type", {
     orderCode = 6
   }
 
+  GFORCE = {
+    name = "gForce"
+    presize = 1
+    getMeasureUnitsName = @() ::loc("HUD_CRIT_OVERLOAD_G")
+  }
+
   HOURS = {
     name = "hours"
 

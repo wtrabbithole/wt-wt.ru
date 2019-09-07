@@ -265,7 +265,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
     }
   }
 
-  ::update_discount_notifications(scene)
+  ::g_discount.updateDiscountNotifications(scene)
   ::setVersionText(scene)
   ::server_message_update_scene(scene)
   ::update_gc_invites(scene)

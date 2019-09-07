@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -138,7 +141,13 @@
         },
         "body_bottom_dm": {
           "armorThickness": 18.0
-        },
+        }
+      },
+      "ex_armor": {
+        "hp": 100.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
+        "hidableInViewer": true,
         "ex_armor_body_r_04_dm": {
           "armorThickness": 5.0
         },
@@ -168,6 +177,12 @@
         },
         "ex_armor_body_l_08_dm": {
           "armorThickness": 5.0
+        },
+        "ex_armor_turret_r_01_dm": {
+          "armorThickness": 10.0
+        },
+        "ex_armor_turret_l_01_dm": {
+          "armorThickness": 10.0
         }
       },
       "turret": {
@@ -185,12 +200,6 @@
         },
         "turret_02_back_dm": {
           "armorThickness": 30.0
-        },
-        "ex_armor_turret_r_01_dm": {
-          "armorThickness": 10.0
-        },
-        "ex_armor_turret_l_01_dm": {
-          "armorThickness": 10.0
         }
       },
       "mask": {
@@ -325,6 +334,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0

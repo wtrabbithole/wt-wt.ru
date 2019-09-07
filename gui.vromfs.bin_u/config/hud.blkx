@@ -72,6 +72,24 @@
     "helicopterHudColor": "#47e827ff"
   },
   {
+    "helicopterWarningOverheatTimeToDie": 120.0
+  },
+  {
+    "helicopterWarningOverheatFrequency0": [60.0,4.0]
+  },
+  {
+    "helicopterWarningOverheatFrequency1": [120.0,2.0]
+  },
+  {
+    "helicopterWarningOverheatFrequency2": [300.0,1.0]
+  },
+  {
+    "helicopterWarningOverheatFrequency3": [600.0,0.0]
+  },
+  {
+    "aircraftShowMachAboveValue": 0.75
+  },
+  {
     "skins": {
       "defSkin": "ui/gameuiskin"
     }
@@ -2419,6 +2437,11 @@
           }
         },
         {
+          "torpedo_sight_activate": {
+            "shortcutIdx": -1
+          }
+        },
+        {
           "torpedo_activate": {
             "shortcutIdx": -1
           }
@@ -2466,7 +2489,8 @@
         },
         {
           "extinguisher_activate": {
-            "shortcutIdx": 5
+            "shortcutIdx": 5,
+            "show_auto_for_unit": "ship"
           }
         },
         {
@@ -2658,7 +2682,7 @@
             "size": 2.5,
             "num": 3,
             "distBetween": 10.0,
-            "width": 0.8,
+            "width": 1.6,
             "valign": 0,
             "simetrical": false
           }

@@ -757,7 +757,7 @@
       "actions": [
         {
           "comment": {
-            "value": "проверяем есть ли realistic объекты в миссиях"
+            "value": "РїСЂРѕРІРµСЂСЏРµРј РµСЃС‚СЊ Р»Рё realistic РѕР±СЉРµРєС‚С‹ РІ РјРёСЃСЃРёСЏС…"
           }
         },
         {
@@ -819,7 +819,7 @@
       "else_actions": [
         {
           "comment": {
-            "value": "говорим юзать аркаду"
+            "value": "РіРѕРІРѕСЂРёРј СЋР·Р°С‚СЊ Р°СЂРєР°РґСѓ"
           }
         },
         {
@@ -1035,6 +1035,9 @@
               "onlyOnePlayerPerSpawnPoint": false
             },
             {
+              "replaceAreas": false
+            },
+            {
               "target": "@t1_spawn_01_name"
             },
             {
@@ -1093,6 +1096,9 @@
             },
             {
               "onlyOnePlayerPerSpawnPoint": false
+            },
+            {
+              "replaceAreas": false
             },
             {
               "target": "@t2_spawn_01_name"
@@ -1158,6 +1164,7 @@
             "isIndividual": true,
             "resetStrictSpawnIndex": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "replaceAreas": false,
             "target": "@t1_spawn_01_name",
             "team": "A",
             "offset": [0.0,0.0,0.0],
@@ -1181,6 +1188,7 @@
             "isIndividual": true,
             "resetStrictSpawnIndex": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "replaceAreas": false,
             "target": "@t2_spawn_01_name",
             "team": "B",
             "offset": [0.0,0.0,0.0],
@@ -1200,6 +1208,8 @@
             "playAirfieldSound": false,
             "canCaptureInAir": false,
             "canCaptureByGM": true,
+            "onlyPlayersCanCapture": true,
+            "auto_smoke": false,
             "tags": {
               "air": false,
               "helicopter": true,
@@ -1277,6 +1287,7 @@
             "isIndividual": true,
             "resetStrictSpawnIndex": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "replaceAreas": false,
             "target": "@t1_spawn_02_name",
             "team": "A",
             "offset": [0.0,0.0,0.0],
@@ -1300,6 +1311,7 @@
             "isIndividual": true,
             "resetStrictSpawnIndex": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "replaceAreas": false,
             "target": "@t2_spawn_02_name",
             "team": "B",
             "offset": [0.0,0.0,0.0],

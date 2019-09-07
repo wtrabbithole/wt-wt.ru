@@ -90,7 +90,10 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     if (!tipObj)
       return
 
-    local esUnitTypes = getCurEsUnitTypesList()
+    local esUnitTypes = getCurEsUnitTypesList(true)
+    if (!esUnitTypes.len())
+      esUnitTypes = getCurEsUnitTypesList(false)
+
     local mask = 0
     foreach(esUnitType in esUnitTypes)
       mask = mask | (1 << esUnitType)
@@ -478,11 +481,11 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     scene.show(!::top_menu_shop_active)
   }
 
-  function getCurEsUnitTypesList()
+  function getCurEsUnitTypesList(needRequiredOnly = false)
   {
     local gameModeId = ::game_mode_manager.getCurrentGameModeId()
     local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
-    return ::game_mode_manager._getUnitTypesByGameMode(gameMode)
+    return ::game_mode_manager._getUnitTypesByGameMode(gameMode, true, needRequiredOnly)
   }
 
   function updateQueueWaitIconImage()

@@ -130,6 +130,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
   function updateVisibles()
   {
+    local needToRestoreFocus = isSelectedItemFocused()
     local canInvite = ::g_squad_manager.canInviteMember()
     local isInTransition = ::g_squad_manager.isStateInTransition()
 
@@ -152,6 +153,9 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     btnSquadLeave.tooltip = ::loc("squadAction/leave")
 
     scene.show(isInTransition || canInvite || ::g_squad_manager.isInSquad())
+
+    if (needToRestoreFocus)
+      getFocusObj().select()
   }
 
   function canShowContactTooltip(contact)

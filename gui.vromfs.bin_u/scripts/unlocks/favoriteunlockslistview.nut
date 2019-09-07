@@ -53,6 +53,7 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
     ::g_unlock_view.fillUnlockImage(unlockConfig, unlockObj)
     ::g_unlock_view.fillUnlockProgressBar(unlockConfig, unlockObj)
     ::g_unlock_view.fillReward(unlockConfig, unlockObj)
+    ::g_unlock_view.fillUnlockConditions(unlockConfig, unlockObj, this)
 
     local closeBtn = unlockObj.findObject("removeFromFavoritesBtn")
     if(::checkObj(closeBtn))
@@ -72,7 +73,8 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
       chapterAndGroupText, ::getTblValue("stagesText", unlockConfig, "")]
     tooltipArr.push(::UnlockConditions.getConditionsText(unlockConfig.conditions,
       unlockConfig.showProgress ? unlockConfig.curVal : null, unlockConfig.maxVal))
-    unlockObj.tooltip =  ::g_string.implode(tooltipArr, "\n")  }
+    unlockObj.tooltip =  ::g_string.implode(tooltipArr, "\n")
+  }
 
   function onEventFavoriteUnlocksChanged(params)
   {

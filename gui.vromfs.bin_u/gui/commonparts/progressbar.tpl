@@ -4,8 +4,6 @@
     text:t='#ui/minus'
     square:t='yes'
     on_click:t='<<btnOnDec>>'
-    pos:t='0, 50%ph-50%h'
-    position:t='relative'
     tooltip:t='#weaponry/descreaseValue'
     <<#disable>>
       enable:t='no'
@@ -90,8 +88,6 @@ invisSlider {
     text:t='#keysPlus'
     square:t='yes'
     on_click:t='<<btnOnInc>>'
-    pos:t='1@framePadding, 50%ph-50%h'
-    position:t='relative'
     tooltip:t='#weaponry/increaseValue'
     <<#disable>>
       enable:t='no'
@@ -102,8 +98,6 @@ invisSlider {
 <<#btnOnMax>>
   Button_text {
     id:t = 'btn_max'
-    position:t = 'relative'
-    top:t = '50%ph-50%h-1*@sf/@pf_outdated'
     text:t = '#profile/maximumExp'
     on_click:t='<<btnOnMax>>'
     inactiveColor:t='no'

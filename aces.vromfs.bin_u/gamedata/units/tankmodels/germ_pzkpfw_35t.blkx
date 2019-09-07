@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -124,9 +127,6 @@
         },
         "body_bottom_dm": {
           "armorThickness": 8.0
-        },
-        "wheel_support_dm": {
-          "armorThickness": 8.0
         }
       },
       "turret": {
@@ -229,6 +229,9 @@
         "wheel_l_front_dm": [],
         "wheel_r_front_dm": [],
         "ex_armor_body_l_01_dm": [],
+        "wheel_support_dm": {
+          "armorThickness": 8.0
+        },
         "submodule": {
           "armorClass": "tank_traks",
           "armorThickness": 15.0,
@@ -329,6 +332,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
         "cannon_breech_02_dm": []

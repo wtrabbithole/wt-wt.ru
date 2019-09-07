@@ -15,6 +15,8 @@ class ::items_classes.Trophy extends ::BaseItem
   showCountryFlag = ""
   subtrophyShowAsPack = false
 
+  allowBigPicture = false
+
   contentRaw = []
   contentUnpacked = []
   topPrize = null

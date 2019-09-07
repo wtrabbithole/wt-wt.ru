@@ -23,7 +23,7 @@
     QueueCustomEventRoom = false
     Invites = true
     Credits = true
-    EmbeddedBrowser = false
+    EmbeddedBrowser = is_platform_windows
     EmbeddedBrowserOnlineShop = false
 
     Chat = true
@@ -150,7 +150,6 @@
     SpectatorUnitDmgIndicator = ::disable_network()
 
     ProfileMedals = true
-    SlotbarShowCountryName = false
     SlotbarShowBattleRating = true
     GlobalShowBattleRating = false
     VideoPreview = ::disable_network()
@@ -185,7 +184,7 @@
     AerobaticTricolorSmoke = ::disable_network()
 
     XRayDescription = ::disable_network()
-    GamepadCursorControl = false
+    GamepadCursorControl = true
 
     SeparateTopMenuButtons = false
 
@@ -197,8 +196,12 @@
     DebriefingBattleTasks = false
     PromoBattleTasksRadioButtons = false
 
+    XboxIngameShop = false
     XboxCrossConsoleInteraction = false
+    Ps4XboxOneInteraction = false
     EnableMouse = true
+
+    NewUnitTypeToBattleTutorial = false
   }
 
   cache = {}

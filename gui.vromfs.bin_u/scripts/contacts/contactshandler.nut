@@ -399,7 +399,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local canInteractCrossConsole = platformModule.canInteractCrossConsole(contactName)
     local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
 
-    showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInteractCrossConsole && canInteractCrossPlatform, contact_buttons_holder)
+    showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInteractCrossConsole, contact_buttons_holder)
     showBtn("btn_friendRemove", isFriend, contact_buttons_holder)
     showBtn("btn_blacklistAdd", !isMe && !isFriend && !isBlock && canBlock, contact_buttons_holder)
     showBtn("btn_blacklistRemove", isBlock && canBlock, contact_buttons_holder)
@@ -853,7 +853,23 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (value < 0 || value >= obj.childrenCount())
       return
 
-    showCurPlayerRClickMenu(obj.getChild(value).getPosRC())
+    local childObj = obj.getChild(value)
+    if(!::check_obj(childObj))
+      return
+
+    if (childObj.contact_buttons_contact_uid)
+      showCurPlayerRClickMenu(childObj.getPosRC())
+    else if (childObj.isButton == "yes")
+      sendClickButton(childObj)
+  }
+
+  function sendClickButton(obj)
+  {
+    local clickName = obj.on_click
+    if (!clickName || !(clickName in this))
+      return
+
+    this[clickName]()
   }
 
   function onPlayerRClick(obj)
@@ -1119,7 +1135,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       local contact = ::getContact(searchRes.getParamName(i), searchRes.getParamValue(i))
       if (contact)
       {
-        if (!contact.isMe() && !contact.isInFriendGroup())
+        if (!contact.isMe() && !contact.isInFriendGroup() && platformModule.isPs4XboxOneInteractionAvailable(contact.name))
           ::contacts[searchGroup].append(contact)
       }
       else

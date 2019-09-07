@@ -176,6 +176,9 @@ class Contact
     if (!::is_platform_xboxone || isMe())
       return true
 
+    if (!::g_chat.isCrossNetworkMessageAllowed(name))
+      return false
+
     if (xboxId == "")
     {
       if (platformModule.getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS && !isInFriendGroup())

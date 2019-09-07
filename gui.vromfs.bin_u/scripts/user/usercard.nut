@@ -2,7 +2,6 @@ local platformModule = require("scripts/clientState/platform.nut")
 local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = ::require("scripts/user/avatars.nut")
-local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::stats_fm <- ["fighter", "bomber", "assault"]
 ::stats_tanks <- ["tank", "tank_destroyer", "heavy_tank", "SPAA"]
@@ -14,6 +13,7 @@ local crossplayModule = require("scripts/social/crossplay.nut")
   "submarine_chaser"
   "destroyer"
   "naval_ferry_barge"
+  "cruiser"
 ]
 ::stats_helicopters <- ["helicopter"]
 ::stats_fm.extend(::stats_helicopters)
@@ -211,7 +211,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     if (isMyPage)
-      updateExternalIdsData(externalIDsService.getSelfExternalIds())
+      updateExternalIdsData(externalIDsService.getSelfExternalIds(), isMyPage)
 
     if (taskId < 0)
       return notFoundPlayerMsg()
@@ -400,10 +400,11 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (player?.uid != params?.request?.uid && player?.id != params?.request?.playerId)
       return
 
-    updateExternalIdsData(params.externalIds)
+    local isMe = ::my_user_id_str == player?.uid
+    updateExternalIdsData(params.externalIds, isMe)
   }
 
-  function updateExternalIdsData(externalIdsData)
+  function updateExternalIdsData(externalIdsData, isMe)
   {
     curPlayerExternalIds = externalIdsData
 
@@ -412,7 +413,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 //    if (::is_platform_ps4)
 //      fillAdditionalName(curPlayerExternalIds?.psnName ?? "", "psnName")
 
-    showSceneBtn("btn_xbox_profile", ::is_platform_xboxone && (curPlayerExternalIds?.xboxId ?? "") != "")
+    showSceneBtn("btn_xbox_profile", ::is_platform_xboxone && !isMe && (curPlayerExternalIds?.xboxId ?? "") != "")
   }
 
   function fillAdditionalName(name, link)
@@ -639,7 +640,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       unitsView.checkBoxes.append(
         {
           id = armyId
-          title = unitType.getArmyLocName()
+          image = unitType.testFlightIcon
+          tooltip = unitType.getArmyLocName()
           value = ::isInArray(armyId, statsUnits)? "yes" : "no"
           onChangeFunction = "onStatsUnitChange"
         }
@@ -664,7 +666,8 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       countriesView.checkBoxes.append(
         {
           id = country
-          title = "#" + country
+          image = ::get_country_icon(country)
+          tooltip = "#" + country
           value = ::isInArray(country, statsCountries)? "yes" : "no"
           onChangeFunction = "onStatsCountryChange"
         }
@@ -987,8 +990,6 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local isXBoxOnePlayer = platformModule.isXBoxPlayerName(player.name)
     local canInteractCrossConsole = platformModule.canInteractCrossConsole(player.name)
-    local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
-    local showCrossPlayIcon = ::is_platform_xboxone && !isXBoxOnePlayer
 
     local canBan = false
     local isMe = true
@@ -1005,7 +1006,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       isMe = false
       if (!isBlock)
         textTable.btn_friendAdd = isFriend? ::loc("contacts/friendlist/remove")
-              : crossplayModule.getTextWithCrossplayIcon(showCrossPlayIcon, ::loc("contacts/friendlist/add"))
+              : ::loc("contacts/friendlist/add")
 
       if (!isFriend)
         textTable.btn_blacklistAdd = isBlock? ::loc("contacts/blacklist/remove") : ::loc("contacts/blacklist/add")
@@ -1016,7 +1017,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local showProfBar = infoReady && !showStatBar
     local buttonsList = {
       paginator_place = showStatBar && (airStatsList != null) && (airStatsList.len() > statsPerPage)
-      btn_friendAdd = showProfBar && !::isPlayerPS4Friend(player.name) && canInteractCrossConsole && canInteractCrossPlatform && textTable.btn_friendAdd != ""
+      btn_friendAdd = showProfBar && !::isPlayerPS4Friend(player.name) && canInteractCrossConsole && textTable.btn_friendAdd != ""
       btn_blacklistAdd = showProfBar && textTable.btn_blacklistAdd != "" && (!::is_platform_xboxone || !isXBoxOnePlayer)
       btn_moderatorBan = showProfBar && canBan && !::is_ps4_or_xbox
       btn_complain = showProfBar && !isMe
@@ -1038,7 +1039,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local playerName = ::getTblValue("name", player, "")
     local userId = ::getTblValue("uid", player, "")
 
-    ::gui_modal_ban({ name = playerName, uid = userId, clanTag = clanTag }, "")
+    ::gui_modal_ban({ name = playerName, uid = userId, clanTag = clanTag })
   }
 
   function modifyPlayerInList(listName)

@@ -1,7 +1,9 @@
 <<#rows>>
 tr {
   td {
-    hr { class:t='bottom' }
+    highlight {}
+    hr {}
+
     <<#iconLeft>>
     icon {
       ButtonContainer { ButtonImg {} }
@@ -28,10 +30,12 @@ tr {
     <</iconLeft>>
     textareaNoTab {
       id:t='name'
+      word-wrap:t='no'
       text:t=''
     }
     textareaNoTab {
       id:t='unit'
+      word-wrap:t='no'
       text:t=''
     }
   }

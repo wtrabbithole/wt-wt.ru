@@ -39,11 +39,11 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   itemsList = null
   curPage = 0
   shouldSetPageByItem = false
-  currentFocusItem = 2
+  currentFocusItem = 3
 
   slotbarActions = [ "preview", "testflightforced", "weapons", "info" ]
   displayItemTypes = null
-  usingSheetsArray = null
+  sheetsArray = null
 
   // Used to avoid expensive get...List and further sort.
   itemsListValid = false
@@ -79,6 +79,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
     ::show_obj(getTabsListObj(), checkEnableShop)
     ::show_obj(getSheetsListObj(), isInMenu)
+    showSceneBtn("sorting_block", false)
 
     updateWarbondsBalance()
   }
@@ -91,10 +92,15 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj()
   {
-    return getSheetsListObj()
+    return null
   }
 
   function getMainFocusObj2()
+  {
+    return getSheetsListObj()
+  }
+
+  function getMainFocusObj3()
   {
     local obj = getItemsListObj()
     return obj.childrenCount() ? obj : null
@@ -178,24 +184,24 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function initSheetsOnce()
   {
-    if (usingSheetsArray && usingSheetsArray.len())
+    if (sheetsArray && sheetsArray.len())
       return
 
-    usingSheetsArray = displayItemTypes?
+    sheetsArray = displayItemTypes?
         sheets.types.filter(function(idx, sh) {
             return ::isInArray(sh.id, displayItemTypes)
           }.bindenv(this) )
       : sheets.types
 
     local view = {
-      items = usingSheetsArray.map(@(sh) {
+      items = sheetsArray.map(@(sh) {
         text = ::loc(sh.locId)
         unseenIcon = SEEN.ITEMS_SHOP //intial to create unseen block.real value will be set on update.
         unseenIconId = "unseen_icon"
       })
     }
 
-    local data = ::handyman.renderCached(("gui/items/shopFilters"), view)
+    local data = ::handyman.renderCached("gui/items/shopFilters", view)
     guiScene.replaceContentFromText(scene.findObject("filter_block"), data, data.len(), this)
   }
 
@@ -208,7 +214,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local typesObj = getSheetsListObj()
     local seenListId = getTabSeenId(curTab)
     local curValue = -1
-    foreach(idx, sh in usingSheetsArray)
+    foreach(idx, sh in sheetsArray)
     {
       local isEnabled = sh.isEnabled(curTab)
       local child = typesObj.getChild(idx)
@@ -236,7 +242,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     markCurrentPageSeen()
 
-    local newSheet = usingSheetsArray?[obj.getValue()]
+    local newSheet = sheetsArray?[obj.getValue()]
     if (!newSheet)
       return
 
@@ -252,7 +258,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (itemsPerPage >= 1)
       return
 
-    local sizes = ::g_dagui_utils.adjustWindowSize(scene.findObject("wnd_items_shop"), getItemsListObj(), 
+    local sizes = ::g_dagui_utils.adjustWindowSize(scene.findObject("wnd_items_shop"), getItemsListObj(),
                                                    "@itemWidth", "@itemHeight", "@itemSpacing", "@itemSpacing")
     itemsPerPage = sizes.itemsCountX * sizes.itemsCountY
   }
@@ -377,7 +383,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function findLastValue(prevValue)
   {
     local offset = curPage * itemsPerPage
-    local total = ::min(itemsList.len() - offset, itemsPerPage)
+    local total = ::clamp(itemsList.len() - offset, 0, itemsPerPage)
     if (!total)
       return -1
 
@@ -436,9 +442,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(obj))
       return
 
-    local value = obj.getValue() + curPage * itemsPerPage
-    curItem = ::getTblValue(value, itemsList)
-    return curItem
+    return itemsList?[obj.getValue() + curPage * itemsPerPage]
   }
 
   function getCurItemObj()
@@ -723,4 +727,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     updateWarbondsBalance()
   }
+
+  //dependence by blk
+  onChangeSortOrder = @(obj) null
+  onChangeSortParam = @(obj) null
 }

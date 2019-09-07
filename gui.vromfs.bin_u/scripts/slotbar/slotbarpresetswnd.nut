@@ -90,8 +90,14 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
         presetBattleRatingText = ::loc("shop/battle_rating") + ::loc("ui/colon") + battleRatingRange + "\n"
       }
 
+      local gameMode = ::game_mode_manager.getGameModeById(preset.gameModeId)??
+                       ::game_mode_manager.getCurrentGameMode()
+      local presetGameMode = gameMode != null ? ::loc("options/mp_mode") +
+                                                ::loc("ui/colon") + gameMode.text + "\n" : ""
+
       local data = ::format("textarea{ text:t='%s' padding:t='0, 8*@sf/@pf_outdated' } ",
         ::g_string.stripTags(presetBattleRatingText) +
+        ::g_string.stripTags(presetGameMode) +
         ::loc("shop/slotbarPresets/contents") + ::loc("ui/colon"))
       data += "table{ class:t='slotbarPresetsTable' "
       for (local r = 0; r < cells / perRow; r++)

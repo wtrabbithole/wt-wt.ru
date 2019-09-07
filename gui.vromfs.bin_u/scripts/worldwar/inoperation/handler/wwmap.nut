@@ -77,7 +77,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     guiScene.performDelayed(this, function() {
       if (isValid())
-        ::checkNonApprovedResearches(true, true)
+        ::checkNonApprovedResearches(true)
     })
   }
 
@@ -297,8 +297,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     else if (currentSelectedObject == mapObjectSelect.AIRFIELD)
     {
       local airfield = ::g_world_war.getAirfieldByIndex(::ww_get_selected_airfield())
-      if (::gui_handlers.WwAirfieldFlyOut.getAvailableAirfieldFormations(airfield).len())
-          hasAccess = true
+      if (airfield.getAvailableFormations().len())
+        hasAccess = true
     }
     else if (currentSelectedObject == mapObjectSelect.ARMY ||
              currentSelectedObject == mapObjectSelect.LOG_ARMY)
@@ -588,6 +588,22 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
         local zonesArray = ::u.map(filteredZones, @(zone) zone.id)
         ::ww_highlight_zones_by_name(zonesArray, j)
       }
+    }
+  }
+
+  function updateAirfieldsMapIcons()
+  {
+    for (local i = 0; i < ::g_world_war.getAirfieldsCount(); i++)
+    {
+      local airfield = ::g_world_war.getAirfieldByIndex(i)
+      if (!airfield.isValid())
+        continue
+
+      local zoneName = ::ww_get_zone_name(::ww_get_zone_idx_world(airfield.getPos()))
+      if (airfield.hasEnoughUnitsToFly())
+        ::ww_turn_on_sector_sprites("Airfield", [zoneName], 0)
+      else
+        ::ww_turn_off_sector_sprites("Airfield", [zoneName])
     }
   }
 
@@ -1029,6 +1045,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     setCurrentSelectedObject(currentSelectedObject)
     markMainObjectiveZones()
     initOperationStatus()
+    updateAirfieldsMapIcons()
 
     onSecondsUpdate(null, 0)
     startRequestNewLogsTimer()

@@ -95,6 +95,8 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
     getImage = function(totalSections = 0) { return "#ui/gameuiskin#store_icon.svg" }
     getWinkImage = function () { return "#ui/gameuiskin#hovermenu_shop_button_glow" }
     haveTmDiscount = true
+    isWide = true
+    forceHoverWidth = "1@mainMenuButtonWideWidth + 0.02@sf"
     buttons = [
       [
         ::g_top_menu_buttons.EAGLES
@@ -103,6 +105,7 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
         ::g_top_menu_buttons.WARPOINTS
         ::g_top_menu_buttons.INVENTORY
         ::g_top_menu_buttons.ITEMS_SHOP
+        ::g_top_menu_buttons.WARBONDS_SHOP
         ::g_top_menu_buttons.ONLINE_SHOP
         ::g_top_menu_buttons.MARKETPLACE
       ]

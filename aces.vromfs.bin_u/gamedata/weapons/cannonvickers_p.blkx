@@ -25,6 +25,11 @@
     "bulletType": "ap_t",
     "relativeVelHitShift": [300.0,1000.0],
     "relativeVelArmorShift": [200.0,1000.0],
+    "groundCollisionEffect": "37_50_ap_hit_ground",
+    "groundFxScale": [0.5,0.7],
+    "ricochetEffect": "bullet_hit_armor",
+    "waterCollisionEffect": "water_splash",
+    "waterFxScale": [1.5,1.7],
     "hitpower": {
       "HitPower0m": [0.85,500.0],
       "HitPower10000m": [0.8,10000.0]
@@ -44,6 +49,24 @@
       "traceFreq": 1,
       "tracer": "37mmRed",
       "trail": "black"
+    },
+    "collisions": {
+      "buildings": {
+        "fx": "20_37_he_hit_stone",
+        "fxScale": [0.5,0.7]
+      },
+      "steel": {
+        "fx": "bullet_HE_hit_armor",
+        "fxScale": [1.1,1.2]
+      },
+      "armor": {
+        "fx": "bullet_HE_hit_armor",
+        "fxScale": [1.1,1.2]
+      },
+      "wood": {
+        "fx": "20_ap_wood_splash",
+        "fxScale": [0.9,1.1]
+      }
     }
   },
   "gunSound": {

@@ -780,151 +780,6 @@
       }
     }
   ],
-  "killStreaks_heicopters": [
-    {
-      "expClass": "exp_bomber"
-    },
-    {
-      "expClass": "exp_fighter"
-    },
-    {
-      "expClass": "exp_assault"
-    },
-    {
-      "expClass": "exp_tank"
-    },
-    {
-      "expClass": "exp_heavy_tank"
-    },
-    {
-      "expClass": "exp_tank_destroyer"
-    },
-    {
-      "expClass": "exp_SPAA"
-    },
-    {
-      "expClass": "exp_helicopter"
-    },
-    {
-      "countCombinedKillStreakEvents": 2
-    },
-    {
-      "timeDelayBetweenKillStreakEvent": 75.0
-    },
-    {
-      "killStreak": {
-        "type": "artillery_attack",
-        "tag": "artillery",
-        "maxCount": 3,
-        "maxCountForLightTank": 3,
-        "maxCountForMediumTank": 2,
-        "requiredKillsToGain": 1,
-        "eventTimer": 0.5,
-        "extraSupplyTimer": 120.0,
-        "dominationScoreMult": 0,
-        "airKillsMult": 1,
-        "groundKillsMult": 1,
-        "airAiKillsMult": 1,
-        "groundAiKillsMult": 1
-      }
-    },
-    {
-      "killStreak": {
-        "type": "control_unit_event",
-        "maxCount": 1,
-        "requiredKillsToGain": 3,
-        "airKillsMult": 1,
-        "groundKillsMult": 1,
-        "airAiKillsMult": 1,
-        "groundAiKillsMult": 1,
-        "tag": "bomber",
-        "unitTag": "helicopter_atgm",
-        "canStartEvent": true,
-        "canJoinEvent": false,
-        "canJoinAsExtra": true,
-        "eventTimer": 90.0,
-        "maxSimultaneousUnits": 3,
-        "spawnPos": {
-          "ranks": [0,30],
-          "initiator": [4000.0,500.0],
-          "ally": [250.0,400.0],
-          "enemy": [1500.0,800.0]
-        },
-        "clearProgress": [
-          {
-            "count": 3
-          },
-          {
-            "tag": "attacker"
-          },
-          {
-            "tag": "fighter"
-          }
-        ]
-      }
-    },
-    {
-      "killStreak": {
-        "type": "control_unit_event",
-        "maxCount": 1,
-        "requiredKillsToGain": 2,
-        "airKillsMult": 1,
-        "groundKillsMult": 1,
-        "airAiKillsMult": 1,
-        "groundAiKillsMult": 1,
-        "tag": "attacker",
-        "unitTag": "helicopter_rocket",
-        "canStartEvent": true,
-        "canJoinEvent": false,
-        "canJoinAsExtra": true,
-        "eventTimer": 90.0,
-        "maxSimultaneousUnits": 2,
-        "spawnPos": {
-          "ranks": [0,30],
-          "initiator": [4000.0,500.0],
-          "ally": [250.0,400.0],
-          "enemy": [1500.0,800.0]
-        },
-        "clearProgress": [
-          {
-            "count": 2
-          },
-          {
-            "tag": "bomber"
-          },
-          {
-            "tag": "fighter"
-          }
-        ]
-      }
-    },
-    {
-      "killStreak": {
-        "type": "control_unit_event",
-        "maxCount": 1,
-        "requiredKillsToGain": 1,
-        "airKillsMult": 1,
-        "groundKillsMult": 1,
-        "airAiKillsMult": 1,
-        "groundAiKillsMult": 1,
-        "tag": "fighter",
-        "unitTag": "helicopter_mguns",
-        "canStartEvent": false,
-        "canJoinEvent": true,
-        "clearProgress": [
-          {
-            "count": 1
-          },
-          {
-            "tag": "bomber"
-          },
-          {
-            "tag": "attacker"
-          }
-        ]
-      }
-    }
-  ],
   "killStreaks_survival_event": [
     {
       "expClass": "exp_bomber"
@@ -1241,6 +1096,487 @@
       ]
     }
   ],
+  "killStreaks_survival_event_aircraftOrHelicopter_1": [
+    {
+      "expClass": "exp_bomber"
+    },
+    {
+      "expClass": "exp_fighter"
+    },
+    {
+      "expClass": "exp_assault"
+    },
+    {
+      "expClass": "exp_tank"
+    },
+    {
+      "expClass": "exp_heavy_tank"
+    },
+    {
+      "expClass": "exp_tank_destroyer"
+    },
+    {
+      "expClass": "exp_SPAA"
+    },
+    {
+      "expClass": "exp_helicopter"
+    },
+    {
+      "countCombinedKillStreakEvents": 8
+    },
+    {
+      "timeDelayBetweenKillStreakEvent": 0.0
+    },
+    {
+      "bombFuseTimeForKillStreak": 0.0
+    },
+    {
+      "ranks": [0,21]
+    },
+    {
+      "weight": 1.0
+    },
+    {
+      "killStreak": {
+        "type": "artillery_attack",
+        "tag": "artillery",
+        "maxCount": 3,
+        "maxCountForLightTank": 1,
+        "maxCountForMediumTank": 1,
+        "requiredKillsToGain": 3,
+        "eventTimer": 0.5,
+        "extraSupplyTimer": 120.0,
+        "dominationScoreMult": 0,
+        "airKillsMult": 1,
+        "groundKillsMult": 1,
+        "airAiKillsMult": 1,
+        "groundAiKillsMult": 1
+      }
+    },
+    {
+      "killStreak": [
+        {
+          "type": "control_unit_event"
+        },
+        {
+          "maxCount": 1
+        },
+        {
+          "requiredKillsToGain": 8
+        },
+        {
+          "airKillsMult": 1
+        },
+        {
+          "groundKillsMult": 1
+        },
+        {
+          "airAiKillsMult": 1
+        },
+        {
+          "groundAiKillsMult": 1
+        },
+        {
+          "eventType": "bomber"
+        },
+        {
+          "tag": "bomber"
+        },
+        {
+          "canStartEvent": true
+        },
+        {
+          "canJoinEvent": false
+        },
+        {
+          "eventTimer": 60.0
+        },
+        {
+          "maxSimultaneousUnits": 1
+        },
+        {
+          "spawnPos": {
+            "ranks": [0,6],
+            "initiator": [2900.0,1000.0],
+            "ally": [250.0,400.0],
+            "enemy": [1400.0,700.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [7,10],
+            "initiator": [3150.0,1000.0],
+            "ally": [250.0,400.0],
+            "enemy": [1550.0,1000.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [11,14],
+            "initiator": [3450.0,1000.0],
+            "ally": [250.0,400.0],
+            "enemy": [1700.0,1000.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [15,30],
+            "initiator": [3600.0,1000.0],
+            "ally": [250.0,400.0],
+            "enemy": [2000.0,1000.0]
+          }
+        },
+        {
+          "clearProgress": [
+            {
+              "count": 8
+            },
+            {
+              "tag": "attacker"
+            },
+            {
+              "tag": "fighter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "killStreak": [
+        {
+          "type": "control_unit_event"
+        },
+        {
+          "maxCount": 1
+        },
+        {
+          "requiredKillsToGain": 3
+        },
+        {
+          "airKillsMult": 1
+        },
+        {
+          "groundKillsMult": 1
+        },
+        {
+          "airAiKillsMult": 1
+        },
+        {
+          "groundAiKillsMult": 1
+        },
+        {
+          "eventType": "bomber"
+        },
+        {
+          "tag": "attacker"
+        },
+        {
+          "canStartEvent": true
+        },
+        {
+          "canJoinEvent": false
+        },
+        {
+          "eventTimer": 60.0
+        },
+        {
+          "maxSimultaneousUnits": 1
+        },
+        {
+          "spawnPos": {
+            "ranks": [0,6],
+            "initiator": [2150.0,800.0],
+            "ally": [250.0,400.0],
+            "enemy": [1400.0,1000.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [7,10],
+            "initiator": [2350.0,800.0],
+            "ally": [250.0,400.0],
+            "enemy": [1550.0,1000.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [11,14],
+            "initiator": [3000.0,800.0],
+            "ally": [250.0,400.0],
+            "enemy": [1700.0,1000.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [15,30],
+            "initiator": [3000.0,800.0],
+            "ally": [250.0,400.0],
+            "enemy": [2000.0,1000.0]
+          }
+        },
+        {
+          "clearProgress": [
+            {
+              "count": 3
+            },
+            {
+              "tag": "bomber"
+            },
+            {
+              "tag": "fighter"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "killStreak": [
+        {
+          "type": "control_unit_event"
+        },
+        {
+          "maxCount": 1
+        },
+        {
+          "requiredKillsToGain": 2
+        },
+        {
+          "airKillsMult": 1
+        },
+        {
+          "groundKillsMult": 1
+        },
+        {
+          "airAiKillsMult": 1
+        },
+        {
+          "groundAiKillsMult": 1
+        },
+        {
+          "eventType": "bomber"
+        },
+        {
+          "tag": "fighter"
+        },
+        {
+          "canStartEvent": true
+        },
+        {
+          "canJoinEvent": false
+        },
+        {
+          "eventTimer": 60.0
+        },
+        {
+          "maxSimultaneousUnits": 1
+        },
+        {
+          "spawnPos": {
+            "ranks": [0,6],
+            "initiator": [2150.0,500.0],
+            "ally": [250.0,400.0],
+            "enemy": [1400.0,1000.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [7,10],
+            "initiator": [2350.0,500.0],
+            "ally": [250.0,400.0],
+            "enemy": [1550.0,1000.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [11,14],
+            "initiator": [3000.0,500.0],
+            "ally": [250.0,400.0],
+            "enemy": [1700.0,1000.0]
+          }
+        },
+        {
+          "spawnPos": {
+            "ranks": [15,30],
+            "initiator": [3000.0,500.0],
+            "ally": [250.0,400.0],
+            "enemy": [2000.0,1000.0]
+          }
+        },
+        {
+          "clearProgress": [
+            {
+              "count": 2
+            },
+            {
+              "tag": "bomber"
+            },
+            {
+              "tag": "attacker"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "killStreaks_survival_event_aircraftOrHelicopter_2": [
+    {
+      "expClass": "exp_bomber"
+    },
+    {
+      "expClass": "exp_fighter"
+    },
+    {
+      "expClass": "exp_assault"
+    },
+    {
+      "expClass": "exp_tank"
+    },
+    {
+      "expClass": "exp_heavy_tank"
+    },
+    {
+      "expClass": "exp_tank_destroyer"
+    },
+    {
+      "expClass": "exp_SPAA"
+    },
+    {
+      "expClass": "exp_helicopter"
+    },
+    {
+      "countCombinedKillStreakEvents": 8
+    },
+    {
+      "timeDelayBetweenKillStreakEvent": 0.0
+    },
+    {
+      "bombFuseTimeForKillStreak": 0.0
+    },
+    {
+      "ranks": [22,30]
+    },
+    {
+      "weight": 1.0
+    },
+    {
+      "killStreak": {
+        "type": "artillery_attack",
+        "tag": "artillery",
+        "maxCount": 3,
+        "maxCountForLightTank": 1,
+        "maxCountForMediumTank": 1,
+        "requiredKillsToGain": 3,
+        "eventTimer": 0.5,
+        "extraSupplyTimer": 120.0,
+        "dominationScoreMult": 0,
+        "airKillsMult": 1,
+        "groundKillsMult": 1,
+        "airAiKillsMult": 1,
+        "groundAiKillsMult": 1
+      }
+    },
+    {
+      "killStreak": {
+        "type": "control_unit_event",
+        "maxCount": 1,
+        "requiredKillsToGain": 8,
+        "airKillsMult": 1,
+        "groundKillsMult": 1,
+        "airAiKillsMult": 1,
+        "groundAiKillsMult": 1,
+        "tag": "bomber",
+        "unitTag": "helicopter_atgm",
+        "canStartEvent": true,
+        "canJoinEvent": false,
+        "eventTimer": 90.0,
+        "maxSimultaneousUnits": 1,
+        "spawnPos": {
+          "ranks": [0,30],
+          "initiator": [4000.0,500.0],
+          "ally": [250.0,400.0],
+          "enemy": [1500.0,800.0]
+        },
+        "clearProgress": [
+          {
+            "count": 8
+          },
+          {
+            "tag": "attacker"
+          },
+          {
+            "tag": "fighter"
+          }
+        ]
+      }
+    },
+    {
+      "killStreak": {
+        "type": "control_unit_event",
+        "maxCount": 1,
+        "requiredKillsToGain": 3,
+        "airKillsMult": 1,
+        "groundKillsMult": 1,
+        "airAiKillsMult": 1,
+        "groundAiKillsMult": 1,
+        "tag": "attacker",
+        "unitTag": "helicopter_rocket",
+        "canStartEvent": true,
+        "canJoinEvent": false,
+        "eventTimer": 90.0,
+        "maxSimultaneousUnits": 1,
+        "spawnPos": {
+          "ranks": [0,30],
+          "initiator": [4000.0,500.0],
+          "ally": [250.0,400.0],
+          "enemy": [1500.0,800.0]
+        },
+        "clearProgress": [
+          {
+            "count": 3
+          },
+          {
+            "tag": "bomber"
+          },
+          {
+            "tag": "fighter"
+          }
+        ]
+      }
+    },
+    {
+      "killStreak": {
+        "type": "control_unit_event",
+        "maxCount": 1,
+        "requiredKillsToGain": 2,
+        "airKillsMult": 1,
+        "groundKillsMult": 1,
+        "airAiKillsMult": 1,
+        "groundAiKillsMult": 1,
+        "tag": "fighter",
+        "canStartEvent": true,
+        "canJoinEvent": false,
+        "eventTimer": 60.0,
+        "maxSimultaneousUnits": 1,
+        "spawnPos": {
+          "ranks": [0,30],
+          "initiator": [3000.0,500.0],
+          "ally": [250.0,400.0],
+          "enemy": [2000.0,1000.0]
+        },
+        "clearProgress": [
+          {
+            "count": 2
+          },
+          {
+            "tag": "bomber"
+          },
+          {
+            "tag": "attacker"
+          }
+        ]
+      }
+    }
+  ],
   "farAwayParams": {
     "indicatorScaleScreenHeight": 1080.0,
     "pixelSize": 1080.0,
@@ -1555,6 +1891,11 @@
     "engineInfraRedBrightnessAspectMultFront": 0.01,
     "engineInfraRedBrightnessAspectMultSide": 0.09,
     "engineInfraRedBrightnessAspectMultRear": 1.0,
+    "engineInfraRedBrightnessBandMask": 1,
+    "airframeInfraRedBrightnessMult": 200.0,
+    "airframeInfraRedBrightnessBandMask": 2,
+    "sunInfraRedBrightnessMult": 0.0001,
+    "sunInfraRedBrightnessBandMask": 3,
     "radarCrossSectionAspectMultFrontFront": 1.0,
     "radarCrossSectionAspectMultFrontSide": 1.2,
     "radarCrossSectionAspectMultFrontRear": 1.0
@@ -1570,6 +1911,9 @@
     "alphaRudderMin": 0.1,
     "alphaElevatorMin": 0.2,
     "allowStrongControlsRestrictions": true,
+    "surfaceFriction": 0.75,
+    "surfaceBounce": 0.05,
+    "surfaceErpMult": 0.04,
     "engineDegradationSpeed1": 0.0005,
     "engineDegradationSpeed2": 0.0035,
     "engineDegradationSpeed3": 0.025,
@@ -1591,10 +1935,13 @@
     "damagedSurfaceCxMultSquareRatioMin": 0.3,
     "damagedSurfaceCxMultSquareRatioMax": 0.5,
     "damagedSurfaceCxMultMax": 2.3,
-    "vortexRingAlarmPercent": 0.7,
+    "propellerScreenEffectMultiRayCast": false,
+    "distToSurfaceTimeConst": 0.2,
+    "mainRotorLowSpeedAlarmPercent": -0.01,
+    "vortexRingAlarmPercent": 0.95,
     "controlFinsDestructionSpeedDiff": 10.0,
     "tailDestructionSpeedDiff": 40.0,
-    "horsePowersToInfraRedBrightness": 0.2,
+    "horsePowersToInfraRedBrightness": 0.42,
     "thrustKgsToInfraRedBrightness": 1.0
   },
   "bombingDefaults": {

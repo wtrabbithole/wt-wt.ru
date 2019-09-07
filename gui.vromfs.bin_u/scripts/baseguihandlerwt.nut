@@ -22,13 +22,13 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     function() { return getMainFocusObj4() }      //main focus obj of handler
     "crew_unlock_buttons",
     "autorefill-settings",
+    "header_countries",
     function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
     function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
   currentFocusItem = MAIN_FOCUS_ITEM_IDX
   gamercardTopIds = [
     "gamercard_panel_left"
-    "gamercard_panel_center"
     @() ::isInMenu() ? "gamercard_panel_right" : null
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]
@@ -71,6 +71,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   widgetsList = null
   needVoiceChat = true
   canInitVoiceChatWithSquadWidget = false
+  isHudVisible = null
 
   function constructor(gui_scene, params = {})
   {
@@ -315,10 +316,14 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     progressBox = null
   }
 
-  function onShowHud(show = true)
+  function onShowHud(show = true, needApplyPending = false)
   {
     if (!isSceneActive())
       return
+    if (isHudVisible == show)
+      return
+
+    isHudVisible = show
     if (rootHandlerWeak)
       return rootHandlerWeak.onShowHud(show)
 
@@ -327,7 +332,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return
 
     scene.show(show)
-    guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
+    if (needApplyPending)
+      guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
   }
 
   function startOnlineShop(type=null, afterCloseShop = null)

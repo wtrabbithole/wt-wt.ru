@@ -257,6 +257,7 @@ class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
 
     local pilotsObj = scene.findObject("pilots_list")
     guiScene.replaceContentFromText(pilotsObj, data, data.len(), this)
+    pilotsObj.select()
     pilotsObj.baseRow = (numUnits < 13)? "yes" : "rows16"
   }
 

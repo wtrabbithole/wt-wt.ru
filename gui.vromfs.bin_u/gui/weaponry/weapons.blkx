@@ -8,11 +8,14 @@
       "position": "absolute"
     },
     "frame": {
+      "id": "mods_frame",
       "width": "1@modWindowWidth",
-      "pos": "50%pw-50%w, 50%(sh + 1@topBarHeight - 1@slotbarHeight - 1@slotbarOffset) - 50%h",
+      "pos": "50%pw-50%w, 1@bh +1@gamercardHeight +0.01@sf +50%(1@maxWeaponsWindowHeight - h)",
       "position": "absolute",
       "flow": "vertical",
       "class": "wndNav",
+      "css-hier-invalidate": "yes",
+      "isHeaderHidden": "no",
       "frame_header": {
         "activeText": {
           "id": "wnd_title",
@@ -29,7 +32,6 @@
         "width": "pw - 2@framePadding",
         "pos": "0, 1@frameTopPadding",
         "position": "absolute",
-        "padding": "3",
         "margin": "1@framePadding, 1@framePadding",
         "img": {
           "size": "3ph,ph",
@@ -76,7 +78,7 @@
               "tooltip": "#mainmenu/autoPurchaseMods/tooltip",
               "on_change_value": "onChangeAutoPurchaseModsValue",
               "value": "no",
-              "btnName": "LB",
+              "btnName": "Y",
               "CheckBoxImg": [],
               "ButtonImg": []
             }
@@ -164,6 +166,13 @@
         ]
       }
     },
+    "dummy": {
+      "id": "close_ext_btn",
+      "on_click": "goBack",
+      "behaviour": "accesskey",
+      "accessKey": "J:B | Esc",
+      "display": "hide"
+    },
     "gamercard_div": [
       {
         "gamercard": [
@@ -224,13 +233,6 @@
                 "pos": "50%pw-50%w, 0",
                 "display": "hide",
                 "enable": "no",
-                "behaviour": "wrapNavigator",
-                "navigatorShortcuts": "yes",
-                "childsActivate": "yes",
-                "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown",
-                "on_wrap_left": "onTopGCPanelLeft",
-                "on_wrap_right": "onTopGCPanelRight",
                 "gameModeChangeButton": [
                   {
                     "id": "game_mode_change_button"

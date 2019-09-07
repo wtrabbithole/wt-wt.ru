@@ -131,6 +131,15 @@
           },
           {
             "Button_text": {
+              "id": "btn_controlsHelp_gamepad",
+              "text": "#options/help",
+              "btnName": "LB",
+              "_on_click": "onControlsHelp",
+              "ButtonImg": []
+            }
+          },
+          {
+            "Button_text": {
               "id": "btn_exportToFile",
               "tooltip": "#options/exportToFile",
               "_on_click": "onExportToFile",
@@ -201,6 +210,7 @@
             "Button_text": {
               "id": "btn_assign",
               "text": "#mainmenu/btnAssign",
+              "display": "hide",
               "btnName": "A",
               "on_click": "onTblDblClick",
               "ButtonImg": []
@@ -278,13 +288,6 @@
                 "pos": "50%pw-50%w, 0",
                 "display": "hide",
                 "enable": "no",
-                "behaviour": "wrapNavigator",
-                "navigatorShortcuts": "yes",
-                "childsActivate": "yes",
-                "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown",
-                "on_wrap_left": "onTopGCPanelLeft",
-                "on_wrap_right": "onTopGCPanelRight",
                 "gameModeChangeButton": [
                   {
                     "id": "game_mode_change_button"

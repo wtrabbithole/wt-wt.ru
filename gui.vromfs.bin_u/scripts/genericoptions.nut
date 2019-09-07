@@ -1,5 +1,3 @@
-local crossplayModule = require("scripts/social/crossplay.nut")
-
 ::generic_options <- null
 
 class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
@@ -64,8 +62,12 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   {
     checkBulletsRows()
     checkRocketDisctanceFuseRow()
+    checkBombActivationTimeRow()
+    checkDepthChargeActivationTimeRow()
+    checkMineDepthRow()
     onLayoutChange(null)
     checkMissionCountries()
+    checkAllowedUnitTypes()
     checkBotsOption()
     updateTripleAerobaticsSmokeOptions()
     updateVerticalTargetingOption()
@@ -338,6 +340,9 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       obj.tooltip = ::g_string.stripTags( ::loc(option.hint, "") )
     checkBulletsRows()
     checkRocketDisctanceFuseRow()
+    checkBombActivationTimeRow()
+    checkDepthChargeActivationTimeRow()
+    checkMineDepthRow()
   }
 
   function checkBulletsRows()
@@ -362,10 +367,49 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (!option)
       return
     local unit = ::getAircraftByName(::aircraft_for_weapons)
-    showOptionRow(option, !!unit && ::is_unit_available_use_rocket_diffuse(unit))
+    showOptionRow(option,
+      !!unit && unit.getAvailableSecondaryWeapons().hasRocketDistanceFuse)
   }
 
-  function onEventUnitWeaponChanged(p) { checkRocketDisctanceFuseRow() }
+  function checkBombActivationTimeRow()
+  {
+    local option = findOptionInContainers(::USEROPT_BOMB_ACTIVATION_TIME)
+    if (!option)
+      return
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option,
+      !!unit && unit.getAvailableSecondaryWeapons().hasBombs)
+  }
+
+  function checkDepthChargeActivationTimeRow()
+  {
+    local option = findOptionInContainers(::USEROPT_DEPTHCHARGE_ACTIVATION_TIME)
+    if (!option)
+      return
+
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option, unit?.isDepthChargeAvailable?()
+      && unit.getAvailableSecondaryWeapons().hasDepthCharges)
+  }
+
+  function checkMineDepthRow()
+  {
+    local option = findOptionInContainers(::USEROPT_MINE_DEPTH)
+    if (!option)
+      return
+
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option, unit?.isMinesAvailable?()
+      && unit.getAvailableSecondaryWeapons().hasMines)
+  }
+
+  function onEventUnitWeaponChanged(p)
+  {
+    checkRocketDisctanceFuseRow()
+    checkBombActivationTimeRow()
+    checkDepthChargeActivationTimeRow()
+    checkMineDepthRow()
+  }
 
   function onTripleAerobaticsSmokeSelected(obj)
   {
@@ -677,6 +721,40 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  function onUseKillStreaks(obj)
+  {
+    checkAllowedUnitTypes()
+  }
+
+  function checkAllowedUnitTypes()
+  {
+    local option = findOptionInContainers(::USEROPT_BIT_UNIT_TYPES)
+    if (!option)
+      return
+    local optionTrObj = getObj(option.getTrId())
+    if(!::check_obj(optionTrObj))
+      return
+
+    local missionBlk = ::get_mission_meta_info(optionsConfig?.missionName ?? "")
+    local useKillStreaks = missionBlk && ::is_skirmish_with_killstreaks(missionBlk) &&
+      getOptValue(::USEROPT_USE_KILLSTREAKS, false)
+    local allowedUnitTypesMask  = ::get_mission_allowed_unittypes_mask(missionBlk, useKillStreaks)
+
+    foreach (unitType in ::g_unit_type.types)
+    {
+      local isShow = !!(allowedUnitTypesMask & unitType.bit)
+      local itemObj = optionTrObj.findObject("bit_" + unitType.tag)
+      if (!::check_obj(itemObj))
+        continue
+      itemObj.show(isShow)
+      itemObj.enable(isShow)
+    }
+
+    local itemObj = optionTrObj.findObject("text_after")
+      if (::check_obj(itemObj))
+        itemObj.show(useKillStreaks)
+  }
+
   function onOptionBotsAllowed(obj)
   {
     checkBotsOption()
@@ -724,15 +802,6 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     local obj = scene.findObject("value_" + option.id)
     if (::check_obj(obj))
       obj.setValue(option.getValueLocText(value))
-  }
-
-  function onChangeCrossPlayOption(obj)
-  {
-    if (obj.getValue() == crossplayModule.isCrossPlayEnabled())
-      return
-
-    if (::checkIsInQueue())
-      return ::g_popups.add("", ::loc("options/onChangeValue/inQueue"))
   }
 
   function onMissionChange(obj) {}

@@ -283,7 +283,7 @@ class Promo
   {
     local tutorialData = getTutorialData()
 
-    local tutorialMissionName = ::getTblValue("tutorialMissionName", tutorialData)
+    local tutorialMission = tutorialData?.tutorialMission
     local tutorialId = ::getTblValue("tutorialId", tutorialData)
 
     local id = "tutorial_mainmenu_button"
@@ -296,15 +296,15 @@ class Promo
       buttonObj = ::showBtn(id, show, scene)
     else
     {
-      show = tutorialMissionName != null && ::g_promo.getVisibilityById(id)
+      show = tutorialMission != null && ::g_promo.getVisibilityById(id)
       buttonObj = ::showBtn(id, show, scene)
     }
 
     if (!show || !::checkObj(buttonObj))
       return
 
-    local buttonText = ::loc("missions/" + ::getTblValue("name", tutorialMissionName) + "/short", "")
-    if (!tutorialMissionName)
+    local buttonText = ::loc("missions/" + tutorialMission?.name + "/short", "")
+    if (!tutorialMission)
       buttonText = ::loc("mainmenu/btnTutorial")
     ::g_promo.setButtonText(buttonObj, id, buttonText)
   }
@@ -319,6 +319,11 @@ class Promo
     {
       tutorialId = "lightTank"
       tutorial = ::get_uncompleted_tutorial_data("tutorial_tank_basics_arcade", 0)
+    }
+    else if (::isShip(curUnit) && ::has_feature("Ships"))
+    {
+      tutorialId = "boat"
+      tutorial = ::get_uncompleted_tutorial_data("tutorial_boat_basic_arcade", 0)
     }
 
     if (!tutorial)
@@ -336,7 +341,7 @@ class Promo
       }
 
     return {
-      tutorialMissionName = ::getTblValue("mission", tutorial)
+      tutorialMission = tutorial?.mission
       tutorialId = tutorialId
     }
   }

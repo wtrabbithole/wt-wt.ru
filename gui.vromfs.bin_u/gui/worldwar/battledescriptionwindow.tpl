@@ -6,7 +6,7 @@ root {
     largeNavBarHeight:t='yes'
     type:t='dark'
 
-    size:t='1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar +1@slotbarTop'
+    size:t='1@slotbarWidthFull, 1@maxWindowHeightWithSlotbar'
     pos:t='50%pw-50%w, 1@minYposWindow'
     position:t='absolute'
 
@@ -236,12 +236,10 @@ root {
       }
     }
   }
-  <<#hasUpdateTimer>>
   dummy {
-    id:t="global_battles_update_timer"
+    id:t="update_timer"
     behavior:t='Timer'
     timer_handler_func:t='onUpdate'
     timer_interval_msec:t='1000'
   }
-  <</hasUpdateTimer>>
 }

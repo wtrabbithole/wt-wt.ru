@@ -38,7 +38,9 @@
 @const mIco: (32*@sf/@pf_outdated) \ 1;
 @const lIco: (64*@sf/@pf_outdated) \ 1;
 @const slotBtnIco: 23*@sf/@pf_outdated;
-@const profileMedalSize: 128*@sf/@pf_outdated;
+@const profileMedalSize: (128@sf/@pf) \ 1;
+@const profileMedalSizeBig: (256@sf/@pf $max 256) \ 1;
+@const profileMedalSizeList: (90@sf/@pf) \ 1;
 @const profileUnlockIconSize: (100*@sf/@pf_outdated) \ 1;
 @const avatarButtonSize: 1@profileUnlockIconSize + 2@blockInterval;
 @const debriefingUnlockIconSize: 75@sf/@pf;
@@ -47,6 +49,7 @@
 @const decalItemMargin:4@dp;
 @const decalIconHeight:100*@sf/@pf \ 1;
 @const mainMenuButtonWidth: 0.26@sf;
+@const mainMenuButtonWideWidth: 0.34@sf;
 
 @const modIcoSize: 56*@sf/@pf_outdated;
 @const modArrowWidth: (20*@sf/@pf) \ 1;
@@ -56,7 +59,7 @@
 @const modStatusHeight: 22*@sf/@pf_outdated;
 @const modStatusCheckboxHeight: 18@sf/@pf;
 @const modArrowLen: 15*@sf/@pf_outdated;
-@const modPadSize: (10@sf/@pf) \ 1;
+@const modPadSize: (8@sf/@pf) \ 1;
 
 @const battleModeSwitchHeight: 30*@sf/@pf_outdated;
 
@@ -172,14 +175,13 @@
 
 @const flightMenuBrHeight: 16*@sf/@pf_outdated;
 
-@const slots_count1:   (((1@rw -1@slot_hdr_width -2@slot_interval -2@slotScrollButtonWidth)) \@slot_width) $min 10;
-@const slots_count5:   (((1@rw -@slotbarCountries*@slot_hdr_width -2@slot_interval -2@slotScrollButtonWidth)) \@slot_width) $min 10;
-@const slotsScrollDivWidth1:(1@slot_width*1@slots_count1+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf_outdated +1)\2*2;
-@const slotsScrollDivWidth5:(1@slot_width*1@slots_count5+2@slot_interval+5*@scrn_tgt/100.0+2*@sf/@pf_outdated +1)\2*2;
+@const slotsCount:    ((1@rw -2@slot_interval -2@slotScrollButtonWidth)                   \@slot_width) $min 10;
+@const slotsCountExt: ((1@rw -2@slot_interval -2@slotScrollButtonWidth -1@slot_hdr_width) \@slot_width) $min 10;
+@const slotbarWidth:    (1@slot_width*1@slotsCount    +2@slot_interval +5@scrn_tgt/100.0 +2@sf/@pf_outdated) \1;
+@const slotbarWidthExt: (1@slot_width*1@slotsCountExt +2@slot_interval +5@scrn_tgt/100.0 +2@sf/@pf_outdated +1@slot_hdr_width) \1;
+@const slotbarWidthFull:    (1@slotbarWidth + 1) \2*2;
+@const slotbarWidthFullExt: (1@slotbarWidthExt + 1) \2*2;
 
-@const slotbarWidth1:    (1@slotsScrollDivWidth1 + 1@slot_hdr_width +1)\2*2;
-@const slotbarWidth5:    (1@slotsScrollDivWidth5 + 1@slot_hdr_width * 1@slotbarCountries +1)\2*2;
-@const slotbarWidthFull: 1@slotbarWidth5;
 @const slotbarHeight:    1@slotbar_top_shade + 1@slotbar_pad_top + 1@slot_height + 1@slotbar_pad_bottom;
 @const slotbarInvisPad:  18*@sf/@pf;
 @const offsetBetweenScreenAndAirinfo: (1@bw + 1@mIco + 2@listboxPad + 2@airInfoPadding) $min  0.5 * (sw - 1@slotbarWidthFull);
@@ -189,6 +191,8 @@
 @const airInfoPanelDmSwitcherWidth: ((@airInfoPanelWidth - 2@listboxPad - 2@listboxItemsInterval) \ 3) * 3 + 2@listboxPad + 2@listboxItemsInterval; 
 @const slotbarOffset:    1@bottomBarHeight;
 @const slotbarTop:       36@sf/@pf;
+@const slotbarShopBtnOffset: 1@offsetFromEdge + 1@shopWidthMax + 13@sf/@pf;
+@const slotbarCountriesMaxWidth: 1@slotbarWidthFull -1@slotbarShopBtnOffset -2@cIco -2@checkboxImgSize -30@sf/@pf -3@dp;
 
 @const offsetFromEdge:   1@frameHeaderPad + 1@buttonMargin;
 @const slotbarButtonsOffset:  0.5sw - 0.5@slotbarWidthFull + 1@offsetFromEdge;
@@ -196,7 +200,7 @@
 @const borderButtonsOffset:   (1 - 1@bigSOfs) * @slotbarButtonsOffset + 1@bigSOfs * 1@bw;
 
 @const shopBottomOffset: 1@wndWithSlotbarBottomOffset;
-@const shopYPos: sh -1@shopBottomOffset +1@slotbarTop;
+@const shopYPos: sh -1@shopBottomOffset;
 @const shopWndWidth: 1@slotbarWidthFull;
 @const battleBtnBottomOffset: sh-1@shopBottomOffset;
 
@@ -220,6 +224,8 @@
 @const maxWindowHeightNoSrh: sh - 1@bh - 1@titleLogoPlateHeight - 1@bottomBarHeight - 0.01@scrn_tgt;
 @const maxWindowHeight: 1@maxWindowHeightNoSrh $min 1@srh;
 @const maxWindowHeightWithSlotbar: sh - 1@bh - 1@titleLogoPlateHeight - 1@wndWithSlotbarBottomOffset;
+@const maxWindowHeightWithFullSlotbar: 1@maxWindowHeightWithSlotbar - 1@slotbarTop;
+@const maxWeaponsWindowHeight: sh -1@bh -1@gamercardHeight -1@wndWithSlotbarBottomOffset;
 
 @const maxWindowWidth: 1@rw;
 
@@ -275,7 +281,7 @@
 @const minChatHeight:0.11@scrn_tgt; @const maxChatHeight:0.33@scrn_tgt;
 @const minMisObjHeight:0.08@scrn_tgt;  @const optimalMisObjHeight:0.22@scrn_tgt;
 @const minChatMisObjHeight:1@minChatHeight + 1@minMisObjHeight + 0.07@scrn_tgt;
-@const respawnOptListContainerWidth:(1@slotbarWidth1-8*@sf/@pf_outdated) $max (1@rw * (1-1@isWide));
+@const respawnOptListContainerWidth:(1@slotbarWidthFullExt -8*@sf/@pf_outdated) $max (1@rw * (1-1@isWide));
 @const gameChatWidth:0.3sw;
 
 @const topMenuHoverMenuIndent: 0.01@sf;
@@ -316,3 +322,5 @@
 @const voiceChatSmallIconHeight: 16@sf/@pf;
 @const voiceChatBaseIconWidth: 18@sf/@pf;
 @const voiceChatBaseIconHeight: 26@sf/@pf;
+
+@const fadedImageFramePad 3@sf/@pf;

@@ -174,11 +174,11 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
       rendObj = ROBJ_DTEXT
       behavior = Behaviors.TextInput
 
-      size = [flex(), fontH(100)]
+      size = options?.size ?? [flex(), fontH(100)]
       font = font
       color = colors.textColor
       group = group
-      margin = [sh(1), sh(0.5)]
+      margin = options?.textmargin ?? [sh(1), sh(0.5)]
       valign = VALIGN_BOTTOM
 
       animations = [failAnim(text_state)]
@@ -225,6 +225,7 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
     fillColor = colors.backGroundColor
     borderWidth =0
     borderRadius = hdpx(3)
+    clipChildren = true
     size = [flex(), SIZE_TO_CONTENT]
     group = group
     animations = [failAnim(text_state)]

@@ -26,7 +26,6 @@ local getMainOptions = function()
       ["options/mainParameters"],
       [::USEROPT_LANGUAGE, "spinner", ! ::is_in_flight() && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! ::is_in_flight() && !::is_ps4_or_xbox],
-      [::USEROPT_XBOX_CROSSPLAY_ENABLE, "spinner", ::is_platform_xboxone],
       [::USEROPT_FONTS_CSS, "spinner"],
       [::USEROPT_CLUSTER, "spinner", ! ::is_in_flight() && ::is_platform_ps4],
 
@@ -81,6 +80,8 @@ local getMainOptions = function()
       [::USEROPT_USE_PERFECT_RANGEFINDER, "spinner", ::has_feature("Ships")],
       [::USEROPT_SAVE_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
       [::USEROPT_DEFAULT_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
+      [::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE, "spinner", ::has_feature("Ships")],
+      [::USEROPT_BULLET_FALL_INDICATOR_SHIP, "spinner", ::has_feature("Ships")],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
@@ -121,7 +122,6 @@ local getMainOptions = function()
       [::USEROPT_SHOW_INDICATORS_DIST, "spinner"],
 
       ["options/header/chatAndVoiceChat"],
-      [::USEROPT_XBOX_CROSSNETWORK_CHAT_ENABLE, "spinner", ::is_platform_xboxone],
       [::USEROPT_ONLY_FRIENDLIST_CONTACT, "spinner", ! ::is_in_flight()],
       [::USEROPT_AUTO_SHOW_CHAT, "spinner"],
       [::USEROPT_CHAT_MESSAGES_FILTER, "spinner"],
@@ -149,6 +149,7 @@ local getMainOptions = function()
       [::USEROPT_HUE_SPECTATOR_ALLY, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
       [::USEROPT_HUE_SPECTATOR_ENEMY, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
       [::USEROPT_REPLAY_ALL_INDICATORS, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
+      [::USEROPT_REPLAY_LOAD_COCKPIT, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
 
       ["options/header/userGeneratedContent"],
       [::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE,    "combobox", contentPreset.getContentPresets().len()],

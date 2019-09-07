@@ -29,6 +29,7 @@
   "destroysTrees": true,
   "type": "typeHeavyTank",
   "exhaustFx": "tank_exhaust",
+  "damagedExhaustFx": "tank_broken_exhaust",
   "dustFx": "",
   "sound": {
     "EngineName": "engine_su100",
@@ -1546,7 +1547,8 @@
         "armorThickness": 60.0
       },
       "superstructure_front_dm": {
-        "armorThickness": 25.0
+        "armorThickness": 25.0,
+        "hidableInViewer": true
       },
       "superstructure_side_dm": {
         "armorThickness": 75.0
@@ -1772,6 +1774,7 @@
       "armorThickness": 2.0,
       "armorThrough": 15.0,
       "fireProtectionHp": 5.0,
+      "hidableInViewer": false,
       "drive_turret_v_dm": {
         "hp": 150.0,
         "armorThrough": 1.0,

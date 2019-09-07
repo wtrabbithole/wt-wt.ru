@@ -28,7 +28,7 @@ local time = require("scripts/time.nut")
   needAnimOnIncrementCount = false
 
   getName        = @(killStreakTag = null) _name
-  getIcon        = @(killStreakTag = null) _icon
+  getIcon        = @(killStreakTag = null, unit = null) _icon
   getTitle       = @(killStreakTag = null) _title
   getTooltipText = function(actionItem = null)
   {
@@ -82,12 +82,22 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     needAnimOnIncrementCount = true
   }
 
+  TORPEDO_SIGHT = {
+    code = ::EII_TORPEDO_SIGHT
+    _name = "torpedo_sight"
+    _icon = "#ui/gameuiskin#torpedo_sight"
+    getShortcut = @(actionItem, unit = null) "ID_SHIP_TORPEDO_SIGHT"
+  }
+
   TORPEDO = {
     code = ::EII_TORPEDO
     _name = "torpedo"
-    _icon = "#ui/gameuiskin#torpedo"
+    _icon = "#ui/gameuiskin#torpedo_multiple"
     getShortcut = @(actionItem, unit = null)
       ::is_submarine(unit) ? "ID_SUBMARINE_WEAPON_TORPEDOES" : "ID_SHIP_WEAPON_TORPEDOES"
+    getIcon = function (killStreakTag = null, unit = null) {
+      return ::single_torpedo_selected() ?  "#ui/gameuiskin#torpedo" : _icon
+    }
   }
 
   DEPTH_CHARGE = {
@@ -96,10 +106,9 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _icon = "#ui/gameuiskin#depth_charge"
     getShortcut = @(actionItem, unit = null)
       ::is_submarine(unit) ? "ID_SUBMARINE_WEAPON_DEPTH_CHARGE" : "ID_SHIP_WEAPON_DEPTH_CHARGE"
-    getIcon = function(killStreakTag = null)
-    {
-      local unit = ::getAircraftByName(::get_action_bar_unit_name())
-      return ::is_minelayer(unit) ? "#ui/gameuiskin#naval_mine" : _icon
+    getIcon = function(killStreakTag = null, unit = null) {
+      unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
+      return unit?.isMinesAvailable?() ? "#ui/gameuiskin#naval_mine" : _icon
     }
   }
 
@@ -149,8 +158,10 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
         return "ID_SHIP_SMOKE_SCREEN_GENERATOR"
       return "ID_SMOKE_SCREEN_GENERATOR"
     }
-    getIcon = @(killStreakTag = null)
-      ::is_submarine(::getAircraftByName(::get_action_bar_unit_name())) ? "#ui/gameuiskin#acoustic_countermeasures" : _icon
+    getIcon = function(killStreakTag = null, unit = null) {
+      unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
+      return ::is_submarine(unit) ? "#ui/gameuiskin#acoustic_countermeasures" : _icon
+    }
     getTitle = @(killStreakTag = null)
       ::is_submarine(::getAircraftByName(::get_action_bar_unit_name()))
         ? ::loc("hotkeys/ID_SUBMARINE_ACOUSTIC_COUNTERMEASURES")
@@ -195,7 +206,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _icon = "#ui/gameuiskin#artillery_fire"
     _title = ::loc("hotkeys/ID_ACTION_BAR_ITEM_5")
     needAnimOnIncrementCount = true
-    getIcon = function (killStreakTag = null)
+    getIcon = function (killStreakTag = null, unit = null)
     {
       local mis = ::get_current_mission_info_cached()
       return mis && mis.useCustomSuperArtillery ? "#ui/gameuiskin#artillery_fire_on_target" : "#ui/gameuiskin#artillery_fire"
@@ -209,8 +220,10 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _icon = "#ui/gameuiskin#extinguisher"
     _title = ::loc("hotkeys/ID_ACTION_BAR_ITEM_6")
     needAnimOnIncrementCount = true
-    getIcon = @(killStreakTag = null)
-      ::isShip(::getAircraftByName(::get_action_bar_unit_name())) ? "#ui/gameuiskin#manual_ship_extinguisher" : "#ui/gameuiskin#extinguisher"
+    getIcon = function(killStreakTag = null, unit = null) {
+      unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
+      return ::isShip(unit) ? "#ui/gameuiskin#manual_ship_extinguisher" : "#ui/gameuiskin#extinguisher"
+    }
   }
 
   TOOLKIT = {
@@ -219,8 +232,10 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _name = "toolkit"
     _icon = "#ui/gameuiskin#tank_tool_kit"
     _title = ::loc("hotkeys/ID_SHIP_ACTION_BAR_ITEM_11")
-    getIcon = @(killStreakTag = null)
-      ::isShip(::getAircraftByName(::get_action_bar_unit_name())) ? "#ui/gameuiskin#ship_tool_kit" : "#ui/gameuiskin#tank_tool_kit"
+    getIcon = function(killStreakTag = null, unit = null) {
+      unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
+      return ::isShip(unit) ? "#ui/gameuiskin#ship_tool_kit" : "#ui/gameuiskin#tank_tool_kit"
+    }
   }
 
   MEDICALKIT = {
@@ -231,9 +246,8 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     _title = ::loc("hints/tank_medkit")
     needAnimOnIncrementCount = true
 
-    getIcon = function (killStreakTag = null)
-    {
-      local unit = ::getAircraftByName(::get_action_bar_unit_name())
+    getIcon = function (killStreakTag = null, unit = null) {
+      unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
       local mod = ::getModificationByName(unit, "tank_medical_kit")
       return mod?.image ?? ""
     }
@@ -259,7 +273,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
       return ""
     }
 
-    getIcon = function (killStreakTag = null)
+    getIcon = function (killStreakTag = null, unit = null)
     {
       // killStreakTag is expected to be "bomber", "attacker" or "fighter".
       if (::u.isString(killStreakTag))
@@ -320,7 +334,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     code = ::EII_SHIP_CURRENT_TRIGGER_GROUP
     _name = "ship_current_trigger_group"
     getShortcut = @(...) null
-    getIcon = function (killStreakTag = null) {
+    getIcon = function (killStreakTag = null, unit = null) {
       local currentTrigger = ::get_current_trigger_group()
       switch (currentTrigger)
       {

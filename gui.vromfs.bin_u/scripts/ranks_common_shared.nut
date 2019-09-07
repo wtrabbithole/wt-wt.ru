@@ -169,6 +169,11 @@ function calc_battle_rating_from_rank(economicRank)
   return ::round(economicRank / 3.0 + 1, 1)
 }
 
+function get_battle_rating_string_from_rank(economicRank)
+{
+  return ::format("%.1f", ::calc_battle_rating_from_rank(economicRank))
+}
+
 function get_unit_blk_economic_rank_by_mode(unitBlk, ediff)
 {
   local mode_name = ::get_econRank_emode_name(ediff)

@@ -1,3 +1,15 @@
+local __string = require("string")
+foreach (name, func in require("dagor.localize"))
+  ::dagor[name] <- func
+::loc <- require("dagor.localize").loc
+
+::regexp<-__string.regexp
+::split <-__string.split
+::format <-__string.format
+::strip<-__string.strip
+local __math = require("math")
+::fabs<-__math.fabs
+
 ::script_protocol_version <- null
 ::dagor.runScript("scripts/version.nut")
 ::dagor.runScript("sqStdLibs/scriptReloader/scriptReloader.nut")
@@ -247,9 +259,16 @@ enum SEEN {
   INVENTORY = "inventory"
   ITEMS_SHOP = "items_shop"
   WORKSHOP = "workshop"
+  WARBONDS_SHOP = "warbondsShop"
+  EXT_XBOX_SHOP = "ext_xbox_shop"
 
   //sublists
   S_EVENTS_WINDOW = "##events_window##"
+}
+
+enum xboxMediaItemType { //values by microsoft IDE, others not used
+  GameContent = 4
+  GameConsumable = 5
 }
 
 function randomize()
@@ -363,6 +382,9 @@ foreach (fn in [
 
   //used before xbox login
   "scripts/social/xboxSquadManager.nut"
+
+  //used for SSO login
+  "scripts/onlineshop/browserWnd.nut"
 ])
 {
   ::g_script_reloader.loadOnce(fn)
@@ -595,8 +617,8 @@ function load_scripts_after_login_once()
     "events/eventRoomCreationContext.nut"
     "events/createEventRoomWnd.nut"
 
-    "replayScreen.nut"
-    "replayPlayer.nut"
+    "replays/replayScreen.nut"
+    "replays/replayPlayer.nut"
 
     "customization/types.nut"
     "customization/decorator.nut"
@@ -628,7 +650,6 @@ function load_scripts_after_login_once()
 
     "onlineShop/onlineShopModel.nut"
     "onlineShop/onlineShop.nut"
-    "onlineShop/browserWnd.nut"
     "onlineShop/reqPurchaseWnd.nut"
     "paymentHandler.nut"
 
@@ -713,7 +734,6 @@ function load_scripts_after_login_once()
 
     "discounts/discounts.nut"
     "discounts/discountUtils.nut"
-    "discounts/personalDiscount.nut"
 
     "items/itemsManager.nut"
     "items/prizesView.nut"
@@ -764,7 +784,7 @@ function load_scripts_after_login_once()
     "hud/hud.nut"
     "hud/hudActionBarType.nut"
     "hud/hudActionBar.nut"
-    "spectator.nut"
+    "replays/spectator.nut"
     "hud/hudTankDebuffs.nut"
     "hud/hudShipDebuffs.nut"
     "hud/hudDisplayTimers.nut"

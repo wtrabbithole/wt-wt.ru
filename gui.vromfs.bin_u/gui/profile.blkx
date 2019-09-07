@@ -360,8 +360,7 @@
             {
               "tdiv": {
                 "id": "countries_boxes",
-                "class": "checkBoxRow",
-                "margin": "0, 1@blockInterval",
+                "margin": "1@blockInterval, 1@blockInterval",
                 "behaviour": "wrapNavigator",
                 "navigatorShortcuts": "yes",
                 "childsActivate": "yes",
@@ -375,8 +374,7 @@
                 "id": "units_boxes",
                 "pos": "pw-w, 0",
                 "position": "absolute",
-                "margin": "0, 1@blockInterval",
-                "class": "checkBoxRow",
+                "margin": "1@blockInterval, 1@blockInterval",
                 "behaviour": "wrapNavigator",
                 "navigatorShortcuts": "yes",
                 "childsActivate": "yes",
@@ -424,43 +422,112 @@
         }
       },
       {
-        "optionlist_container": {
-          "id": "decals-container",
-          "flow": "vertical",
-          "noPad": "yes",
-          "HorizontalListBox": {
-            "id": "decals_list",
-            "width": "pw",
-            "pos": "50%pw-50%w, 0",
-            "position": "relative",
-            "class": "hflow",
-            "flow": "h-flow",
-            "flow-align": "center",
-            "navigator": "posNavigator",
-            "moveX": "linear",
-            "moveY": "closest",
-            "activeAccesskeys": "LeftRight",
-            "navigatorShortcuts": "yes",
-            "on_select": "onPageChange"
+        "optionlist_container": [
+          {
+            "id": "decals-container"
           },
-          "tdiv": {
-            "width": "pw",
-            "height": "fh",
-            "position": "relative",
-            "overflow-y": "auto",
-            "navigatorShortcuts": "yes",
-            "scrollbarShortcuts": "yes",
+          {
+            "noPad": "yes"
+          },
+          {
             "tdiv": {
-              "pos": "50%pw-50%w, 0",
-              "position": "relative",
-              "id": "decals_zone",
-              "class": "hoverFrame",
-              "flow": "h-flow",
-              "flow-align": "center",
-              "max-width": "pw"
+              "size": "fw, ph",
+              "flow": "vertical",
+              "HorizontalListBox": {
+                "id": "decals_list",
+                "width": "pw",
+                "pos": "50%pw-50%w, 0",
+                "position": "relative",
+                "class": "hflow",
+                "flow": "h-flow",
+                "flow-align": "center",
+                "navigator": "posNavigator",
+                "moveX": "linear",
+                "moveY": "closest",
+                "navigatorShortcuts": "yes",
+                "on_wrap_up": "onWrapUp",
+                "on_wrap_down": "onWrapDown",
+                "clearOnFocusLost": "no",
+                "on_select": "onPageChange"
+              },
+              "tdiv": {
+                "size": "pw, fh",
+                "pos": "0, @blockInterval",
+                "position": "relative",
+                "tdiv": {
+                  "size": "fw, ph",
+                  "overflow-y": "auto",
+                  "div": {
+                    "pos": "50%pw-50%w, 0",
+                    "position": "relative",
+                    "id": "decals_zone",
+                    "class": "hoverFrame",
+                    "flow": "h-flow",
+                    "flow-align": "center",
+                    "max-width": "pw",
+                    "padding-top": "@blockInterval",
+                    "behavior": "posNavigator",
+                    "moveX": "linear",
+                    "moveY": "closest",
+                    "navigatorShortcuts": "yes",
+                    "on_wrap_up": "onWrapUp",
+                    "on_wrap_down": "onWrapDown",
+                    "clearOnFocusLost": "no",
+                    "on_select": "onDecalSelect"
+                  }
+                }
+              }
             }
+          },
+          {
+            "chapterSeparator": {
+              "margin-left": "@blockInterval"
+            }
+          },
+          {
+            "tdiv": [
+              {
+                "id": "decal_info"
+              },
+              {
+                "size": "33%pw, ph"
+              },
+              {
+                "margin-left": "@blockInterval"
+              },
+              {
+                "flow": "vertical"
+              },
+              {
+                "overflow-y": "auto"
+              },
+              {
+                "padding-top": "@cIco"
+              },
+              {
+                "tdiv": {
+                  "id": "decal_desc",
+                  "flow": "vertical",
+                  "width": "pw"
+                }
+              },
+              {
+                "tdiv": {
+                  "padding-left": "@unlockHeaderIconSize",
+                  "CheckBox": {
+                    "id": "checkbox-favorites",
+                    "text": "#mainmenu/UnlockAchievementsToFavorite",
+                    "smallFont": "yes",
+                    "tooltip": "",
+                    "on_change_value": "unlockToFavorites",
+                    "unlockId": "",
+                    "CheckBoxImg": []
+                  }
+                }
+              }
+            ]
           }
-        }
+        ]
       },
       {
         "optionlist_container": {
@@ -522,6 +589,7 @@
                     {
                       "HorizontalListBox": {
                         "id": "pages_list",
+                        "class": "countries_small",
                         "activeAccesskeys": "LeftRight",
                         "navigatorShortcuts": "yes",
                         "on_wrap_up": "onWrapUp",
@@ -647,16 +715,6 @@
             },
             {
               "Button_text": {
-                "id": "btn_xbox_profile",
-                "text": "#mainmenu/btnXboxProfile",
-                "btnName": "LB",
-                "on_click": "onOpenXboxProfile",
-                "display": "hide",
-                "ButtonImg": []
-              }
-            },
-            {
-              "Button_text": {
                 "id": "btn_ps4Registration",
                 "text": "#mainmenu/binding",
                 "tooltip": "#mainmenu/PS4EmailRegistration/desc",
@@ -748,13 +806,6 @@
                 "pos": "50%pw-50%w, 0",
                 "display": "hide",
                 "enable": "no",
-                "behaviour": "wrapNavigator",
-                "navigatorShortcuts": "yes",
-                "childsActivate": "yes",
-                "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown",
-                "on_wrap_left": "onTopGCPanelLeft",
-                "on_wrap_right": "onTopGCPanelRight",
                 "gameModeChangeButton": [
                   {
                     "id": "game_mode_change_button"

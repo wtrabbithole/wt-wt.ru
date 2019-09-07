@@ -584,7 +584,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     local isNeedSquadBtn = ::is_gamemode_coop(gm) && ::can_play_gamemode_by_squad(gm) && ::g_squad_manager.canInviteMember()
     if (gm == ::GM_SINGLE_MISSION)
       isNeedSquadBtn = isNeedSquadBtn && !isHeader && curMission!=null
-                       && (!("blk" in curMission) || curMission.blk.getBool("gt_cooperative", false))
+                       && (!("blk" in curMission)
+                          || (curMission.blk.getBool("gt_cooperative", false) && !::is_user_mission(curMission.blk)))
     showSceneBtn("btn_inviteSquad", curMission!= null && isNeedSquadBtn)
 
     showSceneBtn("btn_refresh", misListType.canRefreshList)
@@ -717,7 +718,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (isUrlMission)
       missionBlk.url = mission.urlMission.url
 
-    local coopAvailable = ::is_gamemode_coop(gm) && ::can_play_gamemode_by_squad(gm)
+    local coopAvailable = ::is_gamemode_coop(gm) && ::can_play_gamemode_by_squad(gm) && !::is_user_mission(missionBlk)
     ::mission_settings.coop = missionBlk.getBool("gt_cooperative", false) && coopAvailable
 
     missionBlk.setInt("_gameMode", gm)

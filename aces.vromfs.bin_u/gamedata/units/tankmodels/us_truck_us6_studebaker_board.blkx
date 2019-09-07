@@ -6,6 +6,7 @@
   "collisionSphere0": [0.0,-1.5,0.0,5.0],
   "collisionSphere1": [5.0,2.0,0.0,1.0],
   "exhaustFx": "tank_exhaust",
+  "damagedExhaustFx": "tank_broken_exhaust",
   "dustFx": "",
   "canReloadNonGuns": true,
   "useSimpleDeathConditionsAndEffects": false,
@@ -190,6 +191,7 @@
       "superstructure_bottom_dm": []
     },
     "body_shields": {
+      "hidableInViewer": true,
       "armorClass": "tank_structural_steel",
       "ex_decor_01_dm": [],
       "ex_decor_02_dm": [],
@@ -714,12 +716,20 @@
         "wheel_r_drive": 0.3
       },
       "driven": {
-        "wheel_l_drive": true,
-        "wheel_r_drive": true,
         "wheel_l_01": true,
         "wheel_r_01": true,
         "wheel_l_02": true,
-        "wheel_r_02": true
+        "wheel_r_02": true,
+        "wheel_l_03": true,
+        "wheel_r_03": true
+      },
+      "wheelsDamageWeight": {
+        "wheel_l_01": 0.4,
+        "wheel_r_01": 0.4,
+        "wheel_l_02": 0.4,
+        "wheel_r_02": 0.4,
+        "wheel_l_03": 0.4,
+        "wheel_r_03": 0.4
       }
     },
     "movableSuspension": {

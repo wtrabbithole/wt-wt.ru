@@ -104,11 +104,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     return scene.findObject("shop_items_list")
   }
 
-  function getMainFocusObj2()
-  {
-    return scene.findObject("show_mode")
-  }
-
   function loadFullAircraftsTable(selAirName = "")
   {
     shopData = []
@@ -1016,7 +1011,15 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
     local unitBlock = ::build_aircraft_item(unit.name, unit, params)
     guiScene.replaceContentFromText(placeObj, unitBlock, unitBlock.len(), this)
+
     ::fill_unit_item_timers(placeObj.findObject(unit.name), unit, params)
+
+    ::showUnitDiscount(placeObj.findObject(unit.name+"-discount"), unit)
+
+    local bonusData = unit.name
+    if (::isUnitGroup(unit))
+      bonusData = ::u.map(unit.airsGroup, function(unit) { return unit.name })
+    showAirExpWpBonus(placeObj.findObject(unit.name+"-bonus"), bonusData)
   }
 
   function updateGroupItem(groupName)
@@ -1238,9 +1241,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function getDiscountByCountryAndArmyId(country, armyId)
   {
-    local airList = ::getTblValue("airList", ::visibleDiscountNotifications, {})
-    local entitlementUnits = ::getTblValue("entitlementUnits", ::visibleDiscountNotifications, {})
-    if (!airList.len() && !entitlementUnits.len())
+    if (!::g_discount.haveAnyUnitDiscount())
       return null
 
     local unitType = ::g_unit_type.getByArmyId(armyId)
@@ -1254,7 +1255,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
           discountsList[unit.name + "_shop"] <- discount
       }
 
-    return ::generateDiscountInfo(discountsList)
+    return ::g_discount.generateDiscountInfo(discountsList)
   }
 
   function openMenuForCurAir(obj)
@@ -1437,6 +1438,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function onSceneActivate(show)
   {
     base.onSceneActivate(show)
+    scene.enable(show)
     if (!show)
       destroyGroupChoose()
   }
@@ -1755,7 +1757,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (::isUnitBroken(unit))
       return onRepair(obj)
     if (::isUnitInSlotbar(unit))
-      return ::open_weapons_for_unit(unit, getCurrentEdiff())
+      return ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
     if (unit.isUsable() && !::isUnitInSlotbar(unit))
       return onTake(unit)
     if (::canBuyUnitOnline(unit))
@@ -1999,6 +2001,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onShopShow(show)
   {
+    onSceneActivate(show)
     if (!show && ::checkObj(groupChooseObj))
       destroyGroupChoose()
     if (show)

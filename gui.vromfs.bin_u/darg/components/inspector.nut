@@ -216,10 +216,7 @@ local function elemLocationText(elem, builder) {
 
   local location = ::locate_element_source(elem)
   if (location) {
-    text = location.source + "," + location.line
-    if (location.depth) {
-      text += "\nChild at level #" + location.depth
-    }
+    text = location.stack + "\n-------\n"
   }
 
   text += (builder ? "\n(Function)" : "\n(Table)")

@@ -1,3 +1,5 @@
+@const shopItemPad: 4*@sf/@pf;
+
 table.shopTable, table.slotbarTable {
   total-input-transparent:yes;
 }
@@ -48,7 +50,7 @@ shopItem {
   size:pw, ph;
   pos:0,50%ph-50%h;
   position:relative;
-  padding:3*@sf/@pf_outdated;
+  padding:1@shopItemPad;
   css-hier-invalidate:yes;
   overflow:visible;
   total-input-transparent:yes;
@@ -857,64 +859,15 @@ shopBlockTierNum{
   css-hier-invalidate:yes;
 }
 
-slotsOption {
-  fixedWidth:yes;
-}
-slotsOption[_size-timer]{
-  fixedWidth:no;
+CrewsNest {
+  size: pw, ph;
 }
 
-slotsOption {
-  height:@slotbarHeight;
-  css-hier-invalidate:yes;
-  active:no;
-  needAnim:yes;
-  moveCurrent:no;
-
-  size-time:-300;
-  size-func:squareSym;
-}
-slotsOption:current {
-  moveCurrent:yes;
-}
-slotsOption[moveCurrent=yes][_size-timer=1],
-slotsOption[moveCurrent=no][_size-timer=0] {
-  needAnim:no;
-}
-slotsOption[fixedWidth=yes], slotsOption[_size-timer=0] {
-  width:@slot_hdr_width;
-}
-slotsOption[fixedWidth=yes]:current, slotsOption[_size-timer=1] {
-  width:@slot_hdr_width+1@slotsScrollDivWidth5;
-  active:yes;
-}
-
-slotbarDiv[singleCountry=yes] > HorizontalListBox > slotsOption {
-  width:@slot_hdr_width+1@slotsScrollDivWidth1;
-}
-
-slotsOption[_size-timer][needAnim=yes] {
-  behaviour:basicSize;
-}
-slotsOption[_size-timer]:current {
-  size-time:300;
-}
-slotsOption[_size-timer=1] {
-  active:yes;
-}
-propsList {   width-base:0;
-  width-end:0;
-}
-
-slotsOption > slotsScrollDiv {
-  max-width:@slotsScrollDivWidth5;
-  width:fw;
-  padding:@slot_interval + 1@slotScrollButtonWidth, 0;
-  css-hier-invalidate:yes;
-}
-
-slotbarDiv[singleCountry=yes] > HorizontalListBox > slotsOption > slotsScrollDiv {
-  max-width:@slotsScrollDivWidth1;
+CrewsNest > slotsScrollDiv {
+  width: fw;
+  max-width: 1@slotbarWidth;
+  padding: @slot_interval +1@slotScrollButtonWidth, 0;
+  css-hier-invalidate: yes;
 }
 
 slotsScrollDiv[flow=vertical] {
@@ -933,86 +886,25 @@ slotsScrollDiv.shopDiv {
     overflow:auto;
 }
 
-slotsOption[fixedWidth=yes] > slotsScrollDiv, slotsOption[_size-timer=0] > slotsScrollDiv {
-  display:hide;
-}
-slotsOption[fixedWidth=yes]:current > slotsScrollDiv {
-  display:show;
-}
-slotsOption[active=no] > slotsScrollDiv {
-  scrollType:hidden;
-}
-
-slotsHeader {
-  size:@slot_hdr_width, ph;
-  re-type:9rect;
-  background-color:@slotbarTabColor;
-  background-position:1, 0;
-  css-hier-invalidate:yes;
-  padding:3*@sf/@pf_outdated;
-  total-input-transparent:yes;
-  input-transparent:yes;
-}
-slotsOption:hover > slotsHeader {
-  background-color:@slotbarTabHoverColor;
-}
-slotsOption:pushed > slotsHeader {
-  background-color:@slotbarTabPushedColor;
-}
-slotsOption:current > slotsHeader {
-  background-color:@slotbarTabCurrentColor;
-}
-slotsOption:disabled > slotsHeader {
-  background-color:@slotbarTabDisabledColor;
-}
-
-slotsHeader > img {
-  size:@cIco, @cIco;
-  pos:50%pw-50%w, 1*@sf/@pf_outdated;
-  position:absolute;
-  background-color:@imageNotSelectedColor;
-  background-svg-size:@cIco, @cIco;
-}
-
-slotsOption:current > slotsHeader > img,
-slotsOption > slotsHeader:hover > img {
-  background-color:@white;
-}
-
-slotsOption:disabled > slotsHeader > img {
-  background-color:@cardProgressDisabledFGColor;
-}
-
-slotsHeader > text {
-  pos:50%pw-50%w, ph-h;
-  position:absolute;
-}
-
-slotsOption:current > slotsHeader > text,
-slotsOption > slotsHeader:hover > text {
-  color:@activeTextColor;
-}
-
-slotsOption[_size-timer] table,
-slotsOption[_size-timer] tr,
-slotsOption[_size-timer] td {
-  css-hier-invalidate:yes;
-}
-
-slotsOption[active=no] Button_text {
-  display:hide;
-  enable:no;
-  wink:no;
-}
-
-slotsOption[active=no] table {
-  enable:no;
-}
-
 .rankUpList > tdiv > td,
 .rankUpList > td
 {
   width:@slot_width;
   height:@slot_height + 2@slot_vert_pad;
   padding:@slot_interval, @slot_vert_pad;
+}
+
+slotsHeader {
+  size: @slot_hdr_width, ph;
+  background-position: 2;
+  background-color: @slotbarTabCurrentColor;
+}
+[hasHeader=yes] slotsHeader {
+  display: show;
+}
+slotsHeader > img {
+  size:@cIco, @cIco;
+  pos: 0.5(pw-w), 1@sf/@pf_outdated;
+  position: relative;
+  background-svg-size:@cIco, @cIco;
 }

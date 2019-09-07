@@ -985,8 +985,8 @@ class Events
 
       if ("mranks" in rule)
       {
-        local unitMRank = ediff != -1 ? unit.getEconomicRank(ediff) : 0.0
-        if (unitMRank < ::getTblValue("min", rule.mranks, 0) || ::getTblValue("max", rule.mranks, ::max_country_rank) < unitMRank)
+        local unitMRank = ediff != -1 ? unit.getEconomicRank(ediff) : 0
+        if (unitMRank < (rule.mranks?.min ?? 0) || (rule.mranks?.max ?? ::MAX_ECONOMIC_RANK) < unitMRank)
           continue
       }
 
@@ -1026,7 +1026,7 @@ class Events
     if (!("mranks" in rule))
       return -1
 
-    local maxBR = ::calc_battle_rating_from_rank(::getTblValue("max", rule.mranks, ::max_country_rank))
+    local maxBR = ::calc_battle_rating_from_rank(rule.mranks?.max ?? ::MAX_ECONOMIC_RANK)
     return getTierByMaxBr(maxBR)
   }
 
@@ -1940,8 +1940,8 @@ class Events
     if ("mranks" in rule)
     {
       local mranks = rule.mranks
-      local minBR = ::format("%.1f", ::calc_battle_rating_from_rank(::getTblValue("min", mranks, 0)))
-      local maxBR = ::format("%.1f", ::calc_battle_rating_from_rank(::getTblValue("max", mranks, ::max_country_rank)))
+      local minBR = ::format("%.1f", ::calc_battle_rating_from_rank(mranks?.min ?? 0))
+      local maxBR = ::format("%.1f", ::calc_battle_rating_from_rank(mranks?.max ?? ::MAX_ECONOMIC_RANK))
       local brText = minBR + ((minBR != maxBR) ? " - " + maxBR : "")
       brText = ::format(::loc("events/br"), brText)
       if (ruleString.len())

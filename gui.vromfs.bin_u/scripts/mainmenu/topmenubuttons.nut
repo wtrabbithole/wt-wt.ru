@@ -1,5 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
-local crossplayModule = require("scripts/social/crossplay.nut")
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 
 enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
@@ -19,8 +20,8 @@ enum TOP_MENU_ELEMENT_TYPE {
     text = ""
     image = null
     link = null
-    isLink = false
-    isFeatured = false
+    isLink = @() false
+    isFeatured = @() false
     needDiscountIcon = false
     unseenIcon = null
     onClickFunc = @(obj, handler = null) null
@@ -175,7 +176,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
     isDelayed = false
     link = "#url/tss"
-    isLink = true
+    isLink = @() true
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent()
   }
   STREAMS_AND_REPLAYS = {
@@ -183,7 +184,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
     isDelayed = false
     link = "#url/streamsAndReplays"
-    isLink = true
+    isLink = @() true
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent()
   }
   EAGLES = {
@@ -223,22 +224,32 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !::has_feature("ItemsShopInTopMenu")
     unseenIcon = @() SEEN.ITEMS_SHOP
   }
+  WARBONDS_SHOP = {
+    text = "#mainmenu/btnWarbondsShop"
+    onClickFunc = @(...) ::g_warbonds.openShop()
+    image = "#ui/gameuiskin#wb.svg"
+    isHidden = @(...) !::g_battle_tasks.isAvailableForUser()
+      || !::g_warbonds.isShopAvailable()
+      || !::isInMenu()
+    unseenIcon = @() SEEN.WARBONDS_SHOP
+  }
   ONLINE_SHOP = {
-    text = "#msgbox/btn_onlineShop"
+    text = @() xboxShopData.canUseIngameShop()? "#topmenu/xboxIngameShop" : "#msgbox/btn_onlineShop"
     onClickFunc = @(obj, handler) handler.startOnlineShop()
     link = ""
-    isLink = true
-    isFeatured = true
-    image = "#ui/gameuiskin#store_icon.svg"
+    isLink = @() !xboxShopData.canUseIngameShop()
+    isFeatured = @() !xboxShopData.canUseIngameShop()
+    image = @() xboxShopData.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
+    unseenIcon = @() SEEN.EXT_XBOX_SHOP
   }
   MARKETPLACE = {
     text = "#mainmenu/marketplace"
     onClickFunc = @(obj, handler) ::ItemsManager.goToMarketplace()
     link = ""
-    isLink = true
-    isFeatured = true
+    isLink = @() true
+    isFeatured = @() true
     image = "#ui/gameuiskin#gc.svg"
     isHidden = @(...) !::ItemsManager.isMarketplaceEnabled() || !::isInMenu()
   }
@@ -257,8 +268,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/faq"
-    isLink = true
-    isFeatured = true
+    isLink = @() true
+    isFeatured = @() true
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
   FORUM = {
@@ -266,8 +277,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/forum"
-    isLink = true
-    isFeatured = true
+    isLink = @() true
+    isFeatured = @() true
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
   SUPPORT = {
@@ -275,8 +286,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/support"
-    isLink = true
-    isFeatured = true
+    isLink = @() true
+    isFeatured = @() true
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
   WIKI = {
@@ -284,8 +295,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/wiki"
-    isLink = true
-    isFeatured = true
+    isLink = @() true
+    isFeatured = @() true
     isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent() || !::isInMenu()
   }
   EULA = {

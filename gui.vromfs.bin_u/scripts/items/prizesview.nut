@@ -555,8 +555,11 @@ function PrizesView::_stackContent(content, stackLevel = prizesStack.BY_TYPE, sh
   return res
 }
 
-function PrizesView::getPrizesListText(content, fixedAmountHeaderFunc = null)
+function PrizesView::getPrizesListText(content, fixedAmountHeaderFunc = null, hasHeaderWithoutContent = true)
 {
+  if (!hasHeaderWithoutContent && !content.len())
+    return ""
+
   local stacksList = _stackContent(content, prizesStack.DETAILED)
   local fixedAmount = fixedAmountHeaderFunc ? _getContentFixedAmount(content) : 1 //1 - dont use fixed amount
   local showCount = fixedAmount == 1

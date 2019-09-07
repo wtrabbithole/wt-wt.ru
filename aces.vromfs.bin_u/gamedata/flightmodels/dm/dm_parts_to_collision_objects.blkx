@@ -1,53 +1,51 @@
 [
   {
-    "fuse": {
-      "dm": "fuse_dm"
-    }
+    "object": [
+      {
+        "dm": "fuse_dm"
+      },
+      {
+        "dm": "fuse%d_dm"
+      }
+    ]
   },
   {
-    "fuse1": {
-      "dm": "fuse%d_dm"
-    }
-  },
-  {
-    "tail": {
+    "object": {
       "dm": "tail_dm"
     }
   },
   {
-    "wingl": [
-      {
-        "dm": "wing_l_dm"
-      },
-      {
-        "dm": "wing%d_l_dm"
-      },
-      {
-        "dm": "aileron_l_dm"
-      },
-      {
-        "dm": "aileron%d_l_dm"
-      }
-    ]
+    "object": {
+      "dm": "wing_l_dm"
+    }
   },
   {
-    "wingr": [
-      {
-        "dm": "wing_r_dm"
-      },
-      {
-        "dm": "wing%d_r_dm"
-      },
-      {
-        "dm": "aileron_r_dm"
-      },
-      {
-        "dm": "aileron%d_r_dm"
-      }
-    ]
+    "object": {
+      "dm": "wing1_l_dm"
+    }
   },
   {
-    "stab": [
+    "object": {
+      "dm": "wing2_l_dm"
+    }
+  },
+  {
+    "object": {
+      "dm": "wing_r_dm"
+    }
+  },
+  {
+    "object": {
+      "dm": "wing1_r_dm"
+    }
+  },
+  {
+    "object": {
+      "dm": "wing2_r_dm"
+    }
+  },
+  {
+    "object": [
       {
         "dm": "stab_dm"
       },
@@ -63,7 +61,7 @@
     ]
   },
   {
-    "fin": [
+    "object": [
       {
         "dm": "fin_dm"
       },
@@ -73,7 +71,7 @@
     ]
   },
   {
-    "fin1": [
+    "object": [
       {
         "dm": "fin1_dm"
       },
@@ -83,7 +81,7 @@
     ]
   },
   {
-    "fin2": [
+    "object": [
       {
         "dm": "fin2_dm"
       },
@@ -93,150 +91,69 @@
     ]
   },
   {
-    "engine1": {
+    "object": {
       "dm": "engine1_dm"
     }
   },
   {
-    "engine2": {
+    "object": {
       "dm": "engine2_dm"
     }
   },
   {
-    "engine3": {
+    "object": {
       "dm": "engine3_dm"
     }
   },
   {
-    "engine4": {
+    "object": {
       "dm": "engine4_dm"
     }
   },
   {
-    "engine5": {
+    "object": {
       "dm": "engine5_dm"
     }
   },
   {
-    "engine6": {
+    "object": {
       "dm": "engine6_dm"
     }
   },
   {
-    "lgear": [
-      {
-        "type": "rolling"
-      },
-      {
-        "majorAxis": [1.0,0.0,0.0]
-      },
-      {
-        "material": "wheel"
-      },
-      {
-        "dm": "_ClipLGear"
-      },
-      {
-        "dm": "_ClipLGear_%02d"
-      }
-    ]
+    "object": {
+      "dm": "_Clip_prop_1_%02d",
+      "propellerIndex": 0
+    }
   },
   {
-    "rgear": [
-      {
-        "type": "rolling"
-      },
-      {
-        "majorAxis": [1.0,0.0,0.0]
-      },
-      {
-        "material": "wheel"
-      },
-      {
-        "dm": "_ClipRGear"
-      },
-      {
-        "dm": "_ClipRGear_%02d"
-      }
-    ]
+    "object": {
+      "dm": "_Clip_prop_2_%02d",
+      "propellerIndex": 1
+    }
   },
   {
-    "cgear": [
-      {
-        "type": "rolling"
-      },
-      {
-        "material": "wheel"
-      },
-      {
-        "dm": "_ClipCGear"
-      },
-      {
-        "dm": "_ClipCGear_%02d"
-      }
-    ]
+    "object": {
+      "dm": "_Clip_prop_3_%02d",
+      "propellerIndex": 2
+    }
   },
   {
-    "lgear": [
-      {
-        "type": "mixed"
-      },
-      {
-        "majorAxis": [1.0,0.0,0.0]
-      },
-      {
-        "material": "wheel"
-      },
-      {
-        "dm": "_ClipLGear"
-      },
-      {
-        "dm": "_ClipLGear_%02d"
-      },
-      {
-        "dm": "gear_l_dm"
-      }
-    ]
+    "object": {
+      "dm": "_Clip_prop_4_%02d",
+      "propellerIndex": 3
+    }
   },
   {
-    "rgear": [
-      {
-        "type": "mixed"
-      },
-      {
-        "majorAxis": [1.0,0.0,0.0]
-      },
-      {
-        "material": "wheel"
-      },
-      {
-        "dm": "_ClipRGear"
-      },
-      {
-        "dm": "_ClipRGear_%02d"
-      },
-      {
-        "dm": "gear_r_dm"
-      }
-    ]
+    "object": {
+      "dm": "_Clip_prop_5_%02d",
+      "propellerIndex": 4
+    }
   },
   {
-    "cgear": [
-      {
-        "type": "rolling"
-      },
-      {
-        "material": "wheel"
-      },
-      {
-        "dm": "_ClipCGear"
-      },
-      {
-        "dm": "_ClipCGear_%02d"
-      },
-      {
-        "dm": "gear_c_dm"
-      }
-    ]
+    "object": {
+      "dm": "_Clip_prop_6_%02d",
+      "propellerIndex": 5
+    }
   }
 ]

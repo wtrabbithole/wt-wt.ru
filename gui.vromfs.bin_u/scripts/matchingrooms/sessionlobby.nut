@@ -32,6 +32,8 @@ const NET_SERVER_QUIT_FROM_GAME = 0x82220003
 
 const CUSTOM_GAMEMODE_KEY = "_customGameMode"
 
+const MAX_BR_DIFF_AVAILABLE_AND_REQ_UNITS = 0.6
+
 ::INVITE_LIFE_TIME    <- 3600000
 
 ::LAST_SESSION_DEBUG_INFO <- ""
@@ -201,7 +203,7 @@ function notify_session_start()
     "spectator", "isReady", "isInLobbySession", "team", "countryData", "myState",
     "isSpectatorSelectLocked", "crsSetTeamTo", "curEdiff",
     "needJoinSessionAfterMyInfoApply", "isLeavingLobbySession", "_syncedMyInfo",
-    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName"
+    "playersInfo", "overrideSlotbar", "overrrideSlotbarMissionName", "lastEventName"
   ]
 
   settings = {}
@@ -212,6 +214,7 @@ function notify_session_start()
   isRoomByQueue = false
   isEventRoom = false
   roomId = INVALID_ROOM_ID
+  lastEventName = ""
   roomUpdated = false
   password = ""
 
@@ -418,6 +421,23 @@ function SessionLobby::prepareSettings(missionSettings)
     _settings[name] <- (countries && countries.len())? countries : fullCountriesList
   }
 
+  local userAllowedUnitTypesMask = missionSettings?.userAllowedUnitTypesMask ?? 0
+  if (userAllowedUnitTypesMask)
+    foreach (unitType in ::g_unit_type.types)
+      if (unitType.isAvailableByMissionSettings(_settings.mission) && !(userAllowedUnitTypesMask & unitType.bit))
+        _settings.mission[unitType.missionSettingsAvailabilityFlag] = false
+
+  local mrankMin = missionSettings?.mrankMin ?? 0
+  local mrankMax = missionSettings?.mrankMax ?? ::MAX_ECONOMIC_RANK
+  if (mrankMin > mrankMax)
+  {
+    local temp = mrankMin
+    mrankMin = mrankMax
+    mrankMax = temp
+  }
+  if (mrankMin > 0 || mrankMax < ::MAX_ECONOMIC_RANK)
+    _settings.mranks <- { min = mrankMin, max = mrankMax }
+
   _settings.chatPassword <- isInRoom() ? getChatRoomPassword() : ::gen_rnd_password(16)
   if (!u.isEmpty(settings?.externalSessionId))
     _settings.externalSessionId <- settings.externalSessionId
@@ -506,6 +526,7 @@ function SessionLobby::UpdatePlayersInfo()
       playersInfo[uid] <- pinfo
     }
   }
+  ::SquadIcon.updatePlayersInfo()
 }
 
 function SessionLobby::UpdateCrsSettings()
@@ -551,14 +572,14 @@ function SessionLobby::fillTeamsInfo(_settings, misBlk)
   local teamData = {}
   teamData.allowedCrafts <- []
 
-  if (::getTblValue("isHelicoptersAllowed", _settings.mission, false) && !::getTblValue("useKillStreaks", _settings.mission, false))
-    teamData.allowedCrafts.append({ ["class"] = "helicopter"})
-  if (::getTblValue("isShipsAllowed", _settings.mission, false))
-    teamData.allowedCrafts.append({ ["class"] = "ship"})
-  if (::getTblValue("isTanksAllowed", _settings.mission, false))
-    teamData.allowedCrafts.append({ ["class"] = "tank"})
-  if (::getTblValue("isAirplanesAllowed", _settings.mission, false) && !::getTblValue("useKillStreaks", _settings.mission, false))
-    teamData.allowedCrafts.append({ ["class"] = "aircraft" })
+  foreach (unitType in ::g_unit_type.types)
+    if (unitType.isAvailableByMissionSettings(_settings.mission))
+    {
+      local rule = { ["class"] = unitType.getMissionAllowedCraftsClassName() }
+      if (_settings?.mranks)
+        rule.mranks <- _settings.mranks
+      teamData.allowedCrafts.append(rule)
+    }
 
   //!!fill assymetric teamdata
   local teamDataA = teamData
@@ -773,6 +794,38 @@ function SessionLobby::getUnitTypesMask(room = null)
   return ::events.getEventUnitTypesMask(getMGameMode(room) || getPublicData(room))
 }
 
+function SessionLobby::getRequiredUnitTypesMask(room = null)
+{
+  return ::events.getEventRequiredUnitTypesMask(getMGameMode(room) || getPublicData(room))
+}
+
+function SessionLobby::getNotAvailableUnitByBRText(unit, room = null)
+{
+  if (!unit)
+    return null
+
+  local mGameMode = getMGameMode(room)
+  if (!mGameMode)
+    return null
+
+  local curBR = unit.getBattleRating(::is_in_flight()
+    ? ::get_mission_difficulty_int()
+    : ::get_current_shop_difficulty().diffCode)
+  local maxBR = (getBattleRatingParamByPlayerInfo(getMemberPlayerInfo(::my_user_id_int64),
+    ::ES_UNIT_TYPE_SHIP)?.units?[0]?.rating ?? 0) + MAX_BR_DIFF_AVAILABLE_AND_REQ_UNITS
+  return (::events.isUnitTypeRequired(mGameMode, ::ES_UNIT_TYPE_SHIP)
+    && unit.esUnitType == ::ES_UNIT_TYPE_AIRCRAFT
+    && ((curBR - maxBR)*10).tointeger() >= 0)
+      ? ::loc("not_available_aircraft/byBR", {
+          gameModeName = ::events.getEventNameText(mGameMode),
+          lockedUnitType = ::colorize("userlogColoredText",
+            ::loc("mainmenu/type_" + unit.unitType.lowerName)),
+          battleRatingDiff = ::colorize("userlogColoredText", ::format("%.1f", MAX_BR_DIFF_AVAILABLE_AND_REQ_UNITS)),
+          reqUnitType = ::colorize("userlogColoredText", ::loc("mainmenu/type_ship"))
+        })
+      : null
+}
+
 function SessionLobby::calcEdiff(room = null)
 {
   local diffValue = ::getTblValue("difficulty", getMissionData(room))
@@ -880,6 +933,11 @@ function SessionLobby::switchStatus(_status)
   }
   if (status == lobbyStates.JOINING_SESSION)
     ::add_squad_to_contacts()
+
+  if (status == lobbyStates.JOINING_SESSION ||
+    status == lobbyStates.IN_SESSION)
+    lastEventName = getRoomEvent()?.name ?? ""
+
   updateMyState()
 
   ::broadcastEvent("LobbyStatusChange")
@@ -908,6 +966,11 @@ function SessionLobby::resetParams()
   overrideSlotbar = null
   overrrideSlotbarMissionName = ""
   ::g_user_presence.setPresence({in_game_ex = null})
+}
+
+function SessionLobby::resetPlayersInfo()
+{
+  playersInfo.clear()
 }
 
 function SessionLobby::switchStatusChecked(oldStatusList, newStatus)
@@ -2246,9 +2309,13 @@ function SessionLobby::isMemberInMySquadByName(name)
   return memberInfo.team == myInfo.team && memberInfo.squad == myInfo.squad
 }
 
-function SessionLobby::getBattleRatingParamById(uid)
+function SessionLobby::isEqualSquadId(squadId1, squadId2)
 {
-  local member = getMemberPlayerInfo(uid)
+  return squadId1 != INVALID_SQUAD_ID && squadId1 == squadId2
+}
+
+function SessionLobby::getBattleRatingParamByPlayerInfo(member, esUnitTypeFilter = null)
+{
   if (!member)
     return null
   local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
@@ -2258,6 +2325,9 @@ function SessionLobby::getBattleRatingParamById(uid)
   foreach (unitName in member.crafts)
   {
     local unit = ::getAircraftByName(unitName)
+    if (esUnitTypeFilter != null && esUnitTypeFilter != unit.esUnitType)
+      continue
+
     units.append({
       rating = unit ? unit.getBattleRating(difficulty) : 0
       name = ::loc(unitName+"_shop")

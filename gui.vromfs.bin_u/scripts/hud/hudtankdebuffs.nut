@@ -69,7 +69,9 @@
     foreach (on in debuffs_data)
       if (on)
       {
-        obj.state = "engineDead" in debuffs_data && debuffs_data.engineDead ? "dead" : "bad"
+        obj.state = (("engineDead" in debuffs_data && debuffs_data.engineDead) || ("horizontalDriveDead" in debuffs_data && debuffs_data.horizontalDriveDead)
+          || ("barrelDead" in debuffs_data && debuffs_data.barrelDead) || ("breechDead" in debuffs_data && debuffs_data.breechDead))
+          ? "dead" : "bad"
         return
       }
     obj.state = "ok"

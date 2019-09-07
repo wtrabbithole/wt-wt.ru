@@ -146,6 +146,7 @@ function debug_debriefing_result_dump_save(filename = "debriefing_results_dump.b
     { id = "get_mp_local_team", value = ::debriefing_result?.localTeam ?? ::get_mp_local_team() }
     { id = "get_player_army_for_hud", value = ::debriefing_result?.friendlyTeam ?? ::get_player_army_for_hud() }
     { id = "_fake_sessionlobby_settings", value = ::SessionLobby.settings }
+    { id = "_fake_sessionlobby_last_event_name", value = ::SessionLobby.lastEventName }
     "LAST_SESSION_DEBUG_INFO"
     "get_mission_mode"
     "get_mission_difficulty_int"
@@ -257,6 +258,7 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::SessionLobby.settings = ::_fake_sessionlobby_settings
   ::SessionLobby.playersInfo = ::getroottable()?._fake_playersInfo ?? {}
   ::SessionLobby.getUnitTypesMask = @() ::getroottable()?._fake_sessionlobby_unit_type_mask ?? 0
+  ::SessionLobby.lastEventName = ::getroottable()?._fake_sessionlobby_last_event_name ?? ""
   ::HudBattleLog.battleLog = ::_fake_battlelog
   ::SquadIcon.initListLabelsSquad()
 
@@ -267,10 +269,63 @@ function debug_debriefing_result_dump_load(filename = "debriefing_results_dump.b
   ::is_in_flight = _is_in_flight
 
   ::gui_start_debriefingFull()
-  ::checkNonApprovedResearches(true, true)
+  ::checkNonApprovedResearches(true)
   ::go_debriefing_next_func = function() { ::dbg_dump.unload(); ::gui_start_mainmenu() }
   ::broadcastEvent("SessionDestroyed")
   return "Debriefing result loaded from " + filename
+}
+
+function debug_dump_mpstatistics_save(filename = "debug_dump_mpstatistics.blk")
+{
+  ::dbg_dump.save(filename, [
+    { id = "_fake_mplayers_list", value = ::get_mplayers_list(::GET_MPLAYERS_LIST, true) }
+    { id = "_fake_playersInfo", value = ::SessionLobby.playersInfo }
+    { id = "_fake_get_current_mission_desc", value = function() { local b = ::DataBlock(); ::get_current_mission_desc(b); return b } }
+    "LAST_SESSION_DEBUG_INFO"
+    "get_game_type"
+    "get_game_mode"
+    "is_in_flight"
+    "get_player_army_for_hud"
+    "get_mp_local_team"
+    "get_mp_tbl_teams"
+    "get_mp_session_info"
+    "get_mp_kick_countdown"
+    "get_mp_rounds"
+    "get_mp_current_round"
+    "get_mp_zone_countdown"
+    "get_mp_ffa_score_limit"
+    "get_mission_difficulty"
+    "get_mission_difficulty_int"
+    "get_current_mission_info_cached"
+    "get_multiplayer_time_left"
+    "is_race_started"
+    "get_race_checkpioints_count"
+    "get_race_winners_count"
+  ])
+  return "Saved " + filename
+}
+
+function debug_dump_mpstatistics_load(filename = "debug_dump_mpstatistics.blk")
+{
+  if (!::dbg_dump.load(filename))
+    return "File not found: " + filename
+  ::dbg_dump.loadFuncs({
+    get_current_mission_desc = function(outBlk) {
+      outBlk.setFrom(::_fake_get_current_mission_desc)
+    }
+    get_mplayers_list = function(team, full) {
+      return ::u.filter(::_fake_mplayers_list, @(p) p.team == team || team == ::GET_MPLAYERS_LIST)
+    }
+    get_mplayer_by_id = function(id) {
+      return ::u.search(::_fake_mplayers_list, @(p) p.id == id)
+    }
+    get_local_mplayer = function() {
+      return ::u.search(::_fake_mplayers_list, @(p) p.isLocal) ?? ::dbg_dump.getOriginal("get_local_mplayer")()
+    }
+  }, false)
+  ::SessionLobby.playersInfo = ::getroottable()?._fake_playersInfo ?? {}
+  ::gui_start_mpstatscreen()
+  return "Loaded " + filename
 }
 
 function debug_dump_userlogs_save(filename = "debug_dump_userlogs.blk")

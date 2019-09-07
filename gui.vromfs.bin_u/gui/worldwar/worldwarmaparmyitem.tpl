@@ -116,7 +116,10 @@
       }
     <</hasTextAfterIcon>>
 
-    <<^hideArrivalTime>>
+    <<#isArmyReady>>
+      canDeploy:t='yes'
+    <</isArmyReady>>
+    <<^isArmyReady>>
       arrivalTime {
         id:t='arrival_time_text'
         pos:t='1@framePadding, 50%ph-50%h'
@@ -125,7 +128,7 @@
         width:t='0.09@sf'
         text:t='<<getReinforcementArrivalTime>>'
       }
-    <</hideArrivalTime>>
+    <</isArmyReady>>
 
     <<#needShortInfoText>>
     <<#reqUnitTypeIcon>>

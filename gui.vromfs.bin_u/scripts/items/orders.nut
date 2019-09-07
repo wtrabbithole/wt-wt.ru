@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 
 
 /**
@@ -85,6 +86,8 @@ function on_order_result_received(player, orderId, param, wp, exp)
     team = -1
     isLocal = false
     isInHeroSquad = false
+    squadId = INVALID_SQUAD_ID
+    userId = ""
   }
 
   enableDebugPrint = true
@@ -228,6 +231,7 @@ function g_orders::enableOrders(statusObj)
   ::add_event_listener("LobbyStatusChange", onEventLobbyStatusChange, this)
   ::add_event_listener("ActiveOrderChanged", onEventActiveOrderChanged, this)
   ::add_event_listener("OrderUpdated", onEventOrderUpdated, this)
+  ::add_event_listener("WatchedHeroSwitched", onEventWatchedHeroSwitched, this)
   ::add_event_listener("ChangedCursorVisibility", onEventChangedCursorVisibility, this)
 }
 
@@ -247,6 +251,7 @@ function g_orders::enableOrdersWithoutDagui()
   ::add_event_listener("LobbyStatusChange", onEventLobbyStatusChange, this)
   ::add_event_listener("ActiveOrderChanged", onEventActiveOrderChanged, this)
   ::add_event_listener("OrderUpdated", onEventOrderUpdated, this)
+  ::add_event_listener("WatchedHeroSwitched", onEventWatchedHeroSwitched, this)
   ::add_event_listener("ChangedCursorVisibility", onEventChangedCursorVisibility, this)
 }
 
@@ -282,7 +287,7 @@ function g_orders::updateOrderStatus(fullUpdate)
   updateOrderStatusObject(ordersStatusObj, fullUpdate)
 }
 
-function g_orders::updateActiveOrder(dispatchEvents = true)
+function g_orders::updateActiveOrder(dispatchEvents = true, isForced = false)
 {
   local activeOrderChanged = false
   local orderStatusChanged = false
@@ -294,7 +299,7 @@ function g_orders::updateActiveOrder(dispatchEvents = true)
   // is not fully loaded yet. Better bail out and
   // update on next updateActiveOrder() call.
   local starterId = ::getTblValue("starterId", orderObjective, -1)
-  if (starterId == -1 && orderObjective != null)
+  if (starterId == -1 && orderObjective != null && !isForced)
     return
 
   if (activeOrder.orderId != getOrderId(orderObjective))
@@ -562,8 +567,6 @@ function g_orders::updateOrderStatusObject(statusObj, fullUpdate)
 
 function g_orders::setStatusObjVisibility(statusObj, visible)
 {
-  if (isInSpectatorMode())
-    return
   if (!::checkObj(statusObj))
     return
 
@@ -886,11 +889,14 @@ function g_orders::getPlayerDataById(playerId)
     debugPrint("g_orders::getPlayerDataById: Calling when orders are disabled.")
     ::callstack()
   }
-  local playerData = ::getTblValue(playerId, playerDataById, null)
-  if (playerData != null)
-    return playerData
-  playerData = ::get_mplayer_by_id(playerId) || emptyPlayerData
-  playerDataById[playerId] <- playerData
+  local playerData = playerDataById?[playerId] ?? ::get_mplayer_by_id(playerId) ?? emptyPlayerData
+  if (::is_replay_playing())
+  {
+    playerData.isLocal = spectatorWatchedHero.id == playerData.id
+    playerData.isInHeroSquad = ::SessionLobby.isEqualSquadId(spectatorWatchedHero.squadId, playerData?.squadId)
+  }
+  if (!(playerId in playerDataById))
+    playerDataById[playerId] <- playerData
   return playerData
 }
 
@@ -952,6 +958,11 @@ function g_orders::onEventOrderUpdated(params)
 {
   updateOrderStatus(false)
   updateHideOrderBlock()
+}
+
+function g_orders::onEventWatchedHeroSwitched(params)
+{
+  updateActiveOrder(true, true)
 }
 
 function g_orders::onEventChangedCursorVisibility(params)
@@ -1040,16 +1051,17 @@ function g_orders::prepareStatusScores(statusScores, orderObject)
  */
 function g_orders::addLocalPlayerScoreData(scores)
 {
+  local checkFunc = ::is_replay_playing() ?
+    function(p) { return p.id == spectatorWatchedHero.id } :
+    function(p) { return p.userId == ::my_user_id_str }
+
   local foundThisPlayer = false
   foreach (scoreData in scores)
-  {
-    local playerData = getPlayerDataByScoreData(scoreData)
-    if (::getTblValue("userId", playerData) == ::my_user_id_str)
+    if (checkFunc(getPlayerDataByScoreData(scoreData)))
     {
       foundThisPlayer = true
       break
     }
-  }
   if (foundThisPlayer)
     return
   scores.push({
@@ -1087,6 +1099,9 @@ function g_orders::saveOrderStatusPositionAndSize()
 
 function g_orders::getLocalPlayerData()
 {
+  if (::is_replay_playing())
+    localPlayerData = getPlayerDataById(spectatorWatchedHero.id)
+
   if (localPlayerData == null)
     localPlayerData = ::get_local_mplayer()
   return localPlayerData

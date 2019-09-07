@@ -173,7 +173,7 @@
   },
   "aircraft_gunner": {
     "gunnerN": {
-      "template": "gunner#1:8#"
+      "template": "gunner#1:16#"
     }
   },
   "aircraft_gun": {
@@ -373,7 +373,9 @@
   },
   "optic": [],
   "optic_gun": [],
-  "optic_gun_1": [],
+  "optic_gun_NN": {
+    "template": "optic_turret_#2#"
+  },
   "optic_turret": [],
   "optic_turret_NN": {
     "template": "optic_turret_#14#"
@@ -409,6 +411,22 @@
       "hitTestType": "inner"
     }
   },
+  "counter_measure": {
+    "ircm": {
+      "hitTestType": "inner"
+    },
+    "ircm_NN": {
+      "template": "ircm_#10#",
+      "hitTestType": "inner"
+    },
+    "ecm": {
+      "hitTestType": "inner"
+    },
+    "ecm_NN": {
+      "template": "ecm_#10#",
+      "hitTestType": "inner"
+    }
+  },
   "gun_mask": [],
   "gun_mask_NN": {
     "template": "gun_mask_#10#"
@@ -438,6 +456,13 @@
     "torpedo_r_NN": {
       "template": "torpedo_r_#10#"
     }
+  },
+  "torpedo_hatch": {
+    "torpedo_hatch_NN": {
+      "template": "torpedo_hatch_#02#"
+    },
+    "torpedo_hatch_l": [],
+    "torpedo_hatch_r": []
   },
   "ammunition_storage_NN": {
     "template": "ammunition_storage_#10#"

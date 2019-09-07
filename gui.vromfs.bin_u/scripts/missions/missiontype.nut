@@ -93,6 +93,18 @@ enums.addTypesByGlobalName("g_mission_type", {
     objectivesWw = MISSION_OBJECTIVE.NONE
   }
 
+  H_GS = {  // Helicopter: Ground Strike
+    reMisName = ::regexp2(@"_HS(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_TOTAL_AI
+    objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_TOTAL_AI
+  }
+
+  H_BFD = {  // Helicopter: Battlefront Domination
+    reMisName = ::regexp2(@"_HfD(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_TOTAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
+    objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_TOTAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
+  }
+
   G_DOM = {  // Ground: Domination
     reMisName = ::regexp2(@"_Dom(_|$)")
     objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.ZONE_CAPTURE
@@ -121,6 +133,12 @@ enums.addTypesByGlobalName("g_mission_type", {
     helpBlkPath = "gui/help/missionGroundCapture.blk"
   }
 
+  G_CNV = {  // Ground: Convoy
+    reMisName = ::regexp2(@"_Cnv(A|B)(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.KILLS_TOTAL_AI
+    objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.KILLS_TOTAL_AI
+  }
+
   G_BR = {  // Ground: Battle Royale
     reMisName = ::regexp2(@"_BR(_|$)")
     objectives = MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.ALIVE_TIME
@@ -130,6 +148,24 @@ enums.addTypesByGlobalName("g_mission_type", {
     reMisName = ::regexp2(@"_NDom(_|$)")
     objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.ZONE_CAPTURE
     objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_TOTAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
+  }
+
+  N_BTTL = {  // Naval: Battle
+    reMisName = ::regexp2(@"_NBttl(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.ZONE_CAPTURE
+    objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_TOTAL_AI | MISSION_OBJECTIVE.ZONE_CAPTURE
+  }
+
+  N_CNV = {  // Naval: Convoy
+    reMisName = ::regexp2(@"_NCnv(A|B|_|$)(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_NAVAL_AI
+    objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_NAVAL_AI
+  }
+
+  N_TDM = {  // Naval: Team Deathmatch
+    reMisName = ::regexp2(@"_NTdm(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_NAVAL_AI
+    objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_NAVAL_AI
   }
 
   PvE = {
@@ -153,7 +189,7 @@ function g_mission_type::getTypeByMissionName(misName)
       res = val
       break
     }
-  if (res == UNKNOWN && ::is_mission_for_tanks(::get_mission_meta_info(misName)))
+  if (res == UNKNOWN && ::is_mission_for_unittype(::get_mission_meta_info(misName), ::ES_UNIT_TYPE_TANK))
     res = G_DOM
 
   _cacheByMissionName[misName] <- res

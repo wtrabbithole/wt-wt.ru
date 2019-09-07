@@ -7,7 +7,7 @@ icon {
   tooltip:t=''
 
   position:t='absolute';
-  pos:t='pw/2 + (0.42pw) * 0.866 - w/2, ph/2 + (0.42ph) * 0.5 - h/2';
+  pos:t='pw/2 + (0.42pw) * 0.972 - w/2, ph/2 + (0.42ph) * 0.25 - h/2';
 
   background-color:t='@white';
   background-image:t='#ui/gameuiskin#crew_gunner_indicator';
@@ -26,7 +26,7 @@ icon {
   tooltip:t=''
 
   position:t='absolute';
-  pos:t='pw/2 + (0.42pw) * 0.5 - w/2, ph/2 + (0.42ph) * 0.866 - h/2';
+  pos:t='pw/2 + (0.42pw) * 0.72 - w/2, ph/2 + (0.42ph) * 0.70- h/2';
 
   background-color:t='@white';
   background-image:t='#ui/gameuiskin#crew_driver_indicator';
@@ -57,5 +57,39 @@ icon {
     text-align:t='right';
     text:t='';
     style:t='paragraph-indent:0';
+  }
+}
+
+icon {
+  id:t='crew_distance';
+  hudCrewStatus:t='yes'
+  size:t='ph/7, ph/7';
+  state:t='ok';
+  tooltip:t=''
+  position:t='absolute';
+  pos:t='pw/2 + (0.42pw) * 0.23 - w/2, ph/2 + (0.42ph) * 0.99 - h/2';
+  background-color:t='@white';
+  background-image:t='#ui/gameuiskin#overview_icon';
+
+  tdiv {
+    id:t='cooldown'
+    re-type:t='sector';
+    sector-angle-1:t='0';
+    sector-angle-2:t='0';
+    size:t='pw, ph';
+    position:t='absolute';
+    pos:t=0,0;
+    background-color:t='@white';
+    background-image:t='#ui/gameuiskin#timebar';
+  }
+
+  icon {
+    hudCrewStatus:t='yes'
+    size:t='pw, ph';
+    state:t='ok';
+    position:t='absolute';
+    pos:t= 0,0;
+    background-color:t='@white';
+    background-image:t='#ui/gameuiskin#timebar';
   }
 }

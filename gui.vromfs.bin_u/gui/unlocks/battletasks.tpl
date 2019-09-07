@@ -159,7 +159,16 @@ frame {
         valign:t='center'
         display:t = 'hide'
         enable:t='no'
-        <<@warbondNewIconWidget>>
+
+        <<#unseenIcon>>
+        unseenIcon {
+          value:t='<<unseenIcon>>'
+          valign:t='center'
+          noMargin:t='yes'
+          tooltip = '#mainmenu/items_shop_new_items'
+          unseenText {}
+        }
+        <</unseenIcon>>
         text {
           text:t='#mainmenu/btnWarbondsShop'
         }

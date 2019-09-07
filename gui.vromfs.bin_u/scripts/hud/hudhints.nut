@@ -513,6 +513,13 @@ enums.addTypesByGlobalName("g_hud_hints", {
     maskId = 26
   }
 
+  PILOT_DAMAGED_HINT = {
+    locId = "hints/damaged_pilot"
+    showEvent = "hint:damaged_pilot:show"
+    lifeTime = 2.0
+    priority = CATASTROPHIC_HINT_PRIORITY
+  }
+
   ATGM_AIM_HINT = {
     hintType = ::g_hud_hint_types.COMMON
     locId = "hints/atgm_aim"
@@ -1297,6 +1304,39 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:have_potential_assistee"
     hideEvent = "hint:hide_potential_assistee_hint"
     lifeTime = 3.0
+  }
+
+  FRIENDLY_FIRE_WARNING = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/friendly_fire_warning"
+    showEvent = "hint:friendly_fire_warning"
+    lifeTime = 5.0
+    isHideOnDeath = true
+  }
+
+  NEED_STOP_FOR_FIRE = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId     = "hints/need_stop_for_fire"
+    showEvent = "hint:need_stop_for_fire"
+    lifeTime = 5.0
+    isHideOnDeath = true
+  }
+
+  WAIT_LAUNCHER = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId     = "hints/wait_launcher_ready"
+    showEvent = "hint:wait_launcher_ready"
+    hideEvent = "hint:wait_launcher_ready_hide"
+    lifeTime = 5.0
+    isHideOnDeath = true
+  }
+
+  FPS_TO_VIRTUAL_FPS_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/fps_to_virtual_fps"
+    showEvent = "hint:fps_to_virtual_fps:show"
+    hideEvent = "hint:fps_to_virtual_fps:hide"
+    lifeTime = -1.0
   }
 },
 function() {

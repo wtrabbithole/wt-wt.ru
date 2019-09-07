@@ -70,7 +70,9 @@ local logNameByType = {
   [::EULT_BUYING_RESOURCE]               = "buy_resource",
   [::EULT_EXCHANGE_WARBONDS]             = "exchange_warbonds",
   [::EULT_INVITE_TO_TOURNAMENT]          = "invite_to_tournament",
+  [::EULT_TOURNAMENT_AWARD]              = "tournament_award",
   [::EULT_WW_START_OPERATION]            = "ww_start_operation",
+  [::EULT_WW_END_OPERATION]              = "ww_end_operation",
   [::EULT_WW_CREATE_OPERATION]           = "ww_create_operation",
 }
 
@@ -245,7 +247,7 @@ function checkNewNotificationUserlogs(onStartAwards = false)
         msg = format(::loc(nameLoc), mission) //need more info in log, maybe title.
         ::my_stats.markStatsReset()
         if (popupMask & USERLOG_POPUP.FINISHED_RESEARCHES)
-          ::checkNonApprovedResearches(true, true)
+          ::checkNonApprovedResearches(true)
         ::broadcastEvent("BattleEnded", {eventId = blk.body.eventId})
       }
       else if (blk.type == ::EULT_CHARD_AWARD)

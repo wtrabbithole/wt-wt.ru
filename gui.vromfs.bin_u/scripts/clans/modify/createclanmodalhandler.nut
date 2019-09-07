@@ -113,7 +113,9 @@ class ::gui_handlers.CreateClanModalHandler extends ::gui_handlers.ModifyClanMod
       createClan()
     else if (::check_balance_msgBox(createCost))
     {
-      local msgText = format(::loc("clan/needMoneyQuestion_createClan"), createCost.tostring())
+      local msgText = warningIfGold(format(::loc("clan/needMoneyQuestion_createClan"),
+          createCost.tostring()),
+        createCost)
       msgBox("need_money", msgText, [["ok", function() { createClan() } ],
         ["cancel"]], "ok")
     }

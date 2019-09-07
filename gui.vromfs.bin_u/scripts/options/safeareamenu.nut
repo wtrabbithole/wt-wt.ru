@@ -46,7 +46,7 @@ local setValue = function(value)
 
 local isEnabled = @() getValue() != defValue
 
-local getValueOptionIndex = @() ::find_in_array(values, value)
+local getValueOptionIndex = @() values.find(getValue())
 
 local canChangeValue = @() getFixedValue() == -1
 

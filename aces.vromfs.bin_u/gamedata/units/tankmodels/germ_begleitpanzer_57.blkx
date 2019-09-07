@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -91,6 +94,9 @@
   },
   {
     "type": "typeLightTank"
+  },
+  {
+    "cruiseVelocity": 3.0
   },
   {
     "rearmTimeOnField": 45.0
@@ -446,6 +452,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": {
           "armorThrough": 60.0
         },
@@ -1388,6 +1395,8 @@
           "useEmitter": true,
           "emitter": "bone_rocket_01",
           "reloadAnimVar": "begleitpanzer_57_action",
+          "stopForFire": true,
+          "maxSpeedForFire": 5.0,
           "createGunEffects": true,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -2252,6 +2261,8 @@
                 "useEmitter": true,
                 "emitter": "bone_rocket_01",
                 "reloadAnimVar": "begleitpanzer_57_action",
+                "stopForFire": true,
+                "maxSpeedForFire": 5.0,
                 "createGunEffects": true,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,

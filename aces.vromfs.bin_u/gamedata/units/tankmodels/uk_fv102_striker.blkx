@@ -24,6 +24,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -94,6 +97,9 @@
   },
   {
     "type": "typeTankDestroyer"
+  },
+  {
+    "cruiseVelocity": 3.0
   },
   {
     "rearmTimeOnField": 35.0
@@ -169,6 +175,7 @@
         "armorClass": "aluminum_armor_AA_7017",
         "armorThickness": 5.0,
         "hp": 200.0,
+        "hidableInViewer": true,
         "ex_armor_r_01_dm": [],
         "ex_armor_r_02_dm": [],
         "ex_armor_r_03_dm": [],
@@ -246,18 +253,18 @@
         }
       },
       "gun": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "tank_barrel",
         "hp": 300.0,
         "gun_barrel_01_dm": {
           "armorThickness": 10.0
         },
         "gun_barrel_02_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 50.0,
+          "hidableInViewer": false
         },
         "gun_barrel_03_dm": {
           "armorThrough": 10.0,
-          "armorThickness": 5.0,
-          "armorClass": "tank_barrel"
+          "armorThickness": 5.0
         }
       },
       "chassis": {
@@ -361,6 +368,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0
@@ -1135,6 +1143,8 @@
           "emitterGenFmt": "bone_rocket_%02d",
           "ammoDpGenFmt": "ammo_turret_%02d_dm",
           "recoilMultiplier": 0.0,
+          "stopForFire": true,
+          "maxSpeedForFire": 5.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "allowableDelta": 20.0,
@@ -2031,6 +2041,8 @@
                 "emitterGenFmt": "bone_rocket_%02d",
                 "ammoDpGenFmt": "ammo_turret_%02d_dm",
                 "recoilMultiplier": 0.0,
+                "stopForFire": true,
+                "maxSpeedForFire": 5.0,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "allowableDelta": 20.0,

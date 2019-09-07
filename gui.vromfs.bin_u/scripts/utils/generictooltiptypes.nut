@@ -60,6 +60,53 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     }
   }
 
+  UNLOCK_SHORT = {
+    isCustomTooltipFill = true
+    fillTooltip = function(obj, handler, unlockId, params)
+    {
+      if (!::checkObj(obj))
+        return false
+
+      local config = null
+      local stage = (params?.stage??-1).tointeger()
+      local unlock = ::g_unlocks.getUnlockById(unlockId)
+      if (unlock==null)
+        return false
+      config = ::build_conditions_config(unlock, stage)
+
+      local isCompleted = ::is_unlocked(-1, unlockId)
+      ::build_unlock_desc(config, {showProgress = !isCompleted, showCost = !isCompleted})
+      local reward = ::g_unlock_view.getRewardText(config, stage)
+
+      local header = ::loc(unlockId + "/name")
+      local locId = config?.locId??""
+      if (locId != "")
+        header = ::get_locId_name(config)
+      if (stage >= 0)
+        header += " " + ::roman_numerals[stage + 1]
+
+      obj.getScene().replaceContent(obj, "gui/unlocks/shortTooltip.blk", handler)
+      obj.findObject("header").setValue(header)
+
+      local dObj = obj.findObject("description")
+      dObj.setValue(config.text)
+      if (!isCompleted)
+      {
+        local pObj = obj.findObject("progress")
+        local progressData = config.getProgressBarData()
+        pObj.setValue(progressData.value)
+        pObj.show(progressData.show)
+      }
+      else if(config.text != "")
+        obj.findObject("challenge_complete").show(true)
+
+      local rObj = ::showBtn("reward", reward != "", obj)
+      rObj.setValue(reward)
+
+      return true
+    }
+  }
+
   DECORATION = { //tooltip by decoration id and decoration type
                  //@decorType = UNLOCKABLE_DECAL or UNLOCKABLE_SKIN
                  //can be without exist unlock
@@ -560,6 +607,9 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     getTooltipContent = function(battleTaskId, params)
     {
       local battleTask = ::g_battle_tasks.getTaskById(battleTaskId)
+      if (!battleTask)
+        return ""
+
       local config = ::g_battle_tasks.generateUnlockConfigByTask(battleTask)
       local view = ::g_battle_tasks.generateItemView(config, { isOnlyInfo = true})
       return ::handyman.renderCached("gui/unlocks/battleTasksItem", {items = [view]})
@@ -665,6 +715,54 @@ enums.addTypesByGlobalName("g_tooltip_type", {
       return ::handyman.renderCached("gui/worldWar/wwControlHelp", battleView)
     }
   }
+
+  REWARD_TOOLTIP = {
+    isCustomTooltipFill = true
+    fillTooltip = function(obj, handler, unlockId, params)
+    {
+      if (!::checkObj(obj))
+        return false
+
+      local unlockBlk = unlockId && unlockId != "" && ::g_unlocks.getUnlockById(unlockId)
+      obj["class"] = unlockBlk ? "" : "empty"
+      if(!unlockBlk)
+        return false
+
+      local config = build_conditions_config(unlockBlk)
+      ::build_unlock_desc(config)
+      local name = config.id
+      local unlockType = config.unlockType
+      local isUnlocked = ::is_unlocked_scripted(unlockType, name)
+      local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(unlockType)
+      local guiScene = obj.getScene()
+      if (decoratorType == ::g_decorator_type.DECALS
+          || decoratorType == ::g_decorator_type.ATTACHABLES
+          || unlockType == ::UNLOCKABLE_MEDAL)
+      {
+        local bgImage = ::format("background-image:t='%s';", config.image)
+        local size = ::format("size:t='128, 128/%f';", config.imgRatio)
+
+        guiScene.appendWithBlk(obj, ::format("img{ %s }", bgImage + size), this)
+      }
+      else if (decoratorType == ::g_decorator_type.SKINS)
+      {
+        local unit = ::getAircraftByName(::g_unlocks.getPlaneBySkinId(name))
+        local text = []
+        if (unit)
+          text.append(::loc("reward/skin_for") + " " + ::getUnitName(unit))
+        text.append(decoratorType.getLocDesc(name))
+
+        text = ::locOrStrip(::g_string.implode(text, "\n"))
+        local textBlock = "textareaNoTab {smallFont:t='yes'; max-width:t='0.5@sf'; text:t='%s';}"
+        guiScene.appendWithBlk(obj, ::format(textBlock, text), this)
+      }
+      else
+        return false
+
+      return true
+    }
+  }
+
 }, null, "typeName")
 
 function g_tooltip_type::getTypeByName(typeName)

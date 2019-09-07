@@ -155,19 +155,18 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
       [::USEROPT_WEATHER, "spinner"],
     ]
 
+    local ship_options = [
+      [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner"],
+      [::USEROPT_MINE_DEPTH, "spinner"],
+      [::USEROPT_ROCKET_FUSE_DIST, "spinner"],
+    ]
+
     options.extend(skin_options)
     if (::isAircraft(unit) || unit?.isHelicopter?())
       options.extend(aircraft_options)
 
     if (::isShip(unit))
-    {
-      if (unit.hasDepthCharge)
-        options.extend([[::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner"]])
-      if (unit.hasMines)
-        options.extend([[::USEROPT_MINE_DEPTH, "spinner"]])
-      if (is_unit_available_use_rocket_diffuse(unit))
-        options.extend([[::USEROPT_ROCKET_FUSE_DIST, "spinner"]])
-    }
+      options.extend(ship_options)
 
     options.extend(common_options)
     return options

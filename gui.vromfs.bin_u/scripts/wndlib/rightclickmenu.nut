@@ -7,6 +7,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
       show = boolean || function
       onUpdateButton = function(params)  //return table { text = "new button text", enable = true, stopUpdate = false }
                                          //updates button once per sec.
+      hasSeparator = boolean
     }
     ...
   ]
@@ -65,23 +66,22 @@ class ::gui_handlers.RightClickMenu extends ::BaseGuiHandler
         continue
 
       local actionData = null //lineDiv
-      if ("text" in item)
-      {
-        local enabled = true
-        if ("enabled" in item)
-          enabled = typeof(item.enabled) == "function"
-                    ? item.enabled.call(owner)
-                    : item.enabled
+      local enabled = true
+      if ("enabled" in item)
+        enabled = typeof(item.enabled) == "function"
+                  ? item.enabled.call(owner)
+                  : item.enabled
 
-        actionData = {
-          id = idPrefix + idx.tostring()
-          text = item.text == ""? null : item.text
-          textUncolored = ::g_dagui_utils.removeTextareaTags(item.text)
-          tooltip = ::getTblValue("tooltip", item, "")
-          enabled = enabled
-          isVisualDisabled = item?.isVisualDisabled ?? false
-          needTimer = ::u.isFunction(::getTblValue("onUpdateButton", item))
-        }
+      local text = item?.text
+      actionData = {
+        id = idPrefix + idx.tostring()
+        text = text
+        textUncolored = text != null ? ::g_dagui_utils.removeTextareaTags(text) : ""
+        tooltip = ::getTblValue("tooltip", item, "")
+        enabled = enabled
+        isVisualDisabled = item?.isVisualDisabled ?? false
+        needTimer = ::u.isFunction(::getTblValue("onUpdateButton", item))
+        hasSeparator = item?.hasSeparator ?? false
       }
 
       view.actions.append(actionData)

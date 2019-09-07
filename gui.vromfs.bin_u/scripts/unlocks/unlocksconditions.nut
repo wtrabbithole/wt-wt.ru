@@ -34,9 +34,9 @@ local time = require("scripts/time.nut")
     "unitExists", "additional", "unitClass",
     "gameModeInfoString", "modes", "events", "tournamentMode",
     "location", "weaponType", "difficulty",
-    "playerUnit", "playerType", "playerExpClass" "playerUnitRank", "playerTag",
+    "playerUnit", "playerType", "playerExpClass", "playerUnitRank", "playerUnitMRank", "playerTag",
     "targetUnit", "targetType", "targetExpClass", "targetUnitClass", "targetTag",
-    "crewsUnit", "crewsUnitRank", "crewsTag", "activity",
+    "crewsUnit", "crewsUnitRank", "crewsUnitMRank", "crewsTag", "activity",
     "minStat", "statPlace", "statScore", "statPlaceInSession", "statScoreInSession",
     "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country", "targets"
   ]
@@ -51,9 +51,11 @@ local time = require("scripts/time.nut")
     playerType             = "playerUnit"
     playerTag              = "playerUnit"
     playerUnitRank         = "playerUnit"
+    playerUnitMRank        = "playerUnit"
     targetType             = "targetUnit"
     targetTag              = "targetUnit"
     crewsUnitRank          = "crewsUnit"
+    crewsUnitMRank         = "crewsUnit"
     crewsTag               = "crewsUnit"
     offenderIsSupportGun   = "weaponType"
     targetUnitClass        = "targetExpClass"
@@ -370,6 +372,18 @@ function UnlockConditions::loadCondition(blk)
 
     local range = (blk.minRank && blk.maxRank) ? ::Point2(blk.minRank, blk.maxRank) : blk.range
     res.values = ::getRangeTextByPoint2(range, "%s", ::loc("conditions/unitRank/format", "%s"), true)
+  }
+  else if (t == "playerUnitMRank")
+  {
+    if (blk.inSessionAnd)
+      res.type = "crewsUnitMRank"
+
+    local range = (blk.minMRank && blk.maxMRank) ? ::Point2(blk.minMRank, blk.maxMRank) : blk.range
+    range = {
+      x = ::get_battle_rating_string_from_rank(range.x)
+      y = ::get_battle_rating_string_from_rank(range.y)
+    }
+    res.values = ::getRangeTextByPoint2(range, "%s", ::loc("events/br", "%s"))
   }
   else if (t == "playerUnitClass")
   {
@@ -756,7 +770,8 @@ function UnlockConditions::_addUsualConditionsText(groupsList, condition)
       text = ::get_role_text(::g_string.cutPrefix(v, "exp_", v))
     else if (cType == "playerTag" || cType == "crewsTag" || cType == "targetTag" || cType == "country")
       text = ::loc("unlockTag/" + v)
-    else if (::isInArray(cType, [ "activity", "playerUnitRank", "crewsUnitRank", "minStat"]))
+    else if (::isInArray(cType, [ "activity", "playerUnitRank", "playerUnitMRank",
+      "crewsUnitRank", "crewsUnitMRank", "minStat"]))
       text = v.tostring()
     else if (cType == "difficulty")
     {
@@ -969,6 +984,14 @@ function UnlockConditions::getRankValue(conditions)
 {
   foreach(c in conditions)
     if (c.type == "playerUnitRank")
+      return c.values
+  return null
+}
+
+function UnlockConditions::getBRValue(conditions)
+{
+  foreach(c in conditions)
+    if (c.type == "playerUnitMRank")
       return c.values
   return null
 }

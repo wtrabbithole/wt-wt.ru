@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -478,6 +481,7 @@
       "armorClass": "tank_structural_steel",
       "hp": 1000.0,
       "hull": {
+        "hidableInViewer": false,
         "body_front_dm": {
           "armorThickness": 1.0
         },
@@ -514,11 +518,13 @@
         },
         "body_back_dm": {
           "armorThickness": 15.0,
-          "armorQuality": 0.1
+          "armorQuality": 0.1,
+          "hidableInViewer": true
         },
         "body_side_dm": {
           "armorThickness": 15.0,
-          "armorQuality": 0.1
+          "armorQuality": 0.1,
+          "hidableInViewer": true
         }
       },
       "turret": {
@@ -639,27 +645,8 @@
         "cannon_breech_dm": {
           "armorThickness": 15.0,
           "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "cannon_breech_01_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "cannon_breech_02_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "cannon_breech_03_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
-        },
-        "cannon_breech_04_dm": {
-          "armorThickness": 15.0,
-          "armorThrough": 30.0,
-          "hp": 100.0
+          "hp": 100.0,
+          "hidableInViewer": false
         },
         "radiator_dm": {
           "hp": 40.0,
@@ -1908,6 +1895,20 @@
         "wheelsWidth": {
           "wheel_l_drive": 0.3,
           "wheel_r_drive": 0.3
+        },
+        "driven": [
+          {
+            "wheel_l_drive": true
+          },
+          {
+            "wheel_l_drive": true
+          }
+        ],
+        "wheelsDamageWeight": {
+          "wheel_l_01": 0.15,
+          "wheel_r_01": 0.15,
+          "wheel_l_drive": 0.4,
+          "wheel_r_drive": 0.4
         }
       }
     }

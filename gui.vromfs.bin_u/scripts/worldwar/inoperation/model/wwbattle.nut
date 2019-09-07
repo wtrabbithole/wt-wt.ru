@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
+local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 
 const WW_BATTLES_SORT_TIME_STEP = 60000
 const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
@@ -311,13 +312,6 @@ class ::WwBattle
       return res
     }
 
-    if (::g_squad_manager.isSquadLeader() && isLockedByExcessPlayers(side))
-    {
-      res.code = WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
-      res.reasonText = ::loc("worldWar/battle_is_unbalanced")
-      return res
-    }
-
     if (getBattleActivateLeftTime() > 0)
     {
       res.code = WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
@@ -343,6 +337,24 @@ class ::WwBattle
       return res
     }
 
+    if ((::g_squad_manager.isSquadLeader() || !::g_squad_manager.isInSquad())
+      && isLockedByExcessPlayers(side, team.name))
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.EXCESS_PLAYERS
+      res.reasonText = ::loc("worldWar/battle_is_unbalanced")
+      return res
+    }
+
+    local maxPlayersInTeam = team.maxPlayers
+    local queue = wwQueuesData.getData()?[id]
+    local isInQueueAmount = getPlayersInQueueByTeamName(queue, team.name)
+    if (isInQueueAmount >= maxPlayersInTeam)
+    {
+      res.code = WW_BATTLE_CANT_JOIN_REASON.QUEUE_FULL
+      res.reasonText = ::loc("worldwar/queue_full")
+      return res
+    }
+
     local countryName = getCountryNameBySide(side)
     if (!countryName)
     {
@@ -363,7 +375,7 @@ class ::WwBattle
       return res
     }
 
-    if (team.players >= team.maxPlayers)
+    if (team.players >= maxPlayersInTeam)
     {
       res.code = WW_BATTLE_CANT_JOIN_REASON.TEAM_FULL
       res.reasonText = ::loc("worldwar/army_full")
@@ -389,7 +401,7 @@ class ::WwBattle
 
     if (needCheckSquad && ::g_squad_manager.isInSquad())
     {
-      updateCantJoinReasonDataBySquad(team, side, res)
+      updateCantJoinReasonDataBySquad(team, side, isInQueueAmount, res)
       if (!::u.isEmpty(res.reasonText))
         return res
     }
@@ -430,7 +442,7 @@ class ::WwBattle
     return battles.len() > 0
   }
 
-  function updateCantJoinReasonDataBySquad(team, side, reasonData)
+  function updateCantJoinReasonDataBySquad(team, side, isInQueueAmount, reasonData)
   {
     if (!::g_squad_manager.isSquadLeader())
     {
@@ -446,10 +458,18 @@ class ::WwBattle
       return reasonData
     }
 
-    if ((team.players + ::g_squad_manager.getOnlineMembersCount()) > team.maxPlayers)
+    local maxPlayersInTeam = team.maxPlayers
+    if (team.players + ::g_squad_manager.getOnlineMembersCount() > maxPlayersInTeam)
     {
       reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_TEAM_FULL
       reasonData.reasonText = ::loc("worldwar/squad/army_full")
+      return reasonData
+    }
+
+    if (isInQueueAmount + ::g_squad_manager.getOnlineMembersCount() > maxPlayersInTeam)
+    {
+      reasonData.code = WW_BATTLE_CANT_JOIN_REASON.SQUAD_QUEUE_FULL
+      reasonData.reasonText = ::loc("worldwar/squad/queue_full")
       return reasonData
     }
 
@@ -817,32 +837,70 @@ class ::WwBattle
     return playersNumber
   }
 
-  function getExcessPlayersSide()
+  function getExcessPlayersSide(side, joinPlayersCount)
   {
     if (!isConfirmed())
       return ::SIDE_NONE
 
-    local team1Players = getTeamBySide(::SIDE_1)?.players ?? 0
-    local team2Players = getTeamBySide(::SIDE_2)?.players ?? 0
-    local maxPlayersDisbalance = ::g_world_war.getSetting(
-      "maxBattlePlayersDisbalance", WW_MAX_PLAYERS_DISBALANCE_DEFAULT)
+    local side1Players = getTeamBySide(::SIDE_1)?.players ?? 0
+    local side2Players = getTeamBySide(::SIDE_2)?.players ?? 0
+    side1Players += (side == ::SIDE_1) ? joinPlayersCount : 0
+    side2Players += (side == ::SIDE_2) ? joinPlayersCount : 0
 
-    if (::abs(team1Players - team2Players) <= maxPlayersDisbalance)
+    if (::abs(side1Players - side2Players) <= getMaxPlayersDisbalance())
       return ::SIDE_NONE
 
-    return team1Players > team2Players ? ::SIDE_1 : ::SIDE_2
+    return side1Players > side2Players ? ::SIDE_1 : ::SIDE_2
   }
 
-  function isLockedByExcessPlayers(side)
+  function getPlayersInQueueByTeamName(queue, teamName)
+  {
+    local teamData = queue?[teamName]
+    if (!teamData)
+      return 0
+
+    local count = teamData?.playersOther ?? 0
+    local clanPlayers = teamData?.playersInClans ?? []
+    foreach(clanPlayer in clanPlayers)
+      count += clanPlayer?.count ?? 0
+
+    return count
+  }
+
+  function getMaxPlayersDisbalance()
+  {
+    return ::g_world_war.getSetting("maxBattlePlayersDisbalance",
+      WW_MAX_PLAYERS_DISBALANCE_DEFAULT)
+  }
+
+  function isLockedByExcessPlayers(side, teamName)
   {
     if (getMyAssignCountry())
       return false
 
-    local excessPlayersSide = getExcessPlayersSide()
-    if (excessPlayersSide == ::SIDE_NONE)
+    local joinPlayersCount = ::g_squad_manager.getOnlineMembersCount()
+    local excessPlayersSide = getExcessPlayersSide(side, joinPlayersCount)
+    if (excessPlayersSide != ::SIDE_NONE && excessPlayersSide == side)
+      return true
+
+    return isQueueExcessPlayersInTeam(teamName, joinPlayersCount)
+  }
+
+  function isQueueExcessPlayersInTeam(teamName, joinPlayersCount)
+  {
+    local queue = wwQueuesData.getData()?[id]
+    if (!queue)
       return false
 
-    return excessPlayersSide == side
+    local teamACount = getPlayersInQueueByTeamName(queue, "teamA")
+    local teamBCount = getPlayersInQueueByTeamName(queue, "teamB")
+    teamACount += (teamName == "teamA") ? joinPlayersCount : 0
+    teamBCount += (teamName == "teamB") ? joinPlayersCount : 0
+
+    if (::abs(teamACount - teamBCount) <= getMaxPlayersDisbalance())
+      return false
+
+    return (teamACount > teamBCount ? "teamA" : "teamB") == teamName
   }
 
   function getSide(country = null)

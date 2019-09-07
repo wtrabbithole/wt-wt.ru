@@ -258,7 +258,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -476,6 +477,9 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_ai_bombers",
             "accuracy": 1.0,
             "effShootingRate": 1.0,
@@ -487,6 +491,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_trucks_squad"
@@ -518,6 +531,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad",
             "team": "B"
           }
@@ -526,6 +542,9 @@
           "unitSetIndication": {
             "set": true,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad",
             "team": "A"
           }
@@ -540,6 +559,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t2_fake_artillery_squad"
@@ -579,6 +607,15 @@
               "object_marking": 0
             },
             {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
               "object": "t2_aaa_squad"
             },
             {
@@ -616,6 +653,9 @@
             "recalculatePathDist": -1.0,
             "object_marking": 0,
             "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_ai_bombers",
             "speed": 220.0
           }
@@ -654,6 +694,9 @@
           "object_type": "isAlive",
           "object_marking": 0,
           "check_objects": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_trucks_squad",
           "target": "war_area"
         }
@@ -663,6 +706,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_trucks_squad"
@@ -682,6 +734,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t2_artillery_squad"
@@ -723,6 +784,9 @@
             "icon": "score",
             "icon army": 1,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t1_quest_units_squad"
           }
         },
@@ -734,6 +798,9 @@
             "icon": "score",
             "icon army": 2,
             "set": true,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "target": "t2_quest_units_squad"
           }
         }
@@ -763,6 +830,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers",
           "target": "bombing_point"
         }
@@ -815,6 +885,9 @@
             "check_objects": "any",
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_ai_bombers"
           }
         },
@@ -825,6 +898,9 @@
             "check_objects": "any",
             "target_type": "isAlive",
             "check_period": 1.0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t2_ai_bombers"
           }
         }
@@ -842,6 +918,9 @@
           "recalculatePathDist": -1.0,
           "object_marking": 0,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers",
           "useForTriggerFiltered": true
         },
@@ -876,6 +955,9 @@
           "target_marking": 0,
           "check_objects": "any",
           "check_targets": "any",
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers",
           "target": "airfield_point"
         }
@@ -916,6 +998,9 @@
           "object_marking": 3,
           "check_objects": "any",
           "afterRepaired": false,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers",
           "target": "t2_airfield"
         }
@@ -938,6 +1023,9 @@
           "recalculatePathDist": -1.0,
           "object_marking": 0,
           "target_marking": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers",
           "speed": 220.0,
           "useForTriggerFiltered": true
@@ -960,14 +1048,22 @@
       },
       "conditions": {
         "unitWhenCountMatches": {
-          "object_type": "isActive",
+          "object_type": "isAlive",
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers"
         }
       },
       "actions": [
+        {
+          "triggerDisable": {
+            "target": "t2_bombers_alive"
+          }
+        },
         {
           "gameMPChangeScore": {
             "value": -10,
@@ -989,11 +1085,6 @@
             "status": 3,
             "team": "B",
             "unit_type": "isAlive"
-          }
-        },
-        {
-          "triggerDisable": {
-            "target": "t2_bombers_alive"
           }
         }
       ],
@@ -1018,6 +1109,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t1_quest_units_squad"
         }
       },
@@ -1072,6 +1166,9 @@
           "object_marking": 0,
           "func": "less",
           "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_quest_units_squad"
         }
       },
@@ -1108,7 +1205,7 @@
       "else_actions": []
     },
     "t2_bombers_alive": {
-      "is_enabled": true,
+      "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
@@ -1120,27 +1217,24 @@
           "time": 10.0
         }
       },
-      "conditions": [
+      "conditions": {
+        "unitWhenCountMatches": {
+          "object_type": "isActive",
+          "object_marking": 0,
+          "func": "less",
+          "value": 1,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
+          "object": "t2_ai_bombers"
+        }
+      },
+      "actions": [
         {
-          "unitWhenCountMatches": {
-            "object_type": "isActive",
-            "object_marking": 0,
-            "func": "less",
-            "value": 1,
-            "object": "t1_quest_units_squad"
+          "triggerDisable": {
+            "target": "t2_all_bombers_dead"
           }
         },
-        {
-          "unitWhenCountMatches": {
-            "object_type": "isActive",
-            "object_marking": 0,
-            "func": "more",
-            "value": 0,
-            "object": "t2_ai_bombers"
-          }
-        }
-      ],
-      "actions": [
         {
           "gameMPChangeScore": {
             "value": -10,
@@ -1186,6 +1280,9 @@
           "object_marking": 0,
           "func": "more",
           "value": 0,
+          "object_var_name": "",
+          "object_var_comp_op": "equal",
+          "object_var_value": 0,
           "object": "t2_ai_bombers"
         }
       },
@@ -1203,9 +1300,14 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "t2_all_bombers_dead"
-          }
+          "triggerEnable": [
+            {
+              "target": "t2_all_bombers_dead"
+            },
+            {
+              "target": "t2_bombers_alive"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -4836,10 +4938,10 @@
       "tracked_vehicles": {
         "name": "t1_tank_01",
         "tm": [
-          [0.725207,0.0,-0.68853],
+          [0.564711,0.0,0.825288],
           [0.0,1.0,0.0],
-          [0.68853,0.0,0.725207],
-          [-6204.3,401.45,-26871.7]
+          [-0.825288,0.0,0.564711],
+          [-8529.6,401.451,-17754.7]
         ],
         "unit_class": "ussr_bt7",
         "closed_waypoints": false,

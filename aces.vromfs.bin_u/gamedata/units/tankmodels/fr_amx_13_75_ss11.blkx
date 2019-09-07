@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -478,6 +481,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
         "cannon_breech_02_dm": []
@@ -1755,6 +1759,8 @@
           "emitterGenRange": [1,4],
           "emitterGenFmt": "bone_rocket_%02d",
           "ammoDpGenFmt": "ammo_turret_%02d_dm",
+          "stopForFire": true,
+          "maxSpeedForFire": 5.0,
           "createGunEffects": true,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -2449,7 +2455,7 @@
           "weaponTrigger": "gunner0"
         },
         {
-          "removeLoadedAmmo": false
+          "removeLoadedAmmo": true
         },
         {
           "fatalFire": true
@@ -2782,6 +2788,8 @@
                 "emitterGenRange": [1,4],
                 "emitterGenFmt": "bone_rocket_%02d",
                 "ammoDpGenFmt": "ammo_turret_%02d_dm",
+                "stopForFire": true,
+                "maxSpeedForFire": 5.0,
                 "createGunEffects": true,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,

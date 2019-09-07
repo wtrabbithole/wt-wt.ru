@@ -21,6 +21,15 @@ if (isPlatformXboxOne)
 
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 
+local isPs4XboxOneInteractionAvailable = function(name)
+{
+  local isPS4Player = isPS4PlayerName(name)
+  local isXBOXPlayer = isXBoxPlayerName(name)
+  if (((isPlatformPS4 && isXBOXPlayer) || (isPlatformXboxOne && isPS4Player)) && !::has_feature("Ps4XboxOneInteraction"))
+    return false
+  return true
+}
+
 local canInteractCrossConsole = function(name) {
   local isPS4Player = isPS4PlayerName(name)
   local isXBOXPlayer = isXBoxPlayerName(name)
@@ -30,6 +39,9 @@ local canInteractCrossConsole = function(name) {
 
   if ((isPS4Player && isPlatformPS4) || (isXBOXPlayer && isPlatformXboxOne))
     return true
+
+  if (!isPs4XboxOneInteractionAvailable(name))
+    return false
 
   return ::has_feature("XboxCrossConsoleInteraction")
 }
@@ -60,7 +72,7 @@ local isChatEnableWithPlayer = function(playerName, needOverlayMessage = false) 
 {
   local contact = ::Contact.getByName(playerName)
   if (contact)
-    return contact.canInteract()
+    return contact.canInteract(needOverlayMessage)
 
   if (getXboxChatEnableStatus(needOverlayMessage) == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
     return ::isPlayerInFriendsGroup(null, false, playerName)
@@ -92,4 +104,5 @@ return {
   getXboxChatEnableStatus = getXboxChatEnableStatus
   isPlatformXboxOne = isPlatformXboxOne
   canInteractCrossConsole = canInteractCrossConsole
+  isPs4XboxOneInteractionAvailable = isPs4XboxOneInteractionAvailable
 }

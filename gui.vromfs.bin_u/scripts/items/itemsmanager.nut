@@ -739,23 +739,24 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
   local helpObj = holderObj.findObject("item_type_help")
   if (::checkObj(helpObj))
   {
-    local helpText = item? item.getItemTypeDescription() : ""
+    local helpText = item && item?.getItemTypeDescription? item.getItemTypeDescription() : ""
     helpObj.tooltip = helpText
     helpObj.show(shopDesc && helpText != "")
   }
 
-  local isDescTextBeforeDescDiv = !item || item.isDescTextBeforeDescDiv
+  local isDescTextBeforeDescDiv = !item || item?.isDescTextBeforeDescDiv || false
   obj = holderObj.findObject(isDescTextBeforeDescDiv ? "item_desc" : "item_desc_under_div")
   if (::checkObj(obj))
   {
     local desc = ""
     if (item)
     {
-      desc = item.getShortItemTypeDescription()
+      if (item?.getShortItemTypeDescription)
+        desc = item.getShortItemTypeDescription()
       local descText = preferMarkup ? item.getLongDescription() : item.getDescription()
       if (descText.len() > 0)
         desc += (desc.len() ? "\n\n" : "") + descText
-      local itemLimitsDesc = item.getLimitsDescription()
+      local itemLimitsDesc = item?.getLimitsDescription ? item.getLimitsDescription() : ""
       if (itemLimitsDesc.len() > 0)
         desc += (desc.len() ? "\n" : "") + itemLimitsDesc
     }
@@ -778,7 +779,7 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
   obj = holderObj.findObject("item_desc_div")
   if (::checkObj(obj))
   {
-    local longdescMarkup = (preferMarkup && item) ? item.getLongDescriptionMarkup({ shopDesc = shopDesc }) : ""
+    local longdescMarkup = (preferMarkup && item && item?.getLongDescriptionMarkup) ? item.getLongDescriptionMarkup({ shopDesc = shopDesc }) : ""
     obj.show(longdescMarkup != "")
     if (longdescMarkup != "")
       obj.getScene().replaceContentFromText(obj, longdescMarkup, longdescMarkup.len(), handler)
@@ -795,14 +796,14 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
   if (item)
   {
     local iconSetParams = {
-      bigPicture = item.allowBigPicture
+      bigPicture = item?.allowBigPicture || false
       addItemName = !shopDesc
     }
     item.setIcon(obj, iconSetParams)
   }
   obj.scrollToView()
 
-  if (item)
+  if (item && item?.getDescTimers)
     foreach(timerData in item.getDescTimers())
     {
       if (!timerData.needTimer.call(item))
@@ -828,11 +829,11 @@ function ItemsManager::fillItemTableInfo(item, holderObj)
 
   local obj = holderObj.findObject("item_desc_above_table")
   if (::checkObj(obj))
-    obj.setValue(item? item.getDescriptionAboveTable() : "")
+    obj.setValue(item && item?.getDescriptionAboveTable ? item.getDescriptionAboveTable() : "")
 
   obj = holderObj.findObject("item_desc_under_table")
   if (::checkObj(obj))
-    obj.setValue(item ? item.getDescriptionUnderTable() : "")
+    obj.setValue(item && item?.getDescriptionUnderTable ? item.getDescriptionUnderTable() : "")
 }
 
 function ItemsManager::fillItemTable(item, holderObj)
@@ -841,9 +842,7 @@ function ItemsManager::fillItemTable(item, holderObj)
   if (!::checkObj(containerObj))
     return
 
-  local tableData = null
-  if (item != null)
-    tableData = item.getTableData()
+  local tableData = item && item?.getTableData ? item.getTableData() : null
   local show = tableData != null
   containerObj.show(show)
 

@@ -4,6 +4,7 @@ local hudState = persist("hudState", @(){
   unitType = Watched("")
   cursorVisible = Watched("false")
   playerArmyForHud = Watched(-1)
+  isPlayingReplay = Watched(false)
 })
 
 

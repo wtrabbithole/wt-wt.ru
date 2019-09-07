@@ -58,7 +58,7 @@ local ExchangeRecipes = class {
     {
       local items = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefid)
 
-      local curQuantity = u.reduce(items, @(item, res) res + item.amount, 0)
+      local curQuantity = items.reduce(@(res, item) res + item.amount, 0)
       local reqQuantity = component.quantity
       local isHave = curQuantity >= reqQuantity
       isUsable = isUsable && isHave
@@ -133,7 +133,7 @@ local ExchangeRecipes = class {
   {
     local list = getItemsListForPrizesView(params)
     local headerFunc = params?.header && @(...) params.header
-    return ::PrizesView.getPrizesListText(list, headerFunc)
+    return ::PrizesView.getPrizesListText(list, headerFunc, false)
   }
 
   function hasAssembleTime()

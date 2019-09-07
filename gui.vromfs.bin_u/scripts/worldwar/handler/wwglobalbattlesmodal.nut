@@ -49,11 +49,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     base.initScreen()
     globalBattlesListData.requestList()
 
-    local timerObj = scene.findObject("global_battles_update_timer")
-    if (::check_obj(timerObj))
-      timerObj.setUserData(this)
-
-    ::checkNonApprovedResearches(true, true)
+    ::checkNonApprovedResearches(true)
   }
 
   function updateBattlesFilter()
@@ -64,11 +60,12 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function getSceneTplView()
   {
-    return { hasUpdateTimer = true }
+    return {}
   }
 
   function onUpdate(obj, dt)
   {
+    requestQueuesData()
     refreshList()
   }
 
@@ -123,7 +120,6 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       {
         customCountry = ::get_profile_country_sq()
         availableUnits = availableUnits.len() ? availableUnits : null
-        showTopPanel = false
         gameModeName = getGameModeNameText()
         showEmptySlot = true
         needPresetsPanel = true

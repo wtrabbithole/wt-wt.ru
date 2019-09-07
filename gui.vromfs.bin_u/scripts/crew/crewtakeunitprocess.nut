@@ -125,7 +125,7 @@ class ::CrewTakeUnitProcess
       if (!crew)
         locId = unit ? "shop/needMoneyQuestion_hireAndTrainCrew"
                      : "shop/needMoneyQuestion_purchaseCrew"
-      local msgText = format(::loc(locId), cost.tostring())
+      local msgText = warningIfGold(format(::loc(locId), cost.tostring()), cost)
       ::scene_msg_box("need_money", null, msgText,
         [ ["ok", nextStepCb],
           ["cancel", removeCb ]

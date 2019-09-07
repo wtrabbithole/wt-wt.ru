@@ -221,7 +221,15 @@ expandable {
           tdiv {
             left:t='pw-w'
             position:t='relative'
-            <<@warbondsNewIconWidget>>
+            <<#unseenIcon>>
+            unseenIcon {
+              value:t='<<unseenIcon>>'
+              valign:t='center'
+              noMargin:t='yes'
+              tooltip = '#mainmenu/newItemsAvailable'
+              unseenText {}
+            }
+            <</unseenIcon>>
             textarea {
               text:t='#mainmenu/newItemsAvailable'
               overlayTextColor:t='warning'
@@ -238,7 +246,15 @@ expandable {
             visualStyle:t='secondary'
             tooltip:t='#mainmenu/newItemsAvailable'
             buttonWink {}
-            <<@warbondsNewIconWidget>>
+            <<#unseenIcon>>
+            unseenIcon {
+              value:t='<<unseenIcon>>'
+              valign:t='center'
+              noMargin:t='yes'
+              tooltip = '#mainmenu/newItemsAvailable'
+              unseenText {}
+            }
+            <</unseenIcon>>
             text {
               text:t = '#mainmenu/btnWarbondsShop'
             }

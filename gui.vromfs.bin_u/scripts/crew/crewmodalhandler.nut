@@ -637,34 +637,24 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         text = ::loc("tutorials/upg_crew/inc_skills")
         actionType = tutorAction.FIRST_OBJ_CLICK
         accessKey = "J:A"
-        cb = function()
-        {
-          onButtonInc(getObj("skill_row0").findObject("buttonInc"))
-        }
+        cb = ::Callback(@() onButtonInc(getObj("skill_row0").findObject("buttonInc")), this)
       },
       {
         obj = [getObj("skill_row1").findObject("buttonInc"), "skill_row1"]
         text = ::loc("tutorials/upg_crew/inc_skills")
         actionType = tutorAction.FIRST_OBJ_CLICK
         accessKey = "J:A"
-        cb = function()
-        {
-          onButtonInc(getObj("skill_row1").findObject("buttonInc"))
-        }
+        cb = ::Callback(@() onButtonInc(getObj("skill_row1").findObject("buttonInc")), this)
       },
       {
         obj = ["btn_apply"]
         text = ::loc("tutorials/upg_crew/apply_upgr_skills")
         actionType = tutorAction.OBJ_CLICK
         accessKey = "J:A"
-        cb = function()
-        {
-          onApply()
-          if (canUpgradeCrewSpec(crew))
-            onUpgrCrewSpec1Tutorial()
-          else
-            onUpgrCrewTutorFinalStep()
-        }
+        cb = ::Callback(function() {
+          afterApplyAction = canUpgradeCrewSpec(crew) ? onUpgrCrewSpec1Tutorial
+            : onUpgrCrewTutorFinalStep
+          onApply() }, this)
       }
     ]
     ::gui_modal_tutor(steps, this)
@@ -688,13 +678,36 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUpgrCrewSpec1Tutorial()
   {
+    local tblObj = scene.findObject("skills_table")
+    if (!::check_obj(tblObj))
+      return
+
+    local skillRowObj = null
+    local btnSpecObj = null
+
+    for(local i = 0; i < tblObj.childrenCount(); i++)
+    {
+      skillRowObj = tblObj.findObject("skill_row" + i)
+      if (!::check_obj(skillRowObj))
+        continue
+
+      btnSpecObj = skillRowObj.findObject("btn_spec1")
+      if (::check_obj(btnSpecObj) && btnSpecObj.isVisible())
+        break
+
+      btnSpecObj = null
+    }
+
+    if (btnSpecObj == null)
+      return
+
     local steps = [
       {
-        obj = [getObj("skill_row0").findObject("btn_spec1"), "skill_row0"]
+        obj = [btnSpecObj, skillRowObj]
         text = ::loc("tutorials/upg_crew/spec1")
         actionType = tutorAction.FIRST_OBJ_CLICK
         accessKey = "J:A"
-        cb = onUpgrCrewSpec1ConfirmTutorial
+        cb = ::Callback(onUpgrCrewSpec1ConfirmTutorial, this)
       }
     ]
     ::gui_modal_tutor(steps, this)
@@ -770,6 +783,12 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       crew = getSlotItem(countryId, idInCountry)
       initMainParams(false, true)
     }
+    updatePage()
+  }
+
+  function onEventSlotbarPresetLoaded(params)
+  {
+    openSelectedCrew()
     updatePage()
   }
 

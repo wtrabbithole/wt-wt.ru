@@ -59,7 +59,7 @@ class ::items_classes.Discount extends ::BaseItem
 
     local taskId = ::char_send_blk("cln_set_current_personal_discount", blk)
     local taskCallback = ::Callback((@(cb) function() {
-      ::updateDiscountData()
+      ::g_discount.updateDiscountData()
       cb({ success = true })
     })(cb), handler)
 

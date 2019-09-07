@@ -46,9 +46,9 @@ const GAMEPAD_CURSOR_CONTROL_SPEED_DEFAULT = 100
       return ::get_gui_option_in_mode(
         ::USEROPT_GAMEPAD_CURSOR_CONTROLLER,
         ::OPTIONS_MODE_GAMEPLAY,
-        false
+        IS_GAMEPAD_CURSOR_ENABLED_DEFAULT
       )
-    return false
+    return IS_GAMEPAD_CURSOR_ENABLED_DEFAULT
   }
 
   function setSpeed(newSpeed)
@@ -102,7 +102,10 @@ const GAMEPAD_CURSOR_CONTROL_SPEED_DEFAULT = 100
   function onEventProfileUpdated(p)
   {
     if (!::g_login.isLoggedIn())
+    {
       setValue(getValue())
+      setSpeed(getSpeed())
+    }
     else if (isPaused)
       pause(false)
   }

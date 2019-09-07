@@ -545,8 +545,9 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local curExp = getCurExpValue()
     local cost = ::Cost(0, curGold)
-    local msgText = ::loc("exp/convert/needMoneyQuestion",
-      { exp = ::Cost().setFrp(curExp).tostring(), cost = cost })
+    local msgText = warningIfGold(::loc("exp/convert/needMoneyQuestion",
+        {exp = ::Cost().setFrp(curExp).tostring(), cost = cost}),
+      cost)
     msgBox("need_money", msgText,
       [
         ["yes", (@(cost, curExp) function() {

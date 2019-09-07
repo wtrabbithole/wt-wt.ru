@@ -41,9 +41,13 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
     setSceneTitle(::loc("mainmenu/btnProtectionAnalysis") + " " +
       ::loc("ui/mdash") + " " + ::getUnitName(unit.name))
 
+    onUpdateActionsHint()
+
     guiScene.setUpdatesEnabled(false, false)
     protectionAnalysisOptions.init(this, scene)
     guiScene.setUpdatesEnabled(true, true)
+
+    ::g_hud_hitcamera.init(scene.findObject("dmviewer_hitcamera"))
 
     hintHandler = protectionAnalysisHint.open(scene.findObject("hint_scene"))
     registerSubHandler(hintHandler)
@@ -76,13 +80,36 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 
   function onWeaponsInfo(obj)
   {
-    ::open_weapons_for_unit(unit)
+    ::open_weapons_for_unit(unit, { needHideSlotbar = true })
   }
 
   function goBack()
   {
     ::hangar_set_dm_viewer_mode(::DM_VIEWER_NONE)
     base.goBack()
+  }
+
+  function onUpdateActionsHint()
+  {
+    local showHints = ::has_feature("HangarHitcamera")
+    local hObj = showSceneBtn("analysis_hint", showHints)
+    if (!showHints || !::check_obj(hObj))
+      return
+
+    local hasKeyboard = ::is_platform_pc
+    local hasGamepad = ::show_console_buttons
+    local shortcuts = []
+    //hint for simulate shot
+    local showHint = ::has_feature("HangarHitcamera")
+    local bObj = showSceneBtn("analysis_hint_shot", showHint)
+    if (showHint && ::check_obj(bObj))
+    {
+      if (hasGamepad)
+        shortcuts.append(::loc("xinp/R2"))
+      if (hasKeyboard)
+        shortcuts.append(::loc("key/LMB"))
+      bObj.findObject("push_to_shot").setValue(::g_string.implode(shortcuts, ::loc("ui/comma")))
+    }
   }
 }
 

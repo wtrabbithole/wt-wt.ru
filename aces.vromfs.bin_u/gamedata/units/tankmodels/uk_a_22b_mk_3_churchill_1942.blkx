@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -171,6 +174,9 @@
         },
         "turret_02_side_dm": {
           "armorThickness": 38.1
+        },
+        "turret_03_side_dm": {
+          "armorThickness": 89.9
         },
         "turret_01_side_dm": {
           "armorThickness": 12.7
@@ -410,6 +416,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0
@@ -1642,9 +1649,11 @@
           "limitsTable": {
             "lim1": [-180.0,-135.0,0.0,20.0],
             "lim2": [-135.0,-45.0,-12.0,20.0],
-            "lim3": [-45.0,45.0,-6.0,20.0],
-            "lim4": [45.0,135.0,-12.0,20.0],
-            "lim5": [135.0,180.0,0.0,20.0]
+            "lim3": [-45.0,-13.0,-5.0,20.0],
+            "lim4": [-13.0,11.0,-12.0,20.0],
+            "lim5": [11.0,45.0,-5.0,20.0],
+            "lim6": [45.0,135.0,-12.0,20.0],
+            "lim7": [135.0,180.0,0.0,20.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": true,
@@ -2468,9 +2477,11 @@
                 "limitsTable": {
                   "lim1": [-180.0,-135.0,0.0,20.0],
                   "lim2": [-135.0,-45.0,-12.0,20.0],
-                  "lim3": [-45.0,45.0,-6.0,20.0],
-                  "lim4": [45.0,135.0,-12.0,20.0],
-                  "lim5": [135.0,180.0,0.0,20.0]
+                  "lim3": [-45.0,-13.0,-5.0,20.0],
+                  "lim4": [-13.0,11.0,-12.0,20.0],
+                  "lim5": [11.0,45.0,-5.0,20.0],
+                  "lim6": [45.0,135.0,-12.0,20.0],
+                  "lim7": [135.0,180.0,0.0,20.0]
                 },
                 "gunStabilizer": {
                   "hasVerticalGunFreeMode": true,

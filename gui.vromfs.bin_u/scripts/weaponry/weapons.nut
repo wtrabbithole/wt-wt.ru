@@ -33,12 +33,12 @@ function gui_modal_weapons(params = {})
   ::gui_start_modal_wnd(::gui_handlers.WeaponsModalHandler, params)
 }
 
-function open_weapons_for_unit(unit, curEdiff = -1)
+function open_weapons_for_unit(unit, params = {})
 {
   if (!("name" in unit))
     return
   ::aircraft_for_weapons = unit.name
-  ::gui_modal_weapons({curEdiff = curEdiff})
+  ::gui_modal_weapons(params)
 }
 
 class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
@@ -74,8 +74,9 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   shownTiers = []
 
   needCheckTutorial = false
-  curEdiff = -1
+  curEdiff = null
   purchasedModifications = null
+  needHideSlotbar = false
 
   function initScreen()
   {
@@ -108,14 +109,13 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function initSlotbar()
   {
-    if (researchMode || !::handlersManager.getActiveBaseHandler() ||
-      !::handlersManager.getActiveBaseHandler().getSlotbar() || !::isUnitInSlotbar(air))
-        return
+    if (researchMode || !::isUnitInSlotbar(air) || needHideSlotbar)
+      return
     createSlotbar({
+      crewId = getCrewByAir(air).id
       showNewSlot=false
       emptyText="#shop/aircraftNotSelected"
       afterSlotbarSelect = onSlotbarSelect
-      showTopPanel = false
     })
   }
 
@@ -126,6 +126,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       goBack()
       return
     }
+    curEdiff = curEdiff == null ? -1 : curEdiff
     isOwn = air.isUsable()
     purchasedModifications = []
 
@@ -294,6 +295,14 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     updateAllItems()
     guiScene.setUpdatesEnabled(true, true)
+
+    local frameObj = scene.findObject("mods_frame")
+    local maxFrameHeight = ::g_dagui_utils.toPixels(guiScene, "1@maxWeaponsWindowHeight")
+    if (::check_obj(frameObj) && frameObj.getSize()[1] > maxFrameHeight)
+    {
+      frameObj.isHeaderHidden = "yes"
+      showSceneBtn("close_ext_btn", !researchMode)
+    }
   }
 
   function fillAvailableRPText()
@@ -414,7 +423,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local position = (posX + 0.5).tostring() + "@modCellWidth-0.5w, " + (posY + 0.5).tostring() + "@modCellHeight-0.5h"
     if (researchMode)
-      position = (posX + 0.5).tostring() + "@modCellWidth-0.5w, " + (posY + 1).tostring() + "@modCellHeight-0.5h"
+      position = (posX + 0.5).tostring() + "@modCellWidth-0.5w, 1@framePadding+ 1@fadedImageFramePad"
 
     blockObj.pos = position
     local unitObj = blockObj.findObject("next_unit")
@@ -1485,7 +1494,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function afterModalDestroy()
   {
-    if (!::checkNonApprovedResearches(true, false) && ::prepareUnitsForPurchaseMods.haveUnits())
+    if (!::checkNonApprovedResearches(false) && ::prepareUnitsForPurchaseMods.haveUnits())
       ::prepareUnitsForPurchaseMods.checkUnboughtMods()
   }
 

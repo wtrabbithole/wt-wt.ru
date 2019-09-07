@@ -1,3 +1,5 @@
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+
 ::dagui_propid.add_name_id("task_id")
 ::dagui_propid.add_name_id("difficultyGroup")
 
@@ -7,8 +9,6 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
 
   sceneBlkName = "gui/empty.blk"
   savePathBattleTasksDiff = "promo/battleTasksDiff"
-
-  warbondsWidget = null
 
   static function open(params)
   {
@@ -94,7 +94,7 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
         {
           view.isConsoleMode <- ::show_console_buttons
           view.newItemsAvailable <- currentWarbond.needShowNewItemsNotifications()
-          view.warbondsNewIconWidget <- ::NewIconWidget.createLayout({ tooltip = "#mainmenu/newItemsAvailable" })
+          view.unseenIcon <- SEEN.WARBONDS_SHOP
         }
       }
     }
@@ -121,10 +121,6 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
     ::g_battle_tasks.setUpdateTimer(reqTask, scene)
     if (showProgressBar && currentWarbond)
       ::g_warbonds_view.updateProgressBar(currentWarbond, scene, true)
-
-    warbondsWidget = ::NewIconWidget(guiScene, scene.findObject("widget_container"))
-    warbondsWidget.setValue(::g_warbonds.getNumUnseenAwardsTotal())
-
   }
 
   function onGetRewardForTask(obj)
@@ -189,5 +185,4 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
   onEventCurrentGameModeIdChanged             = @(p) updateHandler()
   onEventWarbondShopMarkSeenLevel             = @(p) updateHandler()
   onEventWarbondViewShowProgressBarFlagUpdate = @(p) updateHandler()
-  onEventUpdatedSeenWarbondAwards = @(p) warbondsWidget && warbondsWidget.setValue(::g_warbonds.getNumUnseenAwardsTotal())
 }

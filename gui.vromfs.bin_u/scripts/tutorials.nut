@@ -30,6 +30,12 @@ const NEW_PLAYER_TUTORIAL_CHOICE_STATISTIC_SAVE_ID = "statistic:new_player_tutor
               && ::is_tutorial_complete("tutorial_tank_basics_arcade_part1")
     }
   }
+  {
+    id = "boat"
+    tutorial = "tutorial_boat_basic_arcade"
+    canSkipByFeature = "AllowedToSkipBaseTutorials"
+    requiresFeature = "Ships"
+  }
 ]
 
 ::check_tutorial_reward_data <- null
@@ -42,22 +48,26 @@ const NEW_PLAYER_TUTORIAL_CHOICE_STATISTIC_SAVE_ID = "statistic:new_player_tutor
 function gui_start_checkTutorial(checkId, checkSkip = true)
 {
   local idx = -1
-  local data = null
+  local mData = null
   foreach(i, item in ::tutorials_to_check)
     if (item.id == checkId)
     {
       if (("requiresFeature" in item) && !::has_feature(item.requiresFeature))
         return false
+
+      mData = ::get_uncompleted_tutorial_data(item.tutorial)
+      if (!mData)
+        return false
+
       if (::launched_tutorial_questions_peer_session & (1 << i) && checkSkip)
         return false
 
       ::launched_tutorial_questions_peer_session = ::launched_tutorial_questions_peer_session | (1 << i)
       idx = i
-      data = item
       break
     }
 
-  if (!data)
+  if (!mData)
     return false
 
   if (checkSkip)
@@ -66,10 +76,6 @@ function gui_start_checkTutorial(checkId, checkSkip = true)
     if (::is_bit_set(skipTutorial, idx))
       return false
   }
-
-  local mData = ::get_uncompleted_tutorial_data(data.tutorial)
-  if (!mData)
-    return false
 
   ::gui_start_modal_wnd(::gui_handlers.NextTutorialHandler,
     {
@@ -445,7 +451,8 @@ function get_uncompleted_tutorial_data(misName, diff = -1, checkDebriefing = fal
       }
 
   ::set_mp_mode(mainGameMode)
-  if (!tutorialMission)
+  if (!tutorialMission
+    || (("reqFeature" in tutorialMission) && !::has_feature(tutorialMission.reqFeature)))
     return null
 
   local res = { mission = tutorialMission, rewardText = "" }
@@ -481,6 +488,8 @@ function check_tutorial_on_start()
   local curUnit = ::get_show_aircraft()
   if (curUnit && ::isTank(curUnit) && ::has_feature("Tanks"))
     tutorial = "lightTank"
+  else if (curUnit && ::isShip(curUnit) && ::has_feature("Ships"))
+    tutorial = "boat"
 
   if (!::gui_start_checkTutorial(tutorial))
     check_tutorial_on_mainmenu()

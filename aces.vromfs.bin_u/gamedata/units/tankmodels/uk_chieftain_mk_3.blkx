@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -130,6 +133,9 @@
         },
         "body_dm": {
           "armorThickness": 15.0
+        },
+        "ex_armor_body_02_dm": {
+          "armorThickness": 13.0
         }
       },
       "hull_turret_cha": {
@@ -235,7 +241,8 @@
           "armorThickness": 250.0
         },
         "turret_02_bottom_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 20.0,
+          "hidableInViewer": true
         },
         "turret_03_back_dm": {
           "armorThickness": 174.0
@@ -256,7 +263,6 @@
         "armorThickness": 13.0,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
-        "ex_armor_body_02_dm": [],
         "ex_armor_body_r_01_dm": [],
         "ex_armor_body_r_02_dm": [],
         "ex_armor_body_r_03_dm": [],
@@ -265,7 +271,6 @@
         "ex_armor_body_r_06_dm": [],
         "ex_armor_body_r_07_dm": [],
         "ex_armor_body_r_08_dm": [],
-        "ex_armor_body_r_09_dm": [],
         "ex_armor_body_l_01_dm": [],
         "ex_armor_body_l_02_dm": [],
         "ex_armor_body_l_03_dm": [],
@@ -273,8 +278,7 @@
         "ex_armor_body_l_05_dm": [],
         "ex_armor_body_l_06_dm": [],
         "ex_armor_body_l_07_dm": [],
-        "ex_armor_body_l_08_dm": [],
-        "ex_armor_body_l_09_dm": []
+        "ex_armor_body_l_08_dm": []
       },
       "optics": {
         "armorClass": "optics_tank",
@@ -437,6 +441,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0

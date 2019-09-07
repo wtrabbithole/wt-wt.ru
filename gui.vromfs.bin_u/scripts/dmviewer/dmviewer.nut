@@ -12,7 +12,8 @@
 }
 
 ::dmViewer <- {
-  [PERSISTENT_DATA_PARAMS] = ["active", "view_mode", "_currentViewMode", "isDebugMode"]
+  [PERSISTENT_DATA_PARAMS] = [ "active", "view_mode", "_currentViewMode", "isDebugMode",
+    "isVisibleExternalPartsArmor", "isVisibleExternalPartsXray" ]
 
   active = false
   // This is saved view mode. It is used to restore
@@ -29,6 +30,9 @@
     [::DM_VIEWER_ARMOR] = "armor",
     [::DM_VIEWER_XRAY]  = "xray",
   }
+
+  isVisibleExternalPartsArmor = true
+  isVisibleExternalPartsXray  = true
 
   prevHintParams = {}
 
@@ -267,6 +271,27 @@
       obj = handler.scene.findObject("dmviewer_protection_analysis_btn")
       if (::check_obj(obj))
         obj.show(view_mode == ::DM_VIEWER_ARMOR && ::isTank(unit))
+    }
+
+    // Outer parts visibility toggle in Armor and Xray modes
+    if (::has_feature("DmViewerExternalArmorHiding"))
+    {
+      obj = handler.scene.findObject("dmviewer_show_external_dm")
+      if (::check_obj(obj))
+      {
+        local isShowOption = view_mode == ::DM_VIEWER_ARMOR && unit.isTank()
+        obj.show(isShowOption)
+        if (isShowOption)
+          obj.setValue(isVisibleExternalPartsArmor)
+      }
+      obj = handler.scene.findObject("dmviewer_show_extra_xray")
+      if (::check_obj(obj))
+      {
+        local isShowOption = view_mode == ::DM_VIEWER_XRAY && unit.isTank()
+        obj.show(isShowOption)
+        if (isShowOption)
+          obj.setValue(isVisibleExternalPartsXray)
+      }
     }
 
     // Customization navbar button
@@ -1251,6 +1276,18 @@
         if(nameVariant in data)
           return format(::loc("shop/tank_mass") + " " + ::loc(pattern.langKey), data[nameVariant])
     return "";
+  }
+
+  function showExternalPartsArmor(isShow)
+  {
+    isVisibleExternalPartsArmor = isShow
+    ::hangar_show_external_dm_parts_change(isShow)
+  }
+
+  function showExternalPartsXray(isShow)
+  {
+    isVisibleExternalPartsXray = isShow
+    ::hangar_show_hidden_xray_parts_change(isShow)
   }
 
   function onEventActiveHandlersChanged(p)

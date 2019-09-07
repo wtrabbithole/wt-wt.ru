@@ -65,9 +65,8 @@ local function combobox(watches, options, combo_style=comboStyle) {
       borderWidth = combo_style?.popupBorderWidth ?? 0
       padding = combo_style?.popupBorderWidth ?? 0
       flow = FLOW_VERTICAL
-      stopHover = true
+      stopMouse = true
       clipChildren = true
-      behavior = Behaviors.Button
 
       children = children
       gap = combo_style?.itemGap

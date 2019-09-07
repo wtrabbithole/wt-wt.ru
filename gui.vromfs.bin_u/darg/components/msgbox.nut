@@ -45,17 +45,23 @@ local function removeByUid(uid) {
 local counter = 0
 local function show(params, styling=defStyling) {
   local self = null
-  local function doClose(button_action) {
+  local function doClose(button_action, isOnEscape = false) {
+    if (isOnEscape && params?.onCancel)
+      if (params.onCancel() && params?.closeByActionsResult)
+        return
+
+    if (button_action && button_action() && params?.closeByActionsResult)
+      return
+
     removeWidget(self)
-    if (button_action)
-      button_action()
     if ("onClose" in params && params.onClose)
       params.onClose()
   }
   local uid = params?.uid ?? "msgbox_" + counter++
   removeByUid(uid)
 
-  local btnsDesc = params?.buttons || [{text="OK"}]
+  local skpdescr = {description = {skip=true}}
+  local btnsDesc = params?.buttons || [{text="OK" customStyle={hotkeys=[["^Esc | Enter", skpdescr]]}}]
   if (!(btnsDesc instanceof Watched))
     btnsDesc = Watched(btnsDesc)
 
@@ -70,15 +76,22 @@ local function show(params, styling=defStyling) {
     }
     return res
   })
-
   local function buttonsBlock() {
     return {
       watch = [curBtnIdx, btnsDesc]
       size = SIZE_TO_CONTENT
       flow = FLOW_HORIZONTAL
 
-      children = btnsDesc.value.map(function(desc) {
-        return styling.button(desc, @() doClose(desc?.action))
+      children = btnsDesc.value.map(function(desc, idx) {
+        local conHover = desc?.onHover
+        local customStyle = desc?.customStyle ?? {}
+        local onHover = function(on){
+          curBtnIdx.update(idx)
+          ::set_kb_focus(btnsDesc.value[curBtnIdx.value])
+          conHover?()
+        }
+        customStyle.__update({onHover=onHover})
+        return styling.button(desc.__update({customStyle = customStyle}), @() doClose(desc?.action))
       })
       behavior = Behaviors.RecalcHandler
 
@@ -94,25 +107,27 @@ local function show(params, styling=defStyling) {
     curBtnIdx.update((curBtnIdx.value + dir + btnsDesc.value.len()) % btnsDesc.value.len())
     ::set_kb_focus(btnsDesc.value[curBtnIdx.value])
   }
-
+  local function activateCurBtn() {
+    btnsDesc.value[curBtnIdx.value]?.action?() ?? doClose(defCancel?.action, true)
+  }
+  local skip = {skip=true}
   self = styling.BgOverlay.__merge({
     uid = uid
     cursor = styling.cursor
-    stopHotkeys = true
-    stopHover = true
-
+    stopMouse = true
     children = styling.Root.__merge({
+      key = "msgbox_" + uid
       flow = FLOW_VERTICAL
       halign = HALIGN_CENTER
       children = [
         styling.messageText(params)
         buttonsBlock
       ]
-
       hotkeys = [
-        ["Esc", @() doClose(defCancel?.action)],
-        ["Right | Tab", @() moveBtnFocus(1)],
-        ["Left", @() moveBtnFocus(-1)],
+        ["Esc | J:B", {action= @() doClose(defCancel?.action, true), description = ::loc("Close")}],
+        ["Right | Tab", {action = @() moveBtnFocus(1) description = skip}],
+        ["Left", {action = @() moveBtnFocus(-1) description = skip}],
+        ["Enter", {action= activateCurBtn, description= skip}],
       ]
     })
   })

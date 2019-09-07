@@ -1,3 +1,5 @@
+local personalDiscount = ::require("scripts/discounts/personalDiscount.nut")
+
 //you can use array in any path part - in result will be max discount from them.
 function getDiscountByPath(path, blk = null, idx = 0)
 {
@@ -10,7 +12,7 @@ function getDiscountByPath(path, blk = null, idx = 0)
     local block = ::get_blk_by_path_array(array, blk)
     local discountValue = ::getTblValue("discount", block, 0)
     result.maxDiscount = ::max(result.maxDiscount, discountValue)
-    local personalDiscountValue = ::get_personal_discount_by_path(array)
+    local personalDiscountValue = personalDiscount.getDiscountByPath(array)
     result.maxDiscount = ::max(result.maxDiscount, personalDiscountValue)
   })(blk, result))
   return result.maxDiscount
@@ -63,7 +65,7 @@ function showAirDiscount(obj, airName, group=null, groupValue=null, fullUpdate=f
 function showUnitDiscount(obj, unitOrGroup)
 {
   local discount = ::isUnitGroup(unitOrGroup)
-    ? ::g_discount.getGroupDiscount(unitOrGroup.airsGroup, ::g_discount.getUnitDiscount.bindenv(::g_discount))
+    ? ::g_discount.getGroupDiscount(unitOrGroup.airsGroup)
     : ::g_discount.getUnitDiscount(unitOrGroup)
   ::showCurBonus(obj, discount, "buy")
 }

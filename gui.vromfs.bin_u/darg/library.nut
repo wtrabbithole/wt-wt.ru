@@ -36,9 +36,10 @@ local tostringfuncTbl = [
 local log = require("std/log.nut")(tostringfuncTbl)
 
 ::dlog <- log.dlog
-::log <- log.log
+::log <- log
 ::dlogsplit <- log.dlogsplit
 ::vlog <- log.vlog
+::console_print <- log.console_print
 
 function make_persists(val){
   assert(type(val)=="table", "not a table value passed!")

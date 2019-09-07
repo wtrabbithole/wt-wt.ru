@@ -56,6 +56,10 @@ SwitchSliderBgOn {
   position:relative;
 }
 
+[show_console_buttons=yes] SwitchBox[btnName] > SwitchSliderBg {
+  pos: 1@cIco + 1@buttonImgMargin, 50%ph-50%h;
+}
+
 SwitchBox:checked > SwitchSliderBg > SwitchSliderBgOn {
   size:pw-ph, ph;
   background-color:@switchBoxOnBgColor;
@@ -92,4 +96,17 @@ SwitchBox:checked:hover > SwitchSliderBg > SwitchSlider {
 SwitchBox:disabled
 {
   color-factor:127;
+}
+
+[show_console_buttons=yes] SwitchBox[btnName]
+{
+  padding-left:@switchBoxWidth + 1@buttonImgMargin + 1@cIco + 1@blockInterval;
+}
+
+SwitchBox[btnName] > ButtonImg
+{
+  size:@cIco, @cIco;
+  left: 1@buttonImgMargin;
+  top:50%ph-50%h;
+  position:'absolute';
 }

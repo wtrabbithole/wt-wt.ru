@@ -80,6 +80,7 @@ local globalEnv = require_native("globalEnv")
     "ID_BOMBS",
     "ID_ROCKETS",
     "ID_WEAPON_LOCK",
+    "ID_FLARES",
     "ID_FUEL_TANKS",
     "ID_AIR_DROP",
     { id="ID_SENSOR_SWITCH",              needSkip = @() !::has_feature("Sensors") }
@@ -283,12 +284,7 @@ function initControlsWizardConfig(arr)
 
 function gui_modal_controlsWizard()
 {
-  ::scene_msg_box("ask_unit_type", null, ::loc("mainmenu/askWizardForUnitType"),
-    [
-      ["aviation", function() { ::gui_start_modal_wnd(::gui_handlers.controlsWizardModalHandler, {unitType = ::ES_UNIT_TYPE_AIRCRAFT}) } ],
-      ["army", function() { ::gui_start_modal_wnd(::gui_handlers.controlsWizardModalHandler, {unitType = ::ES_UNIT_TYPE_TANK}) } ],
-      ["cancel", function() {}]
-    ], "cancel")
+  ::gui_start_modal_wnd(::gui_handlers.controlsWizardModalHandler)
 }
 
 class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
@@ -360,14 +356,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
   function initScreen()
   {
-    controls_wizard_config = []
-    if (unitType == ::ES_UNIT_TYPE_TANK)
-      controls_wizard_config = ::tank_controls_wizard_config
-    else
-      controls_wizard_config = ::aircraft_controls_wizard_config
-
-    ::initControlsWizardConfig(controls_wizard_config)
-
     scene.findObject("shortcut-wnd").setUserData(this)
     scene.findObject("update-timer").setUserData(this)
 
@@ -375,12 +363,11 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     optionsToSave = []
     repeatItemsList = []
     prevItems = []
-
-    initShortcutsNames()
+    shortcutNames = []
+    shortcutItems = []
 
     curJoyParams = ::JoystickParams()
     curJoyParams.setFrom(::joystick_get_cur_settings())
-    shortcuts = ::get_shortcuts(shortcutNames)
     deviceMapping = ::u.copy(::g_controls_manager.getCurPreset().deviceMapping)
 
     initAxisPresetup()
@@ -692,7 +679,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       local axis = curJoyParams.getAxis(curItem.axisIndex[0])
       local curPreset = ::g_controls_manager.getCurPreset()
       if (axis.axisId >= 0)
-        axisAssignText = ::addHotkeyTxt(::remapAxisName(curPreset.getAxisName(axis.axisId)))
+        axisAssignText = ::addHotkeyTxt(::remapAxisName(curPreset, axis.axisId))
       if (isButtonsListenInCurBox)
         buttonAssignText = ::get_shortcut_text(shortcuts, curItem.modifiersId[axisMaxChoosen? "rangeMin" : "rangeMax"][0], false)
     }
@@ -1030,7 +1017,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     local text = ""
     local curPreset = ::g_controls_manager.getCurPreset()
     for (local i = 0; i < sc.dev.len(); i++)
-      text += ((i != 0)? " + ":"") + ::getLocalizedControlName(curPreset.getButtonName(sc.dev[i], sc.btn[i]))
+      text += ((i != 0)? " + ":"") + ::getLocalizedControlName(curPreset, sc.dev[i], sc.btn[i])
     return text
   }
 
@@ -1106,7 +1093,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
     local device = ::joystick_get_default()
     local curPreset = ::g_controls_manager.getCurPreset()
-    curBtnText = ::remapAxisName(curPreset.getAxisName(selectedAxisNum))
+    curBtnText = ::remapAxisName(curPreset, selectedAxisNum)
     showMsg(::loc("hotkeys/msg/axis_choosen") + "\n" + curBtnText, config)
   }
 
@@ -1197,7 +1184,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
     local device = ::joystick_get_default()
     local curPreset = ::g_controls_manager.getCurPreset()
-    local axisName = device ? ::remapAxisName(curPreset.getAxisName(bindAxisNum)) : ""
+    local axisName = device ? ::remapAxisName(curPreset, bindAxisNum) : ""
     obj.setValue(axisName)
 
     local changeColor = (selectedAxisNum>=0 && selectedAxisNum==bindAxisNum)? "fixedAxis" : ""
@@ -1560,9 +1547,39 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     goBack()
   }
 
+  function startManualSetup()
+  {
+    ::scene_msg_box("ask_unit_type", null, ::loc("mainmenu/askWizardForUnitType"),
+      [
+        [ "aviation", (@() startManualSetupForUnitType(::ES_UNIT_TYPE_AIRCRAFT)).bindenv(this) ],
+        [ "army", (@() startManualSetupForUnitType(::ES_UNIT_TYPE_TANK)).bindenv(this) ]
+      ], "aviation")
+  }
+
+  function startManualSetupForUnitType(unitType)
+  {
+    if (unitType == ::ES_UNIT_TYPE_TANK)
+      controls_wizard_config = ::tank_controls_wizard_config
+    else if (unitType == ::ES_UNIT_TYPE_AIRCRAFT)
+      controls_wizard_config = ::aircraft_controls_wizard_config
+    else
+      ::script_net_assert_once("unsupported unit type", "Given unit type has not wizard config")
+
+    ::initControlsWizardConfig(controls_wizard_config)
+    initShortcutsNames()
+    shortcuts = ::get_shortcuts(shortcutNames)
+
+    curIdx = -1
+    nextItem()
+  }
+
   function onContinue(obj)
   {
-    nextItem()
+    if (curIdx == -1 || !controls_wizard_config) {
+      startManualSetup()
+    } else {
+      nextItem()
+    }
   }
 
   function doApply()

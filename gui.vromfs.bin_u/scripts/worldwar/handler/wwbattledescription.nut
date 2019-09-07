@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 
 // Temporary image. Has to be changed after receiving correct art
 const WW_OPERATION_DEFAULT_BG_IMAGE = "#ui/bkg/login_layer_h1_0"
@@ -37,7 +38,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   curBattleInList = null      // selected battle in list
   operationBattle = null      // battle to dasplay, check join enable, join, etc
   needEventHeader = true
-  currViewMode = WW_BATTLE_VIEW_MODES.BATTLE_LIST
+  currViewMode = null
   isSelectedBattleActive = false
 
   battlesListObj = null
@@ -106,6 +107,13 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     reinitBattlesList()
     initSquadList()
     initFocusArray()
+
+    local timerObj = scene.findObject("update_timer")
+    if (::check_obj(timerObj))
+      timerObj.setUserData(this)
+
+    updateViewMode()
+    requestQueuesData()
   }
 
   function getMainFocusObj()
@@ -140,6 +148,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function reinitBattlesList(isForceUpdate = false)
   {
+    if (!wwQueuesData.isDataValid())
+      return
+
     local closedGroups = getClosedGroups()
     local currentBattleListMap = createBattleListMap()
     local needRefillBattleList = isForceUpdate || hasChangedInBattleListMap(currentBattleListMap)
@@ -159,8 +170,29 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     onItemSelect(isForceUpdate)
     updateClosedGroups(closedGroups)
 
+    validateSquadInfo()
+    validateCurQueue()
+
     if (getViewMode() == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
       showSceneBtn("items_list", curBattleListMap.len() > 0)
+  }
+
+  function validateCurQueue()
+  {
+    local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
+    if (!queue)
+      return
+
+    local queueBattle = queue.getWWBattle()
+    if (!queueBattle || !queueBattle.isValid())
+      ::g_world_war.leaveWWBattleQueues()
+  }
+
+  function validateSquadInfo()
+  {
+    local wwBattleName = ::g_squad_manager.getWwOperationBattle()
+    if (wwBattleName && (wwBattleName != operationBattle.id || !operationBattle.isValid()))
+      ::g_squad_manager.cancelWwBattlePrepare()
   }
 
   function getClosedGroups()
@@ -228,14 +260,19 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateNoAvailableBattleInfo()
   {
-    local country = ::g_world_war.curOperationCountry
-    local availableBattlesList = ::g_world_war.getBattles().filter(
-      function(idx, battle) {
-        return ::g_world_war.isBattleAvailableToPlay(battle)
-          && isMatchFilterMask(battle, country)
-      }.bindenv(this))
+    if (currViewMode != WW_BATTLE_VIEW_MODES.BATTLE_LIST)
+      showSceneBtn("no_available_battles_alert_text", false)
+    else
+    {
+      local country = ::g_world_war.curOperationCountry
+      local availableBattlesList = ::g_world_war.getBattles().filter(
+        function(idx, battle) {
+          return ::g_world_war.isBattleAvailableToPlay(battle)
+            && isMatchFilterMask(battle, country)
+        }.bindenv(this))
 
-    showSceneBtn("no_available_battles_alert_text", !availableBattlesList.len())
+      showSceneBtn("no_available_battles_alert_text", !availableBattlesList.len())
+    }
   }
 
   function isMatchFilterMask(battle, country)
@@ -252,7 +289,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return false
 
     if (!(UNAVAILABLE_BATTLES_CATEGORIES.IS_UNBALANCED & filterMask)
-        && battle.isLockedByExcessPlayers(battle.getSide(country)))
+        && battle.isLockedByExcessPlayers(battle.getSide(country), team.name))
       return false
 
     if (!(UNAVAILABLE_BATTLES_CATEGORIES.LOCK_BY_TIMER & filterMask)
@@ -288,7 +325,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    if (!curBattleInList.isValid() || !curGroupIdInList.len())
+    if (!curBattleInList.isValid() || !operationBattle.isValid() || !curGroupIdInList.len())
       curBattleInList = getFirstBattleInListMap(closedGroups)
 
     local itemId = curBattleInList.isValid() ? curBattleInList.id
@@ -430,7 +467,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       {
         customCountry = playerTeam.country
         availableUnits = availableUnits,
-        showTopPanel = false
         gameModeName = getGameModeNameText()
         showEmptySlot = true
         needPresetsPanel = true
@@ -559,7 +595,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateViewMode()
   {
-    currViewMode = getViewMode()
+    local newViewMode = getViewMode()
+    if (newViewMode == currViewMode)
+      return
+
+    currViewMode = newViewMode
 
     showSceneBtn("queue_info", currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO)
     showSceneBtn("items_list", currViewMode == WW_BATTLE_VIEW_MODES.BATTLE_LIST)
@@ -623,8 +663,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!::g_squad_manager.isInSquad() || ::g_squad_manager.getOnlineMembersCount() == 1)
     {
       isJoinBattleActive = isJoinBattleVisible && cantJoinReasonData.canJoin
-      warningText = getWarningText(cantJoinReasonData, joinWarningData)
-      fullWarningText = getFullWarningText(cantJoinReasonData, joinWarningData)
+      warningText = currViewMode != WW_BATTLE_VIEW_MODES.QUEUE_INFO
+        ? getWarningText(cantJoinReasonData, joinWarningData)
+        : joinWarningData.warningText
+      fullWarningText = currViewMode != WW_BATTLE_VIEW_MODES.QUEUE_INFO
+        ? getFullWarningText(cantJoinReasonData, joinWarningData)
+        : joinWarningData.fullWarningText
     }
     else
       switch (currViewMode)
@@ -674,6 +718,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
             isLeaveBattleVisible = true
             isLeaveBattleActive = false
           }
+          warningText = joinWarningData.warningText
+          fullWarningText = joinWarningData.fullWarningText
           break
       }
 
@@ -763,8 +809,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onOpenClusterSelect(obj)
   {
-    checkedModifyQueue(QUEUE_TYPE_BIT.WW_BATTLE,
-      @() ::gui_handlers.ClusterSelect.open(obj, "bottom"))
+    ::queues.checkAndStart(
+      ::Callback(@() ::gui_handlers.ClusterSelect.open(obj, "bottom"), this),
+      null,
+      "isCanChangeCluster")
   }
 
   function onOpenSquadsListModal(obj)
@@ -781,6 +829,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         ["no", @() null]
       ],
       "yes", { cancel_fn = @() null })
+  }
+
+  function onEventWWUpdateWWQueues(params)
+  {
+    reinitBattlesList()
+    updateButtons()
   }
 
   function onEventClusterChange(params)
@@ -933,7 +987,13 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onItemSelect(isForceUpdate = false)
   {
     refreshSelBattle()
-    operationBattle = getBattleById(curBattleInList.id)
+    local newOperationBattle = getBattleById(curBattleInList.id)
+    local isBattleEqual = operationBattle.isEqual(newOperationBattle)
+    operationBattle = newOperationBattle
+
+    if (isBattleEqual)
+      return
+
     updateBattleSquadListData()
     updateWindow()
   }
@@ -1042,6 +1102,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       updateDescription()
 
     updateButtons()
+    updateNoAvailableBattleInfo()
 
     if (prevCurrViewMode == WW_BATTLE_VIEW_MODES.SQUAD_INFO &&
         prevCurrViewMode != currViewMode &&
@@ -1078,6 +1139,16 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onEventWWLoadOperation(params)
   {
     reinitBattlesList()
+  }
+
+  function onUpdate(obj, dt)
+  {
+    requestQueuesData()
+  }
+
+  function requestQueuesData()
+  {
+    wwQueuesData.requestData()
   }
 
   function onCollapse(obj)

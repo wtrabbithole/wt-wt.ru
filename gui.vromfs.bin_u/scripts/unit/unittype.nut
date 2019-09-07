@@ -53,6 +53,8 @@ local crewUnitTypeConfig = {
   testFlightName = ""
   canChangeViewType = false
   hudTypeCode = ::HUD_TYPE_UNKNOWN
+  missionSettingsAvailabilityFlag = ""
+  isUsedInKillStreaks = false
 
   firstChosenTypeUnlockName = null
   crewUnitType = ::CUT_INVALID
@@ -74,6 +76,13 @@ local crewUnitTypeConfig = {
   isSkinAutoSelectAvailable = @() false
   canSpendGold = @() isAvailable()
   haveAnyUnitInCountry = @(countryName) ::isCountryHaveUnitType(countryName, esUnitType)
+  isAvailableByMissionSettings = function(misBlk, useKillStreaks = null)
+  {
+    if (useKillStreaks == null)
+      useKillStreaks = misBlk?.useKillStreaks ?? false
+    return (misBlk?[missionSettingsAvailabilityFlag] ?? false) && (!isUsedInKillStreaks || !useKillStreaks)
+  }
+  getMissionAllowedCraftsClassName = @() name.tolower()
 }
 
 enums.addTypesByGlobalName("g_unit_type", {
@@ -96,6 +105,8 @@ enums.addTypesByGlobalName("g_unit_type", {
     testFlightName = "TestFlight"
     hudTypeCode = ::HUD_TYPE_AIRPLANE
     firstChosenTypeUnlockName = "chosen_unit_type_air"
+    missionSettingsAvailabilityFlag = "isAirplanesAllowed"
+    isUsedInKillStreaks = true
     crewUnitType = ::CUT_AIRCRAFT
     hasAiGunners = true
     isAvailable = @() true
@@ -125,6 +136,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     testFlightName = "TestDrive"
     hudTypeCode = ::HUD_TYPE_TANK
     firstChosenTypeUnlockName = "chosen_unit_type_tank"
+    missionSettingsAvailabilityFlag = "isTanksAllowed"
     crewUnitType = ::CUT_TANK
     isAvailable = function() { return ::has_feature("Tanks") }
     isAvailableForFirstChoice = function(country = null)
@@ -159,6 +171,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     testFlightName = "TestSail"
     hudTypeCode = ::HUD_TYPE_TANK
     firstChosenTypeUnlockName = "chosen_unit_type_ship"
+    missionSettingsAvailabilityFlag = "isShipsAllowed"
     crewUnitType = ::CUT_SHIP
     hasAiGunners = true
     isAvailable = function() { return ::has_feature("Ships") }
@@ -181,6 +194,8 @@ enums.addTypesByGlobalName("g_unit_type", {
     testFlightName = "TestFlight"
     hudTypeCode = ::HUD_TYPE_AIRPLANE
     firstChosenTypeUnlockName = "chosen_unit_type_helicopter"
+    missionSettingsAvailabilityFlag = "isHelicoptersAllowed"
+    isUsedInKillStreaks = true
     crewUnitType = ::CUT_AIRCRAFT
     isAvailable = @() true
     isVisibleInShop = function() { return isAvailable() }

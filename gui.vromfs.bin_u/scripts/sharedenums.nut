@@ -64,3 +64,44 @@ enum DargWidgets
   ,SHIP_OBSTACLE_RF
   ,FOOTBALL
 };
+
+enum HelicopterParams
+{
+  RPM = 0,
+  THROTTLE = 1,
+  SPEED = 2,
+  CANNON = 3,
+  CANNON_ADDITIONAL = 4,
+  ROCKET = 5,
+  AGM = 6,
+  AAM = 7,
+  BOMBS = 8,
+  FLARES = 9,
+  RATE_OF_FIRE = 10,
+  OIL_1 = 11,
+  OIL_2 = 12,
+  OIL_3 = 13,
+  WATER_1 = 14,
+  WATER_2 = 15,
+  WATER_3 = 16,
+  ENGINE_1 = 17,
+  ENGINE_2 = 18,
+  ENGINE_3 = 19
+};
+
+enum TemperatureState
+{
+  DEFAULT_TEMPERATURE = 0,
+  OVERHEAT = 1,
+  EMPTY_TANK = 2,
+  FUEL_LEAK = 3,
+  BLANK = 4
+};
+
+enum HelicopterThrottleMode
+{
+  DEFAULT_MODE = 0,
+  BRAKE = 1,
+  CLIMB = 2,
+  WEP = 3
+};

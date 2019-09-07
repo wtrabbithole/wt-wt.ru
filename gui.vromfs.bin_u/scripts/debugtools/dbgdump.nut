@@ -72,23 +72,9 @@
  *    loaded via loadFuncs().
  *      @param {string} id - Name of global function or variable.
  *      @return {anything} - The original global function or variable.
- *
- *  ::dbg_dump.dataToBlk(data)
- *    Converts data of any supported type to data type prepared for
- *    writing to DataBlock. Can add some metadata.
- *      @param {null|bool|integer|int64|float|string|array|table|DataBlock} data - Data
- *        to be prepared for writing to DataBlock.
- *      @return {bool|integer|int64|float|string|DataBlock} - Data
- *        prepared for writing to DataBlock.
- *
- *  ::dbg_dump.blkToData(blk)
- *    Converts data read from DataBlock to it's original data type. Strips all metadata.
- *      @param {bool|integer|int64|float|string|DataBlock} blk - Data
- *        read from DataBlock.
- *      @return {null|bool|integer|int64|float|string|array|table|DataBlock} -
- *        Data in its original state.
- *
  */
+
+local datablockConverter = require("scripts/utils/datablockConverter.nut")
 
 ::dbg_dump <- {
   [PERSISTENT_DATA_PARAMS] = ["backup"]
@@ -115,15 +101,15 @@ function dbg_dump::save(filename, list)
       value = value()
     if (isFunction)
     {
-      local caseBlk = dataToBlk({ result = value })
+      local caseBlk = datablockConverter.dataToBlk({ result = value })
       if (args.len())
-        caseBlk["args"] <- dataToBlk(args)
+        caseBlk["args"] <- datablockConverter.dataToBlk(args)
       if (!blk[id])
-        blk[id] <- dataToBlk({ __function = true })
+        blk[id] <- datablockConverter.dataToBlk({ __function = true })
       blk[id]["case"] <- caseBlk
     }
     else
-      blk[id] <- dataToBlk(value)
+      blk[id] <- datablockConverter.dataToBlk(value)
   }
   return blk.saveToTextFile(filename)
 }
@@ -141,14 +127,17 @@ function dbg_dump::load(filename, needUnloadPrev = true)
   for (local b = 0; b < blk.blockCount(); b++)
   {
     local data = blk.getBlock(b)
-    local id = strToKey(data.getBlockName())
+    local id = datablockConverter.strToKey(data.getBlockName())
     if (!(id in backup))
       backup[id] <- ::getTblValue(id, rootTable, "__destroy")
     if (data.__function)
     {
       local cases = []
       foreach (c in (data % "case"))
-        cases.append({ args = blkToData(c.args || []), result = blkToData(c.result) })
+        cases.append({
+          args = datablockConverter.blkToData(c.args || []),
+          result = datablockConverter.blkToData(c.result)
+        })
       local origFunc = ::u.isFunction(backup[id]) ? backup[id] : null
 
       rootTable[id] <- (@(cases, origFunc) function(...) {
@@ -162,15 +151,15 @@ function dbg_dump::load(filename, needUnloadPrev = true)
       })(cases, origFunc)
     }
     else
-      rootTable[id] <- blkToData(data)
+      rootTable[id] <- datablockConverter.blkToData(data)
   }
   for (local p = 0; p < blk.paramCount(); p++)
   {
     local data = blk.getParamValue(p)
-    local id = strToKey(blk.getParamName(p))
+    local id = datablockConverter.strToKey(blk.getParamName(p))
     if (!(id in backup))
       backup[id] <- ::getTblValue(id, rootTable, "__destroy")
-    rootTable[id] <- blkToData(data)
+    rootTable[id] <- datablockConverter.blkToData(data)
   }
   return true
 }
@@ -219,105 +208,7 @@ function dbg_dump::getOriginal(id)
   return (id in ::getroottable()) ? ::getroottable()[id] : null
 }
 
-function dbg_dump::dataToBlk(data)
-{
-  local dataType = ::u.isDataBlock(data) ? "DataBlock" : type(data)
-  switch (dataType)
-  {
-    case "null":
-      return "__null"
-    case "bool":
-    case "integer":
-    case "int64":
-    case "float":
-    case "string":
-      return data
-    case "array":
-    case "table":
-      local blk = ::DataBlock()
-      local isArray = ::u.isArray(data)
-      if (isArray)
-        blk.__array <- true
-      foreach(key, value in data)
-        blk[isArray ? ("array" + key) : keyToStr(key)] = dataToBlk(value)
-      return blk
-    case "DataBlock":
-      local blk = ::DataBlock()
-      blk.setFrom(data)
-      blk.__datablock <- true
-      return blk
-    default:
-      return "__unsupported " + ::toString(data)
-  }
-}
-
-function dbg_dump::blkToData(blk)
-{
-  if (::u.isString(blk) && ::g_string.startsWith(blk, "__unsupported"))
-  {
-    return null
-  }
-  if (!::u.isDataBlock(blk))
-  {
-    return blk == "__null" ? null : blk
-  }
-  if (blk.__datablock)
-  {
-    local res = ::DataBlock()
-    res.setFrom(blk)
-    res.__datablock = null
-    return res
-  }
-  if (blk.__array)
-  {
-    local res = []
-    for (local i = 0; i < blk.blockCount() + blk.paramCount() - 1; i++)
-      res.append(blkToData(blk["array" + i]))
-    return res
-  }
-  local res = {}
-  for (local b = 0; b < blk.blockCount(); b++)
-  {
-    local block = blk.getBlock(b)
-    res[strToKey(block.getBlockName())] <- blkToData(block)
-  }
-  for (local p = 0; p < blk.paramCount(); p++)
-    res[strToKey(blk.getParamName(p))] <- blkToData(blk.getParamValue(p))
-  return res
-}
-
-function dbg_dump::keyToStr(key)
-{
-  local t = type(key)
-  return t == "string" ? key
-    : t == "integer"   ? "__int_"   + key
-    : t == "float"     ? "__float_" + key
-    : t == "bool"      ? "__bool_"  + (key ? 1 : 0)
-    : "__unsupported"
-}
-
-function dbg_dump::strToKey(str)
-{
-  return !::g_string.startsWith(str, "__")   ? str
-    : ::g_string.startsWith(str, "__int_")   ? ::g_string.slice(str, 6).tointeger()
-    : ::g_string.startsWith(str, "__float_") ? ::g_string.slice(str, 8).tofloat()
-    : ::g_string.startsWith(str, "__bool_")  ? ::g_string.slice(str, 7) == "1"
-    : "__unsupported"
-}
-
 function dbg_dump::getFuncResult(func, a = [])
 {
-  switch (a.len())
-  {
-    case 0: return func()
-    case 1: return func(a[0])
-    case 2: return func(a[0], a[1])
-    case 3: return func(a[0], a[1], a[2])
-    case 4: return func(a[0], a[1], a[2], a[3])
-    case 5: return func(a[0], a[1], a[2], a[3], a[4])
-    case 6: return func(a[0], a[1], a[2], a[3], a[4], a[5])
-    case 7: return func(a[0], a[1], a[2], a[3], a[4], a[5], a[6])
-    case 8: return func(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7])
-    default: return null
-  }
+  return func.acall([null].extend(a))
 }

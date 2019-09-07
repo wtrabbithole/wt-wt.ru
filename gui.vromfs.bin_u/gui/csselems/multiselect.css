@@ -56,6 +56,7 @@ multiOptionText {
   input-transparent:yes;
   color:@commonTextColor;
   font:@fontNormal;
+  margin:@blockInterval, 0;
 }
 
 multiOptionText[textStyle=textarea] {
@@ -71,6 +72,11 @@ multiOption:hover,
 multiOption[chosen=yes],
 multiOption[chosen=yes] > multiOptionText {
   color:@activeTextColor;
+}
+
+multiOption > ButtonImg {
+  size:@checkboxSize, @checkboxSize;
+  margin-left:@blockInterval;
 }
 
 
@@ -112,6 +118,7 @@ MultiSelect.countries {
 .countries multiOptionText {
   position:absolute;
   pos:@blockInterval, ph - 0.5@countryOptionLineHeight - 0.5h;
+  margin:0;
   text-align:left;
   color:@multiCountryTextColor;
 }
@@ -125,6 +132,12 @@ MultiSelect.countries {
   top:ph - 0.5@countryOptionLineHeight - 0.5h;
   left:pw-w-1@blockInterval;
   margin-right:0;
+}
+
+.countries multiOption > ButtonImg {
+  position:absolute;
+  pos:pw-w, ph-h;
+  margin-left:0;
 }
 
 

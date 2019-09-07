@@ -258,7 +258,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -444,6 +445,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/ruhr/ct_convoys_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -464,7 +481,7 @@
       "actions": [
         {
           "comment": {
-            "value": "доступность шаблонов"
+            "value": "РґРѕСЃС‚СѓРїРЅРѕСЃС‚СЊ С€Р°Р±Р»РѕРЅРѕРІ"
           }
         },
         {
@@ -493,7 +510,7 @@
         },
         {
           "varSetBool": {
-            "value": false,
+            "value": true,
             "var": "ct_is_launch_alowed"
           }
         },
@@ -523,7 +540,7 @@
         },
         {
           "comment": {
-            "value": "включение разведки"
+            "value": "РІРєР»СЋС‡РµРЅРёРµ СЂР°Р·РІРµРґРєРё"
           }
         },
         {
@@ -551,6 +568,12 @@
           }
         },
         {
+          "varSetBool": {
+            "value": true,
+            "var": "ct_is_detect_on"
+          }
+        },
+        {
           "unitPutToSleep": [
             {
               "target": "bdt_armada"
@@ -566,12 +589,15 @@
             },
             {
               "target": "at_armada"
+            },
+            {
+              "target": "ct_armada"
             }
           ]
         },
         {
           "comment": {
-            "value": "увеличиваем количество одновременно запущенных шаблонов"
+            "value": "СѓРІРµР»РёС‡РёРІР°РµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ Р·Р°РїСѓС‰РµРЅРЅС‹С… С€Р°Р±Р»РѕРЅРѕРІ"
           }
         },
         {
@@ -582,7 +608,7 @@
         },
         {
           "comment": {
-            "value": "настройка охотников"
+            "value": "РЅР°СЃС‚СЂРѕР№РєР° РѕС…РѕС‚РЅРёРєРѕРІ"
           }
         },
         {
@@ -610,6 +636,17 @@
               "var": "ht_t2_delay_timer"
             }
           ]
+        },
+        {
+          "comment": {
+            "value": ""
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 9,
+            "var": "ct_max_roads"
+          }
         }
       ],
       "else_actions": []
@@ -633,68 +670,7 @@
   "variables": [],
   "dialogs": [],
   "airfields": [],
-  "effects": {
-    "effect_01": {
-      "type": "groundFire",
-      "tm": [
-        [416.096,0.0,0.0],
-        [0.0,416.096,0.0],
-        [0.0,0.0,416.096],
-        [-7286.46,190.334,2589.86]
-      ],
-      "density": 10.0
-    },
-    "effect_02": {
-      "type": "groundFire",
-      "tm": [
-        [499.315,0.0,0.0],
-        [0.0,499.315,0.0],
-        [0.0,0.0,499.315],
-        [-8254.31,190.334,1085.55]
-      ],
-      "density": 10.0
-    },
-    "effect_03": {
-      "type": "groundFire",
-      "tm": [
-        [416.096,0.0,0.0],
-        [0.0,416.096,0.0],
-        [0.0,0.0,416.096],
-        [-137.452,190.334,1894.94]
-      ],
-      "density": 10.0
-    },
-    "effect_04": {
-      "type": "groundFire",
-      "tm": [
-        [582.535,0.0,0.0],
-        [0.0,582.535,0.0],
-        [0.0,0.0,582.535],
-        [-4295.53,190.333,-2714.16]
-      ],
-      "density": 10.0
-    },
-    "effect_05": {
-      "type": "groundFire",
-      "tm": [
-        [790.583,0.0,0.0],
-        [0.0,416.096,0.0],
-        [0.0,0.0,790.583],
-        [-5484.54,190.333,1540.98]
-      ],
-      "density": 10.0
-    },
-    "effect_06": {
-      "type": "groundFire",
-      "tm": [
-        [1107.1,0.0,0.0],
-        [0.0,1107.1,0.0],
-        [0.0,0.0,1107.1],
-        [2963.89,94.9917,5193.22]
-      ],
-      "density": 10.0
-    }
-  },
+  "effects": [],
   "units": [
     {
       "armada": {

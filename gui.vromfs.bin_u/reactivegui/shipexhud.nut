@@ -7,22 +7,14 @@ local shellState = require("shellState.nut")
 local voiceChat = require("chat/voiceChat.nut")
 local screenState = require("style/screenState.nut")
 
-local style = {}
-
-local getDepthColor = function(depth){
-  local green = depth < 2 ? 255 : 0
-  local blue =  depth < 1 ? 255 : 0
-  return Color(255, green, blue, 255)
-}
-
-style.lineBackground <- class {
+local styleLine = {
   color = Color(255, 255, 255, 255)
   fillColor = Color(0, 0, 0, 0)
   opacity = 0.5
   lineWidth = LINE_WIDTH + 1
 }
-
-style.shipHudText <- class {
+local styleShipHudText = {
+  rendObj = ROBJ_DTEXT
   color = Color(255, 255, 255, 255)
   font = Fonts.medium_text_hud
   fontFxColor = Color(0, 0, 0, 80)
@@ -30,24 +22,56 @@ style.shipHudText <- class {
   fontFx = FFT_GLOW
 }
 
-local verticalSpeedInd = function(line_style, height, c) {
-  return class extends line_style {
-    rendObj = ROBJ_VECTOR_CANVAS
+local function getDepthColor(depth){
+  local green = depth < 2 ? 255 : 0
+  local blue =  depth < 1 ? 255 : 0
+  return Color(255, green, blue, 255)
+}
+
+
+local shVertSpeedScaleWidth = sh(1)
+local shVertSpeedHeight = sh(20)
+
+local function depthLevelCmp(){
+  return styleShipHudText.__merge({
+    color = getDepthColor(shipState.depthLevel.value)
+    watch = [shipState.depthLevel, shipState.waterDist]
+    halign = HALIGN_RIGHT
+    text = ::math.floor(shipState.waterDist.value).tostring()
+  })
+}
+local function wishDistCmp(){
+  return styleShipHudText.__merge({
+    watch = [shipState.depthLevel, shipState.wishDist]
+    color = getDepthColor(shipState.depthLevel.value)
+    halign = HALIGN_LEFT
+    text = ::math.floor(::max(shipState.wishDist.value, 0)).tostring()
+  })
+}
+
+local function buoyancyExCmp(){
+  local height = sh(1.)
+  return styleLine.__merge({
+    pos = [-shVertSpeedScaleWidth, -height*0.5]
+    transform = {
+      translate = [0, shVertSpeedHeight * 0.01 * clamp(50 - shipState.buoyancyEx.value * 50.0, 0, 100)]
+    }
+    watch = [shipState.depthLevel, shipState.buoyancyEx]
     size = [height, height]
-    pos = [0, -height*0.5]
-    color = c
+    color = getDepthColor(shipState.depthLevel.value)
+    rendObj = ROBJ_VECTOR_CANVAS
     commands = [
       [VECTOR_LINE, 0, 0, 100, 50, 0, 100, 0, 0],
     ]
-  }
+  })
 }
-
-local verticalSpeedScale = function(line_style, width, height, c) {
-  return class extends line_style {
+local function depthLevelLineCmp(){
+  return styleLine.__merge({
+    watch = shipState.depthLevel
+    size = [shVertSpeedScaleWidth, shVertSpeedHeight]
+    color = getDepthColor(shipState.depthLevel.value)
     rendObj = ROBJ_VECTOR_CANVAS
-    size = [width, height]
     halign = HALIGN_RIGHT
-    color = c
     commands = [
       [VECTOR_LINE, 0, 0, 100, 0],
       [VECTOR_LINE, 0, 12.5, 50, 12.5],
@@ -59,113 +83,54 @@ local verticalSpeedScale = function(line_style, width, height, c) {
       [VECTOR_LINE, 0, 87.5, 50, 87.5],
       [VECTOR_LINE, 0, 100, 100, 100],
     ]
-  }
+  })
 }
+local childrenShVerSpeed = [
+  depthLevelCmp
+  { size = [shVertSpeedScaleWidth*3, shVertSpeedScaleWidth] }
+  { children = [depthLevelLineCmp, buoyancyExCmp] }
+  wishDistCmp
+]
 
-local ShipVertSpeed = function(elemStyle) {
-  local scaleWidth = sh(1)
-  local height = sh(20)
-
-  return @() {
+local function ShipVertSpeed() {
+  return {
     watch = shellState.isAimCamera
-    isHidden = shellState.isAimCamera.value
     valign = VALIGN_MIDDLE
     flow = FLOW_HORIZONTAL
     gap = hdpx(15)
-    children = [
-      @(){
-        watch = shipState.depthLevel
-        children = class extends style.shipHudText {
-          rendObj = ROBJ_DTEXT
-          behavior = Behaviors.RtPropUpdate
-          color = getDepthColor(shipState.depthLevel.value)
-          halign = HALIGN_RIGHT
-          update = @() {
-            isHidden = false
-            text = ::math.floor(shipState.waterDist.value).tostring()
-          }
-        }
-      }
-      @(){
-        size = [scaleWidth*3, scaleWidth]
-        children = []
-      }
-      @(){
-        children = [
-          @(){
-            watch = shipState.depthLevel
-            children = verticalSpeedScale(elemStyle, scaleWidth, height, getDepthColor(shipState.depthLevel.value))
-          }
-          @(){
-            behavior = Behaviors.RtPropUpdate
-            pos = [-scaleWidth, 0]
-            update = @() {
-              transform = {
-                translate = [0, height * 0.01 * clamp(50 - shipState.buoyancyEx.value * 50.0, 0, 100)]
-              }
-            }
-            watch = shipState.depthLevel
-            children = verticalSpeedInd(elemStyle, sh(1.), getDepthColor(shipState.depthLevel.value))
-          }
-        ]
-      }
-      @(){
-        watch = shipState.depthLevel
-        children = class extends style.shipHudText {
-          rendObj = ROBJ_DTEXT
-          behavior = Behaviors.RtPropUpdate
-          color = getDepthColor(shipState.depthLevel.value)
-          halign = HALIGN_LEFT
-          update = @() {
-            isHidden = false
-            text = ::math.floor(::max(shipState.wishDist.value, 0)).tostring()
-          }
-        }
-      }
-    ]
+    children = !shellState.isAimCamera.value ? childrenShVerSpeed : null
   }
 }
 
-local ShipShellState = @() {
-  watch = shellState.isAimCamera
-  flow = FLOW_VERTICAL
-  isHidden = !shellState.isAimCamera.value
+local function mkShellComp(watches, textCtor){
+  return @() styleShipHudText.__merge({
+    watch = watches
+    text = textCtor()
+  })
+}
+
+local shellAltitude = {
+  flow = FLOW_HORIZONTAL
   children = [
-    @() {
-      watch = shellState.altitude
-      children =
-        class extends style.shipHudText {
-          rendObj = ROBJ_DTEXT
-          text = ::loc("hud/depth") + " "
-              + ::cross_call.measureTypes.DISTANCE_SHORT.getMeasureUnitsText(max(0, -shellState.altitude.value), false)
-        }
-    }
-    @() {
-      watch = shellState.remainingDist
-      children =
-        class extends style.shipHudText {
-          rendObj = ROBJ_DTEXT
-          text = shellState.remainingDist.value <= 0.0 ? "" :
-            ::cross_call.measureTypes.DISTANCE_SHORT.getMeasureUnitsText(shellState.remainingDist.value)
-        }
-    }
-    @() {
-      watch = shellState.isOperated
-      children =
-        class extends style.shipHudText {
-          rendObj = ROBJ_DTEXT
-          text = ::loc(shellState.isOperated.value ? "hud/shell_operated" : "hud/shell_homing")
-        }
-    }
-    @() {
-      watch = shellState.isActiveSensor
-      children =
-        class extends style.shipHudText {
-          rendObj = ROBJ_DTEXT
-          text = ::loc(shellState.isActiveSensor.value ? "activeSonar" : "passiveSonar")
-        }
-    }
+    styleShipHudText.__merge({text = ::loc("hud/depth" + " ")})
+    mkShellComp(shellState.altitude,
+        @() ::cross_call.measureTypes.DISTANCE_SHORT.getMeasureUnitsText(max(0, -shellState.altitude.value), false))
   ]
+}
+
+local shellAimChildren = [
+  shellAltitude
+  mkShellComp(shellState.remainingDist, @() shellState.remainingDist.value <= 0.0 ? "" :
+          ::cross_call.measureTypes.DISTANCE_SHORT.getMeasureUnitsText(shellState.remainingDist.value))
+  mkShellComp(shellState.isOperated, @() shellState.isOperated.value ? ::loc("hud/shell_operated") : ::loc("hud/shell_homing"))
+  mkShellComp(shellState.isActiveSensor, @() shellState.isActiveSensor.value ? ::loc("activeSonar") : ::loc("passiveSonar"))
+]
+local function ShipShellState() {
+  return {
+    watch = shellState.isAimCamera
+    flow = FLOW_VERTICAL
+    children = shellState.isAimCamera.value ? shellAimChildren : null
+  }
 }
 
 local shipHud = @(){
@@ -184,12 +149,12 @@ local shipHud = @(){
   ]
 }
 
-local sensorsHud = @() {
+local sensorsHud = {
   pos = [sw(60), 0]
   size = flex()
   valign = VALIGN_MIDDLE
   children = [
-    ShipVertSpeed(style.lineBackground)
+    ShipVertSpeed
     ShipShellState
   ]
 }

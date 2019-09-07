@@ -1,29 +1,43 @@
-::visibleDiscountNotifications <- {}
+local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 
-::g_script_reloader.registerPersistentData("discounts", ::getroottable(),
-  ["visibleDiscountNotifications"])
+::g_discount <- {
+  [PERSISTENT_DATA_PARAMS] = ["discountsList"]
 
-::g_discount <- {}
-
-function g_discount::canBeVisibleOnUnit(unit)
-{
-  return unit != null && ::is_unit_visible_in_shop(unit) && !::isUnitBought(unit)
+  getDiscountIconId = @(name) name + "_discount"
+  canBeVisibleOnUnit = @(unit) unit && unit.isVisibleInShop() && !unit.isBought()
+  discountsList = {}
 }
+
+function g_discount::clearDiscountsList()
+{
+  foreach (button in ::g_top_menu_buttons.types)
+    if (button.needDiscountIcon)
+      discountsList[button.id] <- false
+  discountsList.changeExp <- false
+  discountsList.topmenu_research <- false
+
+  discountsList.entitlements <- {}
+
+  discountsList.entitlementUnits <- {}
+  discountsList.airList <- {}
+}
+
+::g_discount.clearDiscountsList()
 
 //return 0 if when discount not visible
 function g_discount::getUnitDiscount(unit)
 {
-  if (!::visibleDiscountNotifications.len() || !canBeVisibleOnUnit(unit))
+  if (!canBeVisibleOnUnit(unit))
     return 0
-  return ::max(::getTblValue(unit.name, ::visibleDiscountNotifications.airList, 0),
-               ::getTblValue(unit.name, ::visibleDiscountNotifications.entitlementUnits, 0))
+  return ::max(getUnitDiscount(unit.name),
+               getEntitlementUnitDiscount(unit.name))
 }
 
-function g_discount::getGroupDiscount(list, getDiscountFunc)
+function g_discount::getGroupDiscount(list)
 {
   local res = 0
-  foreach(item in list)
-    res = ::max(res, getDiscountFunc(item))
+  foreach(unit in list)
+    res = ::max(res, getUnitDiscount(unit))
   return res
 }
 
@@ -38,33 +52,31 @@ function g_discount::onEventUnitBought(p)
   local unitName = ::getTblValue("unitName", p)
   if (!unitName)
     return
-  if (!::get_tbl_value_by_path_array(["airList", unitName], ::visibleDiscountNotifications)
-      && !::get_tbl_value_by_path_array(["entitlementUnits", unitName], ::visibleDiscountNotifications))
+
+  if (getUnitDiscount(unitName) == 0 && getEntitlementUnitDiscount(unitName) == 0)
     return
 
-  ::updateDiscountData()
+  updateDiscountData()
   //push event after current event completely finished
   ::get_gui_scene().performDelayed(this, pushDiscountsUpdateEvent)
 }
 
-::subscribe_handler(::g_discount, ::g_listener_priority.CONFIG_VALIDATION)
-
-function updateDiscountData(isSilentUpdate = false)
+function g_discount::updateXboxShopDiscounts()
 {
-  local getDiscountIconId = function(name) {
-    return name + "_discount"
-  }
+  discountsList[::g_top_menu_buttons.ONLINE_SHOP.id] = xboxShopData.haveDiscount()
+  updateDiscountNotifications()
+}
 
-  ::visibleDiscountNotifications.clear()
+function g_discount::updateDiscountData(isSilentUpdate = false)
+{
+  clearDiscountsList()
 
   local pBlk = ::get_price_blk()
 
   local chPath = ["exp_to_gold_rate"]
   chPath.append(::shopCountriesList)
-  local changeExp_discount = getDiscountByPath(chPath, pBlk)
-  ::visibleDiscountNotifications[getDiscountIconId("changeExp")] <- changeExp_discount > 0
+  discountsList.changeExp = getDiscountByPath(chPath, pBlk) > 0
 
-  local airList = {}
   local giftUnits = {}
 
   foreach(air in ::all_units)
@@ -81,38 +93,37 @@ function updateDiscountData(isSilentUpdate = false)
       local path = ["aircrafts", air.name]
       local discount = ::getDiscountByPath(path, pBlk)
       if (discount > 0)
-        airList[air.name] <- discount
+        discountsList.airList[air.name] <- discount
     }
-  ::visibleDiscountNotifications.airList <- airList
-
-  ::visibleDiscountNotifications.entitlements <- {}
-  ::visibleDiscountNotifications.entitlementUnits <- {}
 
   local eblk = ::get_entitlements_price_blk() || ::DataBlock()
   foreach (entName, entBlock in eblk)
-    ::check_entitlement_for_discount_data(entName, entBlock, giftUnits)
+    checkEntitlement(entName, entBlock, giftUnits)
+
+  if (xboxShopData.canUseIngameShop())
+    discountsList[::g_top_menu_buttons.ONLINE_SHOP.id] = xboxShopData.haveDiscount()
 
   local isShopDiscountVisible = false
-  foreach(airName, discount in airList)
-    if (discount > 0 && ::g_discount.canBeVisibleOnUnit(::getAircraftByName(airName)))
+  foreach(airName, discount in discountsList.airList)
+    if (discount > 0 && canBeVisibleOnUnit(::getAircraftByName(airName)))
     {
       isShopDiscountVisible = true
       break
     }
   if (!isShopDiscountVisible)
-    foreach(airName, discount in ::visibleDiscountNotifications.entitlementUnits)
-      if (discount > 0 && ::g_discount.canBeVisibleOnUnit(::getAircraftByName(airName)))
+    foreach(airName, discount in discountsList.entitlementUnits)
+      if (discount > 0 && canBeVisibleOnUnit(::getAircraftByName(airName)))
       {
         isShopDiscountVisible = true
         break
       }
-  ::visibleDiscountNotifications[getDiscountIconId("topmenu_research")] <- isShopDiscountVisible
+  discountsList.topmenu_research = isShopDiscountVisible
 
   if (!isSilentUpdate)
-    ::g_discount.pushDiscountsUpdateEvent()
+    pushDiscountsUpdateEvent()
 }
 
-function check_entitlement_for_discount_data(entName, entlBlock, giftUnits)
+function g_discount::checkEntitlement(entName, entlBlock, giftUnits)
 {
   local discountItemList = ["premium", "warpoints", "eagles", "campaign", "bonuses"]
   local chapter = entlBlock.chapter
@@ -128,26 +139,25 @@ function check_entitlement_for_discount_data(entName, entlBlock, giftUnits)
   if (discount == 0)
     return
 
-  local getDiscountIconId = function(name) {
-    return name + "_discount"
-  }
-
-  ::visibleDiscountNotifications.entitlements[entName] <- discount
+  discountsList.entitlements[entName] <- discount
 
   if (chapter == "campaign" || chapter == "bonuses")
-    chapter = "shop"
+    chapter = ::g_top_menu_buttons.ONLINE_SHOP.id
 
-  ::visibleDiscountNotifications[getDiscountIconId(chapter)] <- chapter == "shop"? ::is_platform_pc : true
+  discountsList[chapter] <- chapter == ::g_top_menu_buttons.ONLINE_SHOP.id ?
+      (xboxShopData.canUseIngameShop() || ::is_platform_pc)
+    : true
+
   if (entlBlock.aircraftGift)
   {
     local array = entlBlock % "aircraftGift"
     foreach(unitName in array)
       if (unitName in giftUnits)
-        ::visibleDiscountNotifications.entitlementUnits[unitName] <- discount
+        discountsList.entitlementUnits[unitName] <- discount
   }
 }
 
-function generateDiscountInfo(discountsTable, headerLocId = "")
+function g_discount::generateDiscountInfo(discountsTable, headerLocId = "")
 {
   local maxDiscount = 0
   local headerText = ::loc(headerLocId == ""? "discount/notification" : headerLocId) + "\n"
@@ -172,22 +182,14 @@ function generateDiscountInfo(discountsTable, headerLocId = "")
   return {maxDiscount = maxDiscount, discountTooltip = discountText}
 }
 
-function update_discount_notifications(scene = null)
+function g_discount::updateDiscountNotifications(scene = null)
 {
-  local getDiscountIconId = function(name) {
-    return name + "_discount"
-  }
-
-  local notInShopIcons = ["topmenu_research", "changeExp"]
-  if (!::is_ps4_or_xbox)
-    notInShopIcons.append("shop")
-
-  foreach(name in notInShopIcons)
+  foreach(name in ["topmenu_research", "changeExp"])
   {
     local id = getDiscountIconId(name)
     local obj = ::checkObj(scene)? scene.findObject(id) : ::get_cur_gui_scene()[id]
     if (::checkObj(obj))
-      obj.show(::getTblValue(id, ::visibleDiscountNotifications, false))
+      obj.show(getDiscount(name))
   }
 
   local section = ::g_top_menu_right_side_sections.getSectionByName("shop")
@@ -200,19 +202,57 @@ function update_discount_notifications(scene = null)
   if (!::checkObj(stObj))
     return
 
-  //TODO: Check via section.buttons by haveDiscount.
-  local inShopIcons = ["premium", "warpoints", "eagles", "shop"]
   local haveAnyDiscount = false
-  foreach(name in inShopIcons)
+  foreach (column in section.buttons)
   {
-    local id = getDiscountIconId(name)
-    local show = ::getTblValue(id, ::visibleDiscountNotifications, false)
-    haveAnyDiscount = haveAnyDiscount || show
+    foreach (button in column)
+    {
+      if (!button.needDiscountIcon)
+        continue
 
-    local dObj = shopObj.findObject(id)
-    if (::checkObj(dObj))
-      dObj.show(show)
+      local id = getDiscountIconId(button.id)
+      local dObj = shopObj.findObject(id)
+      if (!::checkObj(dObj))
+        continue
+
+      local discountStatus = getDiscount(button.id)
+      haveAnyDiscount = haveAnyDiscount || discountStatus
+      dObj.show(discountStatus)
+    }
   }
 
   stObj.show(haveAnyDiscount)
 }
+
+function g_discount::onEventXboxShopDataUpdated(p)
+{
+  updateXboxShopDiscounts()
+}
+
+function g_discount::getDiscount(id, defVal = false)
+{
+  return discountsList[id] || defVal
+}
+
+function g_discount::getEntitlementDiscount(id)
+{
+  return discountsList.entitlements?[id] || 0
+}
+
+function g_discount::getEntitlementUnitDiscount(unitName)
+{
+  return discountsList.entitlementUnits?[unitName] || 0
+}
+
+function g_discount::getUnitDiscount(unitName)
+{
+  return discountsList.airList?[unitName] || 0
+}
+
+function g_discount::haveAnyUnitDiscount()
+{
+  return discountsList.entitlementUnits.len() > 0 || discountsList.airList.len() > 0
+}
+
+::subscribe_handler(::g_discount, ::g_listener_priority.CONFIG_VALIDATION)
+::g_script_reloader.registerPersistentDataFromRoot("g_discount")

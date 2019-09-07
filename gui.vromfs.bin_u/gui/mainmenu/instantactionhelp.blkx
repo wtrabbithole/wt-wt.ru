@@ -157,15 +157,6 @@
           },
           {
             "controlsHelpTextArea": {
-              "id": "hint_my_country",
-              "width": "@shopWidthMax + 2@helpInterval",
-              "pos": "-2@helpInterval, @helpInterval",
-              "position": "relative",
-              "text": "#help/my_country"
-            }
-          },
-          {
-            "controlsHelpTextArea": {
               "id": "hint_research",
               "width": "@shopWidthMax",
               "pos": "0, @helpInterval",
@@ -178,38 +169,69 @@
       {
         "div": [
           {
-            "pos": "1@offsetFromEdge, ph-h"
+            "pos": "sw -1@bw -w, 0.5sh"
           },
           {
-            "position": "relative"
-          },
-          {
-            "margin-left": "@helpInterval"
+            "position": "root"
           },
           {
             "flow": "vertical"
           },
           {
             "controlsHelpTextArea": {
-              "id": "hint_autorepair",
+              "id": "hint_social",
               "width": "@shopWidthMax",
-              "text": "#help/autorepair"
+              "pos": "4@checkboxSize, 0",
+              "position": "relative",
+              "text": "#help/social"
             }
           },
           {
             "controlsHelpTextArea": {
               "id": "hint_autoweapon",
               "width": "@shopWidthMax",
-              "pos": "2@checkboxSize, @helpInterval",
+              "margin-top": "1@helpInterval",
+              "pos": "2@checkboxSize, 0",
               "position": "relative",
               "text": "#help/autoweapon"
             }
           },
           {
             "controlsHelpTextArea": {
+              "id": "hint_autorepair",
+              "width": "@shopWidthMax",
+              "margin-top": "1@helpInterval",
+              "pos": "1@helpInterval, 0",
+              "position": "relative",
+              "text": "#help/autorepair"
+            }
+          }
+        ]
+      },
+      {
+        "div": [
+          {
+            "pos": "0.5(sw-w), 0.6sh"
+          },
+          {
+            "position": "root"
+          },
+          {
+            "flow": "vertical"
+          },
+          {
+            "controlsHelpTextArea": {
+              "id": "hint_my_country",
+              "width": "@shopWidthMax + 2@helpInterval",
+              "text": "#help/my_country"
+            }
+          },
+          {
+            "controlsHelpTextArea": {
               "id": "hint_my_crews",
               "width": "@shopWidthMax",
-              "pos": "4@checkboxSize, @helpInterval",
+              "margin-top": "1@helpInterval",
+              "pos": "4@checkboxSize, 0",
               "position": "relative",
               "text": "#help/my_crews"
             }
@@ -250,13 +272,6 @@
           "position": "relative",
           "margin-bottom": "@helpInterval",
           "text": "#help/play_with_friends"
-        }
-      },
-      {
-        "controlsHelpTextArea": {
-          "id": "hint_social",
-          "max-width": "1.5@shopWidthMax",
-          "text": "#help/social"
         }
       }
     ]

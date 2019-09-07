@@ -439,7 +439,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
   function afterModalDestroy()
   {
-    ::checkNonApprovedResearches(true, true)
+    ::checkNonApprovedResearches(true)
   }
 
   function sendUnitResearchedStatistic(unit)

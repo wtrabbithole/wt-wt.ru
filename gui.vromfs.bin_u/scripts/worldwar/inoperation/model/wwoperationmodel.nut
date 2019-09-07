@@ -51,9 +51,10 @@ class ::WwOperationModel
     return unitClassFlyoutRange
   }
 
-  function getQuantityToFlyOut(bit, mask)
+  function getQuantityToFlyOut(bit, mask, range = null)
   {
-    local range = getUnitsFlyoutRange()
+    if (!range)
+      range = getUnitsFlyoutRange()
 
     if (!(bit & mask) || !(mask in range))
       return ::Point2(0, 0)

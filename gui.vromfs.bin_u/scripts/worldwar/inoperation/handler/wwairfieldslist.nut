@@ -265,6 +265,10 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
       : ::loc("worldwar/state/airfield_empty")
     formationTextObj.setValue(text)
 
+    local hasEnoughToFly = airfield.hasEnoughUnitsToFly()
+    showSceneBtn("control_help", hasEnoughToFly)
+    showSceneBtn("alert_text", !hasEnoughToFly)
+
     if (!hasFormationUnits && !hasCooldownUnits)
       ::ww_event("MapClearSelection", {})
   }

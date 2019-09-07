@@ -19,15 +19,6 @@ shopFilter {
   shopFilterImg { background-image:t='<<tabImage>>' }
   <</tabImage>>
 
-  <<#newIconWidget>>
-  newIconWidget {
-    id:t='tab_new_icon_widget'
-    pos:t='0, 0.5ph-0.5h'
-    position:t='relative'
-    <<@newIconWidget>>
-  }
-  <</newIconWidget>>
-
   <<#unseenIcon>>
   unseenIcon {
     valign:t='center'

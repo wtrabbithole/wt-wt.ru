@@ -49,6 +49,37 @@
               "hideEmptyText": "yes",
               "text": "",
               "tooltip": ""
+            },
+            "tdiv": {
+              "id": "sorting_block",
+              "height": "ph",
+              "display": "hide",
+              "CheckBox": {
+                "id": "sort_order",
+                "type": "sortOrder",
+                "pos": "0, 50%ph-50%h",
+                "position": "relative",
+                "btnName": "Y",
+                "value": "yes",
+                "on_change_value": "onChangeSortOrder",
+                "CheckBoxImg": [],
+                "ButtonImg": []
+              },
+              "textarea": {
+                "text": "#items/sortBy",
+                "pos": "0, 50%ph-50%h",
+                "position": "relative"
+              },
+              "RadioButtonList": {
+                "id": "sort_params_list",
+                "pos": "0, 50%ph-50%h",
+                "position": "relative",
+                "navigatorShortcuts": "yes",
+                "on_select": "onChangeSortParam",
+                "on_wrap_up": "onWrapUp",
+                "on_wrap_down": "onWrapDown",
+                "highlightSelected": "yes"
+              }
             }
           },
           "Button_close": {
@@ -178,7 +209,7 @@
                   },
                   {
                     "tdiv": {
-                      "padding-bottom": "0.005@sf",
+                      "padding-bottom": "1@blockInterval",
                       "pos": "50%pw-50%w, 0",
                       "position": "relative",
                       "textAreaCentered": {
@@ -204,6 +235,7 @@
                       "pos": "50%pw-50%w, 0",
                       "position": "relative",
                       "doubleSize": "yes",
+                      "wideSize": "no",
                       "overflow": "hidden"
                     }
                   },
@@ -212,7 +244,8 @@
                       "id": "item_desc",
                       "position": "relative",
                       "width": "1@itemInfoWidth",
-                      "font-bold": "@fontMedium"
+                      "font-bold": "@fontMedium",
+                      "padding-top": "1@blockInterval"
                     }
                   },
                   {
@@ -567,13 +600,6 @@
                 "pos": "50%pw-50%w, 0",
                 "display": "hide",
                 "enable": "no",
-                "behaviour": "wrapNavigator",
-                "navigatorShortcuts": "yes",
-                "childsActivate": "yes",
-                "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown",
-                "on_wrap_left": "onTopGCPanelLeft",
-                "on_wrap_right": "onTopGCPanelRight",
                 "gameModeChangeButton": [
                   {
                     "id": "game_mode_change_button"

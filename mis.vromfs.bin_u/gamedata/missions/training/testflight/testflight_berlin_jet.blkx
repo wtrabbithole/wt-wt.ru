@@ -14,6 +14,7 @@
       "army": 2
     },
     "mission": {
+      "locName": "missions/testFlight",
       "name": "testFlight_berlin_Jet",
       "level": "levels/berlin.bin",
       "type": "testFlight",
@@ -362,15 +363,15 @@
       }
     },
     {
-      "wheeled_vehicles": {
+      "tankModels": {
         "name": "structures_00",
         "tm": [
           [0.442194,0.0,0.896919],
           [0.0,1.0,0.0],
           [-0.896919,0.0,0.442194],
-          [6229.34,37.5767,-4093.4]
+          [6229.34,52.4499,-4093.4]
         ],
-        "unit_class": "ussr_zis5_cargo",
+        "unit_class": "ussr_zsu_23_4",
         "closed_waypoints": false,
         "isShipSpline": false,
         "shipTurnRadius": 100.0,
@@ -391,7 +392,7 @@
           "formation_step": [2.5,2.0],
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
-          "attack_type": "fire_at_will",
+          "attack_type": "dont_aim",
           "targetableByAi": false
         },
         "way": []
@@ -412,6 +413,42 @@
           "army": 1,
           "active": true
         }
+      }
+    },
+    {
+      "tankModels": {
+        "name": "structures_04",
+        "tm": [
+          [-0.695017,0.0,0.718993],
+          [0.0,1.0,0.0],
+          [-0.718993,0.0,-0.695017],
+          [6389.68,50.6327,-3972.67]
+        ],
+        "unit_class": "ussr_t_55a",
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "dont_aim",
+          "targetableByAi": false
+        },
+        "way": []
       }
     }
   ],

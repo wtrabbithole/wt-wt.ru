@@ -159,12 +159,12 @@
     "MultMachMax4": 0.35,
     "MultLineCoeff4": -0.2,
     "MultLimit4": 0.25,
-    "MachCrit5": 0.6,
-    "MachMax5": 1.5,
+    "MachCrit5": 0.5,
+    "MachMax5": 1.0,
     "MultMachMax5": 2.0,
     "MultLineCoeff5": 1.1,
     "MultLimit5": 5.0,
-    "MachCrit6": 0.6,
+    "MachCrit6": 0.5,
     "MachMax6": 0.8,
     "MultMachMax6": 0.3,
     "MultLineCoeff6": 0.2,
@@ -185,7 +185,7 @@
       "alphaCritLow": -11.8,
       "ClCritHigh": 1.48,
       "ClCritLow": -0.79,
-      "CdMin": 0.0082
+      "CdMin": 0.01
     },
     "FullFlaps": {
       "Cl0": 0.91,
@@ -550,7 +550,7 @@
       "ExactAltitudes": true,
       "CompressorOmegaFactorSq": 0.0,
       "CompressorPressureAtRPM0": 0.3,
-      "Altitude0": 3700.0,
+      "Altitude0": 5700.0,
       "AfterburnerBoostMul0": 1.0,
       "Power0": 2520.0,
       "AltitudeConstRPM0": 2000.0,
@@ -559,7 +559,7 @@
       "Ceiling0": 10000.0,
       "PowerAtCeiling0": 1540.0,
       "AfterburnerManifoldPressure": 1.42,
-      "SpeedManifoldMultiplier": 0.9,
+      "SpeedManifoldMultiplier": 0.1,
       "AllowAutoTurboCharger": false,
       "TurboChargerRPMMin": 0.0,
       "TurboChargerRPMMaxAllowed": 18250.0,
@@ -812,7 +812,7 @@
       "ExactAltitudes": true,
       "CompressorOmegaFactorSq": 0.0,
       "CompressorPressureAtRPM0": 0.3,
-      "Altitude0": 3700.0,
+      "Altitude0": 5700.0,
       "AfterburnerBoostMul0": 1.0,
       "Power0": 2520.0,
       "AltitudeConstRPM0": 2000.0,
@@ -821,7 +821,7 @@
       "Ceiling0": 10000.0,
       "PowerAtCeiling0": 1540.0,
       "AfterburnerManifoldPressure": 1.42,
-      "SpeedManifoldMultiplier": 0.9,
+      "SpeedManifoldMultiplier": 0.1,
       "AllowAutoTurboCharger": false,
       "TurboChargerRPMMin": 0.0,
       "TurboChargerRPMMaxAllowed": 18250.0,
@@ -1135,7 +1135,7 @@
     "MidAxisPitch0": 0.5,
     "UseAutoPropInertia": false,
     "EngineAcceleration": 1.6,
-    "ReducedPropellerShaftTorque": true
+    "CorrectPropellerToTransmissionLink": false
   },
   "Transmission1": {
     "Engine0": 1,
@@ -1146,7 +1146,7 @@
     "MidAxisPitch0": 0.5,
     "UseAutoPropInertia": false,
     "EngineAcceleration": 1.6,
-    "ReducedPropellerShaftTorque": true
+    "CorrectPropellerToTransmissionLink": false
   },
   "Mass": {
     "EmptyMass": 14429.0,

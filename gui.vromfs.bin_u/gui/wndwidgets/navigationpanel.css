@@ -1,8 +1,5 @@
 emptyButton.navigationCollapse, emptyButton.navigationExpand {
   min-width:'h';
-  background-image:'#ui/gameuiskin#expandable_item';
-  background-position:'4';
-  background-repeat:'expand';
   background-color:'@transparent';
   css-hier-invalidate:'yes';
   snd_click:'click';
@@ -11,7 +8,12 @@ emptyButton.navigationCollapse, emptyButton.navigationExpand {
 
 emptyButton.navigationCollapse:hover,
 emptyButton.navigationExpand:hover {
-  background-color:'@gray60';
+  background-color:'@menuButtonColorHover';
+}
+
+emptyButton.navigationCollapse:pushed,
+emptyButton.navigationExpand:pushed {
+  background-color:'@menuButtonColorPushed';
 }
 
 emptyButton.navigationExpand {

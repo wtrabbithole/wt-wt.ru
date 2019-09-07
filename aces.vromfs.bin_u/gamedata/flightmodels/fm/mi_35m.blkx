@@ -186,7 +186,7 @@
       "hasTakeoffFlapsPosition": false,
       "hasCombatFlapsPosition": false,
       "hasAirbrake": false,
-      "hasGearControl": true,
+      "hasGearControl": false,
       "hasArrestorControl": false,
       "hasCockpitDoorControl": true,
       "hasWheelBrakeControl": true,
@@ -501,7 +501,7 @@
       "Position": [0.0,1.0,0.75],
       "Direction": [0.0,0.0],
       "Main": {
-        "StandbyFriction": 0.0002,
+        "StandbyFriction": 0.0001,
         "FuelSystemNum": 0,
         "Type": "TurboProp",
         "Cylinders": 12,
@@ -524,13 +524,13 @@
         "MinThrMult": 0.2,
         "MaxThrMult": 1.1,
         "IsWaterCooled": false,
-        "EngineInertiaMoment": 0.001,
+        "EngineInertiaMoment": 1.001,
         "EngineAcceleration": 1.0,
         "RPMAmplitude0": [8000.0,0.0],
         "RPMAmplitude1": [3000.0,0.0],
         "ConsumptionOmegaMax": 2.4,
         "TurbineTimeConstant": 6.06,
-        "TorqueOmegaMinCoeff": 0.01,
+        "TorqueOmegaMinCoeff": 1.01,
         "TorqueZeroOmegaMult": 1.4,
         "ThrottleRPMAuto0": [0.0,10500.0],
         "ThrottleRPMAuto1": [0.05,14900.0],
@@ -922,7 +922,7 @@
       "Position": [0.0,1.0,-0.75],
       "Direction": [0.0,0.0],
       "Main": {
-        "StandbyFriction": 0.0002,
+        "StandbyFriction": 0.0001,
         "FuelSystemNum": 0,
         "Type": "TurboProp",
         "Cylinders": 12,
@@ -945,7 +945,7 @@
         "MinThrMult": 0.2,
         "MaxThrMult": 1.1,
         "IsWaterCooled": false,
-        "EngineInertiaMoment": 0.001,
+        "EngineInertiaMoment": 1.001,
         "EngineAcceleration": 1.0,
         "RPMAmplitude0": [8000.0,0.0],
         "RPMAmplitude1": [3000.0,0.0],
@@ -1376,8 +1376,8 @@
         "FlyBarStabilizationMult": 2.0,
         "FlyBarAngleMax": 45.0,
         "FlyBarToCylicAxes": 0.002,
-        "ScreenEffectThrustMultMax": 0.8,
-        "ScreenEffectThrustMult10Dist": 24.0
+        "ScreenEffectThrustMultMax": 0.4,
+        "ScreenEffectThrustMult10Dist": 12.0
       },
       "Damage": {
         "CriticalIas": 450.0,
@@ -1386,7 +1386,7 @@
       "Mass": {
         "Mass": 600.0,
         "Diameter": 17.3,
-        "InertiaMomentCoeff": 0.0375
+        "InertiaMomentCoeff": 1.2
       },
       "Governor": {
         "PitchMin": 0.0,
@@ -1488,7 +1488,7 @@
         "AirFlow2": [0.0,0.0,1.0],
         "AirFlow3": [15.0,0.0,1.0],
         "MultiPoint": true,
-        "RollDamping": [0.0,0.0,85.0,160000.0],
+        "RollDamping": [40.0,0.0,85.0,160000.0],
         "DampingMultByFlow": [0.0,1.0,30.0,2.0],
         "VortexRingVFlowMult": [0.0,0.0],
         "VortexRingVFlowToReturnDist": 0.0,
@@ -1503,7 +1503,7 @@
       "Mass": {
         "Mass": 100.0,
         "Diameter": 3.91,
-        "InertiaMomentCoeff": 0.0
+        "InertiaMomentCoeff": 1.0
       },
       "Governor": {
         "PitchMin": -9.0,
@@ -1593,10 +1593,10 @@
       "Propeller1": 1,
       "PropellerReductor1": 0.1,
       "PropellerPitchSource1": "rudder",
-      "MidAxisPitch1": 0.51,
+      "MidAxisPitch1": 0.58,
       "UseAutoPropInertia": true,
       "EngineAcceleration": 1.0,
-      "ReducedPropellerShaftTorque": false
+      "CorrectPropellerToTransmissionLink": true
     }
   },
   {
@@ -1991,26 +1991,25 @@
         }
       },
       "Throttle": {
-        "Limits": [0.55,0.9],
-        "ClimbMax": [-3.0,8.0],
-        "AltMax": [-3.0,8.0],
+        "Limits": [0.05,0.9],
+        "ClimbMax": [-10.0,16.0],
+        "AltMax": [-10.0,16.0],
         "AltDeadZone": 0.1,
         "AltHoldClimbTreshold": 0.5,
-        "ClimbMinLimByRAltitude": [15.0,-3.0,30.0,-5.0],
-        "ClimbMinLimByHorSpeed": [20.0,-3.0,60.0,-5.0],
+        "ClimbMinLimByRAltitude": [15.0,-3.0,50.0,-15.0],
+        "ClimbMinLimByHorSpeed": [40.0,-3.0,80.0,-15.0],
         "ClimbPID": {
           "Kp": 0.8,
           "Ki": 0.3,
           "Imax": 1.5,
           "Kd": 0.0005,
-          "Lim": [0.25,0.9]
+          "Lim": [0.05,0.9]
         },
         "AltPID": {
           "Kp": 1.0,
           "Ki": 0.0,
           "Imax": 0.0,
-          "Kd": 0.0,
-          "Lim": [-3.0,8.0]
+          "Kd": 0.0
         }
       },
       "Aim": {

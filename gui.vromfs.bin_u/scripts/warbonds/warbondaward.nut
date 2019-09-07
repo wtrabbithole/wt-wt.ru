@@ -1,3 +1,5 @@
+local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+
 class ::WarbondAward
 {
   id = ""
@@ -332,6 +334,8 @@ class ::WarbondAward
     return isAvailableByUnitsRank() || !colored? text : ::colorize("badTextColor", text)
   }
 
+  getSeenId = @() (isValid() ? (warbondWeak.getSeenId() + "_") : "") + id
+
   /******************* params override to use in item.tpl ***********************************/
   function modActionName() { return canBuy() ? getBuyText(true) : null }
   function price() { return getCostText() }
@@ -340,5 +344,6 @@ class ::WarbondAward
   function amount() { return blk.amount }
   function itemIndex() { return getFullId() }
   function headerText() { return awardType.getIconHeaderText(blk) }
+  unseenIcon = @() !isItemLocked() && bhvUnseen.makeConfigStr(SEEN.WARBONDS_SHOP, getSeenId())
   /************************** end of params override ****************************************/
 }

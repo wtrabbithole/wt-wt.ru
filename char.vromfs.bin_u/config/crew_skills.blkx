@@ -36,6 +36,7 @@
     "crewTankViewCamSpottingDistance": "dist",
     "viewToSunSpottingDistance": "dist",
     "viewBelowHorizonSpottingDistance": "dist",
+    "viewAirRocketSpottingTime": "seconds",
     "gunnerOpenFireDistance": "dist",
     "gunnerStartTrackingDistance": "dist",
     "gunnerOpenFireWhileTrackingProbability": "percent",
@@ -122,11 +123,12 @@
     "shipAntiAirCaliberReloadTime": "seconds",
     "shipAntiAirMaxAngle": "percent",
     "shipAuxMaxAngle": "percent",
-    "shipDistFusePenalty": "percent",
+    "shipGunnerFuseDistanceError": "percent",
     "shipUnwateringTime": "seconds",
     "shipExtinguishTime": "seconds",
     "shipFireDamageMult": "percent",
-    "shipRepairTime": "seconds"
+    "shipRepairTime": "seconds",
+    "shipRudderOperationTime": "seconds"
   },
   "repair_ranks": {
     "rank1": 1,
@@ -390,70 +392,83 @@
       },
       "interchangeability": {
         "pow_coef": 1.66,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "radio_distance": {
         "max_skill_level": 50,
         "pow_coef": 1.33,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       }
     },
     "ship_look_out_station": {
       "type": "ship",
       "air_spotting": {
         "pow_coef": 1.66,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "ground_spotting": {
         "pow_coef": 1.76,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "torpedo_spotting": {
         "pow_coef": 1.66,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       }
     },
     "ship_engine_room": {
       "type": "ship",
       "operation_time_mult": {
         "pow_coef": 1.66,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "antifire_skill_mult": {
         "max_skill_level": 100,
         "pow_coef": 1.24,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       }
     },
     "ship_artillery": {
       "type": "ship",
       "main_caliber_loading_time": {
         "pow_coef": 1.76,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "aux_caliber_loading_time": {
         "max_skill_level": 100,
         "pow_coef": 1.24,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "antiair_caliber_loading_time": {
         "max_skill_level": 100,
         "pow_coef": 1.24,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "anti_air_gunner_max_angle": {
         "max_skill_level": 100,
         "pow_coef": 1.24,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "aux_gunner_max_angle": {
         "max_skill_level": 100,
         "pow_coef": 1.24,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "dist_fuse_penalty": {
         "pow_coef": 1.24,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       }
     },
     "ship_damage_control": {
@@ -461,20 +476,24 @@
       "unwatering": {
         "pow_coef": 1.24,
         "max_skill_level": 100,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "extinguish_time": {
         "pow_coef": 1.66,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "repair_time": {
         "pow_coef": 1.76,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       },
       "survive_effort_mult": {
         "max_skill_level": 100,
         "pow_coef": 1.24,
-        "use_specializations": true
+        "use_specializations": true,
+        "use_leadership": true
       }
     },
     "groundService": {
@@ -3525,6 +3544,7 @@
       },
       "interchangeability": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -3580,6 +3600,7 @@
       },
       "radio_distance": {
         "use_specializations": true,
+        "use_leadership": true,
         "max_skill_level": 50,
         "skill_level_exp": {
           "level1": 1,
@@ -3639,6 +3660,7 @@
       "type": "ship",
       "air_spotting": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -3694,6 +3716,7 @@
       },
       "ground_spotting": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -3749,6 +3772,7 @@
       },
       "torpedo_spotting": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -3807,6 +3831,7 @@
       "type": "ship",
       "operation_time_mult": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -3862,6 +3887,7 @@
       },
       "antifire_skill_mult": {
         "use_specializations": true,
+        "use_leadership": true,
         "max_skill_level": 100,
         "skill_level_exp": {
           "level1": 1,
@@ -3971,6 +3997,7 @@
       "type": "ship",
       "main_caliber_loading_time": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -4026,6 +4053,7 @@
       },
       "aux_caliber_loading_time": {
         "use_specializations": true,
+        "use_leadership": true,
         "max_skill_level": 100,
         "skill_level_exp": {
           "level1": 1,
@@ -4132,6 +4160,7 @@
       },
       "antiair_caliber_loading_time": {
         "use_specializations": true,
+        "use_leadership": true,
         "max_skill_level": 100,
         "skill_level_exp": {
           "level1": 1,
@@ -4238,6 +4267,7 @@
       },
       "anti_air_gunner_max_angle": {
         "use_specializations": true,
+        "use_leadership": true,
         "max_skill_level": 100,
         "skill_level_exp": {
           "level1": 1,
@@ -4344,6 +4374,7 @@
       },
       "aux_gunner_max_angle": {
         "use_specializations": true,
+        "use_leadership": true,
         "max_skill_level": 100,
         "skill_level_exp": {
           "level1": 1,
@@ -4450,6 +4481,7 @@
       },
       "dist_fuse_penalty": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -4508,6 +4540,7 @@
       "type": "ship",
       "unwatering": {
         "use_specializations": true,
+        "use_leadership": true,
         "max_skill_level": 100,
         "skill_level_exp": {
           "level1": 1,
@@ -4614,6 +4647,7 @@
       },
       "extinguish_time": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -4669,6 +4703,7 @@
       },
       "repair_time": {
         "use_specializations": true,
+        "use_leadership": true,
         "skill_level_exp": {
           "level1": 1,
           "level2": 2,
@@ -4724,6 +4759,7 @@
       },
       "survive_effort_mult": {
         "use_specializations": true,
+        "use_leadership": true,
         "max_skill_level": 100,
         "skill_level_exp": {
           "level1": 1,

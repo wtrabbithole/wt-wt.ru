@@ -1,5 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
+local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -334,7 +335,7 @@ function get_unit_actions_list(unit, handler, actions)
       haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY
       haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
-      actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit, curEdiff) })(unit)
+      actionFunc = (@(unit) function () { ::open_weapons_for_unit(unit, { curEdiff = curEdiff }) })(unit)
     }
     else if (action == "take")
     {
@@ -365,18 +366,21 @@ function get_unit_actions_list(unit, handler, actions)
 
       if (canBuyIngame)
       {
-        priceText = ::getUnitCost(unit).tostring()
+        priceText = ::getUnitCost(unit).getTextAccordingToBalance()
         if (priceText.len())
-        {
-          if ((isSpecial && wp_get_cost_gold(unit.name) > profile.gold) || (wp_get_cost(unit.name) > profile.balance))
-            priceText = "<color=@redMenuButtonColor>" + priceText + "</color>"
           priceText = ::loc("ui/colon") + priceText
-        }
       }
 
-      actionText = ::loc("mainmenu/btnOrder") + priceText
-      icon       = isGift ? "#ui/gameuiskin#store_icon.svg" : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium" : "#ui/gameuiskin#shop_warpoints"
+      actionText = isGift && xboxShopData.canUseIngameShop() ? ::loc("items/openIn/XboxStore")
+                                                             : (::loc("mainmenu/btnOrder") + priceText)
+
+      icon       = isGift ? ( xboxShopData.canUseIngameShop() ? "#ui/gameuiskin#xbox_store_icon.svg"
+                                                              : "#ui/gameuiskin#store_icon.svg")
+                          : isSpecial ? "#ui/gameuiskin#shop_warpoints_premium"
+                                      : "#ui/gameuiskin#shop_warpoints"
+
       showAction = inMenu && (canBuyIngame || canBuyOnline)
+      isLink     = canBuyOnline
       if (canBuyOnline)
         actionFunc = (@(unit) function () {
           OnlineShopModel.showGoods({
@@ -480,11 +484,6 @@ function is_submarine(unit)
   return get_es_unit_type(unit) == ::ES_UNIT_TYPE_SHIP && ::isInArray("submarine", ::getTblValue("tags", unit, []))
 }
 
-function is_minelayer(unit)
-{
-  return unit.hasMines
-}
-
 function get_es_unit_type(unit)
 {
   return ::getTblValue("esUnitType", unit, ::ES_UNIT_TYPE_INVALID)
@@ -561,9 +560,9 @@ function isUnitGift(unit)
   return unit.gift != null
 }
 
-function get_unit_country_icon(unit)
+function get_unit_country_icon(unit, needOriginCountry = false)
 {
-  return (unit.shopCountry != "") ? ::get_country_icon(unit.shopCountry) : ""
+  return ::get_country_icon(needOriginCountry ? unit.getOriginCountry() : unit.shopCountry)
 }
 
 function checkAirShopReq(air)
@@ -752,8 +751,11 @@ function buyUnit(unit, silent = false)
     return ::impl_buyUnit(unit)
 
   local unitName  = ::colorize("userlogColoredText", ::getUnitName(unit, true))
-  local unitPrice = ::colorize("activeTextColor", ::getUnitCost(unit))
-  local msgText = ::loc("shop/needMoneyQuestion_purchaseAircraft", { unitName = unitName, cost = unitPrice })
+  local cost = ::getUnitCost(unit)
+  local unitPrice = ::colorize("activeTextColor", cost)
+  local msgText = warningIfGold(::loc("shop/needMoneyQuestion_purchaseAircraft",
+      {unitName = unitName, cost = unitPrice}),
+    cost)
 
   local additionalCheckBox = null
   if (::facebook_is_logged_in() && ::has_feature("FacebookWallPost"))
@@ -1665,7 +1667,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   obj = holderObj.findObject("aircraft-countryImg")
   if (::checkObj(obj))
-    obj["background-image"] = ::get_unit_country_icon(air)
+    obj["background-image"] = ::get_unit_country_icon(air, true)
 
   if (::has_feature("UnitTooltipImage"))
   {
@@ -2111,6 +2113,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
 
   if (isInFlight)
   {
+    local disabledUnitByBRText = crew && !::is_crew_available_in_session(crew.idInCountry, false)
+      && ::SessionLobby.getNotAvailableUnitByBRText(air)
     local missionRules = ::g_mis_custom_state.getCurMissionRules()
     if (missionRules.isWorldWarUnit(air.name))
     {
@@ -2120,7 +2124,7 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
     if (missionRules.hasCustomUnitRespawns())
     {
       local respawnsleft = missionRules.getUnitLeftRespawns(air)
-      if (respawnsleft >= 0)
+      if (respawnsleft == 0 || (respawnsleft>0 && !disabledUnitByBRText))
       {
         if (missionRules.isUnitAvailableBySpawnScore(air))
         {
@@ -2133,7 +2137,8 @@ function showAirInfo(air, show, holderObj = null, handler = null, params = null)
           local color = respawnsleft ? "@userlogColoredText" : "@warningTextColor"
           addInfoTextsList.append(::colorize(color, respText))
         }
-      }
+      } else if (disabledUnitByBRText)
+          addInfoTextsList.append(::colorize("badTextColor", disabledUnitByBRText))
     }
   }
 

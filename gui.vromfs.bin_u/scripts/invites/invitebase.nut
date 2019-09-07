@@ -236,5 +236,6 @@ class ::BaseInvite
   function isAvailableByChatRestriction()
   {
     return platformModule.isChatEnableWithPlayer(inviterName)
+      && ::g_chat.isCrossNetworkMessageAllowed(inviterName)
   }
 }

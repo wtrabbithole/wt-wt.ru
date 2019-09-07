@@ -57,6 +57,9 @@
     "hitCameraShotFreqThreshold": 0.5
   },
   {
+    "hitCameraShatterThreshold": 0.02
+  },
+  {
     "showDestroyedPartTime": 2.0
   },
   {
@@ -79,9 +82,6 @@
   },
   {
     "drowningCheckHeightMultiplier": 0.6
-  },
-  {
-    "impulseDeltaVelThresholdForDamage": 5.0
   },
   {
     "useBlkPreprocessor": true
@@ -109,6 +109,9 @@
   },
   {
     "cumulativeAirArmor": 100.0
+  },
+  {
+    "armorResistance": 1900.0
   },
   {
     "explosionOffset": 0.01
@@ -250,6 +253,56 @@
   },
   {
     "criticalBuoyancy": 0.5
+  },
+  {
+    "penetrationDistances": [
+      {
+        "dist": 10.0
+      },
+      {
+        "dist": 100.0
+      },
+      {
+        "dist": 500.0
+      },
+      {
+        "dist": 1000.0
+      },
+      {
+        "dist": 1500.0
+      },
+      {
+        "dist": 2000.0
+      },
+      {
+        "dist": 2500.0
+      },
+      {
+        "dist": 3000.0
+      },
+      {
+        "dist": 10000.0
+      }
+    ]
+  },
+  {
+    "penetrationByExplosiveMassModifier": [
+      {
+        "mod": [0.0,1.0]
+      },
+      {
+        "mod": [0.016,0.93]
+      },
+      {
+        "mod": [0.02,0.9]
+      },
+      {
+        "mod": [0.03,0.85]
+      },
+      {
+        "mod": [0.04,0.75]
+      }
+    ]
   },
   {
     "kineticEnergyToDamage": {
@@ -1133,6 +1186,44 @@
         "completely": true
       }
     }
+  },
+  {
+    "leftTrackNodes": [
+      {
+        "node": "track_l_dm"
+      },
+      {
+        "node": "track_l_01_dm"
+      },
+      {
+        "node": "wheel_l_back_dm"
+      },
+      {
+        "node": "wheel_l_front_dm"
+      },
+      {
+        "node": "wheel_l_drive_dm"
+      }
+    ]
+  },
+  {
+    "rightTrackNodes": [
+      {
+        "node": "track_r_dm"
+      },
+      {
+        "node": "track_r_01_dm"
+      },
+      {
+        "node": "wheel_r_back_dm"
+      },
+      {
+        "node": "wheel_r_front_dm"
+      },
+      {
+        "node": "wheel_r_drive_dm"
+      }
+    ]
   },
   {
     "healingCrew": {
@@ -4914,6 +5005,22 @@
           "mod2": [20.0,1.0]
         }
       },
+      "sap_tank": {
+        "normalizationPreset": "ap",
+        "ricochetPreset": "ap",
+        "slopeEffectPreset": "ap",
+        "modelName": "tank_bullet_aphe",
+        "secondaryShattersPreset": "ap",
+        "fresnel": [0.23,0.1,2.0]
+      },
+      "sapbc_tank": {
+        "normalizationPreset": "apbc",
+        "slopeEffectPreset": "apbc",
+        "ricochetPreset": "apbc",
+        "modelName": "tank_bullet_aphebc",
+        "secondaryShattersPreset": "ap_large_caliber",
+        "fresnel": [0.23,0.1,2.0]
+      },
       "heat_grenade_tank": {
         "normalizationPreset": "heat",
         "ricochetPreset": "heat_fs",
@@ -5256,11 +5363,30 @@
     }
   },
   {
+    "vehicleCollisionDamage": {
+      "impulseThreshold": 5.0,
+      "collisionImpulseDamage": 60.0,
+      "frictionImpulseDamage": 0.0,
+      "damageThreshold": 5.0,
+      "sphereRadius": 0.3
+    }
+  },
+  {
     "shipCollisionDamage": {
-      "sphereRadius": 1.0,
-      "baseDamage": 100.0,
       "impulseThreshold": 1.0,
-      "damageThreshold": 100.0
+      "collisionImpulseDamage": 100.0,
+      "frictionImpulseDamage": 0.0,
+      "damageThreshold": 5.0,
+      "sphereRadius": 1.0
+    }
+  },
+  {
+    "aircraftCollisionDamage": {
+      "impulseThreshold": 3.0,
+      "collisionImpulseDamage": 75.0,
+      "frictionImpulseDamage": 15.0,
+      "damageThreshold": 5.0,
+      "sphereRadius": 0.5
     }
   },
   {
@@ -5435,7 +5561,7 @@
   {
     "bulletDecals": {
       "ap": {
-        "bullets": "ac_shell_tank, apbc_tank, apds_tank, apds_autocannon, apds_l15_tank, apds_fs_tank, apds_fs_long_tank, apds_fs_full_body_steel_tank, apds_fs_tungsten_small_core_tank, apds_fs_tungsten_l10_l15_tank, apc_tank, aphe_tank, aphebc_tank, apcbc_tank, ap_tank,ap_large_caliber_tank, tp_tank, shrapnel_tank, he_ball, ap_i_ball, ap_i_t_ball, ap_i_t, apc_t, ap_t_ball, ap_ball, apc_solid_medium_caliber_tank, apcbc_solid_medium_caliber_tank,aphe",
+        "bullets": "ac_shell_tank, apbc_tank, apds_tank, apds_autocannon, apds_l15_tank, apds_fs_tank, apds_fs_long_tank, apds_fs_full_body_steel_tank, apds_fs_tungsten_small_core_tank, apds_fs_tungsten_l10_l15_tank, apc_tank, aphe_tank, aphebc_tank, apcbc_tank, ap_tank,ap_large_caliber_tank, tp_tank, shrapnel_tank, he_ball, ap_i_ball, ap_i_t_ball, ap_i_t, apc_t, ap_t_ball, ap_ball, apc_solid_medium_caliber_tank, apcbc_solid_medium_caliber_tank,aphe, sap_tank, sapbc_tank",
         "pierce": "pr_gen",
         "stop": "st_gen",
         "ricochet": "st_gen",

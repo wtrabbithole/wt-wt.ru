@@ -2,6 +2,7 @@ local bhvAvatar = ::require("scripts/user/bhvAvatar.nut")
 local u = ::require("std/u.nut")
 local stdPath = require("std/path.nut")
 local avatars = ::require("scripts/user/avatars.nut")
+local dagor_fs = require("dagor.fs")
 
 enum avatarPlace { //higher index has more priority to show icon when same icons in the different places
   IN_GAME         = 0x01
@@ -99,7 +100,7 @@ class ::gui_handlers.DbgAvatars extends ::BaseGuiHandler
     }
     foreach(dirPath, place in dirs)
     {
-      local filePaths = ::find_files_in_folder(guiPath + dirPath, fileMask, false, true, true)
+      local filePaths = dagor_fs.scan_folder({root=guiPath + dirPath, vromfs = false, realfs = true, recursive = true, files_suffix=fileMask})
       foreach(path in filePaths)
         addAvatarConfig(stdPath.fileName(path).slice(0, -4), place, path)
     }

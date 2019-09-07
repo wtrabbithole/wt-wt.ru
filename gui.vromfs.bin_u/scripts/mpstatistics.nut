@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
+local mpChatModel = require("scripts/chat/mpChatModel.nut")
 
 ::team_aircraft_list <- null
 
@@ -293,6 +295,7 @@ function build_mp_table(table, markupData, hdr, max_rows)
           if ("image" in markup[hdr[j]])
             imageBg = ::format(" team:t='%s'; " +
               "teamImg {" +
+              "css-hier-invalidate:t='yes'; " +
               "id:t='%s';" +
               "background-image:t='%s';" +
               "display:t='%s'; ",
@@ -346,8 +349,10 @@ function set_mp_table(obj_tbl, table, params)
   local showAirIcons = ::getTblValue("showAirIcons", params, true)
   local continueRowNum = ::getTblValue("continueRowNum", params, 0)
   local numberOfWinningPlaces = ::getTblValue("numberOfWinningPlaces", params, -1)
+  local playersInfo = params?.playersInfo ?? ::SessionLobby.getPlayersInfo()
   local isInFlight = ::is_in_flight()
   local needColorizeNotInGame = isInFlight
+  local isReplay = ::is_replay_playing()
 
   ::SquadIcon.updateTopSquadScore(table)
 
@@ -386,6 +391,13 @@ function set_mp_table(obj_tbl, table, params)
 
       if (!isEmpty && (hdr in table[i]))
         item = table[i][hdr]
+
+      if (!isEmpty && isReplay)
+      {
+        table[i].isLocal = spectatorWatchedHero.id == table[i].id
+        table[i].isInHeroSquad = ::SessionLobby.isEqualSquadId(spectatorWatchedHero.squadId,
+          table[i]?.squadId)
+      }
 
       if (hdr == "team")
       {
@@ -478,46 +490,49 @@ function set_mp_table(obj_tbl, table, params)
         if (::check_obj(objDlcImg))
           objDlcImg.show(false)
 
+        local tooltip = nameText
         if (!isEmpty)
         {
-          objTr.mainPlayer = (::is_replay_playing() ? (table[i].userId == ::current_replay_author) : table[i].isLocal) ? "yes" : "no";
-          objTr.inMySquad = (("isInHeroSquad" in table[i]) && table[i].isInHeroSquad) ? "yes" : "no";
+          objTr.mainPlayer = table[i].isLocal ? "yes" : "no"
+          objTr.inMySquad  = table[i]?.isInHeroSquad ? "yes" : "no"
           objTr.spectator = (("spectator" in table[i]) && table[i].spectator) ? "yes" : "no"
-        }
-        local tooltip = nameText
-        if (!isEmpty && !table[i].isBot && (::get_mission_difficulty() == ::g_difficulty.ARCADE.gameTypeName))
-        {
-          local data = ::SessionLobby.getBattleRatingParamById(table[i].userId)
-          if (data)
-          {
-            local squadInfo = ::SquadIcon.getSquadInfo(data.squad)
-            local isInSquad = squadInfo ? !squadInfo.autoSquad : false
-            local ratingTotal = ::calc_battle_rating_from_rank(data.rank)
-            tooltip += "\n" + ::loc("debriefing/battleRating/units") + ::loc("ui/colon")
-            local showLowBRPrompt = false
 
-            local unitsForTooltip = []
-            for (local j = 0; j < min(data.units.len(), 3); ++j)
-              unitsForTooltip.push(data.units[j])
-            unitsForTooltip.sort(sort_units_for_br_tooltip)
-            for (local j = 0; j < unitsForTooltip.len(); ++j)
+          if (!table[i].isBot
+            && ::get_mission_difficulty() == ::g_difficulty.ARCADE.gameTypeName
+            && !::g_mis_custom_state.getCurMissionRules().isWorldWar)
+          {
+            local data = ::SessionLobby.getBattleRatingParamByPlayerInfo(playersInfo?[(table[i].userId).tointeger()])
+            if (data)
             {
-              local rankUnused = unitsForTooltip[j].rankUnused
-              local formatString = rankUnused
-                ? "\n<color=@disabledTextColor>(%.1f) %s</color>"
-                : "\n<color=@disabledTextColor>(<color=@userlogColoredText>%.1f</color>) %s</color>"
-              if (rankUnused)
-                showLowBRPrompt = true
-              tooltip += ::format(formatString, unitsForTooltip[j].rating, unitsForTooltip[j].name)
-            }
-            tooltip += "\n" + ::loc(isInSquad ? "debriefing/battleRating/squad" : "debriefing/battleRating/total") +
-                              ::loc("ui/colon") + ::format("%.1f", ratingTotal)
-            if (showLowBRPrompt)
-            {
-              local maxBRDifference = 2.0 // Hardcoded till switch to new matching.
-              local rankCalcMode = ::SessionLobby.getRankCalcMode()
-              if (rankCalcMode)
-                tooltip += "\n" + ::loc("multiplayer/lowBattleRatingPrompt/" + rankCalcMode, { maxBRDifference = ::format("%.1f", maxBRDifference) })
+              local squadInfo = ::SquadIcon.getSquadInfo(data.squad)
+              local isInSquad = squadInfo ? !squadInfo.autoSquad : false
+              local ratingTotal = ::calc_battle_rating_from_rank(data.rank)
+              tooltip += "\n" + ::loc("debriefing/battleRating/units") + ::loc("ui/colon")
+              local showLowBRPrompt = false
+
+              local unitsForTooltip = []
+              for (local j = 0; j < min(data.units.len(), 3); ++j)
+                unitsForTooltip.push(data.units[j])
+              unitsForTooltip.sort(sort_units_for_br_tooltip)
+              for (local j = 0; j < unitsForTooltip.len(); ++j)
+              {
+                local rankUnused = unitsForTooltip[j].rankUnused
+                local formatString = rankUnused
+                  ? "\n<color=@disabledTextColor>(%.1f) %s</color>"
+                  : "\n<color=@disabledTextColor>(<color=@userlogColoredText>%.1f</color>) %s</color>"
+                if (rankUnused)
+                  showLowBRPrompt = true
+                tooltip += ::format(formatString, unitsForTooltip[j].rating, unitsForTooltip[j].name)
+              }
+              tooltip += "\n" + ::loc(isInSquad ? "debriefing/battleRating/squad" : "debriefing/battleRating/total") +
+                                ::loc("ui/colon") + ::format("%.1f", ratingTotal)
+              if (showLowBRPrompt)
+              {
+                local maxBRDifference = 2.0 // Hardcoded till switch to new matching.
+                local rankCalcMode = ::SessionLobby.getRankCalcMode()
+                if (rankCalcMode)
+                  tooltip += "\n" + ::loc("multiplayer/lowBattleRatingPrompt/" + rankCalcMode, { maxBRDifference = ::format("%.1f", maxBRDifference) })
+              }
             }
           }
         }
@@ -643,6 +658,9 @@ function set_mp_table(obj_tbl, table, params)
             cellIcon["tooltip"] = ::format("%s %s%s", ::loc("options/chat_messages_squad"), ::loc("ui/number_sign", "#"), labelSquad)
               + "\n" + ::loc("profile/awards") + ::loc("ui/colon") + squadScore
               + (isTopSquad ? ("\n" + ::loc("streaks/squad_best")) : "")
+
+            if (isReplay)
+              objTd.team = squadInfo.teamId == ::get_player_army_for_hud() ? "blue" : "red"
           }
         }
       }
@@ -1084,7 +1102,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
     isTeamplay = ::is_mode_with_teams(gameType)
     isTeamsRandom = !isTeamplay || gameMode == ::GM_DOMINATION
-    if (::SessionLobby.isInRoom())
+    if (::SessionLobby.isInRoom() || ::is_replay_playing())
       isTeamsWithCountryFlags = isTeamplay &&
         (::get_mission_difficulty_int() > 0 || !::SessionLobby.getPublicParam("symmetricTeams", true))
 
@@ -1093,8 +1111,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
   function createKillsTbl(objTbl, tbl, tblConfig)
   {
-    guiScene.setUpdatesEnabled(false, false)
-
     local team = ::getTblValue("team", tblConfig, -1)
     local num_rows = ::getTblValue("num_rows", tblConfig, numMaxPlayers)
     local showAircrafts = ::getTblValue("showAircrafts", tblConfig, false)
@@ -1174,7 +1190,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContentFromText(objTbl, data, data.len(), this)
       objTbl.num_rows = tbl.len()
     }
-    guiScene.setUpdatesEnabled(true, true)
   }
 
   function sortTable(table)
@@ -1188,15 +1203,14 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local tbl = null
-    guiScene.setUpdatesEnabled(false, false)
 
     objTbl.smallFont = ::is_low_width_screen() ? "yes" : "no"
 
     if (customTbl)
     {
       local idx = max(team-1, -1)
-      if (idx in customTbl)
-        tbl = customTbl[idx]
+      if (idx in customTbl?.playersTbl)
+        tbl = customTbl.playersTbl[idx]
     }
 
     local minRow = 0
@@ -1271,6 +1285,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
                        showAirIcons = showAirIcons,
                        continueRowNum = minRow,
                        numberOfWinningPlaces = numberOfWinningPlaces
+                       playersInfo = customTbl?.playersInfo
                      }
       ::set_mp_table(objTbl, tbl, params)
       ::update_team_css_label(objTbl)
@@ -1280,7 +1295,6 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
         objTbl["team"] = (isTeamplay && friendlyTeam == team)? "blue" : "red"
     }
     updateCountryFlags()
-    guiScene.setUpdatesEnabled(true, true)
   }
 
   function isShowEnemyAirs()
@@ -1589,7 +1603,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   function onUserRClick(obj)
   {
     onClick(obj)
-    ::session_player_rmenu(this, getSelectedPlayer())
+    ::session_player_rmenu(this, getSelectedPlayer(), getChatLog())
   }
 
   function onUserOptions(obj)
@@ -1601,7 +1615,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
     onClick(selectedTableObj)
     local selectedPlayer = getSelectedPlayer()
     local orientation = selectedTableObj.id == "table_kills_team1"? RCLICK_MENU_ORIENT.RIGHT : RCLICK_MENU_ORIENT.LEFT
-    ::session_player_rmenu(this, selectedPlayer, "", getSelectedRowPos(selectedTableObj, orientation), orientation)
+    ::session_player_rmenu(this, selectedPlayer, getChatLog(), getSelectedRowPos(selectedTableObj, orientation), orientation)
   }
 
   function getSelectedRowPos(selectedTableObj, orientation)
@@ -2040,6 +2054,10 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
 
   }
 
+  function getChatLog()
+  {
+    return mpChatModel.getLogForBanhammer()
+  }
 }
 
 class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
@@ -2109,6 +2127,8 @@ class ::gui_handlers.MPStatScreen extends ::gui_handlers.MPStatistics
     ::in_flight_menu(true)
     forceUpdate()
     delayedRestoreFocus()
+    if (::is_replay_playing())
+      selectLocalPlayer()
   }
 
   function forceUpdate()
@@ -2168,11 +2188,14 @@ function SquadIcon::initListLabelsSquad()
 
 function SquadIcon::getPlayersInfo()
 {
+  return playersInfo
+}
+
+function SquadIcon::updatePlayersInfo()
+{
   local sessionPlayersInfo = ::SessionLobby.getPlayersInfo()
   if (sessionPlayersInfo.len() > 0 && !::u.isEqual(playersInfo, sessionPlayersInfo))
     playersInfo = clone sessionPlayersInfo
-
-  return playersInfo
 }
 
 function SquadIcon::updateListLabelsSquad()

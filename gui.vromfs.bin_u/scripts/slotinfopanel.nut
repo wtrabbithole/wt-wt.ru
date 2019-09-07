@@ -122,6 +122,18 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open())
   }
 
+  function onShowExternalDmPartsChange(obj)
+  {
+    if (::check_obj(obj))
+      ::dmViewer.showExternalPartsArmor(obj.getValue())
+  }
+
+  function onShowHiddenXrayPartsChange(obj)
+  {
+    if (::check_obj(obj))
+      ::dmViewer.showExternalPartsXray(obj.getValue())
+  }
+
   function onCollapseButton()
   {
     if(listboxObj)
@@ -152,7 +164,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateVisibleTabContent(isTabSwitch = false)
   {
-    if (isSceneForceHidden)
+    if (isSceneForceHidden || !::check_obj(listboxObj))
       return
     local currentIndex = listboxObj.getValue()
     local isPanelHidden = currentIndex == -1

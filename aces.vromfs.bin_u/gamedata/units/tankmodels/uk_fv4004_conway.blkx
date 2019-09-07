@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -125,30 +128,6 @@
         "body_back_dm": {
           "armorThickness": 20.0
         },
-        "ex_armor_body_r_01_dm": {
-          "armorThickness": 6.0,
-          "hp": 400.0
-        },
-        "ex_armor_body_r_02_dm": {
-          "armorThickness": 6.0,
-          "hp": 400.0
-        },
-        "ex_armor_body_r_03_dm": {
-          "armorThickness": 6.0,
-          "hp": 400.0
-        },
-        "ex_armor_body_l_01_dm": {
-          "armorThickness": 6.0,
-          "hp": 400.0
-        },
-        "ex_armor_body_l_02_dm": {
-          "armorThickness": 6.0,
-          "hp": 400.0
-        },
-        "ex_armor_body_l_03_dm": {
-          "armorThickness": 6.0,
-          "hp": 400.0
-        },
         "body_top_dm": {
           "armorThickness": 14.0
         },
@@ -225,7 +204,37 @@
         "ex_armor_body_l_06_dm": [],
         "ex_decor_l_02_dm": [],
         "ex_armor_turret_r_01_dm": [],
-        "ex_armor_turret_l_01_dm": []
+        "ex_armor_turret_l_01_dm": [],
+        "ex_armor_body_r_01_dm": {
+          "armorClass": "RHA_tank",
+          "armorThickness": 6.0,
+          "hidableInViewer": true
+        },
+        "ex_armor_body_r_02_dm": {
+          "armorClass": "RHA_tank",
+          "armorThickness": 6.0,
+          "hidableInViewer": true
+        },
+        "ex_armor_body_r_03_dm": {
+          "armorClass": "RHA_tank",
+          "armorThickness": 6.0,
+          "hidableInViewer": true
+        },
+        "ex_armor_body_l_01_dm": {
+          "armorClass": "RHA_tank",
+          "armorThickness": 6.0,
+          "hidableInViewer": true
+        },
+        "ex_armor_body_l_02_dm": {
+          "armorClass": "RHA_tank",
+          "armorThickness": 6.0,
+          "hidableInViewer": true
+        },
+        "ex_armor_body_l_03_dm": {
+          "armorClass": "RHA_tank",
+          "armorThickness": 6.0,
+          "hidableInViewer": true
+        }
       },
       "mask": {
         "armorClass": "CHA_tank",
@@ -433,6 +442,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0

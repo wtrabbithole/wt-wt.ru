@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -106,7 +109,8 @@
           "armorThickness": 10.0
         },
         "superstructure_front_dm": {
-          "armorThickness": 10.0
+          "armorThickness": 10.0,
+          "hidableInViewer": true
         },
         "superstructure_top_dm": {
           "armorThickness": 12.0
@@ -142,7 +146,8 @@
           "armorThickness": 31.0
         },
         "turret_01_front_dm": {
-          "armorThickness": 17.0
+          "armorThickness": 17.0,
+          "hidableInViewer": true
         },
         "turret_01_top_dm": {
           "armorThickness": 10.0
@@ -218,6 +223,7 @@
         "armorThickness": 4.0,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
+        "hidableInViewer": true,
         "ex_decor_01_dm": [],
         "ex_decor_r_07_dm": [],
         "ex_decor_l_06_dm": [],
@@ -287,6 +293,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": {
           "armorThrough": 15.0
@@ -1818,6 +1825,12 @@
           "wheel_r_01": true,
           "wheel_l_drive": true,
           "wheel_r_drive": true
+        },
+        "wheelsDamageWeight": {
+          "wheel_l_01": 0.4,
+          "wheel_r_01": 0.4,
+          "wheel_l_drive": 0.4,
+          "wheel_r_drive": 0.4
         }
       }
     }
@@ -2316,7 +2329,7 @@
   {
     "cockpit": {
       "headPos": [0.0,3.5,-7.0],
-      "headPosOnShooting": [-0.2,3.3,0.3],
+      "headPosOnShooting": [-0.3,3.3,-0.4],
       "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
       "detectionHeight": 2.54

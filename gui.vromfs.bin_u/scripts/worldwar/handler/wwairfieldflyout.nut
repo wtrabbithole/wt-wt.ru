@@ -28,11 +28,12 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   hasUnitsToFly = false
   prevSelectedUnitsMask = WW_UNIT_CLASS.NONE
+  iconAir = ::loc("worldwar/iconAir")
 
   static function open(index, position, armyTargetName, onSuccessfullFlyoutCb = null)
   {
     local airfield = ::g_world_war.getAirfieldByIndex(index)
-    local availableArmiesArray = getAvailableAirfieldFormations(airfield)
+    local availableArmiesArray = airfield.getAvailableFormations()
     if (!availableArmiesArray.len())
       return
 
@@ -47,10 +48,6 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     )
   }
 
-  static getAvailableAirfieldFormations = @(airfield)
-    airfield.isValid()
-      ? ::u.filter(airfield.formations, @(formation) formation.hasManageAccess()) : []
-
   function getSceneTplContainerObj() { return scene.findObject("root-box") }
 
   function getSceneTplView()
@@ -61,6 +58,10 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     return {
       unitString = getUnitsList()
       headerTabs = getHeaderTabs()
+      unitTypes = getUnitsTypesList()
+      hintText = ::loc("worldwar/airfield/armies_hint_title")
+        + "\n" + ::loc("worldwar/airfield/fighter_armies_hint", getAirsTypeViewParams())
+        + "\n" + ::loc("worldwar/airfield/combined_armies_hint", getAirsTypeViewParams())
     }
   }
 
@@ -72,24 +73,28 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     foreach (airfieldFormation in availableArmiesArray)
       foreach (unit in airfieldFormation.units)
       {
-        local unitClass = unit.getUnitClass()
+        local unitWeapon = ::g_world_war.get_last_weapon_preset(unit.name)
+        local unitClassData = unit.getUnitClassData(unitWeapon)
         local maxFlyTime = (unit.getMaxFlyTime() * flightTimeFactor).tointeger()
         local value = 0
         local maxValue = unit.count
-        local maxUnitClassValue = getUnitClassMaxValue(unitClass)
+        local maxUnitClassValue = getUnitClassMaxValue(unitClassData.flyOutUnitClass)
         unitsList.append({
-          unitClassText = null
           armyGroupIdx = airfieldFormation.getArmyGroupIdx()
+          unit = unit
           unitName = unit.name
           unitItem = unit.getItemMarkUp(true)
-          unitClass = unitClass
+          unitClassIconText = unit.getUnitClassIconText(unitClassData.unitClass)
+          unitClassName = unit.getUnitClassText(unitClassData.unitClass)
+          unitClassTooltipText = unit.getUnitClassTooltipText(unitClassData.unitClass)
+          unitClass = unitClassData.flyOutUnitClass
           maxValue = ::min(maxUnitClassValue, maxValue)
           maxUnitClassValue = maxUnitClassValue
           totalValue = maxValue
           value = value
           maxFlyTime = maxFlyTime
           maxFlyTimeText = getFlyTimeText(maxFlyTime)
-          unitWeapon = ::g_world_war.get_last_weapon_preset(unit.name)
+          unitWeapon = unitWeapon
           btnOnDec = "onButtonDec"
           btnOnInc = "onButtonInc"
           btnOnMax = "onButtonMax"
@@ -100,8 +105,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
           sliderButton = {
             type = "various"
             showWhenSelected = true
-            sliderButtonText = getSliderButtonText(
-              value, maxValue)
+            sliderButtonText = getSliderButtonText(value, maxValue)
           }
         })
       }
@@ -112,17 +116,36 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
                || a.totalValue <=> b.totalValue
       })
 
-    local newClass = null
-    foreach (idx, unitTable in unitsList)
-    {
-      if (newClass == unitTable.unitClass)
-        continue
-
-      newClass = unitTable.unitClass
-      unitsList[idx].unitClassText = ::WwUnit.getUnitClassText(unitTable.unitClass)
-    }
-
     return unitsList
+  }
+
+  function getAirsTypeViewParams()
+  {
+    return {
+      fighterIcon = ::colorize("medium_fighterColor",
+        ::WwUnit.getUnitClassIconText(WW_UNIT_CLASS.FIGHTER))
+      assaultIcon = ::colorize("common_assaultColor",
+        ::WwUnit.getUnitClassIconText(WW_UNIT_CLASS.ASSAULT))
+      bomberIcon = ::colorize("medium_bomberColor",
+        ::WwUnit.getUnitClassIconText(WW_UNIT_CLASS.BOMBER))
+    }
+  }
+
+  function getUnitsTypesList()
+  {
+    return [
+      {
+        unitType = WW_UNIT_CLASS.FIGHTER
+        classIcons = [{ name = "Fighter", type = "fighter" }]
+      },
+      {
+        unitType = WW_UNIT_CLASS.BOMBER
+        classIcons = [
+          { name = "Assault", type = "assault" },
+          { name = "Bomber", type = "bomber", hasSeparator = true }
+        ]
+      }
+    ]
   }
 
   function getFlyTimeText(timeInSeconds)
@@ -178,7 +201,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     updateVisibleUnits()
 
     //--- After all units filled ---
-    fillFlyOutDescription()
+    fillFlyOutDescription(true)
     fillArmyLimitDescription()
     initFocusArray()
   }
@@ -191,7 +214,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   function onTabSelect(obj)
   {
     updateVisibleUnits(obj.getValue())
-    fillFlyOutDescription()
+    fillFlyOutDescription(true)
   }
 
   function updateVisibleUnits(tabVal = -1)
@@ -212,7 +235,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     selectedGroupIdx = ::getTblValue(tabVal, availableArmiesArray, availableArmiesArray[0]).getArmyGroupIdx()
     selectedGroupFlyArmies = calcSelectedGroupAirArmiesNumber()
 
-    hasUnitsToFly = hasEnoughUnitsToFlyOut()
+    local formation = airfield.getFormationByGroupIdx(selectedGroupIdx)
+    hasUnitsToFly = airfield.hasFormationEnoughUnitsToFly(formation)
 
     local selUnitsInfo = getSelectedUnitsInfo()
     foreach (idx, unitTable in unitsList)
@@ -350,18 +374,6 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       cantSendTextObj.setValue(cantSendText)
   }
 
-  function getFlyOutConditionText(unitClass, icon, range, curr)
-  {
-    local text = ::colorize((curr >= range.x && curr <= range.y) ?
-      "goodTextColor" : "badTextColor", curr + " " + icon)
-
-    local classText = ::WwUnit.getUnitClassText(unitClass)
-    if (range.x == range.y)
-      return ::loc("worldwar/airfield/" + classText + "/number_conditions", {numb = range.y, curr = text})
-
-    return ::loc("worldwar/airfield/" + classText + "/limits_conditions", {min = range.x, max = range.y, curr = text})
-  }
-
   function fillArmyLimitDescription()
   {
     local textObj = scene.findObject("armies_limit_text")
@@ -373,90 +385,92 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         max = currentOperation.getGroupAirArmiesLimit() }))
   }
 
-  function fillFlyOutDescription()
+  function fillFlyOutDescription(needFullUpdate = false)
   {
-    local topTextObj = scene.findObject("unit_fly_conditions_text")
-    if (!::checkObj(topTextObj))
-      return
-
-    local text = []
     local selUnitsInfo = getSelectedUnitsInfo()
+    local bomberAmount = getReqDataFromSelectedUnitsInfo(selUnitsInfo, WW_UNIT_CLASS.BOMBER, "amount", 0)
+    local formedArmyId = bomberAmount > 0 ? "combined" : "fighter"
+    local formedArmyMask = bomberAmount > 0 ? WW_UNIT_CLASS.COMBINED : WW_UNIT_CLASS.FIGHTER
 
-    foreach (mask, bitsList in currentOperation.getUnitsFlyoutRange())
+    updateFormedArmyTitle(formedArmyId, selUnitsInfo, needFullUpdate)
+    updateFormedArmyInfo(formedArmyMask, selUnitsInfo, needFullUpdate)
+  }
+
+  function updateFormedArmyTitle (formedArmyId, selUnitsInfo, needFullUpdate)
+  {
+    if (needFullUpdate || !hasUnitsToFly || isMaxUnitsNumSet(selUnitsInfo))
     {
-      local bitsTexts = []
-      foreach (bit, range in bitsList)
-      {
-        if (::u.isEqual(range, ::Point2(0,0)))
-          continue
+      local armyTypeTextObj = scene.findObject("army_info_text")
+      if (!::check_obj(armyTypeTextObj))
+        return
 
-        bitsTexts.append(getUnitTypeRequirementText(bit, selUnitsInfo, mask))
-      }
-      text.append(::g_string.implode(bitsTexts, " + "))
-    }
-
-    topTextObj.setValue(::g_string.implode(text, "\n" + ::loc("worldwar/airfield/conditions_separator") + "\n"))
-
-    local conditionsTextObj = scene.findObject("unit_fly_conditions_title")
-    if (::check_obj(conditionsTextObj))
-    {
-      local conditionsText = ::loc("worldwar/airfield/unit_fly_conditions")
+      local armyInfoText = ""
       if (!hasUnitsToFly)
-        conditionsText = ::colorize("warningTextColor", ::loc("worldwar/airfield/not_enough_units_to_send") + " " + conditionsText)
-      else if (isMaxUnitsNumSet(selUnitsInfo))
-        conditionsText += ::loc("ui/parentheses/space",
-          { text = ::colorize("white", ::loc("worldwar/airfield/unit_various_limit", { types = currentOperation.maxUniqueUnitsOnFlyout })) })
-
-      conditionsText += ::loc("ui/colon")
-      conditionsTextObj.setValue(conditionsText)
+        armyInfoText = ::colorize("warningTextColor", ::loc("worldwar/airfield/not_enough_units_to_send"))
+      else
+      {
+        armyInfoText = ::loc("worldwar/airfield/army_type_" + formedArmyId)
+        if (isMaxUnitsNumSet(selUnitsInfo))
+        {
+          local maxValue = currentOperation.maxUniqueUnitsOnFlyout
+          local maxValueText = ::colorize("white", ::loc("worldwar/airfield/unit_various_limit",
+            { types = maxValue }))
+          armyInfoText += ::loc("ui/parentheses/space", { text = maxValueText })
+        }
+        armyTypeTextObj.tooltip = ::loc("worldwar/airfield/" + formedArmyId + "_armies_hint",
+          getAirsTypeViewParams())
+      }
+      armyTypeTextObj.setValue(armyInfoText)
     }
   }
 
-  function getUnitTypeRequirementText(unitClass, selUnitsInfo, unitsMask)
+  function updateFormedArmyInfo (formedArmyMask, selUnitsInfo, needFullUpdate)
   {
-    local iconAir = ::loc("worldwar/iconAir")
-    local unitsQty = getReqDataFromSelectedUnitsInfo(selUnitsInfo, unitClass, "amount", 0)
-    local classQt = currentOperation.getQuantityToFlyOut(unitClass, unitsMask)
-
-    local color = (selUnitsInfo.selectedUnitsMask == unitsMask) ? "activeTextColor" : "fadedTextColor"
-
-    return ::colorize(color, getFlyOutConditionText(unitClass,
-      iconAir, classQt, unitsQty))
-  }
-
-  function hasEnoughUnitsToFlyOut()
-  {
-    if (!unitsList.len())
-      return false
-
-    local classesMaxAmount = {}
-    foreach (unitTable in unitsList)
-      if (unitTable.armyGroupIdx == selectedGroupIdx)
-      {
-        if (!(unitTable.unitClass in classesMaxAmount))
-          classesMaxAmount[unitTable.unitClass] <- 0
-        classesMaxAmount[unitTable.unitClass] += unitTable.maxValue
-      }
-
-    foreach (mask, range in currentOperation.getUnitsFlyoutRange())
+    foreach (classMask, bitsList in currentOperation.getUnitsFlyoutRange())
     {
-      local hasEnough = false
-      foreach (unitClass, maxAmount in classesMaxAmount)
-      {
-        local unitRange = currentOperation.getQuantityToFlyOut(unitClass, mask)
-        if (unitRange.y < 0)
-          continue
+      local unitClassBlockObj = scene.findObject("unit_class_" + classMask)
+      if (!::check_obj(unitClassBlockObj))
+        continue
 
-        hasEnough = maxAmount >= unitRange.x
-        if (!hasEnough)
-          break
+      local isUnitClassEnabled = (formedArmyMask & classMask) > 0
+      unitClassBlockObj.isEnabled = isUnitClassEnabled ? "yes" : "no"
+
+      local amountRange = currentOperation.getQuantityToFlyOut(classMask, formedArmyMask)
+      local unitClassAmountTextObj = unitClassBlockObj.findObject("amount_text")
+      if (::check_obj(unitClassAmountTextObj))
+      {
+        local unitsAmount = getReqDataFromSelectedUnitsInfo(selUnitsInfo, classMask, "amount", 0)
+        unitClassAmountTextObj.setValue(getUnitTypeAmountText(unitsAmount, amountRange))
       }
 
-      if (hasEnough)
-        return true
-    }
+      if (!needFullUpdate)
+        continue
 
-    return false
+      local unitClassRequiredTextObj = unitClassBlockObj.findObject("required_text")
+      if (::check_obj(unitClassRequiredTextObj))
+        unitClassRequiredTextObj.setValue(getUnitTypeRequirementText(amountRange))
+    }
+  }
+
+  function getUnitTypeAmountText(amount, range)
+  {
+    if (!amount)
+      return ::loc("worldwar/airfield/selectedZero")
+
+    local color = (amount >= range.x && amount <= range.y) ? "goodTextColor" : "badTextColor"
+    local text = ::colorize(color, amount + " " + iconAir)
+
+    return ::loc("worldwar/airfield/selected", { amountText = text })
+  }
+
+  function getUnitTypeRequirementText(range)
+  {
+    if (range.y <= 0)
+      return ""
+
+    return range.x == range.y
+      ? ::loc("worldwar/airfield/required_number", { numb = range.y })
+      : ::loc("worldwar/airfield/required_range",  { min = range.x, max = range.y })
   }
 
   function isMaxUnitsNumSet(selUnitsInfo)
@@ -517,6 +531,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
     unitsList[unitIndex].value = value
 
+    local needDescriptionFullUpdate = false
     local selectedUnitsInfo = getSelectedUnitsInfo()
     if (prevSelectedUnitsMask != selectedUnitsInfo.selectedUnitsMask)
     {
@@ -524,6 +539,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       foreach (unitTable in unitsList)
         if (unitTable.armyGroupIdx == selectedGroupIdx)
           setupQuantityManageButtons(selectedUnitsInfo, unitTable)
+      needDescriptionFullUpdate = true
     }
 
     local unitClass = unitsList[unitIndex].unitClass
@@ -536,7 +552,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     setupQuantityManageButtons(selectedUnitsInfo, unitsList[unitIndex])
     updateSlider(unitsList[unitIndex], selectedUnitsInfo)
     setupSendButton()
-    fillFlyOutDescription()
+    fillFlyOutDescription(needDescriptionFullUpdate)
   }
 
   function updateSlider(unitTable, selUnitsInfo)
@@ -681,6 +697,24 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       centralBlockObj.unitName = unitTable.unitName
   }
 
+  function updateUnitClass(idx, unitTable)
+  {
+    local unit = unitTable.unit
+    local unitClassData = unit.getUnitClassData(unitTable.unitWeapon)
+    if (unitTable.unitClass == unitClassData.flyOutUnitClass)
+      return
+
+    unitTable.unitClass = unitClassData.flyOutUnitClass
+
+    local unitBlockObj = scene.findObject(unitTable.unitName + "_" + unitTable.armyGroupIdx)
+    local unitClassObj = unitBlockObj.findObject("unit_class_icon_text")
+    unitClassObj.unitType = unit.getUnitClassText(unitClassData.unitClass)
+    unitClassObj.tooltip = unit.getUnitClassTooltipText(unitClassData.unitClass)
+    unitClassObj.setValue(unit.getUnitClassIconText(unitClassData.unitClass))
+
+    updateUnitValue(idx, 0)
+  }
+
   function hasPresetToChoose(unit)
   {
     return unit.weapons.len() > 1
@@ -718,11 +752,12 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   function changeUnitWeapon(unitName, weaponName)
   {
-    foreach (unitTable in unitsList)
+    foreach (idx, unitTable in unitsList)
       if (unitTable.armyGroupIdx == selectedGroupIdx && unitTable.unitName == unitName)
       {
         unitTable.unitWeapon = weaponName
         fillUnitWeaponPreset(unitTable)
+        updateUnitClass(idx, unitTable)
         break
       }
   }

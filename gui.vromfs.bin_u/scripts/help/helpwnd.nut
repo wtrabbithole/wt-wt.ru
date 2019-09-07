@@ -75,6 +75,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   currentSubTabs = []
   curTabIdx = -1
   curSubTabIdx = -1
+  visibleTabs = null
 
   contentSet = HELP_CONTENT_SET.MISSION
   isStartedFromMenu = false
@@ -252,45 +253,51 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           {end = "main_gun_target_point", start = "main_gun_tube_label"}
         ]
       }
-      actionBarItems = [
+      actionBars = [
         {
-          type = ::EII_BULLET
-          active = true
-          id = "ammo_1"
-          selected = true
-          icon = "#ui/gameuiskin#apcbc_tank"
-        },
-        {
-          type = ::EII_BULLET
-          id = "ammo_2"
-          icon = "#ui/gameuiskin#he_frag_tank"
-        },
-        {
-          type = ::EII_SCOUT
-          id = "scout"
-        },
-        {
-          type = ::EII_ARTILLERY_TARGET
-          id = "artillery"
-        },
-        {
-          type = ::EII_SMOKE_GRENADE
-          id = "smoke_grenade"
-        },
-        {
-          type = ::EII_SMOKE_SCREEN
-          id = "smoke_screen"
-        },
-        {
-          type = ::EII_MEDICALKIT
-          id = "medicalkit"
+          nest  = "action_bar_place"
+          unitId = "ussr_t_34_85_zis_53"
+          items = [
+            {
+              type = ::EII_BULLET
+              active = true
+              id = "ammo_1"
+              selected = true
+              icon = "#ui/gameuiskin#apcbc_tank"
+            }
+            {
+              type = ::EII_BULLET
+              id = "ammo_2"
+              icon = "#ui/gameuiskin#he_frag_tank"
+            }
+            {
+              type = ::EII_SCOUT
+              id = "scout"
+            }
+            {
+              type = ::EII_ARTILLERY_TARGET
+              id = "artillery"
+            }
+            {
+              type = ::EII_SMOKE_GRENADE
+              id = "smoke_grenade"
+            }
+            {
+              type = ::EII_SMOKE_SCREEN
+              id = "smoke_screen"
+            }
+            {
+              type = ::EII_MEDICALKIT
+              id = "medicalkit"
+            }
+          ]
         }
       ]
     },
 
     [help_tab_types.IMAGE_SHIP] = {
        defaultValues = {
-        country = "ussr"
+        country = "usa"
       }
       title = "#hotkeys/ID_COMMON_CONTROL_HEADER"
       showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
@@ -301,35 +308,75 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       pageUnitTag = null
       pageBlkName = "gui/help/controlsShip.blk"
       imagePattern = "#ui/images/country_%s_ship_controls_help.jpg?P1"
-      hasImageByCountries = ["ussr"]
+      hasImageByCountries = [ "usa" ]
       countryRelatedObjs = {
-        ussr = [
+        usa = [
         ]
       }
       linkLines = {
         links = [
-          {end = "turn_right_target_point", start = "turn_right_label"}
-          {end = "turn_left_target_point", start = "turn_left_frame"}
-          {end = "real_speed_value", start = "base_hud_param_label"}
-          {end = "hdg_value", start = "base_hud_param_label"}
-          {end = "gear_value", start = "base_hud_param_label"}
-          {end = "buoyancy_value", start = "base_hud_param_label"}
-          {end = "torpedo_value_1", start = "torpedo_hud_param_label"}
-          {end = "torpedo_value_2", start = "torpedo_hud_param_label"}
-          {end = "throttle_target_point", start = "throttle_label"}
-          {end = "backward_target_point", start = "backward_label"}
-          {end = "cannon_markers_point_0", start = "cannon_markers_label"}
-          {end = "cursor_control_point", start = "CURSOR_controls_frame"}
-          {end = "torpedo_trajectory_point_0", start = "torpedo_trajectory_label"}
-          {end = "torpedo_trajectory_point_1", start = "torpedo_trajectory_label"}
-          {end = "rocket_trajectory_point_0", start = "rocket_trajectory_label"}
-          {end = "bombs_info_point_1", start = "bombs_info_label"}
-          {end = "bombs_info_point_0", start = "bombs_info_label"}
-          {end = "bomb_value_1", start = "rocket_hud_param_label"}
-          {end = "rocket_value_1", start = "rocket_hud_param_label"}
-          {end = "rocket_value_2", start = "rocket_hud_param_label"}
+          { start = "throttle_label", end = "throttle_target_point" }
+          { start = "backward_label", end = "backward_target_point" }
+          { start = "turn_right_label", end = "turn_right_target_point" }
+          { start = "turn_left_frame",  end = "turn_left_target_point" }
+          { start = "weapon_markers_frame", end = "weapon_markers_1_point" }
+          { start = "weapon_markers_frame", end = "weapon_markers_2_point" }
+          { start = "CURSOR_controls_frame", end = "cursor_control_point" }
+          { start = "crew_count_label", end = "crew_count_point" }
+          { start = "ab_extinguisher_label", end = "ab_extinguisher_target_point" }
+          { start = "ab_repair_label",       end = "ab_repair_target_point" }
+          { start = "ab_breaches_label",     end = "ab_breaches_target_point" }
+          { start = "ab_rocket_label",       end = "ab_rocket_target_point" }
+          { start = "ab_depth_charge_label", end = "ab_depth_charge_target_point" }
+          { start = "ab_torpedo_label",      end = "ab_torpedo_target_point" }
+          { start = "torpedo_trail_label", end = "torpedo_trail_point" }
+          { start = "torpedo_sight_label", end = "torpedo_sight_point" }
+          { start = "torpedo_projection_label", end = "torpedo_projection_point" }
+          { start = "manual_target_1_label", end = "manual_target_1_point" }
+          { start = "manual_target_2_label", end = "manual_target_2_point" }
+          { start = "manual_target_3_label", end = "manual_target_3_point" }
+          { start = "ai_shooting_modes_frame", end = "ai_shooting_modes_point" }
        ]
       }
+
+      actionBars = [
+        {
+          nest  = "action_bar_actions"
+          unitId = "us_elco_80ft_pt_boat_mod01"
+          items = [
+            {
+              type = ::EII_EXTINGUISHER
+              id = "ab_extinguisher"
+            }
+            {
+              type = ::EII_TOOLKIT
+              id = "ab_repair"
+            }
+            {
+              type = ::EII_REPAIR_BREACHES
+              id = "ab_breaches"
+            }
+          ]
+        }
+        {
+          nest  = "action_bar_weapons"
+          unitId = "us_elco_80ft_pt_boat_mod01"
+          items = [
+            {
+              type = ::EII_ROCKET
+              id = "ab_rocket"
+            }
+            {
+              type = ::EII_DEPTH_CHARGE
+              id = "ab_depth_charge"
+            }
+            {
+              type = ::EII_TORPEDO
+              id = "ab_torpedo"
+            }
+          ]
+        }
+      ]
     },
 
     [help_tab_types.IMAGE_HELICOPTER] = {
@@ -552,6 +599,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local hasFeatureTanks = ::has_feature("Tanks")
 
     local currentUnit = ::get_player_cur_unit()
+    if (isContentMission && (!currentUnit || currentUnit.name == "dummy_plane"))
+      currentUnit = ::show_aircraft
 
     pageUnitType = currentUnit ? currentUnit.unitType : ::g_unit_type.AIRCRAFT
     if ((pageUnitType == ::g_unit_type.TANK && !hasFeatureTanks))
@@ -599,6 +648,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     fillTabs(getPreferableTabId(params))
+
+    initFocusArray()
   }
 
   function getPreferableTabId(params)
@@ -650,10 +701,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillTabs(preselectedTab)
   {
+    visibleTabs = []
     local tabsObj = scene.findObject("tabs_list")
-    local view = {
-      tabs = []
-    }
     local preselectedTabId = -1
     foreach (tabGroup in tabGroups)
     {
@@ -665,18 +714,26 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           if( ! firstAvaliableSubTab)
             firstAvaliableSubTab = tabsCfg[tabType]
           if(tabsCfg[tabType] == preselectedTab)
-            preselectedTabId = view.tabs.len()
+            preselectedTabId = visibleTabs.len()
         }
       }
-
+      if (firstAvaliableSubTab == null)
+        continue
       local tabName = ::getTblValue("title", tabGroup)
       if ( ! tabName && firstAvaliableSubTab)
         tabName = ::getTblValue("title", firstAvaliableSubTab, "")
-      view.tabs.push({
-        tabName = tabName
-        hidden = firstAvaliableSubTab == null
-      })
+      visibleTabs.append(tabGroup.__merge({title = tabName}))
     }
+
+    local view = {
+      tabs = []
+    }
+    local countVisibleTabs = visibleTabs.len()
+    foreach (idx, tab in visibleTabs)
+      view.tabs.push({
+        tabName = tab.title
+        navImagesText = ::get_navigation_images_text(idx, countVisibleTabs)
+      })
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     guiScene.replaceContentFromText(tabsObj, data, data.len(), this)
     setValidIndex(tabsObj, preselectedTabId)
@@ -685,7 +742,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function fillSubTabs(preselectedTab)
   {
     local subTabsObj = scene.findObject("sub_tabs_list")
-    if ( ! ::check_obj(subTabsObj))
+    if ( ! ::check_obj(subTabsObj) || visibleTabs.len() == 0)
       return
     subTabsObj.enable(true)
     subTabsObj.show(true)
@@ -693,7 +750,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       tabs = []
     }
     local preselectedTabId = -1
-    local currentTabGroup = ::getTblValue(curTabIdx, tabGroups, tabGroups[0])
+    local currentTabGroup = visibleTabs?[curTabIdx] ?? visibleTabs[0]
 
     currentSubTabs = []
     foreach (tabType in currentTabGroup.list)
@@ -714,6 +771,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isVisible = (view.tabs.len() > 1)
     subTabsObj.enable(isVisible)
     subTabsObj.show(isVisible)
+    if (isVisible)
+      restoreFocus()
   }
 
   function onHelpSheetChange(obj)
@@ -766,7 +825,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local selectedCountry = ::get_profile_country_sq().slice(8)
       selectedCountry = (selectedCountry in countryRelatedObjs) ? selectedCountry : tab.defaultValues.country
-      local selectedCountryConfig = countryRelatedObjs[selectedCountry]
+      local selectedCountryConfig = countryRelatedObjs?[selectedCountry] ?? []
       foreach(key, countryConfig in countryRelatedObjs)
         foreach (idx, value in countryConfig)
         {
@@ -818,7 +877,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
                      : tab.defaultValues.country
 
     backImg["background-image"] = ::format(::getTblValue("imagePattern", tab, ""), curCountry)
-    fillActionBar(tab)
+    fillActionBars(tab)
     updatePlatformControls()
   }
 
@@ -990,10 +1049,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       local text = ""
       for (local k = 0; k < sc.dev.len(); k++)
       {
+        text += ((k != 0)? " + ":"") + ::getLocalizedControlName(curPreset, sc.dev[k], sc.btn[k])
         local btnName = curPreset.getButtonName(sc.dev[k], sc.btn[k])
-
-        text += ((k != 0)? " + ":"") + ::getLocalizedControlName(btnName)
-
         if (btnName=="MWUp" || btnName=="MWDown")
           btnName = "MMB"
         if (btnName in btnList)
@@ -1323,25 +1380,28 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function fillActionBar(tab)
+  function fillActionBars(tab)
   {
-    local actionBarItems = tab?.actionBarItems
-    if (!actionBarItems || actionBarItems.len() <= 0)
-      return
+    foreach (actionBar in (tab?.actionBars ?? []))
+    {
+      local obj = scene.findObject(actionBar?.nest)
+      local actionBarItems = actionBar?.items ?? []
+      if (!::check_obj(obj) || !actionBarItems.len())
+        continue
 
-    local nest = scene.findObject("action_bar_place")
-    local items = []
-    foreach (item in actionBarItems)
-      items.append(buildItemView(item))
+      local items = []
+      foreach (item in actionBarItems)
+        items.append(buildActionbarItemView(item, actionBar))
 
-    local view = {
-      items = items
+      local view = {
+        items = items
+      }
+      local blk = ::handyman.renderCached(("gui/help/helpActionBarItem"), view)
+      guiScene.replaceContentFromText(obj, blk, blk.len(), this)
     }
-    local blk = ::handyman.renderCached(("gui/help/helpActionBarItem"), view)
-    guiScene.replaceContentFromText(nest, blk, blk.len(), this)
   }
 
-  function buildItemView(item)
+  function buildActionbarItemView(item, actionBar)
   {
     local actionBarType = ::g_hud_action_bar_type.getByActionItem(item)
     local viewItem = {}
@@ -1353,9 +1413,14 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (item.type == ::EII_BULLET)
       viewItem.icon <- item.icon
     else
-      viewItem.icon <- actionBarType.getIcon()
+      viewItem.icon <- actionBarType.getIcon(null, ::getAircraftByName(actionBar?.unitId ?? ""))
 
     return viewItem
+  }
+
+  function getMainFocusObj()
+  {
+    return scene.findObject("sub_tabs_list")
   }
 }
 
@@ -1370,8 +1435,7 @@ function get_shortcut_frame_for_help(shortcut)
   local curPreset = ::g_controls_manager.getCurPreset()
   for (local k = 0; k < shortcut.dev.len(); k++)
   {
-    local btnName = curPreset.getButtonName(shortcut.dev[k], shortcut.btn[k]);
-    local name = ::getLocalizedControlName(btnName);
+    local name = ::getLocalizedControlName(curPreset, shortcut.dev[k], shortcut.btn[k]);
     local buttonFrame = format("controlsHelpBtn { text:t='%s'; font:t='%s' }", ::g_string.stripTags(name), (name.len()>2)? "@fontTiny" : "@fontMedium");
 
     if (shortcut.dev[k] == ::STD_MOUSE_DEVICE_ID)

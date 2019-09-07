@@ -1,4 +1,5 @@
-local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
+local xboxShop = ::require("scripts/onlineShop/xboxShop.nut")
+local SecondsUpdater = ::require("sqDagui/timer/secondsUpdater.nut")
 /*
  * Search in price.blk:
  * Search parapm is a table of request fields
@@ -38,17 +39,25 @@ function OnlineShopModel::showGoods(searchRequest)
       return openShopUrl(customUrl)
   }
 
-  if (::is_ps4_or_xbox)
-    return launchPS4Store() || launchXboxMarketplace()
+  if (::is_platform_ps4)
+    return launchPS4Store()
 
   __assyncActionWrap(function ()
     {
       local searchResult = __searchEntitlement(searchRequest)
       foreach (goodsName in searchResult)
-        if (getGuidForGoods(goodsName) != "")
+      {
+        if (::is_platform_xboxone)
+        {
+          local xboxId = getXboxIdForGoods(goodsName)
+          if (xboxId != "")
+            return ::xbox_show_details(xboxId)
+        }
+        else if (getGuidForGoods(goodsName) != "")
           return doBrowserPurchase(goodsName)
+      }
 
-      return ::gui_modal_onlineShop()
+      return ::is_platform_xboxone? launchXboxMarketplace() : ::gui_modal_onlineShop()
     }.bindenv(OnlineShopModel))
 }
 /*end API methods*/
@@ -133,6 +142,11 @@ function OnlineShopModel::__searchEntitlement(searchRequest)
 function OnlineShopModel::getGuidForGoods(goodsName)
 {
   return ::loc("guid/" + goodsName, "")
+}
+
+function OnlineShopModel::getXboxIdForGoods(goodsName)
+{
+  return ::loc("xboxId/" + goodsName, "")
 }
 
 function OnlineShopModel::getCustomPurchaseLink(goodsName)
@@ -474,8 +488,12 @@ function OnlineShopModel::launchXboxMarketplace(chapter = null, afterCloseFunc =
 {
   if (::is_platform_xboxone && ::isInArray(chapter, [null, "", "eagles"]))
   {
-    ::queues.checkAndStart(::Callback(@() launchXboxOneStoreByChapter(chapter, afterCloseFunc),this),
-      null, "isCanUseOnlineShop")
+    if (xboxShop.canUseIngameShop())
+      xboxShop.openWnd(chapter)
+    else
+      ::queues.checkAndStart(::Callback(@() launchXboxOneStoreByChapter(chapter, afterCloseFunc),this),
+        null, "isCanUseOnlineShop")
+
     return true
   }
   return false
@@ -583,7 +601,7 @@ function get_entitlement_price(item)
     {
       local markup = ::steam_is_running() ? 1.0 + getSteamMarkUp()/100.0 : 1.0
       local totalPrice = priceText.tofloat() * markup
-      local discount = ::getTblValue(item.name, ::visibleDiscountNotifications.entitlements, 0)
+      local discount = ::g_discount.getEntitlementDiscount(item.name)
       if (discount)
         totalPrice -= totalPrice * discount * 0.01
 

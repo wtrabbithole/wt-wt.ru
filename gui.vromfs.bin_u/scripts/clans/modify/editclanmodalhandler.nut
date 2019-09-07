@@ -152,7 +152,7 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
       local text = changedPrimary && newClanType.getPrimaryInfoChangeCost() > ::zero_money
                    ? "clan/needMoneyQuestion_editClanPrimaryInfo"
                    : "clan/needMoneyQuestion_editClanSecondaryInfo"
-      local msgText = format(::loc(text), cost.tostring())
+      local msgText = warningIfGold(format(::loc(text), cost.tostring()), cost)
       msgBox("need_money", msgText, [["ok", function() { editClanInfo() }],
         ["cancel"]], "ok")
     }
@@ -202,8 +202,9 @@ class ::gui_handlers.EditClanModalhandler extends ::gui_handlers.ModifyClanModal
     if (::check_balance_msgBox(cost))
     {
       local step = clanData.type.getMembersUpgradeStep()
-      local msgText = ::loc("clan/needMoneyQuestion_upgradeMembers",
-                            {step=step, cost=cost})
+      local msgText = warningIfGold(::loc("clan/needMoneyQuestion_upgradeMembers",
+          {step=step, cost=cost}),
+        cost)
       msgBox("need_money", msgText, [["ok", function() { upgradeMembers() } ],
         ["cancel"]], "ok")
     }

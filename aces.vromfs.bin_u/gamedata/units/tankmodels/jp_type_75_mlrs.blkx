@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -147,6 +150,9 @@
         },
         "turret_front_dm": {
           "armorThickness": 25.0
+        },
+        "turret_bottom_dm": {
+          "armorThickness": 10.0
         }
       },
       "mask": {
@@ -158,6 +164,20 @@
           "armorThickness": 20.0,
           "hp": 150.0
         }
+      },
+      "body_shields": {
+        "armorClass": "tank_structural_steel",
+        "hp": 1000.0,
+        "armorThickness": 5.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
+        "ex_armor_05_dm": [],
+        "ex_decor_r_01_dm": [],
+        "ex_decor_r_04_dm": [],
+        "ex_decor_l_01_dm": [],
+        "ex_decor_l_04_dm": [],
+        "ex_armor_01_dm": [],
+        "ex_armor_03_dm": []
       },
       "optics": {
         "armorClass": "optics_tank",
@@ -292,6 +312,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
         "cannon_breech_02_dm": []
@@ -1013,6 +1034,7 @@
           "createGunEffects": true,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
+          "barrelDP": "gun_barrel_dm",
           "brokenBarrelAllowShoot": true,
           "speedYaw": 15.0,
           "speedPitch": 5.0,
@@ -1059,7 +1081,7 @@
           "speedYaw": 40.0,
           "speedPitch": 20.0,
           "fireConeAngle": 1.0,
-          "bullets": 1000,
+          "bullets": 600,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1134,7 +1156,7 @@
         "minRPM": 600.0
       },
       "mechanics": {
-        "maxBrakeForce": 85000.0,
+        "maxBrakeForce": 75000.0,
         "driveGearRadius": 0.29,
         "mainGearRatio": 1.31,
         "sideGearRatio": 5.0,
@@ -1160,8 +1182,8 @@
         ]
       },
       "suspension": {
-        "maxDisplacementOffsets": [-0.01,0.05],
-        "suspensionOffsets": [-0.1,-0.05,0.05],
+        "maxDisplacementOffsets": [-0.01,0.01],
+        "suspensionOffsets": [-0.1,-0.01,0.01],
         "defaultGearRadius": 0.35,
         "frontBackGearRadius": 0.2,
         "topGearRadius": 0.1,

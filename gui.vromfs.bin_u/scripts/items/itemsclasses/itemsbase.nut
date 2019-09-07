@@ -238,6 +238,7 @@ class ::BaseItem
 
     local guiScene = obj.getScene()
     obj.doubleSize = bigPicture? "yes" : "no"
+    obj.wideSize = params?.wideSize ? "yes" : "no"
     guiScene.replaceContentFromText(obj, imageData, imageData.len(), null)
   }
 
@@ -476,8 +477,9 @@ class ::BaseItem
 
     local name = getName()
     local price = getCost().getTextAccordingToBalance()
-    local msgText = ::loc("onlineShop/needMoneyQuestion",
-                          { purchase = name, cost = price })
+    local msgText = warningIfGold(
+      ::loc("onlineShop/needMoneyQuestion",{purchase = name, cost = price }),
+      getCost())
     local item = this
     handler.msgBox("need_money", msgText,
           [["purchase", (@(item, cb, params) function() { item._buy(cb, params) })(item, cb, params) ],

@@ -1549,21 +1549,6 @@ function showAirExpWpBonus(obj, airName, showExp = true, showWp = true)
     obj[name] = result
 }
 
-function showCountryBonus(obj, country)
-{
-  if(!checkObj(obj))
-    return
-
-
-  local exp = ::shop_get_first_win_xp_rate(country)
-  local wp = ::shop_get_first_win_wp_rate(country)
-
-  local bonusData = getBonus(exp, wp, "country")
-
-  foreach (name, result in bonusData)
-    obj[name] = result
-}
-
 function getBonus(exp, wp, imgType, placeType="", airName="")
 {
   local imgColor = ""
@@ -2810,4 +2795,10 @@ function hangar_blur(enable, params = null)
   }
   else
     ::disable_dof()
+}
+
+function warningIfGold(text, cost){
+  if(cost?.gold > 0)
+    text = ::colorize("@red", ::loc("shop/needMoneyQuestion_warning"))+ "\n" + text
+  return text
 }

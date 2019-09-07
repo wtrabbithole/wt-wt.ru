@@ -53,7 +53,7 @@ local Rand = class{
   function rint(start=0, end = null) {
     _count += 1
     if (end== null && start==0)
-      return ::uint_noise1D(_seed, _count)
+      return random.uint_noise1D(_seed, _count)
     else {
       local start_ = ::min(end,start)
       local end_ = ::max(end,start)

@@ -76,41 +76,37 @@ function is_skirmish_with_killstreaks(misBlk)
   return misBlk.getBool("allowedKillStreaks", false);
 }
 
-function is_tank_bots_allowed(misBlk)
+function get_mission_allowed_unittypes_mask(misBlk, useKillStreaks = null)
 {
-  return misBlk.getBool("isTanksAllowed", false)
+  local res = 0
+  foreach (unitType in ::g_unit_type.types)
+    if (unitType.isAvailable() && ::is_mission_for_unittype(misBlk, unitType.esUnitType, useKillStreaks))
+      res = res | unitType.bit
+  return res
 }
 
-function is_ship_bots_allowed(misBlk)
+function is_mission_for_unittype(misBlk, esUnitType, useKillStreaks = null)
 {
-  return misBlk.getBool("isShipsAllowed", false)
-}
+  local unitType = ::g_unit_type.getByEsUnitType(esUnitType)
 
-function is_helicopter_bots_allowed(misBlk)
-{
-  return misBlk.getBool("isHelicoptersAllowed", false)
-}
-
-function is_mission_for_tanks(misBlk)
-{
   // Works for missions in Skirmish.
-  if (misBlk && is_tank_bots_allowed(misBlk))
-    return true
+  if (unitType.missionSettingsAvailabilityFlag in misBlk)
+    return unitType.isAvailableByMissionSettings(misBlk, useKillStreaks)
 
+  // Works for all missions, including single missions, user missions, etc.
   local fullMissionBlk = null
   local url = ::getTblValue("url", misBlk)
   if (url != null)
     fullMissionBlk = ::getTblValue("fullMissionBlk", ::g_url_missions.findMissionByUrl(url))
   else
     fullMissionBlk = misBlk && misBlk.mis_file && ::DataBlock(misBlk.mis_file)
-
   if (fullMissionBlk)
-    return has_tanks_in_full_mission_blk(fullMissionBlk)
+    return has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
 
   return false
 }
 
-function has_tanks_in_full_mission_blk(fullMissionBlk)
+function has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
 {
   local unitsBlk = fullMissionBlk && fullMissionBlk.units
   local playerBlk = fullMissionBlk && ::get_blk_value_by_path(fullMissionBlk, "mission_settings/player")
@@ -121,11 +117,11 @@ function has_tanks_in_full_mission_blk(fullMissionBlk)
     {
       local block = unitsBlk.getBlock(i)
       if (block && ::isInArray(block.name, wings))
-        if (block.unit_class) // && ::isTank(::findUnitNoCase(block.unit_class)))
+        if (block.unit_class)
         {
           if (!(block.unit_class in unitsCache))
-            unitsCache[block.unit_class] <- ::isTank(::findUnitNoCase(block.unit_class))
-          if (unitsCache[block.unit_class])
+            unitsCache[block.unit_class] <- ::get_es_unit_type(::findUnitNoCase(block.unit_class))
+          if (unitsCache[block.unit_class] == esUnitType)
             return true
         }
     }

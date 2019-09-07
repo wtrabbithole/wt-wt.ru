@@ -2,6 +2,7 @@
 @const shopFilterTextCountryHeight: 28@sf/@pf;
 @const listboxItemsInterval:1@dp;
 @const listboxHPadding: 0.015@sf;
+@const slotsHeaderBoxPadding: 0.01@sf;
 
 @const listboxBgColor:              #CC03070C;
 
@@ -72,19 +73,8 @@ shopFilter {
 }
 
 SlotbarBackground {
-  background-color:@slotbarBgColor;
-  background-position:1, 2, 1, 0;
-  padding:0, 2, 0, 0;
-}
-
-HorizontalListBox.slotbar {
-  background-color:@transparent;
-  background-position:1, 2, 1, 0;
-  padding:0, 2, 0, 0;
-}
-
-HorizontalListBox.slotbar[hasBackground=yes] {
-  background-color:@slotbarBgColor;
+  background-color: @slotbarBgColor;
+  background-position: 1, 0;
 }
 
 VerticalListBox > shopFilter,
@@ -554,4 +544,60 @@ HorizontalListBox[withImages=yes] > shopFilter > shopFilterImg {
 
 VerticalListBox.options > shopFilter {
   width:pw;
+}
+
+
+CountriesCrews {
+  size: pw, 1@slotbarHeight;
+  css-hier-invalidate: yes;
+  background-color:@transparent;
+  background-position:1, 2, 1, 0;
+  margin-top: 2;
+  padding-top: 2;
+}
+
+CountriesCrews > massTransp {
+  size: pw, ph;
+}
+
+CountriesCrews[hasBackground=yes] {
+  background-color:@slotbarBgColor;
+}
+
+shopFilter.slotsHeader:hover {
+  background-color: @slotsHeaderBtnHoverColor;
+}
+
+shopFilter.slotsHeader[selected=yes] {
+  background-color: @slotsHeaderBtnSelectedColor;
+}
+
+slotsCountryText {
+  re-type:text;
+  top:0.5(ph-h);
+  position:relative;
+  padding-left:1@blockInterval;
+  font:@fontNormal;
+  color:@minorTextColor;
+}
+activateSelect[isShort=no] > shopFilter.slotsHeader {
+  tooltip:'';
+}
+activateSelect[isShort=yes] slotsCountryText.short {
+  display: show;
+}
+activateSelect[isShort=yes] slotsCountryText.full {
+  display: hide;
+}
+
+shopFilter[selected=yes] > slotsCountryText,
+shopFilter[chosen=yes] > slotsCountryText {
+  color:@activeTextColor;
+}
+shopFilter:disabled > slotsCountryText {
+  color:@itemLockedColor;
+}
+
+shopFilter.slotsHeader:disabled > img {
+  background-color: @countryLockedColor;
 }

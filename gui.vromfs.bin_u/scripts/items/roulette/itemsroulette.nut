@@ -139,7 +139,7 @@ function ItemsRoulette::init(trophyName, rewardsArray, imageObj, handler, afterD
     blackoutObj.animation = "show"
 
   local afterDoneCb = function() {
-    ::ItemsRoulette.showTopPrize()
+    ::ItemsRoulette.showTopPrize(rewardsArray)
     afterDoneFunc()
   }
 
@@ -435,7 +435,7 @@ function ItemsRoulette::getRandomItem(array, dropChanceSum, count = 1, trophyTab
   return returnTable
 }
 
-function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray)
+function ItemsRoulette::getCurrentReward(rewardsArray)
 {
   local array = []
   local shouldOnlyImage = rewardsArray.len() > 1
@@ -444,7 +444,12 @@ function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray)
     reward.layout <- ::ItemsRoulette.getRewardLayout(reward, shouldOnlyImage)
     array.append(reward)
   }
-  readyItemsArray[insertRewardIdx] = array
+  return array
+}
+
+function ItemsRoulette::insertCurrentReward(readyItemsArray, rewardsArray)
+{
+  readyItemsArray[insertRewardIdx] = getCurrentReward(rewardsArray)
 }
 
 function ItemsRoulette::getHiddenTopPrizeReward(params)
@@ -495,10 +500,16 @@ function ItemsRoulette::insertHiddenTopPrize(readyItemsArray)
   slot[0] = { reward = ::ItemsRoulette.getHiddenTopPrizeReward(hiddenTopPrizeParams) }
 }
 
-function ItemsRoulette::showTopPrize()
+function ItemsRoulette::showTopPrize(rewardsArray)
 {
   if (!topPrizeLayout)
     return
+  if (topPrizeLayout == "" && isGotTopPrize)
+    topPrizeLayout = ::g_string.implode(::u.map(getCurrentReward(rewardsArray), @(p) p.layout))
+
+   if (topPrizeLayout == "")
+     return
+
   local obj = ::check_obj(rouletteObj) && rouletteObj.findObject("roulette_slot_" + insertRewardIdx)
   if (!::check_obj(obj))
     return

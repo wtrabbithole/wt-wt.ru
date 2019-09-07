@@ -547,7 +547,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function onSelectLb()
   {
     guiScene.performDelayed(this, (function () {
-      updateButtons()
+      if (isValid())
+        updateButtons()
     }))
   }
 

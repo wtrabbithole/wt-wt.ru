@@ -278,6 +278,11 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     newGameModeIconWidget.setValue(::game_mode_manager.getUnseenGameModeCount())
   }
 
+  function goToBattleFromDebriefing()
+  {
+    determineAndStartAction(true)
+  }
+
   function onEventShowingGameModesUpdated(params)
   {
     updateUnseenGameModesCounter()
@@ -365,12 +370,18 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function onEventCurrentGameModeIdChanged(params)
   {
     setGameMode(::game_mode_manager.getCurrentGameModeId())
+    updateNoticeGMChanged()
   }
 
   function onEventGameModesUpdated(params)
   {
     setGameMode(::game_mode_manager.getCurrentGameModeId())
     updateUnseenGameModesCounter()
+    guiScene.performDelayed(this, function() {
+      if (!isValid())
+        return
+      doWhenActiveOnce("checkNewUnitTypeToBattleTutor")
+    })
   }
 
   function onCountrySelect()
@@ -477,6 +488,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function onStart()
   {
+    ::game_mode_manager.setUserGameModeId(null)
     determineAndStartAction()
   }
 
@@ -498,21 +510,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local event = getGameModeEvent(curGameMode)
     if (!isCrossPlayEventAvailable(event))
     {
-      ::scene_msg_box("xbox_cross_play",
-        guiScene,
-        ::loc("xbox/login/crossPlayRequest") +
-          "\n" +
-          ::colorize("@warningTextColor", ::loc("xbox/login/crossPlayRequest/annotation")),
-        [
-          ["yes", ::Callback(@() onChangeCrossPlayValue(true, curGameMode), this) ],
-          ["no", ::Callback(@() onChangeCrossPlayValue(false, curGameMode), this) ],
-          ["cancel", @() null ]
-        ],
-        "yes",
-        {
-          cancel_fn = @() null
-        }
-      )
+      ::g_popups.add(null, ::loc("xbox/actionNotAvailableCrossNetwork"))
       return
     }
 
@@ -535,19 +533,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       configForStatistic.canIntoToBattle <- false
       ::add_big_query_record("to_battle_button", ::save_to_json(configForStatistic))
     }.bindenv(this))
-  }
-
-  function onChangeCrossPlayValue(enable, gameMode)
-  {
-    if (enable != crossplayModule.isCrossPlayEnabled())
-    {
-      crossplayModule.setIsCrossPlayEnabled(enable)
-      doWhenActiveOnce("onStart")
-      return
-    }
-
-    if (enable)
-      onStart()
   }
 
   function isCrossPlayEventAvailable(event)
@@ -1228,17 +1213,123 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     local tutorial = SlotbarPresetsTutorial()
     tutorial.currentCountry = getCurCountry()
+    tutorial.tutorialGameMode = currentGameMode
     tutorial.currentHandler = this
     tutorial.onComplete = function (params) {
       slotbarPresetsTutorial = null
     }.bindenv(this)
-    tutorial.preset = ::game_mode_manager.findPresetValidForCurrentGameMode(getCurCountry())
+    tutorial.preset = ::game_mode_manager.findPresetValidForGameMode(getCurCountry())
     if (tutorial.startTutorial())
     {
       slotbarPresetsTutorial = tutorial
       return true
     }
     return false
+  }
+
+  function checkNewUnitTypeToBattleTutor()
+  {
+    if (::disable_network()
+      || !::my_stats.isStatsLoaded()
+      || !::has_feature("NewUnitTypeToBattleTutorial"))
+      return
+
+    if (!tutorialModule.needShowTutorial("newUnitTypetoBattle", 1)
+      || ::my_stats.getMissionsComplete(["pvp_played", "skirmish_played"])
+           < SlotbarPresetsTutorial.MIN_PLAYS_GAME_FOR_NEW_UNIT_TYPE
+      || ::g_squad_manager.isNotAloneOnline()
+      || !::isCountryAllCrewsUnlockedInHangar(::get_profile_country_sq()))
+      return
+
+    startNewUnitTypeToBattleTutorial()
+  }
+
+  function startNewUnitTypeToBattleTutorial()
+  {
+    local currentGameMode = ::game_mode_manager.getCurrentGameMode()
+    if (!currentGameMode)
+      return
+
+    local currentCountry = ::get_profile_country_sq()
+    local gameModeForTutorial = null
+    local validPreset = null
+    local isNotFoundUnitTypeForTutorial = true
+    local isNotFoundValidPresetForTutorial= false
+    foreach (unitType in ::g_unit_type.types)
+    {
+      if (!unitType.isAvailableForFirstChoice()
+        || ::my_stats.getTimePlayedOnUnitType(unitType.esUnitType) > 0)
+        continue
+
+      isNotFoundUnitTypeForTutorial = false
+      gameModeForTutorial = ::game_mode_manager.getGameModeById(::events.getEventEconomicName(
+        ::my_stats.getNextNewbieEvent(currentCountry, unitType.esUnitType)))
+
+      if (!gameModeForTutorial)
+        continue
+
+      validPreset = ::game_mode_manager.findPresetValidForGameMode(currentCountry, gameModeForTutorial)
+      if (validPreset)
+        break
+
+      isNotFoundValidPresetForTutorial = true
+    }
+
+    if (!gameModeForTutorial || !validPreset)
+    {
+      if (isNotFoundUnitTypeForTutorial || isNotFoundValidPresetForTutorial)
+      {
+        ::add_big_query_record("new_unit_type_to_battle_tutorial_skipped",
+          isNotFoundUnitTypeForTutorial ? "isNotFoundUnitTypeForTutorial" : "isNotFoundValidPreset")
+        tutorialModule.saveShowedTutorial("newUnitTypetoBattle")
+      }
+      return
+    }
+
+    ::scene_msg_box("new_unit_type_to_battle_tutorial_msgbox", null,
+      ::loc("msgBox/start_new_unit_type_to_battle_tutorial", { gameModeName = gameModeForTutorial.text }),
+      [
+        ["yes", function() {
+          ::add_big_query_record("new_unit_type_to_battle_tutorial_msgbox_btn", "yes")
+          local tutorial = SlotbarPresetsTutorial()
+          tutorial.currentCountry = currentCountry
+          tutorial.tutorialGameMode = gameModeForTutorial
+          tutorial.isNewUnitTypeToBattleTutorial = true
+          tutorial.currentHandler = this
+          tutorial.onComplete = function (params) {
+            slotbarPresetsTutorial = null
+          }.bindenv(this)
+          tutorial.preset = validPreset
+          if (tutorial.startTutorial())
+            slotbarPresetsTutorial = tutorial
+        }.bindenv(this)],
+        ["no", function() {
+          ::add_big_query_record("new_unit_type_to_battle_tutorial_msgbox_btn", "no")
+        }.bindenv(this)]
+      ], "yes")
+
+    tutorialModule.saveShowedTutorial("newUnitTypetoBattle")
+  }
+
+  function updateNoticeGMChanged()
+  {
+    local alertObj = scene.findObject("game_mode_notice")
+    local id = ::game_mode_manager.getUserGameModeId()
+    local gameMode = ::game_mode_manager.getGameModeById(id)
+    local isVisible = id != null &&
+                      id != ::game_mode_manager.getCurrentGameModeId() && gameMode != null
+    if(isVisible)
+      alertObj.setValue(format(::loc("mainmenu/gamemode_change_notice"), gameMode.text))
+    alertObj.show(isVisible)
+  }
+
+  function onGMNoticeClick()
+  {
+    local id = ::game_mode_manager.getUserGameModeId()
+    if(id != null)
+    {
+      ::game_mode_manager.setCurrentGameModeById(id, true)
+    }
   }
 }
 

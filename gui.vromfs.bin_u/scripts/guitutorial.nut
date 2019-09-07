@@ -143,7 +143,7 @@ function gui_modal_tutor(stepsConfig, wndHandler, isTutorialCancelable = false)
 //]
 {
   return ::gui_start_modal_wnd(::gui_handlers.Tutor, {
-    owner = wndHandler,
+    ownerWeak = wndHandler,
     config = stepsConfig,
     isTutorialCancelable = isTutorialCancelable
   })
@@ -155,7 +155,7 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
   sceneBlkName = "gui/tutorials/tutorWnd.blk"
 
   config = null
-  owner = null
+  ownerWeak = null
 
   stepIdx = 0
 
@@ -166,9 +166,10 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    if (!config || !config.len())
+    if (!ownerWeak || !config || !config.len())
       return finalizeTutorial()
 
+    ownerWeak = ownerWeak.weakref()
     guiScene.setUpdatesEnabled(true, true)
     showSceneBtn("close_btn", isTutorialCancelable)
     showStep()
@@ -207,7 +208,10 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
       objList = [objList]
     foreach(obj in objList)
     {
-      local block = ::guiTutor.getBlockFromObjData(obj, owner.scene)
+      if (!ownerWeak)
+        return finalizeTutorial()
+
+      local block = ::guiTutor.getBlockFromObjData(obj, ownerWeak.scene)
       if (!block)
         continue
 
@@ -236,6 +240,7 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateObjectsPos(blocks, needArrow = true)
   {
+    guiScene.applyPendingChanges(false)
     local boxList = []
     foreach(b in blocks)
       boxList.append(b.box)
@@ -280,7 +285,7 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
 
   function onNext()
   {
-    if (stepIdx >= config.len() - 1)
+    if (stepIdx >= config.len() - 1 || !ownerWeak)
       return finalizeTutorial()
 
     canceled = false
@@ -305,7 +310,7 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
     if (::u.isCallback(cb) || ::getTblValue("keepEnv", stepData, false))
       cb()
     else
-      ::call_for_handler(owner, cb)
+      ::call_for_handler(ownerWeak, cb)
   }
 
   function afterModalDestroy()

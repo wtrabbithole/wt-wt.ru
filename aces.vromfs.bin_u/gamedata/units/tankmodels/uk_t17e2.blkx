@@ -21,6 +21,9 @@
     "exhaustFx": "tank_exhaust"
   },
   {
+    "damagedExhaustFx": "tank_broken_exhaust"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -540,6 +543,7 @@
         "armorThickness": 15.0,
         "armorThrough": 300.0,
         "fireProtectionHp": 10.0,
+        "hidableInViewer": false,
         "cannon_breech_dm": [],
         "cannon_breech_01_dm": [],
         "cannon_breech_02_dm": [],
@@ -1332,7 +1336,15 @@
         },
         "driven": {
           "wheel_l_01": true,
-          "wheel_r_01": true
+          "wheel_r_01": true,
+          "wheel_l_drive": true,
+          "wheel_r_drive": true
+        },
+        "wheelsDamageWeight": {
+          "wheel_l_01": 0.4,
+          "wheel_r_01": 0.4,
+          "wheel_l_drive": 0.4,
+          "wheel_r_drive": 0.4
         }
       }
     }

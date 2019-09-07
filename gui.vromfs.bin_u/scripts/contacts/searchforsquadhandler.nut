@@ -1,3 +1,6 @@
+local platformModule = require("scripts/clientState/platform.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
+
 function gui_start_search_squadPlayer()
 {
   if (!::g_squad_manager.canInviteMember())
@@ -38,8 +41,6 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
     scene.findObject("contacts_backShade").show(true)
     scene.findObject("title").setValue(::loc("mainmenu/btnInvite"))
 
-    showSceneBtn("btn_squadInvite_bottom", !::show_console_buttons)
-
     sg_groups = [::EPLX_SEARCH, ::EPL_FRIENDLIST, ::EPL_RECENT_SQUAD]
     if(::clan_get_my_clan_id() != "-1" && !::isInArray(clanGroup, sg_groups))
     {
@@ -55,6 +56,7 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
     initFocusArray()
     closeSearchGroup()
     updateConsoleButtons()
+    updateSquadButton()
   }
 
   function isValid()
@@ -78,6 +80,30 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
 
     local value = obj.getValue()
     curPlayer = ::getTblValue(value, ::contacts[curGroup])
+    updateSquadButton()
+  }
+
+  function updateSquadButton()
+  {
+    local contactName = curPlayer?.name ?? ""
+    local isBlock = curPlayer? curPlayer.isInBlockGroup() : false
+    local canInteractCrossConsole = platformModule.canInteractCrossConsole(contactName)
+    local isXBoxOnePlayer = platformModule.isXBoxPlayerName(contactName)
+    local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
+    local canInteractWithPlayer = curPlayer? curPlayer.canInteract() : true
+
+    local showSquadInvite = !::show_console_buttons
+      && ::has_feature("SquadInviteIngame")
+      && !isBlock
+      && canInteractCrossConsole
+      && canInteractCrossPlatform
+      && ::g_squad_manager.canInviteMember(curPlayer?.uid ?? "")
+      && ::g_squad_manager.canInviteMemberByPlatform(contactName)
+      && !::g_squad_manager.isPlayerInvited(curPlayer?.uid ?? "", contactName)
+      && canInteractWithPlayer
+      && platformModule.canSquad()
+
+    showSceneBtn("btn_squadInvite_bottom", showSquadInvite)
   }
 
   function onGroupSelect(obj)

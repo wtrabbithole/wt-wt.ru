@@ -1338,9 +1338,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         updateChatText()
       }
     } else {
-      foreach(roomData in ::g_chat.rooms) {
-        if ((roomId=="") || roomData.id == roomId) {
+      foreach(roomData in ::g_chat.rooms)
+      {
+        if ((roomId=="") || roomData.id == roomId)
+        {
           roomData.addMessage(mBlock)
+
+          if (!curRoom)
+            continue
 
           if (roomData == curRoom || roomData.hidden)
             updateChatText()

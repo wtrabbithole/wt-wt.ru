@@ -11,7 +11,7 @@
   ? combine all *.style.nut to one table and/or move to ../style (it's easier probably to change all colors in one file?)
   ? rework styling for something easier to use
   ? consider add default fonts to darg itself (fontawesome and some std utf font. However - we definitely need better font render\layout system first, cause in other case size of font is something not defined)
-  
+
   add widgets for:
     image
     ninerect
@@ -37,6 +37,14 @@ local textButton = require("textButton.nut")
 local tabs = require("tabs.nut")
 local image = require("image.nut")
 local panel = require("panel.nut")
+local function mkpanel(def){
+  return function(elem_, ...) {
+    return panel.acall([null, def.__merge(elem_)].extend(vargv))
+ }
+}
+local hpanel = mkpanel({flow=FLOW_HORIZONTAL size=flex() minWidth=SIZE_TO_CONTENT minHeight=SIZE_TO_CONTENT})
+local vpanel = mkpanel({flow=FLOW_VERTICAL size=flex() minWidth=SIZE_TO_CONTENT minHeight=SIZE_TO_CONTENT})
+
 
 return {
   textArea = textArea
@@ -52,7 +60,10 @@ return {
   stext = stext
   image = image
   panel = panel
-  
+  mkpanel = mkpanel
+  hpanel = hpanel
+  vpanel = vpanel
+
   red = Color(255,0,0)
   blue = Color(0,0,255)
   green = Color(0,255,0)
