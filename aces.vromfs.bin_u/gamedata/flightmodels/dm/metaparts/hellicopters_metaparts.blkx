@@ -122,25 +122,6 @@
           "cutPart": "wing_l_dm"
         }
       ]
-    },
-    {
-      "effect": [
-        {
-          "conditionDamageType": "collision"
-        },
-        {
-          "conditionDamageRel": 1.6
-        },
-        {
-          "cutPart": "wing_r_dm"
-        },
-        {
-          "cutPart": "wing_l_dm"
-        },
-        {
-          "cutPart": "tail_dm"
-        }
-      ]
     }
   ],
   "tail_structure": [
@@ -167,6 +148,19 @@
     },
     {
       "part": "fin2_dm"
+    },
+    {
+      "effect": {
+        "conditionDead": true,
+        "cutPart": "tail_dm"
+      }
+    },
+    {
+      "effect": {
+        "conditionDamageType": "generic",
+        "conditionDamageRel": 1.5,
+        "cutPart": "tail_dm"
+      }
     },
     {
       "effect": {

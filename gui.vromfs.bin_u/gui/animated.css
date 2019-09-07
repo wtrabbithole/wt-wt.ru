@@ -145,6 +145,10 @@ usertalk[fade=out][_size-timer=0] {
 usertalk[fade=in] > activeText, usertalk[fade=in] > img {
   transp-time:300;
 }
+usertalk[fade=in][type=noTalk] > activeText,
+usertalk[fade=in][type=noTalk] > img {
+  transp-time:3000;
+}
 
 usertalk[fade=out] > activeText,  usertalk[fade=out] > img{
   transp-time:-300;

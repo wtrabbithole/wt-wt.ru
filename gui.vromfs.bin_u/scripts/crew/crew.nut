@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 const UPGR_CREW_TUTORIAL_SKILL_NUMBER = 2
 
 ::g_crew <- {
@@ -7,6 +9,11 @@ const UPGR_CREW_TUTORIAL_SKILL_NUMBER = 2
     [::CUT_AIRCRAFT] = 1.5,
     [::CUT_TANK] = 1,
     [::CUT_SHIP] = 1
+  }
+  maxCrewLevel = {
+    [::CUT_AIRCRAFT] = 75,
+    [::CUT_TANK] = 150,
+    [::CUT_SHIP] = 100
   }
 }
 
@@ -40,6 +47,11 @@ function g_crew::isAllCrewsHasBasicSpec()
 function g_crew::getMinCrewLevel(crewUnitType)
 {
   return ::g_crew.minCrewLevel?[crewUnitType] ?? 0
+}
+
+function g_crew::getMaxCrewLevel(crewUnitType)
+{
+  return ::g_crew.maxCrewLevel?[crewUnitType] ?? 0
 }
 
 function g_crew::getDiscountInfo(countryId = -1, idInCountry = -1)
@@ -397,7 +409,7 @@ function g_crew::getSkillCrewLevel(skillItem, newValue, prevValue = 0)
 {
   local maxValue = getMaxSkillValue(skillItem)
   local level = (newValue.tofloat() - prevValue) / maxValue  * getSkillMaxCrewLevel(skillItem)
-  return ::round_by_value(level, 0.01)
+  return stdMath.round_by_value(level, 0.01)
 }
 
 function g_crew::upgradeUnitSpec(crew, unit, crewUnitTypeToCheck = null, nextSpecType = null)

@@ -13,7 +13,6 @@ actionListItem {
   behavior:t='button';
 
   on_click:t='onAction';
-  shortcutActivate:t='Space | J:A';
 
   <<#icon>>
   icon { background-image:t='<<icon>>'; }

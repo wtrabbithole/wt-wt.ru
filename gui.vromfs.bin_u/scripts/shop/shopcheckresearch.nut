@@ -201,10 +201,10 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
       {
         obj = unitsObj
         text = ::loc("tutorials/research_next_aircraft")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
         haveArrow = false
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       }]
     ::gui_modal_tutor(steps, this)
   }
@@ -247,8 +247,9 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
     updateSpendExpBtn(unit)
 
-    local canBuyIngame = ::canBuyUnit(unit)
-    local canBuyOnline = ::canBuyUnitOnline(unit)
+    local isFakeUnit = unit?.isFakeUnit ?? false
+    local canBuyIngame = !isFakeUnit && ::canBuyUnit(unit)
+    local canBuyOnline = !isFakeUnit && ::canBuyUnitOnline(unit)
     local showBuyUnit = canBuyIngame || canBuyOnline
     showNavButton("btn_buy_unit", showBuyUnit)
     if (showBuyUnit)
@@ -263,7 +264,7 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
   function updateSpendExpBtn(unit)
   {
     local showSpendBtn = !::isUnitGroup(unit) && !unit?.isFakeUnit
-                         && ::canResearchUnit(unit)
+                         && ::canResearchUnit(unit) && !unit.isSquadronVehicle()
     local coloredText = ""
     if (showSpendBtn)
     {

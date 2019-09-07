@@ -362,9 +362,13 @@
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "t1_carrier_squad",
             "stealthRadius": 2000.0,
             "calmDetection": true,
+            "attack_type": "return_fire",
             "targetAir": true,
             "accuracy": 0.6,
             "effShootingRate": 0.0,
@@ -372,22 +376,57 @@
           }
         },
         {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object": "t1_background_boats_squad",
-            "isImmortal": true,
-            "stealthRadius": 2000.0,
-            "calmDetection": true,
-            "attack_type": "dont_aim",
-            "targetGnd": false,
-            "accuracy": 0.3,
-            "effShootingRate": 0.0,
-            "effShootingRateByPlayer": 0.0
-          }
+          "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
+              "object": "t1_background_boats_squad"
+            },
+            {
+              "object": "t1_background_boatshowitzer_squad"
+            },
+            {
+              "isImmortal": true
+            },
+            {
+              "stealthRadius": 2000.0
+            },
+            {
+              "calmDetection": true
+            },
+            {
+              "attack_type": "dont_aim"
+            },
+            {
+              "targetGnd": false
+            },
+            {
+              "accuracy": 0.3
+            },
+            {
+              "effShootingRate": 0.0
+            },
+            {
+              "effShootingRateByPlayer": 0.0
+            }
+          ]
         },
         {
           "unitSetProperties": {
             "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
             "object": "baloons_squad",
             "army": 0,
             "targetableByAi": false,
@@ -447,6 +486,15 @@
           "unitSetProperties": [
             {
               "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
             },
             {
               "object": "t1_background_boatshowitzer_squad"
@@ -512,9 +560,6 @@
             "isUnit": false
           },
           {
-            "offset": [0.0,0.0,0.0]
-          },
-          {
             "radius": -1.0
           },
           {
@@ -539,6 +584,12 @@
             "onlyOnePlayerPerSpawnPoint": false
           },
           {
+            "resetStrictSpawnIndex": false
+          },
+          {
+            "replaceAreas": false
+          },
+          {
             "target": "t1_carrier01"
           },
           {
@@ -555,6 +606,9 @@
           },
           {
             "team": "A"
+          },
+          {
+            "offset": [0.0,0.0,0.0]
           },
           {
             "tags": {

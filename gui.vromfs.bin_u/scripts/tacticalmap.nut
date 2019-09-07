@@ -430,7 +430,7 @@ function addHideToObjStringById(data, objId)
 
 function is_tactical_map_active()
 {
-  if (!::g_login.isLoggedIn())
+  if (!("TacticalMap" in ::gui_handlers))
     return false
   local curHandler = ::handlersManager.getActiveBaseHandler()
   return curHandler != null &&  (curHandler instanceof ::gui_handlers.TacticalMap ||

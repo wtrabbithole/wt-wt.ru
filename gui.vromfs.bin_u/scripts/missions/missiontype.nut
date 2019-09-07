@@ -144,6 +144,12 @@ enums.addTypesByGlobalName("g_mission_type", {
     objectives = MISSION_OBJECTIVE.KILLS_GROUND | MISSION_OBJECTIVE.ALIVE_TIME
   }
 
+  G_CTF = {  // Ground: Capture the Flag
+    reMisName = ::regexp2(@"_ctf(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_GROUND
+    objectivesWw = MISSION_OBJECTIVE.KILLS_GROUND
+  }
+
   N_DOM = {  // Naval: Domination
     reMisName = ::regexp2(@"_NDom(_|$)")
     objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.ZONE_CAPTURE
@@ -166,6 +172,12 @@ enums.addTypesByGlobalName("g_mission_type", {
     reMisName = ::regexp2(@"_NTdm(_|$)")
     objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_NAVAL_AI
     objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_NAVAL | MISSION_OBJECTIVE.KILLS_NAVAL_AI
+  }
+
+  N_CTF = {  // Naval: Capture the Flag
+    reMisName = ::regexp2(@"_nctf(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_NAVAL
+    objectivesWw = MISSION_OBJECTIVE.KILLS_NAVAL
   }
 
   PvE = {

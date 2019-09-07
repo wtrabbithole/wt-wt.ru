@@ -731,4 +731,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   //dependence by blk
   onChangeSortOrder = @(obj) null
   onChangeSortParam = @(obj) null
+
+  function onEventBeforeStartCustomMission(params)
+  {
+    ::handlersManager.requestHandlerRestore(this, ::gui_handlers.MainMenu)
+  }
+
 }

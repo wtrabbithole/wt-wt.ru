@@ -1,6 +1,6 @@
 @const shHud: sh $min (0.75sw);
-@const bwHud: 0.5*(sw * (1 - 1@_safearea_hud)) $max 1@debugRowHeight;
-@const bhHud: 0.5*(sh * (1 - 1@_safearea_hud)) $max 1@debugRowHeight;
+@const bwHud: 0.5*(sw * (1 - 1@_safearea_hud_w)) $max 1@debugRowHeight;
+@const bhHud: 0.5*(sh * (1 - 1@_safearea_hud_h)) $max 1@debugRowHeight;
 
 @const nhsf: ((sh / 1080) $max 1) * @pf; 
 

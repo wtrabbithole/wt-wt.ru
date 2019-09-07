@@ -79,8 +79,7 @@ table {
   <</rows>>
 }
 
-dummy {
+DummyButton {
   on_click:t='onButtonRowApply'
-  behaviour:t='accesskey'
-  accessKey:t='J:A | J:Start | Space | Enter | NumEnter'
+  btnName:t='A'
 }

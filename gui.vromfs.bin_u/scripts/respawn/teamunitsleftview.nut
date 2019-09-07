@@ -43,6 +43,7 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
         timerFunc = "onUpdate"
         needNavigateToCollapseButtton = true
         needCollapsedTextAnimSwitch = true
+        hasSafeAreaPadding = "no"
 
         fillBlocks = [{}]
       }]

@@ -99,6 +99,9 @@
     "destroysTrees": true
   },
   {
+    "radarAnimVar": "radar_drive"
+  },
+  {
     "type": "typeSPAA"
   },
   {
@@ -106,9 +109,6 @@
   },
   {
     "canReloadNonGuns": true
-  },
-  {
-    "allowForestallWithoutMarkers": true
   },
   {
     "spawn_count": {
@@ -244,6 +244,30 @@
         },
         "ex_armor_body_03_dm": {
           "armorThickness": 5.0
+        },
+        "turret_06_top_dm": {
+          "armorThickness": 45.0
+        },
+        "turret_06_side_dm": {
+          "armorThickness": 19.0
+        },
+        "turret_06_front_dm": {
+          "armorThickness": 17.0
+        },
+        "turret_06_bottom_dm": {
+          "armorThickness": 13.0
+        },
+        "turret_07_back_dm": {
+          "armorThickness": 25.0
+        },
+        "turret_07_top_dm": {
+          "armorThickness": 10.0
+        },
+        "turret_07_side_dm": {
+          "armorThickness": 38.0
+        },
+        "turret_07_front_dm": {
+          "armorThickness": 19.0
         }
       },
       "hull_cha": {
@@ -395,6 +419,12 @@
         "ex_armor_body_l_05_dm": [],
         "ex_armor_body_l_06_dm": [],
         "ex_armor_body_l_07_dm": [],
+        "turret_06_back_dm": {
+          "armorThickness": 5.0
+        },
+        "ex_armor_04_dm": {
+          "armorThickness": 5.0
+        },
         "ex_decor_l_02_dm": {
           "armorThickness": 8.0
         },
@@ -1686,6 +1716,12 @@
           "emitter": "bone_gun_barrel_01",
           "flash": "emtr_gun_flame_01",
           "useEmitter": true,
+          "sleeveEmitter": "emtr_shell_01",
+          "sleeveMesh": "auto_cannon_cartridge_case",
+          "openHatchTime": 0.0,
+          "sleevesLifeTime": 5.0,
+          "sleeveImpulse": [1.0,-8.0,-4.0],
+          "linkSleeveToGun": true,
           "recoilMultiplier": 0.2,
           "recoilOffset": 0.045,
           "jammedReloadTime": 15.0,
@@ -1763,6 +1799,12 @@
           "emitter": "bone_gun_barrel_02",
           "flash": "emtr_gun_flame_02",
           "useEmitter": true,
+          "sleeveEmitter": "emtr_shell_02",
+          "sleeveMesh": "auto_cannon_cartridge_case",
+          "openHatchTime": 0.0,
+          "sleevesLifeTime": 5.0,
+          "sleeveImpulse": [1.0,-8.0,-4.0],
+          "linkSleeveToGun": true,
           "recoilMultiplier": 0.2,
           "recoilOffset": 0.045,
           "jammedReloadTime": 15.0,
@@ -1842,6 +1884,17 @@
       "preset": {
         "name": "uk_chieftain_marksman_default",
         "blk": "gameData/units/tankModels/weaponPresets/uk_chieftain_marksman_default.blk"
+      }
+    }
+  },
+  {
+    "sensors": {
+      "sensor": {
+        "blk": "gameData/sensors/marconi_s_400.blk",
+        "turretIndex": 0,
+        "designationFromBody": true,
+        "designationTurretIndex": 0,
+        "dmPart": "radar_dm"
       }
     }
   },
@@ -2445,15 +2498,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2519,6 +2563,12 @@
                 "emitter": "bone_gun_barrel_01",
                 "flash": "emtr_gun_flame_01",
                 "useEmitter": true,
+                "sleeveEmitter": "emtr_shell_01",
+                "sleeveMesh": "auto_cannon_cartridge_case",
+                "openHatchTime": 0.0,
+                "sleevesLifeTime": 5.0,
+                "sleeveImpulse": [1.0,-8.0,-4.0],
+                "linkSleeveToGun": true,
                 "recoilMultiplier": 0.2,
                 "recoilOffset": 0.045,
                 "jammedReloadTime": 15.0,
@@ -2596,6 +2646,12 @@
                 "emitter": "bone_gun_barrel_02",
                 "flash": "emtr_gun_flame_02",
                 "useEmitter": true,
+                "sleeveEmitter": "emtr_shell_02",
+                "sleeveMesh": "auto_cannon_cartridge_case",
+                "openHatchTime": 0.0,
+                "sleevesLifeTime": 5.0,
+                "sleeveImpulse": [1.0,-8.0,-4.0],
+                "linkSleeveToGun": true,
                 "recoilMultiplier": 0.2,
                 "recoilOffset": 0.045,
                 "jammedReloadTime": 15.0,

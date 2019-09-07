@@ -123,7 +123,7 @@ function trophyReward::getImageByConfig(config = null, onlyImage = true, layerCf
 
     image = ::handyman.renderCached(("gui/items/item"), {
       items = item.getViewData({
-            enableBackground = false,
+            enableBackground = config?.enableBackground ?? false,
             showAction = false,
             showPrice = false,
             contentIcon = false,

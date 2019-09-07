@@ -164,9 +164,21 @@ ComboBox[btnPos=leftOutside] > button {
   background-image:@control_button_a;
 }
 
+[swap_ab=yes][show_console_buttons=yes] ComboBox[_hasBtnImage=yes]:expanded > button,
+[swap_ab=yes][show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button,
+[swap_ab=yes][show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus > button,
+[swap_ab=yes][show_console_buttons=yes] ComboBox[focusFrame=yes]:focus > button {
+  background-image:@control_button_b;
+}
+
 [show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button:pushed,
 [show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus > button:pushed {
   background-image:@control_button_a_pressed;
+}
+
+[swap_ab=yes][show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button:pushed,
+[swap_ab=yes][show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus > button:pushed {
+  background-image:@control_button_b_pressed;
 }
 
 ComboBox:disabled > button, ComboBox > button:disabled {

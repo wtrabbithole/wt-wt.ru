@@ -99,9 +99,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "smokeScreenActivateTime": 2.5
   },
   {
@@ -1082,7 +1079,7 @@
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_01_dm",
             "transmissionDmPart": "transmission_01_dm",
-            "propeller_l": "propeller_01"
+            "propeller": "propeller_01"
           }
         },
         {
@@ -1091,7 +1088,7 @@
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_02_dm",
             "transmissionDmPart": "transmission_02_dm",
-            "propeller_r": "propeller_02"
+            "propeller": "propeller_02"
           }
         }
       ],
@@ -1241,6 +1238,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -1826,15 +1854,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2264,7 +2283,8 @@
         "shatterDamageMult": 0.6,
         "explosionDamageMult": 0.8,
         "secondaryShatterDamageMult": 1.0,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 38.0,
         "compartment_01_dm": {
           "hp": 500.0
         },
@@ -2293,6 +2313,8 @@
         }
       },
       "superstructures": {
+        "armorClass": "ship_wood",
+        "armorThickness": 15.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
@@ -2300,24 +2322,26 @@
         "secondaryShatterDamageMult": 1.0,
         "stopChanceOnDeadPart": 0.2,
         "superstructure_back_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 100.0
         },
         "stern_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "mid_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "bow_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "stern_top_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 20.0,
           "hp": 100.0
         },
         "superstructure_dm": {
@@ -2331,7 +2355,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -2591,15 +2616,15 @@
         "fireParamsPreset": "ship_ammo_fire",
         "armorClass": "ship_structural_steel",
         "genericDamageMult": 0.7,
-        "explosionDamageMult": 1.6,
-        "shatterDamageMult": 1.6,
-        "secondaryShatterDamageMult": 1.1,
+        "explosionDamageMult": 0.8,
+        "shatterDamageMult": 0.8,
+        "secondaryShatterDamageMult": 0.8,
         "armorThickness": 5.0,
         "ammunition_storage_01_dm": {
-          "hp": 129.0
+          "hp": 400.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 400.0
+          "hp": 536.0
         }
       },
       "depth_charges": {
@@ -2729,6 +2754,9 @@
           },
           {
             "breechDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -2923,6 +2951,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "auxiliary_caliber_turret_01",
               "gun": "auxiliary_caliber_gun_01",
@@ -3068,6 +3099,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "auxiliary_caliber_turret_02",
               "gun": "auxiliary_caliber_gun_02",
@@ -3137,11 +3171,23 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "37mm_ger_navy_universal": [],
       "37mm_ger_flak_navy_he_ammo_pack": [],
       "37mm_ger_flak_navy_he": [],
       "37mm_ger_flak_navy_ap_ammo_pack": {
-        "reqModification": "37mm_ger_flak_navy_he_ammo_pack"
+        "prevModification": "37mm_ger_flak_navy_he_ammo_pack"
       },
       "37mm_ger_flak_navy_ap": [],
       "20mm_ger_c38_universal": [],
@@ -3149,26 +3195,16 @@
       "20mm_ger_c38_navy_he_ammo_pack": [],
       "20mm_ger_c38_navy_ap": [],
       "20mm_ger_c38_navy_ap_ammo_pack": {
-        "reqModification": "20mm_ger_c38_navy_he_ammo_pack"
+        "prevModification": "20mm_ger_c38_navy_he_ammo_pack"
       },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": {
-        "prevModification": "ship_depth_charge"
-      },
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": [],
+      "new_aux_caliber_turrets": [],
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"
       },
-      "new_aux_caliber_turrets": [],
-      "ship_main_caliber_support": [],
       "ship_depth_charge": {
         "prevModification": "37mm_ger_flak_navy_ap_ammo_pack"
-      }
+      },
+      "ship_main_caliber_support": []
     }
   },
   {

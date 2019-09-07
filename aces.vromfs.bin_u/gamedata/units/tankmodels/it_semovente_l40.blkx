@@ -378,7 +378,7 @@
           "armorThickness": 30.0
         },
         "body_top_dm": {
-          "armorThickness": 8.0
+          "armorThickness": 10.0
         },
         "turret_02_front_dm": {
           "armorThickness": 15.0
@@ -423,7 +423,7 @@
       "turret": {
         "armorClass": "RHA_tank",
         "turret_top_dm": {
-          "armorThickness": 8.0
+          "armorThickness": 10.0
         },
         "turret_side_dm": {
           "armorThickness": 15.0
@@ -464,6 +464,10 @@
           "hp": 20.0
         },
         "optic_turret_03_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
+        "optic_body_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
         },
@@ -1734,6 +1738,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/47mm_Ansaldo_47_32_M35_user_cannon.blk",
         "emitter": "bone_gun_barrel",
         "flash": "emtr_gun_flame",
+        "shotFreq": 0.1667,
         "recoilOffset": 0.2,
         "maxAdditionalPitch": 0.0,
         "defaultYaw": 0.0,
@@ -1786,11 +1791,11 @@
         "Empty": 6600.0,
         "Fuel": 225.0,
         "TakeOff": 6825.0,
-        "momentOfInertia": [2.5,2.5,6.0],
+        "momentOfInertia": [2.0,2.0,4.0],
         "CenterOfGravity": [0.27,0.8,0.0],
-        "CenterOfGravityClampY": [0.0,0.7],
+        "CenterOfGravityClampY": [0.0,0.18],
         "AdvancedMass": false,
-        "trackMass": 1000.0
+        "trackMass": 500.0
       },
       "tracks": {
         "animationMultiplier": -0.4,
@@ -1834,11 +1839,11 @@
       },
       "suspension": {
         "maxDisplacementOffsets": [-0.0,0.01],
-        "suspensionOffsets": [-0.115,-0.115,0.14],
+        "suspensionOffsets": [-0.055,-0.095,0.095],
         "defaultGearRadius": 0.2,
         "topGearRadius": 0.08,
         "frontBackGearRadius": 0.23,
-        "defaultDampeningForce": [60000.0,60000.0],
+        "defaultDampeningForce": [30000.0,30000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
@@ -2333,15 +2338,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

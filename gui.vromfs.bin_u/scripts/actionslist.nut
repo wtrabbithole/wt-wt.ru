@@ -41,7 +41,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
 {
   wndType = handlerType.CUSTOM
   sceneBlkName = "gui/actionsList/actionsListBlock.blk"
-  sceneBlkTag = "pupup_actions_list"
+  sceneBlkTag = "popup_actions_list"
 
   params    = null
   parentObj = null
@@ -196,7 +196,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
   function onFocus(obj)
   {
     guiScene.performDelayed(this, (@(obj) function () {
-        if (!::checkObj(obj))
+        if (!::checkObj(scene) || scene.close == "yes" || !::checkObj(obj))
           return
         local total = obj.childrenCount()
         if (!total)

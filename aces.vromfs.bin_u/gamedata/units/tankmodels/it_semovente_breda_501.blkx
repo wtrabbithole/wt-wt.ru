@@ -655,6 +655,10 @@
         "optic_gun_dm": {
           "armorThickness": 4.0,
           "hp": 50.0
+        },
+        "optic_turret_01_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
         }
       },
       "chassis": {
@@ -2244,7 +2248,7 @@
         "cls_body": "convex_hull"
       },
       "engine": {
-        "horsePowers": 115.0,
+        "horsePowers": 142.0,
         "maxRPM": 1800.0,
         "minRPM": 600.0
       },
@@ -2287,6 +2291,7 @@
         "hasSuspensionOnDriveGear": true,
         "dampeningRelaxationRatio": 0.2,
         "dampeningCompressionRatio": 0.2,
+        "brokenWheelSteeringDeflection": -15.0,
         "steeringDeflection": {
           "wheel_r_01": 30.0,
           "wheel_l_01": 30.0,
@@ -2316,6 +2321,60 @@
           "wheel_l_03": 0.3,
           "wheel_r_03": 0.3
         }
+      }
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
       }
     }
   },
@@ -2793,15 +2852,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

@@ -112,6 +112,10 @@ function handlersManager::updatePostLoadCss()
   {
     shouldResetFontsCache = true
     haveChanges = true
+    ::call_darg("updateFontParams", {
+      fontGenId = font.fontGenId
+      fontSizePx = font.getFontSizePx(::screen_width(), ::screen_height())
+    })
   }
   currentFont = font
 
@@ -119,8 +123,9 @@ function handlersManager::updatePostLoadCss()
   if (::get_dagui_pre_include_css_str() != cssStringPre)
   {
     ::set_dagui_pre_include_css_str(cssStringPre)
+    ::set_hud_width_limit(safeAreaHud.getHudWidthLimit())
     ::call_darg("updateHudSafeArea", {
-      safeAreaHud = safeAreaHud.getValue()
+      safeAreaHud = safeAreaHud.getSafearea()
     })
     haveChanges = true
   }
@@ -153,10 +158,13 @@ function handlersManager::generatePreLoadCssString()
         countriesCount++
   }
 
+  local hudSafearea = safeAreaHud.getSafearea()
+
   local config = [
     { name = "target_pc",         value = ::is_ps4_or_xbox ? "no" : "yes" }
     { name = "_safearea_menu",    value = ::format("%.2f", safeAreaMenu.getValue()) }
-    { name = "_safearea_hud",     value = ::format("%.2f", safeAreaHud.getValue()) }
+    { name = "_safearea_hud_w",   value = ::format("%.2f", hudSafearea[0]) }
+    { name = "_safearea_hud_h",   value = ::format("%.2f", hudSafearea[1]) }
     { name = "slotbarCountries",  value = countriesCount.tostring() }
   ]
 

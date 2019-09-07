@@ -91,7 +91,7 @@ elemViewType.addTypes({
 
       local emptyVoiceObj = nestObj.findObject("voice_chat_no_activity")
       if (::check_obj(emptyVoiceObj))
-        emptyVoiceObj.show(!isAnybodyTalk())
+        emptyVoiceObj.fade = !isAnybodyTalk() ? "in" : "out"
     }
 
     updateMemberView = function(obj, objIndex, uid)

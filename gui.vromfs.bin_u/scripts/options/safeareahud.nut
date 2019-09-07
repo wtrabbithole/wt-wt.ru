@@ -18,6 +18,14 @@ local checkCompatibility = function() //Added on 1_71_2_X, can be removed after 
     setValue(1 - value)
 }
 
+local getHudWidthLimit = function()
+{
+  local sw = ::screen_width()
+  local sh = ::screen_height()
+  local isUltraWide = !::is_triple_head(sw, sh) && (1.0 * sw / sh >= 2.5)
+  return isUltraWide ? (1.0 * sh * 16 / 9 / sw) : 1.0
+}
+
 local getValue = function()
 {
   local value = getFixedValue()
@@ -40,7 +48,13 @@ local setValue = function(value)
   ::set_gui_option_in_mode(::USEROPT_HUD_SCREEN_SAFE_AREA, value, ::OPTIONS_MODE_GAMEPLAY)
 }
 
-::cross_call_api.getSafeAreaHudValue <- getValue
+local getSafearea = function()
+{
+  local val = getValue()
+  return [ ::min(val, getHudWidthLimit()), val ]
+}
+
+::cross_call_api.getHudSafearea <- getSafearea
 
 return {
   getValue = getValue
@@ -48,6 +62,8 @@ return {
   canChangeValue = @() getFixedValue() == -1
   getValueOptionIndex = @() values.find(getValue())
   checkCompatibility = checkCompatibility
+  getHudWidthLimit = getHudWidthLimit
+  getSafearea = getSafearea
 
   values = values
   items = items

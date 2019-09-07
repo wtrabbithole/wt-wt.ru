@@ -327,6 +327,82 @@
     ]
   },
   {
+    "ikGunner": [
+      {
+        "model": "italian_gunner_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "crouchDelta": [0.0,0.0,0.0]
+      },
+      {
+        "suffix": "4"
+      },
+      {
+        "dmName": "loader_dm"
+      },
+      {
+        "deadHeadAttitudeMin": -40.0
+      },
+      {
+        "deadHeadAttitudeMax": -55.0
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "lefthand_",
+          "flexionDir": [0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "righthand_",
+          "flexionDir": [-0.5,-0.5,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [-0.2,1.0,-1.0]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [-0.6,1.0,-1.0]
+        }
+      }
+    ]
+  },
+  {
     "controlDevices": [
       {
         "device": {
@@ -1813,6 +1889,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/90mm_90_53_mod41_user_cannon.blk",
         "emitter": "bone_gun_barrel",
         "flash": "emtr_gun_flame_01",
+        "shotFreq": 0.125,
         "maxAdditionalPitch": 0.0,
         "defaultYaw": 0.0,
         "defaultPitch": 0.0,
@@ -1880,7 +1957,7 @@
         "cls_body": "convex_hull"
       },
       "engine": {
-        "horsePowers": 125.0,
+        "horsePowers": 160.0,
         "maxRPM": 1900.0,
         "minRPM": 600.0
       },
@@ -1912,7 +1989,7 @@
       },
       "suspension": {
         "maxDisplacementOffsets": [-0.0,0.01],
-        "suspensionOffsets": [-0.115,-0.115,0.14],
+        "suspensionOffsets": [-0.05,-0.05,0.11],
         "defaultGearRadius": 0.15,
         "topGearRadius": 0.13,
         "frontBackGearRadius": 0.28,
@@ -2507,15 +2584,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2530,7 +2598,7 @@
       "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
       "headPos": [0.0,3.7,-5.5],
-      "headPosOnShooting": [0.5,2.3,0.4],
+      "headPosOnShooting": [-0.65,2.45,-0.4],
       "bone_turret": "",
       "detectionHeight": 2.3
     }

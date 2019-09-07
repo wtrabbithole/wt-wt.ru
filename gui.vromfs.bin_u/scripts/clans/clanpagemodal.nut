@@ -174,8 +174,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     fillClanRequirements()
 
-    local updStatsUtcTime = ::get_utc_time().__update( {hour = 0, min = 0} )
-    local updStatsText = time.buildTimeStr(time.convertUtcToLocalTime(updStatsUtcTime), false, false)
+    local updStatsText = time.buildTimeStr(time.getUtcMidnight(), false, false)
 
     updStatsText = format(::loc("clan/updateStatsTime"), updStatsText)
     scene.findObject("update_stats_info_text").setValue(updStatsText)
@@ -229,7 +228,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
       local ranksRequired = req.getInt("rank", 0)
       if (ranksRequired > 0)
-        ranksReqText.append(::loc("clan/rankReqInfoRank" + unitType.name) + " " + ::colorize("activeTextColor", ::getUnitRankName(ranksRequired)))
+        ranksReqText.append(::loc("clan/rankReqInfoRank" + unitType.name) + " " +
+          ::colorize("activeTextColor", ::get_roman_numeral(ranksRequired)))
     }
 
     local text = ""
@@ -313,6 +313,11 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     }
     ::showBtnTable(scene, buttonsList)
 
+    showSceneBtn("clan_actions", buttonsList.btn_showRequests
+      || buttonsList.btn_membership_req
+      || buttonsList.btn_clanSquads
+      || buttonsList.btn_log)
+
     local showRequestsBtn = scene.findObject("btn_showRequests")
     if (::checkObj(showRequestsBtn))
     {
@@ -326,6 +331,9 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       local containerObj = scene.findObject("clan_awards_container")
       if (::checkObj(containerObj))
         guiScene.performDelayed(this, (@(containerObj, clanData) function () {
+          if (!isValid())
+            return
+
           local count = ::g_dagui_utils.countSizeInItems(containerObj.getParent(), "@clanMedalSizeMin", 1, 0, 0).itemsCountX
           local medals = ::g_clans.getClanPlaceRewardLogData(clanData, count)
           local markup = ""

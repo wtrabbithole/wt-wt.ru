@@ -30,6 +30,9 @@ class ::gui_handlers.ProtectionAnalysisHint extends ::gui_handlers.BaseGuiHandle
           res[partId] <- isShow
       return res
     }
+    angle = function(params, id, resultCfg) {
+      return ::max((params?.angle ?? 0.0), 0.0)
+    }
   }
 
   printValueByParam = {
@@ -54,6 +57,11 @@ class ::gui_handlers.ProtectionAnalysisHint extends ::gui_handlers.BaseGuiHandle
         if (isShow)
           partNames.append(prefix + ::loc("dmg_msg_short/" + partId))
       return ::g_string.implode(partNames, "\n")
+    }
+    angle = function(val)
+    {
+      return ::loc("bullet_properties/hitAngle") + ::loc("ui/colon") +
+        ::colorize("activeTextColor", ::round(val)) + ::loc("measureUnits/deg")
     }
   }
 

@@ -99,6 +99,9 @@
     "destroysTrees": true
   },
   {
+    "radarAnimVar": "radar_drive"
+  },
+  {
     "type": "typeSPAA"
   },
   {
@@ -106,9 +109,6 @@
   },
   {
     "canReloadNonGuns": true
-  },
-  {
-    "allowForestallWithoutMarkers": true
   },
   {
     "controlDevices": [
@@ -617,6 +617,19 @@
         "wheel_l_top_03_dm": [],
         "wheel_l_top_04_dm": [],
         "wheel_l_top_05_dm": [],
+        "body_shields": {
+          "armorClass": "tank_structural_steel",
+          "armorThickness": 5.0,
+          "hp": 1000.0,
+          "stopChanceOnDeadPart": 0.0,
+          "createSecondaryShatters": false,
+          "ex_decor_r_06_dm": [],
+          "ex_decor_l_09_dm": [],
+          "ex_armor_turret_r_01_dm": [],
+          "ex_armor_turret_r_02_dm": [],
+          "ex_armor_turret_l_01_dm": [],
+          "ex_armor_turret_l_02_dm": []
+        },
         "submodule": {
           "armorClass": "tank_traks",
           "armorThickness": 20.0,
@@ -1932,6 +1945,26 @@
     }
   },
   {
+    "sensors": [
+      {
+        "sensor": {
+          "blk": "gameData/sensors/dr_vc_1a.blk",
+          "turretIndex": 0,
+          "designationFromBody": true,
+          "designationTurretIndex": 0,
+          "dmPart": "radar_dm"
+        }
+      },
+      {
+        "sensor": {
+          "blk": "gameData/sensors/gepard_fr.blk",
+          "turretIndex": 0,
+          "dmPart": "radar1_dm"
+        }
+      }
+    ]
+  },
+  {
     "VehiclePhys": {
       "Mass": {
         "Empty": 35200.0,
@@ -2519,15 +2552,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

@@ -99,6 +99,9 @@
     "destroysTrees": true
   },
   {
+    "radarAnimVar": "radar_drive"
+  },
+  {
     "type": "typeSPAA"
   },
   {
@@ -106,9 +109,6 @@
   },
   {
     "canReloadNonGuns": true
-  },
-  {
-    "allowForestallWithoutMarkers": true
   },
   {
     "DamageParts": {
@@ -1666,7 +1666,7 @@
           "sleevesLifeTime": 10.0
         },
         {
-          "impulseMult": 8.0
+          "sleeveImpulse": [8.0,0.0,0.0]
         },
         {
           "linkSleeveToGun": true
@@ -1791,6 +1791,26 @@
         "blk": "gameData/units/tankModels/weaponPresets/it_otomatic_default.blk"
       }
     }
+  },
+  {
+    "sensors": [
+      {
+        "sensor": {
+          "blk": "gameData/sensors/sma_vps-a05.blk",
+          "turretIndex": 0,
+          "designationFromBody": true,
+          "designationTurretIndex": 0,
+          "dmPart": "radar_dm"
+        }
+      },
+      {
+        "sensor": {
+          "blk": "gameData/sensors/sma_vps-a06.blk",
+          "turretIndex": 0,
+          "dmPart": "radar1_dm"
+        }
+      }
+    ]
   },
   {
     "VehiclePhys": {
@@ -2398,15 +2418,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2423,7 +2434,7 @@
       "sightFov": 6.5,
       "sightName": "tzf_1a",
       "headPos": [0.0,5.5,-8.5],
-      "headPosOnShooting": [-1.1,4.2,0.87],
+      "headPosOnShooting": [-1.1,4.9,0.87],
       "detectionHeight": 4.925
     }
   },
@@ -2498,7 +2509,7 @@
                   "sleevesLifeTime": 10.0
                 },
                 {
-                  "impulseMult": 8.0
+                  "sleeveImpulse": [8.0,0.0,0.0]
                 },
                 {
                   "linkSleeveToGun": true

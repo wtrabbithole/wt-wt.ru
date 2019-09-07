@@ -50,7 +50,7 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
   local halign = params?.halign ?? HALIGN_LEFT
   local valign = params?.valign ?? VALIGN_MIDDLE
   local sound = params?.style?.sound ?? {}
-  local textCtor = params?.textCtor ?? @(text, params, stateFlags) text
+  local textCtor = params?.textCtor ?? @(text, params, stateFlags, handler, group, sf) text
   local function builder(sf) {
     return {
       margin = params?.margin ?? btnMargin
@@ -83,10 +83,10 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
         group = group
         behavior = [Behaviors.Marquee]
         color = textColor(sf, style, isEnabled)
-      }.__update(params?.textParams ?? {}), params, sf)
+      }.__update(params?.textParams ?? {}), params, stateFlags, handler, group, sf)
 
       behavior = Behaviors.Button
-      onClick = @() isEnabled ? handler() : null
+      onClick = isEnabled ? handler : null
     }.__update(params)
   }
 

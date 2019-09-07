@@ -79,7 +79,8 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     isBoxOpening = !shouldShowRewardItem
       && (trophyItem.iType == itemType.TROPHY
          || trophyItem.iType == itemType.CHEST
-         || trophyItem.iType == itemType.CRAFT_PROCESS)
+         || trophyItem.iType == itemType.CRAFT_PROCESS
+         || trophyItem.iType == itemType.CRAFT_PART)
 
     local title = rewardTitle && rewardTitle != "" ? rewardTitle
       : isDisassemble && !shouldShowRewardItem ? ::loc("mainmenu/itemDisassembled/title")
@@ -109,6 +110,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
                           ))
       useSingleAnimation = false
 
+    ::showBtn(useSingleAnimation? "reward_roullete" : "open_chest_animation", false, scene) //hide not used animation
     local animId = useSingleAnimation? "open_chest_animation" : "reward_roullete"
     local animObj = scene.findObject(animId)
     if (::checkObj(animObj))

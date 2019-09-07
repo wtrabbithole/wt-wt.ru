@@ -102,9 +102,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "rearmTimeOnField": 60.0
   },
   {
@@ -1160,6 +1157,37 @@
       {
         "event": [
           {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
             "name": "ammo_fire"
           },
           {
@@ -1734,15 +1762,6 @@
           "fx": {
             "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
           }
         }
       },
@@ -2545,6 +2564,7 @@
         "shatterDamageMult": 0.6,
         "explosionDamageMult": 0.8,
         "secondaryShatterDamageMult": 1.0,
+        "armorClass": "ship_wood",
         "armorThickness": 40.0,
         "compartment_01_dm": {
           "hp": 434.0
@@ -2571,6 +2591,8 @@
         }
       },
       "superstructures": {
+        "armorClass": "ship_wood",
+        "armorThickness": 15.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 1.0,
         "shatterDamageMult": 1.0,
@@ -2599,7 +2621,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 25.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 500.0
@@ -2861,10 +2884,10 @@
         "secondaryShatterDamageMult": 1.0,
         "armorThrough": 10.0,
         "fuel_tank_01_dm": {
-          "hp": 200.0
+          "hp": 308.0
         },
         "fuel_tank_02_dm": {
-          "hp": 200.0
+          "hp": 359.0
         }
       },
       "ammo": {
@@ -2873,15 +2896,15 @@
         "fireParamsPreset": "ship_ammo_fire",
         "armorClass": "ship_structural_steel",
         "genericDamageMult": 0.7,
-        "explosionDamageMult": 1.6,
-        "shatterDamageMult": 1.6,
-        "secondaryShatterDamageMult": 1.1,
+        "explosionDamageMult": 0.8,
+        "shatterDamageMult": 0.8,
+        "secondaryShatterDamageMult": 0.8,
         "armorThickness": 5.0,
         "ammunition_storage_01_dm": {
-          "hp": 337.0
+          "hp": 400.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 306.0
+          "hp": 400.0
         }
       },
       "depth_charges": {
@@ -2981,6 +3004,9 @@
             "barrelDP": "aa_gun_01_dm"
           },
           {
+            "breechDP": "aa_gun_01_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3051,6 +3077,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -3126,6 +3155,9 @@
             "barrelDP": "aa_gun_01_dm"
           },
           {
+            "breechDP": "aa_gun_01_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3196,6 +3228,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -3271,6 +3306,9 @@
             "barrelDP": "aa_gun_02_dm"
           },
           {
+            "breechDP": "aa_gun_02_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3341,6 +3379,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -3416,6 +3457,9 @@
             "barrelDP": "aa_gun_02_dm"
           },
           {
+            "breechDP": "aa_gun_02_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3486,6 +3530,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -3564,6 +3611,9 @@
             "breechDP": "auxiliary_caliber_gun_01_dm"
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3579,7 +3629,7 @@
             "speedPitch": 75.0
           },
           {
-            "bullets": 420
+            "bullets": 900
           },
           {
             "allowableDelta": 2.0
@@ -3696,6 +3746,9 @@
             "barrelDP": "auxiliary_caliber_gun_02_dm"
           },
           {
+            "breechDP": "auxiliary_caliber_gun_02_dm"
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -3765,6 +3818,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "auxiliary_caliber_turret_02",
               "gun": "auxiliary_caliber_gun_02",
@@ -3824,7 +3880,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/navalModels_weapons/40mm_L60_Bofors_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/40mm_l60_bofors_mk3_single_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_24"
@@ -3836,6 +3892,9 @@
             "useEmitter": true
           },
           {
+            "numWeaponsInSlot": 1
+          },
+          {
             "recoilOffset": 0.4
           },
           {
@@ -3843,6 +3902,9 @@
           },
           {
             "breechDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -3939,6 +4001,25 @@
               "lim8": [163.0,173.0,8.0,88.0],
               "lim9": [173.0,180.0,14.0,88.0]
             }
+          },
+          {
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
+            }
           }
         ]
       },
@@ -3950,7 +4031,8 @@
           "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
           "emitter": "bone_torpedo_01",
           "bullets": 1,
-          "barrelDP": "torpedo_01_dm",
+          "barrelDP": "tt_01_dm",
+          "breechDP": "torpedo_01_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_01_dm",
           "startSpeed": 2.4,
@@ -3958,6 +4040,7 @@
           "enableCourseCorrection": true,
           "useStartSpeed": true,
           "allowableDelta": 180.0,
+          "hideIfBroken": true,
           "armDistance": 80.0,
           "turret": {
             "head": "bone_torpedo_01",
@@ -3977,7 +4060,8 @@
           "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
           "emitter": "bone_torpedo_03",
           "bullets": 1,
-          "barrelDP": "torpedo_03_dm",
+          "barrelDP": "tt_03_dm",
+          "breechDP": "torpedo_03_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_03_dm",
           "startSpeed": 2.4,
@@ -3985,6 +4069,7 @@
           "enableCourseCorrection": true,
           "useStartSpeed": true,
           "allowableDelta": 180.0,
+          "hideIfBroken": true,
           "armDistance": 80.0,
           "turret": {
             "head": "bone_torpedo_03",
@@ -4004,7 +4089,8 @@
           "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
           "emitter": "bone_torpedo_02",
           "bullets": 1,
-          "barrelDP": "torpedo_02_dm",
+          "barrelDP": "tt_02_dm",
+          "breechDP": "torpedo_02_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_02_dm",
           "startSpeed": 2.4,
@@ -4012,6 +4098,7 @@
           "enableCourseCorrection": true,
           "useStartSpeed": true,
           "allowableDelta": 180.0,
+          "hideIfBroken": true,
           "armDistance": 80.0,
           "turret": {
             "head": "bone_torpedo_02",
@@ -4031,7 +4118,8 @@
           "blk": "gameData/Weapons/torpedoes/us_22_5_inch_mk13.blk",
           "emitter": "bone_torpedo_04",
           "bullets": 1,
-          "barrelDP": "torpedo_04_dm",
+          "barrelDP": "tt_04_dm",
+          "breechDP": "torpedo_04_dm",
           "brokenBarrelAllowShoot": false,
           "ammoDP": "torpedo_04_dm",
           "startSpeed": 2.4,
@@ -4039,6 +4127,7 @@
           "enableCourseCorrection": true,
           "useStartSpeed": true,
           "allowableDelta": 180.0,
+          "hideIfBroken": true,
           "armDistance": 80.0,
           "turret": {
             "head": "bone_torpedo_04",
@@ -4071,10 +4160,22 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "40mm_bofors_l60_navy_universal": [],
       "40mm_bofors_l60_navy_ap": [],
       "40mm_bofors_l60_navy_ap_ammo_pack": {
-        "reqModification": "40mm_bofors_l60_navy_he_ammo_pack"
+        "prevModification": "40mm_bofors_l60_navy_he_ammo_pack"
       },
       "40mm_bofors_l60_navy_he": [],
       "40mm_bofors_l60_navy_he_ammo_pack": [],
@@ -4083,59 +4184,61 @@
       "20mm_oerlikon_navy_he_ammo_pack": [],
       "20mm_oerlikon_navy_ap": [],
       "20mm_oerlikon_navy_ap_ammo_pack": {
-        "reqModification": "20mm_oerlikon_navy_he_ammo_pack"
+        "prevModification": "20mm_oerlikon_navy_he_ammo_pack"
       },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": [],
+      "new_aux_caliber_turrets": [],
       "new_main_caliber_turrets": {
         "reqModification": "new_aux_caliber_turrets"
       },
-      "new_aux_caliber_turrets": [],
-      "ship_main_caliber_support": [],
-      "torpedoes_movement_mode": {
-        "prevModification": "ship_rocket_launcher",
-        "effects": {
-          "distToLive": -1550.0,
-          "maxSpeedInWater": 1.8
-        }
-      },
       "ship_rocket_launcher": {
         "prevModification": "40mm_bofors_l60_navy_ap_ammo_pack"
-      }
+      },
+      "ship_main_caliber_support": []
     }
   },
   {
     "ammoStowages": {
-      "ammo1": {
-        "weaponTrigger": "gunner2",
-        "shells": {
-          "fatalFire": true,
-          "fatalExplosion": true,
-          "fireEvent": "ammo_fire_1",
-          "explosionEvent": "ammo_explosion_1",
-          "ammunition_storage_01_dm": {
-            "count": 420
+      "ammo1": [
+        {
+          "weaponTrigger": "gunner2"
+        },
+        {
+          "weaponTrigger": "gunner0"
+        },
+        {
+          "weaponTrigger": "gunner1"
+        },
+        {
+          "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "fireEvent": "ammo_fire_1",
+            "explosionEvent": "ammo_explosion_1",
+            "ammunition_storage_01_dm": {
+              "count": 4900
+            }
           }
         }
-      },
-      "ammo2": {
-        "weaponTrigger": "gunner4",
-        "shells": {
-          "fatalFire": true,
-          "fatalExplosion": true,
-          "fireEvent": "ammo_fire_2",
-          "explosionEvent": "ammo_explosion_2",
-          "ammunition_storage_02_dm": {
-            "count": 1000
+      ],
+      "ammo2": [
+        {
+          "weaponTrigger": "gunner3"
+        },
+        {
+          "weaponTrigger": "gunner4"
+        },
+        {
+          "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "fireEvent": "ammo_fire_2",
+            "explosionEvent": "ammo_explosion_2",
+            "ammunition_storage_02_dm": {
+              "count": 1420
+            }
           }
         }
-      }
+      ]
     }
   },
   {

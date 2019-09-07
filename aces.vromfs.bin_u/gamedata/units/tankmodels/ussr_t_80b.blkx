@@ -150,6 +150,9 @@
         "body_top_dm": {
           "armorThickness": 30.0
         },
+        "turret_07_back_dm": {
+          "armorThickness": 10.0
+        },
         "body_bottom_dm": {
           "armorThickness": 20.0
         },
@@ -2231,7 +2234,10 @@
       "engine": {
         "horsePowers": 1100.0,
         "maxRPM": 3154.0,
-        "minRPM": 1500.0
+        "minRPM": 1500.0,
+        "manufacturer": "klimov",
+        "model": "gtd_1000tf",
+        "type": "gasturbine"
       },
       "mechanics": {
         "maxBrakeForce": 170000.0,
@@ -2282,15 +2288,6 @@
         "defaultDampeningForce": [200000.0,200000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
-      }
-    }
-  },
-  {
-    "info": {
-      "engine_dm": {
-        "manufacturer": "klimov",
-        "model": "gtd_1000tf",
-        "type": "gasturbine"
       }
     }
   },
@@ -2821,15 +2818,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2881,10 +2869,8 @@
       "125mm_ussr_ATGM_ammo_pack": {
         "tier": 3
       },
-      "125mm_ussr_3BM22_APDS_FS_ammo_pack": {
-        "tier": 4
-      },
-      "125mm_ussr_3BM22_APDS_FS": {
+      "125mm_ussr_3BM42_APDS_FS_ammo_pack": [],
+      "125mm_ussr_3BM42_APDS_FS": {
         "modCostMul": 2.2
       },
       "125mm_ussr_3BK18M_HEAT_FS": [],
@@ -3787,6 +3773,15 @@
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_finland_polygonal_threecolor*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_deform",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_deform*"
       }
     }
   },

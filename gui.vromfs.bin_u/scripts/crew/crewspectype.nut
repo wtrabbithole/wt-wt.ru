@@ -143,12 +143,15 @@ function g_crew_spec_type::_getUpgradeReqCrewLevel(unit)
 function g_crew_spec_type::_getNextMaxAvailableType(unit, crewLevel)
 {
   local resType = this
-  local nextType = null
-  while ((nextType = resType.getNextType()) != ::g_crew_spec_type.UNKNOWN)
+  local nextType = resType.getNextType()
+  while (nextType != ::g_crew_spec_type.UNKNOWN)
+  {
     if (nextType.getReqCrewLevel(unit) <= crewLevel)
       resType = nextType
     else
       break
+    nextType = resType.getNextType()
+  }
   return resType
 }
 

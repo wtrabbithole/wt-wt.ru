@@ -822,6 +822,38 @@ class ::WwBattle
     return getPlayersNumberByParam("players")
   }
 
+  function getTotalPlayersInfo(side)
+  {
+    if (!::has_feature("worldWarMaster") && !getMyAssignCountry())
+      return getPlayersNumberByParam("players")
+
+    local friendlySideNumber = 0
+    local enemySideNumber = 0
+    if (teams)
+      foreach(team in teams)
+        if (team.side == side)
+          friendlySideNumber += team.players
+        else
+          enemySideNumber += team.players
+
+    return friendlySideNumber + " " + ::loc("country/VS") + " " + enemySideNumber
+  }
+
+  function getTotalPlayersInQueueInfo(side)
+  {
+    local queue = wwQueuesData.getData()?[id]
+    if (!queue)
+      return 0
+
+    local friendlySideNumber = getPlayersInQueueBySide(queue, side)
+    local enemySideNumber = getPlayersInQueueBySide(queue, ::g_world_war.getOppositeSide(side))
+
+    if (!::has_feature("worldWarMaster") && !getMyAssignCountry())
+      return friendlySideNumber + enemySideNumber
+
+    return friendlySideNumber + " " + ::loc("country/VS") + " " + enemySideNumber
+  }
+
   function getMaxPlayersNumber()
   {
     return getPlayersNumberByParam("maxPlayers")
@@ -851,6 +883,15 @@ class ::WwBattle
       return ::SIDE_NONE
 
     return side1Players > side2Players ? ::SIDE_1 : ::SIDE_2
+  }
+
+  function getPlayersInQueueBySide(queue, side)
+  {
+    local team = getTeamBySide(side)
+    if (!team)
+      return 0
+
+    return getPlayersInQueueByTeamName(queue, team.name)
   }
 
   function getPlayersInQueueByTeamName(queue, teamName)
@@ -940,6 +981,11 @@ class ::WwBattle
     }
 
     return false
+  }
+
+  function hasQueueInfo()
+  {
+    return !!wwQueuesData.getData()?[id]
   }
 
   function isEqual(battle)

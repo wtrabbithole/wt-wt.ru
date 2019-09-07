@@ -75,10 +75,7 @@ class ::gui_handlers.ReqPurchaseWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (::u.isString(rndImg))
     {
       local country = ::get_profile_country_sq()
-      image = ::replaceParamsInLocalizedText(rndImg,
-                {
-                  country = ::g_string.cutPrefix(country, "country_", country)
-                })
+      image = rndImg.subst({ country = ::g_string.cutPrefix(country, "country_", country) })
     }
     if (::is_numeric(imgBlk.imageRatio))
       imageRatioHeight = imgBlk.imageRatio

@@ -189,7 +189,7 @@ shopSheets.addSheets({
   }
   OTHER = {
     locId = "attachables/category/other"
-    typeMask = itemType.WARBONDS | itemType.ENTITLEMENT
+    typeMask = itemType.WARBONDS | itemType.ENTITLEMENT | itemType.INTERNAL_ITEM
     isMarketplace = true
     sortId = sortId++
     isAllowedForTab = isOnlyExtInventory

@@ -87,7 +87,8 @@ local ModificationBase = class extends ::BaseItem
   function getRankText()
   {
     if (rankRange)
-      return ::getUnitRankName(rankRange.x) + ((rankRange.x != rankRange.y) ? "-" + ::getUnitRankName(rankRange.y) : "")
+      return ::get_roman_numeral(rankRange.x) +
+        ((rankRange.x != rankRange.y) ? "-" + ::get_roman_numeral(rankRange.y) : "")
     return ""
   }
 

@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 local crossplayModule = require("scripts/social/crossplay.nut")
+local stdMath = require("std/math.nut")
 
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
@@ -1838,9 +1839,9 @@ class Events
 
     local allowId = "all_units_allowed"
     local allowText = ""
-    if (::number_of_set_bits(allowedUnitTypes)==1)
-      allowId = "allowed_only/" + getUnitTypeText(::number_of_set_bits(allowedUnitTypes - 1))
-    if (::number_of_set_bits(allowedUnitTypes)==2)
+    if (stdMath.number_of_set_bits(allowedUnitTypes)==1)
+      allowId = "allowed_only/" + getUnitTypeText(stdMath.number_of_set_bits(allowedUnitTypes - 1))
+    if (stdMath.number_of_set_bits(allowedUnitTypes)==2)
     {
       local unitTypes = ::g_unit_type.getArrayBybitMask(allowedUnitTypes)
       if (unitTypes && unitTypes.len() == 2)
@@ -1928,8 +1929,8 @@ class Events
     {
       local minRank = ::max(1, ::getTblValue("min", rule.ranks, 1))
       local maxRank = ::getTblValue("max", rule.ranks, ::max_country_rank)
-      local rankText = ::getUnitRankName(minRank)
-                     + ((minRank != maxRank) ? " - " + ::getUnitRankName(maxRank) : "")
+      local rankText = ::get_roman_numeral(minRank)
+                     + ((minRank != maxRank) ? " - " + ::get_roman_numeral(maxRank) : "")
       rankText = ::format(::loc("events/rank"), rankText)
       if (ruleString.len())
         ruleString += ::loc("ui/parentheses/space", { text = rankText })
@@ -2494,7 +2495,7 @@ class Events
       if (!teamData || !isTeamDataPlayable(teamData))
         continue
       local unitTypes = getUnitTypesByTeamDataAndName(teamData, teamName)
-      if (::number_of_set_bits(unitTypes) < ::ES_UNIT_TYPE_TOTAL_RELEASED)
+      if (stdMath.number_of_set_bits(unitTypes) < ::ES_UNIT_TYPE_TOTAL_RELEASED)
         return false
       if (getAlowedCrafts(teamData).len() > 0)
         return false
@@ -2759,6 +2760,11 @@ class Events
     }
 
     return reasonText
+  }
+
+  function isPveEvent(event)
+  {
+    return event?.pveMode ?? false
   }
 }
 

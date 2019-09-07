@@ -259,7 +259,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -529,7 +530,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -538,8 +538,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -555,7 +558,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -564,8 +566,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -1451,12 +1456,12 @@
       "objectGroups": {
         "name": "t2_airfield",
         "tm": [
-          [1.12764,0.0,0.410426],
+          [0.718534,0.0,-0.961109],
           [0.0,1.0,0.0],
-          [-0.410426,0.0,1.12764],
-          [12882.9,101.1,-10785.3]
+          [0.961109,0.0,0.718534],
+          [13056.6,343.84,-7478.9]
         ],
-        "unit_class": "dynAF_krymsk_ally",
+        "unit_class": "dynaf_universal_1line_c",
         "props": {
           "army": 2,
           "active": true
@@ -1470,9 +1475,9 @@
           [-0.848528,0.0,0.848528],
           [0.0,1.0,0.0],
           [-0.848528,0.0,-0.848528],
-          [-12042.8,309.354,24624.3]
+          [-12042.8,309.399,24624.3]
         ],
-        "unit_class": "dynAF_krymsk_ally",
+        "unit_class": "dynaf_universal_1line_c",
         "props": {
           "army": 1,
           "active": true
@@ -16500,10 +16505,10 @@
       "air_defence": {
         "name": "t2_def_aaa_01",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.297014,0.0,-0.954873],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [13340.9,95.4,-10390.4]
+          [0.954873,0.0,0.297014],
+          [13521.2,367.449,-7817.62]
         ],
         "unit_class": "us_90mm_m1",
         "objLayer": 1,
@@ -16536,10 +16541,10 @@
       "air_defence": {
         "name": "t2_def_aaa_02",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.297014,0.0,-0.954873],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [13428.6,95.4,-10807.5]
+          [0.954873,0.0,0.297014],
+          [13149.0,367.449,-8025.24]
         ],
         "unit_class": "us_90mm_m1",
         "objLayer": 1,
@@ -16572,10 +16577,10 @@
       "air_defence": {
         "name": "t2_def_aaa_03",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.297014,0.0,-0.954873],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [12353.2,95.4,-11157.4]
+          [0.954873,0.0,0.297014],
+          [12495.4,367.449,-7102.3]
         ],
         "unit_class": "us_90mm_m1",
         "objLayer": 1,
@@ -16608,10 +16613,10 @@
       "air_defence": {
         "name": "t2_def_aaa_04",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.297014,0.0,-0.954873],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [12168.6,95.4,-10851.7]
+          [0.954873,0.0,0.297014],
+          [12732.5,367.449,-6835.23]
         ],
         "unit_class": "us_90mm_m1",
         "objLayer": 1,
@@ -16644,10 +16649,10 @@
       "air_defence": {
         "name": "t2_def_aaa_05",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.297014,0.0,-0.954873],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [12951.3,95.4,-10995.2]
+          [0.954873,0.0,0.297014],
+          [12828.0,367.449,-7625.23]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -16680,10 +16685,10 @@
       "air_defence": {
         "name": "t2_def_aaa_06",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.297014,0.0,-0.954873],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [12546.0,95.4,-10671.3]
+          [0.954873,0.0,0.297014],
+          [13016.9,367.449,-7142.02]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -16716,10 +16721,10 @@
       "air_defence": {
         "name": "t2_def_aaa_07",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.297014,0.0,-0.954873],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [13050.5,95.4,-10483.2]
+          [0.954873,0.0,0.297014],
+          [13346.3,367.449,-7567.88]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -16752,10 +16757,10 @@
       "air_defence": {
         "name": "t2_def_aaa_08",
         "tm": [
-          [1.0,0.0,0.0],
+          [0.297014,0.0,-0.954873],
           [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [12674.2,95.4,-11044.4]
+          [0.954873,0.0,0.297014],
+          [12698.7,367.449,-7375.25]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "objLayer": 1,
@@ -17421,10 +17426,10 @@
     "t2_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-1106.38,0.0,-402.689],
-        [0.0,272.91,0.0],
-        [113.995,0.0,-313.2],
-        [12768.9,94.8,-10786.0]
+        [-1332.51,0.0,1750.55],
+        [0.0,450.0,0.0],
+        [-716.133,0.0,-545.118],
+        [12973.6,303.8,-7388.93]
       ],
       "objLayer": 0,
       "props": []
@@ -17432,10 +17437,10 @@
     "t1_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-832.536,0.0,832.537],
-        [0.0,272.91,0.0],
-        [-235.679,0.0,-235.679],
-        [-12005.8,94.8,24552.3]
+        [-1555.63,0.0,1555.64],
+        [0.0,450.0,0.0],
+        [-636.396,0.0,-636.396],
+        [-12113.5,277.785,24684.5]
       ],
       "objLayer": 0,
       "props": []

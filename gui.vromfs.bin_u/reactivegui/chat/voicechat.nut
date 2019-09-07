@@ -1,5 +1,6 @@
 local colors = require("reactiveGui/style/colors.nut")
 local voiceChatState = require("voiceChatState.nut")
+local fontsState = require("reactiveGui/style/fontsState.nut")
 
 local voiceChatElements = function() {
   local children = []
@@ -27,15 +28,16 @@ local voiceChatElements = function() {
     }
 
     children.insert(0, {
-      size = [hdpx(400), SIZE_TO_CONTENT]
+      size = [::fpx(400), SIZE_TO_CONTENT]
       flow = FLOW_HORIZONTAL
+      gap = ::fpx(6)
 
       children = [
         {
           rendObj = ROBJ_IMAGE
-          size = [hdpx(18), hdpx(26)]
+          size = [::fpx(18), ::fpx(26)]
           image = ::Picture("!ui/gameuiskin#voip_status.svg:"
-            + hdpx(18) + ":" + hdpx(26) + ":K")
+            + (::fpx(18)) + ":" + ::fpx(26) + ":K")
           color = colors.menu.voiceChatIconActiveColor
         }
         @(){
@@ -43,7 +45,7 @@ local voiceChatElements = function() {
           behavior = Behaviors.TextArea
           text = voiceChatMember.name
           size = [flex(15), SIZE_TO_CONTENT]
-          font = Fonts.small_text_hud
+          font = fontsState.get("normal")
           color = colors.menu.activeTextColor
         }
       ]
@@ -54,9 +56,9 @@ local voiceChatElements = function() {
           easing=OutCubic, trigger = "voiceChatShow" + voiceChatMember.id }
         { prop=AnimProp.opacity, from=1.0, to=0.0, duration=voiceChatMember.animTime,
           easing=OutCubic, trigger = "voiceChatHide" + voiceChatMember.id }
-        { prop=AnimProp.translate, from=[0,28], to=[0, 0], duration=0.2,
+        { prop=AnimProp.translate, from=[0, 28], to=[0, 0], duration=0.2,
           trigger = "voiceChatMoveTop" + voiceChatMember.id }
-        { prop=AnimProp.translate, from=[0,-28], to=[0, 0], duration=0.2,
+        { prop=AnimProp.translate, from=[0, -28], to=[0, 0], duration=0.2,
           trigger = "voiceChatMoveBottom" + voiceChatMember.id }
       ]
     })
@@ -69,7 +71,7 @@ local voiceChatWidget = @() {
     size = [flex(), SIZE_TO_CONTENT]
     flow = FLOW_VERTICAL
     valign = VALIGN_BOTTOM
-    gap = hdpx(2)
+    gap = ::fpx(2)
     children = voiceChatElements()
     watch = voiceChatState.voiceChatMembers
   }

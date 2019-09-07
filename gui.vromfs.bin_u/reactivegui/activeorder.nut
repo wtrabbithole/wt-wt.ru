@@ -1,7 +1,7 @@
 local orderState = require("orderState.nut")
 local colors = require("style/colors.nut")
 local teamColors = require("style/teamColors.nut")
-
+local fontsState = require("reactiveGui/style/fontsState.nut")
 
 
 
@@ -19,13 +19,13 @@ local scoresTable = @() {
   flow = FLOW_VERTICAL
   watch = orderState.scoresTable
   children = orderState.scoresTable.value.map(@(item) {
-    size = [hdpx(400), SIZE_TO_CONTENT]
+    size = [flex(), ::scrn_tgt(2.24)]
     flow = FLOW_HORIZONTAL
     valign = VALIGN_BOTTOM
     children = [
       {
         rendObj = ROBJ_IMAGE
-        size = [hdpx(24), hdpx(24)]
+        size = [::scrn_tgt(2.24), ::scrn_tgt(2.24)]
         image = pilotIcon
       }
       @(){
@@ -34,7 +34,7 @@ local scoresTable = @() {
         watch = teamColors.trigger
         text = item.player
         size = [flex(15), SIZE_TO_CONTENT]
-        font = Fonts.tiny_text_hud
+        font = fontsState.get("small")
         color = colors.menu.commonTextColor
         colorTable = function () {
           local res = teamColors()
@@ -52,9 +52,8 @@ local scoresTable = @() {
         behavior = Behaviors.TextArea
         text = item.score
         size = [flex(6), SIZE_TO_CONTENT]
-        font = Fonts.tiny_text_hud
+        font = fontsState.get("small")
         color = colors.menu.commonTextColor
-        halign = HALIGN_RIGHT
       }
     ]
   })
@@ -69,7 +68,7 @@ local updateFunction = function () {
 return function() {
   return {
     flow = FLOW_VERTICAL
-    size = [sw(30), SIZE_TO_CONTENT]
+    size = [::scrn_tgt(40), SIZE_TO_CONTENT]
     watch = orderState.showOrder
     isHidden = !orderState.showOrder.value
     onAttach = function (elem) {
@@ -83,7 +82,7 @@ return function() {
         behavior = Behaviors.TextArea
         size = [flex(), SIZE_TO_CONTENT]
         text = orderState.statusText.value
-        font = Fonts.tiny_text_hud
+        font = fontsState.get("small")
         color = colors.menu.commonTextColor
         colorTable = colorTable
       }
@@ -94,7 +93,7 @@ return function() {
         behavior = Behaviors.TextArea
         size = [flex(), SIZE_TO_CONTENT]
         text = orderState.statusTextBottom.value
-        font = Fonts.tiny_text_hud
+        font = fontsState.get("small")
         color = colors.menu.commonTextColor
         colorTable = colorTable
       }

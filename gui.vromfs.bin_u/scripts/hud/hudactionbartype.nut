@@ -1,11 +1,21 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
+local actionBarInfo = require("scripts/hud/hudActionBarInfo.nut")
 
 
 ::g_hud_action_bar_type <- {
   types = []
 
   cache = { byCode = {} }
+}
+
+local getActionDescByWeaponTriggerGroup = function(actionItem, triggerGroup)
+{
+  local res = actionBarInfo.getActionDesc(::get_action_bar_unit_name(), triggerGroup)
+  local cooldownTime = actionItem?.cooldownTime
+  if (cooldownTime)
+    res += ("\n" + ::loc("shop/reloadTime") + " " + time.secondsToString(cooldownTime, true, true))
+  return res
 }
 
 ::g_hud_action_bar_type.template <- {
@@ -21,6 +31,7 @@ local time = require("scripts/time.nut")
    * artillery and special unit.
    */
   isForWheelMenu = @() false
+  isForSelectWeaponMenu = @() false
 
   _name = ""
   _icon = ""
@@ -58,7 +69,7 @@ local time = require("scripts/time.nut")
 
   getVisualShortcut = function(actionItem = null, unit = null)
   {
-    if (!isForWheelMenu() || !::is_xinput_device())
+    if ((!isForWheelMenu() && !isForSelectWeaponMenu()) || !::is_xinput_device())
       return getShortcut(actionItem, unit)
 
     if (!unit)
@@ -82,6 +93,33 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     needAnimOnIncrementCount = true
   }
 
+  WEAPON_PRIMARY = {
+    code = ::WEAPON_PRIMARY
+    isForSelectWeaponMenu = @() true
+    _name = "weaponPrimary"
+    _icon = "!ui/gameuiskin#artillery_weapon_state_indicator"
+    _title = ::loc("hotkeys/ID_SHIP_WEAPON_PRIMARY")
+    getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_PRIMARY"
+  }
+
+  WEAPON_SECONDARY = {
+    code = ::WEAPON_SECONDARY
+    isForSelectWeaponMenu = @() true
+    _name = "weaponSecondary"
+    _icon = "!ui/gameuiskin#artillery_secondary_weapon_state_indicator"
+    _title = ::loc("hotkeys/ID_SHIP_WEAPON_SECONDARY")
+    getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_SECONDARY"
+  }
+
+  WEAPON_MACHINEGUN = {
+    code = ::WEAPON_MACHINEGUN
+    isForSelectWeaponMenu = @() true
+    _name = "weaponMachineGun"
+    _icon = "!ui/gameuiskin#machine_gun_weapon_state_indicator"
+    _title = ::loc("hotkeys/ID_SHIP_WEAPON_MACHINEGUN")
+    getShortcut = @(actionItem, unit = null) "ID_SHIP_WEAPON_MACHINEGUN"
+  }
+
   TORPEDO_SIGHT = {
     code = ::EII_TORPEDO_SIGHT
     _name = "torpedo_sight"
@@ -98,6 +136,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     getIcon = function (killStreakTag = null, unit = null) {
       return ::single_torpedo_selected() ?  "#ui/gameuiskin#torpedo" : _icon
     }
+    getTooltipText = @(actionItem = null) getActionDescByWeaponTriggerGroup(actionItem, "torpedoes")
   }
 
   DEPTH_CHARGE = {
@@ -110,6 +149,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
       unit = unit || ::getAircraftByName(::get_action_bar_unit_name())
       return unit?.isMinesAvailable?() ? "#ui/gameuiskin#naval_mine" : _icon
     }
+    getTooltipText = @(actionItem = null) getActionDescByWeaponTriggerGroup(actionItem, "bombs")
   }
 
   MORTAR = {
@@ -133,6 +173,7 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
         return "ID_FIRE_GM_SPECIAL_GUN"
       return "ID_ROCKETS"
     }
+    getTooltipText = @(actionItem = null) getActionDescByWeaponTriggerGroup(actionItem, "rockets")
   }
 
   SMOKE_GRENADE = {
@@ -333,7 +374,11 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
   SHIP_CURRENT_TRIGGER_GROUP = {
     code = ::EII_SHIP_CURRENT_TRIGGER_GROUP
     _name = "ship_current_trigger_group"
-    getShortcut = @(...) null
+    getShortcut = @(actionItem, unit = null)
+      ::get_option(::USEROPT_WHEEL_CONTROL_SHIP)?.value ?? false
+        && (::is_xinput_device() || ::is_ps4_or_xbox)
+          ? "ID_SHIP_SELECTWEAPON_WHEEL_MENU"
+          : null
     getIcon = function (killStreakTag = null, unit = null) {
       local currentTrigger = ::get_current_trigger_group()
       switch (currentTrigger)

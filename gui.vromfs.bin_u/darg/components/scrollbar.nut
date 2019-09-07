@@ -1,11 +1,18 @@
 local defStyling = {
-  Bar = class {
-    rendObj = ROBJ_SOLID
-    color = Color(40, 40, 40, 160)
-    _width = sh(1)
-    _height = sh(1)
+  Bar = function(has_scroll) {
+    if (has_scroll) {
+      return class {
+        rendObj = ROBJ_SOLID
+        color = Color(40, 40, 40, 160)
+        _width = sh(1)
+        _height = sh(1)
+      }
+    }
+    else return class{
+        _width = sh(1)
+        _height = sh(1)
+    }
   }
-
   Knob = class {
     rendObj = ROBJ_SOLID
     colorCalc = @(sf) (sf & S_ACTIVE) ? Color(255,255,255)

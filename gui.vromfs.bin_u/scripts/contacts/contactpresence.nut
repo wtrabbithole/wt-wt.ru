@@ -23,7 +23,7 @@ enum PRESENCE_SORT
     iconTransparency = 180
 
     getTooltip = @() "status/" + presenceName
-    getText = @() ::colorize(textColor, ::loc(getTooltip()))
+    getText = @(locParams = {}) ::colorize(textColor, ::loc(getTooltip(), locParams))
     getIcon = @() "#ui/gameuiskin#" + iconName
     getIconColor = @() ::get_main_gui_scene().getConstantValue(iconColor) || ""
   }

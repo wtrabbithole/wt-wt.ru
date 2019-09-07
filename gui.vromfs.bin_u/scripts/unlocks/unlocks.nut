@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local stdMath = require("std/math.nut")
 
 
 ::unlocks_punctuation_without_space <- ","
@@ -119,7 +120,7 @@ function build_unlock_desc(item, params = {})
     return item
 
   local isComplete = ::UnlockConditions.isBitModeType(item.type)
-                       ? ::number_of_set_bits(item.curVal) >= ::number_of_set_bits(item.maxVal)
+                       ? stdMath.number_of_set_bits(item.curVal) >= stdMath.number_of_set_bits(item.maxVal)
                        : item.curVal >= item.maxVal
   if (showStages && !isComplete)
     item.stagesText <- ::loc("challenge/stage", {
@@ -351,7 +352,16 @@ function build_conditions_config(blk, showStage = -1)
       else
       {
         if (!::g_battle_tasks.isBattleTask(id))
-          config.maxVal = progress.maxVal
+        {
+          if (config.unlockType == ::UNLOCKABLE_STREAK)
+          {
+            config.minVal <- mode.minVal ?? 0
+            config.maxVal = mode.maxVal ?? 0
+            config.multiplier <- ::UnlockConditions.getMultipliersTable(mode)
+          }
+          else
+            config.maxVal = progress.maxVal
+        }
         else if (blk.__numToControl)
         {
           config.maxVal = blk.__numToControl
@@ -779,7 +789,20 @@ function fill_unlock_block(obj, config, isForTooltip = false)
   }
 
   local dObj = obj.findObject("desc_text")
-  dObj.setValue("desc" in config? config.desc : "")
+  local desc = "desc" in config ? config.desc : ""
+  if (config?.type == ::UNLOCKABLE_STREAK)
+  {
+    local cond = ""
+    if (config?.minVal && config.maxVal)
+      cond += ::format(::loc("streaks/min_max_limit"), config.minVal, config.maxVal)
+    else if (config?.minVal)
+      cond += ::format(::loc("streaks/min_limit"), config.minVal)
+    else if (config.maxVal)
+      cond += ::format(::loc("streaks/max_limit"), config.maxVal)
+
+    desc = ::g_string.implode([desc, cond, ::UnlockConditions.getMultipliersText(config)], "\n")
+  }
+  dObj.setValue(desc)
 
   if (("progressBar" in config) && config.progressBar.show)
   {
@@ -1040,8 +1063,9 @@ function does_unlock_exist(unlockId)
 
 function build_log_unlock_data(config)
 {
-  local showProgress = config?.showProgress ?? false
-  local needTitle = config?.needTitle ?? true
+  local showLocalState = config?.showLocalState ?? true
+  local showProgress   = showLocalState && (config?.showProgress ?? false)
+  local needTitle      = config?.needTitle ?? true
 
   local res = ::create_default_unlock_data()
   local realId = ("unlockId" in config)? config.unlockId : ("id" in config)? config.id : ""
@@ -1198,6 +1222,9 @@ function build_log_unlock_data(config)
       res.desc = desc
       res.image = "#ui/gameuiskin#unlock_streak"
       res.iconStyle <- iconStyle
+      res.minVal <- cond?.minVal ?? 0
+      res.maxVal <- cond?.maxVal ?? 0
+      res.multiplier <- cond?.multiplier ?? {}
       break
 
     case ::UNLOCKABLE_AWARD:
@@ -1348,7 +1375,8 @@ function build_log_unlock_data(config)
       if (icon)
         res.descrImage <- icon
       else if (::getTblValue("iconStyle", res, "") == "")
-        res.iconStyle <- "default_unlocked"
+        res.iconStyle <- !showLocalState || ::is_unlocked_scripted(type, id) ? "default_unlocked"
+          : "default_locked"
     }
 
     if (!rewardsWasLoadedFromLog)
@@ -1368,13 +1396,16 @@ function build_log_unlock_data(config)
       res.popupImage <- popupImage
   }
 
-  local cost = ::Cost(::getTblValue("wp", res, 0),
-                      ::getTblValue("gold", res, 0),
-                      ::getTblValue("frp", res, 0),
-                      ::getTblValue("rp", res, 0))
+  if (showLocalState)
+  {
+    local cost = ::Cost(::getTblValue("wp", res, 0),
+                        ::getTblValue("gold", res, 0),
+                        ::getTblValue("frp", res, 0),
+                        ::getTblValue("rp", res, 0))
 
-  res.rewardText = ::colorize("activeTextColor", res.rewardText + cost.tostring())
-  res.showShareBtn <- true
+    res.rewardText = ::colorize("activeTextColor", res.rewardText + cost.tostring())
+    res.showShareBtn <- true
+  }
 
   if ("miscMsg" in config) //for misc params from userlog
     res.miscParam <- config.miscMsg
@@ -1874,11 +1905,11 @@ function g_unlocks::isVisibleByTime(id, hasIncludTimeBefore = true, resWhenNoTim
         continue
       }
 
-      local startTime = ::mktime(time.getTimeFromStringUtc(cond.beginDate)) -
+      local startTime = time.getTimestampFromStringUtc(cond.beginDate) -
         time.daysToSeconds(hasIncludTimeBefore
         ? unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0
         : 0).tointeger()
-      local endTime = ::mktime(time.getTimeFromStringUtc(cond.endDate)) +
+      local endTime = time.getTimestampFromStringUtc(cond.endDate) +
         time.daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
       local currentTime = get_charserver_time_sec()
 

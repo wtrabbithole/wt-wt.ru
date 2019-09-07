@@ -66,11 +66,20 @@ function build_aircraft_item(id, air, params = {})
     local canBuyOnline        = ::canBuyUnitOnline(air)
     local special             = ::isUnitSpecial(air)
     local reserve             = ::isUnitDefault(air)
+    local isVehicleInResearch = ::isUnitInResearch(air) && !forceNotInResearch
+    local isSquadronVehicle   = air.isSquadronVehicle()
     local unitReqExp          = ::getUnitReqExp(air)
     local unitExpGranted      = ::getUnitExp(air)
-    local isVehicleInResearch = ::isUnitInResearch(air) && !forceNotInResearch
+    local diffExp = isSquadronVehicle
+      ? ::min(::clan_get_exp(), unitReqExp - unitExpGranted)
+      : getVal("diffExp", 0)
+    if (isSquadronVehicle && isVehicleInResearch)
+      unitExpGranted += diffExp
+
     local isBroken            = ::isUnitBroken(air)
     local unitRarity          = ::getUnitRarity(air)
+    local isLockedSquadronVehicle = isSquadronVehicle && !::is_in_clan() && diffExp <= 0
+    local isSquadronResearchMode  = getVal("isSquadronResearchMode", false)
 
     local status = getVal("status", defaultStatus)
     if (status == defaultStatus)
@@ -84,6 +93,11 @@ function build_aircraft_item(id, air, params = {})
         bitStatus = bit_unit_status.owned
       else if (canBuy || canBuyOnline)
         bitStatus = bit_unit_status.canBuy
+      else if (isLockedSquadronVehicle)
+      {
+        bitStatus = bit_unit_status.locked
+        inactive = shopResearchMode
+      }
       else if (researched)
         bitStatus = bit_unit_status.researched
       else if (isVehicleInResearch && !forceNotInResearch)
@@ -98,12 +112,12 @@ function build_aircraft_item(id, air, params = {})
         inactive = shopResearchMode
       }
 
-      if (shopResearchMode && !(bitStatus &
+      if ((shopResearchMode && !(bitStatus &
            ( bit_unit_status.locked
             | bit_unit_status.canBuy
             | bit_unit_status.inResearch
-            | bit_unit_status.canResearch))
-          )
+            | bit_unit_status.canResearch)))
+         || (isSquadronResearchMode && !isSquadronVehicle))
       {
         bitStatus = bit_unit_status.disabled
         inactive = true
@@ -189,6 +203,7 @@ function build_aircraft_item(id, air, params = {})
     //
 
     local showProgress = isLocalState && !isOwn && canResearch && !::is_in_flight()
+      && (!isLockedSquadronVehicle || unitExpGranted > 0)
     local airResearchProgressView = {
       airResearchProgress = []
     }
@@ -197,18 +212,17 @@ function build_aircraft_item(id, air, params = {})
       airResearchProgressView.airResearchProgress.push({
         airResearchProgressValue            = unitReqExp > 0 ? (unitExpGranted.tofloat() / unitReqExp * 1000).tointeger() : 0
         airResearchProgressType             = "new"
-        airResearchProgressIsPaused         = !isVehicleInResearch || forceNotInResearch
+        airResearchProgressIsPaused         = !isVehicleInResearch || forceNotInResearch || isLockedSquadronVehicle
         airResearchProgressAbsolutePosition = false
         airResearchProgressHasPaused        = true
         airResearchProgressHasDisplay       = false
       })
-      local diffExp = getVal("diffExp", 0)
       if (unitExpGranted > diffExp)
       {
         airResearchProgressView.airResearchProgress.push({
           airResearchProgressValue            = ((unitExpGranted.tofloat() - diffExp) / unitReqExp * 1000).tointeger()
           airResearchProgressType             = "old"
-          airResearchProgressIsPaused         = !isVehicleInResearch || forceNotInResearch
+          airResearchProgressIsPaused         = !isVehicleInResearch || forceNotInResearch || isLockedSquadronVehicle
           airResearchProgressAbsolutePosition = true
           airResearchProgressHasPaused        = true
           airResearchProgressHasDisplay       = false
@@ -252,7 +266,7 @@ function build_aircraft_item(id, air, params = {})
       isLongPriceText     = ::is_unit_price_text_long(priceText)
       isElite             = isLocalState && (isOwn && ::isUnitElite(air)) || (!isOwn && special)
       unitRankText        = ::get_unit_rank_text(air, crew, showBR, curEdiff)
-      isItemLocked        = isLocalState && !isUsable && !special && !::isUnitsEraUnlocked(air)
+      isItemLocked        = isLocalState && !isUsable && !special && !isSquadronVehicle && !::isUnitsEraUnlocked(air)
       hasTalismanIcon     = isLocalState && (special || ::shop_is_modification_enabled(air.name, "premExpMul"))
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
       tooltipId           = ::g_tooltip.getIdUnit(air.name, getVal("tooltipParams", null))
@@ -311,6 +325,8 @@ function build_aircraft_item(id, air, params = {})
     local rentedUnit        = null
     local unitRole          = null
     local bitStatus         = 0
+
+    local isSquadronResearchMode = getVal("isSquadronResearchMode", false)
 
     foreach(a in air.airsGroup)
     {
@@ -376,14 +392,15 @@ function build_aircraft_item(id, air, params = {})
         bitStatus = bitStatus | bit_unit_status.broken
     }
 
-    if (shopResearchMode && !(bitStatus &
+    if ((shopResearchMode && !(bitStatus &
            (
              bit_unit_status.canBuy
             | bit_unit_status.inResearch
             | bit_unit_status.canResearch)
           ))
+        || isSquadronResearchMode)
       {
-        if (!(bitStatus & bit_unit_status.locked))
+        if (!(bitStatus & bit_unit_status.locked) || isSquadronResearchMode)
           bitStatus = bit_unit_status.disabled
         inactive = true
       }
@@ -800,23 +817,35 @@ function get_unit_item_research_progress_text(unit, params, priceText = "")
     return ""
   if (!::canResearchUnit(unit))
     return ""
+  local isSquadronVehicle = unit?.isSquadronVehicle?() ?? false
+  if (isSquadronVehicle && !::is_in_clan())
+    return ""
 
   local unitExpReq  = ::getUnitReqExp(unit)
   local unitExpCur  = ::getUnitExp(unit)
   if (unitExpReq <= 0 || unitExpReq <= unitExpCur)
     return ""
 
-  return ::Cost().setRp(unitExpReq - unitExpCur).tostring()
+  return isSquadronVehicle
+    ? ::Cost().setSap(unitExpReq - unitExpCur).tostring()
+    : ::Cost().setRp(unitExpReq - unitExpCur).tostring()
 }
 
 function get_unit_item_progress_status(unit, params)
 {
+  local isSquadronVehicle   = unit?.isSquadronVehicle?()
+  local unitExpReq          = ::getUnitReqExp(unit)
+  local unitExpGranted      = ::getUnitExp(unit)
+  local diffSquadronExp     = isSquadronVehicle
+     ? ::min(::clan_get_exp(), unitExpReq - unitExpGranted)
+     : 0
   local flushExp = ::getTblValue("flushExp", params, 0)
-  local unitExpReq  = ::getUnitReqExp(unit)
-  local isFull = flushExp > 0 && flushExp >= unitExpReq
+  local isFull = (flushExp > 0 && flushExp >= unitExpReq)
+    || (diffSquadronExp > 0 && diffSquadronExp >= unitExpReq)
 
   local forceNotInResearch  = ::getTblValue("forceNotInResearch", params, false)
   local isVehicleInResearch = !forceNotInResearch && ::isUnitInResearch(unit)
+    && (!isSquadronVehicle || ::is_in_clan() || diffSquadronExp > 0)
 
   return isFull ? "researched"
          : isVehicleInResearch ? "research"

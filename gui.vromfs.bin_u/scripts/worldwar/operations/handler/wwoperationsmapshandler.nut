@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local seenWWMapsAvailable = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local wwTopLeaderboard = ::require("scripts/worldWar/leaderboards/wwTopLeaderboard.nut")
 ::dagui_propid.add_name_id("countryId")
 ::dagui_propid.add_name_id("mapId")
 
@@ -109,6 +110,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     findMapForSelection()
     fillMapsList()
     fillTrophyList()
+    fillTopList()
 
     if (hasSelectAllCountriesBlock)
       fillSelectAllCountriesList()
@@ -119,6 +121,11 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function getMainFocusObj()
   {
     return mapsListObj
+  }
+
+  function getMainFocusObj2()
+  {
+    return scene.findObject("top_list")
   }
 
   function collectMaps()
@@ -276,8 +283,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!trophiesAmount)
       return
 
-    local updStatsUtcTime = ::get_utc_time().__update( {hour = 0, min = 0} )
-    local updStatsText = time.buildTimeStr(time.convertUtcToLocalTime(updStatsUtcTime), false, false)
+    local updStatsText = time.buildTimeStr(time.getUtcMidnight(), false, false)
 
     local view = {
       titleText = getTrophyDesc(trophiesBlk)
@@ -286,7 +292,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     }
 
     local isLeftPanelVisible = false
-    local curDay = time.getCharServerDays() + 1
+    local curDay = time.getUtcDays() - DAYS_TO_YEAR_1970 + 1
     local trophiesProgress = ::get_es_custom_blk(-1)?.customClientData
     for (local i = 0; i < trophiesAmount; i++)
     {
@@ -323,6 +329,21 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local trophyBlockObj = scene.findObject("trophy_list")
     guiScene.replaceContentFromText(trophyBlockObj, markup, markup.len(), this)
     showSceneBtn("panel_left", isLeftPanelVisible)
+  }
+
+  function fillTopList()
+  {
+    if (!::has_feature("WorldWarLeaderboards"))
+      return
+
+    wwTopLeaderboard.initTop(this, scene.findObject("top_daily_players"),  "1134", "ww_users", "daily")
+    wwTopLeaderboard.initTop(this, scene.findObject("top_global_players"), "1134", "ww_users", "season")
+    wwTopLeaderboard.initTop(this, scene.findObject("top_global_clans"),   "1135", "ww_clans", "season")
+  }
+
+  function showTopListBlock(isVisible = false)
+  {
+    showSceneBtn("top_list", isVisible)
   }
 
   getTrophyLocId = @(blk) blk.locId || "worldwar/" + blk.getBlockName()
@@ -675,10 +696,38 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     ::g_ww_global_status.refreshData()
   }
 
+  function onOpenLeaderboard(obj)
+  {
+    openLeaderboard(obj.lb_mode, obj.lb_type)
+  }
+
+  function onOpenSelectedTopLeaderboard(obj)
+  {
+    local topsObj = scene.findObject("top_list")
+    if (!::check_obj(topsObj) || !topsObj.isFocused())
+      return
+
+    local val = topsObj.getValue()
+    if (val < 0)
+      return
+
+    local topObj = topsObj.getChild(val)
+    local btnObj = topObj?.findObject?("btn_open_leaderboard")
+    if (::check_obj(btnObj))
+      openLeaderboard(btnObj.lb_mode, btnObj.lb_type)
+  }
+
+  function openLeaderboard(mode, type)
+  {
+    ::gui_start_modal_wnd(::gui_handlers.WwLeaderboard, {
+      beginningMode = mode
+      beginningType = type
+    })
+  }
+
   function updateWindow()
   {
     updateQueueElementsInList()
-
     updateDescription()
     updateButtons()
   }

@@ -1,5 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
+local stdMath = require("std/math.nut")
 
 
 ::g_battle_tasks <- null
@@ -858,7 +859,7 @@ function BattleTasks::isTaskSuitableForUnitTypeMask(task, unitTypeMask)
         continue
 
       foreach (unitType in gameMode.unitTypes)
-        if (::is_bit_set(unitTypeMask, unitType))
+        if (stdMath.is_bit_set(unitTypeMask, unitType))
           return true
 
       break

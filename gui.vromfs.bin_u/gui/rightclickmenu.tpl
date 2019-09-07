@@ -45,9 +45,8 @@ root {
     <</actions>>
   }
 
-  dummy {
+  DummyButton {
     on_click:t = 'goBack'
-    behaviour:t='accesskey'
-    accessKey:t = 'Esc | J:B'
+    btnName:t='B'
   }
 }

@@ -61,7 +61,6 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
     watchAxis = ::joystickInterface.getAxisWatch(false, true)
     pointingDevice = ::use_touchscreen ? POINTING_DEVICE.TOUCHSCREEN : ::is_xinput_device() ? POINTING_DEVICE.GAMEPAD : POINTING_DEVICE.MOUSE
-    updateControlsHint()
 
     ::g_hud_event_manager.subscribe("LocalPlayerDead", function (data) {
       ::close_artillery_map()
@@ -118,10 +117,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
     prevMousePos = mousePos
     if (curPointingDevice != pointingDevice || prevArtilleryReady != artilleryReady)
-    {
       pointingDevice = curPointingDevice
-      updateControlsHint()
-    }
 
     local show = mapCoords != null
     local disp = mapCoords ? ::artillery_dispersion(mapCoords[0], mapCoords[1]) : -1
@@ -140,10 +136,6 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       if (!isSuperArtillery)
         objTarget.enable(valid)
     }
-
-    ::enableBtnTable(scene, {
-        btn_apply = valid
-    })
 
     local objHint = scene.findObject("txt_artillery_hint")
     if (::checkObj(objHint))
@@ -214,11 +206,6 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       obj.size = ::format("%d, %d", gap.r, rangeSize[1])
       obj.pos  = ::format("%d, %d", rangePos[0] + rangeSize[0], rangePos[1])
     }
-  }
-
-  function updateControlsHint()
-  {
-    showSceneBtn("btn_apply", artilleryReady && pointingDevice != POINTING_DEVICE.MOUSE)
   }
 
   function updateShotcutImages()

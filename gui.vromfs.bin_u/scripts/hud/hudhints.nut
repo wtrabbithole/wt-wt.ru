@@ -419,7 +419,10 @@ enums.addTypesByGlobalName("g_hud_hints", {
   SKIP_XRAY_SHOT = {
     hintType = ::g_hud_hint_types.MINOR
     locId = "hints/skip"
-    shortcuts = "ID_CONTINUE"
+    shortcuts = [
+      "@ID_CONTINUE_SETUP"
+      "@ID_CONTINUE"
+    ]
     showEvent = "hint:xrayCamera:showSkipHint"
     hideEvent = "hint:xrayCamera:hideSkipHint"
     isHideOnDeath = false
@@ -511,13 +514,6 @@ enums.addTypesByGlobalName("g_hud_hints", {
     priority = CATASTROPHIC_HINT_PRIORITY
     totalCount = 20
     maskId = 26
-  }
-
-  PILOT_DAMAGED_HINT = {
-    locId = "hints/damaged_pilot"
-    showEvent = "hint:damaged_pilot:show"
-    lifeTime = 2.0
-    priority = CATASTROPHIC_HINT_PRIORITY
   }
 
   ATGM_AIM_HINT = {

@@ -146,6 +146,10 @@ promoButton > collapsedContainer {
   flow:vertical;
 }
 
+promoButton[hasSafeAreaPadding=no] {
+  padding-right:0;
+}
+
 promoButton[type=battleTask] > collapsedContainer {
   position:relative;
   pos:pw-w;
@@ -417,6 +421,7 @@ baseToggleButton:pushed {
 
 promoButton[collapsed=yes] > baseToggleButton,
 promoButton[collapsed=no][type=arrowButton] > baseToggleButton,
+promoButton[collapsed=no][type=autoWidth] > baseToggleButton,
 promoButton[collapsed=no][type=battleTask] > baseToggleButton {
   top: @promoButtonMinHeight/2 - h/2;
 }

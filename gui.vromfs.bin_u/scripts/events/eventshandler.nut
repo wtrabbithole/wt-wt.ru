@@ -62,6 +62,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   canAskAboutRoomsList = true
   isQueueWasStartedWithRoomsList = false
+  isEventsListInFocus = false
 
   function initScreen()
   {
@@ -90,9 +91,26 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   //----CONTROLLER----//
+  function updateEventsListFocusStatus()
+  {
+    isEventsListInFocus = !::show_console_buttons || (::check_obj(eventsListObj) && eventsListObj.isFocused())
+  }
+
   function onItemSelect()
   {
+    updateEventsListFocusStatus()
     onItemSelectAction()
+  }
+
+  function onListItemsFocusChange(obj)
+  {
+    guiScene.performDelayed(this, function() {
+      if (!isValid())
+        return
+
+      updateEventsListFocusStatus()
+      updateButtons()
+    })
   }
 
   function onItemSelectAction(onlyChanged = true)
@@ -440,7 +458,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isReady = ::g_squad_manager.isMeReady()
     local isSquadMember = ::g_squad_manager.isSquadMember()
 
-    local showJoinBtn = (isValid && (!isInQueue || (isSquadMember && !isReady)))
+    local showJoinBtn = isEventsListInFocus && (isValid && (!isInQueue || (isSquadMember && !isReady)))
     local joinButtonObj = scene.findObject("btn_join_event")
     joinButtonObj.show(showJoinBtn)
     joinButtonObj.enable(showJoinBtn)
@@ -469,7 +487,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     leaveButtonObj.show(isInQueue)
     leaveButtonObj.enable(isInQueue)
 
-    local isHeader = curChapterId != "" && curEventId == ""
+    local isHeader = isEventsListInFocus && curChapterId != "" && curEventId == ""
     local collapsedButtonObj = showSceneBtn("btn_collapsed_chapter", isHeader)
     if (isHeader)
     {

@@ -46,7 +46,7 @@ function g_qi_view_utils::createViewByCountries(nestObj, queue, event)
     {
       local row = {
         rowParam = "queueTableRow"
-        columns = [{ text = ::getUnitRankName(rank) }]
+        columns = [{ text = ::get_roman_numeral(rank) }]
         isEven = rank % 2 == 0
       }
 

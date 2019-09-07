@@ -18,7 +18,7 @@ tdiv {
 
     img {
       id:t='country'
-      size:t='50*@sf/@pf_outdated, 26*@sf/@pf_outdated'
+      size:t='1@wwSmallCountryFlagWidth, 1@wwSmallCountryFlagHeight'
       margin-bottom:t='0.01@scrn_tgt'
       background-image:t=''
     }

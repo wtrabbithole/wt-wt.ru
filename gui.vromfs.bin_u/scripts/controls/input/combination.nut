@@ -49,4 +49,24 @@ class ::Input.Combination extends ::Input.InputBase
 
     return ::NULL_INPUT_DEVICE_ID
   }
+
+  function hasImage()
+  {
+    if (elements.len())
+      foreach (item in elements)
+        if (item.hasImage())
+          return true
+
+    return false
+  }
+
+  function getConfig()
+  {
+    return {
+      inputName = "combination"
+      text = getText()
+      elements = u.map(elements, @(element) element.getConfig())
+    }
+  }
+
 }

@@ -483,6 +483,8 @@
                             "flow": "vertical",
                             "div": {
                               "width": "pw",
+                              "flow": "h-flow",
+                              "flow-align": "center",
                               "tdiv": {
                                 "id": "inventory_gift_icon",
                                 "width": "pw",
@@ -490,11 +492,15 @@
                                 "flow-align": "center",
                                 "smallItems": "no"
                               },
-                              "div": {
-                                "size": "pw, ph",
-                                "position": "absolute",
-                                "behaviour": "button",
-                                "_on_click": "onInventoryGiftAction"
+                              "Button_text": {
+                                "id": "btn_show_all",
+                                "pos": "pw/2-w/2",
+                                "on_click": "onViewRewards",
+                                "text": "#mainmenu/showMore",
+                                "display": "hide",
+                                "enable": "no",
+                                "btnName": "RT",
+                                "ButtonImg": []
                               }
                             },
                             "Button_text": {
@@ -1715,9 +1721,10 @@
                       },
                       {
                         "emptyVoiceChat": {
-                          "id": "voice_chat_no_activity",
                           "tooltip": "#clan/voice_chat/widget",
                           "usertalk": {
+                            "id": "voice_chat_no_activity",
+                            "type": "noTalk",
                             "fade": "in",
                             "height-end": "1",
                             "_size-timer": "0",

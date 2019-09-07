@@ -23,6 +23,7 @@ const CLAN_RANK_ERA = 5 //really used only this rank, but in lb exist 5
 ::g_clans <- {
   lastClanId = CLAN_ID_NOT_INITED //only for compare about clan id changed
   seenCandidatesBlk = null
+  squadronExp = 0
 }
 
 function g_clans::getMyClanType()
@@ -258,7 +259,7 @@ function g_clans::requestClanLog(clanId, rowsCount, requestMarker, callbackFnSuc
         local logType = ::g_clan_log_type.getTypeByName(logEntryTable.ev)
 
         if ("time" in logEntryTable)
-          logEntryTable.time = time.buildDateTimeStr(::get_time_from_t(logEntryTable.time))
+          logEntryTable.time = time.buildDateTimeStr(logEntryTable.time)
 
         logEntryTable.header <- logType.getLogHeader(logEntryTable)
         if (logType.needDetails(logEntryTable))
@@ -335,6 +336,7 @@ function g_clans::onEventSignOut(p)
 {
   lastClanId = CLAN_ID_NOT_INITED
   seenCandidatesBlk = null
+  squadronExp = 0
   ::last_update_my_clan_time = MY_CLAN_UPDATE_DELAY_MSEC
 }
 
@@ -504,13 +506,12 @@ function g_clans::showClanRewardLog(clanData)
 
 function g_clans::getClanCreationDateText(clanData)
 {
-  return time.buildDateStr(::get_time_from_t(clanData.cdate))
+  return time.buildDateStr(clanData.cdate)
 }
 
 function g_clans::getClanInfoChangeDateText(clanData)
 {
-  local t = ::get_time_from_t(clanData.changedTime)
-  return time.buildDateTimeStr(t, false, false)
+  return time.buildDateTimeStr(clanData.changedTime, false, false)
 }
 
 function g_clans::getClanMembersCountText(clanData)
@@ -709,6 +710,16 @@ function g_clans::openComplainWnd(clanData)
   ::gui_modal_complain({name = leader.nick, userId = leader.uid, clanData = clanData})
 }
 
+function g_clans::checkSquadronExpChangedEvent()
+{
+  local curSquadronExp = ::clan_get_exp()
+  if (squadronExp == curSquadronExp)
+    return
+
+  squadronExp = curSquadronExp
+  ::broadcastEvent("SquadronExpChanged")
+}
+
 ::ranked_column_prefix <- "dr_era"
 ::clan_leaderboards_list <- [
   {id = "dr_era1", icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
@@ -791,6 +802,7 @@ function getMyClanData(forceUpdate = false)
     return
 
   ::g_clans.checkClanChangedEvent()
+  ::g_clans.checkSquadronExpChangedEvent()
 
   local myClanId = ::clan_get_my_clan_id()
   if(myClanId == "-1")
@@ -909,7 +921,7 @@ function is_in_my_clan(name = null, uid = null)
 
   function getRegionChangeAvailableTime()
   {
-    return ::get_time_from_t(regionLastUpdate + ::g_clans.getRegionUpdateCooldownTime())
+    return regionLastUpdate + ::g_clans.getRegionUpdateCooldownTime()
   }
 
   function getClanUpgradeCost()

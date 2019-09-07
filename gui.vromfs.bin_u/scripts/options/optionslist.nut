@@ -27,6 +27,9 @@ local getMainOptions = function()
       [::USEROPT_LANGUAGE, "spinner", ! ::is_in_flight() && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! ::is_in_flight() && !::is_ps4_or_xbox],
       [::USEROPT_FONTS_CSS, "spinner"],
+      [::USEROPT_GAMMA, "slider", ::target_platform != "macosx"
+                                  && (!::is_platform_windows
+                                      || ::getSystemConfigOption("video/mode") == "fullscreen") ],
       [::USEROPT_CLUSTER, "spinner", ! ::is_in_flight() && ::is_platform_ps4],
 
       ["options/header/commonBattleParameters"],
@@ -63,6 +66,7 @@ local getMainOptions = function()
       [::USEROPT_HUE_HELICOPTER_HUD, "spinner"],
       [::USEROPT_HUE_HELICOPTER_HUD_ALERT, "spinner"],
       [::USEROPT_HORIZONTAL_SPEED, "spinner"],
+      [::USEROPT_HELICOPTER_HELMET_AIM, "spinner"],
 
       ["options/header/tank"],
       [::USEROPT_GRASS_IN_TANK_VISION, "spinner"],
@@ -82,15 +86,14 @@ local getMainOptions = function()
       [::USEROPT_DEFAULT_AI_TARGET_TYPE, "spinner", ::has_feature("Ships")],
       [::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE, "spinner", ::has_feature("Ships")],
       [::USEROPT_BULLET_FALL_INDICATOR_SHIP, "spinner", ::has_feature("Ships")],
+      [::USEROPT_BULLET_FALL_SOUND_SHIP, "spinner", ::has_feature("Ships")],
+      [::USEROPT_AUTO_TARGET_CHANGE_SHIP, "spinner", ::has_feature("Ships")],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
       ["options/header/interface"],
       [::USEROPT_HUD_SCREEN_SAFE_AREA, "spinner", safeAreaHud.canChangeValue()],
       [::USEROPT_GAME_HUD, "spinner"],
-      [::USEROPT_GAMMA, "slider", ::target_platform != "macosx"
-                                  && (!::is_platform_windows
-                                      || ::getSystemConfigOption("video/mode") == "fullscreen") ],
       [::USEROPT_HUD_INDICATORS, "spinner", "get_option_hud_indicators" in getroottable()],
       [::USEROPT_HUE_SQUAD, "spinner"],
       [::USEROPT_HUE_ALLY, "spinner"],
@@ -142,6 +145,7 @@ local getMainOptions = function()
       [::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED, "slider", ::g_gamepad_cursor_controls.canChangeSpeed()],
       [::USEROPT_XCHG_STICKS, "spinner"],
       [::USEROPT_VIBRATION, "spinner"],
+      [::USEROPT_GAMEPAD_ENGINE_DEADZONE, "spinner"],
       [::USEROPT_USE_CONTROLLER_LIGHT, "spinner", ::is_platform_ps4 && ::has_feature("ControllerLight")],
 
       ["options/header/replaysAndSpectatorMode", null, ::has_feature("Replays") || ::has_feature("Spectator")],

@@ -236,6 +236,10 @@
       },
       "optics": {
         "armorClass": "optics_tank",
+        "optic_body_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
         "optic_turret_01_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
@@ -279,14 +283,6 @@
           "hidableInViewer": true
         }
       },
-      "gun": {
-        "armorClass": "tank_barrel",
-        "hp": 50.0,
-        "armorThickness": 5.0,
-        "gun_barrel_dm": [],
-        "gun_barrel_01_dm": [],
-        "gun_barrel_03_dm": []
-      },
       "chassis": {
         "hp": 250.0,
         "armorThickness": 10.0,
@@ -302,6 +298,52 @@
         "wheel_l_drive_dm": [],
         "wheel_r_drive_dm": [],
         "wheel_support_dm": []
+      },
+      "gun": {
+        "armorClass": "tank_barrel",
+        "hp": 250.0,
+        "armorThickness": 25.0,
+        "gun_barrel_dm": [],
+        "gun_barrel_01_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_02_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_03_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_04_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_05_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_06_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_07_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        },
+        "gun_barrel_08_dm": {
+          "armorThrough": 10.0,
+          "armorThickness": 5.0,
+          "hp": 50.0
+        }
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -879,62 +921,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 380.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 170.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 190.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -973,7 +959,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -982,51 +968,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
-      "suspension": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "wheel_l_01_dm"
-        },
-        {
-          "part": "wheel_r_01_dm"
-        },
-        {
-          "part": "wheel_l_02_dm"
-        },
-        {
-          "part": "wheel_r_02_dm"
-        },
-        {
-          "part": "wheel_l_03_dm"
-        },
-        {
-          "part": "wheel_r_03_dm"
-        },
-        {
-          "part": "wheel_support_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 250.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1061,7 +1003,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1070,7 +1012,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1108,7 +1050,7 @@
           "speedPitch": 8.0,
           "fireConeAngle": 1.0,
           "bullets": 38,
-          "recoilMultiplier": 1.5,
+          "recoilMultiplier": 0.6,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
           "DelayAfterShoot": 5.0,
@@ -1132,6 +1074,11 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-8.0,20.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-142.0,-2.0,20.0],
+            "lim2": [-142.0,142.0,-8.0,20.0],
+            "lim3": [142.0,180.0,-2.0,20.0]
           }
         }
       },
@@ -1321,6 +1268,15 @@
         "neutralGearRatio": 15.0,
         "gearRatios": [
           {
+            "ratio": -1.0
+          },
+          {
+            "ratio": -1.375
+          },
+          {
+            "ratio": -1.833
+          },
+          {
             "ratio": -2.75
           },
           {
@@ -1330,16 +1286,31 @@
             "ratio": 0.0
           },
           {
+            "ratio": 10.5
+          },
+          {
             "ratio": 5.5
+          },
+          {
+            "ratio": 3.8
           },
           {
             "ratio": 2.75
           },
           {
+            "ratio": 2.2
+          },
+          {
             "ratio": 1.833
           },
           {
+            "ratio": 1.5
+          },
+          {
             "ratio": 1.375
+          },
+          {
+            "ratio": 1.15
           },
           {
             "ratio": 1.0
@@ -1351,8 +1322,9 @@
         "defaultGearRadius": 0.6,
         "defaultDampeningForce": [55000.0,55000.0],
         "hasSuspensionOnDriveGear": true,
-        "dampeningRelaxationRatio": 0.2,
-        "dampeningCompressionRatio": 0.13,
+        "dampeningRelaxationRatio": 0.35,
+        "dampeningCompressionRatio": 0.3,
+        "brokenWheelSteeringDeflection": -15.0,
         "wheelsDamageWeight": {
           "wheel_l_01": 0.3,
           "wheel_r_01": 0.3,
@@ -1428,6 +1400,60 @@
           }
         }
       ]
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      }
     }
   },
   {
@@ -1903,15 +1929,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -1948,10 +1965,10 @@
       "art_support": [],
       "tank_new_gun": [],
       "tank_medical_kit": {
-        "image": "#ui/gameuiskin#tank_reinforcement_it"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "tank_medical_kit_expendable": {
-        "image": "#ui/gameuiskin#tank_reinforcement_it"
+        "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "105mm_fr_F2_HEAT": [],
       "105mm_fr_F2_HE": [],
@@ -1978,7 +1995,7 @@
                 "speedPitch": 8.0,
                 "fireConeAngle": 1.0,
                 "bullets": 38,
-                "recoilMultiplier": 1.5,
+                "recoilMultiplier": 0.6,
                 "salvoAmount": 100.0,
                 "ChainfireTime": 0.0,
                 "DelayAfterShoot": 5.0,
@@ -2002,6 +2019,11 @@
                 "limits": {
                   "yaw": [-180.0,180.0],
                   "pitch": [-8.0,20.0]
+                },
+                "limitsTable": {
+                  "lim1": [-180.0,-142.0,-2.0,20.0],
+                  "lim2": [-142.0,142.0,-8.0,20.0],
+                  "lim3": [142.0,180.0,-2.0,20.0]
                 }
               }
             },
@@ -2314,6 +2336,15 @@
       "replace_tex": {
         "from": "fr_camo_vert_olive_arme*",
         "to": "fr_camo_modern_urban*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_carc",
+      "replace_tex": {
+        "from": "fr_camo_vert_olive_arme*",
+        "to": "ger_camo_carc*"
       }
     }
   },

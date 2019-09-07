@@ -304,10 +304,10 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     })(videoName))
   }
 
-  function getSelectedMissionIndex()
+  function getSelectedMissionIndex(needCheckFocused = true)
   {
     local list = getObj("items_list")
-    if (list != null)
+    if (list != null && (!needCheckFocused || list.isFocused()))
     {
       local index = list.getValue()
       if (index >=0 && index < list.childrenCount())
@@ -316,16 +316,16 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     return -1
   }
 
-  function getSelectedMission()
+  function getSelectedMission(needCheckFocused = true)
   {
-    curMissionIdx = getSelectedMissionIndex()
+    curMissionIdx = getSelectedMissionIndex(::show_console_buttons && needCheckFocused)
     curMission = ::getTblValue(curMissionIdx, missions, null)
     return curMission
   }
 
   function onItemSelect(obj)
   {
-    getSelectedMission()
+    getSelectedMission(false)
     if (missionDescWeak)
     {
       local previewBlk = null
@@ -548,6 +548,17 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
     curMission.blk <- curMission.urlMission.getMetaInfo()
     setMission()
+  }
+
+  function onListItemsFocusChange(obj)
+  {
+    guiScene.performDelayed(this, function() {
+      if (!isValid())
+        return
+
+      getSelectedMission()
+      updateButtons()
+    })
   }
 
   function updateButtons()

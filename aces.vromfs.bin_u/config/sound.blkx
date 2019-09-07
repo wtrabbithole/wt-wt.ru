@@ -2,6 +2,7 @@
   "maxChannels": 128,
   "maxSoftwareChannels": 128,
   "memoryPC": 175,
+  "memoryPS4": 213,
   "memoryPCLowMode": 140,
   "memoryPCHighMode": 210,
   "cockpitVolumeMultMinValue": 0.1,
@@ -1719,9 +1720,7 @@
       "overheatCockpit": "",
       "dive": "engine_dive",
       "timeFallingDown": 2.0,
-      "engineVolumeOnOverheat": 0.8,
-      "eventStart": "engine_start",
-      "eventStop": "engine_stop"
+      "engineVolumeOnOverheat": 0.8
     },
     "outside": {
       "path": "tanks/engines_tanks/ai_train",
@@ -1739,8 +1738,6 @@
     "cockpit": {
       "path": "tanks/engines_tanks/ai_train",
       "event_cockpit_l": "engine",
-      "event_start_cockpit_l": "engine_start",
-      "event_stop_cockpit_l": "engine_stop",
       "leftPos": [1.0,1.0,0.0]
     }
   },
@@ -1752,9 +1749,7 @@
       "overheatCockpit": "",
       "dive": "engine_dive",
       "timeFallingDown": 2.0,
-      "engineVolumeOnOverheat": 0.8,
-      "eventStart": "engine_start",
-      "eventStop": "engine_stop"
+      "engineVolumeOnOverheat": 0.8
     },
     "outside": {
       "path": "tanks/engines_tanks/ai_train_steampowered",
@@ -1772,8 +1767,6 @@
     "cockpit": {
       "path": "tanks/engines_tanks/ai_train_steampowered",
       "event_cockpit_l": "engine",
-      "event_start_cockpit_l": "engine_start",
-      "event_stop_cockpit_l": "engine_stop",
       "leftPos": [1.0,1.0,0.0]
     }
   },
@@ -3475,6 +3468,64 @@
       "leftPos": [-1.0,1.0,0.0]
     }
   },
+  "engine_bmp": {
+    "effects": {
+      "path": "tanks/engines_tanks/bmp",
+      "wep": "",
+      "overheatOutside": "",
+      "overheatCockpit": "",
+      "dive": "engine_dive",
+      "timeFallingDown": 2.0,
+      "engineVolumeOnOverheat": 0.8,
+      "eventStart": "engine_start",
+      "eventStop": "engine_stop"
+    },
+    "outside": [
+      {
+        "path": "tanks/engines_tanks/bmp"
+      },
+      {
+        "eventFront": ""
+      },
+      {
+        "eventBack": "engine"
+      },
+      {
+        "eventSurround": ""
+      },
+      {
+        "eventLod1": "engine"
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      },
+      {
+        "rpmSmooth": 0.02
+      },
+      {
+        "loadScale": 6.0
+      },
+      {
+        "loadSmooth": 0.05
+      },
+      {
+        "distSmooth": 0.9
+      },
+      {
+        "distScaleOnNotHero": 1.0
+      },
+      {
+        "offsetPos": [-1.0,1.0,0.0]
+      }
+    ],
+    "cockpit": {
+      "path": "tanks/engines_tanks/bmp",
+      "event_cockpit_l": "engine_interior",
+      "event_start_cockpit_l": "engine_start_interior",
+      "event_stop_cockpit_l": "engine_stop_interior",
+      "leftPos": [-1.0,1.0,0.0]
+    }
+  },
   "engine_panzer4": {
     "effects": {
       "path": "tanks/engines_tanks/panzer4",
@@ -4198,7 +4249,9 @@
       "event_cockpit_l": "engine_interior_l",
       "event_cockpit_r": "engine_interior_r",
       "event_start_cockpit_l": "engine_start_interior",
+      "event_start_cockpit_r": "engine_start_interior",
       "event_stop_cockpit_l": "engine_stop_interior",
+      "event_stop_cockpit_r": "engine_stop_interior",
       "leftPos": [-1.0,1.0,2.0],
       "rightPos": [-1.0,1.0,-2.0]
     }
@@ -6113,11 +6166,6 @@
       "path": "tanks/effects_tanks",
       "event": "reload_howitzer",
       "time": 3.0
-    },
-    "old_ship_reload": {
-      "path": "sounds/effects",
-      "event": "old_ship_reload",
-      "time": 3.0
     }
   },
   "gun_default": {
@@ -6792,6 +6840,7 @@
         "heat_grenade_tank": "loadBulletCumulative",
         "apcr_tank": "loadBulletSubCaliber",
         "apds_tank": "loadBulletAPDS",
+        "apds_early_tank": "loadBulletAPDS",
         "apds_l15_tank": "loadBulletAPDS",
         "apds_fs_tank": "loadBulletAPDS",
         "apds_fs_long_tank": "loadBulletAPDS",

@@ -88,6 +88,7 @@ function g_skill_parameters_column_type::_getDiffText(prevValue, curValue, measu
 function g_skill_parameters_column_type::_isSkillNotOnlyForTotalAndTop(memberName, skillName)
 {
   return (memberName != "commander" || skillName != "leadership")
+         && (memberName != "ship_commander" || skillName != "leadership")
          && (memberName != "gunner" || skillName != "members")
          && (memberName != "groundService" || skillName != "repairRank")
 }
@@ -176,7 +177,7 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
 
   /**
    * Represents upgrades provided by leadership skill.
-   * This is related to tank unit type only.
+   * This is related to tank and ship unit types only.
    */
   LEADERSHIP = {
     sortOrder = skillColumnOrder.LEADERSHIP

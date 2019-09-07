@@ -2,6 +2,7 @@
   "fmFile": "fm/f-80a.blk",
   "model": "f_80a",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
+  "harmonizationSuffix": "_tomoe",
   "type": "typeFighter",
   "paratrooper": "usa_para",
   "advancedInstructor": true,
@@ -2268,9 +2269,6 @@
   "cockpit": {
     "headPos": [1.1,1.16,0.0],
     "headPosOnShooting": [1.2,1.16,0.0],
-    "mirror": true,
-    "mirrorPos": [-2.455,0.0,1.163],
-    "mirrorNorm": [-1.0,0.0,0.0],
     "shadowSphereMultiplier": 2.0,
     "gunLightRadiusMul": 0.05,
     "lightPos": [1.63368,1.02279,-0.003695],
@@ -2629,6 +2627,20 @@
       "reqModification": "frc_mk2"
     }
   },
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "p_80a_5_usaaf_silver_a*",
+        "to": "p_80a_5_usaaf_silver_a_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "p_80a_5_usaaf_silver_a_dmg*",
+        "to": "p_80a_5_usaaf_silver_a_tomoe_dmg*"
+      }
+    }
+  ],
   "user_skin": [
     {
       "name": "f_80"

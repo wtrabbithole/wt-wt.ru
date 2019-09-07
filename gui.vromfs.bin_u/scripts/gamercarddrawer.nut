@@ -14,6 +14,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
   currentTarget = null
   currentVisible = false
   currentState = GamercardDrawerState.STATE_CLOSED
+  isBlockOtherRestoreFocus = false
 
   function initScreen()
   {
@@ -63,8 +64,11 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
       onDrawerDeactivate(gamercardDrawerObject)
   }
 
-  function updateDrawer(target, visible)
+  function updateDrawer(params)
   {
+    local target = params.target
+    local visible = params.visible
+    isBlockOtherRestoreFocus = params?.isBlockOtherRestoreFocus ?? false
     local contentObject = getObj("gamercard_drawer_content")
     if (contentObject == null)
       return
@@ -121,7 +125,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventRequestToggleVisibility(params)
   {
-    updateDrawer(params.target, params.visible)
+    updateDrawer(params)
   }
 
   function onDrawerDeactivate(obj)

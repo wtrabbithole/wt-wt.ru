@@ -1,9 +1,45 @@
 //This is list of all darg native functions and consts, to use in mockups
+::Watched <-class {
+  value=null
+  subscribers = null
+  constructor(val=null) {
+    value=val
+    subscribers = {}
+  }
+  function update(val) {
+    value=val
+    foreach (key,func in subscribers)
+      func(val)
+  }
+  _call = function(self,val) {
+    value=val
+    foreach (key,func in subscribers)
+      func(val)
+  }
+  _tostring = function(){
+    return "Watched: " + value
+  }
+  function trigger() {return null}
+  function trace() {return ""}
+  function subscribe(func) {
+    local infos = func.getfuncinfos()
+    local key = (infos?.name ?? "__noname__") + " " + (infos?.src ?? "__no_src__")
+    if (! (key in this.subscribers))
+      subscribers[key]<-func
+  }
+}
+
 ::Fonts <-{}
 ::calc_comp_size <- @(comp) [0,0]
 ::gui_scene <-{
   setShutdownHandler = @(val) null
-  config = {defaultFont = 0}
+  config = {
+    defaultFont = 0
+    joystickScrollCursor = true
+  }
+  cursorPresent = Watched(true)
+  setHotkeysNavHandler = function(func){assert(::type(func)=="function")}
+  setUpdateHandler = function(dt) {}
   setTimeout = function(timeout, func){
     assert([type(0),type(0.0)].find(type(timeout))!=null, "timeout should number")
     assert(type(func)==type(type), "function should be function")
@@ -28,36 +64,6 @@ foreach(idx, prop in [
 ])
 ::AnimProp[prop] <- idx
 
-
-Watched <-class {
-  value=null
-  subscribers = null
-  constructor(val=null) {
-    value=val
-    subscribers = {}
-  }
-  function update(val) {
-    value=val
-    foreach (key,func in subscribers)
-      func(val)
-  }
-  _call = function(self,val) {
-    value=val
-    foreach (key,func in subscribers)
-      func(val)
-  }
-  _tostring = function(){
-    return "Watched: " + value
-  }
-  function trigger() {return null}
-  function trace() {return ""}
-  function subscribe(func) {
-    local infos = func.getinfos()
-    local key = (infos?.name ?? "__noname__") + " " + (infos?.src ?? "__no_src__")
-    if (! (key in this.subscribers))
-      subscribers[key]<-func
-  }
-}
 
 function vlog(val) {
   print("" +val + "\n")
@@ -104,6 +110,7 @@ function ph(val) {
   TextArea="TextArea"
   MoveResize = "MoveResize"
   Marquee = "Marquee"
+  BoundToArea = "BoundToArea"
 }
 
 function Picture(val){return val}
@@ -118,6 +125,9 @@ const ROBJ_FRAME = "ROBJ_FRAME"
 const ROBJ_PROGRESS_CIRCULAR = "ROBJ_PROGRESS_CIRCULAR"
 const ROBJ_WORLD_BLUR = "ROBJ_WORLD_BLUR"
 const ROBJ_WORLD_BLUR_PANEL = "ROBJ_WORLD_BLUR_PANEL"
+const ROBJ_VECTOR_CANVAS = "ROBJ_VECTOR_CANVAS"
+const VECTOR_POLY = "VECTOR_POLY"
+const ROBJ_MASK = "ROBJ_MASK"
 
 const FLOW_PARENT_RELATIVE = "PARENT_RELATIVE"
 const FLOW_HORIZONTAL = "FLOW_HORIZONTAL"
@@ -156,6 +166,7 @@ const EVENT_CONTINUE= "EVENT_CONTINUE"
 const Linear="Linear"
 const InQuad="InQuad"
 const OutQuad="OutQuad"
+const OutQuintic="OutQuintic"
 const InOutQuad="InOutQuad"
 const InCubic="InCubic"
 const OutCubic="OutCubic"
@@ -169,6 +180,8 @@ const InStep="InStep"
 const OutStep="OutStep"
 const Discrete8 = "Discrete8"
 const OutBack = "OutBack"
+const InBack = "InBack"
+
 const S_KB_FOCUS=0
 const S_HOVER=1
 const S_TOP_HOVER=2

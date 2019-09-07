@@ -162,7 +162,7 @@ function ps4PostActivityFeed(config, customFeedParams)
       foreach(name, value in activityFeed_config)
         localizationTable[name] <- ::get_tbl_value_by_path_array([name, lang], localizedKeyWords, value)
 
-      captions[lang] <- ::replaceParamsInLocalizedText(string, localizationTable)
+      captions[lang] <- string.subst(localizationTable)
     }
 
     return captions

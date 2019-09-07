@@ -258,7 +258,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -532,7 +533,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -541,8 +541,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -558,7 +561,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -567,8 +569,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_carrier",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_assault": false,
               "type_interceptor": false,
@@ -586,7 +591,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -595,8 +599,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_carrier",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_assault": false,
               "type_interceptor": false,
@@ -614,7 +621,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -623,8 +629,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -940,9 +949,9 @@
           [-0.956015,0.0,0.293314],
           [0.0,1.0,0.0],
           [-0.293314,0.0,-0.956015],
-          [-12680.6,310.417,11804.6]
+          [-12680.6,310.423,11804.6]
         ],
-        "unit_class": "dynAF_kh_gol_airfield_gumrak",
+        "unit_class": "dynaf_universal_1line_a",
         "props": {
           "army": 1,
           "active": true
@@ -958,7 +967,7 @@
           [0.807516,0.0,0.589847],
           [12744.1,103.801,-13073.7]
         ],
-        "unit_class": "dynAF_pacific_phi_phi",
+        "unit_class": "dynaf_universal_1line_c",
         "props": {
           "army": 2,
           "active": true
@@ -9271,20 +9280,20 @@
     "t2_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-199.874,0.0,-151.992],
+        [-716.394,0.0,-544.774],
         [0.0,300.0,0.0],
         [1030.06,0.0,-1354.56],
-        [12675.2,86.6493,-13039.1]
+        [12711.3,86.6488,-13057.0]
       ],
       "props": []
     },
     "t1_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [-73.962,0.0,-239.96],
+        [-265.097,0.0,-860.072],
         [0.0,300.0,0.0],
         [1788.85,0.0,-551.366],
-        [-12727.2,276.286,11917.9]
+        [-12727.2,244.43,11837.9]
       ],
       "props": []
     },

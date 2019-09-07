@@ -3,7 +3,7 @@
   "AileronEffectiveSpeed": 540.0,
   "RudderEffectiveSpeed": 500.0,
   "ElevatorsEffectiveSpeed": 500.0,
-  "AileronPowerLoss": 2.2,
+  "AileronPowerLoss": 2.15,
   "RudderPowerLoss": 2.1,
   "ElevatorPowerLoss": 2.5,
   "AlphaAileronMin": 0.001,
@@ -12,7 +12,7 @@
   "AllowStrongControlsRestrictions": true,
   "RudderSens": 0.25,
   "ElevatorSens": 0.88,
-  "AileronSens": 0.16,
+  "AileronSens": 0.152,
   "GearActuatorSpeed": 0.2,
   "CockpitDoorSpeedOpen": [150.0,300.0,0.4,2.0],
   "CockpitDoorSpeedClose": [150.0,300.0,0.4,0.06],
@@ -50,9 +50,12 @@
   "AllowModsToChangeLongidutialBalance": true,
   "ArcadeRollCorrectionMultiplier": 1.0,
   "RollLeveling": true,
-  "ArcadeMaxRollCoeff": 1.0,
-  "ArcadeYawMutilpliers": [1.2,1.2,1.0],
+  "ArcadeMaxRollCoeff": 0.4,
+  "ArcadeYawMutilpliers": [1.2,1.1,1.5],
   "CockpitOpenedDoorBreakSpeed": 120.0,
+  "maxChuteSpeed": 300.0,
+  "minChuteSpeed": 50.0,
+  "chuteRipSpeed": 450.0,
   "MomentOfInertia": [20000.0,50000.0,30000.0],
   "AvailableControls": {
     "hasAileronControl": true,
@@ -77,7 +80,8 @@
     "hasCockpitDoorControl": true,
     "hasWheelBrakeControl": true,
     "hasLockGearControl": false,
-    "bHasBoosterSwitcher": false
+    "bHasBoosterSwitcher": false,
+    "hasChutes": true
   },
   "FlyByWire": [],
   "Areas": {
@@ -87,10 +91,10 @@
     "WingRightIn": 4.75,
     "WingRightMid": 4.25,
     "WingRightOut": 3.58,
-    "Aileron": 1.56,
+    "Aileron": 0.4,
     "Fuselage": 18.6,
-    "Stabilizer": 2.6,
-    "Elevator": 2.4,
+    "Stabilizer": 3.6,
+    "Elevator": 1.4,
     "Keel": 3.78,
     "Rudder": 1.21,
     "WingLeftCut": 0.17,
@@ -126,6 +130,7 @@
     "BombBayCd": 0.0,
     "FuseCd": 0.0,
     "AirbrakeCd": 0.039,
+    "chuteCx": 24.6,
     "CockpitDoorCd": 0.01,
     "FlapsPolarBlending1": [0.0,0.0],
     "FlapsPolarBlending2": [0.33,0.6],
@@ -1166,13 +1171,13 @@
       "Load2": {
         "WaterTemperature": 640.0,
         "OilTemperature": 83.0,
-        "WorkTime": 603.0,
+        "WorkTime": 600.0,
         "RecoverTime": 65.0
       },
       "Load3": {
         "WaterTemperature": 649.0,
         "OilTemperature": 85.0,
-        "WorkTime": 362.0,
+        "WorkTime": 360.0,
         "RecoverTime": 61.0
       },
       "Load4": {

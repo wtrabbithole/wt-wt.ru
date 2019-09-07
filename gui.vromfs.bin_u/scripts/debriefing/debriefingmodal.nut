@@ -1,12 +1,14 @@
 local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
+local stdMath = require("std/math.nut")
 
 const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
 const MAX_WND_ASPECT_RATIO_NAVBAR_GC = 0.92
 const DEBR_MYSTATS_TOP_BAR_GAP_MAX = 6
 const LAST_WON_VERSION_SAVE_ID = "lastWonInVersion"
+const VISIBLE_GIFT_NUMBER = 4
 
 function gui_start_debriefingFull(params = {})
 {
@@ -91,6 +93,12 @@ function gui_start_debriefing()
     else
       ::gui_start_decals();
     ::update_gamercards()
+    return
+  }
+  if (::custom_miss_flight)
+  {
+    ::custom_miss_flight = false
+    ::gui_start_mainmenu()
     return
   }
 
@@ -614,18 +622,16 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function handleGiftItems()
   {
-    giftItems = ::debriefing_result?.giftItemsInfo
+    giftItems = groupGiftsById(::debriefing_result?.giftItemsInfo)
     if (!giftItems)
       return
 
     local obj = scene.findObject("inventory_gift_icon")
     local giftsMarkup = ""
-    foreach (itemData in giftItems)
-    {
-      local view = { item = itemData?.id, count = itemData?.count }
-      local markup = ::trophyReward.getImageByConfig(view, false)
-      giftsMarkup += markup
-    }
+    local showLen = min(giftItems.len(), VISIBLE_GIFT_NUMBER)
+    for (local i=0; i < showLen; i++)
+      giftsMarkup += ::trophyReward.getImageByConfig(giftItems[i], false)
+
     guiScene.replaceContentFromText(obj, giftsMarkup, giftsMarkup.len(), this)
 
     local leftBlockHeight = scene.findObject("left_block").getSize()[1]
@@ -634,12 +640,39 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       obj.smallItems = "yes"
   }
 
+  function onViewRewards()
+  {
+    ::gui_start_open_trophy_rewards_list({rewardsArray = giftItems})
+  }
+
+  function groupGiftsById(items)
+  {
+    if(!items)
+      return
+
+    local res = [items[0]]
+    for(local i=1; i < items.len(); i++)
+    {
+      local isRepeated = false
+      foreach(r in res)
+        if(items[i].item == r.item)
+        {
+          r.count += items[i].count
+          isRepeated = true
+        }
+
+      if(!isRepeated)
+        res.append(items[i])
+     }
+    return res
+  }
+
   function openGiftTrophy()
   {
     if (!giftItems?[0]?.needOpen)
       return
 
-    local trophyItemId = giftItems[0].id
+    local trophyItemId = giftItems[0].item
     local filteredLogs = ::getUserLogsList({
       show = [::EULT_OPEN_TROPHY]
       currentRoomOnly = true
@@ -652,7 +685,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function onEventTrophyContentVisible(params)
   {
-    if (giftItems?[0]?.id && giftItems[0].id == params?.trophyItem?.id)
+    if (giftItems?[0]?.item && giftItems[0].item == params?.trophyItem?.id)
       fillTrophyContentDiv(params.trophyItem, "inventory_gift_icon")
   }
 
@@ -1187,10 +1220,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       case "num": return value.tostring()
       case "sec": return value + ::loc("debriefing/timeSec")
       case "mul": return "x" + value
-      case "pct": return floor(100.0*value + 0.5) + "%"
+      case "pct": return (100.0*value + 0.5).tointeger() + "%"
       case "tim": return time.secondsToString(value, false)
       case "ptm": return time.getRaceTimeFromSeconds(value)
-      case "tnt": return ::roundToDigits(value * ::KG_TO_TONS, 3).tostring()
+      case "tnt": return stdMath.roundToDigits(value * ::KG_TO_TONS, 3).tostring()
     }
     return ""
   }
@@ -1241,10 +1274,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
 
     local usedUnitsList = []
-    foreach(unitName, unitData in ::debriefing_result.exp.aircrafts)
+    foreach(unitId, unitData in ::debriefing_result.exp.aircrafts)
     {
-      local unit = ::getAircraftByName(unitName)
-      if (unit && ::getTblValue("expTotal", unitData) && ::getTblValue("sessionTime", unitData))
+      local unit = ::getAircraftByName(unitId)
+      if (unit && isShowUnitInModsResearch(unitId))
         usedUnitsList.append({ unit = unit, unitData = unitData })
     }
 
@@ -1291,10 +1324,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (!unitItems.len())
     {
-      local expInvestUnitTotal = 0
-      foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
-        expInvestUnitTotal += ::getTblValue("expInvestUnitTotal", unitData, 0)
-
+      local expInvestUnitTotal = getExpInvestUnitTotal()
       if (expInvestUnitTotal > 0)
       {
         local msg = ::format(::loc("debriefing/all_units_researched"),
@@ -1314,6 +1344,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function onEventUnitRented(p)
   {
     fillResearchingUnits()
+  }
+
+  function isShowUnitInModsResearch(unitId)
+  {
+    local unitData = ::debriefing_result.exp.aircrafts?[unitId]
+    return unitData?.expTotal && unitData?.sessionTime &&
+      ((unitData?.investModuleName ?? "") != "" ||
+      ::SessionLobby.isUsedPlayersOwnUnit(playersInfo?[::my_user_id_int64], unitId))
   }
 
   function hasAnyFinishedResearch()
@@ -1337,6 +1375,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         return true
     }
     return false
+  }
+
+  function getExpInvestUnitTotal()
+  {
+    local res = 0
+    foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
+      res += unitData?.expInvestUnitTotal ?? 0
+    return res
   }
 
   function getResearchUnitInfo(unitTypeName)
@@ -1558,6 +1604,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
             row     = tRow
             name    = ::getUnitName(unitId)
             expData = unitData
+            unitId  = unitId
           })
       }
       else
@@ -1641,6 +1688,14 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
             rowView.bonuses <- []
           rowView.bonuses.append(currencySourcesView)
         }
+      }
+
+      local extraBonuses = tRow.tooltipRowBonuses(cfg?.unitId, cfg.expData)
+      if (extraBonuses)
+      {
+        if (!("bonuses" in rowView))
+          rowView.bonuses <- []
+        rowView.bonuses.append(extraBonuses)
       }
 
       foreach(p in ["time", "value", "reward", "info"])
@@ -2079,7 +2134,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     local gapMin = 1.0
     local gapMax = gapMin * DEBR_MYSTATS_TOP_BAR_GAP_MAX
-    local gap = ::clamp(::lerp(total, 2, gapMin, gapMax, visible), gapMin, gapMax)
+    local gap = ::clamp(stdMath.lerp(total, 2, gapMin, gapMax, visible), gapMin, gapMax)
     local pos = ::format("%.1f@debrPad, ph/2-h/2", gap)
 
     for (local i = 0; i < containerObj.childrenCount(); i++)
@@ -2445,11 +2500,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function is_show_research_list()
   {
     foreach (unitId, unitData in ::debriefing_result.exp.aircrafts)
-      if (::getTblValue("investModuleName", unitData, "") != "")
+      if (isShowUnitInModsResearch(unitId))
         return true
     foreach (ut in ::g_unit_type.types)
       if(getResearchUnitInfo(ut.name))
         return true
+    if (getExpInvestUnitTotal() > 0)
+      return true
     return false
   }
 
@@ -2491,6 +2548,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local isReplayReady = ::has_feature("Replays") && ::is_replay_present() && ::is_replay_turned_on()
     local player = getSelectedPlayer()
     local buttonsList = {
+      btn_show_all = isAnimDone && giftItems != null && giftItems.len() > VISIBLE_GIFT_NUMBER
       btn_view_replay = isAnimDone && isReplayReady && !isMp
       btn_save_replay = isAnimDone && isReplayReady && !::is_replay_saved()
       btn_user_options = isAnimDone && (curTab == "players_stats") && player && !player.isBot && ::show_console_buttons
@@ -3075,7 +3133,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (!giftItems)
       return null
 
-    local itemDefId = giftItems?[0]?.id
+    local itemDefId = giftItems?[0]?.item
     local wSet = workshop.getSetByItemId(itemDefId)
     if (wSet)
       return {

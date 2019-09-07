@@ -20,6 +20,8 @@
     ]
   }
 */
+local stdMath = require("std/math.nut")
+
 function gui_start_multi_select_menu(config)
 {
   ::handlersManager.loadHandler(::gui_handlers.MultiSelectMenu, config)
@@ -76,7 +78,7 @@ class ::gui_handlers.MultiSelectMenu extends ::gui_handlers.BaseGuiHandlerWT
     foreach(idx, option in list)
     {
       option.show <- ::getTblValue("show", option, true)
-      mask = ::change_bit(mask, idx, ::getTblValue("selected", option))
+      mask = stdMath.change_bit(mask, idx, ::getTblValue("selected", option))
     }
 
     initialBitMask = mask

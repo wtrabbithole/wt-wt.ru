@@ -113,6 +113,10 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
       txtPlayersWaiting = ::loc("multiplayer/playersInQueue") + ::loc("ui/colon") + playersOfMyRank
     }
     scene.findObject("queue_players_total").setValue(txtPlayersWaiting)
+    local params = getCurQueue().params
+    if("mrank" in params)
+      scene.findObject("battle_rating").setValue(
+        ::loc("shop/battle_rating") +" "+ format("%.1f", ::calc_battle_rating_from_rank(params.mrank)))
     updateAvailableCountries()
   }
 
@@ -262,7 +266,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   function createQueueTableClan(nestObj)
   {
     local queueBoxObj = nestObj.findObject("queue_box_container")
-    guiScene.createElementByObject(queueBoxObj, "gui/events/queueBox.blk", "div", this)
+    guiScene.replaceContent(queueBoxObj, "gui/events/eventQueue.blk", this)
 
     foreach(team in ::events.getSidesList())
       queueBoxObj.findObject(team + "_block").show(team == Team.A) //clan queue always symmetric
@@ -359,6 +363,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
       local headerData = [{
         text = ::loc("multiplayer/playersInYourClan")
         width = "0.1@sf"
+        textRawParam = "pare-text:t='no'"
       }]
       res += ::buildTableRow("", headerData, null, rowParams, "0")
 
@@ -369,6 +374,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     local headerData = [{
       text = ::loc("multiplayer/clansInQueue")
       width = "0.1@sf"
+      textRawParam = "pare-text:t='no'"
     }]
     res += ::buildTableRow("", headerData, null, rowParams, "0")
 

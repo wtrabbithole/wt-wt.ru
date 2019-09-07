@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 const NEW_PLAYER_TUTORIAL_CHOICE_STATISTIC_SAVE_ID = "statistic:new_player_tutorial_choice"
 ::skip_tutorial_bitmask_id <- "skip_tutorial_bitmask"
 ::tutorials_to_check <- [ //idx in this array used for local profile option ::skip_tutorial_bitmask_id
@@ -73,7 +75,7 @@ function gui_start_checkTutorial(checkId, checkSkip = true)
   if (checkSkip)
   {
     local skipTutorial = ::loadLocalByAccount(::skip_tutorial_bitmask_id, 0)
-    if (::is_bit_set(skipTutorial, idx))
+    if (stdMath.is_bit_set(skipTutorial, idx))
       return false
   }
 
@@ -124,7 +126,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::checkObj(obj))
       {
         local skipTutorial = ::loadLocalByAccount(::skip_tutorial_bitmask_id, 0)
-        obj.setValue(::is_bit_set(skipTutorial, checkIdx))
+        obj.setValue(stdMath.is_bit_set(skipTutorial, checkIdx))
       }
     }
   }
@@ -157,7 +159,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
     local info = {
                   action = action,
-                  reminder = ::is_bit_set(::loadLocalByAccount(::skip_tutorial_bitmask_id, 0), checkIdx) ? "off" : "on"
+                  reminder = stdMath.is_bit_set(::loadLocalByAccount(::skip_tutorial_bitmask_id, 0), checkIdx) ? "off" : "on"
                   missionName = tutorialMission.name
                   }
     if(obj != null)
@@ -172,7 +174,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local skipTutorial = ::loadLocalByAccount(::skip_tutorial_bitmask_id, 0)
-    skipTutorial = ::change_bit(skipTutorial, checkIdx, obj.getValue())
+    skipTutorial = stdMath.change_bit(skipTutorial, checkIdx, obj.getValue())
     ::saveLocalByAccount(::skip_tutorial_bitmask_id, skipTutorial)
   }
 
@@ -493,4 +495,9 @@ function check_tutorial_on_start()
 
   if (!::gui_start_checkTutorial(tutorial))
     check_tutorial_on_mainmenu()
+}
+
+function reset_tutorial_skip()
+{
+  ::saveLocalByAccount(::skip_tutorial_bitmask_id, 0)
 }

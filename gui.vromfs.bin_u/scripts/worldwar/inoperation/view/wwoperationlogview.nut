@@ -237,17 +237,17 @@ class ::WwOperationLogView
 
   function getDate()
   {
-    return time.buildDateStr(::get_time_from_t(logBlk.time))
+    return time.buildDateStr(logBlk.time)
   }
 
   function getTime()
   {
-    return time.buildTimeStr(::get_time_from_t(logBlk.time), false, false)
+    return time.buildTimeStr(logBlk.time, false, false)
   }
 
   function getDateAndTime()
   {
-    return time.buildDateTimeStr(::get_time_from_t(logBlk.time))
+    return time.buildDateTimeStr(logBlk.time)
   }
 
   function getLogColor()

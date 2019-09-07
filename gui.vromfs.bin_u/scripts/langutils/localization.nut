@@ -41,7 +41,7 @@ function g_localization::getFilledFeedTextByLang(locIdsArray, customFeedParams =
 
     captions.append({
       abbreviation = lang
-      text = ::stringReplace(::replaceParamsInLocalizedText(string, localizationTable), "\t", "")
+      text = ::stringReplace(string.subst(localizationTable), "\t", "")
     })
   }
 

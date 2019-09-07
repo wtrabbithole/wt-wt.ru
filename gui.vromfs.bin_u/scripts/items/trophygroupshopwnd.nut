@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 function gui_start_open_trophy_group_shop_wnd(trophy)
 {
   if (!trophy)
@@ -173,7 +175,7 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function isTrophyPurchased(value)
   {
-    return ::is_bit_set(bitMask, value)
+    return stdMath.is_bit_set(bitMask, value)
   }
 
   function getMainFocusObj()

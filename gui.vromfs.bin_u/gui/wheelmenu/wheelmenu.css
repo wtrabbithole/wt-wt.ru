@@ -69,7 +69,29 @@ wheelmenu > wheelmenuItem > shortcut {
   size:40(@sf/1080), 40(@sf/1080);
 }
 
+[swap_ab=yes] wheelmenu > wheelmenuItem > shortcut {
+  background-image:@control_button_b;
+}
+
 [show_console_buttons=yes] wheelmenu > shortcut,
 [show_console_buttons=yes] wheelmenu > wheelmenuItem[selected=yes] > shortcut {
   display:show;
+}
+
+wheelmenuDummy { behaviour:button; }
+
+wheelmenuDummy[type=activate] {
+  accessKey: "J:RT | J:A | J:Start | Space | Enter | NumEnter";
+}
+
+[swap_ab=yes] wheelmenuDummy[type=activate] {
+  accessKey: "J:RT | J:B | J:Start | Space | Enter | NumEnter";
+}
+
+wheelmenuDummy[type=cancel] {
+  accessKey: "J:B | J:Back | Esc | Backspace";
+}
+
+[swap_ab=yes] wheelmenuDummy[type=cancel] {
+  accessKey: "J:A | J:Back | Esc | Backspace";
 }

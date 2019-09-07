@@ -2009,7 +2009,7 @@
         "Weapon": {
           "trigger": "gunner0",
           "blk": "gameData/Weapons/groundModels_weapons/120mm_L11A5_user_cannon.blk",
-          "shotFreq": 0.15,
+          "shotFreq": 0.1667,
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
           "defaultYaw": 0.0,
@@ -2844,15 +2844,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2922,7 +2913,7 @@
               "Weapon": {
                 "trigger": "gunner0",
                 "blk": "gameData/Weapons/groundModels_weapons/120mm_L11A5_user_cannon.blk",
-                "shotFreq": 0.15,
+                "shotFreq": 0.1667,
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
                 "defaultYaw": 0.0,
@@ -3206,7 +3197,26 @@
             },
             "ammo_turret_25_dm": {
               "count": 1
+            }
+          }
+        },
+        {
+          "charges": {
+            "firstStage": true,
+            "ammo_turret_11_dm": {
+              "count": 1
             },
+            "ammo_turret_12_dm": {
+              "count": 1
+            },
+            "ammo_turret_13_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "reloadTimeMult": 1.111,
             "ammo_turret_21_dm": {
               "count": 1
             },
@@ -3262,16 +3272,7 @@
         },
         {
           "charges": {
-            "firstStage": true,
-            "ammo_turret_11_dm": {
-              "count": 1
-            },
-            "ammo_turret_12_dm": {
-              "count": 1
-            },
-            "ammo_turret_13_dm": {
-              "count": 1
-            },
+            "reloadTimeMult": 1.111,
             "ammo_body_02_dm": {
               "count": 1
             },
@@ -3327,7 +3328,7 @@
         },
         {
           "shells": {
-            "reloadTimeMult": 1.34,
+            "reloadTimeMult": 1.667,
             "ammo_turret_19_dm": {
               "count": 1
             },
@@ -3428,7 +3429,7 @@
         },
         {
           "charges": {
-            "reloadTimeMult": 1.34,
+            "reloadTimeMult": 1.667,
             "ammo_body_30_dm": {
               "count": 1
             },

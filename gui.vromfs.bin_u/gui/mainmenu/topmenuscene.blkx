@@ -39,11 +39,6 @@
       }
     },
     {
-      "navBar": {
-        "style": "id:nav-topMenu;"
-      }
-    },
-    {
       "tdiv": {
         "id": "topMenu_content",
         "size": "sw,sh",
@@ -75,6 +70,9 @@
             "padByLine": "yes",
             "tooltip": ""
           }
+        },
+        "navBar": {
+          "style": "id:nav-topMenu;"
         },
         "Button_text": [
           {
@@ -126,10 +124,21 @@
             }
           },
           {
-            "discount_notification": {
-              "type": "down",
-              "id": "topmenu_research_discount",
-              "display": "hide"
+            "additionalIconsDiv": {
+              "pos": "10%ph, -h",
+              "position": "absolute",
+              "input-transparent": "yes",
+              "css-hier-invalidate": "yes",
+              "discount_notification": {
+                "type": "down",
+                "id": "topmenu_research_discount",
+                "display": "hide"
+              },
+              "squadronExpIcon": {
+                "value": "{\"viewId\": \"SHOP_SQUADRON_EXP_ICON\"}",
+                "type": "down",
+                "display": "hide"
+              }
             }
           }
         ]
@@ -815,9 +824,10 @@
                       },
                       {
                         "emptyVoiceChat": {
-                          "id": "voice_chat_no_activity",
                           "tooltip": "#clan/voice_chat/widget",
                           "usertalk": {
+                            "id": "voice_chat_no_activity",
+                            "type": "noTalk",
                             "fade": "in",
                             "height-end": "1",
                             "_size-timer": "0",
@@ -1078,10 +1088,9 @@
       }
     },
     {
-      "dummy": {
+      "DummyButton": {
         "_on_click": "onTopMenuMain",
-        "behaviour": "accesskey",
-        "accessKey": "J:B"
+        "btnName": "BNotEsc"
       }
     }
   ]

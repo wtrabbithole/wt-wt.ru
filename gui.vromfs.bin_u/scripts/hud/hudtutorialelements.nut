@@ -1,5 +1,4 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
-local time = require("scripts/time.nut")
 
 ::g_hud_tutorial_elements <- {
   [PERSISTENT_DATA_PARAMS] = ["visibleHTObjects", "isDebugMode", "debugBlkName"]
@@ -22,7 +21,7 @@ local time = require("scripts/time.nut")
 
   isDebugMode = false
   debugBlkName = null
-  debugLastModified = null
+  debugLastModified = -1
 }
 
 function g_hud_tutorial_elements::init(_nest)
@@ -236,18 +235,17 @@ function g_hud_tutorial_elements::onDbgUpdate()
 {
   if (!isDebugMode)
     return true
-  local modified = ::get_file_modify_time(debugBlkName)
-  if (!modified)
+  local modified = ::get_file_modify_time_sec(debugBlkName)
+  if (modified < 0)
     return
 
-  //modified = time.getFullTimeTable(modified)
-  if (!debugLastModified)
+  if (debugLastModified < 0)
   {
     debugLastModified = modified
     return
   }
 
-  if (!time.cmpDate(debugLastModified, modified))
+  if (debugLastModified == modified)
     return
 
   debugLastModified = modified
@@ -262,7 +260,7 @@ function g_hud_tutorial_elements::debug(blkName = "")
 
   isDebugMode = ::u.isString(blkName) && blkName.len()
   debugBlkName = blkName
-  debugLastModified = null
+  debugLastModified = -1
   init(nest)
   return debugBlkName
 }

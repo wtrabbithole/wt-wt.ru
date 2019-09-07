@@ -47,7 +47,7 @@ enums.addTypesByGlobalName("g_hint_tag", {
     getViewSlices = function(tagName, params) //tagName == shortcutId
     {
       local slices = []
-
+      local needConfig = params?.needConfig ?? false
       local expanded = ::g_shortcut_type.expandShortcuts([tagName])
       local shortcutsCount = expanded.len()
       foreach (i, expandedShortcut in expanded)
@@ -55,10 +55,12 @@ enums.addTypesByGlobalName("g_hint_tag", {
         local shortcutType = ::g_shortcut_type.getShortcutTypeByShortcutId(expandedShortcut)
         local shortcutId = expandedShortcut
         slices.append({
-          shortcut = function () {
-            local input = shortcutType.getFirstInput(shortcutId)
-            return input.getMarkup()
-          }
+          shortcut = needConfig
+            ? shortcutType.getFirstInput(shortcutId).getConfig()
+            : function() {
+              local input = shortcutType.getFirstInput(shortcutId)
+              return input.getMarkup()
+            }
         })
         if (i < (shortcutsCount - 1))
           slices.append({text = getSeparator()})
@@ -140,8 +142,11 @@ enums.addTypesByGlobalName("g_hint_tag", {
       if (!u.isTable(shortcut))
         return []
 
+      local input = ::Input.Button(shortcut.dev[0], shortcut.btn[0])
       return [{
-        shortcut = ::Input.Button(shortcut.dev[0], shortcut.btn[0]).getMarkup()
+        shortcut = params?.needConfig ?? false
+         ? input.getConfig()
+         : input.getMarkup()
       }]
     }
   }

@@ -34,9 +34,7 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
     curCrewUnitType = newCrewUnitType
 
     loadSceneTpl()
-
-    foreach(i, unit in units)
-      updateAirRow(i)
+    updateDiscounts()
 
     local totalRows = scene.childrenCount()
     if (totalRows > 0 && totalRows <= scene.getValue())
@@ -49,99 +47,10 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local rows = []
     foreach(i, unit in units)
-    {
-      local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
-      rows.append({
-        id = getRowName(i)
-        even = i % 2 == 0
-        holderId = i
-        unitName = ::getUnitName(unit.name)
-        hasProgressBar = true
-        rowTooltipId   = ::g_tooltip.getIdCrewSpecialization(crew.id, unit.name, -1)
-        buySpecTooltipId1 = ::g_crew_spec_type.EXPERT.getBtnBuyTooltipId(crew, unit)
-        buySpecTooltipId2 = ::g_crew_spec_type.ACE.getBtnBuyTooltipId(crew, unit)
-        buySpecTooltipId = ::g_tooltip.getIdBuyCrewSpec(crew.id, unit.name, -1)
-      })
-    }
+      rows.append(getSpecRowConfig(i))
 
-    local view = { rows = rows }
-    local data = ::handyman.renderCached("gui/crew/crewAirRow", view)
+    local data = ::handyman.renderCached("gui/crew/crewAirRow", { rows = rows })
     guiScene.replaceContentFromText(scene, data, data.len(), this)
-  }
-
-  function updateAirRow(rowIndex)
-  {
-    local rowObj = scene.findObject(getRowName(rowIndex))
-    local rowUnit = ::getTblValue(rowIndex, units)
-    if (!::checkObj(rowObj) || rowUnit == null)
-      return
-
-    local balance = ::get_balance()
-    local crewSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, rowUnit)
-
-    rowObj.findObject("curValue").setValue(crewSpecType.getName())
-
-    local costText = ""
-    if (crewSpecType.hasNextType())
-      costText = crewSpecType.getUpgradeCostByCrewAndByUnit(crew, rowUnit).tostring()
-    rowObj.findObject("cost").setValue(costText)
-
-    local hasNextType = crewSpecType.hasNextType()
-    local nextType = crewSpecType.getNextType()
-    local reqLevel = hasNextType ? nextType.getReqCrewLevel(rowUnit) : 0
-
-    local enable = reqLevel <= crewLevel
-    local btnObj = rowObj.findObject("buttonRowApply")
-    local discObj = rowObj.findObject("buy-discount")
-    btnObj.show(hasNextType)
-    btnObj.enable(enable)
-    rowObj.findObject("cost").show(enable)
-    if (hasNextType)
-    {
-      local buttonLabel = enable
-        ? crewSpecType.getButtonLabel()
-        : ::loc("crew/qualifyRequirement", { reqLevel = reqLevel })
-      btnObj.setValue(buttonLabel)
-      ::showAirDiscount(discObj, rowUnit.name,
-        "specialization", nextType.specName)
-    }
-    else
-      ::hideBonus(discObj)
-
-    local crewLevel = ::g_crew.getCrewLevel(crew, rowUnit.getCrewUnitType())
-    local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, rowUnit)
-    updateRowSpecButton(rowObj, ::g_crew_spec_type.EXPERT, crewLevel, rowUnit, curSpecType)
-    updateRowSpecButton(rowObj, ::g_crew_spec_type.ACE, crewLevel, rowUnit, curSpecType)
-
-    local progressBarObj = rowObj.findObject("crew_spec_progress_bar")
-    if (::checkObj(progressBarObj))
-    {
-      local isProgressBarVisible = needShowExpUpgrade(crew, rowUnit)
-      progressBarObj.show(isProgressBarVisible)
-      if (isProgressBarVisible)
-      {
-        local progressBarValue = 1000 * curSpecType.getExpLeftByCrewAndUnit(crew, rowUnit)
-          / curSpecType.getTotalExpByUnit(rowUnit)
-        progressBarObj.setValue(progressBarValue.tointeger())
-      }
-    }
-  }
-
-  function needShowExpUpgrade(crew, unit)
-  {
-    local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
-    return specType.needShowExpUpgrade(crew, unit)
-  }
-
-  function updateRowSpecButton(rowObj, specType, crewLevel, unit, curSpecType)
-  {
-    local obj = rowObj.findObject("btn_spec" + specType.code)
-    if (!::checkObj(obj))
-      return
-
-    local icon = specType.getIcon(curSpecType.code, crewLevel, unit)
-    obj["foreground-image"] = icon
-    obj.enable(icon != "" && curSpecType.code < specType.code)
   }
 
   function getRowName(rowIndex)
@@ -195,5 +104,82 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onSpecIncrease2(obj)
   {
     increaseSpec(::g_crew_spec_type.ACE, obj)
+  }
+
+  function getSpecRowConfig(idx)
+  {
+    local unit = units?[idx]
+    if (!unit)
+      return null
+
+    local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
+    local hasNextType = specType.hasNextType()
+    local nextType = specType.getNextType()
+    local reqLevel = hasNextType ? nextType.getReqCrewLevel(unit) : 0
+    local enableForBuy = reqLevel <= crewLevel
+    local crewLevel = ::g_crew.getCrewLevel(crew, unit.getCrewUnitType())
+    local isProgressBarVisible = specType.needShowExpUpgrade(crew, unit)
+    local progressBarValue = 0
+    if (isProgressBarVisible)
+      progressBarValue = 1000 * specType.getExpLeftByCrewAndUnit(crew, unit)
+        / specType.getTotalExpByUnit(unit)
+
+    return {
+      id = getRowName(idx)
+      even = idx % 2 == 0
+      holderId = idx
+      unitName = ::getUnitName(unit.name)
+      hasProgressBar = true
+      rowTooltipId   = ::g_tooltip.getIdCrewSpecialization(crew.id, unit.name, -1)
+      buySpecTooltipId1 = ::g_crew_spec_type.EXPERT.getBtnBuyTooltipId(crew, unit)
+      buySpecTooltipId2 = ::g_crew_spec_type.ACE.getBtnBuyTooltipId(crew, unit)
+      buySpecTooltipId = ::g_tooltip.getIdBuyCrewSpec(crew.id, unit.name, -1)
+      curValue = specType.getName()
+      costText = hasNextType
+        ? specType.getUpgradeCostByCrewAndByUnit(crew, unit).tostring()
+        : ""
+      enableForBuy = enableForBuy
+      buttonRowDisplay = hasNextType ? "show" : "hide"
+      buttonRowText = hasNextType
+        ? enableForBuy
+          ? specType.getButtonLabel()
+          : ::loc("crew/qualifyRequirement", { reqLevel = reqLevel })
+        : ""
+      progressBarDisplay = isProgressBarVisible ? "show" : "hide"
+      progressBarValue = progressBarValue
+
+      btnSpec = [
+        getRowSpecButtonConfig(::g_crew_spec_type.EXPERT, crewLevel, unit, specType),
+        getRowSpecButtonConfig(::g_crew_spec_type.ACE, crewLevel, unit, specType)
+      ]
+    }
+  }
+
+  function getRowSpecButtonConfig(specType, crewLevel, unit, curSpecType)
+  {
+    local icon = specType.getIcon(curSpecType.code, crewLevel, unit)
+    return {
+      id = specType.code
+      icon = icon
+      enable = (icon != "" && curSpecType.code < specType.code) ? "yes" : "no"
+      isExpertSpecType = specType == ::g_crew_spec_type.EXPERT
+    }
+  }
+
+  function updateDiscounts()
+  {
+    foreach(idx, unit in units)
+    {
+      local rowObj = scene.findObject(getRowName(idx))
+      if (!::checkObj(rowObj))
+        return
+
+      local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
+      local discObj = rowObj.findObject("buy-discount")
+      if (specType.hasNextType())
+        ::showAirDiscount(discObj, unit.name, "specialization", specType.getNextType().specName)
+      else
+        ::hideBonus(discObj)
+    }
   }
 }

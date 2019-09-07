@@ -7,7 +7,7 @@ tdiv {
   tdiv {
     <<^invert>>
     img {
-      size:t='50*@sf/@pf_outdated, 26*@sf/@pf_outdated'
+      size:t='1@wwSmallCountryFlagWidth, 1@wwSmallCountryFlagHeight'
       margin:t='1@framePadding, 0'
       background-image:t='<<countryIconBig>>'
     }
@@ -20,7 +20,7 @@ tdiv {
     <<#invert>>
     left:t='pw-w'; position:t='relative'
     img {
-      size:t='50*@sf/@pf_outdated, 26*@sf/@pf_outdated'
+      size:t='1@wwSmallCountryFlagWidth, 1@wwSmallCountryFlagHeight'
       margin:t='1@framePadding, 0'
       background-image:t='<<countryIconBig>>'
     }

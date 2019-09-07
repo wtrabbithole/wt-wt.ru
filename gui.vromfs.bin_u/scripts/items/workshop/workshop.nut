@@ -8,6 +8,7 @@ local OUT_OF_DATE_DAYS_WORKSHOP = 28
 
 local isInited = false
 local setsList = []
+local markingPresetsList = ::DataBlock()
 local emptySet = Set(::DataBlock())
 
 local visibleSeenIds = null
@@ -42,11 +43,15 @@ local function initOnce()
     foreach (itemBlk in (wBlk.additionalRecipes % "item"))
       foreach (paramName in ["fakeRecipe", "trueRecipe"])
         inventoryClient.requestItemdefsByIds(itemBlk % paramName)
+
+  if (wBlk.itemMarkingPresets)
+    markingPresetsList.setFrom(wBlk.itemMarkingPresets)
 }
 
 local function invalidateCache()
 {
   setsList.clear()
+  markingPresetsList = ::DataBlock()
   isInited = false
 }
 
@@ -56,11 +61,17 @@ local function getSetsList()
   return setsList
 }
 
-local function shouldDisguiseItemId(id)
+local function getMarkingPresetsById(presetName)
+{
+  initOnce()
+  return markingPresetsList?[presetName]
+}
+
+local function shouldDisguiseItem(item)
 {
   foreach(set in getSetsList())
-    if (set.isItemIdInSet(id))
-      return set.shouldDisguiseItemId(id)
+    if (set.isItemInSet(item))
+      return set.shouldDisguiseItem(item)
   return false
 }
 
@@ -92,7 +103,8 @@ local function canSeenIdBeNew(seenId)
   if (!(seenId in seenIdCanBeNew))
   {
     local id = ::to_integer_safe(seenId, seenId, false) //ext inventory items id need to convert to integer.
-    seenIdCanBeNew[seenId] <- !shouldDisguiseItemId(id)
+    local item = ::ItemsManager.findItemById(id)
+    seenIdCanBeNew[seenId] <- item && !shouldDisguiseItem(item)
   }
   return seenIdCanBeNew[seenId]
 }
@@ -111,7 +123,8 @@ return {
 
   isAvailable = @() u.search(getSetsList(), @(s) s.isVisible()) != null
   getSetsList = @() getSetsList()
-  shouldDisguiseItem = @(item) shouldDisguiseItemId(item.id)
+  getMarkingPresetsById = @(presetName) getMarkingPresetsById(presetName)
+  shouldDisguiseItem = shouldDisguiseItem
   getSetById = @(id) u.search(getSetsList(), @(s) s.id == id)
   getSetByItemId = @(itemId) u.search(getSetsList(), @(s) s.isItemIdInSet(itemId))
 }

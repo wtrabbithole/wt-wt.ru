@@ -182,7 +182,7 @@ class UnitInfoExporter
 
     for(local rank = 1; rank <= ::max_country_rank; rank++)
     {
-      fullBlk[RANK_GROUP]["texts"][rank.tostring()] = ::getUnitRankName(rank)
+      fullBlk[RANK_GROUP]["texts"][rank.tostring()] = ::get_roman_numeral(rank)
     }
   }
 

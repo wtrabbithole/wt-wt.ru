@@ -1,7 +1,7 @@
 action_bar_item {
   id:t='<<id>>';
-  size:t='0.06@shHud, 0.06@shHud';
-  margin:t='0.005@shHud, 0';
+  size:t='1@hudActionBarItemSize, 1@hudActionBarItemSize';
+  margin:t='1@hudActionBarItemOffset, 0';
   padding:t='0.003@shHud';
   background-color:t='#77333333';
   selected:t='<<selected>>';

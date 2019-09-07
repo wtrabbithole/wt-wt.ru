@@ -92,19 +92,17 @@ class Contact
 
   function getPresenceText()
   {
-    local res = presence.getText()
+    local locParams = {}
     if (presence == ::g_contact_presence.IN_QUEUE
         || presence == ::g_contact_presence.IN_GAME)
     {
       local event = ::events.getEvent(::getTblValue("eventId", gameConfig))
-      local locParams = {
+      locParams = {
         gameMode = event ? ::events.getEventNameText(event) : ""
         country = ::loc(::getTblValue("country", gameConfig, ""))
       }
-      return ::replaceParamsInLocalizedText(res, locParams)
     }
-
-    return res
+    return presence.getText(locParams)
   }
 
   function canOpenXBoxFriendsWindow(groupName)

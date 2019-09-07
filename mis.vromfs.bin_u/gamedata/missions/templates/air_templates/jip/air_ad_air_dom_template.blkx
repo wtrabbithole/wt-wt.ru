@@ -150,20 +150,8 @@
           }
         },
         {
-          "varSetBool": {
-            "value": false,
-            "var": "ad_is_launch_alowed"
-          }
-        },
-        {
-          "wait": {
-            "time": 300.0
-          }
-        },
-        {
-          "varSetBool": {
-            "value": true,
-            "var": "ad_is_launch_alowed"
+          "triggerEnable": {
+            "target": "ad_pause"
           }
         }
       ],
@@ -1566,19 +1554,8 @@
           }
         },
         {
-          "missionMarkAsCaptureZone": {
-            "army": 0,
-            "timeMultiplier": 20.0,
-            "disableZone": false,
-            "name_for_respawn_base": "",
-            "target": "@ad_zone_name",
-            "canCaptureOnGround": false,
-            "canCaptureInAir": true,
-            "canCaptureByGM": false,
-            "onlyPlayersCanCapture": true,
-            "zoneType": "supremacy",
-            "silent_mode": true,
-            "captureNoPenalty": true
+          "triggerEnable": {
+            "target": "ad_helicpoters_check"
           }
         },
         {
@@ -2728,6 +2705,128 @@
           "target": "ad_search_zone_rotator"
         }
       }
+    },
+    "ad_helicpoters_check": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 0.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "ft_helicopters_pad_exclusive",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "missionMarkAsCaptureZone": {
+          "army": 0,
+          "timeMultiplier": 20.0,
+          "disableZone": false,
+          "name_for_respawn_base": "",
+          "target": "@ad_zone_name",
+          "canCaptureOnGround": false,
+          "canCaptureInAir": true,
+          "canCaptureByGM": false,
+          "onlyPlayersCanCapture": true,
+          "zoneType": "supremacy",
+          "silent_mode": true,
+          "captureNoPenalty": true
+        }
+      },
+      "else_actions": {
+        "missionMarkAsCaptureZone": {
+          "army": 0,
+          "timeMultiplier": 10.0,
+          "disableZone": false,
+          "name_for_respawn_base": "",
+          "target": "@ad_zone_name",
+          "canCaptureOnGround": false,
+          "canCaptureInAir": true,
+          "canCaptureByGM": false,
+          "onlyPlayersCanCapture": true,
+          "zoneType": "supremacy",
+          "silent_mode": true,
+          "captureNoPenalty": true
+        }
+      }
+    },
+    "ad_pause": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "ft_helicopters_pad_exclusive",
+          "value": false,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": [
+        {
+          "comment": {
+            "value": "самолетныый режим. паузим на 5 минут"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "ad_is_launch_alowed"
+          }
+        },
+        {
+          "wait": {
+            "time": 300.0
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "ad_is_launch_alowed"
+          }
+        }
+      ],
+      "else_actions": [
+        {
+          "comment": {
+            "value": "вертолетны йрежим. паузим на 3 минуты"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "ad_is_launch_alowed"
+          }
+        },
+        {
+          "wait": {
+            "time": 180.0
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "ad_is_launch_alowed"
+          }
+        }
+      ]
     }
   },
   "mission_objectives": {

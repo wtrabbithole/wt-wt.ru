@@ -260,10 +260,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
             ? ::loc("mainmenu/btnExpand")
             : ::loc("mainmenu/btnCollapse"))
       }
-    }
 
-    if (!selOperation)
-    {
       ::showBtn("btn_create_operation", isClanQueueAvaliable(), scene)
       local operationDescText = scene.findObject("operation_short_info_text")
       operationDescText.setValue(getOpGroup().getOperationsList().len() == 0
@@ -346,6 +343,11 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
   {
     if (p.changedListsMask & WW_GLOBAL_STATUS_TYPE.ACTIVE_OPERATIONS)
       fillOperationList()
+  }
+
+  function onEventQueueChangeState(params)
+  {
+    updateButtons()
   }
 
   function onModalWndDestroy()

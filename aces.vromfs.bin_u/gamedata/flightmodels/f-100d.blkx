@@ -1883,7 +1883,7 @@
   ],
   "ikPilot": [
     {
-      "model": "pilot_usaf_korean1_char"
+      "model": "pilot_italy_late_char"
     },
     {
       "maxHeadHorAngle": 60.0
@@ -1995,7 +1995,7 @@
     }
   ],
   "attach": {
-    "pilot1": "pilot_us_500"
+    "pilot1": "pilot_it_late_500"
   },
   "Params": {
     "Range": 882.0
@@ -2010,6 +2010,7 @@
     "mirror": true,
     "mirrorPos": [2.455,1.16,0.0],
     "mirrorNorm": [-0.992,-0.127,0.0],
+    "mirrorNode": "blister1",
     "shadowSphereMultiplier": 2.0,
     "gunLightRadiusMul": 0.05,
     "lightPos": [4.751519,0.410573,-0.000594],
@@ -2232,6 +2233,13 @@
         "name": "f_100_2xAIM-9B",
         "blk": "gameData/flightModels/weaponPresets/f_100d_2xAim9b.blk",
         "reqModification": "us_aim_9b"
+      }
+    },
+    {
+      "preset": {
+        "name": "f_100_2xAIM-9E",
+        "blk": "gameData/flightModels/weaponPresets/f_100d_2xAim9e.blk",
+        "reqModification": "us_aim_9e"
       }
     }
   ],
@@ -2483,8 +2491,39 @@
       "reqModification": "fj_4b_agm_12b",
       "tier": 3,
       "modClass": "weapon"
+    },
+    "us_aim_9e": {
+      "reqModification": "us_aim_9b",
+      "tier": 4,
+      "modClass": "weapon"
     }
   },
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "f_100d_aluminium_a*",
+        "to": "f_100d_aluminium_a_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_100d_aluminium_a_dmg*",
+        "to": "f_100d_aluminium_a_tomoe_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_100d_aluminium_n*",
+        "to": "f_100d_aluminium_tomoe_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "f_100d_aluminium_n_dmg*",
+        "to": "f_100d_aluminium_tomoe_n_dmg*"
+      }
+    }
+  ],
   "user_skin": [
     {
       "name": "f_100d"
@@ -2524,5 +2563,13 @@
     "finCut": true,
     "emtr_break_tail_from": [-2.73665,0.0656923,-1.31134e-08],
     "emtr_break_tail_to": [-5.24133,0.0656923,-1.31134e-08]
+  },
+  "parachutes": {
+    "emitterRange": [1,1],
+    "emitterName": "emtr_chute",
+    "chuteModel": "chute_f_100_char",
+    "chuteAnimVarName": "chute_state_switch",
+    "chuteTimeScaleParam": "chute_time_scale",
+    "chuteFallSpeed": 1.6
   }
 }

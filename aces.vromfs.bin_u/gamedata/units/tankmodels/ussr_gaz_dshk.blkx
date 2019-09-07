@@ -1239,6 +1239,7 @@
         "hasSuspensionOnDriveGear": true,
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15,
+        "brokenWheelSteeringDeflection": -15.0,
         "steeringDeflection": {
           "wheel_l_01": 35.0,
           "wheel_r_01": 35.0,
@@ -1265,13 +1266,67 @@
           }
         ],
         "wheelsDamageWeight": {
-          "wheel_l_01": 0.15,
-          "wheel_r_01": 0.15,
-          "wheel_l_02": 0.4,
-          "wheel_r_02": 0.4,
-          "wheel_l_drive": 0.4,
-          "wheel_r_drive": 0.4
+          "wheel_l_01": 0.45,
+          "wheel_r_01": 0.45,
+          "wheel_l_02": 0.8,
+          "wheel_r_02": 0.8,
+          "wheel_l_drive": 0.8,
+          "wheel_r_drive": 0.8
         }
+      }
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
       }
     }
   },
@@ -1743,15 +1798,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

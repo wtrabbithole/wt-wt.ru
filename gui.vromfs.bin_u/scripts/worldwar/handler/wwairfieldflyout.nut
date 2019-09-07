@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local stdMath = require("std/math.nut")
 
 
 class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
@@ -277,7 +278,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
     local isEnabled = hasUnitsToFly
                       && (isSetSomeUnits
-                          || (::number_of_set_bits(maxChoosenUnitsMask) <= 1 && !isReachedMaxUnitsLimit)
+                          || (stdMath.number_of_set_bits(maxChoosenUnitsMask) <= 1 && !isReachedMaxUnitsLimit)
                       )
 
     foreach (buttonId in ["btn_max", "btn_inc", "btn_dec"])
@@ -490,7 +491,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     local isMaxSelUnitsSet = amount >= unitsClassMaxValue && amount > 0
 
     local prevMaxChoosenUnitsMask = maxChoosenUnitsMask
-    maxChoosenUnitsMask = ::change_bit_mask(maxChoosenUnitsMask, unitTable.unitClass, isMaxSelUnitsSet? 1 : 0)
+    maxChoosenUnitsMask = stdMath.change_bit_mask(maxChoosenUnitsMask, unitTable.unitClass, isMaxSelUnitsSet? 1 : 0)
 
     if (maxChoosenUnitsMask != prevMaxChoosenUnitsMask || isMaxUnitsNumSet(selectedUnitsInfo))
       configureMaxUniqueUnitsChosen(selectedUnitsInfo)

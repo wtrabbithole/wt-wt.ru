@@ -280,6 +280,11 @@ class ::BaseItem
     return getName()
   }
 
+  function getDescriptionUnderTitle()
+  {
+    return ""
+  }
+
   function getAmount()
   {
     return amount
@@ -724,10 +729,10 @@ class ::BaseItem
   needShowActionButtonAlways  = @() false
 
   getMaxRecipesToShow         = @() 0 //if 0, all recipes will be shown.
-  getRecipeListHeader         = @(showAmount, totalAmount, isMultipleExtraItems) ""
-  getCantAssembleLocId        = @() ""
-  static getEmptyAssembleMessageData = @() { text = "", needRecipeMarkup = false }
-  getAssembleMessageData      = @(recipe) getEmptyAssembleMessageData()
+  getDescRecipeListHeader     = @(showAmount, totalAmount, isMultipleExtraItems) ""
+  getCantUseLocId             = @() ""
+  static getEmptyConfirmMessageData = @() { text = "", headerRecipeMarkup = "", needRecipeMarkup = false }
+  getConfirmMessageData      = @(recipe) getEmptyConfirmMessageData()
 
   getCraftingItem = @() null
   isCrafting = @() !!getCraftingItem()
@@ -747,4 +752,5 @@ class ::BaseItem
   isEnabled = @() true
   getContentItem = @() null
   needShowRewardWnd = @() true
+  skipRoulette = @() true
 }

@@ -156,10 +156,8 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
         local tooltip = "#filesystem/mTimeNotSpecified"
         if (value != null)
         {
-          local timeTable = ::get_time_from_t(value)
-          tooltip = time.buildDateTimeStr(timeTable)
-          timeTable.sec = -1 // Do not show seconds
-          text = time.buildIso8601DateTimeStr(timeTable, " ")
+          tooltip = time.buildDateTimeStr(value)
+          text = time.buildTabularDateTimeStr(value)
         }
 
         return {

@@ -1,10 +1,3 @@
-start_button {
-  shortcutActivate:"J:A | J:Start | Enter | NumEnter | Space";
-}
-[swap_ab] start_button {
-  shortcutActivate:"J:B | J:Start | Enter | NumEnter | Space";
-}
-
 menu_button, menu_button_inactive {
   shortcutActivate:"J:A | Enter | NumEnter | Space";
   shortcutUp:"@shortcutUpGamepad | Up";
@@ -17,7 +10,7 @@ menu_button, menu_button_inactive {
   navLobbyRight:"#next:wrap";
 }
 
-[swap_ab] menu_button, [swap_ab] menu_button_inactive {
+[swap_ab=yes] menu_button, [swap_ab=yes] menu_button_inactive {
   shortcutActivate:"J:B | Enter | NumEnter | Space";
 }
 
@@ -27,8 +20,18 @@ menu_button, menu_button_inactive {
   shortcutActivate:"J:A | Space";
 }
 
+[swap_ab=yes] [childsActivate=yes] > Button_text, [swap_ab=yes] [childsActivate=yes] > emptyButton,
+[swap_ab=yes] [childsActivate=yes] > CheckBox, [swap_ab=yes] [childsActivate=yes] > RadioButton_AD,
+[swap_ab=yes] [childsActivate=yes] > promoButton, [swap_ab=yes] SwitchBox {
+  shortcutActivate:"J:B | Space";
+}
+
 MultiSelect {
   shortcutSelect: "J:A | Space";
+}
+
+[swap_ab=yes] MultiSelect {
+  shortcutSelect: "J:B | Space";
 }
 
 MultiSelect[optionsShortcuts] {
@@ -41,6 +44,10 @@ options_list > * > MultiSelect {
   shortcutSelect: "J:A | Space";
 }
 
+[swap_ab=yes] options_list > * > MultiSelect {
+  shortcutSelect: "J:B | Space";
+}
+
 dropright {
   shortcutActivate:"Right | @shortcutRightGamepad";
 }
@@ -50,10 +57,10 @@ dropright > fadePlane > area > button#accept {
 dropright > fadePlane > area > button#cancel {
   accesskey:'Esc | J:B | Backspace';
 }
-[swap_ab] dropright > fadePlane > area > button#accept {
+[swap_ab=yes] dropright > fadePlane > area > button#accept {
   accesskey:'@shortcutLeftGamepad | Left | Right | @shortcutRightGamepad | J:B | Space | Enter | NumEnter';
 }
-[swap_ab] dropright > fadePlane > area > button#cancel {
+[swap_ab=yes] dropright > fadePlane > area > button#cancel {
   accesskey:'Esc | J:A  | Backspace';
 }
 
@@ -114,6 +121,10 @@ PosOptionsNavigator > * > * > SwitchBox {
   shortcutActivate:"J:A | Space";
 }
 
+[swap_ab=yes] PosOptionsNavigator > * > * > SwitchBox {
+  shortcutActivate:"J:B | Space";
+}
+
 ScrollBar {
   shortcutMoveUp:"PageUp | J:R.Thumb.Up";
   shortcutMoveDown:"PageDown | J:R.Thumb.Down";
@@ -149,15 +160,24 @@ textareaNoTab[scrollbarShortcutsOnSelect] {
   shortcutSelect: "Space | J:A";   shortcutActivate:"";
 }
 
+[swap_ab=yes] [navigatorShortcuts] {
+  shortcutSelect: "Space | J:B";
+}
+
 CheckBox, gameModeChangeButton,
 CheckBox[btnName=SpaceA], button[btnName=SpaceA], [navigatorShortcuts=SpaceA] {
   shortcutActivate:"Space | J:A";
 }
 
+[swap_ab=yes] CheckBox, [swap_ab=yes] gameModeChangeButton,
+[swap_ab=yes] CheckBox[btnName=SpaceA], [swap_ab=yes] button[btnName=SpaceA], [swap_ab=yes] [navigatorShortcuts=SpaceA] {
+  shortcutActivate:"Space | J:B";
+}
+
 [navigatorShortcuts=active], [navigatorShortcuts=full], [navigatorShortcuts=onlyActivate] {
   shortcutActivate:'J:A | Enter | NumEnter | Space';
 }
-[swap_ab] [navigatorShortcuts=active], [swap_ab] [navigatorShortcuts=full], [swap_ab] [navigatorShortcuts=onlyActivate] {
+[swap_ab=yes] [navigatorShortcuts=active], [swap_ab=yes] [navigatorShortcuts=full], [swap_ab=yes] [navigatorShortcuts=onlyActivate] {
   shortcutActivate:'J:B | Enter | NumEnter | Space';
 }
 [navigatorShortcuts=onlyActivate] {
@@ -167,6 +187,10 @@ CheckBox[btnName=SpaceA], button[btnName=SpaceA], [navigatorShortcuts=SpaceA] {
 
 [navigatorShortcuts=cancel], [navigatorShortcuts=full] {
   shortcutCancel:"Esc | J:B";
+}
+
+[swap_ab=yes] [navigatorShortcuts=cancel], [swap_ab=yes] [navigatorShortcuts=full] {
+  shortcutCancel:"Esc | J:A";
 }
 
 SlideListBox, SlideListBoxOptions
@@ -214,6 +238,12 @@ EditBox[multiShortcuts=no] {
   shortcutUp:"@shortcutUpGamepad | Up";
   shortcutDown:"@shortcutDownGamepad | Down";
 }
+
+[swap_ab=yes] EditBox[multiShortcuts=no] {
+  shortcutActivate:"Enter | NumEnter | J:B";
+  shortcutCancel:"Esc | J:A";
+}
+
 EditBox[multiShortcuts=yes] {
   shortcutBack:"Backspace";
   shortcutDelete:"Del";
@@ -227,8 +257,6 @@ EditBox[withTab=yes] {
 }
 
 EditBox[switchFocus=yes] {
-    shortcutUp: "@shortcutUpGamepad | Up";
-  shortcutDown: "@shortcutDownGamepad | Down";
   shortcutWrapUp: "@shortcutUpGamepad | Up";
   shortcutWrapDown: "@shortcutDownGamepad | Down";
   on_wrap_up:"onWrapUp";
@@ -254,6 +282,12 @@ ComboBox {
   shortcutOpen:"J:A | Space";
   shortcutClose:'Esc | J:B | Backspace';
 }
+
+[swap_ab=yes] ComboBox {
+  shortcutOpen:"J:B | Space";
+  shortcutClose:'Esc | J:A | Backspace';
+}
+
 .optionsTable > tr > td > ComboBox {
   shortcutOpen:"Right | @shortcutRightGamepad";
 }
@@ -261,7 +295,13 @@ ComboBox {
   shortcutLeft:"";
   shortcutRight:"";
   shortcutActivate:'@shortcutLeftGamepad | Left | J:A | Space | Enter | NumEnter'; }
+[swap_ab=yes] .optionsTable > tr > td > ComboBox > listBox {
+  shortcutActivate:'@shortcutLeftGamepad | Left | J:B | Space | Enter | NumEnter'; }
 
 spectatorFrame {
   shortcutActivate:"J:A | Enter";
+}
+
+[swap_ab=yes] spectatorFrame {
+  shortcutActivate:"J:B | Enter";
 }

@@ -1663,15 +1663,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -1935,6 +1926,10 @@
           "armorThickness": 3.0,
           "hp": 20.0
         },
+        "optic_turret_13_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
+        },
         "optic_body_01_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
@@ -2028,14 +2023,12 @@
         "wheel_r_04_dm": [],
         "wheel_r_05_dm": [],
         "wheel_r_06_dm": [],
-        "wheel_r_07_dm": [],
         "wheel_l_01_dm": [],
         "wheel_l_02_dm": [],
         "wheel_l_03_dm": [],
         "wheel_l_04_dm": [],
         "wheel_l_05_dm": [],
         "wheel_l_06_dm": [],
-        "wheel_l_07_dm": [],
         "wheel_r_drive_dm": [],
         "wheel_l_drive_dm": [],
         "wheel_r_front_dm": [],
@@ -2043,13 +2036,10 @@
         "wheel_l_top_01_dm": [],
         "wheel_l_top_02_dm": [],
         "wheel_l_top_03_dm": [],
-        "wheel_l_top_04_dm": [],
-        "wheel_l_top_05_dm": [],
         "wheel_r_top_01_dm": [],
         "wheel_r_top_02_dm": [],
         "wheel_r_top_03_dm": [],
-        "wheel_r_top_04_dm": [],
-        "wheel_r_top_05_dm": [],
+        "wheel_support_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
           "armorThickness": 30.0,
@@ -3142,6 +3132,15 @@
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "us_camo_desert_pink_lines*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_carc",
+      "replace_tex": {
+        "from": "us_camo_olive*",
+        "to": "ger_camo_carc*"
       }
     }
   },

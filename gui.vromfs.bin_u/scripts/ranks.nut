@@ -6,7 +6,7 @@ if (!("EUCT_TOTAL" in ::getroottable()))
   ::EUCT_TOTAL <- 7 //temporary to work without new exe
 
 ::max_player_rank <- 100
-::max_country_rank <- 6
+::max_country_rank <- 7
 ::MAX_ECONOMIC_RANK <- ::get_ranks_blk().maxEconomicRank || 29
 
 ::discounts <- { //count from const in warpointsBlk by (name + "Mul")

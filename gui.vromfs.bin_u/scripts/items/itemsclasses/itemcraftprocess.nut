@@ -11,6 +11,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
   static confirmCancelCraftLocId = "msgBox/cancelCraftProcess/confirm"
   static cancelCaptionLocId = "mainmenu/craftCanceled/title"
 
+  isDisassemble       = @() itemDef?.tags?.isDisassemble == true
   canConsume          = @() false
   canAssemble         = @() false
   canConvertToWarbonds= @() false
@@ -24,7 +25,8 @@ class ::items_classes.CraftProcess extends ItemExternal {
   shouldShowAmount    = @(count) count >= 0
   getDescRecipeListHeader = @(...) ::loc("items/craft_process/using") // there is always 1 recipe
   getMarketablePropDesc = @() ""
-  getCantAssembleLocId  = @() "msgBox/cancelCraftProcess/cant"
+  getCantUseLocId       = @() "msgBox/cancelCraftProcess/cant" + (isDisassemble() ? "/disassemble" : "")
+  getCancelCaptionLocId = @() cancelCaptionLocId + (isDisassemble() ? "/disassemble" : "")
 
   function cancelCrafting(cb = null, params = null)
   {
@@ -32,7 +34,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
     {
       local parentItem = params?.parentItem
       local item = this
-      local text = ::loc("msgBox/cancelCraftProcess/confirm",
+      local text = ::loc("msgBox/cancelCraftProcess/confirm"+ (isDisassemble() ? "/disassemble" : ""),
         { itemName = ::colorize("activeTextColor", parentItem ? parentItem.getName() : getName()) })
       ::scene_msg_box("craft_canceled", null, text, [
         [ "yes", @() inventoryClient.cancelDelayedExchange(item.uids[0],
@@ -48,7 +50,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
 
   showCantCancelCraftMsgBox = @() ::scene_msg_box("cant_cancel_craft",
     null,
-    ::colorize("badTextColor", ::loc(getCantAssembleLocId())),
+    ::colorize("badTextColor", ::loc(getCantUseLocId())),
     [["ok", @() ::ItemsManager.refreshExtInventory()]],
     "ok")
 
@@ -70,7 +72,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
         count = extItem?.quantity ?? 0
       })
       ::gui_start_open_trophy({ [trophyId] = openTrophyWndConfigs,
-        rewardTitle = ::loc(cancelCaptionLocId),
+        rewardTitle = ::loc(getCancelCaptionLocId()),
         rewardListLocId = getItemsListLocId() })
     }
   }

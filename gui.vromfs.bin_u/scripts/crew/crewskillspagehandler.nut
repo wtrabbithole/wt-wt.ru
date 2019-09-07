@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -31,37 +33,31 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     }
 
     pageOnInit = true
-    pageBonuses = getItemsBonuses(curPage)
-    loadSceneTpl()
+    updateSkills()
 
-    local totalRows = scene.childrenCount()
-    if (totalRows > 0 && totalRows <= scene.getValue())
-      scene.setValue(0)
-    else
-      ::selectTableNavigatorObj(scene)
     initFocusArray()
     pageOnInit = false
   }
 
-  function loadSceneTpl()
+  function loadSceneTpl(row = null)
   {
     local rows = []
-    foreach(idx, item in curPage.items)
-      if (item.isVisible(curCrewUnitType))
-        rows.append({
-          id = getRowName(idx)
-          rowIdx = idx
-          even = idx % 2 == 0
-          skillName = item.name
-          memberName = curPage.id
-          name = ::loc("crew/" + item.name)
-          progressMax = ::g_crew.getTotalSteps(item)
-          maxSkillCrewLevel = ::g_crew.getSkillMaxCrewLevel(item)
-          maxValue = ::g_crew.getMaxSkillValue(item)
-          havePageBonuses = pageBonuses != null
-        })
+    local obj = scene
+    if (row != null)
+    {
+       obj = scene.findObject(getRowName(row))
+       local item = curPage.items?[row]
+       if (!::checkObj(obj) || !item)
+         return
 
-    local view = { rows = rows }
+       rows.append(getSkillRowConfig(row))
+    }
+    else
+      foreach(idx, item in curPage.items)
+        if (item.isVisible(curCrewUnitType))
+          rows.append(getSkillRowConfig(idx))
+
+    local view = { rows = rows, needAddRow = row == null }
     local curUnit = getCurUnit()
     if (curUnit)
     {
@@ -70,7 +66,16 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     }
 
     local data = ::handyman.renderCached(sceneTplName, view)
-    guiScene.replaceContentFromText(scene, data, data.len(), this)
+    guiScene.replaceContentFromText(obj, data, data.len(), this)
+
+    if (row != null)
+      return
+
+    local totalRows = scene.childrenCount()
+    if (totalRows > 0 && totalRows <= scene.getValue())
+      scene.setValue(0)
+    else
+      ::selectTableNavigatorObj(scene)
   }
 
   function getMainFocusObj()
@@ -93,6 +98,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     curPage = crewModalHandlerWeak.getCurPage()
     crew = crewModalHandlerWeak.crew
     curCrewUnitType = crewModalHandlerWeak.curCrewUnitType
+    pageBonuses = getItemsBonuses(curPage)
   }
 
   function updateHandlerData()
@@ -101,10 +107,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     if (!curPage)
       return
 
-    foreach(idx, item in curPage.items)
-      if (item.isVisible(curCrewUnitType))
-        updateSkillRow(idx)
-    updateIncButtons(curPage.items)
+    updateSkills()
   }
 
   function getCurUnit()
@@ -179,89 +182,16 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     }
   }
 
-  function updateSkillRow(idx)
-  {
-    local rowObj = scene.findObject(getRowName(idx))
-    local item = ::getTblValue(idx, curPage.items)
-    if (!::checkObj(rowObj) || !item)
-      return
-
-    local value = getSkillValue(curPage.id, item.name)
-    if (!("newValue" in item))
-      item.newValue <- value
-
-    //current progress show not by steps. to be able to see half star
-    rowObj.findObject("skillProgress").setValue(value)
-    rowObj.findObject("shadeSkillProgress").setValue(value)
-    local newProgressValue = ::g_crew.skillValueToStep(item, item.newValue)
-    rowObj.findObject("newSkillProgress").setValue(newProgressValue)
-    rowObj.findObject("glowSkillProgress").setValue(newProgressValue)
-    rowObj.findObject("skillSlider").setValue(::g_crew.skillValueToStep(item, item.newValue))
-    rowObj.findObject("curValue").setValue(::g_crew.getSkillCrewLevel(item, item.newValue).tostring())
-
-    local bonusData = ::getTblValue(idx, pageBonuses)
-    if (bonusData)
-    {
-      local bonusObj = rowObj.findObject("addValue")
-      local totalSkill = bonusData.mul * item.newValue + bonusData.add
-      local totalLevel = ::g_crew.getSkillCrewLevel(item, totalSkill)
-      local bonusLevel = ::g_crew.getSkillCrewLevel(item, totalSkill, item.newValue)
-      local addLevel   = ::g_crew.getSkillCrewLevel(item, totalSkill, totalSkill - bonusData.add)
-
-      local bonusText = ""
-      if ((totalSkill - item.newValue).tointeger() != 0 && bonusData.add != 0)
-        bonusText = ((bonusLevel >= 0) ? "+" : "") + ::round_by_value(bonusLevel, 0.01)
-      bonusObj.setValue(bonusText)
-      bonusObj.overlayTextColor = (bonusLevel < 0) ? "bad" : "good"
-
-      local tooltip = ""
-      if (bonusData.add > 0)
-        tooltip = ::loc("crew/qualifyBonus") + ::loc("ui/colon")
-                  + ::colorize("goodTextColor", "+" + ::round_by_value(addLevel, 0.01))
-
-      local lvlDiffByGunners = ::round_by_value(bonusLevel - addLevel, 0.01)
-      if (lvlDiffByGunners < 0)
-        tooltip += ((tooltip != "") ? "\n" : "") + ::loc("crew/notEnoughGunners") + ::loc("ui/colon")
-          + "<color=@badTextColor>" + lvlDiffByGunners + "</color>"
-      bonusObj.tooltip = tooltip
-    }
-
-    rowObj.findObject("buttonDec").show(item.newValue > value)
-    rowObj.findObject("buttonInc").show(item.newValue < item.costTbl.len())
-    local incCost = ::g_crew.getNextSkillStepCost(item, item.newValue)
-    rowObj.findObject("incCost").setValue(::get_crew_sp_text(incCost, false))
-
-    //update specialization buttons
-    local unit = getCurUnit()
-    //need show specializations buttons status by current unit type instead of page unit type
-    local crewLevel = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
-    updateRowSpecButton(rowObj, ::g_crew_spec_type.EXPERT, crewLevel, unit, bonusData)
-    updateRowSpecButton(rowObj, ::g_crew_spec_type.ACE, crewLevel, unit, bonusData)
-  }
-
-  function updateRowSpecButton(rowObj, specType, crewLevel, unit, bonusData)
-  {
-    local obj = rowObj.findObject("btn_spec" + specType.code)
-    if (!::checkObj(obj))
-      return
-
-    local icon = ""
-    if (bonusData && bonusData.haveSpec)
-      icon = specType.getIcon(bonusData.specType.code, crewLevel, unit)
-    obj["foreground-image"] = icon
-    obj.enable(icon != "" && bonusData.specType.code < specType.code)
-    obj.display = (icon != "") ? "show" : "none" //"none" - hide but not affect button place
-  }
-
   function applySkillRowChange(row, item, newValue)
   {
     if (!crewModalHandlerWeak)
       return
 
     crewModalHandlerWeak.onSkillRowChange(item, newValue)
-
-    updateSkills(curPage, row)
-    updateIncButtons(curPage.items)
+    guiScene.performDelayed(this, function() {
+      if (isValid())
+        updateSkills(row)
+    })
   }
 
   function onProgressButton(obj, inc, isRepeat = false, limit = false)
@@ -324,16 +254,15 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     return ::g_crew.getMaxAvailbleStepValue(skillItem, skillItem.newValue, getCurPoints())
   }
 
-  function updateSkills(page, row)
+  function updateSkills(row = null, needUpdateIncButton = true)
   {
-    if(page.items[row].name == "members" && page.id == "gunner")
-    {
-      pageBonuses = getItemsBonuses(page)
-      if (crewModalHandlerWeak)
-        crewModalHandlerWeak.updatePage()
-    }
+    if(row == null || (curPage.items[row].name == "members" && curPage.id == "gunner"))
+      loadSceneTpl()
     else
-      updateSkillRow(row)
+      loadSceneTpl(row)
+
+    if (needUpdateIncButton)
+      updateIncButtons(curPage.items)
   }
 
   function onSkillChanged(obj)
@@ -363,7 +292,10 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     }
     if (newValue == item.newValue)
     {
-      updateSkills(curPage, row)
+      guiScene.performDelayed(this, function() {
+        if (isValid())
+          updateSkills(row, false)
+      })
       return
     }
     local changeCost = ::g_crew.getSkillCost(item, newValue, item.newValue)
@@ -423,5 +355,89 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       crew, difficulty, memberName, skillName, crewUnitType)
     local data = ::handyman.renderCached("gui/crew/crewSkillParametersTooltip", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
+  }
+
+  function getSkillRowConfig(idx)
+  {
+    local item = curPage.items?[idx]
+    if (!item)
+      return null
+
+    local value = getSkillValue(curPage.id, item.name)
+    if (!("newValue" in item))
+      item.newValue <- value
+
+    local newProgressValue = ::g_crew.skillValueToStep(item, item.newValue)
+    local bonusData = pageBonuses?[idx]
+    local bonusText = ""
+    local bonusOverlayTextColor = "good"
+    local bonusTooltip = ""
+    if (bonusData)
+    {
+      local totalSkill = bonusData.mul * item.newValue + bonusData.add
+      local totalLevel = ::g_crew.getSkillCrewLevel(item, totalSkill)
+      local bonusLevel = ::g_crew.getSkillCrewLevel(item, totalSkill, item.newValue)
+      local addLevel   = ::g_crew.getSkillCrewLevel(item, totalSkill, totalSkill - bonusData.add)
+
+      if ((totalSkill - item.newValue).tointeger() != 0 && bonusData.add != 0)
+        bonusText = ((bonusLevel >= 0) ? "+" : "") + stdMath.round_by_value(bonusLevel, 0.01)
+      bonusOverlayTextColor = (bonusLevel < 0) ? "bad" : "good"
+
+      if (bonusData.add > 0)
+        bonusTooltip = ::loc("crew/qualifyBonus") + ::loc("ui/colon")
+                  + ::colorize("goodTextColor", "+" + stdMath.round_by_value(addLevel, 0.01))
+
+      local lvlDiffByGunners = stdMath.round_by_value(bonusLevel - addLevel, 0.01)
+      if (lvlDiffByGunners < 0)
+        bonusTooltip += ((bonusTooltip != "") ? "\n" : "") + ::loc("crew/notEnoughGunners") + ::loc("ui/colon")
+          + "<color=@badTextColor>" + lvlDiffByGunners + "</color>"
+    }
+
+    local unit = getCurUnit()
+    local crewLevel = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
+
+    return {
+      id = getRowName(idx)
+      rowIdx = idx
+      even = idx % 2 == 0
+      skillName = item.name
+      memberName = curPage.id
+      name = ::loc("crew/" + item.name)
+      progressMax = ::g_crew.getTotalSteps(item)
+      maxSkillCrewLevel = ::g_crew.getSkillMaxCrewLevel(item)
+      maxValue = ::g_crew.getMaxSkillValue(item)
+      havePageBonuses = pageBonuses != null
+      bonusText = bonusText
+      bonusOverlayTextColor = bonusOverlayTextColor
+      bonusTooltip = bonusTooltip
+      skillProgressValue = value
+      shadeSkillProgressValue = value
+      newSkillProgressValue = newProgressValue
+      glowSkillProgressValue = newProgressValue
+      skillSliderValue = ::g_crew.skillValueToStep(item, item.newValue)
+      curValue = ::g_crew.getSkillCrewLevel(item, item.newValue).tostring()
+      visibleButtonDec = (item.newValue > value) ? "show" : "hide"
+      visibleButtonInc = (item.newValue < item.costTbl.len()) ? "show" : "hide"
+      incCost = ::get_crew_sp_text(::g_crew.getNextSkillStepCost(item, item.newValue), false)
+
+      btnSpec = [
+        getRowSpecButtonConfig(::g_crew_spec_type.EXPERT, crewLevel, unit, bonusData),
+        getRowSpecButtonConfig(::g_crew_spec_type.ACE, crewLevel, unit, bonusData)
+      ]
+    }
+  }
+
+  function getRowSpecButtonConfig(specType, crewLevel, unit, bonusData)
+  {
+    local icon = ""
+    if (bonusData && bonusData.haveSpec)
+      icon = specType.getIcon(bonusData.specType.code, crewLevel, unit)
+    return {
+      id = specType.code
+      icon = icon
+      enable = (icon != "" && bonusData.specType.code < specType.code) ? "yes" : "no"
+      display = (icon != "") ? "show" : "none" //"none" - hide but not affect button place
+      isExpertSpecType = specType == ::g_crew_spec_type.EXPERT
+    }
   }
 }

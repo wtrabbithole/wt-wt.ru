@@ -1,6 +1,7 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local menuChatRoom = require("scripts/chat/menuChatRoom.nut")
+local battleRating = ::require("scripts/battleRating.nut")
 
 enum MESSAGE_TYPE {
   MY          = "my"
@@ -357,6 +358,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateInputText(roomData)
     checkNewMessages()
     updateRoomsIcons()
+    updateSquadInfo()
 
     if (!::g_chat.isThreadsView)
       showSearch(::g_chat.isSystemChatRoom(curRoom.id))
@@ -585,7 +587,6 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
 
     updateReadyButton()
-    updateSquadInfo()
     guiScene.setUpdatesEnabled(true, true)
   }
 
@@ -605,12 +606,24 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!checkScene() || !curRoom)
       return
-    local squadRankTextObj = showSceneBtn("squad_rank_text", curRoom.id == ::g_chat.getMySquadRoomId())
-    if (!::checkObj(squadRankTextObj))
+
+    local squadBRTextObj = scene.findObject("battle_rating")
+    if (!::checkObj(squadBRTextObj))
       return
 
-    local sRank = ::g_squad_manager.getSquadRank()
-    squadRankTextObj.setValue((sRank >= 0)? format(::loc("squad/rank"), sRank) : "")
+    local br = ::g_squad_manager.squadData?.leaderBattleRating
+    local isShow = br && ::g_squad_manager.isInSquad() && curRoom.id == ::g_chat.getMySquadRoomId()
+
+    if(isShow)
+    {
+      local gmText = ::events.getEventNameText(
+                       ::events.getEvent(::g_squad_manager.squadData?.leaderGameModeId)
+                     ) ?? ""
+      local desc = ::loc("shop/battle_rating") +" "+ format("%.1f", br)
+      desc = ::g_string.implode([gmText, desc], "\n")
+      squadBRTextObj.setValue(desc)
+    }
+    squadBRTextObj.show(isShow)
   }
 
   function onEventSquadDataUpdated(params)
@@ -678,8 +691,6 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         user.uid = contact.uid
         local listObj = scene.findObject("users_list")
         updateUserPresence(listObj, idx, contact)
-        if (curRoom.id == ::g_chat.getMySquadRoomId())
-          updateSquadInfo()
         return
       }
   }
@@ -757,6 +768,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       rejoinDefaultRooms(true)
       checkNewMessages()
       updateRoomsList()
+      updateSquadInfo()
 
       guiScene.performDelayed(this, function()
       {

@@ -94,14 +94,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     battlesListObj = scene.findObject("items_list")
 
     initQueueInfo()
-
-    local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
-    if (queue)
-    {
-      local battleWithQueue = queue.getWWBattle()
-      if (battleWithQueue && battleWithQueue.isValid())
-        operationBattle = battleWithQueue
-    }
+    updateForceSelectedBattle()
 
     syncSquadCountry()
     reinitBattlesList()
@@ -131,6 +124,29 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       { scene = queueInfoObj })
     registerSubHandler(handler)
     queueInfoHandlerWeak = handler.weakref()
+  }
+
+  function updateForceSelectedBattle(closedGroups = [])
+  {
+    local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
+    if (queue)
+    {
+      local battleWithQueue = getQueueBattle(queue)
+      if (battleWithQueue && battleWithQueue.isValid() && curBattleInList.id != battleWithQueue.id)
+        curBattleInList = getBattleById(battleWithQueue.id)
+    }
+    else
+    {
+      local wwBattleName = ::g_squad_manager.getWwOperationBattle()
+      if (wwBattleName && curBattleInList.id != wwBattleName)
+        curBattleInList = getBattleById(wwBattleName)
+    }
+
+    if (!curBattleInList.isValid())
+      curBattleInList = getFirstBattleInListMap(closedGroups)
+
+    if (curBattleInList.isValid())
+      curGroupIdInList = getBattleArmyUnitTypesData(curBattleInList).groupId
   }
 
   function initSquadList()
@@ -167,7 +183,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     else
       updateBattlesStatusInList()
 
-    onItemSelect(isForceUpdate)
+    updateSelectedItem(isForceUpdate)
     updateClosedGroups(closedGroups)
 
     validateSquadInfo()
@@ -183,7 +199,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!queue)
       return
 
-    local queueBattle = queue.getWWBattle()
+    local queueBattle = getQueueBattle(queue)
     if (!queueBattle || !queueBattle.isValid())
       ::g_world_war.leaveWWBattleQueues()
   }
@@ -325,8 +341,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    if (!curBattleInList.isValid() || !operationBattle.isValid() || !curGroupIdInList.len())
-      curBattleInList = getFirstBattleInListMap(closedGroups)
+    if (!curBattleInList.isValid() || !curGroupIdInList.len())
+      updateForceSelectedBattle(closedGroups)
 
     local itemId = curBattleInList.isValid() ? curBattleInList.id
       : curGroupIdInList.len() ? curGroupIdInList
@@ -642,6 +658,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
       showSceneBtn("btn_join_battle", false)
       showSceneBtn("btn_leave_battle", false)
+      showSceneBtn("btn_auto_preset", false)
       showSceneBtn("warning_icon", false)
       return
     }
@@ -744,6 +761,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("required_crafts_block",
       unitAvailability == WW_BATTLE_UNITS_REQUIREMENTS.OPERATION_UNITS ||
       unitAvailability == WW_BATTLE_UNITS_REQUIREMENTS.BATTLE_UNITS)
+
+    showSceneBtn("btn_auto_preset", joinWarningData.needMsgBox)
   }
 
   function getWarningText(cantJoinReasonData, joinWarningData)
@@ -797,13 +816,19 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    local hasTeamsInfo = battleView.hasTeamsInfo()
-    showSceneBtn("teams_info", hasTeamsInfo)
-    if (hasTeamsInfo)
+    local playersInfoText = battleView.hasTeamsInfo()
+      ? battleView.getTotalPlayersInfoText(getPlayerSide())
+      : battleView.hasQueueInfo()
+        ? battleView.getTotalQueuePlayersInfoText(getPlayerSide())
+        : ""
+
+    local hasInfo = !::u.isEmpty(playersInfoText)
+    showSceneBtn("teams_info", hasInfo)
+    if (hasInfo)
     {
       local playersTextObj = scene.findObject("number_of_players")
       if (::check_obj(playersTextObj))
-        playersTextObj.setValue(battleView.getTotalPlayersInfoText())
+        playersTextObj.setValue(playersInfoText)
     }
   }
 
@@ -984,7 +1009,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function onItemSelect(isForceUpdate = false)
+  function onItemSelect()
+  {
+    updateSelectedItem(false)
+  }
+
+  function updateSelectedItem(isForceUpdate = false)
   {
     refreshSelBattle()
     local newOperationBattle = getBattleById(curBattleInList.id)
@@ -1198,6 +1228,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function getFirstBattleInListMap(closedGroups)
   {
+    if (!curBattleListItems || !curBattleListItems.len())
+      return getEmptyBattle()
+
     local groupId = null
     foreach(idx, item in curBattleListItems)
     {
@@ -1291,6 +1324,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return res
   }
 
+  function getQueueBattle(queue)
+  {
+    local battleId = queue.getQueueWwBattleId()
+    if (!battleId)
+      return null
+
+    return getBattleById(battleId)
+  }
+
   function getPlayerSide(battle = null)
   {
     return ::ww_get_player_side()
@@ -1324,6 +1366,127 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     return false
+  }
+
+  function onRunAutoPreset(obj)
+  {
+    if (::slotbar_oninit)
+      return
+
+    local cb = ::Callback(generateAutoPreset, this)
+    ::queues.checkAndStart(
+      ::Callback(function() {
+        ::g_squad_utils.checkSquadUnreadyAndDo(this, cb, @() null, true)
+      }, this),
+      @() null,
+      "isCanModifyCrew"
+    )
+  }
+
+  function generateAutoPreset()
+  {
+    local side = getPlayerSide()
+    local team = operationBattle.getTeamBySide(side)
+    local teamUnits = operationBattle.getTeamRemainUnits(team)
+    local country = team.country
+
+    if (!::isCountryAllCrewsUnlockedInHangar(country))
+    {
+      ::showInfoMsgBox(::loc("charServer/updateError/52"), "slotbar_presets_forbidden")
+      return
+    }
+
+    local unitsArray = []
+    foreach (unitName, unitAmount in teamUnits)
+    {
+      if (!unitAmount)
+        continue
+
+      local unit = ::getAircraftByName(unitName)
+      if (unit.canAssignToCrew(country))
+        unitsArray.append(unit)
+    }
+
+    local eDiff = getCurrentEdiff()
+    unitsArray.sort(@(a, b)
+      ::get_unit_rank_text(b, null, true, eDiff) <=> ::get_unit_rank_text(a, null, true, eDiff)
+    )
+
+    if (!unitsArray.len())
+    {
+      ::showInfoMsgBox(::loc("worldwar/noPresetUnits"))
+      return
+    }
+
+    local countryCrews = ::get_crews_list_by_country(country)
+    local trainCrewsData = {}
+    local usedUnits = []
+    local unusedUnits = []
+
+    foreach (unit in unitsArray)
+    {
+      local unitName = unit.name
+      local unitType = unit.getCrewUnitType()
+      local maxCrewLevel = ::g_crew.getMaxCrewLevel(unitType) || 1
+
+      local availableCrews = []
+      foreach (crew in countryCrews)
+      {
+        local crewId = crew.id
+        local crewSpec = crew.trainedSpec?[unitName] ?? -1
+        if (!trainCrewsData?[crewId] && crewSpec >= 0)
+          availableCrews.append({
+            id = crewId
+            spec = crewSpec
+            level = ::g_crew.getCrewLevel(crew, unitType).tofloat() / maxCrewLevel
+          })
+      }
+      if (!availableCrews.len())
+      {
+        unusedUnits.append(::getUnitName(unit))
+        continue
+      }
+
+      usedUnits.append(::getUnitName(unit))
+      availableCrews.sort(@(a, b) b.spec <=> a.spec || b.level <=> a.level)
+
+      trainCrewsData[availableCrews[0].id] <- unitName
+    }
+
+    if (!trainCrewsData.len())
+    {
+      ::showInfoMsgBox(::loc("worldwar/noPresetUnitsCrews") + "\n" +
+        ::colorize("userlogColoredText", ::g_string.implode(unusedUnits, ", ")))
+      return
+    }
+
+    local trainCrews = []
+    foreach (crew in countryCrews)
+    {
+      local crewId = crew.id
+      trainCrews.append({
+        crewId = crewId
+        airName = trainCrewsData?[crewId] ?? ""
+      })
+    }
+
+    local msgText = ::loc("worldwar/addInPresetMsgText") + "\n" +
+      ::colorize("userlogColoredText", ::g_string.implode(usedUnits, ", "))
+    if (unusedUnits.len())
+      msgText += "\n\n" + ::loc("worldwar/notAddInPresetMsgText") + "\n" +
+        ::colorize("userlogColoredText", ::g_string.implode(unusedUnits, ", "))
+    msgText += "\n\n" + ::colorize("warningTextColor", ::loc("worldwar/autoPresetWarningText"))
+
+    msgBox("ask_apply_preset", msgText,
+      [
+        ["yes", function() {
+            ::batch_train_crew(trainCrews, null, function() {
+              ::broadcastEvent("SlotbarPresetLoaded") })
+          }
+        ],
+        ["no", @() null]
+      ],
+      "yes", { cancel_fn = @() null })
   }
 
   function onOpenBattlesFilters(obj)

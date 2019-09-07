@@ -1375,19 +1375,30 @@
   },
   {
     "unlockable": {
-      "id": "ge_wound_badge",
-      "type": "medal",
-      "country": "country_germany",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "germany",
-      "hideForLang": "HChinese",
+      "id": "cardicon_sailor_ussr_02",
+      "type": "pilot",
+      "hideUntilUnlocked": true
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_germany_01",
+      "type": "pilot",
       "mode": [
         {
-          "type": "captures"
+          "type": "awardDamage"
         },
         {
-          "num": 50
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 100000
         },
         {
           "condition": {
@@ -1396,13 +1407,14 @@
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
+            "type": "playerType",
+            "unitType": "ship"
           }
         },
         {
           "condition": {
-            "type": "critical"
+            "type": "playerTag",
+            "tag": "country_germany"
           }
         }
       ]
@@ -1410,64 +1422,100 @@
   },
   {
     "unlockable": {
-      "id": "ge_iron_cross_2_class",
-      "type": "medal",
-      "country": "country_germany",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "germany",
-      "hideForLang": "HChinese",
+      "id": "cardicon_sailor_germany_02",
+      "type": "pilot",
       "mode": [
         {
-          "type": "killedPlayersScore"
+          "type": "awardDamage"
         },
         {
           "mulArcade": 1
         },
         {
-          "mulRealistic": 3
+          "mulRealistic": 2
         },
         {
-          "mulHardcore": 6
+          "mulHardcore": 2
         },
         {
-          "num": 50
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
+          "num": 200000
         },
         {
           "condition": {
             "type": "online"
           }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_germany"
+          }
         }
       ]
     }
   },
   {
     "unlockable": {
-      "id": "ge_iron_cross_1_class",
-      "type": "medal",
-      "country": "country_germany",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "germany",
-      "hideForLang": "HChinese",
+      "id": "cardicon_sailor_germany_03",
+      "type": "pilot",
       "mode": [
         {
-          "type": "killedPlayersScore"
+          "type": "awardDamage"
         },
         {
           "mulArcade": 1
         },
         {
-          "mulRealistic": 3
+          "mulRealistic": 2
         },
         {
-          "mulHardcore": 6
+          "mulHardcore": 2
+        },
+        {
+          "num": 300000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_germany"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_germany_04",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
         },
         {
           "num": 150
@@ -1479,40 +1527,6 @@
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "ge_roll_honor",
-      "type": "medal",
-      "country": "country_germany",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "germany",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 20
-        },
-        {
-          "condition": {
             "type": "activity",
             "percent": 50
           }
@@ -1520,18 +1534,15 @@
         {
           "condition": {
             "type": "playerType",
-            "unitType": "aircraft"
+            "unitType": "ship",
+            "inSession": true,
+            "inSessionAnd": false
           }
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
+            "type": "playerTag",
+            "tag": "country_germany"
           }
         }
       ]
@@ -1539,16 +1550,11 @@
   },
   {
     "unlockable": {
-      "id": "ge_cross_gold",
-      "type": "medal",
-      "country": "country_germany",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "germany",
-      "hideForLang": "HChinese",
+      "id": "cardicon_sailor_germany_05",
+      "type": "pilot",
       "mode": [
         {
-          "type": "missionsWonScore"
+          "type": "missionsPlayedScore"
         },
         {
           "mulArcade": 1
@@ -1557,1185 +1563,15 @@
           "mulRealistic": 2
         },
         {
-          "mulHardcore": 3
-        },
-        {
-          "num": 50
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "ge_knight_cross",
-      "type": "medal",
-      "country": "country_germany",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "germany",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
+          "mulHardcore": 2
         },
         {
           "num": 300
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
             "type": "online"
           }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "ge_knight_cross_oak",
-      "type": "medal",
-      "country": "country_germany",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "germany",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 1000
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "ge_knight_cross_oak_swords",
-      "type": "medal",
-      "country": "country_germany",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "germany",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 2000
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": [
-      {
-        "id": "ussr_patriotic_war_1_class"
-      },
-      {
-        "type": "medal"
-      },
-      {
-        "country": "country_ussr"
-      },
-      {
-        "amount_exp": 100
-      },
-      {
-        "chapter": "medals"
-      },
-      {
-        "group": "ussr"
-      },
-      {
-        "chapter": "medals"
-      },
-      {
-        "group": "ussr"
-      },
-      {
-        "hideForLang": "HChinese"
-      },
-      {
-        "mode": [
-          {
-            "type": "killedPlayersScore"
-          },
-          {
-            "mulArcade": 1
-          },
-          {
-            "mulRealistic": 3
-          },
-          {
-            "mulHardcore": 6
-          },
-          {
-            "num": 300
-          },
-          {
-            "condition": {
-              "type": "playerHasFeature",
-              "feature": "UnlocksUnavailableForChina"
-            }
-          },
-          {
-            "condition": {
-              "type": "online"
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "unlockable": {
-      "id": "ussr_patriotic_war_2_class",
-      "type": "medal",
-      "country": "country_ussr",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "ussr",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 100
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "ussr_nevskiy",
-      "type": "medal",
-      "country": "country_ussr",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "ussr",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 30
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "teamLeader"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "ussr_suvorov",
-      "type": "medal",
-      "country": "country_ussr",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "ussr",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 30
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "lesserTeam"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "ussr_kutuzov",
-      "type": "medal",
-      "country": "country_ussr",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "ussr",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 10
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "ussr_hero",
-      "type": "medal",
-      "country": "country_ussr",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "ussr",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 1000
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": [
-      {
-        "id": "usa_air_1_class"
-      },
-      {
-        "type": "medal"
-      },
-      {
-        "country": "country_usa"
-      },
-      {
-        "amount_exp": 100
-      },
-      {
-        "chapter": "medals"
-      },
-      {
-        "group": "usa"
-      },
-      {
-        "chapter": "medals"
-      },
-      {
-        "group": "usa"
-      },
-      {
-        "hideForLang": "HChinese"
-      },
-      {
-        "mode": [
-          {
-            "type": "killedPlayersScore"
-          },
-          {
-            "mulArcade": 1
-          },
-          {
-            "mulRealistic": 3
-          },
-          {
-            "mulHardcore": 6
-          },
-          {
-            "num": 300
-          },
-          {
-            "condition": {
-              "type": "playerHasFeature",
-              "feature": "UnlocksUnavailableForChina"
-            }
-          },
-          {
-            "condition": {
-              "type": "online"
-            }
-          },
-          {
-            "condition": {
-              "type": "playerType",
-              "unitType": "aircraft"
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "unlockable": {
-      "id": "usa_air_2_class",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 200
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "playerType",
-            "unitType": "aircraft"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_air_3_class",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 100
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "playerType",
-            "unitType": "aircraft"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_flying_cross_1_class",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 90
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "playerType",
-            "unitType": "aircraft"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_flying_cross_2_class",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 60
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "playerType",
-            "unitType": "aircraft"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_flying_cross_3_class",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 30
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "playerType",
-            "unitType": "aircraft"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_merits",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 200
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_silver_star",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 50
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "teamLeader"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_service_cross",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 50
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_heart",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "captures"
-        },
-        {
-          "num": 10
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "critical"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_pacific",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 10
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online",
-            "condition": [
-              {
-                "type": "location"
-              },
-              {
-                "location": "honolulu"
-              },
-              {
-                "location": "wake_island"
-              },
-              {
-                "location": "water"
-              },
-              {
-                "location": "midway"
-              },
-              {
-                "location": "guadalcanal"
-              }
-            ]
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_europe",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 30
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        },
-        {
-          "condition": {
-            "type": "location",
-            "location": "ruhr"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "usa_conduct",
-      "type": "medal",
-      "country": "country_usa",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "usa",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 5
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": [
-      {
-        "id": "raaf_pacific"
-      },
-      {
-        "type": "medal"
-      },
-      {
-        "country": "country_britain"
-      },
-      {
-        "amount_exp": 100
-      },
-      {
-        "chapter": "medals"
-      },
-      {
-        "group": "britain"
-      },
-      {
-        "chapter": "medals"
-      },
-      {
-        "group": "britain"
-      },
-      {
-        "hideForLang": "HChinese"
-      },
-      {
-        "mode": [
-          {
-            "type": "missionsWonScore"
-          },
-          {
-            "mulArcade": 1
-          },
-          {
-            "mulRealistic": 2
-          },
-          {
-            "mulHardcore": 3
-          },
-          {
-            "num": 30
-          },
-          {
-            "condition": {
-              "type": "activity",
-              "percent": 50
-            }
-          },
-          {
-            "condition": {
-              "type": "playerHasFeature",
-              "feature": "UnlocksUnavailableForChina"
-            }
-          },
-          {
-            "condition": {
-              "type": "online"
-            }
-          },
-          {
-            "condition": [
-              {
-                "type": "location"
-              },
-              {
-                "location": "honolulu"
-              },
-              {
-                "location": "wake_island"
-              },
-              {
-                "location": "water"
-              },
-              {
-                "location": "midway"
-              },
-              {
-                "location": "guadalcanal"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "unlockable": {
-      "id": "raaf_flying_cross",
-      "type": "medal",
-      "country": "country_britain",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "britain",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 100
         },
         {
           "condition": {
@@ -2746,18 +1582,15 @@
         {
           "condition": {
             "type": "playerType",
-            "unitType": "aircraft"
+            "unitType": "ship",
+            "inSession": true,
+            "inSessionAnd": false
           }
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
+            "type": "playerTag",
+            "tag": "country_germany"
           }
         }
       ]
@@ -2765,193 +1598,194 @@
   },
   {
     "unlockable": {
-      "id": "raaf_service_order",
-      "type": "medal",
-      "country": "country_britain",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "britain",
-      "hideForLang": "HChinese",
+      "id": "cardicon_sailor_uk_01",
+      "type": "pilot",
       "mode": [
         {
-          "type": "killedPlayersScore"
+          "type": "awardDamage"
         },
         {
           "mulArcade": 1
         },
         {
-          "mulRealistic": 3
+          "mulRealistic": 2
         },
         {
-          "mulHardcore": 6
+          "mulHardcore": 2
+        },
+        {
+          "num": 100000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_britain"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_uk_02",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 200000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_britain"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_uk_05",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 300000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_britain"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_uk_03",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 150
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship",
+            "inSession": true,
+            "inSessionAnd": false
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_britain"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_uk_04",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
         },
         {
           "num": 300
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "raaf_victoria_cross",
-      "type": "medal",
-      "country": "country_britain",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "britain",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 1000
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "raaf_39_45_star",
-      "type": "medal",
-      "country": "country_britain",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "britain",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 50
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "raaf_war_medal",
-      "type": "medal",
-      "country": "country_britain",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "britain",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 5
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "raaf_france_germany",
-      "type": "medal",
-      "country": "country_britain",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "britain",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 10
-        },
-        {
-          "condition": {
             "type": "online"
           }
         },
@@ -2963,14 +1797,16 @@
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
+            "type": "playerType",
+            "unitType": "ship",
+            "inSession": true,
+            "inSessionAnd": false
           }
         },
         {
           "condition": {
-            "type": "location",
-            "location": "ruhr"
+            "type": "playerTag",
+            "tag": "country_britain"
           }
         }
       ]
@@ -2978,55 +1814,11 @@
   },
   {
     "unlockable": {
-      "id": "jap_gold",
-      "type": "medal",
-      "country": "country_japan",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "japan",
-      "hideForLang": "HChinese",
+      "id": "cardicon_sailor_usa_01",
+      "type": "pilot",
       "mode": [
         {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 100
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "jap_sun",
-      "type": "medal",
-      "country": "country_japan",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "japan",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
+          "type": "awardDamage"
         },
         {
           "mulArcade": 1
@@ -3035,10 +1827,135 @@
           "mulRealistic": 2
         },
         {
-          "mulHardcore": 3
+          "mulHardcore": 2
         },
         {
-          "num": 100
+          "num": 100000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_usa"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_usa_02",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 200000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_usa"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_usa_04",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 300000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_usa"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_usa_03",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 150
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
         },
         {
           "condition": {
@@ -3048,13 +1965,16 @@
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
+            "type": "playerType",
+            "unitType": "ship",
+            "inSession": true,
+            "inSessionAnd": false
           }
         },
         {
           "condition": {
-            "type": "online"
+            "type": "playerTag",
+            "tag": "country_usa"
           }
         }
       ]
@@ -3062,16 +1982,11 @@
   },
   {
     "unlockable": {
-      "id": "jap_merit",
-      "type": "medal",
-      "country": "country_japan",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "japan",
-      "hideForLang": "HChinese",
+      "id": "cardicon_sailor_usa_05",
+      "type": "pilot",
       "mode": [
         {
-          "type": "missionsWonScore"
+          "type": "missionsPlayedScore"
         },
         {
           "mulArcade": 1
@@ -3080,133 +1995,15 @@
           "mulRealistic": 2
         },
         {
-          "mulHardcore": 3
-        },
-        {
-          "num": 10
-        },
-        {
-          "condition": {
-            "type": "activity",
-            "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "it_sky",
-      "type": "medal",
-      "country": "country_italy",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "italy",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
+          "mulHardcore": 2
         },
         {
           "num": 300
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
             "type": "online"
           }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "it_merit",
-      "type": "medal",
-      "country": "country_italy",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "italy",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "killedPlayersScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 3
-        },
-        {
-          "mulHardcore": 6
-        },
-        {
-          "num": 50
-        },
-        {
-          "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
-          }
-        },
-        {
-          "condition": {
-            "type": "online"
-          }
-        }
-      ]
-    }
-  },
-  {
-    "unlockable": {
-      "id": "it_warrior",
-      "type": "medal",
-      "country": "country_italy",
-      "amount_exp": 100,
-      "chapter": "medals",
-      "group": "italy",
-      "hideForLang": "HChinese",
-      "mode": [
-        {
-          "type": "missionsWonScore"
-        },
-        {
-          "mulArcade": 1
-        },
-        {
-          "mulRealistic": 2
-        },
-        {
-          "mulHardcore": 3
-        },
-        {
-          "num": 50
         },
         {
           "condition": {
@@ -3216,13 +2013,232 @@
         },
         {
           "condition": {
-            "type": "playerHasFeature",
-            "feature": "UnlocksUnavailableForChina"
+            "type": "playerType",
+            "unitType": "ship",
+            "inSession": true,
+            "inSessionAnd": false
           }
         },
         {
           "condition": {
+            "type": "playerTag",
+            "tag": "country_usa"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_ussr_01",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 100000
+        },
+        {
+          "condition": {
             "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_ussr"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_ussr_03",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 200000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_ussr"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_ussr_06",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 300000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_ussr"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_ussr_05",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 150
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship",
+            "inSession": true,
+            "inSessionAnd": false
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_ussr"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "cardicon_sailor_ussr_04",
+      "type": "pilot",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 300
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship",
+            "inSession": true,
+            "inSessionAnd": false
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_ussr"
           }
         }
       ]
@@ -3250,6 +2266,57 @@
           "type": "playerHasFeature",
           "feature": "ExtInventory"
         }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ch_heli_unlocked_france",
+      "type": "achievement",
+      "hidden": true,
+      "mode": [
+        {
+          "type": "char_unlocks"
+        },
+        {
+          "num": 1
+        },
+        {
+          "unlock": "hidden_tank_5_rank_purchased_france"
+        },
+        {
+          "unlock": "hidden_air_5_rank_purchased_france"
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "hidden_tank_5_rank_purchased_france",
+      "type": "achievement",
+      "hidden": true,
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "country": "country_france",
+        "num": 1,
+        "era": 5,
+        "unitClass": "tank",
+        "premium": true
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "hidden_air_5_rank_purchased_france",
+      "type": "achievement",
+      "hidden": true,
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "country": "country_france",
+        "num": 1,
+        "era": 5,
+        "unitClass": "aircraft",
+        "premium": true
       }
     }
   },
@@ -9871,6 +8938,78 @@
   },
   {
     "unlockable": {
+      "id": "iar_316b/green",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 710
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "iar_316b"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "sa_341f/tricolor",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 720
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "sa_341f"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "a-20g/bicolor43",
       "type": "skin",
       "chapter": "skins",
@@ -10818,6 +9957,42 @@
   },
   {
     "unlockable": {
+      "id": "f-100d/bicolor",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 700
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "f-100d"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "f4f-3/gray",
       "type": "skin",
       "chapter": "skins",
@@ -11133,6 +10308,42 @@
           "condition": {
             "type": "playerUnit",
             "class": "fiat_cr42_italy"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fiat_g91_r4/green",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_italy",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 710
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "fiat_g91_r4"
           }
         }
       ]
@@ -14913,6 +14124,42 @@
   },
   {
     "unlockable": {
+      "id": "md_460/bicolor",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 550
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "md_460"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "me-163b/standart45",
       "type": "skin",
       "chapter": "skins",
@@ -16245,6 +15492,78 @@
   },
   {
     "unlockable": {
+      "id": "sea_hawk_fga6/white",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_britain",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 700
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "sea_hawk_fga6"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "so_4050_vautour_2a_iaf/bicolor",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_france",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 550
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "so_4050_vautour_2a_iaf"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "spitfire_ix/england43",
       "type": "skin",
       "chapter": "skins",
@@ -16886,6 +16205,42 @@
           "condition": {
             "type": "playerUnit",
             "class": "spitfiremkii"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "t2/jasdf",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_japan",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 710
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "t2"
           }
         }
       ]
@@ -18646,6 +18001,42 @@
           "condition": {
             "type": "playerUnit",
             "class": "h6k4"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "h8k2/green",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_japan",
+      "mode": [
+        {
+          "type": "amountDamagesZone"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 10400
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "h8k2"
           }
         }
       ]
@@ -26855,6 +26246,78 @@
           "condition": {
             "type": "playerUnit",
             "class": "germ_leopard_2a4"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_leopard_2a5/lederbraun",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 518
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_leopard_2a5"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "germ_leopard_2a5/winter",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_germany",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 740
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "germ_leopard_2a5"
           }
         }
       ]
@@ -41238,6 +40701,114 @@
   },
   {
     "unlockable": {
+      "id": "uk_challenger_II/uk_camo_standart_modern_light_stone",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_britain",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 511
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_challenger_II"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_challenger_II/uk_camo_standart_modern_bicolor",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_britain",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 949
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_challenger_II"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_challenger_II/uk_camo_winter_olive",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_britain",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 730
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_challenger_II"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "uk_charioteer_mk_7/uk_camo_earth_yellow",
       "type": "skin",
       "chapter": "skins",
@@ -45623,6 +45194,114 @@
           "condition": {
             "type": "playerUnit",
             "class": "us_m1_abrams"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m1a1_abrams/us_camo_modern_desert_tan",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 518
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m1a1_abrams"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m1a1_abrams/modern_seventh_army",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 962
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m1a1_abrams"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m1a1_abrams/modern_snow_temperate",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 740
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m1a1_abrams"
           }
         }
       ]
@@ -61190,6 +60869,114 @@
         "type": "char_unit_exist",
         "unit": "us_m8_greyhound"
       }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m901_itv/us_camo_modern_desert_tan",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 497
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m901_itv"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m901_itv/modern_seventh_army",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 923
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m901_itv"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "us_m901_itv/modern_snow_temperate",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_usa",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 710
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_m901_itv"
+          }
+        }
+      ]
     }
   },
   {
@@ -77178,6 +76965,114 @@
   },
   {
     "unlockable": {
+      "id": "ussr_t_80u/modern_forest",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 518
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_t_80u"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_t_80u/modern_winter",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 740
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_t_80u"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_t_80u/ussr_camo_desert_yellow_brown",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 962
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_t_80u"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "ussr_type_62/winter",
       "type": "skin",
       "chapter": "skins",
@@ -77604,6 +77499,114 @@
           "condition": {
             "type": "playerUnit",
             "class": "ussr_zis_43"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_zprk_2s6/modern_forest",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 511
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_zprk_2s6"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_zprk_2s6/modern_winter",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 730
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_zprk_2s6"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_zprk_2s6/ussr_camo_desert_yellow_brown",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_ussr",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 949
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_zprk_2s6"
           }
         }
       ]
@@ -78252,6 +78255,78 @@
           "condition": {
             "type": "playerUnit",
             "class": "it_semovente_m43_105_leoncello"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "it_c1_ariete_preserie/it_camo_desert_light_yellow",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_italy",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 511
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "it_c1_ariete_preserie"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "it_c1_ariete_preserie/it_camo_winter_white",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "tanks_italy",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 730
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "it_c1_ariete_preserie"
           }
         }
       ]
@@ -81568,13 +81643,6 @@
   },
   {
     "unlockable": {
-      "id": "back_25",
-      "type": "decal",
-      "chapter": "decals"
-    }
-  },
-  {
-    "unlockable": {
       "id": "hawk",
       "type": "decal",
       "chapter": "decals"
@@ -84613,28 +84681,15 @@
           }
         },
         {
-          "condition": [
-            {
-              "type": "playerTag"
-            },
-            {
-              "tag": "country_germany"
-            },
-            {
-              "tag": "country_italy"
-            }
-          ]
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_germany"
+          }
         },
         {
           "condition": {
             "type": "activity",
             "percent": 50
-          }
-        },
-        {
-          "condition": {
-            "type": "playerType",
-            "unitType": "aircraft"
           }
         }
       ]
@@ -94844,6 +94899,228 @@
   },
   {
     "unlockable": {
+      "id": "back_27",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "france",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_france"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "back_25",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "allies",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 100
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "back_28",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "allies",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 90
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "sk_insurgent_af_roundel",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "allies",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 80
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "czech_roundel",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "allies",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 80
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ch_af_roundel",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "allies",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 110
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "panfilov_28",
       "type": "decal",
       "chapter": "decals",
@@ -98386,10 +98663,17 @@
           }
         },
         {
-          "condition": {
-            "type": "playerTag",
-            "tag": "country_usa"
-          }
+          "condition": [
+            {
+              "type": "playerTag"
+            },
+            {
+              "tag": "country_usa"
+            },
+            {
+              "tag": "country_france"
+            }
+          ]
         },
         {
           "condition": {
@@ -99095,10 +99379,17 @@
           }
         },
         {
-          "condition": {
-            "type": "playerTag",
-            "tag": "country_usa"
-          }
+          "condition": [
+            {
+              "type": "playerTag"
+            },
+            {
+              "tag": "country_usa"
+            },
+            {
+              "tag": "country_britain"
+            }
+          ]
         },
         {
           "condition": {
@@ -100188,7 +100479,9 @@
         "type": "char_aircrafts_in_era",
         "num": 1,
         "era": 4,
-        "premium": true
+        "premium": true,
+        "country": "country_italy",
+        "unitClass": "tank"
       }
     }
   },
@@ -100202,7 +100495,9 @@
         "type": "char_aircrafts_in_era",
         "num": 1,
         "era": 5,
-        "premium": true
+        "premium": true,
+        "country": "country_italy",
+        "unitClass": "tank"
       }
     }
   },
@@ -100216,7 +100511,9 @@
         "type": "char_aircrafts_in_era",
         "num": 1,
         "era": 6,
-        "premium": true
+        "premium": true,
+        "country": "country_italy",
+        "unitClass": "tank"
       }
     }
   },
@@ -100534,6 +100831,488 @@
   },
   {
     "unlockable": {
+      "id": "usa_1st_plt_a_co",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 6,
+        "premium": true,
+        "country": "country_usa",
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_1st_plt_d_co",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 7,
+        "premium": true,
+        "country": "country_usa",
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_2nd_plt_a_co",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_tanks",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 500
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_usa"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_2nd_plt_d_co",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_tanks",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 300
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_usa"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_yellow_squadron_a",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 5,
+        "premium": true,
+        "country": "country_britain",
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_red_squadron_a",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 6,
+        "premium": true,
+        "country": "country_britain",
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_blue_squadron_a",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 7,
+        "premium": true,
+        "country": "country_britain",
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_blue_squadron_b",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_tanks",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 150
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_britain"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_red_squadron_b",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_tanks",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 300
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_britain"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_yellow_squadron_c",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_tanks",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 150
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_britain"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jp_4th_sensha_rentai_1_company",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "japan_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 5,
+        "premium": true,
+        "country": "country_japan",
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jp_5th_sensha_rentai_1_company",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "japan_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 6,
+        "premium": true,
+        "country": "country_japan",
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jp_9th_sensha_rentai_1_company",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "japan_tanks",
+      "mode": {
+        "type": "char_aircrafts_in_era",
+        "num": 1,
+        "era": 7,
+        "premium": true,
+        "country": "country_japan",
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jp_4th_sensha_rentai_2_company",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "japan_tanks",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 150
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_japan"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jp_5th_sensha_rentai_2_company",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "japan_tanks",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 300
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_japan"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jp_9th_sensha_rentai_2_company",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "japan_tanks",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 2
+        },
+        {
+          "num": 150
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "tank"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_japan"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "ge_east_germany_ddr",
       "type": "decal",
       "chapter": "decals",
@@ -100722,6 +101501,141 @@
   },
   {
     "unlockable": {
+      "id": "usa_uss_allen_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 101750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_destroyer_sumner"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_uss_asheville_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 152750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_ashville_class"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_uss_cowell_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 85000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_destroyer_fletcher_cowell"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_uss_fletcher_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 101750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_destroyer_fletcher"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_uss_raleigh_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "usa_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 135750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "us_cruiser_omaha_class_raleigh"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "ussr_destroyer_7y_stroyny_decals_unlock",
       "type": "decal",
       "chapter": "decals",
@@ -100735,6 +101649,126 @@
   },
   {
     "unlockable": {
+      "id": "ussr_text_altaec",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "ussr_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 6750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_g5_mtb"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_text_irtish",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "ussr_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 10250
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "ussr_d3"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_ship_star_1",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "ussr_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 50000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_ussr"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_ship_star_2",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "ussr_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 100000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_ussr"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "uk_destroyer_haida_decals_unlock",
       "type": "decal",
       "chapter": "decals",
@@ -100744,6 +101778,228 @@
         "type": "char_unit_exist",
         "unit": "uk_destroyer_haida"
       }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_hmas_nepal_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 108750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_destroyer_n_class"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_hms_armada_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 118750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_destroyer_battle_2series"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_hms_churchill_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 61000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_destroyer_clemson_churchill"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_hms_dido_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 135750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_cruiser_dido"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_hms_enterprise_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 125500
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_cruiser_enterprise_d52"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_hms_eskimo_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 101750
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_destroyer_tribal"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_hms_grafton_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 78000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "uk_destroyer_g_grafton"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "uk_mtb_flotilla_badge",
+      "type": "decal",
+      "chapter": "decals",
+      "group": "britain_ships",
+      "mode": [
+        {
+          "type": "awardDamage"
+        },
+        {
+          "num": 75000
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "ship"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerTag",
+            "tag": "country_britain"
+          }
+        }
+      ]
     }
   },
   {
@@ -103165,6 +104421,42 @@
       "type": "title",
       "chapter": "title",
       "hideUntilUnlocked": true
+    }
+  },
+  {
+    "unlockable": {
+      "id": "title_cavalier_legion_of_honour",
+      "type": "title",
+      "chapter": "title",
+      "mode": {
+        "type": "char_unlocks",
+        "num": 1,
+        "unlock": "fr_legion_order_commander"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "title_сavalier_liberation",
+      "type": "title",
+      "chapter": "title",
+      "mode": {
+        "type": "char_unlocks",
+        "num": 1,
+        "unlock": "fr_liberation_order"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "title_сhevalier_of_france",
+      "type": "title",
+      "chapter": "title",
+      "mode": {
+        "type": "char_unlocks",
+        "num": 1,
+        "unlock": "fr_merit_order_commander"
+      }
     }
   },
   {
@@ -108835,6 +110127,9 @@
                 "class": "uk_armored_car_mk_2_aa"
               },
               {
+                "class": "uk_armored_car_aec_mk_2"
+              },
+              {
                 "class": "uk_t17e2"
               },
               {
@@ -108913,6 +110208,9 @@
               },
               {
                 "class": "uk_armored_car_mk_2_aa"
+              },
+              {
+                "class": "uk_armored_car_aec_mk_2"
               },
               {
                 "class": "uk_t17e2"
@@ -109339,6 +110637,9 @@
                 "class": "uk_a_22f_mk_7_churchill_1944"
               },
               {
+                "class": "uk_a_22_mk_1_churchill_1941"
+              },
+              {
                 "class": "uk_a_22b_mk_3_churchill_1942"
               },
               {
@@ -109417,6 +110718,9 @@
               },
               {
                 "class": "uk_a_22f_mk_7_churchill_1944"
+              },
+              {
+                "class": "uk_a_22_mk_1_churchill_1941"
               },
               {
                 "class": "uk_a_22b_mk_3_churchill_1942"
@@ -110700,6 +112004,670 @@
   {
     "unlockable": [
       {
+        "id": "ch_kill_on_it_m42"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "italy"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 300
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "it_m15_42"
+              },
+              {
+                "class": "it_semovente_m42_75_34"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 300,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_missions_on_it_m42"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "italy"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 300
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "it_m15_42"
+              },
+              {
+                "class": "it_semovente_m42_75_34"
+              },
+              {
+                "class": "it_m15_42_contraereo"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 300,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_kill_on_it_m43"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "italy"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 300
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "it_semovente_m43_105"
+              },
+              {
+                "class": "it_semovente_m43_75_34"
+              },
+              {
+                "class": "it_semovente_m43_75_46"
+              },
+              {
+                "class": "it_semovente_m43_105_leoncello"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 300,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_missions_on_it_m43"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "italy"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 300
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "it_semovente_m43_105"
+              },
+              {
+                "class": "it_semovente_m43_75_34"
+              },
+              {
+                "class": "it_semovente_m43_75_46"
+              },
+              {
+                "class": "it_semovente_m43_105_leoncello"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 30,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 300,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_kill_on_it_fiat"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "italy"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 500
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "it_fiat_6616_cockerill"
+              },
+              {
+                "class": "it_fiat_6614_106sr"
+              },
+              {
+                "class": "it_oto_r3_106sr"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 50,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_missions_on_it_fiat"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "italy"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 500
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "it_fiat_6616_cockerill"
+              },
+              {
+                "class": "it_fiat_6614_106sr"
+              },
+              {
+                "class": "it_oto_r3_106sr"
+              },
+              {
+                "class": "it_oto_r3_t20_fa"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 50,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 150,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_kill_on_it_b1_centauro"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "italy"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "num": 1000
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "targetUnitClass",
+              "unitClass": "tank"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "it_b1_centauro"
+              },
+              {
+                "class": "it_b1_centauro_romor"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 100,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 1000,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ch_missions_on_it_b1_centauro"
+      },
+      {
+        "type": "challenge"
+      },
+      {
+        "amount_exp": 0
+      },
+      {
+        "chapter": "challenges"
+      },
+      {
+        "group": "italy"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 1000
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "playerUnit"
+              },
+              {
+                "class": "it_b1_centauro"
+              },
+              {
+                "class": "it_b1_centauro_romor"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "stage": {
+          "param": 100,
+          "amount_warpoints": 100,
+          "amount_exp": 50
+        }
+      },
+      {
+        "stage": {
+          "param": 500,
+          "amount_warpoints": 1000,
+          "amount_exp": 100
+        }
+      },
+      {
+        "stage": {
+          "param": 1000,
+          "amount_warpoints": 10000,
+          "amount_exp": 500
+        }
+      }
+    ]
+  },
+  {
+    "unlockable": [
+      {
         "id": "ch_number_of_first_blood_streaks"
       },
       {
@@ -111566,17 +113534,35 @@
         "chapter": "challenges"
       },
       {
-        "mode": {
-          "type": "heavyDamageScore",
-          "num": 3000,
-          "mulArcade": 1,
-          "mulRealistic": 2,
-          "mulHardcore": 2,
-          "condition": {
-            "type": "weaponType",
-            "weapon": "torpedo"
+        "mode": [
+          {
+            "type": "heavyDamageScore"
+          },
+          {
+            "num": 3000
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 2
+          },
+          {
+            "condition": {
+              "type": "weaponType",
+              "weapon": "torpedo"
+            }
+          },
+          {
+            "condition": {
+              "type": "playerType",
+              "unitType": "aircraft"
+            }
           }
-        }
+        ]
       },
       {
         "stage": {
@@ -113207,6 +115193,9 @@
               },
               {
                 "class": "spitfire_mk1"
+              },
+              {
+                "class": "spitfire_mk9c_4cannons"
               },
               {
                 "class": "spitfire_ix"
@@ -116480,7 +118469,7 @@
         "mode": {
           "type": "char_player_era",
           "country": "country_ussr",
-          "era": 5,
+          "era": 6,
           "unitClass": "aircraft"
         }
       },
@@ -116510,6 +118499,13 @@
           "param": 5,
           "amount_warpoints": 0,
           "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 6,
+          "amount_warpoints": 0,
+          "amount_exp": 12000
         }
       }
     ]
@@ -116538,7 +118534,7 @@
         "mode": {
           "type": "char_player_era",
           "country": "country_usa",
-          "era": 5,
+          "era": 6,
           "unitClass": "aircraft"
         }
       },
@@ -116568,6 +118564,13 @@
           "param": 5,
           "amount_warpoints": 0,
           "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 6,
+          "amount_warpoints": 0,
+          "amount_exp": 12000
         }
       }
     ]
@@ -116596,7 +118599,7 @@
         "mode": {
           "type": "char_player_era",
           "country": "country_japan",
-          "era": 5,
+          "era": 6,
           "unitClass": "aircraft"
         }
       },
@@ -116626,6 +118629,13 @@
           "param": 5,
           "amount_warpoints": 0,
           "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 6,
+          "amount_warpoints": 0,
+          "amount_exp": 12000
         }
       }
     ]
@@ -116654,7 +118664,7 @@
         "mode": {
           "type": "char_player_era",
           "country": "country_germany",
-          "era": 5,
+          "era": 6,
           "unitClass": "aircraft"
         }
       },
@@ -116684,6 +118694,13 @@
           "param": 5,
           "amount_warpoints": 0,
           "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 6,
+          "amount_warpoints": 0,
+          "amount_exp": 12000
         }
       }
     ]
@@ -116712,7 +118729,7 @@
         "mode": {
           "type": "char_player_era",
           "country": "country_britain",
-          "era": 5,
+          "era": 6,
           "unitClass": "aircraft"
         }
       },
@@ -116742,6 +118759,13 @@
           "param": 5,
           "amount_warpoints": 0,
           "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 6,
+          "amount_warpoints": 0,
+          "amount_exp": 12000
         }
       }
     ]
@@ -116770,7 +118794,7 @@
         "mode": {
           "type": "char_player_era",
           "country": "country_italy",
-          "era": 5,
+          "era": 6,
           "unitClass": "aircraft"
         }
       },
@@ -116800,6 +118824,13 @@
           "param": 5,
           "amount_warpoints": 0,
           "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 6,
+          "amount_warpoints": 0,
+          "amount_exp": 12000
         }
       }
     ]
@@ -116828,7 +118859,7 @@
         "mode": {
           "type": "char_player_era",
           "country": "country_france",
-          "era": 5,
+          "era": 6,
           "unitClass": "aircraft"
         }
       },
@@ -116858,6 +118889,13 @@
           "param": 5,
           "amount_warpoints": 0,
           "amount_exp": 10000
+        }
+      },
+      {
+        "stage": {
+          "param": 6,
+          "amount_warpoints": 0,
+          "amount_exp": 12000
         }
       }
     ]
@@ -121275,6 +123313,42 @@
   },
   {
     "unlockable": {
+      "id": "hidden_marks_1_aircraft",
+      "type": "streak",
+      "amount_exp": 0,
+      "amount_warpoints": 0,
+      "isAfterFlight": false,
+      "hidden": true,
+      "mode": {
+        "type": "killedPlayers",
+        "num": 1,
+        "condition": {
+          "type": "targetUnitClass",
+          "unitClass": "aircraft"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "hidden_marks_3_bombers",
+      "type": "streak",
+      "amount_exp": 0,
+      "amount_warpoints": 0,
+      "isAfterFlight": false,
+      "hidden": true,
+      "mode": {
+        "type": "killedPlayers",
+        "num": 3,
+        "condition": {
+          "type": "targetUnitClass",
+          "unitClass": "exp_bomber"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
       "id": "marks_5_bombers",
       "type": "streak",
       "amount_exp": 0,
@@ -121310,6 +123384,24 @@
         "condition": {
           "type": "targetUnitClass",
           "unitClass": "exp_bomber"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "hidden_marks_3_fighters",
+      "type": "streak",
+      "amount_exp": 0,
+      "amount_warpoints": 0,
+      "isAfterFlight": false,
+      "hidden": true,
+      "mode": {
+        "type": "killedPlayers",
+        "num": 3,
+        "condition": {
+          "type": "targetUnitClass",
+          "unitClass": "exp_fighter"
         }
       }
     }
@@ -121387,6 +123479,60 @@
         "condition": {
           "type": "targetUnitClass",
           "unitClass": "tank"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "hidden_marks_1_ship",
+      "type": "streak",
+      "amount_exp": 0,
+      "amount_warpoints": 0,
+      "isAfterFlight": false,
+      "hidden": true,
+      "mode": {
+        "type": "killedPlayers",
+        "num": 1,
+        "condition": {
+          "type": "targetUnitClass",
+          "unitClass": "ship"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "marks_5_ships",
+      "type": "streak",
+      "amount_exp": 0,
+      "amount_warpoints": 0,
+      "isAfterFlight": false,
+      "hidden": true,
+      "mode": {
+        "type": "killedPlayers",
+        "num": 5,
+        "condition": {
+          "type": "targetUnitClass",
+          "unitClass": "ship"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "marks_10_ships",
+      "type": "streak",
+      "amount_exp": 0,
+      "amount_warpoints": 0,
+      "isAfterFlight": false,
+      "hidden": true,
+      "mode": {
+        "type": "killedPlayers",
+        "num": 10,
+        "condition": {
+          "type": "targetUnitClass",
+          "unitClass": "ship"
         }
       }
     }
@@ -122279,11 +124425,8 @@
         "amount_warpoints": 300
       },
       "mode": {
-        "type": "killedPlayers",
-        "num": 1005000,
-        "condition": {
-          "type": "targetInCapture"
-        }
+        "type": "interruptCapturing",
+        "num": 1005000
       }
     }
   },
@@ -124177,6 +126320,30 @@
   },
   {
     "unlockable": {
+      "id": "hidden_multitasker_ship_1_kill",
+      "type": "streak",
+      "amount_exp": 0,
+      "amount_warpoints": 0,
+      "isAfterFlight": false,
+      "hidden": true,
+      "mode": [
+        {
+          "type": "unlocks"
+        },
+        {
+          "unlock": "hidden_base_capturer"
+        },
+        {
+          "unlock": "hidden_marks_1_aircraft"
+        },
+        {
+          "unlock": "hidden_marks_1_ship"
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "facebook_like",
       "chapter": "achievements",
       "facebook": true,
@@ -124979,6 +127146,74 @@
   },
   {
     "unlockable": {
+      "id": "jp_type_95_ha_go",
+      "type": "aircraft",
+      "popupImage": "https://static.warthunder.ru/upload/image/Promo/image_91545fcb7c0322a60a68e6cad5bbaea1.jpg?P1",
+      "popupInDebriefing": true,
+      "aspect_ratio": 0.5,
+      "mode": {
+        "type": "char_unlocks",
+        "num": 1,
+        "unlock": "unlocked_japan_tank_2_era"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "unlocked_japan_tank_2_era",
+      "type": "achievement",
+      "hidden": true,
+      "mode": {
+        "type": "char_player_era",
+        "country": "country_japan",
+        "era": 2,
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_hotchkiss_h35",
+      "type": "aircraft",
+      "popupImage": "https://static.warthunder.ru/upload/image/Promo/image_91545fcb7c0322a60a68e6cad5bbaea1.jpg?P1",
+      "popupInDebriefing": true,
+      "aspect_ratio": 0.5,
+      "mode": {
+        "type": "char_unlocks",
+        "num": 1,
+        "unlock": "unlocked_france_tank_2_era"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_fcm_36",
+      "type": "aircraft",
+      "popupImage": "https://static.warthunder.ru/upload/image/Promo/image_91545fcb7c0322a60a68e6cad5bbaea1.jpg?P1",
+      "popupInDebriefing": true,
+      "aspect_ratio": 0.5,
+      "mode": {
+        "type": "char_unlocks",
+        "num": 1,
+        "unlock": "unlocked_france_tank_2_era"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "unlocked_france_tank_2_era",
+      "type": "achievement",
+      "hidden": true,
+      "mode": {
+        "type": "char_player_era",
+        "country": "country_france",
+        "era": 2,
+        "unitClass": "tank"
+      }
+    }
+  },
+  {
+    "unlockable": {
       "id": "ussr_t_26_1940_1st_GvTBr",
       "type": "aircraft",
       "popupImage": "#ui/images/ussr_t_26_1940_1st_gvtbr.jpg?P1",
@@ -125101,6 +127336,28 @@
         },
         {
           "unlock": "first_battle_france"
+        },
+        {
+          "unlock": "chosen_unit_type_tank"
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "it_m13_40_serie_2",
+      "type": "aircraft",
+      "popupImage": "#ui/images/it_m13_40_serie_2.jpg?P1",
+      "popupInDebriefing": true,
+      "mode": [
+        {
+          "type": "char_unlocks"
+        },
+        {
+          "num": 2
+        },
+        {
+          "unlock": "first_battle_italy"
         },
         {
           "unlock": "chosen_unit_type_tank"
@@ -125775,6 +128032,7 @@
     "unlockable": {
       "id": "award_invited_rank5_14nov2018",
       "type": "award",
+      "locId": "award/award_invited_rank5",
       "popupImage": "#ui/images/invite_big.jpg?P1",
       "amount_warpoints": 70000,
       "isMultiUnlock": true,
@@ -125897,6 +128155,7 @@
     "unlockable": {
       "id": "award_invited_rank10_14nov2018",
       "type": "award",
+      "locId": "award/award_invited_rank10",
       "popupImage": "#ui/images/invite_big.jpg?P1",
       "amount_gold": 500,
       "isMultiUnlock": true,
@@ -126009,6 +128268,7 @@
     "unlockable": {
       "id": "award_invited_rank20_14nov2018",
       "type": "award",
+      "locId": "award/award_invited_rank20",
       "popupImage": "#ui/images/invite_big.jpg?P1",
       "amount_gold": 2500,
       "isMultiUnlock": true,
@@ -126777,6 +129037,3076 @@
           "feature": "onceCalendarLoginAward"
         }
       }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ge_wound_badge",
+      "type": "medal",
+      "country": "country_germany",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "captures"
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "critical"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ge_iron_cross_2_class",
+      "type": "medal",
+      "country": "country_germany",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ge_iron_cross_1_class",
+      "type": "medal",
+      "country": "country_germany",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 150
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ge_roll_honor",
+      "type": "medal",
+      "country": "country_germany",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 20
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ge_cross_gold",
+      "type": "medal",
+      "country": "country_germany",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ge_knight_cross",
+      "type": "medal",
+      "country": "country_germany",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 300
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ge_knight_cross_oak",
+      "type": "medal",
+      "country": "country_germany",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ge_knight_cross_oak_swords",
+      "type": "medal",
+      "country": "country_germany",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "germany",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 2000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": [
+      {
+        "id": "ussr_patriotic_war_1_class"
+      },
+      {
+        "type": "medal"
+      },
+      {
+        "country": "country_ussr"
+      },
+      {
+        "amount_exp": 100
+      },
+      {
+        "chapter": "medals"
+      },
+      {
+        "group": "ussr"
+      },
+      {
+        "chapter": "medals"
+      },
+      {
+        "group": "ussr"
+      },
+      {
+        "hideForLang": "HChinese"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 300
+          },
+          {
+            "condition": {
+              "type": "playerHasFeature",
+              "feature": "UnlocksUnavailableForChina"
+            }
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unlockable": {
+      "id": "ussr_patriotic_war_2_class",
+      "type": "medal",
+      "country": "country_ussr",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "ussr",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 100
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_nevskiy",
+      "type": "medal",
+      "country": "country_ussr",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "ussr",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 30
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "teamLeader"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_suvorov",
+      "type": "medal",
+      "country": "country_ussr",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "ussr",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 30
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "lesserTeam"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_kutuzov",
+      "type": "medal",
+      "country": "country_ussr",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "ussr",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 10
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "ussr_hero",
+      "type": "medal",
+      "country": "country_ussr",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "ussr",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": [
+      {
+        "id": "usa_air_1_class"
+      },
+      {
+        "type": "medal"
+      },
+      {
+        "country": "country_usa"
+      },
+      {
+        "amount_exp": 100
+      },
+      {
+        "chapter": "medals"
+      },
+      {
+        "group": "usa"
+      },
+      {
+        "chapter": "medals"
+      },
+      {
+        "group": "usa"
+      },
+      {
+        "hideForLang": "HChinese"
+      },
+      {
+        "mode": [
+          {
+            "type": "killedPlayersScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 3
+          },
+          {
+            "mulHardcore": 6
+          },
+          {
+            "num": 300
+          },
+          {
+            "condition": {
+              "type": "playerHasFeature",
+              "feature": "UnlocksUnavailableForChina"
+            }
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": {
+              "type": "playerType",
+              "unitType": "aircraft"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unlockable": {
+      "id": "usa_air_2_class",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 200
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_air_3_class",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 100
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_flying_cross_1_class",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 90
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_flying_cross_2_class",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 60
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_flying_cross_3_class",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 30
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_merits",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 200
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_silver_star",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "teamLeader"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_service_cross",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_heart",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "captures"
+        },
+        {
+          "num": 10
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "critical"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_pacific",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 10
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online",
+            "condition": [
+              {
+                "type": "location"
+              },
+              {
+                "location": "honolulu"
+              },
+              {
+                "location": "wake_island"
+              },
+              {
+                "location": "water"
+              },
+              {
+                "location": "midway"
+              },
+              {
+                "location": "guadalcanal"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_europe",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 30
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "location",
+            "location": "ruhr"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "usa_conduct",
+      "type": "medal",
+      "country": "country_usa",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "usa",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 5
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": [
+      {
+        "id": "raaf_pacific"
+      },
+      {
+        "type": "medal"
+      },
+      {
+        "country": "country_britain"
+      },
+      {
+        "amount_exp": 100
+      },
+      {
+        "chapter": "medals"
+      },
+      {
+        "group": "britain"
+      },
+      {
+        "chapter": "medals"
+      },
+      {
+        "group": "britain"
+      },
+      {
+        "hideForLang": "HChinese"
+      },
+      {
+        "mode": [
+          {
+            "type": "missionsWonScore"
+          },
+          {
+            "mulArcade": 1
+          },
+          {
+            "mulRealistic": 2
+          },
+          {
+            "mulHardcore": 3
+          },
+          {
+            "num": 30
+          },
+          {
+            "condition": {
+              "type": "activity",
+              "percent": 50
+            }
+          },
+          {
+            "condition": {
+              "type": "playerHasFeature",
+              "feature": "UnlocksUnavailableForChina"
+            }
+          },
+          {
+            "condition": {
+              "type": "online"
+            }
+          },
+          {
+            "condition": [
+              {
+                "type": "location"
+              },
+              {
+                "location": "honolulu"
+              },
+              {
+                "location": "wake_island"
+              },
+              {
+                "location": "water"
+              },
+              {
+                "location": "midway"
+              },
+              {
+                "location": "guadalcanal"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "unlockable": {
+      "id": "raaf_flying_cross",
+      "type": "medal",
+      "country": "country_britain",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "britain",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 100
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "raaf_service_order",
+      "type": "medal",
+      "country": "country_britain",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "britain",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 300
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "raaf_victoria_cross",
+      "type": "medal",
+      "country": "country_britain",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "britain",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "raaf_39_45_star",
+      "type": "medal",
+      "country": "country_britain",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "britain",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "raaf_war_medal",
+      "type": "medal",
+      "country": "country_britain",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "britain",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 5
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "raaf_france_germany",
+      "type": "medal",
+      "country": "country_britain",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "britain",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 10
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "location",
+            "location": "ruhr"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jap_gold",
+      "type": "medal",
+      "country": "country_japan",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "japan",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 100
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jap_sun",
+      "type": "medal",
+      "country": "country_japan",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "japan",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 100
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "jap_merit",
+      "type": "medal",
+      "country": "country_japan",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "japan",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 10
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "it_sky",
+      "type": "medal",
+      "country": "country_italy",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "italy",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 300
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "it_merit",
+      "type": "medal",
+      "country": "country_italy",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "italy",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "it_warrior",
+      "type": "medal",
+      "country": "country_italy",
+      "amount_exp": 100,
+      "chapter": "medals",
+      "group": "italy",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 50
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 50
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_legion_order_commander",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 15000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 15000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_legion_order_officer",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 10000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 10000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_legion_order_cavalier",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 5000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 5000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_liberation_order",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 20000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 20000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_military_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 4000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 2000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_merit_order_commander",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 30000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 5000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "minStat",
+            "value": [3,3,3],
+            "stat": "place"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_merit_order_officer",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 12000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 2000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "minStat",
+            "value": [3,3,3],
+            "stat": "place"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_merit_order_cavalier",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 6000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "minStat",
+            "value": [3,3,3],
+            "stat": "place"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_war_cross",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 15000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnitMRank",
+            "minMRank": 1,
+            "maxMRank": 15,
+            "inSession": false
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_foreign_theaters_cross",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 3000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnitMRank",
+            "minMRank": 16,
+            "maxMRank": 27,
+            "inSession": false
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_volunteer_cross",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 1000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": {
+        "type": "unlockStageCount",
+        "num": 300,
+        "unlock": "fr_volunteer_cross_streak"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_volunteer_cross_streak",
+      "type": "streak",
+      "isAfterFlight": false,
+      "hidden": true,
+      "isMultiStage": true,
+      "stage": {
+        "param": 1,
+        "amount_exp": 0,
+        "amount_warpoints": 0
+      },
+      "mode": {
+        "type": "assistPlayers",
+        "num": 1005000,
+        "condition": {
+          "type": "online"
+        }
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_volunteer_resistance_cross",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 2000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 500
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "targetTag",
+            "tag": "country_germany"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_fighter_cross",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 2000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": {
+        "type": "unlockOpenCount",
+        "num": 100,
+        "unlock": "fr_fighter_cross_streak"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_fighter_cross_streak",
+      "type": "streak",
+      "isAfterFlight": false,
+      "hidden": true,
+      "mode": {
+        "type": "killedPlayersBest",
+        "minVal": 2,
+        "bestId": "fr_fighter_cross_streak"
+      }
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_resistance_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 8000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 4000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_air_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 2000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 4000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerType",
+            "unitType": "aircraft"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_war_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 2000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": [
+            {
+              "type": "targetTag"
+            },
+            {
+              "tag": "country_germany"
+            },
+            {
+              "tag": "country_italy"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_italian_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 2000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 200
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": [
+            {
+              "type": "location"
+            },
+            {
+              "location": "sicily"
+            },
+            {
+              "location": "avg_lazzaro_italy"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_liberated_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 5000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 1000
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": [
+            {
+              "type": "targetTag"
+            },
+            {
+              "tag": "country_germany"
+            },
+            {
+              "tag": "country_italy"
+            }
+          ]
+        },
+        {
+          "condition": [
+            {
+              "type": "location"
+            },
+            {
+              "location": "avg_sector_montmedy"
+            },
+            {
+              "location": "dover_strait"
+            },
+            {
+              "location": "avg_normandy"
+            },
+            {
+              "location": "normandy"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_service_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 12000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsPlayedScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 12000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_wound_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 1000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 200
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "critical"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_valour_cross",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 60000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 10000
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "minStat",
+            "value": [3,3,3],
+            "stat": "place"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_korea_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 1000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 100
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": [
+            {
+              "type": "location"
+            },
+            {
+              "location": "korea"
+            },
+            {
+              "location": "avg_korea_lake"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_indochina_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 1000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 100
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": [
+            {
+              "type": "location"
+            },
+            {
+              "location": "zhengzhou"
+            },
+            {
+              "location": "arcade_zhang_park"
+            },
+            {
+              "location": "arcade_rice_terraces"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_africa_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 3000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 500
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": [
+            {
+              "type": "location"
+            },
+            {
+              "location": "arcade_africa_seashore"
+            },
+            {
+              "location": "avg_africa_desert"
+            },
+            {
+              "location": "avg_tunisia_desert"
+            },
+            {
+              "location": "arcade_africa_canyon"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "fr_middle_east_medal",
+      "type": "medal",
+      "country": "country_france",
+      "amount_exp": 3000,
+      "chapter": "medals",
+      "group": "france",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "missionsWonScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 2
+        },
+        {
+          "mulHardcore": 3
+        },
+        {
+          "num": 500
+        },
+        {
+          "condition": {
+            "type": "activity",
+            "percent": 60
+          }
+        },
+        {
+          "condition": {
+            "type": "playerHasFeature",
+            "feature": "UnlocksUnavailableForChina"
+          }
+        },
+        {
+          "condition": [
+            {
+              "type": "location"
+            },
+            {
+              "location": "avg_egypt_sinai"
+            },
+            {
+              "location": "avg_syria"
+            }
+          ]
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        }
+      ]
     }
   },
   {

@@ -204,6 +204,13 @@ itemDiv {
       <<^isAllBought>>display:t='hide'<</isAllBought>>
     }
     <</needAllBoughtIcon>>
+    <<#needMarkIcon>>
+    markIcon{
+      position:t='absolute'
+      color:t='<<markIconColor>>'
+      text:t='<<markIcon>>'
+    }
+    <</needMarkIcon>>
   }
 
   <<#arrowNext>>

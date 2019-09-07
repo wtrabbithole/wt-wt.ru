@@ -111,12 +111,12 @@
     local denominator = limit - deadzone //to normalize
     local rawSide = sqrt(pow(rawX, 2) + pow(rawY, 2))
 
-    result.x = rawX,
-    result.y = rawY,
-    result.angle = atan2(rawY, rawX),
-    result.normX = (min(abs(rawX), limit) - deadzone).tofloat() / denominator * signX,
-    result.normY = (min(abs(rawY), limit) - deadzone).tofloat() / denominator * signY,
-    result.rawLength = rawSide,
+    result.x = rawX
+    result.y = rawY
+    result.angle = atan2(rawY, rawX)
+    result.normX = (min(abs(rawX), limit) - deadzone).tofloat() / denominator * signX
+    result.normY = (min(abs(rawY), limit) - deadzone).tofloat() / denominator * signY
+    result.rawLength = rawSide
     result.normLength = (min(rawSide, limit) - deadzone).tofloat() / denominator
 
     return result

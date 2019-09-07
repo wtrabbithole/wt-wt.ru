@@ -23,7 +23,7 @@ function gui_start_profile(params = {})
 class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/profile.blk"
+  sceneBlkName = "gui/profile/profile.blk"
   initialSheet = ""
 
   curDifficulty = "any"
@@ -755,7 +755,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         items.append({
           id = name
           tag = "imgSelectable"
-          tooltipId = ::g_tooltip.getIdUnlock(name, { showProgress = true, needTitle = false })
           unlocked = ::is_unlocked_scripted(unlockTypeId, name)
           image = ::get_image_for_unlockable_medal(name)
           imgClass = "smallMedals"
@@ -909,13 +908,15 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     return ""
   }
 
-  function fillSkinInfoObj(page_id, name, unlockBlk, infoObj)
+  function fillSkinDescr(name)
   {
+    local objDesc = showSceneBtn("item_desc", true)
+    local unlockBlk = ::g_unlocks.getUnlockById(name)
     local decoratorType = ::g_decorator_type.SKINS
     local decorator = ::g_decorator.getDecoratorById(name)
     local isAllowed = decoratorType.isPlayerHaveDecorator(name)
     local config = {}
-    local isNotUnlock = false
+    local isForGoldOnly = false
     local price = ""
     if (unlockBlk)
     {
@@ -963,13 +964,16 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         local cost = decorator.getCost()
         if (!cost.isZero())
         {
-          isNotUnlock = true
+          isForGoldOnly = true
           price = ::loc("ugm/price") + ::loc("ui/colon") + ::colorize("white", cost.getTextAccordingToBalance()) +
             "\n" + ::loc("shop/object/can_be_purchased")
         }
       }
     }
 
+    local textName = ::loc(name)
+    local unitName = ::g_unlocks.getPlaneBySkinId(name)
+    local unitNameLoc = (unitName != "") ? ::getUnitName(unitName) : ""
     local condView = []
     append_condition_item(config, 0, condView, true, isAllowed)
 
@@ -1006,17 +1010,26 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     local skinView = {skinDescription = []}
     skinView.skinDescription.append({
+      name0 = unitNameLoc
+      name = textName
       image = config.image
-      height = config.imgRatio +"w"
-      width = config.imgRatio + "h"
+      ratio = config.imgRatio
       status = isAllowed ? "unlocked" : "locked"
       condition = condView
-      isNotUnlock = isNotUnlock
+      isForGoldOnly = isForGoldOnly
+      isUnlock = !!unlockBlk
       price = price
     })
 
-    local markUpData = ::handyman.renderCached("gui/profileSkins", skinView)
-    guiScene.replaceContentFromText(infoObj, markUpData, markUpData.len(), this)
+    guiScene.setUpdatesEnabled(false, false)
+    local markUpData = ::handyman.renderCached("gui/profile/profileSkins", skinView)
+    guiScene.replaceContentFromText(objDesc, markUpData, markUpData.len(), this)
+
+    if (unlockBlk)
+      ::g_unlock_view.fillUnlockFav(name, objDesc)
+
+    showSceneBtn("unlocks_list", false)
+    guiScene.setUpdatesEnabled(true, true)
   }
 
   function append_condition_item(item, idx, view, header, is_unlocked, typeOR = false)
@@ -1167,29 +1180,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     return unlock.id + "_block"
   }
 
-  function fillSkinDescr(name)
-  {
-    guiScene.setUpdatesEnabled(false, false)
-
-    local objDesc = showSceneBtn("item_desc", true)
-
-    local textName = ::loc(name)
-    local unitName = ::g_unlocks.getPlaneBySkinId(name)
-    local unitNameLoc = (unitName != "") ? ::getUnitName(unitName) : ""
-    objDesc.findObject("item_name").setValue(textName)
-    objDesc.findObject("item_name0").setValue(unitNameLoc)
-
-    local unlockBlk = ::g_unlocks.getUnlockById(name)
-    fillSkinInfoObj("skin", name, unlockBlk, scene.findObject("item_field"))
-    objDesc.findObject("checkbox-favorites").show(!!unlockBlk)
-    if (unlockBlk)
-      ::g_unlock_view.fillUnlockFav(name, objDesc)
-
-    showSceneBtn("unlocks_list", false)
-
-    guiScene.setUpdatesEnabled(true, true)
-  }
-
   function onDecalSelect(obj)
   {
     if (!::check_obj(obj))
@@ -1215,6 +1205,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local isUnlocked = ::is_unlocked_scripted(::get_unlock_type_by_id(name), name)
     local config = ::build_conditions_config(unlock)
     ::build_unlock_desc(config)
+    local rewardText = ::get_unlock_reward(name)
 
     local condView = []
     append_condition_item(config, 0, condView, true, isUnlocked)
@@ -1228,6 +1219,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       image = ::get_image_for_unlockable_medal(name, true)
       status = isUnlocked ? "unlocked" : "locked"
       condition = condView
+      rewardText = rewardText != "" ? rewardText : null
     }
 
     local markup = ::handyman.renderCached("gui/profile/profileMedal", view)
@@ -1249,7 +1241,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       else
       {
         local id = curObj.id
-        if(id in unlocksTree)
+        local isGroup = (id in unlocksTree)
+        if(isGroup)
           unlocksList = unlocksTree[id].rootItems
         else
           foreach(chapterName, chapterItem in unlocksTree)
@@ -1262,7 +1255,11 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
             }
         printUnlocksList(unlocksList)
         if (curPage == "Achievement")
+        {
           curAchievementGroupName = id
+          if (isGroup && id != uncollapsedChapterName)
+            onGroupCollapse(list)
+        }
       }
     }
   }
@@ -1351,6 +1348,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     fillClanInfo(::get_profile_info())
     fillModeListBox(scene.findObject("profile-container"), curMode)
     ::fill_gamer_card(::get_profile_info(), true, "profile-", scene)
+    fillAwardsBlock(stats)
     fillShortCountryStats(stats)
     scene.findObject("profile_loading").show(false)
   }
@@ -1423,9 +1421,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   {
     msgBox("question_change_name", ::loc("mainmenu/questionChangePlayer"),
       [
-        ["yes", ::gui_start_logout],
-        ["no", function() { }]
-      ], "no", { cancel_fn = function() {}})
+        ["yes", function() {
+          ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, null)
+          ::gui_start_logout()
+        }],
+        ["no", @() null ]
+      ], "no", { cancel_fn = @() null })
   }
 
   function afterModalDestroy() {
@@ -1616,14 +1617,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (curSheet == "UnlockSkin")
       return getObj("unlocks_group_list")
     return base.getMainFocusObj3()
-  }
-
-  function getMainFocusObj4()
-  {
-    local curSheet = getCurSheet()
-    if (curSheet == "UnlockSkin")
-      return getObj("checkbox_only_for_bought")
-    return base.getMainFocusObj4()
   }
 
   function onEventUnlocksCacheInvalidate(p)

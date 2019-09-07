@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 const GLOBAL_LOADING_TIP_BIT = 0x8000
 const MISSING_TIPS_IN_A_ROW_ALLOWED = 3
 
@@ -209,7 +211,7 @@ function g_tips::genNewTip(unitTypeMask = 0)
     curTip = ::loc(TIP_LOC_KEY_PREFIX + keys[tipIdx])
 
     //add unit type icon if needed
-    if (unitTypeBit != GLOBAL_LOADING_TIP_BIT && ::number_of_set_bits(unitTypeMask) > 1)
+    if (unitTypeBit != GLOBAL_LOADING_TIP_BIT && stdMath.number_of_set_bits(unitTypeMask) > 1)
     {
       local icon = ::g_unit_type.getByBit(unitTypeBit).fontIcon
       curTip = ::colorize("fadedTextColor", icon) + " " + curTip

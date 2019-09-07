@@ -2097,10 +2097,12 @@
   },
   "Sound": {
     "Engine": "engine05",
-    "gun": "gun_yak3"
+    "gun": "gun_yak3",
+    "cockpitOpen": "cockpit_door2_open",
+    "cockpitClose": "cockpit_door2_close"
   },
   "cockpit": {
-    "headPos": [2.724,0.81,0.0],
+    "headPos": [2.724,0.81,0.014],
     "headPosOnShooting": [2.724,0.81,0.014],
     "lightPos": [3.33663,0.433669,0.073418],
     "lightColor": [0.01,0.05,0.23],
@@ -2135,7 +2137,7 @@
       "compass": [0.0,360.0],
       "compass1": [0.0,360.0],
       "compass2": [0.0,360.0],
-      "aviahorizon_pitch": [-40.0,40.0],
+      "aviahorizon_pitch": [-30.0,30.0],
       "aviahorizon_roll": [-180.0,180.0],
       "bank": [-8.0,8.0],
       "turn": [-0.23562,0.23562],
@@ -5820,5 +5822,14 @@
     "emtr_break_stab_r_to": [-3.72766,0.440085,-1.46863],
     "emtr_break_tail_from": [-1.33761,0.151687,-4.27524e-07],
     "emtr_break_tail_to": [-3.78774,0.151687,-4.27524e-07]
+  },
+  "parachutes": {
+    "emitterRange": [1,1],
+    "emitterName": "emtr_chute",
+    "chuteModel": "chute_g_91_char",
+    "chuteAnimVarName": "chute_state_switch",
+    "chuteFlapVarName": "fire_chute",
+    "chuteTimeScaleParam": "chute_time_scale",
+    "chuteFallSpeed": 1.6
   }
 }

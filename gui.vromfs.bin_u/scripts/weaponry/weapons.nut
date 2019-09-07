@@ -156,6 +156,9 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     sendModPurchasedStatistic(air)
+    if (getAutoPurchaseValue())
+      onBuyAll(false, true)
+
     air = newUnit
     airName = air?.name ?? ""
     ::aircraft_for_weapons = airName
@@ -235,17 +238,17 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         obj = ["item_" + newIdx]
         text = ::loc("help/newModification", {modName = newModName})
-        bottomTextLocIdArray = ["help/OBJ_CLICK"]
+        nextActionShortcut = "help/OBJ_CLICK"
         actionType = tutorAction.OBJ_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = (@(newIdx) function() {setModificatonOnResearch(items[newIdx], function(){updateAllItems()})})(newIdx)
       },
       {
         obj = ["available_free_exp_text"]
         text = ::loc("help/FreeExp")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       }
     ]
 
@@ -259,9 +262,9 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         {
           obj = ["item_" + finIdx]
           text = ::loc("help/finishedModification", {modName = finModName})
-          bottomTextLocIdArray = ["help/OBJ_CLICK"]
+          nextActionShortcut = "help/OBJ_CLICK"
           actionType = tutorAction.OBJ_CLICK
-          accessKey = "J:A"
+          shortcut = ::GAMEPAD_ENTER_SHORTCUT
           cb =  (@(finItem) function () { checkAndBuyWeaponry(finItem) })(finItem)
         })
     }
@@ -1123,8 +1126,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (items[idx].type == weaponsItem.bundle)
     {
-      if (stickBundle)
-        onDropDown(obj)
+      if (stickBundle && ::check_obj(obj))
+        onDropDown(obj.getParent())
       return
     }
     doItemAction(items[idx], fullAction)

@@ -753,7 +753,7 @@
         }
       },
       "chassis": {
-        "hp": 30.0,
+        "hp": 250.0,
         "armorThickness": 2.0,
         "armorClass": "car_wheels",
         "wheel_r_01_dm": [],
@@ -1074,7 +1074,7 @@
   {
     "sound": {
       "EngineName": "engine_m1",
-      "TrackSoundPath": "tanks/engines_tanks",
+      "TrackSoundPath": "ground/engines",
       "TrackSoundName": "tracks_wheels",
       "TrackSoundNameCockpit": "tracks_wheels_interior",
       "turret_turn": "turret_turn_t34_manual",
@@ -2400,6 +2400,7 @@
         "hasSuspensionOnDriveGear": true,
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15,
+        "brokenWheelSteeringDeflection": -15.0,
         "steeringDeflection": {
           "wheel_l_01": 35.0,
           "wheel_r_01": 35.0,
@@ -2426,13 +2427,67 @@
           }
         ],
         "wheelsDamageWeight": {
-          "wheel_l_01": 0.15,
-          "wheel_r_01": 0.15,
+          "wheel_l_01": 0.2,
+          "wheel_r_01": 0.2,
           "wheel_l_02": 0.4,
           "wheel_r_02": 0.4,
           "wheel_l_drive": 0.4,
           "wheel_r_drive": 0.4
         }
+      }
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
       }
     }
   },
@@ -2937,15 +2992,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

@@ -13,16 +13,14 @@ local function addWidget(w) {
 local function removeWidget(w) {
   local idx = widgets.value.find(w)
   if (idx != null) {
-    widgets.value.remove(idx)
-    widgets.trigger()
+    widgets.update(@(value) value.remove(idx))
   }
 }
 
 local function removeByUid(uid) {
   foreach(idx, w in widgets.value)
     if (w.uid == uid) {
-      widgets.value.remove(idx)
-      widgets.trigger()
+      widgets.update(@(value) value.remove(idx))
       break
     }
 }
@@ -111,25 +109,26 @@ local function show(params, styling=defStyling) {
     btnsDesc.value[curBtnIdx.value]?.action?() ?? doClose(defCancel?.action, true)
   }
   local skip = {skip=true}
+  local root = styling.Root.__merge({
+    key = "msgbox_" + uid
+    flow = FLOW_VERTICAL
+    halign = HALIGN_CENTER
+    children = [
+      styling.messageText(params)
+      buttonsBlock
+    ]
+    hotkeys = [
+      ["Esc | J:B", {action= @() doClose(defCancel?.action, true), description = ::loc("Close")}],
+      ["Right | Tab", {action = @() moveBtnFocus(1) description = skip}],
+      ["Left", {action = @() moveBtnFocus(-1) description = skip}],
+      ["Enter", {action= activateCurBtn, description= skip}],
+    ]
+  })
   self = styling.BgOverlay.__merge({
     uid = uid
     cursor = styling.cursor
     stopMouse = true
-    children = styling.Root.__merge({
-      key = "msgbox_" + uid
-      flow = FLOW_VERTICAL
-      halign = HALIGN_CENTER
-      children = [
-        styling.messageText(params)
-        buttonsBlock
-      ]
-      hotkeys = [
-        ["Esc | J:B", {action= @() doClose(defCancel?.action, true), description = ::loc("Close")}],
-        ["Right | Tab", {action = @() moveBtnFocus(1) description = skip}],
-        ["Left", {action = @() moveBtnFocus(-1) description = skip}],
-        ["Enter", {action= activateCurBtn, description= skip}],
-      ]
-    })
+    children = styling.BgOverlay?.children ? [styling.BgOverlay.children, root] : root
   })
 
   addWidget(self)

@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 const RICOCHET_DATA_ANGLE = 30
 const DEFAULT_ARMOR_FOR_PENETRATION_RADIUS = 50
 
@@ -150,7 +152,7 @@ function g_dmg_model::getAngleByProbabilityFromP2blk(blk, x)
         else
           return ::min(angle1, angle2)
       }
-      return ::lerp(probability1, probability2, angle1, angle2, x)
+      return stdMath.lerp(probability1, probability2, angle1, angle2, x)
     }
   }
   return -1
@@ -181,32 +183,29 @@ function g_dmg_model::initRicochetDataOnce()
 
   local typesList = blk.bulletTypes
   local ricBlk = blk.ricochetPresets
-  local normBlk = blk.normalizationPresets
-  if (!typesList || !ricBlk || !normBlk)
+  if (!typesList || !ricBlk)
   {
-    ::dagor.assertf(false, "ERROR: Can't load ricochet or normalization params from damageModel.blk")
+    ::dagor.assertf(false, "ERROR: Can't load ricochet params from damageModel.blk")
     return
   }
 
   local defaultData = getRicochetDataByPreset({
-                        normalizationPreset = "default"
                         ricochetPreset = "default"
                       },
-                      ricBlk, normBlk)
+                      ricBlk)
   ricochetDataByBulletType[""] <- defaultData
 
   for (local i = 0; i < typesList.blockCount(); i++)
   {
     local presetBlk = typesList.getBlock(i)
     local bulletType = presetBlk.getBlockName()
-    ricochetDataByBulletType[bulletType] <- getRicochetDataByPreset(presetBlk, ricBlk, normBlk, defaultData)
+    ricochetDataByBulletType[bulletType] <- getRicochetDataByPreset(presetBlk, ricBlk, defaultData)
   }
 }
 
-function g_dmg_model::getRicochetDataByPreset(preset, ricBlk, normBlk, defaultData = null)
+function g_dmg_model::getRicochetDataByPreset(preset, ricBlk, defaultData = null)
 {
   local res = {
-    normalization = ::getTblValue("normalization", defaultData, 0)
     angleProbabilityMap = []
   }
   local rPreset = preset.ricochetPreset
@@ -243,13 +242,6 @@ function g_dmg_model::getRicochetDataByPreset(preset, ricBlk, normBlk, defaultDa
         })
       }
     }
-  }
-  local nPreset = preset.normalizationPreset
-  if (nPreset && normBlk[nPreset])
-  {
-    local value = getLinearValueFromP2blk(normBlk[nPreset], RICOCHET_DATA_ANGLE)
-    if (value != null)
-      res.normalization = value
   }
   return res
 }

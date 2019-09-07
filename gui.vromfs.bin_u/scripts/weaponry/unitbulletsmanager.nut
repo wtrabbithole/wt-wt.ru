@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 enum bulletsAmountState {
   READY
   HAS_UNALLOCATED
@@ -188,7 +190,7 @@ class UnitBulletsManager
   function getActiveBulGroupsAmount()
   {
     //do not count fake bullets
-    return ::number_of_set_bits(groupsActiveMask & ((1 << ::BULLETS_SETS_QUANTITY) - 1))
+    return stdMath.number_of_set_bits(groupsActiveMask & ((1 << ::BULLETS_SETS_QUANTITY) - 1))
   }
 
   function openChooseBulletsWnd(groupIdx, itemParams = null, alignObj = null, align = "bottom")
@@ -281,7 +283,7 @@ class UnitBulletsManager
     for (local groupIndex = 0; groupIndex < bulletsTotal; groupIndex++)
     {
       bulGroups.append(::BulletGroup(unit, groupIndex, getGroupGunInfo(groupIndex), {
-        isActive = ::is_bit_set(groupsActiveMask, groupIndex)
+        isActive = stdMath.is_bit_set(groupsActiveMask, groupIndex)
         canChangeActivity = canChangeActivity
         isForcedAvailable = isForcedAvailable
       }))
@@ -334,7 +336,7 @@ class UnitBulletsManager
       if (!bulGroup.setBulletNotFromList(list))
       {
         bulGroup.active = false
-        groupsActiveMask = ::change_bit(groupsActiveMask, gIdx, 0)
+        groupsActiveMask = stdMath.change_bit(groupsActiveMask, gIdx, 0)
         continue
       }
 
@@ -407,7 +409,7 @@ class UnitBulletsManager
 
     groupsActiveMask = ::getActiveBulletsGroupInt(unit)
     foreach(gIdx, bulGroup in bulGroups)
-      bulGroup.active = ::is_bit_set(groupsActiveMask, gIdx)
+      bulGroup.active = stdMath.is_bit_set(groupsActiveMask, gIdx)
   }
 
   function onEventUnitWeaponChanged(p)

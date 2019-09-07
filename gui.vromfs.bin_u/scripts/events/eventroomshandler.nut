@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 enum eRoomFlags { //bit enum. sorted by priority
   CAN_JOIN              = 0x8000 //set by CAN_JOIN_MASK, used for sorting
 
@@ -35,6 +37,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   roomIdToSelect = null
   roomsListData = null
   isSelectedRoomDataChanged = false
+  isEventsListInFocus = false
   roomsListObj  = null
 
   chaptersTree = null
@@ -120,11 +123,29 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     return roomsListData.getRoom(curRoomId)
   }
 
+  function updateEventsListFocusStatus()
+  {
+    isEventsListInFocus = !::show_console_buttons || (::check_obj(roomsListObj) && roomsListObj.isFocused())
+  }
+
   function onItemSelect()
   {
     if (!isValid())
       return
+
+    updateEventsListFocusStatus()
     onItemSelectAction()
+  }
+
+  function onListItemsFocusChange(obj)
+  {
+    guiScene.performDelayed(this, function() {
+      if (!isValid())
+        return
+
+      updateEventsListFocusStatus()
+      updateButtons()
+    })
   }
 
   function onItemSelectAction()
@@ -243,7 +264,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isReady = ::g_squad_manager.isMeReady()
     local isSquadMember = ::g_squad_manager.isSquadMember()
 
-    local joinButtonObj = showSceneBtn("btn_join_event", hasRoom)
+    local joinButtonObj = showSceneBtn("btn_join_event", isEventsListInFocus && hasRoom)
     joinButtonObj.inactiveColor = reasonData.activeJoinButton || isSquadMember ? "no" : "yes"
     joinButtonObj.tooltip = isSquadMember ? reasonData.reasonText : ""
     local availTeams = ::events.getAvailableTeams(roomMGM)
@@ -267,7 +288,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     showSceneBtn("btn_create_room", ::events.canCreateCustomRoom(event))
 
-    local isHeader = curChapterId != "" && curRoomId == ""
+    local isHeader = isEventsListInFocus && curChapterId != "" && curRoomId == ""
     local collapsedButtonObj = showSceneBtn("btn_collapsed_chapter", isHeader)
     if (isHeader)
     {
@@ -420,6 +441,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
       infoText = ::loc(roomsListData.getList().len() ? "multiplayer/no_rooms_by_clusters" : "multiplayer/no_rooms")
 
     scene.findObject("items_list_msg").setValue(infoText)
+    roomsListObj.enable(visibleRoomsAmount && !needWaitIcon)
   }
 
   function getCurrentEdiff()
@@ -714,7 +736,7 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local diffCode = ::events.getEventDiffCode(event)
     local unitTypeMask = ::events.getEventUnitTypesMask(event)
-    local checkTutorUnitType = (::number_of_set_bits(unitTypeMask)==1) ? ::number_of_set_bits(unitTypeMask - 1) : null
+    local checkTutorUnitType = (stdMath.number_of_set_bits(unitTypeMask)==1) ? stdMath.number_of_set_bits(unitTypeMask - 1) : null
     if(checkDiffTutorial(diffCode, checkTutorUnitType))
       return
 

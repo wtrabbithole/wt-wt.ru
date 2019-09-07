@@ -7,6 +7,7 @@
     tooltip:t='<<tooltip>>'
 
     <<@params>>
+    <<@objects>>
 
     <<#disabled>>
       enable:t='no'

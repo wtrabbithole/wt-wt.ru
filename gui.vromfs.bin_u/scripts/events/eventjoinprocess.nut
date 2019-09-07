@@ -1,3 +1,5 @@
+local stdMath = require("std/math.nut")
+
 class EventJoinProcess
 {
   event = null // Event to join.
@@ -109,7 +111,7 @@ class EventJoinProcess
       return remove()
     local diffCode = ::events.getEventDiffCode(event)
     local unitTypeMask = ::events.getEventUnitTypesMask(event)
-    local checkTutorUnitType = (::number_of_set_bits(unitTypeMask)==1) ? ::number_of_set_bits(unitTypeMask - 1) : null
+    local checkTutorUnitType = (stdMath.number_of_set_bits(unitTypeMask)==1) ? stdMath.number_of_set_bits(unitTypeMask - 1) : null
     if(checkDiffTutorial(diffCode, checkTutorUnitType))
       return remove()
 

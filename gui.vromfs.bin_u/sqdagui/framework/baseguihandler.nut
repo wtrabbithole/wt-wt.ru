@@ -400,11 +400,10 @@ class ::BaseGuiHandler
     checkCurrentFocusItem(obj)
 
     local newObj = null
-    local i = 0
     local sendBroadcast = false
-    do
+
+    for(local i = 0; i < focusArray.len(); i++)
     {
-      i++
       currentFocusItem += dir
       if (currentFocusItem < 0 )
         if (isPrimaryFocus)
@@ -421,9 +420,12 @@ class ::BaseGuiHandler
         return broadcastEvent("OutsideObjWrap", { obj = obj, dir = dir })
 
       newObj = getFocusItemObj(currentFocusItem)
-      if (i >= focusArray.len())
-        return
-    } while (!newObj)
+      if (newObj)
+        break
+    }
+    if (!newObj)
+      return
+
     newObj.select()
     onFocusItemSelected(newObj)
   }

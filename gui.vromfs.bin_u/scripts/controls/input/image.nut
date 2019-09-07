@@ -19,4 +19,17 @@ class ::Input.InputImage extends ::Input.InputBase
       view = { buttonImage = image }
     }
   }
+
+  function hasImage ()
+  {
+    return image !=""
+  }
+
+  function getConfig()
+  {
+    return {
+      inputName = "inputImage"
+      buttonImage = image
+    }
+  }
 }

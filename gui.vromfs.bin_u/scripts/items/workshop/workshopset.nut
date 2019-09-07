@@ -1,5 +1,3 @@
-local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
-
 const KNOWN_ITEMS_SAVE_ID = "workshop/known"
 const KNOWN_REQ_ITEMS_SAVE_ID = "workshop/knownReqItems"
 const KNOWN_ITEMS_SAVE_KEY = "id"
@@ -65,7 +63,8 @@ local WorkshopSet = class {
   isItemIdHidden            = @(id) itemdefs[id].blockNumber in hiddenItemsBlocks
   isItemIdKnown             = @(id) initKnownItemsOnce() || id in knownItemdefs
   isReqItemIdKnown          = @(id) id in knownReqItemdefs
-  shouldDisguiseItemId      = @(id) !(id in alwaysVisibleItemdefs) && !isItemIdKnown(id)
+  shouldDisguiseItem        = @(item) !(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id)
+    && !item?.itemDef?.tags?.alwaysKnownItem
 
   hasPreview                = @() previewBlk != null
 
@@ -205,7 +204,7 @@ local WorkshopSet = class {
       if (!newItem.isEnabled())
         continue
 
-      if (!(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id))
+      if (shouldDisguiseItem(item))
         newItem.setDisguise(true)
 
       itemsListCache.append(newItem)

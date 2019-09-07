@@ -1,6 +1,7 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
+local contentStateModule = ::require("scripts/clientState/contentState.nut")
 
 ::dbg_mainmenu_start_check <- 0
 ::_is_first_mainmenu_call <- true //only for comatible with 1.59.2.X executable
@@ -107,6 +108,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     handler.doWhenActive(@() ::g_play_together.checkAfterFlight() )
     handler.doWhenActive(@() ::g_xbox_squad_manager.checkAfterFlight() )
     handler.doWhenActive(@() ::g_battle_tasks.checkNewSpecialTasks() )
+    handler.doWhenActiveOnce("checkNonApprovedSquadronResearches")
   }
 
   if(isAllowPopups && ::has_feature("Invites") && !guiScene.hasModalObject())
@@ -116,7 +118,7 @@ function on_mainmenu_return(handler, isAfterLogin)
     if(invitedPlayersBlk.blockCount() == 0)
     {
       local cdb = ::get_local_custom_settings_blk()
-      local days = time.getDaysByTime(::get_local_time())
+      local days = time.getUtcDays()
       if(!cdb.viralAcquisition)
         cdb.viralAcquisition = ::DataBlock()
 
@@ -283,11 +285,8 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
 
   function onLoadModels()
   {
-    if (::is_platform_ps4)
-    {
-      local perc = ps4_get_chunk_progress_percent(PS4_CHUNK_FULL_CLIENT_DOWNLOADED)
-      showInfoMsgBox(::loc("msgbox/downloadPercent", {percent = perc}))
-    }
+    if (::is_ps4_or_xbox)
+      showInfoMsgBox(contentStateModule.getClientDownloadProgressText())
     else
       ::check_package_and_ask_download("pkg_main", ::loc("msgbox/ask_package_download"))
   }
@@ -308,7 +307,7 @@ class ::gui_handlers.MainMenu extends ::gui_handlers.InstantDomination
 
   function onEventHangarModelLoaded(p)
   {
-    doWhenActiveOnce("updateSelUnitInfo")
+    doWhenActiveOnce("forceUpdateSelUnitInfo")
   }
 
   function onEventCrewsListChanged(p)

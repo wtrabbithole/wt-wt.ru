@@ -32,6 +32,7 @@ root {
       <</headerData>>
 
       top_right_holder {
+        hasRightIndent:t='yes'
         textareaNoTab {
           id:t='event_time'
           pos:t='0, 50%ph-50%h'

@@ -1,7 +1,8 @@
 class ::gui_handlers.WaitForLoginWnd extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/login/waitForLoginWnd.blk"
-  isBgVisible = false
+  isInitialized = false
+  isBgVisible = true
 
   function initScreen()
   {
@@ -28,13 +29,14 @@ class ::gui_handlers.WaitForLoginWnd extends ::BaseGuiHandler
   function updateBg()
   {
     local shouldBgVisible = !(::g_login.curState & LOGIN_STATE.HANGAR_LOADED)
-    if (isBgVisible == shouldBgVisible)
+    if (isBgVisible == shouldBgVisible && isInitialized)
       return
 
+    isInitialized = true
     isBgVisible = shouldBgVisible
-    local obj = ::showBtn("animated_bg_picture", isBgVisible, scene)
+    ::showBtn("bg_picture_container", isBgVisible, scene)
     if (isBgVisible)
-      ::g_anim_bg.load("", obj)
+      ::g_anim_bg.load("", scene.findObject("animated_bg_picture"))
   }
 
   function onEventLoginStateChanged(p)

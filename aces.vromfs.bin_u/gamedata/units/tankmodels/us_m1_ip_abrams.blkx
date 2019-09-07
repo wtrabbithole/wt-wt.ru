@@ -1380,20 +1380,6 @@
     "class_tags": []
   },
   {
-    "info": {
-      "engine_dm": {
-        "manufacturer": "honeywell",
-        "model": "agt_1500",
-        "type": "gasturbine"
-      },
-      "transmission_dm": {
-        "manufacturer": "allison",
-        "model": "x_1100_3b",
-        "type": "auto"
-      }
-    }
-  },
-  {
     "PhysSys": {
       "find": "^bone_suspension_(._\\d\\d)$",
       "points": {
@@ -1915,15 +1901,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }
@@ -3323,7 +3300,10 @@
       "engine": {
         "horsePowers": 1519.0,
         "maxRPM": 3000.0,
-        "minRPM": 700.0
+        "minRPM": 700.0,
+        "manufacturer": "honeywell",
+        "model": "agt_1500",
+        "type": "gasturbine"
       },
       "mechanics": {
         "maxBrakeForce": 250000.0,
@@ -3331,6 +3311,9 @@
         "mainGearRatio": 1.9,
         "sideGearRatio": 6.25,
         "neutralGearRatio": 4.0,
+        "manufacturer": "allison",
+        "model": "x_1100_3b",
+        "type": "auto",
         "gearRatios": [
           {
             "ratio": -0.98
@@ -3444,6 +3427,15 @@
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "usa_modern_snow_temperate*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_carc",
+      "replace_tex": {
+        "from": "us_camo_olive*",
+        "to": "ger_camo_carc*"
       }
     }
   }

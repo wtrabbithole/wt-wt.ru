@@ -70,7 +70,7 @@ class SlotbarPresetsTutorial
         obj = [presetObj]
         text = createMessageWhithUnitType()
         actionType = tutorAction.OBJ_CLICK
-        accessKey = "J:X"
+        shortcut = ::SHORTCUT.GAMEPAD_X
         cb = ::Callback(onSlotbarPresetSelect, this)
         keepEnv = true
       }]
@@ -85,7 +85,7 @@ class SlotbarPresetsTutorial
         obj = [presetsButtonObj]
         text = ::loc("slotbarPresetsTutorial/openWindow")
         actionType = tutorAction.OBJ_CLICK
-        accessKey = "J:X"
+        shortcut = ::SHORTCUT.GAMEPAD_X
         cb = ::Callback(onChooseSlotbarPresetWnd_Open, this)
         keepEnv = true
       }]
@@ -127,14 +127,14 @@ class SlotbarPresetsTutorial
       obj = [presetObj]
       text = createMessageWhithUnitType()
       actionType = tutorAction.OBJ_CLICK
-      accessKey = "J:X"
+      shortcut = ::SHORTCUT.GAMEPAD_X
       cb = ::Callback(onChooseSlotbarPresetWnd_Select, this)
       keepEnv = true
     } {
       obj = [applyButtonObj]
       text = ::loc("slotbarPresetsTutorial/pressApplyButton")
       actionType = tutorAction.OBJ_CLICK
-      accessKey = "J:X"
+      shortcut = ::SHORTCUT.GAMEPAD_X
       cb = ::Callback(onChooseSlotbarPresetWnd_Apply, this)
       keepEnv = true
     }]
@@ -238,7 +238,7 @@ class SlotbarPresetsTutorial
       obj = ::get_slot_obj(slotbarHandler.scene, crew.idCountry, crew.idInCountry)
       text = ::loc("slotbarPresetsTutorial/selectUnit")
       actionType = tutorAction.OBJ_CLICK
-      accessKey = "J:X"
+      shortcut = ::SHORTCUT.GAMEPAD_X
       cb = ::Callback(onUnitSelect, this)
       keepEnv = true
     }]
@@ -286,7 +286,7 @@ class SlotbarPresetsTutorial
       obj = [objs]
       text = createMessage_pressToBattleButton()
       actionType = tutorAction.OBJ_CLICK
-      accessKey = "J:X"
+      shortcut = ::SHORTCUT.GAMEPAD_X
       cb = ::Callback(onStartPress, this)
     }]
     currentStepsName = "pressToBattleButton"
@@ -307,7 +307,7 @@ class SlotbarPresetsTutorial
       obj = [gameModeChangeButtonObj]
       text = ::loc("slotbarPresetsTutorial/openGameModeSelect")
       actionType = tutorAction.OBJ_CLICK
-      accessKey = "J:X"
+      shortcut = ::SHORTCUT.GAMEPAD_X
       cb = ::Callback(onOpenGameModeSelect, this)
       keepEnv = true
     }]
@@ -352,7 +352,7 @@ class SlotbarPresetsTutorial
       obj = [gameModeObj]
       text = createMessageWhithUnitType("selectGameMode")
       actionType = tutorAction.OBJ_CLICK
-      accessKey = "J:X"
+      shortcut = ::SHORTCUT.GAMEPAD_X
       cb = ::Callback(onSelectGameMode, this)
       keepEnv = true
     }]

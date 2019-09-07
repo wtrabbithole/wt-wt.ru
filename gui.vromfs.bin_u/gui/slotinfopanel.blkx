@@ -222,10 +222,16 @@
                   {
                     "table": [
                       {
+                        "id": "air_info_panel_table"
+                      },
+                      {
                         "class": "airInfoPanel"
                       },
                       {
                         "allAlignLeft": "yes"
+                      },
+                      {
+                        "showStatsProgress": "no"
                       },
                       {
                         "tr": [
@@ -400,7 +406,7 @@
                             "id": "ship-citadelArmor-tr"
                           },
                           {
-                            "tooltip": "#info/armor_dimensions-tooltip"
+                            "tooltip": "#info/ship/citadelArmorDimensions-tooltip"
                           },
                           {
                             "display": "hide"
@@ -443,6 +449,60 @@
                             "td": {
                               "textarea": {
                                 "id": "ship-mainFireTower-value"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "tr": [
+                          {
+                            "id": "ship-hullMaterial-tr"
+                          },
+                          {
+                            "tooltip": "#info/material_and_thickness-tooltip"
+                          },
+                          {
+                            "display": "hide"
+                          },
+                          {
+                            "td": {
+                              "textarea": {
+                                "id": "ship-hullMaterial-title"
+                              }
+                            }
+                          },
+                          {
+                            "td": {
+                              "textarea": {
+                                "id": "ship-hullMaterial-value"
+                              }
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "tr": [
+                          {
+                            "id": "ship-superstructureMaterial-tr"
+                          },
+                          {
+                            "tooltip": "#info/material_and_thickness-tooltip"
+                          },
+                          {
+                            "display": "hide"
+                          },
+                          {
+                            "td": {
+                              "textarea": {
+                                "id": "ship-superstructureMaterial-title"
+                              }
+                            }
+                          },
+                          {
+                            "td": {
+                              "textarea": {
+                                "id": "ship-superstructureMaterial-value"
                               }
                             }
                           }
@@ -1236,6 +1296,9 @@
     },
     {
       "input-transparent": "yes"
+    },
+    {
+      "order-popup": "yes"
     },
     {
       "textareaNoTab": {

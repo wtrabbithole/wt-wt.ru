@@ -6,6 +6,7 @@ local teamColors = require("style/teamColors.nut")
 local background = require("style/hudBackground.nut")
 local scrollbar = require("components/scrollbar.nut")
 local hudState = require("hudState.nut")
+local fontsState = require("reactiveGui/style/fontsState.nut")
 
 
 local logEntryComponent = function (log_entry) {
@@ -17,11 +18,11 @@ local logEntryComponent = function (log_entry) {
       rendObj = ROBJ_TEXTAREA
       behavior = Behaviors.TextArea
       text = log_entry.message
-      font = Fonts.tiny_text_hud
+      font = fontsState.get("small")
       key = log_entry
       colorTable = {
-        hudColorDarkRed = teamColors.teamRedDarkColor
-        hudColorDarkBlue = teamColors.teamBlueDarkColor
+        hudColorDarkRed = teamColors.teamRedInactiveColor
+        hudColorDarkBlue = teamColors.teamBlueInactiveColor
         hudColorRed = teamColors.teamRedColor
         hudColorBlue = teamColors.teamBlueColor
         hudColorSquad = teamColors.squadColor
@@ -45,6 +46,6 @@ local logBox = hudLog({
 })
 
 return {
-  size = flex()
+  size = [flex(), SIZE_TO_CONTENT]
   children = logBox
 }

@@ -82,10 +82,12 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
 
   function onEventWWUpdateGlobalBattles(p)
   {
-    local wwBattleName = ::g_squad_manager.getWwOperationBattle()
-    if (wwBattleName && curBattleInList.id != wwBattleName)
-      curBattleInList = getBattleById(wwBattleName)
+    updateForceSelectedBattle()
+    reinitBattlesList()
+  }
 
+  function onEventWWUpdateWWQueues(params)
+  {
     reinitBattlesList()
   }
 
@@ -130,16 +132,13 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     )
   }
 
-  function onItemSelect(isForceUpdate = false)
+  function updateSelectedItem(isForceUpdate = false)
   {
     refreshSelBattle()
     local cb = ::Callback(function() {
       local newOperationBattle = ::g_world_war.getBattleById(curBattleInList.id)
       local isBattleEqual = operationBattle.isEqual(newOperationBattle)
       operationBattle = newOperationBattle
-
-      if (currViewMode == WW_BATTLE_VIEW_MODES.QUEUE_INFO)
-        return
 
       updateBattleSquadListData()
       if (!isBattleInited || !isBattleEqual)
@@ -249,6 +248,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     setFilteredBattles()
     curBattleInList = getBattleById(curBattleInList.id)
     reinitBattlesList(isForceUpdate)
+    updateTitle()
   }
 
   function onOpenBattlesFilters(obj)

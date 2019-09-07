@@ -292,6 +292,7 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
   local containerObj = msgbox.findObject("msgTextRoot")
   if (::check_obj(containerObj))
   {
+    gui_scene.applyPendingChanges(false)
     local isNeedVCentering = containerObj.getSize()[1] < containerObj.getParent().getSize()[1]
     containerObj["pos"] = isNeedVCentering ? "0, ph/2-h/2" : "0, 0"
   }

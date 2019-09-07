@@ -10,11 +10,13 @@ local mode = persist("mode",
   @() Watched(::cross_call.sysopt.getGuiValue("mode", "fullscreen")))
 
 local safeAreaHud = persist("safeAreaHud",
-  @() Watched(::cross_call.getSafeAreaHudValue() ?? 1.0))
+  @() Watched(::cross_call.getHudSafearea() ?? [ 1.0, 1.0 ]))
 
-local recalculateHudSize = function(safeAreaValue) {
-  local borders = [ ::max((sh((1.0 - safeAreaValue) *100) / 2).tointeger(), debugRowHeight),
-    ::max((sw((1.0 - safeAreaValue) *100) / 2).tointeger(), debugRowHeight)]
+local recalculateHudSize = function(safeArea) {
+  local borders = [
+    ::max((sh((1.0 - safeArea[1]) *100) / 2).tointeger(), debugRowHeight),
+    ::max((sw((1.0 - safeArea[0]) *100) / 2).tointeger(), debugRowHeight)
+  ]
   local size = [sw(100) - 2 * borders[1], sh(100) - 2 * borders[0]]
   return {
     size = size
@@ -28,7 +30,7 @@ frp.subscribe([resolution, mode], function(new_val){
   ::gui_scene.setInterval(0.5,
     function() {
       ::gui_scene.clearTimer(callee())
-      safeAreaSizeHud.update(recalculateHudSize(safeAreaHud.value))
+      safeAreaHud(::cross_call.getHudSafearea() ?? [ 1.0, 1.0 ])
       safeAreaSizeHud.trigger()
   })
 })

@@ -40,17 +40,15 @@ local __math = require("math")
 
 ::quick_match_flag <- false;
 ::test_flight <- false
+::custom_miss_flight <- false
 ::is_debug_mode_enabled <- false
 ::first_generation <- true
 
 ::skip_steam_confirmations <- false
 ::show_console_buttons <- false
-::ps4_is_client_full_downloaded <- !::is_platform_ps4
 ::ps4_vsync_enabled <- true
 
 ::cross_call_api <- {}
-
-if (::is_platform_ps4) ::exit_game <- function() {::gui_start_logout()}
 
 ::FORCE_UPDATE <- true
 const LOST_DELAYED_ACTION_MSEC = 500
@@ -60,7 +58,6 @@ const LOST_DELAYED_ACTION_MSEC = 500
     "nda_version", "nda_version_tanks", "eula_version",
     "test_flight", "is_debug_mode_enabled", "first_generation",
     "skip_steam_confirmations", "show_console_buttons",
-    "ps4_is_client_full_downloaded",
     "is_dev_version"
   ])
 
@@ -233,8 +230,6 @@ enum squadMemberState
 
 ::ES_UNIT_TYPE_TOTAL_RELEASED <- 2
 
-const PS4_CHUNK_HISTORICAL_CAMPAIGN = 11
-const PS4_CHUNK_FULL_CLIENT_DOWNLOADED = 19
 const SAVE_ONLINE_JOB_DIGIT = 123 //super secure digit for job tag :)
 
 enum COLOR_TAG {
@@ -273,8 +268,7 @@ enum xboxMediaItemType { //values by microsoft IDE, others not used
 
 function randomize()
 {
-  local tm = ::get_local_time()
-  ::math.init_rnd(tm.sec + tm.min + tm.hour)
+  ::math.init_rnd(::get_local_time_sec())
 }
 randomize()
 
@@ -369,7 +363,7 @@ foreach (fn in [
   "scripts/debugTools/dbgEnum.nut"
   "scripts/debugTools/debugWnd.nut"
   "scripts/debugTools/dbgTimer.nut"
-  "scripts/debugTools/dbgDump.nut"
+  "scripts/debugTools/dbgDumpTools.nut"
   "scripts/debugTools/dbgUtils.nut"
   "scripts/debugTools/dbgImage.nut"
   "scripts/debugTools/dbgFonts.nut"
@@ -378,6 +372,7 @@ foreach (fn in [
 
   //probably used before login on ps4
   "scripts/controls/controlsConsts.nut"
+  "scripts/controls/rawShortcuts.nut"
   "scripts/controls/controlsManager.nut"
 
   //used before xbox login
@@ -477,9 +472,9 @@ function load_scripts_after_login_once()
     "options/optionsCustomDifficulty.nut"
     "options/fontChoiceWnd.nut"
 
-    "leaderboardDataType.nut"
-    "leaderboardCategoryType.nut"
-    "leaderboard.nut"
+    "leaderboard/leaderboardDataType.nut"
+    "leaderboard/leaderboardCategoryType.nut"
+    "leaderboard/leaderboard.nut"
 
     "queue/queueManager.nut"
 
@@ -567,7 +562,6 @@ function load_scripts_after_login_once()
     "voiceMessages.nut"
     "controls/controlsPresets.nut"
     "controls/controlsUtils.nut"
-    "controls/rawShortcuts.nut"
     "controls/controls.nut"
     "controls/controlsConsole.nut"
     "controls/input/inputBase.nut"
@@ -577,6 +571,7 @@ function load_scripts_after_login_once()
     "controls/input/axis.nut"
     "controls/input/doubleAxis.nut"
     "controls/input/image.nut"
+    "controls/input/keyboardAxis.nut"
     "controls/shortcutType.nut"
     "controls/controlsPseudoAxes.nut"
     "controls/controlsWizard.nut"
@@ -849,6 +844,8 @@ function load_scripts_after_login_once()
   ::require("scripts/seen/bhvUnseen.nut")
   ::require("scripts/items/roulette/bhvRoulette.nut")
   ::require("scripts/squads/elems/voiceChatElem.nut")
+  ::require("scripts/slotbar/elems/discountIconElem.nut")
+  ::require("scripts/slotbar/elems/squadronExpIconElem.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

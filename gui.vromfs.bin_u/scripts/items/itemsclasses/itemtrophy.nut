@@ -58,7 +58,7 @@ class ::items_classes.Trophy extends ::BaseItem
     }
   }
 
-  function _unpackContent(recursionUsedIds)
+  function _unpackContent(recursionUsedIds, useRecursion = true)
   {
     if (::isInArray(id, recursionUsedIds))
     {
@@ -70,12 +70,12 @@ class ::items_classes.Trophy extends ::BaseItem
     }
 
     recursionUsedIds.append(id)
-    contentUnpacked = []
+    local content = []
     foreach (i in contentRaw)
     {
       if (!i.trophy || i.showAsPack)
       {
-        contentUnpacked.append(i)
+        content.append(i)
         continue
       }
 
@@ -83,8 +83,8 @@ class ::items_classes.Trophy extends ::BaseItem
       local countMul = i.count || 1
       if (subTrophy)
       {
-        if (::getTblValue("subtrophyShowAsPack", subTrophy))
-          contentUnpacked.append(i)
+        if (::getTblValue("subtrophyShowAsPack", subTrophy) || !useRecursion)
+          content.append(i)
         else
         {
           local subContent = subTrophy.getContent(recursionUsedIds)
@@ -96,19 +96,25 @@ class ::items_classes.Trophy extends ::BaseItem
             if (countMul != 1)
               si.count = (si.count || 1) * countMul
 
-            contentUnpacked.append(si)
+            content.append(si)
           }
         }
       }
     }
     recursionUsedIds.pop()
+    return content
   }
 
   function getContent(recursionUsedIds = [])
   {
     if (!contentUnpacked.len())
-      _unpackContent(recursionUsedIds)
+      contentUnpacked = _unpackContent(recursionUsedIds)
     return contentUnpacked
+  }
+
+  function getContentNoRecursion()
+  {
+    return _unpackContent([], false)
   }
 
   function _extractTopPrize(_recursionUsedIds)

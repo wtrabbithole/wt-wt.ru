@@ -1,4 +1,5 @@
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local stdMath = require("std/math.nut")
 
 function gui_modal_crew(params = {})
 {
@@ -142,7 +143,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (newValue > value)
           curPoints -= ::g_crew.getSkillCost(item, newValue, value)
       }
-    scene.findObject("crew_cur_skills").setValue(::round_by_value(crewCurLevel, 0.01).tostring())
+    scene.findObject("crew_cur_skills").setValue(stdMath.round_by_value(crewCurLevel, 0.01).tostring())
     updatePointsText()
     updateBuyAllButton()
     updateAvailableSkillsIcons()
@@ -304,14 +305,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillPage()
   {
-    local page = pages[curPage]
-    guiScene.setUpdatesEnabled(false, false)
-    if (isSkillsPage(page))
-      skillsPageHandler = ::g_crew.createCrewSkillsPageHandler(scene, this, crew)
-    else if (page.id=="trained")
-      unitSpecHandler = ::g_crew.createCrewUnitSpecHandler(scene)
     updatePage()
-    guiScene.setUpdatesEnabled(true, true)
   }
 
   function getSkillValue(crewType, skillName)
@@ -333,7 +327,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       levelIncTooltip += "\n" + ::loc("crew/availablePoints") + curPointsText
     }
     else if (crewLevelInc > 0.005)
-      levelIncText = "+" + ::round_by_value(crewLevelInc, 0.01)
+      levelIncText = "+" + stdMath.round_by_value(crewLevelInc, 0.01)
 
     scene.findObject("crew_new_skills").setValue(levelIncText)
     scene.findObject("crew_level_block").tooltip = levelIncTooltip
@@ -443,29 +437,38 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updatePage()
   {
     local page = pages[curPage]
+    local skillsTableObj = scene.findObject("skills_table")
+    local specsTableObj = scene.findObject("specs_table")
+    local hasFocusOnTable = skillsTableObj.isFocused() || specsTableObj.isFocused()
     if (isSkillsPage(page))
     {
       if (unitSpecHandler != null)
         unitSpecHandler.setHandlerVisible(false)
-      if (skillsPageHandler != null)
-      {
-        skillsPageHandler.setHandlerVisible(true)
+      if (skillsPageHandler == null)
+        skillsPageHandler = ::g_crew.createCrewSkillsPageHandler(scene, this, crew)
+      else
         skillsPageHandler.updateHandlerData()
-      }
+      if (skillsPageHandler != null)
+        skillsPageHandler.setHandlerVisible(true)
+      if (hasFocusOnTable)
+        skillsTableObj.select()
     }
     else if (page.id=="trained")
     {
       if (skillsPageHandler != null)
         skillsPageHandler.setHandlerVisible(false)
+      if (unitSpecHandler == null)
+        unitSpecHandler = ::g_crew.createCrewUnitSpecHandler(scene)
       if (unitSpecHandler != null)
       {
         unitSpecHandler.setHandlerVisible(true)
         unitSpecHandler.setHandlerData(crew, crewCurLevel, airList, curCrewUnitType)
       }
+      if (hasFocusOnTable)
+        specsTableObj.select()
     }
     updatePointsAdvice()
     updateUnitTypeWarning(isSkillsPage(page))
-    restoreFocus()
   }
 
   function updateUnitTypeWarning(skillsVisible)
@@ -614,43 +617,45 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         obj = ["crew_cur_points_block"]
         text = ::loc("tutorials/upg_crew/total_skill_points")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       },
       {
         obj = [["crew_pages_list", "driver_available"]]
         text = ::loc("tutorials/upg_crew/skill_groups")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       },
       {
         obj = [getObj("skill_row0").findObject("incCost"), "skill_row0"]
         text = ::loc("tutorials/upg_crew/take_skill_points")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       },
       {
         obj = [getObj("skill_row0").findObject("buttonInc"), "skill_row0"]
         text = ::loc("tutorials/upg_crew/inc_skills")
         actionType = tutorAction.FIRST_OBJ_CLICK
-        accessKey = "J:A"
+        nextActionShortcut = "help/OBJ_CLICK"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(@() onButtonInc(getObj("skill_row0").findObject("buttonInc")), this)
       },
       {
         obj = [getObj("skill_row1").findObject("buttonInc"), "skill_row1"]
         text = ::loc("tutorials/upg_crew/inc_skills")
         actionType = tutorAction.FIRST_OBJ_CLICK
-        accessKey = "J:A"
+        nextActionShortcut = "help/OBJ_CLICK"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(@() onButtonInc(getObj("skill_row1").findObject("buttonInc")), this)
       },
       {
         obj = ["btn_apply"]
         text = ::loc("tutorials/upg_crew/apply_upgr_skills")
         actionType = tutorAction.OBJ_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(function() {
           afterApplyAction = canUpgradeCrewSpec(crew) ? onUpgrCrewSpec1Tutorial
             : onUpgrCrewTutorFinalStep
@@ -706,7 +711,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         obj = [btnSpecObj, skillRowObj]
         text = ::loc("tutorials/upg_crew/spec1")
         actionType = tutorAction.FIRST_OBJ_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(onUpgrCrewSpec1ConfirmTutorial, this)
       }
     ]
@@ -738,10 +743,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         obj = [[specMsgBox.findObject("buttons_holder"), specMsgBox.findObject("msgText")]]
         text = ::loc("tutorials/upg_crew/confirm_spec1")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
         haveArrow = false
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       }
     ]
     ::gui_modal_tutor(steps, this)
@@ -753,9 +758,9 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local steps = [
       {
         text = ::loc("tutorials/upg_crew/final_massage")
-        bottomTextLocIdArray = ["help/NEXT_ACTION"]
+        nextActionShortcut = "help/NEXT_ACTION"
         actionType = tutorAction.ANY_CLICK
-        accessKey = "J:A"
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
       }
     ]
     ::gui_modal_tutor(steps, this)

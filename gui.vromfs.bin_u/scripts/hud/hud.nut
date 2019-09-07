@@ -1,7 +1,7 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local hudState = require_native("hudState")
-
+local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 
 local UNMAPPED_CONTROLS_WARNING_TIME_WINK = 3.0
 local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 180000.0 : 30.0
@@ -108,6 +108,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   curHudVisMode = null
   isReinitDelayed = false
   needVoiceChat = false
+  sideBlockMaxWidth = null
 
   objectsTable = {
     [::USEROPT_DAMAGE_INDICATOR_SIZE] = {
@@ -115,12 +116,18 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
         hud_tank_damage_indicator = "@sizeDamageIndicatorFull"
         xray_render_dmg_indicator = "@sizeDamageIndicator"
       }
+      objectsToCheckOversize = {
+        hud_tank_damage_indicator = true
+      }
       onChangedFunc = @(obj) ::g_hud_event_manager.onHudEvent("DamageIndicatorSizeChanged")
     },
     [::USEROPT_TACTICAL_MAP_SIZE] = {
       objectsToScale = {
         hud_tank_tactical_map     = "@sizeTacticalMap"
         hud_air_tactical_map      = "@sizeTacticalMap"
+      }
+      objectsToCheckOversize = {
+        hud_tank_tactical_map = true
       }
       onChangedFunc = null
     }
@@ -132,6 +139,9 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     ::g_hud_event_manager.init()
     ::g_streaks.clear()
     initSubscribes()
+
+    ::set_hud_width_limit(safeAreaHud.getHudWidthLimit())
+    ::set_option_hud_screen_safe_area(safeAreaHud.getValue())
 
     isXinput = ::is_xinput_device()
     spectatorMode = ::isPlayerDedicatedSpectator() || ::is_replay_playing()
@@ -229,8 +239,13 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene))
       return false
 
-    if (newHudType == hudType && isXinput == (isXinput = ::is_xinput_device()))
-      return false
+    if (newHudType == hudType)
+    {
+      if (isXinput == ::is_xinput_device())
+        return false
+
+      isXinput = ::is_xinput_device()
+    }
 
     local hudObj = scene.findObject("hud_obj")
     if (!::checkObj(hudObj))
@@ -270,9 +285,33 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     // All required checks are performed internally.
     ::g_orders.enableOrders(scene.findObject("order_status"))
 
+    updateObjectsSize()
+    updateMissionProgressPlace()
+  }
+
+  function onEventHudActionbarInited(params)
+  {
+    updateObjectsSize(params)
+  }
+
+  function updateObjectsSize(params = null)
+  {
+    local actionBarItemsAmount = params?.actionBarItemsAmount ?? ::get_action_bar_items().len()
+    if (actionBarItemsAmount)
+    {
+      local actionBarSize = ::to_pixels("1@hudActionBarItemSize")
+      local actionBarOffset = ::to_pixels("1@hudActionBarItemOffset")
+      local screenWidth = ::to_pixels("sw")
+      local borderWidth = ::to_pixels("1@bwHud")
+      local actionBarWidth = actionBarItemsAmount * actionBarSize + (actionBarItemsAmount + 1) * actionBarOffset
+
+      sideBlockMaxWidth = (screenWidth - actionBarWidth) / 2 - borderWidth - ::to_pixels("1@blockInterval")
+    }
+    else
+      sideBlockMaxWidth = null
+
     changeObjectsSize(::USEROPT_DAMAGE_INDICATOR_SIZE)
     changeObjectsSize(::USEROPT_TACTICAL_MAP_SIZE)
-    updateMissionProgressPlace()
   }
 
   //get means determine in this case, but "determine" is too long for function name
@@ -433,7 +472,14 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(obj))
         continue
 
-      obj.size = ::format("%.3f*%s, %.3f*%s", size, cssConst, size, cssConst)
+      local objWidth = ::format("%.3f*%s", size, cssConst)
+      local objWidthValue = ::to_pixels(objWidth)
+      local canApplyOptionValue = !table?.objectsToCheckOversize?[id] ||
+                                  !sideBlockMaxWidth ||
+                                  objWidthValue <= sideBlockMaxWidth
+      obj.size = canApplyOptionValue
+        ? ::format("%.3f*%s, %.3f*%s", size, cssConst, size, cssConst)
+        : ::format("%d, %d", sideBlockMaxWidth, sideBlockMaxWidth)
       guiScene.applyPendingChanges(false)
 
       if (optionNum == ::USEROPT_TACTICAL_MAP_SIZE)
@@ -468,7 +514,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   function updateAFKTimeKickText(sec)
   {
     local timeToKickAlertObj = scene.findObject("time_to_kick_alert_text")
-    if (!::checkObj(timeToKickAlertObj))
+    if (!::checkObj(timeToKickAlertObj) || timeToKickAlertObj.getModalCounter() != 0)
       return
 
     updateAFKTimeKick()
@@ -488,7 +534,8 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       local prevSeconds = sec? ((curTime - sec * 1000) / sec).tointeger() : 0
       local currSeconds = sec? (curTime / sec).tointeger() : 0
       timeToKickAlertObj["_blink"] = currSeconds != prevSeconds? "yes" : "no"
-      ::play_gui_sound("kick_alert")
+      if (currSeconds != prevSeconds)
+        ::play_gui_sound("kick_alert")
     }
     else if (showTimerText)
       timeToKickAlertObj.setValue(::loc("inBattle/timeToKickAlert"))

@@ -83,8 +83,7 @@ class WwOperation
 
   function getStartDateTxt()
   {
-    local createTime = ::getTblValue("ct", data, 0)
-    return time.buildDateStr(::get_time_from_t(createTime))
+    return time.buildDateStr(data?.ct ?? 0)
   }
 
   function getGeoCoordsText()
@@ -99,6 +98,15 @@ class WwOperation
       canJoin = false
       country = ""
       reasonText = ""
+    }
+
+    if (::g_squad_manager.isSquadMember())
+    {
+      local queue = ::queues.getActiveQueueWithType(QUEUE_TYPE_BIT.WW_BATTLE)
+      if (queue && queue.getQueueWwOperationId() != id)
+        return res.__update({
+          reasonText = ::loc("worldWar/cantJoinBecauseOfQueue", {operationInfo = getNameText()})
+        })
     }
 
     local countryes = ::getTblValue(side, getCountriesByTeams(), [])

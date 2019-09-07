@@ -255,7 +255,7 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
     if (!armyTextObj || !wwArmy)
       return
 
-    armyTextObj.width = amount + "@armySmallIconWidth"
+    armyTextObj.width = amount + "@wwArmySmallIconWidth"
     local armyContainerObj = armyTextObj.findObject(armyObjId + "_container")
     if (!::check_obj(armyContainerObj))
       return

@@ -124,11 +124,11 @@
         "position": "absolute"
       },
       "top_right_holder": {
+        "hasRightIndent": "yes",
         "text": {
           "id": "info_text_top",
           "pos": "0, ph/2-h/2",
-          "position": "relative",
-          "margin-right": "1@framePadding"
+          "position": "relative"
         }
       }
     },
@@ -817,9 +817,10 @@
                     },
                     {
                       "emptyVoiceChat": {
-                        "id": "voice_chat_no_activity",
                         "tooltip": "#clan/voice_chat/widget",
                         "usertalk": {
+                          "id": "voice_chat_no_activity",
+                          "type": "noTalk",
                           "fade": "in",
                           "height-end": "1",
                           "_size-timer": "0",

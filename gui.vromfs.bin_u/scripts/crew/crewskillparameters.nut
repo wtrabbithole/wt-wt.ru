@@ -137,7 +137,7 @@ function g_crew_skill_parameters::getTooltipText(memberName, skillName, crew, di
     if (repairRank!=0 && unit && unit.rank > repairRank)
     {
       local text = ::loc("crew/notEnoughRepairRank", {
-                          rank = ::colorize("activeTextColor", ::getUnitRankName(unit.rank))
+                          rank = ::colorize("activeTextColor", ::get_roman_numeral(unit.rank))
                           level = ::colorize("activeTextColor",
                                              ::g_crew_skills.getMinSkillsUnitRepairRank(unit.rank))
                          })

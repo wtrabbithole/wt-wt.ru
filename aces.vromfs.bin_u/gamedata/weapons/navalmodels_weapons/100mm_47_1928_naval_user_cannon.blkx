@@ -13,8 +13,9 @@
   "bulletsCluster": 1,
   "aimMinDist": 0.05,
   "aimMaxDist": 10000.0,
-  "maxDeltaAngle": 0.35,
-  "maxDeltaAngleVertical": 0.02,
+  "maxDeltaAngle": 0.3,
+  "maxDeltaAngleVertical": 0.015,
+  "attackMaxDist": 10000.0,
   "fxType": "big_gun_flame",
   "fxGroundDust": "water_shock_wave",
   "fxScale": 1.0,
@@ -51,9 +52,7 @@
     "explodeHitPower": 600.0,
     "explodeArmorPower": 45.0,
     "explodeRadius": [0.5,1.5],
-    "groundCollisionEffect": "art_ground_splash",
     "ricochetEffect": "cannon_ricochet",
-    "groundFxScale": [0.6,0.7],
     "waterCollisionEffect": "water_splash_76_00_he",
     "waterFxScale": [1.0,1.0],
     "hitpower": {
@@ -70,6 +69,10 @@
       "trail": "black"
     },
     "collisions": {
+      "default": {
+        "fx": "art_ground_splash",
+        "fxScale": [0.6,0.7]
+      },
       "steel": {
         "fx": "cannon_hit_armor_cumulative",
         "fxScale": [2.5,2.5]
@@ -83,6 +86,10 @@
         "fxScale": [2.1,2.1]
       },
       "buildings": {
+        "fx": "50_75_he_hit_stone",
+        "fxScale": [1.0,1.0]
+      },
+      "beton": {
         "fx": "50_75_he_hit_stone",
         "fxScale": [1.0,1.0]
       }
@@ -114,9 +121,7 @@
       "explodeHitPower": 600.0,
       "explodeArmorPower": 45.0,
       "explodeRadius": [0.5,1.5],
-      "groundCollisionEffect": "art_ground_splash",
       "ricochetEffect": "cannon_ricochet",
-      "groundFxScale": [0.6,0.7],
       "waterCollisionEffect": "water_splash_76_00_he",
       "waterFxScale": [1.0,1.0],
       "hitpower": {
@@ -133,6 +138,10 @@
         "trail": "black"
       },
       "collisions": {
+        "default": {
+          "fx": "art_ground_splash",
+          "fxScale": [0.6,0.7]
+        },
         "steel": {
           "fx": "cannon_hit_armor_cumulative",
           "fxScale": [2.5,2.5]
@@ -146,6 +155,10 @@
           "fxScale": [2.1,2.1]
         },
         "buildings": {
+          "fx": "50_75_he_hit_stone",
+          "fxScale": [1.0,1.0]
+        },
+        "beton": {
           "fx": "50_75_he_hit_stone",
           "fxScale": [1.0,1.0]
         }

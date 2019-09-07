@@ -19,7 +19,7 @@
 
 CheckBox {
   height:@checkboxSize;
-    re-type:9rect;
+  re-type:9rect;
   behaviour:check;
   color:@commonMenuButtonColor;
   font:@fontNormal;
@@ -54,7 +54,7 @@ CheckBox:disabled {
 }
 
 CheckBoxImg {
-  re-type:fgPict;
+  re-type:rotationFg;
   size:@checkboxImgSize, @checkboxImgSize;
   top:50%ph-50%h;
   left:50%ph-50%w;
@@ -66,6 +66,7 @@ CheckBoxImg {
   foreground-repeat:aspect-ratio;
   foreground-position:0, -0.33h, -0.33w, 0;
   foreground-color:@transparent;
+  foreground-svg-size:@checkboxImgSize, @checkboxImgSize;
   input-transparent:yes;
 }
 
@@ -104,7 +105,7 @@ multiOption[chosen=yes]:disabled   > CheckBoxImg
 
 [type=sortOrder] > CheckBoxImg {
   foreground-position:0;
-  foreground-image:#ui/gameuiskin#scrollbar_arrow_up;
+  foreground-image:#ui/gameuiskin#arrow.svg;
   foreground-color:@white;
 }
 
@@ -113,7 +114,7 @@ multiOption[chosen=yes]:disabled   > CheckBoxImg
 }
 
 [type=sortOrder]:checked > CheckBoxImg {
-  foreground-image:#ui/gameuiskin#scrollbar_arrow_down;
+  foreground-rotation:180;
 }
 
 [type=sortOrder]:hover:checked > CheckBoxImg {

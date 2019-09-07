@@ -1,5 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
+local stdMath = require("std/math.nut")
 
 
 ::g_order_type <- {
@@ -152,8 +153,8 @@ enums.addTypesByGlobalName("g_order_type", {
   UNIVERSAL_KILLER = {
     name = "universalKiller"
     sortPlayerScores = function (data1, data2) {
-      local score1 = ::number_of_set_bits(::getTblValue("score", data1, 0).tointeger())
-      local score2 = ::number_of_set_bits(::getTblValue("score", data2, 0).tointeger())
+      local score1 = stdMath.number_of_set_bits(::getTblValue("score", data1, 0).tointeger())
+      local score2 = stdMath.number_of_set_bits(::getTblValue("score", data2, 0).tointeger())
       if (score1 != score2)
         return score1 > score2 ? -1 : 1
       return 0

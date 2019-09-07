@@ -16,7 +16,7 @@
 local function _filter_func(func, params_num=null) {
   //return is function with (index,value,collection)
   ::assert(::type(func)==::type(callee()))
-  switch (max(func.getinfos()?.parameters-1, params_num ?? 3)) {
+  switch (max(func.getfuncinfos()?.parameters-1, params_num ?? 3)) {
     case 1:
       return @(value, index, collection) func(val)
     case 2:
@@ -31,7 +31,7 @@ local function _filter_func(func, params_num=null) {
 local function _map_func(func) {
   //return is function with (index,value,collection)
   ::assert(::type(func)==::type(callee()))
-  switch (func.getinfos()?.parameters-1) {
+  switch (func.getfuncinfos()?.parameters-1) {
     case 1:
       return @(value, index, collection) func(value)
     case 2:

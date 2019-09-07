@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local stdMath = require("std/math.nut")
 ::g_hud_crew_member <- {
   types = []
 }
@@ -58,18 +59,17 @@ enums.addTypesByGlobalName("g_hud_crew_member", {
     tooltip = "hud_tank_crew_distance"
 
     setCrewMemberState = function (iconObj, newStateData) {
-      local val = ::roundToDigits(newStateData.distance, 2)
+      local val = stdMath.roundToDigits(newStateData.distance, 2)
       local cooldownObj = ::g_hud_crew_state.scene.findObject("cooldown")
-      val == 1 ?
-      (
-        cooldownObj["sector-angle-2"] = 0,
-        iconObj.state = "ok",
+      if (val == 1) {
+        cooldownObj["sector-angle-2"] = 0
+        iconObj.state = "ok"
         iconObj.tooltip = ""
-      ):(
-        cooldownObj["sector-angle-2"] = (val * 360).tointeger(),
-        iconObj.state = "bad",
+      } else {
+        cooldownObj["sector-angle-2"] = (val * 360).tointeger()
+        iconObj.state = "bad"
         iconObj.tooltip = ::loc(tooltip, {distance = val * 100})
-      )
+      }
     }
   }
 

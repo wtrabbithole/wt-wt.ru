@@ -1190,11 +1190,13 @@
       "AirFlow2": [0.0,0.0,1.0],
       "AirFlow3": [100.0,0.0,1.0],
       "ArcadeTangAirFlowMin": 75.0,
+      "ArcadeAxialAirFlowRange": [-300.0,30.0],
       "ScreenEffectThrustMultMax": 0.6,
       "ScreenEffectThrustMult10Dist": 10.0,
       "ScreenEffectVelMult": 0.005,
       "VortexRingVFlowMult": [0.4,0.9],
-      "VortexRingVFlowToReturnDist": 3.9
+      "VortexRingVFlowToReturnDist": 3.9,
+      "NonAxialFlowShakeRange": [-12.0,-12.0,-12.0,22.0]
     },
     "Mass": {
       "Mass": 105.0,
@@ -1797,7 +1799,7 @@
         "Ki": 0.2,
         "Imax": 2.5,
         "Kd": 0.001,
-        "Lim": [0.05,0.74]
+        "Lim": [0.05,0.9]
       },
       "AltPID": {
         "Kp": 1.0,

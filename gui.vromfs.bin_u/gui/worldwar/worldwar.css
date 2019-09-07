@@ -43,6 +43,10 @@
 @const wwFlyOutAirTypeTitleHeight: 44@sf/@pf;
 @const wwFlyOutScreenInfoWidth: 1@slot_interval +1@flyOutSliderWidth +2@sliderButtonSquareHeight +1@buttonWidth +1@slot_button_fullWidth +2@slot_interval +1@modItemWidth +1@modItemHeight;
 
+@const wwArmySmallIconWidth: 36*@sf/@pf;
+@const wwSmallCountryFlagWidth: 67*@sf/@pf;
+@const wwSmallCountryFlagHeight: 35*@sf/@pf;
+
 
 
 @const objectiveLightTdBackground: #10101010;
@@ -237,7 +241,7 @@ armyIcon[battleDescriptionIconSize=medium] {
 }
 
 armyIcon[battleDescriptionIconSize=small] {
-  size:@armySmallIconWidth, @armySmallIconWidth;
+  size:@wwArmySmallIconWidth, @wwArmySmallIconWidth;
 }
 
 armyIcon > background {
@@ -510,6 +514,9 @@ wwBattleBackgroundShadow {
   background-position:6,6;
   position:absolute;
 }
+wwMainMenuBackgroundShadow {
+  padding: 0, 2@dp;
+}
 
 wwMainMenuBackgroundShadow {
   height:ph -1@navBarBattleButtonHeight -9@sf/@pf_outdated;
@@ -647,3 +654,10 @@ wwUnitClass > classIcon[unitType=fighter]  { color: @medium_fighterColor; }
 wwUnitClass > classIcon[unitType=assault]  { color: @common_assaultColor; }
 wwUnitClass > classIcon[unitType=bomber]   { color: @medium_bomberColor; }
 [isEnabled=no] wwUnitClass > classIcon     { color: @fadedTextColor; }
+
+wwTopNest {
+  width:pw;
+  margin-top:1@blockInterval;
+  flow:vertical;
+  css-hier-invalidate:yes;
+}

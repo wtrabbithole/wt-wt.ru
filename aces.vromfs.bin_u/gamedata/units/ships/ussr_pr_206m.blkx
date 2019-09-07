@@ -108,9 +108,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": {
       "replace_tex": {
         "from": "flag_ussr_01_c*",
@@ -1542,6 +1539,7 @@
         "shatterDamageMult": 0.5,
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
+        "armorClass": "ship_structural_steel",
         "armorThickness": 8.0,
         "compartment_01_dm": {
           "hp": 1194.0
@@ -1556,13 +1554,17 @@
           "hp": 865.0
         },
         "bridge_dm": {
-          "hp": 250.0
+          "armorThickness": 1.0,
+          "hp": 311.0
         },
         "radio_station_dm": {
+          "armorThickness": 1.0,
           "hp": 150.0
         }
       },
       "superstructures": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 4.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 0.4,
         "shatterDamageMult": 0.3,
@@ -1578,7 +1580,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 10.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 1000.0
@@ -1656,6 +1659,15 @@
         "steering_gear_01_dm": {
           "hp": 180.0
         }
+      },
+      "elevators": {
+        "armorThrough": 150.0,
+        "fireProtectionHp": 5.0,
+        "armorThickness": 15.0,
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.0,
+        "explosionDamageMult": 1.5,
+        "fireParamsPreset": "ship_turrets"
       },
       "pumps": {
         "armorClass": "armor_tank_engine",
@@ -1797,13 +1809,13 @@
         "explosionDamageMult": 2.0,
         "secondaryShatterDamageMult": 1.0,
         "fuel_tank_01_dm": {
-          "hp": 200.0
+          "hp": 600.0
         },
         "fuel_tank_02_dm": {
           "hp": 122.0
         },
         "fuel_tank_03_dm": {
-          "hp": 200.0
+          "hp": 600.0
         }
       },
       "ammo": {
@@ -1812,14 +1824,14 @@
         "fireProtectionHp": 20.0,
         "fireParamsPreset": "ship_ammo_fire",
         "genericDamageMult": 0.7,
-        "explosionDamageMult": 1.6,
-        "shatterDamageMult": 1.6,
-        "secondaryShatterDamageMult": 1.1,
+        "explosionDamageMult": 0.6,
+        "shatterDamageMult": 0.5,
+        "secondaryShatterDamageMult": 0.5,
         "ammunition_storage_01_dm": {
-          "hp": 100.0
+          "hp": 800.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 500.0
+          "hp": 800.0
         }
       },
       "depth_charges": {
@@ -2149,6 +2161,9 @@
             "breechDP": "main_caliber_gun_01_dm"
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "defaultYaw": 0.0
           },
           {
@@ -2218,17 +2233,41 @@
             "errExplTime": 0.0
           },
           {
-            "turret": {
-              "head": "main_caliber_turret_01",
-              "gun": "main_caliber_gun_01",
-              "gunnerDm": "main_caliber_turret_01_dm",
-              "barrel": "gun_barrel_03",
-              "linkedAnimPart": {
-                "horNode": "ex_decor_15",
-                "horLimits": [-180.0,180.0],
-                "horOriginLimits": [-180.0,180.0]
+            "turret": [
+              {
+                "head": "main_caliber_turret_01"
+              },
+              {
+                "gun": "main_caliber_gun_01"
+              },
+              {
+                "gunnerDm": "main_caliber_turret_01_dm"
+              },
+              {
+                "barrel": "gun_barrel_03"
+              },
+              {
+                "linkedAnimPart": {
+                  "horNode": "ex_decor_15",
+                  "horLimits": [-180.0,180.0],
+                  "horOriginLimits": [-180.0,180.0]
+                }
+              },
+              {
+                "linkedAnimPart": {
+                  "horNode": "ex_decor_31",
+                  "horLimits": [-180.0,180.0],
+                  "horOriginLimits": [-180.0,180.0]
+                }
+              },
+              {
+                "linkedAnimPart": {
+                  "verNode": "ex_decor_32",
+                  "verLimits": [-10.0,85.0],
+                  "verOriginLimits": [-10.0,85.0]
+                }
               }
-            }
+            ]
           },
           {
             "limits": {
@@ -2246,14 +2285,27 @@
           },
           {
             "limitsDeadzone": {
-              "yaw": [-10.0,0.0],
-              "pitch": [-10.0,85.0]
+              "yaw": [-17.0,17.0],
+              "pitch": [-10.0,40.0]
             }
           },
           {
-            "limitsDeadzone": {
-              "yaw": [10.0,0.0],
-              "pitch": [-10.0,85.0]
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -2286,6 +2338,9 @@
           },
           {
             "breechDP": "main_caliber_gun_01_dm"
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "defaultYaw": 0.0
@@ -2380,14 +2435,27 @@
           },
           {
             "limitsDeadzone": {
-              "yaw": [-15.0,0.0],
-              "pitch": [-2.0,30.0]
+              "yaw": [-17.0,17.0],
+              "pitch": [-10.0,40.0]
             }
           },
           {
-            "limitsDeadzone": {
-              "yaw": [0.0,15.0],
-              "pitch": [-2.0,30.0]
+            "gunStabilizer": {
+              "hasVerticalGunFreeMode": true,
+              "hasHorizontal": true,
+              "horizontalOmegaMult": 1.0,
+              "horizontalSpeedLimitKPH": 80.0,
+              "hasVertical": true,
+              "verticalOmegaMult": 1.0,
+              "verticalSpeedLimitKPH": 80.0,
+              "errorKPHToDegrees": [
+                {
+                  "row": [5.0,0.01]
+                },
+                {
+                  "row": [70.0,0.05]
+                }
+              ]
             }
           }
         ]
@@ -2413,7 +2481,7 @@
             "useEmitter": true
           },
           {
-            "recoilOffset": 0.3
+            "recoilOffset": 0.138
           },
           {
             "barrelDP": "auxiliary_caliber_gun_01_dm"
@@ -2491,6 +2559,9 @@
             "errExplTime": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "turret": {
               "head": "auxiliary_caliber_turret_01",
               "gun": "auxiliary_caliber_gun_01",
@@ -2557,7 +2628,7 @@
             "useEmitter": true
           },
           {
-            "recoilOffset": 0.3
+            "recoilOffset": 0.138
           },
           {
             "barrelDP": "auxiliary_caliber_gun_02_dm"
@@ -2633,6 +2704,9 @@
           },
           {
             "errExplTime": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "turret": {
@@ -3013,6 +3087,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -3598,15 +3703,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -3623,22 +3719,26 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": {
+        "prevModification": "new_ship_hull"
+      },
+      "new_ship_screw": [],
+      "new_ship_engine": {
+        "prevModification": "new_ship_screw"
+      },
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "57mm_ussr_HE": [],
       "25mm_2m3_navy_universal": [],
       "25mm_2m3_he_navy": [],
       "25mm_2m3_he_navy_ammo_pack": [],
       "25mm_2m3_ap_navy": [],
       "25mm_2m3_ap_navy_ammo_pack": {
-        "reqModification": "25mm_2m3_he_navy_ammo_pack"
+        "prevModification": "25mm_2m3_he_navy_ammo_pack"
       },
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": [],
       "ship_rangefinder": [],
       "new_aux_caliber_turrets": [],
       "new_main_caliber_turrets": {
@@ -3748,6 +3848,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
+        "removeLoadedAmmo": false,
         "shells": {
           "fatalFire": true,
           "fatalExplosion": true,

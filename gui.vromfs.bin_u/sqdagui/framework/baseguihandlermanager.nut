@@ -477,8 +477,8 @@ function handlersManager::setGuiRootOptions(guiScene, forceUpdate = true)
   local rootObj = guiScene.getRoot()
 
   rootObj["show_console_buttons"] = ::show_console_buttons ? "yes" : "no" //should to force box buttons in WoP?
-  if (::should_swap_advance())
-    rootObj["swap_ab"] = "yes"
+  if ("ps4_is_circle_selected_as_enter_button" in ::getroottable() && ::ps4_is_circle_selected_as_enter_button())
+    rootObj["swap_ab"] = "yes";
 
   //Check for special hints, because IME is called with special action, and need to show text about it
   local hasIME = ::is_ps4_or_xbox || ::is_platform_android || ::is_steam_big_picture()

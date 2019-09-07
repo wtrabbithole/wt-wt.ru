@@ -17,7 +17,8 @@
         },
         "top_right_holder": {
           "id": "header_buttons",
-          "vCentered": "yes"
+          "vCentered": "yes",
+          "hasRightIndent": "yes"
         },
         "Button_close": []
       },
@@ -308,7 +309,7 @@
                     "position": "relative"
                   },
                   {
-                    "pos": "pw-w+5, 10"
+                    "pos": "pw-w+1@blockInterval, 1@blockInterval"
                   },
                   {
                     "behavior": "wrapNavigator"
@@ -318,6 +319,12 @@
                   },
                   {
                     "childsActivate": "yes"
+                  },
+                  {
+                    "display": "hide"
+                  },
+                  {
+                    "enable": "no"
                   },
                   {
                     "on_wrap_up": "onWrapUp"
@@ -368,7 +375,7 @@
                 "div": {
                   "id": "clan_awards_container",
                   "position": "relative",
-                  "pos": "pw-w+5, 10",
+                  "pos": "pw-w+1@blockInterval, 1@blockInterval",
                   "max-width": "pw",
                   "total-input-transparent": "yes",
                   "behaviour": "button",
@@ -1198,9 +1205,10 @@
                     },
                     {
                       "emptyVoiceChat": {
-                        "id": "voice_chat_no_activity",
                         "tooltip": "#clan/voice_chat/widget",
                         "usertalk": {
+                          "id": "voice_chat_no_activity",
+                          "type": "noTalk",
                           "fade": "in",
                           "height-end": "1",
                           "_size-timer": "0",

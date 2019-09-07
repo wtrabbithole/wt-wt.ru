@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local stdMath = require("std/math.nut")
 
 local CHANCE_TO_STOP_ON_BORDER = 0.5
 
@@ -91,7 +92,7 @@ enums.addTypes(rouletteAnim,
 
     function calcAnimConfigImpl(targetPos, targetWidth, itemWidth)
     {
-      local time1 = ::lerp(0.0, 1.0, MIN_TIME, MAX_TIME, ::math.frnd())
+      local time1 = stdMath.lerp(0.0, 1.0, MIN_TIME, MAX_TIME, ::math.frnd())
       local time2 = time1 + FINAL_ANIM_TIME
       local pos1 = targetPos + getRandomEndDisplacement() * 0.5 * targetWidth
       local pos2 = targetPos

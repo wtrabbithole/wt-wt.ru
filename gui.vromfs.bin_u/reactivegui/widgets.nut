@@ -7,6 +7,8 @@ local shipExHud = require("shipExHud.nut")
 local shipObstacleRf = require("shipObstacleRangefinder.nut")
 local footballHud = require("footballHud.nut")
 local screenState = require("style/screenState.nut")
+local airHud = require("airHud.nut")
+local tankHud = require("tankHud.nut")
 
 
 local widgetsMap = {
@@ -16,6 +18,10 @@ local widgetsMap = {
 
     if (hudState.unitType.value == "helicopter")
       return helicopterHud
+    else if (hudState.unitType.value == "aircraft" && !hudState.isPlayingReplay.value)
+      return airHud
+    else if (hudState.unitType.value == "tank" && !hudState.isPlayingReplay.value)
+      return tankHud
     else if (hudState.unitType.value == "ship" && !hudState.isPlayingReplay.value)
       return shipHud
     else if (hudState.unitType.value == "shipEx" && !hudState.isPlayingReplay.value)

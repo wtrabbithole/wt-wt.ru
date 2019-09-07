@@ -153,6 +153,7 @@ strength_unit_expclass_group <- {
   exp_torpedo_gun_boat = "ships"
   exp_submarine_chaser = "ships"
   exp_destroyer = "ships"
+  exp_cruiser = "ships"
   exp_naval_ferry_barge = "ships"
 }
 
@@ -225,6 +226,7 @@ foreach (fn in [
                  "handler/wwObjectivesInfo.nut"
                  "handler/wwMyClanSquadInviteModal.nut"
                  "handler/wwJoinBattleCondition.nut"
+                 "handler/wwLeaderboard.nut"
                  "worldWarRender.nut"
                  "worldWarBattleJoinProcess.nut"
                ])
@@ -257,7 +259,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   myClanParticipateIcon = "#ui/gameuiskin#lb_victories_battles.svg"
   lastPlayedIcon = "#ui/gameuiskin#last_played_operation_marker"
 
-  defaultDiffCode = ::DIFFICULTY_REALISTIC
+  defaultDiffCode = ::DIFFICULTY_ARCADE
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_world_war")
@@ -296,7 +298,7 @@ function g_world_war::canJoinWorldwarBattle()
 function g_world_war::getPlayWorldwarConditionText()
 {
   local rankText = ::colorize("@unlockHeaderColor",
-    ::getUnitRankName(getSetting("minCraftRank", 0)))
+    ::get_roman_numeral(getSetting("minCraftRank", 0)))
   return ::loc("worldWar/playCondition", {rank = rankText})
 }
 
@@ -439,6 +441,11 @@ function g_world_war::onEventLoadingStateChange(p)
     ::g_squad_manager.cancelWwBattlePrepare()
     isLastFlightWasWwBattle = ::g_mis_custom_state.getCurMissionRules().isWorldWar
   }
+}
+
+function g_world_war::onEventResetSkipedNotifications(p)
+{
+  ::saveLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false)
 }
 
 function g_world_war::stopWar()

@@ -1027,6 +1027,13 @@ function get_option(type, context = null)
       defaultValue = ::get_is_console_mode_force_enabled()
       break
 
+    case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
+      descr.id = "gamepadEngDeadZone"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
     case ::USEROPT_INVERTY:
       descr.id = "invertY"
       descr.controlType = optionControlType.CHECKBOX
@@ -1095,6 +1102,13 @@ function get_option(type, context = null)
       defaultValue = true
       break
 
+    case ::USEROPT_WHEEL_CONTROL_SHIP:
+      descr.id = "selectWheelShipEnable"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = false
+      break
+
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
       descr.id = "seperatedEngineControlShip"
       descr.controlType = optionControlType.CHECKBOX
@@ -1115,6 +1129,28 @@ function get_option(type, context = null)
         minCaliber  = ::g_measure_type.MM.getMeasureUnitsText(minCaliber * 1000),
         minDistance = ::g_measure_type.DISTANCE.getMeasureUnitsText(minDrawDist)
       })
+      break
+
+    case ::USEROPT_BULLET_FALL_SOUND_SHIP:
+      descr.id = "bulletFallSoundShip"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = false
+
+      local blk = ::dgs_get_game_params()
+      local minCaliber  = blk?.shipsShootingTracking?.minCaliber ?? 0.1
+      local minDrawDist = blk?.shipsShootingTracking?.minDrawDist ?? 3500
+      descr.hint = ::loc("guiHints/bulletFallSoundShip", {
+        minCaliber  = ::g_measure_type.MM.getMeasureUnitsText(minCaliber * 1000),
+        minDistance = ::g_measure_type.DISTANCE.getMeasureUnitsText(minDrawDist)
+      })
+      break
+
+    case ::USEROPT_AUTO_TARGET_CHANGE_SHIP:
+      descr.id = "automaticTargetChangeShip"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
       break
 
     case ::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE:
@@ -1722,7 +1758,7 @@ function get_option(type, context = null)
       descr.values = []
       for(local i = 1; i <= ::max_country_rank; i++)
       {
-        descr.items.push("#options/chooseUnitsRank/rank_" + i)
+        descr.items.push(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
         descr.values.push({min = (i - 1) * 5, max = i * 5 - 1})
       }
 
@@ -2807,7 +2843,7 @@ function get_option(type, context = null)
 
     case ::USEROPT_RANK:
       descr.id = "rank"
-      descr.title = ::loc("guiHints/chooseUnitsRank")
+      descr.title = ::loc("shop/age")
       descr.controlName <- "combobox"
       descr.cb = "onInstantOptionApply"
 
@@ -2816,6 +2852,7 @@ function get_option(type, context = null)
 
       if (::getTblValue("isEventRoom", context, false))
       {
+        descr.title = ::loc("guiHints/chooseUnitsMMRank")
         local brRanges = ::getTblValue("brRanges", context, [])
         for(local i = 0; i < brRanges.len(); i++)
         {
@@ -2825,8 +2862,7 @@ function get_option(type, context = null)
           local tier = ::events.getTierByMaxBr(maxBR)
           local brText = ::format("%.1f", minBR)
                        + ((minBR != maxBR) ? " - " + ::format("%.1f", maxBR) : "")
-          brText = ::format(::loc("events/br"), brText)
-          local text = ::loc("ui/tier", { text = tier }) + " " + brText
+          local text = brText
           descr.values.append(tier)
           descr.items.append(text)
         }
@@ -2835,7 +2871,7 @@ function get_option(type, context = null)
       if (!descr.values.len())
         for(local i = 1; i <= ::max_country_rank; i++)
         {
-          descr.items.append("#options/chooseUnitsRank/rank_" + i)
+          descr.items.append(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
           descr.values.append(i)
         }
       break
@@ -3782,6 +3818,13 @@ function get_option(type, context = null)
       descr.value = ::get_option_horizontal_speed() != 0
       break
 
+    case ::USEROPT_HELICOPTER_HELMET_AIM:
+      descr.id = "helicopterHelmetAim"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_use_oculus_to_aim_helicopter() != 0
+      break
+
     case ::USEROPT_SHOW_DESTROYED_PARTS:
       descr.id = "show_destroyed_parts"
       descr.controlType = optionControlType.CHECKBOX
@@ -3823,7 +3866,7 @@ function get_option(type, context = null)
       {
         descr.values.append(::format("option_%s", rank.tostring()))
         descr.items.append({
-          text = (rank == 0 ? ::loc("clan/membRequirementsRankAny") : ::getUnitRankName(rank))
+          text = (rank == 0 ? ::loc("clan/membRequirementsRankAny") : ::get_roman_numeral(rank))
         })
       }
       descr.value = ::find_in_array(descr.values, "option_0")
@@ -4551,6 +4594,10 @@ function set_option(type, value, descr = null)
       ::set_option_horizontal_speed(value ? 1 : 0)
       break
 
+    case ::USEROPT_HELICOPTER_HELMET_AIM:
+      ::set_option_use_oculus_to_aim_helicopter(value ? 1 : 0)
+      break
+
     case ::USEROPT_HUE_HELICOPTER_HUD_ALERT:
       ::set_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
@@ -4793,14 +4840,18 @@ function set_option(type, value, descr = null)
     case ::USEROPT_RACE_CAN_SHOOT:
     case ::USEROPT_USE_KILLSTREAKS:
     case ::USEROPT_AUTOMATIC_TRANSMISSION_TANK:
+    case ::USEROPT_WHEEL_CONTROL_SHIP:
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
     case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
+    case ::USEROPT_BULLET_FALL_SOUND_SHIP:
+    case ::USEROPT_AUTO_TARGET_CHANGE_SHIP:
     case ::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE:
     case ::USEROPT_REPLAY_ALL_INDICATORS:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_REALISTIC:
     case ::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR:
     case ::USEROPT_CONTENT_ALLOWED_PRESET:
+    case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
       if (descr.controlType == optionControlType.LIST)
       {
         if (typeof descr.values != "array")
@@ -5208,24 +5259,6 @@ function get_unit_preset_img(unitName /*or unit group name*/)
   }
 
   return ::getTblValue(unitName, ::units_img_preset)
-}
-
-function show_popup_on_changed_value_option(userOptionName, value)
-{
-  local option = ::get_option(userOptionName)
-  if (!option)
-    return
-
-  if (option.controlType != optionControlType.CHECKBOX)
-    return
-
-  if (option.value == value)
-    return
-
-  local valueText = ::colorize("activeTextColor", ::loc(value? "options/enabled" : "options/disabled"))
-  local optionText = ::loc("ui/parentheses/space", {text = ::loc("options/" + option.id)})
-  local msg = valueText + optionText
-  ::g_popups.add(null, msg)
 }
 
 function is_tencent_unit_image_reqired(unit)

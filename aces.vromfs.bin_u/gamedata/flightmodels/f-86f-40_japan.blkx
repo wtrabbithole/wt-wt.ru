@@ -230,30 +230,6 @@
     ]
   },
   {
-    "weapon_presets": [
-      {
-        "preset": {
-          "name": "f_86_default",
-          "blk": "gameData/flightModels/weaponPresets/f_86_default.blk"
-        }
-      },
-      {
-        "preset": {
-          "name": "f_86_hvar_rockets",
-          "blk": "gameData/flightModels/weaponPresets/f_86_5in_rockets.blk",
-          "reqModification": "frc_mk2"
-        }
-      },
-      {
-        "preset": {
-          "name": "f_86_1000lb_bombs",
-          "blk": "gameData/flightModels/weaponPresets/f_86_1000lb_bombs.blk",
-          "reqModification": "flbc_mk2"
-        }
-      }
-    ]
-  },
-  {
     "turbulence": {
       "segmentlength": 100.0,
       "startSpeed": 28.0,
@@ -452,47 +428,6 @@
       "climbSpeed": 46.7,
       "maxSpeed": 307.22,
       "turnTime": 24.0
-    }
-  },
-  {
-    "modifications": {
-      "cd_98": [],
-      "CdMin_Fuse": [],
-      "new_cover": [],
-      "structure_str": [],
-      "hydravlic_power": {
-        "effects": {
-          "aileronBooster": 0.9,
-          "elevatorBooster": 0.9
-        }
-      },
-      "hp_105_jet": [],
-      "g_suit": [],
-      "new_compressor_jet": {
-        "tier": 1
-      },
-      "50cal_universal": [],
-      "50cal_ground_targets": [],
-      "50cal_tracers": [],
-      "50cal_stealth": [],
-      "bmg50_belt_pack": {
-        "tier": 1
-      },
-      "bmg50_new_gun": {
-        "reqModification": "bmg50_belt_pack",
-        "tier": 3
-      },
-      "frc_mk2": {
-        "reqModLevel": 9.0,
-        "tier": 2,
-        "modClass": "weapon"
-      },
-      "flbc_mk2": {
-        "reqModLevel": 8.0,
-        "tier": 4,
-        "modClass": "weapon",
-        "reqModification": "frc_mk2"
-      }
     }
   },
   {
@@ -2317,6 +2252,83 @@
         }
       }
     ]
+  },
+  {
+    "weapon_presets": [
+      {
+        "preset": {
+          "name": "f_86_default",
+          "blk": "gameData/flightModels/weaponPresets/f_86_default.blk"
+        }
+      },
+      {
+        "preset": {
+          "name": "f_86_hvar_rockets",
+          "blk": "gameData/flightModels/weaponPresets/f_86_5in_rockets.blk",
+          "reqModification": "frc_mk2"
+        }
+      },
+      {
+        "preset": {
+          "name": "f_86_1000lb_bombs",
+          "blk": "gameData/flightModels/weaponPresets/f_86_1000lb_bombs.blk",
+          "reqModification": "flbc_mk2"
+        }
+      },
+      {
+        "preset": {
+          "name": "f_86_2xaim9",
+          "blk": "gameData/flightModels/weaponPresets/f_86_2xaim9.blk",
+          "reqModification": "us_aim_9b"
+        }
+      }
+    ]
+  },
+  {
+    "modifications": {
+      "cd_98": [],
+      "CdMin_Fuse": [],
+      "new_cover": [],
+      "structure_str": [],
+      "hydravlic_power": {
+        "effects": {
+          "aileronBooster": 0.9,
+          "elevatorBooster": 0.9
+        }
+      },
+      "hp_105_jet": [],
+      "g_suit": [],
+      "new_compressor_jet": {
+        "tier": 1
+      },
+      "50cal_universal": [],
+      "50cal_ground_targets": [],
+      "50cal_tracers": [],
+      "50cal_stealth": [],
+      "bmg50_belt_pack": {
+        "tier": 1
+      },
+      "bmg50_new_gun": {
+        "reqModification": "bmg50_belt_pack",
+        "tier": 3
+      },
+      "frc_mk2": {
+        "reqModLevel": 9.0,
+        "tier": 2,
+        "modClass": "weapon"
+      },
+      "flbc_mk2": {
+        "reqModLevel": 8.0,
+        "tier": 3,
+        "modClass": "weapon",
+        "reqModification": "frc_mk2"
+      },
+      "us_aim_9b": {
+        "reqModification": "flbc_mk2",
+        "tier": 4,
+        "modClass": "weapon"
+      }
+    }
   },
   {
     "default_skin_tomoe": [

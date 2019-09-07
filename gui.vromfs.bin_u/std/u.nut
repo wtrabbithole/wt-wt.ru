@@ -361,45 +361,6 @@ local function safeIndex(arr, n) {
     return arr[arr.len() + n]
 }
 
-// * Returns random element of the given array
-local function chooseRandom(arr)
-{
-  if (!arr.len())
-    return null
-  return arr[rnd() % arr.len()]
-}
-
-local function chooseRandomNoRepeat(arr, prevIdx)
-{
-  if (prevIdx < 0)
-    return chooseRandom(arr)
-  if (!arr.len())
-    return null
-  if (arr.len() == 1)
-    return arr[0]
-
-  local nextIdx = rnd() % (arr.len() - 1)
-  if (nextIdx >= prevIdx)
-    nextIdx++
-  return arr[nextIdx]
-}
-
-local function shuffle(arr)
-{
-  local res = clone arr
-  local size = res.len()
-  local j
-  local v
-  for (local i = size - 1; i > 0; i--)
-  {
-    j = rnd() % (i + 1)
-    v = res[j]
-    res[j] = res[i]
-    res[i] = v
-  }
-  return res
-}
-
 local function max(arr, iteratee = null)
 {
   local result = null
@@ -456,42 +417,24 @@ local function appendOnce(v, arr, skipNull = false, customIsEqualFunc = null)
   arr.append(v)
 }
 
-local function setTblValueByArrayPath(pathArray, tbl, value) {
-  foreach(idx, key in pathArray) {
-    if (idx == pathArray.len()-1)
-      tbl[key]<-value
-    else {
-      if (!(key in tbl))
-        tbl[key] <- {}
-      tbl = tbl[key]
-    }
-  }
-}
-
-local function setTblValueByPath(path, tbl, value, separator = ".") {
-  if (::type(path) == "string") {
-    path = split(path, separator)
-  }
-  if (::type(path) == "array")
-    setTblValueByArrayPath(keys, tbl, value)
-  else 
-    tbl[path] <- value
-}
-
-local function getTblValueByPath(table, path, separator = ".") {
-  if (::type(path) == "string") {
-    path = split(path, separator)
-  }
-  assert(::type(path)=="array", "Path should be array or string with separator")
-  local ret = table
-  foreach(i,p in path) {
-    if (ret==null)
-      return null
-    ret = ret?[p]
-  }
-  return ret
-}
 local underscore = require("underscore.nut")
+
+local chooseRandom = @(arr) underscore.chooseRandom(arr, rnd)
+local shuffle = @(arr) underscore.shuffle(arr, rnd)
+
+local function chooseRandomNoRepeat(arr, prevIdx) {
+  if (prevIdx < 0)
+    return chooseRandom(arr)
+  if (!arr.len())
+    return null
+  if (arr.len() == 1)
+    return arr[0]
+
+  local nextIdx = rand() % (arr.len() - 1)
+  if (nextIdx >= prevIdx)
+    nextIdx++
+  return arr[nextIdx]
+}
 
 local export = underscore.__merge({
   appendOnce = appendOnce
@@ -512,8 +455,6 @@ local export = underscore.__merge({
   isEmpty = isEmpty
   last = last
   safeIndex=safeIndex
-  setTblValueByPath = setTblValueByPath
-  getTblValueByPath = getTblValueByPath
 //obsolete?
   map = map
   filter = filter

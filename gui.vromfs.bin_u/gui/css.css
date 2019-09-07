@@ -75,11 +75,11 @@ cardAvatar {
 }
 
 .lbTable > [bigIcons] cardImg {
-  size:@leaderboardHeaderHeight, @leaderboardHeaderHeight;
-  top:ph-h-0.4*@scrn_tgt/100.0;
+  size:@leaderboardHeaderIcoSize, @leaderboardHeaderIcoSize;
+  top:ph/2-h/2;
   left:50%pw-50%w;
   background-color:@imageNotSelectedColor;
-  background-svg-size:@leaderboardHeaderHeight, @leaderboardHeaderHeight;
+  background-svg-size:@leaderboardHeaderIcoSize, @leaderboardHeaderIcoSize;
 }
 
 cardImg[type=tiny] {
@@ -398,6 +398,7 @@ notificationText {
   color:@premiumColor;
 }
 
+discountIcon,
 discount {
   re-type:text;
   height:ph;
@@ -409,6 +410,16 @@ discount {
   background-image:#ui/gameuiskin#discount;
   background-color:@white;
   input-transparent:yes;
+}
+
+discountIcon {
+  behavior:bhvUpdater;
+}
+
+discountIcon[type=slotbarCountry] {
+  min-width:0;
+  pos:1@slotsHeaderBoxPadding + 0.5(1@cIco-w), -h + 1@blockInterval;
+  position:absolute;
 }
 
 discount[type=new] {
@@ -441,6 +452,39 @@ discount_notification {
   textShade:yes;
 }
 
+squadronExpIcon {
+  behavior:bhvUpdater;
+  background-color:@squadronExpIconColor;
+  background-repeat:expand;
+  input-transparent:yes;
+}
+
+squadronExpIcon[type=inTab] {
+  background-image:#ui/gameuiskin#new_icon_not_colored;
+  height:1@newWidgetIconHeight;
+  width:1@newWidgetIconHeight;
+  position:relative;
+  pos:0, 50%ph-50%h;
+  margin-left: 1@blockInterval;
+}
+
+squadronExpIcon[type=down] {
+  background-image:#ui/gameuiskin#discount_icon_down;
+  size:1@discountBigBoxWidth, 1@discountBigBoxHeight;
+}
+
+:hover > squadronExpIcon[type=down],
+:hover > additionalIconsDiv > squadronExpIcon[type=down],
+[show_console_buttons=yes] [selected=yes] > squadronExpIcon[type=down],
+[show_console_buttons=yes] [selected=yes] > additionalIconsDiv > squadronExpIcon[type=down] {
+  background-color:@hoverSquadronExpIconColor;
+}
+
+:pushed > squadronExpIcon[type=down],
+:pushed > additionalIconsDiv > squadronExpIcon[type=down] {
+  background-color:@pushedSquadronExpIconColor;
+}
+
 :hover > discount_notification,
 :hover > additionalIconsDiv > discount_notification,
 [show_console_buttons=yes] [selected=yes] > discount_notification,
@@ -460,20 +504,20 @@ HorizontalListBox > shopFilter[selected=yes] > discount_notification {
 
 discount_notification[type=down] {
   background-image:#ui/gameuiskin#discount_icon_down;
-  size:24*@sf/@pf_outdated, 27*@sf/@pf_outdated;
-  pos:10%ph, -h;
-  position:absolute;
+  size:1@discountBigBoxWidth, 1@discountBigBoxHeight;
   tooltip:"#discount/notification";
+  margin-right: 1@blockInterval;
 }
 
 discount_notification[type=up] {
   background-image:#ui/gameuiskin#discount_icon_up;
-  size:24*@sf/@pf_outdated, 27*@sf/@pf_outdated;
+  size:1@discountBigBoxWidth, 1@discountBigBoxHeight;
   pos:10%ph, ph;
   position:absolute;
   tooltip:"#discount/notification";
 }
 
+discountIcon[type=slotbarCountry],
 discount[type=weaponryItem] {
   re-type:text;
   background-image:#ui/gameuiskin#discount_box_down_bg;
@@ -626,6 +670,10 @@ activeText[parseTags=yes] {
 
 [commonTextColor=yes] activeText, activeText[commonTextColor=yes] {
   color:@commonTextColor;
+}
+
+textareaNoTab[commonButtonColor=yes], activeText[commonButtonColor=yes] {
+  color:@commonMenuButtonColor;
 }
 
 activeText[noMargin=yes] {
@@ -984,9 +1032,21 @@ verticalCellsOptions[baseRow=yes] > tr {
   min-width:10*@sf/@pf_outdated;
   padding-left:0.25*@scrn_tgt/100.0;
 }
+.lbTable > tr > td[cellType=top_numeration] {
+  min-width:0.03@sf;
+}
 
 .airInfoPanel > tr > td {
   min-width:0.5@airInfoPanelWidth;
+}
+.airInfoPanel[showStatsProgress=no] > tr > td {
+  padding:0, 0, @blockInterval, 0;
+}
+.airInfoPanel[showStatsProgress=yes] > tr > td {
+  padding:0, @referenceProgressHeight, @blockInterval, @referenceProgressHeight + @referenceProgressOffset;
+}
+.airInfoPanel, .airInfoPanel > tr, .airInfoPanel > tr > td {
+  css-hier-invalidate:yes;
 }
 
 tr[totalRowStyle], tr[totalRowStyle] > td {
@@ -1479,6 +1539,32 @@ img[hide_when_tooltip_empty=yes][tooltip=""] {
   display: hide;
 }
 
+textareaNoTab[showAsButton=yes] {
+  class:highlightButton;
+}
+
+textareaNoTab.highlightButton {
+  behaviour:button;
+  padding:3@sf/@pf;
+  padding-bottom:0;
+  snd_click:click;
+  input-transparent:no;
+  background-color:@frameDarkBackgroundColor;
+  border-color:@frameDarkBorderColor;
+  border:yes;
+}
+
+textareaNoTab.highlightButton:hover {
+  background-color:@frameDarkHoverBgColor;
+  color:@fadedTextColor;
+}
+
+textareaNoTab.highlightButton:pushed {
+  background-color:@frameDarkActiveBgColor;
+  border-color:@frameDarkSelectedBorderColor;
+  color:@activeTextColor;
+}
+
 
 @import "cssElems\separator.css"
 @import "cssElems\spinnerListBox.css"
@@ -1790,6 +1876,13 @@ imgSelectable[selected=yes] {
   background-color:@listboxSelOptionColor;
 }
 
+imgUsercardMedal {
+  size:@usercardMedalRibbonW, @usercardMedalRibbonW;
+}
+imgUsercardMedal > img {
+  size:@usercardMedalSize, @usercardMedalSize;
+}
+
 LockedImg{
   size:pw, ph;
   pos:50%pw-50%w, 50%ph-50%h;
@@ -1952,7 +2045,7 @@ chapterListPlace[increaseWidthForWide=yes] {
   width:0.5@sf;
 }
 [mislist=events] chapterListPlace {
-  width:0.05@sf * (1.3 + 1@slotbarCountries);
+  width:(0.03@sf + 0.02@sf * 1@isWide) * (1.3 + 1@slotbarCountries);
 }
 textarea[wrapRight=yes] {
   wrap-indent:2;
@@ -2360,28 +2453,6 @@ activeText[airCanBuy=no] {
   color:@weaponWarning;
 }
 
-textareaNoTab.highlightButton {
-  behaviour:button;
-  padding:3@sf/@pf;
-  padding-bottom:0;
-  snd_click:click;
-  input-transparent:no;
-  background-color:@frameDarkBackgroundColor;
-  border-color:@frameDarkBorderColor;
-  border:yes;
-}
-
-textareaNoTab.highlightButton:hover {
-  background-color:@frameDarkHoverBgColor;
-  color:@fadedTextColor;
-}
-
-textareaNoTab.highlightButton:pushed {
-  background-color:@frameDarkActiveBgColor;
-  border-color:@frameDarkSelectedBorderColor;
-  color:@activeTextColor;
-}
-
 airInfoBlock {
   background-image: #ui/gameuiskin#expandable_item_ww_transp_reflect;
   re-type:9rect;
@@ -2416,10 +2487,6 @@ crewUnitSpecUpgradeTooltip textareaNoTab[exp_upgrade_text_area=yes] {
 
 airInfoBlock textarea[crew_data=yes], airInfoBlock text[crew_data=yes] {
   font:@fontNormal;
-}
-
-airInfoBlock td {
-  padding:0, @referenceProgressHeight, 4*@sf/@pf_outdated, @referenceProgressHeight + @referenceProgressOffset;
 }
 
 airInfoHeader {

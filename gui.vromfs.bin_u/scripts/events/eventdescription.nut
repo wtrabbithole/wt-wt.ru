@@ -437,6 +437,7 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
       {
         text = (row.pos + 1).tostring()
         width = "0.01*@sf"
+        cellType = "top_numeration"
       }
       {
         id = "name"

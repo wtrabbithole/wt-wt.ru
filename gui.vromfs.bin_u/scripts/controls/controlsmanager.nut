@@ -16,8 +16,8 @@
       source = "ID_FLIGHTMENU"
       target = "ID_FLIGHTMENU_SETUP"
       value = [{
-        deviceId = ::ControlsPreset.deviceIdByType.joyButton
-        buttonId = 4 // Gamepad Start
+        deviceId = ::SHORTCUT.GAMEPAD_START.dev[0]
+        buttonId = ::SHORTCUT.GAMEPAD_START.btn[0]
       }]
       shouldAppendIfEmptyOnXInput = true
     }
@@ -26,16 +26,16 @@
       source = "ID_CONTINUE",
       target = "ID_CONTINUE_SETUP"
       value = [{
-        deviceId = ::ControlsPreset.deviceIdByType.joyButton
-        buttonId = 12 // PS4 X, xinput A
+        deviceId = ::GAMEPAD_ENTER_SHORTCUT.dev[0]
+        buttonId = ::GAMEPAD_ENTER_SHORTCUT.btn[0]
       }]
       shouldAppendIfEmptyOnXInput = true
     }
     {
       target = "ID_FLIGHTMENU"
       value = [[{
-        deviceId = ::ControlsPreset.deviceIdByType.keyboardKey
-        buttonId = 1 // Escape key
+        deviceId = ::SHORTCUT.KEY_ESC.dev[0]
+        buttonId = ::SHORTCUT.KEY_ESC.btn[0]
       }]]
     }
     {
@@ -43,12 +43,12 @@
       valueFunction = function()
       {
         return [[::is_xinput_device() ? {
-          deviceId = ::ControlsPreset.deviceIdByType.joyButton
-          buttonId = 12 // PS4 X, xinput A (used in mission hints)
+          deviceId = ::GAMEPAD_ENTER_SHORTCUT.dev[0]
+          buttonId = ::GAMEPAD_ENTER_SHORTCUT.btn[0] // used in mission hints
         } :
         {
-          deviceId = ::ControlsPreset.deviceIdByType.keyboardKey
-          buttonId = 57 // Space key
+          deviceId = ::SHORTCUT.KEY_SPACE.dev[0]
+          buttonId = ::SHORTCUT.KEY_SPACE.btn[0]
         }]]
       }
     }
@@ -58,7 +58,13 @@
     {
       condition = function() { return ::is_platform_pc }
       list = [
-        {name = "ID_SCREENSHOT", combo = [{deviceId = 2, buttonId = 183} /*PrtSc*/ ]}
+        {
+          name = "ID_SCREENSHOT",
+          combo = [{
+            deviceId = ::SHORTCUT.KEY_PRNT_SCRN.dev[0]
+            buttonId = ::SHORTCUT.KEY_PRNT_SCRN.btn[0]
+          }]
+        }
       ]
     }
   ]

@@ -96,9 +96,6 @@
     "canReloadNonGuns": true
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "default_skin_tomoe": [
       {
         "replace_tex": {
@@ -503,7 +500,8 @@
         "shatterDamageMult": 0.5,
         "explosionDamageMult": 1.0,
         "secondaryShatterDamageMult": 1.1,
-        "armorThickness": 8.0,
+        "armorClass": "ship_wood",
+        "armorThickness": 45.0,
         "compartment_01_dm": {
           "hp": 1149.0
         },
@@ -523,13 +521,17 @@
           "hp": 672.0
         },
         "bridge_dm": {
-          "hp": 250.0
+          "armorThickness": 1.0,
+          "hp": 360.0
         },
         "radio_station_dm": {
+          "armorThickness": 1.0,
           "hp": 150.0
         }
       },
       "superstructures": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 4.0,
         "fireParamsPreset": "ship_cover",
         "genericDamageMult": 0.4,
         "shatterDamageMult": 0.3,
@@ -546,15 +548,18 @@
           "hp": 500.0
         },
         "stern_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 15.0,
           "hp": 500.0
         },
         "mid_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 15.0,
           "hp": 500.0
         },
         "bow_bottom_dm": {
-          "armorThickness": 10.0,
+          "armorClass": "ship_wood",
+          "armorThickness": 15.0,
           "hp": 500.0
         }
       },
@@ -563,7 +568,8 @@
         "shatterDamageMult": 0.4,
         "explosionDamageMult": 1.6,
         "secondaryShatterDamageMult": 0.1,
-        "armorThickness": 40.0,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 10.0,
         "stopChanceOnDeadPart": 0.1,
         "bulkhead_01_dm": {
           "hp": 1000.0
@@ -649,6 +655,15 @@
         "steering_gear_01_dm": {
           "hp": 180.0
         }
+      },
+      "elevators": {
+        "armorThrough": 150.0,
+        "fireProtectionHp": 5.0,
+        "armorThickness": 15.0,
+        "genericDamageMult": 1.0,
+        "shatterDamageMult": 1.0,
+        "explosionDamageMult": 1.5,
+        "fireParamsPreset": "ship_turrets"
       },
       "pumps": {
         "armorClass": "armor_tank_engine",
@@ -820,10 +835,10 @@
         "explosionDamageMult": 2.0,
         "secondaryShatterDamageMult": 1.0,
         "fuel_tank_01_dm": {
-          "hp": 200.0
+          "hp": 428.0
         },
         "fuel_tank_02_dm": {
-          "hp": 200.0
+          "hp": 428.0
         }
       },
       "ammo": {
@@ -832,14 +847,14 @@
         "fireProtectionHp": 20.0,
         "fireParamsPreset": "ship_ammo_fire",
         "genericDamageMult": 0.7,
-        "explosionDamageMult": 1.6,
-        "shatterDamageMult": 1.6,
-        "secondaryShatterDamageMult": 1.1,
+        "explosionDamageMult": 0.6,
+        "shatterDamageMult": 0.5,
+        "secondaryShatterDamageMult": 0.5,
         "ammunition_storage_01_dm": {
-          "hp": 500.0
+          "hp": 1022.0
         },
         "ammunition_storage_02_dm": {
-          "hp": 500.0
+          "hp": 979.0
         }
       },
       "depth_charges": {
@@ -1882,6 +1897,9 @@
             "defaultPitch": 0.0
           },
           {
+            "useGunnerTargetingQuality": false
+          },
+          {
             "speedYaw": 60.0
           },
           {
@@ -2026,6 +2044,9 @@
           },
           {
             "defaultPitch": 0.0
+          },
+          {
+            "useGunnerTargetingQuality": false
           },
           {
             "speedYaw": 60.0
@@ -2265,19 +2286,17 @@
   },
   {
     "modifications": {
+      "new_ship_hull": [],
+      "new_ship_rudder": [],
+      "new_ship_screw": [],
+      "new_ship_engine": [],
+      "ship_tool_kit": [],
+      "manual_ship_extinguisher": [],
+      "ship_smoke_screen_system_mod": [],
+      "new_ship_pumps": [],
       "76mm_ger_dm251_HE": [],
       "76mm_ger_dm261_HE_radio_fuse": [],
       "76mm_ger_dm261_HE_radio_fuse_ammo_pack": [],
-      "manual_ship_extinguisher": [],
-      "ship_tool_kit": [],
-      "ship_smoke_screen_system_mod": [],
-      "new_ship_engine": [],
-      "new_ship_screw": [],
-      "new_ship_hull": [],
-      "new_ship_rudder": [],
-      "new_ship_pumps": {
-        "prevModification": "manual_ship_extinguisher"
-      },
       "ship_rangefinder": {
         "prevModification": "76mm_ger_dm261_HE_radio_fuse_ammo_pack"
       },
@@ -2369,6 +2388,37 @@
             "fx": {
               "name": "ship_engine_fire",
               "emitter": "emtr_fire_engine_03"
+            }
+          }
+        ]
+      },
+      {
+        "event": [
+          {
+            "name": "fuel_tank_fire"
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_02"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_03"
+            }
+          },
+          {
+            "fx": {
+              "name": "tank_fire_small",
+              "emmiter": "emtr_fire_fuel_04"
             }
           }
         ]
@@ -2950,15 +3000,6 @@
           "fx": {
             "name": "ship_ammo_fire",
             "emitter": "emtr_fire_ammo_04"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
           }
         }
       },

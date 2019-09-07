@@ -1140,6 +1140,9 @@ function SessionLobby::initMyParamsByMemberInfo(me = null)
   local myTeam = getMemberPublicParam(me, "team")
   if (myTeam != Team.Any && myTeam != team)
     team = myTeam
+
+  if (myTeam == Team.Any)
+    validateTeamAndReady()
 }
 
 function SessionLobby::syncMyInfo(newInfo, reqUpdateMatchingSlots = false)
@@ -2242,7 +2245,17 @@ function SessionLobby::getMembersReadyStatus()
 
 function SessionLobby::canInvitePlayer(uid)
 {
-  return isInRoom() && !is_my_userid(uid) && haveLobby()
+  return isInRoom() && !is_my_userid(uid) && haveLobby() && !isPlayerInMyRoom(uid)
+}
+
+function SessionLobby::isPlayerInMyRoom(uid)
+{
+  local roomMembers = getRoomMembers()
+  foreach (member in roomMembers)
+    if (member.userId == uid.tointeger())
+      return true
+
+  return false
 }
 
 function SessionLobby::needAutoInviteSquad()
@@ -2257,8 +2270,14 @@ function SessionLobby::checkSquadAutoInvite()
 
   local sMembers = ::g_squad_manager.getMembers()
   foreach(uid, member in sMembers)
-    if (member.online && member.isReady && !member.isMe() && !::u.search(members, @(m) m.userId == uid))
+    if (member.online
+        && member.isReady
+        && !member.isMe()
+        && !::u.search(members, @(m) m.userId == uid)
+        && ::g_squad_manager.canInvitePlayerToSessionByName(member.name))
+    {
       invitePlayer(uid)
+    }
 }
 
 ::SessionLobby.onEventSquadStatusChanged <- @(p) checkSquadAutoInvite()
@@ -2354,6 +2373,15 @@ function SessionLobby::getRankUnusedByUnitName(member, unitName)
       return ::getTblValue("rankUnused", craftInfo, false)
   }
   return false
+}
+
+/**
+ * Returns true if unit available for spawn is player's own unit with own crew.
+ * Returns false for non player's (random, etc.) units available for spawn.
+ */
+function SessionLobby::isUsedPlayersOwnUnit(member, unitId)
+{
+  return ::u.search(member?.crafts_info ?? [], @(ci) ci.name == unitId) != null
 }
 
 /**

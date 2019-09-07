@@ -123,4 +123,16 @@ function g_mp_chat_mode::getTextAvailableMode()
     ::loc("ui/slash"))
 }
 
+function g_mp_chat_mode::getChatHint()
+{
+  local hasIME = ::is_ps4_or_xbox || ::is_platform_android || ::is_steam_big_picture()
+  return ::loc("chat/help/modeSwitch",
+    { modeSwitchShortcuts = "{{ID_TOGGLE_CHAT_MODE}}"
+      modeList = getTextAvailableMode()
+    })
+    + (hasIME ? ""
+      : ::loc("ui/comma")
+      + ::loc("chat/help/send", { sendShortcuts = "{{INPUT_BUTTON KEY_ENTER}}" }))
+}
+
 ::cross_call_api.mp_chat_mode <- ::g_mp_chat_mode

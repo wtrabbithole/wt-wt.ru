@@ -292,10 +292,7 @@ enum CLAN_SEASON_MEDAL_TYPE
 
   function getSeasonEndDate()
   {
-    local dateDuel = ::clan_get_current_season_info().rewardDay
-    local duelTime = ::get_time_from_t(dateDuel)
-    duelTime.sec = 0
-    return time.buildDateTimeStr(duelTime)
+    return time.buildDateTimeStr(::clan_get_current_season_info().rewardDay, false, false)
   }
 
 

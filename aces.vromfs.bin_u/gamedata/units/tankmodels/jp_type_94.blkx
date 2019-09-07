@@ -425,14 +425,14 @@
           "armorThickness": 5.0
         },
         "ex_armor_body_04_dm": {
-          "armorThickness": 10.0,
+          "armorThickness": 15.0,
           "hidableInViewer": true
         },
         "ex_armor_body_05_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 15.0
         },
         "ex_armor_body_r_02_dm": {
-          "armorThickness": 10.0,
+          "armorThickness": 15.0,
           "hidableInViewer": true
         },
         "ex_armor_body_r_03_dm": {
@@ -442,7 +442,7 @@
           "armorThickness": 1.0
         },
         "ex_armor_body_l_02_dm": {
-          "armorThickness": 10.0,
+          "armorThickness": 15.0,
           "hidableInViewer": true
         },
         "ex_armor_body_l_03_dm": {
@@ -1870,6 +1870,7 @@
         "hasSuspensionOnDriveGear": true,
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15,
+        "brokenWheelSteeringDeflection": -15.0,
         "steeringDeflection": {
           "wheel_l_01": 35.0,
           "wheel_r_01": 35.0,
@@ -1888,13 +1889,67 @@
           "wheel_r_03": true
         },
         "wheelsDamageWeight": {
-          "wheel_l_01": 0.15,
-          "wheel_r_01": 0.15,
-          "wheel_l_02": 0.4,
-          "wheel_r_02": 0.4,
-          "wheel_l_03": 0.4,
-          "wheel_r_03": 0.4
+          "wheel_l_01": 0.1,
+          "wheel_r_01": 0.1,
+          "wheel_l_02": 1.5,
+          "wheel_r_02": 1.5,
+          "wheel_l_03": 1.5,
+          "wheel_r_03": 1.5
         }
+      }
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
       }
     }
   },
@@ -2366,15 +2421,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

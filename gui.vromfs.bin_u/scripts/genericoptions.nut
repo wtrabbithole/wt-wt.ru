@@ -830,7 +830,6 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
   {
     base.initScreen()
 
-    updateButtons()
     initNavigation()
     initFocusArray()
   }
@@ -978,12 +977,6 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
       navigationHandlerWeak.setNavItems(headersItems)
       checkCurrentNavigationSection()
     }
-  }
-
-  function updateButtons()
-  {
-    local btnObj = scene.findObject("btn_apply")
-    if (btnObj) btnObj.setValue(::loc("mainmenu/btnOk"))
   }
 
   function goBack()
@@ -1569,6 +1562,33 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     local btnRemoveRadio = scene.findObject("btn_remove_radio")
     if (btnRemoveRadio)
       btnRemoveRadio.enable(isEnable)
+  }
+
+  function onRevealNotifications()
+  {
+    ::scene_msg_box("ask_reveal_notifications",
+      null,
+      ::loc("mainmenu/btnRevealNotifications/askPlayer"),
+      [
+        ["yes", ::Callback(resetNotifications, this)],
+        ["no", @() null]
+      ],
+      "yes", { cancel_fn = @() null })
+  }
+
+  function resetNotifications()
+  {
+    foreach (opt in [::USEROPT_SKIP_LEFT_BULLETS_WARNING,
+                     ::USEROPT_SKIP_WEAPON_WARNING
+                    ])
+      ::set_gui_option(opt, false)
+
+    ::reset_tutorial_skip()
+    ::broadcastEvent("ResetSkipedNotifications")
+
+    //To notify player about success, it is only for player,
+    // to be sure, that operation is done.
+    ::g_popups.add("", ::loc("mainmenu/btnRevealNotifications/onSuccess"))
   }
 }
 

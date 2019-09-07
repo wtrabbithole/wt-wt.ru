@@ -5,14 +5,12 @@ function error_message_box(header, error_code, buttons, def_btn, options = {}, m
     return
 
   local errData = ::get_error_data(header, error_code)
-  errData.text += "\n\n" + (::is_platform_ps4? "" : (::loc("msgbox/error_link_format_game") + ::loc("ui/colon")))
 
-  local knoledgebaseSuffix = ::is_vendor_tencent()? "/Tencent" : ""
-  local link = ::loc("url/knowledgebase" + knoledgebaseSuffix) + errData.errCode
-  if (::is_platform_xboxone) //There is nothing bad to show link, as player can look it in the internet
-    errData.text += link
-  else
+  if (!::is_platform_xboxone)
   {
+    errData.text += "\n\n" + (::is_platform_ps4? "" : (::loc("msgbox/error_link_format_game") + ::loc("ui/colon")))
+    local knoledgebaseSuffix = ::is_vendor_tencent()? "/Tencent" : ""
+    local link = ::loc("url/knowledgebase" + knoledgebaseSuffix) + errData.errCode
     local linkText = ::is_platform_ps4? ::loc("msgbox/error_link_format_game") : link
     errData.text += ::format("<url=%s>%s</url>", link, linkText)
   }

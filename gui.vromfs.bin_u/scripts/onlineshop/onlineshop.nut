@@ -158,8 +158,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
                "behavior:t = 'OptionsNavigator'; cur_col:t='0'; cur_row:t='0'; num_rows:t='-1'; " +
                "on_click:t='onItemSelect'; selfFocusBorder:t='yes'; " +
                data +
-             "} " +
-             "dummy { id:t='btn_apply'; on_click:t = 'onApply'; behaviour:t='accesskey'; accessKey:t = 'J:A | J:Start | Space | Enter | NumEnter' }"
+             "} "
 
       data = "textarea { id:t = 'item_desc_text'; width:t = '@onlineShopWidth'; wrapRight:t='yes'; font-bold:t='@fontMedium'; padding-left:t='0.02@sf';}" + data
 
@@ -673,6 +672,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onFav() {}
   function onChapterSelect() {}
+  function onListItemsFocusChange(obj) {}
 }
 
 class ::gui_handlers.OnlineShopRowHandler extends ::gui_handlers.OnlineShopHandler

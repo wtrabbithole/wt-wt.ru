@@ -11,7 +11,7 @@
         "pos": "50%pw-50%w, 0",
         "position": "relative",
         "height": "fh",
-        "width": "1@rw",
+        "width": "1@rw $min 2@rh",
         "tdiv": [
           {
             "height": "fh"
@@ -871,9 +871,10 @@
                     },
                     {
                       "emptyVoiceChat": {
-                        "id": "voice_chat_no_activity",
                         "tooltip": "#clan/voice_chat/widget",
                         "usertalk": {
+                          "id": "voice_chat_no_activity",
+                          "type": "noTalk",
                           "fade": "in",
                           "height-end": "1",
                           "_size-timer": "0",

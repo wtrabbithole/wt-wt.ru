@@ -166,12 +166,12 @@
         ]
       }
     },
-    "dummy": {
+    "DummyButton": {
       "id": "close_ext_btn",
       "on_click": "goBack",
-      "behaviour": "accesskey",
-      "accessKey": "J:B | Esc",
-      "display": "hide"
+      "btnName": "B",
+      "display": "hide",
+      "enable": "no"
     },
     "gamercard_div": [
       {
@@ -852,9 +852,10 @@
                     },
                     {
                       "emptyVoiceChat": {
-                        "id": "voice_chat_no_activity",
                         "tooltip": "#clan/voice_chat/widget",
                         "usertalk": {
+                          "id": "voice_chat_no_activity",
+                          "type": "noTalk",
                           "fade": "in",
                           "height-end": "1",
                           "_size-timer": "0",

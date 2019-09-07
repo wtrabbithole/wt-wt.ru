@@ -1,5 +1,8 @@
 local math = require("std/math.nut")
 local interopGet = require("daRg/helpers/interopGen.nut")
+local screenState = require("style/screenState.nut")
+local compass = require("compass.nut")
+local rwr = require("rwr.nut")
 
 local style = {}
 
@@ -10,6 +13,16 @@ local fontOutlineColor = Color(0, 0, 0, 235)
 const LINE_WIDTH = 1.6
 const NUM_ENGINES_MAX = 3
 
+local compassWidth = hdpx(420)
+local compassHeight = hdpx(40)
+
+enum GuidanceLockResult {
+  RESULT_INVALID = -1
+  RESULT_STANDBY = 0
+  RESULT_WARMING_UP = 1
+  RESULT_LOCKING = 2
+  RESULT_TRACKING = 3
+}
 
 local temperatureUnit = null
 local velocityUnit = null
@@ -80,6 +93,11 @@ local helicopterState = {
     seconds = Watched(-1)
   }
 
+  MachineGuns = {
+    count = Watched(0)
+    seconds = Watched(-1)
+  }
+
   CannonsAdditional = {
     count = Watched(0)
     seconds = Watched(-1)
@@ -111,6 +129,7 @@ local helicopterState = {
   }
 
   IsCanEmpty = Watched(false)
+  IsMachineGunEmpty = Watched(false)
   IsCanAdditionalEmpty = Watched(false)
   IsRktEmpty = Watched(false)
   IsAgmEmpty = Watched(false)
@@ -147,11 +166,20 @@ local helicopterState = {
   IsGunnerHudVisible = Watched(false)
 
   GunOverheatState = Watched(0)
+
+  GuidanceLockState = Watched(-1)
+
+  IsCompassVisible = Watched(false)
 }
 
 ::interop.updateCannons <- function(count, sec = -1) {
   helicopterState.Cannons.count.update(count)
   helicopterState.Cannons.seconds.update(sec)
+}
+
+::interop.updateMachineGuns <- function(count, sec = -1) {
+  helicopterState.MachineGuns.count.update(count)
+  helicopterState.MachineGuns.seconds.update(sec)
 }
 
 ::interop.updateAdditionalCannons <- function(count, sec = -1) {
@@ -253,7 +281,6 @@ style.lineBackground <- class {
 
 
 style.lineForeground <- class {
-  watch = [helicopterState.HudColor]
   fillColor = Color(0, 0, 0, 0)
   lineWidth = hdpx(1) * LINE_WIDTH
   font = Fonts.hud
@@ -365,13 +392,13 @@ local HelicopterGunDirection = function(line_style, isBackground) {
       if (i >= helicopterState.GunOverheatState.value)
       {
         mainCommands.append(commands[i])
-        if (!helicopterState.IsCanEmpty.value)
+        if (!helicopterState.IsCanEmpty.value || !helicopterState.IsMachineGunEmpty.value)
           mainCommands.append(commandsDash[i])
       }
       else
       {
         overheatCommands.append(commands[i])
-        if (!helicopterState.IsCanEmpty.value)
+        if (!helicopterState.IsCanEmpty.value || !helicopterState.IsMachineGunEmpty.value)
           overheatCommands.append(commandsDash[i])
       }
     }
@@ -401,7 +428,7 @@ local HelicopterGunDirection = function(line_style, isBackground) {
     size = SIZE_TO_CONTENT
     halign = HALIGN_CENTER
     valign = VALIGN_MIDDLE
-    watch = [helicopterState.IsCanEmpty, helicopterState.GunOverheatState,
+    watch = [helicopterState.IsCanEmpty, helicopterState.IsMachineGunEmpty, helicopterState.GunOverheatState,
       helicopterState.GunDirectionX, helicopterState.GunDirectionY, helicopterState.GunDirectionVisible]
     opacity = helicopterState.GunDirectionVisible.value ? 100 : 0
     transform = {
@@ -725,6 +752,24 @@ local getThrottleCaption = function() {
 }
 
 
+local getAACaption = function() {
+  local text = ""
+  if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_STANDBY)
+    text = ::loc("HUD/IR_MISSILE_STANDBY")
+  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_WARMING_UP)
+    text = ::loc("HUD/TXT_IR_MISSILE_WARM_UP")
+  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_LOCKING)
+    text = ::loc("HUD/IR_MISSILE_LOCK")
+  else if (helicopterState.GuidanceLockState.value == GuidanceLockResult.RESULT_TRACKING)
+    text = ::loc("HUD/IR_MISSILE_TRACK")
+
+  return text
+}
+
+
+local getAABullets = generateBulletsTextFunction(helicopterState.Aam.count, helicopterState.Aam.seconds)
+
+
 local createHelicopterParam = function(param, width, line_style, isBackground)
 {
   local rowHeight = hdpx(28)
@@ -786,6 +831,12 @@ local textParamsMap = {
     valuesWatched = [helicopterState.Cannons.count, helicopterState.Cannons.seconds, helicopterState.IsCanEmpty]
     alertWatched = helicopterState.IsCanEmpty
   },
+   [HelicopterParams.MACHINE_GUN] = {
+    title = @() ::loc("HUD/MACHINE_GUNS_SHORT")
+    value = generateBulletsTextFunction(helicopterState.MachineGuns.count, helicopterState.MachineGuns.seconds)
+    valuesWatched = [helicopterState.MachineGuns.count, helicopterState.MachineGuns.seconds, helicopterState.IsMachineGunEmpty]
+    alertWatched = helicopterState.IsMachineGunEmpty
+  },
   [HelicopterParams.CANNON_ADDITIONAL] = {
     title = @() ::loc("HUD/ADDITIONAL_GUNS_SHORT")
     value = generateBulletsTextFunction(helicopterState.CannonsAdditional.count, helicopterState.CannonsAdditional.seconds)
@@ -808,12 +859,6 @@ local textParamsMap = {
     valuesWatched = [helicopterState.Agm.count, helicopterState.Agm.seconds, helicopterState.IsAgmEmpty]
     alertWatched = helicopterState.IsAgmEmpty
   },
-  [HelicopterParams.AAM] = {
-    title = @() ::loc("HUD/AAM_SHORT")
-    value = generateBulletsTextFunction(helicopterState.Aam.count, helicopterState.Aam.seconds)
-    valuesWatched = [helicopterState.Aam.count, helicopterState.Aam.seconds, helicopterState.IsAamEmpty]
-    alertWatched = helicopterState.IsAamEmpty
-  },
   [HelicopterParams.BOMBS] = {
     title = @() ::loc("HUD/BOMBS_SHORT")
     value = generateBulletsTextFunction(helicopterState.Bombs.count, helicopterState.Bombs.seconds)
@@ -824,6 +869,14 @@ local textParamsMap = {
     title = @() ::loc("HUD/RATE_OF_FIRE_SHORT")
     value = @() helicopterState.IsHighRateOfFire.value ? ::loc("HUD/HIGHFREQ_SHORT") : ::loc("HUD/LOWFREQ_SHORT")
     valuesWatched = helicopterState.IsHighRateOfFire
+  },
+  [HelicopterParams.AAM] = {
+    title = @() getAACaption()
+    value = @() helicopterState.GuidanceLockState.value != GuidanceLockResult.RESULT_INVALID ? getAABullets() : ""
+    titleWatched = helicopterState.GuidanceLockState
+    valuesWatched = [helicopterState.Aam.count, helicopterState.Aam.seconds, helicopterState.IsAamEmpty,
+      helicopterState.GuidanceLockState]
+    alertWatched = helicopterState.IsAamEmpty
   },
   [HelicopterParams.FLARES] = {
     title = @() ::loc("HUD/FLARES_SHORT")
@@ -906,7 +959,7 @@ local generateParamsTable = function(mask, width, pos, gap) {
 
 local helicopterParamsTable = generateParamsTable(helicopterState.MainMask,
   paramsTableWidth,
-  [hdpx(300), sh(50) - hdpx(100)],
+  [max(screenState.safeAreaSizeHud.value.borders[1], sw(50) - hdpx(660)), sh(50) - hdpx(100)],
   hdpx(5))
 
 local helicopterSightParamsTable = generateParamsTable(helicopterState.SightMask,
@@ -1008,7 +1061,22 @@ local rangeFinderComponent = function(elemStyle, isBackground) {
   return resCompoment
 }
 
-local helicopterMainHud = function (style, isBackground) {
+
+local compassComponent = function(elemStyle, isBackground) {
+  local color = getColor(isBackground)
+  local getChildren = @() helicopterState.IsCompassVisible.value ? compass(elemStyle, compassWidth, compassHeight, color) : null
+
+  return @()
+  {
+    size = SIZE_TO_CONTENT
+    pos = [sw(50) - 0.5 * compassWidth, sh(15)]
+    watch = helicopterState.IsCompassVisible
+    children = getChildren()
+  }
+}
+
+
+local helicopterMainHud = function(style, isBackground) {
   return @(){
     watch = helicopterState.IsMainHudVisible
     children = helicopterState.IsMainHudVisible.value
@@ -1018,9 +1086,10 @@ local helicopterMainHud = function (style, isBackground) {
       HelicopterAamAimTracker(style, isBackground)
       HelicopterGunDirection(style, isBackground)
       HelicopterFixedGunsDirection(style, isBackground)
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(70), isBackground)
+      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
       HelicopterHorizontalSpeedComponent(style, isBackground)
       helicopterParamsTable(style, isBackground)
+      compassComponent(style, isBackground)
     ]
     : null
   }
@@ -1032,12 +1101,13 @@ local helicopterSightHud = function (style, isBackground) {
     watch = helicopterState.IsSightHudVisible
     children = helicopterState.IsSightHudVisible.value
     ? [
-      HelicopterVertSpeed(style, sh(3.6), sh(30), sw(50) + hdpx(370), isBackground)
+      HelicopterVertSpeed(style, sh(3.6), sh(30), sw(50) + hdpx(384), isBackground)
       turretAnglesComponent(style, isBackground)
       helicopterSightParamsTable(style, isBackground)
       lockSightComponent(style, isBackground)
       sightComponent(style, isBackground)
       rangeFinderComponent(style, isBackground)
+      compassComponent(style, isBackground)
     ]
     : null
   }
@@ -1054,7 +1124,7 @@ local gunnerHud = function (style, isBackground) {
       HelicopterAamAimTracker(style, isBackground)
       HelicopterGunDirection(style, isBackground)
       HelicopterFixedGunsDirection(style, isBackground)
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(70), isBackground)
+      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
       helicopterParamsTable(style, isBackground)
     ]
     : null
@@ -1067,11 +1137,20 @@ local pilotHud = function (style, isBackground) {
     watch = helicopterState.IsPilotHudVisible
     children = helicopterState.IsPilotHudVisible.value
     ? [
-      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(70), isBackground)
+      HelicopterVertSpeed(style, sh(1.9), sh(15), sw(50) + hdpx(384), isBackground)
       helicopterParamsTable(style, isBackground)
     ]
     : null
   }
+}
+
+
+local rwrComponent = function (style, isBackground) {
+  local styleRwr = style.__merge({
+    color = isBackground ? backgroundColor : helicopterState.AlertColor.value
+    fontScale = getFontScale() * 0.7
+  })
+  return rwr(styleRwr)
 }
 
 
@@ -1081,6 +1160,7 @@ local helicopterHUDs = function (colorStyle, isBackground) {
     helicopterSightHud(colorStyle, isBackground)
     gunnerHud(colorStyle, isBackground)
     pilotHud(colorStyle, isBackground)
+    rwrComponent(colorStyle, isBackground)
   ]
 }
 

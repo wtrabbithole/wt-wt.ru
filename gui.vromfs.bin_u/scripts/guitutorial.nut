@@ -187,13 +187,6 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
     local text = ::getTblValue("text", stepData, "")
 
     local bottomText = ::getTblValue("bottomText", stepData, "")
-    if (bottomText == "")
-    {
-      local bottomTextLocIdArray = ::getTblValue("bottomTextLocIdArray", stepData, [])
-      foreach(id in bottomTextLocIdArray)
-        bottomText += ::get_gamepad_specific_localization(id)
-    }
-
     if (text != "" && bottomText != "")
       text += "\n\n" + bottomText
 
@@ -201,7 +194,7 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
 
     local needAccessKey = (actionType == tutorAction.OBJ_CLICK ||
                            actionType == tutorAction.FIRST_OBJ_CLICK)
-    local accessKey = ::getTblValue("accessKey", stepData, needAccessKey ? "J:A" : null)
+    local shortcut = ::getTblValue("shortcut", stepData, needAccessKey ? ::GAMEPAD_ENTER_SHORTCUT : null)
     local blocksList = []
     local objList = stepData?.obj ?? []
     if (!::u.isArray(objList))
@@ -218,8 +211,8 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
       if (actionType != tutorAction.WAIT_ONLY)
       {
         block.onClick <- (actionType != tutorAction.FIRST_OBJ_CLICK) ? "onNext" : null
-        if (accessKey)
-          block.accessKey <- accessKey
+        if (shortcut)
+          block.accessKey <- shortcut.accessKey
       }
       blocksList.append(block)
     }
@@ -231,7 +224,22 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
       blocksList.reverse()
     }
     ::guiTutor.createHighlight(scene.findObject("dark_screen"), blocksList, this, params)
+
     showSceneBtn("dummy_console_next", actionType == tutorAction.ANY_CLICK)
+
+    local nextActionShortcut = ::getTblValue("nextActionShortcut", stepData)
+    if (nextActionShortcut && ::show_console_buttons)
+      nextActionShortcut = "PRESS_TO_CONTINUE"
+
+    local markup = ""
+    if (nextActionShortcut)
+    {
+      markup += ::show_console_buttons? ::Input.Button(shortcut.dev[0], shortcut.btn[0]).getMarkup() : ""
+      markup += "activeText {text:t='{text}'; caption:t='yes'; margin-left:t='1@framePadding'}".subst({ text = "#" + nextActionShortcut })
+    }
+
+    local nextShObj = scene.findObject("next_step_shortcut")
+    guiScene.replaceContentFromText(nextShObj, markup, markup.len(), ownerWeak)
 
     local waitTime = ::getTblValue("waitTime", stepData, actionType == tutorAction.WAIT_ONLY? 1 : -1)
     if (waitTime > 0)
@@ -256,7 +264,7 @@ class ::gui_handlers.Tutor extends ::gui_handlers.BaseGuiHandlerWT
       boxList.append(targetBox.cloneBox(incSize)) //inc targetBox for correct place message
     }
 
-    local mainMsgObj = scene.findObject("msg_text")
+    local mainMsgObj = scene.findObject("msg_block")
     local minPos = guiScene.calcString("1@bh", null)
     local maxPos = guiScene.calcString("sh -1@bh", null)
     local newPos = LinesGenerator.findGoodPos(mainMsgObj, 1, boxList,

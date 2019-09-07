@@ -19,19 +19,17 @@ local function combine(obss, func) {
   return obs
 }
 
-local function invertBool(src_observable) {
-  //creates new computed observable that is inverted value of source observable
-  local obs = ::Watched(!src_observable.value)
-  src_observable.subscribe(@(new_val) obs.update(!new_val))
-  return obs
-}
-
 local function map(src_observable, func) {
   //creates new computed observable that is func value of source observable
   local obs = ::Watched(func(src_observable.value))
   src_observable.subscribe(@(new_val) obs.update(func(new_val)))
   return obs
 }
+
+local function invertBool(src_observable) {
+  return map(src_observable, @(val) !val)
+}
+
 local function reduceAny(list) {
   return list.reduce(@(a, b) a||b)
 }
@@ -39,6 +37,7 @@ local function reduceAny(list) {
 local function reduceNone(list) {
   return !list.reduce(@(a, b) a||b)
 }
+
 local function subscribe(list, func){
   foreach(idx, observable in list)
     observable.subscribe(func)

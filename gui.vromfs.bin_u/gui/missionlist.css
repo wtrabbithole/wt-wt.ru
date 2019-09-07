@@ -7,6 +7,8 @@
 
 @const missionBoxImageOffsetX: 12*@sf/@pf_outdated;
 @const missionItemTextPaddingLeft: 3@sf/@pf;
+@const unlockConditionHeaderLeftPadding: @unlockHeaderIconSize+@scrn_tgt/100.0;
+@const bigMedalPlaceYpos: 2@scrn_tgt/100.0;
 
 mission_item_text
 {
@@ -216,10 +218,11 @@ img[difficulty=2] {
 
 @const unlockIconSize: 4.44*@scrn_tgt/100.0;
 @const unlockHeaderIconSize: 4.44*@scrn_tgt/100.0;
+@const unlockBlockInterval: (12@sf/@pf) \ 1;
 
 unlockConditionHeader {
   width:pw;
-  padding-left:@unlockHeaderIconSize + 1*@scrn_tgt/100.0;
+  padding-left:@unlockConditionHeaderLeftPadding;
   margin-bottom:1*@scrn_tgt/100.0;
 
   input-transparent:no;
@@ -229,6 +232,7 @@ unlockConditionHeader {
 unlockCondition {
   width:pw-@unlockHeaderIconSize;
   margin-left:@unlockHeaderIconSize;
+  margin-bottom:1@unlockBlockInterval;
   padding-left:@unlockIconSize + 0.5*@scrn_tgt/100.0;
   min-height:0.6@unlockIconSize;
 
@@ -277,12 +281,12 @@ unlockImg[background-image] {
 bigMedalPlace {
   height:1@profileMedalSize;
   width:h;
-  pos:50%pw-50%w, 2*@scrn_tgt/100.0;
+  pos:50%pw-50%w, @bigMedalPlaceYpos;
   position:relative;
 }
 bigMedalPlace[double=yes] {
   height:1@profileMedalSizeBig;
-  pos:50%pw-50%w, 1*@scrn_tgt/100.0;
+  pos:50%pw-50%w, 0.5@bigMedalPlaceYpos;
 }
 
 bigMedalImg {

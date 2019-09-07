@@ -58,7 +58,7 @@ function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, 
           break
         case "exp":
           local expTable = ::get_cur_exp_table("", cfg)
-          obj.setValue(expTable? (::g_language.decimalFormat(expTable.exp) + " / " +
+          obj.setValue(expTable? (::g_language.decimalFormat(expTable.exp) + ::nbsp + "/" + ::nbsp +
             ::g_language.decimalFormat(expTable.rankExp)) : "")
           obj.tooltip = ::loc("ugm/total") + ::loc("ui/colon") +
             ::g_language.decimalFormat(cfg.exp)

@@ -102,14 +102,11 @@ class ::gui_handlers.Ps4SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     local isEven = false
     foreach (idx, e in entries)
     {
-      local timeView = ::get_time_from_t(e.mtime)
-      timeView.sec = -1
-
       local rowView = {
         row_id = "file_row_"+idx
         even = isEven
         cells = [{text=e.comment, width="fw"},
-                 {text=time.buildIso8601DateTimeStr(timeView, " "), width="0.18@sf"}]
+                 {text=time.buildTabularDateTimeStr(e.mtime), width="0.18@sf"}]
       }
       view.rows.append(rowView)
       tableEntries[rowView.row_id] <- e

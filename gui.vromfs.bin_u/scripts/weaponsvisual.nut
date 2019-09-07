@@ -1,5 +1,6 @@
 local weaponryEffects = ::require("scripts/weaponry/weaponryEffects.nut")
 local modUpgradeElem = ::require("scripts/weaponry/elems/modUpgradeElem.nut")
+local stdMath = require("std/math.nut")
 
 /*
   weaponVisual API
@@ -132,7 +133,8 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   local canBeDisabled = isCanBeDisabled(item)
   local isSwitcher = isItemSwitcher(visualItem)
   local discount = ::getDiscountByPath(getDiscountPath(air, visualItem, statusTbl.discountType))
-  local priceText = statusTbl.showPrice && ::getTblValue("canShowPrice", params, true) ? getFullItemCostText(air, item) : ""
+  local itemCostText = getFullItemCostText(air, item)
+  local priceText = statusTbl.showPrice && ::getTblValue("canShowPrice", params, true) ? itemCostText : ""
   local flushExp = ::getTblValue("flushExp", params, 0)
   local canShowResearch = ::getTblValue("canShowResearch", params, true)
   local canResearch = canResearchItem(air, visualItem, false)
@@ -169,7 +171,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   if(::checkObj(dObj))
     guiScene.destroyElement(dObj)
 
-  local haveDiscount = discount > 0 && (statusTbl.amount == 0 || priceText != "")
+  local haveDiscount = discount > 0 && itemCostText != ""
   if (haveDiscount)
   {
     local discountObj = itemObj.findObject("modItem_discount")
@@ -863,10 +865,7 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
     if (effect)
       addDesc = weaponryEffects.getDesc(air, effect)
     if (!effect && updateEffectFunc)
-    {
-      res.delayed = true
-      ::calculate_mod_or_weapon_effect(air.name, item.name, false, this, updateEffectFunc, null)
-    }
+      res.delayed = ::calculate_mod_or_weapon_effect(air.name, item.name, false, this, updateEffectFunc, null) ?? true
   }
   else if (item.type==weaponsItem.primaryWeapon)
   {
@@ -1031,8 +1030,7 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
 
 function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet = null, needAdditionalInfo = false)
 {
-  local dist = [10, 100, 500, 1000, 1500, 2000];
-  local param = { armorPiercing = array(dist.len(), null) }
+  local param = { armorPiercing = array(0, null) , armorPiercingDist = array(0, null)}
   local needAddParams = bullet_parameters.len() == 1
 
   local isSmokeShell = bulletsSet?.weaponType == WEAPON_TYPE.GUN && bulletsSet?.bullets?[0] == "smoke_tank"
@@ -1067,7 +1065,15 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
     if (!bullet_params)
       continue
 
-    foreach(ind, d in dist)
+    if (bullet_params?.bulletType == "aam")
+      continue
+
+    if (param.armorPiercingDist.len() < bullet_params.armorPiercingDist.len())
+    {
+      param.armorPiercing.resize(bullet_params.armorPiercingDist.len());
+      param.armorPiercingDist = bullet_params.armorPiercingDist;
+    }
+    foreach(ind, d in param.armorPiercingDist)
     {
       for (local i = 0; i < bullet_params.armorPiercingDist.len(); i++)
       {
@@ -1135,10 +1141,10 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
   {
     if (param.caliber > 0)
       addProp(p, ::loc("bullet_properties/caliber"),
-                ::round_by_value(param.caliber, ::isCaliberCannon(param.caliber) ? 1 : 0.01) + " " + ::loc("measureUnits/mm"))
+                stdMath.round_by_value(param.caliber, ::isCaliberCannon(param.caliber) ? 1 : 0.01) + " " + ::loc("measureUnits/mm"))
     if (param.mass > 0)
       addProp(p, ::loc("bullet_properties/mass"),
-                ::roundToDigits(param.mass, 2) + " " + ::loc("measureUnits/kg"))
+                ::g_measure_type.getTypeByName("kg", true).getMeasureUnitsText(param.mass))
     if (param.speed > 0)
       addProp(p, ::loc("bullet_properties/speed"),
                  ::format("%.0f %s", param.speed, ::loc("measureUnits/metersPerSecond_climbSpeed")))
@@ -1172,11 +1178,11 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
         addProp(p, ::loc("bullet_properties/explosiveMassInTNTEquivalent"), tntEqText)
     }
 
-    local fuseDelayDist = ::roundToDigits(param.fuseDelayDist, 2)
+    local fuseDelayDist = stdMath.roundToDigits(param.fuseDelayDist, 2)
     if (fuseDelayDist)
       addProp(p, ::loc("bullet_properties/fuseDelayDist"),
                  fuseDelayDist + " " + ::loc("measureUnits/meters_alt"))
-    local explodeTreshold = ::roundToDigits(param.explodeTreshold, 2)
+    local explodeTreshold = stdMath.roundToDigits(param.explodeTreshold, 2)
     if (explodeTreshold)
       addProp(p, ::loc("bullet_properties/explodeTreshold"),
                  explodeTreshold + " " + ::loc("measureUnits/mm"))
@@ -1185,8 +1191,8 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
     if (ricochetData)
       foreach(item in ricochetData.angleProbabilityMap)
         addProp(p, ::loc("bullet_properties/angleByProbability",
-                         { probability = ::roundToDigits(100.0 * item.probability, 2) }),
-                   ::roundToDigits(item.angle, 2) + ::loc("measureUnits/deg"))
+                         { probability = stdMath.roundToDigits(100.0 * item.probability, 2) }),
+                   stdMath.roundToDigits(item.angle, 2) + ::loc("measureUnits/deg"))
 
     if ("reloadTimes" in param)
     {
@@ -1195,20 +1201,20 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
       local reloadTime = param.reloadTimes[currentDiffficulty]
       if(reloadTime > 0)
         addProp(p, ::colorize("badTextColor", ::loc("bullet_properties/cooldown")),
-                   ::colorize("badTextColor", ::roundToDigits(reloadTime, 2) + " " + ::loc("measureUnits/seconds")))
+                   ::colorize("badTextColor", stdMath.roundToDigits(reloadTime, 2) + " " + ::loc("measureUnits/seconds")))
     }
 
     if ("smokeShellRad" in param)
       addProp(p, ::loc("bullet_properties/smokeShellRad"),
-                 ::roundToDigits(param.smokeShellRad, 2) + " " + ::loc("measureUnits/meters_alt"))
+                 stdMath.roundToDigits(param.smokeShellRad, 2) + " " + ::loc("measureUnits/meters_alt"))
 
     if ("smokeActivateTime" in param)
       addProp(p, ::loc("bullet_properties/smokeActivateTime"),
-                 ::roundToDigits(param.smokeActivateTime, 2) + " " + ::loc("measureUnits/seconds"))
+                 stdMath.roundToDigits(param.smokeActivateTime, 2) + " " + ::loc("measureUnits/seconds"))
 
     if ("smokeTime" in param)
       addProp(p, ::loc("bullet_properties/smokeTime"),
-                 ::roundToDigits(param.smokeTime, 2) + " " + ::loc("measureUnits/seconds"))
+                 stdMath.roundToDigits(param.smokeTime, 2) + " " + ::loc("measureUnits/seconds"))
 
     local bTypeDesc = ::loc(param.bulletType, "")
     if (bTypeDesc != "")
@@ -1220,7 +1226,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
   if("weaponBlkPath" in param)
     bulletName = ::loc("weapons" + ::get_weapon_name_by_blk_path(param.weaponBlkPath))
 
-  local apData = getArmorPiercingViewData(param.armorPiercing, dist)
+  local apData = getArmorPiercingViewData(param.armorPiercing, param.armorPiercingDist)
   if (apData)
   {
     local header = ::loc("bullet_properties/armorPiercing")
@@ -1233,7 +1239,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
 function weaponVisual::getArmorPiercingViewData(armorPiercing, dist)
 {
   local res = null
-  if (armorPiercing[0] == null)
+  if (armorPiercing.len() <= 0)
     return res
 
   local angles = null

@@ -179,7 +179,7 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
       color = colors.textColor
       group = group
       margin = options?.textmargin ?? [sh(1), sh(0.5)]
-      valign = VALIGN_BOTTOM
+      valign = options?.valignText ?? VALIGN_BOTTOM
 
       animations = [failAnim(text_state)]
 
@@ -224,7 +224,7 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
     rendObj = ROBJ_BOX
     fillColor = colors.backGroundColor
     borderWidth =0
-    borderRadius = hdpx(3)
+    borderRadius = options?.borderRadius ?? hdpx(3)
     clipChildren = true
     size = [flex(), SIZE_TO_CONTENT]
     group = group

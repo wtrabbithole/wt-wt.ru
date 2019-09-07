@@ -1803,7 +1803,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": true,
+        "removeLoadedAmmo": false,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {
@@ -2223,8 +2223,8 @@
         ]
       },
       "suspension": {
-        "maxDisplacementOffsets": [0.0,0.05],
-        "suspensionOffsets": [-0.14,-0.12,0.1],
+        "maxDisplacementOffsets": [-0.02,0.03],
+        "suspensionOffsets": [-0.1,-0.1,0.1],
         "defaultGearRadius": 0.24,
         "topGearRadius": 0.122,
         "frontBackGearRadius": 0.22,
@@ -2756,15 +2756,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

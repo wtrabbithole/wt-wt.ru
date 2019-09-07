@@ -627,6 +627,10 @@
         "engine2_dm": {
           "genericDamageMult": 1.6,
           "hp": 70.5
+        },
+        "radar_dm": {
+          "genericDamageMult": 1.6,
+          "hp": 70.5
         }
       },
       "c_dural20": {
@@ -938,6 +942,11 @@
             }
           }
         ]
+      },
+      {
+        "part": {
+          "name": "radar_dm"
+        }
       },
       {
         "part": {
@@ -3016,6 +3025,14 @@
           "climbRateMil3": [4800.0,1.4],
           "climbRateMil4": [6400.0,-1.0]
         }
+      }
+    }
+  },
+  {
+    "sensors": {
+      "sensor": {
+        "blk": "gameData/sensors/fug_202.blk",
+        "dmPart": "radar_dm"
       }
     }
   },

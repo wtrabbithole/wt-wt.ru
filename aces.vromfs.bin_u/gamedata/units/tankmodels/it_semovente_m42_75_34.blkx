@@ -1532,6 +1532,7 @@
         "blk": "gameData/Weapons/groundModels_weapons/75mm_Ansaldo_75_34_M39_user_cannon.blk",
         "emitter": "bone_gun_barrel",
         "flash": "emtr_gun_flame",
+        "shotFreq": 0.1534,
         "recoilOffset": 0.15,
         "maxAdditionalPitch": 0.0,
         "defaultYaw": 0.0,
@@ -1599,7 +1600,7 @@
         "cls_body_01": "convex_hull"
       },
       "engine": {
-        "horsePowers": 170.0,
+        "horsePowers": 185.0,
         "maxRPM": 2400.0,
         "minRPM": 600.0
       },
@@ -1633,8 +1634,8 @@
         ]
       },
       "suspension": {
-        "maxDisplacementOffsets": [0.0,0.05],
-        "suspensionOffsets": [-0.18,-0.16,0.11],
+        "maxDisplacementOffsets": [-0.0,0.01],
+        "suspensionOffsets": [-0.05,-0.05,0.11],
         "defaultGearRadius": 0.17,
         "topGearRadius": 0.13,
         "frontBackGearRadius": 0.28,
@@ -2224,15 +2225,6 @@
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
             "emitter": "emtr_explosion_center"
           }
         }

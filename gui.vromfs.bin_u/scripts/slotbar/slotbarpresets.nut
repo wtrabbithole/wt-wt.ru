@@ -520,33 +520,44 @@
     // after successful slotbar vehicles change.
     if (!skipGameModeSelect)
     {
-      local gameModeId = ::getTblValue("gameModeId", preset, "")
-      local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
-      // This means that some game mode id is
-      // linked to preset but can not be found.
-      if (gameMode == null && gameModeId != "")
-      {
-        gameModeId = ::game_mode_manager.findCurrentGameModeId(true)
-        gameMode = ::game_mode_manager.getGameModeById(gameModeId)
-      }
-
-      // If game mode is not valid for preset
-      // we will try to find better one.
-      if (gameMode != null && !::game_mode_manager.isPresetValidForGameMode(preset, gameMode))
-      {
-        local betterGameModeId = ::game_mode_manager.findCurrentGameModeId(true, gameMode.diffCode)
-        if (betterGameModeId != null)
-          gameMode = ::game_mode_manager.getGameModeById(betterGameModeId)
-      }
-
-      if (gameMode != null)
-        ::game_mode_manager.setCurrentGameModeById(gameMode.id)
+      setCurrentGameModeByPreset(countryId, preset)
     }
 
     isLoading = false
     save(countryId)
 
     ::broadcastEvent("SlotbarPresetLoaded", { crewsChanged = true })
+  }
+
+  function setCurrentGameModeByPreset(country, preset = null)
+  {
+    if (!preset)
+      preset = getCurrentPreset(::get_profile_country_sq())
+
+    local gameModeId = preset?.gameModeId ?? ""
+    local gameMode = ::game_mode_manager.getGameModeById(gameModeId)
+    // This means that some game mode id is
+    // linked to preset but can not be found.
+    if (gameMode == null)
+    {
+      gameModeId = ::game_mode_manager.findCurrentGameModeId(true)
+      gameMode = ::game_mode_manager.getGameModeById(gameModeId)
+    }
+
+    // If game mode is not valid for preset
+    // we will try to find better one.
+    if (gameMode != null && !::game_mode_manager.isPresetValidForGameMode(preset, gameMode))
+    {
+      local betterGameModeId = ::game_mode_manager.findCurrentGameModeId(true, gameMode.diffCode)
+      if (betterGameModeId != null)
+        gameMode = ::game_mode_manager.getGameModeById(betterGameModeId)
+    }
+
+    if (gameMode == null)
+      return
+
+    ::game_mode_manager.setCurrentGameModeById(gameMode.id)
+    savePresetGameMode(country)
   }
 
   function invalidateUnitsModificators(countryIdx)
@@ -669,13 +680,6 @@
           }
       }
 
-    if (countryId == ::get_profile_country_sq())
-    {
-      local curGameModeId = ::game_mode_manager.getCurrentGameModeId()
-      if (curGameModeId)
-        preset.gameModeId = curGameModeId
-    }
-
     _updateInfo(preset)
     return preset
   }
@@ -715,6 +719,26 @@
       _updateInfo(preset)
     }
     return preset
+  }
+
+  function savePresetGameMode(country)
+  {
+     local curGameModeId = ::game_mode_manager.getCurrentGameModeId()
+     if (!curGameModeId)
+       return
+
+     local preset = getCurrentPreset(country)
+     if(!preset || curGameModeId == preset.gameModeId)
+       return
+
+     preset.gameModeId = curGameModeId
+     save(country)
+  }
+
+  function onEventCurrentGameModeIdChanged(params)
+  {
+    if(params.isUserSelected)
+      savePresetGameMode(::get_profile_country_sq())
   }
 }
 

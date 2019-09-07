@@ -3,7 +3,7 @@ local crossplayModule = require("scripts/social/crossplay.nut")
 class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
-  focusArray = ["general_game_modes", "featured_game_modes", "debug_game_modes", "cluster_select_button_container"]
+  focusArray = ["general_game_modes", "featured_game_modes", "debug_game_modes"]
   valueByGameModeId = {}
   gameModeIdByValue = {}
   restoreFromModal = false
@@ -23,10 +23,14 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   function getShowGameModeSelect() { return scene.isVisible() }
   function setShowGameModeSelect(value)
   {
-    if (value)
-      goForwardIfOnline(_setShowGameModeSelectEnabled.bindenv(this), false, true)
-    else
-      _setShowGameModeSelect(false)
+    checkedCrewAirChange(
+      function() {
+        if (value)
+          goForwardIfOnline(_setShowGameModeSelectEnabled.bindenv(this), false, true)
+        else
+          _setShowGameModeSelect(false)
+      },
+    null)
   }
 
   function _setShowGameModeSelectEnabled()
@@ -44,6 +48,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local params = {
       target = this.scene
       visible = value
+      isBlockOtherRestoreFocus = value
     }
     ::broadcastEvent("RequestToggleVisibility", params)
   }
@@ -106,6 +111,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
     registerNewIconWidgets()
     updateClusters()
+    updateButtons()
     updateEventDescriptionConsoleButton(::game_mode_manager.getCurrentGameMode())
   }
 
@@ -269,6 +275,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local hasNewIconWidget = !::game_mode_manager.isSeen(id)
     local newIconWidgetContent = hasNewIconWidget? NewIconWidget.createLayout() : null
     local crossPlayRestricted = !isCrossPlayEventAvailable(event)
+    local crossplayTooltip = getCrossPlayRestrictionTooltipText(event)
 
     return {
       hasContent = true
@@ -297,12 +304,23 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       eventDescriptionValue = gameMode.id
       inactiveColor = ::getTblValue("inactiveColor", gameMode, crossPlayRestricted)
       crossPlayRestricted = crossPlayRestricted
-      isCrossPlayRequired = ::is_platform_xboxone
-        && (crossplayModule.isCrossPlayEnabled() || !isEventXboxOnlyAllowed(event))
+      crossplayTooltip = crossplayTooltip
+      isCrossPlayRequired = crossplayTooltip != null
       showEventDescription = !isLink && ::events.isEventNeedInfoButton(event)
       eventTrophyImage = getTrophyMarkUpData(trophyName)
       isTrophyRecieved = trophyName == ""? false : !::can_receive_pve_trophy(-1, trophyName)
     }
+  }
+
+  function getCrossPlayRestrictionTooltipText(event)
+  {
+    if (!::is_platform_xboxone || isEventXboxOnlyAllowed(event))
+      return null
+
+    if (crossplayModule.isCrossPlayEnabled())
+      return ::loc("xbox/crossPlayEnabled")
+
+    return ::loc("xbox/crossPlayRequired")
   }
 
   function isEventXboxOnlyAllowed(event)
@@ -369,7 +387,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local view = []
     foreach (idx, esUnitType in basePanelConfig)
     {
-      local gameMode = chooseGameModeEsUnitType(gameModes, esUnitType)
+      local gameMode = chooseGameModeEsUnitType(gameModes, esUnitType, basePanelConfig)
       if (gameMode)
         view.push(createGameModeView(gameMode, false, true))
       else if (needEmptyGameModeBlocks)
@@ -383,10 +401,11 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
    * Find appropriate game mode from array and returns it.
    * If game mode is not null, it will be removed from array.
    */
-  function chooseGameModeEsUnitType(gameModes, esUnitType)
+  function chooseGameModeEsUnitType(gameModes, esUnitType, esUnitTypesFilter)
   {
     return getGameModeByCondition(gameModes,
-      @(gameMode) u.max(::game_mode_manager.getRequiredUnitTypes(gameMode)) == esUnitType)
+      @(gameMode) u.max(::game_mode_manager.getRequiredUnitTypes(gameMode).filter(
+        @(idx, esUType) ::isInArray(esUType, esUnitTypesFilter))) == esUnitType)
   }
 
   function saveValuesByGameModeId(gameModesView)
@@ -731,4 +750,9 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   function onEventWWStopWorldWar(p) { doWhenActiveOnce("updateContent") }
   function onEventWWGlobalStatusChanged(p) { doWhenActiveOnce("updateContent") }
   function onEventXboxSystemUIReturn(p) { doWhenActiveOnce("updateContent") }
+
+  function updateButtons()
+  {
+    ::showBtn("wiki_link", ::has_feature("AllowExternalLink") && !::is_vendor_tencent(), scene)
+  }
 }

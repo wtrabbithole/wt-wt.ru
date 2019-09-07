@@ -1584,62 +1584,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 380.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 170.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 190.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -1678,7 +1622,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1687,7 +1631,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1796,7 +1740,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1805,7 +1749,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1824,11 +1768,11 @@
           "blk": "gameData/Weapons/groundModels_weapons/30mm_2A42_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
-          "sleeveEmitter": "bone_gun_roller_02",
+          "sleeveEmitter": "emtr_shell",
           "sleeveMesh": "auto_cannon_cartridge_case",
           "openHatchTime": 0.0,
           "sleevesLifeTime": 5.0,
-          "impulseMult": 7.0,
+          "sleeveImpulse": [3.5,0.0,0.0],
           "linkSleeveToGun": true,
           "recoilOffset": 0.045,
           "defaultYaw": 0.0,
@@ -2778,15 +2722,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2879,6 +2814,15 @@
     }
   },
   {
+    "skin": {
+      "name": "ussr_camo_deform",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_deform*"
+      }
+    }
+  },
+  {
     "modifications": {
       "new_tank_tracks": [],
       "new_tank_suspension": [],
@@ -2910,11 +2854,11 @@
                 "blk": "gameData/Weapons/groundModels_weapons/30mm_2A42_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
-                "sleeveEmitter": "bone_gun_roller_02",
+                "sleeveEmitter": "emtr_shell",
                 "sleeveMesh": "auto_cannon_cartridge_case",
                 "openHatchTime": 0.0,
                 "sleevesLifeTime": 5.0,
-                "impulseMult": 7.0,
+                "sleeveImpulse": [3.5,0.0,0.0],
                 "linkSleeveToGun": true,
                 "recoilOffset": 0.045,
                 "defaultYaw": 0.0,
@@ -3340,7 +3284,7 @@
               "node": "hatch_10"
             },
             {
-              "node": "turret_01"
+              "node": "ex_decor_05"
             },
             {
               "node": "antenna_01"
@@ -3425,7 +3369,7 @@
               "node": "ex_armor_l_08"
             },
             {
-              "node": "turret_02"
+              "node": "ex_decor_06"
             },
             {
               "node": "antenna_02"

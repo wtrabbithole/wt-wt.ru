@@ -34,5 +34,20 @@ shopFilter {
     class:t='short'
     text:t='#<<country>>/short'
   }
+
+  <<#hasNotificationIcon>>
+  squadronExpIcon {
+    countryId:t='<<country>>'
+    value:t='{"viewId": "COUNTRY_SQUADRON_EXP_ICON"}'
+    type:t='inTab'
+  }
+  discountIcon {
+    countryId:t='<<country>>'
+    value:t='{"viewId": "COUNTRY_DISCOUN_ICON"}'
+    text:t='#measureUnits/percent'
+    tooltip:t='#discount/notification'
+    type:t='slotbarCountry'
+  }
+  <</hasNotificationIcon>>
 }
 <</countries>>

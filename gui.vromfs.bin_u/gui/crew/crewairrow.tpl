@@ -18,7 +18,7 @@ tr {
     cardImg { id:t='name_icon'; display:t='hide'; background-image:t='#ui/gameuiskin#crew_skill_points.svg' }
   }
   td {
-    activeText { id:t='curValue'; text:t=' '; valign:t='center' }
+    activeText { id:t='curValue'; text:t='<<curValue>>'; valign:t='center' }
     <<#hasProgressBar>>
     crewSpecProgressBar {
       id:t='crew_spec_progress_bar'
@@ -28,7 +28,8 @@ tr {
       position:t='absolute'
       min:t='0'
       max:t='1000'
-      value:t='0'
+      value:t='<<progressBarValue>>'
+      display:t='<<progressBarDisplay>>'
     }
     <</hasProgressBar>>
     cardImg { id:t='curValue_icon'; display:t='hide'; background-image:t='#ui/gameuiskin#crew_skill_points.svg' }
@@ -36,45 +37,38 @@ tr {
   td {
     width:t='0.092@scrn_tgt'
 
+    <<#btnSpec>>
     hoverBgButton {
-      id:t='btn_spec1'
+      id:t='btn_spec<<id>>'
       size:t='ph, ph'
       pos:t='0, 50%ph-50%h'; position:t='relative'
       holderId:t='<<holderId>>'
-      foreground-image:t='#ui/gameuiskin#spec_icon1'
+      foreground-image:t='<<icon>>'
       foreground-position:t='3'
-      on_click:t='onSpecIncrease1'
+      enable:t='<<enable>>'
+      on_click:t='onSpecIncrease<<id>>'
 
       title:t='$tooltipObj'
       tooltipObj {
-        tooltipId:t='<<buySpecTooltipId1>>'
+        <<#isExpertSpecType>>tooltipId:t='<<buySpecTooltipId1>>'<</isExpertSpecType>>
+        <<^isExpertSpecType>>tooltipId:t='<<buySpecTooltipId2>>'<</isExpertSpecType>>
         on_tooltip_open:t='onGenericTooltipOpen'
         on_tooltip_close:t='onTooltipObjClose'
         display:t='hide'
       }
     }
-
-    hoverBgButton {
-      id:t='btn_spec2'
-      size:t='ph, ph'
-      pos:t='0, 50%ph-50%h'; position:t='relative';
-      holderId:t='<<holderId>>'
-      foreground-image:t='#ui/gameuiskin#spec_icon2'
-      foreground-position:t='3'
-      on_click:t='onSpecIncrease2'
-
-      title:t='$tooltipObj'
-      tooltipObj {
-        tooltipId:t='<<buySpecTooltipId2>>'
-        on_tooltip_open:t='onGenericTooltipOpen'
-        on_tooltip_close:t='onTooltipObjClose'
-        display:t='hide'
-      }
-    }
+    <</btnSpec>>
   }
   td {
     padding-left:t='1*@scrn_tgt/100.0'
-    textareaNoTab { id:t='cost'; text:t=' '; min-width:t='10*@scrn_tgt/100.0'; text-align:t='right'; valign:t='center';}
+    textareaNoTab {
+      id:t='cost';
+      text:t='<<costText>>';
+      min-width:t='10*@scrn_tgt/100.0';
+      text-align:t='right';
+      valign:t='center';
+      display:t='<<#enableForBuy>>show<</enableForBuy>><<^enableForBuy>>hide<</enableForBuy>>'
+    }
   }
   td {
     id:t='<<holderId>>'
@@ -85,11 +79,13 @@ tr {
     Button_text {
       id:t='buttonRowApply';
       on_click:t='onButtonRowApply'
-      text:t=' ';
+      text:t='<<buttonRowText>>'
       redDisabled:t='yes'
       pos:t='0, 50%ph-50%h';
       position:t='relative';
       noMargin:t='yes'
+      display:t='<<buttonRowDisplay>>'
+      enable:t='<<#enableForBuy>>yes<</enableForBuy>><<^enableForBuy>>no<</enableForBuy>>'
       btnName:t=''
 
       ButtonImg {

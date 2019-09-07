@@ -258,7 +258,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "cover_points": [],
@@ -660,7 +661,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -669,8 +669,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_airfield",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -686,7 +689,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -695,8 +697,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t1_carrier",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_assault": false,
               "type_interceptor": false,
@@ -714,7 +719,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -723,8 +727,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_airfield",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_bomber": false,
               "type_assault": false,
@@ -740,7 +747,6 @@
             "spawnEffect": false,
             "isAirfield": true,
             "isUnit": false,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "isStrictSpawn": false,
             "useExisting": false,
@@ -749,8 +755,11 @@
             "canSpawnOnNeutral": false,
             "showOnMap": true,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
             "target": "t2_carrier",
             "team": "B",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "type_assault": false,
               "type_interceptor": false,
@@ -1403,9 +1412,9 @@
           [-0.766044,0.0,-0.642787],
           [0.0,1.0,0.0],
           [0.642787,0.0,-0.766044],
-          [-9659.75,6.5,-21058.4]
+          [-9659.75,13.8934,-21058.4]
         ],
-        "unit_class": "dynAF_pacific_phi_phi",
+        "unit_class": "dynaf_universal_1line_a",
         "props": {
           "army": 1,
           "active": true
@@ -1419,9 +1428,9 @@
           [-0.14083,0.0,0.990034],
           [0.0,1.0,0.0],
           [-0.990034,0.0,-0.14083],
-          [12809.4,153.787,10118.1]
+          [12797.9,154.09,10517.7]
         ],
-        "unit_class": "dynAF_pacific_phi_phi",
+        "unit_class": "dynaf_universal_1line_a",
         "props": {
           "army": 2,
           "active": true
@@ -8083,7 +8092,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [12808.3,195.702,9464.54]
+          [12881.0,195.702,9447.79]
         ],
         "unit_class": "us_40mm_bofors_airfield",
         "closed_waypoints": false,
@@ -8293,7 +8302,7 @@
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [12721.1,192.985,10340.2]
+          [12949.0,192.985,9970.24]
         ],
         "unit_class": "us_90mm_m1",
         "closed_waypoints": false,
@@ -10813,20 +10822,20 @@
     "t2_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [248.303,0.0,37.3711],
+        [889.977,0.0,133.947],
         [0.0,300.0,0.0],
         [-253.267,0.0,1682.77],
-        [12850.9,134.11,10095.2]
+        [12770.1,134.11,10542.8]
       ],
       "props": []
     },
     "t1_airfield_bombing_zone": {
       "type": "Box",
       "tm": [
-        [161.404,0.0,-192.354],
+        [578.509,0.0,-689.44],
         [0.0,300.0,0.0],
         [1433.95,0.0,1203.23],
-        [-9690.05,13.6,-21019.5]
+        [-9658.43,13.6,-21058.3]
       ],
       "props": []
     },

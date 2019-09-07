@@ -3,6 +3,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local ItemGenerators = require("scripts/items/itemsClasses/itemGenerators.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local itemTransfer = require("scripts/items/itemsTransfer.nut")
+local stdMath = require("std/math.nut")
 
 local seenList = ::require("scripts/seen/seenList.nut")
 local seenInventory = seenList.get(SEEN.INVENTORY)
@@ -314,7 +315,7 @@ function ItemsManager::initItemsClasses()
   foreach(name, itemClass in ::items_classes)
   {
     local iType = itemClass.iType
-    if (::number_of_set_bits(iType) != 1)
+    if (stdMath.number_of_set_bits(iType) != 1)
       ::dagor.assertf(false, "Incorrect item class iType " + iType + " must be a power of 2")
     if (iType in itemTypeClasses)
       ::dagor.assertf(false, "duplicate iType in item classes " + iType)
@@ -400,7 +401,7 @@ function ItemsManager::isMarketplaceEnabled()
 function ItemsManager::goToMarketplace()
 {
   if (isMarketplaceEnabled())
-    ::open_url(inventoryClient.getMarketplaceBaseUrl(), true, false, "marketplace")
+    ::open_url(inventoryClient.getMarketplaceBaseUrl(), false, false, "marketplace")
 }
 
 function ItemsManager::markItemsListUpdate()
@@ -736,6 +737,10 @@ function ItemsManager::fillItemDescr(item, holderObj, handler = null, shopDesc =
   if (::checkObj(obj))
     obj.setValue(item? item.getDescriptionTitle() : "")
 
+  local addDescObj = holderObj.findObject("item_desc_under_title")
+  if (::checkObj(addDescObj))
+    addDescObj.setValue(item?.getDescriptionUnderTitle?() ?? "")
+
   local helpObj = holderObj.findObject("item_type_help")
   if (::checkObj(helpObj))
   {
@@ -1023,7 +1028,7 @@ function ItemsManager::getActiveBoostersDescription(boostersArray, effectType, s
     return ""
 
   local getColoredNumByType = (@(effectType) function(num) {
-    return ::colorize("activeTextColor", "+" + num + "%") + effectType.currencyMark
+    return ::colorize("activeTextColor", "+" + num.tointeger() + "%") + effectType.currencyMark
   })(effectType)
 
   local separateBoosters = []

@@ -11,7 +11,7 @@ tdiv {
 frame {
   game_mode_select {
     id:t='game_mode_select';
-    width:t='1.12@scrn_tgt';
+    width:t='@gameModeSelectWindowWidth';
     max-height:t='p.p.h-0.045@sf - 2@framePadding - 1@bh';
     position:t='relative';
     overflow-y:t='auto';
@@ -77,7 +77,7 @@ frame {
         <</isWide>>
         <<#hasContent>>
         id:t='<<id>>';
-        tooltip:t='<<#isCrossPlayRequired>><<?xbox/gamemode/crossPlayRequired>>\n<</isCrossPlayRequired>><<tooltip>>'
+        tooltip:t='<<#crossplayTooltip>><<crossplayTooltip>>\n<</crossplayTooltip>><<tooltip>>'
         value:t='<<value>>';
 
         <<#isFeatured>>
@@ -238,61 +238,54 @@ frame {
   }
 
   tdiv {
-    width:t='0.759@scrn_tgt';
-    height:t='0.045@sf';
+    height:t='0.045@sf'
+    flow:t='horizontal'
 
-    tdiv {
-      id:t='cluster_select_button_container';
-      behavior:t='posNavigator';
-      padding:t='0.005@scrn_tgt';
-      navigatorShortcuts:t='active';
-      moveX:t='linear';
-      moveY:t='linear';
-      showSelect:t='yes'
-      on_wrap_up:t='onWrapUp';
-      on_wrap_down:t='onWrapDown';
-      on_activate:t='onClusterSelectActivate';
-
-      button {
-        id:t='cluster_select_button';
-        height:t='0.035@sf';
-        position:t='relative';
-        padding-left:t='1.2@sIco';
-        on_click:t='onOpenClusterSelect';
-        on_set_focus:t='onGameModeSelectFocus';
-
-        img {
-          position:t='absolute';
-          pos:t='12*@sf/@pf_outdated, ph/2 - h/2';
-          size:t='5*@sf/@pf_outdated, ph';
-          rotation:t='0';
-          background-image:t='#ui/gameuiskin#drop_menu_separator';
-          bgcolor:t='#FFFFFF';
-          input-transparent:t='yes';
-        }
-
-        img {
-          position:t='absolute';
-          pos:t='0, ph/2 - h/2';
-          size:t='11*@sf/@pf_outdated, 8*@sf/@pf_outdated';
-          rotation:t='0';
-          background-image:t='#ui/gameuiskin#drop_menu_icon';
-          bgcolor:t='#FFFFFF';
-          input-transparent:t='yes';
-        }
+    gameModeChangeButton {
+      position:t='relative'
+      top:t='ph/2 - h/2 + 0.5@blockInterval'
+      on_click:t='onOpenClusterSelect'
+      btnName:t='X'
+      dropMenuArrow {}
+      dropMenuSeparator{}
+      ButtonImg{}
+      activeText {
+        id:t='cluster_select_button'
+        height:t='ph'
+        padding-left:t='1@blockInterval'
       }
     }
 
     Button_text {
       id:t='event_description_console_button'
       text:t='#mainmenu/titleEventDescription'
-      pos:t='pw - w - 0.01@scrn_tgt, 0'
-      position:t='absolute'
-      btnName:t='X'
+      position:t='relative'
+      pos:t='1@blockInterval, 0.5@blockInterval'
+      btnName:t='L3'
       on_click:t='onEventDescription'
       display:t='hide'
       enable:t='no'
 
+      ButtonImg {}
+    }
+
+    Button_text {
+      id:t='wiki_link'
+      position:t='absolute'
+      pos:t='@gameModeSelectWindowWidth-w-1@blockInterval, 0'
+      isLink:t='yes'
+      isFeatured:t='yes'
+      link:t='#url/wiki_matchmaker'
+      on_click:t='onMsgLink'
+      visualStyle:t='noFrame'
+      display:t='hide'
+      enable:t='no'
+
+      btnText{
+        text:t='#profile/wiki_matchmaking'
+        underline{}
+      }
+      btnName:t='R3'
       ButtonImg {}
     }
   }

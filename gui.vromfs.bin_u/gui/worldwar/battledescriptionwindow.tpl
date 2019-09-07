@@ -53,7 +53,7 @@ root {
           size:t='pw, fh'
           flow:t = 'vertical'
           focus:t='yes'
-          _on_select:t='onItemSelect'
+          on_select:t='onItemSelect'
           on_wrap_up:t='onWrapUp'
           on_wrap_down:t='onWrapDown'
         }
@@ -103,11 +103,32 @@ root {
 
       tdiv {
         size:t='fw, ph'
+        flow:t='vertical'
 
         tdiv {
           id:t='item_desc'
-          size:t='pw, ph'
+          size:t='pw, fh'
           flow:t='vertical'
+        }
+
+        tdiv {
+          left:t='pw-w'
+          position:t='relative'
+
+          activeText {
+            id:t='cant_join_reason_txt'
+            top:t='50%ph-50%h'
+            position:t='relative'
+            padding-right:t='1@blockInterval'
+            text:t=''
+          }
+          cardImg {
+            id:t='warning_icon'
+            padding-right:t='1@blockInterval'
+            display:t='hide'
+            background-image:t='#ui/gameuiskin#btn_help.svg'
+            tooltip:t=''
+          }
         }
 
         tdiv {
@@ -171,19 +192,12 @@ root {
       }
 
       navRight {
-        activeText {
-          id:t='cant_join_reason_txt'
-          top:t='50%ph-50%h'
-          position:t='relative'
-          padding-right:t='1@blockInterval'
-          text:t=''
-        }
-        cardImg {
-          id:t='warning_icon'
-          padding-right:t='1@blockInterval'
-          display:t='hide'
-          background-image:t='#ui/gameuiskin#btn_help.svg'
-          tooltip:t=''
+        Button_text {
+          id:t='btn_auto_preset'
+          text:t='#worldwar/btnAutoPreset'
+          _on_click:t='onRunAutoPreset'
+          btnName:t='RT'
+          ButtonImg {}
         }
         Button_text {
           id:t='btn_collapsed_chapter'

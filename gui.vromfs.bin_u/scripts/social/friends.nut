@@ -136,7 +136,7 @@ function getPS4FriendsFromIndex(index)
   local cb = function(response, error) {
     if (error)
       return
-    if (index == 0) // Initial chunk of friends from WebAPI
+    if (index == 0 && ::isInArray(::EPLX_PS4_FRIENDS, ::contacts_groups)) // Initial chunk of friends from WebAPI
       ::resetPS4ContactsGroup()
 
     local size = (response?.size || 0) + (response?.start || 0)

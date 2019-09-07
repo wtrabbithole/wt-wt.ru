@@ -102,9 +102,6 @@
     "type": "typeSPAA"
   },
   {
-    "allowForestallWithoutMarkers": true
-  },
-  {
     "ikGunner": [
       {
         "model": "us_gunner_char"
@@ -619,7 +616,13 @@
         "ex_decor_r_02_dm": [],
         "ex_decor_r_03_dm": [],
         "ex_decor_r_04_dm": [],
-        "ex_decor_r_05_dm": []
+        "ex_decor_r_05_dm": [],
+        "ex_armor_turret_l_01_dm": {
+          "armorThickness": 100.0
+        },
+        "ex_armor_turret_l_02_dm": {
+          "armorThickness": 100.0
+        }
       },
       "chassis": {
         "armorClass": "tank_steel_wheels",
@@ -1868,89 +1871,6 @@
   },
   {
     "MetaParts": {
-      "inner": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "engine_dm"
-        },
-        {
-          "part": "transmission_dm"
-        },
-        {
-          "part": "cannon_breech_dm"
-        },
-        {
-          "part": "cannon_breech_01_dm"
-        },
-        {
-          "part": "cannon_breech_02_dm"
-        },
-        {
-          "part": "cannon_breech_03_dm"
-        },
-        {
-          "part": "cannon_breech_04_dm"
-        },
-        {
-          "part": "cannon_breech_05_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 380.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 170.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "generic",
-            "expl": 1.0,
-            "conditionDamage": 190.0,
-            "kill": true,
-            "killEffect": "fire"
-          }
-        }
-      ],
-      "crew": [
-        {
-          "killAllPartsForDeath": true
-        },
-        {
-          "killNumPartsForDeath": 3
-        },
-        {
-          "part": "gunner_dm"
-        },
-        {
-          "part": "loader_dm"
-        },
-        {
-          "part": "driver_dm"
-        },
-        {
-          "part": "commander_dm"
-        },
-        {
-          "effects": {
-            "killUnit": {
-              "nothing": 1.0
-            }
-          }
-        }
-      ],
       "body": [
         {
           "hp": 2000.0
@@ -2013,7 +1933,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2022,7 +1942,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2128,7 +2048,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 250.0,
+            "conditionDamage": 600.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2137,7 +2057,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 100.0,
+            "conditionDamage": 800.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2156,6 +2076,12 @@
         "emitter": "emtr_gun_flame_01",
         "flash": "emtr_gun_flame_01",
         "useEmitter": true,
+        "sleeveEmitter": "emtr_shell",
+        "sleeveMesh": "auto_cannon_cartridge_case",
+        "openHatchTime": 0.0,
+        "sleevesLifeTime": 5.0,
+        "sleeveImpulse": [0.0,0.0,-2.5],
+        "linkSleeveToGun": true,
         "recoilMultiplier": 0.2,
         "jammedReloadTime": 12.0,
         "maxAdditionalPitch": 0.0,
@@ -2228,6 +2154,15 @@
       "preset": {
         "name": "us_m163_vulcan_default",
         "blk": "gameData/units/tankModels/weaponPresets/us_m163_vulcan_default.blk"
+      }
+    }
+  },
+  {
+    "sensors": {
+      "sensor": {
+        "blk": "gameData/sensors/an_vps_2.blk",
+        "turretIndex": 0,
+        "dmPart": "radar_dm"
       }
     }
   },
@@ -2862,15 +2797,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -3013,6 +2939,15 @@
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "usa_modern_snow_temperate*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ger_camo_carc",
+      "replace_tex": {
+        "from": "us_camo_olive*",
+        "to": "ger_camo_carc*"
       }
     }
   },

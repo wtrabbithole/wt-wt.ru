@@ -1,5 +1,6 @@
 //::g_script_reloader.loadOnce("!temp/a_test.nut") //!!debug only!!
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
+local stdMath = require("std/math.nut")
 //!! When this handler will be finished it replace all debriefing handlers,
 //and we can replace debriefing.nut by this file.
 
@@ -40,6 +41,7 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
   icon = "icon/summation" // Icon used as Value column header in tooltip
   tooltipExtraRows = null //function(), array
   tooltipComment = null  //string function()
+  tooltipRowBonuses = @(unitId, unitData) null
   isCountedInUnits = true
   isFreeRP = false  //special row where exp currency is not RP but FreeRP
 
@@ -96,7 +98,7 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
   }
   { id = "AwardDamage"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
-    showByModes = function(gm) gm != ::GM_SKIRMISH
+    showByModes = function(gm) { return gm != ::GM_SKIRMISH }
     text = "multiplayer/naval_damage"
     icon = "icon/mpstats/navalDamage"
     isVisibleWhenEmpty = function()
@@ -306,6 +308,26 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
     showOnlyWhenFullResult = true
     isOverall = true
     tooltipComment = function() { return ::loc("debriefing/EfficiencyReason") }
+    tooltipRowBonuses = function(unitId, unitData) {
+      local unitTypeName = ::getAircraftByName(unitId)?.unitType?.name ?? ""
+      local investUnit = ::getAircraftByName(::debriefing_result?.exp?["investUnitName" + unitTypeName])
+      local prevUnit = ::getPrevUnit(investUnit)
+      if (unitId != prevUnit?.name)
+        return null
+
+      local noBonus = unitData?.expTotal ?? 0
+      local bonus = (unitData?.expInvestUnit ?? 0) - noBonus
+      if (noBonus <= 0 || bonus <= 0)
+        return null
+
+      local comment = ::colorize("fadedTextColor", ::loc("debriefing/bonusToNextUnit",
+        { unitName = ::colorize("userlogColoredText", ::getUnitName(investUnit)) }))
+
+      return {
+        noBonus = ::Cost().setRp(noBonus).tostring()
+        prevUnitEfficiency = ::Cost().setRp(bonus).tostring() + comment
+      }
+    }
   }
   { id = "ecSpawnScore"
     text = "debriefing/total/ecSpawnScore"
@@ -448,6 +470,19 @@ function gather_debriefing_result()
   ::debriefing_result.expDump <- ::u.copy(exp) // Untouched copy for debug
 
   // Put exp data compatibility changes here.
+
+  // Temporary compatibility fix for 1.85.0.X
+  if (exp?.numAwardDamage && exp?.expAwardDamage)
+  {
+    local tables = [ exp ]
+    foreach (a in exp?.aircrafts ?? {})
+      tables.append(a)
+    foreach (t in tables)
+    {
+      t.numAwardDamage <- t?.expAwardDamage ?? 0
+      t.expAwardDamage <- 0
+    }
+  }
 
   foreach (row in ::debriefing_rows)
     if (row.joinRows)
@@ -1041,7 +1076,7 @@ function get_mission_victory_bonus_text(gm)
     (1.0 / (expPlaying.tofloat() / (expVictory - expPlaying))) :
     0.0
   local rp = ::floor(bonusRpRaw * 100).tointeger()
-  local wp = ::round_by_value(bonusWp * 100, 1).tointeger()
+  local wp = stdMath.round_by_value(bonusWp * 100, 1).tointeger()
   local textRp = rp ? ::getRpPriceText("+" + rp + "%", true) : ""
   local textWp = wp ? ::getWpPriceText("+" + wp + "%", true) : ""
   return ::g_string.implode([ textRp, textWp ], ::loc("ui/comma"))
@@ -1207,7 +1242,7 @@ function get_debriefing_gift_items_info(skipItemId = null)
       if (typeof(data) != "table" || !("itemDefId" in data))
         continue
 
-      res.append({ id = data.itemDefId, count = data?.quantity ?? 1, needOpen = false })
+      res.append({item=data.itemDefId, count=data?.quantity ?? 1, needOpen=false, enableBackground=true})
     }
 
   // Collecting trophies and items
@@ -1221,7 +1256,7 @@ function get_debriefing_gift_items_info(skipItemId = null)
     local rewards = logs?[0]?.container?[rewardType] ?? {}
     foreach (id, count in rewards)
       if (id != skipItemId)
-        res.append({ id = id, count = count, needOpen = rewardType == "trophies" })
+        res.append({item=id, count=count, needOpen=rewardType == "trophies", enableBackground=true})
   }
 
   return res.len() ? res : null

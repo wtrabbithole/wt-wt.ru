@@ -195,6 +195,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t1_assault_spawn",
           "team": "A",
           "offset": [0.0,0.0,0.0],
@@ -240,6 +241,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t2_assault_spawn",
           "team": "B",
           "offset": [0.0,0.0,0.0],
@@ -285,6 +287,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t1_interceptor_spawn",
           "team": "A",
           "offset": [0.0,0.0,0.0],
@@ -330,6 +333,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t2_interceptor_spawn",
           "team": "B",
           "offset": [0.0,0.0,0.0],
@@ -375,6 +379,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t1_aaa_fighter_spawn",
           "team": "A",
           "offset": [0.0,0.0,0.0],
@@ -420,6 +425,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t2_aaa_fighter_spawn",
           "team": "B",
           "offset": [0.0,0.0,0.0],
@@ -465,6 +471,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t1_main_bomber_spawn",
           "team": "A",
           "offset": [0.0,0.0,0.0],
@@ -511,6 +518,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t2_main_bomber_spawn",
           "team": "B",
           "offset": [0.0,0.0,0.0],
@@ -557,6 +565,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t1_far_bomber_spawn",
           "team": "A",
           "offset": [0.0,0.0,0.0],
@@ -602,6 +611,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t2_far_bomber_spawn",
           "team": "B",
           "offset": [0.0,0.0,0.0],
@@ -652,6 +662,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t1_common_fighters_spawn",
           "team": "A",
           "offset": [0.0,0.0,0.0],
@@ -702,6 +713,7 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t2_common_fighters_spawn",
           "team": "B",
           "offset": [0.0,0.0,0.0],
@@ -755,12 +767,16 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t1_airfield",
           "team": "A",
-          "offset": [0.0,0.0,0.0],
           "tags": {
             "tank": false
           }
+        },
+        "airfieldSetProperties": {
+          "object": "t1_airfield",
+          "enemySurrenderOnLanding": true
         }
       },
       "else_actions": []
@@ -808,12 +824,17 @@
           "radius": -1.0,
           "onlyOnePlayerPerSpawnPoint": false,
           "resetStrictSpawnIndex": false,
+          "replaceAreas": false,
           "target": "t2_airfield",
           "team": "B",
           "offset": [0.0,0.0,0.0],
           "tags": {
             "tank": false
           }
+        },
+        "airfieldSetProperties": {
+          "object": "t2_airfield",
+          "enemySurrenderOnLanding": true
         }
       },
       "else_actions": []

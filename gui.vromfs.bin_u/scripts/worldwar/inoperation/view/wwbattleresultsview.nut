@@ -76,8 +76,7 @@ class ::WwBattleResultsView
     local curOperation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
     local operationName = curOperation ? curOperation.getNameText() : ""
     local zoneName = battleRes.zoneName != "" ? (::loc("options/dyn_zone") + " " + battleRes.zoneName) : ""
-    local timeTbl = ::get_time_from_t(battleRes.time)
-    local dateTime = time.buildDateStr(timeTbl) + " " + time.buildTimeStr(timeTbl)
+    local dateTime = time.buildDateStr(battleRes.time) + " " + time.buildTimeStr(battleRes.time)
     return ::g_string.implode([ operationName, zoneName, dateTime ], ::loc("ui/semicolon"))
   }
 

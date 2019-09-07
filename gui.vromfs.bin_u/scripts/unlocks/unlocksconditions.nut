@@ -23,7 +23,7 @@
 
 
 local time = require("scripts/time.nut")
-
+local stdMath = require("std/math.nut")
 
 ::UnlockConditions <- {
   conditionsOrder = [
@@ -37,8 +37,10 @@ local time = require("scripts/time.nut")
     "playerUnit", "playerType", "playerExpClass", "playerUnitRank", "playerUnitMRank", "playerTag",
     "targetUnit", "targetType", "targetExpClass", "targetUnitClass", "targetTag",
     "crewsUnit", "crewsUnitRank", "crewsUnitMRank", "crewsTag", "activity",
-    "minStat", "statPlace", "statScore", "statPlaceInSession", "statScoreInSession",
-    "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country", "targets"
+    "minStat", "statPlace", "statScore", "statAwardDamage",
+    "statPlaceInSession", "statScoreInSession", "statAwardDamageInSession",
+    "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country", "targets",
+    "targetDistance"
   ]
 
   condWithValuesInside = [
@@ -82,6 +84,7 @@ local time = require("scripts/time.nut")
   minStatGroups = {
     place         = "statPlace"
     score         = "statScore"
+    awardDamage   = "statAwardDamage"
     playerkills   = "statKillsPlayer"
     kills         = "statKillsAir"
     aikills       = "statKillsAirAi"
@@ -431,8 +434,9 @@ function UnlockConditions::loadCondition(blk)
   {
     foreach(key in ["beginDate", "endDate"])
     {
-      local unlockTime = blk[key] && time.convertUtcToLocalTime(time.getTimeFromStringUtc(blk[key]))
-      if (unlockTime)
+      local unlockTime = blk[key] ?
+        (time.getTimestampFromStringUtc(blk[key])) : -1
+      if (unlockTime >= 0)
         res[key] <- time.buildDateTimeStr(unlockTime)
     }
   }
@@ -473,6 +477,10 @@ function UnlockConditions::loadCondition(blk)
       res.locGroup <- "targets"
     else
       res.values = null
+  }
+  else if (t == "targetDistance")
+  {
+    res.values = getDiffTextArrayByPoint3(blk.distance, "%s" + ::loc("measureUnits/meters_alt"))
   }
   else if (::isInArray(t, additionalTypes))
   {
@@ -625,12 +633,12 @@ function UnlockConditions::_genMainConditionText(condition, curValue = null, max
   if (::is_numeric(curValue))
   {
     if (bitMode)
-      curValue = ::number_of_set_bits(curValue)
+      curValue = stdMath.number_of_set_bits(curValue)
     else if (::is_numeric(maxValue) && curValue > maxValue) //validate values if numeric
       curValue = maxValue
   }
   if (bitMode && ::is_numeric(maxValue))
-    maxValue = ::number_of_set_bits(maxValue)
+    maxValue = stdMath.number_of_set_bits(maxValue)
 
   if (isCheckedBySingleAttachment(modeType) && condition.values && condition.values.len() == 1)
     return _getSingleAttachmentConditionText(condition, curValue, maxValue)
@@ -656,7 +664,7 @@ function UnlockConditions::_genMainConditionText(condition, curValue = null, max
   } else if (modeType == "amountDamagesZone")
   {
     if (::is_numeric(curValue) && ::is_numeric(maxValue))
-      progressText = ::round_by_value(curValue * 0.001, 0.001) + "/" + ::round_by_value(maxValue * 0.001,  0.001)
+      progressText = stdMath.round_by_value(curValue * 0.001, 0.001) + "/" + stdMath.round_by_value(maxValue * 0.001,  0.001)
   } else //usual progress text
   {
     progressText = (curValue != null) ? curValue : ""
@@ -771,7 +779,7 @@ function UnlockConditions::_addUsualConditionsText(groupsList, condition)
     else if (cType == "playerTag" || cType == "crewsTag" || cType == "targetTag" || cType == "country")
       text = ::loc("unlockTag/" + v)
     else if (::isInArray(cType, [ "activity", "playerUnitRank", "playerUnitMRank",
-      "crewsUnitRank", "crewsUnitMRank", "minStat"]))
+      "crewsUnitRank", "crewsUnitMRank", "minStat", "targetDistance"]))
       text = v.tostring()
     else if (cType == "difficulty")
     {
@@ -825,7 +833,7 @@ function UnlockConditions::_addCustomConditionsTextData(groupsList, condition)
       }
       else
       {
-        group = "gameModeInfoString/" + condition.name
+        group = ::loc("conditions/gameModeInfoString/" + condition.name)
       }
 
       if ("locParamValue" in condition)
@@ -834,7 +842,7 @@ function UnlockConditions::_addCustomConditionsTextData(groupsList, condition)
       }
       else
       {
-        desc += "gameModeInfoString/" + v
+        desc += ::loc("conditions/gameModeInfoString/" + v)
       }
     }
   }
@@ -971,8 +979,8 @@ function UnlockConditions::getProgressBarData(modeType, curVal, maxVal)
 
   if (::UnlockConditions.isBitModeType(modeType))
   {
-    curVal = ::number_of_set_bits(curVal)
-    maxVal = ::number_of_set_bits(maxVal)
+    curVal = stdMath.number_of_set_bits(curVal)
+    maxVal = stdMath.number_of_set_bits(maxVal)
   }
 
   res.show = res.show && maxVal > 1 && curVal < maxVal

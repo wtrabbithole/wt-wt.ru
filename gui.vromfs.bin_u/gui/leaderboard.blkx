@@ -11,31 +11,66 @@
       "padding": "0.05@sf, 0",
       "class": "leaderboard",
       "type": "big",
-      "frame_header": {
-        "ComboBox": {
-          "id": "modes_list",
-          "position": "relative",
-          "pos": "20*@sf/@pf_outdated, 50%ph-50%h",
-          "width": "0.4@sf",
-          "display": "hide",
-          "enable": "no",
-          "btnName": "X",
-          "on_select": "onModeSelect",
-          "on_cancel_edit": "onModeSelect"
+      "frame_header": [
+        {
+          "ComboBox": {
+            "id": "modes_list",
+            "position": "relative",
+            "pos": "1@blockInterval, 50%(ph-h)",
+            "width": "0.4@sf",
+            "display": "hide",
+            "enable": "no",
+            "btnName": "X",
+            "on_select": "onModeSelect",
+            "on_cancel_edit": "onModeSelect"
+          }
         },
-        "activeText": {
-          "id": "lb_name",
-          "caption": "yes",
-          "text": "",
-          "textHide": "yes"
+        {
+          "ComboBox": {
+            "id": "maps_list",
+            "position": "relative",
+            "pos": "1@blockInterval, 50%(ph-h)",
+            "width": "0.4@sf",
+            "display": "hide",
+            "enable": "no",
+            "btnName": "R3",
+            "on_select": "onMapSelect",
+            "on_cancel_edit": "onMapSelect"
+          }
         },
-        "top_right_holder": {
-          "id": "top_holder"
+        {
+          "ComboBox": {
+            "id": "countries_list",
+            "position": "relative",
+            "pos": "1@blockInterval, 50%(ph-h)",
+            "width": "0.25@sf",
+            "display": "hide",
+            "enable": "no",
+            "btnName": "RB",
+            "on_select": "onCountrySelect",
+            "on_cancel_edit": "onCountrySelect"
+          }
         },
-        "Button_close": {
-          "id": "btn_back"
+        {
+          "activeText": {
+            "id": "lb_name",
+            "caption": "yes",
+            "text": "",
+            "textHide": "yes"
+          }
+        },
+        {
+          "top_right_holder": {
+            "id": "top_holder",
+            "hasRightIndent": "yes"
+          }
+        },
+        {
+          "Button_close": {
+            "id": "btn_back"
+          }
         }
-      },
+      ],
       "tdiv": {
         "id": "lb_wrap",
         "width": "pw",
@@ -794,9 +829,10 @@
                     },
                     {
                       "emptyVoiceChat": {
-                        "id": "voice_chat_no_activity",
                         "tooltip": "#clan/voice_chat/widget",
                         "usertalk": {
+                          "id": "voice_chat_no_activity",
+                          "type": "noTalk",
                           "fade": "in",
                           "height-end": "1",
                           "_size-timer": "0",

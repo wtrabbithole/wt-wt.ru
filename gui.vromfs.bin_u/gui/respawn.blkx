@@ -656,9 +656,10 @@
                       },
                       {
                         "emptyVoiceChat": {
-                          "id": "voice_chat_no_activity",
                           "tooltip": "#clan/voice_chat/widget",
                           "usertalk": {
+                            "id": "voice_chat_no_activity",
+                            "type": "noTalk",
                             "fade": "in",
                             "height-end": "1",
                             "_size-timer": "0",
@@ -921,11 +922,10 @@
     }
   },
   {
-    "dummy": {
+    "DummyButton": {
       "id": "btn_hide_show_hud",
       "on_click": "showHud",
-      "behaviour": "accesskey",
-      "accessKey": "J:B"
+      "btnName": "BNotEsc"
     }
   },
   {

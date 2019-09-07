@@ -72,8 +72,9 @@ class ::gui_handlers.RankUpModal extends ::gui_handlers.BaseGuiHandlerWT
       if (topRank < r)
         topRank = r;
 
-    local headerText = format(::loc("userlog/new_rank/country"), ::get_roman_numeral(topRank))
-    local rankText = ::loc("shop/age") + "<color=@userlogColoredText> " + ::getUnitRankName(topRank) + "</color>"
+    local topRankStr = ::get_roman_numeral(topRank)
+    local headerText = format(::loc("userlog/new_rank/country"), topRankStr)
+    local rankText = ::loc("shop/age") + ::colorize("userlogColoredText", topRankStr)
     if (showAsUnlock)
     {
       local cText = ::loc(country)

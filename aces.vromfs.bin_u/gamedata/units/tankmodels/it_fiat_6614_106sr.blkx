@@ -1313,7 +1313,7 @@
     "MetaParts": {
       "inner": [
         {
-          "hp": 2000.0
+          "hp": 10000.0
         },
         {
           "part": "engine_dm"
@@ -1343,7 +1343,7 @@
           "effect": {
             "conditionDamageType": "explosion",
             "expl": 1.0,
-            "conditionDamage": 380.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1352,7 +1352,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 170.0,
+            "conditionDamage": 100.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1361,7 +1361,7 @@
           "effect": {
             "conditionDamageType": "generic",
             "expl": 1.0,
-            "conditionDamage": 190.0,
+            "conditionDamage": 180.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1592,7 +1592,7 @@
             "triggerGroup": "coaxial"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_Type_60B_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M80_user_machinegun.blk"
           },
           {
             "emitter": "bone_mg_gun_twin_01"
@@ -1607,7 +1607,7 @@
             "defaultPitch": 0.0
           },
           {
-            "barrelDP": "gun_barrel_03_dm"
+            "barrelDP": "gun_barrel_01_dm"
           },
           {
             "speedYaw": 18.0
@@ -1619,7 +1619,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 1200
+            "bullets": 120
           },
           {
             "isBulletBelt": true
@@ -1751,6 +1751,7 @@
         "hasSuspensionOnDriveGear": true,
         "dampeningRelaxationRatio": 0.2,
         "dampeningCompressionRatio": 0.2,
+        "brokenWheelSteeringDeflection": -15.0,
         "steeringDeflection": {
           "wheel_l_01": 25.0,
           "wheel_l_02": 0.0,
@@ -1776,6 +1777,60 @@
           "wheel_l_02": 0.4,
           "wheel_r_02": 0.4
         }
+      }
+    }
+  },
+  {
+    "repairParts": {
+      "wheel_l_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_01_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_02_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_03_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_04_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_l_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
+      },
+      "wheel_r_drive_dm": {
+        "speed": 1.7,
+        "completely": true,
+        "modRequired": false
       }
     }
   },
@@ -2285,15 +2340,6 @@
         }
       },
       {
-        "event": {
-          "name": "salute",
-          "fx": {
-            "name": "tank_explosion_flowers",
-            "emitter": "emtr_explosion_center"
-          }
-        }
-      },
-      {
         "procedural": {
           "name": "default",
           "fx": {
@@ -2405,7 +2451,7 @@
                   "triggerGroup": "coaxial"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/12_7mm_Type_60B_user_machinegun.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M80_user_machinegun.blk"
                 },
                 {
                   "emitter": "bone_mg_gun_twin_01"
@@ -2420,7 +2466,7 @@
                   "defaultPitch": 0.0
                 },
                 {
-                  "barrelDP": "gun_barrel_03_dm"
+                  "barrelDP": "gun_barrel_01_dm"
                 },
                 {
                   "speedYaw": 18.0
@@ -2432,7 +2478,7 @@
                   "fireConeAngle": 1.0
                 },
                 {
-                  "bullets": 1200
+                  "bullets": 120
                 },
                 {
                   "isBulletBelt": true

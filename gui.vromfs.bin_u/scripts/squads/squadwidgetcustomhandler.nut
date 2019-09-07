@@ -288,8 +288,10 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
   function isSelectedItemFocused()
   {
     local navigatorObj = getFocusObj()
+    if (!::check_obj(navigatorObj))
+      return false
     local value = navigatorObj.getValue()
-    if (value > navigatorObj.childrenCount())
+    if (value < 0 || value > navigatorObj.childrenCount())
       return false
 
     local child = navigatorObj.getChild(value)

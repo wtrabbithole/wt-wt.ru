@@ -77,10 +77,9 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     /*body*/
     foreach(entry in historyArr)
     {
-      local t = get_time_from_t(time.daysToSeconds(entry.day))
       local rowParams = [
         {
-          text = time.buildDateStr(t)
+          text = time.buildDateStr(time.daysToSeconds(entry.day))
         },
         {
           text = ::format("%d", entry.value)

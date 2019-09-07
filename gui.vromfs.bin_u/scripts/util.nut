@@ -3,6 +3,7 @@ local time = require("scripts/time.nut")
 local penalty = require_native("penalty")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local stdMath = require("std/math.nut")
 
 ::usageRating_amount <- [0.0003, 0.0005, 0.001, 0.002]
 ::allowingMultCountry <- [1.5, 2, 2.5, 3, 4, 5]
@@ -104,36 +105,6 @@ function isInArray(v, arr)
     if (v==i)
       return true
   return false
-}
-
-
-function replaceParamsInLocalizedText(localizedString, param)
-{
-  foreach (field, value in param)
-  {
-    localizedString = ::stringReplace(localizedString, "{"+field+"}", "" + value)
-
-    if (!::u.isInteger(value) && !::u.isInt64(value))
-      continue
-    local startToken = "{"+field+"="
-    local start = 0
-    while (true)
-    {
-      start = localizedString.find(startToken, start)
-      if (start == null)
-        break
-      local end = localizedString.find("}", start)
-      if (end == null)
-        break
-      local pluralForms = localizedString.slice(start + startToken.len(), end)
-      local plurals = ::split(pluralForms, "/")
-      local idx = ::g_language.getPluralNounFormIdx(value)
-      local form = plurals.len() ? plurals[clamp(idx, 0, plurals.len() - 1)] : ""
-      localizedString = localizedString.slice(0, start) + form + localizedString.slice(end + 1)
-      start += form.len() + 1
-    }
-  }
-  return localizedString
 }
 
 function locOrStrip(text)
@@ -606,7 +577,7 @@ function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, 
     else
     {
       local roundPrecision = unit.round == 0 ? 1 : ::pow(0.1, unit.round)
-      result += ::round_by_value(val, roundPrecision)
+      result += stdMath.round_by_value(val, roundPrecision)
     }
   }
   if (addMeasureUnits)
@@ -703,13 +674,6 @@ function show_title_logo(show, scene = null, logoHeight = "", name_id = "id_full
   return false
 }
 
-function getRatioText(ratio)
-{
-  if (ratio <= 0)
-    return ""
-  return format("max-height:t='%fw'; max-width:t='%fh';", 1.0/ratio, ratio)
-}
-
 function getAmountAndMaxAmountText(amount, maxAmount, showMaxAmount = false)
 {
   local amountText = ""
@@ -757,13 +721,17 @@ function setCrewUnlockTime(obj, air)
         tObj.setValue(timeStr)
 
         local showButtons = ::has_feature("EarlyExitCrewUnlock")
+        local crewCost = ::shop_get_unlock_crew_cost(crew.id)
+        local crewCostGold = ::shop_get_unlock_crew_cost_gold(crew.id)
+
         if (showButtons)
         {
-          ::placePriceTextToButton(obj, "btn_unlock_crew", ::loc("mainmenu/btn_crew_unlock"), ::shop_get_unlock_crew_cost(crew.id), 0)
-          ::placePriceTextToButton(obj, "btn_unlock_crew_gold", ::loc("mainmenu/btn_crew_unlock"), 0, ::shop_get_unlock_crew_cost_gold(crew.id))
+          ::placePriceTextToButton(obj, "btn_unlock_crew", ::loc("mainmenu/btn_crew_unlock"), crewCost, 0)
+          ::placePriceTextToButton(obj, "btn_unlock_crew_gold", ::loc("mainmenu/btn_crew_unlock"), 0, crewCostGold)
         }
-        ::showBtn("btn_unlock_crew", showButtons && !!::shop_get_unlock_crew_cost(crew.id), obj)
-        ::showBtn("btn_unlock_crew_gold", showButtons && !!::shop_get_unlock_crew_cost_gold(crew.id), obj)
+        ::showBtn("btn_unlock_crew", showButtons && crewCost, obj)
+        ::showBtn("btn_unlock_crew_gold", showButtons && crewCostGold, obj)
+        ::showBtn("crew_unlock_buttons", showButtons && (crewCost || crewCostGold), obj)
       }
     }
     obj.show(show)
@@ -788,27 +756,6 @@ function fillCountryInfo(scene, country, expChange=0, showMedals = false, profil
   if (obj) obj.setValue(rank.tostring())
   obj = scene.findObject("rankIcon")
   if (obj) obj["background-image"] = (country!="")? ::get_country_icon(country) : "#ui/gameuiskin#prestige0"
-}
-
-function countCountryMedals(country, profileData=null)
-{
-  local total = 0
-  local medalsList = null
-  if (profileData && ("unlocks" in profileData) && ("medal" in profileData.unlocks))
-    medalsList = profileData.unlocks.medal
-
-  local unlocks = ::g_unlocks.getUnlocksByType("medal")
-  foreach(id, cb in unlocks)
-  {
-    local unlockCountry = cb.getStr("country","")
-    if (unlockCountry == country)
-    {
-      if ((!profileData && ::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id))
-          || (medalsList && (id in medalsList) && medalsList[id] > 0))
-        total++
-    }
-  }
-  return total
 }
 
 function set_menu_title(text, scene, name="gc_title")
@@ -1459,7 +1406,7 @@ function showCurBonus(obj, value, tooltipLocName="", isDiscount=true, fullUpdate
 
   if ((isDiscount && value>0) || (!isDiscount && value!=1))
   {
-    text = isDiscount? "-"+value+"%" : "x" + ::roundToDigits(value, 2)
+    text = isDiscount? "-"+value+"%" : "x" + stdMath.roundToDigits(value, 2)
     if (!tooltip && tooltipLocName!="")
     {
       local prefix = isDiscount? "discount/" : "bonus/"
@@ -1485,7 +1432,7 @@ function addBonusToObj(handler, obj, value, tooltipLocName="", isDiscount=true, 
   local text = ""
   local id = ""
   local tooltip = ""
-  text = isDiscount? "-" + value + "%" : "x" + ::roundToDigits(value, 2)
+  text = isDiscount? "-" + value + "%" : "x" + stdMath.roundToDigits(value, 2)
   if(tooltipLocName != "")
   {
     local prefix = isDiscount? "discount/" : "bonus/"
@@ -1557,8 +1504,8 @@ function getBonus(exp, wp, imgType, placeType="", airName="")
   else
     imgColor = (wp > 1.0)? "wp" : ""
 
-  exp = ::roundToDigits(exp, 2)
-  wp = ::roundToDigits(wp, 2)
+  exp = stdMath.roundToDigits(exp, 2)
+  wp = stdMath.roundToDigits(wp, 2)
 
   local multiplier = exp > wp?  exp : wp
   local image = getBonusImage(imgType, multiplier, airName==""? "country": "air")
@@ -2323,7 +2270,7 @@ function checkRemnantPremiumAccount()
       !::has_feature("SpendGold"))
     return
 
-  local currDays = time.getDaysByTime(::get_utc_time())
+  local currDays = time.getUtcDays()
   local expire = entitlement_expires_in("PremiumAccount")
   if (expire > 0)
     ::saveLocalByAccount("premium/lastDayHavePremium", currDays)
@@ -2544,7 +2491,7 @@ function getArrayFromInt(intNum)
   do {
     local div = intNum % 10
     array.append(div)
-    intNum = ::floor(intNum/10)
+    intNum = ::floor(intNum/10).tointeger()
   } while(intNum != 0)
 
   array.reverse()

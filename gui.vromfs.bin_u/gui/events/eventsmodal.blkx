@@ -81,10 +81,11 @@
                   "size": "pw, fh",
                   "flow": "vertical",
                   "focus": "yes",
-                  "_on_select": "onItemSelect",
+                  "on_select": "onItemSelect",
                   "_on_dbl_click": "onStart",
                   "on_wrap_up": "onWrapUp",
-                  "on_wrap_down": "onWrapDown"
+                  "on_wrap_down": "onWrapDown",
+                  "on_set_focus": "onListItemsFocusChange"
                 },
                 "textAreaCentered": {
                   "id": "items_list_msg",
@@ -1090,9 +1091,10 @@
                       },
                       {
                         "emptyVoiceChat": {
-                          "id": "voice_chat_no_activity",
                           "tooltip": "#clan/voice_chat/widget",
                           "usertalk": {
+                            "id": "voice_chat_no_activity",
+                            "type": "noTalk",
                             "fade": "in",
                             "height-end": "1",
                             "_size-timer": "0",
