@@ -13,12 +13,12 @@ class ::items_classes.UniversalSpare extends BaseItemModClass
   numSpares = 1
   shouldAlwaysShowRank = true
 
-  getConditionsBlk = @(configBlk) configBlk.universalSpareParams
+  getConditionsBlk = @(configBlk) configBlk?.universalSpareParams
 
   function initConditions(conditionsBlk)
   {
     base.initConditions(conditionsBlk)
-    numSpares = conditionsBlk.numSpares || 1
+    numSpares = conditionsBlk?.numSpares ?? 1
   }
 
   function getDescriptionIntroArray()

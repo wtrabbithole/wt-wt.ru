@@ -3,6 +3,31 @@
      library is self contained - no extra dependecies, no any game or app specific dependencies
      ALL functions in this library do not mutate data
 */
+
+/*******************************************************************************
+ ******************** functions checks*******************
+ ******************************************************************************/
+/**
+  Check for proper iteratee and so on - under construction
+*/
+local function funcCheckArgsNum(func, numRequired){
+  local infos = func.getfuncinfos()
+  local plen = infos.parameters.len() - 1
+  local deplen = infos.defparams.len()
+  local isVargv = infos.varargs > 0
+  if (isVargv)
+    plen -= 2
+  local mandatoryParams = plen - deplen
+  if (mandatoryParams > numRequired)
+    return false
+  if ((mandatoryParams <= numRequired) && (plen >= numRequired))
+    return true
+  if (mandatoryParams <= numRequired && isVargv)
+    return true
+  return false
+}
+
+
 /*******************************************************************************
  ******************** Collections handling (array of tables) *******************
  ******************************************************************************/
@@ -56,18 +81,21 @@ local function search(data, predicate, reverseOrder = false) {
  */
 local function zip(...) {
   local func = search(vargv, @(v) ::type(v)=="function")
-  local datasets = vargv.filter(@(i,val) ::type(val)=="array")
+  local datasets = vargv.filter(@(val) ::type(val)=="array")
   ::assert(datasets.len()>1, "zip can work only with two or more datasources")
   local res = datasets[0].map(@(v) [v])
   if (func == null) {
-    for (local i = 1; i < datasets.len(); ++i)
+    foreach(dataset in datasets) {
       foreach (idx, v in res)
-        v.append(datasets[i]?[idx])
-  } else {
-    res = clone datasets[0]
-    for (local i = 1; i < datasets.len(); ++i)
+        v.append(dataset?[idx])
+    }
+  }
+  else {
+    res = clone datasets.remove(0)
+    foreach(dataset in datasets) {
       foreach (idx, v in res)
-        res[idx]=func(v, datasets[i]?[idx])
+        res[idx]=func(v, dataset?[idx])
+    }
   }
   return res
 }
@@ -75,34 +103,6 @@ local function zip(...) {
 /*******************************************************************************
  ****************************** Table handling *********************************
  ******************************************************************************/
-
-/**
- * keys return an array of keys of specified table
- */
-local function keys(table) {
-  if (typeof table == "array"){
-    local res = ::array(table.len())
-    foreach (i, k in res)
-      res[i]=i
-    return res
-  }
-  local res = []
-  foreach (k, v in table)
-    res.append(k)
-  return res
-}
-
-/**
- * Return all of the values of the table's properties.
- */
-local function values(data) {
-  if (typeof data == "array")
-    return clone data
-  local res = []
-  foreach (val in data)
-    res.append(val)
-  return res
-}
 
 /**
  * Convert a table into a list of [key, value] pairs.
@@ -145,19 +145,6 @@ local function tablesCombine(tbl1, tbl2, func=null, defValue = null, addParams =
   return res
 }
 
-
-/**
- * Returns the index at which value can be found in the array, or -1 if value
- * is not present in the array
- * <defaultIndex> is index tp return when value not found in the given array
- */
-local function searchIndex(arr, predicate, defaultIndex = -1) {
-  foreach (index, item in arr)
-    if (predicate(item))
-      return index
-  return defaultIndex
-}
-
 /**
  * Returns the last element of an array. Passing n will return the last n
  * elements of the array.
@@ -169,7 +156,7 @@ local function last(collection, n = 1) {
 }
 
 /**
- * Safely returns the element of an array. Passing negative number will return element from end. 
+ * Safely returns the element of an array. Passing negative number will return element from end.
  * If number is more than length array will return last one (first one for negative)
  */
 local function safeIndex(arr, n) {
@@ -206,14 +193,7 @@ local function shuffle(arr, randfunc) {
   return res
 }
 
-local customIsEqual = {}
-
-local function registerIsEqual(classRef, isEqualFunc){
-  customIsEqual[classRef] <- isEqualFunc
-}
-
-local function isEqual(val1, val2) {return false}//forward declaration to use in recursives
-isEqual = function(val1, val2){
+local function isEqual(val1, val2, customIsEqual={}){
   if (val1 == val2)
     return true
   if (::type(val1) != ::type(val2))
@@ -239,21 +219,19 @@ isEqual = function(val1, val2){
 
   return false
 }
+
 return {
   isCallable = @(v) ["function","table","instance"].find(typeof(v) != null) && v.getfuncinfos() != null
   reduceTbl = reduceTbl
   search = search
   zip = zip
-  keys = keys
-  values = values
   pairs = pairs
   invert = invert
   tablesCombine = tablesCombine
   chooseRandom = chooseRandom
-  searchIndex = searchIndex
   safeIndex = safeIndex
   last = last
   shuffle = shuffle
   isEqual = isEqual
-  registerIsEqual = registerIsEqual
+  funcCheckArgsNum = funcCheckArgsNum
 }

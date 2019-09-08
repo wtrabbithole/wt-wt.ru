@@ -19,10 +19,24 @@ excludesdataEnglish <-
     ]
   },
   {
+    key = "h",
+    arr =
+    [
+      "hor[admnrs]",
+    ]
+  },
+  {
     key = "j",
     arr =
     [
       "japan"
+    ]
+  },
+  {
+    key = "t",
+    arr =
+    [
+      "titan"
     ]
   },
 ];

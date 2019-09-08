@@ -4,7 +4,7 @@ local u = ::require("sqStdLibs/helpers/u.nut")
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local netAssertsList = []
-function script_net_assert_once(id, msg)
+::script_net_assert_once <- function script_net_assert_once(id, msg)
 {
   if (::isInArray(id, netAssertsList))
     return dagor.debug(msg)
@@ -13,7 +13,7 @@ function script_net_assert_once(id, msg)
   return script_net_assert(msg)
 }
 
-function assertf_once(id, msg)
+::assertf_once <- function assertf_once(id, msg)
 {
   if (::isInArray(id, netAssertsList))
     return dagor.debug(msg)
@@ -21,7 +21,7 @@ function assertf_once(id, msg)
   return ::dagor.assertf(false, msg)
 }
 
-function unreachable()
+::unreachable <- function unreachable()
 {
   local info = ::getstackinfos(2) // get calling function
   local id = (info?.src ?? "?") + ":" + (info?.line ?? "?") + " (" + (info?.func ?? "?") + ")"

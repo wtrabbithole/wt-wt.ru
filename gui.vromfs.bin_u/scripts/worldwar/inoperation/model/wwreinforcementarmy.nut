@@ -23,13 +23,13 @@ class ::WwReinforcementArmy extends ::WwFormation
     name = armyBlock.name
     owner = ::WwArmyOwner(armyBlock.getBlockByName("owner"))
 
-    morale = armyBlock.morale || -1
-    availableAtMillisec = reinforcementBlock.availableAtMillisec || 0
-    suppliesEndMillisec = armyBlock.suppliesEndMillisec || 0
-    entrenchEndMillisec = armyBlock.entrenchEndMillisec || 0
+    morale = armyBlock?.morale ?? -1
+    availableAtMillisec = reinforcementBlock?.availableAtMillisec ?? 0
+    suppliesEndMillisec = armyBlock?.suppliesEndMillisec ?? 0
+    entrenchEndMillisec = armyBlock?.entrenchEndMillisec ?? 0
 
-    unitType = ::g_ww_unit_type.getUnitTypeByTextCode(armyBlock.specs.unitType).code
-    overrideIconId = ::getTblValue("iconOverride", armyBlock, "")
+    unitType = ::g_ww_unit_type.getUnitTypeByTextCode(armyBlock?.specs?.unitType).code
+    overrideIconId = armyBlock?.iconOverride ?? ""
     units = ::WwUnit.loadUnitsFromBlk(armyBlock.getBlockByName("units"))
 
     local armyArtilleryParams = ::g_ww_unit_type.isArtillery(unitType) ?

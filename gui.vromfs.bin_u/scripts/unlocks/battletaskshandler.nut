@@ -1,6 +1,6 @@
 local time = require("scripts/time.nut")
 
-function gui_start_battle_tasks_wnd(taskId = null)
+::gui_start_battle_tasks_wnd <- function gui_start_battle_tasks_wnd(taskId = null)
 {
   if (!::g_battle_tasks.isAvailableForUser())
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
@@ -161,7 +161,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
       local filteredByModeArray = ::g_battle_tasks.getTasksArrayByDifficulty(filteredByDiffArray, gameModeDifficulty)
 
-      resultArray = filteredByModeArray.filter(@(idx, task) (
+      resultArray = filteredByModeArray.filter(@(task) (
           ::g_battle_tasks.showAllTasksValue
           || ::g_battle_tasks.isTaskDone(task)
           || ::g_battle_tasks.isTaskActive(task)

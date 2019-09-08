@@ -1,4 +1,5 @@
 @const shopItemPad: 4*@sf/@pf;
+@const rentIconSize: 26@sf/@pf\2*2;
 
 table.shopTable, table.slotbarTable {
   total-input-transparent:yes;
@@ -522,6 +523,9 @@ classIcon[shopItemType=medium_tank]         { color:@medium_tankColor; }
 classIcon[shopItemType=heavy_tank]          { color:@heavy_tankColor; }
 classIcon[shopItemType=tank_destroyer]      { color:@tank_destroyerColor; }
 classIcon[shopItemType=spaa]                { color:@spaaColor; }
+classIcon[shopItemType=lbv]                 { color:@lbvColor; }
+classIcon[shopItemType=mbv]                 { color:@mbvColor; }
+classIcon[shopItemType=hbv]                 { color:@hbvColor; }
 classIcon[shopItemType=ship]                { color:@shipColor; }
 classIcon[shopItemType=boat]                { color:@boatColor; }
 classIcon[shopItemType=heavy_boat]          { color:@heavy_boatColor; }
@@ -555,6 +559,9 @@ img[shopItemType=medium_tank]       { background-color:@medium_tankColor; }
 img[shopItemType=heavy_tank]        { background-color:@heavy_tankColor; }
 img[shopItemType=tank_destroyer]    { background-color:@tank_destroyerColor; }
 img[shopItemType=spaa]              { background-color:@spaaColor; }
+img[shopItemType=lbv]               { background-color:@lbvColor; }
+img[shopItemType=mbv]               { background-color:@mbvColor; }
+img[shopItemType=hbv]               { background-color:@hbvColor; }
 img[shopItemType=ship]              { background-color:@shipColor; }
 img[shopItemType=boat]              { background-color:@boatColor; }
 img[shopItemType=heavy_boat]        { background-color:@heavy_boatColor; }
@@ -688,8 +695,9 @@ weaponsIcon {
 rentIcon {
   pos:0.006@scrn_tgt, 0.008@scrn_tgt;
   position:absolute;
-  size:26@sf/@pf\2*2, 26@sf/@pf\2*2;
-  background-image:#ui/gameuiskin#circular_progress_1;
+  size:@rentIconSize, @rentIconSize;
+  background-svg-size:@rentIconSize, @rentIconSize;
+  background-image:#ui/gameuiskin#circular_progress_1.svg;
   background-color:@black;
   input-transparent:yes;
 }
@@ -698,8 +706,9 @@ rentIcon > progress {
   re-type:sector;
   sector-angle-2:360;
   position:absolute;
-  size:pw, ph;
-  background-image:#ui/gameuiskin#circular_progress_1;
+  size:@rentIconSize, @rentIconSize;
+  background-svg-size:@rentIconSize, @rentIconSize;
+  background-image:#ui/gameuiskin#circular_progress_1.svg;
   background-color:@goodTextColor;
   input-transparent:yes;
 }

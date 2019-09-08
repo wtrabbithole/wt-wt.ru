@@ -39,6 +39,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]
 
+  canQuitByGoBack = false
+
   function initScreen()
   {
     backSceneFunc = ::gui_start_mainmenu
@@ -559,21 +561,21 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     if (!objectivesBlk)
       return
 
-    local staticBlk = ::u.copy(objectivesBlk.data) || ::DataBlock()
-    local dynamicBlk = ::u.copy(objectivesBlk.status) || ::DataBlock()
+    local staticBlk = ::u.copy(objectivesBlk?.data) || ::DataBlock()
+    local dynamicBlk = ::u.copy(objectivesBlk?.status) || ::DataBlock()
 
     local playerSideName = ::ww_side_val_to_name(::ww_get_player_side())
     for (local i = 0; i < staticBlk.blockCount(); i++)
     {
       local statBlk = staticBlk.getBlock(i)
-      if (!statBlk.mainObjective || !statBlk.defenderSide == playerSideName)
+      if (!statBlk?.mainObjective || statBlk?.defenderSide != playerSideName)
         continue
 
-      local oType = ::g_ww_objective_type.getTypeByTypeName(statBlk.type)
+      local oType = ::g_ww_objective_type.getTypeByTypeName(statBlk?.type)
       if (oType != ::g_ww_objective_type.OT_CAPTURE_ZONE)
         continue
 
-      local dynBlock = dynamicBlk[statBlk.getBlockName()]
+      local dynBlock = dynamicBlk?[statBlk.getBlockName()]
       if (!dynBlock)
         continue
 
@@ -585,7 +587,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
       for (local j = WW_MAP_HIGHLIGHT.LAYER_0; j<= WW_MAP_HIGHLIGHT.LAYER_2; j++)
       {
-        local filteredZones = zones.filter(@(idx, zone) zone.mapLayer == j)
+        local filteredZones = zones.filter(@(zone) zone.mapLayer == j)
         local zonesArray = ::u.map(filteredZones, @(zone) zone.id)
         ::ww_highlight_zones_by_name(zonesArray, j)
       }
@@ -1250,10 +1252,10 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     local objectivesBlk = ::g_world_war.getOperationObjectives()
     foreach (dataBlk in objectivesBlk.data)
     {
-      if (!dataBlk.mainObjective)
+      if (!dataBlk?.mainObjective)
         continue
 
-      local oType = ::g_ww_objective_type.getTypeByTypeName(dataBlk.type)
+      local oType = ::g_ww_objective_type.getTypeByTypeName(dataBlk?.type)
       objTarget = scene.findObject(oType.getNameId(dataBlk, ::ww_get_player_side()))
       if (objTarget)
         break

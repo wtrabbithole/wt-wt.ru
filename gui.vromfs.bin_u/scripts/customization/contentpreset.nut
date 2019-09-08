@@ -9,7 +9,7 @@ local function getContentPresets() {
     return contentPresets
 
   local blk = ::get_ugc_blk()
-  if (blk.presets)
+  if (blk?.presets)
     foreach(preset in blk.presets)
       contentPresets.append(preset.getBlockName())
 

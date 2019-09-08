@@ -3,17 +3,17 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   types = []
 }
 
-function g_crew_spec_type::_getNextType()
+g_crew_spec_type._getNextType <- function _getNextType()
 {
   return ::g_crew_spec_type.getTypeByCode(nextCode)
 }
 
-function g_crew_spec_type::_isCrewTrained(crew, unit)
+g_crew_spec_type._isCrewTrained <- function _isCrewTrained(crew, unit)
 {
   return ::g_crew_spec_type.getTrainedSpecCode(crew, unit) >= code
 }
 
-function g_crew_spec_type::_getUpgradeCostByCrewAndByUnit(crew, unit, upgradeToSpecCode = -1)
+g_crew_spec_type._getUpgradeCostByCrewAndByUnit <- function _getUpgradeCostByCrewAndByUnit(crew, unit, upgradeToSpecCode = -1)
 {
   if (upgradeToSpecCode < 0)
     upgradeToSpecCode = code + 1
@@ -27,28 +27,28 @@ function g_crew_spec_type::_getUpgradeCostByCrewAndByUnit(crew, unit, upgradeToS
   return cost
 }
 
-function g_crew_spec_type::_getUpgradeCostByUnitAndExp(unit, exp)
+g_crew_spec_type._getUpgradeCostByUnitAndExp <- function _getUpgradeCostByUnitAndExp(unit, exp)
 {
   return ::Cost(::wp_get_specialization_cost(code, unit.name, 0, exp),
                 ::wp_get_specialization_cost_gold(code, unit.name, 0, exp))
 }
 
-function g_crew_spec_type::_getName()
+g_crew_spec_type._getName <- function _getName()
 {
   return ::loc(getNameLocId(), "")
 }
 
-function g_crew_spec_type::_hasNextType()
+g_crew_spec_type._hasNextType <- function _hasNextType()
 {
   return getNextType() != ::g_crew_spec_type.UNKNOWN
 }
 
-function g_crew_spec_type::_getButtonLabel()
+g_crew_spec_type._getButtonLabel <- function _getButtonLabel()
 {
   return ::loc("crew/qualifyIncrease" + code, "")
 }
 
-function g_crew_spec_type::_getDiscountTooltipByValue(discountValue)
+g_crew_spec_type._getDiscountTooltipByValue <- function _getDiscountTooltipByValue(discountValue)
 {
   if (!::u.isString(discountValue))
     discountValue = discountValue.tostring()
@@ -56,18 +56,18 @@ function g_crew_spec_type::_getDiscountTooltipByValue(discountValue)
   return ::format(::loc(locId), discountValue)
 }
 
-function g_crew_spec_type::_getNameLocId()
+g_crew_spec_type._getNameLocId <- function _getNameLocId()
 {
   return ::format("crew/qualification/%d", code)
 }
 
-function g_crew_spec_type::_getDiscountValueByUnitNames(unitNames)
+g_crew_spec_type._getDiscountValueByUnitNames <- function _getDiscountValueByUnitNames(unitNames)
 {
   local priceBlk = ::get_price_blk()
   return ::getDiscountByPath(["aircrafts", unitNames, "specialization", specName], priceBlk)
 }
 
-function g_crew_spec_type::_getPrevType()
+g_crew_spec_type._getPrevType <- function _getPrevType()
 {
   foreach (t in ::g_crew_spec_type.types)
     if (t.nextCode == code)
@@ -75,21 +75,21 @@ function g_crew_spec_type::_getPrevType()
   return ::g_crew_spec_type.UNKNOWN
 }
 
-function g_crew_spec_type::_hasPrevType()
+g_crew_spec_type._hasPrevType <- function _hasPrevType()
 {
   return getPrevType() != ::g_crew_spec_type.UNKNOWN
 }
 
-function g_crew_spec_type::_getMulValue(prevSpecTypeCode = 0)
+g_crew_spec_type._getMulValue <- function _getMulValue(prevSpecTypeCode = 0)
 {
   local skillsBlk = ::get_skills_blk()
   local addPct = 0.0
   for(local specCode = code; specCode > prevSpecTypeCode; specCode--)
-    addPct += skillsBlk[::format("specialization%d_add", specCode + 1)] || 0
+    addPct += skillsBlk?[::format("specialization%d_add", specCode + 1)] ?? 0
   return 0.01 * addPct
 }
 
-function g_crew_spec_type::_getFullBonusesText(crewUnitType, prevSpecTypeCode = -1)
+g_crew_spec_type._getFullBonusesText <- function _getFullBonusesText(crewUnitType, prevSpecTypeCode = -1)
 {
   ::load_crew_skills_once()
 
@@ -121,7 +121,7 @@ function g_crew_spec_type::_getFullBonusesText(crewUnitType, prevSpecTypeCode = 
   return ::g_string.implode(rowsArray, "\n")
 }
 
-function g_crew_spec_type::_getReqCrewLevelByCode(unit, upgradeFromCode)
+g_crew_spec_type._getReqCrewLevelByCode <- function _getReqCrewLevelByCode(unit, upgradeFromCode)
 {
   ::load_crew_skills_once()
   local crewUnitType = unit?.getCrewUnitType?() ?? ::CUT_INVALID
@@ -130,17 +130,17 @@ function g_crew_spec_type::_getReqCrewLevelByCode(unit, upgradeFromCode)
   return ::getTblValue(unit.rank, ranksTbl, 0)
 }
 
-function g_crew_spec_type::_getReqCrewLevel(unit)
+g_crew_spec_type._getReqCrewLevel <- function _getReqCrewLevel(unit)
 {
   return _getReqCrewLevelByCode(unit, code - 1)
 }
 
-function g_crew_spec_type::_getUpgradeReqCrewLevel(unit)
+g_crew_spec_type._getUpgradeReqCrewLevel <- function _getUpgradeReqCrewLevel(unit)
 {
   return _getReqCrewLevelByCode(unit, code)
 }
 
-function g_crew_spec_type::_getNextMaxAvailableType(unit, crewLevel)
+g_crew_spec_type._getNextMaxAvailableType <- function _getNextMaxAvailableType(unit, crewLevel)
 {
   local resType = this
   local nextType = resType.getNextType()
@@ -155,7 +155,7 @@ function g_crew_spec_type::_getNextMaxAvailableType(unit, crewLevel)
   return resType
 }
 
-function g_crew_spec_type::_getIcon(crewTypeCode, crewLevel, unit)
+g_crew_spec_type._getIcon <- function _getIcon(crewTypeCode, crewLevel, unit)
 {
   if (crewTypeCode >= code)
     return icon
@@ -165,34 +165,34 @@ function g_crew_spec_type::_getIcon(crewTypeCode, crewLevel, unit)
   return iconInactive
 }
 
-function g_crew_spec_type::_isExpUpgradableByUnit(unit)
+g_crew_spec_type._isExpUpgradableByUnit <- function _isExpUpgradableByUnit(unit)
 {
   return false
 }
 
 
-function g_crew_spec_type::_getExpLeftByCrewAndUnit(crew, unit)
+g_crew_spec_type._getExpLeftByCrewAndUnit <- function _getExpLeftByCrewAndUnit(crew, unit)
 {
   return -1
 }
 
-function g_crew_spec_type::_getTotalExpByUnit(unit)
+g_crew_spec_type._getTotalExpByUnit <- function _getTotalExpByUnit(unit)
 {
   return -1
 }
 
-function g_crew_spec_type::_getExpUpgradeDiscountData()
+g_crew_spec_type._getExpUpgradeDiscountData <- function _getExpUpgradeDiscountData()
 {
   return []
 }
 
-function g_crew_spec_type::_needShowExpUpgrade(crew, unit)
+g_crew_spec_type._needShowExpUpgrade <- function _needShowExpUpgrade(crew, unit)
 {
   return isExpUpgradableByUnit(unit)
 }
 
 //return empty string when level is enough
-function g_crew_spec_type::_getReqLevelText(crew, unit)
+g_crew_spec_type._getReqLevelText <- function _getReqLevelText(crew, unit)
 {
   local reqLevel = getReqCrewLevel(unit)
   local crewLevel = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
@@ -208,7 +208,7 @@ function g_crew_spec_type::_getReqLevelText(crew, unit)
   return ::colorize("badTextColor", res)
 }
 
-function g_crew_spec_type::_getBaseTooltipText(crew, unit)
+g_crew_spec_type._getBaseTooltipText <- function _getBaseTooltipText(crew, unit)
 {
   local tooltipText = ::loc("crew/qualification/tooltip")
   local isShowExpUpgrade = needShowExpUpgrade(crew, unit)
@@ -252,7 +252,7 @@ function g_crew_spec_type::_getBaseTooltipText(crew, unit)
   return tooltipText
 }
 
-function g_crew_spec_type::_getTooltipContent(crew, unit)
+g_crew_spec_type._getTooltipContent <- function _getTooltipContent(crew, unit)
 {
   local progressBarValue = 1000 * getExpLeftByCrewAndUnit(crew, unit)
     / getTotalExpByUnit(unit)
@@ -307,12 +307,12 @@ function g_crew_spec_type::_getTooltipContent(crew, unit)
   return ::handyman.renderCached("gui/crew/crewUnitSpecUpgradeTooltip", view)
 }
 
-function g_crew_spec_type::_getBtnBuyTooltipId(crew, unit)
+g_crew_spec_type._getBtnBuyTooltipId <- function _getBtnBuyTooltipId(crew, unit)
 {
   return ::g_tooltip.getIdBuyCrewSpec(crew.id, unit.name, code)
 }
 
-function g_crew_spec_type::_getBtnBuyTooltipContent(crew, unit)
+g_crew_spec_type._getBtnBuyTooltipContent <- function _getBtnBuyTooltipContent(crew, unit)
 {
   local view = {
     tooltipText = ""
@@ -464,7 +464,7 @@ enums.addTypesByGlobalName("g_crew_spec_type", {
       if (warpointsBlk == null)
         return discountData
 
-      local reduceBlk = warpointsBlk.expert_to_ace_cost_reduce
+      local reduceBlk = warpointsBlk?.expert_to_ace_cost_reduce
       if (reduceBlk == null)
         return discountData
 
@@ -495,13 +495,13 @@ enums.addTypesByGlobalName("g_crew_spec_type", {
   return a.code < b.code ? -1 : (a.code > b.code ? 1 : 0)
 })
 
-function g_crew_spec_type::getTypeByCode(code)
+g_crew_spec_type.getTypeByCode <- function getTypeByCode(code)
 {
   return enums.getCachedType("code", code, ::g_crew_spec_type_cache.byCode,
     ::g_crew_spec_type, ::g_crew_spec_type.UNKNOWN)
 }
 
-function g_crew_spec_type::getTrainedSpecCode(crew, unit)
+g_crew_spec_type.getTrainedSpecCode <- function getTrainedSpecCode(crew, unit)
 {
   if (!unit)
     return -1
@@ -509,18 +509,18 @@ function g_crew_spec_type::getTrainedSpecCode(crew, unit)
   return getTrainedSpecCodeByUnitName(crew, unit.name)
 }
 
-function g_crew_spec_type::getTrainedSpecCodeByUnitName(crew, unitName)
+g_crew_spec_type.getTrainedSpecCodeByUnitName <- function getTrainedSpecCodeByUnitName(crew, unitName)
 {
   return crew?.trainedSpec?[unitName] ?? -1
 }
 
-function g_crew_spec_type::getTypeByCrewAndUnit(crew, unit)
+g_crew_spec_type.getTypeByCrewAndUnit <- function getTypeByCrewAndUnit(crew, unit)
 {
   local code = getTrainedSpecCode(crew, unit)
   return ::g_crew_spec_type.getTypeByCode(code)
 }
 
-function g_crew_spec_type::getTypeByCrewAndUnitName(crew, unitName)
+g_crew_spec_type.getTypeByCrewAndUnitName <- function getTypeByCrewAndUnitName(crew, unitName)
 {
   local code = getTrainedSpecCodeByUnitName(crew, unitName)
   return ::g_crew_spec_type.getTypeByCode(code)

@@ -1,4 +1,4 @@
-function gui_start_builder_tuner()
+::gui_start_builder_tuner <- function gui_start_builder_tuner()
 {
   ::gui_start_modal_wnd(::gui_handlers.MissionBuilderTuner)
 }
@@ -20,7 +20,7 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    ::set_menu_title(::loc("mainmenu/btnDynamicPreview"), scene, "menu-title")
+    setSceneTitle(::loc("mainmenu/btnDynamicPreview"), scene, "menu-title")
 
     unitsBlk = DataBlock()
     ::dynamic_get_units(::mission_settings.missionFull, unitsBlk)
@@ -304,7 +304,7 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
         "#options/count"
         + "'; } }"
       optlist = buildCountOptions(minCount, maxCount, count)
-      elemText = control_for_count(maxCount-minCount+1, "spinnerListBox") + " { size:t='pw, ph'; " +
+      elemText = "ComboBox { size:t='pw, ph'; " +
         "id:t = '" + i.tostring() + "_c'; " + optlist
         + " }"
       rowData += "td { cellType:t='right'; width:t='" + wRight + "'; padding-left:t='@optPad'; " + elemText + " }"
@@ -346,7 +346,7 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
     for (local i = 0; i < listA.len(); i++)
     {
       local airId = i.tostring() + "_a"
-      if (obj.id == airId)
+      if (obj?.id == airId)
       {
         local aircraft = listA[i][scene.findObject(airId).getValue()]
 
@@ -459,8 +459,6 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
     ::dynamic_set_units(::mission_settings.missionFull, unitsBlk)
     ::select_mission_full(::mission_settings.mission,
        ::mission_settings.missionFull)
-    if (::SessionLobby.isInRoom())
-      ::apply_host_settings(::mission_settings.mission)
 
     ::set_context_to_player("difficulty", ::get_mission_difficulty())
 

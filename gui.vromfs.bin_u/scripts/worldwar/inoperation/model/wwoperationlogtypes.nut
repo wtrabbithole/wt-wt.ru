@@ -116,7 +116,7 @@ enums.addTypesByGlobalName("g_ww_log_type", {
     }
 }, null, "name")
 
-function g_ww_log_type::getLogTypeByName(logName)
+g_ww_log_type.getLogTypeByName <- function getLogTypeByName(logName)
 {
   return enums.getCachedType(
     "name",

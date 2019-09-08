@@ -9,7 +9,7 @@ local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
   currentProcess = null
 }
 
-function g_event_ticket_buy_offer::offerTicket(event)
+g_event_ticket_buy_offer.offerTicket <- function offerTicket(event)
 {
   ::dagor.assertf(currentProcess == null, "Attempt to use multiple event ticket but offer processes.");
   currentProcess = EventTicketBuyOfferProcess(event)

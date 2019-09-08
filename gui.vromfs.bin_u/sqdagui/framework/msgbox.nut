@@ -4,7 +4,7 @@
 ::gui_scene_boxes <- []
 local g_string =  require("std/string.nut")
 
-function remove_scene_box(id)
+::remove_scene_box <- function remove_scene_box(id)
 {
   for (local i = 0; i < ::gui_scene_boxes.len(); i++)
   {
@@ -16,12 +16,12 @@ function remove_scene_box(id)
   }
 }
 
-function remove_all_scene_boxes()
+::remove_all_scene_boxes <- function remove_all_scene_boxes()
 {
   ::gui_scene_boxes = []
 }
 
-function destroyMsgBox(boxObj)
+::destroyMsgBox <- function destroyMsgBox(boxObj)
 {
   if(!::check_obj(boxObj))
     return
@@ -31,7 +31,7 @@ function destroyMsgBox(boxObj)
 }
 
 ::saved_scene_msg_box <- null  //msgBox which must be shown even when scene changed
-function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
+::scene_msg_box <- function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
 {
   gui_scene = gui_scene || ::get_cur_gui_scene()
   if (options?.checkDuplicateId && ::check_obj(gui_scene[id]))
@@ -76,7 +76,7 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
   if (!msgbox)
     return null
   msgbox.id = id
-  dagor.debug("GuiManager: load msgbox = " + id)
+  ::dagor.debug("GuiManager: load msgbox = " + id)
 //  ::enableHangarControls(false, false) //to disable hangar controls need restore them on destroy msgBox
 
   local textObj = msgbox.findObject("msgText")
@@ -314,23 +314,23 @@ function scene_msg_box(id, gui_scene, text, buttons, def_btn, options = null)
 }
 
 ::last_scene_msg_box_time <- -1
-function reset_msg_box_check_anim_time()
+::reset_msg_box_check_anim_time <- function reset_msg_box_check_anim_time()
 {
   ::last_scene_msg_box_time = ::dagor.getCurTime()
 }
-function need_new_msg_box_anim()
+::need_new_msg_box_anim <- function need_new_msg_box_anim()
 {
   return ::dagor.getCurTime() - ::last_scene_msg_box_time > 200
 }
 
-function clear_msg_boxes_list()
+::clear_msg_boxes_list <- function clear_msg_boxes_list()
 {
   for(local i = ::scene_msg_boxes_list.len()-1; i >= 0; i--)
     if (!::check_obj(::scene_msg_boxes_list[i]))
       ::scene_msg_boxes_list.remove(i)
 }
 
-function destroy_all_msg_boxes(guiScene = null)
+::destroy_all_msg_boxes <- function destroy_all_msg_boxes(guiScene = null)
 {
   for(local i = ::scene_msg_boxes_list.len()-1; i >= 0; i--)
   {
@@ -347,7 +347,7 @@ function destroy_all_msg_boxes(guiScene = null)
   }
 }
 
-function is_active_msg_box_in_scene(guiScene)
+::is_active_msg_box_in_scene <- function is_active_msg_box_in_scene(guiScene)
 {
   foreach(msgBoxObj in ::scene_msg_boxes_list)
    if (::check_obj(msgBoxObj) && guiScene.isEqual(msgBoxObj.getScene()))
@@ -355,7 +355,7 @@ function is_active_msg_box_in_scene(guiScene)
   return false
 }
 
-function update_msg_boxes()
+::update_msg_boxes <- function update_msg_boxes()
 {
   local guiScene = ::get_gui_scene()
   if (guiScene == null)
@@ -388,7 +388,40 @@ function update_msg_boxes()
   }
 }
 
-function add_msg_box(id, text, buttons, def_btn, options = null)
+::get_text_urls_data <- function get_text_urls_data(text)
+{
+  if (!text.len() || !::has_feature("AllowExternalLink"))
+    return null
+
+  local urls = []
+  local start = 0
+  local startText = "<url="
+  local urlEndText = ">"
+  local endText = "</url>"
+  do {
+    start = text.find(startText, start)
+    if (start == null)
+      break
+    local urlEnd = text.find(urlEndText, start + startText.len())
+    if (!urlEnd)
+      break
+    local end = text.find(endText, urlEnd)
+    if (!end)
+      break
+
+    urls.append({
+      url = text.slice(start + startText.len(), urlEnd)
+      text = text.slice(urlEnd + urlEndText.len(), end)
+    })
+    text = text.slice(0, start) + text.slice(end + endText.len())
+  } while (start != null && start < text.len())
+
+  if (!urls.len())
+    return null
+  return { text = text, urls = urls }
+}
+
+::add_msg_box <- function add_msg_box(id, text, buttons, def_btn, options = null)
 {
   for (local i = 0; i < ::gui_scene_boxes.len(); i++)
   {
@@ -409,7 +442,7 @@ function add_msg_box(id, text, buttons, def_btn, options = null)
   ::update_msg_boxes()
 }
 
-function showInfoMsgBox(text, id = "info_msg_box", checkDuplicateId = false)
+::showInfoMsgBox <- function showInfoMsgBox(text, id = "info_msg_box", checkDuplicateId = false)
 {
   ::scene_msg_box(id, null, text, [["ok", function() {} ]], "ok",
                   { cancel_fn = function() {}, checkDuplicateId = checkDuplicateId})

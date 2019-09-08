@@ -17,6 +17,7 @@ enum WW_OM_WND_MODE
 class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName   = "gui/worldWar/wwOperationsMaps.blk"
+  backSceneFunc = @() ::gui_start_mainmenu()
 
   needToOpenBattles = false
   autoOpenMapOperation = null
@@ -47,9 +48,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   checkBoxesData = null
 
+  nearestAvailabelMapToBattle = null
+
   function initScreen()
   {
-    backSceneFunc = ::gui_start_mainmenu
     mapsListObj = scene.findObject("maps_list")
     setSceneTitle(::loc("mainmenu/btnWorldwar"))
 
@@ -57,6 +59,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         "ww_status_check_timer",  // periodic ww status updates check
         "queues_wait_timer",      // frequent queues wait time text update
         "globe_hint",             // globe tooltip update
+        "begin_map_wait_timer"    // frequent map begin wait time text update
       ])
     {
       local timerObj = scene.findObject(timerObjId)
@@ -310,12 +313,12 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       trophy = []
     }
 
-    local curDay = time.getUtcDays() - DAYS_TO_YEAR_1970 + 1
+    local curDay = time.getUtcDays() - time.DAYS_TO_YEAR_1970 + 1
     local trophiesProgress = ::get_es_custom_blk(-1)?.customClientData
     for (local i = 0; i < trophiesAmount; i++)
     {
       local trophy = trophiesBlk.getBlock(i)
-      local trophyId = trophy.itemName || trophy.trophyName || trophy.mainTrophyId
+      local trophyId = trophy?.itemName || trophy?.trophyName || trophy?.mainTrophyId
       local trophyItem = ::ItemsManager.findItemById(trophyId)
       if (!trophyItem)
         continue
@@ -333,7 +336,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       if (isProgressReached)
         progressText = ::colorize("activeTextColor", progressText)
 
-      local trophyAmount = trophy.amount || 1
+      local trophyAmount = trophy?.amount ?? 1
       view.trophy.append({
         titleText = getTrophyDesc(trophy) + " " + progressText
         tooltipText = getTrophyTooltip(trophy, updStatsText)
@@ -373,7 +376,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     showSceneBtn("top_list", isVisible)
   }
 
-  getTrophyLocId = @(blk) blk.locId || "worldwar/" + blk.getBlockName()
+  getTrophyLocId = @(blk) blk?.locId ?? ("worldwar/" + blk.getBlockName())
   getTrophyDesc = @(blk) ::loc(getTrophyLocId(blk))
   getTrophyTooltip = @(blk, timeText) ::loc(getTrophyLocId(blk) + "/desc", {time = timeText})
 
@@ -387,7 +390,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     for (local idx = 0; idx < mapsListObj.childrenCount(); idx++)
     {
       local mapObj = mapsListObj.getChild(idx)
-      if(::checkObj(mapObj) && mapObj.collapse_header == null && mapObj.id == id)
+      if(::checkObj(mapObj) && mapObj?.collapse_header == null && mapObj?.id == id)
       {
         mapsListObj.setValue(idx)
         return
@@ -404,8 +407,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if(!::checkObj(mapObj))
       return false
 
-    local isHeader = mapObj.collapse_header != null
-    local newMap = isHeader ? null : ::g_ww_global_status.getMapByName(mapObj.id)
+    local isHeader = mapObj?.collapse_header != null
+    local newMap = isHeader ? null : ::g_ww_global_status.getMapByName(mapObj?.id)
     if (newMap == selMap)
       return false
     local isChanged = !newMap || !selMap || !selMap.isEqual(newMap)
@@ -446,7 +449,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::check_obj(mapObj))
       return false
 
-    return mapObj.selected == "yes" ? false : true
+    return mapObj?.selected == "yes" ? false : true
   }
 
   function getSelectedMapEditBtnText(mapObj)
@@ -454,8 +457,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::check_obj(mapObj))
       return ""
 
-    if (mapObj.collapse_header)
-      return mapObj.collapsed == "yes"
+    if (mapObj?.collapse_header)
+      return mapObj?.collapsed == "yes"
         ? ::loc("mainmenu/btnExpand")
         : ::loc("mainmenu/btnCollapse")
 
@@ -472,7 +475,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       onCollapse(mapObj)
     else
     {
-      if (mapObj.selected == "yes")
+      if (mapObj?.selected == "yes")
         onSelectCountriesBlock()
       else
         onSelectCountry()
@@ -482,7 +485,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function onSelectCountriesBlock()
   {
     local mapObj = getSelectedMapObj()
-    if (!::check_obj(mapObj) || mapObj.collapse_header)
+    if (!::check_obj(mapObj) || mapObj?.collapse_header)
       return
 
     local countryContainerObj = getCountryBlockObj(mapObj)
@@ -493,7 +496,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     updateButtons()
   }
 
-  isMapObjChapter = @(obj) !!obj.collapse_header
+  isMapObjChapter = @(obj) !!obj?.collapse_header
   getCountryBlockObj = @(obj) obj.findObject("countries_selection_" + obj.id)
   canEditMapCountries = @(obj) ::check_obj(obj) && obj.isVisible() && obj.isEnabled()
 
@@ -552,7 +555,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function onSelectCountry()
   {
     local mapObj = getSelectedMapObj()
-    if (!::check_obj(mapObj) || mapObj.collapse_header)
+    if (!::check_obj(mapObj) || mapObj?.collapse_header)
       return
 
     local countryContainerObj = mapObj.findObject("countries_selection_" + mapObj.id)
@@ -573,13 +576,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   {
     if (!::check_obj(obj))
       return
-    local itemObj = obj.collapse_header ? obj : obj.getParent()
+    local itemObj = obj?.collapse_header ? obj : obj.getParent()
     local listObj = ::check_obj(itemObj) ? itemObj.getParent() : null
-    if (!::check_obj(listObj) || !itemObj.collapse_header)
+    if (!::check_obj(listObj) || !itemObj?.collapse_header)
       return
 
     itemObj.collapsing = "yes"
-    local isShow = itemObj.collapsed == "yes"
+    local isShow = itemObj?.collapsed == "yes"
     local listLen = listObj.childrenCount()
     local selIdx = listObj.getValue()
     local headerIdx = -1
@@ -591,7 +594,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       local child = listObj.getChild(i)
       if (!found)
       {
-        if (child.collapsing == "yes")
+        if (child?.collapsing == "yes")
         {
           child.collapsing = "no"
           child.collapsed  = isShow ? "no" : "yes"
@@ -601,7 +604,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       }
       else
       {
-        if (child.collapse_header)
+        if (child?.collapse_header)
           break
         child.show(isShow)
         child.enable(isShow)
@@ -622,7 +625,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       foreach (idx in indexes)
       {
         local child = listObj.getChild(idx)
-        if (!child.collapse_header && child.isEnabled())
+        if (!child?.collapse_header && child.isEnabled())
         {
           newIdx = idx
           break
@@ -632,7 +635,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       listObj.setValue(selIdx)
     }
 
-    if (collapsedChapters && !::u.isEmpty(itemObj.id))
+    if (collapsedChapters && !::u.isEmpty(itemObj?.id))
     {
       local idx = ::find_in_array(collapsedChapters, itemObj.id)
       if (isShow && idx != -1)
@@ -733,7 +736,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function onOpenLeaderboard(obj)
   {
-    openLeaderboard(obj.lb_mode, obj.is_day_lb == "yes")
+    openLeaderboard(obj.lb_mode, obj?.is_day_lb == "yes")
   }
 
   function onOpenSelectedTopLeaderboard(obj)
@@ -749,7 +752,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local topObj = topsObj.getChild(val)
     local btnObj = topObj?.findObject?("btn_open_leaderboard")
     if (::check_obj(btnObj))
-      openLeaderboard(btnObj.lb_mode, btnObj.is_day_lb == "yes")
+      openLeaderboard(btnObj.lb_mode, btnObj?.is_day_lb == "yes")
   }
 
   function openLeaderboard(modeName, isDayLb)
@@ -812,7 +815,9 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local joinOpBtn = showSceneBtn("btn_join_operation", isModePlayer && hasMap)
     joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations() ? "no" : "yes"
 
-    local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue)
+    nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
+    local needShowBeginMapWaitTime = !(nearestAvailabelMapToBattle?.isActive?() ?? true)
+    local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue && !needShowBeginMapWaitTime)
     local joinQueueBtn = showSceneBtn("btn_join_queue", isQueueJoiningEnabled && !isInQueue)
     showSceneBtn("btn_leave_queue", isModeClan && hasRightsToQueueClan && isInQueue)
 
@@ -820,6 +825,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       queuesJoinTime = isInQueue ? getLatestQueueJoinTime() : 0
     showSceneBtn("queues_wait_time_div", isInQueue)
     updateQueuesWaitTime()
+    showSceneBtn("begin_map_wait_time_div", needShowBeginMapWaitTime)
+    updateBeginMapWaitTime()
     updateWwarUrlButton()
 
     if (::show_console_buttons)
@@ -868,7 +875,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::checkObj(queueInfoobj))
       return
 
-    local timeInQueue = ::g_ww_global_status.getTimeSec() - queuesJoinTime
+    local timeInQueue = ::get_charserver_time_sec() - queuesJoinTime
     queueInfoobj.setValue(::loc("worldwar/mapStatus/yourClanInQueue")
       + ::loc("ui/colon") + time.secondsToString(timeInQueue, false))
   }
@@ -876,15 +883,12 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   function updateQueueElementsInList()
   {
     local isModeClan = mode == WW_OM_WND_MODE.CLAN
-
-    foreach (mapId, map in mapsTbl)
-      ::showBtn("wait_icon_" + mapId, isModeClan && map.getQueue().isMyClanJoined(), mapsListObj)
-
     local show = isModeClan
     local isQueueJoiningEnabled = isModeClan && ::WwQueue.getCantJoinAnyQueuesReasonData().canJoin
 
     foreach (mapId, map in mapsTbl)
     {
+      ::showBtn("wait_icon_" + mapId, isModeClan && map.getQueue().isMyClanJoined(), mapsListObj)
       local canJoin = map.isActive() && map.getQueue().getCantJoinQueueReasonData().canJoin
       local obj = ::showBtn(objIdPrefixCountriesOfMap + mapId, show, mapsListObj)
       if (obj)
@@ -922,8 +926,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     {
       local modeId = "Mode" + (isSelectAllCountriesBlockVisible() ? "Clans" : "Normal")
       foreach (p in [ "height", "pos" ])
-        containerObj[p] = containerObj[p + modeId]
-      containerObj["width"] = containerObj["widthModeNormal"] + "+" + flagsWidth
+        containerObj[p] = containerObj?[p + modeId]
+      containerObj["width"] = (containerObj?["widthModeNormal"] ?? 0) + "+" + flagsWidth
     }
 
     updateWindow()
@@ -1122,8 +1126,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function onEventClanInfoUpdate(params)
   {
-    updateDescription()
-    updateButtons()
+    updateWindow()
   }
 
   function onEventWWGlobeMarkerClick(params)
@@ -1166,7 +1169,14 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
         guiScene.replaceContentFromText(statisticsObj, markup, markup.len(), this)
       }, this)
     wwLeaderboardData.requestWwLeaderboardData(
-      lbMode.mode, "__" + params.id, null, 0, 2, lbMode.field,
+      lbMode.mode,
+      {
+        gameMode = lbMode.mode + "__" + params.id
+        table    = "season"
+        start = 0
+        count = 2
+        category = lbMode.field
+      },
       @(countriesData) callback(countriesData))
   }
 
@@ -1286,7 +1296,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::has_feature("AllowExternalLink") || ::is_vendor_tencent())
       return
 
-    local worldWarUrlBtnKey = ::get_gui_regional_blk().worldWarUrlBtnKey
+    local worldWarUrlBtnKey = ::get_gui_regional_blk()?.worldWarUrlBtnKey
     local isVisibleBtn = !::u.isEmpty(worldWarUrlBtnKey)
     local btnObj = showSceneBtn("btn_ww_url", isVisibleBtn)
     if (!isVisibleBtn || !::check_obj(btnObj))
@@ -1303,14 +1313,34 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local isTopListVisible =  fillTopList()
     showSceneBtn("panel_left", isTrophyListVisible || isTopListVisible)
   }
+
+  function onTimerBeginMapWaitTime(obj, dt)
+  {
+    updateBeginMapWaitTime()
+  }
+
+  function updateBeginMapWaitTime()
+  {
+    local waitTime = nearestAvailabelMapToBattle?.getChangeStateTime?() ?? -1
+    if (waitTime <= 0)
+      return
+
+    local waitMapInfoObj = scene.findObject("begin_map_wait_time_text")
+    if (!::check_obj(waitMapInfoObj))
+      return
+
+    waitMapInfoObj.setValue(::loc("worldwar/operation/willBegin", {
+      name = nearestAvailabelMapToBattle.getNameText()
+      time = nearestAvailabelMapToBattle.getChangeStateTimeText()}))
+  }
 }
 
-function on_globe_marker_hover(id, hover) // called from client
+::on_globe_marker_hover <- function on_globe_marker_hover(id, hover) // called from client
 {
   ::ww_event("GlobeMarkerHover", { id = id, hover = hover })
 }
 
-function on_globe_marker_click(id) // called from client
+::on_globe_marker_click <- function on_globe_marker_click(id) // called from client
 {
   ::ww_event("GlobeMarkerClick", { id = id })
 }

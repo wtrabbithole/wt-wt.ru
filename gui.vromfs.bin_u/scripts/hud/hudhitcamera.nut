@@ -1,4 +1,4 @@
-function on_hit_camera_event(mode, result = ::DM_HIT_RESULT_NONE, info = {}) // called from client
+::on_hit_camera_event <- function on_hit_camera_event(mode, result = ::DM_HIT_RESULT_NONE, info = {}) // called from client
 {
   ::g_hud_hitcamera.onHitCameraEvent(mode, result, info)
 
@@ -6,7 +6,7 @@ function on_hit_camera_event(mode, result = ::DM_HIT_RESULT_NONE, info = {}) // 
     ::g_hud_event_manager.onHudEvent("HitcamTargetKilled", info)
 }
 
-function get_hit_camera_aabb() // called from client
+::get_hit_camera_aabb <- function get_hit_camera_aabb() // called from client
 {
   return ::g_hud_hitcamera.getAABB()
 }
@@ -51,7 +51,7 @@ function get_hit_camera_aabb() // called from client
   }
 }
 
-function g_hud_hitcamera::init(_nest)
+g_hud_hitcamera.init <- function init(_nest)
 {
   if (!::checkObj(_nest))
     return
@@ -80,13 +80,13 @@ function g_hud_hitcamera::init(_nest)
   reinit()
 }
 
-function g_hud_hitcamera::reinit()
+g_hud_hitcamera.reinit <- function reinit()
 {
   isEnabled = ::get_option_xray_kill()
   update()
 }
 
-function g_hud_hitcamera::reset()
+g_hud_hitcamera.reset <- function reset()
 {
   isVisible = false
   hitResult = ::DM_HIT_RESULT_NONE
@@ -98,7 +98,7 @@ function g_hud_hitcamera::reset()
   unitsInfo = {}
 }
 
-function g_hud_hitcamera::update()
+g_hud_hitcamera.update <- function update()
 {
   if (!::checkObj(scene))
     return
@@ -116,17 +116,17 @@ function g_hud_hitcamera::update()
   }
 }
 
-function g_hud_hitcamera::getAABB()
+g_hud_hitcamera.getAABB <- function getAABB()
 {
   return ::get_dagui_obj_aabb(scene)
 }
 
-function g_hud_hitcamera::isKillingHitResult(result)
+g_hud_hitcamera.isKillingHitResult <- function isKillingHitResult(result)
 {
   return result >= ::DM_HIT_RESULT_KILL
 }
 
-function g_hud_hitcamera::onHitCameraEvent(mode, result, info)
+g_hud_hitcamera.onHitCameraEvent <- function onHitCameraEvent(mode, result, info)
 {
   local newUnitType = ::getTblValue("unitType", info, unitType)
   local needResetUnitType = newUnitType != unitType
@@ -163,7 +163,7 @@ function g_hud_hitcamera::onHitCameraEvent(mode, result, info)
   update()
 }
 
-function g_hud_hitcamera::getTargetInfo(unitId, unitVersion, unitType, isUnitKilled)
+g_hud_hitcamera.getTargetInfo <- function getTargetInfo(unitId, unitVersion, unitType, isUnitKilled)
 {
   if (!(unitId in unitsInfo) || unitsInfo[unitId].unitVersion != unitVersion)
     unitsInfo[unitId] <- {
@@ -184,7 +184,7 @@ function g_hud_hitcamera::getTargetInfo(unitId, unitVersion, unitType, isUnitKil
   return info
 }
 
-function g_hud_hitcamera::cleanupUnitsInfo()
+g_hud_hitcamera.cleanupUnitsInfo <- function cleanupUnitsInfo()
 {
   local old = ::get_usefull_total_time() - 5.0
   foreach (unitId, info in unitsInfo)
@@ -192,7 +192,7 @@ function g_hud_hitcamera::cleanupUnitsInfo()
       delete unitsInfo[unitId]
 }
 
-function g_hud_hitcamera::updateDebuffItem(item, camInfo, unitInfo, partName = null, dmgParams = null)
+g_hud_hitcamera.updateDebuffItem <- function updateDebuffItem(item, camInfo, unitInfo, partName = null, dmgParams = null)
 {
   local data = item.getInfo(camInfo, unitInfo, partName, dmgParams)
   local isShow = data != null
@@ -210,7 +210,7 @@ function g_hud_hitcamera::updateDebuffItem(item, camInfo, unitInfo, partName = n
     labelObj.setValue(data.label)
 }
 
-function g_hud_hitcamera::onEnemyPartDamage(data)
+g_hud_hitcamera.onEnemyPartDamage <- function onEnemyPartDamage(data)
 {
   if (!isEnabled)
     return
@@ -265,7 +265,7 @@ function g_hud_hitcamera::onEnemyPartDamage(data)
   }
 }
 
-function g_hud_hitcamera::onEventLoadingStateChange(params)
+g_hud_hitcamera.onEventLoadingStateChange <- function onEventLoadingStateChange(params)
 {
   if (!::is_in_flight())
     reset()

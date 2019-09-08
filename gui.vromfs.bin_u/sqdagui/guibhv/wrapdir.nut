@@ -2,12 +2,18 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
 
 ::g_wrap_dir <- {
   types = []
-}
 
-::g_wrap_dir.template <- {
-  notifyId = "wrap_down"
-  isVertical = true
-  isPositive = true
+  template = {
+    notifyId = "wrap_down"
+    isVertical = true
+    isPositive = true
+  }
+
+  function getWrapDir(isVertical, isPositive) {
+    if (isVertical)
+      return isPositive ? DOWN : UP
+    return isPositive ? RIGHT : LEFT
+  }
 }
 
 enums.addTypes(::g_wrap_dir, {
@@ -32,10 +38,3 @@ enums.addTypes(::g_wrap_dir, {
     isPositive = true
   }
 })
-
-function g_wrap_dir::getWrapDir(isVertical, isPositive)
-{
-  if (isVertical)
-    return isPositive ? DOWN : UP
-  return isPositive ? RIGHT : LEFT
-}

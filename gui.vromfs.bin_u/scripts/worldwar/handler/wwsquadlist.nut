@@ -116,7 +116,7 @@ class ::gui_handlers.WwSquadList extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local curMemberObj = squadListObj.getChild(curMemberIdx)
-    if (!::check_obj(curMemberObj) || !curMemberObj.uid)
+    if (!::check_obj(curMemberObj) || !curMemberObj?.uid)
       return
 
     local position = curMemberObj.getPosRC()

@@ -16,7 +16,7 @@ enum WARBOND_SHOP_LEVEL_STATUS {
   needShowProgressBarInPromo = false
 }
 
-function g_warbonds_view::createProgressBox(wbClass, placeObj, handler, needForceHide = false)
+g_warbonds_view.createProgressBox <- function createProgressBox(wbClass, placeObj, handler, needForceHide = false)
 {
   if (!::check_obj(placeObj))
     return
@@ -40,7 +40,7 @@ function g_warbonds_view::createProgressBox(wbClass, placeObj, handler, needForc
   updateProgressBar(wbClass, nest)
 }
 
-function g_warbonds_view::getProgressBoxMarkUp()
+g_warbonds_view.getProgressBoxMarkUp <- function getProgressBoxMarkUp()
 {
   return ::handyman.renderCached("gui/commonParts/progressBarModern", {
     id = progressBarId
@@ -49,7 +49,7 @@ function g_warbonds_view::getProgressBoxMarkUp()
   })
 }
 
-function g_warbonds_view::getLevelItemsMarkUp(wbClass)
+g_warbonds_view.getLevelItemsMarkUp <- function getLevelItemsMarkUp(wbClass)
 {
   local view = { level = [] }
   foreach (level, reqTasks in wbClass.levelsArray)
@@ -58,7 +58,7 @@ function g_warbonds_view::getLevelItemsMarkUp(wbClass)
   return ::handyman.renderCached("gui/items/warbondShopLevelItem", view)
 }
 
-function g_warbonds_view::getCurrentLevelItemMarkUp(wbClass, forcePosX = "0")
+g_warbonds_view.getCurrentLevelItemMarkUp <- function getCurrentLevelItemMarkUp(wbClass, forcePosX = "0")
 {
   local curLevel = wbClass.getCurrentShopLevel()
   if (curLevel < 0)
@@ -67,13 +67,13 @@ function g_warbonds_view::getCurrentLevelItemMarkUp(wbClass, forcePosX = "0")
   return getLevelItemMarkUp(wbClass, curLevel, forcePosX)
 }
 
-function g_warbonds_view::getLevelItemMarkUp(wbClass, level, forcePosX = null)
+g_warbonds_view.getLevelItemMarkUp <- function getLevelItemMarkUp(wbClass, level, forcePosX = null)
 {
   local levelData = getLevelItemData(wbClass, level, forcePosX)
   return ::handyman.renderCached("gui/items/warbondShopLevelItem", { level = [levelData]} )
 }
 
-function g_warbonds_view::getLevelItemData(wbClass, level, forcePosX = null)
+g_warbonds_view.getLevelItemData <- function getLevelItemData(wbClass, level, forcePosX = null)
 {
   local status = getLevelStatus(wbClass, level)
   local reqTasks = wbClass.getShopLevelTasks(level)
@@ -96,7 +96,7 @@ function g_warbonds_view::getLevelItemData(wbClass, level, forcePosX = null)
   }
 }
 
-function g_warbonds_view::getLevelStatus(wbClass, level)
+g_warbonds_view.getLevelStatus <- function getLevelStatus(wbClass, level)
 {
   local curShopLevel = wbClass.getCurrentShopLevel()
   if (curShopLevel == level)
@@ -108,7 +108,7 @@ function g_warbonds_view::getLevelStatus(wbClass, level)
   return WARBOND_SHOP_LEVEL_STATUS.RECEIVED
 }
 
-function g_warbonds_view::calculateProgressBarValue(wbClass, level, steps, curTasksDone)
+g_warbonds_view.calculateProgressBarValue <- function calculateProgressBarValue(wbClass, level, steps, curTasksDone)
 {
   if (wbClass.isMaxLevelReached() && steps == 1)
     level -= 1
@@ -122,7 +122,7 @@ function g_warbonds_view::calculateProgressBarValue(wbClass, level, steps, curTa
   return steps == 1? iLerp : (progressPeerLevel * level + iLerp)
 }
 
-function g_warbonds_view::updateProgressBar(wbClass, placeObj, isForSingleStep = false)
+g_warbonds_view.updateProgressBar <- function updateProgressBar(wbClass, placeObj, isForSingleStep = false)
 {
   if (!wbClass)
     return
@@ -152,7 +152,7 @@ function g_warbonds_view::updateProgressBar(wbClass, placeObj, isForSingleStep =
   }
 }
 
-function g_warbonds_view::getCurrentShopProgressBarText(wbClass)
+g_warbonds_view.getCurrentShopProgressBarText <- function getCurrentShopProgressBarText(wbClass)
 {
   if (!showOrdinaryProgress(wbClass) || wbClass.levelsArray.len() == 0)
     return ""
@@ -163,7 +163,7 @@ function g_warbonds_view::getCurrentShopProgressBarText(wbClass)
   )
 }
 
-function g_warbonds_view::getShopProgressBarText(curTasks, nextLevelTasks)
+g_warbonds_view.getShopProgressBarText <- function getShopProgressBarText(curTasks, nextLevelTasks)
 {
   return ::loc("mainmenu/battleTasks/progressBarTooltip", {
     tasksNum = curTasks
@@ -171,7 +171,7 @@ function g_warbonds_view::getShopProgressBarText(curTasks, nextLevelTasks)
   })
 }
 
-function g_warbonds_view::createSpecialMedalsProgress(wbClass, placeObj, handler)
+g_warbonds_view.createSpecialMedalsProgress <- function createSpecialMedalsProgress(wbClass, placeObj, handler)
 {
   if (!::check_obj(placeObj))
     return
@@ -191,7 +191,7 @@ function g_warbonds_view::createSpecialMedalsProgress(wbClass, placeObj, handler
   nest.getScene().replaceContentFromText(nest, data, data.len(), handler)
 }
 
-function g_warbonds_view::getSpecialMedalsTooltip(wbClass)
+g_warbonds_view.getSpecialMedalsTooltip <- function getSpecialMedalsTooltip(wbClass)
 {
   return ::loc("mainmenu/battleTasks/special/medals/tooltip",
   {
@@ -200,7 +200,7 @@ function g_warbonds_view::getSpecialMedalsTooltip(wbClass)
   })
 }
 
-function g_warbonds_view::getSpecialMedalsMarkUp(wbClass, reqAwardMedals = 0, needShowZero = false)
+g_warbonds_view.getSpecialMedalsMarkUp <- function getSpecialMedalsMarkUp(wbClass, reqAwardMedals = 0, needShowZero = false)
 {
   local medalsCount = getWarbondMedalsCount(wbClass)
   local view = { medal = [{
@@ -213,7 +213,7 @@ function g_warbonds_view::getSpecialMedalsMarkUp(wbClass, reqAwardMedals = 0, ne
   return ::handyman.renderCached("gui/items/warbondSpecialMedal", view)
 }
 
-function g_warbonds_view::getSpecialMedalInProgressMarkUp(wbClass)
+g_warbonds_view.getSpecialMedalInProgressMarkUp <- function getSpecialMedalInProgressMarkUp(wbClass)
 {
   if (!wbClass.needShowSpecialTasksProgress)
     return ""
@@ -226,22 +226,22 @@ function g_warbonds_view::getSpecialMedalInProgressMarkUp(wbClass)
   return ::handyman.renderCached("gui/items/warbondSpecialMedal", view)
 }
 
-function g_warbonds_view::getWarbondMedalsCount(wbClass)
+g_warbonds_view.getWarbondMedalsCount <- function getWarbondMedalsCount(wbClass)
 {
   return wbClass? wbClass.getCurrentMedalsCount() : 0
 }
 
-function g_warbonds_view::showOrdinaryProgress(wbClass)
+g_warbonds_view.showOrdinaryProgress <- function showOrdinaryProgress(wbClass)
 {
   return wbClass && wbClass.haveAnyOrdinaryRequirements()
 }
 
-function g_warbonds_view::showSpecialProgress(wbClass)
+g_warbonds_view.showSpecialProgress <- function showSpecialProgress(wbClass)
 {
   return wbClass && wbClass.haveAnySpecialRequirements()
 }
 
-function g_warbonds_view::resetShowProgressBarFlag()
+g_warbonds_view.resetShowProgressBarFlag <- function resetShowProgressBarFlag()
 {
   if (!needShowProgressBarInPromo)
     return

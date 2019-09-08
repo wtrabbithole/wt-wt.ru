@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 local crossplayModule = require("scripts/social/crossplay.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
 
 ::event_ids_for_main_game_mode_list <- [
@@ -10,13 +11,13 @@ local stdMath = require("std/math.nut")
 ]
 
 const EVENTS_OUT_OF_DATE_DAYS = 15
-const EVENTS_SHORT_LB_VISIBLE_ROWS = 3
-const EVENTS_SHORT_LB_REQUIRED_PARTICIPANTS_TO_SHOW = 50
+global const EVENTS_SHORT_LB_VISIBLE_ROWS = 3
+global const EVENTS_SHORT_LB_REQUIRED_PARTICIPANTS_TO_SHOW = 50
 const EVENT_DEFAULT_TEAM_SIZE = 16
 
 const SQUAD_NOT_READY_LOC_TAG = "#snr"
 
-enum UnitRelevance
+global enum UnitRelevance
 {
   NONE,
   MEDIUM,
@@ -83,8 +84,7 @@ class Events
 
   function initBrToTierConformity()
   {
-    local guiBlk = ::configs.GUI.get()
-    local brToTierBlk = guiBlk && guiBlk.events_br_to_tier_conformity
+    local brToTierBlk = ::configs.GUI.get()?.events_br_to_tier_conformity
     if (!brToTierBlk)
       return
 
@@ -625,8 +625,17 @@ class Events
 
     //no point to save duplicate array, just link on fullTeamsList
     if (!isSymmetric)
-      isSymmetric = sides.len() <= 1 ||
-        isTeamsEqual(getTeamData(event, sides[0]), getTeamData(event, sides[1]))
+    {
+      local teamDataA = getTeamData(event, sides[0])
+      local teamDataB = getTeamData(event, sides[1])
+      isSymmetric = sides.len() <= 1
+      if (!isSymmetric && (teamDataA == null || teamDataB == null))
+      {
+        local economicName = event?.economicName  // warning disable: -declared-never-used
+        ::script_net_assert_once("not found event teamdata", "missing teamdata in event")
+      } else
+        isSymmetric = isSymmetric || isTeamsEqual(teamDataA, teamDataB)
+    }
     if (isSymmetric && sides.len() > 1)
       sides = [sides[0]]
 
@@ -1261,10 +1270,10 @@ class Events
     {
       local stack = ::u.search(res, @(s) s.status == member.status)
       if (stack)
-        stack.names.append(member.name)
+        stack.names.append(platformModule.getPlayerName(member.name))
       else
         res.append({
-          names = [member.name]
+          names = [platformModule.getPlayerName(member.name)]
           status = member.status
         })
     }
@@ -1427,6 +1436,8 @@ class Events
         slots = {
           [country] = slot
         }
+        dislikedMissions = m?.dislikedMissions ?? []
+        bannedMissions = m?.bannedMissions ?? []
       }
     }
     return membersQuery
@@ -1665,8 +1676,7 @@ class Events
 
   function getTextsBlock(economicName)
   {
-    local textsBlock = ::get_gui_regional_blk().eventsTexts
-    return textsBlock && textsBlock[economicName]
+    return ::get_gui_regional_blk()?.eventsTexts?[economicName]
   }
 
   //!!! function only for compatibility with version without gui_regional
@@ -2384,7 +2394,7 @@ class Events
     if (::get_blk_value_by_path(::get_tournaments_blk(), event.name + "/allowToSwitchClan"))
       return true
     local tournamentBlk = ::EventRewards.getTournamentInfoBlk(event)
-    return tournamentBlk.clanId ? ::clan_get_my_clan_id() == tournamentBlk.clanId.tostring() : true
+    return tournamentBlk?.clanId ? ::clan_get_my_clan_id() == tournamentBlk.clanId.tostring() : true
   }
 
   function checkMembersForQueue(event, room = null, continueQueueFunc = null, cancelFunc = null)
@@ -2532,9 +2542,16 @@ class Events
   function getEventRewardText(event)
   {
     local muls = ::events.getEventRewardMuls(event.name)
-    local wpText =  ::buildBonusText((100.0 * (muls.wp  - 1.0) + 0.5).tointeger(), "% " + ::loc("warpoints/short/colored"))
-    local expText = ::buildBonusText((100.0 * (muls.exp - 1.0) + 0.5).tointeger(), "% " + ::loc("currency/researchPoints/sign/colored"))
+    local wpText = buildBonusText((100.0 * (muls.wp  - 1.0) + 0.5).tointeger(), "% " + ::loc("warpoints/short/colored"))
+    local expText = buildBonusText((100.0 * (muls.exp - 1.0) + 0.5).tointeger(), "% " + ::loc("currency/researchPoints/sign/colored"))
     return wpText + ((wpText.len() && expText.len())? ", " : "") + expText
+  }
+
+  function buildBonusText(value, endingText)
+  {
+    if (!value || value <= 0)
+      return ""
+    return "+" + value + endingText
   }
 
   function getEventDescriptionText(event, mroom = null, hasEventFeatureReasonText = false)
@@ -2569,7 +2586,19 @@ class Events
   function getDifficultyImg(eventId)
   {
     local diffName = getEventDiffName(eventId)
-    return ::get_diff_icon_by_name(diffName)
+    return getDifficultyIcon(diffName)
+  }
+
+  function getDifficultyIcon(diffName)
+  {
+    local difficulty = ::g_difficulty.getDifficultyByName(diffName)
+    if (!::u.isEmpty(difficulty.icon))
+      return difficulty.icon
+
+    if (diffName.len() > 6 && diffName.slice(0, 6) == "custom")
+      return "#ui/gameuiskin#mission_" + diffName
+
+    return ""
   }
 
   function getDifficultyTooltip(eventId)

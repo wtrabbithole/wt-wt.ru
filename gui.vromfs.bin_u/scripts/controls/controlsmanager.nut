@@ -2,6 +2,8 @@
 ::g_script_reloader.loadOnce("scripts/controls/controlsGlobals.nut")
 ::g_script_reloader.loadOnce("scripts/controls/controlsCompatibility.nut")
 
+local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
+
 ::g_controls_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["curPreset"]
 
@@ -135,7 +137,7 @@
         return {}
 
       local axisShortcutSuffixesList = []
-      foreach (axisShortcut in ::shortcutsAxisList)
+      foreach (axisShortcut in shortcutsAxisListModule.types)
         if (axisShortcut.type == CONTROL_TYPE.AXIS_SHORTCUT)
           axisShortcutSuffixesList.append(axisShortcut.id)
 

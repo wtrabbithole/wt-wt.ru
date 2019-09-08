@@ -17,14 +17,14 @@
   isSlotbarUpdateRequired = false
 }
 
-function g_crews_list::get()
+g_crews_list.get <- function get()
 {
   if (!crewsList.len() && ::g_login.isProfileReceived())
     refresh()
   return crewsList
 }
 
-function g_crews_list::invalidate(needForceInvalidate = false)
+g_crews_list.invalidate <- function invalidate(needForceInvalidate = false)
 {
   if (needForceInvalidate || !::SessionLobby.isSlotbarOverrided())
   {
@@ -34,7 +34,7 @@ function g_crews_list::invalidate(needForceInvalidate = false)
   return false
 }
 
-function g_crews_list::refresh()
+g_crews_list.refresh <- function refresh()
 {
   version++
   if (::SessionLobby.isSlotbarOverrided() && !::is_in_flight())
@@ -51,7 +51,7 @@ function g_crews_list::refresh()
 }
 
 g_crews_list._isReinitSlotbarsInProgress <- false
-function g_crews_list::reinitSlotbars()
+g_crews_list.reinitSlotbars <- function reinitSlotbars()
 {
   if (isSlotbarUpdateSuspended)
   {
@@ -73,19 +73,19 @@ function g_crews_list::reinitSlotbars()
   _isReinitSlotbarsInProgress = false
 }
 
-function g_crews_list::suspendSlotbarUpdates()
+g_crews_list.suspendSlotbarUpdates <- function suspendSlotbarUpdates()
 {
   isSlotbarUpdateSuspended = true
 }
 
-function g_crews_list::flushSlotbarUpdate()
+g_crews_list.flushSlotbarUpdate <- function flushSlotbarUpdate()
 {
   isSlotbarUpdateSuspended = false
   if (isSlotbarUpdateRequired)
     reinitSlotbars()
 }
 
-function g_crews_list::onEventProfileUpdated(p)
+g_crews_list.onEventProfileUpdated <- function onEventProfileUpdated(p)
 {
   if (p.transactionType == ::EATT_UPDATE_ENTITLEMENTS)
     ::update_shop_countries_list()
@@ -94,40 +94,40 @@ function g_crews_list::onEventProfileUpdated(p)
     reinitSlotbars()
 }
 
-function g_crews_list::onEventUnlockedCountriesUpdate(p)
+g_crews_list.onEventUnlockedCountriesUpdate <- function onEventUnlockedCountriesUpdate(p)
 {
   ::update_shop_countries_list()
   if (::g_login.isProfileReceived() && invalidate())
     reinitSlotbars()
 }
 
-function g_crews_list::onEventOverrideSlotbarChanged(p)
+g_crews_list.onEventOverrideSlotbarChanged <- function onEventOverrideSlotbarChanged(p)
 {
   invalidate(true)
 }
 
-function g_crews_list::onEventLobbyIsInRoomChanged(p)
+g_crews_list.onEventLobbyIsInRoomChanged <- function onEventLobbyIsInRoomChanged(p)
 {
   if (isSlotbarOverrided)
     invalidate()
 }
 
-function g_crews_list::onEventSessionDestroyed(p)
+g_crews_list.onEventSessionDestroyed <- function onEventSessionDestroyed(p)
 {
   invalidate() //in session can be overrided slotbar. Also slots can be locked after the battle.
 }
 
-function g_crews_list::onEventSignOut(p)
+g_crews_list.onEventSignOut <- function onEventSignOut(p)
 {
   isSlotbarUpdateSuspended = false
 }
 
-function g_crews_list::onEventLoadingStateChange(p)
+g_crews_list.onEventLoadingStateChange <- function onEventLoadingStateChange(p)
 {
   isSlotbarUpdateSuspended = false
 }
 
-function g_crews_list::makeCrewsCountryData(country)
+g_crews_list.makeCrewsCountryData <- function makeCrewsCountryData(country)
 {
   return {
     country = country
@@ -135,7 +135,7 @@ function g_crews_list::makeCrewsCountryData(country)
   }
 }
 
-function g_crews_list::addCrewToCountryData(countryData, crewId, countryId, crewUnitName)
+g_crews_list.addCrewToCountryData <- function addCrewToCountryData(countryData, crewId, countryId, crewUnitName)
 {
   countryData.crews.append({
     id = crewId
@@ -154,7 +154,7 @@ function g_crews_list::addCrewToCountryData(countryData, crewId, countryId, crew
   })
 }
 
-function g_crews_list::getMissionEditSlotbarBlk(missionName)
+g_crews_list.getMissionEditSlotbarBlk <- function getMissionEditSlotbarBlk(missionName)
 {
   local misBlk = ::get_mission_meta_info(missionName)
   local editSlotbar = ::getTblValue("editSlotbar", misBlk)
@@ -164,7 +164,7 @@ function g_crews_list::getMissionEditSlotbarBlk(missionName)
   return editSlotbar
 }
 
-function g_crews_list::calcSlotbarOverrideByMissionName(missionName)
+g_crews_list.calcSlotbarOverrideByMissionName <- function calcSlotbarOverrideByMissionName(missionName)
 {
   local res = null
   local editSlotbar = getMissionEditSlotbarBlk(missionName)
@@ -175,7 +175,7 @@ function g_crews_list::calcSlotbarOverrideByMissionName(missionName)
   local crewId = -1 //negative crews are invalid, so we prevent any actions with such crews.
   foreach(country in ::shopCountriesList)
   {
-    local countryBlk = editSlotbar[country]
+    local countryBlk = editSlotbar?[country]
     if (!::u.isDataBlock(countryBlk) || !countryBlk.blockCount()
       || !::is_country_available(country))
       continue
@@ -193,7 +193,7 @@ function g_crews_list::calcSlotbarOverrideByMissionName(missionName)
   return res
 }
 
-function g_crews_list::getSlotbarOverrideCountriesByMissionName(missionName)
+g_crews_list.getSlotbarOverrideCountriesByMissionName <- function getSlotbarOverrideCountriesByMissionName(missionName)
 {
   local res = []
   local editSlotbar = getMissionEditSlotbarBlk(missionName)
@@ -202,7 +202,7 @@ function g_crews_list::getSlotbarOverrideCountriesByMissionName(missionName)
 
   foreach(country in ::shopCountriesList)
   {
-    local countryBlk = editSlotbar[country]
+    local countryBlk = editSlotbar?[country]
     if (::u.isDataBlock(countryBlk) && countryBlk.blockCount()
       && ::is_country_available(country))
       res.append(country)
@@ -210,7 +210,7 @@ function g_crews_list::getSlotbarOverrideCountriesByMissionName(missionName)
   return res
 }
 
-function reinitAllSlotbars()
+::reinitAllSlotbars <- function reinitAllSlotbars()
 {
   ::g_crews_list.reinitSlotbars()
 }

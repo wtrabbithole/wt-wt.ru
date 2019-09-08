@@ -187,7 +187,7 @@
     local blk = ::DataBlock()
     blk.load("config/hotkeys/list.blk")
 
-    if (blk[::target_platform] != null)
+    if (blk?[::target_platform] != null)
       return blk[::target_platform] % "preset"
     return blk % "preset"
   }

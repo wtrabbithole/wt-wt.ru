@@ -10,7 +10,7 @@ local time = require("scripts/time.nut")
   }
 }
 
-function g_battle_task_difficulty::_getTimeLeftText()
+g_battle_task_difficulty._getTimeLeftText <- function _getTimeLeftText()
 {
   local timeLeft = getTimeLeft()
   if (timeLeft < 0)
@@ -84,23 +84,23 @@ g_battle_task_difficulty.types.sort(function(a,b){
   return 0
 })
 
-function g_battle_task_difficulty::getDifficultyTypeByName(typeName)
+g_battle_task_difficulty.getDifficultyTypeByName <- function getDifficultyTypeByName(typeName)
 {
   return enums.getCachedType("name", typeName, ::g_battle_task_difficulty.cache.byName,
     ::g_battle_task_difficulty, ::g_battle_task_difficulty.UNKNOWN)
 }
 
-function g_battle_task_difficulty::getDifficultyFromTask(task)
+g_battle_task_difficulty.getDifficultyFromTask <- function getDifficultyFromTask(task)
 {
   return ::getTblValue("_puType", task, "").toupper()
 }
 
-function g_battle_task_difficulty::getDifficultyTypeByTask(task)
+g_battle_task_difficulty.getDifficultyTypeByTask <- function getDifficultyTypeByTask(task)
 {
   return getDifficultyTypeByName(getDifficultyFromTask(task))
 }
 
-function g_battle_task_difficulty::getRequiredDifficultyTypeDone(diff)
+g_battle_task_difficulty.getRequiredDifficultyTypeDone <- function getRequiredDifficultyTypeDone(diff)
 {
   local res = null
   if (diff.executeOrder >= 0)
@@ -109,7 +109,7 @@ function g_battle_task_difficulty::getRequiredDifficultyTypeDone(diff)
   return res || ::g_battle_task_difficulty.UNKNOWN
 }
 
-function g_battle_task_difficulty::getRefreshTimeForAllTypes(tasksArray, overrideStatus = false)
+g_battle_task_difficulty.getRefreshTimeForAllTypes <- function getRefreshTimeForAllTypes(tasksArray, overrideStatus = false)
 {
   local processedTimeParamIds = []
   if (!overrideStatus)
@@ -135,7 +135,7 @@ function g_battle_task_difficulty::getRefreshTimeForAllTypes(tasksArray, overrid
   return resultArray
 }
 
-function g_battle_task_difficulty::canPlayerInteractWithDifficulty(diff, tasksArray, overrideStatus = false)
+g_battle_task_difficulty.canPlayerInteractWithDifficulty <- function canPlayerInteractWithDifficulty(diff, tasksArray, overrideStatus = false)
 {
   if (overrideStatus)
     return true
@@ -165,28 +165,28 @@ function g_battle_task_difficulty::canPlayerInteractWithDifficulty(diff, tasksAr
   return true
 }
 
-function g_battle_task_difficulty::updateTimeParamsFromBlk(blk)
+g_battle_task_difficulty.updateTimeParamsFromBlk <- function updateTimeParamsFromBlk(blk)
 {
   foreach(t in types)
   {
     local genSuccessTimeId = t.timeParamId + "PersonalUnlocks_lastGenerationTimeOnSuccess"
-    t.lastGenTimeSuccess = blk[genSuccessTimeId] || -1
+    t.lastGenTimeSuccess = blk?[genSuccessTimeId] ?? -1
 
     local genFailureTimeId = t.timeParamId + "PersonalUnlocks_lastGenerationTimeOnFailure"
-    t.lastGenTimeFailure = blk[genFailureTimeId] || -1
+    t.lastGenTimeFailure = blk?[genFailureTimeId] ?? -1
 
     local genPerSecTimeId = t.timeParamId + "PersonalUnlocks_CUSTOM_generationPeriodSec"
-    t.generationPeriodSec = blk[genPerSecTimeId] || -1
+    t.generationPeriodSec = blk?[genPerSecTimeId] ?? -1
 
     local genPeriodId = t.timeParamId + "PersonalUnlocks_WEEKLY_weeklyPeriod"
-    t.period = blk[genPeriodId] || 1
+    t.period = blk?[genPeriodId] ?? 1
 
     local genShiftId = t.timeParamId + "PersonalUnlocks_WEEKLY_weekStartDayShift"
-    t.daysShift = blk[genShiftId] || 0
+    t.daysShift = blk?[genShiftId] ?? 0
   }
 }
 
-function g_battle_task_difficulty::checkAvailabilityByProgress(task, overrideStatus = false)
+g_battle_task_difficulty.checkAvailabilityByProgress <- function checkAvailabilityByProgress(task, overrideStatus = false)
 {
   if (overrideStatus)
     return true
@@ -199,12 +199,12 @@ function g_battle_task_difficulty::checkAvailabilityByProgress(task, overrideSta
   return ::getTblValue("curVal", progress, 0) > 0
 }
 
-function g_battle_task_difficulty::withdrawTasksArrayByDifficulty(diff, tasks)
+g_battle_task_difficulty.withdrawTasksArrayByDifficulty <- function withdrawTasksArrayByDifficulty(diff, tasks)
 {
   return ::u.filter(tasks, @(task) diff == ::g_battle_task_difficulty.getDifficultyTypeByTask(task) )
 }
 
-function g_battle_task_difficulty::getDefaultDifficultyGroup()
+g_battle_task_difficulty.getDefaultDifficultyGroup <- function getDefaultDifficultyGroup()
 {
   return EASY.getDifficultyGroup()
 }

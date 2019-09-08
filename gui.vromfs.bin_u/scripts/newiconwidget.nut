@@ -76,7 +76,7 @@ class NewIconWidget
     if (isValidContainerData())
       return
 
-    local needContainer = _containerObj.tag != widgetContainerTag
+    local needContainer = _containerObj?.tag != widgetContainerTag
     local data = createLayout({
                                 needContainer = needContainer
                                 icon = icon || defaultIcon

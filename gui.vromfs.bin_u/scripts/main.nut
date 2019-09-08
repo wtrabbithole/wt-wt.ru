@@ -25,8 +25,8 @@ local __math = require("math")
 ::TEXT_NDA <- 1
 
 ::target_platform <- ::get_platform()
-::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].find(::target_platform) >= 0
-::is_platform_windows <- ["win32", "win64"].find(::target_platform) >= 0
+::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].find(::target_platform) != null
+::is_platform_windows <- ["win32", "win64"].find(::target_platform) != null
 ::is_platform_ps4 <- ::target_platform == "ps4"
 ::is_platform_android <- ::target_platform == "android"
 ::is_platform_xboxone <- ::target_platform == "xboxOne"
@@ -52,7 +52,7 @@ local __math = require("math")
 if (::is_platform_ps4 && !::is_dev_version) ::exit_game <- function() {::gui_start_logout()}
 
 ::FORCE_UPDATE <- true
-const LOST_DELAYED_ACTION_MSEC = 500
+global const LOST_DELAYED_ACTION_MSEC = 500
 
 ::g_script_reloader.registerPersistentData("MainGlobals", ::getroottable(),
   [
@@ -63,7 +63,7 @@ const LOST_DELAYED_ACTION_MSEC = 500
 
 //------- vvv enums vvv ----------
 
-enum EVENT_TYPE { //bit values for easy multi-type search
+global enum EVENT_TYPE { //bit values for easy multi-type search
   UNKNOWN         = 0
   SINGLE          = 1,
   CLAN            = 2,
@@ -75,7 +75,7 @@ enum EVENT_TYPE { //bit values for easy multi-type search
   ANY_BASE_EVENTS = 5,
 }
 
-enum GAME_EVENT_TYPE
+global enum GAME_EVENT_TYPE
 {
   /** Used for events that are neither race nor tournament. */
   TM_NONE = "TM_NONE"
@@ -90,7 +90,7 @@ enum GAME_EVENT_TYPE
   TM_DOUBLE_ELIMINATION = "TM_DOUBLE_ELIMINATION"
 }
 
-enum weaponsItem
+global enum weaponsItem
 {
   primaryWeapon
   weapon  //secondary, weapon presets
@@ -104,14 +104,14 @@ enum weaponsItem
   unknown
 }
 
-enum BATTLE_TYPES
+global enum BATTLE_TYPES
 {
   AIR      = 0,
   TANK     = 1,
   UNKNOWN
 }
 
-enum ps4_activity_feed {
+global enum ps4_activity_feed {
   MISSION_SUCCESS,
   PURCHASE_UNIT,
   CLAN_DUEL_REWARD,
@@ -120,14 +120,14 @@ enum ps4_activity_feed {
   MAJOR_UPDATE
 }
 
-enum bit_activity {
+global enum bit_activity {
   NONE              = 0,
   PS4_ACTIVITY_FEED = 1,
   FACEBOOK          = 2,
   ALL               = 3
 }
 
-enum itemsTab {
+global enum itemsTab {
   INVENTORY
   SHOP
   WORKSHOP
@@ -135,7 +135,7 @@ enum itemsTab {
   TOTAL
 }
 
-enum itemType { //bit values for easy multitype search
+global enum itemType { //bit values for easy multitype search
   UNKNOWN      = 0
 
   TROPHY          = 0x00000001  //chest
@@ -170,7 +170,7 @@ enum itemType { //bit values for easy multitype search
   INVENTORY_ALL   = 0x0FBFFFFF //~CRAFT_PART ~CRAFT_PROCESS ~WARBONDS
 }
 
-enum PREVIEW_MODE
+global enum PREVIEW_MODE
 {
   NONE      = 0x0000
   UNIT      = 0x0001
@@ -178,20 +178,20 @@ enum PREVIEW_MODE
   DECORATOR = 0x0004
 }
 
-enum prizesStack {
+global enum prizesStack {
   NOT_STACKED
   DETAILED
   BY_TYPE
 }
 
-enum HELP_CONTENT_SET
+global enum HELP_CONTENT_SET
 {
   MISSION
   LOADING
   CONTROLS
 }
 
-enum HUD_TYPE {
+global enum HUD_TYPE {
   CUTSCENE,
   SPECTATOR,
   BENCHMARK,
@@ -203,7 +203,7 @@ enum HUD_TYPE {
   NONE
 }
 
-enum INFO_DETAIL //text detalization level. for weapons and modifications names and descriptions
+global enum INFO_DETAIL //text detalization level. for weapons and modifications names and descriptions
 {
   LIMITED_11 //must to fit in 11 symbols
   SHORT      //short info, like name. mostly in a single string.
@@ -211,7 +211,7 @@ enum INFO_DETAIL //text detalization level. for weapons and modifications names 
   EXTENDED   //full description + addtitional info for more detailed tooltip
 }
 
-enum voiceChatStats
+global enum voiceChatStats
 {
   online
   offline
@@ -219,7 +219,7 @@ enum voiceChatStats
   muted
 }
 
-enum squadMemberState
+global enum squadMemberState
 {
   NOT_IN_SQUAD
   SQUAD_LEADER //leader cant be offline or not ready.
@@ -230,9 +230,9 @@ enum squadMemberState
 
 ::ES_UNIT_TYPE_TOTAL_RELEASED <- 2
 
-const SAVE_ONLINE_JOB_DIGIT = 123 //super secure digit for job tag :)
+global const SAVE_ONLINE_JOB_DIGIT = 123 //super secure digit for job tag :)
 
-enum COLOR_TAG {
+global enum COLOR_TAG {
   ACTIVE = "av"
   USERLOG = "ul"
   TEAM_BLUE = "tb"
@@ -245,7 +245,7 @@ local colorTagToColors = {
   [COLOR_TAG.TEAM_RED] = "teamRedColor",
 }
 
-enum SEEN {
+global enum SEEN {
   TITLES = "titles"
   AVATARS = "avatars"
   EVENTS = "events"
@@ -261,18 +261,18 @@ enum SEEN {
   S_EVENTS_WINDOW = "##events_window##"
 }
 
-enum xboxMediaItemType { //values by microsoft IDE, others not used
+global enum xboxMediaItemType { //values by microsoft IDE, others not used
   GameContent = 4
   GameConsumable = 5
 }
 
-enum contactEvent
+global enum contactEvent
 {
   CONTACTS_UPDATED = "ContactsUpdated"
   CONTACTS_GROUP_UPDATE = "ContactsGroupUpdate"
 }
 
-function randomize()
+::randomize <- function randomize()
 {
   ::math.init_rnd(::get_local_time_sec())
 }
@@ -386,6 +386,9 @@ foreach (fn in [
 
   //used for SSO login
   "scripts/onlineshop/browserWnd.nut"
+
+  //used in login process for check profile tag
+  "scripts/user/userUtils.nut"
 ])
 {
   ::g_script_reloader.loadOnce(fn)
@@ -412,13 +415,17 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
   // end of Independed Modules
 
 ::cross_call_api.platform <- ::require("scripts/clientState/platform.nut")
+
+::use_touchscreen <- ::init_use_touchscreen()
+::is_small_screen <- ::use_touchscreen // FIXME: Touch screen is not always small.
+
 //------- ^^^ files before login ^^^ ----------
 
 
 //------- vvv files after login vvv ----------
 
 local isFullScriptsLoaded = false
-function load_scripts_after_login_once()
+::load_scripts_after_login_once <- function load_scripts_after_login_once()
 {
   if (isFullScriptsLoaded)
     return
@@ -461,8 +468,6 @@ function load_scripts_after_login_once()
 
     "postFxSettings.nut"
     "artilleryMap.nut"
-    "clusterSelect.nut"
-    "encyclopedia.nut"
 
     "utils/genericTooltip.nut"
     "utils/genericTooltipTypes.nut"
@@ -631,7 +636,6 @@ function load_scripts_after_login_once()
     "myStats.nut"
     "user/usersInfoManager.nut"
     "user/partnerUnlocks.nut"
-    "user/userUtils.nut"
     "user/userCard.nut"
     "user/profileHandler.nut"
     "user/viralAcquisition.nut"
@@ -840,6 +844,7 @@ function load_scripts_after_login_once()
     "matching/serviceNotifications/mrooms.nut"
 
     "webpoll.nut"
+    "gamepadSceneSettings.nut"
   ])
   {
     ::g_script_reloader.loadOnce("scripts/" + fn)
@@ -855,13 +860,14 @@ function load_scripts_after_login_once()
   ::require("scripts/squads/elems/voiceChatElem.nut")
   ::require("scripts/slotbar/elems/discountIconElem.nut")
   ::require("scripts/slotbar/elems/squadronExpIconElem.nut")
+  ::require("scripts/matching/serviceNotifications/showInfo.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)
 }
 
 //app does not exist on script load, so we cant to use ::app->shouldDisableMenu
-function should_disable_menu()
+::should_disable_menu <- function should_disable_menu()
 {
   return (::disable_network() && ::getFromSettingsBlk("debug/disableMenu"))
     || ::getFromSettingsBlk("benchmarkMode")
@@ -877,4 +883,3 @@ if (::g_login.isAuthorized() //scripts reload
 }
 
 //------- ^^^ files after login ^^^ ----------
-::use_touchscreen <- ::init_use_touchscreen()

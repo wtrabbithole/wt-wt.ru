@@ -46,7 +46,7 @@ class ::gui_handlers.LoginWndHandlerTencent extends ::BaseGuiHandler
   function goBack(obj) {}
 }
 
-function change_nickname(onSuccess, onCancel = null)
+::change_nickname <- function change_nickname(onSuccess, onCancel = null)
 {
   ::gui_modal_editbox_wnd({
     title = ::loc("mainmenu/chooseName")
@@ -65,7 +65,7 @@ function change_nickname(onSuccess, onCancel = null)
   })
 }
 
-function do_change_nickname(nick, onSuccess, onCancel = null)
+::do_change_nickname <- function do_change_nickname(nick, onSuccess, onCancel = null)
 {
   local taskId = ::char_change_nick(nick)
   local onError = (@(onSuccess, onCancel) function(res) {

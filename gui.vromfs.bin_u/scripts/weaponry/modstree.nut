@@ -145,9 +145,9 @@ local modsTree = {
     return width
   }
 
-  function addTiers(baseTiers, addTiers, offset)
+  function addTiers(baseTiers, tiersToAdd, offset)
   {
-    foreach(tier, w in addTiers)
+    foreach(tier, w in tiersToAdd)
       baseTiers[tier] <- offset + w
     return baseTiers
   }

@@ -115,7 +115,7 @@ local function research(unit, checkCurrentUnit = true, afterDoneFunc = null)
   local taskId = -1
   if (unit.isSquadronVehicle())
   {
-     prevUnitName = clan_get_researching_unit()
+     prevUnitName = ::clan_get_researching_unit()
 
      local blk = ::DataBlock()
      blk.addStr("unit", unitName);

@@ -1,3 +1,5 @@
+local clanMembershipAcceptance = ::require("scripts/clans/clanMembershipAcceptance.nut")
+
 class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL;
@@ -36,8 +38,12 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
   function initScreen()
   {
     if ( !clanData )
-      return;
+      return goBack()
+    reinitScreen()
+  }
 
+  function reinitScreen()
+  {
     local container = ::create_options_container("optionslist", optionItems, true, true, 0.5, true, false)
     guiScene.replaceContentFromText("contentBody", container.tbl, container.tbl.len(), this)
 
@@ -52,6 +58,9 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
     loadRequirementsRanks( clanData.membershipRequirements )
 
     recalcMinRankCondTypeSwitchState()
+
+    local isMembershipAccptanceEnabled = clanMembershipAcceptance.getValue(clanData)
+    scene.findObject("membership_acceptance_checkbox").setValue(isMembershipAccptanceEnabled)
   }
 
   function loadRequirementsBattles( rawClanMemberRequirementsBlk )
@@ -66,8 +75,8 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
         if ( req  &&  (req.type == "battles")  &&  (req.difficulty == modeName) )
           battlesRequired = req.getInt("count", 0)
 
-        local optIdx = option.values.find(battlesRequired)
-        scene.findObject(option.id).setValue(optIdx >= 0 ? optIdx : 0)
+        local optIdx = option.values.find(battlesRequired) ?? 0
+        scene.findObject(option.id).setValue(optIdx)
       }
   }
 
@@ -85,13 +94,13 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
 
       local ranksRequired = 0
       local req = rawRanksCond.getBlockByName("rank_" + unitType.name)
-      if (req && req.type == "rank" && req.unitType == unitType.name)
+      if (req?.type == "rank" && req?.unitType == unitType.name)
         ranksRequired = req.getInt("rank", 0)
 
       obj.setValue(ranksRequired)
     }
 
-    minRankCondTypeObject.setValue(rawRanksCond.type != "or")
+    minRankCondTypeObject.setValue(rawRanksCond?.type != "or")
   }
 
   function getNonEmptyRankReqCount()
@@ -173,7 +182,7 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
         return false;
     }
 
-    local validateResult = clan_validate_membership_requirements(newRequirements);
+    local validateResult = ::clan_validate_membership_requirements(newRequirements)
     if ( validateResult == "" )
       return true;
 
@@ -243,7 +252,7 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
       clanData.membershipRequirements = newRequirements;
       clanData.autoAcceptMembership = autoAccept;
 
-      if(clan_get_admin_editor_mode() && owner && "reinitClanWindow" in owner)
+      if(::clan_get_admin_editor_mode() && owner && "reinitClanWindow" in owner)
         owner.reinitClanWindow()
 
       ::broadcastEvent("ClanRquirementsChanged")
@@ -255,4 +264,32 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
     ::g_tasker.addTask(taskId, {showProgressBox = true}, resultCB)
   }
 
+  function onMembershipAcceptanceClick(obj)
+  {
+    clanMembershipAcceptance.setValue(clanData, obj.getValue(), this)
+  }
+
+  function onEventClanInfoUpdate(p)
+  {
+    if (clanData.id != ::clan_get_my_clan_id())
+      return
+
+    clanData = ::my_clan_info
+    if (!clanData)
+      return goBack()
+
+    reinitScreen()
+  }
+
+  function onEventClanInfoAvailable(p)
+  {
+    if (clanData.id != p.clanId)
+      return
+
+    clanData = ::get_clan_info_table()
+    if (!clanData)
+      return goBack()
+
+    reinitScreen()
+  }
 }

@@ -2,7 +2,7 @@ local u = ::require("sqStdLibs/helpers/u.nut")
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-function gui_start_clan_activity_wnd(uid = null, clanData = null)
+::gui_start_clan_activity_wnd <- function gui_start_clan_activity_wnd(uid = null, clanData = null)
 {
   if (!uid || !clanData)
     return
@@ -31,7 +31,7 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
     local maxActivityPerDay = clanData.rewardPeriodDays > 0
       ? ::round(1.0 * clanData.maxActivityPerPeriod / clanData.rewardPeriodDays)
       : 0
-    local isShowPeriodActivity = clanData.expRewardEnabled
+    local isShowPeriodActivity = ::has_feature("ClanVehicles")
     hasClanExperience  = isShowPeriodActivity && ::clan_get_my_clan_id() == clanData.id
     local history = isShowPeriodActivity ? memberData.expActivity : memberData.activityHistory
     local headerTextObj = scene.findObject("clan_activity_header_text")
@@ -102,8 +102,28 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
       ]
 
       if (hasClanExperience)
-        rowParams.append({ text = (entry.data?.exp ?? 0).tostring() })
+      {
+        local exp = entry.data?.exp ?? 0
+        local expText = exp.tostring()
+        local boost = (entry.data?.expBoost ?? 0)/100.0
+        local hasBoost = boost > 0
+        if (hasBoost && exp > 0)
+        {
+          local baseExp = ::round(exp/(1 + boost))
+          expText = ::colorize("activeTextColor",baseExp.tostring()
+            + ::colorize("goodTextColor", " + " + (exp - baseExp).tostring()))
+        }
 
+        rowParams.append({ text = expText
+          textType = hasBoost ? "textAreaCentered" : "activeText"
+          textRawParam = "width:t='pw'; text-align:t='center'"
+          tooltip = hasBoost
+            ? ::loc("clan/activity_reward/wasBoost",
+              { bonus = ::colorize("activeTextColor",
+                "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(boost))})
+            : ""
+        })
+      }
       rowBlock += ::buildTableRowNoPad("row_" + rowIdx, rowParams, null, "")
       rowIdx++
     }

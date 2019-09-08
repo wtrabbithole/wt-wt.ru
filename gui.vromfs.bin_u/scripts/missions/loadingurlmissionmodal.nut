@@ -100,6 +100,7 @@ class ::gui_handlers.LoadingUrlMissionModal extends ::gui_handlers.BaseGuiHandle
     local errorText = ::loc("wait/ugm_download_failed")
     if (success)
     {
+      ::upgrade_url_mission(blk)
       errorText = ::validate_custom_mission(blk)
       requestSuccess = ::u.isEmpty(errorText)
       success = requestSuccess

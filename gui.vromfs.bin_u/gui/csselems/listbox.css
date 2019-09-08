@@ -221,6 +221,31 @@ shopFilter[selected=yes] > img {
   background-color:@white;
 }
 
+HorizontalListBox.inset{
+  background-color:@transparent;
+  padding:0, -1@dp;
+}
+
+.inset > shopFilter{
+  border:yes; border-color:@frameBorderColor; border-offset: 1@dp;
+}
+
+.inset > shopFilter:hover {
+  background-color:@transparent;
+  foreground-color:@transparent;
+}
+
+.inset > shopFilter:hover > shopFilterText {
+  color:@activeTextColor;
+}
+
+.inset > shopFilter[selected=yes]{
+  background-color:@insetColor;
+  foreground-color:@insetColor;
+  background-position:0, 0, 0, 1@dp;
+  foreground-position:0, h - 1@dp, 0, 0;
+}
+
 .choice3 > shopFilter {
   width:30*@scrn_tgt/100.0;
   flow:vertical;

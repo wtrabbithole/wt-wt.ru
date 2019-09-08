@@ -231,28 +231,28 @@ local function onEventItemsShopUpdate(params)
 
 globalCallbacks.addTypes({
   ITEM_PREVIEW = {
-    onCb = function(params) {
+    onCb = function(obj, params) {
       local item = ::ItemsManager.findItemById(params?.itemId)
       if (item && item.canPreview() && ::ItemsManager.canPreviewItems())
         item.doPreview()
     }
   }
   ITEM_LINK = {
-    onCb = function(params) {
+    onCb = function(obj, params) {
       local item = ::ItemsManager.findItemById(params?.itemId)
       if (item && item.hasLink())
         item.openLink()
     }
   }
   UNIT_PREVIEW = {
-    onCb = function(params) {
+    onCb = function(obj, params) {
       local unit = ::getAircraftByName(params?.unitId)
       if (unit && unit.canPreview() && ::ItemsManager.canPreviewItems())
         unit.doPreview()
     }
   }
   DECORATOR_PREVIEW = {
-    onCb = function(params) {
+    onCb = function(obj, params) {
       local decorator = ::g_decorator.getDecoratorByResource(params?.resource, params?.resourceType)
       if (decorator && decorator.canPreview() && ::ItemsManager.canPreviewItems())
         decorator.doPreview()

@@ -78,7 +78,8 @@ class ControlsPreset {
   {
     if (idx < 0)
       return
-    else if (idx >= squarePairs.len())
+
+    if (idx >= squarePairs.len())
     {
       for (local j = squarePairs.len(); j <= idx; j++)
         squarePairs.append([-1, -1])
@@ -112,7 +113,8 @@ class ControlsPreset {
   {
     if (idx < 0)
       return [-1, -1]
-    else if (!(idx in squarePairs))
+
+    if (!(idx in squarePairs))
       resetSquarePair(idx)
     return squarePairs[idx]
   }
@@ -133,7 +135,8 @@ class ControlsPreset {
   {
     if (idx < 0)
       return
-    else if (idx >= squarePairs.len())
+
+    if (idx >= squarePairs.len())
       resetSquarePair(idx)
     squarePairs[idx] = ::u.copy(data)
   }
@@ -207,7 +210,7 @@ class ControlsPreset {
       "helicopter_collective",
       "gm_sight_distance"
     ]
-    if (axisWithZeroRangeMin.find(name) >= 0)
+    if (axisWithZeroRangeMin.find(name) != null)
       axis.rangeMin = 0.0
     return axis
   }
@@ -334,7 +337,7 @@ class ControlsPreset {
     presetPath = compatibility.getActualPresetName(presetPath)
 
     // Check preset load recursion
-    if (presetChain.find(presetPath) >= 0)
+    if (presetChain.find(presetPath) != null)
     {
       ::dagor.assertf(false, "Controls preset require itself. " +
         "Preset chain: " + ::toString(presetChain) + " > " + presetPath)
@@ -350,10 +353,8 @@ class ControlsPreset {
 
   function loadFromBlk(blk, presetChain = [])
   {
-    local controlsBlk = blk["controls"]
-    local version
-
-    version = controlsBlk != null ?
+    local controlsBlk = blk?.controls
+    local version = controlsBlk != null ?
       ::getTblValue("version", controlsBlk, PRESET_DEFAULT_VERSION) :
       ::getTblValue("controlsVer", blk, PRESET_DEFAULT_VERSION)
 
@@ -363,16 +364,13 @@ class ControlsPreset {
     local shouldForgetBasePresets =
       ::getTblValue("shouldForgetBasePresets", blk, false)
 
-
-    if (version < PRESET_ACTUAL_VERSION && ::u.isString(blk["hotkeysPreset"]) &&
-      blk["hotkeysPreset"] != "")
+    if (version < PRESET_ACTUAL_VERSION && ::u.isString(blk?.hotkeysPreset) && blk?.hotkeysPreset != "")
     {
-      loadFromPreset(blk["hotkeysPreset"], presetChain)
+      loadFromPreset(blk?.hotkeysPreset, presetChain)
       return
     }
 
-    local shouldLoadOldControls =
-      (version < PRESET_ACTUAL_VERSION) || shouldBackupOldControls;
+    local shouldLoadOldControls = (version < PRESET_ACTUAL_VERSION) || shouldBackupOldControls;
     if (shouldLoadOldControls)
     {
       ::dagor.debug("ControlsPreset: BackupOldControls")
@@ -404,7 +402,7 @@ class ControlsPreset {
     loadSquarePairsFromBlk(controlsBlk, version)
     loadParamsFromBlk     (controlsBlk, version)
     loadJoyMappingFromBlk (controlsBlk, version)
-    isLoaded                  = true
+    isLoaded = true
 
     if (shouldForgetBasePresets)
       basePresetPaths = {}
@@ -453,42 +451,33 @@ class ControlsPreset {
 
   /******** Partitial preset apply functions ********/
 
-  function applyControls(appliedPreset,
-    hotkeysFilter = null, axesFilter = null, paramsFilter = null)
+  function applyControls(appliedPreset)
   {
     appliedPreset.fixDeviceMapping(deviceMapping)
 
     foreach (hotkeyName, otherHotkey in appliedPreset.hotkeys)
-      if (hotkeysFilter == null || hotkeyName in hotkeysFilter)
-        setHotkey(hotkeyName, otherHotkey)
+      setHotkey(hotkeyName, otherHotkey)
 
     local usedAxesIds = []
     foreach (axesName, otherAxis in appliedPreset.axes)
-      if (axesFilter == null || axesName in axesFilter)
-      {
-        setAxis(axesName, otherAxis)
-        if (::getTblValue("axisId", otherAxis, -1) >= 0)
-          usedAxesIds.append(otherAxis["axisId"])
-      }
+    {
+      setAxis(axesName, otherAxis)
+      if (::getTblValue("axisId", otherAxis, -1) >= 0)
+        usedAxesIds.append(otherAxis["axisId"])
+    }
 
     foreach (otherPair in appliedPreset.squarePairs)
-      if (usedAxesIds.find(otherPair[0]) >= 0 ||
-        usedAxesIds.find(otherPair[1]) >= 0)
+      if (usedAxesIds.find(otherPair[0]) != null || usedAxesIds.find(otherPair[1]) != null)
         setSquarePair(squarePairs.len(), otherPair)
 
     foreach (paramName, otherParam in appliedPreset.params)
-      if (paramsFilter == null || paramName in paramsFilter)
-        params[paramName] <- otherParam
+      params[paramName] <- otherParam
 
     deviceMapping = appliedPreset.deviceMapping
-
-    if ((hotkeysFilter != null) || (axesFilter != null))
-      fixDeviceMapping(deviceMapping) // remove unused joysticks
   }
 
 
-  function diffControls(basePreset,
-    hotkeysFilter = null, axesFilter = null, paramsFilter = null)
+  function diffControls(basePreset)
   {
     local hotkeyNames = ::u.keys(basePreset.hotkeys)
     foreach (hotkeyName, value in hotkeys)
@@ -496,14 +485,12 @@ class ControlsPreset {
         hotkeyNames.append(hotkeyName)
 
     foreach (hotkeyName in hotkeyNames)
-      if (hotkeysFilter == null || hotkeyName in hotkeysFilter)
-      {
-        local hotkey = getHotkey(hotkeyName)
-        local otherHotkey = basePreset.getHotkey(hotkeyName)
-        if (::u.isEqual(hotkey, otherHotkey))
-          delete hotkeys[hotkeyName]
-      }
-
+    {
+      local hotkey = getHotkey(hotkeyName)
+      local otherHotkey = basePreset.getHotkey(hotkeyName)
+      if (::u.isEqual(hotkey, otherHotkey))
+        delete hotkeys[hotkeyName]
+    }
 
     local axesNames = ::u.keys(basePreset.axes)
     foreach (axisName, value in axes)
@@ -512,23 +499,21 @@ class ControlsPreset {
 
     local usedAxesIds = []
     foreach (axisName in axesNames)
-      if (axesFilter == null || axisName in axesFilter)
-      {
-        local axis = getAxis(axisName)
-        local otherAxis = basePreset.getAxis(axisName)
-        local axisAttributeNames = ::u.keys(axis)
-        foreach (attr in axisAttributeNames)
-          if (attr in otherAxis && axis[attr] == otherAxis[attr])
-            delete axis[attr]
-        if (axis.len() == 0)
-          delete axes[axisName]
-        if ("axisId" in otherAxis && otherAxis["axisId"] >= 0)
-          usedAxesIds.append(otherAxis["axisId"])
-      }
+    {
+      local axis = getAxis(axisName)
+      local otherAxis = basePreset.getAxis(axisName)
+      local axisAttributeNames = ::u.keys(axis)
+      foreach (attr in axisAttributeNames)
+        if (attr in otherAxis && axis[attr] == otherAxis[attr])
+          delete axis[attr]
+      if (axis.len() == 0)
+        delete axes[axisName]
+      if ("axisId" in otherAxis && otherAxis["axisId"] >= 0)
+        usedAxesIds.append(otherAxis["axisId"])
+    }
 
     foreach (otherPair in basePreset.squarePairs)
-      if ((usedAxesIds.find(otherPair[0]) >= 0 ||
-          usedAxesIds.find(otherPair[1]) >= 0))
+      if ((usedAxesIds.find(otherPair[0]) != null || usedAxesIds.find(otherPair[1]) != null))
         foreach (j, thisPair in squarePairs)
           if (::u.isEqual(thisPair, otherPair))
           {
@@ -536,10 +521,8 @@ class ControlsPreset {
             break
           }
 
-
     foreach (paramName, otherParam in basePreset.params)
-      if ((paramsFilter == null || paramName in paramsFilter) &&
-        (paramName in params) && (::u.isEqual(params[paramName], otherParam)))
+      if (paramName in params && ::u.isEqual(params[paramName], otherParam))
         delete params[paramName]
   }
 
@@ -549,12 +532,9 @@ class ControlsPreset {
     // TODO: fix filter for different presetGroups
     if (presetGroup != "default")
       return
-    local hotkeysFilter = null
-    local axesFilter    = null
-    local paramsFilter  = null
 
     local preset = ::ControlsPreset(presetPath, presetChain)
-    applyControls(preset, hotkeysFilter, axesFilter, paramsFilter)
+    applyControls(preset)
 
     basePresetPaths[presetGroup] <- presetPath
   }
@@ -567,16 +547,13 @@ class ControlsPreset {
       // TODO: fix filter for different presetGroups
       if (presetGroup != "default")
         return
-      local hotkeysFilter = null
-      local axesFilter    = null
-      local paramsFilter  = null
 
       local subPreset = ::ControlsPreset(presetPath)
-      diffControls(subPreset, hotkeysFilter, axesFilter, paramsFilter)
+      diffControls(subPreset)
     }
 
     if (basePresetPaths.len() == 0)
-      diffControls(::ControlsPreset(), null, null, null)
+      diffControls(::ControlsPreset())
 
     basePresetPaths = {}
   }
@@ -594,15 +571,13 @@ class ControlsPreset {
 
       if (presetChain.len() == 0 && blkBasePresetPaths.paramCount() == 0)
       {
-        blkBasePresetPaths["default"] <-
-          ::g_controls_presets.getControlsPresetFilename("keyboard_updates")
+        blkBasePresetPaths["default"] <- ::g_controls_presets.getControlsPresetFilename("keyboard_updates")
         ::dagor.debug("ControlsPreset: Compatibility preset added to base presets")
       }
 
       foreach (presetGroup, presetPath in blkBasePresetPaths)
       {
-        ::dagor.debug("ControlsPreset: BasePreset." +
-          presetGroup + " = " + presetPath)
+        ::dagor.debug("ControlsPreset: BasePreset." + presetGroup + " = " + presetPath)
         applyBasePreset(presetPath, presetGroup, presetChain)
       }
     }
@@ -616,7 +591,7 @@ class ControlsPreset {
 
   function loadHotkeysFromBlk(blk, version)
   {
-    if (!::u.isDataBlock(blk["hotkeys"]))
+    if (!::u.isDataBlock(blk?["hotkeys"]))
       return
     local blkHotkeys = blk["hotkeys"]
 
@@ -645,7 +620,7 @@ class ControlsPreset {
           })
         }
 
-        if (usedHotkeys.find(hotkeyName) < 0)
+        if (usedHotkeys.find(hotkeyName) == null)
         {
           usedHotkeys.append(hotkeyName)
           resetHotkey(hotkeyName)
@@ -658,7 +633,7 @@ class ControlsPreset {
       // Load hotkeys saved before 1.63
       foreach (blkEvent in blkHotkeys % "event")
       {
-        if (!::u.isString(blkEvent["name"]))
+        if (!::u.isString(blkEvent?["name"]))
           continue
 
         local hotkeyName = blkEvent["name"]
@@ -673,8 +648,7 @@ class ControlsPreset {
           local shortcut = []
           foreach (blkButton in blkShortcut % "button")
           {
-            if (!::u.isInteger(blkButton["deviceId"]) ||
-              !::u.isInteger(blkButton["buttonId"]))
+            if (!::u.isInteger(blkButton?["deviceId"]) || !::u.isInteger(blkButton?["buttonId"]))
               continue
 
             shortcut.append({
@@ -694,7 +668,7 @@ class ControlsPreset {
   {
     local blkAxes
     if (version >= PRESET_ACTUAL_VERSION)
-      blkAxes = blk["axes"]
+      blkAxes = blk?["axes"]
     else
       blkAxes = getJoystickBlockV4(blk)
 
@@ -704,7 +678,7 @@ class ControlsPreset {
     foreach (name, blkAxis in blkAxes)
     {
       if (!::u.isDataBlock(blkAxis) || ::g_string.startsWith(name, "square") ||
-        name == "mouse" || name == "devices" || name == "hangar")
+          name == "mouse" || name == "devices" || name == "hangar")
         continue
 
       if (version < PRESET_ACTUAL_VERSION)
@@ -717,7 +691,7 @@ class ControlsPreset {
     // Load mouse axes saved before 1.63
     if (version < PRESET_ACTUAL_VERSION)
     {
-      local blkMouseAxes = blkAxes["mouse"]
+      local blkMouseAxes = blkAxes?["mouse"]
       local mouseAxes = ::u.copy(compatibility.mouseAxesDefaults)
 
       if (::u.isDataBlock(blkMouseAxes))
@@ -735,16 +709,15 @@ class ControlsPreset {
   {
     local setPair = function(idx, blkPair)
     {
-      if (::u.isInteger(blkPair["axisId1"]) &&
-        ::u.isInteger(blkPair["axisId2"]) &&
-        blkPair["axisId1"] != -1 && blkPair["axisId2"] != -1)
+      if (::u.isInteger(blkPair?["axisId1"]) && ::u.isInteger(blkPair?["axisId2"]) &&
+          blkPair["axisId1"] != -1 && blkPair["axisId2"] != -1)
         setSquarePair(idx, [blkPair["axisId1"], blkPair["axisId2"]])
     }
 
     if (version >= PRESET_ACTUAL_VERSION)
     {
       // Load square pairs saved after 1.63
-      local blkSquarePairs = blk["squarePairs"]
+      local blkSquarePairs = blk?["squarePairs"]
       if (blkSquarePairs == null)
         return
 
@@ -760,7 +733,7 @@ class ControlsPreset {
 
       for (local j = 0; ; j++)
       {
-        local blkPair = blkAxes["square" + j]
+        local blkPair = blkAxes?["square" + j]
         if (!::u.isDataBlock(blkPair))
           break
 
@@ -774,7 +747,7 @@ class ControlsPreset {
   {
     local blkParams
     if (version >= PRESET_ACTUAL_VERSION)
-      blkParams = blk["params"]
+      blkParams = blk?["params"]
     else
       blkParams = getJoystickBlockV4(blk)
 
@@ -792,19 +765,19 @@ class ControlsPreset {
 
   function loadJoyMappingFromBlk(blk, version)
   {
-    local blkJoyMapping = blk["deviceMapping"]
+    local blkJoyMapping = blk?.deviceMapping
     if (blkJoyMapping == null)
       return
 
     deviceMapping = []
     foreach (blkJoystick in blkJoyMapping % "joystick")
       if (::u.isDataBlock(blkJoystick) &&
-        ::u.isString(blkJoystick["name"]) &&
-        ::u.isString(blkJoystick["devId"]) &&
-        ::u.isInteger(blkJoystick["buttonsOffset"]) &&
-        ::u.isInteger(blkJoystick["buttonsCount"]) &&
-        ::u.isInteger(blkJoystick["axesOffset"]) &&
-        ::u.isInteger(blkJoystick["axesCount"]))
+          ::u.isString(blkJoystick?["name"]) &&
+          ::u.isString(blkJoystick?["devId"]) &&
+          ::u.isInteger(blkJoystick?["buttonsOffset"]) &&
+          ::u.isInteger(blkJoystick?["buttonsCount"]) &&
+          ::u.isInteger(blkJoystick?["axesOffset"]) &&
+          ::u.isInteger(blkJoystick?["axesCount"]))
         deviceMapping.append({
           name = blkJoystick["name"]
           devId = blkJoystick["devId"]
@@ -847,8 +820,7 @@ class ControlsPreset {
         local blkShortcut = ::DataBlock()
         foreach (button in shortcut)
         {
-          local deviceName =
-            ::getTblValue(button.deviceId, deviceTypeById, null)
+          local deviceName = ::getTblValue(button.deviceId, deviceTypeById, null)
           if (deviceName != null)
             blkShortcut[deviceName] <- button.buttonId
         }
@@ -940,6 +912,7 @@ class ControlsPreset {
   {
     if (!::g_login.isLoggedIn())
       return {} // Because g_controls_presets loads after login.
+
     return ::u.map(basePresetPaths, function(path) {
       return ::g_controls_presets.parsePresetFileName(path).name
     })
@@ -947,8 +920,7 @@ class ControlsPreset {
 
   function setDefaultBasePresetName(presetName)
   {
-    basePresetPaths["default"] <-
-      ::g_controls_presets.getControlsPresetFilename(presetName)
+    basePresetPaths["default"] <- ::g_controls_presets.getControlsPresetFilename(presetName)
   }
 
   function getNumButtons()
@@ -982,8 +954,7 @@ class ControlsPreset {
 
     foreach (idx, joy in deviceMapping)
     {
-      if (buttonId < joy.buttonsOffset ||
-        buttonId >= joy.buttonsOffset + joy.buttonsCount)
+      if (buttonId < joy.buttonsOffset || buttonId >= joy.buttonsOffset + joy.buttonsCount)
         continue
 
       if (!("connected" in joy) || joy.connected == true)
@@ -992,6 +963,7 @@ class ControlsPreset {
       if (name == null || !connected)
         name = ("C" + (idx + 1).tostring() + ":" +
           buttonLocalized + (buttonId - joy.buttonsOffset + 1).tostring())
+
       break
     }
 
@@ -1024,6 +996,7 @@ class ControlsPreset {
       if (name == null || !connected)
         name = ("C" + (idx + 1).tostring() + ":" + joy.name + ":" +
           axisLocalized + (axisId - joy.axesOffset + 1).tostring())
+
       break
     }
 
@@ -1044,23 +1017,21 @@ class ControlsPreset {
       foreach (shortcut in event)
         foreach (button in shortcut)
           if (button.deviceId == ::JOYSTICK_DEVICE_0_ID &&
-            button.buttonId >= minButton && button.buttonId <= maxButton)
+              button.buttonId >= minButton && button.buttonId <= maxButton)
             return true
 
     // Check if joy axes used
     local minAxis = joy.axesOffset
     local maxAxis = minButton + joy.axesCount - 1
     foreach (axis in axes)
-      if (axis.axisId != -1 &&
-        axis.axisId >= minAxis && axis.axisId <= maxAxis)
-          return true
+      if (axis.axisId != -1 && axis.axisId >= minAxis && axis.axisId <= maxAxis)
+        return true
 
     // Check if joy square pairs used
     foreach (pair in squarePairs)
       for (local j = 0; j < 2; j++)
-        if (pair[j] != -1 &&
-          pair[j] >= minAxis && pair[j]<= maxAxis)
-            return true
+        if (pair[j] != -1 && pair[j] >= minAxis && pair[j]<= maxAxis)
+          return true
 
     return false
   }
@@ -1084,9 +1055,8 @@ class ControlsPreset {
 
     for (local j = 0; j < lhs.len(); j++)
       foreach (attr in deviceMapAttr)
-        if (::getTblValue(attr, lhs[j], noValue) !=
-            ::getTblValue(attr, rhs[j], noValue))
-           return false
+        if (::getTblValue(attr, lhs[j], noValue) != ::getTblValue(attr, rhs[j], noValue))
+         return false
 
     return true
   }
@@ -1190,8 +1160,7 @@ class ControlsPreset {
       foreach (shortcut in event)
       {
         foreach (button in shortcut)
-          if (button.deviceId == ::JOYSTICK_DEVICE_0_ID &&
-            button.buttonId < remapButtonNum)
+          if (button.deviceId == ::JOYSTICK_DEVICE_0_ID && button.buttonId < remapButtonNum)
             button.buttonId = remap.buttons[button.buttonId]
 
         // Remove shortcuts with buttonId = -1
@@ -1233,8 +1202,8 @@ class ControlsPreset {
 
   static function getJoystickBlockV4(blk)
   {
-    if (::u.isDataBlock(blk["joysticks"]))
-      return blk["joysticks"]["joystickSettings"]
+    if (::u.isDataBlock(blk?["joysticks"]))
+      return blk["joysticks"]?["joystickSettings"]
     return null
   }
 
@@ -1277,8 +1246,7 @@ class ControlsPreset {
   static dataArranging = {
     function comporator(lhs, rhs)
     {
-      return this.sortList.find(lhs) <=> this.sortList.find(rhs)
-        || lhs <=> rhs
+      return (this.sortList.find(lhs) ?? -1) <=> (this.sortList.find(rhs) ?? -1) || lhs <=> rhs
     }
 
     axisAttrOrder = [

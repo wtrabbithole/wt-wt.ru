@@ -1,3 +1,5 @@
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+
 class ::g_invites_classes.SessionRoom extends ::BaseInvite
 {
   //custom class params, not exist in base invite
@@ -142,6 +144,9 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
   function implAccept(ignoreCheckSquad = false)
   {
     if (!::check_gamemode_pkg(::GM_SKIRMISH))
+      return
+
+    if (!antiCheat.showMsgboxIfEacInactive())
       return
 
     local canJoin = ignoreCheckSquad

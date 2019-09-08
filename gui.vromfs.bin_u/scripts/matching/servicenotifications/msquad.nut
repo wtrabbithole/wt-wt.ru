@@ -123,6 +123,8 @@ foreach (notificationName, callback in
                 {
                   if (replaces)
                     squadApplications.deleteApplication(replaces)
+                  if (!squad || !leader)
+                    return
                   squadApplications.addApplication(squad.id, leader.id)
                 }
                 else
@@ -135,7 +137,7 @@ foreach (notificationName, callback in
                 local squad = params?.squad
 
                 if (applicant == null || applicant.id == ::my_user_id_int64)
-                  squadApplications.onDeniedApplication(squad.id, true)
+                  squadApplications.onDeniedApplication(squad?.id, true)
                 else
                   ::g_squad_manager.removeApplication(applicant.id)
               },
@@ -144,6 +146,8 @@ foreach (notificationName, callback in
               {
                 local applicant = params?.applicant
 
+                if (!applicant)
+                  return
                 if (!::g_squad_manager.isInSquad())
                   return
                 ::g_squad_manager.removeApplication(applicant.id)

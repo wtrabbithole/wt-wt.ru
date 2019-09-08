@@ -46,7 +46,7 @@ enum ESwitchSpectatorTarget
   {id = "respawn_base",hint = "options/respawn_base",        cb = "onRespawnbaseOptionUpdate", use_margin_top = true},
 ]
 
-function gui_start_respawn(is_match_start = false)
+::gui_start_respawn <- function gui_start_respawn(is_match_start = false)
 {
   ::mp_stat_handler = ::handlersManager.loadHandler(::gui_handlers.RespawnHandler)
   ::mp_stat_handler.initStats()
@@ -974,7 +974,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!air) return
 
     ::aircraft_for_weapons = air.name
-    local option = getUserOptionInRespawnOptions(obj.id)
+    local option = getUserOptionInRespawnOptions(obj?.id)
     if (!option)
       return
 
@@ -1104,6 +1104,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     if (canChangeAircraft)
     {
+      local crew = getCurCrew()
+      ::set_selected_unit_info(air, crew.idInCountry)
       local rbData = respawnBases.getRespawnBasesData(air)
       curRespawnBase = rbData.selBase
       respawnBasesList = rbData.basesList
@@ -1848,7 +1850,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
   function use_autostart()
   {
-    if (!(get_game_type() & ::GT_AUTO_SPAWN))
+    if (!(::get_game_type() & ::GT_AUTO_SPAWN))
       return false;
     local crew = getCurCrew()
     if (isSpectate || !crew || !::before_first_flight_in_session || missionRules.isWarpointsRespawnEnabled)
@@ -2220,7 +2222,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (!::checkObj(scene))
       return
 
-    setSceneTitle(status ? "" : getCurMpTitle())
+    setSceneTitle(status ? "" : getCurMpTitle(), scene, "respawn_title")
 
     scene.findObject("spectator_mode_title").show(status)
     scene.findObject("flight_menu_bgd").show(!status)
@@ -2228,11 +2230,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     scene.findObject("spectator_controls").show(status)
     scene.findObject("btn_show_hud").enable(status)
     updateButtons()
-  }
-
-  function setSceneTitle(text)
-  {
-    ::set_menu_title(text, scene, "respawn_title")
   }
 
   function getEndTimeObj()
@@ -2382,7 +2379,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local obj = scene.findObject("respawn_screen")
-    local isHidden = obj.display == "hide" //until scene recount obj.isVisible will return false, because it was full hidden
+    local isHidden = obj?.display == "hide" //until scene recount obj.isVisible will return false, because it was full hidden
     if (isHidden != show)
       return
 
@@ -2571,13 +2568,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   }
 }
 
-function cant_respawn_anymore() // called when no more respawn bases left
+::cant_respawn_anymore <- function cant_respawn_anymore() // called when no more respawn bases left
 {
   if (::current_base_gui_handler && ("stayOnRespScreen" in ::current_base_gui_handler))
     ::current_base_gui_handler.stayOnRespScreen = true
 }
 
-function get_mouse_relative_coords_on_obj(obj)
+::get_mouse_relative_coords_on_obj <- function get_mouse_relative_coords_on_obj(obj)
 {
   if (!::checkObj(obj))
     return null
@@ -2598,12 +2595,12 @@ function get_mouse_relative_coords_on_obj(obj)
 if ("get_available_respawn_bases_debug" in getroottable())
   ::get_available_respawn_bases <- ::get_available_respawn_bases_debug
 
-function has_available_slots()
+::has_available_slots <- function has_available_slots()
 {
-  if (!(get_game_type() & (::GT_VERSUS | ::GT_COOPERATIVE)))
+  if (!(::get_game_type() & (::GT_VERSUS | ::GT_COOPERATIVE)))
     return true
 
-  if (get_game_mode() == ::GM_SINGLE_MISSION || get_game_mode() == ::GM_DYNAMIC)
+  if (::get_game_mode() == ::GM_SINGLE_MISSION || ::get_game_mode() == ::GM_DYNAMIC)
     return true
 
   if (!::g_mis_loading_state.isCrewsListReceived())

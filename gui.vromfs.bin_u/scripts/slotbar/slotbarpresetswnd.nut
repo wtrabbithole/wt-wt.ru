@@ -1,4 +1,4 @@
-function gui_choose_slotbar_preset(owner = null)
+::gui_choose_slotbar_preset <- function gui_choose_slotbar_preset(owner = null)
 {
   return ::handlersManager.loadHandler(::gui_handlers.ChooseSlotbarPreset, { ownerWeak = owner })
 }
@@ -70,7 +70,7 @@ class ::gui_handlers.ChooseSlotbarPreset extends ::gui_handlers.BaseGuiHandlerWT
       local preset = presets[chosenValue]
       local hasFeatureTanks = ::has_feature("Tanks")
       local perRow = 3
-      local cells = ceil(preset.units.len() / perRow.tofloat()) * perRow
+      local cells = ::ceil(preset.units.len() / perRow.tofloat()) * perRow
       local unitItems = []
 
       local presetBattleRatingText = ""

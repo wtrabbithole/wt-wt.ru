@@ -271,7 +271,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     }
     addToExportDataBlock = function(blk, unit)
     {
-      local talismanMul = isUnitSpecial(unit) ? ::get_ranks_blk().goldPlaneExpMul : 1.0
+      local talismanMul = isUnitSpecial(unit) ? (::get_ranks_blk()?.goldPlaneExpMul ?? 1.0) : 1.0
       local value = (unit.expMul * talismanMul * 100.0 + 0.5).tointeger()
       if (value == 100)
       {
@@ -330,13 +330,8 @@ enums.addTypesByGlobalName("g_unit_info_type", [
         {
           local mode = diff.getEgdName()
           local field = "repairCost" + mode
-          local wBlk = ::get_wpcost_blk()
-          local uBlk = wBlk[unit.name]
-          local value = uBlk && uBlk[field]
-          if (!value)
-            value = 0
-          else
-            value =  value * (::get_warpoints_blk().avgRepairMul || 1.0) //avgRepairMul same as in tooltip
+          local value = ::get_wpcost_blk()?[unit.name]?[field] ?? 0
+          value =  value * (::get_warpoints_blk()?.avgRepairMul ?? 1.0) //avgRepairMul same as in tooltip
           blk.value[mode] = value
           blk.valueText[mode] = value ? ::Cost(value).getUncoloredText() : ::loc("shop/free")
         }
@@ -381,9 +376,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
         {
           local mode = diff.getEgdName()
           local field = "repairTimeHrs" + mode
-          local wBlk = ::get_wpcost_blk()
-          local uBlk = wBlk[unit.name]
-          local value = (uBlk && uBlk[field]) || 0.0
+          local value = ::get_wpcost_blk()?[unit.name]?[field] ?? 0.0
           if(value == 0.0)
           {
             blk.hide = true
@@ -974,7 +967,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
     addToExportDataBlock = function(blk, unit)
     {
-      local value = ::get_unittags_blk()?[unit.name]?.Shop?.maxSpeed
+      local value = ::get_unittags_blk()?[unit.name].Shop.maxSpeed ?? 0
       if(value > 0)
       {
         local valueText = ::g_measure_type.SPEED.getMeasureUnitsText(value)
@@ -998,7 +991,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
 
       if(armorThicknessCitadel != null)
       {
-        local value = armorThicknessCitadel.x.tointeger()
+        local value = stdMath.round(armorThicknessCitadel.x).tointeger()
         local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
         addSingleValue(blk, unit, value, valueText)
       }
@@ -1020,7 +1013,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
 
       if(armorThicknessCitadel != null)
       {
-        local value = armorThicknessCitadel.y.tointeger()
+        local value = stdMath.round(armorThicknessCitadel.y).tointeger()
         local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
         addSingleValue(blk, unit, value, valueText)
       }
@@ -1042,7 +1035,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
 
       if(armorThicknessCitadel != null)
       {
-        local value = armorThicknessCitadel.z.tointeger()
+        local value = stdMath.round(armorThicknessCitadel.z).tointeger()
         local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
         addSingleValue(blk, unit, value, valueText)
       }
@@ -1064,7 +1057,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
 
       if(armorThicknessMainFireTower != null)
       {
-        local value = armorThicknessMainFireTower.x.tointeger()
+        local value = stdMath.round(armorThicknessMainFireTower.x).tointeger()
         local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
         addSingleValue(blk, unit, value, valueText)
       }
@@ -1086,7 +1079,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
 
       if(armorThicknessMainFireTower != null)
       {
-        local value = armorThicknessMainFireTower.y.tointeger()
+        local value = stdMath.round(armorThicknessMainFireTower.y).tointeger()
         local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
         addSingleValue(blk, unit, value, valueText)
       }
@@ -1108,7 +1101,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
 
       if(armorThicknessMainFireTower != null)
       {
-        local value = armorThicknessMainFireTower.z.tointeger()
+        local value = stdMath.round(armorThicknessMainFireTower.z).tointeger()
         local valueText =  format("%d %s", value, ::loc("measureUnits/mm"))
         addSingleValue(blk, unit, value, valueText)
       }

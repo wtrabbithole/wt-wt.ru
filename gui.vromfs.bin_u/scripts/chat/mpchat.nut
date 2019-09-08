@@ -7,7 +7,7 @@ local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 
 ::game_chat_handler <- null
 
-function get_game_chat_handler()
+::get_game_chat_handler <- function get_game_chat_handler()
 {
   if (!::game_chat_handler)
     ::game_chat_handler = ::ChatHandler()
@@ -304,7 +304,7 @@ class ::ChatHandler
   function onChatIngameRequestEnter(obj)
   {
     local editboxObj = ::check_obj(obj) ? obj.getParent().findObject("chat_input") : null
-    if (::check_obj(editboxObj) && editboxObj["on_activate"] == "onChatEntered")
+    if (::check_obj(editboxObj) && editboxObj?["on_activate"] == "onChatEntered")
       onChatEntered(editboxObj)
   }
 
@@ -323,6 +323,7 @@ class ::ChatHandler
         sceneData.handler.onChatEntered()
     }
     enableChatInput(false)
+    ::call_darg("hudChatInputEnableUpdate", false)
   }
 
   function onWrapUp(obj)
@@ -345,6 +346,7 @@ class ::ChatHandler
     if (sceneData && sceneData.handler && ("onChatCancel" in sceneData.handler))
       sceneData.handler.onChatCancel()
     enableChatInput(false)
+    ::call_darg("hudChatInputEnableUpdate", false)
   }
 
   function checkAndPrintDevoiceMsg()
@@ -710,7 +712,7 @@ class ::ChatHandler
     obj = sceneData.scene.findObject("chat_log_tdiv")
     if (::checkObj(obj))
     {
-      obj.height = visible ? obj["max-height"] : null
+      obj.height = visible ? obj?["max-height"] : null
       obj.scrollType = visible ? "" : "hidden"
     }
   }
@@ -734,28 +736,28 @@ class ::ChatHandler
   }
 }
 
-function is_chat_screen_allowed()
+::is_chat_screen_allowed <- function is_chat_screen_allowed()
 {
   return ::is_hud_visible() && !::is_menu_state()
 }
 
-function loadGameChatToObj(obj, chatBlk, handler, p = MP_CHAT_PARAMS)
+::loadGameChatToObj <- function loadGameChatToObj(obj, chatBlk, handler, p = MP_CHAT_PARAMS)
 {
   return ::get_game_chat_handler().loadScene(obj, chatBlk, handler, MP_CHAT_PARAMS.__merge(p))
 }
 
-function detachGameChatSceneData(sceneData)
+::detachGameChatSceneData <- function detachGameChatSceneData(sceneData)
 {
   sceneData.scene = null
   ::get_game_chat_handler().cleanScenesList()
 }
 
-function game_chat_input_toggle_request(toggle)
+::game_chat_input_toggle_request <- function game_chat_input_toggle_request(toggle)
 {
   ::toggle_ingame_chat(toggle)
 }
 
-function enable_game_chat_input(value) // called from client
+::enable_game_chat_input <- function enable_game_chat_input(value) // called from client
 {
   if (value)
     ::broadcastEvent("MpChatInputRequested")
@@ -765,24 +767,24 @@ function enable_game_chat_input(value) // called from client
     handler.enableChatInput(value)
 }
 
-function hide_game_chat_scene_input(sceneData, value)
+::hide_game_chat_scene_input <- function hide_game_chat_scene_input(sceneData, value)
 {
   ::get_game_chat_handler().hideChatInput(sceneData, value)
 }
 
-function clear_game_chat()
+::clear_game_chat <- function clear_game_chat()
 {
   debugTableData(ingame_chat)
   ingame_chat.clearLog()
 }
 
-function get_gamechat_log_text()
+::get_gamechat_log_text <- function get_gamechat_log_text()
 {
   return ::get_game_chat_handler().getLogText()
 }
 
 
-function add_text_to_editbox(obj, text)
+::add_text_to_editbox <- function add_text_to_editbox(obj, text)
 {
   local value = obj.getValue()
   local pos = obj.getIntProp(::dagui_propid.get_name_id(":behaviour_edit_position_pos"), -1)
@@ -792,12 +794,12 @@ function add_text_to_editbox(obj, text)
     obj.setValue(value + text)
 }
 
-function chat_system_message(text)
+::chat_system_message <- function chat_system_message(text)
 {
   ingame_chat.onIncomingMessage("", text, false, 0, true)
 }
 
-function add_tags_for_mp_players()
+::add_tags_for_mp_players <- function add_tags_for_mp_players()
 {
   local tbl = ::get_mplayers_list(::GET_MPLAYERS_LIST, true)
   if (tbl)
@@ -809,7 +811,7 @@ function add_tags_for_mp_players()
 }
 
 
-function get_player_tag(playerNick)
+::get_player_tag <- function get_player_tag(playerNick)
 {
   if(!(playerNick in ::clanUserTable))
     ::add_tags_for_mp_players()

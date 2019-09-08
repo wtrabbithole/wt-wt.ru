@@ -25,9 +25,9 @@ enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
   {
     name = "menu"
     btnName = "start"
-    getText = function(totalSections = 0) { return totalSections == 1? "#topmenu/menu" : null }
+    getText =  @(totalSections = 0) (totalSections == 1 || ::show_console_buttons) ? "#topmenu/menu" : null
     mergeIndex = topMenuLeftSideMergeIndex.MENU
-    getImage = function(totalSections = 0) { return totalSections == 1? null : "#ui/gameuiskin#btn_modifications.svg" }
+    getImage = @(totalSections = 0) (totalSections == 1 || ::show_console_buttons) ? null : "#ui/gameuiskin#menu.svg"
     buttons = [
       [
         "pvp"
@@ -108,6 +108,8 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
         ::g_top_menu_buttons.WORKSHOP
         ::g_top_menu_buttons.WARBONDS_SHOP
         ::g_top_menu_buttons.ONLINE_SHOP
+        ::g_top_menu_buttons.XBOX_ONLINE_SHOP
+        ::g_top_menu_buttons.PS4_ONLINE_SHOP
         ::g_top_menu_buttons.MARKETPLACE
       ]
     ]

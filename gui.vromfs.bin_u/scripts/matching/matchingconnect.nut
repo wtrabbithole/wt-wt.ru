@@ -14,7 +14,7 @@ enum REASON_DOMAIN {
   onDisconnectCb = null
 }
 
-function g_matching_connect::onConnect()
+g_matching_connect.onConnect <- function onConnect()
 {
   destroyProgressBox()
   if (onConnectCb) onConnectCb()
@@ -24,20 +24,20 @@ function g_matching_connect::onConnect()
   ::broadcastEvent("MatchingConnect")
 }
 
-function g_matching_connect::onDisconnect()
+g_matching_connect.onDisconnect <- function onDisconnect()
 {
   //we still trying to reconnect after this event
   ::broadcastEvent("MatchingDisconnect")
 }
 
-function g_matching_connect::onFailToReconnect()
+g_matching_connect.onFailToReconnect <- function onFailToReconnect()
 {
   destroyProgressBox()
   if (onDisconnectCb) onDisconnectCb()
   resetCallbacks()
 }
 
-function g_matching_connect::connect(successCb = null, errorCb = null, needProgressBox = true)
+g_matching_connect.connect <- function connect(successCb = null, errorCb = null, needProgressBox = true)
 {
   if (::is_online_available())
   {
@@ -60,13 +60,13 @@ function g_matching_connect::connect(successCb = null, errorCb = null, needProgr
   }
 }
 
-function g_matching_connect::resetCallbacks()
+g_matching_connect.resetCallbacks <- function resetCallbacks()
 {
   onConnectCb = null
   onDisconnectCb = null
 }
 
-function g_matching_connect::showProgressBox(cancelFunc = null)
+g_matching_connect.showProgressBox <- function showProgressBox(cancelFunc = null)
 {
   if (::checkObj(progressBox))
     return
@@ -80,7 +80,7 @@ function g_matching_connect::showProgressBox(cancelFunc = null)
                                 })
 }
 
-function g_matching_connect::destroyProgressBox()
+g_matching_connect.destroyProgressBox <- function destroyProgressBox()
 {
   if(::checkObj(progressBox))
   {
@@ -92,7 +92,7 @@ function g_matching_connect::destroyProgressBox()
 
 // special handlers for char errors that require more complex actions than
 // showing message box and logout
-function g_matching_connect::checkSpecialCharErrors(errorCode)
+g_matching_connect.checkSpecialCharErrors <- function checkSpecialCharErrors(errorCode)
 {
   if (errorCode == ::ERRCODE_EMPTY_NICK)
   {
@@ -111,7 +111,7 @@ function g_matching_connect::checkSpecialCharErrors(errorCode)
   return false
 }
 
-function g_matching_connect::logoutWithMsgBox(reason, message, reasonDomain, forceExit = false)
+g_matching_connect.logoutWithMsgBox <- function logoutWithMsgBox(reason, message, reasonDomain, forceExit = false)
 {
   if (reasonDomain == REASON_DOMAIN.CHAR)
     if (checkSpecialCharErrors(reason))
@@ -136,12 +136,12 @@ function g_matching_connect::logoutWithMsgBox(reason, message, reasonDomain, for
     { saved = true, cancel_fn = msgCb}, message)
 }
 
-function g_matching_connect::exitWithMsgBox(reason, message, reasonDomain)
+g_matching_connect.exitWithMsgBox <- function exitWithMsgBox(reason, message, reasonDomain)
 {
   logoutWithMsgBox(reason, message, reasonDomain, true)
 }
 
-function g_matching_connect::doLogout()
+g_matching_connect.doLogout <- function doLogout()
 {
   if (!::can_logout())
     return false

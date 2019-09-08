@@ -5,10 +5,13 @@ class ::Input.Button extends ::Input.InputBase
   deviceId = -1
   buttonId = -1
 
-  constructor(dev, btn)
+  preset = null
+
+  constructor(dev, btn, _preset = null)
   {
     deviceId = dev
     buttonId = btn
+    preset = _preset || ::g_controls_manager.getCurPreset()
   }
 
   function getMarkup()
@@ -45,8 +48,7 @@ class ::Input.Button extends ::Input.InputBase
 
   function getText()
   {
-    local curPreset = ::g_controls_manager.getCurPreset()
-    return ::getLocalizedControlShortName(curPreset, deviceId, buttonId)
+    return ::getLocalizedControlShortName(preset, deviceId, buttonId)
   }
 
   function getDeviceId()

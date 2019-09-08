@@ -12,19 +12,19 @@ enum PLAYBACK_STATUS
   curPlaying = ""
 }
 
-function g_sound::onCachedMusicDowloaded(playbackId, success)
+g_sound.onCachedMusicDowloaded <- function onCachedMusicDowloaded(playbackId, success)
 {
   playbackStatus[playbackId] <- success? PLAYBACK_STATUS.VALID : PLAYBACK_STATUS.INVALID
   ::broadcastEvent("PlaybackDownloaded", {id = playbackId, success = success})
 }
 
-function g_sound::onCachedMusicPlayEnd(playbackId)
+g_sound.onCachedMusicPlayEnd <- function onCachedMusicPlayEnd(playbackId)
 {
   curPlaying = ""
   ::broadcastEvent("FinishedPlayback", {id = playbackId})
 }
 
-function g_sound::preparePlayback(url, playbackId)
+g_sound.preparePlayback <- function preparePlayback(url, playbackId)
 {
   if (::u.isEmpty(url)
       || getPlaybackStatus(playbackId) != PLAYBACK_STATUS.INVALID)
@@ -34,7 +34,7 @@ function g_sound::preparePlayback(url, playbackId)
   ::set_cached_music(::CACHED_MUSIC_MISSION, url, playbackId)
 }
 
-function g_sound::play(playbackId = "")
+g_sound.play <- function play(playbackId = "")
 {
   if (playbackId == "" && curPlaying == "")
     return
@@ -46,28 +46,28 @@ function g_sound::play(playbackId = "")
     curPlaying = playbackId
 }
 
-function g_sound::stop()
+g_sound.stop <- function stop()
 {
   ::play_cached_music("")
   curPlaying = ""
 }
 
-function g_sound::getPlaybackStatus(playbackId)
+g_sound.getPlaybackStatus <- function getPlaybackStatus(playbackId)
 {
   return ::getTblValue(playbackId, playbackStatus, PLAYBACK_STATUS.INVALID)
 }
 
-function g_sound::canPlay(playbackId)
+g_sound.canPlay <- function canPlay(playbackId)
 {
   return getPlaybackStatus(playbackId) == PLAYBACK_STATUS.VALID
 }
 
-function g_sound::isPlaying(playbackId)
+g_sound.isPlaying <- function isPlaying(playbackId)
 {
   return playbackId == curPlaying && curPlaying != ""
 }
 
-function g_sound::onEventGameLocalizationChanged(p)
+g_sound.onEventGameLocalizationChanged <- function onEventGameLocalizationChanged(p)
 {
   stop()
   playbackStatus.clear()

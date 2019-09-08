@@ -1,9 +1,12 @@
 local interopGen = require("daRg/helpers/interopGen.nut")
 
 const NUM_ENGINES_MAX = 3
+const NUM_TRANSMISSIONS_MAX = 6
 
 local helicopterState = {
   IndicatorsVisible = Watched(false)
+  CurrentTime = Watched(false)
+
   DistanceToGround = Watched(0.0)
   VerticalSpeed = Watched(0.0)
 
@@ -11,27 +14,35 @@ local helicopterState = {
   RocketAimY = Watched(0.0)
   RocketAimVisible = Watched(false)
 
-  AamAimGimbalX = Watched(0.0)
-  AamAimGimbalY = Watched(0.0)
-  AamAimGimbalSize = Watched(0.0)
-  AamAimGimbalVisible = Watched(false)
-
-  AamAimTrackerX = Watched(0.0)
-  AamAimTrackerY = Watched(0.0)
-  AamAimTrackerSize = Watched(0.0)
-  AamAimTrackerVisible = Watched(false)
-
   GunDirectionX = Watched(0.0)
   GunDirectionY = Watched(0.0)
   GunDirectionVisible = Watched(false)
 
   HorAngle = Watched(0.0)
 
-  TurretYaw = Watched(0.0)
+  TurretYaw   = Watched(0.0)
   TurretPitch = Watched(0.0)
+  FovYaw    = Watched(0.0)
+  FovPitch  = Watched(0.0)
+
+  IsAgmLaunchZoneVisible = Watched(false)
+  LastAgmOutOfAngleLaunchAttemptTimeOut = Watched(0.0)
+  AgmBoresightYaw       = Watched(0.0)
+  AgmBoresightPitch     = Watched(0.0)
+  AgmLaunchZoneYawMin   = Watched(0.0)
+  AgmLaunchZoneYawMax   = Watched(0.0)
+  AgmLaunchZonePitchMin = Watched(0.0)
+  AgmLaunchZonePitchMax = Watched(0.0)
+  AgmLaunchZoneDistMin  = Watched(0.0)
+  AgmLaunchZoneDistMax  = Watched(0.0)
+
+  IsInsideLaunchZoneYawPitch = Watched(false)
+  IsInsideLaunchZoneDist = Watched(false)
+  LastATGMOutOfAngleLaunchAttemptTime = Watched(0.0)
 
   IsSightLocked = Watched(false)
   IsLaserDesignatorEnabled = Watched(false)
+  IsATGMOutOfTrackerSector = Watched(false)
 
   MainMask = Watched(0)
   SightMask = Watched(0)
@@ -68,7 +79,8 @@ local helicopterState = {
   Agm = {
     count = Watched(0)
     seconds = Watched(-1)
-    timeToTarget = Watched(-1)
+    timeToHit = Watched(-1)
+    timeToWarning = Watched(-1)
   }
 
   Aam = {
@@ -113,20 +125,26 @@ local helicopterState = {
   OilState = []
   WaterState = []
   EngineState = []
+  TransmissionOilState = []
 
   IsOilAlert = []
   IsWaterAlert = []
   IsEngineAlert = []
+  IsTransmissionOilAlert = []
 
   IsMainHudVisible = Watched(false)
   IsSightHudVisible = Watched(false)
   IsPilotHudVisible = Watched(false)
   IsGunnerHudVisible = Watched(false)
+  IsMfdEnabled = Watched(false)
+  RwrForMfd = Watched(false)
+  RwrPosSize = [0, 0, 20]
+  SightHudPosSize = [0, 0, 0, 0]
+  PilotHudPosSize = [0, 0, 0, 0]
 
   GunOverheatState = Watched(0)
 
   AgmGuidanceLockState = Watched(-1)
-  AamGuidanceLockState = Watched(-1)
 
   IsCompassVisible = Watched(false)
 }
@@ -136,6 +154,26 @@ local helicopterState = {
   helicopterState.Cannons.seconds.update(sec)
 }
 
+::interop.updateRwrPosSize <- function(x, y, size) {
+  helicopterState.RwrPosSize[0] = x
+  helicopterState.RwrPosSize[1] = y
+  helicopterState.RwrPosSize[2] = size
+}
+
+::interop.updateSightHudPosSize <- function(x, y, w, h) {
+  helicopterState.SightHudPosSize[0] = x
+  helicopterState.SightHudPosSize[1] = y
+  helicopterState.SightHudPosSize[2] = w
+  helicopterState.SightHudPosSize[3] = h
+}
+
+::interop.updatePilotHudPosSize <- function(x, y, w, h) {
+  helicopterState.PilotHudPosSize[0] = x
+  helicopterState.PilotHudPosSize[1] = y
+  helicopterState.PilotHudPosSize[2] = w
+  helicopterState.PilotHudPosSize[3] = h
+}
+
 ::interop.updateMachineGuns <- function(count, sec = -1) {
   helicopterState.MachineGuns.count.update(count)
   helicopterState.MachineGuns.seconds.update(sec)
@@ -143,6 +181,7 @@ local helicopterState = {
 
 ::interop.updateAdditionalCannons <- function(count, sec = -1) {
   helicopterState.CannonsAdditional.count.update(count)
+  helicopterState.CannonsAdditional.seconds.update(sec)
 }
 
 ::interop.updateRockets <- function(count, sec = -1) {
@@ -150,10 +189,11 @@ local helicopterState = {
   helicopterState.Rockets.seconds.update(sec)
 }
 
-::interop.updateAgm <- function(count, sec, timeToTarget) {
+::interop.updateAgm <- function(count, sec, timeToHit, timeToWarning) {
   helicopterState.Agm.count.update(count)
   helicopterState.Agm.seconds.update(sec)
-  helicopterState.Agm.timeToTarget.update(timeToTarget)
+  helicopterState.Agm.timeToHit.update(timeToHit)
+  helicopterState.Agm.timeToWarning.update(timeToWarning)
 }
 
 ::interop.updateAam <- function(count, sec = -1) {
@@ -186,6 +226,12 @@ for (local i = 0; i < NUM_ENGINES_MAX; ++i)
   helicopterState.IsEngineAlert.append(Watched(false))
 }
 
+for (local i = 0; i < NUM_TRANSMISSIONS_MAX; ++i)
+{
+  helicopterState.TransmissionOilState.append(Watched(0))
+  helicopterState.IsTransmissionOilAlert.append(Watched(false))
+}
+
 interopGen({
   stateTable = helicopterState
   prefix = "helicopter"
@@ -207,8 +253,16 @@ interopGen({
   helicopterState.EngineState[index].update(state)
 }
 
+::interop.updateTransmissionOilState <- function (state, index) {
+  helicopterState.TransmissionOilState[index].update(state)
+}
+
 ::interop.updateOilAlert <- function (value, index) {
   helicopterState.IsOilAlert[index].update(value)
+}
+
+::interop.updateTransmissionOilAlert <- function (value, index) {
+  helicopterState.IsTransmissionOilAlert[index].update(value)
 }
 
 ::interop.updateWaterAlert <- function (value, index) {

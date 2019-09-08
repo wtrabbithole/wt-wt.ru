@@ -20,6 +20,7 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
     local parameterName = paramData.name
     local measureType = ::g_crew_skills.getMeasureTypeBySkillParameterName(parameterName)
     local isNotFoundMeasureType = measureType == ::g_measure_type.UNKNOWN
+    local sign = getDiffSign(parametersByRequestType, parameterName)
     local needMemberName = paramData.valuesArr.len() > 1
     local parsedMembers = []
     foreach(idx, value in paramData.valuesArr)
@@ -44,7 +45,7 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
         parameterName = parameterName
       }
       parseColumnTypes(columnTypes, parametersByRequestType, selectedParametersByRequestType,
-        measureType, parameterView, params)
+        measureType, sign, parameterView, params)
 
       parameterView.progressBarValue <- getProgressBarValue(parametersByRequestType, params)
       parameterView.progressBarSelectedValue <- getProgressBarValue(selectedParametersByRequestType, params)
@@ -54,7 +55,7 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
   }
 
   parseColumnTypes = function(columnTypes, parametersByRequestType, selectedParametersByRequestType,
-    measureType, parameterView, params = null)
+    measureType, sign, parameterView, params = null)
   {
     foreach (columnType in columnTypes)
     {
@@ -71,10 +72,20 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
         columnType.currentParametersRequestType, selectedParametersByRequestType, params)
 
       local valueItem = columnType.createValueItem(
-        prevValue, curValue, prevSelectedValue, curSelectedValue, measureType)
+        prevValue, curValue, prevSelectedValue, curSelectedValue, measureType, sign)
 
       parameterView.valueItems.push(valueItem)
     }
+  }
+
+  getDiffSign = function(parametersByRequestType, parameterName)
+  {
+    local params = { parameterName = parameterName, idx = 0, columnIndex = 0 }
+    local baseValue = getValue(
+      ::g_skill_parameters_column_type.BASE.currentParametersRequestType, parametersByRequestType, params)
+    local maxValue = getValue(
+      ::g_skill_parameters_column_type.MAX.currentParametersRequestType, parametersByRequestType, params)
+    return maxValue >= baseValue
   }
 
   getProgressBarValue = function(parametersByRequestType, params = null)
@@ -109,6 +120,8 @@ enums.addTypesByGlobalName("g_skill_parameters_type", {
       if (!currentDistanceErrorData.len())
         return
 
+      local sign = getDiffSign(parametersByRequestType, paramData.name)
+
       foreach (i, parameterTable in currentDistanceErrorData[0].value)
       {
         local descriptionLocParams = {
@@ -123,7 +136,7 @@ enums.addTypesByGlobalName("g_skill_parameters_type", {
           parameterName = paramData.name
         }
         parseColumnTypes(columnTypes, parametersByRequestType, selectedParametersByRequestType,
-          ::g_measure_type.DISTANCE, parameterView, params)
+          ::g_measure_type.DISTANCE, sign, parameterView, params)
         parameterView.progressBarValue <- getProgressBarValue(parametersByRequestType, params)
         resArray.push(parameterView)
       }
@@ -144,7 +157,7 @@ enums.addTypesByGlobalName("g_skill_parameters_type", {
   }
 })
 
-function g_skill_parameters_type::getTypeByParamName(paramName)
+g_skill_parameters_type.getTypeByParamName <- function getTypeByParamName(paramName)
 {
   return enums.getCachedType("paramNames", paramName, cache.byParamName, this, DEFAULT)
 }

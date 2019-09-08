@@ -1,6 +1,6 @@
 local stdMath = require("std/math.nut")
 
-function getEnumValName(strEnumName, value, skipSynonyms=false)
+::getEnumValName <- function getEnumValName(strEnumName, value, skipSynonyms=false)
 {
   ::dagor.assertf(typeof(strEnumName) == "string", "strEnumName must be enum name as a string")
   local constants = getconsttable()
@@ -15,7 +15,7 @@ function getEnumValName(strEnumName, value, skipSynonyms=false)
   return name
 }
 
-function bit_mask_to_string(strEnumName, mask)
+::bit_mask_to_string <- function bit_mask_to_string(strEnumName, mask)
 {
   ::dagor.assertf(typeof(strEnumName) == "string", "strEnumName must be enum name as a string")
   local enumTable = ::getconsttable()?[strEnumName] ?? {}

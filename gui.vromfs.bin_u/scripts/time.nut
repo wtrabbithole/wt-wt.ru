@@ -15,16 +15,6 @@ local dagor_iso8601 = require("dagor.iso8601")
 
 
 local timeOrder = ["year", "month", "day", "hour", "min", "sec"]
-const DAYS_TO_YEAR_1970 = 719528
-
-const TIME_MINUTE_IN_SECONDS = 60
-const TIME_MINUTE_IN_SECONDS_F = 60.0
-const TIME_HOUR_IN_SECONDS = 3600
-const TIME_HOUR_IN_SECONDS_F = 3600.0
-const TIME_DAY_IN_SECONDS = 86400
-const TIME_DAY_IN_SECONDS_F = 86400.0
-const TIME_WEEK_IN_SECONDS = 604800
-const TIME_WEEK_IN_SECONDS_F = 604800.0
 
 
 local charToLocalUtcDiff = function() {
@@ -43,7 +33,7 @@ local getFullTimeTable = function(time, fillMissedByTimeTable = null) {
   return time
 }
 
-local getUtcDays = @() DAYS_TO_YEAR_1970 + ::get_charserver_time_sec() / TIME_DAY_IN_SECONDS
+local getUtcDays = @() timeBase.DAYS_TO_YEAR_1970 + ::get_charserver_time_sec() / timeBase.TIME_DAY_IN_SECONDS
 
 local buildTabularDateTimeStr = function(t, showSeconds = false)
 {
@@ -99,7 +89,7 @@ local buildDateTimeStr = function (t, showZeroSeconds = false, showSeconds = tru
 }
 
 local getUtcMidnight = function() {
-  return ::get_charserver_time_sec() / TIME_DAY_IN_SECONDS * TIME_DAY_IN_SECONDS
+  return ::get_charserver_time_sec() / timeBase.TIME_DAY_IN_SECONDS * timeBase.TIME_DAY_IN_SECONDS
 }
 
 
@@ -120,7 +110,7 @@ local reNotNumeric = regexp2(@"\D+")
 
 local getTimeFromString = function(str, fillMissedByTimeTable = null) {
   local timeOrderLen = timeOrder.len()
-  local timeArray = ::split(str, ":- ")
+  local timeArray = ::split(str, ":- ").filter(@(v) v != "")
   if (timeArray.len() < timeOrderLen)
   {
     if (reDateYmdAtStart.match(str))
@@ -204,7 +194,7 @@ local processTimeStamps = function(text) {
 
       local textTime = ""
       if (time == "{time_countdown=") {
-        textTime = timeBase.hoursToString(::max( 0, t - ::get_charserver_time_sec() ) / TIME_HOUR_IN_SECONDS_F, true, true)
+        textTime = timeBase.hoursToString(::max( 0, t - ::get_charserver_time_sec() ) / timeBase.TIME_HOUR_IN_SECONDS_F, true, true)
       } else {
         textTime = buildDateTimeStr(t)
       }
@@ -216,7 +206,7 @@ local processTimeStamps = function(text) {
 }
 
 
-local preciseSecondsToString = function(value, canShowZeroMinutes = true) {
+local function preciseSecondsToString(value, canShowZeroMinutes = true) {
   value = value != null ? value.tofloat() : 0.0
   local sign = value >= 0 ? "" : ::loc("ui/minus")
   local ms = (math.fabs(value) * 1000.0 + 0.5).tointeger()
@@ -231,7 +221,7 @@ local preciseSecondsToString = function(value, canShowZeroMinutes = true) {
 }
 
 
-local getRaceTimeFromSeconds = function(value, zeroIsValid = false) {
+local function getRaceTimeFromSeconds(value, zeroIsValid = false) {
   if (typeof value != "float" && typeof value != "integer")
     return ""
   if (value < 0 || (!zeroIsValid && value == 0))
@@ -240,16 +230,15 @@ local getRaceTimeFromSeconds = function(value, zeroIsValid = false) {
 }
 
 
-local getExpireText = function(expireMin)
-{
-  if (expireMin < TIME_MINUTE_IN_SECONDS)
+local function getExpireText(expireMin) {
+  if (expireMin < timeBase.TIME_MINUTE_IN_SECONDS)
     return expireMin + ::loc("measureUnits/minutes")
 
-  local showMin = expireMin < 3 * TIME_MINUTE_IN_SECONDS
-  local expireHours = math.floor(expireMin / TIME_MINUTE_IN_SECONDS_F + (showMin? 0.0 : 0.5))
+  local showMin = expireMin < 3 * timeBase.TIME_MINUTE_IN_SECONDS
+  local expireHours = math.floor(expireMin / timeBase.TIME_MINUTE_IN_SECONDS_F + (showMin? 0.0 : 0.5))
   if (expireHours < 24)
     return expireHours + ::loc("measureUnits/hours") +
-           (showMin? " " + (expireMin - TIME_MINUTE_IN_SECONDS * expireHours) + ::loc("measureUnits/minutes") : "")
+           (showMin? " " + (expireMin - timeBase.TIME_MINUTE_IN_SECONDS * expireHours) + ::loc("measureUnits/minutes") : "")
 
   local showHours = expireHours < 3*24
   local expireDays = math.floor(expireHours / 24.0 + (showHours? 0.0 : 0.5))
@@ -258,7 +247,7 @@ local getExpireText = function(expireMin)
 }
 
 
-timeBase.__update({
+return timeBase.__merge({
   getUtcDays = getUtcDays
   buildDateTimeStr = buildDateTimeStr
   buildDateStr = buildDateStr
@@ -277,5 +266,3 @@ timeBase.__update({
   getIso8601FromTimestamp = dagor_iso8601.format_unix_time
   getTimestampFromIso8601 = dagor_iso8601.parse_unix_time
 })
-
-return timeBase

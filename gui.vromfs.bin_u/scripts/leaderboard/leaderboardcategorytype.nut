@@ -1,6 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 
-enum LB_MODE
+global enum LB_MODE
 {
   ARCADE            = 0x00001
   HISTORICAL        = 0x00002
@@ -28,7 +28,7 @@ enum LB_MODE
   ALL               = 0xFFFFF
 }
 
-enum WW_LB_MODE
+global enum WW_LB_MODE
 {
   WW_USERS     = 0x00001
   WW_CLANS     = 0x00002
@@ -64,7 +64,7 @@ enum WW_LB_MODE
 }
 
 
-function get_lb_mode(name, isWwLeaderboard = false)
+::get_lb_mode <- function get_lb_mode(name, isWwLeaderboard = false)
 {
   if (!isWwLeaderboard && ::u.isEmpty(name))
     return 0
@@ -89,19 +89,19 @@ function get_lb_mode(name, isWwLeaderboard = false)
   }
 }
 
-function g_lb_category::getTypeById(id)
+g_lb_category.getTypeById <- function getTypeById(id)
 {
   return enums.getCachedType("id", id, ::g_lb_category.cache.byId,
     ::g_lb_category, UNKNOWN)
 }
 
-function g_lb_category::getTypeByField(field)
+g_lb_category.getTypeByField <- function getTypeByField(field)
 {
   return enums.getCachedType("field", field, ::g_lb_category.cache.byField,
     ::g_lb_category, UNKNOWN)
 }
 
-function g_lb_category::_getAdditionalTooltipPart(row)
+g_lb_category._getAdditionalTooltipPart <- function _getAdditionalTooltipPart(row)
 {
   if (!additionalTooltipCategoryes || !row)
     return ""
@@ -199,7 +199,7 @@ function g_lb_category::_getAdditionalTooltipPart(row)
 }
 
 
-function g_lb_category::_typeConstructor ()
+g_lb_category._typeConstructor <- function _typeConstructor ()
 {
   headerImage = "#ui/gameuiskin#lb_" + (headerImage != "" ? headerImage : visualKey) + ".svg"
   headerTooltip = "#multiplayer/" + (headerTooltip != "" ? headerTooltip : visualKey)

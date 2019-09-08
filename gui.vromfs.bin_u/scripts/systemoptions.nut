@@ -645,12 +645,12 @@
   }
 ]
 //------------------------------------------------------------------------------
-function sysopt::canUseGraphicsOptions()
+sysopt.canUseGraphicsOptions <- function canUseGraphicsOptions()
 {
   return ::is_platform_pc && ::has_feature("GraphicsOptions")
 }
 
-function sysopt::init()
+sysopt.init <- function init()
 {
   local blk = ::DataBlock()
   blk.load(::get_config_name())
@@ -671,7 +671,7 @@ function sysopt::init()
   configRead()
 }
 
-function sysopt::configRead()
+sysopt.configRead <- function configRead()
 {
   mCfgInitial = {}
   mCfgCurrent = {}
@@ -696,7 +696,7 @@ function sysopt::configRead()
       mCfgApplied[id] <- value
 }
 
-function sysopt::configWrite()
+sysopt.configWrite <- function configWrite()
 {
   if (! ::is_platform_pc)
     return;
@@ -717,7 +717,7 @@ function sysopt::configWrite()
   dagor.debug("[sysopt] Config saved.")
 }
 
-function sysopt::configFree()
+sysopt.configFree <- function configFree()
 {
   mBlk = null
   mHandler = null
@@ -726,7 +726,7 @@ function sysopt::configFree()
   mCfgCurrent = {}
 }
 
-function sysopt::localize(optionId, valueId)
+sysopt.localize <- function localize(optionId, valueId)
 {
   switch (optionId)
   {
@@ -756,7 +756,7 @@ function sysopt::localize(optionId, valueId)
   return ::loc(format("options/%s_%s", optionId, valueId), valueId)
 }
 
-function sysopt::updateGuiNavbar(show=true)
+sysopt.updateGuiNavbar <- function updateGuiNavbar(show=true)
 {
   local scene = mHandler && mHandler.scene
   if (!::checkObj(scene)) return
@@ -776,7 +776,7 @@ function sysopt::updateGuiNavbar(show=true)
     objNavbarApplyButton.setValue(applyText)
 }
 
-function sysopt::fillGuiOptions(containerObj, handler)
+sysopt.fillGuiOptions <- function fillGuiOptions(containerObj, handler)
 {
   if (!::checkObj(containerObj) || !handler) return
   local guiScene = containerObj.getScene()
@@ -884,7 +884,7 @@ function sysopt::fillGuiOptions(containerObj, handler)
   onGuiLoaded()
 }
 
-function sysopt::getGuiWidget(id)
+sysopt.getGuiWidget <- function getGuiWidget(id)
 {
   if (!(id in mSettings))
   {
@@ -897,7 +897,7 @@ function sysopt::getGuiWidget(id)
   return ::checkObj(obj) ? obj : null
 }
 
-function sysopt::getOptionDesc(id)
+sysopt.getOptionDesc <- function getOptionDesc(id)
 {
   if (!(id in mSettings))
   {
@@ -908,7 +908,7 @@ function sysopt::getOptionDesc(id)
   return mSettings[id]
 }
 
-function sysopt::getOptionValue(id, defVal=null)
+sysopt.getOptionValue <- function getOptionValue(id, defVal=null)
 {
   if (!(id in mSettings))
   {
@@ -919,12 +919,12 @@ function sysopt::getOptionValue(id, defVal=null)
   return mSettings[id]?.def ?? defVal
 }
 
-function sysopt::getGuiValue(id, defVal=null)
+sysopt.getGuiValue <- function getGuiValue(id, defVal=null)
 {
   return (id in mCfgCurrent) ? mCfgCurrent[id] : defVal
 }
 
-function sysopt::setGuiValue(id, value, skipUI=false)
+sysopt.setGuiValue <- function setGuiValue(id, value, skipUI=false)
 {
   value = validateGuiValue(id, value)
   mCfgCurrent[id] = value
@@ -956,7 +956,7 @@ function sysopt::setGuiValue(id, value, skipUI=false)
   }
 }
 
-function sysopt::validateGuiValue(id, value)
+sysopt.validateGuiValue <- function validateGuiValue(id, value)
 {
   if (!::is_platform_pc)
     return value
@@ -999,14 +999,14 @@ function sysopt::validateGuiValue(id, value)
   return value
 }
 
-function sysopt::enableGuiOption(id, state)
+sysopt.enableGuiOption <- function enableGuiOption(id, state)
 {
   if (mSkipUI) return
   local rowObj = ::checkObj(mContainerObj) ? mContainerObj.findObject(id + "_tr") : null
   if (::checkObj(rowObj)) rowObj.enable(state)
 }
 
-function sysopt::pickQualityPreset()
+sysopt.pickQualityPreset <- function pickQualityPreset()
 {
     local preset = "custom"
 
@@ -1035,9 +1035,9 @@ function sysopt::pickQualityPreset()
     return preset
 }
 
-function sysopt::onGuiOptionChanged(obj)
+sysopt.onGuiOptionChanged <- function onGuiOptionChanged(obj)
 {
-  local widgetId = ::checkObj(obj) ? obj.id : null
+  local widgetId = ::check_obj(obj) ? obj?.id : null
   if (!widgetId) return
   local id = widgetId.slice(("sysopt_").len())
 
@@ -1101,7 +1101,7 @@ function sysopt::onGuiOptionChanged(obj)
   updateGuiNavbar(true)
 }
 
-function sysopt::onGuiLoaded()
+sysopt.onGuiLoaded <- function onGuiLoaded()
 {
   if (!mScriptValid) return
 
@@ -1110,12 +1110,12 @@ function sysopt::onGuiLoaded()
   updateGuiNavbar(true)
 }
 
-function sysopt::onGuiUnloaded()
+sysopt.onGuiUnloaded <- function onGuiUnloaded()
 {
   updateGuiNavbar(false)
 }
 
-function sysopt::checkChanges(config1, config2)
+sysopt.checkChanges <- function checkChanges(config1, config2)
 {
   local changes = {
     needSave = false
@@ -1146,7 +1146,7 @@ function sysopt::checkChanges(config1, config2)
   return changes
 }
 
-function sysopt::configMaintain()
+sysopt.configMaintain <- function configMaintain()
 {
   if (mMaintainDone)
     return
@@ -1177,14 +1177,14 @@ function sysopt::configMaintain()
   configFree()
 }
 
-function sysopt::onRestartClient()
+sysopt.onRestartClient <- function onRestartClient()
 {
   configWrite()
   configFree()
   applyRestartClient()
 }
 
-function sysopt::onConfigApply()
+sysopt.onConfigApply <- function onConfigApply()
 {
   if (!mScriptValid) return
   if (!::checkObj(mContainerObj)) return
@@ -1226,7 +1226,7 @@ function sysopt::onConfigApply()
   }
 }
 
-function sysopt::applyRestartClient(forced=false)
+sysopt.applyRestartClient <- function applyRestartClient(forced=false)
 {
   if (!isClientRestartable())
     return
@@ -1243,7 +1243,7 @@ function sysopt::applyRestartClient(forced=false)
   ::restart_game()
 }
 
-function sysopt::applyRestartEngine(reloadScene = false)
+sysopt.applyRestartEngine <- function applyRestartEngine(reloadScene = false)
 {
   mCfgApplied = {}
   foreach (id, value in mCfgCurrent)
@@ -1263,37 +1263,37 @@ function sysopt::applyRestartEngine(reloadScene = false)
   })
 }
 
-function sysopt::isClientRestartable()
+sysopt.isClientRestartable <- function isClientRestartable()
 {
   return !::is_vendor_tencent()
 }
 
-function sysopt::canRestartClient()
+sysopt.canRestartClient <- function canRestartClient()
 {
   return isClientRestartable() && !(::is_in_loading_screen() || ::SessionLobby.isInRoom())
 }
 
-function sysopt::isRestartPending()
+sysopt.isRestartPending <- function isRestartPending()
 {
   return checkChanges(mCfgStartup, mCfgCurrent).needClientRestart
 }
 
-function sysopt::isHotReloadPending()
+sysopt.isHotReloadPending <- function isHotReloadPending()
 {
   return checkChanges(mCfgApplied, mCfgCurrent).needEngineReload
 }
 
-function sysopt::isReloadSceneRerquired()
+sysopt.isReloadSceneRerquired <- function isReloadSceneRerquired()
 {
   return mCfgApplied.resolution != mCfgCurrent.resolution || mCfgApplied.mode != mCfgCurrent.mode
 }
 
-function sysopt::isSavePending()
+sysopt.isSavePending <- function isSavePending()
 {
   return checkChanges(mCfgInitial, mCfgCurrent).needSave
 }
 
-function sysopt::logError(from="", msg="")
+sysopt.logError <- function logError(from="", msg="")
 {
   local fullMsg = format("[sysopt] ERROR %s: %s", from, msg)
   dagor.debug(fullMsg)
@@ -1302,7 +1302,7 @@ function sysopt::logError(from="", msg="")
 
 sysopt.isCompatibiliyMode <- @() mCfgStartup?.compatibilityMode ?? ::getSystemConfigOption("video/compatibilityMode", false)
 
-function sysopt::validateInternalConfigs()
+sysopt.validateInternalConfigs <- function validateInternalConfigs()
 {
   local errorsList = []
   foreach (id, desc in mSettings)

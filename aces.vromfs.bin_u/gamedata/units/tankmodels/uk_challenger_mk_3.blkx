@@ -24,6 +24,9 @@
     "damagedExhaustFx": "tank_broken_exhaust"
   },
   {
+    "thermalExhaustFx": "tank_exhaust_nightvision"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -476,7 +479,7 @@
       },
       "era_shields": {
         "armorClass": "leopard_2a5_turret_nera",
-        "hp": 250.0,
+        "hp": 800.0,
         "armorThickness": 150.0,
         "armorEffectiveThicknessMax": 350.0,
         "genericArmorQuality": 0.1,
@@ -504,12 +507,25 @@
         "armorClass": "uk_era_romor_a",
         "hp": 250.0,
         "armorThickness": 30.0,
-        "genericArmorQuality": 0.1,
+        "genericArmorQuality": 0.3,
+        "cumulativeArmorQuality": 4.8,
+        "armorEffectiveThicknessMax": 300.0,
         "genericDamageMult": 3.0,
         "stopChanceOnDeadPart": 0.0,
         "hidableInViewer": true,
         "hidableInXrayViewer": true,
-        "ex_era_hull_15_dm": []
+        "ex_era_hull_15_dm": [],
+        "ex_era_hull_16_dm": [],
+        "ex_era_hull_17_dm": [],
+        "ex_era_hull_18_dm": [],
+        "ex_era_hull_19_dm": [],
+        "ex_era_hull_20_dm": [],
+        "ex_era_hull_21_dm": [],
+        "ex_era_hull_22_dm": [],
+        "ex_era_hull_23_dm": [],
+        "ex_era_hull_24_dm": [],
+        "ex_era_hull_25_dm": [],
+        "ex_era_hull_26_dm": []
       },
       "optics": {
         "armorClass": "optics_tank",
@@ -619,7 +635,7 @@
       "tracks": {
         "armorClass": "tank_traks",
         "armorThickness": 20.0,
-        "hp": 200.0,
+        "hp": 300.0,
         "track_r_dm": [],
         "track_l_dm": []
       },
@@ -686,24 +702,6 @@
           "hp": 40.0,
           "armorThrough": 15.0
         },
-        "cannon_breech_dm": {
-          "armorThickness": 10.0,
-          "armorThrough": 300.0,
-          "hp": 150.0,
-          "fireProtectionHp": 10.0
-        },
-        "cannon_breech_01_dm": {
-          "armorThickness": 10.0,
-          "armorThrough": 100.0,
-          "hp": 150.0,
-          "fireProtectionHp": 10.0
-        },
-        "cannon_breech_02_dm": {
-          "armorThickness": 10.0,
-          "armorThrough": 100.0,
-          "hp": 150.0,
-          "fireProtectionHp": 10.0
-        },
         "radiator_dm": {
           "hp": 40.0,
           "armorThrough": 5.0
@@ -719,15 +717,41 @@
         "radio_station_dm": {
           "hp": 20.0,
           "armorThrough": 3.0
-        },
-        "engine": {
-          "armorClass": "armor_tank_engine",
-          "hp": 100.0,
-          "armorThrough": 50.0,
-          "fireProtectionHp": 3.0,
-          "engine_dm": [],
-          "transmission_dm": []
         }
+      },
+      "cannon_breech": {
+        "armorClass": "tank_structural_steel",
+        "hp": 150.0,
+        "armorThickness": 150.0,
+        "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
+        "cannon_breech_dm": {
+          "restrainDamage": 0.5
+        },
+        "cannon_breech_01_dm": {
+          "armorThickness": 10.0
+        },
+        "cannon_breech_02_dm": {
+          "armorThickness": 10.0
+        },
+        "cannon_breech_03_dm": {
+          "armorThickness": 10.0
+        },
+        "cannon_breech_04_dm": {
+          "armorThickness": 10.0
+        },
+        "cannon_breech_05_dm": {
+          "armorThickness": 10.0
+        }
+      },
+      "power_block": {
+        "armorClass": "armor_tank_engine",
+        "hp": 100.0,
+        "armorThickness": 150.0,
+        "fireProtectionHp": 5.0,
+        "restrainDamage": 0.5,
+        "engine_dm": [],
+        "transmission_dm": []
       },
       "ammo": {
         "armorClass": "tank_structural_steel",
@@ -2396,7 +2420,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2300
+            "bullets": 2400
           },
           {
             "fireConeAngle": 15.0
@@ -2462,7 +2486,7 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "bullets": 2300,
+          "bullets": 3600,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
           "ChainfireTime": 0.5,
@@ -2512,7 +2536,10 @@
       "tracks": {
         "animationMultiplier": 0.62,
         "width": 0.61,
-        "height": 0.06
+        "height": 0.06,
+        "fricFrontal": [1.0,1.0],
+        "criticalHillAngle": 27.0,
+        "hillClimbingDeclineFricKoef": 15.0
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -3292,7 +3319,7 @@
                   "fireConeAngle": 1.0
                 },
                 {
-                  "bullets": 2300
+                  "bullets": 2400
                 },
                 {
                   "fireConeAngle": 15.0
@@ -3358,7 +3385,7 @@
                 "parkInDeadzone": false,
                 "speedYaw": 30.0,
                 "speedPitch": 20.0,
-                "bullets": 2300,
+                "bullets": 3600,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
                 "ChainfireTime": 0.5,
@@ -3394,6 +3421,7 @@
                 "emitter": "emtr_mortar_flame_01",
                 "emitterGenRange": [1,10],
                 "emitterGenFmt": "emtr_mortar_flame_%02d",
+                "ignoreLoaderPenalty": true,
                 "createGunEffects": true,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
@@ -3429,6 +3457,29 @@
               }
             }
           ]
+        }
+      },
+      "night_vision_system": {
+        "tier": 2,
+        "effects": {
+          "nightVision": {
+            "gunnerThermal": {
+              "resolution": [500,300],
+              "noiseFactor": 0.05
+            },
+            "commanderIr": {
+              "resolution": [1600,1200],
+              "lightMult": 9.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            },
+            "driverIr": {
+              "resolution": [800,600],
+              "lightMult": 5.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            }
+          }
         }
       }
     }

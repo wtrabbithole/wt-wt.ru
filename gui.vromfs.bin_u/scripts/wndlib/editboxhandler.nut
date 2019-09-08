@@ -1,4 +1,4 @@
-function gui_modal_editbox_wnd(params)
+::gui_modal_editbox_wnd <- function gui_modal_editbox_wnd(params)
 {
   if (!params?.okFunc)
     return
@@ -17,6 +17,8 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
   maxLen = 0
   multiline = false
   charMask = null
+  editBoxEnableFunc = null
+  editBoxTextOnDisable = null
 
   title = ::loc("mainmenu/password")
   editboxHeaderText = ""
@@ -26,6 +28,7 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
   checkButtonFunc = null
 
   editBoxObj = null
+  needOpenIMEonInit = true
 
   function initScreen()
   {
@@ -34,14 +37,20 @@ class ::gui_handlers.EditBoxHandler extends ::BaseGuiHandler
 
     editBoxObj = showSceneBtn(multiline ? "edit_box_window_text_multiline" : "edit_box_window_text", true)
 
+    local isEnabled = editBoxEnableFunc? editBoxEnableFunc() : true
+    editBoxObj.enable(isEnabled)
+    if (isEnabled)
+      editBoxObj.select()
+    if (editBoxTextOnDisable)
+      editBoxObj["edit-hint"] = editBoxTextOnDisable
     if (value)
       editBoxObj.setValue(value)
     if (maxLen)
       editBoxObj["max-len"] = maxLen.tostring()
     if (charMask)
       editBoxObj["char-mask"] = charMask
-    editBoxObj.select()
-    editBoxObj.setValue(true) //opens IME, not change text.
+    if (needOpenIMEonInit)
+      editBoxObj.setValue(true) //opens IME, not change text.
 
     updateBtnByValue(value || "")
     value = null

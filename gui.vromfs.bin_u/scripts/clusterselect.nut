@@ -1,78 +1,72 @@
-class ::gui_handlers.ClusterSelect extends ::gui_handlers.BaseGuiHandlerWT
+local stdMath = require("std/math.nut")
+
+local getViewClusters = function()
 {
-  wndType = handlerType.MODAL
-  shouldBlurSceneBg = false
-  needVoiceChat = false
-  parentObj = null
-  align = null
-
-  static function open(parent_obj, align)
+  local viewClusters = []
+  local clusterOpt = ::get_option(::USEROPT_RANDB_CLUSTER)
+  foreach (idx, item in clusterOpt.items)
   {
-    local params = {
-      parentObj = parent_obj
-      align = align
-    }
-    ::handlersManager.loadHandler(::gui_handlers.ClusterSelect, params)
+    viewClusters.push({
+      id = "cluster_item_" + idx
+      value = idx
+      selected = stdMath.is_bit_set(clusterOpt.value, idx)
+      text = item.text
+    })
   }
+  return viewClusters
+}
 
-  function initScreen()
-  {
-    if (!::checkObj(scene))
-      return goBack()
-    if (!::checkObj(parentObj))
-      return goBack()
-    if (::checkObj(guiScene["cluster_select"])) //duplicate protection
-      return goBack()
-
-    fill()
-  }
-
-  function fill()
-  {
-    local view = {
-      clusters = getViewClusters()
-    }
-
-    local blk = ::handyman.renderCached(("gui/clusterSelect"), view)
-    guiScene.replaceContentFromText(scene, blk, blk.len(), this)
-
-    local clusterMultiSelectObject = scene.findObject("cluster_multi_select")
-    if (::checkObj(clusterMultiSelectObject))
-    {
-      align = ::g_dagui_utils.setPopupMenuPosAndAlign(parentObj, align, scene.findObject("cluster_select"))
+local createClusterSelectMenu = function(placeObj, alight = "top")
+{
+  ::gui_start_multi_select_menu({
+    list = getViewClusters()
+    onChangeValuesBitMaskCb = function(mask) {
       local clusterOpt = ::get_option(::USEROPT_RANDB_CLUSTER)
-      clusterMultiSelectObject.setValue(clusterOpt.value)
-      clusterMultiSelectObject.select()
+      ::set_option(::USEROPT_RANDB_CLUSTER, mask, clusterOpt)
     }
-  }
+    align = alight
+    alignObj = placeObj
+  })
+}
 
-  function getViewClusters()
-  {
-    local viewClusters = []
-    local clusterOpt = ::get_option(::USEROPT_RANDB_CLUSTER)
-    foreach (idx, item in clusterOpt.items)
-    {
-      viewClusters.push({
-        id = "cluster_item_" + idx
-        value = idx
-        text = item.text
-      })
-    }
-    return viewClusters
-  }
+local getCurrentClustersTexts = function()
+{
+  local clusterOpt = ::get_option(::USEROPT_RANDB_CLUSTER)
+  local result = []
+  for (local i = 0; i < clusterOpt.values.len(); i++)
+    if ((clusterOpt.value & (1 << i)) > 0)
+      result.append(clusterOpt.items[i].text)
+  return result
+}
 
-  function onClusterSelect(obj)
-  {
-    if (!checkObj(obj))
-      return
-    if (obj.getValue() <= 0)
-      return
-    local clusterOpt = ::get_option(::USEROPT_RANDB_CLUSTER)
-    ::set_option(::USEROPT_RANDB_CLUSTER, obj.getValue(), clusterOpt)
-  }
+local updateClusters = function(placeObj)
+{
+  if (!::check_obj(placeObj))
+    return
 
-  static function isOpenedFor(obj)
+  local clustersText = ::loc("options/cluster") + ::loc("ui/colon")
+  local currentClusterNames = getCurrentClustersTexts()
+  local first = true
+  foreach(clusterName in currentClusterNames)
   {
-    return ::checkObj(obj.findObject("cluster_select"))
+    clustersText += (first ? "" : "; ") + ::loc(clusterName)
+    first = false
   }
+  placeObj.setValue(clustersText)
+}
+
+local getCurrentClusters = function()
+{
+  local clusterOpt = ::get_option(::USEROPT_RANDB_CLUSTER)
+  local result = []
+  for (local i = 0; i < clusterOpt.values.len(); i++)
+    if ((clusterOpt.value & (1 << i)) > 0)
+      result.append(clusterOpt.values[i])
+  return result
+}
+
+return {
+  createClusterSelectMenu = createClusterSelectMenu
+  updateClusters = updateClusters
+  getCurrentClusters = getCurrentClusters
 }

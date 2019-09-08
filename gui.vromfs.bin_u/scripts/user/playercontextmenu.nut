@@ -147,7 +147,7 @@ local getActions = function(contact, params)
     }
     {
       text = ::loc("mainmenu/btnUserCard")
-      show = getPlayerCardInfoTable(uid, name).len() > 0
+      show = ::has_feature("UserCards") && getPlayerCardInfoTable(uid, name).len() > 0
       action = @() ::gui_modal_userCard(getPlayerCardInfoTable(uid, name))
     }
     {
@@ -309,6 +309,11 @@ local getActions = function(contact, params)
         text = ::loc("contacts/friendlist/remove")
         show = isFriend && !::isPlayerPS4Friend(name)
         action = @() ::editContactMsgBox(contact, ::EPL_FRIENDLIST, false)
+      }
+      {
+        text = ::loc("contacts/facebooklist/remove")
+        show = params?.curContactGroup == ::EPL_FACEBOOK && ::isPlayerInContacts(uid, ::EPL_FACEBOOK)
+        action = @() ::editContactMsgBox(contact, ::EPL_FACEBOOK, false)
       }
       {
         text = ::loc("contacts/blacklist/add")

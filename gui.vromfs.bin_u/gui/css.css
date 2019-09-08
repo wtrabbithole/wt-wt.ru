@@ -4,6 +4,7 @@
 @import "cssElems\buttons.css"
 @import "cssElems\checkbox.css"
 @import "cssElems\switchbox.css"
+@import "missions\mapPreferences.css"
 
 @import "optionlist.css"
 @import "tacticalscr.css"
@@ -17,6 +18,12 @@
 tdiv, img, img2, pcHide, pcOnly, shopAirImg, voiceIcon {
   input-transparent: yes;
   if_target_pc:@target_pc;
+}
+
+menu_background_color {
+  size:sw, sh;
+  position:root;
+  background-color:#90000000;
 }
 
 cardImg {
@@ -759,6 +766,12 @@ widthLine {
   hideEmptyText:yes;
 }
 
+[textStyle=mis-map] > textareaNoTab {
+  width:pw-2@blockInterval;
+  font:@fontNormal;
+  hideEmptyText:yes;
+}
+
 [textStyle=mis-middle] text, [textStyle=mis-middle] textareaNoTab {
   width:50%pw;
   hideEmptyText:yes;
@@ -1172,6 +1185,10 @@ tr[inactive=yes]:hover {
   foreground-color:@transparent;
 }
 
+tr[insetHeader=yes]:hover {
+  background-color:@evenTrColor;
+}
+
 tr[selected=yes], [higlightRowOnHover=yes] > tr:hover {
   _needHighLight:yes;
 }
@@ -1398,6 +1415,14 @@ tr[inactive=yes] {
   input-transparent:yes;
 }
 
+tr[selected=yes] > td[autoScrollText="hoverOrSelect"] > activeText,
+tr::hover > td[autoScrollText="hoverOrSelect"] > activeText {
+  behaviour:OverflowScroller;
+  move-pixel-per-sec:15*@scrn_tgt/100.0;
+  move-sleep-time:8000;
+  move-delay-time:2000;
+}
+
 .tooltipTable td {
   padding:0.5*@scrn_tgt/100.0, 2*@sf/@pf_outdated;
 }
@@ -1421,6 +1446,7 @@ td[team=a] > text, td[team=b] > text {
 teamAImg, teamBImg {
   height:0.035@sf;
   width:h;
+  background-svg-size:0.035@sf, 0.035@sf;
   position:relative;
   top:50%ph-50%h;
   input-transparent:yes;
@@ -1428,12 +1454,12 @@ teamAImg, teamBImg {
 
 teamAImg, [team=a] > teamImg, [teamIco=allies] > teamImg {
   background-color:@white;
-  background-image:#ui/gameuiskin#mp_logo_allies;
+  background-image:#ui/gameuiskin#mp_logo_allies.svg;
 }
 
 teamBImg, [team=b] > teamImg, [teamIco=axis] > teamImg {
   background-color:@white;
-  background-image:#ui/gameuiskin#mp_logo_axis;
+  background-image:#ui/gameuiskin#mp_logo_axis.svg;
 }
 
 [playerTeam=a] [team=b] > teamImg, [team=red] > teamImg,
@@ -1453,7 +1479,7 @@ teamBImg, [team=b] > teamImg, [teamIco=axis] > teamImg {
 td[team] > teamImg {
   height:@tableIcoSize;
   width:h;
-  background-svg-size:@cIco, @cIco;
+  background-svg-size:@tableIcoSize, @tableIcoSize;
   position:relative;
   pos:50%pw-50%w, 50%ph-50%h;
 }
@@ -1466,17 +1492,19 @@ teamImg > activeText {
 }
 
 [team=blue] > teamImg[iconSquad=squad] {
+  size:0.033@sf, 0.033@sf;
+  background-svg-size:0.033@sf, 0.033@sf;
   background-image:#ui/gameuiskin#icon_squad;
   background-color:@white;
-  size:0.033@sf, 0.033@sf;
 }
 [team=blue] > teamImg[iconSquad=squad][topSquad=yes] {
   background-image:#ui/gameuiskin#icon_best_squad;
 }
 [team=red] > teamImg[iconSquad=squad] {
+  size:0.033@sf, 0.033@sf;
+  background-svg-size:0.033@sf, 0.033@sf;
   background-image:#ui/gameuiskin#icon_squad_enemy;
   background-color:@white;
-  size:0.033@sf, 0.033@sf;
 }
 [team=red] > teamImg[iconSquad=squad][topSquad=yes] {
   background-image:#ui/gameuiskin#icon_best_squad_enemy;
@@ -1485,8 +1513,9 @@ teamImg[iconSquad=squad] > activeText {
   margin-top:0.01@sf;
 }
 teamImg[iconSquad=autosquad] {
-  background-image:#ui/gameuiskin#table_autosquad_background;
   size:0.025@sf, 0.025@sf;
+  background-svg-size:0.025@sf, 0.025@sf;
+  background-image:#ui/gameuiskin#table_autosquad_background;
 }
 teamImg[iconSquad=autosquad][topSquad=yes] {
   background-image:#ui/gameuiskin#table_best_autosquad_background;
@@ -2337,12 +2366,15 @@ BottomMenuPanel > shadowSafeArea {
 }
 
 CompanyLogo {
-  re-type:9rect;
-  size:256*@loginLogoScale, 128*@loginLogoScale;
-  background-image:#ui/gaijin_logo;
-  background-repeat:expand;
-  background-position:0;
-  background-color:@white;
+  re-type: fgPict;
+  size: @companyLogoW, @companyLogoH;
+  foreground-svg-size: @companyLogoW, @companyLogoH;
+  foreground-image: !ui/gaijin_logo.svg;
+  foreground-repeat: aspect-ratio;
+  foreground-color: #ffffff;
+  background-image: #ui/gaijin_logo_shadow;
+  background-repeat: aspect-ratio;
+  background-color: #80000000;
   input-transparent:yes;
 }
 
@@ -2384,7 +2416,7 @@ GameLogoPlate {
 GameLogoPlate > Shadow {
   re-type:9rect;
   position:relative;
-  padding:3*@sf/@pf_outdated, 2*@sf/@pf_outdated;
+  padding:@titleLogoShadePaddingW, @titleLogoShadePaddingH;
   background-image:#ui/gameuiskin#window_body_shadow;
   background-color:@white;
   background-position:6;
@@ -2393,7 +2425,7 @@ GameLogoPlate > Shadow {
 
 GameLogoPlate redPlate {
   re-type:9rect;
-  padding:3*@sf/@pf_outdated, 2*@sf/@pf_outdated;
+  padding:@titleLogoShadePaddingW, @titleLogoShadePaddingH;
   background-image:#ui/gameuiskin#red_plate;
   background-color:@white;
   background-position:6;
@@ -2462,12 +2494,6 @@ activeText[airCanBuy=no] {
 }
 
 airInfoBlock {
-  background-image: #ui/gameuiskin#expandable_item_ww_transp_reflect;
-  re-type:9rect;
-  background-position:3, 3, 33, 3;
-  color-factor:175;
-  background-color: @white;
-  background-repeat: expand;
   flow:horizontal;
   pos: 0, @infoPanelVertPosition;
   position:absolute;
@@ -2476,7 +2502,18 @@ airInfoBlock {
   total-input-transparent:yes;
 }
 
-airInfoBlock[toggled=no] {
+airInfoBlock > bgGradientLeft {
+  size:pw - 0.5(sw - @swMain), ph;
+  pos:pw-w, 0;
+  position:absolute;
+  background-image: #ui/gameuiskin#expandable_item_ww_transp_reflect;
+  re-type:9rect;
+  background-position:3, 3, 33, 3;
+  color-factor:175;
+  background-color:@white;
+  background-repeat:expand;
+}
+airInfoBlock[toggled=no] > bgGradientLeft {
   background-color:@transparent;
 }
 
@@ -2491,6 +2528,10 @@ airInfoBlock text {
 
 crewUnitSpecUpgradeTooltip textareaNoTab[exp_upgrade_text_area=yes] {
   font:@fontSmall;
+}
+
+mapNest[selected=yes] textareaNoTab{
+  color:@hoverMenuButtonColor;
 }
 
 airInfoBlock textarea[crew_data=yes], airInfoBlock text[crew_data=yes] {
@@ -2669,11 +2710,6 @@ ShadowPlate {
 ShadeDiv {
   background-color:#91020509;
 }
-
-ShadeDiv.authorization {
-  position:relative;
-  pos:50%pw-50%w;
-  width:pw-2@dp;    padding:0.015@scrn_tgt + 1@framePadding,0.01@scrn_tgt; }
 
 debriefingTab {
   size:pw, ph;

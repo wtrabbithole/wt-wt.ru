@@ -2,12 +2,12 @@ local protectionAnalysis = ::require("scripts/dmViewer/protectionAnalysis.nut")
 
 const SLOT_INFO_CFG_SAVE_PATH = "show_slot_info_panel_tab"
 
-function create_slot_info_panel(parent_scene, show_tabs, configSaveId)
+::create_slot_info_panel <- function create_slot_info_panel(parent_scene, show_tabs, configSaveId)
 {
-  if (!::checkObj(parent_scene))
+  if (!::check_obj(parent_scene))
     return null
   local containerObj = parent_scene.findObject("slot_info")
-  if (!::checkObj(containerObj))
+  if (!::check_obj(containerObj))
     return null
   local params = {
     scene = containerObj
@@ -24,6 +24,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
   showTabs = false
   configSavePath = ""
   isSceneForceHidden = false
+  infoPanelObj = null
   listboxObj = null
 
   tabsInfo = [
@@ -34,6 +35,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
         discountId = "unit_lb_discount",
         contentId = "air_info_content",
         fillerFunction = function() { updateAirInfo(true) }
+        reqFeature = ""
       },
       {
         tooltip = "#slotInfoPanel/crewInfo/tooltip",
@@ -42,6 +44,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
         discountId = "crew_lb_discount",
         contentId = "crew_info_content",
         fillerFunction = function() { updateCrewInfo(true) }
+        reqFeature = "CrewInfo"
       },
       {
         tooltip = "#mainmenu/btnFavoritesUnlockAchievement",
@@ -50,6 +53,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
         discountId = "",
         contentId = "unlockachievement_content",
         fillerFunction = function() { showUnlockAchievementInfo() }
+        reqFeature = "Profile"
       }
     ]
 
@@ -57,8 +61,13 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    scene.show(true)
+    infoPanelObj = scene.findObject("slot_info_side_panel")
+    infoPanelObj.show(true)
     ::dmViewer.init(this)
+
+    for (local i = tabsInfo.len() - 1; i >= 0; i--)
+      if (tabsInfo[i].reqFeature != "" && !::has_feature(tabsInfo[i].reqFeature))
+        tabsInfo.remove(i)
 
     local showTabsCount = showTabs ? tabsInfo.len() : 1
 
@@ -109,12 +118,11 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function onAirInfoWeapons()
   {
-    local airName = getCurShowUnitName()
-    if (airName == "")
+    local unit = getCurShowUnit()
+    if (!unit)
       return
 
-    ::aircraft_for_weapons = airName
-    ::gui_modal_weapons()
+    ::open_weapons_for_unit(unit)
   }
 
   function onProtectionAnalysis()
@@ -228,7 +236,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       doWhenActiveOnce("updateVisibleTabContent")
     }
     base.onSceneActivate(show)
-    scene.show(show)
+    if (::check_obj(infoPanelObj))
+      infoPanelObj.show(show)
   }
 
   function onEventShopWndVisible(p)

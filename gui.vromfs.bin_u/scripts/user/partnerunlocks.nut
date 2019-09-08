@@ -12,7 +12,7 @@ local time = require("scripts/time.nut")
   partnerExectutedUnlocks = {}
 }
 
-function g_partner_unlocks::requestPartnerUnlocks()
+g_partner_unlocks.requestPartnerUnlocks <- function requestPartnerUnlocks()
 {
   if (!canRefreshData())
     return
@@ -34,7 +34,7 @@ function g_partner_unlocks::requestPartnerUnlocks()
                             successCb)
 }
 
-function g_partner_unlocks::canRefreshData()
+g_partner_unlocks.canRefreshData <- function canRefreshData()
 {
   if (lastRequestTime > lastUpdateTime && lastRequestTime + REQUEST_TIMEOUT_MSEC > ::dagor.getCurTime())
     return false
@@ -44,7 +44,7 @@ function g_partner_unlocks::canRefreshData()
   return true
 }
 
-function g_partner_unlocks::getPartnerUnlockTime(unlockId)
+g_partner_unlocks.getPartnerUnlockTime <- function getPartnerUnlockTime(unlockId)
 {
   if (::u.isEmpty(unlockId))
     return null
@@ -59,7 +59,7 @@ function g_partner_unlocks::getPartnerUnlockTime(unlockId)
   return partnerExectutedUnlocks[unlockId]
 }
 
-function g_partner_unlocks::applyNewPartnerUnlockData(result)
+g_partner_unlocks.applyNewPartnerUnlockData <- function applyNewPartnerUnlockData(result)
 {
   if (!::u.isDataBlock(result))
     return false
@@ -72,7 +72,7 @@ function g_partner_unlocks::applyNewPartnerUnlockData(result)
   return true
 }
 
-function g_partner_unlocks::isPartnerUnlockAvailable(unlockId, durationMin = null)
+g_partner_unlocks.isPartnerUnlockAvailable <- function isPartnerUnlockAvailable(unlockId, durationMin = null)
 {
   if (!unlockId)
     return true
@@ -89,7 +89,7 @@ function g_partner_unlocks::isPartnerUnlockAvailable(unlockId, durationMin = nul
   return endSec > ::get_charserver_time_sec()
 }
 
-function g_partner_unlocks::onEventSignOut(p)
+g_partner_unlocks.onEventSignOut <- function onEventSignOut(p)
 {
   lastRequestTime = -9999999999
   lastUpdateTime = -9999999999

@@ -1,8 +1,21 @@
 //This is list of all darg native functions and consts, to use in mockups
-function Color(r,g,b,a=255) {
+::Color <- function Color(r,g,b,a=255) {
   return (a << 24) + (r << 16) + (g << 8) + b;
 }
 
+
+local function updateWatched(val){
+  if (::type(val) == "function"){
+    if (val.getfuncinfos().parameters.len()==2)
+      val(this.value)
+    else
+      val()
+  }
+  else
+    this.value=val
+  foreach (key,func in this.subscribers)
+    func(val)
+}
 
 ::Watched <-class {
   value=null
@@ -11,19 +24,8 @@ function Color(r,g,b,a=255) {
     value=val
     subscribers = {}
   }
-  function update(val) {
-    value=val
-    foreach (key,func in subscribers)
-      func(val)
-  }
-  _call = function(self,val) {
-    value=val
-    foreach (key,func in subscribers)
-      func(val)
-  }
-  _tostring = function(){
-    return "::Watched: " + value
-  }
+  update = updateWatched
+  _call = @(env, val) updateWatched(val)
   function trigger() {return null}
   function trace() {return ""}
   function subscribe(func) {
@@ -41,10 +43,11 @@ function Color(r,g,b,a=255) {
   circleButtonAsAction = false
   config = {
     defaultFont = 0
-    joystickScrollCursor = true
+    joystickScrollCursor = null
+    kbCursorControl = false
     gamepadCursorSpeed = 1.0
     defSceneBgColor =Color(10,10,10,160)
-    setJoystickClickButtons = @(list) null
+    setClickButtons = @(list) null
     gamepadCursorControl = true
     reportNestedWatchedUpdate = false
     gamepadCursorDeadZone = 0.05
@@ -66,7 +69,7 @@ function Color(r,g,b,a=255) {
 }
 ::ScrollHandler <- class{}
 ::ElemGroup <- @() {}
-enum AnimProp{
+global enum AnimProp{
   color
   bgColor
   fgColor
@@ -82,47 +85,47 @@ enum AnimProp{
 ::anim_start<-@(anim) null
 ::anim_request_stop<-@(anim) null
 
-function vlog(val) {
+::vlog <- function vlog(val) {
   print("" +val + "\n")
 }
 
-function logerr(val) {
+::logerr <- function logerr(val) {
   print("" +val + "\n")
 }
 
-function debug(val) {
+::debug <- function debug(val) {
   print("" +val + "\n")
 }
 
-function fontH(height) {
+::fontH <- function fontH(height) {
   return height
 }
 
-function flex(weight=1) {
+::flex <- function flex(weight=1) {
   return weight*100
 }
 
-function sw(val) {
+::sw <- function sw(val) {
   return val*1920
 }
 
-function w(val) {
+::w <- function w(val) {
   return val.tointeger()
 }
 
-function h(val) {
+::h <- function h(val) {
   return val.tointeger()
 }
 
-function sh(val) {
+::sh <- function sh(val) {
   return val*1080
 }
 
-function pw(val) {
+::pw <- function pw(val) {
   return val*100
 }
 
-function ph(val) {
+::ph <- function ph(val) {
   return val*100
 }
 
@@ -134,10 +137,10 @@ function ph(val) {
   BoundToArea = "BoundToArea"
 }
 
-function Picture(val){return val}
-function Cursor(val) {return val}
+::Picture <- function Picture(val){return val}
+::Cursor <- function Cursor(val) {return val}
 
-enum Layers {
+global enum Layers {
   Default
   Upper
   ComboPopup
@@ -146,132 +149,133 @@ enum Layers {
   Inspector
 }
 
-const ROBJ_IMAGE = "ROBJ_IMAGE"
-const ROBJ_STEXT = "ROBJ_STEXT"
-const ROBJ_DTEXT = "ROBJ_DTEXT"
-const ROBJ_TEXTAREA = "ROBJ_TEXTAREA"
-const ROBJ_BOX = "ROBJ_BOX"
-const ROBJ_SOLID = "ROBJ_SOLID"
-const ROBJ_FRAME = "ROBJ_FRAME"
-const ROBJ_PROGRESS_CIRCULAR = "ROBJ_PROGRESS_CIRCULAR"
-const ROBJ_WORLD_BLUR = "ROBJ_WORLD_BLUR"
-const ROBJ_WORLD_BLUR_PANEL = "ROBJ_WORLD_BLUR_PANEL"
-const ROBJ_VECTOR_CANVAS = "ROBJ_VECTOR_CANVAS"
-const VECTOR_POLY = "VECTOR_POLY"
-const ROBJ_MASK = "ROBJ_MASK"
+global const ROBJ_IMAGE = "ROBJ_IMAGE"
+global const ROBJ_STEXT = "ROBJ_STEXT"
+global const ROBJ_DTEXT = "ROBJ_DTEXT"
+global const ROBJ_TEXTAREA = "ROBJ_TEXTAREA"
+global const ROBJ_BOX = "ROBJ_BOX"
+global const ROBJ_SOLID = "ROBJ_SOLID"
+global const ROBJ_FRAME = "ROBJ_FRAME"
+global const ROBJ_PROGRESS_CIRCULAR = "ROBJ_PROGRESS_CIRCULAR"
+global const ROBJ_WORLD_BLUR = "ROBJ_WORLD_BLUR"
+global const ROBJ_WORLD_BLUR_PANEL = "ROBJ_WORLD_BLUR_PANEL"
+global const ROBJ_VECTOR_CANVAS = "ROBJ_VECTOR_CANVAS"
+global const VECTOR_POLY = "VECTOR_POLY"
+global const ROBJ_MASK = "ROBJ_MASK"
 
-const FLOW_PARENT_RELATIVE = "PARENT_RELATIVE"
-const FLOW_HORIZONTAL = "FLOW_HORIZONTAL"
-const FLOW_VERTICAL = "FLOW_VERTICAL"
+global const FLOW_PARENT_RELATIVE = "PARENT_RELATIVE"
+global const FLOW_HORIZONTAL = "FLOW_HORIZONTAL"
+global const FLOW_VERTICAL = "FLOW_VERTICAL"
 
-const HALIGN_LEFT = "HALIGN_LEFT"
-const HALIGN_CENTER ="HALIGN_CENTER"
-const HALIGN_RIGHT="HALIGN_RIGHT"
-const VALIGN_TOP="VALIGN_TOP"
-const VALIGN_MIDDLE="VALIGN_MIDDLE"
-const VALIGN_BOTTOM="VALIGN_BOTTOM"
+global const HALIGN_LEFT = "HALIGN_LEFT"
+global const HALIGN_CENTER ="HALIGN_CENTER"
+global const HALIGN_RIGHT="HALIGN_RIGHT"
+global const VALIGN_TOP="VALIGN_TOP"
+global const VALIGN_MIDDLE="VALIGN_MIDDLE"
+global const VALIGN_BOTTOM="VALIGN_BOTTOM"
 
-const VECTOR_WIDTH="VECTOR_WIDTH"
-const VECTOR_COLOR="VECTOR_COLOR"
-const VECTOR_FILL_COLOR="VECTOR_FILL_COLOR"
-const VECTOR_LINE="VECTOR_LINE"
-const VECTOR_ELLIPSE="VECTOR_ELLIPSE"
-const VECTOR_RECTANGLE="VECTOR_RECTANGLE"
+global const VECTOR_WIDTH="VECTOR_WIDTH"
+global const VECTOR_COLOR="VECTOR_COLOR"
+global const VECTOR_FILL_COLOR="VECTOR_FILL_COLOR"
+global const VECTOR_LINE="VECTOR_LINE"
+global const VECTOR_ELLIPSE="VECTOR_ELLIPSE"
+global const VECTOR_RECTANGLE="VECTOR_RECTANGLE"
 
-const FFT_NONE="FFT_NONE"
-const FFT_SHADOW="FFT_SHADOW"
-const FFT_GLOW="FFT_GLOW"
-const FFT_BLUR="FFT_BLUR"
-const FFT_OUTLINE="FFT_OUTLINE"
+global const FFT_NONE="FFT_NONE"
+global const FFT_SHADOW="FFT_SHADOW"
+global const FFT_GLOW="FFT_GLOW"
+global const FFT_BLUR="FFT_BLUR"
+global const FFT_OUTLINE="FFT_OUTLINE"
 
-const O_HORIZONTAL="O_HORIZONTAL"
-const O_VERTICAL="O_VERTICAL"
+global const O_HORIZONTAL="O_HORIZONTAL"
+global const O_VERTICAL="O_VERTICAL"
 
-const TOVERFLOW_CLIP="TOVERFLOW_CLIP"
-const TOVERFLOW_CHAR="TOVERFLOW_CHAR"
-const TOVERFLOW_WORD="TOVERFLOW_WORD"
-const TOVERFLOW_LINE="TOVERFLOW_LINE"
-const EVENT_BREAK = "EVENT_BREAK"
-const EVENT_CONTINUE= "EVENT_CONTINUE"
-
-
-
-
-
-const Linear = "Linear"
-
-const InQuad = "InQuad"
-const OutQuad = "OutQuad"
-const InOutQuad = "InOutQuad"
-
-const InCubic = "InCubic"
-const OutCubic = "OutCubic"
-const InOutCubic = "InOutCubic"
-
-const InQuintic = "InQuintic"
-const OutQuintic = "OutQuintic"
-const InOutQuintic = "InOutQuintic"
-
-const InQuart = "InQuart"
-const OutQuart = "OutQuart"
-const InOutQuart = "InOutQuart"
-
-const InSine = "InSine"
-const OutSine = "OutSine"
-const InOutSine = "InOutSine"
-
-const InCirc = "InCirc"
-const OutCirc = "OutCirc"
-const InOutCirc = "InOutCirc"
-
-const InExp = "InExp"
-const OutExp = "OutExp"
-const InOutExp = "InOutExp"
-
-const InElastic = "InElastic"
-const OutElastic = "OutElastic"
-const InOutElastic = "InOutElastic"
-
-const InBack = "InBack"
-const OutBack = "OutBack"
-const InOutBack = "InOutBack"
-
-const InBounce = "InBounce"
-const OutBounce = "OutBounce"
-const InOutBounce = "InOutBounce"
-
-const InOutBezier = "InOutBezier"
-const CosineFull = "CosineFull"
-
-const InStep = "InStep"
-const OutStep = "OutStep"
-
-const Blink = "Blink"
-const DoubleBlink = "DoubleBlink"
-const BlinkSin = "BlinkSin"
-const BlinkCos = "BlinkCos"
-
-const Discrete8 = "Discrete8"
-
-const Shake4 = "Shake4"
-const Shake6 = "Shake6"
+global const TOVERFLOW_CLIP="TOVERFLOW_CLIP"
+global const TOVERFLOW_CHAR="TOVERFLOW_CHAR"
+global const TOVERFLOW_WORD="TOVERFLOW_WORD"
+global const TOVERFLOW_LINE="TOVERFLOW_LINE"
+global const EVENT_BREAK = "EVENT_BREAK"
+global const EVENT_CONTINUE= "EVENT_CONTINUE"
+global const HOOK_ATTACH = "HOOK_ATTACH"
 
 
 
-const S_KB_FOCUS=0
-const S_HOVER=1
-const S_TOP_HOVER=2
-const S_ACTIVE=3
-const S_DRAG=4
 
-const MR_NONE="MR_NONE"
-const MR_T="MR_T"
-const MR_R="MR_R"
-const MR_B="MR_B"
-const MR_L="MR_L"
-const MR_LT="MR_LT"
-const MR_RT="MR_RT"
-const MR_LB="MR_LB"
-const MR_RB="MR_RB"
-const MR_AREA="MR_AREA"
-const SIZE_TO_CONTENT="SIZE_TO_CONTENT"
+
+global const Linear = "Linear"
+
+global const InQuad = "InQuad"
+global const OutQuad = "OutQuad"
+global const InOutQuad = "InOutQuad"
+
+global const InCubic = "InCubic"
+global const OutCubic = "OutCubic"
+global const InOutCubic = "InOutCubic"
+
+global const InQuintic = "InQuintic"
+global const OutQuintic = "OutQuintic"
+global const InOutQuintic = "InOutQuintic"
+
+global const InQuart = "InQuart"
+global const OutQuart = "OutQuart"
+global const InOutQuart = "InOutQuart"
+
+global const InSine = "InSine"
+global const OutSine = "OutSine"
+global const InOutSine = "InOutSine"
+
+global const InCirc = "InCirc"
+global const OutCirc = "OutCirc"
+global const InOutCirc = "InOutCirc"
+
+global const InExp = "InExp"
+global const OutExp = "OutExp"
+global const InOutExp = "InOutExp"
+
+global const InElastic = "InElastic"
+global const OutElastic = "OutElastic"
+global const InOutElastic = "InOutElastic"
+
+global const InBack = "InBack"
+global const OutBack = "OutBack"
+global const InOutBack = "InOutBack"
+
+global const InBounce = "InBounce"
+global const OutBounce = "OutBounce"
+global const InOutBounce = "InOutBounce"
+
+global const InOutBezier = "InOutBezier"
+global const CosineFull = "CosineFull"
+
+global const InStep = "InStep"
+global const OutStep = "OutStep"
+
+global const Blink = "Blink"
+global const DoubleBlink = "DoubleBlink"
+global const BlinkSin = "BlinkSin"
+global const BlinkCos = "BlinkCos"
+
+global const Discrete8 = "Discrete8"
+
+global const Shake4 = "Shake4"
+global const Shake6 = "Shake6"
+
+
+
+global const S_KB_FOCUS=0
+global const S_HOVER=1
+global const S_TOP_HOVER=2
+global const S_ACTIVE=3
+global const S_DRAG=4
+
+global const MR_NONE="MR_NONE"
+global const MR_T="MR_T"
+global const MR_R="MR_R"
+global const MR_B="MR_B"
+global const MR_L="MR_L"
+global const MR_LT="MR_LT"
+global const MR_RT="MR_RT"
+global const MR_LB="MR_LB"
+global const MR_RB="MR_RB"
+global const MR_AREA="MR_AREA"
+global const SIZE_TO_CONTENT="SIZE_TO_CONTENT"

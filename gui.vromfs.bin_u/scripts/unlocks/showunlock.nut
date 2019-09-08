@@ -2,7 +2,7 @@ local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 
 ::delayed_unlock_wnd <- []
-function showUnlockWnd(config)
+::showUnlockWnd <- function showUnlockWnd(config)
 {
   if (::isHandlerInScene(::gui_handlers.ShowUnlockHandler) ||
       ::isHandlerInScene(::gui_handlers.RankUpModal) ||
@@ -12,11 +12,15 @@ function showUnlockWnd(config)
   ::gui_start_unlock_wnd(config)
 }
 
-function gui_start_unlock_wnd(config)
+::gui_start_unlock_wnd <- function gui_start_unlock_wnd(config)
 {
   local unlockType = ::getTblValue("type", config, -1)
   if (unlockType == ::UNLOCKABLE_COUNTRY)
-    return ::show_country_unlock(config)
+  {
+    if (::isInArray(config.id, ::shopCountriesList))
+      return ::checkRankUpWindow(config.id, -1, 1, config)
+    return false
+  }
   else if (unlockType == "TournamentReward")
     return ::gui_handlers.TournamentRewardReceivedWnd.open(config)
   else if (unlockType == ::UNLOCKABLE_AIRCRAFT)
@@ -29,7 +33,7 @@ function gui_start_unlock_wnd(config)
   return true
 }
 
-function check_delayed_unlock_wnd(prevUnlockData = null)
+::check_delayed_unlock_wnd <- function check_delayed_unlock_wnd(prevUnlockData = null)
 {
   local disableLogId = ::getTblValue("disableLogId", prevUnlockData, null)
   if (disableLogId != null && ::disable_user_log_entry_by_id(disableLogId))
@@ -135,7 +139,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     else if ("id" in config)
     {
       local unlockBlk = ::g_unlocks.getUnlockById(config.id)
-      if (unlockBlk && unlockBlk.aspect_ratio)
+      if (unlockBlk?.aspect_ratio)
         imgObj["height"] = unlockBlk.aspect_ratio + "w"
     }
   }
@@ -157,7 +161,13 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
                                  && ::getTblValue("showPostLink", config, false))
 
     local linkText = ::g_promo.getLinkText(config)
-    local show = ::has_feature("AllowExternalLink") && linkText != ""
+    if (config?.pollId && config?.link)
+    {
+      ::g_webpoll.setPollBaseUrl(config.pollId, config.link)
+      linkText = ::g_webpoll.generatePollUrl(config.pollId)
+    }
+
+    local show = linkText != "" && ::g_promo.isLinkVisible(config)
     local linkObj = showSceneBtn("btn_link_to_site", show)
     if (show)
     {
@@ -231,11 +241,10 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onMsgLink(obj)
   {
-    if(::getTblValue("type", config) == "regionalPromoPopup")
+    if (::getTblValue("type", config) == "regionalPromoPopup")
       ::add_big_query_record("promo_popup_click",
         ::save_to_json({ id = config?.id ?? config?.link ?? config?.popupImage ?? - 1 }))
-    ::g_promo.openLink(this, [obj.link, ::getTblValue("forceExternalBrowser", config, false)],
-      "show_unlock")
+    ::g_promo.openLinkWithSource(this, [ obj?.link, config?.forceExternalBrowser ?? false ], "show_unlock")
   }
 
   function buyUnit()
@@ -321,10 +330,6 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!actionData)
       return
 
-    local action = ::g_promo.performActionTable?[actionData?.action]
-    if (!action)
-      return
-
-    action(this,actionData.paramsArray, "btn_action")
+    ::g_promo.launchAction(actionData, this, null)
   }
 }

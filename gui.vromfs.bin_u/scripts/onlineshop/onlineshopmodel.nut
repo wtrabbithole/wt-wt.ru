@@ -1,5 +1,6 @@
 local xboxShop = ::require("scripts/onlineShop/xboxShop.nut")
-local SecondsUpdater = ::require("sqDagui/timer/secondsUpdater.nut")
+local platform = ::require("scripts/clientState/platform.nut")
+local callbackWhenAppWillActive = require("scripts/clientState/callbackWhenAppWillActive.nut")
 /*
  * Search in price.blk:
  * Search parapm is a table of request fields
@@ -27,7 +28,7 @@ OnlineShopModel <- {
 }
 
 /*API methods*/
-function OnlineShopModel::showGoods(searchRequest)
+OnlineShopModel.showGoods <- function showGoods(searchRequest)
 {
   if (!::has_feature("OnlineShopPacks"))
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
@@ -38,9 +39,6 @@ function OnlineShopModel::showGoods(searchRequest)
     if (customUrl.len())
       return openShopUrl(customUrl)
   }
-
-  if (::is_platform_ps4)
-    return launchPS4Store()
 
   __assyncActionWrap(function ()
     {
@@ -53,22 +51,33 @@ function OnlineShopModel::showGoods(searchRequest)
           if (xboxId != "")
             return ::xbox_show_details(xboxId)
         }
+        else if (::is_platform_ps4)
+        {
+          local psnId = getPsnIdForGoods(goodsName)
+          if (psnId != "")
+            return ::ps4_open_store(psnId, true)
+        }
         else if (getGuidForGoods(goodsName) != "")
           return doBrowserPurchase(goodsName)
       }
 
-      return ::is_platform_xboxone? launchXboxMarketplace() : ::gui_modal_onlineShop()
+      if (::is_platform_xboxone)
+        return launchXboxMarketplace()
+      else if (::is_platform_ps4)
+        return launchPS4Store()
+
+      return ::gui_modal_onlineShop()
     }.bindenv(OnlineShopModel))
 }
 /*end API methods*/
 
-function OnlineShopModel::invalidatePriceBlk()
+OnlineShopModel.invalidatePriceBlk <- function invalidatePriceBlk()
 {
   priceBlk = null
   purchaseDataCache.clear()
 }
 
-function OnlineShopModel::validatePriceBlk()
+OnlineShopModel.validatePriceBlk <- function validatePriceBlk()
 {
   if (priceBlk)
     return
@@ -76,7 +85,7 @@ function OnlineShopModel::validatePriceBlk()
   ::get_shop_prices(priceBlk)
 }
 
-function OnlineShopModel::getPriceBlk()
+OnlineShopModel.getPriceBlk <- function getPriceBlk()
 {
   validatePriceBlk()
   return priceBlk
@@ -84,7 +93,7 @@ function OnlineShopModel::getPriceBlk()
 
 //Check is price.blk is fresh and perform an action.
 //If prise.blk is rotten, upfate price.blk and then perform action.
-function OnlineShopModel::__assyncActionWrap(action)
+OnlineShopModel.__assyncActionWrap <- function __assyncActionWrap(action)
 {
   local isActual = ::configs.ENTITLEMENTS_PRICE.checkUpdate(
     action ? (@() action()).bindenv(this) : null
@@ -97,29 +106,29 @@ function OnlineShopModel::__assyncActionWrap(action)
     action()
 }
 
-function OnlineShopModel::onEventEntitlementsPriceUpdated(p)
+OnlineShopModel.onEventEntitlementsPriceUpdated <- function onEventEntitlementsPriceUpdated(p)
 {
   invalidatePriceBlk()
 }
 
-function OnlineShopModel::onEventSignOut(p)
+OnlineShopModel.onEventSignOut <- function onEventSignOut(p)
 {
   invalidatePriceBlk()
 }
 
-function OnlineShopModel::getGoodsByName(goodsName)
+OnlineShopModel.getGoodsByName <- function getGoodsByName(goodsName)
 {
   return ::getTblValue(goodsName, getPriceBlk())
 }
 
-function OnlineShopModel::isEntitlement(name)
+OnlineShopModel.isEntitlement <- function isEntitlement(name)
 {
   if (typeof name == "string")
     return name in getPriceBlk()
   return false
 }
 
-function OnlineShopModel::searchEntitlement(searchRequest)
+OnlineShopModel.searchEntitlement <- function searchEntitlement(searchRequest)
 {
   local result = []
   if (!searchRequest || typeof searchRequest != "table")
@@ -127,7 +136,7 @@ function OnlineShopModel::searchEntitlement(searchRequest)
 
   foreach (name, ib in getPriceBlk())
   {
-    if (ib.hideWhenUnbought && !::has_entitlement(name))
+    if (ib?.hideWhenUnbought && !::has_entitlement(name))
       continue
     if ("unitName" in searchRequest)
       foreach (unitName in ib % "aircraftGift")
@@ -137,17 +146,25 @@ function OnlineShopModel::searchEntitlement(searchRequest)
   return result
 }
 
-function OnlineShopModel::getGuidForGoods(goodsName)
+OnlineShopModel.getGuidForGoods <- function getGuidForGoods(goodsName)
 {
   return ::loc("guid/" + goodsName, "")
 }
 
-function OnlineShopModel::getXboxIdForGoods(goodsName)
+OnlineShopModel.getXboxIdForGoods <- function getXboxIdForGoods(goodsName)
 {
   return ::loc("xboxId/" + goodsName, "")
 }
 
-function OnlineShopModel::getCustomPurchaseLink(goodsName)
+OnlineShopModel.getPsnIdForGoods <- function getPsnIdForGoods(goodsName)
+{
+  local key = "npmtId/" + platform.ps4RegionName() + "/" + goodsName
+  local id = ::loc(key, "")
+  ::dagor.debug("PSN STORE: " + goodsName + " (" + key + ") -> " + id)
+  return id
+}
+
+OnlineShopModel.getCustomPurchaseLink <- function getCustomPurchaseLink(goodsName)
 {
   return ::loc("customPurchaseLink/" + goodsName, "")
 }
@@ -164,7 +181,7 @@ function OnlineShopModel::getCustomPurchaseLink(goodsName)
   }
 */
 OnlineShopModel._purchaseDataRecursion <- 0
-function OnlineShopModel::getPurchaseData(goodsName)
+OnlineShopModel.getPurchaseData <- function getPurchaseData(goodsName)
 {
   if (goodsName in purchaseDataCache)
     return purchaseDataCache[goodsName]
@@ -206,7 +223,7 @@ function OnlineShopModel::getPurchaseData(goodsName)
   return res || createPurchaseData(goodsName)
 }
 
-function OnlineShopModel::createPurchaseData(goodsName = "", guid = null, customPurchaseLink = null)
+OnlineShopModel.createPurchaseData <- function createPurchaseData(goodsName = "", guid = null, customPurchaseLink = null)
 {
   local res = {
     canBePurchased = !!(guid || customPurchaseLink)
@@ -222,7 +239,7 @@ function OnlineShopModel::createPurchaseData(goodsName = "", guid = null, custom
 
 //return purchaseData (look getPurchaseData) of first found entitlement which can be purchased.
 // or empty purchase data
-function OnlineShopModel::getFeaturePurchaseData(feature)
+OnlineShopModel.getFeaturePurchaseData <- function getFeaturePurchaseData(feature)
 {
   local res = null
   foreach(entitlement in ::get_entitlements_by_feature(feature))
@@ -236,7 +253,7 @@ function OnlineShopModel::getFeaturePurchaseData(feature)
 
 //return purchaseDatas (look getPurchaseData) of all entitlements which can be purchased.
 // or empty array
-function OnlineShopModel::getAllFeaturePurchases(feature)
+OnlineShopModel.getAllFeaturePurchases <- function getAllFeaturePurchases(feature)
 {
   local res = []
   foreach(entitlement in ::get_entitlements_by_feature(feature))
@@ -248,7 +265,7 @@ function OnlineShopModel::getAllFeaturePurchases(feature)
   return res
 }
 
-function OnlineShopModel::openBrowserForFirstFoundEntitlement(entitlementsList)
+OnlineShopModel.openBrowserForFirstFoundEntitlement <- function openBrowserForFirstFoundEntitlement(entitlementsList)
 {
   foreach(entitlement in entitlementsList)
   {
@@ -261,7 +278,7 @@ function OnlineShopModel::openBrowserForFirstFoundEntitlement(entitlementsList)
   }
 }
 
-function OnlineShopModel::openBrowserByPurchaseData(purchaseData)
+OnlineShopModel.openBrowserByPurchaseData <- function openBrowserByPurchaseData(purchaseData)
 {
   if (!purchaseData.canBePurchased)
     return false
@@ -288,7 +305,7 @@ function OnlineShopModel::openBrowserByPurchaseData(purchaseData)
   return false
 }
 
-function OnlineShopModel::doBrowserPurchase(goodsName)
+OnlineShopModel.doBrowserPurchase <- function doBrowserPurchase(goodsName)
 {
   if (::is_ps4_or_xbox)
     return launchPS4Store() || launchXboxMarketplace()
@@ -303,9 +320,9 @@ function OnlineShopModel::doBrowserPurchase(goodsName)
   doBrowserPurchaseByGuid(getGuidForGoods(goodsName))
 }
 
-function OnlineShopModel::doBrowserPurchaseByGuid(guid, dbgGoodsName = "")
+OnlineShopModel.doBrowserPurchaseByGuid <- function doBrowserPurchaseByGuid(guid, dbgGoodsName = "")
 {
-  if (::steam_is_running() && ::check_account_tag("steam")) //temporary use old code pass for steam
+  if (::steam_is_running() && (::g_user_utils.haveTag("steam") || ::has_feature("AllowSteamAccountLinking"))) //temporary use old code pass for steam
   {
     local response = ::shell_purchase_in_steam(guid);
     if (response > 0)
@@ -329,7 +346,7 @@ function OnlineShopModel::doBrowserPurchaseByGuid(guid, dbgGoodsName = "")
   openShopUrl(url, true)
 }
 
-function OnlineShopModel::getGoodsChapter(goodsName)
+OnlineShopModel.getGoodsChapter <- function getGoodsChapter(goodsName)
 {
   local goods = getGoodsByName(goodsName)
   return "chapter" in goods ? goods.chapter : ""
@@ -339,7 +356,7 @@ function OnlineShopModel::getGoodsChapter(goodsName)
 //if returns "" uses default store.
 //custom URLs are defined for particular languages and almost always are ""
 //Consoles are exception. They always uses It's store.
-function OnlineShopModel::getCustomPurchaseUrl(chapter)
+OnlineShopModel.getCustomPurchaseUrl <- function getCustomPurchaseUrl(chapter)
 {
   if (::is_ps4_or_xbox)
     return ""
@@ -360,14 +377,14 @@ function OnlineShopModel::getCustomPurchaseUrl(chapter)
   return ""
 }
 
-function OnlineShopModel::openShopUrl(baseUrl, isAlreadyAuthenticated = false)
+OnlineShopModel.openShopUrl <- function openShopUrl(baseUrl, isAlreadyAuthenticated = false)
 {
   ::open_url(baseUrl, false, isAlreadyAuthenticated, "shop_window")
   startEntitlementsUpdater()
 }
 
 //return true when custom Url found
-function OnlineShopModel::checkAndOpenCustomPurchaseUrl(chapter, needMsgBox = false)
+OnlineShopModel.checkAndOpenCustomPurchaseUrl <- function checkAndOpenCustomPurchaseUrl(chapter, needMsgBox = false)
 {
   local customUrl = getCustomPurchaseUrl(chapter)
   if (customUrl == "")
@@ -394,7 +411,7 @@ function OnlineShopModel::checkAndOpenCustomPurchaseUrl(chapter, needMsgBox = fa
   return true
 }
 
-function OnlineShopModel::openUpdateBalanceMenu(customUrl)
+OnlineShopModel.openUpdateBalanceMenu <- function openUpdateBalanceMenu(customUrl)
 {
   local menu = [
     {
@@ -422,42 +439,21 @@ function OnlineShopModel::openUpdateBalanceMenu(customUrl)
   ::gui_right_click_menu(menu, this)
 }
 
-function OnlineShopModel::startEntitlementsUpdater()
+OnlineShopModel.startEntitlementsUpdater <- function startEntitlementsUpdater()
 {
-  if (entitlemetsUpdaterWeak)
-    return
-
-  local handler = ::handlersManager.getActiveBaseHandler()
-  if (!handler)
-    return
-
-  entitlemetsUpdaterWeak = SecondsUpdater(
-    handler.scene,
-    function(obj, params)
+  callbackWhenAppWillActive(function()
     {
-      local wasActive = ::getTblValue("active", params, true)
-      local isActive = ::is_app_active() && !::steam_is_overlay_active() && !::is_builtin_browser_active()
-      if (wasActive == isActive)
-        return false
-
-      if (!isActive)
-      {
-        params.active <- false
-        return false
-      }
       if (::is_online_available())
         ::g_tasker.addTask(::update_entitlements_limited(),
-                           {
-                             showProgressBox = true
-                             progressBoxText = ::loc("charServer/checking")
-                           })
-      return true
+          {
+            showProgressBox = true
+            progressBoxText = ::loc("charServer/checking")
+          })
     }
-    false
-  ).weakref()
+  )
 }
 
-function OnlineShopModel::launchOnlineShop(owner=null, chapter=null, afterCloseFunc=null)
+OnlineShopModel.launchOnlineShop <- function launchOnlineShop(owner=null, chapter=null, afterCloseFunc=null)
 {
   if (!::isInMenu())
     return afterCloseFunc && afterCloseFunc()
@@ -471,7 +467,7 @@ function OnlineShopModel::launchOnlineShop(owner=null, chapter=null, afterCloseF
   ::gui_modal_onlineShop(owner, chapter, afterCloseFunc)
 }
 
-function OnlineShopModel::launchPS4Store(chapter = null, afterCloseFunc = null)
+OnlineShopModel.launchPS4Store <- function launchPS4Store(chapter = null, afterCloseFunc = null)
 {
   if (::is_platform_ps4 && ::isInArray(chapter, [null, "", "eagles"]))
   {
@@ -482,7 +478,7 @@ function OnlineShopModel::launchPS4Store(chapter = null, afterCloseFunc = null)
   return false
 }
 
-function OnlineShopModel::launchXboxMarketplace(chapter = null, afterCloseFunc = null)
+OnlineShopModel.launchXboxMarketplace <- function launchXboxMarketplace(chapter = null, afterCloseFunc = null)
 {
   if (::is_platform_xboxone && ::isInArray(chapter, [null, "", "eagles"]))
   {
@@ -497,14 +493,14 @@ function OnlineShopModel::launchXboxMarketplace(chapter = null, afterCloseFunc =
   return false
 }
 
-function OnlineShopModel::launchXboxOneStoreByChapter(chapter, afterCloseFunc = null)
+OnlineShopModel.launchXboxOneStoreByChapter <- function launchXboxOneStoreByChapter(chapter, afterCloseFunc = null)
 {
   callbackReturnFunc = afterCloseFunc
   ::get_gui_scene().performDelayed(::getroottable(),
     function(){ ::xbox_show_marketplace(chapter == "eagles") })
 }
 
-function OnlineShopModel::onPurchasesUpdated()
+OnlineShopModel.onPurchasesUpdated <- function onPurchasesUpdated()
 {
   if (callbackReturnFunc)
   {
@@ -517,29 +513,29 @@ function OnlineShopModel::onPurchasesUpdated()
 ////////////////////////////////////////////////////////////////////////////////
 //                                                                            //
 
-function get_entitlement_config(name)
+::get_entitlement_config <- function get_entitlement_config(name)
 {
   local res = { name = name }
 
   local pblk = ::DataBlock()
   ::get_shop_prices(pblk)
-  if (pblk[name] != null)
+  if (pblk?[name] != null)
   {
     foreach(param in ["ttl", "httl", "onlinePurchase", "wpIncome", "goldIncome", "goldIncomeFirstBuy",
                       "group", "useGroupAmount", "image", "chapterImage",
                       "aircraftGift", "alias", "chapter", "goldDiscount", "goldCost"])
-      if (pblk[name][param]!=null && !(param in res))
+      if (pblk[name]?[param] != null && !(param in res))
         res[param] <- pblk[name][param]
   }
   return res
 }
 
-function get_entitlement_locId(item)
+::get_entitlement_locId <- function get_entitlement_locId(item)
 {
   return ("alias" in item) ? item.alias : ("group" in item) ? item.group : item.name
 }
 
-function get_entitlement_name(item)
+::get_entitlement_name <- function get_entitlement_name(item)
 {
   local name = ""
   if (("useGroupAmount" in item) && item.useGroupAmount && ("group" in item))
@@ -560,7 +556,7 @@ function get_entitlement_name(item)
   return name
 }
 
-function get_entitlement_amount(item)
+::get_entitlement_amount <- function get_entitlement_amount(item)
 {
   if ("httl" in item)
     return item.httl.tofloat() / 24.0
@@ -572,7 +568,7 @@ function get_entitlement_amount(item)
   return 1
 }
 
-function get_first_purchase_additional_amount(item)
+::get_first_purchase_additional_amount <- function get_first_purchase_additional_amount(item)
 {
   if (!::has_entitlement(item.name))
     return ::getTblValue("goldIncomeFirstBuy", item, 0)
@@ -580,7 +576,7 @@ function get_first_purchase_additional_amount(item)
   return 0
 }
 
-function get_entitlement_timeText(item)
+::get_entitlement_timeText <- function get_entitlement_timeText(item)
 {
   if ("ttl" in item)
     return item.ttl + ::loc("measureUnits/days")
@@ -589,11 +585,15 @@ function get_entitlement_timeText(item)
   return ""
 }
 
-function get_entitlement_price(item)
+::get_entitlement_price <- function get_entitlement_price(item)
 {
   if (("onlinePurchase" in item) && item.onlinePurchase)
   {
-    local priceText = ::loc("price/"+item.name, "")
+    local priceText = ""
+    if (::steam_is_running())
+      priceText = ::loc("price/steam/" + item.name, "")
+    if (priceText == "")
+      priceText = ::loc("price/" + item.name, "")
 
     if (priceText != "")
     {
@@ -603,7 +603,8 @@ function get_entitlement_price(item)
       if (discount)
         totalPrice -= totalPrice * discount * 0.01
 
-      return format(::loc("price/common"), ::g_language.decimalFormat(totalPrice))
+      return format(::loc("price/common"),
+        item?.chapter == "eagles" ? totalPrice.tostring() : ::g_language.decimalFormat(totalPrice))
     }
   }
   else if ("goldCost" in item)
@@ -611,22 +612,34 @@ function get_entitlement_price(item)
   return ""
 }
 
-function update_purchases_return_mainmenu(afterCloseFunc = null)
+::update_purchases_return_mainmenu <- function update_purchases_return_mainmenu(afterCloseFunc = null, openStoreResult = -1)
 {
-  local taskId = ::update_entitlements()
+  //TODO: separate afterCloseFunc on Success and Error.
+  if (openStoreResult < 0)
+  {
+    //openStoreResult = -1 doesn't mean that we must not perform afterCloseFunc
+    if (afterCloseFunc)
+      afterCloseFunc()
+    return
+  }
+
+  local taskId = ::update_entitlements_limited()
+  //taskId = -1 doesn't mean that we must not perform afterCloseFunc
   if (taskId >= 0)
   {
     local progressBox = ::scene_msg_box("char_connecting", null, ::loc("charServer/checking"), null, null)
-    ::add_bg_task_cb(taskId, (@(progressBox) function() {
+    ::add_bg_task_cb(taskId, function() {
       ::destroyMsgBox(progressBox)
       ::gui_start_mainmenu_reload()
       if (afterCloseFunc)
         afterCloseFunc()
-    })(progressBox))
+    })
   }
+  else if (afterCloseFunc)
+    afterCloseFunc()
 }
 
-function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
+::gui_modal_onlineShop <- function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
 {
   if (::OnlineShopModel.checkAndOpenCustomPurchaseUrl(chapter, true))
     return
@@ -634,7 +647,7 @@ function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
   if (::isInArray(chapter, [null, ""]))
   {
     local webStoreUrl = ::loc("url/webstore", "")
-    if (::steam_is_running() && ::check_account_tag("steam"))
+    if (::steam_is_running() && (::g_user_utils.haveTag("steam") || ::has_feature("AllowSteamAccountLinking")))
       webStoreUrl = ::format(::loc("url/webstore/steam"), ::steam_get_my_id())
 
     if (webStoreUrl != "")
@@ -658,20 +671,20 @@ function gui_modal_onlineShop(owner=null, chapter=null, afterCloseFunc=null)
   ::gui_start_modal_wnd(hClass, { owner = owner, afterCloseFunc = afterCloseFunc, chapter = chapter })
 }
 
-function launch_ps4_store_by_chapter(chapter,afterCloseFunc = null)
+::launch_ps4_store_by_chapter <- function launch_ps4_store_by_chapter(chapter,afterCloseFunc = null)
 {
   ::get_gui_scene().performDelayed(::getroottable(),
     function() {
       if (chapter == null || chapter == "")
       {
         //TODO: items shop
-        if (::ps4_open_store("WARTHUNDERAPACKS", false) >= 0)
-          ::update_purchases_return_mainmenu(afterCloseFunc)
+        local res = ::ps4_open_store("WARTHUNDERAPACKS", false)
+        ::update_purchases_return_mainmenu(afterCloseFunc, res)
       }
       else if (chapter == "eagles")
       {
-        if (::ps4_open_store("WARTHUNDEREAGLES", false) >= 0)
-          ::update_purchases_return_mainmenu(afterCloseFunc)
+        local res = ::ps4_open_store("WARTHUNDEREAGLES", false)
+        ::update_purchases_return_mainmenu(afterCloseFunc, res)
       }
     }
   )
@@ -679,7 +692,7 @@ function launch_ps4_store_by_chapter(chapter,afterCloseFunc = null)
 
 ::subscribe_handler(::OnlineShopModel, ::g_listener_priority.CONFIG_VALIDATION)
 
-function xbox_on_purchases_updated()
+::xbox_on_purchases_updated <- function xbox_on_purchases_updated()
 {
   if (!::is_online_available())
     return

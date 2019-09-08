@@ -1,7 +1,8 @@
 {
   "bombGun": true,
-  "preset_cost": 0,
-  "shotFreq": 10.0,
+  "preset_cost": 10,
+  "shotFreq": 2.0,
+  "reloadTime": 90.0,
   "sound": "weapon.bombgun",
   "mesh": "depth_charge_hedgehog",
   "bomb": {
@@ -42,7 +43,9 @@
       "body": {
         "hp": 35.0,
         "armorClass": "tank_structural_steel",
-        "armorThickness": 1.0
+        "armorThickness": 5.0,
+        "explosionArmorQuality": 45.0,
+        "shatterArmorQuality": 45.0
       }
     }
   }

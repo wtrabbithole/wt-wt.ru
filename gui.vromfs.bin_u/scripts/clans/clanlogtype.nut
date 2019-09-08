@@ -187,7 +187,7 @@ enums.addTypesByGlobalName("g_clan_log_type", {
   UNKNOWN = {}
 })
 
-function g_clan_log_type::getTypeByName(name)
+g_clan_log_type.getTypeByName <- function getTypeByName(name)
 {
   return enums.getCachedType("name", name, ::g_clan_log_type_cache.byName,
                                        ::g_clan_log_type, ::g_clan_log_type.UNKNOWN)

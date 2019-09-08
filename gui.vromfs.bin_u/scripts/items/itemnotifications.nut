@@ -14,7 +14,7 @@ local addItemsInOfferBuyList = function() {
   foreach (item in itemsList)
   {
     local idString = (item.id).tostring()
-    if (needOfferBuyItemsList[idString])
+    if (needOfferBuyItemsList?[idString])
       continue
 
     needOfferBuyItemsList[idString] = true

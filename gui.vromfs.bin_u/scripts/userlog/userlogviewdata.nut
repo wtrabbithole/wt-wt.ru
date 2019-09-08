@@ -1,6 +1,6 @@
 local time = require("scripts/time.nut")
 
-function update_repair_cost(units, repairCost)
+::update_repair_cost <- function update_repair_cost(units, repairCost)
 {
   local idx = 0
   while (("cost"+idx) in units) {
@@ -13,7 +13,7 @@ function update_repair_cost(units, repairCost)
   }
 }
 
-function get_userlog_view_data(log)
+::get_userlog_view_data <- function get_userlog_view_data(log)
 {
   local res = {
     name = "",
@@ -568,12 +568,6 @@ function get_userlog_view_data(log)
       res.tooltip = config.desc
     }
 
-    if ("unit" in log)
-    {
-      local unitName = ::getUnitName(log.unit, false)
-      desc += ((desc=="")? "":"\n") + ::loc("userlog/used_vehicled") + ::loc("ui/colon") + unitName
-    }
-
     if (config.rewardText != "")
     {
       res.name += ::loc("ui/parentheses/space", {text = config.rewardText})
@@ -638,7 +632,7 @@ function get_userlog_view_data(log)
       action = ::getTblValue("clanActionType", log, -1)
       clan = ("clanName" in log)? ::ps4CheckAndReplaceContentDisabledText(log.clanName) : ""
       player = ::getTblValue("initiatorNick", log, "")
-      role = ("role" in log)? ::loc("clan/"+clan_get_role_name(log.role)) : ""
+      role = ("role" in log)? ::loc("clan/" + ::clan_get_role_name(log.role)) : ""
       status = ("enabled" in log) ? ::loc("clan/" + (log.enabled ? "opened" : "closed")) : ""
       tag = ::getTblValue("clanTag", log, "")
       tagOld = ::getTblValue("clanTagOld", log, "")
@@ -668,7 +662,7 @@ function get_userlog_view_data(log)
     else if (log.type==::EULT_BUYING_UNLOCK)
     {
       config = build_log_unlock_data(log)
-      resourceType = get_name_by_unlock_type(config.type)
+      resourceType = ::get_name_by_unlock_type(config.type)
     }
 
     res.name = format(::loc("userlog/"+logName+"/"+resourceType), config.name) + priceText
@@ -828,7 +822,7 @@ function get_userlog_view_data(log)
             rewardBlk.resource[i].resourceType
           )
 
-          if (!::u.isEmpty(unlock.desc))
+          if (!::u.isEmpty(unlock?.desc))
           {
             if (!("description" in  res))
               res.description <- ""
@@ -837,7 +831,7 @@ function get_userlog_view_data(log)
             res.description += unlock.desc
           }
 
-          res.logImg = unlock.image
+          res.logImg = unlock?.image
 
           if (::getTblValue("descrImage", unlock, "") != "")
           {
@@ -920,7 +914,7 @@ function get_userlog_view_data(log)
       goldBalance = log.goldBalance
 
     local suffix = (goldAdd >= 0) ? "/positive" : "/negative"
-    res.name = ::loc("userlog/"+logName+suffix, { gold = ::Cost(0, abs(goldAdd)).toStringWithParams({isGoldAlwaysShown = true}),
+    res.name = ::loc("userlog/"+logName+suffix, { gold = ::Cost(0, ::abs(goldAdd)).toStringWithParams({isGoldAlwaysShown = true}),
       balance = ::getGpPriceText(goldBalance, true) })
     res.description <- comment  // not localized
   }
@@ -1152,8 +1146,8 @@ function get_userlog_view_data(log)
                    })
       res.descriptionBlk <- ::get_userlog_image_item(item)
     }
-    local itemType = ::getTblValue("itemType", log, "")
-    if (itemType == "universalSpare")
+    local itemTypeValue = ::getTblValue("itemType", log, "")
+    if (itemTypeValue == "universalSpare")
     {
       locId = "userlog/" + logName
       local unit =  ::getTblValue("unit", log)
@@ -1169,7 +1163,7 @@ function get_userlog_view_data(log)
                                 ::g_string.stripTags(::loc(locId + "_desc/universalSpare") + ::loc("ui/colon")))
       res.descriptionBlk += item.getNameMarkup(numSpares,true)
     }
-    else if (itemType == "wager")
+    else if (itemTypeValue == "wager")
     {
       local earned = ::Cost(::getTblValue("wpEarned", log, 0), ::getTblValue("goldEarned", log, 0))
       if (earned > ::zero_money)
@@ -1414,7 +1408,7 @@ function get_userlog_view_data(log)
           {
             if (award_val.type == "gold")
               desc += "\n" + "<color=@activeTextColor>" +
-                ::Cost(0, abs(award_val.award)).toStringWithParams({isGoldAlwaysShown = true}) + "</color>"
+                ::Cost(0, ::abs(award_val.award)).toStringWithParams({isGoldAlwaysShown = true}) + "</color>"
             if (award_val.type == "premium")
               desc += "\n" + "<color=@activeTextColor>" + award_val.award + "</color>"
             if (award_val.type == "booster")
@@ -1455,7 +1449,7 @@ function get_userlog_view_data(log)
 
         if (desc!="")
           res.description <- desc
-        if (log?.battleId)
+        if (log?.battleId && ::has_feature("TournamentInvites"))
           res.buttonName = ::loc("chat/btnJoin")
     }
   }

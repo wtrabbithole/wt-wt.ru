@@ -412,4 +412,16 @@ class ::WwBattleView
       ::colorize("newTextColor", battle.getTotalPlayersInQueueInfo(side))
   }
   needShowTimer = @() !battle.isFinished()
+
+  function getTimeStartAutoBattle()
+  {
+    if (!battle.isWaiting())
+      return ""
+
+    local durationTime = battle.getTimeStartAutoBattle()
+    if (durationTime > 0)
+      return time.hoursToString(time.secondsToHours(durationTime), false, true)
+
+    return ""
+  }
 }

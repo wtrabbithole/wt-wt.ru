@@ -1,4 +1,5 @@
 @const inactiveFocusBorderColor: #55555555;
+@const inactiveFocusBorderColorWhite: #ffe0e0e0;
 
 focus_border {
   position: absolute;
@@ -17,7 +18,8 @@ focus_border_in_scroll {
   display:hide;
 }
 
-itemDiv > focus_border, recipe > focus_border {
+itemDiv > focus_border, recipe > focus_border,
+mapNest > focus_border {
   alwaysVisible:yes;
 }
 
@@ -30,12 +32,16 @@ itemDiv > focus_border, recipe > focus_border {
   display:show;
 }
 
+mapNest > focus_border {
+  foreground-color: @inactiveFocusBorderColorWhite;
+}
+
 
 [show_console_buttons=yes] focus_border_in_scroll {
   display:show;
 }
 
-[show_console_buttons=yes] :focus unitItemContainer[selected=yes] > shopItem > focus_border,
+[alwaysShowBorder="yes"]:focus > unitItemContainer[selected=yes] > shopItem > focus_border,
 table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_border,
 [show_console_buttons=yes] :focus > focus_border,
 [show_console_buttons=yes] .slotbarTable:focus [selected=yes] > shopItem > focus_border,
@@ -65,7 +71,7 @@ table[alwaysShowBorder="yes"]:focus > tr > td[selected=yes] > shopItem > focus_b
 [show_console_buttons=yes] [childsActivate=yes] > gameModeItem:focus,
 [show_console_buttons=yes] [childsActivate=yes] > div.dropDown:focus,
 [show_console_buttons=yes] MultiSelect:focus > multiOption[selected=yes],
-[show_console_buttons=yes] game_mode_block[selected=yes],
+[show_console_buttons=yes] gameModeBlock[selected=yes],
 [show_console_buttons=yes] :focus > activateTab[selected=yes],
 [show_console_buttons=yes] promoButton:focus,
 [show_console_buttons=yes] :focus > promoButton[type=simpleList][selected=yes],
@@ -105,7 +111,8 @@ shopItem[group=yes] > focus_border {
   size: pw +2@dp, ph +8@dp;
 }
 
-itemDiv > focus_border, recipe > focus_border {
+itemDiv > focus_border, recipe > focus_border,
+mapNest > focus_border {
   pos: -3@dp, -3@dp;
   size: pw +6@dp, ph +6@dp;
 }

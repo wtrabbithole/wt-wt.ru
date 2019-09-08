@@ -1,6 +1,8 @@
+local screenInfo = ::require("scripts/options/screenInfo.nut")
+
 local defValue  = 1.0
 local values    = [1.0, 0.95, 0.9, 0.85]
-local items     = ["#options/no", "5%", "10%", "15%"]
+local items     = ["100%", "95%", "90%", "85%"]
 
 local getFixedValue = function() //return -1 when not fixed
 {
@@ -9,21 +11,6 @@ local getFixedValue = function() //return -1 when not fixed
   if (::is_platform_xboxone)
     return ::xbox_get_safe_area()
   return -1
-}
-
-local checkCompatibility = function() //Added on 1_71_2_X, can be removed after new version.
-{
-  local value = getValue()
-  if (value < 0.5)
-    setValue(1 - value)
-}
-
-local getHudWidthLimit = function()
-{
-  local sw = ::screen_width()
-  local sh = ::screen_height()
-  local isUltraWide = !::is_triple_head(sw, sh) && (1.0 * sw / sh >= 2.5)
-  return isUltraWide ? (1.0 * sh * 16 / 9 / sw) : 1.0
 }
 
 local getValue = function()
@@ -48,11 +35,7 @@ local setValue = function(value)
   ::set_gui_option_in_mode(::USEROPT_HUD_SCREEN_SAFE_AREA, value, ::OPTIONS_MODE_GAMEPLAY)
 }
 
-local getSafearea = function()
-{
-  local val = getValue()
-  return [ ::min(val, getHudWidthLimit()), val ]
-}
+local getSafearea = @() screenInfo.getFinalSafearea(getValue(), screenInfo.getHudWidthLimit())
 
 ::cross_call_api.getHudSafearea <- getSafearea
 
@@ -61,8 +44,6 @@ return {
   setValue = setValue
   canChangeValue = @() getFixedValue() == -1
   getValueOptionIndex = @() values.find(getValue())
-  checkCompatibility = checkCompatibility
-  getHudWidthLimit = getHudWidthLimit
   getSafearea = getSafearea
 
   values = values

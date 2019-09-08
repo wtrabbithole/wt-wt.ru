@@ -3,12 +3,12 @@ local skinLocations = ::require("scripts/customization/skinLocations.nut")
 const DEFAULT_SKIN_NAME = "default"
 
 //code callback
-function on_dl_content_skins_invalidate()
+::on_dl_content_skins_invalidate <- function on_dl_content_skins_invalidate()
 {
   ::g_decorator.clearCache()
 }
 
-function update_unit_skins_list(unitName)
+::update_unit_skins_list <- function update_unit_skins_list(unitName)
 {
   local unit = ::getAircraftByName(unitName)
   if (unit)
@@ -22,19 +22,19 @@ function update_unit_skins_list(unitName)
   approversUnitToPreviewLiveResource = null
 }
 
-function g_decorator::clearCache()
+g_decorator.clearCache <- function clearCache()
 {
   ::g_decorator.cache.clear()
   ::g_decorator.clearLivePreviewParams()
 }
 
-function g_decorator::clearLivePreviewParams()
+g_decorator.clearLivePreviewParams <- function clearLivePreviewParams()
 {
   ::g_decorator.previewedLiveSkinId = ""
   ::g_decorator.approversUnitToPreviewLiveResource = null
 }
 
-function g_decorator::getCachedDataByType(decType)
+g_decorator.getCachedDataByType <- function getCachedDataByType(decType)
 {
   local id = "proceedData_" + decType.name
   if (id in ::g_decorator.cache)
@@ -45,32 +45,32 @@ function g_decorator::getCachedDataByType(decType)
   return data
 }
 
-function g_decorator::getCachedDecoratorsDataByType(decType)
+g_decorator.getCachedDecoratorsDataByType <- function getCachedDecoratorsDataByType(decType)
 {
   local data = ::g_decorator.getCachedDataByType(decType)
   return data.decorators
 }
 
-function g_decorator::getCachedOrderByType(decType)
+g_decorator.getCachedOrderByType <- function getCachedOrderByType(decType)
 {
   local data = ::g_decorator.getCachedDataByType(decType)
   return data.categories
 }
 
-function g_decorator::getVisibleOrderByDecFilter(decType, filterFunc)
+g_decorator.getVisibleOrderByDecFilter <- function getVisibleOrderByDecFilter(decType, filterFunc)
 {
   local data = ::g_decorator.getCachedDataByType(decType)
-  return data.categories.filter(@(idx, c) (c in data.decorators)
+  return data.categories.filter(@(c) (c in data.decorators)
     && ::u.search(data.decorators[c], @(d) filterFunc(d)) != null)
 }
 
-function g_decorator::getCachedDecoratorsListByType(decType)
+g_decorator.getCachedDecoratorsListByType <- function getCachedDecoratorsListByType(decType)
 {
   local data = ::g_decorator.getCachedDataByType(decType)
   return data.decoratorsList
 }
 
-function g_decorator::getDecorator(searchId, decType)
+g_decorator.getDecorator <- function getDecorator(searchId, decType)
 {
   local res = null
   if (::u.isEmpty(searchId))
@@ -84,7 +84,7 @@ function g_decorator::getDecorator(searchId, decType)
   return res
 }
 
-function g_decorator::getDecoratorById(searchId)
+g_decorator.getDecoratorById <- function getDecoratorById(searchId)
 {
   if (::u.isEmpty(searchId))
     return null
@@ -99,12 +99,12 @@ function g_decorator::getDecoratorById(searchId)
   return null
 }
 
-function g_decorator::getDecoratorByResource(resource, resourceType)
+g_decorator.getDecoratorByResource <- function getDecoratorByResource(resource, resourceType)
 {
   return getDecorator(resource, ::g_decorator_type.getTypeByResourceType(resourceType))
 }
 
-function g_decorator::getCachedDecoratorByUnlockId(unlockId, decType)
+g_decorator.getCachedDecoratorByUnlockId <- function getCachedDecoratorByUnlockId(unlockId, decType)
 {
   if (::u.isEmpty(unlockId))
     return null
@@ -128,7 +128,7 @@ function g_decorator::getCachedDecoratorByUnlockId(unlockId, decType)
   return foundDecorator
 }
 
-function g_decorator::splitDecoratorData(decType)
+g_decorator.splitDecoratorData <- function splitDecoratorData(decType)
 {
   local result = {
     decorators = {}
@@ -138,15 +138,16 @@ function g_decorator::splitDecoratorData(decType)
   }
 
   local blk = decType.getBlk()
-  result.fullBlk = blk
   if (::u.isEmpty(blk))
     return result
+
+  result.fullBlk = blk
 
   local prevCategory = ""
   for (local c = 0; c < blk.blockCount(); c++)
   {
     local dblk = blk.getBlock(c)
-    local category = dblk.category || prevCategory
+    local category = dblk?.category ?? prevCategory
 
     if (!(category in result.decorators))
     {
@@ -173,17 +174,17 @@ function g_decorator::splitDecoratorData(decType)
   return result
 }
 
-function g_decorator::getSkinSaveId(unitName)
+g_decorator.getSkinSaveId <- function getSkinSaveId(unitName)
 {
   return "skins/" + unitName
 }
 
-function g_decorator::isAutoSkinAvailable(unitName)
+g_decorator.isAutoSkinAvailable <- function isAutoSkinAvailable(unitName)
 {
   return ::g_unit_type.getByUnitName(unitName).isSkinAutoSelectAvailable()
 }
 
-function g_decorator::getLastSkin(unitName)
+g_decorator.getLastSkin <- function getLastSkin(unitName)
 {
   if (!isAutoSkinAvailable(unitName))
     return ::hangar_get_last_skin(unitName)
@@ -192,13 +193,13 @@ function g_decorator::getLastSkin(unitName)
 
 ::g_decorator.isAutoSkinOn <- @(unitName) !getLastSkin(unitName)
 
-function g_decorator::getRealSkin(unitName)
+g_decorator.getRealSkin <- function getRealSkin(unitName)
 {
   local res = getLastSkin(unitName)
   return res || getAutoSkin(unitName)
 }
 
-function g_decorator::setLastSkin(unitName, skinName, needAutoSkin = true)
+g_decorator.setLastSkin <- function setLastSkin(unitName, skinName, needAutoSkin = true)
 {
   if (!isAutoSkinAvailable(unitName))
     return skinName && ::hangar_set_last_skin(unitName, skinName)
@@ -209,20 +210,20 @@ function g_decorator::setLastSkin(unitName, skinName, needAutoSkin = true)
     ::hangar_set_last_skin(unitName, skinName || getAutoSkin(unitName))
 }
 
-function g_decorator::setCurSkinToHangar(unitName)
+g_decorator.setCurSkinToHangar <- function setCurSkinToHangar(unitName)
 {
   if (!isAutoSkinOn(unitName))
     ::hangar_set_last_skin(unitName, getRealSkin(unitName))
 }
 
-function g_decorator::setAutoSkin(unitName, needSwitchOn)
+g_decorator.setAutoSkin <- function setAutoSkin(unitName, needSwitchOn)
 {
   if (needSwitchOn != isAutoSkinOn(unitName))
     setLastSkin(unitName, needSwitchOn ? null : ::hangar_get_last_skin(unitName))
 }
 
 //default skin will return when no one skin match location
-function g_decorator::getAutoSkin(unitName, isLockedAllowed = false)
+g_decorator.getAutoSkin <- function getAutoSkin(unitName, isLockedAllowed = false)
 {
   local list = getBestSkinsList(unitName, isLockedAllowed)
   if (!list.len())
@@ -230,7 +231,7 @@ function g_decorator::getAutoSkin(unitName, isLockedAllowed = false)
   return list[list.len() - 1 - (::SessionLobby.roomId % list.len())] //use last skin when no in session
 }
 
-function g_decorator::getBestSkinsList(unitName, isLockedAllowed)
+g_decorator.getBestSkinsList <- function getBestSkinsList(unitName, isLockedAllowed)
 {
   local unit = ::getAircraftByName(unitName)
   if (!unit)
@@ -259,7 +260,7 @@ function g_decorator::getBestSkinsList(unitName, isLockedAllowed)
   return skinLocations.getBestSkinsList(skinsList, unitName, level)
 }
 
-function g_decorator::addSkinItemToOption(option, locName, value, decorator, shouldSetFirst = false, needIcon = false)
+g_decorator.addSkinItemToOption <- function addSkinItemToOption(option, locName, value, decorator, shouldSetFirst = false, needIcon = false)
 {
   local idx = shouldSetFirst ? 0 : option.items.len()
   option.items.insert(idx, {
@@ -279,7 +280,7 @@ function g_decorator::addSkinItemToOption(option, locName, value, decorator, sho
   return option.access[idx]
 }
 
-function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = true)
+g_decorator.getSkinsOption <- function getSkinsOption(unitName, showLocked=false, needAutoSkin = true)
 {
   local descr = {
     items = []
@@ -360,29 +361,29 @@ function g_decorator::getSkinsOption(unitName, showLocked=false, needAutoSkin = 
   return descr
 }
 
-function g_decorator::onEventSignOut(p)
+g_decorator.onEventSignOut <- function onEventSignOut(p)
 {
   ::g_decorator.clearCache()
 }
 
-function g_decorator::onEventLoginComplete(p)
+g_decorator.onEventLoginComplete <- function onEventLoginComplete(p)
 {
   ::g_decorator.clearCache()
 }
 
-function g_decorator::onEventDecalReceived(p)
+g_decorator.onEventDecalReceived <- function onEventDecalReceived(p)
 {
   if (p?.id)
     updateDecalVisible(p, ::g_decorator_type.DECALS)
 }
 
-function g_decorator::onEventAttachableReceived(p)
+g_decorator.onEventAttachableReceived <- function onEventAttachableReceived(p)
 {
   if (p?.id)
     updateDecalVisible(p, ::g_decorator_type.ATTACHABLES)
 }
 
-function g_decorator::updateDecalVisible(params, decType)
+g_decorator.updateDecalVisible <- function updateDecalVisible(params, decType)
 {
   local decorId = params.id
   local data = getCachedDataByType(decType)
@@ -400,17 +401,17 @@ function g_decorator::updateDecalVisible(params, decType)
   ::u.appendOnce(decorator, data.decorators[category])
 }
 
-function g_decorator::onEventUnitBought(p)
+g_decorator.onEventUnitBought <- function onEventUnitBought(p)
 {
   applyPreviewSkin(p)
 }
 
-function g_decorator::onEventUnitRented(p)
+g_decorator.onEventUnitRented <- function onEventUnitRented(p)
 {
   applyPreviewSkin(p)
 }
 
-function g_decorator::applyPreviewSkin(params)
+g_decorator.applyPreviewSkin <- function applyPreviewSkin(params)
 {
   local unit = ::getAircraftByName(params?.unitName)
   if (!unit)
@@ -426,12 +427,12 @@ function g_decorator::applyPreviewSkin(params)
   ::save_profile(false)
 }
 
-function g_decorator::isPreviewingLiveSkin()
+g_decorator.isPreviewingLiveSkin <- function isPreviewingLiveSkin()
 {
   return ::has_feature("EnableLiveSkins") && ::g_decorator.previewedLiveSkinId != ""
 }
 
-function g_decorator::buildLiveDecoratorFromResource(resource, resourceType, itedDef = null)
+g_decorator.buildLiveDecoratorFromResource <- function buildLiveDecoratorFromResource(resource, resourceType, itedDef = null)
 {
   if (!resource || !resourceType)
     return

@@ -1,11 +1,11 @@
 local platformModule = require("scripts/clientState/platform.nut")
 
-function gui_modal_ban(playerInfo, cLog = null)
+::gui_modal_ban <- function gui_modal_ban(playerInfo, cLog = null)
 {
   ::handlersManager.loadHandler(::gui_handlers.BanHandler, { player = playerInfo, chatLog = cLog })
 }
 
-function gui_modal_complain(playerInfo, cLog = null)
+::gui_modal_complain <- function gui_modal_complain(playerInfo, cLog = null)
 {
   if (!::tribunal.canComplaint())
     return

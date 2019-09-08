@@ -21,8 +21,8 @@ local haveItemDiscount = null
     return
   }
 
-  local guiBlk = ::configs.GUI.get()
-  local skipItemsList = guiBlk?.xbox_ingame_shop_items_hide ?? ::DataBlock()
+  local xboxShopBlk = ::configs.GUI.get()?.xbox_ingame_shop
+  local skipItemsList = xboxShopBlk?.itemsHide ?? ::DataBlock()
   xboxProceedItems.clear()
   for (local i = 0; i < catalog.blockCount(); i++)
   {
@@ -88,7 +88,7 @@ local getVisibleSeenIds = function()
   if (!visibleSeenIds.len() && xboxProceedItems.len())
   {
     foreach (mediaType, itemsList in xboxProceedItems)
-      visibleSeenIds.extend(itemsList.filter(@(idx, it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
+      visibleSeenIds.extend(itemsList.filter(@(it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
   }
   return visibleSeenIds
 }

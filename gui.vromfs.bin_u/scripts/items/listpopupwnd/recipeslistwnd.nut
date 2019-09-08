@@ -99,7 +99,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     btnObj = scene.findObject("btn_mark")
-    btnObj.show(needMarkRecipes && curRecipe?.mark < MARK_RECIPE.USED)
+    btnObj.show(needMarkRecipes && (curRecipe?.mark ?? MARK_RECIPE.NONE) < MARK_RECIPE.USED)
     btnObj.setValue(getMarkBtnText())
   }
 

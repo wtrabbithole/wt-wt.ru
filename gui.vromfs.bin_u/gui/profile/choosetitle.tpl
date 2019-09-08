@@ -1,13 +1,5 @@
-div {
-  size:t='sw, sh'
-  pos:t='0, 0'
-  position:t='root'
+rootUnderPopupMenu {
   background-color:t='@modalShadeColor'
-
-  behavior:t='button'
-  behavior:t='accesskey'
-  accessKey:t='Esc | J:B'
-
   on_click:t='goBack'
   on_r_click:t='goBack'
 }

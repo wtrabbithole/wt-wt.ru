@@ -196,7 +196,7 @@
   ]
 }
 
-function EventRewards::initConfigs()
+EventRewards.initConfigs <- function initConfigs()
 {
   foreach(cfg in _rewardsConfig)
   {
@@ -204,37 +204,37 @@ function EventRewards::initConfigs()
     if (!("locId" in cfg))
       cfg.locId = "reward/" + id
     if (!("getValue" in cfg))
-      cfg.getValue = (@(id) function(blk) { return blk[id] })(id)
+      cfg.getValue = (@(id) function(blk) { return blk?[id] })(id)
     if (!("getIconStyle" in cfg))
       cfg.getIconStyle = (@(id) function(value, blk) { return ::LayersIcon.getIconData("reward_" + id) })(id)
   }
 }
 ::EventRewards.initConfigs()
 
-function EventRewards::getRewardsBlk(event)
+EventRewards.getRewardsBlk <- function getRewardsBlk(event)
 {
   return ::get_blk_value_by_path(::get_tournaments_blk(), ::events.getEventEconomicName(event) + "/awards")
 }
 
-function EventRewards::getTournamentInfoBlk(event)
+EventRewards.getTournamentInfoBlk <- function getTournamentInfoBlk(event)
 {
   local blk = ::DataBlock()
   ::get_tournament_info_blk(::events.getEventEconomicName(event), blk)
   return blk
 }
 
-function EventRewards::haveRewards(event)
+EventRewards.haveRewards <- function haveRewards(event)
 {
   local blk = getRewardsBlk(event)
   return blk != null && blk.blockCount() > 0
 }
 
-function EventRewards::getConditionsList()
+EventRewards.getConditionsList <- function getConditionsList()
 {
   return ::reward_conditions_list
 }
 
-function EventRewards::getCondition(condition_id)
+EventRewards.getCondition <- function getCondition(condition_id)
 {
   foreach (condition in ::reward_conditions_list)
     if (condition.id == condition_id)
@@ -242,7 +242,7 @@ function EventRewards::getCondition(condition_id)
   return null
 }
 
-function EventRewards::getRewardConditionId(rewardBlk)
+EventRewards.getRewardConditionId <- function getRewardConditionId(rewardBlk)
 {
                       //param name in tournament configs            //param name in userlogs configs
   local conditionId = ::getTblValue("condition_type", rewardBlk) || ::getTblValue("awardType", rewardBlk)
@@ -255,26 +255,26 @@ function EventRewards::getRewardConditionId(rewardBlk)
   return null
 }
 
-function EventRewards::getRewardCondition(reward_blk)
+EventRewards.getRewardCondition <- function getRewardCondition(reward_blk)
 {
   foreach(cond in ::reward_conditions_list)
-    if (cond.id == reward_blk.condition_type)
+    if (cond.id == reward_blk?.condition_type)
       return cond
   return null
 }
 
-function EventRewards::getBaseVictoryReward(event)
+EventRewards.getBaseVictoryReward <- function getBaseVictoryReward(event)
 {
   local rewardsBlk = ::get_blk_value_by_path(::get_tournaments_blk(), ::events.getEventEconomicName(event))
   if (!rewardsBlk)
     return null
 
-  local wp = rewardsBlk.baseWpAward || 0
-  local gold = rewardsBlk.baseGoldAward || 0
+  local wp = rewardsBlk?.baseWpAward ?? 0
+  local gold = rewardsBlk?.baseGoldAward ?? 0
   return (wp || gold) ? ::Cost(wp, gold) : null
 }
 
-function EventRewards::getSortedRewardsByConditions(event)
+EventRewards.getSortedRewardsByConditions <- function getSortedRewardsByConditions(event)
 {
   local res = {}
   local rBlk = getRewardsBlk(event)
@@ -301,15 +301,15 @@ function EventRewards::getSortedRewardsByConditions(event)
         local bValue = ::EventRewards.getConditionValue(b)
         if (aValue != bValue)
           return (aValue > bValue) ? 1 : -1
-        if (a[condName] != b[condName])
-          return (a[condName] > b[condName]) ? 1 : -1
+        if (a?[condName] != b?[condName])
+          return ((a?[condName] ?? "") > (b?[condName] ?? "")) ? 1 : -1
         return 0
       })(condName))
 
   return res
 }
 
-function EventRewards::getRewardIcon(rewardBlk)
+EventRewards.getRewardIcon <- function getRewardIcon(rewardBlk)
 {
   foreach(cfg in _rewardsConfig)
   {
@@ -322,7 +322,7 @@ function EventRewards::getRewardIcon(rewardBlk)
   return ""
 }
 
-function EventRewards::getRewardRowIcon(rewardBlk)
+EventRewards.getRewardRowIcon <- function getRewardRowIcon(rewardBlk)
 {
   foreach(cfg in _rewardsConfig)
   {
@@ -334,7 +334,7 @@ function EventRewards::getRewardRowIcon(rewardBlk)
   }
 }
 
-function EventRewards::getRewardDescText(rewardBlk)
+EventRewards.getRewardDescText <- function getRewardDescText(rewardBlk)
 {
   local text = ""
   foreach(cfg in _rewardsConfig)
@@ -350,7 +350,7 @@ function EventRewards::getRewardDescText(rewardBlk)
   return text
 }
 
-function EventRewards::getRewardTooltipId(reward_blk)
+EventRewards.getRewardTooltipId <- function getRewardTooltipId(reward_blk)
 {
   foreach(cfg in _rewardsConfig)
   {
@@ -361,7 +361,7 @@ function EventRewards::getRewardTooltipId(reward_blk)
   return null
 }
 
-function EventRewards::getTotalRewardDescText(rewardsBlksArray)
+EventRewards.getTotalRewardDescText <- function getTotalRewardDescText(rewardsBlksArray)
 {
   local text = ""
   local money = ::Cost()
@@ -386,7 +386,7 @@ function EventRewards::getTotalRewardDescText(rewardsBlksArray)
   return text
 }
 
-function EventRewards::getConditionText(rewardBlk, progress = null)
+EventRewards.getConditionText <- function getConditionText(rewardBlk, progress = null)
 {
   local conditionId = getRewardConditionId(rewardBlk)
   local condition = getCondition(conditionId)
@@ -399,35 +399,35 @@ function EventRewards::getConditionText(rewardBlk, progress = null)
 /**
  * Returns a pure value of reward condition
  */
-function EventRewards::getConditionValue(reward_blk)
+EventRewards.getConditionValue <- function getConditionValue(reward_blk)
 {
   return ::getTblValue("value", reward_blk, ::getTblValue("fieldValue", reward_blk, -1))
 }
 
-function EventRewards::getConditionField(reward_blk)
+EventRewards.getConditionField <- function getConditionField(reward_blk)
 {
   return ::getTblValue("fieldName", reward_blk, "")
 }
 
-function EventRewards::getConditionIcon(condition)
+EventRewards.getConditionIcon <- function getConditionIcon(condition)
 {
   return ::getTblValue("icon", condition, "")
 }
 
-function EventRewards::getConditionHeader(condition)
+EventRewards.getConditionHeader <- function getConditionHeader(condition)
 {
   return ::loc("conditions/" + condition.id)
 }
 
-function EventRewards::getConditionLbField(condition)
+EventRewards.getConditionLbField <- function getConditionLbField(condition)
 {
   return ::getTblValue("lbField", condition, condition.id)
 }
 
-function EventRewards::isRewardReceived(reward_blk, event)
+EventRewards.isRewardReceived <- function isRewardReceived(reward_blk, event)
 {
   local infoBlk = ::EventRewards.getTournamentInfoBlk(event)
-  if (!infoBlk.awards)
+  if (!infoBlk?.awards)
     return false
 
   local conditionId = getRewardConditionId(reward_blk)
@@ -461,7 +461,7 @@ function EventRewards::isRewardReceived(reward_blk, event)
 /**
  * Retures next reward for specified
  */
-function EventRewards::getNext(rewardBlk, event)
+EventRewards.getNext <- function getNext(rewardBlk, event)
 {
   if (!event || !haveRewards(event))
     return null

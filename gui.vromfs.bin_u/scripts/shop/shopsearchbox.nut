@@ -31,7 +31,7 @@ class ::gui_handlers.ShopSearchBox extends ::gui_handlers.BaseGuiHandlerWT
       local obj = scene.findObject(id)
       if (::check_obj(obj))
         obj["tooltip"] += ::colorize("hotkeyColor",
-        ::loc("ui/parentheses/space", { text = ::loc(obj["hotkeyLoc"] ?? "") }))
+        ::loc("ui/parentheses/space", { text = ::loc(obj?["hotkeyLoc"] ?? "") }))
     }
 
     searchClear()
@@ -88,7 +88,7 @@ class ::gui_handlers.ShopSearchBox extends ::gui_handlers.BaseGuiHandlerWT
     local countGlobal = units.len()
     local countryId = curCountry
     local unitType = curEsUnitType
-    units = units.filter(@(idx, unit) ::getUnitCountry(unit) == countryId && unitType == ::get_es_unit_type(unit))
+    units = units.filter(@(unit) ::getUnitCountry(unit) == countryId && unitType == ::get_es_unit_type(unit))
     local countLocal = units.len()
 
     updateHint(isClear, countGlobal, countLocal)

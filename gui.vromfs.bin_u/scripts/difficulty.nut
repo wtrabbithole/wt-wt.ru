@@ -123,45 +123,45 @@ enums.addTypesByGlobalName("g_difficulty", {
   return 0
 })
 
-function g_difficulty::getDifficultyByDiffCode(diffCode)
+g_difficulty.getDifficultyByDiffCode <- function getDifficultyByDiffCode(diffCode)
 {
   return enums.getCachedType("diffCode", diffCode, ::g_difficulty_cache.byDiffCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
-function g_difficulty::getDifficultyByName(name)
+g_difficulty.getDifficultyByName <- function getDifficultyByName(name)
 {
   return enums.getCachedType("name", name, ::g_difficulty_cache.byName, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
-function g_difficulty::getDifficultyByEgdCode(egdCode)
+g_difficulty.getDifficultyByEgdCode <- function getDifficultyByEgdCode(egdCode)
 {
   return enums.getCachedType("egdCode", egdCode, ::g_difficulty_cache.byEgdCode, ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
-function g_difficulty::getDifficultyByEgdLowercaseName(name)
+g_difficulty.getDifficultyByEgdLowercaseName <- function getDifficultyByEgdLowercaseName(name)
 {
   return enums.getCachedType("egdLowercaseName", name, ::g_difficulty_cache.byEgdLowercaseName,
                                         ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
-function g_difficulty::getDifficultyByMatchingName(name)
+g_difficulty.getDifficultyByMatchingName <- function getDifficultyByMatchingName(name)
 {
   return enums.getCachedType("matchingName", name, ::g_difficulty_cache.byMatchingName,
                                         ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
-function g_difficulty::getDifficultyByCrewSkillName(name)
+g_difficulty.getDifficultyByCrewSkillName <- function getDifficultyByCrewSkillName(name)
 {
   return enums.getCachedType("crewSkillName", name, ::g_difficulty_cache.byCrewSkillName,
                                       ::g_difficulty, ::g_difficulty.UNKNOWN)
 }
 
-function g_difficulty::isDiffCodeAvailable(diffCode, gm = null)
+g_difficulty.isDiffCodeAvailable <- function isDiffCodeAvailable(diffCode, gm = null)
 {
   return getDifficultyByDiffCode(diffCode).isAvailable(gm)
 }
 
-function g_difficulty::getDifficultyByChoiceType(searchChoiceType = "")
+g_difficulty.getDifficultyByChoiceType <- function getDifficultyByChoiceType(searchChoiceType = "")
 {
   foreach(t in types)
     if (::isInArray(searchChoiceType, t.choiceType))
@@ -179,18 +179,18 @@ function g_difficulty::getDifficultyByChoiceType(searchChoiceType = "")
   byCrewSkillName = {}
 }
 
-function get_current_ediff()
+::get_current_ediff <- function get_current_ediff()
 {
   local gameMode = ::game_mode_manager.getCurrentGameMode()
   return gameMode && gameMode.ediff != -1 ? gameMode.ediff : EDifficulties.ARCADE
 }
 
-function get_battle_type_by_ediff(ediff)
+::get_battle_type_by_ediff <- function get_battle_type_by_ediff(ediff)
 {
   return ediff < EDIFF_SHIFT ? BATTLE_TYPES.AIR : BATTLE_TYPES.TANK
 }
 
-function get_difficulty_by_ediff(ediff)
+::get_difficulty_by_ediff <- function get_difficulty_by_ediff(ediff)
 {
   local diffCode = ediff % EDIFF_SHIFT
   foreach(difficulty in ::g_difficulty.types)
@@ -199,7 +199,7 @@ function get_difficulty_by_ediff(ediff)
   return ::g_difficulty.ARCADE
 }
 
-function get_current_shop_difficulty()
+::get_current_shop_difficulty <- function get_current_shop_difficulty()
 {
   local gameMode = ::game_mode_manager.getCurrentGameMode()
   if (gameMode)

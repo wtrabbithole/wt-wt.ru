@@ -5,7 +5,7 @@ local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 ::tooltip_display_delay <- 2
 ::max_spare_amount <- 100
 
-function enable_modification(unitName, modificationName, enable)
+::enable_modification <- function enable_modification(unitName, modificationName, enable)
 {
   if (modificationName == "")
     return;
@@ -16,7 +16,7 @@ function enable_modification(unitName, modificationName, enable)
   return ::shop_enable_modifications(db)
 }
 
-function enable_current_modifications(unitName)
+::enable_current_modifications <- function enable_current_modifications(unitName)
 {
   local db = ::DataBlock()
   db[unitName] <- ::DataBlock()
@@ -28,17 +28,12 @@ function enable_current_modifications(unitName)
   return ::shop_enable_modifications(db)
 }
 
-function gui_modal_weapons(params = {})
-{
-  ::gui_start_modal_wnd(::gui_handlers.WeaponsModalHandler, params)
-}
-
-function open_weapons_for_unit(unit, params = {})
+::open_weapons_for_unit <- function open_weapons_for_unit(unit, params = {})
 {
   if (!("name" in unit))
     return
   ::aircraft_for_weapons = unit.name
-  ::gui_modal_weapons(params)
+  ::handlersManager.loadHandler(::gui_handlers.WeaponsModalHandler, params)
 }
 
 class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
@@ -217,6 +212,33 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     titleObj.setValue(titleText)
   }
 
+  function updateWindowHeightAndPos()
+  {
+    local frameObj = scene.findObject("mods_frame")
+    if (::check_obj(frameObj))
+    {
+      local frameHeight = frameObj.getSize()[1]
+      local maxFrameHeight = ::g_dagui_utils.toPixels(guiScene, "@maxWeaponsWindowHeight")
+
+      if (frameHeight > maxFrameHeight)
+      {
+        local frameHeaderHeight = ::g_dagui_utils.toPixels(guiScene, "@frameHeaderHeight")
+        if (frameHeight - frameHeaderHeight < maxFrameHeight)
+        {
+          frameObj.isHeaderHidden = "yes"
+          showSceneBtn("close_alt_btn", !researchMode)
+          local researchModeImgObj = scene.findObject("researchMode_image_block")
+          researchModeImgObj["pos"] = researchModeImgObj["posWithoutHeader"]
+        }
+        else
+        {
+          needHideSlotbar = true
+          frameObj["pos"] = frameObj["posWithoutSlotbar"]
+        }
+      }
+    }
+  }
+
   function showNewbieResearchHelp()
   {
     if (!researchMode || !tutorialModule.needShowTutorial("researchMod", 1))
@@ -298,14 +320,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     updateAllItems()
     guiScene.setUpdatesEnabled(true, true)
-
-    local frameObj = scene.findObject("mods_frame")
-    local maxFrameHeight = ::g_dagui_utils.toPixels(guiScene, "1@maxWeaponsWindowHeight")
-    if (::check_obj(frameObj) && frameObj.getSize()[1] > maxFrameHeight)
-    {
-      frameObj.isHeaderHidden = "yes"
-      showSceneBtn("close_ext_btn", !researchMode)
-    }
+    updateWindowHeightAndPos()
   }
 
   function fillAvailableRPText()
@@ -382,6 +397,11 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventCrewsListChanged(params) { onSlotbarSelect() }
 
   function onEventUnitWeaponChanged(params)
+  {
+    updateAllItems()
+  }
+
+  function onEventUnitBulletsChanged(params)
   {
     updateAllItems()
   }
@@ -608,7 +628,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function createTreeItems(obj, branch, treeOffsetY = 0)
   {
     local branchItems = collectBranchItems(branch, [])
-    branchItems.sort(@(a,b) a.tier <=> b.tier || a?.guiPosX <=> b?.guiPosX)
+    branchItems.sort(@(a,b) a.tier <=> b.tier || a.guiPosX <=> b.guiPosX)
     foreach(item in branchItems)
       createItem(item, weaponsItem.modification, obj, item.guiPosX, item.tier +treeOffsetY -1)
   }
@@ -973,8 +993,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getItemIdxByObj(obj)
   {
     if (!obj) return -1
-    local id = obj.holderId
-    if (!id || id=="")
+    local id = obj?.holderId ?? ""
+    if (id == "")
       id = obj.id
     if (id.len() <= 5 || id.slice(0,5) != "item_")
       return -1
@@ -1084,7 +1104,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
-    local id = obj.id
+    local id = obj?.id
     if (!id || id.len() <= 5 || id.slice(0,5) != "item_")
       return base.onStickDropDown(obj, show)
 
@@ -1372,10 +1392,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local curBullets = ::get_last_bullets(airName, groupIdx)
     local isChanged = curBullets != item.name && !("isDefaultForGroup" in item && curBullets == "")
     ::set_unit_last_bullets(air, groupIdx, item.name)
-    if (isChanged)
-    {
+    if (isChanged) {
       ::play_gui_sound("check")
-      ::broadcastEvent("UnitBulletsChanged", { unit = air, groupIdx = groupIdx, bullet = item })
     }
     updateItemBundle(item)
     return isChanged
@@ -1534,8 +1552,8 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (p.unit != air)
       return
     local modName = p.mod.name
-    local itemidx = ::u.searchIndex(items, @(item) item.name == modName)
-    if (itemidx != -1)
+    local itemidx = items.searchindex(@(item) item.name == modName)
+    if (itemidx != null)
       updateItem(itemidx)
   }
 
@@ -1563,7 +1581,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function isWeaponAux(weapon)
+::isWeaponAux <- function isWeaponAux(weapon)
 {
   local aux = false
   foreach (tag in weapon.tags)

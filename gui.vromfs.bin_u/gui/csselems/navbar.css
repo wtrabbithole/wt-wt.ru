@@ -22,10 +22,16 @@ navBar[type=shop] {
   pos:50%sw-50%w, 1@shopYPos-h;
 }
 
+navBar[hasMaxWindowSize=yes]{
+  width:1@maxWindowWidth - 2@framePadding;
+  height:1@frameFooterHeight;
+  pos:0.5sw-0.5w, 1@minYposWindow +1@maxWindowHeight -h;
+}
+
 navBarStatic {
   width:@rw;
   height:10*@scrn_tgt/100.0;
-  pos:50%sw-50%w+1%sw, 92.5%sh-h;
+  pos:50%sw-50%w, 92.5%@rh-h;
   position:absolute;
   input-transparent: yes;
   if_target_pc:@target_pc;

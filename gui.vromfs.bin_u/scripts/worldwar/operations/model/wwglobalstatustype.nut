@@ -118,6 +118,6 @@ enums.addTypesByGlobalName("g_ww_global_status_type", {
 
 seenWWMapsAvailable.setListGetter(function() {
   return ::u.map(
-    ::g_ww_global_status_type.MAPS.getList().filter(@(idx, map) map.isAnnounceAndNotDebug()),
+    ::g_ww_global_status_type.MAPS.getList().filter(@(map) map.isAnnounceAndNotDebug()),
     @(map) map.name)
 })

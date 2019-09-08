@@ -9,17 +9,17 @@ const SEARCH_CATEGORIES_SAVE_ID = "chat/searchCategories"
   searchCategories = []
 }
 
-function g_chat_categories::isEnabled()
+g_chat_categories.isEnabled <- function isEnabled()
 {
   return list.len() > 0 && ::has_feature("ChatThreadCategories")
 }
 
-function g_chat_categories::onEventInitConfigs(p)
+g_chat_categories.onEventInitConfigs <- function onEventInitConfigs(p)
 {
   initThreadCategories()
 }
 
-function g_chat_categories::initThreadCategories()
+g_chat_categories.initThreadCategories <- function initThreadCategories()
 {
   list.clear()
   listSorted.clear()
@@ -27,7 +27,7 @@ function g_chat_categories::initThreadCategories()
   defaultCategoryName = ""
 
   local guiBlk = ::configs.GUI.get()
-  local listBlk = guiBlk.chat_categories
+  local listBlk = guiBlk?.chat_categories
   if (!::u.isDataBlock(listBlk))
     return
 
@@ -41,27 +41,27 @@ function g_chat_categories::initThreadCategories()
     list[name] <- category
     listSorted.append(category)
 
-    if (cBlk.isDefault || defaultCategoryName == "")
+    if (cBlk?.isDefault == true || defaultCategoryName == "")
       defaultCategoryName = name
   }
 
   loadSearchCategories()
 }
 
-function g_chat_categories::loadSearchCategories()
+g_chat_categories.loadSearchCategories <- function loadSearchCategories()
 {
   local blk = ::load_local_account_settings(SEARCH_CATEGORIES_SAVE_ID)
   if (::u.isDataBlock(blk))
   {
     foreach(cat in listSorted)
-      if (blk[cat.id])
+      if (blk?[cat.id])
         searchCategories.append(cat.id)
   }
   if (!searchCategories.len())
     searchCategories = ::u.map(listSorted, function(c) { return c.id })
 }
 
-function g_chat_categories::saveSearchCategories()
+g_chat_categories.saveSearchCategories <- function saveSearchCategories()
 {
   local blk = null
   if (!isSearchAnyCategory())
@@ -73,22 +73,22 @@ function g_chat_categories::saveSearchCategories()
   ::save_local_account_settings(SEARCH_CATEGORIES_SAVE_ID, blk)
 }
 
-function g_chat_categories::getSearchCategoriesLList()
+g_chat_categories.getSearchCategoriesLList <- function getSearchCategoriesLList()
 {
   return searchCategories
 }
 
-function g_chat_categories::isSearchAnyCategory()
+g_chat_categories.isSearchAnyCategory <- function isSearchAnyCategory()
 {
   return searchCategories.len() == 0 || searchCategories.len() >= list.len()
 }
 
-function g_chat_categories::getCategoryNameText(categoryName)
+g_chat_categories.getCategoryNameText <- function getCategoryNameText(categoryName)
 {
   return ::loc("chat/category/" + categoryName)
 }
 
-function g_chat_categories::fillCategoriesListObj(listObj, selCategoryName, handler)
+g_chat_categories.fillCategoriesListObj <- function fillCategoriesListObj(listObj, selCategoryName, handler)
 {
   if (!::checkObj(listObj))
     return
@@ -117,7 +117,7 @@ function g_chat_categories::fillCategoriesListObj(listObj, selCategoryName, hand
     listObj.setValue(selIdx)
 }
 
-function g_chat_categories::getSelCategoryNameByListObj(listObj, defValue)
+g_chat_categories.getSelCategoryNameByListObj <- function getSelCategoryNameByListObj(listObj, defValue)
 {
   if (!::checkObj(listObj))
     return defValue
@@ -128,7 +128,7 @@ function g_chat_categories::getSelCategoryNameByListObj(listObj, defValue)
   return defValue
 }
 
-function g_chat_categories::openChooseCategoriesMenu(align = "top", alignObj = null)
+g_chat_categories.openChooseCategoriesMenu <- function openChooseCategoriesMenu(align = "top", alignObj = null)
 {
   if (!isEnabled())
     return
@@ -150,7 +150,7 @@ function g_chat_categories::openChooseCategoriesMenu(align = "top", alignObj = n
   })
 }
 
-function g_chat_categories::_setSearchCategories(newValues)
+g_chat_categories._setSearchCategories <- function _setSearchCategories(newValues)
 {
   searchCategories = newValues
   saveSearchCategories()

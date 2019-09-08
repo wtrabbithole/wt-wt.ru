@@ -9,7 +9,7 @@
 
     function onAttach(obj)
     {
-      if (obj.value && !obj.getIntProp(isUpdateInProgressPID, 0))
+      if (obj?.value && !obj.getIntProp(isUpdateInProgressPID, 0))
         obj.getScene().performDelayed(this, function()
         {
           if (obj.isValid())
@@ -20,7 +20,7 @@
 
     function setValue(obj, newValue)
     {
-      if (!::u.isString(newValue) || obj.value == newValue)
+      if (!::u.isString(newValue) || obj?.value == newValue)
         return
       obj.value = newValue
       updateView(obj)
@@ -34,10 +34,10 @@
       obj.setIntProp(isUpdateInProgressPID, 1)
 
       local params = {
-        isWrapInRowAllowed = obj.isWrapInRowAllowed == "yes" 
-        flowAlign = obj["flow-align"] || "center"
+        isWrapInRowAllowed = obj?.isWrapInRowAllowed == "yes"
+        flowAlign = obj?["flow-align"] ?? "center"
       }
-      local markup = ::g_hints.buildHintMarkup(::loc(obj.value || ""), params)
+      local markup = ::g_hints.buildHintMarkup(::loc(obj?.value ?? ""), params)
       obj.getScene().replaceContentFromText(obj, markup, markup.len(), null)
 
       obj.setIntProp(isUpdateInProgressPID, 0)

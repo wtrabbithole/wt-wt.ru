@@ -3,15 +3,15 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   types = []
 }
 
-function g_chat_thread_tag::_setThreadInfoPropertyForBoolTag(threadInfo, valueString)
+g_chat_thread_tag._setThreadInfoPropertyForBoolTag <- function _setThreadInfoPropertyForBoolTag(threadInfo, valueString)
 {
   threadInfo[threadInfoParamName] = true
 }
-function g_chat_thread_tag::_updateThreadWhenNoTagForBoolTag(threadInfo)
+g_chat_thread_tag._updateThreadWhenNoTagForBoolTag <- function _updateThreadWhenNoTagForBoolTag(threadInfo)
 {
   threadInfo[threadInfoParamName] = false
 }
-function g_chat_thread_tag::_getTagStringBoolForBoolTag(threadInfo)
+g_chat_thread_tag._getTagStringBoolForBoolTag <- function _getTagStringBoolForBoolTag(threadInfo)
 {
   if (threadInfo[threadInfoParamName])
     return prefix

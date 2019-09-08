@@ -309,7 +309,7 @@
     if (!::checkObj(listObj))
       return
     local obj = listObj.findObject(partId)
-    if (::checkObj(obj) && obj._blink != "no")
+    if (::checkObj(obj) && obj?._blink != "no")
       obj._blink = "no"
   }
 
@@ -317,7 +317,7 @@
   {
     if (!::checkObj(obj))
       return
-    if (!(obj.id in partsConfig))
+    if (!(obj?.id in partsConfig))
       return
 
     local cfg = partsConfig[obj.id]

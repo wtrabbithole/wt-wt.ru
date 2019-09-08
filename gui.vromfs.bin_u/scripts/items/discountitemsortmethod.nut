@@ -5,7 +5,7 @@
 * as in discount item blk. Last go all non-aircraft
 * items with order from blk.
 */
-function sort_discount_description_items(items, sortData)
+::sort_discount_description_items <- function sort_discount_description_items(items, sortData)
 {
   if (sortData == null)
     return
@@ -41,7 +41,7 @@ function sort_discount_description_items(items, sortData)
 * Creates special data object that
 * helps to sort discount data items.
 */
-function create_discount_description_sort_data(blk)
+::create_discount_description_sort_data <- function create_discount_description_sort_data(blk)
 {
   if (blk == null)
     return null
@@ -63,7 +63,7 @@ function create_discount_description_sort_data(blk)
 /**
 * Main parsing method.
 */
-function parse_discount_description(blk)
+::parse_discount_description <- function parse_discount_description(blk)
 {
   if (blk == null)
     return []
@@ -73,14 +73,14 @@ function parse_discount_description(blk)
   return items
 }
 
-function parse_discount_description_category(blk)
+::parse_discount_description_category <- function parse_discount_description_category(blk)
 {
   if (blk == null)
     return []
   local category = blk.getBlockName()
   // Order corresponds to discount priorities.
   local items = []
-  items.extend(::parse_discount_description_aircrafts(blk.aircrafts, category))
+  items.extend(::parse_discount_description_aircrafts(blk?.aircrafts, category))
   items.extend(::parse_discount_description_country_rank(blk, category, true))
   items.extend(::parse_discount_description_country_rank(blk, category, false))
   items.extend(::parse_discount_description_rank(blk, category, true))
@@ -93,7 +93,7 @@ function parse_discount_description_category(blk)
   return items
 }
 
-function parse_discount_description_aircrafts(blk, category)
+::parse_discount_description_aircrafts <- function parse_discount_description_aircrafts(blk, category)
 {
   if (blk == null)
     return []
@@ -114,7 +114,7 @@ function parse_discount_description_aircrafts(blk, category)
   return items
 }
 
-function parse_discount_description_country_rank(blk, category, usePremium)
+::parse_discount_description_country_rank <- function parse_discount_description_country_rank(blk, category, usePremium)
 {
   if (blk == null)
     return []
@@ -141,7 +141,7 @@ function parse_discount_description_country_rank(blk, category, usePremium)
   return items
 }
 
-function parse_discount_description_country(blk, category, usePremium)
+::parse_discount_description_country <- function parse_discount_description_country(blk, category, usePremium)
 {
   if (blk == null)
     return []
@@ -164,7 +164,7 @@ function parse_discount_description_country(blk, category, usePremium)
   return items
 }
 
-function parse_discount_description_rank(blk, category, usePremium)
+::parse_discount_description_rank <- function parse_discount_description_rank(blk, category, usePremium)
 {
   if (blk == null)
     return []
@@ -185,7 +185,7 @@ function parse_discount_description_rank(blk, category, usePremium)
   return items
 }
 
-function parse_discount_description_all(blk, category, usePremium)
+::parse_discount_description_all <- function parse_discount_description_all(blk, category, usePremium)
 {
   if (blk == null)
     return []
@@ -200,7 +200,7 @@ function parse_discount_description_all(blk, category, usePremium)
   }]
 }
 
-function parse_discount_description_entitlements(blk, category)
+::parse_discount_description_entitlements <- function parse_discount_description_entitlements(blk, category)
 {
   if (blk == null || category != "entitlements")
     return []

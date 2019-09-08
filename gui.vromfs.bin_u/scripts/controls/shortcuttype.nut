@@ -3,7 +3,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   types = []
 }
 
-function g_shortcut_type::getShortcutTypeByShortcutId(shortcutId)
+g_shortcut_type.getShortcutTypeByShortcutId <- function getShortcutTypeByShortcutId(shortcutId)
 {
   foreach (t in types)
     if (t.isMe(shortcutId))
@@ -11,7 +11,7 @@ function g_shortcut_type::getShortcutTypeByShortcutId(shortcutId)
   return ::g_shortcut_type.COMMON_SHORTCUT
 }
 
-function g_shortcut_type::isAxisShortcut(shortcutId)
+g_shortcut_type.isAxisShortcut <- function isAxisShortcut(shortcutId)
 {
   foreach (postfix in ["rangeMin", "rangeMax"])
     if (::g_string.endsWith(shortcutId, postfix))
@@ -19,7 +19,7 @@ function g_shortcut_type::isAxisShortcut(shortcutId)
   return false
 }
 
-function g_shortcut_type::expandShortcuts(shortcutIdList)
+g_shortcut_type.expandShortcuts <- function expandShortcuts(shortcutIdList)
 {
   local result = []
   foreach (shortcutId in shortcutIdList)
@@ -31,30 +31,30 @@ function g_shortcut_type::expandShortcuts(shortcutIdList)
   return result
 }
 
-function g_shortcut_type::getShortcutMarkup(shortcutId)
+g_shortcut_type.getShortcutMarkup <- function getShortcutMarkup(shortcutId, preset)
 {
   local markup = ""
   local shortcutType = getShortcutTypeByShortcutId(shortcutId)
-  if (!shortcutType.isAssigned(shortcutId))
+  if (!shortcutType.isAssigned(shortcutId, preset))
     return markup
 
   local expanded = expandShortcuts([shortcutId])
   foreach (expandedShortcut in expanded)
   {
     local expandedType = getShortcutTypeByShortcutId(expandedShortcut)
-    local input = expandedType.getFirstInput(expandedShortcut)
+    local input = expandedType.getFirstInput(expandedShortcut, preset)
     markup += input.getMarkup()
   }
 
   return markup
 }
 
-function g_shortcut_type::_isAxisBoundToMouse(shortcutId)
+g_shortcut_type._isAxisBoundToMouse <- function _isAxisBoundToMouse(shortcutId)
 {
   return ::is_axis_mapped_on_mouse(shortcutId)
 }
 
-function g_shortcut_type::_getBitArrayAxisIdByShortcutId(shortcutId)
+g_shortcut_type._getBitArrayAxisIdByShortcutId <- function _getBitArrayAxisIdByShortcutId(shortcutId)
 {
   local joyParams = ::JoystickParams()
   joyParams.setFrom(::joystick_get_cur_settings())
@@ -71,7 +71,7 @@ function g_shortcut_type::_getBitArrayAxisIdByShortcutId(shortcutId)
 }
 
 
-function g_shortcut_type::_getDeviceAxisDescription(shortcutId, isMouseHigherPriority = true)
+g_shortcut_type._getDeviceAxisDescription <- function _getDeviceAxisDescription(shortcutId, isMouseHigherPriority = true)
 {
   local result = {
     deviceId = ::NULL_INPUT_DEVICE_ID
@@ -105,7 +105,7 @@ function g_shortcut_type::_getDeviceAxisDescription(shortcutId, isMouseHigherPri
 
 ::g_shortcut_type.template <- {
   isMe = function (shortcutId) { return false }
-  isAssigned = function (shortcutId) { return false }
+  isAssigned = function (shortcutId, preset = null) { return false }
 
 
   /**
@@ -119,15 +119,15 @@ function g_shortcut_type::_getDeviceAxisDescription(shortcutId, isMouseHigherPri
    * @return array of Input instances
    * Array contains atlast one element (NullInput)
    */
-  getInputs = function (shortcutId) { return [::Input.NullInput()] }
+  getInputs = function (shortcutId, preset = null) { return [::Input.NullInput()] }
 
 
   /**
    * @return first Input for @shortcutId or NullInput.
    * Also tries to find input with most suitable device type.
    */
-  getFirstInput = function (shortcutId) {
-    local inputs = getInputs(shortcutId)
+  getFirstInput = function (shortcutId, preset = null) {
+    local inputs = getInputs(shortcutId, preset)
     local bestInput = inputs[0]
 
     if (::is_xinput_device())
@@ -155,14 +155,14 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return ::getTblValue("type", shortcutConfig) != CONTROL_TYPE.AXIS
     }
 
-    isAssigned = function (shortcutId)
+    isAssigned = function (shortcutId, preset = null)
     {
-      return ::isShortcutMapped(::get_shortcuts([shortcutId])[0])
+      return ::isShortcutMapped(::get_shortcuts([shortcutId], preset)[0])
     }
 
-    getInputs = function (shortcutId)
+    getInputs = function (shortcutId, preset = null)
     {
-      local rawShortcutData = ::get_shortcuts([shortcutId])[0]
+      local rawShortcutData = ::get_shortcuts([shortcutId], preset)[0]
 
       if (!rawShortcutData)
         return [::Input.NullInput()]
@@ -172,7 +172,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       {
         local buttons = []
         for (local i = 0; i < strokeData.btn.len(); ++i)
-          buttons.append(::Input.Button(strokeData.dev[i], strokeData.btn[i]))
+          buttons.append(::Input.Button(strokeData.dev[i], strokeData.btn[i], preset))
 
         if (buttons.len() > 1)
           inputs.append(::Input.Combination(buttons))
@@ -203,10 +203,10 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return result
     }
 
-    getUseAxisShortcuts = function (axisIdsArray, axisInput)
+    getUseAxisShortcuts = function (axisIdsArray, axisInput, preset = null)
     {
       local buttons = []
-      local activeAxes = ::get_shortcuts(axisIdsArray)
+      local activeAxes = ::get_shortcuts(axisIdsArray, preset)
 
       if (axisInput.deviceId == ::STD_MOUSE_DEVICE_ID && axisIdsArray.len() > 0)
       {
@@ -220,7 +220,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
           continue
 
         for (local i = 0; i < activeAxis[0].btn.len(); ++i)
-          buttons.append(::Input.Button(activeAxis[0].dev[i], activeAxis[0].btn[i]))
+          buttons.append(::Input.Button(activeAxis[0].dev[i], activeAxis[0].btn[i], preset))
 
         if (buttons.len() > 0)
           break
@@ -236,7 +236,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return inputs
     }
 
-    isAssigned = function (shortcutId)
+    isAssigned = function (shortcutId, preset = null)
     {
       return isAssignedToAxis(shortcutId) || isAssignedToShortcuts(shortcutId)
     }
@@ -271,14 +271,14 @@ enums.addTypesByGlobalName("g_shortcut_type", {
         return transformAxisToShortcuts(shortcutId)
     }
 
-    getInputs = function (shortcutId)
+    getInputs = function (shortcutId, preset = null)
     {
       if (hasDirection(shortcutId) && !isAssignedToAxis(shortcutId))
       {
         local input = ::Input.KeyboardAxis(u.map(getBaseAxesShortcuts(shortcutId),
           function(element) {
             local elementId = element.shortcut
-            element.input <- ::g_shortcut_type.getShortcutTypeByShortcutId(elementId).getFirstInput(elementId)
+            element.input <- ::g_shortcut_type.getShortcutTypeByShortcutId(elementId).getFirstInput(elementId, preset)
             return element
           }
         ))
@@ -287,7 +287,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       }
 
       local axisDescription = ::g_shortcut_type._getDeviceAxisDescription(shortcutId)
-      return getUseAxisShortcuts([shortcutId], ::Input.Axis(axisDescription))
+      return getUseAxisShortcuts([shortcutId], ::Input.Axis(axisDescription, AXIS_MODIFIERS.NONE, preset), preset)
     }
 
     commonShortcutActiveAxis =    //when axis are activated by common shortcut
@@ -302,8 +302,6 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       helicopter_camy = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       submarine_camx  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       submarine_camy  = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
-      ufo_camx        = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
-      ufo_camy        = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       walker_camx     = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
       walker_camy     = @() ::get_shortcuts(["ID_CAMERA_NEUTRAL"])
     }
@@ -359,9 +357,9 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return ""
     }
 
-    isAssigned = function (shortcutId)
+    isAssigned = function (shortcutId, preset = null)
     {
-      return ::g_shortcut_type.AXIS.isAssigned(getAxisName(shortcutId))
+      return ::g_shortcut_type.AXIS.isAssigned(getAxisName(shortcutId), preset)
     }
 
     expand = function (shortcutId)
@@ -373,7 +371,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
         return [transformHalfAxisToShortcuts(shortcutId)]
     }
 
-    getInputs = function (shortcutId, isMouseHigherPriority = true)
+    getInputs = function (shortcutId, preset = null, isMouseHigherPriority = true)
     {
       local fullAxisId = getAxisName(shortcutId)
       local axisDesc = ::g_shortcut_type._getDeviceAxisDescription(
@@ -386,7 +384,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       if (shortcutId.find("=min") != null)
         modifier = !isInverse ? AXIS_MODIFIERS.MIN : AXIS_MODIFIERS.MAX
 
-      return [::Input.Axis(axisDesc, modifier)]
+      return [::Input.Axis(axisDesc, modifier, preset)]
     }
   }
 
@@ -407,9 +405,9 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return ::g_shortcut_type.HALF_AXIS.transformHalfAxisToShortcuts(shortcutId)
     }
 
-    isAssigned = function (shortcutId)
+    isAssigned = function (shortcutId, preset = null)
     {
-      return ::g_shortcut_type.HALF_AXIS.isAssigned(shortcutId)
+      return ::g_shortcut_type.HALF_AXIS.isAssigned(shortcutId, preset)
     }
 
     expand = function (shortcutId)
@@ -423,9 +421,9 @@ enums.addTypesByGlobalName("g_shortcut_type", {
         return [shortcutId]
     }
 
-    getInputs = function (shortcutId)
+    getInputs = function (shortcutId, preset = null)
     {
-      return ::g_shortcut_type.HALF_AXIS.getInputs(shortcutId, false)
+      return ::g_shortcut_type.HALF_AXIS.getInputs(shortcutId, preset, false)
     }
   }
 
@@ -440,10 +438,10 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return ::split(compositAxis, "+")
     }
 
-    isAssigned = function (shortcutId)
+    isAssigned = function (shortcutId, preset = null)
     {
       foreach (axis in splitCompositAxis(shortcutId))
-        if (!::g_shortcut_type.AXIS.isAssigned(axis))
+        if (!::g_shortcut_type.AXIS.isAssigned(axis, preset))
           return false
 
       return true
@@ -487,7 +485,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return result
     }
 
-    getInputs = function (shortcutId)
+    getInputs = function (shortcutId, preset = null)
     {
       local axes = splitCompositAxis(shortcutId)
 
@@ -504,7 +502,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
         local input = ::Input.KeyboardAxis(u.map(getBaseAxesShortcuts(shortcutId),
           function(element) {
             local elementId = element.shortcut
-            element.input <- ::g_shortcut_type.getShortcutTypeByShortcutId(elementId).getFirstInput(elementId)
+            element.input <- ::g_shortcut_type.getShortcutTypeByShortcutId(elementId).getFirstInput(elementId, preset)
             return element
           }
         ))
@@ -512,7 +510,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
         return [input]
       }
 
-      return ::g_shortcut_type.AXIS.getUseAxisShortcuts(axes, doubleAxis)
+      return ::g_shortcut_type.AXIS.getUseAxisShortcuts(axes, doubleAxis, preset)
     }
 
     hasDirection = function(shortcutId)
@@ -539,7 +537,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return ::g_pseudo_axes_list.isPseudoAxis(shortcutId)
     }
 
-    isAssigned = function (shortcutId)
+    isAssigned = function (shortcutId, preset = null)
     {
       local pseudoAxis = ::g_pseudo_axes_list.getPseudoAxisById(shortcutId)
       return pseudoAxis.isAssigned()
@@ -559,12 +557,12 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       return imageRe.match(shortcutId)
     }
 
-    isAssigned = function (shortcutId)
+    isAssigned = function (shortcutId, preset = null)
     {
       return true
     }
 
-    getFirstInput = function (shortcutId) {
+    getFirstInput = function (shortcutId, preset = null) {
       return ::Input.InputImage(shortcutId)
     }
   }

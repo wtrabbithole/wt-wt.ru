@@ -40,7 +40,7 @@ enums.addTypesByGlobalName("g_ww_map_info_type", {
   }
 }, null, "name")
 
-function g_ww_map_info_type::getTypeByIndex(index)
+g_ww_map_info_type.getTypeByIndex <- function getTypeByIndex(index)
 {
   return enums.getCachedType("index", index, ::g_ww_map_info_type.cache.byIndex, ::g_ww_map_info_type, ::g_ww_map_info_type.UNKNOWN)
 }

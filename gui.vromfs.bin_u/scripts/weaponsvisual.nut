@@ -14,9 +14,29 @@ local stdMath = require("std/math.nut")
 ::dagui_propid.add_name_id("_iconBulletName")
 
 ::weaponVisual <- {
+  function addBonusToObj(handler, obj, value, tooltipLocName="", isDiscount=true, bType = "old")
+  {
+    if (!::checkObj(obj) || value < 2) return
+
+    local guiScene = obj.getScene()
+    local text = ""
+    local id = ""
+    local tooltip = ""
+    text = isDiscount? "-" + value + "%" : "x" + stdMath.roundToDigits(value, 2)
+    if(tooltipLocName != "")
+    {
+      local prefix = isDiscount? "discount/" : "bonus/"
+      id = isDiscount? "discount" : "bonus"
+      tooltip = ::format(::loc(prefix + tooltipLocName + "/tooltip"), value.tostring())
+    }
+    local discountData = ::format("discount{id:t='%s'; type:t='%s'; tooltip:t='%s'; text:t='%s';}",
+      id, bType, tooltip, text)
+
+    guiScene.appendWithBlk(obj, discountData, handler)
+  }
 }
 
-function weaponVisual::createItemLayout(id, item, iType, params = {})
+weaponVisual.createItemLayout <- function createItemLayout(id, item, iType, params = {})
 {
   if (!("type" in item))
     item.type <- iType
@@ -36,14 +56,14 @@ function weaponVisual::createItemLayout(id, item, iType, params = {})
   return ::handyman.renderCached("gui/weaponry/weaponItem", view)
 }
 
-function weaponVisual::createItem(id, item, iType, holderObj, handler, params = {})
+weaponVisual.createItem <- function createItem(id, item, iType, holderObj, handler, params = {})
 {
   local data = createItemLayout(id, item, iType, params)
   holderObj.getScene().appendWithBlk(holderObj, data, handler)
   return holderObj.findObject(id)
 }
 
-function weaponVisual::createBundle(id, itemsList, itemsType, holderObj, handler, params = {})
+weaponVisual.createBundle <- function createBundle(id, itemsList, itemsType, holderObj, handler, params = {})
 {
   if (itemsList.len()==0)
     return null
@@ -96,7 +116,7 @@ function weaponVisual::createBundle(id, itemsList, itemsType, holderObj, handler
   return bundleItem
 }
 
-function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, params = {})
+weaponVisual.updateItem <- function updateItem(air, item, itemObj, showButtons, handler, params = {})
 {
   local guiScene = itemObj.getScene()
   local isOwn = ::isUnitUsable(air)
@@ -116,7 +136,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   if (bIcoItem)
   {
     local divObj = itemObj.findObject("bullets")
-    if (divObj._iconBulletName != bIcoItem.name)
+    if (divObj?._iconBulletName != bIcoItem.name)
     {
       divObj._iconBulletName = bIcoItem.name
       local bulletsSet = getBulletsSetData(air, bIcoItem.name)
@@ -171,12 +191,12 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
   if(::checkObj(dObj))
     guiScene.destroyElement(dObj)
 
-  local haveDiscount = discount > 0 && itemCostText != ""
+  local haveDiscount = discount > 0 && statusTbl.canShowDiscount && itemCostText != ""
   if (haveDiscount)
   {
     local discountObj = itemObj.findObject("modItem_discount")
     if (discountObj)
-      ::addBonusToObj(handler, discountObj, discount, statusTbl.discountType, true, "weaponryItem")
+      addBonusToObj(handler, discountObj, discount, statusTbl.discountType, true, "weaponryItem")
     if (priceText != "")
       priceText = "<color=@goodTextColor>" + priceText +"</color>"
   }
@@ -331,7 +351,7 @@ function weaponVisual::updateItem(air, item, itemObj, showButtons, handler, para
     textObj.setValue(altBtnText)
 }
 
-function weaponVisual::getItemStatusTbl(air, item)
+weaponVisual.getItemStatusTbl <- function getItemStatusTbl(air, item)
 {
   local isOwn = ::isUnitUsable(air)
   local res = {
@@ -346,6 +366,7 @@ function weaponVisual::getItemStatusTbl(air, item)
     unlocked = false
     showPrice = true
     discountType = ""
+    canShowDiscount = true
     curUpgrade = 0
     maxUpgrade = 0
   }
@@ -399,7 +420,10 @@ function weaponVisual::getItemStatusTbl(air, item)
         if (item.type == weaponsItem.expendables)
           res.showPrice = !res.amount || ::canBuyMod(air, item)
         else
+        {
+          res.canShowDiscount = res.canBuyMore
           res.showPrice = !res.amount && ::canBuyMod(air, item)
+        }
 
         if (isOwn && res.amount && ::is_mod_upgradeable(item.name))
         {
@@ -433,14 +457,14 @@ function weaponVisual::getItemStatusTbl(air, item)
   return res
 }
 
-function weaponVisual::isItemSwitcher(item)
+weaponVisual.isItemSwitcher <- function isItemSwitcher(item)
 {
   return (item.type == weaponsItem.weapon) || (item.type == weaponsItem.primaryWeapon) || isBullets(item)
 }
 
-function weaponVisual::updateGenericTooltipId(itemObj, unit, item, params = null)
+weaponVisual.updateGenericTooltipId <- function updateGenericTooltipId(itemObj, unit, item, params = null)
 {
-  local tooltipObj = itemObj.findObject("tooltip_" + itemObj.id)
+  local tooltipObj = itemObj.findObject("tooltip_" + itemObj?.id)
   if (!tooltipObj)
     return
 
@@ -454,7 +478,7 @@ function weaponVisual::updateGenericTooltipId(itemObj, unit, item, params = null
   tooltipObj.tooltipId = tooltipId
 }
 
-function weaponVisual::updateItemBulletsSliderByItem(itemObj, bulletsManager, item)
+weaponVisual.updateItemBulletsSliderByItem <- function updateItemBulletsSliderByItem(itemObj, bulletsManager, item)
 {
   local bulGroup = null
   if (bulletsManager != null && bulletsManager.canChangeBulletsCount())
@@ -462,7 +486,7 @@ function weaponVisual::updateItemBulletsSliderByItem(itemObj, bulletsManager, it
   updateItemBulletsSlider(itemObj, bulletsManager, bulGroup)
 }
 
-function weaponVisual::updateItemBulletsSlider(itemObj, bulletsManager, bulGroup)
+weaponVisual.updateItemBulletsSlider <- function updateItemBulletsSlider(itemObj, bulletsManager, bulGroup)
 {
   local show = bulGroup != null && bulletsManager != null && bulletsManager.canChangeBulletsCount()
   local holderObj = ::showBtn("bullets_amount_choice_block", show, itemObj)
@@ -516,7 +540,7 @@ function weaponVisual::updateItemBulletsSlider(itemObj, bulletsManager, bulGroup
   }
 }
 
-function weaponVisual::getBundleCurItem(air, bundle)
+weaponVisual.getBundleCurItem <- function getBundleCurItem(air, bundle)
 {
   if (!("itemsType" in bundle))
     return null
@@ -551,19 +575,19 @@ function weaponVisual::getBundleCurItem(air, bundle)
   return null
 }
 
-function weaponVisual::getByCurBundle(air, bundle, func, defValue = "")
+weaponVisual.getByCurBundle <- function getByCurBundle(air, bundle, func, defValue = "")
 {
   local cur = getBundleCurItem(air, bundle)
   return cur? func(air, cur) : defValue
 }
 
-function weaponVisual::isBullets(item)
+weaponVisual.isBullets <- function isBullets(item)
 {
   return (("isDefaultForGroup" in item) && (item.isDefaultForGroup >= 0))
     || (item.type == weaponsItem.modification && ::getModificationBulletsGroup(item.name) != "")
 }
 
-function weaponVisual::getBulletsIconItem(air, item)
+weaponVisual.getBulletsIconItem <- function getBulletsIconItem(air, item)
 {
   if (isBullets(item))
     return item
@@ -577,12 +601,12 @@ function weaponVisual::getBulletsIconItem(air, item)
   return null
 }
 
-function weaponVisual::getItemName(air, item, limitedName = true)
+weaponVisual.getItemName <- function getItemName(air, item, limitedName = true)
 {
   return ::g_weaponry_types.getUpgradeTypeByItem(item).getLocName(air, item, limitedName)
 }
 
-function weaponVisual::getItemImage(air, item)
+weaponVisual.getItemImage <- function getItemImage(air, item)
 {
   if (!isBullets(item))
   {
@@ -597,7 +621,7 @@ function weaponVisual::getItemImage(air, item)
   return ""
 }
 
-function weaponVisual::getBulletsIconData(bulletsSet)
+weaponVisual.getBulletsIconData <- function getBulletsIconData(bulletsSet)
 {
   if (!bulletsSet)
     return ""
@@ -609,7 +633,7 @@ function weaponVisual::getBulletsIconData(bulletsSet)
  * @param tooltipId If not null, tooltip block
  * will be added with specified tooltip id.
  */
-function weaponVisual::getBulletsIconView(bulletsSet, tooltipId = null, tooltipDelayed = false)
+weaponVisual.getBulletsIconView <- function getBulletsIconView(bulletsSet, tooltipId = null, tooltipDelayed = false)
 {
   local view = {}
   if (!bulletsSet || !("bullets" in bulletsSet))
@@ -623,7 +647,7 @@ function weaponVisual::getBulletsIconView(bulletsSet, tooltipId = null, tooltipD
       local maxAmountInView = 4
       if (bulletsSet.catridge)
         maxAmountInView = ::min(bulletsSet.catridge, maxAmountInView)
-      local count = isBelt ? length * max(1,floor(maxAmountInView / length)) : 1
+      local count = isBelt ? length * max(1,::floor(maxAmountInView / length)) : 1
       local totalWidth = 100.0
       local itemWidth = isBelt ? totalWidth / 5 : totalWidth
       local itemHeight = totalWidth
@@ -671,18 +695,18 @@ function weaponVisual::getBulletsIconView(bulletsSet, tooltipId = null, tooltipD
   return view
 }
 
-function weaponVisual::getItemAmount(air, item)
+weaponVisual.getItemAmount <- function getItemAmount(air, item)
 {
   return ::g_weaponry_types.getUpgradeTypeByItem(item).getAmount(air, item)
 }
 
-function weaponVisual::getItemCost(air, item)
+weaponVisual.getItemCost <- function getItemCost(air, item)
 {
   return ::g_weaponry_types.getUpgradeTypeByItem(item).getCost(air, item)
 }
 
 //include spawn score cost
-function weaponVisual::getFullItemCostText(unit, item)
+weaponVisual.getFullItemCostText <- function getFullItemCostText(unit, item)
 {
   local res = ""
   local wType = ::g_weaponry_types.getUpgradeTypeByItem(item)
@@ -700,37 +724,37 @@ function weaponVisual::getFullItemCostText(unit, item)
   return res
 }
 
-function weaponVisual::getItemUnlockCost(air, item)
+weaponVisual.getItemUnlockCost <- function getItemUnlockCost(air, item)
 {
   return ::g_weaponry_types.getUpgradeTypeByItem(item).getUnlockCost(air, item)
 }
 
-function weaponVisual::isCanBeDisabled(item)
+weaponVisual.isCanBeDisabled <- function isCanBeDisabled(item)
 {
   return (item.type == weaponsItem.modification || item.type == weaponsItem.expendables) &&
          (!("deactivationIsAllowed" in item) || item.deactivationIsAllowed) &&
          !isBullets(item)
 }
 
-function weaponVisual::isResearchableItem(item)
+weaponVisual.isResearchableItem <- function isResearchableItem(item)
 {
   return item.type == weaponsItem.modification
 }
 
-function weaponVisual::canResearchItem(air, item, checkCurrent = true)
+weaponVisual.canResearchItem <- function canResearchItem(air, item, checkCurrent = true)
 {
   return item.type == weaponsItem.modification &&
          canBeResearched(air, item, checkCurrent)
 }
 
-function weaponVisual::canBeResearched(air, item, checkCurrent = true)
+weaponVisual.canBeResearched <- function canBeResearched(air, item, checkCurrent = true)
 {
   if (isResearchableItem(item))
     return ::canResearchMod(air, item, checkCurrent)
   return false
 }
 
-function weaponVisual::isModInResearch(air, item)
+weaponVisual.isModInResearch <- function isModInResearch(air, item)
 {
   if (item.name == "" || !("type" in item) || item.type != weaponsItem.modification)
     return false
@@ -739,7 +763,7 @@ function weaponVisual::isModInResearch(air, item)
   return status == ::ES_ITEM_STATUS_IN_RESEARCH
 }
 
-function weaponVisual::getItemUpgradesStatus(unit, item)
+weaponVisual.getItemUpgradesStatus <- function getItemUpgradesStatus(unit, item)
 {
   if (item.type == weaponsItem.primaryWeapon)
   {
@@ -761,7 +785,7 @@ function weaponVisual::getItemUpgradesStatus(unit, item)
   return ""
 }
 
-function weaponVisual::getItemUpgradesList(item)
+weaponVisual.getItemUpgradesList <- function getItemUpgradesList(item)
 {
   if ("weaponUpgrades" in item)
     return item.weaponUpgrades
@@ -770,7 +794,7 @@ function weaponVisual::getItemUpgradesList(item)
   return null
 }
 
-function weaponVisual::countWeaponsUpgrade(air, item)
+weaponVisual.countWeaponsUpgrade <- function countWeaponsUpgrade(air, item)
 {
   local upgradesTotal = 0
   local upgraded = 0
@@ -796,13 +820,13 @@ function weaponVisual::countWeaponsUpgrade(air, item)
   return [upgraded, upgradesTotal]
 }
 
-function weaponVisual::getRepairCostCoef(item)
+weaponVisual.getRepairCostCoef <- function getRepairCostCoef(item)
 {
   local modeName = ::get_current_shop_difficulty().getEgdName(true)
   return item?["repairCostCoef" + modeName] ?? item?.repairCostCoef ?? 0
 }
 
-function weaponVisual::getReqModsText(air, item)
+weaponVisual.getReqModsText <- function getReqModsText(air, item)
 {
   local reqText = ""
   foreach(rp in ["reqWeapon", "reqModification"])
@@ -816,7 +840,7 @@ function weaponVisual::getReqModsText(air, item)
   return reqText
 }
 
-function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, updateEffectFunc = null)
+weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null, effect = null, updateEffectFunc = null)
 {
   local res = { name = "", desc = "", delayed = false }
   local needShowWWSecondaryWeapons = item.type==weaponsItem.weapon && ::is_in_flight() &&
@@ -956,7 +980,7 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
   local repairCostCoef = getRepairCostCoef(item)
   if (repairCostCoef)
   {
-    local avgRepairMul = ::get_warpoints_blk().avgRepairMul ?? 1.0
+    local avgRepairMul = ::get_warpoints_blk()?.avgRepairMul ?? 1.0
     local egdCode = ::get_current_shop_difficulty().egdCode
     local rCost = ::wp_get_repair_cost_by_mode(air.name, egdCode, false)
     local avgCost = (rCost * repairCostCoef * avgRepairMul).tointeger()
@@ -991,7 +1015,7 @@ function weaponVisual::getItemDescTbl(air, item, params = null, effect = null, u
   return res
 }
 
-function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
+weaponVisual.addBulletsParamToDesc <- function addBulletsParamToDesc(descTbl, unit, item)
 {
   if (!unit.unitType.canUseSeveralBulletsForGun && !::has_feature("BulletParamsForAirs"))
     return
@@ -1034,7 +1058,7 @@ function weaponVisual::addBulletsParamToDesc(descTbl, unit, item)
   buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet, true)
 }
 
-function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet = null, needAdditionalInfo = false)
+weaponVisual.buildPiercingData <- function buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet = null, needAdditionalInfo = false)
 {
   local param = { armorPiercing = array(0, null) , armorPiercingDist = array(0, null)}
   local needAddParams = bullet_parameters.len() == 1
@@ -1252,7 +1276,7 @@ function weaponVisual::buildPiercingData(unit, bullet_parameters, descTbl, bulle
   }
 }
 
-function weaponVisual::getArmorPiercingViewData(armorPiercing, dist)
+weaponVisual.getArmorPiercingViewData <- function getArmorPiercingViewData(armorPiercing, dist)
 {
   local res = null
   if (armorPiercing.len() <= 0)
@@ -1286,7 +1310,7 @@ function weaponVisual::getArmorPiercingViewData(armorPiercing, dist)
   return res
 }
 
-function weaponVisual::updateModType(unit, mod)
+weaponVisual.updateModType <- function updateModType(unit, mod)
 {
   if ("type" in mod)
     return
@@ -1304,13 +1328,13 @@ function weaponVisual::updateModType(unit, mod)
   return
 }
 
-function weaponVisual::updateSpareType(spare)
+weaponVisual.updateSpareType <- function updateSpareType(spare)
 {
   if (!("type" in spare))
     spare.type <- weaponsItem.spare
 }
 
-function weaponVisual::updateWeaponTooltip(obj, air, item, handler, params={}, effect=null)
+weaponVisual.updateWeaponTooltip <- function updateWeaponTooltip(obj, air, item, handler, params={}, effect=null)
 {
   local descTbl = getItemDescTbl(air, item, params, effect,
     function(effect, ...) {
@@ -1350,7 +1374,7 @@ function weaponVisual::updateWeaponTooltip(obj, air, item, handler, params={}, e
   obj.getScene().replaceContentFromText(obj, data, data.len(), handler)
 }
 
-function weaponVisual::isTierAvailable(air, tierNum)
+weaponVisual.isTierAvailable <- function isTierAvailable(air, tierNum)
 {
   local isAvailable = ::is_tier_available(air.name, tierNum)
 
@@ -1371,7 +1395,7 @@ function weaponVisual::isTierAvailable(air, tierNum)
   return isAvailable
 }
 
-function weaponVisual::getReqTextWorldWarArmy(unit, item)
+weaponVisual.getReqTextWorldWarArmy <- function getReqTextWorldWarArmy(unit, item)
 {
   local text = ""
   local isEnabledByMission = ::g_mis_custom_state.getCurMissionRules().isUnitWeaponAllowed(unit, item)
@@ -1386,7 +1410,7 @@ function weaponVisual::getReqTextWorldWarArmy(unit, item)
   return text
 }
 
-function weaponVisual::getStatusIcon(unit, item)
+weaponVisual.getStatusIcon <- function getStatusIcon(unit, item)
 {
   local misRules = ::g_mis_custom_state.getCurMissionRules()
   if (item.type==weaponsItem.weapon
@@ -1398,7 +1422,7 @@ function weaponVisual::getStatusIcon(unit, item)
   return ""
 }
 
-function weaponVisual::getDiscountPath(air, item, discountType)
+weaponVisual.getDiscountPath <- function getDiscountPath(air, item, discountType)
 {
   local discountPath = ["aircrafts", air.name, item.name]
   if (item.type != weaponsItem.spare)

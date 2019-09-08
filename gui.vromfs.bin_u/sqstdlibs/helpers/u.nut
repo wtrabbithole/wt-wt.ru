@@ -4,6 +4,7 @@
  */
 
 local underscore = require("std/underscore.nut")
+local functools = require("std/functools.nut")
 
 local isTable = @(v) typeof(v)=="table"
 local isArray = @(v) typeof(v)=="array"
@@ -42,17 +43,14 @@ local function filter(list, predicate) {
  * Produces a new array of values by mapping each value in list through a
  * transformation function (iteratee(value, key, list)).
  */
-local function mapAdvanced(list, iteratee)
-{
-  if (typeof(list) == "array")
-  {
+local function mapAdvanced(list, iteratee) {
+  if (typeof(list) == "array") {
     local res = []
     for (local i = 0; i < list.len(); ++i)
       res.push(iteratee(list[i], i, list))
     return res
   }
-  if (typeof(list) == "table" || isDataBlock(list))
-  {
+  if (typeof(list) == "table" || isDataBlock(list)) {
     local res = {}
     foreach (key, val in list)
       res[key] <- iteratee(val, key, list)
@@ -61,17 +59,45 @@ local function mapAdvanced(list, iteratee)
   return []
 }
 
-local function map(list, func)
-{
+local function map(list, func) {
   return mapAdvanced(list, (@(func) function(val, ...) { return func(val) })(func))
 }
 
+
+
+/**
+ * keys return an array of keys of specified table
+ */
+local function keys(data) {
+  if (typeof data == "array"){
+    local res = ::array(data.len())
+    foreach (i, k in res)
+      res[i]=i
+    return res
+  }
+  return data.keys()
+}
+
+/**
+ * Return all of the values of the table's properties.
+ */
+local function values(data) {
+  if (typeof data == "array")
+    return clone data
+  return data.values()
+}
 
 /*******************************************************************************
  **************************** Custom Classes register **************************
  ******************************************************************************/
 
+local customIsEqual = {}
 local customIsEmpty = {}
+
+
+local function registerIsEqual(classRef, isEqualFunc){
+  customIsEqual[classRef] <- isEqualFunc
+}
 
 /**
  * Return true if specified obj (@table, @array, @string, @datablock) is empty
@@ -111,7 +137,7 @@ local function registerClass(className, classRef, isEqualFunc = null, isEmptyFun
   }
 
   if (isEqualFunc != null)
-    underscore.registerIsEqual(classRef, isEqualFunc)
+    registerIsEqual(classRef, isEqualFunc)
   if (isEmptyFunc != null)
     customIsEmpty[classRef] <- isEmptyFunc
 }
@@ -184,8 +210,7 @@ local dagorClasses = {
  * object, and return the destination object. It's in-order, so the last source
  * will override properties of the same name in previous arguments.
  */
-local function extend(destination, ... /*sources*/){}//forward declaration for recursion
-extend = function(destination, ... /*sources*/) {
+local function extend(destination, ... /*sources*/) {
   for (local i = 0; i < vargv.len(); i++)
     foreach (key, val in vargv[i])
     {
@@ -236,7 +261,7 @@ local function removeFrom(data, value)
   if (isArray(data))
   {
     local idx = data.find(value)
-    if (idx >= 0)
+    if (idx != null)
     {
       data.remove(idx)
       return true
@@ -258,8 +283,7 @@ local function removeFrom(data, value)
  * Create new table which have keys, replaced from keysEqual table.
  * deepLevel param set deep of recursion for replace keys in tbl childs
 */
-local function keysReplace(tbl, keysEqual, deepLevel = -1) {} //forward declaration to use in recursives
-keysReplace = function(tbl, keysEqual, deepLevel = -1) {
+local function keysReplace(tbl, keysEqual, deepLevel = -1) {
   local res = {}
   local newValue = null
   foreach(key, value in tbl) {
@@ -284,13 +308,11 @@ keysReplace = function(tbl, keysEqual, deepLevel = -1) {
  */
 local function indexBy(list, iteratee) {
   local res = {}
-  if (isString(iteratee))
-  {
+  if (isString(iteratee)){
     foreach (idx, val in list)
       res[val[iteratee]] <- val
   }
-  else if (isFunction(iteratee))
-  {
+  else if (isFunction(iteratee)){
     foreach (idx, val in list)
       res[iteratee(val, idx, list)] <- val
   }
@@ -412,6 +434,11 @@ local function getTblValueByPath(table, path, separator = ".") {
   return ret
 }
 
+local uIsEqual = underscore.isEqual
+local function isEqual(val1, val2){
+  return uIsEqual(val1, val2, customIsEqual)
+}
+
 local export = underscore.__merge({
   isTable = isTable
   isArray = isArray
@@ -429,15 +456,20 @@ local export = underscore.__merge({
   removeFrom = removeFrom
   extend = extend
   registerClass = registerClass
+  registerIsEqual = registerIsEqual
   keysReplace = keysReplace
   copy = copy
   isEmpty = isEmpty
+  isEqual = isEqual
 //obsolete
   map = map
   filter = filter
   getTblValueByPath = getTblValueByPath
   setTblValueByPath = setTblValueByPath
-})
+  keys = keys
+  values = values
+
+}, functools)
 
 /**
  * Add type checking functions such as isArray()

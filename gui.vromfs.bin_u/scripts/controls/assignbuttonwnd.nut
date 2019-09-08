@@ -1,4 +1,4 @@
-function assignButtonWindow(owner, onButtonEnteredFunc)
+::assignButtonWindow <- function assignButtonWindow(owner, onButtonEnteredFunc)
 {
   ::gui_start_modal_wnd(::gui_handlers.assignModalButtonWindow, { owner = owner, onButtonEnteredFunc = onButtonEnteredFunc})
 }

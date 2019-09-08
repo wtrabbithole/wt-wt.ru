@@ -1,4 +1,4 @@
-enum RB_GM_TYPE
+global enum RB_GM_TYPE
 {
   EVENT
   CUSTOM  //custom button, lead to other window
@@ -8,28 +8,24 @@ enum RB_GM_TYPE
   {
     modeId = "world_war_featured_game_mode"
     text = function() { return ::loc("mainmenu/btnWorldwar") }
-    textDescription = function() {
-                        if (::g_world_war.lastPlayedOperationId)
-                        {
-                          local operation = ::g_ww_global_status.getOperationById(::g_world_war.lastPlayedOperationId)
-                          if (!::u.isEmpty(operation))
-                            return operation.getMapText()
-                        }
-
-                        return null
-                      }
+    textDescription = @() ::g_world_war.getPlayedOperationText()
     startFunction = function() { ::g_world_war.openMainWnd() }
     isWide = @() ::is_me_newbie() || !::is_platform_pc
     image = function() {
         local operation = ::g_ww_global_status.getOperationById(::g_world_war.lastPlayedOperationId)
         if (!::u.isEmpty(operation))
-          return "#ui/images/game_modes_tiles/worldwar_active_" + (isWide ? "wide" : "thin") + ".jpg?P1"
+          return "#ui/images/game_modes_tiles/worldwar_active_" + (isWide() ? "wide" : "thin") + ".jpg?P1"
         else
-          return "#ui/images/game_modes_tiles/worldwar_live_" + (isWide ? "wide" : "thin") + ".jpg?P1"
+          return "#ui/images/game_modes_tiles/worldwar_live_" + (isWide() ? "wide" : "thin") + ".jpg?P1"
       }
     videoPreview = null
     isVisible = @() ::is_worldwar_enabled()
     hasNewIconWidget = true
+    updateByTimeFunc = function(scene, objId) {
+      local descObj = scene.findObject(objId + "_text_description")
+      if (::check_obj(descObj))
+        descObj.setValue(::g_world_war.getPlayedOperationText())
+    }
   }
   {
     /*TSS*/
@@ -110,9 +106,9 @@ enum RB_GM_TYPE
     id = "custom_mode_fullreal"
     difficulty = ::g_difficulty.SIMULATOR
     image = "#ui/images/game_modes_tiles/mixed_event_02_wide.jpg?P1"
-    type = ::g_event_display_type.RANDOM_BATTLE
+    type = ::g_event_display_type.REGULAR
     displayWide = true
-    onBattleButtonClick = function() {
+    getEvent = function() {
       local curUnit = ::get_cur_slotbar_unit()
       local chapter = ::events.chapters.getChapter("simulation_battles")
       local chapterEvents = chapter? chapter.getEvents() : []
@@ -130,7 +126,7 @@ enum RB_GM_TYPE
         openEventId = lastPlayedEventRelevance >= relevanceList[0].relevance ?
           lastPlayedEventId : relevanceList[0].eventId
       }
-      ::gui_start_modal_events({ event = openEventId })
+      return openEventId? ::events.getEvent(openEventId) : null
     }
     inactiveColor = function() {
       local chapter = ::events.chapters.getChapter("simulation_battles")
@@ -564,6 +560,7 @@ class GameModeManager
       id = event.name
       source = event
       eventForSquad = null
+      modeId = event.name
       type = RB_GM_TYPE.EVENT
       text = ::events.getEventNameText(event)
       diffCode = ::events.getEventDiffCode(event)
@@ -576,7 +573,7 @@ class GameModeManager
       displayWide = ::events.isEventDisplayWide(event)
       enableOnDebug = ::events.isEventEnableOnDebug(event)
 
-      getEvent = function() { return (::g_squad_manager.isNotAloneOnline() && eventForSquad) || source }
+      getEvent = function() { return (::g_squad_manager.isNotAloneOnline() && eventForSquad) || event }
       getTooltipText = function()
       {
         local ev = getEvent()
@@ -616,11 +613,10 @@ class GameModeManager
       countries = []
       displayWide = gm.displayWide
       enableOnDebug = false
-      onBattleButtonClick = ::getTblValue("onBattleButtonClick", gm)
       inactiveColor = ::getTblValue("inactiveColor", gm, function() { return false })()
       unitTypes = [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK, ::ES_UNIT_TYPE_SHIP, ::ES_UNIT_TYPE_HELICOPTER]
 
-      getEvent = function() { return null }
+      getEvent = @() gm?.getEvent()
       getTooltipText = ::getTblValue("getTooltipText", gm, function() { return "" })
     }
     return _appendGameMode(gameMode)

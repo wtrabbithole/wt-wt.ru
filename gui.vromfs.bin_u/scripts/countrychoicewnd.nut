@@ -4,14 +4,14 @@ enum CChoiceState {
   APPLY
 }
 
-function is_need_first_country_choice()
+::is_need_first_country_choice <- function is_need_first_country_choice()
 {
   return ::get_first_chosen_unit_type() == ::ES_UNIT_TYPE_INVALID
          && !::stat_get_value_respawns(0, 1)
          && !::disable_network()
 }
 
-function gui_start_countryChoice()
+::gui_start_countryChoice <- function gui_start_countryChoice()
 {
   ::handlersManager.loadHandler(::gui_handlers.CountryChoiceHandler)
 }
@@ -197,7 +197,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function createPrefferedUnitTypeCountries()
   {
-    local rows = ::max(2, ceil(sqrt(4.0/3 * countries.len())).tointeger())
+    local rows = ::max(2, ::ceil(::sqrt(4.0/3 * countries.len())).tointeger())
     setFrameWidth(format("%d@countryChoiceImageWidth + %d@countryChoiceInterval", rows, rows - 1))
 
     local availCountries = selectedUnitType ? ::get_countries_by_unit_type(selectedUnitType.esUnitType) : countries

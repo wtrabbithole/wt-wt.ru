@@ -1,6 +1,6 @@
 local stdMath = require("std/math.nut")
 
-function gui_start_open_trophy_group_shop_wnd(trophy)
+::gui_start_open_trophy_group_shop_wnd <- function gui_start_open_trophy_group_shop_wnd(trophy)
 {
   if (!trophy)
     return
@@ -185,7 +185,7 @@ class ::gui_handlers.TrophyGroupShopWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemAction(obj)
   {
-    if (::checkObj(obj) && obj.holderId)
+    if (::checkObj(obj) && obj?.holderId)
       doAction(obj.holderId.tointeger())
   }
 

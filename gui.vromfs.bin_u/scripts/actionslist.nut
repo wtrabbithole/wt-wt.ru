@@ -27,7 +27,7 @@
 
 */
 
-enum AL_ORIENT
+global enum AL_ORIENT
 {
   VERTICAL   = "vertical",
   HORISONTAL = "horisontal",
@@ -109,15 +109,13 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
       maxWidth = ::max(maxWidth, nest.getChild(i).getSize()[0])
     nest.width = maxWidth
 
-    if (!params.closeOnUnhover)
+    if (!params?.closeOnUnhover)
     {
       guiScene.performDelayed(this, (@(nest, params) function () {
         if (!::checkObj(nest))
           return
 
-        local selIdx = ::u.searchIndex(params.actions, function (action) {
-          return ::getTblValue("selected", action, false) && ::getTblValue("show", action)
-        })
+        local selIdx = params.actions.searchindex(@(action) (action?.selected ?? false) && (action?.show ?? false)) ?? -1
 
         nest.setValue(::max(selIdx, 0))
         nest.select()
@@ -128,9 +126,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
   function setOrientation()
   {
     guiScene.setUpdatesEnabled(true, true)
-    scene.al_align = "orientation" in params
-                     ? params.orientation
-                     : AL_ORIENT.TOP
+
     local selfSize = scene.getSize()
     local prntSize = parentObj.getSize()
     local prntPos  = parentObj.getPosRC()
@@ -138,7 +134,6 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
 
     if (!("orientation" in params))
       params.orientation <- AL_ORIENT.TOP
-
 
     if (params.orientation == AL_ORIENT.TOP
         && prntPos[1] - selfSize[1] < 0)
@@ -160,7 +155,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
   function onAction(obj)
   {
     goBack()
-    local actionName = obj.id
+    local actionName = obj?.id ?? ""
     if (actionName == "")
       return
 
@@ -196,7 +191,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
   function onFocus(obj)
   {
     guiScene.performDelayed(this, (@(obj) function () {
-        if (!::checkObj(scene) || scene.close == "yes" || !::checkObj(obj))
+        if (!::checkObj(scene) || scene?.close == "yes" || !::checkObj(obj))
           return
         local total = obj.childrenCount()
         if (!total)
@@ -205,7 +200,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
         local value = ::clamp(obj.getValue(), 0, total - 1)
         local currentObj = obj.getChild(value)
         if (( !::checkObj(currentObj) || !currentObj.isFocused()) &&
-          !obj.isFocused() && !params.closeOnUnhover)
+          !obj.isFocused() && !params?.closeOnUnhover)
           close()
       })(obj)
     )
@@ -237,7 +232,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
     if (!::checkObj(obj))
       return false
 
-    if (obj.refuseOpenHoverMenu)
+    if (obj?.refuseOpenHoverMenu)
     {
       obj.refuseOpenHoverMenu = obj.refuseOpenHoverMenu == "yes"? "no" : "yes"
       return true

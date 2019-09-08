@@ -1,4 +1,4 @@
-enum LOGIN_STATE //bit mask
+global enum LOGIN_STATE //bit mask
 {
   AUTHORIZED               = 0x0001 //succesfully connected to auth
   PROFILE_RECEIVED         = 0x0002
@@ -26,45 +26,45 @@ enum LOGIN_STATE //bit mask
   afterScriptsReload = function() {}
 }
 
-function g_login::init()
+g_login.init <- function init()
 {
   ::g_script_reloader.registerPersistentDataFromRoot("g_login")
   ::subscribe_handler(this, ::g_listener_priority.CONFIG_VALIDATION)
 }
 
-function g_login::isAuthorized()
+g_login.isAuthorized <- function isAuthorized()
 {
   return (curState & LOGIN_STATE.AUTHORIZED) != 0
 }
 
-function g_login::isReadyToFullLoad()
+g_login.isReadyToFullLoad <- function isReadyToFullLoad()
 {
   return hasState(LOGIN_STATE.AUTHORIZED | LOGIN_STATE.ONLINE_BINARIES_INITED)
 }
 
-function g_login::isLoggedIn()
+g_login.isLoggedIn <- function isLoggedIn()
 {
   return (curState & LOGIN_STATE.LOGGED_IN) == LOGIN_STATE.LOGGED_IN
 }
 
-function g_login::isProfileReceived()
+g_login.isProfileReceived <- function isProfileReceived()
 {
   return (curState & LOGIN_STATE.PROFILE_RECEIVED) != 0
 }
 
-function g_login::hasState(state)
+g_login.hasState <- function hasState(state)
 {
   return (curState & state) == state
 }
 
-function g_login::startLoginProcess(shouldCheckScriptsReload = false)
+g_login.startLoginProcess <- function startLoginProcess(shouldCheckScriptsReload = false)
 {
   if (curLoginProcess && curLoginProcess.isValid())
     return
   curLoginProcess = ::LoginProcess(shouldCheckScriptsReload)
 }
 
-function g_login::setState(newState)
+g_login.setState <- function setState(newState)
 {
   if (curState == newState)
     return
@@ -73,7 +73,6 @@ function g_login::setState(newState)
   local wasLoggedIn = isLoggedIn()
 
   curState = newState
-  ::second_mainmenu <- !isLoggedIn() //compatibility with 1.59.2.X and below
 
   if (wasAuthorized != isAuthorized())
     onAuthorizeChanged()
@@ -83,30 +82,30 @@ function g_login::setState(newState)
   ::broadcastEvent("LoginStateChanged")
 }
 
-function g_login::addState(statePart)
+g_login.addState <- function addState(statePart)
 {
   setState(curState | statePart)
 }
 
-function g_login::removeState(statePart)
+g_login.removeState <- function removeState(statePart)
 {
   setState(curState & ~statePart)
 }
 
-function g_login::destroyLoginProgress()
+g_login.destroyLoginProgress <- function destroyLoginProgress()
 {
   if (curLoginProcess)
     curLoginProcess.destroy()
   curLoginProcess = null
 }
 
-function g_login::reset()
+g_login.reset <- function reset()
 {
   destroyLoginProgress()
   setState(LOGIN_STATE.NOT_LOGGED_IN)
 }
 
-function g_login::onEventScriptsReloaded(p)
+g_login.onEventScriptsReloaded <- function onEventScriptsReloaded(p)
 {
   if (!isLoggedIn() && isAuthorized())
     startLoginProcess(true)
@@ -114,7 +113,7 @@ function g_login::onEventScriptsReloaded(p)
 }
 
 
-function is_logged_in() //used from code
+::is_logged_in <- function is_logged_in() //used from code
 {
   return ::g_login.isLoggedIn()
 }

@@ -199,15 +199,16 @@ class WeaponsPurchase
   {
     fillModItemSpecificParams(amount)
 
-    local repairCost = checkRepair? unit.getRepairCost() : ::Cost()
-    msgLocParams.cost <- (cost + repairCost)
-
     if (!canBuyItem(cost))
     {
       if (removeOnCancel)
         remove()
       return
     }
+
+    local repairCost = checkRepair? unit.getRepairCost() : ::Cost()
+    local price = cost + repairCost
+    msgLocParams.cost <- price.getTextAccordingToBalance()
 
     local performAction = (@(repairCost, mainFunc, amount, removeOnCancel) function() {
       if (repairCost.isZero())
@@ -225,8 +226,10 @@ class WeaponsPurchase
         remove()
     })(removeOnCancel)
 
-    local text = warningIfGold(::loc(repairCost.isZero()? msgLocId : repairMsgLocId, msgLocParams),
-      msgLocParams.cost)
+    local text = ::warningIfGold(
+        ::loc(repairCost.isZero()? msgLocId : repairMsgLocId,
+        msgLocParams
+      ), price)
     local defButton = "yes"
     local buttons = [
       ["yes", performAction ],
@@ -403,7 +406,7 @@ class WeaponsPurchase
   }
 }
 
-function buyAllMods(unit, forceOpen) //maded it's double. Need to remove this.
+::buyAllMods <- function buyAllMods(unit, forceOpen) //maded it's double. Need to remove this.
 {
   local blk = ::DataBlock()
   blk.setStr("unit", unit)

@@ -36,6 +36,9 @@ local getMainOptions = function()
       [::USEROPT_HUD_SHOW_BONUSES, "spinner"],
       [::USEROPT_DAMAGE_INDICATOR_SIZE, "slider"],
       [::USEROPT_CAMERA_SHAKE_MULTIPLIER, "slider"],
+      [::USEROPT_VR_CAMERA_SHAKE_MULTIPLIER, "slider"],
+      [::USEROPT_FPS_CAMERA_PHYSICS, "slider"],
+      [::USEROPT_FPS_VR_CAMERA_PHYSICS, "slider"],
       [::USEROPT_AUTO_SQUAD, "spinner"],
       [::USEROPT_QUEUE_JIP, "spinner"],
       [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::can_add_tank_alt_crosshair()
@@ -66,7 +69,7 @@ local getMainOptions = function()
       [::USEROPT_HUE_HELICOPTER_HUD, "spinner"],
       [::USEROPT_HUE_HELICOPTER_HUD_ALERT, "spinner"],
       [::USEROPT_HORIZONTAL_SPEED, "spinner"],
-      [::USEROPT_HELICOPTER_HELMET_AIM, "spinner"],
+      [::USEROPT_HELICOPTER_HELMET_AIM, "spinner", !::is_ps4_or_xbox],
 
       ["options/header/tank"],
       [::USEROPT_GRASS_IN_TANK_VISION, "spinner"],
@@ -88,6 +91,7 @@ local getMainOptions = function()
       [::USEROPT_BULLET_FALL_INDICATOR_SHIP, "spinner", ::has_feature("Ships")],
       [::USEROPT_BULLET_FALL_SOUND_SHIP, "spinner", ::has_feature("Ships")],
       [::USEROPT_AUTO_TARGET_CHANGE_SHIP, "spinner", ::has_feature("Ships")],
+      [::USEROPT_REALISTIC_AIMING_SHIP, "spinner", ::has_feature("Ships")],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
@@ -113,8 +117,8 @@ local getMainOptions = function()
       [::USEROPT_MEASUREUNITS_DIST, "spinner"],
       [::USEROPT_MEASUREUNITS_CLIMBSPEED, "spinner"],
       [::USEROPT_MEASUREUNITS_TEMPERATURE, "spinner"],
-      [::USEROPT_MEASUREUNITS_WING_LOADING, "spinner", ::has_feature("CardAirplaneParameters")],
-      [::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO, "spinner", ::has_feature("CardAirplaneParameters") && ::has_feature("CardAirplanePowerParameters")],
+      [::USEROPT_MEASUREUNITS_WING_LOADING, "spinner", ::has_feature("CardAirplaneWingLoadingParameter")],
+      [::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO, "spinner", ::has_feature("CardAirplanePowerParameter")],
 
       ["options/header/playersMarkers"],
       [::USEROPT_SHOW_INDICATORS, "spinner"],
@@ -156,6 +160,7 @@ local getMainOptions = function()
       [::USEROPT_HUE_SPECTATOR_ENEMY, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
       [::USEROPT_REPLAY_ALL_INDICATORS, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
       [::USEROPT_REPLAY_LOAD_COCKPIT, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
+      [::USEROPT_HIDE_MOUSE_SPECTATOR, "spinner", ::has_feature("Replays") || ::has_feature("Spectator")],
 
       ["options/header/userGeneratedContent"],
       [::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE,    "combobox", contentPreset.getContentPresets().len()],

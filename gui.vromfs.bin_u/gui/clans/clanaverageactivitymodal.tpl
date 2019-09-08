@@ -44,12 +44,13 @@ root {
                 left:t='<<markerPos>>%pw-50%w'
                 rotation:t = '<<rotation>>'
                 display:t='<<markerDisplay>>'
-                activeText {
+                <<textType>> {
                   top:t='-h'
                   rotation:t = '<<rotation>>'
-                  left:t='50%pw-50%w'
+                  left:t='<<textPos>>'
                   position:t='absolute'
                   text:t='<<text>>'
+                  tooltip:t='<<tooltip>>'
                 }
               }
             }

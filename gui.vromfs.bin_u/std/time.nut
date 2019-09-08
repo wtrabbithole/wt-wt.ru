@@ -2,6 +2,10 @@
   bad module - it depends on localization
   consider to get table of localizations instead in parameter - or move it out std.lib - or split it into two modules
 */
+local stdStr = require("string")
+local math = require("math")
+
+
 const TIME_SECOND_IN_MSEC = 1000
 const TIME_SECOND_IN_MSEC_F = 1000.0
 const TIME_MINUTE_IN_SECONDS = 60
@@ -13,9 +17,7 @@ const TIME_DAY_IN_SECONDS = 86400
 const TIME_DAY_IN_SECONDS_F = 86400.0
 const TIME_WEEK_IN_SECONDS = 604800
 const TIME_WEEK_IN_SECONDS_F = 604800.0
-
-local stdStr = require("string")
-local math = require("math")
+const DAYS_TO_YEAR_1970 = 719528
 
 
 local millisecondsToSeconds = @(time) time / TIME_SECOND_IN_MSEC_F
@@ -151,6 +153,19 @@ local export = {
   hoursToString = hoursToString
   secondsToString = secondsToString
   getSecondsFromTemplate = getSecondsFromTemplate
+
+  TIME_SECOND_IN_MSEC = TIME_SECOND_IN_MSEC
+  TIME_SECOND_IN_MSEC_F = TIME_SECOND_IN_MSEC_F
+  TIME_MINUTE_IN_SECONDS = TIME_MINUTE_IN_SECONDS
+  TIME_MINUTE_IN_SECONDS_F = TIME_MINUTE_IN_SECONDS_F
+  TIME_HOUR_IN_SECONDS = TIME_HOUR_IN_SECONDS
+  TIME_HOUR_IN_SECONDS_F = TIME_HOUR_IN_SECONDS_F
+  TIME_DAY_IN_HOURS = TIME_DAY_IN_HOURS
+  TIME_DAY_IN_SECONDS = TIME_DAY_IN_SECONDS
+  TIME_DAY_IN_SECONDS_F = TIME_DAY_IN_SECONDS_F
+  TIME_WEEK_IN_SECONDS = TIME_WEEK_IN_SECONDS
+  TIME_WEEK_IN_SECONDS_F = TIME_WEEK_IN_SECONDS_F
+  DAYS_TO_YEAR_1970 = DAYS_TO_YEAR_1970
 }
 
 

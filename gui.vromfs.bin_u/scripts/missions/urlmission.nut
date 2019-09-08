@@ -29,7 +29,7 @@ class UrlMission
   function loadFromBlk(blk)
   {
     foreach(key in saveParamsList)
-      if (typeof blk[key] == typeof this[key])
+      if (typeof blk?[key] == typeof this[key])
         this[key] = blk[key]
   }
 

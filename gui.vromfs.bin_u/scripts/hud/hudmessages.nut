@@ -306,7 +306,9 @@ enums.addTypesByGlobalName("g_hud_messages", {
     onMessage = function (messageData)
     {
       if (messageData.type != ::HUD_MSG_MULTIPLAYER_DMG
-        && messageData.type != ::HUD_MSG_ENEMY_DAMAGE)
+        && messageData.type != ::HUD_MSG_ENEMY_DAMAGE
+        && messageData.type != ::HUD_MSG_ENEMY_CRITICAL_DAMAGE
+        && messageData.type != ::HUD_MSG_ENEMY_FATAL_DAMAGE)
         return
       if (!::checkObj(nest))
         return
@@ -328,11 +330,16 @@ enums.addTypesByGlobalName("g_hud_messages", {
         obj = null
       }
       stack.append(message)
-      local view = {
-        text = messageData.type == ::HUD_MSG_MULTIPLAYER_DMG
-          ? ::HudBattleLog.msgMultiplayerDmgToText(messageData, true)
-          : ::colorize("silver", messageData.text)
-      }
+      local text = null
+      if (messageData.type == ::HUD_MSG_MULTIPLAYER_DMG)
+        text = ::HudBattleLog.msgMultiplayerDmgToText(messageData, true)
+      else if (messageData.type == ::HUD_MSG_ENEMY_CRITICAL_DAMAGE)
+        text = ::colorize("orange", messageData.text)
+      else if (messageData.type == ::HUD_MSG_ENEMY_FATAL_DAMAGE)
+        text = ::colorize("red", messageData.text)
+      else
+        text = ::colorize("silver", messageData.text)
+      local view = { text = text }
 
       local timeToShow = timestamp
        ? showSec - (::dagor.getCurTime() - timestamp) / 1000.0

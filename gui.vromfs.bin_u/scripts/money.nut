@@ -17,7 +17,7 @@
     This need for optimize comparison.
 */
 
-enum money_type {
+global enum money_type {
   none,
   cost,
   balance
@@ -53,25 +53,25 @@ enum money_color {
   }
 }
 
-function Money::setFrp(value)
+Money.setFrp <- function setFrp(value)
 {
   frp = value
   return this
 }
 
-function Money::setRp(value)
+Money.setRp <- function setRp(value)
 {
   rp = value
   return this
 }
 
-function Money::setSap(value)
+Money.setSap <- function setSap(value)
 {
   sap = value
   return this
 }
 
-function Money::setFromTbl(tbl = null)
+Money.setFromTbl <- function setFromTbl(tbl = null)
 {
   wp = tbl?.wp ?? 0
   gold = tbl?.gold ?? 0
@@ -81,13 +81,13 @@ function Money::setFromTbl(tbl = null)
   return this
 }
 
-function Money::isZero()
+Money.isZero <- function isZero()
 {
   return !wp && !gold && !frp && !rp && !sap
 }
 
 //Math methods
-function Money::_add(that)
+Money._add <- function _add(that)
 {
   local newClass = this.getclass()
   return newClass(this.wp + that.wp,
@@ -97,7 +97,7 @@ function Money::_add(that)
                   this.sap + that.sap)
 }
 
-function Money::_sub(that)
+Money._sub <- function _sub(that)
 {
   local newClass = this.getclass()
   return newClass(this.wp - that.wp,
@@ -107,7 +107,7 @@ function Money::_sub(that)
                   this.sap - that.sap)
 }
 
-function Money::multiply(multiplier)
+Money.multiply <- function multiply(multiplier)
 {
   wp   = (multiplier * wp   + 0.5).tointeger()
   gold = (multiplier * gold + 0.5).tointeger()
@@ -117,7 +117,7 @@ function Money::multiply(multiplier)
   return this
 }
 
-function Money::__impl_cost_to_balance_cmp(balance, cost)
+Money.__impl_cost_to_balance_cmp <- function __impl_cost_to_balance_cmp(balance, cost)
 {
   local res = 0
   foreach (key in __data_fields)
@@ -132,7 +132,7 @@ function Money::__impl_cost_to_balance_cmp(balance, cost)
   return res
 }
 
-function Money::_cmp(that)
+Money._cmp <- function _cmp(that)
 {
   if (this.mType == money_type.balance && that.mType == money_type.cost)
     return __impl_cost_to_balance_cmp(this, that)
@@ -147,42 +147,42 @@ function Money::_cmp(that)
 }
 
 //String methods
-function Money::_tostring()
+Money._tostring <- function _tostring()
 {
   return __impl_get_text()
 }
 
-function Money::toStringWithParams(params)
+Money.toStringWithParams <- function toStringWithParams(params)
 {
   return __impl_get_text(params)
 }
 
-function Money::getTextAccordingToBalance()
+Money.getTextAccordingToBalance <- function getTextAccordingToBalance()
 {
   return __impl_get_text({needCheckBalance = true})
 }
 
-function Money::getUncoloredText()
+Money.getUncoloredText <- function getUncoloredText()
 {
   return __impl_get_text({isColored = false})
 }
 
-function Money::getUncoloredWpText()
+Money.getUncoloredWpText <- function getUncoloredWpText()
 {
   return this.__impl_get_wp_text(false)
 }
 
-function Money::getColoredWpText()
+Money.getColoredWpText <- function getColoredWpText()
 {
   return this.__impl_get_wp_text(true)
 }
 
-function Money::getGoldText(colored, checkBalance)
+Money.getGoldText <- function getGoldText(colored, checkBalance)
 {
   return this.__impl_get_gold_text(colored, checkBalance)
 }
 
-function Money::__check_color(value, colorIdx)
+Money.__check_color <- function __check_color(value, colorIdx)
 {
   if (colorIdx == money_color.BAD)
     return "<color=@badTextColor>" + value + "</color>"
@@ -191,48 +191,48 @@ function Money::__check_color(value, colorIdx)
   return value
 }
 
-function Money::__get_wp_color_id()   { return money_color.NEUTRAL }
-function Money::__get_gold_color_id() { return money_color.NEUTRAL }
-function Money::__get_frp_color_id()  { return money_color.NEUTRAL }
-function Money::__get_rp_color_id()   { return money_color.NEUTRAL }
-function Money::__get_sap_color_id()   { return money_color.NEUTRAL }
+Money.__get_wp_color_id <- function __get_wp_color_id()   { return money_color.NEUTRAL }
+Money.__get_gold_color_id <- function __get_gold_color_id() { return money_color.NEUTRAL }
+Money.__get_frp_color_id <- function __get_frp_color_id()  { return money_color.NEUTRAL }
+Money.__get_rp_color_id <- function __get_rp_color_id()   { return money_color.NEUTRAL }
+Money.__get_sap_color_id <- function __get_sap_color_id()   { return money_color.NEUTRAL }
 
-function Money::__impl_get_wp_text(colored = true, checkBalance = false)
+Money.__impl_get_wp_text <- function __impl_get_wp_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_wp_color_id() : money_color.NEUTRAL
   return __check_color(::g_language.decimalFormat(wp), color_id) +
     ::loc(colored ? "warpoints/short/colored" : "warpoints/short")
 }
 
-function Money::__impl_get_gold_text(colored = true, checkBalance = false)
+Money.__impl_get_gold_text <- function __impl_get_gold_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_gold_color_id() : money_color.NEUTRAL
   return __check_color(::g_language.decimalFormat(gold), color_id) +
     ::loc(colored ? "gold/short/colored" : "gold/short")
 }
 
-function Money::__impl_get_frp_text(colored = true, checkBalance = false)
+Money.__impl_get_frp_text <- function __impl_get_frp_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_frp_color_id() : money_color.NEUTRAL
   return __check_color(::g_language.decimalFormat(frp), color_id) +
     ::loc(colored ? "currency/freeResearchPoints/sign/colored" : "currency/freeResearchPoints/sign")
 }
 
-function Money::__impl_get_rp_text(colored = true, checkBalance = false)
+Money.__impl_get_rp_text <- function __impl_get_rp_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_rp_color_id() : money_color.NEUTRAL
   return __check_color(::g_language.decimalFormat(rp), color_id) +
     ::loc(colored ? "currency/researchPoints/sign/colored" : "currency/researchPoints/sign")
 }
 
-function Money::__impl_get_sap_text(colored = true, checkBalance = false)
+Money.__impl_get_sap_text <- function __impl_get_sap_text(colored = true, checkBalance = false)
 {
   local color_id = (checkBalance && colored)? __get_sap_color_id() : money_color.NEUTRAL
   return __check_color(::g_language.decimalFormat(sap), color_id) +
     ::loc(colored ? "currency/squadronActivity/colored" : "currency/squadronActivity")
 }
 
-function Money::__impl_get_text(params = null)
+Money.__impl_get_text <- function __impl_get_text(params = null)
 {
   local text = ""
   local isColored = params?.isColored ?? true

@@ -3,7 +3,8 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local battleRating = ::require("scripts/battleRating.nut")
-local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
+local clanVehiclesModal = require("scripts/clans/clanVehiclesModal.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -27,12 +28,12 @@ local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
   }
 */
 
-function update_start_mission_instead_of_queue()
+::update_start_mission_instead_of_queue <- function update_start_mission_instead_of_queue()
 {
   local rBlk = ::get_ranks_blk()
 
-  local mInfo = rBlk.custom_single_mission
-  if (!mInfo || !mInfo.name)
+  local mInfo = rBlk?.custom_single_mission
+  if (!mInfo || !mInfo?.name)
     ::start_mission_instead_of_queue = null
   else
   {
@@ -42,7 +43,7 @@ function update_start_mission_instead_of_queue()
   }
 }
 
-function get_req_tutorial(unitType)
+::get_req_tutorial <- function get_req_tutorial(unitType)
 {
   return ::getTblValue(unitType, ::req_tutorial, "")
 }
@@ -112,18 +113,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     return null
   }
 
-  gameModeSelectHandler = null
   newGameModeIconWidget = null
-  function getGameModeSelectHandler()
-  {
-    if (!::handlersManager.isHandlerValid(gameModeSelectHandler))
-      initGameModeSelectHandler()
-    if (::handlersManager.isHandlerValid(gameModeSelectHandler))
-      return gameModeSelectHandler
-    ::dagor.assertf(false, "Failed to get gameModeSelectHandler.")
-    return null
-  }
-
   slotbarPresetsTutorial = null
 
   function initScreen()
@@ -203,22 +193,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     registerSubHandler(gamercardDrawerHandler)
   }
 
-  function initGameModeSelectHandler()
-  {
-    local drawer = getGamercardDrawerHandler()
-    if (drawer == null)
-      return
-
-    local gameModeSelectContainer = drawer.scene.findObject("game_mode_select_container")
-    if (gameModeSelectContainer == null)
-      return
-
-    local params = {
-      scene = gameModeSelectContainer
-    }
-    gameModeSelectHandler = ::handlersManager.loadHandler(::gui_handlers.GameModeSelect, params)
-  }
-
   function initToBattleButton()
   {
     if (!rootHandlerWeak)
@@ -242,6 +216,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     rootHandlerWeak.scene.findObject("gamercard_logo").show(false)
     gameModeChangeButtonObj = rootHandlerWeak.scene.findObject("game_mode_change_button")
     countriesListObj = rootHandlerWeak.scene.findObject("countries_list")
+
+    if (!::has_feature("GameModeSelector"))
+    {
+      gameModeChangeButtonObj.show(false)
+      gameModeChangeButtonObj.enable(false)
+    }
 
     newGameModesWidgetsPlaceObj = rootHandlerWeak.scene.findObject("new_game_modes_widget_place")
     updateUnseenGameModesCounter()
@@ -272,8 +252,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
     {
-      local gameModeId = ::g_squad_manager.squadData?.leaderGameModeId ?? ""
-      local leaderBR = ::g_squad_manager.squadData?.leaderBattleRating ?? 0
+      local gameModeId = ::g_squad_manager.getLeaderGameModeId()
+      local leaderBR = ::g_squad_manager.getLeaderBattleRating()
       if(gameModeId != "")
         name = ::events.getEventNameText(::events.getEvent(gameModeId))
       if(leaderBR > 0)
@@ -328,20 +308,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (::getTblValue("crewsChanged", params, true))
       doWhenActiveOnce("onCountrySelectAction")
-  }
-
-  function onEventUpdateModesInfo(p)
-  {
-    doWhenActiveOnce("doWhenActiveOnce_reinitScreen")
-  }
-
-  /**
-   * This is a 'reinitScreen' wrapper that
-   * fixes 'wrong number of parameters' error.
-   */
-  function doWhenActiveOnce_reinitScreen()
-  {
-    reinitScreen(null)
   }
 
   function onEventSquadSetReady(params)
@@ -450,12 +416,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       isCanceledByPlayer = true }))
       return
 
-    if (getGameModeSelectHandler().getShowGameModeSelect())
-    {
-      getGameModeSelectHandler().setShowGameModeSelect(false)
-      return
-    }
-
     if (checkTopMenuButtons && ::top_menu_handler && ::top_menu_handler.leftSectionHandlerWeak)
     {
       ::top_menu_handler.leftSectionHandlerWeak.switchMenuFocus()
@@ -473,12 +433,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!params.isOpening)
       restoreFocus()
-
-    // This deactivates "To battle" button when game mode select is active.
-    //FIX ME: better to ask about cur handler from drawer, but he doesn't know about it atm
-    if (::handlersManager.isHandlerValid(gameModeSelectHandler))
-      setToBattleButtonAccessKeyActive(!params.isOpening
-        || gameModeSelectHandler.scene.id != getGamercardDrawerHandler()?.currentTarget?.id)
   }
 
   _isToBattleAccessKeyActive = true
@@ -532,6 +486,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return ::g_squad_manager.setReadyFlag()
 
     if (leaveCurQueue({ isLeaderCanJoin = true, isCanceledByPlayer = true}))
+      return
+
+    if (!antiCheat.showMsgboxIfEacInactive())
       return
 
     local curGameMode = ::game_mode_manager.getCurrentGameMode()
@@ -1105,7 +1062,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (!obj)
       return
     local isGold = false
-    if (obj.id == "btn_unlock_crew_gold")
+    if (obj?.id == "btn_unlock_crew_gold")
       isGold = true
     local unit = ::get_player_cur_unit()
     if (!unit)
@@ -1340,11 +1297,14 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateNoticeGMChanged()
   {
+    if (!::has_feature("GameModeSelector"))
+      return
+
     local notice = null
     local alertObj = scene.findObject("game_mode_notice")
     if(::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
     {
-      local gameModeId = ::g_squad_manager.squadData?.leaderGameModeId
+      local gameModeId = ::g_squad_manager.getLeaderGameModeId()
       if(gameModeId && gameModeId != "")
         notice = ::loc("mainmenu/leader_gamemode_notice")
       alertObj.hideConsoleImage = "yes"
@@ -1387,34 +1347,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkNonApprovedSquadronResearches()
   {
-    if (!::isInMenu() || !::has_feature("ClanVehicles") || ::checkIsInQueue())
-      return
-
-    local researchingUnitName = ::clan_get_researching_unit()
-    if (researchingUnitName == "")
-      return
-
-    local curSquadronExp = ::clan_get_exp()
-    local hasChosenResearchOfSquadron = squadronUnitAction.hasChosenResearch()
-    if (hasChosenResearchOfSquadron && curSquadronExp <=0)
-      return
-
-    local unit = ::getAircraftByName(researchingUnitName)
-    if (!unit || !unit.isVisibleInShop())
-      return
-
-    if ((hasChosenResearchOfSquadron || !::is_in_clan())
-      && (curSquadronExp <= 0 || curSquadronExp < unit.reqExp - ::getUnitExp(unit)))
-      return
-
-    local country = unit.shopCountry
-    if (country != ::get_profile_country_sq())
-      ::switch_profile_country(country)
-
-    ::gui_handlers.ShopViewWnd.open({
-      curAirName = unit.name,
-      forceUnitType = unit.unitType,
-      isSquadronResearchMode = true})
+    if (clanVehiclesModal.isHaveNonApprovedResearches())
+      clanVehiclesModal.open()
   }
 
   function onEventClanChanged(params)
@@ -1428,12 +1362,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function is_need_check_tutorial(diff)
+::is_need_check_tutorial <- function is_need_check_tutorial(diff)
 {
   return diff > 0
 }
 
-function isDiffUnlocked(diff, checkUnitType)
+::isDiffUnlocked <- function isDiffUnlocked(diff, checkUnitType)
 {
   //check played before
   for(local d = diff; d<3; d++)
@@ -1463,7 +1397,7 @@ function isDiffUnlocked(diff, checkUnitType)
   return true
 }
 
-function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
+::getBrokenAirsInfo <- function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
 {
   local res = {
           canFlyout = true
@@ -1564,12 +1498,13 @@ function getBrokenAirsInfo(countries, respawn, checkAvailFunc = null)
   return res
 }
 
-function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCountry = true, cancelFunc = null)
+::checkBrokenAirsAndDo <- function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCountry = true, cancelFunc = null)
 {
   if (repairInfo.weaponWarning && repairInfo.unreadyAmmoList && !::get_gui_option(::USEROPT_SKIP_WEAPON_WARNING))
   {
+    local price = ::Cost(repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold)
     local msg = ::loc(repairInfo.haveRespawns ? "msgbox/all_planes_zero_ammo_warning" : "controls/no_ammo_left_warning")
-    msg += "\n\n" + format(::loc("buy_unsufficient_ammo"), ::Cost(repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold).tostring())
+    msg += "\n\n" + ::format(::loc("buy_unsufficient_ammo"), price.getTextAccordingToBalance())
 
     ::gui_start_modal_wnd(::gui_handlers.WeaponWarningHandler,
       {
@@ -1577,16 +1512,18 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
         message = msg
         startBtnText = ::loc("mainmenu/btnBuy")
         ableToStartAndSkip = true
-        onStartPressed = (@(repairInfo, handler, startFunc, canRepairWholeCountry) function() {
-          buyAllAmmoAndApply(handler, repairInfo.unreadyAmmoList,
-            (@(repairInfo, handler, startFunc, canRepairWholeCountry) function() {
+        onStartPressed = function() {
+          buyAllAmmoAndApply(
+            handler,
+            repairInfo.unreadyAmmoList,
+            function() {
               repairInfo.weaponWarning = false
               repairInfo.canFlyout = repairInfo.canFlyoutIfRefill
               ::checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCountry)
-            })(repairInfo, handler, startFunc, canRepairWholeCountry),
-            repairInfo.unreadyAmmoCost, repairInfo.unreadyAmmoCostGold
+            },
+            price
           )
-        })(repairInfo, handler, startFunc, canRepairWholeCountry)
+        }
         cancelFunc = cancelFunc
       })
     return
@@ -1613,7 +1550,7 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
       msgText = ::format(::loc(::format(msgText, "repared")), ::Cost(repairInfo.repairCost).tostring())
     else
       msgText = ::format(::loc(::format(msgText, "available")),
-        time.secondsToString(::get_warpoints_blk().lockTimeMaxLimitSec || 0))
+        time.secondsToString(::get_warpoints_blk()?.lockTimeMaxLimitSec ?? 0))
 
     local repairBtnName = respawns ? "RepairAll" : "Repair"
     local buttons = repairInfo.canFlyoutIfRepair ?
@@ -1639,7 +1576,7 @@ function checkBrokenAirsAndDo(repairInfo, handler, startFunc, canRepairWholeCoun
     startFunc.call(handler)
 }
 
-function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCancelFunc, canRepairWholeCountry = true, totalRCost=null)
+::repairAllAirsAndApply <- function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCancelFunc, canRepairWholeCountry = true, totalRCost=null)
 {
   if (!handler)
     return
@@ -1685,7 +1622,7 @@ function repairAllAirsAndApply(handler, broken_countries, afterDoneFunc, onCance
   }
 }
 
-function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost = 0, totalCostGold = 0)
+::buyAllAmmoAndApply <- function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost = ::Cost())
 {
   if (!handler)
     return
@@ -1696,7 +1633,7 @@ function buyAllAmmoAndApply(handler, unreadyAmmoList, afterDoneFunc, totalCost =
     return
   }
 
-  if (!::old_check_balance_msgBox(totalCost, totalCostGold))
+  if (!::check_balance_msgBox(totalCost))
     return
 
   local ammo = unreadyAmmoList[0]

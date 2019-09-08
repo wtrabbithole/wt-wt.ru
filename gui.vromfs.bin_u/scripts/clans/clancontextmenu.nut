@@ -75,12 +75,12 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
     {
       text = ::loc("clan/requestReject")
       show = ::isInArray("MEMBER_REJECT", myClanRights) || isClanAdmin
-      action = @() ::g_clans.rejectPlayerRequest(playerUid)
+      action = @() ::g_clans.rejectPlayerRequest(playerUid, clanId)
     }
     {
       text = ::loc("clan/blacklistAdd")
-      show = ::isInArray("MEMBER_BLACKLIST", myClanRights)
-      action = @() ::g_clans.blacklistAction(playerUid, true)
+      show = ::isInArray("MEMBER_BLACKLIST", myClanRights) || isClanAdmin
+      action = @() ::g_clans.blacklistAction(playerUid, true, clanId)
     }
   ]
 }

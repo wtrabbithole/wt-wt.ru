@@ -1,4 +1,4 @@
-const MAX_FETCH_RETRIES = 5
+global const MAX_FETCH_RETRIES = 5
 
 ::online_stats <- {
   players_total = 0
@@ -39,7 +39,7 @@ const MAX_FETCH_RETRIES = 5
 ::g_script_reloader.registerPersistentData("onlineInfoGlobals", ::getroottable(),
   ["online_stats", "online_info_server_time_param", "online_info_server_time_recieved"])
 
-function get_matching_server_time()
+::get_matching_server_time <- function get_matching_server_time()
 {
   return ::online_info_server_time_param + (dagor.getCurTime()/1000 - ::online_info_server_time_recieved)
 }

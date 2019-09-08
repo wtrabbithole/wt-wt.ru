@@ -77,14 +77,6 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
       showSceneBtn(rootDescId, isShow)
   }
 
-  function checkAndUpdateVisible()
-  {
-    if (!showDesc)
-      return false
-
-    return true
-  }
-
   function updateName()
   {
     local nameObj = scene.findObject("item_name")
@@ -154,7 +146,7 @@ class ::gui_handlers.WwMapDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(obj) || !descItem)
       return
 
-    obj.setValue(descItem.getChangeStateTimeText())
+    obj.setValue(descItem.getMapChangeStateTimeText())
   }
 
   function onTimerDescriptionUpdate(obj, dt)

@@ -12,7 +12,7 @@
 // getParamValue(i)
 // getParamName(i)
 
-function can_be_readed_as_datablock(blk)
+::can_be_readed_as_datablock <- function can_be_readed_as_datablock(blk)
 {
   return (typeof(blk) == "instance"
           && (blk instanceof ::DataBlock || blk instanceof ::DataBlockAdapter))
@@ -64,10 +64,14 @@ class DataBlockAdapter
     return null
   }
 
-  function _get(key)
+  function _get(key, skip_errors)
   {
     if (!(key in ___originData___))
+    {
+      if (!skip_errors)
+        ::script_net_assert("Missing slot '" + key + "' in DataBlockAdapter")
       return null
+    }
     return ___checkReturn___(___originData___[key], key)
   }
 

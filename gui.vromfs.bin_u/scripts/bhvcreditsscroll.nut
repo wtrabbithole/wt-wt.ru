@@ -14,7 +14,7 @@ class gui_bhv.CreditsScroll
     if (pos[1]+size[1] < 0)
     {
       curOffs = -(0.9*parentSize[1]).tointeger()
-      if (obj.inited=="yes")
+      if (obj?.inited == "yes")
       {
         ::on_credits_finish()
         return
@@ -42,7 +42,7 @@ class gui_bhv.CreditsScroll
 
 }
 
-function on_credits_finish(canceled = false)
+::on_credits_finish <- function on_credits_finish(canceled = false)
 {
   if (!canceled)
     ::req_unlock_by_client("view_credits", false)

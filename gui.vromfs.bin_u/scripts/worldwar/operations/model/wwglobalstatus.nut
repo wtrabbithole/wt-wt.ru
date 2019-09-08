@@ -1,5 +1,5 @@
 ::g_ww_global_status <- {
-  [PERSISTENT_DATA_PARAMS] = ["curData", "validListsMask", "lastUpdatetTime", "lastRequestTime", "clientStartServerTimeSec"]
+  [PERSISTENT_DATA_PARAMS] = ["curData", "validListsMask", "lastUpdatetTime", "lastRequestTime"]
 
   curData = null
   validListsMask = 0
@@ -8,10 +8,24 @@
   lastUpdatetTime = -1
   lastRequestTime = -1
 
-  clientStartServerTimeSec = -1
+  function getNearestAvailabelMapToBattle()
+  {
+    local nearestAvailabelMap = null
+    foreach(map in ::g_ww_global_status_type.MAPS.getList())
+      if (map.isAnnounceAndNotDebug(false))
+        if (map.isActive())
+          return map
+        else
+          nearestAvailabelMap = !nearestAvailabelMap ||
+            nearestAvailabelMap.getChangeStateTime() > map.getChangeStateTime()
+              ? map
+              : nearestAvailabelMap
+
+    return nearestAvailabelMap
+  }
 }
 
-function g_ww_global_status::reset()
+g_ww_global_status.reset <- function reset()
 {
   curData = null
   validListsMask = 0
@@ -21,14 +35,14 @@ function g_ww_global_status::reset()
     refreshData()
 }
 
-function g_ww_global_status::refreshData(refreshDelay = WWGS_REFRESH_DELAY.LATENT_QUEUE_REFRESH, taskOptions = null)
+g_ww_global_status.refreshData <- function refreshData(refreshDelay = WWGS_REFRESH_DELAY.LATENT_QUEUE_REFRESH, taskOptions = null)
 {
   if (canRefreshData(refreshDelay))
     actionRequest("cln_ww_global_status", null, taskOptions)
 }
 
 //special actions with global status in successCb
-function g_ww_global_status::actionRequest(actionName, requestBlk, taskOptions = null, onSuccessCb = null, onErrorCb = null)
+g_ww_global_status.actionRequest <- function actionRequest(actionName, requestBlk, taskOptions = null, onSuccessCb = null, onErrorCb = null)
 {
   lastRequestTime = ::dagor.getCurTime()
   local wasRequestTime = lastRequestTime
@@ -41,12 +55,9 @@ function g_ww_global_status::actionRequest(actionName, requestBlk, taskOptions =
   ::g_tasker.charRequestJson(actionName, requestBlk, taskOptions, cb, onErrorCb)
 }
 
-function g_ww_global_status::onGlobalStatusReceived(newData, wasRequestTime)
+g_ww_global_status.onGlobalStatusReceived <- function onGlobalStatusReceived(newData, wasRequestTime)
 {
   lastUpdatetTime = ::dagor.getCurTime()
-  if (wasRequestTime == lastRequestTime)
-    updateDataReceiveTime(newData)
-
   local changedListsMask = 0
   foreach(gsType in ::g_ww_global_status_type.types)
     if (!::u.isEqual(gsType.getData(curData), gsType.getData(newData)))
@@ -64,12 +75,12 @@ function g_ww_global_status::onGlobalStatusReceived(newData, wasRequestTime)
   pushStatusChangedEvent(changedListsMask)
 }
 
-function g_ww_global_status::pushStatusChangedEvent(changedListsMask)
+g_ww_global_status.pushStatusChangedEvent <- function pushStatusChangedEvent(changedListsMask)
 {
   ::ww_event("GlobalStatusChanged", { changedListsMask = changedListsMask })
 }
 
-function g_ww_global_status::canRefreshData(refreshDelay)
+g_ww_global_status.canRefreshData <- function canRefreshData(refreshDelay)
 {
   if (lastRequestTime > lastUpdatetTime && lastRequestTime + REQUEST_TIMEOUT_MSEC > ::dagor.getCurTime())
     return false
@@ -80,63 +91,48 @@ function g_ww_global_status::canRefreshData(refreshDelay)
   return true
 }
 
-function g_ww_global_status::updateDataReceiveTime(newData)
-{
-  local newStartTime = ::getTblValue("serverTime", newData, ::get_charserver_time_sec())
-                       - (lastUpdatetTime + lastRequestTime) / 2000
-
-  if (abs(clientStartServerTimeSec - newStartTime) > 1)
-    clientStartServerTimeSec = newStartTime
-}
-
-function g_ww_global_status::getTimeSec()
-{
- //for more smother seconds tick make them switch sync with 0ms getCurTime()
-  return clientStartServerTimeSec + ::dagor.getCurTime() / 1000
-}
-
-function g_ww_global_status::getOperationById(operationId)
+g_ww_global_status.getOperationById <- function getOperationById(operationId)
 {
   return ::u.search(::g_ww_global_status_type.ACTIVE_OPERATIONS.getList(),
                     (@(operationId) function(o) { return o.id == operationId})(operationId))
 }
 
-function g_ww_global_status::getMyClanOperation()
+g_ww_global_status.getMyClanOperation <- function getMyClanOperation()
 {
   return ::u.search(::g_ww_global_status_type.ACTIVE_OPERATIONS.getList(),
                     function(o) { return o.isMyClanParticipate() })
 }
 
-function g_ww_global_status::getMapByName(mapName)
+g_ww_global_status.getMapByName <- function getMapByName(mapName)
 {
   return ::getTblValue(mapName, ::g_ww_global_status_type.MAPS.getList())
 }
 
 //always return queue. do not return null
-function g_ww_global_status::getQueueByMapName(mapName)
+g_ww_global_status.getQueueByMapName <- function getQueueByMapName(mapName)
 {
   return ::getTblValue(mapName, ::g_ww_global_status_type.QUEUE.getList()) || ::WwQueue(mapName)
 }
 
-function g_ww_global_status::getOperationGroupByMapId(mapId)
+g_ww_global_status.getOperationGroupByMapId <- function getOperationGroupByMapId(mapId)
 {
   return ::u.search(::g_ww_global_status_type.OPERATIONS_GROUPS.getList(),
                     (@(mapId) function(og) { return og.mapId == mapId })(mapId)) || ::WwOperationsGroup(mapName)
 }
 
-function g_ww_global_status::isMyClanInQueue()
+g_ww_global_status.isMyClanInQueue <- function isMyClanInQueue()
 {
   return ::is_in_clan()
           && !!::u.search(::g_ww_global_status_type.QUEUE.getList(),
                           function(q) { return q.isMyClanJoined() })
 }
 
-function g_ww_global_status::onEventLoginComplete(p)
+g_ww_global_status.onEventLoginComplete <- function onEventLoginComplete(p)
 {
   refreshData(WWGS_REFRESH_DELAY.FORCED)
 }
 
-function g_ww_global_status::onEventMyClanIdChanged(p)
+g_ww_global_status.onEventMyClanIdChanged <- function onEventMyClanIdChanged(p)
 {
   foreach(op in ::g_ww_global_status_type.ACTIVE_OPERATIONS.getList())
     op.resetCache()
@@ -148,7 +144,7 @@ function g_ww_global_status::onEventMyClanIdChanged(p)
                          | WW_GLOBAL_STATUS_TYPE.QUEUE)
 }
 
-function g_ww_global_status::onEventScriptsReloaded(p)
+g_ww_global_status.onEventScriptsReloaded <- function onEventScriptsReloaded(p)
 {
   refreshData()
 }

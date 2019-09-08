@@ -1,10 +1,10 @@
-enum WM_CONTENT_TYPE {
+global enum WM_CONTENT_TYPE {
   TEXT,
   TEMPLATE
 }
 
 // TEST:  ::gui_start_wheelmenu({ menu = [0,1,2,3,4,5,6,7], callbackFunc = dlog })
-function gui_start_wheelmenu(params)
+::gui_start_wheelmenu <- function gui_start_wheelmenu(params)
 {
   local defaultParams = {
     menu = {}
@@ -27,7 +27,7 @@ function gui_start_wheelmenu(params)
   return handler
 }
 
-function close_cur_wheelmenu()
+::close_cur_wheelmenu <- function close_cur_wheelmenu()
 {
   local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.wheelMenuHandler)
   if (handler && handler.isActive)

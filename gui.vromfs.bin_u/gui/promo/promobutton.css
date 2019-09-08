@@ -1,4 +1,5 @@
-@const maxPromoButtonWidth: 1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo + 1@arrowBaseBtnWidth + 1@overflowScreenButton + 1@newWidgetIconHeight + 1@scrollBarSize + 0.13@sf;
+@const promoButtonPadding: (@bw $max @blockInterval);
+@const maxPromoButtonWidth: 1@promoButtonPadding + 1@arrowButtonWidth + 1@arrowBaseBtnWidth + 1@newWidgetIconHeight + 1@scrollBarSize + 0.13@sf;
 
 @const arrowButtonHeight: 0.042@sf;
 @const arrowButtonWidth: 0.35@sf;
@@ -6,10 +7,8 @@
 
 @const arrowButtonWithImageHeight: 0.17@sf;
 
-@const promoButtonTextPadding: 2;
-@const overflowScreenButton: 7;
-
-@const arrowBaseBtnWidth: 1/3@mIco + 1@overflowScreenButton;
+@const promoButtonTextPadding: 2@dp;
+@const arrowBaseBtnWidth: 1/3@mIco;
 
 @const promoButtonSizeWithOffsets: 1@mIco;
 @const promoBtnNotCollapsedBgVPadding: 20@sf/@pf;
@@ -20,19 +19,11 @@
 
 @const airInfoToggleButtonSize: @mIco + 2@buttonImgPadding;
 
-@const promoButtonPadding: (1@offsetBetweenScreenAndAirinfo - 1@cIco) $max (1@overflowScreenButton + 1@blockInterval);
-
 promoButton {
-  background-image: #ui/gameuiskin#expandable_item_ww_transp;
-  background-position: 5,2;
-  background-color: @white;
-  background-repeat: expand;
-  color-factor:200;
-
   css-hier-invalidate:yes;
   total-input-transparent:yes;
 
-  pos: pw - w + 1@overflowScreenButton, 0;
+  pos: pw - w, 0;
   position: relative;
 
   margin-bottom: 1@blockInterval;
@@ -46,7 +37,17 @@ promoButton[type=battleTask] {
   flow:vertical;
 }
 
-promoButton:hover {
+promoButton > bgGradientRight {
+  size:pw - 0.5(sw - @swMain), ph;
+  position:absolute;
+  re-type:9rect;
+  background-image: #ui/gameuiskin#expandable_item_ww_transp;
+  background-position: 5,2;
+  background-color: @white;
+  background-repeat: expand;
+  color-factor:200;
+}
+promoButton:hover > bgGradientRight {
   color-factor:255;
   background-image: #ui/gameuiskin#expandable_item_sub_transp;
 }
@@ -59,7 +60,7 @@ promoButton > uncollapsedContainer {
 promoButton[type=battleTask] > expandable {
   behaviour: button;
   background-color:@transparent;
-  width:1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;
+  width:1@arrowButtonWidth;
   pos: 0, 0;
   position: relative;
   padding:0, 1@blockInterval, 0, 0;
@@ -136,8 +137,8 @@ promoButton[type=battleTask] expandable[setStandartWidth=yes] > selImg > header 
 
 promoButton[type=simpleList] {
   height:1@arrowButtonHeight;
-  width:1@arrowButtonWidth + 1@offsetBetweenScreenAndAirinfo;
-  padding-right:1@offsetBetweenScreenAndAirinfo;
+  width:1@arrowButtonWidth + 1@promoButtonPadding;
+  padding-right:1@promoButtonPadding;
 }
 
 promoButton > collapsedContainer {

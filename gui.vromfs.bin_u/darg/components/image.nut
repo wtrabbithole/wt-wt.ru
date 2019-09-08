@@ -1,5 +1,5 @@
 local Picture = ::Picture
-local function image(image, params={}, addchildren = null) {
+local function image(val, params={}, addchildren = null) {
 
   local children = params?.children
   if (children && ::type(children) !="array")
@@ -11,12 +11,12 @@ local function image(image, params={}, addchildren = null) {
       children.append(addchildren)
   }
 
-  if (::type(image)=="string")
-    image=Picture(image) //handle svg here!!
+  if (::type(val)=="string")
+    val=Picture(val) //handle svg here!!
 
   return {
     rendObj = ROBJ_IMAGE
-    image = image
+    image = val
     size=SIZE_TO_CONTENT
   }.__update(params).__update({children=children})
 }

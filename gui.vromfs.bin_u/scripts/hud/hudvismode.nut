@@ -1,5 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
-enum HUD_VIS_PART //bit enum
+global enum HUD_VIS_PART //bit enum
 {
   DMG_PANEL           = 0x0001
   MAP                 = 0x0002
@@ -65,13 +65,13 @@ enums.addTypesByGlobalName("g_hud_vis_mode", {
   return a.hudGm > b.hudGm ? 1 : (a.hudGm < b.hudGm ? -1 : 0)
 })
 
-function g_hud_vis_mode::getModeByHudGm(hudGm, defValue = ::g_hud_vis_mode.DEFAULT)
+g_hud_vis_mode.getModeByHudGm <- function getModeByHudGm(hudGm, defValue = ::g_hud_vis_mode.DEFAULT)
 {
   return enums.getCachedType("hudGm", hudGm, ::g_hud_vis_mode.cache.byHudGm,
     ::g_hud_vis_mode, defValue)
 }
 
-function g_hud_vis_mode::getCurMode()
+g_hud_vis_mode.getCurMode <- function getCurMode()
 {
   return getModeByHudGm(::get_hud_game_mode(), ::g_hud_vis_mode.FULL)
 }

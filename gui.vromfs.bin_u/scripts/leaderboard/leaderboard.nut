@@ -96,12 +96,12 @@ local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
   }
 ]
 
-function gui_modal_leaderboards(lb_presets = null)
+::gui_modal_leaderboards <- function gui_modal_leaderboards(lb_presets = null)
 {
   gui_start_modal_wnd(::gui_handlers.LeaderboardWindow, {lb_presets = lb_presets})
 }
 
-function gui_modal_event_leaderboards(eventId = null)
+::gui_modal_event_leaderboards <- function gui_modal_event_leaderboards(eventId = null)
 {
   gui_start_modal_wnd(::gui_handlers.EventsLeaderboardWindow, {eventId = eventId})
 }
@@ -216,7 +216,7 @@ function gui_modal_event_leaderboards(eventId = null)
 
   function handleLbRequest(requestData)
   {
-    local LbBlk = get_leaderboard_blk()
+    local LbBlk = ::get_leaderboard_blk()
     leaderboardData = {}
     leaderboardData["rows"] <- lbBlkToArray(LbBlk, requestData)
     canRequestLb = true
@@ -236,7 +236,7 @@ function gui_modal_event_leaderboards(eventId = null)
 
   function handleSelfRowLbRequest(requestData)
   {
-    local sefRowblk = get_leaderboard_blk()
+    local sefRowblk = ::get_leaderboard_blk()
     selfRowData = lbBlkToArray(sefRowblk, requestData)
     canRequestLb = true
     if (!compareRequests(lastRequestSRData, requestData))
@@ -355,7 +355,7 @@ function gui_modal_event_leaderboards(eventId = null)
  *
  * @return view for getLeaderboardItemWidgets(...)
  */
-function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, params = null)
+::getLeaderboardItemView <- function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, params = null)
 {
   local view = lbCategory.getItemCell(lb_value)
   view.name <- lbCategory.headerTooltip
@@ -381,7 +381,7 @@ function getLeaderboardItemView(lbCategory, lb_value, lb_value_diff = null, para
  * @param view  - { items = array of ::getLeaderboardItemView(...) }
  * @return markup ready for insertion into scene
  */
-function getLeaderboardItemWidgets(view)
+::getLeaderboardItemWidgets <- function getLeaderboardItemWidgets(view)
 {
   return ::handyman.renderCached("gui/leaderboard/leaderboardItemWidget", view)
 }
@@ -460,7 +460,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       pos = 0
       return
     }
-    local selfPagePos = rowsInPage * floor(selfPos / rowsInPage)
+    local selfPagePos = rowsInPage * ::floor(selfPos / rowsInPage)
     pos = selfPagePos / rowsInPage < maxRows ? selfPagePos : 0
   }
 
@@ -507,7 +507,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     local showClan = rowData != null && forClans
 
     ::showBtnTable(scene, {
-      btn_usercard = showPlayer
+      btn_usercard = showPlayer && ::has_feature("UserCards")
       btn_clan_info = showClan
       btn_membership_req = showClan && !::is_in_clan() && ::clan_get_requested_clan_id() != getLbClanUid(rowData)
     })
@@ -658,7 +658,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     if (curLbCategory.id == obj.id)
     {
       local selfPos = getSelfPos()
-      local selfPagePos = rowsInPage * floor(selfPos / rowsInPage)
+      local selfPagePos = rowsInPage * ::floor(selfPos / rowsInPage)
       if (pos != selfPagePos)
         requestSelfPage(selfPos)
       else
@@ -830,7 +830,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
     {
       local lastPageNumber = curPage + (tableWeak.isLastPage ? 0 : 1)
       local myPlace = getSelfPos()
-      local myPage = myPlace >= 0 ? floor(myPlace / rowsInPage) : null
+      local myPage = myPlace >= 0 ? ::floor(myPlace / rowsInPage) : null
       ::generatePaginator(nestObj, this, curPage, lastPageNumber, myPage)
     }
   }
@@ -902,7 +902,7 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
   }
 }
 
-function getLbItemCell(id, value, dataType, allowNegative = false)
+::getLbItemCell <- function getLbItemCell(id, value, dataType, allowNegative = false)
 {
   local res = {
     id   = id

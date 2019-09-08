@@ -32,7 +32,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (options)
       loadOptions(options, currentContainerName)
 
-    ::set_menu_title(titleText, scene, "menu-title")
+    setSceneTitle(titleText, scene, "menu-title")
   }
 
   function loadOptions(opt, optId)
@@ -62,6 +62,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     checkBulletsRows()
     checkRocketDisctanceFuseRow()
     checkBombActivationTimeRow()
+    checkVehicleModificationRow()
     checkDepthChargeActivationTimeRow()
     checkMineDepthRow()
     onLayoutChange(null)
@@ -80,21 +81,8 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       base.goBack()
   }
 
-  function onAppliedOptions(appliedTypes)
-  {
-    foreach (optionId in appliedTypes)
-    {
-      if (::is_measure_unit_user_option(optionId))
-      {
-        ::broadcastEvent("MeasureUnitsChanged")
-        break
-      }
-    }
-  }
-
   function doApply()
   {
-    local changedList = []
     foreach (container in optionsContainers)
     {
       local objTbl = getObj(container.name)
@@ -116,12 +104,8 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
         if (!::set_option(option.type, obj.getValue(), option))
           return false
-        else
-          changedList.append(option.type)
       }
     }
-
-    onAppliedOptions(changedList)
 
     ::save_profile_offline_limited(forcedSave)
     forcedSave = false
@@ -223,7 +207,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     {
       for (local i = 0; i < container.data.len(); ++i)
       {
-        if (container.data[i].id == obj.id)
+        if (container.data[i].id == obj?.id)
         {
           newDescr = func(guiScene, obj, container.data[i])
           break
@@ -252,7 +236,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function setOptionValueByControlObj(obj)
   {
-    local option = get_option_by_id(obj.id)
+    local option = get_option_by_id(obj?.id)
     if (option)
       ::set_option(option.type, obj.getValue(), option)
     return option
@@ -308,7 +292,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function onMyWeaponOptionUpdate(obj)
   {
-    local option = get_option_by_id(obj.id)
+    local option = get_option_by_id(obj?.id)
     if (!option) return
 
     ::set_option(option.type, obj.getValue(), option)
@@ -360,6 +344,71 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       !!unit && unit.getAvailableSecondaryWeapons().hasBombs)
   }
 
+  function onUserModificationsUpdate(obj) {
+    local option = get_option_by_id(obj?.id)
+    if (!option)
+      return
+
+    if (option.value != obj.getValue()) {
+      guiScene.performDelayed(this, function() {
+        ::set_option(option.type, obj.getValue())
+        updateOption(option.type)
+      })
+    }
+
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    if (!unit)
+      return
+
+    if (!obj.getValue()) {
+      local defaultWeap = unit.getDefaultWeapon()
+      ::set_last_weapon(unit.name, defaultWeap)
+
+      local defaultBulletIdx = 0
+      for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++) {
+        local bulletOptId = ::USEROPT_BULLETS0 + groupIndex
+        local bulletOpt = ::get_option(bulletOptId)
+        local bulletValue = bulletOpt?.value
+        if (bulletValue == null || bulletValue == defaultBulletIdx)
+          continue
+        local bulletName = bulletOpt.values?[defaultBulletIdx]
+        if (bulletName != null) {
+            ::set_unit_last_bullets(unit, groupIndex, bulletName)
+        }
+      }
+      ::enable_bullets_modifications(::aircraft_for_weapons)
+      ::enable_current_modifications(::aircraft_for_weapons)
+    }
+  }
+
+  function checkVehicleModificationRow() {
+    local option = findOptionInContainers(::USEROPT_MODIFICATIONS)
+    if (option) {
+      local unit = ::getAircraftByName(::aircraft_for_weapons)
+
+      local referenceWeap = unit.getDefaultWeapon() == ::get_last_weapon(unit.name)
+
+      if (referenceWeap) {
+        local defaultBulletIdx = 0
+        for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++) {
+          local bulletValue = ::get_option(::USEROPT_BULLETS0 + groupIndex)?.value ?? defaultBulletIdx
+          if (bulletValue != defaultBulletIdx) {
+            referenceWeap = false
+            break
+          }
+        }
+      }
+
+      local chosenMod = referenceWeap ? 0 : 1
+      if (option.value != chosenMod) {
+        guiScene.performDelayed(this, function() {
+          ::set_option(option.type, chosenMod)
+          updateOption(option.type)
+        })
+      }
+    }
+  }
+
   function checkDepthChargeActivationTimeRow()
   {
     local option = findOptionInContainers(::USEROPT_DEPTHCHARGE_ACTIVATION_TIME)
@@ -386,13 +435,18 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   {
     checkRocketDisctanceFuseRow()
     checkBombActivationTimeRow()
+    checkVehicleModificationRow()
     checkDepthChargeActivationTimeRow()
     checkMineDepthRow()
   }
 
+  function onEventBulletsGroupsChanged(p) {
+    checkVehicleModificationRow()
+  }
+
   function onTripleAerobaticsSmokeSelected(obj)
   {
-    local option = get_option_by_id(obj.id)
+    local option = get_option_by_id(obj?.id)
     if (!option) return
 
     ::set_option(option.type, obj.getValue(), option)
@@ -498,7 +552,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function onPTTChange(obj)
   {
-    set_option_ptt(get_option(::USEROPT_PTT).value ? 0 : 1);
+    ::set_option_ptt(get_option(::USEROPT_PTT).value ? 0 : 1);
     ::showBtn("ptt_buttons_block", obj.getValue(), scene)
   }
 
@@ -517,7 +571,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (isOptionInUpdate)
       return
-    local option = get_option_by_id(obj.id)
+    local option = get_option_by_id(obj?.id)
     if (option && option.values[obj.getValue()] == TANK_ALT_CROSSHAIR_ADD_NEW)
     {
       local unit = ::get_player_cur_unit()
@@ -668,7 +722,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function update_internet_radio(obj)
   {
-    local option = get_option_by_id(obj.id)
+    local option = get_option_by_id(obj?.id)
     if (!option) return
 
     ::set_option(option.type, obj.getValue(), option)
@@ -771,7 +825,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateOptionValueTextByObj(obj) //dagui scene callback
   {
-    local option = get_option_by_id(obj.id)
+    local option = get_option_by_id(obj?.id)
     if (option)
       updateOptionValueText(option, obj.getValue())
   }
@@ -1243,7 +1297,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
   function fillShortcutInfo(shortcut_id_name, shortcut_object_name)
   {
     local shortcut = ::get_shortcuts([shortcut_id_name]);
-    local data = ::get_shortcut_text(shortcut, 0);
+    local data = ::get_shortcut_text({shortcuts = shortcut, shortcutId = 0})
     if (data == "")
       data = "---";
     scene.findObject(shortcut_object_name).setValue(data);
@@ -1263,7 +1317,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     ::set_shortcuts(shortcut, [shortcut_id_name]);
     save(false);
 
-    local data = ::get_shortcut_text(shortcut, 0);
+    local data = ::get_shortcut_text({shortcuts = shortcut, shortcutId = 0})
     scene.findObject(shortcut_object_name).setValue(data);
   }
 
@@ -1339,7 +1393,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
       fillOptionsList(group, "voiceOptions")
 
     local ptt_shortcut = ::get_shortcuts(["ID_PTT"]);
-    local data = ::get_shortcut_text(ptt_shortcut, 0, false);
+    local data = ::get_shortcut_text({shortcuts = ptt_shortcut, shortcutId = 0, cantBeEmpty = false});
     if (data == "")
       data = "---";
     else
@@ -1372,7 +1426,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     ::set_shortcuts(ptt_shortcut, ["ID_PTT"]);
     save(false);
 
-    local data = ::get_shortcut_text(ptt_shortcut, 0, false);
+    local data = ::get_shortcut_text({shortcuts = ptt_shortcut, shortcutId = 0, cantBeEmpty = false})
     data = "<color=@hotkeyColor>" + ::hackTextAssignmentForR2buttonOnPS4(data) + "</color>"
     scene.findObject("ptt_shortcut").setValue(data);
   }
@@ -1501,7 +1555,8 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     local radio = ::get_internet_radio_options()
     if (!radio)
       return updateInternerRadioButtons()
-    ::gui_start_modal_wnd(::gui_handlers.AddRadioModalHandler, { owner=this, editStationName=radio.station })
+    local station = radio?.station ?? ""
+    ::gui_start_modal_wnd(::gui_handlers.AddRadioModalHandler, { owner = this, editStationName = station })
   }
 
   function onRemoveRadio()
@@ -1509,7 +1564,9 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     local radio = ::get_internet_radio_options()
     if (!radio)
       return updateInternerRadioButtons()
-    local nameRadio = radio.station
+    local nameRadio = radio?.station
+    if (!nameRadio)
+      return
     msgBox("warning",
       ::format(::loc("options/msg_remove_radio"), nameRadio),
       [
@@ -1533,7 +1590,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
   function updateInternerRadioButtons()
   {
     local radio = ::get_internet_radio_options()
-    local isEnable = (radio && radio.station) ? ::is_internet_radio_station_removable(radio.station) : false
+    local isEnable = radio?.station ? ::is_internet_radio_station_removable(radio.station) : false
     local btnEditRadio = scene.findObject("btn_edit_radio")
     if (btnEditRadio)
       btnEditRadio.enable(isEnable)

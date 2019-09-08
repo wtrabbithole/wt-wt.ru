@@ -36,3 +36,15 @@ trSeparator {
   pos:-50%w, -2*@sf/@pf_outdated;
   position:absolute;
 }
+
+rowSeparator {
+  size: pw, 1@dp;
+  pos: 50%pw-50%w, 0;
+  position: relative;
+  background-color: @separatorBlockColor;
+}
+
+rowSeparator.inset {
+  pos: 0, ph - h;
+  position: absolute;
+}

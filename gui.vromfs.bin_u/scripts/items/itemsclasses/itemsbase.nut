@@ -106,36 +106,36 @@ class ::BaseItem
 
   constructor(blk, invBlk = null, slotData = null)
   {
-    id = blk.getBlockName() || (invBlk && invBlk.id) || ""
-    locId = blk.locId
-    blkType = blk.type
+    id = blk.getBlockName() || invBlk?.id || ""
+    locId = blk?.locId
+    blkType = blk?.type
     isInventoryItem = invBlk != null
-    purchaseFeature = ::getTblValue("purchase_feature", blk, "")
+    purchaseFeature = blk?.purchase_feature ?? ""
     isDevItem = !isInventoryItem && purchaseFeature == "devItemShop"
     canBuy = canBuy && !isInventoryItem && getCost() > ::zero_money && checkPurchaseFeature()
-    iconStyle = blk.iconStyle || id
-    link = blk.link || ""
-    forceExternalBrowser = blk.forceExternalBrowser || false
+    iconStyle = blk?.iconStyle ?? id
+    link = blk?.link ?? ""
+    forceExternalBrowser = blk?.forceExternalBrowser ?? false
 
     shopFilterMask = iType
     local types = blk % "additionalShopItemType"
     foreach(t in types)
       shopFilterMask = shopFilterMask | ::ItemsManager.getInventoryItemType(t)
 
-    expiredTimeAfterActivationH = blk.expiredTimeHAfterActivation || 0
+    expiredTimeAfterActivationH = blk?.expiredTimeHAfterActivation ?? 0
 
     if (isInventoryItem)
     {
       uids = ::getTblValue("uids", slotData, [])
       amount = ::getTblValue("count", slotData, 1)
-      if (invBlk.expiredTime)
+      if (invBlk?.expiredTime != null)
         expiredTimeSec = invBlk.expiredTime + 0.001 * ::dagor.getCurTime()
     } else
     {
-      sellCountStep = blk.sell_count_step || 1
-      limitGlobal = blk.limitGlobal || 0
-      limitPersonalTotal = blk.limitPersonalTotal || 0
-      limitPersonalAtTime = blk.limitPersonalAtTime || 0
+      sellCountStep = blk?.sell_count_step || 1
+      limitGlobal = blk?.limitGlobal ?? 0
+      limitPersonalTotal = blk?.limitPersonalTotal ?? 0
+      limitPersonalAtTime = blk?.limitPersonalAtTime ?? 0
     }
   }
 
@@ -482,7 +482,7 @@ class ::BaseItem
 
     local name = getName()
     local price = getCost().getTextAccordingToBalance()
-    local msgText = warningIfGold(
+    local msgText = ::warningIfGold(
       ::loc("onlineShop/needMoneyQuestion",{purchase = name, cost = price }),
       getCost())
     local item = this

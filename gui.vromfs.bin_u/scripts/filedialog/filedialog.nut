@@ -560,11 +560,6 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
   }
 
 
-  function onFileTableFocus() {
-    setSelectButtonSaveMode(isSaveFile)
-  }
-
-
   function onRefresh()
   {
     local dirPathObj = getObj("dir_path")
@@ -655,7 +650,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
   function onDirPathPartClick(obj)
   {
-    if (obj.id in cachedPathByPathPartId)
+    if (obj?.id in cachedPathByPathPartId)
       openDirectory(cachedPathByPathPartId[obj.id])
   }
 
@@ -790,7 +785,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
 
     local childObj = fileTableObj.getChild(selectedRowIdx)
     if (!::check_obj(childObj) ||
-      !(childObj.id in cachedFileNameByTableRowId))
+      !(childObj?.id in cachedFileNameByTableRowId))
       return
 
     fileName = cachedFileNameByTableRowId[childObj.id]
@@ -858,7 +853,7 @@ class ::gui_handlers.FileDialog extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local isForward = shift > 0
-    local numSteps = abs(shift)
+    local numSteps = ::abs(shift)
 
     local sourceList = isForward ? dirHistoryAfter : dirHistoryBefore
     local targetList = isForward ? dirHistoryBefore : dirHistoryAfter

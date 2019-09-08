@@ -33,7 +33,7 @@ enums.addTypesByGlobalName("g_ww_army_move_state", {
   }
 }, null, "name")
 
-function g_ww_army_move_state::getMoveParamsByName(name)
+g_ww_army_move_state.getMoveParamsByName <- function getMoveParamsByName(name)
 {
   return enums.getCachedType("name", name, ::g_ww_army_move_state.cache.byName, this, ES_UNKNOWN)
 }

@@ -9,6 +9,9 @@
   "type": "typeFighter",
   "paratrooper": "usa_para",
   "advancedInstructor": true,
+  "standardExhaustFxType": "jet_exhaust",
+  "afterburnerExhaustFxType": "jet_afterburner_exhaust",
+  "startExhaustFxType": "jet_start_exhaust",
   "flapsIsAirbrakes": true,
   "overheatBlk": "gameData/FlightModels/DM/overheat.blk",
   "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
@@ -18,6 +21,7 @@
   "damagePartsToCollisionPointsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_points_map.blk",
   "damagePartsToWeaponsMapBlk": "gameData/FlightModels/DM/dm_parts_to_weapons_map.blk",
   "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk",
+  "damagePartsExcludeFromHoleBlk": "gameData/FlightModels/DM/dm_parts_exclude_from_hole.blk",
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
   "fireParamsPreset": "900kph",
   "fightAiBehaviour": "fighter",
@@ -478,7 +482,6 @@
         },
         {
           "onHit": {
-            "expl": 0.005,
             "fire": 0.001,
             "leak_oil": 0.8
           }
@@ -486,24 +489,21 @@
         {
           "onHit": {
             "damage": 30.0,
-            "expl": 0.05,
             "fire": 0.005,
             "leak_oil": 0.95
           }
         },
         {
           "onKill": {
-            "expl": 0.1,
-            "fire": 0.1,
-            "nothing": 99.9
+            "fire": 25.0,
+            "leak_oil": 10.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
-            "expl": 1.0,
-            "fire": 1.0,
-            "nothing": 99.0
+            "fire": 30.0,
+            "leak_oil": 10.0
           }
         }
       ]
@@ -869,6 +869,7 @@
         {
           "onKill": {
             "damage": 50.0,
+            "fire": 5.0,
             "wing_l_dm": 1.0,
             "wing_r_dm": 1.0
           }
@@ -957,6 +958,7 @@
         {
           "onKill": {
             "damage": 50.0,
+            "fire": 5.0,
             "wing_l_dm": 1.0,
             "wing_r_dm": 1.0
           }
@@ -995,13 +997,13 @@
         {
           "onHit": {
             "damage": 40.0,
-            "tail_dm": 1.0
+            "tail_dm": 0.9
           }
         },
         {
           "onHit": {
             "damage": 50.0,
-            "expl": 1.0
+            "tail_dm": 1.0
           }
         },
         {
@@ -1055,7 +1057,8 @@
         {
           "onKill": {
             "damage": 50.0,
-            "expl": 1.0
+            "tail_dm": 1.0,
+            "nothing": 1.0
           }
         }
       ]
@@ -1416,26 +1419,21 @@
         {
           "onKill": {
             "fire": 0.01,
-            "leak": 9.99,
-            "nothing": 90.0
+            "leak": 9.99
           }
         },
         {
           "onKill": {
             "damage": 50.0,
-            "expl": 0.25,
-            "fire": 1.0,
-            "leak": 19.0,
-            "nothing": 80.0
+            "fire": 50.0,
+            "leak": 15.0
           }
         },
         {
           "onKill": {
             "damage": 70.0,
-            "expl": 1.0,
-            "fire": 5.0,
-            "leak": 25.0,
-            "nothing": 70.0
+            "fire": 50.0,
+            "leak": 10.0
           }
         }
       ]
@@ -1475,26 +1473,21 @@
         {
           "onKill": {
             "fire": 0.01,
-            "leak": 9.99,
-            "nothing": 90.0
+            "leak": 9.99
           }
         },
         {
           "onKill": {
             "damage": 50.0,
-            "expl": 0.25,
-            "fire": 1.0,
-            "leak": 19.0,
-            "nothing": 80.0
+            "fire": 50.0,
+            "leak": 15.0
           }
         },
         {
           "onKill": {
             "damage": 70.0,
-            "expl": 1.0,
-            "fire": 5.0,
-            "leak": 25.0,
-            "nothing": 70.0
+            "fire": 50.0,
+            "leak": 10.0
           }
         }
       ]
@@ -1534,26 +1527,21 @@
         {
           "onKill": {
             "fire": 0.01,
-            "leak": 9.99,
-            "nothing": 90.0
+            "leak": 9.99
           }
         },
         {
           "onKill": {
             "damage": 50.0,
-            "expl": 0.25,
-            "fire": 1.0,
-            "leak": 19.0,
-            "nothing": 80.0
+            "fire": 50.0,
+            "leak": 15.0
           }
         },
         {
           "onKill": {
             "damage": 70.0,
-            "expl": 1.0,
-            "fire": 5.0,
-            "leak": 25.0,
-            "nothing": 70.0
+            "fire": 50.0,
+            "leak": 10.0
           }
         }
       ]
@@ -1843,146 +1831,14 @@
       ]
     },
     {
-      "part": [
-        {
-          "name": "wing_l_dm"
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "cut": 0.1
-          }
-        },
-        {
-          "onHit": {
-            "damage": 20.0,
-            "cut": 0.2
-          }
-        },
-        {
-          "onHit": {
-            "damage": 30.0,
-            "cut": 0.4
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "cut": 0.8
-          }
-        },
-        {
-          "onHit": {
-            "damage": 70.0,
-            "cut": 1.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 10.0,
-            "cut": 1.0,
-            "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
-            "cut": 1.0,
-            "nothing": 5.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "cut": 1.0,
-            "nothing": 3.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 1.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 70.0,
-            "cut": 1.0
-          }
-        }
-      ]
+      "part": {
+        "name": "wing_l_dm"
+      }
     },
     {
-      "part": [
-        {
-          "name": "wing_r_dm"
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "cut": 0.1
-          }
-        },
-        {
-          "onHit": {
-            "damage": 20.0,
-            "cut": 0.2
-          }
-        },
-        {
-          "onHit": {
-            "damage": 30.0,
-            "cut": 0.4
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "cut": 0.8
-          }
-        },
-        {
-          "onHit": {
-            "damage": 70.0,
-            "cut": 1.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 10.0,
-            "cut": 1.0,
-            "nothing": 9.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
-            "cut": 1.0,
-            "nothing": 5.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "cut": 1.0,
-            "nothing": 3.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 1.0
-          }
-        },
-        {
-          "onKill": {
-            "damage": 70.0,
-            "cut": 1.0
-          }
-        }
-      ]
+      "part": {
+        "name": "wing_r_dm"
+      }
     },
     {
       "part": {
@@ -2248,22 +2104,6 @@
     {
       "preset": [
         {
-          "name": "sea_hawk_2x500lb_10x25lb_mk1_rockets"
-        },
-        {
-          "blk": "gameData/FlightModels/weaponPresets/sea_hawk_2x500lb_10x25lb_mk1_rockets.blk"
-        },
-        {
-          "reqModification": "sea_hawk_2x500lb"
-        },
-        {
-          "reqModification": "sea_hawk_25lb_rocket_ap_mk1"
-        }
-      ]
-    },
-    {
-      "preset": [
-        {
           "name": "sea_hawk_2x500lb_10x25lb_mk2_rockets"
         },
         {
@@ -2452,14 +2292,9 @@
       "tier": 4,
       "reqModification": "sea_hawk_4x500lb"
     },
-    "sea_hawk_25lb_rocket_ap_mk1": {
-      "modClass": "weapon",
-      "tier": 1
-    },
     "sea_hawk_25lb_rocket_ap_mk2": {
       "modClass": "weapon",
-      "tier": 2,
-      "reqModification": "sea_hawk_25lb_rocket_ap_mk1"
+      "tier": 2
     },
     "sea_hawk_60lb_rocket_mk1": {
       "modClass": "weapon",

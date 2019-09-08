@@ -1,4 +1,4 @@
-function gui_start_selecting_crew(config)
+::gui_start_selecting_crew <- function gui_start_selecting_crew(config)
 {
   if (::CrewTakeUnitProcess.safeInterrupt())
     ::handlersManager.destroyPrevHandlerAndLoadNew(::gui_handlers.SelectCrew, config)
@@ -337,6 +337,9 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillLegendData()
   {
+    if (!::has_feature("CrewInfo"))
+      return null
+
     local legendData = []
     foreach (idx, crew in ::get_crews_list_by_country(country))
     {

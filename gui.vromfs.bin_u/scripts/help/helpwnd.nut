@@ -1,26 +1,12 @@
 local u = require("sqStdLibs/helpers/u.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local helpTabs = require("scripts/controls/help/controlsHelpTabs.nut")
-local helpShortcuts = require("scripts/controls/help/controlsHelpShortcuts.nut")
+local helpMarkup = require("scripts/controls/help/controlsHelpMarkup.nut")
+local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
 
 ::require("scripts/viewUtils/bhvHelpFrame.nut")
 
-local controlsMarkupSource = {
-  ps4 = {
-    title = "#controls/help/dualshock4"
-    blk = "gui/help/controllerDualshock.blk"
-    btnBackLocId = "controls/help/dualshock4_btn_share"
-  },
-  xboxOne = {
-    title = "#controls/help/xboxone"
-    blk = "gui/help/controllerXboxOne.blk"
-    btnBackLocId = "xinp/Select"
-  }
-}
-
-local controllerMarkup = ::getTblValue(::target_platform, controlsMarkupSource, controlsMarkupSource.xboxOne)
-
-function gui_modal_help(isStartedFromMenu, contentSet)
+::gui_modal_help <- function gui_modal_help(isStartedFromMenu, contentSet)
 {
   ::gui_start_modal_wnd(::gui_handlers.helpWndModalHandler, {
     isStartedFromMenu  = isStartedFromMenu
@@ -31,8 +17,17 @@ function gui_modal_help(isStartedFromMenu, contentSet)
     ::g_hud_event_manager.onHudEvent("hint:controlsHelp:remove", {})
 }
 
-function gui_start_flight_menu_help()
+::gui_start_flight_menu_help <- function gui_start_flight_menu_help()
 {
+  if (!::has_feature("ControlsHelp"))
+  {
+    ::get_gui_scene().performDelayed(::getroottable(), function() {
+      ::close_ingame_gui()
+      if (::is_game_paused())
+        ::pause_game(false)
+    })
+    return
+  }
   local needFlightMenu = !::get_is_in_flight_menu() && !::is_flight_menu_disabled();
   if (needFlightMenu)
     ::get_cur_base_gui_handler().goForward(function(){::gui_start_flight_menu()})
@@ -53,6 +48,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   contentSet = HELP_CONTENT_SET.MISSION
   isStartedFromMenu = false
 
+  preset = null
+
   pageUnitType = null
   pageUnitTag = null
   modifierSymbols = null
@@ -65,6 +62,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     ::g_hud_event_manager.onHudEvent("helpOpened")
+
+    preset = preset || ::g_controls_manager.getCurPreset()
 
     visibleTabs = helpTabs.getTabs(contentSet)
 
@@ -107,14 +106,14 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillSubTabs()
   {
-    local subTabsObj = scene.findObject("sub_tabs_list")
-    if (!::check_obj(subTabsObj))
-      return
-
     local subTabsList = visibleTabs[curTabIdx].list
-    local view = { items = [] }
 
     local isSubTabsVisible = subTabsList.len() > 1
+    local subTabsObj = showSceneBtn("sub_tabs_list", isSubTabsVisible)
+    if (!subTabsObj)
+      return
+
+    local view = { items = [] }
     if (isSubTabsVisible)
     {
       foreach (idx, tType in subTabsList)
@@ -127,12 +126,9 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local data = ::handyman.renderCached("gui/commonParts/shopFilter", view)
       guiScene.replaceContentFromText(subTabsObj, data, data.len(), this)
-    }
 
-    subTabsObj.enable(isSubTabsVisible)
-    subTabsObj.show(isSubTabsVisible)
-    if (isSubTabsVisible)
       restoreFocus()
+    }
 
     fillSubTabContent()
   }
@@ -172,8 +168,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!tab)
       return
 
-    pageUnitType = ::getTblValue("pageUnitType", tab, pageUnitType)
-    pageUnitTag = ::getTblValue("pageUnitTag", tab, pageUnitTag)
+    pageUnitType = tab?.pageUnitType
+    pageUnitTag = tab?.pageUnitTag
 
     local sheetObj = scene.findObject("help_sheet")
     local pageBlkName = ::getTblValue("pageBlkName", tab, "")
@@ -239,7 +235,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!tab)
       return
 
-    local basePresets = ::g_controls_manager.getCurPreset().getBasePresetNames()
+    local basePresets = preset.getBasePresetNames()
     local haveIconsForControls = ::is_xinput_device() ||
       (u.search(basePresets, @(val) val == "keyboard"|| val == "keyboard_shooter") != null)
     showDefaultControls(haveIconsForControls)
@@ -265,13 +261,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (id in modifierSymbols)
       return modifierSymbols[id]
 
-    foreach(item in ::shortcutsAxisList)
-      if (typeof(item) == "table" && item.id==id)
-      {
-        if ("symbol" in item)
-          modifierSymbols[id] <- "<color=@axisSymbolColor>" + ::loc(item.symbol) + ::loc("ui/colon") + "</color>"
-        return modifierSymbols[id]
-      }
+    local item = shortcutsAxisListModule[id]
+    {
+      if ("symbol" in item)
+        modifierSymbols[id] <- ::colorize("axisSymbolColor", ::loc(item.symbol) + ::loc("ui/colon"))
+      return modifierSymbols[id]
+    }
 
     modifierSymbols[id] <- ""
     return modifierSymbols[id]
@@ -281,47 +276,58 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     remapKeyboardKeysByLang()
 
-    local scTextFull = ["", "", ""]
-    local scRowId = 0;
+    local scTextFull = []
     local tipTexts = {} //btnName = { text, isMain }
     modifierSymbols = {}
 
-    local shortcutsList = helpShortcuts.getList(pageUnitType, pageUnitTag)
+    local shortcutsList = ::g_controls_utils.getControlsList({
+      unitType = pageUnitType,
+      unitTags = pageUnitTag? [pageUnitTag] : []
+    }).filter(@(item) item.needShowInHelp)
 
     for(local i=0; i<shortcutsList.len(); i++)
     {
       local item = shortcutsList[i]
       local name = (typeof(item)=="table")? item.id : item
-      local isAxis = typeof(item)=="table" && ("axisShortcuts" in item)
-      local isHeader = typeof(item)=="table" && ("type" in item) && (item.type== CONTROL_TYPE.HEADER)
+      local isAxis = typeof(item)=="table" && item.type == CONTROL_TYPE.AXIS
+      local isHeader = typeof(item)=="table" && ("type" in item) && (item.type == CONTROL_TYPE.HEADER || item.type == CONTROL_TYPE.SECTION)
       local shortcutNames = []
+      local axisModifyerButtons = []
       local scText = ""
 
       if (isHeader)
       {
-        local text = ::loc("hotkeys/" + name);
-        scText = "<color=@white>" + text + "</color>";
-        if (i > 0)
-          scRowId++;
+        scTextFull.append([::colorize("activeTextColor", ::loc("hotkeys/" + name))])
       }
       else
       {
         if (isAxis)
-          for(local sc=0; sc<item.axisShortcuts.len(); sc++)
-            shortcutNames.append(name + ((item.axisShortcuts[sc]=="")?"" : "_" + item.axisShortcuts[sc]))
+        {
+          foreach (axisSc in shortcutsAxisListModule.types)
+          {
+            if (axisSc.type == CONTROL_TYPE.AXIS_SHORTCUT)
+            {
+              axisModifyerButtons.append(axisSc.id)
+              if (axisSc.id == "")
+                shortcutNames.append(name)
+              else
+                shortcutNames.append(name + "_" + axisSc.id)
+            }
+          }
+        }
         else
           shortcutNames.append(name)
 
-        local shortcuts = ::get_shortcuts(shortcutNames)
+        local shortcuts = ::get_shortcuts(shortcutNames, preset)
         local btnList = {} //btnName = isMain
 
         //--- F1 help window ---
         for(local sc=0; sc<shortcuts.len(); sc++)
         {
           local text = getShortcutText(shortcuts[sc], btnList, true)
-          if (text!="" && (!isAxis || item.axisShortcuts[sc] != "")) //do not show axis text (axis buttons only)
+          if (text!="" && (!isAxis || axisModifyerButtons[sc] != "")) //do not show axis text (axis buttons only)
             scText += ((scText!="")? ";  ":"") +
-            (isAxis? getModifierSymbol(item.axisShortcuts[sc]) : "") +
+            (isAxis? getModifierSymbol(axisModifyerButtons[sc]) : "") +
             text;
         }
 
@@ -337,15 +343,24 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
               tipTexts[btnName].text += "\n" + scText
           } else
             tipTexts[btnName] <- { text = scText, isMain = isMain }
-      }
 
-      if (scText!="" && scRowId<scTextFull.len())
-        scTextFull[scRowId] += ((scTextFull[scRowId]=="")? "" : "\n") + scText
+        scTextFull[scTextFull.len()-1].append(scText)
+      }
     }
 
     //set texts and tooltips
-    foreach(idx, text in scTextFull)
-      scene.findObject("full_shortcuts_texts"+idx).setValue(text)
+    local view = {texts = [] }
+    foreach(idx, textsArr in scTextFull)
+      view.texts.append({
+        width = 100.0 / (scTextFull.len() || 1) + "%pw"
+        viewclass = "parInvert"
+        text = ::g_string.implode(textsArr, "\n")
+      })
+
+    local obj = scene.findObject("full_shortcuts_texts")
+    local data = ::handyman.renderCached("gui/commonParts/text", view)
+    guiScene.replaceContentFromText(obj, data, data.len(), this)
+
     local kbdObj = scene.findObject("keyboard_div")
     foreach(btnName, btn in tipTexts)
     {
@@ -356,8 +371,12 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         tipObj.tooltip = btn.text
         if (btn.isMain)
           tipObj.mainKey = "yes"
-      } else
-        dagor.debug("tipObj = " + btn + " not found in the scene!")
+      }
+      else
+      {
+        ::dagor.debug("tipObj = " + objId + " not found in the scene!")
+        ::debugTableData(btn)
+      }
     }
   }
 
@@ -390,7 +409,6 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getShortcutText(shortcut, btnList, color = true)
   {
     local scText = ""
-    local curPreset = ::g_controls_manager.getCurPreset()
     for(local i=0; i<shortcut.len(); i++)
     {
       local sc = shortcut[i]
@@ -399,8 +417,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       local text = ""
       for (local k = 0; k < sc.dev.len(); k++)
       {
-        text += ((k != 0)? " + ":"") + ::getLocalizedControlName(curPreset, sc.dev[k], sc.btn[k])
-        local btnName = curPreset.getButtonName(sc.dev[k], sc.btn[k])
+        text += ((k != 0)? " + ":"") + ::getLocalizedControlName(preset, sc.dev[k], sc.btn[k])
+        local btnName = preset.getButtonName(sc.dev[k], sc.btn[k])
         if (btnName=="MWUp" || btnName=="MWDown")
           btnName = "MMB"
         if (btnName in btnList)
@@ -488,7 +506,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    local shortcuts = ::get_shortcuts(shortcutNames)
+    local shortcuts = ::get_shortcuts(shortcutNames, preset)
     foreach (i, item in shortcuts)
     {
       if (item.len() == 0)
@@ -598,7 +616,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local tObj = scene.findObject("joy_btn_share")
     if (::checkObj(tObj))
     {
-      local title = ::loc(controllerMarkup.btnBackLocId)
+      local title = ::loc(helpMarkup.btnBackLocId)
       tObj.setValue(title)
       tObj.tooltip = ::loc("controls/help/press") + ::loc("ui/colon") + "\n" + title
     }
@@ -646,7 +664,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local rowData = {
         text = ::loc("controls/help/"+shortcutId+"_0")
-        shortcutMarkup = ::g_shortcut_type.getShortcutMarkup(shortcutId)
+        shortcutMarkup = ::g_shortcut_type.getShortcutMarkup(shortcutId, preset)
       }
       view.rows.append(rowData)
     }
@@ -688,8 +706,8 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       local altitudeTop = 0
 
       local misInfoBlk = ::get_mission_meta_info(::get_current_mission_name())
-      local misBlk = misInfoBlk && misInfoBlk.mis_file && ::DataBlock(misInfoBlk.mis_file)
-      local areasBlk = misBlk && misBlk.areas
+      local misBlk = misInfoBlk?.mis_file ? ::DataBlock(misInfoBlk.mis_file) : null
+      local areasBlk = misBlk?.areas
       if (areasBlk)
       {
         for (local i = 0; i < areasBlk.blockCount(); i++)

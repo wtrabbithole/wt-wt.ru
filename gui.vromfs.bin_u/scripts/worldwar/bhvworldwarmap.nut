@@ -99,7 +99,7 @@ class ::ww_gui_bhv.worldWarMapControls
       return
 
     local currentSelectedObject = getSelectedObject(obj)
-    local armyTargetName = ::ww_find_army_name_by_coordinates(clickPos.x, clickPos.y)
+    local armyTargetName = findHoverBattle(clickPos.x, clickPos.y)?.id ?? ::ww_find_army_name_by_coordinates(clickPos.x, clickPos.y)
 
     if (currentSelectedObject == mapObjectSelect.AIRFIELD)
     {
@@ -294,8 +294,7 @@ class ::ww_gui_bhv.worldWarMapControls
     if (selectedArmies.len())
       lastClickedArmyName = selectedArmies.top()
 
-    local armyIdx  = ::u.searchIndex(armyList,
-      (@(lastClickedArmyName) function(name) { return name == lastClickedArmyName })(lastClickedArmyName))
+    local armyIdx  = armyList.searchindex(@(name) name == lastClickedArmyName) ?? -1
     local nextArmyIdx = armyIdx + 1
     local nextArmyName = nextArmyIdx in armyList? armyList[nextArmyIdx] : armyList[0]
 
@@ -512,7 +511,7 @@ class ::ww_gui_bhv.worldWarMapControls
   }
 }
 
-function ww_is_append_path_mode_active()
+::ww_is_append_path_mode_active <- function ww_is_append_path_mode_active()
 {
   if (!::g_world_war.haveManagementAccessForSelectedArmies())
     return false
@@ -520,7 +519,7 @@ function ww_is_append_path_mode_active()
   return ::is_keyboard_btn_down(::DKEY_LSHIFT) || ::is_keyboard_btn_down(::DKEY_RSHIFT)
 }
 
-function ww_is_add_selected_army_mode_active()
+::ww_is_add_selected_army_mode_active <- function ww_is_add_selected_army_mode_active()
 {
   return false//::is_keyboard_btn_down(::DKEY_LCONTROL) || ::is_keyboard_btn_down(::DKEY_RCONTROL)
 }

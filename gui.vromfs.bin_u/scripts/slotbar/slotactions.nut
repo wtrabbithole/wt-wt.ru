@@ -11,6 +11,7 @@ local ACTION_FUNCTION_PARAMS = {
 local MAIN_FUNC_PARAMS = {
   onSpendExcessExp = null
   onTakeParams = {}
+  availableFlushExp = 0
   isSquadronResearchMode = false
   setResearchManually = true
   needChosenResearchOfSquadron = false
@@ -39,7 +40,7 @@ local function getSlotActionFunctionName(unit, params)
       || (isSquadronVehicle && !::is_in_clan() && !canFlushSquadronExp))
     && (::canResearchUnit(unit) || isInResearch))
     return "#mainmenu/btnResearch"
-  if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle)
+  if (isInResearch && ::has_feature("SpendGold") &&  ::has_feature("SpendFreeRP") && !isSquadronVehicle)
     return "#mainmenu/btnConvert"
 
   if (canFlushSquadronExp && (isInResearch || params.isSquadronResearchMode))
@@ -73,13 +74,14 @@ local function slotMainAction(unit, params = MAIN_FUNC_PARAMS)
   local isInResearch = ::isUnitInResearch(unit)
   local canFlushSquadronExp = ::has_feature("ClanVehicles") && isSquadronVehicle
     && ::min(::clan_get_exp(), unit.reqExp - ::getUnitExp(unit)) > 0
-  if ((::shop_get_country_excess_exp(unit.shopCountry, unit.unitType.esUnitType) > 0
+  if (( params.availableFlushExp > 0
       || !params.setResearchManually
       || (params.isSquadronResearchMode && (canFlushSquadronExp || params.needChosenResearchOfSquadron)))
     && (::canResearchUnit(unit) || isInResearch))
     return params.onSpendExcessExp()
-  if (isInResearch && ::has_feature("SpendGold") && !isSquadronVehicle && ::can_spend_gold_on_unit_with_popup(unit))
-    return ::gui_modal_convertExp(unit)
+  if (isInResearch && ::has_feature("SpendGold") && ::has_feature("SpendFreeRP")
+    && !isSquadronVehicle && ::can_spend_gold_on_unit_with_popup(unit))
+      return ::gui_modal_convertExp(unit)
 
   if (canFlushSquadronExp && isInResearch)
     return unitActions.flushSquadronExp(unit)

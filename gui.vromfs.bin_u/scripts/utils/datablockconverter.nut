@@ -77,14 +77,14 @@ local blkToData = function(blk)
   {
     return blk == "__null" ? null : blk
   }
-  if (blk.__datablock)
+  if (blk?.__datablock)
   {
     local res = ::DataBlock()
     res.setFrom(blk)
     res.__datablock = null
     return res
   }
-  if (blk.__array)
+  if (blk?.__array)
   {
     local res = []
     for (local i = 0; i < blk.blockCount() + blk.paramCount() - 1; i++)

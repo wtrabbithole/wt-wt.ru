@@ -237,7 +237,7 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
   function onUnitClick(unitObj)
   {
-    local unit = ::getAircraftByName(unitObj.unit_name)
+    local unit = ::getAircraftByName(unitObj?.unit_name)
     if (!unit)
       return
 

@@ -19,7 +19,7 @@ enum hudStreakState {
   scene = null
 }
 
-function g_streaks::addStreak(id, header, score)
+g_streaks.addStreak <- function addStreak(id, header, score)
 {
   if (!isStreaksAvailable())
     return
@@ -36,12 +36,12 @@ function g_streaks::addStreak(id, header, score)
     updateAnimTimer()
 }
 
-function g_streaks::isStreaksAvailable()
+g_streaks.isStreaksAvailable <- function isStreaksAvailable()
 {
   return !::is_replay_playing()
 }
 
-function g_streaks::checkNextState()
+g_streaks.checkNextState <- function checkNextState()
 {
   if (stateTimeLeft > 0)
     return
@@ -69,7 +69,7 @@ function g_streaks::checkNextState()
   updatePlaceObj()
 }
 
-function g_streaks::getSceneObj()
+g_streaks.getSceneObj <- function getSceneObj()
 {
   if (::checkObj(scene))
     return scene
@@ -85,7 +85,7 @@ function g_streaks::getSceneObj()
   return obj
 }
 
-function g_streaks::showNextStreak()
+g_streaks.showNextStreak <- function showNextStreak()
 {
   if (!streakQueue.len())
     return false
@@ -116,7 +116,7 @@ function g_streaks::showNextStreak()
   return true
 }
 
-function updateAnimTimer()
+::updateAnimTimer <- function updateAnimTimer()
 {
   local obj = getSceneObj()
   if (!obj)
@@ -126,7 +126,7 @@ function updateAnimTimer()
   obj.findObject("streak_content")["transp-time"] = animTime.tointeger().tostring()
 }
 
-function g_streaks::updateSceneObj()
+g_streaks.updateSceneObj <- function updateSceneObj()
 {
   local obj = getSceneObj()
   if (!obj)
@@ -135,7 +135,7 @@ function g_streaks::updateSceneObj()
   ::showBtn("streak_content", state == hudStreakState.ACTIVE, obj)
 }
 
-function g_streaks::updatePlaceObj()
+g_streaks.updatePlaceObj <- function updatePlaceObj()
 {
   local obj = getSceneObj()
   if (!obj)
@@ -146,20 +146,20 @@ function g_streaks::updatePlaceObj()
   obj.animation = show ? "show" : "hide"
 }
 
-function g_streaks::updatePlaceObjHeight(newHeight)
+g_streaks.updatePlaceObjHeight <- function updatePlaceObjHeight(newHeight)
 {
   local obj = getSceneObj()
   if (!obj || !newHeight)
     return
 
-  local curHeight = ::to_integer_safe(obj["height-end"], 1)
+  local curHeight = ::to_integer_safe(obj?["height-end"], 1)
   if (curHeight == newHeight)
     return
 
   obj["height-end"] = newHeight.tostring()
 }
 
-function g_streaks::streakPlaySound(streakId)
+g_streaks.streakPlaySound <- function streakPlaySound(streakId)
 {
   if (!::has_feature("streakVoiceovers"))
     return
@@ -167,18 +167,18 @@ function g_streaks::streakPlaySound(streakId)
   if (!unlockBlk)
     return
 
-  if (unlockBlk.isAfterFlight)
+  if (unlockBlk?.isAfterFlight)
     ::play_gui_sound("streak_mission_complete")
-  else if (unlockBlk.sound)
+  else if (unlockBlk?.sound)
     ::loading_play_voice(unlockBlk.sound, true)
 }
 
-function g_streaks::getTimeMultiplier()
+g_streaks.getTimeMultiplier <- function getTimeMultiplier()
 {
   return streakQueue.len() > 0 ? STREAK_QUEUE_TIME_FACTOR : 1.0
 }
 
-function g_streaks::onUpdate(dt)
+g_streaks.onUpdate <- function onUpdate(dt)
 {
   if (stateTimeLeft <= 0)
     return
@@ -189,7 +189,7 @@ function g_streaks::onUpdate(dt)
     checkNextState()
 }
 
-function g_streaks::clear()
+g_streaks.clear <- function clear()
 {
   stateTimeLeft = 0;
   state = hudStreakState.EMPTY
@@ -201,13 +201,19 @@ function g_streaks::clear()
 ///////////////////Function called from code///////////////////////////
 ///////////////////////////////////////////////////////////////////////
 
-function add_streak_message(header, score, id = "") // called from client
+::add_streak_message <- function add_streak_message(header, wp, exp, id = "") // called from client
 {
+  local messageArr = []
+  if (wp)
+    messageArr.append(::format(::loc("warpoints/received"),  "+", ::g_language.decimalFormat(wp)))
+  if (exp)
+    messageArr.append(::format(::loc("exp_received"), ::g_language.decimalFormat(exp)))
+
   ::broadcastEvent("StreakArrived", { id = id })
-  ::g_streaks.addStreak(id, header, score)
+  ::g_streaks.addStreak(id, header, ::g_string.implode(messageArr, ::loc("ui/comma")))
 }
 
-function get_loc_for_streak(StreakNameType, name, stageparam, playerNick = "", colorId = 0)
+::get_loc_for_streak <- function get_loc_for_streak(StreakNameType, name, stageparam, playerNick = "", colorId = 0)
 {
   local stageId = ::g_unlocks.getMultiStageId(name, stageparam)
   local isMyStreak = StreakNameType == ::SNT_MY_STREAK_HEADER

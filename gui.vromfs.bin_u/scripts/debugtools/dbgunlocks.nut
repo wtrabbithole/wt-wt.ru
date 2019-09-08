@@ -1,4 +1,4 @@
-function debug_show_test_unlocks(chapter = "test", group = null)
+::debug_show_test_unlocks <- function debug_show_test_unlocks(chapter = "test", group = null)
 {
   if (!::is_dev_version)
     return
@@ -13,7 +13,7 @@ function debug_show_test_unlocks(chapter = "test", group = null)
   }])
 }
 
-function debug_show_all_streaks()
+::debug_show_all_streaks <- function debug_show_all_streaks()
 {
   if (!::is_dev_version)
     return
@@ -51,7 +51,7 @@ function debug_show_all_streaks()
   }])
 }
 
-function gen_all_unlocks_desc(showCost = false)
+::gen_all_unlocks_desc <- function gen_all_unlocks_desc(showCost = false)
 {
   dlog("GP: gen all unlocks description")
   local res = ""
@@ -67,16 +67,16 @@ function gen_all_unlocks_desc(showCost = false)
   dlog("GP: done")
 }
 
-function exportUnlockInfo(params)
+::exportUnlockInfo <- function exportUnlockInfo(params)
 {
-  local info = ::g_language.getGameLocalizationInfo().filter(@(index, value) params.langs.find(value.id) != null)
+  local info = ::g_language.getGameLocalizationInfo().filter(@(value) params.langs.find(value.id) != null)
   _gen_all_unlocks_desc_to_blk(params.path, false, false, info, ::get_current_language())
   return "ok"
 }
 
 web_rpc.register_handler("exportUnlockInfo", exportUnlockInfo)
 
-function gen_all_unlocks_desc_to_blk(path = "unlockDesc", showCost = false, showValue = false, all_langs = true)
+::gen_all_unlocks_desc_to_blk <- function gen_all_unlocks_desc_to_blk(path = "unlockDesc", showCost = false, showValue = false, all_langs = true)
 {
   if (!all_langs)
     return gen_all_unlocks_desc_to_blk_cur_lang(path, showCost, showValue)
@@ -86,7 +86,7 @@ function gen_all_unlocks_desc_to_blk(path = "unlockDesc", showCost = false, show
   _gen_all_unlocks_desc_to_blk(path, showCost, showValue, info, curLang)
 }
 
-function _gen_all_unlocks_desc_to_blk(path, showCost, showValue, langsInfo, curLang)
+::_gen_all_unlocks_desc_to_blk <- function _gen_all_unlocks_desc_to_blk(path, showCost, showValue, langsInfo, curLang)
 {
   local lang = langsInfo.pop()
   ::g_language.setGameLocalization(lang.id, false, false)
@@ -102,7 +102,7 @@ function _gen_all_unlocks_desc_to_blk(path, showCost, showValue, langsInfo, curL
   })(path, showCost, showValue, langsInfo, curLang))
 }
 
-function gen_all_unlocks_desc_to_blk_cur_lang(path = "unlockDesc", showCost = false, showValue = false)
+::gen_all_unlocks_desc_to_blk_cur_lang <- function gen_all_unlocks_desc_to_blk_cur_lang(path = "unlockDesc", showCost = false, showValue = false)
 {
   local fullPath = ::format("%s/unlocks%s.blk", path, ::get_current_language())
   dlog("GP: gen all unlocks description to " + fullPath)
@@ -128,7 +128,7 @@ function gen_all_unlocks_desc_to_blk_cur_lang(path = "unlockDesc", showCost = fa
   res.saveToTextFile(fullPath)
 }
 
-function debug_show_unlock_popup(unlockId)
+::debug_show_unlock_popup <- function debug_show_unlock_popup(unlockId)
 {
   ::gui_start_unlock_wnd(
     ::build_log_unlock_data(
@@ -139,7 +139,7 @@ function debug_show_unlock_popup(unlockId)
   )
 }
 
-function debug_new_unit_unlock(needTutorial = false, unitName = null)
+::debug_new_unit_unlock <- function debug_new_unit_unlock(needTutorial = false, unitName = null)
 {
   local unit = ::getAircraftByName(unitName)
   if (!unit)

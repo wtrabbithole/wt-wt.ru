@@ -5,7 +5,7 @@ local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 
 
-enum MARK_RECIPE {
+global enum MARK_RECIPE {
   NONE
   BY_USER
   USED
@@ -78,7 +78,8 @@ local ExchangeRecipes = class {
     hasChestInComponents = ::u.search(items, @(i) i.iType == itemType.CHEST) != null
     foreach (component in initedComponents)
     {
-      local curQuantity = ::u.search(items, @(i) i.id == component.itemdefid)?.amount ?? 0
+      local curQuantity = items.filter(@(i) i.id == component.itemdefid).reduce(
+        @(res, item) res + item.amount, 0)
       local reqQuantity = component.quantity
       local isHave = curQuantity >= reqQuantity
       isUsable = isUsable && isHave

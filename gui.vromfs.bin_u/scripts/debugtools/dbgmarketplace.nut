@@ -6,7 +6,7 @@
  *
 **/
 
-function debug_show_workshop_event_preview(id)
+::debug_show_workshop_event_preview <- function debug_show_workshop_event_preview(id)
 {
   local workshopPreview = require("scripts/items/workshop/workshopPreview.nut")
   local workshop = require("scripts/items/workshop/workshop.nut")

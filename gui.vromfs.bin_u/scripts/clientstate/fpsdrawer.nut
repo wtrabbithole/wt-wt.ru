@@ -1,4 +1,4 @@
-function update_status_string(fps, ping, packetLoss, sessionId)
+::update_status_string <- function update_status_string(fps, ping, packetLoss, sessionId)
 {
   ::fpsDrawer.updateStatus(fps, ping, packetLoss, sessionId)
 }
@@ -16,12 +16,12 @@ function update_status_string(fps, ping, packetLoss, sessionId)
   loadingSceneObjects = {}
 }
 
-function fpsDrawer::init()
+fpsDrawer.init <- function init()
 {
   ::subscribe_handler(this)
 }
 
-function fpsDrawer::updateStatus(fps, ping, packetLoss, sessionId)
+fpsDrawer.updateStatus <- function updateStatus(fps, ping, packetLoss, sessionId)
 {
   local objects = getCurSceneObjects()
   if (!objects)
@@ -31,7 +31,7 @@ function fpsDrawer::updateStatus(fps, ping, packetLoss, sessionId)
   updateTexts(objects, fps, ping, packetLoss, sessionId)
 }
 
-function fpsDrawer::getCurSceneObjects()
+fpsDrawer.getCurSceneObjects <- function getCurSceneObjects()
 {
   local guiScene = ::get_cur_gui_scene()
   if (!guiScene)
@@ -47,7 +47,7 @@ function fpsDrawer::getCurSceneObjects()
   return objects
 }
 
-function fpsDrawer::validateObjects(objects, guiScene)
+fpsDrawer.validateObjects <- function validateObjects(objects, guiScene)
 {
   if (::checkObj(::getTblValue(paramsList[0], objects)))
     return true
@@ -62,7 +62,7 @@ function fpsDrawer::validateObjects(objects, guiScene)
   return true
 }
 
-function fpsDrawer::updateTexts(objects, fps, ping, pl, sessionId) //validate objects before calling this
+fpsDrawer.updateTexts <- function updateTexts(objects, fps, ping, pl, sessionId) //validate objects before calling this
 {
   fps = (fps + 0.5).tointeger();
   local fpsText = ""
@@ -84,12 +84,12 @@ function fpsDrawer::updateTexts(objects, fps, ping, pl, sessionId) //validate ob
   objects.sid.setValue(sidText)
 }
 
-function fpsDrawer::getFpsColor(fps)
+fpsDrawer.getFpsColor <- function getFpsColor(fps)
 {
   return "constantColorFps";
 }
 
-function fpsDrawer::getPingColor(ping)
+fpsDrawer.getPingColor <- function getPingColor(ping)
 {
   if (ping <= 50)
     return QUALITY_COLOR_EPIC
@@ -100,7 +100,7 @@ function fpsDrawer::getPingColor(ping)
   return QUALITY_COLOR_POOR
 }
 
-function fpsDrawer::getPacketlossColor(pl)
+fpsDrawer.getPacketlossColor <- function getPacketlossColor(pl)
 {
   if (pl <= 1)
     return QUALITY_COLOR_EPIC
@@ -111,7 +111,7 @@ function fpsDrawer::getPacketlossColor(pl)
   return QUALITY_COLOR_POOR
 }
 
-function fpsDrawer::checkVisibility(objects)
+fpsDrawer.checkVisibility <- function checkVisibility(objects)
 {
   local show = ::is_hud_visible()
   if (objects.show == show)
@@ -122,7 +122,7 @@ function fpsDrawer::checkVisibility(objects)
   objects.show = show
 }
 
-function fpsDrawer::onEventShowHud(p)
+fpsDrawer.onEventShowHud <- function onEventShowHud(p)
 {
   local objects = getCurSceneObjects()
   if (objects)

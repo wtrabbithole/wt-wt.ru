@@ -12,7 +12,12 @@ local tabsList = [
 ]
 
 
-local currentTab = Watched(tabsList[0])
+local currentTab = Watched(null)
+
+currentTab.subscribe(function (new_val) {
+  hudChatState.inputChatVisible(new_val.id == "Chat")
+})
+currentTab.update(tabsList[0])
 
 local selectChatTab = function (enable) {
   if (enable)

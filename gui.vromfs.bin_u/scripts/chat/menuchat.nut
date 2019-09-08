@@ -2,7 +2,7 @@ local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local menuChatRoom = require("scripts/chat/menuChatRoom.nut")
 
-enum MESSAGE_TYPE {
+global enum MESSAGE_TYPE {
   MY          = "my"
   INCOMMING   = "incomming"
   SYSTEM      = "system"
@@ -49,7 +49,7 @@ enum MESSAGE_TYPE {
 
 ::g_script_reloader.registerPersistentData("MenuChatGlobals", ::getroottable(), ["clanUserTable"]) //!!FIX ME: must be in contacts
 
-function sortChatUsers(a, b)
+::sortChatUsers <- function sortChatUsers(a, b)
 {
   if (a.name > b.name) return 1
     else if (a.name < b.name) return -1
@@ -57,7 +57,7 @@ function sortChatUsers(a, b)
 }
 
 
-function getGlobalRoomsListByLang(lang, roomsList = null)
+::getGlobalRoomsListByLang <- function getGlobalRoomsListByLang(lang, roomsList = null)
 {
   local res = []
   local def_lang = ::isInArray(lang, ::langs_list)? lang : ::langs_list[0]
@@ -76,7 +76,7 @@ function getGlobalRoomsListByLang(lang, roomsList = null)
   return res
 }
 
-function getGlobalRoomsList(all_lang=false)
+::getGlobalRoomsList <- function getGlobalRoomsList(all_lang=false)
 {
   local res = getGlobalRoomsListByLang(::cur_chat_lang)
   if (all_lang)
@@ -138,7 +138,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (::check_obj(focusObj))
         if (::show_console_buttons)
           mask = CtrlsInGui.CTRL_ALLOW_VEHICLE_FULL & ~CtrlsInGui.CTRL_ALLOW_VEHICLE_XINPUT
-        else if (focusObj.id == "menuchat_input")
+        else if (focusObj?.id == "menuchat_input")
           mask = CtrlsInGui.CTRL_ALLOW_VEHICLE_FULL & ~CtrlsInGui.CTRL_ALLOW_VEHICLE_KEYBOARD
     }
 
@@ -412,7 +412,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local hasChatHeader = roomData.type.hasChatHeader
     local obj = showSceneBtn("menu_chat_header_block", hasChatHeader)
-    local isRoomChanged = obj.roomId != roomData.id
+    local isRoomChanged = obj?.roomId != roomData.id
     if (!isRoomChanged)
     {
       if (hasChatHeader)
@@ -610,13 +610,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(squadBRTextObj))
       return
 
-    local br = ::g_squad_manager.squadData?.leaderBattleRating
+    local br = ::g_squad_manager.getLeaderBattleRating()
     local isShow = br && ::g_squad_manager.isInSquad() && curRoom.id == ::g_chat.getMySquadRoomId()
 
     if(isShow)
     {
       local gmText = ::events.getEventNameText(
-                       ::events.getEvent(::g_squad_manager.squadData?.leaderGameModeId)
+                       ::events.getEvent(::g_squad_manager.getLeaderGameModeId())
                      ) ?? ""
       local desc = ::loc("shop/battle_rating") +" "+ format("%.1f", br)
       desc = ::g_string.implode([gmText, desc], "\n")
@@ -818,14 +818,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (platformModule.isChatEnabled())
     {
-      local chatRooms = ::get_local_custom_settings_blk().chatRooms
+      local chatRooms = ::get_local_custom_settings_blk()?.chatRooms
       local roomIdx = 0
-      if (chatRooms!=null)
+      if (chatRooms != null)
       {
         local storedRooms = []
-        for(roomIdx = 0; chatRooms["room"+roomIdx]; roomIdx++)
-          storedRooms.append( loadRoomParams(chatRooms["room"+roomIdx],
-                                             chatRooms["params"+roomIdx]) )
+        for(roomIdx = 0; chatRooms?["room"+roomIdx]; roomIdx++)
+          storedRooms.append( loadRoomParams(chatRooms?["room"+roomIdx],
+                                             chatRooms?["params"+roomIdx]) )
 
         foreach (it in storedRooms)
         {
@@ -1130,14 +1130,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkEventResponseByType(db)
   {
-    local dbType = db && db.type
+    local dbType = db?.type
     if (!dbType)
       return false
 
     if (dbType=="rooms")
     {
       searchInProgress = false
-      if (db.list)
+      if (db?.list)
         searchRoomList = db.list % "item"
       validateSearchList()
       defaultRoomsInSearch = false
@@ -1146,7 +1146,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (dbType=="names")
     {
-      if (!db.list || !db.channel)
+      if (!db?.list || !db?.channel)
         return true
 
       local roomData = ::g_chat.getRoomById(db.channel)
@@ -1174,7 +1174,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (dbType=="user_leave")
     {
-      if(!db.channel || !db.nick)
+      if (!db?.channel || !db?.nick)
         return true
       if (db.channel=="")
         foreach(roomData in ::g_chat.rooms)
@@ -1198,7 +1198,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (dbType=="user_join")
     {
-      if(!db.channel || !db.nick)
+      if (!db?.channel || !db?.nick)
         return true
       local roomData = ::g_chat.getRoomById(db.channel)
       if (roomData)
@@ -1228,18 +1228,18 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (dbType=="invitation")
     {
-      if (!db.channel || !db.from)
+      if (!db?.channel || !db?.from)
         return true
 
       local fromNick = db.from
       local roomId = db.channel
       ::g_invites.addChatRoomInvite(roomId, fromNick)
     }
-    else if (db.type == "thread_list" || db.type == "thread_update")
+    else if (dbType == "thread_list" || dbType == "thread_update")
       ::g_chat.updateThreadInfo(db)
-    else if (db.type == "progress_caps")
+    else if (dbType == "progress_caps")
       ::g_chat.updateProgressCaps(db)
-    else if ( db.type == "thread_list_end" )
+    else if ( dbType == "thread_list_end" )
       ::g_chat_latest_threads.onThreadsListEnd()
     else
       return false
@@ -1252,6 +1252,9 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local roomId = taskId.slice(5)
       if (::g_chat.isSystemChatRoom(roomId))
+        return
+
+      if (::g_chat.isRoomClan(roomId) && !::has_feature("Clans"))
         return
 
       local room = ::g_chat.getRoomById(roomId)
@@ -1416,14 +1419,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!db || !db.from)
       return
 
-    if (skipMyMessages && db.sender && db.sender.nick == ::my_user_name)
+    if (skipMyMessages && db?.sender.nick == ::my_user_name)
       return
 
-    if (db.type == "xpost")
+    if (db?.type == "xpost")
     {
-      if (db.message.len() > 0)
+      if ((db?.message.len() ?? 0) > 0)
         foreach (room in ::g_chat.rooms)
-          if (room.id == db.sender.name)
+          if (room.id == db?.sender.name)
           {
             local idxLast = db.message.find(">")
             if ((db.message.slice(0,1)=="<") && (idxLast != null))
@@ -1437,7 +1440,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
               updateChatText();
           }
     }
-    else if (db.type == "groupchat" || db.type == "chat")
+    else if (db?.type == "groupchat" || db?.type == "chat")
     {
       local roomId = ""
       local user = ""
@@ -1446,22 +1449,22 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       local privateMsg = false
       local myPrivate = false
 
-      if (!db.sender || db.sender.debug)
+      if (!db?.sender || db.sender?.debug)
         return
 
-      local message = ::g_chat.localizeReceivedMessage(db.message)
+      local message = ::g_chat.localizeReceivedMessage(db?.message)
       if (::u.isEmpty(message))
         return
 
-      if (!db.sender.service)
+      if (!db?.sender.service)
       {
-        clanTag = db.tag? db.tag : ""
+        clanTag = db?.tag ?? ""
         user = db.sender.nick
-        if(db.userId && db.userId != "0")
+        if (db?.userId && db.userId != "0")
           userContact = getContact(db.userId, db.sender.nick, clanTag, true)
-        else if (db.sender.nick!=::my_user_name)
+        else if (db.sender.nick != ::my_user_name)
           ::clanUserTable[db.sender.nick] <- clanTag
-        roomId = db.sender.name
+        roomId = db?.sender.name
         privateMsg = (db.type == "chat") || !roomRegexp.match(roomId)
         local isSystemMessage = ::g_chat.isSystemUserName(user)
 
@@ -1510,16 +1513,16 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       addRoomMsg(roomId, userContact || user, message,
                  privateMsg, myPrivate, null, ::g_chat.isRoomSquad(roomId))
     }
-    else if (db.type == "error")
+    else if (db?.type == "error")
     {
-      if (!db.error)
+      if (db?.error == null)
         return
 
       checkLastActionRoom()
-      local errorName = db.error.errorName
+      local errorName = db.error?.errorName
       local roomId = lastActionRoom
-      local senderFrom = db.sender && db.sender.from
-      if (db.error.param1)
+      local senderFrom = db?.sender.from
+      if (db?.error.param1)
         roomId = db.error.param1
       else if (senderFrom && roomRegexp.match(senderFrom))
         roomId = senderFrom
@@ -1574,11 +1577,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       //remap roomnames in params
       local locParams = {}
-      local errParamCount = db.error.errorParamCount || db.error.getInt("paramCount", 0) //"paramCount" is a support old client
+      local errParamCount = db.error?.errorParamCount || db.error.getInt("paramCount", 0) //"paramCount" is a support old client
       for(local i = 0; i < errParamCount; i++)
       {
         local key = "param" + i
-        local value = db.error[key]
+        local value = db.error?[key]
         if (!value)
           continue
 
@@ -1601,7 +1604,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         showRoomPopup(menuChatRoom.newMessage("", errMsg), roomId)
     }
     else
-      ::dagor.debug("Chat error: Received message of unknown type = " + db.type)
+      ::dagor.debug("Chat error: Received message of unknown type = " + db?.type)
   }
 
   function joinRoom(id, password = "", onJoinFunc = null, customScene = null, ownerHandler = null, reconnect = false)
@@ -1630,7 +1633,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onJoinRoom(event, db, taskConfig)
   {
-    if (event != ::GCHAT_EVENT_TASK_ERROR && db && db.type!="error")
+    if (event != ::GCHAT_EVENT_TASK_ERROR && db?.type != "error")
     {
       local needNewRoom = true
       foreach(room in ::g_chat.rooms)
@@ -1689,7 +1692,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local VCdata = get_option(::USEROPT_VOICE_CHAT)
       local cdb = ::get_local_custom_settings_blk()
-      cdb.voiceChatShowCount = cdb.voiceChatShowCount? cdb.voiceChatShowCount : 0
+      cdb.voiceChatShowCount = cdb?.voiceChatShowCount ?? 0
       if(isFirstAskForSession && cdb.voiceChatShowCount < ::g_chat.MAX_MSG_VC_SHOW_TIMES && !VCdata.value)
       {
         msgBox("join_voiceChat", ::loc("msg/enableVoiceChat"),
@@ -1732,8 +1735,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onRoomClose(obj)
   {
     if (!obj) return
-    local id = obj.id
-    if (id.len() < 7 || id.slice(0, 6) != "close_")
+    local id = obj?.id
+    if (!id || id.len() < 7 || id.slice(0, 6) != "close_")
       return
 
     local value = id.slice(6).tointeger()
@@ -2179,8 +2182,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       msg = msg.slice(1)
       local res = { user = "", msg = "" }
-      local start = msg.find(" ")
-      if (start==null || start<1)
+      local start = msg.find(" ") ?? -1
+      if (start < 1)
         res.user = msg
       else
       {
@@ -2253,7 +2256,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local selObj = guiScene.getSelectedObject()
-    if (!::checkObj(selObj) || selObj.id!="menuchat_input")
+    if (!::check_obj(selObj) || selObj?.id != "menuchat_input")
       return
     local sceneData = getSceneDataByActionObj(selObj)
     if (!sceneData)
@@ -2334,7 +2337,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUserList(obj, lclick)
   {
-    if (!obj || !obj.id || obj.id.len() <= 10 || obj.id.slice(0,10) != "user_name_") return
+    if (!obj?.id || obj.id.len() <= 10 || obj.id.slice(0,10) != "user_name_")
+      return
 
     local num = obj.id.slice(10).tointeger()
     local name = obj.text
@@ -2673,14 +2677,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function isCustomRoomActionObj(obj)
   {
-    local id = obj && obj._customRoomId
-    return id!=null && id!=""
+    return (obj?._customRoomId ?? "") != ""
   }
 
   function findCustomRoomByObj(obj)
   {
-    local id = obj._customRoomId
-    if (id && id!="")
+    local id = obj?._customRoomId ?? ""
+    if (id != "")
       return ::g_chat.getRoomById(id)
 
     //try to find by scene
@@ -2792,7 +2795,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!checkScene())
       return
 
-    local curHeaderObjId = (obj.id=="rooms_list")? "header_buttons" : "rooms_list"
+    local curHeaderObjId = (obj?.id == "rooms_list") ? "header_buttons" : "rooms_list"
     local newObj = scene.findObject(curHeaderObjId)
     if (::checkObj(newObj))
     {
@@ -2907,13 +2910,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   mpostColor = "@chatTextMpostColor"
 }
 
-function menuChatCb(event, taskId, db)
+::menuChatCb <- function menuChatCb(event, taskId, db)
 {
   if (::menu_chat_handler)
     ::menu_chat_handler.onEventCb.call(::menu_chat_handler, event, taskId, db)
 }
 
-function initEmptyMenuChat()
+::initEmptyMenuChat <- function initEmptyMenuChat()
 {
   if (!::menu_chat_handler)
   {
@@ -2925,7 +2928,7 @@ function initEmptyMenuChat()
 if (::g_login.isLoggedIn())
   initEmptyMenuChat()
 
-function loadMenuChatToObj(obj)
+::loadMenuChatToObj <- function loadMenuChatToObj(obj)
 {
   if (!::checkObj(obj))
     return
@@ -2936,7 +2939,7 @@ function loadMenuChatToObj(obj)
   ::menu_chat_handler.initChat(obj)
 }
 
-function switchMenuChatObj(obj)
+::switchMenuChatObj <- function switchMenuChatObj(obj)
 {
   if (!::menu_chat_handler)
   {
@@ -2945,7 +2948,7 @@ function switchMenuChatObj(obj)
     ::menu_chat_handler.switchScene(obj)
 }
 
-function switchMenuChatObjIfVisible(obj)
+::switchMenuChatObjIfVisible <- function switchMenuChatObjIfVisible(obj)
 {
   if (::menu_chat_handler &&
       ::last_chat_scene_show &&
@@ -2954,13 +2957,13 @@ function switchMenuChatObjIfVisible(obj)
     ::menu_chat_handler.switchScene(obj, true)
 }
 
-function checkMenuChatBack()
+::checkMenuChatBack <- function checkMenuChatBack()
 {
   if (::menu_chat_handler)
     ::menu_chat_handler.checkScene()
 }
 
-function openChatScene(ownerHandler = null)
+::openChatScene <- function openChatScene(ownerHandler = null)
 {
   if (!gchat_is_enabled() || !::has_feature("Chat"))
   {
@@ -2980,7 +2983,7 @@ function openChatScene(ownerHandler = null)
   return ::menu_chat_handler!=null
 }
 
-function openChatPrivate(playerName, ownerHandler = null)
+::openChatPrivate <- function openChatPrivate(playerName, ownerHandler = null)
 {
   if (!platformModule.isPlayerFromXboxOne(playerName))
     return ::g_chat.openPrivateRoom(playerName, ownerHandler)
@@ -2994,7 +2997,7 @@ function openChatPrivate(playerName, ownerHandler = null)
   })
 }
 
-function isMenuChatActive()
+::isMenuChatActive <- function isMenuChatActive()
 {
   if (!::menu_chat_handler)
     return false;
@@ -3002,13 +3005,13 @@ function isMenuChatActive()
   return ::menu_chat_handler.isMenuChatActive();
 }
 
-function chatUpdatePresence(contact)
+::chatUpdatePresence <- function chatUpdatePresence(contact)
 {
   if (::menu_chat_handler)
     ::menu_chat_handler.updatePresenceContact.call(::menu_chat_handler, contact)
 }
 
-function resetChat()
+::resetChat <- function resetChat()
 {
   ::g_chat.rooms = []
   ::new_menu_chat_messages <- false
@@ -3018,7 +3021,7 @@ function resetChat()
     ::menu_chat_handler.roomsInited = false
 }
 
-function getChatDiv(scene)
+::getChatDiv <- function getChatDiv(scene)
 {
   if(!::checkObj(scene))
     scene = null
@@ -3033,13 +3036,13 @@ function getChatDiv(scene)
 }
 
 
-function open_invite_menu(menu, position)
+::open_invite_menu <- function open_invite_menu(menu, position)
 {
   if (::menu_chat_handler)
     ::menu_chat_handler.openInviteMenu.call(::menu_chat_handler, menu, position)
 }
 
-function joinCustomObjRoom(obj, roomName, password = "", owner = null)
+::joinCustomObjRoom <- function joinCustomObjRoom(obj, roomName, password = "", owner = null)
 //owner need if you want to handle custom room events:
 //  onCustomChatCancel   (press esc when room input in focus)
 //  onCustomChatContinue (press enter on empty message)
@@ -3048,7 +3051,7 @@ function joinCustomObjRoom(obj, roomName, password = "", owner = null)
     ::menu_chat_handler.joinCustomObjRoom.call(::menu_chat_handler, obj, roomName, password, owner)
 }
 
-function getCustomObjEditbox(obj)
+::getCustomObjEditbox <- function getCustomObjEditbox(obj)
 {
   if (!::checkObj(obj))
     return null
@@ -3056,14 +3059,14 @@ function getCustomObjEditbox(obj)
   return ::checkObj(inputBox)? inputBox : null
 }
 
-function get_menuchat_focus_obj()
+::get_menuchat_focus_obj <- function get_menuchat_focus_obj()
 {
   if (::menu_chat_handler)
     return ::menu_chat_handler.getCurFocusObj.call(::menu_chat_handler)
   return null
 }
 
-function isUserBlockedByPrivateSetting(uid = null, userName = "")
+::isUserBlockedByPrivateSetting <- function isUserBlockedByPrivateSetting(uid = null, userName = "")
 {
   local checkUid = uid != null
 

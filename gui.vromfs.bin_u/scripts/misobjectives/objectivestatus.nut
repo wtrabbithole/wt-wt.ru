@@ -38,7 +38,7 @@ enums.addTypesByGlobalName("g_objective_status", {
   }
 })
 
-function g_objective_status::getObjectiveStatusByCode(statusCode)
+g_objective_status.getObjectiveStatusByCode <- function getObjectiveStatusByCode(statusCode)
 {
   return enums.getCachedType("code", statusCode, ::g_objective_status_cache.byCode,
     ::g_objective_status, ::g_objective_status.UNKNOWN)

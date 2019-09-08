@@ -1,4 +1,4 @@
-function gui_start_open_trophy_rewards_list(params = {})
+::gui_start_open_trophy_rewards_list <- function gui_start_open_trophy_rewards_list(params = {})
 {
   local rewardsArray = params?.rewardsArray
   if (!rewardsArray || !rewardsArray.len())

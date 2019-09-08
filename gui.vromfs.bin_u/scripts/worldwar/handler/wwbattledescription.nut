@@ -1,9 +1,10 @@
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
+local clustersModule = require("scripts/clusterSelect.nut")
 
 // Temporary image. Has to be changed after receiving correct art
 const WW_OPERATION_DEFAULT_BG_IMAGE = "#ui/bkg/login_layer_h1_0"
 
-enum WW_BATTLE_VIEW_MODES
+global enum WW_BATTLE_VIEW_MODES
 {
   BATTLE_LIST,
   SQUAD_INFO,
@@ -270,7 +271,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     {
       local country = ::g_world_war.curOperationCountry
       local availableBattlesList = ::g_world_war.getBattles().filter(
-        function(idx, battle) {
+        function(battle) {
           return ::g_world_war.isBattleAvailableToPlay(battle)
             && isBattleAvailableToMatching(battle, country)
         }.bindenv(this))
@@ -325,7 +326,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local itemId = curBattleInList.isValid() ? curBattleInList.id
       : ""
 
-    local idx = itemId.len() ? ::u.searchIndex(curBattleListItems, @(item) item.id == itemId) : -1
+    local idx = itemId.len() ? (curBattleListItems.searchindex(@(item) item.id == itemId) ?? -1) : -1
     if (idx >= 0 && battlesListObj.getValue() != idx)
       battlesListObj.setValue(idx)
   }
@@ -467,7 +468,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     showSceneBtn("operation_loading_wait_anim", battle.isValid() && !isOperationBattleLoaded && !battle.isFinished())
 
-    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
+    updateClusters()
     if (!battle.isValid() || !isOperationBattleLoaded || battle.isFinished())
     {
       showSceneBtn("battle_info", battle.isFinished())
@@ -756,6 +757,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(battleTimeObj) && battleView.needShowTimer())
     {
       local battleTimeText = ""
+      local timeStartAutoBattle = battleView.getTimeStartAutoBattle()
       if (battleView.hasBattleDurationTime())
         battleTimeText = ::loc("debriefing/BattleTime") + ::loc("ui/colon") +
           battleView.getBattleDurationTime()
@@ -764,10 +766,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
         isSelectedBattleActive = false
         battleTimeText = ::loc("worldWar/can_join_countdown") + ::loc("ui/colon") +
           battleView.getBattleActivateLeftTime()
+      } else if (timeStartAutoBattle != "")
+      {
+        isSelectedBattleActive = false
+        battleTimeText = ::loc("worldWar/will_start_auto_battle") + ::loc("ui/colon")
+          + timeStartAutoBattle
       }
       battleTimeObj.setValue(battleTimeText)
 
-      if (!isSelectedBattleActive && !battleView.hasBattleActivateLeftTime())
+      if (!isSelectedBattleActive && !battleView.hasBattleActivateLeftTime() && timeStartAutoBattle == "")
       {
         isSelectedBattleActive = true
         updateDescription()
@@ -795,7 +802,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function onOpenClusterSelect(obj)
   {
     ::queues.checkAndStart(
-      ::Callback(@() ::gui_handlers.ClusterSelect.open(obj, "bottom"), this),
+      ::Callback(@() clustersModule.createClusterSelectMenu(obj, "bottom"), this),
       null,
       "isCanChangeCluster")
   }
@@ -824,7 +831,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventClusterChange(params)
   {
-    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
+    updateClusters()
+  }
+
+  function updateClusters()
+  {
+    clustersModule.updateClusters(scene.findObject("cluster_select_button_text"))
   }
 
   function goBack()

@@ -36,13 +36,13 @@ local contentPreset = require("scripts/customization/contentPreset.nut")
   battleMode = BATTLE_TYPES.AIR// only for random battles, must be removed when new modes will be added
 }
 
-function gui_start_flight()
+::gui_start_flight <- function gui_start_flight()
 {
   ::set_context_to_player("difficulty", ::get_mission_difficulty())
   ::do_start_flight()
 }
 
-function gui_start_briefing() //Is this function can be called from code atm?
+::gui_start_briefing <- function gui_start_briefing() //Is this function can be called from code atm?
 {
   //FIX ME: Check below really can be in more easier way.
   if (::handlersManager.getLastBaseHandlerStartFunc()
@@ -65,9 +65,19 @@ function gui_start_briefing() //Is this function can be called from code atm?
   ::handlersManager.loadHandler(::gui_handlers.Briefing)
 }
 
-function gui_start_briefing_restart()
+::gui_start_briefing_restart <- function gui_start_briefing_restart()
 {
   dagor.debug("gui_start_briefing_restart")
+  local missionName = ::current_campaign_mission
+  if (missionName != null)
+  {
+    local missionBlk = ::DataBlock()
+    missionBlk.setFrom(::get_meta_mission_info_by_name(::current_campaign_mission))
+    local briefingOptions = get_briefing_options(::get_game_mode(), ::get_game_type(), missionBlk)
+    if (briefingOptions.len() == 0)
+      return ::restart_current_mission()
+  }
+
   local params = {
     isRestart = true
     backSceneFunc = ::gui_start_flight_menu
@@ -89,7 +99,7 @@ function gui_start_briefing_restart()
   ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_briefing_restart)
 }
 
-function briefing_options_apply()
+::briefing_options_apply <- function briefing_options_apply()
 {
   local gt = ::get_game_type()
   local gm = ::get_game_mode()
@@ -136,7 +146,7 @@ function briefing_options_apply()
     return
   }
 
-  if ((gt & ::GT_VERSUS) || ::mission_settings.missionURL)
+  if ((gt & ::GT_VERSUS) || ::mission_settings.missionURL != "")
     ::SessionLobby.createRoom(::mission_settings)
   else
     ::get_cur_base_gui_handler().goForward(::gui_start_flight);
@@ -144,7 +154,7 @@ function briefing_options_apply()
 
 ::g_script_reloader.registerPersistentData("mission_settings", ::getroottable(), ["mission_settings"])
 
-function get_briefing_options(gm, gt, missionBlk)
+::get_briefing_options <- function get_briefing_options(gm, gt, missionBlk)
 {
   local optionItems = []
   if (gm == ::GM_BENCHMARK || ::custom_miss_flight)
@@ -176,7 +186,7 @@ function get_briefing_options(gm, gt, missionBlk)
   if (missionBlk.paramExists("disableAirfields"))
     optionItems.append([::USEROPT_DISABLE_AIRFIELDS, "spinner"])
 
-  if (missionBlk.isCustomVisualFilterAllowed!= false && gm == ::GM_SKIRMISH
+  if (missionBlk?.isCustomVisualFilterAllowed != false && gm == ::GM_SKIRMISH
       && (::has_feature("EnableLiveSkins") || ::has_feature("EnableLiveDecals"))
       && contentPreset.getContentPresets().len() > 0)
     optionItems.append([::USEROPT_CONTENT_ALLOWED_PRESET, "combobox"])
@@ -185,7 +195,7 @@ function get_briefing_options(gm, gt, missionBlk)
   {
     if (missionBlk.paramExists("takeoff_mode"))
     {
-        ::mission_name_for_takeoff <- missionBlk.name
+        ::mission_name_for_takeoff <- missionBlk?.name
         optionItems.append([::USEROPT_TAKEOFF_MODE, "spinner"])
     }
 //    if (missionBlk.paramExists("landing_mode"))
@@ -205,7 +215,7 @@ function get_briefing_options(gm, gt, missionBlk)
       optionItems.append([::USEROPT_TIME_LIMIT, "spinner"])
 //    if (!missionBlk.paramExists("rounds"))
 //      optionItems.append([::USEROPT_ROUNDS, "spinner"])
-    if (missionBlk.forceNoRespawnsByMission != true) //false or null
+    if (missionBlk?.forceNoRespawnsByMission != true) //false or null
       optionItems.append([::USEROPT_VERSUS_RESPAWN, "spinner"])
 
     if (missionBlk.paramExists("killLimit") && !(gt & ::GT_RACE))
@@ -237,7 +247,7 @@ function get_briefing_options(gm, gt, missionBlk)
     }
 
     local canUseBots = !(gt & ::GT_RACE)
-    local isBotsAllowed = missionBlk.isBotsAllowed
+    local isBotsAllowed = missionBlk?.isBotsAllowed
     if (canUseBots && isBotsAllowed == null)
     {
       optionItems.append([::USEROPT_IS_BOTS_ALLOWED, "spinner"])
@@ -285,7 +295,7 @@ function get_briefing_options(gm, gt, missionBlk)
   return optionItems
 }
 
-function if_any_mission_completed_in(gm)
+::if_any_mission_completed_in <- function if_any_mission_completed_in(gm)
 {
   local mi = ::get_meta_missions_info(gm)
   for (local i = 0; i < mi.len(); ++i)
@@ -301,13 +311,13 @@ function if_any_mission_completed_in(gm)
   return false
 }
 
-function if_any_mission_completed()
+::if_any_mission_completed <- function if_any_mission_completed()
 {
   return ::if_any_mission_completed_in(::GM_CAMPAIGN) ||
          ::if_any_mission_completed_in(::GM_SINGLE_MISSION)
 }
 
-function get_mission_types_from_meta_mission_info(metaInfo)
+::get_mission_types_from_meta_mission_info <- function get_mission_types_from_meta_mission_info(metaInfo)
 {
   local types = [];
   local missionTypes = metaInfo.getBlockByName("missionType")
@@ -426,7 +436,6 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
     if (!isValid())
       return
 
-    local isUrlMission = ::getTblValue("url", misBlk) != null
     local gm = ::get_game_mode()
     local gt = ::get_game_type()
     local value = ""
@@ -597,7 +606,10 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       ::mission_settings.dedicatedReplay = value
     }
 
-    ::mission_settings.missionURL = isUrlMission ? misBlk.url : null
+    if (!("url" in misBlk))
+      misBlk.setStr("url", "") //Must-be param, to override on matching if used before
+
+    ::mission_settings.missionURL = misBlk.url
     ::mission_settings.sessionPassword =  get_option(::USEROPT_SESSION_PASSWORD).value
 
     if (misBlk.paramExists("autoBalance"))
@@ -729,18 +741,15 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
     }
 
     if (gm == ::GM_SKIRMISH || gm == ::GM_CAMPAIGN || gm == ::GM_SINGLE_MISSION)
-      if (misBlk.name && misBlk.chapter)
+      if (misBlk?.name && misBlk?.chapter)
         ::add_last_played(misBlk.chapter, misBlk.name, gm, false)
-      else if (misBlk.url)
+      else if (misBlk?.url)
         ::add_last_played("url", misBlk.url, gm, false)
 
     if (gm == ::GM_DYNAMIC)
       ::select_mission_full(misBlk, ::mission_settings.missionFull);
     else
       ::select_mission(misBlk, false)
-
-    if (::SessionLobby.isInRoom())
-      ::apply_host_settings(misBlk)
   }
 
   function onFinalApply2()

@@ -3,7 +3,7 @@ local time = require("scripts/time.nut")
 ::on_screenshot_saved <- null
 ::after_facebook_login <- null
 
-function make_screenshot_and_do(func, handler)
+::make_screenshot_and_do <- function make_screenshot_and_do(func, handler)
 {
   on_screenshot_saved = (@(func, handler) function(saved_screenshot_filename) {
       if(handler)
@@ -17,7 +17,7 @@ function make_screenshot_and_do(func, handler)
   ::make_screenshot()
 }
 
-function make_facebook_login_and_do(func, handler)
+::make_facebook_login_and_do <- function make_facebook_login_and_do(func, handler)
 {
   after_facebook_login = (@(func, handler) function() {
         if(handler && func)
@@ -30,7 +30,7 @@ function make_facebook_login_and_do(func, handler)
     after_facebook_login()
 }
 
-function on_facebook_link_finished(result)
+::on_facebook_link_finished <- function on_facebook_link_finished(result)
 {
   ::on_facebook_destroy_waitbox()
   if (result == "")
@@ -39,7 +39,7 @@ function on_facebook_link_finished(result)
   return
 }
 
-function start_facebook_upload_screenshot(path)
+::start_facebook_upload_screenshot <- function start_facebook_upload_screenshot(path)
 {
   if (path == "")
     return
@@ -80,7 +80,7 @@ function start_facebook_upload_screenshot(path)
   ::facebook_upload_screenshot(path)
 }
 
-function on_facebook_upload_finished(path)
+::on_facebook_upload_finished <- function on_facebook_upload_finished(path)
 {
   on_facebook_destroy_waitbox()
   if (path == "")
@@ -106,7 +106,7 @@ function on_facebook_upload_finished(path)
     ::current_base_gui_handler.msgBox("facebook_finish_upload_screenshot", ::loc("facebook/successUpload"), [["ok"]], "ok")
 }
 
-function on_facebook_destroy_waitbox(unusedEventParams=null)
+::on_facebook_destroy_waitbox <- function on_facebook_destroy_waitbox(unusedEventParams=null)
 {
   local guiScene = ::get_gui_scene()
   if (!guiScene)
@@ -118,7 +118,7 @@ function on_facebook_destroy_waitbox(unusedEventParams=null)
   ::broadcastEvent("CheckFacebookLoginStatus")
 }
 
-function on_facebook_login_finished()
+::on_facebook_login_finished <- function on_facebook_login_finished()
 {
   if(::facebook_is_logged_in() && after_facebook_login)
       after_facebook_login()
@@ -128,7 +128,7 @@ function on_facebook_login_finished()
     ::close_browser_modal()
 }
 
-function start_facebook_login()
+::start_facebook_login <- function start_facebook_login()
 {
   if (::is_platform_ps4)
     return
@@ -141,7 +141,7 @@ function start_facebook_login()
   ::facebook_login()
 }
 
-function show_facebook_login_reminder()
+::show_facebook_login_reminder <- function show_facebook_login_reminder()
 {
   if (::is_unlocked(::UNLOCKABLE_ACHIEVEMENT, "facebook_like")
     || ::disable_network())
@@ -158,7 +158,7 @@ function show_facebook_login_reminder()
   }
 }
 
-function show_facebook_screenshot_button(scene, show = true, id = "btn_upload_facebook_scrn")
+::show_facebook_screenshot_button <- function show_facebook_screenshot_button(scene, show = true, id = "btn_upload_facebook_scrn")
 {
   show = show && !::is_platform_ps4 && ::has_feature("FacebookScreenshots")
   local fbObj = ::showBtn(id, show, scene)

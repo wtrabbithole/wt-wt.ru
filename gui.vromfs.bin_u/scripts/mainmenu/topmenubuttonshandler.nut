@@ -151,7 +151,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
   function onHoverSizeMove(obj)
   {
-    if(obj["class"]!="dropDown")
+    if(obj?["class"] != "dropDown")
       obj = obj.getParent()
 
     local hover = obj.findObject(obj.id+"_list_hover")
@@ -267,11 +267,11 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     local selObj = obj.getChild(curVal)
     if (!::checkObj(selObj))
       return
-    local eventName = selObj._on_click || selObj.on_click || selObj.on_change_value
+    local eventName = selObj?._on_click ?? selObj?.on_click ?? selObj?.on_change_value
     if (!eventName || !(eventName in this))
       return
 
-    if (selObj.on_change_value)
+    if (selObj?.on_change_value)
       selObj.setValue(!selObj.getValue())
 
     unstickGCDropdownMenu()

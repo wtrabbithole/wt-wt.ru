@@ -44,10 +44,10 @@ local stdMath = require("std/math.nut")
   ]
 
   condWithValuesInside = [
-    "atLeastOneUnitsRankOnStartMission"
+    "atLeastOneUnitsRankOnStartMission", "eliteUnitsOnly"
   ]
 
-  additionalTypes = ["critical", "lesserTeam", "teamLeader", "inTurret"]
+  additionalTypes = ["critical", "lesserTeam", "teamLeader", "inTurret", "isBurning"]
 
   locGroupByType = {
     playerType             = "playerUnit"
@@ -117,7 +117,48 @@ local stdMath = require("std/math.nut")
 
   customLocTypes = ["gameModeInfoString"]
 
+  formatParamsDefault = {
+    rangeStr = "%s"
+    itemStr = "%s"
+    maxOnlyStr = "%s"
+    minOnlyStr = "%s"
+    bothStr = "%s"+ ::loc("ui/mdash") + "%s"
+  }
+
   regExpNumericEnding = ::regexp2("\\d+$")
+
+  function getRangeTextByPoint2(val, formatParams = {}, romanNumerals = false)
+  {
+    if (!(type(val) == "instance" && (val instanceof ::Point2)) && !(type(val) == "table"))
+      return ""
+
+    formatParams = formatParamsDefault.__merge(formatParams)
+    local a = val.x.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.x) : ::format("%.1f", val.x) : ""
+    local b = val.y.tointeger() > 0 ? romanNumerals ? ::get_roman_numeral(val.y) : ::format("%.1f", val.y) : ""
+    if (a == "" && b == "")
+      return ""
+
+    local range = ""
+    if (a != "" && b != "")
+      range = a == b
+        ? ::format(formatParams.itemStr, a)
+        : ::format(formatParams.bothStr,
+          ::format(formatParams.itemStr, a),
+          ::format(formatParams.itemStr, b))
+    else if (a == "")
+      range = ::format(formatParams.maxOnlyStr, ::format(formatParams.itemStr, b))
+    else
+      range = ::format(formatParams.minOnlyStr, ::format(formatParams.itemStr, a))
+
+    return ::format(formatParams.rangeStr, range)
+  }
+
+  function getRangeString(val1, val2, formatStr = "%s")
+  {
+    val1 = val1.tostring()
+    val2 = val2.tostring()
+    return (val1 == val2) ? ::format(formatStr, val1) : ::format(formatStr, val1) + ::loc("ui/mdash") + ::format(formatStr, val2)
+  }
 }
 
 
@@ -132,7 +173,7 @@ local stdMath = require("std/math.nut")
 //             such condition can be only one in list, and always first.
 //  modeTypeLocID  - locId for mode type
 //}
-function UnlockConditions::loadConditionsFromBlk(blk)
+UnlockConditions.loadConditionsFromBlk <- function loadConditionsFromBlk(blk)
 {
   local res = []
   local mainCond = loadMainProgressCondition(blk) //main condition by modeType
@@ -150,7 +191,7 @@ function UnlockConditions::loadConditionsFromBlk(blk)
   return res
 }
 
-function UnlockConditions::_createCondition(condType, values = null)
+UnlockConditions._createCondition <- function _createCondition(condType, values = null)
 {
   return {
     type = condType
@@ -158,7 +199,7 @@ function UnlockConditions::_createCondition(condType, values = null)
   }
 }
 
-function UnlockConditions::_mergeConditionToList(newCond, list)
+UnlockConditions._mergeConditionToList <- function _mergeConditionToList(newCond, list)
 {
   local cType = newCond.type
   local cond = _findCondition(list, cType, ::getTblValue("locGroup", newCond, null))
@@ -186,7 +227,7 @@ function UnlockConditions::_mergeConditionToList(newCond, list)
   }
 }
 
-function UnlockConditions::_findCondition(list, cType, locGroup)
+UnlockConditions._findCondition <- function _findCondition(list, cType, locGroup)
 {
   local cLocGroup = null
   foreach(cond in list)
@@ -198,103 +239,104 @@ function UnlockConditions::_findCondition(list, cType, locGroup)
   return null
 }
 
-function UnlockConditions::isBitModeType(modeType)
+UnlockConditions.isBitModeType <- function isBitModeType(modeType)
 {
   return modeType in bitModesList
 }
 
-function UnlockConditions::isMainConditionBitType(mainCond)
+UnlockConditions.isMainConditionBitType <- function isMainConditionBitType(mainCond)
 {
   return mainCond != null && isBitModeType(mainCond.modeType)
 }
 
-function UnlockConditions::isCheckedBySingleAttachment(modeType)
+UnlockConditions.isCheckedBySingleAttachment <- function isCheckedBySingleAttachment(modeType)
 {
   return modeType in singleAttachmentList || isBitModeType(modeType)
 }
 
-function UnlockConditions::loadMainProgressCondition(blk)
+UnlockConditions.loadMainProgressCondition <- function loadMainProgressCondition(blk)
 {
-  local modeType = blk.type
+  local modeType = blk?.type
   if (!modeType || ::isInArray(modeType, modeTypesWithoutProgress)
-      || blk.dontShowProgress || modeType == "maxUnitsRankOnStartMission")
+      || blk?.dontShowProgress || modeType == "maxUnitsRankOnStartMission")
     return null
 
   local res = _createCondition("mode")
   res.modeType <- modeType
-  res.num <- blk.rewardNum || blk.num
+  res.num <- blk?.rewardNum ?? blk?.num
 
   if ("customUnlockableList" in blk)
     res.values = blk.customUnlockableList % "unlock"
 
   res.hasCustomUnlockableList <- (res.values != null && res.values.len() > 0)
 
-  if (blk.typeLocID)
+  if (blk?.typeLocID != null)
     res.modeTypeLocID <- blk.typeLocID
   if (isBitModeType(modeType))
   {
     if (!res.hasCustomUnlockableList)
       res.values = blk % bitModesList[modeType]
-    res.compareOR <- blk.compareOR || false
-    if (!blk.num)
+    res.compareOR <- blk?.compareOR ?? false
+    if (blk?.num == null)
       res.num = res.values.len()
   }
 
   foreach(p in ["country", "reason", "isShip", "typeLocIDWithoutValue"])
-    if (blk[p])
+    if (blk?[p])
       res[p] <- blk[p]
 
   //uniq modeType params
   if (modeType == "unlockCount")
-    res.unlockType <- blk.unlockType || ""
+    res.unlockType <- blk?.unlockType ?? ""
   else if (modeType == "unlockOpenCount" || modeType == "unlockStageCount")
   {
-    local unlock = ::g_unlocks.getUnlockById(blk.unlock)
+    local unlock = ::g_unlocks.getUnlockById(blk?.unlock)
     if (unlock == null)
     {
       res.values = []
-      ::dagor.assertf(false, "ERROR: Unlock "+blk.unlock+" does not exist")
+      local debugUnlockData = blk?.unlock ?? ::toString(blk) // warning disable: -declared-never-used
+      ::dagor.assertf(false, "ERROR: Unlock does not exist")
     }
     else if (!res.hasCustomUnlockableList)
     {
-      res.values = unlock.mode % "unlock"
+      res.values = ("mode" in unlock) ? unlock.mode % "unlock" : []
       if( ! res.values.len())
         res.values.push(unlock.id)
     }
   }
   else if (modeType == "landings")
-    res.carrierOnly <- blk.carrierOnly || false
+    res.carrierOnly <- blk?.carrierOnly ?? false
   else if (modeType == "char_static_progress")
-    res.level <- blk.level || 0
+    res.level <- blk?.level ?? 0
   else if (modeType == "char_resources_count")
-    res.resourceType <- blk.resourceType
+    res.resourceType <- blk?.resourceType
 
   res.multiplier <- getMultipliersTable(blk)
   return res
 }
 
-function UnlockConditions::loadParamsConditions(blk)
+UnlockConditions.loadParamsConditions <- function loadParamsConditions(blk)
 {
   local res = []
-  if (blk.elite && (typeof(blk.elite) != "integer" || blk.elite > 1))
+  if (blk?.elite != null && (typeof(blk?.elite) != "integer" || blk.elite > 1))
     res.append(_createCondition("eliteUnitsOnly"))
 
-  if (blk.premium == false)
+  if (blk?.premium == false)
     res.append(_createCondition("noPremiumVehicles"))
 
-  if (blk.era)
+  if (blk?.era != null)
     res.append(_createCondition("era", blk.era))
 
-  if (blk.country && blk.country != "")
+  if ((blk?.country ?? "") != "")
     res.append(_createCondition("country", blk.country))
 
-  if (blk.unitClass)
+  if (blk?.unitClass != null)
     res.append(_createCondition("unitClass", blk.unitClass))
 
-  if (blk.type == "maxUnitsRankOnStartMission") //2 params conditions instead of 1 base
+  if (blk?.type == "maxUnitsRankOnStartMission") //2 params conditions instead of 1 base
   {
-    local minRank = blk.minRank || 0
-    local maxRank = blk.maxRank || minRank
+    local minRank = blk?.minRank ?? 0
+    local maxRank = blk?.maxRank ?? minRank
     if (minRank)
     {
       local values = [minRank]
@@ -303,16 +345,16 @@ function UnlockConditions::loadParamsConditions(blk)
       res.append(_createCondition("atLeastOneUnitsRankOnStartMission", values))
     }
 
-    if (blk.maxRank)
+    if (blk?.maxRank)
       res.append(_createCondition("maxUnitsRankOnStartMission", maxRank))
   }
 
   return res
 }
 
-function UnlockConditions::loadCondition(blk)
+UnlockConditions.loadCondition <- function loadCondition(blk)
 {
-  local t = blk.type
+  local t = blk?.type
   local res = _createCondition(t)
 
   if (t == "weaponType")
@@ -320,7 +362,7 @@ function UnlockConditions::loadCondition(blk)
   else if (t == "location")
     res.values = (blk % "location")
   else if (t == "activity")
-    res.values = getDiffTextArrayByPoint3(blk.percent, "%s%%")
+    res.values = getDiffTextArrayByPoint3(blk?.percent, "%s%%")
   else if (t == "online")
   {
     res.type = "modes"
@@ -328,8 +370,8 @@ function UnlockConditions::loadCondition(blk)
   }
   else if (t == "gameModeInfoString")
   {
-    res.values = [blk.value]
-    res.name <- blk.name
+    res.values = [blk?.value]
+    res.name <- blk?.name
     if ("locParamName" in blk)
     {
       res.locParamName <- blk.locParamName
@@ -348,9 +390,9 @@ function UnlockConditions::loadCondition(blk)
     {
       res.type = "modes"
       local group = "events_only"
-      if (blk.for_clans_only)
+      if (blk?.for_clans_only == true)
         group = "clans_only"
-      else if (blk.is_event == false) //true by default
+      else if (blk?.is_event == false) //true by default
         group = "random_battles"
       res.values.append(group)
     }
@@ -370,11 +412,11 @@ function UnlockConditions::loadCondition(blk)
     res.values = (blk % "tag")
   else if (t == "playerUnitRank")
   {
-    if (blk.inSessionAnd)
+    if (blk?.inSessionAnd == true)
       res.type = "crewsUnitRank"
 
-    local range = blk.minRank || blk.maxRank ? ::Point2(blk.minRank, blk.maxRank) : blk.range
-    local v = ::getRangeTextByPoint2(range, {
+    local range = blk?.minRank || blk?.maxRank ? ::Point2(blk?.minRank ?? 0, blk?.maxRank ?? 0) : blk?.range
+    local v = getRangeTextByPoint2(range, {
       rangeStr = ::loc("events/rank")
       maxOnlyStr = ::loc("conditions/unitRank/format_max")
       minOnlyStr = ::loc("conditions/unitRank/format_min")
@@ -383,17 +425,17 @@ function UnlockConditions::loadCondition(blk)
   }
   else if (t == "playerUnitMRank")
   {
-    if (blk.inSessionAnd)
+    if (blk?.inSessionAnd == true)
       res.type = "crewsUnitMRank"
 
-    local range = blk.minMRank || blk.maxMRank
-      ? ::Point2(blk.minMRank, blk.maxMRank)
-      : blk.range ?? {x = 0, y = 0}
-    range = {
-      x = range.x.tointeger() > 0 ? ::get_battle_rating_string_from_rank(range.x) : 0
-      y = range.y.tointeger() > 0 ? ::get_battle_rating_string_from_rank(range.y) : 0
-    }
-    local v = ::getRangeTextByPoint2(range, {
+    local range = blk?.minMRank || blk?.maxMRank
+      ? ::Point2(blk?.minMRank ?? 0, blk?.maxMRank ?? 0)
+      : blk?.range ?? ::Point2(0,0)
+    range = ::Point2(
+      range.x.tointeger() > 0 ? ::calc_battle_rating_from_rank(range.x) : 0,
+      range.y.tointeger() > 0 ? ::calc_battle_rating_from_rank(range.y) : 0
+    )
+    local v = getRangeTextByPoint2(range, {
       rangeStr = ::loc("events/br")
       maxOnlyStr = ::loc("conditions/unitRank/format_max")
       minOnlyStr = ::loc("conditions/unitRank/format_min")
@@ -407,15 +449,15 @@ function UnlockConditions::loadCondition(blk)
       if (v.len() > 4 && v.slice(0,4) == "exp_")
         unitClassList[i] = "type_" + v.slice(4)
 
-    res.type = blk.inSessionAnd ? "crewsTag" : "playerTag"
+    res.type = blk?.inSessionAnd == true ? "crewsTag" : "playerTag"
     res.values = unitClassList
   }
   else if (t == "playerUnitFilter")
   {
-    switch (blk.paramName)
+    switch (blk?.paramName)
     {
       case "country":
-        res.type = blk.inSessionAnd ? "crewsTag" : "playerTag"
+        res.type = blk?.inSessionAnd == true ? "crewsTag" : "playerTag"
         res.values = blk % "value"
         break
       default:
@@ -423,30 +465,31 @@ function UnlockConditions::loadCondition(blk)
     }
   }
   else if (t == "char_mission_completed")
-    res.values = blk.name || ""
+    res.values = blk?.name ?? ""
   else if (t == "difficulty")
   {
     res.values = blk % "difficulty"
-    res.exact <- blk.exact || false
+    res.exact <- blk?.exact ?? false
   }
   else if (t == "minStat")
   {
-    local lessIsBetter = blk.stat == "place"
-    res.values = getDiffTextArrayByPoint3(blk.value, "%s", lessIsBetter)
+    local stat = blk?.stat ?? ""
+
+    local lessIsBetter = stat == "place"
+    res.values = getDiffTextArrayByPoint3(blk?.value, "%s", lessIsBetter)
     if (!res.values.len())
       return null
 
-    local stat = blk.stat || ""
     res.locGroup <- ::getTblValue(stat, minStatGroups, stat)
 
-    if ("inSession" in blk && blk.inSession == true)
+    if (blk?.inSession == true)
       res.locGroup +=  "InSession"
   }
   else if (::isInArray(t, unlock_time_range_conditions))
   {
     foreach(key in ["beginDate", "endDate"])
     {
-      local unlockTime = blk[key] ?
+      local unlockTime = blk?[key] ?
         (time.getTimestampFromStringUtc(blk[key])) : -1
       if (unlockTime >= 0)
         res[key] <- time.buildDateTimeStr(unlockTime)
@@ -479,7 +522,7 @@ function UnlockConditions::loadCondition(blk)
   {
     res.values = []
     foreach(key in ["includePlayers", "includeBots", "includeAI"])
-      if (blk[key])
+      if (blk?[key])
         res.values.append(key)
 
     if (blk?.includePlayers == null)
@@ -492,7 +535,7 @@ function UnlockConditions::loadCondition(blk)
   }
   else if (t == "targetDistance")
   {
-    res.values = getDiffTextArrayByPoint3(blk.distance, "%s" + ::loc("measureUnits/meters_alt"))
+    res.values = getDiffTextArrayByPoint3(blk?.distance ?? -1, "%s" + ::loc("measureUnits/meters_alt"))
   }
   else if (::isInArray(t, additionalTypes))
   {
@@ -505,7 +548,7 @@ function UnlockConditions::loadCondition(blk)
   return res
 }
 
-function UnlockConditions::getDiffTextArrayByPoint3(val, formatStr = "%s", lessIsBetter = false)
+UnlockConditions.getDiffTextArrayByPoint3 <- function getDiffTextArrayByPoint3(val, formatStr = "%s", lessIsBetter = false)
 {
   local res = []
 
@@ -530,12 +573,12 @@ function UnlockConditions::getDiffTextArrayByPoint3(val, formatStr = "%s", lessI
   return res
 }
 
-function UnlockConditions::_getDiffValueText(value, formatStr = "%s", lessIsBetter = false)
+UnlockConditions._getDiffValueText <- function _getDiffValueText(value, formatStr = "%s", lessIsBetter = false)
 {
-  return lessIsBetter? ::getRangeString(1, value, formatStr) : ::format(formatStr, value.tostring())
+  return lessIsBetter? getRangeString(1, value, formatStr) : ::format(formatStr, value.tostring())
 }
 
-function UnlockConditions::getMainProgressCondition(conditions)
+UnlockConditions.getMainProgressCondition <- function getMainProgressCondition(conditions)
 {
   foreach(c in conditions)
     if (::getTblValue("modeType", c))
@@ -543,7 +586,7 @@ function UnlockConditions::getMainProgressCondition(conditions)
   return null
 }
 
-function UnlockConditions::getConditionsText(conditions, curValue = null, maxValue = null, params = null)
+UnlockConditions.getConditionsText <- function getConditionsText(conditions, curValue = null, maxValue = null, params = null)
 {
   local inlineText = ::getTblValue("inlineText", params, false)
   local separator = inlineText ? ", " : "\n"
@@ -605,7 +648,7 @@ function UnlockConditions::getConditionsText(conditions, curValue = null, maxVal
   return ::g_string.implode(pieces, separator)
 }
 
-function UnlockConditions::addTextToCondTextList(condTextsList, group, valuesData, customLocGroupText = "")
+UnlockConditions.addTextToCondTextList <- function addTextToCondTextList(condTextsList, group, valuesData, customLocGroupText = "")
 {
   local valuesText = ""
   local text = ""
@@ -624,13 +667,13 @@ function UnlockConditions::addTextToCondTextList(condTextsList, group, valuesDat
   condTextsList.append(text)
 }
 
-function UnlockConditions::getMainConditionText(conditions, curValue = null, maxValue = null, params = null)
+UnlockConditions.getMainConditionText <- function getMainConditionText(conditions, curValue = null, maxValue = null, params = null)
 {
   local mainCond = getMainProgressCondition(conditions)
   return _genMainConditionText(mainCond, curValue, maxValue, params)
 }
 
-function UnlockConditions::_genMainConditionText(condition, curValue = null, maxValue = null, params = null)
+UnlockConditions._genMainConditionText <- function _genMainConditionText(condition, curValue = null, maxValue = null, params = null)
 {
   local res = ""
   local modeType = ::getTblValue("modeType", condition)
@@ -725,7 +768,7 @@ function UnlockConditions::_genMainConditionText(condition, curValue = null, max
   return res
 }
 
-function UnlockConditions::getMainConditionListPrefix(conditions)
+UnlockConditions.getMainConditionListPrefix <- function getMainConditionListPrefix(conditions)
 {
   local mainCondition = getMainProgressCondition(conditions)
   if (mainCondition == null)
@@ -743,7 +786,7 @@ function UnlockConditions::getMainConditionListPrefix(conditions)
   return ""
 }
 
-function UnlockConditions::_getSingleAttachmentConditionText(condition, curValue, maxValue)
+UnlockConditions._getSingleAttachmentConditionText <- function _getSingleAttachmentConditionText(condition, curValue, maxValue)
 {
   local modeType = ::getTblValue("modeType", condition)
   local locNames = getLocForBitValues(modeType, condition.values)
@@ -752,7 +795,7 @@ function UnlockConditions::_getSingleAttachmentConditionText(condition, curValue
   return ::loc("conditions/" + modeType + "/single", { value = valueText, progress = progress})
 }
 
-function UnlockConditions::_addUniqConditionsText(groupsList, condition)
+UnlockConditions._addUniqConditionsText <- function _addUniqConditionsText(groupsList, condition)
 {
   local cType = condition.type
   if (::isInArray(cType, unlock_time_range_conditions)) //2 loc groups by one condition
@@ -768,10 +811,15 @@ function UnlockConditions::_addUniqConditionsText(groupsList, condition)
     _addValueToGroup(groupsList, cType, ::g_string.implode(valuesTexts, "-"))
     return true
   }
+  else if (cType == "eliteUnitsOnly")
+  {
+    _addValueToGroup(groupsList, cType, "")
+    return true
+  }
   return false //not found, do as usual conditions.
 }
 
-function UnlockConditions::_addUsualConditionsText(groupsList, condition)
+UnlockConditions._addUsualConditionsText <- function _addUsualConditionsText(groupsList, condition)
 {
   local cType = condition.type
   local group = ::getTblValue("locGroup", condition, cType)
@@ -819,7 +867,7 @@ function UnlockConditions::_addUsualConditionsText(groupsList, condition)
   }
 }
 
-function UnlockConditions::_addCustomConditionsTextData(groupsList, condition)
+UnlockConditions._addCustomConditionsTextData <- function _addCustomConditionsTextData(groupsList, condition)
 {
   local cType = condition.type
   local group = ""
@@ -868,7 +916,7 @@ function UnlockConditions::_addCustomConditionsTextData(groupsList, condition)
   _addDataToCustomGroup(groupsList, cType, res)
 }
 
-function UnlockConditions::_addDataToCustomGroup(groupsList, cType, data)
+UnlockConditions._addDataToCustomGroup <- function _addDataToCustomGroup(groupsList, cType, data)
 {
   if (!(cType in groupsList))
     groupsList[cType] <- []
@@ -886,14 +934,14 @@ function UnlockConditions::_addDataToCustomGroup(groupsList, cType, data)
   groupsList[cType].append(data)
 }
 
-function UnlockConditions::_addValueToGroup(groupsList, group, value)
+UnlockConditions._addValueToGroup <- function _addValueToGroup(groupsList, group, value)
 {
   if (!(group in groupsList))
     groupsList[group] <- []
   groupsList[group].append(value)
 }
 
-function UnlockConditions::addToText(text, name, valueText = "", color = "unlockActiveColor", separator = "\n")
+UnlockConditions.addToText <- function addToText(text, name, valueText = "", color = "unlockActiveColor", separator = "\n")
 {
   text += (text.len() ? separator : "") + name
   if (valueText != "")
@@ -901,7 +949,7 @@ function UnlockConditions::addToText(text, name, valueText = "", color = "unlock
   return text
 }
 
-function UnlockConditions::getMultipliersTable(blk)
+UnlockConditions.getMultipliersTable <- function getMultipliersTable(blk)
 {
   local diffTable = {
     mulArcade = "ArcadeBattle"
@@ -920,7 +968,7 @@ function UnlockConditions::getMultipliersTable(blk)
   return mulTable
 }
 
-function UnlockConditions::getMultipliersText(condition)
+UnlockConditions.getMultipliersText <- function getMultipliersText(condition)
 {
   local multiplierTable = ::getTblValue("multiplier", condition, {})
   if (multiplierTable.len() == 0)
@@ -943,7 +991,7 @@ function UnlockConditions::getMultipliersText(condition)
   return ::format("<color=@fadedTextColor>%s</color>", ::loc("conditions/multiplier") + ::loc("ui/colon") + mulText)
 }
 
-function UnlockConditions::getLocForBitValues(modeType, values, hasCustomUnlockableList = false)
+UnlockConditions.getLocForBitValues <- function getLocForBitValues(modeType, values, hasCustomUnlockableList = false)
 {
   local valuesLoc = []
   if (hasCustomUnlockableList || modeType == "unlocks" || modeType == "char_unlocks"
@@ -974,7 +1022,7 @@ function UnlockConditions::getLocForBitValues(modeType, values, hasCustomUnlocka
   return valuesLoc
 }
 
-function UnlockConditions::getTooltipIdByModeType(modeType, id, hasCustomUnlockableList = false)
+UnlockConditions.getTooltipIdByModeType <- function getTooltipIdByModeType(modeType, id, hasCustomUnlockableList = false)
 {
   if (hasCustomUnlockableList || modeType == "unlocks" || modeType == "char_unlocks" || modeType == "unlockOpenCount")
     return ::g_tooltip.getIdUnlock(id)
@@ -985,7 +1033,7 @@ function UnlockConditions::getTooltipIdByModeType(modeType, id, hasCustomUnlocka
   return id
 }
 
-function UnlockConditions::getProgressBarData(modeType, curVal, maxVal)
+UnlockConditions.getProgressBarData <- function getProgressBarData(modeType, curVal, maxVal)
 {
   local res = {
     show = !::isInArray(modeType, modeTypesWithoutProgress)
@@ -1003,7 +1051,7 @@ function UnlockConditions::getProgressBarData(modeType, curVal, maxVal)
   return res
 }
 
-function UnlockConditions::getRankValue(conditions)
+UnlockConditions.getRankValue <- function getRankValue(conditions)
 {
   foreach(c in conditions)
     if (c.type == "playerUnitRank")
@@ -1011,7 +1059,7 @@ function UnlockConditions::getRankValue(conditions)
   return null
 }
 
-function UnlockConditions::getBRValue(conditions)
+UnlockConditions.getBRValue <- function getBRValue(conditions)
 {
   foreach(c in conditions)
     if (c.type == "playerUnitMRank")

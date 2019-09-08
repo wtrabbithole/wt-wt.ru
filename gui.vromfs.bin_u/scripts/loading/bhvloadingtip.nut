@@ -9,7 +9,7 @@
     {
       obj.set_prop_latent(timerIntervalPID, 1000)
 
-      local unitTypeMask = obj.unitTypeMask
+      local unitTypeMask = obj?.unitTypeMask
       if (unitTypeMask)
         setValue(obj, unitTypeMask.tointeger())
       else

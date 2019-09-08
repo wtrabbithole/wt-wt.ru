@@ -7,6 +7,7 @@
   "collisionSphere1": [5.0,2.0,0.0,1.0],
   "exhaustFx": "tank_exhaust",
   "damagedExhaustFx": "tank_broken_exhaust",
+  "thermalExhaustFx": "tank_exhaust_nightvision",
   "dustFx": "",
   "support_unit_class": "structures/ussr_152mm_d1",
   "support_unit_tag": "artillery",
@@ -595,25 +596,29 @@
         {
           "onKill": {
             "damageType": "cumulative",
-            "expl": 0.25,
-            "fire": 0.25,
-            "nothing": 0.5
+            "expl": 0.5,
+            "fire": 0.5
           }
         },
         {
           "onKill": {
             "damageType": "explosion",
-            "expl": 0.25,
-            "fire": 0.25,
-            "nothing": 0.5
+            "expl": 0.5,
+            "fire": 0.5
+          }
+        },
+        {
+          "onKill": {
+            "damageType": "secondaryShatter",
+            "expl": 0.5,
+            "fire": 0.5
           }
         },
         {
           "onKill": {
             "damageType": "generic",
-            "expl": 0.25,
-            "fire": 0.25,
-            "nothing": 0.5
+            "expl": 0.5,
+            "fire": 0.5
           }
         }
       ]
@@ -972,119 +977,6 @@
       "role": "radio_gunner"
     }
   },
-  "MetaParts": {
-    "body": [
-      {
-        "hp": 10000.0
-      },
-      {
-        "part": "superstructure_side_dm"
-      },
-      {
-        "part": "superstructure_bottom_dm"
-      },
-      {
-        "part": "superstructure_front_dm"
-      },
-      {
-        "part": "superstructure_top_dm"
-      },
-      {
-        "part": "superstructure_back_dm"
-      },
-      {
-        "part": "body_front_dm"
-      },
-      {
-        "part": "body_side_dm"
-      },
-      {
-        "part": "body_top_dm"
-      },
-      {
-        "part": "body_back_dm"
-      },
-      {
-        "part": "body_bottom_dm"
-      },
-      {
-        "fireParamsPreset": "default_metapart"
-      },
-      {
-        "fireParams": {
-          "fireDamagePower": 1.0,
-          "maxTankFireTime": [20.0,30.0],
-          "firePart": "transmission_dm"
-        }
-      }
-    ],
-    "turret": [
-      {
-        "hp": 10000.0
-      },
-      {
-        "part": "turret_top_dm"
-      },
-      {
-        "part": "turret_side_dm"
-      },
-      {
-        "part": "turret_back_dm"
-      },
-      {
-        "part": "turret_commander_dm"
-      },
-      {
-        "part": "turret_front_dm"
-      },
-      {
-        "part": "gun_mask_dm"
-      },
-      {
-        "part": "turret_bottom_dm"
-      },
-      {
-        "fireParamsPreset": "default_metapart"
-      },
-      {
-        "fireParams": {
-          "fireDamagePower": 1.0,
-          "maxTankFireTime": [20.0,30.0],
-          "firePart": "transmission_dm"
-        }
-      }
-    ],
-    "crew": [
-      {
-        "killAllPartsForDeath": true
-      },
-      {
-        "killNumPartsForDeath": 4
-      },
-      {
-        "part": "loader_dm"
-      },
-      {
-        "part": "driver_dm"
-      },
-      {
-        "part": "gunner_dm"
-      },
-      {
-        "part": "machine_gunner_dm"
-      },
-      {
-        "part": "commander_dm"
-      },
-      {
-        "effects": {
-          "killUnit": {
-            "nothing": 1.0
-          }
-        }
-      }
-    ]
-  },
   "sound": {
     "EngineName": "engine_panzer3",
     "TrackSoundPath": "tanks/engines_tanks",
@@ -1161,7 +1053,7 @@
       ]
     },
     "suspension": {
-      "suspensionOffsets": [-0.05,-0.05,0.06],
+      "suspensionOffsets": [-0.08,-0.05,0.06],
       "defaultGearRadius": 0.25,
       "topGearRadius": 0.13,
       "frontBackGearRadius": 0.35,

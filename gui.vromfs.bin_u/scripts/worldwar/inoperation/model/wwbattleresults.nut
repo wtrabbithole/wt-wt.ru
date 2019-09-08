@@ -33,19 +33,19 @@ class ::WwBattleResults
     if (!blk)
       return
 
-    local battleBlk = blk.battle
-    local armiesBlk = blk.armies
-    local armyStatesBlk = blk.armyStates
+    local battleBlk = blk?.battle
+    local armiesBlk = blk?.armies
+    local armyStatesBlk = blk?.armyStates
     if (!battleBlk || !armiesBlk || !armyStatesBlk)
       return
 
-    id = battleBlk.id || ""
-    time = blk.time || 0
-    updateAppliedOnHost = battleBlk.updateAppliedOnHost || -1
-    locName = ::getTblValue("locName", battleBlk.desc, "")
-    ordinalNumber = battleBlk.ordinalNumber || 0
-    zoneName = ::getTblValueByPath("zoneInfo.zoneName", blk, "")
-    sessionId = ::getTblValue("sessionId", battleBlk.desc, "")
+    id = battleBlk?.id ?? ""
+    time = blk?.time ?? 0
+    updateAppliedOnHost = battleBlk?.updateAppliedOnHost ?? -1
+    locName = battleBlk?.desc?.locName ?? ""
+    ordinalNumber = battleBlk?.ordinalNumber ?? 0
+    zoneName = blk?.zoneInfo?.zoneName ?? ""
+    sessionId = battleBlk?.desc?.sessionId ?? ""
 
     local wwArmies = getArmies(armiesBlk)
     updateTeamsInfo(battleBlk, armyStatesBlk, wwArmies)
@@ -91,16 +91,16 @@ class ::WwBattleResults
     for (local i = 0; i < teamsBlk.blockCount(); ++i)
     {
       local teamBlk = teamsBlk.getBlock(i)
-      local teamName = teamBlk.getBlockName() || ""
+      local teamName = teamBlk.getBlockName() ?? ""
       if (teamName.len() == 0)
         continue
 
-      local sideName = teamBlk.side || ""
+      local sideName = teamBlk?.side ?? ""
       if (sideName.len() == 0)
         continue
       local side = ::ww_side_name_to_val(sideName)
 
-      if (teamBlk.isWinner)
+      if (teamBlk?.isWinner)
         winner = side
 
       local armyNamesBlk = teamBlk.getBlockByName("armyNames")
@@ -127,16 +127,16 @@ class ::WwBattleResults
 
       teamArmiesList.sort(::WwArmy.sortArmiesByUnitType)
 
-      local teamInfoBlk = teamsInfoBlk && teamsInfoBlk[teamName]
-      local unitsInitialBlk = teamInfoBlk && teamInfoBlk.units
+      local teamInfoBlk = teamsInfoBlk?[teamName]
+      local unitsInitialBlk = teamInfoBlk?.units
 
       local unitsInitial = ::WwUnit.loadUnitsFromBlk(unitsInitialBlk)
       unitsInitial.extend(::WwUnit.getFakeUnitsArray(teamInfoBlk))
 
-      local unitsRemain = ::WwUnit.loadUnitsFromBlk(teamBlk.unitsRemain)
+      local unitsRemain = ::WwUnit.loadUnitsFromBlk(teamBlk?.unitsRemain)
       unitsRemain.extend(::WwUnit.getFakeUnitsArray(teamBlk))
 
-      local unitsCasualties = ::WwUnit.loadUnitsFromBlk(teamBlk.casualties)
+      local unitsCasualties = ::WwUnit.loadUnitsFromBlk(teamBlk?.casualties)
 
       teams[teamName] <- ::u.extend({}, teamDefaults, {
         name            = teamName
@@ -162,7 +162,7 @@ class ::WwBattleResults
       local updateBlk = updatesBlk.getBlock(i)
       local isNeedUpdateUnitsRemain = updateBlk.updateId > updateAppliedOnHost
 
-      local teamsBlk = updateBlk.teams
+      local teamsBlk = updateBlk?.teams
       if (!teamsBlk)
         continue
       for (local j = 0; j < teamsBlk.blockCount(); j++)
@@ -172,7 +172,7 @@ class ::WwBattleResults
         if (!team)
           continue
 
-        local wwUnitsAdded = ::WwUnit.loadUnitsFromBlk(teamBlk.unitsAdded)
+        local wwUnitsAdded = ::WwUnit.loadUnitsFromBlk(teamBlk?.unitsAdded)
 
         local teamUnitsLists = isNeedUpdateUnitsRemain ?
           [ team.unitsInitial, team.unitsRemain ] :

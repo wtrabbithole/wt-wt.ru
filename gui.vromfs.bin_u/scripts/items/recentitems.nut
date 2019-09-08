@@ -5,7 +5,7 @@ local seenInventory = ::require("scripts/seen/seenList.nut").get(SEEN.INVENTORY)
   wasCreated = false
 }
 
-function g_recent_items::getRecentItems()
+g_recent_items.getRecentItems <- function getRecentItems()
 {
   local items = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL, function (item) {
     return item.includeInRecentItems
@@ -22,7 +22,7 @@ function g_recent_items::getRecentItems()
   return resultItems
 }
 
-function g_recent_items::createHandler(owner, containerObj, defShow)
+g_recent_items.createHandler <- function createHandler(owner, containerObj, defShow)
 {
   if (!::checkObj(containerObj))
     return null
@@ -31,14 +31,14 @@ function g_recent_items::createHandler(owner, containerObj, defShow)
   return ::handlersManager.loadHandler(::gui_handlers.RecentItemsHandler, { scene = containerObj, defShow = defShow })
 }
 
-function g_recent_items::getNumOtherItems()
+g_recent_items.getNumOtherItems <- function getNumOtherItems()
 {
   local inactiveItems = ::ItemsManager.getInventoryList(itemType.INVENTORY_ALL,
     @(item) !!item.getMainActionData())
   return inactiveItems.len()
 }
 
-function g_recent_items::reset()
+g_recent_items.reset <- function reset()
 {
   wasCreated = false
 }

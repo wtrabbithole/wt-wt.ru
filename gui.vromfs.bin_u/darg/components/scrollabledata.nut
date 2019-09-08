@@ -11,8 +11,8 @@ local function make(log_state) {
         local result = (typeof container == "function") ? container() : container
         local messages = log_state.value.map(message_component)
         result.flow <- FLOW_VERTICAL
-        result.children <- ::extend_to_array(result?.children, messages)
-        result.watch <- ::extend_to_array(result?.watch, log_state)
+        result.children <- messages
+        result.watch <- log_state
         result.behavior <- Behaviors.RecalcHandler
 
         local lastLog = log_state.value.len() ? log_state.value.top() : null

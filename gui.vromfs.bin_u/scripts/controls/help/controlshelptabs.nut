@@ -44,14 +44,6 @@ local tabGroups = [
     ]
   }
   {
-    title = "#hotkeys/ID_CONTROL_HEADER_UFO"
-    list = [
-      helpTypes.IMAGE_UFO
-      helpTypes.CONTROLLER_UFO
-      helpTypes.KEYBOARD_UFO
-    ]
-  }
-  {
     title = "#mission_objectives"
     list = [
       helpTypes.MISSION_OBJECTIVES
@@ -65,19 +57,19 @@ local tabGroups = [
   }
 ]
 
-function getTabs(contentSet)
+::getTabs <- function getTabs(contentSet)
 {
   local res = []
   foreach (group in tabGroups)
   {
-    local filteredGroup = group.list.filter(@(idx, t) t.needShow(contentSet))
+    local filteredGroup = group.list.filter(@(t) t.needShow(contentSet))
     if (filteredGroup.len() > 0)
       res.append(group.__update({list = filteredGroup}))
   }
   return res
 }
 
-function getPrefferableType(contentSet)
+::getPrefferableType <- function getPrefferableType(contentSet)
 {
   if (contentSet == HELP_CONTENT_SET.LOADING)
     return helpTypes.MISSION_OBJECTIVES
@@ -89,10 +81,7 @@ function getPrefferableType(contentSet)
 
   local unitType = unit? unit.unitType : ::g_unit_type.INVALID
 
-  local unitTag = ::is_submarine(unit)
-                ? "submarine" : unit?.isUfo?()
-                  ? "ufo"
-                : null
+  local unitTag = ::is_submarine(unit) ? "submarine" : null
 
   if (helpTypes.HOTAS4_COMMON.needShow(contentSet) && helpTypes.HOTAS4_COMMON.showByUnit(unitType, unitTag))
     return helpTypes.HOTAS4_COMMON

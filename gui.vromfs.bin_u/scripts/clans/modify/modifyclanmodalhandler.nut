@@ -257,7 +257,7 @@ class ::gui_handlers.ModifyClanModalHandler extends ::gui_handlers.BaseGuiHandle
 
   function onFocus(obj)
   {
-    local req = scene.findObject("req_" + obj.id)
+    local req = obj?.id && scene.findObject("req_" + obj.id)
     if(lastShownReq && !lastShownReq.isEqual(req))
       lastShownReq.show(false)
     if(!req)

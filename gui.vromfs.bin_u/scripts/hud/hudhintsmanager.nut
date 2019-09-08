@@ -1,6 +1,5 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local DaguiSceneTimers = require("sqDagui/timer/daguiSceneTimers.nut")
-local time = require("scripts/time.nut")
 
 const TIMERS_CHECK_INTEVAL = 0.25
 
@@ -66,14 +65,22 @@ enum HintShowState {
     animatedRemovedHints.clear()
   }
 
-
-  function onLocalPlayerDead()
+  function removeAllHints(hintFilterField = "isHideOnDeath")
   {
-    local hints = ::u.filter(activeHints, @(hintData) hintData.hint.isHideOnDeath)
+    local hints = ::u.filter(activeHints, @(hintData) hintData.hint[hintFilterField])
     foreach (hintData in hints)
       removeHint(hintData, true)
   }
 
+  function onLocalPlayerDead()
+  {
+    removeAllHints()
+  }
+
+  function onWatchedHeroChanged()
+  {
+    removeAllHints("isHideOnWatchedHeroChanged")
+  }
 
   //return false if can't
   function findSceneObjects()
@@ -99,6 +106,10 @@ enum HintShowState {
   {
     ::g_hud_event_manager.subscribe("LocalPlayerDead", function (eventData) {
       onLocalPlayerDead()
+    }, this)
+
+    ::g_hud_event_manager.subscribe("WatchedHeroChanged", function (eventData) {
+      onWatchedHeroChanged()
     }, this)
 
     foreach (hint in ::g_hud_hints.types)
@@ -210,8 +221,8 @@ enum HintShowState {
 
   function removeFromList(hintData)
   {
-    local idx = ::u.searchIndex(activeHints, (@(hintData) function (item) { return item == hintData })(hintData) )
-    if (idx >= 0)
+    local idx = activeHints.searchindex(@(item) item == hintData)
+    if (idx != null)
       activeHints.remove(idx)
   }
 
@@ -299,8 +310,8 @@ enum HintShowState {
       if (!::checkObj(textObj))
         return false
 
-      local lifeTime = hintData.hint.getLifeTime(hintData.eventData)
-      local offset = time.millisecondsToSeconds(::dagor.getCurTime() - hintData.addTime)
+      local lifeTime = hintData.hint.getTimerTotalTimeSec(hintData.eventData)
+      local offset = hintData.hint.getTimerCurrentTimeSec(hintData.eventData, hintData.addTime)
       local timeLeft = (lifeTime - offset + 0.5).tointeger()
 
       if (timeLeft < 0)

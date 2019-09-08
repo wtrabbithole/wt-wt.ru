@@ -237,9 +237,9 @@ class ::mission_rules.Base
   function getAvailableToSpawnUnitsData()
   {
     local res = []
-    if (!(get_game_type() & (::GT_VERSUS | ::GT_COOPERATIVE)))
+    if (!(::get_game_type() & (::GT_VERSUS | ::GT_COOPERATIVE)))
       return res
-    if (get_game_mode() == ::GM_SINGLE_MISSION || get_game_mode() == ::GM_DYNAMIC)
+    if (::get_game_mode() == ::GM_SINGLE_MISSION || ::get_game_mode() == ::GM_DYNAMIC)
       return res
     if (!::g_mis_loading_state.isCrewsListReceived())
       return res
@@ -382,8 +382,8 @@ class ::mission_rules.Base
       return -1
 
     foreach(blk in weaponLimitsBlk % unit.name)
-      if (blk.name == weapon.name)
-        return ::max(blk.respawnsLeft || 0, 0)
+      if (blk?.name == weapon.name)
+        return ::max(blk?.respawnsLeft ?? 0, 0)
     return 0
   }
 

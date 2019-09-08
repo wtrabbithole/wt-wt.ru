@@ -1,5 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
+local unitStatus = require("scripts/unit/unitStatus.nut")
 
 /*
 if need - put commented in array above
@@ -37,23 +38,20 @@ if need - put commented in array above
 
 ::g_script_reloader.registerPersistentData("SlotbarGlobals", ::getroottable(), ["selected_crews", "unlocked_countries"])
 
-function build_aircraft_item(id, air, params = {})
+::build_aircraft_item <- function build_aircraft_item(id, air, params = {})
 {
   local res = ""
   local defaultStatus = "none"
-  local getVal = (@(params) function(val, defVal) {
-    return ::getTblValue(val, params, defVal)
-  })(params)
 
   local showBR = ::getTblValue("showBR", params, ::has_feature("GlobalShowBattleRating"))
   local curEdiff = ("getEdiffFunc" in params) ?  params.getEdiffFunc() : ::get_current_ediff()
 
   if (air && !::isUnitGroup(air) && !air?.isFakeUnit)
   {
-    local isLocalState        = getVal("isLocalState", true)
-    local forceNotInResearch  = getVal("forceNotInResearch", false)
-    local inactive            = getVal("inactive", false)
-    local shopResearchMode    = getVal("shopResearchMode", false)
+    local isLocalState        = params?.isLocalState ?? true
+    local forceNotInResearch  = params?.forceNotInResearch ?? false
+    local inactive            = params?.inactive ?? false
+    local shopResearchMode    = params?.shopResearchMode ?? false
     local disabled            = false
 
     local isOwn               = ::isUnitBought(air)
@@ -64,20 +62,21 @@ function build_aircraft_item(id, air, params = {})
     local special             = ::isUnitSpecial(air)
     local isVehicleInResearch = ::isUnitInResearch(air) && !forceNotInResearch
     local isSquadronVehicle   = air.isSquadronVehicle()
+    local isMarketableVehicle = ::canBuyUnitOnMarketplace(air)
     local unitReqExp          = ::getUnitReqExp(air)
     local unitExpGranted      = ::getUnitExp(air)
     local diffExp = isSquadronVehicle
       ? ::min(::clan_get_exp(), unitReqExp - unitExpGranted)
-      : getVal("diffExp", 0)
+      : (params?.diffExp ?? 0)
     if (isSquadronVehicle && isVehicleInResearch)
       unitExpGranted += diffExp
 
     local isBroken            = ::isUnitBroken(air)
     local unitRarity          = ::getUnitRarity(air)
     local isLockedSquadronVehicle = isSquadronVehicle && !::is_in_clan() && diffExp <= 0
-    local isSquadronResearchMode  = getVal("isSquadronResearchMode", false)
+    local isSquadronResearchMode  = params?.isSquadronResearchMode ?? false
 
-    local status = getVal("status", defaultStatus)
+    local status = params?.status ?? defaultStatus
     if (status == defaultStatus)
     {
       local bitStatus = 0
@@ -89,7 +88,7 @@ function build_aircraft_item(id, air, params = {})
         bitStatus = bit_unit_status.owned
       else if (::canBuyUnit(air) || ::canBuyUnitOnline(air) || ::canBuyUnitOnMarketplace(air))
         bitStatus = bit_unit_status.canBuy
-      else if (isLockedSquadronVehicle)
+      else if (isLockedSquadronVehicle && (!air.unitType.canSpendGold() || !unitStatus.canBuyNotResearched(air)))
       {
         bitStatus = bit_unit_status.locked
         inactive = shopResearchMode
@@ -122,15 +121,15 @@ function build_aircraft_item(id, air, params = {})
       status = ::getUnitItemStatusText(bitStatus, false)
     }
 
-    local hasActions = getVal("hasActions", false) && !disabled
+    local hasActions = (params?.hasActions ?? false) && !disabled
 
     //
     // Bottom button view
     //
 
-    local mainButtonAction = ::show_console_buttons ? "onOpenActionsList" : getVal("mainActionFunc", "")
-    local mainButtonText = ::show_console_buttons ? "" : getVal("mainActionText", "")
-    local mainButtonIcon = ::show_console_buttons ? "#ui/gameuiskin#slot_menu" : getVal("mainActionIcon", "")
+    local mainButtonAction = ::show_console_buttons ? "onOpenActionsList" : (params?.mainActionFunc ?? "")
+    local mainButtonText = ::show_console_buttons ? "" : (params?.mainActionText ?? "")
+    local mainButtonIcon = ::show_console_buttons ? "#ui/gameuiskin#slot_menu.svg" : (params?.mainActionIcon ?? "")
     local checkTexts = mainButtonAction.len() > 0 && (mainButtonText.len() > 0 || mainButtonIcon.len() > 0)
     local checkButton = !isVehicleInResearch || ::has_feature("SpendGold")
     local bottomButtonView = {
@@ -147,13 +146,13 @@ function build_aircraft_item(id, air, params = {})
     //
 
     local weaponsStatus = isLocalState && isUsable ? checkUnitWeapons(air) : ::UNIT_WEAPONS_READY
-    local crewId = getVal("crewId", -1)
-    local showWarningIcon = getVal("showWarningIcon", false)
-    local specType = getVal("specType", null)
+    local crewId = params?.crewId ?? -1
+    local showWarningIcon = params?.showWarningIcon ?? false
+    local specType = params?.specType
     local rentInfo = ::get_unit_item_rent_info(air, params)
     local spareCount = isLocalState ? ::get_spare_aircrafts_count(air.name) : 0
 
-    local hasCrewInfo = crewId >= 0
+    local hasCrewInfo = ::has_feature("CrewInfo") && crewId >= 0
     local crew = hasCrewInfo ? ::get_crew_by_id(crewId) : null
 
     local forceCrewInfoUnit = params?.forceCrewInfoUnit
@@ -165,9 +164,9 @@ function build_aircraft_item(id, air, params = {})
 
     local itemButtonsView = {
       itemButtons = {
-        hasToBattleButton       = getVal("toBattle", false)
-        toBattleButtonAction    = getVal("toBattleButtonAction", "onSlotBattle")
-        hasExtraInfoBlock       = getVal("hasExtraInfoBlock", false)
+        hasToBattleButton       = params?.toBattle ?? false
+        toBattleButtonAction    = params?.toBattleButtonAction ?? "onSlotBattle"
+        hasExtraInfoBlock       = params?.hasExtraInfoBlock ?? false
 
         hasCrewInfo             = hasCrewInfo
         crewLevel               = hasCrewInfo ? crewLevelText : ""
@@ -237,8 +236,8 @@ function build_aircraft_item(id, air, params = {})
     local resView = {
       slotId              = "td_" + id
       slotInactive        = inactive
-      isSlotbarItem       = getVal("isSlotbarItem", false)
-      isInTable           = getVal("isInTable", true)
+      isSlotbarItem       = params?.isSlotbarItem ?? false
+      isInTable           = params?.isInTable ?? true
       shopItemId          = id
       unitName            = air.name
       premiumPatternType  = special
@@ -257,16 +256,16 @@ function build_aircraft_item(id, air, params = {})
       progressText        = progressText
       progressStatus      = showProgress? ::get_unit_item_progress_status(air, params) : ""
       progressBlk         = ::handyman.renderCached("gui/slotbar/airResearchProgress", airResearchProgressView)
-      showInService       = getVal("showInService", false) && isUsable
+      showInService       = (params?.showInService ?? false) && isUsable
       isMounted           = isMounted
       priceText           = priceText
       isLongPriceText     = ::is_unit_price_text_long(priceText)
       isElite             = (isLocalState && isOwn && ::isUnitElite(air)) || (!isOwn && special)
       unitRankText        = ::get_unit_rank_text(air, crew, showBR, curEdiff)
-      isItemLocked        = isLocalState && !isUsable && !special && !isSquadronVehicle && !::isUnitsEraUnlocked(air)
+      isItemLocked        = isLocalState && !isUsable && !special && !isSquadronVehicle && !isMarketableVehicle && !::isUnitsEraUnlocked(air)
       hasTalismanIcon     = isLocalState && (special || ::shop_is_modification_enabled(air.name, "premExpMul"))
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
-      tooltipId           = ::g_tooltip.getIdUnit(air.name, getVal("tooltipParams", null))
+      tooltipId           = ::g_tooltip.getIdUnit(air.name, params?.tooltipParams)
       bottomButton        = ::handyman.renderCached("gui/slotbar/slotbarItemBottomButton", bottomButtonView)
       hasHoverMenu        = hasActions
     }
@@ -292,11 +291,11 @@ function build_aircraft_item(id, air, params = {})
   }
   else if (air && ::isUnitGroup(air)) //group of aircrafts
   {
-    local groupStatus         = getVal("status", defaultStatus)
-    local forceNotInResearch  = getVal("forceNotInResearch", false)
-    local shopResearchMode    = getVal("shopResearchMode", false)
-    local showInService       = getVal("showInService", false)
-    local inactive            = getVal("inactive", false)
+    local groupStatus         = params?.status ?? defaultStatus
+    local forceNotInResearch  = params?.forceNotInResearch ?? false
+    local shopResearchMode    = params?.shopResearchMode ?? false
+    local showInService       = params?.showInService ?? false
+    local inactive            = params?.inactive ?? false
 
     local reserve           = false
     local special           = false
@@ -323,7 +322,7 @@ function build_aircraft_item(id, air, params = {})
     local unitRole          = null
     local bitStatus         = 0
 
-    local isSquadronResearchMode = getVal("isSquadronResearchMode", false)
+    local isSquadronResearchMode = params?.isSquadronResearchMode ?? false
 
     foreach(a in air.airsGroup)
     {
@@ -469,7 +468,7 @@ function build_aircraft_item(id, air, params = {})
     local shopAirImage = ::get_unit_preset_img(air.name)
     if (!shopAirImage)
       if (::is_tencent_unit_image_reqired(nextAir))
-        shopAirImage = ::get_tomoe_unit_icon(air.name) + (air.name.find("_group", 0) ? "" : "_group")
+        shopAirImage = ::get_tomoe_unit_icon(air.name) + (air.name.find("_group", 0) != null ? "" : "_group")
       else
         shopAirImage = "!" + (::getTblValue("image", air) || ("#ui/unitskin#planes_group"))
 
@@ -499,9 +498,9 @@ function build_aircraft_item(id, air, params = {})
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
       bonusId             = id
       primaryUnitId       = nextAir.name
-      tooltipId           = ::g_tooltip.getIdUnit(nextAir.name, getVal("tooltipParams", null))
+      tooltipId           = ::g_tooltip.getIdUnit(nextAir.name, params?.tooltipParams)
       bottomButton        = ::handyman.renderCached("gui/slotbar/slotbarItemBottomButton", bottomButtonView)
-      hasFullGroupBlock   = getVal("fullGroupBlock", true)
+      hasFullGroupBlock   = params?.fullGroupBlock ?? true
       fullGroupBlockId    = "td_" + id
       isGroupInactive     = inactive
     }
@@ -534,7 +533,7 @@ function build_aircraft_item(id, air, params = {})
   }
   else //empty air slot
   {
-    local specType = getVal("specType", null)
+    local specType = params?.specType
     local itemButtonsView = { itemButtons = {
       specIconBlock = specType != null
     }}
@@ -549,7 +548,7 @@ function build_aircraft_item(id, air, params = {})
     local unitForCrewInfo = params?.forceCrewInfoUnit
     if (unitForCrewInfo)
     {
-      local crewId = getVal("crewId", -1)
+      local crewId = params?.crewId ?? -1
       local crew = crewId >= 0 ? ::get_crew_by_id(crewId) : null
       if (crew)
       {
@@ -559,7 +558,7 @@ function build_aircraft_item(id, air, params = {})
 
         local crewLevelInfoView = { itemButtons = {
           hasExtraInfoBlock = true
-          hasCrewInfo       = true
+          hasCrewInfo       = ::has_feature("CrewInfo")
           crewLevel         = crewLevelText
           crewSpecIcon      = crewSpecIcon
         }}
@@ -567,30 +566,30 @@ function build_aircraft_item(id, air, params = {})
       }
     }
 
-    local emptyCost = getVal("emptyCost", null)
+    local emptyCost = params?.emptyCost
     local priceText = emptyCost ? emptyCost.getTextAccordingToBalance() : ""
     local emptySlotView = {
       slotId = "td_" + id,
       shopItemId = id,
       shopItemTextId = id + "_txt",
-      shopItemTextValue = getVal("emptyText", ""),
+      shopItemTextValue = params?.emptyText ?? ""
       shopItemPriceText = priceText,
-      crewImage = getVal("crewImage", null),
-      isCrewRecruit = getVal("isCrewRecruit", false),
+      crewImage = params?.crewImage
+      isCrewRecruit = params?.isCrewRecruit ?? false
       itemButtons = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
-      isSlotbarItem = getVal("isSlotbarItem", false)
+      isSlotbarItem = params?.isSlotbarItem ?? false
       crewLevelInfo = crewLevelInfoData
     }
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotEmpty", emptySlotView)
   }
 
-  if (getVal("fullBlock", true))
+  if (params?.fullBlock ?? true)
     res = ::format("td{%s}", res)
 
   return res
 }
 
-function fill_unit_item_timers(holderObj, unit, params = {})
+::fill_unit_item_timers <- function fill_unit_item_timers(holderObj, unit, params = {})
 {
   if (!::checkObj(holderObj) || !unit)
     return
@@ -646,7 +645,7 @@ function fill_unit_item_timers(holderObj, unit, params = {})
   })(rentedUnit))
 }
 
-function get_slot_obj_id(countryId, idInCountry, isBonus = false)
+::get_slot_obj_id <- function get_slot_obj_id(countryId, idInCountry, isBonus = false)
 {
   ::dagor.assertf(countryId != null, "Country ID is null.")
   ::dagor.assertf(idInCountry != null, "Crew IDX is null.")
@@ -656,7 +655,7 @@ function get_slot_obj_id(countryId, idInCountry, isBonus = false)
   return objId
 }
 
-function get_slot_obj(slotbarObj, countryId, idInCountry)
+::get_slot_obj <- function get_slot_obj(slotbarObj, countryId, idInCountry)
 {
   if (!::checkObj(slotbarObj))
     return null
@@ -664,7 +663,7 @@ function get_slot_obj(slotbarObj, countryId, idInCountry)
   return ::checkObj(slotObj) ? slotObj : null
 }
 
-function get_unit_item_rent_info(unit, params)
+::get_unit_item_rent_info <- function get_unit_item_rent_info(unit, params)
 {
   local info = {
     hasIcon     = false
@@ -693,7 +692,7 @@ function get_unit_item_rent_info(unit, params)
   return info
 }
 
-function get_slot_unit_name_text(unit, params)
+::get_slot_unit_name_text <- function get_slot_unit_name_text(unit, params)
 {
   local res = ::getUnitName(unit)
   local missionRules = ::getTblValue("missionRules", params)
@@ -723,7 +722,7 @@ function get_slot_unit_name_text(unit, params)
 
 ::is_unit_price_text_long <- @(text) ::utf8_strlen(::g_dagui_utils.removeTextareaTags(text)) > 13
 
-function get_unit_item_price_text(unit, params)
+::get_unit_item_price_text <- function get_unit_item_price_text(unit, params)
 {
   local isLocalState        = ::getTblValue("isLocalState", params, true)
   local haveRespawnCost     = ::getTblValue("haveRespawnCost", params, false)
@@ -786,6 +785,7 @@ function get_unit_item_price_text(unit, params)
   } else if (isLocalState && priceText == "")
   {
     local gift                = ::isUnitGift(unit)
+    local marketable          = ::canBuyUnitOnMarketplace(unit)
     local canBuy              = ::canBuyUnit(unit)
     local isUsable            = ::isUnitUsable(unit)
     local isBought            = ::isUnitBought(unit)
@@ -797,9 +797,9 @@ function get_unit_item_price_text(unit, params)
 
     if (overlayPrice >= 0)
       priceText = ::getPriceAccordingToPlayersCurrency(overlayPrice, 0, true)
-    else if (!isUsable && gift)
+    else if (!isUsable && gift && !marketable)
       priceText = ::g_string.stripTags(::loc("shop/giftAir/" + unit.gift, "shop/giftAir/alpha"))
-    else if (!isUsable && (canBuy || special || (!special && researched)))
+    else if (!isUsable && !marketable && (canBuy || special || (!special && researched)))
       priceText = ::getPriceAccordingToPlayersCurrency(::wp_get_cost(unit.name), ::wp_get_cost_gold(unit.name), true)
 
     if (priceText == "" && isBought && showAsTrophyContent && !isReceivedPrizes)
@@ -809,7 +809,7 @@ function get_unit_item_price_text(unit, params)
   return priceText
 }
 
-function get_unit_item_research_progress_text(unit, params, priceText = "")
+::get_unit_item_research_progress_text <- function get_unit_item_research_progress_text(unit, params, priceText = "")
 {
   if (!::u.isEmpty(priceText))
     return ""
@@ -831,7 +831,7 @@ function get_unit_item_research_progress_text(unit, params, priceText = "")
     : ::Cost().setRp(unitExpReq - unitExpCur).tostring()
 }
 
-function get_unit_item_progress_status(unit, params)
+::get_unit_item_progress_status <- function get_unit_item_progress_status(unit, params)
 {
   local isSquadronVehicle   = unit?.isSquadronVehicle?()
   local unitExpReq          = ::getUnitReqExp(unit)
@@ -852,7 +852,7 @@ function get_unit_item_progress_status(unit, params)
            : ""
 }
 
-function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
+::get_unit_rank_text <- function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
 {
   local isInFlight = ::is_in_flight()
   if (isInFlight && ::g_mis_custom_state.getCurMissionRules().isWorldWar)
@@ -891,12 +891,12 @@ function get_unit_rank_text(unit, crew = null, showBR = false, ediff = -1)
              : ::get_roman_numeral(unit.rank)
 }
 
-function is_crew_locked_by_prev_battle(crew)
+::is_crew_locked_by_prev_battle <- function is_crew_locked_by_prev_battle(crew)
 {
   return ::isInMenu() && ::getTblValue("lockedTillSec", crew, 0) > 0
 }
 
-function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, country = null, needDbg = false)
+::isUnitUnlocked <- function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, country = null, needDbg = false)
 {
   local crew = ::g_crews_list.get()[curSlotCountryId].crews[curSlotIdInCountry]
   local unlocked = !::is_crew_locked_by_prev_battle(crew)
@@ -912,7 +912,7 @@ function isUnitUnlocked(handler, unit, curSlotCountryId, curSlotIdInCountry, cou
   return unlocked
 }
 
-function isCountryAllCrewsUnlockedInHangar(countryId)
+::isCountryAllCrewsUnlockedInHangar <- function isCountryAllCrewsUnlockedInHangar(countryId)
 {
   foreach (tbl in ::g_crews_list.get())
     if (tbl.country == countryId)
@@ -922,7 +922,7 @@ function isCountryAllCrewsUnlockedInHangar(countryId)
   return true
 }
 
-function getBrokenSlotsCount(country)
+::getBrokenSlotsCount <- function getBrokenSlotsCount(country)
 {
   local count = 0
   foreach(c in ::g_crews_list.get())
@@ -938,12 +938,12 @@ function getBrokenSlotsCount(country)
 }
 
 
-function getSlotItem(countryId, idInCountry)
+::getSlotItem <- function getSlotItem(countryId, idInCountry)
 {
   return ::g_crews_list.get()?[countryId]?.crews?[idInCountry]
 }
 
-function getSlotAircraft(countryId, idInCountry)
+::getSlotAircraft <- function getSlotAircraft(countryId, idInCountry)
 {
   local crew = getSlotItem(countryId, idInCountry)
   local airName = ("aircraft" in crew)? crew.aircraft : ""
@@ -951,7 +951,7 @@ function getSlotAircraft(countryId, idInCountry)
   return air
 }
 
-function get_crew_by_id(id)
+::get_crew_by_id <- function get_crew_by_id(id)
 {
   foreach(cId, cList in ::g_crews_list.get())
     if ("crews" in cList)
@@ -961,7 +961,7 @@ function get_crew_by_id(id)
   return null
 }
 
-function getCrewByAir(air)
+::getCrewByAir <- function getCrewByAir(air)
 {
   foreach(country in ::g_crews_list.get())
     if (country.country == air.shopCountry)
@@ -971,12 +971,12 @@ function getCrewByAir(air)
   return null
 }
 
-function isUnitInSlotbar(air)
+::isUnitInSlotbar <- function isUnitInSlotbar(air)
 {
   return ::getCrewByAir(air) != null
 }
 
-function getSlotbarUnitTypes(country)
+::getSlotbarUnitTypes <- function getSlotbarUnitTypes(country)
 {
   local res = []
   foreach(countryData in ::g_crews_list.get())
@@ -991,7 +991,7 @@ function getSlotbarUnitTypes(country)
   return res
 }
 
-function get_crews_list_by_country(country)
+::get_crews_list_by_country <- function get_crews_list_by_country(country)
 {
   foreach(countryData in ::g_crews_list.get())
     if (countryData.country == country)
@@ -999,7 +999,7 @@ function get_crews_list_by_country(country)
   return []
 }
 
-function getAvailableCrewId(countryId)
+::getAvailableCrewId <- function getAvailableCrewId(countryId)
 {
   local id=-1
   local curAircraft = ::get_show_aircraft_name()
@@ -1020,7 +1020,7 @@ function getAvailableCrewId(countryId)
   return id
 }
 
-function selectAvailableCrew(countryId)
+::selectAvailableCrew <- function selectAvailableCrew(countryId)
 {
   local isAnyUnitInSlotbar = false
   if ((countryId in ::g_crews_list.get()) && (countryId in ::selected_crews))
@@ -1036,7 +1036,7 @@ function selectAvailableCrew(countryId)
   return isAnyUnitInSlotbar
 }
 
-function save_selected_crews()
+::save_selected_crews <- function save_selected_crews()
 {
   if (!::g_login.isLoggedIn())
     return
@@ -1047,7 +1047,7 @@ function save_selected_crews()
   ::saveLocalByAccount("selected_crews", blk)
 }
 
-function init_selected_crews(forceReload = false)
+::init_selected_crews <- function init_selected_crews(forceReload = false)
 {
   if (!forceReload && (!::g_crews_list.get().len() || ::selected_crews.len() == ::g_crews_list.get().len()))
     return
@@ -1082,7 +1082,7 @@ function init_selected_crews(forceReload = false)
   ::broadcastEvent("CrewChanged")
 }
 
-function select_crew_silent_no_check(countryId, idInCountry)
+::select_crew_silent_no_check <- function select_crew_silent_no_check(countryId, idInCountry)
 {
   if (::selected_crews[countryId] != idInCountry)
   {
@@ -1091,7 +1091,7 @@ function select_crew_silent_no_check(countryId, idInCountry)
   }
 }
 
-function select_crew(countryId, idInCountry, airChanged = false)
+::select_crew <- function select_crew(countryId, idInCountry, airChanged = false)
 {
   init_selected_crews()
   local air = getSlotAircraft(countryId, idInCountry)
@@ -1103,7 +1103,7 @@ function select_crew(countryId, idInCountry, airChanged = false)
   ::g_squad_utils.updateMyCountryData(!::is_in_flight())
 }
 
-function getSelAircraftByCountry(country)
+::getSelAircraftByCountry <- function getSelAircraftByCountry(country)
 {
   init_selected_crews()
   foreach(cIdx, c in ::g_crews_list.get())
@@ -1112,12 +1112,12 @@ function getSelAircraftByCountry(country)
   return null
 }
 
-function get_cur_slotbar_unit()
+::get_cur_slotbar_unit <- function get_cur_slotbar_unit()
 {
   return getSelAircraftByCountry(::get_profile_country_sq())
 }
 
-function is_unit_enabled_for_slotbar(unit, params)
+::is_unit_enabled_for_slotbar <- function is_unit_enabled_for_slotbar(unit, params)
 {
   if (!unit)
     return false
@@ -1156,7 +1156,7 @@ function is_unit_enabled_for_slotbar(unit, params)
   return res
 }
 
-function isUnitInCustomList(unit, params)
+::isUnitInCustomList <- function isUnitInCustomList(unit, params)
 {
   if (!unit)
     return false
@@ -1164,7 +1164,7 @@ function isUnitInCustomList(unit, params)
   return params?.customUnitsList ? unit.name in params.customUnitsList : true
 }
 
-function getSelSlotsTable()
+::getSelSlotsTable <- function getSelSlotsTable()
 {
   init_selected_crews()
   local slots = {}
@@ -1185,7 +1185,7 @@ function getSelSlotsTable()
   return slots
 }
 
-function getSelAirsTable()
+::getSelAirsTable <- function getSelAirsTable()
 {
   init_selected_crews()
   local airs = {}
@@ -1197,7 +1197,7 @@ function getSelAirsTable()
   return airs
 }
 
-function initSlotbarTopBar(slotbarObj, show)
+::initSlotbarTopBar <- function initSlotbarTopBar(slotbarObj, show)
 {
   if (!::checkObj(slotbarObj))
     return
@@ -1221,7 +1221,7 @@ function initSlotbarTopBar(slotbarObj, show)
     obj.setValue(::get_auto_refill(1))
 }
 
-function set_autorefill_by_obj(obj)
+::set_autorefill_by_obj <- function set_autorefill_by_obj(obj)
 {
   if (::slotbar_oninit || !obj) return
   local mode = -1
@@ -1240,7 +1240,7 @@ function set_autorefill_by_obj(obj)
   }
 }
 
-function isCountryAvailable(country)
+::isCountryAvailable <- function isCountryAvailable(country)
 {
   if (country=="country_0" || country=="")
     return true
@@ -1248,14 +1248,14 @@ function isCountryAvailable(country)
   return ::isInArray(country, ::unlocked_countries) || ::is_country_available(country)
 }
 
-function is_country_visible(country)
+::is_country_visible <- function is_country_visible(country)
 {
   if (country == "country_china")
     return ::has_feature("CountryChina")
   return true
 }
 
-function unlockCountry(country, hideInUserlog = false, reqUnlock = true)
+::unlockCountry <- function unlockCountry(country, hideInUserlog = false, reqUnlock = true)
 {
   if (reqUnlock)
     ::req_unlock_by_client(country, hideInUserlog)
@@ -1264,7 +1264,7 @@ function unlockCountry(country, hideInUserlog = false, reqUnlock = true)
     ::unlocked_countries.append(country)
 }
 
-function checkUnlockedCountries()
+::checkUnlockedCountries <- function checkUnlockedCountries()
 {
   local curUnlocked = []
   if (::is_need_first_country_choice())
@@ -1291,7 +1291,7 @@ function checkUnlockedCountries()
   return curUnlocked
 }
 
-function checkUnlockedCountriesByAirs() //starter packs
+::checkUnlockedCountriesByAirs <- function checkUnlockedCountriesByAirs() //starter packs
 {
   local haveUnlocked = false
   foreach(air in ::all_units)
@@ -1307,7 +1307,7 @@ function checkUnlockedCountriesByAirs() //starter packs
   return haveUnlocked
 }
 
-function gotTanksInSlots(checkCountryId=null, checkUnitId=null)
+::gotTanksInSlots <- function gotTanksInSlots(checkCountryId=null, checkUnitId=null)
 {
   foreach(country in ::g_crews_list.get())
     if (::isCountryAvailable(country.country) && (!checkCountryId || checkCountryId == country.country))
@@ -1317,7 +1317,7 @@ function gotTanksInSlots(checkCountryId=null, checkUnitId=null)
   return false
 }
 
-function tanksDriveGamemodeRestrictionMsgBox(featureName, curCountry=null, curUnit=null, msg=null)
+::tanksDriveGamemodeRestrictionMsgBox <- function tanksDriveGamemodeRestrictionMsgBox(featureName, curCountry=null, curUnit=null, msg=null)
 {
   if (::has_feature(featureName) || !::gotTanksInSlots(curCountry, curUnit))
     return false

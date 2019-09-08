@@ -1,5 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
-enum Team //better to replace it everywhere by g_teams
+global enum Team //better to replace it everywhere by g_teams
 {
   Any   = 0,
   A     = 1,
@@ -64,17 +64,17 @@ enums.addTypesByGlobalName("g_team", {
 }, null, "id")
 
 ::g_team.teams = [::g_team.A, ::g_team.B]
-function g_team::getTeams()
+g_team.getTeams <- function getTeams()
 {
   return teams
 }
 
-function g_team::getTeamByCode(code)
+g_team.getTeamByCode <- function getTeamByCode(code)
 {
   return enums.getCachedType("code", code, cache.byCode, this, NONE)
 }
 
-function g_team::getTeamByCountriesOption(optionId)
+g_team.getTeamByCountriesOption <- function getTeamByCountriesOption(optionId)
 {
   return enums.getCachedType("teamCountriesOption", optionId, cache.byCountriesOption, this, NONE)
 }

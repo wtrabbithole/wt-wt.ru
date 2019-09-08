@@ -20,23 +20,21 @@ kb,bgk,dblk{
 
   color:@commonTextColor;
   font:@fontNormal;
-  padding:2*@sf/@pf_outdated;
-  margin:0,2*@sf/@pf_outdated,@kbPad,2*@sf/@pf_outdated;
+  margin:1@kbPad;
   height:@kbh;
   min-width:@kbh;
   position:relative;
 }
 keyboard > tdiv > row {
-  height:@kbh+4*@sf/@pf_outdated;
+  height:@kbh+1@kbPad;
 }
 kb {
   width:@kbh;
 }
 dblk {
-  height:2@kbh+4*@sf/@pf_outdated;
+  height:2@kbh+1@kbPad;
   width:@kbh;
-  min-width:1*@sf/@pf_outdated;
-  top:-50%h;
+  top:-50%h - 0.5@kbPad;
 }
 kb[tooltip], bgk[tooltip], dblk[tooltip] {
   background-color:@keyActiveBgColor;

@@ -43,14 +43,16 @@ hint {
         text:t='<<total>>'
       }
 
+      background-svg-size:t='0.06@shHud, 0.06@shHud'
       background-color:t='@white';
-      background-image:t='#ui/gameuiskin#circular_progress_1';
+      background-image:t='#ui/gameuiskin#circular_progress_1.svg'
 
       tdiv {
         position:t='absolute'
         size:t='pw, ph'
+        background-svg-size:t='0.06@shHud, 0.06@shHud'
         background-color:t='#33555555';
-        background-image:t='#ui/gameuiskin#circular_progress_1';
+        background-image:t='#ui/gameuiskin#circular_progress_1.svg'
       }
     }
     <</timer>>

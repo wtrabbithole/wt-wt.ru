@@ -1,6 +1,6 @@
 local contentStateModule = ::require("scripts/clientState/contentState.nut")
 
-function check_package_full(pack, silent = false)
+::check_package_full <- function check_package_full(pack, silent = false)
 {
   local res = true
   if (silent)
@@ -12,7 +12,7 @@ function check_package_full(pack, silent = false)
   return res
 }
 
-function check_gamemode_pkg(gm, silent = false)
+::check_gamemode_pkg <- function check_gamemode_pkg(gm, silent = false)
 {
   if (::isInArray(gm, [::GM_SINGLE_MISSION, ::GM_SKIRMISH, ::GM_DYNAMIC, ::GM_USER_MISSION]))
     return ::check_package_full("pkg_main", silent)
@@ -20,7 +20,7 @@ function check_gamemode_pkg(gm, silent = false)
   return true
 }
 
-function check_diff_pkg(diff, silent = false)
+::check_diff_pkg <- function check_diff_pkg(diff, silent = false)
 {
   foreach(d in [::DIFFICULTY_HARDCORE, ::DIFFICULTY_CUSTOM])
     if (diff == d || ::get_difficulty_name(d) == diff)
@@ -28,12 +28,12 @@ function check_diff_pkg(diff, silent = false)
   return true
 }
 
-function get_pkg_loc_name(pack, isShort = false)
+::get_pkg_loc_name <- function get_pkg_loc_name(pack, isShort = false)
 {
   return ::loc("package/" + pack + (isShort ? "/short" : ""))
 }
 
-function checkReqContentByName(ename, pack)
+::checkReqContentByName <- function checkReqContentByName(ename, pack)
 {
   if (::has_entitlement(ename) || ::has_feature(ename))
   {
@@ -48,21 +48,21 @@ function checkReqContentByName(ename, pack)
   return null
 }
 
-function checkReqContent(ename, blk)
+::checkReqContent <- function checkReqContent(ename, blk)
 {
   if ("reqPack" in blk)
     return checkReqContentByName(ename, blk.reqPack)
   return null
 }
 
-function have_package(packName)
+::have_package <- function have_package(packName)
 {
   if (!contentStateModule.isConsoleClientFullyDownloaded())
     return false
   return ::package_get_status(packName) == ::PACKAGE_STATUS_OK
 }
 
-function updateContentPacks()
+::updateContentPacks <- function updateContentPacks()
 {
   if (::is_ps4_or_xbox)
     return //no launcher there!
@@ -79,8 +79,7 @@ function updateContentPacks()
   foreach (ename, ent in pblk)
     ::u.appendOnce(checkReqContent(ename, ent), reqPacksList, true)
 
-  local sBlk = ::get_game_settings_blk()
-  local fBlk = sBlk && sBlk.features
+  local fBlk = ::get_game_settings_blk()?.features
   if (fBlk)
     foreach (fname, fdata in fBlk)
       ::u.appendOnce(checkReqContent(fname, fdata), reqPacksList, true)
@@ -136,13 +135,13 @@ function updateContentPacks()
     "ok")
 }
 
-function request_packages(packList)
+::request_packages <- function request_packages(packList)
 {
   foreach(pack in packList)
     ::package_request(pack)
 }
 
-function request_packages_and_restart(packList)
+::request_packages_and_restart <- function request_packages_and_restart(packList)
 {
   ::request_packages(packList)
   if (::target_platform == "linux64")
@@ -160,19 +159,19 @@ function request_packages_and_restart(packList)
 }
 
 ::asked_packages <- {}
-function is_asked_pack(pack, askTag = null)
+::is_asked_pack <- function is_asked_pack(pack, askTag = null)
 {
   local checkName = pack + (askTag? ("/" + askTag) : "")
   return checkName in ::asked_packages
 }
-function set_asked_pack(pack, askTag = null)
+::set_asked_pack <- function set_asked_pack(pack, askTag = null)
 {
   ::asked_packages[pack] <- true
   if (askTag)
     ::asked_packages[pack + "/" + askTag] <- true
 }
 
-function check_package_and_ask_download(pack, msg = null, continueFunc = null, owner = null, askTag = null, cancelFunc = null)
+::check_package_and_ask_download <- function check_package_and_ask_download(pack, msg = null, continueFunc = null, owner = null, askTag = null, cancelFunc = null)
 {
   if (::have_package(pack)
       || (continueFunc && ::is_asked_pack(pack, askTag)))
@@ -243,18 +242,18 @@ function check_package_and_ask_download(pack, msg = null, continueFunc = null, o
   return false
 }
 
-function can_download_package()
+::can_download_package <- function can_download_package()
 {
   return !::is_vendor_tencent()
 }
 
-function check_package_and_ask_download_once(pack, askTag = null, msg = null)
+::check_package_and_ask_download_once <- function check_package_and_ask_download_once(pack, askTag = null, msg = null)
 {
   if (!::is_asked_pack(pack, askTag))
     ::check_package_and_ask_download(pack, msg, null, null, askTag)
 }
 
-function check_members_pkg(pack)
+::check_members_pkg <- function check_members_pkg(pack)
 {
   local members = ::g_squad_manager.checkMembersPkg(pack)
   if (!members.len())
@@ -270,7 +269,7 @@ function check_members_pkg(pack)
   ::showInfoMsgBox(msg, "members_req_new_content")
 }
 
-function check_localization_package_and_ask_download(langId = null)
+::check_localization_package_and_ask_download <- function check_localization_package_and_ask_download(langId = null)
 {
   langId = langId || ::get_current_language()
   local pack = "pkg_" + langId
@@ -294,7 +293,7 @@ function check_localization_package_and_ask_download(langId = null)
     [["download", (@(pack) function() { ::request_packages_and_restart([pack]) })(pack)], ["cancel"]], "cancel", params)
 }
 
-function check_speech_country_unit_localization_package_and_ask_download()
+::check_speech_country_unit_localization_package_and_ask_download <- function check_speech_country_unit_localization_package_and_ask_download()
 {
   local reqPacksList = []
 
@@ -328,7 +327,7 @@ function check_speech_country_unit_localization_package_and_ask_download()
   )
 }
 
-function restart_to_launcher()
+::restart_to_launcher <- function restart_to_launcher()
 {
   if (::is_platform_ps4)
     return ::gui_start_logout()
@@ -349,7 +348,7 @@ function restart_to_launcher()
 }
 
 
-function error_load_model_and_restart(model)
+::error_load_model_and_restart <- function error_load_model_and_restart(model)
 {
   local _msg = ::loc("msgbox/no_package/info")
   _msg = ::format(_msg, ::colorize("activeTextColor", model))

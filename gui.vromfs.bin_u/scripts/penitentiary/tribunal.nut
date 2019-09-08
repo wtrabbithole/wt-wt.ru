@@ -10,13 +10,12 @@
 
   function init()
   {
-    local sBlk = ::get_game_settings_blk()
-    local blk = sBlk && sBlk.tribunal
+    local blk = ::get_game_settings_blk()?.tribunal
     if (!blk)
       return
 
     foreach(p in ["maxComplaintCount", "minComplaintCount", "maxDaysToCheckComplains", "maxComplaintsFromMe"])
-      if (blk[p] != null)
+      if (blk?[p] != null)
         ::tribunal[p] = blk[p]
   }
 

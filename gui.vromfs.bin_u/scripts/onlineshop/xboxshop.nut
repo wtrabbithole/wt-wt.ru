@@ -1,4 +1,3 @@
-local u = ::require("sqStdLibs/helpers/u.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local seenList = ::require("scripts/seen/seenList.nut").get(SEEN.EXT_XBOX_SHOP)
 
@@ -29,7 +28,7 @@ foreach (sh in sheetsArray)
 {
   local sheet = sh
   seenList.setSubListGetter(sheet.getSeenId(), @() (
-    xboxShopData.xboxProceedItems?[sheet.mediaType] ?? []).filter(@(idx, it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
+    xboxShopData.xboxProceedItems?[sheet.mediaType] ?? []).filter(@(it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
 }
 
 class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
@@ -132,7 +131,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     curPage = 0
     if (lastSelectedItem)
     {
-      local lastIdx = ::u.searchIndex(itemsList, function(item) { return item.id == lastSelectedItem.id}.bindenv(this), -1)
+      local lastIdx = itemsList.searchindex(function(item) { return item.id == lastSelectedItem.id}.bindenv(this)) ?? -1
       if (lastIdx >= 0)
         curPage = (lastIdx / itemsPerPage).tointeger()
       else if (curPage * itemsPerPage > itemsCatalog.len())
@@ -177,7 +176,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     updateItemInfo()
 
     generatePaginator(scene.findObject("paginator_place"), this,
-      curPage, ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
+      curPage, ::ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
 
     if (!itemsList.len())
       focusSheetsList()
@@ -218,7 +217,9 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemAction(buttonObj)
   {
-    local id = buttonObj && buttonObj.holderId
+    local id = buttonObj?.holderId
+    if (id == null)
+      return
     local item = ::getTblValue(id.tointeger(), itemsList)
     onShowDetails(item)
   }

@@ -19,7 +19,7 @@ local BhvUnseen = class
 
   function onAttach(obj)
   {
-    if (obj.value)
+    if (obj?.value)
       setNewConfig(obj, buildConfig(obj.value))
     updateView(obj)
     return ::RETCODE_NOTHING

@@ -2,6 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local hudState = require_native("hudState")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
+local globalCallbacks = ::require("sqDagui/globalCallbacks/globalCallbacks.nut")
 
 local UNMAPPED_CONTROLS_WARNING_TIME_WINK = 3.0
 local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 180000.0 : 30.0
@@ -34,13 +35,22 @@ local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 
   }
 }
 
-function get_ingame_map_aabb()
+globalCallbacks.addTypes({
+  onShortcutOn = {
+    onCb = @(obj, params) ::set_shortcut_on(obj.shortcut_id)
+  }
+  onShortcutOff = {
+    onCb = @(obj, params) ::set_shortcut_off(obj.shortcut_id)
+  }
+})
+
+::get_ingame_map_aabb <- function get_ingame_map_aabb()
 {
   local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
   return handler && ::get_dagui_obj_aabb(handler.getTacticalMapObj())
 }
 
-function get_ingame_multiplayer_score_progress_bar_aabb()
+::get_ingame_multiplayer_score_progress_bar_aabb <- function get_ingame_multiplayer_score_progress_bar_aabb()
 {
   local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
   return handler && ::get_dagui_obj_aabb(handler.getMultiplayerScoreObj())
@@ -50,14 +60,14 @@ local dmPanelStates =
 {
   aabb = null
 }
-function update_damage_panel_state(params)
+::update_damage_panel_state <- function update_damage_panel_state(params)
 {
   dmPanelStates.aabb <- params
 }
 ::cross_call_api.update_damage_panel_state <- ::update_damage_panel_state
 ::g_script_reloader.registerPersistentData("dmPanelState", dmPanelStates, [ "aabb" ])
 
-function get_damage_pannel_aabb()
+::get_damage_pannel_aabb <- function get_damage_pannel_aabb()
 {
   local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
   if (!handler)
@@ -67,7 +77,7 @@ function get_damage_pannel_aabb()
     : ::get_dagui_obj_aabb(handler.getDamagePannelObj())
 }
 
-function on_show_hud(show = true) //called from native code
+::on_show_hud <- function on_show_hud(show = true) //called from native code
 {
   local handler = ::handlersManager.getActiveBaseHandler()
   if (handler && ("onShowHud" in handler))
@@ -140,7 +150,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     ::g_streaks.clear()
     initSubscribes()
 
-    ::set_hud_width_limit(safeAreaHud.getHudWidthLimit())
+    ::set_hud_width_limit(safeAreaHud.getSafearea()[0])
     ::set_option_hud_screen_safe_area(safeAreaHud.getValue())
 
     isXinput = ::is_xinput_device()
@@ -151,7 +161,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     loadGameChat()
 
     scene.findObject("hud_update").setUserData(this)
-    local gm = get_game_mode()
+    local gm = ::get_game_mode()
     showSceneBtn("stats", (gm == ::GM_DOMINATION || gm == ::GM_SKIRMISH))
     showSceneBtn("voice", (gm == ::GM_DOMINATION || gm == ::GM_SKIRMISH))
 
@@ -562,19 +572,6 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-::baseTouchActions <-
-{
-  onShortcutOn = function (obj)
-  {
-    ::set_shortcut_on(obj.shortcut_id)
-  }
-
-  onShortcutOff = function (obj)
-  {
-    ::set_shortcut_off(obj.shortcut_id)
-  }
-}
-
 class HudCutscene extends ::gui_handlers.BaseUnitHud
 {
   sceneBlkName = "gui/hud/hudCutscene.blk"
@@ -664,19 +661,14 @@ class HudTouchAir extends ::HudAir
 
   function initScreen()
   {
-    ::HudAir.initScreen()
+    base.initScreen()
     fillAirButtons()
   }
 
   function reinitScreen(params = {})
   {
-  }
-
-  function _get(idx)
-  {
-    if (idx in ::baseTouchActions)
-      return ::baseTouchActions.rawget(idx)
-    throw null
+    base.reinitScreen()
+    fillAirButtons()
   }
 
   function fillAirButtons()
@@ -779,7 +771,7 @@ class HudTouchTank extends ::HudTank
 
   function initScreen()
   {
-    ::HudTank.initScreen()
+    base.initScreen()
     setupTankControlStick()
     ::g_hud_event_manager.subscribe(
       "tankRepair:offerRepair",
@@ -799,7 +791,7 @@ class HudTouchTank extends ::HudTank
 
   function reinitScreen(params = {})
   {
-    ::HudTank.reinitScreen()
+    base.reinitScreen()
     setupTankControlStick()
   }
 
@@ -810,13 +802,6 @@ class HudTouchTank extends ::HudTank
       return
 
     register_tank_control_stick(stickObj)
-  }
-
-  function _get(idx)
-  {
-    if (idx in ::baseTouchActions)
-      return ::baseTouchActions.rawget(idx)
-    throw null
   }
 
   function onEventArtilleryTarget(p)
@@ -877,19 +862,19 @@ class HudShip extends ::gui_handlers.BaseUnitHud
   }
 }
 
-function gui_start_hud()
+::gui_start_hud <- function gui_start_hud()
 {
   ::handlersManager.loadHandler(::gui_handlers.Hud)
 }
 
-function gui_start_hud_no_chat()
+::gui_start_hud_no_chat <- function gui_start_hud_no_chat()
 {
   //HUD can determine is he need chat or not
   //this function is left just for back compotibility with cpp code
   ::gui_start_hud()
 }
 
-function gui_start_spectator()
+::gui_start_spectator <- function gui_start_spectator()
 {
   ::handlersManager.loadHandler(::gui_handlers.Hud, { spectatorMode = true })
 }

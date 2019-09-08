@@ -44,7 +44,7 @@ class ::items_classes.Order extends ::BaseItem
   constructor(blk, invBlk = null, slotData = null)
   {
     base.constructor(blk, invBlk, slotData)
-    initMissionOrderParams(blk.missionOrderParams)
+    initMissionOrderParams(blk?.missionOrderParams)
   }
 
   /* override */ function getName(colored = true)
@@ -120,9 +120,9 @@ class ::items_classes.Order extends ::BaseItem
     cooldownOtherTeam = ::getTblValue("cooldownOtherTeam", blk, 0)
     delayFromStart = ::getTblValue("delayFromStart", blk, 0)
     awardOnCancel = ::getTblValue("awardOnCancel", blk, false)
-    awardWpByDifficulty = parseP3byDifficulty(blk.awardWp)
-    awardXpByDifficulty = parseP3byDifficulty(blk.awardXp)
-    awardGoldByDifficulty = parseP3byDifficulty(blk.awardGold)
+    awardWpByDifficulty = parseP3byDifficulty(blk?.awardWp)
+    awardXpByDifficulty = parseP3byDifficulty(blk?.awardXp)
+    awardGoldByDifficulty = parseP3byDifficulty(blk?.awardGold)
     disabledDifficulties = []
     if (blk != null)
     {
@@ -136,12 +136,12 @@ class ::items_classes.Order extends ::BaseItem
     awardMode = ::g_order_award_mode.getAwardModeByOrderParams(blk)
 
     // Order type specific stuff.
-    initMissionOrderMode(blk.mode)
+    initMissionOrderMode(blk?.mode)
   }
 
   function initMissionOrderMode(blk)
   {
-    orderType = ::g_order_type.getOrderTypeByName(blk.type)
+    orderType = ::g_order_type.getOrderTypeByName(blk?.type)
     typeParams = ::buildTableFromBlk(blk)
   }
 

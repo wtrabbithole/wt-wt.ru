@@ -1,10 +1,10 @@
 ::g_crew_points <- {}
 
-function g_crew_points::getSkillPointsPacks(country)
+g_crew_points.getSkillPointsPacks <- function getSkillPointsPacks(country)
 {
   local res = []
   local blk = ::get_warpoints_blk()
-  if (!blk.crewSkillPointsCost)
+  if (!blk?.crewSkillPointsCost)
     return res
 
   foreach(block in blk.crewSkillPointsCost)
@@ -13,7 +13,7 @@ function g_crew_points::getSkillPointsPacks(country)
     res.append({
       name = blkName
       cost = ::Cost(0, ::wp_get_skill_points_cost_gold(blkName, country))
-      skills = block.crewExp || 1
+      skills = block?.crewExp ?? 1
     })
   }
 
@@ -21,7 +21,7 @@ function g_crew_points::getSkillPointsPacks(country)
 }
 
 //pack can be a single pack or packs array
-function g_crew_points::buyPack(crew, packsList, onSuccess = null)
+g_crew_points.buyPack <- function buyPack(crew, packsList, onSuccess = null)
 {
   if (!::u.isArray(packsList))
     packsList = [packsList]
@@ -34,10 +34,10 @@ function g_crew_points::buyPack(crew, packsList, onSuccess = null)
   }
   local locParams = {
     amount = ::getCrewSpText(amount)
-    cost = cost.tostring()
+    cost = cost.getTextAccordingToBalance()
   }
 
-  local msgText = warningIfGold(::loc("shop/needMoneyQuestion_buySkillPoints", locParams), cost)
+  local msgText = ::warningIfGold(::loc("shop/needMoneyQuestion_buySkillPoints", locParams), cost)
   ::scene_msg_box("purchase_ask", null, msgText,
     [["yes", ::Callback(function()
       {
@@ -47,7 +47,7 @@ function g_crew_points::buyPack(crew, packsList, onSuccess = null)
     ], ["no", function(){}]], "yes", { cancel_fn = function(){}})
 }
 
-function g_crew_points::buyPackImpl(crew, packsList, onSuccess)
+g_crew_points.buyPackImpl <- function buyPackImpl(crew, packsList, onSuccess)
 {
   local pack = packsList.remove(0)
   local taskId = shop_purchase_skillpoints(crew.id, pack.name)
@@ -62,7 +62,7 @@ function g_crew_points::buyPackImpl(crew, packsList, onSuccess)
   ::g_tasker.addTask(taskId, {showProgressBox = true}, cb)
 }
 
-function g_crew_points::getPacksToBuyAmount(country, skillPoints)
+g_crew_points.getPacksToBuyAmount <- function getPacksToBuyAmount(country, skillPoints)
 {
   local packs = getSkillPointsPacks(country)
   if (!packs.len())

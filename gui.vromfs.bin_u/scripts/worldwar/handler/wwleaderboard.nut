@@ -129,10 +129,8 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local modesObj = showSceneBtn("modes_list", true)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
-    local modeIdx = ::u.searchIndex(wwLeaderboardData.modes,
-      (@(m) m.mode == beginningMode).bindenv(this))
-
-    modesObj.setValue(::max(modeIdx, 0))
+    local modeIdx = wwLeaderboardData.modes.searchindex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
+    modesObj.setValue(modeIdx)
   }
 
   function updateDaysComboBox(seasonDays)
@@ -180,10 +178,10 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbMap)
     {
       local selectedMapId = lbMap.getId()
-      mapObjValue = ::u.searchIndex(lbMapsList, @(m) m && m.getId() == selectedMapId)
+      mapObjValue = lbMapsList.searchindex(@(m) m && m.getId() == selectedMapId) ?? 0
     }
     lbMap = null
-    mapsObj.setValue(::max(mapObjValue, 0))
+    mapsObj.setValue(mapObjValue)
   }
 
   function updateCountriesComboBox(filterMap = null, isVisible = true)
@@ -205,10 +203,10 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbCountry)
     {
       local selectedCountry = lbCountry
-      countryObjValue = ::u.searchIndex(lbCountriesList, @(c) c && c == selectedCountry)
+      countryObjValue = lbCountriesList.searchindex(@(c) c && c == selectedCountry) ?? 0
     }
     lbCountry = null
-    countriesObj.setValue(::max(countryObjValue, 0))
+    countriesObj.setValue(countryObjValue)
   }
 
   function fetchLbData(isForce = false)
@@ -224,13 +222,15 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       return
 
     if (isRequestDifferent)
-    {
-      afterLoadSelfRow = requestSelfPage
       pos = 0
-    }
 
     lbField = curLbCategory.field
     requestData = newRequestData
+    local requestParams = {
+      gameMode = requestData.modeName + requestData.modePostFix
+      table    = requestData.day && requestData.day > 0 ? "day" + requestData.day : "season"
+      category = lbField
+    }
 
     local cb = function(hasSelfRow = false)
     {
@@ -243,28 +243,31 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         }, this)
       wwLeaderboardData.requestWwLeaderboardData(
         requestData.modeName,
-        requestData.modePostFix,
-        requestData.day,
-        pos, rowsInPage, lbField,
+        requestParams.__update({
+          start    = pos
+          count    = rowsInPage
+        }),
         @(lbPageData) callback(lbPageData))
     }
 
-    if (isUsersLeaderboard())
+    if (isUsersLeaderboard() || (forClans && ::is_in_clan()))
     {
       local callback = ::Callback(
         function(lbSelfData) {
           selfRowData = wwLeaderboardData.convertWwLeaderboardData(lbSelfData, isCountriesLeaderboard()).rows
-          if(afterLoadSelfRow)
-            afterLoadSelfRow(getSelfPos())
-          afterLoadSelfRow = null
+          if(isRequestDifferent)
+            requestSelfPage(getSelfPos())
           cb(true)
         }, this)
       wwLeaderboardData.requestWwLeaderboardData(
         requestData.modeName,
-        requestData.modePostFix,
-        requestData.day,
-        null, 0, lbField,
-        @(lbSelfData) callback(lbSelfData))
+        requestParams.__update({
+          start = null
+          count = 0
+        }),
+        @(lbSelfData) callback(lbSelfData),
+        { userId = isUsersLeaderboard() ? ::my_user_id_int64
+          : ::clan_get_my_clan_id() })
     }
     else
       cb()

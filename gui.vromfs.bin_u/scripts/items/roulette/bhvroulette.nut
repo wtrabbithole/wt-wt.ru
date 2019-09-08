@@ -7,7 +7,7 @@ local BhvRoulette = class
 
   function onAttach(obj)
   {
-    if (obj.value)
+    if (obj?.value)
     {
       try { setValue(obj, obj.value) }
       catch(e) { ::script_net_assert_once("bad bhvRoulette value", "BhvRoulette: bad value on attach: '" + obj.value + "'") }

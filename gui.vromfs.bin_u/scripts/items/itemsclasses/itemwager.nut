@@ -83,8 +83,8 @@ class ::items_classes.Wager extends ::BaseItem
       numBattles = ::getTblValue("numBattles", invBlk, 0)
       curWager = ::getTblValue("wager", invBlk, 0)
     }
-    iconStyle = blk.iconStyle || blk.type || id
-    _initWagerParams(blk.wagerParams)
+    iconStyle = blk?.iconStyle ?? blk?.type ?? id
+    _initWagerParams(blk?.wagerParams)
   }
 
   function _initWagerParams(blk)
@@ -92,21 +92,21 @@ class ::items_classes.Wager extends ::BaseItem
     if (!blk)
       return
 
-    winIcon = getWinIcon(blk.win)
-    reqWinsNum = blk.win?.num ?? 0
+    winIcon = getWinIcon(blk?.win)
+    reqWinsNum = blk?.win?.num ?? 0
     rewardType = checkRewardType(blk)
-    minWager = blk.minWager || 0
+    minWager = blk?.minWager ?? 0
     if (curWager == null)
       curWager = minWager
-    wagerStep = blk.wagerStep || 1
-    maxWager = blk.maxWager || 0
-    maxWins = blk.maxWins || 0
-    maxFails = blk.maxFails || 0
-    if (blk.active != null)
+    wagerStep = blk?.wagerStep ?? 1
+    maxWager = blk?.maxWager ?? 0
+    maxWins = blk?.maxWins ?? 0
+    maxFails = blk?.maxFails ?? 0
+    if (blk?.active != null)
       conditions = ::UnlockConditions.loadConditionsFromBlk(blk.active)
-    if (blk.win != null)
+    if (blk?.win != null)
       winConditions = ::UnlockConditions.loadConditionsFromBlk(blk.win)
-    winParamsData = createWinParamsData(blk.winParams)
+    winParamsData = createWinParamsData(blk?.winParams)
     isGoldWager = ::getTblValue("goldWager", blk, false)
   }
 
@@ -123,7 +123,7 @@ class ::items_classes.Wager extends ::BaseItem
   /** Return reward data type name with highest priority. */
   function checkRewardType(blk)
   {
-    if (blk.winParams == null)
+    if (blk?.winParams == null)
       return null
     local bestIndex = -1
     foreach(reward in blk.winParams % "reward")
@@ -230,7 +230,7 @@ class ::items_classes.Wager extends ::BaseItem
     if (!winBlk)
       return defaultWinIcon
 
-    local iconName = winBlk.type
+    local iconName = winBlk?.type
     for(local i = 0; i < winBlk.paramCount(); i++)
     {
       local paramName = winBlk.getParamName(i)

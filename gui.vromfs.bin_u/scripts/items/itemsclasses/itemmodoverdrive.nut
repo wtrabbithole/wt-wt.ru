@@ -18,7 +18,7 @@ class ::items_classes.ModOverdrive extends BaseItemModClass
     isActiveOverdrive = slotData?.isActive ?? false
   }
 
-  getConditionsBlk = @(configBlk) configBlk.modOverdriveParams
+  getConditionsBlk = @(configBlk) configBlk?.modOverdriveParams
   canActivate = @() isInventoryItem && !isActive()
   isActive = @(...) isActiveOverdrive
 

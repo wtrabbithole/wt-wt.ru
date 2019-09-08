@@ -164,7 +164,7 @@ local function newMessage(from, msg, privateMsg=false, myPrivate=false, overlayS
   }
 }
 
-function newRoom(id, customScene = null, ownerHandler = null) {
+::newRoom <- function newRoom(id, customScene = null, ownerHandler = null) {
   local rType = ::g_chat_room_type.getRoomType(id)
   local r = {
     id = id
@@ -252,7 +252,7 @@ function newRoom(id, customScene = null, ownerHandler = null) {
   return r
 }
 
-function initChatMessageListOn(sceneObject, handler, customRoomId = null) {
+::initChatMessageListOn <- function initChatMessageListOn(sceneObject, handler, customRoomId = null) {
   local messages = []
   for (local i = 0; i < ::g_chat.getMaxRoomMsgAmount(); i++) {
     messages.append({ childIndex = i });

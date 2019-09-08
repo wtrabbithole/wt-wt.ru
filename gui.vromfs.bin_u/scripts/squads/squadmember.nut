@@ -21,6 +21,8 @@ class SquadMember
   unallowedEventsENames = null
   sessionRoomId = ""
   crossplay = false
+  bannedMissions = null
+  dislikedMissions = null
 
   isWaiting = true
   isInvite = false
@@ -31,7 +33,7 @@ class SquadMember
   updatedProperties = ["name", "rank", "country", "clanTag", "pilotIcon", "selAirs",
                        "selSlots", "crewAirs", "brokenAirs", "missedPkg", "wwOperations",
                        "isReady", "isCrewsReady", "canPlayWorldWar", "isWorldWarAvailable", "cyberCafeId",
-                       "unallowedEventsENames", "sessionRoomId", "crossplay"]
+                       "unallowedEventsENames", "sessionRoomId", "crossplay", "bannedMissions", "dislikedMissions"]
 
   constructor(_uid, _isInvite = false, _isApplication = false)
   {
@@ -56,6 +58,8 @@ class SquadMember
     missedPkg = []
     wwOperations = {}
     unallowedEventsENames = []
+    bannedMissions = []
+    dislikedMissions = []
   }
 
   function update(data)
@@ -68,8 +72,9 @@ class SquadMember
       if (newValue == null)
         continue
 
-      if (::isInArray(property, ["brokenAirs", "missedPkg", "unallowedEventsENames"]) //!!!FIX ME If this parametrs is empty then msquad returns table instead array
-          && !::u.isArray(newValue))                                                  // Need remove this block after msquad fixed
+      if (::isInArray(property, ["brokenAirs", "missedPkg","unallowedEventsENames",     //!!!FIX ME If this parametrs is empty then msquad returns table instead array
+             "bannedMissions", "dislikedMissions"])                                     // Need remove this block after msquad fixed
+          && !::u.isArray(newValue))
         newValue = []
 
       if (newValue != this[property])

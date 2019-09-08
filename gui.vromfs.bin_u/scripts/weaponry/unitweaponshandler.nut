@@ -292,8 +292,8 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       if (totalMods > 0)
       {
-        local totalRows = ceil(totalMods.tofloat() / modsInRow * res.itemWidth).tointeger()
-        totalColumns = ceil(totalMods.tofloat() / totalRows).tointeger()
+        local totalRows = ::ceil(totalMods.tofloat() / modsInRow * res.itemWidth).tointeger()
+        totalColumns = ::ceil(totalMods.tofloat() / totalRows).tointeger()
       }
 
       for(local i = res.columns.len(); i < totalColumns; i++)
@@ -558,7 +558,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!::checkObj(obj))
       return
-    local groupIndex = ::to_integer_safe(obj.groupIdx, -1)
+    local groupIndex = ::to_integer_safe(obj?.groupIdx ?? "", -1)
     local bulGroup= getBulletGroupByIndex(groupIndex)
     if (!bulGroup)
       return

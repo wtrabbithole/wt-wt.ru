@@ -27,7 +27,7 @@ g_users_info_manager <- {
   usersInfo = {}
 }
 
-function g_users_info_manager::requestInfo(users, successCb = null, errorCb = null)
+g_users_info_manager.requestInfo <- function requestInfo(users, successCb = null, errorCb = null)
 {
   if (users.len() > MAX_REQUESTED_UID_NUM)
     return
@@ -51,7 +51,7 @@ function g_users_info_manager::requestInfo(users, successCb = null, errorCb = nu
   ::g_tasker.charRequestBlk("cln_get_users_terse_info", requestBlk, { showErrorMessageBox = false }, fullSuccessCb, errorCb)
 }
 
-function g_users_info_manager::_getResponseWidthoutRequest(users)
+g_users_info_manager._getResponseWidthoutRequest <- function _getResponseWidthoutRequest(users)
 {
   local fastResponse = {}
   local currentTime = ::dagor.getCurTime()
@@ -70,7 +70,7 @@ function g_users_info_manager::_getResponseWidthoutRequest(users)
   return fastResponse
 }
 
-function g_users_info_manager::_requestDataCommonSuccessCallback(response)
+g_users_info_manager._requestDataCommonSuccessCallback <- function _requestDataCommonSuccessCallback(response)
 {
   local isUpdated = false
   foreach(uid, newUserInfo in response)
@@ -101,7 +101,7 @@ function g_users_info_manager::_requestDataCommonSuccessCallback(response)
     ::broadcastEvent(userInfoEventName.UPDATED, { usersInfo = response })
 }
 
-function g_users_info_manager::_convertServerResponse(response)
+g_users_info_manager._convertServerResponse <- function _convertServerResponse(response)
 {
   local res = {}
   foreach(uid, userInfo in response)

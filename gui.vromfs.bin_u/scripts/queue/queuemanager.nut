@@ -1,4 +1,6 @@
-enum queueStates
+local clustersModule = require("scripts/clusterSelect.nut")
+
+global enum queueStates
 {
   ERROR,
   NOT_IN_QUEUE,
@@ -7,7 +9,7 @@ enum queueStates
   IN_QUEUE
 }
 
-enum QUEUE_TYPE_BIT //bit values for easy multi-type search
+global enum QUEUE_TYPE_BIT //bit values for easy multi-type search
 {
   EVENT      = 1,
   DOMINATION = 2,
@@ -256,7 +258,7 @@ class QueueManager {
       mode = eventId
       country = ::get_profile_country_sq()
       slots = ::getSelSlotsTable()
-      clusters = ::get_current_clusters()
+      clusters = clustersModule.getCurrentClusters()
       queueSelfActivated = true
       team = inGameEx.team.tointeger()
       roomId = inGameEx.roomId.tointeger()
@@ -683,12 +685,12 @@ class QueueManager {
 
 ::queues = QueueManager()
 
-function checkIsInQueue()
+::checkIsInQueue <- function checkIsInQueue()
 {
   return ::queues.isAnyQueuesActive()
 }
 
-function open_search_squad_player()
+::open_search_squad_player <- function open_search_squad_player()
 {
   ::queues.checkAndStart(::gui_start_search_squadPlayer, null,
     "isCanModifyQueueParams", QUEUE_TYPE_BIT.DOMINATION | QUEUE_TYPE_BIT.NEWBIE)

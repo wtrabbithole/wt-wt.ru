@@ -18,7 +18,6 @@ local hudLog = function (params) {
   local logComponent = params.logComponent
   local onAttach = params?.onAttach ?? @(elem) null
   local onDetach = params?.onDetach ?? @(elem) null
-  local onCursorVisible = params?.onCursorVisible ?? function (new_val) { visibleState.update(new_val) }
 
   local logState = logComponent.state
   local content = scrollbar.makeSideScroll(
@@ -68,13 +67,10 @@ local hudLog = function (params) {
     onAttach = function (elem) {
       onAttach(elem)
       logState.subscribe(onNewMessage)
-      hudState.cursorVisible.subscribe(onCursorVisible)
-      onCursorVisible(hudState.cursorVisible.value)
     }
     onDetach = function (elem) {
       onDetach(elem)
       logState.unsubscribe(onNewMessage)
-      hudState.cursorVisible.unsubscribe(onCursorVisible)
     }
 
     transitions = [transition.make(transitionTime())]

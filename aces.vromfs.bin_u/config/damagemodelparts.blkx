@@ -5,7 +5,6 @@
   {
     "default": {
       "vital": false,
-      "hp": 0.0,
       "hitTestType": "armor",
       "malfunctionDamage": 0.7,
       "stopChanceOnDeadPart": 1.0,
@@ -548,7 +547,7 @@
   },
   {
     "elevator_NN": {
-      "template": "elevator_#16#"
+      "template": "elevator_#20#"
     }
   },
   {
@@ -591,13 +590,13 @@
   {
     "depth_charge": {
       "depth_charge_NN": {
-        "template": "depth_charge_#70#"
+        "template": "depth_charge_#90#"
       },
       "depth_charge_l_NN": {
-        "template": "depth_charge_l_#20#"
+        "template": "depth_charge_l_#30#"
       },
       "depth_charge_r_NN": {
-        "template": "depth_charge_r_#20#"
+        "template": "depth_charge_r_#30#"
       }
     }
   },
@@ -633,7 +632,7 @@
   },
   {
     "bulkhead_NN": {
-      "template": "bulkhead_#20#"
+      "template": "bulkhead_#40#"
     }
   },
   {
@@ -688,7 +687,7 @@
   },
   {
     "ex_armor_NN": {
-      "template": "ex_armor_#20#"
+      "template": "ex_armor_#30#"
     }
   },
   {
@@ -733,31 +732,31 @@
   },
   {
     "ex_decor_body_r_NN": {
-      "template": "ex_decor_body_r_#15#",
+      "template": "ex_decor_body_r_#16#",
       "externalArmor": true
     }
   },
   {
     "ex_decor_body_l_NN": {
-      "template": "ex_decor_body_l_#15#",
+      "template": "ex_decor_body_l_#16#",
       "externalArmor": true
     }
   },
   {
     "ex_decor_r_NN": {
-      "template": "ex_decor_r_#15#",
+      "template": "ex_decor_r_#16#",
       "externalArmor": true
     }
   },
   {
     "ex_decor_l_NN": {
-      "template": "ex_decor_l_#15#",
+      "template": "ex_decor_l_#16#",
       "externalArmor": true
     }
   },
   {
     "ex_decor_NN": {
-      "template": "ex_decor_#15#",
+      "template": "ex_decor_#16#",
       "externalArmor": true
     }
   },
@@ -942,30 +941,36 @@
   },
   {
     "aircraft_control_surface": {
-      "rudder": [],
-      "rudder0": [],
-      "rudder1": [],
-      "elevator": [],
-      "elevator0": [],
-      "elevator1": [],
-      "aileron_l": [],
-      "aileron1_l": [],
-      "aileron_r": [],
-      "aileron1_r": [],
-      "elevon_l": [],
-      "elevon_r": [],
-      "flaperon_l": [],
-      "flaperon1_l": [],
-      "flaperon_r": [],
-      "flaperon1_r": [],
-      "aileron_interceptor_l": [],
-      "aileron_interceptor1_l": [],
-      "aileron_interceptor_r": [],
-      "aileron_interceptor1_r": [],
-      "rudder_interceptor_l": [],
-      "rudder_interceptor1_l": [],
-      "rudder_interceptor_r": [],
-      "rudder_interceptor1_r": []
+      "aircraft_aileron": {
+        "aileron_l": [],
+        "aileron1_l": [],
+        "aileron_r": [],
+        "aileron1_r": [],
+        "elevon_l": [],
+        "elevon_r": [],
+        "flaperon_l": [],
+        "flaperon1_l": [],
+        "flaperon_r": [],
+        "flaperon1_r": [],
+        "aileron_interceptor_l": [],
+        "aileron_interceptor1_l": [],
+        "aileron_interceptor_r": [],
+        "aileron_interceptor1_r": []
+      },
+      "aircraft_elevator": {
+        "elevator": [],
+        "elevator0": [],
+        "elevator1": []
+      },
+      "aircraft_rudder": {
+        "rudder": [],
+        "rudder0": [],
+        "rudder1": [],
+        "rudder_interceptor_l": [],
+        "rudder_interceptor1_l": [],
+        "rudder_interceptor_r": [],
+        "rudder_interceptor1_r": []
+      }
     }
   },
   {
@@ -1258,6 +1263,14 @@
   {
     "jet_flameN": {
       "template": "jet_flame#5#"
+    }
+  },
+  {
+    "jet_flame_1": []
+  },
+  {
+    "jet_flameN_1": {
+      "template": "jet_flame#5#_1"
     }
   },
   {

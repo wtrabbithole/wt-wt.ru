@@ -1,12 +1,14 @@
 const URL_TAGS_DELIMITER = " "
 const URL_TAG_AUTO_LOCALIZE = "auto_local"
 const URL_TAG_AUTO_LOGIN = "auto_login"
+const URL_TAG_SSO_SERVICE = "sso_service="
+const URL_TAG_NO_ENCODING = "no_encoding"
 
 const AUTH_ERROR_LOG_COLLECTION = "log"
 
 ::g_url <- {}
 
-function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = false)
+g_url.open <- function open(baseUrl, forceExternal=false, isAlreadyAuthenticated = false)
 {
   if (!::has_feature("AllowExternalLink"))
     return
@@ -32,14 +34,20 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
 
   ::dagor.debug("Open url with urlType = " + urlType.typeName + ": " + url)
   ::dagor.debug("Base Url = " + baseUrl)
-  if (!isAlreadyAuthenticated
-      && urlType.needAutoLogin && ::isInArray(URL_TAG_AUTO_LOGIN, urlTags)
-      && canAutoLogin())
+
+  local shouldLogin = ::isInArray(URL_TAG_AUTO_LOGIN, urlTags)
+  if (!isAlreadyAuthenticated && urlType.needAutoLogin && shouldLogin && canAutoLogin())
   {
-    local authData = ::get_authenticated_url_table(::encode_base64(url)) //need encode url to transmit complex links
+    local shouldEncode = !::isInArray(URL_TAG_NO_ENCODING, urlTags)
+    if (shouldEncode)
+      url = ::encode_base64(url)
+
+    local ssoServiceTag = urlTags.filter(@(v) v.find(URL_TAG_SSO_SERVICE) == 0);
+    local ssoService = ssoServiceTag.len() != 0 ? ssoServiceTag.pop().slice(URL_TAG_SSO_SERVICE.len()) : null
+    local authData = (ssoService != null) ? ::get_authenticated_url_sso(url, ssoService) : ::get_authenticated_url_table(url)
 
     if (authData.yuplayResult == ::YU2_OK)
-      url = authData.url + "&ret_enc=1" //This parameter is needed for coded complex links.
+      url = authData.url + (shouldEncode ? "&ret_enc=1" : "") //This parameter is needed for coded complex links.
     else if (authData.yuplayResult == ::YU2_WRONG_LOGIN)
     {
       ::send_error_log("Authorize url: failed to get authenticated url with error ::YU2_WRONG_LOGIN",
@@ -77,21 +85,21 @@ function g_url::open(baseUrl, forceExternal=false, isAlreadyAuthenticated = fals
   })(url))
 }
 
-function g_url::openByObj(obj, forceExternal=false, isAlreadyAuthenticated = false)
+g_url.openByObj <- function openByObj(obj, forceExternal=false, isAlreadyAuthenticated = false)
 {
-  if (!::check_obj(obj) || obj.link == null || obj.link == "")
+  if (!::check_obj(obj) || obj?.link == null || obj.link == "")
     return
 
   local link = (obj.link.slice(0, 1) == "#") ? ::loc(obj.link.slice(1)) : obj.link
   open(link, forceExternal, isAlreadyAuthenticated)
 }
 
-function g_url::canAutoLogin()
+g_url.canAutoLogin <- function canAutoLogin()
 {
   return !::is_ps4_or_xbox && !::is_vendor_tencent() && ::g_login.isAuthorized()
 }
 
-function g_url::validateLink(link)
+g_url.validateLink <- function validateLink(link)
 {
   if (link == null)
     return null
@@ -122,7 +130,7 @@ function g_url::validateLink(link)
   return null
 }
 
-function open_url(baseUrl, forceExternal=false, isAlreadyAuthenticated = false, biqQueryKey = "")
+::open_url <- function open_url(baseUrl, forceExternal=false, isAlreadyAuthenticated = false, biqQueryKey = "")
 {
   if (!::has_feature("AllowExternalLink"))
     return

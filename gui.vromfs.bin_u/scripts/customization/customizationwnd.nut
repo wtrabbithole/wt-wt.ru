@@ -20,7 +20,7 @@ enum decalTwoSidedMode
   ON_MIRRORED
 }
 
-function on_decal_job_complete(taskId)
+::on_decal_job_complete <- function on_decal_job_complete(taskId)
 {
   local callback = ::getTblValue(taskId, ::g_decorator_type.DECALS.jobCallbacksStack, null)
   if (callback)
@@ -32,7 +32,7 @@ function on_decal_job_complete(taskId)
   ::broadcastEvent("DecalJobComplete", { taskId = taskId })
 }
 
-function gui_start_decals(params = null)
+::gui_start_decals <- function gui_start_decals(params = null)
 {
   if (params?.unit)
     ::show_aircraft = params.unit
@@ -113,7 +113,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     access_SkinsUnrestrictedExport  = access_UserSkins && access_SkinsUnrestrictedExport
 
     initialAppliedSkinId   = ::hangar_get_last_skin(unit.name)
-    initialUserSkinId      = ::get_user_skins_profile_blk()[unit.name] || ""
+    initialUserSkinId      = ::get_user_skins_profile_blk()?[unit.name] ?? ""
 
     ::enableHangarControls(true)
     scene.findObject("timer_update").setUserData(this)
@@ -173,9 +173,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     updateTitle()
 
-    local cObj = scene.findObject("btn_toggle_damaged")
-    if (::checkObj(cObj))
-      cObj.setValue(::hangar_get_loaded_model_damage_state(unit.name) == MDS_DAMAGED)
+    setDmgSkinMode(::hangar_get_loaded_model_damage_state(unit.name) == MDS_DAMAGED)
 
     local bObj = scene.findObject("btn_testflight")
     if (::checkObj(bObj))
@@ -237,9 +235,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return decalsObj
 
     local categoryObj = decalsObj.getChild(value)
-    if (::checkObj(categoryObj) && categoryObj.collapsed == "no")
+    if (::checkObj(categoryObj) && categoryObj?.collapsed == "no")
     {
-      local categoryListObj = categoryObj.findObject("collapse_content_" + categoryObj.id)
+      local categoryListObj = categoryObj.findObject("collapse_content_" + categoryObj?.id)
       if (::checkObj(categoryListObj))
         return categoryListObj
     }
@@ -561,7 +559,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateSkinConditionValue(value, obj)
   {
-    local textObj = scene.findObject("value_" + obj.id)
+    local textObj = scene.findObject("value_" + obj?.id)
     if (!::checkObj(textObj))
       return
 
@@ -574,7 +572,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
-    local textObj = scene.findObject("value_" + obj.id)
+    local textObj = scene.findObject("value_" + obj?.id)
     if (::checkObj(textObj))
     {
       local value = obj.getValue()
@@ -588,7 +586,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
-    local textObj = scene.findObject("value_" + obj.id)
+    local textObj = scene.findObject("value_" + obj?.id)
     if (::checkObj(textObj))
     {
       local value = obj.getValue()
@@ -664,8 +662,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       buttonTooltip = "#mainmenu/decalUnitLocked"
     else if (!canEditDecals)
       buttonTooltip = "#mainmenu/decalSkinLocked"
-    else if (!slot.unlocked)
+    else if (!slot.unlocked && ::has_feature("EnablePremiumPurchase"))
       buttonTooltip = "#mainmenu/onlyWithPremium"
+    else
+      buttonTooltip = "#charServer/notAvailableYet"
 
     return {
       id = null
@@ -673,7 +673,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       onDblClick = null
       onDeleteClick = null
       ratio = slotRatio
-      statusLock = slot.unlocked? getStatusLockText(decorator) : "noPremium_" + slotRatio
+      statusLock = slot.unlocked? getStatusLockText(decorator)
+        : ::has_feature("EnablePremiumPurchase") ? "noPremium_" + slotRatio
+        : "achievement"
       unlocked = slot.unlocked && (!decorator || decorator.isUnlocked())
       emptySlot = slot.isEmpty || !decorator
       image = decoratorType.getImage(decorator)
@@ -780,7 +782,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
           previewed_decorator_div  = !isInEditMode && decoratorPreview
           previewed_decorator_unit = !isInEditMode && decoratorPreview && initialUnitId && initialUnitId != unit?.name
 
-          slot_info = !isInEditMode && !isDecoratorsListOpen && !isDmgSkinPreviewMode
+          slot_info_side_panel = !isInEditMode && !isDecoratorsListOpen && !isDmgSkinPreviewMode
           btn_dm_viewer = !isInEditMode && !isDecoratorsListOpen && ::dmViewer.canUse()
 
           decor_layout_presets = !isInEditMode && !isDecoratorsListOpen && isUnitOwn &&
@@ -1076,7 +1078,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (skinDecorator.canBuyUnlock(unit))
     {
       local priceText = skinDecorator.getCost().getTextAccordingToBalance()
-      local msgText = warningIfGold(
+      local msgText = ::warningIfGold(
         ::loc("decals/needToBuySkin",
           {purchase = skinDecorator.getName(), cost = priceText}),
         skinDecorator.getCost())
@@ -1682,7 +1684,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function askBuyDecorator(decorator, afterPurchDo = null)
   {
-    local msgText = warningIfGold(
+    local msgText = ::warningIfGold(
       ::loc("shop/needMoneyQuestion_purchaseDecal",
         {purchase = ::colorize("userlogColoredText", decorator.getName()),
           cost = decorator.getCost().getTextAccordingToBalance()}),
@@ -1875,11 +1877,14 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
         local bObj = scene.findObject("dmg_skin_state")
         if (::checkObj(bObj))
           bObj.setValue(::hangar_get_loaded_model_damage_state(unit.name))
-      } else
+      }
+      else
         ::hangar_show_model_damaged(MDS_ORIGINAL)
-      updateButtons()
-    } else
+    }
+    else
       ::hangar_show_model_damaged(obj.getValue() ? MDS_DAMAGED : MDS_UNDAMAGED)
+
+    updateButtons()
   }
 
   function onBuySkin()
@@ -1890,7 +1895,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local cost = previewSkinDecorator.getCost()
-    local msgText = warningIfGold(::loc("shop/needMoneyQuestion_purchaseSkin",
+    local msgText = ::warningIfGold(::loc("shop/needMoneyQuestion_purchaseSkin",
                           { purchase = previewSkinDecorator.getName(),
                             cost = cost.getTextAccordingToBalance()
                           }), cost)
@@ -2063,8 +2068,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onWeaponsInfo(obj)
   {
-    ::aircraft_for_weapons = unit.name
-    ::gui_modal_weapons()
+    ::open_weapons_for_unit(unit)
   }
 
   function getTwoSidedState()
@@ -2245,7 +2249,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local obj = getFocusItemObj(currentFocusItem, false)
     if (obj)
-      return ::g_decorator_type.getTypeByListId(obj.id)
+      return ::g_decorator_type.getTypeByListId(obj?.id)
     return ::g_decorator_type.UNKNOWN
   }
 

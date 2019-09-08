@@ -1,4 +1,4 @@
-function error_message_box(header, error_code, buttons, def_btn, options = {}, message=null)
+::error_message_box <- function error_message_box(header, error_code, buttons, def_btn, options = {}, message=null)
 {
   local guiScene = ::get_gui_scene()
   if (::checkObj(guiScene["errorMessageBox"]))
@@ -27,7 +27,7 @@ function error_message_box(header, error_code, buttons, def_btn, options = {}, m
   return ::scene_msg_box("errorMessageBox", guiScene, errData.text, buttons, def_btn, options)
 }
 
-function error_code_tostring(error_code)
+::error_code_tostring <- function error_code_tostring(error_code)
 {
   switch (error_code)
   {
@@ -54,7 +54,7 @@ function error_code_tostring(error_code)
   return ::format("%X", error_code)
 }
 
-function get_error_data(header, error_code)
+::get_error_data <- function get_error_data(header, error_code)
 {
   local res = {
     errCode = null
@@ -78,7 +78,7 @@ function get_error_data(header, error_code)
   return res
 }
 
-function psn_err_msg(text, res)
+::psn_err_msg <- function psn_err_msg(text, res)
 {
   local errCode = res
   if (errCode == "0")
@@ -98,7 +98,7 @@ function psn_err_msg(text, res)
   return errText
 }
 
-function matching_err_msg(text, error_text)
+::matching_err_msg <- function matching_err_msg(text, error_text)
 {
   local errMsg = ::loc("matching/" + error_text)
   if (errMsg.len() == 0)
@@ -108,7 +108,7 @@ function matching_err_msg(text, error_text)
   return errText
 }
 
-function get_yu2_error_text(response) //used only in online shop yet, but beeter to upgrade it and use for all yu2 errors
+::get_yu2_error_text <- function get_yu2_error_text(response) //used only in online shop yet, but beeter to upgrade it and use for all yu2 errors
 {
   if (response == ::YU2_OK)
     return ""

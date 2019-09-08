@@ -66,7 +66,7 @@ local function tabs(holder = defHolder, tab = defTab) {
     })
 
     local result = (typeof holder == "function") ? holder(params) : holder
-    result.children <- ::extend_to_array(result?.children, children)
+    result.children <- children
     return result
   }
 }

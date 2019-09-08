@@ -5,7 +5,7 @@ local platformModule = require("scripts/clientState/platform.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
-const MAIN_FOCUS_ITEM_IDX = 4
+global const MAIN_FOCUS_ITEM_IDX = 4
 
 ::stickedDropDown <- null
 
@@ -39,6 +39,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   ]
   currentTopGCPanelIdx = 0
   currentBottomGCPanelIdx = 2
+
+  canQuitByGoBack = true
 
   squadWidgetHandlerWeak = null
   squadWidgetNestObjId = "gamercard_squad_widget"
@@ -102,9 +104,15 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function fillGamercard()
   {
     ::fill_gamer_card(null, true, "gc_", scene)
+    initGcBackButton()
     initSquadWidget()
     initVoiceChatWidget()
     initRightSection()
+  }
+
+  function initGcBackButton()
+  {
+    showSceneBtn("gc_nav_back", canQuitByGoBack && ::use_touchscreen && !::is_in_loading_screen())
   }
 
   function initSquadWidget()
@@ -175,7 +183,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
-    local selectCb = modesObj.on_select
+    local selectCb = modesObj?.on_select
     if (selectCb && (selectCb in this))
       this[selectCb](modesObj)
   }
@@ -417,7 +425,10 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onMyClanOpen()
   {
-    ::gui_modal_clans("my_clan")
+    if (::has_feature("Clans"))
+      ::gui_modal_clans("my_clan")
+    else
+      ::showInfoMsgBox(::loc("clan/consolePlayerOnPC"))
   }
 
   function onGC_chat(obj)
@@ -545,11 +556,11 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::checkObj(unitObj) || (closeOnUnhover && !unitObj.isHovered()))
       return
     local parentObj = unitObj.getParent()
-    if (!::checkObj(parentObj) || (!ignoreSelect && parentObj.selected != "yes"))
+    if (!::checkObj(parentObj) || (!ignoreSelect && parentObj?.selected != "yes"))
       return
 
     local actionsArray = getSlotbarActions()
-    local unit = ::getAircraftByName(unitObj.unit_name)
+    local unit = ::getAircraftByName(unitObj?.unit_name)
     if (!unit)
       return
 
@@ -652,7 +663,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onModificationTooltipOpen(obj)
   {
     local modName = ::getObjIdByPrefix(obj, "tooltip_")
-    local unitName = obj.unitName
+    local unitName = obj?.unitName
     if (!modName || !unitName)
     {
       obj["class"] = "empty"
@@ -663,7 +674,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!unit)
       return
 
-    local mod = ::getModificationByName(unit, modName) || { name = modName, isDefaultForGroup = (obj.groupIdx || 0).tointeger() }
+    local mod = ::getModificationByName(unit, modName) || { name = modName, isDefaultForGroup = (obj?.groupIdx ?? 0).tointeger() }
     mod.type <- weaponsItem.modification
     ::weaponVisual.updateWeaponTooltip(obj, unit, mod, this)
   }
@@ -675,7 +686,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onContactTooltipOpen(obj)
   {
-    local uid = obj.uid
+    local uid = obj?.uid
     local canShow = false
     local contact = null
     if (uid)
@@ -706,9 +717,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onProjectawardTooltipOpen(obj)
   {
     if (!::checkObj(obj)) return
-    local img = obj.img || ""
-    local title = obj.title || ""
-    local desc = obj.desc || ""
+    local img = obj?.img ?? ""
+    local title = obj?.title ?? ""
+    local desc = obj?.desc ?? ""
 
     guiScene.replaceContent(obj, "gui/decalTooltip.blk", this)
     obj.findObject("header").setValue(title)
@@ -756,12 +767,12 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
     local canStick = !::use_touchscreen || !obj.isHovered()
 
-    if(obj["class"]!="dropDown")
+    if (obj?["class"] != "dropDown")
       obj = obj.getParent()
-    if(obj["class"]!="dropDown")
+    if (obj?["class"] != "dropDown")
       return
 
-    local stickTxt = obj.stickHover
+    local stickTxt = obj?.stickHover
     local stick = !stickTxt || stickTxt=="no"
     if (!canStick && stick)
       return
@@ -776,14 +787,14 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function onHoverSizeMove(obj)
   {
-    if(obj["class"]!="dropDown")
+    if (obj?["class"] != "dropDown")
       obj = obj.getParent()
     unstickLastDropDown(obj)
   }
 
   function onGCDropdown(obj)
   {
-    local id = obj.id
+    local id = obj?.id
     local ending = "_panel"
     if (id && id.len() > ending.len() && id.slice(id.len()-ending.len())==ending)
       id = id.slice(0, id.len()-ending.len())
@@ -800,7 +811,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::checkObj(obj))
       return
 
-    local id = obj.id
+    local id = obj?.id
     if (!show || !::isInArray(id, GCDropdownsList))
     {
       curGCDropdown = null
@@ -842,9 +853,17 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       unstickGCDropdownMenu()
   }
 
-  function setSceneTitle(text)
+  function setSceneTitle(text, placeObj = null, name = "gc_title")
   {
-    ::set_menu_title(text, scene)
+    if (!placeObj)
+     placeObj = scene
+
+    if (text == null || !::check_obj(placeObj))
+      return
+
+    local textObj = placeObj.findObject(name)
+    if (::check_obj(textObj))
+      textObj.setValue(text.tostring())
   }
 
   function restoreMainOptions()
@@ -959,7 +978,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function proccessLinkFromText(obj, itype, link)
   {
-    ::open_url(link, false, false, obj.bqKey || obj.id)
+    ::open_url(link, false, false, obj?.bqKey ?? obj?.id)
   }
 
   function onFacebookPostPurchaseChange(obj)
@@ -971,14 +990,8 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   {
     if (!::handlersManager.isHandlerValid(::instant_domination_handler))
       return
-    ::instant_domination_handler.checkQueue((@(obj) function () {
-      if (!::checkObj(obj))
-        return
-      if (::top_menu_handler != null)
-        ::top_menu_handler.closeShop()
-      local handler = ::instant_domination_handler.getGameModeSelectHandler()
-      handler.setShowGameModeSelect(!handler.getShowGameModeSelect())
-    })(obj).bindenv(this))
+
+    ::instant_domination_handler.checkQueue(@() ::gui_handlers.GameModeSelect.open())
   }
 
   function onGCWrap(obj, moveRight, ids, currentIdx)

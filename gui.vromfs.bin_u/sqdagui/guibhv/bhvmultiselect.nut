@@ -45,7 +45,7 @@ class gui_bhv.MultiSelect extends gui_bhv.posNavigator
         if (childObj.isValid())
         {
           if (!soundName && (bitValue & (1 << i)) != (prevValue & (1 << i)))
-            soundName = (bitValue & (1 << i)) ? obj.snd_switch_on : obj.snd_switch_off
+            soundName = (bitValue & (1 << i)) ? obj?.snd_switch_on : obj?.snd_switch_off
           childObj["chosen"] = (bitValue & (1 << i)) ? "yes" : "no"
         }
       }

@@ -5,7 +5,7 @@ local wwBattlesFilterMenu = require("scripts/worldWar/handler/wwBattlesFilterMen
 const WW_GLOBAL_BATTLES_FILTER_ID = "worldWar/ww_global_battles_filter"
 local MAX_VISIBLE_BATTLES_PER_GROUP = 5
 
-enum UNAVAILABLE_BATTLES_CATEGORIES
+global enum UNAVAILABLE_BATTLES_CATEGORIES
 {
   NO_AVAILABLE_UNITS  = 0x0001
   NO_FREE_SPACE       = 0x0002
@@ -242,12 +242,12 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function getActiveCountriesData()
   {
     local countriesData = {}
-    local globalBattlesList = globalBattlesListData.getList().filter(@(idx, battle)
+    local globalBattlesList = globalBattlesListData.getList().filter(@(battle)
       battle.isOperationMapAvaliable())
     foreach (country in ::shopCountriesList)
     {
       local battlesListByCountry = globalBattlesList.filter(
-      function(idx, battle) {
+      function(battle) {
         return battle.hasSideCountry(country) && isMatchFilterMask(battle, country)
       }.bindenv(this))
 
@@ -289,7 +289,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   {
     local country = ::get_profile_country_sq()
 
-    battlesList = globalBattlesListData.getList().filter(@(idx, battle)
+    battlesList = globalBattlesListData.getList().filter(@(battle)
       battle.hasSideCountry(country) && battle.isOperationMapAvaliable()
       && battle.hasAvailableUnits())
 
@@ -297,7 +297,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       return
 
     battlesList = battlesList.filter(
-      function(idx, battle) {
+      function(battle) {
         return isMatchFilterMask(battle, country)
       }.bindenv(this))
   }

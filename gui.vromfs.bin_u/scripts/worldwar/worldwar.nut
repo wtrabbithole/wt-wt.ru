@@ -1,16 +1,18 @@
 local time = require("scripts/time.nut")
 local operationPreloader = require("scripts/worldWar/externalServices/wwOperationPreloader.nut")
 local seenWWMapsObjective = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
-
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
 const WW_LAST_OPERATION_LOG_SAVE_ID = "worldWar/lastReadLog/operation"
 const WW_UNIT_WEAPON_PRESET_PATH = "worldWar/weaponPreset/"
-const WW_SKIP_BATTLE_WARNINGS_SAVE_ID = "worldWar/skipBattleWarnings"
+global const WW_SKIP_BATTLE_WARNINGS_SAVE_ID = "worldWar/skipBattleWarnings"
 const WW_OBJECTIVE_OUT_OF_DATE_DAYS = 1
 
-enum WW_ARMY_ACTION_STATUS
+local LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH = "worldWar/lastVisibleAvailableMapInPromo"
+
+global enum WW_ARMY_ACTION_STATUS
 {
   IDLE = 0
   IN_MOVE = 1
@@ -20,20 +22,20 @@ enum WW_ARMY_ACTION_STATUS
   UNKNOWN = 100
 }
 
-enum WW_ARMY_RELATION_ID
+global enum WW_ARMY_RELATION_ID
 {
   CLAN,
   ALLY
 }
 
-enum WWGS_REFRESH_DELAY //Msec
+global enum WWGS_REFRESH_DELAY //Msec
 {
   FORCED = 0
   EXTERNAL_REQUEST = 15000
   LATENT_QUEUE_REFRESH = 60000
 }
 
-enum WW_GLOBAL_STATUS_TYPE //bit enum
+global enum WW_GLOBAL_STATUS_TYPE //bit enum
 {
   QUEUE              = 0x0001
   ACTIVE_OPERATIONS  = 0x0002
@@ -44,7 +46,7 @@ enum WW_GLOBAL_STATUS_TYPE //bit enum
   ALL                = 0x000F
 }
 
-enum WW_MAP_PRIORITY //bit enum
+global enum WW_MAP_PRIORITY //bit enum
 {
   NONE                       = 0
   HAS_ACTIVE_OPERATIONS      = 0x0001
@@ -56,7 +58,7 @@ enum WW_MAP_PRIORITY //bit enum
   MAX                        = 0xFFFF
 }
 
-enum WW_BATTLE_ACCESS
+global enum WW_BATTLE_ACCESS
 {
   NONE     = 0
   OBSERVER = 0x0001
@@ -65,7 +67,7 @@ enum WW_BATTLE_ACCESS
   SUPREME  = 0xFFFF
 }
 
-enum WW_UNIT_CLASS
+global enum WW_UNIT_CLASS
 {
   FIGHTER  = 0x0001
   BOMBER   = 0x0002
@@ -76,7 +78,7 @@ enum WW_UNIT_CLASS
   COMBINED = 0x0003
 }
 
-enum WW_BATTLE_UNITS_REQUIREMENTS
+global enum WW_BATTLE_UNITS_REQUIREMENTS
 {
   NO_REQUIREMENTS   = "allow"
   BATTLE_UNITS      = "battle"
@@ -84,7 +86,7 @@ enum WW_BATTLE_UNITS_REQUIREMENTS
   NO_MATCHING_UNITS = "deny"
 }
 
-enum WW_BATTLE_CANT_JOIN_REASON
+global enum WW_BATTLE_CANT_JOIN_REASON
 {
   CAN_JOIN
   NO_WW_ACCESS
@@ -112,7 +114,7 @@ enum WW_BATTLE_CANT_JOIN_REASON
   SQUAD_MEMBERS_NO_WW_ACCESS
 }
 
-enum mapObjectSelect {
+global enum mapObjectSelect {
   NONE,
   ARMY,
   REINFORCEMENT,
@@ -121,20 +123,20 @@ enum mapObjectSelect {
   LOG_ARMY
 }
 
-enum WW_ARMY_GROUP_ICON_SIZE {
+global enum WW_ARMY_GROUP_ICON_SIZE {
   BASE   = "base",
   SMALL  = "small",
   MEDIUM = "medium"
 }
 
-enum WW_MAP_HIGHLIGHT {
+global enum WW_MAP_HIGHLIGHT {
   LAYER_0,
   LAYER_1,
   LAYER_2,
   LAYER_3
 }
 
-enum WW_UNIT_SORT_CODE {
+global enum WW_UNIT_SORT_CODE {
   AIR,
   GROUND,
   WATER,
@@ -256,22 +258,87 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   lastPlayedOperationCountry = null
 
   isDebugMode = false
-  debugAlreadyHadInfantryUnits = false
 
   myClanParticipateIcon = "#ui/gameuiskin#lb_victories_battles.svg"
   lastPlayedIcon = "#ui/gameuiskin#last_played_operation_marker"
 
   defaultDiffCode = ::DIFFICULTY_ARCADE
+
+  function clearUnitsLists()
+  {
+    infantryUnits = null
+    artilleryUnits = null
+  }
+
+  function getInfantryUnits()
+  {
+    if (infantryUnits == null)
+      ::g_world_war.updateInfantryUnits()
+
+    return infantryUnits
+  }
+
+  function getArtilleryUnits()
+  {
+    if (artilleryUnits == null)
+      ::g_world_war.updateArtilleryUnits()
+
+    return artilleryUnits
+  }
+
+  function getPlayedOperationText(needMapName = true)
+  {
+    if (lastPlayedOperationId)
+    {
+      local operation = ::g_ww_global_status.getOperationById(lastPlayedOperationId)
+      if (!::u.isEmpty(operation))
+        return operation.getMapText()
+    }
+
+    local nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
+    if(!nearestAvailabelMapToBattle)
+      return null
+
+    local name = needMapName ? nearestAvailabelMapToBattle.getNameText() : ::loc("mainmenu/btnWorldwar")
+    if (nearestAvailabelMapToBattle.isActive())
+      return ::loc("worldwar/operation/isNow", { name = name })
+
+    return ::loc("worldwar/operation/willBegin", { name = name
+      time = nearestAvailabelMapToBattle.getChangeStateTimeText()})
+  }
+
+  function hasNewNearestAvailabelMapToBattle()
+  {
+    if (lastPlayedOperationId && !::u.isEmpty(::g_ww_global_status.getOperationById(lastPlayedOperationId)))
+      return false
+
+    local nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
+    if (!nearestAvailabelMapToBattle)
+      return false
+
+    local lastVisibleAvailabelMap = ::load_local_account_settings(LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH)
+    if (lastVisibleAvailabelMap?.id == nearestAvailabelMapToBattle.getId()
+      && lastVisibleAvailabelMap?.changeStateTime == nearestAvailabelMapToBattle.getChangeStateTime())
+      return false
+
+    ::save_local_account_settings(LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH,
+      {
+        id = nearestAvailabelMapToBattle.getId()
+        changeStateTime = nearestAvailabelMapToBattle.getChangeStateTime()
+      })
+
+    return true
+  }
 }
 
 ::g_script_reloader.registerPersistentDataFromRoot("g_world_war")
 
-function g_world_war::getSetting(settingName, defaultValue)
+g_world_war.getSetting <- function getSetting(settingName, defaultValue)
 {
   return ::get_game_settings_blk()?.ww_settings?[settingName] ?? defaultValue
 }
 
-function g_world_war::canPlayWorldwar()
+g_world_war.canPlayWorldwar <- function canPlayWorldwar()
 {
   local minRankRequired = getSetting("minCraftRank", 0)
   local unit = ::u.search(::all_units, @(unit)
@@ -281,7 +348,7 @@ function g_world_war::canPlayWorldwar()
   return !!unit
 }
 
-function g_world_war::getLockedCountryData()
+g_world_war.getLockedCountryData <- function getLockedCountryData()
 {
   if (!curOperationCountry)
     return null
@@ -292,25 +359,28 @@ function g_world_war::getLockedCountryData()
   }
 }
 
-function g_world_war::canJoinWorldwarBattle()
+g_world_war.canJoinWorldwarBattle <- function canJoinWorldwarBattle()
 {
   return ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar()
 }
 
-function g_world_war::getPlayWorldwarConditionText()
+g_world_war.getPlayWorldwarConditionText <- function getPlayWorldwarConditionText()
 {
   local rankText = ::colorize("@unlockHeaderColor",
     ::get_roman_numeral(getSetting("minCraftRank", 0)))
   return ::loc("worldWar/playCondition", {rank = rankText})
 }
 
-function g_world_war::getCantPlayWorldwarReasonText()
+g_world_war.getCantPlayWorldwarReasonText <- function getCantPlayWorldwarReasonText()
 {
   return !canPlayWorldwar() ? getPlayWorldwarConditionText() : ""
 }
 
-function g_world_war::openMainWnd()
+g_world_war.openMainWnd <- function openMainWnd()
 {
+  if (!antiCheat.showMsgboxIfEacInactive())
+    return
+
   if (!checkPlayWorldwarAccess())
     return
 
@@ -327,7 +397,7 @@ function g_world_war::openMainWnd()
   openOperationsOrQueues()
 }
 
-function g_world_war::openWarMap()
+g_world_war.openWarMap <- function openWarMap()
 {
   local operationId = ::ww_get_operation_id()
   ::ww_service.subscribeOperation(
@@ -343,7 +413,7 @@ function g_world_war::openWarMap()
   ::handlersManager.loadHandler(::gui_handlers.WwMap)
 }
 
-function g_world_war::checkPlayWorldwarAccess()
+g_world_war.checkPlayWorldwarAccess <- function checkPlayWorldwarAccess()
 {
   if (!::is_worldwar_enabled())
   {
@@ -358,7 +428,7 @@ function g_world_war::checkPlayWorldwarAccess()
   return true
 }
 
-function g_world_war::openOperationsOrQueues(needToOpenBattles = false, map = null)
+g_world_war.openOperationsOrQueues <- function openOperationsOrQueues(needToOpenBattles = false, map = null)
 {
   stopWar()
 
@@ -373,7 +443,7 @@ function g_world_war::openOperationsOrQueues(needToOpenBattles = false, map = nu
         autoOpenMapOperation = map })
 }
 
-function g_world_war::joinOperationById(operationId, country = null, isSilence = false, onSuccess = null)
+g_world_war.joinOperationById <- function joinOperationById(operationId, country = null, isSilence = false, onSuccess = null)
 {
   local operation = ::g_ww_global_status.getOperationById(operationId)
   if (!operation)
@@ -391,7 +461,7 @@ function g_world_war::joinOperationById(operationId, country = null, isSilence =
   operation.join(country, null, isSilence, onSuccess)
 }
 
-function g_world_war::onJoinOperationSuccess(operationId, country, isSilence, onSuccess)
+g_world_war.onJoinOperationSuccess <- function onJoinOperationSuccess(operationId, country, isSilence, onSuccess)
 {
   local operation = ::g_ww_global_status.getOperationById(operationId)
   local sideSelectSuccess = false
@@ -423,7 +493,7 @@ function g_world_war::onJoinOperationSuccess(operationId, country, isSilence, on
     onSuccess()
 }
 
-function g_world_war::openJoinOperationByIdWnd()
+g_world_war.openJoinOperationByIdWnd <- function openJoinOperationByIdWnd()
 {
   ::gui_modal_editbox_wnd({
     charMask="1234567890"
@@ -436,7 +506,7 @@ function g_world_war::openJoinOperationByIdWnd()
   })
 }
 
-function g_world_war::onEventLoadingStateChange(p)
+g_world_war.onEventLoadingStateChange <- function onEventLoadingStateChange(p)
 {
   if (::is_in_flight())
   {
@@ -445,12 +515,12 @@ function g_world_war::onEventLoadingStateChange(p)
   }
 }
 
-function g_world_war::onEventResetSkipedNotifications(p)
+g_world_war.onEventResetSkipedNotifications <- function onEventResetSkipedNotifications(p)
 {
   ::saveLocalByAccount(WW_SKIP_BATTLE_WARNINGS_SAVE_ID, false)
 }
 
-function g_world_war::stopWar()
+g_world_war.stopWar <- function stopWar()
 {
   rearZones = null
   curOperationCountry = null
@@ -464,7 +534,7 @@ function g_world_war::stopWar()
   ::ww_event("StopWorldWar")
 }
 
-function g_world_war::saveLastPlayed(operationId, country)
+g_world_war.saveLastPlayed <- function saveLastPlayed(operationId, country)
 {
   lastPlayedOperationId = operationId
   lastPlayedOperationCountry = country
@@ -472,30 +542,30 @@ function g_world_war::saveLastPlayed(operationId, country)
   ::saveLocalByAccount(WW_CUR_OPERATION_COUNTRY_SAVE_ID, country)
 }
 
-function g_world_war::loadLastPlayed()
+g_world_war.loadLastPlayed <- function loadLastPlayed()
 {
   lastPlayedOperationId = ::loadLocalByAccount(WW_CUR_OPERATION_SAVE_ID)
   if (lastPlayedOperationId)
     lastPlayedOperationCountry = ::loadLocalByAccount(WW_CUR_OPERATION_COUNTRY_SAVE_ID, ::get_profile_country_sq())
 }
 
-function g_world_war::onEventSignOut(p)
+g_world_war.onEventSignOut <- function onEventSignOut(p)
 {
   stopWar()
 }
 
-function g_world_war::onEventLoginComplete(p)
+g_world_war.onEventLoginComplete <- function onEventLoginComplete(p)
 {
   loadLastPlayed()
   updateUserlogsAccess()
 }
 
-function g_world_war::onEventScriptsReloaded(p)
+g_world_war.onEventScriptsReloaded <- function onEventScriptsReloaded(p)
 {
   loadLastPlayed()
 }
 
-function g_world_war::leaveWWBattleQueues(battle = null)
+g_world_war.leaveWWBattleQueues <- function leaveWWBattleQueues(battle = null)
 {
   if (::g_squad_manager.isSquadMember())
     return
@@ -511,13 +581,13 @@ function g_world_war::leaveWWBattleQueues(battle = null)
     ::queues.leaveQueueByType(QUEUE_TYPE_BIT.WW_BATTLE)
 }
 
-function g_world_war::onEventWWGlobalStatusChanged(p)
+g_world_war.onEventWWGlobalStatusChanged <- function onEventWWGlobalStatusChanged(p)
 {
   if (p.changedListsMask & WW_GLOBAL_STATUS_TYPE.ACTIVE_OPERATIONS)
     ::g_squad_manager.updateMyMemberData()
 }
 
-function g_world_war::checkOpenGlobalBattlesModal()
+g_world_war.checkOpenGlobalBattlesModal <- function checkOpenGlobalBattlesModal()
 {
   if (!::g_squad_manager.getWwOperationBattle())
     return
@@ -532,17 +602,17 @@ function g_world_war::checkOpenGlobalBattlesModal()
   ::gui_handlers.WwGlobalBattlesModal.open()
 }
 
-function g_world_war::onEventSquadSetReady(params)
+g_world_war.onEventSquadSetReady <- function onEventSquadSetReady(params)
 {
   checkOpenGlobalBattlesModal()
 }
 
-function g_world_war::isDebugModeEnabled()
+g_world_war.isDebugModeEnabled <- function isDebugModeEnabled()
 {
   return isDebugMode
 }
 
-function g_world_war::setDebugMode(value)
+g_world_war.setDebugMode <- function setDebugMode(value)
 {
   if (!::has_feature("worldWarMaster"))
     value = false
@@ -554,7 +624,7 @@ function g_world_war::setDebugMode(value)
   ::ww_event("ChangedDebugMode")
 }
 
-function g_world_war::updateArmyGroups()
+g_world_war.updateArmyGroups <- function updateArmyGroups()
 {
   if (isArmyGroupsValid)
     return
@@ -581,17 +651,17 @@ function g_world_war::updateArmyGroups()
   }
 }
 
-function g_world_war::updateInfantryUnits()
+g_world_war.updateInfantryUnits <- function updateInfantryUnits()
 {
   infantryUnits = ::g_world_war.getWWConfigurableValue("infantryUnits", infantryUnits)
 }
 
-function g_world_war::updateArtilleryUnits()
+g_world_war.updateArtilleryUnits <- function updateArtilleryUnits()
 {
   artilleryUnits = ::g_world_war.getWWConfigurableValue("artilleryUnits", artilleryUnits)
 }
 
-function g_world_war::getArtilleryUnitParamsByBlk(blk)
+g_world_war.getArtilleryUnitParamsByBlk <- function getArtilleryUnitParamsByBlk(blk)
 {
   if (!artilleryUnits)
     ::g_world_war.updateArtilleryUnits()
@@ -606,7 +676,7 @@ function g_world_war::getArtilleryUnitParamsByBlk(blk)
   return null
 }
 
-function g_world_war::updateRearZones()
+g_world_war.updateRearZones <- function updateRearZones()
 {
   local blk = ::DataBlock()
   ::ww_get_rear_zones(blk)
@@ -622,7 +692,7 @@ function g_world_war::updateRearZones()
   }
 }
 
-function g_world_war::getRearZones()
+g_world_war.getRearZones <- function getRearZones()
 {
   if (!rearZones)
     updateRearZones()
@@ -630,22 +700,22 @@ function g_world_war::getRearZones()
   return rearZones
 }
 
-function g_world_war::getRearZonesBySide(side)
+g_world_war.getRearZonesBySide <- function getRearZonesBySide(side)
 {
   return getRearZones()?[::ww_side_val_to_name(side)] ?? []
 }
 
-function g_world_war::getRearZonesOwnedToSide(side)
+g_world_war.getRearZonesOwnedToSide <- function getRearZonesOwnedToSide(side)
 {
-  return getRearZonesBySide(side).filter(@(idx, zone) ::ww_get_zone_side_by_name(zone) == side)
+  return getRearZonesBySide(side).filter(@(zone) ::ww_get_zone_side_by_name(zone) == side)
 }
 
-function g_world_war::getRearZonesLostBySide(side)
+g_world_war.getRearZonesLostBySide <- function getRearZonesLostBySide(side)
 {
-  return getRearZonesBySide(side).filter(@(idx, zone) ::ww_get_zone_side_by_name(zone) != side)
+  return getRearZonesBySide(side).filter(@(zone) ::ww_get_zone_side_by_name(zone) != side)
 }
 
-function g_world_war::getSelectedArmies()
+g_world_war.getSelectedArmies <- function getSelectedArmies()
 {
   return ::u.map(::ww_get_selected_armies_names(), function(name)
   {
@@ -653,7 +723,7 @@ function g_world_war::getSelectedArmies()
   })
 }
 
-function g_world_war::getSidesStrenghtInfo()
+g_world_war.getSidesStrenghtInfo <- function getSidesStrenghtInfo()
 {
   local blk = ::DataBlock()
   ::ww_get_sides_info(blk)
@@ -662,7 +732,7 @@ function g_world_war::getSidesStrenghtInfo()
   foreach(side in getCommonSidesOrder())
     unitsStrenghtBySide[side] <- []
 
-  local sidesBlk = blk["sides"]
+  local sidesBlk = blk?["sides"]
   if (sidesBlk == null)
     return unitsStrenghtBySide
 
@@ -675,7 +745,7 @@ function g_world_war::getSidesStrenghtInfo()
     for (local j = 0; j < unitsBlk.blockCount(); ++j)
     {
       local unitsTypeBlk = unitsBlk.getBlock(j)
-      local unitTypeBlk = unitsTypeBlk["units"]
+      local unitTypeBlk = unitsTypeBlk?["units"]
       wwUnitsList.extend(::WwUnit.loadUnitsFromBlk(unitTypeBlk))
     }
 
@@ -687,17 +757,17 @@ function g_world_war::getSidesStrenghtInfo()
   return unitsStrenghtBySide
 }
 
-function g_world_war::getAllOperationUnitsBySide(side)
+g_world_war.getAllOperationUnitsBySide <- function getAllOperationUnitsBySide(side)
 {
   local allOperationUnits = {}
   local blk = ::DataBlock()
   ::ww_get_sides_info(blk)
 
-  local sidesBlk = blk["sides"]
+  local sidesBlk = blk?["sides"]
   if (sidesBlk == null)
     return allOperationUnits
 
-  local sideBlk = sidesBlk[side.tostring()]
+  local sideBlk = sidesBlk?[side.tostring()]
   if (sideBlk == null)
     return allOperationUnits
 
@@ -708,18 +778,18 @@ function g_world_war::getAllOperationUnitsBySide(side)
   return allOperationUnits
 }
 
-function g_world_war::filterArmiesByManagementAccess(armiesArray)
+g_world_war.filterArmiesByManagementAccess <- function filterArmiesByManagementAccess(armiesArray)
 {
   return ::u.filter(armiesArray, function(army) { return army.hasManageAccess() })
 }
 
-function g_world_war::haveManagementAccessForSelectedArmies()
+g_world_war.haveManagementAccessForSelectedArmies <- function haveManagementAccessForSelectedArmies()
 {
   local armiesArray = getSelectedArmies()
   return filterArmiesByManagementAccess(armiesArray).len() > 0
 }
 
-function g_world_war::getMyAccessLevelListForCurrentBattle()
+g_world_war.getMyAccessLevelListForCurrentBattle <- function getMyAccessLevelListForCurrentBattle()
 {
   local list = {}
   if (!::ww_is_player_on_war())
@@ -733,7 +803,7 @@ function g_world_war::getMyAccessLevelListForCurrentBattle()
   return list
 }
 
-function g_world_war::haveManagementAccessForAnyGroup()
+g_world_war.haveManagementAccessForAnyGroup <- function haveManagementAccessForAnyGroup()
 {
   local result = ::u.search(getMyAccessLevelListForCurrentBattle(),
     function(access) {
@@ -743,14 +813,14 @@ function g_world_war::haveManagementAccessForAnyGroup()
   return result >= WW_BATTLE_ACCESS.MANAGER
 }
 
-function g_world_war::isSquadsInviteEnable()
+g_world_war.isSquadsInviteEnable <- function isSquadsInviteEnable()
 {
   return ::has_feature("WorldWarSquadInvite") &&
          ::g_world_war.haveManagementAccessForAnyGroup() &&
          ::clan_get_my_clan_id().tointeger() >= 0
 }
 
-function g_world_war::isGroupAvailable(group, accessList = null)
+g_world_war.isGroupAvailable <- function isGroupAvailable(group, accessList = null)
 {
   if (!group || !group.isValid() || !group.owner.isValid())
     return false
@@ -763,7 +833,7 @@ function g_world_war::isGroupAvailable(group, accessList = null)
 }
 
 // return array of WwArmyGroup
-function g_world_war::getArmyGroups(filterFunc = null)
+g_world_war.getArmyGroups <- function getArmyGroups(filterFunc = null)
 {
   updateArmyGroups()
 
@@ -772,7 +842,7 @@ function g_world_war::getArmyGroups(filterFunc = null)
 
 
 // return array of WwArmyGroup
-function g_world_war::getArmyGroupsBySide(side, filterFunc = null)
+g_world_war.getArmyGroupsBySide <- function getArmyGroupsBySide(side, filterFunc = null)
 {
   return getArmyGroups(
     (@(side, filterFunc) function (group) {
@@ -786,7 +856,7 @@ function g_world_war::getArmyGroupsBySide(side, filterFunc = null)
 
 
 // return WwArmyGroup or null
-function g_world_war::getArmyGroupByArmy(army)
+g_world_war.getArmyGroupByArmy <- function getArmyGroupByArmy(army)
 {
   return ::u.search(getArmyGroups(),
     (@(army) function (group) {
@@ -795,7 +865,7 @@ function g_world_war::getArmyGroupByArmy(army)
   )
 }
 
-function g_world_war::getMyArmyGroup()
+g_world_war.getMyArmyGroup <- function getMyArmyGroup()
 {
   return ::u.search(getArmyGroups(),
       function(group)
@@ -805,14 +875,14 @@ function g_world_war::getMyArmyGroup()
     )
 }
 
-function g_world_war::getArmyByName(armyName)
+g_world_war.getArmyByName <- function getArmyByName(armyName)
 {
   if (!armyName)
     return null
   return ::WwArmy(armyName)
 }
 
-function g_world_war::getArmyByArmyGroup(armyGroup)
+g_world_war.getArmyByArmyGroup <- function getArmyByArmyGroup(armyGroup)
 {
   local armyName = ::u.search(::ww_get_armies_names(), (@(armyGroup) function(armyName) {
       local army = ::g_world_war.getArmyByName(armyName)
@@ -824,7 +894,7 @@ function g_world_war::getArmyByArmyGroup(armyGroup)
   return ::g_world_war.getArmyByName(armyName)
 }
 
-function g_world_war::getBattleById(battleId)
+g_world_war.getBattleById <- function getBattleById(battleId)
 {
   local battles = getBattles(
       (@(battleId) function(checkedBattle) {
@@ -836,18 +906,18 @@ function g_world_war::getBattleById(battleId)
 }
 
 
-function g_world_war::getAirfieldByIndex(index)
+g_world_war.getAirfieldByIndex <- function getAirfieldByIndex(index)
 {
   return ::WwAirfield(index)
 }
 
 
-function g_world_war::getAirfieldsCount()
+g_world_war.getAirfieldsCount <- function getAirfieldsCount()
 {
   return ::ww_get_airfields_count();
 }
 
-function g_world_war::getAirfieldsArrayBySide(side)
+g_world_war.getAirfieldsArrayBySide <- function getAirfieldsArrayBySide(side)
 {
   local res = []
   for (local index = 0; index < getAirfieldsCount(); index++)
@@ -860,13 +930,13 @@ function g_world_war::getAirfieldsArrayBySide(side)
   return res
 }
 
-function g_world_war::getBattles(filterFunc = null, forced = false)
+g_world_war.getBattles <- function getBattles(filterFunc = null, forced = false)
 {
   updateBattles(forced)
   return filterFunc ? ::u.filter(battles, filterFunc) : battles
 }
 
-function g_world_war::getBattleForArmy(army, playerSide = ::SIDE_NONE)
+g_world_war.getBattleForArmy <- function getBattleForArmy(army, playerSide = ::SIDE_NONE)
 {
   if (!army)
     return null
@@ -878,13 +948,13 @@ function g_world_war::getBattleForArmy(army, playerSide = ::SIDE_NONE)
   )
 }
 
-function g_world_war::isBattleAvailableToPlay(wwBattle)
+g_world_war.isBattleAvailableToPlay <- function isBattleAvailableToPlay(wwBattle)
 {
   return wwBattle && wwBattle.isValid() && !wwBattle.isAutoBattle() && !wwBattle.isFinished()
 }
 
 
-function g_world_war::updateBattles(forced = false)
+g_world_war.updateBattles <- function updateBattles(forced = false)
 {
   if (isBattlesValid && !forced)
     return
@@ -912,10 +982,12 @@ function g_world_war::updateBattles(forced = false)
 }
 
 
-function g_world_war::updateConfigurableValues()
+g_world_war.updateConfigurableValues <- function updateConfigurableValues()
 {
-  ::ww_get_configurable_values(configurableValues)
-
+  clearUnitsLists()
+  local blk = ::DataBlock()
+  ::ww_get_configurable_values(blk)
+  configurableValues = blk
   // ----- FIX ME: Weapon masks data should be received from char -----
   if (!("fighterCountAsAssault" in configurableValues))
   {
@@ -937,35 +1009,33 @@ function g_world_war::updateConfigurableValues()
       fighterToAssaultWeaponMask = fighterToAssaultWeaponMask | (1 << i)
 
   configurableValues.fighterToAssaultWeaponMask = fighterToAssaultWeaponMask
-
-  debugAlreadyHadInfantryUnits = debugAlreadyHadInfantryUnits || !!configurableValues.infantryUnits
 }
 
 
-function g_world_war::onEventWWLoadOperationFirstTime(params = {})
+g_world_war.onEventWWLoadOperationFirstTime <- function onEventWWLoadOperationFirstTime(params = {})
 {
   updateConfigurableValues()
 }
 
-function g_world_war::onEventWWLoadOperation(params = {})
+g_world_war.onEventWWLoadOperation <- function onEventWWLoadOperation(params = {})
 {
   isArmyGroupsValid = false
   isBattlesValid = false
 }
 
-function g_world_war::getWWConfigurableValue(paramPath, defaultValue)
+g_world_war.getWWConfigurableValue <- function getWWConfigurableValue(paramPath, defaultValue)
 {
   return ::get_blk_value_by_path(configurableValues, paramPath, defaultValue)
 }
 
-function g_world_war::getOperationObjectives()
+g_world_war.getOperationObjectives <- function getOperationObjectives()
 {
   local blk = ::DataBlock()
   ::ww_get_operation_objectives(blk)
   return blk
 }
 
-function g_world_war::isCurrentOperationFinished()
+g_world_war.isCurrentOperationFinished <- function isCurrentOperationFinished()
 {
   if (!::ww_is_operation_loaded())
     return false
@@ -973,14 +1043,14 @@ function g_world_war::isCurrentOperationFinished()
   return ::ww_get_operation_winner() != ::SIDE_NONE
 }
 
-function g_world_war::getReinforcementsInfo()
+g_world_war.getReinforcementsInfo <- function getReinforcementsInfo()
 {
   local blk = ::DataBlock()
   ::ww_get_reinforcements_info(blk)
   return blk
 }
 
-function g_world_war::getReinforcementsArrayBySide(side)
+g_world_war.getReinforcementsArrayBySide <- function getReinforcementsArrayBySide(side)
 {
   local reinforcementsInfo = getReinforcementsInfo()
   if (!reinforcementsInfo.reinforcements)
@@ -1001,19 +1071,19 @@ function g_world_war::getReinforcementsArrayBySide(side)
   return res
 }
 
-function g_world_war::getMyReinforcementsArray()
+g_world_war.getMyReinforcementsArray <- function getMyReinforcementsArray()
 {
   return ::u.filter(getReinforcementsArrayBySide(::ww_get_player_side()),
     function(reinf) { return reinf.hasManageAccess()}
   )
 }
 
-function g_world_war::getMyReadyReinforcementsArray()
+g_world_war.getMyReadyReinforcementsArray <- function getMyReadyReinforcementsArray()
 {
   return ::u.filter(getMyReinforcementsArray(), function(reinf) { return reinf.isReady() })
 }
 
-function g_world_war::hasSuspendedReinforcements()
+g_world_war.hasSuspendedReinforcements <- function hasSuspendedReinforcements()
 {
   return ::u.search(
       getMyReinforcementsArray(),
@@ -1023,13 +1093,13 @@ function g_world_war::hasSuspendedReinforcements()
     ) != null
 }
 
-function g_world_war::getReinforcementByName(name, blk = null)
+g_world_war.getReinforcementByName <- function getReinforcementByName(name, blk = null)
 {
   if (!name || !name.len())
     return null
   if (!blk)
     blk = getReinforcementsInfo()
-  if (!blk || !blk.reinforcements)
+  if (!blk?.reinforcements)
     return null
 
   for (local i = 0; i < blk.reinforcements.blockCount(); i++)
@@ -1045,7 +1115,7 @@ function g_world_war::getReinforcementByName(name, blk = null)
   return null
 }
 
-function g_world_war::sendReinforcementRequest(cellIdx, name)
+g_world_war.sendReinforcementRequest <- function sendReinforcementRequest(cellIdx, name)
 {
   local params = ::DataBlock()
   params.setInt("cellIdx", cellIdx)
@@ -1053,12 +1123,12 @@ function g_world_war::sendReinforcementRequest(cellIdx, name)
   return ::ww_send_operation_request("cln_ww_emplace_reinforcement", params)
 }
 
-function g_world_war::isArmySelected(armyName)
+g_world_war.isArmySelected <- function isArmySelected(armyName)
 {
   return ::isInArray(armyName, ::ww_get_selected_armies_names())
 }
 
-function g_world_war::moveSelectedArmyToCell(cellIdx, params = {})
+g_world_war.moveSelectedArmyToCell <- function moveSelectedArmyToCell(cellIdx, params = {})
 {
   local army = ::getTblValue("army", params)
   if (!army)
@@ -1101,7 +1171,7 @@ function g_world_war::moveSelectedArmyToCell(cellIdx, params = {})
 
 // TODO: make this function to work like moveSelectedArmyToCell
 // to avoid duplication code for ground and air arimies.
-function g_world_war::moveSelectedArmiesToCell(cellIdx, armies = [], target = null, appendPath = false)
+g_world_war.moveSelectedArmiesToCell <- function moveSelectedArmiesToCell(cellIdx, armies = [], target = null, appendPath = false)
 {
   //MOVE TYPE - EMT_ATTACK always
   if (cellIdx < 0  || armies.len() == 0)
@@ -1124,7 +1194,7 @@ function g_world_war::moveSelectedArmiesToCell(cellIdx, armies = [], target = nu
 }
 
 
-function g_world_war::playArmyActionSound(soundId, wwArmy, wwUnitTypeCode = null)
+g_world_war.playArmyActionSound <- function playArmyActionSound(soundId, wwArmy, wwUnitTypeCode = null)
 {
   if ((!wwArmy || !wwArmy.isValid()) && !wwUnitTypeCode)
     return
@@ -1137,7 +1207,7 @@ function g_world_war::playArmyActionSound(soundId, wwArmy, wwUnitTypeCode = null
 }
 
 
-function g_world_war::moveSelectedArmes(toX, toY, target = null, append = false)
+g_world_war.moveSelectedArmes <- function moveSelectedArmes(toX, toY, target = null, append = false)
 {
   if (!::g_world_war.haveManagementAccessForSelectedArmies())
     return
@@ -1169,7 +1239,7 @@ function g_world_war::moveSelectedArmes(toX, toY, target = null, append = false)
 }
 
 
-function g_world_war::requestMoveSelectedArmies(toX, toY, target, append)
+g_world_war.requestMoveSelectedArmies <- function requestMoveSelectedArmies(toX, toY, target, append)
 {
   local groundArmies = []
   local selectedArmies = ::ww_get_selected_armies_names()
@@ -1203,7 +1273,7 @@ function g_world_war::requestMoveSelectedArmies(toX, toY, target, append)
 }
 
 
-function g_world_war::hasEntrenchedInList(armyNamesList)
+g_world_war.hasEntrenchedInList <- function hasEntrenchedInList(armyNamesList)
 {
   for (local i = 0; i < armyNamesList.len(); i++)
   {
@@ -1215,7 +1285,7 @@ function g_world_war::hasEntrenchedInList(armyNamesList)
 }
 
 
-function g_world_war::startArtilleryFire(mapPos, army)
+g_world_war.startArtilleryFire <- function startArtilleryFire(mapPos, army)
 {
   local blk = ::DataBlock()
   blk.setStr("army", army.name)
@@ -1233,7 +1303,7 @@ function g_world_war::startArtilleryFire(mapPos, army)
     })
 }
 
-function g_world_war::stopSelectedArmy()
+g_world_war.stopSelectedArmy <- function stopSelectedArmy()
 {
   local filteredArray = filterArmiesByManagementAccess(getSelectedArmies())
   if (!filteredArray.len())
@@ -1245,7 +1315,7 @@ function g_world_war::stopSelectedArmy()
   ::ww_send_operation_request("cln_ww_stop_armies", params)
 }
 
-function g_world_war::entrenchSelectedArmy()
+g_world_war.entrenchSelectedArmy <- function entrenchSelectedArmy()
 {
   local filteredArray = filterArmiesByManagementAccess(getSelectedArmies())
   if (!filteredArray.len())
@@ -1262,7 +1332,7 @@ function g_world_war::entrenchSelectedArmy()
   ::ww_send_operation_request("cln_ww_entrench_armies", params)
 }
 
-function g_world_war::moveSelectedAircraftsToCell(cellIdx, unitsList, owner, target = null)
+g_world_war.moveSelectedAircraftsToCell <- function moveSelectedAircraftsToCell(cellIdx, unitsList, owner, target = null)
 {
   if (cellIdx < 0)
     return -1
@@ -1297,7 +1367,7 @@ function g_world_war::moveSelectedAircraftsToCell(cellIdx, unitsList, owner, tar
   return ::ww_send_operation_request("cln_ww_move_army_to", params)
 }
 
-function g_world_war::getUnitRole(unitName)
+g_world_war.getUnitRole <- function getUnitRole(unitName)
 {
   local role = ::get_unit_role(unitName)
   if (role != "")
@@ -1306,7 +1376,7 @@ function g_world_war::getUnitRole(unitName)
   return unitName
 }
 
-function g_world_war::sortUnitsByTypeAndCount(a, b)
+g_world_war.sortUnitsByTypeAndCount <- function sortUnitsByTypeAndCount(a, b)
 {
   local aType = a.wwUnitType.code
   local bType = b.wwUnitType.code
@@ -1315,7 +1385,7 @@ function g_world_war::sortUnitsByTypeAndCount(a, b)
   return a.count - b.count
 }
 
-function g_world_war::sortUnitsBySortCodeAndCount(a, b)
+g_world_war.sortUnitsBySortCodeAndCount <- function sortUnitsBySortCodeAndCount(a, b)
 {
   local aSortCode = a.wwUnitType.sortCode
   local bSortCode = b.wwUnitType.sortCode
@@ -1327,12 +1397,12 @@ function g_world_war::sortUnitsBySortCodeAndCount(a, b)
   return aCount.tointeger() - bCount.tointeger()
 }
 
-function g_world_war::getOperationTimeSec()
+g_world_war.getOperationTimeSec <- function getOperationTimeSec()
 {
   return time.millisecondsToSecondsInt(::ww_get_operation_time_millisec())
 }
 
-function g_world_war::requestLogs(loadAmount, useLogMark, cb, errorCb)
+g_world_war.requestLogs <- function requestLogs(loadAmount, useLogMark, cb, errorCb)
 {
   local logMark = useLogMark ? ::g_ww_logs.lastMark : ""
   local reqBlk = DataBlock()
@@ -1346,7 +1416,7 @@ function g_world_war::requestLogs(loadAmount, useLogMark, cb, errorCb)
     ::g_tasker.addTask(taskId, null, cb, errorCb)
 }
 
-function g_world_war::getSidesOrder(battle = null)
+g_world_war.getSidesOrder <- function getSidesOrder(battle = null)
 {
   local playerSide = (battle && ::u.isWwGlobalBattle(battle))
     ? battle.getSideByCountry(::get_profile_country_sq())
@@ -1359,17 +1429,17 @@ function g_world_war::getSidesOrder(battle = null)
   return [ playerSide, enemySide ]
 }
 
-function g_world_war::getCommonSidesOrder()
+g_world_war.getCommonSidesOrder <- function getCommonSidesOrder()
 {
   return [::SIDE_1, ::SIDE_2]
 }
 
-function g_world_war::getOppositeSide(side)
+g_world_war.getOppositeSide <- function getOppositeSide(side)
 {
   return side == ::SIDE_2 ? ::SIDE_1 : ::SIDE_2
 }
 
-function g_world_war::get_last_weapon_preset(unitName)
+g_world_war.get_last_weapon_preset <- function get_last_weapon_preset(unitName)
 {
   local unit = ::getAircraftByName(unitName)
   if (!unit)
@@ -1383,12 +1453,12 @@ function g_world_war::get_last_weapon_preset(unitName)
   return unit.weapons.len() ? unit.weapons[0].name : ""
 }
 
-function g_world_war::set_last_weapon_preset(unitName, weaponName)
+g_world_war.set_last_weapon_preset <- function set_last_weapon_preset(unitName, weaponName)
 {
   ::saveLocalByAccount(WW_UNIT_WEAPON_PRESET_PATH + unitName, weaponName)
 }
 
-function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
+g_world_war.collectUnitsData <- function collectUnitsData(unitsArray, isViewStrengthList = true)
 {
   local collectedUnits = {}
   foreach(wwUnit in unitsArray)
@@ -1403,7 +1473,7 @@ function g_world_war::collectUnitsData(unitsArray, isViewStrengthList = true)
   return collectedUnits
 }
 
-function g_world_war::addOperationInvite(operationId, clanId, isStarted, inviteTime)
+g_world_war.addOperationInvite <- function addOperationInvite(operationId, clanId, isStarted, inviteTime)
 {
   if (!canJoinWorldwarBattle())
     return
@@ -1424,7 +1494,7 @@ function g_world_war::addOperationInvite(operationId, clanId, isStarted, inviteT
     })
 }
 
-function g_world_war::addSquadInviteToWWBattle(params)
+g_world_war.addSquadInviteToWWBattle <- function addSquadInviteToWWBattle(params)
 {
   local squadronId = params?.squadronId
   local operationId = params?.battle?.operationId
@@ -1442,12 +1512,12 @@ function g_world_war::addSquadInviteToWWBattle(params)
   ::g_invites.rescheduleInvitesTask()
 }
 
-function g_world_war::getSaveOperationLogId()
+g_world_war.getSaveOperationLogId <- function getSaveOperationLogId()
 {
   return WW_LAST_OPERATION_LOG_SAVE_ID + ::ww_get_operation_id()
 }
 
-function g_world_war::updateUserlogsAccess()
+g_world_war.updateUserlogsAccess <- function updateUserlogsAccess()
 {
   if (!::is_worldwar_enabled())
     return
@@ -1460,19 +1530,19 @@ function g_world_war::updateUserlogsAccess()
       ::hidden_userlogs.remove(i)
 }
 
-function g_world_war::updateOperationPreviewAndDo(operationId, cb, hasProgressBox = false)
+g_world_war.updateOperationPreviewAndDo <- function updateOperationPreviewAndDo(operationId, cb, hasProgressBox = false)
 {
   operationPreloader.loadPreview(operationId, cb, hasProgressBox)
 }
 
-function g_world_war::onEventWWOperationPreviewLoaded(params = {})
+g_world_war.onEventWWOperationPreviewLoaded <- function onEventWWOperationPreviewLoaded(params = {})
 {
   isArmyGroupsValid = false
   isBattlesValid = false
   updateConfigurableValues()
 }
 
-function g_world_war::popupCharErrorMsg(groupName = null, titleText = "")
+g_world_war.popupCharErrorMsg <- function popupCharErrorMsg(groupName = null, titleText = "")
 {
   local errorMsgId = get_char_error_msg()
   if (!errorMsgId)
@@ -1487,7 +1557,7 @@ function g_world_war::popupCharErrorMsg(groupName = null, titleText = "")
     ::g_popups.add(titleText, popupText, null, null, null, groupName)
 }
 
-function g_world_war::getCurMissionWWBattleName()
+g_world_war.getCurMissionWWBattleName <- function getCurMissionWWBattleName()
 {
   local misBlk = ::DataBlock()
   ::get_current_mission_desc(misBlk)
@@ -1500,7 +1570,7 @@ function g_world_war::getCurMissionWWBattleName()
   return battle ? battle.getView().getBattleName() : ""
 }
 
-function g_world_war::getCurMissionWWOperationName()
+g_world_war.getCurMissionWWOperationName <- function getCurMissionWWOperationName()
 {
   local misBlk = ::DataBlock()
   ::get_current_mission_desc(misBlk)
@@ -1513,7 +1583,7 @@ function g_world_war::getCurMissionWWOperationName()
   return operation ? operation.getNameText() : ""
 }
 
-function ww_event(name, params = {})
+::ww_event <- function ww_event(name, params = {})
 {
   ::broadcastEvent("WW" + name, params || {})
 }

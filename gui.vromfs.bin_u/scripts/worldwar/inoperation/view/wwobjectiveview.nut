@@ -20,7 +20,7 @@ class ::WwObjectiveView
     id = staticBlk.getBlockName()
     isLastObjective = _isLastObjective
 
-    local statusType = oType.getObjectiveStatus(dynamicBlk.winner, side)
+    local statusType = oType.getObjectiveStatus(dynamicBlk?.winner, side)
     status = statusType.name
     statusImg = statusType.wwMissionObjImg
     zonesList = oType.getUpdatableZonesParams(staticBlk, dynamicBlk, side)

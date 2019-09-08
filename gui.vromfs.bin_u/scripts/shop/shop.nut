@@ -2,7 +2,6 @@ local shopTree = require("scripts/shop/shopTree.nut")
 local shopSearchBox = require("scripts/shop/shopSearchBox.nut")
 local slotActions = require("scripts/slotbar/slotActions.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
-local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
 
 local lastUnitType = null
 
@@ -27,7 +26,7 @@ shopData = [
 ]
 */
 
-function gui_start_shop_research(config)
+::gui_start_shop_research <- function gui_start_shop_research(config)
 {
   ::gui_start_modal_wnd(::gui_handlers.ShopCheckResearch, config)
 }
@@ -62,7 +61,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   needUpdateSlotbar = false
   needUpdateSquadInfo = false
   shopResearchMode = false
-  isSquadronResearchMode = false
   setResearchManually = true
   lastPurchase = null
 
@@ -89,7 +87,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     }
 
     skipOpenGroup = true
-
     scene.findObject("shop_timer").setUserData(this)
     brokenList = []
 
@@ -200,16 +197,16 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                 airData.rawdelete("airsGroup")
               }
 
-              airData.image <- airBlk.image
+              airData.image <- airBlk?.image
             }
-            if (airBlk.reqAir!=null)
+            if (airBlk?.reqAir != null)
               airData.reqAir <- airBlk.reqAir
             if (airBlk?.rankPosXY)
             {
               airData.rankPosXY <- airBlk.rankPosXY
               hasRankPosXY = true
             }
-            if ("fakeReqUnitType" in airBlk)
+            if (airBlk?.fakeReqUnitType)
             {
               local fakeUnitRanges = genFakeUnitRanges(airBlk, countryData.name)
               airData.fakeReqUnits <- fakeUnitRanges.map(@(range) (range.top()).name)
@@ -362,9 +359,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         {
           local item = rowArr[col]
           local config = getItemStatusData(item, curName)
-          if (config.checkAir
-            || (!isSquadronResearchMode && (curRow < 0) && !item?.isFakeUnit)
-            || (isSquadronResearchMode && item?.isSquadronVehicle?()))
+          if (config.checkAir || ((curRow < 0) && !item?.isFakeUnit))
           {
             curRow = row
             curCol = col
@@ -590,7 +585,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                        (c0 > c1) ? "-90" : "90")
       lines += format(arrowFormat,
                        "horizontal",  //type
-                       (abs(c1 - c0) - 0.5) + "@shop_width + " + interval1, //width
+                       (::abs(c1 - c0) - 0.5) + "@shop_width + " + interval1, //width
                        "1@modArrowWidth", //height
                        (c1 > c0 ? (c0 + 0.5) : c0) + "@shop_width" + (c1 > c0 ? "" : (" - " + interval1)), //posX
                        (r1 + 0.5) + "@shop_height - 0.5@modArrowWidth", // posY
@@ -616,7 +611,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                        (c0 > c1) ? "-90" : "90")
 
       lines += format(lineFormat,
-                      (abs(c1-c0) - offset) + "@shop_width",
+                      (::abs(c1-c0) - offset) + "@shop_width",
                       "1@modLineWidth", //height
                       (::min(c0, c1) + 0.5 + (c0 > c1 ? 0 : offset)) + "@shop_width",
                       (lh + r0 + 1) + "@shop_height - 0.5@modLineWidth",
@@ -694,7 +689,10 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     }
 
     local sectionsTotal = treeData.sectionsPos.len() - 1
-    local totalWidth = guiScene.calcString("1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize", null)
+    local widthStr = ::is_small_screen
+      ? "1@maxWindowWidth -1@modBlockTierNumHeight -1@scrollBarSize"
+      : "1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize"
+    local totalWidth = guiScene.calcString(widthStr, null)
     local itemWidth = guiScene.calcString("@shop_width", null)
 
     local extraWidth = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
@@ -741,7 +739,10 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local tiersTotal = min(lastFilledRank, treeData.tree.len())
     local sectionsTotal = treeData.sectionsPos.len() - 1
 
-    local totalWidth = guiScene.calcString("1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize", null)
+    local widthStr = ::is_small_screen
+      ? "1@maxWindowWidth -1@modBlockTierNumHeight -1@scrollBarSize"
+      : "1@slotbarWidthFull -1@modBlockTierNumHeight -1@scrollBarSize"
+    local totalWidth = guiScene.calcString(widthStr, null)
     local itemWidth = guiScene.calcString("@shop_width", null)
 
     local extraRight = "+" + ::max(0, totalWidth - (itemWidth * treeData.sectionsPos[sectionsTotal])) / 2
@@ -1095,9 +1096,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local is_unit = !::isUnitGroup(unit) && !unit?.isFakeUnit
     local params = {
       availableFlushExp = availableFlushExp
-      isSquadronResearchMode = isSquadronResearchMode
       setResearchManually = setResearchManually
-      needChosenResearchOfSquadron = needChosenResearchOfSquadron()
     }
     return {
              hasActions     = true,
@@ -1107,7 +1106,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
              mainActionText = is_unit? slotActions.getSlotActionFunctionName(unit, params) : ""
              fullBlock      = true
              shopResearchMode = shopResearchMode
-             isSquadronResearchMode = isSquadronResearchMode
              forceNotInResearch = !setResearchManually
              flushExp = availableFlushExp
              showBR = ::has_feature("GlobalShowBattleRating")
@@ -1222,9 +1220,6 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       local view = { tabs = [] }
       foreach(idx, page in countryData.pages)
       {
-        if (isDisabledUnitTypePage(countryData, page))
-          continue
-
         local name = page.name
         view.tabs.append({
           id = name
@@ -1312,7 +1307,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function initSearchBox()
   {
-    if (!::has_feature("UnitsSearchBoxInShop"))
+    if (shopResearchMode || !::has_feature("UnitsSearchBoxInShop"))
       return
     local handler = shopSearchBox.init({
       scene = scene.findObject("shop_search_box")
@@ -1416,7 +1411,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   {
     local coordsStr = ::g_string.cutPrefix(obj?.id, "high_") ?? ""
     local coords = ::g_string.split(coordsStr, "_").map(@(c) ::to_integer_safe(c, -1, false))
-    if (coords?[0] >= 0 && coords?[1] >= 0)
+    if ((coords?[0] ?? -1) >= 0 && (coords?[1] ?? -1) >= 0)
       selCellOnSearchQuit = coords
     guiScene.performDelayed(this, @() searchBoxWeak && searchBoxWeak.searchCancel())
   }
@@ -1439,6 +1434,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onAircraftClick(obj)
   {
+    scene.findObject("shop_items_list").select()
     checkSelectAirGroup()
     openMenuForCurAir(obj)
   }
@@ -1514,6 +1510,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function updateGroupObjNavBar()
   {
     navBarGroupObj = groupChooseObj.findObject("nav-help-group")
+    navBarGroupObj.hasMaxWindowSize = ::is_small_screen ? "yes" : "no"
     initShowMode(navBarGroupObj)
     updateButtons()
   }
@@ -1798,6 +1795,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       selectRequiredUnit()
   }
 
+  function onEventDebugUnlockEnabled(params)
+  {
+    doWhenActiveOnce("loadFullAircraftsTable")
+    doWhenActiveOnce("fillAircraftsList")
+  }
+
   function onEventUnitRented(params)
   {
     onEventUnitBought(params)
@@ -1916,9 +1919,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
         getEdiffFunc = getCurrentEdiff.bindenv(this)
       }
       curEdiff = getCurrentEdiff()
-      isSquadronResearchMode = isSquadronResearchMode
       setResearchManually = setResearchManually
-      needChosenResearchOfSquadron = needChosenResearchOfSquadron()
+      availableFlushExp = availableFlushExp
     })
   }
 
@@ -1963,7 +1965,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     curDiffCode = -1
     showModeList = []
     foreach(diff in ::g_difficulty.types)
-      if (diff.diffCode == -1 || (!shopResearchMode && !isSquadronResearchMode && diff.isAvailable()))
+      if (diff.diffCode == -1 || (!shopResearchMode && diff.isAvailable()))
       {
         showModeList.append({
           text = diff.diffCode == -1 ? ::loc("options/auto") : ::colorize("warningTextColor", diff.getLocName())
@@ -2202,36 +2204,14 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onEventSquadronExpChanged(params)
   {
-    checkUnitItemAndUpdate(::getAircraftByName(clan_get_researching_unit()))
+    checkUnitItemAndUpdate(::getAircraftByName(::clan_get_researching_unit()))
   }
 
   function onEventFlushSquadronExp(params)
   {
-    local unit = params?.unit
-    fillAircraftsList(unit?.name)
-    updateResearchVariables()
-    if (!isSquadronResearchMode)
-      return
-
-    if (hasSquadronVehicleToResearche() && ::isUnitResearched(unit))
-      return
-
-    if (squadronUnitAction.isAllVehiclesResearched())
-      squadronUnitAction.saveResearchChosen(false)
-
-    if (unit && ::canBuyUnit(unit))
-      ::buyUnit(unit)
-    onCloseShop()
+    fillAircraftsList(params?.unit?.name)
   }
 
-  isDisabledCountry = @(countryData) false
-  isDisabledUnitTypePage = @(countryData, unitTypePage) false
-  hasSquadronVehicleToResearche = @() clan_get_researching_unit() != ""
-  needChosenResearchOfSquadron = @() false
-  getParamsForActionsList = @() {
-    needChosenResearchOfSquadron = needChosenResearchOfSquadron()
-    isSquadronResearchMode = isSquadronResearchMode
-  }
   getResearchingSquadronVehicle = function()
   {
     if (::clan_get_exp() <= 0)

@@ -1,9 +1,9 @@
-function gui_start_dynamic_summary()
+::gui_start_dynamic_summary <- function gui_start_dynamic_summary()
 {
   ::handlersManager.loadHandler(::gui_handlers.CampaignPreview, { isFinal = false })
 }
 
-function gui_start_dynamic_summary_f()
+::gui_start_dynamic_summary_f <- function gui_start_dynamic_summary_f()
 {
   ::handlersManager.loadHandler(::gui_handlers.CampaignPreview, { isFinal = true })
 }
@@ -318,7 +318,7 @@ class ::gui_handlers.CampaignPreview extends ::gui_handlers.BaseGuiHandlerWT
     handlerObj.infoBoxObject = infobox
     handlerObj.handler = this
 
-    ::set_menu_title(title, infobox, "menu-title")
+    setSceneTitle(title, infobox, "menu-title")
     guiScene.replaceContentFromText(infobox.findObject("info-area"), data, data.len(), handlerObj)
   }
 

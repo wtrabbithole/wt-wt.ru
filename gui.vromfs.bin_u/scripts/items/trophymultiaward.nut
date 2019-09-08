@@ -42,7 +42,7 @@ class TrophyMultiAward
 
   function getCost()
   {
-    return ::Cost(0, blk.multiAwardsOnWorthGold || 0)
+    return ::Cost(0, blk?.multiAwardsOnWorthGold ?? 0)
   }
 
   function getName()
@@ -69,7 +69,7 @@ class TrophyMultiAward
       return resDesc
 
     local header = ::colorize(headerColor, getName())
-    if (blk.fromLastBattle)
+    if (blk?.fromLastBattle)
     {
       local text = ::loc("multiAward/fromLastBattle")
       if (useBoldAsSmaller)
@@ -129,7 +129,7 @@ class TrophyMultiAward
     local res = ::colorize(goodsColor, ::loc("multiAward/type/" + curAwardType))
     if (!skipUnconditional && haveCount())
     {
-      local count = awardBlk.count || 1
+      local count = awardBlk?.count ?? 1
       res += ::colorize(condColor, " x" + count)
     }
 
@@ -155,10 +155,10 @@ class TrophyMultiAward
 
   function _addCondSpecialization(awardBlk, condList)
   {
-    if ((awardBlk.specAce || false) == (awardBlk.aceExpert || false))
+    if ((awardBlk?.specAce ?? false) == (awardBlk?.aceExpert ?? false))
       return
 
-    local text = ::loc(blk.specAce ? "crew/qualification/1" : "crew/qualification/2")
+    local text = ::loc(blk?.specAce ? "crew/qualification/1" : "crew/qualification/2")
     condList.append(::colorize(condColor, text))
   }
 
@@ -229,7 +229,7 @@ class TrophyMultiAward
   function getResultPrizesList()
   {
     local res = []
-    local resBlk = blk.result
+    local resBlk = blk?.result
     if (!::can_be_readed_as_datablock(resBlk))
       return res
 
@@ -244,27 +244,27 @@ class TrophyMultiAward
 
   function _addResUnlocks(resBlk, resList)
   {
-    local unlocksBlk = resBlk.unlocks
+    local unlocksBlk = resBlk?.unlocks
     if (!::can_be_readed_as_datablock(unlocksBlk))
       return
 
     for(local i = 0; ; i++)
     {
-      local unlockName = unlocksBlk["unlock" + i]
+      local unlockName = unlocksBlk?["unlock" + i]
       if (!unlockName)
         break
 
       resList.append(::DataBlockAdapter({
         unlock = unlockName
-        gold = unlocksBlk["gold" + i] || 0
+        gold = unlocksBlk?["gold" + i] ?? 0
       }))
     }
   }
 
   function _addResModifications(resBlk, resList)
   {
-    _addResModificationsFromBlock(resBlk.modification, resList)
-    _addResModificationsFromBlock(resBlk.premExpMul, resList)
+    _addResModificationsFromBlock(resBlk?.modification, resList)
+    _addResModificationsFromBlock(resBlk?.premExpMul, resList)
   }
 
   function _addResModificationsFromBlock(resModBlk, resList)
@@ -274,36 +274,36 @@ class TrophyMultiAward
 
     for(local i = 0; ; i++)
     {
-      local unitName = resModBlk["unit" + i]
-      local modName = resModBlk["mod" + i]
+      local unitName = resModBlk?["unit" + i]
+      local modName = resModBlk?["mod" + i]
       if (!unitName || !modName)
         break
 
       resList.append(::DataBlockAdapter({
         unit = unitName
         mod = modName
-        gold = resModBlk["gold" + i] || 0
+        gold = resModBlk?["gold" + i] ?? 0
       }))
     }
   }
 
   function _addResSpare(resBlk, resList)
   {
-    local spareBlk = resBlk.spare
+    local spareBlk = resBlk?.spare
     if (!::can_be_readed_as_datablock(spareBlk))
       return
 
     local list = []
     for(local i = 0; ; i++)
     {
-      local unitName = spareBlk["unit" + i]
+      local unitName = spareBlk?["unit" + i]
       if (!unitName)
         break
 
       list.append({
         spare = unitName
-        gold = spareBlk["gold" + i] || 0
-        count = spareBlk["count" + i] || 1
+        gold = spareBlk?["gold" + i] ?? 0
+        count = spareBlk?["count" + i] ?? 1
       })
     }
 
@@ -347,14 +347,14 @@ class TrophyMultiAward
 
   function _addResSpecialization(resBlk, resList)
   {
-    local qBlk = resBlk.specialization
+    local qBlk = resBlk?.specialization
     if (!::can_be_readed_as_datablock(qBlk))
       return
 
     local list = {}
     for(local i = 0; ; i++)
     {
-      local unitName = qBlk["unit" + i]
+      local unitName = qBlk?["unit" + i]
       if (!unitName)
         break
       local unit = ::getAircraftByName(unitName)
@@ -366,10 +366,10 @@ class TrophyMultiAward
         list[country] <- []
 
       list[country].append({
-        specialization = qBlk["spec" + i] || 2
+        specialization = qBlk?["spec" + i] ?? 2
         unitName = unitName
-        crew = qBlk["crew" + i] || 0
-        gold = qBlk["gold" + i] || 0
+        crew = qBlk?["crew" + i] ?? 0
+        gold = qBlk?["gold" + i] ?? 0
       })
     }
 
@@ -398,7 +398,7 @@ class TrophyMultiAward
 
   function _addResUCurrency(resBlk, resList)
   {
-    local gold = blk.gold //not mistake, it in the root now.
+    local gold = blk?.gold //not mistake, it in the root now.
     if (!gold)
       return
     resList.append(::DataBlockAdapter({ gold = gold }))
@@ -406,27 +406,27 @@ class TrophyMultiAward
 
   function _addResResources(resBlk, resList)
   {
-    local resourcesBlk = resBlk.resource
+    local resourcesBlk = resBlk?.resource
     if (!::can_be_readed_as_datablock(resourcesBlk))
       return
 
     for(local i = 0; ; i++)
     {
-      local resName = resourcesBlk["resource" + i]
+      local resName = resourcesBlk?["resource" + i]
       if (!resName)
         break
 
       resList.append(::DataBlockAdapter({
         resource = resName
-        resourceType = resourcesBlk["resourceType" + i] || ""
-        gold = resourcesBlk["gold" + i] || 0
+        resourceType = resourcesBlk?["resourceType" + i] ?? ""
+        gold = resourcesBlk?["gold" + i] ?? 0
       }))
     }
   }
 
   function haveCount()
   {
-    return !blk.multiAwardsOnWorthGold
+    return !blk?.multiAwardsOnWorthGold
   }
 
   _count = -1
@@ -467,7 +467,7 @@ class TrophyMultiAward
         awardType = "modification"
       }
       else
-        awardsCount += awardBlk.count || 0
+        awardsCount += awardBlk?.count ?? 0
 
       if (awardType == "unlocks" || awardType == "resource")
       {

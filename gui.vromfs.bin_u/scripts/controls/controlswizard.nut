@@ -69,9 +69,6 @@ local globalEnv = require_native("globalEnv")
         }
       skip = ["msg/holdThrottleForWEP"] //dont work in axis, but need to correct prevItem work, when skipList used in onAxisDone
     }
-    { id="thrust_vector_forward",              needSkip = @() !::has_feature("UfoControl")  }
-    { id="thrust_vector_lateral",              needSkip = @() !::has_feature("UfoControl")  }
-    { id="thrust_vector_vertical",             needSkip = @() !::has_feature("UfoControl")  }
     { id="msg/holdThrottleForWEP", type= CONTROL_TYPE.MSG_BOX
       options = ["#options/yes", "#options/no", "options/skip"],
       onButton = function(value) { if (value<2) curJoyParams.holdThrottleForWEP = value==0 }
@@ -86,13 +83,13 @@ local globalEnv = require_native("globalEnv")
     "ID_FLARES",
     "ID_FUEL_TANKS",
     "ID_AIR_DROP",
-    { id="ID_SENSOR_SWITCH",              needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_MODE_SWITCH",         needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_SCAN_PATTERN_SWITCH", needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_RANGE_SWITCH",        needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_TARGET_SWITCH",       needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_TARGET_LOCK",         needSkip = @() !::has_feature("Sensors") }
-    { id="ID_SENSOR_VIEW_SWITCH",         needSkip = @() !::has_feature("Sensors") }
+    "ID_SENSOR_SWITCH",
+    "ID_SENSOR_MODE_SWITCH",
+    "ID_SENSOR_SCAN_PATTERN_SWITCH",
+    "ID_SENSOR_RANGE_SWITCH",
+    "ID_SENSOR_TARGET_SWITCH",
+    "ID_SENSOR_TARGET_LOCK",
+    "ID_SENSOR_VIEW_SWITCH",
     { id="weapon_aim_heading", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true }
     { id="weapon_aim_pitch",   type = CONTROL_TYPE.AXIS, isVertical = true,       buttonRelative = true }
     "ID_RELOAD_GUNS",
@@ -276,7 +273,7 @@ local globalEnv = require_native("globalEnv")
   { id="msg/wizard_done_msg", type= CONTROL_TYPE.MSG_BOX }
 ]
 
-function initControlsWizardConfig(arr)
+::initControlsWizardConfig <- function initControlsWizardConfig(arr)
 {
   for(local i=0; i < arr.len(); i++)
   {
@@ -297,7 +294,7 @@ function initControlsWizardConfig(arr)
   }
 }
 
-function gui_modal_controlsWizard()
+::gui_modal_controlsWizard <- function gui_modal_controlsWizard()
 {
   ::gui_start_modal_wnd(::gui_handlers.controlsWizardModalHandler)
 }
@@ -320,7 +317,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
   waitAxisAddTime = 3.0
 
   presetSelected = ""
-  modifierSymbols = null
   curJoyParams = null
   presetupAxisRawValues = null
   shortcutNames = null
@@ -391,13 +387,6 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
   function initShortcutsNames()
   {
-    modifierSymbols = { rangeMin="", rangeMax="" }
-
-    for(local i=0; i < ::shortcutsAxisList.len(); i++)
-      if ((::shortcutsAxisList[i].id in modifierSymbols)
-          && ("symbol" in ::shortcutsAxisList[i]))
-         modifierSymbols[::shortcutsAxisList[i].id] = ::loc(::shortcutsAxisList[i].symbol) + ::loc("ui/colon")
-
     shortcutNames = []
     shortcutItems = []
 
@@ -695,10 +684,18 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
       if (axis.axisId >= 0)
         axisAssignText = ::addHotkeyTxt(::remapAxisName(curPreset, axis.axisId))
       if (isButtonsListenInCurBox)
-        buttonAssignText = ::get_shortcut_text(shortcuts, curItem.modifiersId[axisMaxChoosen? "rangeMin" : "rangeMax"][0], false)
+        buttonAssignText = ::get_shortcut_text({
+          shortcuts = shortcuts,
+          shortcutId = curItem.modifiersId[axisMaxChoosen? "rangeMin" : "rangeMax"][0],
+          cantBeEmpty = false
+        })
     }
     else if (curItem.type == CONTROL_TYPE.SHORTCUT)
-      buttonAssignText = ::get_shortcut_text(shortcuts, curItem.shortcutId, false)
+      buttonAssignText = ::get_shortcut_text({
+        shortcuts = shortcuts,
+        shortcutId = curItem.shortcutId,
+        cantBeEmpty = false
+      })
 
     local assignText = axisAssignText + ((buttonAssignText == "" || axisAssignText == "")? "" : ::loc("ui/semicolon")) + buttonAssignText
     if (assignText == "")
@@ -940,7 +937,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     foreach(binding in curBinding)
       actionText += ((actionText=="")? "":", ") + ::loc("hotkeys/"+shortcutNames[binding[0]])
     local msg = ::loc("hotkeys/msg/unbind_question", { action=actionText })
-    msgBox("controls_unbind_question", msg, [
+    msgBox("controls_wizard_bind_existing_shortcut", msg, [
       ["add", (@(curBinding, devs, btns, shortcutId) function() {
         doBind(devs, btns, shortcutId)
         onButtonDone()
@@ -1092,7 +1089,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
 
     if (!axisApplyParams.isSlider)
     {
-      local minDev = min(abs(config.max), abs(config.min))
+      local minDev = min(::abs(config.max), ::abs(config.min))
       if (minDev>=3200) //10%
         axisApplyParams.kMul = 0.1*::floor(320000.0/minDev)
       else
@@ -1160,7 +1157,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     local msg = ::loc("hotkeys/msg/unbind_axis_question", {
       button=curBtnText, action=actionText
     })
-    msgBox("controls_unbind_question", msg, [
+    msgBox("controls_wizard_bind_existing_axis", msg, [
       ["add", function() { bindAxis() }],
       ["replace", (@(curBinding) function() {
         repeatItemsList.extend(curBinding)
@@ -1433,7 +1430,7 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
         if (::u.isString(btn))
           text = btn
 
-        if (::getStrSymbol(text, 0) != "#")
+        if (getStrSymbol(text, 0) != "#")
           text = "#" + text
 
         view.items.append({
@@ -1453,6 +1450,13 @@ class ::gui_handlers.controlsWizardModalHandler extends ::gui_handlers.Hotkeys
     }
 
     waitMsgButton = true
+  }
+
+  function getStrSymbol(str, i)
+  {
+    if (i < str.len())
+      return str.slice(i, i+1)
+    return null
   }
 
   function onMsgButton(obj)

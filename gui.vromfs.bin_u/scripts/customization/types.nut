@@ -73,13 +73,13 @@ local skinLocations = ::require("scripts/customization/skinLocations.nut")
         return true
       if (!isAllowed(block.getBlockName()))
         return false
-      if (block.psn && !::is_platform_ps4)
+      if (block?.psn && !::is_platform_ps4)
         return false
-      if (block.ps_plus && !::ps4_has_psplus())
+      if (block?.ps_plus && !::ps4_has_psplus())
         return false
-      if (block.showByEntitlement && !::has_entitlement(block.showByEntitlement))
+      if (block?.showByEntitlement && !::has_entitlement(block.showByEntitlement))
         return false
-      if ((block % "hideForLang").find(::g_language.getLanguageName()) >= 0)
+      if ((block % "hideForLang").find(::g_language.getLanguageName()) != null)
         return false
       foreach (feature in block % "reqFeature")
         if (!::has_feature(feature))
@@ -87,9 +87,9 @@ local skinLocations = ::require("scripts/customization/skinLocations.nut")
 
       if (!isPlayerHaveDecorator(decorator.id))
       {
-        local isVisibleOnlyUnlocked = block.hideUntilUnlocked || !decorator.canRecieve()
-        if (block.beginDate || block.endDate)
-          isVisibleOnlyUnlocked = !time.isInTimerangeByUtcStrings(block.beginDate, block.endDate)
+        local isVisibleOnlyUnlocked = block?.hideUntilUnlocked || !decorator.canRecieve()
+        if (block?.beginDate || block?.endDate)
+          isVisibleOnlyUnlocked = !time.isInTimerangeByUtcStrings(block?.beginDate, block?.endDate)
         if (isVisibleOnlyUnlocked)
           return false
       }
@@ -149,7 +149,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
         : ""
     }
 
-    getRatio = function(decorator) { return decorator? (decorator.aspect_ratio || 1) : 1 }
+    getRatio = function(decorator) { return decorator?.aspect_ratio ?? 1 }
     getImageSize = function(decorator) { return ::format("256, %d", ::floor(256.0 / getRatio(decorator) + 0.5)) }
 
     getLocName = function(decoratorName, ...) { return ::loc("decals/" + decoratorName) }
@@ -256,7 +256,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     getImage = function(decorator)
     {
       return decorator
-        ? decorator.blk?.image || "#ui/images/attachables/" + decorator.id
+        ? decorator?.blk?.image ?? ("#ui/images/attachables/" + decorator.id)
         : ""
     }
     getImageSize = function(...) { return "128, 128" }
@@ -430,7 +430,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
       if (!isLiveDownloaded && !isLiveItemContent)
         return null
 
-      cache[id] <- ::Decorator(getBlk()[id] || id, this)
+      cache[id] <- ::Decorator(getBlk()?[id] ?? id, this)
       return cache[id]
     }
 
@@ -438,17 +438,17 @@ enums.addTypesByGlobalName("g_decorator_type", {
   }
 }, null, "name")
 
-function g_decorator_type::getTypeByListId(listId)
+g_decorator_type.getTypeByListId <- function getTypeByListId(listId)
 {
   return enums.getCachedType("listId", listId, ::g_decorator_type.cache.byListId, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }
 
-function g_decorator_type::getTypeByUnlockedItemType(UnlockedItemType)
+g_decorator_type.getTypeByUnlockedItemType <- function getTypeByUnlockedItemType(UnlockedItemType)
 {
   return enums.getCachedType("unlockedItemType", UnlockedItemType, ::g_decorator_type.cache.byUnlockedItemType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }
 
-function g_decorator_type::getTypeByResourceType(resourceType)
+g_decorator_type.getTypeByResourceType <- function getTypeByResourceType(resourceType)
 {
   return enums.getCachedType("resourceType", resourceType, ::g_decorator_type.cache.byResourceType, ::g_decorator_type, ::g_decorator_type.UNKNOWN)
 }

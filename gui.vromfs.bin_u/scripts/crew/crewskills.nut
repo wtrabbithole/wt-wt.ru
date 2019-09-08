@@ -8,7 +8,7 @@
   skillParameterInfo = {} //skillName = { measureType = <string>, sortOrder = <int> }
 }
 
-function g_crew_skills::updateSkills()
+g_crew_skills.updateSkills <- function updateSkills()
 {
   if (!skillsLoaded)
   {
@@ -17,42 +17,42 @@ function g_crew_skills::updateSkills()
   }
 }
 
-function g_crew_skills::getSkillCategories()
+g_crew_skills.getSkillCategories <- function getSkillCategories()
 {
   updateSkills()
   return skillCategories
 }
 
-function g_crew_skills::getSkillCategoryByName(categoryName)
+g_crew_skills.getSkillCategoryByName <- function getSkillCategoryByName(categoryName)
 {
   updateSkills()
   return ::getTblValue(categoryName, skillCategoryByName, null)
 }
 
-function g_crew_skills::getSkillParameterInfo(parameterName)
+g_crew_skills.getSkillParameterInfo <- function getSkillParameterInfo(parameterName)
 {
   updateSkills()
   return ::getTblValue(parameterName, skillParameterInfo)
 }
 
-function g_crew_skills::getMeasureTypeBySkillParameterName(parameterName)
+g_crew_skills.getMeasureTypeBySkillParameterName <- function getMeasureTypeBySkillParameterName(parameterName)
 {
   return ::getTblValue("measureType", getSkillParameterInfo(parameterName), ::g_measure_type.UNKNOWN)
 }
 
-function g_crew_skills::getSortOrderBySkillParameterName(parameterName)
+g_crew_skills.getSortOrderBySkillParameterName <- function getSortOrderBySkillParameterName(parameterName)
 {
   return ::getTblValue("sortOrder", getSkillParameterInfo(parameterName), 0)
 }
 
-function g_crew_skills::loadSkills()
+g_crew_skills.loadSkills <- function loadSkills()
 {
   ::load_crew_skills_once()
   local skillsBlk = ::get_skills_blk()
   skillCategories.clear()
   skillCategoryByName.clear()
   maxSkillValueByMemberAndSkill.clear()
-  local calcBlk = skillsBlk.crew_skills_calc
+  local calcBlk = skillsBlk?.crew_skills_calc
   if (calcBlk == null)
     return
   foreach (memberName, memberBlk in calcBlk)
@@ -75,11 +75,11 @@ function g_crew_skills::loadSkills()
       maxSkillValueByMemberAndSkill[memberName][skillName] <- maxSkillValue
 
       // Skill category
-      local categoryName = skillBlk.skill_category
+      local categoryName = skillBlk?.skill_category
       if (categoryName == null)
         continue
 
-      local skillCategory = ::getTblValue(categoryName, skillCategoryByName, null)
+      local skillCategory = skillCategoryByName?[categoryName]
       if (skillCategory == null)
         skillCategory = createCategory(categoryName)
 
@@ -95,7 +95,7 @@ function g_crew_skills::loadSkills()
   }
 
   skillParameterInfo.clear()
-  local typesBlk = skillsBlk.measure_type_by_skill_parameter
+  local typesBlk = skillsBlk?.measure_type_by_skill_parameter
   if (typesBlk != null)
   {
     local sortOrder = 0
@@ -107,7 +107,7 @@ function g_crew_skills::loadSkills()
   }
 }
 
-function g_crew_skills::createCategory(categoryName)
+g_crew_skills.createCategory <- function createCategory(categoryName)
 {
   local category = {
     categoryName = categoryName
@@ -119,7 +119,7 @@ function g_crew_skills::createCategory(categoryName)
   return category
 }
 
-function g_crew_skills::getSkillCategoryValue(crewData, skillCategory, crewUnitType)
+g_crew_skills.getSkillCategoryValue <- function getSkillCategoryValue(crewData, skillCategory, crewUnitType)
 {
   local skillValue = 0
   foreach (skillItem in skillCategory.skillItems)
@@ -128,7 +128,7 @@ function g_crew_skills::getSkillCategoryValue(crewData, skillCategory, crewUnitT
   return skillValue
 }
 
-function g_crew_skills::getSkillCategoryCrewLevel(crewData, skillCategory, crewUnitType)
+g_crew_skills.getSkillCategoryCrewLevel <- function getSkillCategoryCrewLevel(crewData, skillCategory, crewUnitType)
 {
   local res = 0
   foreach (categorySkill in skillCategory.skillItems)
@@ -142,7 +142,7 @@ function g_crew_skills::getSkillCategoryCrewLevel(crewData, skillCategory, crewU
   return res
 }
 
-function g_crew_skills::getSkillCategoryMaxValue(skillCategory, crewUnitType)
+g_crew_skills.getSkillCategoryMaxValue <- function getSkillCategoryMaxValue(skillCategory, crewUnitType)
 {
   local skillValue = 0
   foreach (skillItem in skillCategory.skillItems)
@@ -151,7 +151,7 @@ function g_crew_skills::getSkillCategoryMaxValue(skillCategory, crewUnitType)
   return skillValue
 }
 
-function g_crew_skills::getSkillCategoryMaxCrewLevel(skillCategory, crewUnitType)
+g_crew_skills.getSkillCategoryMaxCrewLevel <- function getSkillCategoryMaxCrewLevel(skillCategory, crewUnitType)
 {
   local crewLevel = 0
   foreach (categorySkill in skillCategory.skillItems)
@@ -160,14 +160,14 @@ function g_crew_skills::getSkillCategoryMaxCrewLevel(skillCategory, crewUnitType
   return crewLevel
 }
 
-function g_crew_skills::getCrewSkillValue(crewData, memberName, skillName)
+g_crew_skills.getCrewSkillValue <- function getCrewSkillValue(crewData, memberName, skillName)
 {
   local unitCrewData = ::g_unit_crew_cache.getUnitCrewDataById(crewData.id)
   local memberData = ::getTblValue(memberName, unitCrewData, null)
   return ::getTblValue(skillName, memberData, 0)
 }
 
-function g_crew_skills::getMaxSkillValue(memberName, skillName)
+g_crew_skills.getMaxSkillValue <- function getMaxSkillValue(memberName, skillName)
 {
   updateSkills()
   local maxSkillValueBySkill = ::getTblValue(memberName, maxSkillValueByMemberAndSkill, null)
@@ -175,7 +175,7 @@ function g_crew_skills::getMaxSkillValue(memberName, skillName)
 }
 
 /** @see slotInfoPanel.nut */
-function g_crew_skills::getSkillCategoryView(crewData, unit)
+g_crew_skills.getSkillCategoryView <- function getSkillCategoryView(crewData, unit)
 {
   local unitType = unit?.unitType ?? g_unit_type.INVALID
   local crewUnitType = unitType.crewUnitType
@@ -197,13 +197,13 @@ function g_crew_skills::getSkillCategoryView(crewData, unit)
   return view
 }
 
-function g_crew_skills::getCategoryParameterRows(skillCategory, crewUnitType, crew)
+g_crew_skills.getCategoryParameterRows <- function getCategoryParameterRows(skillCategory, crewUnitType, crew)
 {
   local difficulty = ::get_current_shop_difficulty()
   return ::g_crew_skill_parameters.getSkillListParameterRowsView(crew, difficulty, skillCategory.skillItems, crewUnitType)
 }
 
-function g_crew_skills::getSkillCategoryTooltipContent(skillCategory, crewUnitType, crewData)
+g_crew_skills.getSkillCategoryTooltipContent <- function getSkillCategoryTooltipContent(skillCategory, crewUnitType, crewData)
 {
   local headerLocId = "crewSkillCategoryTooltip/" + skillCategory.categoryName
   local view = {
@@ -245,17 +245,17 @@ function g_crew_skills::getSkillCategoryTooltipContent(skillCategory, crewUnitTy
   return ::handyman.renderCached("gui/crew/crewSkillParametersTooltip", view)
 }
 
-function g_crew_skills::getSkillCategoryName(skillCategory)
+g_crew_skills.getSkillCategoryName <- function getSkillCategoryName(skillCategory)
 {
   return ::loc("crewSkillCategory/" + skillCategory.categoryName, skillCategory.categoryName)
 }
 
-function g_crew_skills::getCrewPoints(crewData)
+g_crew_skills.getCrewPoints <- function getCrewPoints(crewData)
 {
   return ::getTblValue("skillPoints", crewData, 0)
 }
 
-function g_crew_skills::categoryHasNonGunnerSkills(skillCategory)
+g_crew_skills.categoryHasNonGunnerSkills <- function categoryHasNonGunnerSkills(skillCategory)
 {
   foreach (skillItem in skillCategory.skillItems)
     if (skillItem.memberName != "gunner")
@@ -263,26 +263,26 @@ function g_crew_skills::categoryHasNonGunnerSkills(skillCategory)
   return false
 }
 
-function g_crew_skills::isAffectedBySpecialization(memberName, skillName)
+g_crew_skills.isAffectedBySpecialization <- function isAffectedBySpecialization(memberName, skillName)
 {
   local skillItem = ::g_crew.getSkillItem(memberName, skillName)
   return ::getTblValue("useSpecializations", skillItem, false)
 }
 
-function g_crew_skills::isAffectedByLeadership(memberName, skillName)
+g_crew_skills.isAffectedByLeadership <- function isAffectedByLeadership(memberName, skillName)
 {
   local skillItem = ::g_crew.getSkillItem(memberName, skillName)
   return ::getTblValue("useLeadership", skillItem, false)
 }
 
-function g_crew_skills::getMinSkillsUnitRepairRank(unitRank)
+g_crew_skills.getMinSkillsUnitRepairRank <- function getMinSkillsUnitRepairRank(unitRank)
 {
   local repairRanksBlk = ::getTblValue("repair_ranks", ::get_skills_blk())
   if (!repairRanksBlk)
     return -1
   for(local i = 1; ; i++)
   {
-    local rankValue = repairRanksBlk["rank" + i]
+    local rankValue = repairRanksBlk?["rank" + i]
     if (!rankValue)
       break
     if (rankValue >= unitRank)

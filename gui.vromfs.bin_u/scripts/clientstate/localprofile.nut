@@ -16,13 +16,13 @@ const PS4_SAVE_PROFILE_DELAY_MSEC = 60000
   }
 }
 
-function getRootSizeText()
+::getRootSizeText <- function getRootSizeText()
 {
   return ::screen_width() + "x" + ::screen_height()
 }
 
 //save/load settings by account. work only after local profile received from host.
-function save_local_account_settings(path, value, forceSave = false)
+::save_local_account_settings <- function save_local_account_settings(path, value, forceSave = false)
 {
   local cdb = ::get_local_custom_settings_blk()
 
@@ -30,7 +30,7 @@ function save_local_account_settings(path, value, forceSave = false)
     ::save_profile_offline_limited(forceSave)
 }
 
-function load_local_account_settings(path, defValue = null)
+::load_local_account_settings <- function load_local_account_settings(path, defValue = null)
 {
   local cdb = ::get_local_custom_settings_blk()
 
@@ -38,42 +38,42 @@ function load_local_account_settings(path, defValue = null)
 }
 
 //save/load setting to local profile, not depend on account, so can be usable before login.
-function save_local_shared_settings(path, value, isForced = false)
+::save_local_shared_settings <- function save_local_shared_settings(path, value, isForced = false)
 {
   local blk = ::get_common_local_settings_blk()
   if (::set_blk_value_by_path(blk, path, value))
     ::save_profile_offline_limited(isForced)
 }
 
-function load_local_shared_settings(path, defValue = null)
+::load_local_shared_settings <- function load_local_shared_settings(path, defValue = null)
 {
   local blk = ::get_common_local_settings_blk()
   return ::get_blk_value_by_path(blk, path, defValue)
 }
 
 //save/load settings by account and by screenSize
-function loadLocalByScreenSize(name, defValue=null)
+::loadLocalByScreenSize <- function loadLocalByScreenSize(name, defValue=null)
 {
   local rootName = getRootSizeText()
   if (!rootName)
     return defValue
 
   local cdb = ::get_local_custom_settings_blk()
-  if (cdb[rootName]!=null && typeof(cdb[rootName])=="instance" && cdb[rootName][name]!=null)
+  if (cdb?[rootName][name])
     return cdb[rootName][name]
   return defValue
 }
 
-function saveLocalByScreenSize(name, value)
+::saveLocalByScreenSize <- function saveLocalByScreenSize(name, value)
 {
   local rootName = getRootSizeText()
   if (!rootName)
     return
 
   local cdb = ::get_local_custom_settings_blk()
-  if (cdb[rootName]==null || typeof(cdb[rootName])!="instance")
+  if (cdb?[rootName] == null || typeof(cdb[rootName]) != "instance")
     cdb[rootName] <- ::DataBlock()
-  if (cdb[rootName][name]==null)
+  if (cdb?[rootName][name] == null)
     cdb[rootName][name] <- value
   else
     if (cdb[rootName][name] == value)
@@ -85,7 +85,7 @@ function saveLocalByScreenSize(name, value)
 
 //remove all data by screen size from all size blocks
 //also clear empty size blocks
-function clear_local_by_screen_size(name)
+::clear_local_by_screen_size <- function clear_local_by_screen_size(name)
 {
   local cdb = ::get_local_custom_settings_blk()
   local hasChanges = false
@@ -96,7 +96,7 @@ function clear_local_by_screen_size(name)
       continue
 
     hasChanges = true
-    if (::u.isDataBlock(blk[name]))
+    if (::u.isDataBlock(blk?[name]))
       blk.removeBlock(name)
     else
       blk.removeParam(name)
@@ -109,18 +109,18 @@ function clear_local_by_screen_size(name)
 }
 
 // Deprecated, for storing new data use load_local_account_settings() instead.
-function loadLocalByAccount(path, defValue=null)
+::loadLocalByAccount <- function loadLocalByAccount(path, defValue=null)
 {
   local cdb = ::get_local_custom_settings_blk()
   local id = ::my_user_id_str + "." + (::isProductionCircuit() ? "production" : ::get_cur_circuit_name())
-  local profileBlk = cdb.accounts && cdb.accounts[id]
+  local profileBlk = cdb?.accounts?[id]
   if (profileBlk)
   {
     local value = ::get_blk_value_by_path(profileBlk, path)
     if (value != null)
       return value
   }
-  profileBlk = cdb.accounts && cdb.accounts[::my_user_id_str]
+  profileBlk = cdb?.accounts?[::my_user_id_str]
   if (profileBlk)
   {
     local value = ::get_blk_value_by_path(profileBlk, path)
@@ -131,7 +131,7 @@ function loadLocalByAccount(path, defValue=null)
 }
 
 // Deprecated, for storing new data use save_local_account_settings() instead.
-function saveLocalByAccount(path, value, forceSave = false, shouldSaveProfile = true)
+::saveLocalByAccount <- function saveLocalByAccount(path, value, forceSave = false, shouldSaveProfile = true)
 {
   local cdb = ::get_local_custom_settings_blk()
   local id = ::my_user_id_str + "." + (::isProductionCircuit() ? "production" : ::get_cur_circuit_name())

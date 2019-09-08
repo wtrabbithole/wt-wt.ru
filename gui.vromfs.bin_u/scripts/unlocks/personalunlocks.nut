@@ -8,13 +8,13 @@ g_personal_unlocks <- {
   showAllUnlocksValue = false
 }
 
-function g_personal_unlocks::reset()
+g_personal_unlocks.reset <- function reset()
 {
   unlocksArray.clear()
   newIconWidgetById.clear()
 }
 
-function g_personal_unlocks::update()
+g_personal_unlocks.update <- function update()
 {
   if (!::g_login.isLoggedIn())
     return
@@ -22,7 +22,7 @@ function g_personal_unlocks::update()
   reset()
 
   foreach(unlockBlk in ::g_unlocks.getAllUnlocksWithBlkOrder())
-    if (unlockBlk.showAsBattleTask && (showAllUnlocksValue || ::is_unlock_visible(unlockBlk)))
+    if (unlockBlk?.showAsBattleTask && (showAllUnlocksValue || ::is_unlock_visible(unlockBlk)))
     {
       unlocksArray.append(unlockBlk)
       newIconWidgetById[unlockBlk.id] <- null
@@ -30,7 +30,7 @@ function g_personal_unlocks::update()
   isArrayValid = true
 }
 
-function g_personal_unlocks::getUnlocksArray()
+g_personal_unlocks.getUnlocksArray <- function getUnlocksArray()
 {
   if(!isArrayValid)
     update()
@@ -38,33 +38,33 @@ function g_personal_unlocks::getUnlocksArray()
   return unlocksArray
 }
 
-function g_personal_unlocks::onEventBattleTasksShowAll(params)
+g_personal_unlocks.onEventBattleTasksShowAll <- function onEventBattleTasksShowAll(params)
 {
   showAllUnlocksValue = ::getTblValue("showAllTasksValue", params, false)
   update()
 }
 
-function g_personal_unlocks::onEventSignOut(p)
+g_personal_unlocks.onEventSignOut <- function onEventSignOut(p)
 {
   reset()
 }
 
-function g_personal_unlocks::onEventLoginComplete(p)
+g_personal_unlocks.onEventLoginComplete <- function onEventLoginComplete(p)
 {
   invalidateArray()
 }
 
-function g_personal_unlocks::isAvailableForUser()
+g_personal_unlocks.isAvailableForUser <- function isAvailableForUser()
 {
   return ::has_feature("PersonalUnlocks") && !::u.isEmpty(getUnlocksArray())
 }
 
-function g_personal_unlocks::invalidateArray()
+g_personal_unlocks.invalidateArray <- function invalidateArray()
 {
   isArrayValid = false
 }
 
-function g_personal_unlocks::onEventUnlocksCacheInvalidate(p)
+g_personal_unlocks.onEventUnlocksCacheInvalidate <- function onEventUnlocksCacheInvalidate(p)
 {
   invalidateArray()
 }

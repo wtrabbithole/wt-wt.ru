@@ -109,7 +109,7 @@ class ::gui_handlers.teamUnitsLeftView extends ::gui_handlers.BaseGuiHandlerWT
     local data = missionRules.getFullUnitLimitsData()
     local prevIdx = -1
     if (collapsedInfoUnitLimit)
-      prevIdx = ::u.searchIndex(data.unitLimits, collapsedInfoUnitLimit.isSame.bindenv(collapsedInfoUnitLimit))
+      prevIdx = data.unitLimits.searchindex(collapsedInfoUnitLimit.isSame.bindenv(collapsedInfoUnitLimit)) ?? -1
 
     updateCollapsedInfoByUnitLimit(::u.chooseRandomNoRepeat(data.unitLimits, prevIdx), needAnim)
     collapsedInfoTimer = collapsedInfoRefreshDelay

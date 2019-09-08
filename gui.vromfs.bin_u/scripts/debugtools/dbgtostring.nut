@@ -1,4 +1,4 @@
-function dlog(...)
+::dlog <- function dlog(...)
 {
   for (local i = 0; i < vargv.len(); i++)
   {
@@ -6,7 +6,7 @@ function dlog(...)
     dagor.screenlog("" + vargv[i])
   }
 }
-function can_be_readed_as_datablock(blk) //can be overrided by dataBlockAdapter
+::can_be_readed_as_datablock <- function can_be_readed_as_datablock(blk) //can be overrided by dataBlockAdapter
 {
   return u.isDataBlock(blk)
 }
@@ -20,7 +20,7 @@ local function tableKeyToString(k) {
   return k
 }
 
-function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrackets=true, silentMode=false, printFn=null})
+::debugTableData <- function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrackets=true, silentMode=false, printFn=null})
 {
   local showBlockBrackets = params?.showBlockBrackets ?? true
   local addStr = params?.addStr ?? ""
@@ -138,7 +138,7 @@ function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrac
     printFn("DD: DONE.")
 }
 
-function toString(val, recursion = 1, addStr = "")
+::toString <- function toString(val, recursion = 1, addStr = "")
 {
   if (type(val) == "instance")
   {

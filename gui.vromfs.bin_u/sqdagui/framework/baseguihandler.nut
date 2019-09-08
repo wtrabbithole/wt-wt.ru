@@ -5,6 +5,7 @@ class ::BaseGuiHandler
   sceneNavBlkName = null
   sceneTplName = null //load scene tpl when sceneBlkNmae == null. only work with custom handlers yet.
   keepLoaded = false
+  needAnimatedSwitchScene = true
   multipleInstances = false
   rootHandlerClass = null //handlerType.BASE will be created and visible together with listed root handler
                           //but they also can be created without root handler
@@ -223,7 +224,12 @@ class ::BaseGuiHandler
     }
 
     if (wndType == handlerType.BASE && backSceneFunc != null)
-      ::handlersManager.animatedSwitchScene(backSceneFunc)
+    {
+      if (needAnimatedSwitchScene)
+        ::handlersManager.animatedSwitchScene(backSceneFunc)
+      else
+        backSceneFunc()
+    }
   }
 
   function setBackSceneFunc(scene_func)
@@ -283,7 +289,7 @@ class ::BaseGuiHandler
     ::dagor.assertf(typeof(funcName) == "string", "Error: doWhenActiveOnce work only with function names")
 
     local prevIdx = delayedActions.find(funcName)
-    if (prevIdx >= 0)
+    if (prevIdx != null)
       delayedActions.remove(prevIdx)
     delayedActions.append(funcName)
     popDelayedActions()

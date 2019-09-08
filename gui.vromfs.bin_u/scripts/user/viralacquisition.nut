@@ -1,4 +1,4 @@
-function show_viral_acquisition_wnd()
+::show_viral_acquisition_wnd <- function show_viral_acquisition_wnd()
 {
   if (!::has_feature("Invites"))
     return
@@ -11,7 +11,7 @@ function show_viral_acquisition_wnd()
   local height = 400
   local guiBlk = ::configs.GUI.get()
 
-  if (guiBlk.invites_notification_window_images
+  if (guiBlk?.invites_notification_window_images
       && guiBlk.invites_notification_window_images.paramCount() > 0)
   {
     local paramNum = ::math.rnd() % guiBlk.invites_notification_window_images.paramCount()

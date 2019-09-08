@@ -4,7 +4,7 @@ local stdMath = require("std/math.nut")
   types = []
 }
 
-function g_hud_crew_member::_setCrewMemberState(crewIconObj, newStateData)
+g_hud_crew_member._setCrewMemberState <- function _setCrewMemberState(crewIconObj, newStateData)
 {
   if (!("state" in newStateData))
     return

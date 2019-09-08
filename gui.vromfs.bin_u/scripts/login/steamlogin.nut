@@ -22,13 +22,16 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
     if (::g_login.isAuthorized())
       return
 
+    local useSteamLoginAuto = ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID)
     if (!::has_feature("AllowSteamAccountLinking"))
     {
-      authorizeSteam()
+      if (!useSteamLoginAuto) //can be null or false
+        goToLoginWnd(useSteamLoginAuto == null)
+      else
+        authorizeSteam()
       return
     }
 
-    local useSteamLoginAuto = ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID)
     if (useSteamLoginAuto == true)
     {
       authorizeSteam("steam-known")

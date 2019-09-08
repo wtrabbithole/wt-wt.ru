@@ -20,12 +20,12 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   }
 }
 
-function g_top_menu_sections::isSeparateTab(section, totalSections)
+g_top_menu_sections.isSeparateTab <- function isSeparateTab(section, totalSections)
 {
   return section? section.mergeIndex < totalSections : true
 }
 
-function g_top_menu_sections::getSectionsOrder(sectionsStructure, maxSectionsCount)
+g_top_menu_sections.getSectionsOrder <- function getSectionsOrder(sectionsStructure, maxSectionsCount)
 {
   local sections = []
   foreach (idx, section in sectionsStructure.types)
@@ -44,7 +44,7 @@ function g_top_menu_sections::getSectionsOrder(sectionsStructure, maxSectionsCou
   return sections
 }
 
-function g_top_menu_sections::_proceedButtonsArray(itemsArray, maxSectionsCount, sectionsStructure)
+g_top_menu_sections._proceedButtonsArray <- function _proceedButtonsArray(itemsArray, maxSectionsCount, sectionsStructure)
 {
   local result = []
   foreach (idx, column in itemsArray)
@@ -71,7 +71,7 @@ function g_top_menu_sections::_proceedButtonsArray(itemsArray, maxSectionsCount,
   return result
 }
 
-function g_top_menu_sections::clearEmptyColumns(itemsArray)
+g_top_menu_sections.clearEmptyColumns <- function clearEmptyColumns(itemsArray)
 {
   for (local i = itemsArray.len()-1; i >= 0; i--)
   {
@@ -82,7 +82,7 @@ function g_top_menu_sections::clearEmptyColumns(itemsArray)
   }
 }
 
-function g_top_menu_sections::getSectionByName(name)
+g_top_menu_sections.getSectionByName <- function getSectionByName(name)
 {
   return enums.getCachedType("name", name, cache.byName, this, template)
 }

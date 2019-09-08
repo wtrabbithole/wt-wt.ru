@@ -1,9 +1,12 @@
-local enums = ::require("sqStdlibs/helpers/enums.nut")
-local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
-local contentStateModule = ::require("scripts/clientState/contentState.nut")
-local workshop = ::require("scripts/items/workshop/workshop.nut")
+local enums = require("sqStdlibs/helpers/enums.nut")
+local xboxShopData = require("scripts/onlineShop/xboxShopData.nut")
+local contentStateModule = require("scripts/clientState/contentState.nut")
+local workshop = require("scripts/items/workshop/workshop.nut")
+local platform = require("scripts/clientState/platform.nut")
+local encyclopedia = require("scripts/encyclopedia.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
-enum TOP_MENU_ELEMENT_TYPE {
+global enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
   EMPTY_BUTTON,
   CHECKBOX,
@@ -47,6 +50,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnSkirmish"
     onClickFunc = function(obj, handler)
     {
+      if (!antiCheat.showMsgboxIfEacInactive())
+        return
       if (!::is_custom_battles_enabled())
         return ::show_not_available_msg_box()
       if (!::check_gamemode_pkg(::GM_SKIRMISH))
@@ -63,16 +68,27 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   WORLDWAR = {
     text = "#mainmenu/btnWorldwar"
-    onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
+    onClickFunc = function(obj, handler)
+    {
+      if (!antiCheat.showMsgboxIfEacInactive())
+        return
+      ::queues.checkAndStart(
+        ::Callback(@() goForwardIfOnline(@() ::g_world_war.openOperationsOrQueues(), false), handler),
+        null,
+        "isCanNewflight"
+      )
+    }
     tooltip = @() ::g_world_war.getCantPlayWorldwarReasonText()
     isVisualDisabled = @() !::g_world_war.canPlayWorldwar()
     isHidden = @(...) !::is_worldwar_enabled()
+    isInactiveInQueue = true
     unseenIcon = @() ::is_worldwar_enabled() && ::g_world_war.canPlayWorldwar() ?
       SEEN.WW_MAPS_AVAILABLE : null
   }
   TUTORIAL = {
     text = "#mainmenu/btnTutorial"
     onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_tutorial)
+    isHidden = @(...) !::has_feature("Tutorials")
     isInactiveInQueue = true
   }
   SINGLE_MISSION = {
@@ -112,7 +128,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   BENCHMARK = {
     text = "#mainmenu/btnBenchmark"
     onClickFunc = @(obj, handler) handler.checkedNewFlight(::gui_start_benchmark)
-    isHidden = @(...) !::has_feature("Benchmark") && !::is_dev_version
+    isHidden = @(...) !::has_feature("Benchmark")
     isInactiveInQueue = true
   }
   USER_MISSION = {
@@ -132,6 +148,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   LEADERBOARDS = {
     text = "#mainmenu/btnLeaderboards"
     onClickFunc = @(obj, handler) handler.goForwardIfOnline(::gui_modal_leaderboards, false, true)
+    isHidden = @(...) !::has_feature("Leaderboards")
   }
   CLANS = {
     text = "#mainmenu/btnClans"
@@ -166,7 +183,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   ENCYCLOPEDIA = {
     text = "#mainmenu/btnEncyclopedia"
-    onClickFunc = @(...) ::gui_start_encyclopedia()
+    onClickFunc = @(...) encyclopedia.open()
     isHidden = @(...) !::has_feature("Encyclopedia")
   }
   CREDITS = {
@@ -176,7 +193,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   TSS = {
     text = "#topmenu/tss"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/tss"
     isLink = @() true
@@ -184,7 +201,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   STREAMS_AND_REPLAYS = {
     text = "#topmenu/streamsAndReplays"
-    onClickFunc = @(obj, handler) ::g_url.openByObj(obj, true)
+    onClickFunc = @(obj, handler) ::g_url.openByObj(obj)
     isDelayed = false
     link = "#url/streamsAndReplays"
     isLink = @() true
@@ -244,15 +261,33 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     unseenIcon = @() SEEN.WARBONDS_SHOP
   }
   ONLINE_SHOP = {
-    text = @() xboxShopData.canUseIngameShop()? "#topmenu/xboxIngameShop" : "#msgbox/btn_onlineShop"
+    text = "#msgbox/btn_onlineShop"
     onClickFunc = @(obj, handler) handler.startOnlineShop()
+    link = ""
+    isLink = @() true
+    isFeatured = @() true
+    image = "#ui/gameuiskin#store_icon.svg"
+    isHidden = @(...) !::is_platform_pc || !::has_feature("SpendGold") || !::isInMenu() || !platform.canSpendRealMoney()
+  }
+  XBOX_ONLINE_SHOP = {
+    text = xboxShopData.canUseIngameShop()? "#topmenu/xboxIngameShop" : "#msgbox/btn_onlineShop"
+    onClickFunc = @(...) ::OnlineShopModel.launchXboxMarketplace()
     link = ""
     isLink = @() !xboxShopData.canUseIngameShop()
     isFeatured = @() !xboxShopData.canUseIngameShop()
     image = @() xboxShopData.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
     needDiscountIcon = true
-    isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
+    isHidden = @(...) !::is_platform_xboxone || !::isInMenu()
     unseenIcon = @() SEEN.EXT_XBOX_SHOP
+  }
+  PS4_ONLINE_SHOP = {
+    text = "#msgbox/btn_onlineShop"
+    onClickFunc = @(...) ::OnlineShopModel.launchPS4Store()
+    link = ""
+    isLink = @() true
+    isFeatured = @() true
+    image = "#ui/gameuiskin#store_icon.svg"
+    isHidden = @(...) !::is_platform_ps4 || !::isInMenu()
   }
   MARKETPLACE = {
     text = "#mainmenu/marketplace"
@@ -271,7 +306,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
 
       ::gui_handlers.HelpInfoHandlerModal.open(handler.getWndHelpConfig(), handler.scene)
     }
-    isHidden = @(handler = null) !("getWndHelpConfig" in handler)
+    isHidden = @(handler = null) !("getWndHelpConfig" in handler) || !::has_feature("HangarWndHelp")
   }
   FAQ = {
     text = "#mainmenu/faq"
@@ -304,7 +339,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/licenseAgreement"
     onClickFunc = @(obj, handler) ::gui_start_eula(::TEXT_EULA, true)
     isDelayed = false
-    isHidden = @(...) !::isInMenu()
+    isHidden = @(...) !::has_feature("EulaInMenu") || !::isInMenu()
   }
   EMPTY = {
     elementType = TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON
@@ -318,7 +353,7 @@ function() {
 },
 "typeName")
 
-function g_top_menu_buttons::getTypeById(id)
+g_top_menu_buttons.getTypeById <- function getTypeById(id)
 {
   return enums.getCachedType("id", id, ::g_top_menu_buttons.cache.byId,
     ::g_top_menu_buttons, ::g_top_menu_buttons.UNKNOWN)

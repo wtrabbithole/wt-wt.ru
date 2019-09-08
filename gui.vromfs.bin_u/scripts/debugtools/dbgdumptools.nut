@@ -1,12 +1,14 @@
 local dbg_dump = require("scripts/debugTools/dbgDump.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
+local g_path = require("std/path.nut")
+local dagor_fs = require("dagor.fs")
 
 ::debug_dump_unload <- dbg_dump.unload
 ::debug_dump_is_loaded <- dbg_dump.isLoaded
 
 //==================================================================================================
 
-function debug_dump_debriefing_save(filename = "debug_dump_debriefing.blk")
+::debug_dump_debriefing_save <- function debug_dump_debriefing_save(filename = "debug_dump_debriefing.blk")
 {
   if (!::debriefing_result || dbg_dump.isLoaded())
     return "IGNORED: No debriefing_result, or dump is loaded."
@@ -102,7 +104,7 @@ function debug_dump_debriefing_save(filename = "debug_dump_debriefing.blk")
   return "Debriefing result saved to " + filename
 }
 
-function debug_dump_debriefing_load(filename = "debug_dump_debriefing.blk")
+::debug_dump_debriefing_load <- function debug_dump_debriefing_load(filename = "debug_dump_debriefing.blk", onUnloadFunc = null)
 {
   if (!dbg_dump.load(filename))
     return "File not found: " + filename
@@ -156,14 +158,31 @@ function debug_dump_debriefing_load(filename = "debug_dump_debriefing.blk")
 
   ::gui_start_debriefingFull()
   ::checkNonApprovedResearches(true)
-  ::go_debriefing_next_func = function() { dbg_dump.unload(); ::gui_start_mainmenu() }
+  ::go_debriefing_next_func = function() { dbg_dump.unload(); ::gui_start_mainmenu(); onUnloadFunc?() }
   ::broadcastEvent("SessionDestroyed")
   return "Debriefing result loaded from " + filename
 }
 
+::debug_dump_debriefing_batch_load <- function debug_dump_debriefing_batch_load()
+{
+  local filesList = dagor_fs.scan_folder({ root = "D:/dagor2/skyquake/gameOnline",
+    files_suffix = "*.blk", recursive = false, vromfs=false, realfs = true
+  }).filter(@(v) v.find("debug_dump_debriefing") != null).map(@(v) g_path.fileName(v)).sort().reverse()
+  local total = filesList.len()
+  local function loadNext() {
+    local count = filesList.len()
+    if (!count) return
+    local filename = filesList.pop()
+    dlog(::format("[%d/%d] %s" total - count + 1, total, filename))
+    ::copy_to_clipboard(filename)
+    ::debug_dump_debriefing_load(filename, loadNext)
+  }
+  loadNext()
+}
+
 //==================================================================================================
 
-function debug_dump_mpstatistics_save(filename = "debug_dump_mpstatistics.blk")
+::debug_dump_mpstatistics_save <- function debug_dump_mpstatistics_save(filename = "debug_dump_mpstatistics.blk")
 {
   dbg_dump.save(filename, [
     { id = "_fake_mplayers_list", value = ::get_mplayers_list(::GET_MPLAYERS_LIST, true) }
@@ -193,7 +212,7 @@ function debug_dump_mpstatistics_save(filename = "debug_dump_mpstatistics.blk")
   return "Saved " + filename
 }
 
-function debug_dump_mpstatistics_load(filename = "debug_dump_mpstatistics.blk")
+::debug_dump_mpstatistics_load <- function debug_dump_mpstatistics_load(filename = "debug_dump_mpstatistics.blk")
 {
   if (!dbg_dump.load(filename))
     return "File not found: " + filename
@@ -218,7 +237,7 @@ function debug_dump_mpstatistics_load(filename = "debug_dump_mpstatistics.blk")
 
 //==================================================================================================
 
-function debug_dump_respawn_save(filename = "debug_dump_respawn.blk")
+::debug_dump_respawn_save <- function debug_dump_respawn_save(filename = "debug_dump_respawn.blk")
 {
   local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.RespawnHandler)
   if (!handler || dbg_dump.isLoaded())
@@ -312,16 +331,16 @@ function debug_dump_respawn_save(filename = "debug_dump_respawn.blk")
   return "Saved " + filename
 }
 
-function debug_dump_respawn_load(filename = "debug_dump_respawn.blk")
+::debug_dump_respawn_load <- function debug_dump_respawn_load(filename = "debug_dump_respawn.blk")
 {
   if (!dbg_dump.load(filename))
     return "File not found: " + filename
   dbg_dump.loadFuncs({
     get_current_mission_desc = @(outBlk) outBlk.setFrom(::_fake_get_current_mission_desc)
     get_mplayers_list = @(team, full) ::_fake_mplayers_list.filter(
-      @(i,p) p.team == team || team == ::GET_MPLAYERS_LIST)
-    get_mplayer_by_id = @(id) ::_fake_mplayers_list.filter(@(i,p) p.id == id)?[0]
-    get_local_mplayer = @() ::_fake_mplayers_list.filter(@(i,p) p.isLocal)?[0]
+      @(p) p.team == team || team == ::GET_MPLAYERS_LIST)
+    get_mplayer_by_id = @(id) ::_fake_mplayers_list.filter(@(p) p.id == id)?[0]
+    get_local_mplayer = @() ::_fake_mplayers_list.filter(@(p) p.isLocal)?[0]
     request_aircraft_and_weapon = @(...) -1
   }, false)
   ::g_mis_custom_state.isCurRulesValid = false
@@ -337,7 +356,7 @@ function debug_dump_respawn_load(filename = "debug_dump_respawn.blk")
 
 //==================================================================================================
 
-function debug_dump_userlogs_save(filename = "debug_dump_userlogs.blk")
+::debug_dump_userlogs_save <- function debug_dump_userlogs_save(filename = "debug_dump_userlogs.blk")
 {
   local userlogs = []
   for (local i = 0; i < ::get_user_logs_count(); i++) {
@@ -351,7 +370,7 @@ function debug_dump_userlogs_save(filename = "debug_dump_userlogs.blk")
   return "Saved " + filename
 }
 
-function debug_dump_userlogs_load(filename = "debug_dump_userlogs.blk")
+::debug_dump_userlogs_load <- function debug_dump_userlogs_load(filename = "debug_dump_userlogs.blk")
 {
   if (!dbg_dump.load(filename))
     return "File not found: " + filename
@@ -368,7 +387,7 @@ function debug_dump_userlogs_load(filename = "debug_dump_userlogs.blk")
 
 //==================================================================================================
 
-function debug_dump_inventory_save(filename = "debug_dump_inventory.blk")
+::debug_dump_inventory_save <- function debug_dump_inventory_save(filename = "debug_dump_inventory.blk")
 {
   dbg_dump.save(filename, [
     { id = "_inventoryClient_items",    value = inventoryClient.items }
@@ -377,7 +396,7 @@ function debug_dump_inventory_save(filename = "debug_dump_inventory.blk")
   return "Saved " + filename
 }
 
-function debug_dump_inventory_load(filename = "debug_dump_inventory.blk")
+::debug_dump_inventory_load <- function debug_dump_inventory_load(filename = "debug_dump_inventory.blk")
 {
   if (!dbg_dump.load(filename))
     return "File not found: " + filename

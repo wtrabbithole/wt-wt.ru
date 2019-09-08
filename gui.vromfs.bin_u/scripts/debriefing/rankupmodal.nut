@@ -117,7 +117,7 @@ class ::gui_handlers.RankUpModal extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local airsObj = scene.findObject("rankup_aircraft_holder")
-    local newMaxheight = airsObj["decreased-height"]
+    local newMaxheight = airsObj?["decreased-height"]
     if (newMaxheight)
       airsObj["max-height"] = newMaxheight
 

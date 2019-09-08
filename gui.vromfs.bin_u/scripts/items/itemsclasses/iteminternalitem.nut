@@ -23,8 +23,8 @@ class ::items_classes.InternalItem extends ItemExternal
     if (item.iType == itemType.TROPHY)
       foreach (blk in item.getContent())
       {
-        local decoratorType = ::g_decorator_type.getTypeByResourceType(blk.resourceType)
-        if (!blk.resource || !decoratorType.isPlayerHaveDecorator(blk.resource))
+        local decoratorType = ::g_decorator_type.getTypeByResourceType(blk?.resourceType)
+        if (!blk?.resource || !decoratorType.isPlayerHaveDecorator(blk.resource))
           return true
       }
 

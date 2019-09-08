@@ -1,5 +1,5 @@
 /**[DEPRECATED] this notification callbacks call by mathing forced**/
-function on_online_info_updated(params)
+::on_online_info_updated <- function on_online_info_updated(params)
 {
   if ("utc_time" in params)
   {

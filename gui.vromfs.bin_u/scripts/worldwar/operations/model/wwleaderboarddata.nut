@@ -32,7 +32,24 @@ local modes = [
     hasDaysData = false
   }]
 
-local function requestWwLeaderboardData(modeName, modePostFix, day, start, amount, category, cb)
+local function getModeByName(mName)
+{
+  return ::u.search(modes, @(m) m.mode == mName
+    && (!m?.needFeature || ::has_feature(m.needFeature)))
+}
+
+/*
+dataParams = {
+  gameMode = "ww_users" + "__nordwind_wwmap"
+  table    = day && day > 0 ? "day" + day : "season"
+  start    = 1  // start position lb request
+  count    = 0  // count of records
+  category = ::g_lb_category.EVENTS_PERSONAL_ELO.field // sort field parametr
+}
+headersParams = {
+  userId = -1 //optional parameter. Equal to user id for user leaderboard and clan id for clan leaderboard
+} */
+local function requestWwLeaderboardData(modeName, dataParams, cb, headersParams = {})
 {
   local mode = getModeByName(modeName)
   if (!mode)
@@ -40,21 +57,12 @@ local function requestWwLeaderboardData(modeName, modePostFix, day, start, amoun
 
   local requestData = {
     add_token = true
-    headers = { appid = mode.appId }
-    action = "cln_get_leaderboard_json"
+    headers = { appid = mode.appId }.__update(headersParams)
+    action = ("userId" in headersParams) ? "ano_get_leaderboard_json" : "cln_get_leaderboard_json" //Need use ano_get_leaderboard_json for request with userId
     data = {
-      gameMode = modeName + modePostFix
-      table = day && day > 0 ? "day" + day : "season"
-      start = start
-      count = amount
-      category = category
-
-      //gameMode = mode
-      //table = type
-
       valueType = "value_total"
       resolveNick = true
-    }
+    }.__update(dataParams)
   }
 
   ::ww_leaderboard.request(requestData, cb)
@@ -147,8 +155,7 @@ return {
   modes = modes
   getSeasonDay = getSeasonDay
   getDayIdByNumber = @(number) "day" + number
-  getModeByName = @(mName) ::u.search(modes, @(m) m.mode == mName
-    && (!m?.needFeature || ::has_feature(m.needFeature)))
+  getModeByName = getModeByName
   requestWwLeaderboardData = requestWwLeaderboardData
   requestWwLeaderboardModes = requestWwLeaderboardModes
   convertWwLeaderboardData = convertWwLeaderboardData

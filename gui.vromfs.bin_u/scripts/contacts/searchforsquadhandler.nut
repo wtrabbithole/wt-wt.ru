@@ -2,7 +2,7 @@ local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
-function gui_start_search_squadPlayer()
+::gui_start_search_squadPlayer <- function gui_start_search_squadPlayer()
 {
   if (!::g_squad_manager.canInviteMember())
   {

@@ -3,12 +3,12 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   types = []
 }
 
-function g_unit_class_type::_getName()
+g_unit_class_type._getName <- function _getName()
 {
   return ::loc(::format("mainmenu/type_%s", name))
 }
 
-function g_unit_class_type::_checkCode(codeMask)
+g_unit_class_type._checkCode <- function _checkCode(codeMask)
 {
   if (code < 0)
     return false
@@ -16,7 +16,7 @@ function g_unit_class_type::_checkCode(codeMask)
   return (codeMask & (1 << code)) != 0
 }
 
-function g_unit_class_type::_getExpClass()
+g_unit_class_type._getExpClass <- function _getExpClass()
 {
   return ::format("exp_%s", name)
 }
@@ -178,7 +178,7 @@ function()
 
 ::g_unit_class_type.types.sort(@(a, b) a.checkOrder <=> b.checkOrder)
 
-function g_unit_class_type::getTypesFromCodeMask(codeMask)
+g_unit_class_type.getTypesFromCodeMask <- function getTypesFromCodeMask(codeMask)
 {
   local resultTypes = []
   foreach (t in types)
@@ -187,15 +187,15 @@ function g_unit_class_type::getTypesFromCodeMask(codeMask)
   return resultTypes
 }
 
-function g_unit_class_type::getTypeByExpClass(expClass)
+g_unit_class_type.getTypeByExpClass <- function getTypeByExpClass(expClass)
 {
   return enums.getCachedType("getExpClass", expClass, ::g_unit_class_type_cache.byExpClass,
     ::g_unit_class_type, ::g_unit_class_type.UNKNOWN)
 }
 
-function g_unit_class_type::getTypesByEsUnitType(esUnitType = null) //null if all unit types
+g_unit_class_type.getTypesByEsUnitType <- function getTypesByEsUnitType(esUnitType = null) //null if all unit types
 {
-  return types.filter(@(idx, t) (esUnitType == null && t.unitTypeCode != ::ES_UNIT_TYPE_INVALID)
+  return types.filter(@(t) (esUnitType == null && t.unitTypeCode != ::ES_UNIT_TYPE_INVALID)
     || t.unitTypeCode == esUnitType)
 }
 

@@ -1,16 +1,14 @@
-::quit_from_show_stat <- false
-
-function gui_start_flight_menu()
+::gui_start_flight_menu <- function gui_start_flight_menu()
 {
   ::flight_menu_handler = ::handlersManager.loadHandler(::gui_handlers.FlightMenu)
 }
 
-function gui_start_flight_menu_failed()
+::gui_start_flight_menu_failed <- function gui_start_flight_menu_failed()
 {
   ::flight_menu_handler = ::handlersManager.loadHandler(::gui_handlers.FlightMenu, { isMissionFailed = true })
 }
 
-function gui_start_flight_menu_psn() {} //unused atm, but still have a case in code
+::gui_start_flight_menu_psn <- function gui_start_flight_menu_psn() {} //unused atm, but still have a case in code
 
 class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -19,7 +17,6 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
   keepLoaded = true
   wndControlsAllowMask = CtrlsInGui.CTRL_ALLOW_FLIGHT_MENU
 
-  haveSecDevice = false
   isMissionFailed = false
   isShowStat = false
   usePause = true
@@ -46,7 +43,7 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
       items=[resumeItem]
       if (::get_game_mode() != ::GM_BENCHMARK)
         items.extend(["Options", "Controls", "ControlsHelp"])
-      items.extend(["Restart", "Bailout", "Stats", "QuitMission"])
+      items.extend(["Restart", "Bailout", "QuitMission"])
     }
 
     local blkItems =  ::build_menu_blk(items,"#flightmenu/btn", true)
@@ -146,9 +143,7 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
         btnBailout.show(false)
     }
 
-    local statsBtnObj = scene.findObject("btn_Stats")
-    if (::checkObj(statsBtnObj))
-      statsBtnObj.show(false)
+    showSceneBtn("btn_controlshelp", ::has_feature("ControlsHelp"))
 
     local quitMissionText = ::loc("flightmenu/btnQuitMission")
     if (::is_replay_playing())
@@ -162,31 +157,14 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
     local resumeBtnObj = scene.findObject("btn_Resume")
     if (::checkObj(resumeBtnObj))
       resumeBtnObj.select()
-
-    if (isShowStat)
-    {
-      isShowStat = false
-      ::quit_from_show_stat = true
-      onStats(null);
-    }
-    else if (::quit_from_show_stat)
-    {
-      ::quit_from_show_stat = false
-      onResumeRaw()
-    }
   }
 
-  function onCompleteMpSession()
+  function goBack()
   {
-
+    onResume()
   }
 
-  function onCompleteMpMission()
-  {
-
-  }
-
-  function onResume(obj)
+  function onResume(obj = null)
   {
     if (isMissionFailed)
       return
@@ -223,22 +201,7 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
 
   function onControls(obj)
   {
-    goForward(::gui_start_controls);
-  }
-
-  function onCustomShortcuts()
-  {
-    goForward(::gui_start_hotkeys)
-  }
-
-  function onCustomSettings()
-  {
-    goForward(::gui_start_joystick_settings)
-  }
-
-  function onStats(obj)
-  {
-    goForward(::gui_start_mpstatscreen)
+    ::gui_start_controls();
   }
 
   function selectRestartMissionBtn()
@@ -423,44 +386,13 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function getCurSecDevice()
-  {
-    local num = ::get_second_joy_number()
-    if (num < 0)
-    {
-      haveSecDevice = false
-      return "?"
-    }
-    haveSecDevice = true
-    return (num+1).tostring()
-  }
-
   function onControlsHelp()
   {
     ::gui_modal_help(false, HELP_CONTENT_SET.MISSION)
   }
-
-  function onActivateOrder()
-  {
-    ::g_orders.openOrdersInventory(true)
-  }
-
-  function onOrderTimerUpdate(obj, dt)
-  {
-    ::g_orders.updateActiveOrder()
-    if (::checkObj(obj))
-      obj.text = ::g_orders.getActivateButtonLabel()
-  }
-
-  function onInactiveItem(obj)
-  {
-    // Parameter 'obj' is null so we have to assume it's "Activate Order".
-    msgBox("no_orders_available", ::loc("items/order/noOrdersAvailable"),
-      [["ok", function () {}]], "ok")
-  }
 }
 
-function quit_mission()
+::quit_mission <- function quit_mission()
 {
   ::in_flight_menu(false)
   ::pause_game(false)

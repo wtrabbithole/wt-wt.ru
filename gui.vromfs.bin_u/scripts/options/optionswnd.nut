@@ -1,6 +1,6 @@
 local optionsListModule = require("scripts/options/optionsList.nut")
 
-function gui_start_options(owner = null, curOption = null)
+::gui_start_options <- function gui_start_options(owner = null, curOption = null)
 {
   local isInFlight = ::is_in_flight()
   if(isInFlight)

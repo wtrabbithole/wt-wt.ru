@@ -1,6 +1,8 @@
 @const shHud: sh $min (0.75sw);
 @const bwHud: 0.5*(sw * (1 - 1@_safearea_hud_w)) $max 1@debugRowHeight;
 @const bhHud: 0.5*(sh * (1 - 1@_safearea_hud_h)) $max 1@debugRowHeight;
+@const rwHud: sw - 2@bwHud;
+@const rhHud: sh - 2@bhHud;
 
 @const nhsf: ((sh / 1080) $max 1) * @pf; 
 
@@ -52,8 +54,8 @@ hud_touch_shortcut {
 hud_touch_shortcut[shortcut_id]  {
   behavior:button;
   background-color:@tranTouchShortcutColor;
-  on_click:onShortcutOff;
-  on_pushed:onShortcutOn;
+  on_click:"::gcb.onShortcutOff";
+  on_pushed:"::gcb.onShortcutOn";
 }
 
 hud_touch_shortcut:pushed {

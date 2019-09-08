@@ -26,14 +26,14 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   }
 }
 
-function g_weaponry_types::_getUnlockCost(unit, item)
+g_weaponry_types._getUnlockCost <- function _getUnlockCost(unit, item)
 {
   if (item.name == "")
     return ::Cost()
   return ::Cost(0, ::wp_get_modification_open_cost_gold(unit.name, item.name))
 }
 
-function g_weaponry_types::_getCost(unit, item)
+g_weaponry_types._getCost <- function _getCost(unit, item)
 {
   if (item.name == "")
     return ::Cost()
@@ -43,7 +43,7 @@ function g_weaponry_types::_getCost(unit, item)
   )
 }
 
-function g_weaponry_types::_getAmount(unit, item)
+g_weaponry_types._getAmount <- function _getAmount(unit, item)
 {
   if (("isDefaultForGroup" in item) && item.isDefaultForGroup >= 0)
     return 1
@@ -184,7 +184,7 @@ enums.addTypesByGlobalName("g_weaponry_types", {
   return 0
 })*/
 
-function g_weaponry_types::getUpgradeTypeByItem(item)
+g_weaponry_types.getUpgradeTypeByItem <- function getUpgradeTypeByItem(item)
 {
   if (!("type" in item))
     return ::g_weaponry_types.UNKNOWN

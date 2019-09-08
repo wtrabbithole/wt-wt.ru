@@ -11,17 +11,17 @@ enum MAP_PREVIEW_TYPE {
 
 //add or replace (by scene) preview to show.
 //obj is scene to check visibility and modal counter (not a obj with tqactical map behavior)
-function g_map_preview::setMapPreview(mapObj, missionBlk)
+g_map_preview.setMapPreview <- function setMapPreview(mapObj, missionBlk)
 {
   setPreview(MAP_PREVIEW_TYPE.MISSION_MAP, mapObj, missionBlk)
 }
 
-function g_map_preview::setSummaryPreview(mapObj, missionBlk, mapName)
+g_map_preview.setSummaryPreview <- function setSummaryPreview(mapObj, missionBlk, mapName)
 {
   setPreview(MAP_PREVIEW_TYPE.DYNAMIC_SUMMARY, mapObj, missionBlk, mapName)
 }
 
-function g_map_preview::setPreview(previewType, mapObj, missionBlk, param = null)
+g_map_preview.setPreview <- function setPreview(previewType, mapObj, missionBlk, param = null)
 {
   if (!::check_obj(mapObj))
     return
@@ -41,7 +41,7 @@ function g_map_preview::setPreview(previewType, mapObj, missionBlk, param = null
   refreshCurPreview(preview == curPreview)
 }
 
-function g_map_preview::createPreview(previewType, missionBlk, mapObj, param)
+g_map_preview.createPreview <- function createPreview(previewType, missionBlk, mapObj, param)
 {
   local preview = {
     type = previewType
@@ -62,12 +62,12 @@ function g_map_preview::createPreview(previewType, missionBlk, mapObj, param)
   return preview
 }
 
-function g_map_preview::findPreview(obj)
+g_map_preview.findPreview <- function findPreview(obj)
 {
   return ::u.search(list, (@(obj) function(p) { return ::check_obj(p.obj) && p.obj.isEqual(obj) })(obj))
 }
 
-function g_map_preview::hideCurPreview()
+g_map_preview.hideCurPreview <- function hideCurPreview()
 {
   if (!curPreview)
     return
@@ -76,7 +76,7 @@ function g_map_preview::hideCurPreview()
   curPreview = null
 }
 
-function g_map_preview::refreshCurPreview(isForced = false)
+g_map_preview.refreshCurPreview <- function refreshCurPreview(isForced = false)
 {
   validateList()
   local newPreview = ::getTblValue(0, list)
@@ -98,7 +98,7 @@ function g_map_preview::refreshCurPreview(isForced = false)
     ::dynamic_load_summary(curPreview.param, curPreview.blk)
 }
 
-function g_map_preview::validateList()
+g_map_preview.validateList <- function validateList()
 {
   for(local i = list.len() - 1; i >= 0; i--)
     if (!list[i].isValid() || list[i].isEmpty())
@@ -114,6 +114,20 @@ function g_map_preview::validateList()
   })
 }
 
-function g_map_preview::onEventActiveHandlersChanged(p) { refreshCurPreview() }
+g_map_preview.getMissionBriefingConfig <- function getMissionBriefingConfig(mission)
+{
+  local config = ::DataBlock()
+  local blk = ::g_mislist_type.isUrlMission(mission)
+              ? mission.urlMission.getMetaInfo()
+              : mission?.blk
+  if (!blk)
+    return config
+
+  config.load(blk.getStr("mis_file",""))
+  return config
+}
+
+
+g_map_preview.onEventActiveHandlersChanged <- function onEventActiveHandlersChanged(p) { refreshCurPreview() }
 
 ::subscribe_handler(::g_map_preview, ::g_listener_priority.DEFAULT_HANDLER)

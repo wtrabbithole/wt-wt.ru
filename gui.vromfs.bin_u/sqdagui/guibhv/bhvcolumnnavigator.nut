@@ -8,10 +8,10 @@ class gui_bhv.columnNavigator
     {
       selectCurItem(obj)
       ::play_gui_sound("focus")
-    } else if (event == ::EV_ON_FOCUS_LOST)
+    }
+    else if (event == ::EV_ON_FOCUS_LOST)
     {
-      local clear = obj.clearOnFocusLost
-      if (!clear || clear=="yes")
+      if (obj?.clearOnFocusLost != "no")
         clearSelect(obj)
     }
     obj.sendNotify("set_focus")
@@ -62,7 +62,7 @@ class gui_bhv.columnNavigator
         local size = td.getSize()
         if (mx >= pos[0] && mx <= pos[0]+size[0] && my >= pos[1] && my <= pos[1]+size[1])
         {
-          if (td.inactive == "yes")
+          if (td?.inactive == "yes")
             return ::RETCODE_HALT
 
           if (!is_up && (bits&::BITS_MOUSE_DBL_CLICK) && (bits&::BITS_MOUSE_BTN_L))
@@ -113,7 +113,7 @@ class gui_bhv.columnNavigator
           return ::RETCODE_HALT
         }
         curTr = obj.getChild(curRow)
-      } while ((curTr.childrenCount() <= curCol) || curTr.getChild(curCol).inactive == "yes")
+      } while ((curTr.childrenCount() <= curCol) || curTr.getChild(curCol)?.inactive == "yes")
 
       selectCell(obj, curRow, curCol)
       return ::RETCODE_HALT
@@ -138,7 +138,7 @@ class gui_bhv.columnNavigator
           return ::RETCODE_HALT
         }
         curTr = obj.getChild(curRow)
-      } while ((curTr.childrenCount() <= curCol) || curTr.getChild(curCol).inactive == "yes")
+      } while ((curTr.childrenCount() <= curCol) || curTr.getChild(curCol)?.inactive == "yes")
 
       selectCell(obj, curRow, curCol)
       return ::RETCODE_HALT
@@ -180,7 +180,7 @@ class gui_bhv.columnNavigator
       return ::RETCODE_HALT
     }
 
-    if (curTr.getChild(curCol).inactive == "yes")
+    if (curTr.getChild(curCol)?.inactive == "yes")
     {
       //choose closest row to fixedRow
       local deviation = 0
@@ -190,7 +190,7 @@ class gui_bhv.columnNavigator
       for(local k=1; k <= curRow; k++)
       {
         curTr = obj.getChild(curRow-k)
-        if (curTr.childrenCount() > curCol && curTr.getChild(curCol).inactive != "yes")
+        if (curTr.childrenCount() > curCol && curTr.getChild(curCol)?.inactive != "yes")
         {
           deviation1 = k
           break
@@ -199,7 +199,7 @@ class gui_bhv.columnNavigator
       for(local k=1; k < (numRows-curRow); k++)
       {
         curTr = obj.getChild(curRow+k)
-        if (curTr.childrenCount() > curCol && curTr.getChild(curCol).inactive != "yes")
+        if (curTr.childrenCount() > curCol && curTr.getChild(curCol)?.inactive != "yes")
         {
           deviation2 = k
           break
@@ -253,13 +253,13 @@ class gui_bhv.columnNavigator
     local td = tr.getChild(col)
       td["selected"] = "yes"
 
-    needNotify = needNotify && ((obj.cur_row != row.tostring()) || (obj.cur_col != col.tostring()))
+    needNotify = needNotify && ((obj?.cur_row != row.tostring()) || (obj?.cur_col != col.tostring()))
     obj.cur_row = row.tostring()
     obj.cur_col = col.tostring()
     if (fixedRow)
       obj.fixed_row = row.tostring()
 
-    if (!td.isVisible() || !td.isEnabled() || td.inactive=="yes")
+    if (!td.isVisible() || !td.isEnabled() || td?.inactive == "yes")
       return false
     td.scrollToView()
     if (needSound && ((curRow != row)||(curCol != col)))
@@ -303,7 +303,7 @@ class gui_bhv.columnNavigator
   }
 }
 
-function selectColumnNavigatorObj(obj)
+::selectColumnNavigatorObj <- function selectColumnNavigatorObj(obj)
 {
   if (!obj) return
   ::gui_bhv.columnNavigator.selectCurItem.call(::gui_bhv.columnNavigator, obj)

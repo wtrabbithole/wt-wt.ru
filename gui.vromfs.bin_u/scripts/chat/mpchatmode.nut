@@ -68,13 +68,13 @@ enums.addTypesByGlobalName("g_mp_chat_mode", {
   return 0
 })
 
-function g_mp_chat_mode::getModeById(modeId)
+g_mp_chat_mode.getModeById <- function getModeById(modeId)
 {
   return enums.getCachedType("id", modeId, cache.byId, this, ALL)
 }
 
 
-function g_mp_chat_mode::getModeNameText(modeId)
+g_mp_chat_mode.getModeNameText <- function getModeNameText(modeId)
 {
   return getModeById(modeId).getNameText()
 }
@@ -82,7 +82,7 @@ function g_mp_chat_mode::getModeNameText(modeId)
 
 // To pass color name to daRg.
 // daRg can't use text color constants
-function g_mp_chat_mode::getModeColorName(modeId)
+g_mp_chat_mode.getModeColorName <- function getModeColorName(modeId)
 {
   local colorName = getModeById(modeId).textColor
   if (colorName.len())
@@ -91,7 +91,7 @@ function g_mp_chat_mode::getModeColorName(modeId)
 }
 
 
-function g_mp_chat_mode::getNextMode(modeId)
+g_mp_chat_mode.getNextMode <- function getNextMode(modeId)
 {
   local isCurFound = false
   local newMode = null
@@ -115,15 +115,15 @@ function g_mp_chat_mode::getNextMode(modeId)
   return newMode
 }
 
-function g_mp_chat_mode::getTextAvailableMode()
+g_mp_chat_mode.getTextAvailableMode <- function getTextAvailableMode()
 {
   return ::g_string.implode(
-    ::u.map(types.filter(@(idx, mode) mode.isEnabled()),
+    ::u.map(types.filter(@(mode) mode.isEnabled()),
       @(mode) mode.getNameText()),
     ::loc("ui/slash"))
 }
 
-function g_mp_chat_mode::getChatHint()
+g_mp_chat_mode.getChatHint <- function getChatHint()
 {
   local hasIME = ::is_ps4_or_xbox || ::is_platform_android || ::is_steam_big_picture()
   return ::loc("chat/help/modeSwitch",

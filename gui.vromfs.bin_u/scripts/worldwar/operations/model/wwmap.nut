@@ -1,12 +1,9 @@
 local time = require("scripts/time.nut")
 
-
 class WwMap
 {
   name = ""
   data = null
-
-  DEFAULT_OPERATION_ANNOUNCE_TIME_SEC = TIME_DAY_IN_SECONDS
 
   constructor(_name, _data)
   {
@@ -120,7 +117,10 @@ class WwMap
 
   function getChangeStateTimeText()
   {
-    return getMapChangeStateTimeText()
+    local changeStateTime = getChangeStateTime() - ::get_charserver_time_sec()
+    return changeStateTime > 0
+      ? time.hoursToString(time.secondsToHours(changeStateTime), false, true)
+      : ""
   }
 
   function getChangeStateTime()
@@ -156,15 +156,15 @@ class WwMap
   {
     local changeStateTime = getChangeStateTime() - ::get_charserver_time_sec()
     local operationAnnounceTimeSec = ::g_world_war.getSetting("operationAnnounceTimeSec",
-      DEFAULT_OPERATION_ANNOUNCE_TIME_SEC)
+      time.TIME_DAY_IN_SECONDS)
     return !isActive()
       && changeStateTime > 0
       && (!isNearFuture || changeStateTime < operationAnnounceTimeSec)
   }
 
-  function isAnnounceAndNotDebug()
+  function isAnnounceAndNotDebug(isNearFuture = true)
   {
-    return (isActive() || isWillAvailable()) && !isDebugChapter()
+    return (isActive() || isWillAvailable(isNearFuture)) && !isDebugChapter()
   }
 
   function getCountryToSideTbl()

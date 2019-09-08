@@ -123,7 +123,7 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
 
   function onGetRewardForTask(obj)
   {
-    ::g_battle_tasks.getRewardForTask(obj.task_id)
+    ::g_battle_tasks.getRewardForTask(obj?.task_id)
   }
 
   function onWarbondsShop(obj)

@@ -8,7 +8,7 @@ enum MIS_LOAD { //bit enum
 }
 
   //calls from c++ code.
-function on_update_es_from_host()
+::on_update_es_from_host <- function on_update_es_from_host()
 {
   dagor.debug("on_update_es_from_host called")
   ::g_crews_list.invalidate()
@@ -18,7 +18,7 @@ function on_update_es_from_host()
 
   //calls from c++ code. Signals that something is changed in mission
   // for now it's only state of respawn bases
-function on_mission_changed()
+::on_mission_changed <- function on_mission_changed()
 {
   ::broadcastEvent("ChangedMissionRespawnBasesStatus")
 }
@@ -29,17 +29,17 @@ function on_mission_changed()
   curState = 0
 }
 
-function g_mis_loading_state::isReadyToShowRespawn()
+g_mis_loading_state.isReadyToShowRespawn <- function isReadyToShowRespawn()
 {
   return (curState & MIS_LOAD.RESPAWN_DATA_LOADED) == MIS_LOAD.RESPAWN_DATA_LOADED
 }
 
-function g_mis_loading_state::isCrewsListReceived()
+g_mis_loading_state.isCrewsListReceived <- function isCrewsListReceived()
 {
   return (curState & MIS_LOAD.ECONOMIC_STATE) != 0
 }
 
-function g_mis_loading_state::onEventUpdateEsFromHost(p)
+g_mis_loading_state.onEventUpdateEsFromHost <- function onEventUpdateEsFromHost(p)
 {
   if (curState & MIS_LOAD.ECONOMIC_STATE)
     return
@@ -49,7 +49,7 @@ function g_mis_loading_state::onEventUpdateEsFromHost(p)
   checkRespawnBases()
 }
 
-function g_mis_loading_state::onEventLoadingStateChange(p)
+g_mis_loading_state.onEventLoadingStateChange <- function onEventLoadingStateChange(p)
 {
   if (!::is_in_flight())
   {
@@ -59,7 +59,7 @@ function g_mis_loading_state::onEventLoadingStateChange(p)
   }
 }
 
-function g_mis_loading_state::checkRespawnBases()
+g_mis_loading_state.checkRespawnBases <- function checkRespawnBases()
 {
   if ((curState & MIS_LOAD.RESPAWN_BASES)
       || !(curState & MIS_LOAD.ECONOMIC_STATE))
@@ -85,7 +85,7 @@ function g_mis_loading_state::checkRespawnBases()
     curState = curState | MIS_LOAD.RESPAWN_BASES
 }
 
-function g_mis_loading_state::onEventChangedMissionRespawnBasesStatus(p)
+g_mis_loading_state.onEventChangedMissionRespawnBasesStatus <- function onEventChangedMissionRespawnBasesStatus(p)
 {
   checkRespawnBases()
 }

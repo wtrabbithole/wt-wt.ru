@@ -140,14 +140,16 @@ div {
         position:t='absolute';
         pos:t='pw/2 - w/2, ph/2 - h/2';
 
+        background-svg-size:t='1.167*pw, 1.167*ph'
         background-color:t='@white';
-        background-image:t='#ui/gameuiskin#circular_progress_1';
+        background-image:t='#ui/gameuiskin#circular_progress_1.svg'
 
         tdiv {
           position:t='absolute'
           size:t='pw, ph'
+          background-svg-size:t='1.167*p.p.w, 1.167*p.p.h'
           background-color:t='#33555555';
-          background-image:t='#ui/gameuiskin#circular_progress_1';
+          background-image:t='#ui/gameuiskin#circular_progress_1.svg'
         }
       }
 

@@ -1,4 +1,4 @@
-function is_version_equals_or_newer(verTxt, isTorrentVersion = false) // "1.43.7.75"
+::is_version_equals_or_newer <- function is_version_equals_or_newer(verTxt, isTorrentVersion = false) // "1.43.7.75"
 {
   if (!("get_game_version" in ::getroottable()))
     return false
@@ -6,7 +6,7 @@ function is_version_equals_or_newer(verTxt, isTorrentVersion = false) // "1.43.7
   return cur == 0 || cur >= ::get_version_int_from_string(verTxt)
 }
 
-function is_version_equals_or_older(verTxt, isTorrentVersion = false) // "1.61.1.37"
+::is_version_equals_or_older <- function is_version_equals_or_older(verTxt, isTorrentVersion = false) // "1.61.1.37"
 {
   if (!("get_game_version" in ::getroottable()))
     return true
@@ -14,7 +14,7 @@ function is_version_equals_or_older(verTxt, isTorrentVersion = false) // "1.61.1
   return cur != 0 && cur <= ::get_version_int_from_string(verTxt)
 }
 
-function get_version_int_from_string(versionText)
+::get_version_int_from_string <- function get_version_int_from_string(versionText)
 {
   local res = 0
   local list = ::split(versionText, ".")
@@ -39,7 +39,7 @@ function get_version_int_from_string(versionText)
 
 ::getTblValue <- @(key, tbl, defValue = null) key in tbl ? tbl[key] : defValue
 
-function getTblValueByPath(path, tbl, defValue = null, separator = ".")
+::getTblValueByPath <- function getTblValueByPath(path, tbl, defValue = null, separator = ".")
 {
   if (path == "")
     return defValue
@@ -49,7 +49,7 @@ function getTblValueByPath(path, tbl, defValue = null, separator = ".")
   return ::get_tbl_value_by_path_array(keys, tbl, defValue)
 }
 
-function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
+::get_tbl_value_by_path_array <- function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
 {
   foreach(key in pathArray)
     tbl = tbl?[key] ?? defValue
@@ -63,7 +63,6 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
 
 //----------------------------wop_1_85_0_X---------------------------------//
 ::apply_compatibilities({
-  is_triple_head = @(sw, sh) sw >= 3 * sh
   set_hud_width_limit = @(w) null
   get_local_time_sec       = @()  ::mktime(::get_local_time())
   get_user_log_time_sec    = @(i) ::mktime(::get_user_log_time(i))
@@ -91,7 +90,26 @@ function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
   AUTO_SAVE_FLG_PASS = 2
   AUTO_SAVE_FLG_DISABLE = 4
   AUTO_SAVE_FLG_NOSSLCERT = 8
-  shell_purchase_in_steam = @(p) shell_purchase_in_browser(p)
   userstat = { request = @(...) null }
   xbox_link_email = @(email, cb) cb(::YU2_FAIL)
+})
+
+//----------------------------wop_1_89_1_X---------------------------------//
+::apply_compatibilities({
+  function warbonds_has_active_battle_task(name)
+  {
+    return !::warbonds_can_buy_battle_task(name)
+  }
+  restart_without_steam = restart_game
+  get_authenticated_url_sso = @(u, s) get_authenticated_url_table(u)
+  EATT_SIMPLE_OK = 43
+  OPTION_HIDE_MOUSE_SPECTATOR = 255
+  function clan_get_exp_boost() {return 0}
+  YU2_DOI_INCOMPLETE = 31
+  function set_selected_unit_info(unit, slot_id){}
+  function is_eac_inited()
+  {
+    return true
+  }
+  get_level_texture = @(lvl, f) ::map_to_location(lvl ?? "") + (f ? "_tankmap*" : "_map*")
 })

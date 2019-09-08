@@ -2,7 +2,7 @@
   needCheckUnitSpeechLangPack = false
 }
 
-function g_options::onEventActiveHandlersChanged(params)
+g_options.onEventActiveHandlersChanged <- function onEventActiveHandlersChanged(params)
 {
   if (needCheckUnitSpeechLangPack)
   {

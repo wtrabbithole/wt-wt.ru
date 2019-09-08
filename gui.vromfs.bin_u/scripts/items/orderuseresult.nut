@@ -3,7 +3,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   types = []
 }
 
-function g_order_use_result::_createResultMessage(addErrorHeader)
+g_order_use_result._createResultMessage <- function _createResultMessage(addErrorHeader)
 {
   local resultMessage = (this == ::g_order_use_result.OK || !addErrorHeader)
     ? ""
@@ -82,7 +82,7 @@ enums.addTypesByGlobalName("g_order_use_result", {
   }
 })
 
-function g_order_use_result::getOrderUseResultByCode(useResultCode)
+g_order_use_result.getOrderUseResultByCode <- function getOrderUseResultByCode(useResultCode)
 {
   return enums.getCachedType("code", useResultCode, ::g_order_use_result_cache.byCode,
     ::g_order_use_result, ::g_order_use_result.UNKNOWN)

@@ -2,6 +2,7 @@ local inventoryClient = require("scripts/inventory/inventoryClient.nut")
 local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
 local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
+local ItemLifetimeModifier = require("scripts/items/itemLifetimeModifier.nut")
 
 local collection = {}
 
@@ -11,7 +12,8 @@ local ItemGenerator = class {
   exchange = null
   bundle  = null
   timestamp = ""
-  craftTime = 0
+  rawCraftTime = 0
+  lifetimeModifier = null
 
   isPack = false
   hasHiddenItems = false
@@ -29,11 +31,25 @@ local ItemGenerator = class {
     isPack   = ::isInArray(genType, [ "bundle", "delayedexchange" ])
     tags     = itemDefDesc?.tags ?? null
     timestamp = itemDefDesc?.Timestamp ?? ""
-    craftTime = time.getSecondsFromTemplate(itemDefDesc?.lifetime ?? "")
+    rawCraftTime = time.getSecondsFromTemplate(itemDefDesc?.lifetime ?? "")
+    local lifetimeModifierText = itemDefDesc?.lifetime_modifier
+    if (!u.isEmpty(lifetimeModifierText))
+      lifetimeModifier = ItemLifetimeModifier(lifetimeModifierText)
   }
 
   _exchangeRecipes = null
   _exchangeRecipesUpdateTime = 0
+
+  function getCraftTime()
+  {
+    local result = rawCraftTime
+    if (lifetimeModifier != null)
+    {
+      local mul = lifetimeModifier.calculate()
+      result = max(1, round(result * mul))
+    }
+    return result
+  }
 
   function getRecipes(needUpdateRecipesList = true)
   {
@@ -41,7 +57,7 @@ local ItemGenerator = class {
       || (needUpdateRecipesList && _exchangeRecipesUpdateTime <= ::ItemsManager.extInventoryUpdateTime))
     {
       local generatorId = id
-      local generatorCraftTime = craftTime
+      local generatorCraftTime = getCraftTime()
       local parsedRecipes = inventoryClient.parseRecipesString(exchange)
       local isDisassemble = tags?.isDisassemble ?? false
       local localizationPresetName = tags?.customLocalizationPreset
@@ -66,7 +82,7 @@ local ItemGenerator = class {
             _exchangeRecipes.extend(::u.map(additionalParsedRecipes, @(pr) ExchangeRecipes({
               parsedRecipe = pr,
               generatorId = gen.id
-              craftTime = gen.craftTime
+              craftTime = gen.getCraftTime()
               isFake = paramName != "trueRecipe"
               isDisassemble = isDisassemble
               localizationPresetName = localizationPresetName

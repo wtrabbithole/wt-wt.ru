@@ -53,7 +53,7 @@ local summaryNameArray = [
     for (local i = titles.len() - 1; i >= 0 ; i--)
     {
       local titleUnlock = ::g_unlocks.getUnlockById(titles[i])
-      if (!titleUnlock || titleUnlock.hidden)
+      if (!titleUnlock || titleUnlock?.hidden)
         titles.remove(i)
     }
 
@@ -125,7 +125,7 @@ local summaryNameArray = [
   function onEventInitConfigs(p)
   {
     local settingsBlk = ::get_game_settings_blk()
-    local blk = settingsBlk && settingsBlk.newPlayersBattles
+    local blk = settingsBlk?.newPlayersBattles
     if (!blk)
       return
 
@@ -138,17 +138,18 @@ local summaryNameArray = [
       local list = blk % unitType.lowerName
       foreach(ev in list)
       {
-        _unitTypeByNewbieEventId[ev.event] <- unitType.esUnitType
         if (!ev.event)
           continue
+        _unitTypeByNewbieEventId[ev.event] <- unitType.esUnitType
 
+        local kills = ev?.kills || 1
         data.battles.append({
-          event       = ev.event
-          kills       = ev.kills || 1
+          event       = ev?.event
+          kills       = kills
           timePlayed  = ev?.timePlayed || 0
-          unitRank    = ev.unitRank || 0
+          unitRank    = ev?.unitRank || 0
         })
-        data.minKills = ::max(data.minKills, ev.kills)
+        data.minKills = ::max(data.minKills, kills)
       }
       if (data.minKills)
         _newPlayersBattles[unitType.esUnitType] <- data
@@ -401,7 +402,7 @@ local summaryNameArray = [
     local loadedBlk = ::loadLocalByAccount("tutor/newbieBattles/unitsRank", ::DataBlock())
     foreach (unitType in ::g_unit_type.types)
       if (unitType.isAvailable()
-        && (loadedBlk[unitType.esUnitType.tostring()] ?? 0) < ::max_country_rank)
+        && (loadedBlk?[unitType.esUnitType.tostring()] ?? 0) < ::max_country_rank)
       {
         needRecalculate = true
         break
@@ -464,7 +465,7 @@ seenTitles.setListGetter(@() ::my_stats.getTitles())
 
 ::subscribe_handler(::my_stats, ::g_listener_priority.DEFAULT_HANDLER)
 
-function is_me_newbie() //used in code
+::is_me_newbie <- function is_me_newbie() //used in code
 {
   return ::my_stats.isMeNewbie()
 }

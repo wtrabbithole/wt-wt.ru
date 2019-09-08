@@ -1,6 +1,8 @@
 local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local clustersModule = require("scripts/clusterSelect.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 const COLLAPSED_CHAPTERS_SAVE_ID = "events_collapsed_chapters"
 const ROOMS_LIST_OPEN_COUNT_SAVE_ID = "tutor/roomsListOpenCount"
@@ -14,8 +16,11 @@ const SHOW_RLIST_BEFORE_OPEN_DEFAULT = 10
  * Chapter has greater priority but it's bad prctice to use both options
  * simultaneously.
  */
-function gui_start_modal_events(options = {})
+::gui_start_modal_events <- function gui_start_modal_events(options = {})
 {
+  if (!antiCheat.showMsgboxIfEacInactive())
+    return
+
   local eventId = null
   local chapterId = ::getTblValue ("chapter", options, null)
 
@@ -79,7 +84,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     updateQueueInterface()
     updateButtons()
-    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
+    updateClusters()
 
     initFocusArray()
     scene.findObject("event_update").setUserData(this)
@@ -123,7 +128,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if(!::checkObj(curEventItemObj))
       return
 
-    local newEvent = ::events.getEvent(curEventItemObj.id)
+    local newEvent = ::events.getEvent(curEventItemObj?.id)
     local newEventId = newEvent ? newEvent.name : ""
     local newChapterId = newEvent ? ::events.getEventsChapter(newEvent)
       : curEventItemObj.id
@@ -212,13 +217,13 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
         || !queueToShow)
       return
 
-    local delay = ::getTblValue("timeToAskShowRoomsListSec", ::configs.GUI.get().eventRoomsList,
-                    SHOW_RLIST_ASK_DELAY_DEFAULT)
+    local eventRoomsListCfgBlk = ::configs.GUI.get()?.eventRoomsList
+
+    local delay = eventRoomsListCfgBlk?.timeToAskShowRoomsListSec ?? SHOW_RLIST_ASK_DELAY_DEFAULT
     if (queueToShow.getActiveTime() < delay)
       return
 
-    local maxCount = ::getTblValue("askBeforeOpenCount", ::configs.GUI.get().eventRoomsList,
-                       SHOW_RLIST_BEFORE_OPEN_DEFAULT)
+    local maxCount = eventRoomsListCfgBlk?.askBeforeOpenCount ?? SHOW_RLIST_BEFORE_OPEN_DEFAULT
     if (maxCount < ::load_local_account_settings(ROOMS_LIST_OPEN_COUNT_SAVE_ID, 0))
     {
       canAskAboutRoomsList = false
@@ -299,7 +304,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onOpenClusterSelect(obj)
   {
     ::queues.checkAndStart(
-      ::Callback(@() ::gui_handlers.ClusterSelect.open(obj, "bottom"), this),
+      ::Callback(@() clustersModule.createClusterSelectMenu(obj, "bottom"), this),
       null,
       "isCanChangeCluster")
   }
@@ -311,7 +316,12 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventClusterChange(params)
   {
-    ::show_selected_clusters(scene.findObject("cluster_select_button_text"))
+    updateClusters()
+  }
+
+  function updateClusters()
+  {
+    clustersModule.updateClusters(scene.findObject("cluster_select_button_text"))
   }
 
   function goBack()
@@ -496,7 +506,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local collapsedButtonObj = showSceneBtn("btn_collapsed_chapter", isHeader)
     if (isHeader)
     {
-      local isCollapsedChapter = getCollapsedChapters()[curChapterId]
+      local isCollapsedChapter = getCollapsedChapters()?[curChapterId]
       startText = ::loc(isCollapsedChapter ? "mainmenu/btnExpand" : "mainmenu/btnCollapse")
       collapsedButtonObj.setValue(startText)
     }
@@ -595,7 +605,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onCollapse(obj)
   {
-    if ( ! obj || ! obj.id)
+    if (!obj?.id)
       return
     collapseChapter(::g_string.cutPrefix(obj.id, "btn_", obj.id))
     updateButtons()
@@ -660,7 +670,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   //----END_VIEW----//
 }
 
-function get_events_handler()
+::get_events_handler <- function get_events_handler()
 {
   local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.EventsHandler)
   if (!handler)

@@ -1,7 +1,7 @@
 <<#showAllCheckBoxEnabled>>
 CheckBox {
   id:t='checkbox_show_all_promo_blocks'
-  pos:t='pw - 1@bw - w + 2*@sf/@pf_outdated, 0'
+  pos:t='pw - 1@bw - w, 0'
   position:t='relative'
   on_change_value:t='onShowAllCheckBoxChange'
 
@@ -38,6 +38,8 @@ promoButton {
     invisibleHover:t='yes'
   <</inputTransparent>>
   collapsed:t='<<collapsed>>'
+
+  bgGradientRight {}
 
   <<#isMultiblock>>
   behavior:t = 'Timer'
@@ -215,5 +217,13 @@ promoButton {
     directionImg {}
   }
 }
-
 <</promoButtons>>
+<<#hasTimer>>
+dummy {
+  id:t='promo_blocks_timer'
+  behavior:t='Timer'
+  timer_handler_func:t='onTimerUpdate'
+  timer_interval_msec:t='1000'
+}
+<</hasTimer>>
+

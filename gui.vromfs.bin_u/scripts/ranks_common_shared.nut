@@ -1,3 +1,5 @@
+local format = require("string").format
+
 ::DS_UT_AIRCRAFT <- "Air"
 ::DS_UT_TANK <- "Tank"
 ::DS_UT_SHIP <- "Ship"
@@ -26,7 +28,6 @@
   exp_cruiser = DS_UT_SHIP
   exp_naval_ferry_barge = DS_UT_SHIP
   exp_helicopter = DS_UT_AIRCRAFT
-  exp_ufo = DS_UT_AIRCRAFT
 }
 
 ::dsClassToMatchingClass <-
@@ -36,7 +37,7 @@
   [DS_UT_SHIP] = "ship"
 }
 
-enum EDifficulties
+global enum EDifficulties
 {
   ARCADE = 0,
   REALISTIC = 1,
@@ -51,7 +52,7 @@ enum EDifficulties
   TOTAL = 9
 }
 
-const EDIFF_SHIFT = 3
+global const EDIFF_SHIFT = 3
 
 ::EDifficultiesStr <- {
   [EDifficulties.ARCADE] = "Arcade",
@@ -83,7 +84,7 @@ const EDIFF_SHIFT = 3
 
 ::cur_mission_mode <- -1
 
-function get_team_name_by_mp_team(team)
+::get_team_name_by_mp_team <- function get_team_name_by_mp_team(team)
 {
   switch (team)
   {
@@ -97,7 +98,7 @@ function get_team_name_by_mp_team(team)
   return "unknown"
 }
 
-function get_mp_team_by_team_name(teamName)
+::get_mp_team_by_team_name <- function get_mp_team_by_team_name(teamName)
 {
   switch (teamName)
   {
@@ -109,125 +110,121 @@ function get_mp_team_by_team_name(teamName)
   return ::MP_TEAM_NEUTRAL
 }
 
-function get_mission_mode()
+::get_mission_mode <- function get_mission_mode()
 {
   if (::cur_mission_mode >= 0)
     return ::cur_mission_mode
-  local mission_name = get_selected_mission()
+  local mission_name = ::get_selected_mission()
   local mission_mode = (mission_name && ::get_mission_type(mission_name)) || 0
   dagor.debug("get_mission_mode "+mission_name+" mission_mode "+mission_mode)
   ::cur_mission_mode = mission_mode
   return mission_mode
 }
 
-function get_emode_name(ediff)
+::get_emode_name <- function get_emode_name(ediff)
 {
   return ::EDifficultiesStr[(ediff in ::EDifficultiesStr) ? ediff : EDifficulties.ARCADE]
 }
 
-function get_econRank_emode_name(ediff)
+::get_econRank_emode_name <- function get_econRank_emode_name(ediff)
 {
   return ::EDifficultiesEconRankStr[(ediff in ::EDifficultiesEconRankStr) ? ediff : EDifficultiesEconRankStr.ARCADE]
 }
 
-function clear_spawn_score()
+::clear_spawn_score <- function clear_spawn_score()
 {
   ::spawn_score_tbl = {}
 }
 
-function getWpcostUnitClass(unitId)
+::getWpcostUnitClass <- function getWpcostUnitClass(unitId)
 {
   local cost = ::get_wpcost_blk()
-  return (unitId && unitId != "" && cost[unitId] && cost[unitId].unitClass) ? cost[unitId].unitClass : "exp_zero"
+  return (unitId && unitId != "") ? (cost?[unitId]?.unitClass ?? "exp_zero") : "exp_zero"
 }
 
-function unitHasTag(unitId, tag)
+::unitHasTag <- function unitHasTag(unitId, tag)
 {
-  local cfg = ::get_unittags_blk()
-  if (unitId in cfg)
-    if (cfg[unitId].tags != null)
-      return (cfg[unitId].tags[tag] == true);
-  return false;
+  return ::get_unittags_blk()?[unitId]?.tags?[tag] == true
 }
 
-function get_ds_ut_name_unit_type(unitType)
+::get_ds_ut_name_unit_type <- function get_ds_ut_name_unit_type(unitType)
 {
   return ::ds_unit_type_names?[unitType] ?? DS_UT_INVALID
 }
 
-function get_unit_type_by_unit_name(unitId)
+::get_unit_type_by_unit_name <- function get_unit_type_by_unit_name(unitId)
 {
   return ::mapWpUnitClassToWpUnitType?[::getWpcostUnitClass(unitId)] ?? DS_UT_INVALID
 }
 
-function round(value, digits=0)
+::round <- function round(value, digits=0)
 {
-  local mul = pow(10, digits)
-  return floor(0.5 + value.tofloat()*mul) / mul
+  local mul = ::pow(10, digits)
+  return ::floor(0.5 + value.tofloat()*mul) / mul
 }
 
-function calc_battle_rating_from_rank(economicRank)
+::calc_battle_rating_from_rank <- function calc_battle_rating_from_rank(economicRank)
 {
   return ::round(economicRank / 3.0 + 1, 1)
 }
 
-function get_battle_rating_string_from_rank(economicRank)
+::get_battle_rating_string_from_rank <- function get_battle_rating_string_from_rank(economicRank)
 {
   return ::format("%.1f", ::calc_battle_rating_from_rank(economicRank))
 }
 
-function get_unit_blk_economic_rank_by_mode(unitBlk, ediff)
+::get_unit_blk_economic_rank_by_mode <- function get_unit_blk_economic_rank_by_mode(unitBlk, ediff)
 {
   local mode_name = ::get_econRank_emode_name(ediff)
   return unitBlk?["economicRank" + mode_name] ?? 0
 }
 
-function player_activity_coef(score, time)
+::player_activity_coef <- function player_activity_coef(score, time)
 {
   local mis = ::get_current_mission_info_cached()
   local ws = ::get_warpoints_blk()
-  local mScoreBase = (ws.mScoreBase != null ? ws.mScoreBase : 1.0)
-  local mScorePow = ws.getReal("mScorePow", 0.0)
-  local standartMissionTime = (ws.standartMissionTime != null ? ws.standartMissionTime : 600.0)
-  local standartMissionTimePow = (ws.standartMissionTimePow != null ? ws.standartMissionTimePow : 1.0)
+  local mScoreBase = ws?.mScoreBase ?? 1.0
+  local mScorePow = ws?.mScorePow ?? 0.0
+  local standartMissionTime = ws?.standartMissionTime ?? 600.0
+  local standartMissionTimePow = ws?.standartMissionTimePow ?? 1.0
 
-  local customScoreMul = mis.customScoreMul != null ? mis.customScoreMul : 1.0
+  local customScoreMul = mis?.customScoreMul ?? 1.0
   local customScore = score * customScoreMul
-  
+
   local scoreToTime = 0.0
   if (time > standartMissionTime)
-    time = standartMissionTime+pow(time-standartMissionTime, standartMissionTimePow)
+    time = standartMissionTime + ::pow(time-standartMissionTime, standartMissionTimePow)
 
   if (time > 0.01)
-    scoreToTime = pow(customScore.tofloat(), mScorePow)/time
+    scoreToTime = ::pow(customScore.tofloat(), mScorePow)/time
 
-  local activity_coef = (1.0 - pow(mScoreBase, scoreToTime))
+  local activity_coef = (1.0 - ::pow(mScoreBase, scoreToTime))
 
   dagor.debug("player_activity_coef: "+activity_coef+" score "+score+" time "+time+" customScore "+customScore+" mScoreBase "+mScoreBase+ " scoreToTime "+scoreToTime+" mScorePow "+mScorePow+" customScoreMul "+customScoreMul)
 
   return ::round(activity_coef, 2);
 }
 
-function isUnitSpecial(unit)
+::isUnitSpecial <- function isUnitSpecial(unit)
 {
   return ("costGold" in unit && unit.costGold.tointeger() > 0) ||
          ("premPackAir" in unit && unit.premPackAir)
 }
 
-function get_unit_exp_conversion_mul(unitName, resUnitName)
+::get_unit_exp_conversion_mul <- function get_unit_exp_conversion_mul(unitName, resUnitName)
 {
   local wpcost = ::get_wpcost_blk()
 
-  local unit = wpcost[unitName]
-  local resUnit = wpcost[resUnitName]
-  local prevUnit = (resUnit && ("reqAir" in resUnit)) ? wpcost[resUnit.reqAir] : null
+  local unit = wpcost?[unitName]
+  local resUnit = wpcost?[resUnitName]
+  local prevUnit = resUnit?.reqAir ? wpcost?[resUnit.reqAir] : null
 
   if (!unit || !resUnit)
     return 1.0
 
   local blk = ::get_ranks_blk()
   local unit_type = ::get_unit_type_by_unit_name(unitName)
-  if (blk[unit_type] == null)
+  if (blk?[unit_type] == null)
   {
     dagor.debug("ERROR: ranks.blk is broken "+unit_type)
     return 0
@@ -266,7 +263,7 @@ function get_unit_exp_conversion_mul(unitName, resUnitName)
   return expMul
 }
 
-function calc_public_boost(bostersArray)
+::calc_public_boost <- function calc_public_boost(bostersArray)
 {
   local res = 0.0
   local k = [1.0, 0.6, 0.4, 0.2, 0.1]
@@ -287,7 +284,7 @@ function calc_public_boost(bostersArray)
   return res
 }
 
-function calc_personal_boost(bostersArray)
+::calc_personal_boost <- function calc_personal_boost(bostersArray)
 {
   local res = 0.0
   local k = [1.0, 0.6, 0.4, 0.2, 0.1]
@@ -308,9 +305,9 @@ function calc_personal_boost(bostersArray)
   return res
 }
 
-function get_spawn_score_param(paramName, defaultNum)
+::get_spawn_score_param <- function get_spawn_score_param(paramName, defaultNum)
 {
-  local ws = get_warpoints_blk()
+  local ws = ::get_warpoints_blk()
   local misBlk = ::get_current_mission_info_cached()
   local sessionMRank = misBlk?.ranks?.max ?? 0
   local modeName = get_emode_name(get_mission_mode())
@@ -333,13 +330,11 @@ function get_spawn_score_param(paramName, defaultNum)
          ?? defaultNum
 }
 
-function get_unit_spawn_score_weapon_mul(unitname, weapon)
+::get_unit_spawn_score_weapon_mul <- function get_unit_spawn_score_weapon_mul(unitname, weapon)
 {
   local wpcost = ::get_wpcost_blk()
-  if (wpcost[unitname] == null)
-    return 1.0
 
-  local unitClass = wpcost[unitname].unitClass
+  local unitClass = wpcost?[unitname]?.unitClass
   if (unitClass == null)
     return 1.0
 
@@ -355,7 +350,7 @@ function get_unit_spawn_score_weapon_mul(unitname, weapon)
 // return non-empty string for errors
 ::validate_custom_mission_last_error <- ""
 
-function validate_custom_mission(misblk)
+::validate_custom_mission <- function validate_custom_mission(misblk)
 {
   ::validate_custom_mission_last_error = ""
 
@@ -365,18 +360,18 @@ function validate_custom_mission(misblk)
       ::validate_custom_mission_last_error += "\n"
     ::validate_custom_mission_last_error += str;
   }
-          
-  local md = misblk.mission_settings.mission
-  if (!dd_file_exist(md.level))
-    err("Unknown location "+md.level);
-  local levelBlk = md.level.slice(0, -3) + "blk"
+
+  local md = misblk?.mission_settings?.mission
+  if (!dd_file_exist(md?.level ?? ""))
+    err("Unknown location "+md?.level);
+  local levelBlk = (md?.level ?? "").slice(0, -3) + "blk"
   if (!dd_file_exist(levelBlk))
     err(levelBlk + " not found");
 
   //TODO: weather
   //TODO: timeofday
 
-  local units_include = misblk.mission_settings.units_include
+  local units_include = misblk?.mission_settings?.units_include
   if (units_include != null)
     for (local i = 0; i < units_include.blockCount(); i++)
     {
@@ -404,42 +399,42 @@ function validate_custom_mission(misblk)
   if ("imports" in misblk && "import_record" in misblk.imports)
     err("import_record in imports not supported in user missions")
 
-  local units = misblk.units
+  local units = misblk?.units ?? ::DataBlock()
   for (local i = 0; i < units.blockCount(); i++)
   {
     local unit = units.getBlock(i);
     local unitType = unit.getBlockName();
-    local unitClass = unit.unit_class
+    local unitClass = unit?.unit_class
     if (unitType in typeToPath)
     {
       local path = typeToPath[unitType] + "/"+unitClass+".blk"
       if (!dd_file_exist(path))
-        err("Unknown unit_class "+unitClass+" of unit "+unit.name.tostring())
+        err("Unknown unit_class "+unitClass+" of unit " + unit?.name?.tostring())
       else
       {
-        local preset = unit.weapons
+        local preset = unit?.weapons
         if (preset != null && preset != "")
         {
           local unitBlk = ::DataBlock(path)
-          if (unitBlk.weapon_presets == null)
+          if (unitBlk?.weapon_presets == null)
             err("No weapon presets in "+path);
           else
           {
             local presets = unitBlk.weapon_presets % "preset"
             local found = false
             foreach (p in presets)
-              if (p.name == preset)
+              if (p?.name == preset)
               {
-                if (dd_file_exist(p.blk))
+                if (dd_file_exist(p?.blk ?? ""))
                 {
                   found = true;
                   break;
                 }
                 else
-                  err("Not found: "+p.blk);
+                  err("Not found: " + p?.blk)
               }
             if (!found)
-              err("Unknown weapon preset "+preset+" in unit "+unit.name.tostring());
+              err("Unknown weapon preset "+preset+" in unit "+unit?.name?.tostring());
           }
         }
       }
@@ -459,7 +454,7 @@ function validate_custom_mission(misblk)
 ::cyber_cafe_max_level <- ::cyber_cafe_boost.level.len() - 1
 
 
-function cyber_cafe_boost::loadTables()
+cyber_cafe_boost.loadTables <- function loadTables()
 {
   if (isValid)
     return
@@ -486,7 +481,7 @@ function cyber_cafe_boost::loadTables()
 }
 
 
-function calc_boost_for_cyber_cafe(level)
+::calc_boost_for_cyber_cafe <- function calc_boost_for_cyber_cafe(level)
 {
   ::cyber_cafe_boost.loadTables()
 
@@ -497,7 +492,7 @@ function calc_boost_for_cyber_cafe(level)
 }
 
 
-function calc_boost_for_squads_members_from_same_cyber_cafe(numMembers)
+::calc_boost_for_squads_members_from_same_cyber_cafe <- function calc_boost_for_squads_members_from_same_cyber_cafe(numMembers)
 {
   ::cyber_cafe_boost.loadTables()
 
@@ -508,13 +503,13 @@ function calc_boost_for_squads_members_from_same_cyber_cafe(numMembers)
 }
 
 
-function get_classiness_mark_name(egd_diff, stat_group, rank, squad_size)
+::get_classiness_mark_name <- function get_classiness_mark_name(egd_diff, stat_group, rank, squad_size)
 {
   local diffStr = ::get_name_by_gamemode(egd_diff, false)
   return format("%s_%d_%d_%d", diffStr, stat_group, rank, squad_size)
 }
 
-function get_pve_trophy_name(sessionTime, success)
+::get_pve_trophy_name <- function get_pve_trophy_name(sessionTime, success)
 {
   local mis = ::get_current_mission_info_cached()
   local ws = ::get_warpoints_blk()
@@ -547,7 +542,7 @@ function get_pve_trophy_name(sessionTime, success)
   return pveTrophyName
 }
 
-function get_pve_time_award_stage(sessionTime)
+::get_pve_time_award_stage <- function get_pve_time_award_stage(sessionTime)
 {
   local ws = ::get_warpoints_blk()
   local timeAwardStep = ws.getInt("pveTimeAwardStep", 0)

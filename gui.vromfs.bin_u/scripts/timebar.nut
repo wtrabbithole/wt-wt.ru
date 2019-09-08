@@ -38,7 +38,7 @@
 
   function _getSpeed(timeBarObj)
   {
-    return (timeBarObj["inc-factor"] || 0).tofloat()
+    return (timeBarObj?["inc-factor"] ?? 0).tofloat()
   }
 
   /**
@@ -64,7 +64,7 @@
 
   function getDirectionName(timeBarObj)
   {
-    if (timeBarObj.direction != null)
+    if (timeBarObj?.direction != null)
       return timeBarObj.direction
     else
       return "forward"

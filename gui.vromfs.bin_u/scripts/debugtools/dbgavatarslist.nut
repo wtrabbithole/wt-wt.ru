@@ -11,7 +11,7 @@ enum avatarPlace { //higher index has more priority to show icon when same icons
   IN_MAIN_FOLDER  = 0x04
 }
 
-function debug_avatars(filePath = "../develop/gameBase/config/avatars.blk")
+::debug_avatars <- function debug_avatars(filePath = "../develop/gameBase/config/avatars.blk")
 {
   local blk = ::DataBlock()
   if (!blk.load(filePath))
@@ -355,7 +355,7 @@ class ::gui_handlers.DbgAvatars extends ::BaseGuiHandler
   function onRestore()
   {
     local avatarBlk = getSelAvatarBlk()
-    local prevAvatarBlk = configBlkOriginal[selectedAvatar]
+    local prevAvatarBlk = configBlkOriginal?[selectedAvatar]
     if (!prevAvatarBlk)
     {
       onReset()

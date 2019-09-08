@@ -94,7 +94,7 @@
     local maxDeviationSq=0, rawX=0, rawY=0
     foreach(idx, data in axisData)
     {
-      local deviationSq = pow(data[0], 2) + pow(data[1], 2)
+      local deviationSq = ::pow(data[0], 2) + ::pow(data[1], 2)
       if (deviationSq > maxDeviationSq)
       {
         maxDeviationSq = deviationSq
@@ -103,19 +103,19 @@
       }
     }
 
-    if (sqrt(maxDeviationSq) <= deadzone)
+    if (::sqrt(maxDeviationSq) <= deadzone)
       return result
 
     local signX = rawX >= 0 ? 1 : -1
     local signY = rawY >= 0 ? 1 : -1
     local denominator = limit - deadzone //to normalize
-    local rawSide = sqrt(pow(rawX, 2) + pow(rawY, 2))
+    local rawSide = ::sqrt(::pow(rawX, 2) + ::pow(rawY, 2))
 
     result.x = rawX
     result.y = rawY
-    result.angle = atan2(rawY, rawX)
-    result.normX = (min(abs(rawX), limit) - deadzone).tofloat() / denominator * signX
-    result.normY = (min(abs(rawY), limit) - deadzone).tofloat() / denominator * signY
+    result.angle = ::atan2(rawY, rawX)
+    result.normX = (min(::abs(rawX), limit) - deadzone).tofloat() / denominator * signX
+    result.normY = (min(::abs(rawY), limit) - deadzone).tofloat() / denominator * signY
     result.rawLength = rawSide
     result.normLength = (min(rawSide, limit) - deadzone).tofloat() / denominator
 
@@ -138,9 +138,9 @@
   {
     local axisData = getAxisData(getAxisWatch(false, true), stuckAxis)
     local axisValues = getMaxDeviatedAxisInfo(axisData)
-    local distance = pow(axisValues.normLength, nonlinearityPower) * dt
-    local dx =   distance * cos(axisValues.angle)
-    local dy = - distance * sin(axisValues.angle)
+    local distance = ::pow(axisValues.normLength, nonlinearityPower) * dt
+    local dx =   distance * ::cos(axisValues.angle)
+    local dy = - distance * ::sin(axisValues.angle)
     return [dx, dy]
   }
 

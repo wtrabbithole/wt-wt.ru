@@ -1,3 +1,5 @@
+local clustersModule = require("scripts/clusterSelect.nut")
+
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 enum qTypeCheckOrder {
   COMMON
@@ -23,7 +25,7 @@ enum qTypeCheckOrder {
         params.slots <- ::getSelSlotsTable()
 
     if(!("clusters" in params))
-      params.clusters <- ::get_current_clusters()
+      params.clusters <- clustersModule.getCurrentClusters()
 
     return params
   }
@@ -68,7 +70,7 @@ enums.addTypesByGlobalName("g_queue_type",
         local wwBattle = params?.wwBattle
         local side = params?.side ?? ::SIDE_1
         return {
-          clusters    = ::get_current_clusters()
+          clusters    = clustersModule.getCurrentClusters()
           operationId = params.operationId
           battleId    = params.battleId
           country     = wwBattle ? wwBattle.getCountryNameBySide(side)
@@ -105,7 +107,7 @@ enums.addTypesByGlobalName("g_queue_type",
 
 ::g_queue_type.types.sort(@(a, b) a.checkOrder <=> b.checkOrder)
 
-function g_queue_type::getQueueTypeByParams(params)
+g_queue_type.getQueueTypeByParams <- function getQueueTypeByParams(params)
 {
   if (!params)
     return UNKNOWN

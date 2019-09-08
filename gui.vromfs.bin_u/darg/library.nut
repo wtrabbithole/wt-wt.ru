@@ -1,12 +1,16 @@
+#no-func-decl-sugar
+
 local s = require("std/string.nut")
-::tostring_r <- s.tostring_r
+local tostring_r = s.tostring_r
 local dagorMath = require("dagor.math")
-local Color = ::Color // warning disable: -declared-never-used
+local Color = ::Color
+local logLib = require("std/log.nut")
+local functools = require("std/functools.nut")
 
 local tostringfuncTbl = [
   {
     compare = @(val) val instanceof ::Watched
-    tostring = @(val) "::Watched: " + ::tostring_r(val.value,{maxdeeplevel = 3, splitlines=false})
+    tostring = @(val) "::Watched: " + tostring_r(val.value,{maxdeeplevel = 3, splitlines=false})
   }
   {
     compare = @(val) val instanceof dagorMath.Point3
@@ -31,16 +35,9 @@ local tostringfuncTbl = [
     }
   }
 ]
+local log = logLib(tostringfuncTbl)
 
-local log = require("std/log.nut")(tostringfuncTbl)
-
-::dlog <- log.dlog
-::log <- log  //warning disable: -ident-hides-ident
-::dlogsplit <- log.dlogsplit
-::vlog <- log.vlog
-::console_print <- log.console_print
-
-function make_persists(val){
+local function make_persists(val){
   ::assert(::type(val)=="table", "not a table value passed!")
 //  local ret = {}
   foreach (k,v in val)
@@ -48,12 +45,12 @@ function make_persists(val){
   return val
 }
 
-function isDargComponent(comp) {
+local function isDargComponent(comp) {
 //better to have natived daRg function to check if it is valid component!
   local c = comp
   if (::type(c) == "function") {
     local info = c.getfuncinfos()
-    if (info?.parameters && info?.parameters.len() > 1)
+    if (info?.parameters && info.parameters.len() > 1)
       return false
     c = c()
   }
@@ -76,7 +73,7 @@ function isDargComponent(comp) {
   is safe wrapper to array.extend(). Can handle obj and val of any type.
   this is really helpful when manipulating behaviours\chlidren\watch, that can be null, array, class, table, function or instance
 */
-function extend_to_array (obj, val, skipNulls=true) {
+local function extend_to_array (obj, val, skipNulls=true) {
   local isObjArray = ::type(obj) == "array"
   local isValArray = ::type(val) == "array"
 
@@ -100,11 +97,11 @@ function extend_to_array (obj, val, skipNulls=true) {
 //===== DARG specific methods=====
   this function create element that has internal basic stateFlags (S_HOVER S_ACTIVE S_DRAG)
 */
-function watchElemState(builder) {
+local function watchElemState(builder) {
   local stateFlags = ::Watched(0)
   return function() {
     local desc = builder(stateFlags.value)
-    local watch = desc.__get("watch") || []
+    local watch = desc?.watch ?? []
     if (::type(watch) != "array")
       watch = [watch]
     watch.append(stateFlags)
@@ -115,7 +112,7 @@ function watchElemState(builder) {
 }
 
 
-::NamedColor <-{
+local NamedColor = {
   red = Color(255,0,0)
   blue = Color(0,0,255)
   green = Color(0,255,0)
@@ -131,76 +128,15 @@ function watchElemState(builder) {
 
 /*
 //===== DARG specific methods=====
-  this function returns sh() for pixels for fullhd resolution (1080p)
 */
-function hdpx(pixels) {
+
+//this function returns sh() for pixels for fullhd resolution (1080p)
+local function hdpx(pixels) {
   return ::sh(100.0 * pixels / 1080)
 }
 
-
-local complex_types = ["table", "array", "instance"]
-
-local function deep_clone_complex(source) {}
-deep_clone_complex = function(source) {
-  local result = clone source
-  foreach (attr, value in result)
-    if (complex_types.find(::type(value)) != null)
-      result[attr] = deep_clone_complex(value)
-  return result
-}
-
-function deep_clone(source) {
-  if (complex_types.find(::type(source)) == null)
-    return source
-  return deep_clone_complex(source)
-}
-
-
-function mergeRecursive(target, source) {
-  local res = clone target
-  foreach (key, value in source) {
-    if (::type(value) == "table" && key in target) {
-      res[key] = ::mergeRecursive(target[key], value)
-    } else {
-      res[key] <- source[key]
-    }
-  }
-  return res
-}
-
-
-/*
-  defensive function - try to not to fail in all ways (for example for data driven function)
-  you can insert array in a certain index of another array safely
-*/
-
-function insert_array(list, index, value) {
-  if (index < 0)
-    index = ::max(0, list.len() + index)
-  if (index > list.len()) {
-    index = list.len()
-  }
-  if (index == list.len()) {
-    list.extend(value)
-    return
-  } else {
-    local prev_len = list.len()
-    local head_len = index
-    local add_elems = (::type(value)=="array") ? value.len() : 1
-    local tail = list.slice(index)
-    list.resize(prev_len + add_elems)
-    foreach (idx, val in list) {
-      if (idx >= head_len && idx < head_len + add_elems)
-        list[idx] = (::type(value)=="array") ? value[idx - head_len] : value
-      if (idx >= head_len + add_elems)
-        list[idx] = tail[idx - head_len - add_elems]
-    }
-    return
-  }
-}
-
 local wrapParams= {width=0, flowElemProto={}, hGap=null, vGap=0, height=null, flow=FLOW_HORIZONTAL}
-function wrap(elems, params=wrapParams) {
+local function wrap(elems, params=wrapParams) {
   //TODO: move this to native code
   local paddingLeft=params?.paddingLeft
   local paddingRight=params?.paddingRight
@@ -268,59 +204,44 @@ function wrap(elems, params=wrapParams) {
   return {flow=isFlowHor ? FLOW_VERTICAL : FLOW_HORIZONTAL gap=secondaryGap children=flowElems halign = params?.halign valign=params?.valign hplace=params?.hplace vplace=params?.vplace size=[width?? SIZE_TO_CONTENT, height ?? SIZE_TO_CONTENT]}
 }
 
-local function deep_compare_impl(a, b, params = {ignore_keys = [], compare_only_keys = []}){}
-deep_compare_impl = function(a, b, params = {ignore_keys = [], compare_only_keys = []}) {
-  local compare_only_keys = params?.compare_only_keys ?? []
-  local ignore_keys = params?.ignore_keys ?? []
-  local type_a = ::type(a)
-  local type_b = ::type(b)
 
-  if (type_a != type_b)
-    return false
-
-  if (type_a == "integer" || type_a == "float" || type_a == "bool" || type_a == "string")
-    return a == b
-
-  if (type_a == "array") {
-    if (a.len() != b.len())
-      return false
-
-    foreach (idx, val in a) {
-      if (!deep_compare_impl(val, b[idx], params)) {
-        return false
-      }
-    }
-  } else if (type_a == "table" || type_a == "class") {
-    if (a.len() != b.len())
-      return false
-
-    foreach (key, val in a) {
-      if (!b.rawin(key)) {
-        return false
-      }
-      if (compare_only_keys.len() > 0) {
-        if (compare_only_keys.find(key)!=null && !deep_compare_impl(val, b[key], params)) {
-          return false
-        }
-      } else if (ignore_keys.find(key)==null && !deep_compare_impl(val, b[key], params)) {
-        return false
-      }
-    }
-  }
-  return true
-}
-::deep_compare <- deep_compare_impl
-
-function dump_observables() {
+local function dump_observables() {
   local list = ::gui_scene.getAllObservables()
   ::print("{0} observables:".subst(list.len()))
   foreach (obs in list)
     ::print(tostring_r(obs))
 }
 
-function mul_color(color, mult) {
+local function mul_color(color, mult) {
   return ::Color(::min(255, ((color >> 16) & 0xff) * mult),
                ::min(255, ((color >>  8) & 0xff) * mult),
                ::min(255, (color & 0xff) * mult),
                ::min(255, ((color >> 24) & 0xff) * mult))
 }
+
+//darg helpers
+::watchElemState <- watchElemState //warning disable: -ident-hides-ident
+::make_persists <- make_persists //warning disable: -ident-hides-ident
+::NamedColor <- NamedColor //warning disable: -ident-hides-ident
+::hdpx <- hdpx //warning disable: -ident-hides-ident
+::mul_color <- mul_color //warning disable: -ident-hides-ident
+::dump_observables <- dump_observables //warning disable: -ident-hides-ident
+::wrap <- wrap //warning disable: -ident-hides-ident
+::isDargComponent <- isDargComponent //warning disable: -ident-hides-ident
+::extend_to_array <- extend_to_array //warning disable: -ident-hides-ident
+
+//function tools
+::partial <- functools.partial
+::pipe <- functools.pipe
+::compose <- functools.compose
+::kwarg <- functools.kwarg
+::kwpartial <- functools.kwpartial
+::curry <- functools.curry
+::memoize <- functools.memoize
+
+//logging
+::dlog <- log.dlog
+::log <- log  //warning disable: -ident-hides-ident
+::dlogsplit <- log.dlogsplit
+::vlog <- log.vlog
+::console_print <- log.console_print

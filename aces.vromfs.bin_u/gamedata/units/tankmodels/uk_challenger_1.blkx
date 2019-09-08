@@ -24,6 +24,9 @@
     "damagedExhaustFx": "tank_broken_exhaust"
   },
   {
+    "thermalExhaustFx": "tank_exhaust_nightvision"
+  },
+  {
     "dustFx": ""
   },
   {
@@ -565,7 +568,7 @@
       "tracks": {
         "armorClass": "tank_traks",
         "armorThickness": 20.0,
-        "hp": 200.0,
+        "hp": 300.0,
         "track_r_dm": [],
         "track_l_dm": []
       },
@@ -632,24 +635,6 @@
           "hp": 40.0,
           "armorThrough": 15.0
         },
-        "cannon_breech_dm": {
-          "armorThickness": 10.0,
-          "armorThrough": 300.0,
-          "hp": 150.0,
-          "fireProtectionHp": 10.0
-        },
-        "cannon_breech_01_dm": {
-          "armorThickness": 10.0,
-          "armorThrough": 100.0,
-          "hp": 150.0,
-          "fireProtectionHp": 10.0
-        },
-        "cannon_breech_02_dm": {
-          "armorThickness": 10.0,
-          "armorThrough": 100.0,
-          "hp": 150.0,
-          "fireProtectionHp": 10.0
-        },
         "radiator_dm": {
           "hp": 40.0,
           "armorThrough": 5.0
@@ -665,15 +650,41 @@
         "radio_station_dm": {
           "hp": 20.0,
           "armorThrough": 3.0
-        },
-        "engine": {
-          "armorClass": "armor_tank_engine",
-          "hp": 100.0,
-          "armorThrough": 50.0,
-          "fireProtectionHp": 3.0,
-          "engine_dm": [],
-          "transmission_dm": []
         }
+      },
+      "cannon_breech": {
+        "armorClass": "tank_structural_steel",
+        "hp": 150.0,
+        "armorThickness": 150.0,
+        "fireProtectionHp": 5.0,
+        "hidableInViewer": false,
+        "cannon_breech_dm": {
+          "restrainDamage": 0.5
+        },
+        "cannon_breech_01_dm": {
+          "armorThickness": 10.0
+        },
+        "cannon_breech_02_dm": {
+          "armorThickness": 10.0
+        },
+        "cannon_breech_03_dm": {
+          "armorThickness": 10.0
+        },
+        "cannon_breech_04_dm": {
+          "armorThickness": 10.0
+        },
+        "cannon_breech_05_dm": {
+          "armorThickness": 10.0
+        }
+      },
+      "power_block": {
+        "armorClass": "armor_tank_engine",
+        "hp": 100.0,
+        "armorThickness": 150.0,
+        "fireProtectionHp": 5.0,
+        "restrainDamage": 0.5,
+        "engine_dm": [],
+        "transmission_dm": []
       },
       "ammo": {
         "armorClass": "tank_structural_steel",
@@ -2009,7 +2020,7 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "blk": "gameData/Weapons/groundModels_weapons/120mm_L11A5_user_cannon.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/120mm_L11A5_Mk3_user_cannon.blk",
           "shotFreq": 0.2,
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
@@ -2121,7 +2132,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2300
+            "bullets": 2400
           },
           {
             "fireConeAngle": 15.0
@@ -2187,7 +2198,7 @@
           "parkInDeadzone": false,
           "speedYaw": 30.0,
           "speedPitch": 20.0,
-          "bullets": 2300,
+          "bullets": 3600,
           "isBulletBelt": true,
           "fireConeAngle": 15.0,
           "ChainfireTime": 0.5,
@@ -2237,7 +2248,10 @@
       "tracks": {
         "animationMultiplier": 0.62,
         "width": 0.61,
-        "height": 0.06
+        "height": 0.06,
+        "fricFrontal": [1.0,1.0],
+        "criticalHillAngle": 27.0,
+        "hillClimbingDeclineFricKoef": 15.0
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2891,10 +2905,6 @@
       "120mm_britain_L37A7_HESH": [],
       "120mm_britain_L23A1_APDSFS": [],
       "120mm_britain_L23A1_APDSFS_ammo_pack": [],
-      "120mm_britain_L23_APDSFS": [],
-      "120mm_britain_L23_APDSFS_ammo_pack": {
-        "tier": 2
-      },
       "120mm_britain_Smoke": [],
       "120mm_britain_Smoke_ammo_pack": {
         "tier": 3
@@ -2907,7 +2917,7 @@
             {
               "Weapon": {
                 "trigger": "gunner0",
-                "blk": "gameData/Weapons/groundModels_weapons/120mm_L11A5_user_cannon.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/120mm_L11A5_Mk3_user_cannon.blk",
                 "shotFreq": 0.2,
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
@@ -3019,7 +3029,7 @@
                   "fireConeAngle": 1.0
                 },
                 {
-                  "bullets": 2300
+                  "bullets": 2400
                 },
                 {
                   "fireConeAngle": 15.0
@@ -3085,7 +3095,7 @@
                 "parkInDeadzone": false,
                 "speedYaw": 30.0,
                 "speedPitch": 20.0,
-                "bullets": 2300,
+                "bullets": 3600,
                 "isBulletBelt": true,
                 "fireConeAngle": 15.0,
                 "ChainfireTime": 0.5,
@@ -3121,6 +3131,7 @@
                 "emitter": "emtr_mortar_flame_01",
                 "emitterGenRange": [1,10],
                 "emitterGenFmt": "emtr_mortar_flame_%02d",
+                "ignoreLoaderPenalty": true,
                 "createGunEffects": true,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
@@ -3156,6 +3167,29 @@
               }
             }
           ]
+        }
+      },
+      "night_vision_system": {
+        "tier": 2,
+        "effects": {
+          "nightVision": {
+            "gunnerThermal": {
+              "resolution": [500,300],
+              "noiseFactor": 0.05
+            },
+            "commanderIr": {
+              "resolution": [1600,1200],
+              "lightMult": 9.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            },
+            "driverIr": {
+              "resolution": [800,600],
+              "lightMult": 5.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            }
+          }
         }
       }
     }

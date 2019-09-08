@@ -19,7 +19,7 @@
 // Public
 //
 
-function g_item_limits::requestLimits(isBlocking = false)
+g_item_limits.requestLimits <- function requestLimits(isBlocking = false)
 {
   if (requestLockTime < ::max(::dagor.getCurTime() - REQUEST_UNLOCK_TIMEOUT * 1000, 0))
     isRequestLocked = false
@@ -66,12 +66,12 @@ function g_item_limits::requestLimits(isBlocking = false)
   return ::g_tasker.addTask(taskId, taskOptions, taskCallback, taskCallback)
 }
 
-function g_item_limits::enqueueItem(itemName)
+g_item_limits.enqueueItem <- function enqueueItem(itemName)
 {
   ::u.appendOnce(itemName, itemNamesQueue)
 }
 
-function g_item_limits::requestLimitsForItem(itemId, forceRefresh = false)
+g_item_limits.requestLimitsForItem <- function requestLimitsForItem(itemId, forceRefresh = false)
 {
   if (forceRefresh)
     getLimitDataByItemName(itemId).lastUpdateTime = -1
@@ -79,7 +79,7 @@ function g_item_limits::requestLimitsForItem(itemId, forceRefresh = false)
   requestLimits()
 }
 
-function g_item_limits::getLimitDataByItemName(itemName)
+g_item_limits.getLimitDataByItemName <- function getLimitDataByItemName(itemName)
 {
   return ::getTblValue(itemName, limitDataByItemName) || createLimitData(itemName)
 }
@@ -88,22 +88,22 @@ function g_item_limits::getLimitDataByItemName(itemName)
 // Private
 //
 
-function g_item_limits::onRequestComplete(resultBlk)
+g_item_limits.onRequestComplete <- function onRequestComplete(resultBlk)
 {
   for (local i = resultBlk.blockCount() - 1; i >= 0; --i)
   {
     local itemBlk = resultBlk.getBlock(i)
     local itemName = itemBlk.getBlockName()
     local limitData = getLimitDataByItemName(itemName)
-    limitData.countGlobal = itemBlk.countGlobal || 0
-    limitData.countPersonalTotal = itemBlk.countPersonalTotal || 0
-    limitData.countPersonalAtTime = itemBlk.countPersonalAtTime || 0
+    limitData.countGlobal = itemBlk?.countGlobal ?? 0
+    limitData.countPersonalTotal = itemBlk?.countPersonalTotal ?? 0
+    limitData.countPersonalAtTime = itemBlk?.countPersonalAtTime ?? 0
     limitData.lastUpdateTime = ::dagor.getCurTime()
   }
   requestLimits()
 }
 
-function g_item_limits::createLimitData(itemName)
+g_item_limits.createLimitData <- function createLimitData(itemName)
 {
   ::dagor.assertf(
     !(itemName in limitDataByItemName),
@@ -121,7 +121,7 @@ function g_item_limits::createLimitData(itemName)
   return limitData
 }
 
-function g_item_limits::checkRequestSize(requestSize)
+g_item_limits.checkRequestSize <- function checkRequestSize(requestSize)
 {
   return MAX_REQUEST_SIZE == 0 || requestSize < MAX_REQUEST_SIZE
 }

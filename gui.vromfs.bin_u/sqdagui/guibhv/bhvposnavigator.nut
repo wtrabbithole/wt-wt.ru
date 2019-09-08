@@ -22,8 +22,7 @@ class gui_bhv.posNavigator
 
   function onAttach(obj)
   {
-    local value = obj.value
-    if (obj.value)
+    if (obj?.value)
       setValue(obj, obj.value.tointeger())
     return ::RETCODE_NOTHING
   }
@@ -48,12 +47,12 @@ class gui_bhv.posNavigator
       selObj.markObjChanged()
 
     obj.sendNotify("set_focus")
-    return (obj.disableFocusParent == "yes")? ::RETCODE_HALT : ::RETCODE_NOTHING
+    return (obj?.disableFocusParent == "yes")? ::RETCODE_HALT : ::RETCODE_NOTHING
   }
 
   function canSelectOnlyFocused(obj)
   {
-    return obj.clearOnFocusLost != "no"
+    return obj?.clearOnFocusLost != "no"
   }
 
   function getValue(obj)
@@ -73,7 +72,7 @@ class gui_bhv.posNavigator
 
   function getCanSelectNone(obj)
   {
-    return obj.canSelectNone == "yes"
+    return obj?.canSelectNone == "yes"
   }
 
   function getChildObj(obj, value)
@@ -124,7 +123,7 @@ class gui_bhv.posNavigator
 
   function isSelectable(obj)
   {
-    return obj.isVisible() && obj.isEnabled() && obj.inactive!="yes"
+    return obj.isVisible() && obj.isEnabled() && obj?.inactive != "yes"
   }
 
   function selectClosestItem(obj, coords, needSound)
@@ -190,7 +189,7 @@ class gui_bhv.posNavigator
     }
 
     if (needSound && needNotify)
-      ::play_gui_sound(obj.snd_select ? obj.snd_select : "choose")
+      ::play_gui_sound(obj?.snd_select ? obj.snd_select : "choose")
     if (needNotify)
       onSelectAction(obj)
     return true
@@ -312,7 +311,7 @@ class gui_bhv.posNavigator
 
   function moveFromObj(obj, objFrom, axis, dir, isFromOutside = false)
   {
-    local moveType = obj[axis? "moveY" : "moveX"]
+    local moveType = obj?[axis? "moveY" : "moveX"]
     if (moveType=="linear")
       return moveSelectLinear(obj, objFrom, axis, dir, isFromOutside)
     return moveSelectClosest(obj, objFrom, axis, dir, isFromOutside)
@@ -348,7 +347,7 @@ class gui_bhv.posNavigator
 
   function checkFixedCoord(obj, axis, newPos, canChangeFixedData = true)
   {
-    if (obj.disableFixedCoord == "yes")
+    if (obj?.disableFixedCoord == "yes")
       return newPos
 
     local fixedAxis = -1
@@ -451,7 +450,7 @@ class gui_bhv.posNavigator
       if (!isSelectable(cObj))
         continue
       local pos2 = getClosestCoordsByAxis(cObj, pos, 1-axis)
-      local distSubAxis = abs(pos[1-axis] - pos2[1-axis])
+      local distSubAxis = ::abs(pos[1-axis] - pos2[1-axis])
       if ((pos2[axis] - pos[axis]) * dir <= 0
           || distSubAxis > posDiv)
         continue

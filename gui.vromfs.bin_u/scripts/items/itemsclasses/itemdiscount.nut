@@ -22,10 +22,10 @@ class ::items_classes.Discount extends ::BaseItem
   {
     canBuy = ::has_feature("CanBuyDiscountItems")
     base.constructor(blk, invBlk, slotData)
-    _initPersonalDiscountParams(blk.personalDiscountsParams);
-    purchasesCount = ::getTblValue("purchasesCount", invBlk, 0)
+    _initPersonalDiscountParams(blk?.personalDiscountsParams)
+    purchasesCount = invBlk?.purchasesCount ?? 0
 
-    showAmountInsteadPercent = blk.showAmountInsteadPercent || false
+    showAmountInsteadPercent = blk?.showAmountInsteadPercent ?? false
   }
 
   function _initPersonalDiscountParams(blk)
@@ -33,8 +33,8 @@ class ::items_classes.Discount extends ::BaseItem
     if (blk == null)
       return
     purchasesMaxCount = ::getTblValue("purchasesMaxCount", blk, 0)
-    discountDescriptionDataItems = ::parse_discount_description(blk.discountsDesc)
-    local sortData = ::create_discount_description_sort_data(blk.discountsDesc)
+    discountDescriptionDataItems = ::parse_discount_description(blk?.discountsDesc)
+    local sortData = ::create_discount_description_sort_data(blk?.discountsDesc)
     ::sort_discount_description_items(discountDescriptionDataItems, sortData)
   }
 

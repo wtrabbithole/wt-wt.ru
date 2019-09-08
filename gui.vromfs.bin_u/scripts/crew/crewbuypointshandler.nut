@@ -23,7 +23,7 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
     foreach(idx, pack in buyPointsPacks)
     {
       local skills = pack.skills || 1
-      local bonusDiscount = price ? floor(100.5 - 100.0 * pack.cost.gold / skills / price) : 0
+      local bonusDiscount = price ? ::floor(100.5 - 100.0 * pack.cost.gold / skills / price) : 0
       local bonusText = bonusDiscount ? format(::loc("charServer/entitlement/discount"), bonusDiscount) : ""
 
       rows.append({
@@ -66,19 +66,19 @@ class ::gui_handlers.CrewBuyPointsHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function onButtonRowApply(obj)
   {
-    if (!checkObj(obj) || obj.id != "buttonRowApply")
+    if (!::check_obj(obj) || obj?.id != "buttonRowApply")
     {
       local tblObj = scene.findObject("buy_table")
-      if (!::checkObj(tblObj))
+      if (!::check_obj(tblObj))
         return
       local idx = tblObj.getValue()
       local rowObj = tblObj.getChild(idx)
-      if (!::checkObj(rowObj))
+      if (!::check_obj(rowObj))
         return
       obj = rowObj.findObject("buttonRowApply")
     }
 
-    if (::checkObj(obj))
+    if (::check_obj(obj))
       doBuyPoints(obj)
   }
 

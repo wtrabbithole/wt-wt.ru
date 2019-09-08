@@ -366,7 +366,7 @@ local MRoomsHandlers = class {
 
 g_mrooms_handlers <- MRoomsHandlers()
 
-function is_my_userid(user_id)
+::is_my_userid <- function is_my_userid(user_id)
 {
   if (typeof user_id == "string")
     return user_id == ::my_user_id_str
@@ -375,12 +375,12 @@ function is_my_userid(user_id)
 
 // mrooms API
 
-function is_host_in_room()
+::is_host_in_room <- function is_host_in_room()
 {
   return g_mrooms_handlers.hasSession()
 }
 
-function create_room(params, cb)
+::create_room <- function create_room(params, cb)
 {
   matching_api_func("mrooms.create_room",
                     function(resp)
@@ -392,12 +392,12 @@ function create_room(params, cb)
                     params)
 }
 
-function destroy_room(params, cb)
+::destroy_room <- function destroy_room(params, cb)
 {
   matching_api_func("mrooms.destroy_room", cb, params)
 }
 
-function join_room(params, cb)
+::join_room <- function join_room(params, cb)
 {
   matching_api_func("mrooms.join_room",
                     function(resp)
@@ -414,7 +414,7 @@ function join_room(params, cb)
                     params)
 }
 
-function leave_room(params, cb)
+::leave_room <- function leave_room(params, cb)
 {
   local oldRoomId = g_mrooms_handlers.getRoomId()
   g_mrooms_handlers.isLeaving = true
@@ -429,52 +429,52 @@ function leave_room(params, cb)
                     params)
 }
 
-function set_member_attributes(params, cb)
+::set_member_attributes <- function set_member_attributes(params, cb)
 {
   matching_api_func("mrooms.set_member_attributes", cb, params)
 }
 
-function set_room_attributes(params, cb)
+::set_room_attributes <- function set_room_attributes(params, cb)
 {
   matching_api_func("mrooms.set_attributes", cb, params)
 }
 
-function kick_member(params, cb)
+::kick_member <- function kick_member(params, cb)
 {
   matching_api_func("mrooms.kick_from_room", cb, params)
 }
 
-function room_ban_player(params, cb)
+::room_ban_player <- function room_ban_player(params, cb)
 {
   matching_api_func("mrooms.ban_player", cb, params)
 }
 
-function room_unban_player(params, cb)
+::room_unban_player <- function room_unban_player(params, cb)
 {
   matching_api_func("mrooms.unban_player", cb, params)
 }
 
-function room_start_session(params, cb)
+::room_start_session <- function room_start_session(params, cb)
 {
   matching_api_func("mrooms.start_session", cb, params)
 }
 
-function room_set_password(params, cb)
+::room_set_password <- function room_set_password(params, cb)
 {
   matching_api_func("mrooms.set_password", cb, params)
 }
 
-function room_set_ready_state(params, cb)
+::room_set_ready_state <- function room_set_ready_state(params, cb)
 {
   matching_api_func("mrooms.set_ready_state", cb, params)
 }
 
-function invite_player_to_room(params, cb)
+::invite_player_to_room <- function invite_player_to_room(params, cb)
 {
   matching_api_func("mrooms.invite_player", cb, params)
 }
 
-function fetch_rooms_list(params, cb)
+::fetch_rooms_list <- function fetch_rooms_list(params, cb)
 {
   matching_api_func("mrooms.fetch_rooms_digest",
                     function (resp)
@@ -493,7 +493,7 @@ function fetch_rooms_list(params, cb)
                     params)
 }
 
-function serialize_dyncampaign(params, cb)
+::serialize_dyncampaign <- function serialize_dyncampaign(params, cb)
 {
   local priv = {
     dyncamp = {
@@ -504,18 +504,18 @@ function serialize_dyncampaign(params, cb)
   matching_api_func("mrooms.set_attributes", cb, {private = priv})
 }
 
-function get_current_room()
+::get_current_room <- function get_current_room()
 {
   return ::g_mrooms_handlers.getRoomId()
 }
 
-function leave_session()
+::leave_session <- function leave_session()
 {
   if (::g_mrooms_handlers.getRoomId() != INVALID_ROOM_ID)
     leave_room({}, function(resp) {})
 }
 
-function is_player_room_operator(user_id)
+::is_player_room_operator <- function is_player_room_operator(user_id)
 {
   return ::g_mrooms_handlers.isPlayerRoomOperator(user_id)
 }

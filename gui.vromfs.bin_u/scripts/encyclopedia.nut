@@ -1,5 +1,68 @@
-function gui_start_encyclopedia()
+local persist = { encyclopediaData = [] }
+
+::g_script_reloader.registerPersistentData("EncyclopediaGlobals", persist, ["encyclopediaData"])
+
+local initEncyclopediaData = function()
 {
+  if (persist.encyclopediaData.len() || !::has_feature("Encyclopedia"))
+    return
+
+  local blk = ::DataBlock("config/encyclopedia.blk")
+
+  local defSize = [blk.getInt("image_width", 10), blk.getInt("image_height", 10)]
+  for (local chapterNo = 0; chapterNo < blk.blockCount(); chapterNo++)
+  {
+    local blkChapter = blk.getBlock(chapterNo)
+    local name = blkChapter.getBlockName()
+
+    if (::is_vendor_tencent() && name == "history")
+      continue
+
+    local chapterDesc = {}
+    chapterDesc.id <- name
+    chapterDesc.articles <- []
+    for (local articleNo = 0; articleNo < blkChapter.blockCount(); articleNo++)
+    {
+      local blkArticle = blkChapter.getBlock(articleNo)
+      local showPlatform = blkArticle.getStr("showPlatform", "")
+      local hidePlatform = blkArticle.getStr("hidePlatform", "")
+
+      if ((showPlatform.len() > 0 && showPlatform != ::target_platform)
+          || hidePlatform == ::target_platform)
+        continue
+
+      local articleDesc = {}
+      articleDesc.id <- blkArticle.getBlockName()
+
+      if (::is_vietnamese_version() && ::isInArray(articleDesc.id, ["historical_battles", "realistic_battles"]))
+        continue
+
+      articleDesc.haveHint <- blkArticle.getBool("haveHint",false)
+
+      if (blkArticle?.images != null)
+      {
+        local imgList = blkArticle.images % "image"
+        if (imgList.len() > 0)
+        {
+          articleDesc.images <- imgList
+          articleDesc.imgSize <- [blkArticle.getInt("image_width", defSize[0]),
+                                  blkArticle.getInt("image_height", defSize[1])]
+        }
+      }
+      chapterDesc.articles.append(articleDesc)
+    }
+    persist.encyclopediaData.append(chapterDesc)
+  }
+}
+
+
+local open = function()
+{
+  initEncyclopediaData()
+
+  if (persist.encyclopediaData.len() == 0)
+    return
+
   ::gui_start_modal_wnd(::gui_handlers.Encyclopedia)
 }
 
@@ -12,9 +75,6 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    if (!scene || !::encyclopedia_data)
-      return goBack()
-
     ::req_unlock_by_client("view_encyclopedia", false)
 
     local blockObj = scene.findObject("chapter_include_block")
@@ -22,11 +82,11 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
       blockObj.show(true)
 
     local view = { tabs = [] }
-    foreach(idx, chapter in ::encyclopedia_data)
+    foreach(idx, chapter in persist.encyclopediaData)
       view.tabs.append({
         id = chapter.id
         tabName = "#encyclopedia/" + chapter.id
-        navImagesText = ::get_navigation_images_text(idx, ::encyclopedia_data.len())
+        navImagesText = ::get_navigation_images_text(idx, persist.encyclopediaData.len())
       })
 
     local data = ::handyman.renderCached("gui/frameHeaderTabs", view)
@@ -48,14 +108,14 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local value = obj.getValue()
-    if (!(value in ::encyclopedia_data))
+    if (!(value in persist.encyclopediaData))
       return
 
     local objArticles = scene.findObject("items_list")
     if (!::check_obj(objArticles))
       return
 
-    curChapter = ::encyclopedia_data[value]
+    curChapter = persist.encyclopediaData[value]
 
     local view = { items = [] }
     foreach(idx, article in curChapter.articles)
@@ -109,4 +169,8 @@ class ::gui_handlers.Encyclopedia extends ::gui_handlers.BaseGuiHandlerWT
 
   function onStart() {}
   function onListItemsFocusChange(obj) {}
+}
+
+return {
+  open = open
 }

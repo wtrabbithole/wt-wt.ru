@@ -5,7 +5,7 @@ const COOP_MAX_PLAYERS = 4
 ::enable_coop_in_SingleMissions <- false
 ::enable_custom_battles <- false
 
-enum MIS_PROGRESS //value received from get_mission_progress
+global enum MIS_PROGRESS //value received from get_mission_progress
 {
   COMPLETED_ARCADE    = 0
   COMPLETED_REALISTIC = 1
@@ -19,13 +19,13 @@ enum MIS_PROGRESS //value received from get_mission_progress
     "enable_coop_in_QMB", "enable_coop_in_DynCampaign", "enable_coop_in_SingleMissions", "enable_custom_battles"
   ])
 
-function is_mission_complete(chapterName, missionName) //different by mp_modes
+::is_mission_complete <- function is_mission_complete(chapterName, missionName) //different by mp_modes
 {
   local progress = ::get_mission_progress(chapterName + "/" + missionName)
   return progress >= 0 && progress < 3
 }
 
-function is_mission_unlocked(info)
+::is_mission_unlocked <- function is_mission_unlocked(info)
 {
   if (!(::get_game_type() & ::GT_COOPERATIVE))
     return true
@@ -36,12 +36,12 @@ function is_mission_unlocked(info)
   return progress < 4 || ::is_debug_mode_enabled
 }
 
-function is_user_mission(missionBlk)
+::is_user_mission <- function is_user_mission(missionBlk)
 {
-  return missionBlk.userMission == true //can be null
+  return missionBlk?.userMission == true //can be null
 }
 
-function can_play_gamemode_by_squad(gm)
+::can_play_gamemode_by_squad <- function can_play_gamemode_by_squad(gm)
 {
   if (!::g_squad_manager.isNotAloneOnline())
     return true
@@ -59,24 +59,38 @@ function can_play_gamemode_by_squad(gm)
 }
 
 //return 0 when no limits
-function get_max_players_for_gamemode(gm)
+::get_max_players_for_gamemode <- function get_max_players_for_gamemode(gm)
 {
   if (::isInArray(gm, [::GM_SINGLE_MISSION, ::GM_DYNAMIC, ::GM_BUILDER]))
     return COOP_MAX_PLAYERS
   return 0
 }
 
-function get_game_mode_loc_name(gm)
+::get_game_mode_loc_name <- function get_game_mode_loc_name(gm)
 {
-  return ::loc(format("multiplayer/%sMode", ::get_game_mode_name(gm)))
+  return ::loc(::format("multiplayer/%sMode", ::get_game_mode_name(gm)))
 }
 
-function is_skirmish_with_killstreaks(misBlk)
+::is_skirmish_with_killstreaks <- function is_skirmish_with_killstreaks(misBlk)
 {
   return misBlk.getBool("allowedKillStreaks", false);
 }
 
-function get_mission_allowed_unittypes_mask(misBlk, useKillStreaks = null)
+::upgrade_url_mission <- function upgrade_url_mission(fullMissionBlk)
+{
+  local misBlk = fullMissionBlk?.mission_settings?.mission
+  if (!fullMissionBlk || !misBlk)
+    return
+
+  if (misBlk?.useKillStreaks && !misBlk?.allowedKillStreaks)
+    misBlk.useKillStreaks = false
+
+  foreach (unitType in ::g_unit_type.types)
+    if (unitType.isAvailable() && !(unitType.missionSettingsAvailabilityFlag in misBlk))
+      misBlk[unitType.missionSettingsAvailabilityFlag] = ::has_unittype_in_full_mission_blk(fullMissionBlk, unitType.esUnitType)
+}
+
+::get_mission_allowed_unittypes_mask <- function get_mission_allowed_unittypes_mask(misBlk, useKillStreaks = null)
 {
   local res = 0
   foreach (unitType in ::g_unit_type.types)
@@ -85,7 +99,7 @@ function get_mission_allowed_unittypes_mask(misBlk, useKillStreaks = null)
   return res
 }
 
-function is_mission_for_unittype(misBlk, esUnitType, useKillStreaks = null)
+::is_mission_for_unittype <- function is_mission_for_unittype(misBlk, esUnitType, useKillStreaks = null)
 {
   local unitType = ::g_unit_type.getByEsUnitType(esUnitType)
 
@@ -99,16 +113,17 @@ function is_mission_for_unittype(misBlk, esUnitType, useKillStreaks = null)
   if (url != null)
     fullMissionBlk = ::getTblValue("fullMissionBlk", ::g_url_missions.findMissionByUrl(url))
   else
-    fullMissionBlk = misBlk && misBlk.mis_file && ::DataBlock(misBlk.mis_file)
+    fullMissionBlk = ::DataBlock(misBlk?.mis_file ?? "")
   if (fullMissionBlk)
     return has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
 
   return false
 }
 
-function has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
+::has_unittype_in_full_mission_blk <- function has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
 {
-  local unitsBlk = fullMissionBlk && fullMissionBlk.units
+  // Searching by units of Single missions
+  local unitsBlk = fullMissionBlk?.units
   local playerBlk = fullMissionBlk && ::get_blk_value_by_path(fullMissionBlk, "mission_settings/player")
   local wings = playerBlk ? (playerBlk % "wing") : []
   local unitsCache = {}
@@ -116,8 +131,8 @@ function has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
     for (local i = 0; i < unitsBlk.blockCount(); i++)
     {
       local block = unitsBlk.getBlock(i)
-      if (block && ::isInArray(block.name, wings))
-        if (block.unit_class)
+      if (block && ::isInArray(block?.name, wings))
+        if (block?.unit_class)
         {
           if (!(block.unit_class in unitsCache))
             unitsCache[block.unit_class] <- ::get_es_unit_type(::findUnitNoCase(block.unit_class))
@@ -126,10 +141,23 @@ function has_unittype_in_full_mission_blk(fullMissionBlk, esUnitType)
         }
     }
 
+  // Searching by respawn points of Multiplayer missions
+  local tag = ::g_unit_type.getByEsUnitType(esUnitType).tag
+  local triggersBlk = fullMissionBlk?.triggers
+  if (triggersBlk)
+    for (local i = 0; i < triggersBlk.blockCount(); i++)
+    {
+      local actionsBlk = triggersBlk.getBlock(i)?.getBlockByName("actions")
+      local respawnPointsList = actionsBlk ? (actionsBlk % "missionMarkAsRespawnPoint") : []
+      foreach (pointBlk in respawnPointsList)
+        if (pointBlk?.tags?[tag])
+          return true
+    }
+
   return false
 }
 
-function select_next_avail_campaign_mission(chapterName, missionName)
+::select_next_avail_campaign_mission <- function select_next_avail_campaign_mission(chapterName, missionName)
 {
   if (::get_game_mode() != ::GM_CAMPAIGN)
     return
@@ -138,17 +166,17 @@ function select_next_avail_campaign_mission(chapterName, missionName)
     local isCurFound = false
     foreach(mission in misList)
     {
-      if (mission.isHeader || !mission.isUnlocked)
+      if (mission?.isHeader || !mission?.isUnlocked)
         continue
 
       if (!isCurFound)
       {
-        if (mission.id == missionName && mission.chapter == chapterName)
+        if (mission?.id == missionName && mission?.chapter == chapterName)
           isCurFound = true
         continue
       }
 
-      ::add_last_played(mission.chapter, mission.id, ::GM_CAMPAIGN, false)
+      ::add_last_played(mission?.chapter, mission?.id, ::GM_CAMPAIGN, false)
       break
     }
 
@@ -156,7 +184,7 @@ function select_next_avail_campaign_mission(chapterName, missionName)
  ::g_mislist_type.BASE.getMissionsList(true, callback)
 }
 
-function buildRewardText(name, reward, highlighted=false, coloredIcon=false, additionalReward = false)
+::buildRewardText <- function buildRewardText(name, reward, highlighted=false, coloredIcon=false, additionalReward = false)
 {
   local rewText = reward.tostring()
   if (rewText != "")
@@ -168,28 +196,28 @@ function buildRewardText(name, reward, highlighted=false, coloredIcon=false, add
   return rewText
 }
 
-function getRewardTextByBlk(dataBlk, misName, diff, langId, highlighted=false, coloredIcon=false,
+::getRewardTextByBlk <- function getRewardTextByBlk(dataBlk, misName, diff, langId, highlighted=false, coloredIcon=false,
                             additionalReward = false, rewardMoney = null)
 {
   local res = ""
-  local misDataBlk = dataBlk[misName]
+  local misDataBlk = dataBlk?[misName]
 
   if (!rewardMoney)
   {
-    local getRewValue = (@(dataBlk, misDataBlk, diff) function(key, def = null) {
+    local getRewValue = function(key, def = 0) {
       local pId = key + "EarnedWinDiff" + diff
-      return (misDataBlk && misDataBlk[pId]!=null) ? misDataBlk[pId] : (dataBlk[pId]!=null)? dataBlk[pId] : def
-    })(dataBlk, misDataBlk, diff)
+      return misDataBlk?[pId] ?? dataBlk?[pId] ?? def
+    }
 
     local muls = ::get_player_multipliers()
-    rewardMoney = ::Cost(getRewValue("wp", 0) * muls.wpMultiplier,
-                            getRewValue("gold", 0),
+    rewardMoney = ::Cost(getRewValue("wp") * muls.wpMultiplier,
+                            getRewValue("gold"),
                             0,
-                            getRewValue("xp", 0) * muls.xpMultiplier)
+                            getRewValue("xp") * muls.xpMultiplier)
   }
 
-  res = buildRewardText(::loc(langId), rewardMoney, highlighted, coloredIcon, additionalReward)
-  if (diff == 0 && misDataBlk && misDataBlk.slot)
+  res = ::buildRewardText(::loc(langId), rewardMoney, highlighted, coloredIcon, additionalReward)
+  if (diff == 0 && misDataBlk?.slot)
   {
     local slot = misDataBlk.slot;
     foreach(c in ::g_crews_list.get())
@@ -202,13 +230,13 @@ function getRewardTextByBlk(dataBlk, misName, diff, langId, highlighted=false, c
   return res
 }
 
-function add_mission_list_full(gm_builder, add, dynlist)
+::add_mission_list_full <- function add_mission_list_full(gm_builder, add, dynlist)
 {
   add_custom_mission_list_full(gm_builder, add, dynlist)
   ::game_mode_maps.clear()
 }
 
-function get_mission_meta_info(missionName)
+::get_mission_meta_info <- function get_mission_meta_info(missionName)
 {
   local urlMission = ::g_url_missions.findMissionByName(missionName)
   if (urlMission != null)
@@ -217,7 +245,7 @@ function get_mission_meta_info(missionName)
   return ::get_meta_mission_info_by_name(missionName)
 }
 
-function gui_start_campaign(checkPack = true)
+::gui_start_campaign <- function gui_start_campaign(checkPack = true)
 {
   if (checkPack)
     return ::check_package_and_ask_download("hc_pacific", null, ::gui_start_campaign_no_pack, null, "campaign")
@@ -231,45 +259,45 @@ function gui_start_campaign(checkPack = true)
   }
 }
 
-function gui_start_campaign_no_pack()
+::gui_start_campaign_no_pack <- function gui_start_campaign_no_pack()
 {
   ::gui_start_campaign(false)
 }
 
-function gui_start_menuCampaign()
+::gui_start_menuCampaign <- function gui_start_menuCampaign()
 {
   ::gui_start_mainmenu()
   ::gui_start_campaign()
 }
 
-function gui_start_singleMissions()
+::gui_start_singleMissions <- function gui_start_singleMissions()
 {
   ::gui_start_mislist(true, ::GM_SINGLE_MISSION)
 }
 
-function gui_start_menuSingleMissions()
+::gui_start_menuSingleMissions <- function gui_start_menuSingleMissions()
 {
   ::gui_start_mainmenu()
   ::gui_start_singleMissions()
 }
 
-function gui_start_userMissions()
+::gui_start_userMissions <- function gui_start_userMissions()
 {
   ::gui_start_mislist(true, ::GM_SINGLE_MISSION, { misListType = ::g_mislist_type.UGM })
 }
 
-function gui_start_menuUserMissions()
+::gui_start_menuUserMissions <- function gui_start_menuUserMissions()
 {
   ::gui_start_mainmenu()
   ::gui_start_userMissions()
 }
 
-function gui_create_skirmish()
+::gui_create_skirmish <- function gui_create_skirmish()
 {
   ::gui_start_mislist(true, ::GM_SKIRMISH)
 }
 
-function is_any_campaign_available()
+::is_any_campaign_available <- function is_any_campaign_available()
 {
   local mbc = ::get_meta_missions_info_by_campaigns(::GM_CAMPAIGN)
   foreach(item in mbc)
@@ -278,7 +306,7 @@ function is_any_campaign_available()
   return false
 }
 
-function get_not_purchased_campaigns()
+::get_not_purchased_campaigns <- function get_not_purchased_campaigns()
 {
   local res = []
   local mbc = ::get_meta_missions_info_by_campaigns(::GM_CAMPAIGN)
@@ -288,18 +316,18 @@ function get_not_purchased_campaigns()
   return res
 }
 
-function purchase_any_campaign()
+::purchase_any_campaign <- function purchase_any_campaign()
 {
   OnlineShopModel.openBrowserForFirstFoundEntitlement(::get_not_purchased_campaigns())
 }
 
-function gui_start_singleplayer_from_coop()
+::gui_start_singleplayer_from_coop <- function gui_start_singleplayer_from_coop()
 {
   ::select_game_mode(::GM_SINGLE_MISSION);
   gui_start_missions();
 }
 
-function gui_start_mislist(isModal=false, setGameMode=null, addParams = {})
+::gui_start_mislist <- function gui_start_mislist(isModal=false, setGameMode=null, addParams = {})
 {
   local hClass = isModal? ::gui_handlers.SingleMissionsModal : ::gui_handlers.SingleMissions
   local params = {
@@ -308,7 +336,7 @@ function gui_start_mislist(isModal=false, setGameMode=null, addParams = {})
   foreach(key, value in addParams)
     params[key] <- value
 
-  local gm = get_game_mode()
+  local gm = ::get_game_mode()
   if (setGameMode!=null)
   {
     params.wndGameMode <- setGameMode
@@ -333,7 +361,7 @@ function gui_start_mislist(isModal=false, setGameMode=null, addParams = {})
     ::handlersManager.setLastBaseHandlerStartFunc(::gui_start_mislist)
 }
 
-function gui_start_benchmark()
+::gui_start_benchmark <- function gui_start_benchmark()
 {
   if (::is_platform_ps4)
   {
@@ -343,14 +371,14 @@ function gui_start_benchmark()
   ::gui_start_mislist(true, ::GM_BENCHMARK)
 }
 
-function gui_start_tutorial()
+::gui_start_tutorial <- function gui_start_tutorial()
 {
   ::gui_start_mislist(true, ::GM_TRAINING)
 }
 
-function is_custom_battles_enabled() { return ::enable_custom_battles }
+::is_custom_battles_enabled <- function is_custom_battles_enabled() { return ::enable_custom_battles }
 
-function init_coop_flags()
+::init_coop_flags <- function init_coop_flags()
 {
   ::enable_coop_in_QMB            = ::has_feature(::is_platform_ps4 ? "QmbCoopPs4"            : "QmbCoopPc")
   ::enable_coop_in_DynCampaign    = ::has_feature(::is_platform_ps4 ? "DynCampaignCoopPs4"    : "DynCampaignCoopPc")

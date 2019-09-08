@@ -20,7 +20,7 @@ local OUT_OF_DATE_DAYS_WARBONDS_SHOP = 28
   WARBOND_ID = "WarBond"
 }
 
-function g_warbonds::getList(filterFunc = null)
+g_warbonds.getList <- function getList(filterFunc = null)
 {
   validateList()
   if (filterFunc)
@@ -28,7 +28,7 @@ function g_warbonds::getList(filterFunc = null)
   return list
 }
 
-function g_warbonds::getVisibleList(filterFunc = null)
+g_warbonds.getVisibleList <- function getVisibleList(filterFunc = null)
 {
   return getList((@(filterFunc) function(wb) {
                    if (!wb.isVisible())
@@ -37,7 +37,7 @@ function g_warbonds::getVisibleList(filterFunc = null)
                  })(filterFunc))
 }
 
-function g_warbonds::validateList()
+g_warbonds.validateList <- function validateList()
 {
   ::configs.PRICE.checkUpdate()
   if (isListValid)
@@ -46,12 +46,11 @@ function g_warbonds::validateList()
 
   list.clear()
 
-  local pBlk = ::get_price_blk()
-  local wBlk = pBlk.warbonds
+  local wBlk = ::get_price_blk()?.warbonds
   if (!wBlk)
     return
 
-  maxAllowedWarbondsBalance = wBlk.maxAllowedWarbondsBalance || maxAllowedWarbondsBalance
+  maxAllowedWarbondsBalance = wBlk?.maxAllowedWarbondsBalance ?? maxAllowedWarbondsBalance
   for(local i = 0; i < wBlk.blockCount(); i++)
   {
     local warbondBlk = wBlk.getBlock(i)
@@ -76,13 +75,13 @@ function g_warbonds::validateList()
   seenWarbondsShop.onListChanged()
 }
 
-function g_warbonds::getBalanceText()
+g_warbonds.getBalanceText <- function getBalanceText()
 {
   local wbList = getVisibleList()
   return wbList.len()? wbList[0].getBalanceText() : ""
 }
 
-function g_warbonds::isWarbondsRecounted()
+g_warbonds.isWarbondsRecounted <- function isWarbondsRecounted()
 {
   local hasCurrent = false
   local timersValid = true
@@ -94,14 +93,14 @@ function g_warbonds::isWarbondsRecounted()
   return hasCurrent && timersValid
 }
 
-function g_warbonds::getInfoText()
+g_warbonds.getInfoText <- function getInfoText()
 {
   if (!::g_warbonds.isWarbondsRecounted())
     return ::loc("warbonds/recalculating")
   return getBalanceText()
 }
 
-function g_warbonds::findWarbond(wbId, wbListId = null)
+g_warbonds.findWarbond <- function findWarbond(wbId, wbListId = null)
 {
   if (!wbListId)
     wbListId = ::get_warbond_curr_stage_name(wbId)
@@ -109,12 +108,12 @@ function g_warbonds::findWarbond(wbId, wbListId = null)
   return ::u.search(getList(), @(wb) wbId == wb.id && wbListId == wb.listId)
 }
 
-function g_warbonds::getCurrentWarbond()
+g_warbonds.getCurrentWarbond <- function getCurrentWarbond()
 {
   return findWarbond(WARBOND_ID)
 }
 
-function g_warbonds::getWarbondByFullId(wbFullId)
+g_warbonds.getWarbondByFullId <- function getWarbondByFullId(wbFullId)
 {
   local data = ::g_string.split(wbFullId, FULL_ID_SEPARATOR)
   if (data.len() >= 2)
@@ -122,7 +121,7 @@ function g_warbonds::getWarbondByFullId(wbFullId)
   return null
 }
 
-function g_warbonds::getWarbondAwardByFullId(wbAwardFullId)
+g_warbonds.getWarbondAwardByFullId <- function getWarbondAwardByFullId(wbAwardFullId)
 {
   local data = ::g_string.split(wbAwardFullId, FULL_ID_SEPARATOR)
   if (data.len() < 3)
@@ -132,14 +131,14 @@ function g_warbonds::getWarbondAwardByFullId(wbAwardFullId)
   return wb && wb.getAwardByIdx(data[2])
 }
 
-function g_warbonds::getWarbondPriceText(amount)
+g_warbonds.getWarbondPriceText <- function getWarbondPriceText(amount)
 {
   if (!amount)
     return ""
   return amount + ::loc(defaultWbFontIcon)
 }
 
-function g_warbonds::openShop(params = {})
+g_warbonds.openShop <- function openShop(params = {})
 {
   if (!isShopAvailable())
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
@@ -148,22 +147,22 @@ function g_warbonds::openShop(params = {})
   ::handlersManager.loadHandler(::gui_handlers.WarbondsShop, params)
 }
 
-function g_warbonds::isShopAvailable()
+g_warbonds.isShopAvailable <- function isShopAvailable()
 {
   return ::has_feature("Warbonds") && ::has_feature("WarbondsShop") && getList().len() > 0
 }
 
-function g_warbonds::isShopButtonVisible()
+g_warbonds.isShopButtonVisible <- function isShopButtonVisible()
 {
   return ::has_feature("Warbonds")
 }
 
-function g_warbonds::getLimit()
+g_warbonds.getLimit <- function getLimit()
 {
   return maxAllowedWarbondsBalance
 }
 
-function g_warbonds::checkOverLimit(battleTask, silent = false)
+g_warbonds.checkOverLimit <- function checkOverLimit(battleTask, silent = false)
 {
   local curWb = ::g_warbonds.getCurrentWarbond()
   if (!curWb)
@@ -189,24 +188,24 @@ function g_warbonds::checkOverLimit(battleTask, silent = false)
   return false
 }
 
-function g_warbonds::onEventPriceUpdated(p)
+g_warbonds.onEventPriceUpdated <- function onEventPriceUpdated(p)
 {
   isListValid = false
 }
 
-function g_warbonds::onEventInitConfigs(p)
+g_warbonds.onEventInitConfigs <- function onEventInitConfigs(p)
 {
   isFontIconsValid = false
 }
 
-function g_warbonds::getUnseenAwardIds()
+g_warbonds.getUnseenAwardIds <- function getUnseenAwardIds()
 {
   if (!visibleSeenIds)
   {
     visibleSeenIds = []
     foreach(wbClass in getList())
       visibleSeenIds.extend(::u.map(
-        wbClass.getAwardsList().filter(@(idx, award) !award.isItemLocked()),
+        wbClass.getAwardsList().filter(@(award) !award.isItemLocked()),
         @(award) award.getSeenId()))
   }
 

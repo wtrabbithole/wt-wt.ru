@@ -2,7 +2,7 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
-function create_event_description(parent_scene, event = null, needEventHeader = true)
+::create_event_description <- function create_event_description(parent_scene, event = null, needEventHeader = true)
 {
   local containerObj = parent_scene.findObject("item_desc")
   if (!::checkObj(containerObj))

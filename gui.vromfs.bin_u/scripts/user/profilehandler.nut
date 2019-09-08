@@ -1,7 +1,8 @@
 local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
-local avatars = ::require("scripts/user/avatars.nut")
-local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local avatars = require("scripts/user/avatars.nut")
+local skinLocations = require("scripts/customization/skinLocations.nut")
+local platformModule = require("scripts/clientState/platform.nut")
 
 enum profileEvent {
   AVATAR_CHANGED = "AvatarChanged"
@@ -15,8 +16,11 @@ enum OwnUnitsType
 
 local selMedalIdx = {}
 
-function gui_start_profile(params = {})
+::gui_start_profile <- function gui_start_profile(params = {})
 {
+  if (!::has_feature("Profile"))
+    return
+
   ::gui_start_modal_wnd(::gui_handlers.Profile, params)
 }
 
@@ -81,6 +85,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   skinsCache = null
   uncollapsedChapterName = null
   curAchievementGroupName = ""
+  filterCountryName = null
+  filterUnitTag = ""
+  filterGroupName = null
 
   unlockFilters = {
     Medal = []
@@ -140,7 +147,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     //fill medal filters
     if ("Medal" in unlockFilters)
     {
-      local medalCountries = getUnlockFiltersList("medal", @(unlock) unlock.country)
+      local medalCountries = getUnlockFiltersList("medal", @(unlock) unlock?.country)
       unlockFilters.Medal = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, medalCountries))
     }
 
@@ -164,7 +171,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     foreach(cb in ::g_unlocks.getAllUnlocksWithBlkOrder())
     {
-      local unlockType = cb.type || ""
+      local unlockType = cb?.type ?? ""
       local unlockTypeId = ::get_unlock_type(unlockType)
 
       if (!::isInArray(unlockTypeId, unlockTypesToShow))
@@ -176,7 +183,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if (unlockTypeId == ::UNLOCKABLE_MEDAL)
         hasAnyMedals = true
 
-      if (!cb.customMenuTab)
+      if (cb?.customMenuTab == null)
         continue
 
       local lowerCaseTab = cb.customMenuTab.tolower()
@@ -190,8 +197,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
       if (cb.customMenuTab in customCategoryConfig)
       {
-        tabImage = ::getTblValue("image", customCategoryConfig[cb.customMenuTab], defaultImage)
-        tabText = tabLocalePrefix + ::getTblValue("title", customCategoryConfig[cb.customMenuTab], cb.customMenuTab)
+        tabImage = customCategoryConfig[cb.customMenuTab]?.image ?? defaultImage
+        tabText = tabLocalePrefix + (customCategoryConfig[cb.customMenuTab]?.title ?? cb.customMenuTab)
       }
       else
       {
@@ -212,7 +219,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     foreach(sheetName in sheetsToHide)
     {
       local idx = sheetsList.find(sheetName)
-      if (idx >= 0)
+      if (idx != null)
         sheetsList.remove(idx)
     }
   }
@@ -291,13 +298,11 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local isProfileOpened = sheet == "Profile"
     local buttonsList = {
       btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
-        && (!::steam_is_running() || ::has_feature("AllowSteamAccountLinking"))
-      btn_changeName = ::isInMenu() && isProfileOpened && !::is_ps4_or_xbox && !::is_vendor_tencent()
+      btn_changeName = ::isInMenu() && isProfileOpened && !platformModule.isMeXBOXPlayer() && !platformModule.isMePS4Player() && !::is_vendor_tencent()
       btn_getLink = !::is_in_loading_screen() && isProfileOpened && ::has_feature("Invites")
-      btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::check_account_tag("psnlogin")
-      btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::has_feature("AllowSteamAccountLinking") && ::check_account_tag("steamlogin")
-      btn_xboxRegistration = isProfileOpened && ::is_platform_xboxone && ::check_account_tag("livelogin")
-        && ::has_feature("AllowXboxAccountLinking")
+      btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::g_user_utils.haveTag("psnlogin")
+      btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::has_feature("AllowSteamAccountLinking") && ::g_user_utils.haveTag("steamlogin")
+      btn_xboxRegistration = isProfileOpened && ::is_platform_xboxone && ::has_feature("AllowXboxAccountLinking")
       paginator_place = (sheet == "Statistics") && airStatsList && (airStatsList.len() > statsPerPage)
       btn_achievements_url = (sheet == "UnlockAchievement") && ::has_feature("AchievementsUrl")
         && ::has_feature("AllowExternalLink") && !::is_vendor_tencent()
@@ -333,9 +338,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
       local selCategory = ""
       if (sheet == "UnlockDecal")
-        selCategory = ::loadLocalByAccount("wnd/decalsCategory", "")
+        selCategory = filterGroupName || ::loadLocalByAccount("wnd/decalsCategory", "")
       else if (sheet == "Medal")
-        selCategory = ::get_profile_country_sq()
+        selCategory = filterCountryName || ::get_profile_country_sq()
 
       local selIdx = 0
       local view = { items = [] }
@@ -369,7 +374,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       {
         showSheetDiv("unlocks", true, true)
         local pageList = scene.findObject("pages_list")
-        local curCountry = ::get_profile_country_sq()
+        local curCountry = filterCountryName || ::get_profile_country_sq()
         local selIdx = 0
 
         local view = { items = [] }
@@ -482,6 +487,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     if ( ! unitypeListObj.childrenCount())
     {
+      local filterUnitType = ::g_unit_type.getByTag(filterUnitTag)
+      if (!filterUnitType.isAvailable())
+        filterUnitType = ::g_unit_type.getByEsUnitType(::get_es_unit_type(::get_cur_slotbar_unit()))
+
       local view = { items = [] }
       foreach(unitType in ::g_unit_type.types)
         if (unitType.isAvailable())
@@ -489,6 +498,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
             {
               image = unitType.testFlightIcon
               tooltip = unitType.getArmyLocName()
+              selected = filterUnitType == unitType
             }
           )
 
@@ -704,24 +714,24 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     foreach(idx, cb in ::g_unlocks.getAllUnlocksWithBlkOrder())
     {
       local name = cb.getStr("id", "")
-      local unlockType = cb.type || ""
+      local unlockType = cb?.type ?? ""
       local unlockTypeId = ::get_unlock_type(unlockType)
       if (unlockTypeId != pageTypeId
           && (!isUnlockTree || !::isInArray(unlockTypeId, unlockTypesToShow)))
         continue
-      if (isUnlockTree && cb.isRevenueShare)
+      if (isUnlockTree && cb?.isRevenueShare)
         continue
       if (!::is_unlock_visible(cb))
         continue
-      if (cb.showAsBattleTask || ::BattleTasks.isBattleTask(cb))
+      if (cb?.showAsBattleTask || ::BattleTasks.isBattleTask(cb))
         continue
 
       if (isCustomMenuTab)
       {
-        if (!cb.customMenuTab || cb.customMenuTab.tolower() != lowerCurPage)
+        if (!cb?.customMenuTab || cb?.customMenuTab.tolower() != lowerCurPage)
           continue
       }
-      else if (cb.customMenuTab)
+      else if (cb?.customMenuTab)
         continue
 
       if (curFilterType == "country" && cb.getStr("country","") != curFilter)
@@ -836,7 +846,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     for(local i = 0; i < total; i++)
     {
       local obj = listObj.getChild(i)
-      local iName = obj.id
+      local iName = obj?.id
       local isUncollapsedChapter = iName == uncollapsedChapterName
       if (iName == (isUncollapsedChapter ? curAchievementGroupName : chapterName))
         newValue = i
@@ -869,7 +879,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local listItemCount = listBoxObj.childrenCount()
       for(local i = 0; i < listItemCount; i++)
       {
-        local listItemId = listBoxObj.getChild(i).id
+        local listItemId = listBoxObj.getChild(i)?.id
         if(listItemId == id.slice(4))
         {
           listBoxObj.setValue(i)
@@ -1097,9 +1107,11 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     local cost = ::get_unlock_cost(unlockId)
     msgBox("question_buy_unlock",
-      warningIfGold(
+      ::warningIfGold(
         ::loc("onlineShop/needMoneyQuestion",
-          {purchase = ::colorize("unlockHeaderColor", ::get_unlock_name_text(-1, unlockId)), cost = cost}),
+          { purchase = ::colorize("unlockHeaderColor", ::get_unlock_name_text(-1, unlockId)),
+            cost = cost.getTextAccordingToBalance()
+          }),
         cost),
       [
         ["ok", @() ::g_unlocks.buyUnlock(unlockId,
@@ -1192,7 +1204,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     local idx = obj.getValue()
     local itemObj = idx >= 0 && idx < obj.childrenCount() ? obj.getChild(idx) : null
-    local name = ::check_obj(itemObj) && itemObj.id
+    local name = ::check_obj(itemObj) && itemObj?.id
     local unlock = name && ::g_unlocks.getUnlockById(name)
     if (!unlock)
       return
@@ -1524,7 +1536,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function switchAchiFocusObj(obj)
   {
-    local id = obj.id
+    local id = obj?.id
     local objsList = ["unlocks_group_list", "unlocks_list", "pages_list"]
     local idx = ::find_in_array(objsList, id)
     if (idx < 0)
@@ -1535,7 +1547,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local sObj = getObj(objsList[index])
       if (::checkObj(sObj) && sObj.isVisible() && sObj.isEnabled() && sObj.childrenCount())
       {
-        if (sObj.id == "unlocks_list")
+        if (sObj?.id == "unlocks_list")
         {
           local unlocksList = getCurUnlockList()
           local unlocksCount = unlocksList.len()

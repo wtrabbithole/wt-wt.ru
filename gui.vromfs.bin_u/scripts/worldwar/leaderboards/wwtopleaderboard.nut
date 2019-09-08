@@ -3,7 +3,14 @@ local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboa
 
 local function initTop(handler, obj, modeName, day = null, amount = 3, field = "rating")
 {
-  wwLeaderboardData.requestWwLeaderboardData(modeName, "", day, 0, amount, field,
+  wwLeaderboardData.requestWwLeaderboardData(modeName,
+    {
+      gameMode = modeName
+      table    = day && day > 0 ? "day" + day : "season"
+      start = 0
+      count = amount
+      category = field
+    },
     function(lbData) {
       displayTop(handler, obj, lbData, { modeName = modeName, day = day })
     }.bindenv(this))

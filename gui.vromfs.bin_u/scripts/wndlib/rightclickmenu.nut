@@ -13,13 +13,13 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
   ]
 */
 
-enum RCLICK_MENU_ORIENT
+global enum RCLICK_MENU_ORIENT
 {
   LEFT,
   RIGHT
 }
 
-function gui_right_click_menu(config, owner, position = null, orientation = null)
+::gui_right_click_menu <- function gui_right_click_menu(config, owner, position = null, orientation = null)
 {
   if (typeof config == "array")
     config = { actions = config }

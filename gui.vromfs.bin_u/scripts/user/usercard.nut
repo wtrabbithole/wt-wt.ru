@@ -3,6 +3,48 @@ local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = ::require("scripts/user/avatars.nut")
 
+local getAirsStatsFromBlk = function (blk)
+{
+  local res = {}
+  foreach(diffName, diffBlk in blk)
+  {
+    if (!diffBlk || typeof(diffBlk)!="instance")
+      continue
+
+    local diffData = {}
+    foreach(typeName, typeBlk in diffBlk)
+    {
+      if (!typeBlk || typeof(typeBlk)!="instance")
+        continue
+
+      local typeData = []
+      foreach(airName, airBlk in typeBlk)
+      {
+        if (!airBlk || typeof(airBlk)!="instance")
+          continue
+
+        local airData = { name = airName }
+        foreach(stat in ::air_stats_list)
+        {
+          if ("reqFeature" in stat && !::has_feature_array(stat.reqFeature))
+            continue
+
+          if ("countFunc" in stat)
+            airData[stat.id] <- stat.countFunc(airBlk)
+          else
+            airData[stat.id] <- airBlk?[stat.id] ?? 0
+        }
+        typeData.append(airData)
+      }
+      if (typeData.len() > 0)
+        diffData[typeName] <- typeData
+    }
+    if (diffData.len() > 0)
+      res[diffName] <- diffData
+  }
+  return res
+}
+
 ::stats_fm <- ["fighter", "bomber", "assault"]
 ::stats_tanks <- ["tank", "tank_destroyer", "heavy_tank", "SPAA"]
 ::stats_ships <- [
@@ -121,8 +163,10 @@ foreach(idx, stat in ::stats_config)
       ::stats_config[idx][param] <- value
 
 
-function gui_modal_userCard(playerInfo)  // uid, id (in session), name
+::gui_modal_userCard <- function gui_modal_userCard(playerInfo)  // uid, id (in session), name
 {
+  if (!::has_feature("UserCards"))
+    return
   ::gui_start_modal_wnd(::gui_handlers.UserCardHandler, {info = playerInfo})
 }
 
@@ -293,7 +337,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     local blk = ::DataBlock()
     ::get_player_public_stats(blk)
 
-    if (!blk.nick || blk.nick == "") //!!FIX ME: Check incorrect user by no uid in answer.
+    if (!blk?.nick || blk.nick == "") //!!FIX ME: Check incorrect user by no uid in answer.
     {
       msgBox("user_not_played", ::loc("msg/player_not_played_our_game"),
         [
@@ -930,7 +974,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
           rowObj.findObject(name).tooltip = value
     }
     local nestObj = scene.findObject("paginator_place")
-    ::generatePaginator(nestObj, this, curStatsPage, floor((airStatsList.len() - 1)/statsPerPage))
+    ::generatePaginator(nestObj, this, curStatsPage, ::floor((airStatsList.len() - 1)/statsPerPage))
     updateButtons()
   }
 
@@ -1258,7 +1302,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function build_profile_summary_rowData(config, summary, diffCode, textId = "")
+::build_profile_summary_rowData <- function build_profile_summary_rowData(config, summary, diffCode, textId = "")
 {
   local row = [{ id = textId, text = "#" + config.name, tdAlign = "left" }]
   local modeList = (typeof config.mode == "array") ? config.mode : [config.mode]
@@ -1291,7 +1335,7 @@ function build_profile_summary_rowData(config, summary, diffCode, textId = "")
   return buildTableRowNoPad("", row)
 }
 
-function fill_profile_summary(sObj, summary, diff)
+::fill_profile_summary <- function fill_profile_summary(sObj, summary, diff)
 {
   if (!::checkObj(sObj))
     return
@@ -1329,64 +1373,78 @@ function fill_profile_summary(sObj, summary, diff)
     sObj.findObject(id).setValue(text)
 }
 
-function get_country_medals(countryId, profileData = null)
+::get_country_medals <- function get_country_medals(countryId, profileData = null)
 {
   local res = []
   local medalsList = profileData?.unlocks?.medal ?? []
   local unlocks = ::g_unlocks.getUnlocksByType("medal")
   foreach(id, cb in unlocks)
-    if (cb.country == countryId)
+    if (cb?.country == countryId)
       if ((!profileData && ::is_unlocked_scripted(::UNLOCKABLE_MEDAL, id)) || (medalsList?[id] ?? 0) > 0)
         res.append(id)
   return res
 }
 
-function get_player_stats_from_blk(blk)
+::get_player_stats_from_blk <- function get_player_stats_from_blk(blk)
 {
-  local player = {};
+  local player = {
+    name = blk?.nick
+    lastDay = blk?.lastDay
+    registerDay = blk?.registerDay
+    title = blk?.title ?? ""
+    titles = (blk?.titles ?? ::DataBlock()) % "name"
+    clanTag = blk?.clanTag ?? ""
+    clanName = blk?.clanName ?? ""
+    clanType = blk?.clanType ?? 0
+    exp = blk?.exp ?? 0
 
-  if (blk.userid!=null)
+    rank = 0
+    rankProgress = 0
+    prestige = 0
+
+    unlocks = {}
+    countryStats = {}
+
+    icon = avatars.getIconById(blk?.icon)
+
+    aircrafts = []
+    crews = []
+
+    //stats & leaderboards
+    summary = blk?.summary? ::buildTableFromBlk(blk.summary) : {}
+    userstat = blk?.userstat? getAirsStatsFromBlk(blk.userstat) : {}
+    leaderboard = blk?.leaderboard? ::buildTableFromBlk(blk.leaderboard) : {}
+  }
+
+  if (blk?.userid != null)
     player.uid <- blk.userid
 
-  player.name <- blk.nick
-  player.lastDay <- blk.lastDay
-  player.registerDay <- blk.registerDay
+  player.rank = ::get_rank_by_exp(player.exp)
+  player.rankProgress = ::calc_rank_progress(player)
 
-  player.title <- "title" in blk? blk.title : ""
-  player.titles <- ("titles" in blk && blk.titles)? blk.titles % "name" : []
-
-  player.clanTag <- blk.clanTag? blk.clanTag : ""
-  player.clanName <- blk.clanName? blk.clanName : ""
-  player.clanType <- blk.clanType ? blk.clanType : 0
-
-  player.exp <- blk.exp || 0
-  player.rank <- ::get_rank_by_exp(player.exp)
-  player.rankProgress <- ::calc_rank_progress(player)
-
-  player.prestige <- ::get_prestige_by_rank(player.rank)
+  player.prestige = ::get_prestige_by_rank(player.rank)
 
   //unlocks
-  player.unlocks <- {}
-  if (blk.unlocks != null)
+  if (blk?.unlocks != null)
     foreach(unlock, uBlk in blk.unlocks)
     {
-      local uType = uBlk.type
+      local uType = uBlk?.type
       if (!uType)
         continue
 
       if (!(uType in player.unlocks))
         player.unlocks[uType] <- {}
-      player.unlocks[uType][unlock] <- (uBlk.stage!=null)? uBlk.stage : 1
+      player.unlocks[uType][unlock] <- uBlk?.stage ?? 1
     }
 
-  player.countryStats <- {}
   foreach(i, country in ::shopCountriesList)
   {
-    local cData = {}
-    cData.medalsCount <- ::get_country_medals(country, player).len()
-    cData.unitsCount <- 0
-    cData.eliteUnitsCount <- 0
-    if (blk.aircrafts && blk.aircrafts[country])
+    local cData = {
+      medalsCount = ::get_country_medals(country, player).len()
+      unitsCount = 0
+      eliteUnitsCount = 0
+    }
+    if (blk?.aircrafts?[country])
     {
       cData.unitsCount = blk.aircrafts[country].paramCount()
       foreach(unitName, unitEliteStatus in blk.aircrafts[country])
@@ -1398,19 +1456,13 @@ function get_player_stats_from_blk(blk)
     player.countryStats[country] <- cData
   }
 
-  player.icon <- "cardicon_default"
-  if (blk.icon != null)
-    player.icon = avatars.getIconById(blk.icon)
-
   //aircrafts list
-  player.aircrafts <- []
-  if (blk.aircrafts != null)
+  if (blk?.aircrafts != null)
     foreach(airName, airRank in blk.aircrafts)
       player.aircrafts.append(airName)
 
   //same with ::g_crews_list.get()
-  player.crews <- []
-  if (blk.slots != null)
+  if (blk?.slots != null)
     foreach(country, crewBlk in blk.slots)
     {
       local countryData = { country = country, crews = [] }
@@ -1418,12 +1470,6 @@ function get_player_stats_from_blk(blk)
         countryData.crews.append({ aircraft = airName })
       player.crews.append(countryData)
     }
-
-
-  //stats & leaderboards
-  player.summary <- blk.summary? ::buildTableFromBlk(blk.summary) : {}
-  player.userstat <- blk.userstat? ::get_airs_stats_from_blk(blk.userstat) : {}
-  player.leaderboard <- blk.leaderboard? ::buildTableFromBlk(blk.leaderboard) : {}
 
   return player
 }

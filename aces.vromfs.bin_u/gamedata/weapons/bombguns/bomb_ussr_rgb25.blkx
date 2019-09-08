@@ -1,6 +1,6 @@
 {
   "rocketGun": true,
-  "preset_cost": 10,
+  "preset_cost": 1,
   "bullets": 1,
   "shotFreq": 3.2,
   "sound_path": "tanks/weapon_tanks/rockets",
@@ -43,6 +43,7 @@
     "smokeEffect": "hydra_smoke",
     "maxDistance": 2800.0,
     "minDistance": 50.0,
+    "armDistance": 80.0,
     "distanceFuse": false,
     "spawnExplosionWreckage": false,
     "spawnExplosionFx": false,
@@ -76,7 +77,9 @@
       "body": {
         "hp": 35.0,
         "armorClass": "tank_structural_steel",
-        "armorThickness": 1.0
+        "armorThickness": 5.0,
+        "explosionArmorQuality": 45.0,
+        "shatterArmorQuality": 45.0
       }
     },
     "damage": {

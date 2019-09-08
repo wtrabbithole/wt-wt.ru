@@ -122,7 +122,7 @@ enums.addTypesByGlobalName("g_url_type", {
   return 0
 })
 
-function g_url_type::getByUrl(url)
+g_url_type.getByUrl <- function getByUrl(url)
 {
   foreach(urlType in types)
     if (urlType.isCorrespondsToUrl(url))

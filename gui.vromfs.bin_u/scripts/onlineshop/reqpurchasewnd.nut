@@ -77,7 +77,7 @@ class ::gui_handlers.ReqPurchaseWnd extends ::gui_handlers.BaseGuiHandlerWT
       local country = ::get_profile_country_sq()
       image = rndImg.subst({ country = ::g_string.cutPrefix(country, "country_", country) })
     }
-    if (::is_numeric(imgBlk.imageRatio))
+    if (::is_numeric(imgBlk?.imageRatio))
       imageRatioHeight = imgBlk.imageRatio
   }
 

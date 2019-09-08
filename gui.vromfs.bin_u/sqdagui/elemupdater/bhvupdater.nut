@@ -12,7 +12,7 @@ local BhvUpdater = class
 
   function onAttach(obj)
   {
-    if (obj.value)
+    if (obj?.value)
     {
       try //script crash will cause game crash, because we nee retcode here.
       {

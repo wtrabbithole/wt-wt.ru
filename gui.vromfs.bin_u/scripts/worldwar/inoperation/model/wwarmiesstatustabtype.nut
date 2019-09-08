@@ -96,7 +96,7 @@ enums.addTypesByGlobalName("g_ww_map_armies_status_tab_type", {
 }, null, "name")
 
 
-function g_ww_map_armies_status_tab_type::getTypeByStatus(status)
+g_ww_map_armies_status_tab_type.getTypeByStatus <- function getTypeByStatus(status)
 {
   return enums.getCachedType(
     "status",

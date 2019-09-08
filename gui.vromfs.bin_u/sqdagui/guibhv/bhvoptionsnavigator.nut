@@ -6,8 +6,7 @@ class gui_bhv.OptionsNavigator
 
   function onAttach(obj)
   {
-    local selectOnAttach = !obj.selectOnAttach || obj.selectOnAttach == "yes"
-    if (selectOnAttach)
+    if (obj?.selectOnAttach != "no")
       selectCurItem(obj)
     else
       viewDeselect(obj)
@@ -44,11 +43,11 @@ class gui_bhv.OptionsNavigator
 
     local wasRow = obj.cur_row.tointeger()
     local row = ::clamp(wasRow, 0, total - 1)
-    if (obj.getChild(row).inactive == "yes")
+    if (obj.getChild(row)?.inactive == "yes")
     {
       local found = false
-      for(local i = row-1; i >= 0; i--)
-        if (obj.getChild(i).inactive != "yes")
+      for (local i = row-1; i >= 0; i--)
+        if (obj.getChild(i)?.inactive != "yes")
         {
           found = true
           row = i
@@ -56,7 +55,7 @@ class gui_bhv.OptionsNavigator
         }
       if (!found)
         for(local i = row+1; i < total; i++)
-          if (obj.getChild(i).inactive != "yes")
+          if (obj.getChild(i)?.inactive != "yes")
           {
             found = true
             row = i
@@ -95,7 +94,8 @@ class gui_bhv.OptionsNavigator
     for (local iRow=0; iRow < numRows; ++iRow)
     {
       local tr = obj.getChild(iRow)
-      if (tr.inactive == "yes") continue
+      if (tr?.inactive == "yes")
+        continue
 
       for (local iCol=0; iCol < tr.childrenCount(); ++iCol)
       {
@@ -206,7 +206,7 @@ class gui_bhv.OptionsNavigator
       if (!selected)
         continue
 
-      isChanged = (obj.cur_row != row.tostring()) || (obj.cur_col != col.tostring())
+      isChanged = (obj?.cur_row != row.tostring()) || (obj?.cur_col != col.tostring())
       obj.cur_row = row.tostring()
       obj.cur_col = col.tostring()
 
@@ -257,11 +257,11 @@ class gui_bhv.OptionsNavigator
 
   function isSelectable(obj)
   {
-    return obj.isVisible() && obj.isEnabled() && obj.inactive!="yes"
+    return obj.isVisible() && obj.isEnabled() && obj?.inactive != "yes"
   }
 }
 
-function selectOptionsNavigatorObj(obj)
+::selectOptionsNavigatorObj <- function selectOptionsNavigatorObj(obj)
 {
   if (!obj) return
   ::gui_bhv.OptionsNavigator.selectCurItem.call(::gui_bhv.OptionsNavigator, obj)

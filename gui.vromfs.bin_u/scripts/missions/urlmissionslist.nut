@@ -8,12 +8,12 @@ const MAX_URL_MISSION_NAME_LENGHT = 24
   listSavePath = "url_missions_list"
 }
 
-function g_url_missions::loadBlk(curMission, callback = null)
+g_url_missions.loadBlk <- function loadBlk(curMission, callback = null)
 {
   ::gui_start_modal_wnd(::gui_handlers.LoadingUrlMissionModal, {curMission = curMission, callback = callback})
 }
 
-function g_url_missions::loadOnce()
+g_url_missions.loadOnce <- function loadOnce()
 {
   if (isLoaded)
     return
@@ -33,7 +33,7 @@ function g_url_missions::loadOnce()
   fixUrlMissionNames()
 }
 
-function g_url_missions::fixUrlMissionNames()
+g_url_missions.fixUrlMissionNames <- function fixUrlMissionNames()
 {
   local hasFixedMissionNames = false
   foreach(mission in list)
@@ -59,7 +59,7 @@ function g_url_missions::fixUrlMissionNames()
     save()
 }
 
-function g_url_missions::save()
+g_url_missions.save <- function save()
 {
   if (!isLoaded)
     return
@@ -70,24 +70,24 @@ function g_url_missions::save()
   ::saveLocalByAccount(listSavePath, saveBlk)
 }
 
-function g_url_missions::getList()
+g_url_missions.getList <- function getList()
 {
   loadOnce()
   return list
 }
 
-function g_url_missions::openCreateUrlMissionWnd()
+g_url_missions.openCreateUrlMissionWnd <- function openCreateUrlMissionWnd()
 {
   if (checkCanCreateMission())
     ::handlersManager.loadHandler(::gui_handlers.modifyUrlMissionWnd)
 }
 
-function g_url_missions::openModifyUrlMissionWnd(urlMission)
+g_url_missions.openModifyUrlMissionWnd <- function openModifyUrlMissionWnd(urlMission)
 {
   ::handlersManager.loadHandler(::gui_handlers.modifyUrlMissionWnd, { urlMission = urlMission })
 }
 
-function g_url_missions::openDeleteUrlMissionConfirmationWnd(urlMission)
+g_url_missions.openDeleteUrlMissionConfirmationWnd <- function openDeleteUrlMissionConfirmationWnd(urlMission)
 {
   local text = ::loc("urlMissions/msgBox/deleteConfirmation" {name = urlMission.name})
   local defButton = "no"
@@ -98,7 +98,7 @@ function g_url_missions::openDeleteUrlMissionConfirmationWnd(urlMission)
   ::scene_msg_box("delete_url_mission_confirmation", null, text, buttons, defButton)
 }
 
-function g_url_missions::hasMissionWithSameName(checkingMission, name)
+g_url_missions.hasMissionWithSameName <- function hasMissionWithSameName(checkingMission, name)
 {
   foreach(mission in getList())
     if (mission != checkingMission && mission.name == name)
@@ -110,7 +110,7 @@ function g_url_missions::hasMissionWithSameName(checkingMission, name)
   return false
 }
 
-function g_url_missions::checkDuplicates(name, url, urlMission = null)
+g_url_missions.checkDuplicates <- function checkDuplicates(name, url, urlMission = null)
 {
   local errorMsg = ""
   foreach(mission in getList())
@@ -130,9 +130,8 @@ function g_url_missions::checkDuplicates(name, url, urlMission = null)
     }
   }
 
-  if (errorMsg == "")
-    if (::get_meta_mission_info_by_name(name) != null)
-      errorMsg = ::loc("urlMissions/nameExist", mission)
+  if (errorMsg == "" && ::get_meta_mission_info_by_name(name) != null)
+    errorMsg = ::loc("urlMissions/nameExist", { name = name })
 
   if (errorMsg == "")
     return true
@@ -141,7 +140,7 @@ function g_url_missions::checkDuplicates(name, url, urlMission = null)
   return false
 }
 
-function g_url_missions::modifyMission(urlMission, name, url)
+g_url_missions.modifyMission <- function modifyMission(urlMission, name, url)
 {
   if (urlMission.name == name && urlMission.url == url)
     return true
@@ -161,10 +160,10 @@ function g_url_missions::modifyMission(urlMission, name, url)
   return true
 }
 
-function g_url_missions::deleteMission(urlMission)
+g_url_missions.deleteMission <- function deleteMission(urlMission)
 {
   local idx = list.find(urlMission)
-  if (idx < 0)
+  if (idx == null)
     return
 
   list.remove(idx)
@@ -172,7 +171,7 @@ function g_url_missions::deleteMission(urlMission)
   ::broadcastEvent("UrlMissionChanged", { mission = urlMission })
 }
 
-function g_url_missions::checkCanCreateMission()
+g_url_missions.checkCanCreateMission <- function checkCanCreateMission()
 {
   loadOnce()
   if (list.len() < MAX_URL_MISSIONS)
@@ -181,7 +180,7 @@ function g_url_missions::checkCanCreateMission()
   return false
 }
 
-function g_url_missions::createMission(name, url)
+g_url_missions.createMission <- function createMission(name, url)
 {
   if (!checkCanCreateMission())
     return false
@@ -195,7 +194,7 @@ function g_url_missions::createMission(name, url)
   return true
 }
 
-function g_url_missions::toggleFavorite(urlMission)
+g_url_missions.toggleFavorite <- function toggleFavorite(urlMission)
 {
   if (!urlMission)
     return
@@ -203,7 +202,7 @@ function g_url_missions::toggleFavorite(urlMission)
   save()
 }
 
-function g_url_missions::setLoadingCompeteState(urlMission, hasErrorByLoading, blk)
+g_url_missions.setLoadingCompeteState <- function setLoadingCompeteState(urlMission, hasErrorByLoading, blk)
 {
   if (!urlMission)
     return
@@ -217,13 +216,13 @@ function g_url_missions::setLoadingCompeteState(urlMission, hasErrorByLoading, b
   ::broadcastEvent("UrlMissionLoaded", { mission = urlMission })
 }
 
-function g_url_missions::findMissionByUrl(url)
+g_url_missions.findMissionByUrl <- function findMissionByUrl(url)
 {
   loadOnce()
   return ::u.search(list, (@(url) function(m) { return m.url == url })(url))
 }
 
-function g_url_missions::findMissionByName(name)
+g_url_missions.findMissionByName <- function findMissionByName(name)
 {
   loadOnce()
   return ::u.search(list, (@(name) function(m) { return m.name == name })(name))

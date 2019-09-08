@@ -4,6 +4,7 @@ tdiv {
   height:t = 'ph';
   flow:t = 'horizontal';
   overflow-y:t = 'auto';
+  total-input-transparent:t='yes'
 
   tdiv {
     size:t = 'fw, fh';
@@ -48,7 +49,7 @@ tdiv {
       <</needShowCollapseButton>>
     }
 
-    listbox {
+    listboxNoScroll {
       id:t = 'nav_list';
       class:t = 'navigationItemList';
       size:t = 'pw, fh';

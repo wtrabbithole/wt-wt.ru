@@ -2,6 +2,8 @@
   DEFAULTS = {  //def value when feature not found in game_settings.blk
                // not in this list are false
     SpendGold = true
+    SpendFreeRP = true
+    CrewInfo = true
     CrewSkills = true
     CrewBuyAllSkills = false
     UserLog = true
@@ -85,6 +87,10 @@
     CustomBattlesPc = true
     CustomBattlesPs4 = true
     HistoricalCampaign = true
+    Leaderboards = true
+    HangarWndHelp = true
+    EulaInMenu = true
+    WarpointsInMenu = true
 
     WorldWar = false
     worldWarMaster = false
@@ -129,10 +135,12 @@
 
     UnlockAllCountries = false
 
+    GameModeSelector = true
     AllModesInRandomBattles = true
     SimulatorDifficulty = true
     SimulatorDifficultyInRandomBattles = true
 
+    Tutorials = true
     AllowedToSkipBaseTutorials = true
     AllowedToSkipBaseTankTutorials = true
     EnableGoldPurchase = true
@@ -159,10 +167,12 @@
 
     ActiveScouting = false
 
+    PromoBlocks = true
     ShowAllPromoBlocks = ::disable_network()
     ShowAllBattleTasks = false
 
     ExtendedCrewSkillsDescription = ::disable_network()
+    UnitInfo = true
     WikiUnitInfo = true
     ExpertToAce = false
 
@@ -171,7 +181,9 @@
     streakVoiceovers = ::disable_network()
     SpectatorUnitDmgIndicator = ::disable_network()
 
+    Profile = true
     ProfileMedals = true
+    UserCards = true
     SlotbarShowBattleRating = true
     GlobalShowBattleRating = false
     VideoPreview = ::disable_network()
@@ -208,6 +220,7 @@
 
     XRayDescription = ::disable_network()
     GamepadCursorControl = true
+    ControlsHelp = true
 
     SeparateTopMenuButtons = false
 
@@ -229,12 +242,17 @@
 
     AllowSteamAccountLinking = true
     AllowXboxAccountLinking = false
+
+    ClansXBOXOnPC = false
+
+    MapPreferences = false
+    TournamentInvites = true
   }
 
   cache = {}
 }
 
-function g_features::hasFeatureBasic(name)
+g_features.hasFeatureBasic <- function hasFeatureBasic(name)
 {
   if (name in cache)
     return cache[name]
@@ -247,21 +265,21 @@ function g_features::hasFeatureBasic(name)
   return res
 }
 
-function g_features::getFeaturePack(name)
+g_features.getFeaturePack <- function getFeaturePack(name)
 {
   local sBlk = ::get_game_settings_blk()
-  local featureBlk = sBlk && sBlk.features && sBlk.features[name]
+  local featureBlk = sBlk?.features[name]
   if (!::u.isDataBlock(featureBlk))
     return null
-  return featureBlk.reqPack
+  return featureBlk?.reqPack
 }
 
-function g_features::onEventProfileUpdated(p)
+g_features.onEventProfileUpdated <- function onEventProfileUpdated(p)
 {
   cache.clear()
 }
 
-function has_feature(name)
+::has_feature <- function has_feature(name)
 {
   local confirmingResult = true
   if (name.len() > 1 && name.slice(0,1) == "!")
@@ -272,7 +290,7 @@ function has_feature(name)
   return ::g_features.hasFeatureBasic(name) == confirmingResult
 }
 
-function has_feature_array(arr)
+::has_feature_array <- function has_feature_array(arr)
 {
   if (arr == null || arr.len() <= 0)
     return true
@@ -284,7 +302,7 @@ function has_feature_array(arr)
   return true
 }
 
-function has_feature_array_any(arr)
+::has_feature_array_any <- function has_feature_array_any(arr)
 {
   if (arr == null || arr.len() <= 0)
     return true
@@ -300,14 +318,12 @@ function has_feature_array_any(arr)
  * Returns array of entitlements that
  * unlock feature with provided name.
  */
-function get_entitlements_by_feature(name)
+::get_entitlements_by_feature <- function get_entitlements_by_feature(name)
 {
   local entitlements = []
   if (name == null)
     return entitlements
-  local sBlk = ::get_game_settings_blk()
-  local blk = sBlk && sBlk.features
-  local feature = blk && blk[name]
+  local feature = ::get_game_settings_blk()?.features?[name]
   if (feature == null)
     return entitlements
   foreach(condition in (feature % "condition"))

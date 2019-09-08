@@ -188,7 +188,7 @@ class ::GuiBox
   }
 }
 
-function get_help_dot_blk_text(point /*Point2*/, tag = "helpLineDot")
+::get_help_dot_blk_text <- function get_help_dot_blk_text(point /*Point2*/, tag = "helpLineDot")
 {
   return format("%s { pos:t='%d-0.5w, %d-0.5h'; position:t='absolute' } ", tag, point.x.tointeger(), point.y.tointeger())
 }
@@ -196,7 +196,7 @@ function get_help_dot_blk_text(point /*Point2*/, tag = "helpLineDot")
 ::LinesGenerator <- {
 }
 
-function LinesGenerator::getLinkLinesMarkup(config)
+LinesGenerator.getLinkLinesMarkup <- function getLinkLinesMarkup(config)
 {
   if (!config)
     return ""
@@ -253,7 +253,7 @@ function LinesGenerator::getLinkLinesMarkup(config)
   return generateLinkLinesMarkup(links, boxList, lineInterval, lineWidth)
 }
 
-function LinesGenerator::generateLinkLinesMarkup(links, obstacleBoxList, interval = "@helpLineInterval", width = "@helpLineWidth")
+LinesGenerator.generateLinkLinesMarkup <- function generateLinkLinesMarkup(links, obstacleBoxList, interval = "@helpLineInterval", width = "@helpLineWidth")
 {
   local guiScene = ::get_cur_gui_scene()
   local lines = createLinkLines(links, obstacleBoxList, guiScene.calcString(interval, null),
@@ -267,7 +267,7 @@ function LinesGenerator::generateLinkLinesMarkup(links, obstacleBoxList, interva
   return data
 }
 
-function LinesGenerator::createLinkLines(links, obstacles, interval = 0, lineWidth = 1, priority = 0, initial = true)
+LinesGenerator.createLinkLines <- function createLinkLines(links, obstacles, interval = 0, lineWidth = 1, priority = 0, initial = true)
 {
   local res = {
     lines = []
@@ -305,7 +305,7 @@ function LinesGenerator::createLinkLines(links, obstacles, interval = 0, lineWid
   return res
 }
 
-function LinesGenerator::checkLinkIntersect(res, links)
+LinesGenerator.checkLinkIntersect <- function checkLinkIntersect(res, links)
 {
   for(local i = links.len() - 1; i >= 0; i--)
   {
@@ -321,7 +321,7 @@ function LinesGenerator::checkLinkIntersect(res, links)
   return res
 }
 
-function LinesGenerator::genMonoLines(res, links, obstacles, interval, lineWidth, priority)
+LinesGenerator.genMonoLines <- function genMonoLines(res, links, obstacles, interval, lineWidth, priority)
 {
   for(local i = links.len() - 1; i >= 0; i--)
   {
@@ -371,7 +371,7 @@ function LinesGenerator::genMonoLines(res, links, obstacles, interval, lineWidth
   return res
 }
 
-function LinesGenerator::monoLineCountDiapason(link, checkBox, axis, obstacles)
+LinesGenerator.monoLineCountDiapason <- function monoLineCountDiapason(link, checkBox, axis, obstacles)
 {
   //check obstacles to get available diapaosn of line variants
   local diapason = [[checkBox.c1[axis], checkBox.c2[axis]]]
@@ -415,7 +415,7 @@ function LinesGenerator::monoLineCountDiapason(link, checkBox, axis, obstacles)
   return diapason
 }
 
-function LinesGenerator::monoLineGetBestPos(diapason, checkBox, axis, lineWidth, bestPos = null) //return null -> not found
+LinesGenerator.monoLineGetBestPos <- function monoLineGetBestPos(diapason, checkBox, axis, lineWidth, bestPos = null) //return null -> not found
 {
   if (bestPos == null)
     bestPos = ((checkBox.c1[axis] + checkBox.c2[axis] - lineWidth) / 2).tointeger()
@@ -444,7 +444,7 @@ function LinesGenerator::monoLineGetBestPos(diapason, checkBox, axis, lineWidth,
   return found ? pos : null
 }
 
-function LinesGenerator::findGoodPos(obj, axis, obstacles, posMin, posMax, bestPos = null)
+LinesGenerator.findGoodPos <- function findGoodPos(obj, axis, obstacles, posMin, posMax, bestPos = null)
 {
   local box = ::GuiBox().setFromDaguiObj(obj)
   local objWidth = box.c2[axis] - box.c1[axis]
@@ -457,7 +457,7 @@ function LinesGenerator::findGoodPos(obj, axis, obstacles, posMin, posMax, bestP
   return null
 }
 
-function LinesGenerator::genDoubleLines(res, links, obstacles, interval, lineWidth, priority)
+LinesGenerator.genDoubleLines <- function genDoubleLines(res, links, obstacles, interval, lineWidth, priority)
 {
   for(local i = links.len() - 1; i >= 0; i--)
   {
@@ -515,7 +515,7 @@ function LinesGenerator::genDoubleLines(res, links, obstacles, interval, lineWid
   return res
 }
 
-function LinesGenerator::doubleLineGetZones(link)
+LinesGenerator.doubleLineGetZones <- function doubleLineGetZones(link)
 {
   local zones = []  //list of available zones for double line
                     //{ box, zone, axis, wayAxis, wayAltAxis }
@@ -575,7 +575,7 @@ function LinesGenerator::doubleLineGetZones(link)
   return zones
 }
 
-function LinesGenerator::doubleLineZoneCheckObstacles(zones, link, obstacles)
+LinesGenerator.doubleLineZoneCheckObstacles <- function doubleLineZoneCheckObstacles(zones, link, obstacles)
 {
   for(local o = obstacles.len() - 1; o >= 0; o--)
   {
@@ -599,7 +599,7 @@ function LinesGenerator::doubleLineZoneCheckObstacles(zones, link, obstacles)
   return zones
 }
 
-function LinesGenerator::doubleLineCutZoneList(zoneData, box)
+LinesGenerator.doubleLineCutZoneList <- function doubleLineCutZoneList(zoneData, box)
 {
   local axis = zoneData.axis
   local zoneList = zoneData.zone
@@ -671,7 +671,7 @@ function LinesGenerator::doubleLineCutZoneList(zoneData, box)
   return zoneList.len()
 }
 
-function LinesGenerator::doubleLineChooseBestInZone(zoneData, link, lineWidth)
+LinesGenerator.doubleLineChooseBestInZone <- function doubleLineChooseBestInZone(zoneData, link, lineWidth)
 {
   local axis = zoneData.axis
   local bestPos =    ((link[1].c1[axis] + link[1].c2[axis] - lineWidth) / 2).tointeger()
@@ -713,7 +713,7 @@ function LinesGenerator::doubleLineChooseBestInZone(zoneData, link, lineWidth)
     if (!dFound)
       continue
 
-    local _bestDiff = abs(_posAxis - bestPos) + abs(_posAltAxis - altBestPos)
+    local _bestDiff = ::abs(_posAxis - bestPos) + ::abs(_posAltAxis - altBestPos)
     if (!found || _bestDiff < bestDiff)
     {
       found = true
@@ -729,7 +729,7 @@ function LinesGenerator::doubleLineChooseBestInZone(zoneData, link, lineWidth)
   return null
 }
 
-function LinesGenerator::cloneDoubleLineZone(zone)
+LinesGenerator.cloneDoubleLineZone <- function cloneDoubleLineZone(zone)
 {
   local diapason = []
   foreach(d in zone.diapason)
@@ -741,7 +741,7 @@ function LinesGenerator::cloneDoubleLineZone(zone)
   }
 }
 
-function LinesGenerator::addLinesBoxes(obstacles, linesBoxes, priority, interval)
+LinesGenerator.addLinesBoxes <- function addLinesBoxes(obstacles, linesBoxes, priority, interval)
 {
   if (priority > lines_priorities.LINE)
     return
@@ -754,19 +754,19 @@ function LinesGenerator::addLinesBoxes(obstacles, linesBoxes, priority, interval
   }
 }
 
-function LinesGenerator::getP2byAxisCoords(axis, axisValue, altAxisValue)
+LinesGenerator.getP2byAxisCoords <- function getP2byAxisCoords(axis, axisValue, altAxisValue)
 {
   return ::Point2(axis? altAxisValue : axisValue, axis? axisValue : altAxisValue)
 }
 
-function LinesGenerator::getBoxByAxis(axisIdx, axis0, axis1, altAxis0, altAxis1)
+LinesGenerator.getBoxByAxis <- function getBoxByAxis(axisIdx, axis0, axis1, altAxis0, altAxis1)
 {
   if (axisIdx)
     return ::GuiBox(altAxis0, axis0, altAxis1, axis1)
   return ::GuiBox(axis0, altAxis0, axis1, altAxis1)
 }
 
-function LinesGenerator::getLineBoxByP2(dot1, dot2, lineWidth)
+LinesGenerator.getLineBoxByP2 <- function getLineBoxByP2(dot1, dot2, lineWidth)
 {
   return ::GuiBox(::min(dot1.x, dot2.x), ::min(dot1.y, dot2.y),
                   ::max(dot1.x, dot2.x) + ((dot1.x == dot2.x)? lineWidth : 0),

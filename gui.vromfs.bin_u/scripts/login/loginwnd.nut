@@ -35,6 +35,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     "login_boxes_block",
     "sharding_dropright_block",
     "login_action",
+    "secondary_auth_block"
     "links_block"
   ]
   currentFocusItem = 0
@@ -89,8 +90,12 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
     setDisableSslCertBox(disableSSLCheck)
     local isSteamRunning = ::steam_is_running()
-    showSceneBtn("steam_login_action_button", isSteamRunning)
-    showSceneBtn("sso_login_action_button", !isSteamRunning && ::webauth_start(this, onSsoAuthorizationComplete))
+    local showSteamLogin = isSteamRunning
+    local showWebLogin = !isSteamRunning && ::webauth_start(this, onSsoAuthorizationComplete)
+    showSceneBtn("secondary_auth_block", showSteamLogin || showWebLogin)
+    showSceneBtn("steam_login_action_button", showSteamLogin)
+    showSceneBtn("sso_login_action_button", showWebLogin)
+    showSceneBtn("btn_signUp_link", !showSteamLogin)
 
     if (lp.login != "")
       currentFocusItem = 1
@@ -487,6 +492,20 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     switch (result)
     {
       case ::YU2_OK:
+        if (::steam_is_running()
+            && !::has_feature("AllowSteamAccountLinking")
+            && !::g_user_utils.haveTag("steam"))
+        {
+          msgBox("steam_relogin_request",
+            ::loc("mainmenu/login/steamRelogin"),
+          [
+            ["ok", ::restart_without_steam],
+            ["cancel"]
+          ],
+          "ok", { cancel_fn = @() null })
+          return
+        }
+
         if (needTrySteamLink())
         {
           local isRemoteComp = ::get_object_value(scene, "loginbox_remote_comp", false)
@@ -553,6 +572,8 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
         ], "tryAgain")
         break
 
+      case ::YU2_DOI_INCOMPLETE:
+        ::showInfoMsgBox(::loc("yn1/login/DOI_INCOMPLETE"), "verification_email_to_complete")
         break
 
       default:
@@ -575,7 +596,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
       return
 
     local chObj = obj.getChild(value)
-    local func = chObj._on_click
+    local func = chObj?._on_click
     if (func in this)
       this[func]()
   }

@@ -54,7 +54,7 @@ class ::g_invites_classes.TournamentBattle extends ::BaseInvite
   {
     local needSave = false
 
-    local total = get_user_logs_count()
+    local total = ::get_user_logs_count()
     for (local i = total-1; i >= 0; i--)
     {
       local blk = ::DataBlock()

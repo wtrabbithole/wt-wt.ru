@@ -7,13 +7,13 @@ local stdMath = require("std/math.nut")
   types = []
 }
 
-function g_order_type::_getDescription(colorScheme)
+g_order_type._getDescription <- function _getDescription(colorScheme)
 {
   return ::colorize(colorScheme.typeDescriptionColor,
     ::loc(::format("items/order/type/%s/description", name)))
 }
 
-function g_order_type::_getParametersDescription(typeParams, colorScheme)
+g_order_type._getParametersDescription <- function _getParametersDescription(typeParams, colorScheme)
 {
   local description = ""
   foreach (paramName, paramValue in typeParams)
@@ -35,7 +35,7 @@ function g_order_type::_getParametersDescription(typeParams, colorScheme)
   return description
 }
 
-function g_order_type::_getParameterDescription(paramName, paramValue, localizeStringValue, colorScheme)
+g_order_type._getParameterDescription <- function _getParameterDescription(paramName, paramValue, localizeStringValue, colorScheme)
 {
   local localizedParamName = ::loc(::format("items/order/type/%s/param/%s", name, paramName))
   // If parameter has no value then it's name will be colored with value-color.
@@ -48,7 +48,7 @@ function g_order_type::_getParameterDescription(paramName, paramValue, localizeS
   return description
 }
 
-function g_order_type::_getObjectiveDescriptionByKey(typeParams, colorScheme, statusDescriptionKey)
+g_order_type._getObjectiveDescriptionByKey <- function _getObjectiveDescriptionByKey(typeParams, colorScheme, statusDescriptionKey)
 {
   local defaultText = ::g_order_type._getDescription.call(this, ::g_orders.emptyColorScheme)
   local uncoloredText = ::loc(::format(statusDescriptionKey, name), defaultText)
@@ -61,12 +61,12 @@ function g_order_type::_getObjectiveDescriptionByKey(typeParams, colorScheme, st
   return description
 }
 
-function g_order_type::_getObjectiveDescription(typeParams, colorScheme)
+g_order_type._getObjectiveDescription <- function _getObjectiveDescription(typeParams, colorScheme)
 {
   return ::g_order_type._getObjectiveDescriptionByKey.call(this, typeParams, colorScheme, "items/order/type/%s/statusDescription")
 }
 
-function g_order_type::_getObjectiveDecriptionRelativeTarget(typeParams, colorScheme)
+g_order_type._getObjectiveDecriptionRelativeTarget <- function _getObjectiveDecriptionRelativeTarget(typeParams, colorScheme)
 {
   local statusDescriptionKeyPostfix = ""
   local targetPlayerUserId = null
@@ -95,18 +95,18 @@ function g_order_type::_getObjectiveDecriptionRelativeTarget(typeParams, colorSc
   return ::g_order_type._getObjectiveDescriptionByKey.call(this, typeParams, colorScheme, "items/order/type/%s/statusDescription" + statusDescriptionKeyPostfix)
 }
 
-function g_order_type::_getScoreHeaderText()
+g_order_type._getScoreHeaderText <- function _getScoreHeaderText()
 {
   local locPrefix = "items/order/scoreTable/scoreHeader/"
   return ::loc(locPrefix + name, ::loc(locPrefix + "default"))
 }
 
-function g_order_type::_getAwardUnitText()
+g_order_type._getAwardUnitText <- function _getAwardUnitText()
 {
   return ::loc("items/order/awardUnit/" + awardUnit)
 }
 
-function g_order_type::_sortPlayerScores(data1, data2)
+g_order_type._sortPlayerScores <- function _sortPlayerScores(data1, data2)
 {
   local score1 = ::getTblValue("score", data1, 0)
   local score2 = ::getTblValue("score", data2, 0)
@@ -115,7 +115,7 @@ function g_order_type::_sortPlayerScores(data1, data2)
   return 0
 }
 
-function g_order_type::_formatScore(scoreValue)
+g_order_type._formatScore <- function _formatScore(scoreValue)
 {
   return ::round(scoreValue).tostring() + ::loc("icon/orderScore")
 }
@@ -195,7 +195,7 @@ enums.addTypesByGlobalName("g_order_type", {
   }
 })
 
-function g_order_type::getOrderTypeByName(typeName)
+g_order_type.getOrderTypeByName <- function getOrderTypeByName(typeName)
 {
   return enums.getCachedType("name", typeName, ::g_order_type_cache.byName,
     ::g_order_type, ::g_order_type.UNKNOWN)

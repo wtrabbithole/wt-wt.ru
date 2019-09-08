@@ -18,7 +18,7 @@
   function getDecoratorsForClanType(clanType)
   {
     local blk = ::get_warpoints_blk()
-    local block = blk[::clan_get_decorators_block_name(clanType.code)]
+    local block = blk?[::clan_get_decorators_block_name(clanType.code)]
 
     return getDecoratorsInternal(block)
   }
@@ -29,14 +29,14 @@
     local blk = ::get_warpoints_blk()
     local result = []
 
-    if (!blk.regaliaTagDecorators)
+    if (!blk?.regaliaTagDecorators)
       return result
 
     blk = blk.regaliaTagDecorators
 
     local decoratorLists = []
     foreach (reward in rewardsList)
-      decoratorLists.append(getDecoratorsInternal(blk[reward], true))
+      decoratorLists.append(getDecoratorsInternal(blk?[reward], true))
     decoratorLists.sort(@(a, b) b.len() <=> a.len())
 
     foreach (list in decoratorLists)

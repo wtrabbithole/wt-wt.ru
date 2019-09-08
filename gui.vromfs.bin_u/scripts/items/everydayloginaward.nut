@@ -1,7 +1,7 @@
 local time = require("scripts/time.nut")
 
 
-function gui_start_show_login_award(blk)
+::gui_start_show_login_award <- function gui_start_show_login_award(blk)
 {
   if (!blk)
     return
@@ -74,7 +74,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
   function updateGuiBlkData()
   {
     local guiBlk = ::configs.GUI.get()
-    local data = guiBlk.every_day_login_award
+    local data = guiBlk?.every_day_login_award
     if (!data)
       return
     local imageSectionName = "image"
@@ -210,7 +210,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
   function getRewardsArray(awardName)
   {
     local userlogConfig = []
-    local total = get_user_logs_count()
+    local total = ::get_user_logs_count()
     for (local i = total-1; i >= 0; i--)
     {
       local blk = ::DataBlock()
@@ -256,11 +256,11 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     if (!guiBlkEDLAdata)
     {
       local guiBlk = ::configs.GUI.get()
-      guiBlkEDLAdata = guiBlk.every_day_login_award
+      guiBlkEDLAdata = guiBlk?.every_day_login_award
     }
 
     if (!::u.isDataBlock(guiBlkEDLAdata)
-        || !::u.isDataBlock(guiBlkEDLAdata.periodic_award))
+        || !::u.isDataBlock(guiBlkEDLAdata?.periodic_award))
       return
 
     curPeriodicAwardData = ::u.copy(guiBlkEDLAdata.periodic_award)
@@ -283,7 +283,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(pawObj) || !curentRewardData || !isOpened)
       return
 
-    local bgImage = curentRewardData.trophy
+    local bgImage = curentRewardData?.trophy
     if (::u.isEmpty(bgImage))
     {
       ::dagor.assertf(isDefault, "Every Day Login Award: empty trophy param for config for period " + period)
@@ -371,7 +371,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
       if (useSingleAnimation)
       {
         ::play_gui_sound("chest_open")
-        local delay = ::to_integer_safe(animObj.chestReplaceDelay, 0)
+        local delay = ::to_integer_safe(animObj?.chestReplaceDelay, 0)
         ::Timer(animObj, 0.001 * delay, fillOpenedChest, this)
       }
     }

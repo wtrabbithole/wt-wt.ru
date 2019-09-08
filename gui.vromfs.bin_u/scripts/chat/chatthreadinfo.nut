@@ -67,9 +67,9 @@ class ChatThreadInfo
     title = ::g_chat.restoreReceivedThreadTitle(dataBlk.topic) || title
     if (title == "")
       title = roomId
-    numPosts = dataBlk.numposts || numPosts
+    numPosts = dataBlk?.numposts ?? numPosts
 
-    updateInfoTags(::u.isString(dataBlk.tags) ? ::split(dataBlk.tags, ",") : [])
+    updateInfoTags(::u.isString(dataBlk?.tags) ? ::split(dataBlk.tags, ",") : [])
     if (ownerNick.len() && ownerUid.len())
       ::getContact(ownerUid, ownerNick, ownerClanTag)
 
@@ -127,7 +127,7 @@ class ChatThreadInfo
     foreach(langInfo in ::g_language.getGameLocalizationInfo())
     {
       local idx = unsortedLangs.find(langInfo.chatId)
-      if (idx >= 0)
+      if (idx != null)
         langs.append(unsortedLangs.remove(idx))
     }
     langs.extend(unsortedLangs) //unknown langs at the end

@@ -1,4 +1,4 @@
-const PERSISTENT_DATA_PARAMS = "PERSISTENT_DATA_PARAMS"
+global const PERSISTENT_DATA_PARAMS = "PERSISTENT_DATA_PARAMS"
 
 if (!("g_script_reloader" in ::getroottable()))
   ::g_script_reloader <- {
@@ -13,14 +13,14 @@ if (!("g_script_reloader" in ::getroottable()))
                  : function(path) { return path }
   }
 
-function g_script_reloader::loadOnce(scriptPath)
+g_script_reloader.loadOnce <- function loadOnce(scriptPath)
 {
   if (scriptPath in loadedScripts)
     return false
   return _runScript(scriptPath)
 }
 
-function g_script_reloader::loadIfExist(scriptPath)
+g_script_reloader.loadIfExist <- function loadIfExist(scriptPath)
 {
   if (scriptPath in loadedScripts)
     return false
@@ -31,7 +31,7 @@ function g_script_reloader::loadIfExist(scriptPath)
   return false
 }
 
-function g_script_reloader::_runScript(scriptPath)
+g_script_reloader._runScript <- function _runScript(scriptPath)
 {
   loadedScripts[scriptPath] <- true
   local res = ::dagor.runScript(modifyPath(scriptPath))
@@ -46,7 +46,7 @@ foreach(scriptPath in ::g_script_reloader.USED_SCRIPTS)
 //storageId - uniq id where to save storage. you can use here handler or file name to avoid same id from other structures
 //context - structure to save/load data from
 //paramsArray - array of params id to take/set to current context
-function g_script_reloader::registerPersistentData(storageId, context, paramsArray)
+g_script_reloader.registerPersistentData <- function registerPersistentData(storageId, context, paramsArray)
 {
   if (storageId in storagesList)
     storagesList[storageId].switchToNewContext(context, paramsArray)
@@ -57,7 +57,7 @@ function g_script_reloader::registerPersistentData(storageId, context, paramsArr
 //structureId - context will be taken from root table by structure id
 //              storageid = structureId
 //ParamsArrayId - will be takenFromContext
-function g_script_reloader::registerPersistentDataFromRoot(structureId, paramsArrayId = PERSISTENT_DATA_PARAMS)
+g_script_reloader.registerPersistentDataFromRoot <- function registerPersistentDataFromRoot(structureId, paramsArrayId = PERSISTENT_DATA_PARAMS)
 {
   if (!(structureId in ::getroottable()))
     return ::dagor.assertf(false, "g_script_reloader: not found structure " + structureId + " in root table to register data")
@@ -69,7 +69,7 @@ function g_script_reloader::registerPersistentDataFromRoot(structureId, paramsAr
   registerPersistentData(structureId, context, context[paramsArrayId])
 }
 
-function g_script_reloader::reload(scriptPathOrStartFunc)
+g_script_reloader.reload <- function reload(scriptPathOrStartFunc)
 {
   isInReloading = true
   saveAllDataToStorages()
@@ -88,7 +88,7 @@ function g_script_reloader::reload(scriptPathOrStartFunc)
   return "Reload success" //for feedbek on console command
 }
 
-function g_script_reloader::saveAllDataToStorages()
+g_script_reloader.saveAllDataToStorages <- function saveAllDataToStorages()
 {
   foreach(storage in storagesList)
     storage.saveDataToStorage()

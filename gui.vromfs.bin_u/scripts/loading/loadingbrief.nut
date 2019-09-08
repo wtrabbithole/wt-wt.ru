@@ -1,12 +1,10 @@
 const MIN_SLIDE_TIME = 2.0
 
-function gui_finish_loading()
-{
-  if (::stop_gui_sound != null)
-    stop_gui_sound("slide_loop")
+::add_event_listener("FinishLoading", function(p) {
+  ::stop_gui_sound("slide_loop")
   ::loading_stop_voice()
   ::loading_stop_music()
-}
+})
 
 class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -42,7 +40,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
         ::get_current_mission_desc(missionBlk)
         ::current_campaign_mission = missionBlk.getStr("name","")
       }
-      else if (get_game_type() & ::GT_DYNAMIC)
+      else if (::get_game_type() & ::GT_DYNAMIC)
         missionBlk.setFrom(::mission_settings.mission)
       else if (::current_campaign_mission)
         missionBlk.setFrom(::get_mission_meta_info(::current_campaign_mission))
@@ -52,7 +50,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       else
         country = ::getCountryByAircraftName(missionBlk.getStr("player_class", ""))
       dagor.debug("0 player_class = "+missionBlk.getStr("player_class", "") + "; country = " + country)
-      if (country != "" && !(get_game_type() & ::GT_VERSUS) && gm != ::GM_TRAINING)
+      if (country != "" && !(::get_game_type() & ::GT_VERSUS) && gm != ::GM_TRAINING)
         guiScene["briefing-flag"]["background-image"] = ::get_country_flag_img("bgflag_" + country)
 
       misObj_add = count_misObj_add(missionBlk)
@@ -62,7 +60,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     if (briefing)
     {
       local guiBlk = ::configs.GUI.get()
-      local exclBlock = guiBlk.slides_exclude && guiBlk.slides_exclude[get_country_flags_preset()]
+      local exclBlock = guiBlk?.slides_exclude?[get_country_flags_preset()]
       local excludeArray = exclBlock? (exclBlock % "name") : []
 
       local sceneInfo = ""
@@ -77,7 +75,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
       setSceneInfo(sceneInfo)
 
       music = briefing.getStr("music","action_01")
-      if ((get_game_type() & ::GT_DYNAMIC) && country != "")
+      if ((::get_game_type() & ::GT_DYNAMIC) && country != "")
         music = country + "_main_theme"
 
       local prevSlide = ""
@@ -116,7 +114,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
               }
             }
             local slide = {
-              time = (slideBlock.minTime || 0).tofloat()
+              time = (slideBlock?.minTime ?? 0).tofloat()
               image = image
               map = slideBlock.getBool("map", false)
             }
@@ -136,7 +134,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
           {
             local partTime = part.voiceLen
             if (partTime <= 0)
-              partTime = (partBlock.minTime || 0).tofloat()
+              partTime = (partBlock?.minTime ?? 0).tofloat()
             part.slides.append({
               time = ::max(partTime, MIN_SLIDE_TIME)
               image = prevSlide
@@ -172,7 +170,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     if (gt & ::GT_VERSUS)
     {
       local missionHelpPath = ::g_mission_type.getHelpPathForCurrentMission()
-      local haveHelp = missionHelpPath != null
+      local haveHelp = ::has_feature("ControlsHelp") && missionHelpPath != null
 
       local helpBtnObj = showSceneBtn("btn_help", haveHelp)
       if (helpBtnObj && !::show_console_buttons)
@@ -438,9 +436,8 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
           misObj = ::loc(format("mb/%s/objective", ::current_campaign_mission.tostring()), "")
         if ((gt & ::GT_VERSUS) && ::current_campaign_mission)
           misObj = ::loc_current_mission_desc()
-        if (misObj == "")
-          if (::current_campaign_mission)
-            misObj = ::loc(format("missions/%s/objective", ::current_campaign_mission.tostring()), "")
+        if (misObj == "" && ::current_campaign_mission)
+          misObj = ::loc(format("missions/%s/objective", ::current_campaign_mission.tostring()), "")
         if (misObj == "")
           misObj = ::loc(briefing.getStr("objective_loc", ""))
         if (misObj_add != "")
@@ -457,10 +454,10 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
         guiScene["darkscreen"].animShow = "show"
       setSceneInfo("")
 
-      local obj = guiScene["tactical-map"]
+      local obj = guiScene?["tactical-map"]
       if (obj)
       {
-        if (obj.animShow != "show")
+        if (obj?.animShow != "show")
           play_gui_sound("show_map")
         obj.animShow = "show"
         obj.show(true)

@@ -7,12 +7,12 @@
   requestUpdated = false
 }
 
-function g_ww_map_armies_status_manager::requestUpdate()
+g_ww_map_armies_status_manager.requestUpdate <- function requestUpdate()
 {
   requestUpdated = true
 }
 
-function g_ww_map_armies_status_manager::updateArmiesByStatus()
+g_ww_map_armies_status_manager.updateArmiesByStatus <- function updateArmiesByStatus()
 {
   if (!requestUpdated)
     return
@@ -51,12 +51,12 @@ function g_ww_map_armies_status_manager::updateArmiesByStatus()
   ::ww_event("MapArmiesByStatusUpdated")
 }
 
-function g_ww_map_armies_status_manager::getArmiesByStatus(status)
+g_ww_map_armies_status_manager.getArmiesByStatus <- function getArmiesByStatus(status)
 {
   return ::getTblValue(status, armiesStateCache, {})
 }
 
-function g_ww_map_armies_status_manager::_resetCache()
+g_ww_map_armies_status_manager._resetCache <- function _resetCache()
 {
   armiesStateCache = {}
   local statusesByCaching = [

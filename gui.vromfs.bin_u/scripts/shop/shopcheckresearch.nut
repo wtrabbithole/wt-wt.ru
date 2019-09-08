@@ -4,9 +4,10 @@ local unitActions = require("scripts/unit/unitActions.nut")
 class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 {
   wndType = handlerType.MODAL
-  sceneBlkName = "gui/shop/shopCheckResearch.blk"
+  sceneTplName = "gui/shop/shopCheckResearch"
   sceneNavBlkName = "gui/shop/shopNav.blk"
   shouldBlurSceneBg = true
+  canQuitByGoBack = false
 
   researchedUnit = null
   researchBlock = null
@@ -21,6 +22,8 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
   shopResearchMode = true
   slotbarActions = [ "research", "buy", "take", "weapons", "info", "repair" ]
+
+  function getSceneTplView() { return {hasMaxWindowSize = ::is_small_screen} }
 
   function initScreen()
   {
@@ -37,15 +40,16 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 
     showSceneBtn("modesRadiobuttons", false)
 
-    createSlotbar(
-      {
-        showNewSlot = true,
-        showEmptySlot = true,
-        isCountryChoiceAllowed = false,
-        customCountry = unitCountry,
-        showTopPanel = false
-      },
-      "slotbar_place")
+    if(!::is_small_screen)
+      createSlotbar(
+        {
+          showNewSlot = true,
+          showEmptySlot = true,
+          isCountryChoiceAllowed = false,
+          customCountry = unitCountry,
+          showTopPanel = false
+        },
+        "slotbar_place")
 
     selectRequiredUnit()
   }
@@ -446,10 +450,10 @@ class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
   }
 }
 
-function getSteamMarkUp()
+::getSteamMarkUp <- function getSteamMarkUp()
 {
   local blk = ::DataBlock()
-  blk = get_discounts_blk()
+  blk = ::get_discounts_blk()
 
   foreach(name, block in blk)
     if(name == "steam_markup")
@@ -458,7 +462,7 @@ function getSteamMarkUp()
   return 0
 }
 
-function checkShopBlk()
+::checkShopBlk <- function checkShopBlk()
 {
   local resText = ""
   local shopBlk = ::get_shop_blk()
@@ -496,7 +500,7 @@ function checkShopBlk()
                 resText += ((resText!="")? "\n":"") + "Not found aircraft " + gAirBlk.getBlockName() + " in " + country
             }
           } else
-            if (airBlk.reqAir!=null && airBlk.reqAir!="")
+            if ((airBlk?.reqAir ?? "") != "")
             {
               local reqAir = getAircraftByName(airBlk.reqAir)
               if (!reqAir && !isInArray(airBlk.reqAir, groups))

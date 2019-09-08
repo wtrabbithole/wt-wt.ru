@@ -1,6 +1,6 @@
 local fonts = require_native("fonts")
 
-function debug_change_font_size(shouldIncrease = true)
+::debug_change_font_size <- function debug_change_font_size(shouldIncrease = true)
 {
   local availableFonts = ::g_font.getAvailableFonts()
   local idx = ::find_in_array(availableFonts, ::g_font.getCurrent(), 0)
@@ -11,7 +11,7 @@ function debug_change_font_size(shouldIncrease = true)
 }
 
 local fontsAdditionalText = ""
-function debug_fonts_list(isActiveColor = true, needBorder = true)
+::debug_fonts_list <- function debug_fonts_list(isActiveColor = true, needBorder = true)
 {
   local getColor = @() isActiveColor ? "activeTextColor" : "commonTextColor"
 

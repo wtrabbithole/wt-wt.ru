@@ -1,11 +1,11 @@
 //!!FIX ME: replace by real threads after fix crash of datablock in sq thread
-enum PT_STEP_STATUS {
+global enum PT_STEP_STATUS {
   NEXT_STEP = 0  //default status
   SKIP_DELAY //for steps which do nothing no need to delay
   SUSPEND
 }
 
-function start_pseudo_thread(actionsList, onCrash = null, step = 0)
+::start_pseudo_thread <- function start_pseudo_thread(actionsList, onCrash = null, step = 0)
 {
   ::handlersManager.doDelayed(function() {
     local curStep = step

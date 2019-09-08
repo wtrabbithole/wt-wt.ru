@@ -65,7 +65,7 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
   function goBack(obj) {}
 }
 
-function on_ps4_autologin()
+::on_ps4_autologin <- function on_ps4_autologin()
 {
   broadcastEvent("Ps4AutoLoginRequested")
 }

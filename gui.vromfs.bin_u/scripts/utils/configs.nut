@@ -42,7 +42,7 @@ foreach(id, cData in ::configs_init_tbl)
 delete configs_init_tbl
 
 
-function configs::onEventAuthorizeComplete(p)
+configs.onEventAuthorizeComplete <- function onEventAuthorizeComplete(p)
 {
   foreach(cfg in list)
     cfg.invalidateCache()

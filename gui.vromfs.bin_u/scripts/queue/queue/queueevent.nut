@@ -1,3 +1,5 @@
+local mapPreferencesParams = require("scripts/missions/mapPreferencesParams.nut")
+
 class ::queue_classes.Event extends ::queue_classes.Base
 {
   shouldQueueCustomMode = false
@@ -57,7 +59,7 @@ class ::queue_classes.Event extends ::queue_classes.Base
     if (::u.filter(queueUidsList, @(q) q.cluster == cluster).len() <= 1)
     {
       local idx = params.clusters.find(cluster)
-      if (idx >= 0)
+      if (idx != null)
         params.clusters.remove(idx)
     }
     base.removeQueueByUid(queueUid)
@@ -178,10 +180,13 @@ class ::queue_classes.Event extends ::queue_classes.Base
 
     qp.clusters <- params.clusters
 
+    local prefParams = mapPreferencesParams.getParams(::game_mode_manager.getCurrentGameMode()?.getEvent())
     qp.players <- {
       [::my_user_id_str] = {
         country = ::queues.getQueueCountry(this)  //FIX ME: move it out of manager
         slots = ::queues.getQueueSlots(this)
+        dislikedMissions = prefParams.dislikedMissions
+        bannedMissions = prefParams.bannedMissions
       }
     }
     local members = ::getTblValue("members", params)
@@ -190,6 +195,8 @@ class ::queue_classes.Event extends ::queue_classes.Base
       {
         qp.players[uid] <- {
           country = ("country" in m)? m.country : ::queues.getQueueCountry(this)
+          dislikedMissions = m?.dislikedMissions ?? []
+          bannedMissions = m?.bannedMissions ?? []
         }
         if ("slots" in m)
           qp.players[uid].slots <- m.slots

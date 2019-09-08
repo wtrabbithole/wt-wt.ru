@@ -156,7 +156,7 @@ class ::gui_handlers.OptionsCustomDifficultyModal extends ::gui_handlers.Generic
 
 //------------------------------------------------------------------------------
 
-function get_custom_difficulty_options()
+::get_custom_difficulty_options <- function get_custom_difficulty_options()
 {
   local gm = ::get_game_mode()
   local canChangeTpsViews = ::is_gamemode_coop(gm) || ::is_gamemode_versus(gm) || gm == ::GM_TEST_FLIGHT
@@ -196,7 +196,7 @@ function get_custom_difficulty_options()
 
 //------------------------------------------------------------------------------
 
-function gui_start_cd_options(afterApplyFunc, owner = null)
+::gui_start_cd_options <- function gui_start_cd_options(afterApplyFunc, owner = null)
 {
   dagor.debug("gui_start_cd_options called")
   if (::SessionLobby.isInRoom())
@@ -212,7 +212,7 @@ function gui_start_cd_options(afterApplyFunc, owner = null)
   })
 }
 
-function get_custom_difficulty_tooltip_text(custDifficulty)
+::get_custom_difficulty_tooltip_text <- function get_custom_difficulty_tooltip_text(custDifficulty)
 {
   local wasDiff = ::get_cd_preset(::DIFFICULTY_CUSTOM)
   ::set_cd_preset(custDifficulty)

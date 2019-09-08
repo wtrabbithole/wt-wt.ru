@@ -100,7 +100,7 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
       ::play_gui_sound("ww_reinforcement_select")
 
     currentReinforcementName = obj.armyName
-    showDeployHint(obj.canDeploy == "yes")
+    showDeployHint(obj?.canDeploy == "yes")
     ::ww_event("SelectedReinforcement", { name = currentReinforcementName })
   }
 

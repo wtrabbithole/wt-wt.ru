@@ -1,4 +1,5 @@
-local sqadronUnitAction = ::require("scripts/unit/sqadronUnitAction.nut")
+local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 
 local PROGRESS_PARAMS = {
   type = "old"
@@ -6,6 +7,9 @@ local PROGRESS_PARAMS = {
   markerPos = 100
   progressDisplay = "show"
   markerDisplay = "show"
+  textType = "activeText"
+  textPos = "0.5pw - 0.5w"
+  tooltip = ""
 }
 
 class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHandlerWT
@@ -38,25 +42,56 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
       {
         local percentMemberActivity = min(100.0 * myActivity / maxMemberActivity, 100)
         local percentClanActivity = min(100.0 * clanActivity / maxActivity, 100)
-        local myExp = min(min(1, 1.0 * percentMemberActivity/percentClanActivity) * clanActivity, clanData.maxClanActivity)
+        local myExp = min(min(1, 1.0 * percentMemberActivity/percentClanActivity) * clanActivity,
+          clanData.maxClanActivity)
+        local roundMyExp = ::round(myExp)
         local limit = min(100.0 * limitClanActivity / maxActivity, 100)
-        local isAllVehiclesResearched = sqadronUnitAction.isAllVehiclesResearched()
+        local isAllVehiclesResearched = squadronUnitAction.isAllVehiclesResearched()
+        local expBoost = ::clan_get_exp_boost()/100.0
+        local hasBoost = expBoost > 0
+        local descrArray = hasBoost
+          ? [ ::loc("clan/activity_reward/nowBoost",
+              { bonus = ::colorize("goodTextColor",
+                "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(expBoost))})
+            ]
+          : []
+        descrArray.append(isAllVehiclesResearched
+          ? ::loc("clan/activity/progress/desc_all_researched")
+          : ::loc("clan/activity/progress/desc"))
+
+        local markerPosMyExp = min(100 * myExp / limitClanActivity, 100)
+
+        local pxCountToEdgeWnd = ::to_pixels((1-markerPosMyExp/100.0)
+          + "*0.4@scrn_tgt + 1@tablePad + 5@blockInterval")
+        local myExpTextSize = daguiFonts.getStringWidthPx(::getShortTextFromNum(roundMyExp)
+            + (hasBoost ? (" + " + ::getShortTextFromNum((roundMyExp*expBoost).tointeger())) : ""),
+          "fontNormal", guiScene)
+        local offsetMyExpText = ::min(pxCountToEdgeWnd - myExpTextSize/2, 0)
+        local myExpShortText= ::colorize("activeTextColor",
+          ::getShortTextFromNum(roundMyExp) + (hasBoost ? (" + " + ::colorize("goodTextColor",
+          ::getShortTextFromNum((roundMyExp*expBoost).tointeger()))) : ""))
+        local myExpFullText= ::colorize("activeTextColor",
+          roundMyExp + (hasBoost ? (" + " + ::colorize("goodTextColor",
+            ::round((roundMyExp*expBoost).tointeger()))) : ""))
 
         view = {
           clan_activity_header_text = ::format( ::loc("clan/my_activity_in_period"),
             myActivity + " / " + maxMemberActivity.tostring())
-          clan_activity_description = isAllVehiclesResearched
-            ? ::loc("clan/activity/progress/desc_all_researched")
-            : ::loc("clan/activity/progress/desc")
+          clan_activity_description = ::g_string.implode(descrArray, "\n")
           rows = [
             {
               title = ::loc("clan/squadron_activity")
               progress = [
                 PROGRESS_PARAMS.__merge({type = "new", markerDisplay = "hide"})
                 PROGRESS_PARAMS.__merge({
+                  type = "inactive"
                   value = percentClanActivity * 10
-                  markerPos = percentClanActivity
-                  text = ::round(percentClanActivity) + "%"
+                  markerDisplay = "hide"
+                })
+                PROGRESS_PARAMS.__merge({
+                  value = min(limit, percentClanActivity) * 10
+                  markerPos = min(limit, percentClanActivity)
+                  text = ::round(min(limit, percentClanActivity)) + "%"
                 })
               ]
             }
@@ -67,14 +102,21 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
               progress = [
                 PROGRESS_PARAMS.__merge({type = "new", markerDisplay = "hide"})
                 PROGRESS_PARAMS.__merge({
-                  text = limitClanActivity
+                  text = ::getShortTextFromNum(limitClanActivity)
                   rotation = 180
+                  tooltip = ::getShortTextFromNum(limitClanActivity) != limitClanActivity.tostring()
+                    ? ::loc("leaderboards/exactValue") + ::loc("ui/colon") + limitClanActivity
+                    : ""
                 })
                 PROGRESS_PARAMS.__merge({
                   value = min(100 * myExp / limitClanActivity, 100) * 10
-                  markerPos = min(100 * myExp / limitClanActivity, 100)
-                  text = ::round(myExp)
-                  markerDisplay = ::round(myExp) < limitClanActivity ? "show" : "hide"
+                  markerPos = markerPosMyExp
+                  textType = "textAreaCentered"
+                  textPos = "0.5pw - 0.5w" + " + " + offsetMyExpText
+                  text = myExpShortText
+                  tooltip = myExpFullText != myExpShortText
+                    ? ::loc("leaderboards/exactValue") + ::loc("ui/colon") + myExpFullText
+                    : ""
                 })
               ]
             }
@@ -83,9 +125,14 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
               progress = [
                 PROGRESS_PARAMS.__merge({type = "new", markerDisplay = "hide"})
                 PROGRESS_PARAMS.__merge({
+                  type = "inactive"
                   value = percentMemberActivity * 10
-                  markerPos = percentMemberActivity
-                  text = ::round(percentMemberActivity) + "%"
+                  markerDisplay = "hide"
+                })
+                PROGRESS_PARAMS.__merge({
+                  value = min(limit, percentMemberActivity) * 10
+                  markerPos = min(limit, percentMemberActivity)
+                  text = ::round(min(limit, percentMemberActivity)) + "%"
                 })
               ]
             }

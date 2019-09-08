@@ -1,4 +1,4 @@
-function gui_start_mod_tier_researched(config)
+::gui_start_mod_tier_researched <- function gui_start_mod_tier_researched(config)
 {
   foreach(param, value in config)
   {

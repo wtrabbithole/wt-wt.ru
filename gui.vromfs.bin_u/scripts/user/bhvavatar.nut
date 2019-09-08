@@ -13,8 +13,8 @@ local BhvAvatar = class
 
   function onAttach(obj)
   {
-    setIsFull(obj, obj.isFull == "yes")
-    if (obj.value)
+    setIsFull(obj, obj?.isFull == "yes")
+    if (obj?.value)
       setStringValue(obj, validateStrValue(obj.value))
     updateView(obj)
     return ::RETCODE_NOTHING
@@ -40,7 +40,7 @@ local BhvAvatar = class
 
   function setStringValue(obj, strValue)
   {
-    if (obj.value == strValue)
+    if (obj?.value == strValue)
       return false
     obj.value = strValue
     return true
@@ -62,7 +62,7 @@ local BhvAvatar = class
 
   function updateView(obj)
   {
-    local image = obj.value || ""
+    local image = obj?.value ?? ""
     local hasImage = image != ""
     obj.set_prop_latent("background-image", hasImage ? getIconPath(image) : "")
     obj.set_prop_latent("background-color", hasImage ? "#FFFFFFFF" : "#00000000")

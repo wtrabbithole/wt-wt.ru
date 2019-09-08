@@ -32,6 +32,8 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   prevShadeRangePos = [-1, -1]
 
   pointingDevice = null
+  canUseShortcuts = true
+  shouldMapClickDoApply = true
   mapCoords = null
   watchAxis = []
   stuckAxis = {}
@@ -63,6 +65,9 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
 
     watchAxis = ::joystickInterface.getAxisWatch(false, true)
     pointingDevice = ::use_touchscreen ? POINTING_DEVICE.TOUCHSCREEN : ::is_xinput_device() ? POINTING_DEVICE.GAMEPAD : POINTING_DEVICE.MOUSE
+
+    canUseShortcuts = !::use_touchscreen || ::is_xinput_device()
+    shouldMapClickDoApply = !::use_touchscreen && !::is_xinput_device()
 
     ::g_hud_event_manager.subscribe("LocalPlayerDead", function (data) {
       ::close_artillery_map()
@@ -149,6 +154,10 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       objHint.overlayTextColor = valid ? "good" : "bad"
     }
 
+    local objBtnApply = scene.findObject("btn_apply")
+    if (::check_obj(objBtnApply))
+      objBtnApply.enable(valid)
+
     updateMapShadeRadius()
   }
 
@@ -220,15 +229,20 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       {
         title = "hotkeys/ID_SHOOT_ARTILLERY"
         shortcuts = ["ID_SHOOT_ARTILLERY"]
+        buttonCb = "onApply"
+        buttonExtraMarkup = ::is_dev_version ? "accessKey:t='Enter';" : ""
+        buttonId = "btn_apply"
       },
       {
         title = "hotkeys/ID_CHANGE_ARTILLERY_TARGETING_MODE"
         shortcuts = ["ID_CHANGE_ARTILLERY_TARGETING_MODE"]
+        buttonCb = "onChangeTargetingMode"
         show = ::get_mission_difficulty_int() != ::DIFFICULTY_HARDCORE && !isSuperArtillery
       },
       {
         title = "mainmenu/btnCancel"
         shortcuts = ["ID_ARTILLERY_CANCEL", "ID_ACTION_BAR_ITEM_5"]
+        buttonCb = "goBack"
       },
     ]
 
@@ -239,13 +253,14 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
       reqDevice = ::STD_KEYBOARD_DEVICE_ID
 
     foreach(idx, info in showShortcuts)
-      if (::getTblValue("show", info, true))
+      if (info?.show ?? true)
       {
         local shortcuts = ::get_shortcuts(info.shortcuts)
         local pref = null
         local any = null
-        foreach(actionShortcuts in shortcuts)
+        foreach(i, actionShortcuts in shortcuts)
         {
+          info.primaryShortcutName <- info.shortcuts[i]
           foreach(shortcut in actionShortcuts)
           {
             any = any || shortcut
@@ -260,19 +275,32 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
             break
         }
 
-        showShortcuts[idx].primaryShortcut <- pref || any
+        info.primaryShortcut <- pref || any
       }
 
-    local data = ""
+    local data = []
     foreach(idx, info in showShortcuts)
-      if (::getTblValue("show", info, true))
+      if (info?.show ?? true)
       {
-        data += data.len() ? "controlsHelpHint { text:t='    ' }" : ""
-        data += getShortcutFrameForHelp(info.primaryShortcut)
-        data += ::format("controlsHelpHint { text:t='#%s' }", info.title)
+        if (canUseShortcuts)
+          data.append(getShortcutFrameForHelp(info.primaryShortcut) +
+            ::format("controlsHelpHint { text:t='#%s' }", info.title))
+        else
+          data.append(::handyman.renderCached("gui/commonParts/button", {
+            id = info?.buttonId ?? ""
+            text = "#" + info.title
+            funcName = info.buttonCb
+            actionParamsMarkup = info?.buttonExtraMarkup
+          }))
       }
 
+    data = ::g_string.implode(data, "controlsHelpHint { text:t='    ' }")
     guiScene.replaceContentFromText(placeObj, data, data.len(), this)
+  }
+
+  function onChangeTargetingMode(obj)
+  {
+    ::toggle_shortcut("ID_CHANGE_ARTILLERY_TARGETING_MODE")
   }
 
   function getShortcutFrameForHelp(shortcut)
@@ -348,9 +376,18 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   function onArtilleryMapClick()
   {
     mapCoords = getMouseCursorMapCoords()
-    // Touchscreens and Dualshock4 touchscreen should use map click just to select point and see dispersion radius, and then [Ok] button to call artillery.
-    if (!::use_touchscreen && !::is_xinput_device())
+    // Touchscreens and Dualshock4 touchscreen should use map touch just to select point and see
+    // dispersion radius, and then [Apply] button to call artillery.
+    if (shouldMapClickDoApply)
       onApply()
+  }
+
+  function onApplyByShortcut()
+  {
+    // On touchscreen, shortcut toggles by map touch, when ID_SHOOT_ARTILLERY is set to LMB.
+    if (!canUseShortcuts)
+      return
+    onApply()
   }
 
   function onApply()
@@ -358,24 +395,24 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     if (checkArtilleryEnabled(true) && mapCoords && ::artillery_dispersion(mapCoords[0], mapCoords[1]) >= 0)
     {
       ::call_artillery(mapCoords[0], mapCoords[1])
-      goBack()
+      doQuit()
     }
   }
 
   function goBack()
   {
+    if (::is_in_flight())
+      ::artillery_cancel()
+    else
+      doQuit()
+  }
+
+  function doQuit()
+  {
     ::on_artillery_close()
     if (::is_xinput_device())
       ::g_gamepad_cursor_controls.pause(false)
     base.goBack()
-  }
-
-  function cancelArtillery()
-  {
-    if (::is_in_flight())
-      ::artillery_cancel()
-    else
-      base.goBack()
   }
 
   function onEventHudTypeSwitched(params)
@@ -384,7 +421,7 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function gui_start_artillery_map(params = {})
+::gui_start_artillery_map <- function gui_start_artillery_map(params = {})
 {
   ::handlersManager.loadHandler(::gui_handlers.ArtilleryMap,
   {
@@ -396,22 +433,22 @@ function gui_start_artillery_map(params = {})
   })
 }
 
-function close_artillery_map() // called from client
+::close_artillery_map <- function close_artillery_map() // called from client
 {
   local handler = ::handlersManager.getActiveBaseHandler()
   if (handler && (handler instanceof ::gui_handlers.ArtilleryMap))
-    handler.goBack()
+    handler.doQuit()
 }
 
-function on_artillery_targeting(params = {}) // called from client
+::on_artillery_targeting <- function on_artillery_targeting(params = {}) // called from client
 {
   if(::is_in_flight())
     ::gui_start_artillery_map(params)
 }
 
-function artillery_call_by_shortcut() // called from client
+::artillery_call_by_shortcut <- function artillery_call_by_shortcut() // called from client
 {
   local handler = ::handlersManager.getActiveBaseHandler()
   if (handler && (handler instanceof ::gui_handlers.ArtilleryMap))
-    handler.onApply()
+    handler.onApplyByShortcut()
 }

@@ -8,7 +8,7 @@ local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
   discountsList = {}
 }
 
-function g_discount::clearDiscountsList()
+g_discount.clearDiscountsList <- function clearDiscountsList()
 {
   foreach (button in ::g_top_menu_buttons.types)
     if (button.needDiscountIcon)
@@ -25,7 +25,7 @@ function g_discount::clearDiscountsList()
 ::g_discount.clearDiscountsList()
 
 //return 0 if when discount not visible
-function g_discount::getUnitDiscount(unit)
+g_discount.getUnitDiscount <- function getUnitDiscount(unit)
 {
   if (!canBeVisibleOnUnit(unit))
     return 0
@@ -33,7 +33,7 @@ function g_discount::getUnitDiscount(unit)
                getEntitlementUnitDiscount(unit.name))
 }
 
-function g_discount::getGroupDiscount(list)
+g_discount.getGroupDiscount <- function getGroupDiscount(list)
 {
   local res = 0
   foreach(unit in list)
@@ -41,13 +41,13 @@ function g_discount::getGroupDiscount(list)
   return res
 }
 
-function g_discount::pushDiscountsUpdateEvent()
+g_discount.pushDiscountsUpdateEvent <- function pushDiscountsUpdateEvent()
 {
   ::update_gamercards()
   ::broadcastEvent("DiscountsDataUpdated")
 }
 
-function g_discount::onEventUnitBought(p)
+g_discount.onEventUnitBought <- function onEventUnitBought(p)
 {
   local unitName = ::getTblValue("unitName", p)
   if (!unitName)
@@ -61,13 +61,13 @@ function g_discount::onEventUnitBought(p)
   ::get_gui_scene().performDelayed(this, pushDiscountsUpdateEvent)
 }
 
-function g_discount::updateXboxShopDiscounts()
+g_discount.updateXboxShopDiscounts <- function updateXboxShopDiscounts()
 {
-  discountsList[::g_top_menu_buttons.ONLINE_SHOP.id] = xboxShopData.haveDiscount()
+  discountsList[::g_top_menu_buttons.XBOX_ONLINE_SHOP.id] = xboxShopData.haveDiscount()
   updateDiscountNotifications()
 }
 
-function g_discount::updateDiscountData(isSilentUpdate = false)
+g_discount.updateDiscountData <- function updateDiscountData(isSilentUpdate = false)
 {
   clearDiscountsList()
 
@@ -101,7 +101,7 @@ function g_discount::updateDiscountData(isSilentUpdate = false)
     checkEntitlement(entName, entBlock, giftUnits)
 
   if (xboxShopData.canUseIngameShop())
-    discountsList[::g_top_menu_buttons.ONLINE_SHOP.id] = xboxShopData.haveDiscount()
+    discountsList[::g_top_menu_buttons.XBOX_ONLINE_SHOP.id] = xboxShopData.haveDiscount()
 
   local isShopDiscountVisible = false
   foreach(airName, discount in discountsList.airList)
@@ -123,15 +123,15 @@ function g_discount::updateDiscountData(isSilentUpdate = false)
     pushDiscountsUpdateEvent()
 }
 
-function g_discount::checkEntitlement(entName, entlBlock, giftUnits)
+g_discount.checkEntitlement <- function checkEntitlement(entName, entlBlock, giftUnits)
 {
   local discountItemList = ["premium", "warpoints", "eagles", "campaign", "bonuses"]
-  local chapter = entlBlock.chapter
+  local chapter = entlBlock?.chapter
   if (!::isInArray(chapter, discountItemList))
     return
 
   local discount = ::get_entitlement_gold_discount(entName)
-  local singleDiscount = entlBlock.singleDiscount && !::has_entitlement(entName)
+  local singleDiscount = entlBlock?.singleDiscount && !::has_entitlement(entName)
                             ? entlBlock.singleDiscount
                             : 0
 
@@ -142,19 +142,19 @@ function g_discount::checkEntitlement(entName, entlBlock, giftUnits)
   discountsList.entitlements[entName] <- discount
 
   if (chapter == "campaign" || chapter == "bonuses")
-    chapter = ::g_top_menu_buttons.ONLINE_SHOP.id
+    chapter = ::g_top_menu_buttons.XBOX_ONLINE_SHOP.id
 
-  discountsList[chapter] <- chapter == ::g_top_menu_buttons.ONLINE_SHOP.id ?
+  discountsList[chapter] <- chapter == ::g_top_menu_buttons.XBOX_ONLINE_SHOP.id ?
       (xboxShopData.canUseIngameShop() || ::is_platform_pc)
     : true
 
-  if (entlBlock.aircraftGift)
+  if (entlBlock?.aircraftGift)
     foreach(unitName in entlBlock % "aircraftGift")
       if (unitName in giftUnits)
         discountsList.entitlementUnits[unitName] <- discount
 }
 
-function g_discount::generateDiscountInfo(discountsTable, headerLocId = "")
+g_discount.generateDiscountInfo <- function generateDiscountInfo(discountsTable, headerLocId = "")
 {
   local maxDiscount = 0
   local headerText = ::loc(headerLocId == ""? "discount/notification" : headerLocId) + "\n"
@@ -179,7 +179,7 @@ function g_discount::generateDiscountInfo(discountsTable, headerLocId = "")
   return {maxDiscount = maxDiscount, discountTooltip = discountText}
 }
 
-function g_discount::updateDiscountNotifications(scene = null)
+g_discount.updateDiscountNotifications <- function updateDiscountNotifications(scene = null)
 {
   foreach(name in ["topmenu_research", "changeExp"])
   {
@@ -221,37 +221,37 @@ function g_discount::updateDiscountNotifications(scene = null)
   stObj.show(haveAnyDiscount)
 }
 
-function g_discount::onEventXboxShopDataUpdated(p)
+g_discount.onEventXboxShopDataUpdated <- function onEventXboxShopDataUpdated(p)
 {
   updateXboxShopDiscounts()
 }
 
-function g_discount::getDiscount(id, defVal = false)
+g_discount.getDiscount <- function getDiscount(id, defVal = false)
 {
-  return discountsList[id] || defVal
+  return discountsList?[id] ?? defVal
 }
 
-function g_discount::getEntitlementDiscount(id)
+g_discount.getEntitlementDiscount <- function getEntitlementDiscount(id)
 {
   return discountsList.entitlements?[id] || 0
 }
 
-function g_discount::getEntitlementUnitDiscount(unitName)
+g_discount.getEntitlementUnitDiscount <- function getEntitlementUnitDiscount(unitName)
 {
   return discountsList.entitlementUnits?[unitName] || 0
 }
 
-function g_discount::getUnitDiscountByName(unitName)
+g_discount.getUnitDiscountByName <- function getUnitDiscountByName(unitName)
 {
   return discountsList.airList?[unitName] || 0
 }
 
-function g_discount::haveAnyUnitDiscount()
+g_discount.haveAnyUnitDiscount <- function haveAnyUnitDiscount()
 {
   return discountsList.entitlementUnits.len() > 0 || discountsList.airList.len() > 0
 }
 
-function g_discount::getUnitDiscountList(countryId = null)
+g_discount.getUnitDiscountList <- function getUnitDiscountList(countryId = null)
 {
   if (!haveAnyUnitDiscount())
     return {}

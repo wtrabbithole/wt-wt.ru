@@ -1,5 +1,98 @@
 local time = require("scripts/time.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local promoConditions = require("scripts/promo/promoConditions.nut")
+
+local function openLink(owner, params = [], source = "promo_open_link")
+{
+  local link = ""
+  local forceBrowser = false
+  if (::u.isString(params))
+    link = params
+  else if (::u.isArray(params) && params.len() > 0)
+  {
+    link = params[0]
+    forceBrowser = params.len() > 1? params[1] : false
+  }
+
+  local processedLink = ::g_url.validateLink(link)
+  if (processedLink == null)
+    return
+  ::open_url(processedLink, forceBrowser, false, source)
+}
+
+local function onOpenTutorial(owner, params = [])
+{
+  local tutorialId = ""
+  if (::u.isString(params))
+    tutorialId = params
+  else if (::u.isArray(params) && params.len() > 0)
+    tutorialId = params[0]
+
+  owner.checkedNewFlight((@(tutorialId) function() {
+    if (!::gui_start_checkTutorial(tutorialId, false))
+      ::gui_start_tutorial()
+  })(tutorialId))
+}
+
+local function openEventsWnd(owner, params = [])
+{
+  local eventId = params.len() > 0? params[0] : null
+  owner.checkedForward((@(eventId) function() {
+    goForwardIfOnline((@(eventId) function() {
+      ::gui_start_modal_events({event = eventId})
+    })(eventId), false, true)
+  })(eventId), null)
+}
+
+local function openItemsWnd(owner, params = [])
+{
+  local tab = getconsttable()?.itemsTab?[(params?[1] ?? "SHOP").toupper()] ?? itemsTab.INVENTORY
+
+  local curSheet = null
+  local sheetSearchId = params?[0] ?? null
+  if (sheetSearchId)
+    curSheet = {searchId = sheetSearchId}
+
+  if (tab >= itemsTab.TOTAL)
+    tab = itemsTab.INVENTORY
+
+  ::gui_start_items_list(tab, {curSheet = curSheet})
+}
+
+local function onOpenBattleTasksWnd(owner, params = {}, obj = null)
+{
+  local taskId = obj?.task_id
+  if (taskId == null && params.len() > 0)
+    taskId = params[0]
+
+  ::g_warbonds_view.resetShowProgressBarFlag()
+  ::gui_start_battle_tasks_wnd(taskId)
+}
+
+local function onLaunchEmailRegistration(params)
+{
+  local platformName = params?[0] ?? ""
+  if (platformName == "")
+    return
+
+  local launchFunctionName = ::format("launch%sEmailRegistration", platformName)
+  local launchFunction = ::g_user_utils?[launchFunctionName]
+  if (launchFunction)
+    launchFunction()
+}
+
+local openProfileSheetParams = {
+  UnlockAchievement = @(p1, p2) {
+    uncollapsedChapterName = p2 != ""? p1 : null
+    curAchievementGroupName = p1 + (p2 != "" ? ("/" + p2) : "")
+  }
+  Medal = @(p1, p2) { filterCountryName = p1 }
+  UnlockSkin = @(p1, p2) {
+    filterCountryName = p1
+    filterUnitTag = p2
+  }
+  UnlockDecal = @(p1, p2) { filterGroupName = p1 }
+}
 
 ::g_promo <- {
   PROMO_BUTTON_TYPE = {
@@ -32,14 +125,19 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
     {
       ::check_package_and_ask_download(::getTblValue(0, params, ""))
     }
+    profile = function(handler, params, obj)
+    {
+      local sheet = params?[0]
+      local launchParams = openProfileSheetParams?[sheet](params?[1], params?[2] ?? "") ?? {}
+      launchParams.__update({ initialSheet = sheet })
+      ::gui_start_profile(launchParams)
+    }
     achievements = function(handler, params, obj)
     {
-      local chapterName = params?[0] ?? ""
-      local groupName = params?[1] ?? ""
-      ::gui_start_profile({
-        initialSheet = "UnlockAchievement"
-        uncollapsedChapterName = groupName != ""? chapterName : null
-        curAchievementGroupName = chapterName + (groupName != ""? ("/" + groupName) : "") })
+      local sheet = "UnlockAchievement"
+      local launchParams = openProfileSheetParams?[sheet](params?[0], params?[1] ?? "") ?? {}
+      launchParams.__update({ initialSheet = sheet })
+      ::gui_start_profile(launchParams)
     }
     show_unit = function(handler, params, obj)
     {
@@ -64,6 +162,7 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
       else
         showUnitInShop()
     }
+    email_registration = function(handler, params, obj) { return onLaunchEmailRegistration(params) }
   }
 
   collapsedParams = {
@@ -106,9 +205,15 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
   oldRecordsCheckTable = {
     promo = @(tm) tm
   }
+
+  needUpdateByTimerTable = {
+    world_war_button = true
+  }
+
+  openLinkWithSource = openLink
 }
 
-function g_promo::checkOldRecordsOnInit()
+g_promo.checkOldRecordsOnInit <- function checkOldRecordsOnInit()
 {
   local blk = ::loadLocalByAccount("seen")
   if (!blk)
@@ -137,13 +242,13 @@ function g_promo::checkOldRecordsOnInit()
   }
 }
 
-function g_promo::recievePromoBlk()
+g_promo.recievePromoBlk <- function recievePromoBlk()
 {
-  local customPromoBlk = ::get_gui_regional_blk().promo_block
+  local customPromoBlk = ::get_gui_regional_blk()?.promo_block
   if (!::u.isDataBlock(customPromoBlk)) //compatibility with not exist or old gui_regional
   {
     local blk = ::get_game_settings_blk()
-    customPromoBlk = blk && blk.promo_block
+    customPromoBlk = blk?.promo_block
     if (!::u.isDataBlock(customPromoBlk))
       customPromoBlk = ::DataBlock()
   }
@@ -151,7 +256,7 @@ function g_promo::recievePromoBlk()
 
   local promoBlk = ::u.copy(customPromoBlk)
   local guiBlk = ::configs.GUI.get()
-  local staticPromoBlk = guiBlk.static_promo_block
+  local staticPromoBlk = guiBlk?.static_promo_block
 
   if (!::u.isEmpty(staticPromoBlk))
   {
@@ -171,7 +276,7 @@ function g_promo::recievePromoBlk()
   return promoBlk
 }
 
-function g_promo::requestUpdate()
+g_promo.requestUpdate <- function requestUpdate()
 {
   local promoBlk = ::g_promo.recievePromoBlk()
   if (::u.isEmpty(promoBlk))
@@ -184,17 +289,17 @@ function g_promo::requestUpdate()
   return true
 }
 
-function g_promo::clearCache()
+g_promo.clearCache <- function clearCache()
 {
   cache = null
 }
 
-function g_promo::getConfig()
+g_promo.getConfig <- function getConfig()
 {
   return ::g_promo.cache
 }
 
-function g_promo::needUpdate(newData)
+g_promo.needUpdate <- function needUpdate(newData)
 {
   local reqForceUpdate = false
   for (local i = 0; i < newData.blockCount(); i++)
@@ -213,7 +318,7 @@ function g_promo::needUpdate(newData)
   return reqForceUpdate
 }
 
-function g_promo::createActionParamsData(actionName, paramsArray = null)
+g_promo.createActionParamsData <- function createActionParamsData(actionName, paramsArray = null)
 {
   return {
     action = actionName
@@ -221,7 +326,7 @@ function g_promo::createActionParamsData(actionName, paramsArray = null)
   }
 }
 
-function g_promo::gatherActionParamsData(block)
+g_promo.gatherActionParamsData <- function gatherActionParamsData(block)
 {
   local actionStr = ::getTblValue("action", block)
   if (::u.isEmpty(actionStr))
@@ -232,7 +337,7 @@ function g_promo::gatherActionParamsData(block)
   return createActionParamsData(action, params)
 }
 
-function g_promo::setActionParamsData(blockId, actionOrActionData, paramsArray = null)
+g_promo.setActionParamsData <- function setActionParamsData(blockId, actionOrActionData, paramsArray = null)
 {
   if (::u.isString(actionOrActionData))
     actionOrActionData = createActionParamsData(actionOrActionData, paramsArray)
@@ -240,12 +345,12 @@ function g_promo::setActionParamsData(blockId, actionOrActionData, paramsArray =
   actionParamsByBlockId[blockId] <- actionOrActionData
 }
 
-function g_promo::getActionParamsData(blockId)
+g_promo.getActionParamsData <- function getActionParamsData(blockId)
 {
   return ::getTblValue(blockId, actionParamsByBlockId)
 }
 
-function g_promo::generateBlockView(block)
+g_promo.generateBlockView <- function generateBlockView(block)
 {
   local id = block.getBlockName()
   local view = ::buildTableFromBlk(block)
@@ -262,22 +367,16 @@ function g_promo::generateBlockView(block)
 
   local isDebugModeEnabled = getShowAllPromoBlocks()
   local blocksCount = block.blockCount()
-  local isMultiblock = block.multiple || false
+  local isMultiblock = block?.multiple ?? false
   view.isMultiblock <- isMultiblock
 
   view.radiobuttons <- []
   if (isMultiblock)
   {
-    local value = (id in multiblockData)?
-                    ::to_integer_safe(multiblockData[id].value, 0)
-                    : 0
-    local switchVal = block.switch_time_sec?
-                        ::to_integer_safe(block.switch_time_sec, DEFAULT_TIME_SWITCH_SEC)
-                        : DEFAULT_TIME_SWITCH_SEC
-    local mSwitchVal = block.manual_switch_time_multiplayer?
-                        ::to_integer_safe(block.manual_switch_time_multiplayer, DEFAULT_MANUAL_SWITCH_TIME_MULTIPLAYER)
-                        : DEFAULT_MANUAL_SWITCH_TIME_MULTIPLAYER
-    local lifeTimeVal = (id in multiblockData)? multiblockData[id].life_time : switchVal
+    local value = ::to_integer_safe(multiblockData?[id]?.value ?? 0)
+    local switchVal = ::to_integer_safe(block?.switch_time_sec || DEFAULT_TIME_SWITCH_SEC)
+    local mSwitchVal = ::to_integer_safe(block?.manual_switch_time_multiplayer || DEFAULT_MANUAL_SWITCH_TIME_MULTIPLAYER)
+    local lifeTimeVal = multiblockData?[id]?.life_time ?? switchVal
     multiblockData[id] <- { value = value,
                             switch_time_sec = switchVal,
                             manual_switch_time_multiplayer = mSwitchVal,
@@ -344,14 +443,15 @@ function g_promo::generateBlockView(block)
 
   if ("action" in view)
     delete view.action
-  view.show <- checkBlockVisibility(block) && block.pollId == null
+  view.show <- checkBlockVisibility(block) && block?.pollId == null
   view.collapsedIcon <- getCollapsedIcon(view, id)
   view.collapsedText <- getCollapsedText(view, id)
+  view.needUpdateByTimer <- view?.needUpdateByTimer ?? needUpdateByTimerTable?[id]
 
   return view
 }
 
-function g_promo::getCollapsedIcon(view, promoButtonId)
+g_promo.getCollapsedIcon <- function getCollapsedIcon(view, promoButtonId)
 {
   local result = ""
   local icon = ::getTblValueByPath(promoButtonId + ".collapsedIcon", collapsedParams)
@@ -363,7 +463,7 @@ function g_promo::getCollapsedIcon(view, promoButtonId)
   return ::loc(result)
 }
 
-function g_promo::getCollapsedText(view, promoButtonId)
+g_promo.getCollapsedText <- function getCollapsedText(view, promoButtonId)
 {
   local result = ""
   local text = ::getTblValueByPath(promoButtonId + ".collapsedText", collapsedParams)
@@ -375,9 +475,9 @@ function g_promo::getCollapsedText(view, promoButtonId)
   return ::loc(result)
 }
 
-function g_promo::countMaxSize(block)
+g_promo.countMaxSize <- function countMaxSize(block)
 {
-  local ratio = block.aspect_ratio || 1
+  local ratio = block?.aspect_ratio ?? 1
   local height = 1.0
   local width = ratio
 
@@ -395,27 +495,27 @@ function g_promo::countMaxSize(block)
  * If no such text found, tries to return text in "text" property.
  * If nothing find returns block id.
  */
-function g_promo::getViewText(view, defValue = null)
+g_promo.getViewText <- function getViewText(view, defValue = null)
 {
   return ::g_language.getLocTextFromConfig(view, "text", defValue)
 }
 
-function g_promo::getLinkText(view)
+g_promo.getLinkText <- function getLinkText(view)
 {
   return ::g_language.getLocTextFromConfig(view, "link", "")
 }
 
-function g_promo::getLinkBtnText(view)
+g_promo.getLinkBtnText <- function getLinkBtnText(view)
 {
   return ::g_language.getLocTextFromConfig(view, "linkText", "")
 }
 
-function g_promo::getImage(view)
+g_promo.getImage <- function getImage(view)
 {
   return ::g_language.getLocTextFromConfig(view, "image", "")
 }
 
-function g_promo::checkBlockTime(block)
+g_promo.checkBlockTime <- function checkBlockTime(block)
 {
   local utcTime = ::get_charserver_time_sec()
 
@@ -427,14 +527,14 @@ function g_promo::checkBlockTime(block)
   if (endTime > 0 && utcTime >= endTime)
     return false
 
-  if (!::g_partner_unlocks.isPartnerUnlockAvailable(block.partnerUnlock, block.partnerUnlockDurationMin))
+  if (!::g_partner_unlocks.isPartnerUnlockAvailable(block?.partnerUnlock, block?.partnerUnlockDurationMin))
     return false
 
   // Block has no time restrictions.
   return true
 }
 
-function g_promo::checkBlockReqFeature(block)
+g_promo.checkBlockReqFeature <- function checkBlockReqFeature(block)
 {
   if (!("reqFeature" in block))
     return true
@@ -442,7 +542,7 @@ function g_promo::checkBlockReqFeature(block)
   return ::has_feature_array(::split(block.reqFeature, "; "))
 }
 
-function g_promo::checkBlockUnlock(block)
+g_promo.checkBlockUnlock <- function checkBlockUnlock(block)
 {
   if (!("reqUnlock" in block))
     return true
@@ -450,7 +550,7 @@ function g_promo::checkBlockUnlock(block)
   return ::g_unlocks.checkUnlockString(block.reqUnlock)
 }
 
-function g_promo::isVisibleByAction(block)
+g_promo.isVisibleByAction <- function isVisibleByAction(block)
 {
   local actionData = gatherActionParamsData(block)
   if (!actionData)
@@ -459,30 +559,34 @@ function g_promo::isVisibleByAction(block)
   return !isVisibleFunc || isVisibleFunc(actionData.paramsArray)
 }
 
-function g_promo::getCurrentValueInMultiBlock(id)
+g_promo.getCurrentValueInMultiBlock <- function getCurrentValueInMultiBlock(id)
 {
-  if (!(id in multiblockData))
-    return 0
-
-  return multiblockData[id].value
+  return multiblockData?[id]?.value ?? 0
 }
 
-function g_promo::isValueCurrentInMultiBlock(id, value)
+g_promo.isValueCurrentInMultiBlock <- function isValueCurrentInMultiBlock(id, value)
 {
   return ::g_promo.getCurrentValueInMultiBlock(id) == value
 }
 
-function g_promo::checkBlockVisibility(block)
+g_promo.checkBlockVisibility <- function checkBlockVisibility(block)
 {
   return (::g_language.isAvailableForCurLang(block)
            && checkBlockReqFeature(block)
            && checkBlockUnlock(block)
            && checkBlockTime(block)
-           && isVisibleByAction(block))
+           && isVisibleByAction(block)
+           && promoConditions.isVisibleByConditions(block)
+           && isLinkVisible(block))
          || getShowAllPromoBlocks()
 }
 
-function g_promo::getUTCTimeFromBlock(block, timeProperty)
+g_promo.isLinkVisible <- function isLinkVisible(block)
+{
+  return ::u.isEmpty(block?.link) || ::has_feature("AllowExternalLink")
+}
+
+g_promo.getUTCTimeFromBlock <- function getUTCTimeFromBlock(block, timeProperty)
 {
   local timeText = ::getTblValue(timeProperty, block, null)
   if (!::u.isString(timeText) || timeText.len() == 0)
@@ -490,32 +594,23 @@ function g_promo::getUTCTimeFromBlock(block, timeProperty)
   return time.getTimestampFromStringUtc(timeText)
 }
 
-function g_promo::getDefaultBoolParamFromBlock(block, param, defaultValue = false)
-{
-  local value = ::getTblValue(param, block, defaultValue)
-  if (::u.isString(value))
-    value = value == "yes"
-
-  return !!value
-}
-
-function g_promo::initWidgets(obj, widgetsTable, widgetsWithCounter = [])
+g_promo.initWidgets <- function initWidgets(obj, widgetsTable, widgetsWithCounter = [])
 {
   foreach(id, table in widgetsTable)
     widgetsTable[id] = ::g_promo.initNewWidget(id, obj, widgetsWithCounter)
 }
 
-function g_promo::getActionParamsKey(id)
+g_promo.getActionParamsKey <- function getActionParamsKey(id)
 {
   return "perform_action_" + id
 }
 
-function g_promo::cutActionParamsKey(id)
+g_promo.cutActionParamsKey <- function cutActionParamsKey(id)
 {
   return ::g_string.cutPrefix(id, "perform_action_", id)
 }
 
-function g_promo::getType(block)
+g_promo.getType <- function getType(block)
 {
   local res = PROMO_BUTTON_TYPE.ARROW
   if (block.blockCount() > 1)
@@ -528,7 +623,7 @@ function g_promo::getType(block)
   return res
 }
 
-function g_promo::setButtonText(buttonObj, id, text = "")
+g_promo.setButtonText <- function setButtonText(buttonObj, id, text = "")
 {
   if (!::checkObj(buttonObj))
     return
@@ -538,13 +633,13 @@ function g_promo::setButtonText(buttonObj, id, text = "")
     obj.setValue(text)
 }
 
-function g_promo::getVisibilityById(id)
+g_promo.getVisibilityById <- function getVisibilityById(id)
 {
   return ::getTblValue(id, visibilityStatuses, false)
 }
 
 //----------- <NEW ICON WIDGET> ----------------------------
-function g_promo::initNewWidget(id, obj, widgetsWithCounter = [])
+g_promo.initNewWidget <- function initNewWidget(id, obj, widgetsWithCounter = [])
 {
   if (isWidgetSeenById(id))
     return null
@@ -556,13 +651,13 @@ function g_promo::initNewWidget(id, obj, widgetsWithCounter = [])
   return newIconWidget
 }
 
-function g_promo::isWidgetSeenById(id)
+g_promo.isWidgetSeenById <- function isWidgetSeenById(id)
 {
   local blk = ::loadLocalByAccount("seen/promo")
   return id in blk
 }
 
-function g_promo::setSimpleWidgetData(widgetsTable, id, widgetsWithCounter = [])
+g_promo.setSimpleWidgetData <- function setSimpleWidgetData(widgetsTable, id, widgetsWithCounter = [])
 {
   if (::isInArray(id, widgetsWithCounter))
     return
@@ -579,7 +674,7 @@ function g_promo::setSimpleWidgetData(widgetsTable, id, widgetsWithCounter = [])
   updateSimpleWidgetsData(table)
 }
 
-function g_promo::updateSimpleWidgetsData(table)
+g_promo.updateSimpleWidgetsData <- function updateSimpleWidgetsData(table)
 {
   local minDay = time.getUtcDays() - BUTTON_OUT_OF_DATE_DAYS
   local idOnRemoveArray = []
@@ -601,12 +696,12 @@ function g_promo::updateSimpleWidgetsData(table)
 //-------------- </NEW ICON WIDGET> ----------------------
 
 //-------------- <ACTION> --------------------------------
-function g_promo::performAction(handler, obj)
+g_promo.performAction <- function performAction(handler, obj)
 {
   if (!::checkObj(obj))
     return false
 
-  local key = obj.id
+  local key = obj?.id
   local actionData = getActionParamsData(key)
   if (!actionData)
   {
@@ -614,6 +709,11 @@ function g_promo::performAction(handler, obj)
     return false
   }
 
+  return launchAction(actionData, handler, obj)
+}
+
+g_promo.launchAction <- function launchAction(actionData, handler, obj)
+{
   local action = actionData.action
   local actionFunc = ::getTblValue(action, performActionTable)
   if (!actionFunc)
@@ -627,91 +727,23 @@ function g_promo::performAction(handler, obj)
   actionFunc(handler, actionData.paramsArray, obj)
   return true
 }
-
-function g_promo::openLink(owner, params = [], source = "promo_open_link")
-{
-  local link = ""
-  local forceBrowser = false
-  if (::u.isString(params))
-    link = params
-  else if (::u.isArray(params) && params.len() > 0)
-  {
-    link = params[0]
-    forceBrowser = params.len() > 1? params[1] : false
-  }
-
-  local processedLink = ::g_url.validateLink(link)
-  if (processedLink == null)
-    return
-  ::open_url(processedLink, forceBrowser, false, source)
-}
-
-function g_promo::onOpenTutorial(owner, params = [])
-{
-  local tutorialId = ""
-  if (::u.isString(params))
-    tutorialId = params
-  else if (::u.isArray(params) && params.len() > 0)
-    tutorialId = params[0]
-
-  owner.checkedNewFlight((@(tutorialId) function() {
-    if (!::gui_start_checkTutorial(tutorialId, false))
-      ::gui_start_tutorial()
-  })(tutorialId))
-}
-
-function g_promo::openEventsWnd(owner, params = [])
-{
-  local eventId = params.len() > 0? params[0] : null
-  owner.checkedForward((@(eventId) function() {
-    goForwardIfOnline((@(eventId) function() {
-      ::gui_start_modal_events({event = eventId})
-    })(eventId), false, true)
-  })(eventId), null)
-}
-
-function g_promo::openItemsWnd(owner, params = [])
-{
-  local tab = getconsttable()?.itemsTab?[(params?[1] ?? "SHOP").toupper()] ?? itemsTab.INVENTORY
-
-  local curSheet = null
-  local sheetSearchId = params?[0] ?? null
-  if (sheetSearchId)
-    curSheet = {searchId = sheetSearchId}
-
-  if (tab >= itemsTab.TOTAL)
-    tab = itemsTab.INVENTORY
-
-  ::gui_start_items_list(tab, {curSheet = curSheet})
-}
-
-function g_promo::onOpenBattleTasksWnd(owner, params = {}, obj = null)
-{
-  local taskId = obj.task_id
-  if (taskId == null && params.len() > 0)
-    taskId = params[0]
-
-  ::g_warbonds_view.resetShowProgressBarFlag()
-  ::gui_start_battle_tasks_wnd(taskId)
-}
-
 //---------------- </ACTIONS> -----------------------------
 
 //-------------- <SHOW ALL CHECK BOX> ---------------------
 
 /** Returns 'true' if user can use "Show All Promo Blocks" check box. */
-function g_promo::canSwitchShowAllPromoBlocksFlag()
+g_promo.canSwitchShowAllPromoBlocksFlag <- function canSwitchShowAllPromoBlocksFlag()
 {
   return ::has_feature("ShowAllPromoBlocks")
 }
 
 /** Returns 'true' is user can use check box and it is checked. */
-function g_promo::getShowAllPromoBlocks()
+g_promo.getShowAllPromoBlocks <- function getShowAllPromoBlocks()
 {
   return canSwitchShowAllPromoBlocksFlag() && showAllPromoBlocks
 }
 
-function g_promo::setShowAllPromoBlocks(value)
+g_promo.setShowAllPromoBlocks <- function setShowAllPromoBlocks(value)
 {
   if (showAllPromoBlocks != value)
   {
@@ -724,7 +756,7 @@ function g_promo::setShowAllPromoBlocks(value)
 
 //--------------------- <TOGGLE> ----------------------------
 
-function g_promo::toggleItem(toggleButtonObj)
+g_promo.toggleItem <- function toggleItem(toggleButtonObj)
 {
   local promoButtonObj = toggleButtonObj.getParent()
   local toggled = isCollapsed(promoButtonObj.id)
@@ -732,13 +764,13 @@ function g_promo::toggleItem(toggleButtonObj)
   promoButtonObj.collapsed = newVal? "yes" : "no"
 }
 
-function g_promo::isCollapsed(id)
+g_promo.isCollapsed <- function isCollapsed(id)
 {
   local blk = ::loadLocalByAccount("seen/promo_collapsed")
-  return blk? blk[id] : false
+  return blk?[id] ?? false
 }
 
-function g_promo::changeToggleStatus(id, value)
+g_promo.changeToggleStatus <- function changeToggleStatus(id, value)
 {
   local newValue = !value
   local blk = ::loadLocalByAccount("seen/promo_collapsed") || ::DataBlock()
@@ -748,7 +780,7 @@ function g_promo::changeToggleStatus(id, value)
   return newValue
 }
 
-function g_promo::updateCollapseStatuses(arr)
+g_promo.updateCollapseStatuses <- function updateCollapseStatuses(arr)
 {
   local blk = ::loadLocalByAccount("seen/promo_collapsed")
   if (!blk)
@@ -770,12 +802,12 @@ function g_promo::updateCollapseStatuses(arr)
 
 //----------------- <RADIOBUTTONS> --------------------------
 
-function g_promo::switchBlock(obj, promoHolderObj)
+g_promo.switchBlock <- function switchBlock(obj, promoHolderObj)
 {
   if (!::checkObj(promoHolderObj))
     return
 
-  if (!(obj.blockId in multiblockData))
+  if (obj?.blockId == null || multiblockData?[obj.blockId] == null)
     return
 
   local promoButtonObj = promoHolderObj.findObject(obj.blockId)
@@ -793,7 +825,7 @@ function g_promo::switchBlock(obj, promoHolderObj)
   multiblockData[promoButtonObj.id].value = value
 }
 
-function g_promo::manualSwitchBlock(obj, promoHolderObj)
+g_promo.manualSwitchBlock <- function manualSwitchBlock(obj, promoHolderObj)
 {
   if (!::checkObj(promoHolderObj))
     return
@@ -805,9 +837,9 @@ function g_promo::manualSwitchBlock(obj, promoHolderObj)
   ::g_promo.switchBlock(obj, promoHolderObj)
 }
 
-function g_promo::selectNextBlock(obj, dt)
+g_promo.selectNextBlock <- function selectNextBlock(obj, dt)
 {
-  if (!(obj.id in multiblockData))
+  if (!(obj?.id in multiblockData))
     return
 
   multiblockData[obj.id].life_time -= dt
@@ -830,7 +862,7 @@ function g_promo::selectNextBlock(obj, dt)
 //----------------- </RADIOBUTTONS> -------------------------
 
 //------------------ <PLAYBACK> -----------------------------
-function g_promo::enablePlayMenuMusic(playlistArray, tm)
+g_promo.enablePlayMenuMusic <- function enablePlayMenuMusic(playlistArray, tm)
 {
   if (PLAYLIST_SONG_TIMER_TASK >= 0)
     return
@@ -839,7 +871,7 @@ function g_promo::enablePlayMenuMusic(playlistArray, tm)
   PLAYLIST_SONG_TIMER_TASK = ::periodic_task_register(this, ::g_promo.requestTurnOffPlayMenuMusic, tm)
 }
 
-function g_promo::requestTurnOffPlayMenuMusic(dt)
+g_promo.requestTurnOffPlayMenuMusic <- function requestTurnOffPlayMenuMusic(dt)
 {
   if (PLAYLIST_SONG_TIMER_TASK < 0)
     return

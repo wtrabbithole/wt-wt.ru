@@ -47,7 +47,7 @@ const NEW_PLAYER_TUTORIAL_CHOICE_STATISTIC_SAVE_ID = "statistic:new_player_tutor
 ::g_script_reloader.registerPersistentData("TutorialsGlobal", ::getroottable(),
   ["check_tutorial_reward_data", "launched_tutorial_questions_peer_session"])
 
-function gui_start_checkTutorial(checkId, checkSkip = true)
+::gui_start_checkTutorial <- function gui_start_checkTutorial(checkId, checkSkip = true)
 {
   local idx = -1
   local mData = null
@@ -182,7 +182,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getObjectUserInputType(obj)
   {
     local VALID_INPUT_LIST = ["mouse", "keyboard", "gamepad"]
-    local userInputType = obj.userInputType || ""
+    local userInputType = obj?.userInputType ?? ""
     if(::isInArray(userInputType, VALID_INPUT_LIST))
       return userInputType
     return "invalid"
@@ -196,7 +196,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
   checkIdx = 0
 }
 
-function save_tutorial_to_check_reward(mission)
+::save_tutorial_to_check_reward <- function save_tutorial_to_check_reward(mission)
 {
   local mainGameMode = ::get_mp_mode()
   ::set_mp_mode(::GM_TRAINING)  //req to check progress
@@ -222,7 +222,7 @@ function save_tutorial_to_check_reward(mission)
   ::set_mp_mode(mainGameMode)
 }
 
-function check_tutorial_reward()
+::check_tutorial_reward <- function check_tutorial_reward()
 {
   if (!::check_tutorial_reward_data)
     return false
@@ -243,27 +243,13 @@ function check_tutorial_reward()
     if (::check_tutorial_reward_data.progress>=3 && progress>=0 && progress<3)
     {
       local rewardText = ""
-      local rBlk = ::DataBlock()
-      rBlk = ::get_pve_awards_blk()
-      local dataBlk = rBlk[::get_game_mode_name(::GM_TRAINING)]
-      local miscText = ""
-      if (dataBlk && dataBlk[misName] && dataBlk[misName].rewardWndInfoText)
-        miscText = dataBlk[misName].rewardWndInfoText
-      if (dataBlk && dataBlk[misName] && dataBlk[misName].slot != null)
+      local rBlk = ::get_pve_awards_blk()
+      local dataBlk = rBlk?[::get_game_mode_name(::GM_TRAINING)]
+      local miscText = dataBlk?[misName].rewardWndInfoText ?? ""
+      if (dataBlk?[misName].slot != null)
       {
-        local tasksData = [];
-        local slot = dataBlk[misName].slot;
-        foreach(c in ::g_crews_list.get())
-          if (c.crews.len() == slot && c.crews[slot-1].isEmpty == 1)
-          {
-            local airName = ::getReserveAircraftName({country = c.country});
-            if (airName=="")
-              continue
-            local crewId = c.crews[slot-1].id;
-            tasksData.append({crewId = crewId, airName = airName});
-          }
-        if (tasksData.len())
-          ::batch_train_crew(tasksData)
+        ::g_crews_list.invalidate()
+        ::reinitAllSlotbars()
       }
 
       ::gather_debriefing_result()
@@ -290,7 +276,7 @@ function check_tutorial_reward()
   return newCountries && newCountries.len() > 0 //is new countries unlocked by tutorial?
 }
 
-function get_money_from_debriefing_result(paramName)
+::get_money_from_debriefing_result <- function get_money_from_debriefing_result(paramName)
 {
   local res = ::Cost()
   if (!::debriefing_result)
@@ -303,7 +289,7 @@ function get_money_from_debriefing_result(paramName)
   return res
 }
 
-function getReserveAircraftName(paramsTable)
+::getReserveAircraftName <- function getReserveAircraftName(paramsTable)
 {
   local preferredCrew = ::getTblValue("preferredCrew", paramsTable, null)
 
@@ -324,7 +310,7 @@ function getReserveAircraftName(paramsTable)
   return ""
 }
 
-function checkReserveUnit(unit, paramsTable)
+::checkReserveUnit <- function checkReserveUnit(unit, paramsTable)
 {
   local country = ::getTblValue("country", paramsTable, "")
   local unitType = ::getTblValue("unitType", paramsTable, ::ES_UNIT_TYPE_AIRCRAFT)
@@ -342,7 +328,7 @@ function checkReserveUnit(unit, paramsTable)
  * @param onSuccess - Callback func, has no params.
  * @param onError   - Callback func, MUST take 1 param: integer taskResult.
  */
-function batch_train_crew(requestData, taskOptions = null, onSuccess = null, onError = null, handler = null)
+::batch_train_crew <- function batch_train_crew(requestData, taskOptions = null, onSuccess = null, onError = null, handler = null)
 {
   local onTaskSuccess = onSuccess ? ::Callback(onSuccess, handler) : null
   local onTaskError   = onError   ? ::Callback(onError,   handler) : null
@@ -359,7 +345,7 @@ function batch_train_crew(requestData, taskOptions = null, onSuccess = null, onE
   ::g_tasker.addTask(taskId, taskOptions, onTaskSuccess, onTaskError)
 }
 
-function create_batch_train_crew_request_blk(requestData)
+::create_batch_train_crew_request_blk <- function create_batch_train_crew_request_blk(requestData)
 {
   local requestBlk = ::DataBlock()
   requestBlk.batchTrainCrew <- ::DataBlock()
@@ -419,7 +405,7 @@ class ::gui_handlers.ShowTutorialRewardHandler extends ::gui_handlers.BaseGuiHan
   afterRewardText = ""
 }
 
-function is_tutorial_complete(tutorialName)
+::is_tutorial_complete <- function is_tutorial_complete(tutorialName)
 {
   local mainGameMode = ::get_mp_mode()
   ::set_mp_mode(::GM_TRAINING)  //req to check progress
@@ -428,8 +414,11 @@ function is_tutorial_complete(tutorialName)
   return progress >= 0 && progress < 3
 }
 
-function get_uncompleted_tutorial_data(misName, diff = -1, checkDebriefing = false)
+::get_uncompleted_tutorial_data <- function get_uncompleted_tutorial_data(misName, diff = -1, checkDebriefing = false)
 {
+  if (!::has_feature("Tutorials"))
+    return null
+
   local mainGameMode = ::get_mp_mode()
   ::set_mp_mode(::GM_TRAINING)  //req to check progress
 
@@ -462,16 +451,15 @@ function get_uncompleted_tutorial_data(misName, diff = -1, checkDebriefing = fal
 
   if (progress == 3) //tutorials have reward only once
   {
-    local rBlk = ::DataBlock()
-    rBlk = ::get_pve_awards_blk()
-    local dataBlk = rBlk[campId]
+    local rBlk = ::get_pve_awards_blk()
+    local dataBlk = rBlk?[campId]
     if (dataBlk)
       res.rewardText = ::getRewardTextByBlk(dataBlk, tutorialMission.name, 0, "reward", true, true)
   }
   return res
 }
 
-function check_tutorial_on_mainmenu()
+::check_tutorial_on_mainmenu <- function check_tutorial_on_mainmenu()
 {
   foreach(tutorial in ::tutorials_to_check)
   {
@@ -484,7 +472,7 @@ function check_tutorial_on_mainmenu()
   }
 }
 
-function check_tutorial_on_start()
+::check_tutorial_on_start <- function check_tutorial_on_start()
 {
   local tutorial = "fighter"
 
@@ -498,7 +486,7 @@ function check_tutorial_on_start()
     check_tutorial_on_mainmenu()
 }
 
-function reset_tutorial_skip()
+::reset_tutorial_skip <- function reset_tutorial_skip()
 {
   ::saveLocalByAccount(::skip_tutorial_bitmask_id, 0)
 }

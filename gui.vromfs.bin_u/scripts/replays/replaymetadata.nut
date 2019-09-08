@@ -13,43 +13,46 @@ local buildReplayMpTable = function(replayPath)
     return res
 
   local gameType = replayInfo?.gameType ?? 0
-  local authorUserId = ::to_integer_safe(commentsBlk.authorUserId, -1000, false)
-  local authorBlk = ::u.search(playersBlkList, @(v) ::to_integer_safe(v.userId, 0, false) == authorUserId)
+  local authorUserId = ::to_integer_safe(commentsBlk?.authorUserId ?? "", -1000, false)
+  local authorBlk = ::u.search(playersBlkList, @(v) ::to_integer_safe(v?.userId ?? "", 0, false) == authorUserId)
   local authorSquadId = authorBlk?.squadId ?? INVALID_SQUAD_ID
 
   foreach (b in playersBlkList)
   {
-    local userId = ::to_integer_safe(b.userId, 0, false)
+    local userId = ::to_integer_safe(b?.userId ?? "", 0, false)
     if (userId == 0)
       continue
-    if ((b.name ?? "") == "" && (b.nick ?? "") == "")
+    if ((b?.name ?? "") == "" && (b?.nick ?? "") == "")
       continue
 
     local mplayer = {
       userId = userId
-      name = b.name ?? ""
-      clanTag = b.clanTag ?? ""
-      team = b.team ?? Team.none
+      name = b?.name ?? ""
+      clanTag = b?.clanTag ?? ""
+      team = b?.team ?? Team.none
       state = ::PLAYER_HAS_LEAVED_GAME
       isLocal = userId == authorUserId
-      isInHeroSquad = ::SessionLobby.isEqualSquadId(b.squadId, authorSquadId)
+      isInHeroSquad = ::SessionLobby.isEqualSquadId(b?.squadId, authorSquadId)
       isBot = userId < 0
-      squadId = b.squadId ?? INVALID_SQUAD_ID
-      autoSquad = b.autoSquad ?? true
-      kills = b.kills ?? b.airKills ?? 0
+      squadId = b?.squadId ?? INVALID_SQUAD_ID
+      autoSquad = b?.autoSquad ?? true
+      kills = b?.kills ?? b?.airKills ?? 0
     }
 
     if (mplayer.name == "")
     {
-      local parts = ::split(b.nick ?? "", " ")
+      local parts = ::split(b?.nick ?? "", " ")
       local hasClanTag = parts.len() == 2
       mplayer.clanTag = hasClanTag ? parts[0] : ""
       mplayer.name    = hasClanTag ? parts[1] : parts[0]
     }
 
+    if (mplayer?.isBot && mplayer?.name.find("/") != null)
+      mplayer.name = ::loc(mplayer.name)
+
     foreach(p in ::g_mplayer_param_type.types)
-      if (!(p.id in mplayer))
-        mplayer[p.id] <- b[p.id] ?? p.defVal
+      if (!(p.id in mplayer) && p != ::g_mplayer_param_type.UNKNOWN)
+        mplayer[p.id] <- b?[p.id] ?? p?.defVal
 
     res.append(mplayer)
   }
@@ -76,13 +79,13 @@ local restoreReplayScriptCommentsBlk = function(replayPath)
     local mplayersList = ::get_mplayers_list(::GET_MPLAYERS_LIST, true)
     foreach (mplayer in mplayersList)
     {
-      if (mplayer.isBot)
+      if (mplayer?.isBot || mplayer?.userId == null)
         continue
       playersInfo[mplayer.userId] <- {
         id = mplayer.userId
-        team = mplayer.team
-        name = mplayer.name
-        clanTag = mplayer.clanTag
+        team = mplayer?.team
+        name = mplayer?.name
+        clanTag = mplayer?.clanTag
         squad = mplayer?.squadId ?? INVALID_SQUAD_ID
         auto_squad = !!(mplayer?.autoSquad ?? true)
       }

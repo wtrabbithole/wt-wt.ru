@@ -2,7 +2,7 @@ local Color = ::Color
 local cursorC = Color(180,180,180,180)
 
 local styling = {
-  cursor = {
+  cursor = ::Cursor({
     rendObj = ROBJ_VECTOR_CANVAS
     size = [sh(2), sh(2)]
     commands = [
@@ -11,7 +11,7 @@ local styling = {
       [VECTOR_COLOR, Color(20, 40, 70, 250)],
       [VECTOR_POLY, 0,0, 100,50, 56,56, 50,100],
     ]
-  }
+  })
 
   Root = {
     rendObj = ROBJ_SOLID

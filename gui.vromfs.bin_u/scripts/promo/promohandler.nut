@@ -1,4 +1,4 @@
-function create_promo_blocks(handler)
+::create_promo_blocks <- function create_promo_blocks(handler)
 {
   if (!::handlersManager.isHandlerValid(handler))
     return null
@@ -21,6 +21,7 @@ class Promo
   widgetsTable = {}
 
   pollIdToObjectId = {}
+  needUpdateByTimerArr = null
 
   updateFunctions = {
     events_mainmenu_button = function() { return updateEventButton() }
@@ -43,7 +44,7 @@ class Promo
     for (local j = 0; sourceDataBlock != null && j < sourceDataBlock.blockCount(); j++)
     {
       local block = sourceDataBlock.getBlock(j)
-      if(block.pollId)
+      if (block?.pollId != null)
         pollsTable[block.pollId] <- true
     }
     ::g_webpoll.clearOldVotedPolls(pollsTable)
@@ -70,6 +71,7 @@ class Promo
 
   function updateAllBlocks()
   {
+    needUpdateByTimerArr = []
     local data = generateData()
     local topPositionPromoPlace = scene.findObject("promo_mainmenu_place_top")
     if (::checkObj(topPositionPromoPlace))
@@ -81,6 +83,7 @@ class Promo
 
     ::g_promo.initWidgets(scene, widgetsTable)
     updateData()
+    setTimer()
     owner.restoreFocus()
   }
 
@@ -102,6 +105,7 @@ class Promo
     local upperPromoView = {
       showAllCheckBoxEnabled = ::g_promo.canSwitchShowAllPromoBlocksFlag()
       showAllCheckBoxValue = ::g_promo.getShowAllPromoBlocks()
+      hasTimer = false
       promoButtons = []
     }
 
@@ -115,13 +119,13 @@ class Promo
       local block = sourceDataBlock.getBlock(i)
 
       local blockView = ::g_promo.generateBlockView(block)
-      if(block.pollId != null)
+      if (block?.pollId != null)
       {
-        ::g_webpoll.setPollBaseUrl(block.pollId, block.link)
+        ::g_webpoll.setPollBaseUrl(block.pollId, block?.link)
         pollIdToObjectId[block.pollId] <- blockView.id
       }
 
-      if (block.bottom)
+      if (block?.bottom != null)
         bottomPromoView.promoButtons.push(blockView)
       else
         upperPromoView.promoButtons.push(blockView)
@@ -132,11 +136,14 @@ class Promo
       local playlistArray = getPlaylistArray(block)
       if (playlistArray.len() > 0)
       {
-        local requestStopPlayTimeSec = block.requestStopPlayTimeSec || ::g_promo.DEFAULT_REQ_STOP_PLAY_TIME_SONG_SEC
+        local requestStopPlayTimeSec = block?.requestStopPlayTimeSec || ::g_promo.DEFAULT_REQ_STOP_PLAY_TIME_SONG_SEC
         ::g_promo.enablePlayMenuMusic(playlistArray, requestStopPlayTimeSec)
       }
-    }
 
+      if (blockView.needUpdateByTimer)
+        needUpdateByTimerArr.append(blockView.id)
+    }
+    upperPromoView.hasTimer = needUpdateByTimerArr.len() > 0
     return {
       upper = ::handyman.renderCached("gui/promo/promoBlocks", upperPromoView)
       bottom = ::handyman.renderCached("gui/promo/promoBlocks", bottomPromoView)
@@ -164,7 +171,7 @@ class Promo
       if (id in updateFunctions)
         updateFunctions[id].call(this)
 
-      if (block.pollId != null)
+      if (block?.pollId != null)
         updateWebPollButton({pollId = block.pollId})
     }
   }
@@ -173,7 +180,7 @@ class Promo
   {
     local defaultName = "playlist"
     local langKey = defaultName + "_" + ::g_language.getShortName()
-    local list = block[langKey] || block[defaultName]
+    local list = block?[langKey] ?? block?[defaultName]
     if (!list)
       return []
     return list % "name"
@@ -241,7 +248,7 @@ class Promo
 
   function getBoolParamByIdFromSourceBlock(param, id, defaultValue = false)
   {
-    if (!sourceDataBlock || !sourceDataBlock[id] || !sourceDataBlock[id][param])
+    if (!sourceDataBlock?[id][param])
       return null
 
     local show = ::getTblValue(param, sourceDataBlock[id], defaultValue)
@@ -393,14 +400,20 @@ class Promo
       return
 
     local text = ::loc("mainmenu/btnWorldwar")
-    if (isWwEnabled && ::g_world_war.lastPlayedOperationId)
+    if (isWwEnabled)
     {
-      local operation = ::g_ww_global_status.getOperationById(::g_world_war.lastPlayedOperationId)
-      if (!::u.isEmpty(operation))
-         text = operation.getMapText()
+      local operationText = ::g_world_war.getPlayedOperationText(false)
+      if (operationText !=null)
+        text = operationText
     }
 
     wwButton.findObject("world_war_button_text").setValue(::loc("icon/worldWar") + " " + text)
+
+    if (!::g_promo.isCollapsed(id))
+      return
+
+    if (::g_world_war.hasNewNearestAvailabelMapToBattle())
+      ::g_promo.toggleItem(wwButton.findObject(id + "_toggle"))
   }
   //----------------- </WORLD WAR> --------------------------
 
@@ -470,20 +483,20 @@ class Promo
 
   function updateWebPollButton(param)
   {
-    local pollId = param.pollId
+    local pollId = param?.pollId
     local objectId = ::getTblValue(pollId, pollIdToObjectId)
-    if(objectId == null)
+    if (objectId == null)
       return
 
     local showByLocalConditions = ! ::g_webpoll.isPollVoted(pollId) && ::g_promo.getVisibilityById(objectId)
-    if( ! showByLocalConditions)
+    if(!showByLocalConditions)
     {
       ::showBtn(objectId, false, scene)
       return
     }
 
     local link = ::g_webpoll.generatePollUrl(pollId)
-    if(link.len() == 0)
+    if (link.len() == 0)
       return
     ::set_blk_value_by_path(sourceDataBlock, objectId + "/link", link)
     ::g_promo.generateBlockView(sourceDataBlock[objectId])
@@ -515,4 +528,19 @@ class Promo
   function onEventWWGlobalStatusChanged(p) { updateWorldWarButton() }
   function onEventWebPollAuthResult(p) { updateWebPollButton(p) }
   function onEventWebPollTokenInvalidated(p) { updateData() }
+
+  function setTimer()
+  {
+    local timerObj = scene.findObject("promo_blocks_timer")
+    if (::check_obj(timerObj))
+      timerObj.setUserData(this)
+  }
+
+  function onTimerUpdate(obj, dt)
+  {
+    foreach (promoId in needUpdateByTimerArr)
+    {
+      updateFunctions?[promoId]?.call?(this)
+    }
+  }
 }

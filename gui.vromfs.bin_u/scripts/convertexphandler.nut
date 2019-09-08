@@ -5,8 +5,10 @@ enum windowState
   noUnit
 }
 
-function gui_modal_convertExp(unit = null)
+::gui_modal_convertExp <- function gui_modal_convertExp(unit = null)
 {
+  if (!::has_feature("SpendGold") || !::has_feature("SpendFreeRP"))
+    return
   if (unit && !::can_spend_gold_on_unit_with_popup(unit))
     return
 
@@ -267,7 +269,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
       local newProgressOb = sliderDivObj.findObject("new_exp_progress")
 
       local diffExp = unitReqExp - unitExpGranted
-      local maxGoldDiff = ceil(diffExp.tofloat() / expPerGold).tointeger()
+      local maxGoldDiff = ::ceil(diffExp.tofloat() / expPerGold).tointeger()
       minGoldValue  = (unitExpGranted.tofloat() / expPerGold).tointeger()
       maxGoldForAir = minGoldValue + maxGoldDiff
 
@@ -458,7 +460,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local selObj = obj.getChild(value)
 
-    local unitType = ::g_unit_type.getByArmyId(selObj.id)
+    local unitType = ::g_unit_type.getByArmyId(selObj?.id)
     if (unitType != ::g_unit_type.INVALID)
       handleSwitchUnitList(unitType.esUnitType)
   }
@@ -545,7 +547,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     local curExp = getCurExpValue()
     local cost = ::Cost(0, curGold)
     local msgText = warningIfGold(::loc("exp/convert/needMoneyQuestion",
-        {exp = ::Cost().setFrp(curExp).tostring(), cost = cost}),
+        {exp = ::Cost().setFrp(curExp).tostring(), cost = cost.getTextAccordingToBalance()}),
       cost)
     msgBox("need_money", msgText,
       [

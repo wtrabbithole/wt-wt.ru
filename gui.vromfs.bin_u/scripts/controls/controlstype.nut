@@ -1,7 +1,7 @@
 local globalEnv = require_native("globalEnv")
 local avatars = ::require("scripts/user/avatars.nut")
 
-function gui_start_controls_type_choice(onlyDevicesChoice = true)
+::gui_start_controls_type_choice <- function gui_start_controls_type_choice(onlyDevicesChoice = true)
 {
   ::gui_start_modal_wnd(::gui_handlers.ControlType, {onlyDevicesChoice = onlyDevicesChoice})
 }
@@ -89,13 +89,13 @@ class ::gui_handlers.ControlType extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-function set_helpers_mode_and_option(mode) //set_gui_options_mode required
+::set_helpers_mode_and_option <- function set_helpers_mode_and_option(mode) //set_gui_options_mode required
 {
   ::set_option(::USEROPT_HELPERS_MODE, mode) //for next loadDifficulty()
   ::set_control_helpers_mode(mode); //instant
 }
 
-function setControlTypeByID(ct_id)
+::setControlTypeByID <- function setControlTypeByID(ct_id)
 {
   local mainOptionsMode = ::get_gui_options_mode()
   ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)

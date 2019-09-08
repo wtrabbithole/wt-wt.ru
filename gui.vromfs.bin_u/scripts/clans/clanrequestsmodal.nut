@@ -1,6 +1,6 @@
 local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
 
-function showClanRequests(candidatesData, clanId, owner)
+::showClanRequests <- function showClanRequests(candidatesData, clanId, owner)
 {
   ::gui_start_modal_wnd(::gui_handlers.clanRequestsModal,
     {
@@ -132,7 +132,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
       if (index in candidatesList)
         curCandidate = candidatesList[index];
     }
-    showSceneBtn("btn_approve", !::show_console_buttons && curCandidate != null && (isInArray("MEMBER_ADDING", myRights) || clan_get_admin_editor_mode()))
+    showSceneBtn("btn_approve", !::show_console_buttons && curCandidate != null && (isInArray("MEMBER_ADDING", myRights) || ::clan_get_admin_editor_mode()))
     showSceneBtn("btn_reject", !::show_console_buttons && curCandidate != null && isInArray("MEMBER_REJECT", myRights))
     showSceneBtn("btn_user_options", curCandidate != null && ::show_console_buttons)
   }
@@ -178,7 +178,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onRequestReject()
   {
-    ::g_clans.rejectPlayerRequest(curCandidate.uid)
+    ::g_clans.rejectPlayerRequest(curCandidate.uid, clanId)
   }
 
   function hideCandidateByName(name)
@@ -210,7 +210,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     if(memListModified)
     {
-      if(clan_get_admin_editor_mode() && (owner && "reinitClanWindow" in owner))
+      if(::clan_get_admin_editor_mode() && (owner && "reinitClanWindow" in owner))
         owner.reinitClanWindow()
       //else
       //  ::getMyClanData(true)

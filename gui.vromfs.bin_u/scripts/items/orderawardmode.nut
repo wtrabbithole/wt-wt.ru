@@ -3,7 +3,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   types = []
 }
 
-function g_order_award_mode::_addMultTextPart(currentText, awardValue, signLocId)
+g_order_award_mode._addMultTextPart <- function _addMultTextPart(currentText, awardValue, signLocId)
 {
   if (awardValue > 0)
   {
@@ -14,7 +14,7 @@ function g_order_award_mode::_addMultTextPart(currentText, awardValue, signLocId
   return currentText
 }
 
-function g_order_award_mode::_getAwardTextByDifficultyCost(difficulty, orderItem)
+g_order_award_mode._getAwardTextByDifficultyCost <- function _getAwardTextByDifficultyCost(difficulty, orderItem)
 {
   local cost = ::Cost()
   cost.wp = orderItem.awardWpByDifficulty[difficulty]
@@ -23,7 +23,7 @@ function g_order_award_mode::_getAwardTextByDifficultyCost(difficulty, orderItem
   return cost.getUncoloredText()
 }
 
-function g_order_award_mode::_getAwardTextByDifficultyMultipliers(difficulty, orderItem)
+g_order_award_mode._getAwardTextByDifficultyMultipliers <- function _getAwardTextByDifficultyMultipliers(difficulty, orderItem)
 {
   local text = ""
   text = ::g_order_award_mode._addMultTextPart(text, orderItem.awardWpByDifficulty[difficulty],
@@ -60,7 +60,7 @@ enums.addTypesByGlobalName("g_order_award_mode", {
   }
 })
 
-function g_order_award_mode::getAwardModeByOrderParams(orderParams)
+g_order_award_mode.getAwardModeByOrderParams <- function getAwardModeByOrderParams(orderParams)
 {
   foreach (awardMode in ::g_order_award_mode.types)
     if (::u.isTable(awardMode) && ::getTblValue(awardMode.name, orderParams, false))

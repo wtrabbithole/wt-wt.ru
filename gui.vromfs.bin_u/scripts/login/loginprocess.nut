@@ -12,7 +12,7 @@ local matchingStageToLoginState = {
   [HANGAR_ENTERED] = LOGIN_STATE.HANGAR_LOADED
 }
 
-function online_init_stage_finished(stage, ...)
+::online_init_stage_finished <- function online_init_stage_finished(stage, ...)
 {
   if (stage in matchingStageToLoginState)
     ::g_login.addState(matchingStageToLoginState[stage])

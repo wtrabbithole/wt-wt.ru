@@ -35,6 +35,7 @@ massTransp {
         cur_row:t='-1'
         fixed_row:t='0'
         on_select:t = 'onSlotbarSelect';
+        on_click:t = 'onSlotbarClick';
         _on_dbl_click:t = 'onSlotbarDblClick'
         on_wrap_up:t='onWrapUp';
         on_wrap_down:t='onWrapDown';

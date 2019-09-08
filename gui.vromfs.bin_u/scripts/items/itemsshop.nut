@@ -3,17 +3,17 @@ local workshop = ::require("scripts/items/workshop/workshop.nut")
 local seenList = ::require("scripts/seen/seenList.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 
-function gui_start_itemsShop(params = null)
+::gui_start_itemsShop <- function gui_start_itemsShop(params = null)
 {
   ::gui_start_items_list(itemsTab.SHOP, params)
 }
 
-function gui_start_inventory(params = null)
+::gui_start_inventory <- function gui_start_inventory(params = null)
 {
   ::gui_start_items_list(itemsTab.INVENTORY, params)
 }
 
-function gui_start_items_list(curTab, params = null)
+::gui_start_items_list <- function gui_start_items_list(curTab, params = null)
 {
   if (!::ItemsManager.isEnabled())
     return
@@ -188,7 +188,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     sheetsArray = displayItemTypes?
-        sheets.types.filter(function(idx, sh) {
+        sheets.types.filter(function(sh) {
             return ::isInArray(sh.id, displayItemTypes)
           }.bindenv(this) )
       : sheets.types
@@ -360,7 +360,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     updateItemInfo()
 
     generatePaginator(scene.findObject("paginator_place"), this,
-      curPage, ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
+      curPage, ::ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
 
     if (!itemsList.len())
       focusSheetsList()
@@ -549,7 +549,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemAction(buttonObj)
   {
-    local id = buttonObj && buttonObj.holderId
+    local id = buttonObj?.holderId ?? "-1"
     local item = ::getTblValue(id.tointeger(), itemsList)
     local obj = scene.findObject("shop_item_" + id)
     doMainAction(item, obj)
@@ -588,6 +588,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onTimer(obj, dt)
   {
+    if (!itemsListValid)
+      return
+
     local startIdx = curPage * itemsPerPage
     local lastIdx = min((curPage + 1) * itemsPerPage, itemsList.len())
     for(local i=startIdx; i < lastIdx; i++)

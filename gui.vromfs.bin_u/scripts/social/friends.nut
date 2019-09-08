@@ -11,7 +11,7 @@ local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local isFirstPs4FriendsUpdate = true
 
-function addSocialFriends(blk, group, silent = false)
+::addSocialFriends <- function addSocialFriends(blk, group, silent = false)
 {
   local addedFriendsNumber = 0
   local resultMessage = ""
@@ -42,7 +42,7 @@ function addSocialFriends(blk, group, silent = false)
 }
 
 //--------------- <PlayStation> ----------------------
-function addPsnFriends()
+::addPsnFriends <- function addPsnFriends()
 {
   if (::ps4_show_friend_list_ex(true, true, false) == 1)
   {
@@ -115,7 +115,7 @@ function addPsnFriends()
   }
 }
 
-function update_ps4_friends()
+::update_ps4_friends <- function update_ps4_friends()
 {
   // We MUST do this on first opening, even if it is in battle/respawn
   if (!::isInMenu() && !isFirstPs4FriendsUpdate)
@@ -129,7 +129,7 @@ function update_ps4_friends()
   }
 }
 
-function getPS4FriendsFromIndex(index)
+::getPS4FriendsFromIndex <- function getPS4FriendsFromIndex(index)
 {
   local cb = function(response, err) {
     if (err)
@@ -147,7 +147,7 @@ function getPS4FriendsFromIndex(index)
   psnApi.send(psnApi.profile.listFriends(index, ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS), cb)
 }
 
-function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
+::processPS4FriendsFromArray <- function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
 {
   foreach (idx, playerBlock in ps4FriendsArray)
   {
@@ -162,7 +162,7 @@ function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
     ::getPS4FriendsFromIndex(lastIndex)
 }
 
-function resetPS4ContactsGroup()
+::resetPS4ContactsGroup <- function resetPS4ContactsGroup()
 {
   ::u.extend(::contacts[::EPL_FRIENDLIST], ::contacts[::EPLX_PS4_FRIENDS])
   ::contacts[::EPL_FRIENDLIST].sort(::sortContacts)
@@ -170,7 +170,7 @@ function resetPS4ContactsGroup()
   ::ps4_console_friends.clear()
 }
 
-function movePS4ContactsToSpecificGroup()
+::movePS4ContactsToSpecificGroup <- function movePS4ContactsToSpecificGroup()
 {
   for (local i = ::contacts[::EPL_FRIENDLIST].len()-1; i >= 0; i--)
   {
@@ -187,12 +187,12 @@ function movePS4ContactsToSpecificGroup()
   ::contacts[::EPLX_PS4_FRIENDS].sort(::sortContacts)
 }
 
-function isPlayerPS4Friend(playerName)
+::isPlayerPS4Friend <- function isPlayerPS4Friend(playerName)
 {
   return ::is_platform_ps4 && playerName in ::ps4_console_friends
 }
 
-function get_psn_account_id(playerName)
+::get_psn_account_id <- function get_psn_account_id(playerName)
 {
   if (!::is_platform_ps4)
     return null
@@ -200,7 +200,7 @@ function get_psn_account_id(playerName)
   return ::ps4_console_friends?[playerName]?.accountId
 }
 
-function add_psn_account_id(onlineId, accountId)
+::add_psn_account_id <- function add_psn_account_id(onlineId, accountId)
 {
   if (::is_platform_ps4)
     ::ps4_console_friends["*"+onlineId] <- {accountId=accountId}
@@ -218,25 +218,8 @@ subscriptions.addListenersWithoutEnv({
 
 //--------------- </PlayStation> ----------------------
 
-//------------------ <Steam> --------------------------
-function addSteamFriends()
-{
-  local taskId = ::steam_find_friends(::EPL_MAX_PLAYERS_IN_LIST)
-  if (taskId < 0)
-    return
-
-  local progressBox = ::scene_msg_box("char_connecting", null, ::loc("charServer/checking"), null, null)
-  ::add_bg_task_cb(taskId, (@(progressBox) function () {
-    ::destroyMsgBox(progressBox)
-    local blk = ::DataBlock();
-    blk = ::steam_find_friends_result();
-    ::addSocialFriends(blk, ::EPL_STEAM)
-  })(progressBox))
-}
-//------------------ </Steam> --------------------------
-
 //-----------------<Facebook> --------------------------
-function on_facebook_friends_loaded(blk)
+::on_facebook_friends_loaded <- function on_facebook_friends_loaded(blk)
 {
   foreach(id, block in blk)
     ::no_dump_facebook_friends[id] <- block.name
@@ -249,14 +232,12 @@ function on_facebook_friends_loaded(blk)
   {
     ::on_facebook_destroy_waitbox()
     ::showInfoMsgBox(::loc("msgbox/no_friends_added"), "facebook_failed")
+    return
   }
 
   local inBlk = ::DataBlock()
   foreach(id, block in ::no_dump_facebook_friends)
     inBlk.id <- id.tostring()
-
-  if(inBlk=="")
-    return
 
   local taskId = ::facebook_find_friends(inBlk, ::EPL_MAX_PLAYERS_IN_LIST)
   if(taskId < 0)

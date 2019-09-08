@@ -3,7 +3,7 @@
 // TODO: Rewrite controls with new ControlsPreset and ControlsManager classes
 
 
-function get_shortcuts(list, preset = null)
+::get_shortcuts <- function get_shortcuts(list, preset = null)
 {
   if (preset == null)
     preset = ::g_controls_manager.getCurPreset()
@@ -30,7 +30,7 @@ function get_shortcuts(list, preset = null)
 }
 
 
-function set_shortcuts(shortcutList, nameList, preset = null)
+::set_shortcuts <- function set_shortcuts(shortcutList, nameList, preset = null)
 {
   if (preset == null)
     preset = ::g_controls_manager.getCurPreset()
@@ -59,7 +59,7 @@ function set_shortcuts(shortcutList, nameList, preset = null)
 }
 
 
-function fix_shortcuts_and_axes_mapping(usedMapping, realMapping,
+::fix_shortcuts_and_axes_mapping <- function fix_shortcuts_and_axes_mapping(usedMapping, realMapping,
   shortcuts, shortcutNames, axisType = -1, axisList = [])
 {
   ::dagor.debug("ControlsCompatibility: RemappingWhileEditControls")
@@ -137,13 +137,13 @@ joystick_params_template <- {
 ::u.extend(joystick_params_template, ::ControlsPreset.getDefaultParams())
 
 
-function JoystickParams()
+::JoystickParams <- function JoystickParams()
 {
   return ::u.copy(joystick_params_template)
 }
 
 
-function joystick_get_cur_settings()
+::joystick_get_cur_settings <- function joystick_get_cur_settings()
 {
   local result = JoystickParams()
   ::u.extend(result, ::g_controls_manager.getCurPreset().params)
@@ -151,7 +151,7 @@ function joystick_get_cur_settings()
 }
 
 
-function joystick_set_cur_settings(other)
+::joystick_set_cur_settings <- function joystick_set_cur_settings(other)
 {
   local params = ::g_controls_manager.getCurPreset().params
   foreach(name, value in other)
@@ -161,7 +161,7 @@ function joystick_set_cur_settings(other)
 }
 
 
-function set_controls_preset(presetPath)
+::set_controls_preset <- function set_controls_preset(presetPath)
 {
   if (presetPath != "")
     ::g_controls_manager.setCurPreset(::ControlsPreset(presetPath))
@@ -170,17 +170,17 @@ function set_controls_preset(presetPath)
 }
 
 
-function get_controls_preset()
+::get_controls_preset <- function get_controls_preset()
 {
   return ""
 }
 
-function restore_default_controls(preset)
+::restore_default_controls <- function restore_default_controls(preset)
 {
   // Dummy. Preset loading performed by set_controls_preset later
 }
 
-function joystick_set_cur_values(settings)
+::joystick_set_cur_values <- function joystick_set_cur_values(settings)
 {
   // Settings already changed by JoystickParams
   ::g_controls_manager.commitControls()

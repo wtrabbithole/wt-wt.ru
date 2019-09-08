@@ -1,4 +1,4 @@
-function gui_start_controls_console()
+::gui_start_controls_console <- function gui_start_controls_console()
 {
   ::gui_start_modal_wnd(::gui_handlers.ControlsConsole)
 }
@@ -56,7 +56,7 @@ class ::gui_handlers.ControlsConsole extends ::gui_handlers.GenericOptionsModal
 
   function onHeadtrackEnableChange(obj)
   {
-    local option = get_option_by_id(obj.id)
+    local option = get_option_by_id(obj?.id)
     if (!option) return
 
     ::set_option(option.type, obj.getValue(), option)
@@ -82,6 +82,7 @@ class ::gui_handlers.ControlsConsole extends ::gui_handlers.GenericOptionsModal
   {
     showSceneBtn("btn_switchMode", true)
     showSceneBtn("btn_controlsWizard", ::get_game_mode() != ::GM_TRAINING && !::is_platform_xboxone)
+    showSceneBtn("btn_controlsHelp", ::has_feature("ControlsHelp"))
     local btnObj = scene.findObject("btn_calibrate")
     if (::checkObj(btnObj))
       btnObj.inactiveColor = ::ps4_headtrack_is_active()? "no" : "yes"

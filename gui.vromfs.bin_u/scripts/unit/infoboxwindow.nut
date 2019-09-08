@@ -1,4 +1,4 @@
-function gui_start_aircraft_info(airName=null)
+::gui_start_aircraft_info <- function gui_start_aircraft_info(airName=null)
 {
   airName = airName || ::show_aircraft.name
   ::gui_start_modal_wnd(::gui_handlers.showAircraftInfo, {airName = airName})

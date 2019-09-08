@@ -26,7 +26,7 @@
   canSendInvites = false
 }
 
-function g_play_together::onNewInviteesDataIncome(inviteesArray)
+g_play_together.onNewInviteesDataIncome <- function onNewInviteesDataIncome(inviteesArray)
 {
   if (!::is_platform_ps4)
     return
@@ -42,14 +42,14 @@ function g_play_together::onNewInviteesDataIncome(inviteesArray)
   requestUsersList(inviteesArray)
 }
 
-function g_play_together::checkAfterFlight()
+g_play_together.checkAfterFlight <- function checkAfterFlight()
 {
   if (!::u.isEmpty(suspendedInviteesData))
     requestUsersList(suspendedInviteesData)
   suspendedInviteesData = null
 }
 
-function g_play_together::requestUsersList(inviteesArray)
+g_play_together.requestUsersList <- function requestUsersList(inviteesArray)
 {
   local onlineIds = []
   foreach (player in inviteesArray)
@@ -77,7 +77,7 @@ function g_play_together::requestUsersList(inviteesArray)
                      @(err) ::g_popups.add(::loc("playTogether/name"), ::loc("playTogether/noUsers")))
 }
 
-function g_play_together::gatherUsersDataAndCheck()
+g_play_together.gatherUsersDataAndCheck <- function gatherUsersDataAndCheck()
 {
   local usersResult = ps4_find_friends_result()
   cachedUsersData = ::u.copy(usersResult)
@@ -85,7 +85,7 @@ function g_play_together::gatherUsersDataAndCheck()
   checkUsersAndProceed()
 }
 
-function g_play_together::checkUsersAndProceed()
+g_play_together.checkUsersAndProceed <- function checkUsersAndProceed()
 {
   if (::u.isEmpty(cachedUsersData))
     return
@@ -101,7 +101,7 @@ function g_play_together::checkUsersAndProceed()
   sendInvitesToSquad()
 }
 
-function g_play_together::filterUsers()
+g_play_together.filterUsers <- function filterUsers()
 {
   cachedInvitees = {}
 
@@ -116,13 +116,13 @@ function g_play_together::filterUsers()
   }
 }
 
-function g_play_together::sendInvitesToSquad()
+g_play_together.sendInvitesToSquad <- function sendInvitesToSquad()
 {
   foreach (uid, name in cachedInvitees)
     ::g_squad_manager.inviteToSquad(uid, name)
 }
 
-function g_play_together::checkMeAsSquadMember()
+g_play_together.checkMeAsSquadMember <- function checkMeAsSquadMember()
 {
   if (!::g_squad_manager.isSquadMember())
     return false
@@ -147,7 +147,7 @@ function g_play_together::checkMeAsSquadMember()
   return true
 }
 
-function g_play_together::checkMeAsSquadLeader()
+g_play_together.checkMeAsSquadLeader <- function checkMeAsSquadLeader()
 {
   if (!::g_squad_manager.isSquadLeader())
     return false
@@ -177,7 +177,7 @@ function g_play_together::checkMeAsSquadLeader()
   return true
 }
 
-function g_play_together::onEventSquadStatusChanged(params)
+g_play_together.onEventSquadStatusChanged <- function onEventSquadStatusChanged(params)
 {
   if (!canSendInvites)
     return
@@ -190,7 +190,7 @@ function g_play_together::onEventSquadStatusChanged(params)
 ::subscribe_handler(::g_play_together, ::g_listener_priority.DEFAULT_HANDLER)
 
 //called from C++
-function on_ps4_play_together_host(inviteesArray)
+::on_ps4_play_together_host <- function on_ps4_play_together_host(inviteesArray)
 {
   dagor.debug("[PSPT] got host event")
   debugTableData(inviteesArray)

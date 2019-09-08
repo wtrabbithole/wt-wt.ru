@@ -1,6 +1,6 @@
 ::PS4_IGNORE_INVITE_STRING <- "#ignore#"
 
-function sendInvitationPsn(config)
+::sendInvitationPsn <- function sendInvitationPsn(config)
 {
   local inviteType = ::getTblValue("inviteType", config, "")
 
