@@ -264,9 +264,9 @@ g_clans.requestClanLog <- function requestClanLog(clanId, rowsCount, requestMark
         if (logType.needDetails(logEntryTable))
         {
           local commonFields = logType.getLogDetailsCommonFields()
-          local shortCommonDetails = logEntryTable.filter(@(k,v) commonFields.find(k)!=null)
+          local shortCommonDetails = logEntryTable.filter(@(v,k) commonFields.find(k)!=null)
           local individualFields = logType.getLogDetailsIndividualFields()
-          local shortIndividualDetails = logEntryTable.filter(@(k,v) individualFields.find(k)!=null)
+          local shortIndividualDetails = logEntryTable.filter(@(v,k) individualFields.find(k)!=null)
 
           local fullDetails = shortCommonDetails
           foreach (key, value in shortIndividualDetails)

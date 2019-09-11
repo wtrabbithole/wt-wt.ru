@@ -153,7 +153,7 @@ g_popups.savePopup <- function savePopup(newPopup)
 {
   local index = -1
   if (newPopup.groupName)
-    index = suspendedPopupsList.searchIndex( @(popup) popup.groupName == newPopup.groupName) ?? -1
+    index = suspendedPopupsList.searchindex( @(popup) popup.groupName == newPopup.groupName) ?? -1
 
   if (index >= 0)
     suspendedPopupsList.remove(index)

@@ -167,7 +167,7 @@ local dagor_fs = require("dagor.fs")
 {
   local filesList = dagor_fs.scan_folder({ root = "D:/dagor2/skyquake/gameOnline",
     files_suffix = "*.blk", recursive = false, vromfs=false, realfs = true
-  }).filter(@(i,v) v.find("debug_dump_debriefing") != null).map(@(v,i) g_path.fileName(v)).sort().reverse()
+  }).filter(@(v) v.find("debug_dump_debriefing") != null).map(@(v) g_path.fileName(v)).sort().reverse()
   local total = filesList.len()
   local function loadNext() {
     local count = filesList.len()
@@ -338,9 +338,9 @@ local dagor_fs = require("dagor.fs")
   dbg_dump.loadFuncs({
     get_current_mission_desc = @(outBlk) outBlk.setFrom(::_fake_get_current_mission_desc)
     get_mplayers_list = @(team, full) ::_fake_mplayers_list.filter(
-      @(i,p) p.team == team || team == ::GET_MPLAYERS_LIST)
-    get_mplayer_by_id = @(id) ::_fake_mplayers_list.filter(@(i,p) p.id == id)?[0]
-    get_local_mplayer = @() ::_fake_mplayers_list.filter(@(i,p) p.isLocal)?[0]
+      @(p) p.team == team || team == ::GET_MPLAYERS_LIST)
+    get_mplayer_by_id = @(id) ::_fake_mplayers_list.filter(@(p) p.id == id)?[0]
+    get_local_mplayer = @() ::_fake_mplayers_list.filter(@(p) p.isLocal)?[0]
     request_aircraft_and_weapon = @(...) -1
   }, false)
   ::g_mis_custom_state.isCurRulesValid = false

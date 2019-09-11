@@ -106,9 +106,10 @@
   OPTION_HIDE_MOUSE_SPECTATOR = 255
   function clan_get_exp_boost() {return 0}
   YU2_DOI_INCOMPLETE = 31
-  function set_selected_unit_info(unit){}
+  function set_selected_unit_info(unit, slot_id){}
   function is_eac_inited()
   {
     return true
   }
+  get_level_texture = @(lvl, f) ::map_to_location(lvl ?? "") + (f ? "_tankmap*" : "_map*")
 })

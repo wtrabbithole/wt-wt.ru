@@ -76,7 +76,7 @@ local g_string =  require("std/string.nut")
   if (!msgbox)
     return null
   msgbox.id = id
-  dagor.debug("GuiManager: load msgbox = " + id)
+  ::dagor.debug("GuiManager: load msgbox = " + id)
 //  ::enableHangarControls(false, false) //to disable hangar controls need restore them on destroy msgBox
 
   local textObj = msgbox.findObject("msgText")

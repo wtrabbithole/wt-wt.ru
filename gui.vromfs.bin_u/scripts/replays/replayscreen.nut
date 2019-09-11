@@ -496,7 +496,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
       local isMyTeam = idx == 0
       if (name == "teamA" || name == "teamB")
         data.rowHeader[name][0] = {
-          image   = isMyTeam ? "#ui/gameuiskin#mp_logo_allies" : "#ui/gameuiskin#mp_logo_axis"
+          image   = isMyTeam ? "#ui/gameuiskin#mp_logo_allies.svg" : "#ui/gameuiskin#mp_logo_axis.svg"
           tooltip = isMyTeam ? "#multiplayer/teamA" : "#multiplayer/teamB"
           tdAlign = "center"
           active  = false

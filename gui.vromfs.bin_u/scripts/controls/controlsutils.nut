@@ -22,7 +22,7 @@ if (::is_platform_xboxone)
   {
     local isHeaderPassed = true
     local isSectionPassed = true
-    local controlsList = ::shortcutsList.filter(function(idx, sc)
+    local controlsList = ::shortcutsList.filter(function(sc)
     {
       if (sc.type != CONTROL_TYPE.HEADER && sc.type != CONTROL_TYPE.SECTION)
       {

@@ -119,7 +119,7 @@ local subscriptions = require("sqStdLibs/helpers/subscriptions.nut")
   function onLoadHandlerDebug(handlerClass, params)
   {
     local handlerName = getHandlerClassDebugName(handlerClass)
-    dagor.debug("GuiManager: load handler " + handlerName)
+    ::dagor.debug("GuiManager: load handler " + handlerName)
 
     lastLoadedHandlerName = handlerName
     return handlerName
@@ -455,7 +455,7 @@ local subscriptions = require("sqStdLibs/helpers/subscriptions.nut")
 
   function emptyScreen()
   {
-    dagor.debug("GuiManager: load emptyScreen")
+    ::dagor.debug("GuiManager: load emptyScreen")
     setLastBaseHandlerStartFunc(function() { ::handlersManager.emptyScreen() })
     lastLoadedHandlerName = "emptyScreen"
 

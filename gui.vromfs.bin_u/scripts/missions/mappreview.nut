@@ -114,6 +114,20 @@ g_map_preview.validateList <- function validateList()
   })
 }
 
+g_map_preview.getMissionBriefingConfig <- function getMissionBriefingConfig(mission)
+{
+  local config = ::DataBlock()
+  local blk = ::g_mislist_type.isUrlMission(mission)
+              ? mission.urlMission.getMetaInfo()
+              : mission?.blk
+  if (!blk)
+    return config
+
+  config.load(blk.getStr("mis_file",""))
+  return config
+}
+
+
 g_map_preview.onEventActiveHandlersChanged <- function onEventActiveHandlersChanged(p) { refreshCurPreview() }
 
 ::subscribe_handler(::g_map_preview, ::g_listener_priority.DEFAULT_HANDLER)

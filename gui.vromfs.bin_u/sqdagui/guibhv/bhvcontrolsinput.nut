@@ -40,7 +40,7 @@ class gui_bhv.ControlsInput
 
   function checkActive(obj)
   {
-    if (!is_app_active() || steam_is_overlay_active())
+    if (!::is_app_active() || ::steam_is_overlay_active())
     {
       for (local i = 0; i < 3; i++)
       {

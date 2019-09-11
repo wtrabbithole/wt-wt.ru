@@ -113,6 +113,12 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       color = "@white"
       icon = "#ui/gameuiskin#icon_repair_in_progress.svg"
     }
+    {
+      id = "battery_status"
+      color = "#DD1111"
+      icon = "#ui/gameuiskin#icon_battery_in_progress.svg"
+      needTimeText = true
+    }
   ]
 
   scene = null
@@ -142,6 +148,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     ::g_hud_event_manager.subscribe("TankDebuffs:Replenish", onReplenish, this)
     ::g_hud_event_manager.subscribe("TankDebuffs:Repair", onRepair, this)
     ::g_hud_event_manager.subscribe("TankDebuffs:MoveCooldown", onMoveCooldown, this)
+    ::g_hud_event_manager.subscribe("TankDebuffs:Battery", onBattery, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Rearm", onRearm, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Repair", onRepair, this)
     ::g_hud_event_manager.subscribe("ShipDebuffs:Cooldown", onMoveCooldown, this)
@@ -378,6 +385,23 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
 
     ::g_time_bar.setDirectionBackward(timebarObj)
     ::g_time_bar.setPeriod(timebarObj, debuffs_data.time)
+    ::g_time_bar.setCurrentTime(timebarObj, 0)
+  }
+
+  function onBattery(debuffs_data)
+  {
+    local placeObj = scene.findObject("battery_status")
+    if (!::checkObj(placeObj))
+      return
+
+    local showTimer = debuffs_data.charge < 100
+    placeObj.animation = showTimer ? "show" : "hide"
+
+    local timeTextObj = placeObj.findObject("time_text")
+    timeTextObj.setValue(debuffs_data.charge.tointeger().tostring());
+    local timebarObj = placeObj.findObject("timer")
+    
+    ::g_time_bar.setPeriod(timebarObj, 0)
     ::g_time_bar.setCurrentTime(timebarObj, 0)
   }
 

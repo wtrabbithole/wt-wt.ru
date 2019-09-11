@@ -455,6 +455,36 @@ return [
     checkAssign = false
     filterShow = [globalEnv.EM_FULL_REAL]
   }
+  {
+    id = "ID_MFD_1_PAGE"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_MFD_2_PAGE"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_MFD_3_PAGE"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_MFD_ZOOM"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_HELI_GUNNER_NIGHT_VISION"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_THERMAL_WHITE_IS_HOT_HELI"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
 //-------------------------------------------------------
   {
     id = "ID_HELICOPTER_JOYSTICK_HEADER"

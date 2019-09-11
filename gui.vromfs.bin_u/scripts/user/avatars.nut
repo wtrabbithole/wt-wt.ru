@@ -17,7 +17,7 @@ local function getIcons()
 local function getAllowedIcons()
 {
   if (!allowedIcons)
-    allowedIcons = getIcons().filter(@(i, unlockId) ::is_unlocked_scripted(::UNLOCKABLE_PILOT, unlockId)
+    allowedIcons = getIcons().filter(@(unlockId) ::is_unlocked_scripted(::UNLOCKABLE_PILOT, unlockId)
       && ::is_unlock_visible(::g_unlocks.getUnlockById(unlockId)))
   return allowedIcons
 }

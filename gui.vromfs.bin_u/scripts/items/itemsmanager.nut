@@ -636,7 +636,7 @@ ItemsManager.getInventoryVisibleSeenIds <- function getInventoryVisibleSeenIds()
   {
     local itemsList = getInventoryListByShopMask(checkItemsMaskFeatures(itemType.INVENTORY_ALL))
     inventoryVisibleSeenIds = itemsList.filter(
-      @(idx, it) !it.isHiddenItem() && !it.isVisibleInWorkshopOnly()).map(@(it) it.getSeenId())
+      @(it) !it.isHiddenItem() && !it.isVisibleInWorkshopOnly()).map(@(it) it.getSeenId())
   }
 
   return inventoryVisibleSeenIds

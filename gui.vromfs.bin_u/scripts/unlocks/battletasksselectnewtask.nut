@@ -43,7 +43,7 @@ class ::gui_handlers.BattleTasksSelectNewTaskWnd extends ::gui_handlers.BaseGuiH
 
       local index = 0
       if (filteredTasksArray.len())
-        index = battleTasksArray.searchIndex(@(task) filteredTasksArray[0].id == task.id) ?? 0
+        index = battleTasksArray.searchindex(@(task) filteredTasksArray[0].id == task.id) ?? 0
 
       listObj.setValue(index)
     }

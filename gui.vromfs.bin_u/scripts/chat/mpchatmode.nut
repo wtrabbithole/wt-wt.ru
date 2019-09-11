@@ -118,7 +118,7 @@ g_mp_chat_mode.getNextMode <- function getNextMode(modeId)
 g_mp_chat_mode.getTextAvailableMode <- function getTextAvailableMode()
 {
   return ::g_string.implode(
-    ::u.map(types.filter(@(idx, mode) mode.isEnabled()),
+    ::u.map(types.filter(@(mode) mode.isEnabled()),
       @(mode) mode.getNameText()),
     ::loc("ui/slash"))
 }

@@ -69,7 +69,7 @@
 
 ::exportUnlockInfo <- function exportUnlockInfo(params)
 {
-  local info = ::g_language.getGameLocalizationInfo().filter(@(index, value) params.langs.find(value.id) != null)
+  local info = ::g_language.getGameLocalizationInfo().filter(@(value) params.langs.find(value.id) != null)
   _gen_all_unlocks_desc_to_blk(params.path, false, false, info, ::get_current_language())
   return "ok"
 }

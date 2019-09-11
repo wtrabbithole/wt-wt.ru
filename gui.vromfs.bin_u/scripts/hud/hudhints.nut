@@ -1353,6 +1353,14 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hideEvent = "hint:fps_to_virtual_fps:hide"
     lifeTime = -1.0
   }
+
+  BLOCK_NIGHT_VISION_HINT = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/block_night_vision"
+    showEvent = "hint:block_night_vision:show"
+    lifeTime = 5.0
+    isHideOnDeath = true
+  }
 },
 function() {
   name = "hint_" + typeName.tolower()

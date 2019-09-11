@@ -41,14 +41,14 @@ class ::gui_handlers.ShopSearchWnd extends ::gui_handlers.BaseGuiHandlerWT
     local ediff = getEdiffFunc()
     foreach (countryId in ::shopCountriesList)
     {
-      local countryUnits = units.filter(@(idx, unit) ::getUnitCountry(unit) == countryId)
+      local countryUnits = units.filter(@(unit) ::getUnitCountry(unit) == countryId)
       if (!countryUnits.len())
         continue
 
       data[countryId] <- {}
       foreach (unitType in ::g_unit_type.types)
       {
-        local armyUnits = countryUnits.filter(@(idx, unit) unitType == unit.unitType)
+        local armyUnits = countryUnits.filter(@(unit) unitType == unit.unitType)
         if (!armyUnits.len())
           continue
 

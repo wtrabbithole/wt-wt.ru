@@ -22,7 +22,7 @@ local escapeConfig = null
  */
 // Reverse operation to split()
 local function implode(pieces = [], glue = "") {
-  return (pieces.filter(@(index,val) val != "" && val != null).reduce(@(prev, cur) prev + glue + cur) ?? "").tostring()
+  return glue.join(pieces.filter(@(val) val != "" && val != null))
 }
 
 /**
@@ -36,7 +36,7 @@ local function implode(pieces = [], glue = "") {
  *                    with the glue string between each element.
  */
 local function join(pieces, glue="") {
-  return (pieces.reduce(@(prev, cur) prev + glue + cur) ?? "").tostring()
+  return glue.join(pieces)
 }
 
 /**
@@ -49,21 +49,8 @@ local function join(pieces, glue="") {
  * @return {string[]} - Array of sub-strings.
  */
 local function split(joined, glue, isIgnoreEmpty = false) {
-  local pieces = []
-  local joinedLen = joined.len()
-  if (!joinedLen)
-    return pieces
-  local glueLen = glue.len()
-  local start = 0
-  while (start <= joinedLen) {
-    local end = joined.find(glue, start)
-    if (end == null)
-      end = joinedLen
-    if (!isIgnoreEmpty || start != end)
-      pieces.append(joined.slice(start, end))
-    start = end + glueLen
-  }
-  return pieces
+  return (!isIgnoreEmpty) ? joined.split(glue)
+            : joined.split(glue).filter(@(v) v!="")
 }
 
 if ("regexp2" in rootTable) {
@@ -388,16 +375,7 @@ local function tostring_r(input, params=defTostringParams) {
  */
 local function slice(str, start = 0, end = null) {
   str = str ?? ""
-  local total = str.len()
-  if (start < 0)
-    start += total
-  start = ::clamp(start, 0, total)
-  if (end == null)
-    end = total
-  else if (end < 0)
-    end += total
-  end = ::clamp(end, start, total)
-  return str.slice(start, end)
+  return str.slice(start, end ?? str.len())
 }
 
 /**
@@ -560,10 +538,7 @@ local function toLower(str, symbolsNum = 0) {
 }
 
 local function replace(str, from, to) {
-  if (str == null || str == "")
-    return ""
-  local splitted = split(str,from)
-  return join(splitted, to)
+  return (str ?? "").replace(from, to)
 }
 
 /**

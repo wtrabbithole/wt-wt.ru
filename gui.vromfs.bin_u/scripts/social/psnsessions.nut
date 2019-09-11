@@ -109,7 +109,7 @@ g_psn_sessions.join <- function join(session, invitation=null, cb=psn.noOpCb)
       else // Mark all invitations to this particular session as used
         psn.send(psn.invitation.list(), function(r, e) {
               local all = r?.invitations ?? []
-              local toMark = all.filter(@(_,i) !i.usedFlag && i.sessionId == session)
+              local toMark = all.filter(@(i) !i.usedFlag && i.sessionId == session)
               toMark.apply(@(i) psn.send(psn.invitation.use(i.invitationId)))
             })
 
@@ -177,7 +177,7 @@ g_psn_sessions.onEventLobbyStatusChange <- function onEventLobbyStatusChange(par
   // Leave psn session, join has its own event. Actually leave all skirmishes,
   // we can have only one in game but we no longer know it's psn Id in Lobby
   if (::is_platform_ps4 && !::SessionLobby.isInRoom())
-    foreach(id,s in sessions.filter(@(_,s) s.type == PSN_SESSION_TYPE.SKIRMISH))
+    foreach(id,s in sessions.filter(@(s) s.type == PSN_SESSION_TYPE.SKIRMISH))
       leave(id)
 }
 

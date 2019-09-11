@@ -3,6 +3,31 @@
      library is self contained - no extra dependecies, no any game or app specific dependencies
      ALL functions in this library do not mutate data
 */
+
+/*******************************************************************************
+ ******************** functions checks*******************
+ ******************************************************************************/
+/**
+  Check for proper iteratee and so on - under construction
+*/
+local function funcCheckArgsNum(func, numRequired){
+  local infos = func.getfuncinfos()
+  local plen = infos.parameters.len() - 1
+  local deplen = infos.defparams.len()
+  local isVargv = infos.varargs > 0
+  if (isVargv)
+    plen -= 2
+  local mandatoryParams = plen - deplen
+  if (mandatoryParams > numRequired)
+    return false
+  if ((mandatoryParams <= numRequired) && (plen >= numRequired))
+    return true
+  if (mandatoryParams <= numRequired && isVargv)
+    return true
+  return false
+}
+
+
 /*******************************************************************************
  ******************** Collections handling (array of tables) *******************
  ******************************************************************************/
@@ -56,18 +81,21 @@ local function search(data, predicate, reverseOrder = false) {
  */
 local function zip(...) {
   local func = search(vargv, @(v) ::type(v)=="function")
-  local datasets = vargv.filter(@(i,val) ::type(val)=="array")
+  local datasets = vargv.filter(@(val) ::type(val)=="array")
   ::assert(datasets.len()>1, "zip can work only with two or more datasources")
   local res = datasets[0].map(@(v) [v])
   if (func == null) {
-    for (local i = 1; i < datasets.len(); ++i)
+    foreach(dataset in datasets) {
       foreach (idx, v in res)
-        v.append(datasets[i]?[idx])
-  } else {
-    res = clone datasets[0]
-    for (local i = 1; i < datasets.len(); ++i)
+        v.append(dataset?[idx])
+    }
+  }
+  else {
+    res = clone datasets.remove(0)
+    foreach(dataset in datasets) {
       foreach (idx, v in res)
-        res[idx]=func(v, datasets[i]?[idx])
+        res[idx]=func(v, dataset?[idx])
+    }
   }
   return res
 }
@@ -75,34 +103,6 @@ local function zip(...) {
 /*******************************************************************************
  ****************************** Table handling *********************************
  ******************************************************************************/
-
-/**
- * keys return an array of keys of specified table
- */
-local function keys(table) {
-  if (typeof table == "array"){
-    local res = ::array(table.len())
-    foreach (i, k in res)
-      res[i]=i
-    return res
-  }
-  local res = []
-  foreach (k, v in table)
-    res.append(k)
-  return res
-}
-
-/**
- * Return all of the values of the table's properties.
- */
-local function values(data) {
-  if (typeof data == "array")
-    return clone data
-  local res = []
-  foreach (val in data)
-    res.append(val)
-  return res
-}
 
 /**
  * Convert a table into a list of [key, value] pairs.
@@ -171,32 +171,6 @@ local function safeIndex(arr, n) {
   return null
 }
 
-/**
-* memoize(function, [hashFunction])
-  Memoizes a given function by caching the computed result. Useful for speeding up slow-running computations.
-  If passed an optional hashFunction, it will be used to compute the hash key for storing the result, based on the arguments to the original function.
-  The default hashFunction just uses the first argument to the memoized function as the key.
-*/
-local function memoize(func, hashfunc=null){
-  local cache = {}
-  local parameters = func.getfuncinfos().parameters.slice(0)
-  assert(parameters.len()>0)
-  hashfunc = hashfunc ?? function(...) {return vargv[0]}
-  local function memoizedfunc(...){
-    local args = [null].extend(vargv)
-    local hash = hashfunc.pacall(args)
-    if (hash in cache) {
-      return cache[hash]
-    }
-    local result = func.pacall(args)
-    cache[hash] <- result
-      return result
-  }
-  return memoizedfunc
-}
-
-
-
 // * Returns random element of the given array, rand should be function that return int
 local function chooseRandom(arr, randfunc) {
   if (arr.len()==0)
@@ -251,8 +225,6 @@ return {
   reduceTbl = reduceTbl
   search = search
   zip = zip
-  keys = keys
-  values = values
   pairs = pairs
   invert = invert
   tablesCombine = tablesCombine
@@ -261,5 +233,5 @@ return {
   last = last
   shuffle = shuffle
   isEqual = isEqual
-  memoize = memoize
+  funcCheckArgsNum = funcCheckArgsNum
 }

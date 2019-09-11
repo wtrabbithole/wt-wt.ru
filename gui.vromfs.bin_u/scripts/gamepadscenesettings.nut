@@ -5,7 +5,7 @@ if (config)
   config.gamepadCursorNonLin = 2.5
   config.gamepadCursorDeadZone = 0.15
 
-  config.gamepadCursorHoverMaxTime = 1.0
-  config.gamepadCursorHoverMinMul = 0.15
+  config.gamepadCursorHoverMaxTime = 0.5
+  config.gamepadCursorHoverMinMul = 0.5
   config.gamepadCursorHoverMaxMul = 0.8
 }

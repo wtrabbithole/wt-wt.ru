@@ -302,7 +302,7 @@ EventRewards.getSortedRewardsByConditions <- function getSortedRewardsByConditio
         if (aValue != bValue)
           return (aValue > bValue) ? 1 : -1
         if (a?[condName] != b?[condName])
-          return (a?[condName] > b?[condName]) ? 1 : -1
+          return ((a?[condName] ?? "") > (b?[condName] ?? "")) ? 1 : -1
         return 0
       })(condName))
 

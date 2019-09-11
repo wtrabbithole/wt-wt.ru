@@ -2088,7 +2088,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getMplayersListByTeam(teamNum)
   {
-    return (::debriefing_result?.mplayers_list ?? []).filter(@(idx, player) player.team == teamNum)
+    return (::debriefing_result?.mplayers_list ?? []).filter(@(player) player.team == teamNum)
   }
 
   function updatePlayersTable(dt)
@@ -2264,7 +2264,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local tasksArray = ::g_battle_tasks.getTasksArrayByIncreasingDifficulty()
     local filteredTasks = ::g_battle_tasks.filterTasksByGameModeId(tasksArray, mGameMode?.name)
 
-    filteredTasks = filteredTasks.filter(@(idx, task)
+    filteredTasks = filteredTasks.filter(@(task)
       !::g_battle_tasks.isTaskDone(task) &&
       ::g_battle_tasks.isTaskActive(task)
     )

@@ -127,8 +127,12 @@
 @const titleLogoFullHeight: 1@titleLogoPlateHeight + 1@titleLogoPlatePaddingTop + 4@titleLogoShadePaddingH;
 @const titleLogoSafeareaOffsetTop: 0 -1@titleLogoPlateHeight * ((1 - (1 / (1@titleLogoBgToTextRatio))) / 2) -1@titleLogoPlatePaddingTop -2@titleLogoShadePaddingH;
 
-@const loginLogoScale: ((@sf/@pf_outdated) \ 1) $max 1;
-@const loginFramePadding: 0.015@scrn_tgt;
+@const loginLogoScale: ((@sf/@pf + 0.5) \ 1) $max 1;
+
+@const companyLogoW: 156@loginLogoScale;
+@const companyLogoH: 78@loginLogoScale;
+@const companyLogoPadW: 50@loginLogoScale;
+@const companyLogoPadH: 25@loginLogoScale;
 
 @const toBattleButtonBottom: 1@titleLogoPlateHeight + 1@bh + 0.006@sf;
 @const gcToBattleButtonWidth = 192@sf/@pf + (0.08@sf * 1@isWide);

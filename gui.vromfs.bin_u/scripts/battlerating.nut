@@ -122,7 +122,7 @@ local getUserData = function()
       players.append({
         name = member.name
         country = country ?? member.country
-        slot = crafts.searchIndex(function(p) { return p.name == member.selAirs[country ?? member.country]}) ?? -1
+        slot = crafts.searchindex(function(p) { return p.name == member.selAirs[country ?? member.country]}) ?? -1
         crafts = crafts
       })
     }
@@ -137,7 +137,7 @@ local getUserData = function()
     players.append({
       name = data.name
       country = data.country
-      slot = crafts.searchIndex(function(p) { return p.name == data.selAirs[data.country]}) ?? -1
+      slot = crafts.searchindex(function(p) { return p.name == data.selAirs[data.country]}) ?? -1
       crafts = crafts
     })
   }

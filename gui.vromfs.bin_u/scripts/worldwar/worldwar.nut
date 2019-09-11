@@ -1,7 +1,7 @@
 local time = require("scripts/time.nut")
 local operationPreloader = require("scripts/worldWar/externalServices/wwOperationPreloader.nut")
 local seenWWMapsObjective = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
-
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
@@ -378,6 +378,9 @@ g_world_war.getCantPlayWorldwarReasonText <- function getCantPlayWorldwarReasonT
 
 g_world_war.openMainWnd <- function openMainWnd()
 {
+  if (!antiCheat.showMsgboxIfEacInactive())
+    return
+
   if (!checkPlayWorldwarAccess())
     return
 
@@ -704,12 +707,12 @@ g_world_war.getRearZonesBySide <- function getRearZonesBySide(side)
 
 g_world_war.getRearZonesOwnedToSide <- function getRearZonesOwnedToSide(side)
 {
-  return getRearZonesBySide(side).filter(@(idx, zone) ::ww_get_zone_side_by_name(zone) == side)
+  return getRearZonesBySide(side).filter(@(zone) ::ww_get_zone_side_by_name(zone) == side)
 }
 
 g_world_war.getRearZonesLostBySide <- function getRearZonesLostBySide(side)
 {
-  return getRearZonesBySide(side).filter(@(idx, zone) ::ww_get_zone_side_by_name(zone) != side)
+  return getRearZonesBySide(side).filter(@(zone) ::ww_get_zone_side_by_name(zone) != side)
 }
 
 g_world_war.getSelectedArmies <- function getSelectedArmies()

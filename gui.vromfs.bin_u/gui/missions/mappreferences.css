@@ -1,5 +1,9 @@
-@const mapPreferenceIconSize: (113*@sf/@pf) \ 1;
-@const mapPreferencePreviewSize: (370*@sf/@pf) \ 1;
+@const mapPreferenceIconSize: (170*@sf/@pf) \ 1;
+@const mapPreferenceIconMargin: 2@blockInterval;
+@const mapPreferenceIconNestWidth: 1@mapPreferenceIconSize + 1@mapPreferenceIconMargin;
+@const mapPreferencePreviewSize: (500*@sf/@pf) \ 1;
+@const mapPreferenceListHeight: 1@maxWindowHeight - 1@frameHeaderHeight - 1@frameTopPadding - 1@framePadding - 1@buttonHeight - 1@mapPreferenceIconMargin;
+@const mapPreferencePreviewFullWidth: 1@mapPreferenceIconMargin + 2@framePadding + 1@dp + 1@mapPreferencePreviewSize;
 @const checkBoxBannedCheckColor:            #d93e3e;
 @const checkBoxBannedCheckHoveredColor:     #941d1d;
 @const checkboxBannedUncheckedColor:        #C0C0C0C0;
@@ -7,7 +11,7 @@
 @const checkboxBannedHoveredDisabledColor:  #FF6b8c98;
 
 mapImg {
-  height:1@mapPreferenceIconSize + 2@blockInterval;
+  height:1@mapPreferenceIconSize;
   width:h;
   background-color: #cccccc;
   position:relative;
@@ -19,21 +23,31 @@ mapStateBox {
   height:@checkboxSize;
   re-type:9rect;
   behaviour:check;
-  color:@commonMenuButtonColor;
-  font:@fontSmall;
-  text-align:left;
   padding-left:h+5@sf/@pf;
   css-hier-invalidate:yes;
   snd_change_value:check;
 }
 
+mapStateBoxText {
+  behaviour:textArea;
+  re-type:textarea;
+  position:relative;
+  width:1@mapPreferencePreviewFullWidth - 1@checkboxSize - 4@framePadding;
+  word-wrap:no;
+  color:@commonMenuButtonColor;
+  font:@fontNormal;
+  text-align:left;
+  background-color:@transparent;
+  input-transparent:yes;
+}
+
 mapStateBoxImg {
   re-type:rotationFg;
-  size:@checkboxImgSize, @checkboxImgSize;
+  size:@checkboxSize, @checkboxSize;
   top:50%ph-50%h;
   left:50%ph-50%w;
   position:absolute;
-  foreground-svg-size:@checkboxImgSize, @checkboxImgSize;
+  foreground-svg-size:@checkboxSize, @checkboxSize;
   input-transparent:yes;
 }
 
@@ -112,6 +126,11 @@ mapStateBox[type=disliked] > mapStateBoxImg {
 
 mapStateBox[type=banned] > mapStateBoxImg {
   foreground-image:#ui/gameuiskin#ban_icon.svg;
+}
+
+mapStateBox[type=banned]:hover > mapStateBoxText,
+mapStateBox[type=disliked]:hover > mapStateBoxText {
+  color:@checkboxBannedHoveredUncheckedColor;
 }
 
 mapStateBox[type=banned]:hover > mapStateBoxImg,

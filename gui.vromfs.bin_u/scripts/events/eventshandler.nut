@@ -2,6 +2,7 @@ local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local clustersModule = require("scripts/clusterSelect.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 const COLLAPSED_CHAPTERS_SAVE_ID = "events_collapsed_chapters"
 const ROOMS_LIST_OPEN_COUNT_SAVE_ID = "tutor/roomsListOpenCount"
@@ -17,6 +18,9 @@ const SHOW_RLIST_BEFORE_OPEN_DEFAULT = 10
  */
 ::gui_start_modal_events <- function gui_start_modal_events(options = {})
 {
+  if (!antiCheat.showMsgboxIfEacInactive())
+    return
+
   local eventId = null
   local chapterId = ::getTblValue ("chapter", options, null)
 

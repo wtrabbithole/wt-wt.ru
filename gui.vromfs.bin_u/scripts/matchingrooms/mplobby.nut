@@ -1,6 +1,7 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local avatars = ::require("scripts/user/avatars.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDebug option enabled
 ::back_from_lobby <- ::gui_start_mainmenu
@@ -750,6 +751,9 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function onReady()
   {
+    if (!antiCheat.showMsgboxIfEacInactive())
+      return
+
     if (::SessionLobby.tryJoinSession())
       return
 

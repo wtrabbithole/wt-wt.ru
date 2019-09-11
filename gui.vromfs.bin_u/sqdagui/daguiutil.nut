@@ -14,9 +14,9 @@ local DEFAULT_OVERRIDE_PARAMS = {
 
 ::g_dagui_utils <- {
   textAreaTagsRegexp = [
-    regexp2("</?color[^>]*>")
-    regexp2("</?link[^>]*>")
-    regexp2("</?b>")
+    ::regexp2("</?color[^>]*>")
+    ::regexp2("</?link[^>]*>")
+    ::regexp2("</?b>")
   ]
   /*
   * count amount of items can be filled in current obj.
@@ -119,7 +119,7 @@ local DEFAULT_OVERRIDE_PARAMS = {
   }
 
   function color4ToDaguiString(color) {
-    return format("%02X%02X%02X%02X",
+    return ::format("%02X%02X%02X%02X",
       ::clamp(255 * color.a, 0, 255),
       ::clamp(255 * color.r, 0, 255),
       ::clamp(255 * color.g, 0, 255),

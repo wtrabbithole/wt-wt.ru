@@ -28,7 +28,7 @@ foreach (sh in sheetsArray)
 {
   local sheet = sh
   seenList.setSubListGetter(sheet.getSeenId(), @() (
-    xboxShopData.xboxProceedItems?[sheet.mediaType] ?? []).filter(@(idx, it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
+    xboxShopData.xboxProceedItems?[sheet.mediaType] ?? []).filter(@(it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
 }
 
 class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
@@ -131,7 +131,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     curPage = 0
     if (lastSelectedItem)
     {
-      local lastIdx = itemsList.searchIndex(function(item) { return item.id == lastSelectedItem.id}.bindenv(this)) ?? -1
+      local lastIdx = itemsList.searchindex(function(item) { return item.id == lastSelectedItem.id}.bindenv(this)) ?? -1
       if (lastIdx >= 0)
         curPage = (lastIdx / itemsPerPage).tointeger()
       else if (curPage * itemsPerPage > itemsCatalog.len())

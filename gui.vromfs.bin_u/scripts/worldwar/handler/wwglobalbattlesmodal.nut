@@ -242,12 +242,12 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   function getActiveCountriesData()
   {
     local countriesData = {}
-    local globalBattlesList = globalBattlesListData.getList().filter(@(idx, battle)
+    local globalBattlesList = globalBattlesListData.getList().filter(@(battle)
       battle.isOperationMapAvaliable())
     foreach (country in ::shopCountriesList)
     {
       local battlesListByCountry = globalBattlesList.filter(
-      function(idx, battle) {
+      function(battle) {
         return battle.hasSideCountry(country) && isMatchFilterMask(battle, country)
       }.bindenv(this))
 
@@ -289,7 +289,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
   {
     local country = ::get_profile_country_sq()
 
-    battlesList = globalBattlesListData.getList().filter(@(idx, battle)
+    battlesList = globalBattlesListData.getList().filter(@(battle)
       battle.hasSideCountry(country) && battle.isOperationMapAvaliable()
       && battle.hasAvailableUnits())
 
@@ -297,7 +297,7 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       return
 
     battlesList = battlesList.filter(
-      function(idx, battle) {
+      function(battle) {
         return isMatchFilterMask(battle, country)
       }.bindenv(this))
   }

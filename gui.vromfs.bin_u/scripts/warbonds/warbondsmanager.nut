@@ -205,7 +205,7 @@ g_warbonds.getUnseenAwardIds <- function getUnseenAwardIds()
     visibleSeenIds = []
     foreach(wbClass in getList())
       visibleSeenIds.extend(::u.map(
-        wbClass.getAwardsList().filter(@(idx, award) !award.isItemLocked()),
+        wbClass.getAwardsList().filter(@(award) !award.isItemLocked()),
         @(award) award.getSeenId()))
   }
 

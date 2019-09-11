@@ -4,6 +4,7 @@ local contentStateModule = require("scripts/clientState/contentState.nut")
 local workshop = require("scripts/items/workshop/workshop.nut")
 local platform = require("scripts/clientState/platform.nut")
 local encyclopedia = require("scripts/encyclopedia.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 global enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
@@ -49,6 +50,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnSkirmish"
     onClickFunc = function(obj, handler)
     {
+      if (!antiCheat.showMsgboxIfEacInactive())
+        return
       if (!::is_custom_battles_enabled())
         return ::show_not_available_msg_box()
       if (!::check_gamemode_pkg(::GM_SKIRMISH))
@@ -67,6 +70,8 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnWorldwar"
     onClickFunc = function(obj, handler)
     {
+      if (!antiCheat.showMsgboxIfEacInactive())
+        return
       ::queues.checkAndStart(
         ::Callback(@() goForwardIfOnline(@() ::g_world_war.openOperationsOrQueues(), false), handler),
         null,

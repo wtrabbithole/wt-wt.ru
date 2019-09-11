@@ -117,7 +117,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(curGameModeObj))
       return
 
-    local index = filledGameModes.searchIndex(@(gm) gm.isMode && gm?.hasContent && gm.modeId == curGM.id) ?? 0
+    local index = filledGameModes.searchindex(@(gm) gm.isMode && gm?.hasContent && gm.modeId == curGM.id) ?? 0
     curGameModeObj.setValue(index)
     curGameModeObj.select()
   }
@@ -415,7 +415,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
   {
     return getGameModeByCondition(gameModes,
       @(gameMode) u.max(::game_mode_manager.getRequiredUnitTypes(gameMode).filter(
-        @(idx, esUType) ::isInArray(esUType, esUnitTypesFilter))) == esUnitType)
+        @(esUType) ::isInArray(esUType, esUnitTypesFilter))) == esUnitType)
   }
 
   function getGameModeByCondition(gameModes, conditionFunc)

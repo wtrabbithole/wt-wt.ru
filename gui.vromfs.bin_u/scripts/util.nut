@@ -1638,7 +1638,11 @@ foreach (i, v in ::cssColorsMapDark)
     return
 
   foreach (dir in nodes)
+  {
+    if (blk?[dir] != null && type(blk[dir]) != "instance")
+      blk[dir] = null
     blk = blk.addBlock(dir)
+  }
 
   //If current value is equal to existent in DataBlock don't override it
   if (::u.isEqual(blk?[key], val))
@@ -2314,7 +2318,7 @@ const PASSWORD_SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
   local function arrstr(params, defs, native){
     params = params ?? []
     defs = defs ?? []
-    params = params.filter(@(i,v) v!="this" && v!="vargv")
+    params = params.filter(@(v) v!="this" && v!="vargv")
     local defslen = defs.len()
     local paramslen = params.len()
     local ret = ""

@@ -959,6 +959,8 @@ local ItemExternal = class extends ::BaseItem
   function getViewData(params = {})
   {
     local res = base.getViewData(params)
+    if(res.layered_image == "")
+      res.nameText <- getName()
     local markPresetName = itemDef?.tags?.markingPreset
     if (!markPresetName)
       return res

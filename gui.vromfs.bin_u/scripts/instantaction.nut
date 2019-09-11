@@ -4,6 +4,7 @@ local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local battleRating = ::require("scripts/battleRating.nut")
 local clanVehiclesModal = require("scripts/clans/clanVehiclesModal.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -463,12 +464,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function onStart()
   {
-    if (!::is_eac_inited())
-    {
-      ::scene_msg_box(::loc("eac/eac_violation"), null, ::loc("eac/eac_not_inited"),
-                  [["ok", function() {} ]], "ok", {})
-      return
-    }
     ::game_mode_manager.setUserGameModeId(::game_mode_manager.getCurrentGameModeId())
     determineAndStartAction()
   }
@@ -491,6 +486,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return ::g_squad_manager.setReadyFlag()
 
     if (leaveCurQueue({ isLeaderCanJoin = true, isCanceledByPlayer = true}))
+      return
+
+    if (!antiCheat.showMsgboxIfEacInactive())
       return
 
     local curGameMode = ::game_mode_manager.getCurrentGameMode()

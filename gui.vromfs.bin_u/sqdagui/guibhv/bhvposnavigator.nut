@@ -450,7 +450,7 @@ class gui_bhv.posNavigator
       if (!isSelectable(cObj))
         continue
       local pos2 = getClosestCoordsByAxis(cObj, pos, 1-axis)
-      local distSubAxis = abs(pos[1-axis] - pos2[1-axis])
+      local distSubAxis = ::abs(pos[1-axis] - pos2[1-axis])
       if ((pos2[axis] - pos[axis]) * dir <= 0
           || distSubAxis > posDiv)
         continue

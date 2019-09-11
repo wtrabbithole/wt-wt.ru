@@ -833,7 +833,7 @@ class BattleTasks
     if (::u.isEmpty(difficulty))
       return searchArray
 
-    return searchArray.filter(@(idx, task) ::g_battle_tasks.isTaskSameDifficulty(task, difficulty))
+    return searchArray.filter(@(task) ::g_battle_tasks.isTaskSameDifficulty(task, difficulty))
   }
 
   function isTaskSameDifficulty(task, difficulty)

@@ -62,7 +62,7 @@ local tabGroups = [
   local res = []
   foreach (group in tabGroups)
   {
-    local filteredGroup = group.list.filter(@(idx, t) t.needShow(contentSet))
+    local filteredGroup = group.list.filter(@(t) t.needShow(contentSet))
     if (filteredGroup.len() > 0)
       res.append(group.__update({list = filteredGroup}))
   }

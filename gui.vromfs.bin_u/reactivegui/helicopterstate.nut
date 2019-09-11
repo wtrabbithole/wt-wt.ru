@@ -20,25 +20,31 @@ local helicopterState = {
 
   HorAngle = Watched(0.0)
 
-  TurretYaw = Watched(0.0)
+  TurretYaw   = Watched(0.0)
   TurretPitch = Watched(0.0)
+  FovYaw    = Watched(0.0)
+  FovPitch  = Watched(0.0)
 
   IsAgmLaunchZoneVisible = Watched(false)
-  AgmLaunchZoneYawMin = Watched(0.0)
-  AgmLaunchZoneYawMax = Watched(0.0)
+  LastAgmOutOfAngleLaunchAttemptTimeOut = Watched(0.0)
+  AgmLaunchZoneYawMin   = Watched(0.0)
+  AgmLaunchZoneYawMax   = Watched(0.0)
   AgmLaunchZonePitchMin = Watched(0.0)
   AgmLaunchZonePitchMax = Watched(0.0)
-  AgmLaunchZoneDistMin = Watched(0.0)
-  AgmLaunchZoneDistMax = Watched(0.0)
+  AgmLaunchZoneDistMin  = Watched(0.0)
+  AgmLaunchZoneDistMax  = Watched(0.0)
 
   IsInsideLaunchZoneYawPitch = Watched(false)
   IsInsideLaunchZoneDist = Watched(false)
+  LastATGMOutOfAngleLaunchAttemptTime = Watched(0.0)
 
   IsSightLocked = Watched(false)
   IsLaserDesignatorEnabled = Watched(false)
+  IsATGMOutOfTrackerSector = Watched(false)
 
   MainMask = Watched(0)
   SightMask = Watched(0)
+  IlsMask = Watched(0)
 
   HudColor = Watched(Color(71, 232, 39, 240))
   AlertColor = Watched(Color(255, 0, 0, 240))
@@ -129,6 +135,11 @@ local helicopterState = {
   IsSightHudVisible = Watched(false)
   IsPilotHudVisible = Watched(false)
   IsGunnerHudVisible = Watched(false)
+  IsMfdEnabled = Watched(false)
+  RwrForMfd = Watched(false)
+  RwrPosSize = [0, 0, 20]
+  SightHudPosSize = [0, 0, 0, 0]
+  PilotHudPosSize = [0, 0, 0, 0]
 
   GunOverheatState = Watched(0)
 
@@ -140,6 +151,26 @@ local helicopterState = {
 ::interop.updateCannons <- function(count, sec = -1) {
   helicopterState.Cannons.count.update(count)
   helicopterState.Cannons.seconds.update(sec)
+}
+
+::interop.updateRwrPosSize <- function(x, y, size) {
+  helicopterState.RwrPosSize[0] = x
+  helicopterState.RwrPosSize[1] = y
+  helicopterState.RwrPosSize[2] = size
+}
+
+::interop.updateSightHudPosSize <- function(x, y, w, h) {
+  helicopterState.SightHudPosSize[0] = x
+  helicopterState.SightHudPosSize[1] = y
+  helicopterState.SightHudPosSize[2] = w
+  helicopterState.SightHudPosSize[3] = h
+}
+
+::interop.updatePilotHudPosSize <- function(x, y, w, h) {
+  helicopterState.PilotHudPosSize[0] = x
+  helicopterState.PilotHudPosSize[1] = y
+  helicopterState.PilotHudPosSize[2] = w
+  helicopterState.PilotHudPosSize[3] = h
 }
 
 ::interop.updateMachineGuns <- function(count, sec = -1) {

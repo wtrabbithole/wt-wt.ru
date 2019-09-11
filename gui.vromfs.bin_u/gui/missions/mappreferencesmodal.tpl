@@ -3,7 +3,7 @@ root {
   on_click:t='goBack'
 
   frame {
-    width:t='<<maxCountX>>(1@mapPreferenceIconSize+4@blockInterval)+4@blockInterval+2@framePadding+1@mapPreferencePreviewSize'
+    width:t='<<maxCountX>>@mapPreferenceIconNestWidth + 1@mapPreferencePreviewFullWidth + <<#hasScroll>>1@scrollBarSize<</hasScroll>>';
     height:t='1@maxWindowHeight'
     max-width:t='1@rw'
     pos:t='0.5pw-0.5w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)'
@@ -20,7 +20,6 @@ root {
         id:t='counters'
         position:t='relative'
         pos:t='0, 0.5ph-0.5h'
-        smallFont:t='yes'
         text:t='<<counterTitle>>'
       }
 
@@ -34,10 +33,30 @@ root {
 
       tdiv{
         size:t='fw, ph'
+        flow:t='vertical'
+
+        tdiv {
+          id:t='search_container'
+          width:t='pw -1@framePadding'
+          padding:t='-1@framePadding +1@mapPreferenceIconMargin, 0'
+          padding-bottom:t='1@mapPreferenceIconMargin'
+
+          DummyButton {
+            btnName:t='LB'
+            on_click:t='onFilterEditBoxAccessKey'
+            ButtonImg {
+              class:t='independent'
+              fullSizeIcons:t='yes'
+            }
+          }
+
+          include 'gui/chapter_include_filter.blk'
+        }
+
         tdiv {
           id:t='maps_list'
-          width:t='pw'
-          max-height:t='fh'
+          size:t='pw, fh'
+          padding-left:t='-1@framePadding'
           flow:t='h-flow'
           overflow-y:t='auto'
           behaviour:t='posNavigator'
@@ -45,6 +64,7 @@ root {
           scrollbarShortcuts:t='yes'
           position:t='relative'
           on_select:t='onSelect'
+          on_click:t='onMapClick'
           css-hier-invalidate:t='yes'
           total-input-transparent:t='yes'
           hasPremium:t='<<#premium>>yes<</premium>><<^premium>>no<</premium>>'
@@ -52,9 +72,10 @@ root {
           hasMaxDisliked:t='<<hasMaxDisliked>>'
           <<#maps>>
           mapNest{
+            id:t='nest_<<mapId>>'
             flow:t='vertical'
             textStyle:t='mis-map'
-            margin:t='2@blockInterval, 1@blockInterval'
+            margin:t='1@mapPreferenceIconMargin, 1@blockInterval'
             css-hier-invalidate:t='yes'
 
             focus_border {}
@@ -72,6 +93,7 @@ root {
               }
 
               tdiv{
+                id:t='cb_nest_<<mapId>>'
                 position:t='absolute'
                 flow:t='horizontal'
                 css-hier-invalidate:t='yes'
@@ -103,119 +125,129 @@ root {
               word-wrap:t='no'
               padding:t='1@blockInterval, 1@blockInterval'
               position:t='relative'
-              smallFont:t='yes'
             }
           }
           <</maps>>
+        }
+
+        text {
+          id:t='empty_list_label'
+          pos:t='pw/2-w/2, ph/2-h/2'; position:t='absolute'
+          display:t='<<#isListEmpty>>show<</isListEmpty>><<^isListEmpty>>hide<</isListEmpty>>'
+          text:t='#ui/empty'
         }
       }
       blockSeparator {}
 
       tdiv{
-        id:t='map_preview'
-        width:t='1@mapPreferencePreviewSize'
         height:t='ph'
-        padding-left:t='1@framePadding'
-        flow:t='vertical'
-        position:t='relative'
-        css-hier-invalidate:t='yes'
 
-        textAreaCentered {
-          id:t='title'
-          class:t='active'
-          width:t='1@mapPreferencePreviewSize'
-          text:t=''
-        }
-
-        img {
-          id:t='img_preview'
-          size:t='pw, 1@mapPreferencePreviewSize'
-          max-width:t='h'
-          max-height:t='w'
-          pos:t='0.5pw-0.5w, 1@blockInterval'
-          position:t='relative'
-          background-image:t=''
-        }
-
-        mapStateBox{
-          id:t='dislike'
-          type:t='disliked'
-          margin:t='0, 1@blockInterval'
-          position:t='relative'
-          text:t='#maps/preferences/dislike'
-          smallFont:t='yes'
-          on_change_value:t = 'onUpdateIcon'
-          btnName:t='X'
-          ButtonImg{}
-          mapStateBoxImg{}
-        }
-
-        mapStateBox{
-          id:t='ban'
-          type:t='banned'
-          margin:t='0, 1@blockInterval'
-          position:t='relative'
-          text:t='#maps/preferences/ban'
-          smallFont:t='yes'
-          <<^premium>>
-          inactiveColor:t='yes'
-          tooltip:t= '#mainmenu/onlyWithPremium'
-          <</premium>>
-          on_change_value:t = 'onUpdateIcon'
-          btnName:t='Y'
-          ButtonImg{}
-          mapStateBoxImg{}
-        }
-
-        <<^premium>>
-        Button_text {
-          id:t='buyPremium'
-          text:t='#maps/preferences/getPremium'
-          smallFont:t='yes'
-          margin:t='0, 1@blockInterval'
-          position:t='relative'
-          class:t='image'
-          visualStyle:t='noFrame'
-          imgSize:t='small'
-          isColoredImg:t='yes'
-          on_click:t = 'onOnlineShopPremium'
-          img { background-image:t='#ui/gameuiskin#sub_premiumaccount' }
-          btnName:t='RB'
-          ButtonImg{}
-        }
-        <</premium>>
-
-        rowSeparator{}
-
-        textAreaCentered {
-          class:t='active'
-          width:t='1@mapPreferencePreviewSize'
-          text:t='<<listTitle>>'
-        }
-
-        tdiv {
-          id:t='ban_list'
-          width:t='pw'
-          max-height:t='fh'
+        tdiv{
+          id:t='map_preview'
+          width:t='1@mapPreferencePreviewSize + 1@framePadding'
+          height:t='ph - 1@buttonHeight - 2@buttonMargin'
+          padding-left:t='1@framePadding'
           flow:t='vertical'
-          overflow-y:t='auto'
-          scrollbarShortcuts:t='yes'
           position:t='relative'
           css-hier-invalidate:t='yes'
 
-          include "gui/missions/mapStateBox"
+          textAreaCentered {
+            id:t='title'
+            class:t='active'
+            width:t='1@mapPreferencePreviewSize'
+            text:t=''
+          }
+
+          img {
+            id:t='img_preview'
+            size:t='pw, 1@mapPreferencePreviewSize'
+            max-width:t='h'
+            max-height:t='w'
+            pos:t='0.5pw-0.5w, 1@blockInterval'
+            position:t='relative'
+            background-image:t=''
+            display:t='hide'
+          }
+
+          tdiv {
+            id:t='tactical-map'
+            size:t='pw, 1@mapPreferencePreviewSize'
+            max-width:t='h'
+            max-height:t='w'
+            pos:t='0.5pw-0.5w, 1@blockInterval'
+            position:t='relative'
+            display:t='hide'
+
+            tacticalMap {
+              size:t='pw, ph'
+            }
+          }
+
+          mapStateBox{
+            id:t='dislike'
+            type:t='disliked'
+            margin:t='0, 1@blockInterval'
+            position:t='relative'
+            mapStateBoxText {id:t='title'}
+            on_change_value:t = 'onUpdateIcon'
+            btnName:t='X'
+            display:t='hide'
+            ButtonImg{}
+            mapStateBoxImg{}
+          }
+
+          mapStateBox{
+            id:t='ban'
+            type:t='banned'
+            margin:t='0, 1@blockInterval'
+            position:t='relative'
+            mapStateBoxText {id:t='title'}
+            <<^premium>>
+            inactiveColor:t='yes'
+            tooltip:t= '#mainmenu/onlyWithPremium'
+            <</premium>>
+            on_change_value:t = 'onUpdateIcon'
+            btnName:t='Y'
+            display:t='hide'
+            ButtonImg{}
+            mapStateBoxImg{}
+          }
+
+          rowSeparator{
+            id:t='preview_separator'
+            display:t='hide'
+          }
+
+          textAreaCentered {
+            id:t='listTitle'
+            class:t='active'
+            width:t='1@mapPreferencePreviewSize'
+            text:t='<<listTitle>>'
+          }
+
+          tdiv {
+            id:t='ban_list'
+            width:t='pw'
+            max-height:t='fh'
+            flow:t='vertical'
+            overflow-y:t='auto'
+            scrollbarShortcuts:t='yes'
+            position:t='relative'
+            css-hier-invalidate:t='yes'
+
+            include "gui/missions/mapStateBox"
+          }
         }
 
         Button_text {
           id:t='btnReset'
-          left:t='pw - w'
-          top:t='ph-h'
+          left:t='pw-w-1@buttonMargin'
+          top:t='ph-h-1@buttonMargin'
           position:t='absolute'
-          padding:t='-1@buttonMargin, 0'
           text:t = '#mainmenu/btnReset'
           display:t='hide'
           on_click:t = 'onResetPreferencess'
-          btnName:t='Y'
+          btnName:t='RT'
           ButtonImg {}
         }
       }

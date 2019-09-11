@@ -294,7 +294,7 @@ class ::ww_gui_bhv.worldWarMapControls
     if (selectedArmies.len())
       lastClickedArmyName = selectedArmies.top()
 
-    local armyIdx  = armyList.searchIndex(@(name) name == lastClickedArmyName) ?? -1
+    local armyIdx  = armyList.searchindex(@(name) name == lastClickedArmyName) ?? -1
     local nextArmyIdx = armyIdx + 1
     local nextArmyName = nextArmyIdx in armyList? armyList[nextArmyIdx] : armyList[0]
 

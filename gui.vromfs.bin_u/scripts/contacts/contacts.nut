@@ -75,7 +75,7 @@ g_contacts.removeContactGroup <- function removeContactGroup(group)
 
 g_contacts.removeContact <- function removeContact(uid, group)
 {
-  local uidIdx = ::contacts[group].searchIndex( @(p) p.uid == uid)
+  local uidIdx = ::contacts[group].searchindex( @(p) p.uid == uid)
   if (uidIdx != null)
     ::contacts[group].remove(uidIdx)
 

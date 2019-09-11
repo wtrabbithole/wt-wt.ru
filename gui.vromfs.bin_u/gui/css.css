@@ -20,6 +20,12 @@ tdiv, img, img2, pcHide, pcOnly, shopAirImg, voiceIcon {
   if_target_pc:@target_pc;
 }
 
+menu_background_color {
+  size:sw, sh;
+  position:root;
+  background-color:#90000000;
+}
+
 cardImg {
   background-repeat:aspect-ratio;
 }
@@ -1440,6 +1446,7 @@ td[team=a] > text, td[team=b] > text {
 teamAImg, teamBImg {
   height:0.035@sf;
   width:h;
+  background-svg-size:0.035@sf, 0.035@sf;
   position:relative;
   top:50%ph-50%h;
   input-transparent:yes;
@@ -1447,12 +1454,12 @@ teamAImg, teamBImg {
 
 teamAImg, [team=a] > teamImg, [teamIco=allies] > teamImg {
   background-color:@white;
-  background-image:#ui/gameuiskin#mp_logo_allies;
+  background-image:#ui/gameuiskin#mp_logo_allies.svg;
 }
 
 teamBImg, [team=b] > teamImg, [teamIco=axis] > teamImg {
   background-color:@white;
-  background-image:#ui/gameuiskin#mp_logo_axis;
+  background-image:#ui/gameuiskin#mp_logo_axis.svg;
 }
 
 [playerTeam=a] [team=b] > teamImg, [team=red] > teamImg,
@@ -1472,7 +1479,7 @@ teamBImg, [team=b] > teamImg, [teamIco=axis] > teamImg {
 td[team] > teamImg {
   height:@tableIcoSize;
   width:h;
-  background-svg-size:@cIco, @cIco;
+  background-svg-size:@tableIcoSize, @tableIcoSize;
   position:relative;
   pos:50%pw-50%w, 50%ph-50%h;
 }
@@ -1485,17 +1492,19 @@ teamImg > activeText {
 }
 
 [team=blue] > teamImg[iconSquad=squad] {
+  size:0.033@sf, 0.033@sf;
+  background-svg-size:0.033@sf, 0.033@sf;
   background-image:#ui/gameuiskin#icon_squad;
   background-color:@white;
-  size:0.033@sf, 0.033@sf;
 }
 [team=blue] > teamImg[iconSquad=squad][topSquad=yes] {
   background-image:#ui/gameuiskin#icon_best_squad;
 }
 [team=red] > teamImg[iconSquad=squad] {
+  size:0.033@sf, 0.033@sf;
+  background-svg-size:0.033@sf, 0.033@sf;
   background-image:#ui/gameuiskin#icon_squad_enemy;
   background-color:@white;
-  size:0.033@sf, 0.033@sf;
 }
 [team=red] > teamImg[iconSquad=squad][topSquad=yes] {
   background-image:#ui/gameuiskin#icon_best_squad_enemy;
@@ -1504,8 +1513,9 @@ teamImg[iconSquad=squad] > activeText {
   margin-top:0.01@sf;
 }
 teamImg[iconSquad=autosquad] {
-  background-image:#ui/gameuiskin#table_autosquad_background;
   size:0.025@sf, 0.025@sf;
+  background-svg-size:0.025@sf, 0.025@sf;
+  background-image:#ui/gameuiskin#table_autosquad_background;
 }
 teamImg[iconSquad=autosquad][topSquad=yes] {
   background-image:#ui/gameuiskin#table_best_autosquad_background;
@@ -2356,12 +2366,15 @@ BottomMenuPanel > shadowSafeArea {
 }
 
 CompanyLogo {
-  re-type:9rect;
-  size:256*@loginLogoScale, 128*@loginLogoScale;
-  background-image:#ui/gaijin_logo;
-  background-repeat:expand;
-  background-position:0;
-  background-color:@white;
+  re-type: fgPict;
+  size: @companyLogoW, @companyLogoH;
+  foreground-svg-size: @companyLogoW, @companyLogoH;
+  foreground-image: !ui/gaijin_logo.svg;
+  foreground-repeat: aspect-ratio;
+  foreground-color: #ffffff;
+  background-image: #ui/gaijin_logo_shadow;
+  background-repeat: aspect-ratio;
+  background-color: #80000000;
   input-transparent:yes;
 }
 

@@ -1382,9 +1382,10 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 ::get_locId_name <- function get_locId_name(config, key = "locId")
 {
   local name = ""
-  local parsedString = ::split(config[key], "; ")
+  local keyValue = config?[key] ?? ""
+  local parsedString = ::split(keyValue, "; ")
   if (parsedString.len() <= 1)
-    name = ::loc(config[key])
+    name = ::loc(keyValue)
   else
     foreach(idx, namePart in parsedString)
       if (namePart.len() == 1 && ::unlocks_punctuation_without_space.find(namePart) != null)

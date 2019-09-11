@@ -237,6 +237,7 @@ local function mul_color(color, mult) {
 ::kwarg <- functools.kwarg
 ::kwpartial <- functools.kwpartial
 ::curry <- functools.curry
+::memoize <- functools.memoize
 
 //logging
 ::dlog <- log.dlog

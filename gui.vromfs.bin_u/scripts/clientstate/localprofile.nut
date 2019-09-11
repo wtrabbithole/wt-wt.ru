@@ -71,10 +71,12 @@ const PS4_SAVE_PROFILE_DELAY_MSEC = 60000
     return
 
   local cdb = ::get_local_custom_settings_blk()
-  if (cdb?[rootName] == null || typeof(cdb[rootName]) != "instance")
-    cdb[rootName] <- ::DataBlock()
+  if (cdb?[rootName] != null && typeof(cdb[rootName]) != "instance")
+    cdb[rootName] = null
+  if (cdb?[rootName] == null)
+    cdb[rootName] = ::DataBlock()
   if (cdb?[rootName][name] == null)
-    cdb[rootName][name] <- value
+    cdb[rootName][name] = value
   else
     if (cdb[rootName][name] == value)
       return  //no need save when no changes

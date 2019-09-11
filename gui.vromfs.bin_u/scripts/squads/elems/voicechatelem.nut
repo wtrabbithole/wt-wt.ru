@@ -31,7 +31,10 @@ elemViewType.addTypes({
         return
 
       local isWidgetVisible = nestObj.getFinalProp("isClanOnly") != "yes" ||
-        (::get_option_voicechat() && !::g_squad_manager.isInSquad() && !!::my_clan_info)
+        (::get_option_voicechat()
+         && ::g_chat.canUseVoice()
+         && !::g_squad_manager.isInSquad()
+         && !!::my_clan_info)
       nestObj.show(isWidgetVisible)
 
       if (!isWidgetVisible)

@@ -188,7 +188,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     sheetsArray = displayItemTypes?
-        sheets.types.filter(function(idx, sh) {
+        sheets.types.filter(function(sh) {
             return ::isInArray(sh.id, displayItemTypes)
           }.bindenv(this) )
       : sheets.types

@@ -1,4 +1,6 @@
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+
 ::current_campaign <- null
 ::current_campaign_name <- ""
 ::g_script_reloader.registerPersistentData("current_campaign_globals", ::getroottable(), ["current_campaign", "current_campaign_name"])
@@ -499,6 +501,12 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
         showInfoMsgBox( ::loc("campaign/unlockPreviousChapter"))
       return
     }
+
+    local isOnlineGame = gm == ::GM_SKIRMISH
+      || (::is_gamemode_coop(gm) && ::can_play_gamemode_by_squad(gm)
+         && ::g_squad_manager.isNotAloneOnline())
+    if (isOnlineGame && !antiCheat.showMsgboxIfEacInactive())
+      return
 
     if (!::g_squad_utils.canJoinFlightMsgBox({
            isLeaderCanJoin = ::can_play_gamemode_by_squad(gm),

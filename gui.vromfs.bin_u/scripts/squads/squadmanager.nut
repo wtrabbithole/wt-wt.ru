@@ -1,6 +1,7 @@
 local squadApplications = require("scripts/squads/squadApplications.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local battleRating = ::require("scripts/battleRating.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 enum squadEvent
 {
@@ -583,7 +584,11 @@ g_squad_manager.setReadyFlag <- function setReadyFlag(ready = null, needUpdateMe
   if (isLeader && ready != true)
     return
 
-  if (::checkIsInQueue() && !isLeader && isInSquad() && (ready == false || (ready == null && isMeReady() == true)))
+  local isSetNoReady = (ready == false || (ready == null && isMeReady() == true))
+  if (!isLeader && !isSetNoReady && !antiCheat.showMsgboxIfEacInactive())
+    return
+
+  if (::checkIsInQueue() && !isLeader && isInSquad() && isSetNoReady)
   {
     ::g_popups.add(null, ::loc("squad/cant_switch_off_readyness_in_queue"))
     return

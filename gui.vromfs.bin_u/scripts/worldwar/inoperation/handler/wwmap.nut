@@ -587,7 +587,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
       for (local j = WW_MAP_HIGHLIGHT.LAYER_0; j<= WW_MAP_HIGHLIGHT.LAYER_2; j++)
       {
-        local filteredZones = zones.filter(@(idx, zone) zone.mapLayer == j)
+        local filteredZones = zones.filter(@(zone) zone.mapLayer == j)
         local zonesArray = ::u.map(filteredZones, @(zone) zone.id)
         ::ww_highlight_zones_by_name(zonesArray, j)
       }

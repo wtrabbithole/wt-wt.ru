@@ -3,7 +3,7 @@ local wwRewards = ::require("scripts/worldWar/handler/wwRewards.nut")
 local time = require("scripts/time.nut")
 
 ::ww_leaderboards_list <- [
-  ::g_lb_category.EVENTS_PERSONAL_ELO
+  ::g_lb_category.WW_EVENTS_PERSONAL_ELO
   ::g_lb_category.OPERATION_COUNT
   ::g_lb_category.OPERATION_WINRATE
   ::g_lb_category.BATTLE_COUNT
@@ -129,7 +129,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local modesObj = showSceneBtn("modes_list", true)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
-    local modeIdx = wwLeaderboardData.modes.searchIndex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
+    local modeIdx = wwLeaderboardData.modes.searchindex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
     modesObj.setValue(modeIdx)
   }
 
@@ -178,7 +178,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbMap)
     {
       local selectedMapId = lbMap.getId()
-      mapObjValue = lbMapsList.searchIndex(@(m) m && m.getId() == selectedMapId) ?? 0
+      mapObjValue = lbMapsList.searchindex(@(m) m && m.getId() == selectedMapId) ?? 0
     }
     lbMap = null
     mapsObj.setValue(mapObjValue)
@@ -203,7 +203,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbCountry)
     {
       local selectedCountry = lbCountry
-      countryObjValue = lbCountriesList.searchIndex(@(c) c && c == selectedCountry) ?? 0
+      countryObjValue = lbCountriesList.searchindex(@(c) c && c == selectedCountry) ?? 0
     }
     lbCountry = null
     countriesObj.setValue(countryObjValue)

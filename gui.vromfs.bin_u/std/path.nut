@@ -50,7 +50,7 @@ local function normalize(path) {
     }
   }
 
-  local normalizedPath = pathSegments.filter(@(index,val) val != "").reduce(@(prev, cur) prev + "/" + cur)
+  local normalizedPath = pathSegments.filter(@(val) val != "").reduce(@(prev, cur) prev + "/" + cur)
   if (normalizedPath.len() > 2 && normalizedPath.slice(0, 2) == "//")
     normalizedPath = normalizedPath.slice(1)
   return normalizedPath

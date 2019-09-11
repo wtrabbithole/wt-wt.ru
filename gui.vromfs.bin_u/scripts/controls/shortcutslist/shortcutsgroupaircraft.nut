@@ -354,7 +354,6 @@ return [
   {
     id = "ID_CHUTE"
     checkAssign = false
-    showFunc = @() ::has_feature("Parachute")
   }
 //-------------------------------------------------------
   {

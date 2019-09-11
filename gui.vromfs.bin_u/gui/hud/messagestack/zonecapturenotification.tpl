@@ -26,7 +26,8 @@ message {
     tdiv {
       position:t='absolute'
       size:t='pw, ph'
-      background-image:t='#ui/gameuiskin#circular_progress_1'
+      background-svg-size:t='0.07@shHud, 0.07@shHud'
+      background-image:t='#ui/gameuiskin#circular_progress_1.svg'
       background-color:t='#77555555'
     }
     tdiv {
@@ -37,7 +38,8 @@ message {
 
       position:t='absolute'
       size:t='pw, ph'
-      background-image:t='#ui/gameuiskin#circular_progress_1'
+      background-svg-size:t='0.07@shHud, 0.07@shHud'
+      background-image:t='#ui/gameuiskin#circular_progress_1.svg'
       zone_owner:t='<<zoneOwner>>'
     }
   }

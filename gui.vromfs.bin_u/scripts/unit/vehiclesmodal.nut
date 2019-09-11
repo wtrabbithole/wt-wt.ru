@@ -63,7 +63,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
         if (!(country in countries))
           countries[country] <- {
             id = country
-            idx = ::shopCountriesList.searchIndex(@(id) id == country) ?? -1
+            idx = ::shopCountriesList.searchindex(@(id) id == country) ?? -1
             value = true
           }
         if (!(unitTypeStr in unitsTypes))
@@ -174,7 +174,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     if (lastSelectedUnit)
     {
       local unit = lastSelectedUnit
-      newIdx = filteredUnits.searchIndex(@(u) u == unit) ?? -1
+      newIdx = filteredUnits.searchindex(@(u) u == unit) ?? -1
     }
     local total = listObj.childrenCount()
     if (newIdx == -1 && total)

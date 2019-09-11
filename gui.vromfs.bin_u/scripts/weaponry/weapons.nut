@@ -1552,7 +1552,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (p.unit != air)
       return
     local modName = p.mod.name
-    local itemidx = items.searchIndex(@(item) item.name == modName)
+    local itemidx = items.searchindex(@(item) item.name == modName)
     if (itemidx != null)
       updateItem(itemidx)
   }

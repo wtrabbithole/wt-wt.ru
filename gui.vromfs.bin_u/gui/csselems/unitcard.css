@@ -1,4 +1,5 @@
 @const shopItemPad: 4*@sf/@pf;
+@const rentIconSize: 26@sf/@pf\2*2;
 
 table.shopTable, table.slotbarTable {
   total-input-transparent:yes;
@@ -694,8 +695,9 @@ weaponsIcon {
 rentIcon {
   pos:0.006@scrn_tgt, 0.008@scrn_tgt;
   position:absolute;
-  size:26@sf/@pf\2*2, 26@sf/@pf\2*2;
-  background-image:#ui/gameuiskin#circular_progress_1;
+  size:@rentIconSize, @rentIconSize;
+  background-svg-size:@rentIconSize, @rentIconSize;
+  background-image:#ui/gameuiskin#circular_progress_1.svg;
   background-color:@black;
   input-transparent:yes;
 }
@@ -704,8 +706,9 @@ rentIcon > progress {
   re-type:sector;
   sector-angle-2:360;
   position:absolute;
-  size:pw, ph;
-  background-image:#ui/gameuiskin#circular_progress_1;
+  size:@rentIconSize, @rentIconSize;
+  background-svg-size:@rentIconSize, @rentIconSize;
+  background-image:#ui/gameuiskin#circular_progress_1.svg;
   background-color:@goodTextColor;
   input-transparent:yes;
 }

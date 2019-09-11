@@ -115,7 +115,7 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
         if (!::checkObj(nest))
           return
 
-        local selIdx = params.actions.searchIndex(@(action) (action?.selected ?? false) && (action?.show ?? false)) ?? -1
+        local selIdx = params.actions.searchindex(@(action) (action?.selected ?? false) && (action?.show ?? false)) ?? -1
 
         nest.setValue(::max(selIdx, 0))
         nest.select()

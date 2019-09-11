@@ -78,7 +78,7 @@ local ExchangeRecipes = class {
     hasChestInComponents = ::u.search(items, @(i) i.iType == itemType.CHEST) != null
     foreach (component in initedComponents)
     {
-      local curQuantity = items.filter(@(idx, i) i.id == component.itemdefid).reduce(
+      local curQuantity = items.filter(@(i) i.id == component.itemdefid).reduce(
         @(res, item) res + item.amount, 0)
       local reqQuantity = component.quantity
       local isHave = curQuantity >= reqQuantity

@@ -195,7 +195,7 @@ g_unit_class_type.getTypeByExpClass <- function getTypeByExpClass(expClass)
 
 g_unit_class_type.getTypesByEsUnitType <- function getTypesByEsUnitType(esUnitType = null) //null if all unit types
 {
-  return types.filter(@(idx, t) (esUnitType == null && t.unitTypeCode != ::ES_UNIT_TYPE_INVALID)
+  return types.filter(@(t) (esUnitType == null && t.unitTypeCode != ::ES_UNIT_TYPE_INVALID)
     || t.unitTypeCode == esUnitType)
 }
 

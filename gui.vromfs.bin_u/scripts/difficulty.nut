@@ -16,6 +16,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   settingsName = "" // Used in _difficulty.blk difficulty_settings.
   clanReqOption = "" //Used in clan membership requirement
   clanDataEnding = ""
+  clanRatingImage = "#ui/gameuiskin#lb_elo_rating.svg"
   contentAllowedPresetOption = ::USEROPT_CONTENT_ALLOWED_PRESET
   contentAllowedPresetOptionDefVal = "semihistorical"
   cdPresetValue = ::get_cd_preset(::DIFFICULTY_CUSTOM)
@@ -59,6 +60,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     settingsName = "easy"
     clanReqOption = ::USEROPT_CLAN_REQUIREMENTS_MIN_ARCADE_BATTLES
     clanDataEnding = "_arc"
+    clanRatingImage = "#ui/gameuiskin#lb_elo_rating_arcade.svg"
     contentAllowedPresetOption = ::USEROPT_CONTENT_ALLOWED_PRESET_ARCADE
     cdPresetValue = ::get_cd_preset(::DIFFICULTY_ARCADE)
     abbreviation = "clan/shortArcadeBattle"

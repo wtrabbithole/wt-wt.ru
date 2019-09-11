@@ -263,7 +263,7 @@ class ::Warbond
   {
     if (!visibleSeenIds)
       visibleSeenIds = ::u.map(
-        getAwardsList().filter(@(idx, award) !award.isItemLocked()),
+        getAwardsList().filter(@(award) !award.isItemLocked()),
         @(award) award.getSeenId())
     return visibleSeenIds
   }

@@ -867,7 +867,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function getRowIdxBYId(id)
   {
-    return ::shortcutsList.searchIndex(@(s) s.id == id) ?? -1
+    return ::shortcutsList.searchindex(@(s) s.id == id) ?? -1
   }
 
   function getCurItem()
@@ -2899,7 +2899,7 @@ local function getWeaponFeatures(weaponsBlkList)
   local res = []
   res.extend(::shortcuts_not_change_by_preset)
 
-  local axisScNames = shortcutsAxisListModule.types.filter(@(idx, item) item.type == CONTROL_TYPE.AXIS_SHORTCUT)
+  local axisScNames = shortcutsAxisListModule.types.filter(@(item) item.type == CONTROL_TYPE.AXIS_SHORTCUT)
   foreach(item in ::shortcutsList)
     if (item.type == CONTROL_TYPE.SHORTCUT)
       ::u.appendOnce(item.id, res)

@@ -271,7 +271,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     {
       local country = ::g_world_war.curOperationCountry
       local availableBattlesList = ::g_world_war.getBattles().filter(
-        function(idx, battle) {
+        function(battle) {
           return ::g_world_war.isBattleAvailableToPlay(battle)
             && isBattleAvailableToMatching(battle, country)
         }.bindenv(this))
@@ -326,7 +326,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local itemId = curBattleInList.isValid() ? curBattleInList.id
       : ""
 
-    local idx = itemId.len() ? (curBattleListItems.searchIndex(@(item) item.id == itemId) ?? -1) : -1
+    local idx = itemId.len() ? (curBattleListItems.searchindex(@(item) item.id == itemId) ?? -1) : -1
     if (idx >= 0 && battlesListObj.getValue() != idx)
       battlesListObj.setValue(idx)
   }

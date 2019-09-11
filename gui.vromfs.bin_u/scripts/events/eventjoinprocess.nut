@@ -1,4 +1,5 @@
 local stdMath = require("std/math.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 class EventJoinProcess
 {
@@ -63,6 +64,8 @@ class EventJoinProcess
         ::g_squad_manager.setReadyFlag()
       return remove()
     }
+    if (!antiCheat.showMsgboxIfEacInactive())
+      return remove()
     // Same as checkedNewFlight in gui_handlers.BaseGuiHandlerWT.
     ::queues.checkAndStart(
                     ::Callback(joinStep2_external, this),

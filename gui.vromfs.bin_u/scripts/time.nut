@@ -110,7 +110,7 @@ local reNotNumeric = regexp2(@"\D+")
 
 local getTimeFromString = function(str, fillMissedByTimeTable = null) {
   local timeOrderLen = timeOrder.len()
-  local timeArray = ::split(str, ":- ").filter(@(i,v) v != "")
+  local timeArray = ::split(str, ":- ").filter(@(v) v != "")
   if (timeArray.len() < timeOrderLen)
   {
     if (reDateYmdAtStart.match(str))

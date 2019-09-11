@@ -170,6 +170,12 @@ return [
     checkAssign = false
   }
   {
+    id = "ID_WEAPON_LOCK_TANK"
+    checkGroup = ctrlGroups.TANK
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
     id = "ID_SENSOR_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
@@ -207,6 +213,21 @@ return [
   }
   {
     id = "ID_SENSOR_VIEW_SWITCH_TANK"
+    checkGroup = ctrlGroups.TANK
+    checkAssign = false
+  }
+  {
+    id = "ID_TANK_NIGHT_VISION"
+    checkGroup = ctrlGroups.TANK
+    checkAssign = false
+  }
+  {
+    id = "ID_IR_PROJECTOR"
+    checkGroup = ctrlGroups.TANK
+    checkAssign = false
+  }
+  {
+    id = "ID_THERMAL_WHITE_IS_HOT"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
   }
@@ -475,6 +496,11 @@ return [
     type = CONTROL_TYPE.AXIS
     def_relative = true
     isAbsOnlyWhenRealAxis = true
+    checkGroup = ctrlGroups.TANK
+    checkAssign = false
+  }
+  {
+    id = "ID_TOGGLE_GM_ENGINE"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
   }

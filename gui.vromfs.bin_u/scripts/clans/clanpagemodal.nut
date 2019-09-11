@@ -401,10 +401,17 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillClanElo()
   {
-    local clanElo = clanData.astat?[::ranked_column_prefix + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding] ?? 0
+    local difficulty = ::g_difficulty.getDifficultyByDiffCode(curMode)
+    local lbImageObj = scene.findObject("clan_elo_icon")
+    if (::check_obj(lbImageObj))
+      lbImageObj["background-image"] = difficulty.clanRatingImage
+
     local eloTextObj = scene.findObject("clan_elo_value")
     if (::check_obj(eloTextObj))
+    {
+      local clanElo = clanData.astat?[::ranked_column_prefix + difficulty.clanDataEnding] ?? 0
       eloTextObj.setValue(clanElo.tostring())
+    }
   }
 
   function fillClanActivity()
@@ -639,7 +646,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     sortWwMembers()
 
-    local myPos = curWwMembers.searchIndex(@(member) member.name == ::my_user_name) ?? -1
+    local myPos = curWwMembers.searchindex(@(member) member.name == ::my_user_name) ?? -1
     lbTableWeak.fillTable(curWwMembers, null, myPos, true, true)
   }
 

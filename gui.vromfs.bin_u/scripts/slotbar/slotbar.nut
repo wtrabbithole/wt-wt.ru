@@ -129,7 +129,7 @@ if need - put commented in array above
 
     local mainButtonAction = ::show_console_buttons ? "onOpenActionsList" : (params?.mainActionFunc ?? "")
     local mainButtonText = ::show_console_buttons ? "" : (params?.mainActionText ?? "")
-    local mainButtonIcon = ::show_console_buttons ? "#ui/gameuiskin#slot_menu" : (params?.mainActionIcon ?? "")
+    local mainButtonIcon = ::show_console_buttons ? "#ui/gameuiskin#slot_menu.svg" : (params?.mainActionIcon ?? "")
     local checkTexts = mainButtonAction.len() > 0 && (mainButtonText.len() > 0 || mainButtonIcon.len() > 0)
     local checkButton = !isVehicleInResearch || ::has_feature("SpendGold")
     local bottomButtonView = {

@@ -138,6 +138,16 @@ itemDiv {
     }
     <</headerText>>
 
+    <<#nameText>>
+    textareaNoTab {
+      width:t='pw'
+      top:t='50%ph-50%h'
+      text-align:t='center'
+      position:t='absolute'
+      text:t='<<nameText>>'
+    }
+    <</nameText>>
+
     <<#unseenIcon>>
     unseenIcon {
       pos:t='pw-w, 0'

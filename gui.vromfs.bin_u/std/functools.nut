@@ -55,7 +55,7 @@ local function kwarg(func){
     ? function(params=kfuncargs){
         assert(["table", "class","instance"].find(typeof(params))!=null, "param of function can be only hashable (table, class, instance), found:'{0}'".subst(typeof(params)))
         local keys = params.keys()
-        local nonManP = mandatoryparams.filter(@(idx, p) keys.find(p) == null)
+        local nonManP = mandatoryparams.filter(@(p) keys.find(p) == null)
         assert(nonManP.len()==0, "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? "'{0}'".subst(nonManP[0]) : nonManP.reduce(@(a,b) "{0},'{1}'".subst(a,b))))
         params = kfuncargs.__merge(params)
         local posarguments = funcargs.map(@(kv) params[kv])
@@ -64,7 +64,7 @@ local function kwarg(func){
     : function(params, ...){
         assert(["table", "class","instance"].find(typeof(params))!=null, "param of function can be only hashable (table, class, instance), found:'{0}'".subst(typeof(params)))
         local keys = params.keys()
-        local nonManP = mandatoryparams.filter(@(idx, p) keys.find(p) == null)
+        local nonManP = mandatoryparams.filter(@(p) keys.find(p) == null)
         assert(nonManP.len()==0, "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? "'{0}'".subst(nonManP[0]) : nonManP.reduce(@(a,b) "{0},'{1}'".subst(a,b))))
         local posarguments = funcargs.map(@(kv) params[kv])
         return func.acall([this].extend(posarguments).extend(vargv))
@@ -110,7 +110,7 @@ local function kwpartial(func, partparams, ...){
   }
 }
 
-local function filterFunctions(idx, func) {
+local function filterFunctions(func) {
   return typeof(func) =="function"
 }
 
@@ -184,6 +184,41 @@ local function curry(fn) {
     }
   }
 }
+
+/**
+* memoize(function, [hashFunction])
+  Memoizes a given function by caching the computed result. Useful for speeding up slow-running computations.
+  If passed an optional hashFunction, it will be used to compute the hash key for storing the result, based on the arguments to the original function.
+  The default hashFunction just uses the first argument to the memoized function as the key.
+*/
+
+local function memoize(func, hashfunc=null){
+  local cache = {}
+  local cache_for_null = {}
+  local parameters = func.getfuncinfos().parameters.slice(0)
+  assert(parameters.len()>0)
+  hashfunc = hashfunc ?? function(...) {
+    return vargv[0]
+ }
+  local function memoizedfunc(...){
+    local args = [null].extend(vargv)
+    local hash = hashfunc.pacall(args)
+    if (hash == null){
+      //index cannot be null. use different cach to avoid collision
+      cache = cache_for_null
+      hash = 0
+    }
+    if (hash in cache) {
+      return cache[hash]
+    }
+    local result = func.pacall(args)
+    cache[hash] <- result
+    return result
+  }
+  return memoizedfunc
+}
+
+
 return {
   partial = partial
   pipe = pipe
@@ -191,4 +226,5 @@ return {
   kwarg = kwarg
   kwpartial = kwpartial
   curry = curry
+  memoize = memoize
 }

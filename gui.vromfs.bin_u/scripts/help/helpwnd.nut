@@ -283,7 +283,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local shortcutsList = ::g_controls_utils.getControlsList({
       unitType = pageUnitType,
       unitTags = pageUnitTag? [pageUnitTag] : []
-    }).filter(@(i, item) item.needShowInHelp)
+    }).filter(@(item) item.needShowInHelp)
 
     for(local i=0; i<shortcutsList.len(); i++)
     {

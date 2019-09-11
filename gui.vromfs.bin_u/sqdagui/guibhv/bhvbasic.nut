@@ -3,6 +3,9 @@
 // func(0) = 0,  func(1) = 1
 
 ::defaultScreenSize <- [1280, 720]
+local sin = ::sin
+local cos = ::cos
+local fabs = ::fabs
 
 ::basicFunction <- function basicFunction(funcName, time) { //time >= -1, time <= 1
   if (time < 0)

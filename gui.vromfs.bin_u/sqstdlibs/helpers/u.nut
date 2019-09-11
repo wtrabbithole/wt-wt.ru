@@ -43,17 +43,14 @@ local function filter(list, predicate) {
  * Produces a new array of values by mapping each value in list through a
  * transformation function (iteratee(value, key, list)).
  */
-local function mapAdvanced(list, iteratee)
-{
-  if (typeof(list) == "array")
-  {
+local function mapAdvanced(list, iteratee) {
+  if (typeof(list) == "array") {
     local res = []
     for (local i = 0; i < list.len(); ++i)
       res.push(iteratee(list[i], i, list))
     return res
   }
-  if (typeof(list) == "table" || isDataBlock(list))
-  {
+  if (typeof(list) == "table" || isDataBlock(list)) {
     local res = {}
     foreach (key, val in list)
       res[key] <- iteratee(val, key, list)
@@ -62,11 +59,33 @@ local function mapAdvanced(list, iteratee)
   return []
 }
 
-local function map(list, func)
-{
+local function map(list, func) {
   return mapAdvanced(list, (@(func) function(val, ...) { return func(val) })(func))
 }
 
+
+
+/**
+ * keys return an array of keys of specified table
+ */
+local function keys(data) {
+  if (typeof data == "array"){
+    local res = ::array(data.len())
+    foreach (i, k in res)
+      res[i]=i
+    return res
+  }
+  return data.keys()
+}
+
+/**
+ * Return all of the values of the table's properties.
+ */
+local function values(data) {
+  if (typeof data == "array")
+    return clone data
+  return data.values()
+}
 
 /*******************************************************************************
  **************************** Custom Classes register **************************
@@ -447,6 +466,9 @@ local export = underscore.__merge({
   filter = filter
   getTblValueByPath = getTblValueByPath
   setTblValueByPath = setTblValueByPath
+  keys = keys
+  values = values
+
 }, functools)
 
 /**

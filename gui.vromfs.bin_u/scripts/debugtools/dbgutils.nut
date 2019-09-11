@@ -373,7 +373,7 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 {
   local list = ::g_language.getGameLocalizationInfo()
   local curLang = ::get_current_language()
-  local curIdx = list.searchIndex( @(l) l.id == curLang ) ?? 0
+  local curIdx = list.searchindex( @(l) l.id == curLang ) ?? 0
   local newIdx = curIdx + (isNext ? 1 : -1 + list.len())
   local newLang = list[newIdx % list.len()]
   ::g_language.setGameLocalization(newLang.id, true, false)

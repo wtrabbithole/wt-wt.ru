@@ -60,7 +60,7 @@ g_decorator.getCachedOrderByType <- function getCachedOrderByType(decType)
 g_decorator.getVisibleOrderByDecFilter <- function getVisibleOrderByDecFilter(decType, filterFunc)
 {
   local data = ::g_decorator.getCachedDataByType(decType)
-  return data.categories.filter(@(idx, c) (c in data.decorators)
+  return data.categories.filter(@(c) (c in data.decorators)
     && ::u.search(data.decorators[c], @(d) filterFunc(d)) != null)
 }
 

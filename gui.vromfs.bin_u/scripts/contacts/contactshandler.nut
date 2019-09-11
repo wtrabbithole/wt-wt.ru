@@ -37,6 +37,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   searchInProgress = false
   searchShowNotFound = false
   searchShowDefaultOnReset = false
+  searchGroupLastShowState = false
 
   constructor(gui_scene, params = {})
   {
@@ -483,6 +484,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local groupObject = getGroupByName(searchGroup)
     groupObject.show(value)
     groupObject.enable(value)
+    searchGroupLastShowState = value
   }
 
   function onSearchEditBoxActivate(obj)
@@ -621,22 +623,30 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     guiScene.replaceContentFromText(gObj, data, data.len(), this)
     foreach (gName in groups_array)
+    {
       updateContactButtonsForGroup(gName)
+      if (gName == searchGroup)
+        setSearchGroupVisibility(searchGroupLastShowState)
+    }
 
     applyContactFilter()
 
     local selected = [-1, -1]
     foreach(gIdx, gName in groups_array)
     {
-      if (curGroup==gName)
+      if (gName == searchGroup && !searchGroupLastShowState)
+        continue
+
+      if (selected[0] < 0)
         selected[0] = gIdx
+
+      if (curGroup == gName)
+        selected[0] = gIdx
+
       local sel = updatePlayersList(gName)
       if (sel > 0)
         selected[1] = sel
     }
-
-    if (selected[0]<0)
-      selected[0] = 0
 
     if (::contacts[groups_array[selected[0]]].len() > 0)
       gObj.findObject("group_" + groups_array[selected[0]]).setValue(

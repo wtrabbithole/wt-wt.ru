@@ -82,7 +82,7 @@ class ::gui_handlers.DecorLayoutPresets extends ::gui_handlers.BaseGuiHandlerWT
   function getIndexBySkinId(skinId)
   {
     local selSkinId = skinId
-    return skinList.values.searchIndex(@(id) id == selSkinId) ?? -1
+    return skinList.values.searchindex(@(id) id == selSkinId) ?? -1
   }
 
   function updateButtons()

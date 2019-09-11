@@ -123,7 +123,7 @@ local bhvFocusFrameAnim = class
 
     foreach(propName in ["size", "pos"])
       foreach(axis, value in curTgt[propName])
-        if (abs(prevTgt[propName][axis] - value) > minDiffForAnimPx)
+        if (::abs(prevTgt[propName][axis] - value) > minDiffForAnimPx)
           return true
     return false
   }

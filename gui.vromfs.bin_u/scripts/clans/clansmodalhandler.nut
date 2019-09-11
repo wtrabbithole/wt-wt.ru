@@ -20,7 +20,7 @@ local function isFitsRequirements(clanData)
 
 local clanLeaderboardsListByPage = {
   clans_search = [
-    {id = "fits_requirements", icon="#ui/gameuiskin#lb_average_active_kills.svg",
+    {id = "fits_requirements", icon="#ui/gameuiskin#lb_fits_requirements.svg",
       type = ::g_lb_data_type.TEXT, sort = false, byDifficulty = false
       getCellImage = @(clanData) isFitsRequirements(clanData) ? "#ui/gameuiskin#favorite"
         : "#ui/gameuiskin#icon_primary_fail.svg"
@@ -32,15 +32,16 @@ local clanLeaderboardsListByPage = {
     {id = "activity", field = @() ::has_feature("ClanVehicles") ? "clan_activity_by_periods" : "activity",
       showByFeature = "ClanActivity", byDifficulty = false }
     {id = "members_cnt", sort = false, byDifficulty = false}
-    {id = ::ranked_column_prefix + "_arc", icon="",
-      tooltip="#clan/dr_era/desc", text="#clan/shortArcadeBattle", byDifficulty = false}
-    {id = ::ranked_column_prefix + "_hist", icon="",
-      tooltip="#clan/dr_era/desc", text="#clan/shortHistoricalBattle", byDifficulty = false}
+    {id = ::ranked_column_prefix + "_arc", icon="#ui/gameuiskin#lb_elo_rating_arcade.svg",
+      tooltip="#clan/dr_era/desc", byDifficulty = false}
+    {id = ::ranked_column_prefix + "_hist", icon="#ui/gameuiskin#lb_elo_rating.svg",
+      tooltip="#clan/dr_era/desc", byDifficulty = false}
     {id = "slogan", icon="", tooltip="", text="#clan/clan_slogan", byDifficulty = false, sort = false,
       type = ::g_lb_data_type.TEXT, width = "0.4@sf", autoScrollText = "hoverOrSelect"}
   ]
   clans_leaderboards = [
-    {id = ::ranked_column_prefix, icon="#ui/gameuiskin#lb_elo_rating.svg", tooltip="#clan/dr_era/desc"}
+    {id = ::ranked_column_prefix, tooltip="#clan/dr_era/desc"
+       getIcon = @(diffCode) ::g_difficulty.getDifficultyByDiffCode(diffCode).clanRatingImage}
     {id = "members_cnt", sort = false, byDifficulty = false}
     {id = "air_kills", field = "akills", sort = false}
     {id = "ground_kills", field = "gkills", sort = false}
@@ -66,6 +67,8 @@ foreach (page in clanLeaderboardsListByPage)
       category.icon <- "#ui/gameuiskin#lb_" + category.id + ".svg"
     if (!("tooltip" in category))
       category.tooltip <- "#clan/" + category.id + "/desc"
+    if (!("getIcon" in category))
+      category.getIcon <- @(diffCode) icon
   }
 
 local helpsLinksByPage =  {
@@ -626,9 +629,10 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     {
       if (!isColForDisplay(item))
         continue
+
       local block = {
         id = item.id
-        image = item.icon
+        image = item.getIcon(getCurDMode())
         tooltip = item.tooltip
         active = clansLbSortByPage[curPage].id == item.id
         text = ::loc(item?.text ?? "")

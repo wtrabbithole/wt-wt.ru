@@ -400,7 +400,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   function updateSquadOnlineStatus(contact)
   {
     local contactUid = contact.uid.tointeger()
-    local idx = curList.searchIndex(@(squad) squad.leader == contactUid)
+    local idx = curList.searchindex(@(squad) squad.leader == contactUid)
     if (idx == null)
       return
 

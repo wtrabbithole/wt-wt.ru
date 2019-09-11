@@ -157,6 +157,12 @@ return [
     needShowInHelp = true
   }
   {
+    id = "ID_SHIP_SMOKE_GRENADE"
+    checkGroup = ctrlGroups.SHIP
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
     id = "ID_SHIP_SMOKE_SCREEN_GENERATOR"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false

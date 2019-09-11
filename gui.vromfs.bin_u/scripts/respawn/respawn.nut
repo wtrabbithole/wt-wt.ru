@@ -1104,7 +1104,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     if (canChangeAircraft)
     {
-      ::set_selected_unit_info(air)
+      local crew = getCurCrew()
+      ::set_selected_unit_info(air, crew.idInCountry)
       local rbData = respawnBases.getRespawnBasesData(air)
       curRespawnBase = rbData.selBase
       respawnBasesList = rbData.basesList

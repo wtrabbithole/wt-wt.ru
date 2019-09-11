@@ -1723,7 +1723,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
   {
     guiScene.performDelayed(this, function()
     {
-      if (::checkObj(scene))
+      if (::checkObj(scene) && scene.isVisible())
         updateListsButtons()
     })
   }
