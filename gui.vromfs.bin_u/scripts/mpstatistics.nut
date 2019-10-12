@@ -2138,7 +2138,7 @@ SquadIcon.initListLabelsSquad <- function initListLabelsSquad()
   nextLabel.team2 = 1
   topSquads = {}
   playersInfo = {}
-  updateListLabelsSquad()
+  updatePlayersInfo()
 }
 
 SquadIcon.getPlayersInfo <- function getPlayersInfo()

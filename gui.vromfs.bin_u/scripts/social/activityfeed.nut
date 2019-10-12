@@ -48,8 +48,9 @@ local psnApi = require("scripts/social/psnWebApi.nut")
   local aircraft = ::getAircraftByName(feed.unitNameId)
   local esUnitType = ::get_es_unit_type(aircraft)
   local unit = ::getUnitTypeText(esUnitType)
+  local country = feed.country
 
-  local variants = imagesConfig?[feed.country]?[unit]
+  local variants = imagesConfig?[country]?[unit]
   if (u.isDataBlock(variants))
     return imagesConfig.mainPart + variants.getParamValue(::math.rnd() % variants.paramCount())
 
