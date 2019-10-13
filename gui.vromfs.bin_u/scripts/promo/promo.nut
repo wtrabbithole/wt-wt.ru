@@ -50,13 +50,14 @@ local function openItemsWnd(owner, params = [])
 
   local curSheet = null
   local sheetSearchId = params?[0] ?? null
+  local initSubsetId = params?[2] ?? null
   if (sheetSearchId)
     curSheet = {searchId = sheetSearchId}
 
   if (tab >= itemsTab.TOTAL)
     tab = itemsTab.INVENTORY
 
-  ::gui_start_items_list(tab, {curSheet = curSheet})
+  ::gui_start_items_list(tab, {curSheet = curSheet, initSubsetId = initSubsetId})
 }
 
 local function onOpenBattleTasksWnd(owner, params = {}, obj = null)
@@ -705,7 +706,7 @@ g_promo.performAction <- function performAction(handler, obj)
   local actionData = getActionParamsData(key)
   if (!actionData)
   {
-    ::dagor.assertf(false, "Promo: Not found action params by key " + key)
+    ::dagor.assertf(false, "Promo: Not found action params by key " + (key ?? "NULL"))
     return false
   }
 

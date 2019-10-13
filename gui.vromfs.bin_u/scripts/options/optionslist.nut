@@ -36,9 +36,9 @@ local getMainOptions = function()
       [::USEROPT_HUD_SHOW_BONUSES, "spinner"],
       [::USEROPT_DAMAGE_INDICATOR_SIZE, "slider"],
       [::USEROPT_CAMERA_SHAKE_MULTIPLIER, "slider"],
-      [::USEROPT_VR_CAMERA_SHAKE_MULTIPLIER, "slider"],
+      [::USEROPT_VR_CAMERA_SHAKE_MULTIPLIER, "slider", ::is_stereo_mode()],
       [::USEROPT_FPS_CAMERA_PHYSICS, "slider"],
-      [::USEROPT_FPS_VR_CAMERA_PHYSICS, "slider"],
+      [::USEROPT_FPS_VR_CAMERA_PHYSICS, "slider", ::is_stereo_mode()],
       [::USEROPT_AUTO_SQUAD, "spinner"],
       [::USEROPT_QUEUE_JIP, "spinner"],
       [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::can_add_tank_alt_crosshair()

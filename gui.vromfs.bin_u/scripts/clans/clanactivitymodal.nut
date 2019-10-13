@@ -109,7 +109,7 @@ class ::gui_handlers.clanActivityModal extends ::gui_handlers.BaseGuiHandlerWT
         local hasBoost = boost > 0
         if (hasBoost && exp > 0)
         {
-          local baseExp = ::round(exp/(1 + boost))
+          local baseExp = entry.data?.expRewardBase ?? ::round(exp/(1 + boost))
           expText = ::colorize("activeTextColor",baseExp.tostring()
             + ::colorize("goodTextColor", " + " + (exp - baseExp).tostring()))
         }

@@ -131,8 +131,10 @@ local ExchangeRecipes = class {
   function getItemsListForPrizesView(params = null)
   {
     local res = []
+    local visibleResources = params?.visibleResources
     foreach (component in components)
-      if (component.itemdefId != params?.componentToHide?.id)
+      if (component.itemdefId != params?.componentToHide?.id
+       && (visibleResources == null || visibleResources?[component.itemdefId]))
         res.append(::DataBlockAdapter({
           item  = component.itemdefId
           commentText = getComponentQuantityText(component, params)
@@ -280,15 +282,21 @@ local ExchangeRecipes = class {
           }
     }
 
-    foreach (recipe in recipesToShow)
-      isMultiExtraItems = isMultiExtraItems || recipe.isMultipleExtraItems
+    local needShowHeader = params?.needShowHeader ?? true
+    local headerFirst = ""
+    local headerNext = ""
+    if (needShowHeader)
+    {
+      foreach (recipe in recipesToShow)
+        isMultiExtraItems = isMultiExtraItems || recipe.isMultipleExtraItems
 
-    local headerFirst = ::colorize("grayOptionColor",
-      componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
+      headerFirst = ::colorize("grayOptionColor",
+        componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
                                             isMultiExtraItems, hasFakeRecipes(recipes),
                                             getRecipesCraftTimeText(recipes)))
-    local headerNext = isMultiRecipes && isMultiExtraItems ?
-      ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
+      headerNext = isMultiRecipes && isMultiExtraItems ?
+        ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
+    }
 
     params.componentToHide <- componentItem
     params.showCurQuantities <- componentItem.descReceipesListWithCurQuantities
@@ -296,7 +304,9 @@ local ExchangeRecipes = class {
     local res = []
     foreach (recipe in recipesToShow)
     {
-      params.header <- !res.len() ? headerFirst : headerNext
+      if (needShowHeader)
+        params.header <- !res.len() ? headerFirst : headerNext
+
       if (shouldReturnMarkup)
         res.append(recipe.getTextMarkup(params))
       else
@@ -343,8 +353,8 @@ local ExchangeRecipes = class {
       return component.reqQuantity > 1 ?
         (::nbsp + ::format(::loc("weapons/counter/right/short"), component.reqQuantity)) : ""
 
-    local locText = ::loc("ui/parentheses/space",
-      { text = component.curQuantity + "/" + component.reqQuantity })
+    local locId = params?.needShowItemName ?? true ? "ui/parentheses/space" : "ui/parentheses"
+    local locText = ::loc(locId, { text = component.curQuantity + "/" + component.reqQuantity })
     if (params?.needColoredText ?? true)
       return ::colorize(getComponentQuantityColor(component, true), locText)
 

@@ -1,6 +1,7 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
-local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
-local contentStateModule = ::require("scripts/clientState/contentState.nut")
+local tutorialModule = require("scripts/user/newbieTutorialDisplay.nut")
+local contentStateModule = require("scripts/clientState/contentState.nut")
+local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
 
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
@@ -199,6 +200,10 @@ g_login.initConfigs <- function initConfigs(cb)
 
       if (::is_need_first_country_choice())
         ::broadcastEvent("AccountReset")
+    }
+    function()
+    {
+      checkUnlocksByAbTest()
     }
     function()
     {

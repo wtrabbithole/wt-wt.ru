@@ -64,6 +64,7 @@ local checkOfferToBuyAtExpiration = function()
           ["yes", @() ::gui_start_items_list(itemsTab.WORKSHOP,
             { curSheet = { id = wSet.getShopTabId() }
               curItem  = shopItem
+              initSubsetId = wSet.getSubsetIdByItemId(shopItem.id)
             })],
           ["no", @() null ]
         ], "yes", { cancel_fn = function() {} })

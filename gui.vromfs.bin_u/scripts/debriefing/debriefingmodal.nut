@@ -3201,6 +3201,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
           : ::gui_start_items_list(itemsTab.WORKSHOP, {
               curSheet = { id = wSet.getShopTabId() },
               curItem = ::ItemsManager.getInventoryItemById(itemDefId)
+              initSubsetId = wSet.getSubsetIdByItemId(itemDefId)
             })
       }
 

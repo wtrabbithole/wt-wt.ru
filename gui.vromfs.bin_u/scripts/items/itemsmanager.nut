@@ -741,6 +741,7 @@ ItemsManager.fillItemDescr <- function fillItemDescr(item, holderObj, handler = 
 {
   handler = handler || ::get_cur_base_gui_handler()
 
+  item = item?.getSubstitutionItem() ?? item
   local obj = holderObj.findObject("item_name")
   if (::checkObj(obj))
     obj.setValue(item? item.getDescriptionTitle() : "")

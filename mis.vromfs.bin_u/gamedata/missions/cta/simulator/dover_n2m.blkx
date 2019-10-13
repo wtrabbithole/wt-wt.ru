@@ -4,7 +4,7 @@
   "mission_settings": {
     "atmosphere": {
       "pressure": 760.0,
-      "temperature": 15.0
+      "temperature": 12.0
     },
     "player": [
       {
@@ -212,12 +212,12 @@
       }
     ],
     "mission": {
-      "name": "saipan_I2M",
-      "level": "levels/saipan.bin",
+      "name": "dover_N2M",
+      "level": "levels/dover_strait.bin",
       "type": "domination",
       "restoreType": "attempts",
       "optionalTakeOff": false,
-      "campaign": "eastern",
+      "campaign": "western",
       "environment": "Day",
       "weather": "hazy",
       "missionDebriefing": "",
@@ -226,21 +226,16 @@
       "scoreLimit": 15000,
       "timeLimit": 180,
       "deathPenaltyMul": 0.0,
-      "allowEmptyTeams": true,
+      "allowEmptyTeams": false,
       "country_axis": "germany",
-      "country_allies": "usa",
+      "country_allies": "britain",
       "windSpeed": [2.0,8.0],
       "windDirectionDeg": [220.0,250.0],
+      "tags": [],
       "missionType": {
         "_Dom": false,
         "_Conq": false,
-        "_CnvA": false,
-        "_CnvB": false,
-        "_ArtDA": false,
-        "_ArtDB": false,
         "_Bttl": false,
-        "_DBttlA": false,
-        "_DBttlB": false,
         "_Bto": false,
         "_Flc": false,
         "_v1_race_straight": false,
@@ -252,9 +247,14 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_DBttlA": false,
+        "_DBttlB": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
       },
-      "tags": [],
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": false,
@@ -262,62 +262,30 @@
         "isHelicoptersAllowed": false
       }
     },
-    "spectator_points": [],
     "cover_points": [],
     "aiParams": {
       "aiEffectivenessViscosity": 90.0,
       "effectivenessDistances": [2500.0,7000.0]
+    },
+    "spectator_points": [],
+    "briefing": {
+      "place_loc": "",
+      "date_loc": "",
+      "objective_loc": "",
+      "music": "action_01",
+      "part": {
+        "event": "",
+        "minTime": 0,
+        "slide": {
+          "map": true,
+          "minTime": 4,
+          "picture": "",
+          "showAirMap": false
+        }
+      }
     }
   },
   "imports": [
-    {
-      "import_record": {
-        "file": "gameData/missions/templates/air_templates/jip/air_jip_logic_template.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/cta/simulator/saipan/pt_ports_template_part.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/cta/simulator/saipan/sbt_bombers_template_part.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
     {
       "import_record": {
         "file": "gameData/missions/templates/air_templates/jip/templates_organizer.blk",
@@ -336,7 +304,151 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/simulator/saipan/ft_fields_template.blk",
+        "file": "gameData/missions/bridges/dover_strait_bridges.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/bdt_bases_destroy_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/lpt_lookup_plane_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/bt_bombers_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/ht_hunters_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/air_templates/jip/air_jip_logic_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/ft_fields_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/pt_ports_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/sbt_bombers_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/flt_frontline_template_part.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -368,14 +480,50 @@
       "conditions": [],
       "actions": [
         {
-          "varSetBool": {
-            "value": true,
-            "var": "pt_port_additional_air_spawns"
+          "comment": {
+            "value": "доступность шаблонов"
           }
         },
         {
-          "comment": {
-            "value": ""
+          "varSetBool": {
+            "value": false,
+            "var": "ft_helicopters_pad_exclusive"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "lpt_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "ft_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "bdt_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "bt_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "ct_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "st_is_launch_alowed"
           }
         },
         {
@@ -386,83 +534,87 @@
         },
         {
           "comment": {
-            "value": ""
+            "value": "включение разведки"
           }
         },
         {
-          "unitPutToSleep": {
-            "target": "sbt_armada"
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "air_spawn_start": {
-      "is_enabled": true,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": [],
-      "actions": [
-        {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/air_spawn",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "resetStrictSpawnIndex": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "removeAreas": false,
-            "replaceAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "radius": -1.0,
-            "forceCreate": false,
-            "target": "t1_air_spawn",
-            "team": "A",
-            "tags": {
-              "tank": false,
-              "ship": false,
-              "boat": false
-            }
+          "varSetBool": {
+            "value": true,
+            "var": "ft_is_detect_on"
           }
         },
         {
-          "missionMarkAsRespawnPoint": {
-            "loc_name": "missions/air_spawn",
-            "spawnEffect": false,
-            "isStrictSpawn": false,
-            "resetStrictSpawnIndex": false,
-            "isAirfield": false,
-            "isUnit": false,
-            "useExisting": false,
-            "isIndividual": false,
-            "onlyOnePlayerPerSpawnPoint": false,
-            "removeAreas": false,
-            "replaceAreas": false,
-            "canSpawnOnNeutral": false,
-            "showOnMap": true,
-            "radius": -1.0,
-            "forceCreate": false,
-            "target": "t2_air_spawn",
-            "team": "B",
-            "tags": {
-              "tank": false,
-              "ship": false,
-              "boat": false
-            }
+          "varSetBool": {
+            "value": true,
+            "var": "lpt_is_detect_on"
           }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "bt_is_detect_on"
+          }
+        },
+        {
+          "unitPutToSleep": [
+            {
+              "target": "bdt_armada"
+            },
+            {
+              "target": "ft_armada"
+            },
+            {
+              "target": "bt_armada"
+            },
+            {
+              "target": "lbt_battles_armada"
+            },
+            {
+              "target": "sbt_armada"
+            }
+          ]
+        },
+        {
+          "comment": {
+            "value": "увеличиваем количество одновременно запущенных шаблонов"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 3,
+            "var": "to_max_templates_to_launch"
+          }
+        },
+        {
+          "comment": {
+            "value": "настройка охотников"
+          }
+        },
+        {
+          "varSetInt": [
+            {
+              "value": 720
+            },
+            {
+              "var": "ht_t1_initial_delay_timer"
+            },
+            {
+              "var": "ht_t2_initial_delay_timer"
+            }
+          ]
+        },
+        {
+          "varSetInt": [
+            {
+              "value": 900
+            },
+            {
+              "var": "ht_t1_delay_timer"
+            },
+            {
+              "var": "ht_t2_delay_timer"
+            }
+          ]
         }
       ],
       "else_actions": []
@@ -470,7 +622,18 @@
   },
   "mission_objectives": {
     "isCategory": true,
-    "is_enabled": true
+    "is_enabled": true,
+    "I2M_main_objective": {
+      "is_enabled": false,
+      "comments": "",
+      "type": "abstractMissionObjective",
+      "props": {
+        "isPrimary": true,
+        "timeLimit": 21600
+      },
+      "onSuccess": [],
+      "onFailed": []
+    }
   },
   "variables": [],
   "dialogs": [],
@@ -478,431 +641,39 @@
   "effects": [],
   "units": [
     {
-      "squad": {
-        "name": "t1_players_squad",
+      "ships": {
+        "name": "t1_player01",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
           [0.0,0.0,1.0],
-          [-40437.2,176.25,12981.9]
+          [-17901.9,0.0,3683.46]
         ],
-        "props": [
-          {
-            "object_marking": 0
-          },
-          {
-            "squad_members": "t1_player01"
-          },
-          {
-            "squad_members": "t1_player02"
-          },
-          {
-            "squad_members": "t1_player03"
-          },
-          {
-            "squad_members": "t1_player04"
-          },
-          {
-            "squad_members": "t1_player05"
-          },
-          {
-            "squad_members": "t1_player06"
-          },
-          {
-            "squad_members": "t1_player07"
-          },
-          {
-            "squad_members": "t1_player08"
-          },
-          {
-            "squad_members": "t1_player09"
-          },
-          {
-            "squad_members": "t1_player10"
-          },
-          {
-            "squad_members": "t1_player11"
-          },
-          {
-            "squad_members": "t1_player12"
-          },
-          {
-            "squad_members": "t1_player13"
-          },
-          {
-            "squad_members": "t1_player14"
-          },
-          {
-            "squad_members": "t1_player15"
-          },
-          {
-            "squad_members": "t1_player16"
-          },
-          {
-            "squad_members": "t1_player17"
-          },
-          {
-            "squad_members": "t1_player18"
-          },
-          {
-            "squad_members": "t1_player19"
-          },
-          {
-            "squad_members": "t1_player20"
-          },
-          {
-            "squad_members": "t1_player21"
-          },
-          {
-            "squad_members": "t1_player22"
-          },
-          {
-            "squad_members": "t1_player23"
-          },
-          {
-            "squad_members": "t1_player24"
-          },
-          {
-            "squad_members": "t1_player25"
-          },
-          {
-            "squad_members": "t1_player26"
-          },
-          {
-            "squad_members": "t1_player27"
-          },
-          {
-            "squad_members": "t1_player28"
-          },
-          {
-            "squad_members": "t1_player29"
-          },
-          {
-            "squad_members": "t1_player30"
-          },
-          {
-            "squad_members": "t1_player31"
-          },
-          {
-            "squad_members": "t1_player32"
-          },
-          {
-            "squad_members": "t2_player01"
-          },
-          {
-            "squad_members": "t2_player02"
-          },
-          {
-            "squad_members": "t2_player03"
-          },
-          {
-            "squad_members": "t2_player04"
-          },
-          {
-            "squad_members": "t2_player05"
-          },
-          {
-            "squad_members": "t2_player06"
-          },
-          {
-            "squad_members": "t2_player07"
-          },
-          {
-            "squad_members": "t2_player08"
-          },
-          {
-            "squad_members": "t2_player09"
-          },
-          {
-            "squad_members": "t2_player10"
-          },
-          {
-            "squad_members": "t2_player11"
-          },
-          {
-            "squad_members": "t2_player12"
-          },
-          {
-            "squad_members": "t2_player13"
-          },
-          {
-            "squad_members": "t2_player14"
-          },
-          {
-            "squad_members": "t2_player15"
-          },
-          {
-            "squad_members": "t2_player16"
-          },
-          {
-            "squad_members": "t2_player17"
-          },
-          {
-            "squad_members": "t2_player18"
-          },
-          {
-            "squad_members": "t2_player19"
-          },
-          {
-            "squad_members": "t2_player20"
-          },
-          {
-            "squad_members": "t2_player21"
-          },
-          {
-            "squad_members": "t2_player22"
-          },
-          {
-            "squad_members": "t2_player23"
-          },
-          {
-            "squad_members": "t2_player24"
-          },
-          {
-            "squad_members": "t2_player25"
-          },
-          {
-            "squad_members": "t2_player26"
-          },
-          {
-            "squad_members": "t2_player27"
-          },
-          {
-            "squad_members": "t2_player28"
-          },
-          {
-            "squad_members": "t2_player29"
-          },
-          {
-            "squad_members": "t2_player30"
-          },
-          {
-            "squad_members": "t2_player31"
-          },
-          {
-            "squad_members": "t2_player32"
-          },
-          {
-            "squad_members": "t2_player33"
-          },
-          {
-            "object_type": "isTeamA"
-          }
-        ]
-      }
-    },
-    {
-      "squad": {
-        "name": "t2_players_squad",
-        "tm": [
-          [1.0,0.0,0.0],
-          [0.0,1.0,0.0],
-          [0.0,0.0,1.0],
-          [-40453.1,176.25,12927.9]
-        ],
-        "props": [
-          {
-            "object_marking": 0
-          },
-          {
-            "squad_members": "t1_player01"
-          },
-          {
-            "squad_members": "t1_player02"
-          },
-          {
-            "squad_members": "t1_player03"
-          },
-          {
-            "squad_members": "t1_player04"
-          },
-          {
-            "squad_members": "t1_player05"
-          },
-          {
-            "squad_members": "t1_player06"
-          },
-          {
-            "squad_members": "t1_player07"
-          },
-          {
-            "squad_members": "t1_player08"
-          },
-          {
-            "squad_members": "t1_player09"
-          },
-          {
-            "squad_members": "t1_player10"
-          },
-          {
-            "squad_members": "t1_player11"
-          },
-          {
-            "squad_members": "t1_player12"
-          },
-          {
-            "squad_members": "t1_player13"
-          },
-          {
-            "squad_members": "t1_player14"
-          },
-          {
-            "squad_members": "t1_player15"
-          },
-          {
-            "squad_members": "t1_player16"
-          },
-          {
-            "squad_members": "t1_player17"
-          },
-          {
-            "squad_members": "t1_player18"
-          },
-          {
-            "squad_members": "t1_player19"
-          },
-          {
-            "squad_members": "t1_player20"
-          },
-          {
-            "squad_members": "t1_player21"
-          },
-          {
-            "squad_members": "t1_player22"
-          },
-          {
-            "squad_members": "t1_player23"
-          },
-          {
-            "squad_members": "t1_player24"
-          },
-          {
-            "squad_members": "t1_player25"
-          },
-          {
-            "squad_members": "t1_player26"
-          },
-          {
-            "squad_members": "t1_player27"
-          },
-          {
-            "squad_members": "t1_player28"
-          },
-          {
-            "squad_members": "t1_player29"
-          },
-          {
-            "squad_members": "t1_player30"
-          },
-          {
-            "squad_members": "t1_player31"
-          },
-          {
-            "squad_members": "t1_player32"
-          },
-          {
-            "squad_members": "t2_player01"
-          },
-          {
-            "squad_members": "t2_player02"
-          },
-          {
-            "squad_members": "t2_player03"
-          },
-          {
-            "squad_members": "t2_player04"
-          },
-          {
-            "squad_members": "t2_player05"
-          },
-          {
-            "squad_members": "t2_player06"
-          },
-          {
-            "squad_members": "t2_player07"
-          },
-          {
-            "squad_members": "t2_player08"
-          },
-          {
-            "squad_members": "t2_player09"
-          },
-          {
-            "squad_members": "t2_player10"
-          },
-          {
-            "squad_members": "t2_player11"
-          },
-          {
-            "squad_members": "t2_player12"
-          },
-          {
-            "squad_members": "t2_player13"
-          },
-          {
-            "squad_members": "t2_player14"
-          },
-          {
-            "squad_members": "t2_player15"
-          },
-          {
-            "squad_members": "t2_player16"
-          },
-          {
-            "squad_members": "t2_player17"
-          },
-          {
-            "squad_members": "t2_player18"
-          },
-          {
-            "squad_members": "t2_player19"
-          },
-          {
-            "squad_members": "t2_player20"
-          },
-          {
-            "squad_members": "t2_player21"
-          },
-          {
-            "squad_members": "t2_player22"
-          },
-          {
-            "squad_members": "t2_player23"
-          },
-          {
-            "squad_members": "t2_player24"
-          },
-          {
-            "squad_members": "t2_player25"
-          },
-          {
-            "squad_members": "t2_player26"
-          },
-          {
-            "squad_members": "t2_player27"
-          },
-          {
-            "squad_members": "t2_player28"
-          },
-          {
-            "squad_members": "t2_player29"
-          },
-          {
-            "squad_members": "t2_player30"
-          },
-          {
-            "squad_members": "t2_player31"
-          },
-          {
-            "squad_members": "t2_player32"
-          },
-          {
-            "squad_members": "t2_player33"
-          },
-          {
-            "object_type": "isTeamB"
-          }
-        ]
+        "unit_class": "uk_destroyer_clemson_churchill",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will"
+        },
+        "way": []
       }
     },
     {
@@ -2442,6 +2213,396 @@
       }
     },
     {
+      "squad": {
+        "name": "all_players_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-40512.4,176.25,12974.0]
+        ],
+        "props": [
+          {
+            "object_marking": 0
+          },
+          {
+            "squad_members": "t1_player01"
+          },
+          {
+            "squad_members": "t1_player02"
+          },
+          {
+            "squad_members": "t1_player03"
+          },
+          {
+            "squad_members": "t1_player04"
+          },
+          {
+            "squad_members": "t1_player05"
+          },
+          {
+            "squad_members": "t1_player06"
+          },
+          {
+            "squad_members": "t1_player07"
+          },
+          {
+            "squad_members": "t1_player08"
+          },
+          {
+            "squad_members": "t1_player09"
+          },
+          {
+            "squad_members": "t1_player10"
+          },
+          {
+            "squad_members": "t1_player11"
+          },
+          {
+            "squad_members": "t1_player12"
+          },
+          {
+            "squad_members": "t1_player13"
+          },
+          {
+            "squad_members": "t1_player14"
+          },
+          {
+            "squad_members": "t1_player15"
+          },
+          {
+            "squad_members": "t1_player16"
+          },
+          {
+            "squad_members": "t2_player01"
+          },
+          {
+            "squad_members": "t2_player02"
+          },
+          {
+            "squad_members": "t2_player03"
+          },
+          {
+            "squad_members": "t2_player04"
+          },
+          {
+            "squad_members": "t2_player05"
+          },
+          {
+            "squad_members": "t2_player06"
+          },
+          {
+            "squad_members": "t2_player07"
+          },
+          {
+            "squad_members": "t2_player08"
+          },
+          {
+            "squad_members": "t2_player09"
+          },
+          {
+            "squad_members": "t2_player10"
+          },
+          {
+            "squad_members": "t2_player11"
+          },
+          {
+            "squad_members": "t2_player12"
+          },
+          {
+            "squad_members": "t2_player13"
+          },
+          {
+            "squad_members": "t2_player14"
+          },
+          {
+            "squad_members": "t2_player15"
+          },
+          {
+            "squad_members": "t2_player16"
+          },
+          {
+            "squad_members": "t2_player17"
+          }
+        ]
+      }
+    },
+    {
+      "structures": {
+        "name": "bdt_indicator",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [447.6,4.45,-32703.0]
+        ],
+        "unit_class": "dummy",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 0,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "isDelayed": true,
+          "stealthRadius": 0.0,
+          "setStealth": true
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_players_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-40437.2,176.25,12981.9]
+        ],
+        "props": [
+          {
+            "object_marking": 0
+          },
+          {
+            "squad_members": "t1_player01"
+          },
+          {
+            "squad_members": "t1_player02"
+          },
+          {
+            "squad_members": "t1_player03"
+          },
+          {
+            "squad_members": "t1_player04"
+          },
+          {
+            "squad_members": "t1_player05"
+          },
+          {
+            "squad_members": "t1_player06"
+          },
+          {
+            "squad_members": "t1_player07"
+          },
+          {
+            "squad_members": "t1_player08"
+          },
+          {
+            "squad_members": "t1_player09"
+          },
+          {
+            "squad_members": "t1_player10"
+          },
+          {
+            "squad_members": "t1_player11"
+          },
+          {
+            "squad_members": "t1_player12"
+          },
+          {
+            "squad_members": "t1_player13"
+          },
+          {
+            "squad_members": "t1_player14"
+          },
+          {
+            "squad_members": "t1_player15"
+          },
+          {
+            "squad_members": "t1_player16"
+          },
+          {
+            "squad_members": "t2_player01"
+          },
+          {
+            "squad_members": "t2_player02"
+          },
+          {
+            "squad_members": "t2_player03"
+          },
+          {
+            "squad_members": "t2_player04"
+          },
+          {
+            "squad_members": "t2_player05"
+          },
+          {
+            "squad_members": "t2_player06"
+          },
+          {
+            "squad_members": "t2_player07"
+          },
+          {
+            "squad_members": "t2_player08"
+          },
+          {
+            "squad_members": "t2_player09"
+          },
+          {
+            "squad_members": "t2_player10"
+          },
+          {
+            "squad_members": "t2_player11"
+          },
+          {
+            "squad_members": "t2_player12"
+          },
+          {
+            "squad_members": "t2_player13"
+          },
+          {
+            "squad_members": "t2_player14"
+          },
+          {
+            "squad_members": "t2_player15"
+          },
+          {
+            "squad_members": "t2_player16"
+          },
+          {
+            "squad_members": "t2_player17"
+          },
+          {
+            "object_type": "isTeamA"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_players_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-40453.1,176.25,12927.9]
+        ],
+        "props": [
+          {
+            "object_marking": 0
+          },
+          {
+            "squad_members": "t1_player01"
+          },
+          {
+            "squad_members": "t1_player02"
+          },
+          {
+            "squad_members": "t1_player03"
+          },
+          {
+            "squad_members": "t1_player04"
+          },
+          {
+            "squad_members": "t1_player05"
+          },
+          {
+            "squad_members": "t1_player06"
+          },
+          {
+            "squad_members": "t1_player07"
+          },
+          {
+            "squad_members": "t1_player08"
+          },
+          {
+            "squad_members": "t1_player09"
+          },
+          {
+            "squad_members": "t1_player10"
+          },
+          {
+            "squad_members": "t1_player11"
+          },
+          {
+            "squad_members": "t1_player12"
+          },
+          {
+            "squad_members": "t1_player13"
+          },
+          {
+            "squad_members": "t1_player14"
+          },
+          {
+            "squad_members": "t1_player15"
+          },
+          {
+            "squad_members": "t1_player16"
+          },
+          {
+            "squad_members": "t2_player01"
+          },
+          {
+            "squad_members": "t2_player02"
+          },
+          {
+            "squad_members": "t2_player03"
+          },
+          {
+            "squad_members": "t2_player04"
+          },
+          {
+            "squad_members": "t2_player05"
+          },
+          {
+            "squad_members": "t2_player06"
+          },
+          {
+            "squad_members": "t2_player07"
+          },
+          {
+            "squad_members": "t2_player08"
+          },
+          {
+            "squad_members": "t2_player09"
+          },
+          {
+            "squad_members": "t2_player10"
+          },
+          {
+            "squad_members": "t2_player11"
+          },
+          {
+            "squad_members": "t2_player12"
+          },
+          {
+            "squad_members": "t2_player13"
+          },
+          {
+            "squad_members": "t2_player14"
+          },
+          {
+            "squad_members": "t2_player15"
+          },
+          {
+            "squad_members": "t2_player16"
+          },
+          {
+            "squad_members": "t2_player17"
+          },
+          {
+            "object_type": "isTeamB"
+          }
+        ]
+      }
+    },
+    {
       "armada": {
         "name": "t1_player17",
         "tm": [
@@ -3947,77 +4108,115 @@
       }
     },
     {
-      "ships": {
-        "name": "t1_player01",
+      "squad": {
+        "name": "t1_enemy_planes_squad",
         "tm": [
-          [-0.999048,0.0,-0.0436193],
+          [1.0,0.0,0.0],
           [0.0,1.0,0.0],
-          [0.0436193,0.0,-0.999048],
-          [-16341.9,1.0,-846.179]
+          [0.0,0.0,1.0],
+          [1350.65,57.1638,-2672.73]
         ],
-        "unit_class": "ussr_pr_1204_late",
-        "objLayer": 1,
-        "closed_waypoints": false,
-        "isShipSpline": false,
-        "shipTurnRadius": 100.0,
-        "weapons": "",
-        "bullets0": "",
-        "bullets1": "",
-        "bullets2": "",
-        "bullets3": "",
-        "bulletsCount0": 0,
-        "bulletsCount1": 0,
-        "bulletsCount2": 0,
-        "bulletsCount3": 0,
-        "props": {
-          "army": 1,
-          "count": 1,
-          "formation_type": "rows",
-          "formation_div": 3,
-          "formation_step": [2.5,2.0],
-          "formation_noise": [0.1,0.1],
-          "uniqueName": "",
-          "attack_type": "fire_at_will"
-        },
-        "way": []
+        "props": [
+          {
+            "object_marking": 0
+          },
+          {
+            "squad_members": "t2_players_squad"
+          },
+          {
+            "squad_members": "bt_t2_bomber"
+          },
+          {
+            "squad_members": "bt_t2_fighter"
+          },
+          {
+            "squad_members": "at_t2_assault"
+          },
+          {
+            "squad_members": "at_t2_fighter"
+          }
+        ]
+      }
+    },
+    {
+      "squad": {
+        "name": "t2_enemy_planes_squad",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1489.66,57.1639,-2572.87]
+        ],
+        "props": [
+          {
+            "object_marking": 0
+          },
+          {
+            "squad_members": "t1_players_squad"
+          },
+          {
+            "squad_members": "bt_t1_bomber"
+          },
+          {
+            "squad_members": "bt_t1_fighter"
+          },
+          {
+            "squad_members": "at_t1_assault"
+          },
+          {
+            "squad_members": "at_t1_fighter"
+          }
+        ]
       }
     }
   ],
   "areas": {
-    "t1_air_spawn": {
-      "type": "Sphere",
+    "t1_base01": {
+      "type": "Box",
       "tm": [
-        [-253.571,0.0,-543.785],
-        [0.0,600.0,0.0],
-        [543.785,0.0,-253.571],
-        [13115.2,1000.0,25728.8]
+        [226.79,0.0,-60.7682],
+        [0.0,194.28,0.0],
+        [66.415,0.0,247.864],
+        [17915.0,24.75,6459.4]
       ],
       "objLayer": 0,
       "props": []
     },
-    "t2_air_spawn": {
-      "type": "Sphere",
+    "t1_base02": {
+      "type": "Box",
       "tm": [
-        [385.673,0.0,459.627],
-        [0.0,600.0,0.0],
-        [-459.627,0.0,385.673],
-        [-18846.6,1000.0,-22068.1]
+        [226.79,0.0,-60.7682],
+        [0.0,194.28,0.0],
+        [66.415,0.0,247.864],
+        [6508.4,-0.85,-3459.25]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_base01": {
+      "type": "Box",
+      "tm": [
+        [226.79,0.0,-60.7682],
+        [0.0,194.28,0.0],
+        [66.415,0.0,247.864],
+        [-8893.95,179.05,14514.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_base02": {
+      "type": "Box",
+      "tm": [
+        [226.79,0.0,-60.7682],
+        [0.0,194.28,0.0],
+        [66.415,0.0,247.864],
+        [3124.35,-13.6,24165.1]
       ],
       "objLayer": 0,
       "props": []
     }
   },
   "objLayers": [
-    {
-      "layer": {
-        "enabled": true
-      }
-    },
-    {
-      "layer": {
-        "enabled": true
-      }
-    },
     {
       "layer": {
         "enabled": true

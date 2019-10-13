@@ -1,5 +1,6 @@
 local squadronUnitAction = ::require("scripts/unit/squadronUnitAction.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local time = require("scripts/time.nut")
 
 local PROGRESS_PARAMS = {
   type = "old"
@@ -49,12 +50,14 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
         local isAllVehiclesResearched = squadronUnitAction.isAllVehiclesResearched()
         local expBoost = ::clan_get_exp_boost()/100.0
         local hasBoost = expBoost > 0
-        local descrArray = hasBoost
-          ? [ ::loc("clan/activity_reward/nowBoost",
-              { bonus = ::colorize("goodTextColor",
-                "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(expBoost))})
-            ]
+        local descrArray = clanData.nextRewardDayId != null
+          ? [::loc("clan/activity_period_end", {date = ::colorize("activeTextColor",
+              time.buildDateTimeStr(clanData.nextRewardDayId, false, false))}) + "\n"]
           : []
+        if(hasBoost)
+          descrArray.append(::loc("clan/activity_reward/nowBoost",
+            {bonus = ::colorize("goodTextColor",
+              "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(expBoost))}))
         descrArray.append(isAllVehiclesResearched
           ? ::loc("clan/activity/progress/desc_all_researched")
           : ::loc("clan/activity/progress/desc"))

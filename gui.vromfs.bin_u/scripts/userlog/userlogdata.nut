@@ -244,7 +244,7 @@ local clanActionNames = {
         if ((blk?.body.locName.len() ?? 0) > 0)
           mission = ::get_locId_name(blk?.body, "locName")
         else
-          mission = ::loc("missions/" + blk?.body.mission)
+          mission = ::loc("missions/" + (blk?.body.mission ?? ""))
         local nameLoc = "userlog/"+logName + (blk?.body.win? "/win":"/lose")
         msg = format(::loc(nameLoc), mission) //need more info in log, maybe title.
         ::my_stats.markStatsReset()
@@ -421,7 +421,10 @@ local clanActionNames = {
               id = "workshop_button",
               text = ::loc("items/workshop"),
               func = @() wSet.needShowPreview() ? workshopPreview.open(wSet)
-                : ::gui_start_items_list(itemsTab.WORKSHOP, { curSheet = { id = wSet.getShopTabId() } })
+                : ::gui_start_items_list(itemsTab.WORKSHOP, {
+                    curSheet = { id = wSet.getShopTabId() },
+                    initSubsetId = wSet.getSubsetIdByItemId(item.id)
+                  })
             }]
 
           ::g_popups.add(name, item && item.getName() ? item.getName() : "", null, button)
@@ -434,11 +437,11 @@ local clanActionNames = {
       local name = ::loc("userlog/" + ::getLogNameByType(blk.type))
       local desc = [::colorize("userlogColoredText", ::events.getNameByEconomicName(blk?.body.name))]
       if (::getTblValue("battleLimitReminder", blk.body))
-        desc.append(::loc("userlog/battleLimitReminder") + ::loc("ui/colon") + blk?.body.battleLimitReminder)
+        desc.append(::loc("userlog/battleLimitReminder") + ::loc("ui/colon") + (blk?.body.battleLimitReminder ?? ""))
       if (::getTblValue("defeatCountReminder", blk.body))
-        desc.append(::loc("userlog/defeatCountReminder") + ::loc("ui/colon") + blk?.body.defeatCountReminder)
+        desc.append(::loc("userlog/defeatCountReminder") + ::loc("ui/colon") + (blk?.body.defeatCountReminder ?? ""))
       if (::getTblValue("sequenceDefeatCountReminder", blk.body))
-        desc.append(::loc("userlog/sequenceDefeatCountReminder") + ::loc("ui/colon") + blk?.body.sequenceDefeatCountReminder)
+        desc.append(::loc("userlog/sequenceDefeatCountReminder") + ::loc("ui/colon") + (blk?.body.sequenceDefeatCountReminder ?? ""))
 
       ::g_popups.add(name, ::g_string.implode(desc, "\n"))
       markDisabled = true

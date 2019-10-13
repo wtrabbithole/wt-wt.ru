@@ -1052,6 +1052,8 @@ g_clans.checkSquadronExpChangedEvent <- function checkSquadronExpChangedEvent()
   clan.maxClanActivity <- clanInfo?.maxClanActivity ?? 0
   clan.rewardPeriodDays <- clanInfo?.rewardPeriodDays ?? 0
   clan.expRewardEnabled <- clanInfo?.expRewardEnabled ?? false
+  clan.historyDepth <- clanInfo?.historyDepth ?? 14
+  clan.nextRewardDayId <- clanInfo?.nextRewardDayId
 
   //dlog("GP: Show clan table");
   //debugTableData(clan);
@@ -1062,7 +1064,7 @@ local function getSeasonName(blk)
 {
   local name = ""
   if (blk?.type == "worldWar")
-    name = ::loc("worldwar/season_name/" + ::split(blk.titles, "@")?[2])
+    name = ::loc("worldwar/season_name/" + (::split(blk.titles, "@")?[2] ?? ""))
   else
   {
     local year = ::get_utc_time_from_t(blk?.seasonStartTimestamp ?? 0).year.tostring()

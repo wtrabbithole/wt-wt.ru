@@ -18,6 +18,8 @@ local clan_member_list = [
     field = @() ::has_feature("ClanVehicles") ? "totalPeriodActivity" : "totalActivity"
     showByFeature = "ClanActivity"
     getCellTooltipText = function(data) { return loc("clan/personal/" + id + "/cell/desc") }
+    getTooltipText  = @(depth) ::loc("clan/personal/activity/desc",
+      {historyDepth = depth})
   }
   {
     id = "role",
@@ -682,7 +684,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
         tdAlign  = ::getTblValue("align", column, "center"),
         callback = "onStatsCategory",
         active   = isSortByColumn(column.id)
-        tooltip  = column.tooltip
+        tooltip  = column?.getTooltipText(clanData?.historyDepth.tostring()) ?? column.tooltip
       }
       // It is important to set width to
       // all rows if column has fixed width.

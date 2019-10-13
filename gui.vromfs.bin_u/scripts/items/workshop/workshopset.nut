@@ -1,7 +1,10 @@
+local workshopCraftTree = require("workshopCraftTree.nut")
+
 const KNOWN_ITEMS_SAVE_ID = "workshop/known"
 const KNOWN_REQ_ITEMS_SAVE_ID = "workshop/knownReqItems"
 const KNOWN_ITEMS_SAVE_KEY = "id"
 const PREVIEWED_SAVE_PATH = "workshop/previewed/"
+const CURRENT_SUBSET_SAVE_PATH = "workshop/curSubSetBySet/"
 
 local WorkshopSet = class {
   id = "" //name of config blk. not unique
@@ -11,7 +14,7 @@ local WorkshopSet = class {
 
   itemdefsSorted = null //[]
   itemdefs = null //{ <itemdef> = sortId }
-  requiredItemsTbl = null  // { <itemIs> = true }
+  itemsReqRulesTbl = null  // { <itemId> = bool } (true = need to have, false = need to NOT have)
   hiddenItemsBlocks = null // { <blockId> = true }
   alwaysVisibleItemdefs = null // { <itemdef> = sortId }
   knownItemdefs = null // { <itemdef> = true }
@@ -24,28 +27,62 @@ local WorkshopSet = class {
 
   previewBlk = null
 
+  craftTrees = null
+  hasSubsets  = false
+  subsetsList = null
+  curSubsetId   = null
+
   constructor(blk)
   {
     id = blk.getBlockName() || ""
     reqFeature = blk?.reqFeature
     locId = blk?.locId || id
+    hasSubsets = blk?.hasSubsets ?? false
 
     itemdefsSorted = []
     itemdefs = {}
-    requiredItemsTbl = {}
+    itemsReqRulesTbl = {}
     alwaysVisibleItemdefs = {}
+    subsetsList = {}
+    local firstSubsetId = null
 
-    local itemsBlk = blk?.items
-    itemdefsSorted.extend(getItemsFromBlk(itemsBlk, 0))
-    if (itemsBlk)
-      foreach (idx, itemBlk in itemsBlk % "itemBlock")
-        itemdefsSorted.extend(getItemsFromBlk(itemBlk, idx + 1))
+    foreach (itemsBlkIdx, itemsBlk in (blk % "items"))
+    {
+      local subsetBlockIdx = itemsBlkIdx * 100
+      local subsetItems = []
+      local subsetId = itemsBlk?.setId ?? ""
+      local items = getItemsFromBlk(itemsBlk, subsetBlockIdx + 0, subsetId)
+      subsetItems.extend(items)
+      if (itemsBlk)
+        foreach (idx, itemBlk in itemsBlk % "itemBlock")
+        {
+          items = getItemsFromBlk(itemBlk, subsetBlockIdx + idx + 1, subsetId)
+          subsetItems.extend(items)
+        }
+      itemdefsSorted.extend(subsetItems)
+      if (!hasSubsets)
+        break
+
+      firstSubsetId = firstSubsetId ?? subsetId
+      subsetsList[subsetId] <- {
+        id = subsetId
+        sortIdx = itemsBlkIdx
+        locId = itemsBlk.locId
+        items = subsetItems
+        reqFeature = itemsBlk?.reqFeature
+      }
+    }
 
     if (blk?.eventPreview)
     {
       previewBlk = ::DataBlock()
       previewBlk.setFrom(blk.eventPreview)
     }
+
+    craftTrees = (blk % "craftTree").map(workshopCraftTree.bindenv(this))
+
+    if (hasSubsets)
+      curSubsetId = ::load_local_account_settings(CURRENT_SUBSET_SAVE_PATH + id, firstSubsetId)
 
     ::subscribe_handler(this, ::g_listener_priority.CONFIG_VALIDATION)
   }
@@ -57,10 +94,13 @@ local WorkshopSet = class {
   getLocName                = @() ::loc(locId)
   getShopTabId              = @() "WORKSHOP_SET_" + uid
   getSeenId                 = @() "##workshop_set_" + uid
+  isVisibleSubset           = @(subset) !subset.reqFeature || ::has_feature(subset.reqFeature)
+  isVisibleSubsetId         = @(subsetId) subsetsList?[subsetId] != null && isVisibleSubset(subsetsList[subsetId])
 
   isItemInSet               = @(item) item.id in itemdefs
   isItemIdInSet             = @(id) id in itemdefs
-  isItemIdHidden            = @(id) itemdefs[id].blockNumber in hiddenItemsBlocks
+  isItemIdHidden            = @(id) (itemdefs[id].blockNumber in hiddenItemsBlocks)
+                                || (hasSubsets && !isVisibleSubsetId(itemdefs[id].subsetId))
   isItemIdKnown             = @(id) initKnownItemsOnce() || id in knownItemdefs
   isReqItemIdKnown          = @(id) id in knownReqItemdefs
   shouldDisguiseItem        = @(item) !(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id)
@@ -68,22 +108,28 @@ local WorkshopSet = class {
 
   hasPreview                = @() previewBlk != null
 
-  function getItemsFromBlk(itemsBlk, blockNumber)
+  function getItemsFromBlk(itemsBlk, blockNumber, subsetId)
   {
     local items = []
     if (!itemsBlk)
       return items
 
     local sortByParam = itemsBlk?.sortByParam
-    local requiredItems = []
+    local itemsReqRules = []
     local passBySavedReqItems = itemsBlk?.passBySavedReqItems ?? false
     foreach(reqItems in itemsBlk % "reqItems")
     {
-      local reqItemsList = ::u.map(::split(reqItems, ","), @(item) item.tointeger())
-      requiredItems.append(reqItemsList)
-      foreach (itemId in reqItemsList)
-        if (!(itemId in requiredItemsTbl))
-          requiredItemsTbl[itemId] <- true
+      local itemsTbl = {}
+      foreach (reqId in reqItems.split(","))
+      {
+        local needHave = !::g_string.startsWith(reqId, "!") // true = need to have, false = need to NOT have.
+        local itemId = reqId.slice(needHave ? 0 : 1).tointeger()
+
+        itemsTbl[itemId] <- needHave
+        if (!(itemId in itemsReqRulesTbl))
+          itemsReqRulesTbl[itemId] <- needHave
+      }
+      itemsReqRules.append(itemsTbl)
     }
 
     for (local i = 0; i < itemsBlk.paramCount(); i++)
@@ -103,8 +149,9 @@ local WorkshopSet = class {
         blockNumber = blockNumber
         itemNumber = idx
         sortByParam = sortByParam
-        requiredItems = requiredItems
+        itemsReqRules = itemsReqRules
         passBySavedReqItems = passBySavedReqItems
+        subsetId = subsetId
       }
 
     return items
@@ -117,7 +164,7 @@ local WorkshopSet = class {
     hiddenItemsBlocks = {}
 
     local reqItems = ::ItemsManager.getInventoryList(itemType.ALL,
-      (@(item) item.id in requiredItemsTbl).bindenv(this))
+      (@(item) item.id in itemsReqRulesTbl).bindenv(this))
 
     local reqItemsAmountTbl = {}
     foreach (item in reqItems)
@@ -131,18 +178,20 @@ local WorkshopSet = class {
       if (itemData.blockNumber in hiddenItemsBlocks)
         continue
 
-      local requiredItems = itemData?.requiredItems
-      if (!requiredItems || !requiredItems.len())
+      local itemsReqRules = itemData?.itemsReqRules
+      if (!itemsReqRules || !itemsReqRules.len())
         continue
 
       local isHidden = true
-      foreach (items in requiredItems)
+      foreach (itemsTbl in itemsReqRules)
       {
         local canShow = true
-        foreach (itemId in items)
+        foreach (itemId, needHave in itemsTbl)
         {
-          if ((reqItemsAmountTbl?[itemId] ?? 0) > 0 ||
-              (itemData.passBySavedReqItems && knownReqItemdefs?[itemId]))
+          local amount = reqItemsAmountTbl?[itemId] ?? 0
+          if ((needHave && amount > 0)
+            || (needHave && itemData.passBySavedReqItems && knownReqItemdefs?[itemId])
+            || (!needHave && amount == 0))
             continue
 
           canShow = false
@@ -163,7 +212,7 @@ local WorkshopSet = class {
 
   function getItemsList()
   {
-    if (itemsListCache && !requiredItemsTbl.len())
+    if (itemsListCache && !itemsReqRulesTbl.len())
       return itemsListCache
 
     initHiddenItemsBlocks()
@@ -347,7 +396,72 @@ local WorkshopSet = class {
     return visibleSeenIds
   }
 
-  _tostring = @() ::format("WorkshopSet %s (itemdefsAmount = %d)", id, itemdefs.len())
+  _tostring        = @() ::format("WorkshopSet %s (itemdefsAmount = %d)", id, itemdefs.len())
+
+  isVisibleCraftTree = @(craftTree) ::g_features.hasFeatureListValue(craftTree.reqFeaturesList)
+  getCraftTree       = @() ::u.search(craftTrees, isVisibleCraftTree.bindenv(this))
+
+  function getItemsListForCraftTree(craftTree)
+  {
+    local itemDefIds = craftTree.craftTreeItemsIdArray
+    local itemsList = ::ItemsManager.getInventoryList(itemType.ALL, @(item) itemDefIds.find(item.id) != null)
+
+    foreach(itemdefid in itemDefIds)
+    {
+      if (itemsList.find(itemdefid) != null)
+        continue
+
+      local item = ::ItemsManager.getItemOrRecipeBundleById(itemdefid)
+      if (!item)
+        continue
+
+      local newItem = item.makeEmptyInventoryItem()
+      itemsList.append(newItem)
+    }
+
+    return itemsList
+  }
+
+  function getItemsSubList(subsetId)
+  {
+    local fullItemsList = getItemsList()
+    if (!hasSubsets)
+      return fullItemsList
+
+    if (!(subsetId in subsetsList))
+      subsetId = curSubsetId
+
+    local subsetItems = subsetsList?[subsetId].items ?? []
+    return fullItemsList.filter(@(item) ::isInArray(item.id, subsetItems))
+  }
+
+  function getSubsetsList()
+  {
+    return subsetsList.filter(isVisibleSubset.bindenv(this)).values().sort(
+      @(a, b) a.sortIdx <=> b.sortIdx)
+  }
+
+  getCurSubsetId = @() curSubsetId
+  function setSubset(subsetId)
+  {
+    if (!hasSubsets || !(subsetId in subsetsList))
+      return
+
+    curSubsetId = subsetId
+    ::save_local_account_settings(CURRENT_SUBSET_SAVE_PATH + id, subsetId)
+  }
+
+  function getSubsetIdByItemId(itemId)
+  {
+    if (!hasSubsets)
+      return null
+
+    foreach(subset in subsetsList)
+      if (isVisibleSubset(subset) && ::u.search(subset.items, @(i) i == itemId) != null)
+        return subset.id
+
+    return null
+  }
 }
 
 return WorkshopSet

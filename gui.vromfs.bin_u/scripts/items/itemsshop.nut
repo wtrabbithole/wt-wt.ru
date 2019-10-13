@@ -1,7 +1,8 @@
-local sheets = ::require("scripts/items/itemsShopSheets.nut")
-local workshop = ::require("scripts/items/workshop/workshop.nut")
-local seenList = ::require("scripts/seen/seenList.nut")
-local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local sheets = require("scripts/items/itemsShopSheets.nut")
+local workshop = require("scripts/items/workshop/workshop.nut")
+local seenList = require("scripts/seen/seenList.nut")
+local bhvUnseen = require("scripts/seen/bhvUnseen.nut")
+local workshopCraftTreeWnd = require("scripts/items/workshop/workshopCraftTreeWnd.nut")
 
 ::gui_start_itemsShop <- function gui_start_itemsShop(params = null)
 {
@@ -35,6 +36,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   curItem = null //last selected item to restore selection after change list
 
   isSheetsInUpdate = false
+  isItemTypeChangeUpdate = false
   itemsPerPage = -1
   itemsList = null
   curPage = 0
@@ -44,6 +46,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   slotbarActions = [ "preview", "testflightforced", "weapons", "info" ]
   displayItemTypes = null
   sheetsArray = null
+
+  subsetList = null
+  curSubsetId = null
+  initSubsetId = null
 
   // Used to avoid expensive get...List and further sort.
   itemsListValid = false
@@ -63,6 +69,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     curSheet = sheetData ? sheetData.sheet
       : curSheet ? sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
       : sheets.ALL
+    initSubsetId = sheetData ? sheetData.subsetId : initSubsetId
 
     fillTabs()
 
@@ -202,7 +209,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local data = ::handyman.renderCached("gui/items/shopFilters", view)
-    guiScene.replaceContentFromText(scene.findObject("filter_block"), data, data.len(), this)
+    guiScene.replaceContentFromText(scene.findObject("filter_tabs"), data, data.len(), this)
   }
 
   function updateSheets()
@@ -214,6 +221,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local typesObj = getSheetsListObj()
     local seenListId = getTabSeenId(curTab)
     local curValue = -1
+    local hasSubLists = false
     foreach(idx, sh in sheetsArray)
     {
       local isEnabled = sh.isEnabled(curTab)
@@ -227,10 +235,13 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       if (curValue < 0 || curSheet == sh)
         curValue = idx
 
+      hasSubLists = hasSubLists || sh.hasSubLists()
       child.findObject("unseen_icon").setValue(bhvUnseen.makeConfigStr(seenListId, sh.getSeenId()))
     }
     if (curValue >= 0)
       typesObj.setValue(curValue)
+
+    showSceneBtn("subset_list_nest", hasSubLists)
 
     guiScene.setUpdatesEnabled(true, true)
     isSheetsInUpdate = false
@@ -246,9 +257,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!newSheet)
       return
 
+    isItemTypeChangeUpdate = true  //No need update item when fill subset if changed item type
     curSheet = newSheet
     itemsListValid = false
 
+    fillSubset()
+    isItemTypeChangeUpdate = false
     if (!isSheetsInUpdate)
       applyFilters()
   }
@@ -273,7 +287,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!itemsListValid)
     {
       itemsListValid = true
-      itemsList = curSheet.getItemsList(curTab)
+      itemsList = curSheet.getItemsList(curTab, curSubsetId)
       if (curTab == itemsTab.INVENTORY)
         itemsList.sort(::ItemsManager.getItemsSortComparator(getTabSeenList(curTab)))
     }
@@ -528,6 +542,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
         linkObj.findObject("img")["background-image"] = item.linkActionIcon
       }
     }
+
+    local craftTree = curSheet?.getSet().getCraftTree()
+    local needShowCraftTree = craftTree != null
+    local craftTreeObj = showSceneBtn("btn_open_craft_tree", needShowCraftTree)
+    if (needShowCraftTree)
+      craftTreeObj.setValue(::loc(craftTree?.openButtonLocId ?? ""))
   }
 
   function onLinkAction(obj)
@@ -754,4 +774,64 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     buttonObj.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
   }
+
+  function onOpenCraftTree(obj)
+  {
+    local curSet = curSheet?.getSet()
+    if (curSet?.getCraftTree() != null)
+      workshopCraftTreeWnd.open({workshopSet = curSet})
+  }
+
+  function getSubsetListView()
+  {
+    local view = {
+      id       = "subset_list"
+      btnName  = "RB"
+      funcName = "onSubsetChange"
+      values   = subsetList.map((@(subset) {
+        valueId    = subset.id
+        text       = ::loc(subset.locId)
+        unseenIcon = bhvUnseen.makeConfigStr(getTabSeenId(curTab), curSheet.getSubsetSeenListId(subset.id))
+      }).bindenv(this))
+    }
+
+    return ::handyman.renderCached("gui/commonParts/comboBox", view)
+  }
+
+  function fillSubset()
+  {
+    local hasSubLists = curSheet.hasSubLists()
+    if (!hasSubLists)
+    {
+      showSceneBtn("subset_list", hasSubLists)
+      subsetList = null
+      curSubsetId = null
+      return
+    }
+
+    local subsetListParameters = curSheet.getSubsetsListParameters()
+    subsetList = subsetListParameters.subsetList
+    curSubsetId = initSubsetId != null ? initSubsetId : subsetListParameters.curSubsetId
+    initSubsetId = null
+    local curIdx = subsetList.searchindex((@(subset) subset.id == curSubsetId).bindenv(this)) ?? 0
+    local data = getSubsetListView()
+    guiScene.replaceContentFromText(scene.findObject("subset_list_nest"), data, data.len(), this)
+    scene.findObject("subset_list").setValue(curIdx)
+  }
+
+  function onSubsetChange(obj)
+  {
+    if (isItemTypeChangeUpdate || !curSheet.hasSubLists())
+      return
+
+    markCurrentPageSeen()
+
+    local curSubsetIdx = obj.getValue()
+    curSubsetId = subsetList[curSubsetIdx].id
+    curSheet.setSubset(curSubsetId)
+
+    itemsListValid = false
+    applyFilters()
+  }
+
 }

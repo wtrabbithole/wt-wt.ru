@@ -48,6 +48,10 @@ frame.small {
 frame.wnd {
   padding:1@framePadding, 1@frameTopPadding, 1@framePadding, 1@framePadding;
 }
+frame.wnd[padByLine=yes] {
+  padding:1@frameHeaderPad, 1@frameHeaderHeight +1@dp, 1@frameHeaderPad, 1@frameHeaderPad;
+}
+
 
 frame_header {
   re-type:9rect;

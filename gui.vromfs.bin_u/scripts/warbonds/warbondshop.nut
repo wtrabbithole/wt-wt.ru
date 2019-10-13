@@ -421,6 +421,7 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   function onToShopButton(obj) {}
   function onToMarketplaceButton(obj) {}
   function onItemPreview(obj) {}
+  function onOpenCraftTree(obj) {}
   function onLinkAction(obj) {}
   function onAltAction(obj) {}
   function onChangeSortOrder(obj) {}

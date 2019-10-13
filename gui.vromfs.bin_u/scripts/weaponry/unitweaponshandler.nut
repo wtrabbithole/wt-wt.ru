@@ -79,9 +79,9 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateAllItems()
   }
 
-  function setCanChangeWeaponry(newValue)
+  function setCanChangeWeaponry(newValue, forceUpdate)
   {
-    if (newValue == canChangeWeaponry)
+    if (newValue == canChangeWeaponry && !forceUpdate)
       return
 
     canChangeWeaponry = newValue

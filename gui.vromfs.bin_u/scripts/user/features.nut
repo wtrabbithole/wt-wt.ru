@@ -250,6 +250,25 @@
   }
 
   cache = {}
+
+  function getReqFeaturesListFromString(featuresString)
+  {
+    local featureList = {}
+    if (featuresString == null)
+      return featureList
+
+    foreach (feature in featuresString.split(","))
+    {
+      local needHave = !::g_string.startsWith(feature, "!") // true = need to have, false = need to NOT have.
+      local featureId = feature.slice(needHave ? 0 : 1)
+      featureList[featureId] <- needHave
+    }
+
+    return featureList
+  }
+
+  hasFeatureListValue = @(featureList) featureList.reduce(         // hasFeature key of list == corresponding value
+    @(res, value, key) res && (::has_feature(key) == value), true) //supports feature checking for absence
 }
 
 g_features.hasFeatureBasic <- function hasFeatureBasic(name)

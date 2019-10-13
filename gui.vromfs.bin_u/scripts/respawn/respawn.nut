@@ -809,7 +809,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     onAircraftUpdate()
   }
 
-  function updateWeaponsSelector()
+  function updateWeaponsSelector(isUnitChanged)
   {
     local unit = getCurSlotUnit()
     local isRandomUnit = unit && missionRules && missionRules.getRandomUnitsGroupName(unit.name)
@@ -820,7 +820,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (weaponsSelectorWeak)
     {
       weaponsSelectorWeak.setUnit(unit)
-      weaponsSelectorWeak.setCanChangeWeaponry(canChangeWeaponry)
+      weaponsSelectorWeak.setCanChangeWeaponry(canChangeWeaponry, isRespawn && !isUnitChanged)
       weaponsSelectorObj.show(shouldShowWeaponry)
       delayedRestoreFocus()
       return
@@ -1292,7 +1292,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     updateTacticalMapUnitType()
 
-    updateWeaponsSelector()
+    updateWeaponsSelector(isUnitChanged)
     updateOtherOptions()
     updateSkin()
     updateUserSkins()

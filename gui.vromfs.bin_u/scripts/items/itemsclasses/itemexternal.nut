@@ -62,6 +62,7 @@ local ItemExternal = class extends ::BaseItem
 
   aditionalConfirmationMsg = null
   locIdsList = null
+  substitutionItemData = []
 
   constructor(itemDefDesc, itemDesc = null, slotData = null)
   {
@@ -72,6 +73,7 @@ local ItemExternal = class extends ::BaseItem
     blkType = itemDefDesc?.tags?.type ?? ""
     maxAmount = (itemDefDesc?.tags?.maxCount ?? -1).tointeger()
     requirement = itemDefDesc?.tags?.showWithFeature
+    updateSubstitutionItemDataOnce()
 
     aditionalConfirmationMsg = {}
     local confirmationActions = itemDefDesc?.tags ? (itemDefDesc.tags % "confirmationAction") : []
@@ -175,6 +177,10 @@ local ItemExternal = class extends ::BaseItem
 
   function getName(colored = true)
   {
+    local item = getSubstitutionItem()
+    if(item != null)
+      return item.getName(colored)
+
     local res = ""
     if (isDisguised)
       res = ::loc("item/disguised")
@@ -271,7 +277,7 @@ local ItemExternal = class extends ::BaseItem
     params.receivedPrizes <- false
 
     if (isDisguised)
-      return ExchangeRecipes.getRequirementsMarkup(getMyRecipes(), this, params)
+      return getDescRecipesMarkup(params)
 
     local content = []
     local headers = [
@@ -729,6 +735,9 @@ local ItemExternal = class extends ::BaseItem
 
   function needShowActionButtonAlways()
   {
+    if(getMainActionData(true)?.isInactive ?? false)
+      return false
+
     if (canRunCustomMission())
       return true
 
@@ -958,6 +967,10 @@ local ItemExternal = class extends ::BaseItem
 
   function getViewData(params = {})
   {
+    local item = getSubstitutionItem()
+    if(item != null)
+      return getSubstitutionViewData(item.getViewData(params), params)
+
     local res = base.getViewData(params)
     if(res.layered_image == "")
       res.nameText <- getName()
@@ -974,6 +987,35 @@ local ItemExternal = class extends ::BaseItem
     res.markIconColor <- data.color
 
     return res
+  }
+
+  function updateSubstitutionItemDataOnce()
+  {
+    local tag = itemDef.tags?.showAsAnotherItem
+    if(tag == null)
+      return
+
+    substitutionItemData = []
+    local tagData = split(tag, "_")
+    for (local i = tagData.len() - 1; i >= 0 ; i--)
+    {
+      local ids = split(tagData[i], "-")
+      if (ids.len() < 2)
+        continue
+      substitutionItemData.append(ids)
+      inventoryClient.requestItemdefsByIds(ids)
+    }
+  }
+
+  function getSubstitutionItem()
+  {
+    if(substitutionItemData?.len() == 0)
+      return null
+    for (local i = 0; i < substitutionItemData.len(); i++)
+      if (::ItemsManager.getInventoryItemById(substitutionItemData[i][0].tointeger()))
+        return ::ItemsManager.findItemById(substitutionItemData[i][1].tointeger())
+
+    return null
   }
 
   function getDescriptionUnderTitle()
@@ -1022,6 +1064,16 @@ local ItemExternal = class extends ::BaseItem
       itemDef.icon_url = "!" + itemDef.icon_url
     if (!::u.isEmpty(itemDef.icon_url_large))
       itemDef.icon_url_large = "!" + itemDef.icon_url_large
+  }
+  getDescRecipesMarkup = @(params) ExchangeRecipes.getRequirementsMarkup(getMyRecipes(), this, params)
+  getIconName = @() isDisguised ? getSmallIconName() : itemDef.icon_url
+  hasUsableRecipeOrNotRecipes = function ()
+  {
+    local recipes = getMyRecipes()
+    if (recipes.len() == 0)
+      return true
+
+    return ::u.search(getMyRecipes(), @(r) r.isUsable) != null
   }
 }
 
