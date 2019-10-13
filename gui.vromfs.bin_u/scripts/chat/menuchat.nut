@@ -1604,7 +1604,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         showRoomPopup(menuChatRoom.newMessage("", errMsg), roomId)
     }
     else
-      ::dagor.debug("Chat error: Received message of unknown type = " + db?.type)
+      ::dagor.debug("Chat error: Received message of unknown type = " + (db?.type ?? "null"))
   }
 
   function joinRoom(id, password = "", onJoinFunc = null, customScene = null, ownerHandler = null, reconnect = false)

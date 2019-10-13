@@ -290,6 +290,17 @@ class ::WwBattleView
     return "worldwar/battle_finished"
   }
 
+  function getAutoBattleWinChancePercentText(side)
+  {
+    local percent = battle.getTeamBySide(side)?.autoBattleWinChancePercent
+    return percent != null ? percent + ::loc("measureUnits/percent") : ""
+  }
+
+  function needShowWinChance()
+  {
+    return  battle.isWaiting() || battle.status == ::EBS_ACTIVE_AUTO
+  }
+
   function getBattleStatusText()
   {
     return battle.isValid() ? ::loc(getBattleStatusTextLocId()) : ""

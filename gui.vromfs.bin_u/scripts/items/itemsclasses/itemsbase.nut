@@ -376,7 +376,6 @@ class ::BaseItem
 
     res.hasButton <- ::getTblValue("hasButton", params, true)
     res.onClick <- ::getTblValue("onClick", params, null)
-    res.isInactive <- params?.isButtonInactive ?? false
     res.hasHoverBorder <- ::getTblValue("hasHoverBorder", params, false)
 
     if (::getTblValue("contentIcon", params, true))
@@ -392,6 +391,8 @@ class ::BaseItem
     if (::getTblValue("showAction", params, true))
     {
       local mainActionData = getMainActionData(true)
+      res.isInactive <- (params?.showButtonInactiveIfNeed ?? false)
+        && (mainActionData?.isInactive ?? false)
       if (mainActionData && getLimitsCheckData().result)
       {
         res.modActionName <- mainActionData?.btnColoredName || mainActionData.btnName
@@ -421,7 +422,19 @@ class ::BaseItem
 
     if (!res?.isItemLocked)
       res.isItemLocked <- isInventoryItem && !amount
+
+    local boostEfficiency = getBoostEfficiency()
+    if(params?.hasBoostEfficiency && boostEfficiency)
+      res.boostEfficiency <- ::colorize(getAmount() > 0
+        ? "activeTextColor"
+        : "commonTextColor", ::loc("keysPlus") + boostEfficiency + ::loc("measureUnits/percent"))
+
     return res
+  }
+
+  function getBoostEfficiency()
+  {
+    return null
   }
 
   function getContentIconData()
@@ -753,7 +766,7 @@ class ::BaseItem
   getCraftResultItem = @() null
   hasCraftResult = @() !!getCraftResultItem()
   isHiddenItem = @() !isEnabled() || isCraftResult()
-  getAdditionalTextInAmmount = @() ""
+  getAdditionalTextInAmmount = @(needColorize = true, showOnlyIcon = false) ""
   cancelCrafting = @(...) false
   getRewardListLocId = @() "mainmenu/rewardsList"
   getItemsListLocId = @() "mainmenu/itemsList"

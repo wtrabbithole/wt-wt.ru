@@ -75,7 +75,6 @@ frame {
             max-width:t='pw';
             height:t='0.03@scrn_tgt';
             id:t='reward';
-            pare-text:t='yes';
             position:t='relative';
             padding-left:t='0.03@scrn_tgt';
             pos:t='pw - w, 0';

@@ -29,11 +29,10 @@ local function getArrowConfigByItems(item, reqItem)
   }
 }
 
-local function generateRows(branchBlk)
+local function generateRows(branchBlk, treeRows)
 {
   local branchItems = {}
   local notFoundReqForItems = {}
-  local rows = []
   local minPosX = null
   local maxPosX = null
   local resourcesInColumn = {}
@@ -47,13 +46,14 @@ local function generateRows(branchBlk)
 
     local itemConfig = ::buildTableFromBlk(iBlk)
     itemConfig.id <- id
-    local posX = itemConfig.posXY.x
-    local posY = itemConfig.posXY.y
+    itemConfig.reqItem <- itemConfig?.reqItem.tointeger()
+    local posX = itemConfig.posXY.x.tointeger()
+    local posY = itemConfig.posXY.y.tointeger()
     minPosX = ::min(minPosX ?? posX, posX)
     maxPosX = ::max(maxPosX ?? posX, posX)
     if (itemConfig?.showResources && resourcesInColumn?[posX] == null)
       resourcesInColumn[posX] <- 1
-    local reqItem = itemConfig?.reqItem.tointeger()
+    local reqItem = itemConfig.reqItem
     if (reqItem != null)
     {
       if (branchItems?[reqItem] != null)
@@ -62,26 +62,26 @@ local function generateRows(branchBlk)
         notFoundReqForItems[id] <- itemConfig
     }
 
-    if (rows.len() < posY)
-      rows.resize(posY, array(posX, null))
+    if (treeRows.len() < posY)
+      treeRows.resize(posY, array(posX, null))
 
-    if (rows[posY-1].len() < posX)
-      rows[posY-1].resize(posX, null)
+    if (treeRows[posY-1].len() < posX)
+      treeRows[posY-1].resize(posX, null)
 
     branchItems[id] <- itemConfig
-    rows[posY-1][posX-1] = itemConfig
+    treeRows[posY-1][posX-1] = itemConfig
   }
 
   local searchReqForItems = clone notFoundReqForItems
   foreach(id, itemConfig in searchReqForItems)
   {
-    local reqItem = itemConfig.reqItem.tointeger()
+    local reqItem = itemConfig.reqItem
     if (!(reqItem in branchItems))
       continue
 
     itemConfig.arrow <- getArrowConfigByItems(itemConfig, branchItems[reqItem])
     branchItems[id] = itemConfig
-    rows[itemConfig.posXY.y-1][itemConfig.posXY.x-1] = itemConfig
+    treeRows[itemConfig.posXY.y-1][itemConfig.posXY.x-1] = itemConfig
     notFoundReqForItems.rawdelete(id)
   }
 
@@ -95,23 +95,18 @@ local function generateRows(branchBlk)
   minPosX = minPosX ?? 0
   maxPosX = maxPosX ?? 0
   return {
-    rows = rows.map(@(row) row.slice(minPosX-1, maxPosX))
-    minPosX = minPosX
-    maxPosX = maxPosX
-    itemsCountX = maxPosX - minPosX + 1
-    branchItems = branchItems
-    columnWithResourcesCount = resourcesInColumn.reduce(@(res, value) res + value, 0)
+    treeRows = treeRows
+    branch = DEFAULT_BRANCH_CONFIG.__merge({
+      locId = branchBlk?.locId ?? ""
+      headerItems = getHeaderItems(branchBlk)
+      minPosX = minPosX
+      maxPosX = maxPosX
+      itemsCountX = maxPosX - minPosX + 1
+      branchItems = branchItems
+      resourcesInColumn = resourcesInColumn
+      columnWithResourcesCount = resourcesInColumn.reduce(@(res, value) res + value, 0)
+    })
   }
-}
-
-local function createBranch(branchBlk)
-{
-  local branch = DEFAULT_BRANCH_CONFIG.__merge({
-    locId = branchBlk?.locId ?? ""
-  })
-
-  branch.headerItems = getHeaderItems(branchBlk)
-  return branch.__update(generateRows(branchBlk))
 }
 
 local function getAllowableResources(resourcesBlk)
@@ -126,26 +121,73 @@ local function getAllowableResources(resourcesBlk)
   return allowableResources
 }
 
+local function getCraftResult(treeBlk)
+{
+  local craftResult = treeBlk?.craftResult
+  if (!craftResult || !craftResult?.item)
+    return null
+
+  local reqItems = craftResult?.reqItems ?? ""
+  return {
+    id = craftResult.item
+    reqItems = reqItems.split(",").map(@(item) item.tointeger())
+  }
+}
+
 local function generateTreeConfig(blk)
 {
   local branches = []
-  foreach(branch in blk % "treeBlock")
+  local treeRows = []
+  foreach(branchBlk in blk % "treeBlock")
   {
-    branches.append(createBranch(branch))
+    local configByBranch = generateRows(branchBlk, treeRows)
+    treeRows = configByBranch.treeRows
+    branches.append(DEFAULT_BRANCH_CONFIG.__merge(configByBranch.branch))
   }
 
-  local craftTreeItemsIdArray = branches.map(@(branch) branch.branchItems.keys().extend(branch.headerItems)
-    ).reduce(@(res, value) res.extend(value))
+  branches.sort(@(a, b) a.minPosX <=> b.minPosX)
+
+  local craftResult = getCraftResult(blk)
+  local treeColumnsCount = 0
+  local resourcesInColumn = {}
+  local branchIdxByColumns = {}
+  local craftTreeItemsIdArray = []
+  if (craftResult != null)
+    craftTreeItemsIdArray.append(craftResult.id)
+  foreach (idx, branch in branches)
+  {
+     branchIdxByColumns[branch.minPosX-1] <- idx
+     craftTreeItemsIdArray.extend(branch.branchItems.keys()).extend(branch.headerItems)
+     resourcesInColumn.__update(branch.resourcesInColumn)
+     treeColumnsCount += branch.itemsCountX
+  }
+  local paramsForPosByColumns = array(treeColumnsCount, null)
+  local resourcesCount = 0
+  local curBranchIdx = 0
+  foreach(idx, column in paramsForPosByColumns)
+  {
+    curBranchIdx = branchIdxByColumns?[idx] ?? curBranchIdx
+    paramsForPosByColumns[idx] = { branchIdx = curBranchIdx,
+      prevResourcesCount = resourcesCount }
+    resourcesCount += (resourcesInColumn?[idx+1] ?? 0)
+  }
+
   if (craftTreeItemsIdArray.len() > 0)   //request items by itemDefId for craft tree
     inventoryClient.requestItemdefsByIds(craftTreeItemsIdArray)
 
   return {
     headerlocId = blk?.main_header ?? ""
+    headerItemsTitle = blk?.headerItemsTitle
+    bodyItemsTitle = blk?.bodyItemsTitle
     openButtonLocId = blk?.openButtonLocId ?? ""
     allowableResources = getAllowableResources(blk?.allowableResources)
     craftTreeItemsIdArray = craftTreeItemsIdArray
     branches = branches
+    treeRows = treeRows
     reqFeaturesList = ::g_features.getReqFeaturesListFromString(blk?.reqFeature)
+    baseEfficiency = blk?.baseEfficiency.tointeger() ?? 0
+    craftResult = craftResult
+    paramsForPosByColumns = paramsForPosByColumns
   }
 }
 

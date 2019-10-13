@@ -10,80 +10,50 @@ root {
 
     frame_header {
       activeText {
+        id:t='wnd_title'
         caption:t='yes'
         text:t='<<frameHeaderText>>'
       }
       Button_close {}
     }
     tdiv {
+      id:t='craft_tree'
       position:t='relative'
+      flow:t='vertical'
       overflow-y:t='auto'
       scrollbarShortcuts:t='yes'
-      <<#branchesView>>
-        craftBranchTree {
-          width:t='<<branchWidth>>'
-          height:t='fh'
-          flow:t='vertical'
-          <<#branchHeader>>
-            craftBranchHeader {
-              width:t='pw'
-              text:t='<<branchHeader>>'
-              text-align:t='center'
-              <<#separators>>
-                craftTreeSeparator{}
-              <</separators>>
-            }
-          <</branchHeader>>
-          <<#branchHeaderItems>>
-            craftBranchRow {
-              smallItems:t='yes'
-              isHeader:t='yes'
-              <<#itemsSize>>itemsSize:t='<<itemsSize>>'<</itemsSize>>
-              itemsBlock {
-                position:t='absolute'
-                pos:t='0.5pw - 0.5w, 0.5ph - 0.5h'
-                include "gui/items/item"
-              }
-              <<#separators>>
-                craftTreeSeparator{}
-              <</separators>>
-              craftTreeSeparator{
-                located:t='bottom'
-              }
-            }
-          <</branchHeaderItems>>
-          craftBranchBody {
-            width:t='pw'
-            max-height:t='fh'
-            flow:t='vertical'
-            <<#separators>>
-              craftTreeSeparator {}
-            <</separators>>
-            <<#rows>>
-              craftBranchRow {
-              <<#itemsSize>>itemsSize:t='<<itemsSize>>'<</itemsSize>>
-              <<#itemBlock>>
-                itemBlock {
-                  <<#hasComponent>>hasComponent:t='yes'<</hasComponent>>
-                  <<#isDisabled>>isDisabled:t='yes'<</isDisabled>>
-                  include "gui/items/item"
-                  <<#shopArrow>>
-                    shopArrow {
-                      type:t='<<arrowType>>'
-                      size:t='<<arrowSize>>'
-                      pos:t='<<arrowPos>>'
-                    }
-                  <</shopArrow>>
-                  tdiv {
-                    <<#component>><<@component>><</component>>
-                  }
-                }
-              <</itemBlock>>
-              }
-            <</rows>>
-          }
-        }
-      <</branchesView>>
+      tdiv {
+        id:t='craft_header'
+        include "gui/items/craftTreeHeader"
+      }
+
+      craftBranchBody {
+        id:t='craft_body'
+        size:t='<<bodyWidth>>, <<bodyHeight>>'
+        flow:t='h-flow'
+        total-input-transparent:t='yes'
+        <<#itemsSize>>itemsSize:t='<<itemsSize>>'<</itemsSize>>
+
+        behaviour:t='posNavigator'
+        navigatorShortcuts:t='yes'
+        moveX:t='linear'
+        moveY:t='closest'
+
+        include "gui/items/craftTreeBody"
+      }
     }
   }
+}
+
+DummyButton {
+  btnName:t='A'
+  on_click:t='onMainAction'
+}
+
+dummy
+{
+  id:t='update_timer'
+  behavior:t='Timer'
+  timer_handler_func:t='onTimer'
+  timer_interval_msec:t='1000'
 }

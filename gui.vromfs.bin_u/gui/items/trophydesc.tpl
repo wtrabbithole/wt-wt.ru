@@ -13,6 +13,9 @@ textareaNoTab {
   max-width:t='p.p.w'
   <</widthByParentParent>>
 
+  <<#hasHeaderPadding>>
+    padding:t='1@itemPadding, 0'
+  <</hasHeaderPadding>>
   margin-bottom:t='1@itemPadding'
   font-bold:t='@fontMedium'
   <<#headerFont>>

@@ -499,7 +499,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onTake(unit = null, params = {})
   {
     unitActions.take(unit, {
-        unitObj = scene.findObject(unit.name)
+        unitObj = unit?.name? scene.findObject(unit.name) : null
         shouldCheckCrewsReady = shouldCheckCrewsReady
       }.__update(params))
   }

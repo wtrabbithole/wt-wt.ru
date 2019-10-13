@@ -5,6 +5,7 @@ const KNOWN_REQ_ITEMS_SAVE_ID = "workshop/knownReqItems"
 const KNOWN_ITEMS_SAVE_KEY = "id"
 const PREVIEWED_SAVE_PATH = "workshop/previewed/"
 const CURRENT_SUBSET_SAVE_PATH = "workshop/curSubSetBySet/"
+const UNSEEN_CRAFT_TREE_SAVE_PATH = "seen/workshopCraftTree/"
 
 local WorkshopSet = class {
   id = "" //name of config blk. not unique
@@ -404,11 +405,14 @@ local WorkshopSet = class {
   function getItemsListForCraftTree(craftTree)
   {
     local itemDefIds = craftTree.craftTreeItemsIdArray
-    local itemsList = ::ItemsManager.getInventoryList(itemType.ALL, @(item) itemDefIds.find(item.id) != null)
+    local itemsList = {}
+    local itemsArray = ::ItemsManager.getInventoryList(itemType.ALL, @(item) itemDefIds.find(item.id) != null)
+    foreach (item in itemsArray)
+      itemsList[item.id] <- item
 
     foreach(itemdefid in itemDefIds)
     {
-      if (itemsList.find(itemdefid) != null)
+      if (itemsList?[itemdefid] != null)
         continue
 
       local item = ::ItemsManager.getItemOrRecipeBundleById(itemdefid)
@@ -416,7 +420,7 @@ local WorkshopSet = class {
         continue
 
       local newItem = item.makeEmptyInventoryItem()
-      itemsList.append(newItem)
+      itemsList[itemdefid] <- newItem
     }
 
     return itemsList
@@ -462,6 +466,16 @@ local WorkshopSet = class {
 
     return null
   }
+
+  function needShowUnseenIconCraftTree()
+  {
+    if (getCraftTree() == null)
+      return false
+
+    return !::load_local_account_settings(UNSEEN_CRAFT_TREE_SAVE_PATH + id, false)
+  }
+
+  saveSeenCraftTree = @() ::save_local_account_settings(UNSEEN_CRAFT_TREE_SAVE_PATH + id, true)
 }
 
 return WorkshopSet

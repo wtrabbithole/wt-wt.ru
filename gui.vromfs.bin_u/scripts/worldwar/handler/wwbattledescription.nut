@@ -749,9 +749,22 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateBattleStatus(battleView)
   {
+    local side = getPlayerSide()
     local statusObj = scene.findObject("battle_status_text")
     if (::check_obj(statusObj))
-      statusObj.setValue(battleView.getBattleStatusWithCanJoinText(getPlayerSide()))
+      statusObj.setValue(battleView.getBattleStatusWithCanJoinText(side))
+
+    local needShowWinChance = battleView.needShowWinChance()
+    local winCahnceObj = showSceneBtn("win_chance", needShowWinChance)
+    if (needShowWinChance && winCahnceObj)
+    {
+      local winCahnceTextObj = winCahnceObj.findObject("win_chance_text")
+      local percent = battleView.getAutoBattleWinChancePercentText(side)
+      if (::check_obj(winCahnceTextObj) && percent != "")
+        winCahnceTextObj.setValue(percent)
+      else
+        winCahnceObj.show(false)
+    }
 
     local battleTimeObj = scene.findObject("battle_time_text")
     if (::check_obj(battleTimeObj) && battleView.needShowTimer())

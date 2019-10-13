@@ -74,6 +74,21 @@ tdiv {
             text:t=''
           }
         }
+
+        tdiv {
+          id:t='win_chance'
+          width:t='pw'
+          display:t='hide'
+          activeText {
+            text:t='<<?worldwar/winChancePercent>><<?ui/colon>>'
+            commonTextColor:t='yes'
+          }
+          activeText {
+            id:t='win_chance_text'
+            width:t='fw'
+            text:t=''
+          }
+        }
       }
     }
 

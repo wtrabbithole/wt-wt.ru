@@ -25,7 +25,7 @@ class EventTicketBuyOfferProcess
     _event = event
     _tickets = ::events.getEventTickets(event, true)
     foreach (ticket in _tickets)
-      ::g_item_limits.enqueueItem(ticket)
+      ::g_item_limits.enqueueItem(ticket.id)
     if (::g_item_limits.requestLimits(true))
       ::add_event_listener("ItemLimitsUpdated", onEventItemLimitsUpdated, this)
     else
@@ -63,7 +63,7 @@ class EventTicketBuyOfferProcess
       local windowParams = {
         event = _event
         tickets = availableTickets
-        activeTicket = getEventActiveTicket(_event)
+        activeTicket = ::events.getEventActiveTicket(_event)
       }
       ::gui_start_modal_wnd(::gui_handlers.TicketBuyWindow, windowParams)
     }

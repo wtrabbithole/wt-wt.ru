@@ -400,6 +400,7 @@ local ExchangeRecipes = class {
             { header = msgData?.headerRecipeMarkup ?? ""
               headerFont = "mediumFont"
               widthByParentParent = true
+              hasHeaderPadding = true
               isCentered = true })
           baseHandler = ::get_cur_base_gui_handler()
         })
@@ -411,6 +412,7 @@ local ExchangeRecipes = class {
                 { header = ::loc("mainmenu/you_will_receive")
                   headerFont = "mediumFont"
                   widthByParentParent = true
+                  hasHeaderPadding = true
                   isCentered = true }, false)
           baseHandler = ::get_cur_base_gui_handler()
         })
@@ -439,7 +441,10 @@ local ExchangeRecipes = class {
     local locId = componentItem.getCantUseLocId()
     local text = ::colorize("badTextColor", ::loc(locId))
     local msgboxParams = {
-      data_below_text = getRequirementsMarkup(recipes, componentItem, { widthByParentParent = true }),
+      data_below_text = getRequirementsMarkup(recipes, componentItem, {
+        widthByParentParent = true
+        hasHeaderPadding = true
+      }),
       baseHandler = ::get_cur_base_gui_handler(), //FIX ME: used only for tooltip
       cancel_fn = function() {}
     }

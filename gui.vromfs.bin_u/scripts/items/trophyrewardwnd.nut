@@ -163,6 +163,9 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (shouldShowRewardItem && configsArray[0]?.item)
       itemToShow = ::ItemsManager.findItemById(configsArray[0].item)
 
+    if (itemToShow == null)
+      return
+
     local layersData = ""
     if (isBoxOpening && (opened || useSingleAnimation))
     {

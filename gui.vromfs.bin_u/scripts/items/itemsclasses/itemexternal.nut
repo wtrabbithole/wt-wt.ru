@@ -886,7 +886,7 @@ local ItemExternal = class extends ::BaseItem
     return true
   }
 
-  function getAdditionalTextInAmmount(needColorize = true)
+  function getAdditionalTextInAmmount(needColorize = true, needOnlyIcon = false)
   {
     local locIds = getLocIdsList()
     local textIcon = isCrafting()
@@ -898,7 +898,9 @@ local ItemExternal = class extends ::BaseItem
     if (textIcon == "")
       return ""
 
-    local text = " + 1" + ::loc(textIcon)
+    local text = ::loc(textIcon)
+    if (!needOnlyIcon)
+      text = " + 1{0}".subst(text)
     return needColorize ? ::colorize(craftColor, text) : text
   }
 
@@ -1074,6 +1076,14 @@ local ItemExternal = class extends ::BaseItem
       return true
 
     return ::u.search(getMyRecipes(), @(r) r.isUsable) != null
+  }
+
+  function getBoostEfficiency()
+  {
+    local substitutionItem = getSubstitutionItem()
+    return substitutionItem != null
+      ? substitutionItem.getBoostEfficiency()
+      : itemDef?.tags?.boostEfficiency.tointeger()
   }
 }
 

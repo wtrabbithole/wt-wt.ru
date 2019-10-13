@@ -126,7 +126,7 @@ awardItemDiv, itemDiv {
   width:1@itemWidth;
 }
 
-craftBranchRow[itemsSize = small] {
+craftBranchBody[itemsSize = small] > itemBlock {
   smallItems:yes;
 }
 
@@ -198,6 +198,7 @@ itemDiv[showButtonAlways=yes] > Button_text {
 }
 
 [show_console_buttons=yes] :focus > itemDiv[selected=yes] > Button_text,
+[show_console_buttons=yes] craftBranchBody:focus > itemBlock[selected=yes] > itemDiv > Button_text,
 itemDiv:hover > Button_text, itemDiv > Button_text:hover {
   display:show;
   enable:yes;
@@ -494,6 +495,19 @@ itemAmountText {
   pos:pw-w, 0;
 }
 
+amountIcon {
+  pos:pw-w, 0;
+  position:absolute;
+  size: 1@cIco, 1@cIco;
+  background-svg-size: 1@cIco, 1@cIco;
+}
+
+[smallItems=yes] amountIcon {
+  pos:pw-w, -0.5@itemPadding;
+  size: 1@sIco, 1@sIco;
+  background-svg-size: 1@sIco, 1@sIco;
+}
+
 itemsSeparator {
   width:@itemsSeparatorSize;
   pos:0, 50%ph-50%h;
@@ -536,11 +550,12 @@ recipe[isRecipeLocked = yes] > itemDiv itemTimerPlace > textareaNoTab {
 markIcon {
   re-type:text;
   font:@fontMedium;
-  padding:1@itemPadding;
+  padding:0.5@itemPadding, 0;
 }
 
 [smallItems=yes] markIcon {
   font:@fontSmall;
+  padding: 0;
 }
 
 craftBranchHeader {
@@ -554,93 +569,78 @@ craftBranchHeader {
 }
 
 craftTreeSeparator {
- size:1@dp, ph - 6@dp;
- pos:0, ph/2 - h/2;
- position:absolute;
- background-color:@tableHeaderSeparatorColor;
+  position:absolute;
+  background-color:@tableHeaderSeparatorColor;
+  enable:no;
+}
+
+craftTreeSeparator[located = left] {
+  size:1@dp, ph - 6@dp;
+  pos:0, ph/2 - h/2;
 }
 
 craftTreeSeparator[located = bottom] {
- size: pw, 1@dp;
- pos:pw/2-w/2, ph;
+  size:pw, 1@dp;
+  pos:pw/2-w/2, ph;
 }
 
-craftBranchRow {
+craftTreeSeparator[located = top] {
+  size:pw, 1@dp;
+  pos:pw/2-w/2, 0;
+}
+
+craftBranchBody > itemBlock {
+  width:1@itemHeight;
+  height:1@itemHeight;
+  css-hier-invalidate:yes;
+}
+
+craftBranchBody > itemBlock[hasComponent = yes] {
+  width:1@itemHeight + 1@craftTreeResourceWidth;
+}
+
+craftBranchBody[itemsSize = compact] > itemBlock,
+craftBranchBody[itemsSize = compact] > itemBlock > itemDiv {
+  width:1@compactItemHeight;
+  height:1@compactItemHeight;
+}
+
+craftBranchBody[itemsSize = compact] > itemBlock[hasComponent = yes] {
+  width:1@compactItemHeight + 1@craftTreeResourceWidth;
+}
+
+craftBranchBody[itemsSize = small] > itemBlock {
+  width:1@smallItemHeight;
+  height:1@smallItemHeight;
+}
+
+craftBranchBody[itemsSize = small] > itemBlock[hasComponent = yes] {
+  width:1@smallItemHeight + 1@craftTreeResourceWidth;
+}
+
+craftHeaderRow {
   width: pw;
-  height: 1@itemHeight;
-  margin: 0, 1@headerAndCraftTreeBlockInterval, 0, 1@craftTreeBlockInterval;
-}
-
-craftBranchRow > itemBlock {
-  width: 1@itemHeight;
-  height: 1@itemHeight;
-}
-
-craftBranchRow > itemBlock[hasComponent = yes] {
-  width: 1@itemHeight + 1@craftTreeResourceWidth;
-}
-
-craftBranchRow > itemBlock,
-craftBranchRow > itemDiv {
-  margin:1@craftTreeItemInterval, 0;
-}
-
-craftBranchRow[itemsSize = compact] {
-  height: 1@compactItemHeight;
-  margin: 0, 1@headerAndCraftTreeBlockInterval, 0, 1@compactCraftTreeBlockInterval;
-}
-
-craftBranchRow[itemsSize = compact] > itemBlock,
-craftBranchRow[itemsSize = compact] itemDiv {
-  width: 1@compactItemHeight;
-  height: 1@compactItemHeight;
-}
-
-craftBranchRow[itemsSize = compact] > itemBlock[hasComponent = yes] {
-  width: 1@compactItemHeight + 1@craftTreeResourceWidth;
-}
-
-craftBranchRow[itemsSize = compact] > itemBlock,
-craftBranchRow[itemsSize = compact] > itemsBlock > itemDiv {
-  margin:1@compactCraftTreeItemInterval, 0;
-}
-
-craftBranchRow[smallItems = yes] {
-  height: 1@smallItemHeight;
-  margin: 0, 1@headerAndCraftTreeBlockInterval, 0, 1@smallCraftTreeBlockInterval;
-}
-
-craftBranchRow[smallItems = yes] > itemBlock,
-craftBranchRow[smallItems = yes] itemDiv {
-  width: 1@smallItemHeight;
-  height: 1@smallItemHeight;
-}
-
-craftBranchRow[smallItems = yes] > itemBlock[hasComponent = yes] {
-  width: 1@smallItemHeight + 1@craftTreeResourceWidth;
-}
-
-craftBranchRow[smallItems = yes] > itemBlock,
-craftBranchRow[smallItems = yes] > itemsBlock > itemDiv {
-  margin:1@smallCraftTreeItemInterval, 0;
-}
-
-craftBranchRow[isHeader = yes] {
-  min-height: 1@smallItemHeight + 2@headerAndCraftTreeBlockInterval;
+  min-height:1@smallItemHeight + 4@headerAndCraftTreeBlockInterval;
   padding:0, 1@headerAndCraftTreeBlockInterval;
   margin: 0;
 }
 
-craftBranchRow[isHeader = yes] > itemsBlock > itemDiv {
+craftHeaderRow itemsBlock > itemDiv {
   margin:1@craftTreeItemInterval, 0;
 }
 
-craftBranchRow[isHeader = yes][itemsSize = compact] > itemsBlock > itemDiv {
+craftHeaderRow[itemsSize = compact] itemsBlock > itemDiv {
   margin:1@compactCraftTreeItemInterval, 0;
 }
 
-craftBranchRow[isHeader = yes][itemsSize = small] > itemsBlock > itemDiv {
+craftHeaderRow[itemsSize = small] itemsBlock > itemDiv {
   margin:1@smallCraftTreeItemInterval, 0;
+}
+
+craftBranchBody > itemBlock[isFullSize],
+craftBranchBody > itemBlock[isFullSize] > itemDiv {
+  width:1@itemHeight;
+  height:1@itemHeight;
 }
 
 itemBlock[isDisabled = yes] > itemDiv {

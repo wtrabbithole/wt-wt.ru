@@ -1,4 +1,5 @@
 @const activateTabPaddingSum:2@bigButtonTextPadding;
+@const minShopFilterWidthWithUnseen: 2@listboxHPadding + 2@newWidgetIconHeight + 2@blockInterval;
 
 activateTab {
   height:ph;
@@ -127,7 +128,7 @@ activateSelect > shopFilter[selected=yes] {
   color:@commonTextColor;
 }
 
-activateSelect > shopFilter[selected=yes] > shopFilterText {
+activateSelect > shopFilter[selected=yes] shopFilterText {
   color:@commonTextColor;
 }
 
@@ -137,7 +138,7 @@ activateSelect > shopFilter:hover {
   background-color:@transparent;
 }
 
-activateSelect > shopFilter:hover > shopFilterText {
+activateSelect > shopFilter:hover shopFilterText {
   color:@headerOptionSelectedTextColor;
 }
 
@@ -151,7 +152,7 @@ activateSelect > shopFilter[chosen=yes] {
   color:@activeTextColor;
 }
 
-activateSelect > shopFilter[chosen=yes] > shopFilterText {
+activateSelect > shopFilter[chosen=yes] shopFilterText {
   color:@activeTextColor;
 }
 
@@ -162,7 +163,7 @@ activateSelect.hflow > shopFilter[selected=yes] {
   color:@commonTextColor;
 }
 
-activateSelect.hflow > shopFilter[selected=yes] > shopFilterText {
+activateSelect.hflow > shopFilter[selected=yes] shopFilterText {
   color:@commonTextColor;
 }
 
@@ -172,7 +173,7 @@ activateSelect.hflow > shopFilter:hover {
   color:@listboxHoverTextColor;
 }
 
-activateSelect.hflow > shopFilter:hover > shopFilterText {
+activateSelect.hflow > shopFilter:hover shopFilterText {
   color:@listboxHoverTextColor;
 }
 
@@ -182,7 +183,7 @@ activateSelect.hflow > shopFilter[chosen=yes] {
   color:@activeTextColor;
 }
 
-activateSelect.hflow > shopFilter[chosen=yes] > shopFilterText {
+activateSelect.hflow > shopFilter[chosen=yes] shopFilterText {
   color:@activeTextColor;
 }
 
@@ -227,4 +228,11 @@ activateSelect[withImages=yes] > shopFilter > shopFilterImg {
   pos:0, ph/2-h/2;
   position:relative;
   margin-right:1@blockInterval;
+}
+
+activateSelect > shopFilter[autoScrollText=yes] shopFilterText {
+  behaviour:OverflowScroller;
+  move-pixel-per-sec:15*@scrn_tgt/100.0;
+  move-sleep-time:8000;
+  move-delay-time:4000;
 }

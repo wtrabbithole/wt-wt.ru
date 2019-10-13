@@ -167,7 +167,9 @@ local function tableKeyToString(k) {
     else if (::getTblValue("isToStringForDebug", val))
       return val.tostring()
     else if (val instanceof ::DaGuiObject)
-      return val.isValid() ? ("DaGuiObject(tag = " + val.tag + ", id = " + val.id + " )") : "invalid DaGuiObject"
+      return val.isValid()
+        ? "DaGuiObject(tag = {0}, id = {1} )".subst(val.tag, val?.id ?? "NULL")
+        : "invalid DaGuiObject"
     else
     {
       local ret = ""

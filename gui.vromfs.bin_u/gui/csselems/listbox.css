@@ -164,8 +164,8 @@ shopFilterText {
   pos:0, 50%ph-50%h;
   position:relative;
 }
-shopFilter:disabled > shopFilterText,
-shopFilter[inactive=yes] > shopFilterText {
+shopFilter:disabled shopFilterText,
+shopFilter[inactive=yes] shopFilterText {
   color:@disabledTextColor;
 }
 
@@ -207,7 +207,7 @@ shopFilter:hover {
   color:@listboxHoverTextColor;
 }
 
-shopFilter:hover, shopFilter:hover > shopFilterText {
+shopFilter:hover, shopFilter:hover shopFilterText {
   color:@listboxHoverTextColor;
 }
 
@@ -362,7 +362,7 @@ VerticalListBox.options > shopFilter > shopFilterText {
   re-type:textarea;
 }
 
-[smallFont=yes] > shopFilter > shopFilterText,
+[smallFont=yes] > shopFilter shopFilterText,
 shopFilterText[smallFont=yes] {
   font:@fontSmall;
 }
@@ -370,10 +370,10 @@ shopFilterText[smallFont=yes] {
 [onlyImages=yes] > shopFilter > shopFilterText {
   color:@transparent;
 }
-shopFilter[selected=yes], shopFilter[selected=yes] > shopFilterText {
+shopFilter[selected=yes], shopFilter[selected=yes] shopFilterText {
   color:@activeTextColor;
 }
-shopFilter:disabled[selected=yes] > shopFilterText {
+shopFilter:disabled[selected=yes] shopFilterText {
   color:@disabledActiveTextColor;
 }
 

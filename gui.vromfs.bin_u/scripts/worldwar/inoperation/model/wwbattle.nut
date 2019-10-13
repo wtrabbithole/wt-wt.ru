@@ -290,6 +290,8 @@ class ::WwBattle
                         armyNames = teamArmyNames
                         unitsRemain = teamUnitsRemain
                         unitTypes = teamUnitTypes}
+      if(teamBlk?.autoBattleWinChancePercent != null)
+        teamInfo.autoBattleWinChancePercent <- teamBlk.autoBattleWinChancePercent
       teams[teamName] <- teamInfo
       totalPlayersNumber += numPlayers
       maxPlayersNumber += teamMaxPlayers

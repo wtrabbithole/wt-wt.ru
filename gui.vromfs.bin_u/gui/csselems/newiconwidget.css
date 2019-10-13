@@ -70,6 +70,13 @@ unseenIcon[noMargin=yes] {
   margin:0;
 }
 
+activateSelect > shopFilter > unseenIcon,
+HorizontalListBox > shopFilter > unseenIcon {
+  pos: - 1@listboxHPadding, 50%ph-50%h;
+  position:absolute;
+  margin:@blockInterval, 0;
+}
+
 unseenIcon[isActive=yes] {
   display:show;
 }

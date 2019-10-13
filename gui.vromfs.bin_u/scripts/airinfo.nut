@@ -939,7 +939,7 @@ local ACTION_LIST_PARAMS = {
       local button = []
       local defButton = "cancel"
       local msg = [::loc("mainmenu/needJoinSquadronForResearch")]
-      if (::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
+      if (!::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
         msg.append(::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC")))
       else
       {
@@ -2234,7 +2234,7 @@ local ACTION_LIST_PARAMS = {
       else
         addInfoTextsList.append(::colorize("badTextColor", ::loc("mainmenu/needJoinSquadronForResearch")))
 
-      if (::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
+      if (!::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
         addInfoTextsList.append(::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC")))
     }
   }

@@ -340,6 +340,23 @@ Button_text[pc_style=no][hasConsoleImage=yes],
   padding-left:h+1@buttonTextPadding;
 }
 
+Button_text[hasUnseenIcon=yes] {       padding-left:1@newWidgetIconHeight+1@buttonTextPadding;
+}
+
+Button_text[hasUnseenIcon=yes] > newIconWidget {
+  pos:0, 50%ph-50%h;
+  position:absolute;
+}
+
+Button_text[pc_style=no][btnName][hasUnseenIcon=yes] {
+  padding-left:h+1@newWidgetIconHeight+1@buttonTextPadding;
+}
+
+Button_text[pc_style=no][btnName][hasUnseenIcon=yes] > newIconWidget {
+  pos:ph, 50%ph-50%h;
+  position:absolute;
+}
+
 btnText {
   top:50%ph-50%h;
   position:relative;
@@ -2021,11 +2038,6 @@ Button_text[type=weaponryAmount] {
 [show_console_buttons=no] td[selected=yes] :hover Button_text.bottomAirItem,
 Button_text.bottomAirItem:hover {
   order-popup:yes;
-}
-
-Button_text[buy_ticket_button=yes] {
-  padding:3@buttonTextPadding,1@buttonImgPadding;
-  padding-left:3@buttonTextPadding;
 }
 
 
