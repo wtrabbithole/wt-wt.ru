@@ -21,9 +21,9 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function getSceneTplView()
   {
-    local maxCountX = ::floor(
+    local maxCountX = ::max(::floor(
       ::to_pixels("0.8@rw - 1@mapPreferencePreviewFullWidth - 1@scrollBarSize")
-      * 1.0 / ::to_pixels("1@mapPreferenceIconNestWidth"))
+      * 1.0 / ::to_pixels("1@mapPreferenceIconNestWidth")), 1)
     mapsList = mapPreferencesParams.getMapsList(curEvent)
     inactiveMaps = mapPreferencesParams.getInactiveMaps(curEvent, mapsList)
     counters = mapPreferencesParams.getCounters(curEvent)
@@ -349,8 +349,13 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onResetPreferencess(obj)
   {
-    resetCounters(counters.keys())
-    updateScreen()
+    ::scene_msg_box("reset_preferences", null, ::loc("maps/preferences/notice/request_reset"),
+      [ ["ok", function() {
+            resetCounters(counters.keys())
+            updateScreen()
+          }.bindenv(this)],
+        ["cancel", null]
+      ], "ok")
   }
 
   function onFilterEditBoxAccessKey()

@@ -2523,6 +2523,9 @@ local isWaitMeasureEvent = false
           local brText = ::format("%.1f", minBR)
                        + ((minBR != maxBR) ? " - " + ::format("%.1f", maxBR) : "")
           local text = brText
+
+          if (descr.values?[descr.values.len() - 1] == tier)
+            continue
           descr.values.append(tier)
           descr.items.append(text)
         }

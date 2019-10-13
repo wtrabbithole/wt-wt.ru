@@ -1618,6 +1618,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
                     ])
       ::set_gui_option(opt, false)
 
+    ::save_local_account_settings("skipped_msg", null)
     ::reset_tutorial_skip()
     ::broadcastEvent("ResetSkipedNotifications")
 

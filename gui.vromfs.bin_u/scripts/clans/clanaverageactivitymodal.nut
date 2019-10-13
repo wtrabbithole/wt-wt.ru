@@ -75,8 +75,8 @@ class ::gui_handlers.clanAverageActivityModal extends ::gui_handlers.BaseGuiHand
             ::round((roundMyExp*expBoost).tointeger()))) : ""))
 
         view = {
-          clan_activity_header_text = ::format( ::loc("clan/my_activity_in_period"),
-            myActivity + " / " + maxMemberActivity.tostring())
+          clan_activity_header_text = ::loc("clan/my_activity_in_period",
+            {activity = myActivity.tostring() + ::loc("ui/slash") + maxMemberActivity.tostring()})
           clan_activity_description = ::g_string.implode(descrArray, "\n")
           rows = [
             {

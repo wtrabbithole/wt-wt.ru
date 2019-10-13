@@ -5,6 +5,7 @@ local crossplayModule = require("scripts/social/crossplay.nut")
 local battleRating = ::require("scripts/battleRating.nut")
 local clanVehiclesModal = require("scripts/clans/clanVehiclesModal.nut")
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+local unitStatus = require("scripts/unit/unitStatus.nut")
 
 ::req_tutorial <- {
   [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
@@ -1412,6 +1413,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
           haveRespawns = respawn
           randomCountry = countries.len() > 1
+
+          shipsWithoutPurshasedTorpedoes = []
         }
 
   local readyWeaponsFound = false
@@ -1439,6 +1442,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
           unreadyAmmo.extend(ammoList)
         else
           readyWeaponsFound = true
+
+        if (unitStatus.isShipWithoutPurshasedTorpedoes(air))
+          res.shipsWithoutPurshasedTorpedoes.append(air)
       }
   }
   else
@@ -1471,6 +1477,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
             unreadyAmmo.extend(ammoList)
           else
             readyWeaponsFound = true
+
+          if (unitStatus.isShipWithoutPurshasedTorpedoes(unit))
+            res.shipsWithoutPurshasedTorpedoes.append(unit)
         }
         res.canFlyout = res.canFlyout && have_repaired_in_country
         res.canFlyoutIfRepair = res.canFlyoutIfRepair && have_unlocked_in_country
@@ -1572,6 +1581,30 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
        ], "RepairAll")
     return
   }
+  else if (repairInfo.shipsWithoutPurshasedTorpedoes.len() > 0
+    && !::load_local_account_settings("skipped_msg/shipsWithoutPurshasedTorpedoes", false))
+    ::gui_start_modal_wnd(::gui_handlers.SkipableMsgBox,
+      {
+        parentHandler = handler
+        message = ::loc("msgbox/hasShipWithoutPurshasedTorpedoes",
+          {
+            numShips = repairInfo.shipsWithoutPurshasedTorpedoes.len()
+            shipsList = ::g_string.implode(
+              repairInfo.shipsWithoutPurshasedTorpedoes.map(@(u)
+                ::colorize("activeTextColor", ::getUnitName(u, true))),
+              ::loc("ui/comma"))
+          })
+        startBtnText = ::loc("mainmenu/toBattle")
+        ableToStartAndSkip = true
+        showCheckBoxBullets = false
+        skipFunc = function(value) {
+          ::save_local_account_settings("skipped_msg/shipsWithoutPurshasedTorpedoes", value)
+        }
+        onStartPressed = function() {
+          startFunc.call(handler)
+        }
+        cancelFunc = cancelFunc
+    })
   else
     startFunc.call(handler)
 }
