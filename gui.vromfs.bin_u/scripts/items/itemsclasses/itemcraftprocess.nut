@@ -34,7 +34,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
         { itemName = ::colorize("activeTextColor", parentItem ? parentItem.getName() : getName()) })
       ::scene_msg_box("craft_canceled", null, text, [
         [ "yes", @() inventoryClient.cancelDelayedExchange(item.uids[0],
-                     @(resultItems) item.onCancelComplete(resultItems)) ],
+                     @(resultItems) item.onCancelComplete(resultItems, params)) ],
         [ "no" ]
       ], "yes", { cancel_fn = function() {} })
       return true
@@ -50,7 +50,7 @@ class ::items_classes.CraftProcess extends ItemExternal {
     [["ok", @() ::ItemsManager.refreshExtInventory()]],
     "ok")
 
-  function onCancelComplete(resultItems)
+  function onCancelComplete(resultItems, params)
   {
     if (!!resultItems?.error)
       return showCantCancelCraftMsgBox()
@@ -71,7 +71,9 @@ class ::items_classes.CraftProcess extends ItemExternal {
       })
       ::gui_start_open_trophy({ [trophyId] = openTrophyWndConfigs,
         rewardTitle = ::loc(getLocIdsList().cancelTitle),
-        rewardListLocId = getItemsListLocId() })
+        rewardListLocId = getItemsListLocId(),
+        isHidePrizeActionBtn = params?.isHidePrizeActionBtn ?? false
+      })
     }
   }
 

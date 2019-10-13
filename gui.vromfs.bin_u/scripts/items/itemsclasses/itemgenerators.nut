@@ -85,7 +85,7 @@ local ItemGenerator = class {
               craftTime = gen.getCraftTime()
               isFake = paramName != "trueRecipe"
               isDisassemble = isDisassemble
-              localizationPresetName = localizationPresetName
+              localizationPresetName = gen?.tags?.customLocalizationPreset ?? localizationPresetName
             })))
             hasAdditionalRecipes = hasAdditionalRecipes || additionalParsedRecipes.len() > 0
           }

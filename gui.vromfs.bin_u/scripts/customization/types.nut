@@ -355,19 +355,44 @@ enums.addTypesByGlobalName("g_decorator_type", {
       if (guidParser.isGuid(decoratorName))
         return ::loc(decoratorName, ::loc("default_live_skin_loc"))
 
+      local name = ""
+
       local unitName = ::g_unlocks.getPlaneBySkinId(decoratorName)
+      local unit = ::getAircraftByName(unitName)
+      if (unit)
+      {
+        local skinNameId = ::g_unlocks.getSkinNameBySkinId(decoratorName)
+        local skinBlock = unit.getSkinBlockById(skinNameId)
+        if (skinBlock && (skinBlock?.nameLocId ?? "") != "")
+          name = ::loc(skinBlock.nameLocId)
+      }
 
-      if (::g_unlocks.isDefaultSkin(decoratorName))
-        decoratorName = ::loc(unitName + "/default", ::loc("default_skin_loc"))
+      if (name == "")
+      {
+        if (::g_unlocks.isDefaultSkin(decoratorName))
+          decoratorName = ::loc(unitName + "/default", ::loc("default_skin_loc"))
 
-      local name = ::loc(decoratorName)
+        name = ::loc(decoratorName)
+      }
+
       if (addUnitName && !::u.isEmpty(unitName))
-        name += ::loc("ui/parentheses/space", { text = ::getUnitName(unitName) })
+        name += ::loc("ui/parentheses/space", { text = ::getUnitName(unit) })
 
       return name
     }
+
     getLocDesc = function(decoratorName)
     {
+      local unitName = ::g_unlocks.getPlaneBySkinId(decoratorName)
+      local unit = ::getAircraftByName(unitName)
+      if (unit)
+      {
+        local skinNameId = ::g_unlocks.getSkinNameBySkinId(decoratorName)
+        local skinBlock = unit.getSkinBlockById(skinNameId)
+        if (skinBlock && (skinBlock?.descLocId ?? "") != "")
+          return ::loc(skinBlock.descLocId)
+      }
+
       local defaultLocId = guidParser.isGuid(decoratorName) ? "default_live_skin_loc/desc" : "default_skin_loc/desc"
       return ::loc(decoratorName + "/desc", ::loc(defaultLocId))
     }

@@ -48,14 +48,18 @@ class EventTicketBuyOfferProcess
       if (ticket.getLimitsCheckData().result)
         availableTickets.push(ticket)
 
+    local activeTicket = ::events.getEventActiveTicket(_event)
     if (availableTickets.len() == 0)
     {
-      local tournamentData = ::events.getEventActiveTicket(_event).getTicketTournamentData()
-      local locParams = {
-        timeleft = time.secondsToString(tournamentData.timeToWait)
+      local msgArr = [::loc("events/wait_for_sessions_to_finish/main")]
+      if (activeTicket != null)
+      {
+        local tournamentData = activeTicket.getTicketTournamentData(::events.getEventEconomicName(_event))
+        msgArr.append(::loc("events/wait_for_sessions_to_finish/optional", {
+          timeleft = time.secondsToString(tournamentData.timeToWait)
+        }))
       }
-      ::scene_msg_box("cant_join", null, ::loc("events/wait_for_sessions_to_finish/main") + "\n" +
-        ::loc("events/wait_for_sessions_to_finish/optional", locParams),
+        ::scene_msg_box("cant_join", null,  ::g_string.implode(msgArr, "\n"),
           [["ok", function() {}]], "ok")
     }
     else
@@ -63,7 +67,7 @@ class EventTicketBuyOfferProcess
       local windowParams = {
         event = _event
         tickets = availableTickets
-        activeTicket = ::events.getEventActiveTicket(_event)
+        activeTicket = activeTicket
       }
       ::gui_start_modal_wnd(::gui_handlers.TicketBuyWindow, windowParams)
     }

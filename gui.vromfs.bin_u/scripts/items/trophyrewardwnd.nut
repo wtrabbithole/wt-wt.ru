@@ -8,7 +8,8 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
     return
 
   local params = {}
-  foreach (paramName in [ "rewardTitle", "rewardListLocId", "isDisassemble" ])
+  foreach (paramName in [ "rewardTitle", "rewardListLocId", "isDisassemble",
+    "isHidePrizeActionBtn" ])
   {
     if (!(paramName in configsTable))
       continue
@@ -64,6 +65,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   decoratorSlot = -1
   rewardTitle = null
   rewardListLocId = null
+  isHidePrizeActionBtn = false
 
   function initScreen()
   {
@@ -330,7 +332,7 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_ok", animFinished)
     showSceneBtn("btn_back", animFinished || trophyItem.isAllowSkipOpeningAnim())
 
-    local prizeActionBtnId = !animFinished ? ""
+    local prizeActionBtnId = isHidePrizeActionBtn || !animFinished ? ""
       : unit && unit.isUsable() && !::isUnitInSlotbar(unit) ? "btn_take_air"
       : rewardItem ? "btn_go_to_item"
       : decorator  ? "btn_use_decorator"

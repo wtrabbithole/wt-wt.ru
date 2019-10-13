@@ -180,7 +180,7 @@ class ::queue_classes.Event extends ::queue_classes.Base
 
     qp.clusters <- params.clusters
 
-    local prefParams = mapPreferencesParams.getParams(::game_mode_manager.getCurrentGameMode()?.getEvent())
+    local prefParams =  mapPreferencesParams.getParams(::events.getEvent(name))
     qp.players <- {
       [::my_user_id_str] = {
         country = ::queues.getQueueCountry(this)  //FIX ME: move it out of manager

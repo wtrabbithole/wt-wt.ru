@@ -15,8 +15,9 @@ local function sortByLevel(list)
 
 local function getCurBattleTypeName(curEvent)
 {
-  return (hasPreferences(curEvent))
-    ? curEvent.statistic_group + "_" + curEvent.difficulty : ""
+  return !hasPreferences(curEvent)
+    ? "" : (curEvent?.statistic_group && curEvent?.difficulty)
+      ? curEvent.statistic_group + "_" + curEvent.difficulty : curEvent.name
 }
 
 local function getProfileBanData(curEvent)

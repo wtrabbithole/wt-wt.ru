@@ -2,7 +2,7 @@
   itemBlock {
   <<#hasComponent>>hasComponent:t='yes'<</hasComponent>>
   <<#isDisabled>>isDisabled:t='yes'<</isDisabled>>
-    id:t='<<itemId>>'
+    <<#itemId>>itemId:t='<<itemId>>'<</itemId>>
     <<#blockPos>>
       pos:t='<<blockPos>>'
       position:t='absolute'

@@ -517,10 +517,8 @@ local ItemExternal = class extends ::BaseItem
   getAssembleButtonText   = @() getMyRecipes().len() > 1 ? ::loc(getLocIdsList().recipes) : getAssembleText()
   getCantUseLocId         = @() getLocIdsList().msgBoxCantUse
   getConfirmMessageData   = @(recipe) getEmptyConfirmMessageData().__update({
-    text = ::loc(recipe.isDisassemble
-        ? getLocIdsList().msgBoxConfirmWhithItemNameDisassemble
-        : getLocIdsList().msgBoxConfirmWhithItemName,
-          { itemName = ::colorize("activeTextColor", getName()) })
+    text = ::loc(recipe.getConfirmMessageLocId(getLocIdsList()),
+        { itemName = ::colorize("activeTextColor", getName()) })
       + (recipe.hasCraftTime() ? "\n" + recipe.getCraftTimeText() : "")
     headerRecipeMarkup = recipe.getHeaderRecipeMarkupText()
     needRecipeMarkup = true

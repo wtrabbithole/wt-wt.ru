@@ -295,39 +295,44 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
         return operation.getMapText()
     }
 
-    local nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
-    if(!nearestAvailabelMapToBattle)
+    local nearestAvailableMapToBattle = ::g_ww_global_status.getNearestAvailableMapToBattle()
+    if(!nearestAvailableMapToBattle)
       return null
 
-    local name = needMapName ? nearestAvailabelMapToBattle.getNameText() : ::loc("mainmenu/btnWorldwar")
-    if (nearestAvailabelMapToBattle.isActive())
+    local name = needMapName ? nearestAvailableMapToBattle.getNameText() : ::loc("mainmenu/btnWorldwar")
+    if (nearestAvailableMapToBattle.isActive())
       return ::loc("worldwar/operation/isNow", { name = name })
 
     return ::loc("worldwar/operation/willBegin", { name = name
-      time = nearestAvailabelMapToBattle.getChangeStateTimeText()})
+      time = nearestAvailableMapToBattle.getChangeStateTimeText()})
   }
 
-  function hasNewNearestAvailabelMapToBattle()
+  function hasNewNearestAvailableMapToBattle()
   {
     if (lastPlayedOperationId && !::u.isEmpty(::g_ww_global_status.getOperationById(lastPlayedOperationId)))
       return false
 
-    local nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
-    if (!nearestAvailabelMapToBattle)
+    local nearestAvailableMapToBattle = ::g_ww_global_status.getNearestAvailableMapToBattle()
+    if (!nearestAvailableMapToBattle)
       return false
 
-    local lastVisibleAvailabelMap = ::load_local_account_settings(LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH)
-    if (lastVisibleAvailabelMap?.id == nearestAvailabelMapToBattle.getId()
-      && lastVisibleAvailabelMap?.changeStateTime == nearestAvailabelMapToBattle.getChangeStateTime())
+    local lastVisibleAvailableMap = ::load_local_account_settings(LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH)
+    if (lastVisibleAvailableMap?.id == nearestAvailableMapToBattle.getId()
+      && lastVisibleAvailableMap?.changeStateTime == nearestAvailableMapToBattle.getChangeStateTime())
       return false
 
     ::save_local_account_settings(LAST_VISIBLE_AVAILABLE_MAP_IN_PROMO_PATH,
       {
-        id = nearestAvailabelMapToBattle.getId()
-        changeStateTime = nearestAvailabelMapToBattle.getChangeStateTime()
+        id = nearestAvailableMapToBattle.getId()
+        changeStateTime = nearestAvailableMapToBattle.getChangeStateTime()
       })
 
     return true
+  }
+
+  function isWWSeasonActive()
+  {
+    return ::g_ww_global_status.getNearestAvailableMapToBattle(true) != null
   }
 }
 

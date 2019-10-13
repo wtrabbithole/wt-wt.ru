@@ -27,16 +27,13 @@ class ::items_classes.Ticket extends ::BaseItem
     base.constructor(blk, invBlk, slotData)
 
     local params = blk?.tournamentTicketParams
-    if (!params)
-      return
-
     maxDefeatCount = params?.maxDefeatCount ?? 0
     maxSequenceDefeatCount = params?.maxSequenceDefeatCount ?? 0
     haveAwards = params?.awards ?? false
     battleLimit = params?.battleLimit ?? 0
     customLayers = blk?.customLayers ?? {}
 
-    eventEconomicNamesArray = params % "tournamentName"
+    eventEconomicNamesArray = params != null ? params % "tournamentName" : []
     if (!eventEconomicNamesArray.len())
       ::dagor.debug("Item Ticket: empty tournamentTicketParams", "Items: missing any tournamentName in ticket tournamentTicketParams, " + id)
     else

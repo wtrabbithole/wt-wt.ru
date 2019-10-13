@@ -187,7 +187,7 @@ g_ww_logs.saveLoadedLogs <- function saveLoadedLogs(loadedLogsBlk, useLogMark, h
     local logTable = {
       id = logBlk?.thisLogId
       blk = ::u.copy(logBlk)
-      time = logBlk?.time
+      time = logBlk?.time ?? -1
       category = logType.category
       isReaded = false
     }
@@ -258,12 +258,14 @@ g_ww_logs.saveLogBattle <- function saveLogBattle(blk)
   if (!blk?.battle)
     return
   local savedData = ::getTblValue(blk.battle?.id, logsBattles)
-  if (savedData?.time && savedData.time >= blk?.time)
+  local savedDataTime = savedData?.time ?? -1
+  local logTime = blk?.time ?? -1
+  if (savedDataTime > -1 && savedDataTime >= logTime)
     return
 
   logsBattles[blk.battle.id] <- {
-    battle = ::WwBattle(blk?.battle)
-    time = blk?.time
+    battle = ::WwBattle(blk.battle)
+    time = logTime
     logBlk = blk
   }
 }

@@ -190,7 +190,7 @@ g_psn_sessions.onEventLobbySettingsChange <- function onEventLobbySettingsChange
   ::dagor.debug("[PSSI] onEventLobbySettingsChange for " + session)
   if (::SessionLobby.isRoomOwner)
     update(session, sessionParams[PSN_SESSION_TYPE.SKIRMISH].info())
-  else if (!session in sessions)
+  else if (!(session in sessions))
     join(session, {key=PSN_SESSION_TYPE.SKIRMISH})
 }
 

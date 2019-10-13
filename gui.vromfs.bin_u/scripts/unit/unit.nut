@@ -75,6 +75,7 @@ local Unit = class
    weapons = null //[]
    modifications = null //[]
    skins = null //[]
+   skinsBlocks = null //{}
    previewSkinId = null //""
    weaponUpgrades = null //[]
    spare = null //{} or null
@@ -123,7 +124,7 @@ local Unit = class
     foreach(key in ["tags", "weapons", "modifications", "skins", "weaponUpgrades", "needBuyToOpenNextInTier"])
       if (!u.isArray(this[key]))
         this[key] = []
-    foreach(key in ["shop", "info", "primaryBullets", "secondaryBullets", "bulletsSets"])
+    foreach(key in ["shop", "info", "primaryBullets", "secondaryBullets", "bulletsSets", "skinsBlocks"])
       if (!u.isTable(this[key]))
         this[key] = {}
   }
@@ -437,6 +438,7 @@ local Unit = class
   function resetSkins()
   {
     skins = []
+    skinsBlocks = {}
   }
 
   function getSkins()
@@ -444,6 +446,15 @@ local Unit = class
     if (skins.len() == 0)
       skins = ::get_skins_for_unit(name) //always returns at least one entry
     return skins
+  }
+
+  function getSkinBlockById(skinId)
+  {
+    if (!skinsBlocks.len()) //Will be default skin at least.
+      foreach (skin in getSkins())
+        skinsBlocks[skin.name] <- skin
+
+    return skinsBlocks?[skinId]
   }
 
   function getPreviewSkinId()

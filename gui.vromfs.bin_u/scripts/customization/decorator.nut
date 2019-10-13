@@ -1,6 +1,8 @@
 local guidParser = require("scripts/guidParser.nut")
 local itemRarity = require("scripts/items/itemRarity.nut")
 local contentPreview = require("scripts/customization/contentPreview.nut")
+local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local stdMath = require("std/math.nut")
 
 class Decorator
 {
@@ -179,6 +181,82 @@ class Decorator
 
     return ::colorize("warningTextColor", ::g_string.implode(important, "\n")) +
       (important.len() ? "\n" : "") + ::g_string.implode(common, "\n")
+  }
+
+  function getLocationDesc()
+  {
+    if (decoratorType != ::g_decorator_type.SKINS)
+      return ""
+
+    local mask = skinLocations.getSkinLocationsMaskBySkinId(id, false)
+    local locations = mask ? skinLocations.getLocationsLoc(mask) : []
+    if (!locations.len())
+      return ""
+
+    return ::loc("camouflage/for_environment_conditions") +
+      ::loc("ui/colon") + ::g_string.implode(locations.map(@(l) ::colorize("activeTextColor", l)), ", ")
+  }
+
+  function getTagsDesc()
+  {
+    local tagsLoc = getTagsLoc()
+    if (!tagsLoc.len())
+      return ""
+
+    tagsLoc = ::u.map(tagsLoc, @(txt) ::colorize("activeTextColor", txt))
+    return ::loc("ugm/tags") + ::loc("ui/colon") + ::g_string.implode(tagsLoc, ::loc("ui/comma"))
+  }
+
+  function getUnlockDesc()
+  {
+    if (!unlockBlk)
+      return ""
+
+    local config = ::build_conditions_config(unlockBlk)
+
+    local showStages = (config?.stages ?? []).len() > 1
+    if (!showStages && config.maxVal < 0)
+      return ""
+
+    local descData = []
+
+    local isComplete = ::UnlockConditions.isBitModeType(config.type)
+                         ? stdMath.number_of_set_bits(config.curVal) >= stdMath.number_of_set_bits(config.maxVal)
+                         : config.curVal >= config.maxVal
+
+    if (showStages && !isComplete)
+      descData.append(::loc("challenge/stage", {
+                           stage = ::colorize("unlockActiveColor", config.curStage + 1)
+                           totalStages = ::colorize("unlockActiveColor", config.stages.len())
+                         }))
+
+    local curVal = config.curVal < config.maxVal ? config.curVal : null
+    descData.append(::UnlockConditions.getConditionsText(config.conditions, curVal, config.maxVal))
+
+    return ::g_string.implode(descData, "\n")
+  }
+
+  function getCostText()
+  {
+    if (isUnlocked())
+      return ""
+
+    if (cost.isZero())
+      return ""
+
+    return ::loc("ugm/price")
+           + ::loc("ui/colon")
+           + cost.getTextAccordingToBalance()
+           + "\n"
+           + ::loc("shop/object/can_be_purchased")
+  }
+
+  function getRevenueShareDesc()
+  {
+    if (unlockBlk?.isRevenueShare != true)
+      return ""
+
+    return ::colorize("advertTextColor", ::loc("content/revenue_share"))
   }
 
   function getSmallIcon()

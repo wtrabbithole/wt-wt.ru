@@ -8,20 +8,24 @@
   lastUpdatetTime = -1
   lastRequestTime = -1
 
-  function getNearestAvailabelMapToBattle()
+  function getNearestAvailableMapToBattle(needFirstAvailable = false)
   {
-    local nearestAvailabelMap = null
+    local nearestAvailableMap = null
     foreach(map in ::g_ww_global_status_type.MAPS.getList())
+    {
       if (map.isAnnounceAndNotDebug(false))
         if (map.isActive())
           return map
         else
-          nearestAvailabelMap = !nearestAvailabelMap ||
-            nearestAvailabelMap.getChangeStateTime() > map.getChangeStateTime()
+          nearestAvailableMap = !nearestAvailableMap ||
+            nearestAvailableMap.getChangeStateTime() > map.getChangeStateTime()
               ? map
-              : nearestAvailabelMap
+              : nearestAvailableMap
+      if(needFirstAvailable && nearestAvailableMap)
+        return nearestAvailableMap
+     }
 
-    return nearestAvailabelMap
+    return nearestAvailableMap
   }
 }
 

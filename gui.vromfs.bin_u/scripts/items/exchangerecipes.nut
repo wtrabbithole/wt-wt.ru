@@ -21,6 +21,8 @@ local defaultLocIdsList = {
   markTooltipPrefix         = "item/recipes/markTooltip/"
   markDescPrefix            = "item/recipes/markDesc/"
   markMsgBoxCantUsePrefix   = "msgBox/craftProcess/cant/"
+  msgBoxConfirmWhithItemName= null
+  actionButton              = null
 }
 
 local lastRecipeIdx = 0
@@ -44,6 +46,7 @@ local ExchangeRecipes = class {
 
   locIdsList = null
   localizationPresetName = null
+  sortReqQuantityComponents = 0
 
   constructor(params)
   {
@@ -56,6 +59,7 @@ local ExchangeRecipes = class {
     local parsedRecipe = params.parsedRecipe
 
     initedComponents = parsedRecipe.components
+    sortReqQuantityComponents = initedComponents.map(@(component) component.quantity).reduce(@(res, value) res + value, 0)
     requirement = parsedRecipe.requirement
 
     uid = generatorId + ";" + (requirement ? getRecipeStr() : parsedRecipe.recipeStr)
@@ -265,8 +269,11 @@ local ExchangeRecipes = class {
 
     local isMultiRecipes = recipes.len() > 1
     local isMultiExtraItems = false
+    local hasFakeRecipesInList = hasFakeRecipes(recipes)
 
     local recipesToShow = recipes
+    if (!hasFakeRecipesInList)
+      recipesToShow.sort(@(a, b) a.sortReqQuantityComponents <=> b.sortReqQuantityComponents)
     if (!isFullRecipesList)
     {
       recipesToShow = u.filter(recipes, @(r) r.isUsable && !r.isRecipeLocked())
@@ -292,7 +299,7 @@ local ExchangeRecipes = class {
 
       headerFirst = ::colorize("grayOptionColor",
         componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
-                                            isMultiExtraItems, hasFakeRecipes(recipes),
+                                            isMultiExtraItems, hasFakeRecipesInList,
                                             getRecipesCraftTimeText(recipes)))
       headerNext = isMultiRecipes && isMultiExtraItems ?
         ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
@@ -560,6 +567,7 @@ local ExchangeRecipes = class {
         rewardTitle = ::loc(rewardTitle),
         rewardListLocId = rewardListLocId
         isDisassemble = isDisassemble
+        isHidePrizeActionBtn = params?.isHidePrizeActionBtn ?? false
       })
     }
 
@@ -622,6 +630,12 @@ local ExchangeRecipes = class {
   }
 
   getHeaderRecipeMarkupText = @() ::loc(getLocIdsList().headerRecipeMarkup)
+
+  getConfirmMessageLocId = @(itemLocIdsList) getLocIdsList().msgBoxConfirmWhithItemName ??
+    (isDisassemble
+      ? itemLocIdsList.msgBoxConfirmWhithItemNameDisassemble
+      : itemLocIdsList.msgBoxConfirmWhithItemName)
+  getActionButtonLocId = @() getLocIdsList().actionButton
 }
 
 u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.idx == r2.idx)

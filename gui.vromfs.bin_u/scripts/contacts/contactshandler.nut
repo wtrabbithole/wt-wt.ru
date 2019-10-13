@@ -204,10 +204,12 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!("pos" in ::contacts_sizes) || !("size" in ::contacts_sizes))
           ::contacts_sizes = null
         else
+        {
           ::contacts_sizes.pos[0] = ::contacts_sizes.pos[0].tointeger()
           ::contacts_sizes.pos[1] = ::contacts_sizes.pos[1].tointeger()
           ::contacts_sizes.size[0] = ::contacts_sizes.size[0].tointeger()
           ::contacts_sizes.size[1] = ::contacts_sizes.size[1].tointeger()
+        }
       }
     }
 

@@ -474,13 +474,13 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     if (item == null)
       return
 
-    item.doMainAction(null, this, { obj = obj })
+    item.doMainAction(null, this, { obj = obj, isHidePrizeActionBtn = true })
   }
 
   function getCurItemParam()
   {
-    local value = itemsListObj.getValue()
-    if (value < 0 || value >= itemsListObj.childrenCount())
+    local value = ::get_obj_valid_index(itemsListObj)
+    if (value < 0)
       return {
         obj = null
         item = null
@@ -489,7 +489,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     local itemObj = itemsListObj.getChild(value)
     return {
       obj = itemObj
-      item = itemsList?[(itemObj?.id ?? "-1").tointeger()]
+      item = itemsList?[(itemObj?.itemId ?? "-1").tointeger()]
     }
   }
 
@@ -544,7 +544,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
       local childObj = itemsListObj.getChild(i)
       if (enabledValue == null && childObj.isEnabled())
         enabledValue = i
-      if (childObj?.id != curItemId)
+      if (childObj?.itemId != curItemId)
         continue
 
       itemsListObj.setValue(i)

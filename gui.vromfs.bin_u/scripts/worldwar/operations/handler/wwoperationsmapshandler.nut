@@ -5,6 +5,9 @@ local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local wwTopLeaderboard = ::require("scripts/worldWar/leaderboards/wwTopLeaderboard.nut")
 local wwLeaderboardData = ::require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
 
+local WW_DAY_SEASON_OVER_NOTICE = "worldWar/seasonOverNotice/day"
+local WW_SEASON_OVER_NOTICE_PERIOD_DAYS = 7
+
 ::dagui_propid.add_name_id("countryId")
 ::dagui_propid.add_name_id("mapId")
 
@@ -48,7 +51,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   checkBoxesData = null
 
-  nearestAvailabelMapToBattle = null
+  nearestAvailableMapToBattle = null
 
   function initScreen()
   {
@@ -77,6 +80,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       onStart()
     else if (autoOpenMapOperation)
       openOperationsListByMap(autoOpenMapOperation)
+    if(!::g_world_war.isWWSeasonActive())
+      showSeasonIsOverNotice()
   }
 
   function initToBattleButton()
@@ -815,8 +820,8 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local joinOpBtn = showSceneBtn("btn_join_operation", isModePlayer && hasMap)
     joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations() ? "no" : "yes"
 
-    nearestAvailabelMapToBattle = ::g_ww_global_status.getNearestAvailabelMapToBattle()
-    local needShowBeginMapWaitTime = !(nearestAvailabelMapToBattle?.isActive?() ?? true)
+    nearestAvailableMapToBattle = ::g_ww_global_status.getNearestAvailableMapToBattle()
+    local needShowBeginMapWaitTime = !(nearestAvailableMapToBattle?.isActive?() ?? true)
     local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue && !needShowBeginMapWaitTime)
     local joinQueueBtn = showSceneBtn("btn_join_queue", isQueueJoiningEnabled && !isInQueue)
     showSceneBtn("btn_leave_queue", isModeClan && hasRightsToQueueClan && isInQueue)
@@ -1296,7 +1301,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     if (!::has_feature("AllowExternalLink") || ::is_vendor_tencent())
       return
 
-    local worldWarUrlBtnKey = ::get_gui_regional_blk()?.worldWarUrlBtnKey
+    local worldWarUrlBtnKey = ::get_gui_regional_blk()?.worldWarUrlBtnKey ?? ""
     local isVisibleBtn = !::u.isEmpty(worldWarUrlBtnKey)
     local btnObj = showSceneBtn("btn_ww_url", isVisibleBtn)
     if (!isVisibleBtn || !::check_obj(btnObj))
@@ -1321,7 +1326,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function updateBeginMapWaitTime()
   {
-    local waitTime = nearestAvailabelMapToBattle?.getChangeStateTime?() ?? -1
+    local waitTime = nearestAvailableMapToBattle?.getChangeStateTime?() ?? -1
     if (waitTime <= 0)
       return
 
@@ -1330,8 +1335,20 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       return
 
     waitMapInfoObj.setValue(::loc("worldwar/operation/willBegin", {
-      name = nearestAvailabelMapToBattle.getNameText()
-      time = nearestAvailabelMapToBattle.getChangeStateTimeText()}))
+      name = nearestAvailableMapToBattle.getNameText()
+      time = nearestAvailableMapToBattle.getChangeStateTimeText()}))
+  }
+
+  function showSeasonIsOverNotice()
+  {
+    local curDay = time.getUtcDays()
+    local seasonOverNotice = ::load_local_account_settings(WW_DAY_SEASON_OVER_NOTICE, 0)
+      + WW_SEASON_OVER_NOTICE_PERIOD_DAYS
+    if (seasonOverNotice && seasonOverNotice > curDay)
+      return
+    ::save_local_account_settings(WW_DAY_SEASON_OVER_NOTICE, curDay)
+    ::scene_msg_box("season_is_over_notice", null, ::loc("worldwar/seasonIsOverNotice"),
+      [["ok", null]], "ok")
   }
 }
 

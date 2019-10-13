@@ -906,12 +906,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!("pos" in ::menu_chat_sizes) || !("size" in ::menu_chat_sizes) || !("usersSize" in ::menu_chat_sizes))
           ::menu_chat_sizes = null
         else
+        {
           ::menu_chat_sizes.pos[0] = ::menu_chat_sizes.pos[0].tointeger()
           ::menu_chat_sizes.pos[1] = ::menu_chat_sizes.pos[1].tointeger()
           ::menu_chat_sizes.size[0] = ::menu_chat_sizes.size[0].tointeger()
           ::menu_chat_sizes.size[1] = ::menu_chat_sizes.size[1].tointeger()
           ::menu_chat_sizes.usersSize[0] = ::menu_chat_sizes.usersSize[0].tointeger()
           ::menu_chat_sizes.usersSize[1] = ::menu_chat_sizes.usersSize[1].tointeger()
+        }
       }
     }
 
