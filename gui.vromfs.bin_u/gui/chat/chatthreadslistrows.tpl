@@ -119,7 +119,7 @@ expandable {
           on_click:t = 'onThreadsActivate'
           btnName:t=''
           ButtonImg {
-            iconName:t='A'
+            btnName:t='A'
             showOnSelect:t='focus'
           }
         }

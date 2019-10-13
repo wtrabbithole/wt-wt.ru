@@ -28,7 +28,7 @@
                 ButtonImg {
                   class:t='independent'
                   fullSizeIcons:t='yes'
-                  iconName:t='Y'
+                  btnName:t='Y'
                   showOnSelect:t='focus'
                 }
                 activeText {

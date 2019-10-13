@@ -22,7 +22,7 @@ expandable {
             position:t='relative'
             margin-right:t='0.01@scrn_tgt'
             showOnSelect:t='yes'
-            iconName:t='X'
+            btnName:t='X'
           }
 
           textareaNoTab {

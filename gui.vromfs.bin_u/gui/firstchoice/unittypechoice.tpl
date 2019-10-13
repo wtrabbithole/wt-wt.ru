@@ -39,7 +39,7 @@ div {
         pos:t='50%ph-50%w, 50%ph-50%h'
         position:t='absolute'
         showOnSelect:t='yes'
-        iconName:t='A'
+        btnName:t='A'
       }
     }
 

@@ -90,7 +90,7 @@ tr {
 
       ButtonImg {
         id:t='ButtonImg'
-        iconName:t='X'
+        btnName:t='X'
         showOn:t='selectedAndEnabled'
       }
 

@@ -254,7 +254,7 @@ itemDiv {
     inactiveColor:t='yes'
     <</isInactive>>
     ButtonImg {
-      iconName:t='A'
+      btnName:t='A'
       showOnSelect:t='focus'
     }
   }

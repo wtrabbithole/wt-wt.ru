@@ -78,7 +78,7 @@ root {
               ButtonImg{
                 position:t='absolute'
                 pos:t='-@checkboxSize, 0.5ph-0.5h'
-                iconName:t='A'
+                btnName:t='A'
                 showOnSelect:t='focus'
               }
               CheckBoxImg{}

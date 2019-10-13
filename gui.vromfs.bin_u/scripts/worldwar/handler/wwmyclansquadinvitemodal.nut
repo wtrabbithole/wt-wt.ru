@@ -15,7 +15,7 @@ class ::gui_handlers.WwMyClanSquadInviteModal extends ::gui_handlers.MyClanSquad
       buttonClass ="image"
       shortcut = ""
       showOnSelect = "focus"
-      iconName = "X"
+      btnName = "X"
       btnKey = "X"
       tooltip = @() ::loc("squad/info")
       img = "#ui/gameuiskin#btn_help.svg"
@@ -28,7 +28,7 @@ class ::gui_handlers.WwMyClanSquadInviteModal extends ::gui_handlers.MyClanSquad
       funcName = "onSquadLeaderInvite"
       shortcut = ""
       showOnSelect = "focus"
-      iconName = "A"
+      btnName = "A"
       btnKey = "A"
       text = @() ::loc("worldwar/inviteSquad")
       isHidden = true

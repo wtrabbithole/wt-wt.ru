@@ -78,7 +78,10 @@ local function getMapsList(curEvent)
   if (isBanByLevel)
     foreach(mission in curEvent?.missions_info ?? {})
       if (mission?.name && mission?.level)
-        missionToLevelTable[mission.name] <- mission.level
+        missionToLevelTable[mission.name] <- {
+          level = mission.level
+          origMisName  = mission?.origMisName
+        }
 
   local missionList = {}
   foreach(gm in ::g_matching_game_modes.getGameModesByEconomicName(::events.getEventEconomicName(curEvent)))
@@ -87,13 +90,13 @@ local function getMapsList(curEvent)
   local assertMisNames = []
   foreach(name, val in missionList)
   {
-    local missionInfo = ::get_meta_mission_info_by_name(name)
+    local missionInfo = ::get_meta_mission_info_by_name(missionToLevelTable?[name].origMisName ?? name)
     if(!missionInfo?.level || missionInfo.level == "")
     {
       assertMisNames.append(name)
       continue
     }
-    local level = missionToLevelTable?[name] ?? ::map_to_location(missionInfo.level)
+    local level = missionToLevelTable?[name].level ?? ::map_to_location(missionInfo.level)
     local isTankOrShipLevel = ::regexp2(@"^av(n|g)").match(level)
     local image = ::get_level_texture(missionInfo.level, hasTankOrShip && isTankOrShipLevel).slice(0,-1) + "_thumb*"
     local mission = isBanByLevel ? level : name

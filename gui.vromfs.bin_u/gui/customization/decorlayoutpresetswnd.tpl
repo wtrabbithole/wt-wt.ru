@@ -83,7 +83,7 @@ root {
             top:t='ph/2-h/2'
             position:t='relative'
             margin-right:t='1@blockInterval'
-            iconName:t='A'
+            btnName:t='A'
             showOrNoneOn:t='selectedOnConsole'
           }
           CheckBoxImg {}

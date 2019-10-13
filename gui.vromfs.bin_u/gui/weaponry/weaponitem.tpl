@@ -320,7 +320,7 @@ weaponry_item {
 
   <<#shortcutIcon>>
   ButtonImg{
-    iconName:t='<<shortcutIcon>>'
+    btnName:t='<<shortcutIcon>>'
     showOnSelect:t='yes'
   }
   <</shortcutIcon>>

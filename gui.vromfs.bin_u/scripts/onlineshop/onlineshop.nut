@@ -8,6 +8,8 @@ local payMethodsCfg = [
   { id = ::YU2_PAY_AMAZON,      name = "amazon" }
 ]
 
+const MIN_DISPLAYED_PERCENT_SAVING = 5
+
 class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -209,7 +211,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
             local calcAmount = amount + additionalAmount
             local saving = (1 - ((itemPrice * (1 - discount*0.01)) / (calcAmount * defItemPrice))) * 100
             saving = saving.tointeger()
-            if (saving != 0)
+            if (saving >= MIN_DISPLAYED_PERCENT_SAVING)
               savingText = ::format(::loc("charServer/entitlement/discount"), saving)
           }
         }
@@ -314,7 +316,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         costText = ::loc("price/" + item.name, "")
 
       if (costText != "")
-        cost = costText.tointeger()
+        cost = costText.tofloat()
     }
     else if (item?.goldCost)
       cost = item.goldCost

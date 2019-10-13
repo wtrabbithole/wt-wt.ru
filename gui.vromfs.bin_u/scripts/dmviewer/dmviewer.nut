@@ -638,9 +638,9 @@
             if (infoBlk?.model)
               engineInfo.push(::loc("engine_model/" + infoBlk.model))
 
-            local engineMainBlk = getTblValueByPath(
-              ::getTblValue("part_id", infoBlk, "Engine" + partIndex)
-              + ".Main", fmBlk)
+            local enginePartId = infoBlk?.part_id ?? ("Engine" + partIndex.tostring())
+            local engineTypeId = "EngineType" + (fmBlk?[enginePartId].Type ?? -1).tostring()
+            local engineMainBlk = fmBlk?[engineTypeId].Main ?? fmBlk?[enginePartId].Main
             if (!engineMainBlk)
             { // try to find booster
               local numEngines = 0

@@ -204,7 +204,6 @@ gcButtonsHolder > Button_text {
 
 [show_console_buttons=yes] [btnName] > ButtonImg,
 [show_console_buttons=yes] ButtonImg[btnName],
-[show_console_buttons=yes] ButtonImg[iconName],
 [show_console_buttons=yes] Button_text
 {
   pc_style:no;
@@ -995,45 +994,43 @@ Button_text[btnName=B][menuShortcuts]  { accessKey:'J:B | J:Back | Esc | Backspa
 
 
 
-[btnName=A] > ButtonImg,
+[btnName=A] > ButtonImg, ButtonImg[btnName=A],
 [btnName=SpaceA] > ButtonImg { background-image:@control_button_a; }
 
-[swap_ab=yes] [btnName=A] > ButtonImg,
+[swap_ab=yes] [btnName=A] > ButtonImg, [swap_ab=yes] ButtonImg[btnName=A],
 [swap_ab=yes] [btnName=SpaceA] > ButtonImg { background-image:@control_button_b; }
 
-[btnName=A]:pushed > ButtonImg,
+[btnName=A]:pushed > ButtonImg, :pushed > ButtonImg[btnName=A],
 [btnName=SpaceA]:pushed > ButtonImg { background-image:@control_button_a_pressed; }
 
-[swap_ab=yes] [btnName=A]:pushed > ButtonImg,
+[swap_ab=yes] [btnName=A]:pushed > ButtonImg, [swap_ab=yes] :pushed > ButtonImg[btnName=A],
 [swap_ab=yes] [btnName=SpaceA]:pushed > ButtonImg { background-image:@control_button_b_pressed; }
 
-[btnName=B] > ButtonImg { background-image:@control_button_b; }
-[swap_ab=yes] [btnName=B] > ButtonImg { background-image:@control_button_a; }
+[btnName=B] > ButtonImg, ButtonImg[btnName=B] { background-image:@control_button_b; }
+[swap_ab=yes] [btnName=B] > ButtonImg, [swap_ab=yes] ButtonImg[btnName=B] { background-image:@control_button_a; }
 
-[btnName=B]:pushed > ButtonImg { background-image:@control_button_b_pressed; }
-[swap_ab=yes] [btnName=B]:pushed > ButtonImg { background-image:@control_button_a_pressed; }
+[btnName=B]:pushed > ButtonImg, :pushed > ButtonImg[btnName=B] { background-image:@control_button_b_pressed; }
+[swap_ab=yes] [btnName=B]:pushed > ButtonImg, [swap_ab=yes] :pushed > ButtonImg[btnName=B] { background-image:@control_button_a_pressed; }
 
-[swap_ab=yes] [btnName=B] > ButtonImg { background-image:@control_button_a; }
-[swap_ab=yes] [btnName=B]:pushed > ButtonImg { background-image:@control_button_a_pressed; }
-
-[btnName=X] > ButtonImg { background-image:@control_button_x; }
+[btnName=X] > ButtonImg, ButtonImg[btnName=X] { background-image:@control_button_x; }
 [btnName=X]:pushed > ButtonImg { background-image:@control_button_x_pressed; }
 
-[btnName=Y] > ButtonImg { background-image:@control_button_y; }
+[btnName=Y] > ButtonImg, ButtonImg[btnName=Y] { background-image:@control_button_y; }
 [btnName=Y]:pushed > ButtonImg { background-image:@control_button_y_pressed; }
 
 [btnName=start] > ButtonImg, [btnName=ww_menu] > ButtonImg
   { background-image:@control_button_start; }
 [btnName=start]:pushed > ButtonImg, [btnName=ww_menu]:pushed > ButtonImg
   { background-image:@control_button_start_pressed; }
+
 [btnName=back]         > ButtonImg { background-image:@control_button_back; }
 [btnName=back]:pushed  > ButtonImg { background-image:@control_button_back_pressed; }
-[btnName=RB]           > ButtonImg, ButtonImg[btnName=RB]{ background-image:@control_r_shoulder; }
+[btnName=RB]           > ButtonImg, ButtonImg[btnName=RB] { background-image:@control_r_shoulder; }
 [btnName=RB]:pushed    > ButtonImg { background-image:@control_r_shoulder_pressed; }
 [btnName=LB]           > ButtonImg, ButtonImg[btnName=LB] { background-image:@control_l_shoulder; }
 [btnName=LB]:pushed    > ButtonImg { background-image:@control_l_shoulder_pressed; }
 
-[btnName=RT]           > ButtonImg { background-image:@control_r_trigger; }
+[btnName=RT]           > ButtonImg, ButtonImg[btnName=RT] { background-image:@control_r_trigger; }
 [btnName=RT]:pushed    > ButtonImg { background-image:@control_r_trigger_pressed; }
 [btnName=LT]           > ButtonImg { background-image:@control_l_trigger; }
 [btnName=LT]:pushed    > ButtonImg { background-image:@control_l_trigger_pressed; }
@@ -1042,6 +1039,8 @@ Button_text[btnName=B][menuShortcuts]  { accessKey:'J:B | J:Back | Esc | Backspa
 [btnName=R3]:pushed    > ButtonImg { background-image:@control_r_stick_pressed; }
 [btnName=L3]           > ButtonImg { background-image:@control_l_stick; }
 [btnName=L3]:pushed    > ButtonImg { background-image:@control_l_stick_pressed; }
+
+ButtonImg[btnName=R3] { background-image:@control_r_stick_pressed; bigButton:yes; }
 
 [btnName=RSLeft]       > ButtonImg { background-image:@control_r_stick_left; }
 [btnName=RSRight]      > ButtonImg { background-image:@control_r_stick_right; }
@@ -1059,21 +1058,6 @@ ButtonImg[btnName=Dpad] { background-image:@control_dirpad; bigButton:yes; }
 
 [focusBtnName=A]:focus:pushed > ButtonImg { background-image:@control_button_a_pressed; }
 [swap_ab=yes] [focusBtnName=A]:focus:pushed > ButtonImg { background-image:@control_button_b_pressed; }
-
-
-ButtonImg[btnName=R3] { background-image:@control_r_stick_pressed; bigButton:yes; }
-
-ButtonImg[iconName=A] { background-image:@control_button_a; }
-[swap_ab=yes] ButtonImg[iconName=A] { background-image:@control_button_b; }
-
-ButtonImg[iconName=B] { background-image:@control_button_b; }
-[swap_ab=yes] ButtonImg[iconName=B] { background-image:@control_button_a; }
-
-ButtonImg[iconName=X] { background-image:@control_button_x; }
-ButtonImg[iconName=Y] { background-image:@control_button_y; }
-ButtonImg[iconName=RT] { background-image:@control_r_trigger; }
-ButtonImg[iconName=RB] { background-image:@control_r_shoulder; }
-
 
 
 Button_text[redDisabled=yes]:disabled {
