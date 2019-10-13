@@ -1243,7 +1243,15 @@ local function helicopterSightHud(elemStyle, isBackground) {
     [helicopterState.SightHudPosSize[0], helicopterState.SightHudPosSize[1]] :
     [0, 0]
     children = helicopterState.IsSightHudVisible.value
-    ? [
+    ? (helicopterState.IsMfdEnabled.value ?
+    [
+      turretAnglesComponent(sightStyle, sightHdpx(150), turretAnglesAspect, isBackground)
+      launchDistanceMaxComponent(sightStyle, sightHdpx(150), turretAnglesAspect, isBackground)
+      sightComponent(sightStyle, isBackground)
+      rangeFinderComponent(sightStyle, isBackground)
+      lockSightComponent(sightStyle, isBackground)
+    ] :
+    [
       HelicopterVertSpeed(sightStyle, sightSh(3.6), sightSh(30), sightSw(50) + sightHdpx(384), sightSh(35), isBackground)
       turretAnglesComponent(sightStyle, sightHdpx(150), turretAnglesAspect, isBackground)
       launchDistanceMaxComponent(sightStyle, sightHdpx(150), turretAnglesAspect, isBackground)
@@ -1255,7 +1263,7 @@ local function helicopterSightHud(elemStyle, isBackground) {
       laserDesignatorStatusComponent(sightStyle, isBackground)
       atgmTrackerStatusComponent(sightStyle, isBackground)
       compassComponent(sightStyle, isBackground, compassW, compassH, sightSw(50) - 0.5*compassW, sightSh(15))
-    ]
+    ])
     : null
   }
 }
