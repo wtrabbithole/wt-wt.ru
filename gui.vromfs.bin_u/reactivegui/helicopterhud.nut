@@ -431,18 +431,6 @@ local function isInsideAgmLaunchDistanceRange() {
 const fullRangeMultInv = 0.7
 const outOfZoneLaunchShowTimeOut = 2.0
 
-local getAgmLaunchDistanceRangeOpacity = function() {
-  if (helicopterState.IsAgmLaunchZoneVisible.value)
-  {
-    if (!helicopterState.IsRangefinderEnabled.value || isInsideAgmLaunchDistanceRange())
-      return 100
-    else
-      return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
-  }
-  else
-    return 0
-}
-
 local function turretAngles(line_style, height, aspect, isBackground) {
   local hl = 20
   local vl = 20
@@ -453,45 +441,20 @@ local function turretAngles(line_style, height, aspect, isBackground) {
   local getTurretCommands = function() {
     local px = helicopterState.TurretYaw.value * 100.0
     local py = 100 - helicopterState.TurretPitch.value * 100.0
-    /*
-    local left  = max(0.0, helicopterState.TurretYaw.value - 0.5 * helicopterState.FovYaw.value) * 100.0
-    local right = min(1.0, helicopterState.TurretYaw.value + 0.5 * helicopterState.FovYaw.value) * 100.0
-    local lower = 100.0 - max(0.0, helicopterState.TurretPitch.value - 0.5 * helicopterState.FovPitch.value) * 100.0
-    local upper = 100.0 - min(1.0, helicopterState.TurretPitch.value + 0.5 * helicopterState.FovPitch.value) * 100.0
-    */
     return [
       [VECTOR_LINE, px - crossL - offset, py, px - offset, py],
       [VECTOR_LINE, px + offset, py, px + crossL + offset, py],
       [VECTOR_LINE, px, py - crossL * aspect - offset * aspect, px, py - offset * aspect],
       [VECTOR_LINE, px, py + crossL * aspect + offset * aspect, px, py + offset * aspect]
-      /* ,
-      [VECTOR_LINE, left,  upper, right, upper],
-      [VECTOR_LINE, right, upper, right, lower],
-      [VECTOR_LINE, right, lower, left,  lower],
-      [VECTOR_LINE, left,  lower, left,  upper]
-      */
     ]
   }
 
-  local getAgmLaunchAngularRangeOpacity = function() {
-    if (helicopterState.IsAgmLaunchZoneVisible.value &&
-        helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut.value < outOfZoneLaunchShowTimeOut)
-    {
-      if (isInsideAgmLaunchAngularRange())
-        return 100
-      else
-        return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
-    }
-    else
-      return 0
-  }
-
-
   local getAgmLaunchAngularRangeCommands = function() {
-   if ( helicopterState.IsAgmLaunchZoneVisible.value &&
+    if (helicopterState.IsAgmLaunchZoneVisible.value &&
         helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut.value < outOfZoneLaunchShowTimeOut &&
-       (helicopterState.AgmLaunchZoneYawMin.value > 0.0 || helicopterState.AgmLaunchZoneYawMax.value < 1.0 ||
-        helicopterState.AgmLaunchZonePitchMin.value > 0.0 || helicopterState.AgmLaunchZonePitchMax.value < 1.0))
+        (helicopterState.AgmLaunchZoneYawMin.value > 0.0 || helicopterState.AgmLaunchZoneYawMax.value < 1.0 ||
+         helicopterState.AgmLaunchZonePitchMin.value > 0.0 || helicopterState.AgmLaunchZonePitchMax.value < 1.0) &&
+        !isInsideAgmLaunchAngularRange())
     {
       local left  = max(0.0, helicopterState.AgmLaunchZoneYawMin.value) * 100.0
       local right = min(1.0, helicopterState.AgmLaunchZoneYawMax.value) * 100.0
@@ -509,6 +472,7 @@ local function turretAngles(line_style, height, aspect, isBackground) {
   }
 
   local getAgmLaunchDistanceRangeCommands = function() {
+
     if (helicopterState.IsAgmLaunchZoneVisible.value)
     {
       local distanceRangeInv = fullRangeMultInv * 1.0 / (helicopterState.AgmLaunchZoneDistMax.value - 0.0 + 1.0)
@@ -555,9 +519,8 @@ local function turretAngles(line_style, height, aspect, isBackground) {
         lineWidth = hdpx(LINE_WIDTH + 0)
         size = [aspect * height, height]
         color = getColor(isBackground)
-        opacity = getAgmLaunchAngularRangeOpacity()
         watch = [
-          helicopterState.CurrentTime, helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
+          helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
           helicopterState.IsAgmLaunchZoneVisible,
           helicopterState.IsInsideLaunchZoneYawPitch,
           helicopterState.TurretYaw, helicopterState.TurretPitch,
@@ -565,19 +528,31 @@ local function turretAngles(line_style, height, aspect, isBackground) {
           helicopterState.AgmLaunchZonePitchMin, helicopterState.AgmLaunchZonePitchMax
         ]
         commands = getAgmLaunchAngularRangeCommands()
+        behavior = Behaviors.RtPropUpdate
+        update = function() {
+          return {
+            opacity = math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
+          }
+        }
       }),
       @() line_style.__merge({
         rendObj = ROBJ_VECTOR_CANVAS
         lineWidth = hdpx(LINE_WIDTH + 1)
         size = [aspect * height, height]
         color = getColor(isBackground)
-        opacity = getAgmLaunchDistanceRangeOpacity()
         watch = [
-          helicopterState.CurrentTime, helicopterState.IsAgmLaunchZoneVisible,
+          helicopterState.IsAgmLaunchZoneVisible,
           helicopterState.IsRangefinderEnabled, helicopterState.RangefinderDist,
           helicopterState.AgmLaunchZoneDistMin, helicopterState.AgmLaunchZoneDistMax
         ]
         commands = getAgmLaunchDistanceRangeCommands()
+        behavior = Behaviors.RtPropUpdate
+        update = function() {
+          return {
+            opacity = !(helicopterState.IsRangefinderEnabled.value && !isInsideAgmLaunchDistanceRange()) ||
+                      math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
+          }
+        }
       })
     ]
   })
@@ -592,17 +567,10 @@ local turretAnglesComponent = function(elemStyle, height, aspect, isBackground) 
 }
 
 local function launchDistanceMaxComponent(elemStyle, height, aspect, isBackground) {
-/*
-  local getAgmMeasuredLaunchDistanceRangeOpacity = function() {
-    if (helicopterState.IsRangefinderEnabled.value)
-      return getAgmLaunchDistanceRangeOpacity()
-    else
-      return 0
-  }
-*/
 
   local getAgmLaunchDistanceMax = function() {
-    return ::string.format("%.1f", helicopterState.AgmLaunchZoneDistMax.value * 0.001)
+    return helicopterState.IsAgmLaunchZoneVisible.value ?
+      ::string.format("%.1f", helicopterState.AgmLaunchZoneDistMax.value * 0.001) : ""
   }
 
   local launchDistanceMax = @() elemStyle.__merge({
@@ -610,11 +578,9 @@ local function launchDistanceMaxComponent(elemStyle, height, aspect, isBackgroun
     halign = HALIGN_CENTER
     valign = HALIGN_CENTER
     text = getAgmLaunchDistanceMax()
-    //opacity = getAgmMeasuredLaunchDistanceRangeOpacity()
     watch = [
-      helicopterState.IsAgmLaunchZoneVisible, helicopterState.CurrentTime,
-      helicopterState.IsRangefinderEnabled, helicopterState.RangefinderDist,
-      helicopterState.AgmLaunchZoneDistMin, helicopterState.AgmLaunchZoneDistMax
+      helicopterState.IsAgmLaunchZoneVisible,
+      helicopterState.AgmLaunchZoneDistMax
     ]
     color = getColor(isBackground)
   })
@@ -650,31 +616,21 @@ local generateBulletsTextFunction = function(countWatched, secondsWatched) {
 local generateAgmBulletsTextFunction = function(countWatched, secondsWatched, timeToHit, timeToWarning) {
   return function() {
     local str = ""
-    if (!helicopterState.IsSightHudVisible.value ||
-        ((!(helicopterState.IsAgmLaunchZoneVisible.value &&
-            helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut.value < outOfZoneLaunchShowTimeOut) ||
-         isInsideAgmLaunchAngularRange()) &&
-         (!helicopterState.IsAgmLaunchZoneVisible.value || !helicopterState.IsRangefinderEnabled.value || isInsideAgmLaunchDistanceRange())) ||
-        math.round(helicopterState.CurrentTime.value * 4) % 2 == 0)
+    if (secondsWatched.value >= 0)
     {
-      if (secondsWatched.value >= 0)
-      {
-        str = ::string.format("%d:%02d", ::math.floor(secondsWatched.value / 60), secondsWatched.value % 60)
-        if (countWatched.value > 0)
-          str += " (" + countWatched.value + ")"
-        return str
-      }
-      else if (countWatched.value >= 0)
-        str = countWatched.value
-
-      if (timeToHit.value > 0)
-        if (timeToWarning.value > 0 || math.round(helicopterState.CurrentTime.value * 4) % 2 == 0)
-          str = str + ::string.format("[%d]", timeToHit.value)
+      str = ::string.format("%d:%02d", ::math.floor(secondsWatched.value / 60), secondsWatched.value % 60)
+      if (countWatched.value > 0)
+        str += " (" + countWatched.value + ")"
+      return str
     }
+    else if (countWatched.value >= 0)
+      str = countWatched.value
+
+    if (timeToHit.value > 0)
+      str = str + ::string.format("[%d]", timeToHit.value)
     return str
   }
 }
-
 
 local generateTemperatureTextFunction = function(temperatureWatched, stateWatched) {
   return function() {
@@ -724,24 +680,16 @@ local getThrottleCaption = function() {
 
 local getAGCaption = function() {
   local text = ""
-  if (!helicopterState.IsSightHudVisible.value ||
-      ((!(helicopterState.IsAgmLaunchZoneVisible.value &&
-          helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut.value < outOfZoneLaunchShowTimeOut) ||
-       isInsideAgmLaunchAngularRange()) &&
-       (!helicopterState.IsAgmLaunchZoneVisible.value || !helicopterState.IsRangefinderEnabled.value || isInsideAgmLaunchDistanceRange())) ||
-      math.round(helicopterState.CurrentTime.value * 4) % 2 == 0)
-  {
-    if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_INVALID)
-      text = ::loc("HUD/AGM_SHORT")
-    else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_STANDBY)
-      text = ::loc("HUD/TXT_LASER_MISSILE_STANDBY")
-    else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_WARMING_UP)
-      text = ::loc("HUD/TXT_LASER_MISSILE_WARM_UP")
-    else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_LOCKING)
-      text = ::loc("HUD/TXT_LASER_MISSILE_LOCK")
-    else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_TRACKING)
-      text = ::loc("HUD/TXT_LASER_MISSILE_TRACK")
-  }
+  if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_INVALID)
+    text = ::loc("HUD/AGM_SHORT")
+  else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_STANDBY)
+    text = ::loc("HUD/TXT_LASER_MISSILE_STANDBY")
+  else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_WARMING_UP)
+    text = ::loc("HUD/TXT_LASER_MISSILE_WARM_UP")
+  else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_LOCKING)
+    text = ::loc("HUD/TXT_LASER_MISSILE_LOCK")
+  else if (helicopterState.AgmGuidanceLockState.value == GuidanceLockResult.RESULT_TRACKING)
+    text = ::loc("HUD/TXT_LASER_MISSILE_TRACK")
   return text
 }
 
@@ -755,8 +703,27 @@ local getAACaption = function() {
     text = ::loc("HUD/IR_MISSILE_LOCK")
   else if (aamAimState.GuidanceLockState.value == GuidanceLockResult.RESULT_TRACKING)
     text = ::loc("HUD/IR_MISSILE_TRACK")
-
   return text
+}
+
+local getAGBlink = function()
+{
+  if (helicopterState.IsSightHudVisible.value && helicopterState.IsAgmLaunchZoneVisible.value &&
+       (
+         (helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut.value < outOfZoneLaunchShowTimeOut && !isInsideAgmLaunchAngularRange()) ||
+         (helicopterState.IsRangefinderEnabled.value && !isInsideAgmLaunchDistanceRange())
+       ) )
+    return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
+  else
+    return 100
+}
+
+local getAGBulletsBlink = function()
+{
+  if (helicopterState.Agm.timeToHit.value > 0 && helicopterState.Agm.timeToWarning.value <= 0)
+    return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
+  else
+    return 100
 }
 
 local getAGBullets = generateAgmBulletsTextFunction(helicopterState.Agm.count, helicopterState.Agm.seconds, helicopterState.Agm.timeToHit, helicopterState.Agm.timeToWarning)
@@ -785,6 +752,12 @@ local createHelicopterParam = function(param, width, line_style, isBackground, n
     return {
       size = SIZE_TO_CONTENT
       flow = FLOW_HORIZONTAL
+      behavior = param?.blink ? Behaviors.RtPropUpdate : null
+      update = function() {
+        return {
+          opacity = param.blink() ? 100 : 0
+        }
+      }
       children = [
         (needCaption ? captionComponent : null)
         @() line_style.__merge({
@@ -793,6 +766,12 @@ local createHelicopterParam = function(param, width, line_style, isBackground, n
           size = [0.6*width, rowHeight]
           text = param.value()
           watch = param.valuesWatched
+          behavior = param?.valueBlink ? Behaviors.RtPropUpdate : null
+          update = function() {
+            return {
+              opacity = param.valueBlink() ? 100 : 0
+            }
+          }
         })
       ]
     }
@@ -849,14 +828,16 @@ local textParamsMap = {
   [HelicopterParams.AGM] = {
     title = @() getAGCaption()
     value = @() getAGBullets()
+    blink = @() getAGBlink()
     titleWatched = [
       helicopterState.AgmGuidanceLockState,
-      helicopterState.CurrentTime, helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
+      helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
       helicopterState.IsSightHudVisible, helicopterState.IsAgmLaunchZoneVisible, helicopterState.IsAgmLaunchZoneVisible,
       helicopterState.IsInsideLaunchZoneYawPitch, helicopterState.IsInsideLaunchZoneDist
     ]
+    valueBlink = @() getAGBulletsBlink()
     valuesWatched = [
-      helicopterState.CurrentTime, helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
+      helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
       helicopterState.IsSightHudVisible, helicopterState.IsAgmLaunchZoneVisible, helicopterState.IsAgmLaunchZoneVisible,
       helicopterState.Agm.count, helicopterState.Agm.seconds, helicopterState.Agm.timeToHit, helicopterState.Agm.timeToWarning,
       helicopterState.IsAgmEmpty, helicopterState.AgmGuidanceLockState
@@ -1140,22 +1121,22 @@ local function laserDesignatorStatusComponent(elemStyle, isBackground) {
     }
   }
 
-  local function getOpacity() {
-    if (!helicopterState.IsLaserDesignatorEnabled.value &&
-        helicopterState.Agm.timeToHit.value > 0 &&
-        helicopterState.Agm.timeToWarning.value <= 0)
-      return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
-    else
-      return 100
-  }
-
   local laserDesignatorStatus = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
     halign = HALIGN_CENTER
     text = getText()
-    opacity = getOpacity()
-    watch = [helicopterState.CurrentTime, helicopterState.IsLaserDesignatorEnabled, helicopterState.Agm.timeToHit, helicopterState.Agm.timeToWarning ]
+    watch = [ helicopterState.IsLaserDesignatorEnabled, helicopterState.Agm.timeToHit, helicopterState.Agm.timeToWarning ]
     color = getColor(isBackground)
+    behavior = Behaviors.RtPropUpdate
+    update = function() {
+      return {
+        opacity = !helicopterState.IsLaserDesignatorEnabled.value &&
+                  helicopterState.Agm.timeToHit.value > 0 &&
+                  helicopterState.Agm.timeToWarning.value <= 0 ?
+                    ((math.round(helicopterState.CurrentTime.value * 4) % 2 == 0) ? 100 : 0) :
+                  100
+      }
+    }
   })
 
   local resCompoment = @() {
@@ -1170,20 +1151,18 @@ local function laserDesignatorStatusComponent(elemStyle, isBackground) {
 
 local function atgmTrackerStatusComponent(elemStyle, isBackground) {
 
-  local function getOpacity() {
-    if (helicopterState.IsATGMOutOfTrackerSector.value)
-      return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
-    else
-      return 0
-  }
-
   local atgmTrackerStatus = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
     halign = HALIGN_CENTER
     text = ::loc("HUD/TXT_ATGM_OUT_OF_TRACKER_SECTOR")
-    opacity = getOpacity()
-    watch = [helicopterState.CurrentTime, helicopterState.IsATGMOutOfTrackerSector ]
     color = getColor(isBackground)
+    behavior = Behaviors.RtPropUpdate
+    update = function() {
+      return {
+        opacity = helicopterState.IsATGMOutOfTrackerSector.value &&
+                  (math.round(helicopterState.CurrentTime.value * 4) % 2 == 0) ? 100 : 0
+      }
+    }
   })
 
   local resCompoment = @() {
