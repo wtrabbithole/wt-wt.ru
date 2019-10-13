@@ -127,6 +127,13 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
     getShortcut = @(actionItem, unit = null) "ID_SHIP_TORPEDO_SIGHT"
   }
 
+  HULL_AIMING = {
+    code = ::EII_HULL_AIMING
+    _name = "hull_aiming"
+    _icon = "#ui/gameuiskin#hull_aiming_mode"
+    getShortcut = @(actionItem, unit = null) "ID_ENABLE_GM_HULL_AIMING"
+  }
+
   TORPEDO = {
     code = ::EII_TORPEDO
     _name = "torpedo"

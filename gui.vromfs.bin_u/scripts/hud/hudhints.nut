@@ -1337,6 +1337,15 @@ enums.addTypesByGlobalName("g_hud_hints", {
     isHideOnDeath = true
   }
 
+  NEED_STOP_FOR_HULL_AIMING = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId     = "hints/need_stop_for_hull_aiming"
+    showEvent = "hint:need_stop_for_hull_aiming:show"
+    hideEvent = "hint:need_stop_for_hull_aiming:hide"
+    lifeTime = 5.0
+    isHideOnDeath = true
+  }
+
   WAIT_LAUNCHER = {
     hintType = ::g_hud_hint_types.COMMON
     locId     = "hints/wait_launcher_ready"

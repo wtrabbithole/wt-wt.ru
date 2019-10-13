@@ -101,6 +101,11 @@ return [
     checkGroup = ctrlGroups.TANK
     checkAssign = false
   }
+  {
+    id = "ID_ENABLE_GM_HULL_AIMING"
+    checkGroup = ctrlGroups.TANK
+    checkAssign = false
+  }
 //-------------------------------------------------------
   {
     id = "ID_TANK_FIRE_HEADER"
