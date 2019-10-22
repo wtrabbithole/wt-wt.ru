@@ -630,6 +630,9 @@ local ACTION_LIST_PARAMS = {
   if (!isInShop)
     return false
 
+  if (unit.reqUnlock && !::is_unlocked_scripted(-1, unit.reqUnlock))
+    return false
+
   local status = ::shop_unit_research_status(unit.name)
   return (0 != (status & (::ES_ITEM_STATUS_IN_RESEARCH | ::ES_ITEM_STATUS_CAN_RESEARCH))) && !::isUnitMaxExp(unit)
 }
@@ -638,6 +641,9 @@ local ACTION_LIST_PARAMS = {
 {
   if (::isUnitGift(unit))  //!!! FIX ME shop_unit_research_status may return ES_ITEM_STATUS_CAN_BUY
     return false           // if vehicle could be bought in game, but it became a gift vehicle.
+
+  if (unit.reqUnlock && !::is_unlocked_scripted(-1, unit.reqUnlock))
+    return false
 
   local status = ::shop_unit_research_status(unit.name)
   return (0 != (status & ::ES_ITEM_STATUS_CAN_BUY)) && unit.isVisibleInShop()

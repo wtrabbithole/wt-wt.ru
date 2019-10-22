@@ -541,9 +541,9 @@ local ExchangeRecipes = class {
     if (params?.cb)
       params.cb()
 
-    local isShowOpening  = @(extItem) extItem?.itemdef?.type == "item"
-      && !extItem?.itemdef?.tags?.devItem
-      && (extItem.itemdef?.tags?.showWithFeature == null || ::has_feature(extItem.itemdef.showWithFeature))
+    local isShowOpening  = @(extItem) extItem?.itemdef.type == "item"
+      && !extItem.itemdef?.tags.devItem
+      && (extItem.itemdef?.tags.showWithFeature == null || ::has_feature(extItem.itemdef.tags.showWithFeature))
     local resultItemsShowOpening  = u.filter(resultItems, isShowOpening)
 
     local parentGen = componentItem.getParentGen()

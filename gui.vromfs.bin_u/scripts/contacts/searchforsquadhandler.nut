@@ -50,7 +50,11 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
         ::contacts[clanGroup] <- []
     }
     if (::is_platform_ps4)
+    {
       sg_groups.insert(2, ::EPLX_PS4_FRIENDS)
+      if (!(::EPLX_PS4_FRIENDS in ::contacts))
+        ::contacts[::EPLX_PS4_FRIENDS] <- []
+    }
 
     fillContactsList(sg_groups)
     guiScene.setUpdatesEnabled(true, true)

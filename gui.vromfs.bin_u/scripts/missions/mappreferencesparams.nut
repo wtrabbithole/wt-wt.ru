@@ -63,7 +63,7 @@ local function getInactiveMaps(curEvent, mapsList)
   return res
 }
 
-local function getMapsList(curEvent)
+local function getMapsList(curEvent, isBanParamsOnly = false)
 {
   if(!hasPreferences(curEvent))
     return []
@@ -92,31 +92,38 @@ local function getMapsList(curEvent)
   foreach(name, val in missionList)
   {
     local missionInfo = ::get_meta_mission_info_by_name(missionToLevelTable?[name].origMisName ?? name)
-    if(!missionInfo?.level || missionInfo.level == "")
+    if((missionInfo?.level ?? "") == "")
     {
       assertMisNames.append(name)
       continue
     }
     local level = missionToLevelTable?[name].level ?? ::map_to_location(missionInfo.level)
-    local isTankOrShipLevel = ::regexp2(@"^av(n|g)").match(level)
-    local image = ::get_level_texture(missionInfo.level, hasTankOrShip && isTankOrShipLevel).slice(0,-1) + "_thumb*"
+    local image = isBanParamsOnly ? null
+      : ::get_level_texture(
+        missionInfo.level, hasTankOrShip && ::regexp2(@"^av(n|g)").match(level) // hasTankOrShip && isTankOrShipLevel
+      ).slice(0,-1) + "_thumb*"
     local mission = isBanByLevel ? level : name
-    if(isBanByLevel)
-      if (::u.search(list, @(inst) inst.level == level) != null)
-        continue
+    if (isBanByLevel && ::u.search(list, @(inst) inst.mission == mission) != null)
+      continue
 
     local isBanned = banList.find(mission) != null
     local isDisliked = dislikeList.find(mission) != null
-    list.append({
-      mapId = list.len()
-      title = getMissionLoc(name, missionInfo, isBanByLevel)
-      level = level
-      image = image
-      mission = mission
-      disliked = isDisliked
-      banned = isBanned
-      state = getMapStateByBanParams(isBanned, isDisliked)
-    })
+    list.append( isBanParamsOnly
+      ? {
+        mission = mission
+        disliked = isDisliked
+        banned = isBanned
+      }
+      : {
+        mapId = list.len()
+        title = getMissionLoc(name, missionInfo, isBanByLevel)
+        level = level
+        image = image
+        mission = mission
+        disliked = isDisliked
+        banned = isBanned
+        state = getMapStateByBanParams(isBanned, isDisliked)
+      })
   }
 
   if(assertMisNames.len() > 0)
@@ -125,7 +132,7 @@ local function getMapsList(curEvent)
     ::script_net_assert_once("MapPreferencesParams:", "Missions have no level")
   }
 
-  if(!isBanByLevel)
+  if(!isBanByLevel && !isBanParamsOnly)
     list = sortByLevel(list)
 
   return list
@@ -135,7 +142,7 @@ local function getParams(curEvent)
 {
   local params = {bannedMissions = [], dislikedMissions = []}
   if(hasPreferences(curEvent))
-    foreach(inst in getMapsList(curEvent))
+    foreach(inst in getMapsList(curEvent, true))
     {
       if(inst.banned)
        params.bannedMissions.append(inst.mission)
