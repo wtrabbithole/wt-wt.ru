@@ -779,13 +779,6 @@ foreach (i, v in ::cssColorsMapDark)
   return ::format(::loc("mainmenu/availableFreeExpForNewResearch"), coloredPriceText)
 }
 
-::getFreeRpPriceText <- function getFreeRpPriceText(frp, colored=false)
-{
-  if (frp == 0)
-    return ""
-  return frp.tostring() + ::loc("currency/freeResearchPoints/sign" + (colored? "/colored" : ""))
-}
-
 ::getCrewSpText <- function getCrewSpText(sp, colored=true)
 {
   if (sp == 0)

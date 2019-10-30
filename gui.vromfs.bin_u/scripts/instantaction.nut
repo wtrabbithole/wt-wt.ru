@@ -16,11 +16,6 @@ local unitStatus = require("scripts/unit/unitStatus.nut")
 ::req_time_in_mode <- 60 //req time in mode when no need check tutorial
 ::instant_domination_handler <- null
 ::start_mission_instead_of_queue <- null
-::const_wait_time <- 300.0
-
-::isTanskEventsEnabled <- true
-
-::battle_type_option_name <- "battle_type"
 
 /*
 ::start_mission_instead_of_queue <- {
@@ -523,7 +518,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function isCrossPlayEventAvailable(event)
   {
-    return crossplayModule.isCrossPlayEnabled() || ::events.isEventXboxOnlyAllowed(event)
+    return crossplayModule.isCrossPlayEnabled() || ::events.isEventPlatformOnlyAllowed(event)
   }
 
   function getGameModeEvent(gameModeTbl)

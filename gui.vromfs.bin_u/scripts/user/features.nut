@@ -247,6 +247,8 @@
 
     MapPreferences = false
     TournamentInvites = true
+
+    PS4CrossNetwork = false
   }
 
   cache = {}

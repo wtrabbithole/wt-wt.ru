@@ -44,7 +44,6 @@ td {
     showOn:t='hoverOrSelect';
     btnName:t='A';
     on_click:t='onRowBuy';
-    ButtonImg {}
 
     <<^externalLink>>
     text:t='#mainmenu/btnBuy';
@@ -63,6 +62,7 @@ td {
       underline {}
     }
     <</externalLink>>
+    ButtonImg {}
   }
   discount {
     id:t='buy-discount'

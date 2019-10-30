@@ -1,7 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local callback = ::require("sqStdLibs/helpers/callback.nut")
-local platformModule = require("scripts/clientState/platform.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
@@ -434,7 +433,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onGC_chat(obj)
   {
     if (!::isMenuChatActive())
-      platformModule.isChatEnabled(true)
+      ::g_chat.isChatEnabled(true)
 
     switchChatWindow()
   }

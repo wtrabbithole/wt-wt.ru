@@ -463,12 +463,12 @@ local ACTION_LIST_PARAMS = {
       icon       = "#ui/gameuiskin#btn_info.svg"
       showAction = ::isUnitDescriptionValid(unit)
       isLink     = ::has_feature("WikiUnitInfo")
-      actionFunc = (@(unit) function () {
+      actionFunc = function () {
         if (::has_feature("WikiUnitInfo"))
           ::open_url(::format(::loc("url/wiki_objects"), unit.name), false, false, "unit_actions")
         else
-          ::gui_start_aircraft_info(unit.name)
-      })(unit)
+          ::showInfoMsgBox(::colorize("activeTextColor", ::getUnitName(unit, false)) + "\n" + ::loc("profile/wiki_link"))
+      }
     }
     else if (action == "find_in_market")
     {

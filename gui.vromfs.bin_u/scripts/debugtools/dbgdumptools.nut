@@ -136,7 +136,7 @@ local dagor_fs = require("dagor.fs")
       return dbg_dump.getOriginal("get_local_mplayer")()
     }
     is_unlocked = function(unlockType, unlockId) {
-      foreach (log in _fake_userlogs)
+      foreach (log in ::_fake_userlogs)
         if (::getTblValueByPath("body.unlockId", log) == unlockId)
           return true
       return dbg_dump.getOriginal("is_unlocked")(unlockType, unlockId)

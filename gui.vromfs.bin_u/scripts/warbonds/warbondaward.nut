@@ -285,11 +285,16 @@ class ::WarbondAward
 
   function getAwardTypeCannotBuyReason(colored = true)
   {
-    if (awardType.canBuy(blk) || !isAvailableForCurrentWarbondShop())
+    if (!isRequiredSpecialTasksComplete())
       return ""
 
-    local text = ::loc(awardType.canBuyReasonLocId)
+    local text = ::loc(awardType.canBuyReasonLocId())
     return colored? ::colorize("warningTextColor", text) : text
+  }
+
+  function isRequiredSpecialTasksComplete()
+  {
+    return awardType.isReqSpecialTasks && !awardType.canBuy(blk) && isAvailableForCurrentWarbondShop()
   }
 
   function getNotAvailableForCurrentShopText(colored = true)

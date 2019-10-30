@@ -1,14 +1,17 @@
 local time = require("scripts/time.nut")
 
-::gui_start_battle_tasks_wnd <- function gui_start_battle_tasks_wnd(taskId = null)
+::gui_start_battle_tasks_wnd <- function gui_start_battle_tasks_wnd(taskId = null, tabType = null)
 {
   if (!::g_battle_tasks.isAvailableForUser())
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
 
-  ::gui_start_modal_wnd(::gui_handlers.BattleTasksWnd, {currentTaskId = taskId})
+  ::gui_start_modal_wnd(::gui_handlers.BattleTasksWnd, {
+    currentTaskId = taskId,
+    currentTabType = tabType
+  })
 }
 
-enum BattleTasksWndTab {
+global enum BattleTasksWndTab {
   BATTLE_TASKS,
   BATTLE_TASKS_HARD,
   PERSONAL_UNLOCKS,
@@ -84,7 +87,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     updateBattleTasksData()
     updateButtons()
 
-    local tabType = findTabSheetByTaskId(currentTaskId)
+    local tabType = currentTabType? currentTabType : findTabSheetByTaskId()
     getTabsListObj().setValue(tabType)
 
     initFocusArray()
@@ -92,12 +95,12 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     updateWarbondsBalance()
   }
 
-  function findTabSheetByTaskId(taskId)
+  function findTabSheetByTaskId()
   {
-    if (taskId)
+    if (currentTaskId)
       foreach (tabType, tasksArray in configsArrayByTabType)
       {
-        local task = tasksArray && ::u.search(tasksArray, @(task) taskId == task.id )
+        local task = tasksArray && ::u.search(tasksArray, function(task) { return currentTaskId == task.id }.bindenv(this) )
         if (!task)
           continue
 
@@ -432,7 +435,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     ::showBtnTable(scene, {
       btn_activate = showActivateButton
       btn_cancel = showCancelButton
-      btn_warbonds_shop = ::g_warbonds.isShopButtonVisible()
+      btn_warbonds_shop = ::g_warbonds.isShopButtonVisible() && !::isHandlerInScene(::gui_handlers.WarbondsShop)
     })
 
     local showRerollButton = isBattleTask && !isDone && !canGetReward && !::u.isEmpty(::g_battle_tasks.rerollCost)
@@ -446,7 +449,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
     showSceneBtn("btn_requirements_list", ::show_console_buttons && ::getTblValue("names", config, []).len() != 0)
 
-    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config.id)] = ::g_sound.canPlay(config.id)})
+    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config?.id ?? "")] = ::g_sound.canPlay(config?.id ?? "")})
   }
 
   function updateTabButtons()

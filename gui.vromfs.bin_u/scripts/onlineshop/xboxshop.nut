@@ -397,15 +397,15 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
   onItemPreview = @(obj) null
   onOpenCraftTree = @(obj) null
   onAltAction = @(obj) null
+  onShowSpecialTasks = @(obj) null
 
   getTabsListObj = @() scene.findObject("tabs_list")
   getSheetsListObj = @() scene.findObject("sheets_list")
   getSortListObj = @() scene.findObject("sort_params_list")
   getItemsListObj = @() scene.findObject("items_list")
 
-  function getMainFocusObj() { return getSortListObj() }
-  function getMainFocusObj2() { return getSheetsListObj() }
-  function getMainFocusObj3()
+  function getMainFocusObj() { return getSheetsListObj() }
+  function getMainFocusObj2()
   {
     local obj = getItemsListObj()
     return obj.childrenCount() ? obj : null

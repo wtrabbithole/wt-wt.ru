@@ -49,20 +49,22 @@ local showNoInviteForDiffPlatformPopup = @() ::g_popups.add(null, ::loc("msg/squ
 
 local getActions = function(contact, params)
 {
-  local uid = contact?.uid
-  local uidInt64 = contact?.uidInt64
-  local name = contact?.name ?? params?.playerName
-  local clanTag = contact?.clanTag ?? params?.clanTag
+  local uid = contact.uid
+  local uidInt64 = contact.uidInt64
+  local name = contact.name
+  local clanTag = contact.clanTag
+  local isMe = contact.isMe()
+  local isFriend = contact.isInFriendGroup()
+  local isBlock = contact.isInBlockGroup()
 
-  local isMe = uid == ::my_user_id_str
-  local isXBoxOnePlayer = platformModule.isXBoxPlayerName(name)
-  local canInteract = platformModule.isChatEnableWithPlayer(name)
+  local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(name)
+  local isPS4Player = platformModule.isPlayerFromPS4(name)
+
+  local canChat = contact.canChat()
+  local canInvite = contact.canInvite()
   local canInteractCrossConsole = platformModule.canInteractCrossConsole(name)
-  local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
-  local showCrossPlayIcon = canInteractCrossConsole && ::is_platform_xboxone && !isXBoxOnePlayer
-
-  local isFriend = ::isPlayerInFriendsGroup(uid)
-  local isBlock = ::isPlayerInContacts(uid, ::EPL_BLOCKLIST)
+  local canInteractCrossPlatform = isPS4Player || isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
+  local showCrossPlayIcon = canInteractCrossConsole && crossplayModule.needShowCrossPlayInfo() && (!isXBoxOnePlayer || !isPS4Player)
 
   local roomId = params?.roomId
   local roomData = roomId? ::g_chat.getRoomById(roomId) : null
@@ -92,7 +94,7 @@ local getActions = function(contact, params)
     }
   })
 
-  if (contact && contact.inGameEx && contact.online && ::isInMenu())
+  if (contact.inGameEx && contact.online && ::isInMenu())
   {
     local eventId = contact.gameConfig?.eventId
     local event = ::events.getEvent(eventId)
@@ -120,12 +122,12 @@ local getActions = function(contact, params)
     {
       text = ::loc("contacts/message")
       show = !isMe && ::ps4_is_chat_enabled() && ::has_feature("Chat") && !u.isEmpty(name)
-      isVisualDisabled = !canInteract || isBlock
+      isVisualDisabled = !canChat || isBlock
       action = function() {
-        if (!canInteract)
+        if (!canChat)
         {
-          if (::isInMenu())
-            platformModule.attemptShowOverlayMessage(name)
+          if (::isInMenu() && ::is_platform_xboxone)
+            ::g_chat.attemptShowOverlayMessage(name)
           if (isXBoxOnePlayer)
             showLiveCommunicationsRestrictionMsgBox()
           else
@@ -170,7 +172,7 @@ local getActions = function(contact, params)
     actions.extend([
       {
         text = ::loc("squadAction/openChat")
-        show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && platformModule.isChatEnabled()
+        show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && ::g_chat.isChatEnabled()
         action = @() ::g_chat.openChatRoom(::g_chat.getMySquadRoomId())
       }
       {
@@ -178,7 +180,7 @@ local getActions = function(contact, params)
             ? ::loc("squad/accept_membership")
             : ::loc("squad/invite_player")
           )
-        isVisualDisabled = !canInteract || !canInteractCrossConsole || !canInteractCrossPlatform || !canInviteDiffConsole
+        isVisualDisabled = !canInvite || !canInteractCrossConsole || !canInteractCrossPlatform || !canInviteDiffConsole
         show = ::has_feature("SquadInviteIngame")
                && canInviteToChatRoom
                && !isMe
@@ -191,10 +193,10 @@ local getActions = function(contact, params)
             showNotAvailableActionPopup()
           else if (!canInteractCrossPlatform)
             showCrossNetworkPlayRestrictionMsgBox()
-          else if (!canInteract)
+          else if (!canInvite)
           {
             if (::isInMenu())
-              platformModule.attemptShowOverlayMessage(name)
+              ::g_chat.attemptShowOverlayMessage(name)
           }
           else if (!canInviteDiffConsole)
             showNoInviteForDiffPlatformPopup()
@@ -210,9 +212,24 @@ local getActions = function(contact, params)
         action = @() ::g_squad_manager.revokeSquadInvite(uid)
       }
       {
-        text = ::loc("squad/accept_membership")
+        text = crossplayModule.getTextWithCrossplayIcon(showCrossPlayIcon, ::loc("squad/accept_membership"))
+        isVisualDisabled = !canInvite || !canInteractCrossConsole || !canInteractCrossPlatform || !canInviteDiffConsole
         show = squadMemberData && meLeader && squadMemberData?.isApplication
-        action = @() ::g_squad_manager.acceptMembershipAplication(uidInt64)
+        action = function() {
+          if (!canInteractCrossConsole)
+            showNotAvailableActionPopup()
+          else if (!canInteractCrossPlatform)
+            showCrossNetworkPlayRestrictionMsgBox()
+          else if (!canInvite)
+          {
+            if (::isInMenu())
+              ::g_chat.attemptShowOverlayMessage(name)
+          }
+          else if (!canInviteDiffConsole)
+            showNoInviteForDiffPlatformPopup()
+          else
+            ::g_squad_manager.acceptMembershipAplication(uidInt64)
+        }
       }
       {
         text = ::loc("squad/deny_membership")
@@ -354,22 +371,22 @@ local getActions = function(contact, params)
 //---- <Chat> -----------------------
   if (::has_feature("Chat"))
   {
-    if (platformModule.isChatEnabled() && canInviteToChatRoom)
+    if (::g_chat.isChatEnabled() && canInviteToChatRoom)
     {
       local inviteMenu = ::g_chat.generateInviteMenu(name)
       actions.append({
         text = ::loc("chat/invite_to_room")
-        isVisualDisabled = !canInteract || !canInteractCrossConsole || !canInteractCrossPlatform
+        isVisualDisabled = !canChat || !canInteractCrossConsole || !canInteractCrossPlatform
         show = inviteMenu && inviteMenu.len() > 0
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
           else if (!canInteractCrossPlatform)
             showCrossNetworkCommunicationsRestrictionMsgBox()
-          else if (!canInteract)
+          else if (!canChat)
           {
-            if (::isInMenu())
-              platformModule.attemptShowOverlayMessage(name)
+            if (::isInMenu() && ::is_platform_xboxone)
+              ::g_chat.attemptShowOverlayMessage(name)
           }
           else
             ::open_invite_menu(inviteMenu, params?.position)

@@ -364,10 +364,9 @@ g_squad_manager.canManageSquad <- function canManageSquad()
 g_squad_manager.canInviteMemberByPlatform <- function canInviteMemberByPlatform(name)
 {
   local platformInfo = getPlatformInfo()
-  if (platformModule.isPS4PlayerName(name) && ::isInArray("xboxOne", platformInfo))
-    return false
-
-  if (platformModule.isXBoxPlayerName(name) && ::isInArray("ps4", platformInfo))
+  if (!::has_feature("Ps4XboxOneInteraction")
+      && ((platformModule.isPS4PlayerName(name) && ::isInArray("xboxOne", platformInfo))
+         || (platformModule.isXBoxPlayerName(name) && ::isInArray("ps4", platformInfo))))
     return false
 
   return true

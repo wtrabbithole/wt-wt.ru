@@ -95,7 +95,7 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
     local canInteractCrossConsole = platformModule.canInteractCrossConsole(contactName)
     local isXBoxOnePlayer = platformModule.isXBoxPlayerName(contactName)
     local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
-    local canInteractWithPlayer = curPlayer? curPlayer.canInteract() : true
+    local canInvite = curPlayer? curPlayer.canInvite() : true
 
     local showSquadInvite = !::show_console_buttons
       && ::has_feature("SquadInviteIngame")
@@ -105,8 +105,8 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
       && ::g_squad_manager.canInviteMember(curPlayer?.uid ?? "")
       && ::g_squad_manager.canInviteMemberByPlatform(contactName)
       && !::g_squad_manager.isPlayerInvited(curPlayer?.uid ?? "", contactName)
-      && canInteractWithPlayer
-      && platformModule.canSquad()
+      && canInvite
+      && ::g_squad_utils.canSquad()
 
     showSceneBtn("btn_squadInvite_bottom", showSquadInvite)
   }

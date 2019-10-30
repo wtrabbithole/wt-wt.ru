@@ -394,11 +394,15 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local isBlock = contact? contact.isInBlockGroup() : false
     local isMe = contact? contact.isMe() : false
     local contactName = contact?.name ?? ""
-    local isXBoxOnePlayer = platformModule.isXBoxPlayerName(contactName)
-    local canBlock = !::is_platform_xboxone || !isXBoxOnePlayer
-    local canInteractWithPlayer = contact? contact.canInteract() : true
+
+    local isPlayerFromXboxOne = platformModule.isPlayerFromXboxOne(contactName)
+    local canBlock = !isPlayerFromXboxOne
+    local canChat = contact? contact.canChat() : true
+    local canInvite = contact? contact.canInvite() : true
     local canInteractCrossConsole = platformModule.canInteractCrossConsole(contactName)
-    local canInteractCrossPlatform = isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
+    local canInteractCrossPlatform = crossplayModule.isCrossPlayEnabled()
+                                     || platformModule.isPlayerFromPS4(contactName)
+                                     || isPlayerFromXboxOne
 
     showBtn("btn_friendAdd", !isMe && !isFriend && !isBlock && canInteractCrossConsole, contact_buttons_holder)
     showBtn("btn_friendRemove", isFriend, contact_buttons_holder)
@@ -406,8 +410,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     showBtn("btn_blacklistRemove", isBlock && canBlock, contact_buttons_holder)
     showBtn("btn_message", owner
                            && !isBlock
-                           && platformModule.isChatEnabled()
-                           && canInteractWithPlayer, contact_buttons_holder)
+                           && ::g_chat.isChatEnabled()
+                           && canChat, contact_buttons_holder)
 
     local showSquadInvite = ::has_feature("SquadInviteIngame")
       && !isMe
@@ -417,8 +421,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       && ::g_squad_manager.canInviteMember(contact?.uid ?? "")
       && ::g_squad_manager.canInviteMemberByPlatform(contactName)
       && !::g_squad_manager.isPlayerInvited(contact?.uid ?? "", contactName)
-      && canInteractWithPlayer
-      && platformModule.canSquad()
+      && canInvite
+      && ::g_squad_utils.canSquad()
 
     local btnObj = showBtn("btn_squadInvite", showSquadInvite, contact_buttons_holder)
     if (btnObj && showSquadInvite && contact?.uidInt64)
@@ -616,7 +620,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       ::contacts[gName].sort(::sortContacts)
       local activateEvent = "onPlayerMsg"
-      if (::show_console_buttons || !platformModule.isChatEnabled())
+      if (::show_console_buttons || !::g_chat.isChatEnabled())
         activateEvent = "onPlayerMenu"
       local gData = buildPlayersList(gName)
       data += format(groupFormat, "#contacts/" + gName,

@@ -73,6 +73,80 @@ g_chat <- {
     senderSquad =    { [false] = "@mChatSenderMySquadColorDark", [true] = "@mChatSenderMySquadColor" }
     senderFriend =   { [false] = "@mChatSenderFriendColorDark",  [true] = "@mChatSenderFriendColor" }
   }
+
+  xboxChatEnabledCache = null
+  function getXboxChatEnableStatus(needOverlayMessage = false)
+  {
+     if (!::is_platform_xboxone || !::g_login.isLoggedIn())
+       return XBOX_COMMUNICATIONS_ALLOWED
+
+    if (xboxChatEnabledCache == null || (needOverlayMessage && xboxChatEnabledCache == XBOX_COMMUNICATIONS_BLOCKED))
+      xboxChatEnabledCache = ::can_use_text_chat_with_target("", needOverlayMessage)//myself, block by parent advisory
+    return xboxChatEnabledCache
+  }
+
+  function isChatEnabled(needOverlayMessage = false)
+  {
+    if (!::gchat_is_enabled())
+      return false
+
+    if (!::ps4_is_chat_enabled())
+    {
+      if (needOverlayMessage)
+        ::ps4_show_chat_restriction()
+      return false
+    }
+    return getXboxChatEnableStatus(needOverlayMessage) != XBOX_COMMUNICATIONS_BLOCKED
+  }
+
+  function isChatEnableWithPlayer(playerName) //when you have contact, you can use direct contact.canInteract
+  {
+    local contact = ::Contact.getByName(playerName)
+    if (contact)
+      return contact.canChat()
+
+    if (getXboxChatEnableStatus(false) == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
+      return ::isPlayerInFriendsGroup(null, false, playerName)
+
+    if (!isCrossNetworkMessageAllowed(playerName))
+      return false
+
+    return isChatEnabled()
+  }
+
+  function attemptShowOverlayMessage(playerName) //tries to display Xbox overlay message
+  {
+    local contact = ::Contact.getByName(playerName)
+    if (contact)
+      contact.canChat(true)
+    else
+      getXboxChatEnableStatus(true)
+  }
+
+  function isCrossNetworkMessageAllowed(playerName)
+  {
+    if (platformModule.isPlayerFromXboxOne(playerName)
+        || platformModule.isPlayerFromPS4(playerName))
+      return true
+
+    if (crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS
+        && (::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST)
+          || ::isPlayerNickInContacts(playerName, ::EPLX_PS4_FRIENDS))
+       )
+      return true
+
+    return crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ALLOWED
+  }
+
+  function invalidateCache()
+  {
+    xboxChatEnabledCache = null
+  }
+
+  function onEventSignOut(p)
+  {
+    invalidateCache()
+  }
 }
 
 
@@ -605,18 +679,6 @@ g_chat.onEventInitConfigs <- function onEventInitConfigs(p)
 
   threadTitleLenMin = blk.chat?.threadTitleLenMin ?? threadTitleLenMin
   threadTitleLenMax = blk.chat?.threadTitleLenMax ?? threadTitleLenMax
-}
-
-g_chat.isCrossNetworkMessageAllowed <- function isCrossNetworkMessageAllowed(playerName)
-{
-  if (platformModule.isPlayerFromXboxOne(playerName))
-    return true
-
-  if (crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS
-     && ::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST))
-    return true
-
-  return crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ALLOWED
 }
 
 g_chat.getNewMessagesCount <- function getNewMessagesCount()

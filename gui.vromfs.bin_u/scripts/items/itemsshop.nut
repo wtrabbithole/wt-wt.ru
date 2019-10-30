@@ -889,4 +889,5 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     applyFilters()
   }
 
+  onShowSpecialTasks = @(obj) null
 }

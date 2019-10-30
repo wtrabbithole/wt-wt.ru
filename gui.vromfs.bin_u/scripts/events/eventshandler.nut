@@ -586,7 +586,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::events.isEventEnded(event))
       text = ::colorize("oldTextColor", text)
     return crossplayModule.getTextWithCrossplayIcon(
-      !::events.isEventXboxOnlyAllowed(event) && !crossplayModule.isCrossPlayEnabled(),
+      !::events.isEventPlatformOnlyAllowed(event) && !crossplayModule.isCrossPlayEnabled(),
       text
     )
   }

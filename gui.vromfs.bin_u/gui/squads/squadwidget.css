@@ -1,5 +1,13 @@
 @const squadInvitesWidgetPadding: 6@sf/@pf;
 
+Button_text.squadWidgetMember[isMe=yes] > mainPlayerHighlight {
+  re-type:fgPict;
+  foreground-position:0, h+3@dp, 0, -1@dp;
+  background-position:0, -1@dp, 0, h+3@dp;
+  foreground-color:@mainPlayerColor;
+  background-color:@mainPlayerColor;
+}
+
 squadButtonImg {
   size:@dIco, @dIco;
   background-svg-size:@dIco, @dIco;

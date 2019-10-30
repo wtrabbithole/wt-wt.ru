@@ -199,9 +199,18 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
   function updateButtons()
   {
     local award = getCurAward()
+    showSceneBtn("btn_specialTasks", award != null
+      && award.isRequiredSpecialTasksComplete()
+      && !::isHandlerInScene(::gui_handlers.BattleTasksWnd)
+    )
+
     local mainActionBtn = showSceneBtn("btn_main_action", award != null)
-    if (award)
+    if (!award)
+      return
+
+    if (::check_obj(mainActionBtn))
     {
+      mainActionBtn.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
       mainActionBtn.visualStyle = "purchase"
       mainActionBtn.inactiveColor = award.canBuy() ? "no" : "yes"
       ::set_double_text_to_button(scene, "btn_main_action", award.getBuyText(false))
@@ -348,6 +357,11 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
       if (!curPageAwards[i].isItemLocked())
         list.append(curPageAwards[i].getSeenId())
     seenWarbondsShop.markSeen(list)
+  }
+
+  function onShowSpecialTasks(obj)
+  {
+    ::gui_start_battle_tasks_wnd(null, BattleTasksWndTab.BATTLE_TASKS_HARD)
   }
 
   function onEventWarbondAwardBought(p)

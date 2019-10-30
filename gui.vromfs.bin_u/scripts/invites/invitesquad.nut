@@ -107,7 +107,7 @@ class ::g_invites_classes.Squad extends ::BaseInvite
 
   function autorejectXboxInvite()
   {
-    if (!platformModule.canSquad() || !leaderContact.canInteract())
+    if (!::g_squad_utils.canSquad() || !leaderContact.canInvite())
       reject()
   }
 

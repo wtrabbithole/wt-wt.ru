@@ -830,21 +830,21 @@ g_clans.checkSquadronExpChangedEvent <- function checkSquadronExpChangedEvent()
 ::clanInfoTemplate <- {
   function isRegionChangeAvailable()
   {
-    if (regionLastUpdate == 0)
+    if (regionLastUpdate == 0) // warning disable: -never-declared
       return true
 
-    return regionLastUpdate + ::g_clans.getRegionUpdateCooldownTime() <= ::get_charserver_time_sec()
+    return regionLastUpdate + ::g_clans.getRegionUpdateCooldownTime() <= ::get_charserver_time_sec() // warning disable: -never-declared
   }
 
   function getRegionChangeAvailableTime()
   {
-    return regionLastUpdate + ::g_clans.getRegionUpdateCooldownTime()
+    return regionLastUpdate + ::g_clans.getRegionUpdateCooldownTime() // warning disable: -never-declared
   }
 
   function getClanUpgradeCost()
   {
     local cost = type.getNextTypeUpgradeCost()
-    local resultingCostGold = cost.gold - spentForMemberUpgrades
+    local resultingCostGold = cost.gold - spentForMemberUpgrades // warning disable: -never-declared
     if (resultingCostGold < 0)
       resultingCostGold = 0
     cost.gold = resultingCostGold
@@ -903,7 +903,7 @@ g_clans.checkSquadronExpChangedEvent <- function checkSquadronExpChangedEvent()
 
   function getActivity()
   {
-    return ::getTblValue("activity", astat, 0)
+    return astat?.activity ?? 0 // warning disable: -never-declared
   }
 }
 

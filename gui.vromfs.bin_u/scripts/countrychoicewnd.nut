@@ -107,8 +107,6 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
     ::switch_profile_country(selectedCountry)
     goBack()
-    ::saveLocalByAccount(::battle_type_option_name,
-       (selectedUnitType == ::g_unit_type.TANK ? BATTLE_TYPES.TANK : BATTLE_TYPES.AIR))
     ::broadcastEvent("UnitTypeChosen")
   }
 

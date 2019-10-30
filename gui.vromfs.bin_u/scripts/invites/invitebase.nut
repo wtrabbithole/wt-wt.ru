@@ -230,12 +230,14 @@ class ::BaseInvite
 
   function isAvailableByCrossPlay()
   {
-    return crossplayModule.isCrossPlayEnabled() || platformModule.isXBoxPlayerName(inviterName)
+    return crossplayModule.isCrossPlayEnabled()
+           || platformModule.isXBoxPlayerName(inviterName)
+           || platformModule.isPS4PlayerName(inviterName)
   }
 
   function isAvailableByChatRestriction()
   {
-    return platformModule.isChatEnableWithPlayer(inviterName)
+    return ::g_chat.isChatEnableWithPlayer(inviterName)
       && ::g_chat.isCrossNetworkMessageAllowed(inviterName)
   }
 }

@@ -52,6 +52,7 @@ Button_text {
   css-hier-invalidate:t='yes'
   class:t='squadWidgetMember'
   uid:t=''
+  isMe:t='no'
   isInvite:t='no'
   status:t='offline'
   title:t='$tooltipObj'
@@ -67,6 +68,12 @@ Button_text {
       margin:t='1@blockInterval'
       tinyFont:t='yes'
     }
+  }
+
+  mainPlayerHighlight {
+    position:t='absolute'
+    pos:t='0, 0'
+    size:t='pw, ph'
   }
 
   tdiv {

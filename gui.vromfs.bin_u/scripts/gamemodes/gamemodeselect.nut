@@ -317,7 +317,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCrossPlayRestrictionTooltipText(event)
   {
-    if (!::is_platform_xboxone) //No need tooltip on other platforms
+    if (!crossplayModule.needShowCrossPlayInfo()) //No need tooltip on other platforms
       return null
 
     //Always send to other platform if enabled
@@ -325,22 +325,18 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (crossplayModule.isCrossPlayEnabled())
       return ::loc("xbox/crossPlayEnabled")
 
-    //If only xbox - no need to notify
-    if (isEventXboxOnlyAllowed(event))
+    //If only platform - no need to notify
+    if (::events.isEventPlatformOnlyAllowed(event))
       return null
 
     //Notify that crossplay is strongly required
     return ::loc("xbox/crossPlayRequired")
   }
 
-  function isEventXboxOnlyAllowed(event)
-  {
-    return ::events.isEventXboxOnlyAllowed(event)
-  }
-
   function isCrossPlayEventAvailable(event)
   {
-    return crossplayModule.isCrossPlayEnabled() || isEventXboxOnlyAllowed(event)
+    return crossplayModule.isCrossPlayEnabled()
+           || ::events.isEventPlatformOnlyAllowed(event)
   }
 
   function getWidgetId(gameModeId)

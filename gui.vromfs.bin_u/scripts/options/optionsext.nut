@@ -6,6 +6,7 @@ local globalEnv = require_native("globalEnv")
 local avatars = ::require("scripts/user/avatars.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
 local optionsUtils = require("scripts/options/optionsUtils.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 global const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 global const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
@@ -3625,6 +3626,18 @@ local isWaitMeasureEvent = false
       descr.min <- 5
       descr.max <- 200
       break
+    case ::USEROPT_PS4_CROSSPLAY:
+      descr.id = "ps4_crossplay"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = crossplayModule.isCrossPlayEnabled()
+      break
+    case ::USEROPT_PS4_CROSSNETWORK_CHAT:
+      descr.id = "ps4_crossnetwork_chat"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = crossplayModule.isCrossNetworkChatEnabled()
+      break
 
     default:
       print("[ERROR] Unsupported type " + optionId)
@@ -4663,6 +4676,12 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED:
       ::g_gamepad_cursor_controls.setSpeed(value)
+      break
+    case ::USEROPT_PS4_CROSSPLAY:
+      crossplayModule.setCrossPlayStatus(value)
+      break
+    case ::USEROPT_PS4_CROSSNETWORK_CHAT:
+      crossplayModule.setCrossNetworkChatStatus(value)
       break
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:
