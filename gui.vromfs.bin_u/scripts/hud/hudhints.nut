@@ -1169,6 +1169,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hideEvent = "hint:missionHint:remove"
     lifeTime = 5.0
     priority = DEFAULT_MISSION_HINT_PRIORITY
+    delayTime = 1.0
 
     isCurrent = @(eventData, isHideEvent) !("hintType" in eventData) || isStandardMissionHint(eventData.hintType)
     getLocId = function(eventData)

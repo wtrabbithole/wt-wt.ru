@@ -25,28 +25,6 @@ enum GuidanceLockResult {
   RESULT_TRACKING = 3
 }
 
-local temperatureUnit = null
-local velocityUnit = null
-
-
-local getTemperatureUnit = function(){
-  if (temperatureUnit)
-    return temperatureUnit
-
-  temperatureUnit = ::cross_call.measureTypes.TEMPERATURE.getMeasureUnitsName()
-  return temperatureUnit
-}
-
-
-local getVelocityUnit = function(){
-  if (velocityUnit)
-    return velocityUnit
-
-  velocityUnit = ::cross_call.measureTypes.SPEED.getMeasureUnitsName()
-  return velocityUnit
-}
-
-
 local getColor = function(isBackground){
   return isBackground ? backgroundColor : helicopterState.HudColor.value
 }
@@ -112,13 +90,40 @@ style.lineForeground <- class {
   fontScale = getFontScale()
 }
 
+local HelicopterTATarget = function(line_style, isBackground) {
+  local lines = @() line_style.__merge({
+        rendObj = ROBJ_VECTOR_CANVAS
+        size = [pilotSw(25), pilotSh(25)]
+        color = helicopterState.AlertColor.value
+        lineWidth = LINE_WIDTH * getIlsFontScale()
+        commands = [
+          [VECTOR_LINE, -10, -10, 10, -10],
+          [VECTOR_LINE, 10, -10, 10, 10],
+          [VECTOR_LINE, 10, 10, -10, 10],
+          [VECTOR_LINE, -10, 10, -10, -10],
+        ]
+      })
+
+  return @(){
+    halign = HALIGN_CENTER
+    valign = VALIGN_MIDDLE
+    size = SIZE_TO_CONTENT
+    watch = [helicopterState.TATargetX, helicopterState.TATargetY, helicopterState.TATargetVisible]
+    opacity = helicopterState.TATargetVisible.value ? 100 : 0
+    transform = {
+      translate = [helicopterState.TATargetX.value, helicopterState.TATargetY.value]
+    }
+    children = [lines]
+  }
+}
 
 local HelicopterRocketAim = function(line_style, isBackground) {
 
   local lines = @() line_style.__merge({
       rendObj = ROBJ_VECTOR_CANVAS
-      size = [sh(0.8), sh(1.8)]
+      size = helicopterState.IsMfdEnabled.value ? [pilotSw(4), pilotSh(8)] : [sh(0.8), sh(1.8)]
       color = getColor(isBackground)
+      lineWidth = LINE_WIDTH * getIlsFontScale()
       commands = [
         [VECTOR_LINE, -100, -100, 100, -100],
         [VECTOR_LINE, -100, 100, 100, 100],
@@ -329,7 +334,8 @@ local HelicopterVertSpeed = function(elemStyle, scaleWidth, height, posX, posY, 
           size = [scaleWidth*4,SIZE_TO_CONTENT]
           color = getColor(isBackground)
           watch = helicopterState.DistanceToGround
-          text = ::math.floor(helicopterState.DistanceToGround.value).tostring()
+          text = helicopterState.IsMfdEnabled.value ? ::math.floor(helicopterState.DistanceToGround.value).tostring() :
+            ::cross_call.measureTypes.ALTITUDE.getMeasureUnitsText(helicopterState.DistanceToGround.value)
         })
       }
       @(){
@@ -347,7 +353,9 @@ local HelicopterVertSpeed = function(elemStyle, scaleWidth, height, posX, posY, 
               size = [scaleWidth*4,SIZE_TO_CONTENT]
               color = getColor(isBackground)
               watch = helicopterState.VerticalSpeed
-              text = math.round_by_value(helicopterState.VerticalSpeed.value, 1).tostring()
+              text = helicopterState.IsMfdEnabled.value ?
+                math.round_by_value(helicopterState.VerticalSpeed.value, 1).tostring() :
+                ::cross_call.measureTypes.CLIMBSPEED.getMeasureUnitsText(helicopterState.VerticalSpeed.value)
             })
           }
         ]
@@ -431,9 +439,10 @@ local function isInsideAgmLaunchDistanceRange() {
 const fullRangeMultInv = 0.7
 const outOfZoneLaunchShowTimeOut = 2.0
 
+local hl = 20
+local vl = 20
+
 local function turretAngles(line_style, height, aspect, isBackground) {
-  local hl = 20
-  local vl = 20
 
   local offset = 1.3
   local crossL = 2
@@ -451,10 +460,8 @@ local function turretAngles(line_style, height, aspect, isBackground) {
 
   local getAgmLaunchAngularRangeCommands = function() {
     if (helicopterState.IsAgmLaunchZoneVisible.value &&
-        helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut.value < outOfZoneLaunchShowTimeOut &&
         (helicopterState.AgmLaunchZoneYawMin.value > 0.0 || helicopterState.AgmLaunchZoneYawMax.value < 1.0 ||
-         helicopterState.AgmLaunchZonePitchMin.value > 0.0 || helicopterState.AgmLaunchZonePitchMax.value < 1.0) &&
-        !isInsideAgmLaunchAngularRange())
+         helicopterState.AgmLaunchZonePitchMin.value > 0.0 || helicopterState.AgmLaunchZonePitchMax.value < 1.0))
     {
       local left  = max(0.0, helicopterState.AgmLaunchZoneYawMin.value) * 100.0
       local right = min(1.0, helicopterState.AgmLaunchZoneYawMax.value) * 100.0
@@ -520,7 +527,6 @@ local function turretAngles(line_style, height, aspect, isBackground) {
         size = [aspect * height, height]
         color = getColor(isBackground)
         watch = [
-          helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
           helicopterState.IsAgmLaunchZoneVisible,
           helicopterState.IsInsideLaunchZoneYawPitch,
           helicopterState.TurretYaw, helicopterState.TurretPitch,
@@ -531,7 +537,8 @@ local function turretAngles(line_style, height, aspect, isBackground) {
         behavior = Behaviors.RtPropUpdate
         update = function() {
           return {
-            opacity = math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
+            opacity = isInsideAgmLaunchAngularRange() ? 100 :
+              math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
           }
         }
       }),
@@ -570,13 +577,13 @@ local function launchDistanceMaxComponent(elemStyle, height, aspect, isBackgroun
 
   local getAgmLaunchDistanceMax = function() {
     return helicopterState.IsAgmLaunchZoneVisible.value ?
-      ::string.format("%.1f", helicopterState.AgmLaunchZoneDistMax.value * 0.001) : ""
+      ::cross_call.measureTypes.DISTANCE_SHORT.getMeasureUnitsText(helicopterState.AgmLaunchZoneDistMax.value) : ""
   }
 
   local launchDistanceMax = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
     halign = HALIGN_CENTER
-    valign = HALIGN_CENTER
+    valign = VALIGN_MIDDLE
     text = getAgmLaunchDistanceMax()
     watch = [
       helicopterState.IsAgmLaunchZoneVisible,
@@ -587,9 +594,9 @@ local function launchDistanceMaxComponent(elemStyle, height, aspect, isBackgroun
 
   local resCompoment = @() {
     rendObj = ROBJ_VECTOR_CANVAS
-    pos = [sightSw(50) + 1.75 * aspect * height * 0.5, sightSh(90) - height * fullRangeMultInv]
-    halign = HALIGN_CENTER
-    valign = HALIGN_CENTER
+    pos = [sightSw(50) + 1.6 * aspect * height * 0.5, sightSh(90) - height * fullRangeMultInv]
+    halign = HALIGN_LEFT
+    valign = VALIGN_MIDDLE
     size = [0, 0]
     children = launchDistanceMax
   }
@@ -635,7 +642,7 @@ local generateAgmBulletsTextFunction = function(countWatched, secondsWatched, ti
 local generateTemperatureTextFunction = function(temperatureWatched, stateWatched) {
   return function() {
     if (stateWatched.value == TemperatureState.OVERHEAT)
-      return temperatureWatched.value + getTemperatureUnit()
+      return temperatureWatched.value + ::cross_call.measureTypes.TEMPERATURE.getMeasureUnitsName()
     else if (stateWatched.value == TemperatureState.EMPTY_TANK)
       return ::loc("HUD_TANK_IS_EMPTY")
     else if (stateWatched.value == TemperatureState.FUEL_LEAK)
@@ -710,8 +717,7 @@ local getAGBlink = function()
 {
   if (helicopterState.IsSightHudVisible.value && helicopterState.IsAgmLaunchZoneVisible.value &&
        (
-         (helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut.value < outOfZoneLaunchShowTimeOut && !isInsideAgmLaunchAngularRange()) ||
-         (helicopterState.IsRangefinderEnabled.value && !isInsideAgmLaunchDistanceRange())
+         !isInsideAgmLaunchAngularRange() || (helicopterState.IsRangefinderEnabled.value && !isInsideAgmLaunchDistanceRange())
        ) )
     return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
   else
@@ -794,7 +800,7 @@ local textParamsMap = {
   },
   [HelicopterParams.SPEED] = {
     title = @() ::loc("HUD/REAL_SPEED_SHORT")
-    value = @() helicopterState.Spd.value + " " + getVelocityUnit()
+    value = @() helicopterState.Spd.value + " " + ::cross_call.measureTypes.SPEED.getMeasureUnitsName()
     valuesWatched = helicopterState.Spd
   },
   [HelicopterParams.CANNON] = {
@@ -831,13 +837,11 @@ local textParamsMap = {
     blink = @() getAGBlink()
     titleWatched = [
       helicopterState.AgmGuidanceLockState,
-      helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
       helicopterState.IsSightHudVisible, helicopterState.IsAgmLaunchZoneVisible, helicopterState.IsAgmLaunchZoneVisible,
       helicopterState.IsInsideLaunchZoneYawPitch, helicopterState.IsInsideLaunchZoneDist
     ]
     valueBlink = @() getAGBulletsBlink()
     valuesWatched = [
-      helicopterState.LastAgmOutOfAngleLaunchAttemptTimeOut,
       helicopterState.IsSightHudVisible, helicopterState.IsAgmLaunchZoneVisible, helicopterState.IsAgmLaunchZoneVisible,
       helicopterState.Agm.count, helicopterState.Agm.seconds, helicopterState.Agm.timeToHit, helicopterState.Agm.timeToWarning,
       helicopterState.IsAgmEmpty, helicopterState.AgmGuidanceLockState
@@ -925,6 +929,13 @@ for (local i = 0; i < NUM_TRANSMISSIONS_MAX; ++i)
   }
 }
 
+textParamsMap[HelicopterParams.FUEL] <- {
+  title = @() ::loc("HUD/FUEL_SHORT")
+  value = @() ::string.format("%d:%02d", ::math.floor(helicopterState.Fuel.value / 60), helicopterState.Fuel.value % 60)
+  valuesWatched = [helicopterState.Fuel, helicopterState.IsFuelCritical]
+  alertWatched = [helicopterState.IsFuelCritical]
+}
+
 local paramsTableWidth = hdpx(450)
 local paramsSightTableWidth = hdpx(220)
 
@@ -985,23 +996,23 @@ local sightParamsComponent = function(elemStyle, isBackground) {
 }
 
 local lockSight = function(line_style, width, height, isBackground) {
-  local hl = 20
-  local vl = 20
-
   return @() line_style.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
     size = [width, height]
-    watch = helicopterState.IsAgmEmpty
+    watch = [ helicopterState.IsAgmEmpty, helicopterState.IsSightLocked, helicopterState.IsTargetTracked ]
     color = !isBackground && helicopterState.IsAgmEmpty.value ? helicopterState.AlertColor.value : getColor(isBackground)
-    commands = [
-      [VECTOR_LINE, 0, 0, hl, vl],
-      [VECTOR_LINE, 0, 100, vl, 100 - vl],
-      [VECTOR_LINE, 100, 100, 100 - hl, 100 - vl],
-      [VECTOR_LINE, 100, 0, 100 - hl, vl]
-    ]
+    commands = helicopterState.IsSightLocked.value ?
+     ( helicopterState.IsTargetTracked.value ?
+        [] :
+        [
+          [VECTOR_LINE, 0, 0, hl, vl],
+          [VECTOR_LINE, 0, 100, vl, 100 - vl],
+          [VECTOR_LINE, 100, 100, 100 - hl, 100 - vl],
+          [VECTOR_LINE, 100, 0, 100 - hl, vl]
+        ]
+        ) : []
   })
 }
-
 
 local lockSightComponent = function(elemStyle, isBackground) {
   local width = sightHdpx(150)
@@ -1009,16 +1020,127 @@ local lockSightComponent = function(elemStyle, isBackground) {
 
   return @() {
     pos = [sightSw(50) - width * 0.5, sightSh(50) - height * 0.5]
-    watch = helicopterState.IsSightLocked
-    opacity = helicopterState.IsSightLocked.value ? 100 : 0
     size = SIZE_TO_CONTENT
     children = lockSight(elemStyle, width, height, isBackground)
   }
 }
 
+local targetSize = function(line_style, width, height, isBackground) {
+  local hd = 5
+  local vd = 5
+  return @() line_style.__merge({
+    rendObj = ROBJ_VECTOR_CANVAS
+    size = [width, height]
+    color = getColor(isBackground)
+    watch = [ helicopterState.HasTargetTracker, helicopterState.IsTargetTracked, helicopterState.TargetRadius ]
+    commands = helicopterState.HasTargetTracker.value && helicopterState.TargetRadius.value > 0.0 ?
+      ( helicopterState.IsTargetTracked.value ?
+        [
+          [ VECTOR_RECTANGLE,
+            50 - helicopterState.TargetRadius.value / width * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            2.0 * helicopterState.TargetRadius.value / width * 100,
+            2.0 * helicopterState.TargetRadius.value / height * 100
+          ]
+        ] :
+        [
+          [VECTOR_LINE,
+            50 - helicopterState.TargetRadius.value / width * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            50 - (helicopterState.TargetRadius.value - hd) / width * 100,
+            50 - helicopterState.TargetRadius.value / height * 100],
+          [VECTOR_LINE,
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 - (helicopterState.TargetRadius.value - vd) / height * 100],
+
+          [VECTOR_LINE,
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            50 + (helicopterState.TargetRadius.value - hd) / width  * 100,
+            50 - helicopterState.TargetRadius.value / height * 100],
+          [VECTOR_LINE,
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 - (helicopterState.TargetRadius.value - vd) / height * 100],
+
+          [VECTOR_LINE,
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100,
+            50 + (helicopterState.TargetRadius.value - hd) / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100],
+          [VECTOR_LINE,
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100,
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 + (helicopterState.TargetRadius.value - vd) / height * 100],
+
+          [VECTOR_LINE,
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100,
+            50 - (helicopterState.TargetRadius.value - hd) / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100],
+          [VECTOR_LINE,
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100,
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 + (helicopterState.TargetRadius.value - vd) / height * 100]
+
+        ]) : []
+  })
+}
+
+local targetSizeComponent = function(elemStyle, isBackground) {
+  local width = sw(100)
+  local height = sh(100)
+  return @() {
+    pos = [sightSw(50) - width * 0.5, sightSh(50) - height * 0.5]
+    size = SIZE_TO_CONTENT
+    children = targetSize(elemStyle, width, height, isBackground)
+  }
+}
+
+local agmTrackZone = function(line_style, width, height, isBackground) {
+  return @() line_style.__merge({
+    rendObj = ROBJ_VECTOR_CANVAS
+    size = [width, height]
+    opacity = helicopterState.AtgmTrackerRadius.value > 0.0 ? 100 : 0
+    color = getColor(isBackground)
+    lineWidth = hdpx(LINE_WIDTH)
+    watched = helicopterState.AtgmTrackerRadius
+    commands = [
+      [ VECTOR_ELLIPSE, 50, 50,
+        2.0 * helicopterState.AtgmTrackerRadius.value / width * 50,
+        2.0 * helicopterState.AtgmTrackerRadius.value / height * 50 ]
+    ]
+  })
+}
+
+local agmTrackZoneComponent = function(elemStyle, isBackground) {
+  local width = sw(100)
+  local height = sh(100)
+
+  local getAgmTrackZoneOpacity = function() {
+    if (!helicopterState.IsAgmEmpty.value && helicopterState.IsATGMOutOfTrackerSector.value)
+      return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
+    else
+      return 0
+  }
+
+  return @() {
+    pos = [sightSw(50) - width * 0.5, sightSh(50) - height * 0.5]
+    watch = [helicopterState.IsAgmEmpty, helicopterState.IsATGMOutOfTrackerSector, helicopterState.CurrentTime]
+    opacity = getAgmTrackZoneOpacity()
+    size = SIZE_TO_CONTENT
+    children = agmTrackZone(elemStyle, width, height, isBackground)
+  }
+}
+
 local laserDesignator = function(line_style, width, height, isBackground) {
-  local hl = 5
-  local vl = 7
+  local lhl = 5
+  local lvl = 7
 
   return @() line_style.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
@@ -1026,10 +1148,10 @@ local laserDesignator = function(line_style, width, height, isBackground) {
     watch = helicopterState.IsAgmEmpty
     color = !isBackground && helicopterState.IsAgmEmpty.value ? helicopterState.AlertColor.value : getColor(isBackground)
     commands = [
-      [VECTOR_LINE, 50 - hl, 50 - vl, 50 + hl, 50 - vl],
-      [VECTOR_LINE, 50 - hl, 50 + vl, 50 + hl, 50 + vl],
-      [VECTOR_LINE, 50 - hl, 50 - vl, 50 - hl, 50 + vl],
-      [VECTOR_LINE, 50 + hl, 50 - vl, 50 + hl, 50 + vl],
+      [VECTOR_LINE, 50 - lhl, 50 - lvl, 50 + lhl, 50 - lvl],
+      [VECTOR_LINE, 50 - lhl, 50 + lvl, 50 + lhl, 50 + lvl],
+      [VECTOR_LINE, 50 - lhl, 50 - lvl, 50 - lhl, 50 + lvl],
+      [VECTOR_LINE, 50 + lhl, 50 - lvl, 50 + lhl, 50 + lvl],
     ]
   })
 }
@@ -1091,7 +1213,7 @@ local function rangeFinderComponent(elemStyle, isBackground) {
   local rangefinder = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
     halign = HALIGN_CENTER
-    text = math.round_by_value(helicopterState.RangefinderDist.value, 1)
+    text = ::cross_call.measureTypes.DISTANCE_SHORT.getMeasureUnitsText(helicopterState.RangefinderDist.value)
     opacity = helicopterState.IsRangefinderEnabled.value ? 100 : 0
     watch = [helicopterState.RangefinderDist, helicopterState.IsRangefinderEnabled]
     color = getColor(isBackground)
@@ -1197,7 +1319,7 @@ local function helicopterMainHud(elemStyle, isBackground) {
       aamAim(elemStyle, @() getColor(isBackground))
       HelicopterGunDirection(elemStyle, isBackground)
       HelicopterFixedGunsDirection(elemStyle, isBackground)
-      HelicopterVertSpeed(elemStyle, sh(1.9), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
+      HelicopterVertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
       HelicopterHorizontalSpeedComponent(elemStyle, isBackground)
       helicopterParamsTable(elemStyle, isBackground)
       compassComponent(elemStyle, isBackground)
@@ -1229,13 +1351,16 @@ local function helicopterSightHud(elemStyle, isBackground) {
       sightComponent(sightStyle, isBackground)
       rangeFinderComponent(sightStyle, isBackground)
       lockSightComponent(sightStyle, isBackground)
+      targetSizeComponent(sightStyle, isBackground)
     ] :
     [
-      HelicopterVertSpeed(sightStyle, sightSh(3.6), sightSh(30), sightSw(50) + sightHdpx(384), sightSh(35), isBackground)
+      HelicopterVertSpeed(sightStyle, sightSh(4.0), sightSh(30), sightSw(50) + sightHdpx(384), sightSh(35), isBackground)
       turretAnglesComponent(sightStyle, sightHdpx(150), turretAnglesAspect, isBackground)
       launchDistanceMaxComponent(sightStyle, sightHdpx(150), turretAnglesAspect, isBackground)
       sightParamsComponent(sightStyle, isBackground)
       lockSightComponent(sightStyle, isBackground)
+      targetSizeComponent(sightStyle, isBackground)
+      agmTrackZoneComponent(sightStyle, isBackground)
       laserDesignatorComponent(sightStyle, isBackground)
       sightComponent(sightStyle, isBackground)
       rangeFinderComponent(sightStyle, isBackground)
@@ -1257,7 +1382,7 @@ local function gunnerHud(elemStyle, isBackground) {
       aamAim(elemStyle, @() getColor(isBackground))
       HelicopterGunDirection(elemStyle, isBackground)
       HelicopterFixedGunsDirection(elemStyle, isBackground)
-      HelicopterVertSpeed(elemStyle, sh(1.9), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
+      HelicopterVertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
       helicopterParamsTable(elemStyle, isBackground)
     ]
     : null
@@ -1284,9 +1409,11 @@ local function pilotHud(elemStyle, isBackground) {
        mfdPilotParamsTable(ilsStyle, isBackground)
        HelicopterHorizontalSpeedComponent(ilsStyle, isBackground, pilotSw(50), pilotSh(60))
        compassComponent(ilsStyle, isBackground, compassW, compassH, pilotSw(50) - 0.5 * compassW, pilotSh(5))
+       HelicopterRocketAim(elemStyle, isBackground)
+       HelicopterTATarget(elemStyle, isBackground)
       ] :
       [
-        HelicopterVertSpeed(elemStyle, pilotSh(1.9), pilotSh(15), pilotSw(50) + pilotHdpx(384), pilotSh(42.5), isBackground)
+        HelicopterVertSpeed(elemStyle, pilotSh(4.0), pilotSh(15), pilotSw(50) + pilotHdpx(384), pilotSh(42.5), isBackground)
         helicopterParamsTable(elemStyle, isBackground)
       ]
       )
@@ -1298,9 +1425,10 @@ local getRwr = function(colorStyle) {
   local getChildren = function() {
     return helicopterState.RwrForMfd.value ?
       rwr(colorStyle,
-       helicopterState.RwrPosSize[0] + helicopterState.RwrPosSize[2] * 0.2,
-       helicopterState.RwrPosSize[1] + helicopterState.RwrPosSize[2] * 0.05,
-       helicopterState.RwrPosSize[2] * 0.9, true) : rwr(colorStyle)
+       helicopterState.RwrPosSize[0] + helicopterState.RwrPosSize[2] * 0.1,
+       helicopterState.RwrPosSize[1] + helicopterState.RwrPosSize[3] * 0.1,
+       helicopterState.RwrPosSize[2] * 0.8,
+       helicopterState.RwrPosSize[3] * 0.8, true) : rwr(colorStyle)
   }
   return @(){
     watch = helicopterState.RwrForMfd

@@ -749,6 +749,31 @@
               "digits": 0,
               "var": "pt_generate_rearm_t2_area_name"
             }
+          },
+          {
+            "comment": {
+              "value": "создаем имя защитников"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "port_",
+              "var": "@pt_generate_defenders_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@pt_generate_spawns_cur_idx",
+              "digits": 2,
+              "var": "pt_generate_defenders_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_defenders",
+              "digits": 0,
+              "var": "pt_generate_defenders_name"
+            }
           }
         ],
         "else_actions": {
@@ -1208,7 +1233,9 @@
               "canCaptureByGM": true,
               "onlyPlayersCanCapture": false,
               "captureNoPenalty": true,
-              "zoneDefenders": [],
+              "zoneDefenders": {
+                "defender": "@pt_generate_defenders_name"
+              },
               "capture_tags": {
                 "type_hydroplane": true,
                 "type_flying_boat": true,
@@ -1262,7 +1289,9 @@
               "canCaptureByGM": true,
               "onlyPlayersCanCapture": false,
               "captureNoPenalty": true,
-              "zoneDefenders": [],
+              "zoneDefenders": {
+                "defender": "@pt_generate_defenders_name"
+              },
               "capture_tags": {
                 "type_hydroplane": true,
                 "type_flying_boat": true,
@@ -1780,6 +1809,56 @@
           },
           {
             "comment": {
+              "value": "собираем имя переменной хранящей значение таймера"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "pt_port_",
+              "var": "pt_port_turning_restore_timer_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@pt_turning_spawns_cur_idx",
+              "digits": 2,
+              "var": "pt_port_turning_restore_timer_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_restore_timer",
+              "digits": 2,
+              "var": "pt_port_turning_restore_timer_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "собираем имя сквада защитников порта"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "port_",
+              "var": "pt_port_turning_defenders_squad_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@pt_turning_spawns_cur_idx",
+              "digits": 2,
+              "var": "pt_port_turning_defenders_squad_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_defenders",
+              "digits": 0,
+              "var": "pt_port_turning_defenders_squad_name"
+            }
+          },
+          {
+            "comment": {
               "value": "ставим спавн для игроков в зависимости от того, чья армия"
             }
           },
@@ -2055,38 +2134,29 @@
         "actions": [
           {
             "comment": {
-              "value": "игроки не в зоне. проявляем спавн"
+              "value": "уменьшаем таймер восстановления береговых укреплений"
             }
           },
           {
-            "__missionMarkAsRespawnPoint": {
-              "loc_name": "@pt_turning_spawns_loc_string",
-              "spawnEffect": false,
-              "isStrictSpawn": false,
-              "resetStrictSpawnIndex": false,
-              "isAirfield": false,
-              "isUnit": false,
-              "useExisting": true,
-              "isIndividual": true,
-              "onlyOnePlayerPerSpawnPoint": false,
-              "removeAreas": false,
-              "replaceAreas": true,
-              "canSpawnOnNeutral": false,
-              "showOnMap": true,
-              "radius": -1.0,
-              "forceCreate": false,
-              "target": "@pt_turning_spawns_squad_name",
-              "team": "A",
-              "tags": {
-                "type_bomber": false,
-                "type_fighter": false,
-                "type_assault": false,
-                "none_can_spawn": false,
-                "helicopter": false,
-                "tank": false,
-                "ship": true,
-                "boat": true
-              }
+            "varModify": {
+              "operator": "add",
+              "value": -1.0,
+              "var": "@pt_port_turning_restore_timer_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не пора ли восстановить защитника"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_port_turning_restore_timer_check"
+            }
+          },
+          {
+            "comment": {
+              "value": "проявляем спавн"
             }
           },
           {
@@ -2110,8 +2180,8 @@
             }
           },
           {
-            "triggerEnable": {
-              "target": "pt_ports_turning_rotator"
+            "__triggerEnable": {
+              "target": "pt_port_turning_restore_timer_check"
             }
           }
         ],
@@ -2401,38 +2471,29 @@
         "actions": [
           {
             "comment": {
-              "value": "игроки в зоне. прячем спавн"
+              "value": "уменьшаем таймер восстановления береговых укреплений"
             }
           },
           {
-            "__missionMarkAsRespawnPoint": {
-              "loc_name": "@pt_turning_spawns_loc_string",
-              "spawnEffect": false,
-              "isStrictSpawn": false,
-              "resetStrictSpawnIndex": false,
-              "isAirfield": false,
-              "isUnit": false,
-              "useExisting": true,
-              "isIndividual": true,
-              "onlyOnePlayerPerSpawnPoint": false,
-              "removeAreas": false,
-              "replaceAreas": true,
-              "canSpawnOnNeutral": false,
-              "showOnMap": true,
-              "radius": -1.0,
-              "forceCreate": false,
-              "target": "@pt_turning_spawns_squad_name",
-              "team": "B",
-              "tags": {
-                "type_bomber": false,
-                "type_fighter": false,
-                "type_assault": false,
-                "none_can_spawn": false,
-                "helicopter": false,
-                "tank": false,
-                "ship": true,
-                "boat": true
-              }
+            "varModify": {
+              "operator": "add",
+              "value": -1.0,
+              "var": "@pt_port_turning_restore_timer_var_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "проверяем не пора ли восстановить защитника"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_port_turning_restore_timer_check"
+            }
+          },
+          {
+            "comment": {
+              "value": "игроки в зоне. прячем спавн"
             }
           },
           {
@@ -2456,7 +2517,7 @@
             }
           },
           {
-            "triggerEnable": {
+            "__triggerEnable": {
               "target": "pt_ports_turning_rotator"
             }
           }
@@ -3152,6 +3213,177 @@
           }
         },
         "else_actions": []
+      },
+      "pt_port_turning_restore_timer_check": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "varCompareInt": {
+            "var_value": "@pt_port_turning_restore_timer_var_name",
+            "value": 0,
+            "comparasion_func": "more"
+          }
+        },
+        "actions": {
+          "comment": {
+            "value": "таймер еще не закончился. идем дальше по циклу"
+          },
+          "triggerEnable": {
+            "target": "pt_ports_turning_rotator"
+          }
+        },
+        "else_actions": [
+          {
+            "comment": {
+              "value": "выставляем таймер в дефолтное значение"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "@pt_port_turning_restore_timer_var_name",
+              "input_var": "pt_port_default_restore_time"
+            }
+          },
+          {
+            "comment": {
+              "value": "восстанавливаем юнит"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_port_turning_restore_defenders_damaged"
+            }
+          }
+        ]
+      },
+      "pt_port_turning_restore_defenders_damaged": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "damaged",
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "func": "more",
+            "value": 0,
+            "object": "@pt_port_turning_defenders_squad_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "есть поврежденный"
+            }
+          },
+          {
+            "unitRestore": {
+              "ressurectIfDead": false,
+              "fullRestore": true,
+              "target": "@pt_port_turning_defenders_squad_name",
+              "randomTargetsCount": 1,
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_ports_turning_rotator"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "нет поврежденных. проверяем убитых"
+          },
+          "triggerEnable": {
+            "target": "pt_port_turning_restore_defenders_killed"
+          }
+        }
+      },
+      "pt_port_turning_restore_defenders_killed": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "damaged",
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "func": "more",
+            "value": 0,
+            "object": "@pt_port_turning_defenders_squad_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "есть поврежденный"
+            }
+          },
+          {
+            "unitRestore": {
+              "ressurectIfDead": true,
+              "fullRestore": true,
+              "target": "@pt_port_turning_defenders_squad_name",
+              "randomTargetsCount": 1,
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_ports_turning_rotator"
+            }
+          }
+        ],
+        "else_actions": {
+          "comment": {
+            "value": "нет поврежденных. иде мдальше по циклу"
+          },
+          "triggerEnable": {
+            "target": "pt_ports_turning_rotator"
+          }
+        }
       }
     },
     "pt_ports_generate_size": {
@@ -13520,6 +13752,31 @@
           },
           {
             "comment": {
+              "value": "имя переменной с таймером восстановления защитников"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "pt_port_",
+              "var": "pt_capture_port_restore_timer_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@pt_capture_port_cur_idx",
+              "digits": 2,
+              "var": "pt_capture_port_restore_timer_var_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_restore_timer",
+              "digits": 0,
+              "var": "pt_capture_port_restore_timer_var_name"
+            }
+          },
+          {
+            "comment": {
               "value": "проверяем армию"
             }
           },
@@ -14012,6 +14269,59 @@
               "repair_tags": {
                 "type_hydroplane": true
               }
+            }
+          },
+          {
+            "comment": {
+              "value": "имя защитников порта"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "port_",
+              "var": "pt_capture_port_t1_defenders_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@pt_capture_port_cur_idx",
+              "digits": 2,
+              "var": "pt_capture_port_t1_defenders_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_defenders",
+              "digits": 0,
+              "var": "pt_capture_port_t1_defenders_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "меняем армию защитникам"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "object": "@pt_capture_port_t1_defenders_name",
+              "object_type": "any",
+              "army": 1
+            }
+          },
+          {
+            "comment": {
+              "value": "ставим переменную восстановление в дефолт"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "@pt_capture_port_restore_timer_var_name",
+              "input_var": "pt_port_default_restore_time"
             }
           }
         ],
@@ -14866,6 +15176,59 @@
               "repair_tags": {
                 "type_hydroplane": true
               }
+            }
+          },
+          {
+            "comment": {
+              "value": "имя защитников порта"
+            }
+          },
+          {
+            "varSetString": {
+              "value": "port_",
+              "var": "pt_capture_port_t2_defenders_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@pt_capture_port_cur_idx",
+              "digits": 2,
+              "var": "pt_capture_port_t2_defenders_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "_defenders",
+              "digits": 0,
+              "var": "pt_capture_port_t2_defenders_name"
+            }
+          },
+          {
+            "comment": {
+              "value": "меняем армию защитникам"
+            }
+          },
+          {
+            "unitSetProperties": {
+              "object_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "object": "@pt_capture_port_t2_defenders_name",
+              "object_type": "any",
+              "army": 2
+            }
+          },
+          {
+            "comment": {
+              "value": "ставим переменную восстановление в дефолт"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 0,
+              "var": "@pt_capture_port_restore_timer_var_name",
+              "input_var": "pt_port_default_restore_time"
             }
           }
         ],
@@ -15822,7 +16185,20 @@
     "pt_generate_rearm_t1_area_name": "",
     "pt_generate_rearm_t2_area_name": "",
     "pt_capture_port_rearm_t1_area_name": "",
-    "pt_capture_port_rearm_t2_area_name": ""
+    "pt_capture_port_rearm_t2_area_name": "",
+    "pt_capture_port_t1_defenders_name": "",
+    "pt_capture_port_t2_defenders_name": "",
+    "pt_port_01_restore_timer": 0,
+    "pt_port_02_restore_timer": 0,
+    "pt_port_03_restore_timer": 0,
+    "pt_port_04_restore_timer": 0,
+    "pt_port_05_restore_timer": 0,
+    "pt_port_06_restore_timer": 0,
+    "pt_port_turning_restore_timer_var_name": "",
+    "pt_port_turning_restore_timer_value": 0,
+    "pt_port_default_restore_time": 300,
+    "pt_port_turning_defenders_squad_name": "",
+    "pt_capture_port_restore_timer_var_name": ""
   },
   "dialogs": [],
   "airfields": [],

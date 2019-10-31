@@ -99,7 +99,7 @@ ComboBox > button {
   top:0.5ph-0.5h;
   background-color:@navButtonImgColor;
   background-image:#ui/gameuiskin#drop_menu_icon.svg;
-  background-svg-size:@comboBtnWidth, @comboBtnHeight;
+  background-svg-size: 1@buttonImgSvgHeight, 1@buttonImgSvgHeight;
   background-repeat:aspect-ratio;
   color-factor:127;
 }
@@ -137,7 +137,7 @@ ComboBox[btnPos=leftOutside] > button {
   _hasBtnImage:yes;
   background-image:@control_button_x;
 }
-[show_console_buttons=yes] ComboBox[btnName=X] > button:pushed {
+[show_console_buttons=yes] ComboBox[btnName=X]:pushed > button {
   background-image:@control_button_x_pressed;
 }
 
@@ -145,7 +145,7 @@ ComboBox[btnPos=leftOutside] > button {
   _hasBtnImage:yes;
   background-image:@control_r_stick;
 }
-[show_console_buttons=yes] ComboBox[btnName=R3] > button:pushed {
+[show_console_buttons=yes] ComboBox[btnName=R3]:pushed > button {
   background-image:@control_r_stick_pressed;
 }
 
@@ -153,7 +153,7 @@ ComboBox[btnPos=leftOutside] > button {
   _hasBtnImage:yes;
   background-image:@control_r_shoulder;
 }
-[show_console_buttons=yes] ComboBox[btnName=RB] > button:pushed {
+[show_console_buttons=yes] ComboBox[btnName=RB]:pushed > button {
   background-image:@control_r_shoulder_pressed;
 }
 
@@ -161,7 +161,7 @@ ComboBox[btnPos=leftOutside] > button {
   _hasBtnImage:yes;
   background-image:@control_l_trigger;
 }
-[show_console_buttons=yes] ComboBox[btnName=LT] > button:pushed {
+[show_console_buttons=yes] ComboBox[btnName=LT]:pushed > button {
   background-image:@control_l_trigger_pressed;
 }
 
@@ -169,7 +169,7 @@ ComboBox[btnPos=leftOutside] > button {
   _hasBtnImage:yes;
   background-image:@control_l_stick;
 }
-[show_console_buttons=yes] ComboBox[btnName=L3] > button:pushed {
+[show_console_buttons=yes] ComboBox[btnName=L3]:pushed > button {
   background-image:@control_l_stick_pressed;
 }
 
@@ -189,13 +189,13 @@ ComboBox[btnPos=leftOutside] > button {
   background-image:@control_button_b;
 }
 
-[show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button:pushed,
-[show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus > button:pushed {
+[show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus:pushed > button,
+[show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus:pushed > button {
   background-image:@control_button_a_pressed;
 }
 
-[swap_ab=yes][show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus > button:pushed,
-[swap_ab=yes][show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus > button:pushed {
+[swap_ab=yes][show_console_buttons=yes] PosOptionsNavigator > * > * > ComboBox:focus:pushed > button,
+[swap_ab=yes][show_console_buttons=yes] .optionsMultiColumn > tr > td > ComboBox:focus:pushed > button {
   background-image:@control_button_b_pressed;
 }
 

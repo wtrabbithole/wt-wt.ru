@@ -1,5 +1,6 @@
 local ICO_PRESET_DEFAULT = "#ui/gameuiskin#xone_"
 local ICO_PRESET_PS4 = "#ui/gameuiskin#ps_"
+local SVG_EXT = ".svg"
 
 local controlsList = { //table for faster check existance
   button_a = true
@@ -139,7 +140,7 @@ local mouseAxesImages = {
 
 local curPreset = ::is_platform_ps4 ? ICO_PRESET_PS4 : ICO_PRESET_DEFAULT
 
-local getTexture = @(id, preset = curPreset) (id in controlsList) ? preset + id : ""
+local getTexture = @(id, preset = curPreset) (id in controlsList) ? preset + id + SVG_EXT : ""
 local getTextureByButtonIdx = @(idx) getTexture(btnNameByIndex?[idx])
 
 local cssString = null
@@ -159,7 +160,7 @@ local getGamepadAxisTexture = @(axisVal, preset = curPreset) getTexture(gamepadA
 local getMouseTexture = function(idx, preset = curPreset)
 {
   if (preset == ICO_PRESET_PS4 && idx in ps4TouchpadImagesByMouseIdx)
-    return preset + ps4TouchpadImagesByMouseIdx[idx]
+    return preset + ps4TouchpadImagesByMouseIdx[idx] + SVG_EXT
 
   if (idx in mouseButtonTextures)
     return "#ui/gameuiskin#" + mouseButtonTextures[idx]

@@ -75,6 +75,7 @@ local crewUnitTypeConfig = {
   modClassOrder = []
   isSkinAutoSelectAvailable = @() false
   canSpendGold = @() isAvailable()
+  canShowProtectionAnalysis = @() false
   haveAnyUnitInCountry = @(countryName) ::isCountryHaveUnitType(countryName, esUnitType)
   isAvailableByMissionSettings = function(misBlk, useKillStreaks = null)
   {
@@ -122,6 +123,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     canUseSeveralBulletsForGun = false
     canChangeViewType = true
     modClassOrder = ["lth", "armor", "weapon"]
+    canShowProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisAircraft")
   }
 
   TANK = {
@@ -151,6 +153,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     modClassOrder = ["mobility", "protection", "firepower"]
     isSkinAutoSelectAvailable = @() ::has_feature("SkinAutoSelect")
     canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForTanks")
+    canShowProtectionAnalysis = @() true
   }
 
   SHIP = {
@@ -181,6 +184,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     canUseSeveralBulletsForGun = true
     modClassOrder = ["seakeeping", "unsinkability", "firepower"]
     canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForShips")
+    canShowProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisShip")
   }
 
   HELICOPTER = {
@@ -203,6 +207,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     canUseSeveralBulletsForGun = false
     canChangeViewType = true
     modClassOrder = ["lth", "armor", "weapon"]
+    canShowProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisAircraft")
   }
 },
 function()

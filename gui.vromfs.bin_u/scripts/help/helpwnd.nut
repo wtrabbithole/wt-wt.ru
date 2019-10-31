@@ -136,10 +136,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getCurrentSubTab()
   {
     local list = visibleTabs[curTabIdx].list
-    if (list.len() == 1 || curSubTabIdx < 0)
-      return list[0]
-
-    return list[curSubTabIdx]
+    return list?[curSubTabIdx] ?? list?[0]
   }
 
   function onHelpSheetChange(obj)

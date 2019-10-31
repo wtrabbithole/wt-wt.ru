@@ -93,7 +93,8 @@ global enum HelicopterParams
   TRANSMISSION_3 = 23,
   TRANSMISSION_4 = 24,
   TRANSMISSION_5 = 25,
-  TRANSMISSION_6 = 26
+  TRANSMISSION_6 = 26,
+  FUEL = 27
 };
 
 global enum TemperatureState

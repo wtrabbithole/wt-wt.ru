@@ -80,6 +80,8 @@
 
 @const buttonImgMargin: 0.2*@scrn_tgt/100.0;
 
+@const buttonImgSvgHeight: 100@dp;
+
 ButtonImg
 {
   re-type:9rect;
@@ -87,8 +89,9 @@ ButtonImg
   background-repeat:expand;
   font:@nav_button_font;
   color:@commonMenuButtonColor;
-  height:ph-3*@sf/@pf_outdated;
+  height:ph;
   width:h;
+  background-svg-size: h, h;
   snd_click:click;
   input-transparent:yes;
   if_target_pc:@target_pc;
@@ -102,8 +105,13 @@ button > ButtonImg {
   position:'absolute';
 }
 
+paginator > Button_text > ButtonImg {
+  left:50%ph-50%h;
+}
+
 weaponry_item > ButtonImg {
-  height:1@buttonHeight-3*@sf/@pf_outdated;
+  height: 1@buttonHeight;
+  background-svg-size: 1@buttonHeight, 1@buttonHeight;
   left:2@sf/@pf_outdated;
   top:ph-h-2@sf/@pf_outdated;
   position:'absolute';
@@ -111,6 +119,7 @@ weaponry_item > ButtonImg {
 
 ButtonImg.independent {
   height:1@cIco;
+  background-svg-size: 1@cIco, 1@cIco;
   top:0;
 }
 
@@ -120,7 +129,8 @@ Button_text > ButtonImg.independent {
 }
 
 ButtonImg.independent[fullSizeIcons=yes] {
-  height:@buttonIconHeight;
+  height:1@buttonIconHeight;
+  background-svg-size: 1@buttonIconHeight, 1@buttonIconHeight;
 }
 
 Button_text:disabled > ButtonImg {
@@ -129,19 +139,21 @@ Button_text:disabled > ButtonImg {
 
 CheckBox[btnName] > ButtonImg
 {
-  size:@cIco, @cIco;
+  size:1@cIco, 1@cIco;
+  background-svg-size: 1@cIco, 1@cIco;
   left:h + 1@buttonImgMargin;
   top:50%ph-50%h;
   position:'absolute';
 }
 
 CheckBox[btnName][fullSizeIcons=yes] > ButtonImg {
-  top:ph-h;
-  size:@buttonIconHeight, @buttonIconHeight;
+  size: 1@buttonIconHeight, 1@buttonIconHeight;
+  background-svg-size: 1@buttonIconHeight, 1@buttonIconHeight;
 }
 
 gameModeChangeButton > ButtonImg {
   height:ph;
+  background-svg-size: ph, ph;
 }
 
 Button_text, btnCollapse
@@ -465,7 +477,8 @@ Button_text.buyPremAward > textarea {
   font:@fontNormal;
 }
 Button_text.buyPremAward > ButtonImg {
-  height:@mIco;
+  height:1@mIco;
+  background-svg-size: 1@mIco, 1@mIco;
   top:ph/2-h/2;
 }
 
@@ -1901,7 +1914,8 @@ Button_text.profileImg > img {
 
 Button_text.profileImg > ButtonImg {
   pos:pw - w - 4@dp, ph - h - 4@dp;
-  height:@buttonIconHeight;
+  height:1@buttonIconHeight;
+  background-svg-size: 1@buttonIconHeight, 1@buttonIconHeight;
 }
 
 Button_text.profileImg:hover {
@@ -2084,7 +2098,8 @@ Button_text[pc_style=no][hasConsoleImage=yes] > btnContent {
 
 
 Button_text[iconPos=middleBottom] > ButtonImg {
-  height:@buttonIconHeight;
+  height:1@buttonIconHeight;
+  background-svg-size: 1@buttonIconHeight, 1@buttonIconHeight;
   position:absolute;
   pos:0.5pw-0.5w, ph-0.5h;
 }
@@ -2100,7 +2115,8 @@ Button_text[iconPos=middleBottom][pc_style=no] > textarea {
 }
 
 textareaNoTab.highlightButton > ButtonImg {
-  height:@buttonIconHeight;
+  height:1@buttonIconHeight;
+  background-svg-size: 1@buttonIconHeight, 1@buttonIconHeight;
   top:-3*@sf/@pf_outdated;
   position:absolute;
 }
@@ -2255,11 +2271,11 @@ Button_text.image[pc_style=no][btnName][_isButtonWithText=yes][showButtonImageOn
 }
 
 Button_text.squadWidgetMember {
-  width:@dIco + @sIco + 2@buttonImgPadding + 2@dp;
+  width:@dIco + @sIco + 3@buttonImgPadding + 2@dp;
   min-width:h;
   padding:1@buttonImgPadding;
-  padding-left:1@buttonImgPadding;
-  padding-right:1@buttonImgPadding;
+  padding-left:0;
+  padding-right:0;
 }
 
 button[talign=left], Button_text[talign=left] {
@@ -2342,7 +2358,8 @@ Button_text[visualStyle=noBgr] {
 
 Button_text[visualStyle=noBgr] > ButtonImg{
   pos:1@buttonImgMargin, 50%ph-50%h;
-  height:@buttonHeight;
+  height:1@buttonHeight;
+  background-svg-size: 1@buttonHeight, 1@buttonHeight;
 }
 
 Button_text[visualStyle=noBgr]:hover {

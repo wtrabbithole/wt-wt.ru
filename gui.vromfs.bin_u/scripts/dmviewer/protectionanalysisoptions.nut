@@ -8,6 +8,19 @@ local options = {
   }
 }
 
+local targetTypeToThreatTypes = {
+  [::ES_UNIT_TYPE_AIRCRAFT]   = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK, ::ES_UNIT_TYPE_HELICOPTER ],
+  [::ES_UNIT_TYPE_HELICOPTER] = [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK, ::ES_UNIT_TYPE_HELICOPTER ],
+}
+
+local function getThreatEsUnitTypes()
+{
+  local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
+  local targetUnitType = targetUnit?.esUnitType ?? ::ES_UNIT_TYPE_INVALID
+  local res = targetTypeToThreatTypes?[targetUnitType] ?? [ targetUnitType ]
+  return res.filter(@(e) ::g_unit_type.getByEsUnitType(e)?.isAvailable())
+}
+
 options.template <- {
   id = "" //used from type name
   sortId = 0
@@ -18,8 +31,10 @@ options.template <- {
   items  = []
   values = []
   value = null
+  defValue = null
   valueWidth = null
 
+  isNeedInit = @() shouldInit
   getLabel = @() labelLocId && ::loc(labelLocId)
   getControlMarkup = function() {
     return ::create_option_combobox(id, [], -1, "onChangeOption", true,
@@ -66,18 +81,39 @@ options.addTypes({
     sortId = sortId++
     isVisible = @() false
   }
-  COUNTRY = {
+  UNITTYPE = {
     sortId = sortId++
     labelLocId = "mainmenu/threat"
-    controlStyle = "iconType:t='small';"
     shouldInit = true
+    isVisible = @() getThreatEsUnitTypes().len() > 1
 
     reinit = function(handler, scene)
     {
-      local countriesWithTanks = ::get_countries_by_unit_type(::ES_UNIT_TYPE_TANK)
-      values = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, countriesWithTanks))
+      local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
+      local esUnitTypes = getThreatEsUnitTypes()
+      local unitTypes = esUnitTypes.map(@(e)::g_unit_type.getByEsUnitType(e))
+      values = esUnitTypes
+      items  = ::u.map(unitTypes, @(t) { text = "{0} {1}".subst(t.fontIcon, t.getArmyLocName()) })
+      value = value ?? targetUnit?.esUnitType ?? values?[0] ?? ::ES_UNIT_TYPE_INVALID
+      update(handler, scene)
+    }
+  }
+  COUNTRY = {
+    sortId = sortId++
+    controlStyle = "iconType:t='small';"
+    isNeedInit = @() !options.UNITTYPE.isVisible()
+    getLabel = @() options.UNITTYPE.isVisible() ? null : ::loc("mainmenu/threat")
+
+    reinit = function(handler, scene)
+    {
+      local unitType = options.UNITTYPE.value
+      local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
+      local countriesWithUnitType = ::get_countries_by_unit_type(unitType)
+      values = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, countriesWithUnitType))
       items  = ::u.map(values, @(c) { text = ::loc(c), image = ::get_country_icon(c) })
-      value = ::getAircraftByName(::hangar_get_current_unit_name())?.shopCountry ?? values?[0]
+      value = value && values.find(value) != null ? value
+        : values.find(targetUnit?.shopCountry) != null ? targetUnit.shopCountry
+        : (values?[0] ?? "")
       update(handler, scene)
     }
   }
@@ -86,15 +122,17 @@ options.addTypes({
 
     reinit = function(handler, scene)
     {
+      local unitType = options.UNITTYPE.value
       local country = options.COUNTRY.value
+      local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
       values = []
       for (local rank = 1; rank <= ::max_country_rank; rank++)
-        if (::get_units_count_at_rank(rank, ::ES_UNIT_TYPE_TANK, country, true, false))
+        if (::get_units_count_at_rank(rank, unitType, country, true, false))
           values.append(rank)
       items = ::u.map(values, @(r) {
         text = ::format(::loc("conditions/unitRank/format"), get_roman_numeral(r))
       })
-      local preferredRank = value ?? ::getAircraftByName(::hangar_get_current_unit_name())?.rank ?? 0
+      local preferredRank = value ?? targetUnit?.rank ?? 0
       value = values[::find_nearest(preferredRank, values)]
       update(handler, scene)
     }
@@ -104,15 +142,17 @@ options.addTypes({
 
     reinit = function(handler, scene)
     {
+      local unitType = options.UNITTYPE.value
       local rank = options.RANK.value
       local country = options.COUNTRY.value
+      local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
       local unitId = ::hangar_get_current_unit_name()
       local ediff = ::get_current_ediff()
       local list = ::get_units_list(@(u) u.isVisibleInShop() &&
-        u.esUnitType == ::ES_UNIT_TYPE_TANK && u.rank == rank && u.shopCountry == country)
+        u.esUnitType == unitType && u.rank == rank && u.shopCountry == country)
       list = ::u.map(list, @(u) { unit = u, id = u.name, br = u.getBattleRating(ediff) })
       list.sort(@(a, b) a.br <=> b.br)
-      local preferredBR = ::getAircraftByName(::hangar_get_current_unit_name()).getBattleRating(ediff)
+      local preferredBR = targetUnit.getBattleRating(ediff)
       local idx = list.searchindex(@(v) v.id == unitId) ?? ::find_nearest(preferredBR, ::u.map(list, @(v) v.br))
       values = ::u.map(list, @(v) v.unit)
       items = ::u.map(list, @(v) {
@@ -172,7 +212,7 @@ options.addTypes({
           local useDefaultBullet = searchName != value
           local bulletParameters = ::calculate_tank_bullet_parameters(unit.name,
             (useDefaultBullet && weaponBlkName) || ::getModificationBulletsEffect(searchName),
-            useDefaultBullet)
+            useDefaultBullet, false)
 
           local bulletNames = isBulletBelt ? [] : (bulletsSet?.bulletNames ?? [])
           if (isBulletBelt)
@@ -226,6 +266,7 @@ options.addTypes({
     shouldInit = true
     shouldSetParams = true
     value = 500
+    defValue = 500
     minValue = 0
     maxValue = 5000
     step = 100
@@ -237,7 +278,7 @@ options.addTypes({
         id = id
         min = minValue
         max = maxValue
-        value = value
+        value = defValue
         step = step
         width = "fw"
         btnOnDec = "onButtonDec"
@@ -278,8 +319,11 @@ options.addTypes({
 
 options.init <- function(handler, scene) {
   foreach (o in options.types)
-    if (o.shouldInit)
+  {
+    o.value = o.defValue
+    if (o.isNeedInit())
       o.reinit(handler, scene)
+  }
 }
 
 options.setAnalysisParams <- function() {

@@ -1,6 +1,7 @@
 {
   "model": "g_lynx",
   "fmFile": "fm/g_lynx.blk",
+  "viewDistKInSight": 2.0,
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/hellicopters_metaparts.blk",
   "gearSinkRangeLR": 0.001,
   "gearSinkRangeC": 0.001,
@@ -1071,7 +1072,9 @@
     "lightRadius1": 0.35,
     "zoomOutFov": 22.46,
     "zoomInFov": 22.46,
-    "sightFov": 15.3,
+    "sightInFov": 3.68,
+    "sightOutFov": -1.0,
+    "sightFov": 9.5,
     "devices": {
       "speed": [0.0,257.222],
       "bank": [-8.0,8.0],
@@ -1137,11 +1140,18 @@
     "crosshairPreset": "test_crosshair",
     "angularLimits": [-60.0,60.0,-40.0,10.0]
   },
-  "sensors": {
-    "sensor": {
-      "blk": "gameData/sensors/us_an_apr_39.blk"
+  "sensors": [
+    {
+      "sensor": {
+        "blk": "gameData/sensors/us_an_apr_39.blk"
+      }
+    },
+    {
+      "sensor": {
+        "blk": "gameData/sensors/tv_tracker.blk"
+      }
     }
-  },
+  ],
   "helicopter": {
     "rotorBladeAnglesCoeffs": [0.3,0.5,0.5],
     "inclinedRotor": true
@@ -1426,7 +1436,6 @@
     "emtr_break_wing2_r_from": [0.0,0.0,-1.35038],
     "emtr_break_wing2_r_to": [0.0,0.0,-1.36038],
     "emtr_break_wing_tail": [8.68943,0.0,0.0],
-    "partKindTail": 2,
     "finCut": false,
     "emtr_break_stab_l_from": [-8.29179,1.42158,-0.0123165],
     "emtr_break_stab_l_to": [-8.29179,1.42158,-0.00231647],

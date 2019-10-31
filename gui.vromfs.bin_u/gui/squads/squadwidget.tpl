@@ -97,34 +97,35 @@ Button_text {
       css-hier-invalidate:t='yes'
 
       tdiv {
-        margin-left:t='1@dp'
         css-hier-invalidate:t='yes'
 
-        squadMemberStatus {
-          id:t='member_ready_<<id>>'
+        tdiv {
+          position:t='relative'
+          css-hier-invalidate:t='yes'
+          <<^showCrossplayIcon>>
+            showCrossplayIcon:t='no'
+          <</showCrossplayIcon>>
+
+          squadMemberCrossPlayStatus {
+            id:t='member_crossplay_active_<<id>>'
+            isEnabledCrossPlay:t='no'
+          }
+
+          squadMemberStatus {
+            id:t='member_ready_<<id>>'
+          }
         }
 
         squadMemberVoipStatus {
           id:t='member_voip_<<id>>'
           isVoipActive:t='no'
         }
-
-        squadMemberCrossPlayStatus {
-          id:t='member_crossplay_active_<<id>>'
-          isEnabledCrossPlay:t='no'
-          hideEmptyText:t='yes'
-          <<#showCrossplayIcon>>
-            text:t='#icon/cross_play'
-          <</showCrossplayIcon>>
-        }
       }
 
-      tdiv {
+      img {
         id:t='member_country_<<id>>'
-        pos:t='0, 13@sf/@pf'; position:t='absolute'
-        size:t='@sIco, @sIco'
-        background-svg-size:t='@cIco, @cIco'
-        bgcolor:t='@white'
+        size:t='@sIco, @sIco';
+        background-svg-size:t='@sIco, @sIco';
         background-image:t=''
       }
     }

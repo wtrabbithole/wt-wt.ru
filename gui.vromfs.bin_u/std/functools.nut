@@ -1,3 +1,5 @@
+local math = require("math")
+
 /*
 + partial:
   partial(f(x,y,z), 1) == @(y,z) f(1,y,z)
@@ -119,9 +121,9 @@ local function filterFunctions(func) {
 local function pipe(...){
   local args = vargv.filter(filterFunctions)
   assert(args.len() == vargv.len() && args.len()>0, "pipe should be called with functions")
-
-  local numarg = args[0].getfuncinfos().parameters.len()-1
-  local isvargved = args[0].getfuncinfos().varargs==1
+  local finfos = args[0].getfuncinfos()
+  local numarg = (finfos.native ? math.abs(finfos.paramscheck) : finfos.parameters.len()) - 1
+  local isvargved = finfos.native ? finfos.paramscheck < -2 : finfos.varargs==1
   assert(numarg == 1 && !isvargved, "pipe cannot be applied to vargv function call or multiarguments function call")
   return function(x){
     foreach(v in args)
@@ -136,8 +138,9 @@ local function compose(...){
   local args = vargv.filter(filterFunctions).reverse()
   assert(args.len() == vargv.len() && args.len()>0, "compose should be called with functions")
 
-  local numarg = args[0].getfuncinfos().parameters.len()-1
-  local isvargved = args[0].getfuncinfos().varargs==1
+  local finfos = args[0].getfuncinfos()
+  local numarg = (finfos.native ? math.abs(finfos.paramscheck) : finfos.parameters.len()) - 1
+  local isvargved = finfos.native ? finfos.paramscheck < -2 : finfos.varargs==1
   assert(numarg == 1 && !isvargved, "compose cannot be applied to vargv function call or multiarguments function call")
   return function(x){
     foreach(v in args)
@@ -167,7 +170,9 @@ sum(1)(2)(3) == sum(1)(2,3) == sum(1,2,3) == sum(1,2)(3)
 unfortunately returning function are now use vargv, instead of rest of parameters (the same issue goes to partial)
 */
 local function curry(fn) {
-  local arity = fn.getfuncinfos().parameters.len()-1
+  local finfos = fn.getfuncinfos()
+  assert(!finfos.native || finfos.paramscheck >= 0, "Cannot curry native function with varargs")
+  local arity = (finfos.native ? finfos.paramscheck : finfos.parameters.len())-1
 
   return function f1(...) {
     local args = vargv

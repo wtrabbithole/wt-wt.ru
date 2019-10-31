@@ -44,6 +44,8 @@ local InventoryClient = class {
   itemdefidsRequested = {} // Failed ids stays here, to avoid repeated requests.
   pendingItemDefRequest = null
 
+  firstProfileLoadComplete = false
+
   needRefreshItems = false
   hasInventoryChanges = false
   hasItemDefChanges = false
@@ -107,11 +109,15 @@ local InventoryClient = class {
   constructor()
   {
     ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
-    if (::g_login.isAuthorized())
+    if (::g_login.isProfileReceived())
       refreshDataOnAuthorization()
   }
 
-  onEventAuthorizeComplete = @(p) refreshDataOnAuthorization()
+  function onEventProfileUpdated(p) {
+    if (!firstProfileLoadComplete)
+      refreshDataOnAuthorization()
+    firstProfileLoadComplete = true
+  }
 
   function refreshDataOnAuthorization()
   {

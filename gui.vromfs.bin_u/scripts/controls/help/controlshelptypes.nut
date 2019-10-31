@@ -9,26 +9,42 @@ local result = {
     imagePattern = ""
     helpPattern = CONTROL_HELP_PATTERN.NONE
 
-    pageUnitType = null
+    pageUnitTypes = 0 // bit mask
     pageUnitTag = null
 
     showInSets = []
     checkFeature = @() true
     specificCheck = @() true
     showBySet = @(contentSet) showInSets.find(contentSet) != null
-    showByUnit = @(unitType, unitTag) (pageUnitType && unitType == pageUnitType) &&
-                                      ((!pageUnitTag && !unitTag) || unitTag == pageUnitTag)
+    showByUnit = @(unit, unitTag) pageUnitTag == unitTag && (pageUnitTypes & (unit?.unitType.bit ?? 0))
     needShow = @(contentSet) showBySet(contentSet)
                              && specificCheck()
                              && checkFeature()
   }
 }
 
+local function isUnitWithRadarOrRwr(unit)
+{
+  local unitBlk = ::get_full_unit_blk(unit?.name ?? "")
+  local sensorTypes = [ "radar", "rwr" ]
+  if (unitBlk?.sensors)
+    foreach (sensor in (unitBlk.sensors % "sensor"))
+      if (sensorTypes.find(::DataBlock(sensor?.blk ?? "")?.type) != null)
+        return true
+  return false
+}
+
 enums.addTypes(result, {
   MISSION_OBJECTIVES = {
     showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.LOADING ]
+    helpPattern = CONTROL_HELP_PATTERN.MISSION
 
-    showByUnit = @(unitType, unitTag) true
+    showByUnit = function(unit, unitTag) {
+      local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
+      local isAdvanced = difficulty == ::DIFFICULTY_HARDCORE
+      return !::is_me_newbie() && unitTag == null && !isAdvanced
+    }
+
     specificCheck = @() (::get_game_type_by_mode(::get_game_mode()) & ::GT_VERSUS)
       ? ::g_mission_type.getHelpPathForCurrentMission() != null
       : false
@@ -37,10 +53,11 @@ enums.addTypes(result, {
   }
   HOTAS4_COMMON = {
     showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+    helpPattern = CONTROL_HELP_PATTERN.HOTAS4
 
     specificCheck = @() ::check_joystick_thustmaster_hotas(false)
-
-    pageUnitType = ::g_unit_type.AIRCRAFT
+    checkFeature = ::g_unit_type.AIRCRAFT.isAvailable
+    pageUnitTypes = ::g_unit_type.AIRCRAFT.bit
 
     pageFillfuncName = "fillHotas4Image"
     pageBlkName = "gui/help/internalHelp.blk"
@@ -52,7 +69,7 @@ enums.addTypes(result, {
     helpPattern = CONTROL_HELP_PATTERN.IMAGE
 
     checkFeature = ::g_unit_type.AIRCRAFT.isAvailable
-    pageUnitType = ::g_unit_type.AIRCRAFT
+    pageUnitTypes = ::g_unit_type.AIRCRAFT.bit
 
     pageBlkName = "gui/help/controlsAircraft.blk"
     imagePattern = "#ui/images/country_%s_controls_help.jpg?P1"
@@ -110,7 +127,7 @@ enums.addTypes(result, {
     helpPattern = CONTROL_HELP_PATTERN.IMAGE
 
     checkFeature = ::g_unit_type.TANK.isAvailable
-    pageUnitType = ::g_unit_type.TANK
+    pageUnitTypes = ::g_unit_type.TANK.bit
 
     pageBlkName = "gui/help/controlsTank.blk"
 
@@ -228,7 +245,7 @@ enums.addTypes(result, {
     helpPattern = CONTROL_HELP_PATTERN.IMAGE
 
     checkFeature = ::g_unit_type.SHIP.isAvailable
-    pageUnitType = ::g_unit_type.SHIP
+    pageUnitTypes = ::g_unit_type.SHIP.bit
 
     pageBlkName = "gui/help/controlsShip.blk"
 
@@ -311,7 +328,7 @@ enums.addTypes(result, {
     helpPattern = CONTROL_HELP_PATTERN.IMAGE
 
     checkFeature = ::g_unit_type.HELICOPTER.isAvailable
-    pageUnitType = ::g_unit_type.HELICOPTER
+    pageUnitTypes = ::g_unit_type.HELICOPTER.bit
 
     pageBlkName = "gui/help/controlsHelicopter.blk"
 
@@ -352,7 +369,7 @@ enums.addTypes(result, {
     helpPattern = CONTROL_HELP_PATTERN.IMAGE
 
     checkFeature = @() ::g_unit_type.SHIP.isAvailable() && ::has_feature("SpecialShips")
-    pageUnitType = ::g_unit_type.SHIP
+    pageUnitTypes = ::g_unit_type.SHIP.bit
     pageUnitTag = "submarine"
 
     pageBlkName = "gui/help/controlsSubmarine.blk"
@@ -389,7 +406,7 @@ enums.addTypes(result, {
 
     specificCheck = @() ::show_console_buttons
     checkFeature = ::g_unit_type.AIRCRAFT.isAvailable
-    pageUnitType = ::g_unit_type.AIRCRAFT
+    pageUnitTypes = ::g_unit_type.AIRCRAFT.bit
 
     pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
@@ -402,7 +419,7 @@ enums.addTypes(result, {
 
     specificCheck = @() ::show_console_buttons
     checkFeature = ::g_unit_type.TANK.isAvailable
-    pageUnitType = ::g_unit_type.TANK
+    pageUnitTypes = ::g_unit_type.TANK.bit
 
     pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
@@ -415,7 +432,7 @@ enums.addTypes(result, {
 
     specificCheck = @() ::show_console_buttons
     checkFeature = ::g_unit_type.SHIP.isAvailable
-    pageUnitType = ::g_unit_type.SHIP
+    pageUnitTypes = ::g_unit_type.SHIP.bit
 
     pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
@@ -428,7 +445,7 @@ enums.addTypes(result, {
 
     specificCheck = @() ::show_console_buttons
     checkFeature = ::g_unit_type.HELICOPTER.isAvailable
-    pageUnitType = ::g_unit_type.HELICOPTER
+    pageUnitTypes = ::g_unit_type.HELICOPTER.bit
 
     pageBlkName = helpMarkup.blk
     pageFillfuncName = "initGamepadPage"
@@ -441,7 +458,7 @@ enums.addTypes(result, {
 
     specificCheck = @() ::show_console_buttons
     checkFeature = @() ::g_unit_type.SHIP.isAvailable() && ::has_feature("SpecialShips")
-    pageUnitType = ::g_unit_type.SHIP
+    pageUnitTypes = ::g_unit_type.SHIP.bit
     pageUnitTag = "submarine"
 
     pageBlkName = helpMarkup.blk
@@ -461,7 +478,7 @@ enums.addTypes(result, {
       local basePresets = ::g_controls_manager.getCurPreset().getBasePresetNames()
       return ::is_platform_ps4 && ::u.search(basePresets, @(val) val == "default"|| val == "dualshock4") != null
     }
-    pageUnitType = ::g_unit_type.AIRCRAFT
+    pageUnitTypes = ::g_unit_type.AIRCRAFT.bit
 
     pageBlkName = "gui/help/controllerKeyboard.blk"
     pageFillfuncName = "fillAllTexts"
@@ -481,7 +498,7 @@ enums.addTypes(result, {
       return ::is_platform_ps4 && ::u.search(basePresets, @(val) val == "default"|| val == "dualshock4") != null
     }
     checkFeature = ::g_unit_type.TANK.isAvailable
-    pageUnitType = ::g_unit_type.TANK
+    pageUnitTypes = ::g_unit_type.TANK.bit
 
     pageBlkName = "gui/help/controllerKeyboard.blk"
     pageFillfuncName = "fillAllTexts"
@@ -501,7 +518,7 @@ enums.addTypes(result, {
       return ::is_platform_ps4 && ::u.search(basePresets, @(val) val == "default"|| val == "dualshock4") != null
     }
     checkFeature = ::g_unit_type.SHIP.isAvailable
-    pageUnitType = ::g_unit_type.SHIP
+    pageUnitTypes = ::g_unit_type.SHIP.bit
 
     pageBlkName = "gui/help/controllerKeyboard.blk"
     pageFillfuncName = "fillAllTexts"
@@ -521,7 +538,7 @@ enums.addTypes(result, {
       return ::is_platform_ps4 && ::u.search(basePresets, @(val) val == "default"|| val == "dualshock4") != null
     }
     checkFeature = ::g_unit_type.HELICOPTER.isAvailable
-    pageUnitType = ::g_unit_type.HELICOPTER
+    pageUnitTypes = ::g_unit_type.HELICOPTER.bit
 
     pageBlkName = "gui/help/controllerKeyboard.blk"
     pageFillfuncName = "fillAllTexts"
@@ -541,11 +558,94 @@ enums.addTypes(result, {
       return ::is_platform_ps4 && ::u.search(basePresets, @(val) val == "default"|| val == "dualshock4") != null
     }
     checkFeature = @() ::g_unit_type.SHIP.isAvailable() && ::has_feature("SpecialShips")
-    pageUnitType = ::g_unit_type.SHIP
+    pageUnitTypes = ::g_unit_type.SHIP.bit
     pageUnitTag = "submarine"
 
     pageBlkName = "gui/help/controllerKeyboard.blk"
     pageFillfuncName = "fillAllTexts"
+  }
+  RADAR_AIRBORNE = {
+    subTabName = "#radar"
+
+    showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+    helpPattern = CONTROL_HELP_PATTERN.RADAR
+
+    specificCheck = @() !::is_in_flight() || isUnitWithRadarOrRwr(::get_player_cur_unit())
+    checkFeature = @() ::g_unit_type.AIRCRAFT.isAvailable && ::has_feature("Sensors")
+    pageUnitTypes = ::g_unit_type.AIRCRAFT.bit
+
+    pageBlkName = "gui/help/radarAircraft.blk"
+    imagePattern = "#ui/images/help/help_radar_air_%s.jpg?P1"
+    defaultValues = { country = "usa" }
+    hasImageByCountries = [ "usa" ]
+    countryRelatedObjs = { usa = [] }
+    linkLines = {
+      links = [
+        { start = "bscope_target_lock_area_label", end = "bscope_target_lock_area_point" }
+        { start = "bscope_scan_area_label", end = "bscope_scan_area_point" }
+        { start = "bscope_gimbal_limits_label", end = "bscope_gimbal_limits_point" }
+        { start = "bscope_active_label", end = "bscope_active_value" }
+        { start = "bscope_search_beam_label", end = "bscope_search_beam_point" }
+        { start = "bscope_tracking_beam_label", end = "bscope_tracking_beam_point" }
+        { start = "bscope_target_detected_label", end = "bscope_target_detected_point" }
+        { start = "bscope_target_selected_label", end = "bscope_target_selected_point" }
+        { start = "bscope_target_tracking_label", end = "bscope_target_tracking_point" }
+        { start = "bscope_range_scale_label", end = "bscope_range_scale_point" }
+        { start = "cscope_target_detected_label", end = "cscope_target_detected_point" }
+        { start = "cscope_target_selected_label", end = "cscope_target_selected_point" }
+        { start = "cscope_target_tracking_label", end = "cscope_target_tracking_point" }
+        { start = "cscope_search_beam_label", end = "cscope_search_beam_point" }
+        { start = "cscope_scan_area_label", end = "cscope_scan_area_point" }
+        { start = "cscope_gimbal_limits_label", end = "cscope_gimbal_limits_point" }
+        { start = "cscope_gimbal_limits_x_label", end = "cscope_gimbal_limits_x_value" }
+        { start = "cscope_gimbal_limits_y_label", end = "cscope_gimbal_limits_y_value" }
+        { start = "compass_target_detected_label", end = "compass_target_detected_point" }
+        { start = "compass_target_selected_label", end = "compass_target_selected_point" }
+        { start = "compass_target_tracking_label", end = "compass_target_tracking_point" }
+        { start = "marker_target_tracking_label", end = "marker_target_tracking_point" }
+        { start = "marker_distance_label", end = "marker_distance_value" }
+        { start = "marker_approach_speed_label", end = "marker_approach_speed_value" }
+        { start = "rwr_enemy_tracking_label", end = "rwr_enemy_tracking_point" }
+        { start = "rwr_enemy_detected_label", end = "rwr_enemy_detected_point" }
+        { start = "rwr_ally_detected_label", end = "rwr_ally_detected_point" }
+      ]
+    }
+  }
+  RADAR_GROUND = {
+    subTabName = "#radar"
+
+    showInSets = [ HELP_CONTENT_SET.MISSION, HELP_CONTENT_SET.CONTROLS ]
+    helpPattern = CONTROL_HELP_PATTERN.RADAR
+
+    specificCheck = @() !::is_in_flight() || isUnitWithRadarOrRwr(::get_player_cur_unit())
+    checkFeature = @() ::g_unit_type.TANK.isAvailable && ::has_feature("Sensors")
+    pageUnitTypes = ::g_unit_type.TANK.bit
+
+    pageBlkName = "gui/help/radarTank.blk"
+    imagePattern = "#ui/images/help/help_radar_tank_%s.jpg?P1"
+    defaultValues = { country = "ussr" }
+    hasImageByCountries = [ "ussr" ]
+    countryRelatedObjs = { ussr = [] }
+    linkLines = {
+      links = [
+        { start = "bscope_target_detected_label", end = "bscope_target_detected_point" }
+        { start = "bscope_target_selected_label", end = "bscope_target_selected_point" }
+        { start = "bscope_target_tracking_label", end = "bscope_target_tracking_point" }
+        { start = "bscope_tracking_beam_label", end = "bscope_tracking_beam_point" }
+        { start = "bscope_active_label", end = "bscope_active_value" }
+        { start = "bscope_search_beam_label", end = "bscope_search_beam_point" }
+        { start = "bscope_tank_turret_direction_label", end = "bscope_tank_turret_direction_point" }
+        { start = "bscope_scan_area_label", end = "bscope_scan_area_point" }
+        { start = "bscope_target_lock_area_label", end = "bscope_target_lock_area_point" }
+        { start = "bscope_range_scale_label", end = "bscope_range_scale_point" }
+        { start = "compass_target_detected_label", end = "compass_target_detected_point" }
+        { start = "compass_target_selected_label", end = "compass_target_selected_point" }
+        { start = "compass_target_tracking_label", end = "compass_target_tracking_point" }
+        { start = "marker_target_tracking_label", end = "marker_target_tracking_point" }
+        { start = "marker_distance_label", end = "marker_distance_value" }
+        { start = "marker_approach_speed_label", end = "marker_approach_speed_value" }
+      ]
+    }
   }
 }, null, "name")
 

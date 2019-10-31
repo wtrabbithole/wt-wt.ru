@@ -47,11 +47,6 @@ class DataBlockAdapter
     return val
   }
 
-  function _in(key)
-  {
-    return (key in ___originData___) ? true : null
-  }
-
   function _nexti(prevKey)
   {
     local isFound = prevKey == null
@@ -64,14 +59,10 @@ class DataBlockAdapter
     return null
   }
 
-  function _get(key, skip_errors)
+  function _get(key)
   {
     if (!(key in ___originData___))
-    {
-      if (!skip_errors)
-        ::script_net_assert("Missing slot '" + key + "' in DataBlockAdapter")
-      return null
-    }
+      throw null
     return ___checkReturn___(___originData___[key], key)
   }
 

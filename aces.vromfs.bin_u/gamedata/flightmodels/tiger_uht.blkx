@@ -1,12 +1,13 @@
 {
   "model": "tiger_uht",
   "fmFile": "fm/tiger_uht.blk",
+  "viewDistKInSight": 2.0,
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/hellicopters_metaparts.blk",
   "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.195,
   "gearSinkRangeC": 0.178,
   "tpsCameraTargetOffsetAtZoom": [50.0,20.0,0.0],
-  "tpsCameraOffset": [-1.0,0.0,0.0],
+  "tpsCameraOffset": [-3.0,0.0,0.2],
   "type": "typeFighter",
   "paratrooper": "usa_para",
   "advancedInstructor": true,
@@ -1247,8 +1248,10 @@
     "lightColor1": [0.01,1.5,0.1],
     "lightRadius1": 0.35,
     "zoomOutFov": 22.46,
-    "zoomInFov": 22.46,
-    "sightFov": 15.3,
+    "zoomInFov": 2.46,
+    "sightInFov": 2.46,
+    "sightOutFov": -1.0,
+    "sightFov": 5.5,
     "devices": {
       "speed": [0.0,257.222],
       "bank": [-8.0,8.0],
@@ -1431,6 +1434,27 @@
             "textureArea": [0.5,0.5,1.0,1.0]
           },
           {
+            "monoDisplayColor": [0.4,0.8,0.4]
+          },
+          {
+            "page": {
+              "type": "target_tracking",
+              "turretIdx": 0
+            }
+          },
+          {
+            "page": {
+              "type": "thermal",
+              "turretIdx": 0
+            }
+          },
+          {
+            "page": {
+              "type": "night_vision",
+              "turretIdx": 0
+            }
+          },
+          {
             "page": {
               "type": "devices",
               "speed": {
@@ -1546,24 +1570,6 @@
                 }
               }
             }
-          },
-          {
-            "page": {
-              "type": "target_tracking",
-              "turretIdx": 0
-            }
-          },
-          {
-            "page": {
-              "type": "thermal",
-              "turretIdx": 0
-            }
-          },
-          {
-            "page": {
-              "type": "night_vision",
-              "turretIdx": 0
-            }
           }
         ]
       },
@@ -1598,11 +1604,18 @@
     "rotorBladeAnglesCoeffs": [0.3,0.5,0.5],
     "propellerStrainCoeff": -0.01
   },
-  "sensors": {
-    "sensor": {
-      "blk": "gameData/sensors/us_an_apr_39.blk"
+  "sensors": [
+    {
+      "sensor": {
+        "blk": "gameData/sensors/us_an_apr_39.blk"
+      }
+    },
+    {
+      "sensor": {
+        "blk": "gameData/sensors/tv_tracker.blk"
+      }
     }
-  },
+  ],
   "gunnerOpticFps": {
     "pos": [0.3,-0.2,0.0],
     "head": "optic1_turret",
@@ -2149,7 +2162,6 @@
     "emtr_break_wing2_r_from": [0.0755793,-0.0717285,-2.14438],
     "emtr_break_wing2_r_to": [0.0755793,-0.0717285,-2.15438],
     "emtr_break_wing_tail": [-7.30788,0.0,0.0],
-    "partKindTail": 2,
     "finCut": false,
     "emtr_break_stab_l_from": [-7.56949,-0.822309,0.246464],
     "emtr_break_stab_l_to": [-7.56949,-0.822309,0.985855],

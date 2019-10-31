@@ -60,22 +60,7 @@
       }
     }
   },
-  "imports": {
-    "import_record": {
-      "file": "gameData/missions/cta/ships/ice_port/mainareas/ice_port_NDom_template.blk",
-      "importAreas": true,
-      "importUnits": true,
-      "importTriggers": true,
-      "importMissionObjectives": true,
-      "importWayPoints": true,
-      "showAreas": true,
-      "showUnits": true,
-      "showTriggers": true,
-      "showMissionObjectives": true,
-      "showWayPoints": true,
-      "excludes": []
-    }
-  },
+  "imports": [],
   "triggers": {
     "isCategory": true,
     "is_enabled": true
@@ -144,10 +129,10 @@
     "ndom_battle_area": {
       "type": "Box",
       "tm": [
-        [12288.0,0.0,0.0],
+        [16288.0,0.0,0.0],
         [0.0,700.0,0.0],
-        [0.0,0.0,12288.0],
-        [0.0,0.0,0.0]
+        [0.0,0.0,16288.0],
+        [-2048.0,0.0,-2048.0]
       ],
       "objLayer": 3,
       "props": []
@@ -169,7 +154,7 @@
         [2106.39,0.0,-2136.14],
         [0.0,457.318,0.0],
         [2136.14,0.0,2106.39],
-        [-6893.03,-0.000976563,1600.67]
+        [-8471.62,-0.000976563,4348.92]
       ],
       "objLayer": 0,
       "props": []
@@ -202,7 +187,7 @@
         [2106.39,0.0,-2136.14],
         [0.0,457.318,0.0],
         [2136.14,0.0,2106.39],
-        [1280.24,0.00244141,-6367.53]
+        [4770.5,0.00292969,-8750.45]
       ],
       "objLayer": 0,
       "props": []
@@ -238,6 +223,28 @@
         [878.561,0.0,-876.209]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "area01": {
+      "type": "Cylinder",
+      "tm": [
+        [9896.67,0.0,-1433.82],
+        [0.0,211.1,0.0],
+        [1433.82,0.0,9896.67],
+        [-4425.64,0.0,-4504.02]
+      ],
+      "objLayer": 3,
+      "props": []
+    },
+    "area02": {
+      "type": "Cylinder",
+      "tm": [
+        [5938.0,0.0,-860.291],
+        [0.0,211.1,0.0],
+        [860.291,0.0,5938.0],
+        [-4425.64,-23.4033,-4504.02]
+      ],
+      "objLayer": 3,
       "props": []
     }
   },

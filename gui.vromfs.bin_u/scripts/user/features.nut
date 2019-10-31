@@ -123,7 +123,6 @@
     Encyclopedia = true
     Benchmark = true
     DamageModelViewer = ::disable_network()
-    DamageModelViewerAircraft = ::disable_network()
     ShowNextUnlockInfo = false
     extendedReplayInfo = ::disable_network()
     LiveBroadcast = false

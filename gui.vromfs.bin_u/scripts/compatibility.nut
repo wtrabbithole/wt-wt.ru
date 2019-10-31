@@ -116,6 +116,5 @@
 
 //----------------------------wop_1_91_0_X---------------------------------//
 ::apply_compatibilities({
-    XBOX_COMMUNICATIONS_MUTED = 3
     EII_HULL_AIMING = -1
 })

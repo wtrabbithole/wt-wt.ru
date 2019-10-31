@@ -110,7 +110,7 @@
   {
     local hangarUnitName = ::hangar_get_current_unit_name()
     local hangarUnit = ::getAircraftByName(hangarUnitName)
-    return ::has_feature("DamageModelViewer") && hangarUnit && (::isTank(hangarUnit) || ::has_feature("DamageModelViewerAircraft"))
+    return ::has_feature("DamageModelViewer") && hangarUnit
   }
 
   function reinit()
@@ -282,16 +282,17 @@
     {
       obj = handler.scene.findObject("dmviewer_protection_analysis_btn")
       if (::check_obj(obj))
-        obj.show(view_mode == ::DM_VIEWER_ARMOR && ::isTank(unit))
+        obj.show(view_mode == ::DM_VIEWER_ARMOR && unit.unitType.canShowProtectionAnalysis())
     }
 
     // Outer parts visibility toggle in Armor and Xray modes
     if (::has_feature("DmViewerExternalArmorHiding"))
     {
+      local isTankOrShip = unit.isTank() || unit.isShip()
       obj = handler.scene.findObject("dmviewer_show_external_dm")
       if (::check_obj(obj))
       {
-        local isShowOption = view_mode == ::DM_VIEWER_ARMOR && unit.isTank()
+        local isShowOption = view_mode == ::DM_VIEWER_ARMOR && isTankOrShip
         obj.show(isShowOption)
         if (isShowOption)
           obj.setValue(isVisibleExternalPartsArmor)
@@ -299,7 +300,7 @@
       obj = handler.scene.findObject("dmviewer_show_extra_xray")
       if (::check_obj(obj))
       {
-        local isShowOption = view_mode == ::DM_VIEWER_XRAY && unit.isTank()
+        local isShowOption = view_mode == ::DM_VIEWER_XRAY && isTankOrShip
         obj.show(isShowOption)
         if (isShowOption)
           obj.setValue(isVisibleExternalPartsXray)
