@@ -43,7 +43,7 @@ g_webpoll.webpollEvent <- function webpollEvent(id, token, voted)
     ::set_blk_value_by_path(getVotedPolls(), id, true)
     saveVotedPolls()
   }
-  if (authorizedPolls.find(id) == null)
+  if (authorizedPolls.indexof(id) == null)
     authorizedPolls.push(id)
   ::broadcastEvent("WebPollAuthResult", {pollId = id})
 }
@@ -100,7 +100,7 @@ g_webpoll.generatePollUrl <- function generatePollUrl(pollId, needAuthorization 
     return ""
   }
 
-  if (authorizedPolls.find(pollId.tostring()) != null)
+  if (authorizedPolls.indexof(pollId.tostring()) != null)
   {
     local url = ::loc("url/webpoll_url",
       { base_url = pollBaseUrl, survey_id = pollId, disposable_token = cachedToken })

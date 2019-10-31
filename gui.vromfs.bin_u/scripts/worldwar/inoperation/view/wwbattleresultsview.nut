@@ -28,11 +28,11 @@ class ::WwBattleResultsView
   {
     battleRes = _battleRes
 
-    getBattleUnitTypesData()
+    loadBattleUnitTypesData()
     teamBlock = getTeamBlock()
   }
 
-  function getBattleUnitTypesData()
+  function loadBattleUnitTypesData()
   {
     battleUnitTypes   = []
     inactiveUnitTypes = []

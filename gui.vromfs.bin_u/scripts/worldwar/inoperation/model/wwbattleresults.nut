@@ -116,7 +116,7 @@ class ::WwBattleResults
             continue
 
           local army =::getTblValue(armyName, wwArmies)
-          local armyState = ::getTblValueByPath(armyName + ".state", armyStatesBlk, "EASAB_UNKNOWN")
+          local armyState = armyStatesBlk?[armyName].state ?? "EASAB_UNKNOWN"
 
           if (teamCountry == "")
             teamCountry = army.owner.country
@@ -257,8 +257,8 @@ class ::WwBattleResults
     // Collecting armies
 
     local wwArmies = ::u.mapAdvanced(initialArmies, (@(userlog) function(val, armyName, ...) {
-      local initialArmy = ::getTblValueByPath("wwSharedPool.initialArmies." + armyName, userlog, {})
-      local armyState = ::getTblValueByPath("wwBattleResult.armyStates." + armyName, userlog, {})
+      local initialArmy = userlog?.wwSharedPool.initialArmies[armyName] ?? {}
+      local armyState = userlog?.wwBattleResult.armyStates[armyName] ?? {}
 
       local side  = ::ww_side_name_to_val(::getTblValue("side", initialArmy, ""))
       local country = ::getTblValue("country", initialArmy, "")
@@ -311,9 +311,9 @@ class ::WwBattleResults
         if (teamCountry == "")
           teamCountry = army.country
 
-        teamArmyStates[army.name] <- ::getTblValueByPath("armyStates." + army.name + ".state", wwBattleResult, "EASAB_UNKNOWN")
+        teamArmyStates[army.name] <- wwBattleResult?.armyStates[army.name].state ?? "EASAB_UNKNOWN"
 
-        local armyUnits = ::getTblValueByPath(army.name + ".units", initialArmies, {})
+        local armyUnits = initialArmies?[army.name].units ?? {}
         teamUnits = ::u.tablesCombine(teamUnits, armyUnits, function(a, b) { return a + b }, 0)
       }
 

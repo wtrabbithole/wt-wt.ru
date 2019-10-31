@@ -461,18 +461,22 @@ discount_notification {
 
 squadronExpIcon {
   behavior:bhvUpdater;
+  size:1@newWidgetIconHeight, 1@newWidgetIconHeight;
+  background-image:#ui/gameuiskin#new_icon_not_colored;
   background-color:@squadronExpIconColor;
   background-repeat:expand;
   input-transparent:yes;
 }
 
 squadronExpIcon[type=inTab] {
-  background-image:#ui/gameuiskin#new_icon_not_colored;
-  height:1@newWidgetIconHeight;
-  width:1@newWidgetIconHeight;
   position:relative;
   pos:0, 50%ph-50%h;
   margin-left: 1@blockInterval;
+}
+
+squadronExpIcon[type=slotbarCountry] {
+  position:absolute;
+  pos:pw - w - 1@blockInterval + 3@sf/@pf, -h + 1@blockInterval + 3@sf/@pf;
 }
 
 squadronExpIcon[type=down] {

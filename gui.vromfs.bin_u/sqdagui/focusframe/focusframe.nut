@@ -44,8 +44,8 @@ local focusFrame = {
       if (curObj && modalCounter > curModalCounter) //use last obj if same counter
         continue
 
-       curObj = obj
-       curModalCounter = modalCounter
+      curObj = obj
+      curModalCounter = modalCounter
     }
 
     if (curObj)

@@ -75,7 +75,7 @@ g_contacts.removeContactGroup <- function removeContactGroup(group)
 
 g_contacts.removeContact <- function removeContact(uid, group)
 {
-  local uidIdx = ::contacts[group].searchindex( @(p) p.uid == uid)
+  local uidIdx = ::contacts[group].findindex( @(p) p.uid == uid)
   if (uidIdx != null)
     ::contacts[group].remove(uidIdx)
 
@@ -702,7 +702,7 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
 ::get_contacts_array_by_filter_func <- function get_contacts_array_by_filter_func(groupName, filterFunc)
 {
   if (!(groupName in ::contacts))
-    return
+    return null
 
   return ::u.filter(::contacts[groupName], @(contact) filterFunc(contact.name))
 }

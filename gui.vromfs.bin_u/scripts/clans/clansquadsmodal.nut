@@ -306,7 +306,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     if (!actionSquad)
       return
 
-    obj = getSquadObj(curList.find(actionSquad)).findObject("btn_user_options")
+    obj = getSquadObj(curList.indexof(actionSquad)).findObject("btn_user_options")
     local position = obj.getPosRC()
     position[1] += obj.getSize()[1]
     local leaderUid = actionSquad?.leader.tostring()
@@ -373,7 +373,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
     if (!actionSquad)
       return
 
-    obj = getSquadObj(curList.find(actionSquad)).findObject("btn_squad_info")
+    obj = getSquadObj(curList.indexof(actionSquad)).findObject("btn_squad_info")
     ::gui_handlers.clanSquadInfoWnd.open(obj, actionSquad)
   }
 
@@ -400,7 +400,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
   function updateSquadOnlineStatus(contact)
   {
     local contactUid = contact.uid.tointeger()
-    local idx = curList.searchindex(@(squad) squad.leader == contactUid)
+    local idx = curList.findindex(@(squad) squad.leader == contactUid)
     if (idx == null)
       return
 

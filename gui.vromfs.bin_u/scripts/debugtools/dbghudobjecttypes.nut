@@ -20,7 +20,7 @@ enums.addTypesByGlobalName("g_dbg_hud_object_type", {
   REWARD_MESSAGE = { //visible by prioriy
     eventChance = 50
     genNewEvent = function() {
-      local ignoreIdx = ::g_hud_reward_message.types.find(::g_hud_reward_message.UNKNOWN)
+      local ignoreIdx = ::g_hud_reward_message.types.indexof(::g_hud_reward_message.UNKNOWN)
       ::g_hud_event_manager.onHudEvent("InBattleReward", {
         messageCode = ::u.chooseRandomNoRepeat(::g_hud_reward_message.types, ignoreIdx).code
         warpoints = 10 * (::math.rnd() % 40)

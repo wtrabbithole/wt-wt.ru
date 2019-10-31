@@ -442,7 +442,7 @@ g_login.statsdOnLogin <- function statsdOnLogin()
       foreach (skin in skins)
       {
         local folder = skin.name
-        if (folder.find("template") == null)
+        if (folder.indexof("template") == null)
         {
           haveUserSkin = true
           anyUG = true
@@ -460,7 +460,7 @@ g_login.statsdOnLogin <- function statsdOnLogin()
     for (local i = 0; i < cdb.paramCount(); i++)
     {
       local skin = cdb.getParamValue(i)
-      if ((typeof(skin) == "string") && (skin != "") && (skin.find("template")==null))
+      if ((typeof(skin) == "string") && (skin != "") && (skin.indexof("template")==null))
       {
         anyUG = true
         statsd_counter("ug.useus")
@@ -475,7 +475,7 @@ g_login.statsdOnLogin <- function statsdOnLogin()
     {
       local files = lcfg.locTable % "file"
       foreach (file in files)
-        if (file.find("usr_") != null)
+        if (file.indexof("usr_") != null)
         {
           anyUG = true
           ::dagor.debug("statsd_on_login ug.langum " + file)

@@ -431,7 +431,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     if (event)
       return ::events.getEventNameText(event)
 
-    if (params?.gameModeName)
+    if ((params?.gameModeName ?? "") != "")
       return params.gameModeName
 
     if (::SessionLobby.isInRoom())
@@ -488,7 +488,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     local isModeOptionChecked = modeOption.value & 1
     if (!isModeOptionChecked)
     {
-      local idx = filterOptionsList.find(::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE)
+      local idx = filterOptionsList.indexof(::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE)
       local maskOptions = curOptionsMasks?[idx]
       if (maskOptions)
         customOptionObj.setValue(modeOption.value - (modeOption.value & (~maskOptions)))

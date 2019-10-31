@@ -241,8 +241,12 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     if (!unit)
       return
 
-    local actions = ::get_unit_actions_list(unit, this, getSlotbarActions(),
-      { isSlotbarEnabled = false })
+    local actions = ::get_unit_actions_list({unit = unit,
+      handler = this,
+      actions = getSlotbarActions(),
+      p = { isSlotbarEnabled = false }
+    })
+
     if (!actions.actions.len())
       return
 

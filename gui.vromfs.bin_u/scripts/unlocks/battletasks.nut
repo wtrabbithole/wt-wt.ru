@@ -531,7 +531,7 @@ class BattleTasks
   function getTaskDescription(config = null, paramsCfg = {})
   {
     if (!config)
-      return
+      return null
 
     local task = getTaskById(config)
 
@@ -873,7 +873,7 @@ class BattleTasks
     return false
   }
 
-  function getRewardForTask(battleTaskId)
+  function requestRewardForTask(battleTaskId)
   {
     if (::u.isEmpty(battleTaskId))
       return

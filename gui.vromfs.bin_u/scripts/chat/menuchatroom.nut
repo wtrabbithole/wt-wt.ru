@@ -44,7 +44,7 @@ local function colorMyNameInText(msg)
 
   while (counter+::my_user_name.len() <= msg.len())
   {
-    local nameStartPos = msg.find(::my_user_name, counter);
+    local nameStartPos = msg.indexof(::my_user_name, counter);
     if (nameStartPos == null)
       break;
 
@@ -89,7 +89,7 @@ local function newMessage(from, msg, privateMsg=false, myPrivate=false, overlayS
 
   local needMarkDirectAsPersonal = ::get_gui_option_in_mode(::USEROPT_MARK_DIRECT_MESSAGES_AS_PERSONAL,
     ::OPTIONS_MODE_GAMEPLAY)
-  if (needMarkDirectAsPersonal && from != ::my_user_name && msg.find(::my_user_name) != null)
+  if (needMarkDirectAsPersonal && from != ::my_user_name && msg.indexof(::my_user_name) != null)
     important = true
 
   if (myPrivate)

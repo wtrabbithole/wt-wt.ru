@@ -1,5 +1,3 @@
-local kwarg = require("std/functools.nut").kwarg
-
 ::dagui_propid.add_name_id("itemId")
 
 local branchIdPrefix = "branch_"
@@ -7,33 +5,37 @@ local getBranchId = @(idx) "".concat(branchIdPrefix, idx)
 local posFormatString = "{0}, {1}"
 
 local sizeAndPosViewConfig = {
-  verticalArrow = kwarg(function(itemSizes, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY) {
-    local w = itemSizes.arrowWidth
-    local h = itemSizes.itemBlockInterval + (arrowSizeY - 1)*itemSizes.itemHeight - 2*itemSizes.blockInterval
-    return {
-      arrowType = "vertical"
+  verticalArrow = ::kwarg(
+    function verticalArrow(itemSizes, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY) {
+      local w = itemSizes.arrowWidth
+      local h = itemSizes.itemBlockInterval + (arrowSizeY - 1)*itemSizes.itemHeight
+        - 2*itemSizes.blockInterval
+      return {
+        arrowType = "vertical"
       arrowSize = posFormatString.subst(w, h)
       arrowPos = posFormatString.subst(
         (arrowPosX - 0.5)*itemSizes.itemHeight + arrowPosX*itemSizes.itemInterval
           + itemSizes.columnOffests[arrowPosX - 1] - 0.5*w,
         (arrowPosY - 1)*(itemSizes.itemHeight + itemSizes.itemBlockInterval)
           + itemSizes.itemHeight + itemSizes.headerBlockInterval + itemSizes.blockInterval)
-    }
+      }
   })
-  horizontalArrow = kwarg(function(itemSizes, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY) {
-    local w = itemSizes.itemInterval + (arrowSizeX - 1)*itemSizes.itemHeight - 2*itemSizes.blockInterval
-    local h = itemSizes.arrowWidth
-    return {
-      arrowType = "horizontal"
-      arrowSize = posFormatString.subst(w, h)
-      arrowPos = posFormatString.subst(
-        (arrowPosX)*itemSizes.itemHeight + arrowPosX*itemSizes.itemInterval
-          + itemSizes.columnOffests[arrowPosX - 1] + itemSizes.blockInterval,
-        (arrowPosY - 1)*(itemSizes.itemHeight + itemSizes.itemBlockInterval)
-          + 0.5*itemSizes.itemHeight  + itemSizes.headerBlockInterval - 0.5*h)
-    }
+  horizontalArrow = ::kwarg(
+    function horizontalArrow(itemSizes, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY) {
+      local w = itemSizes.itemInterval + (arrowSizeX - 1)*itemSizes.itemHeight
+        - 2*itemSizes.blockInterval
+      local h = itemSizes.arrowWidth
+      return {
+        arrowType = "horizontal"
+        arrowSize = posFormatString.subst(w, h)
+        arrowPos = posFormatString.subst(
+          (arrowPosX)*itemSizes.itemHeight + arrowPosX*itemSizes.itemInterval
+            + itemSizes.columnOffests[arrowPosX - 1] + itemSizes.blockInterval,
+          (arrowPosY - 1)*(itemSizes.itemHeight + itemSizes.itemBlockInterval)
+            + 0.5*itemSizes.itemHeight  + itemSizes.headerBlockInterval - 0.5*h)
+        }
   })
-  conectionInRow = kwarg(function(itemSizes, itemPosX, itemPosY) {
+  conectionInRow = ::kwarg(function conectionInRow(itemSizes, itemPosX, itemPosY) {
     local w = itemSizes.itemInterval
     return {
       conectionWidth = w
@@ -44,11 +46,11 @@ local sizeAndPosViewConfig = {
           + 0.5*itemSizes.itemHeight  + itemSizes.headerBlockInterval))
     }
   })
-  itemPos = kwarg(function(itemSizes, itemPosX, itemPosY) {
+  itemPos = ::kwarg(function itemPos(itemSizes, itemPosX, itemPosY) {
     return posFormatString.subst(
-        itemPosX*itemSizes.itemHeight + itemPosX*itemSizes.itemInterval
-          + itemSizes.itemInterval + itemSizes.columnOffests[itemPosX],
-        itemPosY*(itemSizes.itemHeight + itemSizes.itemBlockInterval) + itemSizes.headerBlockInterval)
+      itemPosX*itemSizes.itemHeight + itemPosX*itemSizes.itemInterval
+        + itemSizes.itemInterval + itemSizes.columnOffests[itemPosX],
+      itemPosY*(itemSizes.itemHeight + itemSizes.itemBlockInterval) + itemSizes.headerBlockInterval)
   })
 }
 
@@ -87,8 +89,7 @@ local function getConfigByItemBlock(itemBlock, itemsList)
   }
 }
 
-local getArrowView = kwarg(function(arrow, itemSizes)
-{
+local getArrowView = ::kwarg(function getArrowView(arrow, itemSizes) {
   local arrowType = arrow.sizeX == 0 ? "verticalArrow" : "horizontalArrow"
   local arrowParam = {
     itemSizes = itemSizes
@@ -152,40 +153,40 @@ local viewItemsParams = {
   count = -1
 }
 
-local getItemBlockView = kwarg(function(itemBlock, itemsList, itemSizes, allowableResources)
-{
-  local itemConfig = getConfigByItemBlock(itemBlock, itemsList)
-  local item = itemConfig.item
-  if (item == null)
-    return null
+local getItemBlockView = ::kwarg(
+  function getItemBlockView(itemBlock, itemsList, itemSizes, allowableResources) {
+    local itemConfig = getConfigByItemBlock(itemBlock, itemsList)
+    local item = itemConfig.item
+    if (item == null)
+      return null
 
-  local overridePos = itemBlock?.overridePos
-  return {
-    isDisabled = itemConfig.isDisabled
-    itemId = itemConfig.itemId
-    items = [item.getViewData(viewItemsParams.__merge({
-      itemIndex = itemConfig.itemId,
-      showAction = !itemConfig.needReqItem
-      iconInsteadAmount = itemConfig.iconInsteadAmount
-      count = item.getAdditionalTextInAmmount(true, true)
-    }))]
-    blockPos = overridePos ?? sizeAndPosViewConfig.itemPos({
-      itemSizes = itemSizes
-      itemPosX = itemBlock.posXY.x - 1
-      itemPosY = itemBlock.posXY.y - 1
-    })
-    hasComponent = itemConfig.hasComponent
-    isFullSize = itemBlock?.isFullSize ?? false
-    component = itemConfig.hasComponent
-      ? item.getDescRecipesMarkup({
-          maxRecipes = 1
-          needShowItemName = false
-          needShowHeader = false
-          isShowItemIconInsteadItemType = true
-          visibleResources = allowableResources
-        })
-      : null
-  }
+    local overridePos = itemBlock?.overridePos
+    return {
+      isDisabled = itemConfig.isDisabled
+      itemId = itemConfig.itemId
+      items = [item.getViewData(viewItemsParams.__merge({
+        itemIndex = itemConfig.itemId,
+        showAction = !itemConfig.needReqItem
+        iconInsteadAmount = itemConfig.iconInsteadAmount
+        count = item.getAdditionalTextInAmmount(true, true)
+      }))]
+      blockPos = overridePos ?? sizeAndPosViewConfig.itemPos({
+        itemSizes = itemSizes
+        itemPosX = itemBlock.posXY.x - 1
+        itemPosY = itemBlock.posXY.y - 1
+      })
+      hasComponent = itemConfig.hasComponent
+      isFullSize = itemBlock?.isFullSize ?? false
+      component = itemConfig.hasComponent
+        ? item.getDescRecipesMarkup({
+            maxRecipes = 1
+            needShowItemName = false
+            needShowHeader = false
+            isShowItemIconInsteadItemType = true
+            visibleResources = allowableResources
+          })
+        : null
+    }
 })
 
 local sizePrefixNames = {

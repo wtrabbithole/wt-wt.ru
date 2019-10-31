@@ -34,11 +34,7 @@ class ::mission_rules.Base
     isWarpointsRespawnEnabled = isVersus && ::getTblValue("multiRespawn", missionParams, false)
     hasRespawnCost = isScoreRespawnEnabled || isWarpointsRespawnEnabled
     isWorldWar = isVersus && ::getTblValue("isWorldWar", missionParams, false)
-
-    //Add hack for ps4, fix was in .cpp file, remove after 1.61.1.X update, and return default value to 'true'
-    local tempDefaultNeedShowLockedSlotsValue = ::getTblValueByPath("customRules/name", missionParams, "", "/") != "unitsDeck"
-    ////
-    needShowLockedSlots = ::getTblValue("needShowLockedSlots", missionParams, tempDefaultNeedShowLockedSlotsValue)
+    needShowLockedSlots = missionParams?.needShowLockedSlots ?? true
   }
 
   function onMissionStateChanged()
@@ -391,12 +387,13 @@ class ::mission_rules.Base
   {
     local randomGroups = getMyStateBlk()?.random_units
     if (!randomGroups)
-      return
+      return null
     foreach (unitsGroup in randomGroups)
     {
       if (unitName in unitsGroup)
         return unitsGroup.getBlockName()
     }
+    return null
   }
 
   function getRandomUnitsList(groupName)

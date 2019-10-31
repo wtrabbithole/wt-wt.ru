@@ -64,6 +64,8 @@ local getActionDescByWeaponTriggerGroup = function(actionItem, triggerGroup)
       return "ID_SUBMARINE_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
     if (::isShip(unit))
       return "ID_SHIP_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
+    if (unit?.isWalker())
+      return "ID_WALKER_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
     return "ID_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
   }
 
@@ -78,6 +80,8 @@ local getActionDescByWeaponTriggerGroup = function(actionItem, triggerGroup)
       return "ID_SUBMARINE_KILLSTREAK_WHEEL_MENU"
     if (::isShip(unit))
       return "ID_SHIP_KILLSTREAK_WHEEL_MENU"
+    if (unit?.isWalker())
+      return "ID_WALKER_KILLSTREAK_WHEEL_MENU"
     return "ID_KILLSTREAK_WHEEL_MENU"
   }
 }
@@ -402,9 +406,8 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
           return "!ui/gameuiskin#artillery_secondary_weapon_state_indicator"
         case TRIGGER_GROUP_MACHINE_GUN:
           return "!ui/gameuiskin#machine_gun_weapon_state_indicator"
-        default:
-          return "!ui/gameuiskin#artillery_weapon_state_indicator"
       }
+      return "!ui/gameuiskin#artillery_weapon_state_indicator"
     }
   }
 })

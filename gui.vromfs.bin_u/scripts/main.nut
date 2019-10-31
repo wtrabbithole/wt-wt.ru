@@ -9,6 +9,7 @@ foreach (name, func in require("dagor.localize"))
 ::strip<-__string.strip
 local __math = require("math")
 ::fabs<-__math.fabs
+::kwarg <- require("std/functools.nut").kwarg
 
 ::script_protocol_version <- null
 ::dagor.runScript("scripts/version.nut")
@@ -25,8 +26,8 @@ local __math = require("math")
 ::TEXT_NDA <- 1
 
 ::target_platform <- ::get_platform()
-::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].find(::target_platform) != null
-::is_platform_windows <- ["win32", "win64"].find(::target_platform) != null
+::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].indexof(::target_platform) != null
+::is_platform_windows <- ["win32", "win64"].indexof(::target_platform) != null
 ::is_platform_ps4 <- ::target_platform == "ps4"
 ::is_platform_android <- ::target_platform == "android"
 ::is_platform_xboxone <- ::target_platform == "xboxOne"
@@ -432,6 +433,8 @@ local isFullScriptsLoaded = false
   isFullScriptsLoaded = true
 
   foreach (fn in [
+    "money.nut"
+
     "ranks.nut"
     "difficulty.nut"
     "unitClassType.nut"
@@ -463,7 +466,6 @@ local isFullScriptsLoaded = false
     "viewUtils/bhvHint.nut"
     "timeBar.nut"
 
-    "money.nut"
     "dataBlockAdapter.nut"
 
     "postFxSettings.nut"

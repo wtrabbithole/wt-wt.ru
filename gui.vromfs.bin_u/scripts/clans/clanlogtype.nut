@@ -39,7 +39,7 @@ local getColoredNick = @(logEntry)
     if (!name)
       return null
 
-    local uId = logEntry?.uId
+    local uId = logEntry?.uId ?? ""
 
     local locId = logEntry?.admin ? "clan/log/initiated_by_admin" : "clan/log/initiated_by"
     local color = logEntry?.uId == ::my_user_id_str ? "mainPlayerColor" : "userlogColoredText"
@@ -133,8 +133,10 @@ enums.addTypesByGlobalName("g_clan_log_type", {
     ]
     function getLogHeader(logEntry)
     {
-      return ::loc("clan/log/change_role_log",
-        { nick = getColoredNick(logEntry), role = ::colorize("@userlogColoredText", ::loc("clan/" + logEntry?.new)) })
+      return ::loc("clan/log/change_role_log", {
+        nick = getColoredNick(logEntry),
+        role = ::colorize("@userlogColoredText", ::loc("clan/" + (logEntry?.new ?? "")))
+      })
     }
   }
   UPGRADE_MEMBERS = {

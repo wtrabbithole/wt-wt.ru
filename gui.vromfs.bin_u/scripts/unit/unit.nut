@@ -267,16 +267,20 @@ local Unit = class
   isTank                = @() esUnitType == ::ES_UNIT_TYPE_TANK
   isShip                = @() esUnitType == ::ES_UNIT_TYPE_SHIP
   isHelicopter          = @() esUnitType == ::ES_UNIT_TYPE_HELICOPTER
-  isWalker              = @() esUnitType == ::ES_UNIT_TYPE_TANK && tags.find("walker") != null
+  isWalker              = @() esUnitType == ::ES_UNIT_TYPE_TANK && tags.indexof("walker") != null
 
   getUnitWpCostBlk      = @() ::get_wpcost_blk()?[name] ?? ::DataBlock()
   isBought              = @() ::shop_is_aircraft_purchased(name)
   isUsable              = @() ::shop_is_player_has_unit(name)
   isRented              = @() ::shop_is_unit_rented(name)
+  isBroken              = @() ::isUnitBroken(this)
+  isResearched          = @() ::isUnitResearched(this)
+  isInResearch          = @() ::isUnitInResearch(this)
   getRentTimeleft       = @() ::rented_units_get_expired_time_sec(name)
   getRepairCost         = @() ::Cost(::wp_get_repair_cost(name))
   getCrewTotalCount     = @() getUnitWpCostBlk()?.crewTotalCount || 1
   getCrewUnitType       = @() unitType.crewUnitType
+  getExp                = @() ::getUnitExp(this)
 
   _isRecentlyReleased = null
   function isRecentlyReleased()
@@ -362,11 +366,11 @@ local Unit = class
       return true
     if (showOnlyWhenBought)
       return false
-    if (hideForLangs && hideForLangs.find(::g_language.getLanguageName()) != null)
+    if (hideForLangs && hideForLangs.indexof(::g_language.getLanguageName()) != null)
       return false
     if (showOnlyIfPlayerHasUnlock && !::is_unlocked_scripted(-1, showOnlyIfPlayerHasUnlock))
       return false
-    if (showOnlyWhenResearch && !isUnitInResearch(this) && getUnitExp(this) <= 0)
+    if (showOnlyWhenResearch && !isInResearch() && getExp() <= 0)
       return false
     if (hideFeature != null && ::has_feature(hideFeature))
       return false
@@ -518,7 +522,7 @@ local Unit = class
 
     if (unitBlk?.weapon_presets != null)
       foreach(block in (unitBlk.weapon_presets % "preset")) {
-        if (block.name.find("default") != null) {
+        if (block.name.indexof("default") != null) {
           defaultWeaponPreset = block.name
           return defaultWeaponPreset
         }

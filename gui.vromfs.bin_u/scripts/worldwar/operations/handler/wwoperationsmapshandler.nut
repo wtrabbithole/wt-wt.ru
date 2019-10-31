@@ -1221,7 +1221,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     foreach (idx, country in statistics)
       rowView["side_" + idx] <-
         ::round((country?.battle_count ?? 0) * (country?.battle_winrate ?? 0))
-      if (((rowView?.side_0 ?? 0) > 0) || ((rowView?.side_1 ?? 0) > 0))
+    if (((rowView?.side_0 ?? 0) > 0) || ((rowView?.side_1 ?? 0) > 0))
       view.rows.append(rowView)
 
     foreach (field in ["playerKills", "aiKills"])

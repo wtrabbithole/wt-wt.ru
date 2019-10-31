@@ -26,13 +26,14 @@ local function updateWatched(val){
   }
   update = updateWatched
   _call = @(env, val) updateWatched(val)
-  function trigger() {return null}
+  function trigger() {return this}
   function trace() {return ""}
   function subscribe(func) {
     local infos = func.getfuncinfos()
-    local key = (infos?.name ?? "__noname__") + " " + (infos?.src ?? "__no_src__")
+    local key = " ".concat((infos?.name ?? "__noname__") ,(infos?.src ?? "__no_src__"))
     if (! (key in this.subscribers))
       subscribers[key]<-func
+    return this
   }
 }
 
@@ -59,8 +60,12 @@ local function updateWatched(val){
   cursorPresent = ::Watched(true)
   setHotkeysNavHandler = function(func){assert(::type(func)=="function")}
   setUpdateHandler = function(dt) {}
+  setInterval = function(timeout, func){
+    assert([type(0),type(0.0)].indexof(type(timeout))!=null, "timeout should number")
+    assert(type(func)==type(type), "function should be function")
+  }
   setTimeout = function(timeout, func){
-    assert([type(0),type(0.0)].find(type(timeout))!=null, "timeout should number")
+    assert([type(0),type(0.0)].indexof(type(timeout))!=null, "timeout should number")
     assert(type(func)==type(type), "function should be function")
   }
   clearTimer = function(func){
@@ -86,15 +91,15 @@ global enum AnimProp{
 ::anim_request_stop<-@(anim) null
 
 ::vlog <- function vlog(val) {
-  print("" +val + "\n")
+  print("".concat(val,"\n"))
 }
 
 ::logerr <- function logerr(val) {
-  print("" +val + "\n")
+  print("".concat(val,"\n"))
 }
 
 ::debug <- function debug(val) {
-  print("" +val + "\n")
+  print("".concat(val,"\n"))
 }
 
 ::fontH <- function fontH(height) {
@@ -135,6 +140,7 @@ global enum AnimProp{
   MoveResize = "MoveResize"
   Marquee = "Marquee"
   BoundToArea = "BoundToArea"
+  RecalcHandler = "RecalcHandler"
 }
 
 ::Picture <- function Picture(val){return val}
@@ -153,6 +159,7 @@ global const ROBJ_IMAGE = "ROBJ_IMAGE"
 global const ROBJ_STEXT = "ROBJ_STEXT"
 global const ROBJ_DTEXT = "ROBJ_DTEXT"
 global const ROBJ_TEXTAREA = "ROBJ_TEXTAREA"
+global const ROBJ_9RECT = "ROBJ_9RECT"
 global const ROBJ_BOX = "ROBJ_BOX"
 global const ROBJ_SOLID = "ROBJ_SOLID"
 global const ROBJ_FRAME = "ROBJ_FRAME"
@@ -162,6 +169,7 @@ global const ROBJ_WORLD_BLUR_PANEL = "ROBJ_WORLD_BLUR_PANEL"
 global const ROBJ_VECTOR_CANVAS = "ROBJ_VECTOR_CANVAS"
 global const VECTOR_POLY = "VECTOR_POLY"
 global const ROBJ_MASK = "ROBJ_MASK"
+global const ROBJ_PROGRESS_LINEAR = "ROBJ_PROGRESS_LINEAR"
 
 global const FLOW_PARENT_RELATIVE = "PARENT_RELATIVE"
 global const FLOW_HORIZONTAL = "FLOW_HORIZONTAL"
@@ -180,6 +188,14 @@ global const VECTOR_FILL_COLOR="VECTOR_FILL_COLOR"
 global const VECTOR_LINE="VECTOR_LINE"
 global const VECTOR_ELLIPSE="VECTOR_ELLIPSE"
 global const VECTOR_RECTANGLE="VECTOR_RECTANGLE"
+global const VECTOR_MID_COLOR = "VECTOR_MID_COLOR"
+global const VECTOR_OUTER_LINE="VECTOR_OUTER_LINE"
+global const VECTOR_CENTER_LINE="VECTOR_CENTER_LINE"
+global const VECTOR_LINE_INDENT_PCT="VECTOR_LINE_INDENT_PCT"
+global const VECTOR_LINE_INDENT_PX="VECTOR_LINE_INDENT_PX"
+global const VECTOR_LINE_DASHED = "VECTOR_LINE_DASHED"
+global const VECTOR_SECTOR="VECTOR_SECTOR"
+global const VECTOR_INVERSE_POLY="VECTOR_INVERSE_POLY"
 
 global const FFT_NONE="FFT_NONE"
 global const FFT_SHADOW="FFT_SHADOW"
@@ -279,3 +295,5 @@ global const MR_LB="MR_LB"
 global const MR_RB="MR_RB"
 global const MR_AREA="MR_AREA"
 global const SIZE_TO_CONTENT="SIZE_TO_CONTENT"
+global const DEVID_MOUSE = 1
+

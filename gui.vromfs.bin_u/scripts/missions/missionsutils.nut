@@ -181,7 +181,7 @@ global enum MIS_PROGRESS //value received from get_mission_progress
     }
 
   }
- ::g_mislist_type.BASE.getMissionsList(true, callback)
+ ::g_mislist_type.BASE.requestMissionsList(true, callback)
 }
 
 ::buildRewardText <- function buildRewardText(name, reward, highlighted=false, coloredIcon=false, additionalReward = false)

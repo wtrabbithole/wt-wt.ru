@@ -399,14 +399,14 @@ local WorkshopSet = class {
 
   _tostring        = @() ::format("WorkshopSet %s (itemdefsAmount = %d)", id, itemdefs.len())
 
-  isVisibleCraftTree = @(craftTree) ::g_features.hasFeatureListValue(craftTree.reqFeaturesList)
+  isVisibleCraftTree = @(craftTree) ::has_feature_array(craftTree.reqFeaturesArr)
   getCraftTree       = @() ::u.search(craftTrees, isVisibleCraftTree.bindenv(this))
 
   function getItemsListForCraftTree(craftTree)
   {
     local itemDefIds = craftTree.craftTreeItemsIdArray
     local itemsList = {}
-    local itemsArray = ::ItemsManager.getInventoryList(itemType.ALL, @(item) itemDefIds.find(item.id) != null)
+    local itemsArray = ::ItemsManager.getInventoryList(itemType.ALL, @(item) itemDefIds.indexof(item.id) != null)
     foreach (item in itemsArray)
       itemsList[item.id] <- item
 

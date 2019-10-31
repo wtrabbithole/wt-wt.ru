@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
+local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
 
 global const KGF_TO_NEWTON = 9.807
 
@@ -462,9 +463,15 @@ local WEAPON_TEXT_PARAMS = { //const
                   ::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])) // torpedoes drop for air only
               {
                 if (weapon.dropSpeedRange)
-                  tText += "\n"+::format( ::loc("weapons/drop_speed_range"), ::format("%s (%s)", ::countMeasure(0, [weapon.dropSpeedRange.x, weapon.dropSpeedRange.y]), ::countMeasure(3, [weapon.dropSpeedRange.x, weapon.dropSpeedRange.y])) )
+                {
+                  local speedKmph = countMeasure(0, [weapon.dropSpeedRange.x, weapon.dropSpeedRange.y])
+                  local speedMps  = countMeasure(3, [weapon.dropSpeedRange.x, weapon.dropSpeedRange.y])
+                  tText += "\n"+::format( ::loc("weapons/drop_speed_range"),
+                    "{0} {1}".subst(speedKmph, ::loc("ui/parentheses", { text = speedMps })) )
+                }
                 if (weapon.dropHeightRange)
-                  tText += "\n"+::format(::loc("weapons/drop_height_range"), ::countMeasure(1, [weapon.dropHeightRange.x, weapon.dropHeightRange.y]))
+                  tText += "\n"+::format(::loc("weapons/drop_height_range"),
+                    countMeasure(1, [weapon.dropHeightRange.x, weapon.dropHeightRange.y]))
               }
               if (p.detail >= INFO_DETAIL.EXTENDED && unitType != ::ES_UNIT_TYPE_TANK)
                 tText += _get_weapon_extended_info(weapon, weaponType, air, p.ediff, p.newLine + ::nbsp + ::nbsp + ::nbsp + ::nbsp)
@@ -718,6 +725,7 @@ local WEAPON_TEXT_PARAMS = { //const
       foreach (weapon in weapons)
         if (::u.isTable(weapon))
           return _get_weapon_extended_info(weapon, weaponType, unit, ediff, "\n")
+  return ""
 }
 
 ::getWeaponDescTextByTriggerGroup <- function getWeaponDescTextByTriggerGroup(triggerGroup, unit, ediff)
@@ -1374,7 +1382,7 @@ local WEAPON_TEXT_PARAMS = { //const
   local mod = ::getModificationByName(air, modifName)
 
   local ammo_pack_len = 0
-  if (modifName.find("_ammo_pack") != null && mod)
+  if (modifName.indexof("_ammo_pack") != null && mod)
   {
     updateRelationModificationList(air, modifName);
     if ("relationModification" in mod && mod.relationModification.len() > 0)
@@ -1496,7 +1504,7 @@ local WEAPON_TEXT_PARAMS = { //const
   foreach(b in set.bullets)
   {
     setText += ((setText=="")? "" : separator)
-    local part = b.find("@")
+    local part = b.indexof("@")
     if (part==null)
       setText+=::loc(b + "/name/short")
     else
@@ -1534,7 +1542,7 @@ local WEAPON_TEXT_PARAMS = { //const
       {
         if (effectType == "additiveBulletMod")
         {
-          local underscore = modification.group.find("_");
+          local underscore = modification.group.indexof("_");
           if (underscore)
             return modification.group.slice(0, underscore);
         }

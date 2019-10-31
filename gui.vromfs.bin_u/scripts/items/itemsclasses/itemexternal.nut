@@ -839,14 +839,8 @@ local ItemExternal = class extends ::BaseItem
     }))
   }
 
-  isCraftResult = @() craftedFrom.find(";") != null
-  function getParentGen()
-  {
-    if (!isCraftResult())
-      return
-
-    return ItemGenerators.findGenByReceptUid(craftedFrom)
-  }
+  isCraftResult = @() craftedFrom.indexof(";") != null
+  getParentGen = @() isCraftResult() ? ItemGenerators.findGenByReceptUid(craftedFrom) : null
 
   function getCraftResultItem()
   {

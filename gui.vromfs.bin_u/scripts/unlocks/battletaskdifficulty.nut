@@ -75,6 +75,7 @@ enums.addTypesByGlobalName("g_battle_task_difficulty", {
   WEEKLY = {}
   DAILY = {}
   MONTHLY = {}
+  COMMON = {}
 /*****************************/
 }, null, "name")
 

@@ -210,7 +210,7 @@ class ControlsPreset {
       "helicopter_collective",
       "gm_sight_distance"
     ]
-    if (axisWithZeroRangeMin.find(name) != null)
+    if (axisWithZeroRangeMin.indexof(name) != null)
       axis.rangeMin = 0.0
     return axis
   }
@@ -337,7 +337,7 @@ class ControlsPreset {
     presetPath = compatibility.getActualPresetName(presetPath)
 
     // Check preset load recursion
-    if (presetChain.find(presetPath) != null)
+    if (presetChain.indexof(presetPath) != null)
     {
       ::dagor.assertf(false, "Controls preset require itself. " +
         "Preset chain: " + ::toString(presetChain) + " > " + presetPath)
@@ -467,7 +467,7 @@ class ControlsPreset {
     }
 
     foreach (otherPair in appliedPreset.squarePairs)
-      if (usedAxesIds.find(otherPair[0]) != null || usedAxesIds.find(otherPair[1]) != null)
+      if (usedAxesIds.indexof(otherPair[0]) != null || usedAxesIds.indexof(otherPair[1]) != null)
         setSquarePair(squarePairs.len(), otherPair)
 
     foreach (paramName, otherParam in appliedPreset.params)
@@ -513,7 +513,7 @@ class ControlsPreset {
     }
 
     foreach (otherPair in basePreset.squarePairs)
-      if ((usedAxesIds.find(otherPair[0]) != null || usedAxesIds.find(otherPair[1]) != null))
+      if ((usedAxesIds.indexof(otherPair[0]) != null || usedAxesIds.indexof(otherPair[1]) != null))
         foreach (j, thisPair in squarePairs)
           if (::u.isEqual(thisPair, otherPair))
           {
@@ -620,7 +620,7 @@ class ControlsPreset {
           })
         }
 
-        if (usedHotkeys.find(hotkeyName) == null)
+        if (usedHotkeys.indexof(hotkeyName) == null)
         {
           usedHotkeys.append(hotkeyName)
           resetHotkey(hotkeyName)
@@ -1246,7 +1246,7 @@ class ControlsPreset {
   static dataArranging = {
     function comporator(lhs, rhs)
     {
-      return (this.sortList.find(lhs) ?? -1) <=> (this.sortList.find(rhs) ?? -1) || lhs <=> rhs
+      return (this.sortList.indexof(lhs) ?? -1) <=> (this.sortList.indexof(rhs) ?? -1) || lhs <=> rhs
     }
 
     axisAttrOrder = [

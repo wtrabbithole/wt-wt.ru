@@ -11,7 +11,7 @@ local function addWidget(w) {
 
 
 local function removeWidget(w) {
-  local idx = widgets.value.find(w)
+  local idx = widgets.value.indexof(w)
   if (idx != null) {
     widgets.update(@(value) value.remove(idx))
   }
@@ -25,6 +25,9 @@ local function removeByUid(uid) {
     }
 }
 
+local function isInList(uid) {
+  return widgets.value.findindex(@(w) w.uid == uid)
+}
 
 /// Adds messagebox to widgets list
 /// params = {
@@ -56,7 +59,8 @@ local function show(params, styling=defStyling) {
     if ("onClose" in params && params.onClose)
       params.onClose()
   }
-  local uid = params?.uid ?? ("msgbox_" + counter++)
+  counter++
+  local uid = params?.uid ?? ("msgbox_{0}".subst(counter))
   removeByUid(uid)
 
   local skip = {skip=true}
@@ -93,6 +97,7 @@ local function show(params, styling=defStyling) {
       key = key
       size = SIZE_TO_CONTENT
       flow = FLOW_HORIZONTAL
+      gap = hdpx(40)
 
       children = btnsDesc.value.map(function(desc, idx) {
         local conHover = desc?.onHover
@@ -120,14 +125,14 @@ local function show(params, styling=defStyling) {
       ]
     }
   }
-
+  buttonsBlockId++
   local root = styling.Root.__merge({
-    key = "msgbox_" + uid
+    key = "msgbox_{0}".subst(uid)
     flow = FLOW_VERTICAL
     halign = HALIGN_CENTER
     children = [
       styling.messageText(params.__merge({ doClose = doClose }))
-      buttonsBlock("buttonsBlock_" + buttonsBlockId++)
+      buttonsBlock("buttonsBlock_{0}".subst(buttonsBlockId))
     ]
   })
   self = styling.BgOverlay.__merge({
@@ -146,6 +151,8 @@ local function show(params, styling=defStyling) {
 local msgbox = {
   show = show
   widgets = widgets
+  isInList = isInList
+  removeByUid = removeByUid
   styling = defStyling
 }
 

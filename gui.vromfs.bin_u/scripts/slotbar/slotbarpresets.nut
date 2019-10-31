@@ -20,7 +20,8 @@
   function init()
   {
     foreach(country in ::shopCountriesList)
-      initCountry(country)
+      if (::isCountryAvailable(country))
+        initCountry(country)
 
     saveAllCountries() // maintenance
   }
@@ -64,6 +65,9 @@
     // Attempting to select preset with selected unit type for each country.
     foreach(country in ::shopCountriesList)
     {
+      if (!::isCountryAvailable(country))
+        continue
+
       local presetDataItem = getPresetDataByCountryAndUnitType(newbiePresetsData, country, newbiePresetsData.selectedUnitType)
       selected[country] <- ::getTblValue("presetIndex", presetDataItem, 0)
     }
@@ -335,7 +339,8 @@
   {
     local hasChanges = false
     foreach(countryId in ::shopCountriesList)
-      hasChanges = save(countryId, false) || hasChanges
+      if (::isCountryAvailable(countryId))
+        hasChanges = save(countryId, false) || hasChanges
     if (hasChanges)
       ::save_profile_offline_limited(true)
   }

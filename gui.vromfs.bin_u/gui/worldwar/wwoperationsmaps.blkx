@@ -16,6 +16,9 @@
           "id": "item_desc"
         },
         {
+          "width": "1@WWOperationDescriptionWidth"
+        },
+        {
           "pos": "pw/2-w/2, 1@minYposWindow"
         },
         {
@@ -48,6 +51,8 @@
         {
           "textareaNoTab": {
             "id": "item_name",
+            "max-width": "pw",
+            "text-align": "center",
             "position": "relative",
             "pos": "(pw-w)/2, 0",
             "caption": "yes",
@@ -73,17 +78,6 @@
         },
         {
           "textareaNoTab": {
-            "id": "clans_condition_text",
-            "pos": "(pw-w)/2, 1@blockInterval",
-            "position": "relative",
-            "hideEmptyText": "yes",
-            "smallFont": "yes",
-            "overlayTextColor": "active",
-            "text": ""
-          }
-        },
-        {
-          "textareaNoTab": {
             "id": "total_members_text",
             "pos": "(pw-w)/2, 1@blockInterval",
             "position": "relative",
@@ -95,6 +89,8 @@
         {
           "textareaNoTab": {
             "id": "item_status_text",
+            "max-width": "pw",
+            "text-align": "center",
             "pos": "(pw-w)/2, 1@blockInterval",
             "position": "relative",
             "hideEmptyText": "yes",
@@ -105,6 +101,8 @@
         {
           "textareaNoTab": {
             "id": "available_text",
+            "max-width": "pw",
+            "text-align": "center",
             "pos": "(pw-w)/2, 1@blockInterval",
             "position": "relative",
             "margin-top": "2@framePadding",
@@ -114,9 +112,8 @@
           }
         },
         {
-          "dummy": {
+          "timer": {
             "id": "ww_map_description_timer",
-            "behavior": "Timer",
             "timer_handler_func": "onTimerDescriptionUpdate",
             "timer_interval_msec": "250"
           }
@@ -327,9 +324,8 @@
                     "position": "relative",
                     "background-rotation": "0"
                   },
-                  "dummy": {
+                  "timer": {
                     "id": "queues_wait_timer",
-                    "behaviour": "Timer",
                     "timer_handler_func": "onTimerQueuesWaitTime",
                     "timer_interval_msec": "250"
                   }
@@ -347,9 +343,8 @@
                     "hideEmptyText": "yes",
                     "text": ""
                   },
-                  "dummy": {
+                  "timer": {
                     "id": "begin_map_wait_timer",
-                    "behaviour": "Timer",
                     "timer_handler_func": "onTimerBeginMapWaitTime",
                     "timer_interval_msec": "250"
                   }
@@ -459,9 +454,8 @@
       ]
     },
     {
-      "dummy": {
+      "timer": {
         "id": "ww_status_check_timer",
-        "behavior": "Timer",
         "timer_handler_func": "onTimerStatusCheck",
         "timer_interval_msec": "60000"
       }

@@ -1,3 +1,4 @@
+// warning disable: -egyptian-braces
 local callback = ::require("sqStdLibs/helpers/callback.nut")
 
 const SUBSCRIPTIONS_AMOUNT_TO_CLEAR = 50
@@ -25,20 +26,17 @@ local currentEventIdx = 0
  */
 local subscriptionsData = {}
 
-local Subscription = class
-{
+local Subscription = class {
   listenerPriority = 0
   listenerCallback = null
 
-  constructor(func, env, priority)
-  {
+  constructor(func, env, priority) {
     listenerCallback = callback.make(func, env)
     listenerPriority = priority
   }
 }
 
-local function getSubscriptionByEventName(event_name)
-{
+local function getSubscriptionByEventName(event_name) {
   if (!(event_name in subscriptionsData))
     subscriptionsData[event_name] <- []
   return subscriptionsData[event_name]
@@ -49,8 +47,7 @@ local function getSubscriptionByEventName(event_name)
  *                                 specified listener function. This parameter is also used
  *                                 for removing existing listeners.
  */
-local function addEventListener(event_name, listener_func, listener_env = null, listener_priority = -1)
-{
+local function addEventListener(event_name, listener_func, listener_env = null, listener_priority = -1) {
   if (listener_priority < 0)
     listener_priority = defaultPriority
 
@@ -73,13 +70,11 @@ local function addEventListener(event_name, listener_func, listener_env = null, 
 /**
  * Removes all event listeners with specified event name and environment.
  */
-local function removeEventListenersByEnv(event_name, listener_env)
-{
+local function removeEventListenersByEnv(event_name, listener_env) {
   local subscriptions = getSubscriptionByEventName(event_name)
   for (local i = subscriptions.len() - 1; i >= 0; --i)
     if (!subscriptions[i].listenerCallback.isValid()
-      || subscriptions[i].listenerCallback.refToContext == listener_env)
-    {
+      || subscriptions[i].listenerCallback.refToContext == listener_env) {
       subscriptions.remove(i)
     }
 }
@@ -87,8 +82,7 @@ local function removeEventListenersByEnv(event_name, listener_env)
 /**
  * Removes all listeners with specified environment regardless to event name.
  */
-local function removeAllListenersByEnv(listener_env)
-{
+local function removeAllListenersByEnv(listener_env) {
   foreach (event_name, subscriptions in subscriptionsData)
     removeEventListenersByEnv(event_name, listener_env)
 }
@@ -96,15 +90,13 @@ local function removeAllListenersByEnv(listener_env)
 /*
  * Subscribes all handler functions named "onEvent<eventName>" to event <eventName>
 */
-::subscribeHandler <- function subscribeHandler(handler, listener_priority = -1)
-{
+::subscribeHandler <- function subscribeHandler(handler, listener_priority = -1) {
   if (handler == null)
     return
-  foreach (property_name, property in handler)
-  {
+  foreach (property_name, property in handler) {
     if (type(property)!="function")
       continue
-    local index = property_name.find("onEvent")
+    local index = property_name.indexof("onEvent")
     if (index != 0)
       continue
     local event_name = property_name.slice("onEvent".len())
@@ -115,14 +107,12 @@ local function removeAllListenersByEnv(listener_env)
 /*
  * Subscribes all events in list without enviroment
 */
-::addListenersWithoutEnv <- function addListenersWithoutEnv(eventsList, listenerPriority = -1)
-{
+::addListenersWithoutEnv <- function addListenersWithoutEnv(eventsList, listenerPriority = -1) {
   foreach (eventName, func in eventsList)
     addEventListener(eventName, func, null, listenerPriority)
 }
 
-local function broadcast(event_name, params = {})
-{
+local function broadcast(event_name, params = {}) {
   currentBroadcastingEvents.push({
     eventName = event_name
     eventId = currentEventIdx++

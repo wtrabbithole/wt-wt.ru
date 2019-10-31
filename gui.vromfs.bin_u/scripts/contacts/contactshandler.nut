@@ -155,7 +155,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       show = !wasVisible
     if (!show)
     {
-      getSizes()
+      loadSizes()
       if (wasVisible)
       {
         local focusObj = getCurFocusObj(true)
@@ -180,7 +180,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateControlsAllowMaskDelayed()
   }
 
-  function getSizes()
+  function loadSizes()
   {
     if (::last_contacts_scene_show && checkScene())
     {
@@ -257,7 +257,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (updateSizesTimer <= 0)
       {
         updateSizesTimer = updateSizesDelay
-        getSizes()
+        loadSizes()
       }
     }
   }
@@ -597,7 +597,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local contactName = ::english_russian_to_lower_case(contact_data.name)
       contactName = platformModule.getPlayerName(contactName)
-      local searchResult = searchText == "" || contactName.find(searchText) != null
+      local searchResult = searchText == "" || contactName.indexof(searchText) != null
       contactObject.show(searchResult)
       contactObject.enable(searchResult)
     }
@@ -1022,7 +1022,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local contact = ::getContact(contactUID)
     curPlayer = contact
 
-    local idx = ::contacts[curGroup].find(contact)
+    local idx = ::contacts[curGroup].indexof(contact)
     if (idx != null)
     {
       local groupObject = scene.findObject("contacts_groups")
@@ -1108,8 +1108,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getSearchObj()
   {
-    if (!checkScene()) return
-    return scene.findObject("search_edit_box")
+    return checkScene() ? scene.findObject("search_edit_box") : null
   }
 
   function onSearch(obj)

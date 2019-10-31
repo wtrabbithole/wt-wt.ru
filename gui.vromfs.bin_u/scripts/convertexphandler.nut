@@ -107,7 +107,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     playersGold = max(::get_balance().gold, 0)
   }
 
-  function getUnitList(unitType)
+  function loadUnitList(unitType)
   {
     unitList = []
     foreach (unitForList in ::all_units)
@@ -445,7 +445,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
     //TODO: do this in updateWindow
     if (unitListDisplay)
     {
-      getUnitList(::get_es_unit_type(unit))
+      loadUnitList(::get_es_unit_type(unit))
       fillUnitList()
     }
 
@@ -478,7 +478,7 @@ class ::gui_handlers.ConvertExpHandler extends ::gui_handlers.BaseGuiHandlerWT
       toggleUnitList()
 
     listType = unitType
-    getUnitList(unitType)
+    loadUnitList(unitType)
     fillUnitList()
     unit = ::getCountryResearchUnit(country, unitType)
     updateWindow()

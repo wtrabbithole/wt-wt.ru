@@ -130,7 +130,7 @@ g_clusters <- {
 
   function getClusterLocName(clusterName)
   {
-    if (clusterName.find("wthost") != null)
+    if (clusterName.indexof("wthost") != null)
       return clusterName
     return ::loc("cluster/" + clusterName)
   }

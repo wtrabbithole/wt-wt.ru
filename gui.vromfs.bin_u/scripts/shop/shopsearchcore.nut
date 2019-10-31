@@ -29,7 +29,7 @@ local function rebuildCache()
 local function tokensMatch(tokens, searchStr)
 {
   foreach (t in tokens)
-    if (t.find(searchStr) != null)
+    if (t.indexof(searchStr) != null)
       return true
   return false
 }

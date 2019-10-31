@@ -36,7 +36,7 @@ local DaguiSceneTimers = class
 
   function removeTimer(timer)
   {
-    local idx = timersList.find(timer)
+    local idx = timersList.indexof(timer)
     if (idx != null)
       timersList.remove(idx)
   }

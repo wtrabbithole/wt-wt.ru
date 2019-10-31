@@ -136,7 +136,7 @@ local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
    * Function requests leaderboards asynchronously and puts result
    * as argument to callback function
    */
-  function getLeaderboard(requestData, callback, context = null)
+  function requestLeaderboard(requestData, callback, context = null)
   {
     requestData = validateRequestData(requestData)
 
@@ -158,7 +158,7 @@ local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
    * Function requests self leaderboard row asynchronously and puts result
    * as argument to callback function
    */
-  function getSelfRow(requestData, callback, context = null)
+  function requestSelfRow(requestData, callback, context = null)
   {
     requestData = validateRequestData(requestData)
     if(lastRequestSRData)
@@ -221,7 +221,7 @@ local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
     leaderboardData["rows"] <- lbBlkToArray(LbBlk, requestData)
     canRequestLb = true
     if (!compareRequests(lastRequestData, requestData))
-      getLeaderboard(lastRequestData,
+      requestLeaderboard(lastRequestData,
                      ::getTblValue("callBack", requestData),
                      ::getTblValue("handler", requestData))
     else
@@ -763,7 +763,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       tableWeak.showLoadingAnimation()
 
     lbField = curLbCategory.field
-    lbModel.getSelfRow(
+    lbModel.requestSelfRow(
       prepareRequest(),
       function (self_row_data)
       {
@@ -775,7 +775,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
           afterLoadSelfRow(getSelfPos())
 
         afterLoadSelfRow = null
-        lbModel.getLeaderboard(prepareRequest(),
+        lbModel.requestLeaderboard(prepareRequest(),
           function (leaderboard_data) {
             pageData = leaderboard_data
             fillLeaderboard(pageData)

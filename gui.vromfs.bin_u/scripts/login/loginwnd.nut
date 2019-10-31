@@ -126,7 +126,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
       for (local i = 1; i < ::dgs_argc(); i++)
       {
         local str = ::dgs_argv(i);
-        local idx = str.find("-stoken:")
+        local idx = str.indexof("-stoken:")
         if (idx != null)
           lp.stoken <- str.slice(idx+8)
       }

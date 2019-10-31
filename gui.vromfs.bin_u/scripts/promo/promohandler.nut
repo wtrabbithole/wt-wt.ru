@@ -55,9 +55,6 @@ class Promo
   function initScreen(forceReplaceContent = false)
   {
     updatePromoBlocks(forceReplaceContent)
-    local timerObj = owner.scene.findObject("promo_blocks_timer")
-    if (::checkObj(timerObj))
-      timerObj.setUserData(this)
   }
 
   function updatePromoBlocks(forceReplaceContent = false)
@@ -83,7 +80,7 @@ class Promo
 
     ::g_promo.initWidgets(scene, widgetsTable)
     updateData()
-    setTimer()
+    setTimers()
     owner.restoreFocus()
   }
 
@@ -105,7 +102,6 @@ class Promo
     local upperPromoView = {
       showAllCheckBoxEnabled = ::g_promo.canSwitchShowAllPromoBlocksFlag()
       showAllCheckBoxValue = ::g_promo.getShowAllPromoBlocks()
-      hasTimer = false
       promoButtons = []
     }
 
@@ -143,7 +139,6 @@ class Promo
       if (blockView.needUpdateByTimer)
         needUpdateByTimerArr.append(blockView.id)
     }
-    upperPromoView.hasTimer = needUpdateByTimerArr.len() > 0
     return {
       upper = ::handyman.renderCached("gui/promo/promoBlocks", upperPromoView)
       bottom = ::handyman.renderCached("gui/promo/promoBlocks", bottomPromoView)
@@ -530,14 +525,19 @@ class Promo
   function onEventWebPollAuthResult(p) { updateWebPollButton(p) }
   function onEventWebPollTokenInvalidated(p) { updateData() }
 
-  function setTimer()
+  function setTimers()
   {
-    local timerObj = scene.findObject("promo_blocks_timer")
+    local timerObj = owner.scene.findObject("promo_blocks_timer_slow")
     if (::check_obj(timerObj))
       timerObj.setUserData(this)
+
+    local isNeedFrequentUpdate = needUpdateByTimerArr.len() > 0
+    timerObj = owner.scene.findObject("promo_blocks_timer_fast")
+    if (::check_obj(timerObj))
+      timerObj.setUserData(isNeedFrequentUpdate ? this : null)
   }
 
-  function onTimerUpdate(obj, dt)
+  function onPromoBlocksTimer(obj, dt)
   {
     foreach (promoId in needUpdateByTimerArr)
     {

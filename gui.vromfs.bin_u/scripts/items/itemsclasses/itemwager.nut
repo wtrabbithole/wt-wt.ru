@@ -674,9 +674,8 @@ class ::items_classes.Wager extends ::BaseItem
   {
     foreach (rewardDataType in rewardDataTypes)
     {
-      local path = "rewardParamsTable." + rewardDataType.name
-      local rp1 = ::getTblValueByPath(path, rd1, null)
-      local rp2 = ::getTblValueByPath(path, rd2, null)
+      local rp1 = rd1?.rewardParamsTable[rewardDataType.name]
+      local rp2 = rd2?.rewardParamsTable[rewardDataType.name]
       if (rp1 == rp2)
         continue
       if (!rp1 || !rp2)

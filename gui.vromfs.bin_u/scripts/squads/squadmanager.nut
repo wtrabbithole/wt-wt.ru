@@ -1289,8 +1289,8 @@ g_squad_manager.checkNewApplications <- function checkNewApplications()
         hasNewApplication = true
         break
       }
-   if (curHasNewApplication != hasNewApplication)
-     ::broadcastEvent(squadEvent.NEW_APPLICATIONS)
+  if (curHasNewApplication != hasNewApplication)
+    ::broadcastEvent(squadEvent.NEW_APPLICATIONS)
 }
 
 g_squad_manager.addMember <- function addMember(uid)

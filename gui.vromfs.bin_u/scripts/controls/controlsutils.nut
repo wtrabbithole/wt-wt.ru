@@ -1,6 +1,5 @@
 local time = require("scripts/time.nut")
 local controllerState = require_native("controllerState")
-local kwarg = require("std/functools.nut").kwarg
 
 ::classic_control_preset <- "classic"
 ::shooter_control_preset <- "shooter"
@@ -18,7 +17,7 @@ if (::is_platform_xboxone)
   [PERSISTENT_DATA_PARAMS] = ["eventHandler"]
   eventHandler = null
 
-  getControlsList = kwarg(function(unitType = null, classType = null, unitTags = [])
+  getControlsList = ::kwarg(function getControlsList(unitType = null, classType = null, unitTags = [])
   {
     local isHeaderPassed = true
     local isSectionPassed = true

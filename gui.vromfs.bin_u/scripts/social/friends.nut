@@ -125,11 +125,11 @@ local isFirstPs4FriendsUpdate = true
   if (::is_platform_ps4 && ::dagor.getCurTime() - ::last_update_ps4_friends > ::PS4_UPDATE_TIMER_LIMIT)
   {
     ::last_update_ps4_friends = ::dagor.getCurTime()
-    ::getPS4FriendsFromIndex(0)
+    ::requestPS4FriendsFromIndex(0)
   }
 }
 
-::getPS4FriendsFromIndex <- function getPS4FriendsFromIndex(index)
+::requestPS4FriendsFromIndex <- function requestPS4FriendsFromIndex(index)
 {
   local cb = function(response, err) {
     if (err)
@@ -159,7 +159,7 @@ local isFirstPs4FriendsUpdate = true
   if (ps4FriendsArray.len() == 0 || lastIndex == 0)
     ::movePS4ContactsToSpecificGroup()
   else
-    ::getPS4FriendsFromIndex(lastIndex)
+    ::requestPS4FriendsFromIndex(lastIndex)
 }
 
 ::resetPS4ContactsGroup <- function resetPS4ContactsGroup()

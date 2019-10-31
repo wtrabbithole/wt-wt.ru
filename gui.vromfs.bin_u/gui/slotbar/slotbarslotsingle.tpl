@@ -15,6 +15,7 @@ shopItem {
   behavior:t='Timer'
   timer_interval_msec:t='1000'
   unit_name:t='<<unitName>>'
+  <<#crewId>>crew_id:t='<<crewId>>'<</crewId>>
 
   <<^isInTable>>
   isInTable:t='no'

@@ -3,7 +3,8 @@ local modalWindows = require("modalWindows.nut")
 
 local lastMenuIdx = 0
 local function contextMenu(x, y, width, actions, menu_style = style) {
-  local uid = "context_menu_" + lastMenuIdx++
+  lastMenuIdx++
+  local uid = "context_menu_{0}".subst(lastMenuIdx)
   local closeMenu = @() modalWindows.remove(uid)
   local listItem = menu_style?.listItem ?? style.listItem
   local menuBgColor = menu_style?.menuBgColor ?? style.menuBgColor

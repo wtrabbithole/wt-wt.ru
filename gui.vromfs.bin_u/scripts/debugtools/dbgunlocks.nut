@@ -34,7 +34,7 @@
     }
     else
     {
-      local paramShift = ::getTblValueByPath("stage.param", unlock, 0)
+      local paramShift = unlock?.stage.param ?? 0
       foreach(key, stageId in ::g_unlocks.multiStageLocId[unlock.id])
       {
         local stage = ::is_numeric(key) ? key : 99
@@ -69,7 +69,7 @@
 
 ::exportUnlockInfo <- function exportUnlockInfo(params)
 {
-  local info = ::g_language.getGameLocalizationInfo().filter(@(value) params.langs.find(value.id) != null)
+  local info = ::g_language.getGameLocalizationInfo().filter(@(value) params.langs.indexof(value.id) != null)
   _gen_all_unlocks_desc_to_blk(params.path, false, false, info, ::get_current_language())
   return "ok"
 }

@@ -507,7 +507,7 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       local ar = ::mission_settings.missionFull.units % "armada";
       for (local i = 0; i < ar.len(); i++)
       {
-        if (ar[i].name.find("#player.") != null)
+        if (ar[i].name.indexof("#player.") != null)
           ar[i].props.skin = value;
       }
     }

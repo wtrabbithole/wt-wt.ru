@@ -2368,18 +2368,34 @@ local radar = function(posX, posY){
   }
 }
 
+local radarMfdBackground = function()
+{
+  return {
+    pos = [radarState.radarPosSize.x, radarState.radarPosSize.y]
+    size = [radarState.radarPosSize.w, radarState.radarPosSize.h]
+    rendObj = ROBJ_VECTOR_CANVAS
+    lineWidth = radarState.radarPosSize.h
+    color = Color(0, 0, 0, 255)
+    fillColor = Color(0, 0, 0, 0)
+    commands = [
+      [VECTOR_LINE, 0, 50, 100, 50]
+    ]
+  }
+}
+
 
 local Root = function(radarPosX = sh(8), radarPosY = sh(32)) {
   local getChildren = function() {
+    local radarMfd = radarState.MfdRadarEnabled.value ?
+          radar(radarState.radarPosSize.x + radarState.radarPosSize.w * 0.05, radarState.radarPosSize.y + radarState.radarPosSize.h * 0.05) : null
     return radarState.IsRadarHudVisible.value ?
       (radarState.MfdRadarEnabled.value || radarState.MfdIlsEnabled.value ?
        [
-         (radarState.MfdRadarEnabled.value ?
-          radar(radarState.radarPosSize.x + radarState.radarPosSize.w * 0.05, radarState.radarPosSize.y + radarState.radarPosSize.h * 0.05) : null
-         )
          targetsOnScreenComponent()
          forestallComponent()
          forestallTargetLine()
+         radarMfdBackground()
+         radarMfd
        ] :
        [
         targetsOnScreenComponent()

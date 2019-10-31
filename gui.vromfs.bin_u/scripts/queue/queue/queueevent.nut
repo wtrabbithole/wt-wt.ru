@@ -58,7 +58,7 @@ class ::queue_classes.Event extends ::queue_classes.Base
     local cluster = queueUidsList[queueUid].cluster
     if (::u.filter(queueUidsList, @(q) q.cluster == cluster).len() <= 1)
     {
-      local idx = params.clusters.find(cluster)
+      local idx = params.clusters.indexof(cluster)
       if (idx != null)
         params.clusters.remove(idx)
     }

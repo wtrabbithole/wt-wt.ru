@@ -414,7 +414,7 @@ foreach(idx, a in ::air_stats_list)
     return unlockBlk.iconLocked
 
   local iconName = unlockBlk.icon
-  local dotPlace = iconName.find(".")
+  local dotPlace = iconName.indexof(".")
   if (dotPlace != null)
     return iconName.slice(0, dotPlace) + "_locked" + iconName.slice(dotPlace)
   return iconName + "_locked"
@@ -446,7 +446,7 @@ foreach(idx, a in ::air_stats_list)
     return false
   if (unlockBlk?.showByEntitlement && !::has_entitlement(unlockBlk.showByEntitlement))
     return false
-  if ((unlockBlk % "hideForLang").find(::g_language.getLanguageName()) != null)
+  if ((unlockBlk % "hideForLang").indexof(::g_language.getLanguageName()) != null)
     return false
   foreach (feature in unlockBlk % "reqFeature")
     if (!::has_feature(feature))
@@ -491,7 +491,7 @@ foreach(idx, a in ::air_stats_list)
     return false
   if (decalBlk?.showByEntitlement && !::has_entitlement(decalBlk.showByEntitlement))
     return false
-  if ((decalBlk % "hideForLang").find(::g_language.getLanguageName()) != null)
+  if ((decalBlk % "hideForLang").indexof(::g_language.getLanguageName()) != null)
     return false
   foreach (feature in decalBlk % "reqFeature")
     if (!::has_feature(feature))
@@ -930,13 +930,13 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
       return ::getDifficultyLocalizationText(id)
 
     case ::UNLOCKABLE_ENCYCLOPEDIA:
-      local index = id.find("/")
+      local index = id.indexof("/")
       if (index != null)
         return ::loc("encyclopedia/" + id.slice(index + 1))
       return ::loc("encyclopedia/" + id)
 
     case ::UNLOCKABLE_SINGLEMISSION:
-      local index = id.find("/")
+      local index = id.indexof("/")
       if (index != null)
         return ::loc("missions/" + id.slice(index + 1))
       return ::loc("missions/" + id)
@@ -951,7 +951,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 
     case ::UNLOCKABLE_STREAK:
       local res = ::loc("streaks/" + id)
-      if (res.find("%d") != null)
+      if (res.indexof("%d") != null)
           res = ::loc("streaks/" + id + "/multiple")
       return res
 
@@ -1162,9 +1162,9 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
       }
       else
       {
-        if (name.find("%d") != null)
+        if (name.indexof("%d") != null)
           name = ::loc("streaks/" + id + "/multiple")
-        if (desc.find("%d") != null)
+        if (desc.indexof("%d") != null)
         {
           local descValue = unlockBlk?.stage ? (unlockBlk?.stage.param ?? 0) : (unlockBlk?.mode.num ?? 0)
           if (descValue > 0)
@@ -1388,7 +1388,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
     name = ::loc(keyValue)
   else
     foreach(idx, namePart in parsedString)
-      if (namePart.len() == 1 && ::unlocks_punctuation_without_space.find(namePart) != null)
+      if (namePart.len() == 1 && ::unlocks_punctuation_without_space.indexof(namePart) != null)
         name += namePart
       else
         name += ((name == ""? "" : " ") + ::loc(namePart))
@@ -1626,7 +1626,7 @@ g_unlocks.getUnlockById <- function getUnlockById(unlockId)
   //For before login actions.
   local blk = ::get_unlocks_blk()
   foreach(cb in (blk % "unlockable"))
-    if (cb.id == unlockId)
+    if (cb?.id == unlockId)
       return cb
   return null
 }
@@ -1706,7 +1706,7 @@ g_unlocks.isUnlockMultiStageLocId <- function isUnlockMultiStageLocId(unlockId)
 
 g_unlocks.getUnlockRepeatInARow <- function getUnlockRepeatInARow(unlockId, stage)
 {
-  return stage + ::getTblValueByPath("stage.param", ::g_unlocks.getUnlockById(unlockId), 0)
+  return stage + (::g_unlocks.getUnlockById(unlockId)?.stage.param ?? 0)
 }
 
 //has not default multistage id. Used to combine similar unlocks.

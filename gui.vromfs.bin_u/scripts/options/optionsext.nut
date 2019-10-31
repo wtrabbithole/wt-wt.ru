@@ -6,6 +6,7 @@ local globalEnv = require_native("globalEnv")
 local avatars = ::require("scripts/user/avatars.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
 local optionsUtils = require("scripts/options/optionsUtils.nut")
+local optionsMeasureUnits = ::require("scripts/options/optionsMeasureUnits.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 
 global const TANK_ALT_CROSSHAIR_ADD_NEW = -2
@@ -28,7 +29,6 @@ global enum misCountries
 ::current_tag <- null
 ::aircraft_for_weapons <- null
 ::cur_aircraft_name <- null
-::measure_units <- []
 ::bullet_icons <- {}
 ::bullets_locId_by_caliber <- []
 ::modifications_locId_by_caliber <- []
@@ -84,7 +84,7 @@ global enum misCountries
 ::g_script_reloader.registerPersistentData("OptionsExtGlobals", ::getroottable(),
   [
     "game_mode_maps", "dynamic_layouts",
-    "shopCountriesList", "measure_units",
+    "shopCountriesList",
     "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
     "crosshair_icons", "crosshair_colors",
     "reload_cooldown_time"
@@ -488,12 +488,12 @@ local isWaitMeasureEvent = false
 
       if (ignoreAim)
       {
-        local aimIdx = descr.values.find(AIR_MOUSE_USAGE.AIM)
+        local aimIdx = descr.values.indexof(AIR_MOUSE_USAGE.AIM)
         descr.values.remove(aimIdx)
         descr.items.remove(aimIdx)
       }
 
-      defaultValue = descr.values.find(
+      defaultValue = descr.values.indexof(
         ::g_aircraft_helpers.getOptionValue(optionId))
       break;
 
@@ -1043,50 +1043,11 @@ local isWaitMeasureEvent = false
     case ::USEROPT_MEASUREUNITS_TEMPERATURE:
     case ::USEROPT_MEASUREUNITS_WING_LOADING:
     case ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO:
-      local unitNo = 0
-      if (optionId == ::USEROPT_MEASUREUNITS_SPEED)
-      {
-        unitNo = 0
-        descr.id = "measure_units_speed"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_ALT)
-      {
-        unitNo = 1
-        descr.id = "measure_units_alt"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_DIST)
-      {
-        unitNo = 2
-        descr.id = "measure_units_dist"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_CLIMBSPEED)
-      {
-        unitNo = 3
-        descr.id = "measure_units_climbSpeed"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_TEMPERATURE)
-      {
-        unitNo = 4
-        descr.id = "measure_units_temperature"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_WING_LOADING)
-      {
-        unitNo = 5
-        descr.id = "measure_units_wing_loading"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO)
-      {
-        unitNo = 6
-        descr.id = "measure_units_power_to_weight_ratio"
-      }
-      descr.items = []
-      descr.values = []
-      for (local i = 0; i < ::measure_units[unitNo].len(); i++)
-      {
-        descr.items.append("#measureUnits/" + ::measure_units[unitNo][i].name)
-        descr.values.append(::measure_units[unitNo][i].name)
-      }
-      descr.value = find_in_array(descr.values, ::get_option_unit_type(unitNo))
+      local mesureUnitsOption = optionsMeasureUnits.getOption(optionId)
+      descr.id      = mesureUnitsOption.id
+      descr.items   = mesureUnitsOption.items
+      descr.values  = mesureUnitsOption.values
+      descr.value   = mesureUnitsOption.value
       break
 
     case ::USEROPT_VIBRATION:
@@ -1299,11 +1260,11 @@ local isWaitMeasureEvent = false
         if (p.name == vPresetData.name && p.version == vPresetData.version)
           descr.value = k
         local imageName = "joystick"
-        if (name.find("keyboard") != null)
+        if (name.indexof("keyboard") != null)
           imageName = "mouse_keyboard"
-        else if (name.find("xinput") != null || name.find("xboxone") != null)
+        else if (name.indexof("xinput") != null || name.indexof("xboxone") != null)
           imageName = "gamepad"
-        else if (name.find("default") != null || name.find("dualshock4") != null)
+        else if (name.indexof("default") != null || name.indexof("dualshock4") != null)
           imageName = "ps4"
         else if (name == "")
         {
@@ -2299,7 +2260,7 @@ local isWaitMeasureEvent = false
           return ::loc("options/timeLimitAuto")
         if (val > 10000)
           return ::loc("options/timeUnlimited")
-        local result = ::getTblValue(values.find(val), items)
+        local result = ::getTblValue(values.indexof(val), items)
         if(result != null)
           return result
         return time.hoursToString(time.secondsToMinutes(val), false)
@@ -2358,7 +2319,7 @@ local isWaitMeasureEvent = false
       local allowedMask = (1 << ::shopCountriesList.len()) - 1
       if (::getTblValue("isEventRoom", context, false))
       {
-        local allowedList = ::get_tbl_value_by_path_array(["countries", team.name], context)
+        local allowedList = context?.countries[team.name]
         if (allowedList)
           allowedMask = ::get_bit_value_by_array(allowedList, ::shopCountriesList)
                         || allowedMask

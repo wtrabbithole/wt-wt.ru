@@ -575,8 +575,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local air = ::getAircraftByName(airName)
       if (air)
       {
+        ::show_aircraft = air
         scene.findObject("air_info_div").show(true)
-
         local data = ::build_aircraft_item(air.name, air, {
           showBR        = ::has_feature("SlotbarShowBattleRating")
           getEdiffFunc  = getCurrentEdiff.bindenv(this)
@@ -1284,6 +1284,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       isUnitChanged = ::aircraft_for_weapons != unit.name
       ::cur_aircraft_name = unit.name //used in some options
       ::aircraft_for_weapons = unit.name
+      ::show_aircraft = unit
 
       if (isUnitChanged || isFirstUnitOptionsInSession)
         preselectUnitWeapon(unit)

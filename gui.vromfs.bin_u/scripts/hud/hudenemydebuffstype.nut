@@ -26,7 +26,7 @@ local getStateByBrokenDmAny = function(unitInfo, partName, partsArray)
     return PART_STATE.KILLED
   foreach (partId in partsArray)
   {
-    local dmParts = ::get_tbl_value_by_path_array([ partId, "dmParts" ], unitInfo.parts, {})
+    local dmParts = unitInfo.parts?[partId].dmParts ?? {}
     foreach (dmPart in dmParts)
       if (dmPart._hp == 0)
         return PART_STATE.KILLED
@@ -42,7 +42,7 @@ local getStateByBrokenDmMain = function(unitInfo, partName, partsArray, mainDmAr
     return PART_STATE.OFF
   foreach (partId in partsArray)
   {
-    local dmParts = ::get_tbl_value_by_path_array([ partId, "dmParts" ], unitInfo.parts, {})
+    local dmParts = unitInfo.parts?[partId].dmParts ?? {}
     local isSingleDm = dmParts.len() == 1
     local mainDms = isSingleDm ? [] : mainDmArray
     foreach (dmPart in dmParts)
@@ -57,7 +57,7 @@ local countPartsAlive = function(partsArray, partsCfg)
   local count = 0
   foreach (partId in partsArray)
   {
-    local dmParts = ::get_tbl_value_by_path_array([ partId, "dmParts" ], partsCfg, {})
+    local dmParts = partsCfg?[partId].dmParts ?? {}
     foreach (dmPart in dmParts)
       if (dmPart._hp > 0)
         count++
@@ -69,7 +69,7 @@ local countPartsTotal = function(partsArray, partsCfg)
 {
   local count = 0
   foreach (partId in partsArray)
-    count += ::get_tbl_value_by_path_array([ partId, "dmParts" ], partsCfg, {}).len()
+    count += (partsCfg?[partId].dmParts ?? {}).len()
   return count
 }
 

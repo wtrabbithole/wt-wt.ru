@@ -147,13 +147,13 @@ local function func2str(func, p={}){
   local showsrc = p?.showsrc ?? false
   local showparams = p?.showparams ?? compact
   local showdefparams = p?.showdefparams ?? compact
-  local tostr_func = p?.tostr_func ?? @(v) ""+v
+  local tostr_func = p?.tostr_func ?? @(v) "".concat(v)
 
   if (::type(func)=="thread") {
-    return "thread: " + func.getstatus()
+    return "thread: {0}".subst(func.getstatus())
   }
 
-  local out = ""
+  local out = []
   local info = func.getfuncinfos()
 
   if (!info.native) {
@@ -161,36 +161,36 @@ local function func2str(func, p={}){
     local params = info.parameters.slice(1)
     local reqparams = params.slice(0, params.len() - defparams.len())
     local optparams = params.slice(reqparams.len())
-    local params_str = ""
+    local params_str = []
     if (params.len()>0) {
       if (reqparams.len()>0)
-        params_str += reqparams.reduce(@(res, curval) res + ", " + curval)
+        params_str.append(", ".join(reqparams))
       if (optparams.len()>0) {
         foreach (i, op in optparams) {
-          params_str += op
+          params_str.append(op)
           if (showdefparams)
-            params_str += " = " + tostr_func(defparams?[i] ?? "")
+            params_str.extend([" = ", tostr_func(defparams?[i] ?? "")])
           if (i+1 < optparams.len())
-            params_str += ", "
+            params_str.append(", ")
         }
       }
     }
-    local fname = "" + info.name
+    local fname = "".concat(info.name)
     if (fname.slice(0,1)=="(")
       fname = "@"
     if (showsrc)
-      out += "(func): " + (info?.src ?? "") + " "
-    out += fname +"("
+      out.extend(["(func): ", (info?.src ?? ""), " "])
+    out.extend([fname, "("])
     if (!showparams)
-      out += params_str
-    out += ")"
+      out.extend(params_str)
+    out.append(")")
   } else if (info.native) {
-    out += "(nativefunc): " + info.name
+    out.extend(["(nativefunc): ", info.name])
 
   } else {
-    out += func.tostring()
+    out.append(func.tostring())
   }
-  return out
+  return "".join(out)
 }
 
 local simple_types = ["string", "float", "bool", "integer","null"]
@@ -209,7 +209,7 @@ local function tostring_any(input, tostringfunc=null, compact=true) {
       }
     }
   }
-  else if (function_types.find(typ)!=null){
+  else if (function_types.indexof(typ)!=null){
     return func2str(input,{compact=compact})
   }
   else if (typ == "string"){
@@ -217,13 +217,13 @@ local function tostring_any(input, tostringfunc=null, compact=true) {
       return "''"
     if(compact)
       return input
-    return "'" + input + "'"
+    return "'{0}'".subst(input)
   }
   else if (typ == "null"){
     return "null"
   }
   else if (typ == "float" && input == input.tointeger().tofloat() && !compact){
-    return input.tostring()+".0"
+    return "{0}.0".subst(input.tostring())
   }
   else if (typ=="instance"){
     return input.tostring()
@@ -249,7 +249,7 @@ local function tostring_r(input, params=defTostringParams) {
   local compact = params?.compact ?? defTostringParams.compact
   local tostringfuncs = [
     {
-      compare = @(val,typ) simple_types.find(typ) != null
+      compare = @(val,typ) simple_types.indexof(typ) != null
       tostring = @(val) tostring_any(val, null, compact)
     }
     {
@@ -261,11 +261,11 @@ local function tostring_r(input, params=defTostringParams) {
       tostring = @(val) "[]"
     }
     {
-      compare = @(val,typ) function_types.find(typ)!=null
+      compare = @(val,typ) function_types.indexof(typ)!=null
       tostring = @(val) tostring_any(val, null, compact)
     }
     {
-      compare = @(val,typ) (typ=="instance" && val?.tostring && val?.tostring?() && val?.tostring?().find("(instance : 0x")!=0)
+      compare = @(val,typ) (typ=="instance" && val?.tostring && val?.tostring?() && val?.tostring?().indexof("(instance : 0x")!=0)
       tostring = @(val) val.tostring()
     }
   ]
@@ -310,54 +310,54 @@ local function tostring_r(input, params=defTostringParams) {
   local function sub_tostring_r(input, indent, curdeeplevel, arrayElem = false, sep = newline, arrInd=null) {
     if (arrInd==null)
       arrInd=indent
-    local out = ""
+    local out = []
     foreach (key, value in input) {
       local typ = ::type(value)
       local isArray = typ=="array"
       local tostringLeafv=tostringLeaf(value)
       if (tostringLeafv[0]) {
         if (!arrayElem) {
-          out += sep
-          out += indent + tostring_any(key) +  " = "
+          out.append(sep)
+          out.extend([indent, tostring_any(key), " = "])
         }
-        out += tostringLeafv[1]
+        out.append(tostringLeafv[1])
         if (arrayElem && key!=input.len()-1)
-          out += sep
+          out.append(sep)
       }
       else if (maxdeeplevel != null && curdeeplevel == maxdeeplevel && !tostringLeafv[0]) {
         local brOp = openSym(value)
         local brCl = closeSym(typ)
         if (!arrayElem)
-          out += newline + indent + tostring_any(key, null, compact) +  " = "
+          out.extend([newline, indent, tostring_any(key, null, compact), " = "])
         else if (arrayElem && showArrIdx) {
-          out += tostring_any(key) +  " = "
+          out.extend([tostring_any(key), " = "])
         }
-        out += brOp +"..." + brCl
+        out.extend([brOp,"...",brCl])
       }
       else if (isArray && !showArrIdx) {
         if (!arrayElem)
-          out += newline + indent + tostring_any(key, null, compact) +  " = "
-        out += "[" + sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent) + "]"
+          out = [newline, indent, tostring_any(key, null, compact), " = "]
+        out.extend(["[", sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent), "]"])
         if (arrayElem && key!=input.len()-1)
-          out += sep
+          out.append(sep)
       }
-      else if (table_types.find(typ) != null || (isArray && showArrIdx )) {
+      else if (table_types.indexof(typ) != null || (isArray && showArrIdx )) {
         local brOp = openSym(value)
         local brCl = closeSym(typ)
-        out += newline + indent
+        out.extend([newline, indent])
         if (!arrayElem) {
-          out += tostring_any(key,null, compact) +  " = "
+          out.extend([tostring_any(key,null, compact)," = "])
         }
-        out += brOp + sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1) + newline + indent + brCl
+        out.extend([brOp,sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1),newline,indent,brCl])
         if (arrayElem && key==input.len()-1 ){
-          out += newline+arrInd
+          out.extend([newline,arrInd])
         }
-        else if (arrayElem && key<input.len()-1 && table_types.find(::type(input[key+1]))!=0){
-          out += newline+indent
+        else if (arrayElem && key<input.len()-1 && table_types.indexof(::type(input[key+1]))!=0){
+          out.extend([newline, indent])
         }
       }
     }
-    return out
+    return "".join(out)
   }
   return sub_tostring_r([input], "", 0,true)
 }
@@ -439,7 +439,7 @@ local function endsWith(str, value) {
 local function indexOf(str, value, startIndex = 0) {
   str = str ?? ""
   value = value ?? ""
-  local idx = str.find(value, startIndex)
+  local idx = str.indexof(value, startIndex)
   return idx ?? INVALID_INDEX
 }
 
@@ -458,7 +458,7 @@ local function lastIndexOf(str, value, startIndex = 0) {
   local curIdx = startIndex - 1
   local length = str.len()
   while (curIdx < length - 1) {
-    curIdx = str.find(value, curIdx + 1)
+    curIdx = str.indexof(value, curIdx + 1)
     if (curIdx == null)
       break
     idx = curIdx
@@ -511,7 +511,7 @@ local function countSubstrings(str, substr) {
   local res = -1
   local findex = -1
   for(res; findex != null; res++) {
-    findex = str.find(substr, ++findex)
+    findex = str.indexof(substr, ++findex)
   }
   return res
 }
@@ -524,7 +524,7 @@ local function toUpper(str, symbolsNum = 0) {
   if (symbolsNum >= str.len()) {
     return str.toupper()
   }
-  return slice(str, 0, symbolsNum).toupper() + slice(str, symbolsNum)
+  return "".concat(slice(str, 0, symbolsNum).toupper(),slice(str, symbolsNum))
 }
 
 local function toLower(str, symbolsNum = 0) {
@@ -534,7 +534,7 @@ local function toLower(str, symbolsNum = 0) {
   if (symbolsNum >= str.len()) {
     return str.tolower()
   }
-  return slice(str, 0, symbolsNum).tolower() + slice(str, symbolsNum)
+  return "".concat(slice(str, 0, symbolsNum).tolower(), slice(str, symbolsNum))
 }
 
 local function replace(str, from, to) {
@@ -556,7 +556,7 @@ local function trim(str) {
   getroottable()["rfsUnitTest"] <- function()
   {
     local resArr = []
-    local testValArray = [1.0, 12.0, 123.0, 6548.0, 72356.0, 120.0, 4300.0, 1234567.0]
+    local testValArray = [0.9999, 1.0, 12.0, 123.0, 6548.0, 72356.0, 120.0, 4300.0, 1234567.0]
     for(local presize = 1e+6; presize >= 1e-10; presize *= 0.1)
       resArr.append("presize " + presize + " -> "
         + implode(testValArray.map(@(val) roundedFloatToString(presize * val, presize)), ", "))
@@ -569,12 +569,12 @@ local function trim(str) {
 
 local function floatToStringRounded(value, presize) {
   if (presize >= 1) {
-    local res = (value / presize).tointeger().tostring()
+    local res = [(value / presize + 0.5).tointeger()]
     for(local p = presize; p > 1; p /= 10)
-      res += "0" //we no need float trash below presize
-    return res //we no need e+8 in the big numbers too
+      res.append("0") //we no need float trash below presize
+    return "".join(res) //we no need e+8 in the big numbers too
   }
-  return string.format("%." + (-math.log10(presize).tointeger()) + "f", value)
+  return string.format("%.{0}f".subst(-math.log10(presize).tointeger()), value)
 }
 
 local function isStringInteger(str) {
@@ -619,12 +619,11 @@ local function isStringFloat(str, separator=".") {
   return ok
 }
 
-local function toIntegerSafe(str, defValue = 0, needAssert = true)
-{
+local function toIntegerSafe(str, defValue = 0, needAssert = true) {
   if (isStringInteger(str))
     return str.tointeger()
   if (needAssert)
-    ::assert(false, "can't convert '" + str + "' to integer")
+    ::assert(false, @() "can't convert '{0}' to integer".subst(str))
   return defValue
 }
 
@@ -644,8 +643,8 @@ local function utf8ToUpper(str, symbolsNum = 0) {
   local strLength = utf8Str.charCount()
   if (symbolsNum <= 0 || symbolsNum >= strLength)
     return utf8Str.strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER)
-  return ::utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER) +
-   utf8Str.slice(symbolsNum, strLength)
+  return "".concat(::utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER),
+   utf8Str.slice(symbolsNum, strLength))
 }
 
 local function utf8ToLower(str) {
@@ -697,7 +696,7 @@ local function intToStrWithDelimiter(value, delimiter = " ", charsAmount = 3) {
   local idx = res.len()
   while (idx > charsAmount + negativeSignCorrection) {
     idx -= charsAmount
-    res = res.slice(0, idx) + delimiter + res.slice(idx)
+    res = delimiter.concat(res.slice(0, idx), res.slice(idx))
   }
   return res
 }
@@ -715,7 +714,7 @@ local function stripTags(str) {
 
 local function escape(str) {
   if (::type(str) != "string") {
-    ::assert(false, "wrong escape param type: " + ::type(str))
+    ::assert(false, @() "wrong escape param type: {0}".subst(::type(str)))
     return ""
   }
   foreach(test in escapeConfig)
@@ -728,18 +727,18 @@ local function pprint(...){
   local function findlast(str, substr, startidx=0){
     local ret = null
     for(local i=startidx; i<str.len(); i++) {
-      local k = str.find(substr, i)
+      local k = str.indexof(substr, i)
       if (k!=null) {
         i = k
         ret = k
-     }
-     else
-       break;
+      }
+      else
+        break;
     }
     return ret
   }
   if (vargv.len()<=1)
-    ::print(tostring_r(vargv[0])+"\n")
+    ::print("".concat(tostring_r(vargv[0]),"\n"))
   else {
     local a = vargv.map(@(i) tostring_r(i))
     local res = ""
@@ -755,18 +754,15 @@ local function pprint(...){
       if (k==0)
         res = i
       else if (prev_val_newline && len<maxlen)
-        res = res.slice(0,-1)+" " + i
+        res = " ".concat(res.slice(0,-1), i)
       else if (len>=maxlen){
-        res = res+"\n  " + i
+        res = "\n ".concat(res, i)
         len = i.len()
       }
       else
-        res = res+" " + i
+        res = " ".concat(res, i)
 
-      if (i.slice(-1)=="\n" && len<maxlen)
-        prev_val_newline = true
-     else
-       prev_val_newline = false
+      prev_val_newline = i.slice(-1) == "\n" && len < maxlen
     }
     ::print(res)
     ::print("\n")
@@ -783,7 +779,7 @@ local function validateEmail(no_dump_email) {
 
   local locpart = str[0]
   if (str.len() > 2)
-    locpart = str.slice(0,-1).reduce(@(a,b) a + "@" + b)
+    locpart = "@".join(str.slice(0,-1))
   if (locpart.len() > 64)
     return false
 
@@ -791,14 +787,14 @@ local function validateEmail(no_dump_email) {
   if (dompart.len() > 253 || dompart.len() < 4) //RFC + domain should be at least x.xx
     return false
 
-  local quotes = locpart.find("\"")
+  local quotes = locpart.indexof("\"")
   if (quotes && quotes != 0)
     return false //quotes only at the begining
 
-  if (quotes == null && locpart.find("@")!=null)
+  if (quotes == null && locpart.indexof("@")!=null)
     return false //no @ without quotes
 
-  if (dompart.find(".") == null || dompart.find(".") > dompart.len() - 3) // warning disable: -func-can-return-null
+  if (dompart.indexof(".") == null || dompart.indexof(".") > dompart.len() - 3) // warning disable: -func-can-return-null
     return false  //too short first level domain or no periods
 
   return true

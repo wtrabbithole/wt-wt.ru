@@ -393,11 +393,11 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
 
     local searchStr = ::g_string.utf8ToLower(::g_string.trim(value))
     local visibleMapsList = mapsList.filter(@(inst)
-      ::g_string.utf8ToLower(inst.title).find(searchStr) != null)
+      ::g_string.utf8ToLower(inst.title).indexof(searchStr) != null)
 
     local mlistObj = scene.findObject("maps_list")
     foreach (inst in mapsList)
-      mlistObj.findObject("nest_" + inst.mapId)?.show(visibleMapsList.find(inst) != null)
+      mlistObj.findObject("nest_" + inst.mapId)?.show(visibleMapsList.indexof(inst) != null)
 
     local isFound = visibleMapsList.len() != 0
     currentMapId = isFound ? visibleMapsList[0].mapId : -1

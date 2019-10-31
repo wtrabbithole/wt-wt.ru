@@ -1,6 +1,6 @@
 local function makeSlotName(original_name, prefix, postfix) {
-  local slotName = prefix.len() ? prefix + original_name.slice(0, 1).toupper() + original_name.slice(1) : original_name
-  return slotName + postfix
+  local slotName = ( prefix.len() > 0 )? "".concat(prefix, original_name.slice(0, 1).toupper(), original_name.slice(1)) : original_name
+  return "".concat(slotName, postfix)
 }
 
 local makeUpdateState = @(state_object) function (new_value) { state_object.update(new_value) }

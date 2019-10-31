@@ -106,8 +106,8 @@ local function getMapsList(curEvent, isBanParamsOnly = false)
     if (isBanByLevel && ::u.search(list, @(inst) inst.mission == mission) != null)
       continue
 
-    local isBanned = banList.find(mission) != null
-    local isDisliked = dislikeList.find(mission) != null
+    local isBanned = banList.indexof(mission) != null
+    local isDisliked = dislikeList.indexof(mission) != null
     list.append( isBanParamsOnly
       ? {
         mission = mission

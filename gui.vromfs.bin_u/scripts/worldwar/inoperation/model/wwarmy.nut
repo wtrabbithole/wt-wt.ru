@@ -34,7 +34,7 @@ class ::WwArmy extends ::WwFormation
     owner.update(blk.getBlockByName("owner"))
     pathTracker.update(blk.getBlockByName("pathTracker"))
 
-    local unitTypeTextCode = ::getTblValueByPath("specs.unitType", blk, "")
+    local unitTypeTextCode = blk?.specs.unitType ?? ""
     unitType = ::g_ww_unit_type.getUnitTypeByTextCode(unitTypeTextCode).code
     morale = ::getTblValue("morale", blk, -1)
     armyIsDead = ::get_blk_value_by_path(blk, "specs/isDead", false)

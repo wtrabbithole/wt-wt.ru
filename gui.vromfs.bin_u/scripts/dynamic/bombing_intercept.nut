@@ -194,7 +194,7 @@
   if (::mgFullLogs())
     dagor.debug_dump_stack();
 
-   ::mgAcceptMission();
+  ::mgAcceptMission()
 }
 
 

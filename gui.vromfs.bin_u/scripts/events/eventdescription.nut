@@ -347,11 +347,11 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
   {
     hideEventLeaderboard()
     newSelfRowRequest = ::events.getMainLbRequest(selectedEvent)
-    ::events.getSelfRow(
+    ::events.requestSelfRow(
       newSelfRowRequest,
       "mini_lb_self",
       (@(selectedEvent) function (self_row) {
-        ::events.getLeaderboard(::events.getMainLbRequest(selectedEvent),
+        ::events.requestLeaderboard(::events.getMainLbRequest(selectedEvent),
         "mini_lb_self",
         function (lb_data) {
           showEventLb(lb_data)

@@ -33,7 +33,7 @@ local stdMath = require("std/math.nut")
     "atLeastOneUnitsRankOnStartMission", "maxUnitsRankOnStartMission",
     "unitExists", "additional", "unitClass",
     "gameModeInfoString", "modes", "events", "tournamentMode",
-    "location", "weaponType", "difficulty",
+    "location", "operationMap", "weaponType", "difficulty",
     "playerUnit", "playerType", "playerExpClass", "playerUnitRank", "playerUnitMRank", "playerTag",
     "targetUnit", "targetType", "targetExpClass", "targetUnitClass", "targetTag",
     "crewsUnit", "crewsUnitRank", "crewsUnitMRank", "crewsTag", "activity",
@@ -361,9 +361,11 @@ UnlockConditions.loadCondition <- function loadCondition(blk)
     res.values = (blk % "weapon")
   else if (t == "location")
     res.values = (blk % "location")
+  else if (t == "operationMap")
+    res.values = (blk % "operationMap")
   else if (t == "activity")
     res.values = getDiffTextArrayByPoint3(blk?.percent, "%s%%")
-  else if (t == "online")
+  else if (t == "online" || t == "worldWar")
   {
     res.type = "modes"
     res.values = t
@@ -864,6 +866,8 @@ UnlockConditions._addUsualConditionsText <- function _addUsualConditionsText(gro
       text = ::loc("options/" + v)
     else if (cType == "offenderIsSupportGun")
       text = ::loc(v)
+    else if (cType == "operationMap")
+      text = ::loc("worldWar/map/" + v)
     else
       text = ::loc(cType+"/" + v)
 
@@ -955,19 +959,16 @@ UnlockConditions.addToText <- function addToText(text, name, valueText = "", col
 
 UnlockConditions.getMultipliersTable <- function getMultipliersTable(blk)
 {
-  local diffTable = {
+  local modeTable = {
     mulArcade = "ArcadeBattle"
     mulRealistic = "HistoricalBattle"
     mulHardcore = "FullRealBattles"
+    mulWWBattleForOwnClan = "WWBattleForOwnClan"
   }
 
   local mulTable = {}
-  foreach(paramName, diff in diffTable)
-  {
-    local value = ::getTblValue(paramName, blk)
-    if (value)
-      mulTable[diff] <- value
-  }
+  foreach(paramName, mode in modeTable)
+    mulTable[mode] <- blk?[paramName] ?? 1
 
   return mulTable
 }
@@ -979,6 +980,11 @@ UnlockConditions.getMultipliersText <- function getMultipliersText(condition)
     return ""
 
   local mulText = ""
+
+  if (multiplierTable.WWBattleForOwnClan > 1)
+    return "{0}{1}{2}".subst(::loc("conditions/mulWWBattleForOwnClan"),
+                             ::loc("ui/colon"),
+                             ::colorize("unlockActiveColor", ::format("x%d", multiplierTable.WWBattleForOwnClan)))
 
   foreach(difficulty, num in multiplierTable)
   {

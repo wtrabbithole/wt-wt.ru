@@ -550,7 +550,7 @@ OnlineShopModel.onPurchasesUpdated <- function onPurchasesUpdated()
   {
     name = ::loc("charServer/entitlement/" + item.group)
     local amountStr = ::g_language.decimalFormat(::get_entitlement_amount(item))
-    if(name.find("%d") != null)
+    if(name.indexof("%d") != null)
       name = ::stringReplace(name, "%d", amountStr)
     else
       name = ::loc("charServer/entitlement/" + item.group, {amount = amountStr})

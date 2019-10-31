@@ -326,7 +326,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local itemId = curBattleInList.isValid() ? curBattleInList.id
       : ""
 
-    local idx = itemId.len() ? (curBattleListItems.searchindex(@(item) item.id == itemId) ?? -1) : -1
+    local idx = itemId.len() ? (curBattleListItems.findindex(@(item) item.id == itemId) ?? -1) : -1
     if (idx >= 0 && battlesListObj.getValue() != idx)
       battlesListObj.setValue(idx)
   }
@@ -425,15 +425,20 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     createSlotbar(
       {
         customCountry = playerTeam.country
-        availableUnits = availableUnits,
-        gameModeName = getGameModeNameText()
-        showEmptySlot = true
-        needPresetsPanel = true
-        shouldCheckCrewsReady = true
+        availableUnits = availableUnits
         customUnitsList = operationUnits
-        customUnitsListName = getCustomUnitsListNameText()
-      }
+      }.__update(getSlotbarParams())
     )
+  }
+
+  function getSlotbarParams() {
+    return {
+      gameModeName = getGameModeNameText()
+      showEmptySlot = true
+      needPresetsPanel = true
+      shouldCheckCrewsReady = true
+      customUnitsListName = getCustomUnitsListNameText()
+    }
   }
 
   function getGameModeNameText()

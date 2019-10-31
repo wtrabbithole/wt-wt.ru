@@ -176,7 +176,7 @@ class ::items_classes.Order extends ::BaseItem
         if (missionPostfix == null)
           return true
         local stringIndex = missionName.len() - missionPostfix.len()
-        return missionName.find(missionPostfix, stringIndex) != stringIndex
+        return missionName.indexof(missionPostfix, stringIndex) != stringIndex
 
       // More restrictions types to come...
     }

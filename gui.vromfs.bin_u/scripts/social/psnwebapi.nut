@@ -1,4 +1,4 @@
-local webApi = require("ps4/webApi.nut")
+local webApi = require("ps4Lib/webApi.nut")
 local json = require_optional("json")
 local parseJson = json?.parse ?? ::parse_json
 

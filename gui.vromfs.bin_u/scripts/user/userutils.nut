@@ -188,6 +188,6 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
 
   function haveTag(tag)
   {
-    return ::get_player_tags().find(tag) != null
+    return ::get_player_tags().indexof(tag) != null
   }
 }

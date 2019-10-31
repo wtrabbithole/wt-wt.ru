@@ -88,7 +88,7 @@ class ClanTagDecorator
 
   function checkTagText(tagText)
   {
-    if (tagText.find(start) != 0 || tagText.len() < end.len())
+    if (tagText.indexof(start) != 0 || tagText.len() < end.len())
       return false
     return tagText.slice(-end.len()) == end
   }

@@ -422,7 +422,7 @@ class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
 
 ::addHideToObjStringById <- function addHideToObjStringById(data, objId)
 {
-  local pos = data.find("id:t = '" + objId + "';")
+  local pos = data.indexof("id:t = '" + objId + "';")
   if (pos)
     return data.slice(0, pos) + "display:t='hide'; " + data.slice(pos)
   return data

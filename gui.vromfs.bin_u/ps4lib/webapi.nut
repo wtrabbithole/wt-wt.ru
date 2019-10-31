@@ -16,7 +16,7 @@ local function createRequest(api, method, path=null, params=null, data=null, for
   local request = DataBlock()
   request.apiGroup = api.group
   request.method = method
-  request.path = api.path + ((path != null) ? "/" + path : "") + ((params != null) ? "?" + params : "")
+  request.path = "".concat(api.path, ((path != null) ? "/{0}".subst(path) : ""), ((params != null) ? "?{0}".subst(params): ""))
   request.forceBinary = forceBinary
 
   if (::type(data) == "string")
@@ -64,19 +64,19 @@ local session = {
   }
 
   function join(sessionId, index=0) {
-    return createRequest(sessionParams, webApiMethodPost, sessionId+"/members", "index="+index)
+    return createRequest(sessionParams, webApiMethodPost, "".concat(sessionId,"/members"), "index={0}".subst(index))
   }
 
   function leave(sessionId) {
-    return createRequest(sessionParams, webApiMethodDelete, sessionId+"/members/me")
+    return createRequest(sessionParams, webApiMethodDelete, "".concat(sessionId,"/members/me"))
   }
 
   function data(sessionId) {
-    return createRequest(sessionParams, webApiMethodGet, sessionId+"/changeableSessionData")
+    return createRequest(sessionParams, webApiMethodGet, "".concat(sessionId,"/changeableSessionData"))
   }
 
   function change(sessionId, changedata) {
-    return createRequest(sessionParams, webApiMethodPut, sessionId+"/changeableSessionData", null, changedata, true)
+    return createRequest(sessionParams, webApiMethodPut, "".concat(sessionId,"/changeableSessionData"), null, changedata, true)
   }
 
   function invite(sessionId, accounts, invitedata={}) {
@@ -85,7 +85,7 @@ local session = {
     local parts = [createPart(webApiMimeTypeJson, "invitation-request", {to=accounts})]
     if (invitedata != null && invitedata.len() > 0)
       parts.append(createPart(webApiMimeTypeBinary, "invitation-data", invitedata))
-    return createRequest(sessionParams, webApiMethodPost, sessionId+"/invitations", null, parts)
+    return createRequest(sessionParams, webApiMethodPost, "".concat(sessionId,"/invitations"), null, parts)
   }
 }
 

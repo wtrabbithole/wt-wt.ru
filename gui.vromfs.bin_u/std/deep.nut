@@ -3,7 +3,7 @@ local recursivetypes =["table","array","class"]
 local function isArray(arr){return ::type(arr)=="array"}
 
 local function deep_clone(val) {
-  if (recursivetypes.find(::type(val)) == null)
+  if (recursivetypes.indexof(::type(val)) == null)
     return val
   return val.map(deep_clone)
 }
@@ -11,7 +11,7 @@ local function deep_clone(val) {
 
 //Updates (mutates) target arrays and tables recursively with source
 local function deep_update(target, source) {
-  if ((recursivetypes.find(::type(source)) == null)) {
+  if ((recursivetypes.indexof(::type(source)) == null)) {
     target = source
     return target
   }
@@ -27,7 +27,7 @@ local function deep_update(target, source) {
     if (!(k in target)){
       target[k] <- deep_clone(v)
     }
-    else if (recursivetypes.find(::type(v)) == null){
+    else if (recursivetypes.indexof(::type(v)) == null){
       target[k] = v
     }
     else {
@@ -68,10 +68,10 @@ deep_compare = function(a, b, params = {ignore_keys = [], compare_only_keys = []
         return false
       }
       if (compare_only_keys.len() > 0) {
-        if (compare_only_keys.find(key)!=null && !deep_compare(val, b[key], params)) {
+        if (compare_only_keys.indexof(key)!=null && !deep_compare(val, b[key], params)) {
           return false
         }
-      } else if (ignore_keys.find(key)==null && !deep_compare(val, b[key], params)) {
+      } else if (ignore_keys.indexof(key)==null && !deep_compare(val, b[key], params)) {
         return false
       }
     }

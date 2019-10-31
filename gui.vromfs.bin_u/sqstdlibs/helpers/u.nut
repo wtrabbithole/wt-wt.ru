@@ -5,7 +5,6 @@
 
 local underscore = require("std/underscore.nut")
 local functools = require("std/functools.nut")
-
 local isTable = @(v) typeof(v)=="table"
 local isArray = @(v) typeof(v)=="array"
 local isString = @(v) typeof(v)=="string"
@@ -109,7 +108,7 @@ local function isEmpty(val) {
   if (!val)
     return true
 
-  if (["string", "table", "array"].find(typeof val) != null)
+  if (["string", "table", "array"].indexof(typeof val) != null)
     return val.len() == 0
 
   if (typeof(val)=="instance") {
@@ -127,8 +126,7 @@ local function isEmpty(val) {
 */
 local function registerClass(className, classRef, isEqualFunc = null, isEmptyFunc = null) {
   local funcName = "is" + className.slice(0, 1).toupper() + className.slice(1)
-  this[funcName] <- function(value)
-  {
+  this[funcName] <- function(value) {
     if (value instanceof classRef)
       return true
     if ("dagor2" in rootTable && className in ::dagor2)
@@ -148,16 +146,14 @@ local function registerClass(className, classRef, isEqualFunc = null, isEmptyFun
 local dagorClasses = {
   DataBlock = {
     isEmpty = @(val) !val.paramCount() && !val.blockCount()
-    isEqual = function(val1, val2)
-    {
+    isEqual = function(val1, val2) {
       if (val1.paramCount() != val2.paramCount() || val1.blockCount() != val2.blockCount())
         return false
 
       for (local i = 0; i < val1.paramCount(); i++)
         if (val1.getParamName(i) != val2.getParamName(i) || ! isEqual(val1.getParamValue(i), val2.getParamValue(i)))
           return false
-      for (local i = 0; i < val1.blockCount(); i++)
-      {
+      for (local i = 0; i < val1.blockCount(); i++) {
         local b1 = val1.getBlock(i)
         local b2 = val2.getBlock(i)
         if (b1.getBlockName() != b2.getBlockName() || !isEqual(b1, b2))
@@ -193,8 +189,7 @@ local dagorClasses = {
     isEqual = @(val1, val2) val1.r == val2.r && val1.g == val2.g && val1.b == val2.b
   }
   TMatrix = {
-    isEqual = function(val1, val2)
-    {
+    isEqual = function(val1, val2) {
       for (local i = 0; i < 4; i++)
         if (!isEqual(val1[i], val2[i]))
           return false
@@ -212,8 +207,7 @@ local dagorClasses = {
  */
 local function extend(destination, ... /*sources*/) {
   for (local i = 0; i < vargv.len(); i++)
-    foreach (key, val in vargv[i])
-    {
+    foreach (key, val in vargv[i]) {
       local v = val
       if (isArray(val) || isTable(val))
         v = extend(isArray(val) ? [] : {}, val)
@@ -230,8 +224,7 @@ local function extend(destination, ... /*sources*/) {
  * Recursevly copy all fields of obj to the new instance of same type and
  * returns it.
  */
-local function copy(obj)
-{
+local function copy(obj) {
   if (obj == null)
     return null
 
@@ -239,8 +232,7 @@ local function copy(obj)
     return extend(isArray(obj) ? [] : {}, obj)
 
   //!!FIX ME: Better to make clone method work with datablocks, or move it to custom methods same as isEqual
-  if ("isDataBlock" in this && isDataBlock(obj))
-  {
+  if ("isDataBlock" in this && isDataBlock(obj)) {
     local res = ::DataBlock()
     res.setFrom(obj)
     local name = obj.getBlockName()
@@ -256,22 +248,17 @@ local function copy(obj)
   * Find and remove {value} from {data} (table/array) once
   * return true if found
 */
-local function removeFrom(data, value)
-{
-  if (isArray(data))
-  {
-    local idx = data.find(value)
-    if (idx != null)
-    {
+local function removeFrom(data, value) {
+  if (isArray(data)) {
+    local idx = data.indexof(value)
+    if (idx != null) {
       data.remove(idx)
       return true
     }
   }
-  else if (isTable(data))
-  {
+  else if (isTable(data)) {
     foreach(key, val in data)
-      if (val == value)
-      {
+      if (val == value) {
         delete data[key]
         return true
       }
@@ -325,8 +312,7 @@ local function indexBy(list, iteratee) {
  ******************************************************************************/
 
 
-local function getMax(arr, iteratee = null)
-{
+local function getMax(arr, iteratee = null) {
   local result = null
   if (!arr)
     return result
@@ -335,8 +321,7 @@ local function getMax(arr, iteratee = null)
     iteratee = @(val) (typeof(val) == "integer" || typeof(val) == "float") ? val : null
 
   local lastMaxValue = null
-  foreach (data in arr)
-  {
+  foreach (data in arr) {
     local value = iteratee(data)
     if (lastMaxValue != null && value <= lastMaxValue)
       continue
@@ -348,13 +333,11 @@ local function getMax(arr, iteratee = null)
   return result
 }
 
-local function getMin(arr, iteratee = null)
-{
+local function getMin(arr, iteratee = null) {
   local newIteratee = null
   if (!iteratee)
     newIteratee = @(val) (typeof(val) == "integer" || typeof(val) == "float") ? -val : null
-  else
-  {
+  else {
     newIteratee = function(val) {
       local value = iteratee(val)
       return value != null ? -value : null
@@ -364,25 +347,35 @@ local function getMin(arr, iteratee = null)
   return getMax(arr, newIteratee)
 }
 
-local function appendOnce(v, arr, skipNull = false, customIsEqualFunc = null)
-{
+local function appendOnce(v, arr, skipNull = false, customIsEqualFunc = null) {
   if(skipNull && v == null)
     return
 
-  if (customIsEqualFunc)
-  {
+  if (customIsEqualFunc) {
     foreach (obj in arr)
       if (customIsEqualFunc(obj, v))
         return
   }
-  else if (arr.find(v) != null)
+  else if (arr.indexof(v) != null)
     return
 
   arr.append(v)
 }
 
-local chooseRandom = @(arr) underscore.chooseRandom(arr, rnd)
-local shuffle = @(arr) underscore.shuffle(arr, rnd)
+local chooseRandom = @(arr) arr[rnd() % arr.len()]
+local function shuffle(arr) {
+  local res = clone arr
+  local size = res.len()
+  local j
+  local v
+  for (local i = size - 1; i > 0; i--) {
+    j = rnd() % (i + 1)
+    v = res[j]
+    res[j] = res[i]
+    res[i] = v
+  }
+  return res
+}
 
 local function chooseRandomNoRepeat(arr, prevIdx) {
   if (prevIdx < 0)

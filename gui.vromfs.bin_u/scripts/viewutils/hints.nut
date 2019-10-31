@@ -52,8 +52,8 @@ g_hints.getHintSlices <- function getHintSlices(text, params = {})
 
         while (true)
         {
-          local openingColorTagStartIndex = piece.find(colorTags[0], carriage)
-          local closingColorTagStartIndex = piece.find(colorTags[1], carriage)
+          local openingColorTagStartIndex = piece.indexof(colorTags[0], carriage)
+          local closingColorTagStartIndex = piece.indexof(colorTags[1], carriage)
 
           if (openingColorTagStartIndex == null && closingColorTagStartIndex == null)
             break
@@ -89,7 +89,7 @@ g_hints.getHintSlices <- function getHintSlices(text, params = {})
           else if ((closingColorTagStartIndex == null && openingColorTagStartIndex != null) ||
             openingColorTagStartIndex < closingColorTagStartIndex)
           {
-            local colorEnd = piece.find(">", openingColorTagStartIndex)
+            local colorEnd = piece.indexof(">", openingColorTagStartIndex)
             local colorStart = openingColorTagStartIndex + colorTags[0].len()
             colors.push(piece.slice(colorStart, colorEnd))
             unclosedTags++
@@ -131,7 +131,7 @@ g_hints.splitRowToPieces <- function splitRowToPieces(row)
   local slices = []
   while (row.len() > 0)
   {
-    local tagStartIndex = row.find(hintTags[0])
+    local tagStartIndex = row.indexof(hintTags[0])
 
     //no tags on current row
     //put entire row in one piece and exit
@@ -144,7 +144,7 @@ g_hints.splitRowToPieces <- function splitRowToPieces(row)
       break
     }
 
-    local tagEndIndex = row.find(hintTags[1], tagStartIndex)
+    local tagEndIndex = row.indexof(hintTags[1], tagStartIndex)
     //there is unclosed tag
     //flush current row content to one piece and exit
     if (tagEndIndex == null)

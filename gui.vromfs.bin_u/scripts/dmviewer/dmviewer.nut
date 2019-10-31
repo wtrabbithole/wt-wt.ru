@@ -7,6 +7,8 @@
                           and modal windows.
 */
 
+local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
+
 ::on_check_protection <- function(params) { // called from client
   ::broadcastEvent("ProtectionAnalysisResult", params)
 }
@@ -93,7 +95,7 @@
 
   function onEventSecondWeaponModsUpdated(params)
   {
-    if( ! unit || unit.name != getTblValueByPath("unit.name", params))
+    if( ! unit || unit.name != params?.unit.name)
       return
     isSecondaryModsValid = true
     resetXrayCache()
@@ -452,7 +454,7 @@
     local localizedName = ""
     local localizationSources = ["armor_class/", "dmg_msg_short/", "weapons_types/"]
     local nameVariations = [nameId]
-    local idxSeparator = nameId.find("_")
+    local idxSeparator = nameId.indexof("_")
     if(idxSeparator)
       nameVariations.push(nameId.slice(0, idxSeparator))
     if(unit != null)
@@ -609,7 +611,7 @@
             if ( ! isSecondaryModsValid)
               updateSecondaryMods()
 
-            local currentParams = getTblValueByPath("modificators." + difficulty.crewSkillName, unit)
+            local currentParams = unit?.modificators[difficulty.crewSkillName]
             if (isSecondaryModsValid && currentParams && currentParams.horsePowers && currentParams.maxHorsePowersRPM)
             {
               desc.push(::format("%s %s (%s %d %s)", ::loc("engine_power") + ::loc("ui/colon"),
@@ -648,7 +650,7 @@
               while(("Engine" + numEngines) in fmBlk)
                 numEngines ++
               local boosterPartIndex = partIndex - numEngines //engine3_dm -> Booster0
-              engineMainBlk = getTblValueByPath("Booster" + boosterPartIndex + ".Main", fmBlk)
+              engineMainBlk = fmBlk?["Booster" + boosterPartIndex].Main
             }
 
             if (!engineMainBlk)
@@ -689,10 +691,8 @@
             local throttleBoost = getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrottleBoost, 0)
             local afterburnerBoost = getFirstFound([infoBlk, engineMainBlk], @(b) b?.AfterburnerBoost, 0)
             // for planes modifications have delta values
-            local thrustModDelta = getTblValueByPath("modificators." +
-              difficulty.crewSkillName + ".thrust", unit, 0) / KGF_TO_NEWTON  // mod thrust comes in Newtons
-            local horsepowerModDelta = getTblValueByPath("modificators." +
-              difficulty.crewSkillName + ".horsePowers", unit, 0)
+            local thrustModDelta = (unit?.modificators[difficulty.crewSkillName].thrust ?? 0) / KGF_TO_NEWTON
+            local horsepowerModDelta = unit?.modificators[difficulty.crewSkillName].horsePowers ?? 0
             switch(engineType)
             {
               case "inline":
@@ -708,7 +708,7 @@
 
               case "rocket":
                 local sources = [infoBlk, engineMainBlk]
-                local boosterMainBlk = getTblValueByPath("Booster" + partIndex + ".Main", fmBlk)
+                local boosterMainBlk = fmBlk?["Booster" + partIndex].Main
                 if (boosterMainBlk)
                   sources.insert(1, boosterMainBlk)
                 thrustTakeoff = getFirstFound(sources, @(b) b?.Thrust ?? b?.thrust, 0)
@@ -803,11 +803,11 @@
             local maxSpeedB = ratioB ? (maxSpeed * ratioF / ratioB) : 0
             if (maxSpeedF && gearsF)
               desc.append(::loc("xray/transmission/maxSpeed/forward") + ::loc("ui/colon") +
-                ::countMeasure(0, maxSpeedF) + ::loc("ui/comma") +
+                countMeasure(0, maxSpeedF) + ::loc("ui/comma") +
                   ::loc("xray/transmission/gears") + ::loc("ui/colon") + gearsF)
             if (maxSpeedB && gearsB)
               desc.append(::loc("xray/transmission/maxSpeed/backward") + ::loc("ui/colon") +
-                ::countMeasure(0, maxSpeedB) + ::loc("ui/comma") +
+                countMeasure(0, maxSpeedB) + ::loc("ui/comma") +
                   ::loc("xray/transmission/gears") + ::loc("ui/colon") + gearsB)
           }
         }
@@ -1087,7 +1087,7 @@
         foreach(linkKeyFmt in partLinkSourcesGenFmt)
           if (weapon?[linkKeyFmt])
           {
-            if (weapon[linkKeyFmt].find("%02d") == null)
+            if (weapon[linkKeyFmt].indexof("%02d") == null)
             {
               dagor.assertf(false, "Bad weapon param " + linkKeyFmt + "='" + weapon[linkKeyFmt] +
                 "' on " + unit.name)
@@ -1098,7 +1098,7 @@
                 return weapon
           }
       }
-      if("partsDP" in weapon && weapon["partsDP"].find(partName) != null)
+      if("partsDP" in weapon && weapon["partsDP"].indexof(partName) != null)
         return weapon
     }
     return null
@@ -1139,9 +1139,9 @@
         }
       case ::ES_UNIT_TYPE_AIRCRAFT:
       case ::ES_UNIT_TYPE_HELICOPTER:
-      default:
         return { isPrimary = true, isSecondary = false, isMachinegun = false }
     }
+    return { isPrimary = true, isSecondary = false, isMachinegun = false }
   }
 
   function getWeaponDriveTurretDesc(weaponPartName, weaponInfoBlk, needAxisX, needAxisY)
@@ -1231,9 +1231,9 @@
   {
     local shotFreqRPM = 0.0 // rounds/min
     local reloadTimeS = 0 // sec
+    local firstStageShotFreq = 0.0
 
     local weaponBlk = ::DataBlock(weaponInfoBlk?.blk ?? "")
-    local isCartridge = weaponBlk?.reloadTime != null
     local cyclicShotFreqS  = weaponBlk?.shotFreq ?? 0.0 // rounds/sec
 
     switch (unit.esUnitType)
@@ -1279,17 +1279,24 @@
         else
           reloadTimeS = weaponBlk?.reloadTime ?? 0.0
 
-        if (isCartridge)
-          shotFreqRPM = cyclicShotFreqS * 60
-        else
+        cyclicShotFreqS = ::u.search(::getCommonWeaponsBlk(dmViewer.unitBlk, "") % "Weapon",
+          @(inst) inst.trigger  == weaponInfoBlk.trigger)?.shotFreq ?? cyclicShotFreqS
+        shotFreqRPM = cyclicShotFreqS * 60
+
+        if (haveFirstStageShells(unit, weaponInfoBlk?.trigger))
         {
-          shotFreqRPM = reloadTimeS != 0 ? (60 / reloadTimeS) : (cyclicShotFreqS * 60)
-          reloadTimeS = 0.0
+          firstStageShotFreq = shotFreqRPM
+          shotFreqRPM *= 1/getAmmoStowageReloadTimeMult(weaponInfoBlk?.trigger)
         }
         break
     }
 
     local desc = []
+    if (firstStageShotFreq)
+      desc.append(::g_string.implode([::loc("shop/shotFreq/firstStage"),
+        ::round(firstStageShotFreq),
+        ::loc("measureUnits/rounds_per_min")], " "))
+
     if (shotFreqRPM)
       desc.append(::loc("shop/shotFreq") + " " + ::round(shotFreqRPM) + " " +
         ::loc("measureUnits/rounds_per_min"))
@@ -1299,6 +1306,26 @@
       desc.append(::loc("shop/reloadTime") + " " + reloadTimeS + " " + ::loc("measureUnits/seconds"))
     }
     return desc
+  }
+
+  function getAmmoStowageReloadTimeMult(trigger)
+  {
+    if (!unitBlk?.ammoStowages || !trigger)
+      return 1
+    foreach(ammo in unitBlk.ammoStowages)
+      if(::u.search(ammo % "weaponTrigger", @(inst) inst == trigger))
+        return ::u.search(ammo % "shells", @(inst) inst?.reloadTimeMult)?.reloadTimeMult ?? 1
+    return 1
+  }
+
+  function haveFirstStageShells(unit, trigger)
+  {
+    if (!unitBlk?.ammoStowages || !trigger)
+      return false
+    foreach(ammo in unitBlk.ammoStowages)
+      if(::u.search(ammo % "weaponTrigger", @(inst) inst == trigger))
+        return ::u.search(ammo % "shells", @(inst) inst?.firstStage)
+    return false
   }
 
   // Gets info either by weaponTrigger (for guns and turrets)
@@ -1433,8 +1460,8 @@
 
   function trimBetween(source, from, to, strict = true)
   {
-    local beginIndex = source.find(from) ?? -1
-    local endIndex = source.find(to) ?? -1
+    local beginIndex = source.indexof(from) ?? -1
+    local endIndex = source.indexof(to) ?? -1
     if(strict && (beginIndex == -1 || endIndex == -1 || beginIndex >= endIndex))
       return null
     if(beginIndex == -1)

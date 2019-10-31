@@ -117,7 +117,7 @@
                           "id": "profile-currentUser-title",
                           "showAsButton": "yes",
                           "smallFont": "yes",
-                          "on_click": "getNewTitles",
+                          "on_click": "openChooseTitleWnd",
                           "margin-top": "3@dp",
                           "max-width": "pw",
                           "hideEmptyText": "yes",
@@ -399,9 +399,8 @@
             "position": "absolute",
             "background-rotation": "0"
           },
-          "dummy": {
+          "timer": {
             "id": "profile_update",
-            "behavior": "Timer",
             "timer_handler_func": "onUpdate"
           }
         }
@@ -723,7 +722,7 @@
                 "text": "#mainmenu/btnGetLink",
                 "tooltip": "#mainmenu/getLinkDesc",
                 "btnName": "L3",
-                "_on_click": "getPlayerLink",
+                "_on_click": "openViralAcquisitionWnd",
                 "ButtonImg": []
               }
             },

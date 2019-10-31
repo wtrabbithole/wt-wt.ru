@@ -60,7 +60,7 @@ local function displayTop(handler, obj, lbData, lbInfo)
   if (!hasLbRows)
     return
 
-  local lbCategory = ::events.getLbCategoryByField("rating")
+  local lbCategory = ::g_lb_category.WW_EVENTS_PERSONAL_ELO
   local locId = "worldwar/top/" + lbInfo.modeName + "/" +
     (lbInfo.day && lbInfo.day > 0 ? "daily" : "season")
   local rowIdx = 0

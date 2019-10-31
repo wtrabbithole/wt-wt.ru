@@ -82,9 +82,8 @@ tdiv {
   <</side>>
 }
 
-dummy {
+timer {
   id:t="ww_queue_update_timer"
-  behavior:t='Timer'
   timer_handler_func:t='onTimerUpdate'
   timer_interval_msec:t='1000'
 }

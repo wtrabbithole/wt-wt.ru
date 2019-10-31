@@ -158,7 +158,7 @@ class ::BaseItem
       return true
 
     foreach(uid in item.uids)
-      if (uids.find(uid) != null)
+      if (uids.indexof(uid) != null)
         return true
     return false
   }

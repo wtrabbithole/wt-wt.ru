@@ -128,7 +128,7 @@ global const EDIFF_SHIFT = 3
 
 ::get_econRank_emode_name <- function get_econRank_emode_name(ediff)
 {
-  return ::EDifficultiesEconRankStr[(ediff in ::EDifficultiesEconRankStr) ? ediff : EDifficultiesEconRankStr.ARCADE]
+  return ::EDifficultiesEconRankStr[(ediff in ::EDifficultiesEconRankStr) ? ediff : EDifficulties.ARCADE]
 }
 
 ::clear_spawn_score <- function clear_spawn_score()
@@ -284,26 +284,7 @@ global const EDIFF_SHIFT = 3
   return res
 }
 
-::calc_personal_boost <- function calc_personal_boost(bostersArray)
-{
-  local res = 0.0
-  local k = [1.0, 0.6, 0.4, 0.2, 0.1]
-
-  local count = bostersArray.len()
-  local countOfK = k.len()
-  for (local i = 0; i < count; i++)
-  {
-    if (i < countOfK)
-      res = res + k[i] * bostersArray[i]
-    else
-    if (k[countOfK-1] * bostersArray[i] > 0.01)
-      res = res + k[countOfK-1] * bostersArray[i]
-    else
-      res = res + 0.01
-  }
-
-  return res
-}
+::calc_personal_boost <- ::calc_public_boost
 
 ::get_spawn_score_param <- function get_spawn_score_param(paramName, defaultNum)
 {
@@ -363,7 +344,7 @@ global const EDIFF_SHIFT = 3
 
   local md = misblk?.mission_settings?.mission
   if (!dd_file_exist(md?.level ?? ""))
-    err("Unknown location "+md?.level);
+    err("Unknown location " + (md?.level ?? "null"))
   local levelBlk = (md?.level ?? "").slice(0, -3) + "blk"
   if (!dd_file_exist(levelBlk))
     err(levelBlk + " not found");
@@ -407,9 +388,9 @@ global const EDIFF_SHIFT = 3
     local unitClass = unit?.unit_class
     if (unitType in typeToPath)
     {
-      local path = typeToPath[unitType] + "/"+unitClass+".blk"
+      local path = unitClass ? (typeToPath[unitType] + "/"+unitClass+".blk") : ""
       if (!dd_file_exist(path))
-        err("Unknown unit_class "+unitClass+" of unit " + unit?.name?.tostring())
+        err("Unknown unit_class " + (unitClass ?? "null") + " of unit " + (unit?.name ?? "null"))
       else
       {
         local preset = unit?.weapons
@@ -431,10 +412,10 @@ global const EDIFF_SHIFT = 3
                   break;
                 }
                 else
-                  err("Not found: " + p?.blk)
+                  err("Not found: " + (p?.blk ?? "null"))
               }
             if (!found)
-              err("Unknown weapon preset "+preset+" in unit "+unit?.name?.tostring());
+              err("Unknown weapon preset " + preset + " in unit " + (unit?.name ?? "null"))
           }
         }
       }

@@ -1284,9 +1284,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         local obj = totalObj.findObject(p)
         if (::checkObj(obj))
         {
-          cost.wp = p.find("wp") != null ? totalCurValues[p] : 0
-          cost.rp = p.find("exp") != null ? totalCurValues[p] : 0
-          obj.setValue(cost.toStringWithParams({isColored = p.find("Teaser") == null}))
+          cost.wp = p.indexof("wp") != null ? totalCurValues[p] : 0
+          cost.rp = p.indexof("exp") != null ? totalCurValues[p] : 0
+          obj.setValue(cost.toStringWithParams({isColored = p.indexof("Teaser") == null}))
         }
         needPlayCount = true
       }
@@ -1418,11 +1418,11 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getResearchUnitInfo(unitTypeName)
   {
-    local unitId = ::getTblValueByPath("exp.investUnitName" + unitTypeName, ::debriefing_result, "")
+    local unitId = ::debriefing_result?.exp["investUnitName" + unitTypeName] ?? ""
     local unit = ::getAircraftByName(unitId)
     if (!unit)
       return null
-    local expInvest = ::getTblValueByPath("exp.expInvestUnit" + unitTypeName, ::debriefing_result, 0)
+    local expInvest = ::debriefing_result?.exp["expInvestUnit" + unitTypeName] ?? 0
     expInvest = applyItemExpMultiplicator(expInvest)
     if (expInvest <= 0)
       return null
@@ -1517,13 +1517,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function onEventUnitModsRecount(p)
   {
-    local unitId = ::getTblValueByPath("unit.name", p)
-    updateResearchMod(unitId, "")
+    updateResearchMod(p?.unit.name, "")
   }
 
   function updateResearchMod(unitId, modId)
   {
-    local airData = ::getTblValueByPath("exp.aircrafts." + unitId, ::debriefing_result)
+    local airData = ::debriefing_result?.exp.aircrafts[unitId]
     if (!airData)
       return
     local unit = ::getAircraftByName(unitId)
@@ -1807,10 +1806,10 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function getPremTeaserInfo()
   {
-    local totalWp = ::getTblValue("wpTotal",  ::debriefing_result.exp)
-    local totalRp = ::getTblValue("expTotal", ::debriefing_result.exp)
-    local virtPremAccWp = ::getTblValueByPath("tblTotal.virtPremAccWp",  ::debriefing_result.exp)
-    local virtPremAccRp = ::getTblValueByPath("tblTotal.virtPremAccExp", ::debriefing_result.exp)
+    local totalWp = ::debriefing_result.exp?.wpTotal  ?? 0
+    local totalRp = ::debriefing_result.exp?.expTotal ?? 0
+    local virtPremAccWp = ::debriefing_result.exp?.tblTotal.virtPremAccWp  ?? 0
+    local virtPremAccRp = ::debriefing_result.exp?.tblTotal.virtPremAccExp ?? 0
 
     local totalWithPremWp = (totalWp <= 0 || virtPremAccWp <= 0) ? 0 : (totalWp + virtPremAccWp)
     local totalWithPremRp = (totalRp <= 0 || virtPremAccRp <= 0) ? 0 : (totalRp + virtPremAccRp)
@@ -2381,7 +2380,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function onGetRewardForTask(obj)
   {
-    ::g_battle_tasks.getRewardForTask(obj?.task_id)
+    ::g_battle_tasks.requestRewardForTask(obj?.task_id)
   }
 
   function getCurrentBattleTaskId()
@@ -3235,8 +3234,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       case "players_stats":     return getSelectedTable()
       case "battle_log":        return "battle_log_filter"
       case "battle_tasks_list": return "battle_tasks_list_scroll_block"
-      default:                  return null
     }
+    return null
   }
 
   getUserlogsMask = @() state == debrState.done && isSceneActiveNoModals()

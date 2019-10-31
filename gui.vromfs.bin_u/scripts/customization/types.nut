@@ -79,7 +79,7 @@ local skinLocations = ::require("scripts/customization/skinLocations.nut")
         return false
       if (block?.showByEntitlement && !::has_entitlement(block.showByEntitlement))
         return false
-      if ((block % "hideForLang").find(::g_language.getLanguageName()) != null)
+      if ((block % "hideForLang").indexof(::g_language.getLanguageName()) != null)
         return false
       foreach (feature in block % "reqFeature")
         if (!::has_feature(feature))

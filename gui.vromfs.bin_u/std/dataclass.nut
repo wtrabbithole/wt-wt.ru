@@ -57,10 +57,10 @@ local function _cfield(fieldname, def){
   return "{0} = {1}".subst(fieldname, def)
 }
 local function mkAddNewline(indent=""){
-  return @(a,b) a+"\n"+indent+b
+  return @(a,b) "{0}\n{1}{2}".subst(a,indent,b)
 }
 
-local addComma = @(a,b) a+", "+b
+local addComma = @(a,b) ", ".concat(a,b)
 //local addSemiCol = @(a,b) a+"; "+b
 //local addNewline0 = mkAddNewline()
 local addNewline1 = mkAddNewline("  ")
@@ -128,7 +128,7 @@ local function Dataclass(fields, params = defParams){
   )
   if (params?.verbose)
     print(ret)
-  return compilestring("return " + ret)()
+  return compilestring("return {0}".subst(ret))()
 }
 //local Point2 = Dataclass(["x",["y",0]], {name ="Point2", verbose=true})
 //local p2 = Point2(2,3)

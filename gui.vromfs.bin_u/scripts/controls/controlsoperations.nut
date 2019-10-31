@@ -12,7 +12,7 @@ local replaceAxes = function(ctrlGroup, replacements, flags = Flags.NONE) {
 
   local controls = ::g_controls_manager.getCurPreset()
   foreach (axisName, axis in controls.axes) {
-    if (groupAxes.find(axisName) == null || axis?.axisId == null)
+    if (groupAxes.indexof(axisName) == null || axis?.axisId == null)
       continue
     if (flags & Flags.WITHOUT_MODIFIERS) {
       local modifiers = controls.hotkeys?[axisName] ?? []

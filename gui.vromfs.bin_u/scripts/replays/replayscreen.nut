@@ -154,7 +154,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     showSceneBtn("btn_open_folder", ::is_platform_windows)
 
     ::update_gamercards()
-    getReplays()
+    loadReplays()
 
     local selItem = 0
     if (::current_replay != "")
@@ -179,7 +179,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     refreshList()
   }
 
-  function getReplays()
+  function loadReplays()
   {
     replays = ::get_replays_list()
     replays.sort(@(a,b) b.startTime <=> a.startTime)
@@ -608,7 +608,7 @@ class ::gui_handlers.ReplayScreen extends ::gui_handlers.BaseGuiHandlerWT
     {
       local afterRenameFunc = function(newName)
       {
-        getReplays()
+        loadReplays()
         refreshList()
 
         foreach(idx, replay in replays)
@@ -669,7 +669,7 @@ class ::gui_handlers.RenameReplayHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!newName || newName == "")
       return false;
     foreach(c in "\\|/<>:?*\"")
-      if (newName.find(c.tochar()) != null)
+      if (newName.indexof(c.tochar()) != null)
         return false
     if (::g_string.startsWith(newName, ::autosave_replay_prefix))
       return false;

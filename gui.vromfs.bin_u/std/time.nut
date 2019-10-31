@@ -29,10 +29,9 @@ local secondsToHours = @(seconds) seconds / TIME_HOUR_IN_SECONDS_F
 local hoursToSeconds = @(seconds) seconds * TIME_HOUR_IN_SECONDS_F
 local daysToSeconds = @(days) days * TIME_DAY_IN_SECONDS_F
 
-
-local  hoursToString = function(time, full = true, useSeconds = false, dontShowZeroParam = false, fullUnits = false) {
-  local res = ""
-  local sign = time >= 0 ? "" : ::loc("ui/minus")
+local function hoursToString(time, full = true, useSeconds = false, dontShowZeroParam = false, fullUnits = false, i18n = ::loc) {
+  local res = []
+  local sign = time >= 0 ? "" : i18n("ui/minus")
   time = math.fabs(time.tofloat())
 
   local dd = (time / 24).tointeger()
@@ -40,72 +39,85 @@ local  hoursToString = function(time, full = true, useSeconds = false, dontShowZ
   local mm = (time * TIME_MINUTE_IN_SECONDS % TIME_MINUTE_IN_SECONDS).tointeger()
   local ss = (time * TIME_HOUR_IN_SECONDS % TIME_MINUTE_IN_SECONDS).tointeger()
 
-  if (dd) {
-    res += fullUnits ? ::loc("measureUnits/full/days", { n = dd }) :
-      dd + ::loc("measureUnits/days")
+  if (dd>0) {
+    res.append(fullUnits ? i18n("measureUnits/full/days", { n = dd }) :
+      "{0}{1}".subst(dd,i18n("measureUnits/days")))
     if (dontShowZeroParam && hh == 0) {
-      return sign + res
+      return "".join([sign].extend(res))
     }
   }
 
   if (hh && (full || time<24*7)) {
-    res += (res.len() ? " " : "") +
-      (fullUnits ? ::loc("measureUnits/full/hours", { n = hh }) :
-      stdStr.format((time >= 24)? "%02d%s" : "%d%s", hh, ::loc("measureUnits/hours")))
+    if (res.len()>0)
+      res.append(" ")
+    res.append(fullUnits ? i18n("measureUnits/full/hours", { n = hh }) :
+      stdStr.format((time >= 24)? "%02d%s" : "%d%s", hh, i18n("measureUnits/hours")))
     if (dontShowZeroParam && mm == 0) {
-      return sign + res
+      return "".join([sign].extend(res))
     }
   }
 
   if ((mm || (!res.len() && !useSeconds)) && (full || time<24)) {
-    res += (res.len() ? " " : "") +
-      (fullUnits ? ::loc("measureUnits/full/minutes", { n = mm }) :
-      stdStr.format((time >= 1)? "%02d%s" : "%d%s", mm, ::loc("measureUnits/minutes")))
+    if (res.len()>0)
+      res.append(" ")
+    res.append(fullUnits ? i18n("measureUnits/full/minutes", { n = mm }) :
+      stdStr.format((time >= 1)? "%02d%s" : "%d%s", mm, i18n("measureUnits/minutes")))
   }
 
-  if (((ss && useSeconds) || !res.len()) && (time < 1.0 / 6)) { // < 10min
-    res += (res.len() ? " " : "") +
-      (fullUnits ? ::loc("measureUnits/full/seconds", { n = ss }) :
-      stdStr.format("%02d%s", ss, ::loc("measureUnits/seconds")))
+  if (((ss && useSeconds) || res.len()==0) && (time < 1.0 / 6)) { // < 10min
+    if (res.len()>0)
+      res.append(" ")
+    res.append(fullUnits ? i18n("measureUnits/full/seconds", { n = ss }) :
+      stdStr.format("%02d%s", ss, i18n("measureUnits/seconds")))
   }
 
-  return res.len() ? sign + res : ""
+  if (res.len()==0)
+    return ""
+  return "".join([sign].extend(res))
 }
 
 
-local function secondsToString (value, useAbbreviations = true, dontShowZeroParam = false, secondsFraction = 0) {
+local function secondsToString(value, useAbbreviations = true, dontShowZeroParam = false, secondsFraction = 0, i18n = ::loc) {
   value = value != null ? value.tofloat() : 0.0
   local s = (math.fabs(value) + 0.5).tointeger()
-  local res = ""
+  local res = []
   local separator = useAbbreviations ? " " : ":"
-  local sign = value >= 0 ? "" : ::loc("ui/minus")
+  local sign = value >= 0 ? "" : i18n("ui/minus")
 
   local hoursNum = s / TIME_HOUR_IN_SECONDS
   local minutesNum = (s % TIME_HOUR_IN_SECONDS) / TIME_MINUTE_IN_SECONDS
   local secondsNum = (secondsFraction > 0 ? value : s) % TIME_MINUTE_IN_SECONDS
 
   if (hoursNum != 0) {
-    res += stdStr.format("%d%s", hoursNum, useAbbreviations ? ::loc("measureUnits/hours") : "")
+    res.append(stdStr.format("%d%s", hoursNum, useAbbreviations ? i18n("measureUnits/hours") : ""))
   }
 
   if (!dontShowZeroParam || minutesNum != 0) {
-    local fStr = res.len() ? "%02d%s" : "%d%s"
-    res += (res.len() ? separator : "") +
-      stdStr.format(fStr, minutesNum, useAbbreviations ? ::loc("measureUnits/minutes") : "")
+    local fStr = res.len() > 0 ? "%02d%s" : "%d%s"
+    if (res.len()>0)
+      res.append(separator)
+    res.append(
+      stdStr.format(fStr, minutesNum, useAbbreviations ? i18n("measureUnits/minutes") : "")
+    )
   }
 
-  if (!dontShowZeroParam || secondsNum != 0 || !res.len()) {
-    local fStr = ""
+  if (!dontShowZeroParam || secondsNum != 0 || res.len()==0) {
+    local fStr = []
     local symbolsNum = res.len() ? 2 : 1
     if (secondsFraction > 0)
-      fStr += "%0" + (secondsFraction + 1 + symbolsNum) + "." + secondsFraction + "f%s"
+      fStr.extend(["%0",(secondsFraction + 1 + symbolsNum),".",secondsFraction,"f%s"])
     else
-      fStr += "%0" + symbolsNum + "d%s"
-    res += (res.len() ? separator : "") +
-      stdStr.format(fStr, secondsNum, useAbbreviations ? ::loc("measureUnits/seconds") : "")
+      fStr.extend(["%0",symbolsNum,"d%s"])
+    if (res.len()>0)
+      res.append(separator)
+    res.append(
+      stdStr.format("".join(fStr), secondsNum, useAbbreviations ? i18n("measureUnits/seconds") : "")
+    )
   }
 
-  return res.len() ? sign + res : ""
+  if (res.len()==0)
+    return ""
+  return "".join([sign].extend(res))
 }
 
 
@@ -117,14 +129,13 @@ local timeTbl = {
   w = TIME_WEEK_IN_SECONDS
 }
 
-local function getSecondsFromTemplate (str, errorValue = null) // "1w 1d 1h 1m 1s"
-{
+local function getSecondsFromTemplate (str, errorValue = null) {
+ // "1w 1d 1h 1m 1s"
   if (!str.len())
     return errorValue
 
   local seconds = 0
-  foreach (val in ::split(str, " "))
-  {
+  foreach (val in ::split(str, " ")) {
     local key = val.slice(val.len() - 1)
     if (!(key in timeTbl))
       return errorValue

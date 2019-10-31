@@ -128,13 +128,8 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       {
         customCountry = ::get_profile_country_sq()
         availableUnits = availableUnits.len() ? availableUnits : null
-        gameModeName = getGameModeNameText()
-        showEmptySlot = true
-        needPresetsPanel = true
-        shouldCheckCrewsReady = true
         customUnitsList = operationUnits.len() ? operationUnits : null
-        customUnitsListName = getCustomUnitsListNameText()
-      }
+      }.__update(getSlotbarParams())
     )
   }
 

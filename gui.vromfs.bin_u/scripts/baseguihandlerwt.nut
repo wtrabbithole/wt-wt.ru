@@ -495,7 +495,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return slotbar && slotbar.getCurCountry()
   }
 
-  function onTake(unit = null, params = {})
+  function onTake(unit, params = {})
   {
     unitActions.take(unit, {
         unitObj = unit?.name? scene.findObject(unit.name) : null
@@ -563,7 +563,13 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!unit)
       return
 
-    local actions = ::get_unit_actions_list(unit, this, actionsArray, getParamsForActionsList())
+    local crew = unitObj?.crew_id ? ::get_crew_by_id(unitObj.crew_id.tointeger()) : null
+    local actions = ::get_unit_actions_list({unit = unit,
+      crew = crew,
+      handler = this,
+      actions = actionsArray,
+      p = getParamsForActionsList()
+    })
     if (!actions.actions.len())
       return
 

@@ -71,7 +71,7 @@ class ::gui_handlers.clanRewardsModal extends ::gui_handlers.BaseGuiHandlerWT
   function updateBestRewardsIds(id, isChecked)
   {
     local rIdx = ::g_string.cutPrefix(id, "reward_").tointeger()
-    local bridx = bestIds.searchindex(@(i) i == rIdx)
+    local bridx = bestIds.findindex(@(i) i == rIdx)
     if(bridx == null && isChecked)
       bestIds.append(rIdx)
     if(bridx != null && !isChecked)

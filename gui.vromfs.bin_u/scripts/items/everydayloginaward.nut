@@ -315,7 +315,7 @@ class ::gui_handlers.EveryDayLoginAward extends ::gui_handlers.BaseGuiHandlerWT
 
   function getAwardName()
   {
-    return ::getTblValueByPath("body.chardReward0.name", userlog, "")
+    return userlog?.body.chardReward0.name ?? ""
   }
 
   function getPeriodAwardConfig()

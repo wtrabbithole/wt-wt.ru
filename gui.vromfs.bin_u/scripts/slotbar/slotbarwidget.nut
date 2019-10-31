@@ -81,7 +81,6 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   headerObj = null
   crewsObj = null
   selectedCrewData = null
-  enableCountryList = null
 
   static function create(params)
   {
@@ -236,8 +235,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       local countryData = {
         country = listCountry
         id = c
-        isEnabled = (!country || country == listCountry)
-          && (!enableCountryList || ::isInArray(listCountry, enableCountryList))
+        isEnabled = !country || country == listCountry
         crews = []
       }
       res.append(countryData)
@@ -478,6 +476,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     ::slotbar_oninit = false
+    guiScene.applyPendingChanges(false)
 
     local countriesNestMaxWidth = ::g_dagui_utils.toPixels(guiScene, "1@slotbarCountriesMaxWidth")
     local countriesNestWithBtnsObj = scene.findObject("header_countries_nest")
@@ -520,61 +519,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       ? selectedCrewData
       : getSelectedCrewDataInCountry(countryData)
 
-    local rowData = ""
-    foreach(crewData in countryData.crews)
-    {
-      local id = ::get_slot_obj_id(countryData.id, crewData.idInCountry)
-      local crew = crewData.crew
-      if (!crew)
-      {
-        rowData += ::build_aircraft_item(
-          id,
-          null,
-          {
-            emptyText = "#shop/recruitCrew",
-            crewImage = "#ui/gameuiskin#slotbar_crew_recruit_" + ::g_string.slice(countryData.country, 8)
-            isCrewRecruit = true
-            emptyCost = crewData.cost
-            inactive = true
-            isSlotbarItem = true
-          })
-        continue
-      }
-
-      local airParams = {
-        emptyText      = emptyText,
-        crewImage      = "#ui/gameuiskin#slotbar_crew_free_" + ::g_string.slice(countryData.country, 8)
-        status         = ::getUnitItemStatusText(crewData.status),
-        inactive       = ::show_console_buttons && crewData.status == bit_unit_status.locked && ::is_in_flight(),
-        hasActions     = hasActions
-        toBattle       = toBattle
-        mainActionFunc = ::SessionLobby.canChangeCrewUnits() ? "onSlotChangeAircraft" : ""
-        mainActionText = "" // "#multiplayer/changeAircraft"
-        mainActionIcon = "#ui/gameuiskin#slot_change_aircraft.svg"
-        crewId         = crew.id
-        isSlotbarItem  = true
-        showBR         = ::has_feature("SlotbarShowBattleRating")
-        getEdiffFunc   = getCurrentEdiff.bindenv(this)
-        hasExtraInfoBlock = hasExtraInfoBlock
-        haveRespawnCost = haveRespawnCost
-        haveSpawnDelay = haveSpawnDelay
-        totalSpawnScore = totalSpawnScore
-        sessionWpBalance = sessionWpBalance
-        curSlotIdInCountry = crew.idInCountry
-        curSlotCountryId = crew.idCountry
-        unlocked = crewData.isUnlocked
-        tooltipParams = { needCrewInfo = ::has_feature("CrewInfo") && !::g_crews_list.isSlotbarOverrided }
-        missionRules = missionRules
-        forceCrewInfoUnit = unitForSpecType
-      }
-
-      rowData += ::build_aircraft_item(id, crewData.unit, airParams)
-    }
-
-    rowData = "tr { " + rowData + " } "
-
-    guiScene.replaceContentFromText(tblObj, rowData, rowData.len(), this)
-
+    updateSlotRowView(countryData, tblObj)
     if (selCrewData)
       ::gui_bhv.columnNavigator.selectCell(tblObj, 0, selCrewData.crewIdVisible, false)
 
@@ -1371,5 +1316,66 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     local obj = scene.findObject(params.id)
     if (obj && obj.getValue() != params.value)
       obj.setValue(params.value)
+  }
+
+  function updateSlotRowView(countryData, tblObj)
+  {
+    if (!countryData)
+      return
+
+    local rowData = ""
+    foreach(crewData in countryData.crews)
+    {
+      local id = ::get_slot_obj_id(countryData.id, crewData.idInCountry)
+      local crew = crewData.crew
+      if (!crew)
+      {
+        rowData += ::build_aircraft_item(
+          id,
+          null,
+          {
+            emptyText = "#shop/recruitCrew",
+            crewImage = "#ui/gameuiskin#slotbar_crew_recruit_" + ::g_string.slice(countryData.country, 8)
+            isCrewRecruit = true
+            emptyCost = crewData.cost
+            inactive = true
+            isSlotbarItem = true
+          })
+        continue
+      }
+
+      local airParams = {
+        emptyText      = emptyText,
+        crewImage      = "#ui/gameuiskin#slotbar_crew_free_" + ::g_string.slice(countryData.country, 8)
+        status         = ::getUnitItemStatusText(crewData.status),
+        inactive       = ::show_console_buttons && crewData.status == bit_unit_status.locked && ::is_in_flight(),
+        hasActions     = hasActions
+        toBattle       = toBattle
+        mainActionFunc = ::SessionLobby.canChangeCrewUnits() ? "onSlotChangeAircraft" : ""
+        mainActionText = "" // "#multiplayer/changeAircraft"
+        mainActionIcon = "#ui/gameuiskin#slot_change_aircraft.svg"
+        crewId         = crew.id
+        isSlotbarItem  = true
+        showBR         = ::has_feature("SlotbarShowBattleRating")
+        getEdiffFunc   = getCurrentEdiff.bindenv(this)
+        hasExtraInfoBlock = hasExtraInfoBlock
+        haveRespawnCost = haveRespawnCost
+        haveSpawnDelay = haveSpawnDelay
+        totalSpawnScore = totalSpawnScore
+        sessionWpBalance = sessionWpBalance
+        curSlotIdInCountry = crew.idInCountry
+        curSlotCountryId = crew.idCountry
+        unlocked = crewData.isUnlocked
+        tooltipParams = { needCrewInfo = ::has_feature("CrewInfo") && !::g_crews_list.isSlotbarOverrided }
+        missionRules = missionRules
+        forceCrewInfoUnit = unitForSpecType
+      }
+
+      rowData += ::build_aircraft_item(id, crewData.unit, airParams)
+    }
+
+    rowData = "tr { " + rowData + " } "
+
+    guiScene.replaceContentFromText(tblObj, rowData, rowData.len(), this)
   }
 }

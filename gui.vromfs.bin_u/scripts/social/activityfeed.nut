@@ -164,7 +164,7 @@ local psnApi = require("scripts/social/psnWebApi.nut")
     {
       local localizationTable = {}
       foreach(name, value in activityFeed_config)
-        localizationTable[name] <- ::get_tbl_value_by_path_array([name, lang], localizedKeyWords, value)
+        localizationTable[name] <- localizedKeyWords?[name][lang] ?? value
 
       captions[lang] <- string.subst(localizationTable)
     }

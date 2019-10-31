@@ -162,7 +162,7 @@ g_url_missions.modifyMission <- function modifyMission(urlMission, name, url)
 
 g_url_missions.deleteMission <- function deleteMission(urlMission)
 {
-  local idx = list.find(urlMission)
+  local idx = list.indexof(urlMission)
   if (idx == null)
     return
 

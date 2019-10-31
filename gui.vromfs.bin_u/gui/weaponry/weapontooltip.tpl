@@ -158,8 +158,7 @@ tdiv {
   <</showPrice>>
 }
 
-dummy {
+timer {
   id:t = 'weapons_timer';
-  behavior:t = 'Timer';
   timer_handler_func:t = 'onUpdateWeaponTooltip';
 }

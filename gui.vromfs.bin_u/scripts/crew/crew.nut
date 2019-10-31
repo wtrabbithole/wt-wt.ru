@@ -212,9 +212,8 @@ g_crew.getSkillItem <- function getSkillItem(memberName, skillName)
 
 g_crew.getSkillValue <- function getSkillValue(crewId, crewType, skillName)
 {
-  local path = ::format("%s.%s", crewType, skillName)
   local crewSkills = ::g_unit_crew_cache.getUnitCrewDataById(crewId)
-  return ::getTblValueByPath(path, crewSkills, 0)
+  return crewSkills?[crewType][skillName] ?? 0
 }
 
 g_crew.getSkillNewValue <- function getSkillNewValue(skillItem, crew)

@@ -49,12 +49,7 @@ global enum MESSAGE_TYPE {
 
 ::g_script_reloader.registerPersistentData("MenuChatGlobals", ::getroottable(), ["clanUserTable"]) //!!FIX ME: must be in contacts
 
-::sortChatUsers <- function sortChatUsers(a, b)
-{
-  if (a.name > b.name) return 1
-    else if (a.name < b.name) return -1
-  return 0;
-}
+local sortChatUsers = @(a, b) a.name <=> b.name
 
 
 ::getGlobalRoomsListByLang <- function getGlobalRoomsListByLang(lang, roomsList = null)
@@ -755,7 +750,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       show = !scene.isVisible()
     if (!show)
     {
-      getSizes()
+      loadSizes()
       broadcastEvent("OutsideObjWrap", { obj = getCurFocusObj(), dir = -1 })
     }
     scene.show(show)
@@ -793,7 +788,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
                   joinParams = ""  }
       }
 
-    local idx = roomName.find(" ")
+    local idx = roomName.indexof(" ")
     if ( idx )  {
       //  loading legacy record like '#some_chat password'
       return {  roomName = "#"+::g_chat.validateRoomName( roomName.slice(0, idx) )
@@ -872,7 +867,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     chatSceneShow(false)
   }
 
-  function getSizes()
+  function loadSizes()
   {
     if (::last_chat_scene_show && checkScene())
     {
@@ -996,7 +991,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::last_chat_scene_show)
       return
 
-    getSizes()
+    loadSizes()
     onPresenceDetectionTick()
   }
 
@@ -1168,7 +1163,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
             }
             roomData.users.append(utbl)
           }
-        roomData.users.sort(::sortChatUsers)
+        roomData.users.sort(sortChatUsers)
         updateUsersList()
       }
       if (::g_chat.isRoomClan(db.channel))
@@ -1215,7 +1210,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!found)
         {
           roomData.users.append(createRoomUserInfo(db.nick))
-          roomData.users.sort(::sortChatUsers)
+          roomData.users.sort(sortChatUsers)
           if (::g_chat.isRoomSquad(roomData.id))
             onSquadListMember(db.nick, true)
 
@@ -1430,7 +1425,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         foreach (room in ::g_chat.rooms)
           if (room.id == db?.sender.name)
           {
-            local idxLast = db.message.find(">")
+            local idxLast = db.message.indexof(">")
             if ((db.message.slice(0,1)=="<") && (idxLast != null))
             {
               room.addMessage(menuChatRoom.newMessage(db.message.slice(1, idxLast), db.message.slice(idxLast+1), false, false, mpostColor))
@@ -1864,7 +1859,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
               }
 
               local paramStr = msg.slice(cmd.len()+2)
-              local spaceidx = paramStr.find(" ")
+              local spaceidx = paramStr.indexof(" ")
               local roomName = spaceidx ? paramStr.slice(0,spaceidx) : paramStr
               if (roomName.slice(0, 1) != "#")
                 roomName = "#" + roomName
@@ -2184,7 +2179,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       msg = msg.slice(1)
       local res = { user = "", msg = "" }
-      local start = msg.find(" ") ?? -1
+      local start = msg.indexof(" ") ?? -1
       if (start < 1)
         res.user = msg
       else
@@ -2410,7 +2405,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       show = !wasVisible
 
     if (!show && wasVisible)
-      getSizes()
+      loadSizes()
 
     sObj.show(show)
     if (show)

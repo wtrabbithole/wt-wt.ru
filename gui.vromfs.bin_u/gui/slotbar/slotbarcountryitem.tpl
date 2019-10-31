@@ -39,7 +39,7 @@ shopFilter {
   squadronExpIcon {
     countryId:t='<<country>>'
     value:t='{"viewId": "COUNTRY_SQUADRON_EXP_ICON"}'
-    type:t='inTab'
+    type:t='slotbarCountry'
   }
   discountIcon {
     countryId:t='<<country>>'

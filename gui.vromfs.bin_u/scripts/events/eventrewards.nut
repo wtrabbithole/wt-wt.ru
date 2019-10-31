@@ -34,7 +34,7 @@
     updateProgress = function (reward_blk, event, callback, context = null)
     {
       local cb = ::Callback(callback, context)
-      ::g_reward_progress_manager.getProgress(event, reward_blk.fieldName,
+      ::g_reward_progress_manager.requestProgress(event, reward_blk.fieldName,
         (@(reward_blk, cb) function (value) {
           local progress = "0"
           if (value != null)
@@ -57,7 +57,7 @@
     updateProgress = function (reward_blk, event, callback, context = null)
     {
       local cb = ::Callback(callback, context)
-      ::g_reward_progress_manager.getProgress(event, reward_blk.fieldName,
+      ::g_reward_progress_manager.requestProgress(event, reward_blk.fieldName,
         (@(reward_blk, cb) function (value) {
           local progress = "0"
           if (value != null)
@@ -84,7 +84,7 @@
         request.tournament_mode = GAME_EVENT_TYPE.TM_ELO_GROUP_DETAIL
       request.lbField  <- reward_blk.fieldName
       local cb = ::Callback(callback, context)
-      ::events.getSelfRow(request, (@(cb) function (self_row) {
+      ::events.requestSelfRow(request, (@(cb) function (self_row) {
           local progress = self_row.len() ? ::getTblValue("pos", self_row[0]) : null
           cb(progress)
         })(cb))
@@ -332,6 +332,7 @@ EventRewards.getRewardRowIcon <- function getRewardRowIcon(rewardBlk)
 
     return cfg.getRowIcon(value, rewardBlk)
   }
+  return ""
 }
 
 EventRewards.getRewardDescText <- function getRewardDescText(rewardBlk)

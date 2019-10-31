@@ -1,7 +1,7 @@
 local function combinec(obss, func) {
   //this function create and returns observable that is subscribed to list of observables
   // and its value is combination of their values by provided function
-  ::assert(["array","table"].find(::type(obss))!=null, "frp combine supports only tables and arrays")
+  ::assert(["array","table"].indexof(::type(obss))!=null, "frp combine supports only tables and arrays")
   ::assert(::type(func) =="function", "frp combine needs function as second param")
   local infos = func.getfuncinfos()
   local params = infos.parameters.len()-1
@@ -41,7 +41,7 @@ local function combinef(func) {
   return res
 }
 local function combine(obss, func=null){
-  ::assert(["array","table","function"].find(::type(obss))!=null, "frp combine supports only tables and arrays as first argument and function as second, or function(arg1=Watched,){} as first")
+  ::assert(["array","table","function"].indexof(::type(obss))!=null, "frp combine supports only tables and arrays as first argument and function as second, or function(arg1=Watched,){} as first")
   return (func==null) ? combinef(obss) : combinec(obss, func)
 }
 

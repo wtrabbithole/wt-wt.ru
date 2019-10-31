@@ -1,5 +1,9 @@
-local math = require("math")
+local abs = @(v) v> 0 ? v.tointeger() : -v.tointeger()
 
+local callableTypes = ["function","table","instance"]
+local function isCallable(v) {
+  return callableTypes.indexof(::type(v)) != null && (v.getfuncinfos() != null)
+}
 /*
 + partial:
   partial(f(x,y,z), 1) == @(y,z) f(1,y,z)
@@ -7,7 +11,7 @@ local math = require("math")
   partial(f(x,y,z), 1, 2, 3) == @() f(1,2,3) or f(1,2,3)
 */
 local function partial(func, ...){
-  assert(::type(func) == "function", "partial can be applied only to functions as first arguments")
+  ::assert(isCallable(func), "partial can be applied only to functions as first arguments")
   local infos = func.getfuncinfos()
   local argsnum = infos.parameters.len()-1
   local isvargved = infos.varargs==1
@@ -23,7 +27,7 @@ local function partial(func, ...){
       return func.acall([null].extend(pargs).extend(vargv))
     }
   }
-  assert(false, "function '{0}' cannot be partial with more arguments({1}) that it accepts({2})".subst(infos.name, pargslen, argsnum))
+  ::assert(false, @() "function '{0}' cannot be partial with more arguments({1}) that it accepts({2})".subst(infos.name, pargslen, argsnum))
   return func
 }
 
@@ -35,7 +39,7 @@ local function partial(func, ...){
   kwarg(foo)==@(p) (foo(p?.x, p?.y, p?.z ?? 2))
 */
 local function kwarg(func){
-  assert(::type(func) == "function", "partial can be applied only to functions as first arguments")
+  ::assert(isCallable(func), "kwarg can be applied only to functions as first arguments")
   local infos = func.getfuncinfos()
   local funcargs = infos.parameters.slice(1)
   local defargs = infos.defparams
@@ -55,19 +59,19 @@ local function kwarg(func){
   }
   return !isvargved
     ? function(params=kfuncargs){
-        assert(["table", "class","instance"].find(typeof(params))!=null, "param of function can be only hashable (table, class, instance), found:'{0}'".subst(typeof(params)))
+        ::assert(["table", "class","instance"].indexof(::type(params))!=null, @() "param of function can be only hashable (table, class, instance), found:'{0}'".subst(::type(params)))
         local keys = params.keys()
-        local nonManP = mandatoryparams.filter(@(p) keys.find(p) == null)
-        assert(nonManP.len()==0, "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? "'{0}'".subst(nonManP[0]) : nonManP.reduce(@(a,b) "{0},'{1}'".subst(a,b))))
+        local nonManP = mandatoryparams.filter(@(p) keys.indexof(p) == null)
+        ::assert(nonManP.len()==0, @() "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? "'{0}'".subst(nonManP[0]) : nonManP.reduce(@(a,b) "{0},'{1}'".subst(a,b))))
         params = kfuncargs.__merge(params)
         local posarguments = funcargs.map(@(kv) params[kv])
         return func.acall([this].extend(posarguments))
       }
     : function(params, ...){
-        assert(["table", "class","instance"].find(typeof(params))!=null, "param of function can be only hashable (table, class, instance), found:'{0}'".subst(typeof(params)))
+        ::assert(["table", "class","instance"].indexof(::type(params))!=null, @() "param of function can be only hashable (table, class, instance), found:'{0}'".subst(::type(params)))
         local keys = params.keys()
-        local nonManP = mandatoryparams.filter(@(p) keys.find(p) == null)
-        assert(nonManP.len()==0, "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? "'{0}'".subst(nonManP[0]) : nonManP.reduce(@(a,b) "{0},'{1}'".subst(a,b))))
+        local nonManP = mandatoryparams.filter(@(p) keys.indexof(p) == null)
+        ::assert(nonManP.len()==0, @() "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? "'{0}'".subst(nonManP[0]) : nonManP.reduce(@(a,b) "{0},'{1}'".subst(a,b))))
         local posarguments = funcargs.map(@(kv) params[kv])
         return func.acall([this].extend(posarguments).extend(vargv))
       }
@@ -80,8 +84,8 @@ local function kwarg(func){
   partial(foo, {b=3}, 2)(5) == (2+3)*5
 */
 local function kwpartial(func, partparams, ...){
-  assert(::type(func) == "function", "partial can be applied only to functions as first arguments")
-  assert(["table", "class","instance"].find(typeof(partparams))!=null, "kwpartial second argument of function can be only hashable (table, class, instance)")
+  ::assert(isCallable(func), "partial can be applied only to functions as first arguments")
+  ::assert(["table", "class","instance"].indexof(::type(partparams))!=null, "kwpartial second argument of function can be only hashable (table, class, instance)")
   local infos = func.getfuncinfos()
   local funcargs = infos.parameters.slice(1)
 //  local defargs = infos.defparams
@@ -89,14 +93,14 @@ local function kwpartial(func, partparams, ...){
   local posfuncargs = {}
   local partvargs = vargv
   foreach (p, v in partparams){
-    local posidx = funcargs.find(p)
+    local posidx = funcargs.indexof(p)
     if (posidx == null)
       continue
     posfuncargs[posidx] <- v
   }
   return function(...){
     local curargs = partvargs.extend(vargv)
-    assert(curargs.len()+posfuncargs.len()>=argsnum, "not enough arguments provided for function '{0}' to call".subst(infos?.name))
+    ::assert(curargs.len()+posfuncargs.len()>=argsnum, @() "not enough arguments provided for function '{0}' to call".subst(infos?.name))
     local finalargs = []
     local provArgIdx = 0
     for (local i=0; i<argsnum; i++) {
@@ -112,19 +116,15 @@ local function kwpartial(func, partparams, ...){
   }
 }
 
-local function filterFunctions(func) {
-  return typeof(func) =="function"
-}
-
 // pipe:
 //  pipe(f,g) =  @(x) f(g(x))
 local function pipe(...){
-  local args = vargv.filter(filterFunctions)
-  assert(args.len() == vargv.len() && args.len()>0, "pipe should be called with functions")
+  local args = vargv.filter(isCallable)
+  ::assert(args.len() == vargv.len() && args.len()>0, "pipe should be called with functions")
   local finfos = args[0].getfuncinfos()
-  local numarg = (finfos.native ? math.abs(finfos.paramscheck) : finfos.parameters.len()) - 1
+  local numarg = (finfos.native ? abs(finfos.paramscheck) : finfos.parameters.len()) - 1
   local isvargved = finfos.native ? finfos.paramscheck < -2 : finfos.varargs==1
-  assert(numarg == 1 && !isvargved, "pipe cannot be applied to vargv function call or multiarguments function call")
+  ::assert(numarg == 1 && !isvargved, "pipe cannot be applied to vargv function call or multiarguments function call")
   return function(x){
     foreach(v in args)
       x = v(x)
@@ -135,13 +135,13 @@ local function pipe(...){
 // compose (reverse to pipe):
 //  compose(f,g) =  @(x) g(f(x))
 local function compose(...){
-  local args = vargv.filter(filterFunctions).reverse()
-  assert(args.len() == vargv.len() && args.len()>0, "compose should be called with functions")
+  local args = vargv.filter(isCallable).reverse()
+  ::assert(args.len() == vargv.len() && args.len()>0, "compose should be called with functions")
 
   local finfos = args[0].getfuncinfos()
-  local numarg = (finfos.native ? math.abs(finfos.paramscheck) : finfos.parameters.len()) - 1
+  local numarg = (finfos.native ? abs(finfos.paramscheck) : finfos.parameters.len()) - 1
   local isvargved = finfos.native ? finfos.paramscheck < -2 : finfos.varargs==1
-  assert(numarg == 1 && !isvargved, "compose cannot be applied to vargv function call or multiarguments function call")
+  ::assert(numarg == 1 && !isvargved, "compose cannot be applied to vargv function call or multiarguments function call")
   return function(x){
     foreach(v in args)
       x = v(x)
@@ -171,7 +171,7 @@ unfortunately returning function are now use vargv, instead of rest of parameter
 */
 local function curry(fn) {
   local finfos = fn.getfuncinfos()
-  assert(!finfos.native || finfos.paramscheck >= 0, "Cannot curry native function with varargs")
+  ::assert(!finfos.native || finfos.paramscheck >= 0, "Cannot curry native function with varargs")
   local arity = (finfos.native ? finfos.paramscheck : finfos.parameters.len())-1
 
   return function f1(...) {
@@ -201,13 +201,13 @@ local function memoize(func, hashfunc=null){
   local cache = {}
   local cache_for_null = {}
   local parameters = func.getfuncinfos().parameters.slice(0)
-  assert(parameters.len()>0)
+  ::assert(parameters.len()>0)
   hashfunc = hashfunc ?? function(...) {
     return vargv[0]
  }
   local function memoizedfunc(...){
     local args = [null].extend(vargv)
-    local hash = hashfunc.pacall(args)
+    local hash = hashfunc.acall(args)
     if (hash == null){
       //index cannot be null. use different cach to avoid collision
       cache = cache_for_null
@@ -216,7 +216,7 @@ local function memoize(func, hashfunc=null){
     if (hash in cache) {
       return cache[hash]
     }
-    local result = func.pacall(args)
+    local result = func.acall(args)
     cache[hash] <- result
     return result
   }
@@ -232,4 +232,5 @@ return {
   kwpartial = kwpartial
   curry = curry
   memoize = memoize
+  isCallable = isCallable
 }

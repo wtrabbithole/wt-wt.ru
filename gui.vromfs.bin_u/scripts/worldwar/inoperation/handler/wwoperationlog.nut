@@ -594,7 +594,7 @@ class ::gui_handlers.WwOperationLog extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    local logBlk = ::getTblValueByPath(battleId + ".logBlk", ::g_ww_logs.logsBattles)
+    local logBlk = ::g_ww_logs.logsBattles?[battleId].logBlk
     ::gui_handlers.WwBattleResults.open(::WwBattleResults(logBlk))
   }
 

@@ -59,8 +59,7 @@ class EventTicketBuyOfferProcess
           timeleft = time.secondsToString(tournamentData.timeToWait)
         }))
       }
-        ::scene_msg_box("cant_join", null,  ::g_string.implode(msgArr, "\n"),
-          [["ok", function() {}]], "ok")
+      ::scene_msg_box("cant_join", null,  ::g_string.implode(msgArr, "\n"), [["ok"]], "ok")
     }
     else
     {

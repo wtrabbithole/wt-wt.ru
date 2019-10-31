@@ -58,7 +58,7 @@ options.template <- {
   reinit = @(handler, scene) null
 
   update = function(handler, scene) {
-    local idx = values.find(value) ?? -1
+    local idx = values.indexof(value) ?? -1
     local markup = ::create_option_combobox(null, items, idx, null, false)
     local obj = scene.findObject(id)
     if (::check_obj(obj))
@@ -111,8 +111,8 @@ options.addTypes({
       local countriesWithUnitType = ::get_countries_by_unit_type(unitType)
       values = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, countriesWithUnitType))
       items  = ::u.map(values, @(c) { text = ::loc(c), image = ::get_country_icon(c) })
-      value = value && values.find(value) != null ? value
-        : values.find(targetUnit?.shopCountry) != null ? targetUnit.shopCountry
+      value = value && values.indexof(value) != null ? value
+        : values.indexof(targetUnit?.shopCountry) != null ? targetUnit.shopCountry
         : (values?[0] ?? "")
       update(handler, scene)
     }
@@ -153,7 +153,7 @@ options.addTypes({
       list = ::u.map(list, @(u) { unit = u, id = u.name, br = u.getBattleRating(ediff) })
       list.sort(@(a, b) a.br <=> b.br)
       local preferredBR = targetUnit.getBattleRating(ediff)
-      local idx = list.searchindex(@(v) v.id == unitId) ?? ::find_nearest(preferredBR, ::u.map(list, @(v) v.br))
+      local idx = list.findindex(@(v) v.id == unitId) ?? ::find_nearest(preferredBR, ::u.map(list, @(v) v.br))
       values = ::u.map(list, @(v) v.unit)
       items = ::u.map(list, @(v) {
         text  = ::format("[%.1f] %s", v.br, ::getUnitName(v.id))
@@ -201,7 +201,7 @@ options.addTypes({
 
           if (!weaponBlkName)
             continue
-          if (visibleTypes.find(bulletsSet?.weaponType) == null)
+          if (visibleTypes.indexof(bulletsSet?.weaponType) == null)
             continue
 
           if (shouldSkipBulletBelts && isBulletBelt)
@@ -319,11 +319,10 @@ options.addTypes({
 
 options.init <- function(handler, scene) {
   foreach (o in options.types)
-  {
     o.value = o.defValue
+  foreach (o in options.types)
     if (o.isNeedInit())
       o.reinit(handler, scene)
-  }
 }
 
 options.setAnalysisParams <- function() {

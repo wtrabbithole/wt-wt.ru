@@ -124,7 +124,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (obj != null)
       obj.setValue(title)
 
-    misListType.getMissionsList(showAllCampaigns,
+    misListType.requestMissionsList(showAllCampaigns,
       ::Callback(updateMissionsList, this),
       customChapterId, customChapters)
   }
@@ -923,7 +923,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (filterData.isHeader) //need update headers by missions content. see applyMissionsfilter
       return true
 
-    local res = !filterText.len() || filterData.locString.find(filterText) != null
+    local res = !filterText.len() || filterData.locString.indexof(filterText) != null
     if (res && isOnlyFavorites)
       res = misListType.isMissionFavorite(filterData.mission)
     return res

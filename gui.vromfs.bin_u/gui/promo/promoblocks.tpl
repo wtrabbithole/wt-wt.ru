@@ -218,12 +218,3 @@ promoButton {
   }
 }
 <</promoButtons>>
-<<#hasTimer>>
-dummy {
-  id:t='promo_blocks_timer'
-  behavior:t='Timer'
-  timer_handler_func:t='onTimerUpdate'
-  timer_interval_msec:t='1000'
-}
-<</hasTimer>>
-

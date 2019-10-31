@@ -36,7 +36,7 @@ g_hud_debug_objects.createTimerObjOnce <- function createTimerObjOnce()
     return
   }
 
-  local blkText = "dummy { id:t = 'g_hud_debug_objects_timer'; behavior:t = 'Timer'; timer_handler_func:t = 'onUpdate' }"
+  local blkText = "timer { id:t = 'g_hud_debug_objects_timer'; timer_handler_func:t = 'onUpdate' }"
   hudHandler.guiScene.appendWithBlk(hudHandler.scene, blkText, null)
   curTimerObj = hudHandler.scene.findObject("g_hud_debug_objects_timer")
   curTimerObj.setUserData(this)

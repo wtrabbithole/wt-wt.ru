@@ -196,11 +196,11 @@ g_chat.checkBlockedLink <- function checkBlockedLink(link)
 
 g_chat.revealBlockedMsg <- function revealBlockedMsg(text, link)
 {
-  local start = text.find("<Link=" + link)
+  local start = text.indexof("<Link=" + link)
   if (start == null)
     return text
 
-  local end = text.find("</Link>", start)
+  local end = text.indexof("</Link>", start)
   if (end == null)
     return text
 

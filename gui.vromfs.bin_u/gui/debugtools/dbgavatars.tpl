@@ -187,10 +187,9 @@ root {
     }
   }
 
-  dummy
+  timer
   {
     id:t = 'edit_update'
-    behavior:t = 'Timer'
     timer_handler_func:t = 'onEditUpdate'
   }
 }

@@ -288,7 +288,7 @@ class ::BaseGuiHandler
   {
     ::dagor.assertf(typeof(funcName) == "string", "Error: doWhenActiveOnce work only with function names")
 
-    local prevIdx = delayedActions.find(funcName)
+    local prevIdx = delayedActions.indexof(funcName)
     if (prevIdx != null)
       delayedActions.remove(prevIdx)
     delayedActions.append(funcName)

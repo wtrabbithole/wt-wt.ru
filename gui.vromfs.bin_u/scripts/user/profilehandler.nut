@@ -217,7 +217,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       sheetsToHide.append("UnlockAchievement")
     foreach(sheetName in sheetsToHide)
     {
-      local idx = sheetsList.find(sheetName)
+      local idx = sheetsList.indexof(sheetName)
       if (idx != null)
         sheetsList.remove(idx)
     }
@@ -357,7 +357,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local pageList = scene.findObject("decals_list")
       guiScene.replaceContentFromText(pageList, data, data.len(), this)
 
+      local isEqualIdx = selIdx == pageList.getValue()
       pageList.setValue(selIdx)
+      if (isEqualIdx) // func on_select don't call if same value is se already
+        onPageChange(pageList)
     }
     else if (sheet in unlockFilters)
     {
@@ -403,7 +406,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function getPageIdByName(name)
   {
-    local start = name.find("Unlock")
+    local start = name.indexof("Unlock")
     if (start!=null)
       return name.slice(start+6)
     return name
@@ -593,7 +596,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       recacheSkins()
     if (ownType == null)
       ownType = getCurrentOwnType()
-    return ::get_tbl_value_by_path_array([country, unitType, ownType], skinsCache, [])
+    return skinsCache?[country][unitType][ownType] ?? []
   }
 
   function getCurrentOwnType()
@@ -913,7 +916,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function getSkinCountry(skinName)
   {
-    local len0 = skinName.find("/")
+    local len0 = skinName.indexof("/")
     if (len0)
       return ::getShopCountry(skinName.slice(0, len0))
     return ""
@@ -1018,7 +1021,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local showStages = ("stages" in item) && (item.stages.len() > 1)
 
     local unlockDesc = typeOR ? ::loc("hints/shortcut_separator") + "\n" : ""
-    unlockDesc += item.text.find("%d") != null ? format(item.text, curVal, maxVal) : item.text
+    unlockDesc += item.text.indexof("%d") != null ? format(item.text, curVal, maxVal) : item.text
     if (showStages && item.curStage >= 0)
        unlockDesc += ::g_unlock_view.getRewardText(item, item.curStage)
 
@@ -1300,7 +1303,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     fillProfileStats(myStats)
   }
 
-  function getNewTitles(obj)
+  function openChooseTitleWnd(obj)
   {
     ::gui_handlers.ChooseTitle.open({
       alignObj = obj
@@ -1427,7 +1430,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     avatars.openChangePilotIconWnd(onIconChoosen, this)
   }
 
-  function getPlayerLink()
+  function openViralAcquisitionWnd()
   {
     ::show_viral_acquisition_wnd()
   }

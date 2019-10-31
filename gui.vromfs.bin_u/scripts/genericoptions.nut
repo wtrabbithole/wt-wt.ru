@@ -976,7 +976,7 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
   function getOptionHeader(option)
   {
     foreach(header, optionsArray in headersToOptionsList)
-      if(optionsArray.find(option) != null)
+      if(optionsArray.indexof(option) != null)
         return header
     return null
   }
@@ -1179,7 +1179,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     local searchResultOptions = []
     foreach(optionData in optionsVisibleBeforeSearch)
     {
-      local show = optionData.searchTitle.find(filterText) != null
+      local show = optionData.searchTitle.indexof(filterText) != null
       base.showOptionRow(optionData.option, show)
 
       if(show)

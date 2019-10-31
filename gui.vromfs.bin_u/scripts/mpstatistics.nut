@@ -13,9 +13,7 @@ local avatars = ::require("scripts/user/avatars.nut")
 {
   if (::time_to_kick_show_timer == null)
   {
-    ::time_to_kick_show_timer = ::getTblValueByPath(
-      "time_to_kick.show_timer_threshold",
-      ::get_game_settings_blk(), 30)
+    ::time_to_kick_show_timer = ::get_game_settings_blk()?.time_to_kick.show_timer_threshold ?? 30
   }
   return ::time_to_kick_show_timer
 }
@@ -24,9 +22,7 @@ local avatars = ::require("scripts/user/avatars.nut")
 {
   if (::time_to_kick_show_alert == null)
   {
-    ::time_to_kick_show_alert = ::getTblValueByPath(
-      "time_to_kick.show_alert_threshold",
-      ::get_game_settings_blk(), 15)
+    ::time_to_kick_show_alert = ::get_game_settings_blk()?.time_to_kick.show_alert_threshold ?? 15
   }
   return ::time_to_kick_show_alert
 }
@@ -35,9 +31,7 @@ local avatars = ::require("scripts/user/avatars.nut")
 {
   if (::in_battle_time_to_kick_show_timer == null)
   {
-    ::in_battle_time_to_kick_show_timer = ::getTblValueByPath(
-      "time_to_kick.in_battle_show_timer_threshold",
-      ::get_game_settings_blk(), 150)
+    ::in_battle_time_to_kick_show_timer = ::get_game_settings_blk()?.time_to_kick.in_battle_show_timer_threshold ?? 150
   }
   return ::in_battle_time_to_kick_show_timer
 }
@@ -46,9 +40,7 @@ local avatars = ::require("scripts/user/avatars.nut")
 {
   if (::in_battle_time_to_kick_show_alert == null)
   {
-    ::in_battle_time_to_kick_show_alert = ::getTblValueByPath(
-      "time_to_kick.in_battle_show_alert_threshold",
-      ::get_game_settings_blk(), 50)
+    ::in_battle_time_to_kick_show_alert = ::get_game_settings_blk()?.time_to_kick.in_battle_show_alert_threshold ?? 50
   }
   return ::in_battle_time_to_kick_show_alert
 }

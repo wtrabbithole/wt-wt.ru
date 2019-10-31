@@ -78,12 +78,14 @@ local platformModule = require("scripts/clientState/platform.nut")
           }
           break
         case "gold":
-          local valStr = ::g_language.decimalFormat(val)
-          local tooltipText = ::getGpPriceText(::colorize("activeTextColor", valStr), true)
+          local moneyInst = ::Money(money_type.none, 0, val)
+          local valStr = moneyInst.toStringWithParams({isGoldAlwaysShown = true})
+
+          local tooltipText = ::colorize("activeTextColor", valStr)
           tooltipText += "\n" + ::loc("mainmenu/gold")
           obj.getParent().tooltip = tooltipText
 
-          obj.setValue(valStr)
+          obj.setValue(moneyInst.toStringWithParams({isGoldAlwaysShown = true, needIcon = false}))
           break
         case "balance":
           local valStr = ::g_language.decimalFormat(val)

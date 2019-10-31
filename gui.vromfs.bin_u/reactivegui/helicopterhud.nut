@@ -937,7 +937,7 @@ textParamsMap[HelicopterParams.FUEL] <- {
 }
 
 local paramsTableWidth = hdpx(450)
-local paramsSightTableWidth = hdpx(220)
+local paramsSightTableWidth = hdpx(270)
 
 
 local generateParamsTable = function(mask, width, pos, gap, needCaption = true) {
@@ -975,7 +975,7 @@ local helicopterParamsTable = generateParamsTable(helicopterState.MainMask,
 
 local helicopterSightParamsTable = generateParamsTable(helicopterState.SightMask,
   paramsSightTableWidth,
-  [sw(50) - hdpx(250) - hdpx(180), hdpx(480)],
+  [sw(50) - hdpx(250) - hdpx(200), hdpx(480)],
   hdpx(3))
 
 local mfdSightParamsTable = generateParamsTable(helicopterState.SightMask,

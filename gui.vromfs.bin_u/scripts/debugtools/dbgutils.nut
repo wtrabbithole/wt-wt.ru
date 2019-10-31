@@ -193,10 +193,9 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
         }
       partNames.sort()
 
-      local params = { name = "" }
       foreach (partName in partNames)
       {
-        params.name = partName
+        local params = { name = partName }
         local info = ::dmViewer.getPartTooltipInfo(::dmViewer.getPartNameId(params), params)
         if (info.desc != "")
           blk[partName] <- ::g_string.stripTags(info.title + "\n" + info.desc)
@@ -321,7 +320,7 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
     updaterData.handler = handler
     updaterData.callback = updaterCallback
 
-    local fooTimerObj = "dummy { id:t = 'debug_loading_timer'; behavior:t = 'Timer'; timer_handler_func:t = 'onUpdate' }"
+    local fooTimerObj = "timer { id:t = 'debug_loading_timer'; timer_handler_func:t = 'onUpdate' }"
     handler.guiScene.appendWithBlk(handler.scene, fooTimerObj, null)
     local curTimerObj = handler.scene.findObject("debug_loading_timer")
     curTimerObj.setUserData(updaterData)
@@ -373,7 +372,7 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 {
   local list = ::g_language.getGameLocalizationInfo()
   local curLang = ::get_current_language()
-  local curIdx = list.searchindex( @(l) l.id == curLang ) ?? 0
+  local curIdx = list.findindex( @(l) l.id == curLang ) ?? 0
   local newIdx = curIdx + (isNext ? 1 : -1 + list.len())
   local newLang = list[newIdx % list.len()]
   ::g_language.setGameLocalization(newLang.id, true, false)
@@ -384,7 +383,7 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 {
   local curResolution = ::getSystemConfigOption("video/resolution")
   local list = ::sysopt.mShared.getVideoModes(curResolution, false)
-  local curIdx = list.find(curResolution) || 0
+  local curIdx = list.indexof(curResolution) || 0
   local newIdx = ::clamp(curIdx + (shouldIncrease ? 1 : -1), 0, list.len() - 1)
   local newResolution = list[newIdx]
   local done = @() dlog("Set resolution: " + newResolution +

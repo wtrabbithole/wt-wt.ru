@@ -825,8 +825,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     local reinforcements = ::g_world_war.getMyReadyReinforcementsArray()
     foreach (reinforcement in reinforcements)
     {
-      local name = ::getTblValue("name", reinforcement)
-      local side = ::getTblValueByPath("armyGroup.owner.side", reinforcement)
+      local name = reinforcement?.name
+      local side = reinforcement?.armyGroup.owner.side
       if (!side)
         continue
 

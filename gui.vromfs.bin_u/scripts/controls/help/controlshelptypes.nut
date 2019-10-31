@@ -15,7 +15,7 @@ local result = {
     showInSets = []
     checkFeature = @() true
     specificCheck = @() true
-    showBySet = @(contentSet) showInSets.find(contentSet) != null
+    showBySet = @(contentSet) showInSets.indexof(contentSet) != null
     showByUnit = @(unit, unitTag) pageUnitTag == unitTag && (pageUnitTypes & (unit?.unitType.bit ?? 0))
     needShow = @(contentSet) showBySet(contentSet)
                              && specificCheck()
@@ -29,7 +29,7 @@ local function isUnitWithRadarOrRwr(unit)
   local sensorTypes = [ "radar", "rwr" ]
   if (unitBlk?.sensors)
     foreach (sensor in (unitBlk.sensors % "sensor"))
-      if (sensorTypes.find(::DataBlock(sensor?.blk ?? "")?.type) != null)
+      if (sensorTypes.indexof(::DataBlock(sensor?.blk ?? "")?.type) != null)
         return true
   return false
 }

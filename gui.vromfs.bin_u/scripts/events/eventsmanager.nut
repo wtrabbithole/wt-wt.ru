@@ -1795,18 +1795,18 @@ class Events
    * Function requests leaderboards asynchronously and puts result
    * as argument to callback function
    */
-  function getLeaderboard(requestData, id, callback = null, context = null)
+  function requestLeaderboard(requestData, id, callback = null, context = null)
   {
-    _leaderboards.getLeaderboard(requestData, id, callback, context)
+    _leaderboards.requestLeaderboard(requestData, id, callback, context)
   }
 
   /**
    * Function requests self leaderboard row asynchronously and puts result
    * as argument to callback function
    */
-  function getSelfRow(requestData, id, callback = null, context = null)
+  function requestSelfRow(requestData, id, callback = null, context = null)
   {
-    _leaderboards.getSelfRow(requestData, id, callback, context)
+    _leaderboards.requestSelfRow(requestData, id, callback, context)
   }
 
   function lbBlkToArray(blk)

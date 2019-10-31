@@ -64,7 +64,7 @@ class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
       titles = titlesData
       titleWidth = titleWidth
       titleColumns = columns
-      value = titlesList.find(curTitle) ?? 0
+      value = titlesList.indexof(curTitle) ?? 0
 
       hasTitlesListButton = openTitlesListFunc != null
       hasApplyButton = ::show_console_buttons && titlesList.len() > 0

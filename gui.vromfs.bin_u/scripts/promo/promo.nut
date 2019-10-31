@@ -455,7 +455,7 @@ g_promo.generateBlockView <- function generateBlockView(block)
 g_promo.getCollapsedIcon <- function getCollapsedIcon(view, promoButtonId)
 {
   local result = ""
-  local icon = ::getTblValueByPath(promoButtonId + ".collapsedIcon", collapsedParams)
+  local icon = collapsedParams?[promoButtonId].collapsedIcon
   if (icon)
     result = ::getTblValue(icon, view, icon) //can be set as param
   else
@@ -467,7 +467,7 @@ g_promo.getCollapsedIcon <- function getCollapsedIcon(view, promoButtonId)
 g_promo.getCollapsedText <- function getCollapsedText(view, promoButtonId)
 {
   local result = ""
-  local text = ::getTblValueByPath(promoButtonId + ".collapsedText", collapsedParams)
+  local text = collapsedParams?[promoButtonId].collapsedText
   if (text)
     result = ::getTblValue(text, view, defaultCollapsedText) //can be set as param
   else
@@ -618,7 +618,7 @@ g_promo.getType <- function getType(block)
     res = PROMO_BUTTON_TYPE.IMAGE_ROULETTE
   else if (::getTblValue("image", block, "") != "")
     res = PROMO_BUTTON_TYPE.IMAGE
-  else if (block.getBlockName().find("current_battle_tasks") != null)
+  else if (block.getBlockName().indexof("current_battle_tasks") != null)
     res = PROMO_BUTTON_TYPE.BATTLE_TASK
 
   return res

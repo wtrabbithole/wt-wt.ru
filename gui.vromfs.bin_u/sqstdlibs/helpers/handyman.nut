@@ -38,8 +38,7 @@ local Scanner = class {
   tail   = ""
   pos    = 0
 
-  constructor (_string)
-  {
+  constructor (_string) {
     string = _string
     tail = string
     pos = 0
@@ -73,20 +72,17 @@ local Scanner = class {
    * Skips all text until the given regular expression can be matched. Returns
    * the skipped string, which is the entire tail if no match can be made.
    */
-  function scanUntil(re)
-  {
+  function scanUntil(re) {
     local res = re.search(tail)
     local match
 
-    if (res == null)
-    {
+    if (res == null) {
       match = tail
       tail = ""
     }
     else if (res.begin == 0)
       match = ""
-    else
-    {
+    else {
       match = tail.slice(0, res.begin)
       tail = tail.slice(res.begin)
     }
@@ -102,8 +98,7 @@ Context = class {
   cache         = {}
   parentContext = null
 
-  constructor(_view, _parentContext = null)
-  {
+  constructor(_view, _parentContext = null) {
     view          = _view == null ? {} : _view
     cache         = {}
     cache["."]    <- view
@@ -114,8 +109,7 @@ Context = class {
    * Creates a new context using the given view with this context
    * as the parent.
    */
-  function push(view) //warning disable: -ident-hides-ident
-  {
+  function push(view) {//warning disable: -ident-hides-ident
     return Context(view, this)
   }
 
@@ -123,29 +117,23 @@ Context = class {
    * Returns the value of the given name in this context, traversing
    * up the context hierarchy if the value is absent in this context's view.
    */
-  function lookup (name)
-  {
+  function lookup (name) {
     local value = null
     local context = this
     if (name in cache)
       value = cache[name]
-    else
-    {
-      while (context)
-      {
-        if ((name.find(".") ?? -1) > 0)
-        {
+    else {
+      while (context) {
+        if ((name.indexof(".") ?? -1) > 0) {
           value = context.view
 
           local names = g_string.split(name, ".")
           local i = 0
-          while (value != null && i < names.len())
-          {
+          while (value != null && i < names.len()) {
             value = value[names[i++]]
           }
         }
-        else
-        {
+        else {
           value = context.view?[name]
         }
 
@@ -158,8 +146,7 @@ Context = class {
       cache[name] <- value
     }
 
-    if (typeof value == "function")
-    {
+    if (typeof value == "function") {
       value = value.call(context.view)
     }
 
@@ -185,16 +172,14 @@ local Writer = class {
   static escapeRe = ::regexp(@"[\-\[\]{}()*+?.,\\\^$|#\s]")
   static nonSpaceRe = ::regexp(@"\S")
 
-  constructor()
-  {
+  constructor() {
     this.cache = {}
   }
 
   /**
    * Clears all cached templates in this writer.
    */
-  function clearCache()
-  {
+  function clearCache() {
     this.cache = {}
   }
 
@@ -202,13 +187,12 @@ local Writer = class {
    * Parses and caches the given `template` and returns the array of tokens
    * that is generated from the parse.
    */
-  function parse(template, tags = null) //warning disable: -ident-hides-ident
-  {
+  function parse(template, tags = null) { //warning disable: -ident-hides-ident
+
     local cache = this.cache //warning disable: -ident-hides-ident
     local tokens = cache?[template]
 
-    if (tokens == null)
-    {
+    if (tokens == null) {
       tokens = parseTemplate(template, tags)
       cache[template] <- tokens
     }
@@ -225,8 +209,7 @@ local Writer = class {
    * also be a function that is used to load partial templates on the fly
    * that takes a single argument: the name of the partial.
    */
-  function render(template, view, partials = null)
-  {
+  function render(template, view, partials = null) {
     local tokens = this.parse(template)
     local context = (typeof view == "instance" && view instanceof Context) ? view : Context(view)
     return this.renderTokens(tokens, context, partials, template)
@@ -241,8 +224,7 @@ local Writer = class {
    * If the template doesn't use higher-order sections, this argument may
    * be omitted.
    */
-  function renderTokens(tokens, context, partials, originalTemplate)
-  {
+  function renderTokens(tokens, context, partials, originalTemplate) {
     local buffer = ""
 
     // This function is used to render an arbitrary template
@@ -255,30 +237,24 @@ local Writer = class {
     local token
     local value
 
-    for (local i = 0; i < tokens.len(); ++i)
-    {
+    for (local i = 0; i < tokens.len(); ++i) {
       token = tokens[i]
 
-      if (token[0] == "#")
-      {
+      if (token[0] == "#") {
         value = context.lookup(token[1])
         if (!value)
           continue
-        if (typeof value == "array")
-        {
-          for (local j = 0; j < value.len(); ++j)
-          {
+        if (typeof value == "array") {
+          for (local j = 0; j < value.len(); ++j) {
             buffer += this.renderTokens(token[4], context.push(value[j]), partials, originalTemplate)
           }
         }
-        else if (typeof value == "table" || typeof value == "instance" || typeof value == "string") // !!!!
-        {
+        else if (typeof value == "table" || typeof value == "instance" || typeof value == "string") { // !!!!
+
           buffer += this.renderTokens(token[4], context.push(value), partials, originalTemplate)
         }
-        else if (typeof value == "function")
-        {
-          if (typeof originalTemplate != "string")
-          {
+        else if (typeof value == "function") {
+          if (typeof originalTemplate != "string") {
             ::dagor.assertf(false, "Cannot use higher-order sections without the original template")
             return buffer
           }
@@ -289,22 +265,18 @@ local Writer = class {
           if (typeof value == "string")
             buffer += value
         }
-        else
-        {
+        else {
           buffer += this.renderTokens(token[4], context, partials, originalTemplate)
         }
       }
-      else if (token[0] == "^")
-      {
+      else if (token[0] == "^"){
         value = context.lookup(token[1])
 
-        if (!value || ((typeof value == "array") && value.len() == 0))
-        {
+        if (!value || ((typeof value == "array") && value.len() == 0)) {
           buffer += this.renderTokens(token[4], context, partials, originalTemplate)
         }
       }
-      else if (token[0] == ">")
-      {
+      else if (token[0] == ">") {
         if (!partials)
           continue
 
@@ -313,32 +285,27 @@ local Writer = class {
         else if (token[1] in partials)
           value = partials[token[1]]
 
-        if (value != null)
-        {
+        if (value != null) {
           local valueTemplate
           local valueTokens
           // Assume value is a path to some cached template.
-          if (value in ::handyman.templateByTemplatePath)
-          {
+          if (value in ::handyman.templateByTemplatePath) {
             valueTemplate = ::handyman.templateByTemplatePath[value]
             valueTokens = ::handyman.tokensByTemplatePath[value]
           }
-          else
-          {
+          else {
             valueTemplate = value
             valueTokens = this.parse(value)
           }
           buffer += this.renderTokens(valueTokens, context, partials, valueTemplate)
         }
       }
-      else if (token[0] == "&")
-      {
+      else if (token[0] == "&") {
         value = context.lookup(token[1])
         if (value != null)
           buffer += value
       }
-      else if(token[0] == "name")
-      {
+      else if(token[0] == "name") {
         value = context.lookup(token[1])
         if (value != null)
           if (typeof value == "string")
@@ -347,8 +314,7 @@ local Writer = class {
             buffer += value.tostring()
 
       }
-      else if (token[0] == "@")
-      {
+      else if (token[0] == "@") {
         value = context.lookup(token[1])
         if (value != null)
           buffer += value.tostring()
@@ -362,35 +328,30 @@ local Writer = class {
     return buffer
   }
 
-  function isWhitespace(string)
-  {
+  function isWhitespace(string) {
     return !nonSpaceRe.match(string)
   }
 
-  function escapeRegExp(string)
-  {
+  function escapeRegExp(string) {
     local start = 0
     local matches = []
     local match = escapeRe.search(string, start)
-    while (match)
-    {
+    while (match) {
       matches.append(match)
       start = match.end
       match = escapeRe.search(string, start)
     }
 
-    for(local i = matches.len() - 1; i >= 0; i--)
-    {
+    for(local i = matches.len() - 1; i >= 0; i--) {
       match = matches[i]
       string = string.slice(0, match.begin) + "\\" + string.slice(match.begin)
     }
     return string
   }
 
-  function escapeTags(tags) //warning disable: -ident-hides-ident
-  {
-    if (!(typeof tags == "array") || tags.len() != 2)
-    {
+  function escapeTags(tags) { //warning disable: -ident-hides-ident
+
+    if (!(typeof tags == "array") || tags.len() != 2) {
       ::dagor.assertf(false, "Invalid tags: " + tags)
     }
 
@@ -400,8 +361,7 @@ local Writer = class {
     ]
   }
 
-  function parseTemplate(template, _tags = null)
-  {
+  function parseTemplate(template, _tags = null) {
     local tags = _tags || tags //warning disable: -ident-hides-ident
     template = template || ""
 
@@ -419,16 +379,14 @@ local Writer = class {
     local scanError = false
 
     local start, tType, value, chr, token, openSection
-    while (!scanner.eos())
-    {
+    while (!scanner.eos()) {
       start = scanner.pos
 
       // Match any text between tags.
       value = scanner.scanUntil(tagRes[0])
-      if (value != "")
-      {
-        for (local i = 0; i < value.len(); ++i)
-        {
+      if (value != "") {
+        for (local i = 0; i < value.len(); ++i) {
+
           chr = value.slice(i, i + 1)
 
           if (isWhitespace(chr))
@@ -440,19 +398,15 @@ local Writer = class {
           start += 1
 
           // Check for whitespace on the current line.
-          if (chr == "\n")
-          {
+          if (chr == "\n") {
             // Strips all whitespace tokens array for the current line
             // if there was a {{#tag}} on it and otherwise only space.
-            if (hasTag && !nonSpace)
-            {
-              while (spaces.len())
-              {
+            if (hasTag && !nonSpace) {
+              while (spaces.len()) {
                 tokens.remove(spaces.pop())
               }
             }
-            else
-            {
+            else {
               spaces = []
             }
 
@@ -473,27 +427,23 @@ local Writer = class {
       scanner.scan(whiteRe)
 
       // Get the tag value.
-      if (tType == "=")
-      {
+      if (tType == "=") {
         value = scanner.scanUntil(equalsRe)
         scanner.scan(equalsRe)
         scanner.scanUntil(tagRes[1])
       }
-      else if (tType == "{")
-      {
+      else if (tType == "{") {
         value = scanner.scanUntil(::regexp("\\s*" + escapeRegExp("}" + tags[1])))
         scanner.scan(curlyRe)
         scanner.scanUntil(tagRes[1])
         tType = "&"
       }
-      else
-      {
+      else {
         value = scanner.scanUntil(tagRes[1])
       }
 
       // Match the closing tag.
-      if (!scanner.scan(tagRes[1]))
-      {
+      if (!scanner.scan(tagRes[1])) {
         ::dagor.assertf(false, "Unclosed tag at " + scanner.pos)
         scanError = true
         break
@@ -501,35 +451,29 @@ local Writer = class {
       token = [ tType, value, start, scanner.pos ]
       tokens.push(token)
 
-      if (tType == "#" || tType == "^")
-      {
+      if (tType == "#" || tType == "^") {
         sections.push(token)
       }
-      else if (tType == "/")
-      {
+      else if (tType == "/") {
         // Check section nesting
         openSection = sections.len()? sections.pop() : null
 
-        if (!openSection)
-        {
+        if (!openSection) {
           ::dagor.assertf(false, "Unopened section \"" + value + "\" at " + start)
           scanError = true
           break
         }
 
-        if (openSection[1] != value)
-        {
+        if (openSection[1] != value) {
           ::dagor.assertf(false, "Unclosed section \"" + openSection[1] + "\" at " + start)
           scanError = true
           break
         }
       }
-      else if (tType == "name" || tType == "{" || tType == "&")
-      {
+      else if (tType == "name" || tType == "{" || tType == "&") {
         nonSpace = true
       }
-      else if (tType == "=")
-      {
+      else if (tType == "=") {
         // Set the tags for the next time around.
         tags = value.split(spaceRe)
         tagRes = escapeTags(tags)
@@ -550,24 +494,19 @@ local Writer = class {
    * Combines the values of consecutive text tokens in the given `tokens` array
    * to a single token.
    */
-  function squashTokens(tokens)
-  {
+  function squashTokens(tokens) {
     local squashedTokens = []
 
     local token, lastToken
-    for (local i = 0; i < tokens.len(); ++i)
-    {
+    for (local i = 0; i < tokens.len(); ++i) {
       token = tokens[i]
 
-      if (token)
-      {
-        if (token[0] == "text" && lastToken && lastToken[0] == "text")
-        {
+      if (token) {
+        if (token[0] == "text" && lastToken && lastToken[0] == "text") {
           lastToken[1] += token[1]
           lastToken[3] = token[3]
         }
-        else
-        {
+        else {
           squashedTokens.push(token)
           lastToken = token
         }
@@ -583,19 +522,16 @@ local Writer = class {
    * all tokens that appear in that section and 2) the index in the original
    * template that represents the end of that section.
    */
-  function nestTokens(tokens)
-  {
+  function nestTokens(tokens) {
     local nestedTokens = []
     local collector = nestedTokens
     local sections = []
 
     local token, section
 
-    for (local i = 0; i < tokens.len(); ++i)
-    {
+    for (local i = 0; i < tokens.len(); ++i) {
       token = tokens[i]
-      switch (token[0])
-      {
+      switch (token[0]) {
         case "#":
         case "^":
           collector.push(token)
@@ -635,8 +571,7 @@ local Writer = class {
   /*
    * Clears all cached templates in the default writer.
    * */
-  function clearCache()
-  {
+  function clearCache() {
     return defaultWriter.clearCache()
   }
 
@@ -645,8 +580,7 @@ local Writer = class {
    * array of tokens it contains. Doing this ahead of time avoids the need to
    * parse templates on the fly as they are rendered.
    * */
-  function parse(template, tags)
-  {
+  function parse(template, tags) {
     return defaultWriter.parse(template, tags)
   }
 
@@ -654,8 +588,7 @@ local Writer = class {
    * Renders the `template` with the given `view` and `partials` using the
    * default writer.
    * */
-  function render(template, view, partials = null)
-  {
+  function render(template, view, partials = null) {
     return defaultWriter.render(template, view, partials)
   }
 
@@ -664,8 +597,7 @@ local Writer = class {
    * in 'partials' table are actually paths to corresponding templates
    * which can be cached to increase render performance.
    */
-  function renderCached(templatePath, view, partials = null, cachePartials = false)
-  {
+  function renderCached(templatePath, view, partials = null, cachePartials = false) {
     updateCache(templatePath)
     if (partials != null && cachePartials)
       foreach (partialName, partialPath in partials)
@@ -676,8 +608,8 @@ local Writer = class {
     return defaultWriter.renderTokens(tokens, context, partials, template)
   }
 
-  function checkCacheReset() //only for easier development
-  {
+  function checkCacheReset() {//only for easier development
+
     if (!::always_reload_scenes || ::dagor.getCurTime() - lastCacheReset < 1000)
       return
 
@@ -685,8 +617,7 @@ local Writer = class {
     tokensByTemplatePath.clear()
   }
 
-  function updateCache(templatePath)
-  {
+  function updateCache(templatePath) {
     checkCacheReset()
     if (templatePath in tokensByTemplatePath)
       return
@@ -696,23 +627,20 @@ local Writer = class {
     tokensByTemplatePath[templatePath] <- defaultWriter.parseTemplate(template)
   }
 
-  function processIncludes(template)
-  {
+  function processIncludes(template) {
     local startIdx = 0
-    while(true)
-    {
-      startIdx = template.find("include \"", startIdx)
+    while(true) {
+      startIdx = template.indexof("include \"", startIdx)
       if(startIdx == null)
         break
 
       local fNameStart = startIdx + 9
-      local endIdx = template.find("\"", fNameStart)
+      local endIdx = template.indexof("\"", fNameStart)
       if (endIdx == null)
         break
 
       local fName = template.slice(fNameStart, endIdx)
-      if (fName.slice(-4) == ".blk")
-      {
+      if (fName.slice(-4) == ".blk") {
         startIdx = endIdx + 1
         continue
       }
@@ -728,8 +656,7 @@ local Writer = class {
    * @template - as regular, nested template string
    * @translation - function, which returns wiew for nested template
    * */
-  function renderNested(template, translate)
-  {
+  function renderNested(template, translate) {
     return (@(template, translate) function() {
       return (@(template, translate) function(text, render) {  // warning disable: -ident-hides-ident
         return ::handyman.render(template, translate(render(text)))
@@ -788,8 +715,7 @@ local partials = {
         {name = "green", link= true, url= "#Green"}
         {name = "blue", link= true, url= "#Blue"}
     ]
-    empty = function()
-    {
+    empty = function() {
       return function(text, render) {
         return render(text)
       }

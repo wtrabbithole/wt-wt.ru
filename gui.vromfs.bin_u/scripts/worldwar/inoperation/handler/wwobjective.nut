@@ -272,14 +272,6 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       this))
   }
 
-  function getReinforcementSpeedup(objectiveBlk)
-  {
-    local oType = ::g_ww_objective_type.getTypeByTypeName(objectiveBlk?.type)
-    if (side == ::ww_get_player_side())
-     return oType.getReinforcementSpeedupPercent(
-       objectiveBlk, statusBlock, ::ww_side_val_to_name(side))
-  }
-
   function onEventWWLoadOperation(params)
   {
     local objectivesBlk = ::g_world_war.getOperationObjectives()

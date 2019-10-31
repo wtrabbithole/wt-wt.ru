@@ -667,7 +667,7 @@ enums.addTypesByGlobalName("g_tooltip_type", {
           || ::clan_get_my_clan_tag() == clanTag)
          )
       {
-        ::getMyClanData()
+        ::requestMyClanData()
         if (!::my_clan_info)
           return false
 

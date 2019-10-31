@@ -46,7 +46,7 @@ local setValue = function(value)
   ::set_gui_option_in_mode(::USEROPT_MENU_SCREEN_SAFE_AREA, value, ::OPTIONS_MODE_GAMEPLAY)
 }
 
-local getValueOptionIndex = @() values.find(getValue())
+local getValueOptionIndex = @() values.indexof(getValue())
 
 local canChangeValue = @() getFixedValue() == -1
 

@@ -43,14 +43,13 @@ local function normalize(path) {
     else if (segment == "..")
       numRemoved += 2
 
-    if (numRemoved > 0 && (!isAbsolutePath || j > 0))
-    {
+    if (numRemoved > 0 && (!isAbsolutePath || j > 0)){
       pathSegments.remove(j)
       numRemoved--
     }
   }
 
-  local normalizedPath = pathSegments.filter(@(val) val != "").reduce(@(prev, cur) prev + "/" + cur)
+  local normalizedPath = "/".join(pathSegments.filter(@(val) val != ""))
   if (normalizedPath.len() > 2 && normalizedPath.slice(0, 2) == "//")
     normalizedPath = normalizedPath.slice(1)
   return normalizedPath
@@ -142,11 +141,11 @@ local function _join(basePath, other) {
   else if (other == "" || other == "/")
     return basePath
   else if (basePath[basePath.len() - 1] == '/' && other[0] == '/')
-    return basePath + other.slice(1)
+    return "".concat(basePath,other.slice(1))
   else if (basePath[basePath.len() - 1] == '/' || other[0] == '/')
-    return basePath + other
+    return "".concat(basePath, other)
   else
-    return basePath + "/" + other
+    return "/".concat(basePath,other)
 }
 
 
@@ -160,7 +159,7 @@ local function _join(basePath, other) {
  *   joinArray(["/"])                > "/"
  */
 local function joinArray(pathArray) {
-  return pathArray.reduce(@(a,b) a+"/"+b) ?? ""
+  return "/".join(pathArray)
 }
 
 local function join(...) {

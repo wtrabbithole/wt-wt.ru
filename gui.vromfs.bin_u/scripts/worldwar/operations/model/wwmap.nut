@@ -64,7 +64,7 @@ class WwMap
 
   function getImage()
   {
-    local mapImageName = ::getTblValueByPath("info.image", data, null)
+    local mapImageName = data?.info.image
     if (::u.isEmpty(mapImageName))
       return ""
 
@@ -169,12 +169,12 @@ class WwMap
 
   function getCountryToSideTbl()
   {
-    return ::get_tbl_value_by_path_array(["info", "countries"], data, {})
+    return data?.info.countries ?? {}
   }
 
   function getUnitInfoBySide(side)
   {
-    return ::getTblValueByPath("info.sides.SIDE_" + side + ".units", data, null)
+    return data?.info.sides["SIDE_{0}".subst(side)].units
   }
 
   _cachedCountriesByTeams = null

@@ -228,10 +228,10 @@ g_mislist_type._getCurMission <- function _getCurMission()
 g_mislist_type._getMissionNameText <- function _getMissionNameText(mission)
 {
   if (mission?.isHeader)
-    return ::loc((mission?.isCampaign ? "campaigns/" : "chapters/") + mission?.id)
+    return ::loc((mission?.isCampaign ? "campaigns/" : "chapters/") + (mission?.id ?? ""))
   if ("blk" in mission)
     return ::get_combine_loc_name_mission(mission.blk)
-  return ::loc("missions/" + mission?.id)
+  return ::loc("missions/" + (mission?.id ?? ""))
 }
 
 ::g_mislist_type.template <- {
@@ -246,7 +246,7 @@ g_mislist_type._getMissionNameText <- function _getMissionNameText(mission)
   showChapterHeaders  = true
 
   getMissionConfig = ::g_mislist_type._getMissionConfig
-  getMissionsList = function(isShowCampaigns, callback = null, customChapterId = null, customChapters = null) { if (callback) callback([]) }
+  requestMissionsList = function(isShowCampaigns, callback = null, customChapterId = null, customChapters = null) { if (callback) callback([]) }
   getMissionsListByNames = function(namesList) { return [] }
   canJoin = function(gm) { return true }
   canCreate = function(gm) { return canJoin(gm) }
@@ -299,7 +299,7 @@ enums.addTypesByGlobalName("g_mislist_type", {
     canBeEmpty = false
     getTabName = function() { return ::loc("mainmenu/btnMissions") }
 
-    getMissionsList = ::g_mislist_type._getMissionsList
+    requestMissionsList = ::g_mislist_type._getMissionsList
     getMissionsByBlkArray = ::g_mislist_type._getMissionsByBlkArray
     getMissionsListByNames = ::g_mislist_type._getMissionsListByNames
     misBlkCheckFunc = function(misBlk)
@@ -326,7 +326,7 @@ enums.addTypesByGlobalName("g_mislist_type", {
       return false
     }
 
-    getMissionsList = function(isShowCampaigns, callback, customChapterId = null, customChapters = null)
+    requestMissionsList = function(isShowCampaigns, callback, customChapterId = null, customChapters = null)
     {
       local fn = function(){ getMissionsListImpl(isShowCampaigns, callback, customChapterId, customChapters); }
       ::scan_user_missions(this, fn.bindenv(this))
@@ -355,7 +355,7 @@ enums.addTypesByGlobalName("g_mislist_type", {
       return gm == ::GM_SKIRMISH && ::has_feature("UserMissionsSkirmishByUrlCreate")
     }
 
-    getMissionsList = function(isShowCampaigns, callback, ...) //standard parameters dosnt work for urlMissions
+    requestMissionsList = function(isShowCampaigns, callback, ...) //standard parameters doesn't work for urlMissions
     {
       local list = ::g_url_missions.getList()
       local res = []

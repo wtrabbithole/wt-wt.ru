@@ -1,8 +1,7 @@
 // Same template for active and finished orders.
 
-dummy {
+timer {
   id:t='order_timer'
-  behavior:t='Timer'
   timer_handler_func:t='onOrderTimerUpdate'
   timer_interval_msec:t='1000'
 }

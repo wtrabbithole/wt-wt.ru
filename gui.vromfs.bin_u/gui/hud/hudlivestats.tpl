@@ -135,9 +135,8 @@ tdiv {
   }
   <</units>>
 
-  dummy {
+  timer {
     id:t='update_timer'
-    behaviour:t='Timer'
     timer_handler_func:t='update'
     timer_interval_msec:t='250'
   }

@@ -515,7 +515,7 @@ SessionLobby.UpdatePlayersInfo <- function UpdatePlayersInfo()
   // new format. player infos are separate values in rooms public table
   foreach (k, pinfo in settings)
   {
-    if (k.find("pinfo_") != 0)
+    if (k.indexof("pinfo_") != 0)
       continue
     local uid = k.slice(6).tointeger()
     if (pinfo == null)
@@ -551,8 +551,7 @@ SessionLobby.UpdateCrsSettings <- function UpdateCrsSettings()
   crsSetTeamTo = Team.none
   foreach (team in ::events.getSidesList())
   {
-    local idsPath = ::format("%s.players", ::events.getTeamName(team))
-    local players = ::getTblValueByPath(idsPath, getSessionInfo())
+    local players = getSessionInfo()?[::events.getTeamName(team)].players
     if (!::u.isArray(players))
       continue
 
@@ -617,7 +616,7 @@ SessionLobby.checkDynamicSettings <- function checkDynamicSettings(silent = fals
   local wasHidden = ::getTblValue("hidden", _settings, false)
   _settings.hidden <- ::getTblValue("coop", _settings, false)
                       || (isRoomInSession && !::getTblValue("allowJIP", _settings, true))
-  changed = changed || (wasHidden != _settings.hidden)
+  changed = changed || (wasHidden != _settings.hidden) // warning disable: -const-in-bool-expr
 
   local wasPassword = ::getTblValue("hasPassword", _settings, false)
   _settings.hasPassword <- password != ""
@@ -1035,8 +1034,10 @@ SessionLobby.uploadUserMission <- function uploadUserMission(afterDoneFunc = nul
 {
   if (!isInRoom() || !isUserMission() || status == lobbyStates.UPLOAD_CONTENT)
     return
-  if (uploadedMissionId == getMissionName())
-    return afterDoneFunc()
+  if (uploadedMissionId == getMissionName()) {
+    afterDoneFunc?()
+    return
+  }
 
   local missionId = getMissionName()
   local missionInfo = ::DataBlock()
@@ -1057,9 +1058,10 @@ SessionLobby.uploadUserMission <- function uploadUserMission(afterDoneFunc = nul
   switchStatus(lobbyStates.UPLOAD_CONTENT)
   ::set_room_attributes({ roomId = roomId, private = { userMission = blkData.result } },
                         (@(missionId, afterDoneFunc) function(p) {
-                          if (!::checkMatchingError(p))
-                            return ::SessionLobby.returnStatusToRoom()
-
+                          if (!::checkMatchingError(p)) {
+                            ::SessionLobby.returnStatusToRoom()
+                            return
+                          }
                           ::SessionLobby.uploadedMissionId = missionId
                           ::SessionLobby.returnStatusToRoom()
                           if (afterDoneFunc)
@@ -1946,10 +1948,10 @@ SessionLobby.getMembersCountByTeams <- function getMembersCountByTeams(room = nu
   local roomMembers = getRoomMembers(room)
   if (room && !roomMembers.len())
   {
-    local teamsCount = ::get_tbl_value_by_path_array(["session", "teams"], room)
+    local teamsCount = room?.session.teams
     foreach(team in ::g_team.getTeams())
     {
-      local count = ::get_tbl_value_by_path_array([team.id, "players"], teamsCount, 0)
+      local count = teamsCount?[team.id].players ?? 0
       res[team.code] = count
       res.total += count
     }
@@ -1964,7 +1966,7 @@ SessionLobby.getMembersCountByTeams <- function getMembersCountByTeams(room = nu
     if (isMemberHost(m))
       continue
 
-    if (needReadyOnly) 
+    if (needReadyOnly)
       if (!hasSessionInLobby() && !isMemberReady(m))
         continue
       else if (hasSessionInLobby() && !isMemberInSession(m))

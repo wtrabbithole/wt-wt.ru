@@ -42,7 +42,7 @@ g_url.open <- function open(baseUrl, forceExternal=false, isAlreadyAuthenticated
     if (shouldEncode)
       url = ::encode_base64(url)
 
-    local ssoServiceTag = urlTags.filter(@(v) v.find(URL_TAG_SSO_SERVICE) == 0);
+    local ssoServiceTag = urlTags.filter(@(v) v.indexof(URL_TAG_SSO_SERVICE) == 0);
     local ssoService = ssoServiceTag.len() != 0 ? ssoServiceTag.pop().slice(URL_TAG_SSO_SERVICE.len()) : null
     local authData = (ssoService != null) ? ::get_authenticated_url_sso(url, ssoService) : ::get_authenticated_url_table(url)
 
@@ -116,10 +116,10 @@ g_url.validateLink <- function validateLink(link)
   if (linkStartIdx < 0)
     linkStartIdx = 0
 
-  if (link.find("://", linkStartIdx) != null)
+  if (link.indexof("://", linkStartIdx) != null)
     return link
 
-  if (link.find("www.", linkStartIdx) != null)
+  if (link.indexof("www.", linkStartIdx) != null)
     return link
 
   local localizedLink = ::loc(link, "")

@@ -113,7 +113,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
        ::clan_get_my_clan_name() == clanNameReq ||
        ::clan_get_my_clan_tag() == clanTagReq))
     {
-      ::getMyClanData()
+      ::requestMyClanData()
       if (!::my_clan_info)
         return
 
@@ -648,7 +648,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
     sortWwMembers()
 
-    local myPos = curWwMembers.searchindex(@(member) member.name == ::my_user_name) ?? -1
+    local myPos = curWwMembers.findindex(@(member) member.name == ::my_user_name) ?? -1
     lbTableWeak.fillTable(curWwMembers, null, myPos, true, true)
   }
 

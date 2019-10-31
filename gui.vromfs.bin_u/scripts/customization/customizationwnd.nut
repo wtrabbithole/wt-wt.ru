@@ -237,7 +237,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local categoryObj = decalsObj.getChild(value)
     if (::checkObj(categoryObj) && categoryObj?.collapsed == "no")
     {
-      local categoryListObj = categoryObj.findObject("collapse_content_" + categoryObj?.id)
+      local categoryListObj = categoryObj.findObject("collapse_content_" + (categoryObj?.id ?? ""))
       if (::checkObj(categoryListObj))
         return categoryListObj
     }
@@ -320,7 +320,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     return res == "" ? "default" : res // hangar_get_last_skin() can return empty string.
   }
 
-  function getSampleUserSkin(obj)
+  function exportSampleUserSkin(obj)
   {
     if (!::hangar_is_loaded())
       return
@@ -559,7 +559,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateSkinConditionValue(value, obj)
   {
-    local textObj = scene.findObject("value_" + obj?.id)
+    local textObj = scene.findObject("value_" + (obj?.id ?? ""))
     if (!::checkObj(textObj))
       return
 
@@ -572,7 +572,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
-    local textObj = scene.findObject("value_" + obj?.id)
+    local textObj = scene.findObject("value_" + (obj?.id ?? ""))
     if (::checkObj(textObj))
     {
       local value = obj.getValue()
@@ -586,7 +586,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(obj))
       return
 
-    local textObj = scene.findObject("value_" + obj?.id)
+    local textObj = scene.findObject("value_" + (obj?.id ?? ""))
     if (::checkObj(textObj))
     {
       local value = obj.getValue()
@@ -1048,7 +1048,8 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       updateButtons(decoratorType)
 
     local slot = getSlotInfo(slotId, false, decoratorType)
-    if (!slot.isEmpty && decoratorType != ::g_decorator_type.ATTACHABLES)
+    if (!slot.isEmpty && decoratorType != ::g_decorator_type.ATTACHABLES
+                      && decoratorType != ::g_decorator_type.DECALS)
       decoratorType.specifyEditableSlot(slotId)
 
     generateDecorationsList(slot, decoratorType)

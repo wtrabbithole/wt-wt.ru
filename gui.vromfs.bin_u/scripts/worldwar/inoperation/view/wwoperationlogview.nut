@@ -213,12 +213,12 @@ class ::WwOperationLogView
 
   function getZoneName()
   {
-    return ::getTblValueByPath("zoneInfo.zoneName", logBlk, "")
+    return logBlk?.zoneInfo.zoneName ?? ""
   }
 
   function isYourZone()
   {
-    local zoneOwner = ::getTblValueByPath("zoneInfo.ownedSide", logBlk)
+    local zoneOwner = logBlk?.zoneInfo.ownedSide
     if (!zoneOwner)
       return false
 

@@ -154,12 +154,12 @@ local MRoomsHandlers = class {
 
     if (member.userId == hostId)
     {
-      if (getTblValueByPath("public.connect_ready", member, false))
+      if (member?.public.connect_ready ?? false)
         __onHostConnectReady()
     }
     else if (is_my_userid(member.userId))
     {
-      local readyStatus = getTblValueByPath("public.ready", member, null)
+      local readyStatus = member?.public.ready
       if (readyStatus == true)
         __onSelfReady()
       else if (readyStatus == false)
@@ -483,7 +483,7 @@ g_mrooms_handlers <- MRoomsHandlers()
                       {
                         foreach (room in getTblValue("digest", resp, []))
                         {
-                          local hasPassword = getTblValueByPath("public.hasPassword", room, null)
+                          local hasPassword = room?.public.hasPassword
                           if (hasPassword != null)
                             room.hasPassword <- hasPassword
                         }

@@ -7,6 +7,22 @@
 /*******************************************************************************
  ******************** functions checks*******************
  ******************************************************************************/
+
+/**
+  make common iteratee function
+*/
+local function mkIteratee(func){
+  local infos = func.getfuncinfos()
+  local params = infos.parameters.len()-1
+  ::assert(params>0 && params<3)
+  if (params == 3)
+    return func
+  else if (params==2)
+    return function(value, index, list) {return func.pcall(null, value, index)}
+  else
+    return function(value, index, list) {return func.pcall(null, value)}
+}
+
 /**
   Check for proper iteratee and so on - under construction
 */
@@ -100,6 +116,24 @@ local function zip(...) {
   return res
 }
 
+/*
+Split list into two arrays:
+one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
+predicate is transformed through iteratee to facilitate shorthand syntaxes.
+*/
+local function partition(list, predicate){
+  local ok = []
+  local not_ok = []
+  predicate = mkIteratee(predicate)
+  foreach(index, value in list){
+    if (predicate(value, index, list))
+      ok.append(value)
+    else
+      not_ok.append(value)
+  }
+  return [ok, not_ok]
+}
+
 /*******************************************************************************
  ****************************** Table handling *********************************
  ******************************************************************************/
@@ -111,6 +145,23 @@ local function pairs(table) {
   local res = []
   foreach (key, val in table)
     res.append([key, val])
+  return res
+}
+
+/**
+ * A convenient version of what is perhaps the most common use-case for map: extracting a list of property values.
+ local stooges = [{name: 'moe', age: 40}, {name: 'larry', age: 50}, {name: 'curly', age: 60}]
+  _.pluck(stooges, "name")
+  => ["moe", "larry", "curly"]
+  if entry doesnt have property it skipped in return value
+ */
+local function pluck(list, propertyName){
+//  return list.map(@(v) v?[propertyName]).filter(@(v) v!=null) - incorrect when property has null value and slow
+  local res = []
+  foreach (v in list) {
+    if (propertyName in v)
+      res.append(v.propertyName)
+  }
   return res
 }
 
@@ -171,28 +222,6 @@ local function safeIndex(arr, n) {
   return null
 }
 
-// * Returns random element of the given array, rand should be function that return int
-local function chooseRandom(arr, randfunc) {
-  if (arr.len()==0)
-    return null
-  return arr[randfunc() % arr.len()]
-}
-
-local function shuffle(arr, randfunc) {
-  local res = clone arr
-  local size = res.len()
-  local j
-  local v
-  for (local i = size - 1; i > 0; i--)
-  {
-    j = randfunc() % (i + 1)
-    v = res[j]
-    res[j] = res[i]
-    res[i] = v
-  }
-  return res
-}
-
 local function isEqual(val1, val2, customIsEqual={}){
   if (val1 == val2)
     return true
@@ -221,17 +250,16 @@ local function isEqual(val1, val2, customIsEqual={}){
 }
 
 return {
-  isCallable = @(v) ["function","table","instance"].find(typeof(v) != null) && v.getfuncinfos() != null
   reduceTbl = reduceTbl
   search = search
   zip = zip
   pairs = pairs
   invert = invert
   tablesCombine = tablesCombine
-  chooseRandom = chooseRandom
   safeIndex = safeIndex
   last = last
-  shuffle = shuffle
   isEqual = isEqual
   funcCheckArgsNum = funcCheckArgsNum
+  partition = partition
+  pluck = pluck
 }

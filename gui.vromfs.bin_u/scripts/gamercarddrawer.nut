@@ -141,7 +141,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
-  function setShowContent(obj = null)
+  function toggleFuncOnObjs(guiObjFunc, obj = null)
   {
     local objId = obj?.id
     local contentObject = getObj("gamercard_drawer_content")
@@ -150,20 +150,17 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
     for (local i = 0; i < contentObject.childrenCount(); ++i)
     {
       local child = contentObject.getChild(i)
-      child.show(child?.id == objId)
+      child[guiObjFunc](child?.id == objId)
     }
+  }
+
+  function setShowContent(obj = null)
+  {
+    toggleFuncOnObjs("show", obj)
   }
 
   function setEnableContent(obj = null)
   {
-    local objId = obj?.id
-    local contentObject = getObj("gamercard_drawer_content")
-    if (!contentObject)
-      return
-    for (local i = 0; i < contentObject.childrenCount(); ++i)
-    {
-      local child = contentObject.getChild(i)
-      child.enable(child?.id == objId)
-    }
+    toggleFuncOnObjs("enable", obj)
   }
 }

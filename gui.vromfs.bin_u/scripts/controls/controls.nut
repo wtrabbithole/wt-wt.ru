@@ -2,7 +2,6 @@ local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local globalEnv = require_native("globalEnv")
 local controllerState = require_native("controllerState")
 local time = require("scripts/time.nut")
-local kwarg = require("std/functools.nut").kwarg
 
 local shortcutsListModule = require("scripts/controls/shortcutsList/shortcutsList.nut")
 local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
@@ -166,7 +165,7 @@ global enum ConflictGroups {
   ::restore_shortcuts(scToRestore, ::shortcuts_not_change_by_preset)
 
   if (::is_platform_pc)
-    ::switch_show_console_buttons(preset.find("xinput") != null)
+    ::switch_show_console_buttons(preset.indexof("xinput") != null)
 
   if (updateHelpersMode)
     ::switch_helpers_mode_and_option(preset)
@@ -464,7 +463,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
     foreach (idx, data in filledControlGroupTab)
     {
-      local show = filterText == "" || data.text.find(filterText) != null
+      local show = filterText == "" || data.text.indexof(filterText) != null
       showSceneBtn(data.id, show)
     }
   }
@@ -867,7 +866,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function getRowIdxBYId(id)
   {
-    return ::shortcutsList.searchindex(@(s) s.id == id) ?? -1
+    return ::shortcutsList.findindex(@(s) s.id == id) ?? -1
   }
 
   function getCurItem()
@@ -2126,7 +2125,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   return hotkeyData
 }
 
-::get_shortcut_text <- kwarg(function(shortcuts, shortcutId, cantBeEmpty = true, strip_tags = false, preset = null)
+::get_shortcut_text <- ::kwarg(function get_shortcut_text(shortcuts,
+  shortcutId, cantBeEmpty = true, strip_tags = false, preset = null)
 {
   if (!(shortcutId in shortcuts))
     return ""
@@ -2204,9 +2204,9 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   local txt = text
   local index_txt = ""
 
-  if (txt.find("Button ") == 0) //"Button 1" in "Button" and "1"
+  if (txt.indexof("Button ") == 0) //"Button 1" in "Button" and "1"
     index_txt = " " + txt.slice("Button ".len())
-  else if (txt.find("Button") == 0) //"Button1" in "Button" and "1"
+  else if (txt.indexof("Button") == 0) //"Button1" in "Button" and "1"
     index_txt = " " + txt.slice("Button".len())
 
   if (index_txt != "")
@@ -2254,11 +2254,11 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   if (text == null)
     return "?"
 
-  if (text.find("Axis ") == 0) //"Axis 1" in "Axis" and "1"
+  if (text.indexof("Axis ") == 0) //"Axis 1" in "Axis" and "1"
   {
     return ::loc("composite/axis")+text.slice("Axis ".len());
   }
-  else if (text.find("Axis") == 0) //"Axis1" in "Axis" and "1"
+  else if (text.indexof("Axis") == 0) //"Axis1" in "Axis" and "1"
   {
     return ::loc("composite/axis")+text.slice("Axis".len());
   }
@@ -2679,7 +2679,7 @@ local function getWeaponFeatures(weaponsBlkList)
 
     local tags = unit?.tags || []
     local scoutPresetId = difficultySettings?.scoutPreset ?? ""
-    if (::has_feature("ActiveScouting") && tags.find("scout") != null
+    if (::has_feature("ActiveScouting") && tags.indexof("scout") != null
       && gameParams?.scoutPresets?[scoutPresetId]?.enabled)
       controls.append("ID_SCOUT")
 
@@ -2760,7 +2760,7 @@ local function getWeaponFeatures(weaponsBlkList)
           }
         if (!isMapped)
           foreach (shortcut in group.shortcuts)
-            if (controls.find(shortcut) == null)
+            if (controls.indexof(shortcut) == null)
               controls.append(shortcut)
       }
 
@@ -2809,8 +2809,24 @@ local function getWeaponFeatures(weaponsBlkList)
       if (item.type == CONTROL_TYPE.SHORTCUT)
       {
         local shortcuts = ::get_shortcuts([ item.id ])
-        if (shortcuts.len() && !::isShortcutMapped(shortcuts[0]))
-          unmapped.append((getLocNames ? "hotkeys/" : "") + item.id)
+        if (!shortcuts.len() || ::isShortcutMapped(shortcuts[0]))
+          continue
+
+        local altIds = item?.alternativeIds ?? []
+        foreach (otherItem in ::shortcutsList)
+          if ((otherItem?.alternativeIds ?? []).indexof(item.id) != null)
+            ::u.appendOnce(otherItem.id, altIds)
+        local isMapped = false
+        foreach (s in ::get_shortcuts(altIds))
+          if (::isShortcutMapped(s))
+          {
+            isMapped = true
+            break
+          }
+        if (isMapped)
+          continue
+
+        unmapped.append((getLocNames ? "hotkeys/" : "") + item.id)
       }
       else if (item.type == CONTROL_TYPE.AXIS)
       {
@@ -3138,11 +3154,11 @@ local function getWeaponFeatures(weaponsBlkList)
 
   local preset = ::g_controls_presets.getCurrentPreset()
   local is_ps4_non_gamepad_preset = ::is_platform_ps4
-    && preset.name.find("dualshock4") == null
-    && preset.name.find("default") == null
+    && preset.name.indexof("dualshock4") == null
+    && preset.name.indexof("default") == null
   local is_xboxone_non_gamepad_preset = ::is_platform_xboxone
-    && preset.name.find("xboxone_ma") == null
-    && preset.name.find("xboxone_simulator") == null
+    && preset.name.indexof("xboxone_ma") == null
+    && preset.name.indexof("xboxone_simulator") == null
 
   ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
 

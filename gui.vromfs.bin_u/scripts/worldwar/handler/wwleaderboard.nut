@@ -129,7 +129,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local modesObj = showSceneBtn("modes_list", true)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
-    local modeIdx = wwLeaderboardData.modes.searchindex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
+    local modeIdx = wwLeaderboardData.modes.findindex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
     modesObj.setValue(modeIdx)
   }
 
@@ -178,7 +178,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbMap)
     {
       local selectedMapId = lbMap.getId()
-      mapObjValue = lbMapsList.searchindex(@(m) m && m.getId() == selectedMapId) ?? 0
+      mapObjValue = lbMapsList.findindex(@(m) m && m.getId() == selectedMapId) ?? 0
     }
     lbMap = null
     mapsObj.setValue(mapObjValue)
@@ -203,7 +203,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbCountry)
     {
       local selectedCountry = lbCountry
-      countryObjValue = lbCountriesList.searchindex(@(c) c && c == selectedCountry) ?? 0
+      countryObjValue = lbCountriesList.findindex(@(c) c && c == selectedCountry) ?? 0
     }
     lbCountry = null
     countriesObj.setValue(countryObjValue)

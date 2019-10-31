@@ -43,7 +43,7 @@ return {
   getValue = getValue
   setValue = setValue
   canChangeValue = @() getFixedValue() == -1
-  getValueOptionIndex = @() values.find(getValue())
+  getValueOptionIndex = @() values.indexof(getValue())
   getSafearea = getSafearea
 
   values = values

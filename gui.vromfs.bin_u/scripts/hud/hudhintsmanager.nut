@@ -221,7 +221,7 @@ enum HintShowState {
 
   function removeFromList(hintData)
   {
-    local idx = activeHints.searchindex(@(item) item == hintData)
+    local idx = activeHints.findindex(@(item) item == hintData)
     if (idx != null)
       activeHints.remove(idx)
   }

@@ -80,7 +80,7 @@ g_hud_hints._buildText <- function _buildText(data)
 
   //If shortcut not specified in localization string it should
   //be placed at the beginig
-  if (result.find(shortcutTag) == null)
+  if (result.indexof(shortcutTag) == null)
     result = shortcutTag + " " + result
 
   return result

@@ -1,5 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local stdMath = require("std/math.nut")
+local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
+
 /**
  * Measure type is a useful abstraction above
  * customizable and hard-coded measure units.
@@ -15,7 +17,7 @@ local time = require("scripts/time.nut")
 g_measure_type._getMeasureUnitsText <- function _getMeasureUnitsText(value, addMeasureUnits = true, forceMaxPrecise = false)
 {
   if (userOptCode != -1)
-    return ::countMeasure(orderCode, value, " - ", addMeasureUnits, forceMaxPrecise)
+    return countMeasure(orderCode, value, " - ", addMeasureUnits, forceMaxPrecise)
   local result = stdMath.round_by_value(value, presize).tostring()
   if (addMeasureUnits)
     result += " " + getMeasureUnitsName()

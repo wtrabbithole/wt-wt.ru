@@ -124,14 +124,14 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     if (!itemsListValid)
     {
       itemsListValid = true
-      getCurSheetItemsList()
+      loadCurSheetItemsList()
       updateSortingList()
     }
 
     curPage = 0
     if (lastSelectedItem)
     {
-      local lastIdx = itemsList.searchindex(function(item) { return item.id == lastSelectedItem.id}.bindenv(this)) ?? -1
+      local lastIdx = itemsList.findindex(function(item) { return item.id == lastSelectedItem.id}.bindenv(this)) ?? -1
       if (lastIdx >= 0)
         curPage = (lastIdx / itemsPerPage).tointeger()
       else if (curPage * itemsPerPage > itemsCatalog.len())
@@ -261,7 +261,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     fillPage()
   }
 
-  function getCurSheetItemsList()
+  function loadCurSheetItemsList()
   {
     itemsList = itemsCatalog?[curSheet.mediaType] ?? []
   }

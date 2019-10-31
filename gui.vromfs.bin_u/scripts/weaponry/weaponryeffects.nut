@@ -1,6 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local string = ::require("std/string.nut")
 local stdMath = require("std/math.nut")
+local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
 
 const GOOD_COLOR = "@goodTextColor"
 const BAD_COLOR = "@badTextColor"

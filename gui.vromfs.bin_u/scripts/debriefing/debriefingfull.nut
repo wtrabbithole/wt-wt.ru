@@ -71,40 +71,28 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     text = "multiplayer/air_kills"
     icon = "icon/mpstats/kills"
-    isVisibleWhenEmpty = function()
-    {
-      return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_AIR
-    }
+    isVisibleWhenEmpty = @() !!(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_AIR)
   }
   { id = "GroundKills"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/ground_kills"
     icon = "icon/mpstats/groundKills"
-    isVisibleWhenEmpty = function()
-    {
-      return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_GROUND
-    }
+    isVisibleWhenEmpty = @() !!(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_GROUND)
   }
   { id = "AwardDamage"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = function(gm) { return gm != ::GM_SKIRMISH }
     text = "multiplayer/naval_damage"
     icon = "icon/mpstats/navalDamage"
-    isVisibleWhenEmpty = function()
-    {
-      return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_NAVAL
-    }
+    isVisibleWhenEmpty = @() !!(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_NAVAL)
   }
   { id = "NavalKills"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
     text = "multiplayer/naval_kills"
     icon = "icon/mpstats/navalKills"
-    isVisibleWhenEmpty = function()
-    {
-      return ::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_NAVAL
-    }
+    isVisibleWhenEmpty = @() !!(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_NAVAL)
   }
   "GroundKillsF",
   "NavalKillsF",
@@ -595,7 +583,7 @@ global enum debrState {
     local tableId = ::get_table_name_by_id(row)
     local currencyName = ::g_string.toUpper(currency, 1)
     foreach(key in keysArray)
-      result += ::get_tbl_value_by_path_array([tableId, key + currencyName], ::debriefing_result.exp, 0)
+      result += ::debriefing_result.exp?[tableId][key + currencyName] ?? 0
     return result
   }
 
@@ -653,7 +641,7 @@ global enum debrState {
 
 ::debriefing_add_virtual_prem_acc_to_stat_tbl <- function debriefing_add_virtual_prem_acc_to_stat_tbl(data, isRoot)
 {
-  local totalVirtPremAccExp = ::getTblValueByPath("tblTotal.virtPremAccExp", data, 0)
+  local totalVirtPremAccExp = data?.tblTotal.virtPremAccExp ?? 0
   if (totalVirtPremAccExp > 0)
   {
     local list = isRoot ? [ "expFree" ] : [ "expInvestModuleTotal", "expInvestUnitTotal", "expModsTotal", "expUnitTotal" ]
@@ -672,7 +660,7 @@ global enum debrState {
       local unitId = ::getTblValue("investUnitName" + typeName, data, "")
       if (::u.isEmpty(unitId))
         continue
-      local unitVirtPremAccExp = ::getTblValueByPath("aircrafts." + unitId + ".tblTotal.virtPremAccExp", data, 0)
+      local unitVirtPremAccExp = data?.aircrafts[unitId].tblTotal.virtPremAccExp ?? 0
       if (unitVirtPremAccExp > 0 && ::getTblValue("expInvestUnit" + typeName, data, 0) > 0)
         data["expInvestUnit" + typeName] += unitVirtPremAccExp
     }
@@ -766,7 +754,7 @@ global enum debrState {
   })
   foreach (log in logs)
   {
-    local boosters = ::getTblValueByPath("affectedBoosters.activeBooster", log, [])
+    local boosters = log?.affectedBoosters.activeBooster ?? []
     if (typeof(boosters) != "array")
       boosters = [boosters]
     if (boosters.len() > 0)
@@ -797,7 +785,7 @@ global enum debrState {
   local wagerIds
   foreach (log in logs)
   {
-    wagerIds = ::getTblValueByPath("container.affectedWagers.itemId", log, null)
+    wagerIds = log?.container.affectedWagers.itemId
     if (wagerIds != null)
       break
   }
@@ -1089,7 +1077,7 @@ global enum debrState {
       ]
       currentRoomOnly = true
     })
-    local trophyRewardsList = ::get_tbl_value_by_path_array([ 0, "container", "trophies" ], logs, {})
+    local trophyRewardsList = logs?[0].container.trophies ?? {}
     receivedTrophyName = (reachedTrophyName in trophyRewardsList) ? reachedTrophyName : null
   }
 

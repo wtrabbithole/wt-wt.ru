@@ -14,9 +14,8 @@ root {
     class:t='wnd';
     <</showOkButton>>
 
-    dummy {
+    timer {
       id:t='vehicle_require_feature_timer';
-      behavior:t='Timer';
       timer_handler_func:t='onTimerUpdate';
     }
 

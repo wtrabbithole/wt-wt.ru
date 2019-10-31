@@ -35,7 +35,7 @@
    * Function requests leaderboards asynchronously and puts result
    * as argument to callback function
    */
-  function getLeaderboard(requestData, id, callback, context)
+  function requestLeaderboard(requestData, id, callback, context)
   {
     if (typeof id == "function")
     {
@@ -66,7 +66,7 @@
    * Function requests self leaderboard row asynchronously and puts result
    * as argument to callback function
    */
-  function getSelfRow(requestData, id, callback, context)
+  function requestSelfRow(requestData, id, callback, context)
   {
     if (typeof id == "function")
     {
@@ -93,23 +93,23 @@
     updateEventLbSelfRow(requestData, id)
   }
 
-  function updateEventLb(requestData, id)
+  function updateEventLbInternal(requestData, id, requestFunc, handleFunc)
   {
-    local requestAction = (@(requestData, id) function () {
-      local taskId = requestUpdateEventLb(requestData)
+    local requestAction = ::Callback(function () {
+      local taskId = requestFunc(requestData)
       if (taskId < 0)
         return
 
       canRequestEventLb = false
-      ::add_bg_task_cb(taskId, (@(requestData, id) function() {
-        handleLbRequest(requestData, id)
+      ::add_bg_task_cb(taskId, ::Callback(function() {
+        handleFunc(requestData, id)
 
         if (leaderboardsRequestStack.len())
-          ::array_shift(leaderboardsRequestStack).fn()
+          leaderboardsRequestStack.remove(0).fn()
         else
           canRequestEventLb = true
-      })(requestData, id).bindenv(this))
-    })(requestData, id).bindenv(this)
+      }, this))
+    }, this)
 
     if (canRequestEventLb)
       return requestAction()
@@ -122,6 +122,15 @@
     leaderboardsRequestStack.append({fn = requestAction, id = id})
   }
 
+  function updateEventLb(requestData, id)
+  {
+    updateEventLbInternal(requestData, id, requestUpdateEventLb, handleLbRequest)
+  }
+
+  function updateEventLbSelfRow(requestData, id)
+  {
+    updateEventLbInternal(requestData, id, requestEventLbSelfRow, handleLbSelfRowRequest)
+  }
 
   /**
    * To request persoanl data for clan tournaments (TM_ELO_GROUP)
@@ -145,35 +154,6 @@
                                       requestData.rowsInPage,
                                       requestData.inverse,
                                       requestData.forClans)
-  }
-
-  function updateEventLbSelfRow(requestData, id)
-  {
-    local requestAction = (@(requestData, id) function () {
-      local taskId = requestEventLbSelfRow(requestData)
-      if (taskId < 0)
-        return
-
-      canRequestEventLb = false
-      ::add_bg_task_cb(taskId, (@(requestData, id) function() {
-        handleLbSelfRowRequest(requestData, id)
-
-        if (leaderboardsRequestStack.len())
-          ::array_shift(leaderboardsRequestStack).fn()
-        else
-          canRequestEventLb = true
-      })(requestData, id).bindenv(this))
-    })(requestData, id).bindenv(this)
-
-    if (canRequestEventLb)
-      return requestAction()
-
-    if (id)
-      foreach (index, request in leaderboardsRequestStack)
-        if (id == request)
-          leaderboardsRequestStack.remove(index)
-
-    leaderboardsRequestStack.append({fn = requestAction, id = id})
   }
 
   /**
@@ -404,7 +384,7 @@
     local searchIdx = -1
     for(local skipSpaces = 0; skipSpaces >= 0; skipSpaces--)
     {
-      searchIdx = name.find(" ", searchIdx + 1)
+      searchIdx = name.indexof(" ", searchIdx + 1)
       if (searchIdx == null) //no tag at all
       {
         lbRow.tag <- name

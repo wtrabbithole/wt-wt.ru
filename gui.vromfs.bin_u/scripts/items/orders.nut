@@ -203,7 +203,7 @@ g_orders.checkCurrentMission <- function checkCurrentMission(selectedOrderItem)
   if (selectedOrderItem == null)
     return true
 
-  local missionName = ::getTblValueByPath("mission.name", ::SessionLobby.getSessionInfo(), null)
+  local missionName = ::SessionLobby.getSessionInfo()?.mission.name
   if (missionName == null)
     return true
 
@@ -864,7 +864,7 @@ g_orders.updateStatusTextView <- function updateStatusTextView(orderObject, full
   }
 
   // Order description
-  local orderTypeParams = ::getTblValueByPath("orderItem.typeParams", orderObject)
+  local orderTypeParams = orderObject?.orderItem.typeParams
   view.orderDescription <- orderTypeParams != null
     ? orderObject.orderType.getObjectiveDescription(orderTypeParams, statusColorScheme)
     : null
@@ -879,7 +879,7 @@ g_orders.updateStatusTextView <- function updateStatusTextView(orderObject, full
 
 g_orders.getOrderTimeleft <- function getOrderTimeleft(orderObject)
 {
-  return ::getTblValueByPath("orderObjective.timeLeft", orderObject, 0)
+  return orderObject?.orderObjective.timeLeft ?? 0
 }
 
 /** Returns null-object player data if nothing found. */
@@ -983,7 +983,7 @@ g_orders.debugPrint <- function debugPrint(message)
  */
 g_orders.getOrderScores <- function getOrderScores(orderObject)
 {
-  local scores = ::getTblValueByPath("orderObjective.score", orderObject, null)
+  local scores = orderObject?.orderObjective.score
   if (scores != null)
   {
     scores = clone scores

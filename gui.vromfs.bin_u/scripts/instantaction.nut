@@ -893,7 +893,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (needBattleMenuShow)
       return onInstantActionMenu()
 
-     onTopMenuGoBack()
+    onTopMenuGoBack()
   }
 
   function checkQueue(func)
@@ -1355,6 +1355,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   function onEventSquadronExpChanged(params)
   {
     doWhenActiveOnce("checkNonApprovedSquadronResearches")
+  }
+
+  function onEventPartnerUnlocksUpdated(p)
+  {
+    local hasModalObjectVal = guiScene.hasModalObject()
+    doWhenActive(@() ::g_popup_msg.showPopupWndIfNeed(hasModalObjectVal))
   }
 }
 

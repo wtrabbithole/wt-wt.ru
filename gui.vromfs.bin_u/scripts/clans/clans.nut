@@ -41,7 +41,7 @@ g_clans.createClan <- function createClan(params, handler)
   handler.showTaskProgressBox()
   ::sync_handler_simulate_signal("clan_info_reload")
   handler.afterSlotOp = (@(handler) function() {
-    ::getMyClanData()
+    ::requestMyClanData()
     ::update_gamercards()
     handler.msgBox(
       "clan_create_sacces",
@@ -134,7 +134,7 @@ g_clans.disbandClan <- function disbandClan(clanId, handler)
                           if (isMyClan)
                             ::sync_handler_simulate_signal("clan_info_reload")
                           handler.afterSlotOp = (@(handler, isMyClan) function() {
-                              ::getMyClanData()
+                              ::requestMyClanData()
                               ::update_gamercards()
                               handler.msgBox("clan_disbanded", ::loc("clan/clanDisbanded"), [["ok", (@(handler) function() { handler.goBack() })(handler) ]], "ok")
                             })(handler, isMyClan)
@@ -264,9 +264,9 @@ g_clans.requestClanLog <- function requestClanLog(clanId, rowsCount, requestMark
         if (logType.needDetails(logEntryTable))
         {
           local commonFields = logType.getLogDetailsCommonFields()
-          local shortCommonDetails = logEntryTable.filter(@(v,k) commonFields.find(k)!=null)
+          local shortCommonDetails = logEntryTable.filter(@(v,k) commonFields.indexof(k)!=null)
           local individualFields = logType.getLogDetailsIndividualFields()
-          local shortIndividualDetails = logEntryTable.filter(@(v,k) individualFields.find(k)!=null)
+          local shortIndividualDetails = logEntryTable.filter(@(v,k) individualFields.indexof(k)!=null)
 
           local fullDetails = shortCommonDetails
           foreach (key, value in shortIndividualDetails)
@@ -323,12 +323,12 @@ g_clans.checkClanChangedEvent <- function checkClanChangedEvent()
 
 g_clans.onEventProfileUpdated <- function onEventProfileUpdated(p)
 {
-  ::getMyClanData()
+  ::requestMyClanData()
 }
 
 g_clans.onEventScriptsReloaded <- function onEventScriptsReloaded(p)
 {
-  ::getMyClanData()
+  ::requestMyClanData()
 }
 
 g_clans.onEventSignOut <- function onEventSignOut(p)
@@ -729,7 +729,7 @@ g_clans.checkSquadronExpChangedEvent <- function checkSquadronExpChangedEvent()
 
 ::ranked_column_prefix <- "dr_era5"  //really used only rank 5, but in lb exist 5
 
-::getMyClanData <- function getMyClanData(forceUpdate = false)
+::requestMyClanData <- function requestMyClanData(forceUpdate = false)
 {
   if(!::get_my_clan_data_free)
     return

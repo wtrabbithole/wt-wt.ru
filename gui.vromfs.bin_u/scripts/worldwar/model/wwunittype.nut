@@ -177,7 +177,5 @@ g_ww_unit_type.isArtillery <- function isArtillery(wwUnitTypeCode)
 
 g_ww_unit_type.canBeSurrounded <- function canBeSurrounded(wwUnitTypeCode)
 {
-  return isGround(wwUnitTypeCode) ||
-         isInfantry(wwUnitTypeCode) ||
-         isArtillery(wwUnitTypeCode)
+  return !isAir(wwUnitTypeCode)
 }

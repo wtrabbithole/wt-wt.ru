@@ -1,20 +1,20 @@
 /**
- * Caches data from leaderbord to provide allways
+ * Caches data from leaderboard to provide always
  * actual values of reward progress.
  *
- * Usege:
- * Jast call getProgress function and it will provide actual value
- * getProgress(event, field, callback, context = null)
+ * Usage:
+ * Just call requestProgress function and it will provide actual value
+ * requestProgress(event, field, callback, context = null)
  *   @event    - tournament event
- *   @field    - name of leaderbord fild you want to get
- *   @callback - callback function, which recives
+ *   @field    - name of leaderboard field you want to get
+ *   @callback - callback function, which receives
  *               a value as an argument (null if there is no value)
  *   @contest  - scope for callback execution
  */
 ::g_reward_progress_manager <- {
   __cache = {}
 
-  function getProgress(event, field, callback, context = null)
+  function requestProgress(event, field, callback, context = null)
   {
     local cb = ::Callback(callback, context)
     local eventEconomicName = ::events.getEventEconomicName(event)
@@ -32,7 +32,7 @@
     if (request.forClans)
       request.tournament_mode = GAME_EVENT_TYPE.TM_ELO_GROUP_DETAIL
 
-    ::events.getSelfRow(request, (@(__cache, cb, event, field, callback, eventEconomicName) function (selfRow) {
+    ::events.requestSelfRow(request, (@(__cache, cb, event, field, callback, eventEconomicName) function (selfRow) {
       if (!selfRow.len())
         return cb(null)
 

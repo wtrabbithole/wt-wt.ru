@@ -126,8 +126,7 @@ g_crew_skill_parameters.getTooltipText <- function getTooltipText(memberName, sk
   else if (crew && memberName == "groundService" && skillName == "repair")
   {
     local fullParamsList = ::g_skill_parameters_request_type.CURRENT_VALUES.getParameters(crew.id)
-    local parametersPath = [difficulty.crewSkillName, memberName, "repairRank", "groundServiceRepairRank"]
-    local repairRank = ::get_tbl_value_by_path_array(parametersPath, fullParamsList, 0)
+    local repairRank = fullParamsList?[difficulty.crewSkillName][memberName].repairRank.groundServiceRepairRank ?? 0
     if (repairRank!=0 && unit && unit.rank > repairRank)
     {
       local text = ::loc("crew/notEnoughRepairRank", {
@@ -206,8 +205,7 @@ g_crew_skill_parameters.getParametersByRequestType <- function getParametersByRe
   foreach(skill in skillsList)
   {
     // Leaving data only related to selected difficulty, member and skill.
-    local parametersPath = ::format("%s.%s.%s", difficulty.crewSkillName, skill.memberName, skill.skillName)
-    local skillParams = ::getTblValueByPath(parametersPath, fullParamsList)
+    local skillParams = fullParamsList?[difficulty.crewSkillName][skill.memberName][skill.skillName]
     if (!skillParams)
       continue
     foreach(key, value in skillParams)

@@ -52,7 +52,7 @@ class BulletGroup
     if (selectedName == bulletName)
       return false
 
-    local bulletIdx = bullets.values.find(bulletName)
+    local bulletIdx = bullets.values.indexof(bulletName)
     if (bulletIdx == null)
       return false
 
