@@ -362,7 +362,10 @@ local function appendOnce(v, arr, skipNull = false, customIsEqualFunc = null) {
   arr.append(v)
 }
 
-local chooseRandom = @(arr) arr[rnd() % arr.len()]
+local chooseRandom = @(arr) arr.len() ?
+  arr[rnd() % arr.len()] :
+  null
+
 local function shuffle(arr) {
   local res = clone arr
   local size = res.len()

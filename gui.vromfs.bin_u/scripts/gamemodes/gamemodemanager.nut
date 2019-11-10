@@ -381,7 +381,7 @@ class GameModeManager
    */
   function isUnitAllowedForGameMode(unit, gameMode = null)
   {
-    if (!unit)
+    if (!unit || unit.disableFlyout)
       return false
     if (gameMode == null)
       gameMode = getCurrentGameMode()

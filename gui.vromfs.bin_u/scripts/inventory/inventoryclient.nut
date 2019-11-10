@@ -711,6 +711,7 @@ local InventoryClient = class {
   {
     lastUpdateTime = -1
     prices.clear()
+    items.clear()
   }
 
   function cancelDelayedExchange(itemUid, cb = null) {

@@ -91,7 +91,11 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       //load data from eBlk
       for (local j = 0; j < ib.paramCount(); j++)
-        goods[name][ib.getParamName(j)] <- ib.getParamValue(j)
+      {
+        local paramName = ib.getParamName(j)
+        if (!(paramName in goods[name]))
+          goods[name][paramName] <- ib.getParamValue(j)
+      }
 
       if (ib?.bundle)
         bundles[name] <- ib.bundle % "item"

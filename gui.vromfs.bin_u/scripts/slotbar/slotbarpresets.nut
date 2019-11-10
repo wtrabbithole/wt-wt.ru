@@ -678,21 +678,28 @@
       return null
 
     ::init_selected_crews()
-    preset.units = []
-    preset.crews = []
+    local units = []
+    local crews = []
+    local selected = preset.selected
     foreach (tbl in ::g_crews_list.get())
       if (tbl.country == countryId)
       {
         foreach (crew in tbl.crews)
           if (("aircraft" in crew))
           {
-            preset.units.append(crew.aircraft)
-            preset.crews.append(crew.id)
-            if (preset.selected == -1 || crew.idInCountry == ::selected_crews[crew.idCountry])
-              preset.selected = crew.id
+            units.append(crew.aircraft)
+            crews.append(crew.id)
+            if (selected == -1 || crew.idInCountry == ::selected_crews[crew.idCountry])
+              selected = crew.id
           }
       }
 
+    if (units.len() == 0 || crews.len() == 0) //not found crews and units for country
+      return preset                           //so not need update preset from slotbar
+
+    preset.units = units
+    preset.crews = crews
+    preset.selected = selected
     _updateInfo(preset)
     return preset
   }

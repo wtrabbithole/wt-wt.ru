@@ -2224,6 +2224,8 @@ local ACTION_LIST_PARAMS = {
     addInfoTextsList.append(::colorize("chapterUnlockedColor", ::loc("shop/unitIsRecentlyReleased")))
   if (isSquadronVehicle)
     addInfoTextsList.append(::colorize("currencySapColor", ::loc("mainmenu/squadronVehicle")))
+  if (air.disableFlyout)
+    addInfoTextsList.append(::colorize("warningTextColor", ::loc("mainmenu/vehicleCanNotGoToBattle")))
 
   if (isSquadronVehicle && needShopInfo)
   {

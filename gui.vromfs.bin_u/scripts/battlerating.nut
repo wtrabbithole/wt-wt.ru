@@ -154,7 +154,9 @@ local requestBattleRating = function (cb, recentUserData, onError=null)
   isNeedRewrite = false
   lastRequestTimeMsec  = ::dagor.getCurTime()
 
-  ::request_matching("match.calc_ranks", cb, onError, recentUserData)
+  ::request_matching("match.calc_ranks", cb, onError, recentUserData, {
+    showError = false
+  })
 }
 
 local updateBattleRating

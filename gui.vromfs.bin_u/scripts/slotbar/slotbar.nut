@@ -847,6 +847,7 @@ if need - put commented in array above
   {
     unlocked = unlocked && (!country || ::is_crew_available_in_session(curSlotIdInCountry, needDbg))
     unlocked = unlocked && (::isUnitAvailableForGM(unit, ::get_game_mode()) || ::is_in_flight())
+      && (!unit.disableFlyout || !::is_in_flight())
     if (unlocked && !::SessionLobby.canChangeCrewUnits() && !::is_in_flight()
         && ::SessionLobby.getMaxRespawns() == 1)
       unlocked = ::SessionLobby.getMyCurUnit() == unit
@@ -1062,7 +1063,7 @@ if need - put commented in array above
 
 ::is_unit_enabled_for_slotbar <- function is_unit_enabled_for_slotbar(unit, params)
 {
-  if (!unit)
+  if (!unit || unit.disableFlyout)
     return false
 
   local res = true

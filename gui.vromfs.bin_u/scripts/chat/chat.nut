@@ -114,11 +114,16 @@ g_chat <- {
     return isChatEnabled()
   }
 
-  function attemptShowOverlayMessage(playerName) //tries to display Xbox overlay message
+  function attemptShowOverlayMessage(playerName, needCheckInvite = false) //tries to display Xbox overlay message
   {
     local contact = ::Contact.getByName(playerName)
     if (contact)
-      contact.canChat(true)
+    {
+      if (needCheckInvite)
+        contact.canInvite(true)
+      else
+        contact.canChat(true)
+    }
     else
       getXboxChatEnableStatus(true)
   }
@@ -129,13 +134,15 @@ g_chat <- {
         || platformModule.isPlayerFromPS4(playerName))
       return true
 
-    if (crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS
+    local crossnetStatus = crossplayModule.getCrossNetworkChatStatus()
+
+    if (crossnetStatus == XBOX_COMMUNICATIONS_ONLY_FRIENDS
         && (::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST)
           || ::isPlayerNickInContacts(playerName, ::EPLX_PS4_FRIENDS))
        )
       return true
 
-    return crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ALLOWED
+    return crossnetStatus == XBOX_COMMUNICATIONS_ALLOWED
   }
 
   function invalidateCache()

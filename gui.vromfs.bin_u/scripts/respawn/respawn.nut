@@ -329,7 +329,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
                                         missionRules = missionRules
                                       })
     registerSubHandler(handler)
-    teamUnitsLeftWeak = handler.weakref()
+    teamUnitsLeftWeak = handler?.weakref()
   }
 
   function getFocusObjUnderSlotbar()
@@ -2629,7 +2629,8 @@ if ("get_available_respawn_bases_debug" in getroottable())
     if (!::is_crew_available_in_session(c.idInCountry, false)
         || !::is_crew_slot_was_ready_at_host(c.idInCountry, air.name, true)
         || !::get_available_respawn_bases(air.tags).len()
-        || !missionRules.getUnitLeftRespawns(air))
+        || !missionRules.getUnitLeftRespawns(air)
+        || air.disableFlyout)
       continue
 
     if (missionRules.isScoreRespawnEnabled

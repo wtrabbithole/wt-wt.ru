@@ -1143,7 +1143,7 @@ class Events
   function isUnitAllowedByTeamData(teamData, airName, ediff = -1)
   {
     local unit = ::getAircraftByName(airName)
-    if (!unit)
+    if (!unit || unit.disableFlyout)
       return false
     if (!::isInArray(unit.shopCountry, getCountries(teamData)))
       return false

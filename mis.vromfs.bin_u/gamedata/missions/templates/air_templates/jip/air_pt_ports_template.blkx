@@ -352,25 +352,31 @@
           "comparasion_func": "equal"
         }
       },
-      "actions": {
-        "comment": {
-          "value": "инициализация миссии закончилась. стартуем основные сервисы"
-        },
-        "triggerEnable": [
-          {
-            "target": "pt_reinforcement_start"
-          },
-          {
-            "target": "pt_capture_port_start"
-          },
-          {
-            "target": "pt_ports_turning_start"
+      "actions": [
+        {
+          "comment": {
+            "value": "инициализация миссии закончилась. стартуем основные сервисы"
           }
-        ],
-        "__triggerEnable": {
-          "target": "pt_attack_port_start"
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "pt_reinforcement_start"
+            },
+            {
+              "target": "pt_capture_port_start"
+            },
+            {
+              "target": "pt_ports_turning_start"
+            }
+          ]
+        },
+        {
+          "triggerEnable": {
+            "target": "pt_attack_port_start"
+          }
         }
-      },
+      ],
       "else_actions": []
     },
     "pt_ports_generate_spawns": {
@@ -758,7 +764,7 @@
           {
             "varSetString": {
               "value": "port_",
-              "var": "@pt_generate_defenders_name"
+              "var": "pt_generate_defenders_name"
             }
           },
           {
@@ -1252,7 +1258,8 @@
               "restoreWhenNoAmmoLeft": false,
               "hideMarkers": true,
               "tags": {
-                "type_hydroplane": true
+                "type_hydroplane": true,
+                "type_flying_boat": true
               },
               "repair_tags": {
                 "type_hydroplane": true
@@ -1308,7 +1315,8 @@
               "restoreWhenNoAmmoLeft": false,
               "hideMarkers": true,
               "tags": {
-                "type_hydroplane": true
+                "type_hydroplane": true,
+                "type_flying_boat": true
               },
               "repair_tags": {
                 "type_hydroplane": true
@@ -3542,7 +3550,7 @@
           {
             "varSetRandomInt": {
               "var": "pt_generate_size_t1_dimension",
-              "from": 3,
+              "from": 4,
               "to_not_including": 11
             }
           },
@@ -4897,22 +4905,13 @@
             "time": 1.0
           }
         },
-        "conditions": [
-          {
-            "varCompareBool": {
-              "var_value": "pt_attack_is_active",
-              "value": false,
-              "comparasion_func": "equal"
-            }
-          },
-          {
-            "varCompareBool": {
-              "var_value": "pt_reinforcement_is_active",
-              "value": false,
-              "comparasion_func": "equal"
-            }
+        "conditions": {
+          "varCompareBool": {
+            "var_value": "pt_reinforcement_is_active",
+            "value": false,
+            "comparasion_func": "equal"
           }
-        ],
+        },
         "actions": [
           {
             "comment": {
@@ -8633,7 +8632,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B"
+              "team": "B",
+              "extendedEnding": true
             }
           },
           {
@@ -8642,7 +8642,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A"
+              "team": "A",
+              "extendedEnding": true
             }
           },
           {
@@ -8733,7 +8734,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A"
+              "team": "A",
+              "extendedEnding": true
             }
           },
           {
@@ -8742,7 +8744,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B"
+              "team": "B",
+              "extendedEnding": true
             }
           },
           {
@@ -8841,7 +8844,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B"
+              "team": "B",
+              "extendedEnding": true
             }
           },
           {
@@ -8850,7 +8854,13 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A"
+              "team": "A",
+              "extendedEnding": true
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t1_moderate_task_completed"
             }
           },
           {
@@ -8907,7 +8917,7 @@
             }
           },
           {
-            "triggerEnable": {
+            "__triggerEnable": {
               "target": "pt_attack_port_start"
             }
           }
@@ -8959,7 +8969,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A"
+              "team": "A",
+              "extendedEnding": true
             }
           },
           {
@@ -8968,7 +8979,13 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B"
+              "team": "B",
+              "extendedEnding": true
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t2_moderate_task_completed"
             }
           },
           {
@@ -9020,7 +9037,7 @@
             }
           },
           {
-            "triggerEnable": {
+            "__triggerEnable": {
               "target": "pt_attack_port_start"
             }
           }
@@ -9305,7 +9322,7 @@
           {
             "varCompareReal": {
               "var_value": "pt_reinfocement_t1_enemy_spawn_cur_distance",
-              "value": 20000.0,
+              "value": 25000.0,
               "comparasion_func": "less",
               "var_value_other": "pt_reinfocement_t1_enemy_spawn_ship_distance"
             }
@@ -10116,7 +10133,7 @@
           {
             "varCompareReal": {
               "var_value": "pt_reinfocement_t2_enemy_spawn_cur_distance",
-              "value": 20000.0,
+              "value": 25000.0,
               "comparasion_func": "less",
               "var_value_other": "pt_reinfocement_t2_enemy_spawn_ship_distance"
             }
@@ -12485,8 +12502,8 @@
           }
         },
         "else_actions": {
-          "triggerDisable": {
-            "target": "pt_attack_port_start"
+          "triggerEnable": {
+            "target": "pt_attack_port_restarting"
           }
         }
       },
@@ -12538,12 +12555,20 @@
         },
         "actions": [
           {
+            "varSetRandomInt": {
+              "var": "pt_attack_port_cur_idx",
+              "from": 0,
+              "to_not_including": 10,
+              "var_to_not_including": "pt_port_max_num"
+            }
+          },
+          {
             "comment": {
               "value": "индекс порта внутри диапазона. работаем"
             }
           },
           {
-            "varModify": {
+            "__varModify": {
               "operator": "add",
               "value": 1.0,
               "var": "pt_attack_port_cur_idx"
@@ -12632,7 +12657,7 @@
           {
             "varModify": {
               "operator": "divAB",
-              "value": 2.0,
+              "value": 4.0,
               "var": "pt_attack_port_check_ships_num"
             }
           },
@@ -12655,8 +12680,8 @@
             "value": false,
             "var": "pt_attack_is_active"
           },
-          "__triggerEnable": {
-            "target": "pt_attack_port_start"
+          "triggerEnable": {
+            "target": "pt_attack_port_restarting"
           }
         }
       },
@@ -12733,33 +12758,18 @@
             "time": 1.0
           }
         },
-        "conditions": [
-          {
-            "unitWhenCountMatches": {
-              "object_type": "isUnitVar",
-              "object_marking": 2,
-              "object_var_name": "attack_port",
-              "object_var_comp_op": "equal",
-              "func": "more",
-              "value": 1,
-              "object": "pt_naval_ships_squad",
-              "object_var_value": 1,
-              "var": "pt_attack_port_check_ships_num"
-            }
-          },
-          {
-            "unitWhenCountMatches": {
-              "object_type": "isUnitVar",
-              "object_marking": 2,
-              "object_var_name": "reinforcement_forces",
-              "object_var_comp_op": "equal",
-              "func": "less",
-              "value": 1,
-              "object": "pt_naval_ships_squad",
-              "object_var_value": 1
-            }
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isUnitVar",
+            "object_marking": 2,
+            "object_var_name": "attack_port",
+            "object_var_comp_op": "equal",
+            "func": "more",
+            "value": 1,
+            "object": "pt_naval_ships_squad",
+            "object_var_value": 1
           }
-        ],
+        },
         "actions": {
           "comment": {
             "value": "количество кораблей больше минимума для атаки. запускаем поиск порта для атаки"
@@ -13122,34 +13132,60 @@
             "object_var_value": 1
           }
         },
+        "actions": {
+          "varModify": {
+            "operator": "add",
+            "value": 1.0,
+            "var": "pt_attack_port_squad_idx"
+          },
+          "varSetString": {
+            "value": "attack_squad_",
+            "var": "pt_attack_port_squad_name"
+          },
+          "varAddString": {
+            "value": "@pt_attack_port_squad_idx",
+            "digits": 2,
+            "var": "pt_attack_port_squad_name"
+          },
+          "makeSquadFromUnits": {
+            "name": "@pt_attack_port_squad_name",
+            "object": "pt_naval_ships_squad",
+            "useForTriggerFiltered": true
+          },
+          "comment": {
+            "value": "проверяем что все живы"
+          },
+          "triggerEnable": {
+            "target": "pt_attack_port_check_is_alive"
+          }
+        },
+        "else_actions": []
+      },
+      "pt_attack_port_check_is_alive": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "object_var_name": "attack_port",
+            "object_var_comp_op": "equal",
+            "func": "more",
+            "value": 0,
+            "object": "@pt_attack_port_squad_name"
+          }
+        },
         "actions": [
-          {
-            "varModify": {
-              "operator": "add",
-              "value": 1.0,
-              "var": "pt_attack_port_squad_idx"
-            }
-          },
-          {
-            "varSetString": {
-              "value": "attack_squad_",
-              "var": "pt_attack_port_squad_name"
-            }
-          },
-          {
-            "varAddString": {
-              "value": "@pt_attack_port_squad_idx",
-              "digits": 2,
-              "var": "pt_attack_port_squad_name"
-            }
-          },
-          {
-            "makeSquadFromUnits": {
-              "name": "@pt_attack_port_squad_name",
-              "object": "pt_naval_ships_squad",
-              "useForTriggerFiltered": true
-            }
-          },
           {
             "comment": {
               "value": "назначаем route"
@@ -13209,12 +13245,29 @@
             }
           },
           {
+            "unitSetIndication": {
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "set": true,
+              "target": "@pt_attack_port_squad_name"
+            }
+          },
+          {
             "triggerEnable": {
               "target": "pt_attack_port_busy_set"
             }
           }
         ],
-        "else_actions": []
+        "else_actions": {
+          "comment": {
+            "value": "сквад мертв"
+          },
+          "triggerEnable": {
+            "target": "pt_attack_port_search_remove_marking"
+          }
+        }
       },
       "pt_attack_port_busy_set": {
         "is_enabled": false,
@@ -13379,6 +13432,41 @@
             "comment": {
               "value": ""
             }
+          },
+          {
+            "varSetString": {
+              "value": "port_",
+              "var": "pt_attack_t2_port_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@pt_attack_port_target_idx",
+              "digits": 2,
+              "var": "pt_attack_t2_port_name"
+            }
+          },
+          {
+            "comment": {
+              "value": ""
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "pt_attack_t2_attacker_name",
+              "input_var": "pt_attack_port_squad_name"
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "pt_attack_port_t2_is_captured"
+              },
+              {
+                "target": "pt_attack_port_t2_npc_destroyed"
+              }
+            ]
           }
         ],
         "else_actions": [
@@ -13407,6 +13495,41 @@
             "comment": {
               "value": ""
             }
+          },
+          {
+            "varSetString": {
+              "value": "port_",
+              "var": "pt_attack_t1_port_name"
+            }
+          },
+          {
+            "varAddString": {
+              "value": "@pt_attack_port_target_idx",
+              "digits": 2,
+              "var": "pt_attack_t1_port_name"
+            }
+          },
+          {
+            "comment": {
+              "value": ""
+            }
+          },
+          {
+            "varSetString": {
+              "value": "",
+              "var": "pt_attack_t1_attacker_name",
+              "input_var": "pt_attack_port_squad_name"
+            }
+          },
+          {
+            "triggerEnable": [
+              {
+                "target": "pt_attack_port_t1_is_captured"
+              },
+              {
+                "target": "pt_attack_port_t1_npc_destroyed"
+              }
+            ]
           }
         ]
       },
@@ -13435,7 +13558,10 @@
             {
               "var": "pt_attack_is_active"
             }
-          ]
+          ],
+          "triggerEnable": {
+            "target": "pt_attack_port_restarting"
+          }
         },
         "else_actions": []
       },
@@ -13464,7 +13590,417 @@
             {
               "var": "pt_attack_is_active"
             }
-          ]
+          ],
+          "triggerEnable": {
+            "target": "pt_attack_port_restarting"
+          }
+        },
+        "else_actions": []
+      },
+      "pt_attack_port_t1_is_captured": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "missionIsZoneCaptured": {
+            "target": "@pt_attack_t1_port_name",
+            "army": 1
+          }
+        },
+        "actions": [
+          {
+            "triggerDisable": {
+              "target": "pt_attack_port_t1_npc_destroyed"
+            }
+          },
+          {
+            "unitSetIndication": {
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "set": false,
+              "target": "@pt_attack_t1_attacker_name"
+            }
+          },
+          {
+            "unitSetVar": {
+              "object_var_name": "attack_port",
+              "object": "@pt_attack_t1_attacker_name",
+              "object_var_value": 0
+            }
+          },
+          {
+            "unitSetVar": {
+              "object_var_name": "home_port",
+              "object": "@pt_attack_t1_attacker_name",
+              "object_var_value": 0,
+              "input_var": "pt_attack_port_capture_port_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "армия 1 захватила порт"
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t1_assist_attack_port",
+              "status": 2,
+              "object_var_comp_op": "equal",
+              "object_var_name": "",
+              "team": "A",
+              "extendedEnding": true
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t2_assist_defend_port",
+              "status": 3,
+              "object_var_comp_op": "equal",
+              "object_var_name": "",
+              "team": "B",
+              "extendedEnding": true
+            }
+          },
+          {
+            "wait": {
+              "time": 20.0
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t1_assist_attack_port",
+              "status": 0,
+              "object_var_comp_op": "equal",
+              "object_var_name": ""
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t2_assist_defend_port",
+              "status": 0,
+              "object_var_comp_op": "equal",
+              "object_var_name": ""
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_attack_port_t1_timer_reset"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "pt_attack_port_t2_is_captured": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "missionIsZoneCaptured": {
+            "target": "@pt_attack_t2_port_name",
+            "army": 2
+          }
+        },
+        "actions": [
+          {
+            "triggerDisable": {
+              "target": "pt_attack_port_t2_npc_destroyed"
+            }
+          },
+          {
+            "unitSetIndication": {
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "set": false,
+              "target": "@pt_attack_t2_attacker_name"
+            }
+          },
+          {
+            "unitSetVar": {
+              "object_var_name": "attack_port",
+              "object": "@pt_attack_t2_attacker_name",
+              "object_var_value": 0
+            }
+          },
+          {
+            "unitSetVar": {
+              "object_var_name": "home_port",
+              "object": "@pt_attack_t2_attacker_name",
+              "object_var_value": 0,
+              "input_var": "pt_attack_port_capture_port_idx"
+            }
+          },
+          {
+            "comment": {
+              "value": "армия 2 захватила порт"
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t2_assist_attack_port",
+              "status": 2,
+              "object_var_comp_op": "equal",
+              "object_var_name": "",
+              "team": "A",
+              "extendedEnding": true
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t1_assist_defend_port",
+              "status": 3,
+              "object_var_comp_op": "equal",
+              "object_var_name": "",
+              "team": "B",
+              "extendedEnding": true
+            }
+          },
+          {
+            "wait": {
+              "time": 20.0
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t2_assist_attack_port",
+              "status": 0,
+              "object_var_comp_op": "equal",
+              "object_var_name": ""
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t1_assist_defend_port",
+              "status": 0,
+              "object_var_comp_op": "equal",
+              "object_var_name": ""
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_attack_port_t2_timer_reset"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "pt_attack_port_t1_npc_destroyed": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "func": "less",
+            "value": 1,
+            "object": "@pt_attack_t1_attacker_name"
+          }
+        },
+        "actions": [
+          {
+            "triggerDisable": {
+              "target": "pt_attack_port_t1_is_captured"
+            }
+          },
+          {
+            "comment": {
+              "value": "убиты все корабли аттакеры"
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t1_assist_attack_port",
+              "status": 3,
+              "object_var_comp_op": "equal",
+              "object_var_name": "",
+              "team": "A",
+              "extendedEnding": true
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t2_assist_defend_port",
+              "status": 2,
+              "object_var_comp_op": "equal",
+              "object_var_name": "",
+              "team": "B",
+              "extendedEnding": true
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t2_moderate_task_completed"
+            }
+          },
+          {
+            "wait": {
+              "time": 20.0
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t1_assist_attack_port",
+              "status": 0,
+              "object_var_comp_op": "equal",
+              "object_var_name": ""
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t2_assist_defend_port",
+              "status": 0,
+              "object_var_comp_op": "equal",
+              "object_var_name": ""
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_attack_port_t1_timer_reset"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "pt_attack_port_t2_npc_destroyed": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isActive",
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "func": "less",
+            "value": 1,
+            "object": "@pt_attack_t2_attacker_name"
+          }
+        },
+        "actions": [
+          {
+            "triggerDisable": {
+              "target": "pt_attack_port_t2_is_captured"
+            }
+          },
+          {
+            "comment": {
+              "value": "убиты все корабли аттакеры"
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t2_assist_attack_port",
+              "status": 3,
+              "object_var_comp_op": "equal",
+              "object_var_name": "",
+              "team": "B",
+              "extendedEnding": true
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t1_assist_defend_port",
+              "status": 2,
+              "object_var_comp_op": "equal",
+              "object_var_name": "",
+              "team": "A",
+              "extendedEnding": true
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "t1_moderate_task_completed"
+            }
+          },
+          {
+            "wait": {
+              "time": 20.0
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t2_assist_attack_port",
+              "status": 0,
+              "object_var_comp_op": "equal",
+              "object_var_name": ""
+            }
+          },
+          {
+            "moSetObjectiveStatus": {
+              "target": "pt_t1_assist_defend_port",
+              "status": 0,
+              "object_var_comp_op": "equal",
+              "object_var_name": ""
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_attack_port_t2_timer_reset"
+            }
+          }
+        ],
+        "else_actions": []
+      },
+      "pt_attack_port_restarting": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 120.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "triggerEnable": {
+            "target": "pt_attack_port_start"
+          }
         },
         "else_actions": []
       }
@@ -13954,7 +14490,8 @@
               "object_var_comp_op": "equal",
               "object_var_name": "",
               "team": "A",
-              "unit_or_area": "@pt_attack_port_capture_area_name"
+              "unit_or_area": "@pt_attack_port_capture_area_name",
+              "extendedEnding": true
             }
           },
           {
@@ -13964,7 +14501,8 @@
               "object_var_comp_op": "equal",
               "object_var_name": "",
               "team": "B",
-              "unit_or_area": "@pt_attack_port_capture_area_name"
+              "unit_or_area": "@pt_attack_port_capture_area_name",
+              "extendedEnding": true
             }
           },
           {
@@ -14861,7 +15399,8 @@
               "object_var_comp_op": "equal",
               "object_var_name": "",
               "team": "B",
-              "unit_or_area": "@pt_attack_port_capture_area_name"
+              "unit_or_area": "@pt_attack_port_capture_area_name",
+              "extendedEnding": true
             }
           },
           {
@@ -14871,7 +15410,8 @@
               "object_var_comp_op": "equal",
               "object_var_name": "",
               "team": "A",
-              "unit_or_area": "@pt_attack_port_capture_area_name"
+              "unit_or_area": "@pt_attack_port_capture_area_name",
+              "extendedEnding": true
             }
           },
           {
@@ -16198,7 +16738,12 @@
     "pt_port_turning_restore_timer_value": 0,
     "pt_port_default_restore_time": 300,
     "pt_port_turning_defenders_squad_name": "",
-    "pt_capture_port_restore_timer_var_name": ""
+    "pt_capture_port_restore_timer_var_name": "",
+    "pt_generate_defenders_name": "",
+    "pt_attack_t1_port_name": "",
+    "pt_attack_t2_port_name": "",
+    "pt_attack_t1_attacker_name": "",
+    "pt_attack_t2_attacker_name": ""
   },
   "dialogs": [],
   "airfields": [],

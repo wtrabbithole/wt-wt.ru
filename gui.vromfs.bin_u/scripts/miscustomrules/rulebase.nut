@@ -257,7 +257,8 @@ class ::mission_rules.Base
       if (!::is_crew_available_in_session(c.idInCountry, false)
           || !::is_crew_slot_was_ready_at_host(c.idInCountry, unit.name, true)
           || !::get_available_respawn_bases(unit.tags).len()
-          || !getUnitLeftRespawns(unit))
+          || !getUnitLeftRespawns(unit)
+          || unit.disableFlyout)
         continue
 
       if (isScoreRespawnEnabled && curSpawnScore >= 0

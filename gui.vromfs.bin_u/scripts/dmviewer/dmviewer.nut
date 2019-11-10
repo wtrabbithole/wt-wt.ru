@@ -252,7 +252,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
       return false
 
     local handler = ::handlersManager.getActiveBaseHandler()
-    newActive = newActive && handler && (("canShowDmViewer" in handler) ? handler.canShowDmViewer() : false)
+    newActive = newActive && (handler?.canShowDmViewer() ?? false)
     if (::top_menu_handler && ::top_menu_handler.isSceneActive())
       newActive = newActive && ::top_menu_handler.canShowDmViewer()
 
@@ -284,13 +284,13 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
     {
       obj = handler.scene.findObject("dmviewer_protection_analysis_btn")
       if (::check_obj(obj))
-        obj.show(view_mode == ::DM_VIEWER_ARMOR && unit.unitType.canShowProtectionAnalysis())
+        obj.show(view_mode == ::DM_VIEWER_ARMOR && (unit?.unitType.canShowProtectionAnalysis() ?? false))
     }
 
     // Outer parts visibility toggle in Armor and Xray modes
     if (::has_feature("DmViewerExternalArmorHiding"))
     {
-      local isTankOrShip = unit.isTank() || unit.isShip()
+      local isTankOrShip = unit != null && (unit.isTank() || unit.isShip())
       obj = handler.scene.findObject("dmviewer_show_external_dm")
       if (::check_obj(obj))
       {

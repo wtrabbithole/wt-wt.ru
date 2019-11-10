@@ -1917,7 +1917,7 @@ g_unlocks.isHiddenByUnlockedUnlocks <- function isHiddenByUnlockedUnlocks(unlock
   foreach (value in (unlockBlk % "hideWhenUnlocked"))
   {
     local unlockedCount = 0
-    local unlocksId = ::split(value, "; ")
+    local unlocksId = value.split("; ")
     foreach (id in unlocksId)
       if (::is_unlocked_scripted(-1, id))
         unlockedCount ++
