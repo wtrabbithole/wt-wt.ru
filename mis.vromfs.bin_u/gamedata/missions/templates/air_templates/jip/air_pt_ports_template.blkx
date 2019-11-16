@@ -1528,7 +1528,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 0.0
+            "time": 1.0
           }
         },
         "conditions": {
@@ -1874,6 +1874,11 @@
             "triggerEnable": {
               "target": "pt_ports_turning_army_check"
             }
+          },
+          {
+            "__triggerEnable": {
+              "target": "pt_port_turning_restore_timer_change"
+            }
           }
         ],
         "else_actions": {
@@ -1927,7 +1932,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
+          "conditionsType": "ANY",
           "enableAfterComplete": false
         },
         "events": {
@@ -1964,7 +1969,11 @@
             {
               "target": "@pt_turning_capture_area_name"
             }
-          ]
+          ],
+          "missionIsZoneCaptured": {
+            "target": "@pt_turning_capture_area_name",
+            "army": 0
+          }
         },
         "actions": [
           {
@@ -2105,7 +2114,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": {
@@ -2137,7 +2146,11 @@
             {
               "target": "@pt_turning_capture_area_name"
             }
-          ]
+          ],
+          "missionIsZoneCaptured": {
+            "target": "@pt_turning_capture_area_name",
+            "army": 1
+          }
         },
         "actions": [
           {
@@ -2264,7 +2277,7 @@
         "comments": "",
         "props": {
           "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
+          "conditionsType": "ANY",
           "enableAfterComplete": false
         },
         "events": {
@@ -2301,7 +2314,11 @@
             {
               "target": "@pt_turning_capture_area_name"
             }
-          ]
+          ],
+          "missionIsZoneCaptured": {
+            "target": "@pt_turning_capture_area_name",
+            "army": 0
+          }
         },
         "actions": [
           {
@@ -2442,7 +2459,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": {
@@ -2474,7 +2491,11 @@
             {
               "target": "@pt_turning_capture_area_name"
             }
-          ]
+          ],
+          "missionIsZoneCaptured": {
+            "target": "@pt_turning_capture_area_name",
+            "army": 2
+          }
         },
         "actions": [
           {
@@ -3222,6 +3243,32 @@
         },
         "else_actions": []
       },
+      "pt_port_turning_restore_timer_change": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 0.0
+          }
+        },
+        "conditions": [],
+        "actions": {
+          "varModify": {
+            "operator": "add",
+            "value": -1.0,
+            "var": "@pt_port_turning_restore_timer_var_name"
+          },
+          "triggerEnable": {
+            "target": "pt_port_turning_restore_timer_check"
+          }
+        },
+        "else_actions": []
+      },
       "pt_port_turning_restore_timer_check": {
         "is_enabled": false,
         "comments": "",
@@ -3232,7 +3279,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.0
           }
         },
         "conditions": {
@@ -3306,62 +3353,15 @@
             }
           },
           {
-            "unitRestore": {
-              "ressurectIfDead": false,
-              "fullRestore": true,
-              "target": "@pt_port_turning_defenders_squad_name",
-              "randomTargetsCount": 1,
-              "useForTriggerFiltered": true
+            "systemLog": {
+              "value": "cannon restore",
+              "logtype": "screen_and_log"
             }
           },
           {
-            "comment": {
-              "value": "идем дальше по циклу"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "pt_ports_turning_rotator"
-            }
-          }
-        ],
-        "else_actions": {
-          "comment": {
-            "value": "нет поврежденных. проверяем убитых"
-          },
-          "triggerEnable": {
-            "target": "pt_port_turning_restore_defenders_killed"
-          }
-        }
-      },
-      "pt_port_turning_restore_defenders_killed": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "unitWhenCountMatches": {
-            "object_type": "damaged",
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "func": "more",
-            "value": 0,
-            "object": "@pt_port_turning_defenders_squad_name"
-          }
-        },
-        "actions": [
-          {
-            "comment": {
-              "value": "есть поврежденный"
+            "systemLog": {
+              "value": "@pt_port_turning_defenders_squad_name",
+              "logtype": "screen_and_log"
             }
           },
           {
@@ -3384,14 +3384,122 @@
             }
           }
         ],
-        "else_actions": {
-          "comment": {
-            "value": "нет поврежденных. иде мдальше по циклу"
+        "else_actions": [
+          {
+            "comment": {
+              "value": "нет поврежденных. проверяем убитых"
+            }
           },
-          "triggerEnable": {
-            "target": "pt_ports_turning_rotator"
+          {
+            "triggerEnable": {
+              "target": "pt_ports_turning_rotator"
+            }
+          },
+          {
+            "__triggerEnable": {
+              "target": "pt_port_turning_restore_defenders_killed"
+            }
+          },
+          {
+            "__systemLog": {
+              "value": "cannons not damaged:",
+              "logtype": "screen_and_log"
+            }
+          },
+          {
+            "__systemLog": {
+              "value": "@pt_port_turning_defenders_squad_name",
+              "logtype": "screen_and_log"
+            }
+          },
+          {
+            "__systemLog": {
+              "value": " ",
+              "logtype": "screen_and_log"
+            }
           }
-        }
+        ]
+      },
+      "pt_port_turning_restore_defenders_killed": {
+        "is_enabled": false,
+        "comments": "",
+        "props": {
+          "actionsType": "PERFORM_ONE_BY_ONE",
+          "conditionsType": "ALL",
+          "enableAfterComplete": false
+        },
+        "events": {
+          "periodicEvent": {
+            "time": 1.0
+          }
+        },
+        "conditions": {
+          "unitWhenCountMatches": {
+            "object_type": "isKilled",
+            "object_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "func": "more",
+            "value": 0,
+            "object": "@pt_port_turning_defenders_squad_name"
+          }
+        },
+        "actions": [
+          {
+            "comment": {
+              "value": "есть убитый"
+            }
+          },
+          {
+            "unitRestore": {
+              "ressurectIfDead": true,
+              "fullRestore": true,
+              "target": "@pt_port_turning_defenders_squad_name",
+              "randomTargetsCount": 1,
+              "useForTriggerFiltered": true
+            }
+          },
+          {
+            "comment": {
+              "value": "идем дальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_ports_turning_rotator"
+            }
+          }
+        ],
+        "else_actions": [
+          {
+            "comment": {
+              "value": "нет поврежденных. иде мдальше по циклу"
+            }
+          },
+          {
+            "triggerEnable": {
+              "target": "pt_ports_turning_rotator"
+            }
+          },
+          {
+            "systemLog": {
+              "value": "cannons not killed:",
+              "logtype": "screen_and_log"
+            }
+          },
+          {
+            "systemLog": {
+              "value": "@pt_port_turning_defenders_squad_name",
+              "logtype": "screen_and_log"
+            }
+          },
+          {
+            "systemLog": {
+              "value": " ",
+              "logtype": "screen_and_log"
+            }
+          }
+        ]
       }
     },
     "pt_ports_generate_size": {
@@ -8632,8 +8740,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "B"
             }
           },
           {
@@ -8642,8 +8750,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "A"
             }
           },
           {
@@ -8734,8 +8842,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "A"
             }
           },
           {
@@ -8744,8 +8852,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "B"
             }
           },
           {
@@ -8844,8 +8952,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "B"
             }
           },
           {
@@ -8854,8 +8962,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "A"
             }
           },
           {
@@ -8969,8 +9077,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "A"
             }
           },
           {
@@ -8979,8 +9087,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "B"
             }
           },
           {
@@ -9189,7 +9297,7 @@
         "conditions": {
           "varCompareInt": {
             "var_value": "pt_reinfocement_t1_enemy_spawn_cur_idx",
-            "value": 49,
+            "value": 100,
             "comparasion_func": "less"
           }
         },
@@ -10000,7 +10108,7 @@
         "conditions": {
           "varCompareInt": {
             "var_value": "pt_reinfocement_t2_enemy_spawn_cur_idx",
-            "value": 49,
+            "value": 100,
             "comparasion_func": "less"
           }
         },
@@ -13658,8 +13766,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "A"
             }
           },
           {
@@ -13668,8 +13776,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "B"
             }
           },
           {
@@ -13762,8 +13870,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "A"
             }
           },
           {
@@ -13772,8 +13880,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "B"
             }
           },
           {
@@ -13846,8 +13954,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "A"
             }
           },
           {
@@ -13856,8 +13964,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "B"
             }
           },
           {
@@ -13935,8 +14043,8 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "B",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "B"
             }
           },
           {
@@ -13945,8 +14053,8 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
-              "team": "A",
-              "extendedEnding": true
+              "extendedEnding": true,
+              "team": "A"
             }
           },
           {
@@ -14489,9 +14597,9 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
+              "extendedEnding": true,
               "team": "A",
-              "unit_or_area": "@pt_attack_port_capture_area_name",
-              "extendedEnding": true
+              "unit_or_area": "@pt_attack_port_capture_area_name"
             }
           },
           {
@@ -14500,9 +14608,9 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
+              "extendedEnding": true,
               "team": "B",
-              "unit_or_area": "@pt_attack_port_capture_area_name",
-              "extendedEnding": true
+              "unit_or_area": "@pt_attack_port_capture_area_name"
             }
           },
           {
@@ -15398,9 +15506,9 @@
               "status": 2,
               "object_var_comp_op": "equal",
               "object_var_name": "",
+              "extendedEnding": true,
               "team": "B",
-              "unit_or_area": "@pt_attack_port_capture_area_name",
-              "extendedEnding": true
+              "unit_or_area": "@pt_attack_port_capture_area_name"
             }
           },
           {
@@ -15409,9 +15517,9 @@
               "status": 3,
               "object_var_comp_op": "equal",
               "object_var_name": "",
+              "extendedEnding": true,
               "team": "A",
-              "unit_or_area": "@pt_attack_port_capture_area_name",
-              "extendedEnding": true
+              "unit_or_area": "@pt_attack_port_capture_area_name"
             }
           },
           {
@@ -16728,15 +16836,15 @@
     "pt_capture_port_rearm_t2_area_name": "",
     "pt_capture_port_t1_defenders_name": "",
     "pt_capture_port_t2_defenders_name": "",
-    "pt_port_01_restore_timer": 0,
-    "pt_port_02_restore_timer": 0,
-    "pt_port_03_restore_timer": 0,
-    "pt_port_04_restore_timer": 0,
-    "pt_port_05_restore_timer": 0,
-    "pt_port_06_restore_timer": 0,
+    "pt_port_01_restore_timer": 30,
+    "pt_port_02_restore_timer": 30,
+    "pt_port_03_restore_timer": 30,
+    "pt_port_04_restore_timer": 30,
+    "pt_port_05_restore_timer": 30,
+    "pt_port_06_restore_timer": 30,
     "pt_port_turning_restore_timer_var_name": "",
     "pt_port_turning_restore_timer_value": 0,
-    "pt_port_default_restore_time": 300,
+    "pt_port_default_restore_time": 30,
     "pt_port_turning_defenders_squad_name": "",
     "pt_capture_port_restore_timer_var_name": "",
     "pt_generate_defenders_name": "",

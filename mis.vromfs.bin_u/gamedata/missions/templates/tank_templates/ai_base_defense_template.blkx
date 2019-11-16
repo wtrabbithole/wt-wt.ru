@@ -1276,36 +1276,18 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "teamA_ai_dies"
-          }
-        },
-        {
-          "wait": {
-            "time": 5.0
-          }
-        },
-        {
-          "moAddMissionObjective": {
-            "target": "t1_ai_base_defend",
-            "object_var_comp_op": "equal",
-            "object_var_name": ""
-          }
-        },
-        {
-          "moAddMissionObjective": {
-            "target": "t2_ai_base_defend",
-            "object_var_comp_op": "equal",
-            "object_var_name": ""
-          }
-        },
-        {
           "triggerEnable": [
+            {
+              "target": "teamA_ai_dies"
+            },
             {
               "target": "teamA_all_ai_dead"
             },
             {
               "target": "teamB_attack_timeIsUp"
+            },
+            {
+              "target": "t1_add_objectives"
             }
           ]
         }
@@ -1359,13 +1341,87 @@
           }
         },
         {
-          "triggerEnable": {
-            "target": "teamB_ai_dies"
+          "triggerEnable": [
+            {
+              "target": "teamB_ai_dies"
+            },
+            {
+              "target": "teamB_all_ai_dead"
+            },
+            {
+              "target": "teamA_attack_timeIsUp"
+            },
+            {
+              "target": "t2_add_objectives"
+            }
+          ]
+        }
+      ],
+      "else_actions": []
+    },
+    "t1_add_objectives": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "missionNamePostfix": {
+          "postfix": "_DBttlA"
+        }
+      },
+      "actions": [
+        {
+          "wait": {
+            "time": 3.0
           }
         },
         {
+          "moAddMissionObjective": {
+            "target": "t1_ai_base_defend",
+            "object_var_comp_op": "equal",
+            "object_var_name": ""
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "t2_ai_base_defend",
+            "object_var_comp_op": "equal",
+            "object_var_name": ""
+          }
+        }
+      ],
+      "else_actions": []
+    },
+    "t2_add_objectives": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "missionNamePostfix": {
+          "postfix": "_DBttlB"
+        }
+      },
+      "actions": [
+        {
           "wait": {
-            "time": 5.0
+            "time": 3.0
           }
         },
         {
@@ -1381,16 +1437,6 @@
             "object_var_comp_op": "equal",
             "object_var_name": ""
           }
-        },
-        {
-          "triggerEnable": [
-            {
-              "target": "teamB_all_ai_dead"
-            },
-            {
-              "target": "teamA_attack_timeIsUp"
-            }
-          ]
         }
       ],
       "else_actions": []
