@@ -915,7 +915,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 
     case ::UNLOCKABLE_SKIN:
       local unitName = ::g_unlocks.getPlaneBySkinId(id)
-      local res = ::loc(id)
+      local res = ::g_decorator.getDecoratorById(id)?.getDesc() ?? ""
       if (unitName != "")
         res += ::loc("ui/parentheses/space", { text = ::getUnitName(unitName) })
       return res
