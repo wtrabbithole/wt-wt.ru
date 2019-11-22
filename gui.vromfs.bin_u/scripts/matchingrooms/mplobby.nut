@@ -72,7 +72,7 @@ mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDeb
     setTextToObj(mapNameObj, ::loc("options/mp_mission") + ::loc("ui/colon"), get_combine_loc_name_mission(missionInfo))
 
   local pasObj = scene.findObject("session_hasPassword")
-  setTextToObj(pasObj ::loc("options/session_password") + ::loc("ui/colon"),
+  setTextToObj(pasObj, ::loc("options/session_password") + ::loc("ui/colon"),
                isEventRoom ? null : ::getTblValue("hasPassword", sessionInfo, false))
 
   local tlObj = scene.findObject("session_teamLimit")
@@ -751,7 +751,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function onReady()
   {
-    if (!antiCheat.showMsgboxIfEacInactive())
+    if (!antiCheat.showMsgboxIfEacInactive(::get_difficulty_by_ediff(getCurrentEdiff()).diffCode))
       return
 
     if (::SessionLobby.tryJoinSession())

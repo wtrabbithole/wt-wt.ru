@@ -6,7 +6,9 @@ slotbarCurAir {}
 
 shopItem {
   id:t='<<shopItemId>>'
-
+  <<#shopStatus>>
+  shopStat:t='<<shopStatus>>'
+  <</shopStatus>>
   bgPlate {}
 
   <<@crewLevelInfo>>

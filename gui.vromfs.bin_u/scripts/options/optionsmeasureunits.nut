@@ -59,10 +59,15 @@ local function getOption(useroptId)
   }
 }
 
-local function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, forceMaxPrecise = false)
+local function getMeasureCfg(unitNo)
 {
   local unitName = ::get_option_unit_type(unitNo)
-  local unit = persist.unitsCfg[unitNo].findvalue(@(u) u.name == unitName)
+  return persist.unitsCfg[unitNo].findvalue(@(u) u.name == unitName)
+}
+
+local function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, forceMaxPrecise = false)
+{
+  local unit = getMeasureCfg(unitNo)
   if (!unit)
     return ""
 
@@ -87,9 +92,17 @@ local function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = 
   return result
 }
 
+local function isMetricSystem(unitNo)
+{
+  local unitName = ::get_option_unit_type(unitNo)
+  return persist.unitsCfg[unitNo].findindex(@(u) u.name == unitName) == 0
+}
+
 return {
   init = init
   isInitialized = isInitialized
   getOption = getOption
+  getMeasureCfg = getMeasureCfg
   countMeasure = countMeasure
+  isMetricSystem = isMetricSystem
 }

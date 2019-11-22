@@ -8,6 +8,7 @@ local contentPreset = require("scripts/customization/contentPreset.nut")
 local optionsUtils = require("scripts/options/optionsUtils.nut")
 local optionsMeasureUnits = ::require("scripts/options/optionsMeasureUnits.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local soundDevice = require_native("soundDevice")
 
 global const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 global const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
@@ -525,6 +526,8 @@ local isWaitMeasureEvent = false
       optionsUtils.fillBoolOption(descr, "storeMapZoomByLevel", ::OPTION_MAP_ZOOM_BY_LEVEL); break;
     case ::USEROPT_HIDE_MOUSE_SPECTATOR:
       optionsUtils.fillBoolOption(descr, "hideMouseInSpectator", ::OPTION_HIDE_MOUSE_SPECTATOR); break;
+    case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
+      optionsUtils.fillBoolOption(descr, "showCompassInTankHud", ::OPTION_SHOW_COMPASS_IN_TANK_HUD); break;
 
     case ::USEROPT_VIEWTYPE:
       descr.id = "viewtype"
@@ -784,6 +787,13 @@ local isWaitMeasureEvent = false
       descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y) != 0
       break
 
+    case ::USEROPT_INVERTY_HELICOPTER_GUNNER:
+      descr.id = "invertY_helicopter_gunner"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_GUNNER_Y) != 0
+      break
+
     case ::USEROPT_INVERTY_WALKER:
       descr.id = "invertY_walker"
       descr.controlType = optionControlType.CHECKBOX
@@ -1005,6 +1015,24 @@ local isWaitMeasureEvent = false
         descr.items.append(device)
         descr.values.append(device)
         if (descr.values[i] == ::get_last_device_out())
+          descr.value = i
+      }
+      break
+
+    case ::USEROPT_SOUND_DEVICE_OUT:
+      descr.id = "sound_device_out";
+      descr.items = [];
+      descr.values = [];
+      descr.value = 0;
+      descr.cb = "onInstantOptionApply";
+      descr.trParams <- "optionWidthInc:t='double';"
+      local deviceCount = soundDevice.sound_get_device_out_count();
+      for (local i=0; i<deviceCount; i++)
+      {
+        local device = soundDevice.sound_get_device_out_name(i)
+        descr.items.append(device)
+        descr.values.append(device)
+        if (descr.values[i] == soundDevice.get_last_sound_device_out())
           descr.value = i
       }
       break
@@ -1446,7 +1474,7 @@ local isWaitMeasureEvent = false
       for(local i = 1; i <= ::max_country_rank; i++)
       {
         descr.items.push(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
-        descr.values.push({min = (i - 1) * 5, max = i * 5 - 1})
+        descr.values.push({min = (i - 1) * 4, max = i * 4 - 1})
       }
 
       descr.getValueIdxByValue <- function (val)
@@ -1841,6 +1869,13 @@ local isWaitMeasureEvent = false
       descr.value = ::get_option_activate_airborne_radar_on_spawn()
       break
 
+    case ::USEROPT_USE_RECTANGULAR_RADAR_INDICATOR:
+      descr.id = "use_rectangular_radar_indicator"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_use_rectangular_radar_indicator()
+      break
+
     case ::USEROPT_SAVE_AI_TARGET_TYPE:
       descr.id = "save_ai_target_type"
       descr.controlType = optionControlType.CHECKBOX
@@ -2186,25 +2221,15 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_SEARCH_GAMEMODE:
       descr.id = "mp_mode"
-      descr.items = []
-      descr.values = []
-      descr.items.append("#options/any")
-      descr.values.append(-1)
-      descr.items.append("#mainmenu/btnDynamic")
-      descr.values.append(::GM_DYNAMIC)
-      descr.items.append("#mainmenu/btnBuilder")
-      descr.values.append(::GM_BUILDER)
-      descr.items.append("#mainmenu/btnCoop")
-      descr.values.append(::GM_SINGLE_MISSION)
+      descr.items = [ "#options/any", "#mainmenu/btnDynamic", "#mainmenu/btnBuilder", "#mainmenu/btnCoop" ]
+      descr.values = [ -1, ::GM_DYNAMIC, ::GM_BUILDER, ::GM_SINGLE_MISSION ]
       descr.cb = "onGamemodeChange"
       break
 
     case ::USEROPT_SEARCH_GAMEMODE_CUSTOM:
       descr.id = "mp_mode"
-      descr.items = ["#options/any"]
-      descr.values = [-1]
-      descr.items.extend(["#multiplayer/teamBattleMode", "#multiplayer/dominationMode", "#multiplayer/tournamentMode"])
-      descr.values.extend([::GM_TEAMBATTLE, ::GM_DOMINATION, ::GM_TOURNAMENT])
+      descr.items = [ "#options/any", "#multiplayer/teamBattleMode", "#multiplayer/dominationMode", "#multiplayer/tournamentMode" ]
+      descr.values = [ -1, ::GM_TEAMBATTLE, ::GM_DOMINATION, ::GM_TOURNAMENT ]
       break
 
     case ::USEROPT_SEARCH_PLAYERMODE:
@@ -3036,6 +3061,13 @@ local isWaitMeasureEvent = false
       }
       break
 
+    case ::USEROPT_PLAY_INACTIVE_WINDOW_SOUND:
+      descr.id = "playInactiveWindowSound"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_gui_option(optionId)
+      break
+
     case ::USEROPT_PILOT:
       descr.id = "profilePilot"
       descr.items = []
@@ -3769,6 +3801,8 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_INVERTY_HELICOPTER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y, value ? 1 : 0)
+    case ::USEROPT_INVERTY_HELICOPTER_GUNNER:
+      ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_GUNNER_Y, value ? 1 : 0)
       break
     case ::USEROPT_INVERTY_WALKER:
       ::set_option_invertY(AxisInvertOption.INVERT_WALKER_Y, value ? 1 : 0)
@@ -4105,6 +4139,9 @@ local isWaitMeasureEvent = false
     case ::USEROPT_ACTIVATE_AIRBORNE_RADAR_ON_SPAWN:
       ::set_option_activate_airborne_radar_on_spawn(value)
       break;
+    case ::USEROPT_USE_RECTANGULAR_RADAR_INDICATOR:
+      ::set_option_use_rectangular_radar_indicator(value)
+      break;
     case ::USEROPT_SAVE_AI_TARGET_TYPE:
       ::set_option_ai_target_type(value ? 1 : 0)
       break;
@@ -4330,6 +4367,7 @@ local isWaitMeasureEvent = false
     case ::USEROPT_INSTRUCTOR_ENGINE_CONTROL:
     case ::USEROPT_INSTRUCTOR_SIMPLE_JOY:
     case ::USEROPT_MAP_ZOOM_BY_LEVEL:
+    case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
     case ::USEROPT_HIDE_MOUSE_SPECTATOR:
       local optionIdx = ::getTblValue("boolOptionIdx", descr, -1)
       if (optionIdx >= 0 && ::u.isBool(value))
@@ -4542,6 +4580,10 @@ local isWaitMeasureEvent = false
       }
       break
 
+    case ::USEROPT_PLAY_INACTIVE_WINDOW_SOUND:
+      ::set_gui_option(optionId, value)
+      break;
+
     case ::USEROPT_INTERNET_RADIO_ACTIVE:
       local internet_radio_options = ::get_internet_radio_options()
       internet_radio_options["active"] = value
@@ -4568,6 +4610,10 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_VOICE_DEVICE_OUT:
       ::set_last_device_out(descr.values[value]);
+      break
+
+    case ::USEROPT_SOUND_DEVICE_OUT:
+      soundDevice.set_last_sound_device_out(descr.values?[value] ?? "");
       break
 
     case ::USEROPT_HEADTRACK_ENABLE:

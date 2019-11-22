@@ -1,6 +1,7 @@
 local globalBattlesListData = require("scripts/worldWar/operations/model/wwGlobalBattlesList.nut")
 local WwGlobalBattle = require("scripts/worldWar/operations/model/wwGlobalBattle.nut")
 local wwBattlesFilterMenu = require("scripts/worldWar/handler/wwBattlesFilterMenu.nut")
+local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 
 const WW_GLOBAL_BATTLES_FILTER_ID = "worldWar/ww_global_battles_filter"
 local MAX_VISIBLE_BATTLES_PER_GROUP = 5
@@ -120,15 +121,26 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
       foreach (side in ::g_world_war.getSidesOrder(curBattleInList))
       {
         local playerTeam = operationBattle.getTeamBySide(side)
-        availableUnits = availableUnits.__merge(operationBattle.getTeamRemainUnits(playerTeam))
-        operationUnits = availableUnits.__merge(::g_world_war.getAllOperationUnitsBySide(side))
+        availableUnits.__update(operationBattle.getTeamRemainUnits(playerTeam))
+        operationUnits.__update(::g_world_war.getAllOperationUnitsBySide(side))
       }
+
+    local map = getMap()
+    local unitsGroupsByCountry = map?.getUnitsGroupsByCountry()
+    local prevSlotbarStatus = hasSlotbarByUnitsGroups
+    hasSlotbarByUnitsGroups = unitsGroupsByCountry != null
+    if (prevSlotbarStatus != hasSlotbarByUnitsGroups)
+      destroySlotbar()
+    if (hasSlotbarByUnitsGroups)
+      slotbarPresets.setCurPreset(map.getId() ,unitsGroupsByCountry)
 
     createSlotbar(
       {
         customCountry = ::get_profile_country_sq()
         availableUnits = availableUnits.len() ? availableUnits : null
-        customUnitsList = operationUnits.len() ? operationUnits : null
+        customUnitsList = hasSlotbarByUnitsGroups || operationUnits.len() == 0
+          ? null
+          : operationUnits
       }.__update(getSlotbarParams())
     )
   }

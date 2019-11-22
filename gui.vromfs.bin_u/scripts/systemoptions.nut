@@ -210,9 +210,6 @@
   waterQuality = { widgetType="list" def="high" blk="graphics/waterQuality" restart=false
     values = [ "low", "medium", "high", "ultrahigh" ]
   }
-  waterFoamQuality = { widgetType="list" def="high" blk="graphics/foamQuality" restart=false
-    values = [ "none", "low", "medium", "high", "ultrahigh" ]
-  }
   dirtSubDiv = { widgetType="list" def="high" blk="graphics/dirtSubDiv" restart=false
     values = [ "high", "ultrahigh" ]
     getFromBlk = function(blk, desc) {
@@ -250,8 +247,6 @@
   compatibilityMode = { widgetType="checkbox" def=false blk="video/compatibilityMode" restart=true
     onChanged = "compatibilityModeClick"
   }
-  foliageReprojection = { widgetType="checkbox" def=true blk="graphics/foliageReprojection" restart=false
-  }
   displacementQuality = { widgetType="slider" def=2 min=0 max=3 blk="graphics/displacementQuality" restart=false
   }
   contactShadowsQuality = { widgetType="slider" def=0 min=0 max=2 blk="graphics/contactShadowsQuality" restart=false
@@ -276,7 +271,6 @@
   {k="shadows",              v={ultralow=false,low=true,medium=true ,high=true ,max=true, movie=true}}
   {k="selfReflection",       v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
   {k="waterQuality",         v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="ultrahigh"}, compMode=false}
-  {k="waterFoamQuality",     v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="ultrahigh"}, compMode=true}
   {k="grass",                v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
   {k="displacementQuality",  v={ultralow=0,low=0,medium=0,high=1, max=2, movie=3}}
   {k="dirtSubDiv",           v={ultralow="high",low="high",medium="high",high="high", max="ultrahigh", movie="ultrahigh"}, compMode=true}
@@ -288,7 +282,6 @@
   {k="ssaa",                 v={ultralow="none",low="none",medium="none", high="none", max="none",movie="none"}}
   {k="enableSuspensionAnimation",v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="haze",                 v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
-  {k="foliageReprojection",  v={ultralow=false,low=false,medium=false,high=false ,max=true, movie=true}}
   {k="softFx",               v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
   {k="lastClipSize",         v={ultralow=false,low=false,medium=false,high=false,max=true, movie=true}, compMode=true}
   {k="landquality",          v={ultralow=0,low=0,medium=0 ,high=2,max=3,movie=4}}
@@ -618,7 +611,6 @@
       "contactShadowsQuality"
       "ssrQuality"
       "waterQuality"
-      "waterFoamQuality"
       "physicsQuality"
       "displacementQuality"
       "dirtSubDiv"
@@ -638,7 +630,6 @@
       "lenseFlares"
       "enableSuspensionAnimation"
       "alpha_to_coverage"
-      "foliageReprojection"
       "jpegShots"
       "compatibilityMode"
     ]
@@ -706,7 +697,7 @@ sysopt.configWrite <- function configWrite()
   {
     local value = getGuiValue(id)
     if (mCfgInitial?[id] != value)
-      dagor.debug("[sysopt]  " + id + ": " + mCfgInitial?[id] + " -> " + value)
+      dagor.debug("[sysopt] " + id + ": " + (mCfgInitial?[id] ?? "null") + " -> " + value)
     local desc = getOptionDesc(id)
     if ("setToBlk" in desc)
       desc.setToBlk(mBlk, desc, value)
@@ -746,7 +737,6 @@ sysopt.localize <- function localize(optionId, valueId)
     case "shadowQuality":
     case "tireTracksQuality":
     case "waterQuality":
-    case "waterFoamQuality":
     case "dirtSubDiv":
       if (valueId == "none")
         return ::loc("options/none")
@@ -1240,7 +1230,7 @@ sysopt.applyRestartClient <- function applyRestartClient(forced=false)
   dagor.debug("[sysopt] Restarting client.")
   ::save_profile(false)
   ::save_short_token()
-  ::restart_game()
+  ::restart_game(false)
 }
 
 sysopt.applyRestartEngine <- function applyRestartEngine(reloadScene = false)

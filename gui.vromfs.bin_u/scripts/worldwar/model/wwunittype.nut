@@ -1,6 +1,8 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 
+local fakeInfantryUnitName = "fake_infantry"
 const ALL_WW_UNITS_CODE = -2
+local WW_TRANSPORT_CODE = -3
 
 ::g_ww_unit_type <- {
   types = []
@@ -23,6 +25,10 @@ const ALL_WW_UNITS_CODE = -2
   deploySound = ""
   expClass = null
   canBeControlledByPlayer = false
+
+  getUnitName = @(name) ::getUnitName(name)
+  getUnitClassIcon = @(unit) ::getUnitClassIco(unit)
+  getUnitRole = @(unit) ::get_unit_role(unit)
 }
 
 enums.addTypesByGlobalName("g_ww_unit_type", {
@@ -68,6 +74,9 @@ enums.addTypesByGlobalName("g_ww_unit_type", {
     expClass = "infantry"
     moveSound = "ww_unit_move_infantry"
     deploySound = "ww_unit_move_infantry"
+    getUnitName = @(name) ::loc("mainmenu/type_infantry")
+    getUnitClassIcon = @(unit) "#ui/gameuiskin#icon_infantry"
+    getUnitRole = @(unit) "infantry"
   }
   ARTILLERY = {
     code = ::UT_ARTILLERY
@@ -78,6 +87,20 @@ enums.addTypesByGlobalName("g_ww_unit_type", {
     expClass = "artillery"
     moveSound = "ww_unit_move_artillery"
     deploySound = "ww_unit_move_artillery"
+    getUnitName = @(name) ::loc("mainmenu/type_artillery")
+    getUnitClassIcon = @(unit) "#ui/gameuiskin#icon_artillery"
+    getUnitRole = @(unit) "artillery"
+  }
+  TRANSPORT = {
+    code = WW_TRANSPORT_CODE
+    textCode = "TRANSPORT"
+    sortCode = WW_UNIT_SORT_CODE.TRANSPORT
+    name = "Transport"
+    fontIcon = ::loc("worldwar/iconLandingCraftEmpty")
+    expClass = "landing_craft"
+    getUnitName = @(name) ::loc("mainmenu/type_landing_craft")
+    getUnitClassIcon = @(unit) "#ui/gameuiskin#landing_craft.svg"
+    getUnitRole = @(unit) "transport"
   }
   ALL = {
     code = ALL_WW_UNITS_CODE
@@ -125,16 +148,19 @@ g_ww_unit_type.getUnitTypeByEsUnitCode <- function getUnitTypeByEsUnitCode(esUni
 
 g_ww_unit_type.getUnitTypeByWwUnit <- function getUnitTypeByWwUnit(wwUnit)
 {
-  if (wwUnit.name in cache.byName)
-    return cache.byName[wwUnit.name]
+  local name = wwUnit.name
+  if (name in cache.byName)
+    return cache.byName[name]
 
   local esUnitType = ::get_es_unit_type(wwUnit.unit)
   if (esUnitType != ::ES_UNIT_TYPE_INVALID)
     return ::g_ww_unit_type.getUnitTypeByEsUnitCode(esUnitType)
-  else if (wwUnit.isInfantry())
+  else if (name == fakeInfantryUnitName || name in ::g_world_war.getInfantryUnits())
     return ::g_ww_unit_type.INFANTRY
-  else if (wwUnit.isArtillery())
+  else if (name in ::g_world_war.getArtilleryUnits())
     return ::g_ww_unit_type.ARTILLERY
+  else if (name in ::g_world_war.getTransportUnits())
+    return ::g_ww_unit_type.TRANSPORT
 
   return ::g_ww_unit_type.UNKNOWN
 }

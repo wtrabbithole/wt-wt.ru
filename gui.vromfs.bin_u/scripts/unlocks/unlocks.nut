@@ -13,7 +13,7 @@ const FAVORITE_UNLOCKS_LIST_SAVE_ID = "favorite_unlocks"
 }
 
 ::air_stats_list <- [
-  { id="victories", icon = "lb_each_player_victories", text = "multiplayer/each_player_victories" }
+  { id="victories", icon = "lb_each_player_victories", text = "multiplayer/each_player_victories" },
   { id="sessions", icon = "lb_each_player_session", text = "multiplayer/each_player_session"
     countFunc = function(statBlk)
     {
@@ -21,7 +21,7 @@ const FAVORITE_UNLOCKS_LIST_SAVE_ID = "favorite_unlocks"
       sessions += statBlk?.defeats ?? 0
       return sessions
     }
-  }
+  },
   { id="victories_battles", type = ::g_lb_data_type.PERCENT
     countFunc = function(statBlk)
     {
@@ -31,7 +31,7 @@ const FAVORITE_UNLOCKS_LIST_SAVE_ID = "favorite_unlocks"
         return victories.tofloat() / sessions
       return 0
     }
-  }
+  },
   "flyouts",
   "deaths",
   "air_kills",
@@ -41,9 +41,9 @@ const FAVORITE_UNLOCKS_LIST_SAVE_ID = "favorite_unlocks"
     icon = "lb_naval_kills",
     text = "multiplayer/naval_kills",
     reqFeature = ["Ships"]
-  }
-  { id="wp_total", icon = "lb_wp_total_gained", text = "multiplayer/wp_total_gained", ownProfileOnly = true }
-  { id="online_exp_total", icon = "lb_online_exp_gained_for_common", text = "multiplayer/online_exp_gained_for_common" }
+  },
+  { id="wp_total", icon = "lb_wp_total_gained", text = "multiplayer/wp_total_gained", ownProfileOnly = true },
+  { id="online_exp_total", icon = "lb_online_exp_gained_for_common", text = "multiplayer/online_exp_gained_for_common" },
 ]
 foreach(idx, a in ::air_stats_list)
 {

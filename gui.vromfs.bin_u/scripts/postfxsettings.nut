@@ -76,7 +76,7 @@ class ::gui_handlers.PostFxSettings extends ::gui_handlers.BaseGuiHandlerWT
   function createRowMarkup(name, controlMarkup)
   {
     local controlCell = ::format("td { width:t='%.3fpw'; padding-left:t='@optPad'; %s }", 1.0 - firstColumnWidth, controlMarkup)
-    local res = ::format("tr{ id:t='%s'; td { width:t='%.3fpw'; overflow:t='hidden'; optiontext {text:t='%s'; } } %s }"
+    local res = ::format("tr{ id:t='%s'; td { width:t='%.3fpw'; overflow:t='hidden'; optiontext {text:t='%s'; } } %s }",
       name, firstColumnWidth, "#options/" + name, controlCell)
     return res
   }

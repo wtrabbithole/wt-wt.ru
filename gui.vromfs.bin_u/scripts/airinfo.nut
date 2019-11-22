@@ -5,7 +5,8 @@ local stdMath = require("std/math.nut")
 local unitInfoTexts = require("scripts/unit/unitInfoTexts.nut")
 local unitStatus = require("scripts/unit/unitStatus.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
-local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
+local countMeasure = require("scripts/options/optionsMeasureUnits.nut").countMeasure
+local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -234,6 +235,7 @@ local ACTION_LIST_PARAMS = {
   isSlotbarEnabled = true
   needChosenResearchOfSquadron = false
   isSquadronResearchMode = false
+  hasSlotbarByUnitsGroups = false
 }
 ::get_unit_actions_list <- ::kwarg(function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS, crew = null)
 {
@@ -248,7 +250,7 @@ local ACTION_LIST_PARAMS = {
 
   local inMenu = ::isInMenu()
   local isUsable  = unit.isUsable()
-  crew = crew ?? ::getCrewByAir(unit)
+  crew = crew ?? (p.hasSlotbarByUnitsGroups ? slotbarPresets.getCrewByUnit(unit) : ::getCrewByAir(unit))
   local curEdiff = handler?.getCurrentEdiff ? handler.getCurrentEdiff() : -1
 
   foreach(action in actions)
@@ -312,7 +314,7 @@ local ACTION_LIST_PARAMS = {
     }
     else if (action == "crew")
     {
-      if (!crew)
+      if (!crew || p.hasSlotbarByUnitsGroups)
         continue
 
       local discountInfo = ::g_crew.getDiscountInfo(crew.idCountry, crew.idInCountry)
@@ -326,6 +328,7 @@ local ACTION_LIST_PARAMS = {
         countryId = crew.idCountry,
         idInCountry = crew.idInCountry,
         curEdiff = curEdiff
+        needHideSlotbar = !p.isSlotbarEnabled || p.hasSlotbarByUnitsGroups
       })
     }
     else if (action == "weapons")
@@ -1643,6 +1646,10 @@ local ACTION_LIST_PARAMS = {
     local isShowProgress = ::isInArray(air.esUnitType, [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ])
     tableObj["showStatsProgress"] = isShowProgress ? "yes" : "no"
   }
+
+  local bitStatus = unitStatus.getBitStatus(air, params)
+  holderObj.shopStat = ::getUnitItemStatusText(bitStatus, false)
+  holderObj.unitRarity = ::getUnitRarity(air)
 
   local isInFlight = ::is_in_flight()
 

@@ -104,7 +104,7 @@ OnlineShopModel.getPriceBlk <- function getPriceBlk()
 OnlineShopModel.__assyncActionWrap <- function __assyncActionWrap(action)
 {
   local isActual = ::configs.ENTITLEMENTS_PRICE.checkUpdate(
-    action ? (@() action()).bindenv(this) : null
+    action ? (@() action()).bindenv(this) : null,
     null,
     true,
     false

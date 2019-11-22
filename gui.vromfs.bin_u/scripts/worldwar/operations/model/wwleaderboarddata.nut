@@ -9,6 +9,12 @@ local modes = [
     rewardsTableName = "user_leaderboards"
   },
   {
+    mode  = "ww_users_manager"
+    appId = "1134"
+    isInLeaderboardModes = true
+    hasDaysData = false
+  },
+  {
     mode  = "ww_clans"
     appId = "1135"
     mask  = WW_LB_MODE.WW_CLANS

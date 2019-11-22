@@ -841,7 +841,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
       case "drive_turret_v":
 
         weaponPartName = ::stringReplace(partName, partId, "gun_barrel")
-        local weaponInfoBlk = getWeaponByXrayPartName(weaponPartName)
+        local weaponInfoBlk = getWeaponByXrayPartName(weaponPartName, partName)
         if( ! weaponInfoBlk)
           break
         local isHorizontal = partId == "drive_turret_h"
@@ -1070,15 +1070,20 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
     return 0
   }
 
-  function getWeaponByXrayPartName(partName)
+  function getWeaponByXrayPartName(weaponPartName, linkedPartName = null)
   {
+    local turretLinkedParts = [ "horDriveDm", "verDriveDm" ]
     local partLinkSources = [ "dm", "barrelDP", "breechDP", "maskDP", "gunDm", "ammoDP", "emitter" ]
     local partLinkSourcesGenFmt = [ "emitterGenFmt", "ammoDpGenFmt" ]
     local weaponList = getUnitWeaponList()
     foreach(weapon in weaponList)
     {
+      if (linkedPartName != null && weapon?.turret.barrel != null)
+        foreach(partKey in turretLinkedParts)
+          if(weapon.turret?[partKey] == linkedPartName)
+            return weapon
       foreach(linkKey in partLinkSources)
-        if(linkKey in weapon && weapon[linkKey] == partName)
+        if(linkKey in weapon && weapon[linkKey] == weaponPartName)
           return weapon
       if (::u.isPoint2(weapon?.emitterGenRange))
       {
@@ -1094,11 +1099,11 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
               continue
             }
             for(local i = rangeMin; i <= rangeMax; i++)
-              if (::format(weapon[linkKeyFmt], i) == partName)
+              if (::format(weapon[linkKeyFmt], i) == weaponPartName)
                 return weapon
           }
       }
-      if("partsDP" in weapon && weapon["partsDP"].indexof(partName) != null)
+      if("partsDP" in weapon && weapon["partsDP"].indexof(weaponPartName) != null)
         return weapon
     }
     return null

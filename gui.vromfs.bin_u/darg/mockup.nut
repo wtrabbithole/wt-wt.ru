@@ -1,41 +1,14 @@
+local frp = require("frp")
+
+::Watched <- frp.Watched
+::Computed <- frp.Computed
+
+
 //This is list of all darg native functions and consts, to use in mockups
 ::Color <- function Color(r,g,b,a=255) {
   return (a << 24) + (r << 16) + (g << 8) + b;
 }
 
-
-local function updateWatched(val){
-  if (::type(val) == "function"){
-    if (val.getfuncinfos().parameters.len()==2)
-      val(this.value)
-    else
-      val()
-  }
-  else
-    this.value=val
-  foreach (key,func in this.subscribers)
-    func(val)
-}
-
-::Watched <-class {
-  value=null
-  subscribers = null
-  constructor(val=null) {
-    value=val
-    subscribers = {}
-  }
-  update = updateWatched
-  _call = @(env, val) updateWatched(val)
-  function trigger() {return this}
-  function trace() {return ""}
-  function subscribe(func) {
-    local infos = func.getfuncinfos()
-    local key = " ".concat((infos?.name ?? "__noname__") ,(infos?.src ?? "__no_src__"))
-    if (! (key in this.subscribers))
-      subscribers[key]<-func
-    return this
-  }
-}
 
 ::Fonts <-{}
 ::calc_comp_size <- @(comp) [0,0]

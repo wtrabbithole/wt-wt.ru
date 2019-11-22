@@ -54,8 +54,8 @@ local function Log(tostringfunc=null) {
     printFn(tostring_r(value,{compact=false, maxdeeplevel=maxdeeplevel, newline=newline, showArrIdx=false, tostringfunc=tostringfunc}))
   }
 
-  local function console_print(data,params={}) {
-    debugTableData(data, params.__merge({printFn=dagorDebug.console_print}))
+  local function console_print(...) {
+    dagorDebug.console_print(" ".join(vargv.map(@(v) tostring_r(v, {maxdeeplevel=4, showArrIdx=false, tostringfunc=tostringfunc}))))
   }
 
   local function with_prefix(prefix) {

@@ -62,7 +62,7 @@ class ::gui_handlers.WwReinforcements extends ::BaseGuiHandler
     local newArmies = []
 
     local reinforcementsInfo = ::g_world_war.getReinforcementsInfo()
-    if (!reinforcementsInfo.reinforcements)
+    if (reinforcementsInfo?.reinforcements == null)
       return
 
     for (local i = 0; i < reinforcementsInfo.reinforcements.blockCount(); i++)

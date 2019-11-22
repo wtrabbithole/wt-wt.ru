@@ -111,7 +111,7 @@ g_matching_game_modes <- {
 
         needNotify = true
         dagor.debug(format("matching game mode %s '%s' [%d]",
-                            disabled ? "disabled" : "enabled"
+                            disabled ? "disabled" : "enabled",
                             name, gameModeId))
 
         if (disabled && !visible && !active)

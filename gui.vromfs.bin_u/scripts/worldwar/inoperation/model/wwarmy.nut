@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 
 class ::WwArmy extends ::WwFormation
@@ -83,8 +84,8 @@ class ::WwArmy extends ::WwFormation
     isUnitsValid = true
     local blk = savedArmyBlk ? savedArmyBlk : getBlk(name)
 
-    units.extend(::WwUnit.loadUnitsFromBlk(blk.getBlockByName("units")))
-    units.extend(::WwUnit.getFakeUnitsArray(blk))
+    units.extend(wwActionsWithUnitsList.loadUnitsFromBlk(blk.getBlockByName("units")))
+    units.extend(wwActionsWithUnitsList.getFakeUnitsArray(blk))
   }
 
   function getName()
@@ -297,13 +298,11 @@ class ::WwArmy extends ::WwFormation
 
   static function getCasualtiesCount(blk)
   {
-    if (!::g_world_war.artilleryUnits)
-      ::g_world_war.updateArtilleryUnits()
-
+    local artilleryUnits = ::g_world_war.getArtilleryUnits()
     local unitsCount = 0
     for (local i = 0; i < blk.casualties.paramCount(); i++)
       if (!::g_ww_unit_type.isArtillery(unitType) ||
-          blk.casualties.getParamName(i) in ::g_world_war.artilleryUnits)
+          blk.casualties.getParamName(i) in artilleryUnits)
         unitsCount += blk.casualties.getParamValue(i)
 
     return unitsCount

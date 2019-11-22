@@ -30,11 +30,12 @@ global enum LB_MODE
 
 global enum WW_LB_MODE
 {
-  WW_USERS     = 0x00001
-  WW_CLANS     = 0x00002
-  WW_COUNTRIES = 0x00004
+  WW_USERS          = 0x00001
+  WW_CLANS          = 0x00002
+  WW_COUNTRIES      = 0x00004
+  WW_CLANS_MANAGER  = 0x00010
 
-  ALL          = 0xFFFFF
+  ALL               = 0xFFFFF
 }
 
 
@@ -58,9 +59,10 @@ global enum WW_LB_MODE
 }
 
 ::ww_lb_mode_name <- {
-  ww_users     = WW_LB_MODE.WW_USERS
-  ww_clans     = WW_LB_MODE.WW_CLANS
-  ww_countries = WW_LB_MODE.WW_COUNTRIES
+  ww_users            = WW_LB_MODE.WW_USERS
+  ww_clans            = WW_LB_MODE.WW_CLANS
+  ww_countries        = WW_LB_MODE.WW_COUNTRIES
+  ww_users_manager    = WW_LB_MODE.WW_CLANS_MANAGER
 }
 
 
@@ -229,11 +231,13 @@ enums.addTypesByGlobalName("g_lb_category", {
     FLYOUTS = {
       visualKey = "flyouts"
       field = "flyouts"
+      wwModesMask = ~WW_LB_MODE.WW_CLANS_MANAGER
     }
 
     DEATHS = {
       visualKey = "deaths"
       field  = "deaths"
+      wwModesMask = ~WW_LB_MODE.WW_CLANS_MANAGER
     }
 
     SCORE = {
@@ -592,6 +596,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       visualKey = "lb_kills_player"
       headerImage = "average_active_kills"
       additionalTooltipCategoryes = ["AIR_KILLS_PLAYER", "GROUND_KILLS_PLAYER"]
+      wwModesMask = ~WW_LB_MODE.WW_CLANS_MANAGER
     }
 
     AI_KILLS = {
@@ -599,13 +604,14 @@ enums.addTypesByGlobalName("g_lb_category", {
       visualKey = "lb_kills_ai"
       headerImage = "average_script_kills"
       additionalTooltipCategoryes = ["AIR_KILLS_AI", "GROUND_KILLS_AI"]
+      wwModesMask = ~WW_LB_MODE.WW_CLANS_MANAGER
     }
 
     AVG_PLACE = {
       field = "avg_place"
       visualKey = "averagePosition"
       headerImage = "average_position"
-      wwModesMask = WW_LB_MODE.WW_USERS
+      wwModesMask = WW_LB_MODE.WW_USERS & ~WW_LB_MODE.WW_CLANS_MANAGER
       type = ::g_lb_data_type.FLOAT
     }
 
@@ -613,6 +619,13 @@ enums.addTypesByGlobalName("g_lb_category", {
       field = "avg_score"
       visualKey = "averageScore"
       headerImage = "average_score"
+      wwModesMask = WW_LB_MODE.WW_USERS & ~WW_LB_MODE.WW_CLANS_MANAGER
+    }
+
+    UNIT_RANK = {
+      field = "unit_rank"
+      visualKey = "unitRank"
+      headerImage = "unit_rank"
       wwModesMask = WW_LB_MODE.WW_USERS
     }
   },

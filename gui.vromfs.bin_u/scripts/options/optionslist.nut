@@ -60,6 +60,7 @@ local getMainOptions = function()
       [::USEROPT_AUTOPILOT_ON_BOMBVIEW, "spinner"],
       [::USEROPT_AUTOREARM_ON_AIRFIELD, "spinner"],
       [::USEROPT_ACTIVATE_AIRBORNE_RADAR_ON_SPAWN, "spinner"],
+      [::USEROPT_USE_RECTANGULAR_RADAR_INDICATOR, "spinner"],
       [::USEROPT_CROSSHAIR_TYPE, "combobox"],
       [::USEROPT_CROSSHAIR_COLOR, "combobox"],
       [::USEROPT_INDICATEDSPEED, "spinner"],
@@ -83,6 +84,9 @@ local getMainOptions = function()
       [::USEROPT_ACTIVATE_GROUND_RADAR_ON_SPAWN, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner", !::is_ps4_or_xbox && !::is_platform_android],
+      // show option by code != -1 need for compatibility with 1_93_0_X
+      // TODO: remove after 1_93_0_X
+      [::USEROPT_SHOW_COMPASS_IN_TANK_HUD, "spinner", OPTION_SHOW_COMPASS_IN_TANK_HUD != -1],
 
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! ::is_in_flight()],
@@ -186,9 +190,10 @@ local getSoundOptions = @() {
   name = "sound"
   options = [
     [::USEROPT_SOUND_ENABLE, "switchbox", ::is_platform_pc],
+    [::USEROPT_SOUND_DEVICE_OUT, "combobox", ::is_platform_pc],
     [::USEROPT_SOUND_SPEAKERS_MODE, "combobox", ::is_platform_pc],
     [::USEROPT_VOICE_MESSAGE_VOICE, "spinner"],
-    [::USEROPT_SPEECH_TYPE "spinner", ! ::is_in_flight()],
+    [::USEROPT_SPEECH_TYPE, "spinner", ! ::is_in_flight()],
     [::USEROPT_VOLUME_MASTER, "slider"],
     [::USEROPT_VOLUME_MUSIC, "slider"],
     [::USEROPT_VOLUME_MENU_MUSIC, "slider"],
@@ -199,7 +204,8 @@ local getSoundOptions = @() {
     [::USEROPT_VOLUME_RADIO, "slider"],
     [::USEROPT_VOLUME_DIALOGS, "slider"],
     [::USEROPT_VOLUME_TINNITUS, "slider"],
-    [::USEROPT_HANGAR_SOUND, "spinner"]
+    [::USEROPT_HANGAR_SOUND, "spinner"],
+    [::USEROPT_PLAY_INACTIVE_WINDOW_SOUND, "spinner", ::is_platform_pc]
   ]
 }
 

@@ -48,7 +48,7 @@ local function noOpCb(response, err) { /* NO OP */ }
 
 
 // ------------ Session actions
-local sessionParams = { group = "sdk:sessionInvitation", path = "/v1/sessions" }
+local sessionApi = { group = "sdk:sessionInvitation", path = "/v1/sessions" }
 local session = {
   function create(info, image, data) {
     local parts = [createPart(webApiMimeTypeJson, "session-request", info)]
@@ -56,27 +56,27 @@ local session = {
       parts.append(createPart(webApiMimeTypeImage, "session-image", image))
     if (data != null && data.len() > 0)
       parts.append(createPart(webApiMimeTypeBinary, "changeable-session-data", data))
-    return createRequest(sessionParams, webApiMethodPost, null, null, parts)
+    return createRequest(sessionApi, webApiMethodPost, null, null, parts)
   }
 
   function update(sessionId, sessionInfo) {
-    return createRequest(sessionParams, webApiMethodPut, sessionId, null, sessionInfo)
+    return createRequest(sessionApi, webApiMethodPut, sessionId, null, sessionInfo)
   }
 
   function join(sessionId, index=0) {
-    return createRequest(sessionParams, webApiMethodPost, "".concat(sessionId,"/members"), "index={0}".subst(index))
+    return createRequest(sessionApi, webApiMethodPost, "".concat(sessionId,"/members"), "index={0}".subst(index))
   }
 
   function leave(sessionId) {
-    return createRequest(sessionParams, webApiMethodDelete, "".concat(sessionId,"/members/me"))
+    return createRequest(sessionApi, webApiMethodDelete, "".concat(sessionId,"/members/me"))
   }
 
   function data(sessionId) {
-    return createRequest(sessionParams, webApiMethodGet, "".concat(sessionId,"/changeableSessionData"))
+    return createRequest(sessionApi, webApiMethodGet, "".concat(sessionId,"/changeableSessionData"))
   }
 
   function change(sessionId, changedata) {
-    return createRequest(sessionParams, webApiMethodPut, "".concat(sessionId,"/changeableSessionData"), null, changedata, true)
+    return createRequest(sessionApi, webApiMethodPut, "".concat(sessionId,"/changeableSessionData"), null, changedata, true)
   }
 
   function invite(sessionId, accounts, invitedata={}) {
@@ -85,38 +85,57 @@ local session = {
     local parts = [createPart(webApiMimeTypeJson, "invitation-request", {to=accounts})]
     if (invitedata != null && invitedata.len() > 0)
       parts.append(createPart(webApiMimeTypeBinary, "invitation-data", invitedata))
-    return createRequest(sessionParams, webApiMethodPost, "".concat(sessionId,"/invitations"), null, parts)
+    return createRequest(sessionApi, webApiMethodPost, "".concat(sessionId,"/invitations"), null, parts)
   }
 }
 
 
 
 // ------------ Invitation actions
-local invitationParams = { group = "sdk:sessionInvitation", path = "/v1/users/me/invitations" }
+local invitationApi = { group = "sdk:sessionInvitation", path = "/v1/users/me/invitations" }
 local invitation = {
   function use(invitationId) {
-    return createRequest(invitationParams, webApiMethodPut, invitationId, null, {usedFlag = true})
+    return createRequest(invitationApi, webApiMethodPut, invitationId, null, {usedFlag = true})
   }
 
   function list() {
-    return createRequest(invitationParams, webApiMethodGet, null, "fields=@default,sessionId")
+    return createRequest(invitationApi, webApiMethodGet, null, "fields=@default,sessionId")
   }
 }
 
 // ------------ Profile actions
-local profileParams = { group = "sdk:userProfile", path = "/v1/users/me" }
+local profileApi = { group = "sdk:userProfile", path = "/v1/users/me" }
 local profile = {
   function listFriends(offset, limit) {
     local params = string.format("friendStatus=friend&presenceType=incontext&offset=%d&limit=%d", offset, limit)
-    return createRequest(profileParams, webApiMethodGet, "friendList", params)
+    return createRequest(profileApi, webApiMethodGet, "friendList", params)
   }
 }
 
 // ------------ Activity Feed actions
-local feedParams = { group = "sdk:activityFeed", path = "/v1/users/me" }
+local feedApi = { group = "sdk:activityFeed", path = "/v1/users/me" }
 local feed = {
   function post(message) {
-    return createRequest(feedParams, webApiMethodPost, "feed", null, message)
+    return createRequest(feedApi, webApiMethodPost, "feed", null, message)
+  }
+}
+
+// ----------- Commerce actions
+local commerceApi = { group = "sdk:commerce" path = "/v1/users/me/container" }
+local commerce = {
+  function getProductsInfo(productsList = [], offset = 0, limit = 20) {
+    local plist = ":".join(productsList)
+    local params = "start={0}&size={1}".subst(offset, limit)
+    return createRequest(commerceApi, webApiMethodGet, plist, null, params)
+  }
+}
+
+// ---------- Entitlement actions
+local entitlementApi = { group = "sdk:entitlement", path = "/v1/users/me/entitlements"}
+local entitlement = {
+  function getUserEntitlements(offset = 0, limit = 20) {
+    local params = "entitlement_type=service&entitlement_type=unified&start={0}&size={1}".subst(offset, limit)
+    return createRequest(entitlementApi, webApiMethodGet, null, params)
   }
 }
 
@@ -125,6 +144,8 @@ return {
   invitation = invitation
   profile = profile
   feed = feed
+  commerce = commerce
+  entitlement = entitlement
 
   noOpCb = noOpCb
 }

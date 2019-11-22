@@ -101,7 +101,7 @@ fouldataEnglish <-
       "^bey[io]tch",
       "^b[i1][oa]ch",
       "^b[i1][oa]tch",
-      "^b[i1]tc"
+      "^b[i1]tc",
       "^b(|i|1)tch",
       "^binladen",
       "^bl(|y)ad(|t)",
@@ -174,7 +174,7 @@ fouldataEnglish <-
      "^d[i1](ck|kc)",
      "^d[a4]go",
      "^darkie",
-     "^deeznut"
+     "^deeznut",
      "^dild0",
      "^dildo",
      "^dilld0",
@@ -226,7 +226,7 @@ fouldataEnglish <-
       "^foutre",
       "^fujinoyamai",
       "^fupa",
-      "^fxuxcxk"
+      "^fxuxcxk",
       "^fu$"
     ]
   },
@@ -240,7 +240,7 @@ fouldataEnglish <-
       "^god-damn",
       "^goldenshowers",
       "^goll[iy]wog",
-      "^guiena"
+      "^guiena",
       "^gyp"
     ]
   },
@@ -248,7 +248,7 @@ fouldataEnglish <-
     key = "h",
     arr =
     [
-      "^h[o0]r[e3]"
+      "^h[o0]r[e3]",
       "^h[o0](|o|0)r",
       "^h4x0r",
       "^hairpie",
@@ -269,21 +269,21 @@ fouldataEnglish <-
       "^h[o0][o0]ker",
       "^huevon",
       "^hui",
-      "^hukasyokumin"
-      "^hure"
-      "^huzinoyamai"
-      "^hymen"
+      "^hukasyokumin",
+      "^hure",
+      "^huzinoyamai",
+      "^hymen",
     ]
    },
   {
     key = "i",
     arr =
     [
-      "^inc[e3]st"
-      "^injun"
-      "^inculato"
+      "^inc[e3]st",
+      "^injun",
+      "^inculato",
       "^intercourse",
-      "^inugoros(|h)i"
+      "^inugoros(|h)i",
     ]
   },
   {
@@ -292,16 +292,16 @@ fouldataEnglish <-
     [
       "^jack(off|ass)",
       "^jap(|s)",
-      "^jerkoff"
+      "^jerkoff",
       "^jerk-off",
-      "^j[i1]g(|g)[a4]b[o0]"
+      "^j[i1]g(|g)[a4]b[o0]",
       "^jisim",
       "^jiss",
       "^jizm",
       "^jizz",
       "^joder",
       "^joto",
-      "^junglebunny"
+      "^junglebunny",
     ]
   },
   {
@@ -339,7 +339,7 @@ fouldataEnglish <-
     key = "l",
     arr =
     [
-      "^l[e3][sz]b[o0]"
+      "^l[e3][sz]b[o0]",
       "^lesbian",
       "^lezzi(e|an)",
       "^lipshits",
@@ -381,10 +381,10 @@ fouldataEnglish <-
     key = "n",
     arr =
     [
-      "^n(|[aeiu14])[qg6](|q|g|6)([e3]r|[ag46])(|man|z|let)"
+      "^n(|[aeiu14])[qg6](|q|g|6)([e3]r|[ag46])(|man|z|let)",
       "^n[g13]gr",
       "^nastt",
-      "^n[a4](|t)z[i1l]"
+      "^n[a4](|t)z[i1l]",
       "^nepesaurio",
       "^niig(|e)r",
       "^niglet",
@@ -454,9 +454,9 @@ fouldataEnglish <-
       "^p[uv][5sz][5sz](|5|s|z)[135iley](|es)",
       "^pub[1ie](|c)",
       "^punal",
-      "^pun[4a]n[1il]"
+      "^pun[4a]n[1il]",
       "^pute",
-      "^puttan(a|e|iere)"
+      "^puttan(a|e|iere)",
       "^puuke"
     ]
   },
@@ -506,7 +506,7 @@ fouldataEnglish <-
       "^scank",
       "^schaffer",
       "^scheiss",
-      "^scheiße"
+      "^scheiße",
       "^schijt",
       "^schlampe",
       "^schlong",
@@ -604,7 +604,7 @@ fouldataEnglish <-
       "^vaccagare",
       "^vaffanculo",
       "^vatefaire",
-      "^vittu"
+      "^vittu",
       "^vullva",
       "^vulva",
       "^vvhitepower"
@@ -657,7 +657,7 @@ badphrasesEnglish <-
 
 badcombinationEnglish <-
 [
-  "bin laden"
+  "bin laden",
   "coon hunt",
   "coon kill",
   "cotton pic",
@@ -665,15 +665,15 @@ badcombinationEnglish <-
   "carpet muncher",
   "deez nuts",
   "dio bestia",
-  "durka durka"
+  "durka durka",
   "f u c k",
   "f u c k e r",
   "flipping the bird",
   "figlio di putana",
   "fudge packer",
-  "god damn"
-  "jack off"
-  "jungle bunny"
+  "god damn",
+  "jack off",
+  "jungle bunny",
   "k k k",
   "klu klux",
   "klu klux klan",
@@ -681,7 +681,7 @@ badcombinationEnglish <-
   "koon hunt",
   "koon kill",
   "madonna puttana",
-  "moon cricket"
+  "moon cricket",
   "moon criket",
   "porca madonna",
   "porch monkey",
@@ -693,6 +693,6 @@ badcombinationEnglish <-
   "tea bag",
   "testa di cazzo",
   "white power",
-  "xbl pet"
-  "8=d"
+  "xbl pet",
+  "8=d",
 ];

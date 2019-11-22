@@ -282,10 +282,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     scene.findObject("stat_update").setUserData(this)
 
-    subHandlers.extend([
-      ::gui_load_mission_objectives(scene.findObject("primary_tasks_list"),   true, 1 << ::OBJECTIVE_TYPE_PRIMARY)
+    subHandlers.append(
+      ::gui_load_mission_objectives(scene.findObject("primary_tasks_list"),   true, 1 << ::OBJECTIVE_TYPE_PRIMARY),
       ::gui_load_mission_objectives(scene.findObject("secondary_tasks_list"), true, 1 << ::OBJECTIVE_TYPE_SECONDARY)
-    ])
+    )
 
     local navBarObj = scene.findObject("gamercard_bottom_navbar_place")
     if (::checkObj(navBarObj))
@@ -2591,10 +2591,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   return null
 }
 
-//FOR DEBUGGING. remove when bug is caught
-if ("get_available_respawn_bases_debug" in getroottable())
-  ::get_available_respawn_bases <- ::get_available_respawn_bases_debug
-
 ::has_available_slots <- function has_available_slots()
 {
   if (!(::get_game_type() & (::GT_VERSUS | ::GT_COOPERATIVE)))
@@ -2627,7 +2623,7 @@ if ("get_available_respawn_bases_debug" in getroottable())
       continue
 
     if (!::is_crew_available_in_session(c.idInCountry, false)
-        || !::is_crew_slot_was_ready_at_host(c.idInCountry, air.name, true)
+        || !::is_crew_slot_was_ready_at_host(c.idInCountry, air.name, false)
         || !::get_available_respawn_bases(air.tags).len()
         || !missionRules.getUnitLeftRespawns(air)
         || air.disableFlyout)

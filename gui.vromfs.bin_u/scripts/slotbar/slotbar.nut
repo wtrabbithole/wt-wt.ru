@@ -516,6 +516,7 @@ if need - put commented in array above
       shopItemId = id,
       shopItemTextId = id + "_txt",
       shopItemTextValue = params?.emptyText ?? ""
+      shopStatus = params?.status
       shopItemPriceText = priceText,
       crewImage = params?.crewImage
       isCrewRecruit = params?.isCrewRecruit ?? false
@@ -744,6 +745,8 @@ if need - put commented in array above
       priceText = ::g_string.stripTags(::loc("shop/giftAir/" + unit.gift, "shop/giftAir/alpha"))
     else if (!isUsable && !marketable && (canBuy || special || (!special && researched)))
       priceText = ::getPriceAccordingToPlayersCurrency(::wp_get_cost(unit.name), ::wp_get_cost_gold(unit.name), true)
+    else if (marketable)
+      priceText = ::loc("currency/gc/sign/colored", "")
 
     if (priceText == "" && isBought && showAsTrophyContent && !isReceivedPrizes)
       priceText = ::colorize("goodTextColor", ::loc("mainmenu/itemReceived"))

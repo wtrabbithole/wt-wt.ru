@@ -171,7 +171,7 @@ class ::BaseInvite
     local buttons = []
     if (!haveRestrictions())
     {
-      buttons.extend([
+      buttons.append(
         { id = "reject_invite",
           text = ::loc("invite/reject"),
           func = reject
@@ -180,7 +180,7 @@ class ::BaseInvite
           text = ::loc("contacts/accept_invitation"),
           func = accept
         }
-      ])
+      )
     }
 
     ::g_popups.add(null, ::g_string.implode(msg, "\n"), ::gui_start_invites, buttons, this, "invite_" + uid)

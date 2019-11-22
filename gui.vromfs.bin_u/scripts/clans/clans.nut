@@ -1145,7 +1145,7 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
     local idParts = ::split(unlockBlk.id, "_")
     local info = ::ClanSeasonPlaceTitle.getUpdatedClanInfo(unlockBlk)
     return ClanSeasonPlaceTitle(
-      unlockBlk?.t
+      unlockBlk?.t,
       "",
       null,
       unlockBlk?.rewardForDiff,

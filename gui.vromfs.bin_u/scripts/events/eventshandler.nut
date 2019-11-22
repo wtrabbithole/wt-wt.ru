@@ -18,9 +18,6 @@ const SHOW_RLIST_BEFORE_OPEN_DEFAULT = 10
  */
 ::gui_start_modal_events <- function gui_start_modal_events(options = {})
 {
-  if (!antiCheat.showMsgboxIfEacInactive())
-    return
-
   local eventId = null
   local chapterId = ::getTblValue ("chapter", options, null)
 
@@ -42,6 +39,9 @@ const SHOW_RLIST_BEFORE_OPEN_DEFAULT = 10
     eventId = ::getTblValue("name", lastPlayedEvent, ::events.getFeaturedEvent())
     chapterId = ::events.getEventsChapter(::events.getEvent(eventId))
   }
+
+  if (!antiCheat.showMsgboxIfEacInactive(::events.getEventDiffCode(::events.getEvent(eventId))))
+    return
 
   ::gui_start_modal_wnd(::gui_handlers.EventsHandler, {
     curEventId = eventId
@@ -649,10 +649,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
             break
           }
 
-          foreach (eventName in chapter.getEvents())
-          {
-            totalRows++
-          }
+          totalRows += chapter.getEvents().len();
         }
     }
 

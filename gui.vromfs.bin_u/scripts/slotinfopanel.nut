@@ -127,7 +127,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function onProtectionAnalysis()
   {
-    ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open())
+    local unit = getCurShowUnit()
+    ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open(unit))
   }
 
   function onShowExternalDmPartsChange(obj)

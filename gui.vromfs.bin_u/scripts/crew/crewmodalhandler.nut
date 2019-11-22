@@ -41,6 +41,8 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   skillsPageHandler = null
   curEdiff = -1
 
+  needHideSlotbar = false
+
   function initScreen()
   {
     if (!scene)
@@ -54,14 +56,15 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       ::switch_profile_country(country)
 
     initMainParams(true, true)
-    createSlotbar({
-      crewId = crew.id
-      showNewSlot=false,
-      emptyText="#shop/aircraftNotSelected",
-      beforeSlotbarSelect = @(onOk, onCancel, slotData) checkSkillPointsAndDo(onOk, onCancel)
-      afterSlotbarSelect = openSelectedCrew
-      onSlotDblClick = onSlotDblClick
-    })
+    if (!needHideSlotbar)
+      createSlotbar({
+        crewId = crew.id
+        showNewSlot=false,
+        emptyText="#shop/aircraftNotSelected",
+        beforeSlotbarSelect = @(onOk, onCancel, slotData) checkSkillPointsAndDo(onOk, onCancel)
+        afterSlotbarSelect = openSelectedCrew
+        onSlotDblClick = onSlotDblClick
+      })
 
     initFocusArray()
 

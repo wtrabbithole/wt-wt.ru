@@ -283,6 +283,15 @@ allowed_mission_settings <- { //only this settings are allowed in room
       }
     }
   ]
+
+  function getDifficulty(room = null)
+  {
+    local diffValue = getMissionData(room)?.difficulty
+    local difficulty = (diffValue == "custom")
+      ? ::g_difficulty.getDifficultyByDiffCode(::get_cd_base_difficulty())
+      : ::g_difficulty.getDifficultyByName(diffValue)
+    return difficulty
+  }
 }
 
 SessionLobby.setIngamePresence <- function setIngamePresence(roomPublic, roomId)
@@ -829,11 +838,7 @@ SessionLobby.getNotAvailableUnitByBRText <- function getNotAvailableUnitByBRText
 
 SessionLobby.calcEdiff <- function calcEdiff(room = null)
 {
-  local diffValue = ::getTblValue("difficulty", getMissionData(room))
-  local difficulty = (diffValue == "custom") ?
-    ::g_difficulty.getDifficultyByDiffCode(::get_cd_base_difficulty()) :
-    ::g_difficulty.getDifficultyByName(diffValue)
-  return difficulty.getEdiffByUnitMask(getUnitTypesMask(room))
+  return getDifficulty(room).getEdiffByUnitMask(getUnitTypesMask(room))
 }
 
 SessionLobby.getCurRoomEdiff <- function getCurRoomEdiff()
@@ -2341,44 +2346,27 @@ SessionLobby.isEqualSquadId <- function isEqualSquadId(squadId1, squadId2)
 
 SessionLobby.getBattleRatingParamByPlayerInfo <- function getBattleRatingParamByPlayerInfo(member, esUnitTypeFilter = null)
 {
-  if (!member)
+  local craftsInfo = member?.crafts_info
+  if (craftsInfo == null)
     return null
   local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
   local units = []
-  if (!("crafts" in member))
-    return null
-  foreach (unitName in member.crafts)
+  foreach (unitInfo in craftsInfo)
   {
+    local unitName = unitInfo.name
     local unit = ::getAircraftByName(unitName)
     if (esUnitTypeFilter != null && esUnitTypeFilter != unit.esUnitType)
       continue
 
     units.append({
-      rating = unit ? unit.getBattleRating(difficulty) : 0
-      name = ::loc(unitName+"_shop")
-      rankUnused = getRankUnusedByUnitName(member, unitName)
+      rating = unit?.getBattleRating(difficulty) ?? 0
+      name = ::loc($"{unitName}_shop")
+      rankUnused = unitInfo?.rankUnused ?? false
     })
   }
-  units.sort(function(a,b) {
-    if (a.rankUnused != b.rankUnused)
-      return a.rankUnused ? 1 : -1
-    if (a.rating != b.rating)
-      return a.rating > b.rating ? -1 : 1
-    return 0
-  })
-  local squad = ::getTblValue("squad", member, INVALID_SQUAD_ID)
+  units.sort(@(a,b) a.rankUnused <=> b.rankUnused || b.rating <=> a.rating)
+  local squad = member?.squad ?? INVALID_SQUAD_ID
   return { rank = member.mrank, squad = squad, units = units }
-}
-
-SessionLobby.getRankUnusedByUnitName <- function getRankUnusedByUnitName(member, unitName)
-{
-  local craftsInfo = ::getTblValue("crafts_info", member, [])
-  foreach (craftInfo in craftsInfo)
-  {
-    if (::getTblValue("name", craftInfo) == unitName)
-      return ::getTblValue("rankUnused", craftInfo, false)
-  }
-  return false
 }
 
 /**

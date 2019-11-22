@@ -146,7 +146,8 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
     if (!::check_gamemode_pkg(::GM_SKIRMISH))
       return
 
-    if (!antiCheat.showMsgboxIfEacInactive())
+    local room = ::g_mroom_info.get(roomId).getFullRoomData()
+    if (!antiCheat.showMsgboxIfEacInactive(::SessionLobby.getDifficulty(room).diffCode))
       return
 
     local canJoin = ignoreCheckSquad

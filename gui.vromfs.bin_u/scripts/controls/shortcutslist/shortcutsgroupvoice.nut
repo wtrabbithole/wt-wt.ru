@@ -29,7 +29,7 @@ local groupList = [
 for (local i = 1; i <= MAX_VOICE_MESSAGE_BUTTONS; i++)
   groupList.append(getIdVoiceMessageOption(i))
 
-groupList.extend([
+groupList.append(
   {
     id = "use_joystick_mouse_for_voice_message"
     type = CONTROL_TYPE.SWITCH_BOX
@@ -53,7 +53,7 @@ groupList.extend([
         ::set_controls_preset("")
     }
   }
-])
+)
 
 local function getFavoriteVoiceMessageOption(index) {
   return {

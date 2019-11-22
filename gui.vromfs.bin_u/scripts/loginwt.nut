@@ -139,8 +139,7 @@ g_login.initConfigs <- function initConfigs(cb)
     function() { ::initEmptyMenuChat() }
   ]
   initOptionsPseudoThread.extend(::init_options_steps)
-  initOptionsPseudoThread.extend(
-  [
+  initOptionsPseudoThread.append(
     function() {
       if (!::g_login.hasState(LOGIN_STATE.PROFILE_RECEIVED | LOGIN_STATE.CONFIGS_RECEIVED))
         return PT_STEP_STATUS.SUSPEND
@@ -253,7 +252,7 @@ g_login.initConfigs <- function initConfigs(cb)
       ::g_login.initOptionsPseudoThread = null
       cb()
     }
-  ])
+  )
 
   ::start_pseudo_thread(initOptionsPseudoThread, ::gui_start_logout)
 }
@@ -287,6 +286,7 @@ g_login.onLoggedInChanged <- function onLoggedInChanged()
     return
 
   statsdOnLogin()
+  bigQueryOnLogin()
 
   ::broadcastEvent("LoginComplete")
 
@@ -415,9 +415,6 @@ g_login.statsdOnLogin <- function statsdOnLogin()
     if (!::ps4_is_ugc_enabled())
       ::add_big_query_record("ps4.restrictions.ugc", "")
   }
-
-  local bg_update = ::getSystemConfigOption("launcher/bg_update", true)
-  ::add_big_query_record("login", bg_update ? "bg_update" : "")
 
   if (::is_platform_windows)
   {

@@ -50,8 +50,6 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnSkirmish"
     onClickFunc = function(obj, handler)
     {
-      if (!antiCheat.showMsgboxIfEacInactive())
-        return
       if (!::is_custom_battles_enabled())
         return ::show_not_available_msg_box()
       if (!::check_gamemode_pkg(::GM_SKIRMISH))
@@ -70,7 +68,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnWorldwar"
     onClickFunc = function(obj, handler)
     {
-      if (!antiCheat.showMsgboxIfEacInactive())
+      if (!antiCheat.showMsgboxIfEacInactive(::g_world_war.defaultDiffCode))
         return
       ::queues.checkAndStart(
         ::Callback(@() goForwardIfOnline(@() ::g_world_war.openOperationsOrQueues(), false), handler),

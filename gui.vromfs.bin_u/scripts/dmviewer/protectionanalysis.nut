@@ -14,6 +14,8 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
   getSceneTplContainerObj = @() scene.findObject("options_container")
   function getSceneTplView()
   {
+    protectionAnalysisOptions.setParams(unit)
+
     local view = { rows = [] }
     foreach (o in protectionAnalysisOptions.types)
       if (o.isVisible())
@@ -29,12 +31,6 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    initHandlerSceneTpl()
-
-    unit = ::getAircraftByName(::hangar_get_current_unit_name())
-    if (!unit)
-      return goBack()
-
     ::enableHangarControls(true)
     ::dmViewer.init(this)
     ::hangar_focus_model(true)
@@ -116,16 +112,16 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 }
 
 return {
-  canOpen = function() {
+  canOpen = function(unit) {
     return ::has_feature("DmViewerProtectionAnalysis")
       && ::isInMenu()
       && !::SessionLobby.hasSessionInLobby()
-      && ::getAircraftByName(::hangar_get_current_unit_name())?.unitType.canShowProtectionAnalysis() == true
+      && unit?.unitType.canShowProtectionAnalysis() == true
   }
 
-  open = function () {
-    if (!canOpen())
+  open = function (unit) {
+    if (!canOpen(unit))
         return
-    ::handlersManager.loadHandler(::gui_handlers.ProtectionAnalysis)
+    ::handlersManager.loadHandler(::gui_handlers.ProtectionAnalysis, { unit = unit })
   }
 }

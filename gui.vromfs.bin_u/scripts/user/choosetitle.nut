@@ -73,7 +73,7 @@ class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("main_frame")
+    align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("main_frame"),
       { margin = [0, ::to_pixels("@popupOffset")] })
     if (titlesList.len())
       scene.findObject("titles_list").select()

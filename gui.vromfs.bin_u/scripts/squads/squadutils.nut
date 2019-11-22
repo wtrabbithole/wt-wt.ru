@@ -34,6 +34,9 @@ systemMsg.registerLocTags(locTags)
   getMemberStatusLocTag = @(status) MEMBER_STATUS_LOC_TAG_PREFIX + (status in memberStatusLocId ? status : "")
 
   canSquad = @() ::g_chat.getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
+
+  getMembersFlyoutDataByUnitsGroups = @() ::g_squad_manager.getMembers().map(
+    @(member) { crafts_info = member?.craftsInfoByUnitsGroups })
 }
 
 g_squad_utils.canJoinFlightMsgBox <- function canJoinFlightMsgBox(options = null,

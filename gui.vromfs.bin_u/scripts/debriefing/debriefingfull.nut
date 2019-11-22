@@ -94,14 +94,14 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
     icon = "icon/mpstats/navalKills"
     isVisibleWhenEmpty = @() !!(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_NAVAL)
   }
-  "GroundKillsF",
-  "NavalKillsF",
-  { id = "Assist",
+  "GroundKillsF"
+  "NavalKillsF"
+  { id = "Assist"
     showByModes = ::is_gamemode_versus
     text = "multiplayer/assists"
     icon = "icon/mpstats/assists"
   }
-  "Critical",
+  "Critical"
   "Hit"
   { id = "Scouting"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
@@ -130,7 +130,7 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
     text = "multiplayer/zone_captures"
     icon = "icon/mpstats/captureZone"
   }
-  "Landings",
+  "Landings"
   "Takeoffs"
   { id = "Sights"
     showByModes = ::is_gamemode_versus
@@ -918,10 +918,10 @@ global enum debrState {
   {
     local keys = [ "expTotal", "expFree", "expInvestUnit", "expInvestUnitTotal" ]
     foreach (ut in ::g_unit_type.types)
-      keys.extend([
+      keys.append(
         "expInvestUnit" + ut.name,
-        "expInvestUnitTotal" + ut.name,
-      ])
+        "expInvestUnitTotal" + ut.name
+      )
     foreach (key in keys)
       if ((key in exp) && exp[key] > 0)
         exp[key] = (exp[key] * xpFirstWinInDayMul).tointeger()

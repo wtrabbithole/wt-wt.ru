@@ -33,7 +33,7 @@ global enum MESSAGE_TYPE {
 
 ::available_cmd_list <- ["help", //local command to view help
                          "edit", //local command to open thread edit window for opened thread
-                         "msg", "join", "part", "invite", "mode"
+                         "msg", "join", "part", "invite", "mode",
                          "kick", /*"list",*/
                          /* "ping", "users", */
                          "shelp", "squad_invite", "sinvite", "squad_remove", "sremove", "squad_ready", "sready",

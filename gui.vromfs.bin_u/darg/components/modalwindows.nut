@@ -9,6 +9,7 @@ local WND_PARAMS = {
   size = flex()
   behavior = Behaviors.Button
   stopMouse = true
+  stopHotkeys = true
 
   animations = [
     { prop=AnimProp.opacity, from=0.0, to=1.0, duration=0.3, play=true, easing=OutCubic }

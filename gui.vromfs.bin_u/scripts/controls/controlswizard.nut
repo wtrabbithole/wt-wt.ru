@@ -73,35 +73,34 @@ local globalEnv = require_native("globalEnv")
       options = ["#options/yes", "#options/no", "options/skip"],
       onButton = function(value) { if (value<2) curJoyParams.holdThrottleForWEP = value==0 }
     }
-    "ID_IGNITE_BOOSTERS",
-    "ID_FIRE_MGUNS",
-    "ID_FIRE_CANNONS",
-    "ID_BAY_DOOR",
-    "ID_BOMBS",
-    "ID_ROCKETS",
-    "ID_WEAPON_LOCK",
-    "ID_FLARES",
-    "ID_FUEL_TANKS",
-    "ID_AIR_DROP",
-    "ID_SENSOR_SWITCH",
-    "ID_SENSOR_MODE_SWITCH",
-    "ID_SENSOR_SCAN_PATTERN_SWITCH",
-    "ID_SENSOR_RANGE_SWITCH",
-    "ID_SENSOR_TARGET_SWITCH",
-    "ID_SENSOR_TARGET_LOCK",
-    "ID_SENSOR_VIEW_SWITCH",
+    "ID_IGNITE_BOOSTERS"
+    "ID_FIRE_MGUNS"
+    "ID_FIRE_CANNONS"
+    "ID_BAY_DOOR"
+    "ID_BOMBS"
+    "ID_ROCKETS"
+    "ID_WEAPON_LOCK"
+    "ID_FLARES"
+    "ID_FUEL_TANKS"
+    "ID_AIR_DROP"
+    "ID_SENSOR_SWITCH"
+    "ID_SENSOR_MODE_SWITCH"
+    "ID_SENSOR_SCAN_PATTERN_SWITCH"
+    "ID_SENSOR_RANGE_SWITCH"
+    "ID_SENSOR_TARGET_SWITCH"
+    "ID_SENSOR_TARGET_LOCK"
     { id="weapon_aim_heading", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", buttonRelative = true }
     { id="weapon_aim_pitch",   type = CONTROL_TYPE.AXIS, isVertical = true,       buttonRelative = true }
-    "ID_RELOAD_GUNS",
-    "ID_GEAR",
+    "ID_RELOAD_GUNS"
+    "ID_GEAR"
     { id="ID_AIR_BRAKE", filterShow = [globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL] }
     "ID_FLAPS"
     "ID_LOCK_TARGET"
     "ID_NEXT_TARGET"
     "ID_PREV_TARGET"
-    "ID_TACTICAL_MAP",
-    "ID_MPSTATSCREEN",
-    "ID_TOGGLE_CHAT_TEAM",
+    "ID_TACTICAL_MAP"
+    "ID_MPSTATSCREEN"
+    "ID_TOGGLE_CHAT_TEAM"
     "ID_TOGGLE_CHAT"
 
 
@@ -114,7 +113,7 @@ local globalEnv = require_native("globalEnv")
     { id="viewtype", type= CONTROL_TYPE.MSG_BOX
       optionType = ::USEROPT_VIEWTYPE
     }
-    "ID_CAMERA_DEFAULT",
+    "ID_CAMERA_DEFAULT"
     { id="camx", type = CONTROL_TYPE.AXIS, msgType = "_horizontal", relSens = 0.75
       images = ["wizard_camx_right", "wizard_camx_left"]
       axesList = ["camx", "turret_x"]
@@ -239,35 +238,34 @@ local globalEnv = require_native("globalEnv")
     { id="gm_clutch", type = CONTROL_TYPE.AXIS, isVertical = true, filterHide = [globalEnv.EM_MOUSE_AIM]}
 
   { id = "ID_BASIC_CONTROL_HEADER", type= CONTROL_TYPE.HEADER }
-    "ID_FIRE_GM",
-    "ID_FIRE_GM_SECONDARY_GUN",
-    "ID_FIRE_GM_MACHINE_GUN",
-    "ID_REPAIR_TANK",
-    "ID_ACTION_BAR_ITEM_1",
-    "ID_ACTION_BAR_ITEM_2",
-    "ID_ACTION_BAR_ITEM_3",
-    "ID_ACTION_BAR_ITEM_4",
-    "ID_ACTION_BAR_ITEM_5",
-    "ID_ACTION_BAR_ITEM_6",
-    "ID_SHOOT_ARTILLERY",
-    "ID_SENSOR_SWITCH_TANK",
-    "ID_SENSOR_MODE_SWITCH_TANK",
-    "ID_SENSOR_SCAN_PATTERN_SWITCH_TANK",
-    "ID_SENSOR_RANGE_SWITCH_TANK",
-    "ID_SENSOR_TARGET_LOCK_SWITCH",
-    "ID_SENSOR_TARGET_LOCK_TANK",
-    "ID_SENSOR_VIEW_SWITCH",
+    "ID_FIRE_GM"
+    "ID_FIRE_GM_SECONDARY_GUN"
+    "ID_FIRE_GM_MACHINE_GUN"
+    "ID_REPAIR_TANK"
+    "ID_ACTION_BAR_ITEM_1"
+    "ID_ACTION_BAR_ITEM_2"
+    "ID_ACTION_BAR_ITEM_3"
+    "ID_ACTION_BAR_ITEM_4"
+    "ID_ACTION_BAR_ITEM_5"
+    "ID_ACTION_BAR_ITEM_6"
+    "ID_SHOOT_ARTILLERY"
+    "ID_SENSOR_SWITCH_TANK"
+    "ID_SENSOR_MODE_SWITCH_TANK"
+    "ID_SENSOR_SCAN_PATTERN_SWITCH_TANK"
+    "ID_SENSOR_RANGE_SWITCH_TANK"
+    "ID_SENSOR_TARGET_LOCK_SWITCH"
+    "ID_SENSOR_TARGET_LOCK_TANK"
 
   { id="ID_VIEW_CONTROL_HEADER", type= CONTROL_TYPE.HEADER }
     { id="gm_mouse_aim_x", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM], msgType = "_horizontal" }
     { id="gm_mouse_aim_y", type = CONTROL_TYPE.AXIS, filterHide = [globalEnv.EM_MOUSE_AIM], isVertical = true }
-    "ID_TOGGLE_VIEW_GM",
+    "ID_TOGGLE_VIEW_GM"
     "ID_ZOOM_TOGGLE"
 
   { id = "ID_MISC_CONTROL_HEADER", type = CONTROL_TYPE.HEADER }
-    "ID_TACTICAL_MAP",  //common for everyone
-    "ID_MPSTATSCREEN",  //common for everyone
-    "ID_TOGGLE_CHAT_TEAM", //common for everyone
+    "ID_TACTICAL_MAP"  //common for everyone
+    "ID_MPSTATSCREEN"  //common for everyone
+    "ID_TOGGLE_CHAT_TEAM" //common for everyone
     "ID_TOGGLE_CHAT" //common for everyone
 
   { id="msg/wizard_done_msg", type= CONTROL_TYPE.MSG_BOX }

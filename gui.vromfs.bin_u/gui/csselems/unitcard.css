@@ -73,6 +73,10 @@ shopItem > bgPlate {
   css-hier-invalidate:yes;
   total-input-transparent:yes;
 }
+tooltipObj > div {
+  border-color:@shopItem;
+}
+
 shopItem[group=yes] > bgPlate {
   size:pw, ph + 4px;
   pos:0, -4px;
@@ -80,8 +84,16 @@ shopItem[group=yes] > bgPlate {
   background-position:29,9,3,5;
 }
 
+tooltipObj > div[unitRarity], tooltipObj > div[shopStat] {
+  padding: 1@framePadding;
+  border: yes;
+  border-offset: -1@framePadding + 2@dp; }
+
 shopItem[unitRarity=squadron] > bgPlate {
   background-color:@shopItemSquadron;
+}
+tooltipObj > div[unitRarity=squadron] {
+  border-color:@shopItemWaiting;
 }
 
 shopItem airResearchProgress {
@@ -175,6 +187,9 @@ shopItem[shopStat=canBuy] > bgPlate {
   background-image:#ui/gameuiskin#item;
   background-color:@shopItemWaiting;
 }
+tooltipObj > div[shopStat=canBuy] {
+  border-color:@shopItemWaiting;
+}
 
 shopItem[shopStat=canBuy][group=yes] > bgPlate {
   background-image:#ui/gameuiskin#item_group;
@@ -183,14 +198,23 @@ shopItem[shopStat=canBuy][group=yes] > bgPlate {
 shopItem[shopStat=canBuy][unitRarity=premium] > bgPlate {
   background-color:@shopItemPremium;
 }
+tooltipObj > div[shopStat=canBuy][unitRarity=premium] {
+  border-color:@shopItemPremium;
+}
 
 shopItem[shopStat=canBuy][unitRarity=squadron] > bgPlate {
   background-color:@shopItemSquadronWaiting;
+}
+tooltipObj > div[shopStat=canBuy][unitRarity=squadron] {
+  border-color:@shopItemSquadronWaiting;
 }
 
 shopItem[shopStat=canResearch] > bgPlate {
   background-image:#ui/gameuiskin#item;
   background-color:@shopItemWaiting;
+}
+tooltipObj > div[shopStat=canResearch] {
+  border-color:@shopItemWaiting;
 }
 
 shopItem[shopStat=canResearch][group=yes] > bgPlate {
@@ -199,6 +223,9 @@ shopItem[shopStat=canResearch][group=yes] > bgPlate {
 
 shopItem[shopStat=canResearch][unitRarity=squadron] > bgPlate {
   background-color:@shopItemSquadronWaiting;
+}
+tooltipObj > div[shopStat=canResearch][unitRarity=squadron] {
+  border-color:@shopItemSquadronWaiting;
 }
 
 shopItem[shopStat=research] > itemWinkBlock{
@@ -209,6 +236,9 @@ shopItem[shopStat=owned] > bgPlate {
   background-image:#ui/gameuiskin#item_own;
   background-color:@shopItemOwned;
 }
+tooltipObj > div[shopStat=owned] {
+  border-color:@shopItemOwned;
+}
 
 shopItem[shopStat=owned][group=yes] > bgPlate {
   background-image:#ui/gameuiskin#item_group_own;
@@ -217,14 +247,23 @@ shopItem[shopStat=owned][group=yes] > bgPlate {
 shopItem[shopStat=owned][unitRarity=premium] > bgPlate {
   background-color:@shopItemOwnedPremium;
 }
+tooltipObj > div[shopStat=owned][unitRarity=premium] {
+  border-color:@shopItemOwnedPremium;
+}
 
 shopItem[shopStat=owned][unitRarity=squadron] > bgPlate {
   background-color:@shopItemSquadronOwned;
+}
+tooltipObj > div[shopStat=owned][unitRarity=squadron] {
+  border-color:@shopItemSquadronOwned;
 }
 
 shopItem[shopStat=mounted] > bgPlate {
   background-image:#ui/gameuiskin#item_mounted;
   background-color:@shopItemOwned;
+}
+tooltipObj > div[shopStat=mounted] {
+  border-color:@shopItemOwned;
 }
 
 shopItem[shopStat=mounted][group=yes] > bgPlate {
@@ -234,22 +273,37 @@ shopItem[shopStat=mounted][group=yes] > bgPlate {
 shopItem[shopStat=mounted][unitRarity=premium] > bgPlate {
   background-color:@shopItemOwnedPremium;
 }
+tooltipObj > div[shopStat=mounted][unitRarity=premium] {
+  border-color:@shopItemOwnedPremium;
+}
 
 shopItem[shopStat=mounted][unitRarity=squadron] > bgPlate {
   background-color:@shopItemSquadronOwned;
 }
+tooltipObj > div[shopStat=mounted][unitRarity=squadron] {
+  border-color:@shopItemSquadronOwned;
+}
 
-shopItem[shopStat=disabled] > bgPlate
-{
+shopItem[shopStat=disabled] > bgPlate {
   background-color:@shopItemDisabled;
+}
+tooltipObj > div[shopStat=disabled] {
+  border-color:@shopItemDisabled;
 }
 
 [shopStat=disabled] > shopAirImg{
   foreground-color:@shopItemDisabled;
 }
 
+[shopStat=disabled] > img {
+  background-color:@shopItemDisabled;
+}
+
 shopItem[isBroken=yes] > bgPlate {
   background-color:@shopItemBroken;
+}
+tooltipObj > div[isBroken=yes] {
+  border-color:@shopItemBroken;
 }
 
 shopItem[isBroken=yes] itemWinkBlock {
@@ -260,9 +314,15 @@ shopItem[isBroken=yes] itemWinkBlock {
 shopItem[shopStat=locked] > bgPlate {
   background-color:@shopItemLocked;
 }
+tooltipObj > div[shopStat=locked] {
+  border-color:@shopItemLocked;
+}
 
 shopItem[shopStat=locked][unitRarity=squadron] > bgPlate {
   background-color:@shopItemSquadronLocked;
+}
+tooltipObj > div[shopStat=locked][unitRarity=squadron] {
+  border-color:@shopItemSquadronLocked;
 }
 
 :hover > shopAirImg {
@@ -275,11 +335,18 @@ shopItem[shopStat=locked][unitRarity=squadron] > bgPlate {
 shopItem[shopStat=prem] > bgPlate{
   background-color:@shopItemPremium;
 }
+tooltipObj > div[shopStat=prem] {
+  border-color:@shopItemPremium;
+}
 
 [shopStat=owned] > shopAirImg {
   foreground-color:@white;
 }
 [shopStat=owned] > shopAirImg[background-image] {
+  background-color:@white;
+}
+
+[shopStat=owned] > img {
   background-color:@white;
 }
 
@@ -544,6 +611,7 @@ classIcon[shopItemType=ufo]                 { color:@ufoColor; }
 
 classIcon[shopItemType=infantry]            { color:@infantryColor; }
 classIcon[shopItemType=artillery]           { color:@artilleryColor; }
+classIcon[shopItemType=transport]           { color:@transportColor; }
 
 img[shopItemType=light_fighter]     { background-color:@light_fighterColor; }
 img[shopItemType=medium_fighter]    { background-color:@medium_fighterColor; }
@@ -580,6 +648,7 @@ img[shopItemType=ufo]               { background-color:@ufoColor; }
 
 img[shopItemType=infantry]          { background-color:@infantryColor; }
 img[shopItemType=artillery]         { background-color:@artilleryColor; }
+img[shopItemType=transport]         { background-color:@transportColor; }
 
 shopDlcImg, shopLockImg
 {

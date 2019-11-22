@@ -1,6 +1,8 @@
 local time = require("scripts/time.nut")
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+local wwOperationUnitsGroups = require("scripts/worldWar/inOperation/wwOperationUnitsGroups.nut")
 
 const WW_BATTLES_SORT_TIME_STEP = 120
 const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
@@ -33,6 +35,7 @@ class ::WwBattle
 
   creationTimeMillisec = 0
   operationTimeOnCreationMillisec = 0
+  unitsGroups = null
 
   constructor(blk = ::DataBlock(), params = null)
   {
@@ -51,6 +54,7 @@ class ::WwBattle
     missionInfo = ::get_mission_meta_info(missionName)
     creationTimeMillisec = blk?.creationTime ?? 0
     operationTimeOnCreationMillisec = blk?.operationTimeOnCreation ?? 0
+    unitsGroups = wwOperationUnitsGroups.getUnitsGroups()
 
     createLocalizeConfig(blk?.desc)
 
@@ -71,7 +75,7 @@ class ::WwBattle
     for (local i = 0; i < updatesBlk.blockCount(); i++)
     {
       local updateBlk = updatesBlk.getBlock(i)
-      if (updateBlk.updateId <= updateAppliedOnHost)
+      if ((updateBlk?.updateId ?? -1) <= updateAppliedOnHost)
         continue
 
       local teamsBlk = updateBlk.getBlockByName("teams")
@@ -276,8 +280,8 @@ class ::WwBattle
       {
         local unitsRemainBlk = teamBlk.getBlockByName("unitsRemain")
         local aiUnitsBlk = teamBlk.getBlockByName("aiUnits")
-        teamUnitsRemain.extend(::WwUnit.loadUnitsFromBlk(unitsRemainBlk, aiUnitsBlk))
-        teamUnitsRemain.extend(::WwUnit.getFakeUnitsArray(teamBlk))
+        teamUnitsRemain.extend(wwActionsWithUnitsList.loadUnitsFromBlk(unitsRemainBlk, aiUnitsBlk))
+        teamUnitsRemain.extend(wwActionsWithUnitsList.getFakeUnitsArray(teamBlk))
       }
 
       local teamInfo = {name = teamName
@@ -683,7 +687,7 @@ class ::WwBattle
         fullWarningText = ""
       }
 
-    if (!isValid() || isFinished())
+    if (!isValid() || isFinished() || isBattleByUnitsGroup())
     {
       return res
     }
@@ -744,8 +748,16 @@ class ::WwBattle
   {
     local availableUnits = {}
     foreach(unit in team.unitsRemain)
-      if (unit.count > 0 && !unit.isControlledByAI())
+    {
+      if (unit.count <= 0 || unit.isControlledByAI())
+        continue
+
+      local groupUnits = unitsGroups?[unit.unit?.shopCountry ?? ""].groups[unit.name].units
+      if (groupUnits == null)
         availableUnits[unit.name] <- unit.count
+      else
+        availableUnits.__update(groupUnits.map(@(u) unit.count))
+    }
 
     return availableUnits
   }
@@ -1094,5 +1106,10 @@ class ::WwBattle
     return (maxBattleWaitTimeSec / (hasOperationTimeOnCreation ? ::ww_get_speedup_factor() : 1)).tointeger()
       - ((hasOperationTimeOnCreation ? ::g_world_war.getOperationTimeSec() : ::get_charserver_time_sec())
         - time.millisecondsToSecondsInt(creationTime))
+  }
+
+  function isBattleByUnitsGroup()
+  {
+    return unitsGroups != null
   }
 }

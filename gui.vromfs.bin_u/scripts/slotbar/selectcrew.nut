@@ -1,3 +1,6 @@
+local slotbarWidget = require("scripts/slotbar/slotbarWidgetByVehiclesGroups.nut")
+local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+
 ::gui_start_selecting_crew <- function gui_start_selecting_crew(config)
 {
   if (::CrewTakeUnitProcess.safeInterrupt())
@@ -30,9 +33,11 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     function() { return slotbarWeak && slotbarWeak.getFocusObj() }   // slotbar
   ]
 
+  isSelectByGroups = false
+
   function initScreen()
   {
-    if (!unit || !unit.isUsable() || ::isUnitInSlotbar(unit) || !::checkObj(unitObj))
+    if (!unit || !unit.isUsable() || isUnitInSlotbar() || !::checkObj(unitObj))
     {
       goBack()
       return
@@ -75,7 +80,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
         shouldSelectCrewRecruit =  takeCrewIdInCountry > 0 && !crew
         singleCountry = country
         hasActions = false
-        showNewSlot = true,
+        showNewSlot = !isSelectByGroups
         showEmptySlot = true,
         needActionsWithEmptyCrews = false
         unitForSpecType = unit,
@@ -104,6 +109,10 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
     checkUseTutorial()
     delayedRestoreFocus()
   }
+
+  createSlotbarHandler = @(params) isSelectByGroups
+    ? slotbarWidget.create(params)
+    : ::gui_handlers.SlotbarWidget.create(params)
 
   function updateObjectsPositions(tdClone, legendObj, headerObj)
   {
@@ -214,10 +223,12 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
 
   function getTakeAirCost()
   {
-    return ::CrewTakeUnitProcess.getProcessCost(
-             getCurCrew(),
-             unit
-           )
+    return isSelectByGroups
+      ? ::Cost()
+      : ::CrewTakeUnitProcess.getProcessCost(
+          getCurCrew(),
+          unit
+        )
   }
 
   function onChangeUnit()
@@ -281,7 +292,15 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
 
   function onApplyCrew(crew)
   {
-    ::CrewTakeUnitProcess(crew, unit, ::Callback(onTakeProcessFinish, this))
+    local onFinishCb = ::Callback(onTakeProcessFinish, this)
+    if (isSelectByGroups)
+      slotbarPresets.setUnit({
+        crew = crew
+        unit = unit
+        onFinishCb = onFinishCb
+      })
+    else
+      ::CrewTakeUnitProcess(crew, unit, onFinishCb)
   }
 
   function onTakeProcessFinish(isSuccess)
@@ -379,4 +398,9 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onUnitMainFunc(obj) {}
+
+  function isUnitInSlotbar()
+  {
+    return !isSelectByGroups && ::isUnitInSlotbar(unit)
+  }
 }

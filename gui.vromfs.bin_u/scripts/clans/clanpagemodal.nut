@@ -658,8 +658,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local addField = ::g_lb_category.EVENTS_PERSONAL_ELO.field
     local idx = 0
 
-    curWwMembers = ::u.map(curWwMembers.sort(@(a, b) (b?[field] ?? "") <=> (a?[field] ?? "") || (b?[addField] ?? "") <=> (a?[addField] ?? "")),
-      @(member) member.__update({ pos = idx++ }))
+    curWwMembers = ::u.map(curWwMembers.sort(@(a, b) (b?[field] ?? 0) <=> (a?[field] ?? 0)
+      || (b?[addField] ?? 0) <=> (a?[addField] ?? 0)), @(member) member.__update({ pos = idx++ }))
   }
 
   function fillClanMemberList(membersData)
@@ -1148,12 +1148,12 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     local cb = ::Callback(function(membersData) {
         curWwCategory = curWwCategory ?? ::g_lb_category.EVENTS_PERSONAL_ELO
-        curWwMembers = ::u.filter(wwLeaderboardData.convertWwLeaderboardData(membersData).rows,
-          @(row) row.clanId.tostring() == ::clan_get_my_clan_id())
+        curWwMembers = wwLeaderboardData.convertWwLeaderboardData(
+          updateDataByUnitRank(membersData)).rows
         updateWwMembersList()
       }, this)
     wwLeaderboardData.requestWwLeaderboardData(
-      "ww_users_clan"
+      "ww_users_clan",
       {
         gameMode = "ww_users_clan"
         table    = "season"
@@ -1162,6 +1162,21 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
         category = "clanId"
       },
       @(membersData) cb(membersData))
+  }
+
+  function updateDataByUnitRank(membersData)
+  {
+    local res = {}
+    foreach (member in clanData.members)
+    {
+      res[member.nick] <- {unit_rank = {value_total = member?.max_unit_rank ?? 1}}
+      local data = ::u.search(membersData, @(inst) inst?._id == member.uid.tointeger()) ?? {
+        idx = -1
+        _id = member.uid.tointeger()
+      }
+      res[member.nick].__update(data)
+    }
+    return res
   }
 
   function updateWwMembersList() {}

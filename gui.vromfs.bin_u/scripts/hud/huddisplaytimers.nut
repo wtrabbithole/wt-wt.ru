@@ -98,7 +98,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       color = "#DD1111"
       icon = "#ui/gameuiskin#fire_indicator"
       needTimeText = true
-    }
+    },
     {
       id = "capture_progress"
       needTimeText = true
@@ -107,18 +107,18 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       id = "replenish_status"
       color = "@white"
       icon = "#ui/gameuiskin#icon_weapons_relocation_in_progress.svg"
-    }
+    },
     {
       id = "move_cooldown_status"
       color = "@white"
       icon = "#ui/gameuiskin#icon_repair_in_progress.svg"
-    }
+    },
     {
       id = "battery_status"
       color = "#DD1111"
       icon = "#ui/gameuiskin#icon_battery_in_progress.svg"
       needTimeText = true
-    }
+    },
   ]
 
   scene = null

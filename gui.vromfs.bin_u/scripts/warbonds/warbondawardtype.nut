@@ -298,7 +298,7 @@ enums.addTypesByGlobalName("g_wb_award_type", {
                                                                                 wbListId = warbond.listId
                                                                               })
   },
-}
+},
 null, "id")
 
 g_wb_award_type.getTypeByBlk <- function getTypeByBlk(blk)

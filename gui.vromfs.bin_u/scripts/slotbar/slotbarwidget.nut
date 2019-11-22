@@ -145,11 +145,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     shouldCheckQueue = shouldCheckQueue ?? !::is_in_flight()
 
     onSlotDblClick = onSlotDblClick
-      ?? function(crew) {
-           local unit = ::g_crew.getCrewUnit(crew)
+      ?? ::Callback(function(crew) {
+           local unit = getCrewUnit(crew)
            if (unit)
              ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
-         }
+         }, this)
 
     //update callbacks
     foreach(funcName in ["beforeSlotbarSelect", "afterSlotbarSelect", "onSlotDblClick", "onCountryChanged",
@@ -194,10 +194,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       idCountry = crew?.idCountry ?? -1         //for recruit slots, but correct for all
     }.__update(params)
 
-    data.crewIdVisible <- list.len()
+    data.crewIdVisible <- data?.crewIdVisible ?? list.len()
 
     local canSelectEmptyCrew = shouldSelectCrewRecruit || !needActionsWithEmptyCrews
-    data.isSelectable <- (data.isUnlocked || !shouldSelectAvailableUnit) && (canSelectEmptyCrew || data.unit != null)
+    data.isSelectable <- data?.isSelectable
+      ?? ((data.isUnlocked || !shouldSelectAvailableUnit) && (canSelectEmptyCrew || data.unit != null))
     local isControlledUnit = !::is_respawn_screen()
       && ::is_player_unit_alive()
       && ::get_player_unit_name() == data.unit?.name
@@ -246,7 +247,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       local crewsList = crewsListFull[c].crews
       foreach(crewIdInCountry, crew in crewsList)
       {
-        local unit = ::g_crew.getCrewUnit(crew)
+        local unit = getCrewUnit(crew)
 
         if (!unit && !needEmptySlot)
           continue
@@ -261,7 +262,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         {
           if (!isUnlocked)
             status = bit_unit_status.locked
-          else if (!::is_crew_slot_was_ready_at_host(crew.idInCountry, unit.name, true))
+          else if (!::is_crew_slot_was_ready_at_host(crew.idInCountry, unit.name, false))
             status = bit_unit_status.broken
           else
           {
@@ -337,7 +338,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         local crew = crewData.crew
         local unit = crewData.unit
         local isSelectable = crewData.isSelectable
-        if ((crew && curCrewId == crew.id)
+        if ((crew?.id != null && curCrewId == crew.id)
           || (unit && unit == curUnit)
           || (!crew && shouldSelectCrewRecruit))
         {
@@ -791,7 +792,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (crew)
     {
-      local unit = ::g_crew.getCrewUnit(crew)
+      local unit = getCrewUnit(crew)
       if (unit)
       {
         ::set_show_aircraft(unit)
@@ -1215,9 +1216,9 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       if (!singleCountry || countryData.country == singleCountry)
         foreach (idInCountry, crew in countryData.crews)
         {
-          if (slotCrewId != -1 && slotCrewId != crew.id)
+          if (slotCrewId != -1 && slotCrewId != (crew?.id ?? -1))
             continue
-          local unit = ::g_crew.getCrewUnit(crew)
+          local unit = getCrewUnit(crew)
           if (unitId && unit && unitId != unit.name)
             continue
           local obj = ::get_slot_obj(scene, countryId, idInCountry)
@@ -1231,6 +1232,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         }
 
     return unitSlots
+  }
+
+  function getCrewUnit(crew)
+  {
+    return ::g_crew.getCrewUnit(crew)
   }
 
   function updateDifficulty(unitSlots = null)
@@ -1338,14 +1344,15 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
             crewImage = "#ui/gameuiskin#slotbar_crew_recruit_" + ::g_string.slice(countryData.country, 8)
             isCrewRecruit = true
             emptyCost = crewData.cost
-            inactive = true
             isSlotbarItem = true
           })
         continue
       }
 
+      local isVisualDisabled = crewData?.isVisualDisabled ?? false
+      local isLocalState = crewData?.isLocalState ?? true
       local airParams = {
-        emptyText      = emptyText,
+        emptyText      = isVisualDisabled ? "" : emptyText,
         crewImage      = "#ui/gameuiskin#slotbar_crew_free_" + ::g_string.slice(countryData.country, 8)
         status         = ::getUnitItemStatusText(crewData.status),
         inactive       = ::show_console_buttons && crewData.status == bit_unit_status.locked && ::is_in_flight(),
@@ -1354,7 +1361,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         mainActionFunc = ::SessionLobby.canChangeCrewUnits() ? "onSlotChangeAircraft" : ""
         mainActionText = "" // "#multiplayer/changeAircraft"
         mainActionIcon = "#ui/gameuiskin#slot_change_aircraft.svg"
-        crewId         = crew.id
+        crewId         = crew?.id
         isSlotbarItem  = true
         showBR         = ::has_feature("SlotbarShowBattleRating")
         getEdiffFunc   = getCurrentEdiff.bindenv(this)
@@ -1366,9 +1373,11 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         curSlotIdInCountry = crew.idInCountry
         curSlotCountryId = crew.idCountry
         unlocked = crewData.isUnlocked
-        tooltipParams = { needCrewInfo = ::has_feature("CrewInfo") && !::g_crews_list.isSlotbarOverrided }
+        tooltipParams = { needCrewInfo = ::has_feature("CrewInfo") && !::g_crews_list.isSlotbarOverrided
+          showLocalState = isLocalState }
         missionRules = missionRules
         forceCrewInfoUnit = unitForSpecType
+        isLocalState = isLocalState
       }
 
       rowData += ::build_aircraft_item(id, crewData.unit, airParams)

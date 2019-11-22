@@ -1,7 +1,8 @@
 local time = require("scripts/time.nut")
 local operationPreloader = require("scripts/worldWar/externalServices/wwOperationPreloader.nut")
-local seenWWMapsObjective = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
+local seenWWMapsObjective = require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
@@ -142,6 +143,7 @@ global enum WW_UNIT_SORT_CODE {
   WATER,
   ARTILLERY,
   INFANTRY,
+  TRANSPORT,
   UNKNOWN
 }
 
@@ -251,6 +253,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
 
   infantryUnits = null
   artilleryUnits = null
+  transportUnits = null
 
   rearZones = null
   curOperationCountry = null
@@ -268,12 +271,13 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   {
     infantryUnits = null
     artilleryUnits = null
+    transportUnits = null
   }
 
   function getInfantryUnits()
   {
     if (infantryUnits == null)
-      ::g_world_war.updateInfantryUnits()
+      infantryUnits = getWWConfigurableValue("infantryUnits", infantryUnits)
 
     return infantryUnits
   }
@@ -281,9 +285,17 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   function getArtilleryUnits()
   {
     if (artilleryUnits == null)
-      ::g_world_war.updateArtilleryUnits()
+      artilleryUnits = getWWConfigurableValue("artilleryUnits", artilleryUnits)
 
     return artilleryUnits
+  }
+
+  function getTransportUnits()
+  {
+    if (transportUnits == null)
+      transportUnits = getWWConfigurableValue("transportUnits", transportUnits)
+
+    return transportUnits
   }
 
   function getPlayedOperationText(needMapName = true)
@@ -383,7 +395,7 @@ g_world_war.getCantPlayWorldwarReasonText <- function getCantPlayWorldwarReasonT
 
 g_world_war.openMainWnd <- function openMainWnd()
 {
-  if (!antiCheat.showMsgboxIfEacInactive())
+  if (!antiCheat.showMsgboxIfEacInactive(defaultDiffCode))
     return
 
   if (!checkPlayWorldwarAccess())
@@ -656,26 +668,14 @@ g_world_war.updateArmyGroups <- function updateArmyGroups()
   }
 }
 
-g_world_war.updateInfantryUnits <- function updateInfantryUnits()
-{
-  infantryUnits = ::g_world_war.getWWConfigurableValue("infantryUnits", infantryUnits)
-}
-
-g_world_war.updateArtilleryUnits <- function updateArtilleryUnits()
-{
-  artilleryUnits = ::g_world_war.getWWConfigurableValue("artilleryUnits", artilleryUnits)
-}
-
 g_world_war.getArtilleryUnitParamsByBlk <- function getArtilleryUnitParamsByBlk(blk)
 {
-  if (!artilleryUnits)
-    ::g_world_war.updateArtilleryUnits()
-
+  local artillery = getArtilleryUnits()
   for (local i = 0; i < blk.blockCount(); i++)
   {
     local wwUnitName = blk.getBlock(i).getBlockName()
-    if (wwUnitName in artilleryUnits)
-      return artilleryUnits[wwUnitName]
+    if (wwUnitName in artillery)
+      return artillery[wwUnitName]
   }
 
   return null
@@ -751,7 +751,7 @@ g_world_war.getSidesStrenghtInfo <- function getSidesStrenghtInfo()
     {
       local unitsTypeBlk = unitsBlk.getBlock(j)
       local unitTypeBlk = unitsTypeBlk?["units"]
-      wwUnitsList.extend(::WwUnit.loadUnitsFromBlk(unitTypeBlk))
+      wwUnitsList.extend(wwActionsWithUnitsList.loadUnitsFromBlk(unitTypeBlk))
     }
 
     local collectedWwUnits = ::u.values(::g_world_war.collectUnitsData(wwUnitsList))
@@ -1058,7 +1058,7 @@ g_world_war.getReinforcementsInfo <- function getReinforcementsInfo()
 g_world_war.getReinforcementsArrayBySide <- function getReinforcementsArrayBySide(side)
 {
   local reinforcementsInfo = getReinforcementsInfo()
-  if (!reinforcementsInfo.reinforcements)
+  if (reinforcementsInfo?.reinforcements == null)
     return []
 
   local res = []

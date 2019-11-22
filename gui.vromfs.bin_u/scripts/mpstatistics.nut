@@ -233,8 +233,7 @@ local avatars = ::require("scripts/user/avatars.nut")
           tdProp += ::format("width:t='%s'", ::getTblValue("width", markup[hdr[j]], ""))
 
         trAdd += "winnerPlace:t='none';"
-        tdData += ::format("%s activeText { text:t = '%i'; halign:t='center'} "
-          tdProp, i+1)
+        tdData += ::format("%s activeText { text:t = '%i'; halign:t='center'} ", tdProp, i+1)
       }
       else if (hdr[j] == "place")
       {

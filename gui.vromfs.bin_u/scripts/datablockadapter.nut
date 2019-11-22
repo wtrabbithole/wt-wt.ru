@@ -125,7 +125,7 @@ class DataBlockAdapter
         continue
       }
       foreach(v in val)
-        ___addToParamsList___(val, key)
+        ___addToParamsList___(v, key)
     }
   }
 

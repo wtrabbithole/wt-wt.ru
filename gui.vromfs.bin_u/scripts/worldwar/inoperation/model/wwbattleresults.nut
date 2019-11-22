@@ -1,3 +1,5 @@
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+
 class ::WwBattleResults
 {
   id = ""
@@ -130,13 +132,13 @@ class ::WwBattleResults
       local teamInfoBlk = teamsInfoBlk?[teamName]
       local unitsInitialBlk = teamInfoBlk?.units
 
-      local unitsInitial = ::WwUnit.loadUnitsFromBlk(unitsInitialBlk)
-      unitsInitial.extend(::WwUnit.getFakeUnitsArray(teamInfoBlk))
+      local unitsInitial = wwActionsWithUnitsList.loadUnitsFromBlk(unitsInitialBlk)
+      unitsInitial.extend(wwActionsWithUnitsList.getFakeUnitsArray(teamInfoBlk))
 
-      local unitsRemain = ::WwUnit.loadUnitsFromBlk(teamBlk?.unitsRemain)
-      unitsRemain.extend(::WwUnit.getFakeUnitsArray(teamBlk))
+      local unitsRemain = wwActionsWithUnitsList.loadUnitsFromBlk(teamBlk?.unitsRemain)
+      unitsRemain.extend(wwActionsWithUnitsList.getFakeUnitsArray(teamBlk))
 
-      local unitsCasualties = ::WwUnit.loadUnitsFromBlk(teamBlk?.casualties)
+      local unitsCasualties = wwActionsWithUnitsList.loadUnitsFromBlk(teamBlk?.casualties)
 
       teams[teamName] <- ::u.extend({}, teamDefaults, {
         name            = teamName
@@ -160,7 +162,7 @@ class ::WwBattleResults
     for (local i = 0; i < updatesBlk.blockCount(); i++)
     {
       local updateBlk = updatesBlk.getBlock(i)
-      local isNeedUpdateUnitsRemain = updateBlk.updateId > updateAppliedOnHost
+      local isNeedUpdateUnitsRemain = (updateBlk?.updateId ?? -1) > updateAppliedOnHost
 
       local teamsBlk = updateBlk?.teams
       if (!teamsBlk)
@@ -172,7 +174,7 @@ class ::WwBattleResults
         if (!team)
           continue
 
-        local wwUnitsAdded = ::WwUnit.loadUnitsFromBlk(teamBlk?.unitsAdded)
+        local wwUnitsAdded = wwActionsWithUnitsList.loadUnitsFromBlk(teamBlk?.unitsAdded)
 
         local teamUnitsLists = isNeedUpdateUnitsRemain ?
           [ team.unitsInitial, team.unitsRemain ] :
@@ -333,9 +335,12 @@ class ::WwBattleResults
         country         = teamCountry
         armies          = teamArmiesList
         armyStates      = teamArmyStates
-        unitsInitial    = ::WwUnit.loadUnitsFromNameCountTbl(::u.map(teamUnitStats, function(stats) { return stats.initial }))
-        unitsCasualties = ::WwUnit.loadUnitsFromNameCountTbl(::u.map(teamUnitStats, function(stats) { return stats.casualties }))
-        unitsRemain     = ::WwUnit.loadUnitsFromNameCountTbl(::u.map(teamUnitStats, function(stats) { return stats.remain }))
+        unitsInitial    = wwActionsWithUnitsList.loadUnitsFromNameCountTbl(
+          ::u.map(teamUnitStats, function(stats) { return stats.initial }))
+        unitsCasualties = wwActionsWithUnitsList.loadUnitsFromNameCountTbl(
+          ::u.map(teamUnitStats, function(stats) { return stats.casualties }))
+        unitsRemain     = wwActionsWithUnitsList.loadUnitsFromNameCountTbl(
+          ::u.map(teamUnitStats, function(stats) { return stats.remain }))
       })
     }
 

@@ -630,7 +630,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local branchItems = collectBranchItems(branch, [])
     branchItems.sort(@(a,b) a.tier <=> b.tier || a.guiPosX <=> b.guiPosX)
     foreach(item in branchItems)
-      createItem(item, weaponsItem.modification, obj, item.guiPosX, item.tier +treeOffsetY -1)
+      createItem(item, weaponsItem.modification, obj, item.guiPosX, item.tier + treeOffsetY - 1)
   }
 
   function collectBranchItems(branch, resItems)

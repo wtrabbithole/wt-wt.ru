@@ -929,7 +929,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local rowName = "row_"+idx
       local rowData = [
-        { text = (idx+1).tostring(), width=posWidth },
+        { text = (idx+1).tostring(), width=posWidth }
         { id="rank", width=rcWidth, text = airData.rank.tostring(), tdAlign="right", cellType="splitRight", active = statsSortBy=="rank" }
         { id="country", width=rcWidth, image=::get_country_icon(airData.country), cellType="splitLeft", needText = false }
         {

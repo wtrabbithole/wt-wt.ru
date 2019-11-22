@@ -175,6 +175,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     switchControlsAllowMask(spectatorMode
                             ? CtrlsInGui.CTRL_ALLOW_MP_STATISTICS | CtrlsInGui.CTRL_ALLOW_MP_CHAT
                               | CtrlsInGui.CTRL_ALLOW_FLIGHT_MENU | CtrlsInGui.CTRL_ALLOW_SPECTATOR
+                              | CtrlsInGui.CTRL_ALLOW_TACTICAL_MAP
                             : CtrlsInGui.CTRL_ALLOW_FULL)
   }
 

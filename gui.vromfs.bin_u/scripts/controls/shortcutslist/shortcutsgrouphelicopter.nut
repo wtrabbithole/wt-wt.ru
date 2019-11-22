@@ -363,6 +363,11 @@ return [
     optionType = ::USEROPT_INVERTY_HELICOPTER
   }
   {
+    id = "invert_y_helicopter_gunner"
+    type = CONTROL_TYPE.SWITCH_BOX
+    optionType = ::USEROPT_INVERTY_HELICOPTER_GUNNER
+  }
+  {
     id = "helicopter_mouse_aim_x"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.HELICOPTER

@@ -70,6 +70,7 @@ root {
           hasPremium:t='<<#premium>>yes<</premium>><<^premium>>no<</premium>>'
           hasMaxBanned:t='<<hasMaxBanned>>'
           hasMaxDisliked:t='<<hasMaxDisliked>>'
+          hasMaxLiked:t='<<hasMaxLiked>>'
           <<#maps>>
           mapNest{
             id:t='nest_<<mapId>>'
@@ -113,6 +114,16 @@ root {
                   type:t='banned'
                   mapId:t='<<mapId>>'
                   value:t='<<#banned>>yes<</banned>><<^banned>>no<</banned>>'
+                  display:t='hide'
+                  on_change_value:t = 'onUpdateIcon'
+                  mapStateBoxImg{}
+                }
+
+                mapStateBox{
+                  id:t='liked'
+                  type:t='liked'
+                  mapId:t='<<mapId>>'
+                  value:t='<<#liked>>yes<</liked>><<^liked>>no<</liked>>'
                   display:t='hide'
                   on_change_value:t = 'onUpdateIcon'
                   mapStateBoxImg{}
@@ -183,6 +194,17 @@ root {
             }
           }
 
+          tdiv {
+            id:t='paginator'
+            pos:t='0.5pw-0.5w, 0'
+            position:t='relative'
+            height:t='1@buttonHeight'
+            margin:t='0, 1@blockInterval'
+            navMiddle{
+              id:t='paginator_place'
+            }
+          }
+
           mapStateBox{
             id:t='dislike'
             type:t='disliked'
@@ -208,6 +230,19 @@ root {
             <</premium>>
             on_change_value:t = 'onUpdateIcon'
             btnName:t='Y'
+            display:t='hide'
+            ButtonImg{}
+            mapStateBoxImg{}
+          }
+
+          mapStateBox{
+            id:t='like'
+            type:t='liked'
+            margin:t='0, 1@blockInterval'
+            position:t='relative'
+            mapStateBoxText {id:t='title'}
+            on_change_value:t = 'onUpdateIcon'
+            btnName:t='A'
             display:t='hide'
             ButtonImg{}
             mapStateBoxImg{}

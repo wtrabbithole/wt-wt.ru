@@ -77,6 +77,7 @@ enums.addTypesByGlobalName("g_queue_type",
                           : ::getTblValue("country", params, "")
           team        = wwBattle ? wwBattle.getTeamNameBySide(side)
                           : ::getTblValue("team", params, ::SIDE_1)
+          isBattleByUnitsGroup = wwBattle?.isBattleByUnitsGroup() ?? false
         }
       }
 

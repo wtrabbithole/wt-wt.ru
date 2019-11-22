@@ -5,6 +5,9 @@ local dagorMath = require("dagor.math")
 local Color = ::Color
 local logLib = require("std/log.nut")
 local functools = require("std/functools.nut")
+local dagor_sys = require("dagor.system")
+local frp = require("frp")
+
 
 local tostringfuncTbl = [
   {
@@ -218,6 +221,10 @@ local function mul_color(color, mult) {
                ::min(255, ((color >> 24) & 0xff) * mult))
 }
 
+//frp
+::Watched <- frp.Watched
+::Computed <- frp.Computed
+
 //darg helpers
 ::watchElemState <- watchElemState //warning disable: -ident-hides-ident
 ::make_persists <- make_persists //warning disable: -ident-hides-ident
@@ -244,3 +251,4 @@ local function mul_color(color, mult) {
 ::dlogsplit <- log.dlogsplit
 ::vlog <- log.vlog
 ::console_print <- log.console_print
+::logg <- dagor_sys.DBGLEVEL !=0 ? log.dlog : log.log //should have settings in config.blk to enable dev behavior on release exe, or switch it off on dev

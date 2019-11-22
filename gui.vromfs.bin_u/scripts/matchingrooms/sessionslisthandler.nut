@@ -31,9 +31,6 @@ local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 ::gui_start_skirmish <- function gui_start_skirmish()
 {
-  if (!antiCheat.showMsgboxIfEacInactive())
-    return
-
   prepare_start_skirmish()
   gui_start_session_list(gui_start_mainmenu)
 }
@@ -480,7 +477,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
     if (!room)
       return msgBox("no_room_selected", ::loc("ui/nothing_selected"), [["ok"]], "ok")
 
-    if (!antiCheat.showMsgboxIfEacInactive())
+    if (!antiCheat.showMsgboxIfEacInactive(::SessionLobby.getDifficulty(room).diffCode))
       return
 
     if (::g_squad_manager.getSquadRoomId() != room.roomId

@@ -97,8 +97,15 @@ g_squad_manager <- {
 
     squadData.leaderGameModeId = newLeaderGameModeId
     if (isSquadMember())
+    {
+      local event = ::events.getEvent(getLeaderGameModeId())
+      if (isMeReady() && !antiCheat.showMsgboxIfEacInactive(::events.getEventDiffCode(event)))
+        setReadyFlag(false)
       updateMyMemberData(::g_user_utils.getMyStateData())
+    }
   }
+
+  onEventPresetsByGroupsChanged = @(params) updateMyMemberData()
 }
 
 g_squad_manager.setState <- function setState(newState)
@@ -584,7 +591,9 @@ g_squad_manager.setReadyFlag <- function setReadyFlag(ready = null, needUpdateMe
     return
 
   local isSetNoReady = (ready == false || (ready == null && isMeReady() == true))
-  if (!isLeader && !isSetNoReady && !antiCheat.showMsgboxIfEacInactive())
+  local event = ::events.getEvent(getLeaderGameModeId())
+  if (!isLeader && !isSetNoReady
+    && !antiCheat.showMsgboxIfEacInactive(::events.getEventDiffCode(event)))
     return
 
   if (::checkIsInQueue() && !isLeader && isInSquad() && isSetNoReady)
@@ -858,7 +867,7 @@ g_squad_manager.membershipAplication <- function membershipAplication(sid)
   local cb = function()
   {
     ::request_matching("msquad.request_membership",
-      callback
+      callback,
       null, {squadId = sid}, null)
   }
   local canJoin = ::g_squad_utils.canJoinFlightMsgBox(

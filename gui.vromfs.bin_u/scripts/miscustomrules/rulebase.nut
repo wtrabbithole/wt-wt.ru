@@ -173,7 +173,7 @@ class ::mission_rules.Base
           local air = ::getAircraftByName(airName)
           if (air &&
               ::is_crew_available_in_session(slot.idInCountry, false) &&
-              ::is_crew_slot_was_ready_at_host(slot.idInCountry, airName, true)
+              ::is_crew_slot_was_ready_at_host(slot.idInCountry, airName, false)
              )
           {
             local respBases = ::get_available_respawn_bases(air.tags)
@@ -211,7 +211,7 @@ class ::mission_rules.Base
       local unit = ::g_crew.getCrewUnit(crew)
       if (!unit
         || !::is_crew_available_in_session(crew.idInCountry, false)
-        || !::is_crew_slot_was_ready_at_host(crew.idInCountry, unit.name, true))
+        || !::is_crew_slot_was_ready_at_host(crew.idInCountry, unit.name, false))
         continue
 
       local minScore = unit.getMinimumSpawnScore()
@@ -255,7 +255,7 @@ class ::mission_rules.Base
         continue
 
       if (!::is_crew_available_in_session(c.idInCountry, false)
-          || !::is_crew_slot_was_ready_at_host(c.idInCountry, unit.name, true)
+          || !::is_crew_slot_was_ready_at_host(c.idInCountry, unit.name, false)
           || !::get_available_respawn_bases(unit.tags).len()
           || !getUnitLeftRespawns(unit)
           || unit.disableFlyout)
@@ -292,13 +292,18 @@ class ::mission_rules.Base
 
   function isUnitWeaponAllowed(unit, weapon)
   {
-    return getUnitWeaponRespawnsLeft(unit, weapon) != 0
+    return !needCheckWeaponsAllowed(unit) || getUnitWeaponRespawnsLeft(unit, weapon) != 0
   }
 
   function getUnitWeaponRespawnsLeft(unit, weapon)
   {
     local limitsBlk = getWeaponsLimitsBlk()
     return limitsBlk ? getWeaponRespawnsLeftByLimitsBlk(unit, weapon, limitsBlk) : -1
+  }
+
+  function needCheckWeaponsAllowed(unit)
+  {
+    return unit.isAir() || unit.isHelicopter()
   }
 
   /*************************************************************************************************/

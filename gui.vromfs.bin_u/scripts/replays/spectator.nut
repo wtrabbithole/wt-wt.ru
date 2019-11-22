@@ -71,7 +71,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     "briefMalfunctionState",
     "isBurning",
     "isExtinguisherActive",
-    "isLocal"
+    "isLocal",
     "isInHeroSquad",
   ]
 
@@ -808,7 +808,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       ::toggle_shortcut(id)
   }
 
-  function onMapClick(obj)
+  function onMapClick(obj = null)
   {
     local mapLargePanelObj = scene.findObject("map_large_div")
     if (!::checkObj(mapLargePanelObj))
@@ -1532,4 +1532,11 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   local handler = ::handlersManager.findHandlerClassInScene(::Spectator)
   if (handler)
     handler.onPlayerRequestedArtillery(userId)
+}
+
+::on_spectator_tactical_map_request <- function on_spectator_tactical_map_request() // called from client
+{
+  local handler = ::handlersManager.findHandlerClassInScene(::Spectator)
+  if (handler)
+    handler.onMapClick()
 }

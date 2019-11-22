@@ -1594,7 +1594,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     lbWindgetsNestObj.show(true)
 
     local blk = ::getLeaderboardItemWidgets({ items = items })
-    guiScene.replaceContentFromText(lbWindgetsNestObj, blk, blk.len() this)
+    guiScene.replaceContentFromText(lbWindgetsNestObj, blk, blk.len(), this)
     lbWindgetsNestObj.scrollToView()
   }
 
@@ -2245,7 +2245,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local listObj = scene.findObject("awards_list_tab_div")
     local itemWidth = ::floor((listObj.getSize()[0] -
       guiScene.calcString("@scrollBarSize", null)
-      ) / DEBR_AWARDS_LIST_COLUMNS -1)
+      ) / DEBR_AWARDS_LIST_COLUMNS - 1)
     foreach (list in [ unlockAwardsList, streakAwardsList ])
       foreach (award in list)
       {

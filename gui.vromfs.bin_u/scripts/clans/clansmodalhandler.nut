@@ -75,7 +75,7 @@ local helpsLinksByPage =  {
   clans_search = [
     { obj = "img_fits_requirements"
       msgId = "hint_fits_requirements"
-    },
+    }
     { obj = "img_activity"
       msgId = "hint_activity"
     }
@@ -409,7 +409,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       updateModesTabsContent(modesObj, {
         tabs = getModesTabsView(getCurDMode(), ::get_show_in_squadron_statistics).append({
           id = "worldwar_mode"
-          hidden = (curWwMembers?.len() ?? 0) <= 0
+          hidden = !::is_worldwar_enabled()
           tabName = ::loc("userlog/page/worldWar")
           selected = false
           isWorldWarMode = true
@@ -1094,8 +1094,6 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
     if(isWorldWarMode)
       fillClanWwMemberList()
-    else
-      showSceneBtn("worldwar_mode", (curWwMembers?.len() ?? 0) > 0)
   }
 
   function initLeaderboardFilter()
@@ -1122,7 +1120,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function loadLeaderboardFilter()
   {
     filterMask = ::load_local_account_settings(CLAN_LEADERBOARD_FILTER_ID,
-      (1 << leaderboardFilterArray.len()) -1)
+      (1 << leaderboardFilterArray.len()) - 1)
   }
 
   function onChangeLeaderboardFilter(obj)

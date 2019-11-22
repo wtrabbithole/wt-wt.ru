@@ -35,10 +35,10 @@ class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
   {
     scene.findObject("update_timer").setUserData(this)
 
-    subHandlers.extend([
-      ::gui_load_mission_objectives(scene.findObject("primary_tasks_list"),   false, 1 << ::OBJECTIVE_TYPE_PRIMARY)
+    subHandlers.append(
+      ::gui_load_mission_objectives(scene.findObject("primary_tasks_list"),   false, 1 << ::OBJECTIVE_TYPE_PRIMARY),
       ::gui_load_mission_objectives(scene.findObject("secondary_tasks_list"), false, 1 << ::OBJECTIVE_TYPE_SECONDARY)
-    ])
+    )
 
     initWnd()
   }
@@ -252,7 +252,7 @@ class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
   {
     local data = ""
     for(local k = 0; k < numUnits; k++)
-      data += format("tr { id:t = 'pilot_name%d'; css-hier-invalidate:t='all'; td { text { id:t = 'pilot_text%d'; }}}"
+      data += format("tr { id:t = 'pilot_name%d'; css-hier-invalidate:t='all'; td { text { id:t = 'pilot_text%d'; }}}",
                      k, k)
 
     local pilotsObj = scene.findObject("pilots_list")

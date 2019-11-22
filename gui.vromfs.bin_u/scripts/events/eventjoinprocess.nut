@@ -64,13 +64,13 @@ class EventJoinProcess
         ::g_squad_manager.setReadyFlag()
       return remove()
     }
-    if (!antiCheat.showMsgboxIfEacInactive())
+    if (!antiCheat.showMsgboxIfEacInactive(::events.getEventDiffCode(event)))
       return remove()
     // Same as checkedNewFlight in gui_handlers.BaseGuiHandlerWT.
     ::queues.checkAndStart(
                     ::Callback(joinStep2_external, this),
                     ::Callback(remove, this),
-                    "isCanNewflight"
+                    "isCanNewflight",
                     { isSilentLeaveQueue = !!room }
                    )
   }

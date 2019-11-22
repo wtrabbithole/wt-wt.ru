@@ -169,18 +169,20 @@ local HelicopterGunDirection = function(line_style, isBackground) {
     local mainCommands = []
     local overheatCommands = []
 
+    local allCannonsEmpty = helicopterState.IsCannonEmpty.reduce(@(res, val) res && val.value, true)
+
     for (local i = 0; i < commands.len(); ++i)
     {
       if (i >= helicopterState.GunOverheatState.value)
       {
         mainCommands.append(commands[i])
-        if (!helicopterState.IsCanEmpty.value || !helicopterState.IsMachineGunEmpty.value)
+        if (!allCannonsEmpty || !helicopterState.IsMachineGunEmpty.value)
           mainCommands.append(commandsDash[i])
       }
       else
       {
         overheatCommands.append(commands[i])
-        if (!helicopterState.IsCanEmpty.value || !helicopterState.IsMachineGunEmpty.value)
+        if (!allCannonsEmpty || !helicopterState.IsMachineGunEmpty.value)
           overheatCommands.append(commandsDash[i])
       }
     }
@@ -206,12 +208,20 @@ local HelicopterGunDirection = function(line_style, isBackground) {
     commands = getCommands().overheatCommands
   })
 
+  local watchList = [
+    helicopterState.IsMachineGunEmpty,
+    helicopterState.GunOverheatState,
+    helicopterState.GunDirectionX,
+    helicopterState.GunDirectionY,
+    helicopterState.GunDirectionVisible
+  ]
+  watchList.extend(helicopterState.IsCannonEmpty)
+
   return @() {
     size = SIZE_TO_CONTENT
     halign = HALIGN_CENTER
     valign = VALIGN_MIDDLE
-    watch = [helicopterState.IsCanEmpty, helicopterState.IsMachineGunEmpty, helicopterState.GunOverheatState,
-      helicopterState.GunDirectionX, helicopterState.GunDirectionY, helicopterState.GunDirectionVisible]
+    watch = watchList
     opacity = helicopterState.GunDirectionVisible.value ? 100 : 0
     transform = {
       translate = [helicopterState.GunDirectionX.value, helicopterState.GunDirectionY.value]
@@ -803,13 +813,7 @@ local textParamsMap = {
     value = @() helicopterState.Spd.value + " " + ::cross_call.measureTypes.SPEED.getMeasureUnitsName()
     valuesWatched = helicopterState.Spd
   },
-  [HelicopterParams.CANNON] = {
-    title = @() ::loc("HUD/CANNONS_SHORT")
-    value = generateBulletsTextFunction(helicopterState.Cannons.count, helicopterState.Cannons.seconds)
-    valuesWatched = [helicopterState.Cannons.count, helicopterState.Cannons.seconds, helicopterState.IsCanEmpty]
-    alertWatched = [helicopterState.IsCanEmpty]
-  },
-   [HelicopterParams.MACHINE_GUN] = {
+  [HelicopterParams.MACHINE_GUN] = {
     title = @() ::loc("HUD/MACHINE_GUNS_SHORT")
     value = generateBulletsTextFunction(helicopterState.MachineGuns.count, helicopterState.MachineGuns.seconds)
     valuesWatched = [helicopterState.MachineGuns.count, helicopterState.MachineGuns.seconds, helicopterState.IsMachineGunEmpty]
@@ -873,6 +877,19 @@ local textParamsMap = {
     valuesWatched = [helicopterState.Flares.count, helicopterState.Flares.seconds, helicopterState.IsFlrEmpty]
     alertWatched = [helicopterState.IsFlrEmpty]
   },
+}
+
+foreach (i, value in helicopterState.IsCannonEmpty) {
+  textParamsMap[HelicopterParams.CANNON_1 + i] <- {
+    title = @() ::loc("HUD/CANNONS_SHORT")
+    value = generateBulletsTextFunction(helicopterState.CannonCount[i], helicopterState.CannonReloadTime[i])
+    valuesWatched = [
+      helicopterState.CannonCount[i],
+      helicopterState.CannonReloadTime[i],
+      helicopterState.IsCannonEmpty[i]
+    ]
+    alertWatched = [helicopterState.IsCannonEmpty[i]]
+  }
 }
 
 for (local i = 0; i < NUM_ENGINES_MAX; ++i)
@@ -1098,6 +1115,13 @@ local targetSizeComponent = function(elemStyle, isBackground) {
   return @() {
     pos = [sightSw(50) - width * 0.5, sightSh(50) - height * 0.5]
     size = SIZE_TO_CONTENT
+    behavior = Behaviors.RtPropUpdate
+    update = function() {
+      return {
+        opacity = helicopterState.TargetAge.value < 0.2 ||
+                  math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
+      }
+    }
     children = targetSize(elemStyle, width, height, isBackground)
   }
 }
@@ -1110,11 +1134,12 @@ local agmTrackZone = function(line_style, width, height, isBackground) {
     color = getColor(isBackground)
     lineWidth = hdpx(LINE_WIDTH)
     watched = helicopterState.AtgmTrackerRadius
-    commands = [
+    commands = !helicopterState.IsAgmEmpty.value && helicopterState.IsATGMOutOfTrackerSector.value ?
+    [
       [ VECTOR_ELLIPSE, 50, 50,
         2.0 * helicopterState.AtgmTrackerRadius.value / width * 50,
         2.0 * helicopterState.AtgmTrackerRadius.value / height * 50 ]
-    ]
+    ] : []
   })
 }
 
@@ -1122,18 +1147,16 @@ local agmTrackZoneComponent = function(elemStyle, isBackground) {
   local width = sw(100)
   local height = sh(100)
 
-  local getAgmTrackZoneOpacity = function() {
-    if (!helicopterState.IsAgmEmpty.value && helicopterState.IsATGMOutOfTrackerSector.value)
-      return math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
-    else
-      return 0
-  }
-
   return @() {
     pos = [sightSw(50) - width * 0.5, sightSh(50) - height * 0.5]
-    watch = [helicopterState.IsAgmEmpty, helicopterState.IsATGMOutOfTrackerSector, helicopterState.CurrentTime]
-    opacity = getAgmTrackZoneOpacity()
+    watch = [helicopterState.IsAgmEmpty, helicopterState.IsATGMOutOfTrackerSector ]
     size = SIZE_TO_CONTENT
+    behavior = Behaviors.RtPropUpdate
+    update = function() {
+      return {
+        opacity = math.round(helicopterState.CurrentTime.value * 4) % 2 == 0 ? 100 : 0
+      }
+    }
     children = agmTrackZone(elemStyle, width, height, isBackground)
   }
 }
@@ -1276,12 +1299,12 @@ local function atgmTrackerStatusComponent(elemStyle, isBackground) {
   local atgmTrackerStatus = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
     halign = HALIGN_CENTER
-    text = ::loc("HUD/TXT_ATGM_OUT_OF_TRACKER_SECTOR")
     color = getColor(isBackground)
     behavior = Behaviors.RtPropUpdate
     update = function() {
       return {
-        opacity = helicopterState.IsATGMOutOfTrackerSector.value &&
+        text = helicopterState.IsATGMOutOfTrackerSector.value ? ::loc("HUD/TXT_ATGM_OUT_OF_TRACKER_SECTOR") : ::loc("HUD/TXT_NO_LOS_ATGM")
+        opacity = (helicopterState.IsATGMOutOfTrackerSector.value || helicopterState.NoLosToATGM.value) &&
                   (math.round(helicopterState.CurrentTime.value * 4) % 2 == 0) ? 100 : 0
       }
     }

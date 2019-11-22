@@ -6,6 +6,10 @@ local options = {
   cache = {
     bySortId = {}
   }
+
+  nestObj = null
+  targetUnit = null
+  setParams = @(unit) targetUnit = unit
 }
 
 local targetTypeToThreatTypes = {
@@ -15,10 +19,61 @@ local targetTypeToThreatTypes = {
 
 local function getThreatEsUnitTypes()
 {
-  local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
-  local targetUnitType = targetUnit?.esUnitType ?? ::ES_UNIT_TYPE_INVALID
+  local targetUnitType = options.targetUnit.esUnitType
   local res = targetTypeToThreatTypes?[targetUnitType] ?? [ targetUnitType ]
-  return res.filter(@(e) ::g_unit_type.getByEsUnitType(e)?.isAvailable())
+  return res.filter(@(e) ::g_unit_type.getByEsUnitType(e).isAvailable())
+}
+
+local function updateDistanceNativeUnitsText(obj) {
+  local descObj = obj.findObject("distanceNativeUnitsText")
+  if (!::check_obj(descObj))
+    return
+  local distance = options.DISTANCE.value
+  local desc = ::g_measure_type.DISTANCE.getMeasureUnitsText(distance)
+  descObj.setValue(desc)
+}
+
+local function updateArmorPiercingText(obj) {
+  local descObj = obj.findObject("armorPiercingText")
+  if (!::check_obj(descObj))
+    return
+  local desc = ::loc("ui/mdash")
+
+  local bullet   = options.BULLET.value
+  local distance = options.DISTANCE.value
+
+  if (bullet?.bulletParams?.armorPiercing)
+  {
+    local pMin
+    local pMax
+
+    for (local i = 0; i < bullet.bulletParams.armorPiercing.len(); i++)
+    {
+      local v = {
+        armor = bullet.bulletParams.armorPiercing[i]?[0] ?? 0,
+        dist  = bullet.bulletParams.armorPiercingDist[i],
+      }
+      if (!pMin)
+        pMin = { armor = v.armor, dist = 0 }
+      if (!pMax)
+        pMax = pMin
+      if (v.dist <= distance)
+        pMin = v
+      pMax = v
+      if (v.dist >= distance)
+        break
+    }
+    if (pMax && pMax.dist < distance)
+      pMax.dist = distance
+
+    if (pMin && pMax)
+    {
+      local armor = stdMath.lerp(pMin.dist, pMax.dist, pMin.armor, pMax.armor, distance)
+      desc = stdMath.round(armor).tointeger() + " " + ::loc("measureUnits/mm")
+    }
+  }
+
+  descObj.setValue(desc)
 }
 
 options.template <- {
@@ -27,6 +82,7 @@ options.template <- {
   labelLocId = null
   controlStyle = ""
   shouldInit = false
+  shouldInitNext = true
   shouldSetParams = false
   items  = []
   values = []
@@ -48,7 +104,7 @@ options.template <- {
       afterChangeFunc(obj)
     if (shouldSetParams)
       options.setAnalysisParams()
-    else
+    if (shouldInitNext)
       options.getBySortId(sortId + 1).reinit(handler, scene)
   }
 
@@ -80,6 +136,7 @@ options.addTypes({
   UNKNOWN = {
     sortId = sortId++
     isVisible = @() false
+    shouldInitNext = false
   }
   UNITTYPE = {
     sortId = sortId++
@@ -89,12 +146,13 @@ options.addTypes({
 
     reinit = function(handler, scene)
     {
-      local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
       local esUnitTypes = getThreatEsUnitTypes()
       local unitTypes = esUnitTypes.map(@(e)::g_unit_type.getByEsUnitType(e))
       values = esUnitTypes
       items  = ::u.map(unitTypes, @(t) { text = "{0} {1}".subst(t.fontIcon, t.getArmyLocName()) })
-      value = value ?? targetUnit?.esUnitType ?? values?[0] ?? ::ES_UNIT_TYPE_INVALID
+      local preferredEsUnitType = value ?? options.targetUnit.esUnitType
+      value = values.indexof(preferredEsUnitType) != null ? preferredEsUnitType
+        : (values?[0] ?? ::ES_UNIT_TYPE_INVALID)
       update(handler, scene)
     }
   }
@@ -107,12 +165,11 @@ options.addTypes({
     reinit = function(handler, scene)
     {
       local unitType = options.UNITTYPE.value
-      local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
       local countriesWithUnitType = ::get_countries_by_unit_type(unitType)
       values = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, countriesWithUnitType))
       items  = ::u.map(values, @(c) { text = ::loc(c), image = ::get_country_icon(c) })
-      value = value && values.indexof(value) != null ? value
-        : values.indexof(targetUnit?.shopCountry) != null ? targetUnit.shopCountry
+      local preferredCountry = value ?? options.targetUnit.shopCountry
+      value = values.indexof(preferredCountry) != null ? preferredCountry
         : (values?[0] ?? "")
       update(handler, scene)
     }
@@ -124,7 +181,6 @@ options.addTypes({
     {
       local unitType = options.UNITTYPE.value
       local country = options.COUNTRY.value
-      local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
       values = []
       for (local rank = 1; rank <= ::max_country_rank; rank++)
         if (::get_units_count_at_rank(rank, unitType, country, true, false))
@@ -132,8 +188,8 @@ options.addTypes({
       items = ::u.map(values, @(r) {
         text = ::format(::loc("conditions/unitRank/format"), get_roman_numeral(r))
       })
-      local preferredRank = value ?? targetUnit?.rank ?? 0
-      value = values[::find_nearest(preferredRank, values)]
+      local preferredRank = value ?? options.targetUnit.rank
+      value = values?[::find_nearest(preferredRank, values)] ?? 0
       update(handler, scene)
     }
   }
@@ -145,22 +201,22 @@ options.addTypes({
       local unitType = options.UNITTYPE.value
       local rank = options.RANK.value
       local country = options.COUNTRY.value
-      local targetUnit = ::getAircraftByName(::hangar_get_current_unit_name())
-      local unitId = ::hangar_get_current_unit_name()
       local ediff = ::get_current_ediff()
       local list = ::get_units_list(@(u) u.isVisibleInShop() &&
         u.esUnitType == unitType && u.rank == rank && u.shopCountry == country)
       list = ::u.map(list, @(u) { unit = u, id = u.name, br = u.getBattleRating(ediff) })
       list.sort(@(a, b) a.br <=> b.br)
-      local preferredBR = targetUnit.getBattleRating(ediff)
-      local idx = list.findindex(@(v) v.id == unitId) ?? ::find_nearest(preferredBR, ::u.map(list, @(v) v.br))
       values = ::u.map(list, @(v) v.unit)
       items = ::u.map(list, @(v) {
         text  = ::format("[%.1f] %s", v.br, ::getUnitName(v.id))
         image = ::image_for_air(v.unit)
         addDiv = ::g_tooltip_type.UNIT.getMarkup(v.id, { showLocalState = false })
       })
-      value = values?[idx]
+      local targetUnitId = options.targetUnit.name
+      local preferredUnitId = value?.name ?? targetUnitId
+      value = values.findvalue(@(v) v.name == preferredUnitId) ??
+        values.findvalue(@(v) v.name == targetUnitId) ??
+        values?[0]
       update(handler, scene)
     }
   }
@@ -252,34 +308,78 @@ options.addTypes({
         }
       }
 
+      // Collecting special shells
+      local specialBulletTypes = [ "rocket" ]
+      local unitBlk = ::get_full_unit_blk(unit.name)
+      if (unitBlk?.weapon_presets != null)
+      {
+        local knownWeapBlkArray = []
+        foreach (block in (unitBlk.weapon_presets % "preset"))
+        {
+          local presetName = block.name
+          local presetBlk = ::DataBlock(block.blk)
+          foreach (weap in (presetBlk % "Weapon"))
+          {
+            if (!weap?.blk || weap?.dummy || ::isInArray(weap.blk, knownWeapBlkArray))
+              continue
+            knownWeapBlkArray.append(weap.blk)
+
+            local weaponBlkPath = weap.blk
+            local weaponBlk = ::DataBlock(weaponBlkPath)
+            local bulletBlk = null
+            foreach (t in specialBulletTypes)
+              bulletBlk = bulletBlk ?? weaponBlk?[t]
+            if (!bulletBlk)
+              continue
+
+            values.append({
+              bulletName = ""
+              weaponBlkName = weaponBlkPath
+              bulletParams = ::calculate_tank_bullet_parameters(unit.name, weaponBlkPath, true, false)?[0]
+              sortVal = bulletBlk?.caliber ?? 0
+            })
+
+            items.append({
+              text = ::g_string.utf8ToUpper(::loc("weapons{0}".subst(::get_weapon_name_by_blk_path(weaponBlkPath))), 1)
+              addDiv = ::g_tooltip_type.WEAPON.getMarkup(unit.name, presetName, {
+                hasPlayerInfo = false,
+                weaponBlkPath = weaponBlkPath,
+                shouldShowEffects = false
+              })
+            })
+          }
+        }
+      }
+
       value = values?[0]
       update(handler, scene)
     }
 
     afterChangeFunc = function(obj) {
-      options.updateArmorPiercingText(obj)
+      updateArmorPiercingText(options.nestObj)
     }
   }
   DISTANCE = {
     sortId = sortId++
     labelLocId = "distance"
     shouldInit = true
+    shouldInitNext = false
     shouldSetParams = true
-    value = 500
-    defValue = 500
-    minValue = 0
-    maxValue = 5000
-    step = 100
+    value = -1
+    defValue = -1
+    minValue = -1
+    maxValue = -1
+    step = 0
     valueWidth = "@dmInfoTextWidth"
 
     getControlMarkup = function() {
       return ::handyman.renderCached("gui/dmViewer/distanceSlider", {
         containerId = "container_" + id
         id = id
-        min = minValue
-        max = maxValue
-        value = defValue
-        step = step
+        min = 0
+        max = 0
+        value = 0
+        step = 0
         width = "fw"
         btnOnDec = "onButtonDec"
         btnOnInc = "onButtonInc"
@@ -287,11 +387,22 @@ options.addTypes({
       })
     }
 
-    getInfoRows = @() [{
-      valueId = "armorPiercingText"
-      valueWidth = valueWidth
-      label = ::loc("bullet_properties/armorPiercing") + ::loc("ui/colon")
-    }]
+    getInfoRows = function() {
+      local res = [{
+        valueId = "armorPiercingText"
+        valueWidth = valueWidth
+        label = ::loc("bullet_properties/armorPiercing") + ::loc("ui/colon")
+      }]
+
+      if (::g_measure_type.DISTANCE.isMetricSystem() == false)
+        res.insert(0, {
+        valueId = "distanceNativeUnitsText"
+        valueWidth = "fw"
+        label = ""
+      })
+
+      return res
+    }
 
     getValFromObj = @(obj) ::check_obj(obj) ? obj.getValue() : 0
 
@@ -302,22 +413,35 @@ options.addTypes({
         buttonInc = value < maxValue
         buttonDec = value > minValue
       })
-      options.updateArmorPiercingText(obj)
+      updateDistanceNativeUnitsText(options.nestObj)
+      updateArmorPiercingText(options.nestObj)
     }
 
     reinit = function(handler, scene) {
+      minValue = 0
+      maxValue = options.UNIT.value?.isShip() ? 15000 : 5000
+      step     = 100
+      local preferredDistance = value >= 0 ? value
+        : (options.UNIT.value?.isShip() ? 2000 : 500)
+      value = ::clamp(preferredDistance, minValue, maxValue)
       update(handler, scene)
     }
 
     update = function(handler, scene) {
       local obj = scene.findObject(id)
       if (::check_obj(obj))
+      {
+        obj.max = maxValue
+        obj.optionAlign = step
+        obj.setValue(value)
         onChange(handler, scene, obj)
+      }
     }
   }
 })
 
 options.init <- function(handler, scene) {
+  nestObj = scene
   foreach (o in options.types)
     o.value = o.defValue
   foreach (o in options.types)
@@ -335,49 +459,6 @@ options.get <- @(id) this?[id] ?? UNKNOWN
 
 options.getBySortId <- function(idx) {
   return enums.getCachedType("sortId", idx, cache.bySortId, this, UNKNOWN)
-}
-
-options.updateArmorPiercingText <- function(obj) {
-  local descObj = obj.getParent().getParent().getParent().findObject("armorPiercingText")
-  if (!::check_obj(descObj))
-    return
-  local desc = ::loc("ui/mdash")
-
-  local bullet   = options.BULLET.value
-  local distance = options.DISTANCE.value
-
-  if (bullet?.bulletParams?.armorPiercing)
-  {
-    local pMin
-    local pMax
-
-    for (local i = 0; i < bullet.bulletParams.armorPiercing.len(); i++)
-    {
-      local v = {
-        armor = bullet.bulletParams.armorPiercing[i]?[0] ?? 0,
-        dist  = bullet.bulletParams.armorPiercingDist[i],
-      }
-      if (!pMin)
-        pMin = { armor = v.armor, dist = 0 }
-      if (!pMax)
-        pMax = pMin
-      if (v.dist <= distance)
-        pMin = v
-      pMax = v
-      if (v.dist >= distance)
-        break
-    }
-    if (pMax && pMax.dist < distance)
-      pMax.dist = distance
-
-    if (pMin && pMax)
-    {
-      local armor = stdMath.lerp(pMin.dist, pMax.dist, pMin.armor, pMax.armor, distance)
-      desc = stdMath.round(armor).tointeger() + " " + ::loc("measureUnits/mm")
-    }
-  }
-
-  descObj.setValue(desc)
 }
 
 return options

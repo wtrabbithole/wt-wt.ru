@@ -112,8 +112,8 @@ if (::show_aircraft)
 }
 
 ::init_options_steps <- [
-  ::init_all_units,
-  ::update_all_units,
+  ::init_all_units
+  ::update_all_units
   function() { return ::update_aircraft_warpoints(10) }
 
   function() {

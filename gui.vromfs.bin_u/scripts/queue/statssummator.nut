@@ -1,7 +1,7 @@
 ::StatsSummator <- {
   structTypes = ["array", "table"] //array of field names of elementry
-  summableFields = ["players_cnt"  //types.
-                    "1", "2", "3"  //arrays are summable by default
+  summableFields = ["players_cnt",  //types.
+                    "1", "2", "3",  //arrays are summable by default
                     "4", "5"]
   summableTypes = ["integer", "float"]
 

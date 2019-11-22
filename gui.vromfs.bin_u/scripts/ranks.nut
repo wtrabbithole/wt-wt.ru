@@ -39,7 +39,7 @@ if (!("EUCT_TOTAL" in ::getroottable()))
 
 ::g_script_reloader.registerPersistentData("RanksGlobals", ::getroottable(),
   [
-    "discounts", "event_muls"
+    "discounts", "event_muls",
     "exp_per_rank", "max_player_rank", "prestige_by_rank"
   ])
 

@@ -35,8 +35,8 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
     "login_boxes_block",
     "sharding_dropright_block",
     "login_action",
-    "secondary_auth_block"
-    "links_block"
+    "secondary_auth_block",
+    "links_block",
   ]
   currentFocusItem = 0
 

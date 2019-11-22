@@ -484,12 +484,15 @@ enums.addTypesByGlobalName("g_tooltip_type", {
 
       local weaponName = ::getTblValue("weaponName", params, "")
       local hasPlayerInfo = params?.hasPlayerInfo ?? true
+      local effect = hasPlayerInfo ? null : {}
       local weapon = ::u.search(unit.weapons, (@(weaponName) function(w) { return w.name == weaponName })(weaponName))
       if (!weapon)
         return false
 
-      ::weaponVisual.updateWeaponTooltip(obj, unit, weapon, handler,
-        { hasPlayerInfo = hasPlayerInfo })
+      ::weaponVisual.updateWeaponTooltip(obj, unit, weapon, handler, {
+        hasPlayerInfo = hasPlayerInfo
+        weaponsFilterFunc = params?.weaponBlkPath ? (@(path, blk) path == params.weaponBlkPath) : null
+      }, effect)
       return true
     }
   }

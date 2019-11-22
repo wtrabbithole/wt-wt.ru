@@ -27,7 +27,7 @@ local isPS4PlayerName = @(name) ps4PrefixNameRegexp.match(name) || ps4PostfixNam
 local cutPlayerNamePrefix = @(name) string.cutPrefix(name, PS4_PLAYER_PREFIX,
                                     string.cutPrefix(name, XBOX_ONE_PLAYER_PREFIX, name))
 local cutPlayerNamePostfix = @(name) string.cutPostfix(name, PS4_PLAYER_POSTFIX,
-                                     string.cutPostfix(name XBOX_ONE_PLAYER_POSTFIX, name))
+                                     string.cutPostfix(name, XBOX_ONE_PLAYER_POSTFIX, name))
 
 local getPlayerName = @(name) name
 if (isPlatformXboxOne)

@@ -171,7 +171,7 @@ local dagor_fs = require("dagor.fs")
     local count = filesList.len()
     if (!count) return
     local filename = filesList.pop()
-    dlog(::format("[%d/%d] %s" total - count + 1, total, filename))
+    dlog(::format("[%d/%d] %s", total - count + 1, total, filename))
     ::copy_to_clipboard(filename)
     ::debug_dump_debriefing_load(filename, loadNext)
   }
@@ -307,7 +307,7 @@ local dagor_fs = require("dagor.fs")
         list.append({ id = id, args = [ unit.name ] })
       list.append({ id = "get_available_respawn_bases", args = [ unit.tags ] })
       list.append({ id = "shop_get_spawn_score", args = [ unit.name, "" ] })
-      list.append({ id = "is_crew_slot_was_ready_at_host", args = [ crew.idInCountry, unit.name, true ] })
+      list.append({ id = "is_crew_slot_was_ready_at_host", args = [ crew.idInCountry, unit.name, false ] })
       list.append({ id = "get_aircraft_fuel_consumption", args = [ unit.name, ::get_mission_difficulty(), true ] })
 
       foreach (weapon in unit.weapons)

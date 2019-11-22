@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwOperationUnitsGroups = require("scripts/worldWar/inOperation/wwOperationUnitsGroups.nut")
 
 enum UNIT_STATS {
   INITIAL
@@ -128,6 +129,8 @@ class ::WwBattleResultsView
     // Vehicle units have unitsInitial, unitsCasualties, and unitsRemain which is unreliable (must be calculated as initial-casualties).
     // But anyway, vehicle units must extract remainInactive from that unreliable unitsRemain (it can be non-zero for Aircrafts).
 
+    local unitsGroups = wwOperationUnitsGroups.getUnitsGroups()
+    local needShowUnitsByGroups = unitsGroups != null
     teamInfo.unitsInitial.sort(::g_world_war.sortUnitsByTypeAndCount)
     foreach (wwUnit in teamInfo.unitsInitial)
     {
@@ -180,8 +183,13 @@ class ::WwBattleResultsView
       stats[UNIT_STATS.INACTIVE]  = inactiveAdded
       stats[UNIT_STATS.REMAIN]    = remainActive
 
+      local wwUnitViewParams = wwUnit.getShortStringView({ hideZeroCount = false })
+      if (needShowUnitsByGroups)
+        wwUnitViewParams = wwOperationUnitsGroups.overrideUnitViewParamsByGroups(
+          wwUnitViewParams, unitsGroups)
+
       res.units.append({
-        unitString = wwUnit.getShortStringView(true, true, false, false)
+        unitString = wwUnitViewParams
         row = getStatsRowView(stats, isShowInactiveCount)
       })
     }

@@ -142,7 +142,7 @@ local getActions = function(contact, params)
 //---- </Session Join> ---------
 
 //---- <Common> ----------------
-  actions.extend([
+  actions.append(
     {
       text = ::loc("contacts/message")
       show = !isMe && ::ps4_is_chat_enabled() && ::has_feature("Chat") && !u.isEmpty(name)
@@ -177,7 +177,7 @@ local getActions = function(contact, params)
       show = ::has_feature("Clans") && !u.isEmpty(clanTag) && clanTag != ::clan_get_my_clan_tag()
       action = @() ::showClanPage("", "", clanTag)
     }
-  ])
+  )
 //---- </Common> ------------------
 
 //---- <Squad> --------------------
@@ -189,7 +189,7 @@ local getActions = function(contact, params)
     local hasApplicationInMySquad = ::g_squad_manager.hasApplicationInMySquad(uidInt64, name)
     local canInviteDiffConsole = ::g_squad_manager.canInviteMemberByPlatform(name)
 
-    actions.extend([
+    actions.append(
       {
         text = ::loc("squadAction/openChat")
         show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && isChatEnabled
@@ -261,7 +261,7 @@ local getActions = function(contact, params)
         show = !isMe && ::g_squad_manager.canTransferLeadership(uid)
         action = @() ::g_squad_manager.transferLeadership(uid)
       }
-    ])
+    )
   }
 //---- </Squad> -------------------
 
@@ -289,7 +289,7 @@ local getActions = function(contact, params)
     local isMyRankHigher = ::g_clans.getClanMemberRank(clanData, name) < ::clan_get_role_rank(::clan_get_my_role())
     local isClanAdmin = ::clan_get_admin_editor_mode()
 
-    actions.extend([
+    actions.append(
       {
         text = ::loc("clan/activity")
         show = ::has_feature("ClanActivity")
@@ -315,7 +315,7 @@ local getActions = function(contact, params)
                || isClanAdmin
         action = @() ::g_clans.dismissMember(contact, clanData)
       }
-    ])
+    )
   }
 //---- </Clan> ---------------------
 
@@ -324,7 +324,7 @@ local getActions = function(contact, params)
   {
     local canBlock = !::is_platform_xboxone || !isXBoxOnePlayer
 
-    actions.extend([
+    actions.append(
       {
         text = ::loc("contacts/friendlist/add")
         show = !isMe && !isFriend && !isBlock
@@ -356,7 +356,7 @@ local getActions = function(contact, params)
         show = isBlock && canBlock
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, false)
       }
-    ])
+    )
   }
 //---- </Contacts> ------------------
 
@@ -410,7 +410,7 @@ local getActions = function(contact, params)
     }
 
     if (roomData)
-      actions.extend([
+      actions.append(
         {
           text = ::loc("chat/kick_from_room")
           show = !::g_chat.isRoomSquad(roomId) && !::SessionLobby.isLobbyRoom(roomId) && ::g_chat.isImRoomOwner(roomData)
@@ -421,7 +421,7 @@ local getActions = function(contact, params)
           show = !isMe && ::show_console_buttons && ::menu_chat_handler
           action = @() ::menu_chat_handler ? ::menu_chat_handler.addNickToEdit(name) : null
         }
-      ])
+      )
 
     local canComplain = !isMe && (params?.canComplain ?? false)
     if (!isMe)
@@ -474,7 +474,7 @@ local getActions = function(contact, params)
 
 //---- <Moderator> ------------------
   if (::is_myself_anyof_moderators() && (roomId || isMPChat || isMPLobby))
-    actions.extend([
+    actions.append(
       {
         text = ::loc("contacts/moderator_copyname")
         action = @() ::copy_to_clipboard(platformModule.getPlayerName(name))
@@ -485,7 +485,7 @@ local getActions = function(contact, params)
         show = ::myself_can_devoice() || ::myself_can_ban()
         action = @() ::gui_modal_ban(contact, chatLog)
       }
-    ])
+    )
 //---- </Moderator> -----------------
 
   local buttons = params?.extendButtons ?? []

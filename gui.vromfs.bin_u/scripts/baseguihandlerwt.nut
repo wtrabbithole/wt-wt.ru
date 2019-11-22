@@ -21,7 +21,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     function() { return getMainFocusObj2() }      //main focus obj of handler
     function() { return getMainFocusObj3() }      //main focus obj of handler
     function() { return getMainFocusObj4() }      //main focus obj of handler
-    "crew_unlock_buttons",
+    "crew_unlock_buttons"
     function() { return slotbarWeak && slotbarWeak.getCurFocusObj() }   // slotbar
     function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
@@ -522,12 +522,17 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     params.scene <- nest
     params.ownerWeak <- this.weakref()
 
-    local slotbar = ::gui_handlers.SlotbarWidget.create(params)
+    local slotbar = createSlotbarHandler(params)
     if (!slotbar)
       return
 
     slotbarWeak = slotbar.weakref()
     registerSubHandler(slotbar)
+  }
+
+  function createSlotbarHandler(params)
+  {
+    return ::gui_handlers.SlotbarWidget.create(params)
   }
 
   function reinitSlotbar() //!!FIX ME: Better to not use it.

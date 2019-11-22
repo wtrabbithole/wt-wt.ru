@@ -606,7 +606,7 @@ class ::ChatHandler
     message.clanTag = clanTag
     return ::format(
       "%s <Color=%s>[%s] <Link=PL_%s>%s:</Link></Color> <Color=%s>%s</Color>",
-      timeString
+      timeString,
       userColor,
       ::g_mp_chat_mode.getModeById(message.mode).getNameText(),
       message.sender,

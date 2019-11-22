@@ -24,6 +24,14 @@ global enum LOGIN_STATE //bit mask
   loadLoginHandler   = function() {}
   initConfigs        = function(cb) { cb() }
   afterScriptsReload = function() {}
+
+  function bigQueryOnLogin()
+  {
+    local params = ::target_platform
+    if (::getSystemConfigOption("launcher/bg_update", true))
+      params += " bg_update"
+    ::add_big_query_record("login", params)
+  }
 }
 
 g_login.init <- function init()

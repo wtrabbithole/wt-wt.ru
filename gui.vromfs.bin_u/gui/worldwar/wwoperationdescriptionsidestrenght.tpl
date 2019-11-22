@@ -29,6 +29,10 @@ tdiv {
     wwUnitActiveBlock {
       unit_name:t='<<id>>'
 
+      <<#hasIndent>>
+      padding-<<#invert>>right<</invert>><<^invert>>left<</invert>>:t='1@viewUnitsInGroupPadding'
+      <</hasIndent>>
+
       <<#invert>>
       left:t='pw-w'; position:t='relative'
 

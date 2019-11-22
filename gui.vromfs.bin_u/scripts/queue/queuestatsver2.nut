@@ -182,7 +182,7 @@ class ::queue_stats_versions.StatsVer2 extends ::queue_stats_versions.Base
       clansQueueTable = ::u.tablesCombine(
         clansQueueTable,
         clanStats,
-        function(sumClans, clanPlayers) { return sumClans + (clanPlayers ? 1 : 0) }
+        @(sumClans, clanPlayers) sumClans + (clanPlayers ? 1 : 0),
         0
       )
 

@@ -1,5 +1,6 @@
 local crossplayModule = require("scripts/social/crossplay.nut")
 local mapPreferencesParams = require("scripts/missions/mapPreferencesParams.nut")
+local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 
 local needShowRateWnd = false //need this, because debriefing data destroys after debriefing modal is closed
 
@@ -55,6 +56,7 @@ local needShowRateWnd = false //need this, because debriefing data destroys afte
       crossplay = crossplayModule.isCrossPlayEnabled()
       bannedMissions = prefParams.bannedMissions
       dislikedMissions = prefParams.dislikedMissions
+      craftsInfoByUnitsGroups = slotbarPresets.getCurCraftsInfo()
     }
 
     local airs = getMyCrewAirsState(profileInfo)

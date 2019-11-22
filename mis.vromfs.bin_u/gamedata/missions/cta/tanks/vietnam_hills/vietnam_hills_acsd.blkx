@@ -223,7 +223,7 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "air_ground_DBttl",
-      "locName": "missions/_ADBttlA;vietnam_hills/name",
+      "locName": "missions/_ADBttlB;vietnam_hills/name",
       "locDesc": "vietnam_hills/desc;missions/_ADBttl/desc",
       "scoreLimit": 6000,
       "timeLimit": 30,
@@ -802,14 +802,14 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
     },
     {
       "squad": {
-        "name": "t2_spaa_sq",
+        "name": "t2_ai_tank_sq",
         "tm": [
           [1.0,0.0,0.0],
           [0.0,1.0,0.0],
@@ -907,10 +907,17 @@
           [0.0,0.0,1.0],
           [1876.34,0.349976,322.743]
         ],
-        "props": {
-          "object_marking": 0,
-          "squad_members": "t1_artillery_sq"
-        }
+        "props": [
+          {
+            "object_marking": 0
+          },
+          {
+            "squad_members": "t1_artillery_sq"
+          },
+          {
+            "squad_members": "t1_ai_tank_sq"
+          }
+        ]
       }
     },
     {
@@ -930,7 +937,7 @@
             "squad_members": "t2_artillery_sq"
           },
           {
-            "squad_members": "t2_spaa_sq"
+            "squad_members": "t2_ai_tank_sq"
           }
         ]
       }
@@ -1706,7 +1713,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -1743,7 +1750,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -1780,7 +1787,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -1817,7 +1824,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -1854,7 +1861,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -1891,7 +1898,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -1928,7 +1935,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -1965,7 +1972,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2002,7 +2009,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2039,7 +2046,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2076,7 +2083,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2113,7 +2120,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2150,7 +2157,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2187,7 +2194,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2224,7 +2231,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2261,7 +2268,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2298,7 +2305,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2335,7 +2342,7 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
       }
@@ -2372,9 +2379,61 @@
           "formation_noise": [0.1,0.1],
           "uniqueName": "",
           "attack_type": "fire_at_will",
-          "unitReplacementType": "antiTankGun"
+          "unitReplacementType": "tank"
         },
         "way": []
+      }
+    },
+    {
+      "tankModels": {
+        "name": "t1_spaa_01",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1317.64,15.353,-46.3276]
+        ],
+        "unit_class": "germ_flakpanzer_I_ausf_A",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 1,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "fire_at_will",
+          "unitReplacementType": "tank"
+        },
+        "way": []
+      }
+    },
+    {
+      "squad": {
+        "name": "t1_ai_tank_sq",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [1802.33,0.0,81.8252]
+        ],
+        "props": {
+          "object_marking": 0,
+          "squad_members": "t1_spaa_01"
+        }
       }
     }
   ],

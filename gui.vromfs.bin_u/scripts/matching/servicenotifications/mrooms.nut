@@ -1,3 +1,5 @@
+local crossplay = require("scripts/social/crossplay.nut")
+
 local MRoomsHandlers = class {
   [PERSISTENT_DATA_PARAMS] = [
     "hostId", "roomId", "room", "roomMembers", "isConnectAllowed", "roomOps", "isHostReady", "isSelfReady", "isLeaving"
@@ -382,6 +384,10 @@ g_mrooms_handlers <- MRoomsHandlers()
 
 ::create_room <- function create_room(params, cb)
 {
+  if (!crossplay.isCrossPlayEnabled()) {
+    params["crossplayRestricted"] <- true
+  }
+
   matching_api_func("mrooms.create_room",
                     function(resp)
                     {
@@ -476,7 +482,7 @@ g_mrooms_handlers <- MRoomsHandlers()
 
 ::fetch_rooms_list <- function fetch_rooms_list(params, cb)
 {
-  matching_api_func("mrooms.fetch_rooms_digest",
+  matching_api_func("mrooms.fetch_rooms_digest2",
                     function (resp)
                     {
                       if (::checkMatchingError(resp, false))

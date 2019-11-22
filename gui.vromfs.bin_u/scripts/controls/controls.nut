@@ -2557,7 +2557,7 @@ local function getWeaponFeatures(weaponsBlkList)
     controls = [ "ID_TOGGLE_ENGINE", "throttle" ]
 
     if (isMouseAimMode)
-      controls.extend([ "mouse_aim_x", "mouse_aim_y" ])
+      controls.append("mouse_aim_x", "mouse_aim_y")
     else
     {
       if (unitControls?.hasAileronControl)
@@ -2624,7 +2624,7 @@ local function getWeaponFeatures(weaponsBlkList)
     controls = [ "helicopter_collective", "helicopter_climb", "helicopter_cyclic_roll" ]
 
     if (::is_xinput_device())
-      controls.extend([ "helicopter_mouse_aim_x", "helicopter_mouse_aim_y" ])
+      controls.append("helicopter_mouse_aim_x", "helicopter_mouse_aim_y")
 
     local w = getWeaponFeatures([ blkCommonWeapons, blkWeaponPreset ])
 
@@ -2692,7 +2692,7 @@ local function getWeaponFeatures(weaponsBlkList)
     local isSeperatedEngineControl =
       ::get_gui_option_in_mode(::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP, ::OPTIONS_MODE_GAMEPLAY)
     if (isSeperatedEngineControl)
-      controls.extend(["ship_port_engine", "ship_star_engine"])
+      controls.append("ship_port_engine", "ship_star_engine")
     else
       controls.append("ship_main_engine")
 

@@ -67,7 +67,7 @@ class ::gui_handlers.CreateEventRoomWnd extends ::gui_handlers.GenericOptionsMod
           funcName = "onApply"
           isToBattle = true
           button = true
-        },
+        }
       ]
     }
   }

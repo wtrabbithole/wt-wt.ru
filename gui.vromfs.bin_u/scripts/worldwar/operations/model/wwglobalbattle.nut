@@ -1,4 +1,5 @@
-local u = ::require("sqStdLibs/helpers/u.nut")
+local u = require("sqStdLibs/helpers/u.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 local WwGlobalBattle = class extends ::WwBattle
 {
@@ -54,14 +55,14 @@ local WwGlobalBattle = class extends ::WwBattle
 
       local teamUnitsRemain = []
       local unitsRemainBlk = teamBlk.getBlockByName("unitsRemain")
-      teamUnitsRemain.extend(::WwUnit.loadUnitsFromBlk(unitsRemainBlk))
+      teamUnitsRemain.extend(wwActionsWithUnitsList.loadUnitsFromBlk(unitsRemainBlk))
 
       if (updatedTeamsBlk)
       {
         local updatedTeamBlk = updatedTeamsBlk.getBlockByName(teamName)
         if (updatedTeamBlk)
           teamUnitsRemain.extend(
-            ::WwUnit.loadUnitsFromBlk(updatedTeamBlk.getBlockByName("unitsAdded")))
+            wwActionsWithUnitsList.loadUnitsFromBlk(updatedTeamBlk.getBlockByName("unitsAdded")))
       }
 
       teamUnitsRemain.sort(@(a, b) a.wwUnitType.sortCode <=> b.wwUnitType.sortCode)

@@ -502,12 +502,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    local isOnlineGame = gm == ::GM_SKIRMISH
-      || (::is_gamemode_coop(gm) && ::can_play_gamemode_by_squad(gm)
-         && ::g_squad_manager.isNotAloneOnline())
-    if (isOnlineGame && !antiCheat.showMsgboxIfEacInactive())
-      return
-
     if (!::g_squad_utils.canJoinFlightMsgBox({
            isLeaderCanJoin = ::can_play_gamemode_by_squad(gm),
            showOfflineSquadMembersPopup = true
@@ -775,7 +769,14 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
   function afterMissionOptionsApply()
   {
-    if (!::check_diff_pkg(::mission_settings.diff))
+    local diffCode = ::mission_settings.diff
+    if (!::check_diff_pkg(diffCode))
+      return
+
+    local isOnlineGame = gm == ::GM_SKIRMISH
+      || (::is_gamemode_coop(gm) && ::can_play_gamemode_by_squad(gm)
+         && ::g_squad_manager.isNotAloneOnline())
+    if (isOnlineGame && !antiCheat.showMsgboxIfEacInactive(diffCode))
       return
 
     checkedNewFlight(function() {

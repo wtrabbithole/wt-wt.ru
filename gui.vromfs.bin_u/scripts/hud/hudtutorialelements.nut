@@ -227,7 +227,7 @@ g_hud_tutorial_elements.addDebugTimer <- function addDebugTimer()
                    function(...)
                    {
                      return ::g_hud_tutorial_elements.onDbgUpdate()
-                   }
+                   },
                    false)
 }
 

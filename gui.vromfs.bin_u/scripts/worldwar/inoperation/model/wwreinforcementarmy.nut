@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 
 class ::WwReinforcementArmy extends ::WwFormation
@@ -30,7 +31,7 @@ class ::WwReinforcementArmy extends ::WwFormation
 
     unitType = ::g_ww_unit_type.getUnitTypeByTextCode(armyBlock?.specs?.unitType).code
     overrideIconId = armyBlock?.iconOverride ?? ""
-    units = ::WwUnit.loadUnitsFromBlk(armyBlock.getBlockByName("units"))
+    units = wwActionsWithUnitsList.loadUnitsFromBlk(armyBlock.getBlockByName("units"))
 
     local armyArtilleryParams = ::g_ww_unit_type.isArtillery(unitType) ?
       ::g_world_war.getArtilleryUnitParamsByBlk(armyBlock.getBlockByName("units")) : null
@@ -127,15 +128,6 @@ class ::WwReinforcementArmy extends ::WwFormation
       return -1
 
     return ::max(0, (entrenchEndMillisec - ::ww_get_operation_time_millisec()) * 0.001)
-  }
-
-  function getUnitsViewsArray()
-  {
-    local res = []
-    foreach (unit in units)
-      res.append(unit.getShortStringView())
-
-    return res
   }
 
   static function sortReadyReinforcements(a, b)

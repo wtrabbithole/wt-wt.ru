@@ -75,12 +75,7 @@ local crossplayModule = require("scripts/social/crossplay.nut")
     params["forced_network_mission"] <- missionName
 
   if (!crossplayModule.isCrossPlayEnabled())
-  {
-    if (::is_platform_xboxone)
-      params["xbox_xplay"] <- false
-    else if (::is_platform_ps4)
-      params["ps4_xplay"] <- false
-  }
+    params["crossplay_restricted"] <- true
 
   matching_api_func("match.enqueue", cb, params)
 }

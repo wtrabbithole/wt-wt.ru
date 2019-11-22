@@ -217,11 +217,6 @@ return [
     needShowInHelp = true
   }
   {
-    id = "ID_SENSOR_VIEW_SWITCH_TANK"
-    checkGroup = ctrlGroups.TANK
-    checkAssign = false
-  }
-  {
     id = "ID_TANK_NIGHT_VISION"
     checkGroup = ctrlGroups.TANK
     checkAssign = false

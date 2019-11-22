@@ -102,7 +102,7 @@ if (!("_get_last_weapon" in ::getroottable()))
   return res
 }
 
-::addWeaponsFromBlk <- function addWeaponsFromBlk(weapons, block, unit)
+::addWeaponsFromBlk <- function addWeaponsFromBlk(weapons, block, unit, weaponsFilterFunc = null)
 {
   local unitType = ::get_es_unit_type(unit)
 
@@ -116,6 +116,9 @@ if (!("_get_last_weapon" in ::getroottable()))
 
     local weaponBlk = ::DataBlock( weapon.blk )
     if (!weaponBlk)
+      continue
+
+    if (weaponsFilterFunc?(weapon.blk, weaponBlk) == false)
       continue
 
     local currentTypeName = "turrets"
@@ -325,6 +328,7 @@ local WEAPON_TEXT_PARAMS = { //const
   needTextWhenNoWeapons = true
   ediff = null //int. when not set, uses get_current_ediff() function
   isLocalState = true //should apply my local parameters to unit (modifications, crew skills, etc)
+  weaponsFilterFunc = null //function. When set, only filtered weapons are collected from weaponPreset.
 }
 ::getWeaponInfoText <- function getWeaponInfoText(air, p = WEAPON_TEXT_PARAMS)
 {
@@ -368,7 +372,7 @@ local WEAPON_TEXT_PARAMS = { //const
   {
     local primaryBlk = ::getCommonWeaponsBlk(airBlk, primaryMod)
     if (primaryBlk)
-      weapons = addWeaponsFromBlk({}, primaryBlk, air)
+      weapons = addWeaponsFromBlk({}, primaryBlk, air, p.weaponsFilterFunc)
     else if (p.needTextWhenNoWeapons)
       text += ::loc("weapon/noPrimaryWeapon")
   }
@@ -387,7 +391,7 @@ local WEAPON_TEXT_PARAMS = { //const
 
     if (!wpBlk)
       return ""
-    weapons = addWeaponsFromBlk(weapons, wpBlk, air)
+    weapons = addWeaponsFromBlk(weapons, wpBlk, air, p.weaponsFilterFunc)
   }
 
   local weaponTypeList = [ "cannons", "guns", "aam", "agm", "rockets", "turrets", "torpedoes",
@@ -1944,7 +1948,7 @@ local getModBlock = function(modName, blockName, templateKey)
       return
     }
 
-    ::scene_msg_box("buy_all_available_mods", null
+    ::scene_msg_box("buy_all_available_mods", null,
       ::loc("msgbox/buy_all_researched_modifications",
         { unitsList = ::g_string.implode(stringOfUnits, ","), cost = cost.getTextAccordingToBalance() }),
       [["yes", (@(cost, unitsWithNBMods) function() {

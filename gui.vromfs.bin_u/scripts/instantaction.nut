@@ -484,10 +484,10 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     if (leaveCurQueue({ isLeaderCanJoin = true, isCanceledByPlayer = true}))
       return
 
-    if (!antiCheat.showMsgboxIfEacInactive())
+    local curGameMode = ::game_mode_manager.getCurrentGameMode()
+    if (!antiCheat.showMsgboxIfEacInactive(curGameMode?.diffCode ?? ::DIFFICULTY_ARCADE))
       return
 
-    local curGameMode = ::game_mode_manager.getCurrentGameMode()
     local event = getGameModeEvent(curGameMode)
     if (!isCrossPlayEventAvailable(event))
     {

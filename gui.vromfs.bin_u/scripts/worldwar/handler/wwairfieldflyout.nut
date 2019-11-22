@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
-
+local wwUnitClassParams = require("scripts/worldWar/inOperation/wwUnitClassParams.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -69,25 +70,27 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   function getUnitsList()
   {
     local flightTimeFactor = ::g_world_war.getWWConfigurableValue("maxFlightTimeMinutesMul", 1.0)
-
     unitsList = []
     foreach (airfieldFormation in availableArmiesArray)
       foreach (unit in airfieldFormation.units)
       {
-        local unitWeapon = ::g_world_war.get_last_weapon_preset(unit.name)
+        local displayUnit = unit.unit
+        local name = unit.name
+        local unitWeapon = ::g_world_war.get_last_weapon_preset(name)
         local unitClassData = unit.getUnitClassData(unitWeapon)
-        local maxFlyTime = (unit.getMaxFlyTime() * flightTimeFactor).tointeger()
+        local maxFlyTime = (wwActionsWithUnitsList.getMaxFlyTime(displayUnit) * flightTimeFactor).tointeger()
         local value = 0
         local maxValue = unit.count
         local maxUnitClassValue = getUnitClassMaxValue(unitClassData.flyOutUnitClass)
+        local unitClass = unitClassData.unitClass
         unitsList.append({
           armyGroupIdx = airfieldFormation.getArmyGroupIdx()
           unit = unit
-          unitName = unit.name
-          unitItem = unit.getItemMarkUp(true)
-          unitClassIconText = unit.getUnitClassIconText(unitClassData.unitClass)
-          unitClassName = unit.getUnitClassText(unitClassData.unitClass)
-          unitClassTooltipText = unit.getUnitClassTooltipText(unitClassData.unitClass)
+          unitName = name
+          unitItem = wwActionsWithUnitsList.getUnitMarkUp(name, displayUnit)
+          unitClassIconText = wwUnitClassParams.getIconText(unitClass)
+          unitClassName = wwUnitClassParams.getText(unitClass)
+          unitClassTooltipText = unit.getUnitClassTooltipText(unitClass)
           unitClass = unitClassData.flyOutUnitClass
           maxValue = ::min(maxUnitClassValue, maxValue)
           maxUnitClassValue = maxUnitClassValue
@@ -103,6 +106,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
           onChangeSliderValue = "onChangeSliderValue"
           needOldSlider = true
           needNewSlider = true
+          expClassSortIdx = wwUnitClassParams.getSortIdx(unit.expClass)
           sliderButton = {
             type = "various"
             showWhenSelected = true
@@ -111,11 +115,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         })
       }
 
-    unitsList.sort(
-      function(a, b) {
-        return (a.unitClass == WW_UNIT_CLASS.BOMBER) <=> (b.unitClass == WW_UNIT_CLASS.BOMBER)
-               || a.totalValue <=> b.totalValue
-      })
+    unitsList.sort(@(a, b) a.expClassSortIdx <=> b.expClassSortIdx || a.unitName <=> b.unitName)
 
     return unitsList
   }
@@ -123,12 +123,9 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   function getAirsTypeViewParams()
   {
     return {
-      fighterIcon = ::colorize("medium_fighterColor",
-        ::WwUnit.getUnitClassIconText(WW_UNIT_CLASS.FIGHTER))
-      assaultIcon = ::colorize("common_assaultColor",
-        ::WwUnit.getUnitClassIconText(WW_UNIT_CLASS.ASSAULT))
-      bomberIcon = ::colorize("medium_bomberColor",
-        ::WwUnit.getUnitClassIconText(WW_UNIT_CLASS.BOMBER))
+      fighterIcon = wwUnitClassParams.getIconText(WW_UNIT_CLASS.FIGHTER, true)
+      assaultIcon = wwUnitClassParams.getIconText(WW_UNIT_CLASS.ASSAULT, true)
+      bomberIcon = wwUnitClassParams.getIconText(WW_UNIT_CLASS.BOMBER, true)
     }
   }
 
@@ -701,12 +698,12 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     unitTable.unitClass = unitClassData.flyOutUnitClass
-
+    local unitClass = unitClassData.unitClass
     local unitBlockObj = scene.findObject(unitTable.unitName + "_" + unitTable.armyGroupIdx)
     local unitClassObj = unitBlockObj.findObject("unit_class_icon_text")
-    unitClassObj.unitType = unit.getUnitClassText(unitClassData.unitClass)
-    unitClassObj.tooltip = unit.getUnitClassTooltipText(unitClassData.unitClass)
-    unitClassObj.setValue(unit.getUnitClassIconText(unitClassData.unitClass))
+    unitClassObj.unitType = wwUnitClassParams.getText(unitClass)
+    unitClassObj.tooltip = unit.getUnitClassTooltipText(unitClass)
+    unitClassObj.setValue(wwUnitClassParams.getIconText(unitClass))
 
     updateUnitValue(idx, 0)
   }

@@ -884,7 +884,8 @@ weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null,
   if (item.type==weaponsItem.weapon)
   {
     name = ""
-    desc = ::getWeaponInfoText(air, { isPrimary = false, weaponPreset = item.name, detail = INFO_DETAIL.EXTENDED })
+    desc = ::getWeaponInfoText(air, { isPrimary = false, weaponPreset = item.name,
+      detail = INFO_DETAIL.EXTENDED, weaponsFilterFunc = params?.weaponsFilterFunc })
 
     if(item.rocket || item.bomb)
     {
@@ -900,7 +901,8 @@ weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null,
   else if (item.type==weaponsItem.primaryWeapon)
   {
     name = ""
-    desc = ::getWeaponInfoText(air, { isPrimary = true, weaponPreset = item.name, detail = INFO_DETAIL.EXTENDED })
+    desc = ::getWeaponInfoText(air, { isPrimary = true, weaponPreset = item.name,
+      detail = INFO_DETAIL.EXTENDED, weaponsFilterFunc = params?.weaponsFilterFunc })
     local upgradesList = getItemUpgradesList(item)
     if(upgradesList)
     {
@@ -1071,7 +1073,7 @@ weaponVisual.buildPiercingData <- function buildPiercingData(unit, bullet_parame
   {
     local whitelistParams = [ "bulletType" ]
     if (isSmokeShell)
-      whitelistParams.extend([ "mass", "speed", "weaponBlkPath" ])
+      whitelistParams.append("mass", "speed", "weaponBlkPath")
     local filteredBulletParameters = []
     foreach (_params in bullet_parameters)
     {
@@ -1404,7 +1406,11 @@ weaponVisual.isTierAvailable <- function isTierAvailable(air, tierNum)
 weaponVisual.getReqTextWorldWarArmy <- function getReqTextWorldWarArmy(unit, item)
 {
   local text = ""
-  local isEnabledByMission = ::g_mis_custom_state.getCurMissionRules().isUnitWeaponAllowed(unit, item)
+  local misRules = ::g_mis_custom_state.getCurMissionRules()
+  if (!misRules.needCheckWeaponsAllowed(unit))
+    return text
+
+  local isEnabledByMission = misRules.isUnitWeaponAllowed(unit, item)
   local isEnabledForUnit = ::is_weapon_enabled(unit, item)
   if (!isEnabledByMission)
     text = "<color=@badTextColor>" + ::loc("worldwar/weaponry/inArmyIsDisabled") + "</color>"
@@ -1422,6 +1428,7 @@ weaponVisual.getStatusIcon <- function getStatusIcon(unit, item)
   if (item.type==weaponsItem.weapon
     && ::is_in_flight()
     && misRules.isWorldWar
+    && misRules.needCheckWeaponsAllowed(unit)
     && misRules.isUnitWeaponAllowed(unit, item))
     return "#ui/gameuiskin#ww_icon.svg"
 

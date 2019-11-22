@@ -320,9 +320,7 @@ class UnitBulletsManager
     if (!gunsInfo.len())
       return
 
-    local selectedList= []
-    foreach(gInfo in gunsInfo)
-      selectedList.append([])
+    local selectedList = gunsInfo.map(@(v) [])
 
     foreach(gIdx, bulGroup in bulGroups)
     {

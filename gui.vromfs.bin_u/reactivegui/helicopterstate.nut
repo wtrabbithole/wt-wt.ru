@@ -2,6 +2,7 @@ local interopGen = require("daRg/helpers/interopGen.nut")
 
 const NUM_ENGINES_MAX = 3
 const NUM_TRANSMISSIONS_MAX = 6
+const NUM_CANNONS_MAX = 3
 
 local helicopterState = {
   IndicatorsVisible = Watched(false)
@@ -45,8 +46,10 @@ local helicopterState = {
   HasTargetTracker = Watched(false)
   IsLaserDesignatorEnabled = Watched(false)
   IsATGMOutOfTrackerSector = Watched(false)
+  NoLosToATGM = Watched(false)
   AtgmTrackerRadius = Watched(0.0)
   TargetRadius = Watched(0.0)
+  TargetAge = Watched(0.0)
 
   MainMask = Watched(0)
   SightMask = Watched(0)
@@ -61,10 +64,9 @@ local helicopterState = {
   Trt = Watched(0)
   Spd = Watched(0)
 
-  Cannons = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
+  CannonCount = ::array(NUM_CANNONS_MAX, Watched(0))
+  CannonReloadTime = ::array(NUM_CANNONS_MAX, Watched(-1))
+  IsCannonEmpty = ::array(NUM_CANNONS_MAX, Watched(false))
 
   MachineGuns = {
     count = Watched(0)
@@ -103,7 +105,6 @@ local helicopterState = {
     seconds = Watched(-1)
   }
 
-  IsCanEmpty = Watched(false)
   IsMachineGunEmpty = Watched(false)
   IsCanAdditionalEmpty = Watched(false)
   IsRktEmpty = Watched(false)
@@ -156,9 +157,13 @@ local helicopterState = {
   IsCompassVisible = Watched(false)
 }
 
-::interop.updateCannons <- function(count, sec = -1) {
-  helicopterState.Cannons.count.update(count)
-  helicopterState.Cannons.seconds.update(sec)
+::interop.updateCannons <- function(index, count, sec = -1) {
+  helicopterState.CannonCount[index].update(count)
+  helicopterState.CannonReloadTime[index].update(sec)
+}
+
+::interop.updateIsCannonEmpty <- function(index, is_empty) {
+  helicopterState.IsCannonEmpty[index].update(is_empty)
 }
 
 ::interop.updateRwrPosSize <- function(x, y, w, h = null) {
