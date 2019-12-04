@@ -169,7 +169,7 @@ local function func2str(func, p={}){
         foreach (i, op in optparams) {
           params_str.append(op)
           if (showdefparams)
-            params_str.extend([" = ", tostr_func(defparams?[i] ?? "")])
+            params_str.append(" = ", tostr_func(defparams?[i] ?? ""))
           if (i+1 < optparams.len())
             params_str.append(", ")
         }
@@ -179,13 +179,13 @@ local function func2str(func, p={}){
     if (fname.slice(0,1)=="(")
       fname = "@"
     if (showsrc)
-      out.extend(["(func): ", (info?.src ?? ""), " "])
-    out.extend([fname, "("])
+      out.append("(func): ", (info?.src ?? ""), " ")
+    out.append(fname, "(")
     if (!showparams)
       out.extend(params_str)
     out.append(")")
   } else if (info.native) {
-    out.extend(["(nativefunc): ", info.name])
+    out.append("(nativefunc): ", info.name)
 
   } else {
     out.append(func.tostring())
@@ -318,7 +318,7 @@ local function tostring_r(input, params=defTostringParams) {
       if (tostringLeafv[0]) {
         if (!arrayElem) {
           out.append(sep)
-          out.extend([indent, tostring_any(key), " = "])
+          out.append(indent, tostring_any(key), " = ")
         }
         out.append(tostringLeafv[1])
         if (arrayElem && key!=input.len()-1)
@@ -328,32 +328,32 @@ local function tostring_r(input, params=defTostringParams) {
         local brOp = openSym(value)
         local brCl = closeSym(typ)
         if (!arrayElem)
-          out.extend([newline, indent, tostring_any(key, null, compact), " = "])
+          out.append(newline, indent, tostring_any(key, null, compact), " = ")
         else if (arrayElem && showArrIdx) {
-          out.extend([tostring_any(key), " = "])
+          out.append(tostring_any(key), " = ")
         }
-        out.extend([brOp,"...",brCl])
+        out.append(brOp,"...",brCl)
       }
       else if (isArray && !showArrIdx) {
         if (!arrayElem)
           out = [newline, indent, tostring_any(key, null, compact), " = "]
-        out.extend(["[", sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent), "]"])
+        out.append("[", sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent), "]")
         if (arrayElem && key!=input.len()-1)
           out.append(sep)
       }
       else if (table_types.indexof(typ) != null || (isArray && showArrIdx )) {
         local brOp = openSym(value)
         local brCl = closeSym(typ)
-        out.extend([newline, indent])
+        out.append(newline, indent)
         if (!arrayElem) {
-          out.extend([tostring_any(key,null, compact)," = "])
+          out.append(tostring_any(key,null, compact)," = ")
         }
-        out.extend([brOp,sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1),newline,indent,brCl])
+        out.append(brOp,sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1),newline,indent,brCl)
         if (arrayElem && key==input.len()-1 ){
-          out.extend([newline,arrInd])
+          out.append(newline,arrInd)
         }
         else if (arrayElem && key<input.len()-1 && table_types.indexof(::type(input[key+1]))!=0){
-          out.extend([newline, indent])
+          out.append(newline, indent)
         }
       }
     }

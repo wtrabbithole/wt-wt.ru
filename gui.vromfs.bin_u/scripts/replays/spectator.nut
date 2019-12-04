@@ -306,7 +306,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       tabs = []
     }
     foreach(tab in tabsList)
-      view.tabs.push({
+      view.tabs.append({
         tabName = ::loc(tab.locId)
         id = tab.id
         alert = "no"

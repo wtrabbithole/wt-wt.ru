@@ -34,6 +34,7 @@ global enum WW_LB_MODE
   WW_CLANS          = 0x00002
   WW_COUNTRIES      = 0x00004
   WW_CLANS_MANAGER  = 0x00010
+  WW_USERS_CLAN     = 0x00020
 
   ALL               = 0xFFFFF
 }
@@ -63,6 +64,7 @@ global enum WW_LB_MODE
   ww_clans            = WW_LB_MODE.WW_CLANS
   ww_countries        = WW_LB_MODE.WW_COUNTRIES
   ww_users_manager    = WW_LB_MODE.WW_CLANS_MANAGER
+  ww_users_clan       = WW_LB_MODE.WW_USERS_CLAN
 }
 
 
@@ -567,7 +569,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       field = "operation_count"
       visualKey = "operation_count"
       headerImage = "each_player_session"
-      wwModesMask = ~WW_LB_MODE.WW_USERS
+      wwModesMask = ~WW_LB_MODE.WW_USERS & ~WW_LB_MODE.WW_USERS_CLAN
     }
 
     OPERATION_WINRATE = {
@@ -575,7 +577,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       field = "operation_winrate"
       visualKey = "operation_winrate"
       headerImage = "victories_battles"
-      wwModesMask = ~WW_LB_MODE.WW_USERS
+      wwModesMask = ~WW_LB_MODE.WW_USERS & ~WW_LB_MODE.WW_USERS_CLAN
     }
 
     BATTLE_COUNT = {
@@ -611,7 +613,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       field = "avg_place"
       visualKey = "averagePosition"
       headerImage = "average_position"
-      wwModesMask = WW_LB_MODE.WW_USERS & ~WW_LB_MODE.WW_CLANS_MANAGER
+      wwModesMask = (WW_LB_MODE.WW_USERS | WW_LB_MODE.WW_USERS_CLAN) & ~WW_LB_MODE.WW_CLANS_MANAGER
       type = ::g_lb_data_type.FLOAT
     }
 
@@ -619,14 +621,14 @@ enums.addTypesByGlobalName("g_lb_category", {
       field = "avg_score"
       visualKey = "averageScore"
       headerImage = "average_score"
-      wwModesMask = WW_LB_MODE.WW_USERS & ~WW_LB_MODE.WW_CLANS_MANAGER
+      wwModesMask = (WW_LB_MODE.WW_USERS | WW_LB_MODE.WW_USERS_CLAN) & ~WW_LB_MODE.WW_CLANS_MANAGER
     }
 
     UNIT_RANK = {
       field = "unit_rank"
       visualKey = "unitRank"
       headerImage = "unit_rank"
-      wwModesMask = WW_LB_MODE.WW_USERS
+      wwModesMask = WW_LB_MODE.WW_USERS_CLAN
     }
   },
 ::g_lb_category._typeConstructor, "id")

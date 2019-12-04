@@ -156,7 +156,7 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (::getTblValue("reqFeature", page) && !::has_feature(page.reqFeature))
         continue
-      view.tabs.push({
+      view.tabs.append({
         id = "page_" + idx
         cornerImg = "#ui/gameuiskin#new_icon"
         cornerImgId = "img_new_" + page.id

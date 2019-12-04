@@ -99,7 +99,7 @@ g_squad_manager <- {
     if (isSquadMember())
     {
       local event = ::events.getEvent(getLeaderGameModeId())
-      if (isMeReady() && !antiCheat.showMsgboxIfEacInactive(::events.getEventDiffCode(event)))
+      if (isMeReady() && !antiCheat.showMsgboxIfEacInactive(event))
         setReadyFlag(false)
       updateMyMemberData(::g_user_utils.getMyStateData())
     }
@@ -593,7 +593,7 @@ g_squad_manager.setReadyFlag <- function setReadyFlag(ready = null, needUpdateMe
   local isSetNoReady = (ready == false || (ready == null && isMeReady() == true))
   local event = ::events.getEvent(getLeaderGameModeId())
   if (!isLeader && !isSetNoReady
-    && !antiCheat.showMsgboxIfEacInactive(::events.getEventDiffCode(event)))
+    && !antiCheat.showMsgboxIfEacInactive(event))
     return
 
   if (::checkIsInQueue() && !isLeader && isInSquad() && isSetNoReady)

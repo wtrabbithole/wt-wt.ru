@@ -55,7 +55,7 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
     local limit = ::g_unit_limit_classes.ActiveLimitByUnitExpClass(
                     expClassName,
                     activeAtOnce,
-                    getCurActiveExpClassAmount(expClassName)
+                    { distributed = getCurActiveExpClassAmount(expClassName) }
                  )
     return limit.getText()
   }
@@ -188,7 +188,7 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
           ::g_unit_limit_classes.ActiveLimitByUnitExpClass(
             expClassName,
             maxAmount,
-            ::getTblValue(expClassName, activeBlk, 0)
+            { distributed = activeBlk?[expClassName] ?? 0 }
           )
         )
     }

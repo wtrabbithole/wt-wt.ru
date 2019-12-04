@@ -109,7 +109,7 @@ class ::gui_handlers.squadInviteListWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     local items = []
     foreach(memberData in membersData)
-      items.push(
+      items.append(
         {
           id = memberData.uid
           pilotIcon = memberData.pilotIcon

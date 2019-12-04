@@ -485,10 +485,10 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local curGameMode = ::game_mode_manager.getCurrentGameMode()
-    if (!antiCheat.showMsgboxIfEacInactive(curGameMode?.diffCode ?? ::DIFFICULTY_ARCADE))
+    local event = getGameModeEvent(curGameMode)
+    if (!antiCheat.showMsgboxIfEacInactive(event))
       return
 
-    local event = getGameModeEvent(curGameMode)
     if (!isCrossPlayEventAvailable(event))
     {
       ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
@@ -659,7 +659,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local gameMode = ::game_mode_manager.getGameModeByUnitType(curUnitType, -1, true)
     if (gameMode != null)
     {
-      buttonsArray.push([
+      buttonsArray.append([
         "#mainmenu/changeMode",
         function () {
           ::game_mode_manager.setCurrentGameModeById(gameMode.id)
@@ -685,7 +685,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
     if (rootHandlerWeak)
     {
-      buttonsArray.push([
+      buttonsArray.append([
         "#mainmenu/changeVehicle",
         function () {
           if (isValid() && rootHandlerWeak)
@@ -695,7 +695,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     // "Ok" button
-    buttonsArray.push(["ok", function () {}])
+    buttonsArray.append(["ok", function () {}])
 
     msgBox("bad_current_unit", msgText, buttonsArray, "ok"/*"#mainmenu/changeMode"*/, { cancel_fn = function () {} })
   }

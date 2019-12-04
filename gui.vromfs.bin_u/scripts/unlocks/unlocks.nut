@@ -616,7 +616,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
         tabs = []
       }
       foreach(i, list in unlocksLists)
-        view.tabs.push({
+        view.tabs.append({
           tabName = ::getTblValue("titleText", list, "")
           navImagesText = ::get_navigation_images_text(i, unlocksLists.len())
         })

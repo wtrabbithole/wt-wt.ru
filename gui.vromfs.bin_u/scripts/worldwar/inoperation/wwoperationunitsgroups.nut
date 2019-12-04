@@ -1,10 +1,17 @@
 local function getUnitsGroups() {
-  return ::g_ww_global_status.getOperationById(
+  local unitsGroupByCountry = ::g_ww_global_status.getOperationById(
     ::ww_get_operation_id())?.getMap().getUnitsGroupsByCountry()
+  if (unitsGroupByCountry == null)
+    return null
+
+  local fullGroupsList = {}
+  foreach (country in unitsGroupByCountry)
+    fullGroupsList.__update(country.groups)
+  return fullGroupsList
 }
 
 local function overrideUnitViewParamsByGroups(wwUnitViewParams, unitsGroups) {
-  local group = unitsGroups?[wwUnitViewParams.country].groups[wwUnitViewParams.id]
+  local group = unitsGroups?[wwUnitViewParams.id]
   if (group == null)
     return wwUnitViewParams
 
@@ -13,7 +20,7 @@ local function overrideUnitViewParamsByGroups(wwUnitViewParams, unitsGroups) {
   wwUnitViewParams.icon         = ::getUnitClassIco(defaultUnit)
   wwUnitViewParams.shopItemType = ::get_unit_role(defaultUnit)
   wwUnitViewParams.tooltipId    = null
-  wwUnitViewParams.weapon       = null
+  wwUnitViewParams.hasPresetWeapon = false
   return wwUnitViewParams
 }
 

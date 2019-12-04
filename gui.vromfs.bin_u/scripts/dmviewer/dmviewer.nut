@@ -456,9 +456,9 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
     local nameVariations = [nameId]
     local idxSeparator = nameId.indexof("_")
     if(idxSeparator)
-      nameVariations.push(nameId.slice(0, idxSeparator))
+      nameVariations.append(nameId.slice(0, idxSeparator))
     if(unit != null)
-      nameVariations.push(::getUnitTypeText(unit.esUnitType).tolower() + "_" + nameId)
+      nameVariations.append(::getUnitTypeText(unit.esUnitType).tolower() + "_" + nameId)
 
     foreach(localizationSource in localizationSources)
       foreach(nameVariant in nameVariations)
@@ -544,7 +544,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         (normalAngleValue+0.5).tointeger() + ::nbsp + ::loc("measureUnits/deg"))
 
     if(isDebugMode)
-      desc.push("\n" + ::colorize("badTextColor", params.nameId))
+      desc.append("\n" + ::colorize("badTextColor", params.nameId))
 
     return ::g_string.implode(desc, "\n")
   }
@@ -586,24 +586,24 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             {
               local engineInfo = []
               if (infoBlk?.manufacturer)
-                engineInfo.push(::loc("engine_manufacturer/" + infoBlk.manufacturer))
+                engineInfo.append(::loc("engine_manufacturer/" + infoBlk.manufacturer))
               if (infoBlk?.model)
-                engineInfo.push(::loc("engine_model/" + infoBlk.model))
+                engineInfo.append(::loc("engine_model/" + infoBlk.model))
 
               local engineConfig = []
               if (infoBlk?.configuration)
-                engineConfig.push(::loc("engine_configuration/" + infoBlk.configuration))
+                engineConfig.append(::loc("engine_configuration/" + infoBlk.configuration))
               if (infoBlk?.type)
-                engineConfig.push(g_string.utf8ToLower(::loc("engine_type/" + infoBlk.type)))
+                engineConfig.append(g_string.utf8ToLower(::loc("engine_type/" + infoBlk.type)))
 
               local engineString = ::g_string.implode(engineInfo, " ")
               if (engineConfig.len())
                 engineString += " (" + ::g_string.implode(engineConfig, " ") + ")"
               if (engineString.len())
-                desc.push(engineString)
+                desc.append(engineString)
 
               if (infoBlk?.displacement)
-                desc.push(::loc("engine_displacement")
+                desc.append(::loc("engine_displacement")
                           + ::loc("ui/colon")
                           + ::loc("measureUnits/displacement", { num = infoBlk.displacement.tointeger() }))
             }
@@ -614,12 +614,12 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             local currentParams = unit?.modificators[difficulty.crewSkillName]
             if (isSecondaryModsValid && currentParams && currentParams.horsePowers && currentParams.maxHorsePowersRPM)
             {
-              desc.push(::format("%s %s (%s %d %s)", ::loc("engine_power") + ::loc("ui/colon"),
+              desc.append(::format("%s %s (%s %d %s)", ::loc("engine_power") + ::loc("ui/colon"),
                 ::g_measure_type.HORSEPOWERS.getMeasureUnitsText(currentParams.horsePowers),
                 ::loc("shop/unitValidCondition"), currentParams.maxHorsePowersRPM.tointeger(), ::loc("measureUnits/rpm")))
             }
             if (infoBlk)
-              desc.push(getMassInfo(infoBlk))
+              desc.append(getMassInfo(infoBlk))
           break;
 
           case ::ES_UNIT_TYPE_AIRCRAFT:
@@ -637,9 +637,9 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             local infoBlk = getInfoBlk(partName)
             local engineInfo = []
             if (infoBlk?.manufacturer)
-              engineInfo.push(::loc("engine_manufacturer/" + infoBlk.manufacturer))
+              engineInfo.append(::loc("engine_manufacturer/" + infoBlk.manufacturer))
             if (infoBlk?.model)
-              engineInfo.push(::loc("engine_model/" + infoBlk.model))
+              engineInfo.append(::loc("engine_model/" + infoBlk.model))
 
             local enginePartId = infoBlk?.part_id ?? ("Engine" + partIndex.tostring())
             local engineTypeId = "EngineType" + (fmBlk?[enginePartId].Type ?? -1).tostring()
@@ -660,18 +660,18 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             {
               local cylinders = getFirstFound([infoBlk, engineMainBlk], @(b) b?.Cylinders ?? b?.cylinders, 0)
               if (cylinders > 0)
-                engineInfo.push(cylinders + ::loc("engine_cylinders_postfix"))
+                engineInfo.append(cylinders + ::loc("engine_cylinders_postfix"))
             }
             if (engineType && engineType.len())
-              engineInfo.push(g_string.utf8ToLower(::loc("plane_engine_type/" + engineType)))
-            desc.push(::g_string.implode(engineInfo, " "))
+              engineInfo.append(g_string.utf8ToLower(::loc("plane_engine_type/" + engineType)))
+            desc.append(::g_string.implode(engineInfo, " "))
 
             // display cooling type only for Inline and Radial engines
             if ((engineType == "inline" || engineType == "radial")
                 && "IsWaterCooled" in engineMainBlk)           // Plane : Engine : Cooling
             {
               local coolingKey = engineMainBlk?.IsWaterCooled ? "water" : "air"
-              desc.push(::loc("plane_engine_cooling_type") + ::loc("ui/colon")
+              desc.append(::loc("plane_engine_cooling_type") + ::loc("ui/colon")
               + ::loc("plane_engine_cooling_type_" + coolingKey))
             }
 
@@ -742,30 +742,30 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             if (powerMax > 0)
             {
               powerMax += horsepowerModDelta
-              desc.push(::loc("engine_power_max") + ::loc("ui/colon")
+              desc.append(::loc("engine_power_max") + ::loc("ui/colon")
                 + ::g_measure_type.HORSEPOWERS.getMeasureUnitsText(powerMax))
             }
             if (powerTakeoff > 0)
             {
               powerTakeoff += horsepowerModDelta
-              desc.push(::loc("engine_power_takeoff") + ::loc("ui/colon")
+              desc.append(::loc("engine_power_takeoff") + ::loc("ui/colon")
                 + ::g_measure_type.HORSEPOWERS.getMeasureUnitsText(powerTakeoff))
             }
             if (thrustMax > 0)
             {
               thrustMax += thrustModDelta
-              desc.push(::loc("engine_thrust_max") + ::loc("ui/colon")
+              desc.append(::loc("engine_thrust_max") + ::loc("ui/colon")
                 + ::g_measure_type.THRUST_KGF.getMeasureUnitsText(thrustMax))
             }
             if (thrustTakeoff > 0)
             {
               thrustTakeoff += thrustModDelta
-              desc.push(::loc("engine_thrust_takeoff") + ::loc("ui/colon")
+              desc.append(::loc("engine_thrust_takeoff") + ::loc("ui/colon")
                 + ::g_measure_type.THRUST_KGF.getMeasureUnitsText(thrustTakeoff))
             }
 
             // mass
-            desc.push(getMassInfo(infoBlk))
+            desc.append(getMassInfo(infoBlk))
           break;
         }
         break
@@ -779,7 +779,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
                                : ""
           local model = info?.model ? ::loc("transmission_model/" + info.model, "") : ""
           local props = info?.type ? ::g_string.utf8ToLower(::loc("transmission_type/" + info.type, "")) : ""
-          desc.push(::g_string.implode([ manufacturer, model ], " ") +
+          desc.append(::g_string.implode([ manufacturer, model ], " ") +
             (props == "" ? "" : ::loc("ui/parentheses/space", { text = props })))
 
           local maxSpeed = unit?.modificators?[difficulty.crewSkillName]?.maxSpeed ?? 0
@@ -821,7 +821,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         {
           local ammoQuantity = getAmmoQuantityByPartName(partName)
           if (ammoQuantity > 1)
-            desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
+            desc.append(::loc("shop/ammo") + ::loc("ui/colon") + ammoQuantity)
         }
         local stowageInfo = getAmmoStowageInfo(null, partName, isShip)
         if (stowageInfo.isCharges)
@@ -891,23 +891,23 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         local ammoTxt = ammo > 1 && shouldShowAmmoInTitle ? ::format(::loc("weapons/counter"), ammo) : ""
 
         if(weaponName != "")
-          desc.push(::loc("weapons" + weaponName) + ammoTxt)
+          desc.append(::loc("weapons" + weaponName) + ammoTxt)
         if(weaponInfoBlk && ammo > 1 && !shouldShowAmmoInTitle)
-          desc.push(::loc("shop/ammo") + ::loc("ui/colon") + ammo)
+          desc.append(::loc("shop/ammo") + ::loc("ui/colon") + ammo)
 
         if (isSpecialBullet || isSpecialBulletEmitter)
           desc[desc.len() - 1] += ::getWeaponXrayDescText(weaponInfoBlk, unit, ::get_current_ediff())
         else {
           local status = getWeaponStatus(weaponPartName, weaponInfoBlk)
           desc.extend(getWeaponShotFreqAndReloadTimeDesc(weaponName, weaponInfoBlk, status))
-          desc.push(getMassInfo(::DataBlock(weaponBlkLink)))
+          desc.append(getMassInfo(::DataBlock(weaponBlkLink)))
           if (status?.isPrimary || status?.isSecondary)
           {
             if (weaponInfoBlk?.autoLoader)
-              desc.push(::loc("xray/ammo/auto_load"))
+              desc.append(::loc("xray/ammo/auto_load"))
             local firstStageCount = getAmmoStowageInfo(weaponInfoBlk?.trigger).firstStageCount
             if (firstStageCount)
-              desc.push(::loc("xray/ammo/first_stage") + ::loc("ui/colon") + firstStageCount)
+              desc.append(::loc("xray/ammo/first_stage") + ::loc("ui/colon") + firstStageCount)
           }
           desc.extend(getWeaponDriveTurretDesc(weaponPartName, weaponInfoBlk, true, true))
         }
@@ -926,14 +926,14 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
 
         if ("protected" in tankInfoTable)
         {
-          tankInfo.push(tankInfoTable.protected ?
+          tankInfo.append(tankInfoTable.protected ?
           ::loc("fuelTank/selfsealing") :
           ::loc("fuelTank/not_selfsealing"))
         }
         if ("protected_boost" in tankInfoTable)
-          tankInfo.push(::loc("fuelTank/neutralGasSystem"))
+          tankInfo.append(::loc("fuelTank/neutralGasSystem"))
         if (tankInfo.len())
-          desc.push(::g_string.implode(tankInfo, ", "))
+          desc.append(::g_string.implode(tankInfo, ", "))
 
       break
 
@@ -953,16 +953,16 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         foreach (data in info.referenceProtectionArray)
         {
           if (::u.isPoint2(data.angles))
-            desc.push(::loc("shop/armorThicknessEquivalent/angles",
+            desc.append(::loc("shop/armorThicknessEquivalent/angles",
               { angle1 = ::abs(data.angles.y), angle2 = ::abs(data.angles.x) }))
           else
-            desc.push(::loc("shop/armorThicknessEquivalent"))
+            desc.append(::loc("shop/armorThicknessEquivalent"))
 
           if (data.kineticProtectionEquivalent)
-            desc.push(strBullet + ::loc("shop/armorThicknessEquivalent/kinetic") + strColon +
+            desc.append(strBullet + ::loc("shop/armorThicknessEquivalent/kinetic") + strColon +
               ::round(data.kineticProtectionEquivalent) + strUnits)
           if (data.cumulativeProtectionEquivalent)
-            desc.push(strBullet + ::loc("shop/armorThicknessEquivalent/cumulative") + strColon +
+            desc.append(strBullet + ::loc("shop/armorThicknessEquivalent/cumulative") + strColon +
               ::round(data.cumulativeProtectionEquivalent) + strUnits)
         }
 
@@ -982,10 +982,10 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
               thicknessText = ::loc("ui/parentheses/space", { text = thicknessText + strUnits })
             texts.append(strBullet + getPartNameLocText(layer?.armorClass) + thicknessText)
           }
-          desc.push(blockSep + ::loc("xray/armor_composition") + ::loc("ui/colon") + "\n" + ::g_string.implode(texts, "\n"))
+          desc.append(blockSep + ::loc("xray/armor_composition") + ::loc("ui/colon") + "\n" + ::g_string.implode(texts, "\n"))
         }
         else if (!info.isComposite && !::u.isEmpty(info.armorClass)) // reactive armor
-          desc.push(blockSep + ::loc("plane_engine_type") + ::loc("ui/colon") + getPartNameLocText(info.armorClass))
+          desc.append(blockSep + ::loc("plane_engine_type") + ::loc("ui/colon") + getPartNameLocText(info.armorClass))
 
         break
 
@@ -999,14 +999,14 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             zoom.remove(0)
           local zoomTexts = ::u.map(zoom, @(zoom) zoom ? ::format("%.1fx", zoom) : "")
           zoomTexts = ::g_string.implode(zoomTexts, ::loc("ui/mdash"))
-          desc.push(::loc("sight_model/" + info.sightName, ""))
-          desc.push(::loc("optic/zoom") + ::loc("ui/colon") + zoomTexts)
+          desc.append(::loc("sight_model/" + info.sightName, ""))
+          desc.append(::loc("optic/zoom") + ::loc("ui/colon") + zoomTexts)
         }
         break
     }
 
     if (isDebugMode)
-      desc.push("\n" + ::colorize("badTextColor", partName))
+      desc.append("\n" + ::colorize("badTextColor", partName))
 
     local description = ::g_string.implode(desc, "\n")
     return description

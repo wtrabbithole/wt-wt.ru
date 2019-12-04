@@ -14,7 +14,7 @@ g_recent_items.getRecentItems <- function getRecentItems()
   local resultItems = []
   foreach (item in items)
   {
-    resultItems.push(item)
+    resultItems.append(item)
     if (resultItems.len() == MAX_RECENT_ITEMS)
       break
   }

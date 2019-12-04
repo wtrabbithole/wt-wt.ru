@@ -84,7 +84,7 @@ g_matching_game_modes <- {
         local gameModeId = ::getTblValue("gameModeId", modeInfo, -1)
         dagor.debug(format("matching game mode added '%s' [%d]",
                             ::getTblValue("name", modeInfo, ""), gameModeId))
-        needToFetchGmList.push(gameModeId)
+        needToFetchGmList.append(gameModeId)
       }
     }
 
@@ -105,7 +105,7 @@ g_matching_game_modes <- {
         if (disabled == null || visible == null || active == null
             || !(gameModeId in __gameModes))
         {
-          needToFetchGmList.push(gameModeId)
+          needToFetchGmList.append(gameModeId)
           continue
         }
 

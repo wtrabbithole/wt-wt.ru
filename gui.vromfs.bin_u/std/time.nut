@@ -102,16 +102,14 @@ local function secondsToString(value, useAbbreviations = true, dontShowZeroParam
   }
 
   if (!dontShowZeroParam || secondsNum != 0 || res.len()==0) {
-    local fStr = []
     local symbolsNum = res.len() ? 2 : 1
-    if (secondsFraction > 0)
-      fStr.extend(["%0",(secondsFraction + 1 + symbolsNum),".",secondsFraction,"f%s"])
-    else
-      fStr.extend(["%0",symbolsNum,"d%s"])
+    local fStr = secondsFraction > 0
+      ? $"%0{secondsFraction + 1 + symbolsNum}.{secondsFraction}f%s"
+      : $"%0{symbolsNum}d%s"
     if (res.len()>0)
       res.append(separator)
     res.append(
-      stdStr.format("".join(fStr), secondsNum, useAbbreviations ? i18n("measureUnits/seconds") : "")
+      stdStr.format(fStr, secondsNum, useAbbreviations ? i18n("measureUnits/seconds") : "")
     )
   }
 

@@ -8,12 +8,12 @@ class ::g_unit_limit_classes.LimitBase
   distributed = ::RESPAWNS_UNLIMITED
   presetInfo = null
 
-  constructor(_name, _respawnsLeft, _distributed = ::RESPAWNS_UNLIMITED, _presetInfo = null)
+  constructor(_name, _respawnsLeft, params = {})
   {
     name = _name
     respawnsLeft = _respawnsLeft
-    distributed = _distributed
-    presetInfo = _presetInfo
+    distributed = params?.distributed ?? ::RESPAWNS_UNLIMITED
+    presetInfo = params?.presetInfo
   }
 
   function isSame(unitLimit)

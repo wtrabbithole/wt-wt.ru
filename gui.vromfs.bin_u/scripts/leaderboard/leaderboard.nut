@@ -724,7 +724,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       if (!::has_feature_array(reqFeature))
         continue
 
-      lbModesList.push(mode.mode)
+      lbModesList.append(mode.mode)
       data += format("option {text:t='%s'}", mode.text)
     }
 

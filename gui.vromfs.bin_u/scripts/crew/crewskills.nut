@@ -90,7 +90,7 @@ g_crew_skills.loadSkills <- function loadSkills()
         isVisible = function(crewUnitType) { return skillItem.isVisible(crewUnitType) }
       }
       skillCategory.crewUnitTypeMask = skillCategory.crewUnitTypeMask | skillItem.crewUnitTypeMask
-      skillCategory.skillItems.push(categorySkill)
+      skillCategory.skillItems.append(categorySkill)
     }
   }
 
@@ -114,7 +114,7 @@ g_crew_skills.createCategory <- function createCategory(categoryName)
     skillItems = []
     crewUnitTypeMask = 0
   }
-  skillCategories.push(category)
+  skillCategories.append(category)
   skillCategoryByName[categoryName] <- category
   return category
 }
@@ -187,7 +187,7 @@ g_crew_skills.getSkillCategoryView <- function getSkillCategoryView(crewData, un
       && (unit.gunnersCount > 0 || categoryHasNonGunnerSkills(skillCategory))
     if (!isSupported)
       continue
-    view.push({
+    view.append({
       categoryName = getSkillCategoryName(skillCategory)
       categoryTooltip = ::g_tooltip.getIdCrewSkillCategory(skillCategory.categoryName, unitTypeName)
       categoryValue = getSkillCategoryCrewLevel(crewData, skillCategory, crewUnitType)
@@ -227,7 +227,7 @@ g_crew_skills.getSkillCategoryTooltipContent <- function getSkillCategoryTooltip
     local skillName = ::loc("crew/" + categorySkill.skillName)
     local skillValue = ::g_crew.getSkillValue(crewData.id, categorySkill.memberName, categorySkill.skillName)
     local availValue = ::g_crew.getMaxAvailbleStepValue(skillItem, skillValue, crewSkillPoints)
-    view.skillRows.push({
+    view.skillRows.append({
       skillName = ::format("%s (%s)", skillName, memberName)
       totalSteps = ::g_crew.getTotalSteps(skillItem)
       maxSkillCrewLevel = ::g_crew.getSkillMaxCrewLevel(skillItem)

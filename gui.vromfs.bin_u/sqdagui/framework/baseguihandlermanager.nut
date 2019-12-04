@@ -708,7 +708,7 @@ local subscriptions = require("sqStdLibs/helpers/subscriptions.nut")
     }
 
     local restoreDataArray = restoreDataByTriggerHandler?[triggerHandlerClass] || []
-    restoreDataArray.push(restoreData)
+    restoreDataArray.append(restoreData)
     restoreDataByTriggerHandler[triggerHandlerClass] <- restoreDataArray
     return true
   }

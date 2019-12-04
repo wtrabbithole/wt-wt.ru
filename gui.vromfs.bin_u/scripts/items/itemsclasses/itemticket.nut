@@ -311,9 +311,9 @@ class ::items_classes.Ticket extends ::BaseItem
     if (isActive())
     {
       local ticketTournamentData = getTicketTournamentData(eventId)
-      textParts.push(getDefeatCountText(ticketTournamentData, valueColor))
-      textParts.push(getSequenceDefeatCountText(ticketTournamentData, valueColor))
-      textParts.push(getBattleCountText(ticketTournamentData, valueColor))
+      textParts.append(getDefeatCountText(ticketTournamentData, valueColor))
+      textParts.append(getSequenceDefeatCountText(ticketTournamentData, valueColor))
+      textParts.append(getBattleCountText(ticketTournamentData, valueColor))
     }
     else
     {
@@ -321,17 +321,17 @@ class ::items_classes.Ticket extends ::BaseItem
       if (maxDefeatCount)
       {
         locParams = {value = ::colorize(valueColor, maxDefeatCount)}
-        textParts.push(::loc("ticket/max_defeat_count", locParams))
+        textParts.append(::loc("ticket/max_defeat_count", locParams))
       }
       if (maxSequenceDefeatCount)
       {
         locParams = {value = ::colorize(valueColor, maxSequenceDefeatCount)}
-        textParts.push(::loc("ticket/max_defeat_count_in_a_row", locParams))
+        textParts.append(::loc("ticket/max_defeat_count_in_a_row", locParams))
       }
       if (battleLimit)
       {
         locParams = {value = ::colorize(valueColor, battleLimit)}
-        textParts.push(::loc("ticket/battle_limit", locParams))
+        textParts.append(::loc("ticket/battle_limit", locParams))
       }
     }
 

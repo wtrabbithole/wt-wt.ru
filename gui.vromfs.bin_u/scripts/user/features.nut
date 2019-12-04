@@ -331,7 +331,7 @@ g_features.onEventProfileUpdated <- function onEventProfileUpdated(p)
   {
     if (typeof(condition) == "string" &&
         OnlineShopModel.isEntitlement(condition))
-      entitlements.push(condition)
+      entitlements.append(condition)
   }
   return entitlements
 }

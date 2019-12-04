@@ -517,7 +517,7 @@ class ::items_classes.Booster extends ::BaseItem
     foreach (effectType in ::BoosterEffectType)
     {
       if (effectType.checkBooster(this))
-        effectTypes.push(effectType)
+        effectTypes.append(effectType)
     }
     return effectTypes
   }

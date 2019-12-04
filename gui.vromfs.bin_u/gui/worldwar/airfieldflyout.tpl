@@ -74,11 +74,15 @@ frame {
           class:t='rankUpList'
           <<@unitItem>>
         }
-        tdiv {
+        weaponsSelectorNest {
           id:t='secondary_weapon'
           width:t='1@modItemWidth'
           height:t='1@modItemHeight'
           css-hier-invalidate:t='yes'
+
+          <<#unitClassesView>>
+            include "gui/commonParts/combobox"
+          <</unitClassesView>>
         }
         wwUnitClass {
           size:t='1@modItemHeight, 1@modItemHeight'
@@ -148,10 +152,11 @@ frame {
     accessKey:t = 'J:Y'
     on_click:t = 'onUnitAmountMax'
   }
-
+  <<#hasWeaponSelector>>
   dummy {
     behavior:t='accesskey'
     accessKey:t = 'J:X'
     on_click:t = 'onOpenPresetsList'
   }
+  <</hasWeaponSelector>>
 }

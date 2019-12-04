@@ -14,13 +14,13 @@ global const LINE_WIDTH = 1.6
   }
 
   function _get(idx) {
-    path.push(idx)
+    path.append(idx)
     return this
   }
 
   function _call(self, ...) {
     local args = [this]
-    args.push(path)
+    args.append(path)
     args.extend(vargv)
     local result = ::perform_cross_call.acall(args)
     path.clear()

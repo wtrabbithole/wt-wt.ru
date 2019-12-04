@@ -115,7 +115,7 @@ local avatars = ::require("scripts/user/avatars.nut")
     }
     for (local i = 0; i < hdr.len(); ++i)
     {
-      headerView.headerCells.push({
+      headerView.headerCells.append({
         cellId = hdr[i]
         cellText = hdr[i]
         hasCellBorder = (i != 0)
@@ -501,7 +501,7 @@ local avatars = ::require("scripts/user/avatars.nut")
 
               local unitsForTooltip = []
               for (local j = 0; j < min(data.units.len(), 3); ++j)
-                unitsForTooltip.push(data.units[j])
+                unitsForTooltip.append(data.units[j])
               unitsForTooltip.sort(sort_units_for_br_tooltip)
               for (local j = 0; j < unitsForTooltip.len(); ++j)
               {

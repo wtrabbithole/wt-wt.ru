@@ -223,7 +223,7 @@ g_dmg_model.getRicochetDataByPreset <- function getRicochetDataByPreset(preset, 
       local angle = getAngleByProbabilityFromP2blk(ricochetPresetBlk, probability)
       if (angle != -1)
       {
-        res.angleProbabilityMap.push({
+        res.angleProbabilityMap.append({
           probability = probability
           angle = 90.0 - angle
         })
@@ -240,7 +240,7 @@ g_dmg_model.getRicochetDataByPreset <- function getRicochetDataByPreset(preset, 
       local angleAtMaxProbability = getAngleByProbabilityFromP2blk(ricochetPresetBlk, maxProbability)
       if (maxProbability != -1 && angleAtMaxProbability != -1)
       {
-        res.angleProbabilityMap.push({
+        res.angleProbabilityMap.append({
           probability = maxProbability
           angle = 90.0 - angleAtMaxProbability
         })

@@ -73,8 +73,10 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
         local limit = ::g_unit_limit_classes.LimitByUnitName(
           unitName,
           limitedBlk.getParamValue(i),
-          isTeamMine ? ::getTblValue(unitName, distributedBlk, 0) : null,
-          presetData
+          {
+            distributed = isTeamMine ? distributedBlk?[unitName] ?? 0 : null
+            presetInfo = presetData
+          }
         )
 
         res.unitLimits.append(limit)

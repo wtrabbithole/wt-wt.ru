@@ -161,7 +161,7 @@ local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
     local bhv = ("behavior" in rootBase) ? rootBase.behavior : []
     if (typeof(bhv)!="array")
       bhv = [bhv]
-    bhv.extend([Behaviors.WheelScroll, Behaviors.ScrollEvent])
+    bhv.append(Behaviors.WheelScroll, Behaviors.ScrollEvent)
 
     return class extends rootBase {
       size = options.size
@@ -209,7 +209,7 @@ local function makeHVScrolls(content, options={}) {
     local bhv = ("behavior" in rootBase) ? rootBase.behavior : []
     if (typeof(bhv)!="array")
       bhv = [bhv]
-    bhv.extend([Behaviors.WheelScroll, Behaviors.ScrollEvent])
+    bhv.append(Behaviors.WheelScroll, Behaviors.ScrollEvent)
 
     return class extends rootBase {
       behavior = bhv

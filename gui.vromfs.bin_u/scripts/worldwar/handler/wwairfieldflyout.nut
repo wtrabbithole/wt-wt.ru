@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
 local wwUnitClassParams = require("scripts/worldWar/inOperation/wwUnitClassParams.nut")
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+local wwOperationUnitsGroups = require("scripts/worldWar/inOperation/wwOperationUnitsGroups.nut")
 
 class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -32,6 +33,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   prevSelectedUnitsMask = WW_UNIT_CLASS.NONE
   iconAir = ::loc("worldwar/iconAir")
 
+  unitsGroups = null
+
   static function open(index, position, armyTargetName, onSuccessfullFlyoutCb = null)
   {
     local airfield = ::g_world_war.getAirfieldByIndex(index)
@@ -56,6 +59,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   {
     accessList = ::g_world_war.getMyAccessLevelListForCurrentBattle()
     currentOperation = ::g_operations.getCurrentOperation()
+    unitsGroups = wwOperationUnitsGroups.getUnitsGroups()
 
     return {
       unitString = getUnitsList()
@@ -64,6 +68,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       hintText = ::loc("worldwar/airfield/armies_hint_title")
         + "\n" + ::loc("worldwar/airfield/fighter_armies_hint", getAirsTypeViewParams())
         + "\n" + ::loc("worldwar/airfield/combined_armies_hint", getAirsTypeViewParams())
+      hasWeaponSelector = unitsGroups != null
     }
   }
 
@@ -74,24 +79,27 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     foreach (airfieldFormation in availableArmiesArray)
       foreach (unit in airfieldFormation.units)
       {
-        local displayUnit = unit.unit
         local name = unit.name
+        local group = unitsGroups?[name]
+        local displayUnit = group?.defaultUnit ?? unit.unit
         local unitWeapon = ::g_world_war.get_last_weapon_preset(name)
-        local unitClassData = unit.getUnitClassData(unitWeapon)
+        local unitClassData = wwUnitClassParams.getUnitClassData(unit, unitWeapon)
         local maxFlyTime = (wwActionsWithUnitsList.getMaxFlyTime(displayUnit) * flightTimeFactor).tointeger()
         local value = 0
         local maxValue = unit.count
         local maxUnitClassValue = getUnitClassMaxValue(unitClassData.flyOutUnitClass)
         local unitClass = unitClassData.unitClass
+        local isUnitsGroup = group != null
         unitsList.append({
           armyGroupIdx = airfieldFormation.getArmyGroupIdx()
           unit = unit
           unitName = name
-          unitItem = wwActionsWithUnitsList.getUnitMarkUp(name, displayUnit)
+          unitItem = wwActionsWithUnitsList.getUnitMarkUp(name, displayUnit, group)
           unitClassIconText = wwUnitClassParams.getIconText(unitClass)
           unitClassName = wwUnitClassParams.getText(unitClass)
-          unitClassTooltipText = unit.getUnitClassTooltipText(unitClass)
+          unitClassTooltipText = ::loc(unitClassData.tooltipTextLocId)
           unitClass = unitClassData.flyOutUnitClass
+          unitClassesView = isUnitsGroup ? getUnitClassesView(unit, unitClass) : null
           maxValue = ::min(maxUnitClassValue, maxValue)
           maxUnitClassValue = maxUnitClassValue
           totalValue = maxValue
@@ -106,6 +114,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
           onChangeSliderValue = "onChangeSliderValue"
           needOldSlider = true
           needNewSlider = true
+          isUnitsGroup  = isUnitsGroup
           expClassSortIdx = wwUnitClassParams.getSortIdx(unit.expClass)
           sliderButton = {
             type = "various"
@@ -651,6 +660,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillUnitWeaponPreset(unitTable)
   {
+    if (unitTable.isUnitsGroup)
+      return
     local selectedWeaponName = unitTable.unitWeapon
     local unit = ::getAircraftByName(unitTable.unitName)
     local weapon = ::u.search(unit.weapons, (@(selectedWeaponName) function(weapon) {
@@ -693,7 +704,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   function updateUnitClass(idx, unitTable)
   {
     local unit = unitTable.unit
-    local unitClassData = unit.getUnitClassData(unitTable.unitWeapon)
+    local unitClassData = wwUnitClassParams.getUnitClassData(unit, unitTable.unitWeapon)
     if (unitTable.unitClass == unitClassData.flyOutUnitClass)
       return
 
@@ -702,7 +713,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     local unitBlockObj = scene.findObject(unitTable.unitName + "_" + unitTable.armyGroupIdx)
     local unitClassObj = unitBlockObj.findObject("unit_class_icon_text")
     unitClassObj.unitType = wwUnitClassParams.getText(unitClass)
-    unitClassObj.tooltip = unit.getUnitClassTooltipText(unitClass)
+    unitClassObj.tooltip = ::loc(unitClassData.tooltipTextLocId)
     unitClassObj.setValue(wwUnitClassParams.getIconText(unitClass))
 
     updateUnitValue(idx, 0)
@@ -710,7 +721,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
 
   function hasPresetToChoose(unit)
   {
-    return unit.weapons.len() > 1
+    return (unit?.weapons.len() ?? 0) > 1
   }
 
   function onModItemClick(obj)
@@ -737,7 +748,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   function onOpenPresetsList(obj)
   {
     local itemObj = getSelectedItemObj()
-    if (!::check_obj(itemObj))
+    if (unitsGroups != null || !::check_obj(itemObj))
       return
 
     onModItemClick(itemObj.findObject("centralBlock"))
@@ -815,5 +826,40 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     if (onSuccessfullFlyoutCb)
       ::add_bg_task_cb(taskId, onSuccessfullFlyoutCb)
     goBack()
+  }
+
+  function getUnitClassesView(unit, curUnitClass)
+  {
+    local unitClassesDataArray = wwUnitClassParams.getAvailableClasses(unit)
+    if (unitClassesDataArray.len() < 2)
+      return null
+
+    return {
+      id = unit.name
+      pos = "0, ph/2 - h/2"
+      funcName = "onUnitClassChange"
+      values = unitClassesDataArray.map(@(unitClassData) {
+        valueId = unitClassData.expClass
+        text = ::loc(unitClassData.tooltipTextLocId)
+        isSelected = unitClassData.unitClass == curUnitClass
+      })
+    }
+  }
+
+  function onUnitClassChange(obj)
+  {
+    local unit = ::getAircraftByName(obj.id)
+    if (!hasPresetToChoose(unit))
+      return
+
+    local value = ::get_obj_valid_index(obj)
+    if (value < 0)
+      return
+
+    local optionsObj = obj.getChild(value)
+    local weaponName = wwUnitClassParams.getWeaponNameByExpClass(unit, optionsObj.id)
+
+    ::g_world_war.set_last_weapon_preset(unit.name, weaponName)
+    changeUnitWeapon(unit.name, weaponName)
   }
 }

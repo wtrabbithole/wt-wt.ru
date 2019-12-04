@@ -333,6 +333,9 @@ local ACTION_LIST_PARAMS = {
     }
     else if (action == "weapons")
     {
+      if (p.hasSlotbarByUnitsGroups)
+        continue
+
       actionText = ::loc("mainmenu/btnWeapons")
       icon       = "#ui/gameuiskin#btn_weapons.svg"
       haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY

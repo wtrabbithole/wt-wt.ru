@@ -109,7 +109,7 @@ g_tooltip.register <- function register(obj, handler, tooltipType, id, params)
       })(eventName), data)
     }
 
-  openedTooltipObjs.push(data)
+  openedTooltipObjs.append(data)
 }
 
 g_tooltip.fill <- function fill(obj, handler, tooltipType, id, params)

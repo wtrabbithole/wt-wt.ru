@@ -368,6 +368,36 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
   return "Done"
 }
 
+::debug_show_weapon <- function debug_show_weapon(weaponName)
+{
+  weaponName = ::get_weapon_name_by_blk_path(weaponName)
+  if (::g_string.startsWith(weaponName, "/"))
+    weaponName = weaponName.slice(1)
+
+  foreach (u in ::all_units)
+  {
+    if (!u.isInShop)
+      continue
+    local unitBlk = ::get_full_unit_blk(u.name)
+    if (!unitBlk?.weapon_presets)
+      continue
+
+    foreach (presetMetaBlk in (unitBlk.weapon_presets % "preset"))
+    {
+      local presetBlk = ::DataBlock(presetMetaBlk?.blk ?? "")
+      if (!presetBlk)
+        continue
+      foreach (weaponMetaBlk in (presetBlk % "Weapon"))
+        if (weaponName == ::get_weapon_name_by_blk_path(weaponMetaBlk?.blk ?? "").slice(1))
+        {
+          ::open_weapons_for_unit(u)
+          return $"{u.name} / {weaponMetaBlk.blk}"
+        }
+    }
+  }
+  return null
+}
+
 ::debug_change_language <- function debug_change_language(isNext = true)
 {
   local list = ::g_language.getGameLocalizationInfo()

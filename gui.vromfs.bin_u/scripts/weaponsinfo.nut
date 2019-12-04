@@ -1013,7 +1013,7 @@ local WEAPON_TEXT_PARAMS = { //const
         else
           continue
 
-      local bulletType = b.bulletType || b.getBlockName()
+      local bulletType = b?.bulletType ?? b.getBlockName()
       if (paramsBlk?.selfDestructionInAir)
         bulletType += "@s_d"
       res.bullets.append(bulletType)

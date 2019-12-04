@@ -420,7 +420,7 @@ g_clans.parseSeenCandidates <- function parseSeenCandidates()
     if(seenCandidatesBlk?[candidate.uid] != null)
       continue
     seenCandidatesBlk[candidate.uid] <- false
-    newCandidatesNicknames.push(candidate.nick)
+    newCandidatesNicknames.append(candidate.nick)
     isChanged = true
   }
 

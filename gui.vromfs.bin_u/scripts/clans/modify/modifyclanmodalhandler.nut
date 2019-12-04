@@ -151,7 +151,7 @@ class ::gui_handlers.ModifyClanModalHandler extends ::gui_handlers.BaseGuiHandle
     local decorators = getDecoratorsList()
     foreach(index, decorator in decorators)
     {
-      view.decoratorItems.push({
+      view.decoratorItems.append({
         decoratorId = ::format("option_%s", index.tostring())
         decoratorText = ::format("%s   %s", decorator.start, decorator.end)
         isDecoratorSelected = selectedTag != null && decorator.checkTagText(selectedTag)

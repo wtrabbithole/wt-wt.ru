@@ -8,7 +8,7 @@ class ::gui_handlers.CreateClanModalHandler extends ::gui_handlers.ModifyClanMod
       if (clanType == ::g_clan_type.UNKNOWN)
         continue
       local typeName = clanType.getTypeName()
-      clanTypeItems.push({
+      clanTypeItems.append({
         numItems = ::g_clan_type.types.len() - 1
         itemTooltip = ::format("#clan/clan_type/%s/tooltip", typeName)
         itemText = ::format("#clan/clan_type/%s", typeName)

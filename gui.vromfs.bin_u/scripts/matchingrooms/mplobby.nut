@@ -751,7 +751,8 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function onReady()
   {
-    if (!antiCheat.showMsgboxIfEacInactive(::get_difficulty_by_ediff(getCurrentEdiff()).diffCode))
+    local event = ::SessionLobby.getRoomEvent()
+    if (event != null && !antiCheat.showMsgboxIfEacInactive(event))
       return
 
     if (::SessionLobby.tryJoinSession())

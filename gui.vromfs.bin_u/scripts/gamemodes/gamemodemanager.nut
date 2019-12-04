@@ -327,7 +327,7 @@ class GameModeManager
         continue
       if (unitType != ::ES_UNIT_TYPE_INVALID && !::isInArray(unitType, gameMode.unitTypes))
         continue
-      gameModes.push(gameMode)
+      gameModes.append(gameMode)
     }
     return gameModes
   }
@@ -551,7 +551,7 @@ class GameModeManager
   function _appendGameMode(gameMode)
   {
     _gameModeById[gameMode.id] <- gameMode
-    _gameModes.push(gameMode)
+    _gameModes.append(gameMode)
     return gameMode
   }
 
@@ -727,7 +727,7 @@ class GameModeManager
           return ::events.diffCodeCompare(gm1.diffCode, gm2.diffCode)
         })
       }
-      partitions.push(partition)
+      partitions.append(partition)
     }
     return partitions
   }

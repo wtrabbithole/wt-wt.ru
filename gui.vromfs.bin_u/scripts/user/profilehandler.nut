@@ -189,7 +189,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if (lowerCaseTab in customMenuTabs)
         continue
 
-      sheetsList.push(lowerCaseTab)
+      sheetsList.append(lowerCaseTab)
       unlockFilters[lowerCaseTab]  <- null
 
       local defaultImage = ::format(tabImageNameTemplate, defaultTabImageName)
@@ -568,14 +568,14 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
       if ( ! (OwnUnitsType.ALL in skinsCache[unitCountry][unitType]))
         skinsCache[unitCountry][unitType][OwnUnitsType.ALL] <- []
-      skinsCache[unitCountry][unitType][OwnUnitsType.ALL].push(infoObject)
+      skinsCache[unitCountry][unitType][OwnUnitsType.ALL].append(infoObject)
 
       if( ! unit.isBought())
         continue
 
       if ( ! (OwnUnitsType.BOUGHT in skinsCache[unitCountry][unitType]))
               skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT] <- []
-      skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT].push(infoObject)
+      skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT].append(infoObject)
     }
 
     foreach (countries in skinsCache)

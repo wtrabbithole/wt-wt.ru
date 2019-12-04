@@ -167,7 +167,7 @@ if need - put commented in array above
     }
     if (showProgress)
     {
-      airResearchProgressView.airResearchProgress.push({
+      airResearchProgressView.airResearchProgress.append({
         airResearchProgressValue            = unitReqExp > 0 ? (unitExpGranted.tofloat() / unitReqExp * 1000).tointeger() : 0
         airResearchProgressType             = "new"
         airResearchProgressIsPaused         = !isVehicleInResearch || forceNotInResearch || isLockedSquadronVehicle
@@ -177,7 +177,7 @@ if need - put commented in array above
       })
       if (unitExpGranted > diffExp)
       {
-        airResearchProgressView.airResearchProgress.push({
+        airResearchProgressView.airResearchProgress.append({
           airResearchProgressValue            = ((unitExpGranted.tofloat() - diffExp) / unitReqExp * 1000).tointeger()
           airResearchProgressType             = "old"
           airResearchProgressIsPaused         = !isVehicleInResearch || forceNotInResearch || isLockedSquadronVehicle
@@ -451,12 +451,12 @@ if need - put commented in array above
   }
   else if (air?.isFakeUnit)  //fake unit slot
   {
-    local isReqForFakeUnit = air?.isReqForFakeUnit ?? false
-    local isFakeAirRankOpen = get_units_count_at_rank(air?.rank,
-      ::g_unit_type.getByName(air.name, false).esUnitType,
-      air.country, true)
+    local isReqForFakeUnit  = air?.isReqForFakeUnit ?? false
+    local isLocalState      = params?.isLocalState ?? true
+    local isFakeAirRankOpen = isLocalState && get_units_count_at_rank(air?.rank,
+      ::g_unit_type.getByName(air.name, false).esUnitType, air?.country, true)
     local bitStatus = isReqForFakeUnit ? bit_unit_status.disabled
-      : (isFakeAirRankOpen ? bit_unit_status.owned
+      : (isFakeAirRankOpen || !isLocalState ? bit_unit_status.owned
         : bit_unit_status.locked)
     local nameForLoc = isReqForFakeUnit ? ::split(air.name, "_")?[0] : air.name
     local fakeSlotView = {
@@ -469,7 +469,7 @@ if need - put commented in array above
       shopStatus          = ::getUnitItemStatusText(bitStatus, true)
       unitRankText        = ::get_unit_rank_text(air, null, showBR, curEdiff)
       shopItemTextId      = id + "_txt"
-      shopItemText        = ::loc("mainmenu/type_" + nameForLoc)
+      shopItemText        = ::loc(air?.nameLocId ?? $"mainmenu/type_{nameForLoc}")
       isItemDisabled      = bitStatus == bit_unit_status.disabled
     }
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotFake", fakeSlotView)
@@ -824,7 +824,9 @@ if need - put commented in array above
   }
 
   if (unit?.isFakeUnit)
-    return unit?.isReqForFakeUnit ? "" : ::format(::loc("events/rank"), ::get_roman_numeral(unit.rank))
+    return unit?.isReqForFakeUnit || unit?.rank == null
+      ? ""
+      : ::format(::loc("events/rank"), ::get_roman_numeral(unit.rank))
 
   local isReserve = ::isUnitDefault(unit)
   local isSpare = crew && isInFlight ? ::is_spare_aircraft_in_slot(crew.idInCountry) : false

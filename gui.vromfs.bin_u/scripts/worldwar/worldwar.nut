@@ -1,7 +1,6 @@
 local time = require("scripts/time.nut")
 local operationPreloader = require("scripts/worldWar/externalServices/wwOperationPreloader.nut")
 local seenWWMapsObjective = require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
-local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
@@ -395,9 +394,6 @@ g_world_war.getCantPlayWorldwarReasonText <- function getCantPlayWorldwarReasonT
 
 g_world_war.openMainWnd <- function openMainWnd()
 {
-  if (!antiCheat.showMsgboxIfEacInactive(defaultDiffCode))
-    return
-
   if (!checkPlayWorldwarAccess())
     return
 
@@ -664,7 +660,7 @@ g_world_war.updateArmyGroups <- function updateArmyGroups()
     local group   = ::WwArmyGroup(itemBlk)
 
     if (group.isValid())
-      armyGroups.push(group)
+      armyGroups.append(group)
   }
 }
 
@@ -982,7 +978,7 @@ g_world_war.updateBattles <- function updateBattles(forced = false)
     local battle   = ::WwBattle(itemBlk)
 
     if (battle.isValid())
-      battles.push(battle)
+      battles.append(battle)
   }
 }
 

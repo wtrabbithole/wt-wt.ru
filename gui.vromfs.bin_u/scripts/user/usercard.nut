@@ -646,7 +646,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     foreach (id in pl.titles)
     {
       local titleUnlock = ::g_unlocks.getUnlockById(id)
-      if (!titleUnlock || titleUnlock.hidden)
+      if (!titleUnlock || titleUnlock?.hidden)
         continue
 
       local locText = ::loc("title/" + id)
@@ -1118,7 +1118,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::has_feature_array(reqFeature))
         continue
 
-      lbModesList.push(mode.mode)
+      lbModesList.append(mode.mode)
       data += format("option {text:t='%s'}", mode.text)
     }
 

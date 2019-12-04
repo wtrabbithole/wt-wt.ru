@@ -165,6 +165,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     if (startPage == "")
       startPage = (::clan_get_my_clan_id() == "-1")? "clans_search" : "my_clan"
 
+    curWwCategory = ::g_lb_category.EVENTS_PERSONAL_ELO
     initLbTable()
     initLeaderboardFilter()
     initTabs()
@@ -768,7 +769,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
     if (isClanInfo && isWorldWarMode)
     {
-      if (curWwCategory?.id != obj.id)
+      if (curWwCategory.id != obj.id)
       {
         curWwCategory = ::g_lb_category.getTypeById(obj.id)
         fillClanWwMemberList()

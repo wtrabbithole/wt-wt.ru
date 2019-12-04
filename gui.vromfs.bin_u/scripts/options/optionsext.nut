@@ -631,8 +631,8 @@ local isWaitMeasureEvent = false
 
       if (::has_feature("AerobaticTricolorSmoke")) // triple color
       {
-        descr.items.push("#options/aerobaticsSmokeTriple");
-        descr.values.push(::MAX_AEROBATICS_SMOKE_INDEX * 2 + 1);
+        descr.items.append("#options/aerobaticsSmokeTriple");
+        descr.values.append(::MAX_AEROBATICS_SMOKE_INDEX * 2 + 1);
       }
       else if (localSmokeType > ::MAX_AEROBATICS_SMOKE_INDEX * 2)
         localSmokeType = 1;
@@ -1027,13 +1027,16 @@ local isWaitMeasureEvent = false
       descr.cb = "onInstantOptionApply";
       descr.trParams <- "optionWidthInc:t='double';"
       local deviceCount = soundDevice.sound_get_device_out_count();
+      local lastSoundDevice = soundDevice.get_last_sound_device_out()
       for (local i=0; i<deviceCount; i++)
       {
         local device = soundDevice.sound_get_device_out_name(i)
+        if (device == null)
+          continue
         descr.items.append(device)
         descr.values.append(device)
-        if (descr.values[i] == soundDevice.get_last_sound_device_out())
-          descr.value = i
+        if (device == lastSoundDevice)
+          descr.value = descr.values.len() - 1
       }
       break
 
@@ -1473,8 +1476,8 @@ local isWaitMeasureEvent = false
       descr.values = []
       for(local i = 1; i <= ::max_country_rank; i++)
       {
-        descr.items.push(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
-        descr.values.push({min = (i - 1) * 4, max = i * 4 - 1})
+        descr.items.append(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
+        descr.values.append({min = (i - 1) * 4, max = i * 4 - 1})
       }
 
       descr.getValueIdxByValue <- function (val)
@@ -2501,6 +2504,7 @@ local isWaitMeasureEvent = false
       {
         descr.title = ::loc("guiHints/chooseUnitsMMRank")
         local brRanges = ::getTblValue("brRanges", context, [])
+        local hasDuplicates = false
         for(local i = 0; i < brRanges.len(); i++)
         {
           local range = brRanges[i]
@@ -2511,11 +2515,17 @@ local isWaitMeasureEvent = false
                        + ((minBR != maxBR) ? " - " + ::format("%.1f", maxBR) : "")
           local text = brText
 
-          if (descr.values?[descr.values.len() - 1] == tier)
+          if (descr.values.indexof(tier) != null)
+          {
+            hasDuplicates = true
             continue
+          }
           descr.values.append(tier)
           descr.items.append(text)
         }
+
+        if (::is_dev_version && hasDuplicates)
+          ::dagor.assertf(false, "Duplicate BR ranges in matching configs")
       }
 
       if (!descr.values.len())

@@ -185,7 +185,12 @@
       "events": {
         "initMission": []
       },
-      "conditions": [],
+      "conditions": {
+        "gameWhenDifficulty": {
+          "difficulty": "simulator",
+          "is": "equal"
+        }
+      },
       "actions": [
         {
           "missionMarkAsRespawnPoint": {
@@ -203,6 +208,7 @@
             "onlyOnePlayerPerSpawnPoint": false,
             "resetStrictSpawnIndex": false,
             "replaceAreas": false,
+            "forceCreate": false,
             "target": "t1_air_spawn_01",
             "team": "A",
             "offset": [0.0,0.0,0.0],
@@ -227,6 +233,7 @@
             "onlyOnePlayerPerSpawnPoint": false,
             "resetStrictSpawnIndex": false,
             "replaceAreas": false,
+            "forceCreate": false,
             "target": "t2_air_spawn_01",
             "team": "B",
             "offset": [0.0,0.0,0.0],
@@ -296,7 +303,117 @@
           ]
         }
       ],
-      "else_actions": []
+      "else_actions": [
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_random",
+            "spawnEffect": false,
+            "isStrictSpawn": true,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
+            "forceCreate": false,
+            "target": "t1_air_spawn_close",
+            "team": "A",
+            "tags": {
+              "tank": false
+            }
+          }
+        },
+        {
+          "missionMarkAsRespawnPoint": {
+            "loc_name": "missions/spawn_random",
+            "spawnEffect": false,
+            "isStrictSpawn": true,
+            "isAirfield": false,
+            "isUnit": false,
+            "useExisting": false,
+            "isIndividual": false,
+            "removeAreas": false,
+            "canSpawnOnNeutral": false,
+            "showOnMap": true,
+            "radius": -1.0,
+            "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "replaceAreas": false,
+            "forceCreate": false,
+            "target": "t2_air_spawn_close",
+            "team": "B",
+            "offset": [0.0,0.0,0.0],
+            "tags": {
+              "tank": false
+            }
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 30,
+            "var": "timer"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": 60,
+            "var": "disqualification_timer"
+          }
+        },
+        {
+          "varSetInt": {
+            "value": -1000,
+            "var": "bleading_power"
+          }
+        },
+        {
+          "missionBattleArea": {
+            "air": true,
+            "ground": false,
+            "mapArea": false,
+            "killOutOfBattleArea": false,
+            "newGridHorizontalCellCount": 0,
+            "killArea": false,
+            "detectionArea": false,
+            "airMapArea": false,
+            "area": "battle_area_01"
+          }
+        },
+        {
+          "playHint": {
+            "hintType": "standard",
+            "name": "hints/gladiators_waiting_for_players",
+            "action": "show",
+            "shouldFadeOut": false,
+            "time": -1.0,
+            "priority": 0,
+            "isOverFade": false,
+            "target_marking": 0,
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "object_var_value": 0,
+            "shouldBlink": false
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "time_stop"
+            },
+            {
+              "target": "update_timer_zone_01"
+            },
+            {
+              "target": "unit respawn"
+            }
+          ]
+        }
+      ]
     },
     "score_indication": {
       "is_enabled": true,
@@ -346,13 +463,13 @@
       ],
       "else_actions": []
     },
-    "t1_shooting_enabler": {
+    "shooting_enable_timer": {
       "is_enabled": false,
       "comments": "",
       "props": {
         "actionsType": "PERFORM_ONE_BY_ONE",
         "conditionsType": "ALL",
-        "enableAfterComplete": false
+        "enableAfterComplete": true
       },
       "events": {
         "periodicEvent": {
@@ -360,43 +477,31 @@
         }
       },
       "conditions": {
-        "unitDistanceBetween": {
-          "value": 300.0,
-          "math": "2D",
-          "object_type": "isAlive",
-          "object_marking": 0,
-          "object_var_name": "",
-          "object_var_comp_op": "equal",
-          "object_var_value": 0,
-          "target_type": "isAlive",
-          "target_marking": 0,
-          "check_objects": "any",
-          "check_targets": "any",
-          "object": "t1_player_squad",
-          "target": "t1_shooting_point"
+        "varCompareInt": {
+          "var_value": "shooting_timer",
+          "value": 0,
+          "comparasion_func": "more"
         }
       },
-      "actions": [
+      "actions": {
+        "missionSetTimeIndicator": {
+          "var": "shooting_timer"
+        },
+        "varModify": {
+          "operator": "subAB",
+          "value": 1.0,
+          "var": "shooting_timer"
+        }
+      },
+      "else_actions": [
         {
           "unitSetProperties": {
             "object_marking": 0,
             "object_var_name": "",
             "object_var_comp_op": "equal",
             "object_var_value": 0,
-            "object": "t1_player_squad",
-            "useForTriggerFiltered": true,
+            "object": "all_player_squad",
             "cannotShoot": false
-          }
-        },
-        {
-          "missionMarkAsWaypoint": {
-            "visible": false,
-            "primary": false,
-            "oriented": false,
-            "ignoreDifficulty": false,
-            "scale": 5.0,
-            "target": "t1_shooting_point",
-            "team": "A"
           }
         },
         {
@@ -412,129 +517,30 @@
             "object_var_name": "",
             "object_var_comp_op": "equal",
             "object_var_value": 0,
-            "shouldBlink": false,
-            "team": "A"
+            "shouldBlink": false
           }
         },
         {
           "wait": {
-            "time": 3.0
+            "time": 2.0
           }
         },
         {
-          "playHint": {
-            "hintType": "standard",
-            "name": "hints/duel_battle_fire",
-            "action": "hide",
-            "shouldFadeOut": false,
-            "time": 4.0,
-            "priority": 0,
-            "isOverFade": false,
-            "target_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "shouldBlink": false,
-            "team": "A"
-          }
-        }
-      ],
-      "else_actions": []
-    },
-    "t2_shooting_enabler": {
-      "is_enabled": false,
-      "comments": "",
-      "props": {
-        "actionsType": "PERFORM_ONE_BY_ONE",
-        "conditionsType": "ALL",
-        "enableAfterComplete": false
-      },
-      "events": {
-        "periodicEvent": {
-          "time": 1.0
-        }
-      },
-      "conditions": {
-        "unitDistanceBetween": {
-          "value": 300.0,
-          "math": "2D",
-          "object_type": "isAlive",
-          "object_marking": 0,
-          "object_var_name": "",
-          "object_var_comp_op": "equal",
-          "object_var_value": 0,
-          "target_type": "isAlive",
-          "target_marking": 0,
-          "check_objects": "any",
-          "check_targets": "any",
-          "object": "t2_player_squad",
-          "target": "t2_shooting_point"
-        }
-      },
-      "actions": [
-        {
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "t2_player_squad",
-            "useForTriggerFiltered": true,
-            "cannotShoot": false
-          }
-        },
-        {
-          "missionMarkAsWaypoint": {
-            "visible": false,
-            "primary": false,
-            "oriented": false,
-            "ignoreDifficulty": false,
-            "scale": 5.0,
-            "target": "t2_shooting_point",
-            "team": "B"
-          }
-        },
-        {
-          "playHint": {
-            "hintType": "standard",
-            "name": "hints/duel_battle_fire",
-            "action": "show",
-            "shouldFadeOut": false,
-            "time": 4.0,
-            "priority": 0,
-            "isOverFade": false,
-            "target_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "shouldBlink": false,
-            "team": "B"
+          "missionSetTimeIndicator": {
+            "var": "shooting_timer"
           }
         },
         {
           "wait": {
-            "time": 3.0
+            "time": 2.0
           }
         },
         {
-          "playHint": {
-            "hintType": "standard",
-            "name": "hints/duel_battle_fire",
-            "action": "hide",
-            "shouldFadeOut": false,
-            "time": 4.0,
-            "priority": 0,
-            "isOverFade": false,
-            "target_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "shouldBlink": false,
-            "team": "B"
+          "triggerDisable": {
+            "target": "shooting_enable_timer"
           }
         }
-      ],
-      "else_actions": []
+      ]
     },
     "round_01": {
       "isCategory": true,
@@ -549,7 +555,7 @@
         },
         "events": {
           "periodicEvent": {
-            "time": 1.0
+            "time": 0.01
           }
         },
         "conditions": {
@@ -588,14 +594,14 @@
               "isIndividual": false,
               "removeAreas": false,
               "canSpawnOnNeutral": false,
-              "showOnMap": true,
+              "showOnMap": false,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
               "replaceAreas": false,
+              "forceCreate": false,
               "target": "t1_air_spawn_01",
               "team": "A",
               "disableAfter": 0,
-              "offset": [0.0,0.0,0.0],
               "tags": {
                 "tank": false
               }
@@ -613,11 +619,62 @@
               "isIndividual": false,
               "removeAreas": false,
               "canSpawnOnNeutral": false,
-              "showOnMap": true,
+              "showOnMap": false,
               "onlyOnePlayerPerSpawnPoint": false,
               "resetStrictSpawnIndex": false,
               "replaceAreas": false,
+              "forceCreate": false,
               "target": "t2_air_spawn_01",
+              "team": "B",
+              "disableAfter": 0,
+              "tags": {
+                "tank": false
+              }
+            }
+          },
+          {
+            "missionMarkAsRespawnPoint": {
+              "loc_name": "missions/spawn_random",
+              "spawnEffect": false,
+              "isAirfield": false,
+              "isUnit": false,
+              "radius": -1.0,
+              "isStrictSpawn": true,
+              "useExisting": false,
+              "isIndividual": false,
+              "removeAreas": false,
+              "canSpawnOnNeutral": false,
+              "showOnMap": false,
+              "onlyOnePlayerPerSpawnPoint": false,
+              "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
+              "forceCreate": false,
+              "target": "t1_air_spawn_close",
+              "team": "A",
+              "disableAfter": 0,
+              "tags": {
+                "tank": false
+              }
+            }
+          },
+          {
+            "missionMarkAsRespawnPoint": {
+              "loc_name": "missions/spawn_random",
+              "spawnEffect": false,
+              "isAirfield": false,
+              "isUnit": false,
+              "radius": -1.0,
+              "isStrictSpawn": true,
+              "useExisting": false,
+              "isIndividual": false,
+              "removeAreas": false,
+              "canSpawnOnNeutral": false,
+              "showOnMap": false,
+              "onlyOnePlayerPerSpawnPoint": false,
+              "resetStrictSpawnIndex": false,
+              "replaceAreas": false,
+              "forceCreate": false,
+              "target": "t2_air_spawn_close",
               "team": "B",
               "disableAfter": 0,
               "tags": {
@@ -655,7 +712,14 @@
               "name_for_respawn_base": "",
               "target": "battle_area_01",
               "canCaptureInAir": true,
-              "captureNoPenalty": true
+              "captureNoPenalty": true,
+              "zoneDefenders": []
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 20,
+              "var": "shooting_timer"
             }
           },
           {
@@ -685,34 +749,9 @@
                 "target": "unit_out_of_area_01"
               },
               {
-                "target": "t1_shooting_enabler"
-              },
-              {
-                "target": "t2_shooting_enabler"
+                "target": "shooting_enable_timer"
               }
             ]
-          },
-          {
-            "missionMarkAsWaypoint": {
-              "visible": true,
-              "primary": false,
-              "oriented": false,
-              "ignoreDifficulty": false,
-              "scale": 2.0,
-              "target": "t1_shooting_point",
-              "team": "A"
-            }
-          },
-          {
-            "missionMarkAsWaypoint": {
-              "visible": true,
-              "primary": false,
-              "oriented": false,
-              "ignoreDifficulty": false,
-              "scale": 2.0,
-              "target": "t2_shooting_point",
-              "team": "B"
-            }
           },
           {
             "missionSetTimeSpeed": {
@@ -723,7 +762,7 @@
           {
             "playHint": {
               "hintType": "standard",
-              "name": "hints/duel_begin",
+              "name": "hints/duel_2x2_begin",
               "action": "show",
               "shouldFadeOut": false,
               "time": 4.0,
@@ -922,7 +961,8 @@
                 "name_for_respawn_base": "",
                 "target": "battle_area_01",
                 "canCaptureInAir": true,
-                "captureNoPenalty": true
+                "captureNoPenalty": true,
+                "zoneDefenders": []
               }
             },
             {
@@ -992,7 +1032,8 @@
                 "name_for_respawn_base": "",
                 "target": "battle_area_01",
                 "canCaptureInAir": true,
-                "captureNoPenalty": true
+                "captureNoPenalty": true,
+                "zoneDefenders": []
               }
             },
             {
@@ -1039,10 +1080,10 @@
               "object_marking": 0,
               "object_var_name": "",
               "object_var_comp_op": "equal",
-              "object_var_value": 0,
               "func": "equal",
               "value": 0,
-              "object": "all_player_squad"
+              "object": "all_player_squad",
+              "object_var_value": 0
             }
           },
           "actions": {
@@ -1066,7 +1107,8 @@
               "name_for_respawn_base": "",
               "target": "battle_area_01",
               "canCaptureInAir": true,
-              "captureNoPenalty": true
+              "captureNoPenalty": true,
+              "zoneDefenders": []
             },
             "triggerEnable": {
               "target": "round_01_end"
@@ -1100,8 +1142,8 @@
             "value": 0,
             "object_var_name": "",
             "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "all_player_squad"
+            "object": "all_player_squad",
+            "object_var_value": 0
           }
         },
         "actions": {
@@ -1189,9 +1231,9 @@
               "check_objects": "any",
               "object_var_name": "",
               "object_var_comp_op": "equal",
-              "object_var_value": 0,
               "object": "t1_player_squad",
-              "target": "battle_area_01"
+              "target": "battle_area_01",
+              "object_var_value": 0
             }
           },
           {
@@ -1202,9 +1244,9 @@
               "check_objects": "any",
               "object_var_name": "",
               "object_var_comp_op": "equal",
-              "object_var_value": 0,
               "object": "t2_player_squad",
-              "target": "battle_area_01"
+              "target": "battle_area_01",
+              "object_var_value": 0
             }
           }
         ],
@@ -1322,9 +1364,9 @@
             "check_objects": "any",
             "object_var_name": "",
             "object_var_comp_op": "equal",
-            "object_var_value": 0,
             "object": "all_player_squad_alive",
-            "target": "battle_area_01"
+            "target": "battle_area_01",
+            "object_var_value": 0
           }
         },
         "actions": {
@@ -1357,9 +1399,9 @@
             "check_objects": "all",
             "object_var_name": "",
             "object_var_comp_op": "equal",
-            "object_var_value": 0,
             "object": "all_player_squad_alive",
-            "target": "battle_area_destr_01"
+            "target": "battle_area_destr_01",
+            "object_var_value": 0
           }
         },
         "actions": [],
@@ -1390,9 +1432,9 @@
             "check_objects": "any",
             "object_var_name": "",
             "object_var_comp_op": "equal",
-            "object_var_value": 0,
             "object": "all_player_squad_alive",
-            "target": "battle_area_destr_01"
+            "target": "battle_area_destr_01",
+            "object_var_value": 0
           }
         },
         "actions": {
@@ -1424,9 +1466,9 @@
             "check_objects": "any",
             "object_var_name": "",
             "object_var_comp_op": "equal",
-            "object_var_value": 0,
             "object": "all_player_squad_alive",
-            "target": "battle_area_message"
+            "target": "battle_area_message",
+            "object_var_value": 0
           }
         },
         "actions": {
@@ -1505,9 +1547,9 @@
             "check_objects": "any",
             "object_var_name": "",
             "object_var_comp_op": "equal",
-            "object_var_value": 0,
             "object": "all_player_squad_alive",
-            "target": "battle_area_message"
+            "target": "battle_area_message",
+            "object_var_value": 0
           }
         },
         "actions": {
@@ -1748,7 +1790,8 @@
     "indication_point_team_A": 0,
     "indication_point_team_B": 0,
     "string_for_round_end": "",
-    "disqualification_timer": 30
+    "disqualification_timer": 30,
+    "shooting_timer": 20
   },
   "dialogs": [],
   "airfields": [],

@@ -64,7 +64,7 @@ class EventJoinProcess
         ::g_squad_manager.setReadyFlag()
       return remove()
     }
-    if (!antiCheat.showMsgboxIfEacInactive(::events.getEventDiffCode(event)))
+    if (!antiCheat.showMsgboxIfEacInactive(event))
       return remove()
     // Same as checkedNewFlight in gui_handlers.BaseGuiHandlerWT.
     ::queues.checkAndStart(

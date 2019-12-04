@@ -267,7 +267,7 @@ class ::WwBattle
           if (firstArmyCountry.len() == 0)
             firstArmyCountry = army.owner.country
 
-          teamArmyNames.push(armyName)
+          teamArmyNames.append(armyName)
           ::u.appendOnce(army.unitType, teamUnitTypes)
           local wwUnitType = ::g_ww_unit_type.getUnitTypeByCode(army.unitType)
           if (wwUnitType.canBeControlledByPlayer)
@@ -752,7 +752,7 @@ class ::WwBattle
       if (unit.count <= 0 || unit.isControlledByAI())
         continue
 
-      local groupUnits = unitsGroups?[unit.unit?.shopCountry ?? ""].groups[unit.name].units
+      local groupUnits = unitsGroups?[unit.name].units
       if (groupUnits == null)
         availableUnits[unit.name] <- unit.count
       else

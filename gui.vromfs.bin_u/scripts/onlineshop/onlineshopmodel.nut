@@ -268,7 +268,7 @@ OnlineShopModel.getAllFeaturePurchases <- function getAllFeaturePurchases(featur
   {
     local purchase = getPurchaseData(entitlement)
     if (purchase.canBePurchased)
-      res.push(purchase)
+      res.append(purchase)
   }
   return res
 }

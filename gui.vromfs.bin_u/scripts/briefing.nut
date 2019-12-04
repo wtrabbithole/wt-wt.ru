@@ -413,7 +413,7 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
       local listObj = showSceneBtn("optionslist", true)
       listObj.height = "" + optionItems.len() + "*@baseTrHeight" //bad solution, but freeheight doesn't work correct
     }
-    optionsContainers.push(container.descr)
+    optionsContainers.append(container.descr)
 
     if (restoreType == ::ERT_TACTICAL_CONTROL)
     {

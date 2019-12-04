@@ -401,6 +401,7 @@ local Unit = class
     weaponry.image <- ::get_weapon_image(esUnitType, weaponBlk, blk)
     weaponry.requiresModelReload <- weaponBlk?.requiresModelReload ?? false
     weaponry.isHidden <- weaponBlk?.isHidden ?? false
+    weaponry.weaponmask <- blk?.weaponmask ?? 0
 
     if (weaponry.name == "tank_additional_armor")
       weaponry.requiresModelReload <- true

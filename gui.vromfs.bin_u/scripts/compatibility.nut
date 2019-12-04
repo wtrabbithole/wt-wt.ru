@@ -55,5 +55,5 @@
 //----------------------------wop_1_93_0_X---------------------------------//
 ::apply_compatibilities({
   OPTION_SHOW_COMPASS_IN_TANK_HUD = -1
-  should_use_eac = @(diffCode) true
+  function shop_get_premium_account_ent_name() {return "PremiumAccount"}
 })

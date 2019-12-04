@@ -18,18 +18,14 @@ global enum WW_MAP_CONSPLE_SHORTCUTS
 ::g_ww_map_controls_buttons.template <- {
   funcName = null
   shortcut = null
-  actionName = ""
-  text = function () {
-      local text = actionName
-      if (!::show_console_buttons)
-      {
-        local shortcutText = ::u.isFunction(shortcut) ? shortcut() : shortcut
-        text += ::loc("ui/parentheses/space", {text = shortcutText})
-      }
-      return text
-    }
-  isHidden = function() { return true }
-  isEnabled = function() { return true }
+  keyboardShortcut = ""
+  getActionName = @() ""
+  getKeyboardShortcut = @() ::show_console_buttons
+    ? ""
+    : ::loc("ui/parentheses/space", { text = keyboardShortcut})
+  text = @() $"{getActionName()}{getKeyboardShortcut()}"
+  isHidden = @() true
+  isEnabled = @() !::g_world_war.isCurrentOperationFinished()
 }
 
 enums.addTypesByGlobalName("g_ww_map_controls_buttons",
@@ -46,19 +42,15 @@ enums.addTypesByGlobalName("g_ww_map_controls_buttons",
 
       return ::loc("worldWar/armyMove")
     }
-    isHidden = function () {
-      return !::show_console_buttons
-    }
-    isEnabled = function () {
-      return !::g_world_war.isCurrentOperationFinished()
-    }
+    isHidden = @() !::show_console_buttons
   }
   ENTRENCH = {
     id = "army_entrench_button"
     funcName = "onArmyEntrench"
     shortcut = WW_MAP_CONSPLE_SHORTCUTS.ENTRENCH
+    keyboardShortcut = "E"
     style = "accessKey:'J:RB | E';"
-    text = function () { return ::loc("worldWar/armyEntrench") + (::show_console_buttons ? "" : " (E)")}
+    getActionName = @() ::loc("worldWar/armyEntrench")
     isHidden = function () {
       local armiesNames = ::ww_get_selected_armies_names()
       if (!armiesNames.len())
@@ -89,27 +81,21 @@ enums.addTypesByGlobalName("g_ww_map_controls_buttons",
     id = "army_stop_button"
     funcName = "onArmyStop"
     shortcut = WW_MAP_CONSPLE_SHORTCUTS.STOP
+    keyboardShortcut = "S"
     style = "accessKey:'J:Y | S';"
-    text = function () { return ::loc("worldWar/armyStop") + (::show_console_buttons ? "" : " (S)")}
-    isHidden = function () {
-      return ::ww_get_selected_armies_names().len() == 0
-    }
-    isEnabled = function () {
-      return !::g_world_war.isCurrentOperationFinished()
-    }
+    getActionName = @() ::loc("worldWar/armyStop")
+    isHidden = @() ::ww_get_selected_armies_names().len() == 0
   }
 
   PREPARE_FIRE = {
     id = "army_prepare_fire_button"
     funcName = "onArtilleryArmyPrepareToFire"
     shortcut = WW_MAP_CONSPLE_SHORTCUTS.PREPARE_FIRE
+    keyboardShortcut = "A"
     style = "accessKey:'J:LB | A';"
-    text = function () {
-      if (::ww_artillery_strike_mode_on())
-        return ::loc("worldWar/armyCancel") + (::show_console_buttons ? "" : " (A)")
-      else
-        return ::loc("worldWar/armyFire") + (::show_console_buttons ? "" : " (A)")
-    }
+    getActionName = @() ::ww_artillery_strike_mode_on()
+      ? ::loc("worldWar/armyCancel")
+      : ::loc("worldWar/armyFire")
     isHidden = function () {
       local armiesNames = ::ww_get_selected_armies_names()
       if (!armiesNames.len())
@@ -124,9 +110,6 @@ enums.addTypesByGlobalName("g_ww_map_controls_buttons",
       }
 
       return true
-    }
-    isEnabled = function () {
-      return !::g_world_war.isCurrentOperationFinished()
     }
   }
 }, null, "name")

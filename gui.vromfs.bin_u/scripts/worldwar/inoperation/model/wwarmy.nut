@@ -132,7 +132,7 @@ class ::WwArmy extends ::WwFormation
 
     local recalMoral = getMoral()
     if (recalMoral >= 0)
-      desc.push(::loc("worldwar/morale", {morale = recalMoral}))
+      desc.append(::loc("worldwar/morale", {morale = recalMoral}))
 
     local suppliesEnd = getSuppliesFinishTime()
     if (suppliesEnd > 0)
@@ -141,17 +141,17 @@ class ::WwArmy extends ::WwFormation
       local suppliesEndLoc = "worldwar/suppliesfinishedIn"
       if (::g_ww_unit_type.isAir(unitType))
         suppliesEndLoc = "worldwar/returnToAirfieldIn"
-      desc.push( ::loc(suppliesEndLoc, { time = timeText }) )
+      desc.append( ::loc(suppliesEndLoc, { time = timeText }) )
     }
 
     local entrenchTime = secondsLeftToEntrench()
     if (entrenchTime == 0)
     {
-      desc.push(::loc("worldwar/armyEntrenched"))
+      desc.append(::loc("worldwar/armyEntrenched"))
     }
     else if (entrenchTime > 0)
     {
-      desc.push(::loc("worldwar/armyEntrenching",
+      desc.append(::loc("worldwar/armyEntrenching",
           {time = time.hoursToString(time.secondsToHours(entrenchTime), true, true)}))
     }
 

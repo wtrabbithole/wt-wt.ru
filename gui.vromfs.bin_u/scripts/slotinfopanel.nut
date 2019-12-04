@@ -77,7 +77,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       local view = { items = [] }
       for(local i = 0; i < showTabsCount; i++)
       {
-        view.items.push({
+        view.items.append({
           tooltip = tabsInfo[i].tooltip,
           imgId = tabsInfo[i].imgId,
           imgBg = tabsInfo[i].imgBg

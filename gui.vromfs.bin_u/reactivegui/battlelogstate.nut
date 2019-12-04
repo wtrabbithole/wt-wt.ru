@@ -3,7 +3,7 @@ local state = persist("battleLogState", @(){
 })
 
 ::interop.pushBattleLogEntry <- function (log_entry) {
-  state.log.value.push(log_entry)
+  state.log.value.append(log_entry)
   state.log.trigger()
 }
 

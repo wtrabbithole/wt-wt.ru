@@ -49,7 +49,7 @@ tdiv {
   tdiv {
     pos:t='0, 50%ph-50%h'
     position:t='relative'
-    <<#weapon>>tooltip:t='<<?modification/category/secondaryWeapon>><<?ui/colon>>\n<<weapon>>'<</weapon>>
+    tooltip:t='<<?modification/category/secondaryWeapon>><<?ui/colon>>\n<<weapon>>'
 
     <<#presetCount>>
     textareaNoTab {

@@ -84,9 +84,6 @@ g_hud_tutorial_elements.getCurBlkName <- function getCurBlkName()
   if (isDebugMode)
     return debugBlkName
 
-  if (::get_game_mode() != ::GM_TRAINING)
-    return null
-
   return getBlkNameByCurMission()
 }
 

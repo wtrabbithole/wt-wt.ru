@@ -390,11 +390,11 @@ local Writer = class {
           chr = value.slice(i, i + 1)
 
           if (isWhitespace(chr))
-            spaces.push(tokens.len())
+            spaces.append(tokens.len())
           else
             nonSpace = true
 
-          tokens.push(["text", chr, start, start + 1])
+          tokens.append(["text", chr, start, start + 1])
           start += 1
 
           // Check for whitespace on the current line.
@@ -449,10 +449,10 @@ local Writer = class {
         break
       }
       token = [ tType, value, start, scanner.pos ]
-      tokens.push(token)
+      tokens.append(token)
 
       if (tType == "#" || tType == "^") {
-        sections.push(token)
+        sections.append(token)
       }
       else if (tType == "/") {
         // Check section nesting
@@ -507,7 +507,7 @@ local Writer = class {
           lastToken[3] = token[3]
         }
         else {
-          squashedTokens.push(token)
+          squashedTokens.append(token)
           lastToken = token
         }
       }
@@ -534,8 +534,8 @@ local Writer = class {
       switch (token[0]) {
         case "#":
         case "^":
-          collector.push(token)
-          sections.push(token)
+          collector.append(token)
+          sections.append(token)
           token.resize(5, [])
           collector = []
           token[4] = collector
@@ -549,7 +549,7 @@ local Writer = class {
           break
 
         default:
-          collector.push(token)
+          collector.append(token)
       }
     }
 

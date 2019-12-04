@@ -48,7 +48,7 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
     local view = { items = [] }
     for (local i = 0; i < ticketsList.len(); ++i)
     {
-      view.items.push(ticketsList[i].getViewData({
+      view.items.append(ticketsList[i].getViewData({
         itemIndex = i.tostring()
         ticketBuyWindow = true
       }))
@@ -61,7 +61,7 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
     local view = []
     for (local i = 0; i < tickets.len(); ++i)
     {
-      view.push({
+      view.append({
         captionId = getTicketCaptionId(i)
         captionText = getTicketCaptionText(tickets[i])
       })
@@ -184,9 +184,9 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
     local text = ::loc("ticketBuyWindow/activeTicketText") + "\n"
     local tournamentData = activeTicket.getTicketTournamentData(::events.getEventEconomicName(event))
     local textParts = []
-    textParts.push(::loc("ticketBuyWindow/unfinishedSessions", tournamentData))
-    textParts.push(activeTicket.getDefeatCountText(tournamentData))
-    textParts.push(activeTicket.getSequenceDefeatCountText(tournamentData))
+    textParts.append(::loc("ticketBuyWindow/unfinishedSessions", tournamentData))
+    textParts.append(activeTicket.getDefeatCountText(tournamentData))
+    textParts.append(activeTicket.getSequenceDefeatCountText(tournamentData))
     text += ::g_string.implode(textParts, "\n")
     return text
   }

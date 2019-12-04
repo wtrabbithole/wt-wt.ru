@@ -91,7 +91,7 @@ g_hints.getHintSlices <- function getHintSlices(text, params = {})
           {
             local colorEnd = piece.indexof(">", openingColorTagStartIndex)
             local colorStart = openingColorTagStartIndex + colorTags[0].len()
-            colors.push(piece.slice(colorStart, colorEnd))
+            colors.append(piece.slice(colorStart, colorEnd))
             unclosedTags++
           }
         }

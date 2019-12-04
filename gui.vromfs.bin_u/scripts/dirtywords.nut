@@ -239,16 +239,16 @@ class DirtyWords
       {
         if ( buffer != "" )
         {
-          out.push ( buffer )
+          out.append ( buffer )
           buffer = "";
         }
 
-        out.push ( w )
+        out.append ( w )
       }
     }
 
     if ( buffer != "" )
-      out.push ( buffer )
+      out.append ( buffer )
 
     return out;
   }

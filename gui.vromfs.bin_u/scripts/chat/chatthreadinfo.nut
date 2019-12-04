@@ -110,7 +110,7 @@ class ChatThreadInfo
 
       local str = tagType.getTagString(this)
       if (str.len())
-        resArray.push(str)
+        resArray.append(str)
     }
     resArray.extend(customTags)
     return ::g_string.implode(resArray, ",")

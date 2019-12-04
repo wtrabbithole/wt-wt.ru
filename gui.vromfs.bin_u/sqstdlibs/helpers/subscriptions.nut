@@ -113,7 +113,7 @@ local function removeAllListenersByEnv(listener_env) {
 }
 
 local function broadcast(event_name, params = {}) {
-  currentBroadcastingEvents.push({
+  currentBroadcastingEvents.append({
     eventName = event_name
     eventId = currentEventIdx++
   })

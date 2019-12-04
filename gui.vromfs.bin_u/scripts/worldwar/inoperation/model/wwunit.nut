@@ -147,60 +147,6 @@ class ::WwUnit
     return isForceControlledByAI || !wwUnitType.canBeControlledByPlayer
   }
 
-  function getUnitClassData(weapPreset = null)
-  {
-    local res = {
-      unitClass = WW_UNIT_CLASS.UNKNOWN
-      flyOutUnitClass = WW_UNIT_CLASS.UNKNOWN
-    }
-
-    if (!isAir())
-      return res
-
-    if (expClass == "fighter")
-    {
-      res.unitClass = WW_UNIT_CLASS.FIGHTER
-      res.flyOutUnitClass = WW_UNIT_CLASS.FIGHTER
-      if (weapPreset)
-      {
-        local wpcostBlk = ::get_wpcost_blk()
-        local weaponmask = wpcostBlk?[name]?.weapons?[weapPreset]?.weaponmask ?? 0
-        local requiredWeaponmask = ::g_world_war.getWWConfigurableValue("fighterToAssaultWeaponMask", 0)
-        local isFighter = !(weaponmask & requiredWeaponmask)
-        res.unitClass = isFighter ? WW_UNIT_CLASS.FIGHTER : WW_UNIT_CLASS.ASSAULT
-        res.flyOutUnitClass = isFighter ? WW_UNIT_CLASS.FIGHTER : WW_UNIT_CLASS.BOMBER
-      }
-    }
-    else if (expClass == "bomber")
-    {
-      res.unitClass = WW_UNIT_CLASS.BOMBER
-      res.flyOutUnitClass = WW_UNIT_CLASS.BOMBER
-    }
-    else
-    {
-      res.unitClass = WW_UNIT_CLASS.ASSAULT
-      res.flyOutUnitClass = WW_UNIT_CLASS.BOMBER
-    }
-
-    return res
-  }
-
-  function getUnitClassTooltipText(unitClass)
-  {
-    if (expClass == "fighter" )
-      return unitClass == WW_UNIT_CLASS.FIGHTER
-        ? ::loc("mainmenu/type_fighter")
-        : ::loc("mainmenu/type_assault_fighter")
-
-    if (unitClass == WW_UNIT_CLASS.BOMBER)
-      return ::loc("mainmenu/type_bomber")
-
-    if (unitClass == WW_UNIT_CLASS.ASSAULT)
-      return ::loc("mainmenu/type_assault")
-
-    return ""
-  }
-
   function getUnitTypeText()
   {
     return ::get_role_text(expClass)

@@ -122,9 +122,9 @@ class Promo
       }
 
       if (block?.bottom != null)
-        bottomPromoView.promoButtons.push(blockView)
+        bottomPromoView.promoButtons.append(blockView)
       else
-        upperPromoView.promoButtons.push(blockView)
+        upperPromoView.promoButtons.append(blockView)
 
       if (blockView?.notifyNew && !::g_promo.isWidgetSeenById(blockView.id))
         widgetsTable[blockView.id] <- {}

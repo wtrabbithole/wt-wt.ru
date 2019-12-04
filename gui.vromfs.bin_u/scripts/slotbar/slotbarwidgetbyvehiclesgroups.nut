@@ -136,6 +136,11 @@ local handlerClass = class extends ::gui_handlers.SlotbarWidget
     fullUpdate()
   }
 
+  function getCurCrew()
+  {
+    return slotbarPresets.getSlotItem(curSlotCountryId, curSlotIdInCountry)
+  }
+
   getParamsForActionsList = @() { hasSlotbarByUnitsGroups = true }
 }
 

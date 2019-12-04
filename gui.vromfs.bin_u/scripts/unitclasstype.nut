@@ -183,7 +183,7 @@ g_unit_class_type.getTypesFromCodeMask <- function getTypesFromCodeMask(codeMask
   local resultTypes = []
   foreach (t in types)
     if (t.checkCode(codeMask))
-      resultTypes.push(t)
+      resultTypes.append(t)
   return resultTypes
 }
 

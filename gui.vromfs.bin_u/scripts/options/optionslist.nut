@@ -1,6 +1,7 @@
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
+local soundDevice = require_native("soundDevice")
 
 local getSystemOptions = @() {
   name = "graphicsParameters"
@@ -190,7 +191,7 @@ local getSoundOptions = @() {
   name = "sound"
   options = [
     [::USEROPT_SOUND_ENABLE, "switchbox", ::is_platform_pc],
-    [::USEROPT_SOUND_DEVICE_OUT, "combobox", ::is_platform_pc],
+    [::USEROPT_SOUND_DEVICE_OUT, "combobox", ::is_platform_pc && soundDevice.sound_get_device_out_count()],
     [::USEROPT_SOUND_SPEAKERS_MODE, "combobox", ::is_platform_pc],
     [::USEROPT_VOICE_MESSAGE_VOICE, "spinner"],
     [::USEROPT_SPEECH_TYPE, "spinner", ! ::is_in_flight()],

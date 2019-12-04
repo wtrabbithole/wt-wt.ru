@@ -46,7 +46,7 @@ class EventTicketBuyOfferProcess
     local availableTickets = []
     foreach (ticket in _tickets)
       if (ticket.getLimitsCheckData().result)
-        availableTickets.push(ticket)
+        availableTickets.append(ticket)
 
     local activeTicket = ::events.getEventActiveTicket(_event)
     if (availableTickets.len() == 0)

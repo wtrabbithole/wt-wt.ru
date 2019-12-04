@@ -45,7 +45,7 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
     sg_groups = [::EPLX_SEARCH, ::EPL_FRIENDLIST, ::EPL_RECENT_SQUAD]
     if(::clan_get_my_clan_id() != "-1" && !::isInArray(clanGroup, sg_groups))
     {
-      sg_groups.push(clanGroup)
+      sg_groups.append(clanGroup)
       if (!(clanGroup in ::contacts))
         ::contacts[clanGroup] <- []
     }

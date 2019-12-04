@@ -860,7 +860,7 @@ foreach (i, v in ::cssColorsMapDark)
   if (!(elementKey in table))
     table[elementKey] <- elementValue
   else if (typeof(table[elementKey]) == "array")
-    table[elementKey].push(elementValue)
+    table[elementKey].append(elementValue)
   else
     table[elementKey] <- [table[elementKey], elementValue]
 }
@@ -929,14 +929,14 @@ foreach (i, v in ::cssColorsMapDark)
   {
     foreach (name in multiArray[currentIndex])
     {
-      currentArray.push(name)
+      currentArray.append(name)
       ::_invoke_multi_array(multiArray, currentArray, currentIndex + 1, invokeCallback)
       currentArray.pop()
     }
   }
   else
   {
-    currentArray.push(multiArray[currentIndex])
+    currentArray.append(multiArray[currentIndex])
     ::_invoke_multi_array(multiArray, currentArray, currentIndex + 1, invokeCallback)
     currentArray.pop()
   }

@@ -48,11 +48,11 @@ local function baseParticles(params=defParams){
     particles.append(p)
   }
   if (verbose)
-    particles.extend([
+    particles.append(
       {rendObj=ROBJ_FRAME size=flex()}
       {rendObj=ROBJ_SOLID size=[1,8] hplace=HALIGN_CENTER vplace=VALIGN_MIDDLE}
       {rendObj=ROBJ_SOLID size=[8,1] hplace=HALIGN_CENTER vplace=VALIGN_MIDDLE}
-    ])
+    )
   return emitterParams.__merge({
     size = emitter_sz
     key = key

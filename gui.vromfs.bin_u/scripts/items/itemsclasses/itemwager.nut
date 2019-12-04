@@ -164,7 +164,7 @@ class ::items_classes.Wager extends ::BaseItem
       local rewData = createRewardData(reward)
       // No need to add empty rewards.
       if (!rewData.isEmpty)
-        res.push(rewData)
+        res.append(rewData)
     }
     res.sort(function (rd1, rd2)
     {
@@ -628,7 +628,7 @@ class ::items_classes.Wager extends ::BaseItem
       headerView.rewardText <- ::loc("items/wager/table/atMinStake")
       headerView.secondaryRewardText <- ::loc("items/wager/table/atMaxStake")
     }
-    view.rows.push(headerView)
+    view.rows.append(headerView)
 
     local previousRewardData = null
     local activeRowPlaced = false
@@ -640,7 +640,7 @@ class ::items_classes.Wager extends ::BaseItem
       {
         activeRowPlaced = true
         local activeRewardData = getRewardDataByParam(winsNum, winParams)
-        view.rows.push(createRewardView("selected", activeRewardData, winsNum))
+        view.rows.append(createRewardView("selected", activeRewardData, winsNum))
         previousRewardData = activeRewardData
       }
       local isMeActive = rewData.winCount == winsNum && !activeRowPlaced && needActiveRow
@@ -658,14 +658,14 @@ class ::items_classes.Wager extends ::BaseItem
 
       previousRewardData = rewData
       local rewardView = createRewardView(rowTypeName, rewData)
-      view.rows.push(rewardView)
+      view.rows.append(rewardView)
       if (isMeActive)
         activeRowPlaced = true
     }
     if (!activeRowPlaced && needActiveRow)
     {
       local activeRewardData = getRewardDataByParam(winsNum, winParams)
-      view.rows.push(createRewardView("selected", activeRewardData, winsNum))
+      view.rows.append(createRewardView("selected", activeRewardData, winsNum))
     }
     return view
   }

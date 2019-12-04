@@ -4,7 +4,6 @@ local contentStateModule = require("scripts/clientState/contentState.nut")
 local workshop = require("scripts/items/workshop/workshop.nut")
 local platform = require("scripts/clientState/platform.nut")
 local encyclopedia = require("scripts/encyclopedia.nut")
-local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 global enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
@@ -68,8 +67,6 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnWorldwar"
     onClickFunc = function(obj, handler)
     {
-      if (!antiCheat.showMsgboxIfEacInactive(::g_world_war.defaultDiffCode))
-        return
       ::queues.checkAndStart(
         ::Callback(@() goForwardIfOnline(@() ::g_world_war.openOperationsOrQueues(), false), handler),
         null,

@@ -110,7 +110,7 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
     cachedDeviceMappingBlk.setFrom(blkDeviceMapping)
 
     foreach (blkJoy in blkDeviceMapping)
-      realMapping.push({
+      realMapping.append({
         name          = blkJoy["name"]
         devId         = blkJoy["devId"]
         buttonsOffset = blkJoy["btnOfs"]

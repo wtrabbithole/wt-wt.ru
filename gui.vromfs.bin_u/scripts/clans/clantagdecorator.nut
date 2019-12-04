@@ -63,7 +63,7 @@
 
     if (decoratorsBlk != null)
       foreach (decoratorString in decoratorsBlk % "decor")
-        decorators.push(ClanTagDecorator(decoratorString, free))
+        decorators.append(ClanTagDecorator(decoratorString, free))
 
     return decorators
   }

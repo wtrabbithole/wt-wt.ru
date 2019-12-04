@@ -147,7 +147,8 @@ class ::g_invites_classes.SessionRoom extends ::BaseInvite
       return
 
     local room = ::g_mroom_info.get(roomId).getFullRoomData()
-    if (!antiCheat.showMsgboxIfEacInactive(::SessionLobby.getDifficulty(room).diffCode))
+    local event = room ? ::SessionLobby.getRoomEvent(room) : null
+    if (event != null && !antiCheat.showMsgboxIfEacInactive(event))
       return
 
     local canJoin = ignoreCheckSquad

@@ -44,13 +44,13 @@
       {
         if (taskData.airName == "")
           continue
-        preset.units.push(taskData.airName)
-        preset.crews.push(taskData.crewId)
+        preset.units.append(taskData.airName)
+        preset.crews.append(taskData.crewId)
         if (preset.selected == -1)
           preset.selected = taskData.crewId
       }
       _updateInfo(preset)
-      presets[presetDataItem.country].push(preset)
+      presets[presetDataItem.country].append(preset)
 
       local presetIndex = presets[presetDataItem.country].len() - 1
       presetDataItem.presetIndex <- presetIndex
@@ -197,7 +197,7 @@
     local result = []
     foreach (unitType, typeStatus in ::getTblValue(country, activeTypeBonusByCountry, {}))
       if( ! typeStatus)
-        result.push(unitType)
+        result.append(unitType)
     return result
   }
 

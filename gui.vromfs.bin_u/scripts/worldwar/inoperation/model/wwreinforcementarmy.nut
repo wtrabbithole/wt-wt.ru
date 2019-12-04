@@ -66,24 +66,24 @@ class ::WwReinforcementArmy extends ::WwFormation
     local desc = []
 
     if (morale >= 0)
-      desc.push(::loc("worldwar/morale", {morale = (morale + 0.5).tointeger()}))
+      desc.append(::loc("worldwar/morale", {morale = (morale + 0.5).tointeger()}))
 
     if (suppliesEndMillisec > 0)
     {
       local elapsed = ::max(0, (suppliesEndMillisec - ::ww_get_operation_time_millisec()) * 0.001)
 
-      desc.push(::loc("worldwar/suppliesfinishedIn",
+      desc.append(::loc("worldwar/suppliesfinishedIn",
           {time = time.hoursToString(time.secondsToHours(elapsed), true, true)}))
     }
 
     local elapsed = secondsLeftToEntrench();
     if (elapsed == 0)
     {
-      desc.push(::loc("worldwar/armyEntrenched"))
+      desc.append(::loc("worldwar/armyEntrenched"))
     }
     else if (elapsed > 0)
     {
-      desc.push(::loc("worldwar/armyEntrenching",
+      desc.append(::loc("worldwar/armyEntrenching",
           {time = time.hoursToString(time.secondsToHours(elapsed), true, true)}))
     }
 

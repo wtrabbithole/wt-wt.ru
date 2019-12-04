@@ -162,9 +162,9 @@ local function getMapsList(curEvent, isBanParamsOnly = false)
         ).slice(0,-1) + "_thumb*"
 
     local mapStateData = {
-      disliked = dislikeList.find(map) != null,
-      banned = banList.find(map) != null,
-      liked = likeList.find(map) != null
+      disliked = dislikeList.indexof(map) != null,
+      banned = banList.indexof(map) != null,
+      liked = likeList.indexof(map) != null
     }
 
     list.append( isBanParamsOnly

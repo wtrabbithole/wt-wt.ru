@@ -61,9 +61,9 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
 
     local chapterAndGroupText = []
     if (unlockBlk?.chapter)
-      chapterAndGroupText.push(::loc("unlocks/chapter/" + unlockBlk.chapter))
+      chapterAndGroupText.append(::loc("unlocks/chapter/" + unlockBlk.chapter))
     if ((unlockBlk?.group ?? "") != "")
-      chapterAndGroupText.push(::loc("unlocks/group/" + unlockBlk.group))
+      chapterAndGroupText.append(::loc("unlocks/group/" + unlockBlk.group))
 
     if (chapterAndGroupText.len())
       chapterAndGroupText = "(" + ::g_string.implode(chapterAndGroupText, ", ") + ")"
@@ -72,7 +72,7 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
 
     local tooltipArr = [::colorize("unlockHeaderColor", title),
       chapterAndGroupText, ::getTblValue("stagesText", unlockConfig, "")]
-    tooltipArr.push(::UnlockConditions.getConditionsText(unlockConfig.conditions,
+    tooltipArr.append(::UnlockConditions.getConditionsText(unlockConfig.conditions,
       unlockConfig.showProgress ? unlockConfig.curVal : null, unlockConfig.maxVal))
     unlockObj.tooltip =  ::g_string.implode(tooltipArr, "\n")
   }

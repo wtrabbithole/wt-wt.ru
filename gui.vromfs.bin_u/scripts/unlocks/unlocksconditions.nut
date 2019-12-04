@@ -301,7 +301,7 @@ UnlockConditions.loadMainProgressCondition <- function loadMainProgressCondition
     {
       res.values = ("mode" in unlock) ? unlock.mode % "unlock" : []
       if( ! res.values.len())
-        res.values.push(unlock.id)
+        res.values.append(unlock.id)
     }
   }
   else if (modeType == "landings")
@@ -538,8 +538,7 @@ UnlockConditions.loadCondition <- function loadCondition(blk)
   else if (t == "targetDistance")
   {
     res.values = getDiffTextArrayByPoint3(blk?.distance ?? -1, "%s" + ::loc("measureUnits/meters_alt"))
-    if (blk?.gt != null)
-      res.gt <- blk.gt
+    res.gt <- blk?.gt ?? true
   }
   else if (::isInArray(t, additionalTypes))
   {

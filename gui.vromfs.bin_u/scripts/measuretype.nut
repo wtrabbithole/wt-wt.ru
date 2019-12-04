@@ -213,7 +213,7 @@ g_measure_type.getTypeByName <- function getTypeByName(name, createIfNotFound = 
   if (res == UNKNOWN && createIfNotFound)
   {
     res = ::inherit_table(::g_measure_type.template, { name = name })
-    types.push(res)
+    types.append(res)
   }
   return res
 }

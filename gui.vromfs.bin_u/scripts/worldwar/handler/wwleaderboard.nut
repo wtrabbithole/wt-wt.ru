@@ -121,7 +121,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         (modeData?.needFeature && !::has_feature(modeData.needFeature)))
         continue
 
-      lbModesList.push(modeData)
+      lbModesList.append(modeData)
       local optionText = ::g_string.stripTags(
         ::loc("worldwar/leaderboard/" + modeData.mode))
       data += format("option {text:t='%s'}", optionText)
@@ -130,7 +130,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local modesObj = showSceneBtn("modes_list", true)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
-    local modeIdx = wwLeaderboardData.modes.findindex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
+    local modeIdx = lbModesList.findindex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
     modesObj.setValue(modeIdx)
   }
 

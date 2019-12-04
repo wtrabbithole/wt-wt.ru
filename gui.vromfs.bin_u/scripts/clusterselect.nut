@@ -6,7 +6,7 @@ local getViewClusters = function()
   local clusterOpt = ::get_option(::USEROPT_RANDB_CLUSTER)
   foreach (idx, item in clusterOpt.items)
   {
-    viewClusters.push({
+    viewClusters.append({
       id = "cluster_item_" + idx
       value = idx
       selected = stdMath.is_bit_set(clusterOpt.value, idx)

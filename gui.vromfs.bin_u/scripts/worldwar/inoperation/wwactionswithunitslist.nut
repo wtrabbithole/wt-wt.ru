@@ -12,7 +12,7 @@ local function loadUnitsFromBlk(blk, aiUnitsBlk = null)
     local unit    = ::WwUnit(unitBlk)
 
     if (unit.isValid())
-      units.push(unit)
+      units.append(unit)
 
     if (aiUnitsBlk)
     {
@@ -22,7 +22,7 @@ local function loadUnitsFromBlk(blk, aiUnitsBlk = null)
         local aiUnit = ::WwUnit(unitBlk)
         aiUnit.setCount(getTblValue("count", aiUnitData, -1))
         aiUnit.setForceControlledByAI(true)
-        units.push(aiUnit)
+        units.append(aiUnit)
       }
     }
   }
@@ -43,7 +43,7 @@ local function loadUnitsFromNameCountTbl(tbl)
 
     local unit = ::WwUnit(loadingBlk)
     if (unit.isValid())
-      units.push(unit)
+      units.append(unit)
   }
 
   return units
@@ -63,7 +63,7 @@ local function loadWWUnitsFromUnitsArray(unitsArray)
 
     local wwUnit = ::WwUnit(loadingBlk)
     if (wwUnit.isValid())
-      units.push(wwUnit)
+      units.append(wwUnit)
   }
 
   return units
@@ -101,14 +101,22 @@ local function getUnitsListViewParams(wwUnits, params = {}, needSort = true)
   return wwOperationUnitsGroups.overrideUnitsViewParamsByGroups(wwUnits)
 }
 
-
-local function getUnitMarkUp(name, unit) {
-  return ::build_aircraft_item(name, unit, {
+local function getUnitMarkUp(name, unit, group) {
+  local params = {
     status = "owned"
     inactive = true
     isLocalState = false
     tooltipParams = { showLocalState = false }
-  })
+  }
+  if (group != null)
+    unit = {
+      name = name
+      nameLocId = ::loc(group.name)
+      image = ::image_for_air(unit)
+      isFakeUnit = true
+    }
+
+  return ::build_aircraft_item(name, unit, params)
 }
 
 local function getMaxFlyTime(unit) {

@@ -1,5 +1,4 @@
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
-local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 ::current_campaign <- null
 ::current_campaign_name <- ""
@@ -773,12 +772,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_diff_pkg(diffCode))
       return
 
-    local isOnlineGame = gm == ::GM_SKIRMISH
-      || (::is_gamemode_coop(gm) && ::can_play_gamemode_by_squad(gm)
-         && ::g_squad_manager.isNotAloneOnline())
-    if (isOnlineGame && !antiCheat.showMsgboxIfEacInactive(diffCode))
-      return
-
     checkedNewFlight(function() {
       if (needCheckDiffAfterOptions && ::get_gui_option(::USEROPT_DIFFICULTY) == "custom")
         ::gui_start_cd_options(::briefing_options_apply, this)
@@ -875,7 +868,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       tabs = []
     }
     foreach(idx, mlType in typesList)
-      view.tabs.push({
+      view.tabs.append({
         id = mlType.id
         tabName = mlType.getTabName()
         navImagesText = ::get_navigation_images_text(idx, typesList.len())

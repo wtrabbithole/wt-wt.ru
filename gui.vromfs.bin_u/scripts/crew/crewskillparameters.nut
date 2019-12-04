@@ -162,7 +162,7 @@ g_crew_skill_parameters.getColumnsTypesList <- function getColumnsTypesList(skil
     foreach(skill in skillsList)
       if (columnType.checkSkill(skill.memberName, skill.skillName))
       {
-        columnTypes.push(columnType)
+        columnTypes.append(columnType)
         break
       }
   }
@@ -181,13 +181,13 @@ g_crew_skill_parameters.getSkillListHeaderRow <- function getSkillListHeaderRow(
     unit = ::g_crew.getCrewUnit(crew)
   }
   foreach (columnType in columnTypes)
-    res.valueItems.push({
+    res.valueItems.append({
       itemText = columnType.getHeaderText()
       itemImage = columnType.getHeaderImage(headerImageParams)
       imageSize = columnType.imageSize.tostring()
       imageLegendText = columnType.getHeaderImageLegendText()
     })
-  res.valueItems.push({
+  res.valueItems.append({
     itemDummy = true
   })
 

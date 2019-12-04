@@ -46,7 +46,7 @@ local function mapAdvanced(list, iteratee) {
   if (typeof(list) == "array") {
     local res = []
     for (local i = 0; i < list.len(); ++i)
-      res.push(iteratee(list[i], i, list))
+      res.append(iteratee(list[i], i, list))
     return res
   }
   if (typeof(list) == "table" || isDataBlock(list)) {

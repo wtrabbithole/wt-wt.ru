@@ -253,7 +253,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           tooltip = discountTooltip
         }
 
-      view.tabs.push(tabData)
+      view.tabs.append(tabData)
     }
     local pagesObj = scene.findObject("crew_pages_list")
     pagesObj.smallFont = needSmallerHeaderFont(pagesObj.getSize(), view.tabs) ? "yes" : "no"

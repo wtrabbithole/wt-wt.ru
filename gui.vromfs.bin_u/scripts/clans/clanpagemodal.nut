@@ -640,11 +640,13 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillClanWwMemberList()
   {
+    if (curWwMembers == null)
+      updateCurWwMembers() //fill default wwMembers list
     lbTableWeak.updateParams(
       ::leaderboardModel,
       ::ww_leaderboards_list,
       curWwCategory,
-      {lbMode = "ww_users"})
+      {lbMode = "ww_users_clan"})
 
     sortWwMembers()
 
@@ -1147,9 +1149,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function requestWwMembersList()
   {
     local cb = ::Callback(function(membersData) {
-        curWwCategory = curWwCategory ?? ::g_lb_category.EVENTS_PERSONAL_ELO
-        curWwMembers = wwLeaderboardData.convertWwLeaderboardData(
-          updateDataByUnitRank(membersData)).rows
+        updateCurWwMembers(membersData)
         updateWwMembersList()
       }, this)
     wwLeaderboardData.requestWwLeaderboardData(
@@ -1164,19 +1164,32 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       @(membersData) cb(membersData))
   }
 
+  function getDefaultWwMemberData(member)
+  {
+    return {
+      idx = -1
+      _id = member.uid.tointeger()
+      unit_rank = { value_total = member?.max_unit_rank ?? 1 }
+    }
+  }
+
   function updateDataByUnitRank(membersData)
   {
     local res = {}
     foreach (member in clanData.members)
     {
-      res[member.nick] <- {unit_rank = {value_total = member?.max_unit_rank ?? 1}}
-      local data = ::u.search(membersData, @(inst) inst?._id == member.uid.tointeger()) ?? {
-        idx = -1
-        _id = member.uid.tointeger()
-      }
-      res[member.nick].__update(data)
+      res[member.nick] <- getDefaultWwMemberData(member)
+      local data = ::u.search(membersData, @(inst) inst?._id == member.uid.tointeger())
+      if (data != null)
+        res[member.nick].__update(data)
     }
     return res
+  }
+
+  function updateCurWwMembers(membersData = {})
+  {
+    curWwMembers = wwLeaderboardData.convertWwLeaderboardData(
+      updateDataByUnitRank(membersData)).rows
   }
 
   function updateWwMembersList() {}

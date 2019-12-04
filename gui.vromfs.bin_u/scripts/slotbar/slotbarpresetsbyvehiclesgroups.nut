@@ -103,7 +103,7 @@ local function validatePresets(presetId, groupsList, countryPresets) {
     local i = 0
     foreach(defaultUnit in defaultUnitsListByGroups)
     {
-      local slotIdx = emptySLots[i]
+      local slotIdx = emptySLots?[i] ?? presetUnits.len()
       if (slotIdx in presetUnits)
         presetUnits[slotIdx] = defaultUnit
       else
@@ -187,7 +187,7 @@ local function setUnit(crew, unit, onFinishCb) {
     onFinishCb(true)
   }
 
-  local oldGroupIdx = curCountryPreset.units.searchindex(@(u)
+  local oldGroupIdx = curCountryPreset.units.findindex(@(u)
     groupIdByUnitName?[u?.name ?? ""] == unitGroup)
   if (unitGroup != curUnitGroup && oldGroupIdx != null)
   {
@@ -239,7 +239,7 @@ local function getCurCraftsInfo() {
 
 local function getCrewByUnit(unit) {
   local country = unit.shopCountry
-  local idCountry = shopCountriesList.findindex(@(cName) cName == country)
+  local idCountry = ::shopCountriesList.findindex(@(cName) cName == country)
   local units = curPreset.countryPresets?[country].units ?? []
   local idInCountry = units.findindex(@(u) u == unit)
   if (idInCountry == null)
@@ -247,6 +247,14 @@ local function getCrewByUnit(unit) {
 
   return {
     country = country
+    idCountry = idCountry
+    idInCountry = idInCountry
+  }
+}
+
+local function getSlotItem(idCountry, idInCountry) {
+  return {
+    country = ::shopCountriesList[idCountry]
     idCountry = idCountry
     idInCountry = idInCountry
   }
@@ -263,4 +271,5 @@ return {
   isDefaultUnitForGroup = isDefaultUnitForGroup
   getCurCraftsInfo = getCurCraftsInfo
   getCrewByUnit = getCrewByUnit
+  getSlotItem = getSlotItem
 }

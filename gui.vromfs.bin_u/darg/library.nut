@@ -180,7 +180,7 @@ local function wrap(elems, params=wrapParams) {
         tailidx = i
       }
       else if ((curwidth + esize + gapsize) <= dimensionLim) {
-        children.extend([gap, elem])
+        children.append(gap, elem)
         curwidth = curwidth + esize + gapsize
         tailidx = i
       }

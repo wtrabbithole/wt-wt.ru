@@ -1,3 +1,5 @@
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+
 /*
 SessionLobby API
 
@@ -2508,7 +2510,7 @@ SessionLobby.getRandomTeam <- function getRandomTeam()
   {
     local checkTeamResult = checkUnitsInSlotbar(curCountry, team)
     if (checkTeamResult.isAvailable)
-      teams.push(team)
+      teams.append(team)
   }
   if (teams.len() == 0)
     teams.extend(allTeams)
@@ -2629,10 +2631,14 @@ SessionLobby.checkSessionInvite <- function checkSessionInvite()
   local inviteData = reconnectData.inviteData
   local sendResp = reconnectData.sendResp
 
-  local applyInvite = (@(inviteData, sendResp) function() {
+  local applyInvite = function() {
+    local event = ::events.getEvent(inviteData?.attribs.game_mode_name)
+    if (!antiCheat.showMsgboxIfEacInactive(event))
+      return
+
     sendResp({})
     ::SessionLobby.joinRoom(inviteData.roomId, null, null)
-  })(inviteData, sendResp)
+  }
 
   local rejectInvite = (@(sendResp) function() {
     sendResp({error_id="INVITE_REJECTED"})

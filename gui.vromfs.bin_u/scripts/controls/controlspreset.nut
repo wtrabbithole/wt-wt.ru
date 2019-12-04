@@ -344,7 +344,7 @@ class ControlsPreset {
       return
     }
 
-    presetChain.push(presetPath)
+    presetChain.append(presetPath)
     local blk = ::DataBlock(presetPath)
     loadFromBlk(blk, presetChain)
     presetChain.pop()
@@ -1132,7 +1132,7 @@ class ControlsPreset {
         }
         realButtonNum += usedJoy.buttonsCount
         realAxesNum += usedJoy.axesCount
-        realMapping.push(matchedJoy)
+        realMapping.append(matchedJoy)
       }
 
       // Fill remap table for used joy

@@ -49,8 +49,8 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
 
       parameterView.progressBarValue <- getProgressBarValue(parametersByRequestType, params)
       parameterView.progressBarSelectedValue <- getProgressBarValue(selectedParametersByRequestType, params)
-      resArray.push(parameterView)
-      parsedMembers.push(value.memberName)
+      resArray.append(parameterView)
+      parsedMembers.append(value.memberName)
     }
   }
 
@@ -74,7 +74,7 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
       local valueItem = columnType.createValueItem(
         prevValue, curValue, prevSelectedValue, curSelectedValue, measureType, sign)
 
-      parameterView.valueItems.push(valueItem)
+      parameterView.valueItems.append(valueItem)
     }
   }
 
@@ -138,7 +138,7 @@ enums.addTypesByGlobalName("g_skill_parameters_type", {
         parseColumnTypes(columnTypes, parametersByRequestType, selectedParametersByRequestType,
           ::g_measure_type.DISTANCE, sign, parameterView, params)
         parameterView.progressBarValue <- getProgressBarValue(parametersByRequestType, params)
-        resArray.push(parameterView)
+        resArray.append(parameterView)
       }
     }
 

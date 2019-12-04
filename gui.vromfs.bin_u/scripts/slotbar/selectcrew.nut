@@ -80,7 +80,7 @@ class ::gui_handlers.SelectCrew extends ::gui_handlers.BaseGuiHandlerWT
         shouldSelectCrewRecruit =  takeCrewIdInCountry > 0 && !crew
         singleCountry = country
         hasActions = false
-        showNewSlot = !isSelectByGroups
+        showNewSlot = true
         showEmptySlot = true,
         needActionsWithEmptyCrews = false
         unitForSpecType = unit,

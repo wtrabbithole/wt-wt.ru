@@ -284,7 +284,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     foreach(idx, contactData in ::contacts[gName])
     {
-      playerListView.playerListItem.push({
+      playerListView.playerListItem.append({
         blockID = "player_" + gName + "_" + idx
         contactUID = contactData.uid
         pilotIcon = contactData.pilotIcon
@@ -294,9 +294,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (gName == ::EPL_FRIENDLIST && ::isInMenu())
     {
       if (::has_feature("Invites"))
-        playerListView.playerButton.push(createPlayerButtonView("btnInviteFriend", "#ui/gameuiskin#btn_invite_friend", "onInviteFriend"))
+        playerListView.playerButton.append(createPlayerButtonView("btnInviteFriend", "#ui/gameuiskin#btn_invite_friend", "onInviteFriend"))
       if (::has_feature("Facebook"))
-        playerListView.playerButton.push(createPlayerButtonView("btnFacebookFriendsAdd", "#ui/gameuiskin#btn_facebook_friends_add", "onFacebookFriendsAdd"))
+        playerListView.playerButton.append(createPlayerButtonView("btnFacebookFriendsAdd", "#ui/gameuiskin#btn_facebook_friends_add", "onFacebookFriendsAdd"))
     }
 
     listNotPlayerChildsByGroup[gName] <- playerListView.playerButton.len()

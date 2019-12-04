@@ -3,6 +3,10 @@ ComboBox {
     id:t='<<id>>'
   <</id>>
   width:t='<<#width>><<width>><</width>><<^width>>pw<</width>>'
+  <<#pos>>
+    pos:t='<<pos>>'
+    position:t='relative'
+  <</pos>>
   <<#btnName>>
     btnName:t='<<btnName>>'
   <</btnName>>
@@ -19,6 +23,9 @@ ComboBox {
       <<#valueId>>
         id:t='<<valueId>>'
       <</valueId>>
+      <<#isSelected>>
+        selected:t='yes'
+      <</isSelected>>
       <<#unseenIcon>>
         unseenIcon {
           <<#unseenIconId>>id:t='<<unseenIconId>>'<</unseenIconId>>

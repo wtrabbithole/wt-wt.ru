@@ -700,7 +700,7 @@ g_orders.getStatusContent <- function getStatusContent(orderObject, isHalignRigh
     isHalignRight = isHalignRight
   }
   for (local i = 0; i < maxRowsInScoreTable; ++i)
-    view.rows.push({ rowIndex = i })
+    view.rows.append({ rowIndex = i })
   return ::handyman.renderCached("gui/items/orderStatus", view)
 }
 
@@ -767,7 +767,7 @@ g_orders.onOrderAccepted <- function onOrderAccepted(useResultCode)
       ::dagor.assertf(false,
         "Activating local order is null. Report this issue immediately.")
     }
-    activeLocalOrderIds.push(activatingLocalOrderId)
+    activeLocalOrderIds.append(activatingLocalOrderId)
     ::broadcastEvent("OrderActivated")
   }
   if (activatingLocalOrderCallback != null)
@@ -988,7 +988,7 @@ g_orders.getOrderScores <- function getOrderScores(orderObject)
   {
     scores = clone scores
     foreach (player in debugPlayers)
-      scores.push(player.scoreData)
+      scores.append(player.scoreData)
     addLocalPlayerScoreData(scores)
   }
 
@@ -1065,7 +1065,7 @@ g_orders.addLocalPlayerScoreData <- function addLocalPlayerScoreData(scores)
     }
   if (foundThisPlayer)
     return
-  scores.push({
+  scores.append({
     playerId = -1
     score = 0
     playerData = getLocalPlayerData()

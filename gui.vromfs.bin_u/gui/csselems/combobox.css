@@ -70,6 +70,16 @@ tr > tdiv > ComboBox {
   btnPos:left;
 }
 
+[show_console_buttons=yes] weaponry_item weaponsSelectorNest > ComboBox {
+  btnPos:left;
+  btnName:none;
+}
+
+[show_console_buttons=yes] :focus > weaponry_item[selected=yes] weaponsSelectorNest > ComboBox,
+[show_console_buttons=yes] weaponry_item weaponsSelectorNest > ComboBox:expanded {
+  btnName:X;
+}
+
 ComboBox[btnPos] {
   _needBtnPos:no;
 }

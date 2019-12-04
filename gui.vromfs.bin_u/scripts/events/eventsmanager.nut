@@ -952,7 +952,7 @@ class Events
     {
       local teamData = getTeamDataWithRoom(event, team, room)
       if (::isInArray(playersCurCountry, getCountries(teamData)))
-        availableTeams.push(team)
+        availableTeams.append(team)
     }
     return availableTeams
   }
@@ -980,7 +980,7 @@ class Events
     local result = []
     foreach (country in ::shopCountriesList)
       if (isCountryAvailable(event, country))
-        result.push(country)
+        result.append(country)
 
     return result.len() < ::shopCountriesList.len() ? result : []
   }
