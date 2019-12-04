@@ -273,7 +273,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       }
       else if (mpResult == ::STATS_RESULT_ABORTED_BY_KICK)
       {
-        resReward = ::colorize("badTextColor", ::loc("MISSION_ABORTED_BY_KICK"))
+        resReward = ::colorize("badTextColor", getKickReasonLocText())
         resTheme = DEBR_THEME.LOSE
       }
     }
@@ -457,6 +457,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       text = ::loc("debriefing/noAwardsCaption")
       color = "bad"
     }
+    else if (::debriefing_result?.exp.eacKickMessage != null)
+    {
+      text = "".concat(getKickReasonLocText(), "\n",
+        ::loc("multiplayer/reason"), ::loc("ui/colon"),
+        ::colorize("activeTextColor", ::debriefing_result.exp.eacKickMessage))
+      color = "bad"
+    }
     else if (pveRewardInfo && pveRewardInfo.warnLowActivity)
     {
       text = ::loc("debriefing/noAwardsCaption/noMinActivity")
@@ -472,6 +479,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
     captionObj.setValue(text)
     captionObj.overlayTextColor = color
+  }
+
+  function getKickReasonLocText()
+  {
+    if (::debriefing_result?.exp.eacKickMessage != null)
+      return ::loc("MISSION_ABORTED_BY_KICK/EAC")
+    return ::loc("MISSION_ABORTED_BY_KICK")
   }
 
   function reinitTotal()
@@ -3110,7 +3124,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
     if (::debriefing_result.exp.result == ::STATS_RESULT_ABORTED_BY_KICK)
     {
-      infoText = ::loc("MISSION_ABORTED_BY_KICK")
+      infoText = getKickReasonLocText()
       infoColor = "bad"
     }
     else if ((gm == ::GM_DYNAMIC || gm == ::GM_BUILDER) && wpdata.isRewardReduced)

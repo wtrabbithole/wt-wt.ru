@@ -1110,8 +1110,8 @@ local targetSize = function(line_style, width, height, isBackground) {
 }
 
 local targetSizeComponent = function(elemStyle, isBackground) {
-  local width = sw(100)
-  local height = sh(100)
+  local width = sightSw(100)
+  local height = sightSh(100)
   return @() {
     pos = [sightSw(50) - width * 0.5, sightSh(50) - height * 0.5]
     size = SIZE_TO_CONTENT

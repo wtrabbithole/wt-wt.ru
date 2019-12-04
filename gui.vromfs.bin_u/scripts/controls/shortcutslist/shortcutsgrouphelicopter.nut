@@ -488,11 +488,6 @@ return [
     checkAssign = false
   }
   {
-    id = "ID_MFD_TARGET_LOCK"
-    checkGroup = ctrlGroups.HELICOPTER
-    checkAssign = false
-  }
-  {
     id = "ID_HELI_GUNNER_NIGHT_VISION"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
