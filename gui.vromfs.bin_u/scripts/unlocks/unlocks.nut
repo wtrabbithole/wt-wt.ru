@@ -285,7 +285,7 @@ foreach(idx, a in ::air_stats_list)
       if (mainCond)
         config.conditions.append(mainCond)
     } else
-      config.conditions = ::UnlockConditions.loadConditionsFromBlk(mode)
+      config.conditions = ::UnlockConditions.loadConditionsFromBlk(mode, blk)
 
     local mainCond = ::UnlockConditions.getMainProgressCondition(config.conditions)
 
@@ -1558,7 +1558,9 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 }
 
 ::g_unlocks <- {
-  [PERSISTENT_DATA_PARAMS] = ["cache", "cacheArray"] //to do not parse again on script reload
+  [PERSISTENT_DATA_PARAMS] = ["cache", "cacheArray", "favoriteUnlocks", "favoriteInvisibleUnlocks"] //to do not parse again on script reload
+
+  favoriteUnlocksLimit = 20
 
   unitNameReg = ::regexp2(@"[.*/].+")
   skinNameReg = ::regexp2(@"^[^/]*/")
@@ -1576,6 +1578,9 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
     multi_kill_ship =   {[2] = "double_kill_ship",   [3] = "triple_kill_ship",   def = "multi_kill_ship"}
     multi_kill_ground = {[2] = "double_kill_ground", [3] = "triple_kill_ground", def = "multi_kill_ground"}
   }
+
+  getTotalFavoriteCount = @() ::g_unlocks.getFavoriteUnlocks().blockCount() + favoriteInvisibleUnlocks.blockCount()
+  canAddFavorite = @() getTotalFavoriteCount() < favoriteUnlocksLimit
 }
 
 g_unlocks.validateCache <- function validateCache()
@@ -1782,7 +1787,7 @@ g_unlocks.getFavoriteUnlocks <- function getFavoriteUnlocks()
 
 g_unlocks.loadFavorites <- function loadFavorites()
 {
-  if(favoriteUnlocks)
+  if (favoriteUnlocks)
   {
     favoriteUnlocks.reset()
     favoriteInvisibleUnlocks.reset()
@@ -1794,7 +1799,7 @@ g_unlocks.loadFavorites <- function loadFavorites()
   }
 
   local loaded = ::load_local_account_settings(FAVORITE_UNLOCKS_LIST_SAVE_ID)
-  if(loaded)
+  if (loaded)
   {
     foreach(unlockId, unlockValue in loaded)
     {
@@ -1809,6 +1814,9 @@ g_unlocks.loadFavorites <- function loadFavorites()
           favoriteUnlocks[unlockId] = unlock
         }
       }
+
+      if (favoriteUnlocks.blockCount() >= favoriteUnlocksLimit)
+        break
     }
   }
   isFavUnlockCacheValid = true
@@ -1816,8 +1824,9 @@ g_unlocks.loadFavorites <- function loadFavorites()
 
 g_unlocks.addUnlockToFavorites <- function addUnlockToFavorites(unlockId)
 {
-  if(unlockId in getFavoriteUnlocks())
+  if (unlockId in getFavoriteUnlocks())
     return
+
   getFavoriteUnlocks().addBlock(unlockId)
   getFavoriteUnlocks()[unlockId] = ::g_unlocks.getUnlockById(unlockId)
   saveFavorites()
@@ -1826,7 +1835,7 @@ g_unlocks.addUnlockToFavorites <- function addUnlockToFavorites(unlockId)
 
 g_unlocks.removeUnlockFromFavorites <- function removeUnlockFromFavorites(unlockId)
 {
-  if(unlockId in getFavoriteUnlocks())
+  if (unlockId in getFavoriteUnlocks())
   {
     getFavoriteUnlocks().removeBlock(unlockId)
     saveFavorites()

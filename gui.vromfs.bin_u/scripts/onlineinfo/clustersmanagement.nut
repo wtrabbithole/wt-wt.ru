@@ -1,7 +1,7 @@
 // -------------------------------------------------------
 // Clusters managment
 // -------------------------------------------------------
-g_clusters <- {
+::g_clusters <- {
   clusters_info = []
 
   function forceUpdateClustersList()

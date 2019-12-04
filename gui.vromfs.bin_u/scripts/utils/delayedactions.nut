@@ -8,7 +8,7 @@
 
 */
 
-g_delayed_actions <-
+::g_delayed_actions <-
 {
   delayedActionsList = []
   instantActionsList = []

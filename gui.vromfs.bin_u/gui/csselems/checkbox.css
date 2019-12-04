@@ -41,6 +41,10 @@ CheckBox:pushed[value=yes] {
   snd_change_value:uncheck;
 }
 
+CheckBox[inactiveColor=yes] {
+  color:@inactiveButtonTextColor;
+}
+
 CheckBox:hover {
   color:@hoverMenuButtonColor;
 }
@@ -68,6 +72,11 @@ CheckBoxImg {
   foreground-color:@transparent;
   foreground-svg-size:@checkboxImgSize, @checkboxImgSize;
   input-transparent:yes;
+}
+
+[inactiveColor=yes] > CheckBoxImg {
+  background-color:@checkboxDisabledBgColor;
+  border-color:@checkboxDisabledBorderColor;
 }
 
 :hover > CheckBoxImg {

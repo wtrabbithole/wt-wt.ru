@@ -146,7 +146,7 @@ global enum WW_UNIT_SORT_CODE {
   UNKNOWN
 }
 
-strength_unit_expclass_group <- {
+::strength_unit_expclass_group <- {
   bomber = "bomber"
   assault = "bomber"
   heavy_tank = "tank"

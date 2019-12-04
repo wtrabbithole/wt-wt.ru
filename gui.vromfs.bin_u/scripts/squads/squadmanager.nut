@@ -47,7 +47,7 @@ local SQUAD_SIZE_FEATURES_CHECK = {
 
 local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
 
-g_squad_manager <- {
+::g_squad_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "isMyCrewsReady", "lastUpdateStatus", "state",
    "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList", "delayedInvites"]
 

@@ -877,9 +877,6 @@ local isWaitMeasureEvent = false
       descr.id = "realAimingShip"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      if (::get_mission_difficulty() != ::g_difficulty.ARCADE.gameTypeName) {
-        descr.enabled <- false
-      }
       defaultValue = false
       break
 

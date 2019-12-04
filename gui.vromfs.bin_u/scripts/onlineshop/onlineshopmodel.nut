@@ -20,7 +20,7 @@ local callbackWhenAppWillActive = require("scripts/clientState/callbackWhenAppWi
  *    ---
  * */
 
-OnlineShopModel <- {
+::OnlineShopModel <- {
   priceBlk = null
   purchaseDataCache = {}
   entitlemetsUpdaterWeak = null

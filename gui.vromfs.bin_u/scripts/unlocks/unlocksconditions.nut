@@ -1,7 +1,8 @@
 /*
   ::UnlockConditions API:
 
-  loadConditionsFromBlk(blk)              - return array of conditions
+  loadConditionsFromBlk(blk, unlockBlk = ::DataBlock()) - return array of conditions, unlockBlk - main body of unlock
+  hideConditionsFromBlk(blk, unlockBlk) - set param hidden, for not displaying some conditions
   getConditionsText(conditions, curValue, maxValue, params = null)
                                           - return descripton by array of conditions
                                           - curValue - current value to show in text (if null, not show)
@@ -25,6 +26,67 @@
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
 
+local missionModesList = [
+  "missionsWon",
+  "missionsWonScore",
+  "missionsPlayed",
+  "missionsPlayedScore"
+]
+
+local typesForMissionModes = {
+  playerUnit = {
+    inSessionAnd = "crewsUnitRank",
+    inSessionTrue = "usedInSessionUnit",
+    inSessionFalse = "lastInSessionUnit"
+  },
+  playerType = {
+    inSessionAnd = "crewsUnitRank",
+    inSessionTrue = "usedInSessionType",
+    inSessionFalse = "lastInSessionType"
+  },
+  playerUnitRank = {
+    inSessionAnd = "crewsUnitRank",
+    inSessionTrue = "usedInSessionUnit",
+    inSessionFalse = "lastInSessionUnit"
+  },
+  playerUnitMRank = {
+    inSessionAnd = "crewsUnitMRank",
+    inSessionTrue = "usedInSessionUnit",
+    inSessionFalse = "lastInSessionUnit"
+  },
+  playerUnitClass = {
+    inSessionAnd = "crewsTag",
+    inSessionTrue = "usedInSessionClass",
+    inSessionFalse = "lastInSessionClass"
+  },
+  playerUnitFilter = {
+    inSessionAnd = "crewsTag",
+    inSessionTrue = "usedInSessionUnit",
+    inSessionFalse = "lastInSessionUnit"
+  },
+  playerExpClass = {
+    inSessionFalse = "lastInSessionClass"
+  },
+  playerTag = {
+    inSessionFalse = "lastInSessionTag"
+  }
+}
+
+local function getOverrideCondType(condBlk, unlockMode) {
+  local overrideCondType
+
+  if (::isInArray(unlockMode, missionModesList)) {
+    local inSession = condBlk?.inSession ?? false
+    local curTypes = typesForMissionModes?[condBlk?.type]
+    if (inSession)
+      overrideCondType = (condBlk?.inSessionAnd ?? true) ? curTypes?.inSessionAnd : curTypes?.inSessionTrue
+    else
+      overrideCondType = curTypes?.inSessionFalse
+  }
+
+  return overrideCondType
+}
+
 ::UnlockConditions <- {
   conditionsOrder = [
     "beginDate", "endDate",
@@ -36,11 +98,11 @@ local stdMath = require("std/math.nut")
     "location", "operationMap", "weaponType", "difficulty",
     "playerUnit", "playerType", "playerExpClass", "playerUnitRank", "playerUnitMRank", "playerTag",
     "targetUnit", "targetType", "targetExpClass", "targetUnitClass", "targetTag",
-    "crewsUnit", "crewsUnitRank", "crewsUnitMRank", "crewsTag", "activity",
-    "minStat", "statPlace", "statScore", "statAwardDamage",
+    "crewsUnit", "crewsUnitRank", "crewsUnitMRank", "crewsTag", "usedPlayerUnit", "lastPlayerUnit",
+    "activity", "minStat", "statPlace", "statScore", "statAwardDamage",
     "statPlaceInSession", "statScoreInSession", "statAwardDamageInSession",
-    "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country", "targets",
-    "targetDistance"
+    "targetIsPlayer", "eliteUnitsOnly", "noPremiumVehicles", "era", "country", "playerCountry",
+    "targets", "targetDistance"
   ]
 
   condWithValuesInside = [
@@ -54,6 +116,14 @@ local stdMath = require("std/math.nut")
     playerTag              = "playerUnit"
     playerUnitRank         = "playerUnit"
     playerUnitMRank        = "playerUnit"
+    usedInSessionType      = "usedPlayerUnit"
+    usedInSessionUnit      = "usedPlayerUnit"
+    usedInSessionClass     = "usedPlayerUnit"
+    usedInSessionTag       = "usedPlayerUnit"
+    lastInSessionType      = "lastPlayerUnit"
+    lastInSessionUnit      = "lastPlayerUnit"
+    lastInSessionClass     = "lastPlayerUnit"
+    lastInSessionTag       = "lastPlayerUnit"
     targetType             = "targetUnit"
     targetTag              = "targetUnit"
     crewsUnitRank          = "crewsUnit"
@@ -159,6 +229,23 @@ local stdMath = require("std/math.nut")
     val2 = val2.tostring()
     return (val1 == val2) ? ::format(formatStr, val1) : ::format(formatStr, val1) + ::loc("ui/mdash") + ::format(formatStr, val2)
   }
+
+  function hideConditionsFromBlk(blk, unlockBlk)
+  {
+    local conditionsArray = blk % "condition"
+    for (local i = conditionsArray.len() - 1; i >= 0 ; i--)
+    {
+      local condBlk = conditionsArray[i]
+      if (condBlk?.type == "playerCountry")
+      {
+        if (condBlk.country == (unlockBlk?.country ?? ""))
+        {
+          local b = blk.getBlock(i)
+          b.setBool("hidden", true)
+        }
+      }
+    }
+  }
 }
 
 
@@ -173,7 +260,7 @@ local stdMath = require("std/math.nut")
 //             such condition can be only one in list, and always first.
 //  modeTypeLocID  - locId for mode type
 //}
-UnlockConditions.loadConditionsFromBlk <- function loadConditionsFromBlk(blk)
+UnlockConditions.loadConditionsFromBlk <- function loadConditionsFromBlk(blk, unlockBlk = ::DataBlock())
 {
   local res = []
   local mainCond = loadMainProgressCondition(blk) //main condition by modeType
@@ -182,9 +269,13 @@ UnlockConditions.loadConditionsFromBlk <- function loadConditionsFromBlk(blk)
 
   res.extend(loadParamsConditions(blk)) //conditions by mode params - elite, country etc
 
+  hideConditionsFromBlk(blk, unlockBlk) //don't show conditions by rule
+
+  local unlockMode = unlockBlk?.mode.type
+
   foreach(condBlk in blk % "condition") //conditions determined by blocks "condition"
   {
-    local condition = loadCondition(condBlk)
+    local condition = loadCondition(condBlk, unlockMode)
     if (condition)
       _mergeConditionToList(condition, res)
   }
@@ -318,6 +409,9 @@ UnlockConditions.loadMainProgressCondition <- function loadMainProgressCondition
 UnlockConditions.loadParamsConditions <- function loadParamsConditions(blk)
 {
   local res = []
+  if (blk?.hidden)
+    return res
+
   if (blk?.elite != null && (typeof(blk?.elite) != "integer" || blk.elite > 1))
     res.append(_createCondition("eliteUnitsOnly"))
 
@@ -352,8 +446,11 @@ UnlockConditions.loadParamsConditions <- function loadParamsConditions(blk)
   return res
 }
 
-UnlockConditions.loadCondition <- function loadCondition(blk)
+UnlockConditions.loadCondition <- function loadCondition(blk, unlockMode)
 {
+  if (blk?.hidden)
+    return null
+
   local t = blk?.type
   local res = _createCondition(t)
 
@@ -412,11 +509,10 @@ UnlockConditions.loadCondition <- function loadCondition(blk)
     res.values = (blk % "unitClass")
   else if (t == "playerTag" || t == "targetTag")
     res.values = (blk % "tag")
+  else if (t == "playerCountry")
+    res.values = (blk % "country")
   else if (t == "playerUnitRank")
   {
-    if (blk?.inSessionAnd == true)
-      res.type = "crewsUnitRank"
-
     local range = blk?.minRank || blk?.maxRank ? ::Point2(blk?.minRank ?? 0, blk?.maxRank ?? 0) : blk?.range
     local v = getRangeTextByPoint2(range, {
       rangeStr = ::loc("events/rank")
@@ -427,9 +523,6 @@ UnlockConditions.loadCondition <- function loadCondition(blk)
   }
   else if (t == "playerUnitMRank")
   {
-    if (blk?.inSessionAnd == true)
-      res.type = "crewsUnitMRank"
-
     local range = blk?.minMRank || blk?.maxMRank
       ? ::Point2(blk?.minMRank ?? 0, blk?.maxMRank ?? 0)
       : blk?.range ?? ::Point2(0,0)
@@ -451,7 +544,6 @@ UnlockConditions.loadCondition <- function loadCondition(blk)
       if (v.len() > 4 && v.slice(0,4) == "exp_")
         unitClassList[i] = "type_" + v.slice(4)
 
-    res.type = blk?.inSessionAnd == true ? "crewsTag" : "playerTag"
     res.values = unitClassList
   }
   else if (t == "playerUnitFilter")
@@ -459,7 +551,6 @@ UnlockConditions.loadCondition <- function loadCondition(blk)
     switch (blk?.paramName)
     {
       case "country":
-        res.type = blk?.inSessionAnd == true ? "crewsTag" : "playerTag"
         res.values = blk % "value"
         break
       default:
@@ -545,6 +636,10 @@ UnlockConditions.loadCondition <- function loadCondition(blk)
     res.type = "additional"
     res.values = t
   }
+
+  local overrideCondType = getOverrideCondType(blk, unlockMode)
+  if (overrideCondType)
+    res.type = overrideCondType
 
   if (res.type in locGroupByType)
     res.locGroup <- locGroupByType[res.type]
@@ -836,13 +931,16 @@ UnlockConditions._addUsualConditionsText <- function _addUsualConditionsText(gro
     values = [values]
   foreach (v in values)
   {
-    if (cType == "playerUnit" || cType=="targetUnit" || cType == "crewsUnit" || cType=="unitExists")
+    if (cType == "playerUnit" || cType=="targetUnit" || cType == "crewsUnit" || cType=="unitExists" ||
+        cType == "usedInSessionUnit" || cType == "lastInSessionUnit")
       text = ::getUnitName(v)
-    else if (cType == "playerType" || cType == "targetType")
+    else if (cType == "playerType" || cType == "targetType" || cType == "usedInSessionType" || cType == "lastInSessionType")
       text = ::loc("unlockTag/" + ::getTblValue(v, mapConditionUnitType, v))
-    else if (cType == "playerExpClass" || cType == "targetExpClass" || cType == "unitClass" || cType == "targetUnitClass")
+    else if (cType == "playerExpClass" || cType == "targetExpClass" || cType == "unitClass" || cType == "targetUnitClass" ||
+             cType == "usedInSessionClass" || cType == "lastInSessionClass")
       text = ::get_role_text(::g_string.cutPrefix(v, "exp_", v))
-    else if (cType == "playerTag" || cType == "crewsTag" || cType == "targetTag" || cType == "country")
+    else if (cType == "playerTag" || cType == "crewsTag" || cType == "targetTag" || cType == "country" ||
+             cType == "playerCountry" || cType == "usedInSessionTag" || cType == "lastInSessionTag")
       text = ::loc("unlockTag/" + v)
     else if (::isInArray(cType, [ "activity", "playerUnitRank", "playerUnitMRank",
       "crewsUnitRank", "crewsUnitMRank", "minStat", "targetDistance"]))

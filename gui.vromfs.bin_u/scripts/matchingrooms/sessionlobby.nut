@@ -58,7 +58,7 @@ global enum lobbyStates
   IN_DEBRIEFING
 }
 
-allowed_mission_settings <- { //only this settings are allowed in room
+local allowed_mission_settings = { //only this settings are allowed in room
                               //default params used only to check type atm
   name = null
   missionURL = null

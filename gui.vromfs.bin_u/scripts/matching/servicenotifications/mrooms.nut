@@ -366,7 +366,7 @@ local MRoomsHandlers = class {
   }
 }
 
-g_mrooms_handlers <- MRoomsHandlers()
+::g_mrooms_handlers <- MRoomsHandlers()
 
 ::is_my_userid <- function is_my_userid(user_id)
 {

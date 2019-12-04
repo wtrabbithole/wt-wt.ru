@@ -1,4 +1,4 @@
-MissionStats <- {
+::MissionStats <- {
   [PERSISTENT_DATA_PARAMS] = ["sendDelaySec", "_spawnTime"]
 
   sendDelaySec = 30

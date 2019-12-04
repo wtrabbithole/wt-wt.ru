@@ -462,7 +462,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     customStateCrewAvailableMask = missionRules.getCurCrewsRespawnMask()
   }
 
-  function onEventChangedMissionRespawnBasesStatus(params)
+  function updateRespawnWhenChangedMissionRespawnBasesStatus()
   {
     local isStayOnrespScreenChanged = recountStayOnRespScreen()
     local isNoRespawnsChanged = updateRespawnBasesStatus()
@@ -479,6 +479,11 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     updateApplyText()
     checkReady()
     restoreFocus()
+  }
+
+  function onEventChangedMissionRespawnBasesStatus(params)
+  {
+    doWhenActiveOnce("updateRespawnWhenChangedMissionRespawnBasesStatus")
   }
 
   function updateNoRespawnText()

@@ -1,4 +1,4 @@
-web_rpc <- {
+::web_rpc <- {
   handlers = {}
 
   function register_handler(func_name, handler)

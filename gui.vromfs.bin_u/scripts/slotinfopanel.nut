@@ -369,7 +369,17 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     else
       favUnlocksHandlerWeak.onSceneActivate(true)
 
-    updateHeader(::loc("mainmenu/btnFavoritesUnlockAchievement"))
+    local cur = ::g_unlocks.getTotalFavoriteCount()
+    local text = ::loc("mainmenu/btnFavoritesUnlockAchievement") + ::loc("ui/parentheses/space", {
+      text = ::colorize(::g_unlocks.canAddFavorite()? "" : "warningTextColor", cur + ::loc("ui/slash") + ::g_unlocks.favoriteUnlocksLimit)
+    })
+
+    updateHeader(text)
+  }
+
+  function onEventFavoriteUnlocksChanged(p)
+  {
+    showUnlockAchievementInfo()
   }
 
   function onAchievementsButtonClicked(obj)

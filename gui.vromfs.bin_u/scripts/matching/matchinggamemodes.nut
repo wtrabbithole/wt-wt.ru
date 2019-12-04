@@ -1,7 +1,7 @@
 // -------------------------------------------------------
 // Matching game modes managment
 // -------------------------------------------------------
-g_matching_game_modes <- {
+::g_matching_game_modes <- {
   __gameModes = {} // game-mode unique id -> mode info
 
   __fetching = false

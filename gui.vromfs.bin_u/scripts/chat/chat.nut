@@ -18,7 +18,7 @@ global enum chatErrorName {
   CANNOT_JOIN_THE_CHANNEL = "475"
 }
 
-g_chat <- {
+::g_chat <- {
   [PERSISTENT_DATA_PARAMS] = ["isThreadsView", "rooms", "threadsInfo", "userCaps", "userCapsGen",
                               "threadTitleLenMin", "threadTitleLenMax"]
 

@@ -2,7 +2,7 @@ const PS4_SAVE_PROFILE_DELAY_MSEC = 60000
 
 {
   local lastSaveTime = -PS4_SAVE_PROFILE_DELAY_MSEC
-  save_profile_offline_limited <- function(isForced = false)
+  ::save_profile_offline_limited <- function save_profile_offline_limited(isForced = false)
   {
     if (!isForced && ::is_platform_ps4
       && ::dagor.getCurTime() - lastSaveTime < PS4_SAVE_PROFILE_DELAY_MSEC)

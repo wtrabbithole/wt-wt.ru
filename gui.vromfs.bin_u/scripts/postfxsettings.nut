@@ -8,7 +8,9 @@
     "lut_list", "lut_textures"
   ])
 
-local firstColumnWidth = 0.45
+const scale = 1000
+const recScale = 0.001
+const firstColumnWidth = 0.45
 
 ::get_lut_index_by_texture <- function get_lut_index_by_texture(texture)
 {
@@ -30,9 +32,6 @@ local firstColumnWidth = 0.45
   if (!::isInArray(::get_lut_texture(), ::lut_textures))
     ::set_lut_texture(::get_default_lut_texture())
 }
-
-scale <- 1000
-recScale <- 0.001
 
 class ::gui_handlers.PostFxSettings extends ::gui_handlers.BaseGuiHandlerWT
 {

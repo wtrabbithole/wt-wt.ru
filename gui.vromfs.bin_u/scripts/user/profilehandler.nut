@@ -693,6 +693,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       onDecalSelect(unlocksObj)
 
     isPageFilling = false
+    updateFavoritesCheckboxesInList()
   }
 
   function getSkinsMarkup()
@@ -1046,9 +1047,37 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (::u.isEmpty(unlockId))
       return
 
+    if (!::g_unlocks.canAddFavorite()
+      && obj.getValue() // Don't notify if value set to false
+      && !(unlockId in ::g_unlocks.getFavoriteUnlocks())) //Don't notify if unlock wasn't in list already
+    {
+      ::g_popups.add("", ::colorize("warningTextColor", ::loc("mainmenu/unlockAchievements/limitReached", {num = ::g_unlocks.favoriteUnlocksLimit})))
+      obj.setValue(false)
+      return
+    }
+
     obj.tooltip = obj.getValue() ?
       ::g_unlocks.addUnlockToFavorites(unlockId) : ::g_unlocks.removeUnlockFromFavorites(unlockId)
     ::g_unlock_view.fillUnlockFavCheckbox(obj)
+    updateFavoritesCheckboxesInList()
+  }
+
+  function updateFavoritesCheckboxesInList()
+  {
+    if (isPageFilling)
+      return
+
+    local canAddFav = ::g_unlocks.canAddFavorite()
+    foreach (unlockId in getCurUnlockList())
+    {
+      local unlockObj = scene.findObject(getUnlockBlockId(unlockId))
+      if (!::check_obj(unlockObj))
+        continue
+
+      local cbObj = unlockObj.findObject("checkbox-favorites")
+      if (::check_obj(cbObj))
+        cbObj.inactiveColor = (canAddFav || (unlockId in ::g_unlocks.getFavoriteUnlocks())) ? "no" : "yes"
+    }
   }
 
   function unlockToFavoritesByActivateItem(obj)
@@ -1063,7 +1092,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       return
 
     checkBoxObj.setValue(!checkBoxObj.getValue())
-    unlockToFavorites(checkBoxObj) //!!! FIX ME this line is needed for version client 1.75.0.X or lower
   }
 
   function onBuyUnlock(obj)
@@ -1095,7 +1123,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (::u.isString(unlockData))
       unlock = ::g_unlocks.getUnlockById(unlockData)
 
-    local unlockObj = scene.findObject(getUnlockBlockId(unlock))
+    local unlockObj = scene.findObject(getUnlockBlockId(unlock.id))
     if (::check_obj(unlockObj))
       fillUnlockInfo(unlock, unlockObj)
   }
@@ -1149,7 +1177,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         continue
 
       local unlockObj = unlocksListObj.getChild(currentItemNum)
-      unlockObj.id = getUnlockBlockId(unlock)
+      unlockObj.id = getUnlockBlockId(unlock.id)
       fillUnlockInfo(unlock, unlockObj)
       currentItemNum++
     }
@@ -1159,9 +1187,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     guiScene.setUpdatesEnabled(true, true)
   }
 
-  function getUnlockBlockId(unlock)
+  function getUnlockBlockId(unlockId)
   {
-    return unlock.id + "_block"
+    return unlockId + "_block"
   }
 
   function onDecalSelect(obj)

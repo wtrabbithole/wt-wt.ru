@@ -295,10 +295,10 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
     stop_content_patch_download = stop_content_patch_download
   }
 
-  stop_content_patch_download <- (@(restoreData) function() {
+  ::stop_content_patch_download = function() {
     foreach(name, func in restoreData)
       getroottable()[name] = func
-  })(restoreData)
+  }
 
   local updaterData = {
                         handler = null
@@ -316,7 +316,7 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
                         }
                       }
 
-  start_content_patch_download <- (@(updaterData) function(configPath, handler, updaterCallback) {
+  ::start_content_patch_download = function(configPath, handler, updaterCallback) {
     updaterData.handler = handler
     updaterData.callback = updaterCallback
 
@@ -324,7 +324,7 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
     handler.guiScene.appendWithBlk(handler.scene, fooTimerObj, null)
     local curTimerObj = handler.scene.findObject("debug_loading_timer")
     curTimerObj.setUserData(updaterData)
-  })(updaterData)
+  }
 
   ::gui_start_modal_wnd(::gui_handlers.PS4UpdaterModal,
   {

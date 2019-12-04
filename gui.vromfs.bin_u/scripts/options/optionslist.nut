@@ -99,7 +99,8 @@ local getMainOptions = function()
       [::USEROPT_BULLET_FALL_INDICATOR_SHIP, "spinner", ::has_feature("Ships")],
       [::USEROPT_BULLET_FALL_SOUND_SHIP, "spinner", ::has_feature("Ships")],
       [::USEROPT_AUTO_TARGET_CHANGE_SHIP, "spinner", ::has_feature("Ships")],
-      [::USEROPT_REALISTIC_AIMING_SHIP, "spinner", ::has_feature("Ships")],
+      [::USEROPT_REALISTIC_AIMING_SHIP, "spinner", ::has_feature("Ships")
+        && (!::is_in_flight() || ::get_mission_difficulty() == ::g_difficulty.ARCADE.gameTypeName)],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
