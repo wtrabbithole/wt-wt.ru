@@ -223,7 +223,7 @@ return [
   {
     id = "ID_TOGGLE_LASER_DESIGNATOR_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
-    needShowInHelp = true
+    checkAssign = false
   }
   {
     id = "ID_FLARES_HELICOPTER"
@@ -284,6 +284,12 @@ return [
   }
   {
     id = "ID_LOCK_TARGETING_AT_POINT_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_UNLOCK_TARGETING_AT_POINT_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
     needShowInHelp = true
@@ -447,24 +453,6 @@ return [
   }
   {
     id = "ID_GEAR_HELICOPTER"
-    checkGroup = ctrlGroups.HELICOPTER
-    checkAssign = false
-    needShowInHelp = true
-  }
-  {
-    id = "ID_FLAPS_HELICOPTER"
-    checkGroup = ctrlGroups.HELICOPTER
-    checkAssign = false
-    needShowInHelp = true
-  }
-  {
-    id = "ID_FLAPS_UP_HELICOPTER"
-    checkGroup = ctrlGroups.HELICOPTER
-    checkAssign = false
-    needShowInHelp = true
-  }
-  {
-    id = "ID_FLAPS_DOWN_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
     needShowInHelp = true

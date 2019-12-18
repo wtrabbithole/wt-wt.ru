@@ -380,13 +380,35 @@
               "size": "pw, 0.12@scrn_tgt",
               "padding": "1@debrPad",
               "display": "hide",
-              "textarea": {
-                "id": "no_awards_caption",
+              "tdiv": {
                 "width": "pw",
                 "pos": "0, ph/2-h/2",
-                "position": "absolute",
-                "overlayTextColor": "userlog",
-                "text": ""
+                "position": "relative",
+                "flow": "vertical",
+                "textareaNoTab": {
+                  "id": "no_awards_caption",
+                  "width": "pw",
+                  "position": "relative",
+                  "overlayTextColor": "userlog",
+                  "text": ""
+                },
+                "Button_text": {
+                  "id": "btn_no_awards_info",
+                  "position": "relative",
+                  "on_click": "onNoAwardsInfoBtn",
+                  "noMargin": "yes",
+                  "text": "",
+                  "display": "hide",
+                  "enable": "no",
+                  "btnName": "L3",
+                  "externalLink": "yes",
+                  "activeText": {
+                    "text": "#msgbox/btn_more",
+                    "css-hier-invalidate": "yes",
+                    "underline": []
+                  },
+                  "ButtonImg": []
+                }
               },
               "debrSeparator": {
                 "class": "bottom"

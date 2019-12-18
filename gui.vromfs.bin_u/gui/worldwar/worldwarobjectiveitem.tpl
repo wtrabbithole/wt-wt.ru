@@ -77,14 +77,15 @@ objectiveBlock {
     include "gui/worldWar/operationString"
   }
 
-  tdiv{
+  <<#isPrimary>>
+  textareaNoTab {
+    id:t='afk_lost'
+    max-width:t='pw'
     pos:t='50%pw-50%w, 0'
     position:t='relative'
-    wwObjectiveName {
-      id:t='afk_lost'
-      text:t=''
-      max-width:t='p.p.w'
-    }
+    text:t=''
+    smallFont:t='yes'
   }
+  <</isPrimary>>
 }
 <</objectiveBlock>>

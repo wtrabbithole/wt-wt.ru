@@ -43,7 +43,7 @@ local images = {
   machineGun = Picture("!ui/gameuiskin#machine_gun_weapon_state_indicator")
   torpedo = Picture("!ui/gameuiskin#ship_torpedo_weapon_state_indicator")
   buoyancy = Picture("!ui/gameuiskin#buoyancy_icon")
-  fire = Picture("!ui/gameuiskin#fire_indicator")
+  fire = "!ui/gameuiskin#fire_indicator.svg:"
   steeringMark = Picture("!ui/gameuiskin#floatage_arrow_down")
   sightCone = Picture("+ui/gameuiskin#map_camera")
   shipCrew = Picture("!ui/gameuiskin#ship_crew")
@@ -210,7 +210,7 @@ local stateBlock = @() {
       rendObj = ROBJ_IMAGE
       color =  shipState.fire.value ? colors.hud.damageModule.alert : colors.hud.damageModule.inactive
       watch = shipState.fire
-      image = images.fire
+      image = ::Picture($"{images.fire}{hdpx(STATE_ICON_SIZE)}:{hdpx(STATE_ICON_SIZE)}:K")
       size = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
     }
     buoyancyIndicator

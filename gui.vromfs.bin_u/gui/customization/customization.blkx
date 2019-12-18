@@ -312,19 +312,6 @@
                       },
                       "Button_close": {
                         "style": "_on_click:onBtnCloseDecalsMenu;"
-                      },
-                      "top_right_holder": {
-                        "CheckBox": {
-                          "id": "checkbox_only_available",
-                          "pos": "0, 50%ph-50%h",
-                          "position": "relative",
-                          "btnName": "Y",
-                          "text": "#mainmenu/onlyAvailable",
-                          "value": "no",
-                          "on_change_value": "onOnlyAvailableDecorators",
-                          "CheckBoxImg": [],
-                          "ButtonImg": []
-                        }
                       }
                     }
                   }
@@ -1608,7 +1595,7 @@
                   "width": "1@bottomGcWidth"
                 },
                 {
-                  "height": "1@gamercardHeight"
+                  "height": "ph"
                 },
                 {
                   "pos": "pw/2 - w/2, ph/2 - h/2"
@@ -1619,7 +1606,7 @@
                 {
                   "tdiv": {
                     "id": "gamercard_bottom_left",
-                    "height": "ph",
+                    "height": "1@gamercardHeight",
                     "class": "header",
                     "width": "fw",
                     "bottomNavPlace": {
@@ -1631,7 +1618,8 @@
                     "tdiv": {
                       "id": "slotbar-presetsPlace",
                       "size": "pw, ph",
-                      "position": "absolute"
+                      "position": "absolute",
+                      "pos": "1@dp, 0"
                     }
                   }
                 },
@@ -1685,7 +1673,8 @@
                 {
                   "gcButtonsHolder": {
                     "id": "gamercard_squad_widget",
-                    "pos": "0, 0.5(ph-h)",
+                    "position": "relative",
+                    "top": "0.5(ph-h)",
                     "margin-right": "2@buttonTextPadding",
                     "class": "header",
                     "behaviour": "wrapNavigator",
@@ -1701,6 +1690,12 @@
                   "gcButtonsHolder": [
                     {
                       "id": "gamercard_bottom_right"
+                    },
+                    {
+                      "position": "relative"
+                    },
+                    {
+                      "top": "0.5(ph-h)"
                     },
                     {
                       "class": "header"

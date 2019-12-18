@@ -1,5 +1,8 @@
-local xboxShop = ::require("scripts/onlineShop/xboxShop.nut")
-local platform = ::require("scripts/clientState/platform.nut")
+local { canUseIngameShop, openWnd } = ::is_platform_ps4? require("scripts/onlineShop/ps4Shop.nut")
+  : ::is_platform_xboxone? require("scripts/onlineShop/xboxShop.nut")
+    : { canUseIngameShop = @() false, openWnd = @(...) null }
+
+local platform = require("scripts/clientState/platform.nut")
 local callbackWhenAppWillActive = require("scripts/clientState/callbackWhenAppWillActive.nut")
 /*
  * Search in price.blk:
@@ -479,8 +482,12 @@ OnlineShopModel.launchPS4Store <- function launchPS4Store(chapter = null, afterC
 {
   if (::is_platform_ps4 && ::isInArray(chapter, [null, "", "eagles"]))
   {
-    ::queues.checkAndStart(@() ::launch_ps4_store_by_chapter(chapter, afterCloseFunc),
-      null, "isCanUseOnlineShop")
+    if (canUseIngameShop())
+      openWnd(chapter, afterCloseFunc)
+    else
+      ::queues.checkAndStart(@() ::launch_ps4_store_by_chapter(chapter, afterCloseFunc),
+        null, "isCanUseOnlineShop")
+
     return true
   }
   return false
@@ -490,8 +497,8 @@ OnlineShopModel.launchXboxMarketplace <- function launchXboxMarketplace(chapter 
 {
   if (::is_platform_xboxone && ::isInArray(chapter, [null, "", "eagles"]))
   {
-    if (xboxShop.canUseIngameShop())
-      xboxShop.openWnd(chapter, afterCloseFunc)
+    if (canUseIngameShop())
+      openWnd(chapter, afterCloseFunc)
     else
       ::queues.checkAndStart(::Callback(@() launchXboxOneStoreByChapter(chapter, afterCloseFunc),this),
         null, "isCanUseOnlineShop")

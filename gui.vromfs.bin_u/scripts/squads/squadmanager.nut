@@ -1480,18 +1480,14 @@ g_squad_manager.checkMembersPkg <- function checkMembersPkg(pack) //return list 
 
 g_squad_manager.getSquadMembersDataForContact <- function getSquadMembersDataForContact()
 {
-  local contactsData = {}
+  local contactsData = []
 
-  if (!isInSquad())
-    return contactsData
-
-  local leaderUid = getLeaderUid()
-  if (leaderUid != ::my_user_id_str)
-    contactsData[leaderUid] <- getLeaderNick()
-
-  foreach(uid, memberData in squadData.members)
-    if (uid != leaderUid && uid != ::my_user_id_str)
-        contactsData[uid] <- memberData.name
+  if (isInSquad())
+  {
+    foreach(uid, memberData in squadData.members)
+      if (uid != ::my_user_id_str)
+        contactsData.append(memberData.getData())
+  }
 
   return contactsData
 }

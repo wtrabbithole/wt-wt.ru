@@ -566,7 +566,7 @@ g_world_war.loadLastPlayed <- function loadLastPlayed()
     lastPlayedOperationCountry = ::loadLocalByAccount(WW_CUR_OPERATION_COUNTRY_SAVE_ID, ::get_profile_country_sq())
 }
 
-g_world_war.onEventBeforeSignOut <- function onEventBeforeSignOut(p)
+g_world_war.onEventBeforeProfileInvalidation <- function onEventBeforeProfileInvalidation(p)
 {
   stopWar()
 }

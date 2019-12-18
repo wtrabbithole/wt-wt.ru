@@ -4,10 +4,6 @@ local helicopterState = require("helicopterState.nut");
 
 local backgroundColor = Color(0, 0, 0, 50)
 
-local aircraftWidthFactor = 0.20
-local aircraftHeightFactor = 0.25
-local aircraftRadiusFactor = 0.3
-
 local function getFontScale()
 {
   return sh(100) / 1080
@@ -57,7 +53,7 @@ interopGen({
 
 local indicatorRadius = 70.0
 local trackRadarsRadius = 0.04
-local azimuthMarkLength = 50 * 3 * trackRadarsRadius  
+local azimuthMarkLength = 50 * 3 * trackRadarsRadius
 
 local background = function(colorStyle, width, height) {
 
@@ -68,76 +64,6 @@ local background = function(colorStyle, width, height) {
     lineWidth = hdpx(1) * LINE_WIDTH
     commands = [
       [VECTOR_ELLIPSE, 50, 50, indicatorRadius, indicatorRadius]
-    ]
-  })
-
-  local aircraftW = width * aircraftRadiusFactor
-  local aircraftH = height * aircraftRadiusFactor
-
-  local aircraftCircle = @() colorStyle.__merge({
-    rendObj = ROBJ_VECTOR_CANVAS
-    lineWidth = hdpx(1) * 2.0
-    fillColor = Color(0, 0, 0, 0)
-    size = [aircraftW, aircraftH]
-    pos = [0.5 * width - 0.5 * aircraftW,  0.5 * height - 0.5 * aircraftH]
-    commands = [
-      [VECTOR_ELLIPSE, 50, 50, 50, 50]
-    ]
-    behavior = Behaviors.RtPropUpdate
-    update = function() {
-      return {
-        opacity = 0.42
-      }
-    }
-  })
-
-  local aircraftWidth = width * aircraftWidthFactor
-  local aircraftHeight = height * aircraftHeightFactor
-
-  local tailW = 25
-  local tailH = 10
-  local tailOffset1 = 10
-  local tailOffset2 = 5
-  local tailOffset3 = 25
-  local fuselageWHalf = 10
-  local wingOffset1 = 45
-  local wingOffset2 = 30
-  local wingW = 32
-  local wingH = 18
-  local wingOffset3 = 30
-  local noseOffset = 5
-
-  local aircraftIcon = colorStyle.__merge({
-    rendObj = ROBJ_VECTOR_CANVAS
-    lineWidth = hdpx(1) * 2.0
-    fillColor = Color(0, 0, 0, 0)
-    size = [aircraftWidth, aircraftHeight]
-    pos = [0.5 * width - 0.5 * aircraftWidth,  0.5 * height - 0.5 * aircraftHeight]
-    opacity = 0.42
-    commands = [
-      [VECTOR_POLY,
-        // tail left
-        50, 100 - tailOffset1,
-        50 - tailW, 100 - tailOffset2,
-        50 - tailW, 100 - tailOffset2 - tailH,
-        50 - fuselageWHalf, 100 - tailOffset3,
-        // wing left
-        50 - fuselageWHalf, 100 - wingOffset1,
-        50 - fuselageWHalf - wingW, 100 - wingOffset2,
-        50 - fuselageWHalf - wingW, 100 - wingOffset2 - wingH,
-        50 - fuselageWHalf, wingOffset3,
-        // nose
-        50, noseOffset,
-        // wing rigth
-        50 + fuselageWHalf, wingOffset3,
-        50 + fuselageWHalf + wingW, 100 - wingOffset2 - wingH,
-        50 + fuselageWHalf + wingW, 100 - wingOffset2,
-        50 + fuselageWHalf, 100 - wingOffset1,
-        // tail right
-        50 + fuselageWHalf, 100 - tailOffset3,
-        50 + tailW, 100 - tailOffset2 - tailH,
-        50 + tailW, 100 - tailOffset2
-      ]
     ]
   })
 
@@ -169,8 +95,6 @@ local background = function(colorStyle, width, height) {
   return {
     children = [
       circle
-      aircraftCircle
-      aircraftIcon
       azimuthMarks
     ]
   }
@@ -271,7 +195,7 @@ local scope = function(colorStyle, width, height)
 local mlws = function(colorStyle, posX = sw(75), posY = sh(70), w = sh(20), h = sh(20), for_mfd = false)
 {
   local getChildren = function() {
-    return mlwsState.IsMlwsHudVisible.value ? [
+    return (!for_mfd && mlwsState.IsMlwsHudVisible.value) || (for_mfd && helicopterState.MlwsForMfd.value) ? [
       scope(colorStyle, w, h)
     ] : null
   }

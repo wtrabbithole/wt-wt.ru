@@ -1,5 +1,5 @@
 local u = require("u.nut")
-
+global const PERSISTENT_DATA_PARAMS = "PERSISTENT_DATA_PARAMS"
 local function isTable(v) {return type(v)=="table"}
 local function isArray(v) {return type(v)=="array"}
 local function isString(v) {return type(v)=="string"}

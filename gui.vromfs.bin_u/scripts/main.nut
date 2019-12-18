@@ -257,6 +257,7 @@ global enum SEEN {
   WORKSHOP = "workshop"
   WARBONDS_SHOP = "warbondsShop"
   EXT_XBOX_SHOP = "ext_xbox_shop"
+  EXT_PS4_SHOP  = "ext_ps4_shop"
 
   //sublists
   S_EVENTS_WINDOW = "##events_window##"

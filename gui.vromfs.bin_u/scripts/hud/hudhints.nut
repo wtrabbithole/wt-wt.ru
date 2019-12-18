@@ -1380,6 +1380,14 @@ enums.addTypesByGlobalName("g_hud_hints", {
     lifeTime = 5.0
     isHideOnDeath = true
   }
+
+  ATGM_NO_LINE_OF_SIGHT = {
+    hintType = ::g_hud_hint_types.ACTIONBAR
+    locId = "hints/atgm_no_line_of_sight"
+    showEvent = "hint:atgm_no_line_of_sight:show"
+    hideEvent = "hint:atgm_no_line_of_sight:hide"
+    shouldBlink = true
+  }
 },
 function() {
   name = "hint_" + typeName.tolower()

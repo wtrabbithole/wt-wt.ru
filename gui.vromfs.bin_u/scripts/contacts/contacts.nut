@@ -1,4 +1,3 @@
-local platformModule = require("scripts/clientState/platform.nut")
 local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 
 ::contacts_handler <- null
@@ -73,14 +72,17 @@ g_contacts.removeContactGroup <- function removeContactGroup(group)
   ::u.removeFrom(::contacts_groups, group)
 }
 
-g_contacts.removeContact <- function removeContact(uid, group)
+g_contacts.removeContact <- function removeContact(player, group)
 {
-  local uidIdx = ::contacts[group].findindex( @(p) p.uid == uid)
+  local uidIdx = ::contacts[group].findindex( @(p) p.uid == player.uid)
   if (uidIdx != null)
     ::contacts[group].remove(uidIdx)
 
   if (::g_contacts.isFriendsGroupName(group))
-    ::clearContactPresence(uid)
+    ::clearContactPresence(player.uid)
+
+  if (group == ::EPLX_PS4_FRIENDS)
+    delete ::ps4_console_friends[player.name]
 }
 
 g_contacts.getPlayerFullName <- function getPlayerFullName(name, clanTag = "", addInfo = "")
@@ -134,14 +136,17 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
   return false
 }
 
-::can_add_player_to_contacts_list <- function can_add_player_to_contacts_list(groupName)
+::can_add_player_to_contacts_list <- function can_add_player_to_contacts_list(groupName, isSilent = false)
 {
   if (::contacts[groupName].len() < ::EPL_MAX_PLAYERS_IN_LIST)
     return true
 
-  ::scene_msg_box("cant_add_contact", ::get_gui_scene(),
-                  ::format(::loc("msg/cant_add/too_many_contacts"), ::EPL_MAX_PLAYERS_IN_LIST),
-                  [["ok", function() { } ]], "ok")
+  if (!isSilent)
+    ::showInfoMsgBox(
+      ::format(::loc("msg/cant_add/too_many_contacts"), ::EPL_MAX_PLAYERS_IN_LIST),
+      "cant_add_contact"
+    )
+
   return false
 }
 
@@ -151,95 +156,60 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
   local blk = ::DataBlock()
   blk[realGroupName] <- ::DataBlock()
 
-  local addList = []
-  local removeList = []
-
   foreach (isAdding, playersList in requestTable)
     foreach (player in playersList)
     {
-      if (isAdding)
-        addList.append(player)
-      else
-        removeList.append(player)
+      if (isAdding == ::isPlayerInContacts(player.uid, realGroupName))
+        continue //no need to do something
+
+      if (isAdding && !::can_add_player_to_contacts_list(realGroupName, true))
+        continue //Too many contacts
 
       blk[realGroupName][player.uid] <- isAdding
-      ::dagor.debug((isAdding? "Adding" : "Removing") + " player '" + player.name + "' (" + player.uid + ") to " + groupName + ", realGroupName " + realGroupName)
+      ::dagor.debug("edit_players_list_in_contacts: {op} player {name} ({uid}) to {groupName}, realGroupName {realGroupName}".subst({
+        op = isAdding? "Adding" : "Removing",
+        name = player.name,
+        uid = player.uid,
+        groupName = groupName,
+        realGroupName = realGroupName
+      }))
     }
+
+  if (blk[realGroupName].paramCount() == 0)
+    return 0
 
   local result = ::request_edit_player_lists(blk, false)
   if (result)
   {
-    foreach (isAdding, playersList in requestTable)
+    for (local i = 0; i < blk[realGroupName].paramCount(); i++)
     {
+      local playerUid = blk[realGroupName].getParamName(i)
+      local isAdding = blk[realGroupName].getParamValue(i)
+
+      local contact = ::getContact(playerUid)
+
       if (isAdding)
       {
-        foreach (player in playersList)
-        {
-          if (groupName == ::EPL_FRIENDLIST && platformModule.isPS4PlayerName(player.name) && ::isPlayerPS4Friend(player.name))
-            groupName = ::EPLX_PS4_FRIENDS
-          ::contacts[groupName].append(player)
-        }
+        if (groupName == ::EPL_FRIENDLIST)
+          groupName = ::getFriendGroupName(contact.name)
+
+        if (groupName == ::EPLX_PS4_FRIENDS)
+          ::ps4_console_friends[contact.name] <- contact
+
+        ::contacts[groupName].append(contact)
+        ::send_friend_added_event(contact.uidInt64)
       }
       else
-      {
-        foreach (player in playersList)
-        {
-          foreach(idx, p in ::contacts[groupName])
-            if (p.uid == player.uid)
-            {
-              ::contacts[groupName].remove(idx)
-              break
-            }
-
-          if (groupName == ::EPL_FRIENDLIST || groupName == ::EPLX_PS4_FRIENDS)
-            ::clearContactPresence(player.uid)
-        }
-      }
+        ::g_contacts.removeContact(contact, groupName)
     }
+
+    if (groupName == ::EPL_FACEBOOK && ::contacts[groupName].len() == 0)
+      ::g_contacts.removeContactGroup(groupName)
+
     ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = groupName})
   }
-  return result
-}
 
-::editPlayerInContacts <- function editPlayerInContacts(player, groupName, add) //playerConfig: { uid, name }
-{
-  if (add == ::isPlayerInContacts(player.uid, groupName))
-    return -1 //no need to do something
-
-  if (add && !::can_add_player_to_contacts_list(groupName))
-    return -1
-
-  local realGroupName = groupName == ::EPLX_PS4_FRIENDS? ::EPL_FRIENDLIST : groupName
-  local blk = ::DataBlock()
-  blk[realGroupName] <- ::DataBlock()
-  blk[realGroupName][player.uid] <- add
-  dagor.debug((add? "Adding" : "Removing") + " player '"+player.name+"' ("+player.uid+") to "+groupName + ", realGroupName " + realGroupName);
-
-  local result = ::request_edit_player_lists(blk, false)
-  if (result)
-  {
-    if (add)
-    {
-      if (groupName == ::EPL_FRIENDLIST && platformModule.isPS4PlayerName(player.name) && ::isPlayerPS4Friend(player.name))
-        groupName = ::EPLX_PS4_FRIENDS
-      ::contacts[groupName].append(player)
-    }
-    else
-    {
-      foreach(idx, p in ::contacts[groupName])
-        if (p.uid == player.uid)
-        {
-          ::contacts[groupName].remove(idx)
-          break
-        }
-      if (groupName == ::EPL_FRIENDLIST || groupName == ::EPLX_PS4_FRIENDS)
-        ::clearContactPresence(player.uid)
-      if (groupName == ::EPL_FACEBOOK && ::contacts[groupName].len() == 0)
-        ::g_contacts.removeContactGroup(groupName)
-    }
-    ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = groupName})
-  }
-  return result
+  return blk[realGroupName].paramCount()
 }
 
 ::find_contact_by_name_and_do <- function find_contact_by_name_and_do(playerName, func) //return taskId if delayed.
@@ -305,86 +275,44 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
   if (contact.canOpenXBoxFriendsWindow(groupName))
   {
     contact.openXBoxFriendsEdit()
-    return
-  }
-
-  if (add == ::isPlayerInContacts(player.uid, groupName))
-    return
-
-  if (groupName == ::EPL_FRIENDLIST)
-  {
-    if (add)
-      ::send_friend_added_event(player.uid.tointeger())
-
-    groupName = ::getFriendGroupName(player.name)
+    return null
   }
 
   if (add)
   {
-    local res = ::editPlayerInContacts(contact, groupName, true)
+    local res = ::edit_players_list_in_contacts({[true] = [contact]}, groupName)
     local msg = ::loc("msg/added_to_" + groupName)
-    if (res)
+    if (res > 0)
     {
       ::g_popups.add(null, format(msg, contact.getName()))
     }
   }
   else
   {
-    local msg = ::loc("msg/ask_remove_from_" + groupName)
-    ::scene_msg_box("remove_from_list", null, format(msg, contact.getName()), [
-      ["ok", @() ::editPlayerInContacts(contact, groupName, false)],
-      ["cancel", @() null ]
-    ], "cancel")
+    ::scene_msg_box(
+      "remove_from_list",
+      null,
+      ::format(::loc("msg/ask_remove_from_" + groupName), contact.getName()),
+      [
+        ["ok", @() ::edit_players_list_in_contacts({[false] = [contact]}, groupName)],
+        ["cancel", @() null ]
+      ],
+      "cancel", { cancel_fn = @() null }
+    )
   }
   return null
-}
-
-::addPlayersToContacts <- function addPlayersToContacts(players, groupName) //{ uid = name, uid2 = name2 }
-{
-  local addedPlayersNumber = 0;
-  local editBlk = ::DataBlock()
-  local realGroupName = groupName == ::EPLX_PS4_FRIENDS? ::EPL_FRIENDLIST : groupName
-
-  editBlk[realGroupName] <- ::DataBlock()
-  local groupChanged = false
-  foreach(uid, nick in players)
-  {
-    editBlk[realGroupName][uid] <- true
-    dagor.debug("Adding player '"+nick+"' ("+uid+") to "+groupName + ", realGroupName is " + realGroupName);
-
-    local player = ::getContact(uid, nick)
-    if ((groupName in ::contacts) && !::isPlayerInContacts(uid, groupName))
-    {
-      if (groupName == ::EPLX_PS4_FRIENDS && !platformModule.isPS4PlayerName(nick))
-        groupName = ::EPL_FRIENDLIST
-
-      ::contacts[groupName].append(player)
-      if (groupName == ::EPLX_PS4_FRIENDS)
-        ::ps4_console_friends[nick] <- player
-      addedPlayersNumber++;
-      groupChanged = true
-      if (::contacts[groupName].len() > ::EPL_MAX_PLAYERS_IN_LIST)
-        break;
-    }
-  }
-  if (groupChanged)
-    ::contacts[groupName].sort(::sortContacts)
-
-  ::request_edit_player_lists(editBlk)
-
-  if (groupChanged)
-    ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = groupName})
-
-  return addedPlayersNumber;
 }
 
 ::request_edit_player_lists <- function request_edit_player_lists(editBlk, checkFeature = true)
 {
   local taskId = ::edit_player_lists(editBlk)
-  local taskCallback = (@(checkFeature) function (result = null) {
-    if (!checkFeature || ::has_feature("Friends"))
-      ::reload_contact_list()
-  })(checkFeature)
+  local taskCallback = function (result = null) {
+    if (checkFeature && !::has_feature("Friends"))
+      return
+
+    ::reload_contact_list()
+  }
+
   return ::g_tasker.addTask(taskId, null, taskCallback, taskCallback)
 }
 
@@ -712,13 +640,11 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
   if (!::g_squad_manager.isInSquad())
     return
 
-  local contactsData = ::g_squad_manager.getSquadMembersDataForContact()
-  if (contactsData.len() > 0)
-    ::addPlayersToContacts(contactsData, ::EPL_RECENT_SQUAD)
+  ::edit_players_list_in_contacts({[true] = ::g_squad_manager.getSquadMembersDataForContact()}, ::EPL_RECENT_SQUAD)
 }
 
 if (!::contacts)
-  clear_contacts()
+  ::clear_contacts()
 
 ::subscribe_handler(::g_contacts, ::g_listener_priority.DEFAULT_HANDLER)
 

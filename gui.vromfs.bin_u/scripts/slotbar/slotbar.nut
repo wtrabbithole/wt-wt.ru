@@ -471,6 +471,7 @@ if need - put commented in array above
       shopItemTextId      = id + "_txt"
       shopItemText        = ::loc(air?.nameLocId ?? $"mainmenu/type_{nameForLoc}")
       isItemDisabled      = bitStatus == bit_unit_status.disabled
+      needMultiLineName   = params?.needMultiLineName
     }
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotFake", fakeSlotView)
   }

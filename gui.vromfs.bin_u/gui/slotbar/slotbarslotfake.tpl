@@ -35,6 +35,7 @@ shopItem {
       id:t='<<shopItemTextId>>'
       text:t='<<shopItemText>>'
       header:t='yes'
+      <<#needMultiLineName>>isMultiLine:t='yes'<</needMultiLineName>>
 
       <<#isItemDisabled>>
       disabled:t='yes'

@@ -2,21 +2,26 @@
 @const minShopFilterWidthWithUnseen: 2@listboxHPadding + 2@newWidgetIconHeight + 2@blockInterval;
 
 activateTab {
-  height:ph;
+  height:@bottomMenuPanelHeight;
   padding:1@bigButtonTextPadding, 0;
   re-type:fgPict;
-  foreground-position:0, 0, 0, h - 2@dp;
+  background-color:@transparent;
+  border:yes;
+  border-color:@bottomBarForegroundColor;
+  border-offset: 1@dp;
+
   css-hier-invalidate:yes;
   total-input-transparent:yes;
   input-transparent:yes;
 }
 activateTab:hover {
-  background-color:@listboxHoverOptionColor;
-  foreground-color:@listboxHoverOptionLineColor;
+  background-color:@menuButtonColorHover;
 }
 activateTab:pushed, activateTab[chosen=yes] {
-  background-color:@listboxSelOptionColor;
-  foreground-color:@listboxSelOptionLineColor;
+  background-color:@slotbarBgColor;
+  foreground-color:@slotbarBgColor;
+  background-position:0, -1@dp, 0, 0;
+  foreground-position:0, 0, 0, h-1@dp;
 }
 
 tabText {
@@ -38,7 +43,7 @@ activateTab > tabText {
 }
 
 activateTab:hover > tabText {
-  color:@listboxHoverTextColor;
+  color:@menuButtonTextColorHover;
 }
 activateTab:pushed > tabText, activateTab[chosen=yes] > tabText,
 activateTab[selected=yes] > tabText {

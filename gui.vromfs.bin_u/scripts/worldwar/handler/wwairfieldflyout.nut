@@ -68,7 +68,7 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       hintText = ::loc("worldwar/airfield/armies_hint_title")
         + "\n" + ::loc("worldwar/airfield/fighter_armies_hint", getAirsTypeViewParams())
         + "\n" + ::loc("worldwar/airfield/combined_armies_hint", getAirsTypeViewParams())
-      hasWeaponSelector = unitsGroups != null
+      hasUnitsGroups = unitsGroups != null
     }
   }
 
@@ -294,7 +294,9 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
         return
 
       if (buttonId != "btn_dec")
-        buttonObj.enable(isEnabled && (maxChoosenUnitsMask & unitTable.unitClass) == 0)
+        buttonObj.enable(isEnabled
+          && unitTable.value < unitTable.maxValue
+          && (maxChoosenUnitsMask & unitTable.unitClass) == 0)
       else
         buttonObj.enable(isEnabled && unitTable.value > 0)
     }
@@ -708,15 +710,17 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
     if (unitTable.unitClass == unitClassData.flyOutUnitClass)
       return
 
+    updateUnitValue(idx, 0)
+    local selectedUnitsInfo = getSelectedUnitsInfo()
+    setupQuantityManageButtons(selectedUnitsInfo, unitTable)
     unitTable.unitClass = unitClassData.flyOutUnitClass
+    updateSlider(unitTable, selectedUnitsInfo)
     local unitClass = unitClassData.unitClass
     local unitBlockObj = scene.findObject(unitTable.unitName + "_" + unitTable.armyGroupIdx)
     local unitClassObj = unitBlockObj.findObject("unit_class_icon_text")
     unitClassObj.unitType = wwUnitClassParams.getText(unitClass)
     unitClassObj.tooltip = ::loc(unitClassData.tooltipTextLocId)
     unitClassObj.setValue(wwUnitClassParams.getIconText(unitClass))
-
-    updateUnitValue(idx, 0)
   }
 
   function hasPresetToChoose(unit)
@@ -831,12 +835,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
   function getUnitClassesView(unit, curUnitClass)
   {
     local unitClassesDataArray = wwUnitClassParams.getAvailableClasses(unit)
-    if (unitClassesDataArray.len() < 2)
-      return null
-
     return {
       id = unit.name
-      pos = "0, ph/2 - h/2"
       funcName = "onUnitClassChange"
       values = unitClassesDataArray.map(@(unitClassData) {
         valueId = unitClassData.expClass

@@ -18,6 +18,11 @@ return [
     needShowInHelp = true
   }
   {
+    id = "ID_FIX_GUN_IN_MOUSE_LOOK"
+    type = CONTROL_TYPE.SWITCH_BOX
+    optionType = ::USEROPT_FIX_GUN_IN_MOUSE_LOOK
+  }
+  {
     id = "mouse_sensitivity"
     type = CONTROL_TYPE.SLIDER
     optionType = ::USEROPT_MOUSE_SENSE

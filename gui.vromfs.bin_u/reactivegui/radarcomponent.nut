@@ -2321,7 +2321,12 @@ local radar = function(posX, posY){
           scopeChild = B_ScopeHalf(width, height, pos)
       }
       else if (radarState.ViewMode.value == RadarViewMode.B_SCOPE_SQUARE)
-        scopeChild = B_ScopeSquare(width, height)
+      {
+        if (getAzimuthRange() > math.PI)
+          scopeChild = B_Scope(width, height)
+        else
+          scopeChild = B_ScopeSquare(width, height)
+      }
       if (radarState.IsCScopeVisible.value && !hudState.isPlayingReplay.value && getAzimuthRange() <= math.PI)
       {
         local isSquare = radarState.ViewMode.value == RadarViewMode.B_SCOPE_SQUARE
@@ -2354,13 +2359,19 @@ local radarMfdBackground = function()
   }
 }
 
-
-local Root = function(radarPosX = sh(8), radarPosY = sh(32)) {
+local Root = function(for_mfd, radarPosX = sh(8), radarPosY = sh(32), radar_color = greenColor) {
+  style.lineForeground = style.lineForeground.__merge({
+    color = radar_color
+  })
+  greenColorGrid = radar_color
+  greenColor = radar_color
   local getChildren = function() {
+    if (!for_mfd && (radarState.MfdRadarEnabled.value || radarState.MfdIlsEnabled.value))
+      return null
     local radarMfd = radarState.MfdRadarEnabled.value ?
           radar(radarState.radarPosSize.x + radarState.radarPosSize.w * 0.05, radarState.radarPosSize.y + radarState.radarPosSize.h * 0.05) : null
     return radarState.IsRadarHudVisible.value ?
-      (radarState.MfdRadarEnabled.value || radarState.MfdIlsEnabled.value ?
+      ((radarState.MfdRadarEnabled.value || radarState.MfdIlsEnabled.value) ?
        [
          targetsOnScreenComponent()
          forestallComponent()
@@ -2390,4 +2401,7 @@ local Root = function(radarPosX = sh(8), radarPosY = sh(32)) {
 }
 
 
-return Root
+return {
+  radar = Root
+  state = radarState
+}

@@ -1,5 +1,7 @@
 local subscriptions = require("sqStdLibs/helpers/subscriptions.nut")
 
+global const PERSISTENT_DATA_PARAMS = "PERSISTENT_DATA_PARAMS"
+
 ::dagui_propid.add_name_id("has_ime")
 ::dagui_propid.add_name_id("target_platform")
 

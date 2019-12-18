@@ -442,6 +442,8 @@
             "radius": 50.0,
             "onlyOnePlayerPerSpawnPoint": false,
             "resetStrictSpawnIndex": false,
+            "forceCreate": false,
+            "replaceAreas": false,
             "target": "t1_tanks_spawn00",
             "team": "A",
             "separate_fuel_time": false,
@@ -472,6 +474,8 @@
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
             "resetStrictSpawnIndex": false,
+            "forceCreate": false,
+            "replaceAreas": false,
             "target": "t2_tanks_spawn",
             "team": "B",
             "separate_fuel_time": false,
@@ -1825,6 +1829,44 @@
           "army": 2,
           "active": true
         }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_rearm_zone",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-822.154,23.2117,-95.1837]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_rearm_zone_01"
+          },
+          {
+            "squad_members": "t1_rearm_zone_02"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_rearm_zone",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [562.478,23.2117,-501.735]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_rearm_zone_01"
+          },
+          {
+            "squad_members": "t2_rearm_zone_02"
+          }
+        ]
       }
     }
   ],
@@ -3816,6 +3858,50 @@
         [0.0,50.0,0.0],
         [-98.4808,0.0,17.3648],
         [222.4,273.35,2255.8]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_rearm_zone_01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [3122.39,289.434,1892.08]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_rearm_zone_02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [2113.09,274.992,2162.96]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_rearm_zone_01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [2656.0,290.958,646.197]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_rearm_zone_02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [1392.77,305.067,1015.48]
       ],
       "objLayer": 0,
       "props": []

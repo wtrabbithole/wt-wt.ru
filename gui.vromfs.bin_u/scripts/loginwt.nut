@@ -73,7 +73,8 @@ local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
       ::destroy_session_scripted()
   }
 
-  ::broadcastEvent("BeforeSignOut") // Here save any data into profile.
+  if (::should_disable_menu() || ::g_login.isProfileReceived())
+    ::broadcastEvent("BeforeProfileInvalidation") // Here save any data into profile.
 
   dagor.debug("gui_start_logout")
   ::disable_autorelogin_once <- true

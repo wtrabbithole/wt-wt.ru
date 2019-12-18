@@ -43,7 +43,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]
 
-  lostSide = {side = 0, afkLoseTimeMsec = 0}
+  afkData = null
 
   canQuitByGoBack = false
 
@@ -62,10 +62,18 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
       scene.findObject("left_gc_panel_free_width")
     )
     registerSubHandler(leftSectionHandlerWeak)
+    afkData = {
+      loseSide = 0,
+      afkLoseTimeMsec = 0,
+      isMeLost = false,
+      haveAccess = false,
+      isNeedAFKTimer = false
+    }
 
     clearSavedData()
     initMapName()
     initOperationStatus(false)
+    updateAFKTimer()
     initGCBottomBar()
     initToBattleButton()
     initArmyControlButtons()
@@ -855,6 +863,105 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     return scene.findObject("reinforcement_pages_list")
   }
 
+  function updateAFKData()
+  {
+    local blk = ::DataBlock()
+    ::ww_get_sides_info(blk)
+    local loseSide = blk.sides[::SIDE_2.tostring()].afkLoseTimeMsec
+      < blk.sides[::SIDE_1.tostring()].afkLoseTimeMsec
+        ? ::SIDE_2 : ::SIDE_1
+    local newLoseTime = blk.sides[loseSide.tostring()].afkLoseTimeMsec
+    afkData.isNeedAFKTimer = afkData.loseSide != loseSide || afkData.afkLoseTimeMsec != newLoseTime
+    afkData.loseSide = loseSide
+    afkData.afkLoseTimeMsec = newLoseTime
+    afkData.isMeLost = ::ww_get_player_side() == loseSide
+    afkData.haveAccess = ::g_world_war.haveManagementAccessForAnyGroup()
+  }
+
+  function destroyAllAFKTimers()
+  {
+    if(afkLostTimer?.isValid() ?? false)
+      afkLostTimer.destroy()
+    if(afkCountdownTimer?.isValid() ?? false)
+      afkCountdownTimer.destroy()
+    if(animationTimer?.isValid() ?? false)
+      animationTimer.destroy()
+    ::ww_event("AFKTimerStop")
+  }
+
+  function updateAFKTimer()
+  {
+    if(animationTimer && animationTimer.isValid())
+      ::Timer(scene, 2, updateAFKTimer, this)
+    else if(!::g_world_war.isCurrentOperationFinished() && !::ww_is_operation_paused())
+    {
+      updateAFKData()
+      if (!afkData.isNeedAFKTimer && (afkLostTimer || afkCountdownTimer))
+        return
+
+      fillAFKTimer()
+    }
+    else if(::g_world_war.isCurrentOperationFinished())
+      destroyAllAFKTimers()
+  }
+
+  function fillAFKTimer()
+  {
+    destroyAllAFKTimers()
+    local afkLostObj = scene.findObject("afk_lost")
+    if(::check_obj(afkLostObj))
+      afkLostObj.show(false)
+    local operStatObj = scene.findObject("wwmap_operation_status")
+    if(::check_obj(operStatObj))
+      operStatObj.animation = "hide"
+    local afkLoseTimeShowSec = (::g_world_war.getSetting("afkLoseTimeShowSec", 0)
+      / ::ww_get_speedup_factor()).tointeger()
+    local delayTime = ::max(time.millisecondsToSecondsInt(afkData.afkLoseTimeMsec)
+      - ::g_world_war.getOperationTimeSec() - afkLoseTimeShowSec, 0)
+
+    afkLostTimer = ::Timer(scene, delayTime,
+      function()
+      {
+        local needMsgWnd = afkData.haveAccess && afkData.isMeLost
+        local textColor = needMsgWnd ? "white" : afkData.isMeLost
+          ? "wwTeamEnemyColor" : "wwTeamAllyColor"
+        local msgLoc = "".concat(
+          ::loc(afkData.isMeLost
+            ? "worldwar/operation/myTechnicalDefeatWarning"
+            : "worldwar/operation/enemyTechnicalDefeatWarning"),
+          ::loc("ui/colon"))
+
+        afkCountdownTimer = ::Timer(scene, 1,
+          function()
+          {
+            local afkObj = scene.findObject("afk_lost")
+            local statObj = scene.findObject("wwmap_operation_status")
+            local textObj = statObj.findObject("wwmap_operation_status_text")
+            local afkLoseTime = time.millisecondsToSecondsInt(afkData.afkLoseTimeMsec)
+              - ::g_world_war.getOperationTimeSec()
+            if(afkLoseTime <= 0)
+              afkCountdownTimer?.destroy()
+            local txt = afkLoseTime > 0
+              ? "".concat(::colorize(textColor, msgLoc), time.secondsToString(afkLoseTime))
+              : ::colorize(textColor, ::loc(afkData.isMeLost
+                ? "worldwar/operation/myTechnicalDefeat"
+                : "worldwar/operation/enemyTechnicalDefeat"))
+            if (needMsgWnd && ::check_obj(textObj))
+            {
+              textObj.setValue(txt)
+              statObj.show(!::ww_is_operation_paused())
+              statObj.animation = "show"
+            }
+            if (!needMsgWnd && ::check_obj(afkObj))
+            {
+              afkObj.setValue(txt)
+              afkObj.show(!::ww_is_operation_paused())
+            }
+          }, this, true)
+        ::ww_event("AFKTimerStart", {needResize = !needMsgWnd})
+      }, this)
+  }
+
   function initOperationStatus(sendEvent = true)
   {
     local objStartBox = scene.findObject("wwmap_operation_status")
@@ -868,17 +975,18 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     local isFinished = ::g_world_war.isCurrentOperationFinished()
     local isPaused = ::ww_is_operation_paused()
     local statusText = ""
-    objStartBox.show(isFinished || isPaused)
 
     if (isFinished)
     {
       local isVictory = ::ww_get_operation_winner() == ::ww_get_player_side()
       statusText = ::loc(isVictory ? "debriefing/victory" : "debriefing/defeat")
       ::play_gui_sound(isVictory ? "ww_oper_end_win" : "ww_oper_end_fail")
+      objStartBox.show(true)
     }
     else if (isPaused)
     {
       local activationTime = ::ww_get_operation_activation_time()
+      objStartBox.show(true)
       if (activationTime)
       {
         if (operationPauseTimer && operationPauseTimer.isValid())
@@ -916,17 +1024,18 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     objStartBox.animation = "show"
 
-    ::Timer(scene, 2, (@(scene, objStart, objTarget, objStartBox, statusText) function() {
+    animationTimer = ::Timer(scene, 2,
+      function() {
         objTarget.needAnim = "yes"
         objTarget.show(true)
 
         objStartBox.animation = "hide"
 
         ::create_ObjMoveToOBj(scene, objStart, objTarget, { time = 0.6, bhvFunc = "square" })
-      })(scene, objStart, objTarget, objStartBox, statusText),
+      },
     this)
 
-    if (sendEvent)
+    if (sendEvent && isFinished)
       ::ww_event("OperationFinished")
   }
 
@@ -1012,12 +1121,12 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     setCurrentSelectedObject(currentSelectedObject)
     markMainObjectiveZones()
     initOperationStatus()
+    updateAFKTimer()
 
     mapAirfields.updateMapIcons()
 
     onSecondsUpdate(null, 0)
     startRequestNewLogsTimer()
-    fillAFKLostTimer()
   }
 
   function startRequestNewLogsTimer()
@@ -1036,84 +1145,6 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
         ::g_ww_logs.requestNewLogs(WW_LOG_EVENT_LOAD_AMOUNT, false, logHandler)
       }, this, false)
-  }
-
-  function fillAFKLostTimer()
-  {
-    local blk = ::DataBlock()
-    ::ww_get_sides_info(blk)
-    local afkLoseTimeShowSec = ::g_world_war.getSetting("afkLoseTimeShowSec", 0)
-    if (blk.sides[::SIDE_1.tostring()].afkLoseTimeMsec
-      == blk.sides[::SIDE_2.tostring()].afkLoseTimeMsec)
-        return
-
-    local loseSide = blk.sides[::SIDE_1.tostring()].afkLoseTimeMsec
-      < blk.sides[::SIDE_2.tostring()].afkLoseTimeMsec
-        ? ::SIDE_1 : ::SIDE_2
-    local newLoseTime = blk.sides[loseSide.tostring()].afkLoseTimeMsec
-    if(lostSide.side == loseSide && lostSide.afkLoseTimeMsec == newLoseTime)
-      return
-
-    lostSide.side = loseSide
-    lostSide.afkLoseTimeMsec = newLoseTime
-    local delayTime = ::max(time.millisecondsToSecondsInt(newLoseTime)
-      - ::get_charserver_time_sec() - afkLoseTimeShowSec, 0)
-    afkLostTimer?.destroy()
-    afkCountdownTimer?.destroy()
-    animationTimer?.destroy()
-
-    afkLostTimer = ::Timer(
-      scene,
-      delayTime,
-      function() {
-        local statObj = scene.findObject("wwmap_operation_status")
-        if (!::check_obj(statObj))
-          return
-        local targetObj = scene.findObject("afk_lost")
-        local haveAccess = ::g_world_war.haveManagementAccessForSelectedArmies()
-        local isMeLost = ::ww_get_player_side() == lostSide.side
-        local msgLoc = "".concat(
-          ::loc(isMeLost
-            ? "worldwar/operation/myTechnicalDefeat" : "worldwar/operation/enemyTechnicalDefeat"),
-          ::loc("ui/colon"))
-        local msgText = "".concat(msgLoc,
-          time.hoursToString(time.secondsToHours(afkLoseTimeShowSec)))
-
-        statObj.show(haveAccess && isMeLost)
-        targetObj.setValue(msgText)
-        if (haveAccess && isMeLost)
-        {
-          targetObj.show(false)
-          local statTextObj = statObj.findObject("wwmap_operation_status_text")
-          statTextObj.setValue(msgText)
-          statObj.animation = "show"
-
-          animationTimer = ::Timer(scene, 2,
-            function() {
-              targetObj.needAnim = "yes"
-              targetObj.show(true)
-              statObj.animation = "hide"
-              ::create_ObjMoveToOBj(scene, statTextObj,
-                targetObj, {time = 0.6, bhvFunc = "square"})
-            },
-          this)
-        }
-
-        afkCountdownTimer = ::Timer(scene, 1,
-          function(){
-            if(--afkLoseTimeShowSec <= 0)
-              afkCountdownTimer?.destroy()
-            local txt = "".concat(msgLoc,
-              time.hoursToString(time.secondsToHours(afkLoseTimeShowSec)))
-            foreach (objName in ["afk_lost", "wwmap_operation_status_text"])
-            {
-              local obj = scene.findObject(objName)
-              if (::check_obj(obj))
-                obj.setValue(txt)
-            }
-          }, this, true)
-      },
-      this)
   }
 
   function onEventWWMapSelectedBattle(params)

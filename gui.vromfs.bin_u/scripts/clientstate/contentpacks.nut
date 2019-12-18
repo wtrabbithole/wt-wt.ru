@@ -67,6 +67,9 @@ local contentStateModule = ::require("scripts/clientState/contentState.nut")
   if (::is_ps4_or_xbox)
     return //no launcher there!
 
+  if (!::g_login.isLoggedIn())
+    return
+
   dagor.debug("[PACK] updateContentPacks called");
 
   local reqPacksList = []

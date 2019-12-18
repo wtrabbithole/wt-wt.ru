@@ -210,6 +210,9 @@
   waterQuality = { widgetType="list" def="high" blk="graphics/waterQuality" restart=false
     values = [ "low", "medium", "high", "ultrahigh" ]
   }
+  giQuality = { widgetType="list" def="low" blk="graphics/giQuality" restart=false
+    values = [ "low", "medium", "high" ]
+  }
   dirtSubDiv = { widgetType="list" def="high" blk="graphics/dirtSubDiv" restart=false
     values = [ "high", "ultrahigh" ]
     getFromBlk = function(blk, desc) {
@@ -247,6 +250,7 @@
   compatibilityMode = { widgetType="checkbox" def=false blk="video/compatibilityMode" restart=true
     onChanged = "compatibilityModeClick"
   }
+  enableHdr = { widgetType="checkbox" def=false blk="directx/enableHdr" restart=true enabled=@() is_hdr_available() }
   displacementQuality = { widgetType="slider" def=2 min=0 max=3 blk="graphics/displacementQuality" restart=false
   }
   contactShadowsQuality = { widgetType="slider" def=0 min=0 max=2 blk="graphics/contactShadowsQuality" restart=false
@@ -271,6 +275,7 @@
   {k="shadows",              v={ultralow=false,low=true,medium=true ,high=true ,max=true, movie=true}}
   {k="selfReflection",       v={ultralow=false,low=false,medium=true ,high=true ,max=true, movie=true}}
   {k="waterQuality",         v={ultralow="low",low="low",medium="medium",high="high", max="high", movie="ultrahigh"}, compMode=false}
+  {k="giQuality",            v={ultralow="low", low="low", medium="low", high="low", max="medium", movie="high"}, compMode=false}
   {k="grass",                v={ultralow=false,low=false,medium=false,high=true ,max=true, movie=true}}
   {k="displacementQuality",  v={ultralow=0,low=0,medium=0,high=1, max=2, movie=3}}
   {k="dirtSubDiv",           v={ultralow="high",low="high",medium="high",high="high", max="ultrahigh", movie="ultrahigh"}, compMode=true}
@@ -611,6 +616,7 @@
       "contactShadowsQuality"
       "ssrQuality"
       "waterQuality"
+      "giQuality"
       "physicsQuality"
       "displacementQuality"
       "dirtSubDiv"
@@ -632,6 +638,7 @@
       "alpha_to_coverage"
       "jpegShots"
       "compatibilityMode"
+      "enableHdr"
     ]
   }
 ]
@@ -737,6 +744,7 @@ sysopt.localize <- function localize(optionId, valueId)
     case "shadowQuality":
     case "tireTracksQuality":
     case "waterQuality":
+    case "giQuality":
     case "dirtSubDiv":
       if (valueId == "none")
         return ::loc("options/none")
@@ -845,7 +853,11 @@ sysopt.fillGuiOptions <- function fillGuiOptions(containerObj, handler)
           break
         case "editbox":
           local raw = mCfgCurrent[id].tostring()
-          option = ::create_option_editbox(desc.widgetId, raw, false, desc.maxlength)
+          option = ::create_option_editbox({
+            id = desc.widgetId,
+            value = raw,
+            maxlength = desc.maxlength
+          })
           break
       }
 

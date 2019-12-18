@@ -128,12 +128,8 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
       ::openChatPrivate(curPlayer.name, this)
   }
 
-  function onEventContactsGroupUpdate(params)
+  function isContactsWindowActive()
   {
-    local groupName = null
-    if ("groupName" in params)
-      groupName = params.groupName
-
-    updateContactsGroup(groupName)
+    return checkScene()
   }
 }

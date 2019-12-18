@@ -70,7 +70,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getControlsAllowMask()
   {
-    if (!::last_contacts_scene_show || !checkScene() || !scene.isEnabled())
+    if (!isContactsWindowActive() || !scene.isEnabled())
       return CtrlsInGui.CTRL_ALLOW_FULL
     return wndControlsAllowMask
   }
@@ -182,7 +182,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function loadSizes()
   {
-    if (::last_contacts_scene_show && checkScene())
+    if (isContactsWindowActive())
     {
       ::contacts_sizes = {}
       local obj = scene.findObject("contacts_wnd")
@@ -213,7 +213,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    if (::last_contacts_scene_show && ::contacts_sizes && checkScene())
+    if (isContactsWindowActive() && ::contacts_sizes)
     {
       local obj = scene.findObject("contacts_wnd")
       if (!obj) return
@@ -670,6 +670,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (curGroup == groupName)
         curGroup = ""
+      if (!isContactsWindowActive())
+        return
+
       fillContactsList()
       if (searchText == "")
         closeSearchGroup()
@@ -680,7 +683,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (groupName && groupName in ::contacts)
     {
       ::contacts[groupName].sort(::sortContacts)
-      if (!checkScene())
+      if (!isContactsWindowActive())
         return
       sel = fillPlayersList(groupName)
     }
@@ -689,14 +692,14 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (group in ::contacts)
         {
           ::contacts[group].sort(::sortContacts)
-          if (!checkScene())
+          if (!isContactsWindowActive())
             continue
           local selected = fillPlayersList(group)
           if (group == curGroup)
             sel = selected
         }
 
-    if (!checkScene())
+    if (!isContactsWindowActive())
       return
 
     if (curGroup && (!groupName || curGroup == groupName))
@@ -718,8 +721,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if ("groupName" in params)
       groupName = params.groupName
 
-    if (::last_contacts_scene_show && checkScene())
-      updateContactsGroup(groupName)
+    updateContactsGroup(groupName)
   }
 
   function onEventModalWndDestroy(params)

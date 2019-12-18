@@ -1,3 +1,4 @@
+global const PERSISTENT_DATA_PARAMS = "PERSISTENT_DATA_PARAMS"
 ::g_script_reloader.loadOnce("sqDagui/daguiUtil.nut") //!!FIX ME: better to make this modules too
 
 const TIME_INTERVAL_SWITCH_OFF = 1000000.0

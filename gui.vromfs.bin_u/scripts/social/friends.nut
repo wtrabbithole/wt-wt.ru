@@ -11,26 +11,29 @@ local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local isFirstPs4FriendsUpdate = true
 
-::addSocialFriends <- function addSocialFriends(blk, group, silent = false)
+::addSocialFriends <- function addSocialFriends(blk, groupName, silent = false)
 {
-  local addedFriendsNumber = 0
-  local resultMessage = ""
-  local players = {}
+  local players = []
 
   foreach(userId, info in blk)
-    players[userId] <- info.nick
+  {
+    local contact = ::getContact(userId, info.nick)
+    if (contact)
+      players.append(contact)
+  }
 
+  local addedFriendsNumber = 0
   if (players.len())
   {
-    if(!isInArray(group, ::contacts_groups))
-      ::addContactGroup(group)
-    addedFriendsNumber = ::addPlayersToContacts(players, group)
+    ::addContactGroup(groupName)
+    addedFriendsNumber = ::edit_players_list_in_contacts({[true] = players}, groupName)
   }
 
   ::on_facebook_destroy_waitbox()
   if (silent)
     return
 
+  local resultMessage = ""
   if (addedFriendsNumber == 0)
     resultMessage = ::loc("msgbox/no_friends_added");
   else if (addedFriendsNumber == 1)

@@ -714,7 +714,7 @@ local ACTION_LIST_PARAMS = {
 {
   if (!::has_feature("UnitInfo"))
     return false
-  if (::is_platform_pc && ::has_feature("WikiUnitInfo"))
+  if (::has_feature("WikiUnitInfo"))
     return true // Because there is link to wiki.
   local desc = unit ? ::loc("encyclopedia/" + unit.name + "/desc", "") : ""
   return desc != "" && desc != ::loc("encyclopedia/no_unit_description")

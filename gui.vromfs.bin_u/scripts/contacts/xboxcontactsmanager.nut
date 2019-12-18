@@ -74,7 +74,7 @@ local tryUpdateContacts = function(contactsBlk)
         if (isAdding)
           ::contacts[group].append(contact)
         else
-          ::g_contacts.removeContact(contact.uid, group)
+          ::g_contacts.removeContact(contact, group)
       }
       ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE { groupName = group })
     }

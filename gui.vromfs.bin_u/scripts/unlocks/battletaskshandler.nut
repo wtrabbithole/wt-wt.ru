@@ -355,6 +355,11 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     onChangeTab(getTabsListObj())
   }
 
+  function onEventBattleTasksTimeExpired(params)
+  {
+    onChangeTab(getTabsListObj())
+  }
+
   function onShowAllTasks(obj)
   {
     ::broadcastEvent("BattleTasksShowAll", {showAllTasksValue = obj.getValue()})

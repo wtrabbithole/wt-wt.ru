@@ -33,13 +33,22 @@ foreach (sh in sheetsArray)
 
 class ::gui_handlers.XboxShop extends ::gui_handlers.IngameConsoleStore
 {
+  function loadCurSheetItemsList()
+  {
+    itemsList = itemsCatalog?[curSheet.mediaType] ?? []
+  }
+
   function onEventXboxSystemUIReturn(p)
   {
-    local item = getCurItem()
-    item?.updateIsBoughtStatus?()
+    lastSelectedItem = getCurItem()
+    local wasBought = lastSelectedItem?.isBought
+    lastSelectedItem?.updateIsBoughtStatus()
+    if (wasBought != lastSelectedItem?.isBought)
+      ::configs.ENTITLEMENTS_PRICE.checkUpdate()
+
     updateSorting()
     fillItemsList()
-    ::g_discount.updateXboxShopDiscounts()
+    ::g_discount.updateOnlineShopDiscounts()
   }
 }
 

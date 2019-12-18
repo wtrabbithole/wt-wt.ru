@@ -1,5 +1,5 @@
 local {Watched} = require("frp")
-const FORBID_MUTATE_COMPUTED = false //for debug purposes
+const FORBID_MUTATE_COMPUTED = true //for debug purposes
 
 local function combinec(obss, func) {
   //this function create and returns observable that is subscribed to list of observables

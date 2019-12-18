@@ -15,6 +15,8 @@ gcButtonsHolder {
 
   <<#presets>>
   activateTab {
+    position:t='relative'
+    pos:t='-1@dp, 0'
     enable:t='no'
     display:t='hide'
     css-hier-invalidate:t='yes'
@@ -31,7 +33,7 @@ gcButtonsHolder {
 
   Button_text {
     id:t='btn_slotbar_presets'
-    style:t='min-width:1@minPresetNameItemWidth;'
+    style:t='min-width:1@minPresetNameItemWidth; height:1@bottomMenuPanelHeight;'
     tooltip:t='#shop/slotbarPresets/tooltip'
     on_click:t='onSlotsChoosePreset'
 

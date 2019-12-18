@@ -77,19 +77,35 @@
         "initMission": []
       },
       "conditions": [],
-      "actions": {
-        "varSetBool": {
-          "value": false,
-          "var": "enableRearmZones",
-          "fromDescriptor": "enableRearmZones"
+      "actions": [
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "enableRearmZonesTeamA",
+            "fromDescriptor": "enableRearmZonesTeamA"
+          }
         },
-        "triggerEnable": {
-          "target": "rearm_zones_enable_check"
+        {
+          "varSetBool": {
+            "value": false,
+            "var": "enableRearmZonesTeamB",
+            "fromDescriptor": "enableRearmZonesTeamB"
+          }
+        },
+        {
+          "triggerEnable": [
+            {
+              "target": "rearm_zones_enable_check_t1"
+            },
+            {
+              "target": "rearm_zones_enable_check_t2"
+            }
+          ]
         }
-      },
+      ],
       "else_actions": []
     },
-    "rearm_zones_enable_check": {
+    "rearm_zones_enable_check_t1": {
       "is_enabled": false,
       "comments": "",
       "props": {
@@ -104,20 +120,42 @@
       },
       "conditions": {
         "varCompareBool": {
-          "var_value": "enableRearmZones",
+          "var_value": "enableRearmZonesTeamA",
           "value": true,
           "comparasion_func": "equal"
         }
       },
       "actions": {
-        "triggerEnable": [
-          {
-            "target": "rearm_zone_exist_check_t1"
-          },
-          {
-            "target": "rearm_zone_exist_check_t2"
-          }
-        ]
+        "triggerEnable": {
+          "target": "rearm_zone_exist_check_t1"
+        }
+      },
+      "else_actions": []
+    },
+    "rearm_zones_enable_check_t2": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0
+        }
+      },
+      "conditions": {
+        "varCompareBool": {
+          "var_value": "enableRearmZonesTeamB",
+          "value": true,
+          "comparasion_func": "equal"
+        }
+      },
+      "actions": {
+        "triggerEnable": {
+          "target": "rearm_zone_exist_check_t2"
+        }
       },
       "else_actions": []
     },
@@ -209,7 +247,8 @@
     "is_enabled": true
   },
   "variables": {
-    "enableRearmZones": false,
+    "enableRearmZonesTeamA": false,
+    "enableRearmZonesTeamB": false,
     "t1_rearmZoneName": "t1_rearm_zone",
     "t2_rearmZoneName": "t2_rearm_zone"
   },

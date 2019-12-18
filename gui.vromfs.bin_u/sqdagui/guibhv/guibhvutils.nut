@@ -29,7 +29,7 @@
 }
 
 if (!("play_gui_sound" in getroottable())) //!!FIX ME: remove this function and use direct guiScene sound when it appear on all platforms
-  play_gui_sound <- function(soundName)
+  ::play_gui_sound <- function(soundName)
   {
     ::get_gui_scene().playSound(soundName)
   }

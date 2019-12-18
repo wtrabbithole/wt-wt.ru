@@ -1,5 +1,6 @@
 local enums = require("sqStdlibs/helpers/enums.nut")
 local xboxShopData = require("scripts/onlineShop/xboxShopData.nut")
+local ps4ShopData = require("scripts/onlineShop/ps4ShopData.nut")
 local contentStateModule = require("scripts/clientState/contentState.nut")
 local workshop = require("scripts/items/workshop/workshop.nut")
 local platform = require("scripts/clientState/platform.nut")
@@ -276,13 +277,15 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     unseenIcon = @() SEEN.EXT_XBOX_SHOP
   }
   PS4_ONLINE_SHOP = {
-    text = "#msgbox/btn_onlineShop"
+    text = ps4ShopData.canUseIngameShop()? "#topmenu/ps4IngameShop" : "#msgbox/btn_onlineShop"
     onClickFunc = @(...) ::OnlineShopModel.launchPS4Store()
     link = ""
-    isLink = @() true
-    isFeatured = @() true
-    image = "#ui/gameuiskin#store_icon.svg"
+    isLink = @() !ps4ShopData.canUseIngameShop()
+    isFeatured = @() !ps4ShopData.canUseIngameShop()
+    image = ps4ShopData.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
+    needDiscountIcon = true
     isHidden = @(...) !::is_platform_ps4 || !::isInMenu()
+    unseenIcon = @() SEEN.EXT_PS4_SHOP
   }
   MARKETPLACE = {
     text = "#mainmenu/marketplace"

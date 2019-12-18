@@ -276,11 +276,15 @@ local isWaitMeasureEvent = false
   return create_option_list(id, items, value, cb, isFull, "ComboBox", null, params)
 }
 
-::create_option_editbox <- function create_option_editbox(id, value="", password = false, maxlength = 16)
-{
-  local data = "EditBox { id:t = '" + id + "'; text:t='" + ::locOrStrip(value) + "'; width:t = '0.2@sf'; max-len:t = '" + maxlength + "';" + (password ? " type:t = 'password' " : "") + "}" //type:t = 'password'
-  return data
-}
+::create_option_editbox <- ::kwarg(function create_option_editbox(id, value = "", password = false, maxlength = 16, charMask = null) {
+  return "EditBox { id:t='{id}'; text:t='{text}'; width:t='0.2@sf'; max-len:t='{len}';{type}{charMask}}".subst({
+    id = id,
+    text = ::locOrStrip(value.tostring()),
+    len = maxlength,
+    type = password? "type:t = 'password';" : "",
+    charMask = charMask? $"char-mask:t='{charMask}';" : ""
+  })
+})
 
 ::create_option_switchbox <- function create_option_switchbox(config)
 {
@@ -528,6 +532,8 @@ local isWaitMeasureEvent = false
       optionsUtils.fillBoolOption(descr, "hideMouseInSpectator", ::OPTION_HIDE_MOUSE_SPECTATOR); break;
     case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
       optionsUtils.fillBoolOption(descr, "showCompassInTankHud", ::OPTION_SHOW_COMPASS_IN_TANK_HUD); break;
+    case ::USEROPT_FIX_GUN_IN_MOUSE_LOOK:
+      optionsUtils.fillBoolOption(descr, "fixGunInMouseLook", ::OPTION_FIX_GUN_IN_MOUSE_LOOK); break;
 
     case ::USEROPT_VIEWTYPE:
       descr.id = "viewtype"
@@ -3018,7 +3024,6 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_CLUSTER:
     case ::USEROPT_RANDB_CLUSTER:
-      local defaultZone = ::get_default_network_cluster()
       descr.id = "cluster"
       descr.items = []
       descr.values = []
@@ -3026,6 +3031,8 @@ local isWaitMeasureEvent = false
 
       if (::g_clusters.clusters_info.len() > 0)
       {
+        local defaultClusters = split(::get_default_network_cluster(), ";")
+        local selectedClusters = []
         for(local i = 0; i < ::g_clusters.clusters_info.len(); i++)
         {
           local cluster = ::g_clusters.clusters_info[i]
@@ -3035,11 +3042,10 @@ local isWaitMeasureEvent = false
           })
           descr.values.append(cluster.name)
 
-          if (defaultZone == cluster.name)
-            defaultValue = descr.values[descr.values.len() - 1]
+          if (::isInArray(cluster.name, defaultClusters))
+            selectedClusters.append(descr.values[descr.values.len() - 1])
         }
-        if (defaultValue == 0)
-          defaultValue = descr.values[0]
+        defaultValue = selectedClusters.len() > 0 ? ";".join(selectedClusters) : descr.values[0]
       }
       else
       {
@@ -3650,6 +3656,7 @@ local isWaitMeasureEvent = false
       descr.id = "replace_my_nick_local"
       descr.controlType = optionControlType.EDITBOX
       descr.controlName <-"editbox"
+      descr.charMask <- "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"
       descr.value = ::get_gui_option_in_mode(optionId, ::OPTIONS_MODE_GAMEPLAY, "")
       break
 
@@ -4415,6 +4422,7 @@ local isWaitMeasureEvent = false
     case ::USEROPT_MAP_ZOOM_BY_LEVEL:
     case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
     case ::USEROPT_HIDE_MOUSE_SPECTATOR:
+    case ::USEROPT_FIX_GUN_IN_MOUSE_LOOK:
       local optionIdx = ::getTblValue("boolOptionIdx", descr, -1)
       if (optionIdx >= 0 && ::u.isBool(value))
         ::set_option_bool(optionIdx, value)
@@ -4853,8 +4861,7 @@ local isWaitMeasureEvent = false
         break
 
       case "editbox":
-        elemTxt = create_option_editbox(optionData.id, optionData.value.tostring(), ::getTblValue("password", optionData, false),
-                                        ::getTblValue("maxlength", optionData, 16))
+        elemTxt = ::create_option_editbox(optionData)
         break
 
       case "listbox":

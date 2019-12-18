@@ -187,7 +187,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       this[selectCb](modesObj)
   }
 
-  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null, hasWorldWarMode = false)
+  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null, addTabs = [])
   {
     if (!::check_obj(nest))
       return
@@ -197,7 +197,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return
 
     updateModesTabsContent(modesObj, {
-      tabs = getModesTabsView(selectedDiffCode, filterFunc)
+      tabs = getModesTabsView(selectedDiffCode, filterFunc).extend(addTabs)
     })
   }
 

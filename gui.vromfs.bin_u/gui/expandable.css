@@ -220,6 +220,12 @@ expandable[battleTaskStatus=done] statusImg {
   background-color:@white;
 }
 
+promoButton[type=battleTask] [battleTaskStatus=failed] statusImg,
+expandable[battleTaskStatus=failed] statusImg {
+  background-image:#ui/gameuiskin#icon_primary_fail.svg;
+  background-color:@white;
+}
+
 expandable > selImg > activeText[caption=yes] {
   pos:0, -h;
   position:absolute;

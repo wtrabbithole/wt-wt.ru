@@ -153,8 +153,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       data += format("option {text:t='%s'}", optionText)
     }
 
-    local hasDaySelection = isUsersLeaderboard()
-    local daysObj = showSceneBtn("days_list", hasDaySelection)
+    local daysObj = showSceneBtn("days_list", lbModeData.hasDaysData)
     guiScene.replaceContentFromText(daysObj, data, data.len(), this)
 
     daysObj.setValue(needDayOpen && lbDaysList.len() > 1 ? 1 : 0)
@@ -411,7 +410,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 
   function isUsersLeaderboard()
   {
-    return lbMode == "ww_users"
+    return wwLeaderboardData.isUsersLeaderboard(lbModeData)
   }
 
   function isCountriesLeaderboard()
@@ -426,7 +425,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       return ::showInfoMsgBox(::loc("leaderboards/has_no_rewards"))
 
     wwRewards.open({
-      isPlayerRewards = isUsersLeaderboard()
+      isClanRewards = forClans
       rewardsBlk = curRewardsBlk
       rewardsTime = getCurRewardsTime()
       lbMode    = lbMode

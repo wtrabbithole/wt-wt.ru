@@ -1,7 +1,7 @@
 local stdMath = require("std/math.nut")
 
-wn_sideRecursion <- 0
-wn_sideRecursionFound <- false
+::wn_sideRecursion <- 0
+::wn_sideRecursionFound <- false
 
 enum NAV_SHORTCUT { //bit mask
   CANCEL          = 0x0001

@@ -462,6 +462,13 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       text = "".concat(getKickReasonLocText(), "\n",
         ::loc("multiplayer/reason"), ::loc("ui/colon"),
         ::colorize("activeTextColor", ::debriefing_result.exp.eacKickMessage))
+
+      if (::has_feature("AllowExternalLink") && !::is_vendor_tencent())
+        ::showBtn("btn_no_awards_info", true, scene)
+      else
+        text = "".concat(text, "\n",
+          ::loc("msgbox/error_link_format_game"), ::loc("ui/colon"), ::loc("url/support/easyanticheat"))
+
       color = "bad"
     }
     else if (pveRewardInfo && pveRewardInfo.warnLowActivity)
@@ -486,6 +493,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     if (::debriefing_result?.exp.eacKickMessage != null)
       return ::loc("MISSION_ABORTED_BY_KICK/EAC")
     return ::loc("MISSION_ABORTED_BY_KICK")
+  }
+
+  function onNoAwardsInfoBtn()
+  {
+    if (::debriefing_result?.exp.eacKickMessage != null)
+      ::open_url(::loc("url/support/easyanticheat/kick_reasons"), false, false, "support_eac")
   }
 
   function reinitTotal()
@@ -2431,12 +2444,15 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     }])
   }
 
-  function onEventBattleTasksIncomeUpdate(params)
+  function updateBattleTasks()
   {
     loadBattleTasksList()
     updateBattleTasksStatusImg()
     updateShortBattleTask()
   }
+
+  function onEventBattleTasksIncomeUpdate(p) { updateBattleTasks() }
+  function onEventBattleTasksTimeExpired(p)  { updateBattleTasks() }
 
   function getWwBattleResults()
   {

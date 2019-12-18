@@ -42,7 +42,8 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
         ::g_battle_task_difficulty.getDefaultDifficultyGroup())
       local activeTasks = ::u.filter(::g_battle_tasks.filterTasksByGameModeId(tasksArray, currentGameModeId),
         @(task) !::g_battle_tasks.isTaskDone(task)
-          && ::g_battle_tasks.isTaskActive(task))
+          && ::g_battle_tasks.isTaskActive(task)
+          && (::g_battle_tasks.canGetReward(task) || !::g_battle_tasks.isTaskTimeExpired(task)))
 
               //get difficulty list
       difficultyGroupArray = getDifficultyRadioButtonsListByTasks(activeTasks,
@@ -180,6 +181,7 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
 
   onEventNewBattleTasksChanged                = @(p) updateHandler()
   onEventBattleTasksFinishedUpdate            = @(p) updateHandler()
+  onEventBattleTasksTimeExpired               = @(p) updateHandler()
   onEventCurrentGameModeIdChanged             = @(p) updateHandler()
   onEventWarbondShopMarkSeenLevel             = @(p) updateHandler()
   onEventWarbondViewShowProgressBarFlagUpdate = @(p) updateHandler()

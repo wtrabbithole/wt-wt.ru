@@ -335,7 +335,7 @@ class ::WwArmyView
 
   function getArmyInfoText()
   {
-    if (!isArtillery())
+    if (!hasArtilleryAbility())
       return null
 
     if (formation.isMove())

@@ -76,12 +76,22 @@ frame {
         }
         weaponsSelectorNest {
           id:t='secondary_weapon'
-          width:t='1@modItemWidth'
+          width:t='<<#hasUnitsGroups>>1@roleArmyWidth<</hasUnitsGroups>><<^hasUnitsGroups>>1@modItemWidth<</hasUnitsGroups>>'
           height:t='1@modItemHeight'
+          pos:t='0, 0.5ph-0.5h'
+          position:t='relative'
           css-hier-invalidate:t='yes'
 
           <<#unitClassesView>>
+          tdiv {
+            width:t='pw'
+            flow:t='vertical'
+            css-hier-invalidate:t='yes'
+            activeText {
+              text:t='#mainmenu/unitRoleInArmy'
+            }
             include "gui/commonParts/combobox"
+          }
           <</unitClassesView>>
         }
         wwUnitClass {
@@ -99,7 +109,7 @@ frame {
   }
 
   tdiv {
-    width:t='1@wwFlyOutScreenInfoWidth'
+    width:t='<<#hasUnitsGroups>>1@wwFlyOutScreenInfoWidthByGroup<</hasUnitsGroups>><<^hasUnitsGroups>>1@wwFlyOutScreenInfoWidth<</hasUnitsGroups>>'
     left:t='0.5(pw-w)'
     position:t='relative'
     flow:t='vertical'
@@ -152,11 +162,11 @@ frame {
     accessKey:t = 'J:Y'
     on_click:t = 'onUnitAmountMax'
   }
-  <<#hasWeaponSelector>>
+  <<^hasUnitsGroups>>
   dummy {
     behavior:t='accesskey'
     accessKey:t = 'J:X'
     on_click:t = 'onOpenPresetsList'
   }
-  <</hasWeaponSelector>>
+  <</hasUnitsGroups>>
 }

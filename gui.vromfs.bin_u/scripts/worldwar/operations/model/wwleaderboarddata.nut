@@ -12,7 +12,8 @@ local modes = [
     mode  = "ww_users_manager"
     appId = "1134"
     isInLeaderboardModes = true
-    hasDaysData = false
+    hasDaysData = true
+    rewardsTableName = "user_leaderboards"
   },
   {
     mode  = "ww_clans"
@@ -156,6 +157,9 @@ local function convertWwLeaderboardData(result, applyLocalisationToName = false)
   return { rows = list }
 }
 
+local function isUsersLeaderboard(lbModeData) {
+  return lbModeData.appId == "1134"
+}
 
 return {
   modes = modes
@@ -165,4 +169,5 @@ return {
   requestWwLeaderboardData = requestWwLeaderboardData
   requestWwLeaderboardModes = requestWwLeaderboardModes
   convertWwLeaderboardData = convertWwLeaderboardData
+  isUsersLeaderboard = isUsersLeaderboard
 }

@@ -30,6 +30,8 @@ local frp = require("frp")
     gamepadCursorHoverMaxMul = 0.1
     gamepadCursorHoverMaxTime = 0.5
   }
+  cursorOverScroll = ::Watched(true)
+  cursorOverClickable = ::Watched(true)
   cursorPresent = ::Watched(true)
   setHotkeysNavHandler = function(func){assert(::type(func)=="function")}
   setUpdateHandler = function(dt) {}
@@ -116,6 +118,7 @@ global enum AnimProp{
   Marquee = "Marquee"
   BoundToArea = "BoundToArea"
   RecalcHandler = "RecalcHandler"
+  DragAndDrop = "DragAndDrop"
 }
 
 ::Picture <- function Picture(val){return val}
@@ -156,6 +159,10 @@ global const HALIGN_RIGHT="HALIGN_RIGHT"
 global const VALIGN_TOP="VALIGN_TOP"
 global const VALIGN_MIDDLE="VALIGN_MIDDLE"
 global const VALIGN_BOTTOM="VALIGN_BOTTOM"
+
+global const KEEP_ASPECT_FILL = "KEEP_ASPECT_FILL"
+global const KEEP_ASPECT_NONE = false
+global const KEEP_ASPECT_FIT  = true
 
 global const VECTOR_WIDTH="VECTOR_WIDTH"
 global const VECTOR_COLOR="VECTOR_COLOR"

@@ -83,6 +83,9 @@ local summaryNameArray = [
 
   function _update_my_stats()
   {
+    if (!::g_login.isLoggedIn())
+      return
+
     local blk = ::DataBlock()
     ::get_player_public_stats(blk)
 

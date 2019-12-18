@@ -260,7 +260,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": true,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "spectator_points": [],
@@ -438,11 +439,14 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,100.0],
             "radius": 50.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "forceCreate": false,
+            "replaceAreas": false,
             "target": "t2_tanks_spawn00",
             "team": "B",
+            "offset": [0.0,0.0,100.0],
             "tags": {
               "tank": true,
               "type_heavy_tank": true,
@@ -465,11 +469,14 @@
             "removeAreas": false,
             "canSpawnOnNeutral": false,
             "showOnMap": true,
-            "offset": [0.0,0.0,0.0],
             "radius": -1.0,
             "onlyOnePlayerPerSpawnPoint": false,
+            "resetStrictSpawnIndex": false,
+            "forceCreate": false,
+            "replaceAreas": false,
             "target": "t1_tanks_spawn",
             "team": "A",
+            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": true,
               "type_heavy_tank": true,
@@ -1342,6 +1349,44 @@
           "army": 2,
           "active": true
         }
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t2_rearm_zone",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [-822.154,23.2117,-95.1837]
+        ],
+        "props": [
+          {
+            "squad_members": "t2_rearm_zone_01"
+          },
+          {
+            "squad_members": "t2_rearm_zone_02"
+          }
+        ]
+      }
+    },
+    {
+      "area_squad": {
+        "name": "t1_rearm_zone",
+        "tm": [
+          [1.0,0.0,0.0],
+          [0.0,1.0,0.0],
+          [0.0,0.0,1.0],
+          [562.478,23.2117,-501.735]
+        ],
+        "props": [
+          {
+            "squad_members": "t1_rearm_zone_01"
+          },
+          {
+            "squad_members": "t1_rearm_zone_02"
+          }
+        ]
       }
     }
   ],
@@ -2992,6 +3037,50 @@
         [0.0,1600.0,0.0],
         [0.0,0.0,1600.0],
         [2938.8,59.5759,2358.51]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_rearm_zone_01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [3235.75,6.14728,2126.16]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_rearm_zone_02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [2830.68,5.7063,2543.39]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_rearm_zone_01": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [2098.99,11.7643,2466.63]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_rearm_zone_02": {
+      "type": "Cylinder",
+      "tm": [
+        [150.0,0.0,0.0],
+        [0.0,100.0,0.0],
+        [0.0,0.0,150.0],
+        [2633.67,4.17249,1579.03]
       ],
       "objLayer": 0,
       "props": []

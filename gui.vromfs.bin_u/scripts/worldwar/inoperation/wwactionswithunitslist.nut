@@ -106,6 +106,7 @@ local function getUnitMarkUp(name, unit, group) {
     status = "owned"
     inactive = true
     isLocalState = false
+    needMultiLineName = true
     tooltipParams = { showLocalState = false }
   }
   if (group != null)

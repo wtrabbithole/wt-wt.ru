@@ -95,7 +95,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       goBack()
       return
     }
-
+    curWwCategory = ::g_lb_category.EVENTS_PERSONAL_ELO
+    initLbTable()
     curMode = getCurDMode()
     reinitClanWindow()
     initFocusArray()
@@ -256,7 +257,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("update_stats_info_text").setValue(
       "<b>{0}</b> {1}".subst(::colorize("commonTextColor", ::loc("clan/stats")), updStatsText))
 
-    fillModeListBox(scene.findObject("clan_container"), getCurDMode(), ::get_show_in_squadron_statistics)
+    fillModeListBox(scene.findObject("clan_container"), getCurDMode(),
+      ::get_show_in_squadron_statistics, getAdditionalTabsArray())
     fillClanManagment()
 
     showSceneBtn("clan_main_stats", true)
@@ -461,6 +463,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     isWorldWarMode = tabObj?.isWorldWarMode == "yes"
     showSceneBtn("clan_members_list", !isWorldWarMode)
     showSceneBtn("lb_table_nest", isWorldWarMode)
+    showSceneBtn("season_over_notice", isWorldWarMode && !::g_world_war.isWWSeasonActive())
 
     if (isWorldWarMode)
     {
@@ -1157,11 +1160,28 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       {
         gameMode = "ww_users_clan"
         table    = "season"
-        start    = null
+        group    = clanData.id.tostring()
+        start    = 0
         count    = clanData.mlimit
-        category = "clanId"
+        category = ::g_lb_category.EVENTS_PERSONAL_ELO.field
       },
       @(membersData) cb(membersData))
+  }
+
+  function getAdditionalTabsArray()
+  {
+    if (!::is_worldwar_enabled())
+      return []
+
+    requestWwMembersList()
+    return [{
+      id = "worldwar_mode"
+      hidden = false
+      tabName = ::loc("userlog/page/worldWar")
+      selected = false
+      isWorldWarMode = true
+      tooltip = ::loc("worldwar/ClanMembersLeaderboard/tooltip")
+    }]
   }
 
   function getDefaultWwMemberData(member)
@@ -1192,5 +1212,13 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       updateDataByUnitRank(membersData)).rows
   }
 
-  function updateWwMembersList() {}
+
+  function updateWwMembersList()
+  {
+    if (!isClanInfo)
+      return
+
+    if(isWorldWarMode)
+      fillClanWwMemberList()
+  }
 }

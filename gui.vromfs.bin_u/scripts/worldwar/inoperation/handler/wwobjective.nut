@@ -168,7 +168,17 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     return objectivesCount
   }
 
-  function setTopPosition(objectivesCount)
+  function onEventWWAFKTimerStop(params)
+  {
+    setTopPosition(getShowMaxObjectivesCount())
+  }
+
+  function onEventWWAFKTimerStart(params)
+  {
+    setTopPosition(getShowMaxObjectivesCount(), params?.needResize ? 1 : 0)
+  }
+
+  function setTopPosition(objectivesCount, addRow = 0)
   {
     if (!restrictShownObjectives)
       return
@@ -183,8 +193,10 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     if (objectivesCount.x > 0) headers++
     if (objectivesCount.y > 0) headers++
 
-    local reservedHeight = guiScene.calcString("1@frameHeaderHeight + " + headers + "@objectiveBlockHeaderHeight", null)
-    local objectivesHeight = guiScene.calcString((objectivesCount.x + objectivesCount.y) + "@objectiveHeight", null)
+    local reservedHeight = guiScene.calcString("1@frameHeaderHeight + "
+      + headers + "@objectiveBlockHeaderHeight", null)
+    local objectivesHeight = guiScene.calcString(
+      (objectivesCount.x + objectivesCount.y + addRow) + "@objectiveHeight", null)
 
     local panelObj = guiScene["content_block_1"]
     panelObj.top = content1BlockHeight - busyHeight - reservedHeight - objectivesHeight
@@ -218,6 +230,16 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
     return objectiveBlocks
   }
 
+  function getAFKStatusBlock()
+  {
+    if (!::g_world_war.isCurrentOperationFinished())
+      return null
+    foreach (idx, inst in staticBlk)
+      if(::g_string.startsWith(idx, "dont_afk") && getStatusBlock(inst)?.winner)
+        return inst
+    return null
+  }
+
   function getObjectivesList(availableObjectiveSlots, checkType = true)
   {
     local list = {
@@ -225,6 +247,12 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
       secondary = []
       primaryCount = 0
     }
+
+    local statusBlk = getAFKStatusBlock()
+    list.primary = statusBlk ? [statusBlk] : []
+    list.primaryCount = list.primary.len()
+    if(list.primaryCount)
+      return list
 
     local usedObjectiveSlots = ::Point2(0,0)
     for (local i = 0; i < staticBlk.blockCount(); i++)

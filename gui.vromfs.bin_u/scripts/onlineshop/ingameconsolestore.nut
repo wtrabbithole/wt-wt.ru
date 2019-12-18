@@ -1,4 +1,4 @@
-local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local bhvUnseen = require("scripts/seen/bhvUnseen.nut")
 
 class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -28,6 +28,9 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
   itemsListValid = false
 
   lastSortingPeerSheet = {}
+
+  needWaitIcon = false
+  isLoadingInProgress = false
 
   function initScreen()
   {
@@ -66,10 +69,12 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
       if (!curSheet && ::isInArray(chapter, sh.contentTypes))
         curSheet = sh
 
-      sheetIdx = curSheet == sh? idx : 0
+      if (sheetIdx <= 0)
+        sheetIdx = curSheet == sh? idx : 0
+
       view.items.append({
         id = sh.id
-        text = ::loc(sh.locId)
+        text = sh?.locText ?? ::loc(sh.locId)
         unseenIcon = bhvUnseen.makeConfigStr(seenEnumId, sh.getSeenId())
       })
     }
@@ -119,30 +124,37 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
   function fillPage()
   {
     local view = { items = [] }
-    local pageStartIndex = curPage * itemsPerPage
-    local pageEndIndex = min((curPage + 1) * itemsPerPage, itemsList.len())
-    for (local i=pageStartIndex; i < pageEndIndex; i++)
+
+    if (!isLoadingInProgress)
     {
-      local item = itemsList[i]
-      view.items.append(item.getViewData({
-        itemIndex = i.tostring(),
-        unseenIcon = item.canBeUnseen()? null : bhvUnseen.makeConfigStr(seenEnumId, item.getSeenId())
-      }))
+      local pageStartIndex = curPage * itemsPerPage
+      local pageEndIndex = min((curPage + 1) * itemsPerPage, itemsList.len())
+      for (local i=pageStartIndex; i < pageEndIndex; i++)
+      {
+        local item = itemsList[i]
+        if (!item)
+          continue
+        view.items.append(item.getViewData({
+          itemIndex = i.tostring(),
+          unseenIcon = item.canBeUnseen()? null : bhvUnseen.makeConfigStr(seenEnumId, item.getSeenId())
+        }))
+      }
     }
 
     local listObj = getItemsListObj()
     local data = ::handyman.renderCached(("gui/items/item"), view)
-    local isEmptyList = data.len() == 0
+    local isEmptyList = data.len() == 0 || isLoadingInProgress
     ::show_obj(listObj, !isEmptyList)
     guiScene.replaceContentFromText(listObj, data, data.len(), this)
 
     local emptyListObj = scene.findObject("empty_items_list")
     ::show_obj(emptyListObj, isEmptyList)
+    ::show_obj(emptyListObj.findObject("loadingWait"), isEmptyList && needWaitIcon)
 
     showSceneBtn("items_shop_to_marketplace_button", false)
     showSceneBtn("items_shop_to_shop_button", false)
     local emptyListTextObj = scene.findObject("empty_items_list_text")
-    emptyListTextObj.setValue(::loc("items/shop/emptyTab/default"))
+    emptyListTextObj.setValue(::loc($"items/shop/emptyTab/default{isLoadingInProgress ? "/loading" : ""}"))
 
     local prevValue = listObj.getValue()
     local value = findLastValue(prevValue)
@@ -237,11 +249,6 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     fillPage()
   }
 
-  function loadCurSheetItemsList()
-  {
-    itemsList = itemsCatalog?[curSheet.mediaType] ?? []
-  }
-
   function updateSortingList()
   {
     local obj = getSortListObj()
@@ -301,30 +308,35 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
   function updateItemInfo()
   {
     local item = getCurItem()
-    if (!item)
+    if (!item && !isLoadingInProgress)
       return
 
+    fillItemInfo(item)
+
+    lastSelectedItem = item
+    markItemSeen(item)
+    updateButtons()
+  }
+
+  function fillItemInfo(item)
+  {
     local descObj = scene.findObject("item_info")
 
     local obj = null
 
     obj = descObj.findObject("item_name")
-    obj.setValue(item.name)
+    obj.setValue(item?.name ?? "")
 
     obj = descObj.findObject("item_desc")
-    obj.setValue(item.getDescription())
+    obj.setValue(item?.getDescription() ?? "")
 
     obj = descObj.findObject("item_icon")
-    local imageData = item.getIcon()
+    local imageData = item?.getIcon() ?? ""
     if (imageData)
     {
       obj.wideSize = "yes"
       guiScene.replaceContentFromText(obj, imageData, imageData.len(), this)
     }
-
-    lastSelectedItem = item
-    markItemSeen(item)
-    updateButtons()
   }
 
   function updateButtons()
@@ -350,6 +362,9 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCurItem()
   {
+    if (isLoadingInProgress)
+      return null
+
     local obj = getItemsListObj()
     if (!::check_obj(obj))
       return null

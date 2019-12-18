@@ -82,7 +82,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   isLoadingRot = false
   isDecoratorsListOpen = false
   isDecoratorItemUsed = false
-  showOnlyAvailableDecorators = false
 
   isUnitTank = false
   isUnitOwn = false
@@ -98,8 +97,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   preSelectDecorator = null
   preSelectDecoratorSlot = -1
-
-  DECORATORS_LIST_SHOW_ONLY_OWNED_SAVE_ID = "decorators_show_only_own"
 
   function initScreen()
   {
@@ -119,8 +116,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("timer_update").setUserData(this)
 
     ::hangar_focus_model(true)
-
-    showOnlyAvailableDecorators = ::loadLocalByAccount(DECORATORS_LIST_SHOW_ONLY_OWNED_SAVE_ID)
 
     registerSubHandler(::create_slot_info_panel(scene, false, "showroom"))
     initPreviewMode()
@@ -1177,12 +1172,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local view = { collapsableBlocks = [] }
 
-    local filterFunc = (@(d) d.canUse(unit)).bindenv(this)
-    local categoriesOrder = showOnlyAvailableDecorators
-      ? ::g_decorator.getVisibleOrderByDecFilter(decoratorType, filterFunc)
-      : ::g_decorator.getCachedOrderByType(decoratorType)
-
-    foreach (idx, category in categoriesOrder)
+    foreach (idx, category in ::g_decorator.getCachedOrderByType(decoratorType))
       view.collapsableBlocks.append({
         id = decoratorType.categoryWidgetIdPrefix + category
         headerText = "#" + decoratorType.categoryPathPrefix + category
@@ -1222,19 +1212,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       updateButtons(decoratorType)
   }
 
-  function onOnlyAvailableDecorators(obj)
-  {
-    local curVal = obj.getValue()
-    if (showOnlyAvailableDecorators == curVal)
-      return
-
-    showOnlyAvailableDecorators = curVal
-    ::saveLocalByAccount(DECORATORS_LIST_SHOW_ONLY_OWNED_SAVE_ID, showOnlyAvailableDecorators)
-
-    local slotInfo = getSlotInfo(getCurrentDecoratorSlot(currentType), true, currentType)
-    generateDecorationsList(slotInfo, currentType)
-  }
-
   function generateDecalCategoryContent(categoryId, decoratorType)
   {
     local curSlotDecalId = getSlotInfo(getCurrentDecoratorSlot(decoratorType), false, decoratorType).decalId
@@ -1245,8 +1222,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local view = { buttons = [] }
     foreach (decorator in decoratorsData[categoryId])
-      if (!showOnlyAvailableDecorators || decorator.canUse(unit))
-        view.buttons.append(generateDecalButton(curSlotDecalId, decorator, decoratorType))
+      view.buttons.append(generateDecalButton(curSlotDecalId, decorator, decoratorType))
 
     if (!view.buttons.len())
       return ""
@@ -2158,10 +2134,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     mObj.show(show)
-
-    local checkBoxObj = mObj.findObject("checkbox_only_available")
-    if (::check_obj(checkBoxObj))
-      checkBoxObj.setValue(showOnlyAvailableDecorators)
 
     local headerObj = mObj.findObject("decals_wnd_header")
     if (::check_obj(headerObj))
