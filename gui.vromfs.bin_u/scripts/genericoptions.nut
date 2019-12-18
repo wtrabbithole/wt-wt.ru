@@ -1163,7 +1163,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     if (!::checkObj(filterEditBox))
       return
 
-    filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
+    filterText = ::g_string.utf8ToLower(filterEditBox.getValue())
 
     if( ! filterText.len())
     {
@@ -1242,7 +1242,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
       if(::checkObj(optionTr) && optionTr.isVisible())
         optionsVisibleBeforeSearch.append({
           option = option,
-          searchTitle = ::english_russian_to_lower_case(option.getTitle())
+          searchTitle = ::g_string.utf8ToLower(option.getTitle())
         })
     }
   }

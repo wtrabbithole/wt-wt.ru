@@ -6,6 +6,13 @@
     dagor.screenlog("" + vargv[i])
   }
 }
+
+::clog <- function clog(...)
+{
+  foreach (arg in vargv)
+    ::dagor.console_print(::toString(arg))
+}
+
 ::can_be_readed_as_datablock <- function can_be_readed_as_datablock(blk) //can be overrided by dataBlockAdapter
 {
   return u.isDataBlock(blk)
@@ -20,7 +27,15 @@ local function tableKeyToString(k) {
   return k
 }
 
-::debugTableData <- function debugTableData(info, params={recursionLevel=4, addStr="", showBlockBrackets=true, silentMode=false, printFn=null})
+local DEBUG_TABLE_DATA_PARAMS = {
+  recursionLevel = 4,
+  addStr = "",
+  showBlockBrackets = true,
+  silentMode = false,
+  printFn = null
+}
+
+::debugTableData <- function debugTableData(info, params = DEBUG_TABLE_DATA_PARAMS)
 {
   local showBlockBrackets = params?.showBlockBrackets ?? true
   local addStr = params?.addStr ?? ""
@@ -136,6 +151,11 @@ local function tableKeyToString(k) {
   }
   if (addStr=="" && !silentMode)
     printFn("DD: DONE.")
+}
+
+::debugTableDataC <- function debugTableDataC(info, params = DEBUG_TABLE_DATA_PARAMS)
+{
+  ::debugTableData(info, params.__merge({ printFn = ::dagor.console_print }))
 }
 
 ::toString <- function toString(val, recursion = 1, addStr = "")

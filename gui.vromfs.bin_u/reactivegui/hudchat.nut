@@ -10,7 +10,6 @@ local hudState = require("hudState.nut")
 local hudLog = require("components/hudLog.nut")
 local fontsState = require("style/fontsState.nut")
 local hints = require("hints/hints.nut")
-local frp = require("daRg/frp.nut")
 
 local chatLog = state.log
 
@@ -182,10 +181,15 @@ local messageComponent = @(message) function() {
 }
 
 
-local chatLogVisible = frp.combine([state.inputEnabled, hudState.cursorVisible], frp.reduceAny)
-local onInputTriggered = function (new_val) { chatLogVisible.update(new_val || hudState.cursorVisible.value) }
+local inputEnabled = state.inputEnabled
+local cursorVisible = hudState.cursorVisible
+local chatLogVisible = keepref(::Computed(@() inputEnabled.value || cursorVisible.value))
+local isVisible = ::Watched(chatLogVisible.value)
+chatLogVisible.subscribe(@(v) isVisible(v))
+local onInputTriggered = @(new_val) isVisible(new_val || hudState.cursorVisible.value)
+
 local logBox = hudLog({
-  visibleState = chatLogVisible
+  visibleState = isVisible
   logComponent = chat
   messageComponent = messageComponent
   onAttach = function (elem) { state.inputEnabled.subscribe(onInputTriggered) }

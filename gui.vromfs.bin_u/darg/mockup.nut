@@ -36,10 +36,12 @@ local frp = require("frp")
   setInterval = function(timeout, func){
     assert([type(0),type(0.0)].indexof(type(timeout))!=null, "timeout should number")
     assert(type(func)==type(type), "function should be function")
+    func()
   }
   setTimeout = function(timeout, func){
     assert([type(0),type(0.0)].indexof(type(timeout))!=null, "timeout should number")
     assert(type(func)==type(type), "function should be function")
+    func()
   }
   clearTimer = function(func){
     assert(type(func)==type(type), "function should be function")

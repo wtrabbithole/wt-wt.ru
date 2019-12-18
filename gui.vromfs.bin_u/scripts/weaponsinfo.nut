@@ -194,11 +194,23 @@ if (!("_get_last_weapon" in ::getroottable()))
       if (::isInArray(currentTypeName, [ "rockets", "agm", "aam" ]))
       {
         item.maxSpeed <- itemBlk?.maxSpeed ?? itemBlk?.endSpeed ?? 0
+
+        if (currentTypeName == "aam" || currentTypeName == "agm")
+        {
+          if (itemBlk?.operated == true)
+            item.autoAiming <- itemBlk?.autoAiming ?? false
+          else
+            item.guidanceType <- itemBlk?.guidanceType
+        }
         if (currentTypeName == "aam")
         {
           item.loadFactorMax <- itemBlk?.loadFactorMax ?? 0
           item.seekerRangeRearAspect <- itemBlk?.irSeeker?.rangeBand0 ?? 0
           item.seekerRangeAllAspect  <- itemBlk?.irSeeker?.rangeBand1 ?? 0
+          if (item.seekerRangeRearAspect > 0 || item.seekerRangeAllAspect > 0)
+            item.allAspect <- item.seekerRangeAllAspect * 1.0 >= 0.2 * item.seekerRangeRearAspect
+          if (itemBlk?.guidanceType == "ir" && (itemBlk?.irSeeker?.bandMaskToReject ?? 0) != 0)
+            item.seekerECCM <- true
         }
         else if (currentTypeName == "agm")
         {
@@ -565,21 +577,31 @@ local WEAPON_TEXT_PARAMS = { //const
 
   if (::isInArray(weaponType, [ "rockets", "agm", "aam" ]))
   {
-    local maxSpeed = ::getTblValue("maxSpeed", weapon, 0)
-    if (maxSpeed)
-      res += newLine + ::loc("rocket/maxSpeed") + ::loc("ui/colon")
-             + ::g_measure_type.SPEED_PER_SEC.getMeasureUnitsText(maxSpeed)
-
+    if (weapon?.guidanceType != null || weapon?.autoAiming != null)
+    {
+      local guidanceTxt = weapon?.autoAiming != null
+        ? ::loc("missile/aiming/{0}".subst(weapon.autoAiming ? "semiautomatic" : "manual"))
+        : ::loc("missile/guidance/{0}".subst(weapon.guidanceType))
+      res += newLine + ::loc("missile/guidance") + ::loc("ui/colon") + guidanceTxt
+    }
+    if (weapon?.allAspect != null)
+      res += newLine + ::loc("missile/aspect") + ::loc("ui/colon")
+        + ::loc("missile/aspect/{0}".subst(weapon.allAspect ? "allAspect" : "rearAspect"))
     if (weapon?.seekerRangeRearAspect)
       res += newLine + ::loc("missile/seekerRange/rearAspect") + ::loc("ui/colon")
              + ::g_measure_type.DISTANCE.getMeasureUnitsText(weapon.seekerRangeRearAspect)
     if (weapon?.seekerRangeAllAspect)
       res += newLine + ::loc("missile/seekerRange/allAspect") + ::loc("ui/colon")
              + ::g_measure_type.DISTANCE.getMeasureUnitsText(weapon.seekerRangeAllAspect)
+    if (weapon?.seekerECCM)
+      res += newLine + ::loc("missile/eccm") + ::loc("ui/colon") + ::loc("options/yes")
+
+    if (weapon?.maxSpeed)
+      res += newLine + ::loc("rocket/maxSpeed") + ::loc("ui/colon")
+        + ::g_measure_type.SPEED_PER_SEC.getMeasureUnitsText(weapon.maxSpeed)
     if (weapon?.loadFactorMax)
       res += newLine + ::loc("missile/loadFactorMax") + ::loc("ui/colon")
              + ::g_measure_type.GFORCE.getMeasureUnitsText(weapon.loadFactorMax)
-
     if (weapon?.operatedDist)
       res += newLine + ::loc("firingRange") + ::loc("ui/colon")
              + ::g_measure_type.DISTANCE.getMeasureUnitsText(weapon.operatedDist)
@@ -984,10 +1006,8 @@ local WEAPON_TEXT_PARAMS = { //const
           weaponType = WEAPON_TYPE.SMOKE_SCREEN
         else if (rocket?.smokeShell == false)
            weaponType = WEAPON_TYPE.FLARES
-        else if (rocket?.guidance)
-          weaponType = WEAPON_TYPE.AAM
-        else if (rocket?.bulletType == "atgm_tank")
-          weaponType = WEAPON_TYPE.AGM
+        else if (rocket?.operated || rocket?.guidanceType)
+          weaponType = (rocket?.bulletType == "atgm_tank") ? WEAPON_TYPE.AGM : WEAPON_TYPE.AAM
         else
           weaponType = WEAPON_TYPE.ROCKET
       }
@@ -1017,6 +1037,13 @@ local WEAPON_TEXT_PARAMS = { //const
       if (paramsBlk?.selfDestructionInAir)
         bulletType += "@s_d"
       res.bullets.append(bulletType)
+
+      if (paramsBlk?.guiCustomIcon != null)
+      {
+        if (res?.customIconsMap == null)
+          res.customIconsMap <- {}
+        res.customIconsMap[bulletType] <- paramsBlk.guiCustomIcon
+      }
 
       if ("bulletName" in b)
       {
@@ -1229,6 +1256,30 @@ local WEAPON_TEXT_PARAMS = { //const
   return res
 }
 
+local function getWeaponModIdx(weaponBlk, modsList) {
+  return modsList.findindex(@(modName) weaponBlk?[::getModificationBulletsEffect(modName)]) ?? -1
+}
+
+local function findIdenticalWeapon(weapon, weaponList, modsList) {
+  if (weapon in weaponList)
+    return weapon
+
+  local weaponBlk = ::DataBlock(weapon)
+  if (!weaponBlk)
+    return null
+
+  local cartridgeSize = weaponBlk?.bulletsCartridge || 1
+  local groupIdx = getWeaponModIdx(weaponBlk, modsList)
+
+  foreach(blkName, info in weaponList) {
+    if (info.groupIndex == groupIdx
+      && cartridgeSize == info.catridge)
+      return blkName
+  }
+
+  return null
+}
+
 ::default_primary_bullets_info <- {
   guns = 1
   total = 0 //catridges total
@@ -1257,11 +1308,11 @@ local WEAPON_TEXT_PARAMS = { //const
   local modsList = ::getBulletsModListByGroups(air)
   local wpList = {} // name = amount
   foreach (weapon in (commonWeaponBlk % "Weapon"))
-    if (weapon?.blk && !weapon?.dummy)
-      if (weapon.blk in wpList)
-        wpList[weapon.blk].guns++
-      else
-      {
+    if (weapon?.blk && !weapon?.dummy) {
+      local weapName = findIdenticalWeapon(weapon.blk, wpList, modsList)
+      if (weapName) {
+        wpList[weapName].guns++
+      } else {
         wpList[weapon.blk] <- clone ::default_primary_bullets_info
         if (!("bullets" in weapon))
           continue
@@ -1276,14 +1327,11 @@ local WEAPON_TEXT_PARAMS = { //const
         wpList[weapon.blk].total = (wpList[weapon.blk].total / wpList[weapon.blk].catridge).tointeger()
         if (wpList[weapon.blk].total * wpList[weapon.blk].catridge < totalBullets)
           wpList[weapon.blk].total += 1
-        foreach(idx, modName in modsList)
-          if (wBlk?[getModificationBulletsEffect(modName)])
-          {
-            wpList[weapon.blk].groupIndex = idx
-            break
-          }
+
+        wpList[weapon.blk].groupIndex = getWeaponModIdx(wBlk, modsList)
         wpList[weapon.blk].forcedMaxBulletsInRespawn = wBlk?.forcedMaxBulletsInRespawn ?? false
       }
+    }
 
   foreach(idx, modName in modsList)
   {

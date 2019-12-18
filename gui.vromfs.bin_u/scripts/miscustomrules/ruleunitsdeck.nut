@@ -55,6 +55,7 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
     local myTeamUnitsParamsBlk = isTeamMine
       ? getMyTeamDataBlk("unitsParamsList") : getEnemyTeamDataBlk("unitsParamsList")
     local weaponsLimitsBlk = getWeaponsLimitsBlk()
+    local unitsGroups = getUnitsGroups()
 
     if (::u.isDataBlock(limitedBlk))
       for(local i = 0; i < limitedBlk.paramCount(); i++)
@@ -70,12 +71,14 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
           userUnitPresetAmount = ::getTblValue("respawnsLeft", userUnitPreset, 0)
         }
 
+        local group = unitsGroups?[unitName]
         local limit = ::g_unit_limit_classes.LimitByUnitName(
           unitName,
           limitedBlk.getParamValue(i),
           {
             distributed = isTeamMine ? distributedBlk?[unitName] ?? 0 : null
-            presetInfo = presetData
+            presetInfo = group == null ? presetData : null
+            nameLocId = group?.name
           }
         )
 

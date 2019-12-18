@@ -1,7 +1,7 @@
 //based on https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
 
 local function stringhash(string) {
-    ::assert(::type(string)=="string", @() "hash by string requires type string, got: {0}".subst(::type(string)))
+    ::assert(::type(string)=="string", @() $"hash by string requires type string, got: {::type(string)}")
     local hash = 0
     if (string.len() == 0) {
         return hash

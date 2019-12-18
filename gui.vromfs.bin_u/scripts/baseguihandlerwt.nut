@@ -1001,7 +1001,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::handlersManager.isHandlerValid(::instant_domination_handler))
       return
 
-    ::instant_domination_handler.checkQueue(@() ::gui_handlers.GameModeSelect.open())
+    ::instant_domination_handler.checkQueue(
+      @() ::g_squad_utils.checkSquadUnreadyAndDo(
+        @() ::gui_handlers.GameModeSelect.open(), null))
   }
 
   function onGCWrap(obj, moveRight, ids, currentIdx)

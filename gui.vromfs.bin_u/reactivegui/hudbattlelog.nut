@@ -4,7 +4,7 @@ local hudLog = require("components/hudLog.nut")
 local teamColors = require("style/teamColors.nut")
 local fontsState = require("reactiveGui/style/fontsState.nut")
 local hudState = require("hudState.nut")
-local frp = require("daRg/frp.nut")
+local frp = require("std/frp.nut")
 
 local logEntryComponent = function (log_entry) {
   return function () {

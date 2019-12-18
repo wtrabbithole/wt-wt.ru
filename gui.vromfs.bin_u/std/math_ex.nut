@@ -3,9 +3,16 @@
 */
 
 local math = require("math.nut").__merge(require("math"),require("dagor.math"))
-
+local {PI} = math
 local function degToRad(angle){
-  return angle/180.0*math.PI
+  return angle*PI/180.0
 }
 
-return math.__merge({degToRad = degToRad})
+local function radToDeg(angle){
+  return angle*180.0/PI
+}
+
+return math.__merge({
+  degToRad = degToRad
+  radToDeg = radToDeg
+})

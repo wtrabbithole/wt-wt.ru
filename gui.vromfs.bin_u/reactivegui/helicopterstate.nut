@@ -54,6 +54,7 @@ local helicopterState = {
   MainMask = Watched(0)
   SightMask = Watched(0)
   IlsMask = Watched(0)
+  MfdSightMask = Watched(0)
 
   HudColor = Watched(Color(71, 232, 39, 240))
   AlertColor = Watched(Color(255, 0, 0, 240))
@@ -147,6 +148,8 @@ local helicopterState = {
   IsMfdEnabled = Watched(false)
   RwrForMfd = Watched(false)
   RwrPosSize = [0, 0, 20, 20]
+  MlwsForMfd = Watched(false)
+  MlwsPosSize = [0, 0, 20, 20]
   SightHudPosSize = [0, 0, 0, 0]
   PilotHudPosSize = [0, 0, 0, 0]
 

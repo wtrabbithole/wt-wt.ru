@@ -232,9 +232,9 @@ local InventoryClient = class {
     if (itemsBroken.len() || keysMissing.len() || keysWrongType.len())
     {
       itemsBroken = ::g_string.implode(itemsBroken, ";")
-      keysMissing = ::g_string.implode(::u.keys(keysMissing), ";")
-      keysWrongType = ::g_string.implode(::u.map(::u.pairs(keysWrongType), @(i) i[0] + "=" + i[1]), ";")
-      ::script_net_assert_once("inventory client bad response", "InventoryClient: Response has errors: " + name)
+      keysMissing = ::g_string.implode(keysMissing.keys(), ";")
+      keysWrongType = ";".join(keysWrongType.pairs().map(@(i) i[0] + "=" + i[1]))
+      ::script_net_assert_once("inventory client bad response", $"InventoryClient: Response has errors: {name}")
     }
 
     return data

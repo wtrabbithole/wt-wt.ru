@@ -101,7 +101,7 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
 ::sortContacts <- function sortContacts(a, b)
 {
   return b.presence.sortOrder <=> a.presence.sortOrder
-    || ::english_russian_to_lower_case(a.name) <=> ::english_russian_to_lower_case(b.name)
+    || ::g_string.utf8ToLower(a.name) <=> ::g_string.utf8ToLower(b.name)
 }
 
 ::getContactsGroupUidList <- function getContactsGroupUidList(groupName)

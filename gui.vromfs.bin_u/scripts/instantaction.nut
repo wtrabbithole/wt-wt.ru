@@ -284,7 +284,6 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventEventsDataUpdated(params)
   {
-    setCurrentGameModeName()
     battleRating.updateBattleRating()
   }
 
@@ -460,13 +459,30 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function onStart()
   {
-    ::game_mode_manager.setUserGameModeId(::game_mode_manager.getCurrentGameModeId())
+    if (!::g_squad_manager.isMeReady())
+      ::game_mode_manager.setUserGameModeId(::game_mode_manager.getCurrentGameModeId())
     determineAndStartAction()
   }
 
   function onEventSquadDataUpdated(params)
   {
-    updateNoticeGMChanged()
+    if(::g_squad_manager.isSquadLeader())
+      return
+
+    if (::g_squad_manager.isMeReady())
+    {
+      local id = ::g_squad_manager.getLeaderGameModeId()
+      if(id == "" || id == ::game_mode_manager.getCurrentGameModeId())
+        updateNoticeGMChanged()
+      else
+        ::game_mode_manager.setLeaderGameMode(id)
+    }
+    else
+    {
+      local id = ::game_mode_manager.getUserGameModeId()
+      if (id && id != "")
+        ::game_mode_manager.setCurrentGameModeById(id, true)
+    }
     setCurrentGameModeName()
   }
 
@@ -1309,7 +1325,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     {
       local id = ::game_mode_manager.getUserGameModeId()
       local gameMode = ::game_mode_manager.getGameModeById(id)
-      if((id && gameMode && id != ::game_mode_manager.getCurrentGameModeId()))
+      if((id != "" && gameMode && id != ::game_mode_manager.getCurrentGameModeId()))
         notice = format(::loc("mainmenu/gamemode_change_notice"), gameMode.text)
       alertObj.hideConsoleImage = "no"
     }
@@ -1325,7 +1341,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local id = ::game_mode_manager.getUserGameModeId()
-    if(id != null)
+    if(id != "")
     {
       ::game_mode_manager.setCurrentGameModeById(id, true)
     }

@@ -1,4 +1,4 @@
-local psnApi = require("scripts/social/psnWebApi.nut")
+local psn = require("ps4Lib/webApi.nut")
 
 ::FACEBOOK_POST_WALL_MESSAGE <- false
 
@@ -189,7 +189,6 @@ local psnApi = require("scripts/social/psnWebApi.nut")
     body.targets.append({meta=smallImage, type="SMALL_IMAGE_URL", aspectRatio="2.08:1"})
 
   sendStat("post")
-  psnApi.send(psnApi.feed.post(body),
-              function(response, err) { sendStat(err ? "fail."+err : "success") })
+  psn.send(psn.feed.post(body), function(_, err) { sendStat(err ? "fail."+err : "success") })
 }
 //----------------------- </PlayStation> --------------------------

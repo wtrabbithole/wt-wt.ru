@@ -521,11 +521,15 @@ g_world_war.openJoinOperationByIdWnd <- function openJoinOperationByIdWnd()
 
 g_world_war.onEventLoadingStateChange <- function onEventLoadingStateChange(p)
 {
-  if (::is_in_flight())
-  {
-    ::g_squad_manager.cancelWwBattlePrepare()
-    isLastFlightWasWwBattle = ::g_mis_custom_state.getCurMissionRules().isWorldWar
-  }
+  if (!::is_in_flight())
+    return
+
+  ::g_squad_manager.cancelWwBattlePrepare()
+  local missionRules = ::g_mis_custom_state.getCurMissionRules()
+  isLastFlightWasWwBattle = missionRules.isWorldWar
+  local operationId = missionRules.getCustomRulesBlk()?.operationId
+  if (operationId != null && operationId != ::ww_get_operation_id())
+    updateOperationPreviewAndDo(operationId, null)   //need set operation preview if in WW battle for load operation config
 }
 
 g_world_war.onEventResetSkipedNotifications <- function onEventResetSkipedNotifications(p)
@@ -562,7 +566,7 @@ g_world_war.loadLastPlayed <- function loadLastPlayed()
     lastPlayedOperationCountry = ::loadLocalByAccount(WW_CUR_OPERATION_COUNTRY_SAVE_ID, ::get_profile_country_sq())
 }
 
-g_world_war.onEventSignOut <- function onEventSignOut(p)
+g_world_war.onEventBeforeSignOut <- function onEventBeforeSignOut(p)
 {
   stopWar()
 }
@@ -1286,24 +1290,6 @@ g_world_war.hasEntrenchedInList <- function hasEntrenchedInList(armyNamesList)
 }
 
 
-g_world_war.startArtilleryFire <- function startArtilleryFire(mapPos, army)
-{
-  local blk = ::DataBlock()
-  blk.setStr("army", army.name)
-  blk.setStr("point", mapPos.x.tostring() + "," + mapPos.y.tostring())
-  blk.setStr("radius", ww_artillery_get_attack_radius().tostring())
-
-  local taskId = ::ww_send_operation_request("cln_ww_artillery_strike", blk)
-  ::g_tasker.addTask(taskId, null,
-    function () {
-      ::ww_artillery_turn_fire(false)
-      ::ww_event("ArmyStatusChanged")
-    },
-    function (errorCode) {
-      ::g_world_war.popupCharErrorMsg("cant_fire", ::loc("worldwar/artillery/cant_fire"))
-    })
-}
-
 g_world_war.stopSelectedArmy <- function stopSelectedArmy()
 {
   local filteredArray = filterArmiesByManagementAccess(getSelectedArmies())
@@ -1543,9 +1529,9 @@ g_world_war.onEventWWOperationPreviewLoaded <- function onEventWWOperationPrevie
   updateConfigurableValues()
 }
 
-g_world_war.popupCharErrorMsg <- function popupCharErrorMsg(groupName = null, titleText = "")
+g_world_war.popupCharErrorMsg <- function popupCharErrorMsg(groupName = null, titleText = "", errorMsgId = null)
 {
-  local errorMsgId = get_char_error_msg()
+  errorMsgId = errorMsgId ?? get_char_error_msg()
   if (!errorMsgId)
     return
 

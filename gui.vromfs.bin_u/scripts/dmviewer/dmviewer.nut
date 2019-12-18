@@ -994,13 +994,20 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         if (info?.sightName)
         {
           local fovToZoom = @(fov) (2*::asin(::sin((80/2)/(180/PI))/fov))*(180/PI)
-          local zoom = ::u.map([info.zoomOutFov, info.zoomInFov], @(fov) fovToZoom(fov))
-          if (::abs(zoom[0] - zoom[1]) < 0.1)
+          local fovOutIn = [info.zoomOutFov, info.zoomInFov]
+          local zoom = ::u.map(fovOutIn, @(fov) fovToZoom(fov))
+          if (::abs(zoom[0] - zoom[1]) < 0.1) {
             zoom.remove(0)
+            fovOutIn.remove(0)
+          }
           local zoomTexts = ::u.map(zoom, @(zoom) zoom ? ::format("%.1fx", zoom) : "")
           zoomTexts = ::g_string.implode(zoomTexts, ::loc("ui/mdash"))
           desc.append(::loc("sight_model/" + info.sightName, ""))
           desc.append(::loc("optic/zoom") + ::loc("ui/colon") + zoomTexts)
+
+          local fovTexts = fovOutIn.map(@(fov) ::format("%d", fov))
+          fovTexts = ::g_string.implode(fovTexts, ::loc("ui/mdash"))
+          desc.append($"{::loc("optic/fov")}{::loc("ui/colon")}{fovTexts}")
         }
         break
     }

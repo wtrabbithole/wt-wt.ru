@@ -660,6 +660,8 @@ weaponVisual.getBulletsIconView <- function getBulletsIconView(bulletsSet, toolt
       for (local i = 0; i < count; i++)
       {
         local imgId = bulletsSet.bullets[i % length]
+        if (bulletsSet?.customIconsMap[imgId] != null)
+          imgId = bulletsSet.customIconsMap[imgId]
         if (imgId.indexof("@") != null)
           imgId = imgId.slice(0, imgId.indexof("@"))
         local defaultImgId = ::isCaliberCannon(1000 * (bulletsSet?.caliber ?? 0.0)) ? "default_shell" : "default_ball"

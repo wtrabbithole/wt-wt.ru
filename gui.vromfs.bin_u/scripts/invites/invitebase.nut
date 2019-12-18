@@ -159,7 +159,10 @@ class ::BaseInvite
 
   function showInvitePopup()
   {
-    if (!isVisible() || ::g_script_reloader.isInReloading)
+    if (!isVisible()
+        || ::g_script_reloader.isInReloading
+        || ::get_gui_option_in_mode(::USEROPT_SHOW_SOCIAL_NOTIFICATIONS, ::OPTIONS_MODE_GAMEPLAY) == false
+      )
       return
     local msg = getPopupText()
     if (!msg.len())

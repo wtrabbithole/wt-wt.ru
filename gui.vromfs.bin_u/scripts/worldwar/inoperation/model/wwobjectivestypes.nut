@@ -514,6 +514,8 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
     updateArray = ["advantage"]
   }
 
+  OT_DONT_AFK = {}
+
 }, null, "typeName")
 
 g_ww_objective_type.getTypeByTypeName <- function getTypeByTypeName(typeName)

@@ -1,6 +1,13 @@
 local time = require("scripts/time.nut")
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
+local transportTypeByTextCode = {
+  TT_NONE      = ::TT_NONE
+  TT_GROUND    = ::TT_GROUND
+  TT_AIR       = ::TT_AIR
+  TT_WATER     = ::TT_WATER
+  TT_TOTAL     = ::TT_TOTAL
+}
 
 class ::WwArmy extends ::WwFormation
 {
@@ -12,6 +19,7 @@ class ::WwArmy extends ::WwFormation
   armyIsDead = false
   deathReason = ""
   armyFlags = 0
+  transportType = ::TT_NONE
 
   constructor(armyName, blk = null)
   {
@@ -41,12 +49,14 @@ class ::WwArmy extends ::WwFormation
     armyIsDead = ::get_blk_value_by_path(blk, "specs/isDead", false)
     deathReason = ::get_blk_value_by_path(blk, "specs/deathReason", "")
     armyFlags = ::get_blk_value_by_path(blk, "specs/flags", 0)
+    transportType = transportTypeByTextCode?[blk?.specs.transportInfo.type ?? "TT_NONE"] ?? ::TT_NONE
     suppliesEndMillisec = ::getTblValue("suppliesEndMillisec", blk, 0)
     entrenchEndMillisec = ::getTblValue("entrenchEndMillisec", blk, 0)
     stoppedAtMillisec = ::getTblValue("stoppedAtMillisec", blk, 0)
     overrideIconId = ::getTblValue("iconOverride", blk, "")
+    hasArtilleryAbility = blk?.specs.canArtilleryFire ?? false
 
-    local armyArtilleryParams = ::g_ww_unit_type.isArtillery(unitType) ?
+    local armyArtilleryParams = hasArtilleryAbility ?
       ::g_world_war.getArtilleryUnitParamsByBlk(blk.getBlockByName("units")) : null
     artilleryAmmo.setArtilleryParams(armyArtilleryParams)
     artilleryAmmo.update(name, blk.getBlockByName("artilleryAmmo"))
@@ -222,7 +232,7 @@ class ::WwArmy extends ::WwFormation
 
   function canFire()
   {
-    if (!::g_ww_unit_type.isArtillery(unitType))
+    if (!hasArtilleryAbility)
       return false
 
     if (isIdle() && secondsLeftToFireEnable() == -1)
@@ -289,6 +299,11 @@ class ::WwArmy extends ::WwFormation
   function isFormation()
   {
     return false
+  }
+
+  function isTransport()
+  {
+    return transportType > ::TT_NONE && transportType < ::TT_TOTAL
   }
 
   static function sortArmiesByUnitType(a, b)

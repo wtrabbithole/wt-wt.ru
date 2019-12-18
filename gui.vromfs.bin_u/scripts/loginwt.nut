@@ -73,6 +73,8 @@ local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
       ::destroy_session_scripted()
   }
 
+  ::broadcastEvent("BeforeSignOut") // Here save any data into profile.
+
   dagor.debug("gui_start_logout")
   ::disable_autorelogin_once <- true
   ::need_logout_after_session = false
@@ -88,11 +90,17 @@ local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
   ::open_url(::get_authenticated_url_table(urlBase).url, false, false, bqKey)
 }
 
+g_login.getStateDebugStr <- function getStateDebugStr(state = null)
+{
+  state = state ?? curState
+  return state == 0 ? "0" : ::bit_mask_to_string("LOGIN_STATE", state)
+}
+
 g_login.debugState <- function debugState(shouldShowNotSetBits = false)
 {
   if (shouldShowNotSetBits)
-    return ::dlog("not set loginState = " + ::bit_mask_to_string("LOGIN_STATE", LOGIN_STATE.LOGGED_IN & ~curState))
-  return ::dlog("loginState = " + ::bit_mask_to_string("LOGIN_STATE", curState))
+    return ::dlog("not set loginState = {0}".subst(getStateDebugStr(LOGIN_STATE.LOGGED_IN & ~curState)))
+  return ::dlog("loginState = {0}".subst(getStateDebugStr()))
 }
 
 g_login.loadLoginHandler <- function loadLoginHandler()

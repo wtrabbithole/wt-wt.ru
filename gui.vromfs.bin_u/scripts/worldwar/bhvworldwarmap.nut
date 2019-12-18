@@ -1,3 +1,5 @@
+local actionModesManager = require("scripts/worldWar/inOperation/wwActionModesManager.nut")
+
 class ::ww_gui_bhv.worldWarMapControls
 {
   eventMask = ::EV_MOUSE_L_BTN | ::EV_MOUSE_EXT_BTN | ::EV_MOUSE_WHEEL | ::EV_PROCESS_SHORTCUTS | ::EV_TIMER | ::EV_MOUSE_MOVE
@@ -16,9 +18,10 @@ class ::ww_gui_bhv.worldWarMapControls
     ::ww_clear_outlined_zones()
     local mapPos = ::Point2(mx, my)
 
-    if (::ww_artillery_strike_mode_on())
+    local curActionMode = actionModesManager.getCurActionMode()
+    if (curActionMode != null)
     {
-      onArtilleryFireCommand(obj, mapPos)
+      curActionMode.useAction(mapPos)
       return ::RETCODE_PROCESSED
     }
 
@@ -125,17 +128,6 @@ class ::ww_gui_bhv.worldWarMapControls
       ::g_world_war.moveSelectedArmes(clickPos.x, clickPos.y, armyTargetName, append)
   }
 
-  function onArtilleryFireCommand(obj, clickPos)
-  {
-    local selectedArmies = ::ww_get_selected_armies_names()
-    for (local i = 0; i < selectedArmies.len(); i++)
-    {
-      local army = ::g_world_war.getArmyByName(selectedArmies[i])
-      if (::g_ww_unit_type.isArtillery(army.unitType))
-        makeArtilleryFire(clickPos, army)
-    }
-  }
-
   function onExtMouse(obj, mx, my, btn_id, is_up, bits)
   {
     if (is_up)
@@ -144,10 +136,10 @@ class ::ww_gui_bhv.worldWarMapControls
     if (btn_id != 2)  //right mouse button
       return ::RETCODE_NOTHING
 
-    if (::ww_artillery_strike_mode_on())
+    local curActionMode = actionModesManager.getCurActionMode()
+    if (curActionMode != null)
     {
-      ::ww_artillery_turn_fire(false)
-      ::ww_event("ArmyStatusChanged")
+      actionModesManager.setActionMode()
       return ::RETCODE_NOTHING
     }
 
@@ -272,10 +264,10 @@ class ::ww_gui_bhv.worldWarMapControls
 
   function onMouseWheel(obj, mx, my, is_up, buttons)
   {
-    if (::ww_artillery_strike_mode_on())
+    local curActionMode = actionModesManager.getCurActionMode()
+    if (curActionMode?.onMouseWheel != null)
     {
-      local attackRadius = ::ww_artillery_get_attack_radius() + (is_up ? 0.5 : -0.5)
-      ::ww_artillery_set_attack_radius(attackRadius)
+      curActionMode.onMouseWheel(is_up)
       return ::RETCODE_PROCESSED
     }
 
@@ -497,17 +489,6 @@ class ::ww_gui_bhv.worldWarMapControls
     battles.sort(sortFunc)
 
     return battles[0]
-  }
-
-  function makeArtilleryFire(clickPos, army)
-  {
-    if (army.canFire())
-      ::g_world_war.startArtilleryFire(
-        ::ww_convert_map_to_world_position(clickPos.x, clickPos.y), army)
-    else
-      ::g_popups.add(::loc("worldwar/artillery/cant_fire"),
-                     ::loc("worldwar/artillery/notReadyToFire"),
-                     null, null, null, "cant_fire")
   }
 }
 

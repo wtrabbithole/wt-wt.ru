@@ -2003,8 +2003,8 @@ local function lockZoneComponent() {
   local function getCommands() {
     local x0 = (radarState.lockZone.x0 + radarState.lockZone.x1 + radarState.lockZone.x2 + radarState.lockZone.x3) * 0.25
     local y0 = (radarState.lockZone.y0 + radarState.lockZone.y1 + radarState.lockZone.y2 + radarState.lockZone.y3) * 0.25
-    local mw = 2 * 2 / width * 50
-    local mh = 2 * 2 / height * 50
+    local mw = 100 / width
+    local mh = 100 / height
     return [
       [ VECTOR_LINE,
         (radarState.lockZone.x0 - x0) * mw, (radarState.lockZone.y0 - y0) * mh,
@@ -2344,7 +2344,7 @@ local radarMfdBackground = function()
   return {
     pos = [radarState.radarPosSize.x, radarState.radarPosSize.y]
     size = [radarState.radarPosSize.w, radarState.radarPosSize.h]
-    rendObj = ROBJ_VECTOR_CANVAS
+    rendObj = ROBJ_SOLID
     lineWidth = radarState.radarPosSize.h
     color = Color(0, 0, 0, 255)
     fillColor = Color(0, 0, 0, 0)

@@ -30,6 +30,8 @@ local checkOfferToBuyAtExpiration = function()
   if (!::isInMenu())
     return
 
+  if (!::g_login.isProfileReceived())
+    return
   local needOfferBuyItemsList = ::load_local_account_settings(ITEMS_FOR_OFFER_BUY_SAVE_ID)
   if (!needOfferBuyItemsList)
     return

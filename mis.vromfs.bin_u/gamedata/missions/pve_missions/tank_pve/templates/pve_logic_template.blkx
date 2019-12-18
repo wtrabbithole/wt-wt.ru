@@ -2480,12 +2480,51 @@
             }
           },
           {
+            "getUnitsCount": {
+              "target": "players_squad",
+              "target_type": "isOnGround",
+              "var": "players_on_ground_current"
+            }
+          },
+          {
+            "varSetInt": {
+              "value": 10,
+              "var": "players_effective_count",
+              "input_var": "players_online_count_int"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "subAB",
+              "value": 0.0,
+              "var": "players_effective_count",
+              "use_variable": true,
+              "var_value": "players_on_ground_current"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "divAB",
+              "value": 2.0,
+              "var": "players_effective_count"
+            }
+          },
+          {
+            "varModify": {
+              "operator": "add",
+              "value": 0.0,
+              "var": "players_effective_count",
+              "use_variable": true,
+              "var_value": "players_on_ground_current"
+            }
+          },
+          {
             "varModify": {
               "operator": "mul",
               "value": 10.0,
               "var": "wave_units_number_var",
               "use_variable": true,
-              "var_value": "players_online_count_int"
+              "var_value": "players_effective_count"
             }
           },
           {
@@ -3711,7 +3750,6 @@
             "func": "less",
             "value": 0,
             "object": "players_squad",
-            "object_var_value": 0,
             "var": "players_online_count_int"
           }
         },
@@ -4356,7 +4394,9 @@
     "players_in_air": 0,
     "enableHelicopters": false,
     "spaa_count": 0,
-    "spaa_need_to_spawn": 0
+    "spaa_need_to_spawn": 0,
+    "players_on_ground_current": 0,
+    "players_effective_count": 0
   },
   "dialogs": [],
   "airfields": [],

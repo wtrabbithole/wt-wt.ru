@@ -1,3 +1,5 @@
+local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
+
 class ::gui_handlers.ModifyClanModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -80,12 +82,12 @@ class ::gui_handlers.ModifyClanModalHandler extends ::gui_handlers.BaseGuiHandle
     local errorMsg = ""
 
     if ((clanData == null || newClanName != clanData.name) &&
-        ::dirty_words_filter.checkPhrase(newClanName) != newClanName)
+      !dirtyWordsFilter.isPhrasePassing(newClanName))
     {
       errorMsg = "charServer/updateError/16"
     }
     else if ((clanData == null || newClanTag != clanData.tag) &&
-             ::dirty_words_filter.checkPhrase(::g_clans.stripClanTagDecorators(newClanTag)) != ::g_clans.stripClanTagDecorators(newClanTag))
+      !dirtyWordsFilter.isPhrasePassing(::g_clans.stripClanTagDecorators(newClanTag)))
     {
       errorMsg = "charServer/updateError/17"
     }

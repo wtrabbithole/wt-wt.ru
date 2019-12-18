@@ -23,17 +23,17 @@ local function save(file_path, data, params = defParamsSave) {
   local logger = params?.logger ?? defParamsSave.logger
   ::assert(isCallable(save_text_file), "save_text_file should be Callable")
   ::assert(::type(file_path)=="string", "file_path should be string")
-  ::assert(logger== null || isCallable(logger), @() "logger should be Callable or null, got {0}".subst(::type(logger)))
+  ::assert(logger== null || isCallable(logger), @() $"logger should be Callable or null, got {::type(logger)}")
   ::assert(["function","class","instance","generator"].indexof(::type(data))==null)
   try {
     data = json.to_string(data, pretty_print)
     local res = save_text_file(file_path, data)
     if (res){
-      logger?("file:{0} saved".subst(file_path))
+      logger?($"file:{file_path} saved")
       return true
     }
     else {
-      logger?("file:{0} was not saved!".subst(file_path))
+      logger?($"file:{file_path} was not saved!")
       return null
     }
   }
@@ -55,7 +55,7 @@ local function load(file_path, params = defParamsLoad) {
   local logger = params?.logger ?? defParamsLoad.logger
   local load_text_file = params?.load_text_file ?? defParamsLoad.load_text_file
   ::assert(isCallable(load_text_file), "load_text_file should be Callable")
-  ::assert(isCallable(logger) || logger==null, @() "logger should be Callable or null, got {0}".subst(::type(logger)))
+  ::assert(isCallable(logger) || logger==null, @() $"logger should be Callable or null, got {::type(logger)}")
   try {
     local jsontext = load_text_file(file_path)
     return json.parse(jsontext)

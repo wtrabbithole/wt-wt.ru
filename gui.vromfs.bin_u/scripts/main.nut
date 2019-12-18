@@ -546,10 +546,6 @@ local isFullScriptsLoaded = false
     "social/psnSessions.nut"
     "social/psnPlayTogether.nut"
 
-    "dirtyWordsRussian.nut"
-    "dirtyWordsEnglish.nut"
-    "dirtyWordsJapanese.nut"
-    "dirtyWords.nut"
     "chat/chatRoomType.nut"
     "chat/chat.nut"
     "chat/chatLatestThreads.nut"
@@ -795,7 +791,6 @@ local isFullScriptsLoaded = false
     "hud/hudActionBar.nut"
     "replays/spectator.nut"
     "hud/hudTankDebuffs.nut"
-    "hud/hudShipDebuffs.nut"
     "hud/hudDisplayTimers.nut"
     "hud/hudCrewState.nut"
     "hud/hudEnemyDebuffsType.nut"
@@ -868,11 +863,15 @@ local isFullScriptsLoaded = false
 }
 
 //app does not exist on script load, so we cant to use ::app->shouldDisableMenu
-::should_disable_menu <- function should_disable_menu()
 {
-  return (::disable_network() && ::getFromSettingsBlk("debug/disableMenu"))
-    || ::getFromSettingsBlk("benchmarkMode")
-    || ::getFromSettingsBlk("viewReplay")
+  local shouldDisableMenu = (::disable_network() && ::getFromSettingsBlk("debug/disableMenu", false))
+    || ::getFromSettingsBlk("benchmarkMode", false)
+    || ::getFromSettingsBlk("viewReplay", false)
+
+  ::should_disable_menu <- function should_disable_menu()
+  {
+    return shouldDisableMenu
+  }
 }
 
 if (::g_login.isAuthorized() //scripts reload

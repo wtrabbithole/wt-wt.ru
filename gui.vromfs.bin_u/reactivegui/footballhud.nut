@@ -1,7 +1,7 @@
 local missionState = require("missionState.nut")
 local teamColors = require("style/teamColors.nut")
 local time = require("std/time.nut")
-local frp = require("daRg/frp.nut")
+local frp = require("std/frp.nut")
 
 local style = {}
 

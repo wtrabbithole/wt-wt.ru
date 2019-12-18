@@ -572,7 +572,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function setSearchText(search_text, set_in_edit_box = true)
   {
-    searchText = ::english_russian_to_lower_case(search_text)
+    searchText = ::g_string.utf8ToLower(search_text)
     if (set_in_edit_box)
     {
       local searchEditBox = scene.findObject("search_edit_box")
@@ -595,7 +595,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(contactObject))
         continue
 
-      local contactName = ::english_russian_to_lower_case(contact_data.name)
+      local contactName = ::g_string.utf8ToLower(contact_data.name)
       contactName = platformModule.getPlayerName(contactName)
       local searchResult = searchText == "" || contactName.indexof(searchText) != null
       contactObject.show(searchResult)

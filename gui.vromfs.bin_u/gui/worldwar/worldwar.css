@@ -374,7 +374,16 @@ statusPanel > block {
 
 statusPanel > block > activeText {
   hideEmptyText:yes;
-  size:0.25@wwMapPanelInfoWidth, ph;
+  width:0.25@wwMapPanelInfoWidth;
+  height:ph;
+}
+
+statusPanel[needSmallSize=yes] > block > activeText {
+  width:0.19@wwMapPanelInfoWidth;
+}
+
+statusPanel[needSmallSize=yes] > block[hasTimer=yes] > activeText {
+  width:0.225@wwMapPanelInfoWidth;
 }
 
 statusPanel blockSeparator {

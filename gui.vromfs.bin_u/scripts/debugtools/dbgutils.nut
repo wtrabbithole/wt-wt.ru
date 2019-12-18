@@ -1,5 +1,6 @@
 local dbgExportToFile = require("scripts/debugTools/dbgExportToFile.nut")
 local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
+local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
 
 ::callstack <- dagor.debug_dump_stack
 
@@ -480,7 +481,7 @@ local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
   for (local i = 0; i < blk.paramCount(); i++)
   {
     local text = blk.getParamValue(i)
-    local filteredText = ::dirty_words_filter.checkPhrase(text)
+    local filteredText = dirtyWordsFilter.checkPhrase(text)
     if (text == filteredText)
     {
       ::dagor.debug("DIRTYWORDS: PASSED " + text)

@@ -435,6 +435,28 @@ local function isEqual(val1, val2){
   return uIsEqual(val1, val2, customIsEqual)
 }
 
+/**
+ * Looks through each value in the @data, returning the first one that passes
+ * a truth test @predicate, or null if no value passes the test. The function
+ * returns as soon as it finds an acceptable element, and doesn't traverse
+ * the entire data.
+ * @reverseOrder work only with arrays.
+ */
+local function search(data, predicate, reverseOrder = false) {
+  if (!reverseOrder || ::type(data) != "array") {
+    foreach(value in data)
+      if (predicate(value))
+        return value
+    return null
+  }
+
+  for (local i = data.len() - 1; i >= 0; i--)
+    if (predicate(data[i]))
+      return data[i]
+  return null
+}
+
+
 local export = underscore.__merge({
   isTable = isTable
   isArray = isArray
@@ -455,6 +477,7 @@ local export = underscore.__merge({
   registerIsEqual = registerIsEqual
   keysReplace = keysReplace
   copy = copy
+  search = search
   isEmpty = isEmpty
   isEqual = isEqual
 //obsolete

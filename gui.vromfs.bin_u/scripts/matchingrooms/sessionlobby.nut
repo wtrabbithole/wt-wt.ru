@@ -2035,7 +2035,7 @@ SessionLobby.startSession <- function startSession()
   }
   dagor.debug("start session")
 
-  ::room_start_session({ roomId = roomId, cluster = getPublicParam("cluster", 0) },
+  ::room_start_session({ roomId = roomId, cluster = getPublicParam("cluster", "EU") },
       function(p)
       {
         if (!::SessionLobby.isInRoom())

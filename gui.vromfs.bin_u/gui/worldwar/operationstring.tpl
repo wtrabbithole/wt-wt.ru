@@ -27,7 +27,7 @@ wwObjective {
       wwObjectiveName {
         id:t='<<getNameId>>'
         text:t='<<getName>>'
-        max-width:t='p.p.w'
+        max-width:t='p.p.w-1@cIco'
       }
     }
     <<#hasObjectiveDesc>>

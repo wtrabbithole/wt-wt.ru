@@ -393,6 +393,53 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     }
   }
 
+  UNIT_GROUP = {
+    isCustomTooltipFill = true
+    getTooltipId = function(group, params=null)
+    {
+      return _buildId({units = group?.units.keys(), name = group?.name}, params)
+    }
+    fillTooltip = function(obj, handler, group, params)
+    {
+      if (!::checkObj(obj))
+        return false
+
+      local name = ::loc("ui/quotes", {text = ::loc(group.name)})
+      local list = []
+      foreach(str in group.units)
+      {
+        local unit = getAircraftByName(str)
+        if (!unit)
+          continue
+
+        list.append({
+          unitName = ::getUnitName(str, false)
+          icon = ::getUnitClassIco(str)
+          shopItemType = ::get_unit_role(unit)
+        })
+      }
+
+      local columns = []
+      local unitsInArmyRowsMax = ::max(::floor(list.len() / 2).tointeger(), 3)
+      local hasMultipleColumns = list.len() > unitsInArmyRowsMax
+      if (!hasMultipleColumns)
+        columns.append({ groupList = list })
+      else
+      {
+        columns.append({ groupList = list.slice(0, unitsInArmyRowsMax), isFirst = true })
+        columns.append({ groupList = list.slice(unitsInArmyRowsMax) })
+      }
+
+      local data = ::handyman.renderCached("gui/tooltips/unitGroupTooltip", {
+        title = $"{::loc("unitsGroup/groupContains", { name = name})}{::loc("ui/colon")}",
+        hasMultipleColumns = hasMultipleColumns,
+        columns = columns
+      })
+      obj.getScene().replaceContentFromText(obj, data, data.len(), handler)
+      return true
+    }
+  }
+
   RANDOM_UNIT = { //by unit name
     isCustomTooltipFill = true
     fillTooltip = function(obj, handler, id, params)

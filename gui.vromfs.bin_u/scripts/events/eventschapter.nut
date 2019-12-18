@@ -69,8 +69,8 @@ class EventChapter
     return (!!event1 <=> !!event2)
         || (::events.getEventUiSortPriority(event2) <=> ::events.getEventUiSortPriority(event1))
         || (::events.getEventDiffCode(event1) <=> ::events.getEventDiffCode(event2))
-        || (::english_russian_to_lower_case(::events.getEventNameText(event1))
-          <=> ::english_russian_to_lower_case(::events.getEventNameText(event2)))
+        || (::g_string.utf8ToLower(::events.getEventNameText(event1))
+          <=> ::g_string.utf8ToLower(::events.getEventNameText(event2)))
         || event1.name <=> event2.name
   }
 }

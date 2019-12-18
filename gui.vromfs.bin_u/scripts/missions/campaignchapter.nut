@@ -275,7 +275,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     foreach(idx, mission in missions)
     {
       local locText = misListType.getMissionNameText(mission)
-      local locString = ::english_russian_to_lower_case(locText)
+      local locString = ::g_string.utf8ToLower(locText)
       filterDataArray.append({
         locString = ::stringReplace(locString, "\t", "") //for japan and china localizations
         misObject = listObj.getChild(idx)
@@ -929,7 +929,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(filterEditBox))
       return
 
-    filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
+    filterText = ::g_string.utf8ToLower(filterEditBox.getValue())
 
     local showChapter = false
     local showCampaign = false

@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local mapAirfields = require("scripts/worldWar/inOperation/model/wwMapAirfields.nut")
+local actionModesManager = require("scripts/worldWar/inOperation/wwActionModesManager.nut")
 
 
 class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
@@ -24,6 +25,9 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   highlightZonesTimer = null
   operationPauseTimer = null
   updateLogsTimer = null
+  afkLostTimer = null
+  afkCountdownTimer = null
+  animationTimer = null
 
   armyStrengthUpdateTimeRemain = 0
   isArmiesPathSwitchedOn = false
@@ -38,6 +42,8 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     "gamercard_panel_right"
     function() { return rightSectionHandlerWeak && rightSectionHandlerWeak.getFocusObj() }
   ]
+
+  lostSide = {side = 0, afkLoseTimeMsec = 0}
 
   canQuitByGoBack = false
 
@@ -317,7 +323,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     {
       local showButton = hasAccess && !buttonView.isHidden()
       local buttonObj = ::showBtn(buttonView.id, showButton, btnBlockObj)
-      if (::check_obj(buttonObj))
+      if (showButton && ::check_obj(buttonObj))
       {
         buttonObj.enable(buttonView.isEnabled())
         buttonObj.setValue(buttonView.text())
@@ -414,6 +420,9 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventWWStopWorldWar(p)
   {
+    if (!::g_login.isProfileReceived())
+      return // to avoid MainMenu initialization during logout stage
+
     goBack()
   }
 
@@ -467,36 +476,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   function onArtilleryArmyPrepareToFire(obj)
   {
-    if (::ww_artillery_strike_mode_on())
-    {
-      setArtilleryArmyFireMode(false)
-      return
-    }
-
-    local armiesNames = ::ww_get_selected_armies_names()
-    if (!armiesNames.len())
-      return
-
-    if (armiesNames.len() > 1)
-      return ::g_popups.add(::loc("worldwar/artillery/cant_fire"),
-                            ::loc("worldwar/artillery/selectOneArmy"),
-                            null, null, null, "select_one_army")
-
-    setArtilleryArmyFireMode(true)
-  }
-
-  function onArtilleryArmyCancelFire(obj)
-  {
-    setArtilleryArmyFireMode(false)
-  }
-
-  function setArtilleryArmyFireMode(isEnabled)
-  {
-    ::ww_artillery_turn_fire(isEnabled)
-    updateArmyActionButtons()
-    local cancelFireBtnObj = scene.findObject("cancel_artillery_fire")
-    if (::check_obj(cancelFireBtnObj))
-      cancelFireBtnObj.enable(isEnabled)
+    setActionMode(::AUT_ArtilleryFire)
   }
 
   function onForceShowArmiesPath(obj)
@@ -1037,6 +1017,7 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
     onSecondsUpdate(null, 0)
     startRequestNewLogsTimer()
+    fillAFKLostTimer()
   }
 
   function startRequestNewLogsTimer()
@@ -1055,6 +1036,84 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
         ::g_ww_logs.requestNewLogs(WW_LOG_EVENT_LOAD_AMOUNT, false, logHandler)
       }, this, false)
+  }
+
+  function fillAFKLostTimer()
+  {
+    local blk = ::DataBlock()
+    ::ww_get_sides_info(blk)
+    local afkLoseTimeShowSec = ::g_world_war.getSetting("afkLoseTimeShowSec", 0)
+    if (blk.sides[::SIDE_1.tostring()].afkLoseTimeMsec
+      == blk.sides[::SIDE_2.tostring()].afkLoseTimeMsec)
+        return
+
+    local loseSide = blk.sides[::SIDE_1.tostring()].afkLoseTimeMsec
+      < blk.sides[::SIDE_2.tostring()].afkLoseTimeMsec
+        ? ::SIDE_1 : ::SIDE_2
+    local newLoseTime = blk.sides[loseSide.tostring()].afkLoseTimeMsec
+    if(lostSide.side == loseSide && lostSide.afkLoseTimeMsec == newLoseTime)
+      return
+
+    lostSide.side = loseSide
+    lostSide.afkLoseTimeMsec = newLoseTime
+    local delayTime = ::max(time.millisecondsToSecondsInt(newLoseTime)
+      - ::get_charserver_time_sec() - afkLoseTimeShowSec, 0)
+    afkLostTimer?.destroy()
+    afkCountdownTimer?.destroy()
+    animationTimer?.destroy()
+
+    afkLostTimer = ::Timer(
+      scene,
+      delayTime,
+      function() {
+        local statObj = scene.findObject("wwmap_operation_status")
+        if (!::check_obj(statObj))
+          return
+        local targetObj = scene.findObject("afk_lost")
+        local haveAccess = ::g_world_war.haveManagementAccessForSelectedArmies()
+        local isMeLost = ::ww_get_player_side() == lostSide.side
+        local msgLoc = "".concat(
+          ::loc(isMeLost
+            ? "worldwar/operation/myTechnicalDefeat" : "worldwar/operation/enemyTechnicalDefeat"),
+          ::loc("ui/colon"))
+        local msgText = "".concat(msgLoc,
+          time.hoursToString(time.secondsToHours(afkLoseTimeShowSec)))
+
+        statObj.show(haveAccess && isMeLost)
+        targetObj.setValue(msgText)
+        if (haveAccess && isMeLost)
+        {
+          targetObj.show(false)
+          local statTextObj = statObj.findObject("wwmap_operation_status_text")
+          statTextObj.setValue(msgText)
+          statObj.animation = "show"
+
+          animationTimer = ::Timer(scene, 2,
+            function() {
+              targetObj.needAnim = "yes"
+              targetObj.show(true)
+              statObj.animation = "hide"
+              ::create_ObjMoveToOBj(scene, statTextObj,
+                targetObj, {time = 0.6, bhvFunc = "square"})
+            },
+          this)
+        }
+
+        afkCountdownTimer = ::Timer(scene, 1,
+          function(){
+            if(--afkLoseTimeShowSec <= 0)
+              afkCountdownTimer?.destroy()
+            local txt = "".concat(msgLoc,
+              time.hoursToString(time.secondsToHours(afkLoseTimeShowSec)))
+            foreach (objName in ["afk_lost", "wwmap_operation_status_text"])
+            {
+              local obj = scene.findObject(objName)
+              if (::check_obj(obj))
+                obj.setValue(txt)
+            }
+          }, this, true)
+      },
+      this)
   }
 
   function onEventWWMapSelectedBattle(params)
@@ -1339,4 +1398,33 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
 
   isOperationActive = @() !::g_world_war.isCurrentOperationFinished()
   isInQueue = @() isOperationActive() && ::queues.isAnyQueuesActive(QUEUE_TYPE_BIT.WW_BATTLE)
+
+  function onTransportArmyLoad()
+  {
+    setActionMode(::AUT_TransportLoad)
+  }
+
+  function onTransportArmyUnload()
+  {
+    setActionMode(::AUT_TransportUnload)
+  }
+
+  function setActionMode(modeId)
+  {
+    actionModesManager.trySetActionModeOrCancel(modeId)
+    updateButtonsAfterSetMode(actionModesManager.getCurActionModeId() == modeId)
+  }
+
+  function updateButtonsAfterSetMode(isEnabled)
+  {
+    local cancelBtnObj = scene.findObject("cancel_action_mode")
+    if (::check_obj(cancelBtnObj))
+      cancelBtnObj.enable(isEnabled)
+  }
+
+  function onCancelActionMode()
+  {
+    actionModesManager.setActionMode()
+    updateButtonsAfterSetMode(false)
+  }
 }

@@ -74,6 +74,7 @@ local getMainOptions = function()
       [::USEROPT_HUE_HELICOPTER_HUD_ALERT, "spinner"],
       [::USEROPT_HORIZONTAL_SPEED, "spinner"],
       [::USEROPT_HELICOPTER_HELMET_AIM, "spinner", !::is_ps4_or_xbox],
+      [::USEROPT_HELICOPTER_AUTOPILOT_ON_GUNNERVIEW, "spinner"],
 
       ["options/header/tank"],
       [::USEROPT_GRASS_IN_TANK_VISION, "spinner"],
@@ -178,6 +179,12 @@ local getMainOptions = function()
       [::USEROPT_CONTENT_ALLOWED_PRESET_SIMULATOR, "combobox",
         contentPreset.getContentPresets().len() &&
         ::g_difficulty.SIMULATOR.isAvailable(::GM_DOMINATION)],
+
+      ["options/header/privacy", null, ::has_feature("PrivacySettings")],
+      [::USEROPT_REPLACE_MY_NICK_LOCAL, "editbox", ::has_feature("PrivacySettings")],
+      [::USEROPT_SHOW_SOCIAL_NOTIFICATIONS, "spinner", ::has_feature("PrivacySettings")],
+      [::USEROPT_ALLOW_ADDED_TO_CONTACTS, "spinner", ::has_feature("PrivacySettings")],
+      [::USEROPT_ALLOW_ADDED_TO_LEADERBOARDS, "spinner", ::has_feature("PrivacySettings")],
 
       ["options/header/otherOptions"],
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],

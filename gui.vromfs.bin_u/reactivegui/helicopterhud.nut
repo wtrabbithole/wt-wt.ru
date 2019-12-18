@@ -2,6 +2,8 @@ local math = require("std/math.nut")
 local screenState = require("style/screenState.nut")
 local compass = require("compass.nut")
 local rwr = require("rwr.nut")
+local mlws = require("mlws.nut")
+local radarComponent = require("radarComponent.nut")
 local helicopterState = require("helicopterState.nut")
 local aamAim = require("rocketAamAim.nut")
 local aamAimState = require("rocketAamAimState.nut")
@@ -91,29 +93,38 @@ style.lineForeground <- class {
 }
 
 local HelicopterTATarget = function(line_style, isBackground) {
-  local lines = @() line_style.__merge({
-        rendObj = ROBJ_VECTOR_CANVAS
-        size = [pilotSw(25), pilotSh(25)]
-        color = helicopterState.AlertColor.value
-        lineWidth = LINE_WIDTH * getIlsFontScale()
-        commands = [
-          [VECTOR_LINE, -10, -10, 10, -10],
-          [VECTOR_LINE, 10, -10, 10, 10],
-          [VECTOR_LINE, 10, 10, -10, 10],
-          [VECTOR_LINE, -10, 10, -10, -10],
-        ]
-      })
+  local border = @() line_style.__merge({
+      rendObj = ROBJ_VECTOR_CANVAS
+      size = [pilotSw(25), pilotSh(25)]
+      color = helicopterState.AlertColor.value
+      lineWidth = LINE_WIDTH * getIlsFontScale()
+      commands =
+      [
+        [VECTOR_LINE, -10, -10, 10, -10],
+        [VECTOR_LINE, 10, -10, 10, 10],
+        [VECTOR_LINE, 10, 10, -10, 10],
+        [VECTOR_LINE, -10, 10, -10, -10]
+      ]
+  })
 
   return @(){
     halign = HALIGN_CENTER
     valign = VALIGN_MIDDLE
     size = SIZE_TO_CONTENT
-    watch = [helicopterState.TATargetX, helicopterState.TATargetY, helicopterState.TATargetVisible]
-    opacity = helicopterState.TATargetVisible.value ? 100 : 0
+    watch = [helicopterState.TATargetVisible, helicopterState.TATargetX, helicopterState.TATargetY, helicopterState.IsTargetTracked,
+      helicopterState.TargetAge, helicopterState.CurrentTime]
     transform = {
       translate = [helicopterState.TATargetX.value, helicopterState.TATargetY.value]
     }
-    children = [lines]
+    behavior = Behaviors.RtPropUpdate
+    update = function() {
+      return {
+        opacity = helicopterState.TATargetVisible.value &&
+                  (helicopterState.TargetAge.value < 0.2 ||
+                   math.round(helicopterState.CurrentTime.value * 4) % 2 == 0) ? 100 : 0
+      }
+    }
+    children = [border]
   }
 }
 
@@ -995,7 +1006,7 @@ local helicopterSightParamsTable = generateParamsTable(helicopterState.SightMask
   [sw(50) - hdpx(250) - hdpx(200), hdpx(480)],
   hdpx(3))
 
-local mfdSightParamsTable = generateParamsTable(helicopterState.SightMask,
+local mfdSightParamsTable = generateParamsTable(helicopterState.MfdSightMask,
   250,
   [30, 175],
   hdpx(3))
@@ -1375,6 +1386,7 @@ local function helicopterSightHud(elemStyle, isBackground) {
       rangeFinderComponent(sightStyle, isBackground)
       lockSightComponent(sightStyle, isBackground)
       targetSizeComponent(sightStyle, isBackground)
+      sightParamsComponent(sightStyle, isBackground)
     ] :
     [
       HelicopterVertSpeed(sightStyle, sightSh(4.0), sightSh(30), sightSw(50) + sightHdpx(384), sightSh(35), isBackground)
@@ -1459,6 +1471,21 @@ local getRwr = function(colorStyle) {
   }
 }
 
+local getMlws = function(colorStyle) {
+  local getChildren = function() {
+    return helicopterState.MlwsForMfd.value ?
+      mlws(colorStyle,
+       helicopterState.RwrPosSize[0] + helicopterState.RwrPosSize[2] * 0.1,
+       helicopterState.RwrPosSize[1] + helicopterState.RwrPosSize[3] * 0.1,
+       helicopterState.RwrPosSize[2] * 0.8,
+       helicopterState.RwrPosSize[3] * 0.8, true) : mlws(colorStyle)
+  }
+  return @(){
+    watch = helicopterState.MlwsForMfd
+    children = getChildren()
+  }
+}
+
 local function helicopterHUDs(colorStyle, isBackground) {
   local rwrStyle = colorStyle.__merge({
     color = getColor(isBackground)
@@ -1469,7 +1496,9 @@ local function helicopterHUDs(colorStyle, isBackground) {
     helicopterSightHud(colorStyle, isBackground)
     gunnerHud(colorStyle, isBackground)
     pilotHud(colorStyle, isBackground)
+    getMlws(rwrStyle)
     getRwr(rwrStyle)
+    radarComponent(sh(6), sh(6))
   ]
 }
 

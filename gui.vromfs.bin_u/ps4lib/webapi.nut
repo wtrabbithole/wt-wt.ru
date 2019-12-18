@@ -1,7 +1,7 @@
 local DataBlock = require("DataBlock")
-local string = require("string")
 local json = require_optional("json")
 local toJson = json?.to_string ?? ::save_to_json
+local nativeApi = require("ps4_api.webapi")
 
 local webApiMimeTypeBinary = "application/octet-stream"
 local webApiMimeTypeImage = "image/jpeg"
@@ -12,12 +12,22 @@ local webApiMethodPost = 1
 local webApiMethodPut = 2
 local webApiMethodDelete = 3
 
-local function createRequest(api, method, path=null, params=null, data=null, forceBinary=false) {
+local function createRequest(api, method, path=null, params={}, data=null, forceBinary=false) {
   local request = DataBlock()
   request.apiGroup = api.group
   request.method = method
-  request.path = "".concat(api.path, ((path != null) ? "/{0}".subst(path) : ""), ((params != null) ? "?{0}".subst(params): ""))
+  request.path = "".concat(api.path, ((path != null) ? "/{0}".subst(path) : ""))
   request.forceBinary = forceBinary
+
+  request.params = DataBlock()
+  foreach(key,val in params) {
+    if (::type(val) == "array") {
+      foreach(v in val)
+        request.params[key] <- v
+    }
+    else
+      request.params[key] = val
+  }
 
   if (::type(data) == "string")
     request.request = data
@@ -44,6 +54,15 @@ local function createPart(mimeType, name, data) {
   return part
 }
 
+local function makeIterable(request, pos, size) {
+  // Some APIs accept either start (majority) or offset (friendlist), other param is ignored
+  request.params.start = pos
+  request.params.offset = request.params.start
+  request.params.size = size
+  request.params.limit = request.params.size
+  return request
+}
+
 local function noOpCb(response, err) { /* NO OP */ }
 
 
@@ -56,15 +75,15 @@ local session = {
       parts.append(createPart(webApiMimeTypeImage, "session-image", image))
     if (data != null && data.len() > 0)
       parts.append(createPart(webApiMimeTypeBinary, "changeable-session-data", data))
-    return createRequest(sessionApi, webApiMethodPost, null, null, parts)
+    return createRequest(sessionApi, webApiMethodPost, null, {}, parts)
   }
 
   function update(sessionId, sessionInfo) {
-    return createRequest(sessionApi, webApiMethodPut, sessionId, null, sessionInfo)
+    return createRequest(sessionApi, webApiMethodPut, sessionId, {}, sessionInfo)
   }
 
   function join(sessionId, index=0) {
-    return createRequest(sessionApi, webApiMethodPost, "".concat(sessionId,"/members"), "index={0}".subst(index))
+    return createRequest(sessionApi, webApiMethodPost, "".concat(sessionId,"/members"), {index=index})
   }
 
   function leave(sessionId) {
@@ -76,7 +95,7 @@ local session = {
   }
 
   function change(sessionId, changedata) {
-    return createRequest(sessionApi, webApiMethodPut, "".concat(sessionId,"/changeableSessionData"), null, changedata, true)
+    return createRequest(sessionApi, webApiMethodPut, "".concat(sessionId,"/changeableSessionData"), {}, changedata, true)
   }
 
   function invite(sessionId, accounts, invitedata={}) {
@@ -85,7 +104,7 @@ local session = {
     local parts = [createPart(webApiMimeTypeJson, "invitation-request", {to=accounts})]
     if (invitedata != null && invitedata.len() > 0)
       parts.append(createPart(webApiMimeTypeBinary, "invitation-data", invitedata))
-    return createRequest(sessionApi, webApiMethodPost, "".concat(sessionId,"/invitations"), null, parts)
+    return createRequest(sessionApi, webApiMethodPost, "".concat(sessionId,"/invitations"), {}, parts)
   }
 }
 
@@ -95,19 +114,19 @@ local session = {
 local invitationApi = { group = "sdk:sessionInvitation", path = "/v1/users/me/invitations" }
 local invitation = {
   function use(invitationId) {
-    return createRequest(invitationApi, webApiMethodPut, invitationId, null, {usedFlag = true})
+    return createRequest(invitationApi, webApiMethodPut, invitationId, {}, {usedFlag = true})
   }
 
   function list() {
-    return createRequest(invitationApi, webApiMethodGet, null, "fields=@default,sessionId")
+    return createRequest(invitationApi, webApiMethodGet, null, {fields="@default,sessionId"})
   }
 }
 
 // ------------ Profile actions
 local profileApi = { group = "sdk:userProfile", path = "/v1/users/me" }
 local profile = {
-  function listFriends(offset, limit) {
-    local params = string.format("friendStatus=friend&presenceType=incontext&offset=%d&limit=%d", offset, limit)
+  function listFriends() {
+    local params = { friendStatus = "friend", presenceType = "incontext" }
     return createRequest(profileApi, webApiMethodGet, "friendList", params)
   }
 }
@@ -116,36 +135,66 @@ local profile = {
 local feedApi = { group = "sdk:activityFeed", path = "/v1/users/me" }
 local feed = {
   function post(message) {
-    return createRequest(feedApi, webApiMethodPost, "feed", null, message)
+    return createRequest(feedApi, webApiMethodPost, "feed", {}, message)
   }
 }
 
 // ----------- Commerce actions
 local commerceApi = { group = "sdk:commerce" path = "/v1/users/me/container" }
 local commerce = {
-  function getProductsInfo(productsList = [], offset = 0, limit = 20) {
-    local plist = ":".join(productsList)
-    local params = "start={0}&size={1}".subst(offset, limit)
-    return createRequest(commerceApi, webApiMethodGet, plist, null, params)
+  function detail(products, params={}) {
+    local path = ":".join(products)
+    return createRequest(commerceApi, webApiMethodGet, path, params)
+  }
+
+  // listing multiple categories at once requires multiple iterators, one per category. We have one.
+  function listCategory(category, params={}) {
+    assert(::type(category) == "string", "[PSWA] only one category can be listed at a time")
+    return createRequest(commerceApi, webApiMethodGet, category, params)
   }
 }
 
 // ---------- Entitlement actions
-local entitlementApi = { group = "sdk:entitlement", path = "/v1/users/me/entitlements"}
-local entitlement = {
-  function getUserEntitlements(offset = 0, limit = 20) {
-    local params = "entitlement_type=service&entitlement_type=unified&start={0}&size={1}".subst(offset, limit)
-    return createRequest(entitlementApi, webApiMethodGet, null, params)
+local entitlementsApi = { group = "sdk:entitlement", path = "/v1/users/me/entitlements"}
+local entitlements = {
+  function granted() {
+    local params = { entitlement_type = ["service", "unified"] }
+    return createRequest(entitlementsApi, webApiMethodGet, null, params)
   }
 }
 
+
+// ---------- Utility functions and wrappers
+local function send(action, onResponse=noOpCb) {
+  nativeApi.send(action, @(r) onResponse(r?.response, r?.error))
+}
+
+local function fetch(action, onChunkReceived, chunkSize = 20) {
+  local function onResponse(response, err) {
+    // PSN responses are somewhat inconsistent, but we need proper iterators
+    local entry = ((::type(response) == "array") ? response?[0] : response) || {}
+    local received = (entry?.start||0) + (entry?.size||0)
+    local total = entry?.total_results || entry?.totalResults || received
+    if (err == null && received < total)
+      send(makeIterable(action, received, chunkSize), callee())
+
+    onChunkReceived(response, err)
+  }
+
+  send(makeIterable(action, 0, chunkSize), onResponse);
+}
+
+
 return {
+  send = send
+  fetch = fetch
+
   session = session
   invitation = invitation
   profile = profile
   feed = feed
   commerce = commerce
-  entitlement = entitlement
+  entitlements = entitlements
 
   noOpCb = noOpCb
 }

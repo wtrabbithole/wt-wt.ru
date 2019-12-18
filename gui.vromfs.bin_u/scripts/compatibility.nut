@@ -56,4 +56,19 @@
 ::apply_compatibilities({
   OPTION_SHOW_COMPASS_IN_TANK_HUD = -1
   function shop_get_premium_account_ent_name() {return "PremiumAccount"}
+  ww_get_load_army_to_transport_error = @() ""
+  ww_get_unload_army_from_transport_error = @() ""
+  ww_get_army_custom_icon = @(armyName, isReinforcement) ""
+  ww_get_loaded_transport = @(blk) blk
+  AUT_None = -1
+  AUT_ArtilleryFire = 0
+  AUT_TransportLoad = 1
+  AUT_TransportUnload = 2
+  ww_get_curr_action_type = @() ::AUT_None
+  ww_set_curr_action_type = @(modeType) null
+  get_allow_to_be_added_to_lb = @() true
+  set_allow_to_be_added_to_lb = @(val) null
+  get_allow_to_be_added_to_contacts = @() true
+  set_allow_to_be_added_to_contacts = @(val) null
+  is_hdr_available = @() true
 })

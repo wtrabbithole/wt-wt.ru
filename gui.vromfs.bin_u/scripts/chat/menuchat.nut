@@ -9,6 +9,9 @@ global enum MESSAGE_TYPE {
   CUSTOM      = "custom"
 }
 
+const CHAT_ROOMS_LIST_SAVE_ID = "chatRooms"
+const VOICE_CHAT_SHOW_COUNT_SAVE_ID = "voiceChatShowCount"
+
 ::menu_chat_handler <- null
 ::menu_chat_sizes <- null
 ::last_chat_scene_show <- false
@@ -50,7 +53,6 @@ global enum MESSAGE_TYPE {
 ::g_script_reloader.registerPersistentData("MenuChatGlobals", ::getroottable(), ["clanUserTable"]) //!!FIX ME: must be in contacts
 
 local sortChatUsers = @(a, b) a.name <=> b.name
-
 
 ::getGlobalRoomsListByLang <- function getGlobalRoomsListByLang(lang, roomsList = null)
 {
@@ -801,7 +803,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function rejoinDefaultRooms(initRooms = false)
   {
-    if (!::gchat_is_connected())
+    if (!::gchat_is_connected() || !::g_login.isProfileReceived())
       return
     if (roomsInited && !initRooms)
       return
@@ -813,7 +815,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::g_chat.isChatEnabled())
     {
-      local chatRooms = ::get_local_custom_settings_blk()?.chatRooms
+      local chatRooms = ::load_local_account_settings(CHAT_ROOMS_LIST_SAVE_ID)
       local roomIdx = 0
       if (chatRooms != null)
       {
@@ -849,17 +851,16 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local saveIdx = 0
-    local cdb = ::get_local_custom_settings_blk()
-    cdb.chatRooms = ::DataBlock()
+    local chatRoomsBlk = ::DataBlock()
     foreach(room in ::g_chat.rooms)
       if (!room.hidden && room.type.needSave())
       {
-        cdb.chatRooms["room" + saveIdx] = ::gchat_escape_target(room.id)
+        chatRoomsBlk["room" + saveIdx] = ::gchat_escape_target(room.id)
         if (room.joinParams != "")
-          cdb.chatRooms["params" + saveIdx] = room.joinParams
+          chatRoomsBlk["params" + saveIdx] = room.joinParams
         saveIdx++
       }
-    ::save_profile_offline_limited()
+    ::save_local_account_settings(CHAT_ROOMS_LIST_SAVE_ID, chatRoomsBlk)
   }
 
   function goBack()
@@ -1688,9 +1689,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::g_chat.canUseVoice() && r.type.canVoiceChat)
     {
       local VCdata = get_option(::USEROPT_VOICE_CHAT)
-      local cdb = ::get_local_custom_settings_blk()
-      cdb.voiceChatShowCount = cdb?.voiceChatShowCount ?? 0
-      if(isFirstAskForSession && cdb.voiceChatShowCount < ::g_chat.MAX_MSG_VC_SHOW_TIMES && !VCdata.value)
+      local voiceChatShowCount = ::load_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, 0)
+      if(isFirstAskForSession && voiceChatShowCount < ::g_chat.MAX_MSG_VC_SHOW_TIMES && !VCdata.value)
       {
         msgBox("join_voiceChat", ::loc("msg/enableVoiceChat"),
                 [
@@ -1698,8 +1698,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
                   ["no", function(){} ]
                 ], "no",
                 { cancel_fn = function(){}})
-        cdb.voiceChatShowCount++
-        ::save_profile_offline_limited()
+        ::save_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, voiceChatShowCount + 1)
       }
       isFirstAskForSession = false
     }
@@ -2606,10 +2605,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function showRoomPopup(msgBlock, roomId)
   {
-    ::g_popups.add(msgBlock.fullName && msgBlock.fullName.len()? (msgBlock.fullName + ":") : null,
-      msgBlock.msgs.top(),
-      @() ::g_chat.openChatRoom(roomId)
-    )
+    if (::get_gui_option_in_mode(::USEROPT_SHOW_SOCIAL_NOTIFICATIONS, ::OPTIONS_MODE_GAMEPLAY))
+      ::g_popups.add(msgBlock.fullName && msgBlock.fullName.len()? (msgBlock.fullName + ":") : null,
+        msgBlock.msgs.top(),
+        @() ::g_chat.openChatRoom(roomId)
+      )
   }
 
   function popupAcceptInvite(roomId)

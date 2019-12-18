@@ -303,7 +303,7 @@ class ::mission_rules.Base
 
   function needCheckWeaponsAllowed(unit)
   {
-    return unit.isAir() || unit.isHelicopter()
+    return !isMissionByUnitsGroups() && (unit.isAir() || unit.isHelicopter())
   }
 
   /*************************************************************************************************/
@@ -527,6 +527,25 @@ class ::mission_rules.Base
   function isUnitForcedHiden(unitName)
   {
     return getMyStateBlk()?.forcedUnitsStates?[unitName]?.hidden ?? false
+  }
+
+  isMissionByUnitsGroups = @() missionParams?.unitGroups != null
+
+  function getUnitsGroups() {
+    local fullGroupsList = {}
+    foreach (countryBlk in (missionParams?.unitGroups ?? []))
+      for (local i = 0; i < countryBlk.blockCount(); i++)
+      {
+        local groupBlk = countryBlk.getBlock(i)
+        local unitList = groupBlk?.unitList
+        fullGroupsList[groupBlk.getBlockName()] <- {
+          name = groupBlk?.name ?? ""
+          defaultUnit = groupBlk?.defaultUnit ?? ""
+          units = unitList != null ? (unitList % "unit") : []
+        }
+      }
+
+    return fullGroupsList
   }
 }
 

@@ -239,8 +239,7 @@ local axisMappedOnMouse = {
 {
   if (::is_ps4_or_xbox || ::is_platform_shield_tv())
   {
-    local cdb = ::get_local_custom_settings_blk()
-    if (!(ps4ControlsModeActivatedParamName in cdb) || cdb[ps4ControlsModeActivatedParamName])
+    if (::load_local_account_settings(ps4ControlsModeActivatedParamName, true))
     {
       ::gui_start_controls_console()
       return
@@ -459,7 +458,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     if (!::checkObj(filterEditBox))
       return
 
-    local filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
+    local filterText = ::g_string.utf8ToLower(filterEditBox.getValue())
 
     foreach (idx, data in filledControlGroupTab)
     {
@@ -1995,7 +1994,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                    "td { width:t='pw-1@controlsLeftRow'; }\n" +
                  "}\n", trAdd, hotkeyId)
 
-    hotkeyData.text = ::english_russian_to_lower_case(::loc(hotkeyId))
+    hotkeyData.text = ::g_string.utf8ToLower(::loc(hotkeyId))
     hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.SHORTCUT || item.type == CONTROL_TYPE.AXIS_SHORTCUT)
@@ -2012,7 +2011,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                  "txt_sc_" + item.id,
                  ::get_shortcut_text({shortcuts = shortcuts, shortcutId = item.shortcutId, strip_tags = true}))
 
-    hotkeyData.text = ::english_russian_to_lower_case(::loc(trName))
+    hotkeyData.text = ::g_string.utf8ToLower(::loc(trName))
     hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.AXIS && item.axisIndex >= 0)
@@ -2024,7 +2023,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                  "}\n",
                  "axis_" + item.axisIndex, trAdd, "#controls/"+item.id, "txt_"+item.id)
 
-    hotkeyData.text = ::english_russian_to_lower_case(::loc("controls/"+item.id))
+    hotkeyData.text = ::g_string.utf8ToLower(::loc("controls/"+item.id))
     hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.SPINNER || item.type== CONTROL_TYPE.DROPRIGHT)
@@ -2119,7 +2118,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                    "td { width:t='pw-1@controlsLeftRow'; cellType:t='right'; padding-left:t='@optPad'; %s } " +
                  "}\n",
                  trAdd, elemIdTxt != "" ? "#" + elemIdTxt : "", elemTxt)
-    hotkeyData.text = ::english_russian_to_lower_case(::loc(elemIdTxt))
+    hotkeyData.text = ::g_string.utf8ToLower(::loc(elemIdTxt))
     hotkeyData.markup = res
   }
   return hotkeyData
@@ -2296,12 +2295,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
 ::switchControlsMode <- function switchControlsMode(value)
 {
-  local cdb = ::get_local_custom_settings_blk()
-  if (value == cdb?[ps4ControlsModeActivatedParamName])
-    return
-
-  cdb[ps4ControlsModeActivatedParamName] = value
-  ::save_profile_offline_limited()
+  ::save_local_account_settings(ps4ControlsModeActivatedParamName, value)
 }
 
 ::getUnmappedControlsForCurrentMission <- function getUnmappedControlsForCurrentMission()

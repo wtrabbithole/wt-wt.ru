@@ -436,6 +436,15 @@ enums.addTypesByGlobalName("g_hud_hints", {
     isHideOnWatchedHeroChanged = false
   }
 
+  BLOCK_X_RAY_CAMERA = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/x_ray_unavailable"
+    showEvent = "hint:xrayCamera:showBlockHint"
+    lifeTime = 1.0
+    isHideOnDeath = false
+    isHideOnWatchedHeroChanged = false
+  }
+
 
   CREW_BUSY_EXTINGUISHING_HINT = {
     locId      = "hints/crew_busy_extinguishing"

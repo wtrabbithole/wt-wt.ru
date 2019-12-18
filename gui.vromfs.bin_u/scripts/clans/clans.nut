@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local clanRewardsModal = require("scripts/rewards/clanRewardsModal.nut")
+local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
 
 
 const CLAN_ID_NOT_INITED = ""
@@ -1275,9 +1276,9 @@ class ClanSeasonPlaceTitle extends ClanSeasonTitle
   if (::is_platform_ps4)
   {
     if (returnString)
-      return ::dirty_words_filter.checkPhrase(clanTag)
+      return dirtyWordsFilter.checkPhrase(clanTag)
     else
-      return ::dirty_words_filter.isPhrasePassing(clanTag)
+      return dirtyWordsFilter.isPhrasePassing(clanTag)
   }
 
   return returnString? clanTag : true

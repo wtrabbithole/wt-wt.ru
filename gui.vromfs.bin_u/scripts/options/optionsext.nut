@@ -3489,6 +3489,14 @@ local isWaitMeasureEvent = false
       descr.value = ::get_option_use_oculus_to_aim_helicopter() != 0
       break
 
+    case ::USEROPT_HELICOPTER_AUTOPILOT_ON_GUNNERVIEW:
+      descr.id = "helicopter_autopilot_on_gunnerview"
+      descr.items = ["#options/no", "#options/inmouseaim", "#options/always", "#options/always_damping"]
+      descr.values = [0, 1, 2, 3]
+      descr.value = ::get_option_auto_pilot_on_gunner_view_helicopter();
+      descr.trParams <- "optionWidthInc:t='half';"
+      break
+
     case ::USEROPT_SHOW_DESTROYED_PARTS:
       descr.id = "show_destroyed_parts"
       descr.controlType = optionControlType.CHECKBOX
@@ -3637,6 +3645,33 @@ local isWaitMeasureEvent = false
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = crossplayModule.isCrossNetworkChatEnabled()
+      break
+    case ::USEROPT_REPLACE_MY_NICK_LOCAL:
+      descr.id = "replace_my_nick_local"
+      descr.controlType = optionControlType.EDITBOX
+      descr.controlName <-"editbox"
+      descr.value = ::get_gui_option_in_mode(optionId, ::OPTIONS_MODE_GAMEPLAY, "")
+      break
+
+    case ::USEROPT_SHOW_SOCIAL_NOTIFICATIONS:
+      descr.id = "show_social_notifications"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
+    case ::USEROPT_ALLOW_ADDED_TO_CONTACTS:
+      descr.id = "allow_added_to_contacts"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_allow_to_be_added_to_contacts()
+      break
+
+    case ::USEROPT_ALLOW_ADDED_TO_LEADERBOARDS:
+      descr.id = "allow_added_to_leaderboards"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_allow_to_be_added_to_lb()
       break
 
     default:
@@ -4296,6 +4331,10 @@ local isWaitMeasureEvent = false
       ::set_option_use_oculus_to_aim_helicopter(value ? 1 : 0)
       break
 
+    case ::USEROPT_HELICOPTER_AUTOPILOT_ON_GUNNERVIEW:
+      ::set_option_auto_pilot_on_gunner_view_helicopter(value)
+    break
+
     case ::USEROPT_HUE_HELICOPTER_HUD_ALERT:
       ::set_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
@@ -4696,6 +4735,22 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_PS4_CROSSNETWORK_CHAT:
       crossplayModule.setCrossNetworkChatStatus(value)
+      break
+    case ::USEROPT_REPLACE_MY_NICK_LOCAL:
+      ::set_gui_option_in_mode(optionId, value, ::OPTIONS_MODE_GAMEPLAY)
+      ::update_gamercards()
+      break
+    case ::USEROPT_SHOW_SOCIAL_NOTIFICATIONS:
+      ::set_gui_option(optionId, value)
+      break
+
+    case ::USEROPT_ALLOW_ADDED_TO_CONTACTS:
+      ::set_allow_to_be_added_to_contacts(value)
+      ::save_online_single_job(SAVE_ONLINE_JOB_DIGIT)
+      break
+    case ::USEROPT_ALLOW_ADDED_TO_LEADERBOARDS:
+      ::set_allow_to_be_added_to_lb(value)
+      ::save_online_single_job(SAVE_ONLINE_JOB_DIGIT)
       break
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:

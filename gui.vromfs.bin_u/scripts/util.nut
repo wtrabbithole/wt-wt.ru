@@ -1,7 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalty = require_native("penalty")
-local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
 local string = require("string")
@@ -412,7 +411,8 @@ foreach (i, v in ::cssColorsMapDark)
 
 ::havePremium <- function havePremium()
 {
-  return ::entitlement_expires_in("PremiumAccount") > 0
+  local premAccName = ::shop_get_premium_account_ent_name()
+  return ::entitlement_expires_in(premAccName) > 0
 }
 
 ::get_mission_desc_text <- function get_mission_desc_text(missionBlk)
@@ -1408,16 +1408,6 @@ foreach (i, v in ::cssColorsMapDark)
   }
 }
 
-::onUpdateProfile <- function onUpdateProfile(taskId, action, transactionType = ::EATT_UNKNOWN) //code callback on profile update
-{
-  ::broadcastEvent("ProfileUpdated", { taskId = taskId, action = action, transactionType = transactionType })
-
-  if (!::g_login.isLoggedIn())
-    return
-  ::update_gamercards()
-  penalties.showBannedStatusMsgBox(true)
-}
-
 ::getValueForMode <- function getValueForMode(optionsMode, oType)
 {
   local mainOptionsMode = ::get_gui_options_mode()
@@ -1580,13 +1570,13 @@ foreach (i, v in ::cssColorsMapDark)
 ::set_blk_value_by_path <- function set_blk_value_by_path(blk, path, val)
 {
   if (!blk || !path)
-    return
+    return false
 
   local nodes = ::split(path, "/")
   local key = nodes.len() ? nodes.pop() : null
 
   if (!key || !key.len())
-    return
+    return false
 
   foreach (dir in nodes)
   {
@@ -1769,7 +1759,8 @@ foreach (i, v in ::cssColorsMapDark)
     return
 
   local currDays = time.getUtcDays()
-  local expire = ::entitlement_expires_in("PremiumAccount")
+  local premAccName = ::shop_get_premium_account_ent_name()
+  local expire = ::entitlement_expires_in(premAccName)
   if (expire > 0)
     ::saveLocalByAccount("premium/lastDayHavePremium", currDays)
   if (expire >= NOTIFY_EXPIRE_PREMIUM_ACCOUNT)
@@ -1924,18 +1915,6 @@ foreach (i, v in ::cssColorsMapDark)
 
   serverMessageObject.setValue(text)
   return text != ""
-}
-
-/**
- * Unlike Squirrel's "tolower()" this function properly
- * handles lowering case of russian characters.
- *
- * @param str String to work with.
- * @return Same string with all characters in lower case.
- */
-::english_russian_to_lower_case <- function english_russian_to_lower_case(str)
-{
-  return utf8(str).strtr(::alphabet.upper, ::alphabet.lower)
 }
 
 ::is_numeric <- function is_numeric(value)

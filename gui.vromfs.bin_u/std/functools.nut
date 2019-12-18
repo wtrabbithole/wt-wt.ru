@@ -27,7 +27,7 @@ local function partial(func, ...){
       return func.acall([null].extend(pargs).extend(vargv))
     }
   }
-  ::assert(false, @() "function '{0}' cannot be partial with more arguments({1}) that it accepts({2})".subst(infos.name, pargslen, argsnum))
+  ::assert(false, @() $"function '{infos.name}' cannot be partial with more arguments({pargslen}) that it accepts({argsnum})")
   return func
 }
 
@@ -59,19 +59,19 @@ local function kwarg(func){
   }
   return !isvargved
     ? function(params=kfuncargs){
-        ::assert(["table", "class","instance"].indexof(::type(params))!=null, @() "param of function can be only hashable (table, class, instance), found:'{0}'".subst(::type(params)))
+        ::assert(["table", "class","instance"].indexof(::type(params))!=null, @() $"param of function can be only hashable (table, class, instance), found:'{::type(params)}'")
         local keys = params.keys()
         local nonManP = mandatoryparams.filter(@(p) keys.indexof(p) == null)
-        ::assert(nonManP.len()==0, @() "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? "'{0}'".subst(nonManP[0]) : nonManP.reduce(@(a,b) "{0},'{1}'".subst(a,b))))
+        ::assert(nonManP.len()==0, @() "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? $"'{nonManP[0]}'" : nonManP.reduce(@(a,b) $"{a},'{b}'")))
         params = kfuncargs.__merge(params)
         local posarguments = funcargs.map(@(kv) params[kv])
         return func.acall([this].extend(posarguments))
       }
     : function(params, ...){
-        ::assert(["table", "class","instance"].indexof(::type(params))!=null, @() "param of function can be only hashable (table, class, instance), found:'{0}'".subst(::type(params)))
+        ::assert(["table", "class","instance"].indexof(::type(params))!=null, @() $"param of function can be only hashable (table, class, instance), found:'{::type(params)}'")
         local keys = params.keys()
         local nonManP = mandatoryparams.filter(@(p) keys.indexof(p) == null)
-        ::assert(nonManP.len()==0, @() "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? "'{0}'".subst(nonManP[0]) : nonManP.reduce(@(a,b) "{0},'{1}'".subst(a,b))))
+        ::assert(nonManP.len()==0, @() "not all mandatory parameters provided: {0}".subst(nonManP.len()==1 ? $"'{nonManP[0]}'" : nonManP.reduce(@(a,b) $"{a},'{b}'")))
         local posarguments = funcargs.map(@(kv) params[kv])
         return func.acall([this].extend(posarguments).extend(vargv))
       }
@@ -100,7 +100,7 @@ local function kwpartial(func, partparams, ...){
   }
   return function(...){
     local curargs = partvargs.extend(vargv)
-    ::assert(curargs.len()+posfuncargs.len()>=argsnum, @() "not enough arguments provided for function '{0}' to call".subst(infos?.name))
+    ::assert(curargs.len()+posfuncargs.len()>=argsnum, @() $"not enough arguments provided for function '{infos?.name}' to call")
     local finalargs = []
     local provArgIdx = 0
     for (local i=0; i<argsnum; i++) {
@@ -222,7 +222,45 @@ local function memoize(func, hashfunc=null){
   }
   return memoizedfunc
 }
+//the same function as in underscore.js
+local function once(func){
+  local result
+  local called = false
+  if (called)
+    return result
+  local function memoizedfunc(...){
+    if (called)
+      return result
+    local res = func.acall([null].extend(vargv))
+    result = res
+    called = true
+    return res
+  }
+  return memoizedfunc
+}
 
+//the same function as in underscore.js
+local function before(count, func){
+  local called = 0
+  return function beforeTimes(...){
+    if (called >= count)
+      return
+    called++
+    return func.acall([null].extend(vargv))
+  }
+}
+
+//the same function as in underscore.js
+local function after(count, func){
+  local called = 0
+  return function beforeTimes(...){
+    if (called < count) {
+      called++
+      return
+    }
+    return func.acall([null].extend(vargv))
+  }
+}
 
 return {
   partial = partial
@@ -233,4 +271,7 @@ return {
   curry = curry
   memoize = memoize
   isCallable = isCallable
+  once = once
+  before = before
+  after = after
 }

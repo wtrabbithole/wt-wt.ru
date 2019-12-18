@@ -175,7 +175,7 @@ enum HintShowState {
       lifeTimerWeak = null
     })
 
-    local addedHint = ::u.last(activeHints)
+    local addedHint = activeHints?[activeHints.len()-1]
     return addedHint
   }
 

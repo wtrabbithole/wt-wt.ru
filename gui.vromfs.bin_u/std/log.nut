@@ -61,6 +61,9 @@ local function Log(tostringfunc=null) {
   local function with_prefix(prefix) {
     return @(...) log("".concat(prefix, " ".join(vargv.map(@(val) tostring_r(val, {compact=true, maxdeeplevel=4 tostringfunc=tostringfunc})))))
   }
+  local function dlog_prefix(prefix) {
+    return @(...) dlog.acall([null, prefix].extend(vargv))
+  }
 
   return {
     vlog = vlog
@@ -72,6 +75,7 @@ local function Log(tostringfunc=null) {
     debugTableData = debugTableData
     console_print = console_print
     with_prefix = with_prefix
+    dlog_prefix = dlog_prefix
     //lowlevel dagor functions
     debug = dagorDebug.debug
     logerr = dagorDebug.logerr

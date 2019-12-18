@@ -110,6 +110,11 @@ class ::WwArmyView
     return ::g_ww_unit_type.isArtillery(formation.getUnitType())
   }
 
+  function hasArtilleryAbility()
+  {
+    return formation.hasArtilleryAbility
+  }
+
   function getUnitsCountText()
   {
     return unitsCount(true, isArtillery())
@@ -448,4 +453,6 @@ class ::WwArmyView
   {
     selectedSide = side
   }
+
+  needSmallSize = @() hasArtilleryAbility() && !isArtillery()
 }

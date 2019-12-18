@@ -4,8 +4,6 @@ const ROOM_LIST_TIME_OUT = 180000
 const MAX_SESSIONS_LIST_LEN = 1000
 const SKIRMISH_ROOMS_LIST_ID = "skirmish"
 
-local crossplay = require("scripts/social/crossplay.nut")
-
 class MRoomsList
 {
   id = ""
@@ -115,31 +113,9 @@ class MRoomsList
 
   function setPlatformFilter(filter) {
     if (::is_platform_xboxone) {
-      if (crossplay.isCrossPlayEnabled()) {
-        filter["public/platformRestriction"] <- {
-          test = "in"
-          value = ["xboxOne", "ps4", null] // null is for non-restriction
-        }
-      }
-      else {
-        filter["public/platformRestriction"] <- {
-          test = "eq"
-          value = "xboxOne"
-        }
-      }
-    }
-    else if (::is_platform_ps4) {
-      if (crossplay.isCrossPlayEnabled()) {
-        filter["public/platformRestriction"] <- {
-          test = "in"
-          value = ["xboxOne", "ps4", null]
-        }
-      }
-      else {
-        filter["public/platformRestriction"] <- {
-          test = "eq"
-          value = "ps4"
-        }
+      filter["public/platformRestriction"] <- {
+        test = "eq"
+        value = "xboxOne"
       }
     }
     else {

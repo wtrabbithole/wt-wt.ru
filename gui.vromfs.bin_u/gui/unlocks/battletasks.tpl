@@ -23,7 +23,7 @@ frame {
     position:t='relative'
     text:t='#mainmenu/battleTasks/showAllTasks'
     on_change_value:t='onShowAllTasks'
-    btnName:t='Y'
+    btnName:t='LB'
     value:t='<<showAllTasksValue>>'
     display:t = 'hide'
     enable:t='no'
@@ -154,7 +154,7 @@ frame {
       Button_text {
         id:t = 'btn_warbonds_shop'
         _on_click:t = 'onWarbondsShop'
-        btnName:t='A'
+        btnName:t='X'
         ButtonImg {}
         valign:t='center'
         display:t = 'hide'

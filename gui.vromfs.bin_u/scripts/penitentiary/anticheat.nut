@@ -19,4 +19,5 @@ local function showMsgboxIfEacInactive(event)
 
 return {
   showMsgboxIfEacInactive = showMsgboxIfEacInactive
+  shouldUseEac = shouldUseEac
 }

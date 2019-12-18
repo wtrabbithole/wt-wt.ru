@@ -48,74 +48,6 @@ local function funcCheckArgsNum(func, numRequired){
  ******************** Collections handling (array of tables) *******************
  ******************************************************************************/
 
-/**
- * Reduce boils down a list of values into a single value.
- * Memo is the initial state of the reduction, and each successive
- * step of it should be returned by iteratee. The iteratee is passed
- * four arguments: the memo, then the value and index (or key) of the
- * iteration, and finally a reference to the entire list.
- *
- * If no memo is passed to the initial invocation of reduce,
- * the iteratee is not invoked on the first element of the list.
- * The first element is instead passed as the memo in the
- * invocation of the iteratee on the next element in the list.
-  the reduce function for table */
-
-local function reduceTbl(table, iteratee, memo = null) {
-  foreach (key,value in table)
-    memo = iteratee(key, value, memo)
-  return memo
-}
-
-/**
- * Looks through each value in the @data, returning the first one that passes
- * a truth test @predicate, or null if no value passes the test. The function
- * returns as soon as it finds an acceptable element, and doesn't traverse
- * the entire data.
- * @reverseOrder work only with arrays.
- */
-local function search(data, predicate, reverseOrder = false) {
-  if (!reverseOrder || ::type(data) != "array") {
-    foreach(value in data)
-      if (predicate(value))
-        return value
-    return null
-  }
-
-  for (local i = data.len() - 1; i >= 0; i--)
-    if (predicate(data[i]))
-      return data[i]
-  return null
-}
-
-/**
- * Merges together the values of each of the arrays (or tables) with the values
- * at the corresponding position. Useful when you have separate
- * data sources that are coordinated through matching array indexes.
- if function provided in arguments than it would be used as return_dataset[idx] = func(dataset_1[idx],dataset_2[idx]), for all datasets
- otherwise it would return [dataset_1[idx],dataset_2[idx],...dataset_n[idx]]
- */
-local function zip(...) {
-  local func = search(vargv, @(v) ::type(v)=="function")
-  local datasets = vargv.filter(@(val) ::type(val)=="array")
-  ::assert(datasets.len()>1, "zip can work only with two or more datasources")
-  local res = datasets[0].map(@(v) [v])
-  if (func == null) {
-    foreach(dataset in datasets) {
-      foreach (idx, v in res)
-        v.append(dataset?[idx])
-    }
-  }
-  else {
-    res = clone datasets.remove(0)
-    foreach(dataset in datasets) {
-      foreach (idx, v in res)
-        res[idx]=func(v, dataset?[idx])
-    }
-  }
-  return res
-}
-
 /*
 Split list into two arrays:
 one whose elements all satisfy predicate and one whose elements all do not satisfy predicate.
@@ -138,15 +70,6 @@ local function partition(list, predicate){
  ****************************** Table handling *********************************
  ******************************************************************************/
 
-/**
- * Convert a table into a list of [key, value] pairs.
- */
-local function pairs(table) {
-  local res = []
-  foreach (key, val in table)
-    res.append([key, val])
-  return res
-}
 
 /**
  * A convenient version of what is perhaps the most common use-case for map: extracting a list of property values.
@@ -196,32 +119,6 @@ local function tablesCombine(tbl1, tbl2, func=null, defValue = null, addParams =
   return res
 }
 
-/**
- * Returns the last element of an array. Passing n will return the last n
- * elements of the array.
- */
-local function last(collection, n = 1) {
-  if (collection.len() >= n && n > 0)
-    return collection[collection.len() - n]
-  return null
-}
-
-/**
- * Safely returns the element of an array. Passing negative number will return element from end.
- * If number is more than length array will return last one (first one for negative)
- */
-local function safeIndex(arr, n) {
-  if (n > arr.len()-1 && n >= 0)
-    return arr[arr.len()-1]
-  if (arr.len() > n && n >= 0)
-    return arr[n]
-  if (-n >= arr.len() && n < 0)
-    return arr[0]
-  if (arr.len() >= -n && n < 0)
-    return arr[arr.len() + n]
-  return null
-}
-
 local function isEqual(val1, val2, customIsEqual={}){
   if (val1 == val2)
     return true
@@ -250,14 +147,8 @@ local function isEqual(val1, val2, customIsEqual={}){
 }
 
 return {
-  reduceTbl = reduceTbl
-  search = search
-  zip = zip
-  pairs = pairs
   invert = invert
   tablesCombine = tablesCombine
-  safeIndex = safeIndex
-  last = last
   isEqual = isEqual
   funcCheckArgsNum = funcCheckArgsNum
   partition = partition

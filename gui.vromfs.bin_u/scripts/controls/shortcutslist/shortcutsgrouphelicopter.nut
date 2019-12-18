@@ -452,6 +452,24 @@ return [
     needShowInHelp = true
   }
   {
+    id = "ID_FLAPS_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_FLAPS_UP_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_FLAPS_DOWN_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
     id = "ID_TOGGLE_COCKPIT_DOOR_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false

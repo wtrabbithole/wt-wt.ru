@@ -146,6 +146,7 @@ g_squad_manager.updateMyMemberData <- function updateMyMemberData(data = null)
   data.isCrewsReady <- isMyCrewsReady
   data.canPlayWorldWar <- ::g_world_war.canPlayWorldwar()
   data.isWorldWarAvailable <- ::is_worldwar_enabled()
+  data.isEacInited <- ::is_eac_inited()
   data.squadsVersion <- SQUADS_VERSION
 
   local wwOperations = []

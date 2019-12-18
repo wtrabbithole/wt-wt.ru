@@ -1424,10 +1424,8 @@ class Events
   {
     local mGameMode = getMGameMode(event, room)
     local teamData = getTeamDataWithRoom(mGameMode, team, room)
-    local ediff = getEDiffByEvent(event)
-    local multiSlotEnabled = isEventMultiSlotEnabled(event)
     local canChangeMemberCountry = !room //can choose members country by queue params
-    return ::g_squad_utils.getMembersFlyoutData(teamData, multiSlotEnabled, ediff, canChangeMemberCountry)
+    return ::g_squad_utils.getMembersFlyoutData(teamData, event, canChangeMemberCountry)
   }
 
   function prepareMembersForQueue(membersData)

@@ -106,11 +106,6 @@ class ::LoginProcess
     checkNextStep()
   }
 
-  function onEventProfileUpdated(p)
-  {
-    ::g_login.addState(LOGIN_STATE.PROFILE_RECEIVED | LOGIN_STATE.CONFIGS_RECEIVED)
-  }
-
   function destroy()
   {
     if (isValid())

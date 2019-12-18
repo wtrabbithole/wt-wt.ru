@@ -22,7 +22,7 @@ local escapeConfig = null
  */
 // Reverse operation to split()
 local function implode(pieces = [], glue = "") {
-  return glue.join(pieces.filter(@(val) val != "" && val != null))
+  return glue.join(pieces, true)
 }
 
 /**
@@ -150,7 +150,7 @@ local function func2str(func, p={}){
   local tostr_func = p?.tostr_func ?? @(v) "".concat(v)
 
   if (::type(func)=="thread") {
-    return "thread: {0}".subst(func.getstatus())
+    return $"thread: {func.getstatus()}"
   }
 
   local out = []
@@ -217,13 +217,13 @@ local function tostring_any(input, tostringfunc=null, compact=true) {
       return "''"
     if(compact)
       return input
-    return "'{0}'".subst(input)
+    return $"'{input}'"
   }
   else if (typ == "null"){
     return "null"
   }
   else if (typ == "float" && input == input.tointeger().tofloat() && !compact){
-    return "{0}.0".subst(input.tostring())
+    return $"{input.tostring()}.0"
   }
   else if (typ=="instance"){
     return input.tostring()
@@ -336,7 +336,7 @@ local function tostring_r(input, params=defTostringParams) {
       }
       else if (isArray && !showArrIdx) {
         if (!arrayElem)
-          out = [newline, indent, tostring_any(key, null, compact), " = "]
+          out.append(newline, indent, tostring_any(key, null, compact), " = ")
         out.append("[", sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent), "]")
         if (arrayElem && key!=input.len()-1)
           out.append(sep)
@@ -623,7 +623,7 @@ local function toIntegerSafe(str, defValue = 0, needAssert = true) {
   if (isStringInteger(str))
     return str.tointeger()
   if (needAssert)
-    ::assert(false, @() "can't convert '{0}' to integer".subst(str))
+    ::assert(false, @() $"can't convert '{str}' to integer")
   return defValue
 }
 
@@ -714,7 +714,7 @@ local function stripTags(str) {
 
 local function escape(str) {
   if (::type(str) != "string") {
-    ::assert(false, @() "wrong escape param type: {0}".subst(::type(str)))
+    ::assert(false, @() $"wrong escape param type: {::type(str)}")
     return ""
   }
   foreach(test in escapeConfig)

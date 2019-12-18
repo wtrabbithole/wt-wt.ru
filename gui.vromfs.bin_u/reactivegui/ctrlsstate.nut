@@ -1,6 +1,6 @@
 local globalState = require("globalState.nut")
 local hudChatState = require("hudChatState.nut")
-local frp = require("daRg/frp.nut")
+local frp = require("std/frp.nut")
 
 
 local ctrlsState = frp.combine(

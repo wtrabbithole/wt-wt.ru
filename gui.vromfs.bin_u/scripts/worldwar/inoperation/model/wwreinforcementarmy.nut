@@ -31,9 +31,10 @@ class ::WwReinforcementArmy extends ::WwFormation
 
     unitType = ::g_ww_unit_type.getUnitTypeByTextCode(armyBlock?.specs?.unitType).code
     overrideIconId = armyBlock?.iconOverride ?? ""
+    hasArtilleryAbility = armyBlock?.specs.canArtilleryFire ?? false
     units = wwActionsWithUnitsList.loadUnitsFromBlk(armyBlock.getBlockByName("units"))
 
-    local armyArtilleryParams = ::g_ww_unit_type.isArtillery(unitType) ?
+    local armyArtilleryParams = hasArtilleryAbility ?
       ::g_world_war.getArtilleryUnitParamsByBlk(armyBlock.getBlockByName("units")) : null
     artilleryAmmo.setArtilleryParams(armyArtilleryParams)
     artilleryAmmo.update(name, armyBlock.getBlockByName("artilleryAmmo"))
@@ -157,5 +158,10 @@ class ::WwReinforcementArmy extends ::WwFormation
   function isFormation()
   {
     return false
+  }
+
+  function isReinforcement()
+  {
+    return true
   }
 }

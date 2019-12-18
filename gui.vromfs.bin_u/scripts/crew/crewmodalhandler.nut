@@ -423,7 +423,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         {
           sortData.append({
             unit = unit
-            locname = ::english_russian_to_lower_case(::getUnitName(unit))
+            locname = ::g_string.utf8ToLower(::getUnitName(unit))
           })
         }
       }

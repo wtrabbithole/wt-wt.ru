@@ -107,6 +107,9 @@ class ::gui_handlers.wwObjective extends ::BaseGuiHandler
 
       if (objBlock?.showOnlyForAttackers)
         return !isDefender
+
+      if (objBlock?.type == ::g_ww_objective_type.OT_DONT_AFK.typeName)
+        return false
     }
 
     return true

@@ -152,15 +152,18 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
       }
     }
 
+    local unitsGroups = getUnitsGroups()
     local blk = ::getTblValue("limitedUnits", myTeamDataBlk)
     if (::u.isDataBlock(blk))
       for(local i = 0; i < blk.paramCount(); i++)
-        res.unitLimits.append(::g_unit_limit_classes.LimitByUnitName(blk.getParamName(i), blk.getParamValue(i)))
+        res.unitLimits.append(::g_unit_limit_classes.LimitByUnitName(blk.getParamName(i), blk.getParamValue(i),
+          { nameLocId = unitsGroups?[blk.getParamName(i)] }))
 
     blk = ::getTblValue("unlimitedUnits", myTeamDataBlk)
     if (::u.isDataBlock(blk))
       for(local i = 0; i < blk.paramCount(); i++)
-        res.unitLimits.append(::g_unit_limit_classes.LimitByUnitName(blk.getParamName(i), ::RESPAWNS_UNLIMITED))
+        res.unitLimits.append(::g_unit_limit_classes.LimitByUnitName(blk.getParamName(i), ::RESPAWNS_UNLIMITED,
+          { nameLocId = unitsGroups?[blk.getParamName(i)] }))
 
     local activeLimitsBlk = ::getTblValue("limitedActiveClasses", myTeamDataBlk)
     if (::u.isDataBlock(activeLimitsBlk))

@@ -3,6 +3,7 @@ local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
 
 global enum chatUpdateState {
   OUTDATED
@@ -163,7 +164,7 @@ g_chat.filterMessageText <- function filterMessageText(text, isMyMessage)
 {
   if (::get_option(::USEROPT_CHAT_FILTER).value &&
     (!isMyMessage || ::chat_filter_for_myself))
-    return ::dirty_words_filter.checkPhrase(text)
+    return dirtyWordsFilter.checkPhrase(text)
   return text
 }
 ::cross_call_api.filter_chat_message <- ::g_chat.filterMessageText
@@ -243,8 +244,8 @@ g_chat.systemMessage <- function systemMessage(msg, needPopup = true, forceMessa
 
   if (::menu_chat_handler)
     ::menu_chat_handler.addRoomMsg("", "", msg)
-  if (needPopup)
-    ::g_popups.add(null, ::format("<color=%s>%s</color>", SYSTEM_COLOR, msg))
+  if (needPopup && ::get_gui_option_in_mode(::USEROPT_SHOW_SOCIAL_NOTIFICATIONS, ::OPTIONS_MODE_GAMEPLAY))
+    ::g_popups.add(null, ::colorize(SYSTEM_COLOR, msg))
 }
 
 g_chat.getRoomById <- function getRoomById(id)

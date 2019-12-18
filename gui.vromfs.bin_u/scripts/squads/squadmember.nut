@@ -24,6 +24,7 @@ class SquadMember
   bannedMissions = null
   dislikedMissions = null
   craftsInfoByUnitsGroups = null
+  isEacInited = false
 
   isWaiting = true
   isInvite = false
@@ -35,7 +36,7 @@ class SquadMember
                        "selSlots", "crewAirs", "brokenAirs", "missedPkg", "wwOperations",
                        "isReady", "isCrewsReady", "canPlayWorldWar", "isWorldWarAvailable", "cyberCafeId",
                        "unallowedEventsENames", "sessionRoomId", "crossplay", "bannedMissions", "dislikedMissions",
-                       "craftsInfoByUnitsGroups"]
+                       "craftsInfoByUnitsGroups", "isEacInited"]
 
   constructor(_uid, _isInvite = false, _isApplication = false)
   {

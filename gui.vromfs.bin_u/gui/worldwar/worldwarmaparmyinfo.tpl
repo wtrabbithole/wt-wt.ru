@@ -77,6 +77,7 @@ tdiv {
   statusPanel {
     size:t='pw, 1@statusPanelHeight'
     background-color:t='@objectiveHeaderBackground'
+    <<#needSmallSize>>needSmallSize:t='yes'<</needSmallSize>>
 
     <<#isFormation>>
       block {
@@ -97,6 +98,7 @@ tdiv {
     <</isFormation>>
     <<^isFormation>>
       block {
+        hasTimer:t='yes'
         activeText {
           id:t='army_status_time'
           tooltip:t='<<getActionStatusIconTooltip>>'
@@ -111,7 +113,7 @@ tdiv {
           blockSeparator{}
         }
       }
-      <<#isArtillery>>
+      <<#hasArtilleryAbility>>
         block {
           activeText {
             id:t='army_ammo'
@@ -121,6 +123,7 @@ tdiv {
           }
         }
         block {
+          hasTimer:t='yes'
           activeText {
             id:t='army_ammo_refill_time'
             tooltip:t='<<getAmmoRefillTimeTooltip>>'
@@ -128,7 +131,7 @@ tdiv {
             blockSeparator{}
           }
         }
-      <</isArtillery>>
+      <</hasArtilleryAbility>>
       <<^isArtillery>>
         block {
           activeText {
@@ -139,6 +142,7 @@ tdiv {
           }
         }
         block {
+          hasTimer:t='yes'
           activeText {
             id:t='army_return_time'
             tooltip:t='<<getArmyReturnTimeTooltip>>'

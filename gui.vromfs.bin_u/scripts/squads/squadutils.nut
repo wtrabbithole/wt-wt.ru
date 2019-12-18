@@ -1,6 +1,7 @@
 local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 const MEMBER_STATUS_LOC_TAG_PREFIX = "#msl"
 
@@ -12,6 +13,7 @@ global enum memberStatus {
   ALL_AVAILABLE_AIRS_BROKEN
   PARTLY_AVAILABLE_AIRS_BROKEN
   AIRS_NOT_AVAILABLE
+  EAC_NOT_INITED
 }
 
 local memberStatusLocId = {
@@ -22,6 +24,7 @@ local memberStatusLocId = {
   [memberStatus.SELECTED_AIRS_NOT_AVAILABLE]    = "squadMember/selected_airs_not_available",
   [memberStatus.SELECTED_AIRS_BROKEN]           = "squadMember/selected_airs_broken",
   [memberStatus.NO_REQUIRED_UNITS]              = "squadMember/no_required_units",
+  [memberStatus.EAC_NOT_INITED]                 = "squadMember/eac_not_inited",
 }
 
 local locTags = { [MEMBER_STATUS_LOC_TAG_PREFIX] = "unknown" }
@@ -190,7 +193,7 @@ g_squad_utils.updateMyCountryData <- function updateMyCountryData(needUpdateSess
     })
 }
 
-g_squad_utils.getMembersFlyoutData <- function getMembersFlyoutData(teamData, respawn, ediff = -1, canChangeMemberCountry = true)
+g_squad_utils.getMembersFlyoutData <- function getMembersFlyoutData(teamData, event, canChangeMemberCountry = true)
 {
   local res = {
     canFlyout = true,
@@ -202,6 +205,9 @@ g_squad_utils.getMembersFlyoutData <- function getMembersFlyoutData(teamData, re
   if (!::g_squad_manager.isInSquad() || !teamData)
     return res
 
+  local ediff = ::events.getEDiffByEvent(event)
+  local respawn = ::events.isEventMultiSlotEnabled(event)
+  local shouldUseEac = antiCheat.shouldUseEac(event)
   local squadMembers = ::g_squad_manager.getMembers()
   foreach(uid, memberData in squadMembers)
   {
@@ -279,7 +285,9 @@ g_squad_utils.getMembersFlyoutData <- function getMembersFlyoutData(teamData, re
         mData.countries.append(country)
     }
 
-    if (!haveAvailCountries)
+    if (shouldUseEac && !(memberData?.isEacInited ?? false))
+      mData.status = memberStatus.EAC_NOT_INITED
+    else if (!haveAvailCountries)
       mData.status = respawn ? memberStatus.AIRS_NOT_AVAILABLE : memberStatus.SELECTED_AIRS_NOT_AVAILABLE
     else if (!isAnyRequiredAndAvailableFound)
       mData.status = memberStatus.NO_REQUIRED_UNITS

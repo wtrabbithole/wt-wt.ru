@@ -396,7 +396,7 @@
   
   enableByCompMode = function(id, enable) {
     local desc = ::sysopt.getOptionDesc(id)
-    local enabled = enable && ::getTblValue("enabled", desc, true)
+    local enabled = enable && (desc?.enabled() ?? true)
     ::sysopt.enableGuiOption(id, enabled)
   }
 
@@ -851,7 +851,7 @@ sysopt.fillGuiOptions <- function fillGuiOptions(containerObj, handler)
 
       if (isTable)
       {
-        local enable = ::getTblValue("enabled", desc, true) ? "yes" : "no"
+        local enable = (desc?.enabled() ?? true) ? "yes" : "no"
         local requiresRestart = ::getTblValue("restart", desc, false)
         local tooltipExtra = ::getTblValue("tooltipExtra", desc)
         local label = ::g_string.stripTags(::loc("options/" + id) + (requiresRestart ? (::nbsp + "*") : (::nbsp + ::nbsp)))

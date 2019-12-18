@@ -66,7 +66,7 @@ local itemNotifications = ::require("scripts/items/itemNotifications.nut")
 {
   if (!handler)
     return
-  local isAllowPopups = !::getFromSettingsBlk("debug/skipPopups")
+  local isAllowPopups = ::g_login.isProfileReceived() && !::getFromSettingsBlk("debug/skipPopups")
   local guiScene = handler.guiScene
   if (isAllowPopups)
     ::SessionLobby.checkSessionReconnect()
@@ -107,38 +107,31 @@ local itemNotifications = ::require("scripts/items/itemNotifications.nut")
     ::get_invited_players_info(invitedPlayersBlk)
     if(invitedPlayersBlk.blockCount() == 0)
     {
-      local cdb = ::get_local_custom_settings_blk()
-      local days = time.getUtcDays()
-      if(!cdb?.viralAcquisition)
-        cdb.viralAcquisition = ::DataBlock()
-
       local gmBlk = ::get_game_settings_blk()
-      local resetTime = false
+      local reminderPeriod = gmBlk?.viralAcquisitionReminderPeriodDays ?? 10
+      local today = time.getUtcDays()
+      local never = 0
+      local lastShowTime = ::load_local_account_settings("viralAcquisition/lastShowTime", never)
+      local lastLoginDay = ::load_local_account_settings("viralAcquisition/lastLoginDay", today)
+
+      // Game designers can force reset lastShowTime of all users by increasing this value in cfg:
       if (gmBlk?.resetViralAcquisitionDaysCounter)
       {
-        local num = gmBlk.resetViralAcquisitionDaysCounter
-        if (!cdb.viralAcquisition?.resetDays)
-          cdb.viralAcquisition.resetDays = 0
-        if (num > cdb.viralAcquisition.resetDays)
+        local newResetVer = gmBlk.resetViralAcquisitionDaysCounter
+        local knownResetVer = ::load_local_account_settings("viralAcquisition/resetDays", 0)
+        if (newResetVer > knownResetVer)
         {
-          cdb.viralAcquisition.resetDays = num
-          resetTime = true
+          ::save_local_account_settings("viralAcquisition/resetDays", newResetVer)
+          lastShowTime = never
         }
       }
 
-      if(!cdb.viralAcquisition?.lastShowTime || resetTime)
-        cdb.viralAcquisition.lastShowTime = 0
-
-      if(!cdb.viralAcquisition?.lastLoginDay)
-        cdb.viralAcquisition.lastLoginDay = days
-
-      if((cdb.viralAcquisition.lastLoginDay - cdb.viralAcquisition.lastShowTime) > 10)
+      ::save_local_account_settings("viralAcquisition/lastLoginDay", today)
+      if ((lastLoginDay - lastShowTime) > reminderPeriod)
       {
+        ::save_local_account_settings("viralAcquisition/lastShowTime", today)
         ::show_viral_acquisition_wnd()
-        cdb.viralAcquisition.lastShowTime = days
-        ::save_profile_offline_limited()
       }
-      cdb.viralAcquisition.lastLoginDay = days
     }
   }
 

@@ -25,6 +25,13 @@ global enum LOGIN_STATE //bit mask
   initConfigs        = function(cb) { cb() }
   afterScriptsReload = function() {}
 
+  function onProfileReceived()
+  {
+    addState(LOGIN_STATE.PROFILE_RECEIVED | LOGIN_STATE.CONFIGS_RECEIVED)
+
+    ::broadcastEvent("ProfileReceived")
+  }
+
   function bigQueryOnLogin()
   {
     local params = ::target_platform

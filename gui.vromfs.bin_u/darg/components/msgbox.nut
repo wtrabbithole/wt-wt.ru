@@ -1,5 +1,4 @@
 local defStyling = require("msgbox.style.nut")
-local frp = require("daRg/frp.nut")
 
 local widgets = persist("widgest", @() ::Watched([]))
 
@@ -73,7 +72,7 @@ local function show(params, styling=defStyling) {
       v[0].isCurrent <- true
   })
   local defCancel = null
-  local curBtnIdx = frp.map(btnsDesc, function(btns) {
+  local curBtnIdx = ::Watched(function(){
     local res = 0
     foreach (idx, bd in btnsDesc.value) {
       if (bd?.isCurrent)
@@ -82,7 +81,7 @@ local function show(params, styling=defStyling) {
         defCancel = bd
     }
     return res
-  })
+  }())
 
   local function moveBtnFocus(dir) {
     curBtnIdx.update((curBtnIdx.value + dir + btnsDesc.value.len()) % btnsDesc.value.len())

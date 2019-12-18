@@ -19,7 +19,7 @@ local function overrideUnitViewParamsByGroups(wwUnitViewParams, unitsGroups) {
   wwUnitViewParams.name         = ::loc(group.name)
   wwUnitViewParams.icon         = ::getUnitClassIco(defaultUnit)
   wwUnitViewParams.shopItemType = ::get_unit_role(defaultUnit)
-  wwUnitViewParams.tooltipId    = null
+  wwUnitViewParams.tooltipId    = ::g_tooltip_type.UNIT_GROUP.getTooltipId(group)
   wwUnitViewParams.hasPresetWeapon = false
   return wwUnitViewParams
 }

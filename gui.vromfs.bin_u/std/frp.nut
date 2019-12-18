@@ -1,3 +1,6 @@
+local {Watched} = require("frp")
+const FORBID_MUTATE_COMPUTED = false //for debug purposes
+
 local function combinec(obss, func) {
   //this function create and returns observable that is subscribed to list of observables
   // and its value is combination of their values by provided function
@@ -10,13 +13,16 @@ local function combinec(obss, func) {
   local res = multiparamfunc ? Watched(func.pacall([null].extend(curData))) : Watched(func(curData))
   foreach(id, w in obss) {
     local key = id
-    w.subscribe(function(v) {
+    local function listener(v) {
       curData[key] = v
       if (multiparamfunc)
         res(func.pacall([null].extend(curData)))
       else
         res(func(curData))
-    })
+    }
+    if (FORBID_MUTATE_COMPUTED)
+      res.whiteListMutatorClosure(listener)
+    w.subscribe(listener)
   }
   return res
 }
@@ -33,10 +39,13 @@ local function combinef(func) {
   local res = Watched(func.pacall([null].extend(curData)))
   foreach(id, w in obss) {
     local key = id
-    w.subscribe(function(v) {
+    local function listener(v) {
       curData[key] = v
       res(func.pacall([null].extend(curData)))
-    })
+    }
+    if (FORBID_MUTATE_COMPUTED)
+      res.whiteListMutatorClosure(listener)
+    w.subscribe(listener)
   }
   return res
 }
@@ -47,8 +56,11 @@ local function combine(obss, func=null){
 
 local function map(src_observable, func) {
   //creates new computed observable that is func value of source observable
-  local obs = ::Watched(func(src_observable.value))
-  src_observable.subscribe(@(new_val) obs.update(func(new_val)))
+  local obs = Watched(func(src_observable.value))
+  local listener = @(v) obs.update(func(v))
+  if (FORBID_MUTATE_COMPUTED)
+    obs.whiteListMutatorClosure(listener)
+  src_observable.subscribe(listener)
   return obs
 }
 
@@ -68,10 +80,29 @@ local function reduceNone(list) {
   return !list.reduce(@(a, b) a||b)
 }
 
+local NO_INITIALIZER = {}
+local function merge(list, initial_value=NO_INITIALIZER) {
+  ::assert(list.len() > 0)
+  local res = Watched(initial_value!=NO_INITIALIZER ? initial_value : list[0].value)
+  local function listener(val) {
+    res(val)
+  }
+
+  foreach (input in list) {
+    input.subscribe(listener)
+    if (FORBID_MUTATE_COMPUTED)
+      res.whiteListMutatorClosure(listener)
+  }
+
+  return res
+}
+
+
 local function subscribe(list, func){
   foreach(idx, observable in list)
     observable.subscribe(func)
 }
+
 
 return {
   combine = combine
@@ -80,5 +111,6 @@ return {
   reduceAll = reduceAll
   invertBool = invertBool
   map = map
+  merge = merge
   subscribe = subscribe
 }
