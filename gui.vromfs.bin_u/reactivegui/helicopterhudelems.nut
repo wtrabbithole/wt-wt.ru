@@ -919,81 +919,66 @@ local HelicopterTATarget = function(line_style, w, h, isBackground) {
 local targetSize = function(line_style, width, height, isBackground) {
   local hd = 5
   local vd = 5
-  local posX = helicopterState.IsMfdEnabled.value ? 50 : (helicopterState.TATargetX.value / sw(100) * 100)
-  local posY = helicopterState.IsMfdEnabled.value ? 50 : (helicopterState.TATargetY.value / sh(100) * 100)
   return @() line_style.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
     size = [width, height]
     color = getColor(isBackground)
     watch = [ helicopterState.HasTargetTracker, helicopterState.IsTargetTracked, helicopterState.TargetRadius ]
     commands = helicopterState.HasTargetTracker.value && helicopterState.TargetRadius.value > 0.0 ?
-      ( helicopterState.IsTargetTracked.value ? (
-        helicopterState.AimCorrectionEnabled.value ?
+      ( helicopterState.IsTargetTracked.value ?
         [
           [ VECTOR_RECTANGLE,
-            posX - helicopterState.TargetRadius.value / width * 100,
-            posY - helicopterState.TargetRadius.value / height * 100,
+            50 - helicopterState.TargetRadius.value / width * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
             2.0 * helicopterState.TargetRadius.value / width * 100,
             2.0 * helicopterState.TargetRadius.value / height * 100
-          ],
-          [ VECTOR_ELLIPSE, 50, 50,
-            helicopterState.TargetRadius.value / width * 100,
-            helicopterState.TargetRadius.value / height * 100
           ]
         ] :
         [
-          [ VECTOR_RECTANGLE,
-            posX - helicopterState.TargetRadius.value / width * 100,
-            posY - helicopterState.TargetRadius.value / height * 100,
-            2.0 * helicopterState.TargetRadius.value / width * 100,
-            2.0 * helicopterState.TargetRadius.value / height * 100
-          ]
-        ]
-        ) :
-        [
           [VECTOR_LINE,
-            posX - helicopterState.TargetRadius.value / width * 100,
-            posY - helicopterState.TargetRadius.value / height * 100,
-            posX - (helicopterState.TargetRadius.value - hd) / width * 100,
-            posY - helicopterState.TargetRadius.value / height * 100],
+            50 - helicopterState.TargetRadius.value / width * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            50 - (helicopterState.TargetRadius.value - hd) / width * 100,
+            50 - helicopterState.TargetRadius.value / height * 100],
           [VECTOR_LINE,
-            posX - helicopterState.TargetRadius.value / width  * 100,
-            posY - helicopterState.TargetRadius.value / height * 100,
-            posX - helicopterState.TargetRadius.value / width  * 100,
-            posY - (helicopterState.TargetRadius.value - vd) / height * 100],
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 - (helicopterState.TargetRadius.value - vd) / height * 100],
 
           [VECTOR_LINE,
-            posX + helicopterState.TargetRadius.value / width  * 100,
-            posY - helicopterState.TargetRadius.value / height * 100,
-            posX + (helicopterState.TargetRadius.value - hd) / width  * 100,
-            posY - helicopterState.TargetRadius.value / height * 100],
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            50 + (helicopterState.TargetRadius.value - hd) / width  * 100,
+            50 - helicopterState.TargetRadius.value / height * 100],
           [VECTOR_LINE,
-            posX + helicopterState.TargetRadius.value / width  * 100,
-            posY - helicopterState.TargetRadius.value / height * 100,
-            posX + helicopterState.TargetRadius.value / width  * 100,
-            posY - (helicopterState.TargetRadius.value - vd) / height * 100],
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 - helicopterState.TargetRadius.value / height * 100,
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 - (helicopterState.TargetRadius.value - vd) / height * 100],
 
           [VECTOR_LINE,
-            posX + helicopterState.TargetRadius.value / width  * 100,
-            posY + helicopterState.TargetRadius.value / height * 100,
-            posX + (helicopterState.TargetRadius.value - hd) / width  * 100,
-            posY + helicopterState.TargetRadius.value / height * 100],
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100,
+            50 + (helicopterState.TargetRadius.value - hd) / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100],
           [VECTOR_LINE,
-            posX + helicopterState.TargetRadius.value / width  * 100,
-            posY + helicopterState.TargetRadius.value / height * 100,
-            posX + helicopterState.TargetRadius.value / width  * 100,
-            posY + (helicopterState.TargetRadius.value - vd) / height * 100],
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100,
+            50 + helicopterState.TargetRadius.value / width  * 100,
+            50 + (helicopterState.TargetRadius.value - vd) / height * 100],
 
           [VECTOR_LINE,
-            posX - helicopterState.TargetRadius.value / width  * 100,
-            posY + helicopterState.TargetRadius.value / height * 100,
-            posX - (helicopterState.TargetRadius.value - hd) / width  * 100,
-            posY + helicopterState.TargetRadius.value / height * 100],
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100,
+            50 - (helicopterState.TargetRadius.value - hd) / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100],
           [VECTOR_LINE,
-            posX - helicopterState.TargetRadius.value / width  * 100,
-            posY + helicopterState.TargetRadius.value / height * 100,
-            posX - helicopterState.TargetRadius.value / width  * 100,
-            posY + (helicopterState.TargetRadius.value - vd) / height * 100]
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 + helicopterState.TargetRadius.value / height * 100,
+            50 - helicopterState.TargetRadius.value / width  * 100,
+            50 + (helicopterState.TargetRadius.value - vd) / height * 100]
+
         ]) : []
   })
 }
@@ -1002,7 +987,6 @@ local targetSizeComponent = function(elemStyle, width, height, isBackground) {
   return @() {
     pos = [0, 0]
     size = SIZE_TO_CONTENT
-    watch = [helicopterState.TATargetX, helicopterState.TATargetY]
     behavior = Behaviors.RtPropUpdate
     update = function() {
       return {

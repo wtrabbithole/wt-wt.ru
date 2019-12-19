@@ -32,6 +32,7 @@
   setToBlk - function, accepts value in UI format and exports it to BLK. Can change multiple variables in BLK.
   init - function, initializes the variable config section, for example, defines 'def' value and/or 'values' list.
   tooltipExtra - optional, text to be added to option tooltip.
+  isVisible - function, for hide options
 */
 ::sysopt.mSettings =
 {
@@ -211,7 +212,7 @@
     values = [ "low", "medium", "high", "ultrahigh" ]
   }
   giQuality = { widgetType="list" def="low" blk="graphics/giQuality" restart=false
-    values = [ "low", "medium", "high" ]
+    values = [ "low", "medium", "high" ], isVisible = @() !::is_opengl_driver()
   }
   dirtSubDiv = { widgetType="list" def="high" blk="graphics/dirtSubDiv" restart=false
     values = [ "high", "ultrahigh" ]
@@ -813,6 +814,9 @@ sysopt.fillGuiOptions <- function fillGuiOptions(containerObj, handler)
     foreach (id in ids)
     {
       local desc = getOptionDesc(id)
+      if (!(desc?.isVisible() ?? true))
+        continue
+
       desc.widgetId = "sysopt_" + id
       local option = ""
       switch (desc.widgetType)
@@ -865,11 +869,14 @@ sysopt.fillGuiOptions <- function fillGuiOptions(containerObj, handler)
       {
         local enable = (desc?.enabled() ?? true) ? "yes" : "no"
         local requiresRestart = ::getTblValue("restart", desc, false)
-        local tooltipExtra = ::getTblValue("tooltipExtra", desc)
-        local label = ::g_string.stripTags(::loc("options/" + id) + (requiresRestart ? (::nbsp + "*") : (::nbsp + ::nbsp)))
-        local tooltip = ::g_string.stripTags(::loc("guiHints/" + id)
-          + (requiresRestart ? ("\n" + ::colorize("warningTextColor", ::loc("guiHints/restart_required"))) : "")
-          + (tooltipExtra ? ("\n" + tooltipExtra) : "")
+        local tooltipExtra = desc?.tooltipExtra ?? ""
+        local optionName = ::loc($"options/{id}")
+        local label = ::g_string.stripTags("".join([optionName, requiresRestart ? $"{::nbsp}*" : $"{::nbsp}{::nbsp}"]))
+        local tooltip = ::g_string.stripTags("\n".join(
+          [ ::loc($"guiHints/{id}", optionName),
+            requiresRestart ? ::colorize("warningTextColor", ::loc("guiHints/restart_required")) : "",
+            tooltipExtra
+          ], true)
         )
         option = "tr { id:t='" + id + "_tr'; enable:t='" + enable +"' selected:t='no' size:t='pw, " + mRowHeightScale + "@baseTrHeight' overflow:t='hidden' tooltip:t=\"" + tooltip + "\";"+
           " td { width:t='0.5pw'; cellType:t='left'; overflow:t='hidden'; height:t='" + mRowHeightScale + "@baseTrHeight' optiontext {text:t='" + label + "'} }" +
