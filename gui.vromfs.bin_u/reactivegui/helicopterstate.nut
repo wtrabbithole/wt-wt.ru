@@ -154,6 +154,7 @@ local helicopterState = {
   MlwsPosSize = [0, 0, 20, 20]
   MfdSightPosSize = [0, 0, 0, 0]
   IlsPosSize = [0, 0, 0, 0]
+  AimCorrectionEnabled = Watched(false)
 
   GunOverheatState = Watched(0)
 
