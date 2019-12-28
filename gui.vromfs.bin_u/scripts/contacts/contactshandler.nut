@@ -168,6 +168,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::last_contacts_scene_show = show
     if (show)
     {
+      validateCurGroup()
       if (!reloadSceneData())
       {
         setSavedSizes()
@@ -666,12 +667,13 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateContactsGroup(groupName)
   {
+    if (!isContactsWindowActive())
+      return
+
     if (groupName && !(groupName in ::contacts))
     {
       if (curGroup == groupName)
         curGroup = ""
-      if (!isContactsWindowActive())
-        return
 
       fillContactsList()
       if (searchText == "")
@@ -683,8 +685,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (groupName && groupName in ::contacts)
     {
       ::contacts[groupName].sort(::sortContacts)
-      if (!isContactsWindowActive())
-        return
       sel = fillPlayersList(groupName)
     }
     else
@@ -692,15 +692,10 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (group in ::contacts)
         {
           ::contacts[group].sort(::sortContacts)
-          if (!isContactsWindowActive())
-            continue
           local selected = fillPlayersList(group)
           if (group == curGroup)
             sel = selected
         }
-
-    if (!isContactsWindowActive())
-      return
 
     if (curGroup && (!groupName || curGroup == groupName))
     {
@@ -717,11 +712,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventContactsGroupUpdate(params)
   {
-    local groupName = null
-    if ("groupName" in params)
-      groupName = params.groupName
-
-    updateContactsGroup(groupName)
+    updateContactsGroup(params?.groupName)
   }
 
   function onEventModalWndDestroy(params)
@@ -1242,5 +1233,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventSquadStatusChanged(p)
   {
     updateContactsGroup(null)
+  }
+
+  function validateCurGroup()
+  {
+    if (!(curGroup in ::contacts))
+      curGroup = ""
   }
 }

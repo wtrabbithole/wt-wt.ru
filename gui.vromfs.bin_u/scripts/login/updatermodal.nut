@@ -90,7 +90,7 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
 
   function allowCancelCurrentStage()
   {
-    if (stage == ::UPDATER_DOWNLOADING)
+    if (stage == ::UPDATER_DOWNLOADING || ::UPDATER_DOWNLOADING_YUP)
     {
       if (!isCancelButtonVisible)
       {

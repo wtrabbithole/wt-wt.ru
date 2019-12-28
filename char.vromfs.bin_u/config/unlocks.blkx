@@ -20979,6 +20979,43 @@
   },
   {
     "unlockable": {
+      "id": "saab_j21a_1/red8",
+      "type": "skin",
+      "chapter": "skins",
+      "group": "aircraft_sweden",
+      "hideForLang": "HChinese",
+      "mode": [
+        {
+          "type": "killedPlayersScore"
+        },
+        {
+          "mulArcade": 1
+        },
+        {
+          "mulRealistic": 3
+        },
+        {
+          "mulHardcore": 6
+        },
+        {
+          "num": 220
+        },
+        {
+          "condition": {
+            "type": "online"
+          }
+        },
+        {
+          "condition": {
+            "type": "playerUnit",
+            "class": "saab_j21a_1"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
       "id": "sea_hawk_fga6/white",
       "type": "skin",
       "chapter": "skins",
@@ -139394,6 +139431,34 @@
       "id": "slot10_chins",
       "type": "slot",
       "country": "country_china",
+      "hide_for_platform": "ps4",
+      "hidden": true,
+      "mode": [
+        {
+          "type": "char_always_progress"
+        },
+        {
+          "condition": {
+            "type": "char_unlocked",
+            "unlock": "slot10_not_rewarded",
+            "positive": false
+          }
+        },
+        {
+          "condition": {
+            "type": "char_unlocked",
+            "unlock": "present_slot_10",
+            "positive": true
+          }
+        }
+      ]
+    }
+  },
+  {
+    "unlockable": {
+      "id": "slot10_sweden",
+      "type": "slot",
+      "country": "country_sweden",
       "hide_for_platform": "ps4",
       "hidden": true,
       "mode": [

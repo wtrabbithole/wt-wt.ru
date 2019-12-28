@@ -18,7 +18,7 @@ local rwrState = {
   CurrentTime = Watched(0.0),
   targets = [],
   TargetsTrigger = Watched(0),
-  track = false,
+  trackingTargetAgeMin = 1000.0,
   SignalHoldTimeInv = Watched(0.0),
   EnableBackGroundColor = Watched(false)
 }
@@ -33,9 +33,10 @@ local rwrState = {
       needUpdateTargets = true
     }
   }
+
   if (needUpdateTargets)
   {
-    rwrState.track = false
+    rwrState.trackingTargetAgeMin = 1000.0
     rwrState.TargetsTrigger.trigger()
   }
 }
@@ -52,7 +53,7 @@ local rwrState = {
   }
   rwrState.TargetsTrigger.trigger()
   if (track)
-    rwrState.track = true
+    rwrState.trackingTargetAgeMin = min(rwrState.trackingTargetAgeMin, age)
 }
 
 interopGen({
@@ -71,7 +72,7 @@ local background = function(colorStyle, width, height) {
 
   local getAircraftCircleOpacity = function() {
     local opacity = 0.42
-    if (rwrState.track)
+    if (rwrState.trackingTargetAgeMin * rwrState.SignalHoldTimeInv.value < 1.0)
       opacity = math.round(rwrState.CurrentTime.value * 4) % 2 == 0 ? 1.0 : 0.42
     return opacity
   }

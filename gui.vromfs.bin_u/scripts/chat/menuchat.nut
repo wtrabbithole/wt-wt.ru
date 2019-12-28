@@ -1688,21 +1688,32 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       saveJoinedRooms()
     if (::g_chat.canUseVoice() && r.type.canVoiceChat)
     {
-      local VCdata = get_option(::USEROPT_VOICE_CHAT)
-      local voiceChatShowCount = ::load_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, 0)
-      if(isFirstAskForSession && voiceChatShowCount < ::g_chat.MAX_MSG_VC_SHOW_TIMES && !VCdata.value)
-      {
-        msgBox("join_voiceChat", ::loc("msg/enableVoiceChat"),
-                [
-                  ["yes", function(){::set_option(::USEROPT_VOICE_CHAT, true)}],
-                  ["no", function(){} ]
-                ], "no",
-                { cancel_fn = function(){}})
-        ::save_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, voiceChatShowCount + 1)
-      }
-      isFirstAskForSession = false
+      shouldCheckVoiceChatSuggestion = true
+      if (::handlersManager.findHandlerClassInScene(::gui_handlers.MainMenu) != null)
+        checkVoiceChatSuggestion()
     }
     return r
+  }
+
+  function checkVoiceChatSuggestion()
+  {
+    if (!shouldCheckVoiceChatSuggestion)
+      return
+    shouldCheckVoiceChatSuggestion = false
+
+    local VCdata = get_option(::USEROPT_VOICE_CHAT)
+    local voiceChatShowCount = ::load_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, 0)
+    if(isFirstAskForSession && voiceChatShowCount < ::g_chat.MAX_MSG_VC_SHOW_TIMES && !VCdata.value)
+    {
+      msgBox("join_voiceChat", ::loc("msg/enableVoiceChat"),
+              [
+                ["yes", function(){::set_option(::USEROPT_VOICE_CHAT, true)}],
+                ["no", function(){} ]
+              ], "no",
+              { cancel_fn = function(){}})
+      ::save_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, voiceChatShowCount + 1)
+    }
+    isFirstAskForSession = false
   }
 
   function onEventClanInfoUpdate(p)
@@ -2887,6 +2898,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   scene = null
   sceneChanged = true
   roomsInited = false
+
+  shouldCheckVoiceChatSuggestion = false
   isFirstAskForSession = true
 
   chatTasks = []

@@ -321,6 +321,7 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
 
   handler.doWhenActive(checkAwardsOnStartFrom)
   handler.doWhenActive(@() ::tribunal.checkComplaintCounts())
+  handler.doWhenActive(@() ::menu_chat_handler?.checkVoiceChatSuggestion())
 
   if (!fetch_profile_inited_once())
   {

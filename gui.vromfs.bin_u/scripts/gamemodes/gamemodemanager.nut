@@ -879,6 +879,8 @@ class GameModeManager
 
   function _onGameLocalizationChanged(params)
   {
+    if (!::g_login.isLoggedIn())
+      return
     updateManager()
   }
 

@@ -195,10 +195,12 @@ local DEBUG_TABLE_DATA_PARAMS = {
       local ret = ""
       if (val instanceof ::BaseGuiHandler)
         ret = ::format("BaseGuiHandler(sceneBlkName = %s)", ::toString(val.sceneBlkName))
-      else if (("tostring" in val) && type(val.tostring) == "function")
-        ret += ::format("instance: \"%s\"", val.tostring())
       else
-        ret += "instance"
+      {
+        local instanceStr = val.tostring()
+        local isCustom = ! ::g_string.startsWith(instanceStr, "(instance : 0x")
+        ret += isCustom ? $"instance \"{instanceStr}\"" : "instance"
+      }
 
       if (recursion > 0)
         foreach (idx, v in val)

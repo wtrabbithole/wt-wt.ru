@@ -532,15 +532,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
   function recacheSkins()
   {
     skinsCache = {}
-    local idx = 0
     foreach(skinName, decorator in ::g_decorator.getCachedDecoratorsListByType(::g_decorator_type.SKINS))
     {
       local unit = ::getAircraftByName(::g_unlocks.getPlaneBySkinId(skinName))
       if (!unit)
         continue
 
-      // Not showing skins for vehicles which
-      // are not present or not visible in shop
       if ( ! unit.isVisibleInShop())
         continue
 
@@ -555,47 +552,23 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if ( ! (unitType in skinsCache[unitCountry]))
         skinsCache[unitCountry][unitType] <- {}
 
-      local infoObject = {
-        id = skinName
-        country = unitCountry
-        itemText = ::getUnitName(unit.name) + ", " + decorator.getName()
-        itemIcon = decorator.isUnlocked() ? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
-
-        //sort params
-        unitId = unit.name
-        idx = ++idx
-      }
-
       if ( ! (OwnUnitsType.ALL in skinsCache[unitCountry][unitType]))
         skinsCache[unitCountry][unitType][OwnUnitsType.ALL] <- []
-      skinsCache[unitCountry][unitType][OwnUnitsType.ALL].append(infoObject)
+      skinsCache[unitCountry][unitType][OwnUnitsType.ALL].append(decorator)
 
       if( ! unit.isBought())
         continue
 
       if ( ! (OwnUnitsType.BOUGHT in skinsCache[unitCountry][unitType]))
               skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT] <- []
-      skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT].append(infoObject)
+      skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT].append(decorator)
     }
-
-    foreach (countries in skinsCache)
-      foreach (ownType in countries)
-        foreach (unitTypeList in ownType)
-          if (unitTypeList.len())
-            unitTypeList.sort(function(a, b) {
-              //some vehicles has a specific characters prefix in localized name,so sort by id
-              if (a.unitId != b.unitId)
-                return a.unitId > b.unitId ? 1 : -1
-              return a.idx <=> b.idx
-            })
   }
 
-  function getSkinsCache(country, unitType, ownType = null)
+  function getSkinsCache(country, unitType, ownType)
   {
     if ( ! skinsCache)
       recacheSkins()
-    if (ownType == null)
-      ownType = getCurrentOwnType()
     return skinsCache?[country][unitType][ownType] ?? []
   }
 
@@ -698,8 +671,20 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function getSkinsMarkup()
   {
-    local view = { items = getSkinsCache(curFilter, curSubFilter) }
-    return ::handyman.renderCached("gui/missions/missionBoxItemsList", view)
+    local itemsView = []
+    local comma = ::loc("ui/comma")
+    foreach (decorator in getSkinsCache(curFilter, curSubFilter, getCurrentOwnType()))
+    {
+      local unitId = ::g_unlocks.getPlaneBySkinId(decorator.id)
+
+      itemsView.append({
+        id = decorator.id
+        itemText = comma.concat(::getUnitName(unitId), decorator.getName())
+        itemIcon = decorator.isUnlocked() ? "#ui/gameuiskin#unlocked" : "#ui/gameuiskin#locked"
+      })
+    }
+    itemsView.sort(@(a, b) a.itemText <=> b.itemText)
+    return ::handyman.renderCached("gui/missions/missionBoxItemsList", { items = itemsView })
   }
 
   function generateItems(pageTypeId)
