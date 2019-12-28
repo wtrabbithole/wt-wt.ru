@@ -1,3 +1,5 @@
+#no-plus-concat
+
 local string=require("string")
 local math=require("math")
 local hash_by_string = require("hash_by_string.nut")
@@ -337,7 +339,7 @@ local function tostring_r(input, params=defTostringParams) {
       else if (isArray && !showArrIdx) {
         if (!arrayElem)
           out.append(newline, indent, tostring_any(key, null, compact), " = ")
-        out.append("[", sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent), "]")
+        out.append("[", sub_tostring_r(value, $"{indent}{indentOnNewline}", curdeeplevel+1, true, arrSep, indent), "]")
         if (arrayElem && key!=input.len()-1)
           out.append(sep)
       }
@@ -348,7 +350,7 @@ local function tostring_r(input, params=defTostringParams) {
         if (!arrayElem) {
           out.append(tostring_any(key,null, compact)," = ")
         }
-        out.append(brOp,sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1),newline,indent,brCl)
+        out.append(brOp,sub_tostring_r(value, $"{indent}{indentOnNewline}", curdeeplevel+1),newline,indent,brCl)
         if (arrayElem && key==input.len()-1 ){
           out.append(newline,arrInd)
         }

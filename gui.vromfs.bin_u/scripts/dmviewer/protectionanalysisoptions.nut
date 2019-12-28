@@ -165,8 +165,7 @@ options.addTypes({
     reinit = function(handler, scene)
     {
       local unitType = options.UNITTYPE.value
-      local countriesWithUnitType = ::get_countries_by_unit_type(unitType)
-      values = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, countriesWithUnitType))
+      values = ::u.filter(::shopCountriesList, @(c) ::isCountryHaveUnitType(c, unitType))
       items  = ::u.map(values, @(c) { text = ::loc(c), image = ::get_country_icon(c) })
       local preferredCountry = value ?? options.targetUnit.shopCountry
       value = values.indexof(preferredCountry) != null ? preferredCountry

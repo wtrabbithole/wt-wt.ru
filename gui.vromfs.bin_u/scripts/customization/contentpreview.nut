@@ -5,6 +5,8 @@ local globalCallbacks = ::require("sqDagui/globalCallbacks/globalCallbacks.nut")
 local downloadTimeoutSec = 15
 local downloadProgressBox = null
 
+local onSkinReadyToShowCallback = null
+
 local waitingItemDefId = null
 
 /**
@@ -141,11 +143,17 @@ local function showUnitDecorator(unitId, resource, resourceType)
  * Then starts Customization scene with given resource preview.
  * @param {string} resource - Resource. Can be GUID.
  * @param {string} resourceType - Resource type.
+ * @param {function} onSkinReadyToShowCb - Optional custom function to be called when
+ *                   skin prepared to show. Function must take params: (unitId, skinId, result).
  */
-local function showResource(resource, resourceType)
+local function showResource(resource, resourceType, onSkinReadyToShowCb = null)
 {
   if (!::ItemsManager.canPreviewItems())
     return
+
+  onSkinReadyToShowCallback = (resourceType == "skin")
+    ? onSkinReadyToShowCb
+    : null
 
   if (guidParser.isGuid(resource))
   {
@@ -193,6 +201,14 @@ local function onSkinDownloaded(unitId, skinId, result)
 {
   if (downloadProgressBox)
     ::destroyMsgBox(downloadProgressBox)
+
+  if (onSkinReadyToShowCallback)
+  {
+    onSkinReadyToShowCallback(unitId, skinId, result)
+    onSkinReadyToShowCallback = null
+    return
+  }
+
   if (result)
     showUnitSkin(unitId, skinId)
 }
@@ -269,10 +285,6 @@ rootTable["on_live_skin_data_loaded"] <- @(unitId, skinGuid, result) onSkinDownl
 rootTable["live_start_unit_preview"]  <- @(unitId, skinId, isForApprove) showUnitSkin(unitId, skinId, isForApprove)
 web_rpc.register_handler("ugc_skin_preview", @(params) liveSkinPreview(params))
 web_rpc.register_handler("market_view_item", @(params) marketViewItem(params))
-
-// Сompatibility with 1.79 and older:
-rootTable["on_ugc_skin_data_loaded"] <- rootTable["on_live_skin_data_loaded"]
-rootTable["ugc_start_unit_preview"]  <- rootTable["live_start_unit_preview"]
 
 subscriptions.addListenersWithoutEnv({
   ItemsShopUpdate = @(p) onEventItemsShopUpdate(p)

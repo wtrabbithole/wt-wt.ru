@@ -215,6 +215,8 @@ enums.addTypesByGlobalName("g_tooltip_type", {
         }
       }
 
+      local canFindOnMarketplace = !isAllowed && decorator.getCouponItemdefId() != null
+
       /*
       //is decal acces text really need here? it very custom by chosen unit.
       //and why we dont have same texts for skins?
@@ -252,6 +254,8 @@ enums.addTypesByGlobalName("g_tooltip_type", {
           conditionsText = ::loc("mainmenu/itemCanBeReceived")
         else if (canBuy)
           conditionsText = ::loc("shop/object/can_be_purchased")
+        else if (canFindOnMarketplace)
+          conditionsText = ::loc("shop/object/can_be_found_on_marketplace")
         else
           conditionsText = ::loc("multiplayer/notAvailable")
       }

@@ -1,5 +1,6 @@
 local u = ::require("sqStdLibs/helpers/u.nut")
 local time = require("scripts/time.nut")
+local guidParser = require("scripts/guidParser.nut")
 local contentPreview = require("scripts/customization/contentPreview.nut")
 local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 local stdMath = require("std/math.nut")
@@ -77,6 +78,7 @@ local Unit = class
    skins = null //[]
    skinsBlocks = null //{}
    previewSkinId = null //""
+   downloadableSkins = null //[]
    weaponUpgrades = null //[]
    spare = null //{} or null
    needBuyToOpenNextInTier = null //[]
@@ -474,6 +476,55 @@ local Unit = class
           previewSkinId = skin.name
     }
     return previewSkinId
+  }
+
+  function getDownloadableSkins()
+  {
+    if (downloadableSkins != null)
+      return downloadableSkins
+
+    local res = []
+    local shouldCache = true
+
+    if (::has_feature("MarketplaceSkinsInCustomization") && ::has_feature("Marketplace")
+      && ::has_feature("EnableLiveSkins"))
+    {
+      local marketSkinsBlk = ::DataBlock("config/skins_market.blk")
+      local blkList = marketSkinsBlk % this.name
+      local itemdefIdsList = blkList.filter(function(blk) {
+        if (type(blk?.marketplaceItemdefId) != "integer")
+          return false
+        if (blk?.reqFeature != null && !::has_feature(blk.reqFeature))
+          return false
+        if (blk?.hideFeature != null && ::has_feature(blk.hideFeature))
+          return false
+        return true
+      }).map(@(blk) blk?.marketplaceItemdefId)
+
+      foreach (itemdefId in itemdefIdsList)
+      {
+        local item = ::ItemsManager.findItemById(itemdefId)
+        shouldCache = shouldCache && item != null
+        if (item == null)
+          continue
+
+        local resource = item.getMetaResource()
+        if (!resource || !item.hasLink())
+          continue
+
+        local isLive = guidParser.isGuid(resource)
+        if (isLive)
+          item.addResourcesByUnitId(this.name)
+        local skinId = isLive ? ::g_unlocks.getSkinId(this.name, resource) : resource
+        ::g_decorator.getDecorator(skinId, ::g_decorator_type.SKINS)?.setCouponItemdefId(itemdefId)
+
+        res.append(itemdefId)
+      }
+    }
+
+    if (shouldCache)
+      downloadableSkins = res
+    return res
   }
 
   getSpawnScore = @(weaponName = null) ::shop_get_spawn_score(name, weaponName || ::get_last_weapon(name))

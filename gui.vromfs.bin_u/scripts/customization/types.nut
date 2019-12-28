@@ -2,6 +2,12 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
 local guidParser = require("scripts/guidParser.nut")
 local time = require("scripts/time.nut")
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local memoizeByEvents = require("scripts/utils/memoizeByEvents.nut")
+
+local function memoizeByProfile(func, hashFunc = null) {
+  // When player buys any decarator, profile always updates.
+  return memoizeByEvents(func, hashFunc, [ "ProfileUpdated" ])
+}
 
 ::g_decorator_type <- {
   types = []
@@ -168,7 +174,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
     isAllowed = function(decoratorName) { return ::is_decal_allowed(decoratorName, "") }
     isAvailable = @(unit, checkUnitUsable = true) !!unit && ::has_feature("DecalsUse")
       && (!checkUnitUsable || unit.isUsable())
-    isPlayerHaveDecorator = function(decoratorName) { return ::player_have_decal(decoratorName) }
+    isPlayerHaveDecorator = memoizeByProfile(::player_have_decal)
 
     getBlk = function() { return ::get_decals_blk() }
 
@@ -253,10 +259,10 @@ enums.addTypesByGlobalName("g_decorator_type", {
     getAvailableSlots = function(unit) { return ::get_num_attachables_slots(unit.name) }
     getMaxSlots = function() { return ::get_max_num_attachables_slots() }
 
-    getImage = function(decorator)
+    getImage = function getImage(decorator)
     {
       return decorator
-        ? decorator?.blk?.image ?? ("#ui/images/attachables/" + decorator.id)
+        ? (decorator?.blk.image ?? "".concat("#ui/images/attachables/", decorator.id))
         : ""
     }
     getImageSize = function(...) { return "128, 128" }
@@ -283,7 +289,7 @@ enums.addTypesByGlobalName("g_decorator_type", {
 
     isAvailable = @(unit, checkUnitUsable = true) !!unit && ::has_feature("AttachablesUse")
       && ::isTank(unit) && (!checkUnitUsable || unit.isUsable())
-    isPlayerHaveDecorator = function(decoratorName) { return ::player_have_attachable(decoratorName) }
+    isPlayerHaveDecorator = memoizeByProfile(::player_have_attachable)
 
     getBlk = function() { return ::get_attachable_blk() }
 
@@ -415,14 +421,14 @@ enums.addTypesByGlobalName("g_decorator_type", {
 
     getFreeSlotIdx = @(...) 0
     isAvailable = @(unit, checkUnitUsable = true) !!unit && (!checkUnitUsable || unit.isUsable())
-    isPlayerHaveDecorator = function(decoratorName)
+    isPlayerHaveDecorator = memoizeByProfile(function isPlayerHaveDecorator(decoratorName)
     {
       if (::g_unlocks.isDefaultSkin(decoratorName))
         return true
 
       return ::player_have_skin(::g_unlocks.getPlaneBySkinId(decoratorName),
                                 ::g_unlocks.getSkinNameBySkinId(decoratorName))
-    }
+    })
 
     getBlk = function() { return ::get_skins_blk() }
 

@@ -198,21 +198,19 @@ local function curry(fn) {
 */
 
 local function memoize(func, hashfunc=null){
-  local cache = {}
-  local cache_for_null = {}
-  local parameters = func.getfuncinfos().parameters.slice(0)
-  ::assert(parameters.len()>0)
+  local cacheDefault = {}
+  local cacheForNull = {}
+  local funcinfos = func.getfuncinfos()
+  ::assert(funcinfos.native || funcinfos.parameters.len() > 0)
   hashfunc = hashfunc ?? function(...) {
     return vargv[0]
  }
   local function memoizedfunc(...){
     local args = [null].extend(vargv)
-    local hash = hashfunc.acall(args)
-    if (hash == null){
-      //index cannot be null. use different cach to avoid collision
-      cache = cache_for_null
-      hash = 0
-    }
+    local rawHash = hashfunc.acall(args)
+    //index cannot be null. use different cache to avoid collision
+    local hash = rawHash ?? 0
+    local cache = rawHash != null ? cacheDefault : cacheForNull
     if (hash in cache) {
       return cache[hash]
     }

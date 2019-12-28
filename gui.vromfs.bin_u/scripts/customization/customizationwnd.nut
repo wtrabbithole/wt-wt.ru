@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local penalty = require_native("penalty")
 local decorLayoutPresets = require("scripts/customization/decorLayoutPresetsWnd.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
+local contentPreview = require("scripts/customization/contentPreview.nut")
 
 enum decoratorEditState
 {
@@ -402,7 +403,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!access_Skins)
       return
 
-    skinList = ::g_decorator.getSkinsOption(unit.name, true, false)
+    skinList = ::g_decorator.getSkinsOption(unit.name, true, false, true)
     local curSkinId = getSelectedBuiltinSkinId()
     local curSkinIndex = ::find_in_array(skinList.values, curSkinId, 0)
     local tooltipParams = previewMode ? { showAsTrophyContent = true } : null
@@ -412,12 +413,15 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local access = skinList.access[i]
       local canBuy = !previewMode && decorator.canBuyUnlock(unit)
+      local canFindOnMarketplace = !previewMode && !canBuy && !access.isOwn && decorator.getCouponItemdefId() != null
       local priceText = canBuy ? decorator.getCost().getTextAccordingToBalance() : ""
       local isUnlocked = decorator.isUnlocked()
       local text = skinList.items[i].text
       local image = skinList.items[i].image
       if (canBuy)
         text = ::loc("ui/parentheses", {text = priceText}) + " " + text
+      else if (canFindOnMarketplace)
+        text = "".concat(::loc("currency/gc/sign"), " ", text)
 
       if (!access.isVisible)
         text = ::colorize("comboExpandedLockedTextColor", "(" + ::loc("worldWar/hided_logs") + ") ") + text
@@ -713,24 +717,30 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(bOnlineObj) && can_buyUnitOnline)
       ::showUnitDiscount(bOnlineObj.findObject("buy_online_discount"), unit)
 
+    local skinDecorator = null
+    local skinCouponItemdefId = null
+
+    if (isUnitOwn && previewSkinId && skinList)
+    {
+      local skinIndex = skinList.values.indexof(previewSkinId) ?? -1
+      skinDecorator = skinList.decorators?[skinIndex]
+      skinCouponItemdefId = skinDecorator?.getCouponItemdefId()
+    }
+
+    local canBuySkin = skinDecorator?.canBuyUnlock(unit) ?? false
+    local canConsumeSkinCoupon = !canBuySkin &&
+      (::ItemsManager.getInventoryItemById(skinCouponItemdefId)?.canConsume() ?? false)
+    local canFindSkinOnMarketplace = !canBuySkin && !canConsumeSkinCoupon && skinCouponItemdefId != null
+
     bObj = scene.findObject("btn_buy_skin")
     if (::checkObj(bObj))
     {
-      local canBuySkin = false
-      local price = ::Cost()
-
-      if (isUnitOwn && previewSkinId && skinList)
-      {
-        local skinIndex = ::find_in_array(skinList.values, previewSkinId, 0)
-        local decorator = skinList.decorators[skinIndex]
-
-        canBuySkin = decorator.canBuyUnlock(unit)
-        price = decorator.getCost()
-      }
-
       bObj.show(canBuySkin)
       if (canBuySkin)
+      {
+        local price = skinDecorator.getCost()
         ::placePriceTextToButton(scene, "btn_buy_skin", ::loc("mainmenu/btnOrder"), price)
+      }
     }
 
     local can_testflight = ::isTestFlightAvailable(unit) && !decoratorPreview
@@ -769,6 +779,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
           btn_decal_edit   = ::show_console_buttons && !isInEditMode && !isDecoratorsListOpen && !focusedSlot.isEmpty && focusedSlot.unlocked
           btn_decal_delete = ::show_console_buttons && !isInEditMode && !isDecoratorsListOpen && !focusedSlot.isEmpty && focusedSlot.unlocked
+
+          btn_marketplace_consume_coupon_skin = !previewMode && canConsumeSkinCoupon
+          btn_marketplace_find_skin = !previewMode && canFindSkinOnMarketplace
 
           skins_div = !isInEditMode && !isDecoratorsListOpen && access_Skins
           user_skins_block = !previewMode && access_UserSkins
@@ -1770,9 +1783,9 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local skinId = skinList.values[skinNum]
-    local isSkinOwn = skinList.access[skinNum].isOwn
+    local access = skinList.access[skinNum]
 
-    if (isSkinOwn && !previewMode)
+    if (access.isOwn && !previewMode)
     {
       local curSkinId = ::hangar_get_last_skin(unit.name)
       if (!previewSkinId && (skinId == curSkinId || (skinId == "" && curSkinId == "default")))
@@ -1781,11 +1794,29 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       resetUserSkin(false)
       applySkin(skinId)
     }
+    else if (access.isDownloadable)
+    {
+      // Starting skin download...
+      contentPreview.showResource(skinId, "skin", ::Callback(onSkinReadyToShow, this))
+    }
     else if (skinId != previewSkinId)
     {
       resetUserSkin(false)
       applySkin(skinId, true)
     }
+  }
+
+  function onSkinReadyToShow(unitId, skinId, result)
+  {
+    if (!result || !::ItemsManager.canPreviewItems() ||
+      unitId != unit.name || (skinList?.values ?? []).indexof(skinId) == null)
+        return
+
+    ::g_decorator.previewedLiveSkinIds.append($"{unitId}/{skinId}")
+    ::g_delayed_actions.add(::Callback(function() {
+      resetUserSkin(false)
+      applySkin(skinId, true)
+    }, this), 100)
   }
 
   function onUserSkinChanged(obj)
@@ -1894,6 +1925,34 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       })(skinName), this)
 
     ::g_decorator_type.SKINS.buyFunc(unit.name, skinName, afterSuccessFunc)
+  }
+
+  function onBtnMarketplaceFindSkin(obj)
+  {
+    local skinId = ::g_unlocks.getSkinId(unit.name, previewSkinId)
+    local skinDecorator = ::g_decorator.getDecorator(skinId, ::g_decorator_type.SKINS)
+    local item = ::ItemsManager.findItemById(skinDecorator?.getCouponItemdefId())
+    if (!item?.hasLink())
+      return
+    item.openLink()
+  }
+
+  function onBtnMarketplaceConsumeCouponSkin(obj)
+  {
+    local skinId = ::g_unlocks.getSkinId(unit.name, previewSkinId)
+    local skinDecorator = ::g_decorator.getDecorator(skinId, ::g_decorator_type.SKINS)
+    local itemdefId = skinDecorator?.getCouponItemdefId()
+    local inventoryItem = ::ItemsManager.getInventoryItemById(itemdefId)
+    if (!inventoryItem?.canConsume())
+      return
+
+    local skinName = previewSkinId
+    inventoryItem.consume(::Callback(function(result) {
+      if (this == null || !result?.success)
+        return
+      applySkin(skinName)
+      updateMainGuiElements()
+    }, this), null)
   }
 
   function getSlotInfo(slotId, checkDecalsList = false, decoratorType = null)
@@ -2262,6 +2321,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::handlersManager.requestHandlerRestore(this, this.getclass())
   }
 
+  function onEventItemsShopUpdate(params)
+  {
+    updateSkinList()
+  }
+
   function initPreviewMode()
   {
     if (!previewParams)
@@ -2273,7 +2337,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       case PREVIEW_MODE.UNIT:
       case PREVIEW_MODE.SKIN:
         local skinBlockName = previewParams.unitName + "/" + previewParams.skinName
-        ::g_decorator.previewedLiveSkinId = skinBlockName
+        ::g_decorator.previewedLiveSkinIds.append(skinBlockName)
         if (initialUserSkinId != "")
           ::get_user_skins_profile_blk()[unit.name] = ""
         local isForApprove = previewParams?.isForApprove ?? false
@@ -2283,8 +2347,6 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
         }, this), 100)
         break
       case PREVIEW_MODE.DECORATOR:
-        local decorator = previewParams.decorator
-        local decoratorType = decorator.decoratorType
         decoratorPreview = previewParams.decorator
         currentType = decoratorPreview.decoratorType
         break

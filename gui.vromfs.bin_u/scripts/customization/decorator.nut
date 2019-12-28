@@ -12,6 +12,7 @@ class Decorator
   unlockId = ""
   unlockBlk = null
   isLive = false
+  couponItemdefId = null
   group = ""
 
   category = ""
@@ -333,6 +334,16 @@ class Decorator
   {
     rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
     tags = itemDef?.tags
+  }
+
+  function setCouponItemdefId(itemdefId)
+  {
+    couponItemdefId = itemdefId
+  }
+
+  function getCouponItemdefId()
+  {
+    return couponItemdefId
   }
 
   function _tostring()
