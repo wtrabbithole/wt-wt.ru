@@ -616,20 +616,18 @@ class Events
       return
 
     local sides = []
-    local isFreeForAll = ::getTblValue("ffa", event)
-    local isSymmetric = isFreeForAll || ::getTblValue("isSymmetric", event, false)
-
     foreach(team in fullTeamsList)
       if (isTeamDataPlayable(getTeamData(event, team)))
         sides.append(team)
 
+    local isFreeForAll = event?.ffa ?? false
+    local isSymmetric = isFreeForAll || (event?.isSymmetric ?? false) || sides.len() <= 1
     //no point to save duplicate array, just link on fullTeamsList
     if (!isSymmetric)
     {
       local teamDataA = getTeamData(event, sides[0])
       local teamDataB = getTeamData(event, sides[1])
-      isSymmetric = sides.len() <= 1
-      if (!isSymmetric && (teamDataA == null || teamDataB == null))
+      if (teamDataA == null || teamDataB == null)
       {
         local economicName = event?.economicName  // warning disable: -declared-never-used
         ::script_net_assert_once("not found event teamdata", "missing teamdata in event")

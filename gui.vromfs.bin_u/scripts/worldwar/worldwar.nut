@@ -370,7 +370,7 @@ g_world_war.getLockedCountryData <- function getLockedCountryData()
     return null
 
   return {
-    country = curOperationCountry
+    availableCountries = [curOperationCountry]
     reasonText = ::loc("worldWar/cantChangeCountryInOperation")
   }
 }

@@ -74,7 +74,8 @@ enums.addTypes(result, {
     pageBlkName = "gui/help/controlsAircraft.blk"
     imagePattern = "#ui/images/country_%s_controls_help.jpg?P1"
     defaultValues = { country = "ussr" }
-    hasImageByCountries = [ "ussr", "usa", "britain", "germany", "japan", "china", "italy", "france" ]
+    hasImageByCountries = [ "ussr", "usa", "britain", "germany", "japan", "china", "italy",
+      "france", "sweden" ]
     linkLines = {
       obstacles = ["ID_LOCK_TARGET_not_default_0"]
       links = [

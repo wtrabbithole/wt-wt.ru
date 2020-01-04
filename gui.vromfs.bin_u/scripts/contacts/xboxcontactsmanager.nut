@@ -209,13 +209,12 @@ local xboxOverlayContactClosedCallback = function(playerStatus)
     return
 
   local xboxContactsToCheck = ::u.filter(::contacts_players, @(contact) contact.needCheckForceOffline())
-  foreach (contact in xboxContactsToCheck)
-  {
+  xboxContactsToCheck.each(function(contact) {
     if (contact.xboxId != "")
       ::can_view_target_presence(contact.xboxId)
     else
       contact.getXboxId(@() ::can_view_target_presence(contact.xboxId))
-  }
+  })
 
   updateXboxOneFriends()
 }, this)

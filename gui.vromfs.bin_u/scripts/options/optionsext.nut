@@ -3850,6 +3850,7 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_INVERTY_HELICOPTER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y, value ? 1 : 0)
+      break
     case ::USEROPT_INVERTY_HELICOPTER_GUNNER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_GUNNER_Y, value ? 1 : 0)
       break
@@ -4429,8 +4430,9 @@ local isWaitMeasureEvent = false
       break
 
     case ::USEROPT_TAKEOFF_MODE:
-      if (descr.values.len() == 1)
-        break
+      if (descr.values.len() > 1 && (value in descr.values))
+        ::set_gui_option(optionId, descr.values[value])
+      break
 
     case ::USEROPT_MISSION_COUNTRIES_TYPE:
       if (value in descr.values)

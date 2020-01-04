@@ -860,7 +860,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
           }
         // No break!
 
-      case "mg":
+      case "mg": // warning disable: -missed-break
       case "gun":
       case "mgun":
       case "cannon":

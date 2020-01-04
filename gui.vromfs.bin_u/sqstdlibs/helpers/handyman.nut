@@ -27,8 +27,6 @@
  *  ::handyman.renderCached(template_name, view) use just template file name.
  */
 
-#no-plus-concat
-
 local g_string =  require("std/string.nut")
 
 /**
@@ -227,7 +225,7 @@ local Writer = class {
    * be omitted.
    */
   function renderTokens(tokens, context, partials, originalTemplate) {
-    local buffer = []
+    local buffer = ""
 
     // This function is used to render an arbitrary template
     // in the current context by higher-order sections.
@@ -248,34 +246,34 @@ local Writer = class {
           continue
         if (typeof value == "array") {
           for (local j = 0; j < value.len(); ++j) {
-            buffer.append(this.renderTokens(token[4], context.push(value[j]), partials, originalTemplate))
+            buffer += this.renderTokens(token[4], context.push(value[j]), partials, originalTemplate)
           }
         }
         else if (typeof value == "table" || typeof value == "instance" || typeof value == "string") { // !!!!
 
-          buffer.append(this.renderTokens(token[4], context.push(value), partials, originalTemplate))
+          buffer += this.renderTokens(token[4], context.push(value), partials, originalTemplate)
         }
         else if (typeof value == "function") {
           if (typeof originalTemplate != "string") {
             ::dagor.assertf(false, "Cannot use higher-order sections without the original template")
-            return "".join(buffer)
+            return buffer
           }
 
           // Extract the portion of the original template that the section contains.
           value = value.call(context.view, originalTemplate.slice(token[3], token[5]), subRender)
 
           if (typeof value == "string")
-            buffer.append(value)
+            buffer += value
         }
         else {
-          buffer.append(this.renderTokens(token[4], context, partials, originalTemplate))
+          buffer += this.renderTokens(token[4], context, partials, originalTemplate)
         }
       }
       else if (token[0] == "^"){
         value = context.lookup(token[1])
 
         if (!value || ((typeof value == "array") && value.len() == 0)) {
-          buffer.append(this.renderTokens(token[4], context, partials, originalTemplate))
+          buffer += this.renderTokens(token[4], context, partials, originalTemplate)
         }
       }
       else if (token[0] == ">") {
@@ -299,35 +297,35 @@ local Writer = class {
             valueTemplate = value
             valueTokens = this.parse(value)
           }
-          buffer.append(this.renderTokens(valueTokens, context, partials, valueTemplate))
+          buffer += this.renderTokens(valueTokens, context, partials, valueTemplate)
         }
       }
       else if (token[0] == "&") {
         value = context.lookup(token[1])
         if (value != null)
-          buffer.append(value)
+          buffer += value
       }
       else if(token[0] == "name") {
         value = context.lookup(token[1])
         if (value != null)
           if (typeof value == "string")
-            buffer.append(g_string.stripTags(value))
+            buffer += g_string.stripTags(value)
           else
-            buffer.append(value.tostring())
+            buffer += value.tostring()
 
       }
       else if (token[0] == "@") {
         value = context.lookup(token[1])
         if (value != null)
-          buffer.append(value.tostring())
+          buffer += value.tostring()
       }
       else if (token[0] == "?")
-        buffer.append(g_string.stripTags(::loc(token[1])))
+        buffer += g_string.stripTags(::loc(token[1]))
       else if (token[0] == "text")
-        buffer.append(token[1])
+        buffer += token[1]
     }
 
-    return "".join(buffer)
+    return buffer
   }
 
   function isWhitespace(string) {
@@ -346,7 +344,7 @@ local Writer = class {
 
     for(local i = matches.len() - 1; i >= 0; i--) {
       match = matches[i]
-      string = "".concat(string.slice(0, match.begin), "\\", string.slice(match.begin))
+      string = string.slice(0, match.begin) + "\\" + string.slice(match.begin)
     }
     return string
   }
@@ -354,12 +352,12 @@ local Writer = class {
   function escapeTags(tags) { //warning disable: -ident-hides-ident
 
     if (!(typeof tags == "array") || tags.len() != 2) {
-      ::dagor.assertf(false, $"Invalid tags: {tags}")
+      ::dagor.assertf(false, "Invalid tags: " + tags)
     }
 
     return [
-      ::regexp("".concat(escapeRegExp(tags[0]), "\\s*")),
-      ::regexp("".concat("\\s*", escapeRegExp(tags[1])))
+      ::regexp(escapeRegExp(tags[0]) + "\\s*"),
+      ::regexp("\\s*" + escapeRegExp(tags[1]))
     ]
   }
 
@@ -435,7 +433,7 @@ local Writer = class {
         scanner.scanUntil(tagRes[1])
       }
       else if (tType == "{") {
-        value = scanner.scanUntil(::regexp("".concat("\\s*", escapeRegExp("".concat("}", tags[1])))))
+        value = scanner.scanUntil(::regexp("\\s*" + escapeRegExp("}" + tags[1])))
         scanner.scan(curlyRe)
         scanner.scanUntil(tagRes[1])
         tType = "&"
@@ -446,7 +444,7 @@ local Writer = class {
 
       // Match the closing tag.
       if (!scanner.scan(tagRes[1])) {
-        ::dagor.assertf(false, $"Unclosed tag at {scanner.pos}")
+        ::dagor.assertf(false, "Unclosed tag at " + scanner.pos)
         scanError = true
         break
       }
@@ -461,13 +459,13 @@ local Writer = class {
         openSection = sections.len()? sections.pop() : null
 
         if (!openSection) {
-          ::dagor.assertf(false, $"Unopened section \"{value}\" at {start}")
+          ::dagor.assertf(false, "Unopened section \"" + value + "\" at " + start)
           scanError = true
           break
         }
 
         if (openSection[1] != value) {
-          ::dagor.assertf(false, $"Unclosed section \"{openSection[1]}\" at {start}")
+          ::dagor.assertf(false, "Unclosed section \"" + openSection[1] + "\" at " + start)
           scanError = true
           break
         }
@@ -484,7 +482,7 @@ local Writer = class {
 
     // Make sure there are no open sections when we're done.
     if (sections.len() > 0)
-      ::dagor.assertf(false, $"Unclosed section \"{sections[sections.len() - 1][1]}\" at {scanner.pos}")
+      ::dagor.assertf(false, "Unclosed section \"" + sections[sections.len() - 1][1] + "\" at " + scanner.pos)
 
     if (scanError)
       tokens = []
@@ -505,7 +503,7 @@ local Writer = class {
 
       if (token) {
         if (token[0] == "text" && lastToken && lastToken[0] == "text") {
-          lastToken[1] = "".concat(lastToken[1], token[1])
+          lastToken[1] += token[1]
           lastToken[3] = token[3]
         }
         else {
@@ -648,7 +646,7 @@ local Writer = class {
       }
 
       local includeRes = ::load_template_text(fName)
-      template = "".concat(template.slice(0, startIdx), includeRes, template.slice(endIdx + 1))
+      template = template.slice(0, startIdx) + includeRes + template.slice(endIdx + 1)
     }
     return template
   }
@@ -724,6 +722,6 @@ local partials = {
     }
     layout_insertion = "wink:t='yes';"
   }
-  ::dlog("before render")
+  ::dlog("before render" + 1)
   ::dlog(handyman.render(testTemplate, testView, partials))
 }

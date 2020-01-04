@@ -929,10 +929,12 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    local lockedCountryData = ::g_world_war.getLockedCountryData()
-      || ::g_squad_manager.getLockedCountryData()
+    local lockedCountryData = ::SessionLobby.getLockedCountryData()
+      ?? ::g_world_war.getLockedCountryData()
+      ?? ::g_squad_manager.getLockedCountryData()
 
-    if (lockedCountryData && lockedCountryData.country != countryData.country)
+    if (lockedCountryData != null
+      && !::isInArray(countryData.country, lockedCountryData.availableCountries))
     {
       setCountry(::get_profile_country_sq())
       ::showInfoMsgBox(lockedCountryData.reasonText)

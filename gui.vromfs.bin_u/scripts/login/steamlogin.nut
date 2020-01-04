@@ -70,7 +70,8 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
       case ::YU2_OK:
         if (::steam_is_running() && !::has_feature("AllowSteamAccountLinking"))
           ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, true)
-      default:
+          // no break!
+      default:  // warning disable: -missed-break
         base.proceedAuthorizationResult(result, no_dump_login)
     }
   }

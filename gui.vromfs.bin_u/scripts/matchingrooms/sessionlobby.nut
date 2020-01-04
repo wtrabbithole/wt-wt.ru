@@ -294,6 +294,23 @@ local allowed_mission_settings = { //only this settings are allowed in room
       : ::g_difficulty.getDifficultyByName(diffValue)
     return difficulty
   }
+
+  function getLockedCountryData() {
+    if (crsSetTeamTo == Team.none)
+      return null
+
+    local availableCountries = getTeamData(crsSetTeamTo)?.countries ?? []
+    if (availableCountries.len() == 0)
+      return null
+
+    return {
+      availableCountries = availableCountries
+      reasonText = ::loc("multiplayer/cantChangeCountryInLobby", {
+        availableCountries = "".concat(::loc("available_countries"), ::loc("ui/colon"),
+          ::loc("ui/comma").join(availableCountries.map(@(c) ::loc(c))))
+      })
+    }
+  }
 }
 
 SessionLobby.setIngamePresence <- function setIngamePresence(roomPublic, roomId)
@@ -1403,7 +1420,13 @@ SessionLobby.checkMyTeam <- function checkMyTeam() //returns changed data
   }
 
   if (setTeamTo != Team.none && setTeam(setTeamTo, true))
+  {
     data.team <- team
+    local myCountry = ::get_profile_country_sq()
+    local availableCountries = getTeamData(team)?.countries ?? []
+    if (availableCountries.len() > 0 && !::isInArray(myCountry, availableCountries))
+      ::switch_profile_country(availableCountries[0])
+  }
   return data
 }
 

@@ -24,7 +24,7 @@ local escapeConfig = null
  */
 // Reverse operation to split()
 local function implode(pieces = [], glue = "") {
-  return glue.join(pieces, true)
+  return glue.join(pieces, true) ?? ""
 }
 
 /**
@@ -38,7 +38,7 @@ local function implode(pieces = [], glue = "") {
  *                    with the glue string between each element.
  */
 local function join(pieces, glue="") {
-  return glue.join(pieces)
+  return glue.join(pieces) ?? ""
 }
 
 /**
@@ -149,7 +149,7 @@ local function func2str(func, p={}){
   local showsrc = p?.showsrc ?? false
   local showparams = p?.showparams ?? compact
   local showdefparams = p?.showdefparams ?? compact
-  local tostr_func = p?.tostr_func ?? @(v) "".concat(v)
+  local tostr_func = p?.tostr_func ?? @(v) ("".concat(v) ?? "")
 
   if (::type(func)=="thread") {
     return $"thread: {func.getstatus()}"
@@ -166,7 +166,7 @@ local function func2str(func, p={}){
     local params_str = []
     if (params.len()>0) {
       if (reqparams.len()>0)
-        params_str.append(", ".join(reqparams))
+        params_str.append(", ".join(reqparams) ?? "")
       if (optparams.len()>0) {
         foreach (i, op in optparams) {
           params_str.append(op)
@@ -177,7 +177,7 @@ local function func2str(func, p={}){
         }
       }
     }
-    local fname = "".concat(info.name)
+    local fname = "".concat(info.name) ?? ""
     if (fname.slice(0,1)=="(")
       fname = "@"
     if (showsrc)
@@ -192,7 +192,7 @@ local function func2str(func, p={}){
   } else {
     out.append(func.tostring())
   }
-  return "".join(out)
+  return "".join(out) ?? ""
 }
 
 local simple_types = ["string", "float", "bool", "integer","null"]
@@ -359,7 +359,7 @@ local function tostring_r(input, params=defTostringParams) {
         }
       }
     }
-    return "".join(out)
+    return "".join(out) ?? ""
   }
   return sub_tostring_r([input], "", 0,true)
 }
@@ -526,7 +526,7 @@ local function toUpper(str, symbolsNum = 0) {
   if (symbolsNum >= str.len()) {
     return str.toupper()
   }
-  return "".concat(slice(str, 0, symbolsNum).toupper(),slice(str, symbolsNum))
+  return "".concat(slice(str, 0, symbolsNum).toupper(),slice(str, symbolsNum)) ?? ""
 }
 
 local function toLower(str, symbolsNum = 0) {
@@ -536,7 +536,7 @@ local function toLower(str, symbolsNum = 0) {
   if (symbolsNum >= str.len()) {
     return str.tolower()
   }
-  return "".concat(slice(str, 0, symbolsNum).tolower(), slice(str, symbolsNum))
+  return "".concat(slice(str, 0, symbolsNum).tolower(), slice(str, symbolsNum)) ?? ""
 }
 
 local function replace(str, from, to) {
@@ -646,7 +646,7 @@ local function utf8ToUpper(str, symbolsNum = 0) {
   if (symbolsNum <= 0 || symbolsNum >= strLength)
     return utf8Str.strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER)
   return "".concat(::utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER),
-   utf8Str.slice(symbolsNum, strLength))
+   utf8Str.slice(symbolsNum, strLength)) ?? ""
 }
 
 local function utf8ToLower(str) {
@@ -698,7 +698,7 @@ local function intToStrWithDelimiter(value, delimiter = " ", charsAmount = 3) {
   local idx = res.len()
   while (idx > charsAmount + negativeSignCorrection) {
     idx -= charsAmount
-    res = delimiter.concat(res.slice(0, idx), res.slice(idx))
+    res = delimiter.concat(res.slice(0, idx), res.slice(idx)) ?? ""
   }
   return res
 }
@@ -756,13 +756,13 @@ local function pprint(...){
       if (k==0)
         res = i
       else if (prev_val_newline && len<maxlen)
-        res = " ".concat(res.slice(0,-1), i)
+        res = " ".concat(res.slice(0,-1), i) ?? ""
       else if (len>=maxlen){
-        res = "\n ".concat(res, i)
+        res = "\n ".concat(res, i) ?? ""
         len = i.len()
       }
       else
-        res = " ".concat(res, i)
+        res = " ".concat(res, i) ?? ""
 
       prev_val_newline = i.slice(-1) == "\n" && len < maxlen
     }
@@ -781,7 +781,7 @@ local function validateEmail(no_dump_email) {
 
   local locpart = str[0]
   if (str.len() > 2)
-    locpart = "@".join(str.slice(0,-1))
+    locpart = "@".join(str.slice(0,-1)) ?? ""
   if (locpart.len() > 64)
     return false
 

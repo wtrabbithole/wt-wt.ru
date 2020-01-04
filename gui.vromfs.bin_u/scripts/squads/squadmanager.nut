@@ -1683,7 +1683,7 @@ g_squad_manager.getLockedCountryData <- function getLockedCountryData()
     return null
 
   return {
-    country = getWwOperationCountry()
+    availableCountries = [getWwOperationCountry()]
     reasonText = ::loc("worldWar/cantChangeCountryInBattlePrepare")
   }
 }

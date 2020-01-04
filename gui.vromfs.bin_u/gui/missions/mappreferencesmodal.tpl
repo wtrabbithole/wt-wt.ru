@@ -39,11 +39,13 @@ root {
           id:t='search_container'
           width:t='pw -1@framePadding'
           padding:t='-1@framePadding +1@mapPreferenceIconMargin, 0'
-          padding-bottom:t='1@mapPreferenceIconMargin'
+          padding-bottom:t='1@framePadding'
 
           DummyButton {
             btnName:t='LB'
             on_click:t='onFilterEditBoxAccessKey'
+            pos:t='0, 0.5ph-0.5h'
+            position:t='relative'
             ButtonImg {
               class:t='independent'
               fullSizeIcons:t='yes'
@@ -60,7 +62,7 @@ root {
           flow:t='h-flow'
           overflow-y:t='auto'
           behaviour:t='posNavigator'
-          navigatorShortcuts:t='SpaceA'
+          navigatorShortcuts:t='yes'
           scrollbarShortcuts:t='yes'
           position:t='relative'
           on_select:t='onSelect'
@@ -158,6 +160,7 @@ root {
           width:t='1@mapPreferencePreviewSize + 1@framePadding'
           height:t='ph - 1@buttonHeight - 2@buttonMargin'
           padding-left:t='1@framePadding'
+          padding-top:t='1@framePadding'
           flow:t='vertical'
           position:t='relative'
           css-hier-invalidate:t='yes'
@@ -166,6 +169,7 @@ root {
             id:t='title'
             class:t='active'
             width:t='1@mapPreferencePreviewSize'
+            padding-bottom:t='1@framePadding'
             text:t=''
           }
 

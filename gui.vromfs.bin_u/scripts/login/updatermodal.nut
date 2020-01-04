@@ -138,9 +138,6 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
 
   function onFinish()
   {
-    timer = -1
-    bgTimer = -1
-
     isFinished = true
 
     if (errorCode < 0)

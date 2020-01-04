@@ -89,6 +89,8 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function updatePreviewButtonsState()
   {
+    if(currentMapId < 0)
+      return
     local isLevelBanMode = curEvent.missionsBanMode == "level"
     local banned = mapsList[currentMapId].banned
     local disliked = mapsList[currentMapId].disliked

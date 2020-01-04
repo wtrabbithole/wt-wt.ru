@@ -1,3 +1,4 @@
+local { getTimestampFromStringUtc } = require("scripts/time.nut")
 local { haveDiscount, canUseIngameShop } = ::is_platform_ps4? require("scripts/onlineShop/ps4ShopData.nut")
   : ::is_platform_xboxone? require("scripts/onlineShop/xboxShopData.nut")
     : { haveDiscount = @() false, canUseIngameShop = @() false }
@@ -24,6 +25,25 @@ local topMenuOnlineShopId = ::is_platform_ps4? ::g_top_menu_buttons.PS4_ONLINE_S
 
   onEventXboxShopDataUpdated = @(p) updateOnlineShopDiscounts()
   onEventPs4ShopDataUpdated = @(p) updateOnlineShopDiscounts()
+
+  function updateGiftUnitsDiscountFromGuiBlk(giftUnits) { // !!!FIX ME Remove this function when gift units discount will received from char
+    if (!::is_platform_pc)
+      return
+
+    local discountConfig = ::configs.GUI.get()?.entitlement_units_discount
+    if (discountConfig == null)
+      return
+
+    local startTime = getTimestampFromStringUtc(discountConfig.beginDate)
+    local endTime = getTimestampFromStringUtc(discountConfig.endDate)
+    local currentTime = get_charserver_time_sec()
+    if (currentTime < startTime || currentTime > endTime)
+      return
+
+    foreach (unitName, discount in discountConfig)
+      if (unitName in giftUnits)
+        discountsList.entitlementUnits[unitName] <- discount
+  }
 }
 
 g_discount.clearDiscountsList <- function clearDiscountsList()
@@ -111,6 +131,8 @@ g_discount.updateDiscountData <- function updateDiscountData(isSilentUpdate = fa
   local eblk = ::get_entitlements_price_blk() || ::DataBlock()
   foreach (entName, entBlock in eblk)
     checkEntitlement(entName, entBlock, giftUnits)
+
+  updateGiftUnitsDiscountFromGuiBlk(giftUnits)  // !!!FIX ME Remove this function when gift units discount will received from char
 
   if (canUseIngameShop() && topMenuOnlineShopId != "")
     discountsList[topMenuOnlineShopId] = haveDiscount()
