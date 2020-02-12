@@ -165,7 +165,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!tab)
       return
 
-    pageUnitType = tab?.pageUnitType
+    pageUnitType = ::g_unit_type.getByBit(tab?.pageUnitTypeBit)
     pageUnitTag = tab?.pageUnitTag
 
     local sheetObj = scene.findObject("help_sheet")
