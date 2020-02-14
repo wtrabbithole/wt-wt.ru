@@ -1,3 +1,5 @@
+local { getRoleText, getUnitRoleIcon } = require("scripts/unit/unitInfoTexts.nut")
+
 ::g_unit_limit_classes <- {
 }
 
@@ -67,8 +69,8 @@ class ::g_unit_limit_classes.LimitByUnitRole extends ::g_unit_limit_classes.Limi
 {
   function getText()
   {
-    local fontIcon = ::colorize("activeTextColor", ::get_unit_role_icon(name))
-    return fontIcon + ::get_role_text(name) + ::loc("ui/colon") + ::colorize("activeTextColor", getRespawnsLeftText())
+    local fontIcon = ::colorize("activeTextColor", getUnitRoleIcon(name))
+    return fontIcon + getRoleText(name) + ::loc("ui/colon") + ::colorize("activeTextColor", getRespawnsLeftText())
   }
 }
 

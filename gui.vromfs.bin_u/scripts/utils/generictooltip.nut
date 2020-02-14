@@ -39,11 +39,6 @@ g_tooltip.getIdSpare <- function getIdSpare(unitName)
   return ::g_tooltip_type.SPARE.getTooltipId(unitName)
 }
 
-g_tooltip.getIdCrewSkillCategory <- function getIdCrewSkillCategory(categoryName, unitTypeName)
-{
-  return ::g_tooltip_type.SKILL_CATEGORY.getTooltipId(categoryName, unitTypeName)
-}
-
 //specTypeCode == -1  -> current crew specialization
 g_tooltip.getIdCrewSpecialization <- function getIdCrewSpecialization(crewId, unitName, specTypeCode = -1)
 {

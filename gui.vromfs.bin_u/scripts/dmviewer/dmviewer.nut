@@ -1,3 +1,5 @@
+local { getParametersByCrewId } = require("scripts/crew/crewSkillParameters.nut")
+
 /*
   ::dmViewer API:
 
@@ -1262,7 +1264,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         local mainGunReloadTime = 0.0
         if (crew)
         {
-          local crewSkillParams = ::g_crew_skill_parameters.getParametersByCrewId(crew.id)
+          local crewSkillParams = getParametersByCrewId(crew.id, unit.name)
           local crewSkill = crewSkillParams?[difficulty.crewSkillName]?.loader
           mainGunReloadTime = crewSkill?.loading_time_mult?.tankLoderReloadingTime ?? 0
         }
@@ -1279,7 +1281,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
       case ::ES_UNIT_TYPE_SHIP:
         if (crew)
         {
-          local crewSkillParams = ::g_crew_skill_parameters.getParametersByCrewId(crew.id)
+          local crewSkillParams = getParametersByCrewId(crew.id, unit.name)
           local crewSkill = crewSkillParams?[difficulty.crewSkillName]?.ship_artillery
           foreach (c in [ "main_caliber_loading_time", "aux_caliber_loading_time", "antiair_caliber_loading_time" ])
           {

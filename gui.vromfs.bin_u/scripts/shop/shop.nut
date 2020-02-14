@@ -1957,7 +1957,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function initShowMode(tgtNavBar)
   {
     local obj = tgtNavBar.findObject("show_mode")
-    if (!::checkObj(obj))
+    if (!::g_login.isProfileReceived() || !::checkObj(obj))
       return
 
     local showModeRaw = ::load_local_account_settings("shopShowMode", -1)
@@ -2225,5 +2225,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return null
 
     return unit
+  }
+
+  getParamsForActionsList = @() {
+    setResearchManually = setResearchManually
+    shopResearchMode = shopResearchMode
+    onSpendExcessExp = ::Callback(onSpendExcessExp, this)
+    onCloseShop = ::Callback(onCloseShop, this)
   }
 }

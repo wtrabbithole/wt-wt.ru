@@ -10,6 +10,7 @@ foreach (name, func in require("dagor.localize"))
 local __math = require("math")
 ::fabs<-__math.fabs
 ::kwarg <- require("std/functools.nut").kwarg
+::Watched <- require("frp").Watched
 
 ::script_protocol_version <- null
 ::dagor.runScript("scripts/version.nut")
@@ -528,7 +529,6 @@ local isFullScriptsLoaded = false
     "slotbar/slotbar.nut"
     "slotbar/slotbarWidget.nut"
     "slotbar/selectCrew.nut"
-    "slotbar/selectUnit.nut"
     "slotbar/slotbarPresetsList.nut"
 
     "onlineInfo/onlineInfo.nut"
@@ -858,6 +858,7 @@ local isFullScriptsLoaded = false
   ::require("scripts/slotbar/elems/discountIconElem.nut")
   ::require("scripts/slotbar/elems/squadronExpIconElem.nut")
   ::require("scripts/matching/serviceNotifications/showInfo.nut")
+  require("scripts/unit/unitContextMenu.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

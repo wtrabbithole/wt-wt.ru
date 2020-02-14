@@ -168,7 +168,7 @@ class ::WwBattleView
         isArmyAlwaysUnhovered = true
         needShortInfoText = hasArmyInfo
         hasTextAfterIcon = hasArmyInfo
-        isAlignRight = canAlignRight && sideIdx != 0
+        isInvert = canAlignRight && sideIdx != 0
       }
 
       armies.armyViews = ::handyman.renderCached(sceneTplArmyViewsName, view)
@@ -218,7 +218,7 @@ class ::WwBattleView
 
   function unitsList(wwUnits, isReflected, hasLineSpacing)
   {
-    local view = {
+    local view = { infoSections = [{
       columns = [{unitString = wwActionsWithUnitsList.getUnitsListViewParams({
         wwUnits = wwUnits
         params = { needShopInfo = true }
@@ -227,7 +227,7 @@ class ::WwBattleView
       reflect = isReflected
       isShowTotalCount = true
       hasSpaceBetweenUnits = hasLineSpacing
-    }
+    }]}
     return ::handyman.renderCached("gui/worldWar/worldWarMapArmyInfoUnitsList", view)
   }
 

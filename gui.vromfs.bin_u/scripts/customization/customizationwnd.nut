@@ -661,10 +661,13 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       buttonTooltip = "#mainmenu/decalUnitLocked"
     else if (!canEditDecals)
       buttonTooltip = "#mainmenu/decalSkinLocked"
-    else if (!slot.unlocked && ::has_feature("EnablePremiumPurchase"))
-      buttonTooltip = "#mainmenu/onlyWithPremium"
-    else
-      buttonTooltip = "#charServer/notAvailableYet"
+    else if (!slot.unlocked)
+    {
+      if (::has_feature("EnablePremiumPurchase"))
+        buttonTooltip = "#mainmenu/onlyWithPremium"
+      else
+        buttonTooltip = "#charServer/notAvailableYet"
+    }
 
     return {
       id = null

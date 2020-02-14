@@ -182,6 +182,9 @@ local SeenList = class {
 
   function setSeen(entityOrList, shouldSeen)
   {
+    if (!::g_login.isProfileReceived()) //Don't try to mark or init seen list before profile received
+      return
+
     initOnce()
 
     if (!entityOrList)

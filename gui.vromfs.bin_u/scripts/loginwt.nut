@@ -2,6 +2,7 @@ local penalties = require("scripts/penitentiary/penalties.nut")
 local tutorialModule = require("scripts/user/newbieTutorialDisplay.nut")
 local contentStateModule = require("scripts/clientState/contentState.nut")
 local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
+local fxOptions = require("scripts/options/fxOptions.nut")
 
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
@@ -235,6 +236,17 @@ g_login.initConfigs <- function initConfigs(cb)
     function()
     {
       if (should_agree_eula(::nda_version, ::TEXT_NDA) || should_agree_eula(::eula_version, ::TEXT_EULA))
+        return PT_STEP_STATUS.SUSPEND
+      return null
+    }
+    function()
+    {
+      if (fxOptions.needShowHdrSettingsOnStart())
+        fxOptions.openHdrSettings()
+    }
+    function()
+    {
+      if (fxOptions.needShowHdrSettingsOnStart())
         return PT_STEP_STATUS.SUSPEND
       return null
     }

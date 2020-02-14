@@ -218,6 +218,24 @@ root {
 
       navRight {
         Button_text {
+          id:t='btn_slotbar_help'
+          text:t='#topmenu/help'
+          _on_click:t='onShowSlotbarHelp'
+          btnName:t='L3'
+          display:t='hide'
+          enable:t='no'
+          ButtonImg {}
+
+          hasUnseenIcon:t='no'
+          newIconWidget {
+            id:t='btn_slotbar_help_unseen_icon'
+            display:t='hide'
+            newIconWidgetImg {
+              background-image:t='#ui/gameuiskin#new_icon'
+            }
+          }
+        }
+        Button_text {
           id:t='btn_auto_preset'
           text:t='#worldwar/btnAutoPreset'
           _on_click:t='onRunAutoPreset'
@@ -225,6 +243,12 @@ root {
           display:t='hide'
           enable:t='no'
           ButtonImg {}
+          warningIcon {
+            id:t='auto_preset_warning_icon'
+            type:t='warning'
+            tooltip:t='#generatePreset/warning/can_create_best_preset/tooltip'
+            display:t='hide'
+          }
         }
         Button_text {
           id:t='btn_join_battle'

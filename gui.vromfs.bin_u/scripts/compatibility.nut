@@ -59,7 +59,8 @@
   function shop_get_premium_account_ent_name() {return "PremiumAccount"}
   ww_get_load_army_to_transport_error = @() ""
   ww_get_unload_army_from_transport_error = @() ""
-  ww_get_army_custom_icon = @(armyName, isReinforcement) ""
+  ww_get_army_override_icon = @(overrideIcon, loadedArmyTypeStr, isAtillery) ""
+  ww_get_loaded_army_type = @(armyName, isReinforcement) ""
   ww_get_loaded_transport = @(blk) blk
   AUT_None = -1
   AUT_ArtilleryFire = 0
@@ -72,4 +73,10 @@
   get_allow_to_be_added_to_contacts = @() true
   set_allow_to_be_added_to_contacts = @(val) null
   is_hdr_available = @() true
+})
+
+//----------------------------wop_1_95_0_X---------------------------------//
+::apply_compatibilities({
+  is_hdr_enabled = @() false
+  get_aircraft_crew_blk = @(crewId, unitName) ::get_aircraft_crew_by_id(crewId)
 })

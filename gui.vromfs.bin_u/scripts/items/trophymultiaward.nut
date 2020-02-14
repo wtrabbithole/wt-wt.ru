@@ -1,3 +1,5 @@
+local { getRoleText } = require("scripts/unit/unitInfoTexts.nut")
+
 class TrophyMultiAward
 {
   blk = null
@@ -210,7 +212,7 @@ class TrophyMultiAward
                           function(val) {
                             local role = val.tolower()
                             role = ::g_string.cutPrefix(role, "exp_", role)
-                            return ::colorize(condColor, ::get_role_text(role))
+                            return ::colorize(condColor, getRoleText(role))
                           }.bindenv(this))
 
     text += ::g_string.implode(classes, ", ")

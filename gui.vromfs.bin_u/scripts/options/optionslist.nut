@@ -29,7 +29,7 @@ local getMainOptions = function()
       [::USEROPT_LANGUAGE, "spinner", ! ::is_in_flight() && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! ::is_in_flight() && !::is_ps4_or_xbox],
       [::USEROPT_FONTS_CSS, "spinner"],
-      [::USEROPT_GAMMA, "slider", ::target_platform != "macosx"
+      [::USEROPT_GAMMA, "slider", !::is_hdr_enabled() && ::target_platform != "macosx"
                                   && (!::is_platform_windows
                                       || ::getSystemConfigOption("video/mode") == "fullscreen") ],
       [::USEROPT_CLUSTER, "spinner", ! ::is_in_flight() && ::is_platform_ps4],

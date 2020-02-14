@@ -1,3 +1,5 @@
+local { trainCrewUnitWithoutSwitchCurrUnit } = require("scripts/crew/crewActions.nut")
+
 class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -80,6 +82,13 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (rowUnit == null)
       return
 
+    if (isRecrutedCurCrew()
+      && rowUnit.isUsable()
+      && ::g_crew_spec_type.getTypeByCrewAndUnit(crew, rowUnit) == ::g_crew_spec_type.UNKNOWN) {
+        trainCrewUnitWithoutSwitchCurrUnit(crew, rowUnit)
+        return
+    }
+
     ::g_crew.upgradeUnitSpec(crew, rowUnit)
   }
 
@@ -116,7 +125,12 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
     local hasNextType = specType.hasNextType()
     local nextType = specType.getNextType()
     local reqLevel = hasNextType ? nextType.getReqCrewLevel(unit) : 0
-    local enableForBuy = reqLevel <= crewLevel
+    local isRecrutedCrew = isRecrutedCurCrew()
+    local needToTrainUnit = specType == ::g_crew_spec_type.UNKNOWN
+    local isUsableUnit = unit.isUsable()
+    local canCrewTrainUnit = isRecrutedCrew && needToTrainUnit
+      && isUsableUnit
+    local enableForBuy = !needToTrainUnit && reqLevel <= crewLevel
     local isProgressBarVisible = specType.needShowExpUpgrade(crew, unit)
     local progressBarValue = 0
     if (isProgressBarVisible)
@@ -134,15 +148,18 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
       buySpecTooltipId2 = ::g_crew_spec_type.ACE.getBtnBuyTooltipId(crew, unit)
       buySpecTooltipId = ::g_tooltip.getIdBuyCrewSpec(crew.id, unit.name, -1)
       curValue = specType.getName()
-      costText = hasNextType
-        ? specType.getUpgradeCostByCrewAndByUnit(crew, unit).tostring()
+      costText = hasNextType ? specType.getUpgradeCostByCrewAndByUnit(crew, unit).tostring()
+        : canCrewTrainUnit ? ::g_crew.getCrewTrainCost(crew, unit).getTextAccordingToBalance()
         : ""
-      enableForBuy = enableForBuy
-      buttonRowDisplay = hasNextType ? "show" : "hide"
+      enableForBuy = enableForBuy || canCrewTrainUnit
+      buttonRowDisplay = (hasNextType || canCrewTrainUnit
+        || (isRecrutedCrew && !isUsableUnit)) ? "show" : "hide"
       buttonRowText = hasNextType
         ? enableForBuy
           ? specType.getButtonLabel()
           : ::loc("crew/qualifyRequirement", { reqLevel = reqLevel })
+        : canCrewTrainUnit ? ::loc("mainmenu/btnTrainCrew")
+        : isRecrutedCrew && !isUsableUnit ? ::loc("weaponry/unit_not_bought")
         : ""
       progressBarDisplay = isProgressBarVisible ? "show" : "hide"
       progressBarValue = progressBarValue
@@ -181,4 +198,6 @@ class ::gui_handlers.CrewUnitSpecHandler extends ::gui_handlers.BaseGuiHandlerWT
         ::hideBonus(discObj)
     }
   }
+
+  isRecrutedCurCrew = @() crew.id != -1
 }

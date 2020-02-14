@@ -2,7 +2,7 @@ class ::WwArmyGroup
 {
   clanId               = ""
   name                 = ""
-  supremeCommanderId   = ""
+  supremeCommanderUid   = ""
   supremeCommanderNick = ""
 
   unitType = ::g_ww_unit_type.GROUND.code
@@ -11,32 +11,42 @@ class ::WwArmyGroup
 
   managerUids  = null
   observerUids = null
+  activeManagerUids = null
 
   armyView = null
+
+  actionCounts  = null
+  armyManagers = null
+  unupdatedCount = 0
 
   constructor(blk)
   {
     clanId               = ::getTblValue("clanId", blk, "").tostring()
     name                 = ::getTblValue("name", blk, "")
-    supremeCommanderId   = ::getTblValue("supremeCommanderId", blk, "")
+    supremeCommanderUid   = ::getTblValue("supremeCommanderUid", blk, "")
     supremeCommanderNick = ::getTblValue("supremeCommanderNick", blk, "")
     owner                = ::WwArmyOwner(blk.getBlockByName("owner"))
+    armyManagers         = []
     managerUids          = blk.getBlockByName("managerUids") % "item"
     observerUids         = blk.getBlockByName("observerUids") % "item" || []
+    updateActionCounts(blk.getBlockByName("managerStats"))
   }
-
 
   function clear()
   {
     clanId               = ""
     name                 = ""
-    supremeCommanderId   = ""
+    supremeCommanderUid   = ""
     supremeCommanderNick = ""
 
     owner = null
 
     managerUids  = null
     observerUids = null
+    activeManagerUids = null
+
+    actionCounts = null
+    unupdatedCount = 0
   }
 
   function isValid()
@@ -120,7 +130,7 @@ class ::WwArmyGroup
 
   function getAccessLevel()
   {
-    if (supremeCommanderId == ::my_user_id_int64 || ::has_feature("worldWarMaster"))
+    if (supremeCommanderUid == ::my_user_id_int64 || ::has_feature("worldWarMaster"))
       return WW_BATTLE_ACCESS.SUPREME
 
     if (owner.side == ::ww_get_player_side())
@@ -147,5 +157,21 @@ class ::WwArmyGroup
     return accessLevel == WW_BATTLE_ACCESS.OBSERVER ||
            accessLevel == WW_BATTLE_ACCESS.MANAGER ||
            accessLevel == WW_BATTLE_ACCESS.SUPREME
+  }
+
+  function updateActionCounts(blk)
+  {
+    if (!blk)
+      return
+
+    activeManagerUids = []
+    actionCounts = {}
+    foreach(mUid, inst in blk)
+      if(inst)
+      {
+        activeManagerUids.append(mUid)
+        actionCounts[mUid] <- inst?.actionsCount ?? 0
+      }
+    unupdatedCount = activeManagerUids.len()
   }
 }

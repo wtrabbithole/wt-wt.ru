@@ -1,9 +1,10 @@
 local time = require("scripts/time.nut")
-local systemMsg = ::require("scripts/utils/systemMsg.nut")
-local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
+local systemMsg = require("scripts/utils/systemMsg.nut")
+local seenEvents = require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 local crossplayModule = require("scripts/social/crossplay.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
@@ -1933,7 +1934,7 @@ class Events
 
         local airIconObj = ruleObj.findObject("air_icon")
         airIconObj["background-image"] = ::getUnitClassIco(rule.name)
-        airIconObj.shopItemType = ::get_unit_role(rule.name)
+        airIconObj.shopItemType = getUnitRole(rule.name)
 
         ruleObj.findObject("tooltip_obj").tooltipId = ::g_tooltip.getIdUnit(air.name, { needShopInfo = true })
       }

@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 local replayMetadata = require("scripts/replays/replayMetadata.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 
 enum SPECTATOR_MODE {
   RESPAWN     // Common multiplayer battle participant between respawns or after death.
@@ -1082,7 +1083,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
       local unitId = player.aircraftName != "" ? player.aircraftName : null
       local iconImg = !player.ingame ? "#ui/gameuiskin#player_not_ready" : unitId ? ::getUnitClassIco(unitId) : "#ui/gameuiskin#dead"
-      local iconType = unitId ? ::get_unit_role(unitId) : ""
+      local iconType = unitId ? getUnitRole(unitId) : ""
       local stateDesc = getPlayerStateDesc(player)
       local malfunctionDesc = getUnitMalfunctionDesc(player)
 

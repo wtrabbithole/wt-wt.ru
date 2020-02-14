@@ -1124,7 +1124,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     value = ::clearBorderSymbols(value)
 
     local searchGroupActiveTextObject = scene.findObject("search_group_active_text")
-    searchGroupActiveTextObject.text = ::loc("contacts/" + searchGroup) + ": " + value
+    local searchGroupText = ::loc($"contacts/{searchGroup}")
+    searchGroupActiveTextObject.setValue($"{searchGroupText}: {value}")
 
     local taskId = ::find_nicks_by_prefix(value, maxSearchPlayers, true)
     if (taskId >= 0)

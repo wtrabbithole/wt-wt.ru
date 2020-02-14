@@ -50,6 +50,8 @@ class ::WwArmy extends ::WwFormation
     deathReason = ::get_blk_value_by_path(blk, "specs/deathReason", "")
     armyFlags = ::get_blk_value_by_path(blk, "specs/flags", 0)
     transportType = transportTypeByTextCode?[blk?.specs.transportInfo.type ?? "TT_NONE"] ?? ::TT_NONE
+    if (isTransport())
+      loadedArmyType = blk?.loadedArmyType ?? ::ww_get_loaded_army_type(armyName, false)
     suppliesEndMillisec = ::getTblValue("suppliesEndMillisec", blk, 0)
     entrenchEndMillisec = ::getTblValue("entrenchEndMillisec", blk, 0)
     stoppedAtMillisec = ::getTblValue("stoppedAtMillisec", blk, 0)

@@ -161,6 +161,35 @@ local function isUsersLeaderboard(lbModeData) {
   return lbModeData.appId == "1134"
 }
 
+local function updateClanByWWLBAndDo(clanInfo, afterUpdate)
+{
+  if(!::g_world_war.isWWSeasonActive())
+    return afterUpdate(clanInfo)
+
+  requestWwLeaderboardData("ww_clans",
+    {
+      gameMode = "ww_clans"
+      table    = "season"
+      start    = null
+      count    = 0
+      category = ::g_lb_category.WW_EVENTS_PERSONAL_ELO.field
+    },
+    function (response){
+      local lbData = response?[clanInfo.tag]
+      if(lbData)
+      {
+        local idx = lbData?.idx
+        local rating = lbData?.rating?.value_total
+        if(rating != null)
+          clanInfo.rating <- ::round(rating / 10000.0).tointeger()
+        if(idx != null)
+          clanInfo.place <- idx + 1
+      }
+      clanInfo.hasLBData <- lbData != null && clanInfo.canShowActivity()
+      afterUpdate(clanInfo)
+    }, {userId =  clanInfo.id})
+}
+
 return {
   modes = modes
   getSeasonDay = getSeasonDay
@@ -170,4 +199,5 @@ return {
   requestWwLeaderboardModes = requestWwLeaderboardModes
   convertWwLeaderboardData = convertWwLeaderboardData
   isUsersLeaderboard = isUsersLeaderboard
+  updateClanByWWLBAndDo = updateClanByWWLBAndDo
 }

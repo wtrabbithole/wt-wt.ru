@@ -355,7 +355,8 @@ Button_text[pc_style=no][hasConsoleImage=yes],
 Button_text[hasUnseenIcon=yes] {       padding-left:1@newWidgetIconHeight+1@buttonTextPadding;
 }
 
-Button_text[hasUnseenIcon=yes] > newIconWidget {
+Button_text[hasUnseenIcon=yes] > newIconWidget,
+Button_text[hasUnseenIcon=yes] > warningIcon {
   pos:0, 50%ph-50%h;
   position:absolute;
 }
@@ -364,7 +365,8 @@ Button_text[pc_style=no][btnName][hasUnseenIcon=yes] {
   padding-left:h+1@newWidgetIconHeight+1@buttonTextPadding;
 }
 
-Button_text[pc_style=no][btnName][hasUnseenIcon=yes] > newIconWidget {
+Button_text[pc_style=no][btnName][hasUnseenIcon=yes] > newIconWidget,
+Button_text[pc_style=no][btnName][hasUnseenIcon=yes] > warningIcon {
   pos:ph, 50%ph-50%h;
   position:absolute;
 }

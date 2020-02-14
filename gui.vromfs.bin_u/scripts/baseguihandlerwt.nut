@@ -1,8 +1,9 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
-local callback = ::require("sqStdLibs/helpers/callback.nut")
+local callback = require("sqStdLibs/helpers/callback.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
+local unitContextMenuState = require("scripts/unit/unitContextMenuState.nut")
 
 global const MAIN_FOCUS_ITEM_IDX = 4
 
@@ -102,7 +103,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function fillGamercard()
   {
-    ::fill_gamer_card(null, true, "gc_", scene)
+    ::fill_gamer_card(null, "gc_", scene)
     initGcBackButton()
     initSquadWidget()
     initVoiceChatWidget()
@@ -555,6 +556,11 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   }
 
   getParamsForActionsList = @() {}
+  getUnitParamsFromObj = @(unitObj) {
+    unit = ::getAircraftByName(unitObj?.unit_name)
+    crew = unitObj?.crew_id ? ::get_crew_by_id(unitObj.crew_id.tointeger()) : null
+  }
+
   function openUnitActionsList(unitObj, closeOnUnhover, ignoreSelect = false)
   {
     if (!::checkObj(unitObj) || (closeOnUnhover && !unitObj.isHovered()))
@@ -563,23 +569,14 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::checkObj(parentObj) || (!ignoreSelect && parentObj?.selected != "yes"))
       return
 
-    local actionsArray = getSlotbarActions()
-    local unit = ::getAircraftByName(unitObj?.unit_name)
-    if (!unit)
-      return
-
-    local crew = unitObj?.crew_id ? ::get_crew_by_id(unitObj.crew_id.tointeger()) : null
-    local actions = ::get_unit_actions_list({unit = unit,
-      crew = crew,
-      handler = this,
-      actions = actionsArray,
-      p = getParamsForActionsList()
-    })
-    if (!actions.actions.len())
-      return
-
-    actions.closeOnUnhover <- closeOnUnhover
-    ::gui_handlers.ActionsList.open(unitObj, actions)
+    unitContextMenuState({
+      unitObj = unitObj
+      actionsNames = getSlotbarActions()
+      closeOnUnhover = closeOnUnhover
+      curEdiff = getCurrentEdiff?() ?? -1
+      shouldCheckCrewsReady = shouldCheckCrewsReady
+      slotbar = getSlotbar()
+    }.__update(getParamsForActionsList()).__update(getUnitParamsFromObj(unitObj)))
   }
 
   function onUnitHover(obj)

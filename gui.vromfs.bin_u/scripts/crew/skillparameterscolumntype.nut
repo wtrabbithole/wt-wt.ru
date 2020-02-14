@@ -1,4 +1,6 @@
-local enums = ::require("sqStdlibs/helpers/enums.nut")
+local enums = require("sqStdlibs/helpers/enums.nut")
+local { getSkillValue, isAffectedBySpecialization, isAffectedByLeadership } = require("scripts/crew/crewSkills.nut")
+
 enum skillColumnOrder {
   TOTAL
   EQUALS_SIGN
@@ -166,7 +168,7 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
 
     checkSkill = function (memberName, skillName)
     {
-      return ::g_crew_skills.isAffectedBySpecialization(memberName, skillName)
+      return isAffectedBySpecialization(memberName, skillName)
     }
 
     getHeaderImage = function (params)
@@ -189,7 +191,7 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
 
     checkSkill = function (memberName, skillName)
     {
-      return ::g_crew_skills.isAffectedByLeadership(memberName, skillName)
+      return isAffectedByLeadership(memberName, skillName)
     }
     checkCrewUnitType = @(crewUnitType) crewUnitType == ::CUT_TANK || crewUnitType == ::CUT_SHIP
   }
@@ -217,7 +219,7 @@ enums.addTypesByGlobalName("g_skill_parameters_column_type", {
       local isUnitCompatible = unit && unit.unitType.hasAiGunners &&
         checkCrewUnitType(unit.unitType.crewUnitType)
       local unitTotalGunners = isUnitCompatible ? (unit?.gunnersCount ?? 0) : 0
-      local crewExpGunners = ::g_crew.getSkillValue(crewId, "gunner", "members")
+      local crewExpGunners = getSkillValue(crewId, unit, "gunner", "members")
       local curGunners = ::min(crewExpGunners, unitTotalGunners)
       local text = curGunners + ::loc("ui/slash") + unitTotalGunners
       if (isUnitCompatible)

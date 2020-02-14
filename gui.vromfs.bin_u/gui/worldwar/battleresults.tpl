@@ -120,10 +120,9 @@ tdiv {
 
       tdiv {
         width:t='pw'
-        padding:t='1@debrPad, 0, 0, 0'
 
         textareaNoTab {
-          width:t='0.3pw+@tableIcoSize'
+          width:t='0.4pw'
           text:t=''
         }
         textareaNoTab {
@@ -150,10 +149,9 @@ tdiv {
       <<#unitTypes>>
       tdiv {
         width:t='pw'
-        padding:t='1@debrPad, 0, 0, 0'
 
         textareaNoTab {
-          width:t='0.3pw + @tableIcoSize'
+          width:t='0.4pw'
           pos:t='0, ph/2-h/2'
           position:t='relative'
           pare-text:t='yes'
@@ -182,10 +180,9 @@ tdiv {
       <<#units>>
       tdiv {
         width:t='pw'
-        padding:t='1@debrPad, 0, 0, 0'
 
         tdiv {
-          width:t='0.3pw + @tableIcoSize'
+          width:t='0.4pw'
           pos:t='0, ph/2-h/2'
           position:t='relative'
 

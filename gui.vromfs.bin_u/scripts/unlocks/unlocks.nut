@@ -55,6 +55,24 @@ foreach(idx, a in ::air_stats_list)
 
 ::unlock_time_range_conditions <- ["timeRange", "char_time_range"]
 
+local unlockConditionUnitclasses = {
+  aircraft          = ::ES_UNIT_TYPE_AIRCRAFT
+  tank              = ::ES_UNIT_TYPE_TANK
+  typeLightTank     = ::ES_UNIT_TYPE_TANK
+  typeMediumTank    = ::ES_UNIT_TYPE_TANK
+  typeHeavyTank     = ::ES_UNIT_TYPE_TANK
+  typeSPG           = ::ES_UNIT_TYPE_TANK
+  typeSPAA          = ::ES_UNIT_TYPE_TANK
+  typeTankDestroyer = ::ES_UNIT_TYPE_TANK
+  typeFighter       = ::ES_UNIT_TYPE_AIRCRAFT
+  typeDiveBomber    = ::ES_UNIT_TYPE_AIRCRAFT
+  typeBomber        = ::ES_UNIT_TYPE_AIRCRAFT
+  typeAssault       = ::ES_UNIT_TYPE_AIRCRAFT
+  typeStormovik     = ::ES_UNIT_TYPE_AIRCRAFT
+  typeTransport     = ::ES_UNIT_TYPE_AIRCRAFT
+  typeStrikeFighter = ::ES_UNIT_TYPE_AIRCRAFT
+}
+
 ::is_unlocked_scripted <- function is_unlocked_scripted(unlockType, id)
 {
   local isUnlocked = ::is_unlocked(unlockType, id)
@@ -540,7 +558,7 @@ foreach(idx, a in ::air_stats_list)
           if (::isInArray(unitType, ::stats_tanks))
             return true
         foreach (unitClass in condition % "unitClass")
-          if (::getTblValue(unitClass, ::unlock_condition_unitclasses, ::ES_UNIT_TYPE_INVALID) == ::ES_UNIT_TYPE_TANK)
+          if ((unlockConditionUnitclasses?[unitClass] ?? ::ES_UNIT_TYPE_INVALID) == ::ES_UNIT_TYPE_TANK)
             return true
       }
       else if (condition.type == "playerUnit")

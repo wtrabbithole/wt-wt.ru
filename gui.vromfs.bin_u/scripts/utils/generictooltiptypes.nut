@@ -1,6 +1,9 @@
-local enums = ::require("sqStdlibs/helpers/enums.nut")
-local workshop = ::require("scripts/items/workshop/workshop.nut")
-local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local enums = require("sqStdlibs/helpers/enums.nut")
+local workshop = require("scripts/items/workshop/workshop.nut")
+local skinLocations = require("scripts/customization/skinLocations.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
+local { getSkillCategoryByName } = require("scripts/crew/crewSkills.nut")
+local { getSkillCategoryTooltipContent } = require("scripts/crew/crewSkillsView.nut")
 
 ::g_tooltip_type <- {
   types = []
@@ -417,9 +420,9 @@ enums.addTypesByGlobalName("g_tooltip_type", {
           continue
 
         list.append({
-          unitName = ::getUnitName(str, false)
+          unitName = ::getUnitName(str)
           icon = ::getUnitClassIco(str)
-          shopItemType = ::get_unit_role(unit)
+          shopItemType = getUnitRole(unit)
         })
       }
 
@@ -467,7 +470,7 @@ enums.addTypesByGlobalName("g_tooltip_type", {
           unitsView.append({
             name = ::getUnitName(unit)
             unitClassIcon = ::getUnitClassIco(unit.name)
-            shopItemType = ::get_unit_role(unit.name)
+            shopItemType = getUnitRole(unit)
             tooltipId = ::g_tooltip.getIdUnit(unit.name, { needShopInfo = true })
           })
       }
@@ -567,19 +570,20 @@ enums.addTypesByGlobalName("g_tooltip_type", {
   }
 
   SKILL_CATEGORY = { //by categoryName, unitTypeName
-    getTooltipId = function(categoryName, unitTypeName = "", p2 = null, p3 = null)
+    getTooltipId = function(categoryName, unitName = "", p2 = null, p3 = null)
     {
-      return _buildId(categoryName, { unitTypeName = unitTypeName })
+      return _buildId(categoryName, { unitName = unitName })
     }
     getTooltipContent = function(categoryName, params)
     {
-      local crewUnitType = ::g_unit_type.getByName(params?.unitTypeName, false).crewUnitType
-      local skillCategory = ::g_crew_skills.getSkillCategoryByName(categoryName)
+      local unit = ::getAircraftByName(params?.unitName ?? "")
+      local crewUnitType = (unit?.unitType ?? g_unit_type.INVALID).crewUnitType
+      local skillCategory = getSkillCategoryByName(categoryName)
       local crewCountryId = ::find_in_array(::shopCountriesList, ::get_profile_country_sq(), -1)
       local crewIdInCountry = ::getTblValue(crewCountryId, ::selected_crews, -1)
       local crewData = ::getSlotItem(crewCountryId, crewIdInCountry)
       if (skillCategory != null && crewUnitType != ::CUT_INVALID && crewData != null)
-        return ::g_crew_skills.getSkillCategoryTooltipContent(skillCategory, crewUnitType, crewData)
+        return getSkillCategoryTooltipContent(skillCategory, crewUnitType, crewData, unit)
       return ""
     }
   }
@@ -593,7 +597,7 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     {
       local crew = ::get_crew_by_id(::to_integer_safe(crewIdStr, -1))
       local unit = ::getAircraftByName(::getTblValue("unitName", params, ""))
-      if (!crew || !unit)
+      if (!unit)
         return ""
 
       local specType = ::g_crew_spec_type.getTypeByCode(::getTblValue("specTypeCode", params, -1))
@@ -615,7 +619,7 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     {
       local crew = ::get_crew_by_id(::to_integer_safe(crewIdStr, -1))
       local unit = ::getAircraftByName(::getTblValue("unitName", params, ""))
-      if (!crew || !unit)
+      if (!unit)
         return ""
 
       local specType = ::g_crew_spec_type.getTypeByCode(::getTblValue("specTypeCode", params, -1))
@@ -670,106 +674,6 @@ enums.addTypesByGlobalName("g_tooltip_type", {
     }
   }
 
-  WW_MAP_TOOLTIP_TYPE_ARMY = { //by crewId, unitName, specTypeCode
-    getTooltipContent = function(id, params)
-    {
-      if (!::is_worldwar_enabled())
-        return ""
-
-      local army = ::g_world_war.getArmyByName(params.currentId)
-      if (army)
-        return ::handyman.renderCached("gui/worldWar/worldWarMapArmyInfo", army.getView())
-      return ""
-    }
-  }
-
-  WW_MAP_TOOLTIP_TYPE_BATTLE = {
-    getTooltipContent = function(id, params)
-    {
-      if (!::is_worldwar_enabled())
-        return ""
-
-      local battle = ::g_world_war.getBattleById(params.currentId)
-      if (!battle.isValid())
-        return ""
-
-      local battleSides = ::g_world_war.getSidesOrder()
-      local view = battle.getView()
-      view.defineTeamBlock(::ww_get_player_side(), battleSides)
-      view.showBattleStatus = true
-      view.hideDesc = true
-      return ::handyman.renderCached("gui/worldWar/battleDescription", view)
-    }
-  }
-
-  WW_MAP_TOOLTIP_TYPE_GROUP = {
-    isCustomTooltipFill = true
-    fillTooltip = function(obj, handler, id, params)
-    {
-      if (!::is_worldwar_enabled())
-        return false
-
-      local group = ::u.search(::g_world_war.getArmyGroups(), (@(id) function(group) { return group.clanId == id})(id))
-      if (!group)
-        return false
-
-      local clanId = group.clanId
-      local clanTag = group.name
-
-      if (::is_in_clan() &&
-          (::clan_get_my_clan_id() == clanId
-          || ::clan_get_my_clan_tag() == clanTag)
-         )
-      {
-        ::requestMyClanData()
-        if (!::my_clan_info)
-          return false
-
-        local clanInfo = ::my_clan_info
-        local content = ::handyman.renderCached("gui/worldWar/worldWarClanTooltip", clanInfo)
-        obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
-        return true
-      }
-
-      local taskId = ::clan_request_info(clanId, "", "")
-      local onTaskSuccess = function() {
-        if (!::check_obj(obj))
-          return
-
-        local clanInfo = ::get_clan_info_table()
-        if (!clanInfo)
-          return
-
-        local content = ::handyman.renderCached("gui/worldWar/worldWarClanTooltip", clanInfo)
-        obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
-      }
-
-      local onTaskError = function(errorCode) {
-        if (!::check_obj(obj))
-          return
-
-        local content = ::handyman.renderCached("gui/commonParts/errorFrame", {errorNum = errorCode})
-        obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
-      }
-      ::g_tasker.addTask(taskId, {showProgressBox = false}, onTaskSuccess, onTaskError)
-
-      local content = ::handyman.renderCached("gui/worldWar/worldWarClanTooltip",
-        { isLoading = true })
-      obj.getScene().replaceContentFromText(obj, content, content.len(), handler)
-      return true
-    }
-  }
-
-
-  WW_LOG_BATTLE_TOOLTIP = {
-    getTooltipContent = function(id, params)
-    {
-      local battle = ::g_world_war.getBattleById(params.currentId)
-      local battleView = battle.isValid() ? battle.getView() : ::WwBattleView()
-      return ::handyman.renderCached("gui/worldWar/wwControlHelp", battleView)
-    }
-  }
-
   REWARD_TOOLTIP = {
     isCustomTooltipFill = true
     fillTooltip = function(obj, handler, unlockId, params)
@@ -817,6 +721,11 @@ enums.addTypesByGlobalName("g_tooltip_type", {
   }
 
 }, null, "typeName")
+
+g_tooltip_type.addTooltipType <- function addTooltipType(tTypes)
+{
+  enums.addTypesByGlobalName("g_tooltip_type", tTypes, null, "typeName")
+}
 
 g_tooltip_type.getTypeByName <- function getTypeByName(typeName)
 {

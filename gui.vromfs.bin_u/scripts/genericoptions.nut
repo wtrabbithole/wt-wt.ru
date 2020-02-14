@@ -1,3 +1,5 @@
+local fxOptions = require("scripts/options/fxOptions.nut")
+
 ::generic_options <- null
 
 class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
@@ -1517,7 +1519,14 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
   {
     applyFunc = gui_start_postfx_settings
     applyOptions()
-    joinEchoChannel(false);
+    joinEchoChannel(false)
+  }
+
+  function onHdrSettings(obj)
+  {
+    applyFunc = fxOptions.openHdrSettings
+    applyOptions()
+    joinEchoChannel(false)
   }
 
   function onWebUiMap()

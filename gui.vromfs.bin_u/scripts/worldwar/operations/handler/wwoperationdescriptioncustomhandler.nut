@@ -1,3 +1,5 @@
+local unitContextMenuState = require("scripts/unit/unitContextMenuState.nut")
+
 class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.WwMapDescription
 {
   sceneTplTeamStrenght = "gui/worldWar/wwOperationDescriptionSideStrenght"
@@ -204,7 +206,7 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     if (!descItem)
       return viewData
 
-    local armyGroups = descItem.getArmyGroupsBySide(side)
+    local armyGroups = ::g_world_war.getArmyGroupsBySide(side)
     local clansPerColumn = ::g_dagui_utils.countSizeInItems(parentObj, 1, "@leaderboardTrHeight",
       0, 0, 0, "2@wwWindowListBackgroundPadding").itemsCountY
 
@@ -214,7 +216,14 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
       if (i % clansPerColumn == 0)
       {
         armyGroupNames = []
-        viewData.columns.append({ armyGroupNames = armyGroupNames })
+        local groupView = armyGroups[i].getView()
+        if (groupView == null)
+          continue
+
+        viewData.columns.append({
+          armyGroupNames = armyGroupNames
+          managers = groupView
+        })
       }
 
       if ("name" in armyGroups[i])
@@ -230,20 +239,16 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
   function onUnitClick(unitObj)
   {
-    local unit = ::getAircraftByName(unitObj?.unit_name)
-    if (!unit)
-      return
+    unitContextMenuState({
+      unitObj = unitObj
+      actionsNames = getSlotbarActions()
+      curEdiff = ::g_world_war.defaultDiffCode
+      isSlotbarEnabled = false
+    }.__update(getUnitParamsFromObj(unitObj)))
+  }
 
-    local actions = ::get_unit_actions_list({unit = unit,
-      handler = this,
-      actions = getSlotbarActions(),
-      p = { isSlotbarEnabled = false }
-    })
-
-    if (!actions.actions.len())
-      return
-
-    actions.closeOnUnhover <- true
-    ::gui_handlers.ActionsList.open(unitObj, actions)
+  function onEventWWArmyManagersInfoUpdated(p)
+  {
+    updateTeamsInfo()
   }
 }

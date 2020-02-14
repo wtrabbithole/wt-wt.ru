@@ -1,3 +1,5 @@
+local { getMeasureTypeBySkillParameterName } = require("scripts/crew/crewSkills.nut")
+
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 ::g_skill_parameters_type <- {
   types = []
@@ -18,7 +20,7 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
     parametersByRequestType, selectedParametersByRequestType, resArray)
   {
     local parameterName = paramData.name
-    local measureType = ::g_crew_skills.getMeasureTypeBySkillParameterName(parameterName)
+    local measureType = getMeasureTypeBySkillParameterName(parameterName)
     local isNotFoundMeasureType = measureType == ::g_measure_type.UNKNOWN
     local sign = getDiffSign(parametersByRequestType, parameterName)
     local needMemberName = paramData.valuesArr.len() > 1
@@ -29,7 +31,7 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
         continue
 
       if(isNotFoundMeasureType)
-        measureType = ::g_crew_skills.getMeasureTypeBySkillParameterName(value.skillName)
+        measureType = getMeasureTypeBySkillParameterName(value.skillName)
 
       local parameterView = {
         descriptionLabel = parameterName.indexof("weapons/") == 0 ? ::loc(parameterName)

@@ -1,3 +1,5 @@
+local chard = require_native("chard")
+
 enum CTU_PROGRESS {
   NOT_STARTED
   CHECK_QUEUE
@@ -169,7 +171,7 @@ class ::CrewTakeUnitProcess
       if (unit && !unit.isUsable())
         return remove()
 
-      local taskId = ::train_crew_aircraft(crew.id, unit ? unit.name : "")
+      local taskId = chard.trainCrewAircraft(crew.id, unit ? unit.name : "", false)
       local taskOptions = {
         showProgressBox = true
         progressBoxDelayedButtons = PROCESS_TIME_OUT

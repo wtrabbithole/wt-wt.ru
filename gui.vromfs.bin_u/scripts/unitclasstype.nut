@@ -1,3 +1,5 @@
+local { getUnitRoleIcon } = require("scripts/unit/unitInfoTexts.nut")
+
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 ::g_unit_class_type <- {
   types = []
@@ -41,7 +43,7 @@ g_unit_class_type._getExpClass <- function _getExpClass()
   getExpClass = ::g_unit_class_type._getExpClass
 
   /** Returns a related basic role font icon. */
-  getFontIcon = @() ::get_unit_role_icon(name)
+  getFontIcon = @() getUnitRoleIcon(name)
 }
 
 local checkOrder = 0
@@ -78,7 +80,7 @@ enums.addTypesByGlobalName("g_unit_class_type", {
     checkOrder = checkOrder++
 
     getName = @() ::loc("mainmenu/type_medium_tank") + ::loc("ui/slash") + ::loc("mainmenu/type_light_tank")
-    getFontIcon = @() ::get_unit_role_icon("medium_tank")
+    getFontIcon = @() getUnitRoleIcon("medium_tank")
   }
 
   HEAVY_TANK = {

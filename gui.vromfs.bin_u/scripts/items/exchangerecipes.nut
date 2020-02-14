@@ -486,8 +486,7 @@ local ExchangeRecipes = class {
   function getMaterialsListForExchange(usedUidsList)
   {
     local res = []
-    foreach (component in components)
-    {
+    components.each(function(component) {
       local leftCount = component.reqQuantity
       local itemsList = ::ItemsManager.getInventoryList(itemType.ALL, @(item) item.id == component.itemdefId)
       foreach(item in itemsList)
@@ -508,7 +507,7 @@ local ExchangeRecipes = class {
         if (!leftCount)
           break
       }
-    }
+    })
     return res
   }
 

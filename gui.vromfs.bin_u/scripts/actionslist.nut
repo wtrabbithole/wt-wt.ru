@@ -211,6 +211,11 @@ class ::gui_handlers.ActionsList extends ::BaseGuiHandler
     close()
   }
 
+  function onActionsListDeactivate(obj)
+  {
+    params?.onDeactivateCb()
+  }
+
   static function removeActionsListFromObject(obj, fadeout = false)
   {
     local alObj = obj.findObject("actions_list")

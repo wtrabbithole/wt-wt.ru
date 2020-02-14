@@ -395,10 +395,11 @@ foreach (i, v in ::cssColorsMapDark)
   if (boostersDescription != "")
     tooltipText.append((havePremium? "\n" : "") + boostersDescription)
 
-  if (::u.isEmpty(tooltipText))
-    return ""
+  local bonusText = "\n".join(tooltipText, true)
+  if (bonusText != "")
+    bonusText = $"\n<b>{::loc("mainmenu/bonusTitle")}{::loc("ui/colon")}</b>\n{bonusText}"
 
-  return ::g_string.implode(tooltipText, "\n")
+  return bonusText
 }
 
 ::add_bg_task_cb <- function add_bg_task_cb(taskId, actionFunc, handler = null)

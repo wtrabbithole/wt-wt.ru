@@ -797,14 +797,6 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     registerSubHandler(handler)
   }
 
-  function isClanQueueAvaliable()
-  {
-    return mode == WW_OM_WND_MODE.PLAYER &&
-           ::has_feature("WorldWarClansQueue") &&
-           ::has_feature("Clans") &&
-           ::is_in_clan() && selMap && selMap.isActive()
-  }
-
   function updateButtons()
   {
     local isModePlayer = mode == WW_OM_WND_MODE.PLAYER
@@ -816,16 +808,36 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local hasMap = selMap != null
     local isInQueue = ::g_ww_global_status.isMyClanInQueue()
     local isQueueJoiningEnabled = isModeClan && ::WwQueue.getCantJoinAnyQueuesReasonData().canJoin
+    local isMyClanOperation = hasMap && hasClanOperation &&
+      ::g_ww_global_status.getMyClanOperation()?.data.map == selMap?.name
 
-    showSceneBtn("btn_clans_queue", isClanQueueAvaliable())
-    local joinOpBtn = showSceneBtn("btn_join_operation", isModePlayer && hasMap)
-    joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations() ? "no" : "yes"
+    showSceneBtn("btn_clans_queue", isModePlayer && selMap?.isClanQueueAvaliable())
+    local joinOpBtn = showSceneBtn("btn_join_operation",
+      isModePlayer && hasMap)
+    joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations()
+      ? "no" : "yes"
 
     nearestAvailableMapToBattle = ::g_ww_global_status.getNearestAvailableMapToBattle()
     local needShowBeginMapWaitTime = !(nearestAvailableMapToBattle?.isActive?() ?? true)
-    local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue && !needShowBeginMapWaitTime)
+    local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason",
+      isModeClan && !isInQueue && !needShowBeginMapWaitTime)
     local joinQueueBtn = showSceneBtn("btn_join_queue", isQueueJoiningEnabled && !isInQueue)
-    showSceneBtn("btn_leave_queue", isModeClan && hasRightsToQueueClan && isInQueue)
+    showSceneBtn("btn_leave_queue",
+      (hasClanOperation || isInQueue) && hasRightsToQueueClan && isInQueue)
+
+    local joinBtn = showSceneBtn("btn_join_clan_operation", isMyClanOperation)
+    if(isMyClanOperation)
+    {
+      local joinBtnFlagsObj = joinBtn.findObject("side_countries")
+      if (::checkObj(joinBtnFlagsObj) && hasMap)
+      {
+        local countryIcon = ::get_country_icon(
+          ::g_ww_global_status.getMyClanOperation()?.getMyClanCountry(), false)
+        local markUpData = ::format("img { iconType:t='country_battle';" +
+          "margin-left:t='@blockInterval' ; background-image:t='%s'}", countryIcon)
+        guiScene.replaceContentFromText(joinBtnFlagsObj, markUpData, markUpData.len(), this)
+      }
+    }
 
     if ((queuesJoinTime > 0) != isInQueue)
       queuesJoinTime = isInQueue ? getLatestQueueJoinTime() : 0
@@ -1011,6 +1023,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       res.reasonText = ::loc("worldWar/chooseCountriesInOperations")
 
     return res
+  }
+
+  function onJoinClanOperation()
+  {
+    local operationId = ::g_ww_global_status.getMyClanOperation()?.id
+    if(operationId != null)
+      ::g_world_war.joinOperationById(operationId)
   }
 
   function onJoinQueue()

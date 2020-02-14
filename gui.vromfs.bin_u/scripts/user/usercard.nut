@@ -401,7 +401,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     fillClanInfo(player)
     fillModeListBox(scene.findObject("profile-container"), curMode)
-    ::fill_gamer_card(player, true, "profile-", scene)
+    ::fill_gamer_card(player, "profile-", scene)
     fillAwardsBlock(player)
     fillShortCountryStats(player)
     scene.findObject("profile_loading").show(false)

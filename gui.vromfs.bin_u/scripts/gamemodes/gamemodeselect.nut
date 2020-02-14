@@ -154,11 +154,12 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local view = []
     // First go all wide featured game modes then - non-wide.
     local numNonWideGameModes = 0
-    foreach (isWide in [true, false])
+    foreach (isWide in [ true, false ])
     {
       while (true)
       {
-        local gameMode = getGameModeByCondition(gameModesArray, @(gameMode) gameMode.displayWide == isWide)
+        local gameMode = getGameModeByCondition(gameModesArray,
+          @(gameMode) gameMode.displayWide == isWide) // warning disable: -iterator-in-lambda
         if (gameMode == null)
           break
         if (!isWide)

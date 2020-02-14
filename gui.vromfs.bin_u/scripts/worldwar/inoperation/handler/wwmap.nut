@@ -552,11 +552,10 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
     local staticBlk = ::u.copy(objectivesBlk?.data) || ::DataBlock()
     local dynamicBlk = ::u.copy(objectivesBlk?.status) || ::DataBlock()
 
-    local playerSideName = ::ww_side_val_to_name(::ww_get_player_side())
     for (local i = 0; i < staticBlk.blockCount(); i++)
     {
       local statBlk = staticBlk.getBlock(i)
-      if (!statBlk?.mainObjective || statBlk?.defenderSide != playerSideName)
+      if (!statBlk?.mainObjective)
         continue
 
       local oType = ::g_ww_objective_type.getTypeByTypeName(statBlk?.type)
@@ -867,10 +866,13 @@ class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT
   {
     local blk = ::DataBlock()
     ::ww_get_sides_info(blk)
-    local loseSide = blk.sides[::SIDE_2.tostring()].afkLoseTimeMsec
-      < blk.sides[::SIDE_1.tostring()].afkLoseTimeMsec
+    local sidesBlk = blk?.sides
+    if (sidesBlk == null)
+      return
+    local loseSide = sidesBlk[::SIDE_2.tostring()].afkLoseTimeMsec
+      < sidesBlk[::SIDE_1.tostring()].afkLoseTimeMsec
         ? ::SIDE_2 : ::SIDE_1
-    local newLoseTime = blk.sides[loseSide.tostring()].afkLoseTimeMsec
+    local newLoseTime = sidesBlk[loseSide.tostring()].afkLoseTimeMsec
     afkData.isNeedAFKTimer = afkData.loseSide != loseSide || afkData.afkLoseTimeMsec != newLoseTime
     afkData.loseSide = loseSide
     afkData.afkLoseTimeMsec = newLoseTime

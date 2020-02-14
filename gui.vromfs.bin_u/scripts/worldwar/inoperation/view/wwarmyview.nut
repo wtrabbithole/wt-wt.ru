@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+local wwTransportManager = require("scripts/worldWar/inOperation/wwTransportManager.nut")
 
 
 class ::WwArmyView
@@ -54,25 +55,52 @@ class ::WwArmyView
     return formation.getDescription()
   }
 
+  function getSectionsView(sections, isMultipleColumns)
+  {
+    local view = {infoSections = []}
+    foreach (sect in sections)
+    {
+      local sectView = {
+        title = sect?.title,
+        columns = [],
+        multipleColumns = isMultipleColumns,
+        hasSpaceBetweenUnits = true
+      }
+      local units = sect.units
+      if (!isMultipleColumns)
+        sectView.columns.append({unitString = units})
+      else
+      {
+        local unitsInRow = ::ceil(units.len() / 2.0).tointeger()
+        sectView.columns.append({unitString = units.slice(0, unitsInRow), first = true})
+        sectView.columns.append({unitString = units.slice(unitsInRow)})
+      }
+      view.infoSections.append(sectView)
+    }
+    return view
+  }
+
   function unitsList()
   {
-    local view = { columns = [], multipleColumns = false, hasSpaceBetweenUnits = true}
     local wwUnits = formation.getUnits().reduce(function (memo, unit) {
       if (unit.getActiveCount())
         memo.append(unit)
       return memo
     }, [])
-    wwUnits = wwActionsWithUnitsList.getUnitsListViewParams({ wwUnits = wwUnits})
-
-    if (wwUnits.len() <= unitsInArmyRowsMax)
-      view.columns.append({ unitString = wwUnits })
-    else
-    {
-      view.columns.append({ unitString = wwUnits.slice(0, unitsInArmyRowsMax), first = true })
-      view.columns.append({ unitString = wwUnits.slice(unitsInArmyRowsMax) })
-    }
-
-    view.multipleColumns = view.columns.len() > 1
+    local transportedArmiesData = wwTransportManager.getTransportedArmiesData(formation)
+    local rowsCount = wwUnits.len() + transportedArmiesData.armies.len()
+      + transportedArmiesData.totalUnitsNum
+    local isMultipleColumns = rowsCount > unitsInArmyRowsMax
+    local sections = [{units = wwActionsWithUnitsList.getUnitsListViewParams({wwUnits = wwUnits})}]
+    foreach (army in transportedArmiesData.armies)
+      sections.append({
+        units = wwActionsWithUnitsList.getUnitsListViewParams({wwUnits = army.getUnits()}),
+        title = "".concat(::loc("worldwar/transportedArmy"),
+          ::loc("ui/parentheses/space", {
+            text = army.getOverrideIcon() ?? ::g_ww_unit_type.getUnitTypeFontIcon(army.unitType)}),
+          ::loc("ui/colon"))
+      })
+    local view = getSectionsView(sections, isMultipleColumns)
     return ::handyman.renderCached("gui/worldWar/worldWarMapArmyInfoUnitsList", view)
   }
 
@@ -452,6 +480,23 @@ class ::WwArmyView
   function setSelectedSide(side)
   {
     selectedSide = side
+  }
+
+  function hasManagersStat()
+  {
+    return formation?.armyManagers.len()
+  }
+
+  function getManagersInfoLines()
+  {
+    local lines = []
+    if(hasManagersStat())
+      foreach(inst in formation.armyManagers)
+        lines.append({
+          managerInfo = "".concat(inst.name, ::loc("ui/hyphen"), inst.activity, "%")
+        })
+
+    return lines
   }
 
   needSmallSize = @() hasArtilleryAbility() && !isArtillery()

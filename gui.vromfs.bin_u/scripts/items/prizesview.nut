@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
-local workshop = ::require("scripts/items/workshop/workshop.nut")
-local globalCallbacks = ::require("sqDagui/globalCallbacks/globalCallbacks.nut")
+local workshop = require("scripts/items/workshop/workshop.nut")
+local globalCallbacks = require("sqDagui/globalCallbacks/globalCallbacks.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 
 //prize - blk or table in format of trophy prizes from trophies.blk
 //content - array of prizes (better to rename it)
@@ -610,7 +611,7 @@ PrizesView.getViewDataUnit <- function getViewDataUnit(unitName, params = null, 
   local isBought = ::isUnitBought(unit)
   local receivedPrizes = ::getTblValue("receivedPrizes", params, true)
   local classIco = ::getTblValue("singlePrize", params, false) ? null : ::getUnitClassIco(unit)
-  local shopItemType = ::get_unit_role(unit)
+  local shopItemType = getUnitRole(unit)
   local isShowLocalState = receivedPrizes || rentTimeHours > 0
   local buttons = getPrizeActionButtonsView({ unit = unitName }, params)
   local receiveOnce = params?.relatedItem ? "mainmenu/activateOnlyOnce" : "mainmenu/receiveOnlyOnce"
@@ -700,7 +701,7 @@ PrizesView.getViewDataSpare <- function getViewDataSpare(unitName, count, params
   return {
     icon = "#ui/gameuiskin#item_type_spare"
     icon2 = ::get_unit_country_icon(unit)
-    shopItemType = ::get_unit_role(unit)
+    shopItemType = getUnitRole(unit)
     title = title
     tooltipId = ::g_tooltip.getIdSpare(unitName)
   }

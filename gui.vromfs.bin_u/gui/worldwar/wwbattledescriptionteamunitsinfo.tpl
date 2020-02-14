@@ -11,6 +11,7 @@ tdiv {
     text:t='#worldwar/available_crafts'
   }
   tdiv {
+    width:t='pw'
     flow:t='vertical'
     <<#invert>>
       left:t='pw-w'; position:t='relative'
@@ -29,6 +30,7 @@ tdiv {
     overlayTextColor:t='disabled'
   }
   tdiv {
+    width:t='pw'
     flow:t='vertical'
     <<#invert>>
       left:t='pw-w'; position:t='relative'

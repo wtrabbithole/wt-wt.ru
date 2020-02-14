@@ -710,6 +710,7 @@ local InventoryClient = class {
   function onEventSignOut(p)
   {
     lastUpdateTime = -1
+    firstProfileLoadComplete = false
     prices.clear()
     items.clear()
   }

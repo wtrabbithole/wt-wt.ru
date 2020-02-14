@@ -1344,7 +1344,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       externalIDsService.reqPlayerExternalIDsByUserId(stats.uid)
     fillClanInfo(::get_profile_info())
     fillModeListBox(scene.findObject("profile-container"), curMode)
-    ::fill_gamer_card(::get_profile_info(), true, "profile-", scene)
+    ::fill_gamer_card(::get_profile_info(), "profile-", scene)
     fillAwardsBlock(stats)
     fillShortCountryStats(stats)
     scene.findObject("profile_loading").show(false)

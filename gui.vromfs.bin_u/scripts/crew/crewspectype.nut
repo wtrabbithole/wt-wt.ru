@@ -160,7 +160,7 @@ g_crew_spec_type._getIcon <- function _getIcon(crewTypeCode, crewLevel, unit)
   if (crewTypeCode >= code)
     return icon
 
-  if (unit && getReqCrewLevel(unit) <= crewLevel)
+  if (unit && getReqCrewLevel(unit) <= crewLevel && crewTypeCode != -1)
     return iconCanBuy
   return iconInactive
 }
@@ -194,18 +194,27 @@ g_crew_spec_type._needShowExpUpgrade <- function _needShowExpUpgrade(crew, unit)
 //return empty string when level is enough
 g_crew_spec_type._getReqLevelText <- function _getReqLevelText(crew, unit)
 {
+  local res = []
   local reqLevel = getReqCrewLevel(unit)
-  local crewLevel = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
-  if (reqLevel <= crewLevel)
-    return ""
+  local crewLevel = ::g_crew.getCrewLevel(crew, unit, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
+  local locParams = {
+    wantedQualify = ::colorize("activeTextColor", getName())
+    unitName = ::colorize("activeTextColor", ::getUnitName(unit))
+  }
+  local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
+  local needToTrainUnit = curSpecType == ::g_crew_spec_type.UNKNOWN
+  if (needToTrainUnit)
+    res.append(::colorize("badTextColor", ::loc("crew/qualifyRequirement/toTrainUnit", locParams)))
 
-  local res = ::loc("crew/qualifyRequirement/full",
-                     {
-                       wantedQualify = ::colorize("activeTextColor", getName())
-                       unitName = ::colorize("activeTextColor", ::getUnitName(unit))
-                       reqLevel = ::colorize("activeTextColor", reqLevel)
-                     })
-  return ::colorize("badTextColor", res)
+  if (reqLevel > crewLevel && reqLevel > 1)
+  {
+    local reqLevelLocId = needToTrainUnit ? "crew/qualifyRequirement" : "crew/qualifyRequirement/full"
+    res.append(::colorize("badTextColor", ::loc(reqLevelLocId, locParams.__merge({
+      reqLevel = ::colorize("activeTextColor", reqLevel)
+    }))))
+  }
+
+  return "\n".join(res, true)
 }
 
 g_crew_spec_type._getBaseTooltipText <- function _getBaseTooltipText(crew, unit)
@@ -339,7 +348,8 @@ g_crew_spec_type._getBtnBuyTooltipContent <- function _getBtnBuyTooltipContent(c
     view.tinyTooltipText = ::loc("shop/crewQualifyBonuses",
                              {
                                qualification = ::colorize("userlogColoredText", getName())
-                               bonuses = getFullBonusesText(unit?.getCrewUnitType?() ?? ::CUT_INVALID, curSpecType.code)
+                               bonuses = getFullBonusesText(unit?.getCrewUnitType?() ?? ::CUT_INVALID,
+                                 curSpecType.code == -1 ? 0 : curSpecType.code) //show bonuses relatively basic spec for not trained unit
                              })
   }
   view.tooltipText += "\n\n" + ::loc("crew/qualification/tooltip")

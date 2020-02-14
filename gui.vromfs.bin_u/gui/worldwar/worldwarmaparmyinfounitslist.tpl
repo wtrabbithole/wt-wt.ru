@@ -1,26 +1,42 @@
-tdiv {
+tdiv{
   width:t='pw'
-  padding:t='1@framePadding, 0'
+  flow:t='vertical'
+  <<#infoSections>>
+  <<#title>>
+  activeText {
+    position:t='relative'
+    text:t='<<title>>'
+  }
+  <</title>>
 
-  <<#columns>>
-    tdiv {
-      <<#multipleColumns>>
-        width:t='50%pw'
-        <<^first>>
-          padding-left:t='0.01@scrn_tgt'
-        <</first>>
-      <</multipleColumns>>
-      <<^multipleColumns>>
-        position:t='relative'
-      <</multipleColumns>>
+  tdiv {
+    width:t='pw'
+    padding:t='1@framePadding, 0'
+    position:t='relative'
 
-      flow:t='vertical'
-      css-hier-invalidate:t='yes'
+    <<#columns>>
+      tdiv {
+        <<#multipleColumns>>
+          width:t='50%pw'
+          <<^first>>
+            padding-left:t='1@framePadding'
+          <</first>>
+        <</multipleColumns>>
+        <<^multipleColumns>>
+          width:t='pw'
+          position:t='relative'
+        <</multipleColumns>>
 
-      include "gui/worldWar/worldWarArmyInfoUnitString"
-    }
-  <</columns>>
+        flow:t='vertical'
+        css-hier-invalidate:t='yes'
+
+        include "gui/worldWar/worldWarArmyInfoUnitString"
+      }
+    <</columns>>
+
+  <<#multipleColumns>>
+    blockSeparator {}
+  <</multipleColumns>>
+  }
+  <</infoSections>>
 }
-<<#multipleColumns>>
-  blockSeparator {}
-<</multipleColumns>>

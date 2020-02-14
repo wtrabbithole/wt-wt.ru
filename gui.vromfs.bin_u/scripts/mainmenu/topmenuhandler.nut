@@ -216,12 +216,6 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     return !::top_menu_shop_active
   }
 
-  function onShop(obj)
-  {
-    if (!::top_menu_shop_active)
-      shopWndSwitch()
-  }
-
   function closeShop()
   {
     if (::top_menu_shop_active)

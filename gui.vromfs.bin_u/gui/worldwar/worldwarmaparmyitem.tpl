@@ -5,9 +5,9 @@
     <<#customWidth>>
       width:t='<<customWidth>>'
     <</customWidth>>
-    <<#isAlignRight>>
+    <<#isInvert>>
     left:t='pw-w'; position:t='relative'
-    <</isAlignRight>>
+    <</isInvert>>
     <<#markSurrounded>>
       <<#getGroundSurroundingTime>>
         surrounded:t='yes'
@@ -149,4 +149,9 @@
     text:t='#country/VS'
   }
   <</getHasVersusText>>
+  tdiv{
+    position:t='relative'
+    left:t='-1@headerIndent'
+    include "gui/worldWar/wwArmyManagersStat"
+  }
 <</army>>

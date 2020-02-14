@@ -129,6 +129,7 @@ tdiv {
 
         <<#haveUnitsList>>
         tdiv {
+          width:t='pw'
           flow:t='vertical'
 
           activeText {
@@ -142,6 +143,7 @@ tdiv {
 
         <<#haveAIUnitsList>>
         tdiv {
+          width:t='pw'
           flow:t='vertical'
           margin-top:t='0.01@sf'
 

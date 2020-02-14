@@ -463,7 +463,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
                       icon = playerIcon
                       country = player?.country ?? ""
                     },
-                    true, "player_", mainObj)
+                    "player_", mainObj)
 
     local airObj = mainObj.findObject("curAircraft")
     if (!::checkObj(airObj))

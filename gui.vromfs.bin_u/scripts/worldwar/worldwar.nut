@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local operationPreloader = require("scripts/worldWar/externalServices/wwOperationPreloader.nut")
 local seenWWMapsObjective = require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+local wwArmyGroupManager = require("scripts/worldWar/inOperation/wwArmyGroupManager.nut")
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
@@ -236,6 +237,7 @@ foreach (fn in [
                ])
   ::g_script_reloader.loadOnce("scripts/worldWar/" + fn) // no need to includeOnce to correct reload this scripts pack runtime
 
+require("scripts/worldWar/wwGenericTooltipTypes.nut")
 foreach(bhvName, bhvClass in ::ww_gui_bhv)
   ::replace_script_gui_behaviour(bhvName, bhvClass)
 
@@ -666,6 +668,7 @@ g_world_war.updateArmyGroups <- function updateArmyGroups()
     if (group.isValid())
       armyGroups.append(group)
   }
+  wwArmyGroupManager.updateManagers()
 }
 
 g_world_war.getArtilleryUnitParamsByBlk <- function getArtilleryUnitParamsByBlk(blk)
@@ -1352,15 +1355,6 @@ g_world_war.moveSelectedAircraftsToCell <- function moveSelectedAircraftsToCell(
   playArmyActionSound("moveSound", null, ::UT_AIR)
 
   return ::ww_send_operation_request("cln_ww_move_army_to", params)
-}
-
-g_world_war.getUnitRole <- function getUnitRole(unitName)
-{
-  local role = ::get_unit_role(unitName)
-  if (role != "")
-    return role
-
-  return unitName
 }
 
 g_world_war.sortUnitsByTypeAndCount <- function sortUnitsByTypeAndCount(a, b)

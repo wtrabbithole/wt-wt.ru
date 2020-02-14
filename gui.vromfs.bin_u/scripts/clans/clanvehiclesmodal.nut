@@ -152,6 +152,7 @@ local handlerClass = class extends vehiclesModal.handlerClass
     isSquadronResearchMode = true
     needChosenResearchOfSquadron = needChosenResearchOfSquadron()
     isSlotbarEnabled = false
+    onSpendExcessExp = ::Callback(onSpendExcessExp, this)
   }
 
   needChosenResearchOfSquadron = @() !squadronUnitAction.hasChosenResearch()

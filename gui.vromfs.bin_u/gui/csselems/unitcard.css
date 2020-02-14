@@ -428,6 +428,11 @@ bottomline > shopItemPrice {
   margin-left: 0.003@sf;
 }
 
+shopItemText[autoScrollText=hoverOrSelect] {
+  margin-left: 0;
+  padding-right: 0;
+}
+
 bottomline > shopItemPrice {
   margin-right: 0.008@sf;
 }
@@ -558,6 +563,8 @@ middleline shopItemPrice {
   text-align:center;
 }
 
+td[selected=yes] bottomline > tdiv > shopItemText[autoScrollText=hoverOrSelect],
+:hover > bottomline > tdiv > shopItemText[autoScrollText=hoverOrSelect],
 td[selected=yes] topline > shopItemText {
   behaviour:OverflowScroller;
   move-pixel-per-sec:10*@scrn_tgt/100.0;

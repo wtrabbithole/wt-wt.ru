@@ -437,6 +437,43 @@
               },
               {
                 "Button_text": {
+                  "id": "btn_join_clan_operation",
+                  "width": "1@bigButtonWidth",
+                  "class": "battle",
+                  "text": "#events/join_event",
+                  "navButtonFont": "yes",
+                  "btnName": "Y",
+                  "hasConsoleImage": "yes",
+                  "display": "hide",
+                  "enable": "no",
+                  "_on_click": "onJoinClanOperation",
+                  "pattern": [],
+                  "buttonWink": {
+                    "_transp-timer": "0"
+                  },
+                  "buttonGlance": [],
+                  "ButtonImg": [],
+                  "btnContent": {
+                    "cardImg": {
+                      "id": "is_clan_participate_img",
+                      "margin-right": "@blockInterval",
+                      "background-image": "#ui/gameuiskin#lb_victories_battles.svg"
+                    },
+                    "btnText": {
+                      "id": "btn_join_operation_text",
+                      "text": "#events/join_event"
+                    },
+                    "tdiv": {
+                      "id": "side_countries",
+                      "margin-left": "@blockInterval",
+                      "pos": "0, 50%ph-50%h",
+                      "position": "relative"
+                    }
+                  }
+                }
+              },
+              {
+                "Button_text": {
                   "id": "btn_leave_queue",
                   "class": "battle",
                   "text": "#worldwar/btnLeaveQueue",

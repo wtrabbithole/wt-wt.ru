@@ -1,4 +1,6 @@
-local protectionAnalysis = ::require("scripts/dmViewer/protectionAnalysis.nut")
+local protectionAnalysis = require("scripts/dmViewer/protectionAnalysis.nut")
+local { getCrewPoints } = require("scripts/crew/crewSkills.nut")
+local { getSkillCategoryView } = require("scripts/crew/crewSkillsView.nut")
 
 const SLOT_INFO_CFG_SAVE_PATH = "show_slot_info_panel_tab"
 
@@ -100,7 +102,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     if (::checkObj(unitInfoObj))
     {
       local handler = ::handlersManager.getActiveBaseHandler()
-      local hasSlotbar = handler && handler.getSlotbar()
+      local hasSlotbar = handler?.getSlotbar()
       unitInfoObj["max-height"] = unitInfoObj[hasSlotbar ? "maxHeightWithSlotbar" : "maxHeightWithoutSlotbar"]
     }
 
@@ -332,8 +334,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     local crewUnitType = unit.getCrewUnitType()
     local country  = ::getUnitCountry(unit)
     local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crewData, unit)
-    local isMaxLevel = ::g_crew.isCrewMaxLevel(crewData, country, crewUnitType)
-    local crewLevelText = ::g_crew.getCrewLevel(crewData, crewUnitType)
+    local isMaxLevel = ::g_crew.isCrewMaxLevel(crewData, unit, country, crewUnitType)
+    local crewLevelText = ::g_crew.getCrewLevel(crewData, unit, crewUnitType)
     if (isMaxLevel)
       crewLevelText += ::colorize("@commonTextColor",
                                   ::loc("ui/parentheses/space", { text = ::loc("options/quality_max") }))
@@ -343,12 +345,12 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       crewName   = ::g_crew.getCrewName(crewData)
       crewLevelText  = crewLevelText
       needCurPoints = needCurPoints
-      crewPoints = needCurPoints && ::get_crew_sp_text(::g_crew_skills.getCrewPoints(crewData))
-      crewStatus = ::get_crew_status(crewData)
+      crewPoints = needCurPoints && ::get_crew_sp_text(getCrewPoints(crewData))
+      crewStatus = ::get_crew_status(crewData, unit)
       crewSpecializationLabel = ::loc("crew/trained") + ::loc("ui/colon")
       crewSpecializationIcon = specType.trainedIcon
       crewSpecialization = specType.getName()
-      categoryRows = ::g_crew_skills.getSkillCategoryView(crewData, unit)
+      categoryRows = getSkillCategoryView(crewData, unit)
       discountText = discountText
       discountTooltip = discountTooltip
     }

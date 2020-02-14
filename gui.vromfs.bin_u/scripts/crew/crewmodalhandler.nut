@@ -1,5 +1,8 @@
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local stdMath = require("std/math.nut")
+local { getUnitBasicRole, getRoleText } = require("scripts/unit/unitInfoTexts.nut")
+local crewSkillsPageHandler = require("scripts/crew/crewSkillsPageHandler.nut")
+local { getSkillValue } = require("scripts/crew/crewSkills.nut")
 
 ::gui_modal_crew <- function gui_modal_crew(params = {})
 {
@@ -42,12 +45,13 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   curEdiff = -1
 
   needHideSlotbar = false
+  curUnit = null
 
   function initScreen()
   {
     if (!scene)
       return goBack()
-    crew = getSlotItem(countryId, idInCountry)
+    crew = getSlotCrew()
     if (!crew)
       return goBack()
 
@@ -58,13 +62,11 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     initMainParams(true, true)
     if (!needHideSlotbar)
       createSlotbar({
-        crewId = crew.id
-        showNewSlot=false,
         emptyText="#shop/aircraftNotSelected",
         beforeSlotbarSelect = @(onOk, onCancel, slotData) checkSkillPointsAndDo(onOk, onCancel)
         afterSlotbarSelect = openSelectedCrew
         onSlotDblClick = onSlotDblClick
-      })
+      }.__update(getSlotbarParams()))
 
     initFocusArray()
 
@@ -75,6 +77,11 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           && ::g_crew.isAllCrewsHasBasicSpec()
           && canUpgradeCrewSpec(crew))
       onUpgrCrewSpec1Tutorial()
+  }
+
+  getSlotbarParams = @() {
+    crewId = crew.id
+    showNewSlot=false
   }
 
   function getMainFocusObj()
@@ -95,19 +102,18 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function updateCrewInfo()
   {
     local text = ""
-    local unit = ::g_crew.getCrewUnit(crew)
-    if (unit && unit.getCrewUnitType() == curCrewUnitType)
+    if (curUnit != null && curUnit.getCrewUnitType() == curCrewUnitType)
     {
       text = ::g_string.implode([
         ::loc("crew/currentAircraft") + ::loc("ui/colon")
-          + ::get_role_text(::get_unit_basic_role(unit)) + " "
-          + ::colorize("activeTextColor", ::getUnitName(unit))
+          + getRoleText(getUnitBasicRole(curUnit)) + " "
+          + ::colorize("activeTextColor", ::getUnitName(curUnit))
         ::loc("crew/totalCrew") + ::loc("ui/colon")
-          + ::colorize("activeTextColor", unit.getCrewTotalCount())
+          + ::colorize("activeTextColor", curUnit.getCrewTotalCount())
       ], ::loc("ui/comma"))
-      if (unit.unitType.hasAiGunners)
+      if (curUnit.unitType.hasAiGunners)
         text += "\n" + ::loc("crew/numDefensiveArmamentTurrets") + ::loc("ui/colon")
-          + ::colorize("activeTextColor", unit.gunnersCount)
+          + ::colorize("activeTextColor", curUnit.gunnersCount)
     }
     scene.findObject("crew-info-text").setValue(text)
   }
@@ -117,8 +123,8 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(scene))
       return
 
-    local unit = ::g_crew.getCrewUnit(crew)
-    local crewUnitType = reinitUnitType ? (unit?.getCrewUnitType?() ?? ::CUT_AIRCRAFT)
+    curUnit = getCrewUnit(crew)
+    local crewUnitType = reinitUnitType ? (curUnit?.getCrewUnitType?() ?? ::CUT_AIRCRAFT)
                                         : curCrewUnitType
 
     curCrewUnitType = crewUnitType
@@ -131,21 +137,23 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("crew_name").setValue(::g_crew.getCrewName(crew))
 
     updateUnitTypeRadioButtons()
+    updateButtons()
   }
 
   function countSkills()
   {
     curPoints = ("skillPoints" in crew)? crew.skillPoints : 0
-    crewCurLevel = ::g_crew.getCrewLevel(crew, curCrewUnitType)
-    crewLevelInc = ::g_crew.getCrewLevel(crew, curCrewUnitType, true) - crewCurLevel
+    crewCurLevel = ::g_crew.getCrewLevel(crew, curUnit, curCrewUnitType)
+    crewLevelInc = ::g_crew.getCrewLevel(crew, curUnit, curCrewUnitType, true) - crewCurLevel
     foreach(page in ::crew_skills)
       foreach(item in page.items)
       {
-        local value = getSkillValue(page.id, item.name)
+        local value = getSkillValue(crew.id, curUnit, page.id, item.name)
         local newValue = ::getTblValue("newValue", item, value)
         if (newValue > value)
           curPoints -= ::g_crew.getSkillCost(item, newValue, value)
       }
+    updateSkillsHandlerPoints()
     scene.findObject("crew_cur_skills").setValue(stdMath.round_by_value(crewCurLevel, 0.01).tostring())
     updatePointsText()
     updateBuyAllButton()
@@ -154,11 +162,12 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onSkillRowChange(item, newValue)
   {
-    local wasValue = ::g_crew.getSkillNewValue(item, crew)
+    local wasValue = ::g_crew.getSkillNewValue(item, crew, curUnit)
     local changeCost = ::g_crew.getSkillCost(item, newValue, wasValue)
     local crewLevelChange = ::g_crew.getSkillCrewLevel(item, newValue, wasValue)
     item.newValue <- newValue //!!FIX ME: this code must be in g_crew too
     curPoints -= changeCost
+    updateSkillsHandlerPoints()
     crewLevelInc += crewLevelChange
 
     updatePointsText()
@@ -311,14 +320,9 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     updatePage()
   }
 
-  function getSkillValue(crewType, skillName)
-  {
-    return ::g_crew.getSkillValue(crew.id, crewType, skillName)
-  }
-
   function updatePointsText()
   {
-    local isMaxLevel = ::g_crew.isCrewMaxLevel(crew, getCurCountryName(), curCrewUnitType)
+    local isMaxLevel = ::g_crew.isCrewMaxLevel(crew, curUnit, getCurCountryName(), curCrewUnitType)
     local curPointsText = ::get_crew_sp_text(curPoints)
     scene.findObject("crew_cur_points").setValue(isMaxLevel ? "" : curPointsText)
 
@@ -336,7 +340,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("crew_level_block").tooltip = levelIncTooltip
     scene.findObject("btn_apply").enable(crewLevelInc > 0)
     showSceneBtn("crew_cur_points_block", !isMaxLevel)
-    showSceneBtn("btn_buy", ::has_feature("SpendGold") && !isMaxLevel)
+    showSceneBtn("btn_buy", ::has_feature("SpendGold") && !isMaxLevel && crew.id != -1)
   }
 
   function updatePointsAdvice()
@@ -346,7 +350,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("crew_points_advice_block").show(isSkills)
     if (!isSkills)
       return
-    local statusType = ::g_skills_page_status.getPageStatus(crew, page, curCrewUnitType, curPoints)
+    local statusType = ::g_skills_page_status.getPageStatus(crew, curUnit, page, curCrewUnitType, curPoints)
     scene.findObject("crew_points_advice").show(statusType.show)
     scene.findObject("crew_points_advice_text")["crewStatus"] = statusType.style
   }
@@ -356,15 +360,15 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::has_feature("CrewBuyAllSkills"))
       return
 
-    local totalPointsToMax = ::g_crew.getSkillPointsToMaxAllSkills(crew, curCrewUnitType)
-    showSceneBtn("btn_buy_all", totalPointsToMax > 0)
+    local totalPointsToMax = ::g_crew.getSkillPointsToMaxAllSkills(crew, curUnit, curCrewUnitType)
+    showSceneBtn("btn_buy_all", totalPointsToMax > 0 && crew.id != -1)
     local text = ::loc("mainmenu/btnBuyAll") + ::loc("ui/parentheses/space", { text = ::get_crew_sp_text(totalPointsToMax) })
     ::set_double_text_to_button(scene, "btn_buy_all", text)
   }
 
   function onBuyAll()
   {
-    ::g_crew.buyAllSkills(crew, curCrewUnitType)
+    ::g_crew.buyAllSkills(crew, curUnit, curCrewUnitType)
   }
 
   function getCornerImgId(page)
@@ -387,7 +391,8 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(obj))
         continue
 
-      local statusType = ::g_skills_page_status.getPageStatus(crew, page, curCrewUnitType, curPoints)
+      local statusType = ::g_skills_page_status.getPageStatus(
+        crew, curUnit, page, curCrewUnitType, curPoints)
       obj["background-image"] = statusType.icon
       obj["background-color"] = guiScene.getConstantValue(statusType.color) || ""
       obj.wink = statusType.wink ? "yes" : "no"
@@ -445,12 +450,21 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local hasFocusOnTable = skillsTableObj.isFocused() || specsTableObj.isFocused()
     if (isSkillsPage(page))
     {
+      local skillsHandlerParams = {
+        scene = scene.findObject("skills_table")
+        curPage = page
+        crew = crew
+        curCrewUnitType = curCrewUnitType
+        curPoints = curPoints
+        onSkillRowChangeCb = ::Callback(onSkillRowChange, this)
+        unit = curUnit
+      }
       if (unitSpecHandler != null)
         unitSpecHandler.setHandlerVisible(false)
       if (skillsPageHandler == null)
-        skillsPageHandler = ::g_crew.createCrewSkillsPageHandler(scene, this, crew)
+        skillsPageHandler = crewSkillsPageHandler(skillsHandlerParams)
       else
-        skillsPageHandler.updateHandlerData()
+        skillsPageHandler.updateHandlerData(skillsHandlerParams)
       if (skillsPageHandler != null)
         skillsPageHandler.setHandlerVisible(true)
       if (hasFocusOnTable)
@@ -478,10 +492,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local show = false
     if (skillsVisible)
-    {
-      local unit = ::g_crew.getCrewUnit(crew)
-      show = unit != null && unit.getCrewUnitType() != curCrewUnitType
-    }
+      show = curUnit != null && curUnit.getCrewUnitType() != curCrewUnitType
     scene.findObject("skills_unit_type_warning").show(show)
   }
 
@@ -516,7 +527,6 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local blk = ::DataBlock()
-
     foreach(page in ::crew_skills)
       if (isSkillsPage(page))
       {
@@ -524,7 +534,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         foreach(idx, item in page.items)
           if ("newValue" in item)
           {
-            local value = getSkillValue(page.id, item.name)
+            local value = getSkillValue(crew.id, curUnit, page.id, item.name)
             if (value<item.newValue)
               typeBlk[item.name] = item.newValue-value
           }
@@ -537,7 +547,8 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       { showProgressBox = true },
       function()
       {
-        ::broadcastEvent("CrewSkillsChanged", { crew = curHandler.crew })
+        ::broadcastEvent("CrewSkillsChanged",
+          { crew = curHandler.crew, unit = curHandler.curUnit })
         if (curHandler.isValid() && curHandler.afterApplyAction)
         {
           curHandler.afterApplyAction()
@@ -585,16 +596,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     checkSkillPointsAndDo(::Callback(@() baseGoForward(startFunc, needFade), this))
   }
 
-  function onShop(obj)
-  {
-    checkSkillPointsAndDo(::gui_start_menuShop)
-  }
-
   function onSlotDblClick(slotCrew)
   {
-    local unit = ::g_crew.getCrewUnit(slotCrew)
-    if (unit)
-      checkSkillPointsAndDo(@() ::open_weapons_for_unit(unit))
+    if (curUnit != null)
+      checkSkillPointsAndDo(@() ::open_weapons_for_unit(curUnit))
   }
 
   function beforeSlotbarChange(action, cancelAction)
@@ -605,7 +610,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   function openSelectedCrew()
   {
     local newCrew = getCurCrew()
-    if (!newCrew || !::g_crew.getCrewUnit(newCrew)) //do not open crew for crews without unit
+    if (!newCrew || !getCrewUnit(newCrew)) //do not open crew for crews without unit
       return
 
     crew = newCrew
@@ -670,14 +675,13 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function canUpgradeCrewSpec(upgCrew)
   {
-    local unit = ::g_crew.getCrewUnit(upgCrew)
-    if (!unit)
+    if (curUnit == null)
       return false
 
-    local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(upgCrew, unit)
-    local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(upgCrew, unit)
-    local reqLevel = curSpecType.getUpgradeReqCrewLevel(unit)
-    local crewLevel = ::g_crew.getCrewLevel(upgCrew, unit.getCrewUnitType())
+    local curSpecType = ::g_crew_spec_type.getTypeByCrewAndUnit(upgCrew, curUnit)
+    local wpSpecCost = curSpecType.getUpgradeCostByCrewAndByUnit(upgCrew, curUnit)
+    local reqLevel = curSpecType.getUpgradeReqCrewLevel(curUnit)
+    local crewLevel = ::g_crew.getCrewLevel(upgCrew, curUnit, curUnit.getCrewUnitType())
 
     return ::get_cur_warpoints() >= wpSpecCost.wp &&
            curSpecType == ::g_crew_spec_type.BASIC &&
@@ -723,11 +727,10 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUpgrCrewSpec1ConfirmTutorial()
   {
-    ::g_crew.upgradeUnitSpec(crew, ::g_crew.getCrewUnit(crew), null, ::g_crew_spec_type.EXPERT)
+    ::g_crew.upgradeUnitSpec(crew, curUnit, null, ::g_crew_spec_type.EXPERT)
 
     if (::scene_msg_boxes_list.len() == 0)
     {
-      local curUnit = ::g_crew.getCrewUnit(crew)
       local curSpec = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, curUnit)
       local message = ::format("Error: Empty MessageBox List for userId = %s\ncountry = %s" +
                                "\nidInCountry = %s\nunitname = %s\nspecCode = %s",
@@ -771,14 +774,14 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventCrewSkillsChanged(params)
   {
-    crew = getSlotItem(countryId, idInCountry)
+    crew = getSlotCrew()
     initMainParams(!::getTblValue("isOnlyPointsChanged", params, false))
   }
 
   /** Triggered from CrewUnitSpecHandler. */
   function onEventQualificationIncreased(params)
   {
-    crew = getSlotItem(countryId, idInCountry)
+    crew = getSlotCrew()
     initMainParams()
   }
 
@@ -788,7 +791,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       openSelectedCrew()
     else
     {
-      crew = getSlotItem(countryId, idInCountry)
+      crew = getSlotCrew()
       initMainParams(false, true)
     }
     updatePage()
@@ -824,11 +827,6 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       skillsPageHandler.onButtonDecRepeat(obj)
   }
 
-  function getCurPage()
-  {
-    return pages[curPage]
-  }
-
   function getCrewLevel()
   {
     return crewCurLevel
@@ -838,4 +836,20 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     return curEdiff == -1 ? ::get_current_ediff() : curEdiff
   }
+
+  function updateSkillsHandlerPoints()
+  {
+    if (skillsPageHandler != null)
+      skillsPageHandler.setCurPoints(curPoints)
+  }
+
+  getCrewUnit = @(slotCrew) ::g_crew.getCrewUnit(slotCrew)
+  getSlotCrew = @() ::getSlotItem(countryId, idInCountry)
+  onRecruitCrew = @() null
+
+  function updateButtons()
+  {
+    scene.findObject("btn_apply").show(true)
+  }
 }
+

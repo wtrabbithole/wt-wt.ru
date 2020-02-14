@@ -36,28 +36,55 @@ foreach (notificationName, callback in
       },
     ["worldwar.notify"] = function(params)
       {
-        local messageType = ::getTblValue("type", params)
+        local messageType = params?.type
         if (!messageType)
           return
 
+        if (messageType == "wwNotification")
+        {
+          ::ww_process_server_notification(params)
+          return
+        }
+
+        if (!::is_in_flight())
+          return
+
+        local operationId = params?.operationId
+        if (!operationId || operationId != ::ww_get_operation_id())
+          return
+
+        local side = ::ww_side_val_to_name(::ww_get_player_side())
+        local text = ""
         if (messageType == "operation_finished")
         {
-          if (!::is_in_flight())
-            return
-
-          local operationId = params?.operationId
-          if (!operationId || operationId != ::ww_get_operation_id())
-            return
-
           local operation = ::g_ww_global_status.getOperationById(operationId)
-          local text = operation
-            ? ::loc("worldwar/operation_complete_battle_results_ignored_full_text",
-              {operationInfo = operation.getNameText()})
-            : ::loc("worldwar/operation_complete_battle_results_ignored")
-          ::chat_system_message(text)
+          text = operation ? ::loc("worldwar/operation_complete_battle_results_ignored_full_text",
+            {operationInfo = operation.getNameText()})
+                           : ::loc("worldwar/operation_complete_battle_results_ignored")
         }
-        else if (messageType == "wwNotification")
-          ::ww_process_server_notification(params)
+        else if (messageType == "zone_captured")
+        {
+          text = ::loc((side == params?.activeSide) ? "worldwar/operation_zone_captured"
+                                                    : "worldwar/operation_zone_lost",
+            {zoneName = params?.customParam ?? ""})
+        }
+        else if (messageType == "reinforcements_arrived")
+        {
+          local misBlk = ::DataBlock()
+          ::get_current_mission_desc(misBlk)
+          if (params?.customParam == misBlk?.customRules.battleId)
+            text = ::loc((side == params?.activeSide) ? "worldwar/operation_air_reinforcements_arrived_our"
+                                                      : "worldwar/operation_air_reinforcements_arrived_enemy")
+        }
+        else if (messageType == "battle_finished")
+        {
+          text = ::loc((side == params?.activeSide) ? "worldwar/operation_battle_won_our"
+                                                    : "worldwar/operation_battle_won_enemy",
+            {zoneName = params?.customParam ?? ""})
+        }
+
+        if (text != "")
+          ::chat_system_message(text)
       }
   })
   ::matching_rpc_subscribe(notificationName, callback)

@@ -11,12 +11,12 @@ const FACEBOOK_UPLOADS_SAVE_ID = "facebook/uploads"
   on_screenshot_saved = (@(func, handler) function(saved_screenshot_filename) {
       if(handler)
       {
-        ::fill_gamer_card(::get_profile_info(), true, "gc_", ::getLastGamercardScene())
+        ::fill_gamer_card(::get_profile_info(), "gc_", ::getLastGamercardScene())
         func.call(handler, saved_screenshot_filename)
       }
       on_screenshot_saved = null
     })(func, handler)
-  ::fill_gamer_card({gold = ""}, true, "gc_", ::getLastGamercardScene())
+  ::fill_gamer_card({gold = ""}, "gc_", ::getLastGamercardScene())
   ::make_screenshot()
 }
 

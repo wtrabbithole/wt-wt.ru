@@ -2,6 +2,22 @@
 tr{
   id:t='tr_<<id>>'
 
+  <<#leftInfoRows>>
+  td {
+    <<#leftInfoWidth>>
+      width:t='<<leftInfoWidth>>'
+    <</leftInfoWidth>>
+
+    <<#leftCellType>>
+      cellType:t='<<leftCellType>>'
+    <</leftCellType>>
+
+    optiontext {
+      text:t='<<label>>'
+    }
+  }
+  <</leftInfoRows>>
+
   td {
     width:t='pw'
     cellType:t='top'
@@ -12,6 +28,7 @@ tr{
       padding-top:t='4@dp'
     }
   }
+
   td {
     cellType:t='bottom'
     <<@option>>

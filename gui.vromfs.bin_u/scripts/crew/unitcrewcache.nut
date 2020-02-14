@@ -6,14 +6,24 @@
 ::g_unit_crew_cache <- {
   lastUnitCrewData = null
   lastUnitCrewId = -1
+  lastUnitName = ""
+
+  function invalidateCache() {
+    lastUnitCrewId = -1
+    lastUnitName = ""
+  }
 }
 
-g_unit_crew_cache.getUnitCrewDataById <- function getUnitCrewDataById(crewId)
+g_unit_crew_cache.getUnitCrewDataById <- function getUnitCrewDataById(crewId, unit)
 {
-  if (crewId != lastUnitCrewId)
+  if (unit == null || crewId == null)
+    return null
+
+  if (crewId != lastUnitCrewId || unit.name != lastUnitName)
   {
     lastUnitCrewId = crewId
-    local unitCrewBlk = ::get_aircraft_crew_by_id(lastUnitCrewId)
+    lastUnitName = unit.name
+    local unitCrewBlk = ::get_aircraft_crew_blk(lastUnitCrewId, lastUnitName)
     lastUnitCrewData = ::buildTableFromBlk(unitCrewBlk)
   }
   return lastUnitCrewData
@@ -29,12 +39,12 @@ g_unit_crew_cache.initCache <- function initCache()
 
 g_unit_crew_cache.onEventCrewSkillsChanged <- function onEventCrewSkillsChanged(params)
 {
-  lastUnitCrewId = -1
+  invalidateCache()
 }
 
 g_unit_crew_cache.onEventCrewChanged <- function onEventCrewChanged(params)
 {
-  lastUnitCrewId = -1
+  invalidateCache()
 }
 
 ::g_unit_crew_cache.initCache()

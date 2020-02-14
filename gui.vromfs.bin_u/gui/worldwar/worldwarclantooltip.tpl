@@ -37,18 +37,27 @@ tdiv {
       smallFont:t='yes'
     }
 
-    <<#canShowActivity>>
+    <<#hasLBData>>
     tdiv {
       smallFont:t='yes'
       textareaNoTab {
         text:t='<<?clan/squadron_rating>> '
       }
       textareaNoTab {
-        id:t='clan_activity_value';
-        text:t='<<getActivity>>';
+        text:t='<<rating>>';
         overlayTextColor:t='userlog'
       }
     }
-    <</canShowActivity>>
+    tdiv {
+      smallFont:t='yes'
+      textareaNoTab {
+        text:t='<<?multiplayer/place>> '
+      }
+      textareaNoTab {
+        text:t='<<place>>';
+        overlayTextColor:t='userlog'
+      }
+    }
+    <</hasLBData>>
   <</isLoading>>
 }
