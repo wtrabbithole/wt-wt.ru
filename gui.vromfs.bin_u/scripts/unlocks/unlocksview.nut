@@ -1,4 +1,36 @@
 ::g_unlock_view <- {
+  function fillSimplifiedUnlockInfo(unlockBlk, unlockObj, context) {
+    local isShowUnlock = unlockBlk != null && ::is_unlock_visible(unlockBlk)
+    unlockObj.show(isShowUnlock)
+    if(!isShowUnlock)
+      return
+
+    local unlockConfig = ::build_conditions_config(unlockBlk)
+    ::build_unlock_desc(unlockConfig)
+
+    local title = fillUnlockTitle(unlockConfig, unlockObj)
+    fillUnlockImage(unlockConfig, unlockObj)
+    fillUnlockProgressBar(unlockConfig, unlockObj)
+    fillReward(unlockConfig, unlockObj)
+    fillUnlockConditions(unlockConfig, unlockObj, context)
+
+    local closeBtn = unlockObj.findObject("removeFromFavoritesBtn")
+    if(::check_obj(closeBtn))
+      closeBtn.unlockId = unlockBlk.id
+
+    local chapterAndGroupText = []
+    if ("chapter" in unlockBlk)
+      chapterAndGroupText.append(::loc($"unlocks/chapter/{unlockBlk.chapter}"))
+    if ((unlockBlk?.group ?? "") != "")
+      chapterAndGroupText.append(::loc($"unlocks/group/{unlockBlk.group}"))
+
+    unlockObj.tooltip = "\n".join([::colorize("unlockHeaderColor", title),
+      chapterAndGroupText.len() > 0 ? $"({", ".join(chapterAndGroupText, true)})" : "",
+      unlockConfig?.stagesText ?? "",
+      ::UnlockConditions.getConditionsText(unlockConfig.conditions,
+        unlockConfig.showProgress ? unlockConfig.curVal : null, unlockConfig.maxVal)
+    ], true)
+  }
 }
 
 //  g_unlock_view functions 'unlockConfig' param is unlocks data table, created through

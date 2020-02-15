@@ -1,8 +1,9 @@
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 local clustersModule = require("scripts/clusterSelect.nut")
 local slotbarWidget = require("scripts/slotbar/slotbarWidgetByVehiclesGroups.nut")
-local { setCurPreset, setUnits, getSlotItem, getCurPreset} = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+local { setCurPreset } = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 local WwHelpSlotbarGroupsModal = require("scripts/worldWar/handler/WwHelpSlotbarGroupsModal.nut")
+local { getBestPresetData, generatePreset } = require("scripts/slotbar/generatePreset.nut")
 
 // Temporary image. Has to be changed after receiving correct art
 const WW_OPERATION_DEFAULT_BG_IMAGE = "#ui/bkg/login_layer_h1_0"
@@ -755,7 +756,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local isVisibleBtnAutoPreset = joinWarningData.needMsgBox || hasSlotbarByUnitsGroups
     local btnAutoPreset = showSceneBtn("btn_auto_preset", isVisibleBtnAutoPreset)
     if (isVisibleBtnAutoPreset) {
-      local bestPresetData = getBestPresetData(joinWarningData.availableUnits, joinWarningData.country)
+      local bestPresetData = getBestPresetData(joinWarningData.availableUnits,
+        joinWarningData.country, hasSlotbarByUnitsGroups)
       local hasChangeInPreset = bestPresetData?.hasChangeInPreset ?? false
       btnAutoPreset.inactiveColor = hasChangeInPreset ? "no" : "yes"
       btnAutoPreset.hasUnseenIcon = hasChangeInPreset ? "yes" : "no"
@@ -1303,46 +1305,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local teamUnits = operationBattle.getTeamRemainUnits(team, hasSlotbarByUnitsGroups)
-    local bestPresetData = getBestPresetData(teamUnits, country)
-    if (bestPresetData == null) {
-      ::showInfoMsgBox(::loc("worldwar/noPresetUnits"))
-      return
-    }
-
-    if (!bestPresetData.hasChangeInPreset) {
-      ::showInfoMsgBox(::loc("generatePreset/current_preset_is_better"))
-      return
-    }
-
-    local unusedUnits = bestPresetData.unusedUnits
-    if (bestPresetData.trainCrewsData.len() == 0) {
-      ::showInfoMsgBox("\n".join([::loc("worldwar/noPresetUnitsCrews"),
-        ::colorize("userlogColoredText", ", ".join(unusedUnits.map(@(u) u.name), true))]))
-      return
-    }
-
-    local msgArray = ["\n".join([::loc("worldwar/addInPresetMsgText"),
-      ::colorize("userlogColoredText", ", ".join(bestPresetData.usedUnits, true))])]
-    if (unusedUnits.len() > 0 && !hasSlotbarByUnitsGroups)
-      msgArray.append("\n".join([::loc("worldwar/notAddInPresetMsgText"),
-        ::colorize("userlogColoredText", ", ".join(unusedUnits.map(@(u) u.name), true))]))
-    msgArray.append(::colorize("warningTextColor", ::loc("worldwar/autoPresetWarningText")))
-
-    msgBox("ask_apply_preset", "\n\n".join(msgArray),
-      [
-        ["yes", function() {
-          if (hasSlotbarByUnitsGroups)
-            setUnits(bestPresetData.trainCrewsDataForGroups)
-          else
-            ::batch_train_crew(
-              ::get_crews_list_by_country(country).map(@(c) {crewId = c.id,
-                airName = bestPresetData.trainCrewsData?[c.id].name ?? ""}),
-              null, @() ::broadcastEvent("SlotbarPresetLoaded"))
-          }
-        ],
-        ["no", @() null]
-      ],
-      "yes", { cancel_fn = @() null })
+    generatePreset(teamUnits, country, hasSlotbarByUnitsGroups)
   }
 
   function onOpenBattlesFilters(obj)
@@ -1453,92 +1416,5 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return [ "autorefill", "aircraft", "changeUnitsGroup", "weapons", "crew", "info", "repair" ]
     else
       return [ "autorefill", "aircraft", "weapons", "crew", "info", "repair" ]
-  }
-
-  function getBestPresetData(availableUnits, country)
-  {
-    local unitsArray = []
-    local eDiff = ::DIFFICULTY_REALISTIC
-    foreach (unitName, unitAmount in availableUnits)
-    {
-      if (!unitAmount)
-        continue
-
-      local unit = ::getAircraftByName(unitName)
-      if (unit.canAssignToCrew(country) || hasSlotbarByUnitsGroups)
-        unitsArray.append({ unit = unit, rank = unit.getBattleRating(eDiff) })
-    }
-
-    if (!unitsArray.len())
-      return null
-
-    unitsArray.sort(@(a, b) b.rank <=> a.rank || a.unit.name <=> b.unit.name)
-    local countryCrews = ::get_crews_list_by_country(country)
-    local trainCrewsData = {}
-    local trainCrewsDataForGroups = []
-    local usedUnits = []
-    local unusedUnits = []
-    local curCountryCrews = hasSlotbarByUnitsGroups
-      ? getCurPreset().countryPresets?[country].units.map(@(u) u?.name)
-      : ::get_crews_list_by_country(country).map(@(c) c?.aircraft)
-    local hasChangeInPreset = false
-    foreach (unitData in unitsArray)
-    {
-      local unit = unitData.unit
-      local unitName = unit.name
-      local unitType = unit.getCrewUnitType()
-      local maxCrewLevel = ::g_crew.getMaxCrewLevel(unitType) || 1
-
-      local availableCrews = []
-      foreach (crew in countryCrews)
-      {
-        local crewId = crew.id
-        local crewSpec = crew.trainedSpec?[unitName] ?? -1
-        if (!trainCrewsData?[crewId] && (crewSpec >= 0 || hasSlotbarByUnitsGroups))
-          availableCrews.append({
-            id = crewId
-            spec = crewSpec
-            level = ::g_crew.getCrewLevel(crew, unit, unitType).tofloat() / maxCrewLevel
-            country = country
-            idCountry = crew.idCountry
-            idInCountry = crew.idInCountry
-          })
-      }
-      if (!availableCrews.len())
-      {
-        unusedUnits.append(unit)
-        continue
-      }
-
-      usedUnits.append(::getUnitName(unit))
-      availableCrews.sort(@(a, b) b.level <=> a.level || b.spec <=> a.spec)
-
-      local bestCrew = availableCrews[0]
-      trainCrewsData[bestCrew.id] <- unit
-      trainCrewsDataForGroups.append({crew = bestCrew, unit = unit})
-      if (bestCrew?.idInCountry == null || curCountryCrews?[bestCrew.idInCountry] != unit.name)
-        hasChangeInPreset = true
-    }
-
-    local idCountry = ::shopCountriesList.findindex(@(cName) cName == country)
-    if (hasSlotbarByUnitsGroups && unusedUnits.len() > 0 && idCountry != null) {
-      local emptyCrewId = countryCrews.len()
-      foreach (unit in unusedUnits)
-      {
-        trainCrewsDataForGroups.append({crew = getSlotItem(idCountry, emptyCrewId), unit = unit})
-        usedUnits.append(::getUnitName(unit))
-        if (curCountryCrews?[emptyCrewId] != unit.name)
-          hasChangeInPreset = true
-        emptyCrewId++
-      }
-    }
-
-    return {
-      usedUnits = usedUnits
-      unusedUnits = unusedUnits
-      trainCrewsData = trainCrewsData
-      trainCrewsDataForGroups = trainCrewsDataForGroups
-      hasChangeInPreset = hasChangeInPreset
-    }
   }
 }

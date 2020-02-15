@@ -118,8 +118,10 @@ local wwLeaderboardKeyCorrection = {
   idx = "pos"
   playerAKills = "air_kills_player"
   playerGKills = "ground_kills_player"
+  playerNKills = "naval_kills_player"
   aiAKills = "air_kills_ai"
   aiGKills = "ground_kills_ai"
+  aiNKills = "naval_kills_ai"
 }
 
 local function convertWwLeaderboardData(result, applyLocalisationToName = false)

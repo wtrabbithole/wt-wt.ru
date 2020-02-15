@@ -76,6 +76,11 @@
 })
 
 //----------------------------wop_1_95_0_X---------------------------------//
+if (::getroottable()?.ww_get_speedup_factor.getfuncinfos().native) {
+  local _ww_get_speedup_factor = ww_get_speedup_factor
+  ::ww_get_speedup_factor = @() _ww_get_speedup_factor() || 1.0
+}
+
 ::apply_compatibilities({
   is_hdr_enabled = @() false
   get_aircraft_crew_blk = @(crewId, unitName) ::get_aircraft_crew_by_id(crewId)

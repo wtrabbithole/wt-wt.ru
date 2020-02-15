@@ -121,7 +121,7 @@ local openProfileSheetParams = {
     url = function(handler, params, obj) { return openLink(handler, params) }
     items = function(handler, params, obj) { return openItemsWnd(handler, params) }
     squad_contacts = function(handler, params, obj) { return ::open_search_squad_player() }
-    world_war = function(handler, params, obj) { ::g_world_war.openMainWnd() }
+    world_war = function(handler, params, obj) { ::g_world_war.openMainWnd(params?[0] == "openMainMenu") }
     content_pack = function(handler, params, obj)
     {
       ::check_package_and_ask_download(::getTblValue(0, params, ""))

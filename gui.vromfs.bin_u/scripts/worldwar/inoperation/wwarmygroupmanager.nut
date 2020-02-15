@@ -1,67 +1,45 @@
-local activeManagerGroupsCount = 0
+local { request_nick_by_uid_batch } = require("scripts/matching/requests.nut")
+
 local armyManagersNames = {}
 local currentOperationID = 0
 
-local function updateManagerStat(group, uid, mName, total)
-{
-  local activity = total > 0
-    ? ::round(100 * (group.actionCounts?[uid] ?? 0) / total).tointeger()
-    : 0
-  group.armyManagers.append({uid = uid, name = mName, activity = activity})
-  if(--group.unupdatedCount <=0)
-  {
-    group.armyManagers.sort(@(a,b) b.activity <=> a.activity)
-    if(--activeManagerGroupsCount <= 0)
-      ::ww_event("ArmyManagersInfoUpdated")
-  }
+local function updateArmyManagersNames(namesByUids) {
+  foreach(uid, name in namesByUids)
+    armyManagersNames[uid.tointeger()] <- { name = name }
 }
 
-local function getActiveManagerGroupsCount(armyGroups)
-{
-  local count = 0
+local function updateArmyManagers(armyGroups) {
   foreach(group in armyGroups)
-    if(group.unupdatedCount > 0)
-      count++
-  return count
+    group.updateManagerStat(armyManagersNames)
 }
 
-local function updateArmyManagers(group)
-{
-  local total = group.actionCounts.reduce(@(res, value) res + value, 0)
-  foreach(uid in group.activeManagerUids)
-  {
-    uid = uid.tostring()
-    if(armyManagersNames?[uid] == null)
-      ::add_bg_task_cb(::req_player_public_statinfo(uid),
-        function(){
-          local data = ::DataBlock()
-          ::get_player_public_stats(data)
-          local userid = data?.userid
-          local mName = data?.nick
-          if(userid)
-          {
-            armyManagersNames[userid] <- {name = mName}
-            updateManagerStat(group, userid, mName, total)
-          }
-        }.bindenv(this))
-    else
-      updateManagerStat(group, uid, armyManagersNames[uid].name, total)
-  }
-}
-
-function updateManagers()
-{
+function updateManagers() {
   local operationID = ::ww_get_operation_id()
-  local armyGroups = ::g_world_war.armyGroups
-  activeManagerGroupsCount = getActiveManagerGroupsCount(armyGroups)
-  if(operationID != currentOperationID)
+  if(operationID != currentOperationID) {
+    currentOperationID = operationID
     armyManagersNames = {}
+  }
 
-  currentOperationID = operationID
-  if(activeManagerGroupsCount == 0)
-    return
+  local armyGroups = ::g_world_war.armyGroups
+  local reqUids = []
   foreach(group in armyGroups)
-    updateArmyManagers(group)
+    reqUids.extend(group.getUidsForNickRequest(armyManagersNames))
+
+  if (reqUids.len() > 0)
+    request_nick_by_uid_batch(reqUids, function(resp) {
+      local namesByUids = resp?.result
+      if (namesByUids == null)
+        return
+
+      updateArmyManagersNames(namesByUids)
+      updateArmyManagers(armyGroups)
+      ::ww_event("ArmyManagersInfoUpdated")
+    })
+  else
+  {
+    updateArmyManagers(armyGroups)
+    ::ww_event("ArmyManagersInfoUpdated")
+  }
 }
 
 return {

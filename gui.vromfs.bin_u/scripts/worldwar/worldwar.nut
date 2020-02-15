@@ -394,12 +394,12 @@ g_world_war.getCantPlayWorldwarReasonText <- function getCantPlayWorldwarReasonT
   return !canPlayWorldwar() ? getPlayWorldwarConditionText() : ""
 }
 
-g_world_war.openMainWnd <- function openMainWnd()
+g_world_war.openMainWnd <- function openMainWnd(forceOpenMainMenu = false)
 {
   if (!checkPlayWorldwarAccess())
     return
 
-  if (::g_world_war.lastPlayedOperationId)
+  if (!forceOpenMainMenu && ::g_world_war.lastPlayedOperationId)
   {
     local operation = ::g_ww_global_status.getOperationById(::g_world_war.lastPlayedOperationId)
     if (operation)

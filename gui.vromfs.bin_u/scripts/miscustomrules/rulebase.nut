@@ -499,7 +499,12 @@ class ::mission_rules.Base
 
   function isUnitForcedVisible(unitName)
   {
-    return getMyStateBlk()?.ownAvailableUnits?[unitName] == true
+    if (getMyStateBlk()?.ownAvailableUnits[unitName] == true)
+      return true
+
+    local missionUnitName = getMyStateBlk()?.userUnitToUnitGroup[unitName] ?? ""
+
+    return missionUnitName != "" && (getMyTeamDataBlk()?.limitedUnits[missionUnitName] ?? -1) >= 0
   }
 
   function isWorldWarUnit(unitName)

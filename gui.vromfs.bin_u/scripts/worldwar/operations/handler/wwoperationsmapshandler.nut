@@ -1,9 +1,10 @@
 local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
-local seenWWMapsAvailable = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
-local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
-local wwTopLeaderboard = ::require("scripts/worldWar/leaderboards/wwTopLeaderboard.nut")
-local wwLeaderboardData = ::require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
+local seenWWMapsAvailable = require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
+local bhvUnseen = require("scripts/seen/bhvUnseen.nut")
+local wwTopLeaderboard = require("scripts/worldWar/leaderboards/wwTopLeaderboard.nut")
+local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
+local { getCurrenNotCompletedUnlocks, unlocksChapterName } = require("scripts/worldWar/unlocks/wwUnlocks.nut")
 
 local WW_DAY_SEASON_OVER_NOTICE = "worldWar/seasonOverNotice/day"
 local WW_SEASON_OVER_NOTICE_PERIOD_DAYS = 7
@@ -1340,9 +1341,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function updateLeftPanel()
   {
+    local isUnlocksVisible =  fillUnlocksList()
     local isTrophyListVisible = fillTrophyList()
     local isTopListVisible =  fillTopList()
-    showSceneBtn("panel_left", isTrophyListVisible || isTopListVisible)
+    showSceneBtn("panel_left", isTrophyListVisible || isTopListVisible || isUnlocksVisible)
   }
 
   function onTimerBeginMapWaitTime(obj, dt)
@@ -1375,6 +1377,56 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     ::save_local_account_settings(WW_DAY_SEASON_OVER_NOTICE, curDay)
     ::scene_msg_box("season_is_over_notice", null, ::loc("worldwar/seasonIsOverNotice"),
       [["ok", null]], "ok")
+  }
+
+  function onOpenAchievments()
+  {
+    ::gui_start_profile({
+      initialSheet = "UnlockAchievement"
+      curAchievementGroupName = unlocksChapterName
+    })
+  }
+
+  function getUnlockObj(containerObj, idx)
+  {
+    if (containerObj.childrenCount() > idx)
+        return containerObj.getChild(idx)
+
+    return containerObj.getChild(idx-1).getClone(containerObj, this)
+  }
+
+  function fillUnlocksList()
+  {
+    local unlocksArray = getCurrenNotCompletedUnlocks()
+    local unlocksCount = unlocksArray.len()
+    local isVisibleBtn = unlocksCount > 0
+    local unlocksListObj = showSceneBtn("unlocks_block", isVisibleBtn)
+    if (!isVisibleBtn || !::check_obj(unlocksListObj))
+      return false
+
+    local listContainer = scene.findObject("unlocks_list")
+    if (!::check_obj(listContainer))
+      return false
+
+    local unlocksObjCount = listContainer.childrenCount()
+    local total = ::max(unlocksObjCount, unlocksCount)
+    if (unlocksObjCount == 0 && total > 0) {
+      local blk = ::handyman.renderCached(("gui/unlocks/unlockItemSimplified"),
+        { unlocks = array(total, { hasCloseButton = false })})
+      guiScene.appendWithBlk(listContainer, blk, this)
+    }
+
+    for(local i = 0; i < total; i++) {
+      local unlockObj = getUnlockObj(listContainer, i)
+      ::g_unlock_view.fillSimplifiedUnlockInfo(unlocksArray?[i], unlockObj, this)
+    }
+
+    return true
+  }
+
+  function onEventWWUnlocksCacheInvalidate(params)
+  {
+    fillUnlocksList()
   }
 }
 

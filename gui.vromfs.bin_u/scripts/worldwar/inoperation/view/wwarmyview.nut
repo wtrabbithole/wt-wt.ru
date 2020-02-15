@@ -484,7 +484,7 @@ class ::WwArmyView
 
   function hasManagersStat()
   {
-    return formation?.armyManagers.len()
+    return formation?.hasManagersStat()
   }
 
   function getManagersInfoLines()

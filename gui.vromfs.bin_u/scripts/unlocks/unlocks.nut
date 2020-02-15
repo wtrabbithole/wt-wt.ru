@@ -1,4 +1,4 @@
-local time = require("scripts/time.nut")
+local { getTimestampFromStringUtc, daysToSeconds, isInTimerangeByUtcStrings } = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
 
 
@@ -1599,6 +1599,17 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 
   getTotalFavoriteCount = @() ::g_unlocks.getFavoriteUnlocks().blockCount() + favoriteInvisibleUnlocks.blockCount()
   canAddFavorite = @() getTotalFavoriteCount() < favoriteUnlocksLimit
+
+  function canDo(unlockBlk) {
+    if (::is_unlocked_scripted(-1, unlockBlk?.id))
+      return false
+
+    foreach (cond in (unlockBlk?.mode ?? ::DataBlock()) % "condition")
+      if (::isInArray(cond.type, ::unlock_time_range_conditions))
+        return isInTimerangeByUtcStrings(cond.beginDate, cond.endDate)
+
+    return true
+  }
 }
 
 g_unlocks.validateCache <- function validateCache()
@@ -1887,12 +1898,12 @@ g_unlocks.isVisibleByTime <- function isVisibleByTime(id, hasIncludTimeBefore = 
       if (!::isInArray(cond.type, unlock_time_range_conditions))
         continue
 
-      local startTime = time.getTimestampFromStringUtc(cond.beginDate) -
-        time.daysToSeconds(hasIncludTimeBefore
+      local startTime = getTimestampFromStringUtc(cond.beginDate) -
+        daysToSeconds(hasIncludTimeBefore
         ? unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0
         : 0).tointeger()
-      local endTime = time.getTimestampFromStringUtc(cond.endDate) +
-        time.daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+      local endTime = getTimestampFromStringUtc(cond.endDate) +
+        daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
       local currentTime = get_charserver_time_sec()
 
       isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
@@ -1917,10 +1928,10 @@ g_unlocks.debugLogVisibleByTimeInfo <- function debugLogVisibleByTimeInfo(id)
       if (!::isInArray(cond?.type, unlock_time_range_conditions))
         continue
 
-      local startTime = time.getTimestampFromStringUtc(cond.beginDate) -
-        time.daysToSeconds(unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0).tointeger()
-      local endTime = time.getTimestampFromStringUtc(cond.endDate) +
-        time.daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+      local startTime = getTimestampFromStringUtc(cond.beginDate) -
+        daysToSeconds(unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0).tointeger()
+      local endTime = getTimestampFromStringUtc(cond.endDate) +
+        daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
       local currentTime = get_charserver_time_sec()
       local isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
 

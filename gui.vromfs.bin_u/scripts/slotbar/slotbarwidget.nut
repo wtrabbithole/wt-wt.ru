@@ -144,13 +144,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     shouldSelectAvailableUnit = shouldSelectAvailableUnit ?? ::is_in_flight()
     needPresetsPanel = needPresetsPanel ?? (!singleCountry && isCountryChoiceAllowed)
     shouldCheckQueue = shouldCheckQueue ?? !::is_in_flight()
-
-    onSlotDblClick = onSlotDblClick
-      ?? ::Callback(function(crew) {
-           local unit = getCrewUnit(crew)
-           if (unit)
-             ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
-         }, this)
+    onSlotDblClick = onSlotDblClick ?? getDefaultDblClickFunc()
 
     //update callbacks
     foreach(funcName in ["beforeSlotbarSelect", "afterSlotbarSelect", "onSlotDblClick", "onCountryChanged",
@@ -1399,5 +1393,14 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     ::set_show_aircraft(unit)
     //need to send event when crew in country not changed, because main unit changed.
     ::select_crew(curSlotCountryId, curSlotIdInCountry, true)
+  }
+
+  function getDefaultDblClickFunc()
+  {
+    return ::Callback(function(crew) {
+      local unit = getCrewUnit(crew)
+      if (unit)
+        ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
+    }, this)
   }
 }

@@ -11,13 +11,10 @@ class ::WwArmyGroup
 
   managerUids  = null
   observerUids = null
-  activeManagerUids = null
-
   armyView = null
 
-  actionCounts  = null
   armyManagers = null
-  unupdatedCount = 0
+  isArmyManagersUpdated = false
 
   constructor(blk)
   {
@@ -26,10 +23,9 @@ class ::WwArmyGroup
     supremeCommanderUid   = ::getTblValue("supremeCommanderUid", blk, "")
     supremeCommanderNick = ::getTblValue("supremeCommanderNick", blk, "")
     owner                = ::WwArmyOwner(blk.getBlockByName("owner"))
-    armyManagers         = []
     managerUids          = blk.getBlockByName("managerUids") % "item"
     observerUids         = blk.getBlockByName("observerUids") % "item" || []
-    updateActionCounts(blk.getBlockByName("managerStats"))
+    armyManagers         = getArmyManagers(blk.getBlockByName("managerStats"))
   }
 
   function clear()
@@ -43,10 +39,11 @@ class ::WwArmyGroup
 
     managerUids  = null
     observerUids = null
-    activeManagerUids = null
 
-    actionCounts = null
-    unupdatedCount = 0
+    armyView = null
+
+    armyManagers = []
+    isArmyManagersUpdated = false
   }
 
   function isValid()
@@ -159,19 +156,44 @@ class ::WwArmyGroup
            accessLevel == WW_BATTLE_ACCESS.SUPREME
   }
 
-  function updateActionCounts(blk)
+  function getArmyManagers(blk)
   {
+    local managers = []
     if (!blk)
-      return
+      return managers
 
-    activeManagerUids = []
-    actionCounts = {}
-    foreach(mUid, inst in blk)
-      if(inst)
-      {
-        activeManagerUids.append(mUid)
-        actionCounts[mUid] <- inst?.actionsCount ?? 0
-      }
-    unupdatedCount = activeManagerUids.len()
+    foreach(uid, inst in blk)
+      if (::u.isDataBlock(inst))
+        managers.append({
+          uid = uid.tointeger(),
+          actionsCount = inst?.actionsCount ?? 0,
+          name = "",
+          activity = 0
+        })
+
+    return managers
+  }
+
+  function updateManagerStat(armyManagersNames)
+  {
+    local total = armyManagers.map(@(m) m.actionsCount).reduce(@(res, value) res + value, 0).tofloat()
+    foreach(armyManager in armyManagers) {
+      armyManager.activity = total > 0
+        ? ::round(100 * armyManager.actionsCount / total).tointeger()
+        : 0
+      armyManager.name = armyManagersNames?[armyManager.uid].name ?? ""
+    }
+    armyManagers.sort(@(a,b) b.activity <=> a.activity || a.name<=> b.name)
+    isArmyManagersUpdated = true
+  }
+
+  function hasManagersStat()
+  {
+    return isArmyManagersUpdated && armyManagers.len() > 0
+  }
+
+  function getUidsForNickRequest(armyManagersNames)
+  {
+    return armyManagers.filter(@(m) m.name == "" && !(m.uid in armyManagersNames)).map(@(m) m.uid)
   }
 }

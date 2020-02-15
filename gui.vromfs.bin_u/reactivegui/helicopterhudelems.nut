@@ -386,9 +386,9 @@ local textParamsMap = {
     valuesWatched = helicopterState.IsHighRateOfFire
   },
   [HelicopterParams.AAM] = {
-    title = @() getAACaption()
+    title = @() helicopterState.Aam.count.value <= 0 ? ::loc("HUD/AAM_SHORT") : getAACaption()
     value = @() aamAimState.GuidanceLockState.value != GuidanceLockResult.RESULT_INVALID ? getAABullets() : ""
-    titleWatched = [aamAimState.GuidanceLockState]
+    titleWatched = [helicopterState.Aam.count, aamAimState.GuidanceLockState]
     valuesWatched = [helicopterState.Aam.count, helicopterState.Aam.seconds, helicopterState.IsAamEmpty,
       aamAimState.GuidanceLockState]
     alertWatched = [helicopterState.IsAamEmpty]

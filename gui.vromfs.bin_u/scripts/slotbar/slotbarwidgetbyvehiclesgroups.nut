@@ -165,6 +165,8 @@ local handlerClass = class extends ::gui_handlers.SlotbarWidget
       slotbarPresets.getVehiclesGroupByUnit(
         crewData.unit, unitsGroupsByCountry?[crewData?.crew.country ?? ""])?.name ?? "")
   }
+
+  getDefaultDblClickFunc = @() @(crew) null
 }
 
 ::gui_handlers.slotbarWidgetByVehiclesGroups <- handlerClass
