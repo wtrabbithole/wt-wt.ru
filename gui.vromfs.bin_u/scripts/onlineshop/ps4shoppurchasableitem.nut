@@ -64,11 +64,19 @@ local Ps4ShopPurchasableItem = class
   function updateSkuInfo(blk)
   {
     skuInfo = blk.skus.blockCount() > 0? blk.skus.getBlock(0) : ::DataBlock()
+    local isPlusPrice = skuInfo?.is_plus_price ?? false
+    local displayPrice = skuInfo?.display_price ?? ""
+    local skuPrice = skuInfo?.price ?? 0
 
-    priceText = skuInfo?.display_price ?? ""
-    listPriceText = skuInfo?.display_original_price ?? priceText
-    price = skuInfo?.price ?? 0
-    listPrice = skuInfo?.original_price ?? price
+    priceText = (!::ps4_has_psplus() && isPlusPrice) ? (skuInfo?.display_original_price ?? "")
+      : (::ps4_has_psplus() && !isPlusPrice) ? (skuInfo?.display_plus_upsell_price ?? displayPrice)
+      : displayPrice
+    listPriceText = skuInfo?.display_original_price ?? skuInfo?.display_price ?? priceText
+
+    price = (!::ps4_has_psplus() && isPlusPrice) ? (skuInfo?.original_price ?? 0)
+      : (::ps4_has_psplus() && !isPlusPrice) ? (skuInfo?.plus_upsell_price ?? skuPrice)
+      : skuPrice
+    listPrice = skuInfo?.original_price ?? skuInfo?.price ?? price
 
     productId = skuInfo?.product_id
     local purchStatus = skuInfo?.annotation_name ?? PURCHASE_STATUS.NOT_PURCHASED
@@ -79,8 +87,13 @@ local Ps4ShopPurchasableItem = class
       defaultIconStyle = "reward_gold"
   }
 
-  getPriceText = @() ::colorize(haveDiscount()? "goodTextColor" : "" , price == 0? ::loc("shop/free") : priceText)
   haveDiscount = @() !isBought && price != listPrice
+  havePsPlusDiscount = @() ::ps4_has_psplus() && ("display_plus_upsell_price" in skuInfo || skuInfo?.is_plus_price) //use in markup
+
+  getPriceText = @() ::colorize(!haveDiscount() ? ""
+      : havePsPlusDiscount() ? "psplusTextColor"
+      : "goodTextColor",
+    price == 0 ? ::loc("shop/free") : priceText)
 
   getDescription = @() description
 
@@ -95,6 +108,7 @@ local Ps4ShopPurchasableItem = class
     needAllBoughtIcon = true
     needPriceFadeBG = true
     headerText = shortName
+    havePsPlusDiscount = havePsPlusDiscount()
   }.__merge(params)
 
   isCanBuy = @() isPurchasable && !isBought

@@ -1687,31 +1687,32 @@ class Events
   }
 
   //!!! function only for compatibility with version without gui_regional
-  function getNameLocOldStyle(economicName)
+  function getNameLocOldStyle(event, economicName)
   {
-    local event = ::events.getEventByEconomicName(economicName)
     return ::getTblValue("loc_name", event, "events/" + economicName + "/name")
   }
 
-  function getNameByEconomicName(economicName)
+  function getEventNameText(event)
   {
+    local economicName = getEventEconomicName(event)
     local res = ::g_language.getLocTextFromConfig(getTextsBlock(economicName), "name", "")
     if (res.len())
       return res
 
     if (langCompatibility)
-      return ::loc(getNameLocOldStyle(economicName), economicName)
+      return ::loc(getNameLocOldStyle(event, economicName), economicName)
 
     return ::loc("events/" + economicName + "/name", ::loc("events/" + economicName))
   }
 
-  function getEventNameText(event)
+  function getNameByEconomicName(economicName)
   {
-    return getNameByEconomicName(getEventEconomicName(event))
+    return getEventNameText(::events.getEventByEconomicName(economicName))
   }
 
-  function getShortNameByEconomicName(economicName)
+  function getEventShortNameText(event)
   {
+    local economicName = getEventEconomicName(event)
     local res = ::g_language.getLocTextFromConfig(getTextsBlock(economicName), "nameShort", "")
     if (res.len())
       return res
@@ -1722,12 +1723,7 @@ class Events
       res = ::loc(locId + "/short", "")
       return (res != "") ? res : ::loc(locId, ::loc("events/" + economicName + "/short"))
     }
-    return getNameByEconomicName(economicName)
-  }
-
-  function getEventShortNameText(event)
-  {
-    return getShortNameByEconomicName(getEventEconomicName(event))
+    return getEventNameText(event)
   }
 
   function getBaseDescByEconomicName(economicName)

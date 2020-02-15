@@ -6,11 +6,36 @@ tdiv {
     }
   <</needHeader>>
 
+  <<#havePsPlusDiscount>>
+    cardImg {
+      type:t='small'
+      background-image:t='#ui/gameuiskin#ps_plus.svg'
+      top:t='50%ph-50%h'
+      position:t='relative'
+      margin-right:t='0.005@scrn_tgt'
+    }
+  <</havePsPlusDiscount>>
+
+  textarea {
+    text:t='<<priceText>>'
+    removeParagraphIndent:t='yes'
+
+    <<#haveDiscount>>
+      <<#havePsPlusDiscount>>
+        overlayTextColor:t='psplus'
+      <</havePsPlusDiscount>>
+      <<^havePsPlusDiscount>>
+        overlayTextColor:t='good'
+      <</havePsPlusDiscount>>
+    <</haveDiscount>>
+  }
+
   <<#haveDiscount>>
     textarea {
       text:t='<<listPriceText>>'
       removeParagraphIndent:t='yes'
       overlayTextColor:t='faded'
+      margin-left:t='0.01@scrn_tgt'
       tdiv {
         size:t='pw, 1@dp'
         position:t='absolute'
@@ -19,19 +44,4 @@ tdiv {
       }
     }
   <</haveDiscount>>
-
-  tdiv {
-    <<#haveDiscount>>
-      margin-left:t='0.01@scrn_tgt'
-    <</haveDiscount>>
-
-    textarea {
-      text:t='<<priceText>>'
-      removeParagraphIndent:t='yes'
-
-      <<#haveDiscount>>
-        overlayTextColor:t='good'
-      <</haveDiscount>>
-    }
-  }
 }

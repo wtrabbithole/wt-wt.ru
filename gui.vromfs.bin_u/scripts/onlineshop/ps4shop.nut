@@ -88,9 +88,13 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
 
   function initScreen()
   {
-    psnStore.show_icon(psnStore.IconPosition.CENTER)
-    base.initScreen()
-    checkEmptyStoreAndNotify()
+    if (canDisplayStoreContents())
+    {
+      psnStore.show_icon(psnStore.IconPosition.CENTER)
+      base.initScreen()
+    }
+    else
+      goBack()
   }
 
   function loadCurSheetItemsList()
@@ -113,10 +117,12 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
     psnStore.hide_icon()
   }
 
-  function checkEmptyStoreAndNotify()
+  function canDisplayStoreContents()
   {
-    if (!isLoadingInProgress && !itemsCatalog.len())
+    local isStoreEmpty = !isLoadingInProgress && !itemsCatalog.len()
+    if (isStoreEmpty)
       psnSystem.show_message(psnSystem.Message.EMPTY_STORE, @() null)
+    return !isStoreEmpty
   }
 
   function onEventPS4ShopSheetsInited(p)
@@ -125,7 +131,8 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
     fillItemsList()
     restoreFocus()
     updateItemInfo()
-    checkEmptyStoreAndNotify()
+    if (!canDisplayStoreContents())
+      goBack()
   }
 
   function onEventPS4IngameShopUpdate(p)

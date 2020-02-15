@@ -213,11 +213,25 @@ itemDiv {
         background-color:t='@shadeBackgroundColor2'
       <</needPriceFadeBG>>
 
-      textareaNoTab {
-        id:t='price'
-        text:t='<<price>>'
+      tdiv {
         pos:t='pw-w -2@itemPadding, 50%ph-50%h'
         position:t='relative'
+        <<#havePsPlusDiscount>>
+          cardImg {
+            type:t='small'
+            background-image:t='#ui/gameuiskin#ps_plus.svg'
+            top:t='50%ph-50%h'
+            position:t='relative'
+            margin-right:t='0.005@scrn_tgt'
+          }
+        <</havePsPlusDiscount>>
+
+        textareaNoTab {
+          id:t='price'
+          text:t='<<price>>'
+          top:t='50%ph-50%h'
+          position:t='relative'
+        }
       }
     }
     <</price>>
