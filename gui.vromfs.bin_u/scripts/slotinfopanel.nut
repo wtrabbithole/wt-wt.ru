@@ -132,7 +132,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
   function onProtectionAnalysis()
   {
     local unit = getCurShowUnit()
-    ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open(unit))
+    checkedCrewModify(
+      @() ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open(unit)))
   }
 
   function onShowExternalDmPartsChange(obj)

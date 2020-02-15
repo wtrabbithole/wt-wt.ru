@@ -100,6 +100,7 @@ local XboxShopPurchasableItem = class
   getSeenId = @() id.tostring()
   canBeUnseen = @() isBought
   showDetails = @() ::xbox_show_details(id)
+  showDescription = @() null
 }
 
 return XboxShopPurchasableItem

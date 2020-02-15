@@ -14,13 +14,16 @@ local persist = {
 local STORE_REQUEST_ADDITIONAL_FLAGS = {
   flag = "discounts"
   useCurrencySymbol = true
+  sort = "release_date"
 }
 
-local isFinishedUpdateItems = false
+local isFinishedUpdateItems = false //Status of FULL update items till creating list of classes PS4ShopPurchasableItem
 local invalidateSeenList = false
 local visibleSeenIds = []
 
 local getShopItem = @(id) persist.itemsList?[id]
+
+local canUseIngameShop = @() ::is_platform_ps4 && ::has_feature("PS4IngameShop")
 
 //Recursive translator to DataBlock data.
 //More conviniet to store, search and use data in DataBlock.
@@ -56,6 +59,9 @@ local haveItemDiscount = null
 // Calls on finish updating skus extended info
 local onFinishCollectData = function()
 {
+  if (!canUseIngameShop())
+    return
+
   isFinishedUpdateItems = true
   haveItemDiscount = null
 
@@ -100,15 +106,23 @@ local requestLinksFullInfo = @(category) null
 local fillLinkFullInfo = @(category = "") makeRequestForNextCategory(requestLinksFullInfo, onFinishCollectData, category)
 
 local onReceivedResponeOnFullInfo = function(response, category, linksList) {
-  foreach (idx, label in linksList)
-  {
+  response.each(function(linkBlock, idx) {
+    local label = linkBlock.label
+
     // Received full info, we don't need short
     persist.categoriesData[category].links.removeBlock(label)
 
-    fillBlock(label, persist.categoriesData[category].links, response[idx])
+    fillBlock(label, persist.categoriesData[category].links, linkBlock)
     persist.categoriesData[category].links[label].setStr("category", category)
     persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label])
-  }
+
+    local linkIdx = linksList.findindex(@(p) p == label)
+    if (linkIdx != null)
+      linksList.remove(linkIdx)
+  })
+
+  if (linksList.len())
+    ::dagor.debug("PSN: Shop data: onReceivedResponeOnFullInfo: Didn't recieved info for {0}".subst(linksList.tostring()))
 
   fillLinkFullInfo(category)
 }
@@ -117,7 +131,7 @@ requestLinksFullInfo = function(category) {
   local categoryBlock = persist.categoriesData.getBlockByName(category)
   if (!categoryBlock)
   {
-    ::dagor.debug("PSN: Shop data: requestLinksFullInfo: no block found for category " + category)
+    ::dagor.debug($"PSN: Shop data: requestLinksFullInfo: no block found for category {category}")
     fillLinkFullInfo(category)
     return
   }
@@ -247,8 +261,6 @@ local collectCategoriesAndItems = @() psn.send(
   }
 )
 
-local canUseIngameShop = @() ::is_platform_ps4 && ::has_feature("PS4IngameShop")
-
 local isCategoriesInitedOnce = false
 local initPs4CategoriesAfterLogin = function()
 {
@@ -376,4 +388,6 @@ return {
   getData = @() persist.categoriesData
   getShopItemsTable = @() persist.itemsList
   getShopItem = getShopItem
+
+  isItemsUpdated = @() isFinishedUpdateItems
 }

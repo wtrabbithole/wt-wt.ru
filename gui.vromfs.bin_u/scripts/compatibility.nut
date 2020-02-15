@@ -84,4 +84,5 @@ if (::getroottable()?.ww_get_speedup_factor.getfuncinfos().native) {
 ::apply_compatibilities({
   is_hdr_enabled = @() false
   get_aircraft_crew_blk = @(crewId, unitName) ::get_aircraft_crew_by_id(crewId)
+  ps4_update_purchases_on_auth = @() null
 })

@@ -1,4 +1,6 @@
 require("ingameConsoleStore.nut")
+local psnStore = require("ps4_api.store")
+local psnSystem = require("ps4_api.sys")
 
 local seenEnumId = SEEN.EXT_PS4_SHOP
 
@@ -25,10 +27,10 @@ local defaultsSheetData = {
   }
 }
 
-local fillSheetsArray = function() {
+local fillSheetsArray = function(bcEventParams = {}) {
   if (!shopData.getData().blockCount())
   {
-    //Empty categories data
+    ::dagor.debug("PS4: Ingame Shop: Don't init sheets. CategoriesData is empty")
     return
   }
 
@@ -71,10 +73,12 @@ local fillSheetsArray = function() {
       return res
     })
   }
+
+  ::broadcastEvent("PS4ShopSheetsInited", bcEventParams)
 }
 
 subscriptions.addListenersWithoutEnv({
-  Ps4ShopDataUpdated = @(p) fillSheetsArray()
+  Ps4ShopDataUpdated = fillSheetsArray
 })
 
 class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
@@ -82,20 +86,46 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
   needWaitIcon = true
   isLoadingInProgress = false
 
+  function initScreen()
+  {
+    psnStore.show_icon(psnStore.IconPosition.CENTER)
+    base.initScreen()
+    checkEmptyStoreAndNotify()
+  }
+
   function loadCurSheetItemsList()
   {
     itemsList = []
     local itemsLinks = shopData.getData().getBlockByName(curSheet.categoryId)?.links ?? ::DataBlock()
     for (local i = 0; i < itemsLinks.blockCount(); i++)
-      itemsList.append(shopData.getShopItem(itemsLinks.getBlock(i).getBlockName()))
+    {
+      local itemId = itemsLinks.getBlock(i).getBlockName()
+      local block = shopData.getShopItem(itemId)
+      if (block)
+        itemsList.append(block)
+      else
+        ::dagor.debug($"PS4: Ingame Shop: Skip missing info of item {itemId}")
+    }
   }
 
-  function onEventPs4ShopDataUpdated(p)
+  function afterModalDestroy()
+  {
+    psnStore.hide_icon()
+  }
+
+  function checkEmptyStoreAndNotify()
+  {
+    if (!isLoadingInProgress && !itemsCatalog.len())
+      psnSystem.show_message(psnSystem.Message.EMPTY_STORE, @() null)
+  }
+
+  function onEventPS4ShopSheetsInited(p)
   {
     isLoadingInProgress = p?.isLoadingInProgress ?? false
     fillItemsList()
     restoreFocus()
     updateItemInfo()
+    checkEmptyStoreAndNotify()
   }
 
   function onEventPS4IngameShopUpdate(p)
@@ -116,10 +146,12 @@ return {
   canUseIngameShop = shopData.canUseIngameShop
   openWnd = @(chapter = null, afterCloseFunc = null) ::handlersManager.loadHandler(::gui_handlers.Ps4Shop, {
     itemsCatalog = shopData.getShopItemsTable()
+    isLoadingInProgress = !shopData.isItemsUpdated()
     chapter = chapter
     afterCloseFunc = afterCloseFunc
     titleLocId = "topmenu/ps4IngameShop"
-    storeLocId = "items/openIn/Ps4Store"
+    storeLocId = "items/purchaseIn/Ps4Store"
+    openStoreLocId = "items/openIn/Ps4Store"
     seenEnumId = seenEnumId
     seenList = seenList
     sheetsArray = persist.sheetsArray

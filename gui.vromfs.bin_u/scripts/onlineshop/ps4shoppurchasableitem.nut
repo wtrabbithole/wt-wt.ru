@@ -1,12 +1,20 @@
 local psnStore = require("ps4_api.store")
 
-local IMAGE_TYPE_INDEX = 2 //Thumbnail for in-game commerce
+local IMAGE_TYPE_INDEX = 8 //360x360 good looking on 1080p and 4k
 
 enum PURCHASE_STATUS {
   PURCHASED = "RED_BAG" // - Already purchased and cannot be purchased again
   PURCHASED_MULTI = "BLUE_BAG" // - Already purchased and can be purchased again
   NOT_PURCHASED = "NONE" // - Not yet purchased
 }
+
+local handleNewPurchase = function(itemId) {
+  ::ps4_update_purchases_on_auth();
+  local taskParams = { showProgressBox = true, progressBoxText = ::loc("charServer/checking") }
+  ::g_tasker.addTask(::update_entitlements_limited(true), taskParams)
+  ::broadcastEvent("PS4ItemUpdate", {id = itemId})
+}
+
 
 local Ps4ShopPurchasableItem = class
 {
@@ -34,6 +42,7 @@ local Ps4ShopPurchasableItem = class
   amount = ""
 
   isMultiConsumable = false
+  needHeader = true //used in .tpl for discount
 
   skuInfo = null
 
@@ -46,16 +55,8 @@ local Ps4ShopPurchasableItem = class
 
     local imagesArray = (blk.images % "array")
     local imageIndex = imagesArray.findindex(@(t) t.type == IMAGE_TYPE_INDEX)
-    if (imageIndex)
-      imagePath = imagesArray[imageIndex].url
-
-    if (!imagePath)
-    {
-      local ps4ShopBlk = ::configs.GUI.get()?.ps4_ingame_shop
-      local ingameShopImages = ps4ShopBlk?.items
-      if (ingameShopImages?[id] && ps4ShopBlk?.mainPart && ps4ShopBlk?.fileExtension)
-        imagePath = "!" + ps4ShopBlk.mainPart + id + ps4ShopBlk.fileExtension
-    }
+    if (imageIndex != null && imagesArray[imageIndex]?.url)
+      imagePath = "{0}?P1".subst(imagesArray[imageIndex].url)
 
     updateSkuInfo(blk)
   }
@@ -92,6 +93,7 @@ local Ps4ShopPurchasableItem = class
     isItemLocked = !isPurchasable
     itemHighlight = isBought
     needAllBoughtIcon = true
+    needPriceFadeBG = true
     headerText = shortName
   }.__merge(params)
 
@@ -109,7 +111,18 @@ local Ps4ShopPurchasableItem = class
       [itemId],
       function(result) {
         if (result.action == psnStore.Action.PURCHASED)
-          ::broadcastEvent("PS4ItemUpdate", {id = itemId})
+          handleNewPurchase(itemId)
+      }
+    )
+  }
+
+  showDescription = function() {
+    local itemId = id
+    psnStore.open_product(
+      itemId,
+      function(result) {
+        if (result.action == psnStore.Action.PURCHASED)
+          handleNewPurchase(itemId)
       }
     )
   }

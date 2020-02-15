@@ -41,14 +41,44 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.IngameConsoleStore
   function onEventXboxSystemUIReturn(p)
   {
     lastSelectedItem = getCurItem()
-    local wasBought = lastSelectedItem?.isBought
+    local wasItemBought = lastSelectedItem?.isBought
     lastSelectedItem?.updateIsBoughtStatus()
-    if (wasBought != lastSelectedItem?.isBought)
-      ::configs.ENTITLEMENTS_PRICE.checkUpdate()
 
-    updateSorting()
-    fillItemsList()
-    ::g_discount.updateOnlineShopDiscounts()
+    local wasPurchasePerformed = wasItemBought != lastSelectedItem?.isBought
+
+    if (wasPurchasePerformed)
+    {
+      ::g_tasker.addTask(::update_entitlements_limited(),
+        {
+          showProgressBox = true
+          progressBoxText = ::loc("charServer/checking")
+        },
+        ::Callback(function() {
+          updateSorting()
+          fillItemsList()
+          ::g_discount.updateOnlineShopDiscounts()
+
+          if (lastSelectedItem.isMultiConsumable || wasPurchasePerformed)
+            ::update_gamercards()
+        }, this)
+      )
+    }
+  }
+
+  function goBack()
+  {
+    ::g_tasker.addTask(::update_entitlements_limited(),
+      {
+        showProgressBox = true
+        progressBoxText = ::loc("charServer/checking")
+      },
+      ::Callback(function() {
+        ::g_discount.updateOnlineShopDiscounts()
+        ::update_gamercards()
+      })
+    )
+
+    base.goBack()
   }
 }
 

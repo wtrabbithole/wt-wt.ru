@@ -815,11 +815,14 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     updateConsoleImage(scene.findObject("btn_main_action"))
+    updateConsoleImage(scene.findObject("btn_alt_action"))
   }
 
   function updateConsoleImage(buttonObj)
   {
-    buttonObj.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
+    local isInactive = !::show_console_buttons || !getItemsListObj().isFocused()
+    buttonObj.hideConsoleImage = isInactive ? "yes" : "no"
+    buttonObj.enable(!isInactive)
   }
 
   function onOpenCraftTree(obj)
