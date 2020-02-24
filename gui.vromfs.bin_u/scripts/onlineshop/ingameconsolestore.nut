@@ -338,14 +338,14 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
   function updateItemInfo()
   {
     local item = getCurItem()
+    fillItemInfo(item)
+    updateButtons()
+
     if (!item && !isLoadingInProgress)
       return
 
-    fillItemInfo(item)
-
     lastSelectedItem = item
     markItemSeen(item)
-    updateButtons()
   }
 
   function fillItemInfo(item)
@@ -390,16 +390,12 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     {
       buttonObj.visualStyle = "secondary"
       ::set_double_text_to_button(scene, "btn_main_action", ::loc(storeLocId))
-      updateConsoleImage(buttonObj)
     }
 
     local showSecondAction = openStoreLocId != "" && (item?.isBought ?? false)
-    buttonObj = showSceneBtn("btn_alt_action", showSecondAction)
+    showSceneBtn("btn_alt_action", showSecondAction)
     if (showSecondAction)
-    {
       ::set_double_text_to_button(scene, "btn_alt_action", ::loc(openStoreLocId))
-      updateConsoleImage(buttonObj)
-    }
 
     showSceneBtn("warning_text", showSecondAction)
   }
@@ -416,19 +412,10 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
       return null
 
     local obj = getItemsListObj()
-    if (!::check_obj(obj))
+    if (!::check_obj(obj) || !obj.isFocused())
       return null
 
     return itemsList?[obj.getValue() + curPage * itemsPerPage]
-  }
-
-  function getCurItemObj()
-  {
-    local itemListObj = getItemsListObj()
-    local value = itemListObj.getValue()
-    if (value < 0)
-      return null
-    return itemListObj.getChild(value)
   }
 
   onTabChange = @() null
@@ -465,17 +452,7 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemsListFocusChange()
   {
-    if (!isValid())
-      return
-
-    updateConsoleImage(scene.findObject("btn_main_action"))
-    updateConsoleImage(scene.findObject("btn_alt_action"))
-  }
-
-  function updateConsoleImage(buttonObj)
-  {
-    local isInactive = !::show_console_buttons || !getItemsListObj().isFocused()
-    buttonObj.hideConsoleImage = isInactive ? "yes" : "no"
-    buttonObj.enable(!isInactive)
+    if (isValid())
+      updateItemInfo()
   }
 }

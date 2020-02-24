@@ -95,7 +95,22 @@ local Ps4ShopPurchasableItem = class
       : "goodTextColor",
     price == 0 ? ::loc("shop/free") : priceText)
 
-  getDescription = @() description
+  getDescription = function() {
+    //TEMP HACK!!! for PS4 TRC R4052A, to show all symbols of a single 2000-letter word
+    local maxSymbolsInLine = 50 // Empirically fits with the biggest font we have
+    if (description.len() > maxSymbolsInLine && description.indexof(" ") == null) {
+      local splitDesc = description.slice(0, maxSymbolsInLine)
+      local len = description.len()
+      local totalLines = (len / maxSymbolsInLine).tointeger() + 1
+      for (local i = 1; i < totalLines; i++) {
+        splitDesc += "\n"
+        splitDesc += description.slice(i * maxSymbolsInLine, (i+1) * maxSymbolsInLine)
+      }
+      return splitDesc
+    }
+
+    return description
+  }
 
   getViewData = @(params = {}) {
     isAllBought = isBought

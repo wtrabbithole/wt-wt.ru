@@ -210,7 +210,6 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::check_obj(mainActionBtn))
     {
-      mainActionBtn.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
       mainActionBtn.visualStyle = "purchase"
       mainActionBtn.inactiveColor = award.canBuy() ? "no" : "yes"
       ::set_double_text_to_button(scene, "btn_main_action", award.getBuyText(false))

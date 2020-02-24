@@ -131,16 +131,22 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return true
 
     for(local i=::contacts_prev_scenes.len()-1; i>=0; i--)
-      if (::checkObj(::contacts_prev_scenes[i].scene))
-      {
+    {
+      local prevScene = ::contacts_prev_scenes[i].scene
+      if (::checkObj(prevScene)) {
+        local handler = ::contacts_prev_scenes[i].owner
+        if (!handler.isSceneActiveNoModals() || !prevScene.isVisible())
+          continue
+
         scene = ::contacts_prev_scenes[i].scene
-        owner = ::contacts_prev_scenes[i].owner
+        owner = handler
         guiScene = scene.getScene()
         sceneChanged = true
         sceneShow(::contacts_prev_scenes[i].show || ::last_contacts_scene_show)
         return true
       } else
         ::contacts_prev_scenes.remove(i)
+    }
     scene = null
     return false
   }
@@ -1240,5 +1246,27 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!(curGroup in ::contacts))
       curGroup = ""
+  }
+
+  function onEventActiveHandlersChanged(p)
+  {
+    checkActiveScene()
+  }
+
+  function checkActiveScene()
+  {
+    if (!::checkObj(scene) || owner == null) {
+      checkScene()
+      return
+    }
+
+    if (owner.isSceneActiveNoModals() && scene?.isVisible())
+      return
+
+    local curScene = scene
+    if (::contacts_prev_scenes.findvalue(@(v) curScene.isEqual(v.scene)) == null)
+      ::contacts_prev_scenes.append({ scene = scene, show = ::last_contacts_scene_show, owner = owner })
+    scene = null
+    return
   }
 }

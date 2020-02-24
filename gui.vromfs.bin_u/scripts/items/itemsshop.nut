@@ -78,6 +78,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     fillTabs()
 
     initFocusArray()
+    local itemsListObj = getItemsListObj()
+    if (itemsListObj.childrenCount() > 0)
+      itemsListObj.select()
 
     scene.findObject("update_timer").setUserData(this)
 
@@ -489,7 +492,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function getCurItem()
   {
     local obj = getItemsListObj()
-    if (!::check_obj(obj))
+    if (!::check_obj(obj) || !obj.isFocused())
       return null
 
     return itemsList?[obj.getValue() + curPage * itemsPerPage]
@@ -552,7 +555,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       buttonObj.inactiveColor = mainActionData?.isInactive ? "yes" : "no"
       ::setDoubleTextToButton(scene, "btn_main_action", mainActionData.btnName,
                               mainActionData?.btnColoredName || mainActionData.btnName)
-      updateConsoleImage(buttonObj)
     }
 
     local activateText = !showMainAction && item?.isInventoryItem && item.amount ? item.getActivateInfo() : ""
@@ -811,18 +813,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemsListFocusChange()
   {
-    if (!isValid())
-      return
-
-    updateConsoleImage(scene.findObject("btn_main_action"))
-    updateConsoleImage(scene.findObject("btn_alt_action"))
-  }
-
-  function updateConsoleImage(buttonObj)
-  {
-    local isInactive = !::show_console_buttons || !getItemsListObj().isFocused()
-    buttonObj.hideConsoleImage = isInactive ? "yes" : "no"
-    buttonObj.enable(!isInactive)
+    if (isValid())
+      updateItemInfo()
   }
 
   function onOpenCraftTree(obj)

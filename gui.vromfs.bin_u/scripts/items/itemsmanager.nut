@@ -788,10 +788,6 @@ ItemsManager.fillItemDescr <- function fillItemDescr(item, holderObj, handler = 
         desc = award.addAmountTextToDesc(desc)
     }
 
-    //TEMP HACK!!! for PS4 TRC R4052A, so that can view all symbols.
-    obj["overflow-x"] = desc.len() && desc.indexof(" ") == null? "auto" : "none"
-    //---
-
     obj.setValue(desc)
   }
 
