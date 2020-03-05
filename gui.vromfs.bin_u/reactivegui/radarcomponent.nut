@@ -385,12 +385,14 @@ local B_ScopeSquareBackground = function(width, height) {
     local scanAzimuthMinRel = radarState.ScanAzimuthMin.value * azimuthRangeInv
     local scanAzimuthMaxRel = radarState.ScanAzimuthMax.value * azimuthRangeInv
 
-    local gridSecondaryCommands =
-    [
-      [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 25, 50 + scanAzimuthMaxRel * 100, 25],
-      [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 50, 50 + scanAzimuthMaxRel * 100, 50],
-      [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 75, 50 + scanAzimuthMaxRel * 100, 75]
-    ]
+    local gridSecondaryCommands = []
+
+    if (radarState.HasDistanceScale.value)
+      gridSecondaryCommands = [
+        [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 25, 50 + scanAzimuthMaxRel * 100, 25],
+        [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 50, 50 + scanAzimuthMaxRel * 100, 50],
+        [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 75, 50 + scanAzimuthMaxRel * 100, 75]
+      ]
 
     if (radarState.HasAzimuthScale.value)
     {
@@ -436,7 +438,7 @@ local B_ScopeSquareBackground = function(width, height) {
 
     local gridMain = {
       rendObj = ROBJ_VECTOR_CANVAS
-      size = [width, width]
+      size = [width, height]
       color = greenColorGrid
       lineWidth = hdpx(2) * LINE_WIDTH
       opacity = 0.7
@@ -459,7 +461,7 @@ local B_ScopeSquareBackground = function(width, height) {
       lineWidth = hdpx(1)
       color = greenColorGrid
       fillColor = Color(0, 0, 0, 0)
-      size = [width, width]
+      size = [width, height]
       opacity = 0.42
       commands = gridSecondaryCommands
     }
@@ -505,15 +507,15 @@ local function B_ScopeSquareTargetSectorComponent(width, valueWatched, distWatch
   local isTank = getAzimuthRange() > math.PI
   return @() style.lineForeground.__merge({
     size = SIZE_TO_CONTENT
-    children = getChildren()
+    children = isTank ? getChildren() : []
     watch = [valueWatched, distWatched, halfWidthWatched]
     transform = {
-      translate = [(isTank ? valueWatched.value : 0.5) * width, 0]
+      translate = [valueWatched.value * width, 0]
     }
   })
 }
 
-local B_ScopeSquareAzimuthComponent = function(width, height, valueWatched, distWatched, halfWidthWatched)
+local B_ScopeSquareAzimuthComponent = function(width, height, valueWatched, distWatched, halfWidthWatched, tanksOnly)
 {
   local getChildren = function() {
     if (distWatched && distWatched.value == 1.0 && halfWidthWatched && halfWidthWatched.value > 0)
@@ -544,9 +546,10 @@ local B_ScopeSquareAzimuthComponent = function(width, height, valueWatched, dist
     }
   }
 
+  local isTank = getAzimuthRange() > math.PI
   return @() style.lineForeground.__merge({
     size = SIZE_TO_CONTENT
-    children = getChildren()
+    children = !tanksOnly || isTank ? getChildren() : []
     watch = [valueWatched, distWatched, halfWidthWatched]
     transform = {
       translate = [valueWatched.value * width, 0]
@@ -893,7 +896,7 @@ local B_ScopeSquare = function(width, height) {
     local children = [
       B_ScopeSquareBackground(width, height),
       B_ScopeSquareTargetSectorComponent(width, radarState.TurretAzimuth, radarState.TargetRadarDist, radarState.TargetRadarAzimuthWidth, height, targetSectorColor),
-      B_ScopeSquareAzimuthComponent(width, height, radarState.TurretAzimuth, null, null),
+      B_ScopeSquareAzimuthComponent(width, height, radarState.TurretAzimuth, null, null, true),
       {
         size = [width, width]
         rendObj = ROBJ_RADAR_GROUND_REFLECTIONS
@@ -904,9 +907,9 @@ local B_ScopeSquare = function(width, height) {
       }
     ]
     if (radarState.IsRadarVisible.value)
-      children.append(B_ScopeSquareAzimuthComponent(width, height, radarState.Azimuth, radarState.Distance, radarState.AzimuthHalfWidth))
+      children.append(B_ScopeSquareAzimuthComponent(width, height, radarState.Azimuth, radarState.Distance, radarState.AzimuthHalfWidth, false))
     if (radarState.IsRadar2Visible.value)
-      children.append(B_ScopeSquareAzimuthComponent(width, height, radarState.Azimuth2, radarState.Distance2, radarState.AzimuthHalfWidth2))
+      children.append(B_ScopeSquareAzimuthComponent(width, height, radarState.Azimuth2, radarState.Distance2, radarState.AzimuthHalfWidth2, false))
     children.append(targetsComponent(width, height, createTargetOnRadarSquare))
     return children
   }
@@ -1331,11 +1334,14 @@ local B_ScopeHalfBackground = function(width, height) {
     local scanAngleStartDeg = scanAngleStart * rad2deg
     local scanAngleFinishDeg = scanAngleFinish * rad2deg
 
-    local gridSecodaryCommands = [
-      [VECTOR_SECTOR, 50, 50, 12.5, 12.5, scanAngleStartDeg, scanAngleFinishDeg],
-      [VECTOR_SECTOR, 50, 50, 25.0, 25.0, scanAngleStartDeg, scanAngleFinishDeg],
-      [VECTOR_SECTOR, 50, 50, 37.5, 37.5, scanAngleStartDeg, scanAngleFinishDeg],
-    ]
+    local gridSecodaryCommands = []
+
+    if (radarState.HasDistanceScale.value)
+      gridSecodaryCommands = [
+        [VECTOR_SECTOR, 50, 50, 12.5, 12.5, scanAngleStartDeg, scanAngleFinishDeg],
+        [VECTOR_SECTOR, 50, 50, 25.0, 25.0, scanAngleStartDeg, scanAngleFinishDeg],
+        [VECTOR_SECTOR, 50, 50, 37.5, 37.5, scanAngleStartDeg, scanAngleFinishDeg],
+      ]
 
     const angleGrad = 15.0
     local angle = math.PI * angleGrad / 180.0

@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local promoConditions = require("scripts/promo/promoConditions.nut")
+local { isPollVoted } = require("scripts/web/webpoll.nut")
 
 enum POPUP_VIEW_TYPES {
   NEVER = "never"
@@ -80,7 +81,7 @@ g_popup_msg.verifyPopupBlk <- function verifyPopupBlk(blk, hasModalObject, needD
     if (!::g_language.isAvailableForCurLang(blk))
       return null
 
-    if (blk?.pollId && ::g_webpoll.isPollVoted(blk.pollId))
+    if (blk?.pollId && isPollVoted(blk.pollId))
       return null
 
     local viewType = blk?.viewType ?? POPUP_VIEW_TYPES.NEVER

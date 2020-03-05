@@ -1,5 +1,6 @@
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
+local { setPollBaseUrl, generatePollUrl } = require("scripts/web/webpoll.nut")
 
 ::delayed_unlock_wnd <- []
 ::showUnlockWnd <- function showUnlockWnd(config)
@@ -163,8 +164,8 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     local linkText = ::g_promo.getLinkText(config)
     if (config?.pollId && config?.link)
     {
-      ::g_webpoll.setPollBaseUrl(config.pollId, config.link)
-      linkText = ::g_webpoll.generatePollUrl(config.pollId)
+      setPollBaseUrl(config.pollId, config.link)
+      linkText = generatePollUrl(config.pollId)
     }
 
     local show = linkText != "" && ::g_promo.isLinkVisible(config)

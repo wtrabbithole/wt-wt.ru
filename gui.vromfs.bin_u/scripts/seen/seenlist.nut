@@ -118,7 +118,7 @@ local SeenList = class {
 
   function initOnce()
   {
-    if (isInited)
+    if (isInited || !::g_login.isProfileReceived())
       return
     isInited = true
 

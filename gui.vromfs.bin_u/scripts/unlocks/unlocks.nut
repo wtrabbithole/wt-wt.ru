@@ -1827,6 +1827,9 @@ g_unlocks.loadFavorites <- function loadFavorites()
     favoriteInvisibleUnlocks = ::DataBlock()
   }
 
+  if (!::g_login.isProfileReceived())
+    return
+
   local loaded = ::load_local_account_settings(FAVORITE_UNLOCKS_LIST_SAVE_ID)
   if (loaded)
   {

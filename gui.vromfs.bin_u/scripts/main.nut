@@ -840,7 +840,6 @@ local isFullScriptsLoaded = false
     "matching/serviceNotifications/worldwar.nut"
     "matching/serviceNotifications/mrooms.nut"
 
-    "webpoll.nut"
     "gamepadSceneSettings.nut"
   ])
   {

@@ -343,7 +343,7 @@ g_clans.onEventSignOut <- function onEventSignOut(p)
 g_clans.loadSeenCandidates <- function loadSeenCandidates()
 {
   local result = ::DataBlock()
-  if(isHaveRightsToReviewCandidates())
+  if(::g_login.isProfileReceived() && isHaveRightsToReviewCandidates())
   {
     local loaded = ::load_local_account_settings(CLAN_SEEN_CANDIDATES_SAVE_ID, null)
     if(loaded != null)
@@ -354,7 +354,7 @@ g_clans.loadSeenCandidates <- function loadSeenCandidates()
 
 g_clans.saveCandidates <- function saveCandidates()
 {
-  if( ! isHaveRightsToReviewCandidates() || ! seenCandidatesBlk)
+  if(!::g_login.isProfileReceived() || !isHaveRightsToReviewCandidates() || !seenCandidatesBlk)
     return
   ::save_local_account_settings(CLAN_SEEN_CANDIDATES_SAVE_ID, seenCandidatesBlk)
 }

@@ -1,3 +1,5 @@
+local { getPollIdByFullUrl, generatePollUrl } = require("scripts/web/webpoll.nut")
+
 ::embedded_browser_event <- function embedded_browser_event(event_type, url, error_desc, error_code,
   is_main_frame)
 {
@@ -168,10 +170,10 @@ class ::gui_handlers.BrowserModalHandler extends ::BaseGuiHandler
       return
     // we have to update externalUrl for any pollId
     // so we don't care about pollId from param
-    local pollId = ::g_webpoll.getPollIdByFullUrl(currentUrl)
+    local pollId = getPollIdByFullUrl(currentUrl)
     if( ! pollId)
       return
-    externalUrl = ::g_webpoll.generatePollUrl(pollId, false)
+    externalUrl = generatePollUrl(pollId, false)
   }
 
   function toggleWaitAnimation(show)

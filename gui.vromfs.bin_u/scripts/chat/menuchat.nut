@@ -1697,7 +1697,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkVoiceChatSuggestion()
   {
-    if (!shouldCheckVoiceChatSuggestion)
+    if (!shouldCheckVoiceChatSuggestion || !::g_login.isProfileReceived())
       return
     shouldCheckVoiceChatSuggestion = false
 

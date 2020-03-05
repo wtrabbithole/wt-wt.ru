@@ -365,9 +365,9 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
     ::g_gamepad_cursor_controls.canChangeValue()
   )
   {
-    if (
-      !::gui_handlers.GampadCursorControlsSplash.isDisplayed() &&
-      !::g_gamepad_cursor_controls.getValue()
+    if (::g_login.isProfileReceived()
+      && !::gui_handlers.GampadCursorControlsSplash.isDisplayed()
+      && !::g_gamepad_cursor_controls.getValue()
     )
     {
       handler.doWhenActive(function() { ::gui_start_gamepad_cursor_controls_splash(

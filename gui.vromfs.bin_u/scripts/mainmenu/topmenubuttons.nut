@@ -339,6 +339,22 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     isDelayed = false
     isHidden = @(...) !::has_feature("EulaInMenu") || !::isInMenu()
   }
+  DEBUG_PS4_SHOP_DATA = {
+    text = "Debug PS4 Data" //intentionally without localization
+    onClickFunc = function(obj, handler) {
+      local itemInfo = []
+      foreach (id, item in ps4ShopData.getShopItemsTable())
+      {
+        itemInfo.append(item.id)
+        itemInfo.append(item.imagePath)
+        itemInfo.append(item.getDescription())
+      }
+      local data = ::g_string.implode(itemInfo, "\n")
+      ::dagor.debug(data)
+      ::script_net_assert("PS4 Internal debug shop data")
+    }
+    isHidden = @(...) !::has_feature("DebugLogPS4ShopData")
+  }
   EMPTY = {
     elementType = TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON
   }

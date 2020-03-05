@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local promoConditions = require("scripts/promo/promoConditions.nut")
+local { getPollIdByFullUrl, invalidateTokensCache } = require("scripts/web/webpoll.nut")
 
 local function openLink(owner, params = [], source = "promo_open_link")
 {
@@ -118,7 +119,12 @@ local openProfileSheetParams = {
     events = function(handler, params, obj) { return openEventsWnd(handler, params) }
     tutorial = function(handler, params, obj) { return onOpenTutorial(handler, params) }
     battle_tasks = function(handler, params, obj) { return onOpenBattleTasksWnd(handler, params, obj) }
-    url = function(handler, params, obj) { return openLink(handler, params) }
+    url = function(handler, params, obj) {
+      local pollId = getPollIdByFullUrl(params?[0] ?? "")
+      if (pollId != null)
+        invalidateTokensCache(pollId.tointeger())
+      return openLink(handler, params)
+    }
     items = function(handler, params, obj) { return openItemsWnd(handler, params) }
     squad_contacts = function(handler, params, obj) { return ::open_search_squad_player() }
     world_war = function(handler, params, obj) { ::g_world_war.openMainWnd(params?[0] == "openMainMenu") }

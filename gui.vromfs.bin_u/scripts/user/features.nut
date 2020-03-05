@@ -248,6 +248,9 @@
     TournamentInvites = true
 
     PS4CrossNetwork = false
+
+    everyDayLoginAward = true
+    DebugLogPS4ShopData = false //For debug purpose, to see ps4 shop data on retail console
   }
 
   cache = {}
