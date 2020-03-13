@@ -1634,8 +1634,6 @@
             "verticalOmegaMult": 1.0,
             "verticalSpeedLimitKPH": 75.0,
             "speedFromVehicleVerticalMult": -1.0,
-            "speedYaw": 40.0,
-            "speedPitch": 20.0,
             "errorKPHToDegrees": [
               {
                 "row": [5.0,0.0]
@@ -2718,8 +2716,6 @@
                   "verticalOmegaMult": 1.0,
                   "verticalSpeedLimitKPH": 75.0,
                   "speedFromVehicleVerticalMult": -1.0,
-                  "speedYaw": 40.0,
-                  "speedPitch": 20.0,
                   "errorKPHToDegrees": [
                     {
                       "row": [5.0,0.0]
@@ -2929,20 +2925,22 @@
       "night_vision_system": {
         "effects": {
           "nightVision": {
-            "gunnerThermal": {
-              "resolution": [500,300],
-              "noiseFactor": 0.05
+            "gunnerIr": {
+              "resolution": [800,600],
+              "lightMult": 8.0,
+              "ghosting": 0.75,
+              "noiseFactor": 0.2
             },
             "commanderIr": {
-              "resolution": [1600,1200],
-              "lightMult": 9.0,
-              "ghosting": 0.6,
+              "resolution": [800,600],
+              "lightMult": 8.0,
+              "ghosting": 0.75,
               "noiseFactor": 0.2
             },
             "driverIr": {
               "resolution": [800,600],
               "lightMult": 5.0,
-              "ghosting": 0.6,
+              "ghosting": 0.7,
               "noiseFactor": 0.2
             }
           }
@@ -2961,6 +2959,8 @@
   {
     "skin": {
       "name": "lederbraun",
+      "nameLocId": "skin/ger_camo_lederbraun",
+      "descLocId": "skin/ger_camo_lederbraun/desc",
       "replace_tex": {
         "from": "ger_camo_bronzegruen*",
         "to": "ger_camo_lederbraun*"
@@ -2970,6 +2970,8 @@
   {
     "skin": {
       "name": "winter",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
       "replace_tex": {
         "from": "ger_camo_bronzegruen*",
         "to": "ussr_camo_winter*"
@@ -2979,6 +2981,8 @@
   {
     "skin": {
       "name": "ger_camo_carc",
+      "nameLocId": "skin/ger_camo_carc",
+      "descLocId": "skin/ger_camo_carc/desc",
       "replace_tex": {
         "from": "ger_camo_bronzegruen*",
         "to": "ger_camo_carc*"
@@ -2988,6 +2992,8 @@
   {
     "skin": {
       "name": "ger_camo_modern_threecolor",
+      "nameLocId": "skin/ger_camo_modern_threecolor",
+      "descLocId": "skin/ger_camo_modern_threecolor/desc",
       "replace_tex": {
         "from": "ger_camo_bronzegruen*",
         "to": "ger_camo_modern_threecolor*"

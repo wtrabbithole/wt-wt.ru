@@ -99,6 +99,54 @@
     "default_skin_tomoe": [
       {
         "replace_tex": {
+          "from": "flag_ussr_01_c*",
+          "to": "flag_china_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_ussr_01_c*",
+          "to": "flag_ussr_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_usa_01_c*",
+          "to": "flag_usa_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_usa_02_c*",
+          "to": "flag_usa_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_uk_01_c*",
+          "to": "flag_uk_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_japan_01_c*",
+          "to": "flag_japan_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_japan_02_c*",
+          "to": "flag_japan_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_italy_01_c*",
+          "to": "flag_italy_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
           "from": "flag_germany_01_c*",
           "to": "flag_germany_01_c_tomoe*"
         }
@@ -113,6 +161,30 @@
         "replace_tex": {
           "from": "germany_flag_decal*",
           "to": "germany_harm_flag_decal*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "airplane_ger_ar196_c*",
+          "to": "airplane_ger_ar196_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "airplane_japan_e7k2_c*",
+          "to": "airplane_japan_e7k2_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "airplane_japan_e13a1_c*",
+          "to": "airplane_japan_e13a1_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "airplane_usa_curtiss_sc_seahawk_c*",
+          "to": "airplane_usa_curtiss_sc_seahawk_c_tomoe*"
         }
       }
     ]
@@ -500,6 +572,7 @@
         "secondaryShatterDamageMult": 1.1,
         "armorClass": "ship_wood",
         "armorThickness": 45.0,
+        "hidableInViewer": true,
         "compartment_01_dm": {
           "hp": 1149.0
         },
@@ -726,6 +799,12 @@
           "armorThickness": 18.0,
           "hp": 250.0
         }
+      },
+      "belt_armor": {
+        "stopChanceOnDeadPart": 1.0,
+        "armorClass": "ship_RHA",
+        "armorThickness": 15.0,
+        "hidableInViewer": true
       },
       "turrets": {
         "armorClass": "ship_structural_steel",
@@ -1732,7 +1811,7 @@
         {
           "effect": {
             "conditionDamageType": "explosion",
-            "conditionDamage": 15000.0,
+            "conditionDamage": 45000.0,
             "kill": true,
             "killEffect": "destruction"
           }
@@ -1860,313 +1939,153 @@
   {
     "commonWeapons": [
       {
-        "Weapon": [
-          {
-            "trigger": "gunner0"
+        "Weapon": {
+          "trigger": "gunner0",
+          "triggerGroup": "primary",
+          "blk": "gameData/Weapons/navalModels_weapons/76mm_Melara_76_62_naval_user_cannon.blk",
+          "emitter": "emtr_gun_flame_01",
+          "flash": "emtr_gun_flame_01",
+          "useEmitter": true,
+          "barrelDP": "main_caliber_gun_01_dm",
+          "breechDP": "main_caliber_gun_01_dm",
+          "defaultYaw": 0.0,
+          "defaultPitch": 0.0,
+          "useGunnerTargetingQuality": false,
+          "speedYaw": 60.0,
+          "speedPitch": 35.0,
+          "bullets": 320,
+          "allowableDelta": 2.0,
+          "ChainfireTime": 60.0,
+          "DelayAfterShoot": 0.0,
+          "aimMinDist": 20.0,
+          "aimMaxDist": 4000.0,
+          "randomAngle": 0.0,
+          "accuracyBotMultAir": 0.55,
+          "accuracyAir": 1.0,
+          "accuracyGnd": 0.5,
+          "errMeasureVel": 0.0,
+          "errTargettingOn100kmph": 0.0,
+          "errMeasureVelFast": 100.0,
+          "errMeasureVelFwdShift": 1.0,
+          "errMeasureVelDir": 3.0,
+          "errTargetting": 1.0,
+          "errExplTime": 0.0,
+          "turret": {
+            "head": "main_caliber_turret_01",
+            "gun": "main_caliber_gun_01",
+            "barrel": "gun_barrel_01",
+            "gunnerDm": "main_caliber_turret_01_dm"
           },
-          {
-            "triggerGroup": "primary"
+          "limits": {
+            "yaw": [-180.0,180.0],
+            "pitch": [-15.0,85.0]
           },
-          {
-            "blk": "gameData/Weapons/navalModels_weapons/76mm_Melara_76_62_naval_user_cannon.blk"
+          "limitsTable": {
+            "lim1": [-180.0,-156.0,40.0,85.0],
+            "lim2": [-156.0,-130.0,-11.0,85.0],
+            "lim3": [-130.0,-52.0,-15.0,85.0],
+            "lim4": [-52.0,-13.0,-7.0,85.0],
+            "lim5": [-13.0,13.0,-5.0,85.0],
+            "lim6": [13.0,52.0,-7.0,85.0],
+            "lim7": [52.0,130.0,-15.0,85.0],
+            "lim8": [130.0,156.0,-11.0,85.0],
+            "lim9": [156.0,180.0,40.0,85.0]
           },
-          {
-            "emitter": "emtr_gun_flame_01"
-          },
-          {
-            "flash": "emtr_gun_flame_01"
-          },
-          {
-            "useEmitter": true
-          },
-          {
-            "recoilOffset": 0.4
-          },
-          {
-            "barrelDP": "main_caliber_gun_01_dm"
-          },
-          {
-            "breechDP": "main_caliber_gun_01_dm"
-          },
-          {
-            "defaultYaw": 0.0
-          },
-          {
-            "defaultPitch": 0.0
-          },
-          {
-            "useGunnerTargetingQuality": false
-          },
-          {
-            "speedYaw": 60.0
-          },
-          {
-            "speedPitch": 35.0
-          },
-          {
-            "bullets": 320
-          },
-          {
-            "allowableDelta": 2.0
-          },
-          {
-            "speedYaw": 45.0
-          },
-          {
-            "speedPitch": 45.0
-          },
-          {
-            "fireConeAngle": 2.0
-          },
-          {
-            "ChainfireTime": 60.0
-          },
-          {
-            "DelayAfterShoot": 0.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyBotMultAir": 0.55
-          },
-          {
-            "accuracyAir": 1.0
-          },
-          {
-            "accuracyGnd": 0.5
-          },
-          {
-            "errMeasureVel": 0.0
-          },
-          {
-            "errTargettingOn100kmph": 0.0
-          },
-          {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
-          },
-          {
-            "errExplTime": 0.0
-          },
-          {
-            "turret": {
-              "head": "main_caliber_turret_01",
-              "gun": "main_caliber_gun_01",
-              "barrel": "gun_barrel_01",
-              "gunnerDm": "main_caliber_turret_01_dm"
-            }
-          },
-          {
-            "limits": {
-              "yaw": [-180.0,180.0],
-              "pitch": [-15.0,85.0]
-            }
-          },
-          {
-            "limitsTable": {
-              "lim1": [-180.0,-156.0,40.0,85.0],
-              "lim2": [-156.0,-130.0,-11.0,85.0],
-              "lim3": [-130.0,-52.0,-15.0,85.0],
-              "lim4": [-52.0,-13.0,-7.0,85.0],
-              "lim5": [-13.0,13.0,-5.0,85.0],
-              "lim6": [13.0,52.0,-7.0,85.0],
-              "lim7": [52.0,130.0,-15.0,85.0],
-              "lim8": [130.0,156.0,-11.0,85.0],
-              "lim9": [156.0,180.0,40.0,85.0]
-            }
-          },
-          {
-            "gunStabilizer": {
-              "hasVerticalGunFreeMode": true,
-              "hasHorizontal": true,
-              "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 80.0,
-              "hasVertical": true,
-              "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 80.0,
-              "errorKPHToDegrees": [
-                {
-                  "row": [5.0,0.01]
-                },
-                {
-                  "row": [70.0,0.05]
-                }
-              ]
-            }
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": true,
+            "hasHorizontal": true,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 80.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 1.0,
+            "verticalSpeedLimitKPH": 80.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.01]
+              },
+              {
+                "row": [70.0,0.05]
+              }
+            ]
           }
-        ]
+        }
       },
       {
-        "Weapon": [
-          {
-            "trigger": "gunner1"
+        "Weapon": {
+          "trigger": "gunner1",
+          "triggerGroup": "primary",
+          "blk": "gameData/Weapons/navalModels_weapons/76mm_Melara_76_62_naval_user_cannon.blk",
+          "emitter": "emtr_gun_flame_02",
+          "flash": "emtr_gun_flame_02",
+          "useEmitter": true,
+          "barrelDP": "main_caliber_gun_02_dm",
+          "breechDP": "main_caliber_gun_02_dm",
+          "defaultYaw": 0.0,
+          "defaultPitch": 0.0,
+          "useGunnerTargetingQuality": false,
+          "speedYaw": 60.0,
+          "speedPitch": 35.0,
+          "bullets": 320,
+          "allowableDelta": 2.0,
+          "ChainfireTime": 60.0,
+          "DelayAfterShoot": 0.0,
+          "aimMinDist": 20.0,
+          "aimMaxDist": 4000.0,
+          "randomAngle": 0.0,
+          "accuracyBotMultAir": 0.55,
+          "accuracyAir": 1.0,
+          "accuracyGnd": 0.5,
+          "errMeasureVel": 0.0,
+          "errTargettingOn100kmph": 0.0,
+          "errMeasureVelFast": 100.0,
+          "errMeasureVelFwdShift": 1.0,
+          "errMeasureVelDir": 3.0,
+          "errTargetting": 1.0,
+          "errExplTime": 0.0,
+          "turret": {
+            "head": "main_caliber_turret_02",
+            "gun": "main_caliber_gun_02",
+            "barrel": "gun_barrel_02",
+            "gunnerDm": "main_caliber_turret_02_dm"
           },
-          {
-            "triggerGroup": "primary"
+          "limits": {
+            "yaw": [-180.0,180.0],
+            "pitch": [-15.0,85.0]
           },
-          {
-            "blk": "gameData/Weapons/navalModels_weapons/76mm_Melara_76_62_naval_user_cannon.blk"
+          "limitsTable": {
+            "lim1": [-180.0,-175.0,37.0,85.0],
+            "lim2": [-175.0,-153.0,15.0,85.0],
+            "lim3": [-153.0,-138.0,12.0,85.0],
+            "lim4": [-138.0,-113.0,0.0,85.0],
+            "lim5": [-113.0,-35.0,-3.0,85.0],
+            "lim6": [-35.0,-26.0,-2.0,85.0],
+            "lim7": [-26.0,26.0,-10.0,85.0],
+            "lim8": [26.0,35.0,-2.0,85.0],
+            "lim9": [35.0,113.0,-3.0,85.0],
+            "lim10": [113.0,129.0,0.0,85.0],
+            "lim11": [129.0,147.0,9.0,85.0],
+            "lim12": [147.0,156.0,-5.0,85.0],
+            "lim13": [156.0,175.0,12.0,85.0],
+            "lim14": [175.0,180.0,37.0,85.0]
           },
-          {
-            "emitter": "emtr_gun_flame_02"
-          },
-          {
-            "flash": "emtr_gun_flame_02"
-          },
-          {
-            "useEmitter": true
-          },
-          {
-            "recoilOffset": 0.4
-          },
-          {
-            "barrelDP": "main_caliber_gun_02_dm"
-          },
-          {
-            "breechDP": "main_caliber_gun_02_dm"
-          },
-          {
-            "defaultYaw": 0.0
-          },
-          {
-            "defaultPitch": 0.0
-          },
-          {
-            "useGunnerTargetingQuality": false
-          },
-          {
-            "speedYaw": 60.0
-          },
-          {
-            "speedPitch": 35.0
-          },
-          {
-            "bullets": 320
-          },
-          {
-            "allowableDelta": 2.0
-          },
-          {
-            "speedYaw": 45.0
-          },
-          {
-            "speedPitch": 45.0
-          },
-          {
-            "fireConeAngle": 2.0
-          },
-          {
-            "ChainfireTime": 60.0
-          },
-          {
-            "DelayAfterShoot": 0.0
-          },
-          {
-            "aimMinDist": 20.0
-          },
-          {
-            "aimMaxDist": 4000.0
-          },
-          {
-            "randomAngle": 0.0
-          },
-          {
-            "accuracyBotMultAir": 0.55
-          },
-          {
-            "accuracyAir": 1.0
-          },
-          {
-            "accuracyGnd": 0.5
-          },
-          {
-            "errMeasureVel": 0.0
-          },
-          {
-            "errTargettingOn100kmph": 0.0
-          },
-          {
-            "errMeasureVelFast": 100.0
-          },
-          {
-            "errMeasureVelFwdShift": 1.0
-          },
-          {
-            "errMeasureVelDir": 3.0
-          },
-          {
-            "errTargetting": 1.0
-          },
-          {
-            "errExplTime": 0.0
-          },
-          {
-            "turret": {
-              "head": "main_caliber_turret_02",
-              "gun": "main_caliber_gun_02",
-              "barrel": "gun_barrel_02",
-              "gunnerDm": "main_caliber_turret_02_dm"
-            }
-          },
-          {
-            "limits": {
-              "yaw": [-180.0,180.0],
-              "pitch": [-15.0,85.0]
-            }
-          },
-          {
-            "limitsTable": {
-              "lim1": [-180.0,-175.0,37.0,85.0],
-              "lim2": [-175.0,-153.0,15.0,85.0],
-              "lim3": [-153.0,-138.0,12.0,85.0],
-              "lim4": [-138.0,-113.0,0.0,85.0],
-              "lim5": [-113.0,-35.0,-3.0,85.0],
-              "lim6": [-35.0,-26.0,-2.0,85.0],
-              "lim7": [-26.0,26.0,-10.0,85.0],
-              "lim8": [26.0,35.0,-2.0,85.0],
-              "lim9": [35.0,113.0,-3.0,85.0],
-              "lim10": [113.0,129.0,0.0,85.0],
-              "lim11": [129.0,147.0,9.0,85.0],
-              "lim12": [147.0,156.0,-5.0,85.0],
-              "lim13": [156.0,175.0,12.0,85.0],
-              "lim14": [175.0,180.0,37.0,85.0]
-            }
-          },
-          {
-            "gunStabilizer": {
-              "hasVerticalGunFreeMode": true,
-              "hasHorizontal": true,
-              "horizontalOmegaMult": 1.0,
-              "horizontalSpeedLimitKPH": 80.0,
-              "hasVertical": true,
-              "verticalOmegaMult": 1.0,
-              "verticalSpeedLimitKPH": 80.0,
-              "errorKPHToDegrees": [
-                {
-                  "row": [5.0,0.01]
-                },
-                {
-                  "row": [70.0,0.05]
-                }
-              ]
-            }
+          "gunStabilizer": {
+            "hasVerticalGunFreeMode": true,
+            "hasHorizontal": true,
+            "horizontalOmegaMult": 1.0,
+            "horizontalSpeedLimitKPH": 80.0,
+            "hasVertical": true,
+            "verticalOmegaMult": 1.0,
+            "verticalSpeedLimitKPH": 80.0,
+            "errorKPHToDegrees": [
+              {
+                "row": [5.0,0.01]
+              },
+              {
+                "row": [70.0,0.05]
+              }
+            ]
           }
-        ]
+        }
       }
     ]
   },
@@ -2174,14 +2093,15 @@
     "weapon_presets": [
       {
         "preset": {
-          "name": "germ_type143_albatros_default",
-          "blk": "gameData/units/ships/weaponPresets/germ_type143_albatros_default.blk"
+          "name": "torpedoes",
+          "blk": "gameData/units/ships/weaponPresets/germ_type143_albatros_torpedoes.blk",
+          "reqModification": "ship_torpedoes"
         }
       },
       {
         "preset": {
-          "name": "no_torpedoes",
-          "blk": "gameData/units/ships/weaponPresets/germ_type143_albatros_no_torpedoes.blk"
+          "name": "germ_type143_albatros_default",
+          "blk": "gameData/units/ships/weaponPresets/germ_type143_albatros_default.blk"
         }
       }
     ]
@@ -2199,6 +2119,7 @@
       "76mm_ger_dm251_HE": [],
       "76mm_ger_dm261_HE_radio_fuse": [],
       "76mm_ger_dm261_HE_radio_fuse_ammo_pack": [],
+      "ship_torpedoes": [],
       "ship_rangefinder": {
         "prevModification": "76mm_ger_dm261_HE_radio_fuse_ammo_pack"
       },

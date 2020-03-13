@@ -56,22 +56,40 @@
       "army": 2
     }
   },
-  "imports": {
-    "import_record": {
-      "file": "gameData/missions/templates/navy_templates/team_spotareas_template.blk",
-      "importAreas": true,
-      "importUnits": true,
-      "importTriggers": true,
-      "importMissionObjectives": true,
-      "importWayPoints": true,
-      "showAreas": true,
-      "showUnits": true,
-      "showTriggers": true,
-      "showMissionObjectives": true,
-      "showWayPoints": true,
-      "excludes": []
+  "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/navy_templates/team_spotareas_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/ww_exit_zones.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
-  },
+  ],
   "triggers": {
     "isCategory": true,
     "is_enabled": true,
@@ -225,130 +243,6 @@
       },
       "else_actions": []
     },
-    "exit_zones_part": {
-      "isCategory": true,
-      "is_enabled": true,
-      "exit_zones_init": {
-        "is_enabled": true,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "initMission": []
-        },
-        "conditions": [],
-        "actions": {
-          "varSetBool": {
-            "value": false,
-            "var": "enableExitZones",
-            "fromDescriptor": "enableExitZones"
-          },
-          "triggerEnable": {
-            "target": "exit_zones_enable_check"
-          }
-        },
-        "else_actions": []
-      },
-      "exit_zones_enable_check": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": {
-          "varCompareBool": {
-            "var_value": "enableExitZones",
-            "value": true,
-            "comparasion_func": "equal"
-          }
-        },
-        "actions": [
-          {
-            "comment": {
-              "value": "��������� ���� ������, ���� �� ��������"
-            }
-          },
-          {
-            "varSetString": {
-              "value": "t1_plane_exit_zone",
-              "var": "t1_exitZoneName"
-            }
-          },
-          {
-            "varSetString": {
-              "value": "t2_plane_exit_zone",
-              "var": "t2_exitZoneName"
-            }
-          },
-          {
-            "triggerEnable": {
-              "target": "exit_zone_exist_check"
-            }
-          }
-        ],
-        "else_actions": []
-      },
-      "exit_zone_exist_check": {
-        "is_enabled": false,
-        "comments": "",
-        "props": {
-          "actionsType": "PERFORM_ONE_BY_ONE",
-          "conditionsType": "ALL",
-          "enableAfterComplete": false
-        },
-        "events": {
-          "periodicEvent": {
-            "time": 1.0
-          }
-        },
-        "conditions": [
-          {
-            "objectExists": {
-              "target": "@t1_exitZoneName",
-              "type": "area"
-            }
-          },
-          {
-            "objectExists": {
-              "target": "@t2_exitZoneName",
-              "type": "area"
-            }
-          }
-        ],
-        "actions": [
-          {
-            "comment": {
-              "value": "���� ���������� � ������. ����� �� ���������"
-            }
-          },
-          {
-            "missionMarkAsExitZone": {
-              "army": 1,
-              "area_name": "@t1_exitZoneName",
-              "enabled": true
-            }
-          },
-          {
-            "missionMarkAsExitZone": {
-              "army": 2,
-              "area_name": "@t2_exitZoneName",
-              "enabled": true
-            }
-          }
-        ],
-        "else_actions": []
-      }
-    },
     "air_boats_field": {
       "isCategory": true,
       "is_enabled": true,
@@ -420,9 +314,6 @@
     "is_enabled": true
   },
   "variables": {
-    "enableExitZones": false,
-    "t1_exitZoneName": "",
-    "t2_exitZoneName": "",
     "t1_boat_field_start": "",
     "t2_boat_field_start": "",
     "t1_boat_field_end": "",
@@ -3387,6 +3278,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_player02"
           },
           {
@@ -3694,6 +3588,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_player02"
           },
           {
@@ -4000,6 +3897,9 @@
           [30539.1,27.75,29793.9]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_players_squad"
           },

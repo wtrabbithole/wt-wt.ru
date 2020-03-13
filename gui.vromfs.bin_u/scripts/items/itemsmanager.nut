@@ -245,7 +245,7 @@ ItemsManager.checkShopItemsUpdate <- function checkShopItemsUpdate()
     local iType = getInventoryItemType(blk?.type)
     if (iType == itemType.UNKNOWN)
     {
-      ::dagor.debug("Error: unknown item type in items blk = " + blk?.type)
+      ::dagor.debug("Error: unknown item type in items blk = " + (blk?.type ?? "NULL"))
       continue
     }
     local item = createItem(iType, blk)
@@ -458,6 +458,7 @@ ItemsManager.getInventoryItemType <- function getInventoryItemType(blkType)
       case "chest":               return itemType.CHEST
       case "aircraft":
       case "tank":
+      case "helicopter":
       case "ship":                return itemType.VEHICLE
       case "warbonds":            return itemType.WARBONDS
       case "craft_part":          return itemType.CRAFT_PART
@@ -557,7 +558,7 @@ ItemsManager._checkInventoryUpdate <- function _checkInventoryUpdate()
     local iType = getInventoryItemType(itemDefDesc?.tags?.type ?? "")
     if (iType == itemType.UNKNOWN)
     {
-      ::dagor.logerr("Inventory: Unknown itemdef.tags.type in item " + itemDefDesc?.itemdefid)
+      ::dagor.logerr("Inventory: Unknown itemdef.tags.type in item " + (itemDefDesc?.itemdefid ?? "NULL"))
       continue
     }
 
@@ -741,6 +742,7 @@ ItemsManager.fillItemDescr <- function fillItemDescr(item, holderObj, handler = 
 {
   handler = handler || ::get_cur_base_gui_handler()
 
+  item = item?.getSubstitutionItem() ?? item
   local obj = holderObj.findObject("item_name")
   if (::checkObj(obj))
     obj.setValue(item? item.getDescriptionTitle() : "")

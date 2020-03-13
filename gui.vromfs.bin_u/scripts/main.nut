@@ -782,7 +782,6 @@ local isFullScriptsLoaded = false
     "vehicleRequireFeatureWindow.nut"
     "slotbar/slotbarPresetsTutorial.nut"
     "slotInfoPanel.nut"
-    "unit/infoBoxWindow.nut"
     "unit/unitInfoType.nut"
     "unit/unitInfoExporter.nut"
 

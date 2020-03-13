@@ -1,3 +1,5 @@
+local minWindowWidthScale = 1.33  //1.33@sf
+
 class ::gui_handlers.WorkshopPreview extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType      = handlerType.MODAL
@@ -24,9 +26,12 @@ class ::gui_handlers.WorkshopPreview extends ::gui_handlers.BaseGuiHandlerWT
         infoBlocks[infoBlocks.len() - 1][name] <- blk.getParamValue(i)
     }
 
+    local mainImageScale = blk?.main_image_scale ?? minWindowWidthScale
     return {
       headerText = ::loc(blk?.main_header ?? "items/workshop")
       bgImage = blk?.main_image
+      windowWidthScale = ::max(mainImageScale, minWindowWidthScale)
+      mainImageScale = mainImageScale
       infoBlocks = infoBlocks
     }
   }

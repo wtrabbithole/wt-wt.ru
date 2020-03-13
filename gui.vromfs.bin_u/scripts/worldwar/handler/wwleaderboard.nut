@@ -3,7 +3,7 @@ local wwRewards = ::require("scripts/worldWar/handler/wwRewards.nut")
 local time = require("scripts/time.nut")
 
 ::ww_leaderboards_list <- [
-  ::g_lb_category.EVENTS_PERSONAL_ELO
+  ::g_lb_category.WW_EVENTS_PERSONAL_ELO
   ::g_lb_category.OPERATION_COUNT
   ::g_lb_category.OPERATION_WINRATE
   ::g_lb_category.BATTLE_COUNT

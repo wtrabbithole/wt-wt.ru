@@ -748,13 +748,17 @@ PrizesView.getViewDataDecorator <- function getViewDataDecorator(prize, params =
 PrizesView.getViewDataItem <- function getViewDataItem(prize, showCount, params = null)
 {
   local primaryIcon = prize?.primaryIcon
-  local itemIcon = getPrizeTypeIcon(prize)
   local buttons = getPrizeActionButtonsView(prize, params)
   local item = ::ItemsManager.findItemById(prize?.item)
+  local itemIcon = (params?.isShowItemIconInsteadItemType ?? false) && item
+    ? item.getIconName()
+    : getPrizeTypeIcon(prize)
   return {
     icon  = primaryIcon ? primaryIcon : itemIcon
     icon2 = primaryIcon ? itemIcon : null
-    title = getPrizeText(prize, !params?.isLocked, false, showCount, true)
+    title = params?.needShowItemName ?? true
+      ? getPrizeText(prize, !params?.isLocked, false, showCount, true)
+      : prize?.commentText ?? ""
     tooltipId = item && !item.shouldAutoConsume ? ::g_tooltip.getIdItem(prize?.item, params) : null
     buttons = buttons
     buttonsCount = buttons.len()

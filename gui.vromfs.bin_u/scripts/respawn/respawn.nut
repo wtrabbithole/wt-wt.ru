@@ -3,7 +3,6 @@ local time = ::require("scripts/time.nut")
 local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
-local platformModule = require("scripts/clientState/platform.nut")
 local actionBarInfo = require("scripts/hud/hudActionBarInfo.nut")
 
 ::last_ca_aircraft <- null
@@ -238,7 +237,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     ::add_tags_for_mp_players()
 
     currentFocusItem = canChangeAircraft && !isSpectate ? focusItemAirsTable :
-      platformModule.isChatEnabled() ? focusItemChatInput :
+      ::g_chat.isChatEnabled() ? focusItemChatInput :
       focusItemChatTabs
     restoreFocus()
 
@@ -809,7 +808,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     onAircraftUpdate()
   }
 
-  function updateWeaponsSelector()
+  function updateWeaponsSelector(isUnitChanged)
   {
     local unit = getCurSlotUnit()
     local isRandomUnit = unit && missionRules && missionRules.getRandomUnitsGroupName(unit.name)
@@ -820,7 +819,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     if (weaponsSelectorWeak)
     {
       weaponsSelectorWeak.setUnit(unit)
-      weaponsSelectorWeak.setCanChangeWeaponry(canChangeWeaponry)
+      weaponsSelectorWeak.setCanChangeWeaponry(canChangeWeaponry, isRespawn && !isUnitChanged)
       weaponsSelectorObj.show(shouldShowWeaponry)
       delayedRestoreFocus()
       return
@@ -1292,7 +1291,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     updateTacticalMapUnitType()
 
-    updateWeaponsSelector()
+    updateWeaponsSelector(isUnitChanged)
     updateOtherOptions()
     updateSkin()
     updateUserSkins()

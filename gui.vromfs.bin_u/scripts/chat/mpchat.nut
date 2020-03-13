@@ -221,7 +221,7 @@ class ::ChatHandler
 
   function canEnableChatInput()
   {
-    if (!platformModule.isChatEnabled())
+    if (!::g_chat.isChatEnabled())
       return false
     foreach(sceneData in scenes)
       if (!sceneData.hiddenInput && ::checkObj(sceneData.scene) && sceneData.scene.isVisible())
@@ -250,7 +250,7 @@ class ::ChatHandler
 
     local show = (isActive || !sceneData.selfHideInput)
                  && !sceneData.hiddenInput
-                 && platformModule.isChatEnabled()
+                 && ::g_chat.isChatEnabled()
                  && getCurView(sceneData) == mpChatView.CHAT
     local scene = sceneData.scene
 
@@ -590,7 +590,7 @@ class ::ChatHandler
     {
       if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
         text = ::g_chat.makeBlockedMsg(message.text)
-      else if (!platformModule.isChatEnableWithPlayer(message.sender))
+      else if (!::g_chat.isChatEnableWithPlayer(message.sender))
         text = ::g_chat.makeXBoxRestrictedMsg(message.text)
     }
 

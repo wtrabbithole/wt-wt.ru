@@ -1,5 +1,6 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 const SQUAD_MEMBERS_TO_HIDE_TITLE = 3
 
@@ -48,10 +49,11 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
       members = []
     }
 
+    local showCrossplayIcon = crossplayModule.needShowCrossPlayInfo()
     for (local i = 0; i < ::g_squad_manager.MAX_SQUAD_SIZE; i++)
       view.members.append({
         id = i.tostring()
-        showCrossplayIcon = ::is_platform_xboxone
+        showCrossplayIcon = showCrossplayIcon
       })
 
     return view
@@ -100,6 +102,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
     showSceneBtn("member_state_block_" + indexStr, member.isActualData())
 
     memberObj["uid"] = member.uid
+    memberObj["isMe"] = member.isMe()? "yes" : "no"
     memberObj.setUserData(member)
     memberObj.findObject("member_icon_" + indexStr).setValue(member.pilotIcon)
     memberObj.findObject("member_tooltip_" + indexStr)["uid"] = member.uid

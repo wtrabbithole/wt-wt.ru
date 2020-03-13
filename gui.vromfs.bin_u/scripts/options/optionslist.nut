@@ -24,6 +24,7 @@ local getMainOptions = function()
     isSearchAvaliable = true
     options = [
       ["options/mainParameters"],
+      [::USEROPT_PS4_CROSSPLAY, "spinner", ::is_platform_ps4 && ::has_feature("PS4CrossNetwork") && !::is_in_flight() && !::checkIsInQueue()],
       [::USEROPT_LANGUAGE, "spinner", ! ::is_in_flight() && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! ::is_in_flight() && !::is_ps4_or_xbox],
       [::USEROPT_FONTS_CSS, "spinner"],
@@ -36,9 +37,9 @@ local getMainOptions = function()
       [::USEROPT_HUD_SHOW_BONUSES, "spinner"],
       [::USEROPT_DAMAGE_INDICATOR_SIZE, "slider"],
       [::USEROPT_CAMERA_SHAKE_MULTIPLIER, "slider"],
-      [::USEROPT_VR_CAMERA_SHAKE_MULTIPLIER, "slider"],
+      [::USEROPT_VR_CAMERA_SHAKE_MULTIPLIER, "slider", ::is_stereo_mode()],
       [::USEROPT_FPS_CAMERA_PHYSICS, "slider"],
-      [::USEROPT_FPS_VR_CAMERA_PHYSICS, "slider"],
+      [::USEROPT_FPS_VR_CAMERA_PHYSICS, "slider", ::is_stereo_mode()],
       [::USEROPT_AUTO_SQUAD, "spinner"],
       [::USEROPT_QUEUE_JIP, "spinner"],
       [::USEROPT_TANK_ALT_CROSSHAIR, "spinner", ::can_add_tank_alt_crosshair()
@@ -58,6 +59,7 @@ local getMainOptions = function()
       [::USEROPT_SHOW_PILOT, "spinner"],
       [::USEROPT_AUTOPILOT_ON_BOMBVIEW, "spinner"],
       [::USEROPT_AUTOREARM_ON_AIRFIELD, "spinner"],
+      [::USEROPT_ACTIVATE_AIRBORNE_RADAR_ON_SPAWN, "spinner"],
       [::USEROPT_CROSSHAIR_TYPE, "combobox"],
       [::USEROPT_CROSSHAIR_COLOR, "combobox"],
       [::USEROPT_INDICATEDSPEED, "spinner"],
@@ -78,6 +80,7 @@ local getMainOptions = function()
       [::USEROPT_TANK_GUNNER_CAMERA_FROM_SIGHT, "spinner",
         ::has_feature("Tanks") && ( ! ::is_in_flight() || ! ::is_tank_gunner_camera_from_sight_available())],
       [::USEROPT_SHOW_DESTROYED_PARTS, "spinner", ::has_feature("Tanks")],
+      [::USEROPT_ACTIVATE_GROUND_RADAR_ON_SPAWN, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner", !::is_ps4_or_xbox && !::is_platform_android],
 
@@ -129,6 +132,7 @@ local getMainOptions = function()
       [::USEROPT_SHOW_INDICATORS_DIST, "spinner"],
 
       ["options/header/chatAndVoiceChat"],
+      [::USEROPT_PS4_CROSSNETWORK_CHAT, "spinner", ::is_platform_ps4 && ::has_feature("PS4CrossNetwork")],
       [::USEROPT_ONLY_FRIENDLIST_CONTACT, "spinner", ! ::is_in_flight()],
       [::USEROPT_AUTO_SHOW_CHAT, "spinner"],
       [::USEROPT_CHAT_MESSAGES_FILTER, "spinner"],

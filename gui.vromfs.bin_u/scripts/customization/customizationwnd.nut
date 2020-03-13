@@ -2115,7 +2115,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (::has_feature("WikiUnitInfo"))
       ::open_url(::format(::loc("url/wiki_objects"), unit.name), false, false, "customization_wnd")
     else
-      ::gui_start_aircraft_info(unit.name)
+      ::showInfoMsgBox(::colorize("activeTextColor", ::getUnitName(unit, false)) + "\n" + ::loc("profile/wiki_link"))
   }
 
   function clearCurrentDecalSlotAndShow()

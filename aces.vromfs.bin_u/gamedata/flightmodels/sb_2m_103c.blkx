@@ -2648,11 +2648,18 @@
     "weapon_presets": [
       {
         "preset": {
-          "name": "sb_2m_103c_6xfab100",
+          "name": "sb_2m_103c_default",
           "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_6xfab100.blk",
           "tags": {
             "free": true
           }
+        }
+      },
+      {
+        "preset": {
+          "name": "sb_2m_103c_6xfab100_2xfab250",
+          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_6xfab100_2xfab250.blk",
+          "reqModification": "sb-2_der-25"
         }
       },
       {
@@ -2664,15 +2671,22 @@
       },
       {
         "preset": {
-          "name": "sb_2m_103c_1xfab500",
-          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_1xfab500.blk",
-          "reqModification": "sb-2_der-19"
+          "name": "sb_2m_103c_2xfab250_2xfab250",
+          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_2xfab250_2xfab250.blk",
+          "reqModification": "sb-2_der-25"
         }
       },
       {
         "preset": {
           "name": "sb_2m_103c_2xfab250_2xfab500",
           "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_2xfab250_2xfab500.blk",
+          "reqModification": "sb-2_der-19"
+        }
+      },
+      {
+        "preset": {
+          "name": "sb_2m_103c_1xfab500",
+          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_1xfab500.blk",
           "reqModification": "sb-2_der-19"
         }
       },
@@ -2685,41 +2699,9 @@
       },
       {
         "preset": {
-          "name": "sb_2m_103c_6xfab100_2xfab250",
-          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_6xfab100_2xfab250.blk",
-          "reqModification": "sb-2_der-19"
-        }
-      },
-      {
-        "preset": {
           "name": "sb_2m_103c_1xfab500_2xfab250",
           "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_1xfab500_2xfab250.blk",
           "reqModification": "sb-2_der-19"
-        }
-      },
-      {
-        "preset": [
-          {
-            "name": "sb_2m_103c_2xfab250_2xfab250"
-          },
-          {
-            "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_2xfab250_2xfab250.blk"
-          },
-          {
-            "reqModification": "sb-2_der-25"
-          },
-          {
-            "reqModification": "sb-2_der-19"
-          }
-        ]
-      },
-      {
-        "preset": {
-          "name": "sb_2m_103c_default",
-          "blk": "gameData/FlightModels/weaponPresets/sb_2m_103c_default.blk",
-          "tags": {
-            "aux": true
-          }
         }
       }
     ]
@@ -2797,7 +2779,6 @@
       "emtr_break_wing2_r_from": [-0.566328,0.0165174,-6.94583],
       "emtr_break_wing2_r_to": [-0.566328,0.0165174,-8.24915],
       "emtr_break_wing_tail": [-5.57412,0.0,0.0],
-      "partKindTail": 2,
       "finCut": false,
       "emtr_break_stab_l_from": [-6.39614,0.414618,0.522333],
       "emtr_break_stab_l_to": [-6.39614,0.414618,2.08933],

@@ -99,7 +99,7 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local data = ::handyman.renderCached("gui/items/shopFilters", view)
-    guiScene.replaceContentFromText(scene.findObject("filter_block"), data, data.len(), this)
+    guiScene.replaceContentFromText(scene.findObject("filter_tabs"), data, data.len(), this)
     initItemsListSizeOnce()
 
     getSheetsListObj().setValue(sheetIdx)
@@ -395,16 +395,17 @@ class ::gui_handlers.XboxShop extends ::gui_handlers.BaseGuiHandlerWT
   onToMarketplaceButton = @(obj) null
   onLinkAction = @(obj) null
   onItemPreview = @(obj) null
+  onOpenCraftTree = @(obj) null
   onAltAction = @(obj) null
+  onShowSpecialTasks = @(obj) null
 
   getTabsListObj = @() scene.findObject("tabs_list")
   getSheetsListObj = @() scene.findObject("sheets_list")
   getSortListObj = @() scene.findObject("sort_params_list")
   getItemsListObj = @() scene.findObject("items_list")
 
-  function getMainFocusObj() { return getSortListObj() }
-  function getMainFocusObj2() { return getSheetsListObj() }
-  function getMainFocusObj3()
+  function getMainFocusObj() { return getSheetsListObj() }
+  function getMainFocusObj2()
   {
     local obj = getItemsListObj()
     return obj.childrenCount() ? obj : null

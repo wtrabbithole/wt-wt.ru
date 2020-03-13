@@ -6,6 +6,9 @@
     "fmFile": "fm/f-4c.blk"
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk"
   },
   {
@@ -33,7 +36,10 @@
     "startExhaustFxType": "jet_start_exhaust"
   },
   {
-    "hudBombSight": true
+    "gyroscopicSightOverSensors": true
+  },
+  {
+    "hudBombSight": false
   },
   {
     "type": "typeFighter"
@@ -1602,22 +1608,38 @@
       },
       {
         "part": {
-          "name": "spar1_l_dm"
+          "name": "spar1_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "cut": 1.0
+          }
         }
       },
       {
         "part": {
-          "name": "spar1_r_dm"
+          "name": "spar1_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "cut": 1.0
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_l_dm"
+          "name": "spar2_l_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "cut": 1.0
+          }
         }
       },
       {
         "part": {
-          "name": "spar2_r_dm"
+          "name": "spar2_r_dm",
+          "onKill": {
+            "nothing": 0.0,
+            "cut": 1.0
+          }
         }
       },
       {
@@ -2720,16 +2742,16 @@
   {
     "cockpit": [
       {
-        "headPos": [5.4,0.465,0.0]
+        "headPos": [5.4,0.454,0.0]
       },
       {
-        "headPosOnShooting": [5.4,0.465,0.0]
+        "headPosOnShooting": [5.4,0.454,0.0]
       },
       {
         "collimatorSize": 0.15
       },
       {
-        "staticAimPitch": 2.5
+        "staticAimPitch": 1.0
       },
       {
         "mirror": true
@@ -2829,9 +2851,9 @@
           "rpm1_hour": [0.0,10000.0],
           "rpm1_min": [0.0,1000.0],
           "oil_pressure": [0.0,160.0],
-          "water_temperature_hour": [0.0,900.0],
+          "water_temperature_hour": [100.0,1100.0],
           "water_temperature_min": [0.0,100.0],
-          "water_temperature1_hour": [0.0,900.0],
+          "water_temperature1_hour": [100.0,1100.0],
           "water_temperature1_min": [0.0,100.0],
           "fuel_pressure": [0.0,15.0],
           "fuel_pressure1": [0.0,15.0],
@@ -2842,6 +2864,28 @@
           "g_meter_max": [-5.0,10.0],
           "gears_lamp": [0.0,0.0]
         }
+      },
+      {
+        "multifunctionDisplays": [
+          {
+            "display": {
+              "textureArea": [0.0,0.5,0.5,1.0],
+              "page": {
+                "type": "radar"
+              }
+            }
+          },
+          {
+            "display": {
+              "textureArea": [0.0,0.0,0.5,0.5],
+              "page": {
+                "type": "plane_ils",
+                "ilsNode": "collimator_glass",
+                "ilsSize": [0.112,0.103]
+              }
+            }
+          }
+        ]
       },
       {
         "parts_holes_dmg": {
@@ -3065,6 +3109,20 @@
           "blk": "gameData/flightModels/weaponPresets/f_4c_aim9.blk",
           "reqModification": "us_aim_9b"
         }
+      },
+      {
+        "preset": {
+          "name": "f_4c_rockets_aim9e",
+          "blk": "gameData/flightModels/weaponPresets/f_4c_rockets_aim9e.blk",
+          "reqModification": "us_aim_9e"
+        }
+      },
+      {
+        "preset": {
+          "name": "f_4c_aim9e",
+          "blk": "gameData/flightModels/weaponPresets/f_4c_aim9e.blk",
+          "reqModification": "us_aim_9e"
+        }
       }
     ]
   },
@@ -3195,14 +3253,37 @@
   },
   {
     "modifications": {
-      "cd_98": [],
-      "CdMin_Fuse": [],
-      "new_cover": [],
-      "structure_str": [],
-      "hp_105": [],
-      "new_radiator": [],
-      "new_compressor": [],
-      "new_engine_injection": [],
+      "new_compressor_jet": {
+        "tier": 1
+      },
+      "hydravlic_power": {
+        "prevModification": "new_compressor_jet",
+        "tier": 2,
+        "effects": {
+          "aileronBooster": 0.9,
+          "elevatorBooster": 0.9
+        }
+      },
+      "cd_98": {
+        "prevModification": "hydravlic_power",
+        "tier": 3
+      },
+      "hp_105_jet": {
+        "prevModification": "cd_98",
+        "tier": 4
+      },
+      "f_4c_CdMin_Fuse": {
+        "tier": 1
+      },
+      "structure_str": {
+        "tier": 2
+      },
+      "f_4c_g_suit": {
+        "tier": 3
+      },
+      "new_cover": {
+        "tier": 4
+      },
       "M60_air_targets": [],
       "M60_armor_targets": [],
       "M60_belt_pack": {
@@ -3216,11 +3297,6 @@
         "prevModification": "M60_new_gun",
         "deactivationIsAllowed": false,
         "tier": 3,
-        "modClass": "weapon"
-      },
-      "us_aim_9b": {
-        "prevModification": "f4c_suu_23a",
-        "tier": 4,
         "modClass": "weapon"
       },
       "us_250lb_mk81": {
@@ -3260,6 +3336,15 @@
         "reqModification": "us_2_75_in_ffar_lau_3a",
         "tier": 4,
         "modClass": "weapon"
+      },
+      "us_aim_9b": {
+        "tier": 2,
+        "modClass": "weapon"
+      },
+      "us_aim_9e": {
+        "reqModification": "us_aim_9b",
+        "tier": 3,
+        "modClass": "weapon"
       }
     }
   },
@@ -3291,6 +3376,22 @@
     ]
   },
   {
+    "default_skin_tomoe": [
+      {
+        "replace_tex": {
+          "from": "f_4c_c*",
+          "to": "f_4c_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "f_4c_c_dmg*",
+          "to": "f_4c_c_tomoe_dmg*"
+        }
+      }
+    ]
+  },
+  {
     "cutting": {
       "emtr_break_wing1_l_from": [-0.0876448,-0.790413,2.59343],
       "emtr_break_wing1_l_to": [-0.0876448,-0.790413,2.98432],
@@ -3301,10 +3402,19 @@
       "emtr_break_wing2_r_from": [-0.0876448,-0.790413,-4.04439],
       "emtr_break_wing2_r_to": [-0.0876448,-0.790413,-4.78696],
       "emtr_break_wing_tail": [-3.83425,0.0,0.0],
-      "partKindTail": 4,
       "finCut": true,
       "emtr_break_tail_from": [-4.33957,-0.100092,4.57764e-07],
       "emtr_break_tail_to": [-7.37561,-0.100092,4.57764e-07]
+    }
+  },
+  {
+    "parachutes": {
+      "emitterRange": [1,1],
+      "emitterName": "emtr_chute",
+      "chuteModel": "chute_f_100_char",
+      "chuteAnimVarName": "chute_state_switch",
+      "chuteTimeScaleParam": "chute_time_scale",
+      "chuteFallSpeed": 1.6
     }
   }
 ]

@@ -95,7 +95,12 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemAction(obj)
   {
-    doMainAction()
+    local itemIdx = (obj?.holderId ?? "-1").tointeger()
+    local item = tickets?[itemIdx]
+    if (item != getCurItem())
+      getItemsListObj().setValue(itemIdx)
+
+    doMainAction(item)
   }
 
   function onTicketSelected(obj)
@@ -124,9 +129,9 @@ class ::gui_handlers.TicketBuyWindow extends ::gui_handlers.BaseGuiHandlerWT
     return scene.findObject("ticket_caption")
   }
 
-  function doMainAction()
+  function doMainAction(item = null)
   {
-    local item = getCurItem()
+    item = item ?? getCurItem()
     if (item != null)
       item.doMainAction(::Callback(@(result) result.success && goBack(), this), this)
   }

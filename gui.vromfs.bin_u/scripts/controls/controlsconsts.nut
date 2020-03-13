@@ -92,9 +92,12 @@ global enum MOUSE_AXIS {
 
 global enum CONTROL_HELP_PATTERN {
   NONE,
+  MISSION,
   IMAGE,
   GAMEPAD,
-  KEYBOARD_MOUSE
+  KEYBOARD_MOUSE,
+  HOTAS4,
+  RADAR,
 }
 
 global enum AxisDirection {

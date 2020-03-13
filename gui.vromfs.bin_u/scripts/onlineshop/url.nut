@@ -96,7 +96,7 @@ g_url.openByObj <- function openByObj(obj, forceExternal=false, isAlreadyAuthent
 
 g_url.canAutoLogin <- function canAutoLogin()
 {
-  return !::is_ps4_or_xbox && !::is_vendor_tencent() && ::g_login.isAuthorized()
+  return !::is_platform_xboxone && !::is_vendor_tencent() && ::g_login.isAuthorized()
 }
 
 g_url.validateLink <- function validateLink(link)

@@ -116,7 +116,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     {
       id = "battery_status"
       color = "#DD1111"
-      icon = "#ui/gameuiskin#icon_repair_in_progress.svg"
+      icon = "#ui/gameuiskin#icon_battery_in_progress.svg"
       needTimeText = true
     }
   ]

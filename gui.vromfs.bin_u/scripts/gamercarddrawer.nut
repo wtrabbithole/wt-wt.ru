@@ -145,7 +145,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
   {
     local objId = obj?.id
     local contentObject = getObj("gamercard_drawer_content")
-    if (!objId || !contentObject)
+    if (!contentObject)
       return
     for (local i = 0; i < contentObject.childrenCount(); ++i)
     {
@@ -158,7 +158,7 @@ class ::gui_handlers.GamercardDrawer extends ::gui_handlers.BaseGuiHandlerWT
   {
     local objId = obj?.id
     local contentObject = getObj("gamercard_drawer_content")
-    if (!objId || !contentObject)
+    if (!contentObject)
       return
     for (local i = 0; i < contentObject.childrenCount(); ++i)
     {

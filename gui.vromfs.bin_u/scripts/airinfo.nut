@@ -463,12 +463,12 @@ local ACTION_LIST_PARAMS = {
       icon       = "#ui/gameuiskin#btn_info.svg"
       showAction = ::isUnitDescriptionValid(unit)
       isLink     = ::has_feature("WikiUnitInfo")
-      actionFunc = (@(unit) function () {
+      actionFunc = function () {
         if (::has_feature("WikiUnitInfo"))
           ::open_url(::format(::loc("url/wiki_objects"), unit.name), false, false, "unit_actions")
         else
-          ::gui_start_aircraft_info(unit.name)
-      })(unit)
+          ::showInfoMsgBox(::colorize("activeTextColor", ::getUnitName(unit, false)) + "\n" + ::loc("profile/wiki_link"))
+      }
     }
     else if (action == "find_in_market")
     {
@@ -630,6 +630,9 @@ local ACTION_LIST_PARAMS = {
   if (!isInShop)
     return false
 
+  if (unit.reqUnlock && !::is_unlocked_scripted(-1, unit.reqUnlock))
+    return false
+
   local status = ::shop_unit_research_status(unit.name)
   return (0 != (status & (::ES_ITEM_STATUS_IN_RESEARCH | ::ES_ITEM_STATUS_CAN_RESEARCH))) && !::isUnitMaxExp(unit)
 }
@@ -638,6 +641,9 @@ local ACTION_LIST_PARAMS = {
 {
   if (::isUnitGift(unit))  //!!! FIX ME shop_unit_research_status may return ES_ITEM_STATUS_CAN_BUY
     return false           // if vehicle could be bought in game, but it became a gift vehicle.
+
+  if (unit.reqUnlock && !::is_unlocked_scripted(-1, unit.reqUnlock))
+    return false
 
   local status = ::shop_unit_research_status(unit.name)
   return (0 != (status & ::ES_ITEM_STATUS_CAN_BUY)) && unit.isVisibleInShop()
@@ -939,7 +945,7 @@ local ACTION_LIST_PARAMS = {
       local button = []
       local defButton = "cancel"
       local msg = [::loc("mainmenu/needJoinSquadronForResearch")]
-      if (::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
+      if (!::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
         msg.append(::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC")))
       else
       {
@@ -2234,7 +2240,7 @@ local ACTION_LIST_PARAMS = {
       else
         addInfoTextsList.append(::colorize("badTextColor", ::loc("mainmenu/needJoinSquadronForResearch")))
 
-      if (::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
+      if (!::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
         addInfoTextsList.append(::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC")))
     }
   }

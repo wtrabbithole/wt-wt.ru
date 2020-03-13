@@ -87,7 +87,7 @@ selImg {
     on_click:t = 'onUserLogAction'
     btnName:t=''
     ButtonImg {
-      iconName:t='A'
+      btnName:t='A'
       showOnSelect:t='focus'
     }
   }

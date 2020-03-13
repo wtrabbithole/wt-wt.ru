@@ -111,13 +111,13 @@
     "type": "typeLightTank"
   },
   {
-    "irProjectorNode": "bone_gun"
+    "irProjectorNode": "ex_decor_02"
   },
   {
-    "irBeamRadius": [1300.0,100.0]
+    "irBeamRadius": [1400.0,100.0]
   },
   {
-    "irProjectorPower": [0.03,0.05]
+    "irProjectorPower": [0.02,0.07]
   },
   {
     "rearmSmokeTimeOnField": 60.0
@@ -1573,7 +1573,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1700,7 +1700,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1771,15 +1771,15 @@
             {
               "linkedAnimPart": {
                 "verNode": "bone_gun_roller_01",
-                "verLimits": [-6.0,14.0],
-                "verOriginLimits": [-6.0,14.0]
+                "verLimits": [5.0,-27.0],
+                "verOriginLimits": [-4.0,17.0]
               }
             },
             {
               "linkedAnimPart": {
                 "verNode": "bone_gun_roller_02",
-                "verLimits": [5.0,-13.0],
-                "verOriginLimits": [-6.0,14.0]
+                "verLimits": [-4.0,17.0],
+                "verOriginLimits": [-4.0,17.0]
               }
             }
           ],
@@ -1991,7 +1991,7 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 14500.0,
+        "Empty": 16200.0,
         "Fuel": 300.0,
         "TakeOff": 16500.0,
         "momentOfInertia": [2.0,2.0,4.0],
@@ -2642,10 +2642,10 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 22.0,
-      "zoomInFov": 18.5,
+      "zoomOutFov": 21.1,
+      "zoomInFov": 9.21,
       "sightFov": 13.0,
-      "sightName": "tshk_66",
+      "sightName": "tsh2_22",
       "headPos": [0.0,4.0,-8.0],
       "headPosOnShooting": [0.15,3.0,0.7],
       "detectionHeight": 2.195
@@ -2654,6 +2654,8 @@
   {
     "skin": {
       "name": "ussr_camo_czechoslovak_yellow_green",
+      "nameLocId": "skin/ussr_camo_czechoslovak_yellow_green",
+      "descLocId": "skin/ussr_camo_czechoslovak_yellow_green/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_czechoslovak_yellow_green*"
@@ -2663,6 +2665,8 @@
   {
     "skin": {
       "name": "ussr_camo_desert_syrian_green_brown_yellow",
+      "nameLocId": "skin/ussr_camo_desert_syrian_green_brown_yellow",
+      "descLocId": "skin/ussr_camo_desert_syrian_green_brown_yellow/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_syrian_green_brown_yellow*"
@@ -2672,6 +2676,8 @@
   {
     "skin": {
       "name": "ussr_camo_desert_yellow_brown",
+      "nameLocId": "skin/ussr_camo_desert_yellow_brown",
+      "descLocId": "skin/ussr_camo_desert_yellow_brown/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_yellow_brown*"
@@ -2681,6 +2687,8 @@
   {
     "skin": {
       "name": "modern_desert",
+      "nameLocId": "skin/ussr_modern_desert",
+      "descLocId": "skin/ussr_modern_desert/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_desert*"
@@ -2690,6 +2698,8 @@
   {
     "skin": {
       "name": "modern_forest",
+      "nameLocId": "skin/ussr_modern_forest",
+      "descLocId": "skin/ussr_modern_forest/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_forest*"
@@ -2699,6 +2709,8 @@
   {
     "skin": {
       "name": "modern_winter",
+      "nameLocId": "skin/ussr_modern_winter",
+      "descLocId": "skin/ussr_modern_winter/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_winter*"
@@ -2708,6 +2720,8 @@
   {
     "skin": {
       "name": "ussr_camo_finland_polygonal_threecolor",
+      "nameLocId": "skin/ussr_camo_finland_polygonal_threecolor",
+      "descLocId": "skin/ussr_camo_finland_polygonal_threecolor/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_finland_polygonal_threecolor*"
@@ -2788,15 +2802,15 @@
                   {
                     "linkedAnimPart": {
                       "verNode": "bone_gun_roller_01",
-                      "verLimits": [-6.0,14.0],
-                      "verOriginLimits": [-6.0,14.0]
+                      "verLimits": [5.0,-27.0],
+                      "verOriginLimits": [-4.0,17.0]
                     }
                   },
                   {
                     "linkedAnimPart": {
                       "verNode": "bone_gun_roller_02",
-                      "verLimits": [5.0,-13.0],
-                      "verOriginLimits": [-6.0,14.0]
+                      "verLimits": [-4.0,17.0],
+                      "verOriginLimits": [-4.0,17.0]
                     }
                   }
                 ],

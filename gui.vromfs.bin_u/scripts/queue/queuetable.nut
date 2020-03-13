@@ -1,8 +1,10 @@
 local time = require("scripts/time.nut")
-
-const FULL_CIRCLE_GRAD = 360
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::dagui_propid.add_name_id("_queueTableGenCode")
+
+local FULL_CIRCLE_GRAD = 360
+local WAIT_TO_SHOW_CROSSPLAY_TIP_SEC_F = 120.0
 
 class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -11,7 +13,8 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
 
   queueMask = QUEUE_TYPE_BIT.UNKNOWN
 
-  updateTimer = 0
+  isCrossPlayTipShowed = false
+
   build_IA_shop_filters = false
   isPrimaryFocus = false
   focusArray = ["ia_table_clusters_list"]
@@ -19,6 +22,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
   function initScreen()
   {
     setCurQueue(::queues.findQueue({}, queueMask))
+    updateWaitTime()
 
     scene.findObject("queue_players_total").show(!::is_me_newbie())
 
@@ -61,12 +65,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     if (!scene.isVisible())
       return
 
-    updateTimer -= dt
-    if (updateTimer <= 0)
-    {
-      updateTimer += 1.0
-      updateWaitTime()
-    }
+    updateWaitTime()
   }
 
   function getShowQueueTable() { return scene.isVisible() }
@@ -132,6 +131,14 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     scene.findObject("msgText").setValue(txtWaitTime)
+
+    if (!isCrossPlayTipShowed
+      && waitTime >= WAIT_TO_SHOW_CROSSPLAY_TIP_SEC_F
+      && !crossplayModule.isCrossPlayEnabled())
+    {
+      scene.findObject("crossplay_tip").show(true)
+      isCrossPlayTipShowed = true
+    }
   }
 
   function updateAvailableCountries()

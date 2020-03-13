@@ -113,3 +113,8 @@
   }
   get_level_texture = @(lvl, f) ::map_to_location(lvl ?? "") + (f ? "_tankmap*" : "_map*")
 })
+
+//----------------------------wop_1_91_0_X---------------------------------//
+::apply_compatibilities({
+    EII_HULL_AIMING = -1
+})

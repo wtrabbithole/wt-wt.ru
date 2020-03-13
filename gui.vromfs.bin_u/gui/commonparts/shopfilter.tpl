@@ -47,10 +47,27 @@
       }
     <</image>>
 
-    shopFilterText {
-      text:t='<<text>>'
-      hideEmptyText:t='yes'
-    }
+    <<#autoScrollText>>
+      autoScrollText:t='yes'
+      tdiv {
+        width:t='fw'
+        position:t='relative'
+        top:t='50%ph-50%h'
+        overflow:t='hidden'
+        css-hier-invalidate:t='yes'
+        shopFilterText {
+          text:t='<<text>>'
+          hideEmptyText:t='yes'
+        }
+      }
+    <</autoScrollText>>
+
+    <<^autoScrollText>>
+      shopFilterText {
+        text:t='<<text>>'
+        hideEmptyText:t='yes'
+      }
+    <</autoScrollText>>
 
     <<#navigationImage>>
       <<@navigationImage>>

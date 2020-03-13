@@ -25,6 +25,9 @@ local modsTree = {
 
   function mustBeInModTree(mod)
   {
+    if (mod.isHidden)
+      return false
+
     foreach(unitType in ::g_unit_type.types)
       if (unitType.modClassOrder.find(mod.modClass) != null)
         return true

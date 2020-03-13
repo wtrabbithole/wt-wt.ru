@@ -16,6 +16,7 @@
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
   "fireParamsPreset": "1100kph",
   "fightAiBehaviour": "fighter",
+  "gyroscopicSightOverSensors": true,
   "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
   "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
@@ -1066,22 +1067,38 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
@@ -2024,6 +2041,12 @@
   "arcadeOverride": {
     "maxSpeedMultiplier": 1.01,
     "wepOverspeed": 1.05
+  },
+  "sensors": {
+    "sensor": {
+      "blk": "gameData/sensors/us_an_apg_30.blk",
+      "dmPart": "radar_dm"
+    }
   },
   "damagePartsDependencyMap": [
     {
@@ -5796,7 +5819,6 @@
     "emtr_break_wing2_r_from": [0.0478877,-0.322836,-3.98024],
     "emtr_break_wing2_r_to": [0.0478877,-0.322836,-4.71696],
     "emtr_break_wing_tail": [-4.55156,0.0,0.0],
-    "partKindTail": 4,
     "finCut": true,
     "emtr_break_stab_l_from": [-5.44516,0.711412,0.398094],
     "emtr_break_stab_l_to": [-5.44516,0.711412,1.59237],

@@ -672,11 +672,11 @@ foreach (i, v in ::cssColorsMapDark)
   return ::last_update_entitlements_time - ::dagor.getCurTime() + 20000
 }
 
-::update_entitlements_limited <- function update_entitlements_limited()
+::update_entitlements_limited <- function update_entitlements_limited(force=false)
 {
   if (!::is_online_available())
     return -1
-  if (::get_update_entitlements_timeout_msec() < 0)
+  if (force || ::get_update_entitlements_timeout_msec() < 0)
   {
     ::last_update_entitlements_time = ::dagor.getCurTime()
     return ::update_entitlements()
@@ -777,13 +777,6 @@ foreach (i, v in ::cssColorsMapDark)
   local rpPriceText = exp_value.tostring() + ::loc("currency/researchPoints/sign/colored")
   local coloredPriceText = ::colorTextByValues(rpPriceText, exp_value, 0)
   return ::format(::loc("mainmenu/availableFreeExpForNewResearch"), coloredPriceText)
-}
-
-::getFreeRpPriceText <- function getFreeRpPriceText(frp, colored=false)
-{
-  if (frp == 0)
-    return ""
-  return frp.tostring() + ::loc("currency/freeResearchPoints/sign" + (colored? "/colored" : ""))
 }
 
 ::getCrewSpText <- function getCrewSpText(sp, colored=true)
@@ -1638,7 +1631,11 @@ foreach (i, v in ::cssColorsMapDark)
     return
 
   foreach (dir in nodes)
+  {
+    if (blk?[dir] != null && type(blk[dir]) != "instance")
+      blk[dir] = null
     blk = blk.addBlock(dir)
+  }
 
   //If current value is equal to existent in DataBlock don't override it
   if (::u.isEqual(blk?[key], val))

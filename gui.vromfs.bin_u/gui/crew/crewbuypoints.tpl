@@ -63,7 +63,7 @@ table {
 
         ButtonImg {
           id:t='ButtonImg'
-          iconName:t='A'
+          btnName:t='A'
           showOn:t='selectedAndEnabled'
         }
       }

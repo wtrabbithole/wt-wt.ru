@@ -212,7 +212,7 @@ weaponry_item {
           id:t='price';
           smallFont:t='yes'
           text:t='';
-          pos:t='0, ph-h-3*@sf/@pf_outdated';
+          pos:t='0, ph-h';
           position:t='relative'
           hideEmptyText:t='yes'
           padding-right:t='2*@sf/@pf_outdated'
@@ -320,7 +320,7 @@ weaponry_item {
 
   <<#shortcutIcon>>
   ButtonImg{
-    iconName:t='<<shortcutIcon>>'
+    btnName:t='<<shortcutIcon>>'
     showOnSelect:t='yes'
   }
   <</shortcutIcon>>

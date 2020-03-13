@@ -693,7 +693,17 @@ class Events
 
   function isEventXboxOnlyAllowed(event)
   {
-    return event?.xboxOnlyAllowed ?? false
+    return (event?.xboxOnlyAllowed ?? false) && ::is_platform_xboxone
+  }
+
+  function isEventPS4OnlyAllowed(event)
+  {
+    return (event?.ps4OnlyAllowed ?? false) && ::is_platform_ps4
+  }
+
+  function isEventPlatformOnlyAllowed(event)
+  {
+    return isEventXboxOnlyAllowed(event) || isEventPS4OnlyAllowed(event)
   }
 
   /**
@@ -2162,7 +2172,7 @@ class Events
     {
       data.reasonText = ::loc("events/notEnoughMoney")
     }
-    else if (::is_platform_xboxone && !isEventXboxOnlyAllowed(mGameMode) && !crossplayModule.isCrossPlayEnabled())
+    else if (!isEventPlatformOnlyAllowed(mGameMode) && !crossplayModule.isCrossPlayEnabled())
     {
       data.reasonText = ::loc("xbox/crossPlayRequired")
     }

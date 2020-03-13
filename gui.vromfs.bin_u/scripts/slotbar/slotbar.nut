@@ -107,12 +107,13 @@ if need - put commented in array above
         inactive = shopResearchMode
       }
 
-      if ((shopResearchMode && !(bitStatus &
-           ( bit_unit_status.locked
-            | bit_unit_status.canBuy
-            | bit_unit_status.inResearch
-            | bit_unit_status.canResearch)))
-         || (isSquadronResearchMode && !isSquadronVehicle))
+      if ((shopResearchMode
+          && (isSquadronVehicle || !(bitStatus &
+            ( bit_unit_status.locked
+              | bit_unit_status.canBuy
+              | bit_unit_status.inResearch
+              | bit_unit_status.canResearch))))
+        || (isSquadronResearchMode && !isSquadronVehicle))
       {
         bitStatus = bit_unit_status.disabled
         inactive = true

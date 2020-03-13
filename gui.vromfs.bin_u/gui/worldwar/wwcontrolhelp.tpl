@@ -9,7 +9,7 @@ tdiv {
       size:t='@cIco, @cIco'
       top:t='50%ph-50%h'
       position:t='relative'
-      iconName:t='<<consoleButtonsIconName>>'
+      btnName:t='<<consoleButtonsIconName>>'
     }
   <</consoleButtonsIconName>>
   <<#controlHelpText>>

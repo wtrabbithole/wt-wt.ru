@@ -361,6 +361,10 @@
         "radio_station_dm": {
           "hp": 50.0,
           "armorThrough": 3.0
+        },
+        "radio_station_01_dm": {
+          "hp": 50.0,
+          "armorThrough": 3.0
         }
       },
       "cannon_breech": {
@@ -1567,7 +1571,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1617,7 +1621,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1663,173 +1667,73 @@
         }
       },
       {
-        "Weapon": [
-          {
-            "trigger": "gunner1"
+        "Weapon": {
+          "trigger": "gunner1",
+          "triggerGroup": "primary",
+          "blk": "gameData/Weapons/groundModels_weapons/130mm_9M114_launcher_user_cannon.blk",
+          "flash": "emtr_gun_flame_01",
+          "useEmitter": true,
+          "emitter": "bone_rocket_01",
+          "reloadAnimVar": "9p149_action",
+          "recoilMultiplier": 0.01,
+          "sleeveEmitter": "bone_rocket_01",
+          "sleeveMesh": "9m114_rocket_container",
+          "openHatchTime": 0.0,
+          "sleevesLifeTime": 15.0,
+          "sleeveImpulse": [0.0,1.0,0.0],
+          "linkSleeveToGun": true,
+          "needScaleSleeve": false,
+          "stopForFire": true,
+          "readyToFireVar": "9p149_close_action",
+          "readyToFireTime": 5.0,
+          "maxSpeedForFire": 5.0,
+          "lagStopForFireTime": 2.0,
+          "parkForReload": true,
+          "createGunEffects": true,
+          "defaultYaw": 0.0,
+          "defaultPitch": 0.0,
+          "notReadyToFireYaw": 0.0,
+          "barrelDP": "gun_barrel_dm",
+          "brokenBarrelAllowShoot": false,
+          "canChangeBulletInReload": false,
+          "autoLoader": true,
+          "speedYaw": 25.0,
+          "speedPitch": 25.0,
+          "fireConeAngle": 1.0,
+          "isBulletBelt": false,
+          "bullets": 12,
+          "salvoAmount": 100.0,
+          "ChainfireTime": 0.0,
+          "DelayAfterShoot": 5.0,
+          "AttackMaxDistance": 1000.0,
+          "AttackMaxRadius": 1000.0,
+          "AttackMaxHeight": 1000.0,
+          "accuracyAir": 0.0,
+          "accuracyGnd": 1.5,
+          "errMeasureVel": 0.0,
+          "errMeasureVelFast": 0.0,
+          "errMeasureVelFwdShift": 0.0,
+          "errMeasureVelDir": 0.0,
+          "errTargettingOn100kmph": 0.0,
+          "errTargetting": 3.0,
+          "errExplTime": 0.0,
+          "turret": {
+            "head": "bone_gun",
+            "gun": "bone_gun_barrel",
+            "gunnerDm": "gunner_dm",
+            "verDriveDm": "drive_turret_v_dm",
+            "horDriveDm": "drive_turret_h_dm"
           },
-          {
-            "triggerGroup": "primary"
-          },
-          {
-            "blk": "gameData/Weapons/groundModels_weapons/130mm_9M114_launcher_user_cannon.blk"
-          },
-          {
-            "flash": "emtr_rocket_flame"
-          },
-          {
-            "useEmitter": true
-          },
-          {
-            "emitter": "bone_rocket_01"
-          },
-          {
-            "reloadAnimVar": "9p149_action"
-          },
-          {
-            "recoilMultiplier": 0.01
-          },
-          {
-            "sleeveEmitter": "bone_rocket_01"
-          },
-          {
-            "sleeveMesh": "9m114_rocket_container"
-          },
-          {
-            "openHatchTime": 0.0
-          },
-          {
-            "sleevesLifeTime": 15.0
-          },
-          {
-            "sleeveImpulse": [0.0,1.0,0.0]
-          },
-          {
-            "linkSleeveToGun": true
-          },
-          {
-            "needScaleSleeve": false
-          },
-          {
-            "stopForFire": true
-          },
-          {
-            "readyToFireVar": "9p149_close_action"
-          },
-          {
-            "readyToFireTime": 5.0
-          },
-          {
-            "maxSpeedForFire": 5.0
-          },
-          {
-            "lagStopForFireTime": 2.0
-          },
-          {
-            "canChangeBulletInReload": false
-          },
-          {
-            "parkForReload": true
-          },
-          {
-            "createGunEffects": true
-          },
-          {
-            "defaultYaw": 0.0
-          },
-          {
-            "defaultPitch": 0.0
-          },
-          {
-            "notReadyToFireYaw": 0.0
-          },
-          {
-            "barrelDP": "gun_barrel_dm"
-          },
-          {
-            "brokenBarrelAllowShoot": false
-          },
-          {
-            "canChangeBulletInReload": false
-          },
-          {
-            "autoLoader": true
-          },
-          {
-            "speedYaw": 25.0
-          },
-          {
-            "speedPitch": 25.0
-          },
-          {
-            "fireConeAngle": 1.0
-          },
-          {
-            "isBulletBelt": false
-          },
-          {
-            "bullets": 12
-          },
-          {
-            "salvoAmount": 100.0
-          },
-          {
-            "ChainfireTime": 0.0
-          },
-          {
-            "DelayAfterShoot": 5.0
-          },
-          {
-            "AttackMaxDistance": 1000.0
-          },
-          {
-            "AttackMaxRadius": 1000.0
-          },
-          {
-            "AttackMaxHeight": 1000.0
-          },
-          {
-            "accuracyAir": 0.0
-          },
-          {
-            "accuracyGnd": 1.5
-          },
-          {
-            "errMeasureVel": 0.0
-          },
-          {
-            "errMeasureVelFast": 0.0
-          },
-          {
-            "errMeasureVelFwdShift": 0.0
-          },
-          {
-            "errMeasureVelDir": 0.0
-          },
-          {
-            "errTargettingOn100kmph": 0.0
-          },
-          {
-            "errTargetting": 3.0
-          },
-          {
-            "errExplTime": 0.0
-          },
-          {
-            "turret": {
-              "head": "bone_turret",
-              "gun": "bone_gun",
-              "gunnerDm": "gunner_dm",
-              "verDriveDm": "drive_turret_v_dm",
-              "horDriveDm": "drive_turret_h_dm"
-            }
-          },
-          {
-            "limits": {
-              "yaw": [-85.0,85.0],
-              "pitch": [-5.0,15.0]
-            }
+          "limits": {
+            "yaw": [-85.0,85.0],
+            "pitch": [-5.0,15.0]
           }
-        ]
+        }
+      },
+      {
+        "animatedBones": {
+          "node": "bone_turret"
+        }
       }
     ]
   },
@@ -2601,6 +2505,8 @@
   {
     "skin": {
       "name": "ussr_camo_czechoslovak_yellow_green",
+      "nameLocId": "skin/ussr_camo_czechoslovak_yellow_green",
+      "descLocId": "skin/ussr_camo_czechoslovak_yellow_green/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_czechoslovak_yellow_green*"
@@ -2610,6 +2516,8 @@
   {
     "skin": {
       "name": "ussr_camo_desert_syrian_green_brown_yellow",
+      "nameLocId": "skin/ussr_camo_desert_syrian_green_brown_yellow",
+      "descLocId": "skin/ussr_camo_desert_syrian_green_brown_yellow/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_syrian_green_brown_yellow*"
@@ -2619,6 +2527,8 @@
   {
     "skin": {
       "name": "ussr_camo_desert_yellow_brown",
+      "nameLocId": "skin/ussr_camo_desert_yellow_brown",
+      "descLocId": "skin/ussr_camo_desert_yellow_brown/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_yellow_brown*"
@@ -2628,6 +2538,8 @@
   {
     "skin": {
       "name": "modern_desert",
+      "nameLocId": "skin/ussr_modern_desert",
+      "descLocId": "skin/ussr_modern_desert/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_desert*"
@@ -2637,6 +2549,8 @@
   {
     "skin": {
       "name": "modern_forest",
+      "nameLocId": "skin/ussr_modern_forest",
+      "descLocId": "skin/ussr_modern_forest/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_forest*"
@@ -2646,6 +2560,8 @@
   {
     "skin": {
       "name": "modern_winter",
+      "nameLocId": "skin/ussr_modern_winter",
+      "descLocId": "skin/ussr_modern_winter/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_winter*"
@@ -2655,6 +2571,8 @@
   {
     "skin": {
       "name": "ussr_camo_finland_polygonal_threecolor",
+      "nameLocId": "skin/ussr_camo_finland_polygonal_threecolor",
+      "descLocId": "skin/ussr_camo_finland_polygonal_threecolor/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_finland_polygonal_threecolor*"
@@ -2685,7 +2603,87 @@
       "130mm_9m220o_ATGM": [],
       "130mm_9m220o_ATGM_ammo_pack": [],
       "manual_extinguisher": [],
-      "tank_tool_kit": []
+      "tank_tool_kit": [],
+      "9p149m_upgrade_modification": {
+        "invertEnableLogic": false,
+        "turn_it_off": false,
+        "effects": {
+          "rcostAddParam": 0.92,
+          "irProjectorNode": "",
+          "nightVision": {
+            "gunnerThermal": {
+              "resolution": [500,300],
+              "noiseFactor": 0.05
+            },
+            "commanderIr": {
+              "resolution": [1600,1200],
+              "lightMult": 9.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            },
+            "driverIr": {
+              "resolution": [800,600],
+              "lightMult": 5.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            }
+          },
+          "hideNodes": [
+            {
+              "node": "body_02"
+            },
+            {
+              "node": "ex_decor_l_01"
+            },
+            {
+              "node": "ex_decor_l_01_dm"
+            },
+            {
+              "node": "ex_decor_r_01"
+            },
+            {
+              "node": "ex_decor_r_01_dm"
+            },
+            {
+              "node": "ex_decor_r_02"
+            },
+            {
+              "node": "ex_decor_r_03"
+            },
+            {
+              "node": "optic_gun_02"
+            }
+          ]
+        },
+        "disableModEffects": {
+          "hideNodes": [
+            {
+              "node": "body_01"
+            },
+            {
+              "node": "ex_decor_r_07"
+            },
+            {
+              "node": "ex_decor_r_07_dm"
+            },
+            {
+              "node": "ex_lantern_l_01"
+            },
+            {
+              "node": "ex_lantern_l_01_dm"
+            },
+            {
+              "node": "ex_lantern_r_01"
+            },
+            {
+              "node": "ex_lantern_r_01_dm"
+            },
+            {
+              "node": "optic_gun_01"
+            }
+          ]
+        }
+      }
     }
   },
   {

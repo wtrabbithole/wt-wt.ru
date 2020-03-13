@@ -6,11 +6,7 @@ inactive:t='yes'
 <</slotInactive>>
 
 <<#isSlotbarItem>>
-slotbarCurAir {
-  pattern {
-    type:t='bright_hor_lines'
-  }
-}
+slotbarCurAir {}
 <</isSlotbarItem>>
 <</isInTable>>
 

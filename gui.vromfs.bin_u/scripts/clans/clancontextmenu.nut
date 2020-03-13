@@ -1,5 +1,4 @@
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
-local platformModule = ::require("scripts/clientState/platform.nut")
 
 local getClanActions = function(clanId)
 {
@@ -38,12 +37,12 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
   local isBlock = ::isPlayerInContacts(playerUid, ::EPL_BLOCKLIST)
   local contact = ::getContact(playerUid, playerName)
   local name = contact?.name ?? playerName
-  local canInteract = platformModule.isChatEnableWithPlayer(name)
+  local canChat = contact? contact.canChat() : ::g_chat.isChatEnableWithPlayer(name)
 
   return [
     {
       text = ::loc("contacts/message")
-      isVisualDisabled = !canInteract || isBlock
+      isVisualDisabled = !canChat || isBlock
       show = playerUid != ::my_user_id_str
              && ::ps4_is_chat_enabled()
              && !u.isEmpty(name)
@@ -53,10 +52,10 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
         if (isBlock)
           return playerContextMenu.showBlockedPlayerPopup(name)
 
-        if (!canInteract)
+        if (!canChat)
         {
-          if (::isInMenu())
-            platformModule.attemptShowOverlayMessage(name)
+          if (::isInMenu() && ::is_platform_xboxone)
+            ::g_chat.attemptShowOverlayMessage(name)
           return playerContextMenu.showPrivacySettingsRestrictionPopup()
         }
 

@@ -26,7 +26,9 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
     if (hasMarkers)
       recipesList.sort(@(a, b) a.idx <=> b.idx)
     else
-      recipesList.sort(@(a, b) b.isUsable <=> a.isUsable || a.idx <=> b.idx)
+      recipesList.sort(@(a, b) b.isUsable <=> a.isUsable
+        || a.sortReqQuantityComponents <=> b.sortReqQuantityComponents
+        || a.idx <=> b.idx)
     curRecipe = recipesList[0]
 
     local maxRecipeLen = 1
@@ -90,7 +92,7 @@ class ::gui_handlers.RecipesListWnd extends ::gui_handlers.BaseGuiHandlerWT
     local btnObj = scene.findObject("btn_apply")
     btnObj.inactiveColor = curRecipe?.isUsable && !curRecipe.isRecipeLocked() ? "no" : "yes"
 
-    local btnText = ::loc(buttonText)
+    local btnText = ::loc(curRecipe.getActionButtonLocId() ?? buttonText)
     if (curRecipe.hasCraftTime())
       btnText += " " + ::loc("ui/parentheses", {text = curRecipe.getCraftTimeText()})
     btnObj.setValue(btnText)

@@ -2,6 +2,12 @@
   {
     "hideNodes": [
       {
+        "node": "pylon_l_in_upor"
+      },
+      {
+        "node": "pylon_r_in_upor"
+      },
+      {
         "node": "lau_34a_001"
       },
       {
@@ -18,6 +24,39 @@
       },
       {
         "node": "ter_002"
+      },
+      {
+        "node": "ter_003"
+      },
+      {
+        "node": "ter_004"
+      },
+      {
+        "node": "pylon_r_in_upor"
+      },
+      {
+        "node": "pylon_l_in_upor"
+      },
+      {
+        "node": "matra_155_pod_001"
+      },
+      {
+        "node": "matra_155_pod_002"
+      },
+      {
+        "node": "matra_155_pod_003"
+      },
+      {
+        "node": "matra_155_pod_004"
+      },
+      {
+        "node": "matra_155_pod_005"
+      },
+      {
+        "node": "matra_155_pod_006"
+      },
+      {
+        "node": "matra_155_pod_007"
       },
       {
         "node": "mer_002"
@@ -359,7 +398,8 @@
       "spread": 1.5,
       "traceOffset": 1,
       "counterIndex": 1,
-      "rotationAnimScale": "gun_rotate_02:CRS"
+      "rotationAnimScale": "gun_rotate_02:CRS",
+      "gearName": "gear_c"
     }
   },
   {
@@ -465,7 +505,8 @@
       "separate": true,
       "blk": "gameData/Weapons/rocketGuns/us_aim9b_sidewinder.blk",
       "emitter": "aim_9e_001",
-      "bullets": 1
+      "bullets": 1,
+      "loadFactorLimit": 4.0
     }
   },
   {
@@ -475,7 +516,8 @@
       "separate": true,
       "blk": "gameData/Weapons/rocketGuns/us_aim9b_sidewinder.blk",
       "emitter": "aim_9e_004",
-      "bullets": 1
+      "bullets": 1,
+      "loadFactorLimit": 4.0
     }
   },
   {
@@ -485,7 +527,8 @@
       "separate": true,
       "blk": "gameData/Weapons/rocketGuns/us_aim9b_sidewinder.blk",
       "emitter": "aim_9e_002",
-      "bullets": 1
+      "bullets": 1,
+      "loadFactorLimit": 4.0
     }
   },
   {
@@ -495,7 +538,8 @@
       "separate": true,
       "blk": "gameData/Weapons/rocketGuns/us_aim9b_sidewinder.blk",
       "emitter": "aim_9e_003",
-      "bullets": 1
+      "bullets": 1,
+      "loadFactorLimit": 4.0
     }
   },
   {
@@ -506,7 +550,7 @@
       "emitter": "zuni_001_b001",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
+      "mass": 48.0,
       "dragCx": 0.01,
       "capName": "cap_b001"
     }
@@ -519,7 +563,7 @@
       "emitter": "zuni_001_b015",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
+      "mass": 48.0,
       "dragCx": 0.01,
       "capName": "cap_b015"
     }
@@ -532,7 +576,7 @@
       "emitter": "zuni_001_b002",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
+      "mass": 48.0,
       "dragCx": 0.01,
       "capName": "cap_b002"
     }
@@ -545,7 +589,7 @@
       "emitter": "zuni_001_b014",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
+      "mass": 48.0,
       "dragCx": 0.01,
       "capName": "cap_b014"
     }
@@ -558,7 +602,7 @@
       "emitter": "zuni_001_b003",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
+      "mass": 48.0,
       "dragCx": 0.01,
       "capName": "cap_b003"
     }
@@ -571,7 +615,7 @@
       "emitter": "zuni_001_b013",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
+      "mass": 48.0,
       "dragCx": 0.01,
       "capName": "cap_b013"
     }
@@ -584,8 +628,8 @@
       "emitter": "zuni_002_b001",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -596,8 +640,8 @@
       "emitter": "zuni_002_b015",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -608,8 +652,8 @@
       "emitter": "zuni_002_b002",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -620,8 +664,8 @@
       "emitter": "zuni_002_b014",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -632,8 +676,8 @@
       "emitter": "zuni_002_b003",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -644,8 +688,8 @@
       "emitter": "zuni_002_b013",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -656,8 +700,8 @@
       "emitter": "zuni_003_b001",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -668,8 +712,8 @@
       "emitter": "zuni_003_b015",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -680,8 +724,8 @@
       "emitter": "zuni_003_b002",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -692,8 +736,8 @@
       "emitter": "zuni_003_b014",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -704,8 +748,8 @@
       "emitter": "zuni_003_b003",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -716,8 +760,8 @@
       "emitter": "zuni_003_b013",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -728,8 +772,8 @@
       "emitter": "zuni_004_b001",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -740,8 +784,8 @@
       "emitter": "zuni_004_b015",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -752,8 +796,8 @@
       "emitter": "zuni_004_b002",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -764,8 +808,8 @@
       "emitter": "zuni_004_b014",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -776,8 +820,8 @@
       "emitter": "zuni_004_b003",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   },
   {
@@ -788,8 +832,8 @@
       "emitter": "zuni_004_b013",
       "bullets": 1,
       "minSize": [1.5,1.0,1.0],
-      "mass": 12.2,
-      "dragCx": 0.01
+      "mass": 0.0,
+      "dragCx": 0.0
     }
   }
 ]

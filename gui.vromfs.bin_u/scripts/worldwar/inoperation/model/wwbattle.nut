@@ -290,6 +290,8 @@ class ::WwBattle
                         armyNames = teamArmyNames
                         unitsRemain = teamUnitsRemain
                         unitTypes = teamUnitTypes}
+      if(teamBlk?.autoBattleWinChancePercent != null)
+        teamInfo.autoBattleWinChancePercent <- teamBlk.autoBattleWinChancePercent
       teams[teamName] <- teamInfo
       totalPlayersNumber += numPlayers
       maxPlayersNumber += teamMaxPlayers
@@ -559,7 +561,7 @@ class ::WwBattle
       }
 
       if (!langConfig.len())
-        data.unitsCountUnderLimit <- getAvailabelUnitsCountUnderLimit(data.unbrokenAvailableUnits,
+        data.unitsCountUnderLimit <- getAvailableUnitsCountUnderLimit(data.unbrokenAvailableUnits,
                                                                       remainUnits, ::g_squad_manager.getSquadSize())
     }
 
@@ -651,7 +653,7 @@ class ::WwBattle
     return ::g_squad_utils.checkAvailableUnits(unbrokenAvailableUnits, remainUnits)
   }
 
-  function getAvailabelUnitsCountUnderLimit(availableUnits, remainUnits, limit)
+  function getAvailableUnitsCountUnderLimit(availableUnits, remainUnits, limit)
   {
     local unitsSummary = 0
     foreach(idx, name in availableUnits)

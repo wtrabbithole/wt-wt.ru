@@ -6,6 +6,7 @@ local globalEnv = require_native("globalEnv")
 local avatars = ::require("scripts/user/avatars.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
 local optionsUtils = require("scripts/options/optionsUtils.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 global const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 global const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
@@ -1872,6 +1873,13 @@ local isWaitMeasureEvent = false
       descr.value = ::get_option_autorearm_on_airfield()
       break
 
+    case ::USEROPT_ACTIVATE_AIRBORNE_RADAR_ON_SPAWN:
+      descr.id = "activate_airborne_radar_on_spawn"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_activate_airborne_radar_on_spawn()
+      break
+
     case ::USEROPT_SAVE_AI_TARGET_TYPE:
       descr.id = "save_ai_target_type"
       descr.controlType = optionControlType.CHECKBOX
@@ -2516,6 +2524,9 @@ local isWaitMeasureEvent = false
           local brText = ::format("%.1f", minBR)
                        + ((minBR != maxBR) ? " - " + ::format("%.1f", maxBR) : "")
           local text = brText
+
+          if (descr.values?[descr.values.len() - 1] == tier)
+            continue
           descr.values.append(tier)
           descr.items.append(text)
         }
@@ -3485,6 +3496,13 @@ local isWaitMeasureEvent = false
       descr.value = ::get_show_destroyed_parts()
       break
 
+    case ::USEROPT_ACTIVATE_GROUND_RADAR_ON_SPAWN:
+      descr.id = "activate_ground_radar_on_spawn"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_activate_ground_radar_on_spawn()
+      break
+
     case ::USEROPT_FPS_CAMERA_PHYSICS:
       descr.id = "fps_camera_physics"
       descr.value = clamp((::get_option_multiplier(::OPTION_FPS_CAMERA_PHYS) * 100.0).tointeger(), 0, 100)
@@ -3607,6 +3625,18 @@ local isWaitMeasureEvent = false
       descr.value = ::g_gamepad_cursor_controls.getSpeed()
       descr.min <- 5
       descr.max <- 200
+      break
+    case ::USEROPT_PS4_CROSSPLAY:
+      descr.id = "ps4_crossplay"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = crossplayModule.isCrossPlayEnabled()
+      break
+    case ::USEROPT_PS4_CROSSNETWORK_CHAT:
+      descr.id = "ps4_crossnetwork_chat"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = crossplayModule.isCrossNetworkChatEnabled()
       break
 
     default:
@@ -4111,6 +4141,9 @@ local isWaitMeasureEvent = false
     case ::USEROPT_AUTOREARM_ON_AIRFIELD:
       ::set_option_autorearm_on_airfield(value)
       break;
+    case ::USEROPT_ACTIVATE_AIRBORNE_RADAR_ON_SPAWN:
+      ::set_option_activate_airborne_radar_on_spawn(value)
+      break;
     case ::USEROPT_SAVE_AI_TARGET_TYPE:
       ::set_option_ai_target_type(value ? 1 : 0)
       break;
@@ -4607,6 +4640,10 @@ local isWaitMeasureEvent = false
       ::set_show_destroyed_parts(value)
       break
 
+    case ::USEROPT_ACTIVATE_GROUND_RADAR_ON_SPAWN:
+      ::set_activate_ground_radar_on_spawn(value)
+      break
+
     case ::USEROPT_FPS_CAMERA_PHYSICS:
       ::set_option_multiplier(::OPTION_FPS_CAMERA_PHYS, value / 100.0)
       break
@@ -4639,6 +4676,12 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED:
       ::g_gamepad_cursor_controls.setSpeed(value)
+      break
+    case ::USEROPT_PS4_CROSSPLAY:
+      crossplayModule.setCrossPlayStatus(value)
+      break
+    case ::USEROPT_PS4_CROSSNETWORK_CHAT:
+      crossplayModule.setCrossNetworkChatStatus(value)
       break
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:

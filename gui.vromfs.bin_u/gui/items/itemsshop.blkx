@@ -7,7 +7,7 @@
         "id": "wnd_items_shop"
       },
       {
-        "size": "1.5@scrn_tgt, 1@maxWindowHeightNoSrh"
+        "size": "1@srw + 1@itemWidth, 1@maxWindowHeightNoSrh"
       },
       {
         "max-width": "1@rw"
@@ -78,7 +78,13 @@
                 "on_select": "onChangeSortParam",
                 "on_wrap_up": "onWrapUp",
                 "on_wrap_down": "onWrapDown",
+                "activeAccesskeys": "RSLeftRight",
                 "highlightSelected": "yes"
+              },
+              "ButtonImg": {
+                "pos": "2@dp, 50%ph-50%h",
+                "position": "relative",
+                "btnName": "RSLeftRight"
               }
             }
           },
@@ -88,11 +94,42 @@
         }
       },
       {
-        "div": {
-          "id": "filter_block",
-          "width": "pw",
-          "margin-bottom": "1@blockInterval"
-        }
+        "div": [
+          {
+            "id": "filter_block"
+          },
+          {
+            "width": "pw"
+          },
+          {
+            "margin-bottom": "1@blockInterval"
+          },
+          {
+            "tdiv": {
+              "width": "fw",
+              "min-height": "1@buttonHeight + @listboxPad - 1@listboxItemsInterval",
+              "id": "filter_tabs"
+            }
+          },
+          {
+            "tdiv": {
+              "id": "subset_list_nest",
+              "width": "1@subsetComboBoxWidth",
+              "position": "relative",
+              "top": "50%ph-50%h",
+              "margin-left": "1@listboxPad",
+              "display": "hide",
+              "tdiv": {
+                "id": "subset_list_bg",
+                "width": "pw",
+                "background-color": "@rowHoverBackgroundColor",
+                "padding": "1@dp",
+                "display": "hide",
+                "enabled": "no"
+              }
+            }
+          }
+        ]
       },
       {
         "div": [
@@ -442,10 +479,28 @@
       },
       {
         "navBar": {
-          "tdiv": {
+          "navLeft": {
+            "Button_text": {
+              "id": "btn_open_craft_tree",
+              "text": "#mainmenu/btnAircraftInfo",
+              "btnName": "R3",
+              "on_click": "onOpenCraftTree",
+              "display": "hide",
+              "enable": "no",
+              "ButtonImg": [],
+              "newIconWidget": {
+                "id": "craft_tree_unseen_icon",
+                "newIconWidgetImg": {
+                  "background-image": "#ui/gameuiskin#new_icon"
+                }
+              }
+            }
+          },
+          "paginatorPlace": {
             "id": "paginator_place",
             "left": "0.5pw - 0.5@itemInfoWidth - 0.5w",
             "top": "0.5ph + 0.5@navBarTopPadding - 0.5h",
+            "smallPaginatorWidth": "yes",
             "position": "absolute"
           },
           "navRight": [
@@ -474,11 +529,23 @@
                 "btnName": "RT",
                 "_on_click": "onItemPreview",
                 "display": "hide",
+                "enable": "no",
                 "showButtonImageOnConsole": "no",
                 "class": "image",
                 "img": {
                   "background-image": "#ui/gameuiskin#btn_preview.svg"
                 },
+                "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_specialTasks",
+                "text": "#mainmenu/btnBattleTasksHard",
+                "btnName": "X",
+                "on_click": "onShowSpecialTasks",
+                "display": "hide",
+                "enable": "no",
                 "ButtonImg": []
               }
             },
@@ -492,6 +559,7 @@
                 "css-hier-invalidate": "yes",
                 "showButtonImageOnConsole": "no",
                 "display": "hide",
+                "enable": "no",
                 "visualStyle": "secondary",
                 "class": "",
                 "isColoredImg": "yes",
@@ -537,12 +605,13 @@
                 "css-hier-invalidate": "yes",
                 "showButtonImageOnConsole": "no",
                 "display": "hide",
+                "enable": "no",
                 "hideConsoleImage": "yes",
                 "visualStyle": "secondary",
                 "buttonWink": [],
                 "buttonGlance": [],
                 "ButtonImg": {
-                  "iconName": "A"
+                  "btnName": "A"
                 },
                 "textarea": {
                   "id": "btn_main_action_text",
@@ -620,6 +689,7 @@
                 "Button_text": {
                   "id": "game_mode_change_button",
                   "on_click": "onOpenGameModeSelect",
+                  "noMargin": "yes",
                   "btnName": "Y",
                   "visualStyle": "noFrame",
                   "buttonWink": [],

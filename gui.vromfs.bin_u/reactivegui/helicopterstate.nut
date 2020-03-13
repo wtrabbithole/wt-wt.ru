@@ -14,6 +14,10 @@ local helicopterState = {
   RocketAimY = Watched(0.0)
   RocketAimVisible = Watched(false)
 
+  TATargetX = Watched(0.0)
+  TATargetY = Watched(0.0)
+  TATargetVisible = Watched(false)
+
   GunDirectionX = Watched(0.0)
   GunDirectionY = Watched(0.0)
   GunDirectionVisible = Watched(false)
@@ -26,9 +30,6 @@ local helicopterState = {
   FovPitch  = Watched(0.0)
 
   IsAgmLaunchZoneVisible = Watched(false)
-  LastAgmOutOfAngleLaunchAttemptTimeOut = Watched(0.0)
-  AgmBoresightYaw       = Watched(0.0)
-  AgmBoresightPitch     = Watched(0.0)
   AgmLaunchZoneYawMin   = Watched(0.0)
   AgmLaunchZoneYawMax   = Watched(0.0)
   AgmLaunchZonePitchMin = Watched(0.0)
@@ -38,14 +39,18 @@ local helicopterState = {
 
   IsInsideLaunchZoneYawPitch = Watched(false)
   IsInsideLaunchZoneDist = Watched(false)
-  LastATGMOutOfAngleLaunchAttemptTime = Watched(0.0)
 
   IsSightLocked = Watched(false)
+  IsTargetTracked = Watched(false)
+  HasTargetTracker = Watched(false)
   IsLaserDesignatorEnabled = Watched(false)
   IsATGMOutOfTrackerSector = Watched(false)
+  AtgmTrackerRadius = Watched(0.0)
+  TargetRadius = Watched(0.0)
 
   MainMask = Watched(0)
   SightMask = Watched(0)
+  IlsMask = Watched(0)
 
   HudColor = Watched(Color(71, 232, 39, 240))
   AlertColor = Watched(Color(255, 0, 0, 240))
@@ -126,6 +131,8 @@ local helicopterState = {
   WaterState = []
   EngineState = []
   TransmissionOilState = []
+  Fuel = Watched(-1)
+  IsFuelCritical = Watched(false)
 
   IsOilAlert = []
   IsWaterAlert = []
@@ -138,7 +145,7 @@ local helicopterState = {
   IsGunnerHudVisible = Watched(false)
   IsMfdEnabled = Watched(false)
   RwrForMfd = Watched(false)
-  RwrPosSize = [0, 0, 20]
+  RwrPosSize = [0, 0, 20, 20]
   SightHudPosSize = [0, 0, 0, 0]
   PilotHudPosSize = [0, 0, 0, 0]
 
@@ -154,10 +161,11 @@ local helicopterState = {
   helicopterState.Cannons.seconds.update(sec)
 }
 
-::interop.updateRwrPosSize <- function(x, y, size) {
+::interop.updateRwrPosSize <- function(x, y, w, h = null) {
   helicopterState.RwrPosSize[0] = x
   helicopterState.RwrPosSize[1] = y
-  helicopterState.RwrPosSize[2] = size
+  helicopterState.RwrPosSize[2] = w
+  helicopterState.RwrPosSize[3] = h ?? w
 }
 
 ::interop.updateSightHudPosSize <- function(x, y, w, h) {

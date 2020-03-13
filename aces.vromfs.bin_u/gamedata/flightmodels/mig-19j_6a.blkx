@@ -1,6 +1,6 @@
 {
   "model": "mig_19j_6a",
-  "fmFile": "fm/mig-19.blk",
+  "fmFile": "fm/mig-19j_6a.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
   "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.135,
@@ -1121,22 +1121,38 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
@@ -2276,7 +2292,6 @@
     "emtr_break_wing2_r_from": [1.01231,-0.0874892,-3.22435],
     "emtr_break_wing2_r_to": [1.01231,-0.0874892,-3.73083],
     "emtr_break_wing_tail": [-3.98924,0.0,0.0],
-    "partKindTail": 4,
     "finCut": true,
     "emtr_break_tail_from": [-1.77279,0.0418558,0.0],
     "emtr_break_tail_to": [-4.93608,0.0418558,0.0]

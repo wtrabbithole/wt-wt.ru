@@ -464,7 +464,7 @@ weaponVisual.isItemSwitcher <- function isItemSwitcher(item)
 
 weaponVisual.updateGenericTooltipId <- function updateGenericTooltipId(itemObj, unit, item, params = null)
 {
-  local tooltipObj = itemObj.findObject("tooltip_" + itemObj?.id)
+  local tooltipObj = itemObj.findObject("tooltip_" + (itemObj?.id??""))
   if (!tooltipObj)
     return
 
@@ -889,7 +889,7 @@ weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null,
     if(item.rocket || item.bomb)
     {
       buildPiercingData(air.name,
-        ::calculate_tank_bullet_parameters(air.name, item.name, true), res)
+        ::calculate_tank_bullet_parameters(air.name, item.name, true, true), res)
     }
 
     if (effect)
@@ -1053,7 +1053,7 @@ weaponVisual.addBulletsParamToDesc <- function addBulletsParamToDesc(descTbl, un
   local useDefaultBullet = searchName!=modName;
   local bullet_parameters = ::calculate_tank_bullet_parameters(unit.name,
     useDefaultBullet && "weaponBlkName" in bulletsSet ? bulletsSet.weaponBlkName : getModificationBulletsEffect(searchName),
-    useDefaultBullet);
+    useDefaultBullet, false);
 
   buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet, true)
 }
@@ -1095,46 +1095,46 @@ weaponVisual.buildPiercingData <- function buildPiercingData(unit, bullet_parame
     if (!bullet_params)
       continue
 
-    if (bullet_params?.bulletType == "aam")
-      continue
-
-    if (param.armorPiercingDist.len() < bullet_params.armorPiercingDist.len())
+    if (bullet_params?.bulletType != "aam")
     {
-      param.armorPiercing.resize(bullet_params.armorPiercingDist.len());
-      param.armorPiercingDist = bullet_params.armorPiercingDist;
-    }
-    foreach(ind, d in param.armorPiercingDist)
-    {
-      for (local i = 0; i < bullet_params.armorPiercingDist.len(); i++)
+      if (param.armorPiercingDist.len() < bullet_params.armorPiercingDist.len())
       {
-        local armor = null;
-        local idist = bullet_params.armorPiercingDist[i].tointeger()
-        if (typeof(bullet_params.armorPiercing[i]) != "table")
-          continue
-
-        if (d == idist || (d < idist && !i))
-          armor = ::u.map(bullet_params.armorPiercing[i], @(f) stdMath.round(f).tointeger())
-        else if (d < idist && i)
+        param.armorPiercing.resize(bullet_params.armorPiercingDist.len());
+        param.armorPiercingDist = bullet_params.armorPiercingDist;
+      }
+      foreach(ind, d in param.armorPiercingDist)
+      {
+        for (local i = 0; i < bullet_params.armorPiercingDist.len(); i++)
         {
-          local prevDist = bullet_params.armorPiercingDist[i-1].tointeger()
-          if (d > prevDist)
-            armor = ::u.tablesCombine(bullet_params.armorPiercing[i-1], bullet_params.armorPiercing[i],
-                       (@(d, prevDist, idist) function(prev, next) {
-                         return (prev + (next - prev) * (d - prevDist.tointeger()) / (idist - prevDist)).tointeger()
-                       })(d, prevDist, idist), 0)
-        }
-        if (armor == null)
-          continue
+          local armor = null;
+          local idist = bullet_params.armorPiercingDist[i].tointeger()
+          if (typeof(bullet_params.armorPiercing[i]) != "table")
+            continue
 
-        param.armorPiercing[ind] = (!param.armorPiercing[ind]) ? armor
-                                   : ::u.tablesCombine(param.armorPiercing[ind], armor, ::max)
+          if (d == idist || (d < idist && !i))
+            armor = ::u.map(bullet_params.armorPiercing[i], @(f) stdMath.round(f).tointeger())
+          else if (d < idist && i)
+          {
+            local prevDist = bullet_params.armorPiercingDist[i-1].tointeger()
+            if (d > prevDist)
+              armor = ::u.tablesCombine(bullet_params.armorPiercing[i-1], bullet_params.armorPiercing[i],
+                        (@(d, prevDist, idist) function(prev, next) {
+                          return (prev + (next - prev) * (d - prevDist.tointeger()) / (idist - prevDist)).tointeger()
+                        })(d, prevDist, idist), 0)
+          }
+          if (armor == null)
+            continue
+
+          param.armorPiercing[ind] = (!param.armorPiercing[ind]) ? armor
+                                    : ::u.tablesCombine(param.armorPiercing[ind], armor, ::max)
+        }
       }
     }
 
     if (!needAddParams)
       continue
 
-    foreach(p in ["mass", "speed", "fuseDelayDist", "explodeTreshold", "operatedDist", "endSpeed", "maxSpeed"])
+    foreach(p in ["mass", "speed", "fuseDelayDist", "explodeTreshold", "operatedDist", "endSpeed", "maxSpeed", "rangeBand0", "rangeBand1"])
       param[p] <- ::getTblValue(p, bullet_params, 0)
 
     foreach(p in ["reloadTimes", "autoAiming", "weaponBlkPath"])
@@ -1217,6 +1217,12 @@ weaponVisual.buildPiercingData <- function buildPiercingData(unit, bullet_parame
     if (explodeTreshold)
       addProp(p, ::loc("bullet_properties/explodeTreshold"),
                  explodeTreshold + " " + ::loc("measureUnits/mm"))
+    local rangeBand0 = ::getTblValue("rangeBand0", param)
+    if (rangeBand0)
+      addProp(p, ::loc("missile/seekerRange/rearAspect"), ::g_measure_type.DISTANCE.getMeasureUnitsText(rangeBand0))
+    local rangeBand1 = ::getTblValue("rangeBand1", param)
+    if (rangeBand1)
+      addProp(p, ::loc("missile/seekerRange/allAspect"), ::g_measure_type.DISTANCE.getMeasureUnitsText(rangeBand1))
 
     local proximityFuseArmDistance = stdMath.round(param?.proximityFuseArmDistance ?? 0)
     if (proximityFuseArmDistance)

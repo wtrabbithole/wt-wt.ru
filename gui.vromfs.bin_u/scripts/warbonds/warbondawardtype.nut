@@ -52,7 +52,8 @@ local getBoughtCountByAmount = @(warbond, blk)
   showAvailableAmount = true
   isAvailableForCurrentShop = @(warbond) true
 
-  canBuyReasonLocId = ""
+  isReqSpecialTasks = false
+  canBuyReasonLocId = @() isReqSpecialTasks? "item/specialTasksPersonalUnlocks/purchaseRestriction" : ""
   userlogResourceTypeText = ""
   getUserlogBuyText = function(blk, priceText)
   {
@@ -289,7 +290,7 @@ enums.addTypesByGlobalName("g_wb_award_type", {
     getNameText = @(blk) ::loc("item/" + blk.name)
     getDescText = @(blk) ::loc("item/" + blk.name + "/desc")
     canBuy = @(blk) ::warbonds_can_buy_battle_task(blk.name)
-    canBuyReasonLocId = "item/specialTasksPersonalUnlocks/purchaseRestriction"
+    isReqSpecialTasks = true
     isAvailableForCurrentShop = @(warbond) warbond.isCurrent()
     getTooltipId = @(blk, warbond) ::g_tooltip_type.SPECIAL_TASK.getTooltipId(blk.name,
                                                                               {

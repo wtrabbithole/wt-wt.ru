@@ -230,7 +230,7 @@ local time = require("scripts/time.nut")
         return true
 
       local captureTimeSec = ::ww_get_zone_capture_time_sec(zoneName)
-      local captureTimeEnd = dataBlk?.holdTimeSec
+      local captureTimeEnd = dataBlk?.holdTimeSec ?? 0
 
       valueObj.setValue(time.hoursToString(time.secondsToHours(captureTimeSec), false, true))
 

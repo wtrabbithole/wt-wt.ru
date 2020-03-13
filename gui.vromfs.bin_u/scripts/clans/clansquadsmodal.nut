@@ -19,7 +19,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       buttonClass ="image"
       shortcut = ""
       showOnSelect = "focus"
-      iconName = "X"
+      btnName = "X"
       btnKey = "X"
       tooltip = @() ::loc("squad/info")
       img = "#ui/gameuiskin#btn_help.svg"
@@ -32,7 +32,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       buttonClass ="image"
       shortcut = ""
       showOnSelect = "focus"
-      iconName = "A"
+      btnName = "A"
       btnKey = "A"
       tooltip = @() ::loc("squad/membership_request")
       img = "#ui/gameuiskin#btn_invite.svg"
@@ -45,7 +45,7 @@ class ::gui_handlers.MyClanSquadsListModal extends ::gui_handlers.BaseGuiHandler
       buttonClass ="image"
       shortcut = ""
       showOnSelect = "focus"
-      iconName = "A"
+      btnName = "A"
       btnKey = "A"
       isColoredImg = "yes"
       tooltip = @() ::loc("squad/revoke_membership_request")

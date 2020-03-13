@@ -479,6 +479,10 @@
         "radio_station_dm": {
           "hp": 50.0,
           "armorThrough": 3.0
+        },
+        "radio_station_01_dm": {
+          "hp": 50.0,
+          "armorThrough": 3.0
         }
       },
       "cannon_breech": {
@@ -1268,7 +1272,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1398,7 +1402,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1424,8 +1428,7 @@
       "TrackSoundNameCockpit": "tracks_interior",
       "turret_turn": "turret_rocket_turn",
       "EngineNameAi": "engine_tank_ai_middle",
-      "TrackSoundNameAi": "tracks_ai_middle",
-      "gun_turn": "turret_turn_mg_light"
+      "TrackSoundNameAi": "tracks_ai_middle"
     }
   },
   {
@@ -2388,6 +2391,7 @@
       },
       "130mm_starstreak_aam": [],
       "night_vision_system": {
+        "image": "#ui/gameuiskin#thermal_sight",
         "tier": 3,
         "effects": {
           "nightVision": {
@@ -2423,6 +2427,8 @@
   {
     "skin": {
       "name": "uk_camo_standart_modern_light_stone",
+      "nameLocId": "skin/uk_camo_standart_modern_light_stone",
+      "descLocId": "skin/uk_camo_standart_modern_light_stone/desc",
       "replace_tex": {
         "from": "uk_camo_very_dark_drab*",
         "to": "uk_camo_standart_modern_light_stone*"
@@ -2432,6 +2438,8 @@
   {
     "skin": {
       "name": "uk_camo_standart_modern_bicolor",
+      "nameLocId": "skin/uk_camo_standart_modern_bicolor",
+      "descLocId": "skin/uk_camo_standart_modern_bicolor/desc",
       "replace_tex": {
         "from": "uk_camo_very_dark_drab*",
         "to": "uk_camo_standart_modern_bicolor*"
@@ -2441,6 +2449,8 @@
   {
     "skin": {
       "name": "uk_camo_standart_modern_desert_bicolor",
+      "nameLocId": "skin/uk_camo_standart_modern_desert_bicolor",
+      "descLocId": "skin/uk_camo_standart_modern_desert_bicolor/desc",
       "replace_tex": {
         "from": "uk_camo_very_dark_drab*",
         "to": "uk_camo_standart_modern_desert_bicolor*"
@@ -2450,6 +2460,8 @@
   {
     "skin": {
       "name": "uk_camo_winter_olive",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
       "replace_tex": {
         "from": "uk_camo_very_dark_drab*",
         "to": "us_camo_winter_olive*"
@@ -2459,6 +2471,8 @@
   {
     "skin": {
       "name": "fr_camo_winter_green_white",
+      "nameLocId": "skin/fr_camo_winter_green_white",
+      "descLocId": "skin/fr_camo_winter_green_white/desc",
       "replace_tex": {
         "from": "uk_camo_very_dark_drab*",
         "to": "fr_camo_winter_green_white*"

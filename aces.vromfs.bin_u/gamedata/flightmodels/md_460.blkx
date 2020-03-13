@@ -23,6 +23,7 @@
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
   "fireParamsPreset": "1800kph",
   "fightAiBehaviour": "fighter",
+  "gyroscopicSightOverSensors": true,
   "weaponRetractVar": "open_launcher",
   "DamageParts": {
     "armor10": {
@@ -1087,22 +1088,38 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
@@ -2297,6 +2314,12 @@
     "maxSpeedMultiplier": 1.3,
     "wepOverspeed": 1.3
   },
+  "sensors": {
+    "sensor": {
+      "blk": "gameData/sensors/us_an_apg_30.blk",
+      "dmPart": "radar_dm"
+    }
+  },
   "wiki": {
     "general": {
       "length": 11.42,
@@ -2576,7 +2599,6 @@
     "emtr_break_wing2_r_from": [0.525487,-0.544267,-3.74557],
     "emtr_break_wing2_r_to": [0.525487,-0.544267,-4.34266],
     "emtr_break_wing_tail": [-4.17197,0.0,0.0],
-    "partKindTail": 4,
     "finCut": true,
     "emtr_break_tail_from": [-2.62214,-0.1391,4.40143e-08],
     "emtr_break_tail_to": [-4.92947,-0.1391,4.40143e-08]

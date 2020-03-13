@@ -117,7 +117,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(curGameModeObj))
       return
 
-    local index = filledGameModes.searchindex(@(gm) gm.isMode && gm?.hasContent && gm.modeId == curGM.id) ?? 0
+    local index = filledGameModes.searchindex(@(gm) gm.isMode && gm?.hasContent && gm.modeId == curGM.id) ?? -1
     curGameModeObj.setValue(index)
     curGameModeObj.select()
   }
@@ -317,7 +317,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCrossPlayRestrictionTooltipText(event)
   {
-    if (!::is_platform_xboxone) //No need tooltip on other platforms
+    if (!crossplayModule.needShowCrossPlayInfo()) //No need tooltip on other platforms
       return null
 
     //Always send to other platform if enabled
@@ -325,22 +325,18 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (crossplayModule.isCrossPlayEnabled())
       return ::loc("xbox/crossPlayEnabled")
 
-    //If only xbox - no need to notify
-    if (isEventXboxOnlyAllowed(event))
+    //If only platform - no need to notify
+    if (::events.isEventPlatformOnlyAllowed(event))
       return null
 
     //Notify that crossplay is strongly required
     return ::loc("xbox/crossPlayRequired")
   }
 
-  function isEventXboxOnlyAllowed(event)
-  {
-    return ::events.isEventXboxOnlyAllowed(event)
-  }
-
   function isCrossPlayEventAvailable(event)
   {
-    return crossplayModule.isCrossPlayEnabled() || isEventXboxOnlyAllowed(event)
+    return crossplayModule.isCrossPlayEnabled()
+           || ::events.isEventPlatformOnlyAllowed(event)
   }
 
   function getWidgetId(gameModeId)
@@ -504,10 +500,11 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function onGameModeActivate(obj)
   {
-    local value = obj.getValue()
-    local gameModeView = filledGameModes[value]
+    local value = ::get_obj_valid_index(obj)
+    if (value < 0)
+      return
 
-    performGameModeSelect(gameModeView.gameMode)
+    performGameModeSelect(filledGameModes[value].gameMode)
   }
 
   function getGameModeEvent(gameModeTbl)

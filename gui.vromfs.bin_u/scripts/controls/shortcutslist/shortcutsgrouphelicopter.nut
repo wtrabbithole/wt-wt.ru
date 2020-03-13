@@ -74,6 +74,13 @@ return [
     needShowInHelp = true
   }
   {
+    id = "ID_MOUSE_AIM_OVERRIDE_ROLL_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    filterShow = [globalEnv.EM_MOUSE_AIM]
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
     id = "ID_FBW_MODE_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     filterShow = [globalEnv.EM_FULL_REAL]
@@ -467,6 +474,16 @@ return [
   }
   {
     id = "ID_MFD_3_PAGE"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_MFD_ZOOM"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_MFD_TARGET_LOCK"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
   }

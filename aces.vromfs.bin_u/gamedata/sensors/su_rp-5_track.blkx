@@ -160,20 +160,13 @@
             "stateFrom": "track",
             "event": "activeTargetOfInterestInertialTimeOut",
             "stateTo": "lock",
-            "actions": [
-              {
-                "setFsmActive": {
-                  "fsm": "track",
-                  "active": false
-                }
+            "actions": {
+              "setFsmActive": {
+                "fsm": "track",
+                "active": false
               },
-              {
-                "setFsmActive": {
-                  "fsm": "lock",
-                  "active": true
-                }
-              }
-            ]
+              "setLockMode": []
+            }
           }
         },
         {
@@ -186,6 +179,9 @@
             },
             {
               "command": "selectTarget"
+            },
+            {
+              "event": "disable"
             },
             {
               "stateTo": "standby"

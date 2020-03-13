@@ -226,7 +226,7 @@
       "scoreLimit": 15000,
       "timeLimit": 180,
       "deathPenaltyMul": 0.0,
-      "allowEmptyTeams": true,
+      "allowEmptyTeams": false,
       "country_axis": "germany",
       "country_allies": "britain",
       "windSpeed": [2.0,8.0],
@@ -286,6 +286,22 @@
     }
   },
   "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/at_assaults_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
     {
       "import_record": {
         "file": "gameData/missions/templates/air_templates/jip/templates_organizer.blk",
@@ -445,6 +461,22 @@
         "showWayPoints": true,
         "excludes": []
       }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/simulator/dover/flt_frontline_template_part.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
     }
   ],
   "triggers": {
@@ -517,6 +549,24 @@
           }
         },
         {
+          "varSetBool": {
+            "value": true,
+            "var": "ad_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "lbt_is_launch_alowed"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "at_is_launch_alowed"
+          }
+        },
+        {
           "comment": {
             "value": "включение разведки"
           }
@@ -540,6 +590,18 @@
           }
         },
         {
+          "varSetBool": {
+            "value": true,
+            "var": "sbt_is_detect_on"
+          }
+        },
+        {
+          "varSetBool": {
+            "value": true,
+            "var": "at_is_detect_on"
+          }
+        },
+        {
           "unitPutToSleep": [
             {
               "target": "bdt_armada"
@@ -555,6 +617,12 @@
             },
             {
               "target": "sbt_armada"
+            },
+            {
+              "target": "at_armada"
+            },
+            {
+              "target": "flt_armada"
             }
           ]
         },
@@ -2258,6 +2326,54 @@
             "squad_members": "t1_player16"
           },
           {
+            "squad_members": "t1_player17"
+          },
+          {
+            "squad_members": "t1_player18"
+          },
+          {
+            "squad_members": "t1_player19"
+          },
+          {
+            "squad_members": "t1_player20"
+          },
+          {
+            "squad_members": "t1_player21"
+          },
+          {
+            "squad_members": "t1_player22"
+          },
+          {
+            "squad_members": "t1_player23"
+          },
+          {
+            "squad_members": "t1_player24"
+          },
+          {
+            "squad_members": "t1_player25"
+          },
+          {
+            "squad_members": "t1_player26"
+          },
+          {
+            "squad_members": "t1_player27"
+          },
+          {
+            "squad_members": "t1_player28"
+          },
+          {
+            "squad_members": "t1_player29"
+          },
+          {
+            "squad_members": "t1_player30"
+          },
+          {
+            "squad_members": "t1_player31"
+          },
+          {
+            "squad_members": "t1_player32"
+          },
+          {
             "squad_members": "t2_player01"
           },
           {
@@ -2307,6 +2423,54 @@
           },
           {
             "squad_members": "t2_player17"
+          },
+          {
+            "squad_members": "t2_player18"
+          },
+          {
+            "squad_members": "t2_player19"
+          },
+          {
+            "squad_members": "t2_player20"
+          },
+          {
+            "squad_members": "t2_player21"
+          },
+          {
+            "squad_members": "t2_player22"
+          },
+          {
+            "squad_members": "t2_player23"
+          },
+          {
+            "squad_members": "t2_player24"
+          },
+          {
+            "squad_members": "t2_player25"
+          },
+          {
+            "squad_members": "t2_player26"
+          },
+          {
+            "squad_members": "t2_player27"
+          },
+          {
+            "squad_members": "t2_player28"
+          },
+          {
+            "squad_members": "t2_player29"
+          },
+          {
+            "squad_members": "t2_player30"
+          },
+          {
+            "squad_members": "t2_player31"
+          },
+          {
+            "squad_members": "t2_player32"
+          },
+          {
+            "squad_members": "t2_player33"
           }
         ]
       }

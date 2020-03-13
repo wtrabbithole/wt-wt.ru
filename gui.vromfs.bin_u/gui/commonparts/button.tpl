@@ -101,9 +101,9 @@
       <<#showOnSelect>>
         showOnSelect:t='<<showOnSelect>>'
       <</showOnSelect>>
-      <<#iconName>>
-        iconName:t='<<iconName>>'
-      <</iconName>>
+      <<#btnName>>
+        btnName:t='<<btnName>>'
+      <</btnName>>
     }
   <</shortcut>>
 

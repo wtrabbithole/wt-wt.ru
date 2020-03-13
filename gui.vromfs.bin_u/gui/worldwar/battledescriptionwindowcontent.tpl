@@ -35,7 +35,7 @@ tdiv {
       id:t='battle_info'
       width:t='pw'
       left:t='0.5(pw-w)'
-      position:t='absolute'
+      position:t='relative'
       padding:t='1@blockInterval, 0'
       margin-top:t='0.01@scrn_tgt+0.03@wwBattleInfoScreenIncHeight'
       flow:t='vertical'
@@ -54,12 +54,32 @@ tdiv {
         text:t=''
       }
 
-      activeText {
-        id:t='battle_status_text'
-        left:t='50%pw-50%w'
-        position:t='relative'
+      tdiv{
         margin-top:t='1@framePadding'
-        text:t=''
+        left:t='50%pw-50%w'
+        flow:t='horizontal'
+        position:t='relative'
+
+        activeText {
+          id:t='battle_status_text'
+          position:t='relative'
+          text:t=''
+        }
+
+        tdiv {
+          id:t='win_chance'
+          position:t='relative'
+          margin-left:t='1@framePadding'
+          display:t='hide'
+          activeText {
+            text:t='<<?worldwar/winChancePercent>><<?ui/colon>>'
+            commonTextColor:t='yes'
+          }
+          activeText {
+            id:t='win_chance_text'
+            text:t=''
+          }
+        }
       }
 
       textareaNoTab {
@@ -72,7 +92,7 @@ tdiv {
       textareaNoTab {
         position:t='relative'
         width:t='pw'
-        padding:t='10%pw, 0'
+        padding:t='1@framePadding, 0'
         text:t='<<getBattleStatusDescText>>'
         text-align:t='center'
       }
@@ -81,7 +101,6 @@ tdiv {
     tdiv {
       id:t='teams_block'
       size:t='pw, 75%ph'
-      top:t='ph-h'
       position:t='relative'
       flow:t='vertical'
 

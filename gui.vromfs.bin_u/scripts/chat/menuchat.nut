@@ -245,11 +245,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContent(scene, "gui/chat/menuChat.blk", this)
       setSavedSizes()
       scene.findObject("menu_chat_update").setUserData(this)
-      showSceneBtn("chat_input_place", platformModule.isChatEnabled())
+      showSceneBtn("chat_input_place", ::g_chat.isChatEnabled())
       local chatObj = scene.findObject("menuchat_input")
-      chatObj.show(platformModule.isChatEnabled())
+      chatObj.show(::g_chat.isChatEnabled())
       chatObj["max-len"] = ::g_chat.MAX_MSG_LEN.tostring()
-      showSceneBtn("btn_send", platformModule.isChatEnabled())
+      showSceneBtn("btn_send", ::g_chat.isChatEnabled())
       searchInited = false
 
       menuChatRoom.initChatMessageListOn(scene.findObject("menu_chat_messages_container"), this)
@@ -816,7 +816,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::g_chat.getRoomById(roomId))
         addRoom(roomId, null, null, idx == 0)
 
-    if (platformModule.isChatEnabled())
+    if (::g_chat.isChatEnabled())
     {
       local chatRooms = ::get_local_custom_settings_blk()?.chatRooms
       local roomIdx = 0
@@ -906,12 +906,14 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (!("pos" in ::menu_chat_sizes) || !("size" in ::menu_chat_sizes) || !("usersSize" in ::menu_chat_sizes))
           ::menu_chat_sizes = null
         else
+        {
           ::menu_chat_sizes.pos[0] = ::menu_chat_sizes.pos[0].tointeger()
           ::menu_chat_sizes.pos[1] = ::menu_chat_sizes.pos[1].tointeger()
           ::menu_chat_sizes.size[0] = ::menu_chat_sizes.size[0].tointeger()
           ::menu_chat_sizes.size[1] = ::menu_chat_sizes.size[1].tointeger()
           ::menu_chat_sizes.usersSize[0] = ::menu_chat_sizes.usersSize[0].tointeger()
           ::menu_chat_sizes.usersSize[1] = ::menu_chat_sizes.usersSize[1].tointeger()
+        }
       }
     }
 
@@ -1009,7 +1011,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     if (event == ::GCHAT_EVENT_MESSAGE)
     {
-      if (platformModule.isChatEnabled())
+      if (::g_chat.isChatEnabled())
         onMessage(db)
     }
     else if (event == ::GCHAT_EVENT_CONNECTED)
@@ -1474,7 +1476,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (privateMsg)  //private message
         {
           if (::isUserBlockedByPrivateSetting(db.userId, user) ||
-              !platformModule.isChatEnableWithPlayer(user))
+              !::g_chat.isChatEnableWithPlayer(user))
             return
 
           if (db.type == "chat")
@@ -1604,7 +1606,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         showRoomPopup(menuChatRoom.newMessage("", errMsg), roomId)
     }
     else
-      ::dagor.debug("Chat error: Received message of unknown type = " + db?.type)
+      ::dagor.debug("Chat error: Received message of unknown type = " + (db?.type ?? "null"))
   }
 
   function joinRoom(id, password = "", onJoinFunc = null, customScene = null, ownerHandler = null, reconnect = false)
@@ -1667,13 +1669,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (unhiddenRoomsCount() == 1)
     {
-      if (platformModule.isChatEnabled())
+      if (::g_chat.isChatEnabled())
         addRoomMsg(id, "", ::loc("menuchat/hello"))
     }
     if (selectRoom || r.type.needSwitchRoomOnJoin)
       switchCurRoom(r, false)
 
-    if (r.type == ::g_chat_room_type.SQUAD && platformModule.isChatEnabled())
+    if (r.type == ::g_chat_room_type.SQUAD && ::g_chat.isChatEnabled())
       addRoomMsg(id, "", ::loc("squad/channelIntro"))
 
     if (delayedChatRoom && delayedChatRoom.mBlocks.len() > 0)
@@ -2563,7 +2565,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     local value = obj.getValue()
     if (value in searchRoomList)
     {
-      if (!platformModule.isChatEnabled(true))
+      if (!::g_chat.isChatEnabled(true))
         return
       if (!::isInArray(searchRoomList[value], ::global_chat_rooms_list) && !::ps4_is_ugc_enabled())
       {
@@ -2754,7 +2756,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local obj = roomData.customScene.findObject(objName)
       if (::checkObj(obj))
-        obj.enable(platformModule.isChatEnabled())
+        obj.enable(::g_chat.isChatEnabled())
     }
   }
 
@@ -2992,7 +2994,7 @@ if (::g_login.isLoggedIn())
     if (contact.xboxId == "")
       return contact.getXboxId(@() ::openChatPrivate(contact.name, ownerHandler))
 
-    if (contact.canInteract())
+    if (contact.canChat())
       ::g_chat.openPrivateRoom(contact.name, ownerHandler)
   })
 }

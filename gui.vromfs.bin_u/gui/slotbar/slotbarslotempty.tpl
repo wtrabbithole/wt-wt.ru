@@ -1,11 +1,7 @@
 id:t='<<slotId>>'
 
 <<#isSlotbarItem>>
-slotbarCurAir {
-  pattern {
-    type:t='bright_hor_lines'
-  }
-}
+slotbarCurAir {}
 <</isSlotbarItem>>
 
 shopItem {

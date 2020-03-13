@@ -346,6 +346,7 @@
       countryId = ::get_profile_country_sq()
     if (!(countryId in presets))
       return false
+    local cfgBlk = ::loadLocalByAccount("slotbar_presets/" + countryId)
     local blk = null
     if (presets[countryId].len() > 0)
     {
@@ -356,6 +357,8 @@
       local presetsList = []
       foreach (idx, p in presets[countryId])
       {
+        if (p.units.len() == 0)
+          continue
         presetsList.append(::g_string.join([p.selected,
                                ::g_string.join(p.crews, ","),
                                ::g_string.join(p.units, ","),
@@ -363,11 +366,16 @@
                                ::getTblValue("gameModeId", p, "")],
                               "|"))
       }
+      if (presetsList.len() == 0)
+      {
+        local savedPresets = ::toString(cfgBlk) // warning disable: -declared-never-used
+        ::script_net_assert_once("attempt_save_not_valid_presets", "Attempt save not valid presets")
+        return false
+      }
       blk = ::array_to_blk(presetsList, "preset")
       if (selected[countryId] != null)
         blk.selected <- selected[countryId]
     }
-    local cfgBlk = ::loadLocalByAccount("slotbar_presets/" + countryId)
     if (::u.isEqual(blk, cfgBlk))
       return false
     ::saveLocalByAccount("slotbar_presets/" + countryId, blk, true, shouldSaveProfile)

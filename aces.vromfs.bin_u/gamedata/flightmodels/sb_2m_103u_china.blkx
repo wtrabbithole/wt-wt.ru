@@ -2409,7 +2409,7 @@
     "weapon_presets": [
       {
         "preset": {
-          "name": "sb_2m_103u_6xfab100",
+          "name": "sb_2m_103u_default",
           "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_6xfab100.blk",
           "tags": {
             "free": true
@@ -2418,8 +2418,29 @@
       },
       {
         "preset": {
+          "name": "sb_2m_103u_6xfab100_2xfab250",
+          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_6xfab100_2xfab250.blk",
+          "reqModification": "sb-2_der-25"
+        }
+      },
+      {
+        "preset": {
           "name": "sb_2m_103u_2xfab250",
           "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_2xfab250.blk",
+          "reqModification": "sb-2_der-25"
+        }
+      },
+      {
+        "preset": {
+          "name": "sb_2m_103u_2xfab250_2xfab250",
+          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_2xfab250_2xfab250.blk",
+          "reqModification": "sb-2_der-25"
+        }
+      },
+      {
+        "preset": {
+          "name": "sb_2m_103u_2xfab250_2xfab500",
+          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_2xfab250_2xfab500.blk",
           "reqModification": "sb-2_der-25"
         }
       },
@@ -2432,22 +2453,8 @@
       },
       {
         "preset": {
-          "name": "sb_2m_103u_2xfab250_2xfab500",
-          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_2xfab250_2xfab500.blk",
-          "reqModification": "sb-2_der-19"
-        }
-      },
-      {
-        "preset": {
           "name": "sb_2m_103u_1xfab500_2xfab500",
           "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_1xfab500_2xfab500.blk",
-          "reqModification": "sb-2_der-19"
-        }
-      },
-      {
-        "preset": {
-          "name": "sb_2m_103u_6xfab100_2xfab250",
-          "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_6xfab100_2xfab250.blk",
           "reqModification": "sb-2_der-19"
         }
       },
@@ -2456,58 +2463,6 @@
           "name": "sb_2m_103u_1xfab500_2xfab250",
           "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_1xfab500_2xfab250.blk",
           "reqModification": "sb-2_der-19"
-        }
-      },
-      {
-        "preset": [
-          {
-            "name": "sb_2m_103u_2xfab250_2xfab250"
-          },
-          {
-            "blk": "gameData/FlightModels/weaponPresets/sb_2m_100_2xfab250_2xfab250.blk"
-          },
-          {
-            "reqModification": "sb-2_der-25"
-          },
-          {
-            "reqModification": "sb-2_der-19"
-          }
-        ]
-      },
-      {
-        "preset": {
-          "name": "sb_2m_103u_default",
-          "blk": "gameData/FlightModels/weaponPresets/sb_2m_103c_default.blk",
-          "tags": {
-            "aux": true
-          }
-        }
-      }
-    ]
-  },
-  {
-    "user_skin": [
-      {
-        "name": "sb_2m_103u"
-      },
-      {
-        "replace_tex": {
-          "from": "sb_2m_103u_a*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "sb_2m_103u_a_dmg*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "sb_2m_103u_n*"
-        }
-      },
-      {
-        "replace_tex": {
-          "from": "sb_2m_103u_n_dmg*"
         }
       }
     ]
@@ -2559,7 +2514,6 @@
       "emtr_break_wing2_r_from": [-0.566328,0.0165174,-6.94583],
       "emtr_break_wing2_r_to": [-0.566328,0.0165174,-8.24915],
       "emtr_break_wing_tail": [-5.57412,0.0,0.0],
-      "partKindTail": 2,
       "finCut": false,
       "emtr_break_stab_l_from": [-6.39614,0.414618,0.522333],
       "emtr_break_stab_l_to": [-6.39614,0.414618,2.08933],
@@ -2842,30 +2796,27 @@
   {
     "default_skin": [
       {
-        "name": "china"
-      },
-      {
         "replace_tex": {
           "from": "sb_2m_103u_a*",
-          "to": "sb_2m_103u_china_a*"
+          "to": "sb_2m_103u_china_rocaf_a*"
         }
       },
       {
         "replace_tex": {
           "from": "sb_2m_103u_a_dmg*",
-          "to": "sb_2m_103u_china_a_dmg*"
+          "to": "sb_2m_103u_china_rocaf_a_dmg*"
         }
       },
       {
         "replace_tex": {
           "from": "sb_2m_103u_n*",
-          "to": "sb_2m_103u_china_n*"
+          "to": "sb_2m_103u_china_rocaf_n*"
         }
       },
       {
         "replace_tex": {
           "from": "sb_2m_103u_n_dmg*",
-          "to": "sb_2m_103u_china_n_dmg*"
+          "to": "sb_2m_103u_china_rocaf_n_dmg*"
         }
       }
     ]

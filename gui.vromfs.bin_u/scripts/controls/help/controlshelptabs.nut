@@ -9,6 +9,7 @@ local tabGroups = [
       helpTypes.IMAGE_AIRCRAFT
       helpTypes.CONTROLLER_AIRCRAFT
       helpTypes.KEYBOARD_AIRCRAFT
+      helpTypes.RADAR_AIRBORNE
     ]
   }
   {
@@ -17,6 +18,7 @@ local tabGroups = [
       helpTypes.IMAGE_TANK
       helpTypes.CONTROLLER_TANK
       helpTypes.KEYBOARD_TANK
+      helpTypes.RADAR_GROUND
     ]
   }
   {
@@ -41,6 +43,7 @@ local tabGroups = [
       helpTypes.IMAGE_HELICOPTER
       helpTypes.CONTROLLER_HELICOPTER
       helpTypes.KEYBOARD_HELICOPTER
+      helpTypes.RADAR_AIRBORNE
     ]
   }
   {
@@ -79,30 +82,25 @@ local tabGroups = [
   if (!unit || unit.name == "dummy_plane")
     unit = ::show_aircraft
 
-  local unitType = unit? unit.unitType : ::g_unit_type.INVALID
-
   local unitTag = ::is_submarine(unit) ? "submarine" : null
 
-  if (helpTypes.HOTAS4_COMMON.needShow(contentSet) && helpTypes.HOTAS4_COMMON.showByUnit(unitType, unitTag))
-    return helpTypes.HOTAS4_COMMON
+  foreach (pattern in [
+    CONTROL_HELP_PATTERN.HOTAS4,
+    CONTROL_HELP_PATTERN.MISSION,
+    CONTROL_HELP_PATTERN.IMAGE,
+    CONTROL_HELP_PATTERN.GAMEPAD,
+    CONTROL_HELP_PATTERN.KEYBOARD_MOUSE,
+    CONTROL_HELP_PATTERN.RADAR,
+  ])
+  {
+    local helpType = ::u.search(helpTypes.types, @(t) t.helpPattern == pattern
+      && t.needShow(contentSet)
+      && t.showByUnit(unit, unitTag))
+    if (helpType)
+      return helpType
+  }
 
-  //!!!FIXME appear in many files, change to common function
-  local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
-  local isAdvanced = difficulty == ::DIFFICULTY_HARDCORE
-
-  if (!::is_me_newbie() && unitTag == null && !isAdvanced && helpTypes.MISSION_OBJECTIVES.needShow(contentSet))
-    return helpTypes.MISSION_OBJECTIVES
-
-  return u.search(helpTypes.types, @(t) t.helpPattern == CONTROL_HELP_PATTERN.IMAGE
-                              && t.needShow(contentSet)
-                              && t.showByUnit(unitType, unitTag))
-      || u.search(helpTypes.types, @(t) t.helpPattern == CONTROL_HELP_PATTERN.GAMEPAD
-                              && t.needShow(contentSet)
-                              && t.showByUnit(unitType, unitTag))
-      || u.search(helpTypes.types, @(t) t.helpPattern == CONTROL_HELP_PATTERN.KEYBOARD_MOUSE
-                              && t.needShow(contentSet)
-                              && t.showByUnit(unitType, unitTag))
-      || helpTypes.IMAGE_AIRCRAFT
+  return helpTypes.IMAGE_AIRCRAFT
 }
 
 return {

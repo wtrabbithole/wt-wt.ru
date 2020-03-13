@@ -1,5 +1,4 @@
 local string = require("std/string.nut")
-local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local XBOX_ONE_PLAYER_PREFIX = "^"
 local XBOX_ONE_PLAYER_POSTFIX = "@live"
@@ -37,6 +36,7 @@ else if (isPlatformPS4)
   getPlayerName = @(name) isPS4PlayerName(name)? name : cutPlayerNamePostfix(name)
 
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
+local isPlayerFromPS4 = @(name) isPlatformPS4 && isPS4PlayerName(name)
 
 local isMePS4Player = @() ::g_user_utils.haveTag("ps4")
 local isMeXBOXPlayer = @() ::g_user_utils.haveTag("xbone")
@@ -68,58 +68,6 @@ local canInteractCrossConsole = function(name) {
   return ::has_feature("XboxCrossConsoleInteraction")
 }
 
-local xboxChatEnabledCache = null
-local getXboxChatEnableStatus = function(needOverlayMessage = false)
-{
-   if (!::is_platform_xboxone || !::g_login.isLoggedIn())
-     return XBOX_COMMUNICATIONS_ALLOWED
-
-  if (xboxChatEnabledCache == null || (needOverlayMessage && xboxChatEnabledCache == XBOX_COMMUNICATIONS_BLOCKED))
-    xboxChatEnabledCache = ::can_use_text_chat_with_target("", needOverlayMessage)//myself, block by parent advisory
-  return xboxChatEnabledCache
-}
-
-local isChatEnabled = function(needOverlayMessage = false)
-{
-  if (!::ps4_is_chat_enabled())
-  {
-    if (needOverlayMessage)
-      ::ps4_show_chat_restriction()
-    return false
-  }
-  return getXboxChatEnableStatus(needOverlayMessage) != XBOX_COMMUNICATIONS_BLOCKED
-}
-
-local isChatEnableWithPlayer = function(playerName) //when you have contact, you can use direct contact.canInteract
-{
-  local contact = ::Contact.getByName(playerName)
-  if (contact)
-    return contact.canInteract(false)
-
-  if (getXboxChatEnableStatus(false) == XBOX_COMMUNICATIONS_ONLY_FRIENDS)
-    return ::isPlayerInFriendsGroup(null, false, playerName)
-
-  return isChatEnabled()
-}
-
-local attemptShowOverlayMessage = function(playerName) //tries to display Xbox overlay message
-{
-  local contact = ::Contact.getByName(playerName)
-  if (contact)
-    contact.canInteract(true)
-  else
-    getXboxChatEnableStatus(true)
-}
-
-local invalidateCache = function()
-{
-  xboxChatEnabledCache = null
-}
-
-subscriptions.addListenersWithoutEnv({
-  SignOut = @(p) invalidateCache()
-}, ::g_listener_priority.CONFIG_VALIDATION)
-
 return {
   targetPlatform = targetPlatform
   isPlatformXboxOne = isPlatformXboxOne
@@ -132,15 +80,11 @@ return {
   cutPlayerNamePrefix = cutPlayerNamePrefix
   cutPlayerNamePostfix = cutPlayerNamePostfix
   isPlayerFromXboxOne = isPlayerFromXboxOne
+  isPlayerFromPS4 = isPlayerFromPS4
 
   isMePS4Player = isMePS4Player
   isMeXBOXPlayer = isMeXBOXPlayer
 
-  isChatEnabled = isChatEnabled
-  isChatEnableWithPlayer = isChatEnableWithPlayer
-  attemptShowOverlayMessage = attemptShowOverlayMessage
-  canSquad = @() getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
-  getXboxChatEnableStatus = getXboxChatEnableStatus
   canInteractCrossConsole = canInteractCrossConsole
   isPs4XboxOneInteractionAvailable = isPs4XboxOneInteractionAvailable
 

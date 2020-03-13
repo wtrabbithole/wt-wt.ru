@@ -315,7 +315,7 @@ global const EDIFF_SHIFT = 3
   local overrideBlockName = ""
   if (overrideBlock)
     foreach(name, block in overrideBlock)
-      if((sessionMRank >= block?.minMRank) && (sessionMRank <= block?.maxMRank))
+      if((sessionMRank >= (block?.minMRank ?? -1)) && (sessionMRank <= (block?.maxMRank ?? -1)))
       {
         overrideBlockName = name
         break

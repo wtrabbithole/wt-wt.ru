@@ -120,6 +120,7 @@ return {
     return ::has_feature("DmViewerProtectionAnalysis")
       && ::isInMenu()
       && !::SessionLobby.hasSessionInLobby()
+      && ::getAircraftByName(::hangar_get_current_unit_name())?.unitType.canShowProtectionAnalysis() == true
   }
 
   open = function () {

@@ -108,7 +108,7 @@ global enum RB_GM_TYPE
     image = "#ui/images/game_modes_tiles/mixed_event_02_wide.jpg?P1"
     type = ::g_event_display_type.REGULAR
     displayWide = true
-    getEvent = function() {
+    getEventId = function() {
       local curUnit = ::get_cur_slotbar_unit()
       local chapter = ::events.chapters.getChapter("simulation_battles")
       local chapterEvents = chapter? chapter.getEvents() : []
@@ -126,7 +126,12 @@ global enum RB_GM_TYPE
         openEventId = lastPlayedEventRelevance >= relevanceList[0].relevance ?
           lastPlayedEventId : relevanceList[0].eventId
       }
-      return openEventId? ::events.getEvent(openEventId) : null
+      return openEventId
+    }
+    onBattleButtonClick = @() ::gui_start_modal_events({ event = getEventId() })
+    startFunction = function() {
+      ::game_mode_manager.setCurrentGameModeById(id, true) //need this for fast start SB battle in next time
+      onBattleButtonClick()
     }
     inactiveColor = function() {
       local chapter = ::events.chapters.getChapter("simulation_battles")
@@ -615,8 +620,10 @@ class GameModeManager
       enableOnDebug = false
       inactiveColor = ::getTblValue("inactiveColor", gm, function() { return false })()
       unitTypes = [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_TANK, ::ES_UNIT_TYPE_SHIP, ::ES_UNIT_TYPE_HELICOPTER]
+      startFunction = @() gm?.startFunction()
+      onBattleButtonClick = @() gm?.onBattleButtonClick()
 
-      getEvent = @() gm?.getEvent()
+      getEvent = @() ::events.getEvent(gm?.getEventId())
       getTooltipText = ::getTblValue("getTooltipText", gm, function() { return "" })
     }
     return _appendGameMode(gameMode)

@@ -33,10 +33,29 @@ root {
 
       tdiv{
         size:t='fw, ph'
+        flow:t='vertical'
+
+        tdiv {
+          id:t='search_container'
+          width:t='pw -1@framePadding'
+          padding:t='-1@framePadding +1@mapPreferenceIconMargin, 0'
+          padding-bottom:t='1@mapPreferenceIconMargin'
+
+          DummyButton {
+            btnName:t='LB'
+            on_click:t='onFilterEditBoxAccessKey'
+            ButtonImg {
+              class:t='independent'
+              fullSizeIcons:t='yes'
+            }
+          }
+
+          include 'gui/chapter_include_filter.blk'
+        }
+
         tdiv {
           id:t='maps_list'
-          width:t='pw'
-          max-height:t='fh'
+          size:t='pw, fh'
           padding-left:t='-1@framePadding'
           flow:t='h-flow'
           overflow-y:t='auto'
@@ -45,6 +64,7 @@ root {
           scrollbarShortcuts:t='yes'
           position:t='relative'
           on_select:t='onSelect'
+          on_click:t='onMapClick'
           css-hier-invalidate:t='yes'
           total-input-transparent:t='yes'
           hasPremium:t='<<#premium>>yes<</premium>><<^premium>>no<</premium>>'
@@ -52,6 +72,7 @@ root {
           hasMaxDisliked:t='<<hasMaxDisliked>>'
           <<#maps>>
           mapNest{
+            id:t='nest_<<mapId>>'
             flow:t='vertical'
             textStyle:t='mis-map'
             margin:t='1@mapPreferenceIconMargin, 1@blockInterval'
@@ -72,6 +93,7 @@ root {
               }
 
               tdiv{
+                id:t='cb_nest_<<mapId>>'
                 position:t='absolute'
                 flow:t='horizontal'
                 css-hier-invalidate:t='yes'
@@ -107,6 +129,13 @@ root {
           }
           <</maps>>
         }
+
+        text {
+          id:t='empty_list_label'
+          pos:t='pw/2-w/2, ph/2-h/2'; position:t='absolute'
+          display:t='<<#isListEmpty>>show<</isListEmpty>><<^isListEmpty>>hide<</isListEmpty>>'
+          text:t='#ui/empty'
+        }
       }
       blockSeparator {}
 
@@ -137,6 +166,7 @@ root {
             pos:t='0.5pw-0.5w, 1@blockInterval'
             position:t='relative'
             background-image:t=''
+            display:t='hide'
           }
 
           tdiv {
@@ -158,9 +188,10 @@ root {
             type:t='disliked'
             margin:t='0, 1@blockInterval'
             position:t='relative'
-            mapStateBoxText {text:t='#maps/preferences/dislike'}
+            mapStateBoxText {id:t='title'}
             on_change_value:t = 'onUpdateIcon'
             btnName:t='X'
+            display:t='hide'
             ButtonImg{}
             mapStateBoxImg{}
           }
@@ -170,18 +201,22 @@ root {
             type:t='banned'
             margin:t='0, 1@blockInterval'
             position:t='relative'
-            mapStateBoxText {text:t='#maps/preferences/ban'}
+            mapStateBoxText {id:t='title'}
             <<^premium>>
             inactiveColor:t='yes'
             tooltip:t= '#mainmenu/onlyWithPremium'
             <</premium>>
             on_change_value:t = 'onUpdateIcon'
             btnName:t='Y'
+            display:t='hide'
             ButtonImg{}
             mapStateBoxImg{}
           }
 
-          rowSeparator{}
+          rowSeparator{
+            id:t='preview_separator'
+            display:t='hide'
+          }
 
           textAreaCentered {
             id:t='listTitle'

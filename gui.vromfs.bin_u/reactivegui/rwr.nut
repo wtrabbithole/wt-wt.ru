@@ -63,11 +63,11 @@ interopGen({
 local trackRadarsRadius = 0.04
 local trackRadarsDistMargin = 6 * trackRadarsRadius
 
-local background = function(colorStyle, width) {
+local background = function(colorStyle, width, height) {
 
   local circle = colorStyle.__merge({
     rendObj = ROBJ_VECTOR_CANVAS
-    size = [width, width]
+    size = [width, height]
     fillColor = backgroundColor
     lineWidth = hdpx(1) * LINE_WIDTH
     commands = [
@@ -77,7 +77,8 @@ local background = function(colorStyle, width) {
 
   local outerRadius = 50 * (1.0 - trackRadarsDistMargin + 3 * trackRadarsRadius)
 
-  local aircraftRadius = width * aircraftRadiusFactor
+  local aircraftW = width * aircraftRadiusFactor
+  local aircraftH = height * aircraftRadiusFactor
 
   local getAircraftCircleOpacity = function() {
     local opacity = 0.42
@@ -90,8 +91,8 @@ local background = function(colorStyle, width) {
     rendObj = ROBJ_VECTOR_CANVAS
     lineWidth = hdpx(1) * 2.0
     fillColor = Color(0, 0, 0, 0)
-    size = [aircraftRadius, aircraftRadius]
-    pos = [0.5 * width - 0.5 * aircraftRadius,  0.5 * width - 0.5 * aircraftRadius]
+    size = [aircraftW, aircraftH]
+    pos = [0.5 * width - 0.5 * aircraftW,  0.5 * height - 0.5 * aircraftH]
     commands = [
       [VECTOR_ELLIPSE, 50, 50, 50, 50]
     ]
@@ -104,7 +105,7 @@ local background = function(colorStyle, width) {
   })
 
   local aircraftWidth = width * aircraftWidthFactor
-  local aircraftHeight = width * aircraftHeightFactor
+  local aircraftHeight = height * aircraftHeightFactor
 
   local tailW = 25
   local tailH = 10
@@ -124,7 +125,7 @@ local background = function(colorStyle, width) {
     lineWidth = hdpx(1) * 2.0
     fillColor = Color(0, 0, 0, 0)
     size = [aircraftWidth, aircraftHeight]
-    pos = [0.5 * width - 0.5 * aircraftWidth,  0.5 * width - 0.5 * aircraftHeight]
+    pos = [0.5 * width - 0.5 * aircraftWidth,  0.5 * height - 0.5 * aircraftHeight]
     opacity = 0.42
     commands = [
       [VECTOR_POLY,
@@ -172,7 +173,7 @@ local background = function(colorStyle, width) {
     rendObj = ROBJ_VECTOR_CANVAS
     lineWidth = hdpx(1)
     fillColor = Color(0, 0, 0, 0)
-    size = [width, width]
+    size = [width, height]
     opacity = 0.42
     commands = azimuthMarksCommands
   })
@@ -273,7 +274,7 @@ local function getTrackLineCoords(aircraftRectWidth, aircraftRectHeight, targetX
 }
 
 
-local function createTarget(index, colorStyle, width)
+local function createTarget(index, colorStyle, width, height)
 {
   local target = rwrState.targets[index]
   local radiusRel =  0.06
@@ -296,7 +297,7 @@ local function createTarget(index, colorStyle, width)
 
     trackLine = colorStyle.__merge({
       rendObj = ROBJ_VECTOR_CANVAS
-      size = [width, width]
+      size = [width, height]
       lineWidth = hdpx(1)
       opacity = targetOpacity
       commands = [
@@ -342,7 +343,7 @@ local function createTarget(index, colorStyle, width)
   })
 
   return {
-    size = [width, width]
+    size = [width, height]
     children = [
       targetComponent,
       trackLine
@@ -350,7 +351,7 @@ local function createTarget(index, colorStyle, width)
   }
 }
 
-local targetsComponent = function(colorStyle, width)
+local targetsComponent = function(colorStyle, width, height)
 {
   local getTargets = function() {
     local targets = []
@@ -358,40 +359,39 @@ local targetsComponent = function(colorStyle, width)
     {
       if (!rwrState.targets[i])
         continue
-      targets.append(createTarget(i, colorStyle, width))
+      targets.append(createTarget(i, colorStyle, width, height))
     }
     return targets
   }
 
   return @()
   {
-    size = [width, width]
+    size = [width, height]
     children = getTargets()
     watch = rwrState.TargetsTrigger
   }
 }
 
-local scope = function(colorStyle, width)
+local scope = function(colorStyle, width, height)
 {
   return {
     children = [
       {
         size = SIZE_TO_CONTENT
         children = [
-          background(colorStyle, width)
-          targetsComponent(colorStyle, width)
+          background(colorStyle, width, height)
+          targetsComponent(colorStyle, width, height)
         ]
       }
     ]
   }
 }
 
-local rwr = function(colorStyle, posX = sw(75), posY = sh(70), size = sh(20), for_mfd = false)
+local rwr = function(colorStyle, posX = sw(75), posY = sh(70), w = sh(20), h = sh(20), for_mfd = false)
 {
-  local width = size
   local getChildren = function() {
     return rwrState.IsRwrHudVisible.value ? [
-      scope(colorStyle, width)
+      scope(colorStyle, w, h)
     ] : null
   }
   return @(){

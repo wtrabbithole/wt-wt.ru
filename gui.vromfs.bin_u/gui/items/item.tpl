@@ -177,21 +177,29 @@ itemDiv {
       }
       <</expireTime>>
     }
-    <<#amount>>
-    itemAmountText {
-      text:t='<<amount>>'
-      <<#overlayAmountTextColor>>
-      overlayTextColor:t='<<overlayAmountTextColor>>'
-      <</overlayAmountTextColor>>
-      <<#isInTransfer>>
-      animated_wait_icon {
-        pos:t='-w, 38%ph-50%h'
-        class:t='inTextRowAbsolute'
-        background-rotation:t = '0'
+    <<^iconInsteadAmount>>
+      <<#amount>>
+      itemAmountText {
+        text:t='<<amount>>'
+        <<#overlayAmountTextColor>>
+        overlayTextColor:t='<<overlayAmountTextColor>>'
+        <</overlayAmountTextColor>>
+        <<#isInTransfer>>
+        animated_wait_icon {
+          pos:t='-w, 38%ph-50%h'
+          class:t='inTextRowAbsolute'
+          background-rotation:t = '0'
+        }
+        <</isInTransfer>>
       }
-      <</isInTransfer>>
-    }
-    <</amount>>
+      <</amount>>
+    <</iconInsteadAmount>>
+    <<#iconInsteadAmount>>
+      amountIcon {
+        background-image:t='<<amountIcon>>'
+        background-color:t='<<amountIconColor>>'
+      }
+    <</iconInsteadAmount>>
 
     <<^isAllBought>>
     <<#price>>
@@ -221,6 +229,14 @@ itemDiv {
       text:t='<<markIcon>>'
     }
     <</needMarkIcon>>
+    <<#boostEfficiency>>
+    textareaNoTab {
+      pos:t='0.5pw-0.5w, ph + 1@itemPadding'
+      text-align:t='center'
+      position:t='absolute'
+      text:t='<<boostEfficiency>>'
+    }
+    <</boostEfficiency>>
   }
 
   <<#arrowNext>>
@@ -254,7 +270,7 @@ itemDiv {
     inactiveColor:t='yes'
     <</isInactive>>
     ButtonImg {
-      iconName:t='A'
+      btnName:t='A'
       showOnSelect:t='focus'
     }
   }

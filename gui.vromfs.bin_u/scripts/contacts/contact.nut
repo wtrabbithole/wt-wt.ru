@@ -33,6 +33,8 @@ class Contact
 
   afterSuccessUpdateFunc = null
 
+  _cacheCanInteract = null
+
   constructor(contactData)
   {
     local newName = contactData?["name"] ?? ""
@@ -42,6 +44,10 @@ class Contact
       contactData.clanTag <- ::clanUserTable[newName]
 
     update(contactData)
+
+    ::add_event_listener("XboxSystemUIReturn", function(p) {
+      _cacheCanInteract = null
+    }, this)
   }
 
   static getByName = @(name) contactsByName?[name]
@@ -169,20 +175,16 @@ class Contact
       || name == ::my_user_name
   }
 
-  _cacheCanInteract = null
-  function canInteract(needShowSystemMessage = false)
+  function getInteractionStatus(needShowSystemMessage = false)
   {
     if (!::is_platform_xboxone || isMe())
       return true
 
-    if (!::g_chat.isCrossNetworkMessageAllowed(name))
-      return false
-
     if (xboxId == "")
     {
-      if (platformModule.getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS && !isInFriendGroup())
+      if (::g_chat.getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS && !isInFriendGroup())
         return false
-      return platformModule.isChatEnabled()
+      return ::g_chat.isChatEnabled()
     }
 
     if (!needShowSystemMessage && _cacheCanInteract != null)
@@ -190,6 +192,25 @@ class Contact
 
     _cacheCanInteract = ::can_use_text_chat_with_target(xboxId, needShowSystemMessage) == XBOX_COMMUNICATIONS_ALLOWED
     return _cacheCanInteract
+  }
+
+  function getInteractionWithInvitesStatus(needShowSystemMessage = false)
+  {
+    if (xboxId == "")
+        return getInteractionStatus()     // There are no special requirements for crossnetwork mute.
+
+    local interactStatus = ::can_use_text_chat_with_target(xboxId, needShowSystemMessage)   // The function ss called only on invites processing, so there is no need to cache.
+    return interactStatus == XBOX_COMMUNICATIONS_ALLOWED || interactStatus == XBOX_COMMUNICATIONS_MUTED
+  }
+
+  function canChat(needShowSystemMessage = false)
+  {
+    return ::g_chat.isCrossNetworkMessageAllowed(name) && getInteractionStatus(needShowSystemMessage)
+  }
+
+  function canInvite(needShowSystemMessage = false)
+  {
+    return ::g_chat.isCrossNetworkMessageAllowed(name) && getInteractionWithInvitesStatus(needShowSystemMessage)
   }
 
   function isInGroup(groupName)

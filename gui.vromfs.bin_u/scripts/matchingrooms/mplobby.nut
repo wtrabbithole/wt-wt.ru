@@ -298,7 +298,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function initChat()
   {
-    if (!platformModule.isChatEnabled())
+    if (!::g_chat.isChatEnabled())
       return
 
     local chatObj = scene.findObject("lobby_chat_place")

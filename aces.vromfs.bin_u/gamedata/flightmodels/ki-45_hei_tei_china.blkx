@@ -72,137 +72,6 @@
     "fightAiBehaviour": "fighter"
   },
   {
-    "ikPilot": [
-      {
-        "model": "pilot_japan_char"
-      },
-      {
-        "maxHeadHorAngle": 60.0
-      },
-      {
-        "maxHeadDownAngle": 60.0
-      },
-      {
-        "maxHeadUpAngle": 10.0
-      },
-      {
-        "headNode": "Bip01 Head"
-      },
-      {
-        "pelvisNode": "Bip01 Pelvis"
-      },
-      {
-        "pelvisTargetNode": "Bip01 Pelvis01"
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Hand",
-          "midNode": "Bip01 L Forearm",
-          "upNode": "Bip01 L UpperArm",
-          "targetNode": "throttle_lhand_1",
-          "flexionDir": [0.0,-1.0,0.2]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Hand",
-          "midNode": "Bip01 R Forearm",
-          "upNode": "Bip01 R UpperArm",
-          "targetNode": "stick_rhand_1",
-          "flexionDir": [0.0,-1.0,-0.5]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Foot",
-          "midNode": "Bip01 L Calf",
-          "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_1",
-          "flexionDir": [0.0,1.0,0.3]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Foot",
-          "midNode": "Bip01 R Calf",
-          "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_1",
-          "flexionDir": [0.0,1.0,-0.3]
-        }
-      }
-    ]
-  },
-  {
-    "ikGunner": [
-      {
-        "model": "pilot_japan_char"
-      },
-      {
-        "maxHeadHorAngle": 60.0
-      },
-      {
-        "maxHeadDownAngle": 60.0
-      },
-      {
-        "maxHeadUpAngle": 10.0
-      },
-      {
-        "headNode": "Bip01 Head"
-      },
-      {
-        "pelvisNode": "Bip01 Pelvis"
-      },
-      {
-        "pelvisTargetNode": "Bip01 Pelvis_"
-      },
-      {
-        "suffix": "1"
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Hand",
-          "midNode": "Bip01 L Forearm",
-          "upNode": "Bip01 L UpperArm",
-          "targetNode": "throttle_lhand_",
-          "flexionDir": [0.0,-1.0,0.1]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Hand",
-          "midNode": "Bip01 R Forearm",
-          "upNode": "Bip01 R UpperArm",
-          "targetNode": "stick_rhand_",
-          "flexionDir": [0.0,-1.0,-0.1]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 L Foot",
-          "midNode": "Bip01 L Calf",
-          "upNode": "Bip01 L Thigh",
-          "targetNode": "pedal_lfoot_",
-          "flexionDir": [0.0,1.0,-0.2]
-        }
-      },
-      {
-        "ikNode": {
-          "downNode": "Bip01 R Foot",
-          "midNode": "Bip01 R Calf",
-          "upNode": "Bip01 R Thigh",
-          "targetNode": "pedal_rfoot_",
-          "flexionDir": [0.0,1.0,0.2]
-        }
-      }
-    ]
-  },
-  {
-    "attach": {
-      "pilot1": "pilot_japan_500",
-      "gunner1": "gunner_sit_japan_500"
-    }
-  },
-  {
     "Params": {
       "Range": 2000.0
     }
@@ -433,7 +302,7 @@
           "emitter": "flare1",
           "flash": "flare1",
           "shell": "emtr_shellrejection1",
-          "dm": "cannon1_dm",
+          "dm": "cannon2_dm",
           "bullets": 15,
           "spread": 1.0,
           "traceOffset": 1
@@ -446,7 +315,7 @@
           "emitter": "flare2",
           "flash": "flare2",
           "shell": "emtr_shellrejection2",
-          "dm": "cannon2_dm",
+          "dm": "cannon1_dm",
           "bullets": 100,
           "spread": 1.0,
           "traceOffset": 2
@@ -531,6 +400,8 @@
     "modifications": {
       "cd_98": [],
       "CdMin_Fuse": [],
+      "new_cover": [],
+      "structure_str": [],
       "hp_105": [],
       "new_radiator": [],
       "new_compressor": [],
@@ -539,16 +410,35 @@
       "ho1_ground_targets": [],
       "ho1_all_tracers": [],
       "ho1_stealth": [],
-      "ho203_new_gun": [],
-      "ho1_belt_pack": [],
+      "ho1_belt_pack": {
+        "tier": 1
+      },
       "20mmtype97_new_gun": {
-        "reqModification": "ho1_belt_pack"
+        "reqModification": "ho1_belt_pack",
+        "tier": 2
+      },
+      "ho5_universal": [],
+      "ho5_ground_targets": [],
+      "ho5_all_tracers": [],
+      "ho5_stealth": [],
+      "ho5_belt_pack": {
+        "tier": 3
+      },
+      "ho5_new_gun": {
+        "tier": 4,
+        "reqModification": "ho5_belt_pack"
       },
       "mg_turret_ap": [],
       "mg_turret_api_apt": [],
-      "mg_turret_belt_pack": [],
+      "mg_turret_belt_pack": {
+        "tier": 1
+      },
       "mg15_turret_new_gun": {
-        "reqModification": "mg_turret_belt_pack"
+        "reqModification": "mg_turret_belt_pack",
+        "tier": 3
+      },
+      "ho203_new_gun": {
+        "tier": 4
       }
     }
   },
@@ -2472,6 +2362,137 @@
     ]
   },
   {
+    "ikPilot": [
+      {
+        "model": "pilot_china1_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis01"
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "throttle_lhand_1",
+          "flexionDir": [0.0,-1.0,0.2]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "stick_rhand_1",
+          "flexionDir": [0.0,-1.0,-0.5]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_1",
+          "flexionDir": [0.0,1.0,0.3]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_1",
+          "flexionDir": [0.0,1.0,-0.3]
+        }
+      }
+    ]
+  },
+  {
+    "ikGunner": [
+      {
+        "model": "pilot_china2_char"
+      },
+      {
+        "maxHeadHorAngle": 60.0
+      },
+      {
+        "maxHeadDownAngle": 60.0
+      },
+      {
+        "maxHeadUpAngle": 10.0
+      },
+      {
+        "headNode": "Bip01 Head"
+      },
+      {
+        "pelvisNode": "Bip01 Pelvis"
+      },
+      {
+        "pelvisTargetNode": "Bip01 Pelvis_"
+      },
+      {
+        "suffix": "1"
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Hand",
+          "midNode": "Bip01 L Forearm",
+          "upNode": "Bip01 L UpperArm",
+          "targetNode": "throttle_lhand_",
+          "flexionDir": [0.0,-1.0,0.1]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Hand",
+          "midNode": "Bip01 R Forearm",
+          "upNode": "Bip01 R UpperArm",
+          "targetNode": "stick_rhand_",
+          "flexionDir": [0.0,-1.0,-0.1]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 L Foot",
+          "midNode": "Bip01 L Calf",
+          "upNode": "Bip01 L Thigh",
+          "targetNode": "pedal_lfoot_",
+          "flexionDir": [0.0,1.0,-0.2]
+        }
+      },
+      {
+        "ikNode": {
+          "downNode": "Bip01 R Foot",
+          "midNode": "Bip01 R Calf",
+          "upNode": "Bip01 R Thigh",
+          "targetNode": "pedal_rfoot_",
+          "flexionDir": [0.0,1.0,0.2]
+        }
+      }
+    ]
+  },
+  {
+    "attach": {
+      "pilot1": "pilot_china_500",
+      "gunner1": "gunner_sit_us_500"
+    }
+  },
+  {
     "default_skin": [
       {
         "replace_tex": {
@@ -2518,7 +2539,6 @@
       "emtr_break_wing2_r_from": [-1.00004,0.122326,-4.81518],
       "emtr_break_wing2_r_to": [-1.00004,0.122326,-5.9216],
       "emtr_break_wing_tail": [-5.86756,0.0,0.0],
-      "partKindTail": 2,
       "finCut": false,
       "emtr_break_stab_l_from": [-6.6856,0.673089,0.525328],
       "emtr_break_stab_l_to": [-6.6856,0.673089,2.10131],

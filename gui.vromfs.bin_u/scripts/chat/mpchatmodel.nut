@@ -1,5 +1,3 @@
-local platformModule = require("scripts/clientState/platform.nut")
-
 local mpChatState = {
   log = []
   currentModeId = null
@@ -52,8 +50,8 @@ local mpChatModel = {
 
 
   function onIncomingMessage(sender, msg, enemy, mode, automatic) {
-    if ( (!platformModule.isChatEnabled()
-         || !platformModule.isChatEnableWithPlayer(sender))
+    if ( (!::g_chat.isChatEnabled()
+         || !::g_chat.isChatEnableWithPlayer(sender))
         && !automatic) {
       return false
     }

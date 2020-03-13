@@ -212,7 +212,7 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local otherTeam = ::g_team.getTeamByCode(team).opponentTeamCode
-    local countTblReady = ::SessionLobby.getMembersCountByTeams(room, true)
+    local countTblReady = ::SessionLobby.getMembersCountByTeams(currentFullRoomData, true)
     local countText = countTblReady[team]
     if (countTblReady[team] >= ::events.getTeamSize(teamData)
         || countTblReady[team] - ::events.getMaxLobbyDisbalance(roomMGM) >= countTblReady[otherTeam])
@@ -259,7 +259,7 @@ class ::gui_handlers.EventDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     res += ::SessionLobby.getMissionNameLoc(room)
 
-    local teamsCnt = ::SessionLobby.getMembersCountByTeams(room)
+    local teamsCnt = ::SessionLobby.getMembersCountByTeams(currentFullRoomData)
     local teamsCntText = ""
     if (::events.isEventSymmetricTeams(::events.getMGameMode(selectedEvent, room)))
       teamsCntText = ::loc("events/players_count") + ::loc("ui/colon") + (teamsCnt[Team.A] + teamsCnt[Team.B])

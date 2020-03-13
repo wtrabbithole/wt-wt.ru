@@ -48,6 +48,7 @@ root {
     frameBlock {
       id:t='items_list'
       flow:t='h-flow'
+      total-input-transparent:t='yes'
       behavior:t='posNavigator'
       navigatorShortcuts:t='yes'
       moveX:t='closest'
@@ -88,7 +89,6 @@ root {
           _on_click:t = 'onBuyClicked'
           css-hier-invalidate:t='yes'
           btnName:t='A'
-          buy_ticket_button:t='yes'
 
           pattern{}
           buttonWink { _transp-timer:t='0' }

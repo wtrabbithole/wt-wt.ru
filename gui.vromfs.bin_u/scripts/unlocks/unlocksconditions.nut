@@ -536,6 +536,8 @@ UnlockConditions.loadCondition <- function loadCondition(blk)
   else if (t == "targetDistance")
   {
     res.values = getDiffTextArrayByPoint3(blk?.distance ?? -1, "%s" + ::loc("measureUnits/meters_alt"))
+    if (blk?.gt != null)
+      res.gt <- blk.gt
   }
   else if (::isInArray(t, additionalTypes))
   {
@@ -843,7 +845,9 @@ UnlockConditions._addUsualConditionsText <- function _addUsualConditionsText(gro
       text = ::loc("unlockTag/" + v)
     else if (::isInArray(cType, [ "activity", "playerUnitRank", "playerUnitMRank",
       "crewsUnitRank", "crewsUnitMRank", "minStat", "targetDistance"]))
-      text = v.tostring()
+      text = condition?.gt != null
+        ? ::format( ::loc("conditions/" + (condition.gt ? "min" : "max") + "_limit"), v.tostring())
+        : v.tostring()
     else if (cType == "difficulty")
     {
       text = ::getDifficultyLocalizationText(v)

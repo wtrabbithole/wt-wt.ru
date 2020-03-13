@@ -186,6 +186,12 @@ enums.addTypesByGlobalName("g_mission_type", {
     objectivesWw = MISSION_OBJECTIVE.KILLS_NAVAL
   }
 
+  N_N2M = {  // Naval: Enduring Confrontation
+    reMisName = ::regexp2(@"_N2M(_|$)")
+    objectives = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_ANY_AI | MISSION_OBJECTIVE.KILLS_NAVAL
+    objectivesWw = MISSION_OBJECTIVE.KILLS_AIR | MISSION_OBJECTIVE.KILLS_ANY_AI | MISSION_OBJECTIVE.KILLS_NAVAL
+  }
+
   PvE = {
     reMisName = ::regexp2(@"_PvE")
     objectives = MISSION_OBJECTIVE.KILLS_ANY_AI

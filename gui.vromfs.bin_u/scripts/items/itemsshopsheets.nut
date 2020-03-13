@@ -18,6 +18,7 @@ shopSheets.template <- {
   typeMask = itemType.INVENTORY_ALL
   isDevItemsTab = false
   isMarketplace = false
+  hasSubLists = @() false
 
   getSeenId = @() "##item_sheet_" + id
 
@@ -31,7 +32,7 @@ shopSheets.template <- {
       && !item.isHiddenItem() && !item.isVisibleInWorkshopOnly())
     : (@(item) !item.isHiddenItem() && !item.isVisibleInWorkshopOnly())
 
-  getItemsList = function(shopTab)
+  getItemsList = function(shopTab, subsetId = null)
   {
     local visibleTypeMask = ::ItemsManager.checkItemsMaskFeatures(typeMask)
     local filterFunc = getItemFilterFunc(shopTab).bindenv(this)
@@ -41,6 +42,9 @@ shopSheets.template <- {
       return ::ItemsManager.getShopList(visibleTypeMask, filterFunc)
     return []
   }
+  getSubsetsListParameters = @() null
+  getSubsetIdByItemId = @(itemId) null
+  getSubsetSeenListId = @(subsetId) "{0}/{1}".subst(getSeenId(), subsetId)
 }
 
 local function getTabSeenId(tabIdx) //!!FIX ME: move tabs to separate enum
@@ -80,7 +84,15 @@ shopSheets.addSheets <- function(sheetsTable)
         if (sh.isAllowedForTab(tab))
         {
           local curSheet = sh
-          tabSeenList.setSubListGetter(sh.getSeenId(), @() curSheet.getItemsList(curTab).map(@(it) it.getSeenId()))
+          local shSeenId = sh.getSeenId()
+          tabSeenList.setSubListGetter(shSeenId, @() curSheet.getItemsList(curTab).map(@(it) it.getSeenId()))
+
+          if (sh.hasSubLists())
+          {
+            local subsetList = curSheet.getSet().getSubsetsList()
+            subsetList.apply(@(subset) tabSeenList.setSubListGetter(curSheet.getSubsetSeenListId(subset.id),
+              @() curSheet.getItemsList(curTab, subset.id).map(@(it) it.getSeenId())))
+          }
         }
     }
 }
@@ -231,12 +243,25 @@ shopSheets.updateWorkshopSheets <- function()
       isAllowedForTab = @(shopTab) shopTab == itemsTab.WORKSHOP
       isEnabled = @(shopTab) isAllowedForTab(shopTab)&& getSet().isVisible()
 
+      hasSubLists = @() getSet().hasSubsets
+
       getItemFilterFunc = function(shopTab) {
         local s = getSet()
         return s.isItemInSet.bindenv(s)
       }
 
-      getItemsList = @(shopTab) getSet().getItemsList()
+      getItemsList = @(shopTab, subsetId = null) subsetId == null
+        ? getSet().getItemsList()
+        : getSet().getItemsSubList(subsetId)
+      getSubsetsListParameters = function() {
+        local curSet = getSet()
+        return {
+          subsetList = curSet.getSubsetsList()
+          curSubsetId  = curSet.getCurSubsetId()
+        }
+      }
+      setSubset = @(subsetId) getSet().setSubset(subsetId)
+      getSubsetIdByItemId = @(itemId) getSet().getSubsetIdByItemId(itemId)
     }
   }
 
@@ -261,6 +286,7 @@ shopSheets.getSheetDataByItem <- function(item)
           return {
             tab = tab
             sheet = sh
+            subsetId = sh.getSubsetIdByItemId(item.id)
           }
   return null
 }

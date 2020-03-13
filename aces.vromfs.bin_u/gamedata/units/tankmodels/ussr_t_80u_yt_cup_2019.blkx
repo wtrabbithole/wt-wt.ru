@@ -99,10 +99,10 @@
     "irProjectorNode": "ex_lantern_05"
   },
   {
-    "irBeamRadius": [1300.0,100.0]
+    "irBeamRadius": [1400.0,100.0]
   },
   {
-    "irProjectorPower": [0.03,0.05]
+    "irProjectorPower": [0.02,0.07]
   },
   {
     "engineHeatSourceSize": [1.0,0.6,1.7]
@@ -287,10 +287,10 @@
           "createSecondaryShatters": false
         },
         "turret_06_top_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 30.0
         },
         "turret_09_front_dm": {
-          "armorThickness": 50.0
+          "armorThickness": 30.0
         },
         "turret_10_bottom_dm": {
           "armorThickness": 45.0
@@ -2807,7 +2807,7 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 20.57,
+      "zoomOutFov": 27.54,
       "zoomInFov": 6.14,
       "sightFov": 8.0,
       "sightName": "1g_46",
@@ -2815,28 +2815,6 @@
       "headPosOnShooting": [-0.1,3.0,0.4],
       "detectionHeight": 2.3,
       "bone_turret": "bone_mg_aa_h_01"
-    }
-  },
-  {
-    "nightVision": {
-      "gunnerIr": {
-        "resolution": [1600,1200],
-        "lightMult": 9.0,
-        "ghosting": 0.6,
-        "noiseFactor": 0.2
-      },
-      "commanderIr": {
-        "resolution": [1600,1200],
-        "lightMult": 9.0,
-        "ghosting": 0.6,
-        "noiseFactor": 0.2
-      },
-      "driverIr": {
-        "resolution": [800,600],
-        "lightMult": 5.0,
-        "ghosting": 0.6,
-        "noiseFactor": 0.2
-      }
     }
   },
   {
@@ -3224,6 +3202,33 @@
           ]
         }
       },
+      "night_vision_system": {
+        "modClass": "protection",
+        "tier": 3,
+        "turn_it_off": false,
+        "effects": {
+          "nightVision": {
+            "gunnerIr": {
+              "resolution": [1600,1200],
+              "lightMult": 9.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            },
+            "commanderIr": {
+              "resolution": [1600,1200],
+              "lightMult": 9.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            },
+            "driverIr": {
+              "resolution": [800,600],
+              "lightMult": 5.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            }
+          }
+        }
+      },
       "night_vision_system_upgrade_nv_to_thermal": {
         "tier": 4,
         "modClass": "protection",
@@ -3330,6 +3335,8 @@
   {
     "skin": {
       "name": "ussr_camo_czechoslovak_yellow_green",
+      "nameLocId": "skin/ussr_camo_czechoslovak_yellow_green",
+      "descLocId": "skin/ussr_camo_czechoslovak_yellow_green/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_czechoslovak_yellow_green*"
@@ -3339,6 +3346,8 @@
   {
     "skin": {
       "name": "ussr_camo_desert_syrian_green_brown_yellow",
+      "nameLocId": "skin/ussr_camo_desert_syrian_green_brown_yellow",
+      "descLocId": "skin/ussr_camo_desert_syrian_green_brown_yellow/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_syrian_green_brown_yellow*"
@@ -3348,6 +3357,8 @@
   {
     "skin": {
       "name": "ussr_camo_desert_yellow_brown",
+      "nameLocId": "skin/ussr_camo_desert_yellow_brown",
+      "descLocId": "skin/ussr_camo_desert_yellow_brown/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_yellow_brown*"
@@ -3357,6 +3368,8 @@
   {
     "skin": {
       "name": "modern_desert",
+      "nameLocId": "skin/ussr_modern_desert",
+      "descLocId": "skin/ussr_modern_desert/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_desert*"
@@ -3366,6 +3379,8 @@
   {
     "skin": {
       "name": "modern_forest",
+      "nameLocId": "skin/ussr_modern_forest",
+      "descLocId": "skin/ussr_modern_forest/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_forest*"
@@ -3375,6 +3390,8 @@
   {
     "skin": {
       "name": "modern_winter",
+      "nameLocId": "skin/ussr_modern_winter",
+      "descLocId": "skin/ussr_modern_winter/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_winter*"
@@ -3384,6 +3401,8 @@
   {
     "skin": {
       "name": "ussr_camo_finland_polygonal_threecolor",
+      "nameLocId": "skin/ussr_camo_finland_polygonal_threecolor",
+      "descLocId": "skin/ussr_camo_finland_polygonal_threecolor/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_finland_polygonal_threecolor*"
@@ -3393,6 +3412,8 @@
   {
     "skin": {
       "name": "ussr_camo_deform",
+      "nameLocId": "skin/ussr_camo_deform",
+      "descLocId": "skin/ussr_camo_deform/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_deform*"
@@ -3402,6 +3423,8 @@
   {
     "skin": {
       "name": "ussr_south_korean_camo",
+      "nameLocId": "skin/ussr_south_korean_camo",
+      "descLocId": "skin/ussr_south_korean_camo/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_south_korean_camo*"

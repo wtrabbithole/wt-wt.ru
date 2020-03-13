@@ -2,21 +2,22 @@
   "type": "radar",
   "transivers": {
     "common": {
-      "sideLobesAttenuation": -25.0,
+      "sideLobesAttenuation": -26.0,
       "power": 500.0,
       "band": 0,
       "rcs": 5.0,
       "range": 55500.0,
       "rangeMax": 100000.0,
       "backScatteringBandNum": 0,
+      "timeGainControl": false,
       "antenna": {
         "azimuth": {
           "angleHalfSens": 3.0,
-          "sideLobesSensitivity": -30.0
+          "sideLobesSensitivity": -32.0
         },
         "elevation": {
           "angleHalfSens": 4.8,
-          "sideLobesSensitivity": -30.0
+          "sideLobesSensitivity": -32.0
         }
       }
     }
@@ -71,7 +72,7 @@
       "azimuthLimits": [-60.0,60.0],
       "elevationLimits": [-60.0,60.0],
       "period": 0.5,
-      "width": 12.0,
+      "width": 6.2,
       "barHeight": 3.0,
       "barsCount": 2,
       "rowMajor": false,
@@ -87,7 +88,7 @@
     "search": {
       "groundClutter": true,
       "aircraftAsTarget": true,
-      "groundVehiclesAsTarget": true,
+      "groundVehiclesAsTarget": false,
       "friendFoeId": false,
       "distance": {
         "presents": true,
@@ -96,23 +97,12 @@
         "width": 500.0
       }
     },
-    "boresightLock": {
-      "groundClutter": true,
-      "aircraftAsTarget": true,
-      "groundVehiclesAsTarget": true,
-      "distance": {
-        "presents": true,
-        "minValue": 100.0,
-        "maxValue": 9250.0,
-        "width": 120.0
-      }
-    },
     "track": {
       "groundClutter": true,
       "aircraftAsTarget": true,
-      "groundVehiclesAsTarget": true,
+      "groundVehiclesAsTarget": false,
       "angularAccuracy": 0.06,
-      "distanceAccuracy": 25.0,
+      "distanceAccuracy": 10.0,
       "distance": {
         "presents": true,
         "minValue": 100.0,
@@ -224,13 +214,13 @@
         "setDesignationLockMode": {
           "clearTargetsOfInterest": [],
           "setCenterAzimuth": {
-            "source": "activeDetectedTarget"
+            "source": "targetDesignation"
           },
           "setCenterElevation": {
-            "source": "activeDetectedTarget"
+            "source": "targetDesignation"
           },
           "setDistGatePos": {
-            "source": "activeDetectedTarget",
+            "source": "targetDesignation",
             "width": 1000.0
           },
           "setScanPattern": {
@@ -245,7 +235,7 @@
             "transiver": "common"
           },
           "setSignal": {
-            "signal": "boresightLock"
+            "signal": "track"
           },
           "clearTargets": []
         },
@@ -276,7 +266,7 @@
           },
           "setDistGatePos": {
             "source": "constRange",
-            "pos": 4600.0,
+            "pos": 4625.0,
             "width": 9250.0
           }
         },
@@ -326,6 +316,7 @@
         "switchOn": {
           "stateFrom": "standby",
           "command": "switch",
+          "event": "enable",
           "stateTo": "search",
           "actions": {
             "setSearchMode": []
@@ -334,6 +325,7 @@
         "switchOff": {
           "stateFrom": "search",
           "command": "switch",
+          "event": "disable",
           "stateTo": "standby",
           "actions": {
             "resetSearchMode": [],
@@ -343,6 +335,16 @@
         "designationLock": {
           "stateFrom": "search",
           "command": "selectTarget",
+          "actions": {
+            "designateActiveDetectedTarget": {
+              "type": 0,
+              "sensorIndex": 0
+            }
+          }
+        },
+        "designationLockResponce": {
+          "stateFrom": "search",
+          "command": "designateTarget",
           "stateTo": "designationLock",
           "actions": {
             "resetSearchMode": [],
@@ -386,7 +388,16 @@
             "setSearchMode": []
           }
         },
-        "boresightLock": {
+        "boresightLockFromSearch": {
+          "stateFrom": "search",
+          "command": "modeSwitch",
+          "stateTo": "boresightLock",
+          "actions": {
+            "resetSearchMode": [],
+            "setBoresightLockMode": []
+          }
+        },
+        "boresightLockFromStandby": {
           "stateFrom": "standby",
           "command": "selectTarget",
           "stateTo": "boresightLock",
@@ -419,6 +430,29 @@
             "setStandbyMode": []
           }
         },
+        "switchToSearch": [
+          {
+            "stateFrom": "boresightLock"
+          },
+          {
+            "command": "switch"
+          },
+          {
+            "command": "modeSwitch"
+          },
+          {
+            "stateTo": "search"
+          },
+          {
+            "actions": {
+              "setFsmActive": {
+                "fsm": "lock",
+                "active": false
+              },
+              "setSearchMode": []
+            }
+          }
+        ],
         "brokenBoresightTrack": {
           "stateFrom": "boresightTrack",
           "event": "activeTargetOfInterestInertialTimeOut",

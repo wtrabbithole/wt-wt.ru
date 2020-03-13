@@ -2178,7 +2178,6 @@
             "verticalOmegaMult": 1.0,
             "verticalSpeedLimitKPH": 75.0,
             "speedFromVehicleVerticalMult": -1.0,
-            "speedYaw": 40.0,
             "speedPitch": 20.0,
             "errorKPHToDegrees": [
               {
@@ -2366,6 +2365,16 @@
             "pitch": [-8.0,20.0]
           }
         }
+      },
+      {
+        "hideNodes": [
+          {
+            "node": "ex_decor_l_05"
+          },
+          {
+            "node": "ex_decor_r_05"
+          }
+        ]
       }
     ]
   },
@@ -3084,7 +3093,6 @@
                   "verticalOmegaMult": 1.0,
                   "verticalSpeedLimitKPH": 75.0,
                   "speedFromVehicleVerticalMult": -1.0,
-                  "speedYaw": 40.0,
                   "speedPitch": 20.0,
                   "errorKPHToDegrees": [
                     {
@@ -3274,6 +3282,16 @@
               }
             },
             {
+              "hideNodes": [
+                {
+                  "node": "ex_decor_l_05"
+                },
+                {
+                  "node": "ex_decor_r_05"
+                }
+              ]
+            },
+            {
               "Weapon": {
                 "trigger": "gunner4",
                 "triggerGroup": "smoke",
@@ -3370,6 +3388,7 @@
         }
       },
       "night_vision_system": {
+        "image": "#ui/gameuiskin#thermal_sight",
         "tier": 3,
         "effects": {
           "nightVision": {
@@ -3414,6 +3433,8 @@
   {
     "skin": {
       "name": "it_camo_desert_light_yellow",
+      "nameLocId": "skin/it_camo_desert_light_yellow",
+      "descLocId": "skin/it_camo_desert_light_yellow/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_desert_light_yellow*"
@@ -3423,6 +3444,8 @@
   {
     "skin": {
       "name": "it_camo_modern_three_color",
+      "nameLocId": "skin/it_camo_modern_three_color",
+      "descLocId": "skin/it_camo_modern_three_color/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_modern_three_color*"
@@ -3432,6 +3455,8 @@
   {
     "skin": {
       "name": "it_camo_winter_white",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_winter_white*"

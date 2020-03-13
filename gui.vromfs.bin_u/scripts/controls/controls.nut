@@ -469,7 +469,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     }
   }
 
-  function onFilterEditBoxCancel(obj = null)
+  function onFilterEditBoxCancel(obj)
   {
     if (obj.getValue() == "")
       goBack()
@@ -2297,7 +2297,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 ::switchControlsMode <- function switchControlsMode(value)
 {
   local cdb = ::get_local_custom_settings_blk()
-  if (value == cdb[ps4ControlsModeActivatedParamName])
+  if (value == cdb?[ps4ControlsModeActivatedParamName])
     return
 
   cdb[ps4ControlsModeActivatedParamName] = value
@@ -2472,7 +2472,6 @@ local function getWeaponFeatures(weaponsBlkList)
     gotRockets = false
     gotAGM = false // air-to-ground missiles, anti-tank guided missiles
     gotAAM = false // air-to-air missiles
-    gotWeaponLock = false
     gotGunnerTurrets = false
     gotSchraegeMusik = false
   }
@@ -2507,9 +2506,6 @@ local function getWeaponFeatures(weaponsBlkList)
         res.gotGunnerTurrets = true
       if (::is_platform_pc && w?.schraegeMusikAngle != null)
         res.gotSchraegeMusik = true
-      local weaponBlk = ::DataBlock(w.blk)
-      if (weaponBlk?.rocket.guidance)
-        res.gotWeaponLock = true
     }
   }
 
@@ -2615,8 +2611,6 @@ local function getWeaponFeatures(weaponsBlkList)
       controls.append("ID_AAM")
     if (w.gotSchraegeMusik)
       controls.append("ID_SCHRAEGE_MUSIK")
-    if (w.gotWeaponLock)
-      controls.append("ID_WEAPON_LOCK")
 
     if (hasControllableRadar)
     {
@@ -2651,8 +2645,6 @@ local function getWeaponFeatures(weaponsBlkList)
       controls.append("ID_ATGM_HELICOPTER")
     if (w.gotAAM)
       controls.append("ID_AAM_HELICOPTER")
-    if (w.gotWeaponLock)
-      controls.append("ID_WEAPON_LOCK_HELICOPTER")
   }
   else if (unitType == ::g_unit_type.TANK && unit.isWalker())
   {
@@ -2662,8 +2654,6 @@ local function getWeaponFeatures(weaponsBlkList)
   else if (unitType == ::g_unit_type.TANK)
   {
     controls = [ "gm_throttle", "gm_steering", "gm_mouse_aim_x", "gm_mouse_aim_y", "ID_TOGGLE_VIEW_GM", "ID_FIRE_GM", "ID_REPAIR_TANK" ]
-
-    local w = getWeaponFeatures([ blkCommonWeapons, blkWeaponPreset ])
 
     if (::is_platform_pc && !::is_xinput_device())
     {
@@ -2681,9 +2671,6 @@ local function getWeaponFeatures(weaponsBlkList)
       controls.append("ID_SENSOR_TARGET_SWITCH_TANK")
       controls.append("ID_SENSOR_TARGET_LOCK_TANK")
     }
-
-    if (w.gotWeaponLock)
-      controls.append("ID_WEAPON_LOCK_TANK")
 
     local gameParams = ::dgs_get_game_params()
     local missionDifficulty = ::get_mission_difficulty()

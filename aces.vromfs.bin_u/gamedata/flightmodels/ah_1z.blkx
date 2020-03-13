@@ -1,6 +1,7 @@
 {
   "model": "ah_1z",
   "fmFile": "fm/ah_1z.blk",
+  "viewDistKInSight": 2.0,
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/hellicopters_metaparts.blk",
   "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.001,
@@ -1251,9 +1252,11 @@
     "lightPos": [2.298902,-0.221187,-0.009455],
     "lightColor": [0.01,1.5,0.1],
     "lightRadius": 0.5,
-    "zoomOutFov": 37.46,
-    "zoomInFov": 25.37,
-    "sightFov": 13.5,
+    "zoomOutFov": 15.46,
+    "zoomInFov": 2.46,
+    "sightInFov": 2.46,
+    "sightOutFov": -1.0,
+    "sightFov": 5.5,
     "devices": {
       "speed": [0.0,257.222],
       "bank": [-8.0,8.0],
@@ -1462,6 +1465,15 @@
             "textureArea": [0.5,0.5,1.0,1.0]
           },
           {
+            "monoDisplayColor": [0.4,0.8,0.4]
+          },
+          {
+            "page": {
+              "type": "target_tracking",
+              "turretIdx": 0
+            }
+          },
+          {
             "page": [
               {
                 "type": "devices"
@@ -1606,12 +1618,6 @@
           },
           {
             "page": {
-              "type": "target_tracking",
-              "turretIdx": 0
-            }
-          },
-          {
-            "page": {
               "type": "thermal",
               "turretIdx": 0
             }
@@ -1751,11 +1757,18 @@
       ]
     }
   ],
-  "sensors": {
-    "sensor": {
-      "blk": "gameData/sensors/us_an_apr_39.blk"
+  "sensors": [
+    {
+      "sensor": {
+        "blk": "gameData/sensors/tv_tracker.blk"
+      }
+    },
+    {
+      "sensor": {
+        "blk": "gameData/sensors/us_an_apr_39.blk"
+      }
     }
-  },
+  ],
   "gunnerFps": {
     "pos": [-0.3,1.3,0.0],
     "head": "turret1"
@@ -3768,25 +3781,6 @@
     {
       "dp": [
         {
-          "dm": "tail_dm"
-        },
-        {
-          "dp": "prop01_2"
-        },
-        {
-          "dp": "prop02_2"
-        },
-        {
-          "dp": "prop03_2"
-        },
-        {
-          "dp": "prop_side_2"
-        }
-      ]
-    },
-    {
-      "dp": [
-        {
           "dm": "wing_l_dm"
         },
         {
@@ -4188,35 +4182,7 @@
     {
       "dp": [
         {
-          "dm": "engine1_dm"
-        },
-        {
-          "dp": "prop01_1"
-        },
-        {
-          "dp": "prop02_1"
-        },
-        {
-          "dp": "prop03_1"
-        },
-        {
-          "dp": "prop_side_1"
-        },
-        {
-          "dp": "fan01_1"
-        },
-        {
-          "dp": "fan02_1"
-        },
-        {
-          "dp": "fan03_1"
-        }
-      ]
-    },
-    {
-      "dp": [
-        {
-          "dm": "engine2_dm"
+          "dm": "tail_dm"
         },
         {
           "dp": "prop01_2"
@@ -4229,127 +4195,6 @@
         },
         {
           "dp": "prop_side_2"
-        },
-        {
-          "dp": "fan01_2"
-        },
-        {
-          "dp": "fan02_2"
-        },
-        {
-          "dp": "fan03_2"
-        }
-      ]
-    },
-    {
-      "dp": [
-        {
-          "dm": "engine3_dm"
-        },
-        {
-          "dp": "prop01_3"
-        },
-        {
-          "dp": "prop02_3"
-        },
-        {
-          "dp": "prop03_3"
-        },
-        {
-          "dp": "prop_side_3"
-        },
-        {
-          "dp": "fan01_3"
-        },
-        {
-          "dp": "fan02_3"
-        },
-        {
-          "dp": "fan03_3"
-        }
-      ]
-    },
-    {
-      "dp": [
-        {
-          "dm": "engine4_dm"
-        },
-        {
-          "dp": "prop01_4"
-        },
-        {
-          "dp": "prop02_4"
-        },
-        {
-          "dp": "prop03_4"
-        },
-        {
-          "dp": "prop_side_4"
-        },
-        {
-          "dp": "fan01_4"
-        },
-        {
-          "dp": "fan02_4"
-        },
-        {
-          "dp": "fan03_4"
-        }
-      ]
-    },
-    {
-      "dp": [
-        {
-          "dm": "engine5_dm"
-        },
-        {
-          "dp": "prop01_5"
-        },
-        {
-          "dp": "prop02_5"
-        },
-        {
-          "dp": "prop03_5"
-        },
-        {
-          "dp": "prop_side_5"
-        },
-        {
-          "dp": "fan01_5"
-        },
-        {
-          "dp": "fan02_5"
-        },
-        {
-          "dp": "fan03_5"
-        }
-      ]
-    },
-    {
-      "dp": [
-        {
-          "dm": "engine6_dm"
-        },
-        {
-          "dp": "prop01_6"
-        },
-        {
-          "dp": "prop02_6"
-        },
-        {
-          "dp": "prop03_6"
-        },
-        {
-          "dp": "prop_side_6"
-        },
-        {
-          "dp": "fan01_6"
-        },
-        {
-          "dp": "fan02_6"
-        },
-        {
-          "dp": "fan03_6"
         }
       ]
     },
@@ -4375,6 +4220,21 @@
         },
         {
           "dp": "aero_7_l_b002"
+        },
+        {
+          "dp": "aero_3b_001"
+        },
+        {
+          "dp": "2_75_ffar_%d_b1"
+        },
+        {
+          "dp": "2_75_ffar_%d_b2"
+        },
+        {
+          "dp": "hydra_70_m229_0%2d_b001"
+        },
+        {
+          "dp": "hydra_70_m229_0%2d_b002"
         },
         {
           "dp": "pylon_bomb1"
@@ -4429,6 +4289,30 @@
         },
         {
           "dp": "tow_cap_014"
+        },
+        {
+          "dp": "hellfire_rocket_001"
+        },
+        {
+          "dp": "hellfire_rocket_002"
+        },
+        {
+          "dp": "hellfire_rocket_003"
+        },
+        {
+          "dp": "hellfire_rocket_004"
+        },
+        {
+          "dp": "m261_lwl_b001"
+        },
+        {
+          "dp": "m261_lwl_b002"
+        },
+        {
+          "dp": "pylon_m272_001"
+        },
+        {
+          "dp": "pylon_m272_002"
         }
       ]
     },
@@ -4454,6 +4338,21 @@
         },
         {
           "dp": "aero_7_l_b004"
+        },
+        {
+          "dp": "aero_3b_002"
+        },
+        {
+          "dp": "2_75_ffar_%d_b3"
+        },
+        {
+          "dp": "2_75_ffar_%d_b4"
+        },
+        {
+          "dp": "hydra_70_m229_0%2d_b003"
+        },
+        {
+          "dp": "hydra_70_m229_0%2d_b004"
         },
         {
           "dp": "pylon_bomb3"
@@ -4508,6 +4407,30 @@
         },
         {
           "dp": "tow_cap_016"
+        },
+        {
+          "dp": "hellfire_rocket_005"
+        },
+        {
+          "dp": "hellfire_rocket_006"
+        },
+        {
+          "dp": "hellfire_rocket_007"
+        },
+        {
+          "dp": "hellfire_rocket_008"
+        },
+        {
+          "dp": "m261_lwl_b003"
+        },
+        {
+          "dp": "m261_lwl_b004"
+        },
+        {
+          "dp": "pylon_m272_003"
+        },
+        {
+          "dp": "pylon_m272_004"
         }
       ]
     }
@@ -4971,14 +4894,13 @@
     }
   },
   "cutting": {
-    "emtr_break_wing0_l_from": [0.654589,-0.679247,0.938534],
+    "emtr_break_wing0_l_from": [0.654589,-0.679247,1.05],
     "emtr_break_wing0_l_to": [0.654589,-0.679247,1.205443],
-    "emtr_break_wing0_r_from": [0.654589,-0.679247,-0.938534],
+    "emtr_break_wing0_r_from": [0.654589,-0.679247,-1.05],
     "emtr_break_wing0_r_to": [0.654589,-0.679247,-1.205443],
     "emtr_break_wing_tail": [-2.01118,0.0,0.0],
     "emtr_break_wing_lower": [0.0,-1.0,0.0],
     "emtr_break_wing_upper": [0.02,1.0,0.0],
-    "partKindTail": 2,
     "finCut": false
   },
   "default_skin_tomoe": [

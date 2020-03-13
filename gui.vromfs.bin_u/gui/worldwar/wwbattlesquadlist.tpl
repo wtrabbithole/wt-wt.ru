@@ -54,7 +54,7 @@ VerticalListBox {
           margin-left:t='1@dp'
           ButtonImg {
             class:t='independent'
-            iconName:t='X'
+            btnName:t='X'
             showOnSelect:t='yes'
           }
         }

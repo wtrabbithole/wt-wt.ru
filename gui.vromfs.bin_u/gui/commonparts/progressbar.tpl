@@ -113,7 +113,7 @@ invisSlider {
         hasConsoleImage:t='yes'
         ButtonImg {
           showOnSelect:t='yes'
-          iconName:t='<<shortcutIcon>>'
+          btnName:t='<<shortcutIcon>>'
         }
       <</shortcutIcon>>
       <<^shortcutIcon>>

@@ -18,6 +18,8 @@ local clan_member_list = [
     field = @() ::has_feature("ClanVehicles") ? "totalPeriodActivity" : "totalActivity"
     showByFeature = "ClanActivity"
     getCellTooltipText = function(data) { return loc("clan/personal/" + id + "/cell/desc") }
+    getTooltipText  = @(depth) ::loc("clan/personal/activity/desc",
+      {historyDepth = depth})
   }
   {
     id = "role",
@@ -401,10 +403,17 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillClanElo()
   {
-    local clanElo = clanData.astat?[::ranked_column_prefix + ::g_difficulty.getDifficultyByDiffCode(curMode).clanDataEnding] ?? 0
+    local difficulty = ::g_difficulty.getDifficultyByDiffCode(curMode)
+    local lbImageObj = scene.findObject("clan_elo_icon")
+    if (::check_obj(lbImageObj))
+      lbImageObj["background-image"] = difficulty.clanRatingImage
+
     local eloTextObj = scene.findObject("clan_elo_value")
     if (::check_obj(eloTextObj))
+    {
+      local clanElo = clanData.astat?[::ranked_column_prefix + difficulty.clanDataEnding] ?? 0
       eloTextObj.setValue(clanElo.tostring())
+    }
   }
 
   function fillClanActivity()
@@ -675,7 +684,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
         tdAlign  = ::getTblValue("align", column, "center"),
         callback = "onStatsCategory",
         active   = isSortByColumn(column.id)
-        tooltip  = column.tooltip
+        tooltip  = column?.getTooltipText(clanData?.historyDepth.tostring()) ?? column.tooltip
       }
       // It is important to set width to
       // all rows if column has fixed width.

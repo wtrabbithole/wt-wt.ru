@@ -107,8 +107,6 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
     ::switch_profile_country(selectedCountry)
     goBack()
-    ::saveLocalByAccount(::battle_type_option_name,
-       (selectedUnitType == ::g_unit_type.TANK ? BATTLE_TYPES.TANK : BATTLE_TYPES.AIR))
     ::broadcastEvent("UnitTypeChosen")
   }
 
@@ -388,7 +386,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
     blk.setStr("country", presetsData.selectedCountry)
     blk.setInt("unitType", presetsData.selectedUnitType)
 
-    foreach(country in countries)
+    foreach(country in ::shopCountriesList)
     {
       ::unlockCountry(country, true, false) //now unlock all countries
       blk.unlock <- country

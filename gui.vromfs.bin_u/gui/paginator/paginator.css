@@ -6,6 +6,10 @@ paginator{
   height:ph;
 }
 
+paginatorPlace[smallPaginatorWidth=yes] > paginator {
+  min-width: 0.23*@sf;
+}
+
 paginator > pages{
   position: relative;
   pos: pw/2-w/2, 50%ph-50%h;

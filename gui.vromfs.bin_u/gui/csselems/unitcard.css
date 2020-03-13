@@ -880,6 +880,10 @@ shopAngle {
   background-position:4,6,6,4;
 }
 
+shopArrow[isDisabled = yes] {
+  shopStat:locked;
+}
+
 shopLine[shopStat=owned], shopArrow[shopStat=owned], shopAngle[shopStat=owned] {
   background-color:@shopItemOwned;
 }

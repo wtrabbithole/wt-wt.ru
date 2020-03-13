@@ -401,6 +401,10 @@
         "radio_station_dm": {
           "hp": 50.0,
           "armorThrough": 3.0
+        },
+        "radio_station_01_dm": {
+          "hp": 50.0,
+          "armorThrough": 3.0
         }
       },
       "power_block": {
@@ -1594,7 +1598,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1718,7 +1722,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2719,7 +2723,8 @@
       "25mm_kba_APDS": {
         "maxToRespawn": 1
       },
-      "25mm_kba_APDS_ammo_pack": []
+      "25mm_kba_APDS_ammo_pack": [],
+      "modern_tank_laser_rangefinder": []
     }
   },
   {
@@ -2742,6 +2747,8 @@
   {
     "skin": {
       "name": "it_camo_desert_light_yellow",
+      "nameLocId": "skin/it_camo_desert_light_yellow",
+      "descLocId": "skin/it_camo_desert_light_yellow/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_desert_light_yellow*"
@@ -2751,6 +2758,8 @@
   {
     "skin": {
       "name": "it_camo_modern_three_color",
+      "nameLocId": "skin/it_camo_modern_three_color",
+      "descLocId": "skin/it_camo_modern_three_color/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_modern_three_color*"
@@ -2760,6 +2769,8 @@
   {
     "skin": {
       "name": "it_camo_winter_white",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_winter_white*"

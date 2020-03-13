@@ -1121,22 +1121,38 @@
     },
     {
       "part": {
-        "name": "spar1_l_dm"
+        "name": "spar1_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar1_r_dm"
+        "name": "spar1_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_l_dm"
+        "name": "spar2_l_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
       "part": {
-        "name": "spar2_r_dm"
+        "name": "spar2_r_dm",
+        "onKill": {
+          "nothing": 0.0,
+          "cut": 1.0
+        }
       }
     },
     {
@@ -1905,40 +1921,28 @@
       "preset": {
         "name": "mig_19_ofab100_bombs",
         "blk": "gameData/FlightModels/weaponPresets/mig_19s_ofab100_bombs.blk",
-        "reqModification": "mig_15_ish_fab_100",
-        "tags": {
-          "aux": true
-        }
+        "reqModification": "mig_15_ish_fab_100"
       }
     },
     {
       "preset": {
         "name": "mig_19_ofab250_bombs",
         "blk": "gameData/FlightModels/weaponPresets/mig_19s_ofab250_bombs.blk",
-        "reqModification": "mig_15_ish_fab_250",
-        "tags": {
-          "aux": true
-        }
+        "reqModification": "mig_15_ish_fab_250"
       }
     },
     {
       "preset": {
         "name": "mig_19_s5k_rockets",
         "blk": "gameData/FlightModels/weaponPresets/mig_19s_s5k_rockets.blk",
-        "reqModification": "C5",
-        "tags": {
-          "aux": true
-        }
+        "reqModification": "C5"
       }
     },
     {
       "preset": {
         "name": "mig_19_4xs5k_rockets",
         "blk": "gameData/FlightModels/weaponPresets/mig_19s_4xs5k_rockets.blk",
-        "reqModification": "C5",
-        "tags": {
-          "aux": true
-        }
+        "reqModification": "C5"
       }
     }
   ],
@@ -1952,7 +1956,7 @@
     {
       "sensor": {
         "blk": "gameData/sensors/su_rp-5_track.blk",
-        "dmPart": "radar2_dm"
+        "dmPart": "radar_dm"
       }
     }
   ],
@@ -2213,6 +2217,20 @@
       "reqModification": "NR_30_belt_pack",
       "tier": 3
     },
+    "mig_15_ish_fab_100": {
+      "modClass": "weapon",
+      "tier": 1
+    },
+    "mig_15_ish_fab_250": {
+      "modClass": "weapon",
+      "reqModification": "mig_15_ish_fab_100",
+      "tier": 2
+    },
+    "C5": {
+      "modClass": "weapon",
+      "tier": 3,
+      "reqModification": "mig_15_ish_fab_250"
+    },
     "mig_19_r3s": {
       "tier": 2,
       "modClass": "weapon"
@@ -2258,7 +2276,6 @@
     "emtr_break_wing2_r_from": [1.01231,-0.0874892,-3.22435],
     "emtr_break_wing2_r_to": [1.01231,-0.0874892,-3.73083],
     "emtr_break_wing_tail": [-3.98924,0.0,0.0],
-    "partKindTail": 4,
     "finCut": true,
     "emtr_break_tail_from": [-1.77279,0.0418558,0.0],
     "emtr_break_tail_to": [-4.93608,0.0418558,0.0]

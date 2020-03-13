@@ -358,36 +358,8 @@ class ::BaseItem
     if (::getTblValue("showPrice", params, true))
       res.price <- getCost().getTextAccordingToBalance()
 
-    if (::getTblValue("showAction", params, true))
-    {
-      local mainActionData = getMainActionData(true)
-      if (mainActionData && getLimitsCheckData().result)
-      {
-        res.modActionName <- mainActionData?.btnColoredName || mainActionData.btnName
-        res.needShowActionButtonAlways <- needShowActionButtonAlways()
-      }
-    }
-
     foreach(paramName, value in params)
       res[paramName] <- value
-
-    local isSelfAmount = params?.count == null
-    local amountVal = params?.count || getAmount()
-    local additionalTextInAmmount = params?.shouldHideAdditionalAmmount ? ""
-      : getAdditionalTextInAmmount()
-    if (!::u.isInteger(amountVal) || shouldShowAmount(amountVal))
-    {
-      res.amount <- amountVal.tostring() + additionalTextInAmmount
-      if (isSelfAmount && transferAmount > 0)
-        res.isInTransfer <- true
-    }
-
-    if (::getTblValue("showSellAmount", params, false))
-    {
-      local sellAmount = getSellAmount()
-      if (sellAmount > 1)
-        res.amount <- sellAmount + additionalTextInAmmount
-    }
 
     local craftTimerText = params?.craftTimerText
     if ((hasCraftTimer() && (params?.hasCraftTimer ?? true)) || craftTimerText)
@@ -404,16 +376,65 @@ class ::BaseItem
 
     res.hasButton <- ::getTblValue("hasButton", params, true)
     res.onClick <- ::getTblValue("onClick", params, null)
-    res.isInactive <- params?.isButtonInactive ?? false
     res.hasHoverBorder <- ::getTblValue("hasHoverBorder", params, false)
 
     if (::getTblValue("contentIcon", params, true))
       res.contentIconData <- getContentIconData()
 
+    return getSubstitutionViewData(res, params)
+  }
+
+  // Parameters that can be overridden by item substitution
+  // have been took out in separate function getSubstitutionViewData
+  function getSubstitutionViewData(res, params)
+  {
+    if (::getTblValue("showAction", params, true))
+    {
+      local mainActionData = getMainActionData(true)
+      res.isInactive <- (params?.showButtonInactiveIfNeed ?? false)
+        && (mainActionData?.isInactive ?? false)
+      if (mainActionData && getLimitsCheckData().result)
+      {
+        res.modActionName <- mainActionData?.btnColoredName || mainActionData.btnName
+        res.needShowActionButtonAlways <- needShowActionButtonAlways()
+      }
+    }
+
+    local isSelfAmount = params?.count == null
+    local amountVal = params?.count || getAmount()
+    local additionalTextInAmmount = params?.shouldHideAdditionalAmmount ? ""
+      : getAdditionalTextInAmmount()
+    if (!::u.isInteger(amountVal) || shouldShowAmount(amountVal))
+    {
+      res.amount <- hasReachedMaxAmount()
+        ? ::colorize("goodTextColor",
+          ::loc("ui/parentheses/space", {text = amountVal + ::loc("ui/slash") + maxAmount}))
+        : amountVal.tostring() + additionalTextInAmmount
+      if (isSelfAmount && transferAmount > 0)
+        res.isInTransfer <- true
+    }
+    if (::getTblValue("showSellAmount", params, false))
+    {
+      local sellAmount = getSellAmount()
+      if (sellAmount > 1)
+        res.amount <- sellAmount + additionalTextInAmmount
+    }
+
     if (!res?.isItemLocked)
       res.isItemLocked <- isInventoryItem && !amount
 
+    local boostEfficiency = getBoostEfficiency()
+    if(params?.hasBoostEfficiency && boostEfficiency)
+      res.boostEfficiency <- ::colorize(getAmount() > 0
+        ? "activeTextColor"
+        : "commonTextColor", ::loc("keysPlus") + boostEfficiency + ::loc("measureUnits/percent"))
+
     return res
+  }
+
+  function getBoostEfficiency()
+  {
+    return null
   }
 
   function getContentIconData()
@@ -745,7 +766,7 @@ class ::BaseItem
   getCraftResultItem = @() null
   hasCraftResult = @() !!getCraftResultItem()
   isHiddenItem = @() !isEnabled() || isCraftResult()
-  getAdditionalTextInAmmount = @() ""
+  getAdditionalTextInAmmount = @(needColorize = true, showOnlyIcon = false) ""
   cancelCrafting = @(...) false
   getRewardListLocId = @() "mainmenu/rewardsList"
   getItemsListLocId = @() "mainmenu/itemsList"
@@ -756,4 +777,5 @@ class ::BaseItem
   skipRoulette = @() true
   needOfferBuyAtExpiration = @() false
   isVisibleInWorkshopOnly = @() false
+  getIconName = @() getSmallIconName()
 }

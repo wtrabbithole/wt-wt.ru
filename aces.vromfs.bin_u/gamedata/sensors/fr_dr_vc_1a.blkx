@@ -53,7 +53,7 @@
       "pitchStabLimit": 10.0,
       "rollStabLimit": 10.0,
       "period": 0.25,
-      "width": 45.0,
+      "width": 22.5,
       "barHeight": 1.5,
       "barsCount": 3,
       "rowMajor": false,
@@ -70,7 +70,8 @@
       "width": 2.0,
       "barHeight": 1.5,
       "barsCount": 1,
-      "rowMajor": false
+      "rowMajor": false,
+      "indicate": true
     },
     "track": {
       "type": "no",
@@ -117,31 +118,55 @@
             "distanceRange": [0.0,10000.0]
           }
         },
-        "setLockMode": {
-          "setCenterAzimuth": {
-            "source": "activeDetectedTarget"
+        "setLockMode": [
+          {
+            "setCenterAzimuth": {
+              "source": "activeDetectedTarget"
+            }
           },
-          "setCenterElevation": {
-            "source": "activeDetectedTarget"
+          {
+            "setCenterElevation": {
+              "source": "activeDetectedTarget"
+            }
           },
-          "clearTargets": [],
-          "clearTargetsOfInterest": [],
-          "setScanPattern": {
-            "scanPattern": "lock"
+          {
+            "clearTargets": []
           },
-          "resetScanPhase": [],
-          "setFsmActive": {
-            "fsm": "lock",
-            "active": true
+          {
+            "clearTargetsOfInterest": []
           },
-          "setTransiver": {
-            "transiver": "track"
+          {
+            "setScanPattern": {
+              "scanPattern": "lock"
+            }
           },
-          "setDistGatePos": {
-            "source": "targetDesignation",
-            "width": 1000.0
+          {
+            "resetScanPhase": []
+          },
+          {
+            "setFsmActive": {
+              "fsm": "lock",
+              "active": true
+            }
+          },
+          {
+            "setTransiver": {
+              "transiver": "track"
+            }
+          },
+          {
+            "setCenterElevation": {
+              "source": "constant",
+              "value": 22.5
+            }
+          },
+          {
+            "setDistGatePos": {
+              "source": "targetDesignation",
+              "width": 1000.0
+            }
           }
-        },
+        ],
         "setLosLockMode": {
           "setScanPattern": {
             "scanPattern": "losLock"
@@ -474,6 +499,7 @@
         "switchToSearch": {
           "stateFrom": "standby",
           "command": "switch",
+          "event": "enable",
           "stateTo": "search",
           "actions": {
             "setSearchMode": []
@@ -482,6 +508,7 @@
         "switchToStandby": {
           "stateFrom": "search",
           "command": "switch",
+          "event": "disable",
           "stateTo": "standby",
           "actions": {
             "resetSearchMode": [],

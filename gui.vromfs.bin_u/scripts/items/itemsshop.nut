@@ -1,7 +1,11 @@
-local sheets = ::require("scripts/items/itemsShopSheets.nut")
-local workshop = ::require("scripts/items/workshop/workshop.nut")
-local seenList = ::require("scripts/seen/seenList.nut")
-local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local sheets = require("scripts/items/itemsShopSheets.nut")
+local workshop = require("scripts/items/workshop/workshop.nut")
+local seenList = require("scripts/seen/seenList.nut")
+local bhvUnseen = require("scripts/seen/bhvUnseen.nut")
+local workshopCraftTreeWnd = require("scripts/items/workshop/workshopCraftTreeWnd.nut")
+local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+
+::dagui_propid.add_name_id("hasUnseenIcon")
 
 ::gui_start_itemsShop <- function gui_start_itemsShop(params = null)
 {
@@ -35,7 +39,9 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   curItem = null //last selected item to restore selection after change list
 
   isSheetsInUpdate = false
+  isItemTypeChangeUpdate = false
   itemsPerPage = -1
+  windowSize = 0
   itemsList = null
   curPage = 0
   shouldSetPageByItem = false
@@ -44,6 +50,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   slotbarActions = [ "preview", "testflightforced", "weapons", "info" ]
   displayItemTypes = null
   sheetsArray = null
+
+  subsetList = null
+  curSubsetId = null
+  initSubsetId = null
 
   // Used to avoid expensive get...List and further sort.
   itemsListValid = false
@@ -63,6 +73,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     curSheet = sheetData ? sheetData.sheet
       : curSheet ? sheets.findSheet(curSheet, sheets.ALL) //it can be simple table, need to find real sheeet by it
       : sheets.ALL
+    initSubsetId = sheetData ? sheetData.subsetId : initSubsetId
 
     fillTabs()
 
@@ -196,13 +207,14 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local view = {
       items = sheetsArray.map(@(sh) {
         text = ::loc(sh.locId)
+        autoScrollText = true
         unseenIcon = SEEN.ITEMS_SHOP //intial to create unseen block.real value will be set on update.
         unseenIconId = "unseen_icon"
       })
     }
 
     local data = ::handyman.renderCached("gui/items/shopFilters", view)
-    guiScene.replaceContentFromText(scene.findObject("filter_block"), data, data.len(), this)
+    guiScene.replaceContentFromText(scene.findObject("filter_tabs"), data, data.len(), this)
   }
 
   function updateSheets()
@@ -214,6 +226,8 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local typesObj = getSheetsListObj()
     local seenListId = getTabSeenId(curTab)
     local curValue = -1
+    local hasSubLists = false
+    local visibleSheetsArray = []
     foreach(idx, sh in sheetsArray)
     {
       local isEnabled = sh.isEnabled(curTab)
@@ -227,15 +241,47 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       if (curValue < 0 || curSheet == sh)
         curValue = idx
 
+      visibleSheetsArray.append({idx = idx, text = ::loc(sh.locId)})
+      hasSubLists = hasSubLists || sh.hasSubLists()
       child.findObject("unseen_icon").setValue(bhvUnseen.makeConfigStr(seenListId, sh.getSeenId()))
     }
     if (curValue >= 0)
       typesObj.setValue(curValue)
 
+    if (hasSubLists)
+      setSheetsInOneLineWithSubset(visibleSheetsArray)
+    showSceneBtn("subset_list_nest", hasSubLists)
+
     guiScene.setUpdatesEnabled(true, true)
     isSheetsInUpdate = false
 
     applyFilters()
+  }
+
+  function setSheetsInOneLineWithSubset(visibleSheetsArray)
+  {
+    initItemsListSizeOnce()
+
+    local typesObj = getSheetsListObj()
+    local visibleSheetsCount = visibleSheetsArray.len()
+    local minSheetWidth = ::to_pixels("1@minShopFilterWidthWithUnseen")
+    local subsetListWidthWithPadding = ::to_pixels("2@framePadding + 1@subsetComboBoxWidth + 1@listboxPad")
+    local sheetIntervalWidth = ::to_pixels("(1 + {0})@listboxItemsInterval".subst(visibleSheetsCount))
+    local maxSheetsListTextWidth = windowSize[0] - minSheetWidth * visibleSheetsCount
+      - subsetListWidthWithPadding - sheetIntervalWidth
+
+    foreach (idx, sh in visibleSheetsArray)
+    {
+      local maxTextWidth = maxSheetsListTextWidth / (visibleSheetsCount - idx)
+      local textWidth = ::min(daguiFonts.getStringWidthPx(sh.text, "fontSmall", guiScene), maxTextWidth)
+      maxSheetsListTextWidth = maxSheetsListTextWidth - textWidth
+      if (textWidth < maxTextWidth)
+        continue
+
+      local sheetObj = typesObj.getChild(sh.idx)
+      sheetObj["width"] = minSheetWidth + textWidth
+      sheetObj.tooltip = sh.text
+    }
   }
 
   function onItemTypeChange(obj)
@@ -246,9 +292,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!newSheet)
       return
 
+    isItemTypeChangeUpdate = true  //No need update item when fill subset if changed item type
     curSheet = newSheet
     itemsListValid = false
 
+    fillSubset()
+    isItemTypeChangeUpdate = false
     if (!isSheetsInUpdate)
       applyFilters()
   }
@@ -264,6 +313,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("main_block").height = sizes.sizeY * sizes.itemsCountY //need const height of items list after resize
       + (sizes.itemsCountY + 1) * sizes.spaceY
     itemsPerPage = sizes.itemsCountX * sizes.itemsCountY
+    windowSize = sizes.windowSize
   }
 
   function applyFilters(resetPage = true)
@@ -273,7 +323,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     if (!itemsListValid)
     {
       itemsListValid = true
-      itemsList = curSheet.getItemsList(curTab)
+      itemsList = curSheet.getItemsList(curTab, curSubsetId)
       if (curTab == itemsTab.INVENTORY)
         itemsList.sort(::ItemsManager.getItemsSortComparator(getTabSeenList(curTab)))
     }
@@ -304,13 +354,13 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       local item = itemsList[i]
       if (item.hasLimits())
         ::g_item_limits.enqueueItem(item.id)
-      local mainActionData = item.getMainActionData()
+
       view.items.append(item.getViewData({
         itemIndex = i.tostring(),
         showSellAmount = curTab == itemsTab.SHOP,
         unseenIcon = bhvUnseen.makeConfigStr(seenListId, item.getSeenId())
         isItemLocked = isItemLocked(item)
-        isButtonInactive = mainActionData?.isInactive ?? false
+        showButtonInactiveIfNeed = true
       }))
     }
     ::g_item_limits.requestLimits()
@@ -447,9 +497,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function getCurItemObj()
   {
     local itemListObj = getItemsListObj()
-    local value = itemListObj.getValue()
+    local value = ::get_obj_valid_index(itemListObj)
     if (value < 0)
       return null
+
     return itemListObj.getChild(value)
   }
 
@@ -528,6 +579,18 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
         linkObj.findObject("img")["background-image"] = item.linkActionIcon
       }
     }
+
+    local curSet = curSheet?.getSet()
+    local craftTree = curSet?.getCraftTree()
+    local needShowCraftTree = craftTree != null
+    local craftTreeBtnObj = showSceneBtn("btn_open_craft_tree", needShowCraftTree)
+    if (curSet != null && needShowCraftTree)
+    {
+      craftTreeBtnObj.setValue(::loc(craftTree?.openButtonLocId ?? ""))
+      local needShowUnseenIcon = curSet.needShowUnseenIconCraftTree()
+      craftTreeBtnObj.hasUnseenIcon = needShowUnseenIcon ? "yes" : "no"
+      craftTreeBtnObj.findObject("craft_tree_unseen_icon").show(needShowUnseenIcon)
+    }
   }
 
   function onLinkAction(obj)
@@ -563,10 +626,10 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   function doMainAction(item = null, obj = null)
   {
     item = item || getCurItem()
-    obj = obj || getCurItemObj()
     if (item == null)
       return
 
+    obj = obj || getCurItemObj()
     item.doMainAction(
       ::Callback(@(result) updateItemInfo(), this),
       this,
@@ -598,13 +661,16 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       if (!itemsList[i].hasTimer())
         continue
       local listObj = getItemsListObj()
-      local itemObj = ::checkObj(listObj) && listObj.getChild(i - curPage * itemsPerPage)
-      local timeTxtObj = ::checkObj(itemObj) && itemObj.findObject("expire_time")
-      if (::checkObj(timeTxtObj))
-        timeTxtObj.setValue(itemsList[i].getTimeLeftText())
-      timeTxtObj = ::checkObj(itemObj) && itemObj.findObject("craft_time")
-      if (::checkObj(timeTxtObj))
-        timeTxtObj.setValue(itemsList[i].getCraftTimeTextShort())
+      local itemObj = ::check_obj(listObj) ? listObj.getChild(i - curPage * itemsPerPage) : null
+      if (::check_obj(itemObj))
+      {
+        local timeTxtObj = itemObj.findObject("expire_time")
+        if (::check_obj(timeTxtObj))
+          timeTxtObj.setValue(itemsList[i].getTimeLeftText())
+        timeTxtObj = itemObj.findObject("craft_time")
+        if (::check_obj(timeTxtObj))
+          timeTxtObj.setValue(itemsList[i].getCraftTimeTextShort())
+      }
     }
   }
 
@@ -754,4 +820,74 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     buttonObj.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
   }
+
+  function onOpenCraftTree(obj)
+  {
+    local curSet = curSheet?.getSet()
+    if (curSet?.getCraftTree() == null)
+      return
+
+    workshopCraftTreeWnd.open({workshopSet = curSet})
+    if (!curSet.needShowUnseenIconCraftTree())
+      return
+
+    curSet.saveSeenCraftTree()
+    local craftTreeBtnObj = scene.findObject("btn_open_craft_tree")
+    craftTreeBtnObj.hasUnseenIcon = "no"
+    craftTreeBtnObj.findObject("craft_tree_unseen_icon").show(false)
+  }
+
+  function getSubsetListView()
+  {
+    local view = {
+      id       = "subset_list"
+      btnName  = "RB"
+      funcName = "onSubsetChange"
+      values   = subsetList.map((@(subset) {
+        valueId    = subset.id
+        text       = ::loc(subset.locId)
+        unseenIcon = bhvUnseen.makeConfigStr(getTabSeenId(curTab), curSheet.getSubsetSeenListId(subset.id))
+      }).bindenv(this))
+    }
+
+    return ::handyman.renderCached("gui/commonParts/comboBox", view)
+  }
+
+  function fillSubset()
+  {
+    local hasSubLists = curSheet.hasSubLists()
+    local subsetNestObj = showSceneBtn("subset_list_bg", hasSubLists)
+    if (!hasSubLists)
+    {
+      subsetList = null
+      curSubsetId = null
+      return
+    }
+
+    local subsetListParameters = curSheet.getSubsetsListParameters()
+    subsetList = subsetListParameters.subsetList
+    curSubsetId = initSubsetId != null ? initSubsetId : subsetListParameters.curSubsetId
+    initSubsetId = null
+    local curIdx = subsetList.searchindex((@(subset) subset.id == curSubsetId).bindenv(this)) ?? 0
+    local data = getSubsetListView()
+    guiScene.replaceContentFromText(subsetNestObj, data, data.len(), this)
+    scene.findObject("subset_list").setValue(curIdx)
+  }
+
+  function onSubsetChange(obj)
+  {
+    if (isItemTypeChangeUpdate || !curSheet.hasSubLists())
+      return
+
+    markCurrentPageSeen()
+
+    local curSubsetIdx = obj.getValue()
+    curSubsetId = subsetList[curSubsetIdx].id
+    curSheet.setSubset(curSubsetId)
+
+    itemsListValid = false
+    applyFilters()
+  }
+
+  onShowSpecialTasks = @(obj) null
 }

@@ -464,6 +464,8 @@
         "hp": 250.0,
         "armorThickness": 50.0,
         "genericDamageMult": 3.0,
+        "cumulativeArmorQuality": 3.5,
+        "armorEffectiveThicknessMax": 350.0,
         "stopChanceOnDeadPart": 0.0,
         "hidableInViewer": true,
         "ex_era_turret_01_dm": [],
@@ -3177,7 +3179,7 @@
             },
             {
               "Weapon": {
-                "trigger": "gunner3",
+                "trigger": "gunner4",
                 "triggerGroup": "smoke",
                 "blk": "gameData/Weapons/groundModels_weapons/66mm_smoke_grenade_launcher_m60a2.blk",
                 "weaponType": "rockets",
@@ -3224,6 +3226,7 @@
         }
       },
       "night_vision_system": {
+        "image": "#ui/gameuiskin#thermal_sight",
         "tier": 3,
         "effects": {
           "nightVision": {
@@ -3267,6 +3270,8 @@
   {
     "skin": {
       "name": "green_brown_black",
+      "nameLocId": "skin/cn_camo_green_brown_black",
+      "descLocId": "skin/cn_camo_green_brown_black/desc",
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "cn_camo_green_brown_black*"
@@ -3276,6 +3281,8 @@
   {
     "skin": {
       "name": "us_camo_modern_desert_tan",
+      "nameLocId": "skin/us_camo_modern_desert_tan",
+      "descLocId": "skin/us_camo_modern_desert_tan/desc",
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "us_camo_modern_desert_tan*"
@@ -3285,6 +3292,8 @@
   {
     "skin": {
       "name": "winter",
+      "nameLocId": "skin/fr_camo_winter_green_white",
+      "descLocId": "skin/fr_camo_winter_green_white/desc",
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "fr_camo_winter_green_white*"

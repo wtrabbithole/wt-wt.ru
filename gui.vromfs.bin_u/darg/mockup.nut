@@ -109,14 +109,6 @@ global enum AnimProp{
   return val*1920
 }
 
-::w <- function w(val) {
-  return val.tointeger()
-}
-
-::h <- function h(val) {
-  return val.tointeger()
-}
-
 ::sh <- function sh(val) {
   return val*1080
 }
@@ -126,6 +118,14 @@ global enum AnimProp{
 }
 
 ::ph <- function ph(val) {
+  return val*100
+}
+
+::elemw <- function elemw(val) {
+  return val*100
+}
+
+::elemh <- function elemh(val) {
   return val*100
 }
 

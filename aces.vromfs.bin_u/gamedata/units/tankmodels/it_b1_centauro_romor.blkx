@@ -1120,7 +1120,7 @@
   },
   {
     "sound": {
-      "EngineName": "engine_m1",
+      "EngineName": "engine_m3_bradley",
       "TrackSoundPath": "tanks/engines_tanks",
       "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_wheels",
@@ -2882,7 +2882,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2962,7 +2962,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -3018,12 +3018,12 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-6.0,15.0]
+            "pitch": [-6.0,16.0]
           },
           "limitsTable": {
-            "lim1": [-180.0,-162.0,-6.0,15.0],
-            "lim2": [-162.0,-145.0,-2.0,15.0],
-            "lim3": [-145.0,180.0,-6.0,15.0]
+            "lim1": [-180.0,-162.0,-6.0,16.0],
+            "lim2": [-162.0,-145.0,-2.0,16.0],
+            "lim3": [-145.0,180.0,-6.0,16.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
@@ -3244,25 +3244,24 @@
         "tier": 3
       },
       "night_vision_system": {
+        "image": "#ui/gameuiskin#thermal_sight",
         "tier": 1,
         "effects": {
           "nightVision": {
-            "gunnerIr": {
-              "resolution": [800,600],
-              "lightMult": 8.0,
-              "ghosting": 0.75,
-              "noiseFactor": 0.2
+            "gunnerThermal": {
+              "resolution": [500,300],
+              "noiseFactor": 0.05
             },
             "commanderIr": {
-              "resolution": [800,600],
-              "lightMult": 8.0,
-              "ghosting": 0.75,
+              "resolution": [1600,1200],
+              "lightMult": 9.0,
+              "ghosting": 0.6,
               "noiseFactor": 0.2
             },
             "driverIr": {
               "resolution": [800,600],
               "lightMult": 5.0,
-              "ghosting": 0.7,
+              "ghosting": 0.6,
               "noiseFactor": 0.2
             }
           }
@@ -3290,6 +3289,8 @@
   {
     "skin": {
       "name": "it_camo_desert_light_yellow",
+      "nameLocId": "skin/it_camo_desert_light_yellow",
+      "descLocId": "skin/it_camo_desert_light_yellow/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_desert_light_yellow*"
@@ -3299,6 +3300,8 @@
   {
     "skin": {
       "name": "it_camo_modern_three_color",
+      "nameLocId": "skin/it_camo_modern_three_color",
+      "descLocId": "skin/it_camo_modern_three_color/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_modern_three_color*"
@@ -3308,6 +3311,8 @@
   {
     "skin": {
       "name": "it_camo_winter_white",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
       "replace_tex": {
         "from": "it_camo_olive_green*",
         "to": "it_camo_winter_white*"

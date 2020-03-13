@@ -111,15 +111,6 @@
     "type": "typeLightTank"
   },
   {
-    "irProjectorNode": "ex_lantern_r_01"
-  },
-  {
-    "irBeamRadius": [120.0,20.0]
-  },
-  {
-    "irProjectorPower": [0.03,0.05]
-  },
-  {
     "smokeScreenActivateTime": 5.0
   },
   {
@@ -323,6 +314,10 @@
           "armorThrough": 5.0
         },
         "radio_station_dm": {
+          "hp": 50.0,
+          "armorThrough": 3.0
+        },
+        "radio_station_01_dm": {
           "hp": 50.0,
           "armorThrough": 3.0
         }
@@ -2691,7 +2686,9 @@
       "85mm_ussr_HVAP": [],
       "85mm_ussr_HEAT_FS": [],
       "85mm_APCBC_ammo_pack": [],
-      "85mm_HVAP_ammo_pack": [],
+      "85mm_HVAP_ammo_pack": {
+        "tier": 3
+      },
       "85mm_HEAT_FS_ammo_pack": [],
       "85mm_ussr_HE": []
     }
@@ -2699,6 +2696,8 @@
   {
     "skin": {
       "name": "green_yellow_black",
+      "nameLocId": "skin/cn_camo_green_yellow_black",
+      "descLocId": "skin/cn_camo_green_yellow_black/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "cn_camo_green_yellow_black*"
@@ -2708,6 +2707,8 @@
   {
     "skin": {
       "name": "winter",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "us_camo_winter_olive*"

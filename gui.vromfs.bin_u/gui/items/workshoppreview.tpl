@@ -3,9 +3,9 @@ root {
 
   frame {
     id:t='window_root'
-    pos:t='50%pw-50%w, 50%ph-50%h'
+    pos:t='50%pw-50%w, 1@minYposWindow + 0.1*(sh - 1@minYposWindow - h)'
     position:t='absolute'
-    width:t='1.33@sf $min 1@maxWindowWidth'
+    width:t='<<windowWidthScale>>@sf $min 1@maxWindowWidth'
 
     class:t='wnd'
 
@@ -18,10 +18,10 @@ root {
     }
 
     tdiv {
-      size:t='pw, 770@sf/@pf $min 1@rh'
+      size:t='pw, 1@workshoPreviewHeight'
 
       img {
-        size:t='800@sf/@pf, ph'
+        size:t='(<<mainImageScale>>@workshoPreviewHeight $min 0.75*@srw, ph'
         background-repeat:t='aspect-ratio'
         background-image:t='<<bgImage>>'
       }
@@ -60,24 +60,26 @@ root {
           <</space>>
           <</infoBlocks>>
         }
-
-        Button_text {
-          id:t='btn_start';
-          pos:t='50%pw-50%w, 1@blockInterval'
+        tdiv {
+          pos:t='50%pw-50%w, 0'
           position:t='relative'
-          style:t='size:1@bigButtonWidth, 1@battleButtonHeight;'
-          class:t='battle'
-          iconPos:t='middleBottom'
-          btnName:t='A'
-          text:t='#mainmenu/btnToWorkshop'
-          on_click:t='goBack'
+          margin-bottom:t='2@blockInterval'
+          Button_text {
+            id:t='btn_start';
+            style:t='size:1@bigButtonWidth, 1@battleButtonHeight;'
+            class:t='battle'
+            iconPos:t='middleBottom'
+            btnName:t='A'
+            text:t='#mainmenu/btnToWorkshop'
+            on_click:t='goBack'
 
-          pattern { type:t='bright_texture' }
-          buttonWink { _transp-timer:t='0' }
-          buttonGlance {}
+            pattern { type:t='bright_texture' }
+            buttonWink { _transp-timer:t='0' }
+            buttonGlance {}
 
-          ButtonImg{}
-          btnText { text:t = '#mainmenu/btnToWorkshop' }
+            ButtonImg{}
+            btnText { text:t = '#mainmenu/btnToWorkshop' }
+          }
         }
       }
     }

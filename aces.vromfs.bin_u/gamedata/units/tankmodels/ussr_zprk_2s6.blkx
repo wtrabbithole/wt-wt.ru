@@ -111,6 +111,15 @@
     "type": "typeSPAA"
   },
   {
+    "irProjectorNode": "ex_lantern_01"
+  },
+  {
+    "irBeamRadius": [1400.0,100.0]
+  },
+  {
+    "irProjectorPower": [0.02,0.07]
+  },
+  {
     "drowningCheckHeightMultiplier": 0.45
   },
   {
@@ -262,6 +271,7 @@
         "armorThickness": 15.0,
         "hp": 200.0,
         "antenna_target_location_dm": [],
+        "antenna_target_location_01_dm": [],
         "antenna_target_tagging_dm": []
       },
       "optics": {
@@ -296,22 +306,7 @@
           "armorThickness": 3.0,
           "hp": 20.0
         },
-        "optic_turret_07_dm": {
-          "armorThickness": 3.0,
-          "hp": 20.0
-        },
-        "optic_turret_08_dm": {
-          "armorThrough": 50.0,
-          "armorThickness": 20.0,
-          "hp": 20.0
-        },
         "optic_body_01_dm": {
-          "hp": 250.0
-        },
-        "optic_body_02_dm": {
-          "hp": 250.0
-        },
-        "optic_body_03_dm": {
           "hp": 250.0
         }
       },
@@ -682,7 +677,7 @@
       "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_su100",
       "TrackSoundNameCockpit": "tracks_su100_interior",
-      "turret_turn": "turret_turn_manual_y",
+      "turret_turn": "turret_turn_servo",
       "EngineNameAi": "engine_tank_ai_middle",
       "TrackSoundNameAi": "tracks_ai_middle"
     }
@@ -1678,7 +1673,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1835,7 +1830,7 @@
           "effect": {
             "conditionDamageType": "cumulative",
             "expl": 1.0,
-            "conditionDamage": 500.0,
+            "conditionDamage": 250.0,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1894,24 +1889,47 @@
           "errTargettingOn100kmph": 0.0,
           "errTargetting": 3.0,
           "errExplTime": 0.0,
-          "turret": {
-            "head": "bone_turret",
-            "gun": "bone_gun_01",
-            "barrel": "bone_gun_barrel_01",
-            "gunnerDm": "gunner_dm",
-            "verDriveDm": "drive_turret_v_dm",
-            "horDriveDm": "drive_turret_h_dm",
-            "selfDirectedPart": {
-              "node": "antenna_target_tagging_mount",
-              "limits": [-180.0,180.0],
-              "turnSpeed": 80.0
+          "turret": [
+            {
+              "head": "bone_turret"
             },
-            "linkedAnimPart": {
-              "verNode": "antenna_target_tagging",
-              "verLimits": [0.0,90.0],
-              "verOriginLimits": [-0.0,85.0]
+            {
+              "gun": "bone_gun_01"
+            },
+            {
+              "barrel": "bone_gun_barrel_01"
+            },
+            {
+              "gunnerDm": "gunner_dm"
+            },
+            {
+              "verDriveDm": "drive_turret_v_dm"
+            },
+            {
+              "horDriveDm": "drive_turret_h_dm"
+            },
+            {
+              "selfDirectedPart": {
+                "node": "antenna_target_tagging_mount",
+                "limits": [-180.0,180.0],
+                "turnSpeed": 80.0
+              }
+            },
+            {
+              "linkedAnimPart": {
+                "verNode": "antenna_target_tagging",
+                "verLimits": [0.0,90.0],
+                "verOriginLimits": [-0.0,85.0]
+              }
+            },
+            {
+              "linkedAnimPart": {
+                "verNode": "bone_camera_gunner",
+                "verLimits": [-180.0,180.0],
+                "verOriginLimits": [-180.0,180.0]
+              }
             }
-          },
+          ],
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-9.0,85.0]
@@ -2242,6 +2260,12 @@
             "node": "antenna_target_location_mount"
           },
           {
+            "node": "antenna_target_location_01"
+          },
+          {
+            "node": "antenna_target_location_mount_01"
+          },
+          {
             "node": "antenna_target_tagging"
           },
           {
@@ -2262,13 +2286,26 @@
   {
     "sensors": [
       {
-        "sensor": {
-          "blk": "gameData/sensors/su_1rl144_search.blk",
-          "turretIndex": 0,
-          "designationFromBody": true,
-          "designationTurretIndex": 0,
-          "dmPart": "antenna_target_location_dm"
-        }
+        "sensor": [
+          {
+            "blk": "gameData/sensors/su_1rl144_search.blk"
+          },
+          {
+            "turretIndex": 0
+          },
+          {
+            "designationFromBody": true
+          },
+          {
+            "designationTurretIndex": 0
+          },
+          {
+            "dmPart": "antenna_target_location_dm"
+          },
+          {
+            "dmPart": "antenna_target_location_01_dm"
+          }
+        ]
       },
       {
         "sensor": {
@@ -2347,7 +2384,7 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.25,-0.01,0.35],
+        "suspensionOffsets": [-0.2,-0.01,0.35],
         "defaultGearRadius": 0.315,
         "frontBackGearRadius": 0.272,
         "topGearRadius": 0.112,
@@ -2953,7 +2990,90 @@
       "30mm_2a38_HE": [],
       "30mm_2a42_AP": [],
       "30mm_2a42_AP_ammo_pack": [],
-      "30mm_2a38_HE_ammo_pack": []
+      "30mm_2a38_HE_ammo_pack": [],
+      "night_vision_system": {
+        "modClass": "protection",
+        "turn_it_off": false,
+        "tier": 3,
+        "effects": {
+          "nightVision": {
+            "commanderIr": {
+              "resolution": [800,600],
+              "lightMult": 8.0,
+              "ghosting": 0.75,
+              "noiseFactor": 0.2
+            },
+            "driverIr": {
+              "resolution": [800,600],
+              "lightMult": 5.0,
+              "ghosting": 0.7,
+              "noiseFactor": 0.2
+            }
+          }
+        }
+      },
+      "2s6_upgrade_modification": {
+        "invertEnableLogic": false,
+        "turn_it_off": false,
+        "effects": {
+          "rcostAddParam": 0.92,
+          "irProjectorNode": "",
+          "nightVision": {
+            "gunnerThermal": {
+              "resolution": [500,300],
+              "noiseFactor": 0.05
+            },
+            "commanderIr": {
+              "resolution": [1600,1200],
+              "lightMult": 9.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            },
+            "driverIr": {
+              "resolution": [800,600],
+              "lightMult": 5.0,
+              "ghosting": 0.6,
+              "noiseFactor": 0.2
+            }
+          },
+          "hideNodes": [
+            {
+              "node": "antenna_target_location"
+            },
+            {
+              "node": "antenna_target_location_dm"
+            },
+            {
+              "node": "turret_add"
+            },
+            {
+              "node": "optic_turret_05_dm"
+            },
+            {
+              "node": "antenna_01"
+            }
+          ]
+        },
+        "disableModEffects": {
+          "hideNodes": [
+            {
+              "node": "antenna_target_location_01"
+            },
+            {
+              "node": "antenna_target_location_01_dm"
+            },
+            {
+              "node": "turret_add_01"
+            },
+            {
+              "node": "optic_turret_06_dm"
+            },
+            {
+              "node": "antenna_02"
+            }
+          ]
+        }
+      }
     }
   },
   {
@@ -3006,6 +3126,8 @@
   {
     "skin": {
       "name": "ussr_camo_czechoslovak_yellow_green",
+      "nameLocId": "skin/ussr_camo_czechoslovak_yellow_green",
+      "descLocId": "skin/ussr_camo_czechoslovak_yellow_green/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_czechoslovak_yellow_green*"
@@ -3015,6 +3137,8 @@
   {
     "skin": {
       "name": "ussr_camo_desert_syrian_green_brown_yellow",
+      "nameLocId": "skin/ussr_camo_desert_syrian_green_brown_yellow",
+      "descLocId": "skin/ussr_camo_desert_syrian_green_brown_yellow/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_syrian_green_brown_yellow*"
@@ -3024,6 +3148,8 @@
   {
     "skin": {
       "name": "ussr_camo_desert_yellow_brown",
+      "nameLocId": "skin/ussr_camo_desert_yellow_brown",
+      "descLocId": "skin/ussr_camo_desert_yellow_brown/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_desert_yellow_brown*"
@@ -3033,6 +3159,8 @@
   {
     "skin": {
       "name": "modern_desert",
+      "nameLocId": "skin/ussr_modern_desert",
+      "descLocId": "skin/ussr_modern_desert/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_desert*"
@@ -3042,6 +3170,8 @@
   {
     "skin": {
       "name": "modern_forest",
+      "nameLocId": "skin/ussr_modern_forest",
+      "descLocId": "skin/ussr_modern_forest/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_forest*"
@@ -3051,6 +3181,8 @@
   {
     "skin": {
       "name": "modern_winter",
+      "nameLocId": "skin/ussr_modern_winter",
+      "descLocId": "skin/ussr_modern_winter/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_modern_winter*"
@@ -3060,6 +3192,8 @@
   {
     "skin": {
       "name": "ussr_camo_finland_polygonal_threecolor",
+      "nameLocId": "skin/ussr_camo_finland_polygonal_threecolor",
+      "descLocId": "skin/ussr_camo_finland_polygonal_threecolor/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_finland_polygonal_threecolor*"
@@ -3069,6 +3203,8 @@
   {
     "skin": {
       "name": "ussr_camo_deform",
+      "nameLocId": "skin/ussr_camo_deform",
+      "descLocId": "skin/ussr_camo_deform/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_deform*"

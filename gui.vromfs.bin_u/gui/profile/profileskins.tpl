@@ -25,7 +25,6 @@
       flow:t='vertical'
       size:t='pw, 0'
       max-height:t='ph-@bigMedalPlaceYpos-<<ratio>>*@profileMedalSize-@modStatusCheckboxHeight-3@blockInterval'
-      margin:t='0,@blockInterval'
       overflow-y:t='auto'
       scrollbarShortcuts:t='yes'
       total-input-transparent:t='yes'
@@ -44,11 +43,10 @@
             value:t='<<progress>>'
           }
           <</hasProgress>>
-          <<#isForGoldOnly>>
           textarea{
             text:t='<<price>>'
+            hideEmptyText:t='yes'
           }
-          <</isForGoldOnly>>
         }
       <</condition>>
     }
@@ -56,7 +54,7 @@
     <<#isUnlock>>
     tdiv {
       padding-left:t='@unlockConditionHeaderLeftPadding'
-      margin:t='0, @blockInterval'
+      margin-top:t='1@blockInterval'
 
       CheckBox {
         id:t='checkbox-favorites'

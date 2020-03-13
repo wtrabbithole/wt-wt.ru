@@ -167,6 +167,12 @@
         },
         "turret_01_back_dm": {
           "armorThickness": 30.0
+        },
+        "composite_armor_hull_01_dm": {
+          "armorThickness": 17.25
+        },
+        "composite_armor_hull_02_dm": {
+          "armorThickness": 17.25
         }
       },
       "turret": {
@@ -230,7 +236,14 @@
         "ex_armor_r_03_dm": [],
         "ex_armor_l_01_dm": [],
         "ex_armor_l_02_dm": [],
-        "ex_armor_l_03_dm": []
+        "ex_armor_l_03_dm": [],
+        "ex_decor_13_dm": [],
+        "ex_decor_14_dm": [],
+        "ex_decor_r_01_dm": [],
+        "ex_decor_r_02_dm": [],
+        "ex_decor_r_03_dm": [],
+        "ex_decor_l_01_dm": [],
+        "ex_decor_l_02_dm": []
       },
       "mask": {
         "armorClass": "CHA_tank",
@@ -745,6 +758,32 @@
         "fuel_tank_l_05_dm": []
       }
     }
+  },
+  {
+    "xray_viewer_data": [
+      {
+        "armorArrayHull": {
+          "xrayDmPart": "composite_armor_hull_01_dm",
+          "titleLoc": "RHA_tank_modern",
+          "armorArrayText": {
+            "layer": {
+              "dmPart": "composite_armor_hull_02_dm"
+            }
+          }
+        }
+      },
+      {
+        "armorArrayHull": {
+          "xrayDmPart": "composite_armor_hull_02_dm",
+          "titleLoc": "RHA_tank_modern",
+          "armorArrayText": {
+            "layer": {
+              "dmPart": "composite_armor_hull_02_dm"
+            }
+          }
+        }
+      }
+    ]
   },
   {
     "DamageEffects": [
@@ -2960,6 +2999,19 @@
             }
           ]
         }
+      },
+      "night_vision_system": {
+        "tier": 3,
+        "effects": {
+          "nightVision": {
+            "driverIr": {
+              "resolution": [800,600],
+              "lightMult": 5.0,
+              "ghosting": 0.7,
+              "noiseFactor": 0.2
+            }
+          }
+        }
       }
     }
   },
@@ -2975,6 +3027,8 @@
   {
     "skin": {
       "name": "isr_camo_sandgray",
+      "nameLocId": "skin/isr_camo_sandgray",
+      "descLocId": "skin/isr_camo_sandgray/desc",
       "replace_tex": {
         "from": "uk_camo_very_dark_drab*",
         "to": "isr_camo_sandgray*"
@@ -2984,6 +3038,8 @@
   {
     "skin": {
       "name": "uk_camo_winter_olive",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
       "replace_tex": {
         "from": "uk_camo_very_dark_drab*",
         "to": "us_camo_winter_olive*"

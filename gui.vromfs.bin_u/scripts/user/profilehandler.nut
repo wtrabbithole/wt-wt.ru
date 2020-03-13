@@ -1,7 +1,6 @@
 local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = require("scripts/user/avatars.nut")
-local skinLocations = require("scripts/customization/skinLocations.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 
 enum profileEvent {
@@ -359,7 +358,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       guiScene.replaceContentFromText(pageList, data, data.len(), this)
 
       pageList.setValue(selIdx)
-      onPageChange(null)
     }
     else if (sheet in unlockFilters)
     {
@@ -690,8 +688,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     collapse()
     if (isNeedDecalDesc)
       onDecalSelect(unlocksObj)
-    else
-      onUnlockSelect(null)
 
     isPageFilling = false
   }
@@ -929,66 +925,33 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local unlockBlk = ::g_unlocks.getUnlockById(name)
     local decoratorType = ::g_decorator_type.SKINS
     local decorator = ::g_decorator.getDecoratorById(name)
-    local isAllowed = decoratorType.isPlayerHaveDecorator(name)
+    local isAllowed = decorator.isUnlocked()
     local config = {}
-    local isForGoldOnly = false
-    local price = ""
+
     if (unlockBlk)
-    {
       config = ::build_conditions_config(unlockBlk)
-      ::build_unlock_desc(config)
-    }
     else
     {
-      local desc = decorator.getDesc()
-      if (::getTblValue("isRevenueShare", config))
-        desc += (desc.len() ? "\n" : "") + ::colorize("advertTextColor", ::loc("content/revenue_share"))
-
-      desc += (desc.len() ? "\n\n" : "") + decorator.getTypeDesc()
-      local paramsDesc = decorator.getLocParamsDesc()
-      if (paramsDesc != "")
-        desc += (desc.len() ? "\n" : "") + paramsDesc
-
-      local restricionsDesc = decorator.getRestrictionsDesc()
-      if (restricionsDesc.len())
-        desc += (desc.len() ? "\n" : "") + restricionsDesc
-
-      if (getUnitBySkin(name)?.isTank?())
-      {
-        local mask = skinLocations.getSkinLocationsMaskBySkinId(name, false)
-        local locations = mask ? skinLocations.getLocationsLoc(mask) : []
-        if (locations.len())
-          desc += (desc.len() ? "\n" : "") + ::loc("camouflage/for_environment_conditions") +
-            ::loc("ui/colon") + ::g_string.implode(locations, ", ")
-      }
-
-      local tags = decorator.getTagsLoc()
-      if (tags.len())
-      {
-        tags = ::u.map(tags, @(txt) ::colorize("activeTextColor", txt))
-        desc += (desc.len() ? "\n\n" : "") + ::loc("ugm/tags") + ::loc("ui/colon") + ::g_string.implode(tags, ::loc("ui/comma"))
-      }
-
       config = ::get_empty_conditions_config()
       config.image = decoratorType.getImage(decorator)
       config.imgRatio = decoratorType.getRatio(decorator)
-      config.text = desc
-
-      if (!isAllowed)
-      {
-        local cost = decorator.getCost()
-        if (!cost.isZero())
-        {
-          isForGoldOnly = true
-          price = ::loc("ugm/price") + ::loc("ui/colon") + ::colorize("white", cost.getTextAccordingToBalance()) +
-            "\n" + ::loc("shop/object/can_be_purchased")
-        }
-      }
     }
 
-    local textName = ::loc(name)
-    local unitName = ::g_unlocks.getPlaneBySkinId(name)
-    local unitNameLoc = (unitName != "") ? ::getUnitName(unitName) : ""
+    local desc = []
+    desc.append(decorator.getDesc())
+    desc.append(decorator.getTypeDesc())
+    desc.append(decorator.getLocParamsDesc())
+    desc.append(decorator.getRestrictionsDesc())
+    desc.append(decorator.getLocationDesc())
+    desc.append(decorator.getTagsDesc())
+
+    local unlockDesc = decorator.getUnlockDesc()
+    if (unlockDesc.len())
+      desc.append(" ") // for visually distinguish unlock requirements from other info
+
+    desc.append(unlockDesc)
+    config.text = ::g_string.implode(desc, "\n")
+
     local condView = []
     append_condition_item(config, 0, condView, true, isAllowed)
 
@@ -1023,18 +986,19 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
           i+1, condView, false, isPartUnlocked, i > 0 && typeOR)
     }
 
-    local skinView = {skinDescription = []}
-    skinView.skinDescription.append({
+    local unitName = ::g_unlocks.getPlaneBySkinId(name)
+    local unitNameLoc = (unitName != "") ? ::getUnitName(unitName) : ""
+
+    local skinView = { skinDescription = [{
       name0 = unitNameLoc
-      name = textName
+      name = decorator.getName()
       image = config.image
       ratio = config.imgRatio
       status = isAllowed ? "unlocked" : "locked"
       condition = condView
-      isForGoldOnly = isForGoldOnly
       isUnlock = !!unlockBlk
-      price = price
-    })
+      price = decorator.getCostText()
+    }]}
 
     guiScene.setUpdatesEnabled(false, false)
     local markUpData = ::handyman.renderCached("gui/profile/profileSkins", skinView)
@@ -1056,7 +1020,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local unlockDesc = typeOR ? ::loc("hints/shortcut_separator") + "\n" : ""
     unlockDesc += item.text.find("%d") != null ? format(item.text, curVal, maxVal) : item.text
     if (showStages && item.curStage >= 0)
-       unlockDesc += ::g_unlock_view.getRewardText (item, item.curStage)
+       unlockDesc += ::g_unlock_view.getRewardText(item, item.curStage)
 
     local progressData = item?.getProgressBarData?()
     local hasProgress = progressData?.show

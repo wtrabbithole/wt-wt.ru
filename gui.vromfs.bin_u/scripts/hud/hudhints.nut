@@ -1169,6 +1169,7 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hideEvent = "hint:missionHint:remove"
     lifeTime = 5.0
     priority = DEFAULT_MISSION_HINT_PRIORITY
+    delayTime = 1.0
 
     isCurrent = @(eventData, isHideEvent) !("hintType" in eventData) || isStandardMissionHint(eventData.hintType)
     getLocId = function(eventData)
@@ -1333,6 +1334,15 @@ enums.addTypesByGlobalName("g_hud_hints", {
     hintType = ::g_hud_hint_types.COMMON
     locId     = "hints/need_stop_for_fire"
     showEvent = "hint:need_stop_for_fire"
+    lifeTime = 5.0
+    isHideOnDeath = true
+  }
+
+  NEED_STOP_FOR_HULL_AIMING = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId     = "hints/need_stop_for_hull_aiming"
+    showEvent = "hint:need_stop_for_hull_aiming:show"
+    hideEvent = "hint:need_stop_for_hull_aiming:hide"
     lifeTime = 5.0
     isHideOnDeath = true
   }

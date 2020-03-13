@@ -393,7 +393,8 @@ class Promo
   {
     local id = "world_war_button"
     local isWwEnabled = ::g_world_war.canJoinWorldwarBattle()
-    local isVisible = ::g_promo.getShowAllPromoBlocks() || isWwEnabled
+    local isVisible = ::g_promo.getShowAllPromoBlocks()
+      || (isWwEnabled && ::g_world_war.isWWSeasonActive())
 
     local wwButton = ::showBtn(id, isVisible, scene)
     if (!isVisible || !::checkObj(wwButton))
@@ -412,7 +413,7 @@ class Promo
     if (!::g_promo.isCollapsed(id))
       return
 
-    if (::g_world_war.hasNewNearestAvailabelMapToBattle())
+    if (::g_world_war.hasNewNearestAvailableMapToBattle())
       ::g_promo.toggleItem(wwButton.findObject(id + "_toggle"))
   }
   //----------------- </WORLD WAR> --------------------------

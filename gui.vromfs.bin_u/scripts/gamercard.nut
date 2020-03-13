@@ -103,8 +103,8 @@ local platformModule = require("scripts/clientState/platform.nut")
           obj.setValue(valStr)
           break
         case "free_exp":
-          local valStr = ::g_language.decimalFormat(val)
-          local tooltipText = ::getFreeRpPriceText(::colorize("activeTextColor", valStr), true) + "\n" + ::loc("currency/freeResearchPoints/desc")
+          local valStr = ::Balance(0,0,val).toStringWithParams({isFrpAlwaysShown = true})
+          local tooltipText = ::colorize("activeTextColor", valStr) + "\n" + ::loc("currency/freeResearchPoints/desc")
           local bonus = ::get_current_bonuses_text(::BoosterEffectType.RP)
           if (!::u.isEmpty(bonus))
           {
@@ -115,10 +115,6 @@ local platformModule = require("scripts/clientState/platform.nut")
           obj.tooltip = tooltipText
           obj.showBonusCommon = ::have_active_bonuses_by_effect_type(::BoosterEffectType.RP, false)? "yes" : "no"
           obj.showBonusPersonal = ::have_active_bonuses_by_effect_type(::BoosterEffectType.RP, true)? "yes" : "no"
-
-          local textObj = obj.findObject("gc_free_exp_text")
-          if (::checkObj(textObj))
-            textObj.setValue(::getShortTextFromNum(valStr))
           break
         case "name":
           if (::u.isEmpty(val))
@@ -252,7 +248,7 @@ local platformModule = require("scripts/clientState/platform.nut")
   local buttonsEnableTable = {
                                 gc_clanTag = showClanTag && is_in_menu
                                 gc_contacts = canHaveFriends
-                                gc_chat_btn = canChat && platformModule.isChatEnabled()
+                                gc_chat_btn = canChat && ::g_chat.isChatEnabled()
                                 gc_free_exp = canSpendGold && is_in_menu
                                 gc_warpoints = canSpendGold && is_in_menu
                                 gc_eagles = canSpendGold && is_in_menu

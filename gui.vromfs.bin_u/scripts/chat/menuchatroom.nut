@@ -124,7 +124,7 @@ local function newMessage(from, msg, privateMsg=false, myPrivate=false, overlayS
       msgColor = blockedColor
       msg = ::g_chat.makeBlockedMsg(msg)
     }
-    else if (!myself && !myPrivate && !platformModule.isChatEnableWithPlayer(from))
+    else if (!myself && !myPrivate && !::g_chat.isChatEnableWithPlayer(from))
     {
       if (privateMsg)
         return null

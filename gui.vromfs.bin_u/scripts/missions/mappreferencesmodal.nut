@@ -17,17 +17,16 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
   counters            = null
   mapsList            = null
   inactiveMaps        = null
-  currentMapId        = 0
+  currentMapId        = -1
 
   function getSceneTplView()
   {
-    local maxCountX = ::floor(
-      ::to_pixels("0.8@rw - 1@mapPreferencePreviewFullWidth - 1@scrollBarSize")
-      * 1.0 / ::to_pixels("1@mapPreferenceIconNestWidth"))
+    local maxCountX = ::max(::floor(
+      ::to_pixels("1@srw - 1@mapPreferencePreviewFullWidth - 1@scrollBarSize")
+      * 1.0 / ::to_pixels("1@mapPreferenceIconNestWidth")), 1)
     mapsList = mapPreferencesParams.getMapsList(curEvent)
     inactiveMaps = mapPreferencesParams.getInactiveMaps(curEvent, mapsList)
-    counters = mapPreferencesParams.getCounters(curEvent)
-    validateCounters()
+    updateValidatedCounters()
     local banList = getBanList()
     local mapsCountY = ::ceil(mapsList.len() * 1.0 / maxCountX)
     local mapItemHeight = ::to_pixels("1@mapPreferenceIconSize + 3@blockInterval")
@@ -39,6 +38,7 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
       maxCountX = maxCountX
       premium = ::havePremium()
       maps = mapsList
+      isListEmpty = mapsList.len() == 0
       listTitle = getListTitle()
       mapStateBox = banList
       counterTitle = getCounterTitleText()
@@ -52,38 +52,58 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     curBattleTypeName = mapPreferencesParams.getCurBattleTypeName(curEvent)
     local mlistObj = scene.findObject("maps_list")
-    mlistObj.setValue(::math.rnd() % mapsList.len())
+    mlistObj.setValue(mapsList.len() ? (::math.rnd() % mapsList.len()) : -1)
     mlistObj.select()
+    updateBanListPartsVisibility()
   }
 
   function updateMapPreview()
   {
-    local mapObj = scene.findObject("map_preview")
-    if (!::check_obj(mapObj))
+    local previewObj = scene.findObject("map_preview")
+    if (!::check_obj(previewObj))
       return
 
-    mapObj.findObject("title").setValue(mapsList[currentMapId].title)
+    local isMapSelected = mapsList?[currentMapId] != null
+    ::showBtnTable(previewObj, {
+      title             = isMapSelected,
+      img_preview       = isMapSelected,
+      ["tactical-map"]  = false,
+      dislike           = isMapSelected,
+      ban               = isMapSelected,
+      preview_separator = isMapSelected,
+    })
+
+    if(!isMapSelected)
+      return
+
+    previewObj.findObject("title").setValue(mapsList[currentMapId].title)
     local curMission = ::get_mission_meta_info(mapsList[currentMapId].mission)
     if(curMission)
     {
       local config = ::g_map_preview.getMissionBriefingConfig({blk = curMission})
       ::g_map_preview.setMapPreview(scene.findObject("tactical-map"), config)
     }
-    mapObj.findObject("img_preview")["background-image"] = curMission ? "" : mapsList[currentMapId].image
-    local checkBoxObj = mapObj.findObject("dislike")
+    else
+      previewObj.findObject("img_preview")["background-image"] = mapsList[currentMapId].image
+    updatePreviewButtonsState()
+  }
+
+  function updatePreviewButtonsState()
+  {
+    local previewObj = scene.findObject("map_preview")
+    local checkBoxObj = previewObj.findObject("dislike")
     local banned = mapsList[currentMapId].banned
     local disliked = mapsList[currentMapId].disliked
-    local isBanListFilled = getBanList().len() > 0
     checkBoxObj.setValue(!banned && disliked)
-    checkBoxObj.text = ::loc("maps/preferences/" + (disliked ? "removeDislike" : "dislike"))
+    checkBoxObj.findObject("title").setValue(::loc("maps/preferences/"
+      + (disliked ? "removeDislike" : "dislike")))
     checkBoxObj.inactiveColor = banned || (hasMaxCount("disliked") && !disliked) ? "yes" : "no"
 
-    checkBoxObj = mapObj.findObject("ban")
+    checkBoxObj = previewObj.findObject("ban")
     checkBoxObj.setValue(banned)
-    checkBoxObj.text = ::loc("maps/preferences/" + (banned ? "removeBan" : "ban"))
+    checkBoxObj.findObject("title").setValue(::loc("maps/preferences/"
+      + (banned ? "removeBan" : "ban")))
     checkBoxObj.inactiveColor = (hasMaxCount("banned") && !banned) ? "yes" : "no"
-    showSceneBtn("btnReset", isBanListFilled)
-    showSceneBtn("listTitle", isBanListFilled)
   }
 
   function hasMaxCount(typeName)
@@ -129,7 +149,7 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateMapsList()
   {
-    validateCounters()
+    updateValidatedCounters()
     updateCounterTitle()
     updateMapsListParams()
     refreshMapsCheckBox()
@@ -141,7 +161,6 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
     mapsList[mapId][paramName] = value
     local newState = mapPreferencesParams.getMapStateByBanParams(mapsList[mapId].banned, mapsList[mapId].disliked)
     mapsList[mapId].state = newState
-    updateMapPreview()
     updateCounterTitle()
     updateMapsListParams()
     updateProfile(paramName == "banned", value, mapsList[mapId].mission)
@@ -154,8 +173,18 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
     local chekboxObj = iconObj.findObject(paramName)
     if (::check_obj(chekboxObj))
       chekboxObj.setValue(value)
+
+    updateBanListPartsVisibility()
   }
 
+  function updateBanListPartsVisibility()
+  {
+    local isBanListFilled = getBanList().len() > 0
+    ::showBtnTable(scene, {
+      listTitle = isBanListFilled,
+      btnReset  = isBanListFilled,
+    })
+  }
   function onUpdateIcon(obj)
   {
     local mapId = obj?.mapId.tointeger() ?? currentMapId
@@ -189,7 +218,11 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
       obj.setValue(false)
       return
     }
+    if(value && isBanObj)
+      scene.findObject("cb_nest_" + mapId).findObject("disliked").setValue(false)
     updateMapState(mapId, objType, value)
+    if(currentMapId == mapId)
+      updatePreviewButtonsState()
     updateBanList()
   }
 
@@ -244,21 +277,22 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
     updateMapPreview()
   }
 
+  function onMapClick()
+  {
+    scene.findObject("maps_list")?.select()
+  }
+
   function updateScreen()
   {
     mapsList = mapPreferencesParams.getMapsList(curEvent)
     updateMapsList()
     updateMapPreview()
-  }
-
-  function onEventPurchaseSuccess(params)
-  {
-    updateScreen()
+    updateBanListPartsVisibility()
   }
 
   function onEventProfileUpdated(params)
   {
-    updateMapsList()
+    updateScreen()
   }
 
   function resetCounters(params)
@@ -271,15 +305,17 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
     ::save_online_single_job(SAVE_ONLINE_JOB_DIGIT)
   }
 
-  function validateCounters()
+  function updateValidatedCounters()
   {
+    counters = mapPreferencesParams.getCounters(curEvent)
     foreach(name, list in inactiveMaps)
       counters[name].curCounter = ::max(counters[name].curCounter - list.len(), 0)
     local params = counters.filter(@(c) c.curCounter > c.maxCounter).keys()
     if(params.len() > 0)
     {
       resetCounters(params)
-      ::showInfoMsgBox(::loc(POPUP_PREFIX_LOC_ID + "resetPreferences"))
+      ::scene_msg_box("reset_preferences", null, ::loc(POPUP_PREFIX_LOC_ID + "resetPreferences"),
+        [["ok", updateScreen.bindenv(this)]], "ok")
     }
   }
 
@@ -325,8 +361,58 @@ class ::gui_handlers.mapPreferencesModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function onResetPreferencess(obj)
   {
-    resetCounters(counters.keys())
-    updateScreen()
+    ::scene_msg_box("reset_preferences", null, ::loc("maps/preferences/notice/request_reset"),
+      [ ["ok", function() {
+            resetCounters(counters.keys())
+            updateScreen()
+          }.bindenv(this)],
+        ["cancel", null]
+      ], "ok")
+  }
+
+  function onFilterEditBoxAccessKey()
+  {
+    scene.findObject("filter_edit_box")?.select()
+  }
+
+  function onFilterEditBoxActivate()
+  {
+    selectMapById(currentMapId)
+  }
+
+  function onFilterEditBoxCancel()
+  {
+    scene.findObject("filter_edit_box")?.setValue("")
+    selectMapById(currentMapId)
+  }
+
+  function onFilterEditBoxChangeValue(obj)
+  {
+    local value = obj.getValue()
+    scene.findObject("filter_edit_cancel_btn")?.show(value.len() != 0)
+
+    local searchStr = ::g_string.utf8ToLower(::g_string.trim(value))
+    local visibleMapsList = mapsList.filter(@(inst)
+      ::g_string.utf8ToLower(inst.title).find(searchStr) != null)
+
+    local mlistObj = scene.findObject("maps_list")
+    foreach (inst in mapsList)
+      mlistObj.findObject("nest_" + inst.mapId)?.show(visibleMapsList.find(inst) != null)
+
+    local isFound = visibleMapsList.len() != 0
+    currentMapId = isFound ? visibleMapsList[0].mapId : -1
+    showSceneBtn("empty_list_label", !isFound)
+    mlistObj.findObject("nest_" + currentMapId)?.scrollToView()
+    updateMapPreview()
+  }
+
+  function selectMapById(mapId)
+  {
+    local mlistObj = scene.findObject("maps_list")
+    mlistObj?.select()
+    mlistObj?.setValue(mapId)
+    guiScene.performDelayed(this, @() guiScene.performDelayed(this,
+      @() mlistObj?.findObject("nest_" + mapId).scrollToView() ))
   }
 }
 

@@ -42,8 +42,30 @@
 @const trophyWndPad: (1@trophyWndWidth - 5@itemWidth)/2;
 @const rewardInTrophyWndTopPos: 0.035@scrn_tgt;
 
+@const compactItemHeight: (0.75@itemHeight) \ 1;
+@const smallItemHeight: (0.5@itemHeight) \ 1;
+
+@const craftTreeBlockInterval: (60@sf/@pf) \ 1;
+@const compactCraftTreeBlockInterval: (1@craftTreeBlockInterval + 0.25@itemHeight) \ 1;
+@const smallCraftTreeBlockInterval: (1@craftTreeBlockInterval + 0.5@itemHeight) \ 1;
+@const headerAndCraftTreeBlockInterval: (0.5@craftTreeBlockInterval) \ 1;
+
+@const craftTreeItemInterval: (50@sf/@pf) \ 1;
+@const compactCraftTreeItemInterval: (0.75@craftTreeItemInterval) \ 1;
+@const smallCraftTreeItemInterval: (0.5@craftTreeItemInterval) \ 1;
+
+@const craftTreeItemWidthWithMargin: 1@itemHeight + 1@craftTreeItemInterval;
+@const compactCraftTreeItemWidthWithMargin: 1@compactItemHeight + 1@compactCraftTreeItemInterval;
+@const smallCraftTreeItemWidthWithMargin: 1@smallItemHeight + 1@smallCraftTreeItemInterval;
+
+@const craftTreeResourceWidth: (110@sf/@pf) \ 1;
+@const subsetComboBoxWidth: (0.3@sf) \ 1;
+
+@const workshoPreviewHeight: 770@sf/@pf $min 1@rh;
+
 @const warbondMedalImgColor: #ffffff;
 @const inactiveWarbondMedalImgColor: #808080;
+
 
 itemDiv {
   re-type:9rect;
@@ -106,9 +128,13 @@ awardItemDiv, itemDiv {
   width:1@itemWidth;
 }
 
+craftBranchBody[itemsSize = small] > itemBlock {
+  smallItems:yes;
+}
+
 [smallItems=yes] > itemDiv {
-  height:0.5@itemHeight;
-  width:0.5@itemHeight;
+  height:1@smallItemHeight;
+  width:1@smallItemHeight;
 }
 
 itemDiv[trophyRewardSize=yes] {
@@ -174,6 +200,7 @@ itemDiv[showButtonAlways=yes] > Button_text {
 }
 
 [show_console_buttons=yes] :focus > itemDiv[selected=yes] > Button_text,
+[show_console_buttons=yes] craftBranchBody:focus > itemBlock[selected=yes] > itemDiv > Button_text,
 itemDiv:hover > Button_text, itemDiv > Button_text:hover {
   display:show;
   enable:yes;
@@ -470,6 +497,19 @@ itemAmountText {
   pos:pw-w, 0;
 }
 
+amountIcon {
+  pos:pw-w, 0;
+  position:absolute;
+  size: 1@cIco, 1@cIco;
+  background-svg-size: 1@cIco, 1@cIco;
+}
+
+[smallItems=yes] amountIcon {
+  pos:pw-w, -0.5@itemPadding;
+  size: 1@sIco, 1@sIco;
+  background-svg-size: 1@sIco, 1@sIco;
+}
+
 itemsSeparator {
   width:@itemsSeparatorSize;
   pos:0, 50%ph-50%h;
@@ -511,6 +551,105 @@ recipe[isRecipeLocked = yes] > itemDiv itemTimerPlace > textareaNoTab {
 
 markIcon {
   re-type:text;
-  font:@fontSmall;
-  padding:1@itemPadding;
+  font:@fontMedium;
+  padding:0.5@itemPadding, 0;
 }
+
+[smallItems=yes] markIcon {
+  font:@fontSmall;
+  padding: 0;
+}
+
+craftBranchHeader {
+  re-type:text;
+  color:@commonTextColor;
+  font:@fontNormal;
+  height:@buttonHeight;
+  background-color:@tableHeaderBgColor;
+  background-image:"";
+  background-position:0;
+}
+
+craftTreeSeparator {
+  position:absolute;
+  background-color:@tableHeaderSeparatorColor;
+  enable:no;
+}
+
+craftTreeSeparator[located = left] {
+  size:1@dp, ph - 6@dp;
+  pos:0, ph/2 - h/2;
+}
+
+craftTreeSeparator[located = bottom] {
+  size:pw, 1@dp;
+  pos:pw/2-w/2, ph;
+}
+
+craftTreeSeparator[located = top] {
+  size:pw, 1@dp;
+  pos:pw/2-w/2, 0;
+}
+
+craftBranchBody > itemBlock {
+  width:1@itemHeight;
+  height:1@itemHeight;
+  css-hier-invalidate:yes;
+}
+
+craftBranchBody > itemBlock[hasComponent = yes] {
+  width:1@itemHeight + 1@craftTreeResourceWidth;
+}
+
+craftBranchBody[itemsSize = compact] > itemBlock,
+craftBranchBody[itemsSize = compact] > itemBlock > itemDiv {
+  width:1@compactItemHeight;
+  height:1@compactItemHeight;
+}
+
+craftBranchBody[itemsSize = compact] > itemBlock[hasComponent = yes] {
+  width:1@compactItemHeight + 1@craftTreeResourceWidth;
+}
+
+craftBranchBody[itemsSize = small] > itemBlock {
+  width:1@smallItemHeight;
+  height:1@smallItemHeight;
+}
+
+craftBranchBody[itemsSize = small] > itemBlock[hasComponent = yes] {
+  width:1@smallItemHeight + 1@craftTreeResourceWidth;
+}
+
+craftHeaderRow {
+  width: pw;
+  min-height:1@smallItemHeight + 4@headerAndCraftTreeBlockInterval;
+  padding:0, 1@headerAndCraftTreeBlockInterval;
+  margin: 0;
+}
+
+craftHeaderRow itemsBlock > itemDiv {
+  margin:1@craftTreeItemInterval, 0;
+}
+
+craftHeaderRow[itemsSize = compact] itemsBlock > itemDiv {
+  margin:1@compactCraftTreeItemInterval, 0;
+}
+
+craftHeaderRow[itemsSize = small] itemsBlock > itemDiv {
+  margin:1@smallCraftTreeItemInterval, 0;
+}
+
+craftBranchBody > itemBlock[isFullSize],
+craftBranchBody > itemBlock[isFullSize] > itemDiv {
+  width:1@itemHeight;
+  height:1@itemHeight;
+}
+
+itemBlock[isDisabled = yes] > itemDiv {
+  background-color:@shopFrameLockedColor;
+}
+
+itemBlock[isDisabled = yes] > itemDiv iconLayer {
+  background-color: @shopUnitLocked;
+}
+

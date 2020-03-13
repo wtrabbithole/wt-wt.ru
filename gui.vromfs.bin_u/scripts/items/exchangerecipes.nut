@@ -21,6 +21,8 @@ local defaultLocIdsList = {
   markTooltipPrefix         = "item/recipes/markTooltip/"
   markDescPrefix            = "item/recipes/markDesc/"
   markMsgBoxCantUsePrefix   = "msgBox/craftProcess/cant/"
+  msgBoxConfirmWhithItemName= null
+  actionButton              = null
 }
 
 local lastRecipeIdx = 0
@@ -44,6 +46,7 @@ local ExchangeRecipes = class {
 
   locIdsList = null
   localizationPresetName = null
+  sortReqQuantityComponents = 0
 
   constructor(params)
   {
@@ -56,6 +59,7 @@ local ExchangeRecipes = class {
     local parsedRecipe = params.parsedRecipe
 
     initedComponents = parsedRecipe.components
+    sortReqQuantityComponents = initedComponents.map(@(component) component.quantity).reduce(@(res, value) res + value, 0)
     requirement = parsedRecipe.requirement
 
     uid = generatorId + ";" + (requirement ? getRecipeStr() : parsedRecipe.recipeStr)
@@ -131,8 +135,10 @@ local ExchangeRecipes = class {
   function getItemsListForPrizesView(params = null)
   {
     local res = []
+    local visibleResources = params?.visibleResources
     foreach (component in components)
-      if (component.itemdefId != params?.componentToHide?.id)
+      if (component.itemdefId != params?.componentToHide?.id
+       && (visibleResources == null || visibleResources?[component.itemdefId]))
         res.append(::DataBlockAdapter({
           item  = component.itemdefId
           commentText = getComponentQuantityText(component, params)
@@ -263,8 +269,11 @@ local ExchangeRecipes = class {
 
     local isMultiRecipes = recipes.len() > 1
     local isMultiExtraItems = false
+    local hasFakeRecipesInList = hasFakeRecipes(recipes)
 
     local recipesToShow = recipes
+    if (!hasFakeRecipesInList)
+      recipesToShow.sort(@(a, b) a.sortReqQuantityComponents <=> b.sortReqQuantityComponents)
     if (!isFullRecipesList)
     {
       recipesToShow = u.filter(recipes, @(r) r.isUsable && !r.isRecipeLocked())
@@ -280,15 +289,21 @@ local ExchangeRecipes = class {
           }
     }
 
-    foreach (recipe in recipesToShow)
-      isMultiExtraItems = isMultiExtraItems || recipe.isMultipleExtraItems
+    local needShowHeader = params?.needShowHeader ?? true
+    local headerFirst = ""
+    local headerNext = ""
+    if (needShowHeader)
+    {
+      foreach (recipe in recipesToShow)
+        isMultiExtraItems = isMultiExtraItems || recipe.isMultipleExtraItems
 
-    local headerFirst = ::colorize("grayOptionColor",
-      componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
-                                            isMultiExtraItems, hasFakeRecipes(recipes),
+      headerFirst = ::colorize("grayOptionColor",
+        componentItem.getDescRecipeListHeader(recipesToShow.len(), recipes.len(),
+                                            isMultiExtraItems, hasFakeRecipesInList,
                                             getRecipesCraftTimeText(recipes)))
-    local headerNext = isMultiRecipes && isMultiExtraItems ?
-      ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
+      headerNext = isMultiRecipes && isMultiExtraItems ?
+        ::colorize("grayOptionColor", ::loc("hints/shortcut_separator")) : null
+    }
 
     params.componentToHide <- componentItem
     params.showCurQuantities <- componentItem.descReceipesListWithCurQuantities
@@ -296,7 +311,9 @@ local ExchangeRecipes = class {
     local res = []
     foreach (recipe in recipesToShow)
     {
-      params.header <- !res.len() ? headerFirst : headerNext
+      if (needShowHeader)
+        params.header <- !res.len() ? headerFirst : headerNext
+
       if (shouldReturnMarkup)
         res.append(recipe.getTextMarkup(params))
       else
@@ -343,8 +360,8 @@ local ExchangeRecipes = class {
       return component.reqQuantity > 1 ?
         (::nbsp + ::format(::loc("weapons/counter/right/short"), component.reqQuantity)) : ""
 
-    local locText = ::loc("ui/parentheses/space",
-      { text = component.curQuantity + "/" + component.reqQuantity })
+    local locId = params?.needShowItemName ?? true ? "ui/parentheses/space" : "ui/parentheses"
+    local locText = ::loc(locId, { text = component.curQuantity + "/" + component.reqQuantity })
     if (params?.needColoredText ?? true)
       return ::colorize(getComponentQuantityColor(component, true), locText)
 
@@ -390,6 +407,7 @@ local ExchangeRecipes = class {
             { header = msgData?.headerRecipeMarkup ?? ""
               headerFont = "mediumFont"
               widthByParentParent = true
+              hasHeaderPadding = true
               isCentered = true })
           baseHandler = ::get_cur_base_gui_handler()
         })
@@ -401,6 +419,7 @@ local ExchangeRecipes = class {
                 { header = ::loc("mainmenu/you_will_receive")
                   headerFont = "mediumFont"
                   widthByParentParent = true
+                  hasHeaderPadding = true
                   isCentered = true }, false)
           baseHandler = ::get_cur_base_gui_handler()
         })
@@ -429,7 +448,10 @@ local ExchangeRecipes = class {
     local locId = componentItem.getCantUseLocId()
     local text = ::colorize("badTextColor", ::loc(locId))
     local msgboxParams = {
-      data_below_text = getRequirementsMarkup(recipes, componentItem, { widthByParentParent = true }),
+      data_below_text = getRequirementsMarkup(recipes, componentItem, {
+        widthByParentParent = true
+        hasHeaderPadding = true
+      }),
       baseHandler = ::get_cur_base_gui_handler(), //FIX ME: used only for tooltip
       cancel_fn = function() {}
     }
@@ -519,9 +541,9 @@ local ExchangeRecipes = class {
     if (params?.cb)
       params.cb()
 
-    local isShowOpening  = @(extItem) extItem?.itemdef?.type == "item"
-      && !extItem?.itemdef?.tags?.devItem
-      && (extItem.itemdef?.tags?.showWithFeature == null || ::has_feature(extItem.itemdef.showWithFeature))
+    local isShowOpening  = @(extItem) extItem?.itemdef.type == "item"
+      && !extItem.itemdef?.tags.devItem
+      && (extItem.itemdef?.tags.showWithFeature == null || ::has_feature(extItem.itemdef.tags.showWithFeature))
     local resultItemsShowOpening  = u.filter(resultItems, isShowOpening)
 
     local parentGen = componentItem.getParentGen()
@@ -545,6 +567,7 @@ local ExchangeRecipes = class {
         rewardTitle = ::loc(rewardTitle),
         rewardListLocId = rewardListLocId
         isDisassemble = isDisassemble
+        isHidePrizeActionBtn = params?.isHidePrizeActionBtn ?? false
       })
     }
 
@@ -607,6 +630,12 @@ local ExchangeRecipes = class {
   }
 
   getHeaderRecipeMarkupText = @() ::loc(getLocIdsList().headerRecipeMarkup)
+
+  getConfirmMessageLocId = @(itemLocIdsList) getLocIdsList().msgBoxConfirmWhithItemName ??
+    (isDisassemble
+      ? itemLocIdsList.msgBoxConfirmWhithItemNameDisassemble
+      : itemLocIdsList.msgBoxConfirmWhithItemName)
+  getActionButtonLocId = @() getLocIdsList().actionButton
 }
 
 u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.idx == r2.idx)

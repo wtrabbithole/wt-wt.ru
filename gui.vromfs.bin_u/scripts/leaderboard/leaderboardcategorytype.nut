@@ -445,6 +445,22 @@ enums.addTypesByGlobalName("g_lb_category", {
       type = ::g_lb_data_type.NUM,
       headerImage = "elo_rating"
       headerTooltip = "personal_elo"
+
+      isSortDefaultFilter = true
+
+      showFieldFilter = [
+        GAME_EVENT_TYPE.TM_NONE_RACE,
+        GAME_EVENT_TYPE.TM_ELO_PERSONAL,
+        GAME_EVENT_TYPE.TM_ELO_GROUP,
+        GAME_EVENT_TYPE.TM_DOUBLE_ELIMINATION
+      ]
+    }
+
+    WW_EVENTS_PERSONAL_ELO = {
+      field = "rating"
+      type = ::g_lb_data_type.NUM,
+      headerImage = "elo_rating_worldwar"
+      headerTooltip = "personal_elo"
       wwModesMask = ~WW_LB_MODE.WW_COUNTRIES
 
       isSortDefaultFilter = true
