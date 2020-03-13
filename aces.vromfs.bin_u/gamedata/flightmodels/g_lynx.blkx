@@ -158,27 +158,31 @@
         {
           "onHit": {
             "fire": 0.001,
-            "leak_oil": 0.8
+            "leak_oil": 0.8,
+            "cut": 0.0
           }
         },
         {
           "onHit": {
             "damage": 30.0,
             "fire": 0.005,
-            "leak_oil": 0.95
+            "leak_oil": 0.95,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "fire": 25.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "fire": 30.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         }
       ]
@@ -191,27 +195,31 @@
         {
           "onHit": {
             "fire": 0.001,
-            "leak_oil": 0.8
+            "leak_oil": 0.8,
+            "cut": 0.0
           }
         },
         {
           "onHit": {
             "damage": 30.0,
             "fire": 0.005,
-            "leak_oil": 0.95
+            "leak_oil": 0.95,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "fire": 25.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "fire": 30.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         }
       ]
@@ -502,27 +510,31 @@
         {
           "onHit": {
             "fire": 0.001,
-            "leak_oil": 0.8
+            "leak_oil": 0.8,
+            "cut": 0.0
           }
         },
         {
           "onHit": {
             "damage": 30.0,
             "fire": 0.005,
-            "leak_oil": 0.95
+            "leak_oil": 0.95,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "fire": 25.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "fire": 30.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         }
       ]
@@ -865,27 +877,31 @@
         {
           "onHit": {
             "fire": 0.001,
-            "leak_oil": 0.8
+            "leak_oil": 0.8,
+            "cut": 0.0
           }
         },
         {
           "onHit": {
             "damage": 30.0,
             "fire": 0.005,
-            "leak_oil": 0.95
+            "leak_oil": 0.95,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "fire": 25.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "fire": 30.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         }
       ]
@@ -1074,7 +1090,7 @@
     "zoomInFov": 22.46,
     "sightInFov": 3.68,
     "sightOutFov": -1.0,
-    "sightFov": 9.5,
+    "sightFov": 5.5,
     "devices": {
       "speed": [0.0,257.222],
       "bank": [-8.0,8.0],
@@ -1299,6 +1315,15 @@
     "new_heli_cover": [],
     "heli_flak_jacket": [],
     "heli_structure": [],
+    "Oerlikon_KAD_air_targets": [],
+    "Oerlikon_KAD_armor_targets": [],
+    "Oerlikon_KAD_belt_pack": {
+      "tier": 2
+    },
+    "Oerlikon_KAD_new_gun": {
+      "reqModification": "Oerlikon_KAD_belt_pack",
+      "tier": 4
+    },
     "ah_1_TOW2": {
       "deactivationIsAllowed": false,
       "modClass": "weapon",
@@ -1375,6 +1400,7 @@
       "tier": 2
     },
     "heli_night_vision_system": {
+      "image": "#ui/gameuiskin#thermal_sight",
       "effects": {
         "nightVision": {
           "gunnerIr": {

@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 
 class ::WwBattleView
@@ -217,12 +218,11 @@ class ::WwBattleView
 
   function unitsList(wwUnits, isReflected, hasLineSpacing)
   {
-    wwUnits.sort(::g_world_war.sortUnitsBySortCodeAndCount)
-    wwUnits = ::u.map( wwUnits, @(wwUnit)
-      wwUnit.getShortStringView(true, true, true, true, true) )
-
     local view = {
-      columns = [{unitString = wwUnits}]
+      columns = [{unitString = wwActionsWithUnitsList.getUnitsListViewParams({
+        wwUnits = wwUnits
+        params = { needShopInfo = true }
+      })}]
       multipleColumns = false
       reflect = isReflected
       isShowTotalCount = true

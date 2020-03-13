@@ -29,8 +29,8 @@ local dagor_fs = require("dagor.fs")
     { id = "_fake_sessionlobby_unit_type_mask", value = ::debriefing_result?.unitTypesMask }
     { id = "stat_get_benchmark", value = ::getTblValue("benchmark", ::debriefing_result, ::stat_get_benchmark()) }
     { id = "get_race_winners_count", value = ::getTblValue("numberOfWinningPlaces", ::debriefing_result, 0) }
-    { id = "get_race_best_lap_time", value = ::getTblValueByPath("exp.ptmBestLap", ::debriefing_result, -1) }
-    { id = "get_race_lap_times", value = ::getTblValueByPath("exp.ptmLapTimesArray", ::debriefing_result, []) }
+    { id = "get_race_best_lap_time", value = ::debriefing_result?.exp.ptmBestLap ?? -1 }
+    { id = "get_race_lap_times", value = ::debriefing_result?.exp.ptmLapTimesArray ?? [] }
     { id = "get_mp_local_team", value = ::debriefing_result?.localTeam ?? ::get_mp_local_team() }
     { id = "get_player_army_for_hud", value = ::debriefing_result?.friendlyTeam ?? ::get_player_army_for_hud() }
     { id = "_fake_sessionlobby_settings", value = ::SessionLobby.settings }
@@ -111,17 +111,15 @@ local dagor_fs = require("dagor.fs")
 
   dbg_dump.loadFuncs({
     is_user_log_for_current_room = function(idx) { return true }
-    get_user_log_blk_body = function(idx, outBlk) { outBlk.setFrom(::getTblValue(idx, ::_fake_userlogs, ::DataBlock())) }
+    get_user_log_blk_body = @(idx, outBlk) outBlk.setFrom(::_fake_userlogs?[idx] ?? ::DataBlock())
     get_user_log_time_sec = function(idx) { return ::get_charserver_time_sec() }
     disable_user_log_entry = function(idx) { if (idx in ::_fake_userlogs) ::_fake_userlogs[idx].disabled = true }
     shown_userlog_notifications = []
     autosave_replay = @() null
     on_save_replay = @(fn) true
     is_era_available = function(...) { return true }
-    get_current_mission_desc = function(outBlk) {
-      local src = ::getTblValue("_fake_get_current_mission_desc", ::getroottable(), ::get_current_mission_info_cached())
-      outBlk.setFrom(src)
-    }
+    get_current_mission_desc = @(outBlk) outBlk.setFrom(
+      ::getroottable()?._fake_get_current_mission_desc ?? ::get_current_mission_info_cached())
     get_mplayers_list = function(team, full) {
       local res = []
       foreach (v in ::_fake_mplayers_list)
@@ -137,7 +135,7 @@ local dagor_fs = require("dagor.fs")
     }
     is_unlocked = function(unlockType, unlockId) {
       foreach (log in ::_fake_userlogs)
-        if (::getTblValueByPath("body.unlockId", log) == unlockId)
+        if (log?.body.unlockId == unlockId)
           return true
       return dbg_dump.getOriginal("is_unlocked")(unlockType, unlockId)
     }
@@ -167,13 +165,13 @@ local dagor_fs = require("dagor.fs")
 {
   local filesList = dagor_fs.scan_folder({ root = "D:/dagor2/skyquake/gameOnline",
     files_suffix = "*.blk", recursive = false, vromfs=false, realfs = true
-  }).filter(@(v) v.find("debug_dump_debriefing") != null).map(@(v) g_path.fileName(v)).sort().reverse()
+  }).filter(@(v) v.indexof("debug_dump_debriefing") != null).map(@(v) g_path.fileName(v)).sort().reverse()
   local total = filesList.len()
   local function loadNext() {
     local count = filesList.len()
     if (!count) return
     local filename = filesList.pop()
-    dlog(::format("[%d/%d] %s" total - count + 1, total, filename))
+    dlog(::format("[%d/%d] %s", total - count + 1, total, filename))
     ::copy_to_clipboard(filename)
     ::debug_dump_debriefing_load(filename, loadNext)
   }
@@ -217,9 +215,7 @@ local dagor_fs = require("dagor.fs")
   if (!dbg_dump.load(filename))
     return "File not found: " + filename
   dbg_dump.loadFuncs({
-    get_current_mission_desc = function(outBlk) {
-      outBlk.setFrom(::_fake_get_current_mission_desc)
-    }
+    get_current_mission_desc = @(outBlk) outBlk.setFrom(::_fake_get_current_mission_desc)
     get_mplayers_list = function(team, full) {
       return ::u.filter(::_fake_mplayers_list, @(p) p.team == team || team == ::GET_MPLAYERS_LIST)
     }
@@ -311,7 +307,7 @@ local dagor_fs = require("dagor.fs")
         list.append({ id = id, args = [ unit.name ] })
       list.append({ id = "get_available_respawn_bases", args = [ unit.tags ] })
       list.append({ id = "shop_get_spawn_score", args = [ unit.name, "" ] })
-      list.append({ id = "is_crew_slot_was_ready_at_host", args = [ crew.idInCountry, unit.name, true ] })
+      list.append({ id = "is_crew_slot_was_ready_at_host", args = [ crew.idInCountry, unit.name, false ] })
       list.append({ id = "get_aircraft_fuel_consumption", args = [ unit.name, ::get_mission_difficulty(), true ] })
 
       foreach (weapon in unit.weapons)
@@ -377,7 +373,7 @@ local dagor_fs = require("dagor.fs")
   dbg_dump.loadFuncs({
     get_user_logs_count = function() { return ::_fake_userlogs.len() }
     is_user_log_for_current_room = function(idx) { return ::SessionLobby.roomId && ::SessionLobby.roomId == ::_fake_userlogs?[idx]?.roomId }
-    get_user_log_blk_body = function(idx, outBlk) { outBlk.setFrom(::_fake_userlogs?[idx] ?? ::DataBlock()) }
+    get_user_log_blk_body = @(idx, outBlk) outBlk.setFrom(::_fake_userlogs?[idx] ?? ::DataBlock())
     get_user_log_time_sec = function(idx) { return ::_fake_userlogs?[idx]?.timeStamp ?? 0 }
     disable_user_log_entry = function(idx) { if (idx in ::_fake_userlogs) ::_fake_userlogs[idx].disabled = true }
     shown_userlog_notifications = []

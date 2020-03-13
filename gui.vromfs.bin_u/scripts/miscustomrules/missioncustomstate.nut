@@ -47,7 +47,7 @@ g_mis_custom_state.getCurMissionRules <- function getCurMissionRules()
 g_mis_custom_state.getCurMissionRulesName <- function getCurMissionRulesName()
 {
   local mis = ::is_in_flight() ? ::get_current_mission_info_cached() : null
-  return ::getTblValueByPath("customRules.guiName", mis) || ::getTblValueByPath("customRules.name", mis)
+  return mis?.customRules.guiName ?? mis?.customRules.name
 }
 
 g_mis_custom_state.findRulesClassByName <- function findRulesClassByName(rulesName)

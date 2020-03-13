@@ -1,5 +1,4 @@
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
-local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 ::current_campaign <- null
 ::current_campaign_name <- ""
@@ -124,7 +123,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (obj != null)
       obj.setValue(title)
 
-    misListType.getMissionsList(showAllCampaigns,
+    misListType.requestMissionsList(showAllCampaigns,
       ::Callback(updateMissionsList, this),
       customChapterId, customChapters)
   }
@@ -276,7 +275,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     foreach(idx, mission in missions)
     {
       local locText = misListType.getMissionNameText(mission)
-      local locString = ::english_russian_to_lower_case(locText)
+      local locString = ::g_string.utf8ToLower(locText)
       filterDataArray.append({
         locString = ::stringReplace(locString, "\t", "") //for japan and china localizations
         misObject = listObj.getChild(idx)
@@ -501,12 +500,6 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
         showInfoMsgBox( ::loc("campaign/unlockPreviousChapter"))
       return
     }
-
-    local isOnlineGame = gm == ::GM_SKIRMISH
-      || (::is_gamemode_coop(gm) && ::can_play_gamemode_by_squad(gm)
-         && ::g_squad_manager.isNotAloneOnline())
-    if (isOnlineGame && !antiCheat.showMsgboxIfEacInactive())
-      return
 
     if (!::g_squad_utils.canJoinFlightMsgBox({
            isLeaderCanJoin = ::can_play_gamemode_by_squad(gm),
@@ -775,7 +768,8 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
 
   function afterMissionOptionsApply()
   {
-    if (!::check_diff_pkg(::mission_settings.diff))
+    local diffCode = ::mission_settings.diff
+    if (!::check_diff_pkg(diffCode))
       return
 
     checkedNewFlight(function() {
@@ -874,7 +868,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
       tabs = []
     }
     foreach(idx, mlType in typesList)
-      view.tabs.push({
+      view.tabs.append({
         id = mlType.id
         tabName = mlType.getTabName()
         navImagesText = ::get_navigation_images_text(idx, typesList.len())
@@ -923,7 +917,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (filterData.isHeader) //need update headers by missions content. see applyMissionsfilter
       return true
 
-    local res = !filterText.len() || filterData.locString.find(filterText) != null
+    local res = !filterText.len() || filterData.locString.indexof(filterText) != null
     if (res && isOnlyFavorites)
       res = misListType.isMissionFavorite(filterData.mission)
     return res
@@ -935,7 +929,7 @@ class ::gui_handlers.CampaignChapter extends ::gui_handlers.BaseGuiHandlerWT
     if (!::checkObj(filterEditBox))
       return
 
-    filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
+    filterText = ::g_string.utf8ToLower(filterEditBox.getValue())
 
     local showChapter = false
     local showCampaign = false

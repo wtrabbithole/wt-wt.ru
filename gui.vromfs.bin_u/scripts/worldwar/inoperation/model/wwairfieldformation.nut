@@ -1,3 +1,5 @@
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+
 class ::WwAirfieldFormation extends ::WwFormation
 {
   unitType = ::g_ww_unit_type.AIR.code
@@ -12,7 +14,7 @@ class ::WwAirfieldFormation extends ::WwFormation
   function update(blk, airfield)
   {
     owner = ::WwArmyOwner(blk.getBlockByName("owner"))
-    units = ::WwUnit.loadUnitsFromBlk(blk.getBlockByName("units"))
+    units = wwActionsWithUnitsList.loadUnitsFromBlk(blk.getBlockByName("units"))
     morale = airfield.createArmyMorale
   }
 

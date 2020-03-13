@@ -1,4 +1,4 @@
-g_personal_unlocks <- {
+::g_personal_unlocks <- {
   [PERSISTENT_DATA_PARAMS] = ["unlocksArray"]
 
   unlocksArray = []

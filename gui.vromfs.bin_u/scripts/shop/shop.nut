@@ -594,7 +594,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                        "1@modAngleWidth", //width
                        "1@modAngleWidth", //height
                        (c0 + 0.5) + "@shop_width - 0.5@modAngleWidth", //posX
-                       (r1 + 0.5) + "@shop_height - 0.5@modAngleWidth - 0.1@modArrowWidth", // posY
+                       (r1 + 0.5) + "@shop_height - 0.5@modAngleWidth", // posY
                        (c0 > c1 ? "-90" : "0"))
     }
     else
@@ -607,7 +607,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
                        pad1 + " + " + lh + "@shop_height",//height
                        "1@modLineWidth", //width
                        (c0 + 0.5 + arrowOffset) + "@shop_width" + ((c0 > c1) ? "-" : "+") + " 0.5@modLineWidth", //posX
-                       (r0 + 1) + "@shop_height - " + pad1 + ((c0 > c1) ? "+w + 0.4@modLineTopAlpha " : "- 0.4@modLineTopAlpha "), // posY
+                       (r0 + 1) + "@shop_height - " + pad1 + ((c0 > c1) ? "+ w " : ""), // posY
                        (c0 > c1) ? "-90" : "90")
 
       lines += format(lineFormat,
@@ -632,8 +632,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       lines += format(angleFormat,
                        "1@modAngleWidth", //width
                        "1@modAngleWidth", //height
-                       (c1 + 0.5) + "@shop_width - 0.5@modAngleWidth" + ((c0 > c1) ? "+0.12@modArrowWidth" : "-0.1@modArrowWidth"),
-                       (lh + r0 + 1) + "@shop_height - 0.5@modAngleWidth + 1@modLineTopAlpha",
+                       (c1 + 0.5) + "@shop_width - 0.5@modAngleWidth",
+                       (lh + r0 + 1) + "@shop_height - 0.5@modAngleWidth",
                        (c0 > c1 ? "90" : "180"))
     }
 

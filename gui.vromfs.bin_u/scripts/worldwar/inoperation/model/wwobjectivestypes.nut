@@ -514,6 +514,16 @@ enums.addTypesByGlobalName("g_ww_objective_type", {
     updateArray = ["advantage"]
   }
 
+  OT_DONT_AFK = {
+    getName = function(dataBlk, statusBlk, side)
+    {
+      local isMeLost = side != ::ww_side_val_to_name(::ww_get_operation_winner())
+      return ::loc(isMeLost
+        ? "worldwar/objectives/myTechnicalDefeat"
+        : "worldwar/objectives/enemyTechnicalDefeat")
+    }
+  }
+
 }, null, "typeName")
 
 g_ww_objective_type.getTypeByTypeName <- function getTypeByTypeName(typeName)

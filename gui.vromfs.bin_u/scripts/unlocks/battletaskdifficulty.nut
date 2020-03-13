@@ -10,9 +10,15 @@ local time = require("scripts/time.nut")
   }
 }
 
-g_battle_task_difficulty._getTimeLeftText <- function _getTimeLeftText()
+local function _getTimeLeft(task)
 {
-  local timeLeft = getTimeLeft()
+  local expireTime = expireTimeByGen?[::g_battle_tasks.getGenerationIdInt(task)] ?? lastGenExpireTime
+  return expireTime - ::get_charserver_time_sec()
+}
+
+g_battle_task_difficulty._getTimeLeftText <- function _getTimeLeftText(task)
+{
+  local timeLeft = getTimeLeft(task)
   if (timeLeft < 0)
     return ""
 
@@ -28,18 +34,34 @@ g_battle_task_difficulty._getTimeLeftText <- function _getTimeLeftText()
   timeParamId = ""
   userlogHeaderName = ""
   image = null
-  period = 1
-  daysShift = 0
   executeOrder = -1
+  lastGenerationId = 0
   lastGenTimeSuccess = -1
   lastGenTimeFailure = -1
   generationPeriodSec = -1
+  lastGenExpireTime = -1
+  expireTimeByGen = null
   showAtPositiveProgress = false
   timeLimit = function() { return -1 }
-  getTimeLeft = function() { return -1 }
+  getTimeLeft = function(task) { return -1 }
+  isTimeExpired = @(task) hasTimer && getTimeLeft(task) < 0
   showSeasonIcon = false
   canIncreaseShopLevel = true
   hasTimer = true
+
+  expireProcessed = null
+  notifyTimeExpired = function(task) {
+    local generationId = ::g_battle_tasks.getGenerationIdInt(task)
+    if (expireProcessed?[generationId] ?? false)
+      return
+
+    if (generationId != 0)
+    {
+      expireProcessed = expireProcessed ?? {}
+      expireProcessed[generationId] <- true
+    }
+    ::broadcastEvent("BattleTasksTimeExpired")
+  }
 }
 
 enums.addTypesByGlobalName("g_battle_task_difficulty", {
@@ -48,7 +70,7 @@ enums.addTypesByGlobalName("g_battle_task_difficulty", {
     timeParamId = "daily"
     executeOrder = 0
     timeLimit = function() { return time.daysToSeconds(1) }
-    getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
+    getTimeLeft = _getTimeLeft
   }
 
   MEDIUM = {
@@ -56,7 +78,7 @@ enums.addTypesByGlobalName("g_battle_task_difficulty", {
     timeParamId = "daily"
     executeOrder = 1
     timeLimit = function() { return time.daysToSeconds(1) }
-    getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
+    getTimeLeft = _getTimeLeft
   }
 
   HARD = {
@@ -65,16 +87,19 @@ enums.addTypesByGlobalName("g_battle_task_difficulty", {
     canIncreaseShopLevel = false
     timeParamId = "specialTasks"
     timeLimit = function() { return time.daysToSeconds(1) }
-    getTimeLeft = function() { return lastGenTimeSuccess + generationPeriodSec - ::get_charserver_time_sec() }
+    getTimeLeft = _getTimeLeft
     hasTimer = false
   }
 
-  UNKNOWN = {}
+  UNKNOWN = {
+    hasTimer = false
+  }
 
 /******** Old types **********/
   WEEKLY = {}
   DAILY = {}
   MONTHLY = {}
+  COMMON = {}
 /*****************************/
 }, null, "name")
 
@@ -127,7 +152,7 @@ g_battle_task_difficulty.getRefreshTimeForAllTypes <- function getRefreshTimeFor
 
     processedTimeParamIds.append(t.timeParamId)
 
-    local timeText = t.getTimeLeftText()
+    local timeText = t.getTimeLeftText(null)
     if (timeText != "")
       resultArray.append(t.getLocName() + ::loc("ui/parentheses/space", {text = timeText}))
   }
@@ -169,20 +194,23 @@ g_battle_task_difficulty.updateTimeParamsFromBlk <- function updateTimeParamsFro
 {
   foreach(t in types)
   {
-    local genSuccessTimeId = t.timeParamId + "PersonalUnlocks_lastGenerationTimeOnSuccess"
-    t.lastGenTimeSuccess = blk?[genSuccessTimeId] ?? -1
+    t.lastGenerationId    = blk?[$"{t.timeParamId}PersonalUnlocks_lastGenerationId"]            ?? 0
+    t.lastGenTimeSuccess  = blk?[$"{t.timeParamId}PersonalUnlocks_lastGenerationTimeOnSuccess"] ?? -1
+    t.lastGenTimeFailure  = blk?[$"{t.timeParamId}PersonalUnlocks_lastGenerationTimeOnFailure"] ?? -1
+    t.generationPeriodSec = blk?[$"{t.timeParamId}PersonalUnlocks_CUSTOM_generationPeriodSec"]  ?? -1
 
-    local genFailureTimeId = t.timeParamId + "PersonalUnlocks_lastGenerationTimeOnFailure"
-    t.lastGenTimeFailure = blk?[genFailureTimeId] ?? -1
+    t.lastGenExpireTime = (t.lastGenTimeSuccess != -1 && t.generationPeriodSec != -1)
+      ? (t.lastGenTimeSuccess + t.generationPeriodSec)
+      : -1
 
-    local genPerSecTimeId = t.timeParamId + "PersonalUnlocks_CUSTOM_generationPeriodSec"
-    t.generationPeriodSec = blk?[genPerSecTimeId] ?? -1
+    if (t.lastGenerationId != 0 && t.lastGenExpireTime != -1)
+    {
+      t.expireTimeByGen = t.expireTimeByGen ?? {}
+      t.expireTimeByGen[t.lastGenerationId] <- t.lastGenExpireTime
 
-    local genPeriodId = t.timeParamId + "PersonalUnlocks_WEEKLY_weeklyPeriod"
-    t.period = blk?[genPeriodId] ?? 1
-
-    local genShiftId = t.timeParamId + "PersonalUnlocks_WEEKLY_weekStartDayShift"
-    t.daysShift = blk?[genShiftId] ?? 0
+      t.expireProcessed = t.expireProcessed ?? {}
+      t.expireProcessed[t.lastGenerationId] <- t.lastGenExpireTime < ::get_charserver_time_sec()
+    }
   }
 }
 

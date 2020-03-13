@@ -601,7 +601,7 @@ class ::gui_handlers.AxisControls extends ::gui_handlers.Hotkeys
           break
         }
 
-     return reqName
+    return reqName
   }
 
   function bindShortcut(devs, btns, item)

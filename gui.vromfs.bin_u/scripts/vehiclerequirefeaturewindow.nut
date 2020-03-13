@@ -88,7 +88,7 @@ class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiH
     {
       local entitlementItem = ::get_entitlement_config(purchase.sourceEntitlement)
       local entitlementPrice = getEntitlementPrice(entitlementItem)
-      view.push({
+      view.append({
         rowEven = i % 2 == 1
         externalLink = true
         entitlementName = ::get_entitlement_name(entitlementItem)

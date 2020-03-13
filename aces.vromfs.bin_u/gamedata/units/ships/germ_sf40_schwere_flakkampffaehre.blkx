@@ -81,13 +81,12 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "hideNodesInDmg": {
+      "node": "flag"
+    }
+  },
+  {
     "default_skin_tomoe": [
-      {
-        "replace_tex": {
-          "from": "flag_ussr_01_c*",
-          "to": "flag_china_01_c_tomoe*"
-        }
-      },
       {
         "replace_tex": {
           "from": "flag_ussr_01_c*",
@@ -139,6 +138,18 @@
       {
         "replace_tex": {
           "from": "flag_germany_02_c*",
+          "to": "flag_germany_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_germany_03_c*",
+          "to": "flag_germany_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_germany_04_c*",
           "to": "flag_germany_01_c_tomoe*"
         }
       },
@@ -3310,7 +3321,7 @@
         "Weapon": {
           "trigger": "gunner0",
           "triggerGroup": "primary",
-          "blk": "gameData/Weapons/navalModels_weapons/88mm_Flak36_naval_user_cannon.blk",
+          "blk": "gameData/Weapons/navalModels_weapons/88mm_56_flak36_naval_user_cannon.blk",
           "emitter": "emtr_gun_flame_01",
           "flash": "emtr_gun_flame_01",
           "useEmitter": true,
@@ -3366,7 +3377,7 @@
         "Weapon": {
           "trigger": "gunner1",
           "triggerGroup": "primary",
-          "blk": "gameData/Weapons/navalModels_weapons/88mm_Flak36_naval_user_cannon.blk",
+          "blk": "gameData/Weapons/navalModels_weapons/88mm_56_flak36_naval_user_cannon.blk",
           "emitter": "emtr_gun_flame_02",
           "flash": "emtr_gun_flame_02",
           "useEmitter": true,
@@ -3417,7 +3428,7 @@
         "Weapon": {
           "trigger": "gunner2",
           "triggerGroup": "primary",
-          "blk": "gameData/Weapons/navalModels_weapons/88mm_Flak36_naval_user_cannon.blk",
+          "blk": "gameData/Weapons/navalModels_weapons/88mm_56_flak36_naval_user_cannon.blk",
           "emitter": "emtr_gun_flame_03",
           "flash": "emtr_gun_flame_03",
           "useEmitter": true,
@@ -3468,7 +3479,7 @@
         "Weapon": {
           "trigger": "gunner3",
           "triggerGroup": "primary",
-          "blk": "gameData/Weapons/navalModels_weapons/88mm_Flak36_naval_user_cannon.blk",
+          "blk": "gameData/Weapons/navalModels_weapons/88mm_56_flak36_naval_user_cannon.blk",
           "emitter": "emtr_gun_flame_04",
           "flash": "emtr_gun_flame_04",
           "useEmitter": true,
@@ -3519,7 +3530,7 @@
         "Weapon": {
           "trigger": "gunner4",
           "triggerGroup": "secondary",
-          "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_naval_user_cannon.blk",
+          "blk": "gameData/Weapons/navalModels_weapons/20mm_65_c38_naval_user_cannon.blk",
           "emitter": "emtr_gun_flame_05",
           "flash": "emtr_gun_flame_05",
           "useEmitter": true,
@@ -3586,7 +3597,7 @@
         "Weapon": {
           "trigger": "gunner5",
           "triggerGroup": "secondary",
-          "blk": "gameData/Weapons/navalModels_weapons/20mm_FlaK38_naval_user_cannon.blk",
+          "blk": "gameData/Weapons/navalModels_weapons/20mm_65_c38_naval_user_cannon.blk",
           "emitter": "emtr_gun_flame_06",
           "flash": "emtr_gun_flame_06",
           "useEmitter": true,

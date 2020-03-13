@@ -273,7 +273,7 @@ g_crew_spec_type._getTooltipContent <- function _getTooltipContent(crew, unit)
       markerRatio = dataItem.percent.tofloat() / 100
       markerText = romanNumeral
     }
-    view.markers.push(markerView)
+    view.markers.append(markerView)
 
     if (expUpgradeText.len() > 0)
       expUpgradeText += "\n"
@@ -289,7 +289,7 @@ g_crew_spec_type._getTooltipContent <- function _getTooltipContent(crew, unit)
 
   // Marker at 100% progress.
   local romanNumeral = ::get_roman_numeral(view.markers.len() + 1)
-  view.markers.push({
+  view.markers.append({
     markerRatio = 1
     markerText = romanNumeral
   })
@@ -469,7 +469,7 @@ enums.addTypesByGlobalName("g_crew_spec_type", {
         return discountData
 
       foreach (stageBlk in reduceBlk % "stage")
-        discountData.push(::buildTableFromBlk(stageBlk))
+        discountData.append(::buildTableFromBlk(stageBlk))
       discountData.sort(function (a, b) {
         local percentA = ::getTblValue("percent", a, 0)
         local percentB = ::getTblValue("percent", b, 0)

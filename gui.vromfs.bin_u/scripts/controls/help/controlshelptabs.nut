@@ -77,11 +77,7 @@ local tabGroups = [
   if (contentSet == HELP_CONTENT_SET.LOADING)
     return helpTypes.MISSION_OBJECTIVES
 
-  //FIXME: fix function add in there replace for show_aircraft if dummy
   local unit = ::get_player_cur_unit()
-  if (!unit || unit.name == "dummy_plane")
-    unit = ::show_aircraft
-
   local unitTag = ::is_submarine(unit) ? "submarine" : null
 
   foreach (pattern in [

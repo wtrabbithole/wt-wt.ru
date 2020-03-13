@@ -3,7 +3,7 @@ local Rand = require("rand.nut")
 local function pickword(dictionary, seed=null, allow_cache=false){
   local rand = Rand(seed)
   local totalWeight = 0.0
-  ::assert(["table","array"].find(::type(dictionary))!=null, "dictionary should be array or table")
+  ::assert(["table","array"].indexof(::type(dictionary))!=null, "dictionary should be array or table")
   if (::type(dictionary) == "table"){
     if (!("___totalWeight___" in dictionary)) {
       foreach (word, weight in dictionary)

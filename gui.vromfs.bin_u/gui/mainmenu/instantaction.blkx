@@ -53,11 +53,17 @@
       ]
     },
     {
-      "dummy": {
-        "id": "promo_blocks_timer",
-        "behavior": "Timer",
+      "timer": {
+        "id": "promo_blocks_timer_slow",
         "timer_handler_func": "onPromoBlocksUpdate",
         "timer_interval_msec": "5000"
+      }
+    },
+    {
+      "timer": {
+        "id": "promo_blocks_timer_fast",
+        "timer_handler_func": "onPromoBlocksTimer",
+        "timer_interval_msec": "1000"
       }
     },
     {

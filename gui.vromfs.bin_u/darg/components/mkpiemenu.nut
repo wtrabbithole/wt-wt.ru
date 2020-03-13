@@ -21,7 +21,7 @@ local function place_by_circle(params) {
       valign=VALIGN_MIDDLE
       size=[0,0]
       rendObj=ROBJ_DTEXT
-      text=pos[0]+","+pos[1]
+      text=",".concat(pos[0],pos[1])
       children = o
     }
   })

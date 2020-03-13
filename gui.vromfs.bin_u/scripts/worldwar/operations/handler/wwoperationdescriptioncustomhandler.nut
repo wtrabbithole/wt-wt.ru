@@ -160,8 +160,7 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
       local isInvert = side == ::SIDE_2
 
       local unitListObjPlace = scene.findObject("team_" + sideName + "_unit_info")
-      local armySideStrenghtViewData = getUnitsListViewBySide(side, isInvert)
-      local unitListBlk = ::handyman.renderCached(sceneTplTeamStrenght, armySideStrenghtViewData)
+      local unitListBlk = ::handyman.renderCached(sceneTplTeamStrenght, getUnitsListViewBySide(side, isInvert))
       guiScene.replaceContentFromText(unitListObjPlace, unitListBlk, unitListBlk.len(), this)
 
       local armyGroupObjPlace = scene.findObject("team_" + sideName + "_army_group_info")
@@ -183,19 +182,13 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
 
   function getUnitsListViewBySide(side, isInvert)
   {
-    local unitsList = map.getUnitInfoBySide(side)
-    if (::u.isEmpty(unitsList))
+    local unitsListView = map.getUnitsViewBySide(side)
+    if (unitsListView.len() == 0)
       return {}
-
-    local wwUnitsList = u.filter(::WwUnit.loadUnitsFromNameCountTbl(unitsList),
-      @(unit) !unit.isControlledByAI())
-    wwUnitsList.sort(::g_world_war.sortUnitsBySortCodeAndCount)
-    wwUnitsList = ::u.map(wwUnitsList, @(wwUnit)
-      wwUnit.getShortStringView(true, false, true, true, true))
 
     return {
       sideName = ::ww_side_val_to_name(side)
-      unitString = wwUnitsList
+      unitString = unitsListView
       invert = isInvert
     }
   }
@@ -241,8 +234,12 @@ class ::gui_handlers.WwOperationDescriptionCustomHandler extends ::gui_handlers.
     if (!unit)
       return
 
-    local actions = ::get_unit_actions_list(unit, this, getSlotbarActions(),
-      { isSlotbarEnabled = false })
+    local actions = ::get_unit_actions_list({unit = unit,
+      handler = this,
+      actions = getSlotbarActions(),
+      p = { isSlotbarEnabled = false }
+    })
+
     if (!actions.actions.len())
       return
 

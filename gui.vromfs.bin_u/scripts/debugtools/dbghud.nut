@@ -128,8 +128,8 @@
 ::hud_reset_in_battle_time_to_kick <- function hud_reset_in_battle_time_to_kick()
 {
   local gmSettingsBlk = ::get_game_settings_blk()
-  ::in_battle_time_to_kick_show_timer = ::getTblValueByPath("time_to_kick.in_battle_show_timer_threshold", gmSettingsBlk, 150)
-  ::in_battle_time_to_kick_show_alert = ::getTblValueByPath("time_to_kick.in_battle_show_alert_threshold", gmSettingsBlk, 50)
+  ::in_battle_time_to_kick_show_timer = gmSettingsBlk?.time_to_kick.in_battle_show_timer_threshold ?? 150
+  ::in_battle_time_to_kick_show_alert = gmSettingsBlk?.time_to_kick.in_battle_show_alert_threshold ?? 50
 }
 
 ::hud_show_tutorial_obj <- function hud_show_tutorial_obj(id, show = true)

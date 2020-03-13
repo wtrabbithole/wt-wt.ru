@@ -39,6 +39,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "autoSightDistanceCorrection": true
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -1731,6 +1734,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "turret": [
@@ -1793,6 +1804,14 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1882,6 +1901,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "mount": [
@@ -1926,6 +1953,14 @@
             "conditionDamageType": "generic",
             "expl": 1.0,
             "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
             "kill": true,
             "killEffect": "fire"
           }
@@ -1994,8 +2029,6 @@
             "verticalOmegaMult": 1.0,
             "verticalSpeedLimitKPH": 75.0,
             "speedFromVehicleVerticalMult": -1.0,
-            "speedYaw": 40.0,
-            "speedPitch": 20.0,
             "errorKPHToDegrees": [
               {
                 "row": [5.0,0.0]
@@ -3072,8 +3105,6 @@
                   "verticalOmegaMult": 1.0,
                   "verticalSpeedLimitKPH": 75.0,
                   "speedFromVehicleVerticalMult": -1.0,
-                  "speedYaw": 40.0,
-                  "speedPitch": 20.0,
                   "errorKPHToDegrees": [
                     {
                       "row": [5.0,0.0]

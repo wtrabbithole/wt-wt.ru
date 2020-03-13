@@ -33,7 +33,7 @@ class Contact
 
   afterSuccessUpdateFunc = null
 
-  _cacheCanInteract = null
+  interactionStatus = null
 
   constructor(contactData)
   {
@@ -46,7 +46,7 @@ class Contact
     update(contactData)
 
     ::add_event_listener("XboxSystemUIReturn", function(p) {
-      _cacheCanInteract = null
+      interactionStatus = null
     }, this)
   }
 
@@ -178,39 +178,50 @@ class Contact
   function getInteractionStatus(needShowSystemMessage = false)
   {
     if (!::is_platform_xboxone || isMe())
-      return true
+      return XBOX_COMMUNICATIONS_ALLOWED
 
     if (xboxId == "")
     {
-      if (::g_chat.getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS && !isInFriendGroup())
-        return false
-      return ::g_chat.isChatEnabled()
+      local status = ::g_chat.getXboxChatEnableStatus(needShowSystemMessage)
+      if (status == XBOX_COMMUNICATIONS_ONLY_FRIENDS && !isInFriendGroup())
+        return XBOX_COMMUNICATIONS_BLOCKED
+
+      return ::g_chat.isChatEnabled()? XBOX_COMMUNICATIONS_ALLOWED : XBOX_COMMUNICATIONS_BLOCKED
     }
 
-    if (!needShowSystemMessage && _cacheCanInteract != null)
-      return _cacheCanInteract
+    if (!needShowSystemMessage && interactionStatus != null)
+      return interactionStatus
 
-    _cacheCanInteract = ::can_use_text_chat_with_target(xboxId, needShowSystemMessage) == XBOX_COMMUNICATIONS_ALLOWED
-    return _cacheCanInteract
-  }
-
-  function getInteractionWithInvitesStatus(needShowSystemMessage = false)
-  {
-    if (xboxId == "")
-        return getInteractionStatus()     // There are no special requirements for crossnetwork mute.
-
-    local interactStatus = ::can_use_text_chat_with_target(xboxId, needShowSystemMessage)   // The function ss called only on invites processing, so there is no need to cache.
-    return interactStatus == XBOX_COMMUNICATIONS_ALLOWED || interactStatus == XBOX_COMMUNICATIONS_MUTED
+    interactionStatus = ::can_use_text_chat_with_target(xboxId, needShowSystemMessage)
+    return interactionStatus
   }
 
   function canChat(needShowSystemMessage = false)
   {
-    return ::g_chat.isCrossNetworkMessageAllowed(name) && getInteractionStatus(needShowSystemMessage)
+    if (!needShowSystemMessage && !::g_chat.isCrossNetworkMessageAllowed(name))
+      return false
+
+    local intSt = getInteractionStatus(needShowSystemMessage)
+    return intSt == XBOX_COMMUNICATIONS_ALLOWED
   }
 
   function canInvite(needShowSystemMessage = false)
   {
-    return ::g_chat.isCrossNetworkMessageAllowed(name) && getInteractionWithInvitesStatus(needShowSystemMessage)
+    if (!needShowSystemMessage && !::g_chat.isCrossNetworkMessageAllowed(name))
+      return false
+
+    local intSt = getInteractionStatus(needShowSystemMessage)
+    return intSt == XBOX_COMMUNICATIONS_ALLOWED || intSt == XBOX_COMMUNICATIONS_MUTED
+  }
+
+  function isMuted()
+  {
+    return getInteractionStatus() == XBOX_COMMUNICATIONS_MUTED
+  }
+
+  function isXboxChatMuted()
+  {
+    return uidInt64 != null && ::xbox_is_chat_player_muted(uidInt64)
   }
 
   function isInGroup(groupName)

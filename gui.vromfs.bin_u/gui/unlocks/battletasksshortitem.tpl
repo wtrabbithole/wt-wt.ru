@@ -59,7 +59,7 @@ tdiv {
     position:t='relative'
     text:t = '#mainmenu/battleTasks/receiveReward'
     on_click:t = 'onGetRewardForTask'
-    btnName:t='X'
+    btnName:t='R3'
     visualStyle:t='secondary'
     buttonWink {}
     ButtonImg{}

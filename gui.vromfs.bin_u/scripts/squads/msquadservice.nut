@@ -7,7 +7,7 @@ global enum msquadErrorId
   SQUAD_NOT_INVITED = "SQUAD_NOT_INVITED"
 }
 
-msquad <- {
+::msquad <- {
   function create(successCallback = null, errorCallback = null, requestOptions = null)
   {
     ::request_matching("msquad.create_squad", successCallback, errorCallback, null, requestOptions)

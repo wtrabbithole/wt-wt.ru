@@ -223,7 +223,7 @@ return [
   {
     id = "ID_TOGGLE_LASER_DESIGNATOR_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
-    needShowInHelp = true
+    checkAssign = false
   }
   {
     id = "ID_FLARES_HELICOPTER"
@@ -284,6 +284,12 @@ return [
   }
   {
     id = "ID_LOCK_TARGETING_AT_POINT_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_UNLOCK_TARGETING_AT_POINT_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
     needShowInHelp = true
@@ -361,6 +367,11 @@ return [
     id = "invert_y_helicopter"
     type = CONTROL_TYPE.SWITCH_BOX
     optionType = ::USEROPT_INVERTY_HELICOPTER
+  }
+  {
+    id = "invert_y_helicopter_gunner"
+    type = CONTROL_TYPE.SWITCH_BOX
+    optionType = ::USEROPT_INVERTY_HELICOPTER_GUNNER
   }
   {
     id = "helicopter_mouse_aim_x"
@@ -479,11 +490,6 @@ return [
   }
   {
     id = "ID_MFD_ZOOM"
-    checkGroup = ctrlGroups.HELICOPTER
-    checkAssign = false
-  }
-  {
-    id = "ID_MFD_TARGET_LOCK"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
   }

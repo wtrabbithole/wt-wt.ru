@@ -1,3 +1,5 @@
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+
 /*
 SessionLobby API
 
@@ -56,7 +58,7 @@ global enum lobbyStates
   IN_DEBRIEFING
 }
 
-allowed_mission_settings <- { //only this settings are allowed in room
+local allowed_mission_settings = { //only this settings are allowed in room
                               //default params used only to check type atm
   name = null
   missionURL = null
@@ -283,6 +285,15 @@ allowed_mission_settings <- { //only this settings are allowed in room
       }
     }
   ]
+
+  function getDifficulty(room = null)
+  {
+    local diffValue = getMissionData(room)?.difficulty
+    local difficulty = (diffValue == "custom")
+      ? ::g_difficulty.getDifficultyByDiffCode(::get_cd_base_difficulty())
+      : ::g_difficulty.getDifficultyByName(diffValue)
+    return difficulty
+  }
 }
 
 SessionLobby.setIngamePresence <- function setIngamePresence(roomPublic, roomId)
@@ -515,7 +526,7 @@ SessionLobby.UpdatePlayersInfo <- function UpdatePlayersInfo()
   // new format. player infos are separate values in rooms public table
   foreach (k, pinfo in settings)
   {
-    if (k.find("pinfo_") != 0)
+    if (k.indexof("pinfo_") != 0)
       continue
     local uid = k.slice(6).tointeger()
     if (pinfo == null)
@@ -551,8 +562,7 @@ SessionLobby.UpdateCrsSettings <- function UpdateCrsSettings()
   crsSetTeamTo = Team.none
   foreach (team in ::events.getSidesList())
   {
-    local idsPath = ::format("%s.players", ::events.getTeamName(team))
-    local players = ::getTblValueByPath(idsPath, getSessionInfo())
+    local players = getSessionInfo()?[::events.getTeamName(team)].players
     if (!::u.isArray(players))
       continue
 
@@ -617,7 +627,7 @@ SessionLobby.checkDynamicSettings <- function checkDynamicSettings(silent = fals
   local wasHidden = ::getTblValue("hidden", _settings, false)
   _settings.hidden <- ::getTblValue("coop", _settings, false)
                       || (isRoomInSession && !::getTblValue("allowJIP", _settings, true))
-  changed = changed || (wasHidden != _settings.hidden)
+  changed = changed || (wasHidden != _settings.hidden) // warning disable: -const-in-bool-expr
 
   local wasPassword = ::getTblValue("hasPassword", _settings, false)
   _settings.hasPassword <- password != ""
@@ -830,11 +840,7 @@ SessionLobby.getNotAvailableUnitByBRText <- function getNotAvailableUnitByBRText
 
 SessionLobby.calcEdiff <- function calcEdiff(room = null)
 {
-  local diffValue = ::getTblValue("difficulty", getMissionData(room))
-  local difficulty = (diffValue == "custom") ?
-    ::g_difficulty.getDifficultyByDiffCode(::get_cd_base_difficulty()) :
-    ::g_difficulty.getDifficultyByName(diffValue)
-  return difficulty.getEdiffByUnitMask(getUnitTypesMask(room))
+  return getDifficulty(room).getEdiffByUnitMask(getUnitTypesMask(room))
 }
 
 SessionLobby.getCurRoomEdiff <- function getCurRoomEdiff()
@@ -1035,8 +1041,10 @@ SessionLobby.uploadUserMission <- function uploadUserMission(afterDoneFunc = nul
 {
   if (!isInRoom() || !isUserMission() || status == lobbyStates.UPLOAD_CONTENT)
     return
-  if (uploadedMissionId == getMissionName())
-    return afterDoneFunc()
+  if (uploadedMissionId == getMissionName()) {
+    afterDoneFunc?()
+    return
+  }
 
   local missionId = getMissionName()
   local missionInfo = ::DataBlock()
@@ -1057,9 +1065,10 @@ SessionLobby.uploadUserMission <- function uploadUserMission(afterDoneFunc = nul
   switchStatus(lobbyStates.UPLOAD_CONTENT)
   ::set_room_attributes({ roomId = roomId, private = { userMission = blkData.result } },
                         (@(missionId, afterDoneFunc) function(p) {
-                          if (!::checkMatchingError(p))
-                            return ::SessionLobby.returnStatusToRoom()
-
+                          if (!::checkMatchingError(p)) {
+                            ::SessionLobby.returnStatusToRoom()
+                            return
+                          }
                           ::SessionLobby.uploadedMissionId = missionId
                           ::SessionLobby.returnStatusToRoom()
                           if (afterDoneFunc)
@@ -1946,10 +1955,10 @@ SessionLobby.getMembersCountByTeams <- function getMembersCountByTeams(room = nu
   local roomMembers = getRoomMembers(room)
   if (room && !roomMembers.len())
   {
-    local teamsCount = ::get_tbl_value_by_path_array(["session", "teams"], room)
+    local teamsCount = room?.session.teams
     foreach(team in ::g_team.getTeams())
     {
-      local count = ::get_tbl_value_by_path_array([team.id, "players"], teamsCount, 0)
+      local count = teamsCount?[team.id].players ?? 0
       res[team.code] = count
       res.total += count
     }
@@ -1964,7 +1973,7 @@ SessionLobby.getMembersCountByTeams <- function getMembersCountByTeams(room = nu
     if (isMemberHost(m))
       continue
 
-    if (needReadyOnly) 
+    if (needReadyOnly)
       if (!hasSessionInLobby() && !isMemberReady(m))
         continue
       else if (hasSessionInLobby() && !isMemberInSession(m))
@@ -2026,7 +2035,7 @@ SessionLobby.startSession <- function startSession()
   }
   dagor.debug("start session")
 
-  ::room_start_session({ roomId = roomId, cluster = getPublicParam("cluster", 0) },
+  ::room_start_session({ roomId = roomId, cluster = getPublicParam("cluster", "EU") },
       function(p)
       {
         if (!::SessionLobby.isInRoom())
@@ -2339,44 +2348,27 @@ SessionLobby.isEqualSquadId <- function isEqualSquadId(squadId1, squadId2)
 
 SessionLobby.getBattleRatingParamByPlayerInfo <- function getBattleRatingParamByPlayerInfo(member, esUnitTypeFilter = null)
 {
-  if (!member)
+  local craftsInfo = member?.crafts_info
+  if (craftsInfo == null)
     return null
   local difficulty = ::is_in_flight() ? ::get_mission_difficulty_int() : ::get_current_shop_difficulty().diffCode
   local units = []
-  if (!("crafts" in member))
-    return null
-  foreach (unitName in member.crafts)
+  foreach (unitInfo in craftsInfo)
   {
+    local unitName = unitInfo.name
     local unit = ::getAircraftByName(unitName)
     if (esUnitTypeFilter != null && esUnitTypeFilter != unit.esUnitType)
       continue
 
     units.append({
-      rating = unit ? unit.getBattleRating(difficulty) : 0
-      name = ::loc(unitName+"_shop")
-      rankUnused = getRankUnusedByUnitName(member, unitName)
+      rating = unit?.getBattleRating(difficulty) ?? 0
+      name = ::loc($"{unitName}_shop")
+      rankUnused = unitInfo?.rankUnused ?? false
     })
   }
-  units.sort(function(a,b) {
-    if (a.rankUnused != b.rankUnused)
-      return a.rankUnused ? 1 : -1
-    if (a.rating != b.rating)
-      return a.rating > b.rating ? -1 : 1
-    return 0
-  })
-  local squad = ::getTblValue("squad", member, INVALID_SQUAD_ID)
+  units.sort(@(a,b) a.rankUnused <=> b.rankUnused || b.rating <=> a.rating)
+  local squad = member?.squad ?? INVALID_SQUAD_ID
   return { rank = member.mrank, squad = squad, units = units }
-}
-
-SessionLobby.getRankUnusedByUnitName <- function getRankUnusedByUnitName(member, unitName)
-{
-  local craftsInfo = ::getTblValue("crafts_info", member, [])
-  foreach (craftInfo in craftsInfo)
-  {
-    if (::getTblValue("name", craftInfo) == unitName)
-      return ::getTblValue("rankUnused", craftInfo, false)
-  }
-  return false
 }
 
 /**
@@ -2518,7 +2510,7 @@ SessionLobby.getRandomTeam <- function getRandomTeam()
   {
     local checkTeamResult = checkUnitsInSlotbar(curCountry, team)
     if (checkTeamResult.isAvailable)
-      teams.push(team)
+      teams.append(team)
   }
   if (teams.len() == 0)
     teams.extend(allTeams)
@@ -2639,10 +2631,14 @@ SessionLobby.checkSessionInvite <- function checkSessionInvite()
   local inviteData = reconnectData.inviteData
   local sendResp = reconnectData.sendResp
 
-  local applyInvite = (@(inviteData, sendResp) function() {
+  local applyInvite = function() {
+    local event = ::events.getEvent(inviteData?.attribs.game_mode_name)
+    if (!antiCheat.showMsgboxIfEacInactive(event))
+      return
+
     sendResp({})
     ::SessionLobby.joinRoom(inviteData.roomId, null, null)
-  })(inviteData, sendResp)
+  }
 
   local rejectInvite = (@(sendResp) function() {
     sendResp({error_id="INVITE_REJECTED"})

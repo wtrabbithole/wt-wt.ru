@@ -1,7 +1,7 @@
 local time = require("scripts/time.nut")
 local operationPreloader = require("scripts/worldWar/externalServices/wwOperationPreloader.nut")
-local seenWWMapsObjective = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
-local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+local seenWWMapsObjective = require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
@@ -142,10 +142,11 @@ global enum WW_UNIT_SORT_CODE {
   WATER,
   ARTILLERY,
   INFANTRY,
+  TRANSPORT,
   UNKNOWN
 }
 
-strength_unit_expclass_group <- {
+::strength_unit_expclass_group <- {
   bomber = "bomber"
   assault = "bomber"
   heavy_tank = "tank"
@@ -251,6 +252,7 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
 
   infantryUnits = null
   artilleryUnits = null
+  transportUnits = null
 
   rearZones = null
   curOperationCountry = null
@@ -268,12 +270,13 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   {
     infantryUnits = null
     artilleryUnits = null
+    transportUnits = null
   }
 
   function getInfantryUnits()
   {
     if (infantryUnits == null)
-      ::g_world_war.updateInfantryUnits()
+      infantryUnits = getWWConfigurableValue("infantryUnits", infantryUnits)
 
     return infantryUnits
   }
@@ -281,9 +284,17 @@ foreach(bhvName, bhvClass in ::ww_gui_bhv)
   function getArtilleryUnits()
   {
     if (artilleryUnits == null)
-      ::g_world_war.updateArtilleryUnits()
+      artilleryUnits = getWWConfigurableValue("artilleryUnits", artilleryUnits)
 
     return artilleryUnits
+  }
+
+  function getTransportUnits()
+  {
+    if (transportUnits == null)
+      transportUnits = getWWConfigurableValue("transportUnits", transportUnits)
+
+    return transportUnits
   }
 
   function getPlayedOperationText(needMapName = true)
@@ -383,9 +394,6 @@ g_world_war.getCantPlayWorldwarReasonText <- function getCantPlayWorldwarReasonT
 
 g_world_war.openMainWnd <- function openMainWnd()
 {
-  if (!antiCheat.showMsgboxIfEacInactive())
-    return
-
   if (!checkPlayWorldwarAccess())
     return
 
@@ -513,11 +521,15 @@ g_world_war.openJoinOperationByIdWnd <- function openJoinOperationByIdWnd()
 
 g_world_war.onEventLoadingStateChange <- function onEventLoadingStateChange(p)
 {
-  if (::is_in_flight())
-  {
-    ::g_squad_manager.cancelWwBattlePrepare()
-    isLastFlightWasWwBattle = ::g_mis_custom_state.getCurMissionRules().isWorldWar
-  }
+  if (!::is_in_flight())
+    return
+
+  ::g_squad_manager.cancelWwBattlePrepare()
+  local missionRules = ::g_mis_custom_state.getCurMissionRules()
+  isLastFlightWasWwBattle = missionRules.isWorldWar
+  local operationId = missionRules.getCustomRulesBlk()?.operationId
+  if (operationId != null && operationId != ::ww_get_operation_id())
+    updateOperationPreviewAndDo(operationId, null)   //need set operation preview if in WW battle for load operation config
 }
 
 g_world_war.onEventResetSkipedNotifications <- function onEventResetSkipedNotifications(p)
@@ -554,7 +566,7 @@ g_world_war.loadLastPlayed <- function loadLastPlayed()
     lastPlayedOperationCountry = ::loadLocalByAccount(WW_CUR_OPERATION_COUNTRY_SAVE_ID, ::get_profile_country_sq())
 }
 
-g_world_war.onEventSignOut <- function onEventSignOut(p)
+g_world_war.onEventBeforeProfileInvalidation <- function onEventBeforeProfileInvalidation(p)
 {
   stopWar()
 }
@@ -652,30 +664,18 @@ g_world_war.updateArmyGroups <- function updateArmyGroups()
     local group   = ::WwArmyGroup(itemBlk)
 
     if (group.isValid())
-      armyGroups.push(group)
+      armyGroups.append(group)
   }
-}
-
-g_world_war.updateInfantryUnits <- function updateInfantryUnits()
-{
-  infantryUnits = ::g_world_war.getWWConfigurableValue("infantryUnits", infantryUnits)
-}
-
-g_world_war.updateArtilleryUnits <- function updateArtilleryUnits()
-{
-  artilleryUnits = ::g_world_war.getWWConfigurableValue("artilleryUnits", artilleryUnits)
 }
 
 g_world_war.getArtilleryUnitParamsByBlk <- function getArtilleryUnitParamsByBlk(blk)
 {
-  if (!artilleryUnits)
-    ::g_world_war.updateArtilleryUnits()
-
+  local artillery = getArtilleryUnits()
   for (local i = 0; i < blk.blockCount(); i++)
   {
     local wwUnitName = blk.getBlock(i).getBlockName()
-    if (wwUnitName in artilleryUnits)
-      return artilleryUnits[wwUnitName]
+    if (wwUnitName in artillery)
+      return artillery[wwUnitName]
   }
 
   return null
@@ -751,7 +751,7 @@ g_world_war.getSidesStrenghtInfo <- function getSidesStrenghtInfo()
     {
       local unitsTypeBlk = unitsBlk.getBlock(j)
       local unitTypeBlk = unitsTypeBlk?["units"]
-      wwUnitsList.extend(::WwUnit.loadUnitsFromBlk(unitTypeBlk))
+      wwUnitsList.extend(wwActionsWithUnitsList.loadUnitsFromBlk(unitTypeBlk))
     }
 
     local collectedWwUnits = ::u.values(::g_world_war.collectUnitsData(wwUnitsList))
@@ -982,7 +982,7 @@ g_world_war.updateBattles <- function updateBattles(forced = false)
     local battle   = ::WwBattle(itemBlk)
 
     if (battle.isValid())
-      battles.push(battle)
+      battles.append(battle)
   }
 }
 
@@ -1058,7 +1058,7 @@ g_world_war.getReinforcementsInfo <- function getReinforcementsInfo()
 g_world_war.getReinforcementsArrayBySide <- function getReinforcementsArrayBySide(side)
 {
   local reinforcementsInfo = getReinforcementsInfo()
-  if (!reinforcementsInfo.reinforcements)
+  if (reinforcementsInfo?.reinforcements == null)
     return []
 
   local res = []
@@ -1289,24 +1289,6 @@ g_world_war.hasEntrenchedInList <- function hasEntrenchedInList(armyNamesList)
   return false
 }
 
-
-g_world_war.startArtilleryFire <- function startArtilleryFire(mapPos, army)
-{
-  local blk = ::DataBlock()
-  blk.setStr("army", army.name)
-  blk.setStr("point", mapPos.x.tostring() + "," + mapPos.y.tostring())
-  blk.setStr("radius", ww_artillery_get_attack_radius().tostring())
-
-  local taskId = ::ww_send_operation_request("cln_ww_artillery_strike", blk)
-  ::g_tasker.addTask(taskId, null,
-    function () {
-      ::ww_artillery_turn_fire(false)
-      ::ww_event("ArmyStatusChanged")
-    },
-    function (errorCode) {
-      ::g_world_war.popupCharErrorMsg("cant_fire", ::loc("worldwar/artillery/cant_fire"))
-    })
-}
 
 g_world_war.stopSelectedArmy <- function stopSelectedArmy()
 {
@@ -1547,9 +1529,9 @@ g_world_war.onEventWWOperationPreviewLoaded <- function onEventWWOperationPrevie
   updateConfigurableValues()
 }
 
-g_world_war.popupCharErrorMsg <- function popupCharErrorMsg(groupName = null, titleText = "")
+g_world_war.popupCharErrorMsg <- function popupCharErrorMsg(groupName = null, titleText = "", errorMsgId = null)
 {
-  local errorMsgId = get_char_error_msg()
+  errorMsgId = errorMsgId ?? get_char_error_msg()
   if (!errorMsgId)
     return
 

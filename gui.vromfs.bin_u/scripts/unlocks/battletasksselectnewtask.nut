@@ -43,7 +43,7 @@ class ::gui_handlers.BattleTasksSelectNewTaskWnd extends ::gui_handlers.BaseGuiH
 
       local index = 0
       if (filteredTasksArray.len())
-        index = battleTasksArray.searchindex(@(task) filteredTasksArray[0].id == task.id) ?? 0
+        index = battleTasksArray.findindex(@(task) filteredTasksArray[0].id == task.id) ?? 0
 
       listObj.setValue(index)
     }
@@ -123,7 +123,7 @@ class ::gui_handlers.BattleTasksSelectNewTaskWnd extends ::gui_handlers.BaseGuiH
   {
     local listObj = getConfigsListObj()
     if (!::checkObj(listObj))
-      return
+      return null
 
     local value = listObj.getValue()
     if (value < 0 || value >= listObj.childrenCount())

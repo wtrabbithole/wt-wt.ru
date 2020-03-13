@@ -51,7 +51,7 @@
     local discountCategoryBlk = blk.getBlock(i)
     local paramsOrder = []
     for (local j = 0; j < discountCategoryBlk.paramCount(); ++j)
-      paramsOrder.push(discountCategoryBlk.getParamName(j))
+      paramsOrder.append(discountCategoryBlk.getParamName(j))
     sortData[discountCategoryBlk.getBlockName()] <- {
       categoryIndex = i
       paramsOrder = paramsOrder
@@ -103,7 +103,7 @@
     if (blk.getParamValue(i) == 0)
       continue
     local aircraftName = blk.getParamName(i)
-    items.push({
+    items.append({
       category = category
       type = "aircraft"
       discountValue = blk.getParamValue(i)
@@ -126,7 +126,7 @@
       local name = countryName + "_rank" + i.tostring() + (usePremium ? "_premium" : "")
       if (!(name in blk) || blk[name] == 0)
         continue
-      items.push({
+      items.append({
         paramName = name
         category = category
         // Same as for rank-only discounts
@@ -151,7 +151,7 @@
     local name = countryName + (usePremium ? "_premium" : "")
     if (!(name in blk) || blk[name] == 0)
       continue
-    items.push({
+    items.append({
       paramName = name
       category = category
       // Same as for "all" discounts
@@ -174,7 +174,7 @@
     local name = "rank" + i.tostring() + (usePremium ? "_premium" : "")
     if (!(name in blk) || blk[name] == 0)
       continue
-    items.push({
+    items.append({
       paramName = name
       category = category
       type = "rank" + (usePremium ? "_premium" : "")
@@ -207,7 +207,7 @@
   local items = []
   for (local i = 0; i < blk.paramCount(); ++i)
   {
-    items.push({
+    items.append({
       category = category
       entitlementName = blk.getParamName(i)
       discountValue = blk.getParamValue(i)

@@ -1,3 +1,5 @@
+local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+
 enum SEL_UNIT_BUTTON {
   EMPTY_CREW
   SHOP
@@ -25,6 +27,7 @@ const MIN_NON_EMPTY_SLOTS_IN_COUNTRY = 1
     slotObj = slotObj,
     slotbarWeak = slotbar,
     crew = crew
+    isSelectByGroups = slotbar?.unitsGroupsByCountry != null
   }
   ::handlersManager.destroyPrevHandlerAndLoadNew(::gui_handlers.SelectUnit, params)
 }
@@ -67,9 +70,13 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   curVisibleSlots = 0
 
   showMoreObj = null
+  country = ""
+
+  isSelectByGroups = false
 
   function initScreen()
   {
+    country = ::g_crews_list.get()[countryId].country
     curOptionsMasks = []
     optionsMaskByUnits = {}
     legendData = []
@@ -143,23 +150,44 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
 
   function getUsingUnitsArray()
   {
+    local crewsList = ::g_crews_list.get()[countryId]
+    local untisGroups = config?.countryPresets[country].units
     local res = []
-    foreach(idx, c in ::g_crews_list.get()[countryId].crews)
-      if (idx != idInCountry && ("aircraft" in c))
-        res.append(c.aircraft)
-
+    foreach(idx, c in crewsList.crews)
+      if (idx != idInCountry)
+      {
+        if (isSelectByGroups)
+        {
+          if (untisGroups?[idx] != null)
+            res.append(untisGroups[idx])
+        }
+        else if ("aircraft" in c)
+          res.append(c.aircraft)
+      }
     return res
+  }
+
+  function getUnitsList() {
+    if (!isSelectByGroups)
+      return ::all_units
+
+    local unitsArray = []
+    foreach(group in config.unitsGroupsByCountry?[country].groups ?? [])
+      unitsArray.extend(group.units.values())
+    return unitsArray
   }
 
   function initAvailableUnitsArray()
   {
-    local country = ::g_crews_list.get()[countryId].country
     local busyUnits = getUsingUnitsArray()
 
     local unitsArray = []
-    local selectedUnit = ::g_crew.getCrewUnit(crew)
-    foreach(unit in ::all_units)
-      if (!::isInArray(unit.name, busyUnits) && unit.canAssignToCrew(country) && selectedUnit != unit)
+    local selectedUnit = getCrewUnit()
+
+    foreach(unit in getUnitsList())
+      if (!::isInArray(unit.name, busyUnits) && selectedUnit != unit
+        && ((isSelectByGroups && slotbarPresets.isDefaultUnitForGroup(unit, config.unitsGroupsByCountry,country))
+          || unit.canAssignToCrew(country)))
         unitsArray.append(unit)
 
     unitsList = []
@@ -167,7 +195,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     if (slotbarWeak?.ownerWeak?.canShowShop && slotbarWeak.ownerWeak.canShowShop())
       unitsList.append(SEL_UNIT_BUTTON.SHOP)
 
-    local needEmptyCrewButton = ("aircraft" in crew && busyUnits.len() >= MIN_NON_EMPTY_SLOTS_IN_COUNTRY)
+    local needEmptyCrewButton = !isSelectByGroups
+      && ("aircraft" in crew && busyUnits.len() >= MIN_NON_EMPTY_SLOTS_IN_COUNTRY)
     if (needEmptyCrewButton)
       unitsList.append(SEL_UNIT_BUTTON.EMPTY_CREW)
 
@@ -190,8 +219,10 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
                                           : unit.trainCost ? -1
                                           : 0
 
+    local groupIdByUnitName = config?.unitsGroupsByCountry[country].groupIdByUnitName
     local unitsSortArr = units.map(@(unit)
       {
+        groupId = groupIdByUnitName?[unit.name] ?? ""
         economicRank = unit.getEconomicRank(ediff)
         isDefaultAircraft = ::is_default_aircraft(unit.name)
         sortSpecialization = getSortSpecialization(unit)
@@ -200,7 +231,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     )
 
     unitsSortArr.sort(@(a, b)
-         a.economicRank <=> b.economicRank
+         a.groupId <=> b.groupId
+      || a.economicRank <=> b.economicRank
       || b.isDefaultAircraft <=> a.isDefaultAircraft
       || a.sortSpecialization <=> b.sortSpecialization
       || a.unit.rank <=> b.unit.rank
@@ -279,7 +311,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    if (::g_crew.getCrewUnit(crew) == unit)
+    if (getCrewUnit() == unit)
       return goBack()
 
     if (haveMoreQualifiedCrew(unit))
@@ -289,6 +321,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
           takeCrewIdInCountry = crew.idInCountry,
           messageText = ::loc("mainmenu/selectCrew/haveMoreQualified"),
           afterSuccessFunc = ::Callback(goBack, this)
+          isSelectByGroups = isSelectByGroups
         })
 
     trainSlotAircraft(unit)
@@ -299,14 +332,22 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     goBack()
     if (slotbarWeak?.ownerWeak?.openShop)
     {
-      local unit = ::g_crew.getCrewUnit(crew)
+      local unit = getCrewUnit()
       slotbarWeak.ownerWeak.openShop(unit?.unitType)
     }
   }
 
   function trainSlotAircraft(unit)
   {
-    ::CrewTakeUnitProcess(crew, unit, ::Callback(onTakeProcessFinish, this))
+    local onFinishCb = ::Callback(onTakeProcessFinish, this)
+    if (isSelectByGroups)
+      slotbarPresets.setUnit({
+        crew = crew
+        unit = unit
+        onFinishCb = onFinishCb
+      })
+    else
+      ::CrewTakeUnitProcess(crew, unit, onFinishCb)
   }
 
   function onTakeProcessFinish(isSuccess)
@@ -431,7 +472,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     if (event)
       return ::events.getEventNameText(event)
 
-    if (params?.gameModeName)
+    if ((params?.gameModeName ?? "") != "")
       return params.gameModeName
 
     if (::SessionLobby.isInRoom())
@@ -488,7 +529,7 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     local isModeOptionChecked = modeOption.value & 1
     if (!isModeOptionChecked)
     {
-      local idx = filterOptionsList.find(::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE)
+      local idx = filterOptionsList.indexof(::USEROPT_BIT_CHOOSE_UNITS_SHOW_UNSUPPORTED_FOR_GAME_MODE)
       local maskOptions = curOptionsMasks?[idx]
       if (maskOptions)
         customOptionObj.setValue(modeOption.value - (modeOption.value & (~maskOptions)))
@@ -515,6 +556,8 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
       showBR = ::has_feature("SlotbarShowBattleRating")
       getEdiffFunc = getCurrentEdiff.bindenv(this)
       fullBlock = false
+      isLocalState = !isSelectByGroups
+      tooltipParams = { showLocalState = !isSelectByGroups }
     }
 
     if (!isTrained)
@@ -523,6 +566,9 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
     local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
     if (canShowCrewSpec && specType != ::g_crew_spec_type.UNKNOWN)
       unitItemParams.specType <- specType
+
+    if (isSelectByGroups)
+      unitItemParams.isLocalState <- false
 
     local id = unit.name
     local markup = ::build_aircraft_item(id, unit, unitItemParams)
@@ -653,5 +699,12 @@ class ::gui_handlers.SelectUnit extends ::gui_handlers.BaseGuiHandlerWT
   function onEventSetInQueue(params)
   {
     goBack()
+  }
+
+  function getCrewUnit()
+  {
+    return isSelectByGroups
+      ? config?.countryPresets[country].units[idInCountry]
+      : ::g_crew.getCrewUnit(crew)
   }
 }

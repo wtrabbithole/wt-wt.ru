@@ -129,9 +129,8 @@ root {
     }
   }
 
-  dummy {
+  timer {
     id:t='game_modes_timer'
-    behavior:t='Timer'
     timer_handler_func:t='onTimerUpdate'
     timer_interval_msec:t='1000'
   }

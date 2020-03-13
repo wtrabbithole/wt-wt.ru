@@ -194,10 +194,6 @@ return [
     needShowInHelp = true
   }
   {
-    id = "ID_SENSOR_VIEW_SWITCH"
-    checkAssign = false
-  }
-  {
     id = "ID_SCHRAEGE_MUSIK"
     checkAssign = false
     needShowInHelp = true
@@ -808,6 +804,11 @@ return [
   }
   {
     id = "ID_TOGGLE_PROP_FEATHERING"
+    filterShow = [globalEnv.EM_FULL_REAL]
+    checkAssign = false
+  }
+  {
+    id = "ID_TOGGLE_EXTINGUISHER"
     filterShow = [globalEnv.EM_FULL_REAL]
     checkAssign = false
   }

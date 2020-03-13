@@ -83,7 +83,7 @@
 }
 
 
-joystick_params_template <- {
+local joystick_params_template = {
   getAxis = function(idx)
   {
     local curPreset = ::g_controls_manager.getCurPreset()

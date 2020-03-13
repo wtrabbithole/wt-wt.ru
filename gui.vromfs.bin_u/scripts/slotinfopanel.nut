@@ -77,7 +77,7 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       local view = { items = [] }
       for(local i = 0; i < showTabsCount; i++)
       {
-        view.items.push({
+        view.items.append({
           tooltip = tabsInfo[i].tooltip,
           imgId = tabsInfo[i].imgId,
           imgBg = tabsInfo[i].imgBg
@@ -88,7 +88,9 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContentFromText(listboxObj, data, data.len(), this)
 
       updateUnitIcon()
-      listboxObj.setValue(::min(::load_local_account_settings(configSavePath, 0), showTabsCount))
+      local savedIndex = ::g_login.isProfileReceived() ?
+        ::load_local_account_settings(configSavePath, 0) : 0
+      listboxObj.setValue(::min(savedIndex, showTabsCount - 1))
       updateContentVisibility()
 
       listboxObj.show(view.items.len() > 1)
@@ -127,7 +129,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function onProtectionAnalysis()
   {
-    ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open())
+    local unit = getCurShowUnit()
+    ::handlersManager.animatedSwitchScene(@() protectionAnalysis.open(unit))
   }
 
   function onShowExternalDmPartsChange(obj)
@@ -167,7 +170,8 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
       collapseBtnContainer.collapsed = isPanelHidden ? "yes" : "no"
     showSceneBtn("slot_info_content", ! isPanelHidden)
     updateVisibleTabContent(true)
-    ::save_local_account_settings(configSavePath, currentIndex)
+    if (::g_login.isProfileReceived())
+      ::save_local_account_settings(configSavePath, currentIndex)
   }
 
   function updateVisibleTabContent(isTabSwitch = false)
@@ -368,7 +372,17 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     else
       favUnlocksHandlerWeak.onSceneActivate(true)
 
-    updateHeader(::loc("mainmenu/btnFavoritesUnlockAchievement"))
+    local cur = ::g_unlocks.getTotalFavoriteCount()
+    local text = ::loc("mainmenu/btnFavoritesUnlockAchievement") + ::loc("ui/parentheses/space", {
+      text = ::colorize(::g_unlocks.canAddFavorite()? "" : "warningTextColor", cur + ::loc("ui/slash") + ::g_unlocks.favoriteUnlocksLimit)
+    })
+
+    updateHeader(text)
+  }
+
+  function onEventFavoriteUnlocksChanged(p)
+  {
+    showUnlockAchievementInfo()
   }
 
   function onAchievementsButtonClicked(obj)

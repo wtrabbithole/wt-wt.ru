@@ -8,7 +8,7 @@ local cache = {
 }
 
 local defaultGetValue = @(requestType, parametersByRequestType, params = null)
-  parametersByRequestType?[requestType]?[params.parameterName]?[params.idx]?.value ?? 0
+  parametersByRequestType?[requestType][params?.parameterName ?? -1][params?.idx ?? -1].value ?? 0
 
 ::g_skill_parameters_type.template <- {
   paramNames = []
@@ -32,7 +32,7 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
         measureType = ::g_crew_skills.getMeasureTypeBySkillParameterName(value.skillName)
 
       local parameterView = {
-        descriptionLabel = parameterName.find("weapons/") == 0 ? ::loc(parameterName)
+        descriptionLabel = parameterName.indexof("weapons/") == 0 ? ::loc(parameterName)
           : ::loc(::format("crewSkillParameter/%s", parameterName))
         valueItems = []
       }
@@ -49,8 +49,8 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
 
       parameterView.progressBarValue <- getProgressBarValue(parametersByRequestType, params)
       parameterView.progressBarSelectedValue <- getProgressBarValue(selectedParametersByRequestType, params)
-      resArray.push(parameterView)
-      parsedMembers.push(value.memberName)
+      resArray.append(parameterView)
+      parsedMembers.append(value.memberName)
     }
   }
 
@@ -74,7 +74,7 @@ local defaultGetValue = @(requestType, parametersByRequestType, params = null)
       local valueItem = columnType.createValueItem(
         prevValue, curValue, prevSelectedValue, curSelectedValue, measureType, sign)
 
-      parameterView.valueItems.push(valueItem)
+      parameterView.valueItems.append(valueItem)
     }
   }
 
@@ -138,15 +138,12 @@ enums.addTypesByGlobalName("g_skill_parameters_type", {
         parseColumnTypes(columnTypes, parametersByRequestType, selectedParametersByRequestType,
           ::g_measure_type.DISTANCE, sign, parameterView, params)
         parameterView.progressBarValue <- getProgressBarValue(parametersByRequestType, params)
-        resArray.push(parameterView)
+        resArray.append(parameterView)
       }
     }
 
-    getValue = function (requestType, parametersByRequestType, params = null)
-    {
-      local path = [requestType, params.parameterName, 0, "value", params.columnIndex, "distance"]
-      return ::get_tbl_value_by_path_array(path, parametersByRequestType, 0)
-    }
+    getValue = @(requestType, parametersByRequestType, params = null)
+      parametersByRequestType?[requestType][params?.parameterName ?? -1][0].value[params?.columnIndex ?? -1].distance ?? 0
   }
 
   INTERCHANGE_ABILITY = {

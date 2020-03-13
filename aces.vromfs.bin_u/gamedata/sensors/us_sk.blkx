@@ -5,7 +5,7 @@
       "pulsePower": 200000.0,
       "pulseWidth": 0.0,
       "prf": 60.0,
-      "band": 0,
+      "band": 1,
       "rcs": 3.0,
       "range": 140000.0,
       "rangeMax": 200000.0,
@@ -58,11 +58,7 @@
     "main": {
       "stateInit": "init",
       "actionsTemplates": {
-        "init": {
-          "setScopeRange": {
-            "scopeRangeIndex": 0
-          }
-        },
+        "init": [],
         "setStandbyMode": {
           "setTransiver": [],
           "setCenterAzimuth": {
@@ -123,6 +119,22 @@
             "setStandbyMode": []
           }
         },
+        "switchScanPattern": [
+          {
+            "stateFrom": "standby"
+          },
+          {
+            "stateFrom": "search"
+          },
+          {
+            "command": "scanPatternSwitch"
+          },
+          {
+            "actions": {
+              "setNextScanPattern": []
+            }
+          }
+        ],
         "switchScopeRange": {
           "command": "rangeSwitch",
           "actions": {

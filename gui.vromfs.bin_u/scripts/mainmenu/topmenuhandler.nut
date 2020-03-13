@@ -153,7 +153,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     local text = ::loc(blk?.advert ?? "", "")
     SecondsUpdater(obj, function(tObj, params)
     {
-      local stopUpdate = text.find("{time_countdown=") == null
+      local stopUpdate = text.indexof("{time_countdown=") == null
       local textResult = time.processTimeStamps(text)
       local objText = tObj.findObject("topmenu_advert_text")
       objText.setValue(textResult)

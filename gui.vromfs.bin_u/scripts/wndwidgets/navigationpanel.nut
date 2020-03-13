@@ -74,7 +74,7 @@ class ::gui_handlers.navigationPanel extends ::gui_handlers.BaseGuiHandlerWT
     local view = {items = []}
     foreach (idx, navItem in itemList)
     {
-      view.items.push({
+      view.items.append({
         id = "nav_" + idx.tostring()
         isSelected = idx == 0
         itemText = ::getTblValue("text", navItem, ::getTblValue("id", navItem, ""))
@@ -94,7 +94,7 @@ class ::gui_handlers.navigationPanel extends ::gui_handlers.BaseGuiHandlerWT
 
   function setCurrentItem(item)
   {
-    local itemIdx = itemList.find(item)
+    local itemIdx = itemList.indexof(item)
     if (itemIdx != null)
       setCurrentItemIdx(itemIdx)
   }

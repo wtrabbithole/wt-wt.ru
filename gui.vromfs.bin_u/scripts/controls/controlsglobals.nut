@@ -8,7 +8,7 @@
   if (otherPreset.isLoaded && otherPreset.hotkeys.len() > 0)
   {
     ::g_controls_manager.setCurPreset(otherPreset)
-    ::g_controls_manager.fixDeviceMapping()
+    ::controls_fix_device_mapping()
     ::is_last_load_controls_succeeded = true
   }
   else
@@ -19,13 +19,13 @@
   }
 }
 
-::save_controls_to_blk <- function save_controls_to_blk(blk, defaultPreset)
+::save_controls_to_blk <- function save_controls_to_blk(blk)
 {
-  if (!::g_controls_manager.getCurPreset().isLoaded)
-    ::g_controls_manager.setCurPreset(
-      ::ControlsPreset(defaultPreset))
-  ::g_controls_manager.getCurPreset().saveToBlk(blk)
-  ::g_controls_manager.clearGuiOptions()
+  if (::g_controls_manager.getCurPreset().isLoaded)
+  {
+    ::g_controls_manager.getCurPreset().saveToBlk(blk)
+    ::g_controls_manager.clearGuiOptions()
+  }
 }
 
 ::controls_fix_device_mapping <- function controls_fix_device_mapping()

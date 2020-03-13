@@ -6,7 +6,7 @@ local function canChange(clanData)
     return true
   local isMyClan = clanData.id == ::clan_get_my_clan_id()
   local myRights = isMyClan ? ::clan_get_role_rights(::clan_get_my_role()) : []
-  return myRights.find("CHANGE_INFO") != null
+  return myRights.indexof("CHANGE_INFO") != null
 }
 
 local function getValue(clanData)

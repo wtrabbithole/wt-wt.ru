@@ -6,7 +6,9 @@ local globalEnv = require_native("globalEnv")
 local avatars = ::require("scripts/user/avatars.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
 local optionsUtils = require("scripts/options/optionsUtils.nut")
+local optionsMeasureUnits = ::require("scripts/options/optionsMeasureUnits.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local soundDevice = require_native("soundDevice")
 
 global const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 global const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
@@ -28,7 +30,6 @@ global enum misCountries
 ::current_tag <- null
 ::aircraft_for_weapons <- null
 ::cur_aircraft_name <- null
-::measure_units <- []
 ::bullet_icons <- {}
 ::bullets_locId_by_caliber <- []
 ::modifications_locId_by_caliber <- []
@@ -84,7 +85,7 @@ global enum misCountries
 ::g_script_reloader.registerPersistentData("OptionsExtGlobals", ::getroottable(),
   [
     "game_mode_maps", "dynamic_layouts",
-    "shopCountriesList", "measure_units",
+    "shopCountriesList",
     "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
     "crosshair_icons", "crosshair_colors",
     "reload_cooldown_time"
@@ -275,11 +276,15 @@ local isWaitMeasureEvent = false
   return create_option_list(id, items, value, cb, isFull, "ComboBox", null, params)
 }
 
-::create_option_editbox <- function create_option_editbox(id, value="", password = false, maxlength = 16)
-{
-  local data = "EditBox { id:t = '" + id + "'; text:t='" + ::locOrStrip(value) + "'; width:t = '0.2@sf'; max-len:t = '" + maxlength + "';" + (password ? " type:t = 'password' " : "") + "}" //type:t = 'password'
-  return data
-}
+::create_option_editbox <- ::kwarg(function create_option_editbox(id, value = "", password = false, maxlength = 16, charMask = null) {
+  return "EditBox { id:t='{id}'; text:t='{text}'; width:t='0.2@sf'; max-len:t='{len}';{type}{charMask}}".subst({
+    id = id,
+    text = ::locOrStrip(value.tostring()),
+    len = maxlength,
+    type = password? "type:t = 'password';" : "",
+    charMask = charMask? $"char-mask:t='{charMask}';" : ""
+  })
+})
 
 ::create_option_switchbox <- function create_option_switchbox(config)
 {
@@ -488,12 +493,12 @@ local isWaitMeasureEvent = false
 
       if (ignoreAim)
       {
-        local aimIdx = descr.values.find(AIR_MOUSE_USAGE.AIM)
+        local aimIdx = descr.values.indexof(AIR_MOUSE_USAGE.AIM)
         descr.values.remove(aimIdx)
         descr.items.remove(aimIdx)
       }
 
-      defaultValue = descr.values.find(
+      defaultValue = descr.values.indexof(
         ::g_aircraft_helpers.getOptionValue(optionId))
       break;
 
@@ -525,6 +530,10 @@ local isWaitMeasureEvent = false
       optionsUtils.fillBoolOption(descr, "storeMapZoomByLevel", ::OPTION_MAP_ZOOM_BY_LEVEL); break;
     case ::USEROPT_HIDE_MOUSE_SPECTATOR:
       optionsUtils.fillBoolOption(descr, "hideMouseInSpectator", ::OPTION_HIDE_MOUSE_SPECTATOR); break;
+    case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
+      optionsUtils.fillBoolOption(descr, "showCompassInTankHud", ::OPTION_SHOW_COMPASS_IN_TANK_HUD); break;
+    case ::USEROPT_FIX_GUN_IN_MOUSE_LOOK:
+      optionsUtils.fillBoolOption(descr, "fixGunInMouseLook", ::OPTION_FIX_GUN_IN_MOUSE_LOOK); break;
 
     case ::USEROPT_VIEWTYPE:
       descr.id = "viewtype"
@@ -628,8 +637,8 @@ local isWaitMeasureEvent = false
 
       if (::has_feature("AerobaticTricolorSmoke")) // triple color
       {
-        descr.items.push("#options/aerobaticsSmokeTriple");
-        descr.values.push(::MAX_AEROBATICS_SMOKE_INDEX * 2 + 1);
+        descr.items.append("#options/aerobaticsSmokeTriple");
+        descr.values.append(::MAX_AEROBATICS_SMOKE_INDEX * 2 + 1);
       }
       else if (localSmokeType > ::MAX_AEROBATICS_SMOKE_INDEX * 2)
         localSmokeType = 1;
@@ -784,6 +793,13 @@ local isWaitMeasureEvent = false
       descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y) != 0
       break
 
+    case ::USEROPT_INVERTY_HELICOPTER_GUNNER:
+      descr.id = "invertY_helicopter_gunner"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_GUNNER_Y) != 0
+      break
+
     case ::USEROPT_INVERTY_WALKER:
       descr.id = "invertY_walker"
       descr.controlType = optionControlType.CHECKBOX
@@ -867,9 +883,6 @@ local isWaitMeasureEvent = false
       descr.id = "realAimingShip"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
-      if (::get_mission_difficulty() != ::g_difficulty.ARCADE.gameTypeName) {
-        descr.enabled <- false
-      }
       defaultValue = false
       break
 
@@ -1009,6 +1022,27 @@ local isWaitMeasureEvent = false
       }
       break
 
+    case ::USEROPT_SOUND_DEVICE_OUT:
+      descr.id = "sound_device_out";
+      descr.items = [];
+      descr.values = [];
+      descr.value = 0;
+      descr.cb = "onInstantOptionApply";
+      descr.trParams <- "optionWidthInc:t='double';"
+      local deviceCount = soundDevice.sound_get_device_out_count();
+      local lastSoundDevice = soundDevice.get_last_sound_device_out()
+      for (local i=0; i<deviceCount; i++)
+      {
+        local device = soundDevice.sound_get_device_out_name(i)
+        if (device == null)
+          continue
+        descr.items.append(device)
+        descr.values.append(device)
+        if (device == lastSoundDevice)
+          descr.value = descr.values.len() - 1
+      }
+      break
+
     case ::USEROPT_SOUND_ENABLE:
       descr.id = "sound"
       descr.controlType = optionControlType.CHECKBOX
@@ -1043,50 +1077,11 @@ local isWaitMeasureEvent = false
     case ::USEROPT_MEASUREUNITS_TEMPERATURE:
     case ::USEROPT_MEASUREUNITS_WING_LOADING:
     case ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO:
-      local unitNo = 0
-      if (optionId == ::USEROPT_MEASUREUNITS_SPEED)
-      {
-        unitNo = 0
-        descr.id = "measure_units_speed"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_ALT)
-      {
-        unitNo = 1
-        descr.id = "measure_units_alt"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_DIST)
-      {
-        unitNo = 2
-        descr.id = "measure_units_dist"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_CLIMBSPEED)
-      {
-        unitNo = 3
-        descr.id = "measure_units_climbSpeed"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_TEMPERATURE)
-      {
-        unitNo = 4
-        descr.id = "measure_units_temperature"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_WING_LOADING)
-      {
-        unitNo = 5
-        descr.id = "measure_units_wing_loading"
-      }
-      else if (optionId == ::USEROPT_MEASUREUNITS_POWER_TO_WEIGHT_RATIO)
-      {
-        unitNo = 6
-        descr.id = "measure_units_power_to_weight_ratio"
-      }
-      descr.items = []
-      descr.values = []
-      for (local i = 0; i < ::measure_units[unitNo].len(); i++)
-      {
-        descr.items.append("#measureUnits/" + ::measure_units[unitNo][i].name)
-        descr.values.append(::measure_units[unitNo][i].name)
-      }
-      descr.value = find_in_array(descr.values, ::get_option_unit_type(unitNo))
+      local mesureUnitsOption = optionsMeasureUnits.getOption(optionId)
+      descr.id      = mesureUnitsOption.id
+      descr.items   = mesureUnitsOption.items
+      descr.values  = mesureUnitsOption.values
+      descr.value   = mesureUnitsOption.value
       break
 
     case ::USEROPT_VIBRATION:
@@ -1299,11 +1294,11 @@ local isWaitMeasureEvent = false
         if (p.name == vPresetData.name && p.version == vPresetData.version)
           descr.value = k
         local imageName = "joystick"
-        if (name.find("keyboard") != null)
+        if (name.indexof("keyboard") != null)
           imageName = "mouse_keyboard"
-        else if (name.find("xinput") != null || name.find("xboxone") != null)
+        else if (name.indexof("xinput") != null || name.indexof("xboxone") != null)
           imageName = "gamepad"
-        else if (name.find("default") != null || name.find("dualshock4") != null)
+        else if (name.indexof("default") != null || name.indexof("dualshock4") != null)
           imageName = "ps4"
         else if (name == "")
         {
@@ -1484,8 +1479,8 @@ local isWaitMeasureEvent = false
       descr.values = []
       for(local i = 1; i <= ::max_country_rank; i++)
       {
-        descr.items.push(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
-        descr.values.push({min = (i - 1) * 5, max = i * 5 - 1})
+        descr.items.append(::loc("shop/age/num", { num = ::get_roman_numeral(i) }))
+        descr.values.append({min = (i - 1) * 4, max = i * 4 - 1})
       }
 
       descr.getValueIdxByValue <- function (val)
@@ -1880,6 +1875,13 @@ local isWaitMeasureEvent = false
       descr.value = ::get_option_activate_airborne_radar_on_spawn()
       break
 
+    case ::USEROPT_USE_RECTANGULAR_RADAR_INDICATOR:
+      descr.id = "use_rectangular_radar_indicator"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_option_use_rectangular_radar_indicator()
+      break
+
     case ::USEROPT_SAVE_AI_TARGET_TYPE:
       descr.id = "save_ai_target_type"
       descr.controlType = optionControlType.CHECKBOX
@@ -2225,25 +2227,15 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_SEARCH_GAMEMODE:
       descr.id = "mp_mode"
-      descr.items = []
-      descr.values = []
-      descr.items.append("#options/any")
-      descr.values.append(-1)
-      descr.items.append("#mainmenu/btnDynamic")
-      descr.values.append(::GM_DYNAMIC)
-      descr.items.append("#mainmenu/btnBuilder")
-      descr.values.append(::GM_BUILDER)
-      descr.items.append("#mainmenu/btnCoop")
-      descr.values.append(::GM_SINGLE_MISSION)
+      descr.items = [ "#options/any", "#mainmenu/btnDynamic", "#mainmenu/btnBuilder", "#mainmenu/btnCoop" ]
+      descr.values = [ -1, ::GM_DYNAMIC, ::GM_BUILDER, ::GM_SINGLE_MISSION ]
       descr.cb = "onGamemodeChange"
       break
 
     case ::USEROPT_SEARCH_GAMEMODE_CUSTOM:
       descr.id = "mp_mode"
-      descr.items = ["#options/any"]
-      descr.values = [-1]
-      descr.items.extend(["#multiplayer/teamBattleMode", "#multiplayer/dominationMode", "#multiplayer/tournamentMode"])
-      descr.values.extend([::GM_TEAMBATTLE, ::GM_DOMINATION, ::GM_TOURNAMENT])
+      descr.items = [ "#options/any", "#multiplayer/teamBattleMode", "#multiplayer/dominationMode", "#multiplayer/tournamentMode" ]
+      descr.values = [ -1, ::GM_TEAMBATTLE, ::GM_DOMINATION, ::GM_TOURNAMENT ]
       break
 
     case ::USEROPT_SEARCH_PLAYERMODE:
@@ -2299,7 +2291,7 @@ local isWaitMeasureEvent = false
           return ::loc("options/timeLimitAuto")
         if (val > 10000)
           return ::loc("options/timeUnlimited")
-        local result = ::getTblValue(values.find(val), items)
+        local result = ::getTblValue(values.indexof(val), items)
         if(result != null)
           return result
         return time.hoursToString(time.secondsToMinutes(val), false)
@@ -2358,7 +2350,7 @@ local isWaitMeasureEvent = false
       local allowedMask = (1 << ::shopCountriesList.len()) - 1
       if (::getTblValue("isEventRoom", context, false))
       {
-        local allowedList = ::get_tbl_value_by_path_array(["countries", team.name], context)
+        local allowedList = context?.countries[team.name]
         if (allowedList)
           allowedMask = ::get_bit_value_by_array(allowedList, ::shopCountriesList)
                         || allowedMask
@@ -2515,6 +2507,7 @@ local isWaitMeasureEvent = false
       {
         descr.title = ::loc("guiHints/chooseUnitsMMRank")
         local brRanges = ::getTblValue("brRanges", context, [])
+        local hasDuplicates = false
         for(local i = 0; i < brRanges.len(); i++)
         {
           local range = brRanges[i]
@@ -2525,11 +2518,17 @@ local isWaitMeasureEvent = false
                        + ((minBR != maxBR) ? " - " + ::format("%.1f", maxBR) : "")
           local text = brText
 
-          if (descr.values?[descr.values.len() - 1] == tier)
+          if (descr.values.indexof(tier) != null)
+          {
+            hasDuplicates = true
             continue
+          }
           descr.values.append(tier)
           descr.items.append(text)
         }
+
+        if (::is_dev_version && hasDuplicates)
+          ::dagor.assertf(false, "Duplicate BR ranges in matching configs")
       }
 
       if (!descr.values.len())
@@ -3025,7 +3024,6 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_CLUSTER:
     case ::USEROPT_RANDB_CLUSTER:
-      local defaultZone = ::get_default_network_cluster()
       descr.id = "cluster"
       descr.items = []
       descr.values = []
@@ -3033,6 +3031,8 @@ local isWaitMeasureEvent = false
 
       if (::g_clusters.clusters_info.len() > 0)
       {
+        local defaultClusters = split(::get_default_network_cluster(), ";")
+        local selectedClusters = []
         for(local i = 0; i < ::g_clusters.clusters_info.len(); i++)
         {
           local cluster = ::g_clusters.clusters_info[i]
@@ -3042,11 +3042,10 @@ local isWaitMeasureEvent = false
           })
           descr.values.append(cluster.name)
 
-          if (defaultZone == cluster.name)
-            defaultValue = descr.values[descr.values.len() - 1]
+          if (::isInArray(cluster.name, defaultClusters))
+            selectedClusters.append(descr.values[descr.values.len() - 1])
         }
-        if (defaultValue == 0)
-          defaultValue = descr.values[0]
+        defaultValue = selectedClusters.len() > 0 ? ";".join(selectedClusters) : descr.values[0]
       }
       else
       {
@@ -3073,6 +3072,13 @@ local isWaitMeasureEvent = false
         if (!descr.value)
           descr.value = ::get_bit_value_by_array(split(defaultValue, ";"), descr.values) || 1
       }
+      break
+
+    case ::USEROPT_PLAY_INACTIVE_WINDOW_SOUND:
+      descr.id = "playInactiveWindowSound"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_gui_option(optionId)
       break
 
     case ::USEROPT_PILOT:
@@ -3489,6 +3495,14 @@ local isWaitMeasureEvent = false
       descr.value = ::get_option_use_oculus_to_aim_helicopter() != 0
       break
 
+    case ::USEROPT_HELICOPTER_AUTOPILOT_ON_GUNNERVIEW:
+      descr.id = "helicopter_autopilot_on_gunnerview"
+      descr.items = ["#options/no", "#options/inmouseaim", "#options/always", "#options/always_damping"]
+      descr.values = [0, 1, 2, 3]
+      descr.value = ::get_option_auto_pilot_on_gunner_view_helicopter();
+      descr.trParams <- "optionWidthInc:t='half';"
+      break
+
     case ::USEROPT_SHOW_DESTROYED_PARTS:
       descr.id = "show_destroyed_parts"
       descr.controlType = optionControlType.CHECKBOX
@@ -3637,6 +3651,34 @@ local isWaitMeasureEvent = false
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = crossplayModule.isCrossNetworkChatEnabled()
+      break
+    case ::USEROPT_REPLACE_MY_NICK_LOCAL:
+      descr.id = "replace_my_nick_local"
+      descr.controlType = optionControlType.EDITBOX
+      descr.controlName <-"editbox"
+      descr.charMask <- "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_"
+      descr.value = ::get_gui_option_in_mode(optionId, ::OPTIONS_MODE_GAMEPLAY, "")
+      break
+
+    case ::USEROPT_SHOW_SOCIAL_NOTIFICATIONS:
+      descr.id = "show_social_notifications"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
+    case ::USEROPT_ALLOW_ADDED_TO_CONTACTS:
+      descr.id = "allow_added_to_contacts"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_allow_to_be_added_to_contacts()
+      break
+
+    case ::USEROPT_ALLOW_ADDED_TO_LEADERBOARDS:
+      descr.id = "allow_added_to_leaderboards"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.value = ::get_allow_to_be_added_to_lb()
       break
 
     default:
@@ -3808,6 +3850,8 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_INVERTY_HELICOPTER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_Y, value ? 1 : 0)
+    case ::USEROPT_INVERTY_HELICOPTER_GUNNER:
+      ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_GUNNER_Y, value ? 1 : 0)
       break
     case ::USEROPT_INVERTY_WALKER:
       ::set_option_invertY(AxisInvertOption.INVERT_WALKER_Y, value ? 1 : 0)
@@ -4144,6 +4188,9 @@ local isWaitMeasureEvent = false
     case ::USEROPT_ACTIVATE_AIRBORNE_RADAR_ON_SPAWN:
       ::set_option_activate_airborne_radar_on_spawn(value)
       break;
+    case ::USEROPT_USE_RECTANGULAR_RADAR_INDICATOR:
+      ::set_option_use_rectangular_radar_indicator(value)
+      break;
     case ::USEROPT_SAVE_AI_TARGET_TYPE:
       ::set_option_ai_target_type(value ? 1 : 0)
       break;
@@ -4291,6 +4338,10 @@ local isWaitMeasureEvent = false
       ::set_option_use_oculus_to_aim_helicopter(value ? 1 : 0)
       break
 
+    case ::USEROPT_HELICOPTER_AUTOPILOT_ON_GUNNERVIEW:
+      ::set_option_auto_pilot_on_gunner_view_helicopter(value)
+    break
+
     case ::USEROPT_HUE_HELICOPTER_HUD_ALERT:
       ::set_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT, descr.values[value]);
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
@@ -4369,7 +4420,9 @@ local isWaitMeasureEvent = false
     case ::USEROPT_INSTRUCTOR_ENGINE_CONTROL:
     case ::USEROPT_INSTRUCTOR_SIMPLE_JOY:
     case ::USEROPT_MAP_ZOOM_BY_LEVEL:
+    case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
     case ::USEROPT_HIDE_MOUSE_SPECTATOR:
+    case ::USEROPT_FIX_GUN_IN_MOUSE_LOOK:
       local optionIdx = ::getTblValue("boolOptionIdx", descr, -1)
       if (optionIdx >= 0 && ::u.isBool(value))
         ::set_option_bool(optionIdx, value)
@@ -4581,6 +4634,10 @@ local isWaitMeasureEvent = false
       }
       break
 
+    case ::USEROPT_PLAY_INACTIVE_WINDOW_SOUND:
+      ::set_gui_option(optionId, value)
+      break;
+
     case ::USEROPT_INTERNET_RADIO_ACTIVE:
       local internet_radio_options = ::get_internet_radio_options()
       internet_radio_options["active"] = value
@@ -4607,6 +4664,10 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_VOICE_DEVICE_OUT:
       ::set_last_device_out(descr.values[value]);
+      break
+
+    case ::USEROPT_SOUND_DEVICE_OUT:
+      soundDevice.set_last_sound_device_out(descr.values?[value] ?? "");
       break
 
     case ::USEROPT_HEADTRACK_ENABLE:
@@ -4682,6 +4743,22 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_PS4_CROSSNETWORK_CHAT:
       crossplayModule.setCrossNetworkChatStatus(value)
+      break
+    case ::USEROPT_REPLACE_MY_NICK_LOCAL:
+      ::set_gui_option_in_mode(optionId, value, ::OPTIONS_MODE_GAMEPLAY)
+      ::update_gamercards()
+      break
+    case ::USEROPT_SHOW_SOCIAL_NOTIFICATIONS:
+      ::set_gui_option(optionId, value)
+      break
+
+    case ::USEROPT_ALLOW_ADDED_TO_CONTACTS:
+      ::set_allow_to_be_added_to_contacts(value)
+      ::save_online_single_job(SAVE_ONLINE_JOB_DIGIT)
+      break
+    case ::USEROPT_ALLOW_ADDED_TO_LEADERBOARDS:
+      ::set_allow_to_be_added_to_lb(value)
+      ::save_online_single_job(SAVE_ONLINE_JOB_DIGIT)
       break
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:
@@ -4784,8 +4861,7 @@ local isWaitMeasureEvent = false
         break
 
       case "editbox":
-        elemTxt = create_option_editbox(optionData.id, optionData.value.tostring(), ::getTblValue("password", optionData, false),
-                                        ::getTblValue("maxlength", optionData, 16))
+        elemTxt = ::create_option_editbox(optionData)
         break
 
       case "listbox":

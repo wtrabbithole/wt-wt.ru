@@ -952,7 +952,7 @@ class Events
     {
       local teamData = getTeamDataWithRoom(event, team, room)
       if (::isInArray(playersCurCountry, getCountries(teamData)))
-        availableTeams.push(team)
+        availableTeams.append(team)
     }
     return availableTeams
   }
@@ -980,7 +980,7 @@ class Events
     local result = []
     foreach (country in ::shopCountriesList)
       if (isCountryAvailable(event, country))
-        result.push(country)
+        result.append(country)
 
     return result.len() < ::shopCountriesList.len() ? result : []
   }
@@ -1143,7 +1143,7 @@ class Events
   function isUnitAllowedByTeamData(teamData, airName, ediff = -1)
   {
     local unit = ::getAircraftByName(airName)
-    if (!unit)
+    if (!unit || unit.disableFlyout)
       return false
     if (!::isInArray(unit.shopCountry, getCountries(teamData)))
       return false
@@ -1424,10 +1424,8 @@ class Events
   {
     local mGameMode = getMGameMode(event, room)
     local teamData = getTeamDataWithRoom(mGameMode, team, room)
-    local ediff = getEDiffByEvent(event)
-    local multiSlotEnabled = isEventMultiSlotEnabled(event)
     local canChangeMemberCountry = !room //can choose members country by queue params
-    return ::g_squad_utils.getMembersFlyoutData(teamData, multiSlotEnabled, ediff, canChangeMemberCountry)
+    return ::g_squad_utils.getMembersFlyoutData(teamData, event, canChangeMemberCountry)
   }
 
   function prepareMembersForQueue(membersData)
@@ -1795,18 +1793,18 @@ class Events
    * Function requests leaderboards asynchronously and puts result
    * as argument to callback function
    */
-  function getLeaderboard(requestData, id, callback = null, context = null)
+  function requestLeaderboard(requestData, id, callback = null, context = null)
   {
-    _leaderboards.getLeaderboard(requestData, id, callback, context)
+    _leaderboards.requestLeaderboard(requestData, id, callback, context)
   }
 
   /**
    * Function requests self leaderboard row asynchronously and puts result
    * as argument to callback function
    */
-  function getSelfRow(requestData, id, callback = null, context = null)
+  function requestSelfRow(requestData, id, callback = null, context = null)
   {
-    _leaderboards.getSelfRow(requestData, id, callback, context)
+    _leaderboards.requestSelfRow(requestData, id, callback, context)
   }
 
   function lbBlkToArray(blk)

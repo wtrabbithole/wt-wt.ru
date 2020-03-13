@@ -335,22 +335,22 @@ enums.addTypesByGlobalName("g_shortcut_type", {
   HALF_AXIS = {
     isMe = function (shortcutId)
     {
-      return (shortcutId.find("=max") != null ||
-             shortcutId.find("=min") != null) &&
+      return (shortcutId.indexof("=max") != null ||
+             shortcutId.indexof("=min") != null) &&
              !::g_shortcut_type.HALF_AXIS_HOLD.isMe(shortcutId)
     }
 
     getAxisName = function (shortcutId)
     {
-      return shortcutId.slice(0, shortcutId.find("="))
+      return shortcutId.slice(0, shortcutId.indexof("="))
     }
 
     transformHalfAxisToShortcuts = function (shortcutId)
     {
       local fullAxisId = getAxisName(shortcutId)
-      if (shortcutId.find("=max") != null)
+      if (shortcutId.indexof("=max") != null)
         return fullAxisId + "_rangeMax"
-      if (shortcutId.find("=min") != null)
+      if (shortcutId.indexof("=min") != null)
         return fullAxisId + "_rangeMin"
 
       //actualy imposible situation if isAssigned used befor expand
@@ -379,9 +379,9 @@ enums.addTypesByGlobalName("g_shortcut_type", {
       local modifier = AXIS_MODIFIERS.NONE
       local isInverse = axisDesc.inverse &&
         (axisDesc.axisId != -1 || axisDesc.mouseAxis == -1)
-      if (shortcutId.find("=max") != null)
+      if (shortcutId.indexof("=max") != null)
         modifier = !isInverse ? AXIS_MODIFIERS.MAX : AXIS_MODIFIERS.MIN
-      if (shortcutId.find("=min") != null)
+      if (shortcutId.indexof("=min") != null)
         modifier = !isInverse ? AXIS_MODIFIERS.MIN : AXIS_MODIFIERS.MAX
 
       return [::Input.Axis(axisDesc, modifier, preset)]
@@ -391,8 +391,8 @@ enums.addTypesByGlobalName("g_shortcut_type", {
   HALF_AXIS_HOLD = {
     isMe = function (shortcutId)
     {
-      return shortcutId.find("=max_hold") != null ||
-             shortcutId.find("=min_hold") != null
+      return shortcutId.indexof("=max_hold") != null ||
+             shortcutId.indexof("=min_hold") != null
     }
 
     getAxisName = function (shortcutId)
@@ -430,7 +430,7 @@ enums.addTypesByGlobalName("g_shortcut_type", {
   COMPOSIT_AXIS = {
     isMe = function (shortcutId)
     {
-      return shortcutId.find("+") != null
+      return shortcutId.indexof("+") != null
     }
 
     splitCompositAxis = function (compositAxis)

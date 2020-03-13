@@ -774,27 +774,31 @@
             "onHit": {
               "damage": 2.7,
               "fire": 0.01,
-              "leak_oil": 0.5
+              "leak_oil": 0.5,
+              "cut": 0.0
             }
           },
           {
             "onHit": {
               "damage": 30.0,
               "fire": 0.1,
-              "leak_oil": 1.0
+              "leak_oil": 1.0,
+              "cut": 0.0
             }
           },
           {
             "onKill": {
               "fire": 30.0,
-              "leak_oil": 10.0
+              "leak_oil": 10.0,
+              "cut": 0.0
             }
           },
           {
             "onKill": {
               "damage": 30.0,
               "fire": 44.0,
-              "leak_oil": 10.0
+              "leak_oil": 10.0,
+              "cut": 0.0
             }
           }
         ]
@@ -1564,67 +1568,110 @@
             "name": "wing1_l_dm"
           },
           {
+            "defaultEffectPart": "spar1_l_dm"
+          },
+          {
             "onHit": {
               "damage": 10.0,
-              "cut": 0.1
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.1,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 20.0,
-              "cut": 0.2
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.2,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 30.0,
-              "cut": 0.4
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.4,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 50.0,
-              "cut": 0.8
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.8,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 70.0,
-              "cut": 1.0
+              "cut": 0.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 9.0
+              "cut": 0.0,
+              "nothing": 9.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 5.0
+              "cut": 0.0,
+              "nothing": 5.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 3.0
+              "cut": 0.0,
+              "nothing": 3.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 50.0,
-              "cut": 1.0,
-              "nothing": 1.0
+              "cut": 0.0,
+              "nothing": 1.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 70.0,
-              "cut": 1.0
+              "cut": 0.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           }
         ]
@@ -1635,67 +1682,110 @@
             "name": "wing1_r_dm"
           },
           {
+            "defaultEffectPart": "spar1_r_dm"
+          },
+          {
             "onHit": {
               "damage": 10.0,
-              "cut": 0.1
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.1,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 20.0,
-              "cut": 0.2
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.2,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 30.0,
-              "cut": 0.4
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.4,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 50.0,
-              "cut": 0.8
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.8,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 70.0,
-              "cut": 1.0
+              "cut": 0.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 9.0
+              "cut": 0.0,
+              "nothing": 9.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 5.0
+              "cut": 0.0,
+              "nothing": 5.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 3.0
+              "cut": 0.0,
+              "nothing": 3.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 50.0,
-              "cut": 1.0,
-              "nothing": 1.0
+              "cut": 0.0,
+              "nothing": 1.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 70.0,
-              "cut": 1.0
+              "cut": 0.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           }
         ]
@@ -1706,67 +1796,110 @@
             "name": "wing2_l_dm"
           },
           {
+            "defaultEffectPart": "spar2_l_dm"
+          },
+          {
             "onHit": {
               "damage": 10.0,
-              "cut": 0.1
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.1,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 20.0,
-              "cut": 0.2
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.2,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 30.0,
-              "cut": 0.4
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.4,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 50.0,
-              "cut": 0.8
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.8,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 70.0,
-              "cut": 1.0
+              "cut": 0.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 9.0
+              "cut": 0.0,
+              "nothing": 9.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 5.0
+              "cut": 0.0,
+              "nothing": 5.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 3.0
+              "cut": 0.0,
+              "nothing": 3.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 50.0,
-              "cut": 1.0,
-              "nothing": 1.0
+              "cut": 0.0,
+              "nothing": 1.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 70.0,
-              "cut": 1.0
+              "cut": 0.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           }
         ]
@@ -1777,67 +1910,110 @@
             "name": "wing2_r_dm"
           },
           {
+            "defaultEffectPart": "spar2_r_dm"
+          },
+          {
             "onHit": {
               "damage": 10.0,
-              "cut": 0.1
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.1,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 20.0,
-              "cut": 0.2
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.2,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 30.0,
-              "cut": 0.4
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.4,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 50.0,
-              "cut": 0.8
+              "cut": 0.0,
+              "part": {
+                "ratio": 0.8,
+                "canCut": true
+              }
             }
           },
           {
             "onHit": {
               "damage": 70.0,
-              "cut": 1.0
+              "cut": 0.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 10.0,
-              "cut": 1.0,
-              "nothing": 9.0
+              "cut": 0.0,
+              "nothing": 9.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 20.0,
-              "cut": 1.0,
-              "nothing": 5.0
+              "cut": 0.0,
+              "nothing": 5.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 30.0,
-              "cut": 1.0,
-              "nothing": 3.0
+              "cut": 0.0,
+              "nothing": 3.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 50.0,
-              "cut": 1.0,
-              "nothing": 1.0
+              "cut": 0.0,
+              "nothing": 1.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           },
           {
             "onKill": {
               "damage": 70.0,
-              "cut": 1.0
+              "cut": 0.0,
+              "part": {
+                "ratio": 1.0,
+                "canCut": true
+              }
             }
           }
         ]
@@ -1984,6 +2160,9 @@
         "altitude_10k": [0.0,100000.0],
         "altitude_hour": [0.0,10000.0],
         "altitude_min": [0.0,1000.0],
+        "altitude1_10k": [0.0,100000.0],
+        "altitude1_hour": [0.0,10000.0],
+        "altitude1_min": [0.0,1000.0],
         "altitude_koef": 3.28,
         "bank": [-8.0,8.0],
         "bank1": [-8.0,8.0],
@@ -1995,7 +2174,8 @@
         "manifold_pressure": [0.334,2.507],
         "rpm_min": [0.0,1000.0],
         "rpm_hour": [0.0,10000.0],
-        "oil_pressure": [0.0,200.0],
+        "oil_pressure": [0.0,100.0],
+        "oil_pressure1": [0.0,200.0],
         "oil_temperature": [-50.0,150.0],
         "fuel_pressure": [0.0,15.0],
         "head_temperature": [0.0,300.0],

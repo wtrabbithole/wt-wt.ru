@@ -100,7 +100,7 @@ class ::gui_handlers.ChangeCountry extends ::gui_handlers.BaseGuiHandlerWT
     for (local i = 0; i < countries.len(); ++i)
     {
       local country = countries[i]
-      shopFilterItems.push({
+      shopFilterItems.append({
         shopFilterId = country
         shopFilterText = ::loc(country)
         shopFilterImage = ::get_country_icon(country, true, !isCountryUnlocked(country))
@@ -132,7 +132,7 @@ class ::gui_handlers.ChangeCountry extends ::gui_handlers.BaseGuiHandlerWT
     for (local i = 0; i < ::shopCountriesList.len(); ++i)
     {
       if (::events.isCountryAvailable(source, ::shopCountriesList[i]))
-        res.push(::shopCountriesList[i])
+        res.append(::shopCountriesList[i])
     }
     return res
   }

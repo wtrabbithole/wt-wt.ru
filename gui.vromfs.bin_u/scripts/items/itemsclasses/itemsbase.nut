@@ -158,7 +158,7 @@ class ::BaseItem
       return true
 
     foreach(uid in item.uids)
-      if (uids.find(uid) != null)
+      if (uids.indexof(uid) != null)
         return true
     return false
   }
@@ -669,7 +669,7 @@ class ::BaseItem
       locParams = {
         itemsLeft = ::colorize("activeTextColor", (limitGlobal - limitData.countGlobal))
       }
-      textParts.push(::loc("items/limitDescription/limitGlobal", locParams))
+      textParts.append(::loc("items/limitDescription/limitGlobal", locParams))
     }
     if (limitPersonalTotal > 0)
     {
@@ -677,10 +677,10 @@ class ::BaseItem
         itemsPurchased = ::colorize("activeTextColor", limitData.countPersonalTotal)
         itemsTotal = ::colorize("activeTextColor", limitPersonalTotal)
       }
-      textParts.push(::loc("items/limitDescription/limitPersonalTotal", locParams))
+      textParts.append(::loc("items/limitDescription/limitPersonalTotal", locParams))
     }
     if (limitPersonalAtTime > 0 && limitData.countPersonalAtTime >= limitPersonalAtTime)
-      textParts.push(::loc("items/limitDescription/limitPersonalAtTime"))
+      textParts.append(::loc("items/limitDescription/limitPersonalAtTime"))
     return ::g_string.implode(textParts, "\n")
   }
 

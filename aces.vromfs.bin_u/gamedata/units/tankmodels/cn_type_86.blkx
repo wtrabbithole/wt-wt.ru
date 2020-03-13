@@ -679,7 +679,7 @@
       "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_pt76",
       "TrackSoundNameCockpit": "tracks_pt76_interior",
-      "turret_turn": "turret_turn_t34_manual",
+      "turret_turn": "turret_turn",
       "EngineNameAi": "engine_tank_ai_pt76",
       "TrackSoundNameAi": "tracks_ai_pt76"
     }
@@ -1669,6 +1669,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -1799,6 +1807,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ]
     }
@@ -1814,6 +1830,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/73mm_2A28_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "recoilOffset": 0.1,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -2869,6 +2886,7 @@
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
                 "shotFreq": 0.2,
+                "recoilOffset": 0.1,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "barrelDP": "gun_barrel_dm",

@@ -220,6 +220,38 @@ return [
     checkAssign = false
   }
   {
+    id = "ID_SENSOR_SWITCH_SHIP"
+    checkGroup = ctrlGroups.SHIP
+    checkAssign = false
+  }
+/*
+  {
+    id = "ID_SENSOR_MODE_SWITCH_SHIP"
+    checkGroup = ctrlGroups.SHIP
+    checkAssign = false
+  }
+  {
+    id = "ID_SENSOR_SCAN_PATTERN_SWITCH_SHIP"
+    checkGroup = ctrlGroups.SHIP
+    checkAssign = false
+  }
+*/
+  {
+    id = "ID_SENSOR_RANGE_SWITCH_SHIP"
+    checkGroup = ctrlGroups.SHIP
+    checkAssign = false
+  }
+  {
+    id = "ID_SENSOR_TARGET_SWITCH_SHIP"
+    checkGroup = ctrlGroups.SHIP
+    checkAssign = false
+  }
+  {
+    id = "ID_SENSOR_TARGET_LOCK_SHIP"
+    checkGroup = ctrlGroups.SHIP
+    checkAssign = false
+  }
+  {
     id = "ship_zoom"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.SHIP

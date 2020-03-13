@@ -76,7 +76,7 @@ class ::gui_handlers.CreateRoomWnd extends ::gui_handlers.BaseGuiHandlerWT
       tabs = []
     }
     foreach(idx, tab in tabsList)
-      view.tabs.push({
+      view.tabs.append({
         tabName = ::loc(tab.locId)
         navImagesText = ::get_navigation_images_text(idx, tabsList.len())
       })

@@ -72,16 +72,6 @@ local function panelToolbar() {
   }
 }
 
-local function join(arr, sep) {
-  local s = ""
-  for (local i=0; i<arr.len(); ++i) {
-    if (i)
-      s += sep
-    s += arr[i]
-  }
-  return s
-}
-
 
 local function propValue(desc, key) {
   local val = desc[key]
@@ -100,9 +90,9 @@ local function propValue(desc, key) {
   if (val == null) {
     text = "<null>"
   } else if (tp == "array") {
-    text = join(val, ", ")
-  } else if (tp == "integer" && key.tolower().find("color")!=null) {
-    text = "#"+string.format("%16X", val).slice(8)
+    text = ", ".join(val)
+  } else if (tp == "integer" && key.tolower().indexof("color")!=null) {
+    text = "".concat("#", string.format("%16X", val).slice(8))
   } else if (tp == "userdata" || tp == "userpointer") {
     text = "<userdata/userpointer>"
   } else {
@@ -133,7 +123,7 @@ local function propPanel(desc) {
       children = [
         {
           rendObj = ROBJ_STEXT
-          text = k.tostring()+" = "
+          text = "".concat(k.tostring(), " = ")
         }
         propValue(desc, k)
       ]
@@ -215,10 +205,10 @@ local function elemLocationText(elem, builder) {
 
   local location = ::locate_element_source(elem)
   if (location) {
-    text = location.stack + "\n-------\n"
+    text = "".concat(location.stack, "\n-------\n")
   }
 
-  text += (builder ? "\n(Function)" : "\n(Table)")
+  text = "".concat(text, (builder ? "\n(Function)" : "\n(Table)"))
   return text
 }
 
@@ -230,7 +220,7 @@ local function elementPicker() {
     cursor = cursors.pick || cursors.normal
     rendObj = ROBJ_SOLID
     color = Color(20,0,0,20)
-    onClick = function(data) {
+    function onClick(data) {
       if (data) {
         inspectorState.selection.update({
           componentDesc = data.componentDesc
@@ -241,7 +231,7 @@ local function elementPicker() {
       }
       inspectorState.pickerActive.update(false)
     }
-    onChange = function(highlight) {
+    function onChange(highlight) {
       inspectorState.highlight.update(highlight)
     }
     children = [
@@ -274,7 +264,7 @@ local function inspectorRoot() {
       (inspectorState.pickerActive.value ? elementPicker : null),
       {
         hotkeys = [
-          ["Ctrl Shift I", toggle],
+          ["L.Ctrl L.Shift I", toggle],
         ]
       }
     ]

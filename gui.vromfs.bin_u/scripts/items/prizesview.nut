@@ -501,7 +501,7 @@ PrizesView._findAndStackPrizeUnit <- function _findAndStackPrizeUnit(prize, stac
     else if (stack.size >= UNITS_STACK_DETAILED_COUNT)
       stack.level = ::max(prizesStack.DETAILED, stackLevel)
 
-      return true
+    return true
   }
 
   stack = _createStack(prize)

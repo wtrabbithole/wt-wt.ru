@@ -3,6 +3,11 @@ local io = require("io")
 /*
   todo: better return Monad Result
 */
+local callableTypes = ["function","table","instance"]
+local function isCallable(v) {
+  return callableTypes.indexof(::type(v)) != null && (v.getfuncinfos() != null)
+}
+
 local function defSaveJsonFile(file_path, data){
   ::assert(::type(data) == "string", "data should be string")
   local file = io.file(file_path, "wt+")
@@ -16,19 +21,19 @@ local function save(file_path, data, params = defParamsSave) {
   local pretty_print = params?.pretty_print ?? defParamsSave.pretty_print
   local save_text_file = params?.save_text_file ?? defParamsSave.save_text_file
   local logger = params?.logger ?? defParamsSave.logger
-  ::assert(::type(save_text_file)=="function", "save_text_file should be function")
+  ::assert(isCallable(save_text_file), "save_text_file should be Callable")
   ::assert(::type(file_path)=="string", "file_path should be string")
-  ::assert(["function", "null"].find(::type(logger)) != null, @() "logger should be function, got {0}".subst(::type(logger)))
-  ::assert(["function","class","instance","generator"].find(::type(data))==null)
+  ::assert(logger== null || isCallable(logger), @() $"logger should be Callable or null, got {::type(logger)}")
+  ::assert(["function","class","instance","generator"].indexof(::type(data))==null)
   try {
     data = json.to_string(data, pretty_print)
     local res = save_text_file(file_path, data)
     if (res){
-      logger?("file:{0} saved".subst(file_path))
+      logger?($"file:{file_path} saved")
       return true
     }
     else {
-      logger?("file:{0} was not saved!".subst(file_path))
+      logger?($"file:{file_path} was not saved!")
       return null
     }
   }
@@ -49,8 +54,8 @@ local function load(file_path, params = defParamsLoad) {
   ::assert(::type(file_path)=="string", "file_path should be string")
   local logger = params?.logger ?? defParamsLoad.logger
   local load_text_file = params?.load_text_file ?? defParamsLoad.load_text_file
-  ::assert(::type(load_text_file)=="function", "load_text_file should be function")
-  ::assert(["function", "null"].find(::type(logger)) != null, @() "logger should be function, got {0}".subst(::type(logger)))
+  ::assert(isCallable(load_text_file), "load_text_file should be Callable")
+  ::assert(isCallable(logger) || logger==null, @() $"logger should be Callable or null, got {::type(logger)}")
   try {
     local jsontext = load_text_file(file_path)
     return json.parse(jsontext)

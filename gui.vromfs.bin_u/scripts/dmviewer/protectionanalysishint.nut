@@ -92,12 +92,12 @@ class ::gui_handlers.ProtectionAnalysisHint extends ::gui_handlers.BaseGuiHandle
 
     local isShow = !::u.isEmpty(params)
     hintObj.show(isShow)
-    if (!isShow)
-      return
 
     local resultCfg = results.getResultTypeByParams(params)
-
     cursorObj["background-color"] = ::get_main_gui_scene().getConstantValue(resultCfg.color)
+
+    if (!isShow)
+      return
 
     local getValue = getValueByResultCfg
     local printValue = printValueByParam

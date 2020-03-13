@@ -260,7 +260,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       return notFoundPlayerMsg()
 
     ::set_char_cb(this, slotOpCb)
-    afterSlotOp = getUserStats
+    afterSlotOp = tryFillUserStats
     afterSlotOpError = function(result) { /* notFoundPlayerMsg() */ goBack() }
 
     fillGamercard()
@@ -326,7 +326,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     return notFoundPlayerMsg()
   }
 
-  function getUserStats()
+  function tryFillUserStats()
   {
     if (searchPlayerByNick)
       return onSearchResult()
@@ -646,7 +646,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     foreach (id in pl.titles)
     {
       local titleUnlock = ::g_unlocks.getUnlockById(id)
-      if (!titleUnlock || titleUnlock.hidden)
+      if (!titleUnlock || titleUnlock?.hidden)
         continue
 
       local locText = ::loc("title/" + id)
@@ -857,16 +857,15 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (statsSortBy=="")
       statsSortBy = "victories"
-    airStatsList.sort((@(statsSortBy, statsSortReverse) function(a,b) {
-        local res = 0
-        if (a[statsSortBy] < b[statsSortBy]) res = 1
-        else if (a[statsSortBy] > b[statsSortBy]) res = -1
-          else
-            if (statsSortBy!="name")
-              if (a.name < b.name) res = 1
-              else if (a.name > b.name) res = -1
-        return statsSortReverse? -res : res
-      })(statsSortBy, statsSortReverse))
+
+    local sortBy = statsSortBy
+    local sortReverse = statsSortReverse == (sortBy != "locName")
+    airStatsList.sort(function(a,b) {
+      local res = b[sortBy] <=> a[sortBy]
+      if (res != 0)
+        return sortReverse ? -res : res
+      return a.locName <=> b.locName || a.name <=> b.name
+    })
 
     curStatsPage = 0
     updateStatPage()
@@ -930,7 +929,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local rowName = "row_"+idx
       local rowData = [
-        { text = (idx+1).tostring(), width=posWidth },
+        { text = (idx+1).tostring(), width=posWidth }
         { id="rank", width=rcWidth, text = airData.rank.tostring(), tdAlign="right", cellType="splitRight", active = statsSortBy=="rank" }
         { id="country", width=rcWidth, image=::get_country_icon(airData.country), cellType="splitLeft", needText = false }
         {
@@ -1091,7 +1090,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onChangePilotIcon(obj) {}
-  function getNewTitles() {}
+  function openChooseTitleWnd() {}
 
   function getCurSheet()
   {
@@ -1119,7 +1118,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::has_feature_array(reqFeature))
         continue
 
-      lbModesList.push(mode.mode)
+      lbModesList.append(mode.mode)
       data += format("option {text:t='%s'}", mode.text)
     }
 

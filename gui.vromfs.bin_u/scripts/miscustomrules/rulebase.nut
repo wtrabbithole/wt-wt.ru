@@ -34,11 +34,7 @@ class ::mission_rules.Base
     isWarpointsRespawnEnabled = isVersus && ::getTblValue("multiRespawn", missionParams, false)
     hasRespawnCost = isScoreRespawnEnabled || isWarpointsRespawnEnabled
     isWorldWar = isVersus && ::getTblValue("isWorldWar", missionParams, false)
-
-    //Add hack for ps4, fix was in .cpp file, remove after 1.61.1.X update, and return default value to 'true'
-    local tempDefaultNeedShowLockedSlotsValue = ::getTblValueByPath("customRules/name", missionParams, "", "/") != "unitsDeck"
-    ////
-    needShowLockedSlots = ::getTblValue("needShowLockedSlots", missionParams, tempDefaultNeedShowLockedSlotsValue)
+    needShowLockedSlots = missionParams?.needShowLockedSlots ?? true
   }
 
   function onMissionStateChanged()
@@ -177,7 +173,7 @@ class ::mission_rules.Base
           local air = ::getAircraftByName(airName)
           if (air &&
               ::is_crew_available_in_session(slot.idInCountry, false) &&
-              ::is_crew_slot_was_ready_at_host(slot.idInCountry, airName, true)
+              ::is_crew_slot_was_ready_at_host(slot.idInCountry, airName, false)
              )
           {
             local respBases = ::get_available_respawn_bases(air.tags)
@@ -215,7 +211,7 @@ class ::mission_rules.Base
       local unit = ::g_crew.getCrewUnit(crew)
       if (!unit
         || !::is_crew_available_in_session(crew.idInCountry, false)
-        || !::is_crew_slot_was_ready_at_host(crew.idInCountry, unit.name, true))
+        || !::is_crew_slot_was_ready_at_host(crew.idInCountry, unit.name, false))
         continue
 
       local minScore = unit.getMinimumSpawnScore()
@@ -259,9 +255,10 @@ class ::mission_rules.Base
         continue
 
       if (!::is_crew_available_in_session(c.idInCountry, false)
-          || !::is_crew_slot_was_ready_at_host(c.idInCountry, unit.name, true)
+          || !::is_crew_slot_was_ready_at_host(c.idInCountry, unit.name, false)
           || !::get_available_respawn_bases(unit.tags).len()
-          || !getUnitLeftRespawns(unit))
+          || !getUnitLeftRespawns(unit)
+          || unit.disableFlyout)
         continue
 
       if (isScoreRespawnEnabled && curSpawnScore >= 0
@@ -295,13 +292,18 @@ class ::mission_rules.Base
 
   function isUnitWeaponAllowed(unit, weapon)
   {
-    return getUnitWeaponRespawnsLeft(unit, weapon) != 0
+    return !needCheckWeaponsAllowed(unit) || getUnitWeaponRespawnsLeft(unit, weapon) != 0
   }
 
   function getUnitWeaponRespawnsLeft(unit, weapon)
   {
     local limitsBlk = getWeaponsLimitsBlk()
     return limitsBlk ? getWeaponRespawnsLeftByLimitsBlk(unit, weapon, limitsBlk) : -1
+  }
+
+  function needCheckWeaponsAllowed(unit)
+  {
+    return !isMissionByUnitsGroups() && (unit.isAir() || unit.isHelicopter())
   }
 
   /*************************************************************************************************/
@@ -391,12 +393,13 @@ class ::mission_rules.Base
   {
     local randomGroups = getMyStateBlk()?.random_units
     if (!randomGroups)
-      return
+      return null
     foreach (unitsGroup in randomGroups)
     {
       if (unitName in unitsGroup)
         return unitsGroup.getBlockName()
     }
+    return null
   }
 
   function getRandomUnitsList(groupName)
@@ -524,6 +527,25 @@ class ::mission_rules.Base
   function isUnitForcedHiden(unitName)
   {
     return getMyStateBlk()?.forcedUnitsStates?[unitName]?.hidden ?? false
+  }
+
+  isMissionByUnitsGroups = @() missionParams?.unitGroups != null
+
+  function getUnitsGroups() {
+    local fullGroupsList = {}
+    foreach (countryBlk in (missionParams?.unitGroups ?? []))
+      for (local i = 0; i < countryBlk.blockCount(); i++)
+      {
+        local groupBlk = countryBlk.getBlock(i)
+        local unitList = groupBlk?.unitList
+        fullGroupsList[groupBlk.getBlockName()] <- {
+          name = groupBlk?.name ?? ""
+          defaultUnit = groupBlk?.defaultUnit ?? ""
+          units = unitList != null ? (unitList % "unit") : []
+        }
+      }
+
+    return fullGroupsList
   }
 }
 

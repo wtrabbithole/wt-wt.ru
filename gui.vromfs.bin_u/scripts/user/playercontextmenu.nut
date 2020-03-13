@@ -1,6 +1,6 @@
-local u = ::require("sqStdLibs/helpers/u.nut")
-local platformModule = ::require("scripts/clientState/platform.nut")
-local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
+local u = require("sqStdLibs/helpers/u.nut")
+local platformModule = require("scripts/clientState/platform.nut")
+local localDevoice = require("scripts/penitentiary/localDevoice.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 
 //-----------------------------
@@ -46,6 +46,28 @@ local showCrossNetworkCommunicationsRestrictionMsgBox = @() ::showInfoMsgBox(::l
 local showNotAvailableActionPopup = @() ::g_popups.add(null, ::loc("xbox/actionNotAvailableDiffPlatform"))
 local showBlockedPlayerPopup = @(playerName) ::g_popups.add(null, ::loc("chat/player_blocked", {playerName = platformModule.getPlayerName(playerName)}))
 local showNoInviteForDiffPlatformPopup = @() ::g_popups.add(null, ::loc("msg/squad/noPlayersForDiffConsoles"))
+local showXboxPlayerMuted = @(playerName) ::g_popups.add(null, ::loc("popup/playerMuted", {playerName = platformModule.getPlayerName(playerName)}))
+
+local notifyPlayerAboutRestriction = function(contact, isInvite = false)
+{
+  local isCrossNetworkMessagesAllowed = ::g_chat.isCrossNetworkMessageAllowed(contact.name)
+  local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(contact.name)
+  if (::is_platform_xboxone)
+  {
+    ::g_chat.attemptShowOverlayMessage(contact.name, isInvite)
+    //There is no system level error message, added custom.
+    if (contact.getInteractionStatus() == XBOX_COMMUNICATIONS_BLOCKED && !contact.isInFriendGroup())
+      showLiveCommunicationsRestrictionMsgBox()
+    else if (!isXBoxOnePlayer && !isCrossNetworkMessagesAllowed) // It is not included in interactionStatus
+      showCrossNetworkCommunicationsRestrictionMsgBox()
+    return
+  }
+
+  if (!isCrossNetworkMessagesAllowed)
+    showCrossNetworkCommunicationsRestrictionMsgBox()
+  else
+    showLiveCommunicationsRestrictionMsgBox()
+}
 
 local getActions = function(contact, params)
 {
@@ -62,9 +84,11 @@ local getActions = function(contact, params)
 
   local canChat = contact.canChat()
   local canInvite = contact.canInvite()
+  local isProfileMuted = contact.isMuted()
   local canInteractCrossConsole = platformModule.canInteractCrossConsole(name)
   local canInteractCrossPlatform = isPS4Player || isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
   local showCrossPlayIcon = canInteractCrossConsole && crossplayModule.needShowCrossPlayInfo() && (!isXBoxOnePlayer || !isPS4Player)
+  local isChatEnabled = ::g_chat.isChatEnabled()
 
   local roomId = params?.roomId
   local roomData = roomId? ::g_chat.getRoomById(roomId) : null
@@ -118,33 +142,29 @@ local getActions = function(contact, params)
 //---- </Session Join> ---------
 
 //---- <Common> ----------------
-  actions.extend([
+  actions.append(
     {
       text = ::loc("contacts/message")
       show = !isMe && ::ps4_is_chat_enabled() && ::has_feature("Chat") && !u.isEmpty(name)
-      isVisualDisabled = !canChat || isBlock
+      isVisualDisabled = !canChat || isBlock || isProfileMuted
       action = function() {
-        if (!canChat)
-        {
-          if (::isInMenu() && ::is_platform_xboxone)
-            ::g_chat.attemptShowOverlayMessage(name)
-          if (isXBoxOnePlayer)
-            showLiveCommunicationsRestrictionMsgBox()
-          else
-            showCrossNetworkCommunicationsRestrictionMsgBox()
-          return
-        }
-
         if (isBlock)
           return showBlockedPlayerPopup(name)
+
+        if (isProfileMuted) //There was no xbox message, so don't try to call overlay msg
+          return showXboxPlayerMuted(name)
+
+        if (!canChat)
+          return notifyPlayerAboutRestriction(contact)
 
         if (isMPChat)
         {
           ::broadcastEvent("MpChatInputRequested", { activate = true })
           ::chat_set_mode(::CHAT_MODE_PRIVATE, name)
+          return
         }
-        else
-          ::openChatPrivate(name)
+
+        ::openChatPrivate(name)
       }
     }
     {
@@ -157,7 +177,7 @@ local getActions = function(contact, params)
       show = ::has_feature("Clans") && !u.isEmpty(clanTag) && clanTag != ::clan_get_my_clan_tag()
       action = @() ::showClanPage("", "", clanTag)
     }
-  ])
+  )
 //---- </Common> ------------------
 
 //---- <Squad> --------------------
@@ -169,10 +189,10 @@ local getActions = function(contact, params)
     local hasApplicationInMySquad = ::g_squad_manager.hasApplicationInMySquad(uidInt64, name)
     local canInviteDiffConsole = ::g_squad_manager.canInviteMemberByPlatform(name)
 
-    actions.extend([
+    actions.append(
       {
         text = ::loc("squadAction/openChat")
-        show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && ::g_chat.isChatEnabled()
+        show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && isChatEnabled
         action = @() ::g_chat.openChatRoom(::g_chat.getMySquadRoomId())
       }
       {
@@ -194,10 +214,7 @@ local getActions = function(contact, params)
           else if (!canInteractCrossPlatform)
             showCrossNetworkPlayRestrictionMsgBox()
           else if (!canInvite)
-          {
-            if (::isInMenu())
-              ::g_chat.attemptShowOverlayMessage(name)
-          }
+            notifyPlayerAboutRestriction(contact, true)
           else if (!canInviteDiffConsole)
             showNoInviteForDiffPlatformPopup()
           else if (hasApplicationInMySquad)
@@ -221,10 +238,7 @@ local getActions = function(contact, params)
           else if (!canInteractCrossPlatform)
             showCrossNetworkPlayRestrictionMsgBox()
           else if (!canInvite)
-          {
-            if (::isInMenu())
-              ::g_chat.attemptShowOverlayMessage(name)
-          }
+            notifyPlayerAboutRestriction(contact, true)
           else if (!canInviteDiffConsole)
             showNoInviteForDiffPlatformPopup()
           else
@@ -247,14 +261,14 @@ local getActions = function(contact, params)
         show = !isMe && ::g_squad_manager.canTransferLeadership(uid)
         action = @() ::g_squad_manager.transferLeadership(uid)
       }
-    ])
+    )
   }
 //---- </Squad> -------------------
 
 //---- <XBox Specific> ------------
-  if (::is_platform_xboxone && uidInt64 != null && isXBoxOnePlayer)
+  if (::is_platform_xboxone && isXBoxOnePlayer)
   {
-    local isXboxPlayerMuted = ::xbox_is_chat_player_muted(uidInt64)
+    local isXboxPlayerMuted = contact.isXboxChatMuted()
     actions.append({
       text = isXboxPlayerMuted? ::loc("mainmenu/btnUnmute") : ::loc("mainmenu/btnMute")
       show = !isMe && ::xbox_is_player_in_chat(uidInt64)
@@ -275,7 +289,7 @@ local getActions = function(contact, params)
     local isMyRankHigher = ::g_clans.getClanMemberRank(clanData, name) < ::clan_get_role_rank(::clan_get_my_role())
     local isClanAdmin = ::clan_get_admin_editor_mode()
 
-    actions.extend([
+    actions.append(
       {
         text = ::loc("clan/activity")
         show = ::has_feature("ClanActivity")
@@ -301,7 +315,7 @@ local getActions = function(contact, params)
                || isClanAdmin
         action = @() ::g_clans.dismissMember(contact, clanData)
       }
-    ])
+    )
   }
 //---- </Clan> ---------------------
 
@@ -310,7 +324,7 @@ local getActions = function(contact, params)
   {
     local canBlock = !::is_platform_xboxone || !isXBoxOnePlayer
 
-    actions.extend([
+    actions.append(
       {
         text = ::loc("contacts/friendlist/add")
         show = !isMe && !isFriend && !isBlock
@@ -342,7 +356,7 @@ local getActions = function(contact, params)
         show = isBlock && canBlock
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, false)
       }
-    ])
+    )
   }
 //---- </Contacts> ------------------
 
@@ -371,23 +385,24 @@ local getActions = function(contact, params)
 //---- <Chat> -----------------------
   if (::has_feature("Chat"))
   {
-    if (::g_chat.isChatEnabled() && canInviteToChatRoom)
+    if (isChatEnabled && canInviteToChatRoom)
     {
       local inviteMenu = ::g_chat.generateInviteMenu(name)
       actions.append({
         text = ::loc("chat/invite_to_room")
-        isVisualDisabled = !canChat || !canInteractCrossConsole || !canInteractCrossPlatform
+        isVisualDisabled = !canChat || !canInteractCrossConsole || !canInteractCrossPlatform || isProfileMuted || isBlock
         show = inviteMenu && inviteMenu.len() > 0
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
           else if (!canInteractCrossPlatform)
             showCrossNetworkCommunicationsRestrictionMsgBox()
+          else if (isProfileMuted)
+            showXboxPlayerMuted(name)
           else if (!canChat)
-          {
-            if (::isInMenu() && ::is_platform_xboxone)
-              ::g_chat.attemptShowOverlayMessage(name)
-          }
+            notifyPlayerAboutRestriction(contact, true)
+          else if (isBlock)
+            showBlockedPlayerPopup(name)
           else
             ::open_invite_menu(inviteMenu, params?.position)
         }
@@ -395,7 +410,7 @@ local getActions = function(contact, params)
     }
 
     if (roomData)
-      actions.extend([
+      actions.append(
         {
           text = ::loc("chat/kick_from_room")
           show = !::g_chat.isRoomSquad(roomId) && !::SessionLobby.isLobbyRoom(roomId) && ::g_chat.isImRoomOwner(roomData)
@@ -406,7 +421,7 @@ local getActions = function(contact, params)
           show = !isMe && ::show_console_buttons && ::menu_chat_handler
           action = @() ::menu_chat_handler ? ::menu_chat_handler.addNickToEdit(name) : null
         }
-      ])
+      )
 
     local canComplain = !isMe && (params?.canComplain ?? false)
     if (!isMe)
@@ -459,7 +474,7 @@ local getActions = function(contact, params)
 
 //---- <Moderator> ------------------
   if (::is_myself_anyof_moderators() && (roomId || isMPChat || isMPLobby))
-    actions.extend([
+    actions.append(
       {
         text = ::loc("contacts/moderator_copyname")
         action = @() ::copy_to_clipboard(platformModule.getPlayerName(name))
@@ -470,7 +485,7 @@ local getActions = function(contact, params)
         show = ::myself_can_devoice() || ::myself_can_ban()
         action = @() ::gui_modal_ban(contact, chatLog)
       }
-    ])
+    )
 //---- </Moderator> -----------------
 
   local buttons = params?.extendButtons ?? []
@@ -495,6 +510,6 @@ local showMenu = function(_contact, handler, params = {})
 return {
   getActions = getActions
   showMenu = showMenu
-  showNotAvailableActionPopup = showNotAvailableActionPopup
-  showCrossNetworkCommunicationsRestrictionMsgBox = showCrossNetworkCommunicationsRestrictionMsgBox
+  showXboxPlayerMuted = showXboxPlayerMuted
+  notifyPlayerAboutRestriction = notifyPlayerAboutRestriction
 }

@@ -5,7 +5,7 @@
   "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
   "gearSinkRangeLR": 0.171,
   "gearSinkRangeC": 0.138,
-  "type": "typeFighter",
+  "type": "typeBomber",
   "paratrooper": "ally",
   "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
   "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
@@ -497,27 +497,31 @@
           "onHit": {
             "damage": 2.7,
             "fire": 0.01,
-            "leak_oil": 0.5
+            "leak_oil": 0.5,
+            "cut": 0.0
           }
         },
         {
           "onHit": {
             "damage": 30.0,
             "fire": 0.1,
-            "leak_oil": 1.0
+            "leak_oil": 1.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "fire": 30.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "fire": 44.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         }
       ]
@@ -536,27 +540,31 @@
           "onHit": {
             "damage": 2.7,
             "fire": 0.01,
-            "leak_oil": 0.5
+            "leak_oil": 0.5,
+            "cut": 0.0
           }
         },
         {
           "onHit": {
             "damage": 30.0,
             "fire": 0.1,
-            "leak_oil": 1.0
+            "leak_oil": 1.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "fire": 30.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "fire": 44.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         }
       ]
@@ -1863,48 +1871,79 @@
           "name": "wing1_l_dm"
         },
         {
+          "defaultEffectPart": "spar1_l_dm"
+        },
+        {
           "onHit": {
             "damage": 50.0,
-            "cut": 0.6
+            "cut": 0.0,
+            "part": {
+              "ratio": 0.6,
+              "canCut": true
+            }
           }
         },
         {
           "onHit": {
             "damage": 70.0,
-            "cut": 0.8
+            "cut": 0.0,
+            "part": {
+              "ratio": 0.8,
+              "canCut": true
+            }
           }
         },
         {
           "onHit": {
             "damage": 100.0,
-            "cut": 1.0
+            "cut": 0.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 30.0,
-            "cut": 1.0,
-            "nothing": 3.0
+            "cut": 0.0,
+            "nothing": 3.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 2.0
+            "cut": 0.0,
+            "nothing": 2.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 70.0,
-            "cut": 1.0,
-            "nothing": 1.0
+            "cut": 0.0,
+            "nothing": 1.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 100.0,
-            "cut": 1.0
+            "cut": 0.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         }
       ]
@@ -1915,48 +1954,79 @@
           "name": "wing1_r_dm"
         },
         {
+          "defaultEffectPart": "spar1_r_dm"
+        },
+        {
           "onHit": {
             "damage": 50.0,
-            "cut": 0.6
+            "cut": 0.0,
+            "part": {
+              "ratio": 0.6,
+              "canCut": true
+            }
           }
         },
         {
           "onHit": {
             "damage": 70.0,
-            "cut": 0.8
+            "cut": 0.0,
+            "part": {
+              "ratio": 0.8,
+              "canCut": true
+            }
           }
         },
         {
           "onHit": {
             "damage": 100.0,
-            "cut": 1.0
+            "cut": 0.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 30.0,
-            "cut": 1.0,
-            "nothing": 3.0
+            "cut": 0.0,
+            "nothing": 3.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 2.0
+            "cut": 0.0,
+            "nothing": 2.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 70.0,
-            "cut": 1.0,
-            "nothing": 1.0
+            "cut": 0.0,
+            "nothing": 1.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 100.0,
-            "cut": 1.0
+            "cut": 0.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         }
       ]
@@ -1967,48 +2037,79 @@
           "name": "wing2_l_dm"
         },
         {
+          "defaultEffectPart": "spar2_l_dm"
+        },
+        {
           "onHit": {
             "damage": 50.0,
-            "cut": 0.6
+            "cut": 0.0,
+            "part": {
+              "ratio": 0.6,
+              "canCut": true
+            }
           }
         },
         {
           "onHit": {
             "damage": 70.0,
-            "cut": 0.8
+            "cut": 0.0,
+            "part": {
+              "ratio": 0.8,
+              "canCut": true
+            }
           }
         },
         {
           "onHit": {
             "damage": 100.0,
-            "cut": 1.0
+            "cut": 0.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 30.0,
-            "cut": 1.0,
-            "nothing": 3.0
+            "cut": 0.0,
+            "nothing": 3.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 2.0
+            "cut": 0.0,
+            "nothing": 2.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 70.0,
-            "cut": 1.0,
-            "nothing": 1.0
+            "cut": 0.0,
+            "nothing": 1.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 100.0,
-            "cut": 1.0
+            "cut": 0.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         }
       ]
@@ -2019,48 +2120,79 @@
           "name": "wing2_r_dm"
         },
         {
+          "defaultEffectPart": "spar2_r_dm"
+        },
+        {
           "onHit": {
             "damage": 50.0,
-            "cut": 0.6
+            "cut": 0.0,
+            "part": {
+              "ratio": 0.6,
+              "canCut": true
+            }
           }
         },
         {
           "onHit": {
             "damage": 70.0,
-            "cut": 0.8
+            "cut": 0.0,
+            "part": {
+              "ratio": 0.8,
+              "canCut": true
+            }
           }
         },
         {
           "onHit": {
             "damage": 100.0,
-            "cut": 1.0
+            "cut": 0.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 30.0,
-            "cut": 1.0,
-            "nothing": 3.0
+            "cut": 0.0,
+            "nothing": 3.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 50.0,
-            "cut": 1.0,
-            "nothing": 2.0
+            "cut": 0.0,
+            "nothing": 2.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 70.0,
-            "cut": 1.0,
-            "nothing": 1.0
+            "cut": 0.0,
+            "nothing": 1.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         },
         {
           "onKill": {
             "damage": 100.0,
-            "cut": 1.0
+            "cut": 0.0,
+            "part": {
+              "ratio": 1.0,
+              "canCut": true
+            }
           }
         }
       ]
@@ -2410,20 +2542,15 @@
       ]
     }
   ],
-  "weapon_presets": [
-    {
-      "preset": {
-        "name": "yak-4_default",
-        "blk": "gameData/FlightModels/weaponPresets/yak-4_default.blk"
-      }
-    },
-    {
-      "preset": {
-        "name": "yak-4_fab100x8",
-        "blk": "gameData/FlightModels/weaponPresets/yak-4_fab100.blk"
+  "weapon_presets": {
+    "preset": {
+      "name": "yak-4_default",
+      "blk": "gameData/FlightModels/weaponPresets/yak-4_fab100.blk",
+      "tags": {
+        "free": true
       }
     }
-  ],
+  },
   "turbulence": {
     "segmentlength": 100.0,
     "startSpeed": 28.0,

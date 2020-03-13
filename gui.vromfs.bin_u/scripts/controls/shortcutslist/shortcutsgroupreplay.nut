@@ -113,6 +113,11 @@ return [
     checkAssign = false
   }
   {
+    id = "ID_SPECTATOR_SHOW_CURSOR"
+    checkGroup = ctrlGroups.REPLAY
+    checkAssign = false
+  }
+  {
     id = "ID_TOGGLE_CONTOURS"
     checkGroup = ctrlGroups.REPLAY
     checkAssign = false

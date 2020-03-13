@@ -262,7 +262,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
     if (config.isMod != lastBlockIsMod)
     {
       lastBlockIsMod = config.isMod
-      getLineDiv(researchTableObj, lastBlockIsMod? "Modifications" : "Units")
+      createDivideLineObj(researchTableObj, lastBlockIsMod? "Modifications" : "Units")
     }
 
     local exampleObj = scene.findObject("example_row")
@@ -449,7 +449,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
       textObj.setValue(::loc("mainmenu/nextResearch/" + suffics))
   }
 
-  function getLineDiv(nextObj, blockType)
+  function createDivideLineObj(nextObj, blockType)
   {
     local divObj = scene.findObject("divide_row")
     local clonedObj = divObj.getClone(nextObj, this)
@@ -1173,12 +1173,12 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     if (researchConfig.isMod)
     {
       flushExpNum = ::shop_get_unit_excess_exp(unitName)
-      getAvailableMods(researchConfig.unit)
+      fillAvailableMods(researchConfig.unit)
     }
     else
     {
       flushExpNum = ::shop_get_country_excess_exp(researchConfig.country, ::get_es_unit_type(researchConfig.unit))
-      getAvailableUnits(researchConfig.unit)
+      fillAvailableUnits(researchConfig.unit)
     }
 
     if (itemsTable.len())
@@ -1256,7 +1256,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     freeRPObj.setValue(::format(::loc("mainmenu/availableFreeExpForNewResearch"), flushExpNum.tostring()))
   }
 
-  function getAvailableMods(unit)
+  function fillAvailableMods(unit)
   {
     local researchesArray = []
     local blankCell = []
@@ -1301,7 +1301,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     }
   }
 
-  function getAvailableUnits(unit)
+  function fillAvailableUnits(unit)
   {
     local unitsArray = []
     local unitItems = []

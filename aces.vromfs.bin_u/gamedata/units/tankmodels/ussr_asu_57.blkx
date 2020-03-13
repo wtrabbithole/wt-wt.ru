@@ -820,7 +820,7 @@
       "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_pt76",
       "TrackSoundNameCockpit": "tracks_pt76_interior",
-      "turret_turn": "turret_turn_t34_manual",
+      "turret_turn": "turret_turn",
       "EngineNameAi": "engine_tank_ai_pt76",
       "TrackSoundNameAi": "tracks_ai_pt76"
     }
@@ -1788,6 +1788,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "body": [
@@ -1835,6 +1843,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "mount": [
@@ -1858,6 +1874,14 @@
             "conditionDamageType": "cumulative",
             "expl": 1.0,
             "conditionDamage": 100.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
             "kill": true,
             "killEffect": "fire"
           }

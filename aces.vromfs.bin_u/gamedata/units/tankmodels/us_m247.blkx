@@ -788,6 +788,18 @@
     }
   },
   {
+    "attachables": {
+      "gun_mask_dm": false,
+      "ex_armor_14_dm": true,
+      "ex_armor_turret_r_02_dm": true,
+      "ex_armor_11_dm": true,
+      "ex_armor_10_dm": true,
+      "ex_decor_l_07_dm": true,
+      "ex_decor_r_06_dm": true,
+      "ex_armor_02_dm": true
+    }
+  },
+  {
     "sound": {
       "EngineName": "engine_sherman_m4a3",
       "TrackSoundPath": "tanks/engines_tanks",
@@ -1826,6 +1838,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "mount": [
@@ -1864,6 +1884,14 @@
             "conditionDamageType": "generic",
             "expl": 1.0,
             "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2755,7 +2783,7 @@
       "sightFov": 5.0,
       "sightName": "aa_sight",
       "headPos": [0.0,4.1,-10.3],
-      "headPosOnShooting": [-0.7,4.1,0.3],
+      "headPosOnShooting": [-0.7,4.5,0.3],
       "detectionHeight": 3.42,
       "bone_turret": "bone_turret"
     }

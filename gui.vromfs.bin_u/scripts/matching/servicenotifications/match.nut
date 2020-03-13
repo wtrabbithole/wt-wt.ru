@@ -1,4 +1,5 @@
 local crossplayModule = require("scripts/social/crossplay.nut")
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 ::notify_clusters_changed <- function notify_clusters_changed(params)
 {
@@ -6,14 +7,25 @@ local crossplayModule = require("scripts/social/crossplay.nut")
   ::g_clusters.onClustersChanged(params)
 }
 
+local changedGameModes = {
+  paramsArray = []
+}
+::g_script_reloader.registerPersistentData("changedGameModes", changedGameModes, [ "paramsArray" ])
+
+local clearChangedGameModesParams = @() changedGameModes.paramsArray.clear()
+
 ::notify_game_modes_changed <- function notify_game_modes_changed(params)
 {
   if (!::is_online_available())
+  {
+    clearChangedGameModesParams()
     return
+  }
 
   if (::is_in_flight()) // do not handle while session is active
   {
-    notify_game_modes_changed_rnd_delay(params)
+    dagor.debug("is_in_flight need notify_game_modes_changed after battle")
+    changedGameModes.paramsArray.append(params)
     return
   }
 
@@ -22,6 +34,18 @@ local crossplayModule = require("scripts/social/crossplay.nut")
                                                  getTblValue("removed", params, null),
                                                  getTblValue("changed", params, null))
 }
+
+subscriptions.addListenersWithoutEnv({
+  SignOut = @(p) clearChangedGameModesParams()
+  BattleEnded = function(p) {
+    if (::is_in_flight() || changedGameModes.paramsArray.len() == 0)
+      return
+
+    foreach (params in changedGameModes.paramsArray)
+      ::notify_game_modes_changed(params)
+    clearChangedGameModesParams()
+  }
+})
 
 ::notify_game_modes_changed_rnd_delay <- function notify_game_modes_changed_rnd_delay(params)
 {
@@ -75,12 +99,7 @@ local crossplayModule = require("scripts/social/crossplay.nut")
     params["forced_network_mission"] <- missionName
 
   if (!crossplayModule.isCrossPlayEnabled())
-  {
-    if (::is_platform_xboxone)
-      params["xbox_xplay"] <- false
-    else if (::is_platform_ps4)
-      params["ps4_xplay"] <- false
-  }
+    params["crossplay_restricted"] <- true
 
   matching_api_func("match.enqueue", cb, params)
 }

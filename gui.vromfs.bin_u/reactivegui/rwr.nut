@@ -19,7 +19,8 @@ local rwrState = {
   targets = [],
   TargetsTrigger = Watched(0),
   track = false,
-  SignalHoldTimeInv = Watched(0.0)
+  SignalHoldTimeInv = Watched(0.0),
+  EnableBackGroundColor = Watched(false)
 }
 
 ::interop.clearRwrTargets <- function() {
@@ -64,18 +65,6 @@ local trackRadarsRadius = 0.04
 local trackRadarsDistMargin = 6 * trackRadarsRadius
 
 local background = function(colorStyle, width, height) {
-
-  local circle = colorStyle.__merge({
-    rendObj = ROBJ_VECTOR_CANVAS
-    size = [width, height]
-    fillColor = backgroundColor
-    lineWidth = hdpx(1) * LINE_WIDTH
-    commands = [
-      [VECTOR_ELLIPSE, 50, 50, 50, 50]
-    ]
-  })
-
-  local outerRadius = 50 * (1.0 - trackRadarsDistMargin + 3 * trackRadarsRadius)
 
   local aircraftW = width * aircraftRadiusFactor
   local aircraftH = height * aircraftRadiusFactor
@@ -158,6 +147,7 @@ local background = function(colorStyle, width, height) {
   const angleGrad = 30.0
   local angle = math.PI * angleGrad / 180.0
   local dashCount = 360.0 / angleGrad
+  local outerRadius = 50 * (1.0 - trackRadarsDistMargin + 3 * trackRadarsRadius)
   for(local i = 0; i < dashCount; ++i)
   {
     azimuthMarksCommands.append([
@@ -178,16 +168,29 @@ local background = function(colorStyle, width, height) {
     commands = azimuthMarksCommands
   })
 
-  return {
-    children = [
-      circle
-      aircraftCircle
-      aircraftIcon
+  local getChildren = function() {
+    return [
+      colorStyle.__merge({
+        rendObj = ROBJ_VECTOR_CANVAS
+        size = [width, height]
+        fillColor = rwrState.EnableBackGroundColor.value ? backgroundColor : Color(0, 0, 0, 0)
+        lineWidth = hdpx(1) * LINE_WIDTH
+        commands = [
+          [VECTOR_ELLIPSE, 50, 50, 50, 50]
+        ]
+      }),
+      aircraftCircle,
+      aircraftIcon,
       azimuthMarks
     ]
   }
-}
 
+  return @()
+  {
+    children = getChildren()
+    watch = rwrState.EnableBackGroundColor
+  }
+}
 
 local function getTrackLineCoords(aircraftRectWidth, aircraftRectHeight, targetX, targetY, targetRadius)
 {
@@ -390,7 +393,7 @@ local scope = function(colorStyle, width, height)
 local rwr = function(colorStyle, posX = sw(75), posY = sh(70), w = sh(20), h = sh(20), for_mfd = false)
 {
   local getChildren = function() {
-    return rwrState.IsRwrHudVisible.value ? [
+    return (!for_mfd && rwrState.IsRwrHudVisible.value) || (for_mfd && helicopterState.RwrForMfd.value) ? [
       scope(colorStyle, w, h)
     ] : null
   }

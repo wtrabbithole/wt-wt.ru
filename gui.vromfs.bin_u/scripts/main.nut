@@ -9,6 +9,7 @@ foreach (name, func in require("dagor.localize"))
 ::strip<-__string.strip
 local __math = require("math")
 ::fabs<-__math.fabs
+::kwarg <- require("std/functools.nut").kwarg
 
 ::script_protocol_version <- null
 ::dagor.runScript("scripts/version.nut")
@@ -25,8 +26,8 @@ local __math = require("math")
 ::TEXT_NDA <- 1
 
 ::target_platform <- ::get_platform()
-::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].find(::target_platform) != null
-::is_platform_windows <- ["win32", "win64"].find(::target_platform) != null
+::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].indexof(::target_platform) != null
+::is_platform_windows <- ["win32", "win64"].indexof(::target_platform) != null
 ::is_platform_ps4 <- ::target_platform == "ps4"
 ::is_platform_android <- ::target_platform == "android"
 ::is_platform_xboxone <- ::target_platform == "xboxOne"
@@ -256,6 +257,7 @@ global enum SEEN {
   WORKSHOP = "workshop"
   WARBONDS_SHOP = "warbondsShop"
   EXT_XBOX_SHOP = "ext_xbox_shop"
+  EXT_PS4_SHOP  = "ext_ps4_shop"
 
   //sublists
   S_EVENTS_WINDOW = "##events_window##"
@@ -432,6 +434,8 @@ local isFullScriptsLoaded = false
   isFullScriptsLoaded = true
 
   foreach (fn in [
+    "money.nut"
+
     "ranks.nut"
     "difficulty.nut"
     "unitClassType.nut"
@@ -463,7 +467,6 @@ local isFullScriptsLoaded = false
     "viewUtils/bhvHint.nut"
     "timeBar.nut"
 
-    "money.nut"
     "dataBlockAdapter.nut"
 
     "postFxSettings.nut"
@@ -544,10 +547,6 @@ local isFullScriptsLoaded = false
     "social/psnSessions.nut"
     "social/psnPlayTogether.nut"
 
-    "dirtyWordsRussian.nut"
-    "dirtyWordsEnglish.nut"
-    "dirtyWordsJapanese.nut"
-    "dirtyWords.nut"
     "chat/chatRoomType.nut"
     "chat/chat.nut"
     "chat/chatLatestThreads.nut"
@@ -793,7 +792,6 @@ local isFullScriptsLoaded = false
     "hud/hudActionBar.nut"
     "replays/spectator.nut"
     "hud/hudTankDebuffs.nut"
-    "hud/hudShipDebuffs.nut"
     "hud/hudDisplayTimers.nut"
     "hud/hudCrewState.nut"
     "hud/hudEnemyDebuffsType.nut"
@@ -866,11 +864,15 @@ local isFullScriptsLoaded = false
 }
 
 //app does not exist on script load, so we cant to use ::app->shouldDisableMenu
-::should_disable_menu <- function should_disable_menu()
 {
-  return (::disable_network() && ::getFromSettingsBlk("debug/disableMenu"))
-    || ::getFromSettingsBlk("benchmarkMode")
-    || ::getFromSettingsBlk("viewReplay")
+  local shouldDisableMenu = (::disable_network() && ::getFromSettingsBlk("debug/disableMenu", false))
+    || ::getFromSettingsBlk("benchmarkMode", false)
+    || ::getFromSettingsBlk("viewReplay", false)
+
+  ::should_disable_menu <- function should_disable_menu()
+  {
+    return shouldDisableMenu
+  }
 }
 
 if (::g_login.isAuthorized() //scripts reload

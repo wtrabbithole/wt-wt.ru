@@ -1092,6 +1092,25 @@
         "maxRPM": 2400.0,
         "minRPM": 700.0
       },
+      "suspension": {
+        "suspensionOffsets": [-0.16,-0.12,0.1],
+        "defaultGearRadius": 0.37,
+        "frontBackGearRadius": 0.24,
+        "topGearRadius": 0.13,
+        "defaultDampeningForce": [150000.0,150000.0],
+        "dampeningRelaxationRatio": 0.4,
+        "dampeningCompressionRatio": 0.15
+      },
+      "Mass": {
+        "Empty": 47400.0,
+        "Fuel": 600.0,
+        "TakeOff": 48000.0,
+        "momentOfInertia": [2.5,2.5,5.0],
+        "CenterOfGravity": [-0.3,0.5,0.0],
+        "CenterOfGravityClampY": [0.0,0.7],
+        "AdvancedMass": false,
+        "trackMass": 2500.0
+      },
       "mechanics": {
         "maxBrakeForce": 200000.0,
         "driveGearRadius": 0.33,
@@ -1100,7 +1119,7 @@
         "neutralGearRatio": 3.5,
         "gearRatios": [
           {
-            "ratio": -1.03
+            "ratio": -1.45
           },
           {
             "ratio": -2.0
@@ -1124,25 +1143,6 @@
             "ratio": 0.244
           }
         ]
-      },
-      "suspension": {
-        "suspensionOffsets": [-0.16,-0.12,0.1],
-        "defaultGearRadius": 0.37,
-        "frontBackGearRadius": 0.24,
-        "topGearRadius": 0.13,
-        "defaultDampeningForce": [150000.0,150000.0],
-        "dampeningRelaxationRatio": 0.4,
-        "dampeningCompressionRatio": 0.15
-      },
-      "Mass": {
-        "Empty": 47400.0,
-        "Fuel": 600.0,
-        "TakeOff": 48000.0,
-        "momentOfInertia": [2.5,2.5,5.0],
-        "CenterOfGravity": [-0.3,0.5,0.0],
-        "CenterOfGravityClampY": [0.0,0.7],
-        "AdvancedMass": false,
-        "trackMass": 2500.0
       }
     }
   },
@@ -2004,9 +2004,13 @@
         "ex_decor_l_02_dm": [],
         "ex_decor_l_03_dm": [],
         "ex_decor_l_04_dm": [],
+        "ex_decor_l_05_dm": [],
+        "ex_decor_r_05_dm": [],
         "ex_decor_l_06_dm": [],
         "ex_decor_l_07_dm": [],
-        "ex_decor_l_08_dm": []
+        "ex_decor_l_08_dm": [],
+        "ex_decor_l_11_dm": [],
+        "ex_decor_r_11_dm": []
       },
       "optics": {
         "armorClass": "optics_tank",
@@ -2107,6 +2111,7 @@
         "wheel_r_top_03_dm": [],
         "wheel_r_top_04_dm": [],
         "wheel_r_top_05_dm": [],
+        "wheel_support_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
           "armorThickness": 20.0,
@@ -2500,6 +2505,33 @@
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
       }
+    }
+  },
+  {
+    "attachables": {
+      "turret_08_top_dm": true,
+      "turret_08_back_dm": true,
+      "turret_08_bottom_dm": true,
+      "turret_08_front_dm": true,
+      "turret_08_side_dm": true,
+      "turret_09_top_dm": true,
+      "turret_09_back_dm": true,
+      "turret_09_bottom_dm": true,
+      "turret_09_front_dm": true,
+      "ex_decor_l_07_dm": true,
+      "ex_decor_l_08_dm": true,
+      "ex_decor_r_07_dm": true,
+      "ex_decor_l_11_dm": true,
+      "ex_decor_r_11_dm": true,
+      "ex_decor_l_04_dm": true,
+      "ex_decor_r_04_dm": true,
+      "gun_mask_02_dm": true,
+      "cls_turret_02": true,
+      "ex_decor_05_dm": true,
+      "ex_decor_03_dm": true,
+      "ex_decor_04_dm": true,
+      "ex_decor_r_06_dm": true,
+      "ex_decor_r_08_dm": true
     }
   },
   {

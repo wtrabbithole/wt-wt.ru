@@ -44,7 +44,7 @@ g_crews_list.refresh <- function refresh()
     return
   }
   //we don't know about slotbar refresh in flight,
-  //but we know than out of flight it refresh only with profile, 
+  //but we know than out of flight it refresh only with profile,
   //so can optimize it updates, and remove some direct refresh calls from outside
   crewsList = ::get_crew_info()
   isSlotbarOverrided = false
@@ -90,7 +90,8 @@ g_crews_list.onEventProfileUpdated <- function onEventProfileUpdated(p)
   if (p.transactionType == ::EATT_UPDATE_ENTITLEMENTS)
     ::update_shop_countries_list()
 
-  if (::g_login.isProfileReceived() && !::isInArray(p.transactionType, ignoreTransactions) && invalidate())
+  if (::g_login.isProfileReceived() && !::isInArray(p.transactionType, ignoreTransactions)
+      && invalidate() && !::disable_network())
     reinitSlotbars()
 }
 

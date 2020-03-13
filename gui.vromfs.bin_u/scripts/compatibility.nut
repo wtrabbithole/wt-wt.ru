@@ -39,82 +39,37 @@
 
 ::getTblValue <- @(key, tbl, defValue = null) key in tbl ? tbl[key] : defValue
 
-::getTblValueByPath <- function getTblValueByPath(path, tbl, defValue = null, separator = ".")
-{
-  if (path == "")
-    return defValue
-  if (path.find(separator) == null)
-    return tbl?[path] ?? defValue
-  local keys = ::split(path, separator)
-  return ::get_tbl_value_by_path_array(keys, tbl, defValue)
-}
-
-::get_tbl_value_by_path_array <- function get_tbl_value_by_path_array(pathArray, tbl, defValue = null)
-{
-  foreach(key in pathArray)
-    tbl = tbl?[key] ?? defValue
-  return tbl
-}
-
 //--------------------------------------------------------------------//
 //----------------------COMPATIBILITIES BY VERSIONS-------------------//
 // -----------can be removed after version reach all platforms--------//
 //--------------------------------------------------------------------//
 
-//----------------------------wop_1_85_0_X---------------------------------//
-::apply_compatibilities({
-  set_hud_width_limit = @(w) null
-  get_local_time_sec       = @()  ::mktime(::get_local_time())
-  get_user_log_time_sec    = @(i) ::mktime(::get_user_log_time(i))
-  get_file_modify_time_sec = @(f) ::mktime(::get_file_modify_time(f))
-  ps4_is_circle_selected_as_enter_button = @() false
-  clan_get_exp             = @()  0
-  clan_get_researching_unit= @() ""
-  getWheelBarItems = @() null
-  WEAPON_PRIMARY = 22
-  WEAPON_SECONDARY = 23
-  WEAPON_MACHINEGUN = 24
-  get_option_use_oculus_to_aim_helicopter = @() null
-})
-
-//----------------------------wop_1_87_0_X---------------------------------//
-::apply_compatibilities({
-  EULT_CLAN_UNITS = 58
-  clan_get_unit_open_cost_gold = @() 0
-})
-
-//----------------------------wop_1_87_1_X---------------------------------//
-::apply_compatibilities({
-  EULT_WW_AWARD = 59
-  AUTO_SAVE_FLG_LOGIN = 1
-  AUTO_SAVE_FLG_PASS = 2
-  AUTO_SAVE_FLG_DISABLE = 4
-  AUTO_SAVE_FLG_NOSSLCERT = 8
-  userstat = { request = @(...) null }
-  xbox_link_email = @(email, cb) cb(::YU2_FAIL)
-})
-
-//----------------------------wop_1_89_1_X---------------------------------//
-::apply_compatibilities({
-  function warbonds_has_active_battle_task(name)
-  {
-    return !::warbonds_can_buy_battle_task(name)
-  }
-  restart_without_steam = restart_game
-  get_authenticated_url_sso = @(u, s) get_authenticated_url_table(u)
-  EATT_SIMPLE_OK = 43
-  OPTION_HIDE_MOUSE_SPECTATOR = 255
-  function clan_get_exp_boost() {return 0}
-  YU2_DOI_INCOMPLETE = 31
-  function set_selected_unit_info(unit, slot_id){}
-  function is_eac_inited()
-  {
-    return true
-  }
-  get_level_texture = @(lvl, f) ::map_to_location(lvl ?? "") + (f ? "_tankmap*" : "_map*")
-})
-
 //----------------------------wop_1_91_0_X---------------------------------//
 ::apply_compatibilities({
+    XBOX_COMMUNICATIONS_MUTED = 3
     EII_HULL_AIMING = -1
+    get_option_use_rectangular_radar_indicator = @() false
+    set_option_use_rectangular_radar_indicator = @(b) null
+})
+
+//----------------------------wop_1_93_0_X---------------------------------//
+::apply_compatibilities({
+  OPTION_FIX_GUN_IN_MOUSE_LOOK = -1
+  OPTION_SHOW_COMPASS_IN_TANK_HUD = -1
+  function shop_get_premium_account_ent_name() {return "PremiumAccount"}
+  ww_get_load_army_to_transport_error = @() ""
+  ww_get_unload_army_from_transport_error = @() ""
+  ww_get_army_custom_icon = @(armyName, isReinforcement) ""
+  ww_get_loaded_transport = @(blk) blk
+  AUT_None = -1
+  AUT_ArtilleryFire = 0
+  AUT_TransportLoad = 1
+  AUT_TransportUnload = 2
+  ww_get_curr_action_type = @() ::AUT_None
+  ww_set_curr_action_type = @(modeType) null
+  get_allow_to_be_added_to_lb = @() true
+  set_allow_to_be_added_to_lb = @(val) null
+  get_allow_to_be_added_to_contacts = @() true
+  set_allow_to_be_added_to_contacts = @(val) null
+  is_hdr_available = @() true
 })

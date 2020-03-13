@@ -80,7 +80,7 @@ g_hud_hints._buildText <- function _buildText(data)
 
   //If shortcut not specified in localization string it should
   //be placed at the beginig
-  if (result.find(shortcutTag) == null)
+  if (result.indexof(shortcutTag) == null)
     result = shortcutTag + " " + result
 
   return result
@@ -432,6 +432,15 @@ enums.addTypesByGlobalName("g_hud_hints", {
     ]
     showEvent = "hint:xrayCamera:showSkipHint"
     hideEvent = "hint:xrayCamera:hideSkipHint"
+    isHideOnDeath = false
+    isHideOnWatchedHeroChanged = false
+  }
+
+  BLOCK_X_RAY_CAMERA = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/x_ray_unavailable"
+    showEvent = "hint:xrayCamera:showBlockHint"
+    lifeTime = 1.0
     isHideOnDeath = false
     isHideOnWatchedHeroChanged = false
   }
@@ -1370,6 +1379,14 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:block_night_vision:show"
     lifeTime = 5.0
     isHideOnDeath = true
+  }
+
+  ATGM_NO_LINE_OF_SIGHT = {
+    hintType = ::g_hud_hint_types.ACTIONBAR
+    locId = "hints/atgm_no_line_of_sight"
+    showEvent = "hint:atgm_no_line_of_sight:show"
+    hideEvent = "hint:atgm_no_line_of_sight:hide"
+    shouldBlink = true
   }
 },
 function() {

@@ -2378,6 +2378,8 @@
     "cockpit": {
       "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
+      "sightFov": 25.0,
+      "sightName": "default_tank_spg",
       "headPos": [0.0,4.0,-8.0],
       "headPosOnShooting": [-0.5,3.5,-0.65],
       "detectionHeight": 3.12,
@@ -2427,6 +2429,8 @@
                 "blk": "gameData/Weapons/groundModels_weapons/37mm_M5_user_cannon_for_M3_Lee.blk",
                 "emitter": "bone_gun_barrel_01",
                 "flash": "emtr_gun_flame_01",
+                "barrelDP": "gun_barrel_01_dm",
+                "breechDP": "cannon_breech_01_dm",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "parkInDeadzone": false,
@@ -2501,6 +2505,27 @@
                 "limits": {
                   "yaw": [-15.0,15.0],
                   "pitch": [-9.0,20.0]
+                },
+                "gunStabilizer": {
+                  "hasVerticalGunFreeMode": false,
+                  "hasHorizontal": false,
+                  "horizontalOmegaMult": 1.0,
+                  "horizontalSpeedLimitKPH": 50.0,
+                  "hasVertical": true,
+                  "verticalOmegaMult": 0.7,
+                  "verticalSpeedLimitKPH": 16.0,
+                  "speedFromVehicleVerticalMult": -1.0,
+                  "errorKPHToDegrees": [
+                    {
+                      "row": [5.0,0.0]
+                    },
+                    {
+                      "row": [10.0,0.05]
+                    },
+                    {
+                      "row": [12.0,0.4]
+                    }
+                  ]
                 }
               }
             },

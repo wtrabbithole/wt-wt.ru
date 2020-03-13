@@ -9,6 +9,7 @@ local WND_PARAMS = {
   size = flex()
   behavior = Behaviors.Button
   stopMouse = true
+  stopHotkeys = true
 
   animations = [
     { prop=AnimProp.opacity, from=0.0, to=1.0, duration=0.3, play=true, easing=OutCubic }
@@ -30,8 +31,10 @@ local function add(wnd = WND_PARAMS) {
   wnd = WND_PARAMS.__merge(wnd)
   if (wnd.key != null)
     remove(wnd.key)
-  else
-    wnd.key = "modal_wnd_" + lastWndIdx++
+  else {
+    lastWndIdx++
+    wnd.key = "modal_wnd_{0}".subst(lastWndIdx)
+  }
   wnd.onClick = wnd.onClick ?? @() remove(wnd.key)
   list.update(@(value) value.append(wnd))
 }

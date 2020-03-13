@@ -1,4 +1,4 @@
-local psn = require("scripts/social/psnWebApi.nut")
+local psn = require("ps4Lib/webApi.nut")
 
 enum PSN_SESSION_TYPE {
   SKIRMISH = "skirmish"
@@ -84,7 +84,8 @@ g_psn_sessions.create <- function create(sType, cb = psn.noOpCb)
 
     cb(response, err)
   }
-  psn.send(psn.session.create(formatSessionInfo(params.info()), params.image(), params.data()), saveSession, this)
+  psn.send(psn.session.create(formatSessionInfo(params.info()), params.image(), params.data()),
+           ::Callback(saveSession, this))
 }
 
 g_psn_sessions.invite <- function invite(session, invitee, cb=psn.noOpCb)
@@ -115,7 +116,7 @@ g_psn_sessions.join <- function join(session, invitation=null, cb=psn.noOpCb)
 
       cb(response, err)
     }
-    psn.send(psn.session.join(session), afterJoin, this)
+    psn.send(psn.session.join(session), ::Callback(afterJoin, this))
   }
 }
 
@@ -141,7 +142,7 @@ g_psn_sessions.leave <- function leave(session, cb=psn.noOpCb)
         delete sessions[session]
       cb(response, err)
     }
-    psn.send(psn.session.leave(session), afterLeave, this)
+    psn.send(psn.session.leave(session), ::Callback(afterLeave, this))
   }
   else
     cb({}, 0)

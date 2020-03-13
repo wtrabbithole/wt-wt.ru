@@ -81,9 +81,8 @@ root {
     <</navBar>>
   }
 
-  dummy {
+  timer {
     id:t='update_timer'
-    behavior:t='Timer'
     timer_handler_func:t='onUpdate'
     timer_interval_msec:t='1000'
   }

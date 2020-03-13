@@ -3,7 +3,7 @@
   "transivers": {
     "search": {
       "sideLobesAttenuation": -15.0,
-      "power": 500.0,
+      "power": 200.0,
       "band": 8,
       "rcs": 3.0,
       "range": 8000.0,
@@ -52,9 +52,6 @@
       "stateInit": "init",
       "actionsTemplates": {
         "init": {
-          "setScopeRange": {
-            "scopeRangeIndex": 0
-          },
           "setCenterElevation": {
             "source": "constant",
             "value": 5.0
@@ -124,6 +121,22 @@
             "setStandbyMode": []
           }
         },
+        "switchScanPattern": [
+          {
+            "stateFrom": "standby"
+          },
+          {
+            "stateFrom": "search"
+          },
+          {
+            "command": "scanPatternSwitch"
+          },
+          {
+            "actions": {
+              "setNextScanPattern": []
+            }
+          }
+        ],
         "switchScopeRange": {
           "command": "rangeSwitch",
           "actions": {

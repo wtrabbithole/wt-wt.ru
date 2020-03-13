@@ -203,7 +203,7 @@ g_orders.checkCurrentMission <- function checkCurrentMission(selectedOrderItem)
   if (selectedOrderItem == null)
     return true
 
-  local missionName = ::getTblValueByPath("mission.name", ::SessionLobby.getSessionInfo(), null)
+  local missionName = ::SessionLobby.getSessionInfo()?.mission.name
   if (missionName == null)
     return true
 
@@ -700,7 +700,7 @@ g_orders.getStatusContent <- function getStatusContent(orderObject, isHalignRigh
     isHalignRight = isHalignRight
   }
   for (local i = 0; i < maxRowsInScoreTable; ++i)
-    view.rows.push({ rowIndex = i })
+    view.rows.append({ rowIndex = i })
   return ::handyman.renderCached("gui/items/orderStatus", view)
 }
 
@@ -767,7 +767,7 @@ g_orders.onOrderAccepted <- function onOrderAccepted(useResultCode)
       ::dagor.assertf(false,
         "Activating local order is null. Report this issue immediately.")
     }
-    activeLocalOrderIds.push(activatingLocalOrderId)
+    activeLocalOrderIds.append(activatingLocalOrderId)
     ::broadcastEvent("OrderActivated")
   }
   if (activatingLocalOrderCallback != null)
@@ -864,7 +864,7 @@ g_orders.updateStatusTextView <- function updateStatusTextView(orderObject, full
   }
 
   // Order description
-  local orderTypeParams = ::getTblValueByPath("orderItem.typeParams", orderObject)
+  local orderTypeParams = orderObject?.orderItem.typeParams
   view.orderDescription <- orderTypeParams != null
     ? orderObject.orderType.getObjectiveDescription(orderTypeParams, statusColorScheme)
     : null
@@ -879,7 +879,7 @@ g_orders.updateStatusTextView <- function updateStatusTextView(orderObject, full
 
 g_orders.getOrderTimeleft <- function getOrderTimeleft(orderObject)
 {
-  return ::getTblValueByPath("orderObjective.timeLeft", orderObject, 0)
+  return orderObject?.orderObjective.timeLeft ?? 0
 }
 
 /** Returns null-object player data if nothing found. */
@@ -983,12 +983,12 @@ g_orders.debugPrint <- function debugPrint(message)
  */
 g_orders.getOrderScores <- function getOrderScores(orderObject)
 {
-  local scores = ::getTblValueByPath("orderObjective.score", orderObject, null)
+  local scores = orderObject?.orderObjective.score
   if (scores != null)
   {
     scores = clone scores
     foreach (player in debugPlayers)
-      scores.push(player.scoreData)
+      scores.append(player.scoreData)
     addLocalPlayerScoreData(scores)
   }
 
@@ -1065,7 +1065,7 @@ g_orders.addLocalPlayerScoreData <- function addLocalPlayerScoreData(scores)
     }
   if (foundThisPlayer)
     return
-  scores.push({
+  scores.append({
     playerId = -1
     score = 0
     playerData = getLocalPlayerData()

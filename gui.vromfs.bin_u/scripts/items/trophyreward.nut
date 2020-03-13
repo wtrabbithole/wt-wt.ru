@@ -107,7 +107,7 @@ trophyReward.getImageByConfig <- function getImageByConfig(config = null, onlyIm
   if (rewardType == "")
     return ""
 
-  local rewardValue = config[rewardType]
+  local rewardValue = config[rewardType] // warning disable: -access-potentially-nulled
   local style = "reward_" + rewardType
 
   if (rewardType == "multiAwardsOnWorthGold" || rewardType == "modsForBoughtUnit")

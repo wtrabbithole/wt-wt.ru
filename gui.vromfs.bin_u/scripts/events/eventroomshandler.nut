@@ -1,5 +1,6 @@
 local stdMath = require("std/math.nut")
 local clustersModule = require("scripts/clusterSelect.nut")
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 enum eRoomFlags { //bit enum. sorted by priority
   CAN_JOIN              = 0x8000 //set by CAN_JOIN_MASK, used for sorting
@@ -739,6 +740,9 @@ class ::gui_handlers.EventRoomsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onCreateRoom()
   {
+    if (!antiCheat.showMsgboxIfEacInactive(event))
+      return
+
     local diffCode = ::events.getEventDiffCode(event)
     local unitTypeMask = ::events.getEventUnitTypesMask(event)
     local checkTutorUnitType = (stdMath.number_of_set_bits(unitTypeMask)==1) ? stdMath.number_of_set_bits(unitTypeMask - 1) : null

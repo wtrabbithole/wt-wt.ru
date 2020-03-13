@@ -95,7 +95,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       goBack()
       return
     }
-
+    curWwCategory = ::g_lb_category.EVENTS_PERSONAL_ELO
+    initLbTable()
     curMode = getCurDMode()
     reinitClanWindow()
     initFocusArray()
@@ -113,7 +114,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
        ::clan_get_my_clan_name() == clanNameReq ||
        ::clan_get_my_clan_tag() == clanTagReq))
     {
-      ::getMyClanData()
+      ::requestMyClanData()
       if (!::my_clan_info)
         return
 
@@ -256,7 +257,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("update_stats_info_text").setValue(
       "<b>{0}</b> {1}".subst(::colorize("commonTextColor", ::loc("clan/stats")), updStatsText))
 
-    fillModeListBox(scene.findObject("clan_container"), getCurDMode(), ::get_show_in_squadron_statistics)
+    fillModeListBox(scene.findObject("clan_container"), getCurDMode(),
+      ::get_show_in_squadron_statistics, getAdditionalTabsArray())
     fillClanManagment()
 
     showSceneBtn("clan_main_stats", true)
@@ -461,6 +463,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     isWorldWarMode = tabObj?.isWorldWarMode == "yes"
     showSceneBtn("clan_members_list", !isWorldWarMode)
     showSceneBtn("lb_table_nest", isWorldWarMode)
+    showSceneBtn("season_over_notice", isWorldWarMode && !::g_world_war.isWWSeasonActive())
 
     if (isWorldWarMode)
     {
@@ -640,15 +643,17 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillClanWwMemberList()
   {
+    if (curWwMembers == null)
+      updateCurWwMembers() //fill default wwMembers list
     lbTableWeak.updateParams(
       ::leaderboardModel,
       ::ww_leaderboards_list,
       curWwCategory,
-      {lbMode = "ww_users"})
+      {lbMode = "ww_users_clan"})
 
     sortWwMembers()
 
-    local myPos = curWwMembers.searchindex(@(member) member.name == ::my_user_name) ?? -1
+    local myPos = curWwMembers.findindex(@(member) member.name == ::my_user_name) ?? -1
     lbTableWeak.fillTable(curWwMembers, null, myPos, true, true)
   }
 
@@ -658,8 +663,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     local addField = ::g_lb_category.EVENTS_PERSONAL_ELO.field
     local idx = 0
 
-    curWwMembers = ::u.map(curWwMembers.sort(@(a, b) (b?[field] ?? "") <=> (a?[field] ?? "") || (b?[addField] ?? "") <=> (a?[addField] ?? "")),
-      @(member) member.__update({ pos = idx++ }))
+    curWwMembers = ::u.map(curWwMembers.sort(@(a, b) (b?[field] ?? 0) <=> (a?[field] ?? 0)
+      || (b?[addField] ?? 0) <=> (a?[addField] ?? 0)), @(member) member.__update({ pos = idx++ }))
   }
 
   function fillClanMemberList(membersData)
@@ -1147,22 +1152,73 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   function requestWwMembersList()
   {
     local cb = ::Callback(function(membersData) {
-        curWwCategory = curWwCategory ?? ::g_lb_category.EVENTS_PERSONAL_ELO
-        curWwMembers = ::u.filter(wwLeaderboardData.convertWwLeaderboardData(membersData).rows,
-          @(row) row.clanId.tostring() == ::clan_get_my_clan_id())
+        updateCurWwMembers(membersData)
         updateWwMembersList()
       }, this)
     wwLeaderboardData.requestWwLeaderboardData(
-      "ww_users_clan"
+      "ww_users_clan",
       {
         gameMode = "ww_users_clan"
         table    = "season"
-        start    = null
+        group    = clanData.id.tostring()
+        start    = 0
         count    = clanData.mlimit
-        category = "clanId"
+        category = ::g_lb_category.EVENTS_PERSONAL_ELO.field
       },
       @(membersData) cb(membersData))
   }
 
-  function updateWwMembersList() {}
+  function getAdditionalTabsArray()
+  {
+    if (!::is_worldwar_enabled())
+      return []
+
+    requestWwMembersList()
+    return [{
+      id = "worldwar_mode"
+      hidden = false
+      tabName = ::loc("userlog/page/worldWar")
+      selected = false
+      isWorldWarMode = true
+      tooltip = ::loc("worldwar/ClanMembersLeaderboard/tooltip")
+    }]
+  }
+
+  function getDefaultWwMemberData(member)
+  {
+    return {
+      idx = -1
+      _id = member.uid.tointeger()
+      unit_rank = { value_total = member?.max_unit_rank ?? 1 }
+    }
+  }
+
+  function updateDataByUnitRank(membersData)
+  {
+    local res = {}
+    foreach (member in clanData.members)
+    {
+      res[member.nick] <- getDefaultWwMemberData(member)
+      local data = ::u.search(membersData, @(inst) inst?._id == member.uid.tointeger())
+      if (data != null)
+        res[member.nick].__update(data)
+    }
+    return res
+  }
+
+  function updateCurWwMembers(membersData = {})
+  {
+    curWwMembers = wwLeaderboardData.convertWwLeaderboardData(
+      updateDataByUnitRank(membersData)).rows
+  }
+
+
+  function updateWwMembersList()
+  {
+    if (!isClanInfo)
+      return
+
+    if(isWorldWarMode)
+      fillClanWwMemberList()
+  }
 }

@@ -56,26 +56,26 @@ local ModificationBase = class extends ::BaseItem
             res = ::loc("modification/" + mod)
           return res
         })
-      textParts.push(::loc("multiAward/type/modification") + ::loc("ui/colon")
+      textParts.append(::loc("multiAward/type/modification") + ::loc("ui/colon")
           + ::colorize("activeTextColor", ::g_string.implode(locMods, ", ")))
     }
 
     if (countries)
     {
       local locCountries = u.map(countries, @(country) ::loc("unlockTag/" + country))
-      textParts.push(::loc("trophy/unlockables_names/country") + ::loc("ui/colon")
+      textParts.append(::loc("trophy/unlockables_names/country") + ::loc("ui/colon")
           + ::colorize("activeTextColor", ::g_string.implode(locCountries, ", ")))
     }
     if (unitTypes)
     {
       local locUnitTypes = u.map(unitTypes, @(unitType) ::loc("mainmenu/type_" + unitType))
-      textParts.push(::loc("mainmenu/btnUnits") + ::loc("ui/colon")
+      textParts.append(::loc("mainmenu/btnUnits") + ::loc("ui/colon")
           + ::colorize("activeTextColor", ::g_string.implode(locUnitTypes, ", ")))
     }
 
     local rankText = getRankText()
     if (rankText.len())
-      textParts.push(::loc("sm_rank") + ::loc("ui/colon") + ::colorize("activeTextColor", rankText))
+      textParts.append(::loc("sm_rank") + ::loc("ui/colon") + ::colorize("activeTextColor", rankText))
 
     local outro = getDescriptionOutroArray()
     if (outro)

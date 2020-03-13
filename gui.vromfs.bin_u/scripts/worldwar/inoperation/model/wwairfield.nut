@@ -1,3 +1,5 @@
+local wwUnitClassParams = require("scripts/worldWar/inOperation/wwUnitClassParams.nut")
+
 class ::WwAirfield
 {
   index  = -1
@@ -56,7 +58,7 @@ class ::WwAirfield
       {
         local itemBlk = blk.groups.getBlock(i)
         local formation = ::WwAirfieldFormation(itemBlk, this)
-        formations.push(formation)
+        formations.append(formation)
 
         if (formation.isBelongsToMyClan())
         {
@@ -84,7 +86,7 @@ class ::WwAirfield
           cdFormation.owner = ::WwArmyOwner(itemBlk.getBlockByName("owner"))
           cdFormation.setFormationID(j)
           cdFormation.setName("cooldown_" + j)
-          cooldownFormations.push(cdFormation)
+          cooldownFormations.append(cdFormation)
         }
       }
 
@@ -191,11 +193,9 @@ class ::WwAirfield
       [WW_UNIT_CLASS.BOMBER] = 0
     }
     local customClassAmount = 0
-    local customClassWeaponMask = ::g_world_war.getWWConfigurableValue("fighterToAssaultWeaponMask", 0)
-    local wpcostBlk = ::get_wpcost_blk()
     foreach (unit in formation.units)
     {
-      local flyOutUnitClass = unit.getUnitClassData().flyOutUnitClass
+      local flyOutUnitClass = wwUnitClassParams.getUnitClassData(unit).flyOutUnitClass
       if (!(flyOutUnitClass in airClassesAmount))
         continue
 
@@ -204,12 +204,8 @@ class ::WwAirfield
       if (flyOutUnitClass != WW_UNIT_CLASS.FIGHTER)
         continue
 
-      foreach (weapon in wpcostBlk?[unit.getId()]?.weapons ?? {})
-        if (weapon.weaponmask & customClassWeaponMask)
-        {
-          customClassAmount += unit.count
-          break
-        }
+      if (wwUnitClassParams.getFighterToAssaultWeapon(unit.unit) != null)
+        customClassAmount += unit.count
     }
 
     local operation = ::g_operations.getCurrentOperation()

@@ -223,22 +223,19 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "chapter": "air_ground_DBttlB",
+      "locName": "missions/_DBttlB;port_novorossiysk/name",
+      "locDesc": "port_novorossiysk/desc;missions/_DBttl/desc",
       "scoreLimit": 6000,
       "timeLimit": 30,
       "deathPenaltyMul": 0.0,
-      "country_axis": "germany",
-      "country_allies": "japan",
-      "allowedKillStreaks": true,
+      "postfix": "_DBttlB",
+      "ctaCaptureZoneEqualPenaltyMul": 0.0,
       "useAlternativeMapCoord": false,
+      "allowedKillStreaks": true,
       "randomSpawnTeams": false,
       "remapAiTankModels": true,
-      "locName": "missions/_DBttlB;port_novorossiysk/name",
-      "locDesc": "port_novorossiysk/desc;missions/_DBttl/desc",
-      "postfix": "_DBttlB",
-      "allowedUnitTypes": {
-        "isAirplanesAllowed": true,
-        "isTanksAllowed": true
-      },
+      "country_axis": "germany",
+      "country_allies": "japan",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -257,7 +254,17 @@
         "_Conq3": false,
         "_Conq4": false,
         "_Conq5": false,
-        "_Conq6": false
+        "_Conq6": false,
+        "_CnvA": false,
+        "_CnvB": false,
+        "_ArtDA": false,
+        "_ArtDB": false
+      },
+      "allowedUnitTypes": {
+        "isAirplanesAllowed": true,
+        "isTanksAllowed": true,
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": false
       }
     },
     "spectator_points": [],
@@ -285,6 +292,9 @@
             "picture": ""
           },
           {
+            "showAirMap": false
+          },
+          {
             "icon": {
               "icontype": "basezone_A",
               "side": "enemy",
@@ -304,12 +314,76 @@
               "side": "enemy",
               "target": "briefing_dbttl_t2_spawn_01"
             }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "ally",
+              "target": "t1_briefing_airspawn",
+              "lookAt": "t2_briefing_airspawn"
+            }
+          },
+          {
+            "icon": {
+              "icontype": "fighter",
+              "side": "enemy",
+              "target": "t2_briefing_airspawn",
+              "lookAt": "t1_briefing_airspawn"
+            }
           }
         ]
       }
     }
   },
   "imports": [
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/port_novorossiysk/mainareas/template_port_novorossiysk_Dbttl.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/tank_base_logic_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/templates/tank_templates/ai_base_defense_template.blk",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
     {
       "import_record": {
         "file": "gameData/missions/cta/tanks/port_novorossiysk/template_port_novorossiysk_air_spawn.blk",
@@ -328,23 +402,7 @@
     },
     {
       "import_record": {
-        "file": "gameData/missions/cta/tanks/port_novorossiysk/template_port_novorossiysk_Dbttl.blk",
-        "importAreas": true,
-        "importUnits": true,
-        "importTriggers": true,
-        "importMissionObjectives": true,
-        "importWayPoints": true,
-        "showAreas": true,
-        "showUnits": true,
-        "showTriggers": true,
-        "showMissionObjectives": true,
-        "showWayPoints": true,
-        "excludes": []
-      }
-    },
-    {
-      "import_record": {
-        "file": "gameData/missions/templates/tank_base_logic.blk",
+        "file": "gameData/missions/templates/ww_no_attackers_template.blk",
         "importAreas": true,
         "importUnits": true,
         "importTriggers": true,
@@ -367,41 +425,65 @@
     "isCategory": true,
     "is_enabled": true
   },
-  "variables": [],
+  "variables": {
+    "defenseMissionTeam": "teamB"
+  },
   "dialogs": [],
   "airfields": [],
   "effects": [],
   "units": [],
   "areas": {
     "briefing_dbttl_t2_capture_area": {
-      "type": "point",
+      "type": "Point",
       "tm": [
-        [1.15597,0.0,-41.1962],
+        [32.696,0.0,-25.0885],
         [0.0,75.0,0.0],
-        [41.1962,0.0,1.15597],
-        [1581.88,2.49562,2425.33]
+        [25.0885,0.0,32.696],
+        [1243.9,40.05,2328.2]
       ],
       "objLayer": 0,
       "props": []
     },
     "briefing_dbttl_t1_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
-        [-0.978698,0.0,-0.205309],
+        [-0.766044,0.0,-0.642788],
         [0.0,1.0,0.0],
-        [0.205309,0.0,-0.978698],
-        [889.69,5.48058,2033.21]
+        [0.642788,0.0,-0.766044],
+        [1181.25,255.1,612.2]
       ],
       "objLayer": 0,
       "props": []
     },
     "briefing_dbttl_t2_spawn_01": {
-      "type": "point",
+      "type": "Point",
       "tm": [
-        [0.961776,0.0,-0.273837],
+        [0.819152,0.0,0.573577],
         [0.0,1.0,0.0],
-        [0.273837,0.0,0.961776],
-        [1944.29,60.7133,3043.62]
+        [-0.573577,0.0,0.819152],
+        [1943.97,218.502,2739.9]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t2_briefing_airspawn": {
+      "type": "Point",
+      "tm": [
+        [-0.198457,0.0,0.98011],
+        [0.0,1.0,0.0],
+        [-0.98011,0.0,-0.198457],
+        [792.416,548.405,3006.58]
+      ],
+      "objLayer": 0,
+      "props": []
+    },
+    "t1_briefing_airspawn": {
+      "type": "Point",
+      "tm": [
+        [-0.186653,0.0,-0.982426],
+        [0.0,1.0,0.0],
+        [0.982426,0.0,-0.186653],
+        [2686.48,548.355,766.149]
       ],
       "objLayer": 0,
       "props": []

@@ -111,24 +111,55 @@ class MRoomsList
     ::broadcastEvent("SearchedRoomsChanged", { roomsList = this })
   }
 
+  function setPlatformFilter(filter) {
+    if (::is_platform_xboxone) {
+      filter["public/platformRestriction"] <- {
+        test = "eq"
+        value = "xboxOne"
+      }
+    }
+    else {
+      filter["public/platformRestriction"] <- {
+        test = "eq"
+        value = null // only non-restricted rooms will be passed
+      }
+    }
+  }
+
   function getFetchRoomsParams()
   {
-    if ("eventEconomicName" in requestParams)
-    {
-      local res = {}
+    local filter = {}
+    local res = {
+      group = "custom-lobby" // "xbox-lobby" for xbox
+      filter = filter
+
+      // TODO: implement paging in client
+      cursor = 0
+      count = 100
+    }
+    if ("eventEconomicName" in requestParams) {
       local economicName = requestParams.eventEconomicName
       local modesList = ::g_matching_game_modes.getGameModeIdsByEconomicName(economicName)
-      if (modesList.len())
-        res.game_mode_id <- modesList
-      else
-      {
-        ::assertf_once("no gamemodes for mrooms", "Error: cant find any gamemodes by economic name: " + economicName)
-        res.game_mode_id <- economicName
-      }
+      res.group = "matching-lobby"
 
-      return res
+      if (modesList.len()) {
+        filter["public/game_mode_id"] <-
+            {
+              test = "in"
+              value = modesList
+            }
+      }
+      else {
+        ::assertf_once("no gamemodes for mrooms", "Error: cant find any gamemodes by economic name: " + economicName)
+        filter["public/game_mode_name"] <-
+            {
+              test = "eq"
+              value =  economicName
+            }
+      }
     }
-    return requestParams
+    setPlatformFilter(filter)
+    return res
   }
 
   function updateRoomsList(rooms) //can be called each update

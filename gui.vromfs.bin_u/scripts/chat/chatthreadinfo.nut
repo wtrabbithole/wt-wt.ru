@@ -110,7 +110,7 @@ class ChatThreadInfo
 
       local str = tagType.getTagString(this)
       if (str.len())
-        resArray.push(str)
+        resArray.append(str)
     }
     resArray.extend(customTags)
     return ::g_string.implode(resArray, ",")
@@ -126,7 +126,7 @@ class ChatThreadInfo
     langs.clear()
     foreach(langInfo in ::g_language.getGameLocalizationInfo())
     {
-      local idx = unsortedLangs.find(langInfo.chatId)
+      local idx = unsortedLangs.indexof(langInfo.chatId)
       if (idx != null)
         langs.append(unsortedLangs.remove(idx))
     }
@@ -236,7 +236,7 @@ class ChatThreadInfo
     setObjValueById(obj, "thread_title", getTitle())
     setObjValueById(obj, "thread_members", getMembersAmountText())
     if (::g_chat.canChooseThreadsLang())
-      getLangsListheader(obj)
+      fillLangIconsRow(obj)
   }
 
   function needShowLang()
@@ -251,7 +251,7 @@ class ChatThreadInfo
     if (langs.len() > MAX_THREAD_LANG_VISIBLE)
     {
       langInfo = ::g_language.getEmptyLangInfo()
-      langInfo.icon = "#ui/gameuiskin#country_0"
+      langInfo.icon = ""
       res.append(langInfo)
     }
     else
@@ -265,7 +265,7 @@ class ChatThreadInfo
     return res
   }
 
-  function getLangsListheader(obj)
+  function fillLangIconsRow(obj)
   {
     local contentObject = obj.findObject("thread_lang")
     local res = getLangsList()

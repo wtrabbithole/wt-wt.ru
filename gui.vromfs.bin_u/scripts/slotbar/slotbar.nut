@@ -52,13 +52,12 @@ if need - put commented in array above
     local forceNotInResearch  = params?.forceNotInResearch ?? false
     local inactive            = params?.inactive ?? false
     local shopResearchMode    = params?.shopResearchMode ?? false
-    local disabled            = false
+    local hasActions          = params?.hasActions ?? false
 
     local isOwn               = ::isUnitBought(air)
     local isUsable            = ::isUnitUsable(air)
     local isMounted           = ::isUnitInSlotbar(air)
     local canResearch         = ::canResearchUnit(air)
-    local researched          = ::isUnitResearched(air)
     local special             = ::isUnitSpecial(air)
     local isVehicleInResearch = ::isUnitInResearch(air) && !forceNotInResearch
     local isSquadronVehicle   = air.isSquadronVehicle()
@@ -74,55 +73,18 @@ if need - put commented in array above
     local isBroken            = ::isUnitBroken(air)
     local unitRarity          = ::getUnitRarity(air)
     local isLockedSquadronVehicle = isSquadronVehicle && !::is_in_clan() && diffExp <= 0
-    local isSquadronResearchMode  = params?.isSquadronResearchMode ?? false
 
     local status = params?.status ?? defaultStatus
     if (status == defaultStatus)
     {
-      local bitStatus = 0
-      if (!isLocalState || ::is_in_flight())
-        bitStatus = bit_unit_status.owned
-      else if (isMounted)
-        bitStatus = bit_unit_status.mounted
-      else if (isOwn)
-        bitStatus = bit_unit_status.owned
-      else if (::canBuyUnit(air) || ::canBuyUnitOnline(air) || ::canBuyUnitOnMarketplace(air))
-        bitStatus = bit_unit_status.canBuy
-      else if (isLockedSquadronVehicle && (!air.unitType.canSpendGold() || !unitStatus.canBuyNotResearched(air)))
-      {
-        bitStatus = bit_unit_status.locked
+      local bitStatus = unitStatus.getBitStatus(air, params)
+      if (bit_unit_status.locked & bitStatus)
         inactive = shopResearchMode
-      }
-      else if (researched)
-        bitStatus = bit_unit_status.researched
-      else if (isVehicleInResearch && !forceNotInResearch)
-        bitStatus = bit_unit_status.inResearch
-      else if (canResearch)
-        bitStatus = bit_unit_status.canResearch
-      else if (air.isRented())
-        bitStatus = bit_unit_status.inRent
-      else
-      {
-        bitStatus = bit_unit_status.locked
-        inactive = shopResearchMode
-      }
-
-      if ((shopResearchMode
-          && (isSquadronVehicle || !(bitStatus &
-            ( bit_unit_status.locked
-              | bit_unit_status.canBuy
-              | bit_unit_status.inResearch
-              | bit_unit_status.canResearch))))
-        || (isSquadronResearchMode && !isSquadronVehicle))
-      {
-        bitStatus = bit_unit_status.disabled
+      else if (bit_unit_status.disabled & bitStatus)
         inactive = true
-      }
 
       status = ::getUnitItemStatusText(bitStatus, false)
     }
-
-    local hasActions = (params?.hasActions ?? false) && !disabled
 
     //
     // Bottom button view
@@ -205,7 +167,7 @@ if need - put commented in array above
     }
     if (showProgress)
     {
-      airResearchProgressView.airResearchProgress.push({
+      airResearchProgressView.airResearchProgress.append({
         airResearchProgressValue            = unitReqExp > 0 ? (unitExpGranted.tofloat() / unitReqExp * 1000).tointeger() : 0
         airResearchProgressType             = "new"
         airResearchProgressIsPaused         = !isVehicleInResearch || forceNotInResearch || isLockedSquadronVehicle
@@ -215,7 +177,7 @@ if need - put commented in array above
       })
       if (unitExpGranted > diffExp)
       {
-        airResearchProgressView.airResearchProgress.push({
+        airResearchProgressView.airResearchProgress.append({
           airResearchProgressValue            = ((unitExpGranted.tofloat() - diffExp) / unitReqExp * 1000).tointeger()
           airResearchProgressType             = "old"
           airResearchProgressIsPaused         = !isVehicleInResearch || forceNotInResearch || isLockedSquadronVehicle
@@ -241,6 +203,7 @@ if need - put commented in array above
       isInTable           = params?.isInTable ?? true
       shopItemId          = id
       unitName            = air.name
+      crewId              = crew?.id
       premiumPatternType  = special
       shopItemType        = ::get_unit_role(air.name)
       unitClassIcon       = ::get_unit_role_icon(air)
@@ -298,7 +261,6 @@ if need - put commented in array above
     local showInService       = params?.showInService ?? false
     local inactive            = params?.inactive ?? false
 
-    local reserve           = false
     local special           = false
 
     local nextAir = air.airsGroup[0]
@@ -312,7 +274,7 @@ if need - put commented in array above
     local isGroupInResearch = false
     local isElite           = true
     local isPkgDev          = false
-    local isRecentlyReleased    = false
+    local isRecentlyReleased = false
     local hasTalismanIcon   = false
     local talismanIncomplete = false
     local mountedUnit       = null
@@ -328,7 +290,6 @@ if need - put commented in array above
     foreach(a in air.airsGroup)
     {
       local isInResearch = !forceNotInResearch && ::isUnitInResearch(a)
-      local isBought = ::isUnitBought(a)
       local isUsable = ::isUnitUsable(a)
 
       if (isInResearch || (::canResearchUnit(a) && !researchingUnit))
@@ -357,7 +318,6 @@ if need - put commented in array above
       if (unitRole == null || isInResearch)
         unitRole = ::get_unit_role(nextAir)
 
-      reserve = reserve || ::isUnitDefault(a)
       special = ::isUnitSpecial(a)
       isElite = isElite && ::isUnitElite(a)
       isPkgDev = isPkgDev || a.isPkgDev
@@ -367,25 +327,7 @@ if need - put commented in array above
       hasTalismanIcon = hasTalismanIcon || hasTalisman
       talismanIncomplete = talismanIncomplete || !hasTalisman
 
-      if (::isUnitInSlotbar(a))
-        bitStatus = bitStatus | bit_unit_status.mounted
-      else if (isBought)
-        bitStatus = bitStatus | bit_unit_status.owned
-      else if (::canBuyUnit(a) || ::canBuyUnitOnline(a) || ::canBuyUnitOnMarketplace(a))
-        bitStatus = bitStatus | bit_unit_status.canBuy
-      else if (::isUnitResearched(a))
-        bitStatus = bitStatus | bit_unit_status.researched
-      else if (isInResearch)
-        bitStatus = bitStatus | bit_unit_status.inResearch
-      else if (::canResearchUnit(a))
-        bitStatus = bitStatus | bit_unit_status.canResearch
-      else if (a.isRented())
-        bitStatus = bitStatus | bit_unit_status.inRent
-      else
-        bitStatus = bitStatus | bit_unit_status.locked
-
-      if (!(bitStatus & bit_unit_status.broken) && ::isUnitBroken(a))
-        bitStatus = bitStatus | bit_unit_status.broken
+      bitStatus = bitStatus | unitStatus.getBitStatus(a)
     }
 
     if ((shopResearchMode && !(bitStatus &
@@ -469,7 +411,7 @@ if need - put commented in array above
     local shopAirImage = ::get_unit_preset_img(air.name)
     if (!shopAirImage)
       if (::is_tencent_unit_image_reqired(nextAir))
-        shopAirImage = ::get_tomoe_unit_icon(air.name) + (air.name.find("_group", 0) != null ? "" : "_group")
+        shopAirImage = ::get_tomoe_unit_icon(air.name) + (air.name.indexof("_group", 0) != null ? "" : "_group")
       else
         shopAirImage = "!" + (::getTblValue("image", air) || ("#ui/unitskin#planes_group"))
 
@@ -509,12 +451,12 @@ if need - put commented in array above
   }
   else if (air?.isFakeUnit)  //fake unit slot
   {
-    local isReqForFakeUnit = air?.isReqForFakeUnit ?? false
-    local isFakeAirRankOpen = get_units_count_at_rank(air?.rank,
-      ::g_unit_type.getByName(air.name, false).esUnitType,
-      air.country, true)
+    local isReqForFakeUnit  = air?.isReqForFakeUnit ?? false
+    local isLocalState      = params?.isLocalState ?? true
+    local isFakeAirRankOpen = isLocalState && get_units_count_at_rank(air?.rank,
+      ::g_unit_type.getByName(air.name, false).esUnitType, air?.country, true)
     local bitStatus = isReqForFakeUnit ? bit_unit_status.disabled
-      : (isFakeAirRankOpen ? bit_unit_status.owned
+      : (isFakeAirRankOpen || !isLocalState ? bit_unit_status.owned
         : bit_unit_status.locked)
     local nameForLoc = isReqForFakeUnit ? ::split(air.name, "_")?[0] : air.name
     local fakeSlotView = {
@@ -527,8 +469,9 @@ if need - put commented in array above
       shopStatus          = ::getUnitItemStatusText(bitStatus, true)
       unitRankText        = ::get_unit_rank_text(air, null, showBR, curEdiff)
       shopItemTextId      = id + "_txt"
-      shopItemText        = ::loc("mainmenu/type_" + nameForLoc)
+      shopItemText        = ::loc(air?.nameLocId ?? $"mainmenu/type_{nameForLoc}")
       isItemDisabled      = bitStatus == bit_unit_status.disabled
+      needMultiLineName   = params?.needMultiLineName
     }
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotFake", fakeSlotView)
   }
@@ -574,6 +517,7 @@ if need - put commented in array above
       shopItemId = id,
       shopItemTextId = id + "_txt",
       shopItemTextValue = params?.emptyText ?? ""
+      shopStatus = params?.status
       shopItemPriceText = priceText,
       crewImage = params?.crewImage
       isCrewRecruit = params?.isCrewRecruit ?? false
@@ -802,6 +746,8 @@ if need - put commented in array above
       priceText = ::g_string.stripTags(::loc("shop/giftAir/" + unit.gift, "shop/giftAir/alpha"))
     else if (!isUsable && !marketable && (canBuy || special || (!special && researched)))
       priceText = ::getPriceAccordingToPlayersCurrency(::wp_get_cost(unit.name), ::wp_get_cost_gold(unit.name), true)
+    else if (marketable)
+      priceText = ::loc("currency/gc/sign/colored", "")
 
     if (priceText == "" && isBought && showAsTrophyContent && !isReceivedPrizes)
       priceText = ::colorize("goodTextColor", ::loc("mainmenu/itemReceived"))
@@ -879,7 +825,9 @@ if need - put commented in array above
   }
 
   if (unit?.isFakeUnit)
-    return unit?.isReqForFakeUnit ? "" : ::format(::loc("events/rank"), ::get_roman_numeral(unit.rank))
+    return unit?.isReqForFakeUnit || unit?.rank == null
+      ? ""
+      : ::format(::loc("events/rank"), ::get_roman_numeral(unit.rank))
 
   local isReserve = ::isUnitDefault(unit)
   local isSpare = crew && isInFlight ? ::is_spare_aircraft_in_slot(crew.idInCountry) : false
@@ -905,6 +853,7 @@ if need - put commented in array above
   {
     unlocked = unlocked && (!country || ::is_crew_available_in_session(curSlotIdInCountry, needDbg))
     unlocked = unlocked && (::isUnitAvailableForGM(unit, ::get_game_mode()) || ::is_in_flight())
+      && (!unit.disableFlyout || !::is_in_flight())
     if (unlocked && !::SessionLobby.canChangeCrewUnits() && !::is_in_flight()
         && ::SessionLobby.getMaxRespawns() == 1)
       unlocked = ::SessionLobby.getMyCurUnit() == unit
@@ -1120,7 +1069,7 @@ if need - put commented in array above
 
 ::is_unit_enabled_for_slotbar <- function is_unit_enabled_for_slotbar(unit, params)
 {
-  if (!unit)
+  if (!unit || unit.disableFlyout)
     return false
 
   local res = true

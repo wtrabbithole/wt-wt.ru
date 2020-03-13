@@ -45,7 +45,7 @@ g_chat_latest_threads.refreshAdvanced <- function refreshAdvanced(excludeTags = 
   if (!excludeTags.len() && (includeTags1.len() || includeTags2.len()) )
     excludeTags = ","
 
-  cmdArr.extend([excludeTags, includeTags1, includeTags2])
+  cmdArr.append(excludeTags, includeTags1, includeTags2)
 
   _requestedList.clear()
   lastRequestTime = ::dagor.getCurTime()

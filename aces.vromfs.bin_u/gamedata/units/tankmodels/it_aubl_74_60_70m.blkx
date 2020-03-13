@@ -1504,6 +1504,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -1613,6 +1621,14 @@
             "conditionDamageType": "generic",
             "expl": 1.0,
             "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
             "kill": true,
             "killEffect": "fire"
           }
@@ -2956,6 +2972,19 @@
               ]
             }
           ]
+        }
+      },
+      "night_vision_system": {
+        "tier": 3,
+        "effects": {
+          "nightVision": {
+            "gunnerIr": {
+              "resolution": [800,600],
+              "lightMult": 8.0,
+              "ghosting": 0.75,
+              "noiseFactor": 0.2
+            }
+          }
         }
       }
     }

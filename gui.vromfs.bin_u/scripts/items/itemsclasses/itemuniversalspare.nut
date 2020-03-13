@@ -25,7 +25,7 @@ class ::items_classes.UniversalSpare extends BaseItemModClass
   {
     local res = [::loc("items/universalSpare/description/uponActivation")]
     if (numSpares > 1)
-      res.push(::loc("items/universalSpare/numSpares") + ::loc("ui/colon") + ::colorize("activeTextColor", numSpares))
+      res.append(::loc("items/universalSpare/numSpares") + ::loc("ui/colon") + ::colorize("activeTextColor", numSpares))
     return res
   }
 

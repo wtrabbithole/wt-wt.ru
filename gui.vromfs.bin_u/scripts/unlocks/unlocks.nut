@@ -13,7 +13,7 @@ const FAVORITE_UNLOCKS_LIST_SAVE_ID = "favorite_unlocks"
 }
 
 ::air_stats_list <- [
-  { id="victories", icon = "lb_each_player_victories", text = "multiplayer/each_player_victories" }
+  { id="victories", icon = "lb_each_player_victories", text = "multiplayer/each_player_victories" },
   { id="sessions", icon = "lb_each_player_session", text = "multiplayer/each_player_session"
     countFunc = function(statBlk)
     {
@@ -21,7 +21,7 @@ const FAVORITE_UNLOCKS_LIST_SAVE_ID = "favorite_unlocks"
       sessions += statBlk?.defeats ?? 0
       return sessions
     }
-  }
+  },
   { id="victories_battles", type = ::g_lb_data_type.PERCENT
     countFunc = function(statBlk)
     {
@@ -31,7 +31,7 @@ const FAVORITE_UNLOCKS_LIST_SAVE_ID = "favorite_unlocks"
         return victories.tofloat() / sessions
       return 0
     }
-  }
+  },
   "flyouts",
   "deaths",
   "air_kills",
@@ -41,9 +41,9 @@ const FAVORITE_UNLOCKS_LIST_SAVE_ID = "favorite_unlocks"
     icon = "lb_naval_kills",
     text = "multiplayer/naval_kills",
     reqFeature = ["Ships"]
-  }
-  { id="wp_total", icon = "lb_wp_total_gained", text = "multiplayer/wp_total_gained", ownProfileOnly = true }
-  { id="online_exp_total", icon = "lb_online_exp_gained_for_common", text = "multiplayer/online_exp_gained_for_common" }
+  },
+  { id="wp_total", icon = "lb_wp_total_gained", text = "multiplayer/wp_total_gained", ownProfileOnly = true },
+  { id="online_exp_total", icon = "lb_online_exp_gained_for_common", text = "multiplayer/online_exp_gained_for_common" },
 ]
 foreach(idx, a in ::air_stats_list)
 {
@@ -285,7 +285,7 @@ foreach(idx, a in ::air_stats_list)
       if (mainCond)
         config.conditions.append(mainCond)
     } else
-      config.conditions = ::UnlockConditions.loadConditionsFromBlk(mode)
+      config.conditions = ::UnlockConditions.loadConditionsFromBlk(mode, blk)
 
     local mainCond = ::UnlockConditions.getMainProgressCondition(config.conditions)
 
@@ -414,7 +414,7 @@ foreach(idx, a in ::air_stats_list)
     return unlockBlk.iconLocked
 
   local iconName = unlockBlk.icon
-  local dotPlace = iconName.find(".")
+  local dotPlace = iconName.indexof(".")
   if (dotPlace != null)
     return iconName.slice(0, dotPlace) + "_locked" + iconName.slice(dotPlace)
   return iconName + "_locked"
@@ -446,7 +446,7 @@ foreach(idx, a in ::air_stats_list)
     return false
   if (unlockBlk?.showByEntitlement && !::has_entitlement(unlockBlk.showByEntitlement))
     return false
-  if ((unlockBlk % "hideForLang").find(::g_language.getLanguageName()) != null)
+  if ((unlockBlk % "hideForLang").indexof(::g_language.getLanguageName()) != null)
     return false
   foreach (feature in unlockBlk % "reqFeature")
     if (!::has_feature(feature))
@@ -491,7 +491,7 @@ foreach(idx, a in ::air_stats_list)
     return false
   if (decalBlk?.showByEntitlement && !::has_entitlement(decalBlk.showByEntitlement))
     return false
-  if ((decalBlk % "hideForLang").find(::g_language.getLanguageName()) != null)
+  if ((decalBlk % "hideForLang").indexof(::g_language.getLanguageName()) != null)
     return false
   foreach (feature in decalBlk % "reqFeature")
     if (!::has_feature(feature))
@@ -616,7 +616,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
         tabs = []
       }
       foreach(i, list in unlocksLists)
-        view.tabs.push({
+        view.tabs.append({
           tabName = ::getTblValue("titleText", list, "")
           navImagesText = ::get_navigation_images_text(i, unlocksLists.len())
         })
@@ -915,7 +915,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 
     case ::UNLOCKABLE_SKIN:
       local unitName = ::g_unlocks.getPlaneBySkinId(id)
-      local res = ::loc(id)
+      local res = ::g_decorator.getDecoratorById(id)?.getDesc() ?? ""
       if (unitName != "")
         res += ::loc("ui/parentheses/space", { text = ::getUnitName(unitName) })
       return res
@@ -930,13 +930,13 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
       return ::getDifficultyLocalizationText(id)
 
     case ::UNLOCKABLE_ENCYCLOPEDIA:
-      local index = id.find("/")
+      local index = id.indexof("/")
       if (index != null)
         return ::loc("encyclopedia/" + id.slice(index + 1))
       return ::loc("encyclopedia/" + id)
 
     case ::UNLOCKABLE_SINGLEMISSION:
-      local index = id.find("/")
+      local index = id.indexof("/")
       if (index != null)
         return ::loc("missions/" + id.slice(index + 1))
       return ::loc("missions/" + id)
@@ -951,7 +951,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 
     case ::UNLOCKABLE_STREAK:
       local res = ::loc("streaks/" + id)
-      if (res.find("%d") != null)
+      if (res.indexof("%d") != null)
           res = ::loc("streaks/" + id + "/multiple")
       return res
 
@@ -1162,9 +1162,9 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
       }
       else
       {
-        if (name.find("%d") != null)
+        if (name.indexof("%d") != null)
           name = ::loc("streaks/" + id + "/multiple")
-        if (desc.find("%d") != null)
+        if (desc.indexof("%d") != null)
         {
           local descValue = unlockBlk?.stage ? (unlockBlk?.stage.param ?? 0) : (unlockBlk?.mode.num ?? 0)
           if (descValue > 0)
@@ -1388,7 +1388,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
     name = ::loc(keyValue)
   else
     foreach(idx, namePart in parsedString)
-      if (namePart.len() == 1 && ::unlocks_punctuation_without_space.find(namePart) != null)
+      if (namePart.len() == 1 && ::unlocks_punctuation_without_space.indexof(namePart) != null)
         name += namePart
       else
         name += ((name == ""? "" : " ") + ::loc(namePart))
@@ -1558,7 +1558,9 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 }
 
 ::g_unlocks <- {
-  [PERSISTENT_DATA_PARAMS] = ["cache", "cacheArray"] //to do not parse again on script reload
+  [PERSISTENT_DATA_PARAMS] = ["cache", "cacheArray", "favoriteUnlocks", "favoriteInvisibleUnlocks"] //to do not parse again on script reload
+
+  favoriteUnlocksLimit = 20
 
   unitNameReg = ::regexp2(@"[.*/].+")
   skinNameReg = ::regexp2(@"^[^/]*/")
@@ -1576,6 +1578,9 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
     multi_kill_ship =   {[2] = "double_kill_ship",   [3] = "triple_kill_ship",   def = "multi_kill_ship"}
     multi_kill_ground = {[2] = "double_kill_ground", [3] = "triple_kill_ground", def = "multi_kill_ground"}
   }
+
+  getTotalFavoriteCount = @() ::g_unlocks.getFavoriteUnlocks().blockCount() + favoriteInvisibleUnlocks.blockCount()
+  canAddFavorite = @() getTotalFavoriteCount() < favoriteUnlocksLimit
 }
 
 g_unlocks.validateCache <- function validateCache()
@@ -1626,7 +1631,7 @@ g_unlocks.getUnlockById <- function getUnlockById(unlockId)
   //For before login actions.
   local blk = ::get_unlocks_blk()
   foreach(cb in (blk % "unlockable"))
-    if (cb.id == unlockId)
+    if (cb?.id == unlockId)
       return cb
   return null
 }
@@ -1706,7 +1711,7 @@ g_unlocks.isUnlockMultiStageLocId <- function isUnlockMultiStageLocId(unlockId)
 
 g_unlocks.getUnlockRepeatInARow <- function getUnlockRepeatInARow(unlockId, stage)
 {
-  return stage + ::getTblValueByPath("stage.param", ::g_unlocks.getUnlockById(unlockId), 0)
+  return stage + (::g_unlocks.getUnlockById(unlockId)?.stage.param ?? 0)
 }
 
 //has not default multistage id. Used to combine similar unlocks.
@@ -1782,7 +1787,7 @@ g_unlocks.getFavoriteUnlocks <- function getFavoriteUnlocks()
 
 g_unlocks.loadFavorites <- function loadFavorites()
 {
-  if(favoriteUnlocks)
+  if (favoriteUnlocks)
   {
     favoriteUnlocks.reset()
     favoriteInvisibleUnlocks.reset()
@@ -1794,7 +1799,7 @@ g_unlocks.loadFavorites <- function loadFavorites()
   }
 
   local loaded = ::load_local_account_settings(FAVORITE_UNLOCKS_LIST_SAVE_ID)
-  if(loaded)
+  if (loaded)
   {
     foreach(unlockId, unlockValue in loaded)
     {
@@ -1809,6 +1814,9 @@ g_unlocks.loadFavorites <- function loadFavorites()
           favoriteUnlocks[unlockId] = unlock
         }
       }
+
+      if (favoriteUnlocks.blockCount() >= favoriteUnlocksLimit)
+        break
     }
   }
   isFavUnlockCacheValid = true
@@ -1816,8 +1824,9 @@ g_unlocks.loadFavorites <- function loadFavorites()
 
 g_unlocks.addUnlockToFavorites <- function addUnlockToFavorites(unlockId)
 {
-  if(unlockId in getFavoriteUnlocks())
+  if (unlockId in getFavoriteUnlocks())
     return
+
   getFavoriteUnlocks().addBlock(unlockId)
   getFavoriteUnlocks()[unlockId] = ::g_unlocks.getUnlockById(unlockId)
   saveFavorites()
@@ -1826,7 +1835,7 @@ g_unlocks.addUnlockToFavorites <- function addUnlockToFavorites(unlockId)
 
 g_unlocks.removeUnlockFromFavorites <- function removeUnlockFromFavorites(unlockId)
 {
-  if(unlockId in getFavoriteUnlocks())
+  if (unlockId in getFavoriteUnlocks())
   {
     getFavoriteUnlocks().removeBlock(unlockId)
     saveFavorites()
@@ -1917,7 +1926,7 @@ g_unlocks.isHiddenByUnlockedUnlocks <- function isHiddenByUnlockedUnlocks(unlock
   foreach (value in (unlockBlk % "hideWhenUnlocked"))
   {
     local unlockedCount = 0
-    local unlocksId = ::split(value, "; ")
+    local unlocksId = value.split("; ")
     foreach (id in unlocksId)
       if (::is_unlocked_scripted(-1, id))
         unlockedCount ++

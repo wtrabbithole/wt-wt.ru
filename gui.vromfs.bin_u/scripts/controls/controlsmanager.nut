@@ -110,7 +110,7 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
     cachedDeviceMappingBlk.setFrom(blkDeviceMapping)
 
     foreach (blkJoy in blkDeviceMapping)
-      realMapping.push({
+      realMapping.append({
         name          = blkJoy["name"]
         devId         = blkJoy["devId"]
         buttonsOffset = blkJoy["btnOfs"]
@@ -171,18 +171,21 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
     ::broadcastEvent("BeforeControlsCommit")
 
     // Send controls to C++ client
-    ::set_controls_preset_ext(
-      ::getTblValue("default", curPreset.basePresetPaths, ""))
+    if ("set_current_controls" in getroottable())
+      ::set_current_controls(curPreset, ::g_controls_manager.getShortcutGroupMap())
+    else
+    {
+      ::set_controls_preset_ext( ::getTblValue("default", curPreset.basePresetPaths, ""))
+      ::set_shortcuts_ext(curPreset.hotkeys)
 
-    ::set_shortcuts_ext(curPreset.hotkeys)
+      ::joystick_set_cur_controls({
+        axes        = curPreset.axes
+        params      = curPreset.params
+        squarePairs = curPreset.squarePairs
+      })
 
-    ::joystick_set_cur_controls({
-      axes        = curPreset.axes
-      params      = curPreset.params
-      squarePairs = curPreset.squarePairs
-    })
-
-    ::set_shortcuts_groups(::g_controls_manager.getShortcutGroupMap())
+      ::set_shortcuts_groups(::g_controls_manager.getShortcutGroupMap())
+    }
 
     isControlsCommitPerformed = false
   }

@@ -108,13 +108,12 @@
     "canReloadNonGuns": true
   },
   {
+    "hideNodesInDmg": {
+      "node": "flag"
+    }
+  },
+  {
     "default_skin_tomoe": [
-      {
-        "replace_tex": {
-          "from": "flag_ussr_01_c*",
-          "to": "flag_china_01_c_tomoe*"
-        }
-      },
       {
         "replace_tex": {
           "from": "flag_ussr_01_c*",
@@ -166,6 +165,18 @@
       {
         "replace_tex": {
           "from": "flag_germany_02_c*",
+          "to": "flag_germany_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_germany_03_c*",
+          "to": "flag_germany_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_germany_04_c*",
           "to": "flag_germany_01_c_tomoe*"
         }
       },
@@ -741,6 +752,10 @@
         "mast_03_dm": {
           "hp": 300.0
         }
+      },
+      "radiolocation": {
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 5.0
       },
       "engine": {
         "armorThrough": 30.0,
@@ -1816,33 +1831,111 @@
     ]
   },
   {
-    "MetaParts": {
-      "cover": [
-        {
-          "part": "compartment_01_dm"
-        },
-        {
-          "part": "compartment_02_dm"
-        },
-        {
-          "part": "compartment_03_dm"
-        },
-        {
-          "part": "compartment_04_dm"
-        },
-        {
-          "part": "compartment_05_dm"
-        },
-        {
+    "MetaParts": [
+      {
+        "cover": [
+          {
+            "part": "compartment_01_dm"
+          },
+          {
+            "effect": {
+              "conditionDamageType": "explosion",
+              "conditionDamage": 260.0,
+              "kill": true,
+              "killEffect": "destruction"
+            }
+          },
+          {
+            "effect": {
+              "conditionDamageType": "shatter",
+              "conditionDamage": 2000.0,
+              "kill": true,
+              "killEffect": "destruction"
+            }
+          }
+        ]
+      },
+      {
+        "cover": [
+          {
+            "part": "compartment_02_dm"
+          },
+          {
+            "effect": {
+              "conditionDamageType": "explosion",
+              "conditionDamage": 260.0,
+              "kill": true,
+              "killEffect": "destruction"
+            }
+          },
+          {
+            "effect": {
+              "conditionDamageType": "shatter",
+              "conditionDamage": 2000.0,
+              "kill": true,
+              "killEffect": "destruction"
+            }
+          }
+        ]
+      },
+      {
+        "cover": [
+          {
+            "part": "compartment_03_dm"
+          },
+          {
+            "effect": {
+              "conditionDamageType": "explosion",
+              "conditionDamage": 260.0,
+              "kill": true,
+              "killEffect": "destruction"
+            }
+          },
+          {
+            "effect": {
+              "conditionDamageType": "shatter",
+              "conditionDamage": 2000.0,
+              "kill": true,
+              "killEffect": "destruction"
+            }
+          }
+        ]
+      },
+      {
+        "cover": [
+          {
+            "part": "compartment_04_dm"
+          },
+          {
+            "effect": {
+              "conditionDamageType": "explosion",
+              "conditionDamage": 260.0,
+              "kill": true,
+              "killEffect": "destruction"
+            }
+          },
+          {
+            "effect": {
+              "conditionDamageType": "shatter",
+              "conditionDamage": 3500.0,
+              "kill": true,
+              "killEffect": "destruction"
+            }
+          }
+        ]
+      },
+      {
+        "bridge": {
+          "part": "bridge_dm",
           "effect": {
             "conditionDamageType": "explosion",
-            "conditionDamageRel": 0.25,
+            "conditionDamage": 260.0,
             "kill": true,
             "killEffect": "destruction"
           }
         }
-      ]
-    }
+      }
+    ]
   },
   {
     "tags": {

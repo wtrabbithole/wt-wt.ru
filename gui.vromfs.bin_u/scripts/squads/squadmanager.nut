@@ -47,7 +47,7 @@ local SQUAD_SIZE_FEATURES_CHECK = {
 
 local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
 
-g_squad_manager <- {
+::g_squad_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["squadData", "meReady", "isMyCrewsReady", "lastUpdateStatus", "state",
    "COMMON_SQUAD_SIZE", "MAX_SQUAD_SIZE", "squadSizesList", "delayedInvites"]
 
@@ -97,8 +97,15 @@ g_squad_manager <- {
 
     squadData.leaderGameModeId = newLeaderGameModeId
     if (isSquadMember())
+    {
+      local event = ::events.getEvent(getLeaderGameModeId())
+      if (isMeReady() && !antiCheat.showMsgboxIfEacInactive(event))
+        setReadyFlag(false)
       updateMyMemberData(::g_user_utils.getMyStateData())
+    }
   }
+
+  onEventPresetsByGroupsChanged = @(params) updateMyMemberData()
 }
 
 g_squad_manager.setState <- function setState(newState)
@@ -139,6 +146,7 @@ g_squad_manager.updateMyMemberData <- function updateMyMemberData(data = null)
   data.isCrewsReady <- isMyCrewsReady
   data.canPlayWorldWar <- ::g_world_war.canPlayWorldwar()
   data.isWorldWarAvailable <- ::is_worldwar_enabled()
+  data.isEacInited <- ::is_eac_inited()
   data.squadsVersion <- SQUADS_VERSION
 
   local wwOperations = []
@@ -584,7 +592,9 @@ g_squad_manager.setReadyFlag <- function setReadyFlag(ready = null, needUpdateMe
     return
 
   local isSetNoReady = (ready == false || (ready == null && isMeReady() == true))
-  if (!isLeader && !isSetNoReady && !antiCheat.showMsgboxIfEacInactive())
+  local event = ::events.getEvent(getLeaderGameModeId())
+  if (!isLeader && !isSetNoReady
+    && !antiCheat.showMsgboxIfEacInactive(event))
     return
 
   if (::checkIsInQueue() && !isLeader && isInSquad() && isSetNoReady)
@@ -858,7 +868,7 @@ g_squad_manager.membershipAplication <- function membershipAplication(sid)
   local cb = function()
   {
     ::request_matching("msquad.request_membership",
-      callback
+      callback,
       null, {squadId = sid}, null)
   }
   local canJoin = ::g_squad_utils.canJoinFlightMsgBox(
@@ -1289,8 +1299,8 @@ g_squad_manager.checkNewApplications <- function checkNewApplications()
         hasNewApplication = true
         break
       }
-   if (curHasNewApplication != hasNewApplication)
-     ::broadcastEvent(squadEvent.NEW_APPLICATIONS)
+  if (curHasNewApplication != hasNewApplication)
+    ::broadcastEvent(squadEvent.NEW_APPLICATIONS)
 }
 
 g_squad_manager.addMember <- function addMember(uid)
@@ -1470,18 +1480,14 @@ g_squad_manager.checkMembersPkg <- function checkMembersPkg(pack) //return list 
 
 g_squad_manager.getSquadMembersDataForContact <- function getSquadMembersDataForContact()
 {
-  local contactsData = {}
+  local contactsData = []
 
-  if (!isInSquad())
-    return contactsData
-
-  local leaderUid = getLeaderUid()
-  if (leaderUid != ::my_user_id_str)
-    contactsData[leaderUid] <- getLeaderNick()
-
-  foreach(uid, memberData in squadData.members)
-    if (uid != leaderUid && uid != ::my_user_id_str)
-        contactsData[uid] <- memberData.name
+  if (isInSquad())
+  {
+    foreach(uid, memberData in squadData.members)
+      if (uid != ::my_user_id_str)
+        contactsData.append(memberData.getData())
+  }
 
   return contactsData
 }

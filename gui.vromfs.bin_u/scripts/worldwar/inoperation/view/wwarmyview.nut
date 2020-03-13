@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 
 class ::WwArmyView
@@ -61,8 +62,7 @@ class ::WwArmyView
         memo.append(unit)
       return memo
     }, [])
-    wwUnits = wwUnits.map(@(wwUnit) wwUnit.getShortStringView())
-    wwUnits.sort(::g_world_war.sortUnitsBySortCodeAndCount)
+    wwUnits = wwActionsWithUnitsList.getUnitsListViewParams({ wwUnits = wwUnits})
 
     if (wwUnits.len() <= unitsInArmyRowsMax)
       view.columns.append({ unitString = wwUnits })
@@ -108,6 +108,11 @@ class ::WwArmyView
   function isArtillery()
   {
     return ::g_ww_unit_type.isArtillery(formation.getUnitType())
+  }
+
+  function hasArtilleryAbility()
+  {
+    return formation.hasArtilleryAbility
   }
 
   function getUnitsCountText()
@@ -330,7 +335,7 @@ class ::WwArmyView
 
   function getArmyInfoText()
   {
-    if (!isArtillery())
+    if (!hasArtilleryAbility())
       return null
 
     if (formation.isMove())
@@ -448,4 +453,6 @@ class ::WwArmyView
   {
     selectedSide = side
   }
+
+  needSmallSize = @() hasArtilleryAbility() && !isArtillery()
 }

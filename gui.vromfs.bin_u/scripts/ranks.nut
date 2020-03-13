@@ -39,7 +39,7 @@ if (!("EUCT_TOTAL" in ::getroottable()))
 
 ::g_script_reloader.registerPersistentData("RanksGlobals", ::getroottable(),
   [
-    "discounts", "event_muls"
+    "discounts", "event_muls",
     "exp_per_rank", "max_player_rank", "prestige_by_rank"
   ])
 
@@ -361,7 +361,7 @@ if (!("EUCT_TOTAL" in ::getroottable()))
   {
     if (::has_entitlement(tbl.entitlement))
       return true;
-    else if (!silent && (tbl.entitlement == "PremiumAccount"))
+    else if (!silent && (tbl.entitlement == ::shop_get_premium_account_ent_name()))
     {
       local guiScene = ::get_gui_scene()
       local handler = this

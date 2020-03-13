@@ -47,7 +47,7 @@ local buildReplayMpTable = function(replayPath)
       mplayer.name    = hasClanTag ? parts[1] : parts[0]
     }
 
-    if (mplayer?.isBot && mplayer?.name.find("/") != null)
+    if (mplayer?.isBot && mplayer?.name.indexof("/") != null)
       mplayer.name = ::loc(mplayer.name)
 
     foreach(p in ::g_mplayer_param_type.types)

@@ -175,6 +175,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     switchControlsAllowMask(spectatorMode
                             ? CtrlsInGui.CTRL_ALLOW_MP_STATISTICS | CtrlsInGui.CTRL_ALLOW_MP_CHAT
                               | CtrlsInGui.CTRL_ALLOW_FLIGHT_MENU | CtrlsInGui.CTRL_ALLOW_SPECTATOR
+                              | CtrlsInGui.CTRL_ALLOW_TACTICAL_MAP
                             : CtrlsInGui.CTRL_ALLOW_FULL)
   }
 
@@ -744,7 +745,6 @@ class HudHelicopter extends ::gui_handlers.BaseUnitHud
 
   function initScreen()
   {
-    ::g_hud_crew_state.init(scene)
     ::hudEnemyDamage.init(scene)
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
   }
@@ -753,7 +753,6 @@ class HudHelicopter extends ::gui_handlers.BaseUnitHud
   {
     actionBar.reinit()
     ::hudEnemyDamage.reinit()
-    ::g_hud_crew_state.reinit()
 
     if (::need_offer_controls_help)
     {
@@ -840,8 +839,7 @@ class HudShip extends ::gui_handlers.BaseUnitHud
   {
     ::hudEnemyDamage.init(scene)
     ::g_hud_display_timers.init(scene, ::ES_UNIT_TYPE_SHIP)
-    ::g_hud_ship_debuffs.init(scene)
-    ::g_hud_crew_state.init(scene)
+    ::hud_request_hud_ship_debuffs_state()
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
   }
 
@@ -850,8 +848,7 @@ class HudShip extends ::gui_handlers.BaseUnitHud
     actionBar.reinit()
     ::hudEnemyDamage.reinit()
     ::g_hud_display_timers.reinit()
-    ::g_hud_ship_debuffs.reinit()
-    ::g_hud_crew_state.reinit()
+    ::hud_request_hud_ship_debuffs_state()
 
     if (::need_offer_controls_help)
     {

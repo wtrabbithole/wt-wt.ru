@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 class ::WwAirfieldCooldownFormation extends ::WwAirfieldFormation
 {
@@ -12,7 +13,7 @@ class ::WwAirfieldCooldownFormation extends ::WwAirfieldFormation
 
   function update(blk, airfield)
   {
-    units = ::WwUnit.loadUnitsFromBlk(blk.getBlockByName("units"))
+    units = wwActionsWithUnitsList.loadUnitsFromBlk(blk.getBlockByName("units"))
     morale = airfield.createArmyMorale
     if ("cooldownFinishedMillis" in blk)
       cooldownFinishedMillis = blk.cooldownFinishedMillis

@@ -1,4 +1,4 @@
-local frp = require("daRg/frp.nut")
+local frp = require("std/frp.nut")
 
 local debugRowHeight = 14 /* Height of on-screen debug text (fps, build, etc) */
 

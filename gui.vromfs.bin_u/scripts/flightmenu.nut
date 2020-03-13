@@ -42,8 +42,8 @@ class ::gui_handlers.FlightMenu extends ::gui_handlers.BaseGuiHandlerWT
     {
       items=[resumeItem]
       if (::get_game_mode() != ::GM_BENCHMARK)
-        items.extend(["Options", "Controls", "ControlsHelp"])
-      items.extend(["Restart", "Bailout", "QuitMission"])
+        items.append("Options", "Controls", "ControlsHelp")
+      items.append("Restart", "Bailout", "QuitMission")
     }
 
     local blkItems =  ::build_menu_blk(items,"#flightmenu/btn", true)

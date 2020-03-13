@@ -273,27 +273,31 @@
           "onHit": {
             "damage": 2.7,
             "fire": 0.01,
-            "leak_oil": 0.5
+            "leak_oil": 0.5,
+            "cut": 0.0
           }
         },
         {
           "onHit": {
             "damage": 30.0,
             "fire": 0.1,
-            "leak_oil": 1.0
+            "leak_oil": 1.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "fire": 30.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "fire": 44.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         }
       ]
@@ -972,7 +976,7 @@
     "zoomInFov": 7.37,
     "sightInFov": 3.68,
     "sightOutFov": -1.0,
-    "sightFov": 9.5,
+    "sightFov": 5.5,
     "devices": {
       "speed": [0.0,257.222],
       "bank": [-8.0,8.0],
@@ -1150,6 +1154,9 @@
       "dp": [
         {
           "dm": "wing_l_dm"
+        },
+        {
+          "separateDm": true
         },
         {
           "dp": "stab_dm"
@@ -1336,6 +1343,9 @@
           "dm": "wing_r_dm"
         },
         {
+          "separateDm": true
+        },
+        {
           "dp": "stab_dm"
         },
         {
@@ -1520,6 +1530,9 @@
           "dm": "tail_dm"
         },
         {
+          "separateDm": true
+        },
+        {
           "dp": "stab_dm"
         },
         {
@@ -1702,6 +1715,9 @@
       "dp": [
         {
           "dm": "fin_dm"
+        },
+        {
+          "separateDm": true
         },
         {
           "dp": "stab_dm"
@@ -1891,6 +1907,9 @@
           "dm": "stab_dm"
         },
         {
+          "separateDm": true
+        },
+        {
           "dp": "stab_dm"
         },
         {
@@ -2076,6 +2095,9 @@
       "dp": [
         {
           "dm": "stab_dm"
+        },
+        {
+          "separateDm": true
         },
         {
           "dp": "stab_dm"
@@ -2265,6 +2287,9 @@
           "dm": "stab1_dm"
         },
         {
+          "separateDm": true
+        },
+        {
           "dp": "stab_dm"
         },
         {
@@ -2452,6 +2477,9 @@
           "dm": "stab2_dm"
         },
         {
+          "separateDm": true
+        },
+        {
           "dp": "stab_dm"
         },
         {
@@ -2639,6 +2667,9 @@
           "dm": "wing_l_dm"
         },
         {
+          "separateDm": true
+        },
+        {
           "dp": "cover%d_dm"
         },
         {
@@ -2734,6 +2765,9 @@
       "dp": [
         {
           "dm": "wing_r_dm"
+        },
+        {
+          "separateDm": true
         },
         {
           "dp": "cover%d_dm"
@@ -2833,6 +2867,9 @@
           "dm": "tail_dm"
         },
         {
+          "separateDm": true
+        },
+        {
           "dp": "cover%d_dm"
         },
         {
@@ -2880,6 +2917,9 @@
       "dp": [
         {
           "dm": "fin_dm"
+        },
+        {
+          "separateDm": true
         },
         {
           "dp": "cover%d_dm"
@@ -2932,12 +2972,87 @@
       ]
     },
     {
+      "dp": {
+        "dm": "spar2_l_dm",
+        "separateDm": true,
+        "dp": "wing2_l_dm"
+      }
+    },
+    {
+      "dp": [
+        {
+          "dm": "spar1_l_dm"
+        },
+        {
+          "separateDm": true
+        },
+        {
+          "dp": "spar2_l_dm"
+        },
+        {
+          "dp": "wing1_l_dm"
+        }
+      ]
+    },
+    {
+      "dp": [
+        {
+          "dm": "spar_l_dm"
+        },
+        {
+          "separateDm": true
+        },
+        {
+          "dp": "spar1_l_dm"
+        },
+        {
+          "dp": "wing_l_dm"
+        }
+      ]
+    },
+    {
+      "dp": {
+        "dm": "spar2_r_dm",
+        "separateDm": true,
+        "dp": "wing2_r_dm"
+      }
+    },
+    {
+      "dp": [
+        {
+          "dm": "spar1_r_dm"
+        },
+        {
+          "separateDm": true
+        },
+        {
+          "dp": "spar2_r_dm"
+        },
+        {
+          "dp": "wing1_r_dm"
+        }
+      ]
+    },
+    {
+      "dp": [
+        {
+          "dm": "spar_r_dm"
+        },
+        {
+          "separateDm": true
+        },
+        {
+          "dp": "spar1_r_dm"
+        },
+        {
+          "dp": "wing_r_dm"
+        }
+      ]
+    },
+    {
       "dp": [
         {
           "dm": "wing_l_dm"
-        },
-        {
-          "dp": "spar_l_dm"
         },
         {
           "dp": "wire_l"
@@ -2953,9 +3068,6 @@
           "dm": "wing1_l_dm"
         },
         {
-          "dp": "spar1_l_dm"
-        },
-        {
           "dp": "wire_l"
         },
         {
@@ -2969,13 +3081,16 @@
           "dm": "wing2_l_dm"
         },
         {
-          "dp": "spar2_l_dm"
-        },
-        {
           "dp": "wire_l"
         },
         {
           "dp": "wire_lc"
+        },
+        {
+          "dp": "slat_l"
+        },
+        {
+          "dp": "slat%d_l"
         }
       ]
     },
@@ -2983,9 +3098,6 @@
       "dp": [
         {
           "dm": "wing_r_dm"
-        },
-        {
-          "dp": "spar_r_dm"
         },
         {
           "dp": "wire_r"
@@ -3001,9 +3113,6 @@
           "dm": "wing1_r_dm"
         },
         {
-          "dp": "spar1_r_dm"
-        },
-        {
           "dp": "wire_r"
         },
         {
@@ -3017,84 +3126,26 @@
           "dm": "wing2_r_dm"
         },
         {
-          "dp": "spar2_r_dm"
-        },
-        {
           "dp": "wire_r"
         },
         {
           "dp": "wire_rc"
+        },
+        {
+          "dp": "slat_r"
+        },
+        {
+          "dp": "slat%d_r"
         }
       ]
-    },
-    {
-      "dp": [
-        {
-          "dm": "spar_l_dm"
-        },
-        {
-          "dp": "wing_l_dm"
-        },
-        {
-          "dp": "spar1_l_dm"
-        }
-      ]
-    },
-    {
-      "dp": [
-        {
-          "dm": "spar1_l_dm"
-        },
-        {
-          "dp": "wing1_l_dm"
-        },
-        {
-          "dp": "spar2_l_dm"
-        }
-      ]
-    },
-    {
-      "dp": {
-        "dm": "spar2_l_dm",
-        "dp": "wing2_l_dm"
-      }
-    },
-    {
-      "dp": [
-        {
-          "dm": "spar_r_dm"
-        },
-        {
-          "dp": "wing_r_dm"
-        },
-        {
-          "dp": "spar1_r_dm"
-        }
-      ]
-    },
-    {
-      "dp": [
-        {
-          "dm": "spar1_r_dm"
-        },
-        {
-          "dp": "wing1_r_dm"
-        },
-        {
-          "dp": "spar2_r_dm"
-        }
-      ]
-    },
-    {
-      "dp": {
-        "dm": "spar2_r_dm",
-        "dp": "wing2_r_dm"
-      }
     },
     {
       "dp": [
         {
           "dm": "tail_dm"
+        },
+        {
+          "separateDm": true
         },
         {
           "dp": "antenna"
@@ -3116,6 +3167,12 @@
           "dm": "stab_dm"
         },
         {
+          "separateDm": true
+        },
+        {
+          "overwriteLinks": true
+        },
+        {
           "dp": "elevator_dm"
         },
         {
@@ -3126,12 +3183,16 @@
     {
       "dp": {
         "dm": "stab1_dm",
+        "separateDm": true,
+        "overwriteLinks": true,
         "dp": "elevator0_dm"
       }
     },
     {
       "dp": {
         "dm": "stab2_dm",
+        "separateDm": true,
+        "overwriteLinks": true,
         "dp": "elevator1_dm"
       }
     },
@@ -3141,24 +3202,59 @@
           "dm": "fin_dm"
         },
         {
+          "separateDm": true
+        },
+        {
+          "overwriteLinks": true
+        },
+        {
           "dp": "rudder_dm"
         },
         {
           "dp": "rudder%d_dm"
+        },
+        {
+          "dp": "antenna"
         }
       ]
     },
     {
-      "dp": {
-        "dm": "fin1_dm",
-        "dp": "rudder0_dm"
-      }
+      "dp": [
+        {
+          "dm": "fin1_dm"
+        },
+        {
+          "separateDm": true
+        },
+        {
+          "overwriteLinks": true
+        },
+        {
+          "dp": "rudder0_dm"
+        },
+        {
+          "dp": "antenna"
+        }
+      ]
     },
     {
-      "dp": {
-        "dm": "fin2_dm",
-        "dp": "rudder1_dm"
-      }
+      "dp": [
+        {
+          "dm": "fin2_dm"
+        },
+        {
+          "separateDm": true
+        },
+        {
+          "overwriteLinks": true
+        },
+        {
+          "dp": "rudder1_dm"
+        },
+        {
+          "dp": "antenna"
+        }
+      ]
     },
     {
       "dp": {
@@ -3221,116 +3317,53 @@
       }
     },
     {
-      "dp": [
-        {
-          "dm": "gear_l_dm"
-        },
-        {
-          "dp": "gear_l%d"
-        },
-        {
-          "dp": "wheel_l"
-        },
-        {
-          "dp": "wheel%d_l"
-        }
-      ]
+      "dp": {
+        "dm": "gear_l_dm",
+        "separateDm": true,
+        "dp": "gear_l%d"
+      }
     },
     {
-      "dp": [
-        {
-          "dm": "gear_1l_dm"
-        },
-        {
-          "dp": "gear_1l%d"
-        },
-        {
-          "dp": "wheel_1l"
-        },
-        {
-          "dp": "wheel%d_1l"
-        }
-      ]
+      "dp": {
+        "dm": "gear_1l_dm",
+        "separateDm": true,
+        "dp": "gear_1l%d"
+      }
     },
     {
-      "dp": [
-        {
-          "dm": "gear_r_dm"
-        },
-        {
-          "dp": "gear_r%d"
-        },
-        {
-          "dp": "wheel_r"
-        },
-        {
-          "dp": "wheel%d_r"
-        }
-      ]
+      "dp": {
+        "dm": "gear_r_dm",
+        "separateDm": true,
+        "dp": "gear_r%d"
+      }
     },
     {
-      "dp": [
-        {
-          "dm": "gear_1r_dm"
-        },
-        {
-          "dp": "gear_1r%d"
-        },
-        {
-          "dp": "wheel_1r"
-        },
-        {
-          "dp": "wheel%d_1r"
-        }
-      ]
+      "dp": {
+        "dm": "gear_1r_dm",
+        "separateDm": true,
+        "dp": "gear_1r%d"
+      }
     },
     {
-      "dp": [
-        {
-          "dm": "gear_c_dm"
-        },
-        {
-          "dp": "gear_c%d"
-        },
-        {
-          "dp": "wheel_c"
-        },
-        {
-          "dp": "wheel%d_c"
-        }
-      ]
+      "dp": {
+        "dm": "gear_c_dm",
+        "separateDm": true,
+        "dp": "gear_c%d"
+      }
     },
     {
-      "dp": [
-        {
-          "dm": "gear_2c_dm"
-        },
-        {
-          "dp": "gear_2c%d"
-        },
-        {
-          "dp": "wheel_2c"
-        },
-        {
-          "dp": "wheel%d_2c"
-        }
-      ]
+      "dp": {
+        "dm": "gear_2c_dm",
+        "separateDm": true,
+        "dp": "gear_2c%d"
+      }
     },
     {
-      "dp": [
-        {
-          "dm": "gear_3c_dm"
-        },
-        {
-          "dp": "gear_3c%d"
-        },
-        {
-          "dp": "wheel_3c"
-        },
-        {
-          "dp": "wheel%d_3c"
-        }
-      ]
+      "dp": {
+        "dm": "gear_3c_dm",
+        "separateDm": true,
+        "dp": "gear_3c%d"
+      }
     },
     {
       "dp": [
@@ -3571,10 +3604,6 @@
     }
   },
   "cutting": {
-    "emtr_break_wing0_l_from": [0.654589,-0.679247,0.738534],
-    "emtr_break_wing0_l_to": [0.654589,-0.679247,0.905443],
-    "emtr_break_wing0_r_from": [0.654589,-0.679247,-0.738534],
-    "emtr_break_wing0_r_to": [0.654589,-0.679247,-0.905443],
     "emtr_break_wing_tail": [-2.01118,0.0,0.0],
     "emtr_break_wing_lower": [0.0,-1.0,0.0],
     "emtr_break_wing_upper": [0.15,1.0,0.0],

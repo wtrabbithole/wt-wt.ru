@@ -83,39 +83,7 @@
             "size": "ph, ph",
             "position": "absolute",
             "pos": "0, 0",
-            "topLeft": {
-              "position": "absolute",
-              "pos": "0, 0",
-              "size": "pw/2, ph/2",
-              "background-color": "@white",
-              "background-image": "#ui/gameuiskin#bg_2@@ss",
-              "color-factor": "150"
-            },
-            "topRight": {
-              "position": "absolute",
-              "pos": "pw/2, 0",
-              "size": "pw/2, ph/2",
-              "background-color": "@white",
-              "background-image": "#ui/gameuiskin#bg_2@@ss",
-              "background-position": "w, 0",
-              "color-factor": "150"
-            },
-            "botRight": {
-              "position": "absolute",
-              "pos": "pw/2, ph/2",
-              "size": "pw/2, ph/2",
-              "background-color": "@white",
-              "background-image": "#ui/gameuiskin#bg_3@@ss",
-              "color-factor": "150"
-            },
-            "botLeft": {
-              "position": "absolute",
-              "pos": "0, ph/2",
-              "size": "pw/2, ph/2",
-              "background-color": "@white",
-              "background-image": "#ui/gameuiskin#bg_1@@ss",
-              "color-factor": "150"
-            },
+            "dmgIndicatorBg": [],
             "debuffs": {
               "id": "tank_debuffs",
               "width": "ph",
@@ -241,7 +209,7 @@
       },
       {
         "multiplayerScore": {
-          "pos": "50%pw-50%w, 0.02@scrn_tgt",
+          "pos": "50%pw-50%w, 0.065@scrn_tgt",
           "position": "relative",
           "height": "1@multiplayerScoreHeight",
           "tdiv": {
@@ -794,9 +762,8 @@
     }
   },
   {
-    "dummy": {
-      "id": "hud_message_timer",
-      "behavior": "Timer"
+    "timer": {
+      "id": "hud_message_timer"
     }
   }
 ]

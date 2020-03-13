@@ -14,7 +14,6 @@
       "army": 2
     },
     "mission": {
-      "locName": "missions/testSail",
       "name": "testFlight_ship_destroyer_usa",
       "level": "levels/avn_fiji.bin",
       "type": "testFlight",
@@ -26,6 +25,7 @@
       "missionDebriefing": "",
       "missionBriefing": "",
       "windDirection": [1.0,0.0,0.0],
+      "locName": "missions/testSail",
       "tags": [],
       "missionType": {
         "_Dom": false,
@@ -96,6 +96,8 @@
           "object_var_name": "",
           "object_var_comp_op": "equal",
           "object_var_value": 0,
+          "fastClimb": false,
+          "destTimeMode": false,
           "object": "ai_plane"
         },
         "unitSetProperties": [
@@ -595,6 +597,42 @@
           [-1300.0,0.0,4332.91]
         ],
         "unit_class": "germ_cruiser_koln",
+        "objLayer": 1,
+        "closed_waypoints": false,
+        "isShipSpline": false,
+        "shipTurnRadius": 100.0,
+        "weapons": "",
+        "bullets0": "",
+        "bullets1": "",
+        "bullets2": "",
+        "bullets3": "",
+        "bulletsCount0": 0,
+        "bulletsCount1": 0,
+        "bulletsCount2": 0,
+        "bulletsCount3": 0,
+        "props": {
+          "army": 2,
+          "count": 1,
+          "formation_type": "rows",
+          "formation_div": 3,
+          "formation_step": [2.5,2.0],
+          "formation_noise": [0.1,0.1],
+          "uniqueName": "",
+          "attack_type": "dont_aim"
+        },
+        "way": []
+      }
+    },
+    {
+      "ships": {
+        "name": "ai_ship04",
+        "tm": [
+          [-0.190324,0.0,-0.981721],
+          [0.0,1.0,0.0],
+          [0.981721,0.0,-0.190324],
+          [-3489.08,0.0,4129.67]
+        ],
+        "unit_class": "germ_cruiser_admiral_hipper",
         "objLayer": 1,
         "closed_waypoints": false,
         "isShipSpline": false,

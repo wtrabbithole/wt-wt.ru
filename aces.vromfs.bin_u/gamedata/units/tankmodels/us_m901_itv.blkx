@@ -116,7 +116,7 @@
   {
     "DamageParts": {
       "formatVersion": 2,
-      "armorClass": "aluminum_armor_7039",
+      "armorClass": "aluminum_armor_5083",
       "hp": 10000.0,
       "hull": {
         "body_front_dm": {
@@ -1645,6 +1645,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -1766,6 +1774,14 @@
             "conditionDamageType": "generic",
             "expl": 1.0,
             "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
             "kill": true,
             "killEffect": "fire"
           }

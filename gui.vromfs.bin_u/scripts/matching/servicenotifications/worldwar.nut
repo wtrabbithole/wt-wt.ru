@@ -56,7 +56,7 @@ foreach (notificationName, callback in
             : ::loc("worldwar/operation_complete_battle_results_ignored")
           ::chat_system_message(text)
         }
-        else (messageType == "wwNotification")
+        else if (messageType == "wwNotification")
           ::ww_process_server_notification(params)
       }
   })

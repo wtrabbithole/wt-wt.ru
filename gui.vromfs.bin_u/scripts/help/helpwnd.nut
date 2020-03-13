@@ -91,7 +91,7 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           curTabIdx = idx
         }
 
-      view.tabs.push({
+      view.tabs.append({
         tabName = group.title
         navImagesText = ::get_navigation_images_text(idx, countVisibleTabs)
         selected = isSelected

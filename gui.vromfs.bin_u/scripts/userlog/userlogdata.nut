@@ -391,7 +391,6 @@ local clanActionNames = {
              && !::is_me_newbie())
     {
       handler.doWhenActive((@(blk) function() {::gui_start_show_login_award(blk)})(blk))
-      markDisabled = true
     }
     else if (blk?.type == ::EULT_PUNLOCK_NEW_PROPOSAL)
     {

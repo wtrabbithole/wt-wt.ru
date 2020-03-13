@@ -399,13 +399,13 @@ local g_string =  require("std/string.nut")
   local urlEndText = ">"
   local endText = "</url>"
   do {
-    start = text.find(startText, start)
+    start = text.indexof(startText, start)
     if (start == null)
       break
-    local urlEnd = text.find(urlEndText, start + startText.len())
+    local urlEnd = text.indexof(urlEndText, start + startText.len())
     if (!urlEnd)
       break
-    local end = text.find(endText, urlEnd)
+    local end = text.indexof(endText, urlEnd)
     if (!end)
       break
 

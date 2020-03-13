@@ -17,7 +17,7 @@ local ItemLifetimeModifier = class {
     dependencies = []
     foreach (dependencyStr in parsedDependencies)
     {
-      dependencies.push(dependencyStr.tointeger())
+      dependencies.append(dependencyStr.tointeger())
     }
     local body = "return @(s) (" + formulaStr + ")"
     modifierFunction = compilestring(body)()

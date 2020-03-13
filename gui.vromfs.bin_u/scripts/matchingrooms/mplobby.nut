@@ -3,7 +3,7 @@ local avatars = ::require("scripts/user/avatars.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
-mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDebug option enabled
+::mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDebug option enabled
 ::back_from_lobby <- ::gui_start_mainmenu
 
 //::use_debug_fake_players <- false
@@ -72,7 +72,7 @@ mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDeb
     setTextToObj(mapNameObj, ::loc("options/mp_mission") + ::loc("ui/colon"), get_combine_loc_name_mission(missionInfo))
 
   local pasObj = scene.findObject("session_hasPassword")
-  setTextToObj(pasObj ::loc("options/session_password") + ::loc("ui/colon"),
+  setTextToObj(pasObj, ::loc("options/session_password") + ::loc("ui/colon"),
                isEventRoom ? null : ::getTblValue("hasPassword", sessionInfo, false))
 
   local tlObj = scene.findObject("session_teamLimit")
@@ -751,7 +751,8 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function onReady()
   {
-    if (!antiCheat.showMsgboxIfEacInactive())
+    local event = ::SessionLobby.getRoomEvent()
+    if (event != null && !antiCheat.showMsgboxIfEacInactive(event))
       return
 
     if (::SessionLobby.tryJoinSession())

@@ -1,10 +1,13 @@
 {
   "maxChannels": 128,
   "maxSoftwareChannels": 128,
+  "maxVorbisCodecs": 64,
+  "maxFADPCMCodecs": 64,
+  "vol0virtualvol": 0.006,
   "memoryPC": 175,
-  "memoryPS4": 213,
+  "memoryPS4": 175,
   "memoryPCLowMode": 140,
-  "memoryPCHighMode": 210,
+  "memoryPCHighMode": 175,
   "cockpitVolumeMultMinValue": 0.1,
   "soundSpeed": 400.0,
   "language": "Russian",
@@ -646,7 +649,7 @@
       },
       "lod_1": {
         "radius": 200.0,
-        "maxSounds": 6
+        "maxSounds": 4
       }
     }
   },
@@ -675,17 +678,17 @@
     }
   },
   "guns_manager": {
-    "maxSounds": 100,
-    "radius": 3000.0
+    "maxSounds": 28,
+    "radius": 5000.0
   },
   "ground_guns_manager": {
     "lods": {
       "lod_0": {
-        "radius": 100.0,
-        "maxSounds": 30
+        "radius": 200.0,
+        "maxSounds": 20
       },
       "lod_1": {
-        "radius": 1000.0,
+        "radius": 2000.0,
         "maxSounds": 10
       }
     }
@@ -694,11 +697,15 @@
     "lods": {
       "lod_0": {
         "radius": 300.0,
-        "maxSounds": 30
+        "maxSounds": 10
       },
       "lod_1": {
         "radius": 3000.0,
         "maxSounds": 30
+      },
+      "lod_2": {
+        "radius": 5000.0,
+        "maxSounds": 20
       }
     },
     "lods_view": {
@@ -723,7 +730,7 @@
         "maxSounds": 5
       },
       "lod_1": {
-        "radius": 1000.0,
+        "radius": 2000.0,
         "maxSounds": 8
       }
     }
@@ -5501,17 +5508,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi4v_cockpit_l",
-        "event_cockpit_r": "engine_mi4v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -5521,29 +5517,12 @@
       "outside": {
         "path": "aircraft/engines",
         "event_1": "rotor_heli_piston_ai",
-        "event_2": "rotor_tail",
         "pos_1": [0.5,1.5,0.0],
-        "pos_2": [-11.5,2.0,0.0],
-        "propIndex_1": 1,
-        "propIndex_2": 2,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_mi4_cockpit_l",
-        "event_2": "rotor_mi4_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },
@@ -5574,20 +5553,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi24v_cockpit_l",
-        "event_cockpit_r": "engine_mi24v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpm2Type": "jetTrue",
-        "rpm2Bias": 0.0,
-        "rpm2Scale": 2700.0,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -5597,29 +5562,12 @@
       "outside": {
         "path": "aircraft/engines",
         "event_1": "rotor_heli_ai",
-        "event_2": "rotor_tail",
         "pos_1": [0.5,1.5,0.0],
-        "pos_2": [-11.5,2.0,0.0],
-        "propIndex_1": 1,
-        "propIndex_2": 2,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_ah1_cockpit_l",
-        "event_2": "rotor_ah1_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },
@@ -5650,20 +5598,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi24v_cockpit_l",
-        "event_cockpit_r": "engine_mi24v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpm2Type": "jetTrue",
-        "rpm2Bias": 0.0,
-        "rpm2Scale": 2700.0,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -5673,29 +5607,12 @@
       "outside": {
         "path": "aircraft/engines",
         "event_1": "rotor_heli_small_ai",
-        "event_2": "rotor_tail",
         "pos_1": [0.5,1.5,0.0],
-        "pos_2": [-11.5,2.0,0.0],
-        "propIndex_1": 1,
-        "propIndex_2": 2,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_ah1_cockpit_l",
-        "event_2": "rotor_ah1_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },
@@ -5726,20 +5643,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi24v_cockpit_l",
-        "event_cockpit_r": "engine_mi24v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpm2Type": "jetTrue",
-        "rpm2Bias": 0.0,
-        "rpm2Scale": 2700.0,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -5749,29 +5652,12 @@
       "outside": {
         "path": "aircraft/engines",
         "event_1": "rotor_heli_ai",
-        "event_2": "rotor_tail",
         "pos_1": [0.5,1.5,0.0],
-        "pos_2": [-11.5,2.0,0.0],
-        "propIndex_1": 1,
-        "propIndex_2": 2,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_ah1_cockpit_l",
-        "event_2": "rotor_ah1_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },
@@ -5802,20 +5688,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi24v_cockpit_l",
-        "event_cockpit_r": "engine_mi24v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpm2Type": "jetTrue",
-        "rpm2Bias": 0.0,
-        "rpm2Scale": 2700.0,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -5825,29 +5697,12 @@
       "outside": {
         "path": "aircraft/engines",
         "event_1": "rotor_heli_ai",
-        "event_2": "rotor_tail",
         "pos_1": [0.5,1.5,0.0],
-        "pos_2": [-11.5,2.0,0.0],
-        "propIndex_1": 1,
-        "propIndex_2": 2,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_ah1_cockpit_l",
-        "event_2": "rotor_ah1z_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },
@@ -5878,20 +5733,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi24v_cockpit_l",
-        "event_cockpit_r": "engine_mi24v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpm2Type": "jetTrue",
-        "rpm2Bias": 0.0,
-        "rpm2Scale": 2700.0,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -5901,29 +5742,12 @@
       "outside": {
         "path": "aircraft/engines",
         "event_1": "rotor_heli_blades_ai",
-        "event_2": "rotor_tail",
         "pos_1": [0.5,1.5,0.0],
-        "pos_2": [-11.5,2.0,0.0],
-        "propIndex_1": 1,
-        "propIndex_2": 2,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_mi24v_cockpit_l",
-        "event_2": "rotor_mi24v_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },
@@ -5954,20 +5778,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi24v_cockpit_l",
-        "event_cockpit_r": "engine_mi24v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpm2Type": "jetTrue",
-        "rpm2Bias": 0.0,
-        "rpm2Scale": 2700.0,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -5977,29 +5787,12 @@
       "outside": {
         "path": "aircraft/engines",
         "event_1": "rotor_heli_blades_ai",
-        "event_2": "rotor_tail",
         "pos_1": [0.5,1.5,0.0],
-        "pos_2": [-11.5,2.0,0.0],
-        "propIndex_1": 1,
-        "propIndex_2": 2,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_mi24v_cockpit_l",
-        "event_2": "rotor_mi24v_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },
@@ -6030,20 +5823,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi24v_cockpit_l",
-        "event_cockpit_r": "engine_mi24v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpm2Type": "jetTrue",
-        "rpm2Bias": 0.0,
-        "rpm2Scale": 2700.0,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -6054,25 +5833,11 @@
         "path": "aircraft/engines",
         "event_1": "rotor_heli_blades_ai",
         "pos_1": [0.5,1.5,0.0],
-        "propIndex_1": 1,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_mi24v_cockpit_l",
-        "event_2": "rotor_mi24v_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },
@@ -6103,20 +5868,6 @@
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 1.0
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_cockpit_l": "engine_mi24v_cockpit_l",
-        "event_cockpit_r": "engine_mi24v_cockpit_r",
-        "leftPos": [0.5,1.0,5.0],
-        "rightPos": [0.5,1.0,-5.0],
-        "rpm2Type": "jetTrue",
-        "rpm2Bias": 0.0,
-        "rpm2Scale": 2700.0,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     },
     "propellers": {
@@ -6126,29 +5877,12 @@
       "outside": {
         "path": "aircraft/engines",
         "event_1": "rotor_heli_ai",
-        "event_2": "rotor_tail",
         "pos_1": [0.5,1.5,0.0],
-        "pos_2": [-11.5,2.0,0.0],
-        "propIndex_1": 1,
-        "propIndex_2": 2,
         "rpmSmooth": 0.02,
         "loadScale": 6.0,
         "loadSmooth": 0.05,
         "distSmooth": 0.9,
         "distScaleOnNotHero": 0.8
-      },
-      "cockpit": {
-        "path": "aircraft/engines",
-        "event_1": "rotor_ah1_cockpit_l",
-        "event_2": "rotor_ah1_cockpit_r",
-        "pos_1": [0.5,1.5,1.0],
-        "pos_2": [0.5,1.5,-1.0],
-        "propIndex_1": 1,
-        "propIndex_2": 1,
-        "rpmSmooth": 0.02,
-        "loadScale": 6.0,
-        "loadSmooth": 0.05,
-        "distSmooth": 0.9
       }
     }
   },

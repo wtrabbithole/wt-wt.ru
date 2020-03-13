@@ -1,16 +1,18 @@
 #no-func-decl-sugar
 
-local s = require("std/string.nut")
-local tostring_r = s.tostring_r
+local tostring_r = require("std/string.nut").tostring_r
 local dagorMath = require("dagor.math")
 local Color = ::Color
 local logLib = require("std/log.nut")
 local functools = require("std/functools.nut")
+local dagor_sys = require("dagor.system")
+local frp = require("frp")
+
 
 local tostringfuncTbl = [
   {
     compare = @(val) val instanceof ::Watched
-    tostring = @(val) "::Watched: " + tostring_r(val.value,{maxdeeplevel = 3, splitlines=false})
+    tostring = @(val) "::Watched: {0}".subst(tostring_r(val.value,{maxdeeplevel = 3, splitlines=false}))
   }
   {
     compare = @(val) val instanceof dagorMath.Point3
@@ -30,8 +32,8 @@ local tostringfuncTbl = [
       local o = []
       for (local i=0; i<4;i++)
         o.append("[{x}, {y}, {z}]".subst({x=val[i].x,y=val[i].y, z=val[i].z}))
-      o = s.join(o, " ")
-      return "TMatix: [" + o +"]"
+      o = " ".join(o)
+      return "TMatix: [{0}]".subst(o)
     }
   }
 ]
@@ -61,7 +63,7 @@ local function isDargComponent(comp) {
     return false
   local knownProps = ["size","rendObj","children","watch","behavior","halign","valign","flow","pos","hplace","vplace"]
   foreach(k,val in c) {
-    if (knownProps.find(k) != null)
+    if (knownProps.indexof(k) != null)
       return true
   }
   return false
@@ -143,18 +145,18 @@ local function wrap(elems, params=wrapParams) {
   local paddingTop=params?.paddingTop
   local paddingBottom=params?.paddingBottom
   local flow = params?.flow ?? FLOW_HORIZONTAL
-  ::assert([FLOW_HORIZONTAL, FLOW_VERTICAL].find(flow)!=null, "flow should be FLOW_VERTICAL or FLOW_HORIZONTAL")
+  ::assert([FLOW_HORIZONTAL, FLOW_VERTICAL].indexof(flow)!=null, "flow should be FLOW_VERTICAL or FLOW_HORIZONTAL")
   local isFlowHor = flow==FLOW_HORIZONTAL
   local height = params?.height ?? SIZE_TO_CONTENT
   local width = params?.width ?? SIZE_TO_CONTENT
   local dimensionLim = isFlowHor ? width : height
-  ::assert(["array"].find(::type(elems))!=null, "elems should be array")
-  ::assert(["float","integer"].find(::type(dimensionLim))!=null, "can't flow over {0} non numeric type".subst(isFlowHor ? "width" :"height"))
+  ::assert(["array"].indexof(::type(elems))!=null, "elems should be array")
+  ::assert(["float","integer"].indexof(::type(dimensionLim))!=null, @() "can't flow over {0} non numeric type".subst(isFlowHor ? "width" :"height"))
   local hgap = params?.hGap ?? wrapParams?.hGap
   local vgap = params?.vGap ?? wrapParams?.vGap
   local gap = isFlowHor ? hgap : vgap
   local secondaryGap = isFlowHor ? vgap : hgap
-  if (["float","integer"].find(::type(gap)) !=null)
+  if (["float","integer"].indexof(::type(gap)) !=null)
     gap = isFlowHor ? {size=[gap,0]} : {size=[0,gap]}
   gap = gap ?? 0
   local flowElemProto = params?.flowElemProto ?? {}
@@ -178,7 +180,7 @@ local function wrap(elems, params=wrapParams) {
         tailidx = i
       }
       else if ((curwidth + esize + gapsize) <= dimensionLim) {
-        children.extend([gap, elem])
+        children.append(gap, elem)
         curwidth = curwidth + esize + gapsize
         tailidx = i
       }
@@ -219,6 +221,10 @@ local function mul_color(color, mult) {
                ::min(255, ((color >> 24) & 0xff) * mult))
 }
 
+//frp
+::Watched <- frp.Watched
+::Computed <- frp.Computed
+
 //darg helpers
 ::watchElemState <- watchElemState //warning disable: -ident-hides-ident
 ::make_persists <- make_persists //warning disable: -ident-hides-ident
@@ -245,3 +251,4 @@ local function mul_color(color, mult) {
 ::dlogsplit <- log.dlogsplit
 ::vlog <- log.vlog
 ::console_print <- log.console_print
+::logg <- dagor_sys.DBGLEVEL !=0 ? log.dlog : log.log //should have settings in config.blk to enable dev behavior on release exe, or switch it off on dev

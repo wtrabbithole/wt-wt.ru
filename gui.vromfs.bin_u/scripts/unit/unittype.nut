@@ -76,6 +76,7 @@ local crewUnitTypeConfig = {
   isSkinAutoSelectAvailable = @() false
   canSpendGold = @() isAvailable()
   canShowProtectionAnalysis = @() false
+  canShowVisualEffectInProtectionAnalysis = @() false
   haveAnyUnitInCountry = @(countryName) ::isCountryHaveUnitType(countryName, esUnitType)
   isAvailableByMissionSettings = function(misBlk, useKillStreaks = null)
   {
@@ -124,6 +125,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     canChangeViewType = true
     modClassOrder = ["lth", "armor", "weapon"]
     canShowProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisAircraft")
+    canShowVisualEffectInProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisVisualEffect")
   }
 
   TANK = {
@@ -154,6 +156,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     isSkinAutoSelectAvailable = @() ::has_feature("SkinAutoSelect")
     canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForTanks")
     canShowProtectionAnalysis = @() true
+    canShowVisualEffectInProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisVisualEffect")
   }
 
   SHIP = {
@@ -185,6 +188,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     modClassOrder = ["seakeeping", "unsinkability", "firepower"]
     canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForShips")
     canShowProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisShip")
+    canShowVisualEffectInProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisVisualEffect")
   }
 
   HELICOPTER = {
@@ -208,6 +212,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     canChangeViewType = true
     modClassOrder = ["lth", "armor", "weapon"]
     canShowProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisAircraft")
+    canShowVisualEffectInProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisVisualEffect")
   }
 },
 function()

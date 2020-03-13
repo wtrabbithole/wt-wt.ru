@@ -327,7 +327,7 @@ class GameModeManager
         continue
       if (unitType != ::ES_UNIT_TYPE_INVALID && !::isInArray(unitType, gameMode.unitTypes))
         continue
-      gameModes.push(gameMode)
+      gameModes.append(gameMode)
     }
     return gameModes
   }
@@ -381,7 +381,7 @@ class GameModeManager
    */
   function isUnitAllowedForGameMode(unit, gameMode = null)
   {
-    if (!unit)
+    if (!unit || unit.disableFlyout)
       return false
     if (gameMode == null)
       gameMode = getCurrentGameMode()
@@ -548,15 +548,21 @@ class GameModeManager
     _gameModeById = {}
   }
 
-  function _appendGameMode(gameMode)
+  function _appendGameMode(gameMode, isTempGameMode = false)
   {
     _gameModeById[gameMode.id] <- gameMode
-    _gameModes.push(gameMode)
+    if(isTempGameMode)
+      return gameMode
+
+    _gameModes.append(gameMode)
     return gameMode
   }
 
-  function _createEventGameMode(event)
+  function _createEventGameMode(event, isTempGameMode = false)
   {
+    if (!event)
+       return
+
     local isForClan = ::events.isEventForClan(event)
     if (isForClan && !::has_feature("Clans"))
       return
@@ -598,7 +604,7 @@ class GameModeManager
           break
       }
     gameMode.inactiveColor <- inactiveColor
-    return _appendGameMode(gameMode)
+    return _appendGameMode(gameMode, isTempGameMode)
   }
 
   function _createCustomGameMode(gm)
@@ -727,7 +733,7 @@ class GameModeManager
           return ::events.diffCodeCompare(gm1.diffCode, gm2.diffCode)
         })
       }
-      partitions.push(partition)
+      partitions.append(partition)
     }
     return partitions
   }
@@ -899,6 +905,14 @@ class GameModeManager
     return (gameMode?.reqUnitTypes && gameMode.reqUnitTypes.len() > 0)
         ? gameMode.reqUnitTypes
         : (gameMode?.unitTypes ?? [])
+  }
+
+  function setLeaderGameMode(id)
+  {
+   if (!getGameModeById(id))
+     _createEventGameMode(::events.getEvent(id), true)
+
+   ::game_mode_manager._setCurrentGameModeId(id, false, false)
   }
 
 }

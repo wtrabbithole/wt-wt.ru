@@ -189,7 +189,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       if (lowerCaseTab in customMenuTabs)
         continue
 
-      sheetsList.push(lowerCaseTab)
+      sheetsList.append(lowerCaseTab)
       unlockFilters[lowerCaseTab]  <- null
 
       local defaultImage = ::format(tabImageNameTemplate, defaultTabImageName)
@@ -217,7 +217,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       sheetsToHide.append("UnlockAchievement")
     foreach(sheetName in sheetsToHide)
     {
-      local idx = sheetsList.find(sheetName)
+      local idx = sheetsList.indexof(sheetName)
       if (idx != null)
         sheetsList.remove(idx)
     }
@@ -357,7 +357,10 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       local pageList = scene.findObject("decals_list")
       guiScene.replaceContentFromText(pageList, data, data.len(), this)
 
+      local isEqualIdx = selIdx == pageList.getValue()
       pageList.setValue(selIdx)
+      if (isEqualIdx) // func on_select don't call if same value is se already
+        onPageChange(pageList)
     }
     else if (sheet in unlockFilters)
     {
@@ -403,7 +406,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function getPageIdByName(name)
   {
-    local start = name.find("Unlock")
+    local start = name.indexof("Unlock")
     if (start!=null)
       return name.slice(start+6)
     return name
@@ -565,14 +568,14 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
       if ( ! (OwnUnitsType.ALL in skinsCache[unitCountry][unitType]))
         skinsCache[unitCountry][unitType][OwnUnitsType.ALL] <- []
-      skinsCache[unitCountry][unitType][OwnUnitsType.ALL].push(infoObject)
+      skinsCache[unitCountry][unitType][OwnUnitsType.ALL].append(infoObject)
 
       if( ! unit.isBought())
         continue
 
       if ( ! (OwnUnitsType.BOUGHT in skinsCache[unitCountry][unitType]))
               skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT] <- []
-      skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT].push(infoObject)
+      skinsCache[unitCountry][unitType][OwnUnitsType.BOUGHT].append(infoObject)
     }
 
     foreach (countries in skinsCache)
@@ -593,7 +596,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       recacheSkins()
     if (ownType == null)
       ownType = getCurrentOwnType()
-    return ::get_tbl_value_by_path_array([country, unitType, ownType], skinsCache, [])
+    return skinsCache?[country][unitType][ownType] ?? []
   }
 
   function getCurrentOwnType()
@@ -690,6 +693,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       onDecalSelect(unlocksObj)
 
     isPageFilling = false
+    updateFavoritesCheckboxesInList()
   }
 
   function getSkinsMarkup()
@@ -913,7 +917,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function getSkinCountry(skinName)
   {
-    local len0 = skinName.find("/")
+    local len0 = skinName.indexof("/")
     if (len0)
       return ::getShopCountry(skinName.slice(0, len0))
     return ""
@@ -1018,7 +1022,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     local showStages = ("stages" in item) && (item.stages.len() > 1)
 
     local unlockDesc = typeOR ? ::loc("hints/shortcut_separator") + "\n" : ""
-    unlockDesc += item.text.find("%d") != null ? format(item.text, curVal, maxVal) : item.text
+    unlockDesc += item.text.indexof("%d") != null ? format(item.text, curVal, maxVal) : item.text
     if (showStages && item.curStage >= 0)
        unlockDesc += ::g_unlock_view.getRewardText(item, item.curStage)
 
@@ -1043,9 +1047,37 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (::u.isEmpty(unlockId))
       return
 
+    if (!::g_unlocks.canAddFavorite()
+      && obj.getValue() // Don't notify if value set to false
+      && !(unlockId in ::g_unlocks.getFavoriteUnlocks())) //Don't notify if unlock wasn't in list already
+    {
+      ::g_popups.add("", ::colorize("warningTextColor", ::loc("mainmenu/unlockAchievements/limitReached", {num = ::g_unlocks.favoriteUnlocksLimit})))
+      obj.setValue(false)
+      return
+    }
+
     obj.tooltip = obj.getValue() ?
       ::g_unlocks.addUnlockToFavorites(unlockId) : ::g_unlocks.removeUnlockFromFavorites(unlockId)
     ::g_unlock_view.fillUnlockFavCheckbox(obj)
+    updateFavoritesCheckboxesInList()
+  }
+
+  function updateFavoritesCheckboxesInList()
+  {
+    if (isPageFilling)
+      return
+
+    local canAddFav = ::g_unlocks.canAddFavorite()
+    foreach (unlockId in getCurUnlockList())
+    {
+      local unlockObj = scene.findObject(getUnlockBlockId(unlockId))
+      if (!::check_obj(unlockObj))
+        continue
+
+      local cbObj = unlockObj.findObject("checkbox-favorites")
+      if (::check_obj(cbObj))
+        cbObj.inactiveColor = (canAddFav || (unlockId in ::g_unlocks.getFavoriteUnlocks())) ? "no" : "yes"
+    }
   }
 
   function unlockToFavoritesByActivateItem(obj)
@@ -1060,7 +1092,6 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       return
 
     checkBoxObj.setValue(!checkBoxObj.getValue())
-    unlockToFavorites(checkBoxObj) //!!! FIX ME this line is needed for version client 1.75.0.X or lower
   }
 
   function onBuyUnlock(obj)
@@ -1092,7 +1123,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (::u.isString(unlockData))
       unlock = ::g_unlocks.getUnlockById(unlockData)
 
-    local unlockObj = scene.findObject(getUnlockBlockId(unlock))
+    local unlockObj = scene.findObject(getUnlockBlockId(unlock.id))
     if (::check_obj(unlockObj))
       fillUnlockInfo(unlock, unlockObj)
   }
@@ -1146,7 +1177,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         continue
 
       local unlockObj = unlocksListObj.getChild(currentItemNum)
-      unlockObj.id = getUnlockBlockId(unlock)
+      unlockObj.id = getUnlockBlockId(unlock.id)
       fillUnlockInfo(unlock, unlockObj)
       currentItemNum++
     }
@@ -1156,9 +1187,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     guiScene.setUpdatesEnabled(true, true)
   }
 
-  function getUnlockBlockId(unlock)
+  function getUnlockBlockId(unlockId)
   {
-    return unlock.id + "_block"
+    return unlockId + "_block"
   }
 
   function onDecalSelect(obj)
@@ -1300,7 +1331,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     fillProfileStats(myStats)
   }
 
-  function getNewTitles(obj)
+  function openChooseTitleWnd(obj)
   {
     ::gui_handlers.ChooseTitle.open({
       alignObj = obj
@@ -1427,7 +1458,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     avatars.openChangePilotIconWnd(onIconChoosen, this)
   }
 
-  function getPlayerLink()
+  function openViralAcquisitionWnd()
   {
     ::show_viral_acquisition_wnd()
   }

@@ -184,7 +184,7 @@ local function generateTreeConfig(blk)
     craftTreeItemsIdArray = craftTreeItemsIdArray
     branches = branches
     treeRows = treeRows
-    reqFeaturesList = ::g_features.getReqFeaturesListFromString(blk?.reqFeature)
+    reqFeaturesArr = blk?.reqFeature != null ? (blk.reqFeature).split(",") : []
     baseEfficiency = blk?.baseEfficiency.tointeger() ?? 0
     craftResult = craftResult
     paramsForPosByColumns = paramsForPosByColumns

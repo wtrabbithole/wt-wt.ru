@@ -2,7 +2,7 @@ local random = require("dagor.random")
 local cdate = (require_optional("system")?.date ?? @(date=null,format=null) {sec=0, min=0, hour=0, day=0, month=0, year=0, wday=0, yday=0})()
 local _default_seed = random.get_rnd_seed() + cdate.sec + cdate.min*60 + cdate.yday*86400
 local position = 0
-local new_rnd_seed = function(){//setting new rnd
+local function new_rnd_seed(){//setting new rnd
   position++
   return random.uint_noise1D(position, _default_seed)
 }
@@ -16,12 +16,12 @@ local function randint_uniform(lo, hi, rand) { // returns random int in range [l
   ::assert(n != 0)
   local maxx = maxnoiseint - (maxnoiseint % n)
   local x
-  do
-  {
+  do {
     x = rand()
   } while (x >= maxx)
   return lo + (x % n)
 }
+
 local Rand = class{
   _seed = null
   _count = null
@@ -44,12 +44,12 @@ local Rand = class{
     return runit * (end_-start_) + start_
   }
 
-  function _rfloat(seed, start=0.0, end=1.0, count=null){ // return float in range [start,end)
+  static function _rfloat(start=0.0, end=1.0, seed=null, count=null){ // return float in range [start,end)
     if (::type(seed)=="table") {
       local params = seed
       start=params?.start ?? start
       end=params?.end ?? end
-      seed = params.seed
+      seed = params?.seed ?? new_rnd_seed()
       count = params?.count ?? count
     }
     local start_ = ::min(end,start)
@@ -58,12 +58,12 @@ local Rand = class{
     return runit * (end_-start_) + start_
   }
 
-  function _rint(seed, start=0, end=DEFAULT_MAX_INT_RAND, count=null){ // return int in range [start, end], i.e. inclusive
+  static function _rint(start=0, end=DEFAULT_MAX_INT_RAND, seed=null, count=null){ // return int in range [start, end], i.e. inclusive
     if (::type(seed)=="table") {
       local params = seed
       start=params?.start ?? start
       end=params?.end ?? end
-      seed = params.seed
+      seed = params?.seed ?? new_rnd_seed()
       count = params?.count ?? count
     }
     return randint_uniform(::min(end,start), ::max(end,start), @() random.uint_noise1D(seed, count ?? seed))
@@ -80,18 +80,40 @@ local Rand = class{
     }
   }
 
-  grnd = random.grnd
-  gauss_rnd = random.gauss_rnd
-  uint_noise1D = random.uint_noise1D
+  static grnd = random.grnd
+  static gauss_rnd = random.gauss_rnd
+  static uint_noise1D = random.uint_noise1D
+
+  static function chooseRandom(arr, seed = null) { //free standing
+    if (arr.len()==0)
+      return null
+    local randfunc = @() random.uint_noise1D((seed == null) ? new_rnd_seed() : seed, 0)
+    return arr[randfunc() % arr.len()]
+  }
+
+  static function shuffle(arr, seed=null) {
+    local res = clone arr
+    local size = res.len()
+    local j
+    local v
+    local randfunc = @(count) random.uint_noise1D(seed == null ? new_rnd_seed() : seed, count)
+    for (local i = size - 1; i > 0; i--) {
+      j = randfunc(i) % (i + 1)
+      v = res[j]
+      res[j] = res[i]
+      res[i] = v
+    }
+    return res
+  }
+
 }
 
 //test is random is reandom enough by Pirson criteria
-/*
-local function isRandomEnoughByPirsonCriteria(){
-  local pp = @(...) print(vargv.reduce(@(a,b) a+" " +b, "")+"\n")
-  local ppa = @(v) pp.acall([null].extend(v))
-  local module = @(v) v<0 ? -v : v
+local pp = @(...) print("".concat(" ".join(vargv), "\n"))
+local ppa = @(v) pp.acall([null].extend(v))
+local module = @(v) v<0 ? -v : v
 
+local function testRandomEnoughByPirsonCriteria(){
   local function mkDistribution(buckets, runs, func){
     local rand = Rand()
     local res = {}
@@ -118,7 +140,7 @@ local function isRandomEnoughByPirsonCriteria(){
     local krit = diffs.map(@(v) v*v/prob)
     local hiObserved = krit.reduce(@(a,b) a+b)
     local degreeOfFreedom = buckets-1
-    pp("pirson criteria for " + funcname)
+    pp($"Pirson criteria for {funcname}:")
     ppa(["samples:"].extend(samples))
     ppa(["diffs:"].extend(diffs))
     local hiTheor5 = hitable[degreeOfFreedom][0]
@@ -129,9 +151,14 @@ local function isRandomEnoughByPirsonCriteria(){
   }
   return doit("rint",10) && doit("rfloat",10)
 }
+local function testShuffle(){
+  pp("\nArray of ints shuffled:")
+  ppa(Rand.shuffle(::array(20).map(@(v,i) i)))
+}
 
-if (::callee().getfuncinfos().name == "__main__")
-  isRandomEnoughByPirsonCriteria()
-*/
+if (this?.__name__ == "__main__") {
+  testRandomEnoughByPirsonCriteria()
+  testShuffle()
+}
 
 return Rand

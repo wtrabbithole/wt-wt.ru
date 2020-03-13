@@ -202,13 +202,13 @@ enum BATTLE_LOG_FILTER
     {
       local player = ::get_mplayer_by_id(msg?.playerId ?? ::my_user_id_int64)
       local localPlayer = ::get_local_mplayer()
-      if (msg.text.find("\x1B011") != null || player?.isLocal)
+      if (msg.text.indexof("\x1B011") != null || player?.isLocal)
         filters = filters | BATTLE_LOG_FILTER.HERO
-      if (msg.text.find("\x1B010") != null || player?.isInHeroSquad)
+      if (msg.text.indexof("\x1B010") != null || player?.isInHeroSquad)
         filters = filters | BATTLE_LOG_FILTER.SQUADMATE
-      if (msg.text.find("\x1B012") != null || (player?.team == localPlayer?.team))
+      if (msg.text.indexof("\x1B012") != null || (player?.team == localPlayer?.team))
         filters = filters | BATTLE_LOG_FILTER.ALLY
-      if (msg.text.find("\x1B009") != null || (player?.team != localPlayer?.team))
+      if (msg.text.indexof("\x1B009") != null || (player?.team != localPlayer?.team))
         filters = filters | BATTLE_LOG_FILTER.ENEMY
       if (filters == 0)
         filters = filters | BATTLE_LOG_FILTER.OTHER

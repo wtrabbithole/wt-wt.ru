@@ -1,10 +1,10 @@
 local enums = require("sqStdlibs/helpers/enums.nut")
 local xboxShopData = require("scripts/onlineShop/xboxShopData.nut")
+local ps4ShopData = require("scripts/onlineShop/ps4ShopData.nut")
 local contentStateModule = require("scripts/clientState/contentState.nut")
 local workshop = require("scripts/items/workshop/workshop.nut")
 local platform = require("scripts/clientState/platform.nut")
 local encyclopedia = require("scripts/encyclopedia.nut")
-local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 
 global enum TOP_MENU_ELEMENT_TYPE {
   BUTTON,
@@ -50,8 +50,6 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnSkirmish"
     onClickFunc = function(obj, handler)
     {
-      if (!antiCheat.showMsgboxIfEacInactive())
-        return
       if (!::is_custom_battles_enabled())
         return ::show_not_available_msg_box()
       if (!::check_gamemode_pkg(::GM_SKIRMISH))
@@ -70,8 +68,6 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     text = "#mainmenu/btnWorldwar"
     onClickFunc = function(obj, handler)
     {
-      if (!antiCheat.showMsgboxIfEacInactive())
-        return
       ::queues.checkAndStart(
         ::Callback(@() goForwardIfOnline(@() ::g_world_war.openOperationsOrQueues(), false), handler),
         null,
@@ -281,13 +277,15 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     unseenIcon = @() SEEN.EXT_XBOX_SHOP
   }
   PS4_ONLINE_SHOP = {
-    text = "#msgbox/btn_onlineShop"
+    text = ps4ShopData.canUseIngameShop()? "#topmenu/ps4IngameShop" : "#msgbox/btn_onlineShop"
     onClickFunc = @(...) ::OnlineShopModel.launchPS4Store()
     link = ""
-    isLink = @() true
-    isFeatured = @() true
-    image = "#ui/gameuiskin#store_icon.svg"
+    isLink = @() !ps4ShopData.canUseIngameShop()
+    isFeatured = @() !ps4ShopData.canUseIngameShop()
+    image = ps4ShopData.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
+    needDiscountIcon = true
     isHidden = @(...) !::is_platform_ps4 || !::isInMenu()
+    unseenIcon = @() SEEN.EXT_PS4_SHOP
   }
   MARKETPLACE = {
     text = "#mainmenu/marketplace"

@@ -21,7 +21,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     function() { return getMainFocusObj2() }      //main focus obj of handler
     function() { return getMainFocusObj3() }      //main focus obj of handler
     function() { return getMainFocusObj4() }      //main focus obj of handler
-    "crew_unlock_buttons",
+    "crew_unlock_buttons"
     function() { return slotbarWeak && slotbarWeak.getCurFocusObj() }   // slotbar
     function() { return getCurrentBottomGCPanel() }    //gamercard bottom
   ]
@@ -187,7 +187,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       this[selectCb](modesObj)
   }
 
-  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null, hasWorldWarMode = false)
+  function fillModeListBox(nest, selectedDiffCode=0, filterFunc = null, addTabs = [])
   {
     if (!::check_obj(nest))
       return
@@ -197,7 +197,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       return
 
     updateModesTabsContent(modesObj, {
-      tabs = getModesTabsView(selectedDiffCode, filterFunc)
+      tabs = getModesTabsView(selectedDiffCode, filterFunc).extend(addTabs)
     })
   }
 
@@ -495,7 +495,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     return slotbar && slotbar.getCurCountry()
   }
 
-  function onTake(unit = null, params = {})
+  function onTake(unit, params = {})
   {
     unitActions.take(unit, {
         unitObj = unit?.name? scene.findObject(unit.name) : null
@@ -522,12 +522,17 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     params.scene <- nest
     params.ownerWeak <- this.weakref()
 
-    local slotbar = ::gui_handlers.SlotbarWidget.create(params)
+    local slotbar = createSlotbarHandler(params)
     if (!slotbar)
       return
 
     slotbarWeak = slotbar.weakref()
     registerSubHandler(slotbar)
+  }
+
+  function createSlotbarHandler(params)
+  {
+    return ::gui_handlers.SlotbarWidget.create(params)
   }
 
   function reinitSlotbar() //!!FIX ME: Better to not use it.
@@ -563,7 +568,13 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!unit)
       return
 
-    local actions = ::get_unit_actions_list(unit, this, actionsArray, getParamsForActionsList())
+    local crew = unitObj?.crew_id ? ::get_crew_by_id(unitObj.crew_id.tointeger()) : null
+    local actions = ::get_unit_actions_list({unit = unit,
+      crew = crew,
+      handler = this,
+      actions = actionsArray,
+      p = getParamsForActionsList()
+    })
     if (!actions.actions.len())
       return
 
@@ -990,7 +1001,9 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     if (!::handlersManager.isHandlerValid(::instant_domination_handler))
       return
 
-    ::instant_domination_handler.checkQueue(@() ::gui_handlers.GameModeSelect.open())
+    ::instant_domination_handler.checkQueue(
+      @() ::g_squad_utils.checkSquadUnreadyAndDo(
+        @() ::gui_handlers.GameModeSelect.open(), null))
   }
 
   function onGCWrap(obj, moveRight, ids, currentIdx)

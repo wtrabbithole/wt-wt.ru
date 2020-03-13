@@ -263,8 +263,8 @@
       "allowedUnitTypes": {
         "isAirplanesAllowed": true,
         "isTanksAllowed": true,
-        "isHelicoptersAllowed": true,
-        "isShipsAllowed": false
+        "isShipsAllowed": false,
+        "isHelicoptersAllowed": true
       },
       "mission": {
         "difficulty": "realistic",
@@ -529,6 +529,24 @@
         "importTriggers": true,
         "importMissionObjectives": true,
         "importWayPoints": true,
+        "showAreas": true,
+        "showUnits": true,
+        "showTriggers": true,
+        "showMissionObjectives": true,
+        "showWayPoints": true,
+        "excludes": []
+      }
+    },
+    {
+      "import_record": {
+        "file": "gameData/missions/cta/tanks/port_novorossiysk/template_port_novorossiysk_zoneDef.blk",
+        "postfix": "_Dom",
+        "importAreas": true,
+        "importUnits": true,
+        "importTriggers": true,
+        "importMissionObjectives": true,
+        "importWayPoints": true,
+        "importByParameter": "isWorldWar",
         "showAreas": true,
         "showUnits": true,
         "showTriggers": true,

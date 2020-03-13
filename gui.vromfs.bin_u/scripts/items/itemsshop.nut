@@ -868,7 +868,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     subsetList = subsetListParameters.subsetList
     curSubsetId = initSubsetId != null ? initSubsetId : subsetListParameters.curSubsetId
     initSubsetId = null
-    local curIdx = subsetList.searchindex((@(subset) subset.id == curSubsetId).bindenv(this)) ?? 0
+    local curIdx = subsetList.findindex((@(subset) subset.id == curSubsetId).bindenv(this)) ?? 0
     local data = getSubsetListView()
     guiScene.replaceContentFromText(subsetNestObj, data, data.len(), this)
     scene.findObject("subset_list").setValue(curIdx)

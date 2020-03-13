@@ -64,7 +64,7 @@ class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
       titles = titlesData
       titleWidth = titleWidth
       titleColumns = columns
-      value = titlesList.find(curTitle) ?? 0
+      value = titlesList.indexof(curTitle) ?? 0
 
       hasTitlesListButton = openTitlesListFunc != null
       hasApplyButton = ::show_console_buttons && titlesList.len() > 0
@@ -73,7 +73,7 @@ class ::gui_handlers.ChooseTitle extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("main_frame")
+    align = ::g_dagui_utils.setPopupMenuPosAndAlign(alignObj, align, scene.findObject("main_frame"),
       { margin = [0, ::to_pixels("@popupOffset")] })
     if (titlesList.len())
       scene.findObject("titles_list").select()

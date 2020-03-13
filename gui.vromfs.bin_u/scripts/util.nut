@@ -1,7 +1,6 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalty = require_native("penalty")
-local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
 local string = require("string")
@@ -64,14 +63,13 @@ foreach (i, v in ::cssColorsMapDark)
 ::get_blk_by_path_array <- function get_blk_by_path_array(path, blk, defaultValue = null)
 {
   local currentBlk = blk
-  for (local i = 0; i < path.len(); ++i)
+  foreach (p in path)
   {
-    if (typeof(currentBlk) == "instance" && currentBlk instanceof ::DataBlock)
-      currentBlk = currentBlk?[path[i]]
-    else
+    if (!(currentBlk instanceof ::DataBlock))
       return defaultValue
+    currentBlk = currentBlk?[p]
   }
-  return currentBlk
+  return currentBlk ?? defaultValue
 }
 
 ::get_blk_value_by_path <- function get_blk_value_by_path(blk, path, defVal=null)
@@ -102,7 +100,7 @@ foreach (i, v in ::cssColorsMapDark)
 
 ::isInArray <- function isInArray(v, arr)
 {
-  return arr.find(v) != null
+  return arr.indexof(v) != null
 }
 
 ::locOrStrip <- function locOrStrip(text)
@@ -274,8 +272,8 @@ foreach (i, v in ::cssColorsMapDark)
     case GM_BUILDER: return OPTIONS_MODE_DYNAMIC;
     case GM_DOMINATION: return OPTIONS_MODE_MP_DOMINATION;
     case GM_SKIRMISH: return OPTIONS_MODE_MP_SKIRMISH;
-    default: return OPTIONS_MODE_GAMEPLAY;
   }
+  return OPTIONS_MODE_GAMEPLAY
 }
 
 ::restart_current_mission <- function restart_current_mission()
@@ -413,7 +411,8 @@ foreach (i, v in ::cssColorsMapDark)
 
 ::havePremium <- function havePremium()
 {
-  return ::entitlement_expires_in("PremiumAccount") > 0
+  local premAccName = ::shop_get_premium_account_ent_name()
+  return ::entitlement_expires_in(premAccName) > 0
 }
 
 ::get_mission_desc_text <- function get_mission_desc_text(missionBlk)
@@ -462,42 +461,6 @@ foreach (i, v in ::cssColorsMapDark)
 {
   local air = ::getAircraftByName(airName)
   return air?.shopCountry ?? ""
-}
-
-::countMeasure <- function countMeasure(unitNo, value, separator = " - ", addMeasureUnits = true, forceMaxPrecise = false)
-{
-  local mType = ::get_option_unit_type(unitNo)
-  local unit = null
-  foreach(u in ::measure_units[unitNo])
-    if (u.name == mType)
-      unit = u
-
-  if (!unit) return ""
-
-  if (typeof(value) != "array")
-    value = [value]
-  local maxValue = null
-  foreach (val in value)
-    if (!maxValue || maxValue < val)
-      maxValue = val
-  local roundValue = !forceMaxPrecise && (unit.roundAfter.y > 0 && (maxValue * unit.koef) > unit.roundAfter.x)
-  local result = ""
-  foreach (idx, val in value)
-  {
-    val = val * unit.koef
-    if (idx > 0)
-      result += separator
-    if (roundValue)
-      result += format("%d", ((val / unit.roundAfter.y + 0.5).tointeger() * unit.roundAfter.y).tointeger())
-    else
-    {
-      local roundPrecision = unit.round == 0 ? 1 : ::pow(0.1, unit.round)
-      result += stdMath.round_by_value(val, roundPrecision)
-    }
-  }
-  if (addMeasureUnits)
-    result += " " + ::loc("measureUnits/" + unit.name)
-  return result
 }
 
 ::isInArrayRecursive <- function isInArrayRecursive(v, arr)
@@ -655,7 +618,7 @@ foreach (i, v in ::cssColorsMapDark)
 
   while(true)
   {
-    findex = s.find(replstr, findex);
+    findex = s.indexof(replstr, findex);
     if(findex!=null)
     {
       s = s.slice(0, findex) + value + s.slice(findex + replstr.len());
@@ -748,11 +711,6 @@ foreach (i, v in ::cssColorsMapDark)
 ::getWpPriceText <- function getWpPriceText(wp, colored=false)
 {
   return getPriceText(wp, 0, colored, true)
-}
-
-::getGpPriceText <- function getGpPriceText(gold, colored=false)
-{
-  return getPriceText(0, gold, colored, false, true)
 }
 
 //need to remove
@@ -902,7 +860,7 @@ foreach (i, v in ::cssColorsMapDark)
   if (!(elementKey in table))
     table[elementKey] <- elementValue
   else if (typeof(table[elementKey]) == "array")
-    table[elementKey].push(elementValue)
+    table[elementKey].append(elementValue)
   else
     table[elementKey] <- [table[elementKey], elementValue]
 }
@@ -971,14 +929,14 @@ foreach (i, v in ::cssColorsMapDark)
   {
     foreach (name in multiArray[currentIndex])
     {
-      currentArray.push(name)
+      currentArray.append(name)
       ::_invoke_multi_array(multiArray, currentArray, currentIndex + 1, invokeCallback)
       currentArray.pop()
     }
   }
   else
   {
-    currentArray.push(multiArray[currentIndex])
+    currentArray.append(multiArray[currentIndex])
     ::_invoke_multi_array(multiArray, currentArray, currentIndex + 1, invokeCallback)
     currentArray.pop()
   }
@@ -1179,9 +1137,9 @@ foreach (i, v in ::cssColorsMapDark)
   if (locName == "")
   {
     local misInfoPostfix = missionInfo?.postfix ?? ""
-    if (misInfoPostfix != "" && misInfoName.find(misInfoPostfix))
+    if (misInfoPostfix != "" && misInfoName.indexof(misInfoPostfix))
     {
-      local name = misInfoName.slice(0, misInfoName.find(misInfoPostfix))
+      local name = misInfoName.slice(0, misInfoName.indexof(misInfoPostfix))
       locName = "[" + ::loc("missions/" + misInfoPostfix) + "] " + ::loc("missions/" + name)
     }
   }
@@ -1328,7 +1286,7 @@ foreach (i, v in ::cssColorsMapDark)
 
 ::isProductionCircuit <- function isProductionCircuit()
 {
-  return ::get_cur_circuit_name().find("production") != null
+  return ::get_cur_circuit_name().indexof("production") != null
 }
 
 ::generatePaginator <- function generatePaginator(nest_obj, handler, cur_page, last_page, my_page = null, show_last_page = false, hasSimpleNavButtons = false)
@@ -1427,13 +1385,13 @@ foreach (i, v in ::cssColorsMapDark)
   {
     local taskId = ::clan_request_sync_profile()
     ::add_bg_task_cb(taskId, function(){
-      ::getMyClanData(true)
+      ::requestMyClanData(true)
       update_gamercards()
     })
   }
   else if (message == "clan_info_reload")
   {
-    ::getMyClanData(true)
+    ::requestMyClanData(true)
     local myClanId = ::clan_get_my_clan_id()
     if(myClanId == "-1")
       ::sync_handler_simulate_request(message)
@@ -1448,16 +1406,6 @@ foreach (i, v in ::cssColorsMapDark)
         ::broadcastEvent("PlayerPenaltyStatusChanged", {status = newPenaltyStatus.status})
     })(oldPenaltyStatus))
   }
-}
-
-::onUpdateProfile <- function onUpdateProfile(taskId, action, transactionType = ::EATT_UNKNOWN) //code callback on profile update
-{
-  ::broadcastEvent("ProfileUpdated", { taskId = taskId, action = action, transactionType = transactionType })
-
-  if (!::g_login.isLoggedIn())
-    return
-  ::update_gamercards()
-  penalties.showBannedStatusMsgBox(true)
 }
 
 ::getValueForMode <- function getValueForMode(optionsMode, oType)
@@ -1622,13 +1570,13 @@ foreach (i, v in ::cssColorsMapDark)
 ::set_blk_value_by_path <- function set_blk_value_by_path(blk, path, val)
 {
   if (!blk || !path)
-    return
+    return false
 
   local nodes = ::split(path, "/")
   local key = nodes.len() ? nodes.pop() : null
 
   if (!key || !key.len())
-    return
+    return false
 
   foreach (dir in nodes)
   {
@@ -1811,7 +1759,8 @@ foreach (i, v in ::cssColorsMapDark)
     return
 
   local currDays = time.getUtcDays()
-  local expire = ::entitlement_expires_in("PremiumAccount")
+  local premAccName = ::shop_get_premium_account_ent_name()
+  local expire = ::entitlement_expires_in(premAccName)
   if (expire > 0)
     ::saveLocalByAccount("premium/lastDayHavePremium", currDays)
   if (expire >= NOTIFY_EXPIRE_PREMIUM_ACCOUNT)
@@ -1966,57 +1915,6 @@ foreach (i, v in ::cssColorsMapDark)
 
   serverMessageObject.setValue(text)
   return text != ""
-}
-
-/**
- * Unlike Squirrel's "tolower()" this function properly
- * handles lowering case of russian characters.
- *
- * @param str String to work with.
- * @return Same string with all characters in lower case.
- */
-::english_russian_to_lower_case <- function english_russian_to_lower_case(str)
-{
-  return utf8(str).strtr(::alphabet.upper, ::alphabet.lower)
-}
-
-/**
- * Removes the first element from an array and returns that element.
- *
- * @param arr Array to perform operation with.
- * @return The first element (of any data type) in an array.
- */
-::array_shift <- function array_shift(arr)
-{
-  if (arr.len() == 0)
-    return null
-  local res = arr[0]
-  for (local i = 0; i < arr.len() - 1; ++i)
-    arr[i] = arr[i + 1]
-  arr.pop()
-  return res
-}
-
-/**
- * Adds one or more elements to the beginning of an array and
- * returns the new length of the array. The other elements in
- * the array are moved from their original position, i, to i+1.
- *
- * @param arr Array to perform operation with.
- * @param ... One or more numbers, elements, or variables to
- *            be inserted at the beginning of the array.
- * @return An integer representing the new length of the array.
- */
-::array_unshift <- function array_unshift(arr, ...)
-{
-  local oldLen = arr.len()
-  for (local i = vargv.len() - 1; i >= 0; --i)
-    arr.push(null)
-  for (local i = oldLen - 1; i >= 0; --i)
-    arr[i + vargv.len()] = arr[i]
-  for (local i = vargv.len() - 1; i >= 0; --i)
-    arr[i] = vargv[i]
-  return arr.len()
 }
 
 ::is_numeric <- function is_numeric(value)
@@ -2294,7 +2192,7 @@ const PASSWORD_SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
 {
   local function deftostr(def){
     local typ = ::type(def)
-    if(["integer","float","null","boolean"].find(typ)!=null)
+    if(["integer","float","null","boolean"].indexof(typ)!=null)
       return def
     else if (typ=="string")
       return "\"\""

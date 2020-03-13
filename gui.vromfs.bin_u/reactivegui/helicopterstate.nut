@@ -2,6 +2,7 @@ local interopGen = require("daRg/helpers/interopGen.nut")
 
 const NUM_ENGINES_MAX = 3
 const NUM_TRANSMISSIONS_MAX = 6
+const NUM_CANNONS_MAX = 3
 
 local helicopterState = {
   IndicatorsVisible = Watched(false)
@@ -45,12 +46,15 @@ local helicopterState = {
   HasTargetTracker = Watched(false)
   IsLaserDesignatorEnabled = Watched(false)
   IsATGMOutOfTrackerSector = Watched(false)
+  NoLosToATGM = Watched(false)
   AtgmTrackerRadius = Watched(0.0)
   TargetRadius = Watched(0.0)
+  TargetAge = Watched(0.0)
 
   MainMask = Watched(0)
   SightMask = Watched(0)
   IlsMask = Watched(0)
+  MfdSightMask = Watched(0)
 
   HudColor = Watched(Color(71, 232, 39, 240))
   AlertColor = Watched(Color(255, 0, 0, 240))
@@ -61,10 +65,9 @@ local helicopterState = {
   Trt = Watched(0)
   Spd = Watched(0)
 
-  Cannons = {
-    count = Watched(0)
-    seconds = Watched(-1)
-  }
+  CannonCount = []
+  CannonReloadTime = []
+  IsCannonEmpty = []
 
   MachineGuns = {
     count = Watched(0)
@@ -103,7 +106,6 @@ local helicopterState = {
     seconds = Watched(-1)
   }
 
-  IsCanEmpty = Watched(false)
   IsMachineGunEmpty = Watched(false)
   IsCanAdditionalEmpty = Watched(false)
   IsRktEmpty = Watched(false)
@@ -144,10 +146,15 @@ local helicopterState = {
   IsPilotHudVisible = Watched(false)
   IsGunnerHudVisible = Watched(false)
   IsMfdEnabled = Watched(false)
+  IsIlsEnabled = Watched(false)
+  IsMfdSightHudVisible = Watched(false)
   RwrForMfd = Watched(false)
   RwrPosSize = [0, 0, 20, 20]
-  SightHudPosSize = [0, 0, 0, 0]
-  PilotHudPosSize = [0, 0, 0, 0]
+  MlwsForMfd = Watched(false)
+  MlwsPosSize = [0, 0, 20, 20]
+  MfdSightPosSize = [0, 0, 0, 0]
+  IlsPosSize = [0, 0, 0, 0]
+  AimCorrectionEnabled = Watched(false)
 
   GunOverheatState = Watched(0)
 
@@ -156,9 +163,13 @@ local helicopterState = {
   IsCompassVisible = Watched(false)
 }
 
-::interop.updateCannons <- function(count, sec = -1) {
-  helicopterState.Cannons.count.update(count)
-  helicopterState.Cannons.seconds.update(sec)
+::interop.updateCannons <- function(index, count, sec = -1) {
+  helicopterState.CannonCount[index].update(count)
+  helicopterState.CannonReloadTime[index].update(sec)
+}
+
+::interop.updateIsCannonEmpty <- function(index, is_empty) {
+  helicopterState.IsCannonEmpty[index].update(is_empty)
 }
 
 ::interop.updateRwrPosSize <- function(x, y, w, h = null) {
@@ -168,18 +179,18 @@ local helicopterState = {
   helicopterState.RwrPosSize[3] = h ?? w
 }
 
-::interop.updateSightHudPosSize <- function(x, y, w, h) {
-  helicopterState.SightHudPosSize[0] = x
-  helicopterState.SightHudPosSize[1] = y
-  helicopterState.SightHudPosSize[2] = w
-  helicopterState.SightHudPosSize[3] = h
+::interop.updateMfdSightPosSize <- function(x, y, w, h) {
+  helicopterState.MfdSightPosSize[0] = x
+  helicopterState.MfdSightPosSize[1] = y
+  helicopterState.MfdSightPosSize[2] = w
+  helicopterState.MfdSightPosSize[3] = h
 }
 
-::interop.updatePilotHudPosSize <- function(x, y, w, h) {
-  helicopterState.PilotHudPosSize[0] = x
-  helicopterState.PilotHudPosSize[1] = y
-  helicopterState.PilotHudPosSize[2] = w
-  helicopterState.PilotHudPosSize[3] = h
+::interop.updateIlsPosSize <- function(x, y, w, h) {
+  helicopterState.IlsPosSize[0] = x
+  helicopterState.IlsPosSize[1] = y
+  helicopterState.IlsPosSize[2] = w
+  helicopterState.IlsPosSize[3] = h
 }
 
 ::interop.updateMachineGuns <- function(count, sec = -1) {
@@ -217,6 +228,12 @@ local helicopterState = {
 ::interop.updateFlares <- function(count, sec = -1) {
   helicopterState.Flares.count.update(count)
   helicopterState.Flares.seconds.update(sec)
+}
+
+for (local i = 0; i < NUM_CANNONS_MAX; ++i) {
+  helicopterState.CannonCount.append(Watched(0))
+  helicopterState.CannonReloadTime.append(Watched(-1))
+  helicopterState.IsCannonEmpty.append(Watched(false))
 }
 
 for (local i = 0; i < NUM_ENGINES_MAX; ++i)

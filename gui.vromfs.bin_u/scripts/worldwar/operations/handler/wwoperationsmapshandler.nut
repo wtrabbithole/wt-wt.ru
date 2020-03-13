@@ -372,6 +372,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       "ww_users",
       @(modesData) callback(modesData))
     wwTopLeaderboard.initTop(this, scene.findObject("top_global_players"), "ww_users")
+    wwTopLeaderboard.initTop(this, scene.findObject("top_global_managers"), "ww_users_manager")
     wwTopLeaderboard.initTop(this, scene.findObject("top_global_clans"),   "ww_clans")
     return true
   }
@@ -983,6 +984,12 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
   {
     if (!::has_feature("WorldWarClansQueue"))
       return
+    local reasonData = ::WwQueue.getCantJoinAnyQueuesReasonData()
+    if (!reasonData.canJoin && !::g_ww_global_status.isMyClanInQueue())
+    {
+      ::showInfoMsgBox(reasonData.reasonText)
+      return
+    }
     switchMode(WW_OM_WND_MODE.CLAN)
   }
 
@@ -1221,7 +1228,7 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     foreach (idx, country in statistics)
       rowView["side_" + idx] <-
         ::round((country?.battle_count ?? 0) * (country?.battle_winrate ?? 0))
-      if (((rowView?.side_0 ?? 0) > 0) || ((rowView?.side_1 ?? 0) > 0))
+    if (((rowView?.side_0 ?? 0) > 0) || ((rowView?.side_1 ?? 0) > 0))
       view.rows.append(rowView)
 
     foreach (field in ["playerKills", "aiKills"])

@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
 class WwMap
 {
@@ -64,7 +65,7 @@ class WwMap
 
   function getImage()
   {
-    local mapImageName = ::getTblValueByPath("info.image", data, null)
+    local mapImageName = data?.info.image
     if (::u.isEmpty(mapImageName))
       return ""
 
@@ -169,12 +170,52 @@ class WwMap
 
   function getCountryToSideTbl()
   {
-    return ::get_tbl_value_by_path_array(["info", "countries"], data, {})
+    return data?.info.countries ?? {}
   }
 
   function getUnitInfoBySide(side)
   {
-    return ::getTblValueByPath("info.sides.SIDE_" + side + ".units", data, null)
+    return data?.info.sides["SIDE_{0}".subst(side)].units
+  }
+
+  function getUnitsViewBySide(side)
+  {
+    local unitsGroupsByCountry = getUnitsGroupsByCountry()
+    local unitsList = getUnitInfoBySide(side)
+    local wwUnitsList = []
+    if (::u.isEmpty(unitsList))
+      return wwUnitsList
+
+    unitsList = ::u.filter(wwActionsWithUnitsList.loadUnitsFromNameCountTbl(unitsList),
+      @(unit) !unit.isControlledByAI())
+    unitsList.sort(::g_world_war.sortUnitsBySortCodeAndCount)
+    if (unitsGroupsByCountry != null)
+    {
+      foreach (wwUnit in unitsList)
+      {
+        local country = wwUnit?.unit.shopCountry
+        local group = unitsGroupsByCountry?[country].groups[wwUnit.name]
+        if (group == null)
+          continue
+
+        local defaultUnit = group.defaultUnit
+        wwUnitsList.append({
+          name         = ::loc(group.name)
+          icon         = ::getUnitClassIco(defaultUnit)
+          shopItemType = ::get_unit_role(defaultUnit)
+        })
+
+        local wwUnits = wwActionsWithUnitsList.loadWWUnitsFromUnitsArray(group.units)
+        wwUnits.sort(@(a, b) a.name <=> b.name)
+        wwUnitsList.extend(wwUnits.map(@(u)
+          u.getShortStringView({ addPreset = false, needShopInfo = true, hasIndent = true })))
+      }
+    }
+    else
+      wwUnitsList = ::u.map(unitsList, @(wwUnit)
+        wwUnit.getShortStringView({ addPreset = false, needShopInfo = true }))
+
+    return wwUnitsList
   }
 
   _cachedCountriesByTeams = null
@@ -281,5 +322,51 @@ class WwMap
   {
     // it is assumed that each map will have its background specified in data
     return data?.backgroundImage ?? "#ui/images/worldwar_window_bg_image.jpg?P1"
+  }
+
+  _cachedUnitsGroupsByCountry = null
+  function getUnitsGroupsByCountry() {
+    if (_cachedUnitsGroupsByCountry != null)
+      return _cachedUnitsGroupsByCountry
+
+    local countriesBlk = ::g_world_war.getSetting("unitGroups", null)?[name]
+    if (countriesBlk == null)
+      return null
+
+    local groupsList = {}
+    for(local i = 0; i < countriesBlk.blockCount(); i++)
+    {
+      local countryBlk = countriesBlk.getBlock(i)
+      local countryId = countryBlk.getBlockName()
+      local countryGroups = {}
+      local groupIdByUnitName = {}
+      local defaultUnitsList = {}
+      for(local j = 0; j < countryBlk.blockCount(); j++)
+      {
+        local groupBlk = countryBlk.getBlock(j)
+        local groupId = groupBlk.getBlockName()
+        local units = {}
+        foreach (unitName in groupBlk.unitList % "unit")
+        {
+          units[unitName] <- ::getAircraftByName(unitName)
+          groupIdByUnitName[unitName] <- groupId
+        }
+        local defaultUnit = ::getAircraftByName(groupBlk.defaultUnit)
+        defaultUnitsList[groupId] <- defaultUnit
+        countryGroups[groupId] <- {
+          name = groupBlk.name
+          defaultUnit = defaultUnit
+          units = units
+        }
+      }
+      groupsList[countryId] <- {
+        groups = countryGroups
+        defaultUnitsListByGroups = defaultUnitsList
+        groupIdByUnitName = groupIdByUnitName
+      }
+    }
+
+    _cachedUnitsGroupsByCountry = groupsList
+    return _cachedUnitsGroupsByCountry
   }
 }

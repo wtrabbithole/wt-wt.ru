@@ -107,12 +107,151 @@
   },
   {
     "bullet": {
+      "mass": 0.4,
+      "caliber": 0.03,
+      "speed": 970.0,
+      "maxDistance": 7000.0,
+      "bulletType": "ap_t",
+      "bulletName": "30mm_UBR6",
+      "relativeVelHitShift": [300.0,1000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
+      "ricochetEffect": "bullet_hit_gatling_armor",
+      "waterCollisionEffect": "water_splash",
+      "waterFxScale": [1.4,1.6],
+      "hitpower": {
+        "HitPower0m": [0.85,500.0],
+        "HitPower10000m": [0.8,10000.0]
+      },
+      "damage": {
+        "kinetic": {
+          "demarrePenetrationK": 0.9,
+          "demarreSpeedPow": 1.43,
+          "demarreMassPow": 0.71,
+          "demarreCaliberPow": 1.07
+        }
+      },
+      "visual": {
+        "range_percent_of_ammo": [100.0,0.0],
+        "traceFreq": 1,
+        "tracer": "30mmRed",
+        "trail": "noTrail"
+      },
+      "collisions": {
+        "default": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "horLandMesh": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "soil": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "dirt": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "road": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "roadSoil": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "sand": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "duneSand": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "roadSand": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "quickSand": {
+          "fx": "20_37_ap_hit_ground",
+          "fxScale": [0.6,0.8]
+        },
+        "snow": {
+          "fx": "20_37_ap_hit_snow",
+          "fxScale": [0.6,0.8]
+        },
+        "ice": {
+          "fx": "20_37_ap_hit_snow",
+          "fxScale": [0.6,0.8]
+        },
+        "roadSnow": {
+          "fx": "20_37_ap_hit_snow",
+          "fxScale": [0.6,0.8]
+        },
+        "snowLower": {
+          "fx": "20_37_ap_hit_snow",
+          "fxScale": [0.6,0.8]
+        },
+        "glass": {
+          "fx": "7_20_hit_glass",
+          "fxScale": [0.5,0.6]
+        },
+        "wood": {
+          "fx": "20_ap_wood_splash",
+          "fxScale": [0.6,0.8]
+        },
+        "steel": {
+          "fx": "bullet_hit_gatling_armor",
+          "fxScale": [1.0,1.1]
+        },
+        "metal": {
+          "fx": "bullet_hit_gatling_armor",
+          "fxScale": [0.6,0.8]
+        },
+        "buildings": {
+          "fx": "20_37_ap_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
+        "verLandMesh": {
+          "fx": "20_37_ap_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
+        "beton": {
+          "fx": "20_37_ap_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
+        "bricks_red": {
+          "fx": "20_37_ap_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
+        "rocks": {
+          "fx": "20_37_ap_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
+        "rocksSlippery": {
+          "fx": "20_37_ap_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
+        "fabric": {
+          "fx": "20_37_ap_hit_stone",
+          "fxScale": [0.6,0.8]
+        },
+        "stone_snow": {
+          "fx": "20_37_ap_hit_snow_stone",
+          "fxScale": [0.6,0.8]
+        }
+      }
+    }
+  },
+  {
+    "bullet": {
       "mass": 0.389,
       "caliber": 0.03,
       "explosiveType": "tnt",
       "explosiveMass": 0.049,
       "speed": 960.0,
-      "maxDistance": 6000.0,
+      "maxDistance": 7000.0,
       "selfDestructionInAir": true,
       "shellExplScale": 0.7,
       "bulletType": "he_frag_i",
@@ -126,7 +265,7 @@
       "relativeVelArmorShift": [200.0,1000.0],
       "fuseDelayDist": 0.2,
       "explodeTreshold": 0.1,
-      "ricochetEffect": "bullet_hit_armor",
+      "ricochetEffect": "bullet_hit_gatling_armor",
       "waterCollisionEffect": "big_water_splash",
       "waterFxScale": [0.8,1.0],
       "damage": {
@@ -264,11 +403,11 @@
           "fxScale": [0.8,1.0]
         },
         "steel": {
-          "fx": "bullet_hit_armor_cumulative",
+          "fx": "bullet_hit_gatling_armor",
           "fxScale": [0.9,0.9]
         },
         "metal": {
-          "fx": "bullet_hit_armor_cumulative",
+          "fx": "bullet_hit_gatling_armor",
           "fxScale": [0.9,0.9]
         },
         "buildings": {
@@ -307,145 +446,6 @@
     }
   },
   {
-    "bullet": {
-      "mass": 0.4,
-      "caliber": 0.03,
-      "speed": 970.0,
-      "maxDistance": 5000.0,
-      "bulletType": "ap_t",
-      "bulletName": "30mm_UBR6",
-      "relativeVelHitShift": [300.0,1000.0],
-      "relativeVelArmorShift": [200.0,1000.0],
-      "ricochetEffect": "bullet_hit_armor",
-      "waterCollisionEffect": "water_splash",
-      "waterFxScale": [1.4,1.6],
-      "hitpower": {
-        "HitPower0m": [0.85,500.0],
-        "HitPower10000m": [0.8,10000.0]
-      },
-      "damage": {
-        "kinetic": {
-          "demarrePenetrationK": 0.9,
-          "demarreSpeedPow": 1.43,
-          "demarreMassPow": 0.71,
-          "demarreCaliberPow": 1.07
-        }
-      },
-      "visual": {
-        "range_percent_of_ammo": [100.0,0.0],
-        "traceFreq": 1,
-        "tracer": "30mmRed",
-        "trail": "noTrail"
-      },
-      "collisions": {
-        "default": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "horLandMesh": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "soil": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "dirt": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "road": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "roadSoil": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "sand": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "duneSand": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "roadSand": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "quickSand": {
-          "fx": "20_37_ap_hit_ground",
-          "fxScale": [0.6,0.8]
-        },
-        "snow": {
-          "fx": "20_37_ap_hit_snow",
-          "fxScale": [0.6,0.8]
-        },
-        "ice": {
-          "fx": "20_37_ap_hit_snow",
-          "fxScale": [0.6,0.8]
-        },
-        "roadSnow": {
-          "fx": "20_37_ap_hit_snow",
-          "fxScale": [0.6,0.8]
-        },
-        "snowLower": {
-          "fx": "20_37_ap_hit_snow",
-          "fxScale": [0.6,0.8]
-        },
-        "glass": {
-          "fx": "7_20_hit_glass",
-          "fxScale": [0.5,0.6]
-        },
-        "wood": {
-          "fx": "20_ap_wood_splash",
-          "fxScale": [0.6,0.8]
-        },
-        "steel": {
-          "fx": "bullet_HE_hit_armor",
-          "fxScale": [1.0,1.1]
-        },
-        "metal": {
-          "fx": "bullet_HE_hit_armor",
-          "fxScale": [0.6,0.8]
-        },
-        "buildings": {
-          "fx": "20_37_ap_hit_stone",
-          "fxScale": [0.6,0.8]
-        },
-        "verLandMesh": {
-          "fx": "20_37_ap_hit_stone",
-          "fxScale": [0.6,0.8]
-        },
-        "beton": {
-          "fx": "20_37_ap_hit_stone",
-          "fxScale": [0.6,0.8]
-        },
-        "bricks_red": {
-          "fx": "20_37_ap_hit_stone",
-          "fxScale": [0.6,0.8]
-        },
-        "rocks": {
-          "fx": "20_37_ap_hit_stone",
-          "fxScale": [0.6,0.8]
-        },
-        "rocksSlippery": {
-          "fx": "20_37_ap_hit_stone",
-          "fxScale": [0.6,0.8]
-        },
-        "fabric": {
-          "fx": "20_37_ap_hit_stone",
-          "fxScale": [0.6,0.8]
-        },
-        "stone_snow": {
-          "fx": "20_37_ap_hit_snow_stone",
-          "fxScale": [0.6,0.8]
-        }
-      }
-    }
-  },
-  {
     "30mm_2a42_HE": [
       {
         "bulletsCartridge": 340
@@ -457,7 +457,7 @@
           "explosiveType": "tnt",
           "explosiveMass": 0.049,
           "speed": 960.0,
-          "maxDistance": 6000.0,
+          "maxDistance": 7000.0,
           "selfDestructionInAir": true,
           "shellExplScale": 0.7,
           "bulletType": "he_frag_i",
@@ -471,7 +471,7 @@
           "relativeVelArmorShift": [200.0,1000.0],
           "fuseDelayDist": 0.2,
           "explodeTreshold": 0.1,
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "big_water_splash",
           "waterFxScale": [0.8,1.0],
           "damage": {
@@ -609,11 +609,11 @@
               "fxScale": [0.8,1.0]
             },
             "steel": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "metal": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "buildings": {
@@ -656,12 +656,12 @@
           "mass": 0.4,
           "caliber": 0.03,
           "speed": 970.0,
-          "maxDistance": 5000.0,
+          "maxDistance": 7000.0,
           "bulletType": "ap_t",
           "bulletName": "30mm_UBR6",
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "water_splash",
           "waterFxScale": [1.4,1.6],
           "hitpower": {
@@ -748,11 +748,11 @@
               "fxScale": [0.6,0.8]
             },
             "steel": {
-              "fx": "bullet_HE_hit_armor",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [1.0,1.1]
             },
             "metal": {
-              "fx": "bullet_HE_hit_armor",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.6,0.8]
             },
             "buildings": {
@@ -797,7 +797,7 @@
           "explosiveType": "tnt",
           "explosiveMass": 0.049,
           "speed": 960.0,
-          "maxDistance": 6000.0,
+          "maxDistance": 7000.0,
           "selfDestructionInAir": true,
           "shellExplScale": 0.7,
           "bulletType": "he_frag_i",
@@ -811,7 +811,7 @@
           "relativeVelArmorShift": [200.0,1000.0],
           "fuseDelayDist": 0.2,
           "explodeTreshold": 0.1,
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "big_water_splash",
           "waterFxScale": [0.8,1.0],
           "damage": {
@@ -949,11 +949,11 @@
               "fxScale": [0.8,1.0]
             },
             "steel": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "metal": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "buildings": {
@@ -998,7 +998,7 @@
           "explosiveType": "tnt",
           "explosiveMass": 0.0116,
           "speed": 960.0,
-          "maxDistance": 6000.0,
+          "maxDistance": 7000.0,
           "selfDestructionInAir": true,
           "shellExplScale": 0.7,
           "bulletType": "he_frag_t",
@@ -1023,7 +1023,7 @@
           "shutterAmount": 70,
           "shutterArmorPower": 5.0,
           "shutterHit": 6.0,
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "big_water_splash",
           "waterFxScale": [0.8,1.0],
           "visual": {
@@ -1098,11 +1098,11 @@
               "fxScale": [0.8,1.0]
             },
             "steel": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "metal": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "buildings": {
@@ -1152,12 +1152,12 @@
           "mass": 0.4,
           "caliber": 0.03,
           "speed": 970.0,
-          "maxDistance": 5000.0,
+          "maxDistance": 7000.0,
           "bulletType": "ap_t",
           "bulletName": "30mm_UBR6",
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "water_splash",
           "waterFxScale": [1.4,1.6],
           "hitpower": {
@@ -1244,11 +1244,11 @@
               "fxScale": [0.6,0.8]
             },
             "steel": {
-              "fx": "bullet_HE_hit_armor",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [1.0,1.1]
             },
             "metal": {
-              "fx": "bullet_HE_hit_armor",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.6,0.8]
             },
             "buildings": {
@@ -1291,12 +1291,12 @@
           "mass": 0.4,
           "caliber": 0.03,
           "speed": 970.0,
-          "maxDistance": 5000.0,
+          "maxDistance": 7000.0,
           "bulletType": "ap_t",
           "bulletName": "30mm_UBR6",
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "water_splash",
           "waterFxScale": [1.4,1.6],
           "hitpower": {
@@ -1383,11 +1383,11 @@
               "fxScale": [0.6,0.8]
             },
             "steel": {
-              "fx": "bullet_HE_hit_armor",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [1.0,1.1]
             },
             "metal": {
-              "fx": "bullet_HE_hit_armor",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.6,0.8]
             },
             "buildings": {
@@ -1430,12 +1430,12 @@
           "mass": 0.4,
           "caliber": 0.03,
           "speed": 970.0,
-          "maxDistance": 5000.0,
+          "maxDistance": 7000.0,
           "bulletType": "ap_t",
           "bulletName": "30mm_UBR6",
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "water_splash",
           "waterFxScale": [1.4,1.6],
           "hitpower": {
@@ -1522,11 +1522,11 @@
               "fxScale": [0.6,0.8]
             },
             "steel": {
-              "fx": "bullet_HE_hit_armor",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [1.0,1.1]
             },
             "metal": {
-              "fx": "bullet_HE_hit_armor",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.6,0.8]
             },
             "buildings": {
@@ -1571,7 +1571,7 @@
           "explosiveType": "tnt",
           "explosiveMass": 0.0116,
           "speed": 960.0,
-          "maxDistance": 6000.0,
+          "maxDistance": 7000.0,
           "selfDestructionInAir": true,
           "shellExplScale": 0.7,
           "bulletType": "he_frag_t",
@@ -1596,7 +1596,7 @@
           "shutterAmount": 70,
           "shutterArmorPower": 5.0,
           "shutterHit": 6.0,
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "big_water_splash",
           "waterFxScale": [0.8,1.0],
           "visual": {
@@ -1671,11 +1671,11 @@
               "fxScale": [0.8,1.0]
             },
             "steel": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "metal": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "buildings": {
@@ -1724,10 +1724,18 @@
         "bullet": {
           "mass": 0.304,
           "caliber": 0.03,
+          "ballisticCaliber": 0.018,
+          "damageCaliber": 0.018,
+          "damageMass": 0.304,
+          "Cx": 0.12,
           "speed": 1120.0,
-          "maxDistance": 5000.0,
-          "bulletType": "apcr",
+          "maxDistance": 7000.0,
+          "bulletType": "apds_autocannon",
           "bulletName": "30mm_3UBR8",
+          "breakingArmorThicknessEffective": true,
+          "breakingArmorThickness": [9.0,50.0],
+          "breakingCriticalSpeed": 1050.0,
+          "breakingDistance": 0.05,
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "bullet_hit_armor",
@@ -1737,15 +1745,13 @@
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
           },
-          "armorpower": {
-            "ArmorPower0m": [100.0,10.0],
-            "ArmorPower100m": [95.0,100.0],
-            "ArmorPower500m": [80.0,500.0],
-            "ArmorPower1000m": [72.0,1000.0],
-            "ArmorPower1500m": [62.0,1500.0],
-            "ArmorPower2000m": [50.0,2000.0],
-            "ArmorPower2500m": [35.0,2500.0],
-            "ArmorPower5000m": [5.0,5000.0]
+          "damage": {
+            "kinetic": {
+              "demarrePenetrationK": 0.65,
+              "demarreSpeedPow": 1.43,
+              "demarreMassPow": 0.71,
+              "demarreCaliberPow": 1.07
+            }
           },
           "ballistics": {
             "slopeEffect": {
@@ -1778,7 +1784,7 @@
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "noColor",
+            "tracer": "30mmDarkRed",
             "trail": "noTrail"
           },
           "collisions": {
@@ -1893,10 +1899,18 @@
         "bullet": {
           "mass": 0.304,
           "caliber": 0.03,
+          "ballisticCaliber": 0.018,
+          "damageCaliber": 0.018,
+          "damageMass": 0.304,
+          "Cx": 0.12,
           "speed": 1120.0,
-          "maxDistance": 5000.0,
-          "bulletType": "apcr",
+          "maxDistance": 7000.0,
+          "bulletType": "apds_autocannon",
           "bulletName": "30mm_3UBR8",
+          "breakingArmorThicknessEffective": true,
+          "breakingArmorThickness": [9.0,50.0],
+          "breakingCriticalSpeed": 1050.0,
+          "breakingDistance": 0.05,
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "bullet_hit_armor",
@@ -1906,15 +1920,13 @@
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
           },
-          "armorpower": {
-            "ArmorPower0m": [100.0,10.0],
-            "ArmorPower100m": [95.0,100.0],
-            "ArmorPower500m": [80.0,500.0],
-            "ArmorPower1000m": [72.0,1000.0],
-            "ArmorPower1500m": [62.0,1500.0],
-            "ArmorPower2000m": [50.0,2000.0],
-            "ArmorPower2500m": [35.0,2500.0],
-            "ArmorPower5000m": [5.0,5000.0]
+          "damage": {
+            "kinetic": {
+              "demarrePenetrationK": 0.65,
+              "demarreSpeedPow": 1.43,
+              "demarreMassPow": 0.71,
+              "demarreCaliberPow": 1.07
+            }
           },
           "ballistics": {
             "slopeEffect": {
@@ -1947,7 +1959,7 @@
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "noColor",
+            "tracer": "30mmDarkRed",
             "trail": "noTrail"
           },
           "collisions": {
@@ -2062,10 +2074,18 @@
         "bullet": {
           "mass": 0.304,
           "caliber": 0.03,
+          "ballisticCaliber": 0.018,
+          "damageCaliber": 0.018,
+          "damageMass": 0.304,
+          "Cx": 0.12,
           "speed": 1120.0,
-          "maxDistance": 5000.0,
-          "bulletType": "apcr",
+          "maxDistance": 7000.0,
+          "bulletType": "apds_autocannon",
           "bulletName": "30mm_3UBR8",
+          "breakingArmorThicknessEffective": true,
+          "breakingArmorThickness": [9.0,50.0],
+          "breakingCriticalSpeed": 1050.0,
+          "breakingDistance": 0.05,
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "bullet_hit_armor",
@@ -2075,15 +2095,13 @@
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
           },
-          "armorpower": {
-            "ArmorPower0m": [100.0,10.0],
-            "ArmorPower100m": [95.0,100.0],
-            "ArmorPower500m": [80.0,500.0],
-            "ArmorPower1000m": [72.0,1000.0],
-            "ArmorPower1500m": [62.0,1500.0],
-            "ArmorPower2000m": [50.0,2000.0],
-            "ArmorPower2500m": [35.0,2500.0],
-            "ArmorPower5000m": [5.0,5000.0]
+          "damage": {
+            "kinetic": {
+              "demarrePenetrationK": 0.65,
+              "demarreSpeedPow": 1.43,
+              "demarreMassPow": 0.71,
+              "demarreCaliberPow": 1.07
+            }
           },
           "ballistics": {
             "slopeEffect": {
@@ -2116,7 +2134,7 @@
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "noColor",
+            "tracer": "30mmDarkRed",
             "trail": "noTrail"
           },
           "collisions": {
@@ -2231,10 +2249,18 @@
         "bullet": {
           "mass": 0.304,
           "caliber": 0.03,
+          "ballisticCaliber": 0.018,
+          "damageCaliber": 0.018,
+          "damageMass": 0.304,
+          "Cx": 0.12,
           "speed": 1120.0,
-          "maxDistance": 5000.0,
-          "bulletType": "apcr",
+          "maxDistance": 7000.0,
+          "bulletType": "apds_autocannon",
           "bulletName": "30mm_3UBR8",
+          "breakingArmorThicknessEffective": true,
+          "breakingArmorThickness": [9.0,50.0],
+          "breakingCriticalSpeed": 1050.0,
+          "breakingDistance": 0.05,
           "relativeVelHitShift": [300.0,1000.0],
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "bullet_hit_armor",
@@ -2244,15 +2270,13 @@
             "HitPower0m": [0.85,500.0],
             "HitPower10000m": [0.8,10000.0]
           },
-          "armorpower": {
-            "ArmorPower0m": [100.0,10.0],
-            "ArmorPower100m": [95.0,100.0],
-            "ArmorPower500m": [80.0,500.0],
-            "ArmorPower1000m": [72.0,1000.0],
-            "ArmorPower1500m": [62.0,1500.0],
-            "ArmorPower2000m": [50.0,2000.0],
-            "ArmorPower2500m": [35.0,2500.0],
-            "ArmorPower5000m": [5.0,5000.0]
+          "damage": {
+            "kinetic": {
+              "demarrePenetrationK": 0.65,
+              "demarreSpeedPow": 1.43,
+              "demarreMassPow": 0.71,
+              "demarreCaliberPow": 1.07
+            }
           },
           "ballistics": {
             "slopeEffect": {
@@ -2285,7 +2309,7 @@
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "noColor",
+            "tracer": "30mmDarkRed",
             "trail": "noTrail"
           },
           "collisions": {
@@ -2403,7 +2427,7 @@
           "explosiveType": "tnt",
           "explosiveMass": 0.0116,
           "speed": 960.0,
-          "maxDistance": 6000.0,
+          "maxDistance": 7000.0,
           "selfDestructionInAir": true,
           "shellExplScale": 0.7,
           "bulletType": "he_frag_t",
@@ -2428,7 +2452,7 @@
           "shutterAmount": 70,
           "shutterArmorPower": 5.0,
           "shutterHit": 6.0,
-          "ricochetEffect": "bullet_hit_armor",
+          "ricochetEffect": "bullet_hit_gatling_armor",
           "waterCollisionEffect": "big_water_splash",
           "waterFxScale": [0.8,1.0],
           "visual": {
@@ -2503,11 +2527,11 @@
               "fxScale": [0.8,1.0]
             },
             "steel": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "metal": {
-              "fx": "bullet_hit_armor_cumulative",
+              "fx": "bullet_hit_gatling_armor",
               "fxScale": [0.9,0.9]
             },
             "buildings": {

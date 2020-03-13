@@ -468,6 +468,12 @@
       "conditions": [],
       "actions": [
         {
+          "varSetInt": {
+            "value": 4,
+            "var": "max_bomb_areas"
+          }
+        },
+        {
           "comment": {
             "value": "увеличиваем хп аэродрому"
           }
@@ -539,6 +545,8 @@
             "isIndividual": false,
             "resetStrictSpawnIndex": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "forceCreate": false,
+            "replaceAreas": false,
             "target": "t1_bombers_spawn",
             "team": "A",
             "offset": [0.0,0.0,0.0],
@@ -563,6 +571,8 @@
             "isIndividual": false,
             "resetStrictSpawnIndex": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "forceCreate": false,
+            "replaceAreas": false,
             "target": "t2_bombers_spawn",
             "team": "B",
             "offset": [0.0,0.0,0.0],
@@ -725,6 +735,8 @@
             "isIndividual": false,
             "resetStrictSpawnIndex": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "forceCreate": false,
+            "replaceAreas": false,
             "target": "t1_airfield",
             "team": "A",
             "offset": [0.0,0.0,0.0],
@@ -749,6 +761,8 @@
             "isIndividual": false,
             "resetStrictSpawnIndex": false,
             "onlyOnePlayerPerSpawnPoint": false,
+            "forceCreate": false,
+            "replaceAreas": false,
             "target": "t2_airfield",
             "team": "B",
             "offset": [0.0,0.0,0.0],
@@ -887,9 +901,6 @@
             "object_var_comp_op": "equal"
           },
           {
-            "object_var_value": 0
-          },
-          {
             "object": "t1_mguns_squad"
           },
           {
@@ -897,6 +908,9 @@
           },
           {
             "target": "all_players_squad"
+          },
+          {
+            "object_var_value": 0
           },
           {
             "compareCenters": false
@@ -1039,6 +1053,9 @@
         {
           "unitSetRoute": {
             "route": "@t1_road_name",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "teleportToStart": true,
             "object": "t1_convoy_01",
             "pos": "@t1_road_start"
           }
@@ -1084,6 +1101,9 @@
         {
           "unitSetRoute": {
             "route": "@t1_road_name",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "teleportToStart": true,
             "object": "t1_convoy_02",
             "pos": "@t1_road_start"
           }
@@ -1152,6 +1172,9 @@
         {
           "unitSetRoute": {
             "route": "@t2_road_name",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "teleportToStart": true,
             "object": "t2_convoy_01",
             "pos": "@t2_road_start"
           }
@@ -1197,6 +1220,9 @@
         {
           "unitSetRoute": {
             "route": "@t2_road_name",
+            "object_var_name": "",
+            "object_var_comp_op": "equal",
+            "teleportToStart": true,
             "object": "t2_convoy_02",
             "pos": "@t2_road_start"
           }
@@ -1217,17 +1243,7 @@
     "t1_road_start": "",
     "t2_road_start": ""
   },
-  "dialogs": {
-    "mission_start": {
-      "speech": {
-        "id": "base_BfD_mission_start",
-        "speakerId": "",
-        "props": {
-          "time": 4.0
-        }
-      }
-    }
-  },
+  "dialogs": [],
   "airfields": [],
   "effects": [],
   "units": [
@@ -1310,6 +1326,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_artillery_squad"
           },
           {
@@ -1334,6 +1353,9 @@
           [-6848.08,1769.91,4424.05]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_artillery_squad"
           },
@@ -1360,6 +1382,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_tank_01"
           },
           {
@@ -1379,6 +1404,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_tank_01"
           },
           {
@@ -1397,6 +1425,9 @@
           [-6285.36,418.021,3295.64]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_def_big_aaa01"
           },
@@ -1440,6 +1471,9 @@
           [6127.67,591.158,-8003.57]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t2_def_big_aaa01"
           },
@@ -2181,6 +2215,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_big_aaa_01"
           },
           {
@@ -2229,6 +2266,9 @@
           [3642.94,735.157,-9388.51]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t2_big_aaa_01"
           },
@@ -2324,6 +2364,7 @@
           [-7649.55,1193.05,-6804.75]
         ],
         "props": {
+          "object_marking": 0,
           "squad_members": "t1_tanks_squad"
         }
       }
@@ -2338,6 +2379,9 @@
           [-6843.8,703.55,-7572.65]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_trucks_squad"
           },
@@ -2357,6 +2401,9 @@
           [-3703.77,291.6,-7954.07]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_art_01"
           },
@@ -2461,6 +2508,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_20_points_squad"
           },
           {
@@ -2483,6 +2533,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_20_points_squad"
           },
           {
@@ -2503,7 +2556,7 @@
           [-0.281372,0.0,1.26918],
           [3425.35,471.712,-4339.95]
         ],
-        "unit_class": "cargo_zone_square",
+        "unit_class": "dynBase_hq_camp_square",
         "props": {
           "army": 2,
           "active": true
@@ -4369,6 +4422,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_mgun_01"
           },
           {
@@ -5591,6 +5647,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_mgun_01"
           },
           {
@@ -6633,6 +6692,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_art_01"
           },
           {
@@ -6952,6 +7014,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_truck_01"
           },
           {
@@ -6971,6 +7036,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_truck_aaa_01"
           },
           {
@@ -6989,6 +7057,9 @@
           [-5311.48,443.5,1157.45]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_tank_01"
           },
@@ -7011,6 +7082,9 @@
           [-5119.65,443.5,1284.84]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_tank_02"
           },
@@ -7250,6 +7324,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_truck_01"
           },
           {
@@ -7269,6 +7346,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_truck_aaa_01"
           },
           {
@@ -7287,6 +7367,9 @@
           [5291.5,443.45,-8330.9]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t2_tank_01"
           },
@@ -7310,6 +7393,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_tank_02"
           },
           {
@@ -7330,7 +7416,7 @@
           [0.878267,0.0,0.95846],
           [-4843.3,437.877,-1842.65]
         ],
-        "unit_class": "cargo_zone_square",
+        "unit_class": "dynBase_oil_storage_large_square",
         "props": {
           "army": 1,
           "active": true
@@ -8500,6 +8586,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_bunker_01"
           },
           {
@@ -8825,6 +8914,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_bunker_01"
           },
           {
@@ -8862,6 +8954,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_aaa_squad"
           },
           {
@@ -8884,6 +8979,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_aaa_squad"
           },
           {
@@ -8905,6 +9003,7 @@
           [-7879.8,312.45,-12550.8]
         ],
         "props": {
+          "object_marking": 0,
           "squad_members": "t1_artillery_squad"
         }
       }
@@ -8919,6 +9018,7 @@
           [-5963.2,312.45,-12799.8]
         ],
         "props": {
+          "object_marking": 0,
           "squad_members": "t2_artillery_squad"
         }
       }
@@ -8933,6 +9033,9 @@
           [-8631.4,377.55,-14430.8]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t1_bunkers_squad"
           },
@@ -8953,6 +9056,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_bunkers_squad"
           },
           {
@@ -8972,6 +9078,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t1_light_units_squad"
           },
           {
@@ -8990,6 +9099,7 @@
           [1995.05,1193.05,-10119.5]
         ],
         "props": {
+          "object_marking": 0,
           "squad_members": "t2_tanks_squad"
         }
       }
@@ -9004,6 +9114,9 @@
           [1327.2,703.55,-10868.4]
         ],
         "props": [
+          {
+            "object_marking": 0
+          },
           {
             "squad_members": "t2_trucks_squad"
           },
@@ -9024,6 +9137,9 @@
         ],
         "props": [
           {
+            "object_marking": 0
+          },
+          {
             "squad_members": "t2_light_units_squad"
           },
           {
@@ -9041,7 +9157,7 @@
           [-0.281372,0.0,1.26918],
           [-330.45,471.7,-9098.7]
         ],
-        "unit_class": "cargo_zone_square",
+        "unit_class": "dynBase_oil_storage_large_square",
         "props": {
           "army": 2,
           "active": true
@@ -9057,7 +9173,7 @@
           [-0.281372,0.0,1.26918],
           [3994.2,1356.0,-1123.35]
         ],
-        "unit_class": "cargo_zone_square",
+        "unit_class": "dynBase_small_factory_square",
         "props": {
           "army": 2,
           "active": true
@@ -9073,7 +9189,7 @@
           [0.878267,0.0,0.95846],
           [-5924.3,437.9,-6454.55]
         ],
-        "unit_class": "cargo_zone_square",
+        "unit_class": "dynBase_field_camp_square",
         "props": {
           "army": 1,
           "active": true
@@ -9082,14 +9198,14 @@
     },
     {
       "objectGroups": {
-        "name": "t1_bomb_target_04",
+        "name": "t1_bomb_target_02",
         "tm": [
           [0.95846,0.0,-0.878267],
           [0.0,1.3,0.0],
           [0.878267,0.0,0.95846],
           [161.45,437.9,1796.7]
         ],
-        "unit_class": "cargo_zone_square",
+        "unit_class": "dynBase_petrol_camp_square",
         "props": {
           "army": 1,
           "active": true
@@ -10319,6 +10435,38 @@
         },
         "way": []
       }
+    },
+    {
+      "objectGroups": {
+        "name": "t1_bomb_target_04",
+        "tm": [
+          [0.95846,0.0,-0.878267],
+          [0.0,1.3,0.0],
+          [0.878267,0.0,0.95846],
+          [-3232.23,118.829,2993.75]
+        ],
+        "unit_class": "dynBase_ammunition_camp_square",
+        "props": {
+          "army": 1,
+          "active": true
+        }
+      }
+    },
+    {
+      "objectGroups": {
+        "name": "t2_bomb_target_04",
+        "tm": [
+          [1.26918,0.0,0.281372],
+          [0.0,1.3,0.0],
+          [-0.281372,0.0,1.26918],
+          [2490.02,471.7,-10681.2]
+        ],
+        "unit_class": "dynBase_ammunition_storage_square",
+        "props": {
+          "army": 2,
+          "active": true
+        }
+      }
     }
   ],
   "areas": {
@@ -11002,6 +11150,26 @@
         [5942.78,3500.0,-10216.3]
       ],
       "objLayer": 0,
+      "props": []
+    },
+    "t1_bomb_area_04": {
+      "type": "Sphere",
+      "tm": [
+        [450.0,0.0,0.0],
+        [0.0,450.0,0.0],
+        [0.0,0.0,450.0],
+        [-3196.22,90.3628,2937.27]
+      ],
+      "props": []
+    },
+    "t2_bomb_area_04": {
+      "type": "Sphere",
+      "tm": [
+        [450.0,0.0,0.0],
+        [0.0,450.0,0.0],
+        [0.0,0.0,450.0],
+        [2514.55,347.188,-10563.7]
+      ],
       "props": []
     }
   },

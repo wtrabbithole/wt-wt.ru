@@ -213,6 +213,17 @@
           "armorThickness": 8.9
         }
       },
+      "body_shields": {
+        "armorClass": "tank_structural_steel",
+        "hp": 1000.0,
+        "armorThickness": 4.0,
+        "stopChanceOnDeadPart": 0.0,
+        "createSecondaryShatters": false,
+        "ex_decor_body_l_05_dm": [],
+        "ex_decor_body_r_05_dm": [],
+        "ex_decor_body_l_01_dm": [],
+        "ex_decor_body_r_01_dm": []
+      },
       "sensor": {
         "armorClass": "tank_structural_steel",
         "armorThickness": 15.0,
@@ -1196,25 +1207,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
+            }
+          },
+          {
+            "onKill": {
+              "damageType": "secondaryShatter",
+              "expl": 0.5,
+              "fire": 0.5
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.25,
-              "fire": 0.25,
-              "nothing": 0.5
+              "expl": 0.5,
+              "fire": 0.5
             }
           }
         ]
@@ -1649,6 +1664,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -1797,6 +1820,14 @@
             "conditionDamageType": "generic",
             "expl": 1.0,
             "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
             "kill": true,
             "killEffect": "fire"
           }

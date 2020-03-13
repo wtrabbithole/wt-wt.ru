@@ -43,7 +43,7 @@ local images = {
   machineGun = Picture("!ui/gameuiskin#machine_gun_weapon_state_indicator")
   torpedo = Picture("!ui/gameuiskin#ship_torpedo_weapon_state_indicator")
   buoyancy = Picture("!ui/gameuiskin#buoyancy_icon")
-  fire = Picture("!ui/gameuiskin#fire_indicator")
+  fire = "!ui/gameuiskin#fire_indicator.svg:"
   steeringMark = Picture("!ui/gameuiskin#floatage_arrow_down")
   sightCone = Picture("+ui/gameuiskin#map_camera")
   shipCrew = Picture("!ui/gameuiskin#ship_crew")
@@ -210,7 +210,7 @@ local stateBlock = @() {
       rendObj = ROBJ_IMAGE
       color =  shipState.fire.value ? colors.hud.damageModule.alert : colors.hud.damageModule.inactive
       watch = shipState.fire
-      image = images.fire
+      image = ::Picture($"{images.fire}{hdpx(STATE_ICON_SIZE)}:{hdpx(STATE_ICON_SIZE)}:K")
       size = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
     }
     buoyancyIndicator
@@ -313,50 +313,44 @@ local crewBlock = @() {
   ]
 }
 
+local steeringLine = {
+  size = [hdpx(1), flex()]
+  rendObj = ROBJ_SOLID
+  color = colors.hud.shipSteeringGauge.serif
+}
 
-local steering = function () {
-  local mark = @(p) {
-    rendObj = ROBJ_IMAGE
-    image = images.steeringMark
-    color = colors.hud.shipSteeringGauge.mark
-    size = [hdpx(12), hdpx(10)]
-    hplace = HALIGN_CENTER
-    pos = [pw(p*100), -hdpx(5)]
-  }
+local steering = {
+  size = [pw(50), hdpx(3)]
+  hplace = HALIGN_CENTER
 
-  local line = {
-    size = [hdpx(1), flex()]
-    rendObj = ROBJ_SOLID
-    color = colors.hud.shipSteeringGauge.serif
-  }
-  local space = {
-    size = flex()
-  }
-  return {
-    watch = shipState.steering
-    size = [pw(50), hdpx(3)]
-    hplace = HALIGN_CENTER
-
-    children = [
-      {
+  children = [
+    {
+      size = flex()
+      rendObj = ROBJ_SOLID
+      color = colors.hud.shipSteeringGauge.background
+      flow = FLOW_HORIZONTAL
+      gap = {
         size = flex()
-        rendObj = ROBJ_SOLID
-        color = colors.hud.shipSteeringGauge.background
-        flow = FLOW_HORIZONTAL
-        gap = space
-        valign = VALIGN_BOTTOM
-        children = [
-          line
-          line
-          line
-          line
-          line
-        ]
-
       }
-      mark(-shipState.steering.value)
-    ]
-  }
+      valign = VALIGN_BOTTOM
+      children = [
+        steeringLine
+        steeringLine
+        steeringLine
+        steeringLine
+        steeringLine
+      ]
+    }
+    @() {
+      rendObj = ROBJ_IMAGE
+      watch = shipState.steering
+      image = images.steeringMark
+      color = colors.hud.shipSteeringGauge.mark
+      size = [hdpx(12), hdpx(10)]
+      hplace = HALIGN_CENTER
+      pos = [pw(-shipState.steering.value*50), -hdpx(5)]
+    }
+  ]
 }
 
 

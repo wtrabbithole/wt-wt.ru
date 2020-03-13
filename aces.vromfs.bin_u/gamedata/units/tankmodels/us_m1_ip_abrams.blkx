@@ -36,6 +36,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "autoSightDistanceCorrection": true
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -127,6 +130,17 @@
   },
   {
     "smokeScreenFxType": "tank_smokescreen"
+  },
+  {
+    "attachables": {
+      "superstructure_back_dm": false,
+      "turret_08_top_dm": true,
+      "ex_decor_01_dm": false,
+      "turret_back_dm": false,
+      "ex_armor_01_dm": true,
+      "ex_armor_02_dm": true,
+      "ex_armor_03_dm": true
+    }
   },
   {
     "sound": {
@@ -226,24 +240,6 @@
               "count": 1
             },
             "ammo_turret_31_dm": {
-              "count": 1
-            }
-          }
-        },
-        {
-          "shells": {
-            "fatalFire": true,
-            "fatalExplosion": true,
-            "fireEvent": "ammo_fire",
-            "explosionEvent": "ammo_explosion",
-            "wreckedPartId": 0,
-            "ammo_body_01_dm": {
-              "count": 1
-            },
-            "ammo_body_02_dm": {
-              "count": 1
-            },
-            "ammo_body_03_dm": {
               "count": 1
             }
           }
@@ -350,6 +346,24 @@
               "count": 1
             },
             "ammo_body_11_dm": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "shells": {
+            "fatalFire": true,
+            "fatalExplosion": true,
+            "fireEvent": "ammo_fire",
+            "explosionEvent": "ammo_explosion",
+            "wreckedPartId": 0,
+            "ammo_body_01_dm": {
+              "count": 1
+            },
+            "ammo_body_02_dm": {
+              "count": 1
+            },
+            "ammo_body_03_dm": {
               "count": 1
             }
           }
@@ -1947,7 +1961,7 @@
     "cockpit": {
       "zoomOutFov": 24.7,
       "zoomInFov": 7.37,
-      "sightFov": 6.0,
+      "sightFov": 13.0,
       "sightName": "abrams_sight",
       "headPos": [0.0,4.0,-8.5],
       "headPosOnShooting": [-0.8,3.4,0.5],
@@ -2101,12 +2115,13 @@
                   "gunnerDm": "commander_dm"
                 },
                 "limits": {
-                  "yaw": [-160.0,180.0],
+                  "yaw": [-180.0,180.0],
                   "pitch": [-9.0,65.0]
                 },
                 "limitsTable": {
-                  "lim1": [-160.0,-40.0,40.0,65.0],
-                  "lim2": [-40.0,180.0,-9.0,65.0]
+                  "lim1": [-180.0,-170.0,-9.0,65.0],
+                  "lim2": [-170.0,-40.0,20.0,65.0],
+                  "lim3": [-40.0,180.0,-9.0,65.0]
                 }
               }
             },
@@ -2737,7 +2752,9 @@
         "ex_decor_l_02_dm": [],
         "ex_decor_r_02_dm": [],
         "ex_decor_l_01_dm": [],
-        "ex_decor_r_01_dm": []
+        "ex_decor_r_01_dm": [],
+        "ex_decor_l_05_dm": [],
+        "ex_decor_r_05_dm": []
       },
       "chassis": {
         "armorClass": "tank_steel_wheels",
@@ -3232,8 +3249,9 @@
             "pitch": [-9.0,65.0]
           },
           "limitsTable": {
-            "lim1": [-160.0,-40.0,40.0,65.0],
-            "lim2": [-40.0,180.0,-9.0,65.0]
+            "lim1": [-180.0,-170.0,-9.0,65.0],
+            "lim2": [-170.0,-40.0,20.0,65.0],
+            "lim3": [-40.0,180.0,-9.0,65.0]
           }
         }
       },

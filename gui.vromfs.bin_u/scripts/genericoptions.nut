@@ -45,7 +45,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(false, false);
     optionIdToObjCache.clear()
     guiScene.replaceContentFromText(optListObj, container.tbl, container.tbl.len(), this)
-    optionsContainers.push(container.descr)
+    optionsContainers.append(container.descr)
     guiScene.setUpdatesEnabled(true, true)
 
     updateLinkedOptions()
@@ -976,7 +976,7 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
   function getOptionHeader(option)
   {
     foreach(header, optionsArray in headersToOptionsList)
-      if(optionsArray.find(option) != null)
+      if(optionsArray.indexof(option) != null)
         return header
     return null
   }
@@ -999,10 +999,10 @@ class ::gui_handlers.GenericOptionsModal extends ::gui_handlers.GenericOptions
       {
         lastHeader = option
         headersToOptionsList[lastHeader] <- []
-        headersItems.push({id = option.id, text = option.getTitle()})
+        headersItems.append({id = option.id, text = option.getTitle()})
       }
       else if (lastHeader != null)
-        headersToOptionsList[lastHeader].push(option)
+        headersToOptionsList[lastHeader].append(option)
     }
 
     if (navigationHandlerWeak)
@@ -1163,7 +1163,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     if (!::checkObj(filterEditBox))
       return
 
-    filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
+    filterText = ::g_string.utf8ToLower(filterEditBox.getValue())
 
     if( ! filterText.len())
     {
@@ -1179,11 +1179,11 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     local searchResultOptions = []
     foreach(optionData in optionsVisibleBeforeSearch)
     {
-      local show = optionData.searchTitle.find(filterText) != null
+      local show = optionData.searchTitle.indexof(filterText) != null
       base.showOptionRow(optionData.option, show)
 
       if(show)
-        searchResultOptions.push(optionData.option)
+        searchResultOptions.append(optionData.option)
     }
 
     foreach(option in searchResultOptions)
@@ -1240,9 +1240,9 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     {
       local optionTr = getObj(option.getTrId())
       if(::checkObj(optionTr) && optionTr.isVisible())
-        optionsVisibleBeforeSearch.push({
+        optionsVisibleBeforeSearch.append({
           option = option,
-          searchTitle = ::english_russian_to_lower_case(option.getTitle())
+          searchTitle = ::g_string.utf8ToLower(option.getTitle())
         })
     }
   }

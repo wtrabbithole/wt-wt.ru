@@ -1,4 +1,4 @@
-local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
+local playerContextMenu = require("scripts/user/playerContextMenu.nut")
 
 local getClanActions = function(clanId)
 {
@@ -37,12 +37,13 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
   local isBlock = ::isPlayerInContacts(playerUid, ::EPL_BLOCKLIST)
   local contact = ::getContact(playerUid, playerName)
   local name = contact?.name ?? playerName
-  local canChat = contact? contact.canChat() : ::g_chat.isChatEnableWithPlayer(name)
+  local canChat = contact?.canChat() ?? ::g_chat.isChatEnableWithPlayer(name)
+  local isProfileMuted = contact?.isMuted() ?? false
 
   return [
     {
       text = ::loc("contacts/message")
-      isVisualDisabled = !canChat || isBlock
+      isVisualDisabled = !canChat || isBlock || isProfileMuted
       show = playerUid != ::my_user_id_str
              && ::ps4_is_chat_enabled()
              && !u.isEmpty(name)
@@ -52,12 +53,11 @@ local getRequestActions = function(clanId, playerUid, playerName = "", handler =
         if (isBlock)
           return playerContextMenu.showBlockedPlayerPopup(name)
 
+        if (isProfileMuted) //There was no xbox message, so don't try to call overlay msg
+          return playerContextMenu.showXboxPlayerMuted(name)
+
         if (!canChat)
-        {
-          if (::isInMenu() && ::is_platform_xboxone)
-            ::g_chat.attemptShowOverlayMessage(name)
-          return playerContextMenu.showPrivacySettingsRestrictionPopup()
-        }
+          return playerContextMenu.notifyPlayerAboutRestriction(contact)
 
         ::openChatPrivate(name, handler)
       }

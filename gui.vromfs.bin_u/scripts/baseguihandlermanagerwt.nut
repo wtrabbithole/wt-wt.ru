@@ -6,7 +6,7 @@ local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local focusFrame = ::require("scripts/viewUtils/focusFrameWT.nut")
 
-handlersManager[PERSISTENT_DATA_PARAMS].extend([ "curControlsAllowMask", "isCurSceneBgBlurred" ])
+handlersManager[PERSISTENT_DATA_PARAMS].append("curControlsAllowMask", "isCurSceneBgBlurred")
 
 ::handlersManager.lastInFlight <- false  //to reload scenes on change inFlight
 ::handlersManager.currentFont <- ::g_font.LARGE
@@ -191,18 +191,20 @@ handlersManager.generateColorConstantsConfig <- function generateColorConstantsC
     allyTeam = ::get_mp_local_team()
     allyTeamColor = allyTeam == 2 ? forcedColors?.colorTeamB : forcedColors?.colorTeamA
     enemyTeamColor = allyTeam == 2 ? forcedColors?.colorTeamA : forcedColors?.colorTeamB
-    cssConfig.extend([{
-      name = "mainPlayerColor"
-      value = "#" + allyTeamColor
-    },
-    {
-      name = "chatSenderMeColor"
-      value = "#" + allyTeamColor
-    },
-    {
-      name = "hudColorHero"
-      value = "#" + allyTeamColor
-    }])
+    cssConfig.append(
+      {
+        name = "mainPlayerColor"
+        value = "#" + allyTeamColor
+      },
+      {
+        name = "chatSenderMeColor"
+        value = "#" + allyTeamColor
+      },
+      {
+        name = "hudColorHero"
+        value = "#" + allyTeamColor
+      }
+    )
   }
 
   local theme = {

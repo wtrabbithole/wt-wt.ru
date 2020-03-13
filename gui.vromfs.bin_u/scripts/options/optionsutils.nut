@@ -42,7 +42,7 @@ local createDefaultOption = function() {
           break
 
         case optionControlType.LIST:
-          local result = ::getTblValue(values.find(val), items)
+          local result = ::getTblValue(values.indexof(val), items)
           local locKey = (::u.isString(result)) ? result : ::getTblValue("text", result, "")
           if (::g_string.startsWith(locKey, "#"))
             locKey = locKey.slice(1)

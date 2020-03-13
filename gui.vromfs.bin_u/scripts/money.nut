@@ -197,39 +197,39 @@ Money.__get_frp_color_id <- function __get_frp_color_id()  { return money_color.
 Money.__get_rp_color_id <- function __get_rp_color_id()   { return money_color.NEUTRAL }
 Money.__get_sap_color_id <- function __get_sap_color_id()   { return money_color.NEUTRAL }
 
-Money.__impl_get_wp_text <- function __impl_get_wp_text(colored = true, checkBalance = false)
+Money.__impl_get_wp_text <- function __impl_get_wp_text(colored = true, checkBalance = false, needIcon = true)
 {
   local color_id = (checkBalance && colored)? __get_wp_color_id() : money_color.NEUTRAL
-  return __check_color(::g_language.decimalFormat(wp), color_id) +
-    ::loc(colored ? "warpoints/short/colored" : "warpoints/short")
+  local sign = needIcon? ::loc(colored ? "warpoints/short/colored" : "warpoints/short") : ""
+  return __check_color(::g_language.decimalFormat(wp), color_id) + sign
 }
 
-Money.__impl_get_gold_text <- function __impl_get_gold_text(colored = true, checkBalance = false)
+Money.__impl_get_gold_text <- function __impl_get_gold_text(colored = true, checkBalance = false, needIcon = true)
 {
   local color_id = (checkBalance && colored)? __get_gold_color_id() : money_color.NEUTRAL
-  return __check_color(::g_language.decimalFormat(gold), color_id) +
-    ::loc(colored ? "gold/short/colored" : "gold/short")
+  local sign = needIcon? ::loc(colored ? "gold/short/colored" : "gold/short") : ""
+  return __check_color(::g_language.decimalFormat(gold), color_id) + sign
 }
 
-Money.__impl_get_frp_text <- function __impl_get_frp_text(colored = true, checkBalance = false)
+Money.__impl_get_frp_text <- function __impl_get_frp_text(colored = true, checkBalance = false, needIcon = true)
 {
   local color_id = (checkBalance && colored)? __get_frp_color_id() : money_color.NEUTRAL
-  return __check_color(::g_language.decimalFormat(frp), color_id) +
-    ::loc(colored ? "currency/freeResearchPoints/sign/colored" : "currency/freeResearchPoints/sign")
+  local sign = needIcon? ::loc(colored ? "currency/freeResearchPoints/sign/colored" : "currency/freeResearchPoints/sign") : ""
+  return __check_color(::g_language.decimalFormat(frp), color_id) + sign
 }
 
-Money.__impl_get_rp_text <- function __impl_get_rp_text(colored = true, checkBalance = false)
+Money.__impl_get_rp_text <- function __impl_get_rp_text(colored = true, checkBalance = false, needIcon = true)
 {
   local color_id = (checkBalance && colored)? __get_rp_color_id() : money_color.NEUTRAL
-  return __check_color(::g_language.decimalFormat(rp), color_id) +
-    ::loc(colored ? "currency/researchPoints/sign/colored" : "currency/researchPoints/sign")
+  local sign = needIcon? ::loc(colored ? "currency/researchPoints/sign/colored" : "currency/researchPoints/sign") : ""
+  return __check_color(::g_language.decimalFormat(rp), color_id) + sign
 }
 
-Money.__impl_get_sap_text <- function __impl_get_sap_text(colored = true, checkBalance = false)
+Money.__impl_get_sap_text <- function __impl_get_sap_text(colored = true, checkBalance = false, needIcon = true)
 {
   local color_id = (checkBalance && colored)? __get_sap_color_id() : money_color.NEUTRAL
-  return __check_color(::g_language.decimalFormat(sap), color_id) +
-    ::loc(colored ? "currency/squadronActivity/colored" : "currency/squadronActivity")
+  local sign = needIcon? ::loc(colored ? "currency/squadronActivity/colored" : "currency/squadronActivity") : ""
+  return __check_color(::g_language.decimalFormat(sap), color_id) + sign
 }
 
 Money.__impl_get_text <- function __impl_get_text(params = null)
@@ -237,17 +237,18 @@ Money.__impl_get_text <- function __impl_get_text(params = null)
   local text = ""
   local isColored = params?.isColored ?? true
   local needCheckBalance = params?.needCheckBalance ?? false
+  local needIcon = params?.needIcon ?? true
 
   if (gold != 0 || params?.isGoldAlwaysShown)
-    text += __impl_get_gold_text(isColored, needCheckBalance)
+    text += __impl_get_gold_text(isColored, needCheckBalance, needIcon)
   if (wp != 0 || params?.isWpAlwaysShown)
-    text += ((text == "") ? "" : ", ") + __impl_get_wp_text(isColored, needCheckBalance)
+    text += ((text == "") ? "" : ", ") + __impl_get_wp_text(isColored, needCheckBalance, needIcon)
   if (frp != 0 || params?.isFrpAlwaysShown)
-    text += ((text == "") ? "" : ", ") + __impl_get_frp_text(isColored, needCheckBalance)
+    text += ((text == "") ? "" : ", ") + __impl_get_frp_text(isColored, needCheckBalance, needIcon)
   if (rp != 0 || params?.isRpAlwaysShown)
-    text += ((text == "") ? "" : ", ") + __impl_get_rp_text(isColored, needCheckBalance)
+    text += ((text == "") ? "" : ", ") + __impl_get_rp_text(isColored, needCheckBalance, needIcon)
   if (sap != 0 || params?.isSapAlwaysShown)
-    text += ((text == "") ? "" : ", ") + __impl_get_sap_text(isColored, needCheckBalance)
+    text += ((text == "") ? "" : ", ") + __impl_get_sap_text(isColored, needCheckBalance, needIcon)
   return text
 }
 

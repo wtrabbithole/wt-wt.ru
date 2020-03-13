@@ -69,8 +69,7 @@ g_script_reloader.registerPersistentDataFromRoot <- function registerPersistentD
   registerPersistentData(structureId, context, context[paramsArrayId])
 }
 
-g_script_reloader.reload <- function reload(scriptPathOrStartFunc)
-{
+g_script_reloader.reload <- function reload(scriptPathOrStartFunc) {
   isInReloading = true
   saveAllDataToStorages()
   loadedScripts.clear()
@@ -80,7 +79,7 @@ g_script_reloader.reload <- function reload(scriptPathOrStartFunc)
   else if (typeof(scriptPathOrStartFunc) == "string")
     loadOnce(scriptPathOrStartFunc)
   else
-    ::dagor.assertf(res, "Scripts reloader: bad reload param type " + scriptPathOrStartFunc)
+    ::dagor.assertf(false, "Scripts reloader: bad reload param type " + scriptPathOrStartFunc)
 
   if ("broadcastEvent" in ::getroottable())
     ::broadcastEvent("ScriptsReloaded")

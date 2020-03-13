@@ -1,3 +1,5 @@
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+
 class ::gui_handlers.WwJoinBattleCondition extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -19,10 +21,13 @@ class ::gui_handlers.WwJoinBattleCondition extends ::gui_handlers.BaseGuiHandler
         unitAvailability == WW_BATTLE_UNITS_REQUIREMENTS.BATTLE_UNITS)
     {
       local requiredUnits = battle.getUnitsRequiredForJoin(team, side)
-      wwUnitsList = u.filter(::WwUnit.loadUnitsFromNameCountTbl(requiredUnits),
+      wwUnitsList = u.filter(wwActionsWithUnitsList.loadUnitsFromNameCountTbl(requiredUnits),
         @(unit) !unit.isControlledByAI())
-      wwUnitsList = ::u.map(wwUnitsList, @(wwUnit)
-        wwUnit.getShortStringView(true, false, true, true, true))
+      wwUnitsList = wwActionsWithUnitsList.getUnitsListViewParams({
+        wwUnits = wwUnitsList,
+        params = { addPreset = false, needShopInfo = true }
+        needSort = false
+      })
     }
 
     local columns = []

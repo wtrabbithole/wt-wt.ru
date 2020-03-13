@@ -1,5 +1,18 @@
 @const crewTransferColor:#dd1111;
 
+crew > icon[hudCrewStatus=yes] {
+  position: absolute;
+  size: ph/7, ph/7;
+  background-svg-size: ph/7, ph/7;
+  background-color: @white;
+}
+
+debuffs > icon {
+  position: absolute;
+  size: ph/7, ph/7;
+  background-svg-size: ph/7, ph/7;
+}
+
 icon[hudTankDebuff=yes],
 icon[hudCrewStatus=yes] {
   css-hier-invalidate: yes;
@@ -66,18 +79,16 @@ icon[hudCrewStatus=yes] timeBar {
   position: absolute;
   pos: 0, 0;
   size: pw, ph;
+  background-svg-size: pw, ph;
   background-color: @white;
-  background-image: #ui/gameuiskin#timebar;
+  background-image: #ui/gameuiskin#timebar.svg;
 }
 
-crew[unit_type=ship] icon[hudCrewStatus=yes][icon_type=crew_count] {
-  background-image:#ui/gameuiskin#ship_crew;
-}
-
-crew[unit_type=ship] icon[hudCrewStatus=yes][icon_type=crew_driver] {
-  background-image:#ui/gameuiskin#ship_crew_driver;
-}
-
-crew[unit_type=ship] icon[hudCrewStatus=yes][icon_type=crew_gunner] {
-  background-image:#ui/gameuiskin#ship_crew_gunner;
+dmgIndicatorBg {
+  position: absolute;
+  size: pw, ph;
+  background-svg-size: pw, ph;
+  background-color: @white;
+  background-image: ui/gameuiskin/bg_dmg_board.svg;
+  color-factor: 200;
 }

@@ -141,35 +141,6 @@
           ]
         },
         {
-          "wait": {
-            "time": 5.0
-          }
-        },
-        {
-          "moAddMissionObjective": {
-            "target": "avg_DBttlA_objective_01",
-            "object_var_comp_op": "equal",
-            "object_var_name": ""
-          }
-        },
-        {
-          "moAddMissionObjective": {
-            "target": "avg_DBttlA_objective_02",
-            "object_var_comp_op": "equal",
-            "object_var_name": ""
-          }
-        },
-        {
-          "comment": {
-            "value": ""
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "dbttl_zone_captured_by_t2"
-          }
-        },
-        {
           "comment": {
             "value": ""
           }
@@ -178,7 +149,7 @@
           "varSetInt": {
             "value": 0,
             "var": "dbttl_timer_from_desc",
-            "fromDescriptor": "dbttl_timer"
+            "fromDescriptor": "mission_timer"
           }
         },
         {
@@ -270,35 +241,6 @@
           ]
         },
         {
-          "wait": {
-            "time": 5.0
-          }
-        },
-        {
-          "moAddMissionObjective": {
-            "target": "avg_DBttlB_objective_01",
-            "object_var_comp_op": "equal",
-            "object_var_name": ""
-          }
-        },
-        {
-          "moAddMissionObjective": {
-            "target": "avg_DBttlB_objective_02",
-            "object_var_comp_op": "equal",
-            "object_var_name": ""
-          }
-        },
-        {
-          "comment": {
-            "value": ""
-          }
-        },
-        {
-          "triggerEnable": {
-            "target": "dbttl_zone_captured_by_t1"
-          }
-        },
-        {
           "comment": {
             "value": ""
           }
@@ -307,7 +249,7 @@
           "varSetInt": {
             "value": 0,
             "var": "dbttl_timer_from_desc",
-            "fromDescriptor": "dbttl_timer"
+            "fromDescriptor": "mission_timer"
           }
         },
         {
@@ -332,26 +274,75 @@
         "enableAfterComplete": false
       },
       "events": {
-        "initMission": []
-      },
-      "conditions": [],
-      "actions": {
-        "missionMarkAsCaptureZone": {
-          "army": 1,
-          "timeMultiplier": 1.5,
-          "disableZone": false,
-          "name_for_respawn_base": "",
-          "target": "@zone_name",
-          "canCaptureOnGround": false,
-          "playAirfieldSound": false,
-          "canCaptureInAir": false,
-          "canCaptureByGM": true,
-          "auto_smoke": true,
-          "captureNoPenalty": true,
-          "markUnitPreset": "tank_decal",
-          "markUnits": "cz_circle_01"
+        "timeExpires": {
+          "time": 0.01
         }
       },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@zone_name",
+            "type": "area"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "isAADef",
+            "type": "var"
+          }
+        },
+        {
+          "varCompareBool": {
+            "var_value": "isAADef",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "missionMarkAsCaptureZone": {
+            "army": 1,
+            "timeMultiplier": 1.5,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "@zone_name",
+            "canCaptureOnGround": false,
+            "playAirfieldSound": false,
+            "canCaptureInAir": false,
+            "canCaptureByGM": true,
+            "auto_smoke": true,
+            "captureNoPenalty": true,
+            "markUnitPreset": "tank_decal",
+            "markUnits": "cz_circle_01",
+            "zoneDefenders": []
+          }
+        },
+        {
+          "wait": {
+            "time": 3.0
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "avg_DBttlA_objective_01",
+            "object_var_comp_op": "equal",
+            "object_var_name": ""
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "avg_DBttlA_objective_02",
+            "object_var_comp_op": "equal",
+            "object_var_name": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "dbttl_zone_captured_by_t2"
+          }
+        }
+      ],
       "else_actions": []
     },
     "dbttl_b_start": {
@@ -363,26 +354,75 @@
         "enableAfterComplete": false
       },
       "events": {
-        "initMission": []
-      },
-      "conditions": [],
-      "actions": {
-        "missionMarkAsCaptureZone": {
-          "army": 2,
-          "timeMultiplier": 1.5,
-          "disableZone": false,
-          "name_for_respawn_base": "",
-          "target": "@zone_name",
-          "canCaptureOnGround": false,
-          "playAirfieldSound": false,
-          "canCaptureInAir": false,
-          "canCaptureByGM": true,
-          "auto_smoke": true,
-          "captureNoPenalty": true,
-          "markUnitPreset": "tank_decal",
-          "markUnits": "cz_circle_02"
+        "timeExpires": {
+          "time": 0.01
         }
       },
+      "conditions": [
+        {
+          "objectExists": {
+            "target": "@zone_name",
+            "type": "area"
+          }
+        },
+        {
+          "objectExists": {
+            "target": "isAADef",
+            "type": "var"
+          }
+        },
+        {
+          "varCompareBool": {
+            "var_value": "isAADef",
+            "value": false,
+            "comparasion_func": "equal"
+          }
+        }
+      ],
+      "actions": [
+        {
+          "missionMarkAsCaptureZone": {
+            "army": 2,
+            "timeMultiplier": 1.5,
+            "disableZone": false,
+            "name_for_respawn_base": "",
+            "target": "@zone_name",
+            "canCaptureOnGround": false,
+            "playAirfieldSound": false,
+            "canCaptureInAir": false,
+            "canCaptureByGM": true,
+            "auto_smoke": true,
+            "captureNoPenalty": true,
+            "markUnitPreset": "tank_decal",
+            "markUnits": "cz_circle_02",
+            "zoneDefenders": []
+          }
+        },
+        {
+          "wait": {
+            "time": 3.0
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "avg_DBttlB_objective_01",
+            "object_var_comp_op": "equal",
+            "object_var_name": ""
+          }
+        },
+        {
+          "moAddMissionObjective": {
+            "target": "avg_DBttlB_objective_02",
+            "object_var_comp_op": "equal",
+            "object_var_name": ""
+          }
+        },
+        {
+          "triggerEnable": {
+            "target": "dbttl_zone_captured_by_t1"
+          }
+        }
+      ],
       "else_actions": []
     },
     "dbttl_check_random_spawn": {

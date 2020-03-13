@@ -76,5 +76,16 @@ objectiveBlock {
 
     include "gui/worldWar/operationString"
   }
+
+  <<#isPrimary>>
+  textareaNoTab {
+    id:t='afk_lost'
+    max-width:t='pw'
+    pos:t='50%pw-50%w, 0'
+    position:t='relative'
+    text:t=''
+    smallFont:t='yes'
+  }
+  <</isPrimary>>
 }
 <</objectiveBlock>>

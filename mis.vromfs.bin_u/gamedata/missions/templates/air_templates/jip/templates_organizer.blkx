@@ -89,9 +89,28 @@
             "var": "to_last_randomizer"
           }
         ],
-        "wait": {
-          "time": 240.0
-        },
+        "triggerEnable": {
+          "target": "to_template_delay_start"
+        }
+      },
+      "else_actions": []
+    },
+    "to_template_delay_start": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "periodicEvent": {
+          "time": 1.0,
+          "var": "to_delay_timer"
+        }
+      },
+      "conditions": [],
+      "actions": {
         "triggerEnable": {
           "target": "to_template_choosing"
         }
@@ -1605,7 +1624,8 @@
     "ad_is_launch_alowed": false,
     "lbt_is_launch_alowed": false,
     "sbt_is_launch_alowed": false,
-    "to_last_randomizer": 0
+    "to_last_randomizer": 0,
+    "to_delay_timer": 240
   },
   "dialogs": [],
   "airfields": [],

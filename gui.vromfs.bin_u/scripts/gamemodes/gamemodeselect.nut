@@ -117,7 +117,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(curGameModeObj))
       return
 
-    local index = filledGameModes.searchindex(@(gm) gm.isMode && gm?.hasContent && gm.modeId == curGM.id) ?? -1
+    local index = filledGameModes.findindex(@(gm) gm.isMode && gm?.hasContent && gm.modeId == curGM.id) ?? -1
     curGameModeObj.setValue(index)
     curGameModeObj.select()
   }
@@ -165,13 +165,13 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
           ++numNonWideGameModes
         local index = ::find_in_array(gameModesArray, gameMode)
         gameModesArray.remove(index)
-        view.push(createGameModeView(gameMode))
+        view.append(createGameModeView(gameMode))
       }
     }
     sortByUnitType(view)
     // Putting a dummy block to show featured links in one line.
     if ((numNonWideGameModes & 1) == 1)
-      view.push(createGameModeView(null))
+      view.append(createGameModeView(null))
     return view
   }
 
@@ -182,8 +182,8 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
       {
         if(b.isWide != a.isWide)
           return b.isWide <=> a.isWide
-        local isAContainsType = a.gameMode.unitTypes.find(unitType.esUnitType) != null
-        local isBContainsType = b.gameMode.unitTypes.find(unitType.esUnitType) != null
+        local isAContainsType = a.gameMode.unitTypes.indexof(unitType.esUnitType) != null
+        local isBContainsType = b.gameMode.unitTypes.indexof(unitType.esUnitType) != null
         if( ! isAContainsType && ! isBContainsType)
           continue
         return isBContainsType <=> isAContainsType
@@ -198,7 +198,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local view = []
     local debugGameModes = ::game_mode_manager.getDebugGameModes()
     foreach (gameMode in debugGameModes)
-      view.push(createGameModeView(gameMode))
+      view.append(createGameModeView(gameMode))
     return view
   }
 
@@ -395,9 +395,9 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     {
       local gameMode = chooseGameModeEsUnitType(gameModes, esUnitType, basePanelConfig)
       if (gameMode)
-        view.push(createGameModeView(gameMode, false, true))
+        view.append(createGameModeView(gameMode, false, true))
       else if (needEmptyGameModeBlocks)
-        view.push(createGameModeView(null, false, true))
+        view.append(createGameModeView(null, false, true))
     }
 
     return view

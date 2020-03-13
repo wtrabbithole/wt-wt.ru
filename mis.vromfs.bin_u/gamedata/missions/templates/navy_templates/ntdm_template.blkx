@@ -277,6 +277,7 @@
             "canCaptureByGM": true,
             "auto_smoke": true,
             "captureNoPenalty": true,
+            "zoneDefenders": [],
             "tags": {
               "air": false,
               "type_hydroplane": true,
@@ -299,6 +300,7 @@
             "canCaptureByGM": true,
             "auto_smoke": true,
             "captureNoPenalty": true,
+            "zoneDefenders": [],
             "tags": {
               "air": false,
               "type_hydroplane": true,
@@ -318,6 +320,37 @@
             },
             {
               "target": "ntdm_ai_indicator"
+            }
+          ]
+        },
+        {
+          "unitSetProperties": [
+            {
+              "object_marking": 0
+            },
+            {
+              "object_var_name": ""
+            },
+            {
+              "object_var_comp_op": "equal"
+            },
+            {
+              "object_var_value": 0
+            },
+            {
+              "object": "@t1_ai_squad_name"
+            },
+            {
+              "object": "@t2_ai_squad_name"
+            },
+            {
+              "targetableByAi": false
+            },
+            {
+              "accuracy": 0.3
+            },
+            {
+              "airAccuracy": 0.8
             }
           ]
         },
@@ -368,7 +401,6 @@
             "func": "more",
             "value": 0,
             "object": "@t1_ai_squad_name",
-            "object_var_value": 0,
             "var": "t1_ai_int"
           }
         },
@@ -400,15 +432,6 @@
             "set": true,
             "target": "@t1_ai_squad_name",
             "team": "Both"
-          },
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "@t1_ai_squad_name",
-            "targetableByAi": false,
-            "accuracy": 0.1
           },
           "triggerDisable": {
             "target": "ntdm_t1_ai_counter"
@@ -469,15 +492,6 @@
             "set": true,
             "target": "@t2_ai_squad_name",
             "team": "Both"
-          },
-          "unitSetProperties": {
-            "object_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0,
-            "object": "@t2_ai_squad_name",
-            "targetableByAi": false,
-            "accuracy": 0.1
           },
           "triggerDisable": {
             "target": "ntdm_t2_ai_counter"

@@ -78,12 +78,14 @@ local platformModule = require("scripts/clientState/platform.nut")
           }
           break
         case "gold":
-          local valStr = ::g_language.decimalFormat(val)
-          local tooltipText = ::getGpPriceText(::colorize("activeTextColor", valStr), true)
+          local moneyInst = ::Money(money_type.none, 0, val)
+          local valStr = moneyInst.toStringWithParams({isGoldAlwaysShown = true})
+
+          local tooltipText = ::colorize("activeTextColor", valStr)
           tooltipText += "\n" + ::loc("mainmenu/gold")
           obj.getParent().tooltip = tooltipText
 
-          obj.setValue(valStr)
+          obj.setValue(moneyInst.toStringWithParams({isGoldAlwaysShown = true, needIcon = false}))
           break
         case "balance":
           local valStr = ::g_language.decimalFormat(val)
@@ -175,9 +177,13 @@ local platformModule = require("scripts/clientState/platform.nut")
   }
 
   local totalText = ""
+  local premAccName = ::shop_get_premium_account_ent_name()
   foreach(name in ["PremiumAccount", "RateWeek"])
   {
-    local expire = ::entitlement_expires_in(name)
+    local entName = name
+    if (entName == "PremiumAccount")
+      entName = premAccName
+    local expire = ::entitlement_expires_in(entName)
     local text = ::loc("mainmenu/noPremium")
     local premPic = "#ui/gameuiskin#sub_premium_noactive"
     if (expire > 0)
@@ -214,7 +220,7 @@ local platformModule = require("scripts/clientState/platform.nut")
   local canHaveFriends = ::has_feature("Friends")
   local canChat = ::has_feature("Chat")
   local is_in_menu = ::isInMenu()
-  local hasPremiumAccount = ::entitlement_expires_in("PremiumAccount") > 0
+  local hasPremiumAccount = ::entitlement_expires_in(premAccName) > 0
 
   local buttonsShowTable = {
                              gc_clanTag = showClanTag

@@ -20,7 +20,7 @@ enum userInfoEventName
   UPDATED = "UserInfoManagerDataUpdated"
 }
 
-g_users_info_manager <- {
+::g_users_info_manager <- {
   MIN_TIME_BETWEEN_SAME_REQUESTS_MSEC = 600000
   MAX_REQUESTED_UID_NUM = 4
 

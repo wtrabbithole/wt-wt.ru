@@ -162,6 +162,11 @@ class BattleTasks
     return ::getTblValue("isActive", task, true)
   }
 
+  function isTaskTimeExpired(task)
+  {
+    return ::g_battle_task_difficulty.getDifficultyTypeByTask(task).isTimeExpired(task)
+  }
+
   function isTaskDone(config)
   {
     if (::u.isEmpty(config))
@@ -192,7 +197,7 @@ class BattleTasks
     return false
   }
 
-  function canActivateTask(task = null)
+  function canActivateTask(task)
   {
     if (!isBattleTask(task))
       return false
@@ -468,6 +473,8 @@ class BattleTasks
       return "complete"
     if (isTaskDone(task))
       return "done"
+    if (isTaskTimeExpired(task))
+      return "failed"
     return null
   }
 
@@ -531,7 +538,7 @@ class BattleTasks
   function getTaskDescription(config = null, paramsCfg = {})
   {
     if (!config)
-      return
+      return null
 
     local task = getTaskById(config)
 
@@ -614,12 +621,15 @@ class BattleTasks
 
   function getRefreshTimeTextForTask(task)
   {
-    local text = ""
-    local timeLeft = ::g_battle_task_difficulty.getDifficultyTypeByTask(task).getTimeLeftText()
-    if (timeLeft != "")
-      text = ::loc("unlocks/_acceptTime") + ::loc("ui/colon") + ::colorize("unlockActiveColor", timeLeft)
+    local diff = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
+    local timeLeft = diff.getTimeLeft(task)
+    if (timeLeft < 0)
+      return ""
 
-    return text
+    local labelText = "".concat(::loc("unlocks/_acceptTime"), ::loc("ui/colon"))
+    if (timeLeft < 30 * time.TIME_MINUTE_IN_SECONDS)
+      labelText = ::colorize("warningTextColor", labelText)
+    return "".concat(labelText,  ::colorize("unlockActiveColor", diff.getTimeLeftText(task)))
   }
 
   function setUpdateTimer(task, taskBlockObj)
@@ -632,24 +642,28 @@ class BattleTasks
 
     local holderObj = taskBlockObj.findObject("task_timer_text")
     if (::checkObj(holderObj) && task)
-      SecondsUpdater(holderObj, (@(task) function(obj, params) {
+      SecondsUpdater(holderObj, function(obj, params) {
         local timeText = ::g_battle_tasks.getRefreshTimeTextForTask(task)
         local isTimeEnded = timeText == ""
         if (isTimeEnded)
-          timeText = ::loc("mainmenu/battleTasks/timeWasted")
+          timeText = ::colorize("badTextColor", ::loc("mainmenu/battleTasks/timeWasted"))
         obj.setValue(timeText)
 
         return isTimeEnded
-      })(task))
+      })
 
     holderObj = taskBlockObj.findObject("tasks_refresh_timer")
     if (::checkObj(holderObj))
       SecondsUpdater(holderObj, function(obj, params) {
-        local timeText = ::g_battle_task_difficulty.EASY.getTimeLeftText()
+        local timeText = ::g_battle_task_difficulty.EASY.getTimeLeftText(task)
         obj.setValue(::loc("ui/parentheses/space", {text = timeText + ::loc("icon/timer")}))
 
         return timeText == ""
       })
+
+    local timeLeft = diff.getTimeLeft(task)
+    if (timeLeft > 0)
+      ::Timer(taskBlockObj, timeLeft + 1, @() diff.notifyTimeExpired(task), this, false, true)
   }
 
   function getUnlockConditionBlock(text, id, mType, isUnlocked, isFinal, hasCustomUnlockableList, typeOR = false, isBitMode = true)
@@ -873,7 +887,7 @@ class BattleTasks
     return false
   }
 
-  function getRewardForTask(battleTaskId)
+  function requestRewardForTask(battleTaskId)
   {
     if (::u.isEmpty(battleTaskId))
       return

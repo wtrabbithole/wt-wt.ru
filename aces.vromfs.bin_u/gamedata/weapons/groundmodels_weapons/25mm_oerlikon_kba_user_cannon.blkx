@@ -48,7 +48,7 @@
     "explosiveMass": 0.032,
     "caliber": 0.025,
     "speed": 1100.0,
-    "maxDistance": 4000.0,
+    "maxDistance": 5000.0,
     "bulletType": "he_i_t",
     "bulletName": "25mm_m792",
     "selfDestructionInAir": true,
@@ -201,7 +201,7 @@
       "explosiveMass": 0.032,
       "caliber": 0.025,
       "speed": 1100.0,
-      "maxDistance": 4000.0,
+      "maxDistance": 5000.0,
       "bulletType": "he_i_t",
       "bulletName": "25mm_m792",
       "selfDestructionInAir": true,
@@ -350,12 +350,20 @@
   "25mm_kba_APDS": {
     "bulletsCartridge": 15,
     "bullet": {
-      "mass": 0.455,
+      "mass": 0.134,
       "caliber": 0.025,
+      "ballisticCaliber": 0.0135,
+      "damageCaliber": 0.0135,
+      "damageMass": 0.134,
+      "Cx": 0.15,
       "speed": 1345.0,
       "maxDistance": 5000.0,
       "bulletType": "apds_autocannon",
       "bulletName": "25mm_m791",
+      "breakingArmorThicknessEffective": true,
+      "breakingArmorThickness": [9.0,50.0],
+      "breakingCriticalSpeed": 1200.0,
+      "breakingDistance": 0.05,
       "nearHitPower": [1.0,200.0],
       "midHitPower": [0.9,500.0],
       "farHitPower": [0.8,1500.0],
@@ -364,15 +372,13 @@
       "ricochetEffect": "bullet_hit_armor",
       "waterCollisionEffect": "water_splash",
       "waterFxScale": [1.4,1.6],
-      "armorpower": {
-        "ArmorPower0m": [110.0,10.0],
-        "ArmorPower100m": [101.0,100.0],
-        "ArmorPower500m": [95.0,500.0],
-        "ArmorPower1000m": [69.0,1000.0],
-        "ArmorPower1500m": [52.0,1500.0],
-        "ArmorPower2000m": [41.0,2000.0],
-        "ArmorPower2500m": [30.0,2500.0],
-        "ArmorPower5000m": [5.0,5000.0]
+      "damage": {
+        "kinetic": {
+          "demarrePenetrationK": 0.65,
+          "demarreSpeedPow": 1.43,
+          "demarreMassPow": 0.71,
+          "demarreCaliberPow": 1.07
+        }
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],

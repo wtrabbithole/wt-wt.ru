@@ -1,6 +1,7 @@
 local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
+local soundDevice = require_native("soundDevice")
 
 local getSystemOptions = @() {
   name = "graphicsParameters"
@@ -60,6 +61,7 @@ local getMainOptions = function()
       [::USEROPT_AUTOPILOT_ON_BOMBVIEW, "spinner"],
       [::USEROPT_AUTOREARM_ON_AIRFIELD, "spinner"],
       [::USEROPT_ACTIVATE_AIRBORNE_RADAR_ON_SPAWN, "spinner"],
+      [::USEROPT_USE_RECTANGULAR_RADAR_INDICATOR, "spinner"],
       [::USEROPT_CROSSHAIR_TYPE, "combobox"],
       [::USEROPT_CROSSHAIR_COLOR, "combobox"],
       [::USEROPT_INDICATEDSPEED, "spinner"],
@@ -72,6 +74,7 @@ local getMainOptions = function()
       [::USEROPT_HUE_HELICOPTER_HUD_ALERT, "spinner"],
       [::USEROPT_HORIZONTAL_SPEED, "spinner"],
       [::USEROPT_HELICOPTER_HELMET_AIM, "spinner", !::is_ps4_or_xbox],
+      [::USEROPT_HELICOPTER_AUTOPILOT_ON_GUNNERVIEW, "spinner"],
 
       ["options/header/tank"],
       [::USEROPT_GRASS_IN_TANK_VISION, "spinner"],
@@ -83,6 +86,9 @@ local getMainOptions = function()
       [::USEROPT_ACTIVATE_GROUND_RADAR_ON_SPAWN, "spinner", ::has_feature("Tanks")],
       [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner", !::is_ps4_or_xbox && !::is_platform_android],
+      // show option by code != -1 need for compatibility with 1_93_0_X
+      // TODO: remove after 1_93_0_X
+      [::USEROPT_SHOW_COMPASS_IN_TANK_HUD, "spinner", OPTION_SHOW_COMPASS_IN_TANK_HUD != -1],
 
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! ::is_in_flight()],
@@ -94,7 +100,8 @@ local getMainOptions = function()
       [::USEROPT_BULLET_FALL_INDICATOR_SHIP, "spinner", ::has_feature("Ships")],
       [::USEROPT_BULLET_FALL_SOUND_SHIP, "spinner", ::has_feature("Ships")],
       [::USEROPT_AUTO_TARGET_CHANGE_SHIP, "spinner", ::has_feature("Ships")],
-      [::USEROPT_REALISTIC_AIMING_SHIP, "spinner", ::has_feature("Ships")],
+      [::USEROPT_REALISTIC_AIMING_SHIP, "spinner", ::has_feature("Ships")
+        && (!::is_in_flight() || ::get_mission_difficulty() == ::g_difficulty.ARCADE.gameTypeName)],
       // TODO: separate from tank [::USEROPT_TACTICAL_MAP_SIZE, "slider"],
       // TODO: separate from tank [::USEROPT_MAP_ZOOM_BY_LEVEL, "spinner"],
 
@@ -173,6 +180,12 @@ local getMainOptions = function()
         contentPreset.getContentPresets().len() &&
         ::g_difficulty.SIMULATOR.isAvailable(::GM_DOMINATION)],
 
+      ["options/header/privacy", null, ::has_feature("PrivacySettings")],
+      [::USEROPT_REPLACE_MY_NICK_LOCAL, "editbox", ::has_feature("PrivacySettings")],
+      [::USEROPT_SHOW_SOCIAL_NOTIFICATIONS, "spinner", ::has_feature("PrivacySettings")],
+      [::USEROPT_ALLOW_ADDED_TO_CONTACTS, "spinner", ::has_feature("PrivacySettings")],
+      [::USEROPT_ALLOW_ADDED_TO_LEADERBOARDS, "spinner", ::has_feature("PrivacySettings")],
+
       ["options/header/otherOptions"],
       [::USEROPT_MENU_SCREEN_SAFE_AREA, "spinner", safeAreaMenu.canChangeValue()],
       [::USEROPT_SUBTITLES, "spinner"],
@@ -186,9 +199,10 @@ local getSoundOptions = @() {
   name = "sound"
   options = [
     [::USEROPT_SOUND_ENABLE, "switchbox", ::is_platform_pc],
+    [::USEROPT_SOUND_DEVICE_OUT, "combobox", ::is_platform_pc && soundDevice.sound_get_device_out_count()],
     [::USEROPT_SOUND_SPEAKERS_MODE, "combobox", ::is_platform_pc],
     [::USEROPT_VOICE_MESSAGE_VOICE, "spinner"],
-    [::USEROPT_SPEECH_TYPE "spinner", ! ::is_in_flight()],
+    [::USEROPT_SPEECH_TYPE, "spinner", ! ::is_in_flight()],
     [::USEROPT_VOLUME_MASTER, "slider"],
     [::USEROPT_VOLUME_MUSIC, "slider"],
     [::USEROPT_VOLUME_MENU_MUSIC, "slider"],
@@ -199,7 +213,8 @@ local getSoundOptions = @() {
     [::USEROPT_VOLUME_RADIO, "slider"],
     [::USEROPT_VOLUME_DIALOGS, "slider"],
     [::USEROPT_VOLUME_TINNITUS, "slider"],
-    [::USEROPT_HANGAR_SOUND, "spinner"]
+    [::USEROPT_HANGAR_SOUND, "spinner"],
+    [::USEROPT_PLAY_INACTIVE_WINDOW_SOUND, "spinner", ::is_platform_pc]
   ]
 }
 

@@ -1,7 +1,7 @@
 // -------------------------------------------------------
 // Clusters managment
 // -------------------------------------------------------
-g_clusters <- {
+::g_clusters <- {
   clusters_info = []
 
   function forceUpdateClustersList()
@@ -24,7 +24,7 @@ g_clusters <- {
 
     clusters_info.clear()
     foreach (idx, val in params.clusters)
-      clusters_info.push({name = val})
+      clusters_info.append({name = val})
     //TODO: need to update clusters in GUI
 
     return clusters_info.len() > 0
@@ -47,7 +47,7 @@ g_clusters <- {
         }
         if (!found)
         {
-          clusters_info.push({name = cluster})
+          clusters_info.append({name = cluster})
           dagor.debug("[MM] cluster added " + cluster)
         }
       }
@@ -130,7 +130,7 @@ g_clusters <- {
 
   function getClusterLocName(clusterName)
   {
-    if (clusterName.find("wthost") != null)
+    if (clusterName.indexof("wthost") != null)
       return clusterName
     return ::loc("cluster/" + clusterName)
   }

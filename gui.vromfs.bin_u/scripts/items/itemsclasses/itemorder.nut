@@ -130,7 +130,7 @@ class ::items_classes.Order extends ::BaseItem
       {
         local difficulty = ::g_difficulty.getDifficultyByName(diffName)
         if (difficulty != ::g_difficulty.UNKNOWN)
-          disabledDifficulties.push(difficulty)
+          disabledDifficulties.append(difficulty)
       }
     }
     awardMode = ::g_order_award_mode.getAwardModeByOrderParams(blk)
@@ -176,7 +176,7 @@ class ::items_classes.Order extends ::BaseItem
         if (missionPostfix == null)
           return true
         local stringIndex = missionName.len() - missionPostfix.len()
-        return missionName.find(missionPostfix, stringIndex) != stringIndex
+        return missionName.indexof(missionPostfix, stringIndex) != stringIndex
 
       // More restrictions types to come...
     }
@@ -246,7 +246,7 @@ class ::items_classes.Order extends ::BaseItem
     local disabledItems = u.map(disabledDifficulties, function (diff) {
       return ::loc("options/" + diff.name)
     })
-    disabledItems.push(::loc("mainmenu/events"))
+    disabledItems.append(::loc("mainmenu/events"))
     description += ::colorize("grayOptionColor", ::loc("items/order/disabledDifficulties")
       + ::loc("ui/colon") + ::g_string.implode(disabledItems, ", "))
 

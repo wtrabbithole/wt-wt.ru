@@ -55,7 +55,7 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
     local limit = ::g_unit_limit_classes.ActiveLimitByUnitExpClass(
                     expClassName,
                     activeAtOnce,
-                    getCurActiveExpClassAmount(expClassName)
+                    { distributed = getCurActiveExpClassAmount(expClassName) }
                  )
     return limit.getText()
   }
@@ -152,15 +152,18 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
       }
     }
 
+    local unitsGroups = getUnitsGroups()
     local blk = ::getTblValue("limitedUnits", myTeamDataBlk)
     if (::u.isDataBlock(blk))
       for(local i = 0; i < blk.paramCount(); i++)
-        res.unitLimits.append(::g_unit_limit_classes.LimitByUnitName(blk.getParamName(i), blk.getParamValue(i)))
+        res.unitLimits.append(::g_unit_limit_classes.LimitByUnitName(blk.getParamName(i), blk.getParamValue(i),
+          { nameLocId = unitsGroups?[blk.getParamName(i)] }))
 
     blk = ::getTblValue("unlimitedUnits", myTeamDataBlk)
     if (::u.isDataBlock(blk))
       for(local i = 0; i < blk.paramCount(); i++)
-        res.unitLimits.append(::g_unit_limit_classes.LimitByUnitName(blk.getParamName(i), ::RESPAWNS_UNLIMITED))
+        res.unitLimits.append(::g_unit_limit_classes.LimitByUnitName(blk.getParamName(i), ::RESPAWNS_UNLIMITED,
+          { nameLocId = unitsGroups?[blk.getParamName(i)] }))
 
     local activeLimitsBlk = ::getTblValue("limitedActiveClasses", myTeamDataBlk)
     if (::u.isDataBlock(activeLimitsBlk))
@@ -188,7 +191,7 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
           ::g_unit_limit_classes.ActiveLimitByUnitExpClass(
             expClassName,
             maxAmount,
-            ::getTblValue(expClassName, activeBlk, 0)
+            { distributed = activeBlk?[expClassName] ?? 0 }
           )
         )
     }

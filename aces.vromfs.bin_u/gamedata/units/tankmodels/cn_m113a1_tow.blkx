@@ -131,7 +131,7 @@
   {
     "ikGunner": [
       {
-        "model": "us_gunner_char"
+        "model": "chinese_gunner_char"
       },
       {
         "maxHeadHorAngle": 60.0
@@ -207,7 +207,7 @@
   {
     "ikGunner": [
       {
-        "model": "us_gunner_char"
+        "model": "chinese_gunner_char"
       },
       {
         "maxHeadHorAngle": 60.0
@@ -283,7 +283,7 @@
   {
     "ikGunner": [
       {
-        "model": "us_gunner_officer_char"
+        "model": "chinese_gunner_char"
       },
       {
         "maxHeadHorAngle": 60.0
@@ -359,7 +359,7 @@
   {
     "ikGunner": [
       {
-        "model": "us_gunner_char"
+        "model": "chinese_gunner_char"
       },
       {
         "maxHeadHorAngle": 60.0
@@ -435,7 +435,7 @@
   {
     "ikGunner": [
       {
-        "model": "us_gunner_char"
+        "model": "chinese_gunner_char"
       },
       {
         "maxHeadHorAngle": 60.0
@@ -587,10 +587,10 @@
   {
     "DamageParts": {
       "formatVersion": 2,
-      "armorClass": "aluminum_armor_7039",
+      "armorClass": "aluminum_armor_5083",
       "hp": 10000.0,
       "armor_al_7039": {
-        "armorClass": "aluminum_armor_7039",
+        "armorClass": "aluminum_armor_5083",
         "body_side_dm": {
           "armorThickness": 44.0
         },
@@ -2177,6 +2177,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "suspension": [
@@ -2298,6 +2306,14 @@
             "conditionDamageType": "generic",
             "expl": 1.0,
             "conditionDamage": 750.0,
+            "kill": true,
+            "killEffect": "fire"
+          }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
             "kill": true,
             "killEffect": "fire"
           }

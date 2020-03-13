@@ -206,7 +206,7 @@ class ::gui_handlers.NextTutorialHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   local usePresetFileName = ""
   local preset = ::g_controls_presets.getCurrentPreset()
-  if (preset.name.find("hotas4") != null
+  if (preset.name.indexof("hotas4") != null
       && ::check_joystick_thustmaster_hotas(false)
       && ! ::has_feature("DisableSwitchPresetOnTutorialForHotas4"))
     {

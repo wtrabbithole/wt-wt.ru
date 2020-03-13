@@ -1,7 +1,10 @@
 local time = require("scripts/time.nut")
+
 ::uploadLimit <- 3
 ::on_screenshot_saved <- null
 ::after_facebook_login <- null
+
+const FACEBOOK_UPLOADS_SAVE_ID = "facebook/uploads"
 
 ::make_screenshot_and_do <- function make_screenshot_and_do(func, handler)
 {
@@ -43,21 +46,12 @@ local time = require("scripts/time.nut")
 {
   if (path == "")
     return
-  dagor.debug("UPLOAD: " + path)
-  local cdb = ::get_local_custom_settings_blk();
+  dagor.debug("FACEBOOK UPLOAD: " + path)
 
-  if (cdb?.facebook == null)
-    cdb.facebook = ::DataBlock()
-  if (cdb.facebook?.uploads == null)
-    cdb.facebook.uploads = ::DataBlock()
-
-  local ltm = ::get_utc_time_from_t(::get_charserver_time_sec())
-  local curDate = ltm.year +"/"+ ltm.month +"/"+ ltm.day;
-  local postDate = cdb.facebook.uploads?.postDate ?? ""
-  local uploads = cdb.facebook.uploads % "path";
-
-  if (curDate == postDate)
+  local uploadsBlk = ::load_local_account_settings(FACEBOOK_UPLOADS_SAVE_ID) ?? ::DataBlock()
+  if (uploadsBlk?.postDate == time.getUtcDays())
   {
+    local uploads = uploadsBlk % "path"
     if (uploads.len() >= uploadLimit)
     {
       local msgText = format(::loc("facebook/error_upload_limit"), uploadLimit);
@@ -73,7 +67,7 @@ local time = require("scripts/time.nut")
         }
   }
   else
-    cdb.facebook.removeBlock("uploads");
+    ::save_local_account_settings(FACEBOOK_UPLOADS_SAVE_ID, null)
 
   ::scene_msg_box("facebook_login", null, ::loc("facebook/uploading"),
     [["cancel", function() {}]], "cancel", {cancel_fn = function() {}, waitAnim=true, delayedButtons = 10})
@@ -86,21 +80,11 @@ local time = require("scripts/time.nut")
   if (path == "")
     return
 
-  local cdb = ::get_local_custom_settings_blk();
-  if (cdb?.facebook == null)
-    cdb.facebook = ::DataBlock()
-  if (cdb.facebook?.uploads == null)
-    cdb.facebook.uploads = ::DataBlock()
-  cdb.facebook.uploads.path <- path
-
-  if (cdb.facebook.uploads?.postDate == null)
-  {
-    local ltm = ::get_utc_time_from_t(::get_charserver_time_sec())
-    local date = ltm.year +"/"+ ltm.month +"/"+ ltm.day;
-    cdb.facebook.uploads.postDate = date;
-  }
-
-  save_profile(false);
+  local uploadsBlk = ::load_local_account_settings(FACEBOOK_UPLOADS_SAVE_ID) ?? ::DataBlock()
+  uploadsBlk.path <- path // adding new slot
+  if (type(uploadsBlk?.postDate) != "integer")
+    uploadsBlk.postDate = time.getUtcDays()
+  ::save_local_account_settings(FACEBOOK_UPLOADS_SAVE_ID, uploadsBlk)
 
   if (::current_base_gui_handler)
     ::current_base_gui_handler.msgBox("facebook_finish_upload_screenshot", ::loc("facebook/successUpload"), [["ok"]], "ok")

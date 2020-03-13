@@ -9,7 +9,8 @@ local battlesFilters = [
     needWrapNavigation = true
     list = []
     visibleFilterByUnitTypeMasks = [::g_unit_type.AIRCRAFT.bit, ::g_unit_type.TANK.bit,
-      ::g_unit_type.AIRCRAFT.bit | ::g_unit_type.TANK.bit]
+      ::g_unit_type.SHIP.bit, ::g_unit_type.AIRCRAFT.bit | ::g_unit_type.TANK.bit,
+      ::g_unit_type.AIRCRAFT.bit | ::g_unit_type.SHIP.bit]
     checkChangeValue = function(filterBitMasks, newFilterBitMasks, apply, cancel) {
       local id = "by_unit_type"
       local filterMasks = filterBitMasks?[id] ?? {}

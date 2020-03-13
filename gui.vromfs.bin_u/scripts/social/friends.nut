@@ -1,4 +1,4 @@
-local psnApi = require("scripts/social/psnWebApi.nut")
+local psn = require("ps4Lib/webApi.nut")
 
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
@@ -11,26 +11,29 @@ local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 
 local isFirstPs4FriendsUpdate = true
 
-::addSocialFriends <- function addSocialFriends(blk, group, silent = false)
+::addSocialFriends <- function addSocialFriends(blk, groupName, silent = false)
 {
-  local addedFriendsNumber = 0
-  local resultMessage = ""
-  local players = {}
+  local players = []
 
   foreach(userId, info in blk)
-    players[userId] <- info.nick
+  {
+    local contact = ::getContact(userId, info.nick)
+    if (contact)
+      players.append(contact)
+  }
 
+  local addedFriendsNumber = 0
   if (players.len())
   {
-    if(!isInArray(group, ::contacts_groups))
-      ::addContactGroup(group)
-    addedFriendsNumber = ::addPlayersToContacts(players, group)
+    ::addContactGroup(groupName)
+    addedFriendsNumber = ::edit_players_list_in_contacts({[true] = players}, groupName)
   }
 
   ::on_facebook_destroy_waitbox()
   if (silent)
     return
 
+  local resultMessage = ""
   if (addedFriendsNumber == 0)
     resultMessage = ::loc("msgbox/no_friends_added");
   else if (addedFriendsNumber == 1)
@@ -125,41 +128,35 @@ local isFirstPs4FriendsUpdate = true
   if (::is_platform_ps4 && ::dagor.getCurTime() - ::last_update_ps4_friends > ::PS4_UPDATE_TIMER_LIMIT)
   {
     ::last_update_ps4_friends = ::dagor.getCurTime()
-    ::getPS4FriendsFromIndex(0)
-  }
-}
-
-::getPS4FriendsFromIndex <- function getPS4FriendsFromIndex(index)
-{
-  local cb = function(response, err) {
-    if (err)
-      return
-    if (index == 0 && ::isInArray(::EPLX_PS4_FRIENDS, ::contacts_groups)) // Initial chunk of friends from WebAPI
+    if (::isInArray(::EPLX_PS4_FRIENDS, ::contacts_groups))
       ::resetPS4ContactsGroup()
-
-    local size = (response?.size || 0) + (response?.start || 0)
-    local endIndex = size >= (response?.totalResults || 0) ? 0 : size
-
-    ::addContactGroup(::EPLX_PS4_FRIENDS)
-    ::processPS4FriendsFromArray((response?.friendList || []), endIndex)
-    ::broadcastEvent(contactEvent.CONTACTS_UPDATED)
+    ::requestPS4Friends()
   }
-  psnApi.send(psnApi.profile.listFriends(index, ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS), cb)
 }
 
-::processPS4FriendsFromArray <- function processPS4FriendsFromArray(ps4FriendsArray, lastIndex)
+::requestPS4Friends <- function requestPS4Friends()
 {
-  foreach (idx, playerBlock in ps4FriendsArray)
-  {
-    local name = "*" + playerBlock.user.onlineId
-    ::ps4_console_friends[name] <- playerBlock.user
-    ::ps4_console_friends[name].presence <- playerBlock.presence
-  }
+  local onSomeFriendsReceived = function(response, err) {
+    local size = (response?.size || 0) + (response?.start || 0)
+    local total = response?.totalResults || size
+    ::addContactGroup(::EPLX_PS4_FRIENDS)
+    if (!err)
+    {
+      foreach (idx, playerBlock in (response?.friendList || []))
+      {
+        local name = "*" + playerBlock.user.onlineId
+        ::ps4_console_friends[name] <- playerBlock.user
+        ::ps4_console_friends[name].presence <- playerBlock.presence
+      }
+    }
 
-  if (ps4FriendsArray.len() == 0 || lastIndex == 0)
-    ::movePS4ContactsToSpecificGroup()
-  else
-    ::getPS4FriendsFromIndex(lastIndex)
+    if (err || size >= total)
+    {
+      ::movePS4ContactsToSpecificGroup()
+      ::broadcastEvent(contactEvent.CONTACTS_UPDATED)
+    }
+  }
+  psn.fetch(psn.profile.listFriends(), onSomeFriendsReceived, ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS)
 }
 
 ::resetPS4ContactsGroup <- function resetPS4ContactsGroup()

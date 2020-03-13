@@ -26,8 +26,7 @@ local u = require("u.nut")
 local assertFunc = function(callback, errorText) { throw(errorText) }
 local getDbgName = @(context) typeof context
 
-local Callback = class
-{
+local Callback = class {
   refToContext = null
   hasContext = false
   callbackFn = null
@@ -35,8 +34,7 @@ local Callback = class
 
   isToStringForDebug = true
 
-  constructor(callback_function, context = null)
-  {
+  constructor(callback_function, context = null) {
     callbackFn = callback_function
 
     if (context)
@@ -45,48 +43,40 @@ local Callback = class
     valid = true
   }
 
-  function setContext(context)
-  {
+  function setContext(context) {
     callbackFn = callbackFn.bindenv(context)
     refToContext = context.weakref()
     hasContext = true
   }
 
-  function isValid()
-  {
+  function isValid() {
     return isContextValid() && valid
   }
 
-  function markInvalid()
-  {
+  function markInvalid() {
     valid = false
   }
 
-  function getContextDbgName()
-  {
+  function getContextDbgName() {
     if (!hasContext)
       return "null"
     return getDbgName(refToContext)
   }
 
-  function tostring()
-  {
+  function tostring() {
     return ::format("Callback( context = %s)", getContextDbgName())
   }
 
   /**
    * Check Call a callback function
    */
-  function _call(origin_this, ...)
-  {
-    try
-    {
+  function _call(origin_this, ...) {
+    try {
       if (!isContextValid())
         return
       return callbackFn.acall([origin_this].extend(vargv))
     }
-    catch (err)
-    {
+    catch (err) {
       assertFunc(this, err)
     }
   }
@@ -94,24 +84,20 @@ local Callback = class
   /**
    * Check Call a callback function
    */
-  function call(origin_this, ...)
-  {
-    try
-    {
+  function call(origin_this, ...) {
+    try {
       if (!isContextValid())
         return
       return callbackFn.acall([origin_this].extend(vargv))
     }
-    catch (err)
-    {
+    catch (err) {
       assertFunc(this, err)
     }
   }
 
   /***************************** Private methods ******************************/
 
-  function isContextValid()
-  {
+  function isContextValid() {
     if (!hasContext)
       return true
 
@@ -125,8 +111,7 @@ local Callback = class
   }
 }
 
-local function make(func, context = null)
-{
+local function make(func, context = null) {
   if (u.isCallback(func))
     return func
   if (typeof func == "function")

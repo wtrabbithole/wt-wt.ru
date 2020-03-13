@@ -20,7 +20,8 @@
   function init()
   {
     foreach(country in ::shopCountriesList)
-      initCountry(country)
+      if (::isCountryAvailable(country))
+        initCountry(country)
 
     saveAllCountries() // maintenance
   }
@@ -43,13 +44,13 @@
       {
         if (taskData.airName == "")
           continue
-        preset.units.push(taskData.airName)
-        preset.crews.push(taskData.crewId)
+        preset.units.append(taskData.airName)
+        preset.crews.append(taskData.crewId)
         if (preset.selected == -1)
           preset.selected = taskData.crewId
       }
       _updateInfo(preset)
-      presets[presetDataItem.country].push(preset)
+      presets[presetDataItem.country].append(preset)
 
       local presetIndex = presets[presetDataItem.country].len() - 1
       presetDataItem.presetIndex <- presetIndex
@@ -64,6 +65,9 @@
     // Attempting to select preset with selected unit type for each country.
     foreach(country in ::shopCountriesList)
     {
+      if (!::isCountryAvailable(country))
+        continue
+
       local presetDataItem = getPresetDataByCountryAndUnitType(newbiePresetsData, country, newbiePresetsData.selectedUnitType)
       selected[country] <- ::getTblValue("presetIndex", presetDataItem, 0)
     }
@@ -193,7 +197,7 @@
     local result = []
     foreach (unitType, typeStatus in ::getTblValue(country, activeTypeBonusByCountry, {}))
       if( ! typeStatus)
-        result.push(unitType)
+        result.append(unitType)
     return result
   }
 
@@ -335,7 +339,8 @@
   {
     local hasChanges = false
     foreach(countryId in ::shopCountriesList)
-      hasChanges = save(countryId, false) || hasChanges
+      if (::isCountryAvailable(countryId))
+        hasChanges = save(countryId, false) || hasChanges
     if (hasChanges)
       ::save_profile_offline_limited(true)
   }
@@ -673,21 +678,28 @@
       return null
 
     ::init_selected_crews()
-    preset.units = []
-    preset.crews = []
+    local units = []
+    local crews = []
+    local selected = preset.selected
     foreach (tbl in ::g_crews_list.get())
       if (tbl.country == countryId)
       {
         foreach (crew in tbl.crews)
           if (("aircraft" in crew))
           {
-            preset.units.append(crew.aircraft)
-            preset.crews.append(crew.id)
-            if (preset.selected == -1 || crew.idInCountry == ::selected_crews[crew.idCountry])
-              preset.selected = crew.id
+            units.append(crew.aircraft)
+            crews.append(crew.id)
+            if (selected == -1 || crew.idInCountry == ::selected_crews[crew.idCountry])
+              selected = crew.id
           }
       }
 
+    if (units.len() == 0 || crews.len() == 0) //not found crews and units for country
+      return preset                           //so not need update preset from slotbar
+
+    preset.units = units
+    preset.crews = crews
+    preset.selected = selected
     _updateInfo(preset)
     return preset
   }

@@ -117,7 +117,7 @@
                           "id": "profile-currentUser-title",
                           "showAsButton": "yes",
                           "smallFont": "yes",
-                          "on_click": "getNewTitles",
+                          "on_click": "openChooseTitleWnd",
                           "margin-top": "3@dp",
                           "max-width": "pw",
                           "hideEmptyText": "yes",
@@ -399,9 +399,8 @@
             "position": "absolute",
             "background-rotation": "0"
           },
-          "dummy": {
+          "timer": {
             "id": "profile_update",
-            "behavior": "Timer",
             "timer_handler_func": "onUpdate"
           }
         }
@@ -723,7 +722,7 @@
                 "text": "#mainmenu/btnGetLink",
                 "tooltip": "#mainmenu/getLinkDesc",
                 "btnName": "L3",
-                "_on_click": "getPlayerLink",
+                "_on_click": "openViralAcquisitionWnd",
                 "ButtonImg": []
               }
             },
@@ -1433,7 +1432,7 @@
                   "width": "1@bottomGcWidth"
                 },
                 {
-                  "height": "1@gamercardHeight"
+                  "height": "ph"
                 },
                 {
                   "pos": "pw/2 - w/2, ph/2 - h/2"
@@ -1444,7 +1443,7 @@
                 {
                   "tdiv": {
                     "id": "gamercard_bottom_left",
-                    "height": "ph",
+                    "height": "1@gamercardHeight",
                     "class": "header",
                     "width": "fw",
                     "bottomNavPlace": {
@@ -1456,7 +1455,8 @@
                     "tdiv": {
                       "id": "slotbar-presetsPlace",
                       "size": "pw, ph",
-                      "position": "absolute"
+                      "position": "absolute",
+                      "pos": "1@dp, 0"
                     }
                   }
                 },
@@ -1510,7 +1510,8 @@
                 {
                   "gcButtonsHolder": {
                     "id": "gamercard_squad_widget",
-                    "pos": "0, 0.5(ph-h)",
+                    "position": "relative",
+                    "top": "0.5(ph-h)",
                     "margin-right": "2@buttonTextPadding",
                     "class": "header",
                     "behaviour": "wrapNavigator",
@@ -1526,6 +1527,12 @@
                   "gcButtonsHolder": [
                     {
                       "id": "gamercard_bottom_right"
+                    },
+                    {
+                      "position": "relative"
+                    },
+                    {
+                      "top": "0.5(ph-h)"
                     },
                     {
                       "class": "header"

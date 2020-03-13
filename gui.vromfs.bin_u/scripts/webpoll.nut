@@ -12,16 +12,22 @@ const VOTED_POLLS_SAVE_ID = "voted_polls"
 
 g_webpoll.loadVotedPolls <- function loadVotedPolls()
 {
+  if (!::g_login.isProfileReceived())
+    return
   votedPolls = ::load_local_account_settings(VOTED_POLLS_SAVE_ID, ::DataBlock())
 }
 
 g_webpoll.saveVotedPolls <- function saveVotedPolls()
 {
+  if (!::g_login.isProfileReceived())
+    return
   ::save_local_account_settings(VOTED_POLLS_SAVE_ID, votedPolls)
 }
 
 g_webpoll.getVotedPolls <- function getVotedPolls()
 {
+  if (!::g_login.isProfileReceived())
+    return ::DataBlock()
   if (votedPolls == null)
     loadVotedPolls()
   return votedPolls
@@ -43,8 +49,8 @@ g_webpoll.webpollEvent <- function webpollEvent(id, token, voted)
     ::set_blk_value_by_path(getVotedPolls(), id, true)
     saveVotedPolls()
   }
-  if (authorizedPolls.find(id) == null)
-    authorizedPolls.push(id)
+  if (authorizedPolls.indexof(id) == null)
+    authorizedPolls.append(id)
   ::broadcastEvent("WebPollAuthResult", {pollId = id})
 }
 
@@ -100,7 +106,7 @@ g_webpoll.generatePollUrl <- function generatePollUrl(pollId, needAuthorization 
     return ""
   }
 
-  if (authorizedPolls.find(pollId.tostring()) != null)
+  if (authorizedPolls.indexof(pollId.tostring()) != null)
   {
     local url = ::loc("url/webpoll_url",
       { base_url = pollBaseUrl, survey_id = pollId, disposable_token = cachedToken })
@@ -129,12 +135,22 @@ g_webpoll.clearOldVotedPolls <- function clearOldVotedPolls(pollsTable)
   saveVotedPolls()
 }
 
-g_webpoll.onEventSignOut <- function onEventSignOut(p)
+g_webpoll.invalidateData <- function invalidateData()
 {
   votedPolls = null
   authorizedPolls.clear()
   invalidateTokensCache()
   pollIdByFullUrl.clear()
+}
+
+g_webpoll.onEventLoginComplete <- function onEventLoginComplete(p)
+{
+  invalidateData()
+}
+
+g_webpoll.onEventSignOut <- function onEventSignOut(p)
+{
+  invalidateData()
 }
 
 g_webpoll.setPollBaseUrl <- function setPollBaseUrl(pollId, pollUrl)

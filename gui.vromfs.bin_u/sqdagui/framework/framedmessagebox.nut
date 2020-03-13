@@ -60,7 +60,7 @@ class ::gui_handlers.FramedMessageBox extends ::BaseGuiHandler
     if (!::checkObj(obj))
       return
 
-    align = ::g_dagui_utils.setPopupMenuPosAndAlign(pos || getDefaultPos(), align, obj {
+    align = ::g_dagui_utils.setPopupMenuPosAndAlign(pos || getDefaultPos(), align, obj, {
       screenBorders = [ "1@bw", "1@bottomBarHeight" ]
     })
     obj.animation = "show"

@@ -111,6 +111,9 @@
     "canReloadNonGuns": true
   },
   {
+    "autoSightDistanceCorrection": true
+  },
+  {
     "controlDevices": [
       {
         "device": {
@@ -185,6 +188,17 @@
         }
       }
     ]
+  },
+  {
+    "attachables": {
+      "cd_body_dm": true,
+      "cd_turret_dm": true,
+      "ex_decor_26_dm": true,
+      "ex_decor_21_dm": true,
+      "ex_decor_22_dm": true,
+      "ex_decor_23_dm": true,
+      "ex_decor_28_dm": true
+    }
   },
   {
     "sound": {
@@ -1887,6 +1901,9 @@
         "turret_03_front_dm": {
           "armorThickness": 8.0
         },
+        "ex_armor_04_dm": {
+          "armorThickness": 8.0
+        },
         "ex_armor_body_01_dm": {
           "armorThickness": 8.0,
           "armorClass": "tank_structural_steel"
@@ -2482,10 +2499,22 @@
         "neutralGearRatio": 10.0,
         "gearRatios": [
           {
-            "ratio": -2.58
+            "ratio": -1.101
           },
           {
-            "ratio": -4.61
+            "ratio": -1.2
+          },
+          {
+            "ratio": -1.667
+          },
+          {
+            "ratio": -2.6
+          },
+          {
+            "ratio": -4.64
+          },
+          {
+            "ratio": -6.0
           },
           {
             "ratio": 0.0

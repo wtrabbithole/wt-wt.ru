@@ -91,11 +91,11 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
             slides = []
           }
           part.event <- partBlock.getStr("event", "")
-          for (local idx = part.event.find("/"); idx; )
+          for (local idx = part.event.indexof("/"); idx; )
             if (idx != null)
             {
               part.event = part.event.slice(0, idx)+"_"+part.event.slice(idx+1)
-              idx = part.event.find("/")
+              idx = part.event.indexof("/")
             }
           part.voiceLen <- ::loading_get_voice_len(part.event) //-1 if there's no sound
           dagor.debug("voice "+part.event+" len "+part.voiceLen.tostring())

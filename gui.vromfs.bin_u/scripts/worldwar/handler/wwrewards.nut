@@ -5,7 +5,7 @@ class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
   wndType      = handlerType.MODAL
   sceneBlkName = "gui/clans/clanSeasonInfoModal.blk"
 
-  isPlayerRewards = false
+  isClanRewards = false
   rewardsBlk = null
   rewardsTime = 0
   lbMode    = null
@@ -24,7 +24,7 @@ class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
 
     local wndTitle = ::g_string.implode([
       (lbMode ? ::loc("worldwar/leaderboard/" + lbMode) : ""),
-      (lbDay ? ::loc("enumerated_day", {number=lbDay}) : isPlayerRewards ? ::loc("worldwar/allSeason") : ""),
+      (lbDay ? ::loc("enumerated_day", {number=lbDay}) : !isClanRewards ? ::loc("worldwar/allSeason") : ""),
       (lbMap ? lbMap.getNameText() : ::loc("worldwar/allMaps")),
       (lbCountry ? ::loc(lbCountry) : ::loc("worldwar/allCountries")),
     ], ::loc("ui/comma")) + " " + ::loc("ui/mdash") + " " + ::loc("worldwar/btn_rewards")
@@ -111,7 +111,7 @@ class ::gui_handlers.WwRewards extends ::gui_handlers.BaseGuiHandlerWT
       rewardsList = ::u.map(rewards, function(reward) {
         local rewardRowView = {
           title = getRewardTitle(reward.tillPlace, prevPlace)
-          condition = getPlaceText(reward.tillPlace, prevPlace, !isPlayerRewards)
+          condition = getPlaceText(reward.tillPlace, prevPlace, isClanRewards)
         }
         prevPlace = reward.tillPlace
 

@@ -4,7 +4,7 @@ local u = ::require("sqStdLibs/helpers/u.nut")
 ItemsRoulette API:
   resetData() - rewrite params for future usage;
   reinitParams() - gather outside params once, eg. gui.blk;
-  getDebugData() - print debug data into log;
+  logDebugData() - print debug data into log;
 
   init - main launch function;
   fillDropChances() - calculate drop chances for items;
@@ -84,7 +84,7 @@ ItemsRoulette.reinitParams <- function reinitParams()
   }
 }
 
-ItemsRoulette.getDebugData <- function getDebugData()
+ItemsRoulette.logDebugData <- function logDebugData()
 {
   ::dagor.debug("ItemsRoulette: Print debug data of previously finished roulette")
   debugTableData(::ItemsRoulette.debugData, {recursionLevel = 10})
@@ -236,13 +236,13 @@ ItemsRoulette.getUniqueTableKey <- function getUniqueTableKey(rewardBlock)
 {
   if (!rewardBlock)
   {
-    ::ItemsRoulette.getDebugData()
+    ::ItemsRoulette.logDebugData()
     ::dagor.assertf(false, "Bad block for unique key")
     return ""
   }
 
   local tKey = ::trophyReward.getType(rewardBlock)
-  local tVal = rewardBlock?[tKey]
+  local tVal = rewardBlock?[tKey] ?? ""
   return tKey + "_" + tVal
 }
 
@@ -500,8 +500,8 @@ ItemsRoulette.showTopPrize <- function showTopPrize(rewardsArray)
   if (topPrizeLayout == "" && isGotTopPrize)
     topPrizeLayout = ::g_string.implode(::u.map(getCurrentReward(rewardsArray), @(p) p.layout))
 
-   if (topPrizeLayout == "")
-     return
+  if (topPrizeLayout == "")
+    return
 
   local obj = ::check_obj(rouletteObj) && rouletteObj.findObject("roulette_slot_" + insertRewardIdx)
   if (!::check_obj(obj))
@@ -539,7 +539,7 @@ ItemsRoulette.createItemsMarkup <- function createItemsMarkup(completeArray)
 
 ItemsRoulette.getRewardLayout <- function getRewardLayout(block, shouldOnlyImage = false)
 {
-  local config = ::getTblValueByPath("reward.reward", block, block)
+  local config = block?.reward.reward ?? block
   local rType = ::trophyReward.getType(config)
   if (::trophyReward.isRewardItem(rType))
     return ::trophyReward.getImageByConfig(config, shouldOnlyImage, "roulette_item_place")

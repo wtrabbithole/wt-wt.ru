@@ -2,6 +2,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
 local unitInfoTexts = require("scripts/unit/unitInfoTexts.nut")
+local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
 
 
 local UNIT_INFO_ARMY_TYPE  = {
@@ -407,7 +408,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.AIR
     addToExportDataBlock = function(blk, unit)
     {
-      local item = {id = "maxSpeed", id2 = "speed", prepareTextFunc = function(value){return ::countMeasure(0, value)}}
+      local item = {id = "maxSpeed", id2 = "speed", prepareTextFunc = @(value) countMeasure(0, value)}
       addToBlkFromParams(blk, unit, item)
     }
   }
@@ -421,7 +422,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local valueText = ::DataBlock()
       foreach(diff in ::g_difficulty.types)
         if (diff.egdCode != ::EGD_NONE)
-          valueText[diff.getEgdName()] = ::countMeasure(1, unit.shop.maxSpeedAlt)
+          valueText[diff.getEgdName()] = countMeasure(1, unit.shop.maxSpeedAlt)
       return valueText
     }
   }
@@ -446,7 +447,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
 
     addToExportDataBlock = function(blk, unit)
     {
-      local item = {id = "climbSpeed", id2 = "climb", prepareTextFunc = function(value){return ::countMeasure(3, value)}}
+      local item = {id = "climbSpeed", id2 = "climb", prepareTextFunc = @(value) countMeasure(3, value)}
       addToBlkFromParams(blk, unit, item)
     }
   }
@@ -460,7 +461,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     addToExportDataBlock = function(blk, unit)
     {
       local value = unit.shop.maxAltitude
-      local valueText = ::countMeasure(1, value)
+      local valueText = countMeasure(1, value)
       addSingleValue(blk, unit, value, valueText)
     }
   }
@@ -474,7 +475,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     addToExportDataBlock = function(blk, unit)
     {
       local value = unit.shop.airfieldLen
-      local valueText = ::countMeasure(1, value)
+      local valueText = countMeasure(1, value)
       addSingleValue(blk, unit, value, valueText)
     }
   }
@@ -576,7 +577,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.TANK
     addToExportDataBlock = function(blk, unit)
     {
-      local item = {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = function(value){return ::countMeasure(0, value)}}
+      local item = {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = @(value) countMeasure(0, value)}
       addToBlkFromParams(blk, unit, item)
     }
   }

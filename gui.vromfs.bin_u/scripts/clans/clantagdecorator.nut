@@ -63,7 +63,7 @@
 
     if (decoratorsBlk != null)
       foreach (decoratorString in decoratorsBlk % "decor")
-        decorators.push(ClanTagDecorator(decoratorString, free))
+        decorators.append(ClanTagDecorator(decoratorString, free))
 
     return decorators
   }
@@ -88,7 +88,7 @@ class ClanTagDecorator
 
   function checkTagText(tagText)
   {
-    if (tagText.find(start) != 0 || tagText.len() < end.len())
+    if (tagText.indexof(start) != 0 || tagText.len() < end.len())
       return false
     return tagText.slice(-end.len()) == end
   }

@@ -78,13 +78,12 @@
     "explosionFx": "ship_explosion"
   },
   {
+    "hideNodesInDmg": {
+      "node": "flag"
+    }
+  },
+  {
     "default_skin_tomoe": [
-      {
-        "replace_tex": {
-          "from": "flag_ussr_01_c*",
-          "to": "flag_china_01_c_tomoe*"
-        }
-      },
       {
         "replace_tex": {
           "from": "flag_ussr_01_c*",
@@ -136,6 +135,18 @@
       {
         "replace_tex": {
           "from": "flag_germany_02_c*",
+          "to": "flag_germany_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_germany_03_c*",
+          "to": "flag_germany_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_germany_04_c*",
           "to": "flag_germany_01_c_tomoe*"
         }
       },
@@ -2039,15 +2050,46 @@
     "ShipPhys": {
       "mass": {
         "Empty": 10000000.0,
-        "momentOfInertia": [250.0,6000.0,3400.0],
+        "momentOfInertia": [250.0,7500.0,3800.0],
         "CenterOfGravity": [0.0,-3.0,0.0],
         "AdvancedMass": false
       },
       "engines": [
         {
+          "maxSpeed": 7.2
+        },
+        {
+          "maxReverseSpeed": 3.0
+        },
+        {
+          "speedToTime": [
+            {
+              "row": [2.0,7.0]
+            },
+            {
+              "row": [4.0,10.0]
+            },
+            {
+              "row": [7.2,25.0]
+            }
+          ]
+        },
+        {
+          "reverseSpeedToTime": [
+            {
+              "row": [1.0,4.0]
+            },
+            {
+              "row": [1.5,6.0]
+            },
+            {
+              "row": [3.0,12.0]
+            }
+          ]
+        },
+        {
           "engine": {
             "pos": [-56.0,-3.6,-6.0],
-            "maxThrust": 1000000.0,
             "outputParam": "propeller_rotate_01:CRS",
             "engineDmPart": "engine_room_01_dm",
             "transmissionDmPart": "transmission_01_dm",
@@ -2057,11 +2099,18 @@
         {
           "engine": {
             "pos": [-56.0,-3.6,6.0],
-            "maxThrust": 1000000.0,
             "outputParam": "propeller_rotate_02:CRS",
             "engineDmPart": "engine_room_01_dm",
             "transmissionDmPart": "transmission_02_dm",
             "propeller": "propeller_01"
+          }
+        },
+        {
+          "engine_rooms": {
+            "engine_room1": {
+              "engineRoomDmPart": "engine_room_01_dm",
+              "funnelDmPart": "funnel_01_dm"
+            }
           }
         }
       ],
@@ -2099,7 +2148,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_oerlikon_mk5_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_01"
@@ -2214,7 +2263,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_oerlikon_mk5_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_02"
@@ -2329,7 +2378,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_oerlikon_mk5_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_03"
@@ -2444,7 +2493,7 @@
             "triggerGroup": "primary"
           },
           {
-            "blk": "gameData/Weapons/navalModels_weapons/20mm_Oerlikon_mk_v_twin_mount_naval_user_cannon.blk"
+            "blk": "gameData/Weapons/navalModels_weapons/20mm_oerlikon_mk5_twin_mount_naval_user_cannon.blk"
           },
           {
             "emitter": "emtr_gun_flame_04"
@@ -2586,30 +2635,38 @@
           },
           {
             "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine_01",
-              "scale": 1.4
+              "name": "ship_fire_large",
+              "emitter": "emtr_fire_engine_01"
             }
           },
           {
             "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine_02",
-              "scale": 1.4
+              "name": "ship_fire_large",
+              "emitter": "emtr_fire_engine_02"
             }
           },
           {
             "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine_03",
-              "scale": 1.4
+              "name": "ship_fire_large",
+              "emitter": "emtr_fire_engine_03"
             }
           },
           {
             "fx": {
-              "name": "ship_engine_fire",
-              "emitter": "emtr_fire_engine_04",
-              "scale": 1.4
+              "name": "ship_fire_large",
+              "emitter": "emtr_fire_engine_04"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire_large",
+              "emitter": "emtr_fire_dmg_01"
+            }
+          },
+          {
+            "fx": {
+              "name": "ship_fire_large",
+              "emitter": "emtr_fire_dmg_02"
             }
           }
         ]

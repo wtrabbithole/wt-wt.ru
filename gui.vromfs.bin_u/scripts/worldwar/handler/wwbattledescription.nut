@@ -1,5 +1,7 @@
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 local clustersModule = require("scripts/clusterSelect.nut")
+local slotbarWidget = require("scripts/slotbar/slotbarWidgetByVehiclesGroups.nut")
+local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 
 // Temporary image. Has to be changed after receiving correct art
 const WW_OPERATION_DEFAULT_BG_IMAGE = "#ui/bkg/login_layer_h1_0"
@@ -51,6 +53,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   idPrefix = "btn_"
   needUpdatePrefixWidth = true
   minCountBattlesInList = 10
+
+  hasSlotbarByUnitsGroups = false
 
   static function open(battle)
   {
@@ -326,7 +330,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local itemId = curBattleInList.isValid() ? curBattleInList.id
       : ""
 
-    local idx = itemId.len() ? (curBattleListItems.searchindex(@(item) item.id == itemId) ?? -1) : -1
+    local idx = itemId.len() ? (curBattleListItems.findindex(@(item) item.id == itemId) ?? -1) : -1
     if (idx >= 0 && battlesListObj.getValue() != idx)
       battlesListObj.setValue(idx)
   }
@@ -421,24 +425,51 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     ::switch_profile_country(playerTeam.country)
     local availableUnits = operationBattle.getTeamRemainUnits(playerTeam)
     local operationUnits = ::g_world_war.getAllOperationUnitsBySide(side)
+    local map = getMap()
+    local unitsGroupsByCountry = map?.getUnitsGroupsByCountry()
+    hasSlotbarByUnitsGroups = unitsGroupsByCountry != null
+    if (hasSlotbarByUnitsGroups)
+      slotbarPresets.setCurPreset(map.getId() ,unitsGroupsByCountry)
 
     createSlotbar(
       {
         customCountry = playerTeam.country
-        availableUnits = availableUnits,
-        gameModeName = getGameModeNameText()
-        showEmptySlot = true
-        needPresetsPanel = true
-        shouldCheckCrewsReady = true
-        customUnitsList = operationUnits
-        customUnitsListName = getCustomUnitsListNameText()
-      }
+        availableUnits = availableUnits
+        customUnitsList = hasSlotbarByUnitsGroups ? null : operationUnits
+      }.__update(getSlotbarParams())
     )
   }
+
+  function getSlotbarParams() {
+    return {
+      gameModeName = getGameModeNameText()
+      showEmptySlot = true
+      needPresetsPanel = !hasSlotbarByUnitsGroups
+      shouldCheckCrewsReady = true
+      customUnitsListName = getCustomUnitsListNameText()
+    }
+  }
+
+  createSlotbarHandler = @(params) hasSlotbarByUnitsGroups
+    ? slotbarWidget.create(params)
+    : ::gui_handlers.SlotbarWidget.create(params)
 
   function getGameModeNameText()
   {
     return operationBattle.getView().getFullBattleName()
+  }
+
+  function getMap()
+  {
+    local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    if (operation == null)
+      return null
+
+    local map = operation.getMap()
+    if (map == null)
+      return null
+
+    return map
   }
 
   function getCustomUnitsListNameText()
@@ -889,7 +920,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(obj))
       return
 
-    local side = obj.isPlayerSide == "yes" ?
+    local side = obj?.isPlayerSide == "yes" ?
       getPlayerSide() : ::g_world_war.getOppositeSide(getPlayerSide())
 
     ::handlersManager.loadHandler(::gui_handlers.WwJoinBattleCondition, {

@@ -29,7 +29,7 @@ local modsTree = {
       return false
 
     foreach(unitType in ::g_unit_type.types)
-      if (unitType.modClassOrder.find(mod.modClass) != null)
+      if (unitType.modClassOrder.indexof(mod.modClass) != null)
         return true
     return false
   }

@@ -2,7 +2,6 @@
   "model": "sa_313b",
   "fmFile": "fm/sa_313b.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/hellicopters_metaparts.blk",
-  "harmonizationSuffix": "_tomoe",
   "gearSinkRangeLR": 0.001,
   "gearSinkRangeC": 0.001,
   "type": "typeFighter",
@@ -250,27 +249,31 @@
           "onHit": {
             "damage": 2.7,
             "fire": 0.01,
-            "leak_oil": 0.5
+            "leak_oil": 0.5,
+            "cut": 0.0
           }
         },
         {
           "onHit": {
             "damage": 30.0,
             "fire": 0.1,
-            "leak_oil": 1.0
+            "leak_oil": 1.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "fire": 30.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         },
         {
           "onKill": {
             "damage": 30.0,
             "fire": 44.0,
-            "leak_oil": 10.0
+            "leak_oil": 10.0,
+            "cut": 0.0
           }
         }
       ]
@@ -874,7 +877,7 @@
     "lightRadius": 0.3,
     "sightInFov": 7.37,
     "sightOutFov": -1.0,
-    "sightFov": 9.5,
+    "sightFov": 5.5,
     "devices": {
       "speed": [0.0,55.555],
       "bank": [-8.0,8.0],
@@ -1089,35 +1092,18 @@
       }
     }
   ],
-  "default_skin_tomoe": [
-    {
-      "name": "default_tomoe"
-    },
-    {
-      "replace_tex": {
-        "from": "sa_313b_germany_c*",
-        "to": "sa_313b_germany_c_tomoe*"
-      }
-    },
-    {
-      "replace_tex": {
-        "from": "sa_313b_germany_c_dmg*",
-        "to": "sa_313b_germany_c_tomoe_dmg*"
-      }
-    }
-  ],
   "user_skin": [
     {
-      "name": "sa_313b"
+      "name": "sa_313b_france"
     },
     {
       "replace_tex": {
-        "from": "sa_313b_germany_c*"
+        "from": "sa_313b_france_c*"
       }
     },
     {
       "replace_tex": {
-        "from": "sa_313b_germany_c_dmg*"
+        "from": "sa_313b_france_c_dmg*"
       }
     }
   ],

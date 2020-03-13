@@ -142,7 +142,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
           local armyName = unitType.armyId
           local image = ::format("ui/images/first_%s.jpg", armyName)
 
-          items.push({
+          items.append({
             backgroundImage = ::format("#%s?P1", image)
             tooltip = ::loc("unit_type") + ::loc("ui/colon") + ::loc("mainmenu/" + armyName)
                     + "\n" + countriesList
@@ -351,7 +351,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
             break
           }
 
-        presetDataItems.push({
+        presetDataItems.append({
           country = country
           unitType = unitType.esUnitType
           hasUnits = hasUnits
@@ -376,7 +376,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
     foreach (presetDataItem in presetsData.presetDataItems)
       if (presetDataItem.unitType == presetsData.selectedUnitType)
         foreach (taskData in presetDataItem.tasksData)
-          requestData.push(taskData)
+          requestData.append(taskData)
     return ::create_batch_train_crew_request_blk(requestData)
   }
 

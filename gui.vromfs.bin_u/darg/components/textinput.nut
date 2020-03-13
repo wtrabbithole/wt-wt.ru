@@ -41,18 +41,18 @@ local function isStringLikelyEmail(str, verbose=true) {
     return false
   local locpart = split[0]
   if (split.len()>2)
-    locpart = split.slice(0,-1).reduce(@(a,b) a+"@"+b)
+    locpart = "@".join(split.slice(0,-1))
   if (locpart.len()>64)
     return false
   local dompart = split[split.len()-1]
   if (dompart.len()>253 || dompart.len()<4) //RFC + domain should be at least x.xx
     return false
-  local quotes = locpart.find("\"")
+  local quotes = locpart.indexof("\"")
   if (quotes && quotes!=0)
     return false //quotes only at the begining
-  if (quotes==null && locpart.find("@")!=null)
+  if (quotes==null && locpart.indexof("@")!=null)
     return false //no @ without quotes
-  if (dompart.find(".")==null || dompart.find(".")>dompart.len()-3) // warning disable: -func-can-return-null
+  if (dompart.indexof(".")==null || dompart.indexof(".")>dompart.len()-3) // warning disable: -func-can-return-null
     return false  //too short first level domain or no periods
   return true
 }
@@ -122,7 +122,7 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
   }
 
   local function isValidChangeByInput(new_value) {
-    if (interactiveValidTypes.find(inputType)==null)
+    if (interactiveValidTypes.indexof(inputType)==null)
       return true
     return isValidStrByType(new_value, inputType)
   }

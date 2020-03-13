@@ -79,7 +79,7 @@
       },
       "actions": {
         "triggerEnable": {
-          "target": "defense_air_spawn_start"
+          "target": "set_battlearea_name_cnv"
         }
       },
       "else_actions": [
@@ -734,6 +734,82 @@
         }
       }
     },
+    "set_battlearea_name_cnv": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "missionNamePostfix": {
+            "postfix": "_CnvA"
+          }
+        },
+        {
+          "missionNamePostfix": {
+            "postfix": "_CnvB"
+          }
+        }
+      ],
+      "actions": {
+        "varSetString": {
+          "value": "cnv_battle_area",
+          "var": "battlearea_name"
+        },
+        "triggerEnable": {
+          "target": "defense_air_spawn_start"
+        }
+      },
+      "else_actions": {
+        "triggerEnable": {
+          "target": "set_battlearea_name_dbttl"
+        }
+      }
+    },
+    "set_battlearea_name_dbttl": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ANY",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
+      "conditions": [
+        {
+          "missionNamePostfix": {
+            "postfix": "_DBttlA"
+          }
+        },
+        {
+          "missionNamePostfix": {
+            "postfix": "_DBttlB"
+          }
+        }
+      ],
+      "actions": {
+        "varSetString": {
+          "value": "dbttl_battle_area",
+          "var": "battlearea_name"
+        },
+        "triggerEnable": {
+          "target": "defense_air_spawn_start"
+        }
+      },
+      "else_actions": {
+        "comment": {
+          "value": "add a new battlearea rule if necessary"
+        }
+      }
+    },
     "defense_air_spawn_start": {
       "is_enabled": false,
       "comments": "",
@@ -771,6 +847,7 @@
             "replaceAreas": false,
             "forceCreate": false,
             "target": "t1_bombers_spawn_arcade",
+            "spawnArrangeTo": "@battlearea_name",
             "team": "A",
             "tags": {
               "type_longrange_bomber": true,
@@ -799,6 +876,7 @@
             "replaceAreas": false,
             "forceCreate": false,
             "target": "t1_air_spawn_arcade",
+            "spawnArrangeTo": "@battlearea_name",
             "team": "A",
             "tags": {
               "type_longrange_bomber": false,
@@ -827,6 +905,7 @@
             "replaceAreas": false,
             "forceCreate": false,
             "target": "t2_air_spawn_hardcore",
+            "spawnArrangeTo": "@battlearea_name",
             "team": "B",
             "tags": {
               "tank": false,
@@ -861,6 +940,7 @@
             "replaceAreas": false,
             "forceCreate": false,
             "target": "t2_bombers_spawn_arcade",
+            "spawnArrangeTo": "@battlearea_name",
             "team": "B",
             "tags": {
               "type_longrange_bomber": true,
@@ -889,8 +969,8 @@
             "replaceAreas": false,
             "forceCreate": false,
             "target": "t1_air_spawn_hardcore",
+            "spawnArrangeTo": "@battlearea_name",
             "team": "A",
-            "offset": [0.0,0.0,0.0],
             "tags": {
               "tank": false,
               "artillery": false,
@@ -917,6 +997,7 @@
             "replaceAreas": false,
             "forceCreate": false,
             "target": "t2_air_spawn_arcade",
+            "spawnArrangeTo": "@battlearea_name",
             "team": "B",
             "tags": {
               "type_longrange_bomber": false,
@@ -2298,7 +2379,8 @@
     "defence_team_variable": "defenseMissionTeam",
     "disableAirfields": false,
     "force_plane_airfield_spawn": false,
-    "force_helicopter_pad_spawn": true
+    "force_helicopter_pad_spawn": true,
+    "battlearea_name": ""
   },
   "dialogs": [],
   "airfields": [],

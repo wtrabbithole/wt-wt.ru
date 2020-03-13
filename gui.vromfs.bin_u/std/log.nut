@@ -4,14 +4,14 @@ local tostring_r = string.tostring_r
 local join = string.join //like join, but skip emptylines
 
 local function print_(val, separator="\n"){
-  ::print(val+separator)
+  ::print("".concat(val,separator))
 }
 
 local function Log(tostringfunc=null) {
   local function vlog(...){
     local out = ""
     if (vargv.len()==1)
-      out += tostring_r(vargv[0],{splitlines=false, compact=true, maxdeeplevel=4, tostringfunc=tostringfunc})
+      out = tostring_r(vargv[0],{splitlines=false, compact=true, maxdeeplevel=4, tostringfunc=tostringfunc})
     else
       out = join(vargv.map(@(val) tostring_r(val,{splitlines=false, compact=true, maxdeeplevel=4, tostringfunc=tostringfunc}))," ")
     dagorDebug.screenlog(out.slice(0,::min(out.len(),200)))
@@ -21,7 +21,7 @@ local function Log(tostringfunc=null) {
     if (vargv.len()==1)
       print_(tostring_r(vargv[0],{compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}))
     else
-      print_(vargv.reduce(@(a,b) a+" " + tostring_r(b,{compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}),""))
+      print_(" ".join(vargv.map(@(v) tostring_r(v,{compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}))))
   }
 
   local function dlog(...) {
@@ -46,7 +46,7 @@ local function Log(tostringfunc=null) {
     local printFn = params?.printFn ?? print
     local prefix = silentMode ? "" : "DD: "
 
-    local newline = "\n"+prefix+addStr
+    local newline = "".concat("\n", prefix, addStr)
     local maxdeeplevel = recursionLevel+1
 
     if (addStr=="" && !silentMode)
@@ -54,13 +54,15 @@ local function Log(tostringfunc=null) {
     printFn(tostring_r(value,{compact=false, maxdeeplevel=maxdeeplevel, newline=newline, showArrIdx=false, tostringfunc=tostringfunc}))
   }
 
-  local function console_print(data,params={}) {
-    debugTableData(data, params.__merge({printFn=dagorDebug.console_print}))
+  local function console_print(...) {
+    dagorDebug.console_print(" ".join(vargv.map(@(v) tostring_r(v, {maxdeeplevel=4, showArrIdx=false, tostringfunc=tostringfunc}))))
   }
 
   local function with_prefix(prefix) {
-    return @(...) log(vargv.map(@(val) tostring_r(val, {compact=true, maxdeeplevel=4 tostringfunc=tostringfunc}))
-      .reduce(@(a, b) a + " " + b, prefix))
+    return @(...) log("".concat(prefix, " ".join(vargv.map(@(val) tostring_r(val, {compact=true, maxdeeplevel=4 tostringfunc=tostringfunc})))))
+  }
+  local function dlog_prefix(prefix) {
+    return @(...) dlog.acall([null, prefix].extend(vargv))
   }
 
   return {
@@ -73,6 +75,7 @@ local function Log(tostringfunc=null) {
     debugTableData = debugTableData
     console_print = console_print
     with_prefix = with_prefix
+    dlog_prefix = dlog_prefix
     //lowlevel dagor functions
     debug = dagorDebug.debug
     logerr = dagorDebug.logerr

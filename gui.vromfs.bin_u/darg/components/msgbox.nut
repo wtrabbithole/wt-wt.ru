@@ -1,5 +1,4 @@
 local defStyling = require("msgbox.style.nut")
-local frp = require("daRg/frp.nut")
 
 local widgets = persist("widgest", @() ::Watched([]))
 
@@ -11,7 +10,7 @@ local function addWidget(w) {
 
 
 local function removeWidget(w) {
-  local idx = widgets.value.find(w)
+  local idx = widgets.value.indexof(w)
   if (idx != null) {
     widgets.update(@(value) value.remove(idx))
   }
@@ -25,6 +24,9 @@ local function removeByUid(uid) {
     }
 }
 
+local function isInList(uid) {
+  return widgets.value.findindex(@(w) w.uid == uid)
+}
 
 /// Adds messagebox to widgets list
 /// params = {
@@ -56,7 +58,8 @@ local function show(params, styling=defStyling) {
     if ("onClose" in params && params.onClose)
       params.onClose()
   }
-  local uid = params?.uid ?? ("msgbox_" + counter++)
+  counter++
+  local uid = params?.uid ?? ("msgbox_{0}".subst(counter))
   removeByUid(uid)
 
   local skip = {skip=true}
@@ -69,7 +72,7 @@ local function show(params, styling=defStyling) {
       v[0].isCurrent <- true
   })
   local defCancel = null
-  local curBtnIdx = frp.map(btnsDesc, function(btns) {
+  local curBtnIdx = ::Watched(function(){
     local res = 0
     foreach (idx, bd in btnsDesc.value) {
       if (bd?.isCurrent)
@@ -78,7 +81,7 @@ local function show(params, styling=defStyling) {
         defCancel = bd
     }
     return res
-  })
+  }())
 
   local function moveBtnFocus(dir) {
     curBtnIdx.update((curBtnIdx.value + dir + btnsDesc.value.len()) % btnsDesc.value.len())
@@ -93,6 +96,7 @@ local function show(params, styling=defStyling) {
       key = key
       size = SIZE_TO_CONTENT
       flow = FLOW_HORIZONTAL
+      gap = hdpx(40)
 
       children = btnsDesc.value.map(function(desc, idx) {
         local conHover = desc?.onHover
@@ -120,14 +124,14 @@ local function show(params, styling=defStyling) {
       ]
     }
   }
-
+  buttonsBlockId++
   local root = styling.Root.__merge({
-    key = "msgbox_" + uid
+    key = "msgbox_{0}".subst(uid)
     flow = FLOW_VERTICAL
     halign = HALIGN_CENTER
     children = [
       styling.messageText(params.__merge({ doClose = doClose }))
-      buttonsBlock("buttonsBlock_" + buttonsBlockId++)
+      buttonsBlock("buttonsBlock_{0}".subst(buttonsBlockId))
     ]
   })
   self = styling.BgOverlay.__merge({
@@ -146,6 +150,8 @@ local function show(params, styling=defStyling) {
 local msgbox = {
   show = show
   widgets = widgets
+  isInList = isInList
+  removeByUid = removeByUid
   styling = defStyling
 }
 

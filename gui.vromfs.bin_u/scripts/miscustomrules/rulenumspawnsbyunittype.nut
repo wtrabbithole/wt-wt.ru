@@ -169,6 +169,7 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
         }
         return ::colorize("@activeTextColor", ::g_string.implode(res, ::loc("ui/comma")))
     }
+    return ""
   }
 
   function getUnitTypeLeftRespawns(esUnitType, stateData, isDsUnitType = false) //stateData is a table or blk

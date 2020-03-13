@@ -355,6 +355,11 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     onChangeTab(getTabsListObj())
   }
 
+  function onEventBattleTasksTimeExpired(params)
+  {
+    onChangeTab(getTabsListObj())
+  }
+
   function onShowAllTasks(obj)
   {
     ::broadcastEvent("BattleTasksShowAll", {showAllTasksValue = obj.getValue()})
@@ -374,7 +379,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     if (::g_battle_tasks.canGetReward(task))
-      return ::g_battle_tasks.getRewardForTask(task.id)
+      return ::g_battle_tasks.requestRewardForTask(task.id)
 
     local isActive = ::g_battle_tasks.isTaskActive(task)
     if (isActive && ::g_battle_tasks.canCancelTask(task))
@@ -449,7 +454,8 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
     showSceneBtn("btn_requirements_list", ::show_console_buttons && ::getTblValue("names", config, []).len() != 0)
 
-    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(config?.id ?? "")] = ::g_sound.canPlay(config?.id ?? "")})
+    local id = config?.id ?? ""
+    ::enableBtnTable(taskObj, {[getConfigPlaybackButtonId(id)] = ::g_sound.canPlay(id)})
   }
 
   function updateTabButtons()
@@ -494,7 +500,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     local listObj = getConfigsListObj()
     if (!::checkObj(listObj))
-      return
+      return null
 
     local value = listObj.getValue()
     if (value < 0 || value >= listObj.childrenCount())
@@ -526,7 +532,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       usingDifficulties.append(diff.diffCode)
     }
 
-    if (tplView.len() && "diffCode" in selDiff && usingDifficulties.find(selDiff.diffCode) == null)
+    if (tplView.len() && "diffCode" in selDiff && usingDifficulties.indexof(selDiff.diffCode) == null)
       tplView.top().selected = true
 
     return tplView
@@ -566,7 +572,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onGetRewardForTask(obj)
   {
-    ::g_battle_tasks.getRewardForTask(obj?.task_id)
+    ::g_battle_tasks.requestRewardForTask(obj?.task_id)
   }
 
   function madeTaskAction(mode)

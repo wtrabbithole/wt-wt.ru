@@ -63,7 +63,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
         if (!(country in countries))
           countries[country] <- {
             id = country
-            idx = ::shopCountriesList.searchindex(@(id) id == country) ?? -1
+            idx = ::shopCountriesList.findindex(@(id) id == country) ?? -1
             value = true
           }
         if (!(unitTypeStr in unitsTypes))
@@ -174,7 +174,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     if (lastSelectedUnit)
     {
       local unit = lastSelectedUnit
-      newIdx = filteredUnits.searchindex(@(u) u == unit) ?? -1
+      newIdx = filteredUnits.findindex(@(u) u == unit) ?? -1
     }
     local total = listObj.childrenCount()
     if (newIdx == -1 && total)
@@ -332,7 +332,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
 
 return {
   handlerClass = handlerClass
-  open = function(unitsFilter = null, params = null)
+  open = function(unitsFilter = null, params = {})
   {
     local handlerParams = params.__merge({ unitsFilter = unitsFilter })
     ::handlersManager.loadHandler(handlerClass, handlerParams)

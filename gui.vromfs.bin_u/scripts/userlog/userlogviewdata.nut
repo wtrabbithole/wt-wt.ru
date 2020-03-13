@@ -905,20 +905,17 @@ local time = require("scripts/time.nut")
   } else
   if (log.type==::EULT_ADMIN_ADD_GOLD || log.type==::EULT_ADMIN_REVERT_GOLD)
   {
-    local comment="", goldAdd=0, goldBalance=0
-    if ("comment" in log)
-      comment = log.comment
-    if ("goldAdd" in log)
-      goldAdd = log.goldAdd
-    if ("goldBalance" in log)
-      goldBalance = log.goldBalance
-
+    local goldAdd = log?.goldAdd ?? 0
+    local goldBalance = log?.goldBalance ?? 0
     local suffix = (goldAdd >= 0) ? "/positive" : "/negative"
-    res.name = ::loc("userlog/"+logName+suffix, { gold = ::Cost(0, ::abs(goldAdd)).toStringWithParams({isGoldAlwaysShown = true}),
-      balance = ::getGpPriceText(goldBalance, true) })
-    res.description <- comment  // not localized
+
+    res.name = ::loc("userlog/" + logName + suffix, {
+      gold = ::Money(money_type.none, 0, ::abs(goldAdd)).toStringWithParams({isGoldAlwaysShown = true}),
+      balance = ::Balance(0, goldBalance).toStringWithParams({isGoldAlwaysShown = true})
+    })
+    res.description <- log?.comment ?? "" // not localized
   }
-  else if(log.type == ::EULT_BUYING_SCHEME)
+  else if (log.type == ::EULT_BUYING_SCHEME)
   {
     res.description <- ::getUnitName(log.unit) + priceText
   }

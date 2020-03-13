@@ -3,6 +3,7 @@ local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
 
 global enum chatUpdateState {
   OUTDATED
@@ -18,7 +19,7 @@ global enum chatErrorName {
   CANNOT_JOIN_THE_CHANNEL = "475"
 }
 
-g_chat <- {
+::g_chat <- {
   [PERSISTENT_DATA_PARAMS] = ["isThreadsView", "rooms", "threadsInfo", "userCaps", "userCapsGen",
                               "threadTitleLenMin", "threadTitleLenMax"]
 
@@ -114,11 +115,16 @@ g_chat <- {
     return isChatEnabled()
   }
 
-  function attemptShowOverlayMessage(playerName) //tries to display Xbox overlay message
+  function attemptShowOverlayMessage(playerName, needCheckInvite = false) //tries to display Xbox overlay message
   {
     local contact = ::Contact.getByName(playerName)
     if (contact)
-      contact.canChat(true)
+    {
+      if (needCheckInvite)
+        contact.canInvite(true)
+      else
+        contact.canChat(true)
+    }
     else
       getXboxChatEnableStatus(true)
   }
@@ -129,13 +135,15 @@ g_chat <- {
         || platformModule.isPlayerFromPS4(playerName))
       return true
 
-    if (crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ONLY_FRIENDS
+    local crossnetStatus = crossplayModule.getCrossNetworkChatStatus()
+
+    if (crossnetStatus == XBOX_COMMUNICATIONS_ONLY_FRIENDS
         && (::isPlayerNickInContacts(playerName, ::EPL_FRIENDLIST)
           || ::isPlayerNickInContacts(playerName, ::EPLX_PS4_FRIENDS))
        )
       return true
 
-    return crossplayModule.getCrossNetworkChatStatus() == XBOX_COMMUNICATIONS_ALLOWED
+    return crossnetStatus == XBOX_COMMUNICATIONS_ALLOWED
   }
 
   function invalidateCache()
@@ -156,7 +164,7 @@ g_chat.filterMessageText <- function filterMessageText(text, isMyMessage)
 {
   if (::get_option(::USEROPT_CHAT_FILTER).value &&
     (!isMyMessage || ::chat_filter_for_myself))
-    return ::dirty_words_filter.checkPhrase(text)
+    return dirtyWordsFilter.checkPhrase(text)
   return text
 }
 ::cross_call_api.filter_chat_message <- ::g_chat.filterMessageText
@@ -196,11 +204,11 @@ g_chat.checkBlockedLink <- function checkBlockedLink(link)
 
 g_chat.revealBlockedMsg <- function revealBlockedMsg(text, link)
 {
-  local start = text.find("<Link=" + link)
+  local start = text.indexof("<Link=" + link)
   if (start == null)
     return text
 
-  local end = text.find("</Link>", start)
+  local end = text.indexof("</Link>", start)
   if (end == null)
     return text
 
@@ -236,8 +244,8 @@ g_chat.systemMessage <- function systemMessage(msg, needPopup = true, forceMessa
 
   if (::menu_chat_handler)
     ::menu_chat_handler.addRoomMsg("", "", msg)
-  if (needPopup)
-    ::g_popups.add(null, ::format("<color=%s>%s</color>", SYSTEM_COLOR, msg))
+  if (needPopup && ::get_gui_option_in_mode(::USEROPT_SHOW_SOCIAL_NOTIFICATIONS, ::OPTIONS_MODE_GAMEPLAY))
+    ::g_popups.add(null, ::colorize(SYSTEM_COLOR, msg))
 }
 
 g_chat.getRoomById <- function getRoomById(id)

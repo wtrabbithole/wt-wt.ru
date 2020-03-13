@@ -3,7 +3,7 @@ local refreshedActionsIds = {}
 
 local function register(actionId, action) {
   if (actionId in refreshedActionsIds) {
-    ::assert(false, "Persist action {0} already registered".subst(actionId))
+    ::assert(false, @() "Persist action {0} already registered".subst(actionId))
     return
   }
 
@@ -16,13 +16,13 @@ local function register(actionId, action) {
 }
 
 local function make(actionId, params) {
-  ::assert(actionId in refreshedActionsIds, "Not registered persist action " + actionId)
+  ::assert(actionId in refreshedActionsIds, @() "Not registered persist action {0}".subst(actionId))
 
   return function(...) {
     local action = actions?[actionId]
     if (!action) //not recreated after script reload
       return
-    ::assert(vargv.len() == action.getfuncinfos().parameters.len() - 2, "Incorrect params count on call action " + actionId)
+    ::assert(vargv.len() == action.getfuncinfos().parameters.len() - 2, @() "Incorrect params count on call action {0}".subst(actionId))
     return action.acall([this, params].extend(vargv))
   }
 }

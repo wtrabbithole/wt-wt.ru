@@ -3,6 +3,7 @@ local wwRewards = ::require("scripts/worldWar/handler/wwRewards.nut")
 local time = require("scripts/time.nut")
 
 ::ww_leaderboards_list <- [
+  ::g_lb_category.UNIT_RANK
   ::g_lb_category.WW_EVENTS_PERSONAL_ELO
   ::g_lb_category.OPERATION_COUNT
   ::g_lb_category.OPERATION_WINRATE
@@ -120,7 +121,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         (modeData?.needFeature && !::has_feature(modeData.needFeature)))
         continue
 
-      lbModesList.push(modeData)
+      lbModesList.append(modeData)
       local optionText = ::g_string.stripTags(
         ::loc("worldwar/leaderboard/" + modeData.mode))
       data += format("option {text:t='%s'}", optionText)
@@ -129,7 +130,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     local modesObj = showSceneBtn("modes_list", true)
     guiScene.replaceContentFromText(modesObj, data, data.len(), this)
 
-    local modeIdx = wwLeaderboardData.modes.searchindex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
+    local modeIdx = lbModesList.findindex((@(m) m.mode == beginningMode).bindenv(this)) ?? 0
     modesObj.setValue(modeIdx)
   }
 
@@ -152,8 +153,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       data += format("option {text:t='%s'}", optionText)
     }
 
-    local hasDaySelection = isUsersLeaderboard()
-    local daysObj = showSceneBtn("days_list", hasDaySelection)
+    local daysObj = showSceneBtn("days_list", lbModeData.hasDaysData)
     guiScene.replaceContentFromText(daysObj, data, data.len(), this)
 
     daysObj.setValue(needDayOpen && lbDaysList.len() > 1 ? 1 : 0)
@@ -178,7 +178,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbMap)
     {
       local selectedMapId = lbMap.getId()
-      mapObjValue = lbMapsList.searchindex(@(m) m && m.getId() == selectedMapId) ?? 0
+      mapObjValue = lbMapsList.findindex(@(m) m && m.getId() == selectedMapId) ?? 0
     }
     lbMap = null
     mapsObj.setValue(mapObjValue)
@@ -203,7 +203,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (lbCountry)
     {
       local selectedCountry = lbCountry
-      countryObjValue = lbCountriesList.searchindex(@(c) c && c == selectedCountry) ?? 0
+      countryObjValue = lbCountriesList.findindex(@(c) c && c == selectedCountry) ?? 0
     }
     lbCountry = null
     countriesObj.setValue(countryObjValue)
@@ -410,7 +410,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 
   function isUsersLeaderboard()
   {
-    return lbMode == "ww_users"
+    return wwLeaderboardData.isUsersLeaderboard(lbModeData)
   }
 
   function isCountriesLeaderboard()
@@ -425,7 +425,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       return ::showInfoMsgBox(::loc("leaderboards/has_no_rewards"))
 
     wwRewards.open({
-      isPlayerRewards = isUsersLeaderboard()
+      isClanRewards = forClans
       rewardsBlk = curRewardsBlk
       rewardsTime = getCurRewardsTime()
       lbMode    = lbMode

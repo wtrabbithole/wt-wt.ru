@@ -75,7 +75,7 @@ class ::gui_handlers.clanChangeMembershipReqWnd extends ::gui_handlers.BaseGuiHa
         if ( req  &&  (req.type == "battles")  &&  (req.difficulty == modeName) )
           battlesRequired = req.getInt("count", 0)
 
-        local optIdx = option.values.find(battlesRequired) ?? 0
+        local optIdx = option.values.indexof(battlesRequired) ?? 0
         scene.findObject(option.id).setValue(optIdx)
       }
   }

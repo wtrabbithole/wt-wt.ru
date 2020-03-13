@@ -10,7 +10,7 @@ local hudChatState = persist("hudChatState", @() {
   modeId = Watched(0)
 
   pushSystemMessage = function (text) {
-   log.value.push({
+   log.value.append({
       sender = ""
       text = text
       isMyself = false
@@ -25,7 +25,7 @@ local hudChatState = persist("hudChatState", @() {
 })
 
 ::interop.mpChatPushMessage <- function (message) {
-  hudChatState.log.value.push(message)
+  hudChatState.log.value.append(message)
   hudChatState.log.trigger()
 }
 

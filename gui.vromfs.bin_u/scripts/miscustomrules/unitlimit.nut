@@ -7,13 +7,15 @@ class ::g_unit_limit_classes.LimitBase
   respawnsLeft = 0
   distributed = ::RESPAWNS_UNLIMITED
   presetInfo = null
+  nameLocId = null
 
-  constructor(_name, _respawnsLeft, _distributed = ::RESPAWNS_UNLIMITED, _presetInfo = null)
+  constructor(_name, _respawnsLeft, params = {})
   {
     name = _name
     respawnsLeft = _respawnsLeft
-    distributed = _distributed
-    presetInfo = _presetInfo
+    distributed = params?.distributed ?? ::RESPAWNS_UNLIMITED
+    presetInfo = params?.presetInfo
+    nameLocId = params?.nameLocId
   }
 
   function isSame(unitLimit)
@@ -36,7 +38,8 @@ class ::g_unit_limit_classes.LimitByUnitName extends ::g_unit_limit_classes.Limi
 {
   function getText()
   {
-    local res = ::getUnitName(name) + ::loc("ui/colon") + ::colorize("activeTextColor", getRespawnsLeftText())
+    local unitName = nameLocId != null ? ::loc(nameLocId) : ::getUnitName(name)
+    local res = unitName + ::loc("ui/colon") + ::colorize("activeTextColor", getRespawnsLeftText())
     local weaponPresetIconsText = ::get_weapon_icons_text(
       name, ::getTblValue("weaponPresetId", presetInfo)
     )

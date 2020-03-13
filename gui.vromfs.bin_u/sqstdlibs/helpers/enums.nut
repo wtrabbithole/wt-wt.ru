@@ -1,5 +1,5 @@
 local u = require("u.nut")
-
+global const PERSISTENT_DATA_PARAMS = "PERSISTENT_DATA_PARAMS"
 local function isTable(v) {return type(v)=="table"}
 local function isArray(v) {return type(v)=="array"}
 local function isString(v) {return type(v)=="string"}
@@ -13,8 +13,7 @@ local function isFunction(v) {return type(v)=="function"}
 
 local assertOnce = function(uniqId, errorText) { throw(errorText) }
 
-local function getPropValue(propName, typeObject)
-{
+local function getPropValue(propName, typeObject) {
   local value = typeObject?[propName]
 
   // Calling 'value()' instead of 'typeObject[propName]()'
@@ -23,14 +22,11 @@ local function getPropValue(propName, typeObject)
 }
 
 //caseSensitive work only with string propValues
-local function getCachedType(propName, propValue, cacheTable, enumTable, defaultVal, caseSensitive = true)
-{
-  if (!caseSensitive)
-  {
+local function getCachedType(propName, propValue, cacheTable, enumTable, defaultVal, caseSensitive = true) {
+  if (!caseSensitive) {
     if (isString(propValue))
       propValue = propValue.tolower()
-    else
-    {
+    else {
       assertOnce("bad propValue type",
         "enums: Bad value type for getCachedType with no caseSensitive:\n" +
         "propName = " + propName + ", propValue = " + propValue + ", propValueType = " + (typeof propValue))
@@ -44,28 +40,24 @@ local function getCachedType(propName, propValue, cacheTable, enumTable, default
   if (cacheTable.len())
     return defaultVal
 
-  if (!("types" in enumTable))
-  {
+  if (!("types" in enumTable)) {
     assertOnce("!types",
       ::format("Unable to get cached enum by property: '%s'. No 'types' array found.", propName))
     enumTable.types <- []
   }
 
-  foreach (typeTbl in enumTable.types)
-  {
+  foreach (typeTbl in enumTable.types) {
     if (!isTable(typeTbl))
       continue
 
     local valueArr = getPropValue(propName, typeTbl)
     if (!isArray(valueArr))
       valueArr = [valueArr]
-    foreach (value in valueArr)
-    {
+    foreach (value in valueArr) {
       if (!caseSensitive)
         if (isString(value))
           value = value.tolower()
-        else
-        {
+        else {
           assertOnce("bad value type",
             "enums: Bad value in type for no caseSensitive cache:\n" +
             "propName = " + propName + ", propValue = " + value + ", propValueType = " + (typeof value))
@@ -78,8 +70,7 @@ local function getCachedType(propName, propValue, cacheTable, enumTable, default
   return cacheTable?[propValue] ?? defaultVal
 }
 
-local function addType(enumTable, typeTemplate, typeName, typeDefinition)
-{
+local function addType(enumTable, typeTemplate, typeName, typeDefinition) {
   local typeTbl = enumTable?[typeName] ?? {} //to not brake links on exist types
   typeTbl.clear()
   if (typeTemplate)
@@ -94,8 +85,7 @@ local function addType(enumTable, typeTemplate, typeName, typeDefinition)
   local types = enumTable?.types
   if (isArray(types))
     u.appendOnce(typeTbl, types)
-  else
-  {
+  else {
     assertOnce(
       "Not found types array",
       ::format("Unable to find 'types' array in enum table (type: %s).", typeName))
@@ -103,11 +93,9 @@ local function addType(enumTable, typeTemplate, typeName, typeDefinition)
   return typeTbl
 }
 
-local function addTypes(enumTable, typesToAdd, typeConstructor = null, addTypeNameKey = null )
-{
+local function addTypes(enumTable, typesToAdd, typeConstructor = null, addTypeNameKey = null ) {
   local typeTemplate = enumTable?.template
-  foreach (typeName, typeDefinition in typesToAdd)
-  {
+  foreach (typeName, typeDefinition in typesToAdd) {
     local typeTbl = addType(enumTable, typeTemplate, typeName, typeDefinition)
     if (addTypeNameKey)
       typeTbl[addTypeNameKey] <- typeName
@@ -116,13 +104,11 @@ local function addTypes(enumTable, typesToAdd, typeConstructor = null, addTypeNa
   }
 }
 
-local function collectAndRegisterTypes(enumTableName, enumTable, typesToAdd)
-{
-  if (!(PERSISTENT_DATA_PARAMS in enumTable))
+local function collectAndRegisterTypes(enumTableName, enumTable, typesToAdd) {
+  if (!(PERSISTENT_DATA_PARAMS in enumTable)) // warning disable: -undefined-const
     enumTable[PERSISTENT_DATA_PARAMS] <- []
   local persistentList = enumTable[PERSISTENT_DATA_PARAMS]
-  foreach(typeName, data in typesToAdd)
-  {
+  foreach(typeName, data in typesToAdd) {
     u.appendOnce(typeName, persistentList)
     if (!(typeName in enumTable))
       enumTable[typeName] <- null
@@ -133,11 +119,10 @@ local function collectAndRegisterTypes(enumTableName, enumTable, typesToAdd)
 
 //registerForScriptReloader = true - register types to not brake links on types on reload scripts
 local function addTypesByGlobalName(enumTableName, typesToAdd, typeConstructor = null, addTypeNameKey = null,
-                                registerForScriptReloader = true)
-{
+                                registerForScriptReloader = true) {
+
   local enumTable = ::getroottable()?[enumTableName]
-  if (!isTable(enumTable))
-  {
+  if (!isTable(enumTable)) {
     assertOnce("not found enum table", "enums: not found enum table '" + enumTableName + "'")
     return
   }

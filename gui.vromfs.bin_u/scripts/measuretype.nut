@@ -1,5 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local stdMath = require("std/math.nut")
+local optionsMeasureUnits = ::require("scripts/options/optionsMeasureUnits.nut")
+
 /**
  * Measure type is a useful abstraction above
  * customizable and hard-coded measure units.
@@ -15,7 +17,7 @@ local time = require("scripts/time.nut")
 g_measure_type._getMeasureUnitsText <- function _getMeasureUnitsText(value, addMeasureUnits = true, forceMaxPrecise = false)
 {
   if (userOptCode != -1)
-    return ::countMeasure(orderCode, value, " - ", addMeasureUnits, forceMaxPrecise)
+    return optionsMeasureUnits.countMeasure(orderCode, value, " - ", addMeasureUnits, forceMaxPrecise)
   local result = stdMath.round_by_value(value, presize).tostring()
   if (addMeasureUnits)
     result += " " + getMeasureUnitsName()
@@ -28,6 +30,13 @@ g_measure_type._getMeasureUnitsName <- function _getMeasureUnitsName()
   return ::loc(::format("measureUnits/%s", unitName))
 }
 
+g_measure_type._isMetricSystem <- function _isMetricSystem()
+{
+  if (userOptCode != -1)
+    return optionsMeasureUnits.isMetricSystem(orderCode)
+  return true
+}
+
 ::g_measure_type.template <- {
   name = "" // Same as in measureUnits.blk.
   userOptCode = -1
@@ -36,6 +45,7 @@ g_measure_type._getMeasureUnitsName <- function _getMeasureUnitsName()
 
   getMeasureUnitsText = ::g_measure_type._getMeasureUnitsText
   getMeasureUnitsName = ::g_measure_type._getMeasureUnitsName
+  isMetricSystem      = ::g_measure_type._isMetricSystem
 }
 
 enums.addTypesByGlobalName("g_measure_type", {
@@ -203,7 +213,7 @@ g_measure_type.getTypeByName <- function getTypeByName(name, createIfNotFound = 
   if (res == UNKNOWN && createIfNotFound)
   {
     res = ::inherit_table(::g_measure_type.template, { name = name })
-    types.push(res)
+    types.append(res)
   }
   return res
 }

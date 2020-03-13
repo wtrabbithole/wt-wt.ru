@@ -62,7 +62,7 @@ enums.addTypesByGlobalName("g_url_type", {
     ]
     applyLangKey = function(url, langKey)
     {
-      url += url.find("?") == null ? "?" : "&";
+      url += url.indexof("?") == null ? "?" : "&";
       url += "skin_lang=" + langKey;
       return url
     }
@@ -84,12 +84,12 @@ enums.addTypesByGlobalName("g_url_type", {
     applyLangKey = function(url, langKey)
     {
       local keyBeforeLang = ".com/"
-      local idx = url.find(keyBeforeLang)
+      local idx = url.indexof(keyBeforeLang)
       if (idx == null)
         return url + "/" + langKey
 
       local insertIdx = idx + keyBeforeLang.len()
-      local afterLangIdx = url.find("/", insertIdx)
+      local afterLangIdx = url.indexof("/", insertIdx)
       if (afterLangIdx == null || !::isInArray(url.slice(insertIdx, afterLangIdx), supportedLangs))
         afterLangIdx = insertIdx
       else
@@ -108,8 +108,8 @@ enums.addTypesByGlobalName("g_url_type", {
       regexp(@"^https?:\/\/live\.warthunder\.com" + URL_ANY_ENDING),
       regexp(@"^https?:\/\/trade\.gaijin\.net" + URL_ANY_ENDING),
       regexp(@"^https?:\/\/inventory-test-01\.gaijin\.lan" + URL_ANY_ENDING),
-      regexp(@"^https?:\/\/achievements\.gaijin\.net" + URL_ANY_ENDING)
-      regexp(@"^https?:\/\/support\.gaijin\.net" + URL_ANY_ENDING)
+      regexp(@"^https?:\/\/achievements\.gaijin\.net" + URL_ANY_ENDING),
+      regexp(@"^https?:\/\/support\.gaijin\.net" + URL_ANY_ENDING),
     ]
   }
 

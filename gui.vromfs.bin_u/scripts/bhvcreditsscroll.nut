@@ -1,4 +1,4 @@
-timeToShowAll <- 500.0;
+const timeToShowAll = 500.0
 
 class gui_bhv.CreditsScroll
 {

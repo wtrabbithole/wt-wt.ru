@@ -1,7 +1,12 @@
 // -------------------------------------------------------
 // Matching game modes managment
 // -------------------------------------------------------
-g_matching_game_modes <- {
+
+local requestedGameModesTimeOut = 10000 //ms
+local lastRequestTimeMsec = - requestedGameModesTimeOut
+local requestedGameModes = []
+
+::g_matching_game_modes <- {
   __gameModes = {} // game-mode unique id -> mode info
 
   __fetching = false
@@ -84,7 +89,7 @@ g_matching_game_modes <- {
         local gameModeId = ::getTblValue("gameModeId", modeInfo, -1)
         dagor.debug(format("matching game mode added '%s' [%d]",
                             ::getTblValue("name", modeInfo, ""), gameModeId))
-        needToFetchGmList.push(gameModeId)
+        needToFetchGmList.append(gameModeId)
       }
     }
 
@@ -92,36 +97,34 @@ g_matching_game_modes <- {
     {
       foreach (modeInfo in changed_list)
       {
-        local gameModeId = ::getTblValue("gameModeId", modeInfo)
+        local gameModeId = modeInfo?.gameModeId
         if (gameModeId == null)
           continue
 
-        local name     = ::getTblValue("name", modeInfo, "")
-        local disabled = ::getTblValue("disabled", modeInfo)
-        local visible  = ::getTblValue("visible", modeInfo)
-        local active   = ::getTblValue("active", modeInfo)
+        local name     = modeInfo?.name ?? ""
+        local disabled = modeInfo?.disabled
+        local visible  = modeInfo?.visible
+        local active   = modeInfo?.active
 
-         // when flags no set or not gamemode exist need refresh full mode-info
-        if (disabled == null || visible == null || active == null
-            || !(gameModeId in __gameModes))
+        dagor.debug($"matching game mode {disabled ? "disabled" : "enabled"} '{name}' [{gameModeId}]")
+
+        if (disabled && visible == false && active == false)
         {
-          needToFetchGmList.push(gameModeId)
+          needNotify = true
+          __removeGameMode(gameModeId)
           continue
         }
 
-        needNotify = true
-        dagor.debug(format("matching game mode %s '%s' [%d]",
-                            disabled ? "disabled" : "enabled"
-                            name, gameModeId))
+        needToFetchGmList.append(gameModeId) //need refresh full mode-info because may updated mode params
 
-        if (disabled && !visible && !active)
-          __removeGameMode(gameModeId)
-        else
-        {
-          local fullModeInfo = __gameModes[gameModeId]
-          fullModeInfo.disabled = disabled
-          fullModeInfo.visible = visible
-        }
+        if (disabled == null || visible == null || active == null
+            || !(gameModeId in __gameModes))
+          continue
+
+        needNotify = true
+        local fullModeInfo = __gameModes[gameModeId]
+        fullModeInfo.disabled = disabled
+        fullModeInfo.visible = visible
       }
     }
 
@@ -157,9 +160,13 @@ g_matching_game_modes <- {
   {
     foreach (modeInfo in modes_list)
     {
+      local gameModeId = modeInfo.gameModeId
+      local idx = requestedGameModes.indexof(gameModeId)
+      if (idx != null)
+        requestedGameModes.remove(idx)
       dagor.debug(format("matching game mode fetched '%s' [%d]",
-                         modeInfo.name, modeInfo.gameModeId))
-      __gameModes[modeInfo.gameModeId] <- modeInfo
+                         modeInfo.name, gameModeId))
+      __gameModes[gameModeId] <- modeInfo
     }
     __notifyGmChanged();
   }
@@ -193,34 +200,23 @@ g_matching_game_modes <- {
     forceUpdateGameModes()
   }
 
-  function getGameModeData(gameModeId)
-  {
-    return ::getTblValue(gameModeId, __gameModes)
-  }
-
   function getGameModesByEconomicName(economicName)
   {
     return ::u.filter(__gameModes,
       (@(economicName) function(g) { return ::events.getEventEconomicName(g) == economicName })(economicName))
   }
 
-  function requestGameModeById(gameModeId, cb = null)
+  function requestGameModeById(gameModeId)
   {
-    local cachedGameMode = getGameModeData(gameModeId)
-    if (cachedGameMode)
-    {
-      if (cb)
-        cb(cachedGameMode)
+    local isRequested = ::isInArray(gameModeId, requestedGameModes)
+    if (isRequested
+      && (::dagor.getCurTime() - lastRequestTimeMsec <= requestedGameModesTimeOut))
       return
-    }
 
-    ::fetch_game_modes_info({byId = [gameModeId]},
-      (@(gameModeId, cb, __gameModes) function (result) {
-        if (::checkMatchingError(result, false))
-          ::g_matching_game_modes.__onGameModesUpdated(result.modes)
-        if (cb)
-          cb(::getTblValue(gameModeId, __gameModes, null))
-      })(gameModeId, cb, __gameModes))
+    if (!isRequested)
+      requestedGameModes.append(gameModeId)
+    lastRequestTimeMsec = ::dagor.getCurTime()
+    __loadGameModesFromList([gameModeId])
   }
 
   function getGameModeIdsByEconomicName(economicName)

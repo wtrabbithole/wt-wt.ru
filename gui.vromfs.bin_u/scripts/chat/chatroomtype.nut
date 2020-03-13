@@ -166,7 +166,7 @@ enums.addTypesByGlobalName("g_chat_room_type", {
       if (!::g_string.startsWith(roomId, "#"))
         return false
       foreach(r in ::global_chat_rooms)
-        if (roomId.find(r.name + "_", 1) == 1)
+        if (roomId.indexof(r.name + "_", 1) == 1)
         {
           local lang = ::g_string.slice(roomId, r.name.len() + 2)
           local langsList = ::getTblValue("langs", r, ::langs_list)
@@ -210,7 +210,7 @@ enums.addTypesByGlobalName("g_chat_room_type", {
 
       local title = threadInfo.getTitle()
       //use text only before first linebreak
-      local idx = title.find("\n")
+      local idx = title.indexof("\n")
       if (idx)
         title = title.slice(0, idx)
 

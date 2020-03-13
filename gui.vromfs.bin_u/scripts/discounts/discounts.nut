@@ -1,4 +1,10 @@
-local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
+local { haveDiscount, canUseIngameShop } = ::is_platform_ps4? require("scripts/onlineShop/ps4ShopData.nut")
+  : ::is_platform_xboxone? require("scripts/onlineShop/xboxShopData.nut")
+    : { haveDiscount = @() false, canUseIngameShop = @() false }
+
+local topMenuOnlineShopId = ::is_platform_ps4? ::g_top_menu_buttons.PS4_ONLINE_SHOP.id
+  : ::is_platform_xboxone? ::g_top_menu_buttons.XBOX_ONLINE_SHOP.id
+    : ""
 
 ::g_discount <- {
   [PERSISTENT_DATA_PARAMS] = ["discountsList"]
@@ -6,6 +12,18 @@ local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
   getDiscountIconId = @(name) name + "_discount"
   canBeVisibleOnUnit = @(unit) unit && unit.isVisibleInShop() && !unit.isBought()
   discountsList = {}
+
+  function updateOnlineShopDiscounts()
+  {
+    if (topMenuOnlineShopId == "")
+      return
+
+    discountsList[topMenuOnlineShopId] = haveDiscount()
+    updateDiscountNotifications()
+  }
+
+  onEventXboxShopDataUpdated = @(p) updateOnlineShopDiscounts()
+  onEventPs4ShopDataUpdated = @(p) updateOnlineShopDiscounts()
 }
 
 g_discount.clearDiscountsList <- function clearDiscountsList()
@@ -61,12 +79,6 @@ g_discount.onEventUnitBought <- function onEventUnitBought(p)
   ::get_gui_scene().performDelayed(this, pushDiscountsUpdateEvent)
 }
 
-g_discount.updateXboxShopDiscounts <- function updateXboxShopDiscounts()
-{
-  discountsList[::g_top_menu_buttons.XBOX_ONLINE_SHOP.id] = xboxShopData.haveDiscount()
-  updateDiscountNotifications()
-}
-
 g_discount.updateDiscountData <- function updateDiscountData(isSilentUpdate = false)
 {
   clearDiscountsList()
@@ -100,8 +112,8 @@ g_discount.updateDiscountData <- function updateDiscountData(isSilentUpdate = fa
   foreach (entName, entBlock in eblk)
     checkEntitlement(entName, entBlock, giftUnits)
 
-  if (xboxShopData.canUseIngameShop())
-    discountsList[::g_top_menu_buttons.XBOX_ONLINE_SHOP.id] = xboxShopData.haveDiscount()
+  if (canUseIngameShop() && topMenuOnlineShopId != "")
+    discountsList[topMenuOnlineShopId] = haveDiscount()
 
   local isShopDiscountVisible = false
   foreach(airName, discount in discountsList.airList)
@@ -142,11 +154,15 @@ g_discount.checkEntitlement <- function checkEntitlement(entName, entlBlock, gif
   discountsList.entitlements[entName] <- discount
 
   if (chapter == "campaign" || chapter == "bonuses")
-    chapter = ::g_top_menu_buttons.XBOX_ONLINE_SHOP.id
+  {
+    if (canUseIngameShop())
+      chapter = topMenuOnlineShopId
+  }
 
-  discountsList[chapter] <- chapter == ::g_top_menu_buttons.XBOX_ONLINE_SHOP.id ?
-      (xboxShopData.canUseIngameShop() || ::is_platform_pc)
-    : true
+  local chapterVal = true
+  if (chapter == topMenuOnlineShopId)
+    chapterVal = canUseIngameShop() || ::is_platform_pc
+  discountsList[chapter] <- chapterVal
 
   if (entlBlock?.aircraftGift)
     foreach(unitName in entlBlock % "aircraftGift")
@@ -219,11 +235,6 @@ g_discount.updateDiscountNotifications <- function updateDiscountNotifications(s
   }
 
   stObj.show(haveAnyDiscount)
-}
-
-g_discount.onEventXboxShopDataUpdated <- function onEventXboxShopDataUpdated(p)
-{
-  updateXboxShopDiscounts()
 }
 
 g_discount.getDiscount <- function getDiscount(id, defVal = false)

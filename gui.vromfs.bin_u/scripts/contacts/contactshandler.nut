@@ -70,7 +70,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getControlsAllowMask()
   {
-    if (!::last_contacts_scene_show || !checkScene() || !scene.isEnabled())
+    if (!isContactsWindowActive() || !scene.isEnabled())
       return CtrlsInGui.CTRL_ALLOW_FULL
     return wndControlsAllowMask
   }
@@ -155,7 +155,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       show = !wasVisible
     if (!show)
     {
-      getSizes()
+      loadSizes()
       if (wasVisible)
       {
         local focusObj = getCurFocusObj(true)
@@ -180,9 +180,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     updateControlsAllowMaskDelayed()
   }
 
-  function getSizes()
+  function loadSizes()
   {
-    if (::last_contacts_scene_show && checkScene())
+    if (isContactsWindowActive())
     {
       ::contacts_sizes = {}
       local obj = scene.findObject("contacts_wnd")
@@ -213,7 +213,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    if (::last_contacts_scene_show && ::contacts_sizes && checkScene())
+    if (isContactsWindowActive() && ::contacts_sizes)
     {
       local obj = scene.findObject("contacts_wnd")
       if (!obj) return
@@ -257,7 +257,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (updateSizesTimer <= 0)
       {
         updateSizesTimer = updateSizesDelay
-        getSizes()
+        loadSizes()
       }
     }
   }
@@ -284,7 +284,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     foreach(idx, contactData in ::contacts[gName])
     {
-      playerListView.playerListItem.push({
+      playerListView.playerListItem.append({
         blockID = "player_" + gName + "_" + idx
         contactUID = contactData.uid
         pilotIcon = contactData.pilotIcon
@@ -294,9 +294,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (gName == ::EPL_FRIENDLIST && ::isInMenu())
     {
       if (::has_feature("Invites"))
-        playerListView.playerButton.push(createPlayerButtonView("btnInviteFriend", "#ui/gameuiskin#btn_invite_friend", "onInviteFriend"))
+        playerListView.playerButton.append(createPlayerButtonView("btnInviteFriend", "#ui/gameuiskin#btn_invite_friend", "onInviteFriend"))
       if (::has_feature("Facebook"))
-        playerListView.playerButton.push(createPlayerButtonView("btnFacebookFriendsAdd", "#ui/gameuiskin#btn_facebook_friends_add", "onFacebookFriendsAdd"))
+        playerListView.playerButton.append(createPlayerButtonView("btnFacebookFriendsAdd", "#ui/gameuiskin#btn_facebook_friends_add", "onFacebookFriendsAdd"))
     }
 
     listNotPlayerChildsByGroup[gName] <- playerListView.playerButton.len()
@@ -572,7 +572,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function setSearchText(search_text, set_in_edit_box = true)
   {
-    searchText = ::english_russian_to_lower_case(search_text)
+    searchText = ::g_string.utf8ToLower(search_text)
     if (set_in_edit_box)
     {
       local searchEditBox = scene.findObject("search_edit_box")
@@ -595,9 +595,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::checkObj(contactObject))
         continue
 
-      local contactName = ::english_russian_to_lower_case(contact_data.name)
+      local contactName = ::g_string.utf8ToLower(contact_data.name)
       contactName = platformModule.getPlayerName(contactName)
-      local searchResult = searchText == "" || contactName.find(searchText) != null
+      local searchResult = searchText == "" || contactName.indexof(searchText) != null
       contactObject.show(searchResult)
       contactObject.enable(searchResult)
     }
@@ -670,6 +670,9 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (curGroup == groupName)
         curGroup = ""
+      if (!isContactsWindowActive())
+        return
+
       fillContactsList()
       if (searchText == "")
         closeSearchGroup()
@@ -680,7 +683,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (groupName && groupName in ::contacts)
     {
       ::contacts[groupName].sort(::sortContacts)
-      if (!checkScene())
+      if (!isContactsWindowActive())
         return
       sel = fillPlayersList(groupName)
     }
@@ -689,14 +692,14 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (group in ::contacts)
         {
           ::contacts[group].sort(::sortContacts)
-          if (!checkScene())
+          if (!isContactsWindowActive())
             continue
           local selected = fillPlayersList(group)
           if (group == curGroup)
             sel = selected
         }
 
-    if (!checkScene())
+    if (!isContactsWindowActive())
       return
 
     if (curGroup && (!groupName || curGroup == groupName))
@@ -718,8 +721,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if ("groupName" in params)
       groupName = params.groupName
 
-    if (::last_contacts_scene_show && checkScene())
-      updateContactsGroup(groupName)
+    updateContactsGroup(groupName)
   }
 
   function onEventModalWndDestroy(params)
@@ -1022,7 +1024,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local contact = ::getContact(contactUID)
     curPlayer = contact
 
-    local idx = ::contacts[curGroup].find(contact)
+    local idx = ::contacts[curGroup].indexof(contact)
     if (idx != null)
     {
       local groupObject = scene.findObject("contacts_groups")
@@ -1108,8 +1110,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getSearchObj()
   {
-    if (!checkScene()) return
-    return scene.findObject("search_edit_box")
+    return checkScene() ? scene.findObject("search_edit_box") : null
   }
 
   function onSearch(obj)

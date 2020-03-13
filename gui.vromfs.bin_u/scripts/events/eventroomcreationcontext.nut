@@ -54,13 +54,12 @@ class EventRoomCreationContext
 
     _optionsConfig = {
       isEventRoom = true
-      brRanges = ::get_tbl_value_by_path_array(["matchmaking", "mmRanges"], mGameMode)
+      brRanges = mGameMode?.matchmaking.mmRanges
       countries = {}
       onChangeCb = ::Callback(onOptionChange, this)
     }
     foreach(team in ::g_team.getTeams())
-      _optionsConfig.countries[team.name] <-
-        ::get_tbl_value_by_path_array([team.name, "countries"], mGameMode)
+      _optionsConfig.countries[team.name] <- mGameMode?[team.name].countries
 
     return _optionsConfig
   }
@@ -183,7 +182,7 @@ class EventRoomCreationContext
     chosenMissionsList = []
     fullMissionsList = []
 
-    local missionsTbl = ::get_tbl_value_by_path_array(["mission_decl", "missions_list"], mGameMode)
+    local missionsTbl = mGameMode?.mission_decl.missions_list
     if (!missionsTbl)
       return
 

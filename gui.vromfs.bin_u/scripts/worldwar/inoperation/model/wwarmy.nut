@@ -1,5 +1,13 @@
 local time = require("scripts/time.nut")
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 
+local transportTypeByTextCode = {
+  TT_NONE      = ::TT_NONE
+  TT_GROUND    = ::TT_GROUND
+  TT_AIR       = ::TT_AIR
+  TT_WATER     = ::TT_WATER
+  TT_TOTAL     = ::TT_TOTAL
+}
 
 class ::WwArmy extends ::WwFormation
 {
@@ -11,6 +19,7 @@ class ::WwArmy extends ::WwFormation
   armyIsDead = false
   deathReason = ""
   armyFlags = 0
+  transportType = ::TT_NONE
 
   constructor(armyName, blk = null)
   {
@@ -34,18 +43,20 @@ class ::WwArmy extends ::WwFormation
     owner.update(blk.getBlockByName("owner"))
     pathTracker.update(blk.getBlockByName("pathTracker"))
 
-    local unitTypeTextCode = ::getTblValueByPath("specs.unitType", blk, "")
+    local unitTypeTextCode = blk?.specs.unitType ?? ""
     unitType = ::g_ww_unit_type.getUnitTypeByTextCode(unitTypeTextCode).code
     morale = ::getTblValue("morale", blk, -1)
     armyIsDead = ::get_blk_value_by_path(blk, "specs/isDead", false)
     deathReason = ::get_blk_value_by_path(blk, "specs/deathReason", "")
     armyFlags = ::get_blk_value_by_path(blk, "specs/flags", 0)
+    transportType = transportTypeByTextCode?[blk?.specs.transportInfo.type ?? "TT_NONE"] ?? ::TT_NONE
     suppliesEndMillisec = ::getTblValue("suppliesEndMillisec", blk, 0)
     entrenchEndMillisec = ::getTblValue("entrenchEndMillisec", blk, 0)
     stoppedAtMillisec = ::getTblValue("stoppedAtMillisec", blk, 0)
     overrideIconId = ::getTblValue("iconOverride", blk, "")
+    hasArtilleryAbility = blk?.specs.canArtilleryFire ?? false
 
-    local armyArtilleryParams = ::g_ww_unit_type.isArtillery(unitType) ?
+    local armyArtilleryParams = hasArtilleryAbility ?
       ::g_world_war.getArtilleryUnitParamsByBlk(blk.getBlockByName("units")) : null
     artilleryAmmo.setArtilleryParams(armyArtilleryParams)
     artilleryAmmo.update(name, blk.getBlockByName("artilleryAmmo"))
@@ -83,8 +94,8 @@ class ::WwArmy extends ::WwFormation
     isUnitsValid = true
     local blk = savedArmyBlk ? savedArmyBlk : getBlk(name)
 
-    units.extend(::WwUnit.loadUnitsFromBlk(blk.getBlockByName("units")))
-    units.extend(::WwUnit.getFakeUnitsArray(blk))
+    units.extend(wwActionsWithUnitsList.loadUnitsFromBlk(blk.getBlockByName("units")))
+    units.extend(wwActionsWithUnitsList.getFakeUnitsArray(blk))
   }
 
   function getName()
@@ -131,7 +142,7 @@ class ::WwArmy extends ::WwFormation
 
     local recalMoral = getMoral()
     if (recalMoral >= 0)
-      desc.push(::loc("worldwar/morale", {morale = recalMoral}))
+      desc.append(::loc("worldwar/morale", {morale = recalMoral}))
 
     local suppliesEnd = getSuppliesFinishTime()
     if (suppliesEnd > 0)
@@ -140,17 +151,17 @@ class ::WwArmy extends ::WwFormation
       local suppliesEndLoc = "worldwar/suppliesfinishedIn"
       if (::g_ww_unit_type.isAir(unitType))
         suppliesEndLoc = "worldwar/returnToAirfieldIn"
-      desc.push( ::loc(suppliesEndLoc, { time = timeText }) )
+      desc.append( ::loc(suppliesEndLoc, { time = timeText }) )
     }
 
     local entrenchTime = secondsLeftToEntrench()
     if (entrenchTime == 0)
     {
-      desc.push(::loc("worldwar/armyEntrenched"))
+      desc.append(::loc("worldwar/armyEntrenched"))
     }
     else if (entrenchTime > 0)
     {
-      desc.push(::loc("worldwar/armyEntrenching",
+      desc.append(::loc("worldwar/armyEntrenching",
           {time = time.hoursToString(time.secondsToHours(entrenchTime), true, true)}))
     }
 
@@ -221,7 +232,7 @@ class ::WwArmy extends ::WwFormation
 
   function canFire()
   {
-    if (!::g_ww_unit_type.isArtillery(unitType))
+    if (!hasArtilleryAbility)
       return false
 
     if (isIdle() && secondsLeftToFireEnable() == -1)
@@ -290,6 +301,11 @@ class ::WwArmy extends ::WwFormation
     return false
   }
 
+  function isTransport()
+  {
+    return transportType > ::TT_NONE && transportType < ::TT_TOTAL
+  }
+
   static function sortArmiesByUnitType(a, b)
   {
     return a.getUnitType() - b.getUnitType()
@@ -297,13 +313,11 @@ class ::WwArmy extends ::WwFormation
 
   static function getCasualtiesCount(blk)
   {
-    if (!::g_world_war.artilleryUnits)
-      ::g_world_war.updateArtilleryUnits()
-
+    local artilleryUnits = ::g_world_war.getArtilleryUnits()
     local unitsCount = 0
     for (local i = 0; i < blk.casualties.paramCount(); i++)
       if (!::g_ww_unit_type.isArtillery(unitType) ||
-          blk.casualties.getParamName(i) in ::g_world_war.artilleryUnits)
+          blk.casualties.getParamName(i) in artilleryUnits)
         unitsCount += blk.casualties.getParamValue(i)
 
     return unitsCount

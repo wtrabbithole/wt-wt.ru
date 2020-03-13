@@ -75,7 +75,7 @@ local helpsLinksByPage =  {
   clans_search = [
     { obj = "img_fits_requirements"
       msgId = "hint_fits_requirements"
-    },
+    }
     { obj = "img_activity"
       msgId = "hint_activity"
     }
@@ -165,6 +165,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     if (startPage == "")
       startPage = (::clan_get_my_clan_id() == "-1")? "clans_search" : "my_clan"
 
+    curWwCategory = ::g_lb_category.EVENTS_PERSONAL_ELO
     initLbTable()
     initLeaderboardFilter()
     initTabs()
@@ -348,12 +349,12 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
       initClanLeaderboards()
 
     if (isLeaderboardPage)
-      fillModeListBox(curPageObj, getCurDMode(), get_show_in_squadron_statistics)
+      fillModeListBox(curPageObj, getCurDMode(), ::get_show_in_squadron_statistics)
     else
     {
       curClanLbPage = 0
       calculateRowNumber()
-      getClansLbData()
+      requestClansLbData()
     }
 
     initFocusArray()
@@ -372,7 +373,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     setCurDMode(curMode)
     fillClanReward()
     calculateRowNumber()
-    getClansLbData(true)
+    requestClansLbData(true)
   }
 
   function showMyClanPage(forceReinit = null)
@@ -401,21 +402,8 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     }
     else {
       clanData = ::my_clan_info
-      local modesObj = curPageObj.findObject("modes_list")
-      if (!::check_obj(modesObj))
-        return
-
-      requestWwMembersList()
-      updateModesTabsContent(modesObj, {
-        tabs = getModesTabsView(getCurDMode(), ::get_show_in_squadron_statistics).append({
-          id = "worldwar_mode"
-          hidden = (curWwMembers?.len() ?? 0) <= 0
-          tabName = ::loc("userlog/page/worldWar")
-          selected = false
-          isWorldWarMode = true
-          tooltip = ::loc("worldwar/ClanMembersLeaderboard/tooltip")
-        })
-      })
+      fillModeListBox(curPageObj, getCurDMode(),
+        ::get_show_in_squadron_statistics, getAdditionalTabsArray())
     }
     initFocusArray()
   }
@@ -446,7 +434,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     return ::g_tasker.charRequestBlk("cln_clan_get_leaderboard", requestBlk, null, onSuccessCb, onErrorCb)
   }
 
-  function getClanLBPosition(fieldName, seasonOrdinalNumber, onSuccessCb = null, onErrorCb = null)
+  function requestClanLBPosition(fieldName, seasonOrdinalNumber, onSuccessCb = null, onErrorCb = null)
   {
     local requestBlk= ::DataBlock()
     requestBlk["clanId"] <- ::clan_get_my_clan_id()
@@ -472,7 +460,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     return ::g_tasker.charRequestBlk("cln_clan_find_by_prefix", requestBlk, null, onSuccessCb, onErrorCb)
   }
 
-  function getClansLbData(updateMyClanRow = false, seasonOrdinalNumber = -1)
+  function requestClansLbData(updateMyClanRow = false, seasonOrdinalNumber = -1)
   {
     showEmptySearchResult(false)
     if ((::clan_get_my_clan_id() == "-1" || curPage == "clans_search")
@@ -500,7 +488,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
                                       requestLbData(seasonOrdinalNumber)
                                     })(seasonOrdinalNumber), this)
 
-      getClanLBPosition(getClansLbFieldName(), seasonOrdinalNumber, cbSuccess)
+      requestClanLBPosition(getClansLbFieldName(), seasonOrdinalNumber, cbSuccess)
     }
     else
       requestLbData(seasonOrdinalNumber)
@@ -531,7 +519,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     if(isSearchMode)
       requestLbData(-1)
     else
-      return getClansLbData()
+      return requestClansLbData()
   }
 
   function onBackToClanlist()
@@ -539,7 +527,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     curClanLbPage = 0
     searchRequest = ""
     isSearchMode = false
-    getClansLbData()
+    requestClansLbData()
   }
 
   function lbDataCb(lbBlk)
@@ -768,7 +756,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
 
     if (isClanInfo && isWorldWarMode)
     {
-      if (curWwCategory?.id != obj.id)
+      if (curWwCategory.id != obj.id)
       {
         curWwCategory = ::g_lb_category.getTypeById(obj.id)
         fillClanWwMemberList()
@@ -784,7 +772,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         break
       }
     curClanLbPage = 0
-    getClansLbData(curPage != "clans_search")
+    requestClansLbData(curPage != "clans_search")
   }
 
   function onCancelSearchEdit(obj)
@@ -869,7 +857,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function goToPage(obj)
   {
     curClanLbPage = obj.to_page.tointeger()
-    getClansLbData()
+    requestClansLbData()
   }
 
   function onCreateClanWnd()
@@ -1087,17 +1075,6 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     return res
   }
 
-  function updateWwMembersList()
-  {
-    if (!isClanInfo)
-      return
-
-    if(isWorldWarMode)
-      fillClanWwMemberList()
-    else
-      showSceneBtn("worldwar_mode", (curWwMembers?.len() ?? 0) > 0)
-  }
-
   function initLeaderboardFilter()
   {
     loadLeaderboardFilter()
@@ -1122,7 +1099,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   function loadLeaderboardFilter()
   {
     filterMask = ::load_local_account_settings(CLAN_LEADERBOARD_FILTER_ID,
-      (1 << leaderboardFilterArray.len()) -1)
+      (1 << leaderboardFilterArray.len()) - 1)
   }
 
   function onChangeLeaderboardFilter(obj)
@@ -1132,6 +1109,6 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
     ::save_local_account_settings(CLAN_LEADERBOARD_FILTER_ID, filterMask)
 
     curClanLbPage = 0
-    getClansLbData()
+    requestClansLbData()
   }
 }

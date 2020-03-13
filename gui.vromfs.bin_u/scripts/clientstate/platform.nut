@@ -14,7 +14,7 @@ local PS4_REGION_NAMES = {
 local targetPlatform = ::get_platform()
 local isPlatformXboxOne = targetPlatform == "xboxOne"
 local isPlatformPS4 = targetPlatform == "ps4"
-local isPlatformPC = ["win32", "win64", "macosx", "linux64"].find(targetPlatform) != null
+local isPlatformPC = ["win32", "win64", "macosx", "linux64"].indexof(targetPlatform) != null
 
 local xboxPrefixNameRegexp = ::regexp2(@"^['" + XBOX_ONE_PLAYER_PREFIX + "']")
 local xboxPostfixNameRegexp = ::regexp2(@".+(" + XBOX_ONE_PLAYER_POSTFIX + ")")
@@ -27,13 +27,24 @@ local isPS4PlayerName = @(name) ps4PrefixNameRegexp.match(name) || ps4PostfixNam
 local cutPlayerNamePrefix = @(name) string.cutPrefix(name, PS4_PLAYER_PREFIX,
                                     string.cutPrefix(name, XBOX_ONE_PLAYER_PREFIX, name))
 local cutPlayerNamePostfix = @(name) string.cutPostfix(name, PS4_PLAYER_POSTFIX,
-                                     string.cutPostfix(name XBOX_ONE_PLAYER_POSTFIX, name))
+                                     string.cutPostfix(name, XBOX_ONE_PLAYER_POSTFIX, name))
 
-local getPlayerName = @(name) name
-if (isPlatformXboxOne)
-  getPlayerName = @(name) cutPlayerNamePrefix(cutPlayerNamePostfix(name))
-else if (isPlatformPS4)
-  getPlayerName = @(name) isPS4PlayerName(name)? name : cutPlayerNamePostfix(name)
+local getPlayerName = function(name)
+{
+  if (name == ::my_user_name)
+  {
+    local replaceName = ::get_gui_option_in_mode(::USEROPT_REPLACE_MY_NICK_LOCAL, ::OPTIONS_MODE_GAMEPLAY, "")
+    if (replaceName != "")
+      return replaceName
+  }
+
+  if (isPlatformXboxOne)
+    return cutPlayerNamePrefix(cutPlayerNamePostfix(name))
+  else if (isPlatformPS4)
+    return isPS4PlayerName(name)? name : cutPlayerNamePostfix(name)
+
+  return name
+}
 
 local isPlayerFromXboxOne = @(name) isPlatformXboxOne && isXBoxPlayerName(name)
 local isPlayerFromPS4 = @(name) isPlatformPS4 && isPS4PlayerName(name)

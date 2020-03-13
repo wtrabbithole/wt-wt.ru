@@ -88,19 +88,18 @@ local function getRomanNumeral(num) {
   if (num >= 4000)
     return num.tostring()
 
-  local thousands = ""
+  local thousands = []
   for (local n = 0; n < num / 1000; n++)
-    thousands += "M"
+    thousands.append("M")
 
-  local roman = ""
+  local roman = []
   local i = -1
-  while (num > 0 && i++ < maxRomanDigit)
-  {
+  while (num > 0 && i++ < maxRomanDigit) {
     local digit = num % 10
     num = num / 10
-    roman = (romanNumeralLookup?[digit + (i * 10)] ?? "") + roman
+    roman.insert(0, romanNumeralLookup?[digit + (i * 10)])
   }
-  return thousands + roman
+  return "".join(thousands.extend(roman).filter(@(v) v!=null))
 }
 
 //EXPORT content for require

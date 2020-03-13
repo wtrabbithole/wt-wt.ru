@@ -41,6 +41,8 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   skillsPageHandler = null
   curEdiff = -1
 
+  needHideSlotbar = false
+
   function initScreen()
   {
     if (!scene)
@@ -54,14 +56,15 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       ::switch_profile_country(country)
 
     initMainParams(true, true)
-    createSlotbar({
-      crewId = crew.id
-      showNewSlot=false,
-      emptyText="#shop/aircraftNotSelected",
-      beforeSlotbarSelect = @(onOk, onCancel, slotData) checkSkillPointsAndDo(onOk, onCancel)
-      afterSlotbarSelect = openSelectedCrew
-      onSlotDblClick = onSlotDblClick
-    })
+    if (!needHideSlotbar)
+      createSlotbar({
+        crewId = crew.id
+        showNewSlot=false,
+        emptyText="#shop/aircraftNotSelected",
+        beforeSlotbarSelect = @(onOk, onCancel, slotData) checkSkillPointsAndDo(onOk, onCancel)
+        afterSlotbarSelect = openSelectedCrew
+        onSlotDblClick = onSlotDblClick
+      })
 
     initFocusArray()
 
@@ -250,7 +253,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           tooltip = discountTooltip
         }
 
-      view.tabs.push(tabData)
+      view.tabs.append(tabData)
     }
     local pagesObj = scene.findObject("crew_pages_list")
     pagesObj.smallFont = needSmallerHeaderFont(pagesObj.getSize(), view.tabs) ? "yes" : "no"
@@ -420,7 +423,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         {
           sortData.append({
             unit = unit
-            locname = ::english_russian_to_lower_case(::getUnitName(unit))
+            locname = ::g_string.utf8ToLower(::getUnitName(unit))
           })
         }
       }

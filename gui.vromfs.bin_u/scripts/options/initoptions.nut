@@ -1,4 +1,5 @@
 local Unit = ::require("scripts/unit/unit.nut")
+local optionsMeasureUnits = ::require("scripts/options/optionsMeasureUnits.nut")
 
 ::all_units <- {}
 ::show_aircraft <- null
@@ -14,7 +15,7 @@ if (::show_aircraft)
 
 ::init_options <- function init_options()
 {
-  if (::measure_units.len() > 0 && (::g_login.isAuthorized() || ::disable_network()))
+  if (optionsMeasureUnits.isInitialized() && (::g_login.isAuthorized() || ::disable_network()))
     return
 
   local stepStatus
@@ -111,8 +112,8 @@ if (::show_aircraft)
 }
 
 ::init_options_steps <- [
-  ::init_all_units,
-  ::update_all_units,
+  ::init_all_units
+  ::update_all_units
   function() { return ::update_aircraft_warpoints(10) }
 
   function() {
@@ -123,28 +124,7 @@ if (::show_aircraft)
     ::crosshair_colors.clear()
   }
 
-  function()
-  {
-    local blk = ::DataBlock("config/measureUnits.blk")
-    ::measure_units = []
-    for (local i = 0; i < blk.blockCount(); i++)
-    {
-      local blkUnits = blk.getBlock(i)
-      local units = []
-      for (local j = 0; j < blkUnits.blockCount(); j++)
-      {
-        local blkUnit = blkUnits.getBlock(j)
-        local unit = {
-          name = blkUnit.getBlockName()
-          round = blkUnit.getInt("round", 0)
-          koef = blkUnit.getReal("koef", 1.0)
-          roundAfter = blkUnit.getPoint2("roundAfter", Point2(0,0))
-        }
-        units.append(unit)
-      }
-      ::measure_units.append(units)
-    }
-  }
+  @() optionsMeasureUnits.init()
 
   function()
   {

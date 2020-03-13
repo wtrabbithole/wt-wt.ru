@@ -1,3 +1,5 @@
+local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+
 class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
 {
   wndType = handlerType.CUSTOM
@@ -165,7 +167,7 @@ class ::gui_handlers.WwAirfieldsList extends ::BaseGuiHandler
 
     foreach (formation in [airfield.clanFormation, airfield.allyFormation])
       if (formation)
-        if (::WwUnit.unitsCount(formation.getUnits()))
+        if (wwActionsWithUnitsList.unitsCount(formation.getUnits()))
           return true
 
     return false

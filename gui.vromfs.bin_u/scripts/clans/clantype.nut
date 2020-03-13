@@ -38,7 +38,7 @@ g_clan_type._getSecondaryInfoChangeCost <- function _getSecondaryInfoChangeCost(
 
 g_clan_type._checkTagText <- function _checkTagText(tagText)
 {
-  if (tagText.find(start) != 0 || tagText.len() < end.len())
+  if (tagText.indexof(start) != 0 || tagText.len() < end.len())
     return false
   return tagText.slice(-end.len()) == end
 }

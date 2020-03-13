@@ -134,7 +134,7 @@ g_ww_logs.requestNewLogs <- function requestNewLogs(loadAmount, useLogMark, hand
 
   ::g_ww_logs.changeLogsLoadStatus(true)
   local cb = ::Callback(function() {
-    getNewLogs(useLogMark, handler)
+    loadNewLogs(useLogMark, handler)
     changeLogsLoadStatus()
   }, this)
   local errorCb = ::Callback(changeLogsLoadStatus, this)
@@ -146,7 +146,7 @@ g_ww_logs.changeLogsLoadStatus <- function changeLogsLoadStatus(isLogsLoading = 
   ::ww_event("LogsLoadStatusChanged", {isLogsLoading = isLogsLoading})
 }
 
-g_ww_logs.getNewLogs <- function getNewLogs(useLogMark, handler)
+g_ww_logs.loadNewLogs <- function loadNewLogs(useLogMark, handler)
 {
   local logsBlk = ::ww_operation_get_log()
   if (useLogMark)

@@ -14,7 +14,7 @@ g_chat_categories.isEnabled <- function isEnabled()
   return list.len() > 0 && ::has_feature("ChatThreadCategories")
 }
 
-g_chat_categories.onEventInitConfigs <- function onEventInitConfigs(p)
+g_chat_categories.onEventLoginComplete <- function onEventLoginComplete(p)
 {
   initThreadCategories()
 }

@@ -50,10 +50,9 @@ DummyButton {
   on_click:t='onMainAction'
 }
 
-dummy
+timer
 {
   id:t='update_timer'
-  behavior:t='Timer'
   timer_handler_func:t='onTimer'
   timer_interval_msec:t='1000'
 }

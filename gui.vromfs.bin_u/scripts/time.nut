@@ -175,14 +175,14 @@ local processTimeStamps = function(text) {
 
     local continueSearch = true
     do {
-      local startIdx = text.find(startTime, startPos)
+      local startIdx = text.indexof(startTime, startPos)
       continueSearch = (startIdx != null)
       if (!continueSearch) {
         break
       }
 
       startIdx += startTime.len()
-      local endIdx = text.find(endTime, startIdx)
+      local endIdx = text.indexof(endTime, startIdx)
       if (endIdx == null) {
         break
       }

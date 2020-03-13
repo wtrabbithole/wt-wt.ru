@@ -77,7 +77,7 @@ local function closeButton(action) {
     behavior = Behaviors.Button
     onClick = action
     rendObj = ROBJ_FRAME
-    borderWidth = 1
+    borderWidth = ::hdpx(1)
     color = Color(250,200,50,200)
   }
 }

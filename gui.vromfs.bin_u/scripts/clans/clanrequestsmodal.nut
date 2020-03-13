@@ -213,7 +213,7 @@ class ::gui_handlers.clanRequestsModal extends ::gui_handlers.BaseGuiHandlerWT
       if(::clan_get_admin_editor_mode() && (owner && "reinitClanWindow" in owner))
         owner.reinitClanWindow()
       //else
-      //  ::getMyClanData(true)
+      //  ::requestMyClanData(true)
     }
   }
 

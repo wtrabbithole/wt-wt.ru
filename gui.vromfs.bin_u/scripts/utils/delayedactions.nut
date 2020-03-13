@@ -8,7 +8,7 @@
 
 */
 
-g_delayed_actions <-
+::g_delayed_actions <-
 {
   delayedActionsList = []
   instantActionsList = []
@@ -31,7 +31,7 @@ g_delayed_actions <-
       local elem = delayedActionsList[i]
       if (elem.time <= curTime)
       {
-        callActions.push(elem.action)
+        callActions.append(elem.action)
         delayedActionsList.pop()
       }
       else
@@ -68,7 +68,7 @@ g_delayed_actions <-
     if (delay_ms > 0)
     {
       local callTime = ::dagor.getCurTime() + delay_ms
-      delayedActionsList.push({action = action, time = callTime})
+      delayedActionsList.append({action = action, time = callTime})
       delayedActionsList.sort(function (a, b)
       {
         return (b.time - a.time).tointeger()
@@ -81,7 +81,7 @@ g_delayed_actions <-
     }
     else
     {
-      instantActionsList.push(action)
+      instantActionsList.append(action)
       if (runInstantActionsTaskId == null)
       {
         runInstantActionsTaskId = ::periodic_task_register_ex(this,

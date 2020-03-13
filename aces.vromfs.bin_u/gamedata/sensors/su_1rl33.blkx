@@ -79,7 +79,7 @@
       "pitchStabLimit": 10.0,
       "rollStabLimit": 10.0,
       "period": 0.25,
-      "width": 2.0,
+      "width": 0.75,
       "barHeight": 1.5,
       "barsCount": 1,
       "rowMajor": false,
@@ -116,9 +116,18 @@
       }
     }
   },
-  "scopeRanges": {
-    "range1": 10000.0,
-    "range2": 20000.0
+  "scanPatternSets": {
+    "search": {
+      "scanPattern1": "search60",
+      "scanPattern2": "search360",
+      "scanPattern3": "searchVertical"
+    }
+  },
+  "scopeRangeSets": {
+    "common": {
+      "range1": 10000.0,
+      "range2": 20000.0
+    }
   },
   "fsms": {
     "main": {
@@ -131,6 +140,9 @@
           "setTargetDesignationRange": {
             "azimuthRange": [-30.0,30.0],
             "distanceRange": [0.0,16000.0]
+          },
+          "setScopeRangeSet": {
+            "scopeRangeSet": "common"
           }
         },
         "setLockMode": {
@@ -142,6 +154,7 @@
           },
           "clearTargets": [],
           "clearTargetsOfInterest": [],
+          "setScanPatternSet": [],
           "setScanPattern": {
             "scanPattern": "lock"
           },
@@ -158,7 +171,8 @@
             "width": 1000.0
           }
         },
-        "setLosLockMode": {
+        "setLosVisualPreLockMode": {
+          "setScanPatternSet": [],
           "setScanPattern": {
             "scanPattern": "losLock"
           },
@@ -172,9 +186,11 @@
           "clearTargets": [],
           "clearTargetsOfInterest": [],
           "setFsmActive": {
-            "fsm": "losLock",
+            "fsm": "lock",
             "active": true
-          },
+          }
+        },
+        "setLosLockMode": {
           "setTransiver": {
             "transiver": "common"
           },
@@ -184,7 +200,14 @@
             "width": 16000.0
           }
         },
+        "setVisualLockMode": {
+          "setDistGatePos": {
+            "source": "targetDesignation",
+            "width": 1000.0
+          }
+        },
         "setTrackMode": {
+          "setScanPatternSet": [],
           "setScanPattern": {
             "scanPattern": "track"
           },
@@ -221,9 +244,6 @@
             "setFsmActive": {
               "fsm": "standbyOrSearch",
               "active": true
-            },
-            "setScopeRange": {
-              "scopeRangeIndex": 0
             }
           }
         },
@@ -279,11 +299,35 @@
               "fsm": "standbyOrSearch",
               "active": false
             },
+            "setLosVisualPreLockMode": [],
             "setLosLockMode": []
           }
         },
-        "finishLockTypeCheck": {
+        "checkLockType2": {
           "stateFrom": "checkLockType1",
+          "event": "designationTypeNotEquals",
+          "stateTo": "checkLockType2",
+          "actions": {
+            "checkDesignationTypeEquals": {
+              "value": 2
+            }
+          }
+        },
+        "visualLock": {
+          "stateFrom": "checkLockType2",
+          "event": "designationTypeEquals",
+          "stateTo": "visualLock",
+          "actions": {
+            "setFsmActive": {
+              "fsm": "standbyOrSearch",
+              "active": false
+            },
+            "setLosVisualPreLockMode": [],
+            "setVisualLockMode": []
+          }
+        },
+        "finishLockTypeCheck": {
+          "stateFrom": "checkLockType2",
           "event": "designationTypeNotEquals",
           "stateTo": "standbyOrSearch"
         },
@@ -293,6 +337,9 @@
           },
           {
             "stateFrom": "losLock"
+          },
+          {
+            "stateFrom": "visualLock"
           },
           {
             "event": "targetDetected"
@@ -310,7 +357,7 @@
               },
               {
                 "setFsmActive": {
-                  "fsm": "losLock",
+                  "fsm": "lock",
                   "active": false
                 }
               },
@@ -328,6 +375,9 @@
             "stateFrom": "losLock"
           },
           {
+            "stateFrom": "visualLock"
+          },
+          {
             "event": "scanFinished"
           },
           {
@@ -338,12 +388,6 @@
               {
                 "setFsmActive": {
                   "fsm": "lock",
-                  "active": false
-                }
-              },
-              {
-                "setFsmActive": {
-                  "fsm": "losLock",
                   "active": false
                 }
               },
@@ -389,6 +433,13 @@
             ]
           }
         ],
+        "switchScanPattern": {
+          "stateFrom": "standbyOrSearch",
+          "command": "scanPatternSwitch",
+          "actions": {
+            "setNextScanPattern": []
+          }
+        },
         "switchScopeRange": {
           "command": "rangeSwitch",
           "actions": {
@@ -441,65 +492,42 @@
           "setTransiver": [],
           "clearTargets": [],
           "clearTargetsOfInterest": [],
-          "setScanPattern": {
-            "scanPattern": "search360"
+          "setCenterElevation": {
+            "source": "constant",
+            "value": 7.5
+          },
+          "setScanPatternSet": {
+            "scanPatternSet": "search"
+          }
+        },
+        "setSearchMode": {
+          "setCenterAzimuth": {
+            "source": "constant",
+            "value": 0.0
+          },
+          "setFsmActive": {
+            "fsm": "search",
+            "active": true
+          },
+          "clearTargets": [],
+          "clearTargetsOfInterest": [],
+          "setTransiver": {
+            "transiver": "common"
           },
           "setCenterElevation": {
             "source": "constant",
             "value": 7.5
+          },
+          "setScanPatternSet": {
+            "scanPatternSet": "search"
           }
         },
-        "setSearchMode": [
-          {
-            "setCenterAzimuth": {
-              "source": "constant",
-              "value": 0.0
-            }
-          },
-          {
-            "setFsmActive": {
-              "fsm": "search",
-              "active": true
-            }
-          },
-          {
-            "clearTargets": []
-          },
-          {
-            "clearTargetsOfInterest": []
-          },
-          {
-            "setTransiver": {
-              "transiver": "common"
-            }
-          },
-          {
-            "setCenterElevation": {
-              "source": "constant",
-              "value": 7.5
-            }
-          },
-          {
-            "setFsmActive": {
-              "fsm": "searchPattern",
-              "active": true
-            }
+        "resetSearchMode": {
+          "setFsmActive": {
+            "fsm": "search",
+            "active": false
           }
-        ],
-        "resetSearchMode": [
-          {
-            "setFsmActive": {
-              "fsm": "search",
-              "active": false
-            }
-          },
-          {
-            "setFsmActive": {
-              "fsm": "searchPattern",
-              "active": false
-            }
-          }
-        ]
+        }
       },
       "transitions": {
         "init": {
@@ -577,23 +605,6 @@
         }
       }
     },
-    "losLock": {
-      "stateInit": "losLock",
-      "transitions": {
-        "scan": {
-          "event": "update",
-          "actions": {
-            "scan": []
-          }
-        },
-        "detect": {
-          "event": "targetInSight",
-          "actions": {
-            "detectTarget": []
-          }
-        }
-      }
-    },
     "track": {
       "stateInit": "track",
       "transitions": {
@@ -639,68 +650,6 @@
             },
             "checkActiveTargetOfInerestInertialTimeout": {
               "timeOut": 1.0
-            }
-          }
-        }
-      }
-    },
-    "searchPattern": {
-      "stateInit": "search60",
-      "transitions": {
-        "activateSearch60": {
-          "stateFrom": "search60",
-          "event": "fsmActivate",
-          "actions": {
-            "setScanPattern": {
-              "scanPattern": "search60"
-            }
-          }
-        },
-        "activatesearch360": {
-          "stateFrom": "search360",
-          "event": "fsmActivate",
-          "actions": {
-            "setScanPattern": {
-              "scanPattern": "search360"
-            }
-          }
-        },
-        "activateSearchVertical": {
-          "stateFrom": "searchVertical",
-          "event": "fsmActivate",
-          "actions": {
-            "setScanPattern": {
-              "scanPattern": "searchVertical"
-            }
-          }
-        },
-        "switchToSearch360": {
-          "stateFrom": "search60",
-          "command": "scanPatternSwitch",
-          "stateTo": "search360",
-          "actions": {
-            "setScanPattern": {
-              "scanPattern": "search360"
-            }
-          }
-        },
-        "switchToSearchVertical": {
-          "stateFrom": "search360",
-          "command": "scanPatternSwitch",
-          "stateTo": "searchVertical",
-          "actions": {
-            "setScanPattern": {
-              "scanPattern": "searchVertical"
-            }
-          }
-        },
-        "switchTosearch60": {
-          "stateFrom": "searchVertical",
-          "command": "scanPatternSwitch",
-          "stateTo": "search60",
-          "actions": {
-            "setScanPattern": {
-              "scanPattern": "search60"
             }
           }
         }

@@ -162,11 +162,11 @@ class WwQueue
     else
     {
       local myClanType = ::g_clans.getMyClanType()
-      local minMemberCountToWWar = myClanType.getMinMemberCountToWWar()
-      if (::g_clans.getMyClanMembersCount() < minMemberCountToWWar)
+      if (!::clan_can_register_to_ww())
         res.reasonText = ::loc("clan/wwar/lacksMembers", {
           clanType = myClanType.getTypeNameLoc()
-          count = minMemberCountToWWar
+          count = myClanType.getMinMemberCountToWWar()
+          minRankRequired = ::get_roman_numeral(::g_world_war.getSetting("minCraftRank", 0))
         })
       else
         res.canJoin = true

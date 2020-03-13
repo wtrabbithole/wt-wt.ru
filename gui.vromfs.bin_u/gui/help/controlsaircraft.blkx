@@ -515,7 +515,7 @@
         "controlsHelpTextArea": {
           "id": "ammo_count_label",
           "width": "160/1760pw",
-          "pos": "1100/1760pw, 95/900ph-h",
+          "pos": "1100/1760pw, 90/900ph-h",
           "position": "absolute",
           "text": "#controls/help/ammo_count"
         }
@@ -524,7 +524,7 @@
         "controlsHelpTextArea": {
           "id": "weapon_reload_time_label",
           "width": "160/1760pw",
-          "pos": "1100/1760pw, 105/900ph",
+          "pos": "1050/1760pw, 115/900ph",
           "position": "absolute",
           "text": "#controls/help/reload_timer"
         }
@@ -532,8 +532,8 @@
       {
         "controlsHelpTextArea": {
           "id": "bomb_crosshair_label",
-          "width": "270/1760pw",
-          "pos": "1300/1760pw, 80/900ph-h",
+          "width": "290/1760pw",
+          "pos": "1300/1760pw, 90/900ph-h",
           "position": "absolute",
           "text": "#controls/help/bomb_crosshairs"
         }
@@ -547,68 +547,60 @@
         }
       },
       {
-        "tdiv": [
-          {
-            "pos": "1745/1760pw-w, 435/900ph-h"
-          },
-          {
-            "position": "absolute"
-          },
-          {
-            "width": "230/1760pw"
-          },
-          {
-            "controlsHelpTextArea": {
-              "width": "pw",
-              "text": "#controls/help/diving"
-            }
-          },
-          {
-            "_newline": {
-              "size": "0"
-            }
-          },
-          {
-            "controlsHelpFrame": {
-              "width": "0.5pw",
-              "height": "w",
-              "img": {
-                "pos": "0.5pw-0.5w, 0",
-                "position": "relative",
-                "height": "ph",
-                "width": "0.59h",
-                "background-image": "#ui/images/controls/controls_help_dive_1"
-              }
-            }
-          },
-          {
-            "controlsHelpFrame": {
-              "width": "0.5pw",
-              "height": "w",
-              "img": {
-                "pos": "0.5pw-0.5w, 0",
-                "position": "relative",
-                "height": "ph",
-                "width": "0.59h",
-                "background-image": "#ui/images/controls/controls_help_dive_2"
-              }
-            }
-          }
-        ]
-      },
-      {
-        "controlsHelpFrame": {
-          "id": "bombs_controls_frame",
-          "pos": "1745/1760pw-w, 215/900ph",
+        "tdiv": {
+          "pos": "1745/1760pw-w, 435/900ph-h",
           "position": "absolute",
           "width": "230/1760pw",
-          "keyDiv": {
-            "behaviour": "bhvHelpFrame",
-            "value": "{{ID_BOMBS}}"
+          "flow": "vertical",
+          "controlsHelpFrame": {
+            "id": "bombs_controls_frame",
+            "width": "pw",
+            "keyDiv": {
+              "behaviour": "bhvHelpFrame",
+              "value": "{{ID_BOMBS}}"
+            },
+            "textareaNoTab": {
+              "text": "#controls/help/ID_BOMBS_0"
+            }
           },
-          "textareaNoTab": {
-            "text": "#controls/help/ID_BOMBS_0"
-          }
+          "controlsHelpTextArea": {
+            "width": "pw",
+            "text": "#controls/help/diving"
+          },
+          "tdiv": [
+            {
+              "width": "pw"
+            },
+            {
+              "flow": "horizontal"
+            },
+            {
+              "controlsHelpFrame": {
+                "width": "0.5pw",
+                "height": "w",
+                "img": {
+                  "pos": "0.5pw-0.5w, 0",
+                  "position": "relative",
+                  "height": "ph",
+                  "width": "0.59h",
+                  "background-image": "#ui/images/controls/controls_help_dive_1"
+                }
+              }
+            },
+            {
+              "controlsHelpFrame": {
+                "width": "0.5pw",
+                "height": "w",
+                "img": {
+                  "pos": "0.5pw-0.5w, 0",
+                  "position": "relative",
+                  "height": "ph",
+                  "width": "0.59h",
+                  "background-image": "#ui/images/controls/controls_help_dive_2"
+                }
+              }
+            }
+          ]
         }
       },
       {

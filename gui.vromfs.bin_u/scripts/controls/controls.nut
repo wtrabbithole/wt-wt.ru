@@ -2,7 +2,6 @@ local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local globalEnv = require_native("globalEnv")
 local controllerState = require_native("controllerState")
 local time = require("scripts/time.nut")
-local kwarg = require("std/functools.nut").kwarg
 
 local shortcutsListModule = require("scripts/controls/shortcutsList/shortcutsList.nut")
 local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
@@ -166,7 +165,7 @@ global enum ConflictGroups {
   ::restore_shortcuts(scToRestore, ::shortcuts_not_change_by_preset)
 
   if (::is_platform_pc)
-    ::switch_show_console_buttons(preset.find("xinput") != null)
+    ::switch_show_console_buttons(preset.indexof("xinput") != null)
 
   if (updateHelpersMode)
     ::switch_helpers_mode_and_option(preset)
@@ -240,8 +239,7 @@ local axisMappedOnMouse = {
 {
   if (::is_ps4_or_xbox || ::is_platform_shield_tv())
   {
-    local cdb = ::get_local_custom_settings_blk()
-    if (!(ps4ControlsModeActivatedParamName in cdb) || cdb[ps4ControlsModeActivatedParamName])
+    if (::load_local_account_settings(ps4ControlsModeActivatedParamName, true))
     {
       ::gui_start_controls_console()
       return
@@ -460,11 +458,11 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     if (!::checkObj(filterEditBox))
       return
 
-    local filterText = ::english_russian_to_lower_case(filterEditBox.getValue())
+    local filterText = ::g_string.utf8ToLower(filterEditBox.getValue())
 
     foreach (idx, data in filledControlGroupTab)
     {
-      local show = filterText == "" || data.text.find(filterText) != null
+      local show = filterText == "" || data.text.indexof(filterText) != null
       showSceneBtn(data.id, show)
     }
   }
@@ -867,7 +865,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function getRowIdxBYId(id)
   {
-    return ::shortcutsList.searchindex(@(s) s.id == id) ?? -1
+    return ::shortcutsList.findindex(@(s) s.id == id) ?? -1
   }
 
   function getCurItem()
@@ -1996,7 +1994,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                    "td { width:t='pw-1@controlsLeftRow'; }\n" +
                  "}\n", trAdd, hotkeyId)
 
-    hotkeyData.text = ::english_russian_to_lower_case(::loc(hotkeyId))
+    hotkeyData.text = ::g_string.utf8ToLower(::loc(hotkeyId))
     hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.SHORTCUT || item.type == CONTROL_TYPE.AXIS_SHORTCUT)
@@ -2013,7 +2011,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                  "txt_sc_" + item.id,
                  ::get_shortcut_text({shortcuts = shortcuts, shortcutId = item.shortcutId, strip_tags = true}))
 
-    hotkeyData.text = ::english_russian_to_lower_case(::loc(trName))
+    hotkeyData.text = ::g_string.utf8ToLower(::loc(trName))
     hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.AXIS && item.axisIndex >= 0)
@@ -2025,7 +2023,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                  "}\n",
                  "axis_" + item.axisIndex, trAdd, "#controls/"+item.id, "txt_"+item.id)
 
-    hotkeyData.text = ::english_russian_to_lower_case(::loc("controls/"+item.id))
+    hotkeyData.text = ::g_string.utf8ToLower(::loc("controls/"+item.id))
     hotkeyData.markup = res
   }
   else if (item.type == CONTROL_TYPE.SPINNER || item.type== CONTROL_TYPE.DROPRIGHT)
@@ -2120,13 +2118,14 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
                    "td { width:t='pw-1@controlsLeftRow'; cellType:t='right'; padding-left:t='@optPad'; %s } " +
                  "}\n",
                  trAdd, elemIdTxt != "" ? "#" + elemIdTxt : "", elemTxt)
-    hotkeyData.text = ::english_russian_to_lower_case(::loc(elemIdTxt))
+    hotkeyData.text = ::g_string.utf8ToLower(::loc(elemIdTxt))
     hotkeyData.markup = res
   }
   return hotkeyData
 }
 
-::get_shortcut_text <- kwarg(function(shortcuts, shortcutId, cantBeEmpty = true, strip_tags = false, preset = null)
+::get_shortcut_text <- ::kwarg(function get_shortcut_text(shortcuts,
+  shortcutId, cantBeEmpty = true, strip_tags = false, preset = null)
 {
   if (!(shortcutId in shortcuts))
     return ""
@@ -2204,9 +2203,9 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   local txt = text
   local index_txt = ""
 
-  if (txt.find("Button ") == 0) //"Button 1" in "Button" and "1"
+  if (txt.indexof("Button ") == 0) //"Button 1" in "Button" and "1"
     index_txt = " " + txt.slice("Button ".len())
-  else if (txt.find("Button") == 0) //"Button1" in "Button" and "1"
+  else if (txt.indexof("Button") == 0) //"Button1" in "Button" and "1"
     index_txt = " " + txt.slice("Button".len())
 
   if (index_txt != "")
@@ -2254,11 +2253,11 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   if (text == null)
     return "?"
 
-  if (text.find("Axis ") == 0) //"Axis 1" in "Axis" and "1"
+  if (text.indexof("Axis ") == 0) //"Axis 1" in "Axis" and "1"
   {
     return ::loc("composite/axis")+text.slice("Axis ".len());
   }
-  else if (text.find("Axis") == 0) //"Axis1" in "Axis" and "1"
+  else if (text.indexof("Axis") == 0) //"Axis1" in "Axis" and "1"
   {
     return ::loc("composite/axis")+text.slice("Axis".len());
   }
@@ -2296,12 +2295,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
 ::switchControlsMode <- function switchControlsMode(value)
 {
-  local cdb = ::get_local_custom_settings_blk()
-  if (value == cdb?[ps4ControlsModeActivatedParamName])
-    return
-
-  cdb[ps4ControlsModeActivatedParamName] = value
-  ::save_profile_offline_limited()
+  ::save_local_account_settings(ps4ControlsModeActivatedParamName, value)
 }
 
 ::getUnmappedControlsForCurrentMission <- function getUnmappedControlsForCurrentMission()
@@ -2557,7 +2551,7 @@ local function getWeaponFeatures(weaponsBlkList)
     controls = [ "ID_TOGGLE_ENGINE", "throttle" ]
 
     if (isMouseAimMode)
-      controls.extend([ "mouse_aim_x", "mouse_aim_y" ])
+      controls.append("mouse_aim_x", "mouse_aim_y")
     else
     {
       if (unitControls?.hasAileronControl)
@@ -2624,7 +2618,7 @@ local function getWeaponFeatures(weaponsBlkList)
     controls = [ "helicopter_collective", "helicopter_climb", "helicopter_cyclic_roll" ]
 
     if (::is_xinput_device())
-      controls.extend([ "helicopter_mouse_aim_x", "helicopter_mouse_aim_y" ])
+      controls.append("helicopter_mouse_aim_x", "helicopter_mouse_aim_y")
 
     local w = getWeaponFeatures([ blkCommonWeapons, blkWeaponPreset ])
 
@@ -2679,7 +2673,7 @@ local function getWeaponFeatures(weaponsBlkList)
 
     local tags = unit?.tags || []
     local scoutPresetId = difficultySettings?.scoutPreset ?? ""
-    if (::has_feature("ActiveScouting") && tags.find("scout") != null
+    if (::has_feature("ActiveScouting") && tags.indexof("scout") != null
       && gameParams?.scoutPresets?[scoutPresetId]?.enabled)
       controls.append("ID_SCOUT")
 
@@ -2692,7 +2686,7 @@ local function getWeaponFeatures(weaponsBlkList)
     local isSeperatedEngineControl =
       ::get_gui_option_in_mode(::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP, ::OPTIONS_MODE_GAMEPLAY)
     if (isSeperatedEngineControl)
-      controls.extend(["ship_port_engine", "ship_star_engine"])
+      controls.append("ship_port_engine", "ship_star_engine")
     else
       controls.append("ship_main_engine")
 
@@ -2760,7 +2754,7 @@ local function getWeaponFeatures(weaponsBlkList)
           }
         if (!isMapped)
           foreach (shortcut in group.shortcuts)
-            if (controls.find(shortcut) == null)
+            if (controls.indexof(shortcut) == null)
               controls.append(shortcut)
       }
 
@@ -2809,8 +2803,24 @@ local function getWeaponFeatures(weaponsBlkList)
       if (item.type == CONTROL_TYPE.SHORTCUT)
       {
         local shortcuts = ::get_shortcuts([ item.id ])
-        if (shortcuts.len() && !::isShortcutMapped(shortcuts[0]))
-          unmapped.append((getLocNames ? "hotkeys/" : "") + item.id)
+        if (!shortcuts.len() || ::isShortcutMapped(shortcuts[0]))
+          continue
+
+        local altIds = item?.alternativeIds ?? []
+        foreach (otherItem in ::shortcutsList)
+          if ((otherItem?.alternativeIds ?? []).indexof(item.id) != null)
+            ::u.appendOnce(otherItem.id, altIds)
+        local isMapped = false
+        foreach (s in ::get_shortcuts(altIds))
+          if (::isShortcutMapped(s))
+          {
+            isMapped = true
+            break
+          }
+        if (isMapped)
+          continue
+
+        unmapped.append((getLocNames ? "hotkeys/" : "") + item.id)
       }
       else if (item.type == CONTROL_TYPE.AXIS)
       {
@@ -3138,11 +3148,11 @@ local function getWeaponFeatures(weaponsBlkList)
 
   local preset = ::g_controls_presets.getCurrentPreset()
   local is_ps4_non_gamepad_preset = ::is_platform_ps4
-    && preset.name.find("dualshock4") == null
-    && preset.name.find("default") == null
+    && preset.name.indexof("dualshock4") == null
+    && preset.name.indexof("default") == null
   local is_xboxone_non_gamepad_preset = ::is_platform_xboxone
-    && preset.name.find("xboxone_ma") == null
-    && preset.name.find("xboxone_simulator") == null
+    && preset.name.indexof("xboxone_ma") == null
+    && preset.name.indexof("xboxone_simulator") == null
 
   ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
 

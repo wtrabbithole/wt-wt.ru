@@ -71,7 +71,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     "briefMalfunctionState",
     "isBurning",
     "isExtinguisherActive",
-    "isLocal"
+    "isLocal",
     "isInHeroSquad",
   ]
 
@@ -306,7 +306,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       tabs = []
     }
     foreach(tab in tabsList)
-      view.tabs.push({
+      view.tabs.append({
         tabName = ::loc(tab.locId)
         id = tab.id
         alert = "no"
@@ -808,7 +808,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       ::toggle_shortcut(id)
   }
 
-  function onMapClick(obj)
+  function onMapClick(obj = null)
   {
     local mapLargePanelObj = scene.findObject("map_large_div")
     if (!::checkObj(mapLargePanelObj))
@@ -1251,7 +1251,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     obj = scene.findObject("tabs")
     local chatTabId = SPECTATOR_CHAT_TAB.CHAT
     if (::checkObj(obj) && curTabId != chatTabId)
-      obj.setValue(tabsList.searchindex(@(t) t.id == chatTabId) ?? -1)
+      obj.setValue(tabsList.findindex(@(t) t.id == chatTabId) ?? -1)
 
     if (::getTblValue("activate", params, false))
       ::game_chat_input_toggle_request(true)
@@ -1532,4 +1532,11 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   local handler = ::handlersManager.findHandlerClassInScene(::Spectator)
   if (handler)
     handler.onPlayerRequestedArtillery(userId)
+}
+
+::on_spectator_tactical_map_request <- function on_spectator_tactical_map_request() // called from client
+{
+  local handler = ::handlersManager.findHandlerClassInScene(::Spectator)
+  if (handler)
+    handler.onMapClick()
 }

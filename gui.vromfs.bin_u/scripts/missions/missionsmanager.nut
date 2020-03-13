@@ -1,5 +1,4 @@
-
-g_missions_manager <- {
+::g_missions_manager <- {
   isRemoteMission = false
 }
 

@@ -2419,6 +2419,13 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-5.0,60.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-5.0,-5.0,60.0],
+            "lim2": [-5.0,10.0,8.0,60.0],
+            "lim3": [10.0,35.0,-5.0,60.0],
+            "lim4": [35.0,48.0,8.0,60.0],
+            "lim5": [48.0,180.0,-5.0,60.0]
           }
         }
       }
@@ -2526,6 +2533,8 @@
     "cockpit": {
       "zoomOutFov": 40.0,
       "zoomInFov": 21.0,
+      "sightFov": 25.0,
+      "sightName": "default_tank_spg",
       "headPos": [-0.0,4.0,-8.0],
       "headPosOnShooting": [-0.6,3.9,-0.5],
       "detectionHeight": 2.71,

@@ -3,7 +3,7 @@
   "transivers": {
     "search": {
       "power": 250.0,
-      "band": 0,
+      "band": 4,
       "rcs": 3.0,
       "range": 12000.0,
       "rangeMax": 15000.0,
@@ -21,7 +21,7 @@
     },
     "track": {
       "power": 200.0,
-      "band": 0,
+      "band": 4,
       "rcs": 3.0,
       "range": 10000.0,
       "rangeMax": 10000.0,
@@ -67,7 +67,7 @@
       "pitchStabLimit": 10.0,
       "rollStabLimit": 10.0,
       "period": 0.25,
-      "width": 2.0,
+      "width": 5.0,
       "barHeight": 1.5,
       "barsCount": 1,
       "rowMajor": false,
@@ -136,6 +136,9 @@
             "clearTargetsOfInterest": []
           },
           {
+            "setScanPatternSet": []
+          },
+          {
             "setScanPattern": {
               "scanPattern": "lock"
             }
@@ -167,7 +170,8 @@
             }
           }
         ],
-        "setLosLockMode": {
+        "setLosVisualPreLockMode": {
+          "setScanPatternSet": [],
           "setScanPattern": {
             "scanPattern": "losLock"
           },
@@ -181,9 +185,11 @@
           "clearTargets": [],
           "clearTargetsOfInterest": [],
           "setFsmActive": {
-            "fsm": "losLock",
+            "fsm": "lock",
             "active": true
-          },
+          }
+        },
+        "setLosLockMode": {
           "setTransiver": {
             "transiver": "track"
           },
@@ -193,7 +199,14 @@
             "width": 10000.0
           }
         },
+        "setVisualLockMode": {
+          "setDistGatePos": {
+            "source": "targetDesignation",
+            "width": 1000.0
+          }
+        },
         "setTrackMode": {
+          "setScanPatternSet": [],
           "setScanPattern": {
             "scanPattern": "track"
           },
@@ -230,9 +243,6 @@
             "setFsmActive": {
               "fsm": "standbyOrSearch",
               "active": true
-            },
-            "setScopeRange": {
-              "scopeRangeIndex": 0
             }
           }
         },
@@ -288,11 +298,35 @@
               "fsm": "standbyOrSearch",
               "active": false
             },
+            "setLosVisualPreLockMode": [],
             "setLosLockMode": []
           }
         },
-        "finishLockTypeCheck": {
+        "checkLockType2": {
           "stateFrom": "checkLockType1",
+          "event": "designationTypeNotEquals",
+          "stateTo": "checkLockType2",
+          "actions": {
+            "checkDesignationTypeEquals": {
+              "value": 2
+            }
+          }
+        },
+        "visualLock": {
+          "stateFrom": "checkLockType2",
+          "event": "designationTypeEquals",
+          "stateTo": "visualLock",
+          "actions": {
+            "setFsmActive": {
+              "fsm": "standbyOrSearch",
+              "active": false
+            },
+            "setLosVisualPreLockMode": [],
+            "setVisualLockMode": []
+          }
+        },
+        "finishLockTypeCheck": {
+          "stateFrom": "checkLockType2",
           "event": "designationTypeNotEquals",
           "stateTo": "standbyOrSearch"
         },
@@ -302,6 +336,9 @@
           },
           {
             "stateFrom": "losLock"
+          },
+          {
+            "stateFrom": "visualLock"
           },
           {
             "event": "targetDetected"
@@ -319,7 +356,7 @@
               },
               {
                 "setFsmActive": {
-                  "fsm": "losLock",
+                  "fsm": "lock",
                   "active": false
                 }
               },
@@ -337,6 +374,9 @@
             "stateFrom": "losLock"
           },
           {
+            "stateFrom": "visualLock"
+          },
+          {
             "event": "scanFinished"
           },
           {
@@ -347,12 +387,6 @@
               {
                 "setFsmActive": {
                   "fsm": "lock",
-                  "active": false
-                }
-              },
-              {
-                "setFsmActive": {
-                  "fsm": "losLock",
                   "active": false
                 }
               },
@@ -398,6 +432,13 @@
             ]
           }
         ],
+        "switchScanPattern": {
+          "stateFrom": "standbyOrSearch",
+          "command": "scanPatternSwitch",
+          "actions": {
+            "setNextScanPattern": []
+          }
+        },
         "switchScopeRange": {
           "command": "rangeSwitch",
           "actions": {
@@ -548,23 +589,6 @@
     },
     "lock": {
       "stateInit": "lock",
-      "transitions": {
-        "scan": {
-          "event": "update",
-          "actions": {
-            "scan": []
-          }
-        },
-        "detect": {
-          "event": "targetInSight",
-          "actions": {
-            "detectTarget": []
-          }
-        }
-      }
-    },
-    "losLock": {
-      "stateInit": "losLock",
       "transitions": {
         "scan": {
           "event": "update",

@@ -33,6 +33,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "autoSightDistanceCorrection": true
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -1747,6 +1750,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ],
       "mount": [
@@ -1824,6 +1835,14 @@
             "kill": true,
             "killEffect": "fire"
           }
+        },
+        {
+          "effect": {
+            "expl": 1.0,
+            "conditionDead": true,
+            "kill": true,
+            "killEffect": "fire"
+          }
         }
       ]
     }
@@ -1835,7 +1854,7 @@
       "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_wheels",
       "TrackSoundNameCockpit": "tracks_wheels_interior",
-      "turret_turn": "turret_turn_t34_manual",
+      "turret_turn": "turret_turn_t34_servo",
       "EngineNameAi": "engine_truck_ai",
       "TrackSoundNameAi": "tracks_ai_wheels"
     }
@@ -2134,11 +2153,9 @@
         "brokenWheelSteeringDeflection": -15.0,
         "steeringDeflection": {
           "wheel_l_01": 25.0,
-          "wheel_l_02": 10.0,
+          "wheel_l_02": 15.0,
           "wheel_r_01": 25.0,
-          "wheel_r_02": 10.0,
-          "wheel_l_04": -8.0,
-          "wheel_r_04": -8.0,
+          "wheel_r_02": 15.0,
           "steeringTau": 1000000.0,
           "steeringSpd": 1.0,
           "steeringNeutralSpd": 3.0

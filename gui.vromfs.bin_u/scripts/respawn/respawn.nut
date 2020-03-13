@@ -282,10 +282,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     scene.findObject("stat_update").setUserData(this)
 
-    subHandlers.extend([
-      ::gui_load_mission_objectives(scene.findObject("primary_tasks_list"),   true, 1 << ::OBJECTIVE_TYPE_PRIMARY)
+    subHandlers.append(
+      ::gui_load_mission_objectives(scene.findObject("primary_tasks_list"),   true, 1 << ::OBJECTIVE_TYPE_PRIMARY),
       ::gui_load_mission_objectives(scene.findObject("secondary_tasks_list"), true, 1 << ::OBJECTIVE_TYPE_SECONDARY)
-    ])
+    )
 
     local navBarObj = scene.findObject("gamercard_bottom_navbar_place")
     if (::checkObj(navBarObj))
@@ -329,7 +329,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
                                         missionRules = missionRules
                                       })
     registerSubHandler(handler)
-    teamUnitsLeftWeak = handler.weakref()
+    teamUnitsLeftWeak = handler?.weakref()
   }
 
   function getFocusObjUnderSlotbar()
@@ -462,7 +462,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     customStateCrewAvailableMask = missionRules.getCurCrewsRespawnMask()
   }
 
-  function onEventChangedMissionRespawnBasesStatus(params)
+  function updateRespawnWhenChangedMissionRespawnBasesStatus()
   {
     local isStayOnrespScreenChanged = recountStayOnRespScreen()
     local isNoRespawnsChanged = updateRespawnBasesStatus()
@@ -479,6 +479,11 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     updateApplyText()
     checkReady()
     restoreFocus()
+  }
+
+  function onEventChangedMissionRespawnBasesStatus(params)
+  {
+    doWhenActiveOnce("updateRespawnWhenChangedMissionRespawnBasesStatus")
   }
 
   function updateNoRespawnText()
@@ -575,8 +580,8 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       local air = ::getAircraftByName(airName)
       if (air)
       {
+        ::show_aircraft = air
         scene.findObject("air_info_div").show(true)
-
         local data = ::build_aircraft_item(air.name, air, {
           showBR        = ::has_feature("SlotbarShowBattleRating")
           getEdiffFunc  = getCurrentEdiff.bindenv(this)
@@ -1284,6 +1289,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       isUnitChanged = ::aircraft_for_weapons != unit.name
       ::cur_aircraft_name = unit.name //used in some options
       ::aircraft_for_weapons = unit.name
+      ::show_aircraft = unit
 
       if (isUnitChanged || isFirstUnitOptionsInSession)
         preselectUnitWeapon(unit)
@@ -2590,10 +2596,6 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   return null
 }
 
-//FOR DEBUGGING. remove when bug is caught
-if ("get_available_respawn_bases_debug" in getroottable())
-  ::get_available_respawn_bases <- ::get_available_respawn_bases_debug
-
 ::has_available_slots <- function has_available_slots()
 {
   if (!(::get_game_type() & (::GT_VERSUS | ::GT_COOPERATIVE)))
@@ -2626,9 +2628,10 @@ if ("get_available_respawn_bases_debug" in getroottable())
       continue
 
     if (!::is_crew_available_in_session(c.idInCountry, false)
-        || !::is_crew_slot_was_ready_at_host(c.idInCountry, air.name, true)
+        || !::is_crew_slot_was_ready_at_host(c.idInCountry, air.name, false)
         || !::get_available_respawn_bases(air.tags).len()
-        || !missionRules.getUnitLeftRespawns(air))
+        || !missionRules.getUnitLeftRespawns(air)
+        || air.disableFlyout)
       continue
 
     if (missionRules.isScoreRespawnEnabled

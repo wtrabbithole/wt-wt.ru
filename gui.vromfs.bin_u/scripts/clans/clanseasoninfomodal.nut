@@ -134,10 +134,10 @@ class ::gui_handlers.clanSeasonInfoModal extends ::gui_handlers.BaseGuiHandlerWT
         prizesList[prizeType] <- splitList
       }
 
-      local uniqueClantags = ::getTblValueByPath("clanTag.unique", prizesList, [])
-      local uniqueDecals   = ::getTblValueByPath("decal.unique",   prizesList, [])
-      local bonusClantags  = ::getTblValueByPath("clanTag.bonus",  prizesList, [])
-      local bonusDecals    = ::getTblValueByPath("decal.bonus",    prizesList, [])
+      local uniqueClantags = prizesList?.clanTag.unique ?? []
+      local uniqueDecals   = prizesList?.decal.unique ?? []
+      local bonusClantags  = prizesList?.clanTag.bonus ?? []
+      local bonusDecals    = prizesList?.decal.bonus ?? []
 
       view.rewardsList.append({
         title      = title

@@ -39,6 +39,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "autoSightDistanceCorrection": true
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -128,7 +131,7 @@
           "armorThickness": 30.0
         },
         "ex_armor_body_01_dm": {
-          "armorThickness": 60.0,
+          "armorThickness": 20.0,
           "armorClass": "CHA_tank"
         },
         "body_top_dm": {
@@ -224,6 +227,9 @@
         "composite_armor_hull_05_dm": {
           "armorThickness": 200.0,
           "armorClass": "spaced_armor_air"
+        },
+        "turret_08_back_dm": {
+          "armorThickness": 60.0
         }
       },
       "turret": {
@@ -3595,6 +3601,8 @@
   {
     "skin": {
       "name": "isr_camo_sandgray",
+      "nameLocId": "skin/isr_camo_sandgray",
+      "descLocId": "skin/isr_camo_sandgray/desc",
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "isr_camo_sandgray*"
@@ -3604,6 +3612,8 @@
   {
     "skin": {
       "name": "uk_camo_winter_olive",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "us_camo_winter_olive*"
@@ -3613,6 +3623,8 @@
   {
     "skin": {
       "name": "isr_camo_threecolor",
+      "nameLocId": "skin/isr_camo_threecolor",
+      "descLocId": "skin/isr_camo_threecolor/desc",
       "replace_tex": {
         "from": "us_camo_olive*",
         "to": "isr_camo_threecolor*"

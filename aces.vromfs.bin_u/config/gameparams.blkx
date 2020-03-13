@@ -66,6 +66,7 @@
   "helicopterDefaultTpsOffset": [-2.0,0.0,4.0],
   "decalScaleRange": [0.1,3.0],
   "decalScaleRangeShip": [0.1,5.0],
+  "timeBeforeEngineNoticeFire": 2.0,
   "teleScale": 0.03,
   "minSkyAmbientLighting": [0.00954,0.012756,0.026677],
   "propeller_side_angle": 0.1,
@@ -150,6 +151,7 @@
   "airfieldRepairDamageLimit": 0.5,
   "bailoutHoldTime": 3.0,
   "bailoutHoldTimeAtExitZone": 1.5,
+  "enableHeicopterTargetLock3dPerson": true,
   "rocketShakeCamera": 1.0,
   "gunShakeCamera": 0.02,
   "cannonShakeCamera": 0.4,
@@ -1822,7 +1824,7 @@
         "multTorpedoDistanceIndicator": 0.125,
         "repairWithoutToolkitAutomatically": false,
         "HeliFlutter_Effect": true,
-        "UseGunDirForATMG": false,
+        "UseGunDirForATMG": true,
         "autoSightDistanceCorrection": false
       },
       "hard": {
@@ -1883,8 +1885,8 @@
         "shipBrokenRangefinderErrorMult": 2.0,
         "blockCooldownAfterEarlyAttemptToAirstreak": 10.0,
         "HeliFlutter_Effect": true,
-        "UseGunDirForATMG": false,
-        "autoSightDistanceCorrection": false
+        "UseGunDirForATMG": true,
+        "autoSightDistanceCorrection": true
       }
     },
     "engineControl": {
@@ -3011,8 +3013,8 @@
   "dynamicMirror": {
     "dynamicMirrorTexWidth": 400,
     "dynamicMirrorTexHeight": 300,
-    "dynamicTeleTexWidth": 256,
-    "dynamicTeleTexHeight": 256,
+    "dynamicTeleTexWidth": 512,
+    "dynamicTeleTexHeight": 512,
     "mfdTexWidth": 1366,
     "mfdTexHeight": 1024
   },
@@ -3044,10 +3046,10 @@
     "maxDist": 1200.0
   },
   "bulletHoles": {
-    "numHolesInTexture": 16,
-    "radius": 0.2,
+    "numHolesInTexture": 32,
+    "radius": 1.35,
     "delta": 0.5,
-    "softness": 0.1
+    "softness": 1.0
   },
   "gyroSight": {
     "size": 0.1,
@@ -6941,6 +6943,156 @@
         "my": "ship_depth_charge",
         "enemy": "ship_depth_charge"
       }
+    },
+    {
+      "antenna_target_location_01": {
+        "my": "location_radar",
+        "enemy": "location_radar"
+      }
+    },
+    {
+      "antenna_target_location_02": {
+        "my": "location_radar",
+        "enemy": "location_radar"
+      }
+    },
+    {
+      "antenna_target_location_03": {
+        "my": "location_radar",
+        "enemy": "location_radar"
+      }
+    },
+    {
+      "antenna_target_location_04": {
+        "my": "location_radar",
+        "enemy": "location_radar"
+      }
+    },
+    {
+      "antenna_target_location_05": {
+        "my": "location_radar",
+        "enemy": "location_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_01": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_02": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_03": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_04": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_05": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_mount_01": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_mount_02": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_mount_03": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_mount_04": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "antenna_target_tagging_mount_05": {
+        "my": "tagging_radar",
+        "enemy": "tagging_radar"
+      }
+    },
+    {
+      "fire_director_01": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_02": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_03": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_04": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_05": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_mount_01": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_mount_02": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_mount_03": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_mount_04": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
+    },
+    {
+      "fire_director_mount_05": {
+        "my": "fire_director",
+        "enemy": "fire_director"
+      }
     }
   ],
   "wodParams": {
@@ -7328,6 +7480,15 @@
       },
       {
         "p": "antenna_target_tagging_"
+      },
+      {
+        "p": "antenna_target_tagging_mount_"
+      },
+      {
+        "p": "fire_director_"
+      },
+      {
+        "p": "fire_director_mount_"
       },
       {
         "p": {
@@ -8720,6 +8881,78 @@
           "name": "wheel_l_02_",
           "modelNames": "amd_35"
         }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "panhard_aml_90"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "panhard_aml_90"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "panhard_aml_90"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "panhard_aml_90"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_01_",
+          "modelNames": "rooikat_76_mk_1d"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_01_",
+          "modelNames": "rooikat_76_mk_1d"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_02_",
+          "modelNames": "rooikat_76_mk_1d"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_02_",
+          "modelNames": "rooikat_76_mk_1d"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_03_",
+          "modelNames": "rooikat_76_mk_1d"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_03_",
+          "modelNames": "rooikat_76_mk_1d"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_r_04_",
+          "modelNames": "rooikat_76_mk_1d"
+        }
+      },
+      {
+        "p": {
+          "name": "wheel_l_04_",
+          "modelNames": "rooikat_76_mk_1d"
+        }
       }
     ],
     "crew": [
@@ -8763,6 +8996,15 @@
       },
       {
         "p": "antenna_target_tagging_"
+      },
+      {
+        "p": "antenna_target_tagging_mount_"
+      },
+      {
+        "p": "fire_director_"
+      },
+      {
+        "p": "fire_director_mount_"
       },
       {
         "p": {
@@ -11538,7 +11780,7 @@
     ]
   },
   "tankDirt": {
-    "dirtMaxAmount": [1000.0,1000.0],
+    "dirtMaxAmount": [2000.0,7000.0],
     "ground": {
       "tdustColor": [0.09,0.065,0.05,1.0],
       "dustParams": [1.0,0.5,1.0,0.2],
@@ -12160,7 +12402,7 @@
     }
   ],
   "holeRenderingRadiusConstants": {
-    "caliberMultiplier": 10.0,
+    "caliberMultiplier": 3.0,
     "maxCaliberTreshold": 0.2,
     "minCaliberTreshold": 0.0,
     "maxSplashRadiusTreshold": 0.2,
@@ -12168,6 +12410,7 @@
     "minRadiusCreation": 0.1,
     "radiusReplacementTreshold": 0.2,
     "radiusMultiplierForCheck": 0.5,
+    "sideMultiplierForCheck": 2.0,
     "doNotMakeHoleInWreckedPart": true
   },
   "tpsNightVision": {

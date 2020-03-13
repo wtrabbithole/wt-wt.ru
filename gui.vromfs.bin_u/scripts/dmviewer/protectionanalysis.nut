@@ -1,5 +1,10 @@
-local protectionAnalysisOptions = ::require("scripts/dmViewer/protectionAnalysisOptions.nut")
-local protectionAnalysisHint = ::require("scripts/dmViewer/protectionAnalysisHint.nut")
+local protectionAnalysisOptions = require("scripts/dmViewer/protectionAnalysisOptions.nut")
+local protectionAnalysisHint = require("scripts/dmViewer/protectionAnalysisHint.nut")
+
+local controllerState = require_native("controllerState")
+
+
+local switch_damage = false
 
 class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -14,6 +19,8 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
   getSceneTplContainerObj = @() scene.findObject("options_container")
   function getSceneTplView()
   {
+    protectionAnalysisOptions.setParams(unit)
+
     local view = { rows = [] }
     foreach (o in protectionAnalysisOptions.types)
       if (o.isVisible())
@@ -29,12 +36,6 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 
   function initScreen()
   {
-    initHandlerSceneTpl()
-
-    unit = ::getAircraftByName(::hangar_get_current_unit_name())
-    if (!unit)
-      return goBack()
-
     ::enableHangarControls(true)
     ::dmViewer.init(this)
     ::hangar_focus_model(true)
@@ -53,6 +54,23 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
     hintHandler = protectionAnalysisHint.open(scene.findObject("hint_scene"))
     registerSubHandler(hintHandler)
     initFocusArray()
+
+    switch_damage = true //value is off by default it will be changed in AllowSimulation
+
+    local handler = ::handlersManager.getActiveBaseHandler()
+    if (!handler)
+      return
+
+    local obj = handler.scene.findObject("switch_damage")
+    if (::check_obj(obj))
+    {
+      obj.show(unit?.unitType.canShowVisualEffectInProtectionAnalysis() ?? false)
+      allowSimulation(obj)
+    }
+
+    obj = handler.scene.findObject("btn_repair")
+    if (::check_obj(obj))
+      obj.show(unit?.unitType.canShowVisualEffectInProtectionAnalysis() ?? false)
   }
 
   function onChangeOption(obj)
@@ -88,7 +106,22 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
   {
     ::hangar_focus_model(false)
     ::hangar_set_dm_viewer_mode(::DM_VIEWER_NONE)
+    ::repairUnit()
     base.goBack()
+  }
+
+   function repair()
+  {
+    ::repairUnit()
+  }
+
+  function allowSimulation(sObj)
+  {
+    if (::check_obj(sObj))
+    {
+      switch_damage = !switch_damage
+      ::allowDamageSimulationInHangar(switch_damage)
+    }
   }
 
   function onUpdateActionsHint()
@@ -98,17 +131,15 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
     if (!showHints || !::check_obj(hObj))
       return
 
-    local hasKeyboard = ::is_platform_pc
-    local hasGamepad = ::show_console_buttons
-    local shortcuts = []
     //hint for simulate shot
     local showHint = ::has_feature("HangarHitcamera")
     local bObj = showSceneBtn("analysis_hint_shot", showHint)
     if (showHint && ::check_obj(bObj))
     {
-      if (hasGamepad)
+      local shortcuts = []
+      if (::show_console_buttons)
         shortcuts.append(::loc("xinp/R2"))
-      if (hasKeyboard)
+      if (controllerState?.is_mouse_connected())
         shortcuts.append(::loc("key/LMB"))
       bObj.findObject("push_to_shot").setValue(::g_string.implode(shortcuts, ::loc("ui/comma")))
     }
@@ -116,16 +147,16 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 }
 
 return {
-  canOpen = function() {
+  canOpen = function(unit) {
     return ::has_feature("DmViewerProtectionAnalysis")
       && ::isInMenu()
       && !::SessionLobby.hasSessionInLobby()
-      && ::getAircraftByName(::hangar_get_current_unit_name())?.unitType.canShowProtectionAnalysis() == true
+      && unit?.unitType.canShowProtectionAnalysis() == true
   }
 
-  open = function () {
-    if (!canOpen())
+  open = function (unit) {
+    if (!canOpen(unit))
         return
-    ::handlersManager.loadHandler(::gui_handlers.ProtectionAnalysis)
+    ::handlersManager.loadHandler(::gui_handlers.ProtectionAnalysis, { unit = unit })
   }
 }

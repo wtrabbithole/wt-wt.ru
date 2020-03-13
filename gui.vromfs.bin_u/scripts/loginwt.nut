@@ -73,6 +73,9 @@ local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
       ::destroy_session_scripted()
   }
 
+  if (::should_disable_menu() || ::g_login.isProfileReceived())
+    ::broadcastEvent("BeforeProfileInvalidation") // Here save any data into profile.
+
   dagor.debug("gui_start_logout")
   ::disable_autorelogin_once <- true
   ::need_logout_after_session = false
@@ -88,11 +91,17 @@ local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
   ::open_url(::get_authenticated_url_table(urlBase).url, false, false, bqKey)
 }
 
+g_login.getStateDebugStr <- function getStateDebugStr(state = null)
+{
+  state = state ?? curState
+  return state == 0 ? "0" : ::bit_mask_to_string("LOGIN_STATE", state)
+}
+
 g_login.debugState <- function debugState(shouldShowNotSetBits = false)
 {
   if (shouldShowNotSetBits)
-    return ::dlog("not set loginState = " + ::bit_mask_to_string("LOGIN_STATE", LOGIN_STATE.LOGGED_IN & ~curState))
-  return ::dlog("loginState = " + ::bit_mask_to_string("LOGIN_STATE", curState))
+    return ::dlog("not set loginState = {0}".subst(getStateDebugStr(LOGIN_STATE.LOGGED_IN & ~curState)))
+  return ::dlog("loginState = {0}".subst(getStateDebugStr()))
 }
 
 g_login.loadLoginHandler <- function loadLoginHandler()
@@ -139,8 +148,7 @@ g_login.initConfigs <- function initConfigs(cb)
     function() { ::initEmptyMenuChat() }
   ]
   initOptionsPseudoThread.extend(::init_options_steps)
-  initOptionsPseudoThread.extend(
-  [
+  initOptionsPseudoThread.append(
     function() {
       if (!::g_login.hasState(LOGIN_STATE.PROFILE_RECEIVED | LOGIN_STATE.CONFIGS_RECEIVED))
         return PT_STEP_STATUS.SUSPEND
@@ -253,7 +261,7 @@ g_login.initConfigs <- function initConfigs(cb)
       ::g_login.initOptionsPseudoThread = null
       cb()
     }
-  ])
+  )
 
   ::start_pseudo_thread(initOptionsPseudoThread, ::gui_start_logout)
 }
@@ -287,6 +295,7 @@ g_login.onLoggedInChanged <- function onLoggedInChanged()
     return
 
   statsdOnLogin()
+  bigQueryOnLogin()
 
   ::broadcastEvent("LoginComplete")
 
@@ -416,9 +425,6 @@ g_login.statsdOnLogin <- function statsdOnLogin()
       ::add_big_query_record("ps4.restrictions.ugc", "")
   }
 
-  local bg_update = ::getSystemConfigOption("launcher/bg_update", true)
-  ::add_big_query_record("login", bg_update ? "bg_update" : "")
-
   if (::is_platform_windows)
   {
     local anyUG = false
@@ -442,7 +448,7 @@ g_login.statsdOnLogin <- function statsdOnLogin()
       foreach (skin in skins)
       {
         local folder = skin.name
-        if (folder.find("template") == null)
+        if (folder.indexof("template") == null)
         {
           haveUserSkin = true
           anyUG = true
@@ -460,7 +466,7 @@ g_login.statsdOnLogin <- function statsdOnLogin()
     for (local i = 0; i < cdb.paramCount(); i++)
     {
       local skin = cdb.getParamValue(i)
-      if ((typeof(skin) == "string") && (skin != "") && (skin.find("template")==null))
+      if ((typeof(skin) == "string") && (skin != "") && (skin.indexof("template")==null))
       {
         anyUG = true
         statsd_counter("ug.useus")
@@ -475,7 +481,7 @@ g_login.statsdOnLogin <- function statsdOnLogin()
     {
       local files = lcfg.locTable % "file"
       foreach (file in files)
-        if (file.find("usr_") != null)
+        if (file.indexof("usr_") != null)
         {
           anyUG = true
           ::dagor.debug("statsd_on_login ug.langum " + file)

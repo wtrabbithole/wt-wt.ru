@@ -461,18 +461,22 @@ discount_notification {
 
 squadronExpIcon {
   behavior:bhvUpdater;
+  size:1@newWidgetIconHeight, 1@newWidgetIconHeight;
+  background-image:#ui/gameuiskin#new_icon_not_colored;
   background-color:@squadronExpIconColor;
   background-repeat:expand;
   input-transparent:yes;
 }
 
 squadronExpIcon[type=inTab] {
-  background-image:#ui/gameuiskin#new_icon_not_colored;
-  height:1@newWidgetIconHeight;
-  width:1@newWidgetIconHeight;
   position:relative;
   pos:0, 50%ph-50%h;
   margin-left: 1@blockInterval;
+}
+
+squadronExpIcon[type=slotbarCountry] {
+  position:absolute;
+  pos:pw - w - 1@blockInterval + 3@sf/@pf, -h + 1@blockInterval + 3@sf/@pf;
 }
 
 squadronExpIcon[type=down] {
@@ -2344,7 +2348,7 @@ BottomMenuPanel {
   re-type:9rect;
   pos:0, sh-h - 1@bh;
   position:root;
-  size:sw, 1@bottomBarHeight - 1@bh;
+  size:sw, @bottomMenuPanelHeight;
   background-color:@bottomBarBackgroundColor;
 }
 
@@ -2539,7 +2543,8 @@ airInfoBlock textarea[crew_data=yes], airInfoBlock text[crew_data=yes] {
 }
 
 airInfoHeader {
-  re-type:text;
+  re-type:textarea;
+  behaviour:textArea;
   color:@lightHighlightedTextColor;
   font:@fontNormalBold;
   text-align:center;

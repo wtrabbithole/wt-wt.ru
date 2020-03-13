@@ -5,6 +5,8 @@ local stdMath = require("std/math.nut")
 local unitInfoTexts = require("scripts/unit/unitInfoTexts.nut")
 local unitStatus = require("scripts/unit/unitStatus.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
+local countMeasure = require("scripts/options/optionsMeasureUnits.nut").countMeasure
+local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -233,8 +235,9 @@ local ACTION_LIST_PARAMS = {
   isSlotbarEnabled = true
   needChosenResearchOfSquadron = false
   isSquadronResearchMode = false
+  hasSlotbarByUnitsGroups = false
 }
-::get_unit_actions_list <- function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS)
+::get_unit_actions_list <- ::kwarg(function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS, crew = null)
 {
   p = ACTION_LIST_PARAMS.__merge(p)
   local res = {
@@ -247,7 +250,7 @@ local ACTION_LIST_PARAMS = {
 
   local inMenu = ::isInMenu()
   local isUsable  = unit.isUsable()
-  local crew = ::getCrewByAir(unit)
+  crew = crew ?? (p.hasSlotbarByUnitsGroups ? slotbarPresets.getCrewByUnit(unit) : ::getCrewByAir(unit))
   local curEdiff = handler?.getCurrentEdiff ? handler.getCurrentEdiff() : -1
 
   foreach(action in actions)
@@ -311,7 +314,7 @@ local ACTION_LIST_PARAMS = {
     }
     else if (action == "crew")
     {
-      if (!crew)
+      if (!crew || p.hasSlotbarByUnitsGroups)
         continue
 
       local discountInfo = ::g_crew.getDiscountInfo(crew.idCountry, crew.idInCountry)
@@ -325,10 +328,14 @@ local ACTION_LIST_PARAMS = {
         countryId = crew.idCountry,
         idInCountry = crew.idInCountry,
         curEdiff = curEdiff
+        needHideSlotbar = !p.isSlotbarEnabled || p.hasSlotbarByUnitsGroups
       })
     }
     else if (action == "weapons")
     {
+      if (p.hasSlotbarByUnitsGroups)
+        continue
+
       actionText = ::loc("mainmenu/btnWeapons")
       icon       = "#ui/gameuiskin#btn_weapons.svg"
       haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY
@@ -497,7 +504,7 @@ local ACTION_LIST_PARAMS = {
   }
 
   return res
-}
+})
 
 ::isAircraft <- function isAircraft(unit)
 {
@@ -560,13 +567,11 @@ local ACTION_LIST_PARAMS = {
   ranksBlk = ranksBlk || ::get_ranks_blk()
   local unitTypeText = getUnitTypeText(unitType)
 
-  local commonPath = "needBuyToOpenNextInEra." + countryId + ".needBuyToOpenNextInEra"
-
-  local needToOpen = ::getTblValueByPath(commonPath + unitTypeText + rank, ranksBlk)
+  local needToOpen = ranksBlk?.needBuyToOpenNextInEra[countryId]["needBuyToOpenNextInEra" + unitTypeText + rank]
   if (needToOpen != null)
     return needToOpen
 
-  needToOpen = ::getTblValue(commonPath + rank, ranksBlk)
+  needToOpen = ranksBlk?.needBuyToOpenNextInEra[countryId]["needBuyToOpenNextInEra" + rank]
   if (needToOpen != null)
     return needToOpen
 
@@ -664,6 +669,7 @@ local ACTION_LIST_PARAMS = {
 ::canBuyUnitOnMarketplace <- function canBuyUnitOnMarketplace(unit)
 {
   return unit.marketplaceItemdefId != null
+    && !::isUnitBought(unit)
     && ::ItemsManager.isMarketplaceEnabled()
     && (::ItemsManager.findItemById(unit.marketplaceItemdefId)?.hasLink() ?? false)
 }
@@ -708,7 +714,7 @@ local ACTION_LIST_PARAMS = {
 {
   if (!::has_feature("UnitInfo"))
     return false
-  if (::is_platform_pc && ::has_feature("WikiUnitInfo"))
+  if (::has_feature("WikiUnitInfo"))
     return true // Because there is link to wiki.
   local desc = unit ? ::loc("encyclopedia/" + unit.name + "/desc", "") : ""
   return desc != "" && desc != ::loc("encyclopedia/no_unit_description")
@@ -1510,7 +1516,7 @@ local ACTION_LIST_PARAMS = {
     showReferenceText = true
   }
 
-  local weaponModValue = ::getTblValueByPath("secondaryWeaponMods.effect." + modeName + "." + characteristicName[1], air, 0)
+  local weaponModValue = air?.secondaryWeaponMods.effect[modeName][characteristicName[1]] ?? 0
   local weaponModText = ""
   if(weaponModValue != 0)
     weaponModText = "<color=@badTextColor>" + (weaponModValue > 0 ? " + " : " - ") + prepareTextFunc(fabs(weaponModValue)) + "</color>"
@@ -1557,7 +1563,7 @@ local ACTION_LIST_PARAMS = {
     // Unit repair cost
     local hp = shop_get_aircraft_hp(air.name)
     local isBroken = hp >= 0 && hp < 1
-    isActive = isActive || isBroken
+    isActive = isActive || isBroken // warning disable: -const-in-bool-expr
     local hpTrObj = obj.findObject("aircraft-condition-tr")
     if (hpTrObj)
       if (isBroken)
@@ -1643,6 +1649,10 @@ local ACTION_LIST_PARAMS = {
     local isShowProgress = ::isInArray(air.esUnitType, [ ::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER ])
     tableObj["showStatsProgress"] = isShowProgress ? "yes" : "no"
   }
+
+  local bitStatus = unitStatus.getBitStatus(air, params)
+  holderObj.shopStat = ::getUnitItemStatusText(bitStatus, false)
+  holderObj.unitRarity = ::getUnitRarity(air)
 
   local isInFlight = ::is_in_flight()
 
@@ -1827,22 +1837,22 @@ local ACTION_LIST_PARAMS = {
 
   local modCharacteristics = {
     [::ES_UNIT_TYPE_AIRCRAFT] = [
-      {id = "maxSpeed", id2 = "speed", prepareTextFunc = function(value){return ::countMeasure(0, value)}},
+      {id = "maxSpeed", id2 = "speed", prepareTextFunc = @(value) countMeasure(0, value)},
       {id = "turnTime", id2 = "virage", prepareTextFunc = function(value){return format("%.1f %s", value, ::loc("measureUnits/seconds"))}},
-      {id = "climbSpeed", id2 = "climb", prepareTextFunc = function(value){return ::countMeasure(3, value)}}
+      {id = "climbSpeed", id2 = "climb", prepareTextFunc = @(value) countMeasure(3, value)}
     ],
     [::ES_UNIT_TYPE_TANK] = [
       {id = "mass", id2 = "mass", prepareTextFunc = function(value){return format("%.1f %s", (value / 1000.0), ::loc("measureUnits/ton"))}},
-      {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = function(value){return ::countMeasure(0, value)}},
+      {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = @(value) countMeasure(0, value)},
       {id = "turnTurretTime", id2 = "turnTurretSpeed", prepareTextFunc = function(value){return format("%.1f%s", value.tofloat(), ::loc("measureUnits/deg_per_sec"))}}
     ],
     [::ES_UNIT_TYPE_SHIP] = [
       //TODO ship modificators
-      {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = function(value){return ::countMeasure(0, value)}}
+      {id = "maxSpeed", id2 = "maxSpeed", prepareTextFunc = @(value) countMeasure(0, value)}
     ],
     [::ES_UNIT_TYPE_HELICOPTER] = [
-      {id = "maxSpeed", id2 = "speed", prepareTextFunc = function(value){return ::countMeasure(0, value)}}
-      {id = "climbSpeed", id2 = "climb", prepareTextFunc = function(value){return ::countMeasure(3, value)}}
+      {id = "maxSpeed", id2 = "speed", prepareTextFunc = @(value) countMeasure(0, value)}
+      {id = "climbSpeed", id2 = "climb", prepareTextFunc = @(value) countMeasure(3, value)}
     ]
   }
 
@@ -1871,13 +1881,14 @@ local ACTION_LIST_PARAMS = {
   local refTextObj = holderObj.findObject("references_text")
   if (::checkObj(refTextObj)) refTextObj.show(showReferenceText)
 
-  holderObj.findObject("aircraft-speedAlt").setValue(air.shop.maxSpeedAlt>0? ::countMeasure(1, air.shop.maxSpeedAlt) : ::loc("shop/max_speed_alt_sea"))
+  holderObj.findObject("aircraft-speedAlt").setValue((air.shop?.maxSpeedAlt ?? 0) > 0 ?
+    countMeasure(1, air.shop.maxSpeedAlt) : ::loc("shop/max_speed_alt_sea"))
 //    holderObj.findObject("aircraft-climbTime").setValue(format("%02d:%02d", air.shop.climbTime.tointeger() / 60, air.shop.climbTime.tointeger() % 60))
-//    holderObj.findObject("aircraft-climbAlt").setValue(::countMeasure(1, air.shop.climbAlt))
-  holderObj.findObject("aircraft-altitude").setValue(::countMeasure(1, air.shop.maxAltitude))
-  holderObj.findObject("aircraft-airfieldLen").setValue(::countMeasure(1, air.shop.airfieldLen))
-  holderObj.findObject("aircraft-wingLoading").setValue(::countMeasure(5, air.shop.wingLoading))
-//  holderObj.findObject("aircraft-range").setValue(::countMeasure(2, air.shop.range * 1000.0))
+//    holderObj.findObject("aircraft-climbAlt").setValue(countMeasure(1, air.shop.climbAlt))
+  holderObj.findObject("aircraft-altitude").setValue(countMeasure(1, air.shop.maxAltitude))
+  holderObj.findObject("aircraft-airfieldLen").setValue(countMeasure(1, air.shop.airfieldLen))
+  holderObj.findObject("aircraft-wingLoading").setValue(countMeasure(5, air.shop.wingLoading))
+//  holderObj.findObject("aircraft-range").setValue(countMeasure(2, air.shop.range * 1000.0))
 
   local totalCrewObj = holderObj.findObject("total-crew")
   if (::check_obj(totalCrewObj))
@@ -1924,7 +1935,7 @@ local ACTION_LIST_PARAMS = {
     && ::isInArray(unitType, [::ES_UNIT_TYPE_AIRCRAFT, ::ES_UNIT_TYPE_HELICOPTER])
     && "powerToWeightRatio" in air.shop)
   {
-    holderObj.findObject("aircraft-powerToWeightRatio").setValue(::countMeasure(6, air.shop.powerToWeightRatio))
+    holderObj.findObject("aircraft-powerToWeightRatio").setValue(countMeasure(6, air.shop.powerToWeightRatio))
     powerToWeightRatioObject.show(true)
   }
   else
@@ -2019,7 +2030,7 @@ local ACTION_LIST_PARAMS = {
       holderObj.findObject("aircraft-maxDepth").setValue(depthValue + ::loc("measureUnits/meters_alt"))
 
     // ship-citadelArmor
-    local armorThicknessCitadel = ::getTblValueByPath("Shop.armorThicknessCitadel", unitTags, null)
+    local armorThicknessCitadel = unitTags?.Shop.armorThicknessCitadel
     holderObj.findObject("ship-citadelArmor-tr").show(armorThicknessCitadel != null)
     if(armorThicknessCitadel != null)
     {
@@ -2034,7 +2045,7 @@ local ACTION_LIST_PARAMS = {
     }
 
     // ship-mainFireTower
-    local armorThicknessMainFireTower = ::getTblValueByPath("Shop.armorThicknessTurretMainCaliber", unitTags, null)
+    local armorThicknessMainFireTower = unitTags?.Shop.armorThicknessTurretMainCaliber
     holderObj.findObject("ship-mainFireTower-tr").show(armorThicknessMainFireTower != null)
     if(armorThicknessMainFireTower != null)
     {
@@ -2223,6 +2234,8 @@ local ACTION_LIST_PARAMS = {
     addInfoTextsList.append(::colorize("chapterUnlockedColor", ::loc("shop/unitIsRecentlyReleased")))
   if (isSquadronVehicle)
     addInfoTextsList.append(::colorize("currencySapColor", ::loc("mainmenu/squadronVehicle")))
+  if (air.disableFlyout)
+    addInfoTextsList.append(::colorize("warningTextColor", ::loc("mainmenu/vehicleCanNotGoToBattle")))
 
   if (isSquadronVehicle && needShopInfo)
   {
@@ -2313,7 +2326,7 @@ local ACTION_LIST_PARAMS = {
       local priceText = ::colorize("activeTextColor", ::getUnitCost(air).getTextAccordingToBalance())
       addInfoTextsList.append(::colorize("userlogColoredText", ::loc("mainmenu/canBuyThisVehicle", { price = priceText })))
     }
-    if(canBuyUnitOnMarketplace(air))
+    if (::canBuyUnitOnMarketplace(air))
       addInfoTextsList.append(::colorize("userlogColoredText",::loc("shop/giftAir/coupon/info")))
   }
 
@@ -2592,11 +2605,8 @@ local ACTION_LIST_PARAMS = {
 {
   local unit = null
   if (::is_in_flight())
-  {
-    local unitId = ("get_player_unit_name" in getroottable())? ::get_player_unit_name() : ::cur_aircraft_name
-    unit = unitId && ::getAircraftByName(unitId)
-  }
-  else
+    unit = ::getAircraftByName(::get_player_unit_name())
+  if (!unit || unit.name == "dummy_plane")
     unit = ::show_aircraft
   return unit
 }

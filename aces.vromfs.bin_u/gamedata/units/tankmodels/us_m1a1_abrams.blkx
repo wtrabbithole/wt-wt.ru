@@ -36,6 +36,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "autoSightDistanceCorrection": true
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -348,7 +351,7 @@
           "armorThickness": 50.0
         },
         "turret_06_bottom_dm": {
-          "armorThickness": 25.4
+          "armorThickness": 70.0
         },
         "turret_08_front_dm": {
           "armorThickness": 76.2
@@ -582,7 +585,9 @@
         "ex_armor_r_09_dm": [],
         "ex_armor_l_09_dm": [],
         "ex_decor_l_01_dm": [],
-        "ex_decor_r_01_dm": []
+        "ex_decor_r_01_dm": [],
+        "ex_decor_l_03_dm": [],
+        "ex_decor_r_03_dm": []
       },
       "chassis": {
         "armorClass": "tank_steel_wheels",
@@ -969,6 +974,15 @@
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
       }
+    }
+  },
+  {
+    "attachables": {
+      "superstructure_back_dm": false,
+      "turret_back_dm": false,
+      "turret_08_top_dm": true,
+      "ex_armor_01_dm": true,
+      "ex_armor_02_dm": true
     }
   },
   {
@@ -2358,8 +2372,9 @@
             "pitch": [-9.0,65.0]
           },
           "limitsTable": {
-            "lim1": [-160.0,-40.0,40.0,65.0],
-            "lim2": [-40.0,180.0,-9.0,65.0]
+            "lim1": [-180.0,-170.0,-9.0,65.0],
+            "lim2": [-170.0,-40.0,20.0,65.0],
+            "lim3": [-40.0,180.0,-9.0,65.0]
           }
         }
       },
@@ -3093,7 +3108,7 @@
     "cockpit": {
       "zoomOutFov": 24.7,
       "zoomInFov": 7.37,
-      "sightFov": 6.0,
+      "sightFov": 13.0,
       "sightName": "abrams_sight",
       "headPos": [0.0,4.0,-8.5],
       "headPosOnShooting": [-0.8,3.4,0.5],
@@ -3241,8 +3256,9 @@
                   "pitch": [-9.0,65.0]
                 },
                 "limitsTable": {
-                  "lim1": [-160.0,-40.0,40.0,65.0],
-                  "lim2": [-40.0,180.0,-9.0,65.0]
+                  "lim1": [-180.0,-170.0,-9.0,65.0],
+                  "lim2": [-170.0,-40.0,20.0,65.0],
+                  "lim3": [-40.0,180.0,-9.0,65.0]
                 }
               }
             },

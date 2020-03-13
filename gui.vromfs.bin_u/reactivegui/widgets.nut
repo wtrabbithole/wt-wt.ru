@@ -11,16 +11,25 @@ local footballHud = require("footballHud.nut")
 local screenState = require("style/screenState.nut")
 local airHud = require("airHud.nut")
 local tankHud = require("tankHud.nut")
+local mfdHud = require("mfd.nut")
+local radarComponent = require("radarComponent.nut")
 
 local widgetsMap = {
   [DargWidgets.HUD] = function() {
     if (!globalState.isInFlight.value)
       return null
 
+    ::gui_scene.removePanel(0)
     if (hudUnitType.isHelicopter())
+    {
+      ::gui_scene.addPanel(0, mfdHud)
       return helicopterHud
+    }
     else if (hudUnitType.isAir())
+    {
+      ::gui_scene.addPanel(0, radarComponent.radar(true, sh(6), sh(6)))
       return airHud
+    }
     else if (hudUnitType.isTank())
       return tankHud
     else if (hudUnitType.isShip() && !hudState.isPlayingReplay.value)

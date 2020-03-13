@@ -17,7 +17,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       icon = function () {
         if (::g_hud_display_timers.unitType == ::ES_UNIT_TYPE_SHIP)
           return "#ui/gameuiskin#ship_crew_driver"
-        return "#ui/gameuiskin#track_state_indicator"
+        return "#ui/gameuiskin#track_state_indicator.svg"
       }
       needTimeText = true
     },
@@ -52,7 +52,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       icon = function () {
         if (::g_hud_display_timers.unitType == ::ES_UNIT_TYPE_SHIP)
           return "#ui/gameuiskin#ship_crew_driver"
-        return "#ui/gameuiskin#crew_driver_indicator"
+        return "#ui/gameuiskin#crew_driver_indicator.svg"
       }
     },
     {
@@ -61,7 +61,7 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       icon = function () {
         if (::g_hud_display_timers.unitType == ::ES_UNIT_TYPE_SHIP)
           return "#ui/gameuiskin#ship_crew_gunner"
-        return "#ui/gameuiskin#crew_gunner_indicator"
+        return "#ui/gameuiskin#crew_gunner_indicator.svg"
       }
     },
     {
@@ -90,15 +90,15 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
     {
       id = "extinguish_status"
       color = "#DD1111"
-      icon = "#ui/gameuiskin#fire_indicator"
+      icon = "#ui/gameuiskin#fire_indicator.svg"
       needTimeText = true
     },
     {
       id = "cancel_extinguish_status"
       color = "#DD1111"
-      icon = "#ui/gameuiskin#fire_indicator"
+      icon = "#ui/gameuiskin#fire_indicator.svg"
       needTimeText = true
-    }
+    },
     {
       id = "capture_progress"
       needTimeText = true
@@ -107,18 +107,18 @@ local REPAIR_SHOW_TIME_THRESHOLD = 1.5
       id = "replenish_status"
       color = "@white"
       icon = "#ui/gameuiskin#icon_weapons_relocation_in_progress.svg"
-    }
+    },
     {
       id = "move_cooldown_status"
       color = "@white"
       icon = "#ui/gameuiskin#icon_repair_in_progress.svg"
-    }
+    },
     {
       id = "battery_status"
       color = "#DD1111"
       icon = "#ui/gameuiskin#icon_battery_in_progress.svg"
       needTimeText = true
-    }
+    },
   ]
 
   scene = null

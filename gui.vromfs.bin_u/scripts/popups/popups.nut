@@ -141,7 +141,7 @@ g_popups.remove <- function remove(popup, needFlushSuspended = true)
 g_popups.getByGroup <- function getByGroup(sourcePopup)
 {
   if (!sourcePopup.groupName)
-    return
+    return null
 
   return ::u.search(
     popupsList,
@@ -153,7 +153,7 @@ g_popups.savePopup <- function savePopup(newPopup)
 {
   local index = -1
   if (newPopup.groupName)
-    index = suspendedPopupsList.searchindex( @(popup) popup.groupName == newPopup.groupName) ?? -1
+    index = suspendedPopupsList.findindex( @(popup) popup.groupName == newPopup.groupName) ?? -1
 
   if (index >= 0)
     suspendedPopupsList.remove(index)

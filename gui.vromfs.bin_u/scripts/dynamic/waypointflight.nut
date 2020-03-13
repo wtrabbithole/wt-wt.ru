@@ -99,7 +99,7 @@ missionGenFunctions.append( function (isFreeFlight)
  else
    return;
 
-  ::mgSetMinMaxAircrafts("player", "", 1, 8);
+ ::mgSetMinMaxAircrafts("player", "", 1, 8)
 
  ::slidesReplace(level, sector, player_plane_name, enemy_plane_name, "none");
 

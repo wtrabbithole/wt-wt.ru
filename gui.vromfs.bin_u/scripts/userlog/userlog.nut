@@ -85,7 +85,7 @@
   {
     id = "items"
     reqFeature = "Items"
-    show = [::EULT_BUY_ITEM, ::EULT_OPEN_TROPHY, ::EULT_NEW_ITEM, ::EULT_NEW_UNLOCK
+    show = [::EULT_BUY_ITEM, ::EULT_OPEN_TROPHY, ::EULT_NEW_ITEM, ::EULT_NEW_UNLOCK,
             ::EULT_ACTIVATE_ITEM, ::EULT_REMOVE_ITEM, ::EULT_TICKETS_REMINDER,
             ::EULT_CONVERT_BLUEPRINTS, ::EULT_INVENTORY_ADD_ITEM, ::EULT_INVENTORY_FAIL_ITEM]
     unlocks = [::UNLOCKABLE_TROPHY]
@@ -156,7 +156,7 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (::getTblValue("reqFeature", page) && !::has_feature(page.reqFeature))
         continue
-      view.tabs.push({
+      view.tabs.append({
         id = "page_" + idx
         cornerImg = "#ui/gameuiskin#new_icon"
         cornerImgId = "img_new_" + page.id
