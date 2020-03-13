@@ -1,4 +1,6 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
 ::g_weaponry_types <- {
   types = []
   cache = {
@@ -56,7 +58,7 @@ enums.addTypesByGlobalName("g_weaponry_types", {
 //************************* WEAPON *********************************************
   WEAPON = {
     type = weaponsItem.weapon
-    getLocName = function(unit, item, limitedName = false) { return ::getWeaponNameText(unit, false, item.name, " ") }
+    getLocName = function(unit, item, limitedName = false) { return getWeaponNameText(unit, false, item.name, " ") }
     getHeader = @(unit) (unit.isAir() || unit.isHelicopter()) ? ::loc("options/secondary_weapons")
        : ::loc("options/additional_weapons")
     getCost = function(unit, item) {
@@ -89,7 +91,7 @@ enums.addTypesByGlobalName("g_weaponry_types", {
 //*********************** BULLETS **********************************************
   BULLETS = {
     type = weaponsItem.bullets
-    getLocName = function(unit, item, limitedName = false) { return ::getModificationName(unit, item.name, limitedName) }
+    getLocName = function(unit, item, limitedName = false) { return getModificationName(unit, item.name, limitedName) }
     getCost = ::g_weaponry_types._getCost
     getAmount = ::g_weaponry_types._getAmount
     getMaxAmount = function(unit, item) { return ::wp_get_modification_max_count(unit.name, item.name) }
@@ -99,7 +101,7 @@ enums.addTypesByGlobalName("g_weaponry_types", {
 //********************* MODIFICATION *******************************************
   MODIFICATION = {
     type = weaponsItem.modification
-    getLocName = function(unit, item, limitedName = false) { return ::getModificationName(unit, item.name, limitedName) }
+    getLocName = function(unit, item, limitedName = false) { return getModificationName(unit, item.name, limitedName) }
     getUnlockCost = ::g_weaponry_types._getUnlockCost
     getCost = ::g_weaponry_types._getCost
     getAmount = @(unit, item) getUnlockCost(unit, item).isZero()
@@ -114,7 +116,7 @@ enums.addTypesByGlobalName("g_weaponry_types", {
 //********************* EXPENDABLES *******************************************
   EXPENDABLES = {
     type = weaponsItem.expendables
-    getLocName = function(unit, item, limitedName = false) { return ::getModificationName(unit, item.name, limitedName) }
+    getLocName = function(unit, item, limitedName = false) { return getModificationName(unit, item.name, limitedName) }
     getUnlockCost = ::g_weaponry_types._getUnlockCost
     getCost = ::g_weaponry_types._getCost
     getAmount = ::g_weaponry_types._getAmount
@@ -140,7 +142,7 @@ enums.addTypesByGlobalName("g_weaponry_types", {
 //*************** PRIMARY WEAPON ***********************************************
   PRIMARYWEAPON = {
     type = weaponsItem.primaryWeapon
-    getLocName = function(unit, item, limitedName = false) { return ::getWeaponNameText(unit, true, item.name, " ") }
+    getLocName = function(unit, item, limitedName = false) { return getWeaponNameText(unit, true, item.name, " ") }
     getCost = ::g_weaponry_types._getCost
     getAmount = function(unit, item) { return ::u.isEmpty(item.name)? 1 : ::shop_is_modification_purchased(unit.name, item.name) }
     getMaxAmount = function(unit, item) { return ::wp_get_modification_max_count(unit.name, item.name) }

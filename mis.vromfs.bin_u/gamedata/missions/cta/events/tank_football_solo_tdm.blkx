@@ -2,10 +2,6 @@
   "selected_tag": "",
   "bin_dump_file": "",
   "mission_settings": {
-    "atmosphere": {
-      "pressure": 760.0,
-      "temperature": 15.0
-    },
     "player": [
       {
         "army": 1
@@ -116,16 +112,12 @@
       }
     ],
     "mission": {
-      "name": "tank_football_Tdm",
       "level": "levels/avg_football_field.bin",
       "type": "domination",
       "restoreType": "attempts",
       "optionalTakeOff": false,
-      "campaign": "UserMissions",
       "environment": "Day",
       "weather": "clear",
-      "missionDebriefing": "",
-      "missionBriefing": "",
       "locName": "missions/tank_football_Tdm",
       "locDesc": "missions/tank_football_Tdm/desc",
       "gt_football": true,
@@ -142,38 +134,9 @@
       "colorTeamB": "#179d98ff",
       "difficulty": "arcade",
       "isPhysPredictionEnabled": true,
-      "isPreciseCollisionDetectionEnabled": true,
-      "tags": [],
-      "missionType": {
-        "_Dom": false,
-        "_Conq": false,
-        "_CnvA": false,
-        "_CnvB": false,
-        "_ArtDA": false,
-        "_ArtDB": false,
-        "_Bttl": false,
-        "_DBttlA": false,
-        "_DBttlB": false,
-        "_Bto": false,
-        "_Flc": false,
-        "_v1_race_straight": false,
-        "_v1_race_inverted": false,
-        "_v2_race_straight": false,
-        "_v2_race_inverted": false,
-        "_Conq1": false,
-        "_Conq2": false,
-        "_Conq3": false,
-        "_Conq4": false,
-        "_Conq5": false,
-        "_Conq6": false
-      }
+      "isPreciseCollisionDetectionEnabled": true
     },
-    "spectator_points": [],
-    "cover_points": [],
-    "aiParams": {
-      "aiEffectivenessViscosity": 90.0,
-      "effectivenessDistances": [2500.0,7000.0]
-    }
+    "spectator_points": []
   },
   "imports": [],
   "triggers": {
@@ -981,6 +944,22 @@
             }
           },
           {
+            "playHint": {
+              "hintType": "tutorialHint",
+              "name": "hints/tank_football_how_to_play",
+              "action": "hideCur",
+              "shouldFadeOut": true,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0,
+              "team": "Both"
+            }
+          },
+          {
             "varSetInt": {
               "value": 5,
               "var": "kickoff_timer"
@@ -1019,21 +998,38 @@
             ]
           }
         ],
-        "else_actions": {
-          "playHint": {
-            "hintType": "custom",
-            "name": "hints/duel_waiting_for_players",
-            "action": "show",
-            "shouldFadeOut": false,
-            "time": -1.0,
-            "priority": 0,
-            "isOverFade": false,
-            "target_marking": 0,
-            "object_var_name": "",
-            "object_var_comp_op": "equal",
-            "object_var_value": 0
+        "else_actions": [
+          {
+            "playHint": {
+              "hintType": "custom",
+              "name": "hints/duel_waiting_for_players",
+              "action": "show",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0
+            }
+          },
+          {
+            "playHint": {
+              "hintType": "tutorialHint",
+              "name": "hints/tank_football_how_to_play",
+              "action": "show",
+              "shouldFadeOut": false,
+              "time": -1.0,
+              "priority": 0,
+              "isOverFade": false,
+              "target_marking": 0,
+              "object_var_name": "",
+              "object_var_comp_op": "equal",
+              "object_var_value": 0
+            }
           }
-        }
+        ]
       },
       "kickoff_timer": {
         "is_enabled": false,
@@ -1057,7 +1053,7 @@
         },
         "actions": {
           "playSound": {
-            "name": "tanks/football_event/timer_tick",
+            "name": "football_event/timer_tick",
             "loop": false,
             "start": true,
             "team": "Both"
@@ -1095,7 +1091,7 @@
         "else_actions": [
           {
             "playSound": {
-              "name": "tanks/football_event/referee_start",
+              "name": "football_event/referee_start",
               "loop": false,
               "start": true,
               "team": "Both"
@@ -1480,7 +1476,7 @@
           },
           {
             "playSound": {
-              "name": "tanks/football_event/referee_end",
+              "name": "football_event/referee_end",
               "loop": false,
               "start": true,
               "team": "Both"
@@ -1606,7 +1602,7 @@
           },
           {
             "playSound": {
-              "name": "tanks/football_event/referee_end",
+              "name": "football_event/referee_end",
               "loop": false,
               "start": true,
               "team": "Both"
@@ -1808,7 +1804,7 @@
           },
           {
             "playSound": {
-              "name": "tanks/football_event/referee_end",
+              "name": "football_event/referee_end",
               "loop": false,
               "start": true,
               "team": "Both"
@@ -1911,7 +1907,7 @@
             "team": "Both"
           },
           "playSound": {
-            "name": "tanks/football_event/referee_end",
+            "name": "football_event/referee_end",
             "loop": false,
             "start": true,
             "team": "Both"
@@ -2054,7 +2050,7 @@
         "actions": [
           {
             "playSound": {
-              "name": "tanks/football_event/horn_lose",
+              "name": "football_event/horn_lose",
               "loop": false,
               "start": true,
               "team": "B"
@@ -2062,7 +2058,7 @@
           },
           {
             "playSound": {
-              "name": "tanks/football_event/horn_win",
+              "name": "football_event/horn_win",
               "loop": false,
               "start": true,
               "team": "A"
@@ -2149,7 +2145,7 @@
         "actions": [
           {
             "playSound": {
-              "name": "tanks/football_event/horn_lose",
+              "name": "football_event/horn_lose",
               "loop": false,
               "start": true,
               "team": "A"
@@ -2157,7 +2153,7 @@
           },
           {
             "playSound": {
-              "name": "tanks/football_event/horn_win",
+              "name": "football_event/horn_win",
               "loop": false,
               "start": true,
               "team": "B"

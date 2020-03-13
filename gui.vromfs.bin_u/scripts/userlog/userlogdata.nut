@@ -481,7 +481,7 @@ local clanActionNames = {
     ::gui_start_open_trophy(trophyRewardsTable)
   }
 
-  foreach(key, config in rentsTable)
+  rentsTable.each(function(config, key) {
     if (!::isInArray(key, ignoreRentItems))
     {
       if (onStartAwards)
@@ -489,6 +489,7 @@ local clanActionNames = {
       else
         ::showUnlockWnd(config)
     }
+  })
 
   foreach(name, table in combinedUnitTiersUserLogs)
   {

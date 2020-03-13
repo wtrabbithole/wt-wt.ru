@@ -1,9 +1,10 @@
 local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
-local seenWWMapsAvailable = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
-local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
-local wwTopLeaderboard = ::require("scripts/worldWar/leaderboards/wwTopLeaderboard.nut")
-local wwLeaderboardData = ::require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
+local seenWWMapsAvailable = require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_AVAILABLE)
+local bhvUnseen = require("scripts/seen/bhvUnseen.nut")
+local wwTopLeaderboard = require("scripts/worldWar/leaderboards/wwTopLeaderboard.nut")
+local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
+local { getCurrenNotCompletedUnlocks, unlocksChapterName } = require("scripts/worldWar/unlocks/wwUnlocks.nut")
 
 local WW_DAY_SEASON_OVER_NOTICE = "worldWar/seasonOverNotice/day"
 local WW_SEASON_OVER_NOTICE_PERIOD_DAYS = 7
@@ -797,14 +798,6 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     registerSubHandler(handler)
   }
 
-  function isClanQueueAvaliable()
-  {
-    return mode == WW_OM_WND_MODE.PLAYER &&
-           ::has_feature("WorldWarClansQueue") &&
-           ::has_feature("Clans") &&
-           ::is_in_clan() && selMap && selMap.isActive()
-  }
-
   function updateButtons()
   {
     local isModePlayer = mode == WW_OM_WND_MODE.PLAYER
@@ -816,16 +809,31 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local hasMap = selMap != null
     local isInQueue = ::g_ww_global_status.isMyClanInQueue()
     local isQueueJoiningEnabled = isModeClan && ::WwQueue.getCantJoinAnyQueuesReasonData().canJoin
+    local isMyClanOperation = hasMap && hasClanOperation &&
+      ::g_ww_global_status.getMyClanOperation()?.data.map == selMap?.name
 
-    showSceneBtn("btn_clans_queue", isClanQueueAvaliable())
-    local joinOpBtn = showSceneBtn("btn_join_operation", isModePlayer && hasMap)
-    joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations() ? "no" : "yes"
+    showSceneBtn("btn_clans_queue", isModePlayer && selMap?.isClanQueueAvaliable())
+    local joinOpBtn = showSceneBtn("btn_join_operation",
+      isModePlayer && hasMap)
+    joinOpBtn.inactiveColor = isModePlayer && hasMap && selMap.getOpGroup().hasActiveOperations()
+      ? "no" : "yes"
 
     nearestAvailableMapToBattle = ::g_ww_global_status.getNearestAvailableMapToBattle()
     local needShowBeginMapWaitTime = !(nearestAvailableMapToBattle?.isActive?() ?? true)
-    local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason", isModeClan && !isInQueue && !needShowBeginMapWaitTime)
+    local cantJoinReasonObj = showSceneBtn("cant_join_queue_reason",
+      isModeClan && !isInQueue && !needShowBeginMapWaitTime)
     local joinQueueBtn = showSceneBtn("btn_join_queue", isQueueJoiningEnabled && !isInQueue)
-    showSceneBtn("btn_leave_queue", isModeClan && hasRightsToQueueClan && isInQueue)
+    showSceneBtn("btn_leave_queue",
+      (hasClanOperation || isInQueue) && hasRightsToQueueClan && isInQueue)
+
+    local joinBtn = showSceneBtn("btn_join_clan_operation", isMyClanOperation)
+    if(isMyClanOperation)
+    {
+      local joinBtnFlagsObj = joinBtn.findObject("country_icon")
+      if (::check_obj(joinBtnFlagsObj))
+        joinBtnFlagsObj["background-image"] = ::get_country_icon(
+          ::g_ww_global_status.getMyClanOperation()?.getMyClanCountry() ?? "")
+    }
 
     if ((queuesJoinTime > 0) != isInQueue)
       queuesJoinTime = isInQueue ? getLatestQueueJoinTime() : 0
@@ -1011,6 +1019,13 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
       res.reasonText = ::loc("worldWar/chooseCountriesInOperations")
 
     return res
+  }
+
+  function onJoinClanOperation()
+  {
+    local operationId = ::g_ww_global_status.getMyClanOperation()?.id
+    if(operationId != null)
+      ::g_world_war.joinOperationById(operationId)
   }
 
   function onJoinQueue()
@@ -1321,9 +1336,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
 
   function updateLeftPanel()
   {
+    local isUnlocksVisible =  fillUnlocksList()
     local isTrophyListVisible = fillTrophyList()
     local isTopListVisible =  fillTopList()
-    showSceneBtn("panel_left", isTrophyListVisible || isTopListVisible)
+    showSceneBtn("panel_left", isTrophyListVisible || isTopListVisible || isUnlocksVisible)
   }
 
   function onTimerBeginMapWaitTime(obj, dt)
@@ -1356,6 +1372,56 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     ::save_local_account_settings(WW_DAY_SEASON_OVER_NOTICE, curDay)
     ::scene_msg_box("season_is_over_notice", null, ::loc("worldwar/seasonIsOverNotice"),
       [["ok", null]], "ok")
+  }
+
+  function onOpenAchievments()
+  {
+    ::gui_start_profile({
+      initialSheet = "UnlockAchievement"
+      curAchievementGroupName = unlocksChapterName
+    })
+  }
+
+  function getUnlockObj(containerObj, idx)
+  {
+    if (containerObj.childrenCount() > idx)
+        return containerObj.getChild(idx)
+
+    return containerObj.getChild(idx-1).getClone(containerObj, this)
+  }
+
+  function fillUnlocksList()
+  {
+    local unlocksArray = getCurrenNotCompletedUnlocks()
+    local unlocksCount = unlocksArray.len()
+    local isVisibleBtn = unlocksCount > 0
+    local unlocksListObj = showSceneBtn("unlocks_block", isVisibleBtn)
+    if (!isVisibleBtn || !::check_obj(unlocksListObj))
+      return false
+
+    local listContainer = scene.findObject("unlocks_list")
+    if (!::check_obj(listContainer))
+      return false
+
+    local unlocksObjCount = listContainer.childrenCount()
+    local total = ::max(unlocksObjCount, unlocksCount)
+    if (unlocksObjCount == 0 && total > 0) {
+      local blk = ::handyman.renderCached(("gui/unlocks/unlockItemSimplified"),
+        { unlocks = array(total, { hasCloseButton = false })})
+      guiScene.appendWithBlk(listContainer, blk, this)
+    }
+
+    for(local i = 0; i < total; i++) {
+      local unlockObj = getUnlockObj(listContainer, i)
+      ::g_unlock_view.fillSimplifiedUnlockInfo(unlocksArray?[i], unlockObj, this)
+    }
+
+    return true
+  }
+
+  function onEventWWUnlocksCacheInvalidate(params)
+  {
+    fillUnlocksList()
   }
 }
 

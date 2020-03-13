@@ -1,6 +1,7 @@
+#no-plus-concat
+
 local string=require("string")
 local math=require("math")
-local hash_by_string = require("hash_by_string.nut")
 //pairs list taken from http://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/nls/rbagslowtoupmaptable.htm
 const CASE_PAIR_LOWER = "abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿāăąćĉċčďđēĕėęěĝğġģĥħĩīĭįıĳĵķĺļľŀłńņňŋōŏőœŕŗřśŝşšţťŧũūŭůűųŵŷźżžƃƅƈƌƒƙơƣƥƨƭưƴƶƹƽǆǉǌǎǐǒǔǖǘǚǜǟǡǣǥǧǩǫǭǯǳǵǻǽǿȁȃȅȇȉȋȍȏȑȓȕȗɓɔɗɘəɛɠɣɨɩɯɲɵʃʈʊʋʒάέήίαβγδεζηθικλμνξοπρστυφχψωϊϋόύώϣϥϧϩϫϭϯабвгдежзийклмнопрстуфхцчшщъыьэюяёђѓєѕіїјљњћќўџѡѣѥѧѩѫѭѯѱѳѵѷѹѻѽѿҁґғҕҗҙқҝҟҡңҥҧҩҫҭүұҳҵҷҹһҽҿӂӄӈӌӑӓӕӗәӛӝӟӡӣӥӧөӫӯӱӳӵӹաբգդեզէըթժիլխծկհձղճմյնշոչպջռսվտրցւփքօֆაბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰჱჲჳჴჵḁḃḅḇḉḋḍḏḑḓḕḗḙḛḝḟḡḣḥḧḩḫḭḯḱḳḵḷḹḻḽḿṁṃṅṇṉṋṍṏṑṓṕṗṙṛṝṟṡṣṥṧṩṫṭṯṱṳṵṷṹṻṽṿẁẃẅẇẉẋẍẏẑẓẕạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱἲἳἴἵἶἷὀὁὂὃὄὅὑὓὕὗὠὡὢὣὤὥὦὧᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗᾠᾡᾢᾣᾤᾥᾦᾧᾰᾱῐῑῠῡⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"
 const CASE_PAIR_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬĮIĲĴĶĹĻĽĿŁŃŅŇŊŌŎŐŒŔŖŘŚŜŞŠŢŤŦŨŪŬŮŰŲŴŶŹŻŽƂƄƇƋƑƘƠƢƤƧƬƯƳƵƸƼǄǇǊǍǏǑǓǕǗǙǛǞǠǢǤǦǨǪǬǮǱǴǺǼǾȀȂȄȆȈȊȌȎȐȒȔȖƁƆƊƎƏƐƓƔƗƖƜƝƟƩƮƱƲƷΆΈΉΊΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫΌΎΏϢϤϦϨϪϬϮАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЂЃЄЅІЇЈЉЊЋЌЎЏѠѢѤѦѨѪѬѮѰѲѴѶѸѺѼѾҀҐҒҔҖҘҚҜҞҠҢҤҦҨҪҬҮҰҲҴҶҸҺҼҾӁӃӇӋӐӒӔӖӘӚӜӞӠӢӤӦӨӪӮӰӲӴӸԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔՕՖႠႡႢႣႤႥႦႧႨႩႪႫႬႭႮႯႰႱႲႳႴႵႶႷႸႹႺႻႼႽႾႿჀჁჂჃჄჅḀḂḄḆḈḊḌḎḐḒḔḖḘḚḜḞḠḢḤḦḨḪḬḮḰḲḴḶḸḺḼḾṀṂṄṆṈṊṌṎṐṒṔṖṘṚṜṞṠṢṤṦṨṪṬṮṰṲṴṶṸṺṼṾẀẂẄẆẈẊẌẎẐẒẔẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"
@@ -337,7 +338,7 @@ local function tostring_r(input, params=defTostringParams) {
       else if (isArray && !showArrIdx) {
         if (!arrayElem)
           out.append(newline, indent, tostring_any(key, null, compact), " = ")
-        out.append("[", sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1, true, arrSep, indent), "]")
+        out.append("[", sub_tostring_r(value, $"{indent}{indentOnNewline}", curdeeplevel+1, true, arrSep, indent), "]")
         if (arrayElem && key!=input.len()-1)
           out.append(sep)
       }
@@ -348,7 +349,7 @@ local function tostring_r(input, params=defTostringParams) {
         if (!arrayElem) {
           out.append(tostring_any(key,null, compact)," = ")
         }
-        out.append(brOp,sub_tostring_r(value, indent + indentOnNewline, curdeeplevel+1),newline,indent,brCl)
+        out.append(brOp,sub_tostring_r(value, $"{indent}{indentOnNewline}", curdeeplevel+1),newline,indent,brCl)
         if (arrayElem && key==input.len()-1 ){
           out.append(newline,arrInd)
         }
@@ -627,29 +628,48 @@ local function toIntegerSafe(str, defValue = 0, needAssert = true) {
   return defValue
 }
 
-local function intToUtf8Char(c) {
-  if (c <= 0x7F)
-    return c.tochar()
-  if (c <= 0x7FF)
-    return (0xc0 + (c>>6)).tochar() + (0x80 + (c & 0x3F)).tochar()
-  //if (c <= 0xFFFF)
-  return (0xe0 + (c>>12)).tochar() + (0x80 + ((c>>6) & 0x3F)).tochar() + (0x80 + (c & 0x3F)).tochar()
+
+
+
+local intToUtf8Char
+local utf8ToUpper
+local utf8ToLower
+
+local utf8 = require_optional("utf8")
+
+if (utf8 != null) {
+  intToUtf8Char = function intToUtf8CharImpl(c) {
+    if (c <= 0x7F)
+      return c.tochar()
+    if (c <= 0x7FF)
+      return (0xc0 + (c>>6)).tochar() + (0x80 + (c & 0x3F)).tochar()
+    //if (c <= 0xFFFF)
+    return (0xe0 + (c>>12)).tochar() + (0x80 + ((c>>6) & 0x3F)).tochar() + (0x80 + (c & 0x3F)).tochar()
+  }
+
+  utf8ToUpper = function utf8ToUpperImpl(str, symbolsNum = 0) {
+    if(str.len() < 1)
+      return str
+    local utf8Str = utf8(str)
+    local strLength = utf8Str.charCount()
+    if (symbolsNum <= 0 || symbolsNum >= strLength)
+      return utf8Str.strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER)
+    return "".concat(utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER),
+      utf8Str.slice(symbolsNum, strLength))
+  }
+
+  utf8ToLower = function utf8ToLowerImpl(str) {
+    return utf8(str).strtr(CASE_PAIR_UPPER, CASE_PAIR_LOWER)
+  }
+}
+else {
+  local function noUtf8Module(...) { ::assert("No 'utf8' module") }
+
+  intToUtf8Char = noUtf8Module
+  utf8ToUpper = noUtf8Module
+  utf8ToLower = noUtf8Module
 }
 
-local function utf8ToUpper(str, symbolsNum = 0) {
-  if(str.len() < 1)
-    return str
-  local utf8Str = ::utf8(str)
-  local strLength = utf8Str.charCount()
-  if (symbolsNum <= 0 || symbolsNum >= strLength)
-    return utf8Str.strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER)
-  return "".concat(::utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER),
-   utf8Str.slice(symbolsNum, strLength))
-}
-
-local function utf8ToLower(str) {
-  return ::utf8(str).strtr(CASE_PAIR_UPPER, CASE_PAIR_LOWER)
-}
 
 local function hexStringToInt(hexString) {
   // Does the string start with '0x'? If so, remove it
@@ -836,7 +856,6 @@ local export = {
   validateEmail = validateEmail
 
   toIntegerSafe = toIntegerSafe
-  hash_by_string = hash_by_string
 }
 
 return export

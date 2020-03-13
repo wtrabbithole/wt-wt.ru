@@ -1,3 +1,5 @@
+local { unitClassType } = require("scripts/unit/unitClassType.nut")
+
 class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
 {
   needLeftRespawnOnSlots = true
@@ -296,7 +298,7 @@ class ::mission_rules.NumSpawnsByUnitType extends ::mission_rules.Base
 
       if (needUnitClasses)
       {
-        local unitTypeClassTypes = ::u.filter(::g_unit_class_type.types, @(c) c.unitTypeCode == unitType.esUnitType)
+        local unitTypeClassTypes = ::u.filter(unitClassType.types, @(c) c.unitTypeCode == unitType.esUnitType)
         foreach(classType in unitTypeClassTypes)
           if (getUnitClassLeftRespawns(classType.getExpClass(), baseRules) > 0)
           {

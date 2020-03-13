@@ -53,7 +53,7 @@ enums.addTypesByGlobalName("g_skills_page_status", {
   */
 })
 
-g_skills_page_status.getPageStatus <- function getPageStatus(crew, page, crewUnitType, skillPoints)
+g_skills_page_status.getPageStatus <- function getPageStatus(crew, unit, page, crewUnitType, skillPoints)
 {
   local res = ::g_skills_page_status.NONE
   local items = ::getTblValue("items", page)
@@ -69,7 +69,7 @@ g_skills_page_status.getPageStatus <- function getPageStatus(crew, page, crewUni
       continue
 
     local totalSteps = ::g_crew.getTotalSteps(item)
-    local value = ::g_crew.getSkillNewValue(item, crew)
+    local value = ::g_crew.getSkillNewValue(item, crew, unit)
     local curStep = ::g_crew.skillValueToStep(item, value)
     if (curStep >= totalSteps)
       continue

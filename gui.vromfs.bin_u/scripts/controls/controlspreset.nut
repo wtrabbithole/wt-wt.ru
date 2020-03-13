@@ -1,4 +1,5 @@
 ::g_script_reloader.loadOnce("scripts/controls/controlsPresets.nut")
+local controlsPresetConfigPath = require("scripts/controls/controlsPresetConfigPath.nut")
 
 const PRESET_ACTUAL_VERSION  = 5
 const PRESET_DEFAULT_VERSION = 4
@@ -193,17 +194,6 @@ class ControlsPreset {
       relStep             = 0.0
       relative            = false
       keepDisabledValue   = false
-      nonLinearitySlider0 = 1.0
-      nonLinearitySlider1 = 1.0
-      nonLinearitySlider2 = 1.0
-      nonLinearitySlider3 = 1.0
-      nonLinearitySlider4 = 1.0
-      nonLinearitySlider5 = 1.0
-      nonLinearitySlider6 = 1.0
-      nonLinearitySlider7 = 1.0
-      nonLinearitySlider8 = 1.0
-      nonLinearitySlider9 = 1.0
-      useSliders          = false
     }
     local axisWithZeroRangeMin = [
       "throttle",
@@ -218,14 +208,10 @@ class ControlsPreset {
   static function getDefaultParams()
   {
     return {
-      useX360Layout                     = false
       isXInput                          = false
-      isMouseLookHold                   = false
-      isHatViewMouse                    = true
       trackIrZoom                       = true
       trackIrForLateralMovement         = false
       trackIrAsHeadInTPS                = false
-      isFlightStick                     = true
       isExchangeSticksAvailable         = false
       holdThrottleForWEP                = true
       holdThrottleForFlankSpeed         = false
@@ -577,6 +563,11 @@ class ControlsPreset {
 
       foreach (presetGroup, presetPath in blkBasePresetPaths)
       {
+        local actualPresetPath = compatibility.getActualBasePresetPaths(presetPath)
+        if (actualPresetPath != presetPath) {
+          presetPath = actualPresetPath
+          blkBasePresetPaths[presetGroup] = presetPath
+        }
         ::dagor.debug("ControlsPreset: BasePreset." + presetGroup + " = " + presetPath)
         applyBasePreset(presetPath, presetGroup, presetChain)
       }
@@ -757,7 +748,7 @@ class ControlsPreset {
     local paramList = {}
     foreach (name, blkValue in blkParams)
       if (!::u.isInstance(blkValue))
-        paramList[compatibility.getActualParamName(name)] <- blkValue
+        paramList[name] <- blkValue
 
     u.extend(params, paramList)
   }
@@ -1214,19 +1205,20 @@ class ControlsPreset {
     function getActualPresetName(presetPath)
     {
       if (presetPath == "hotkey.gamepad.blk")
-        return "config/hotkeys/hotkey.default.blk"
+        return "wt/config/hotkeys/hotkey.default.blk"
       return presetPath
     }
 
-    function getActualParamName(paramName)
+    function getActualBasePresetPaths(presetPath)
     {
-      local replaceList = {
-        useX360 = "useX360Layout"
-      }
+      local indexConfigFolder = presetPath.indexof("config/hotkeys/hotkey")
+      if (indexConfigFolder == 0)
+        presetPath = $"{controlsPresetConfigPath.value}{presetPath}"
+      else if (indexConfigFolder == null
+        || presetPath.slice(0, indexConfigFolder) != controlsPresetConfigPath.value)
+          presetPath = ::g_controls_presets.getControlsPresetFilename("keyboard_updates")
 
-      if (paramName in replaceList)
-        return replaceList[paramName]
-      return paramName
+      return presetPath
     }
 
     mouseAxesDefaults = [
@@ -1264,27 +1256,12 @@ class ControlsPreset {
       "relStep"
       "relative"
       "keepDisabledValue"
-      "nonLinearitySlider0"
-      "nonLinearitySlider1"
-      "nonLinearitySlider2"
-      "nonLinearitySlider3"
-      "nonLinearitySlider4"
-      "nonLinearitySlider5"
-      "nonLinearitySlider6"
-      "nonLinearitySlider7"
-      "nonLinearitySlider8"
-      "nonLinearitySlider9"
-      "useSliders"
     ]
 
     paramsOrder = [
-      "useX360Layout"
       "isXInput"
-      "isMouseLookHold"
-      "isHatViewMouse"
       "trackIrZoom"
       "trackIrAsHeadInTPS"
-      "isFlightStick"
       "isExchangeSticksAvailable"
       "holdThrottleForWEP"
       "holdThrottleForFlankSpeed"

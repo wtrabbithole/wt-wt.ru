@@ -1,5 +1,6 @@
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
+local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 
 class ::gui_handlers.ShopCheckResearch extends ::gui_handlers.ShopMenuHandler
 {

@@ -18,12 +18,11 @@ local WND_PARAMS = {
 }
 
 local function remove(key) {
-  foreach(idx, wnd in list.value)
-    if (wnd.key == key) {
-      list.update(@(value) value.remove(idx))
-      return true
-    }
-  return false
+  local idx = list.value.findindex(@(w) w.key == key)
+  if (idx == null)
+    return false
+  list(@(l) l.remove(idx))
+  return true
 }
 
 local lastWndIdx = 0

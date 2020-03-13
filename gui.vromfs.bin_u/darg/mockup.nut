@@ -29,6 +29,14 @@ local frp = require("frp")
     gamepadCursorHoverMinMul = 0.005
     gamepadCursorHoverMaxMul = 0.1
     gamepadCursorHoverMaxTime = 0.5
+    gamepadCursorAxisH = 0
+    gamepadCursorAxisV = 1
+    clickRumbleEnabled = true
+    clickRumbleLoFreq = 0.6
+    clickRumbleHiFreq = 0
+    clickRumbleDuration = 0.04
+    dirPadRepeatDelay = 0.6
+    dirPadRepeatTime = 0.2
   }
   cursorOverScroll = ::Watched(true)
   cursorOverClickable = ::Watched(true)
@@ -119,10 +127,14 @@ global enum AnimProp{
   BoundToArea = "BoundToArea"
   RecalcHandler = "RecalcHandler"
   DragAndDrop = "DragAndDrop"
+  RtPropUpdate = "RtPropUpdate"
+  Pannable = "Pannable"
 }
 
 ::Picture <- function Picture(val){return val}
 ::Cursor <- function Cursor(val) {return val}
+
+::XmbNode <- function XmbNode(...) {return {}}
 
 global enum Layers {
   Default
@@ -153,12 +165,16 @@ global const FLOW_PARENT_RELATIVE = "PARENT_RELATIVE"
 global const FLOW_HORIZONTAL = "FLOW_HORIZONTAL"
 global const FLOW_VERTICAL = "FLOW_VERTICAL"
 
-global const HALIGN_LEFT = "HALIGN_LEFT"
-global const HALIGN_CENTER ="HALIGN_CENTER"
-global const HALIGN_RIGHT="HALIGN_RIGHT"
-global const VALIGN_TOP="VALIGN_TOP"
-global const VALIGN_MIDDLE="VALIGN_MIDDLE"
-global const VALIGN_BOTTOM="VALIGN_BOTTOM"
+global const ALIGN_LEFT = "ALIGN_LEFT_OR_TOP"
+global const ALIGN_CENTER ="ALIGN_CENTER"
+global const ALIGN_RIGHT="ALIGN_RIGHT_OR_BOTTOM"
+global const ALIGN_TOP="ALIGN_LEFT_OR_TOP"
+global const ALIGN_BOTTOM="ALIGN_RIGHT_OR_BOTTOM"
+
+global const DIR_UP = "DIR_UP"
+global const DIR_DOWN = "DIR_DOWN"
+global const DIR_LEFT = "DIR_LEFT"
+global const DIR_RIGHT = "DIR_RIGHT"
 
 global const KEEP_ASPECT_FILL = "KEEP_ASPECT_FILL"
 global const KEEP_ASPECT_NONE = false
@@ -279,3 +295,8 @@ global const MR_AREA="MR_AREA"
 global const SIZE_TO_CONTENT="SIZE_TO_CONTENT"
 global const DEVID_MOUSE = 1
 
+global const FMT_NO_WRAP = 0x01
+global const FMT_KEEP_SPACES = 0x02
+global const FMT_IGNORE_TAGS = 0x04
+global const FMT_HIDE_ELLIPSIS = 0x08
+global const FMT_AS_IS = 0xFF

@@ -25,6 +25,7 @@
 
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
+local { getRoleText } = require("scripts/unit/unitInfoTexts.nut")
 
 local missionModesList = [
   "missionsWon",
@@ -938,7 +939,7 @@ UnlockConditions._addUsualConditionsText <- function _addUsualConditionsText(gro
       text = ::loc("unlockTag/" + ::getTblValue(v, mapConditionUnitType, v))
     else if (cType == "playerExpClass" || cType == "targetExpClass" || cType == "unitClass" || cType == "targetUnitClass" ||
              cType == "usedInSessionClass" || cType == "lastInSessionClass")
-      text = ::get_role_text(::g_string.cutPrefix(v, "exp_", v))
+      text = getRoleText(::g_string.cutPrefix(v, "exp_", v))
     else if (cType == "playerTag" || cType == "crewsTag" || cType == "targetTag" || cType == "country" ||
              cType == "playerCountry" || cType == "usedInSessionTag" || cType == "lastInSessionTag")
       text = ::loc("unlockTag/" + v)

@@ -12,7 +12,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
   egdLowercaseName = ::get_name_by_gamemode(::EGD_NONE, false) // none
   gameTypeName = ""
   matchingName = ""
-  crewSkillName = "" // Used in g_crew_skill_parameters.
+  crewSkillName = "" // Used in crewSkillParameters.nut
   settingsName = "" // Used in _difficulty.blk difficulty_settings.
   clanReqOption = "" //Used in clan membership requirement
   clanDataEnding = ""
@@ -39,6 +39,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
     return diffCode == -1 ? -1 :
       diffCode + (isAvailableTanks ? EDIFF_SHIFT : 0)
   }
+  needCheckTutorial = false
 }
 
 enums.addTypesByGlobalName("g_difficulty", {
@@ -88,6 +89,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     choiceType = ["AirRB", "TankRB", "ShipRB"]
     arcadeCountry = true
     hasRespawns = false
+    needCheckTutorial = true
   }
 
   SIMULATOR = {
@@ -110,6 +112,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     choiceType = ["AirSB", "TankSB", "ShipSB"]
     arcadeCountry = false
     hasRespawns = false
+    needCheckTutorial = true
     isAvailable = function(gm = null) {
       return !::has_feature("SimulatorDifficulty") ? false :
         gm == ::GM_DOMINATION ? ::has_feature("SimulatorDifficultyInRandomBattles") :

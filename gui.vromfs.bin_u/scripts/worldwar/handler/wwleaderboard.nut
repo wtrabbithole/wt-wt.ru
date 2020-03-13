@@ -42,6 +42,8 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 
   rewardsBlk = null
   rewardsTimeData = null
+  availableMapsList = null
+  availableCountriesList = null
 
   function initScreen()
   {
@@ -59,6 +61,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     updateButtons()
     fetchRewardsData()
     fetchRewardsTimeData()
+    initFocusArray()
   }
 
   function fetchRewardsData()
@@ -171,7 +174,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       data += format("option {text:t='%s'}", optionText)
     }
 
-    local mapsObj = showSceneBtn("maps_list", true)
+    local mapsObj = showSceneBtn("maps_list", lbMapsList.len() > 1)
     guiScene.replaceContentFromText(mapsObj, data, data.len(), this)
 
     local mapObjValue = 0
@@ -184,7 +187,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     mapsObj.setValue(mapObjValue)
   }
 
-  function updateCountriesComboBox(filterMap = null, isVisible = true)
+  function updateCountriesComboBox(filterMap = null)
   {
     lbCountriesList = getWwCountries(filterMap)
 
@@ -196,7 +199,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       data += format("option {text:t='%s'}", optionText)
     }
 
-    local countriesObj = showSceneBtn("countries_list", isVisible)
+    local countriesObj = showSceneBtn("countries_list", lbCountriesList.len() > 1)
     guiScene.replaceContentFromText(countriesObj, data, data.len(), this)
 
     local countryObjValue = 0
@@ -285,17 +288,15 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
 
     checkLbCategory()
 
-    local mode = wwLeaderboardData.getModeByName(lbMode)
     local callback = ::Callback(
       function(modesData) {
+        updateModeDataByAvailableTables(modesData.modes)
         updateModeComboBoxes(modesData?.tables)
       }, this)
-    if (mode.hasDaysData)
-      wwLeaderboardData.requestWwLeaderboardModes(
-        lbMode,
-        @(modesData) callback(modesData))
-    else
-      updateModeComboBoxes()
+
+    wwLeaderboardData.requestWwLeaderboardModes(
+      lbMode,
+      @(modesData) callback(modesData))
   }
 
   function updateModeComboBoxes(seasonDays = null)
@@ -303,11 +304,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (isCountriesLeaderboard())
     {
       lbCountry = null
-      updateCountriesComboBox(null, false)
+      updateCountriesComboBox()
     }
-    else
-      updateMapsComboBox()
-
+    updateMapsComboBox()
     updateDaysComboBox(seasonDays)
   }
 
@@ -367,19 +366,20 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (!lbModeData)
       return null
 
-    local mapId = lbMap ? "__" + lbMap.getId() : ""
-    local countryId = lbCountry ? "__" + lbCountry : ""
+    local mapId = lbMap && ::isInArray(lbMap, availableMapsList) ? "__" + lbMap.getId() : ""
+    local countryId = lbCountry && ::isInArray(lbCountry, availableCountriesList)
+      ? "__" + lbCountry : ""
     return {
       modeName = lbModeData.mode
       modePostFix = mapId + countryId
-      day = lbDay
+      day = lbModeData.hasDaysData ? lbDay : null
     }
   }
 
   function getWwMaps()
   {
     local maps = [null]
-    foreach (map in wwMapsList)
+    foreach (map in availableMapsList)
       maps.append(map)
 
     return maps
@@ -391,15 +391,16 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (filterMap)
     {
       foreach (country in filterMap.getCountries())
-        countrries.append(country)
+        if(::isInArray(country, availableCountriesList))
+          countrries.append(country)
 
       return countrries
     }
 
     local countrriesData = {}
-    foreach (map in wwMapsList)
+    foreach (map in availableMapsList)
       foreach (country in map.getCountries())
-        if (!(country in countrriesData))
+        if (!(country in countrriesData) && ::isInArray(country, availableCountriesList))
           countrriesData[country] <- country
 
     foreach (country in countrriesData)
@@ -458,5 +459,37 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
   {
     local day = lbDay ? wwLeaderboardData.getDayIdByNumber(lbDay) : "season"
     return rewardsTimeData?[day] ?? 0
+  }
+
+  function updateModeDataByAvailableTables(modes)
+  {
+    availableMapsList = getAvailableMapsList(modes)
+    availableCountriesList = getAvailableCountriesList(modes)
+  }
+
+  function getAvailableMapsList(modes)
+  {
+    local mode = lbMode
+    local maps = []
+    foreach (map in wwMapsList)
+      if(::u.search(modes, @(m) m.split(mode)?[1] && m.split(map.name)?[1]) != null)
+        maps.append(map)
+
+    return maps
+  }
+
+  function getAvailableCountriesList(modes)
+  {
+    local countries = []
+    foreach (mode in modes)
+      if(mode.split(lbMode)?[1] != null)
+      {
+        local cName = mode.split("__country")?[1]
+        local country = cName == null ? cName : $"{"country"}{cName}"
+        if(country != null && !::isInArray(country, countries))
+          countries.append(country)
+      }
+
+    return countries
   }
 }

@@ -1,3 +1,5 @@
+local crossplayModule = require("scripts/social/crossplay.nut")
+
 const ROOM_LIST_REFRESH_MIN_TIME = 3000 //ms
 const ROOM_LIST_REQUEST_TIME_OUT = 45000 //ms
 const ROOM_LIST_TIME_OUT = 180000
@@ -113,9 +115,31 @@ class MRoomsList
 
   function setPlatformFilter(filter) {
     if (::is_platform_xboxone) {
-      filter["public/platformRestriction"] <- {
-        test = "eq"
-        value = "xboxOne"
+      if (!crossplayModule.isCrossPlayEnabled()) {
+        filter["public/platformRestriction"] <- {
+          test = "eq"
+          value = "xboxOne"
+        }
+      }
+      else {
+        filter["public/platformRestriction"] <- {
+          test = "in"
+          value = ["xboxOne", null]
+        }
+      }
+    }
+    else if (::is_platform_ps4) {
+      if (!crossplayModule.isCrossPlayEnabled()) {
+        filter["public/platformRestriction"] <- {
+          test = "eq"
+          value = "ps4"
+        }
+      }
+      else {
+        filter["public/platformRestriction"] <- {
+          test = "in"
+          value = ["ps4", null]
+        }
       }
     }
     else {

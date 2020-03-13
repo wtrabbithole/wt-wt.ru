@@ -37,8 +37,10 @@ tdiv {
       <</icon>>
 
       textareaNoTab {
+        width:t='pw-0.05@sf-@tableIcoSize'
         pos:t='0, 50%ph-50%h'
         position:t='relative'
+        word-wrap:t='no'
         pare-text:t='yes'
         text:t=' <<#showType>><<unitType>><</showType>><<^showType>><<name>><</showType>> '
       }
@@ -84,8 +86,12 @@ tdiv {
 
     <<#isShow>>
       textareaNoTab {
+        width:t='pw-0.05@sf-@tableIcoSize'
         pos:t='0, 50%ph-50%h'
         position:t='relative'
+        padding-right:t='3@dp'
+        text-align:t='right'
+        word-wrap:t='no'
         pare-text:t='yes'
         text:t=' <<#showType>><<unitType>><</showType>><<^showType>><<name>><</showType>> '
       }

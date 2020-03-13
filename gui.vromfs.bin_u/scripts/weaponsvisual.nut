@@ -1,6 +1,26 @@
 local weaponryEffects = ::require("scripts/weaponry/weaponryEffects.nut")
 local modUpgradeElem = ::require("scripts/weaponry/elems/modUpgradeElem.nut")
 local stdMath = require("std/math.nut")
+local { isFakeBullet,
+        getBulletIcons,
+        initBulletIcons,
+        getBulletsSetData,
+        getBulletGroupIndex,
+        getModificationInfo,
+        getModificationName,
+        getBulletsSearchName,
+        getBulletsFeaturesImg,
+        isBulletsGroupActiveByMod,
+        getModificationBulletsEffect,
+        getModificationBulletsGroup } = require("scripts/weaponry/bulletsInfo.nut")
+local { AMMO,
+        getAmmoAmount,
+        getAmmoMaxAmount,
+        getAmmoWarningMinimum } = require("scripts/weaponry/ammoInfo.nut")
+local { WEAPON_TYPE,
+        getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { getWeaponInfoText,
+        getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 
 /*
   weaponVisual API
@@ -182,7 +202,7 @@ weaponVisual.updateItem <- function updateItem(air, item, itemObj, showButtons, 
   local statusRadioObj = itemObj.findObject("status_radio")
   if(statusRadioObj)
     statusRadioObj.show(showStatus && statusTbl.unlocked &&
-      isSwitcher && !::is_fake_bullet(visualItem.name))
+      isSwitcher && !isFakeBullet(visualItem.name))
 
   local blockObj = itemObj.findObject("modItem_statusBlock")
   if (blockObj)
@@ -373,12 +393,12 @@ weaponVisual.getItemStatusTbl <- function getItemStatusTbl(air, item)
 
   if (item.type == weaponsItem.weapon)
   {
-    res.maxAmount = ::getAmmoMaxAmount(air, item.name, AMMO.WEAPON)
-    res.amount = ::getAmmoAmount(air, item.name, AMMO.WEAPON)
+    res.maxAmount = getAmmoMaxAmount(air, item.name, AMMO.WEAPON)
+    res.amount = getAmmoAmount(air, item.name, AMMO.WEAPON)
     res.showMaxAmount = res.maxAmount > 1
-    res.amountWarningValue = ::getAmmoWarningMinimum(AMMO.WEAPON, air, res.maxAmount)
+    res.amountWarningValue = getAmmoWarningMinimum(AMMO.WEAPON, air, res.maxAmount)
     res.canBuyMore = res.amount < res.maxAmount
-    res.equipped = res.amount && ::get_last_weapon(air.name) == item.name
+    res.equipped = res.amount && getLastWeapon(air.name) == item.name
     res.unlocked = ::is_weapon_enabled(air, item) || (isOwn && ::is_weapon_unlocked(air, item) )
     res.discountType = "weapons"
   }
@@ -409,7 +429,7 @@ weaponVisual.getItemStatusTbl <- function getItemStatusTbl(air, item)
     {
       res.unlocked = res.amount || ::canBuyMod(air, item)
       res.maxAmount = ::wp_get_modification_max_count(air.name, item.name)
-      res.amountWarningValue = ::getAmmoWarningMinimum(AMMO.MODIFICATION, air, res.maxAmount)
+      res.amountWarningValue = getAmmoWarningMinimum(AMMO.MODIFICATION, air, res.maxAmount)
       res.canBuyMore = res.amount < res.maxAmount
       res.modExp = ::shop_get_module_exp(air.name, item.name)
       res.discountType = "mods"
@@ -436,7 +456,7 @@ weaponVisual.getItemStatusTbl <- function getItemStatusTbl(air, item)
       {
         res.equipped = false
         res.showMaxAmount = res.maxAmount > 1
-        local id = get_bullet_group_index(air.name, item.name)
+        local id = getBulletGroupIndex(air.name, item.name)
         if (id >= 0)
         {
           local currBullet = ::get_last_bullets(air.name, id);
@@ -547,7 +567,7 @@ weaponVisual.getBundleCurItem <- function getBundleCurItem(air, bundle)
 
   if (bundle.itemsType == weaponsItem.weapon)
   {
-    local curWeapon = ::get_last_weapon(air.name)
+    local curWeapon = getLastWeapon(air.name)
     foreach(item in bundle.itemsList)
       if (curWeapon == item.name)
         return item
@@ -584,7 +604,7 @@ weaponVisual.getByCurBundle <- function getByCurBundle(air, bundle, func, defVal
 weaponVisual.isBullets <- function isBullets(item)
 {
   return (("isDefaultForGroup" in item) && (item.isDefaultForGroup >= 0))
-    || (item.type == weaponsItem.modification && ::getModificationBulletsGroup(item.name) != "")
+    || (item.type == weaponsItem.modification && getModificationBulletsGroup(item.name) != "")
 }
 
 weaponVisual.getBulletsIconItem <- function getBulletsIconItem(air, item)
@@ -639,6 +659,8 @@ weaponVisual.getBulletsIconView <- function getBulletsIconView(bulletsSet, toolt
   if (!bulletsSet || !("bullets" in bulletsSet))
     return view
 
+  initBulletIcons()
+  local bulletIcons = getBulletIcons()
   view.bullets <- (@(bulletsSet, tooltipId, tooltipDelayed) function () {
       local res = []
 
@@ -655,8 +677,6 @@ weaponVisual.getBulletsIconView <- function getBulletsIconView(bulletsSet, toolt
       local separator = (space > 0) ? (space / (count + 1)) : (count == 1 ? space : (space / (count - 1)))
       local start = (space > 0) ? separator : 0.0
 
-      ::init_bullet_icons()
-
       for (local i = 0; i < count; i++)
       {
         local imgId = bulletsSet.bullets[i % length]
@@ -667,7 +687,7 @@ weaponVisual.getBulletsIconView <- function getBulletsIconView(bulletsSet, toolt
         local defaultImgId = ::isCaliberCannon(1000 * (bulletsSet?.caliber ?? 0.0)) ? "default_shell" : "default_ball"
 
         local item = {
-          image           = "#ui/gameuiskin#" + bullet_icons[ (imgId in bullet_icons) ? imgId : defaultImgId ]
+          image           = "#ui/gameuiskin#" + bulletIcons[ (imgId in bulletIcons) ? imgId : defaultImgId ]
           posx            = (start + (itemWidth + separator) * i) + "%pw"
           sizex           = itemWidth + "%pw"
           sizey           = itemHeight + "%pw"
@@ -685,7 +705,7 @@ weaponVisual.getBulletsIconView <- function getBulletsIconView(bulletsSet, toolt
   if (bIconParam)
   {
     local addIco = []
-    foreach(item in ::bullets_features_img)
+    foreach(item in getBulletsFeaturesImg())
     {
       local idx = ::getTblValue(item.id, bIconParam, -1)
       if (idx in item.values)
@@ -835,10 +855,10 @@ weaponVisual.getReqModsText <- function getReqModsText(air, item)
       if (rp in item)
         foreach (req in item[rp])
           if (rp == "reqWeapon" && !::shop_is_weapon_purchased(air.name, req))
-            reqText += ((reqText=="")?"":"\n") + ::loc(rp) + ::loc("ui/colon") + ::getWeaponNameText(air.name, false, req, ", ")
+            reqText += ((reqText=="")?"":"\n") + ::loc(rp) + ::loc("ui/colon") + getWeaponNameText(air.name, false, req, ", ")
           else
           if (rp == "reqModification" && !::shop_is_modification_purchased(air.name, req))
-            reqText += ((reqText=="")?"":"\n") + ::loc(rp) + ::loc("ui/colon") + ::getModificationName(air, req)
+            reqText += ((reqText=="")?"":"\n") + ::loc(rp) + ::loc("ui/colon") + getModificationName(air, req)
   return reqText
 }
 
@@ -886,7 +906,7 @@ weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null,
   if (item.type==weaponsItem.weapon)
   {
     name = ""
-    desc = ::getWeaponInfoText(air, { isPrimary = false, weaponPreset = item.name,
+    desc = getWeaponInfoText(air, { isPrimary = false, weaponPreset = item.name,
       detail = INFO_DETAIL.EXTENDED, weaponsFilterFunc = params?.weaponsFilterFunc })
 
     if(item.rocket || item.bomb)
@@ -903,7 +923,7 @@ weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null,
   else if (item.type==weaponsItem.primaryWeapon)
   {
     name = ""
-    desc = ::getWeaponInfoText(air, { isPrimary = true, weaponPreset = item.name,
+    desc = getWeaponInfoText(air, { isPrimary = true, weaponPreset = item.name,
       detail = INFO_DETAIL.EXTENDED, weaponsFilterFunc = params?.weaponsFilterFunc })
     local upgradesList = getItemUpgradesList(item)
     if(upgradesList)
@@ -917,7 +937,7 @@ weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null,
         {
           if(upgrade == null)
             continue
-          addDesc += "\n" + (::shop_is_modification_enabled(air.name, upgrade) ? "<color=@goodTextColor>" : "<color=@commonTextColor>") + ::getModificationName(air, upgrade) + "</color>"
+          addDesc += "\n" + (::shop_is_modification_enabled(air.name, upgrade) ? "<color=@goodTextColor>" : "<color=@commonTextColor>") + getModificationName(air, upgrade) + "</color>"
         }
     }
   }
@@ -925,12 +945,12 @@ weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null,
   {
     if (effect)
     {
-      desc = ::getModificationInfo(air, item.name).desc;
+      desc = getModificationInfo(air, item.name).desc;
       addDesc = weaponryEffects.getDesc(air, effect);
     }
     else
     {
-      local info = ::getModificationInfo(air, item.name, false, false, this, updateEffectFunc)
+      local info = getModificationInfo(air, item.name, false, false, this, updateEffectFunc)
       desc = info.desc
       res.delayed = info.delayed
     }
@@ -1002,7 +1022,7 @@ weaponVisual.getItemDescTbl <- function getItemDescTbl(air, item, params = null,
       if(reqMods != "")
         reqText += (reqText==""? "" : "\n") + reqMods
     }
-    if (isBullets(item) && !::is_bullets_group_active_by_mod(air, item))
+    if (isBullets(item) && !isBulletsGroupActiveByMod(air, item))
       reqText += ((reqText=="")?"":"\n") + ::loc("msg/weaponSelectRequired")
     reqText = reqText!=""? ("<color=@badTextColor>" + reqText + "</color>") : ""
 
@@ -1053,7 +1073,7 @@ weaponVisual.addBulletsParamToDesc <- function addBulletsParamToDesc(descTbl, un
   else
     descTbl.bulletActions <- [{ visual = getBulletsIconData(bulletsSet) }]
 
-  local searchName = ::getBulletsSearchName(unit, modName)
+  local searchName = getBulletsSearchName(unit, modName)
   local useDefaultBullet = searchName!=modName;
   local bullet_parameters = ::calculate_tank_bullet_parameters(unit.name,
     useDefaultBullet && "weaponBlkName" in bulletsSet ? bulletsSet.weaponBlkName : getModificationBulletsEffect(searchName),
@@ -1274,7 +1294,7 @@ weaponVisual.buildPiercingData <- function buildPiercingData(unit, bullet_parame
 
   local bulletName = ""
   if("weaponBlkPath" in param)
-    bulletName = ::loc("weapons" + ::get_weapon_name_by_blk_path(param.weaponBlkPath))
+    bulletName = ::loc("weapons/{0}".subst(::get_weapon_name_by_blk_path(param.weaponBlkPath)))
 
   local apData = getArmorPiercingViewData(param.armorPiercing, param.armorPiercingDist)
   if (apData)
@@ -1394,7 +1414,7 @@ weaponVisual.isTierAvailable <- function isTierAvailable(air, tierNum)
     foreach(mod in air.modifications)
       if(mod.tier == (tierNum-1) &&
          ::isModResearched(air, mod) &&
-         ::getModificationBulletsGroup(mod.name) == "" &&
+         getModificationBulletsGroup(mod.name) == "" &&
          !::wp_get_modification_cost_gold(air.name, mod.name)
         )
         reqMods--

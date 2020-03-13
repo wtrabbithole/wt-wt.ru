@@ -428,6 +428,11 @@ bottomline > shopItemPrice {
   margin-left: 0.003@sf;
 }
 
+shopItemText[autoScrollText=hoverOrSelect] {
+  margin-left: 0;
+  padding-right: 0;
+}
+
 bottomline > shopItemPrice {
   margin-right: 0.008@sf;
 }
@@ -558,6 +563,8 @@ middleline shopItemPrice {
   text-align:center;
 }
 
+td[selected=yes] bottomline > tdiv > shopItemText[autoScrollText=hoverOrSelect],
+:hover > bottomline > tdiv > shopItemText[autoScrollText=hoverOrSelect],
 td[selected=yes] topline > shopItemText {
   behaviour:OverflowScroller;
   move-pixel-per-sec:10*@scrn_tgt/100.0;
@@ -606,12 +613,13 @@ classIcon[shopItemType=boat]                { color:@boatColor; }
 classIcon[shopItemType=heavy_boat]          { color:@heavy_boatColor; }
 classIcon[shopItemType=barge]               { color:@bargeColor; }
 classIcon[shopItemType=destroyer]           { color:@destroyerColor; }
+classIcon[shopItemType=frigate]             { color:@destroyerColor; }
 classIcon[shopItemType=light_cruiser]       { color:@light_cruiserColor; }
 classIcon[shopItemType=cruiser]             { color:@cruiserColor; }
+classIcon[shopItemType=heavy_cruiser]       { color:@cruiserColor; }
 classIcon[shopItemType=battlecruiser]       { color:@battlecruiserColor; }
 classIcon[shopItemType=battleship]          { color:@battleshipColor; }
 classIcon[shopItemType=submarine]           { color:@submarineColor; }
-classIcon[shopItemType=ufo]                 { color:@ufoColor; }
 
 classIcon[shopItemType=infantry]            { color:@infantryColor; }
 classIcon[shopItemType=artillery]           { color:@artilleryColor; }
@@ -643,12 +651,13 @@ img[shopItemType=boat]              { background-color:@boatColor; }
 img[shopItemType=heavy_boat]        { background-color:@heavy_boatColor; }
 img[shopItemType=barge]             { background-color:@bargeColor; }
 img[shopItemType=destroyer]         { background-color:@destroyerColor; }
+img[shopItemType=frigate]           { background-color:@destroyerColor; }
 img[shopItemType=light_cruiser]     { background-color:@light_cruiserColor; }
 img[shopItemType=cruiser]           { background-color:@cruiserColor; }
+img[shopItemType=heavy_cruiser]     { background-color:@cruiserColor; }
 img[shopItemType=battlecruiser]     { background-color:@battlecruiserColor; }
 img[shopItemType=battleship]        { background-color:@battleshipColor; }
 img[shopItemType=submarine]         { background-color:@submarineColor; }
-img[shopItemType=ufo]               { background-color:@ufoColor; }
 
 img[shopItemType=infantry]          { background-color:@infantryColor; }
 img[shopItemType=artillery]         { background-color:@artilleryColor; }
@@ -957,7 +966,9 @@ shopAngle {
   background-position:4,6,6,4;
 }
 
-shopArrow[isDisabled = yes] {
+shopArrow[isDisabled = yes],
+shopAngle[isDisabled = yes],
+shopLine[isDisabled = yes] {
   shopStat:locked;
 }
 

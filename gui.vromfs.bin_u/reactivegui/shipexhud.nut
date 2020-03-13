@@ -36,7 +36,7 @@ local function depthLevelCmp(){
   return styleShipHudText.__merge({
     color = getDepthColor(shipState.depthLevel.value)
     watch = [shipState.depthLevel, shipState.waterDist]
-    halign = HALIGN_RIGHT
+    halign = ALIGN_RIGHT
     text = ::math.floor(shipState.waterDist.value).tostring()
   })
 }
@@ -44,7 +44,7 @@ local function wishDistCmp(){
   return styleShipHudText.__merge({
     watch = [shipState.depthLevel, shipState.wishDist]
     color = getDepthColor(shipState.depthLevel.value)
-    halign = HALIGN_LEFT
+    halign = ALIGN_LEFT
     text = ::math.floor(::max(shipState.wishDist.value, 0)).tostring()
   })
 }
@@ -71,7 +71,7 @@ local function depthLevelLineCmp(){
     size = [shVertSpeedScaleWidth, shVertSpeedHeight]
     color = getDepthColor(shipState.depthLevel.value)
     rendObj = ROBJ_VECTOR_CANVAS
-    halign = HALIGN_RIGHT
+    halign = ALIGN_RIGHT
     commands = [
       [VECTOR_LINE, 0, 0, 100, 0],
       [VECTOR_LINE, 0, 12.5, 50, 12.5],
@@ -95,7 +95,7 @@ local childrenShVerSpeed = [
 local function ShipVertSpeed() {
   return {
     watch = shellState.isAimCamera
-    valign = VALIGN_MIDDLE
+    valign = ALIGN_CENTER
     flow = FLOW_HORIZONTAL
     gap = hdpx(15)
     children = !shellState.isAimCamera.value ? childrenShVerSpeed : null
@@ -139,8 +139,8 @@ local shipHud = @(){
   margin = screenState.safeAreaSizeHud.value.borders
   padding = [0, 0, hdpx(32) + ::fpx(6), 0]
   flow = FLOW_VERTICAL
-  valign = VALIGN_BOTTOM
-  halign = HALIGN_LEFT
+  valign = ALIGN_BOTTOM
+  halign = ALIGN_LEFT
   gap = ::scrn_tgt(0.5)
   children = [
     voiceChat
@@ -153,7 +153,7 @@ local shipHud = @(){
 local sensorsHud = {
   pos = [sw(60), 0]
   size = flex()
-  valign = VALIGN_MIDDLE
+  valign = ALIGN_CENTER
   children = [
     ShipVertSpeed
     ShipShellState

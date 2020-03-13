@@ -1,6 +1,7 @@
 local callback = ::require("sqStdLibs/helpers/callback.nut")
 local Callback = callback.Callback
 local battleRating = ::require("scripts/battleRating.nut")
+local selectUnitHandler = require("scripts/slotbar/selectUnitHandler.nut")
 
 ::slotbar_oninit <- false //!!FIX ME: Why this variable is global?
 
@@ -143,13 +144,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     shouldSelectAvailableUnit = shouldSelectAvailableUnit ?? ::is_in_flight()
     needPresetsPanel = needPresetsPanel ?? (!singleCountry && isCountryChoiceAllowed)
     shouldCheckQueue = shouldCheckQueue ?? !::is_in_flight()
-
-    onSlotDblClick = onSlotDblClick
-      ?? ::Callback(function(crew) {
-           local unit = getCrewUnit(crew)
-           if (unit)
-             ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
-         }, this)
+    onSlotDblClick = onSlotDblClick ?? getDefaultDblClickFunc()
 
     //update callbacks
     foreach(funcName in ["beforeSlotbarSelect", "afterSlotbarSelect", "onSlotDblClick", "onCountryChanged",
@@ -794,11 +789,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     {
       local unit = getCrewUnit(crew)
       if (unit)
-      {
-        ::set_show_aircraft(unit)
-        //need to send event when crew in country not changed, because main unit changed.
-        ::select_crew(curSlotCountryId, curSlotIdInCountry, true)
-      }
+        setCrewUnit(unit)
       else if (needActionsWithEmptyCrews)
         onSlotChangeAircraft()
     }
@@ -929,10 +920,12 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    local lockedCountryData = ::g_world_war.getLockedCountryData()
-      || ::g_squad_manager.getLockedCountryData()
+    local lockedCountryData = ::SessionLobby.getLockedCountryData()
+      ?? ::g_world_war.getLockedCountryData()
+      ?? ::g_squad_manager.getLockedCountryData()
 
-    if (lockedCountryData && lockedCountryData.country != countryData.country)
+    if (lockedCountryData != null
+      && !::isInArray(countryData.country, lockedCountryData.availableCountries))
     {
       setCountry(::get_profile_country_sq())
       ::showInfoMsgBox(lockedCountryData.reasonText)
@@ -1077,7 +1070,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     ignoreCheckSlotbar = true
     checkedCrewAirChange(function() {
         ignoreCheckSlotbar = false
-        ::gui_start_select_unit(crew, slotbar)
+        selectUnitHandler.open(crew, slotbar)
       },
       function() {
         ignoreCheckSlotbar = false
@@ -1149,7 +1142,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
     if (!(curSlotCountryId in ::g_crews_list.get())
         || ::g_crews_list.get()[curSlotCountryId].country != ::get_profile_country_sq()
-        || curSlotIdInCountry != ::selected_crews[curSlotCountryId])
+        || curSlotIdInCountry != ::selected_crews[curSlotCountryId] || getCurSlotUnit() == null)
       updateSlotbarImpl()
     else if (selectedCrewData && selectedCrewData?.unit != get_show_aircraft())
       refreshAll()
@@ -1266,12 +1259,14 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
 
     foreach (slot in unitSlots)
     {
-      slot.obj["crewStatus"] = ::get_crew_status(slot.crew)
+      slot.obj["crewStatus"] = ::get_crew_status(slot.crew, slot.unit)
 
       local obj = slot.obj.findObject("crew_level")
       if (::checkObj(obj))
       {
-        local crewLevelText = slot.unit ? ::g_crew.getCrewLevel(slot.crew, slot.unit.getCrewUnitType()).tointeger().tostring() : ""
+        local crewLevelText = slot.unit
+          ? ::g_crew.getCrewLevel(slot.crew, slot.unit, slot.unit.getCrewUnitType()).tointeger().tostring()
+          : ""
         obj.setValue(crewLevelText)
       }
 
@@ -1374,11 +1369,13 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         curSlotCountryId = crew.idCountry
         unlocked = crewData.isUnlocked
         tooltipParams = { needCrewInfo = ::has_feature("CrewInfo") && !::g_crews_list.isSlotbarOverrided
-          showLocalState = isLocalState }
+          showLocalState = isLocalState
+          crewId = crew?.id}
         missionRules = missionRules
         forceCrewInfoUnit = unitForSpecType
         isLocalState = isLocalState
       }
+      airParams.__update(getCrewDataParams(crewData))
 
       rowData += ::build_aircraft_item(id, crewData.unit, airParams)
     }
@@ -1386,5 +1383,24 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     rowData = "tr { " + rowData + " } "
 
     guiScene.replaceContentFromText(tblObj, rowData, rowData.len(), this)
+  }
+
+  getCrewDataParams = @(crewData) {}
+  getSlotbar = @() this
+
+  function setCrewUnit(unit)
+  {
+    ::set_show_aircraft(unit)
+    //need to send event when crew in country not changed, because main unit changed.
+    ::select_crew(curSlotCountryId, curSlotIdInCountry, true)
+  }
+
+  function getDefaultDblClickFunc()
+  {
+    return ::Callback(function(crew) {
+      local unit = getCrewUnit(crew)
+      if (unit)
+        ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
+    }, this)
   }
 }

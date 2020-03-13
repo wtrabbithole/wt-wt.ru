@@ -1,6 +1,7 @@
 local dbgExportToFile = require("scripts/debugTools/dbgExportToFile.nut")
 local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
+local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 
 ::callstack <- dagor.debug_dump_stack
 
@@ -147,14 +148,17 @@ local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
       foreach(weapon in unit.weapons)
         if (!::isWeaponAux(weapon))
         {
-          blk[weapon.name + "_short"] <- ::getWeaponNameText(unit, false, weapon.name, ", ")
-          local rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name }), "\n")
+          blk[weapon.name + "_short"] <- getWeaponNameText(unit, false, weapon.name, ", ")
+          local rowsList = ::split(getWeaponInfoText(unit,
+            { isPrimary = false, weaponPreset = weapon.name }), "\n")
           foreach(row in rowsList)
             blk[weapon.name] <- row
-          rowsList = ::split(::getWeaponInfoText(unit, { isPrimary = false, weaponPreset = weapon.name, detail = INFO_DETAIL.EXTENDED }), "\n")
+          rowsList = ::split(getWeaponInfoText(unit,
+            { isPrimary = false, weaponPreset = weapon.name, detail = INFO_DETAIL.EXTENDED }), "\n")
           foreach(row in rowsList)
             blk[weapon.name + "_extended"] <- row
-          rowsList = ::split(::getWeaponInfoText(unit, { weaponPreset = weapon.name, detail = INFO_DETAIL.FULL }), "\n")
+          rowsList = ::split(getWeaponInfoText(unit,
+            { weaponPreset = weapon.name, detail = INFO_DETAIL.FULL }), "\n")
           foreach(row in rowsList)
             blk[weapon.name + "_full"] <- row
         }
@@ -372,9 +376,6 @@ local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
 ::debug_show_weapon <- function debug_show_weapon(weaponName)
 {
   weaponName = ::get_weapon_name_by_blk_path(weaponName)
-  if (::g_string.startsWith(weaponName, "/"))
-    weaponName = weaponName.slice(1)
-
   foreach (u in ::all_units)
   {
     if (!u.isInShop)
@@ -389,7 +390,7 @@ local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
       if (!presetBlk)
         continue
       foreach (weaponMetaBlk in (presetBlk % "Weapon"))
-        if (weaponName == ::get_weapon_name_by_blk_path(weaponMetaBlk?.blk ?? "").slice(1))
+        if (weaponName == ::get_weapon_name_by_blk_path(weaponMetaBlk?.blk ?? ""))
         {
           ::open_weapons_for_unit(u)
           return $"{u.name} / {weaponMetaBlk.blk}"
@@ -520,3 +521,10 @@ local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
   else
     ::_debug_unit_rent.clear()
 }
+
+::debug_tips_list <- function debug_tips_list() {
+  debug_wnd("gui/debugTools/dbgTipsList.tpl",
+    {tipsList = ::g_tips.getAllTips().map(@(value) { value = value })})
+}
+
+::debug_load_anim_bg <- require("scripts/loading/animBg.nut").debugLoad

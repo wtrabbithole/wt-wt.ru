@@ -14,32 +14,35 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 
   titleLocId = ""
   storeLocId = ""
+  openStoreLocId = ""
   seenEnumId = "other" // replacable
 
   curSheet = null
-  lastSelectedItem = null //last selected item to restore selection after change list
+  curSheetId = null
+  curItem = null
 
   itemsPerPage = -1
   itemsList = null
   curPage = 0
-  currentFocusItem = 6
 
   // Used to avoid expensive get...List and further sort.
   itemsListValid = false
 
-  lastSortingPeerSheet = {}
+  sortBoxId = "sort_params_list"
+  lastSorting = 0
 
   needWaitIcon = false
   isLoadingInProgress = false
 
   function initScreen()
   {
+    currentFocusItem = isLoadingInProgress? 4 : 5 //4 = sheets list, 5 = items list
+
     local titleObj = scene.findObject("wnd_title")
     titleObj.setValue(::loc(titleLocId))
 
     ::show_obj(getTabsListObj(), false)
     ::show_obj(getSheetsListObj(), false)
-    showSceneBtn("sorting_block", true)
 
     fillItemsList()
 
@@ -61,16 +64,20 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 
   function initSheets()
   {
-    local sheetIdx = 0
-    local view = { items = [] }
+    if (!sheetsArray.len() && isLoadingInProgress)
+    {
+      fillPage()
+      return
+    }
 
+    local view = { items = [] }
     foreach (idx, sh in sheetsArray)
     {
-      if (!curSheet && ::isInArray(chapter, sh.contentTypes))
+      if (curSheetId && curSheetId == sh.categoryId)
         curSheet = sh
 
-      if (sheetIdx <= 0)
-        sheetIdx = curSheet == sh? idx : 0
+      if (!curSheet && ::isInArray(chapter, sh.contentTypes))
+        curSheet = sh
 
       view.items.append({
         id = sh.id
@@ -83,7 +90,14 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.replaceContentFromText(scene.findObject("filter_tabs"), data, data.len(), this)
     initItemsListSizeOnce()
 
+    local sheetIdx = sheetsArray.indexof(curSheet) ?? 0
     getSheetsListObj().setValue(sheetIdx)
+
+    //Update this objects only once. No need to do it on each updateButtons
+    showSceneBtn("btn_preview", false)
+    local warningTextObj = scene.findObject("warning_text")
+    if (::checkObj(warningTextObj))
+      warningTextObj.setValue(::colorize("warningTextColor", ::loc("warbond/alreadyBoughtMax")))
   }
 
   function onItemTypeChange(obj)
@@ -110,9 +124,9 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     curPage = 0
-    if (lastSelectedItem)
+    if (curItem)
     {
-      local lastIdx = itemsList.findindex(function(item) { return item.id == lastSelectedItem.id}.bindenv(this)) ?? -1
+      local lastIdx = itemsList.findindex(function(item) { return item.id == curItem.id}.bindenv(this)) ?? -1
       if (lastIdx >= 0)
         curPage = (lastIdx / itemsPerPage).tointeger()
       else if (curPage * itemsPerPage > itemsCatalog.len())
@@ -142,8 +156,11 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local listObj = getItemsListObj()
+    local prevValue = listObj.getValue()
     local data = ::handyman.renderCached(("gui/items/item"), view)
     local isEmptyList = data.len() == 0 || isLoadingInProgress
+
+    showSceneBtn("sorting_block", !isEmptyList)
     ::show_obj(listObj, !isEmptyList)
     guiScene.replaceContentFromText(listObj, data, data.len(), this)
 
@@ -156,18 +173,23 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     local emptyListTextObj = scene.findObject("empty_items_list_text")
     emptyListTextObj.setValue(::loc($"items/shop/emptyTab/default{isLoadingInProgress ? "/loading" : ""}"))
 
-    local prevValue = listObj.getValue()
-    local value = findLastValue(prevValue)
-    if (value >= 0)
-      listObj.setValue(value)
-
     updateItemInfo()
 
-    generatePaginator(scene.findObject("paginator_place"), this,
-      curPage, ::ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
+    if (isLoadingInProgress)
+      ::hidePaginator(scene.findObject("paginator_place"))
+    else
+      generatePaginator(scene.findObject("paginator_place"), this,
+        curPage, ::ceil(itemsList.len().tofloat() / itemsPerPage) - 1, null, true /*show last page*/)
 
-    if (!itemsList.len())
+    if (!itemsList?.len() && sheetsArray.len())
       focusSheetsList()
+
+    if (!isLoadingInProgress)
+    {
+      local value = findLastValue(prevValue)
+      if (value >= 0)
+        listObj.setValue(value)
+    }
   }
 
   function focusSheetsList()
@@ -182,14 +204,14 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     local offset = curPage * itemsPerPage
     local total = ::clamp(itemsList.len() - offset, 0, itemsPerPage)
     if (!total)
-      return -1
+      return 0
 
     local res = ::clamp(prevValue, 0, total - 1)
-    if (lastSelectedItem)
+    if (curItem)
       for(local i = 0; i < total; i++)
       {
         local item = itemsList[offset + i]
-        if (lastSelectedItem.id != item.id)
+        if (curItem.id != item.id)
           continue
         res = i
       }
@@ -217,6 +239,15 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     onShowDetails()
   }
 
+  function onAltAction(obj)
+  {
+    local item = getCurItem()
+    if (!item)
+      return
+
+    item.showDescription()
+  }
+
   function onShowDetails(item = null)
   {
     item = item || getCurItem()
@@ -236,59 +267,58 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     itemsPerPage = sizes.itemsCountX * sizes.itemsCountY
   }
 
-  function onChangeSortOrder(obj)
-  {
-    updateSorting()
-    fillPage()
-  }
-
   function onChangeSortParam(obj)
   {
-    lastSortingPeerSheet[curSheet.id] <- obj.getValue()
+    local val = ::get_obj_valid_index(obj)
+    lastSorting = val < 0 ? 0 : val
+    curPage = 0
     updateSorting()
     fillPage()
   }
 
   function updateSortingList()
   {
-    local obj = getSortListObj()
+    local obj = scene.findObject("sorting_block_bg")
     if (!::checkObj(obj))
       return
 
-    local view = { radiobutton = [] }
-    foreach (param in curSheet.sortParams)
-    {
-      view.radiobutton.append({
-        tooltip = "#items/sort/" + param
-        text = "#items/sort/" + param
+    local curVal = lastSorting
+    local view = {
+      id = sortBoxId
+      btnName = "Y"
+      funcName = "onChangeSortParam"
+      values = curSheet.sortParams.map(@(p, idx) {
+        text = "{0} ({1})".subst(::loc($"items/sort/{p.param}"), ::loc(p.asc? "items/sort/ascending" : "items/sort/descending"))
+        isSelected = curVal == idx
       })
     }
 
-    local val = lastSortingPeerSheet?[curSheet.id] ?? obj.getValue()
-    local data = ::handyman.renderCached("gui/commonParts/radiobutton", view)
+    local data = ::handyman.renderCached("gui/commonParts/comboBox", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
-    local newVal = val < 0 || val >= view.radiobutton.len()? 0 : val
-    obj.setValue(newVal)
+    getSortListObj().setValue(curVal)
   }
 
   function updateSorting()
   {
-    local isAscendingSort = scene.findObject("sort_order").getValue()
+    if (!curSheet)
+      return
+
     local sortParam = getSortParam()
+    local isAscendingSort = sortParam.asc
     local sortSubParam = curSheet.sortSubParam
     itemsList.sort(function(a, b) {
-      return sortOrder(a, b, isAscendingSort, sortParam, sortSubParam)
+      return sortOrder(a, b, isAscendingSort, sortParam.param, sortSubParam)
     }.bindenv(this))
   }
 
   function sortOrder(a, b, isAscendingSort, sortParam, sortSubParam)
   {
-    return (isAscendingSort? -1: 1) * (a[sortParam] <=> b[sortParam]) || a[sortSubParam] <=> b[sortSubParam]
+    return (isAscendingSort? 1: -1) * (a[sortParam] <=> b[sortParam]) || a[sortSubParam] <=> b[sortSubParam]
   }
 
   function getSortParam()
   {
-    return curSheet.sortParams[getSortListObj().getValue()]
+    return curSheet?.sortParams[getSortListObj().getValue()]
   }
 
   function markCurrentPageSeen()
@@ -308,14 +338,14 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
   function updateItemInfo()
   {
     local item = getCurItem()
+    fillItemInfo(item)
+    updateButtons()
+
     if (!item && !isLoadingInProgress)
       return
 
-    fillItemInfo(item)
-
-    lastSelectedItem = item
+    curItem = item
     markItemSeen(item)
-    updateButtons()
   }
 
   function fillItemInfo(item)
@@ -327,31 +357,46 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
     obj = descObj.findObject("item_name")
     obj.setValue(item?.name ?? "")
 
-    obj = descObj.findObject("item_desc")
+    obj = descObj.findObject("item_desc_div")
+    local data = getPriceBlock(item)
+    guiScene.replaceContentFromText(obj, data, data.len(), this)
+
+    obj = descObj.findObject("item_desc_under_div")
     obj.setValue(item?.getDescription() ?? "")
 
     obj = descObj.findObject("item_icon")
-    local imageData = item?.getIcon() ?? ""
-    if (imageData)
-    {
-      obj.wideSize = "yes"
-      guiScene.replaceContentFromText(obj, imageData, imageData.len(), this)
-    }
+    local imageData = item?.getBigIcon() ?? item?.getIcon() ?? ""
+    obj.wideSize = "yes"
+    local showImageBlock = imageData.len() != 0
+    obj.show(showImageBlock)
+    guiScene.replaceContentFromText(obj, imageData, imageData.len(), this)
+  }
+
+  function getPriceBlock(item)
+  {
+    if (item?.isBought)
+      return ""
+    //Generate price string as PSN requires and return blk format to replace it.
+    return handyman.renderCached("gui/commonParts/discount", item)
   }
 
   function updateButtons()
   {
     local item = getCurItem()
-    local showMainAction = item != null
+    local showMainAction = item != null && !item.isBought
     local buttonObj = showSceneBtn("btn_main_action", showMainAction)
     if (showMainAction)
     {
       buttonObj.visualStyle = "secondary"
       ::set_double_text_to_button(scene, "btn_main_action", ::loc(storeLocId))
-      updateConsoleImage(buttonObj)
     }
 
-    showSceneBtn("btn_preview", false)
+    local showSecondAction = openStoreLocId != "" && (item?.isBought ?? false)
+    showSceneBtn("btn_alt_action", showSecondAction)
+    if (showSecondAction)
+      ::set_double_text_to_button(scene, "btn_alt_action", ::loc(openStoreLocId))
+
+    showSceneBtn("warning_text", showSecondAction)
   }
 
   function markItemSeen(item)
@@ -366,19 +411,10 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
       return null
 
     local obj = getItemsListObj()
-    if (!::check_obj(obj))
+    if (!::check_obj(obj) || !obj.isFocused())
       return null
 
     return itemsList?[obj.getValue() + curPage * itemsPerPage]
-  }
-
-  function getCurItemObj()
-  {
-    local itemListObj = getItemsListObj()
-    local value = itemListObj.getValue()
-    if (value < 0)
-      return null
-    return itemListObj.getChild(value)
   }
 
   onTabChange = @() null
@@ -387,12 +423,11 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
   onLinkAction = @(obj) null
   onItemPreview = @(obj) null
   onOpenCraftTree = @(obj) null
-  onAltAction = @(obj) null
   onShowSpecialTasks = @(obj) null
 
   getTabsListObj = @() scene.findObject("tabs_list")
   getSheetsListObj = @() scene.findObject("sheets_list")
-  getSortListObj = @() scene.findObject("sort_params_list")
+  getSortListObj = @() scene.findObject(sortBoxId)
   getItemsListObj = @() scene.findObject("items_list")
 
   function getMainFocusObj() { return getSheetsListObj() }
@@ -416,14 +451,7 @@ class ::gui_handlers.IngameConsoleStore extends ::gui_handlers.BaseGuiHandlerWT
 
   function onItemsListFocusChange()
   {
-    if (!isValid())
-      return
-
-    updateConsoleImage(scene.findObject("btn_main_action"))
-  }
-
-  function updateConsoleImage(buttonObj)
-  {
-    buttonObj.hideConsoleImage = (!::show_console_buttons || !getItemsListObj().isFocused()) ? "yes" : "no"
+    if (isValid())
+      updateItemInfo()
   }
 }

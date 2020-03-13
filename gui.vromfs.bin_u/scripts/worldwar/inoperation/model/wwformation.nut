@@ -14,6 +14,7 @@ class ::WwFormation
   artilleryAmmo = null
   hasArtilleryAbility = false
   overrideIconId = ""
+  loadedArmyType = ""
 
   function clear()
   {
@@ -175,11 +176,6 @@ class ::WwFormation
     return true
   }
 
-  function isReinforcement()
-  {
-    return false
-  }
-
   function hasStrike()
   {
     return artilleryAmmo ? artilleryAmmo.hasStrike() : null
@@ -215,7 +211,7 @@ class ::WwFormation
     if (::u.isEmpty(overrideIconId))
       return null
 
-    return ::ww_get_army_custom_icon(name, isReinforcement())
+    return ::ww_get_army_override_icon(overrideIconId, loadedArmyType, hasArtilleryAbility)
   }
 
   function getOverrideUnitType()

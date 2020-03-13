@@ -3,6 +3,7 @@ local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 local wwOperationUnitsGroups = require("scripts/worldWar/inOperation/wwOperationUnitsGroups.nut")
+local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 
 const WW_BATTLES_SORT_TIME_STEP = 120
 const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
@@ -685,29 +686,48 @@ class ::WwBattle
         needMsgBox = false
         warningText = ""
         fullWarningText = ""
+        availableUnits = []
+        country = ""
       }
 
-    if (!isValid() || isFinished() || isBattleByUnitsGroup())
-    {
+    if (!isValid() || isFinished())
       return res
-    }
 
     local team = getTeamBySide(side)
-    local countryCrews = ::get_crews_list_by_country(team.country)
-    local availableUnits = getTeamRemainUnits(team)
+    local isCrewByUnitsGroup = isBattleByUnitsGroup()
+    local countryCrews = isCrewByUnitsGroup
+      ? slotbarPresets.getCurPreset().countryPresets?[team?.country ?? ""].units
+      : ::get_crews_list_by_country(team.country)
+
+     if (countryCrews == null)
+       return res
+
+    local availableUnits = getTeamRemainUnits(team, isCrewByUnitsGroup)
     local crewNames = []
-    foreach(idx, crew in countryCrews)
+    foreach(crew in countryCrews)
     {
-      local crewUnit = ::g_crew.getCrewUnit(crew)
+      local crewUnit = isCrewByUnitsGroup
+        ? crew
+        : ::g_crew.getCrewUnit(crew)
       if (crewUnit != null)
         crewNames.append(crewUnit.name)
     }
 
     local isAllBattleUnitsInSlots = true
+    res.availableUnits = availableUnits
+    res.country = team.country
     foreach(unitName, count in availableUnits)
-      if (!isInArray(unitName, crewNames))
+      if (!::isInArray(unitName, crewNames))
       {
-        if (::can_crew_take_unit(::getAircraftByName(unitName)))
+        if (isCrewByUnitsGroup)
+        {
+          res.needShow = true
+          res.needMsgBox = true
+          res.warningText = ::loc("worldWar/warning/can_insert_higher_rank_units")
+          res.fullWarningText = ::loc("worldWar/warning/can_insert_higher_rank_units_full")
+          return res
+        }
+        else if (::getAircraftByName(unitName)?.canUseByPlayer() ?? false)
         {
           res.needShow = true
           res.needMsgBox = true
@@ -744,9 +764,13 @@ class ::WwBattle
     return null
   }
 
-  function getTeamRemainUnits(team)
+  function getTeamRemainUnits(team, onlyBestAvailableFromGroup = false)
   {
     local availableUnits = {}
+    local eDiff = ::DIFFICULTY_REALISTIC
+    local curPreset = slotbarPresets.getCurPreset()
+    local country = team?.country ?? ""
+    local curSlotbarUnits = curPreset?.countryPresets[country].units ?? []
     foreach(unit in team.unitsRemain)
     {
       if (unit.count <= 0 || unit.isControlledByAI())
@@ -756,7 +780,22 @@ class ::WwBattle
       if (groupUnits == null)
         availableUnits[unit.name] <- unit.count
       else
-        availableUnits.__update(groupUnits.map(@(u) unit.count))
+      {
+        if (!onlyBestAvailableFromGroup)
+        {
+          availableUnits.__update(groupUnits.map(@(u) unit.count))
+          continue
+        }
+
+        local sortedUnits = groupUnits.values().map(
+          @(u) { unit = u, rank = u.getBattleRating(eDiff), isInSlotbar = ::isInArray(u, curSlotbarUnits) })
+        sortedUnits.sort(@(a, b) b.rank <=> a.rank
+          || b.isInSlotbar <=> a.isInSlotbar
+          || a.unit.name <=> b.unit.name)
+        local bestAvailableUnit = sortedUnits.findvalue(
+          @(u) slotbarPresets.canAssignInSlot(u.unit, curPreset.groupsList, country))
+        availableUnits[(bestAvailableUnit?.unit.name ?? unitsGroups[unit.name].defaultUnit.name)] <- unit.count
+      }
     }
 
     return availableUnits

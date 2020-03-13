@@ -15,7 +15,11 @@ actionListItem {
   on_click:t='onAction';
 
   <<#icon>>
-  icon { background-image:t='<<icon>>'; }
+  icon {
+    <<#iconRotation>>
+      rotation:t = '<<iconRotation>>'
+    <</iconRotation>>
+    background-image:t='<<icon>>'; }
   <</icon>>
 
   <<#haveWarning>>

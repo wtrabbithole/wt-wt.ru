@@ -1,9 +1,10 @@
+local controlsPresetConfigPath = require("scripts/controls/controlsPresetConfigPath.nut")
 /**
  * Functions to work with controls presets
  */
 
 ::g_controls_presets <- {
-  stdPresetPathPrefix = "config/hotkeys/hotkey."
+  stdPresetPathPrefix = $"{controlsPresetConfigPath.value}config/hotkeys/hotkey."
   presetFileNameExtention = ".blk"
   versionRegExp = regexp(@"_ver(\d+)$")
   versionDigits = regexp(@"\d+$")
@@ -185,7 +186,7 @@
   function getControlsPresetsList()
   {
     local blk = ::DataBlock()
-    blk.load("config/hotkeys/list.blk")
+    blk.load($"{controlsPresetConfigPath.value}config/hotkeys/list.blk")
 
     if (blk?[::target_platform] != null)
       return blk[::target_platform] % "preset"

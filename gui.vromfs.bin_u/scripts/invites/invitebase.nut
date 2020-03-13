@@ -1,5 +1,6 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local { isChatEnableWithPlayer, isCrossNetworkMessageAllowed } = require("scripts/chat/chatStates.nut")
 
 ::g_invites_classes <- {}
 
@@ -240,7 +241,7 @@ class ::BaseInvite
 
   function isAvailableByChatRestriction()
   {
-    return ::g_chat.isChatEnableWithPlayer(inviterName)
-      && ::g_chat.isCrossNetworkMessageAllowed(inviterName)
+    return isChatEnableWithPlayer(inviterName)
+      && isCrossNetworkMessageAllowed(inviterName)
   }
 }

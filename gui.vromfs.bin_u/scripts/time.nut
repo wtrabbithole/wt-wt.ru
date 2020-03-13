@@ -1,24 +1,25 @@
 local math = require("math")
 local timeBase = require("std/time.nut")
 local dagor_iso8601 = require("dagor.iso8601")
-
+local { get_local_unixtime, unixtime_to_local_timetbl, local_timetbl_to_unixtime,
+  unixtime_to_utc_timetbl, utc_timetbl_to_unixtime
+} = ::require_native("dagor.time")
 
 /**
  * Native API:
  * int ::get_charserver_time_sec() - gets UTC_posix_timestamp from char server clock.
- * int ::get_t_from_utc_time(timeTbl) - converts UTC_timeTable to UTC_posix_timestamp.
- * timeTbl ::get_utc_time_from_t(int) - converts UTC_posix_timestamp to UTC_timeTable.
- * int (::get_local_time_sec() - charToLocalUtcDiff()) - gets UTC_posix_timestamp from client machine clock.
- * int (::mktime(timeTbl) - charToLocalUtcDiff()) - converts local_timeTable to UTC_posix_timestamp.
- * timeTbl ::get_time_from_t(int + charToLocalUtcDiff()) - converts UTC_posix_timestamp to local_timeTable.
+ * int utc_timetbl_to_unixtime(timeTbl) - converts UTC_timeTable to UTC_posix_timestamp.
+ * timeTbl unixtime_to_utc_timetbl(int) - converts UTC_posix_timestamp to UTC_timeTable.
+ * int (get_local_unixtime() - charToLocalUtcDiff()) - gets UTC_posix_timestamp from client machine clock.
+ * int (local_timetbl_to_unixtime(timeTbl) - charToLocalUtcDiff()) - converts local_timeTable to UTC_posix_timestamp.
+ * timeTbl unixtime_to_local_timetbl(int + charToLocalUtcDiff()) - converts UTC_posix_timestamp to local_timeTable.
  */
-
 
 local timeOrder = ["year", "month", "day", "hour", "min", "sec"]
 
 
 local charToLocalUtcDiff = function() {
-  return ::get_local_time_sec() - ::get_charserver_time_sec()
+  return get_local_unixtime() - ::get_charserver_time_sec()
 }
 
 
@@ -37,7 +38,7 @@ local getUtcDays = @() timeBase.DAYS_TO_YEAR_1970 + ::get_charserver_time_sec() 
 
 local buildTabularDateTimeStr = function(t, showSeconds = false)
 {
-  local tm = ::get_time_from_t(t + charToLocalUtcDiff())
+  local tm = unixtime_to_local_timetbl(t + charToLocalUtcDiff())
   return showSeconds ?
     ::format("%04d-%02d-%02d %02d:%02d:%02d", tm.year, tm.month+1, tm.day, tm.hour, tm.min, tm.sec) :
     ::format("%04d-%02d-%02d %02d:%02d", tm.year, tm.month+1, tm.day, tm.hour, tm.min)
@@ -45,7 +46,7 @@ local buildTabularDateTimeStr = function(t, showSeconds = false)
 
 
 local buildDateStr = function(t) {
-  local timeTable = ::get_time_from_t(t + charToLocalUtcDiff())
+  local timeTable = unixtime_to_local_timetbl(t + charToLocalUtcDiff())
   local date_str = ""
 
   local year = ::getTblValue("year", timeTable, -1)
@@ -64,7 +65,7 @@ local buildDateStr = function(t) {
 
 
 local buildTimeStr = function(t, showZeroSeconds = false, showSeconds = true) {
-  local timeTable = ::get_time_from_t(t + charToLocalUtcDiff())
+  local timeTable = unixtime_to_local_timetbl(t + charToLocalUtcDiff())
   local sec = timeTable?.sec ?? -1
   if (showSeconds && (sec > 0 || (showZeroSeconds && sec == 0)))
     return ::format("%d:%02d:%02d", timeTable.hour, timeTable.min, timeTable.sec)
@@ -74,9 +75,9 @@ local buildTimeStr = function(t, showZeroSeconds = false, showSeconds = true) {
 
 
 local buildDateTimeStr = function (t, showZeroSeconds = false, showSeconds = true) {
-  local timeTable = ::get_time_from_t(t + charToLocalUtcDiff())
+  local timeTable = unixtime_to_local_timetbl(t + charToLocalUtcDiff())
   local time_str = buildTimeStr(t, showZeroSeconds, showSeconds)
-  local localTime = ::get_time_from_t(::get_local_time_sec())
+  local localTime = unixtime_to_local_timetbl(get_local_unixtime())
   local year = ::getTblValue("year", timeTable, -1)
   local month = ::getTblValue("month", timeTable, -1)
   local day = ::getTblValue("day", timeTable, -1)
@@ -100,7 +101,7 @@ local validateTime = function (timeTbl) {
   timeTbl.hour = ::clamp(timeTbl.hour, 0, 23)
   timeTbl.min = ::clamp(timeTbl.min, 0, 59)
   timeTbl.sec = ::clamp(timeTbl.sec, 0, 59)
-  local check = ::get_utc_time_from_t(::get_t_from_utc_time(timeTbl))
+  local check = unixtime_to_utc_timetbl(utc_timetbl_to_unixtime(timeTbl))
   timeTbl.day -= (timeTbl.day == check.day) ? 0 : check.day
 }
 
@@ -147,12 +148,12 @@ local getTimeFromString = function(str, fillMissedByTimeTable = null) {
 
 
 local getTimestampFromStringUtc = function(str) {
-  return ::get_t_from_utc_time(getTimeFromString(str, ::get_utc_time_from_t(::get_charserver_time_sec())))
+  return utc_timetbl_to_unixtime(getTimeFromString(str, unixtime_to_utc_timetbl(::get_charserver_time_sec())))
 }
 
 local getTimestampFromStringLocal = function(str, fillMissedByTimestamp) {
-  local fillMissedTimeTbl = ::get_time_from_t(fillMissedByTimestamp + charToLocalUtcDiff())
-  return ::mktime(getTimeFromString(str, fillMissedTimeTbl)) - charToLocalUtcDiff()
+  local fillMissedTimeTbl = unixtime_to_local_timetbl(fillMissedByTimestamp + charToLocalUtcDiff())
+  return local_timetbl_to_unixtime(getTimeFromString(str, fillMissedTimeTbl)) - charToLocalUtcDiff()
 }
 
 

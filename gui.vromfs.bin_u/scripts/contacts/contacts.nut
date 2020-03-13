@@ -33,7 +33,16 @@ local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 }
 */
 
-::g_contacts <- {}
+::g_contacts <- {
+  function getRealGroupName(name)
+  {
+    if (name == ::EPLX_PS4_FRIENDS)
+      return ::EPL_FRIENDLIST
+    return name
+  }
+}
+
+local editContactsList = require("scripts/contacts/editContacts.nut")
 
 foreach (fn in [
     "contactPresence.nut"
@@ -150,68 +159,6 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
   return false
 }
 
-::edit_players_list_in_contacts <- function edit_players_list_in_contacts(requestTable, groupName)
-{
-  local realGroupName = groupName == ::EPLX_PS4_FRIENDS? ::EPL_FRIENDLIST : groupName
-  local blk = ::DataBlock()
-  blk[realGroupName] <- ::DataBlock()
-
-  foreach (isAdding, playersList in requestTable)
-    foreach (player in playersList)
-    {
-      if (isAdding == ::isPlayerInContacts(player.uid, realGroupName))
-        continue //no need to do something
-
-      if (isAdding && !::can_add_player_to_contacts_list(realGroupName, true))
-        continue //Too many contacts
-
-      blk[realGroupName][player.uid] <- isAdding
-      ::dagor.debug("edit_players_list_in_contacts: {op} player {name} ({uid}) to {groupName}, realGroupName {realGroupName}".subst({
-        op = isAdding? "Adding" : "Removing",
-        name = player.name,
-        uid = player.uid,
-        groupName = groupName,
-        realGroupName = realGroupName
-      }))
-    }
-
-  if (blk[realGroupName].paramCount() == 0)
-    return 0
-
-  local result = ::request_edit_player_lists(blk, false)
-  if (result)
-  {
-    for (local i = 0; i < blk[realGroupName].paramCount(); i++)
-    {
-      local playerUid = blk[realGroupName].getParamName(i)
-      local isAdding = blk[realGroupName].getParamValue(i)
-
-      local contact = ::getContact(playerUid)
-
-      if (isAdding)
-      {
-        if (groupName == ::EPL_FRIENDLIST)
-          groupName = ::getFriendGroupName(contact.name)
-
-        if (groupName == ::EPLX_PS4_FRIENDS)
-          ::ps4_console_friends[contact.name] <- contact
-
-        ::contacts[groupName].append(contact)
-        ::send_friend_added_event(contact.uidInt64)
-      }
-      else
-        ::g_contacts.removeContact(contact, groupName)
-    }
-
-    if (groupName == ::EPL_FACEBOOK && ::contacts[groupName].len() == 0)
-      ::g_contacts.removeContactGroup(groupName)
-
-    ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = groupName})
-  }
-
-  return blk[realGroupName].paramCount()
-}
-
 ::find_contact_by_name_and_do <- function find_contact_by_name_and_do(playerName, func) //return taskId if delayed.
 {
   local contact = ::Contact.getByName(playerName)
@@ -280,12 +227,7 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
 
   if (add)
   {
-    local res = ::edit_players_list_in_contacts({[true] = [contact]}, groupName)
-    local msg = ::loc("msg/added_to_" + groupName)
-    if (res > 0)
-    {
-      ::g_popups.add(null, format(msg, contact.getName()))
-    }
+    editContactsList({[true] = [contact]}, groupName, true)
   }
   else
   {
@@ -294,7 +236,7 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
       null,
       ::format(::loc("msg/ask_remove_from_" + groupName), contact.getName()),
       [
-        ["ok", @() ::edit_players_list_in_contacts({[false] = [contact]}, groupName)],
+        ["ok", @() editContactsList({[false] = [contact]}, groupName)],
         ["cancel", @() null ]
       ],
       "cancel", { cancel_fn = @() null }
@@ -640,7 +582,7 @@ g_contacts.isFriendsGroupName <- function isFriendsGroupName(group)
   if (!::g_squad_manager.isInSquad())
     return
 
-  ::edit_players_list_in_contacts({[true] = ::g_squad_manager.getSquadMembersDataForContact()}, ::EPL_RECENT_SQUAD)
+  editContactsList({[true] = ::g_squad_manager.getSquadMembersDataForContact()}, ::EPL_RECENT_SQUAD)
 }
 
 if (!::contacts)

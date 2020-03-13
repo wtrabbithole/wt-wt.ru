@@ -2,6 +2,7 @@ local platformModule = require("scripts/clientState/platform.nut")
 local avatars = ::require("scripts/user/avatars.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 
 ::mplobby_spawn_time <- 5.0 // this changes from native code when isMultiplayerDebug option enabled
 ::back_from_lobby <- ::gui_start_mainmenu
@@ -298,7 +299,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
 
   function initChat()
   {
-    if (!::g_chat.isChatEnabled())
+    if (!isChatEnabled())
       return
 
     local chatObj = scene.findObject("lobby_chat_place")
@@ -463,7 +464,7 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
                       icon = playerIcon
                       country = player?.country ?? ""
                     },
-                    true, "player_", mainObj)
+                    "player_", mainObj)
 
     local airObj = mainObj.findObject("curAircraft")
     if (!::checkObj(airObj))
@@ -781,11 +782,6 @@ class ::gui_handlers.MPLobby extends ::gui_handlers.BaseGuiHandlerWT
   function onCustomChatCancel()
   {
     onCancel()
-  }
-
-  function onCustomChatContinue()
-  {
-    onReady()
   }
 
   function canPresetChange()

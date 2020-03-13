@@ -25,8 +25,27 @@ subscriptions.addListenersWithoutEnv({
   WWLoadOperation = @(p) clearCacheLoadedTransport()
 })
 
+local function getTransportedArmiesData(formation)
+{
+  local armies = []
+  local loadedTransport = getLoadedTransport()
+  local transportedArmies = loadedTransport?[formation.name].armies ?? formation?.loadedArmies
+  local totalUnitsNum = 0
+  if(transportedArmies != null)
+    for(local i=0; i< transportedArmies.blockCount(); i++)
+    {
+      local armyBlk = transportedArmies.getBlock(i)
+      local army  = ::WwArmy(armyBlk.getBlockName(), armyBlk)
+      armies.append(army)
+      totalUnitsNum += army.getUnits().len()
+    }
+
+  return {armies = armies, totalUnitsNum = totalUnitsNum}
+}
+
 return {
   getLoadedTransport = getLoadedTransport
+  getTransportedArmiesData = getTransportedArmiesData
   isEmptyTransport = isEmptyTransport
   isFullLoadedTransport = isFullLoadedTransport
 }

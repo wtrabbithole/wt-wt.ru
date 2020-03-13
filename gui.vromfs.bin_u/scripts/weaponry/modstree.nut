@@ -1,3 +1,5 @@
+local { getModificationBulletsGroup } = require("scripts/weaponry/bulletsInfo.nut")
+
 local modsTree = {
   tree = null
   ignoreGoldMods = true
@@ -85,7 +87,7 @@ local modsTree = {
 
     local notInTreeMods = []
     foreach(idx, mod in air.modifications)
-      if (::getModificationBulletsGroup(mod.name) == "" &&
+      if (getModificationBulletsGroup(mod.name) == "" &&
           mustBeInModTree(mod) &&
           (!ignoreGoldMods || !::wp_get_modification_cost_gold(air.name, mod.name))
          )
@@ -379,7 +381,7 @@ local modsTree = {
       local res = ""
       if (!prevMod)
         res = "does not exist"
-      else if (::getModificationBulletsGroup(prevName) != "")
+      else if (getModificationBulletsGroup(prevName) != "")
         res = "is bullets"
       else if (ignoreGoldMods && ::wp_get_modification_cost_gold(air.name, prevName))
         res = "is premium"

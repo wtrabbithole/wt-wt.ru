@@ -1115,20 +1115,12 @@
     },
     {
       "part": {
-        "name": "spar_l_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "cut": 1.0
-        }
+        "name": "spar_l_dm"
       }
     },
     {
       "part": {
-        "name": "spar_r_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "cut": 1.0
-        }
+        "name": "spar_r_dm"
       }
     },
     {
@@ -1901,232 +1893,14 @@
       ]
     },
     {
-      "part": [
-        {
-          "name": "wing_l_dm"
-        },
-        {
-          "defaultEffectPart": "spar_l_dm"
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.1,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 20.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.2,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 30.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.4,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.8,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 70.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 10.0,
-            "cut": 0.0,
-            "nothing": 9.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
-            "cut": 0.0,
-            "nothing": 5.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "cut": 0.0,
-            "nothing": 3.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 0.0,
-            "nothing": 1.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 70.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        }
-      ]
+      "part": {
+        "name": "wing_l_dm"
+      }
     },
     {
-      "part": [
-        {
-          "name": "wing_r_dm"
-        },
-        {
-          "defaultEffectPart": "spar_r_dm"
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.1,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 20.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.2,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 30.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.4,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.8,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 70.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 10.0,
-            "cut": 0.0,
-            "nothing": 9.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
-            "cut": 0.0,
-            "nothing": 5.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "cut": 0.0,
-            "nothing": 3.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 0.0,
-            "nothing": 1.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 70.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        }
-      ]
+      "part": {
+        "name": "wing_r_dm"
+      }
     },
     {
       "part": {
@@ -2322,7 +2096,7 @@
     {
       "Weapon": {
         "trigger": "cannon",
-        "blk": "gameData/Weapons/cannonType99.blk",
+        "blk": "gameData/Weapons/cannonType99Mk2.blk",
         "emitter": "flare3",
         "flash": "flare3",
         "shell": "emtr_shellrejection3",
@@ -2337,7 +2111,7 @@
     {
       "Weapon": {
         "trigger": "cannon",
-        "blk": "gameData/Weapons/cannonType99.blk",
+        "blk": "gameData/Weapons/cannonType99Mk2.blk",
         "emitter": "flare4",
         "flash": "flare4",
         "shell": "emtr_shellrejection4",
@@ -2350,7 +2124,7 @@
     {
       "Weapon": {
         "trigger": "cannon",
-        "blk": "gameData/Weapons/cannonType99.blk",
+        "blk": "gameData/Weapons/cannonType99Mk2.blk",
         "emitter": "flare5",
         "flash": "flare5",
         "shell": "emtr_shellrejection5",
@@ -2363,7 +2137,7 @@
     {
       "Weapon": {
         "trigger": "cannon",
-        "blk": "gameData/Weapons/cannonType99.blk",
+        "blk": "gameData/Weapons/cannonType99Mk2.blk",
         "emitter": "flare6",
         "flash": "flare6",
         "shell": "emtr_shellrejection6",
@@ -2376,7 +2150,7 @@
     {
       "Weapon": {
         "trigger": "cannon",
-        "blk": "gameData/Weapons/cannonType99.blk",
+        "blk": "gameData/Weapons/cannonType99Mk2.blk",
         "emitter": "flare7",
         "flash": "flare7",
         "shell": "emtr_shellrejection7",
@@ -2389,7 +2163,7 @@
     {
       "Weapon": {
         "trigger": "cannon",
-        "blk": "gameData/Weapons/cannonType99.blk",
+        "blk": "gameData/Weapons/cannonType99Mk2.blk",
         "emitter": "flare8",
         "flash": "flare8",
         "shell": "emtr_shellrejection8",
@@ -2479,7 +2253,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -2681,7 +2461,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -2871,7 +2657,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -3061,7 +2853,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -3260,7 +3058,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -3450,7 +3254,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -3640,7 +3450,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -3827,7 +3643,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -4017,7 +3839,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -4207,7 +4035,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -4397,7 +4231,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -4587,7 +4427,13 @@
           "dp": "elevon_l_dm"
         },
         {
+          "dp": "elevon%d_l_dm"
+        },
+        {
           "dp": "elevon_r_dm"
+        },
+        {
+          "dp": "elevon%d_r_dm"
         },
         {
           "dp": "airbrake_l_dm"
@@ -6000,15 +5846,15 @@
       "reqModification": "type3_belt_pack",
       "tier": 3
     },
-    "type99mk1_universal": [],
-    "type99mk1_ground_targets": [],
-    "type99mk1_all_tracers": [],
-    "type99mk1_stealth": [],
-    "type99mk1_belt_pack": {
+    "type99mk2_universal": [],
+    "type99mk2_ground_targets": [],
+    "type99mk2_all_tracers": [],
+    "type99mk2_stealth": [],
+    "type99mk2_belt_pack": {
       "tier": 2
     },
-    "type99mk1_new_gun": {
-      "reqModification": "type99mk1_belt_pack",
+    "type99mk2_new_gun": {
+      "reqModification": "type99mk2_belt_pack",
       "tier": 4
     },
     "n1k_7in_mod20": {
@@ -6061,14 +5907,14 @@
     }
   ],
   "cutting": {
-    "emtr_break_wing0_l_from": [-0.735588,-0.557908,0.949356],
-    "emtr_break_wing0_l_to": [-0.735588,-0.557908,1.56579],
+    "_emtr_break_wing0_l_from": [-0.735588,-0.557908,0.949356],
+    "_emtr_break_wing0_l_to": [-0.735588,-0.557908,1.56579],
     "emtr_break_wing1_l_from": [-0.735588,-0.557908,2.49044],
     "emtr_break_wing1_l_to": [-0.735588,-0.557908,3.2163],
     "emtr_break_wing2_l_from": [-0.735588,-0.557908,4.30508],
     "emtr_break_wing2_l_to": [-0.735588,-0.557908,5.08126],
-    "emtr_break_wing0_r_from": [-0.735588,-0.557908,-0.949356],
-    "emtr_break_wing0_r_to": [-0.735588,-0.557908,-1.56579],
+    "_emtr_break_wing0_r_from": [-0.735588,-0.557908,-0.949356],
+    "_emtr_break_wing0_r_to": [-0.735588,-0.557908,-1.56579],
     "emtr_break_wing1_r_from": [-0.735588,-0.557908,-2.49044],
     "emtr_break_wing1_r_to": [-0.735588,-0.557908,-3.2163],
     "emtr_break_wing2_r_from": [-0.735588,-0.557908,-4.30508],

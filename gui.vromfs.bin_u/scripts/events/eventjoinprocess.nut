@@ -1,5 +1,6 @@
 local stdMath = require("std/math.nut")
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 class EventJoinProcess
 {
@@ -199,7 +200,7 @@ class EventJoinProcess
   {
     if (!::check_diff_pkg(diff, !needMsgBox))
       return true
-    if (!::is_need_check_tutorial(diff))
+    if (!::g_difficulty.getDifficultyByDiffCode(diff).needCheckTutorial)
       return false
     if (::g_squad_manager.isNotAloneOnline())
       return false

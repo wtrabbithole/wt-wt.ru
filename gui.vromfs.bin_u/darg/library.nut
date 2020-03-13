@@ -252,3 +252,13 @@ local function mul_color(color, mult) {
 ::vlog <- log.vlog
 ::console_print <- log.console_print
 ::logg <- dagor_sys.DBGLEVEL !=0 ? log.dlog : log.log //should have settings in config.blk to enable dev behavior on release exe, or switch it off on dev
+
+::XmbNode <- function XmbNode(params={}) {
+  return clone params
+}
+
+::XmbContainer <- function XmbContainer(params={}) {
+  return ::XmbNode({
+    canFocus = @() false
+  }.__merge(params))
+}

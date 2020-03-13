@@ -1,11 +1,12 @@
 local time = require("scripts/time.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
+local { hasAllFeatures } = require("scripts/user/features.nut")
 
 ::leaderboards_list <- [
+  ::g_lb_category.PVP_RATIO
   ::g_lb_category.VICTORIES_BATTLES
   ::g_lb_category.AVERAGE_RELATIVE_POSITION
-  ::g_lb_category.PVP_RATIO
   ::g_lb_category.AIR_KILLS
   ::g_lb_category.GROUND_KILLS
   ::g_lb_category.NAVAL_KILLS
@@ -721,7 +722,7 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
       if (!::g_difficulty.isDiffCodeAvailable(diffCode, ::GM_DOMINATION))
         continue
       local reqFeature = ::getTblValue("reqFeature", mode)
-      if (!::has_feature_array(reqFeature))
+      if (!hasAllFeatures(reqFeature))
         continue
 
       lbModesList.append(mode.mode)

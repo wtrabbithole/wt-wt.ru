@@ -78,7 +78,7 @@ local dots = function (total_count, broken_count) {
   return {
     size = [flex(), SIZE_TO_CONTENT]
     flow = FLOW_HORIZONTAL
-    halign = HALIGN_CENTER
+    halign = ALIGN_CENTER
     children = children
   }
 }
@@ -87,7 +87,7 @@ local dots = function (total_count, broken_count) {
 local text = @(total_count, broken_count) {
   rendObj = ROBJ_DTEXT
   color = broken_count > 0 ? colors.hud.damageModule.active : colors.hud.damageModule.inactive
-  halign = HALIGN_CENTER
+  halign = ALIGN_CENTER
   text = (total_count - broken_count) + "/" + total_count
 }
 
@@ -131,7 +131,7 @@ local dmModule = function (params) {
     return {
       size = SIZE_TO_CONTENT
       flow = FLOW_VERTICAL
-      halign = HALIGN_CENTER
+      halign = ALIGN_CENTER
       watch = [
         totalCountState
         brokenCountState

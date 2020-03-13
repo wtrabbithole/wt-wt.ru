@@ -1,5 +1,6 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local time = require("scripts/time.nut")
+local { hasAllFeatures } = require("scripts/user/features.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = ::require("scripts/user/avatars.nut")
 
@@ -26,7 +27,7 @@ local getAirsStatsFromBlk = function (blk)
         local airData = { name = airName }
         foreach(stat in ::air_stats_list)
         {
-          if ("reqFeature" in stat && !::has_feature_array(stat.reqFeature))
+          if ("reqFeature" in stat && !hasAllFeatures(stat.reqFeature))
             continue
 
           if ("countFunc" in stat)
@@ -401,7 +402,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     fillClanInfo(player)
     fillModeListBox(scene.findObject("profile-container"), curMode)
-    ::fill_gamer_card(player, true, "profile-", scene)
+    ::fill_gamer_card(player, "profile-", scene)
     fillAwardsBlock(player)
     fillShortCountryStats(player)
     scene.findObject("profile_loading").show(false)
@@ -902,7 +903,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
     ]
     foreach(item in ::air_stats_list)
     {
-      if ("reqFeature" in item && !::has_feature_array(item.reqFeature))
+      if ("reqFeature" in item && !hasAllFeatures(item.reqFeature))
         continue
 
       if (isOwnStats || !("ownProfileOnly" in item) || !item.ownProfileOnly)
@@ -944,7 +945,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       ]
       foreach(item in ::air_stats_list)
       {
-        if ("reqFeature" in item && !::has_feature_array(item.reqFeature))
+        if ("reqFeature" in item && !hasAllFeatures(item.reqFeature))
           continue
 
         if (isOwnStats || !("ownProfileOnly" in item) || !item.ownProfileOnly)
@@ -1115,7 +1116,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::g_difficulty.isDiffCodeAvailable(diffCode, ::GM_DOMINATION))
         continue
       local reqFeature = ::getTblValue("reqFeature", mode)
-      if (!::has_feature_array(reqFeature))
+      if (!hasAllFeatures(reqFeature))
         continue
 
       lbModesList.append(mode.mode)
@@ -1344,7 +1345,7 @@ class ::gui_handlers.UserCardHandler extends ::gui_handlers.BaseGuiHandlerWT
   local textsToSet = {}
   foreach(idx, item in ::stats_config)
   {
-    if (!::has_feature_array(item.reqFeature))
+    if (!hasAllFeatures(item.reqFeature))
       continue
 
     if (item.header)

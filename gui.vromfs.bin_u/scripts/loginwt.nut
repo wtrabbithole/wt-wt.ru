@@ -2,6 +2,9 @@ local penalties = require("scripts/penitentiary/penalties.nut")
 local tutorialModule = require("scripts/user/newbieTutorialDisplay.nut")
 local contentStateModule = require("scripts/clientState/contentState.nut")
 local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
+local fxOptions = require("scripts/options/fxOptions.nut")
+
+local onMainMenuReturnActions = require("scripts/mainmenu/onMainMenuReturnActions.nut")
 
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
@@ -240,6 +243,17 @@ g_login.initConfigs <- function initConfigs(cb)
     }
     function()
     {
+      if (fxOptions.needShowHdrSettingsOnStart())
+        fxOptions.openHdrSettings()
+    }
+    function()
+    {
+      if (fxOptions.needShowHdrSettingsOnStart())
+        return PT_STEP_STATUS.SUSPEND
+      return null
+    }
+    function()
+    {
       if (::is_need_first_country_choice())
       {
         ::g_matching_game_modes.forceUpdateGameModes()
@@ -317,10 +331,9 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
 
   ::updateContentPacks()
 
-  ::update_start_mission_instead_of_queue()
-
   handler.doWhenActive(checkAwardsOnStartFrom)
   handler.doWhenActive(@() ::tribunal.checkComplaintCounts())
+  handler.doWhenActive(@() ::menu_chat_handler?.checkVoiceChatSuggestion())
 
   if (!fetch_profile_inited_once())
   {
@@ -352,9 +365,9 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
     ::g_gamepad_cursor_controls.canChangeValue()
   )
   {
-    if (
-      !::gui_handlers.GampadCursorControlsSplash.isDisplayed() &&
-      !::g_gamepad_cursor_controls.getValue()
+    if (::g_login.isProfileReceived()
+      && !::gui_handlers.GampadCursorControlsSplash.isDisplayed()
+      && !::g_gamepad_cursor_controls.getValue()
     )
     {
       handler.doWhenActive(function() { ::gui_start_gamepad_cursor_controls_splash(
@@ -404,7 +417,7 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
   ::update_gamercards()
   penalties.showBannedStatusMsgBox()
 
-  ::on_mainmenu_return(handler, true)
+  onMainMenuReturnActions.value?.onMainMenuReturn(handler, true)
 }
 
 g_login.statsdOnLogin <- function statsdOnLogin()

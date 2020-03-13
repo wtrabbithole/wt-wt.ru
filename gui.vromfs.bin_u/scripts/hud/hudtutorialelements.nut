@@ -1,4 +1,5 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
+local hudElementsAabb = require("scripts/hud/hudElementsAabb.nut")
 
 ::g_hud_tutorial_elements <- {
   [PERSISTENT_DATA_PARAMS] = ["visibleHTObjects", "isDebugMode", "debugBlkName"]
@@ -11,12 +12,6 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 
   visibleHTObjects = {}
 
-  aabbList = {
-    map = ::get_ingame_map_aabb
-    hitCamera = function() { return ::g_hud_hitcamera.getAABB() }
-    multiplayerScore = ::get_ingame_multiplayer_score_progress_bar_aabb
-    dmPanel = ::get_damage_pannel_aabb
-  }
   needUpdateAabb = false
 
   isDebugMode = false
@@ -178,8 +173,7 @@ g_hud_tutorial_elements.onElementToggle <- function onElementToggle(data)
 
 g_hud_tutorial_elements.getAABB <- function getAABB(name)
 {
-  local getFunc = ::getTblValue(name, aabbList)
-  return getFunc && getFunc()
+  return hudElementsAabb(name)
 }
 
 g_hud_tutorial_elements.refreshObjects <- function refreshObjects()

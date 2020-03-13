@@ -1,6 +1,7 @@
-local time = require("scripts/time.nut")
+local { getTimestampFromStringUtc, daysToSeconds, isInTimerangeByUtcStrings } = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
-
+local { hasFeatureBasic } = require("scripts/user/features.nut")
+local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 
 ::unlocks_punctuation_without_space <- ","
 ::map_mission_type_to_localization <- null
@@ -54,6 +55,24 @@ foreach(idx, a in ::air_stats_list)
 }
 
 ::unlock_time_range_conditions <- ["timeRange", "char_time_range"]
+
+local unlockConditionUnitclasses = {
+  aircraft          = ::ES_UNIT_TYPE_AIRCRAFT
+  tank              = ::ES_UNIT_TYPE_TANK
+  typeLightTank     = ::ES_UNIT_TYPE_TANK
+  typeMediumTank    = ::ES_UNIT_TYPE_TANK
+  typeHeavyTank     = ::ES_UNIT_TYPE_TANK
+  typeSPG           = ::ES_UNIT_TYPE_TANK
+  typeSPAA          = ::ES_UNIT_TYPE_TANK
+  typeTankDestroyer = ::ES_UNIT_TYPE_TANK
+  typeFighter       = ::ES_UNIT_TYPE_AIRCRAFT
+  typeDiveBomber    = ::ES_UNIT_TYPE_AIRCRAFT
+  typeBomber        = ::ES_UNIT_TYPE_AIRCRAFT
+  typeAssault       = ::ES_UNIT_TYPE_AIRCRAFT
+  typeStormovik     = ::ES_UNIT_TYPE_AIRCRAFT
+  typeTransport     = ::ES_UNIT_TYPE_AIRCRAFT
+  typeStrikeFighter = ::ES_UNIT_TYPE_AIRCRAFT
+}
 
 ::is_unlocked_scripted <- function is_unlocked_scripted(unlockType, id)
 {
@@ -451,7 +470,7 @@ foreach(idx, a in ::air_stats_list)
   foreach (feature in unlockBlk % "reqFeature")
     if (!::has_feature(feature))
       return false
-  if (!::g_features.hasFeatureBasic("Tanks") && ::is_unlock_tanks_related(unlockId, unlockBlk))
+  if (!hasFeatureBasic("Tanks") && ::is_unlock_tanks_related(unlockId, unlockBlk))
     return false
   if (!::g_unlocks.checkDependingUnlocks(unlockBlk))
     return false
@@ -540,7 +559,7 @@ foreach(idx, a in ::air_stats_list)
           if (::isInArray(unitType, ::stats_tanks))
             return true
         foreach (unitClass in condition % "unitClass")
-          if (::getTblValue(unitClass, ::unlock_condition_unitclasses, ::ES_UNIT_TYPE_INVALID) == ::ES_UNIT_TYPE_TANK)
+          if ((unlockConditionUnitclasses?[unitClass] ?? ::ES_UNIT_TYPE_INVALID) == ::ES_UNIT_TYPE_TANK)
             return true
       }
       else if (condition.type == "playerUnit")
@@ -959,8 +978,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
       return ::loc("award/"+id)
 
     case ::UNLOCKABLE_ENTITLEMENT:
-      local ent = ::get_entitlement_config(id)
-      return ::get_entitlement_name(ent)
+      return getEntitlementName(getEntitlementConfig(id))
 
     case ::UNLOCKABLE_COUNTRY:
       return ::loc(id)
@@ -1581,6 +1599,17 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
 
   getTotalFavoriteCount = @() ::g_unlocks.getFavoriteUnlocks().blockCount() + favoriteInvisibleUnlocks.blockCount()
   canAddFavorite = @() getTotalFavoriteCount() < favoriteUnlocksLimit
+
+  function canDo(unlockBlk) {
+    if (::is_unlocked_scripted(-1, unlockBlk?.id))
+      return false
+
+    foreach (cond in (unlockBlk?.mode ?? ::DataBlock()) % "condition")
+      if (::isInArray(cond.type, ::unlock_time_range_conditions))
+        return isInTimerangeByUtcStrings(cond.beginDate, cond.endDate)
+
+    return true
+  }
 }
 
 g_unlocks.validateCache <- function validateCache()
@@ -1798,6 +1827,9 @@ g_unlocks.loadFavorites <- function loadFavorites()
     favoriteInvisibleUnlocks = ::DataBlock()
   }
 
+  if (!::g_login.isProfileReceived())
+    return
+
   local loaded = ::load_local_account_settings(FAVORITE_UNLOCKS_LIST_SAVE_ID)
   if (loaded)
   {
@@ -1869,12 +1901,12 @@ g_unlocks.isVisibleByTime <- function isVisibleByTime(id, hasIncludTimeBefore = 
       if (!::isInArray(cond.type, unlock_time_range_conditions))
         continue
 
-      local startTime = time.getTimestampFromStringUtc(cond.beginDate) -
-        time.daysToSeconds(hasIncludTimeBefore
+      local startTime = getTimestampFromStringUtc(cond.beginDate) -
+        daysToSeconds(hasIncludTimeBefore
         ? unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0
         : 0).tointeger()
-      local endTime = time.getTimestampFromStringUtc(cond.endDate) +
-        time.daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+      local endTime = getTimestampFromStringUtc(cond.endDate) +
+        daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
       local currentTime = get_charserver_time_sec()
 
       isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
@@ -1899,10 +1931,10 @@ g_unlocks.debugLogVisibleByTimeInfo <- function debugLogVisibleByTimeInfo(id)
       if (!::isInArray(cond?.type, unlock_time_range_conditions))
         continue
 
-      local startTime = time.getTimestampFromStringUtc(cond.beginDate) -
-        time.daysToSeconds(unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0).tointeger()
-      local endTime = time.getTimestampFromStringUtc(cond.endDate) +
-        time.daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+      local startTime = getTimestampFromStringUtc(cond.beginDate) -
+        daysToSeconds(unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0).tointeger()
+      local endTime = getTimestampFromStringUtc(cond.endDate) +
+        daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
       local currentTime = get_charserver_time_sec()
       local isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
 

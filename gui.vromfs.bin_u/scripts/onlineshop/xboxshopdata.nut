@@ -10,6 +10,7 @@ local visibleSeenIds = []
 local xboxProceedItems = {}
 
 local onReceiveCatalogCb = null
+local statsdMetric = "unknown"
 local reqProgressMsg = false
 local invalidateSeenList = false
 local haveItemDiscount = null
@@ -17,6 +18,7 @@ local haveItemDiscount = null
 {
   if (!catalog || !catalog.blockCount())
   {
+    ::statsd_counter($"ingame_store.open.{statsdMetric}.empty_catalog")
     ::dagor.debug("XBOX SHOP: Empty catalog. Don't open shop.")
     return
   }
@@ -50,19 +52,22 @@ local haveItemDiscount = null
     progressMsg.destroy(XBOX_RECEIVE_CATALOG_MSG_ID)
   reqProgressMsg = false
 
+  ::statsd_counter($"ingame_store.open.{statsdMetric}")
   if (onReceiveCatalogCb)
     onReceiveCatalogCb()
   onReceiveCatalogCb = null
+  statsdMetric = "unknown"
 
   ::broadcastEvent("XboxShopDataUpdated")
 }
 
-local requestData = function(isSilent = false, cb = null, invSeenList = false)
+local requestData = function(isSilent = false, cb = null, invSeenList = false, metric = "unknown")
 {
   if (!::is_platform_xboxone)
     return
 
   onReceiveCatalogCb = cb
+  statsdMetric = metric
   reqProgressMsg = !isSilent
   invalidateSeenList = invSeenList
   haveItemDiscount = null
@@ -154,4 +159,11 @@ return {
   requestData = requestData
   xboxProceedItems = xboxProceedItems
   haveDiscount = haveDiscount
+  getShopItem = function(id) {
+    foreach (cat, list in xboxProceedItems)
+      foreach (item in list)
+        if (item.id == id)
+          return item
+    return null
+  }
 }

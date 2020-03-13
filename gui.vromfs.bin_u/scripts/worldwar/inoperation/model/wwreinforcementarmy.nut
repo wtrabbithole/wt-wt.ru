@@ -7,6 +7,7 @@ class ::WwReinforcementArmy extends ::WwFormation
   suppliesEndMillisec = 0
   entrenchEndMillisec = 0
   availableAtMillisec = 0
+  loadedArmies = null
 
   constructor(reinforcementBlock)
   {
@@ -31,8 +32,10 @@ class ::WwReinforcementArmy extends ::WwFormation
 
     unitType = ::g_ww_unit_type.getUnitTypeByTextCode(armyBlock?.specs?.unitType).code
     overrideIconId = armyBlock?.iconOverride ?? ""
+    loadedArmyType = ::ww_get_loaded_army_type(name, true)
     hasArtilleryAbility = armyBlock?.specs.canArtilleryFire ?? false
     units = wwActionsWithUnitsList.loadUnitsFromBlk(armyBlock.getBlockByName("units"))
+    loadedArmies = ::build_blk_from_container(reinforcementBlock?.loadedArmies)
 
     local armyArtilleryParams = hasArtilleryAbility ?
       ::g_world_war.getArtilleryUnitParamsByBlk(armyBlock.getBlockByName("units")) : null
@@ -47,6 +50,7 @@ class ::WwReinforcementArmy extends ::WwFormation
     suppliesEndMillisec = 0
     entrenchEndMillisec = 0
     availableAtMillisec = 0
+    loadedArmies = null
   }
 
   function getName()
@@ -158,10 +162,5 @@ class ::WwReinforcementArmy extends ::WwFormation
   function isFormation()
   {
     return false
-  }
-
-  function isReinforcement()
-  {
-    return true
   }
 }

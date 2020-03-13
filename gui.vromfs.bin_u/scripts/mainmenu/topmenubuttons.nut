@@ -1,50 +1,37 @@
-local enums = require("sqStdlibs/helpers/enums.nut")
-local xboxShopData = require("scripts/onlineShop/xboxShopData.nut")
-local ps4ShopData = require("scripts/onlineShop/ps4ShopData.nut")
+local xboxShop = require("scripts/onlineShop/xboxShop.nut")
+local ps4Shop = require("scripts/onlineShop/ps4Shop.nut")
 local contentStateModule = require("scripts/clientState/contentState.nut")
 local workshop = require("scripts/items/workshop/workshop.nut")
 local platform = require("scripts/clientState/platform.nut")
 local encyclopedia = require("scripts/encyclopedia.nut")
 
-global enum TOP_MENU_ELEMENT_TYPE {
-  BUTTON,
-  EMPTY_BUTTON,
-  CHECKBOX,
-  LINE_SEPARATOR
+local cache = { byId = {} }
+
+local template = {
+  id = ""
+  text = ""
+  image = @() null
+  link = null
+  isLink = @() false
+  isFeatured = @() false
+  needDiscountIcon = false
+  unseenIcon = null
+  onClickFunc = @(obj, handler = null) null
+  onChangeValueFunc = @(value) null
+  useImage = null
+  isHidden = @(handler = null) false
+  isVisualDisabled = @() false
+  isInactiveInQueue = false
+  elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
+  isButton = @() elementType == TOP_MENU_ELEMENT_TYPE.BUTTON
+  isDelayed = true
+  checkbox = @() elementType == TOP_MENU_ELEMENT_TYPE.CHECKBOX //param name only because of checkbox.tpl
+  isLineSeparator = @() elementType == TOP_MENU_ELEMENT_TYPE.LINE_SEPARATOR
+  isEmptyButton = @() elementType == TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON
+  funcName = @() isButton()? "onClick" : checkbox()? "onChangeCheckboxValue" : null
 }
 
-::g_top_menu_buttons <- {
-  types = []
-  cache = {
-    byId = {}
-  }
-
-  template = {
-    id = ""
-    text = ""
-    image = null
-    link = null
-    isLink = @() false
-    isFeatured = @() false
-    needDiscountIcon = false
-    unseenIcon = null
-    onClickFunc = @(obj, handler = null) null
-    onChangeValueFunc = @(value) null
-    useImage = null
-    isHidden = @(handler = null) false
-    isVisualDisabled = @() false
-    isInactiveInQueue = false
-    elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
-    isButton = @() elementType == TOP_MENU_ELEMENT_TYPE.BUTTON
-    isDelayed = true
-    checkbox = @() elementType == TOP_MENU_ELEMENT_TYPE.CHECKBOX //param name only because of checkbox.tpl
-    isLineSeparator = @() elementType == TOP_MENU_ELEMENT_TYPE.LINE_SEPARATOR
-    isEmptyButton = @() elementType == TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON
-    funcName = @() isButton()? "onClick" : checkbox()? "onChangeCheckboxValue" : null
-  }
-}
-
-enums.addTypesByGlobalName("g_top_menu_buttons", {
+local list = {
   UNKNOWN = {}
   SKIRMISH = {
     text = "#mainmenu/btnSkirmish"
@@ -206,51 +193,51 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   EAGLES = {
     text = "#charServer/chapter/eagles"
     onClickFunc = @(obj, handler) ::has_feature("EnableGoldPurchase")
-      ? handler.startOnlineShop("eagles")
+      ? handler.startOnlineShop("eagles", null, "topmenu")
       : ::showInfoMsgBox(::loc("msgbox/notAvailbleGoldPurchase"))
-    image = "#ui/gameuiskin#shop_warpoints_premium"
+    image = @() "#ui/gameuiskin#shop_warpoints_premium"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
   }
   PREMIUM = {
     text = "#charServer/chapter/premium"
     onClickFunc = @(obj, handler) handler.startOnlineShop("premium")
-    image = "#ui/gameuiskin#sub_premiumaccount"
+    image = @() "#ui/gameuiskin#sub_premiumaccount"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("EnablePremiumPurchase") || !::isInMenu()
   }
   WARPOINTS = {
     text = "#charServer/chapter/warpoints"
     onClickFunc = @(obj, handler) handler.startOnlineShop("warpoints")
-    image = "#ui/gameuiskin#shop_warpoints"
+    image = @() "#ui/gameuiskin#shop_warpoints"
     needDiscountIcon = true
     isHidden = @(...) !::has_feature("SpendGold") || !::isInMenu()
   }
   INVENTORY = {
     text = "#items/inventory"
     onClickFunc = @(...) ::gui_start_inventory()
-    image = "#ui/gameuiskin#inventory_icon"
+    image = @() "#ui/gameuiskin#inventory_icon"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu()
     unseenIcon = @() SEEN.INVENTORY
   }
   ITEMS_SHOP = {
     text = "#items/shop"
     onClickFunc = @(...) ::gui_start_itemsShop()
-    image = "#ui/gameuiskin#store_icon.svg"
+    image = @() "#ui/gameuiskin#store_icon.svg"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !::has_feature("ItemsShopInTopMenu")
     unseenIcon = @() SEEN.ITEMS_SHOP
   }
   WORKSHOP = {
     text = "#items/workshop"
     onClickFunc = @(...) ::gui_start_items_list(itemsTab.WORKSHOP)
-    image = "#ui/gameuiskin#btn_modifications.svg"
+    image = @() "#ui/gameuiskin#btn_modifications.svg"
     isHidden = @(...) !::ItemsManager.isEnabled() || !::isInMenu() || !workshop.isAvailable()
     unseenIcon = @() SEEN.WORKSHOP
   }
   WARBONDS_SHOP = {
     text = "#mainmenu/btnWarbondsShop"
     onClickFunc = @(...) ::g_warbonds.openShop()
-    image = "#ui/gameuiskin#wb.svg"
+    image = @() "#ui/gameuiskin#wb.svg"
     isHidden = @(...) !::g_battle_tasks.isAvailableForUser()
       || !::g_warbonds.isShopAvailable()
       || !::isInMenu()
@@ -258,31 +245,31 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
   }
   ONLINE_SHOP = {
     text = "#msgbox/btn_onlineShop"
-    onClickFunc = @(obj, handler) handler.startOnlineShop()
+    onClickFunc = @(obj, handler) handler.startOnlineShop(null, null, "topmenu")
     link = ""
     isLink = @() true
     isFeatured = @() true
-    image = "#ui/gameuiskin#store_icon.svg"
+    image = @() "#ui/gameuiskin#store_icon.svg"
     isHidden = @(...) !::is_platform_pc || !::has_feature("SpendGold") || !::isInMenu() || !platform.canSpendRealMoney()
   }
   XBOX_ONLINE_SHOP = {
-    text = xboxShopData.canUseIngameShop()? "#topmenu/xboxIngameShop" : "#msgbox/btn_onlineShop"
-    onClickFunc = @(...) ::OnlineShopModel.launchXboxMarketplace()
+    text = xboxShop.canUseIngameShop()? "#topmenu/xboxIngameShop" : "#msgbox/btn_onlineShop"
+    onClickFunc = @(...) xboxShop.openIngameStore({statsdMetric = "topmenu"})
     link = ""
-    isLink = @() !xboxShopData.canUseIngameShop()
-    isFeatured = @() !xboxShopData.canUseIngameShop()
-    image = @() xboxShopData.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
+    isLink = @() !xboxShop.canUseIngameShop()
+    isFeatured = @() !xboxShop.canUseIngameShop()
+    image = @() xboxShop.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
     needDiscountIcon = true
     isHidden = @(...) !::is_platform_xboxone || !::isInMenu()
     unseenIcon = @() SEEN.EXT_XBOX_SHOP
   }
   PS4_ONLINE_SHOP = {
-    text = ps4ShopData.canUseIngameShop()? "#topmenu/ps4IngameShop" : "#msgbox/btn_onlineShop"
-    onClickFunc = @(...) ::OnlineShopModel.launchPS4Store()
+    text = ps4Shop.canUseIngameShop()? "#topmenu/ps4IngameShop" : "#msgbox/btn_onlineShop"
+    onClickFunc = @(...) ps4Shop.openIngameStore({statsdMetric = "topmenu"})
     link = ""
-    isLink = @() !ps4ShopData.canUseIngameShop()
-    isFeatured = @() !ps4ShopData.canUseIngameShop()
-    image = ps4ShopData.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
+    isLink = @() !ps4Shop.canUseIngameShop()
+    isFeatured = @() !ps4Shop.canUseIngameShop()
+    image = @() ps4Shop.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
     needDiscountIcon = true
     isHidden = @(...) !::is_platform_ps4 || !::isInMenu()
     unseenIcon = @() SEEN.EXT_PS4_SHOP
@@ -293,7 +280,7 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     link = ""
     isLink = @() true
     isFeatured = @() true
-    image = "#ui/gameuiskin#gc.svg"
+    image = @() "#ui/gameuiskin#gc.svg"
     isHidden = @(...) !::ItemsManager.isMarketplaceEnabled() || !::isInMenu()
   }
   WINDOW_HELP = {
@@ -339,20 +326,52 @@ enums.addTypesByGlobalName("g_top_menu_buttons", {
     isDelayed = false
     isHidden = @(...) !::has_feature("EulaInMenu") || !::isInMenu()
   }
+  DEBUG_PS4_SHOP_DATA = {
+    text = "Debug PS4 Data" //intentionally without localization
+    onClickFunc = function(obj, handler) {
+      local itemInfo = []
+      foreach (id, item in ps4Shop.getShopItemsTable())
+      {
+        itemInfo.append(item.id)
+        itemInfo.append(item.imagePath)
+        itemInfo.append(item.getDescription())
+      }
+      local data = ::g_string.implode(itemInfo, "\n")
+      ::dagor.debug(data)
+      ::script_net_assert("PS4 Internal debug shop data")
+    }
+    isHidden = @(...) !::has_feature("DebugLogPS4ShopData")
+  }
   EMPTY = {
     elementType = TOP_MENU_ELEMENT_TYPE.EMPTY_BUTTON
   }
   LINE_SEPARATOR = {
     elementType = TOP_MENU_ELEMENT_TYPE.LINE_SEPARATOR
   }
-},
-function() {
-  id = typeName.tolower()
-},
-"typeName")
+}
 
-g_top_menu_buttons.getTypeById <- function getTypeById(id)
-{
-  return enums.getCachedType("id", id, ::g_top_menu_buttons.cache.byId,
-    ::g_top_menu_buttons, ::g_top_menu_buttons.UNKNOWN)
+local fillButtonConfig = function(buttonCfg, name) {
+  return template.__merge(buttonCfg.__merge({
+    id = name.tolower()
+    typeName = name
+  }))
+}
+
+local buttonsList = list.map(fillButtonConfig)
+
+local getButtonConfigById = function(id) {
+  if (!(id in cache.byId))
+  {
+    local buttonCfg = buttonsList.findvalue(@(t) t.id == id)
+    cache.byId[id] <- buttonCfg ?? buttonsList.UNKNOWN
+  }
+  return cache.byId[id]
+}
+
+return {
+  buttonsList = buttonsList
+  getButtonConfigById = getButtonConfigById
+  addButtonConfig = function(newBtnConfig, name) {
+    buttonsList[name] <- fillButtonConfig(newBtnConfig, name)
+  }
 }

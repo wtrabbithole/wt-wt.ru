@@ -17,7 +17,7 @@ local styling = {
     rendObj = ROBJ_SOLID
     color = Color(30,30,30,190)
     size = [sw(100), sh(50)]
-    vplace = VALIGN_MIDDLE
+    vplace = ALIGN_CENTER
     padding = sh(2)
   }
 
@@ -25,6 +25,7 @@ local styling = {
   leftKeys = "Left"
   rightKeys = "Right | Tab"
   activateKeys = "Space | Enter"
+  closeTxt = "Close"
   maskKeys = ""
   BgOverlay = {
     rendObj = ROBJ_SOLID
@@ -49,7 +50,7 @@ local styling = {
       return {
         key = desc
         behavior = Behaviors.Button
-        focusOnClick = true
+        //focusOnClick = true
         group = buttonGrp
 
         rendObj = ROBJ_BOX
@@ -86,8 +87,8 @@ local styling = {
   messageText = function(params) {
     return {
       size = flex()
-      halign = HALIGN_CENTER
-      valign = VALIGN_MIDDLE
+      halign = ALIGN_CENTER
+      valign = ALIGN_CENTER
       padding = [sh(2), 0]
       children = {
         rendObj = ROBJ_DTEXT

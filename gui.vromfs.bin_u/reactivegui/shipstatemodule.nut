@@ -105,20 +105,20 @@ local speed = function () {
   return {
     size = [flex(), SIZE_TO_CONTENT]
     flow = FLOW_HORIZONTAL
-    hplace = HALIGN_CENTER
-    halign = HALIGN_RIGHT
-    valign = VALIGN_MIDDLE
+    hplace = ALIGN_CENTER
+    halign = ALIGN_RIGHT
+    valign = ALIGN_CENTER
 
     children = [
       {
         size = [flex(4), SIZE_TO_CONTENT]
         children = [machine(shipState.portSideMachine, shipState.sideboardSideMachine, shipState.stopping)]
-        halign = HALIGN_RIGHT
+        halign = ALIGN_RIGHT
       }
       {
         size = [flex(1.8), SIZE_TO_CONTENT]
         flow = FLOW_HORIZONTAL
-        valign = VALIGN_BOTTOM
+        valign = ALIGN_BOTTOM
 
         children = [
           speedValue
@@ -184,7 +184,7 @@ local damageModules = @() {
 local buoyancyIndicator = @() {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
-  halign = HALIGN_CENTER
+  halign = ALIGN_CENTER
   watch = shipState.buoyancy
   opacity = shipState.buoyancy.value < 1.0 ? 1.0 : 0.0
   children = [
@@ -223,7 +223,7 @@ local playAiSwithAnimation = function (ne_value) {
 }
 
 local aiGunners = @() {
-  vplace = VALIGN_BOTTOM
+  vplace = ALIGN_BOTTOM
   size = [hdpx(STATE_ICON_SIZE), hdpx(STATE_ICON_SIZE)]
   marigin = [hdpx(STATE_ICON_MARGIN), 0]
 
@@ -274,7 +274,7 @@ local countCrewLeftPercent = @()
   0, 100)
 
 local crewBlock = @() {
-  vplace = VALIGN_BOTTOM
+  vplace = ALIGN_BOTTOM
   flow = FLOW_VERTICAL
   size = [hdpx(STATE_ICON_SIZE), SIZE_TO_CONTENT]
 
@@ -301,8 +301,8 @@ local crewBlock = @() {
         crewState.minCrewMembersCount
       ]
       children = {
-        vplace = VALIGN_BOTTOM
-        hplace = HALIGN_RIGHT
+        vplace = ALIGN_BOTTOM
+        hplace = ALIGN_RIGHT
         rendObj = ROBJ_DTEXT
         text = countCrewLeftPercent() + "%"
         font = Fonts.tiny_text_hud
@@ -321,7 +321,7 @@ local steeringLine = {
 
 local steering = {
   size = [pw(50), hdpx(3)]
-  hplace = HALIGN_CENTER
+  hplace = ALIGN_CENTER
 
   children = [
     {
@@ -332,7 +332,7 @@ local steering = {
       gap = {
         size = flex()
       }
-      valign = VALIGN_BOTTOM
+      valign = ALIGN_BOTTOM
       children = [
         steeringLine
         steeringLine
@@ -347,7 +347,7 @@ local steering = {
       image = images.steeringMark
       color = colors.hud.shipSteeringGauge.mark
       size = [hdpx(12), hdpx(10)]
-      hplace = HALIGN_CENTER
+      hplace = ALIGN_CENTER
       pos = [pw(-shipState.steering.value*50), -hdpx(5)]
     }
   ]
@@ -416,7 +416,7 @@ local rightBlock = @() {
 local shipStateDisplay = @() {
   size = SIZE_TO_CONTENT
   flow = FLOW_VERTICAL
-  halign = HALIGN_CENTER
+  halign = ALIGN_CENTER
   children = [
     {
       flow = FLOW_HORIZONTAL

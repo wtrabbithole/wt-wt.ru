@@ -1,6 +1,7 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local promoConditions = require("scripts/promo/promoConditions.nut")
+local { isPollVoted } = require("scripts/web/webpoll.nut")
 
 enum POPUP_VIEW_TYPES {
   NEVER = "never"
@@ -68,10 +69,13 @@ g_popup_msg.verifyPopupBlk <- function verifyPopupBlk(blk, hasModalObject, needD
     if (hasModalObject && !blk.getBool("showOverModalObject", false))
       return null
 
-    if (blk?.reqFeature && !::has_feature(blk.reqFeature))
+    if (!::g_promo.checkBlockReqFeature(blk))
       return null
 
-    if (blk?.reqUnlock && !::is_unlocked_scripted(-1, blk.reqUnlock))
+    if (!::g_promo.checkBlockReqEntitlement(blk))
+      return null
+
+    if (!::g_promo.checkBlockUnlock(blk))
       return null
 
     if (!::g_partner_unlocks.isPartnerUnlockAvailable(blk?.partnerUnlock, blk?.partnerUnlockDurationMin))
@@ -80,7 +84,7 @@ g_popup_msg.verifyPopupBlk <- function verifyPopupBlk(blk, hasModalObject, needD
     if (!::g_language.isAvailableForCurLang(blk))
       return null
 
-    if (blk?.pollId && ::g_webpoll.isPollVoted(blk.pollId))
+    if (blk?.pollId && isPollVoted(blk.pollId))
       return null
 
     local viewType = blk?.viewType ?? POPUP_VIEW_TYPES.NEVER

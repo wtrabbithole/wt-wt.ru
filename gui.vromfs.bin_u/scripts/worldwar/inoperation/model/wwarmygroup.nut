@@ -2,7 +2,7 @@ class ::WwArmyGroup
 {
   clanId               = ""
   name                 = ""
-  supremeCommanderId   = ""
+  supremeCommanderUid   = ""
   supremeCommanderNick = ""
 
   unitType = ::g_ww_unit_type.GROUND.code
@@ -11,32 +11,39 @@ class ::WwArmyGroup
 
   managerUids  = null
   observerUids = null
-
   armyView = null
+
+  armyManagers = null
+  isArmyManagersUpdated = false
 
   constructor(blk)
   {
     clanId               = ::getTblValue("clanId", blk, "").tostring()
     name                 = ::getTblValue("name", blk, "")
-    supremeCommanderId   = ::getTblValue("supremeCommanderId", blk, "")
+    supremeCommanderUid   = ::getTblValue("supremeCommanderUid", blk, "")
     supremeCommanderNick = ::getTblValue("supremeCommanderNick", blk, "")
     owner                = ::WwArmyOwner(blk.getBlockByName("owner"))
     managerUids          = blk.getBlockByName("managerUids") % "item"
     observerUids         = blk.getBlockByName("observerUids") % "item" || []
+    armyManagers         = getArmyManagers(blk.getBlockByName("managerStats"))
   }
-
 
   function clear()
   {
     clanId               = ""
     name                 = ""
-    supremeCommanderId   = ""
+    supremeCommanderUid   = ""
     supremeCommanderNick = ""
 
     owner = null
 
     managerUids  = null
     observerUids = null
+
+    armyView = null
+
+    armyManagers = []
+    isArmyManagersUpdated = false
   }
 
   function isValid()
@@ -120,7 +127,7 @@ class ::WwArmyGroup
 
   function getAccessLevel()
   {
-    if (supremeCommanderId == ::my_user_id_int64 || ::has_feature("worldWarMaster"))
+    if (supremeCommanderUid == ::my_user_id_int64 || ::has_feature("worldWarMaster"))
       return WW_BATTLE_ACCESS.SUPREME
 
     if (owner.side == ::ww_get_player_side())
@@ -147,5 +154,46 @@ class ::WwArmyGroup
     return accessLevel == WW_BATTLE_ACCESS.OBSERVER ||
            accessLevel == WW_BATTLE_ACCESS.MANAGER ||
            accessLevel == WW_BATTLE_ACCESS.SUPREME
+  }
+
+  function getArmyManagers(blk)
+  {
+    local managers = []
+    if (!blk)
+      return managers
+
+    foreach(uid, inst in blk)
+      if (::u.isDataBlock(inst))
+        managers.append({
+          uid = uid.tointeger(),
+          actionsCount = inst?.actionsCount ?? 0,
+          name = "",
+          activity = 0
+        })
+
+    return managers
+  }
+
+  function updateManagerStat(armyManagersNames)
+  {
+    local total = armyManagers.map(@(m) m.actionsCount).reduce(@(res, value) res + value, 0).tofloat()
+    foreach(armyManager in armyManagers) {
+      armyManager.activity = total > 0
+        ? ::round(100 * armyManager.actionsCount / total).tointeger()
+        : 0
+      armyManager.name = armyManagersNames?[armyManager.uid].name ?? ""
+    }
+    armyManagers.sort(@(a,b) b.activity <=> a.activity || a.name<=> b.name)
+    isArmyManagersUpdated = true
+  }
+
+  function hasManagersStat()
+  {
+    return isArmyManagersUpdated && armyManagers.len() > 0
+  }
+
+  function getUidsForNickRequest(armyManagersNames)
+  {
+    return armyManagers.filter(@(m) m.name == "" && !(m.uid in armyManagersNames)).map(@(m) m.uid)
   }
 }

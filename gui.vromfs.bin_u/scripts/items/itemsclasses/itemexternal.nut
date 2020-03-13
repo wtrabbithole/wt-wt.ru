@@ -659,15 +659,20 @@ local ItemExternal = class extends ::BaseItem
       && ::has_feature("Marketplace")
   }
 
-  function addResources() {
-    if (!metaBlk || !metaBlk?.resource || !metaBlk?.resourceType)
+  function getMetaResource()
+  {
+    return metaBlk?.resource
+  }
+
+  function addResources(params = null)
+  {
+    if (!metaBlk?.resource || !metaBlk?.resourceType || !itemDef)
       return
     local resource = metaBlk.resource
     if (!guidParser.isGuid(resource))
       return
 
-    ::g_decorator.buildLiveDecoratorFromResource(metaBlk.resource, metaBlk.resourceType, itemDef)
-    ::add_rta_localization(metaBlk.resource, itemDef?.name ?? "")
+    ::g_decorator.buildLiveDecoratorFromResource(metaBlk.resource, metaBlk.resourceType, itemDef, params)
   }
 
   function getRelatedRecipes()

@@ -1,7 +1,10 @@
 local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut")
 local clustersModule = require("scripts/clusterSelect.nut")
 local slotbarWidget = require("scripts/slotbar/slotbarWidgetByVehiclesGroups.nut")
-local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+local { setCurPreset } = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+local WwHelpSlotbarGroupsModal = require("scripts/worldWar/handler/WwHelpSlotbarGroupsModal.nut")
+local { getBestPresetData, generatePreset } = require("scripts/slotbar/generatePreset.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 // Temporary image. Has to be changed after receiving correct art
 const WW_OPERATION_DEFAULT_BG_IMAGE = "#ui/bkg/login_layer_h1_0"
@@ -105,6 +108,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     syncSquadCountry()
     updateViewMode()
     updateDescription()
+    updateSlotbar()
     reinitBattlesList()
     initSquadList()
     initFocusArray()
@@ -416,24 +420,29 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateSlotbar()
   {
-    showSceneBtn("nav-slotbar", operationBattle.isActive())
-    if (!operationBattle.isActive())
+    local side = getPlayerSide()
+    local availableCountries = ::g_ww_global_status.getOperationById(::ww_get_operation_id())?.getCountriesByTeams()[side]
+    local isSlotbarVisible = (availableCountries?.len() ?? 0) > 0
+    showSceneBtn("nav-slotbar", isSlotbarVisible)
+    if (!isSlotbarVisible)
       return
 
-    local side = getPlayerSide()
+    local playerCountry = ::get_profile_country_sq()
+    local assignCountry = ::isInArray(playerCountry, availableCountries) ? playerCountry : availableCountries[0]
     local playerTeam = operationBattle.getTeamBySide(side)
-    ::switch_profile_country(playerTeam.country)
-    local availableUnits = operationBattle.getTeamRemainUnits(playerTeam)
-    local operationUnits = ::g_world_war.getAllOperationUnitsBySide(side)
+    ::switch_profile_country(assignCountry)
     local map = getMap()
     local unitsGroupsByCountry = map?.getUnitsGroupsByCountry()
     hasSlotbarByUnitsGroups = unitsGroupsByCountry != null
+    local operationUnits = ::g_world_war.getAllOperationUnitsBySide(side)
+    local availableUnits = playerTeam != null ? operationBattle.getTeamRemainUnits(playerTeam)
+      : hasSlotbarByUnitsGroups ? ::all_units : operationUnits
     if (hasSlotbarByUnitsGroups)
-      slotbarPresets.setCurPreset(map.getId() ,unitsGroupsByCountry)
+      setCurPreset(map.getId() ,unitsGroupsByCountry)
 
     createSlotbar(
       {
-        customCountry = playerTeam.country
+        customCountry = assignCountry
         availableUnits = availableUnits
         customUnitsList = hasSlotbarByUnitsGroups ? null : operationUnits
       }.__update(getSlotbarParams())
@@ -636,6 +645,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       showSceneBtn("btn_join_battle", false)
       showSceneBtn("btn_leave_battle", false)
       showSceneBtn("btn_auto_preset", false)
+      showSceneBtn("btn_slotbar_help", false)
       showSceneBtn("warning_icon", false)
       return
     }
@@ -744,7 +754,24 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       unitAvailability == WW_BATTLE_UNITS_REQUIREMENTS.OPERATION_UNITS ||
       unitAvailability == WW_BATTLE_UNITS_REQUIREMENTS.BATTLE_UNITS)
 
-    showSceneBtn("btn_auto_preset", joinWarningData.needMsgBox)
+    local isVisibleBtnAutoPreset = joinWarningData.needMsgBox || hasSlotbarByUnitsGroups
+    local btnAutoPreset = showSceneBtn("btn_auto_preset", isVisibleBtnAutoPreset)
+    if (isVisibleBtnAutoPreset) {
+      local bestPresetData = getBestPresetData(joinWarningData.availableUnits,
+        joinWarningData.country, hasSlotbarByUnitsGroups)
+      local hasChangeInPreset = bestPresetData?.hasChangeInPreset ?? false
+      btnAutoPreset.inactiveColor = hasChangeInPreset ? "no" : "yes"
+      btnAutoPreset.hasUnseenIcon = hasChangeInPreset ? "yes" : "no"
+      ::showBtn("auto_preset_warning_icon", hasChangeInPreset, btnAutoPreset)
+    }
+
+    local btnSlotbarHelpObj = showSceneBtn("btn_slotbar_help", hasSlotbarByUnitsGroups)
+    if (hasSlotbarByUnitsGroups)
+    {
+      local isHelpUnseen = WwHelpSlotbarGroupsModal.isUnseen()
+      showSceneBtn("btn_slotbar_help_unseen_icon", isHelpUnseen)
+      btnSlotbarHelpObj.hasUnseenIcon = isHelpUnseen ? "yes" : "no"
+    }
   }
 
   function getWarningText(cantJoinReasonData, joinWarningData)
@@ -1059,7 +1086,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     {
       local side = getPlayerSide()
       local team = operationBattle.getTeamBySide(side)
-      country = team.country
+      country = team?.country
       remainUnits = operationBattle.getUnitsRequiredForJoin(team, side)
     }
     if (squadListHandlerWeak)
@@ -1241,6 +1268,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     return false
   }
 
+  function onShowSlotbarHelp(obj)
+  {
+    WwHelpSlotbarGroupsModal.open()
+  }
+
   function onRunAutoPreset(obj)
   {
     if (::slotbar_oninit)
@@ -1263,8 +1295,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     if (!team)
       return
 
-    local teamUnits = operationBattle.getTeamRemainUnits(team)
-    local country = team.country
+    local country = team?.country
+    if (country == null)
+      return
 
     if (!::isCountryAllCrewsUnlockedInHangar(country))
     {
@@ -1272,97 +1305,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    local unitsArray = []
-    foreach (unitName, unitAmount in teamUnits)
-    {
-      if (!unitAmount)
-        continue
-
-      local unit = ::getAircraftByName(unitName)
-      if (unit.canAssignToCrew(country))
-        unitsArray.append(unit)
-    }
-
-    local eDiff = getCurrentEdiff()
-    unitsArray.sort(@(a, b)
-      ::get_unit_rank_text(b, null, true, eDiff) <=> ::get_unit_rank_text(a, null, true, eDiff)
-    )
-
-    if (!unitsArray.len())
-    {
-      ::showInfoMsgBox(::loc("worldwar/noPresetUnits"))
-      return
-    }
-
-    local countryCrews = ::get_crews_list_by_country(country)
-    local trainCrewsData = {}
-    local usedUnits = []
-    local unusedUnits = []
-
-    foreach (unit in unitsArray)
-    {
-      local unitName = unit.name
-      local unitType = unit.getCrewUnitType()
-      local maxCrewLevel = ::g_crew.getMaxCrewLevel(unitType) || 1
-
-      local availableCrews = []
-      foreach (crew in countryCrews)
-      {
-        local crewId = crew.id
-        local crewSpec = crew.trainedSpec?[unitName] ?? -1
-        if (!trainCrewsData?[crewId] && crewSpec >= 0)
-          availableCrews.append({
-            id = crewId
-            spec = crewSpec
-            level = ::g_crew.getCrewLevel(crew, unitType).tofloat() / maxCrewLevel
-          })
-      }
-      if (!availableCrews.len())
-      {
-        unusedUnits.append(::getUnitName(unit))
-        continue
-      }
-
-      usedUnits.append(::getUnitName(unit))
-      availableCrews.sort(@(a, b) b.spec <=> a.spec || b.level <=> a.level)
-
-      trainCrewsData[availableCrews[0].id] <- unitName
-    }
-
-    if (!trainCrewsData.len())
-    {
-      ::showInfoMsgBox(::loc("worldwar/noPresetUnitsCrews") + "\n" +
-        ::colorize("userlogColoredText", ::g_string.implode(unusedUnits, ", ")))
-      return
-    }
-
-    local trainCrews = []
-    foreach (crew in countryCrews)
-    {
-      local crewId = crew.id
-      trainCrews.append({
-        crewId = crewId
-        airName = trainCrewsData?[crewId] ?? ""
-      })
-    }
-
-    local msgText = ::loc("worldwar/addInPresetMsgText") + "\n" +
-      ::colorize("userlogColoredText", ::g_string.implode(usedUnits, ", "))
-    if (unusedUnits.len())
-      msgText += "\n\n" + ::loc("worldwar/notAddInPresetMsgText") + "\n" +
-        ::colorize("userlogColoredText", ::g_string.implode(unusedUnits, ", "))
-    msgText += "\n\n" + ::colorize("warningTextColor", ::loc("worldwar/autoPresetWarningText"))
-
-    msgBox("ask_apply_preset", msgText,
-      [
-        ["yes", function() {
-            ::batch_train_crew(trainCrews, null, function() {
-              ::broadcastEvent("SlotbarPresetLoaded") })
-          }
-        ],
-        ["no", @() null]
-      ],
-      "yes", { cancel_fn = @() null })
+    local teamUnits = operationBattle.getTeamRemainUnits(team, hasSlotbarByUnitsGroups)
+    generatePreset(teamUnits, country, hasSlotbarByUnitsGroups)
   }
 
   function onOpenBattlesFilters(obj)
@@ -1463,5 +1407,15 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       return battlesListObj.getChild(idx)
 
     return battlesListObj.getChild(idx-1).getClone(battlesListObj, this)
+  }
+
+  onEventPresetsByGroupsChanged = @(params) updateButtons()
+
+  function getSlotbarActions()
+  {
+    if (hasSlotbarByUnitsGroups)
+      return [ "autorefill", "aircraft", "changeUnitsGroup", "weapons", "crew", "info", "repair" ]
+    else
+      return [ "autorefill", "aircraft", "weapons", "crew", "info", "repair" ]
   }
 }

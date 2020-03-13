@@ -259,7 +259,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
             : ::loc("mainmenu/btnCollapse"))
       }
 
-      ::showBtn("btn_create_operation", isClanQueueAvaliable(), scene)
+      ::showBtn("btn_create_operation", map.isClanQueueAvaliable(), scene)
       local operationDescText = scene.findObject("operation_short_info_text")
       operationDescText.setValue(getOpGroup().getOperationsList().len() == 0
         ? ::loc("worldwar/msg/noActiveOperations")
@@ -284,13 +284,6 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
         guiScene.replaceContentFromText(joinBtnFlagsObj, markUpData, markUpData.len(), this)
       }
     }
-  }
-
-  function isClanQueueAvaliable()
-  {
-    return ::has_feature("WorldWarClansQueue") &&
-           ::has_feature("Clans") &&
-           ::is_in_clan() && map.isActive()
   }
 
   function onCreateOperation()

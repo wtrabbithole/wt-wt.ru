@@ -1,3 +1,5 @@
+global const USE_STEAM_LOGIN_AUTO_SETTING_ID = "useSteamLoginAuto"
+
 foreach (fn in [
                  "login.nut"
                  "loginWnd.nut"

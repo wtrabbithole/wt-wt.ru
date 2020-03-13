@@ -739,6 +739,40 @@
           },
           {
             "Button_text": {
+              "id": "btn_marketplace_find_skin",
+              "text": "#msgbox/btn_find_on_marketplace",
+              "btnName": "X",
+              "on_click": "onBtnMarketplaceFindSkin",
+              "display": "hide",
+              "showButtonImageOnConsole": "no",
+              "visualStyle": "secondary",
+              "class": "image",
+              "buttonWink": [],
+              "img": {
+                "background-image": "#ui/gameuiskin#gc.svg"
+              },
+              "ButtonImg": []
+            }
+          },
+          {
+            "Button_text": {
+              "id": "btn_marketplace_consume_coupon_skin",
+              "text": "#item/consume/coupon",
+              "btnName": "X",
+              "on_click": "onBtnMarketplaceConsumeCouponSkin",
+              "display": "hide",
+              "showButtonImageOnConsole": "no",
+              "visualStyle": "secondary",
+              "class": "image",
+              "buttonWink": [],
+              "img": {
+                "background-image": "#ui/gameuiskin#gc.svg"
+              },
+              "ButtonImg": []
+            }
+          },
+          {
+            "Button_text": {
               "id": "btn_info",
               "on_click": "onInfo",
               "showButtonImageOnConsole": "no",
@@ -1417,7 +1451,7 @@
                             "id": "gc_eagles",
                             "isColoredImg": "yes",
                             "tooltip": "#mainmenu/gold",
-                            "_on_click": "onOnlineShopEaglesMsg",
+                            "_on_click": "onOnlineShopEagles",
                             "img": {
                               "isFirstLeft": "yes",
                               "background-image": "#ui/gameuiskin#shop_warpoints_premium"

@@ -113,8 +113,8 @@ local function scrollbar(scroll_handler, options={}) {
       unit = 1
 
       flow = axis==0 ? FLOW_HORIZONTAL : FLOW_VERTICAL
-      halign = HALIGN_CENTER
-      valign = VALIGN_MIDDLE
+      halign = ALIGN_CENTER
+      valign = ALIGN_CENTER
 
       orientation = orientation
       size = calcBarSize(cls, axis)
@@ -141,12 +141,13 @@ local function scrollbar(scroll_handler, options={}) {
 local DEF_SIDE_SCROLL_OPTIONS = { //const
   styling = defStyling
   rootBase = null
-  scrollAlign = HALIGN_RIGHT
+  scrollAlign = ALIGN_RIGHT
   orientation = O_VERTICAL
   size = flex()
   maxWidth = null
   maxHeight = null
   needReservePlace = true //need reserve place for scrollbar when it not visible
+  clipChildren  = true
 }
 
 local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
@@ -167,6 +168,7 @@ local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
       size = options.size
       behavior = bhv
       scrollHandler = scrollHandler
+      wheelStep = 0.8
       orientation = options.orientation
       joystickScroll = true
       maxHeight = options.maxHeight
@@ -177,7 +179,7 @@ local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
   }
 
   local childrenContent = []
-  if (scrollAlign == HALIGN_LEFT || scrollAlign == VALIGN_TOP)
+  if (scrollAlign == ALIGN_LEFT || scrollAlign == ALIGN_TOP)
     childrenContent = [
       scrollbar(scrollHandler, options)
       contentRoot
@@ -193,7 +195,7 @@ local function makeSideScroll(content, options = DEF_SIDE_SCROLL_OPTIONS) {
     maxHeight = options.maxHeight
     maxWidth = options.maxWidth
     flow = (options.orientation == O_VERTICAL) ? FLOW_HORIZONTAL : FLOW_VERTICAL
-    clipChildren = true
+    clipChildren = options.clipChildren
 
     children = childrenContent
   }
@@ -243,7 +245,7 @@ local function makeHVScrolls(content, options={}) {
 local function makeVertScroll(content, options={}) {
   local o = clone options
   o.orientation <- O_VERTICAL
-  o.scrollAlign <- o?.scrollAlign ?? HALIGN_RIGHT
+  o.scrollAlign <- o?.scrollAlign ?? ALIGN_RIGHT
   return makeSideScroll(content, o)
 }
 
@@ -251,7 +253,7 @@ local function makeVertScroll(content, options={}) {
 local function makeHorizScroll(content, options={}) {
   local o = clone options
   o.orientation <- O_HORIZONTAL
-  o.scrollAlign <- o?.scrollAlign ?? VALIGN_BOTTOM
+  o.scrollAlign <- o?.scrollAlign ?? ALIGN_BOTTOM
   return makeSideScroll(content, o)
 }
 

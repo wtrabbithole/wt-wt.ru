@@ -11,6 +11,7 @@
   applyDescConfig(config) - direct used atm, but better to exchange them on events
 */
 
+local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -231,7 +232,7 @@ class ::gui_handlers.MissionDescription extends ::gui_handlers.BaseGuiHandlerWT
     {
       config.aircraftItem <- ::loc("options/aircraft") + ::loc("ui/colon")
       config.aircraft <- ::getUnitName(aircraft) + "; " +
-                 ::getWeaponNameText(aircraft, null, blk.getStr("player_weapons", ""), ", ")
+                 getWeaponNameText(aircraft, null, blk.getStr("player_weapons", ""), ", ")
 
       local country = ::getShopCountry(aircraft)
       dagor.debug("aircraft = "+aircraft+" country = "+country)

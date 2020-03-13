@@ -1,3 +1,4 @@
+local { getWeaponDescTextByTriggerGroup } = require("scripts/weaponry/weaponryVisual.nut")
 local cachedUnitId = ""
 local cache = {}
 
@@ -8,7 +9,7 @@ local cacheActionDescs = function(unitId) {
   cache.clear()
   if (unit.esUnitType == ::ES_UNIT_TYPE_SHIP)
     foreach (triggerGroup in [ "torpedoes", "bombs", "rockets" ])
-      cache[triggerGroup] <- ::getWeaponDescTextByTriggerGroup(triggerGroup, unit, ediff)
+      cache[triggerGroup] <- getWeaponDescTextByTriggerGroup(triggerGroup, unit, ediff)
 }
 
 local getActionDesc = function(unitId, triggerGroup) {

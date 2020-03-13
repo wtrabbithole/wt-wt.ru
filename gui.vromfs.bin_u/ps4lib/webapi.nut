@@ -165,8 +165,21 @@ local entitlements = {
 
 
 // ---------- Utility functions and wrappers
+local function is_http_success(code) { return code != null && code >= 200 && code < 300 }
+
 local function send(action, onResponse=noOpCb) {
-  nativeApi.send(action, @(r) onResponse(r?.response, r?.error))
+  local cb = function(r) {
+    local err = r?.error
+    local httpErr = (!is_http_success(r?.httpStatus)) ? r.httpStatus : null
+    if (httpErr && err == null)
+      err = { }
+    if (err && err?.code == null)
+      err.code <- httpErr ? httpErr : "undefined";
+
+    onResponse(r?.response, err)
+  }
+
+  nativeApi.send(action, cb)
 }
 
 local function fetch(action, onChunkReceived, chunkSize = 20) {

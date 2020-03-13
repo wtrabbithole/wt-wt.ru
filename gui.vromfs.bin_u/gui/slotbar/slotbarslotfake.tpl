@@ -47,10 +47,34 @@ shopItem {
   }
 
   bottomline {
+    <<^bottomLineText>>
     shopItemText {
       id:t='rank_text'
       text:t='<<unitRankText>>'
       header:t='yes'
     }
+    <</bottomLineText>>
+    <<#bottomLineText>>
+    tdiv{
+      width:t='pw'
+      overflow:t='hidden'
+      shopItemText {
+        autoScrollText:t='hoverOrSelect'
+        min-width:t="pw-0.006@sf"
+        text:t='<<bottomLineText>>'
+        text-align:t='right'
+      }
+    }
+    <</bottomLineText>>
   }
+
+  tooltipObj {
+    tooltipId:t='<<tooltipId>>'
+    on_tooltip_open:t='onGenericTooltipOpen'
+    on_tooltip_close:t='onTooltipObjClose'
+    display:t='hide'
+  }
+  title:t='$tooltipObj'
+
+  focus_border{}
 }

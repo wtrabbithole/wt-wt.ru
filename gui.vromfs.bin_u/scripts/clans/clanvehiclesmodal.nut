@@ -152,13 +152,14 @@ local handlerClass = class extends vehiclesModal.handlerClass
     isSquadronResearchMode = true
     needChosenResearchOfSquadron = needChosenResearchOfSquadron()
     isSlotbarEnabled = false
+    onSpendExcessExp = ::Callback(onSpendExcessExp, this)
   }
 
   needChosenResearchOfSquadron = @() !squadronUnitAction.hasChosenResearch()
 
   function onBuy()
   {
-    unitActions.buy(lastSelectedUnit)
+    unitActions.buy(lastSelectedUnit, "clan_vehicles")
   }
 
   static function isHaveNonApprovedResearches()

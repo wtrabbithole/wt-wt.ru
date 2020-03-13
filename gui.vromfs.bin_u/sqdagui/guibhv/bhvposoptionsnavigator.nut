@@ -37,8 +37,19 @@ class ::gui_bhv.PosOptionsNavigator extends ::gui_bhv.posNavigator
     if (childObj.childrenCount() < 2)
       return res
 
-    //the same as in optionsNavigator to easy switch from options navigator to posOptionsNavigator
-    local cell = childObj.getChild(1)
+    //Find nearest cell, that is visible
+    local childIdx = 1
+    for (local i = 1; i < childObj.childrenCount(); i++)
+    {
+      local cell = childObj.getChild(i)
+      if (!cell.isVisible() || !cell.childrenCount())
+        continue
+
+      childIdx = i
+      break
+    }
+
+    local cell = childObj.getChild(childIdx)
     if (!cell.childrenCount())
       return res
 

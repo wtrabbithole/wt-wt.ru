@@ -1,6 +1,7 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local { chatStatesCanUseVoice } = require("scripts/chat/chatStates.nut")
 
 const SQUAD_MEMBERS_TO_HIDE_TITLE = 3
 
@@ -120,7 +121,7 @@ class ::gui_handlers.SquadWidgetCustomHandler extends ::gui_handlers.BaseGuiHand
 
       local memberVoipObj = memberObj.findObject("member_voip_" + indexStr)
       memberVoipObj["isVoipActive"] = contact.voiceStatus == voiceChatStats.talking ? "yes" : "no"
-      local needShowVoice = ::g_chat.canUseVoice() && !platformModule.isXBoxPlayerName(member.name)
+      local needShowVoice = chatStatesCanUseVoice() && !platformModule.isXBoxPlayerName(member.name)
       memberVoipObj.show(needShowVoice)
 
       local memberCrossPlayObj = memberObj.findObject("member_crossplay_active_" + indexStr)

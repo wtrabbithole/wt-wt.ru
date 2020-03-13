@@ -45,11 +45,15 @@ local function savePresets(presetId, countryPresets) {
 }
 
 local function isDefaultUnitForGroup(unit, groupsList, country) {
-  local unitsGroups = groupsList[country]
-  if (!unitsGroups)
+  local unitsGroups = groupsList?[country]
+  if (unitsGroups == null)
     return false
 
-  return unitsGroups.defaultUnitsListByGroups[unitsGroups.groupIdByUnitName[unit.name]].name == unit.name
+  local groupId = unitsGroups.groupIdByUnitName?[unit.name]
+  if (groupId == null)
+    return false
+
+  return unitsGroups.defaultUnitsListByGroups?[groupId].name == unit.name
 }
 
 local function canAssignInSlot(unit, groupsList, country) {
@@ -163,15 +167,22 @@ local function updatePresets(presetId, countryPresets) {
 
 local groupInSlotMsgBoxlocId = "msgbox/groupAlreadyInOtherSlot"
 
-local function setUnit(crew, unit, onFinishCb) {
+local setUnit = ::kwarg(function setUnit(crew, unit, onFinishCb = null, showNotification = true, needEvent = true) {
   local country = crew.country
   local curCountryPreset = curPreset.countryPresets?[country]
   if (curCountryPreset == null)
-    return onFinishCb(true)
+  {
+    onFinishCb?(true)
+    return
+  }
+
   local idx = crew.idInCountry
-  local curUnit =  curCountryPreset.units?[idx]
+  local curUnit = curCountryPreset.units?[idx]
   if (curUnit == unit)
-    return onFinishCb(true)
+  {
+    onFinishCb?(true)
+    return
+  }
 
   local countryGroups = curPreset.groupsList[country]
   local groupIdByUnitName = countryGroups.groupIdByUnitName
@@ -183,14 +194,25 @@ local function setUnit(crew, unit, onFinishCb) {
 
     curPreset.countryPresets[country].units[idx] = unit
     updatePresets(curPreset.presetId, curPreset.countryPresets)
-    ::broadcastEvent("PresetsByGroupsChanged", { crew = crew, unit = unit})
-    onFinishCb(true)
+    if (needEvent)
+      ::broadcastEvent("PresetsByGroupsChanged", { crew = crew, unit = unit})
+    onFinishCb?(true)
   }
 
   local oldGroupIdx = curCountryPreset.units.findindex(@(u)
     groupIdByUnitName?[u?.name ?? ""] == unitGroup)
   if (unitGroup != curUnitGroup && oldGroupIdx != null)
   {
+    local replaceUnitGroup = function() {
+      curPreset.countryPresets[country].units[oldGroupIdx] = curUnit
+      onApplyCb()
+    }
+    if (!showNotification)
+    {
+      replaceUnitGroup()
+      return
+    }
+
     local groupName = ::colorize("activeTextColor", ::loc(countryGroups.groups[unitGroup].name))
     local descLocId = "{0}/{1}".subst(groupInSlotMsgBoxlocId, curUnit == null ? "inEmptySlot" : "slotWithUnit")
     ::scene_msg_box("group_already_in_other_slot", null,
@@ -205,16 +227,13 @@ local function setUnit(crew, unit, onFinishCb) {
           slotIdx = oldGroupIdx + 1
         })
       }),
-      [[ "ok", function() {
-            curPreset.countryPresets[country].units[oldGroupIdx] = curUnit
-            onApplyCb()
-          }
+      [[ "ok", replaceUnitGroup
         ], [ "cancel", @() null ]],
       "ok")
   }
   else
     onApplyCb()
-}
+})
 
 local function setCurPreset(presetId, groupsList) {
   local curPresetId = curPreset.presetId
@@ -237,6 +256,15 @@ local function getCurCraftsInfo() {
   return (curPreset.countryPresets?[::get_profile_country_sq()].units ?? []).map(@(unit) unit?.name ?? "")
 }
 
+local function getSlotItem(idCountry, idInCountry) {
+  return ::getSlotItem(idCountry, idInCountry) ?? {
+    country = ::shopCountriesList[idCountry]
+    idCountry = idCountry
+    idInCountry = idInCountry
+    id = -1
+  }
+}
+
 local function getCrewByUnit(unit) {
   local country = unit.shopCountry
   local idCountry = ::shopCountriesList.findindex(@(cName) cName == country)
@@ -245,31 +273,65 @@ local function getCrewByUnit(unit) {
   if (idInCountry == null)
     return null
 
-  return {
-    country = country
-    idCountry = idCountry
-    idInCountry = idInCountry
-  }
+  return getSlotItem(idCountry, idInCountry)
 }
 
-local function getSlotItem(idCountry, idInCountry) {
-  return {
-    country = ::shopCountriesList[idCountry]
-    idCountry = idCountry
-    idInCountry = idInCountry
-  }
+local function setUnits(trainCrews) {
+  foreach (data in trainCrews)
+    if (data.unit != null)
+      setUnit({
+        crew = data.crew
+        unit = data.unit
+        showNotification = false
+        needEvent = false
+      })
+
+  ::broadcastEvent("PresetsByGroupsChanged")
 }
+
+local setGroup = ::kwarg(function setGroup(crew, group, onFinishCb) {
+  local country = crew.country
+  local curCountryPreset = curPreset.countryPresets?[country]
+  if (curCountryPreset == null)
+  {
+    onFinishCb(true)
+    return
+  }
+
+  local groupIdByUnitName = curPreset.groupsList[country].groupIdByUnitName
+  local selectGroupUnit = curCountryPreset.units.findvalue(@(v) groupIdByUnitName?[v?.name ?? ""] == group.id)
+  if (selectGroupUnit == null)
+  {
+    onFinishCb(true)
+    return
+  }
+
+  setUnit({
+    crew = crew
+    unit = selectGroupUnit
+    onFinishCb = onFinishCb
+    showNotification = false
+  })
+})
 
 subscriptions.addListenersWithoutEnv({
   SignOut = @(p) invalidateCashe()
 })
 
+local function getVehiclesGroupByUnit(unit, countryGroupsList)
+{
+  return countryGroupsList?.groups[countryGroupsList?.groupIdByUnitName[unit?.name ?? ""] ?? ""]
+}
+
 return {
   setCurPreset = setCurPreset
   getCurPreset = getCurPreset
-  setUnit = ::kwarg(setUnit)
-  isDefaultUnitForGroup = isDefaultUnitForGroup
+  setUnit = setUnit
   getCurCraftsInfo = getCurCraftsInfo
   getCrewByUnit = getCrewByUnit
   getSlotItem = getSlotItem
+  canAssignInSlot = canAssignInSlot
+  setUnits = setUnits
+  setGroup = setGroup
+  getVehiclesGroupByUnit = getVehiclesGroupByUnit
 }

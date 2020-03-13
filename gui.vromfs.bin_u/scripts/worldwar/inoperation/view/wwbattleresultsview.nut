@@ -116,10 +116,9 @@ class ::WwBattleResultsView
       units     = []
     }
 
-    local unitTypeStats = array(::UT_TOTAL)
+    local unitTypeStats = {}
     foreach (wwUnitTypeCode in unitTypesBattle)
-      if (!unitTypeStats[wwUnitTypeCode])
-        unitTypeStats[wwUnitTypeCode] = array(UNIT_STATS.TOTAL, 0)
+      unitTypeStats[wwUnitTypeCode] <- array(UNIT_STATS.TOTAL, 0)
 
     // unitsInitial shows unit counts at the moment armies joins the battle.
     // unitsCasualties snapshot is taken exactly at battle finish time.
@@ -162,9 +161,6 @@ class ::WwBattleResultsView
 
       if (wwUnitTypeCode in unitTypeStats)
       {
-        if (!unitTypeStats[wwUnitTypeCode])
-          unitTypeStats[wwUnitTypeCode] = array(UNIT_STATS.TOTAL, 0)
-
         local stats = unitTypeStats[wwUnitTypeCode]
         stats[UNIT_STATS.INITIAL]   += initialActive
         stats[UNIT_STATS.KILLED]    += casualties

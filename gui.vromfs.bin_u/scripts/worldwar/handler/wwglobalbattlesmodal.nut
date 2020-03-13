@@ -251,17 +251,15 @@ class ::gui_handlers.WwGlobalBattlesModal extends ::gui_handlers.WwBattleDescrip
     local countriesData = {}
     local globalBattlesList = globalBattlesListData.getList().filter(@(battle)
       battle.isOperationMapAvaliable())
-    foreach (country in ::shopCountriesList)
-    {
+    local isMatchFilters = ::Callback(isMatchFilterMask, this)
+    ::shopCountriesList.each(function(country) {
       local battlesListByCountry = globalBattlesList.filter(
-      function(battle) {
-        return battle.hasSideCountry(country) && isMatchFilterMask(battle, country)
-      }.bindenv(this))
+        @(battle) battle.hasSideCountry(country) && isMatchFilters(battle, country))
 
       local battlesNumber = battlesListByCountry.len()
       if (battlesNumber)
         countriesData[country] <- battlesNumber
-    }
+    })
 
     return countriesData
   }

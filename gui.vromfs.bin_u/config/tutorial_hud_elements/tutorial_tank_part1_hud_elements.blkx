@@ -2,24 +2,26 @@
   {
     "tdiv": {
       "id": "hud_tutorial_tank_movement_info",
-      "flow": "vertical",
-      "width": "0.15pw",
-      "pos": "0, 17%ph-0%h",
+      "_set_aabb_by_object": "tankDebuffs",
       "position": "absolute",
       "display": "show",
       "img": {
         "position": "absolute",
-        "pos": "50%pw-50%w, 0%sh-0%h",
-        "size": "50/720@shHud, 50/720@shHud",
+        "pos": "0, 0.72ph - h",
+        "size": "50/720@shHud, 0.88ph",
+        "re-type": "9rect",
+        "background-position": "3, 33, 3, 7",
+        "background-repeat": "expand",
         "display": "show",
+        "rotation": "180",
         "background-image": "@!ui/images/tutorial/tutorial_tank_arrow_yellow.png"
       },
       "textareaNoTab": {
         "shadeStyle": "HudHeader3D",
         "position": "absolute",
-        "pos": "0, 7%sh-0%h",
+        "pos": "0, -0.12ph- h",
         "display": "show",
-        "width": "1pw",
+        "width": "pw",
         "style": "font:@fontHudNormal; text-align:center; color:#ffffff;",
         "text": "#hud_tutorial_tank_movement_info"
       }

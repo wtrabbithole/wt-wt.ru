@@ -2,7 +2,8 @@ local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
-local avatars = ::require("scripts/user/avatars.nut")
+local avatars = require("scripts/user/avatars.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 
 ::time_to_kick_show_timer <- null
 ::time_to_kick_show_alert <- null
@@ -545,7 +546,7 @@ local avatars = ::require("scripts/user/avatars.nut")
           {
             unitId = player.aircraftName
             unitIco = ::getUnitClassIco(unitId)
-            unitIcoColorType = ::get_unit_role(unitId)
+            unitIcoColorType = getUnitRole(unitId)
             weapon = player?.weapon ?? ""
           }
         }
@@ -747,7 +748,7 @@ local avatars = ::require("scripts/user/avatars.nut")
 
 ::getUnitClassColor <- function getUnitClassColor(unit)
 {
-  local role = ::get_unit_role(unit) //  "fighter", "bomber", "assault", "transport", "diveBomber", "none"
+  local role = getUnitRole(unit) //  "fighter", "bomber", "assault", "transport", "diveBomber", "none"
   if (role == null || role == "" || role == "none")
     return "white";
   return role + "Color"
@@ -1693,7 +1694,7 @@ class ::gui_handlers.MPStatistics extends ::gui_handlers.BaseGuiHandlerWT
                       icon = (!playerInfo || playerInfo.isBot)? "cardicon_bot" : avatars.getIconById(playerInfo.pilotId)
                       country = playerInfo? playerInfo.country : ""
                     },
-                    true, "player_", scene)
+                    "player_", scene)
   }
 
   function onComplain(obj)

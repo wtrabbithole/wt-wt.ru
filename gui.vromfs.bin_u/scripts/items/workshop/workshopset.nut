@@ -1,4 +1,5 @@
 local workshopCraftTree = require("workshopCraftTree.nut")
+local { hasAllFeatures } = require("scripts/user/features.nut")
 
 const KNOWN_ITEMS_SAVE_ID = "workshop/known"
 const KNOWN_REQ_ITEMS_SAVE_ID = "workshop/knownReqItems"
@@ -20,6 +21,7 @@ local WorkshopSet = class {
   alwaysVisibleItemdefs = null // { <itemdef> = sortId }
   knownItemdefs = null // { <itemdef> = true }
   knownReqItemdefs = null // { <reqitemdef> = true }
+  itemsVisibleOnlyInCraftTree = null // { <itemId> = true }
 
   isToStringForDebug = true
 
@@ -44,6 +46,7 @@ local WorkshopSet = class {
     itemdefs = {}
     itemsReqRulesTbl = {}
     alwaysVisibleItemdefs = {}
+      itemsVisibleOnlyInCraftTree = {}
     subsetsList = {}
     local firstSubsetId = null
 
@@ -102,6 +105,7 @@ local WorkshopSet = class {
   isItemIdInSet             = @(id) id in itemdefs
   isItemIdHidden            = @(id) (itemdefs[id].blockNumber in hiddenItemsBlocks)
                                 || (hasSubsets && !isVisibleSubsetId(itemdefs[id].subsetId))
+  isVisibleOnlyInCraftTree  = @(id) itemsVisibleOnlyInCraftTree?[id] != null
   isItemIdKnown             = @(id) initKnownItemsOnce() || id in knownItemdefs
   isReqItemIdKnown          = @(id) id in knownReqItemdefs
   shouldDisguiseItem        = @(item) !(item.id in alwaysVisibleItemdefs) && !isItemIdKnown(item.id)
@@ -118,6 +122,7 @@ local WorkshopSet = class {
     local sortByParam = itemsBlk?.sortByParam
     local itemsReqRules = []
     local passBySavedReqItems = itemsBlk?.passBySavedReqItems ?? false
+    local showOnlyInCraftTree = itemsBlk?.showOnlyInCraftTree ?? false
     foreach(reqItems in itemsBlk % "reqItems")
     {
       local itemsTbl = {}
@@ -143,6 +148,9 @@ local WorkshopSet = class {
         alwaysVisibleItemdefs[itemdef] <- true
 
       items.append(itemdef)
+
+      if (showOnlyInCraftTree)
+        itemsVisibleOnlyInCraftTree[itemdef] <-true
     }
 
     foreach (idx, itemId in items)
@@ -220,8 +228,10 @@ local WorkshopSet = class {
     itemsListCache = ::ItemsManager.getInventoryList(itemType.ALL,
       (@(item) isItemIdInSet(item.id) && !item.isHiddenItem() && !isItemIdHidden(item.id)).bindenv(this))
     updateKnownItems(itemsListCache)
+    itemsListCache = itemsListCache.filter((@(item) !isVisibleOnlyInCraftTree(item.id)).bindenv(this))
 
-    local requiredList = alwaysVisibleItemdefs.__merge(knownItemdefs)
+    local visibleKnownItemdefs = knownItemdefs.filter((@(value, itemId) !isVisibleOnlyInCraftTree(itemId)).bindenv(this))
+    local requiredList = alwaysVisibleItemdefs.__merge(visibleKnownItemdefs)
 
     //add all craft parts recipes result to visible items.
     if (requiredList.len() != itemdefs.len())
@@ -399,7 +409,7 @@ local WorkshopSet = class {
 
   _tostring        = @() ::format("WorkshopSet %s (itemdefsAmount = %d)", id, itemdefs.len())
 
-  isVisibleCraftTree = @(craftTree) ::has_feature_array(craftTree.reqFeaturesArr)
+  isVisibleCraftTree = @(craftTree) hasAllFeatures(craftTree.reqFeaturesArr)
   getCraftTree       = @() ::u.search(craftTrees, isVisibleCraftTree.bindenv(this))
 
   function getItemsListForCraftTree(craftTree)

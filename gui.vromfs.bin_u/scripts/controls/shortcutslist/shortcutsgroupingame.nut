@@ -1,3 +1,5 @@
+local { chatStatesCanUseVoice } = require("scripts/chat/chatStates.nut")
+
 return [
 //-------------------------------------------------------
   {
@@ -14,6 +16,12 @@ return [
     id = "ID_MPSTATSCREEN"
     checkGroup = ctrlGroups.COMMON
     needShowInHelp = true
+  }
+  {
+    id = "ID_SHOW_MULTIFUNC_WHEEL_MENU"
+    checkGroup = ctrlGroups.COMMON
+    needShowInHelp = true
+    showFunc = @() ::has_feature("HudMultifuncMenu")
   }
   {
     id = "ID_BAILOUT"
@@ -76,6 +84,12 @@ return [
     checkGroup = ctrlGroups.COMMON
     checkAssign = false
     condition = @() ::gchat_is_voice_enabled()
-    showFunc = ::g_chat.canUseVoice
+    showFunc = chatStatesCanUseVoice
+  }
+  {
+    id = "ID_GAMEPAD_RESET_GYRO_TILT"
+    showFunc = @() ::is_platform_ps4
+    checkGroup = ctrlGroups.COMMON
+    checkAssign = false
   }
 ]

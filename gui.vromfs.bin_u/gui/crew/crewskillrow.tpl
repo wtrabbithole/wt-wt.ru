@@ -72,6 +72,7 @@ tr {
       min:t='0'
       max:t='<<progressMax>>'
       value:t='<<skillSliderValue>>'
+      <<#progressEnable>>enable:t='<<progressEnable>>'<</progressEnable>>
       snap-to-values:t='yes'
       clicks-by-points:t='yes'
       on_change_value:t='onSkillChanged'

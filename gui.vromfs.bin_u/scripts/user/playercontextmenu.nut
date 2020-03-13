@@ -2,6 +2,8 @@ local u = require("sqStdLibs/helpers/u.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local localDevoice = require("scripts/penitentiary/localDevoice.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local { isChatEnabled, attemptShowOverlayMessage,
+  isCrossNetworkMessageAllowed } = require("scripts/chat/chatStates.nut")
 
 //-----------------------------
 // params keys:
@@ -50,11 +52,11 @@ local showXboxPlayerMuted = @(playerName) ::g_popups.add(null, ::loc("popup/play
 
 local notifyPlayerAboutRestriction = function(contact, isInvite = false)
 {
-  local isCrossNetworkMessagesAllowed = ::g_chat.isCrossNetworkMessageAllowed(contact.name)
+  local isCrossNetworkMessagesAllowed = isCrossNetworkMessageAllowed(contact.name)
   local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(contact.name)
   if (::is_platform_xboxone)
   {
-    ::g_chat.attemptShowOverlayMessage(contact.name, isInvite)
+    attemptShowOverlayMessage(contact.name, isInvite)
     //There is no system level error message, added custom.
     if (contact.getInteractionStatus() == XBOX_COMMUNICATIONS_BLOCKED && !contact.isInFriendGroup())
       showLiveCommunicationsRestrictionMsgBox()
@@ -88,7 +90,7 @@ local getActions = function(contact, params)
   local canInteractCrossConsole = platformModule.canInteractCrossConsole(name)
   local canInteractCrossPlatform = isPS4Player || isXBoxOnePlayer || crossplayModule.isCrossPlayEnabled()
   local showCrossPlayIcon = canInteractCrossConsole && crossplayModule.needShowCrossPlayInfo() && (!isXBoxOnePlayer || !isPS4Player)
-  local isChatEnabled = ::g_chat.isChatEnabled()
+  local hasChat = isChatEnabled()
 
   local roomId = params?.roomId
   local roomData = roomId? ::g_chat.getRoomById(roomId) : null
@@ -157,13 +159,6 @@ local getActions = function(contact, params)
         if (!canChat)
           return notifyPlayerAboutRestriction(contact)
 
-        if (isMPChat)
-        {
-          ::broadcastEvent("MpChatInputRequested", { activate = true })
-          ::chat_set_mode(::CHAT_MODE_PRIVATE, name)
-          return
-        }
-
         ::openChatPrivate(name)
       }
     }
@@ -192,7 +187,7 @@ local getActions = function(contact, params)
     actions.append(
       {
         text = ::loc("squadAction/openChat")
-        show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && isChatEnabled
+        show = !isMe && ::g_chat.isSquadRoomJoined() && inMySquad && hasChat
         action = @() ::g_chat.openChatRoom(::g_chat.getMySquadRoomId())
       }
       {
@@ -385,7 +380,7 @@ local getActions = function(contact, params)
 //---- <Chat> -----------------------
   if (::has_feature("Chat"))
   {
-    if (isChatEnabled && canInviteToChatRoom)
+    if (hasChat && canInviteToChatRoom)
     {
       local inviteMenu = ::g_chat.generateInviteMenu(name)
       actions.append({

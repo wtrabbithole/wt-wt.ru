@@ -1,5 +1,12 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local stdMath = require("std/math.nut")
+local { WEAPON_TYPE } = require("scripts/weaponry/weaponryInfo.nut")
+local { getBulletsList,
+        getBulletsSetData,
+        getBulletsSearchName,
+        getBulletsGroupCount,
+        getLastFakeBulletsIndex,
+        getModificationBulletsEffect } = require("scripts/weaponry/bulletsInfo.nut")
 
 local options = {
   types = []
@@ -165,8 +172,7 @@ options.addTypes({
     reinit = function(handler, scene)
     {
       local unitType = options.UNITTYPE.value
-      local countriesWithUnitType = ::get_countries_by_unit_type(unitType)
-      values = ::u.filter(::shopCountriesList, @(c) ::isInArray(c, countriesWithUnitType))
+      values = ::u.filter(::shopCountriesList, @(c) ::isCountryHaveUnitType(c, unitType))
       items  = ::u.map(values, @(c) { text = ::loc(c), image = ::get_country_icon(c) })
       local preferredCountry = value ?? options.targetUnit.shopCountry
       value = values.indexof(preferredCountry) != null ? preferredCountry
@@ -234,16 +240,16 @@ options.addTypes({
       local bulletNamesSet = []
 
       local curGunIdx = -1
-      local groupsCount = ::getBulletsGroupCount(unit)
+      local groupsCount = getBulletsGroupCount(unit)
       local shouldSkipBulletBelts = false
 
-      for (local groupIndex = 0; groupIndex < ::get_last_fake_bullets_index(unit); groupIndex++)
+      for (local groupIndex = 0; groupIndex < getLastFakeBulletsIndex(unit); groupIndex++)
       {
         local gunIdx = ::get_linked_gun_index(groupIndex, groupsCount, false)
         if (gunIdx == curGunIdx)
           continue
 
-        local bulletsList = ::get_bullets_list(unit.name, groupIndex, {
+        local bulletsList = getBulletsList(unit.name, groupIndex, {
           needCheckUnitPurchase = false, needOnlyAvailable = false, needTexts = true
         })
         if (bulletsList.values.len())
@@ -251,7 +257,7 @@ options.addTypes({
 
         foreach(i, value in bulletsList.values)
         {
-          local bulletsSet = ::getBulletsSetData(unit, value)
+          local bulletsSet = getBulletsSetData(unit, value)
           local weaponBlkName = bulletsSet?.weaponBlkName
           local isBulletBelt = bulletsSet?.isBulletBelt ?? true
 
@@ -264,10 +270,10 @@ options.addTypes({
             continue
           shouldSkipBulletBelts = shouldSkipBulletBelts || !isBulletBelt
 
-          local searchName = ::getBulletsSearchName(unit, value)
+          local searchName = getBulletsSearchName(unit, value)
           local useDefaultBullet = searchName != value
           local bulletParameters = ::calculate_tank_bullet_parameters(unit.name,
-            (useDefaultBullet && weaponBlkName) || ::getModificationBulletsEffect(searchName),
+            (useDefaultBullet && weaponBlkName) || getModificationBulletsEffect(searchName),
             useDefaultBullet, false)
 
           local bulletNames = isBulletBelt ? [] : (bulletsSet?.bulletNames ?? [])
@@ -340,7 +346,7 @@ options.addTypes({
             })
 
             items.append({
-              text = ::g_string.utf8ToUpper(::loc("weapons{0}".subst(::get_weapon_name_by_blk_path(weaponBlkPath))), 1)
+              text = ::g_string.utf8ToUpper(::loc("weapons/{0}".subst(::get_weapon_name_by_blk_path(weaponBlkPath))), 1)
               addDiv = ::g_tooltip_type.WEAPON.getMarkup(unit.name, presetName, {
                 hasPlayerInfo = false,
                 weaponBlkPath = weaponBlkPath,

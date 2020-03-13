@@ -3,6 +3,7 @@ craftBranchTree {
   width:t='<<branchWidth>>'
   height:t='fh'
   flow:t='vertical'
+
   <<#branchHeader>>
     craftBranchHeader {
       width:t='pw'
@@ -16,6 +17,7 @@ craftBranchTree {
     }
   <</branchHeader>>
 
+  <<#hasHeaderItems>>
   <<#headerItemsTitle>>
     craftBranchHeader {
       width:t='pw'
@@ -63,6 +65,7 @@ craftBranchTree {
       <</separators>>
     }
   <</branchHeaderItems>>
+  <</hasHeaderItems>>
 
   <<#bodyItemsTitle>>
     craftBranchHeader {

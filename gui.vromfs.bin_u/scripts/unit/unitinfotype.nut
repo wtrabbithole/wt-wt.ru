@@ -1,9 +1,11 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
-local unitInfoTexts = require("scripts/unit/unitInfoTexts.nut")
-local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
-
+local { getUnitRole, getUnitBasicRole, getRoleText, getUnitTooltipImage,
+  getFullUnitRoleText, getShipMaterialTexts } = require("scripts/unit/unitInfoTexts.nut")
+local { countMeasure } = ::require("scripts/options/optionsMeasureUnits.nut")
+local { getWeaponInfoText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
 
 local UNIT_INFO_ARMY_TYPE  = {
   AIR        = ::g_unit_type.AIRCRAFT.bit
@@ -164,7 +166,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     id = "image"
     addToExportDataBlock = function(blk, unit)
     {
-      blk.image = unitInfoTexts.getUnitTooltipImage(unit)
+      blk.image = getUnitTooltipImage(unit)
       blk.cardImage = ::image_for_air(unit)
       blk.icon = ::getUnitClassIco(unit)
       blk.iconColor = ::get_main_gui_scene().getConstantValue(::getUnitClassColor(unit)) || ""
@@ -176,9 +178,9 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.AIR_TANK
     addToExportDataBlock = function(blk, unit)
     {
-        blk.stringValue = ::get_unit_role(unit)
+        blk.stringValue = getUnitRole(unit)
     }
-    getValueText = function(value, unit) { return unitInfoTexts.getFullUnitRoleText(unit) }
+    getValueText = function(value, unit) { return getFullUnitRoleText(unit) }
   }
 
   {
@@ -186,9 +188,9 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.SHIP
     addToExportDataBlock = function(blk, unit)
     {
-        blk.stringValue = ::get_unit_basic_role(unit)
+        blk.stringValue = getUnitBasicRole(unit)
     }
-    getValueText = function(value, unit) { return ::get_role_text(::get_unit_basic_role(unit)) }
+    getValueText = function(value, unit) { return getRoleText(getUnitBasicRole(unit)) }
   }
 
   {
@@ -396,7 +398,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local valueText = ::DataBlock()
       foreach(diff in ::g_difficulty.types)
         if (diff.egdCode != ::EGD_NONE)
-          valueText[diff.getEgdName()] = ::getWeaponInfoText(unit.name)
+          valueText[diff.getEgdName()] = getWeaponInfoText(unit.name)
       return valueText
     }
   }
@@ -516,7 +518,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local weaponIndex = -1
       if (unit.weapons.len() > 0)
       {
-        local lastWeapon = ::get_last_weapon(unit.name)
+        local lastWeapon = getLastWeapon(unit.name)
         weaponIndex = 0
         foreach(idx, weapon in unit.weapons)
         {
@@ -1121,7 +1123,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     addToExportDataBlock = function(blk, unit)
     {
       local value = (::get_wpcost_blk()?[unit.name]?.Shop?.hullThickness ?? 0).tointeger()
-      local valueText = unitInfoTexts.getShipMaterialTexts(unit.name)?.hullValue ?? ""
+      local valueText = getShipMaterialTexts(unit.name)?.hullValue ?? ""
       if (valueText != "")
         addSingleValue(blk, unit, value, valueText)
       else
@@ -1137,7 +1139,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     addToExportDataBlock = function(blk, unit)
     {
       local value = (::get_wpcost_blk()?[unit.name]?.Shop?.superstructureThickness ?? 0).tointeger()
-      local valueText = unitInfoTexts.getShipMaterialTexts(unit.name)?.superstructureValue ?? ""
+      local valueText = getShipMaterialTexts(unit.name)?.superstructureValue ?? ""
       if (valueText != "")
         addSingleValue(blk, unit, value, valueText)
       else

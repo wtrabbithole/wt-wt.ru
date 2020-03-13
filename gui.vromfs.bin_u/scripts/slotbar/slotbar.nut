@@ -1,6 +1,8 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local unitStatus = require("scripts/unit/unitStatus.nut")
+local { getUnitRole, getUnitRoleIcon } = require("scripts/unit/unitInfoTexts.nut")
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
 
 /*
 if need - put commented in array above
@@ -108,7 +110,7 @@ if need - put commented in array above
     // Item buttons view
     //
 
-    local weaponsStatus = isLocalState && isUsable ? checkUnitWeapons(air) : ::UNIT_WEAPONS_READY
+    local weaponsStatus = isLocalState && isUsable ? checkUnitWeapons(air) : UNIT_WEAPONS_READY
     local crewId = params?.crewId ?? -1
     local showWarningIcon = params?.showWarningIcon ?? false
     local specType = params?.specType
@@ -121,7 +123,7 @@ if need - put commented in array above
     local forceCrewInfoUnit = params?.forceCrewInfoUnit
     local unitForCrewInfo = forceCrewInfoUnit || air
     local crewLevelText = crew && unitForCrewInfo
-      ? ::g_crew.getCrewLevel(crew, unitForCrewInfo.getCrewUnitType()).tointeger().tostring()
+      ? ::g_crew.getCrewLevel(crew, unitForCrewInfo, unitForCrewInfo.getCrewUnitType()).tointeger().tostring()
       : ""
     local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unitForCrewInfo).trainedIcon
 
@@ -134,15 +136,15 @@ if need - put commented in array above
         hasCrewInfo             = hasCrewInfo
         crewLevel               = hasCrewInfo ? crewLevelText : ""
         crewSpecIcon            = hasCrewInfo ? crewSpecIcon : ""
-        crewStatus              = hasCrewInfo ? ::get_crew_status_by_id(crewId) : ""
+        crewStatus              = hasCrewInfo ? ::get_crew_status(crew, unitForCrewInfo) : ""
 
         hasSpareCount           = spareCount > 0
         spareCount              = spareCount ? spareCount + ::loc("icon/spare") : ""
         specIconBlock           = showWarningIcon || specType != null
         showWarningIcon         = showWarningIcon
         hasRepairIcon           = isLocalState && isBroken
-        hasWeaponsStatus        = weaponsStatus != ::UNIT_WEAPONS_READY
-        isWeaponsStatusZero     = weaponsStatus == ::UNIT_WEAPONS_ZERO
+        hasWeaponsStatus        = weaponsStatus != UNIT_WEAPONS_READY
+        isWeaponsStatusZero     = weaponsStatus == UNIT_WEAPONS_ZERO
         hasRentIcon             = rentInfo.hasIcon
         hasRentProgress         = rentInfo.hasProgress
         rentProgress            = rentInfo.progress
@@ -203,10 +205,10 @@ if need - put commented in array above
       isInTable           = params?.isInTable ?? true
       shopItemId          = id
       unitName            = air.name
-      crewId              = crew?.id
+      crewId              = crew?.id.tostring()
       premiumPatternType  = special
-      shopItemType        = ::get_unit_role(air.name)
-      unitClassIcon       = ::get_unit_role_icon(air)
+      shopItemType        = getUnitRole(air)
+      unitClassIcon       = getUnitRoleIcon(air)
       shopStatus          = status
       unitRarity          = unitRarity
       isBroken            = isLocalState && isBroken
@@ -226,6 +228,7 @@ if need - put commented in array above
       isLongPriceText     = ::is_unit_price_text_long(priceText)
       isElite             = (isLocalState && isOwn && ::isUnitElite(air)) || (!isOwn && special)
       unitRankText        = ::get_unit_rank_text(air, crew, showBR, curEdiff)
+      bottomLineText      = params?.bottomLineText
       isItemLocked        = isLocalState && !isUsable && !special && !isSquadronVehicle && !isMarketableVehicle && !::isUnitsEraUnlocked(air)
       hasTalismanIcon     = isLocalState && (special || ::shop_is_modification_enabled(air.name, "premExpMul"))
       itemButtons         = ::handyman.renderCached("gui/slotbar/slotbarItemButtons", itemButtonsView)
@@ -316,7 +319,7 @@ if need - put commented in array above
       }
 
       if (unitRole == null || isInResearch)
-        unitRole = ::get_unit_role(nextAir)
+        unitRole = getUnitRole(nextAir)
 
       special = ::isUnitSpecial(a)
       isElite = isElite && ::isUnitElite(a)
@@ -418,7 +421,7 @@ if need - put commented in array above
     local groupSlotView = {
       slotId              = id
       unitRole            = unitRole
-      unitClassIcon       = ::get_unit_role_icon(nextAir)
+      unitClassIcon       = getUnitRoleIcon(nextAir)
       groupStatus         = groupStatus == defaultStatus ? ::getUnitItemStatusText(bitStatus, true) : groupStatus
       isBroken            = bitStatus & bit_unit_status.broken
       shopAirImg          = shopAirImage
@@ -466,12 +469,14 @@ if need - put commented in array above
       shopItemId          = id
       unitName            = air.name
       shopAirImg          = air.image
-      shopStatus          = ::getUnitItemStatusText(bitStatus, true)
+      shopStatus          = params?.status ?? ::getUnitItemStatusText(bitStatus, true)
       unitRankText        = ::get_unit_rank_text(air, null, showBR, curEdiff)
       shopItemTextId      = id + "_txt"
-      shopItemText        = ::loc(air?.nameLocId ?? $"mainmenu/type_{nameForLoc}")
+      shopItemText        = ::loc(air?.nameLoc ?? $"mainmenu/type_{nameForLoc}")
       isItemDisabled      = bitStatus == bit_unit_status.disabled
       needMultiLineName   = params?.needMultiLineName
+      tooltipId           = params?.tooltipId ?? ""
+      bottomLineText      = params?.bottomLineText
     }
     res = ::handyman.renderCached("gui/slotbar/slotbarSlotFake", fakeSlotView)
   }
@@ -496,7 +501,7 @@ if need - put commented in array above
       local crew = crewId >= 0 ? ::get_crew_by_id(crewId) : null
       if (crew)
       {
-        local crewLevelText = ::g_crew.getCrewLevel(crew,
+        local crewLevelText = ::g_crew.getCrewLevel(crew, unitForCrewInfo,
           unitForCrewInfo.getCrewUnitType()).tointeger().tostring()
         local crewSpecIcon = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unitForCrewInfo).trainedIcon
 
@@ -699,7 +704,7 @@ if need - put commented in array above
           sessionWpBalance, wpToRespawn, true, false))
       }
 
-      local reqUnitSpawnScore = ::shop_get_spawn_score(unit.name, ::get_last_weapon(unit.name))
+      local reqUnitSpawnScore = ::shop_get_spawn_score(unit.name, getLastWeapon(unit.name))
       local totalSpawnScore = ::getTblValue("totalSpawnScore", params, -1)
       if (reqUnitSpawnScore > 0 && totalSpawnScore > -1)
       {

@@ -2,10 +2,14 @@ local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local hudState = require_native("hudState")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
-local globalCallbacks = ::require("sqDagui/globalCallbacks/globalCallbacks.nut")
+local globalCallbacks = require("sqDagui/globalCallbacks/globalCallbacks.nut")
+local { showHudTankMovementStates } = require("scripts/hud/hudTankStates.nut")
+
+::dagui_propid.add_name_id("fontSize")
 
 local UNMAPPED_CONTROLS_WARNING_TIME_WINK = 3.0
 local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 180000.0 : 30.0
+local defaultFontSize = "small"
 
 ::need_offer_controls_help <- true
 
@@ -43,39 +47,6 @@ globalCallbacks.addTypes({
     onCb = @(obj, params) ::set_shortcut_off(obj.shortcut_id)
   }
 })
-
-::get_ingame_map_aabb <- function get_ingame_map_aabb()
-{
-  local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
-  return handler && ::get_dagui_obj_aabb(handler.getTacticalMapObj())
-}
-
-::get_ingame_multiplayer_score_progress_bar_aabb <- function get_ingame_multiplayer_score_progress_bar_aabb()
-{
-  local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
-  return handler && ::get_dagui_obj_aabb(handler.getMultiplayerScoreObj())
-}
-
-local dmPanelStates =
-{
-  aabb = null
-}
-::update_damage_panel_state <- function update_damage_panel_state(params)
-{
-  dmPanelStates.aabb <- params
-}
-::cross_call_api.update_damage_panel_state <- ::update_damage_panel_state
-::g_script_reloader.registerPersistentData("dmPanelState", dmPanelStates, [ "aabb" ])
-
-::get_damage_pannel_aabb <- function get_damage_pannel_aabb()
-{
-  local handler = ::handlersManager.findHandlerClassInScene(::gui_handlers.Hud)
-  if (!handler)
-    return null
-
-  return handler.getHudType() == HUD_TYPE.SHIP ? dmPanelStates.aabb
-    : ::get_dagui_obj_aabb(handler.getDamagePannelObj())
-}
 
 ::on_show_hud <- function on_show_hud(show = true) //called from native code
 {
@@ -128,6 +99,15 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       }
       objectsToCheckOversize = {
         hud_tank_damage_indicator = true
+      }
+      fontSizeByScale = {
+        hud_tank_damage_indicator = {
+          [-2] = "extraTiny",
+          [-1] = "tiny",
+          [0] = "small",
+          [1] = "small",
+          [2] = "normal"
+        }
       }
       onChangedFunc = @(obj) ::g_hud_event_manager.onHudEvent("DamageIndicatorSizeChanged")
     },
@@ -271,7 +251,15 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     else if (newHudType == HUD_TYPE.AIR)
       currentHud = ::handlersManager.loadHandler(::use_touchscreen && !isXinput ? ::HudTouchAir : ::HudAir, { scene = hudObj })
     else if (newHudType == HUD_TYPE.TANK)
-      currentHud = ::handlersManager.loadHandler(::use_touchscreen && !isXinput ? ::HudTouchTank : ::HudTank, { scene = hudObj })
+    {
+      //
+
+
+
+
+
+        currentHud = ::handlersManager.loadHandler(::use_touchscreen && !isXinput ? ::HudTouchTank : ::HudTank, { scene = hudObj })
+    }
     else if (newHudType == HUD_TYPE.SHIP)
       currentHud = ::handlersManager.loadHandler(::HudShip, { scene = hudObj })
     else if (newHudType == HUD_TYPE.HELICOPTER)
@@ -488,6 +476,9 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       local canApplyOptionValue = !table?.objectsToCheckOversize?[id] ||
                                   !sideBlockMaxWidth ||
                                   objWidthValue <= sideBlockMaxWidth
+      local fontSize = table?.fontSizeByScale[id][value]
+      if (fontSize != null)
+        obj.fontSize = canApplyOptionValue ? fontSize : defaultFontSize
       obj.size = canApplyOptionValue
         ? ::format("%.3f*%s, %.3f*%s", size, cssConst, size, cssConst)
         : ::format("%d, %d", sideBlockMaxWidth, sideBlockMaxWidth)
@@ -515,6 +506,11 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
   function getDamagePannelObj()
   {
     return scene.findObject("xray_render_dmg_indicator")
+  }
+
+  function getTankDebufsObj()
+  {
+    return scene.findObject("tank_debuffs")
   }
 
   function updateAFKTimeKick()
@@ -706,6 +702,7 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::g_hud_display_timers.init(scene, ::ES_UNIT_TYPE_TANK)
     ::g_hud_tank_debuffs.init(scene)
     ::g_hud_crew_state.init(scene)
+    showHudTankMovementStates(scene)
     ::hudEnemyDamage.init(scene)
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
     updateShowHintsNest()
@@ -737,6 +734,53 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     showSceneBtn("actionbar_hints_nest", true)
   }
 }
+
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class HudHelicopter extends ::gui_handlers.BaseUnitHud
 {

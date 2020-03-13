@@ -1,10 +1,12 @@
+local { animBgLoad } = require("scripts/loading/animBg.nut")
+
 class ::gui_handlers.LoginWndHandlerDMM extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/loginBoxSimple.blk"
 
   function initScreen()
   {
-    ::g_anim_bg.load()
+    animBgLoad()
     ::setVersionText()
     ::setProjectAwards(this)
 

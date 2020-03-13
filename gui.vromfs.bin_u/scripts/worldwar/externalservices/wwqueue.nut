@@ -151,6 +151,7 @@ class WwQueue
     local res = {
       canJoin = false
       reasonText = ""
+      hasRestrictClanRegister = false
     }
 
     if (::g_ww_global_status.getMyClanOperation())
@@ -163,11 +164,14 @@ class WwQueue
     {
       local myClanType = ::g_clans.getMyClanType()
       if (!::clan_can_register_to_ww())
+      {
         res.reasonText = ::loc("clan/wwar/lacksMembers", {
           clanType = myClanType.getTypeNameLoc()
           count = myClanType.getMinMemberCountToWWar()
           minRankRequired = ::get_roman_numeral(::g_world_war.getSetting("minCraftRank", 0))
         })
+        res.hasRestrictClanRegister = true
+      }
       else
         res.canJoin = true
     }

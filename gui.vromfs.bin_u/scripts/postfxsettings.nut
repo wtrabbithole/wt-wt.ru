@@ -1,4 +1,4 @@
-::tonemappingMode_list <- ["#options/hudDefault", "#options/reinard", "#options/polynom"];
+::tonemappingMode_list <- ["#options/hudDefault", "#options/reinard", "#options/polynom", "#options/logarithm"];
 ::lut_list <- ["#options/hudDefault"];
 ::lut_textures <- [""];
 ::lenseFlareMode_list <- ["#options/disabled", "#options/enabled_in_replays", "#options/enabled_in_tps", "#options/enabled_everywhere"];

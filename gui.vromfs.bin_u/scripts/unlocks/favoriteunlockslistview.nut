@@ -19,62 +19,29 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
 
   function updateList()
   {
-    if ( ! ::checkObj(listContainer))
+    if (!::checkObj(listContainer))
       return
 
-    if( ! unlocksListIsValid)
+    if(!unlocksListIsValid)
       curFavoriteUnlocksBlk.setFrom(::g_unlocks.getFavoriteUnlocks())
 
-    local total = ::max(listContainer.childrenCount(), curFavoriteUnlocksBlk.blockCount())
+    local unlocksObjCount = listContainer.childrenCount()
+    local total = ::max(unlocksObjCount, curFavoriteUnlocksBlk.blockCount())
+    if (unlocksObjCount == 0 && total > 0) {
+      local blk = ::handyman.renderCached(("gui/unlocks/unlockItemSimplified"),
+        { unlocks = array(total, { hasCloseButton = true, hasHiddenContent = true })})
+      guiScene.appendWithBlk(listContainer, blk, this)
+    }
+
     for(local i = 0; i < total; i++)
     {
-      if(i >= listContainer.childrenCount())
-        guiScene.createElementByObject(listContainer,
-          "gui/profile/unlockItemSimplified.blk", "expandable", this)
-      fillUnlockInfo(curFavoriteUnlocksBlk.getBlock(i), listContainer.getChild(i))
+      local unlockObj = getUnlockObj(i)
+      ::g_unlock_view.fillSimplifiedUnlockInfo(curFavoriteUnlocksBlk.getBlock(i), unlockObj, this)
     }
 
     showSceneBtn("no_favorites_txt",
       ! (curFavoriteUnlocksBlk.blockCount() && listContainer.childrenCount()))
     unlocksListIsValid = true
-  }
-
-  function fillUnlockInfo(unlockBlk, unlockObj)
-  {
-    local isShowUnlock = unlockBlk && ::is_unlock_visible(unlockBlk)
-    unlockObj.show(isShowUnlock)
-    if( !isShowUnlock)
-      return
-
-    local unlockConfig = ::build_conditions_config(unlockBlk)
-    ::build_unlock_desc(unlockConfig)
-
-    local title = ::g_unlock_view.fillUnlockTitle(unlockConfig, unlockObj)
-    ::g_unlock_view.fillUnlockImage(unlockConfig, unlockObj)
-    ::g_unlock_view.fillUnlockProgressBar(unlockConfig, unlockObj)
-    ::g_unlock_view.fillReward(unlockConfig, unlockObj)
-    ::g_unlock_view.fillUnlockConditions(unlockConfig, unlockObj, this)
-
-    local closeBtn = unlockObj.findObject("removeFromFavoritesBtn")
-    if(::checkObj(closeBtn))
-      closeBtn.unlockId = unlockBlk.id
-
-    local chapterAndGroupText = []
-    if (unlockBlk?.chapter)
-      chapterAndGroupText.append(::loc("unlocks/chapter/" + unlockBlk.chapter))
-    if ((unlockBlk?.group ?? "") != "")
-      chapterAndGroupText.append(::loc("unlocks/group/" + unlockBlk.group))
-
-    if (chapterAndGroupText.len())
-      chapterAndGroupText = "(" + ::g_string.implode(chapterAndGroupText, ", ") + ")"
-    else
-      chapterAndGroupText = ""
-
-    local tooltipArr = [::colorize("unlockHeaderColor", title),
-      chapterAndGroupText, ::getTblValue("stagesText", unlockConfig, "")]
-    tooltipArr.append(::UnlockConditions.getConditionsText(unlockConfig.conditions,
-      unlockConfig.showProgress ? unlockConfig.curVal : null, unlockConfig.maxVal))
-    unlockObj.tooltip =  ::g_string.implode(tooltipArr, "\n")
   }
 
   function onEventFavoriteUnlocksChanged(params)
@@ -91,5 +58,13 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
   function onRemoveUnlockFromFavorites(obj)
   {
     ::g_unlocks.removeUnlockFromFavorites(obj.unlockId)
+  }
+
+  function getUnlockObj(idx)
+  {
+    if (listContainer.childrenCount() > idx)
+        return listContainer.getChild(idx)
+
+    return listContainer.getChild(idx-1).getClone(listContainer, this)
   }
 }

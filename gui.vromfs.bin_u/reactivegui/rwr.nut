@@ -18,7 +18,7 @@ local rwrState = {
   CurrentTime = Watched(0.0),
   targets = [],
   TargetsTrigger = Watched(0),
-  track = false,
+  trackingTargetAgeMin = 1000.0,
   SignalHoldTimeInv = Watched(0.0),
   EnableBackGroundColor = Watched(false)
 }
@@ -33,9 +33,10 @@ local rwrState = {
       needUpdateTargets = true
     }
   }
+
   if (needUpdateTargets)
   {
-    rwrState.track = false
+    rwrState.trackingTargetAgeMin = 1000.0
     rwrState.TargetsTrigger.trigger()
   }
 }
@@ -52,7 +53,7 @@ local rwrState = {
   }
   rwrState.TargetsTrigger.trigger()
   if (track)
-    rwrState.track = true
+    rwrState.trackingTargetAgeMin = min(rwrState.trackingTargetAgeMin, age)
 }
 
 interopGen({
@@ -71,7 +72,7 @@ local background = function(colorStyle, width, height) {
 
   local getAircraftCircleOpacity = function() {
     local opacity = 0.42
-    if (rwrState.track)
+    if (rwrState.trackingTargetAgeMin * rwrState.SignalHoldTimeInv.value < 1.0)
       opacity = math.round(rwrState.CurrentTime.value * 4) % 2 == 0 ? 1.0 : 0.42
     return opacity
   }
@@ -331,8 +332,8 @@ local function createTarget(index, colorStyle, width, height)
         targetOffsetY * width - radius
       ]
     }
-    halign = HALIGN_CENTER
-    valign = VALIGN_MIDDLE
+    halign = ALIGN_CENTER
+    valign = ALIGN_CENTER
     children = [
       colorStyle.__merge({
         rendObj = ROBJ_STEXT
@@ -390,7 +391,7 @@ local scope = function(colorStyle, width, height)
   }
 }
 
-local rwr = function(colorStyle, posX = sw(75), posY = sh(70), w = sh(20), h = sh(20), for_mfd = false)
+local rwr = function(colorStyle, posX = screenState.rw(75), posY = sh(70), w = sh(20), h = sh(20), for_mfd = false)
 {
   local getChildren = function() {
     return (!for_mfd && rwrState.IsRwrHudVisible.value) || (for_mfd && helicopterState.RwrForMfd.value) ? [
@@ -400,8 +401,8 @@ local rwr = function(colorStyle, posX = sw(75), posY = sh(70), w = sh(20), h = s
   return @(){
     pos = [(for_mfd ? 0 : screenState.safeAreaSizeHud.value.borders[1]) + posX, posY]
     size = SIZE_TO_CONTENT
-    halign = HALIGN_CENTER
-    valign = VALIGN_MIDDLE
+    halign = ALIGN_CENTER
+    valign = ALIGN_CENTER
     watch = rwrState.IsRwrHudVisible
     children = getChildren()
   }

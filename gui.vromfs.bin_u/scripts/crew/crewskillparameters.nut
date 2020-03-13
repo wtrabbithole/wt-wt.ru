@@ -1,27 +1,17 @@
-::g_crew_skill_parameters <- {
-  _parametersByCrewId = {}
-  _baseParameters = null
+local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+local { calc_crew_parameters } = require_native("unitCalculcation")
+local { getSortOrderBySkillParameterName, getMinSkillsUnitRepairRank } = require("scripts/crew/crewSkills.nut")
 
-  skillGroups = { //skills which have completely the same parameters for different members
-    eyesight = ["driver", "tank_gunner", "commander", "loader", "radio_gunner"]
-    field_repair = ["driver", "tank_gunner", "commander", "loader", "radio_gunner"]
-    machine_gunner = ["driver", "tank_gunner", "commander", "loader", "radio_gunner"]
-  }
+local parametersByCrewId = {}
+local skillGroups = { //skills which have completely the same parameters for different members
+  eyesight = ["driver", "tank_gunner", "commander", "loader", "radio_gunner"]
+  field_repair = ["driver", "tank_gunner", "commander", "loader", "radio_gunner"]
+  machine_gunner = ["driver", "tank_gunner", "commander", "loader", "radio_gunner"]
 }
 
-g_crew_skill_parameters.init <- function init()
-{
-  ::add_event_listener("CrewSkillsChanged", onEventCrewSkillsChanged, this)
-  ::add_event_listener("SignOut", onEventSignOut, this)
-  ::add_event_listener("CrewTakeUnit", onEventCrewTakeUnit, this)
-  ::add_event_listener("CrewChanged", onEventCrewChanged, this)
-}
-
-g_crew_skill_parameters.getParametersByCrewId <- function getParametersByCrewId(crewId)
-{
-  local parameters = ::getTblValue(crewId, _parametersByCrewId, null)
-  if (parameters == null)
-  {
+local function getParametersByCrewId(crewId, unitName) {
+  local parameters = parametersByCrewId?[crewId][unitName]
+  if (parameters == null) {
     /*local values =
     {
       pilot = {
@@ -42,63 +32,30 @@ g_crew_skill_parameters.getParametersByCrewId <- function getParametersByCrewId(
       },
       specialization = 1,
     };*/
-    parameters = ::calc_crew_parameters(crewId, /*values*/null)
-    _parametersByCrewId[crewId] <- parameters
+    parameters = calc_crew_parameters(crewId, /*values*/null, unitName)
+    if (!(crewId in parametersByCrewId))
+      parametersByCrewId[crewId] <- {}
+    parametersByCrewId[crewId][unitName] <- parameters
   }
   return parameters
 }
 
-::getBaseParameters <- function getBaseParameters(crewId)
-{
-  if (_baseParameters == null)
-  {
-    local skillsBlk = ::get_skills_blk()
-    local calcBlk = skillsBlk?.crew_skills_calc
-    if (calcBlk == null)
-      return null
-
-    local values = {}
-    foreach (memberName, memberBlk in calcBlk)
-    {
-      values[memberName] <- {}
-      foreach (skillName, skillBlk in memberBlk)
-        values[memberName][skillName] <- 0
-    }
-    values.specialization <- ::g_crew_spec_type.BASIC.code
-    _baseParameters = ::calc_crew_parameters(crewId, values)
-  }
-  return _baseParameters
-}
-
-g_crew_skill_parameters.onEventCrewSkillsChanged <- function onEventCrewSkillsChanged(params)
-{
+local function onEventCrewSkillsChanged(params) {
   local crewId = params.crew.id
-  _parametersByCrewId[crewId] <- null
+  if (crewId in parametersByCrewId)
+    delete parametersByCrewId[crewId]
 }
 
-g_crew_skill_parameters.onEventSignOut <- function onEventSignOut(params)
-{
-  _parametersByCrewId.clear()
-  _baseParameters = null
+local function onEventSignOut(params) {
+  parametersByCrewId.clear()
 }
 
-g_crew_skill_parameters.onEventCrewTakeUnit <- function onEventCrewTakeUnit(params)
-{
-  _baseParameters = null
-}
-
-g_crew_skill_parameters.onEventCrewChanged <- function onEventCrewChanged(params)
-{
-  _baseParameters = null
-}
-
-g_crew_skill_parameters.getBaseDescriptionText <- function getBaseDescriptionText(memberName, skillName, crew)
-{
+local function getBaseDescriptionText(memberName, skillName, crew) {
   local locId = ::format("crew/%s/%s/tooltip", memberName, skillName)
   local locParams = null
 
-  if (skillName == "eyesight" && ::isInArray(memberName, ["driver", "tank_gunner", "commander", "loader", "radio_gunner"]))
-  {
+  if (skillName == "eyesight"
+    && ::isInArray(memberName, ["driver", "tank_gunner", "commander", "loader", "radio_gunner"])) {
     locId = "crew/eyesight/tank/tooltip"
 
     local blk = ::dgs_get_game_params()
@@ -112,27 +69,21 @@ g_crew_skill_parameters.getBaseDescriptionText <- function getBaseDescriptionTex
   return ::loc(locId, locParams)
 }
 
-g_crew_skill_parameters.getTooltipText <- function getTooltipText(memberName, skillName, crewUnitType, crew, difficulty)
-{
+local function getTooltipText(memberName, skillName, crewUnitType, crew, difficulty, unit) {
   local resArray = [getBaseDescriptionText(memberName, skillName, crew)]
-
-  local unit = ::g_crew.getCrewUnit(crew)
-
-  if (unit && unit.unitType.crewUnitType != crewUnitType)
-  {
+  if (unit && unit.unitType.crewUnitType != crewUnitType) {
     local text = ::loc("crew/skillsWorkWithUnitsSameType")
     resArray.append(::colorize("warningTextColor", text))
   }
-  else if (crew && memberName == "groundService" && skillName == "repair")
-  {
-    local fullParamsList = ::g_skill_parameters_request_type.CURRENT_VALUES.getParameters(crew.id)
+  else if (crew && memberName == "groundService" && skillName == "repair") {
+    local fullParamsList = ::g_skill_parameters_request_type.CURRENT_VALUES.getParameters(crew.id, unit)
     local repairRank = fullParamsList?[difficulty.crewSkillName][memberName].repairRank.groundServiceRepairRank ?? 0
     if (repairRank!=0 && unit && unit.rank > repairRank)
     {
       local text = ::loc("crew/notEnoughRepairRank", {
                           rank = ::colorize("activeTextColor", ::get_roman_numeral(unit.rank))
                           level = ::colorize("activeTextColor",
-                                             ::g_crew_skills.getMinSkillsUnitRepairRank(unit.rank))
+                            getMinSkillsUnitRepairRank(unit.rank))
                          })
       resArray.append(::colorize("warningTextColor", text))
     }
@@ -151,11 +102,9 @@ g_crew_skill_parameters.getTooltipText <- function getTooltipText(memberName, sk
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]
-g_crew_skill_parameters.getColumnsTypesList <- function getColumnsTypesList(skillsList, crewUnitType)
-{
+local function getColumnsTypesList(skillsList, crewUnitType) {
   local columnTypes = []
-  foreach (columnType in ::g_skill_parameters_column_type.types)
-  {
+  foreach (columnType in ::g_skill_parameters_column_type.types) {
     if (!columnType.checkCrewUnitType(crewUnitType))
       continue
 
@@ -169,8 +118,7 @@ g_crew_skill_parameters.getColumnsTypesList <- function getColumnsTypesList(skil
   return columnTypes
 }
 
-g_crew_skill_parameters.getSkillListHeaderRow <- function getSkillListHeaderRow(crew, columnTypes)
-{
+local function getSkillListHeaderRow(crew, columnTypes, unit) {
   local res = {
     descriptionLabel = ::loc("crewSkillParameterTable/descriptionLabel")
     valueItems = []
@@ -178,7 +126,7 @@ g_crew_skill_parameters.getSkillListHeaderRow <- function getSkillListHeaderRow(
 
   local headerImageParams = {
     crew = crew
-    unit = ::g_crew.getCrewUnit(crew)
+    unit = unit
   }
   foreach (columnType in columnTypes)
     res.valueItems.append({
@@ -195,21 +143,18 @@ g_crew_skill_parameters.getSkillListHeaderRow <- function getSkillListHeaderRow(
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]
-g_crew_skill_parameters.getParametersByRequestType <- function getParametersByRequestType(crewId, skillsList, difficulty, requestType, useSelectedParameters)
-{
+local function getParametersByRequestType(crewId, skillsList, difficulty, requestType, useSelectedParameters, unit) {
   local res = {}
   local fullParamsList = useSelectedParameters
-                         ? requestType.getSelectedParameters(crewId)
-                         : requestType.getParameters(crewId)
+                         ? requestType.getSelectedParameters(crewId, unit)
+                         : requestType.getParameters(crewId, unit)
 
-  foreach(skill in skillsList)
-  {
+  foreach(skill in skillsList) {
     // Leaving data only related to selected difficulty, member and skill.
     local skillParams = fullParamsList?[difficulty.crewSkillName][skill.memberName][skill.skillName]
     if (!skillParams)
       continue
-    foreach(key, value in skillParams)
-    {
+    foreach(key, value in skillParams) {
       if (!(key in res))
         res[key] <- []
       res[key].append({
@@ -222,18 +167,15 @@ g_crew_skill_parameters.getParametersByRequestType <- function getParametersByRe
   return res
 }
 
-g_crew_skill_parameters.getSortedArrayByParamsTable <- function getSortedArrayByParamsTable(parameters, crewUnitType)
-{
+local function getSortedArrayByParamsTable(parameters, crewUnitType) {
   local res = []
-  foreach(name, valuesArr in parameters)
-  {
-    if (crewUnitType != ::CUT_AIRCRAFT
-      && name == "airfieldMinRepairTime")
+  foreach(name, valuesArr in parameters) {
+    if (crewUnitType != ::CUT_AIRCRAFT && name == "airfieldMinRepairTime")
       continue
     res.append({
       name = name
       valuesArr = valuesArr
-      sortOrder = ::g_crew_skills.getSortOrderBySkillParameterName(name)
+      sortOrder = getSortOrderBySkillParameterName(name)
     })
   }
 
@@ -245,7 +187,7 @@ g_crew_skill_parameters.getSortedArrayByParamsTable <- function getSortedArrayBy
   return res
 }
 
-g_crew_skill_parameters.parseParameters <- function parseParameters(columnTypes,
+local function parseParameters(columnTypes,
   currentParametersByRequestType, selectedParametersByRequestType, crewUnitType)
 {
   local res = []
@@ -263,14 +205,11 @@ g_crew_skill_parameters.parseParameters <- function parseParameters(columnTypes,
   return res
 }
 
-g_crew_skill_parameters.filterSkillsList <- function filterSkillsList(skillsList)
-{
+local function filterSkillsList(skillsList) {
   local res = []
-  foreach(skill in skillsList)
-  {
+  foreach(skill in skillsList) {
     local group = ::getTblValue(skill.skillName, skillGroups)
-    if (group)
-    {
+    if (group) {
       local resSkill = ::u.search(res, (@(skill, group) function(resSkill) {
                          return skill.skillName == resSkill.skillName && ::isInArray(resSkill.memberName, group)
                        })(skill, group))
@@ -284,7 +223,7 @@ g_crew_skill_parameters.filterSkillsList <- function filterSkillsList(skillsList
 }
 
 //skillsList = [{ memberName = "", skillName = "" }]
-g_crew_skill_parameters.getSkillListParameterRowsView <- function getSkillListParameterRowsView(crew, difficulty, notFilteredSkillsList, crewUnitType)
+local function getSkillListParameterRowsView(crew, difficulty, notFilteredSkillsList, crewUnitType, unit)
 {
   local skillsList = filterSkillsList(notFilteredSkillsList)
 
@@ -292,8 +231,7 @@ g_crew_skill_parameters.getSkillListParameterRowsView <- function getSkillListPa
 
   //preparing full requestsList
   local fullRequestsList = [::g_skill_parameters_request_type.CURRENT_VALUES] //required for getting params list
-  foreach(columnType in columnTypes)
-  {
+  foreach(columnType in columnTypes) {
     ::u.appendOnce(columnType.previousParametersRequestType, fullRequestsList, true)
     ::u.appendOnce(columnType.currentParametersRequestType, fullRequestsList, true)
   }
@@ -301,12 +239,11 @@ g_crew_skill_parameters.getSkillListParameterRowsView <- function getSkillListPa
   //collect parameters by request types
   local currentParametersByRequestType = {}
   local selectedParametersByRequestType = {}
-  foreach (requestType in fullRequestsList)
-  {
+  foreach (requestType in fullRequestsList) {
     currentParametersByRequestType[requestType] <-
-      getParametersByRequestType(crew.id, skillsList,  difficulty, requestType, false)
+      getParametersByRequestType(crew.id, skillsList,  difficulty, requestType, false, unit)
     selectedParametersByRequestType[requestType] <-
-      getParametersByRequestType(crew.id, skillsList,  difficulty, requestType, true)
+      getParametersByRequestType(crew.id, skillsList,  difficulty, requestType, true, unit)
   }
 
   // Here goes generation of skill parameters cell values.
@@ -314,13 +251,12 @@ g_crew_skill_parameters.getSkillListParameterRowsView <- function getSkillListPa
     currentParametersByRequestType, selectedParametersByRequestType, crewUnitType)
   // If no parameters added then hide table's header.
   if (res.len()) // Nothing but header row.
-    res.insert(0, getSkillListHeaderRow(crew, columnTypes))
+    res.insert(0, getSkillListHeaderRow(crew, columnTypes, unit))
 
   return res
 }
 
-g_crew_skill_parameters.getSkillDescriptionView <- function getSkillDescriptionView(crew, difficulty, memberName, skillName, crewUnitType)
-{
+local function getSkillDescriptionView(crew, difficulty, memberName, skillName, crewUnitType, unit) {
   local skillsList = [{
     memberName = memberName
     skillName = skillName
@@ -328,10 +264,10 @@ g_crew_skill_parameters.getSkillDescriptionView <- function getSkillDescriptionV
 
   local view = {
     skillName = ::loc("crew/" + skillName)
-    tooltipText = getTooltipText(memberName, skillName, crewUnitType, crew, difficulty)
+    tooltipText = getTooltipText(memberName, skillName, crewUnitType, crew, difficulty, unit)
 
     // First item in this array is table's header.
-    parameterRows = getSkillListParameterRowsView(crew, difficulty, skillsList, crewUnitType)
+    parameterRows = getSkillListParameterRowsView(crew, difficulty, skillsList, crewUnitType, unit)
     footnoteText = ::loc("shop/all_info_relevant_to_current_game_mode")
       + ::loc("ui/colon") + difficulty.getLocName()
   }
@@ -350,4 +286,13 @@ g_crew_skill_parameters.getSkillDescriptionView <- function getSkillDescriptionV
   return view
 }
 
-::g_crew_skill_parameters.init()
+subscriptions.addListenersWithoutEnv({
+  CrewSkillsChanged = onEventCrewSkillsChanged
+  SignOut = onEventSignOut
+})
+
+return {
+  getParametersByCrewId = getParametersByCrewId
+  getSkillListParameterRowsView = getSkillListParameterRowsView
+  getSkillDescriptionView = getSkillDescriptionView
+}

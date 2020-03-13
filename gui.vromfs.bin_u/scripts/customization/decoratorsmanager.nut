@@ -1,4 +1,5 @@
 local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local guidParser = require("scripts/guidParser.nut")
 
 const DEFAULT_SKIN_NAME = "default"
 
@@ -8,6 +9,7 @@ const DEFAULT_SKIN_NAME = "default"
   ::g_decorator.clearCache()
 }
 
+//code callback
 ::update_unit_skins_list <- function update_unit_skins_list(unitName)
 {
   local unit = ::getAircraftByName(unitName)
@@ -18,8 +20,50 @@ const DEFAULT_SKIN_NAME = "default"
 ::g_decorator <- {
   cache = {}
   liveDecoratorsCache = {}
-  previewedLiveSkinId = ""
+  previewedLiveSkinIds = []
   approversUnitToPreviewLiveResource = null
+
+  addDownloadableLiveSkins = function(skins, unit)
+  {
+    local downloadableSkins = unit.getDownloadableSkins()
+    if (downloadableSkins.len() == 0)
+      return skins
+
+    skins = [].extend(skins)
+
+    foreach (itemdefId in downloadableSkins)
+    {
+      local resource = ::ItemsManager.findItemById(itemdefId)?.getMetaResource()
+      if (resource == null)
+        continue
+
+      if (guidParser.isGuid(resource)) // Live skin
+      {
+        local foundIdx = skins.findindex(@(s) s?.name == resource)
+        local skin = (foundIdx != null)
+          ? skins.remove(foundIdx) // Removing to preserve order, because cached skins are already listed.
+          : {
+              name = resource
+              nameLocId = ""
+              descLocId = ""
+
+              isDownloadable = true // Needs to be downloaded and cached.
+            }
+        skin.forceVisible <- true
+        skins.append(skin)
+      }
+      else // Internal skin
+      {
+        local skinName = ::g_unlocks.getSkinNameBySkinId(resource)
+        local skin = skins.findvalue(@(s) s?.name == skinName)
+        if (skin == null)
+          continue
+        skin.forceVisible <- true
+      }
+    }
+
+    return skins
+  }
 }
 
 g_decorator.clearCache <- function clearCache()
@@ -30,7 +74,7 @@ g_decorator.clearCache <- function clearCache()
 
 g_decorator.clearLivePreviewParams <- function clearLivePreviewParams()
 {
-  ::g_decorator.previewedLiveSkinId = ""
+  ::g_decorator.previewedLiveSkinIds.clear()
   ::g_decorator.approversUnitToPreviewLiveResource = null
 }
 
@@ -269,11 +313,12 @@ g_decorator.addSkinItemToOption <- function addSkinItemToOption(option, locName,
     canBuy    = false
     price     = ::zero_money
     isVisible = true
+    isDownloadable = false
   })
   return option.access[idx]
 }
 
-g_decorator.getSkinsOption <- function getSkinsOption(unitName, showLocked=false, needAutoSkin = true)
+g_decorator.getSkinsOption <- function getSkinsOption(unitName, showLocked=false, needAutoSkin = true, showDownloadable = false)
 {
   local descr = {
     items = []
@@ -287,8 +332,11 @@ g_decorator.getSkinsOption <- function getSkinsOption(unitName, showLocked=false
   if (!unit)
     return descr
 
-  local skins = unit.getSkins()
   local needIcon = unit.esUnitType == ::ES_UNIT_TYPE_TANK
+
+  local skins = unit.getSkins()
+  if (showDownloadable)
+    skins = addDownloadableLiveSkins(skins, unit)
 
   for (local skinNo = 0; skinNo < skins.len(); skinNo++)
   {
@@ -298,7 +346,7 @@ g_decorator.getSkinsOption <- function getSkinsOption(unitName, showLocked=false
 
     local skinBlockName = unitName + "/"+ skinName
 
-    local isPreviewedLiveSkin = ::has_feature("EnableLiveSkins") && skinBlockName == previewedLiveSkinId
+    local isPreviewedLiveSkin = ::has_feature("EnableLiveSkins") && ::isInArray(skinBlockName, previewedLiveSkinIds)
     local decorator = ::g_decorator.getDecorator(skinBlockName, ::g_decorator_type.SKINS)
     if (!decorator)
     {
@@ -314,7 +362,7 @@ g_decorator.getSkinsOption <- function getSkinsOption(unitName, showLocked=false
     if (!isOwn && !showLocked)
       continue
 
-    local forceVisible = isPreviewedLiveSkin
+    local forceVisible = skin?.forceVisible || isPreviewedLiveSkin
 
     if (!decorator.isVisible() && !forceVisible)
       continue
@@ -331,6 +379,7 @@ g_decorator.getSkinsOption <- function getSkinsOption(unitName, showLocked=false
     access.canBuy    = decorator.canBuyUnlock(unit)
     access.price     = cost
     access.isVisible = isVisible
+    access.isDownloadable = skin?.isDownloadable ?? false
   }
 
   local hasAutoSkin = needAutoSkin && isAutoSkinAvailable(unitName)
@@ -422,18 +471,29 @@ g_decorator.applyPreviewSkin <- function applyPreviewSkin(params)
 
 g_decorator.isPreviewingLiveSkin <- function isPreviewingLiveSkin()
 {
-  return ::has_feature("EnableLiveSkins") && ::g_decorator.previewedLiveSkinId != ""
+  return ::has_feature("EnableLiveSkins") && ::g_decorator.previewedLiveSkinIds.len() > 0
 }
 
-g_decorator.buildLiveDecoratorFromResource <- function buildLiveDecoratorFromResource(resource, resourceType, itedDef = null)
+g_decorator.buildLiveDecoratorFromResource <- function buildLiveDecoratorFromResource(resource, resourceType, itemDef, params)
 {
   if (!resource || !resourceType)
     return
-  if (resource in ::g_decorator.liveDecoratorsCache)
+  local decoratorId = (params?.unitId != null && resourceType == "skin")
+    ? ::g_unlocks.getSkinId(params.unitId, resource)
+    : resource
+  if (decoratorId in ::g_decorator.liveDecoratorsCache)
     return
-  local decorator = ::Decorator(resource, ::g_decorator_type.getTypeByResourceType(resourceType))
-  decorator.updateFromItemdef(itedDef)
-  ::g_decorator.liveDecoratorsCache[resource] <- decorator
+
+  local decorator = ::Decorator(decoratorId, ::g_decorator_type.getTypeByResourceType(resourceType))
+  decorator.updateFromItemdef(itemDef)
+  ::add_rta_localization($"{decoratorId}", itemDef.name)
+  ::add_rta_localization($"{decoratorId}/desc", itemDef.description)
+
+  ::g_decorator.liveDecoratorsCache[decoratorId] <- decorator
+
+  // Also replacing a fake skin decorator created by item constructor
+  if (resource != decoratorId)
+    ::g_decorator.liveDecoratorsCache[resource] <- decorator
 }
 
 ::subscribe_handler(::g_decorator, ::g_listener_priority.CONFIG_VALIDATION)

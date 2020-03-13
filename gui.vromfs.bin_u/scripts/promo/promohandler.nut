@@ -1,3 +1,5 @@
+local { clearOldVotedPolls, setPollBaseUrl, isPollVoted, generatePollUrl } = require("scripts/web/webpoll.nut")
+
 ::create_promo_blocks <- function create_promo_blocks(handler)
 {
   if (!::handlersManager.isHandlerValid(handler))
@@ -47,7 +49,7 @@ class Promo
       if (block?.pollId != null)
         pollsTable[block.pollId] <- true
     }
-    ::g_webpoll.clearOldVotedPolls(pollsTable)
+    clearOldVotedPolls(pollsTable)
 
     ::subscribe_handler(this, ::g_listener_priority.DEFAULT_HANDLER)
   }
@@ -117,7 +119,7 @@ class Promo
       local blockView = ::g_promo.generateBlockView(block)
       if (block?.pollId != null)
       {
-        ::g_webpoll.setPollBaseUrl(block.pollId, block?.link)
+        setPollBaseUrl(block.pollId, block?.link)
         pollIdToObjectId[block.pollId] <- blockView.id
       }
 
@@ -484,14 +486,14 @@ class Promo
     if (objectId == null)
       return
 
-    local showByLocalConditions = ! ::g_webpoll.isPollVoted(pollId) && ::g_promo.getVisibilityById(objectId)
+    local showByLocalConditions = !isPollVoted(pollId) && ::g_promo.getVisibilityById(objectId)
     if(!showByLocalConditions)
     {
       ::showBtn(objectId, false, scene)
       return
     }
 
-    local link = ::g_webpoll.generatePollUrl(pollId)
+    local link = generatePollUrl(pollId)
     if (link.len() == 0)
       return
     ::set_blk_value_by_path(sourceDataBlock, objectId + "/link", link)
@@ -523,7 +525,12 @@ class Promo
   function onEventWWStopWorldWar(p) { updateWorldWarButton() }
   function onEventWWGlobalStatusChanged(p) { updateWorldWarButton() }
   function onEventWebPollAuthResult(p) { updateWebPollButton(p) }
-  function onEventWebPollTokenInvalidated(p) { updateData() }
+  function onEventWebPollTokenInvalidated(p) {
+    if (p?.pollId == null)
+      updateData()
+    else
+      updateWebPollButton(p)
+  }
 
   function setTimers()
   {

@@ -9,7 +9,7 @@ local createHintContent = function(text, override)
   return {
     size = [SIZE_TO_CONTENT, SIZE_TO_CONTENT]
     flow = FLOW_VERTICAL
-    valign = VALIGN_MIDDLE
+    valign = ALIGN_CENTER
 
     children = config.rows.map(@(hint) hintTags(hint.slices, override))
   }

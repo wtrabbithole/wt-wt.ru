@@ -12,6 +12,7 @@ class Decorator
   unlockId = ""
   unlockBlk = null
   isLive = false
+  couponItemdefId = null
   group = ""
 
   category = ""
@@ -52,8 +53,9 @@ class Decorator
     category = ::getTblValue("category", blk, "")
     group = ::getTblValue("group", blk, "")
 
-    if (guidParser.isGuid(id))
-      isLive = true // Only decorators from live.warthunder.com has GUID as id.
+    // Only decorators from live.warthunder.com has GUID in id.
+    local slashPos = id.indexof("/")
+    isLive = guidParser.isGuid(slashPos == null ? id : id.slice(slashPos + 1))
 
     cost = decoratorType.getCost(id)
     forceShowInCustomization = ::getTblValue("forceShowInCustomization", blk, false)
@@ -333,6 +335,16 @@ class Decorator
   {
     rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
     tags = itemDef?.tags
+  }
+
+  function setCouponItemdefId(itemdefId)
+  {
+    couponItemdefId = itemdefId
+  }
+
+  function getCouponItemdefId()
+  {
+    return couponItemdefId
   }
 
   function _tostring()

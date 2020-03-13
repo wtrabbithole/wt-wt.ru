@@ -355,7 +355,8 @@ Button_text[pc_style=no][hasConsoleImage=yes],
 Button_text[hasUnseenIcon=yes] {       padding-left:1@newWidgetIconHeight+1@buttonTextPadding;
 }
 
-Button_text[hasUnseenIcon=yes] > newIconWidget {
+Button_text[hasUnseenIcon=yes] > newIconWidget,
+Button_text[hasUnseenIcon=yes] > warningIcon {
   pos:0, 50%ph-50%h;
   position:absolute;
 }
@@ -364,7 +365,8 @@ Button_text[pc_style=no][btnName][hasUnseenIcon=yes] {
   padding-left:h+1@newWidgetIconHeight+1@buttonTextPadding;
 }
 
-Button_text[pc_style=no][btnName][hasUnseenIcon=yes] > newIconWidget {
+Button_text[pc_style=no][btnName][hasUnseenIcon=yes] > newIconWidget,
+Button_text[pc_style=no][btnName][hasUnseenIcon=yes] > warningIcon {
   pos:ph, 50%ph-50%h;
   position:absolute;
 }
@@ -944,9 +946,13 @@ Button_text.battle[btnName=X]          { accessKey:'J:X | Enter'; }
 Button_text.battle[btnName=X][noEnter], gameModeChangeButton[btnName=X]
                                        { accessKey:'J:X'; }
 Button_text.additional[btnName=X]      { accessKey:'J:X | Space';}
-Button_text[btnName=Y], button[btnName=Y], gameModeChangeButton[btnName=Y], CheckBox[btnName=Y],
-textareaNoTab.highlightButton[btnName=Y], DummyButton[btnName=Y], mapStateBox[btnName=Y]
-                                       { accessKey:'J:Y'; }
+
+Button_text[btnName=Y], button[btnName=Y],
+gameModeChangeButton[btnName=Y], CheckBox[btnName=Y],
+textareaNoTab.highlightButton[btnName=Y],
+DummyButton[btnName=Y], mapStateBox[btnName=Y],
+ComboBox[btnName=Y]                    { accessKey:'J:Y'; }
+
 Button_text.switch[btnName=Y]          { accessKey:'J:Y | Space'; }
 Button_text[btnName=RB], CheckBox[btnName=RB],
 DummyButton[btnName=RB], emptyButton[btnName=RB], ComboBox[btnName=RB]
@@ -983,7 +989,7 @@ Button_text[btnName=DpadRight]         { accessKey:'J:Dpad.Right | Right'; }
 
 Button_text[btnName=AB]                { accessKey:'J:A | Space | Enter | NumEnter | J:B | Esc | Backspace'; }
 
-Button_text[btnName=A], DummyButton[btnName=A]
+Button_text[btnName=A], DummyButton[btnName=A], mapStateBox[btnName=A]
                                         { accessKey:'J:A | Space | Enter | NumEnter'; }
 [swap_ab=yes] Button_text[btnName=A], [swap_ab=yes] DummyButton[btnName=A]
                                         { accessKey:'J:B | Space | Enter | NumEnter'; }

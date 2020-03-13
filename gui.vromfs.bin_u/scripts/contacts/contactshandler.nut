@@ -1,6 +1,8 @@
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local { topMenuBorders } = require("scripts/mainmenu/topMenuStates.nut")
+local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 
 ::contacts_prev_scenes <- [] //{ scene, show }
 ::last_contacts_scene_show <- false
@@ -131,16 +133,22 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return true
 
     for(local i=::contacts_prev_scenes.len()-1; i>=0; i--)
-      if (::checkObj(::contacts_prev_scenes[i].scene))
-      {
+    {
+      local prevScene = ::contacts_prev_scenes[i].scene
+      if (::checkObj(prevScene)) {
+        local handler = ::contacts_prev_scenes[i].owner
+        if (!handler.isSceneActiveNoModals() || !prevScene.isVisible())
+          continue
+
         scene = ::contacts_prev_scenes[i].scene
-        owner = ::contacts_prev_scenes[i].owner
+        owner = handler
         guiScene = scene.getScene()
         sceneChanged = true
         sceneShow(::contacts_prev_scenes[i].show || ::last_contacts_scene_show)
         return true
       } else
         ::contacts_prev_scenes.remove(i)
+    }
     scene = null
     return false
   }
@@ -168,6 +176,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::last_contacts_scene_show = show
     if (show)
     {
+      validateCurGroup()
       if (!reloadSceneData())
       {
         setSavedSizes()
@@ -220,11 +229,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local rootSize = guiScene.getRoot().getSize()
       for(local i=0; i<=1; i++) //pos chat in screen
-        if (::contacts_sizes.pos[i] < ::top_menu_borders[i][0]*rootSize[i])
-          ::contacts_sizes.pos[i] = (::top_menu_borders[i][0]*rootSize[i]).tointeger()
+        if (::contacts_sizes.pos[i] < topMenuBorders[i][0]*rootSize[i])
+          ::contacts_sizes.pos[i] = (topMenuBorders[i][0]*rootSize[i]).tointeger()
         else
-          if (::contacts_sizes.pos[i]+::contacts_sizes.size[i] > ::top_menu_borders[i][1]*rootSize[i])
-            ::contacts_sizes.pos[i] = (::top_menu_borders[i][1]*rootSize[i] - ::contacts_sizes.size[i]).tointeger()
+          if (::contacts_sizes.pos[i]+::contacts_sizes.size[i] > topMenuBorders[i][1]*rootSize[i])
+            ::contacts_sizes.pos[i] = (topMenuBorders[i][1]*rootSize[i] - ::contacts_sizes.size[i]).tointeger()
 
       obj.pos = ::contacts_sizes.pos[0] + ", " + ::contacts_sizes.pos[1]
       obj.size = ::contacts_sizes.size[0] + ", " + ::contacts_sizes.size[1]
@@ -410,7 +419,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     showBtn("btn_blacklistRemove", isBlock && canBlock, contact_buttons_holder)
     showBtn("btn_message", owner
                            && !isBlock
-                           && ::g_chat.isChatEnabled()
+                           && isChatEnabled()
                            && canChat, contact_buttons_holder)
 
     local showSquadInvite = ::has_feature("SquadInviteIngame")
@@ -620,7 +629,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       ::contacts[gName].sort(::sortContacts)
       local activateEvent = "onPlayerMsg"
-      if (::show_console_buttons || !::g_chat.isChatEnabled())
+      if (::show_console_buttons || !isChatEnabled())
         activateEvent = "onPlayerMenu"
       local gData = buildPlayersList(gName)
       data += format(groupFormat, "#contacts/" + gName,
@@ -666,12 +675,13 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateContactsGroup(groupName)
   {
+    if (!isContactsWindowActive())
+      return
+
     if (groupName && !(groupName in ::contacts))
     {
       if (curGroup == groupName)
         curGroup = ""
-      if (!isContactsWindowActive())
-        return
 
       fillContactsList()
       if (searchText == "")
@@ -683,8 +693,6 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (groupName && groupName in ::contacts)
     {
       ::contacts[groupName].sort(::sortContacts)
-      if (!isContactsWindowActive())
-        return
       sel = fillPlayersList(groupName)
     }
     else
@@ -692,15 +700,10 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
         if (group in ::contacts)
         {
           ::contacts[group].sort(::sortContacts)
-          if (!isContactsWindowActive())
-            continue
           local selected = fillPlayersList(group)
           if (group == curGroup)
             sel = selected
         }
-
-    if (!isContactsWindowActive())
-      return
 
     if (curGroup && (!groupName || curGroup == groupName))
     {
@@ -717,11 +720,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventContactsGroupUpdate(params)
   {
-    local groupName = null
-    if ("groupName" in params)
-      groupName = params.groupName
-
-    updateContactsGroup(groupName)
+    updateContactsGroup(params?.groupName)
   }
 
   function onEventModalWndDestroy(params)
@@ -1133,7 +1132,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     value = ::clearBorderSymbols(value)
 
     local searchGroupActiveTextObject = scene.findObject("search_group_active_text")
-    searchGroupActiveTextObject.text = ::loc("contacts/" + searchGroup) + ": " + value
+    local searchGroupText = ::loc($"contacts/{searchGroup}")
+    searchGroupActiveTextObject.setValue($"{searchGroupText}: {value}")
 
     local taskId = ::find_nicks_by_prefix(value, maxSearchPlayers, true)
     if (taskId >= 0)
@@ -1242,5 +1242,33 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onEventSquadStatusChanged(p)
   {
     updateContactsGroup(null)
+  }
+
+  function validateCurGroup()
+  {
+    if (!(curGroup in ::contacts))
+      curGroup = ""
+  }
+
+  function onEventActiveHandlersChanged(p)
+  {
+    checkActiveScene()
+  }
+
+  function checkActiveScene()
+  {
+    if (!::checkObj(scene) || owner == null) {
+      checkScene()
+      return
+    }
+
+    if (owner.isSceneActiveNoModals() && scene?.isVisible())
+      return
+
+    local curScene = scene
+    if (::contacts_prev_scenes.findvalue(@(v) curScene.isEqual(v.scene)) == null)
+      ::contacts_prev_scenes.append({ scene = scene, show = ::last_contacts_scene_show, owner = owner })
+    scene = null
+    return
   }
 }

@@ -94,7 +94,7 @@ class ::WwAirfield
       armies = blk.armies % "item"
   }
 
-  function tostring()
+  function _tostring()
   {
     local returnText = "AIRFIELD: index = " + index + ", side = " + side + ", size = " + size + ", pos = " + ::toString(pos)
     if (formations.len())

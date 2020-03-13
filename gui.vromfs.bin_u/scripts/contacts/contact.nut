@@ -1,5 +1,7 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
+local { getXboxChatEnableStatus, isChatEnabled,
+  isCrossNetworkMessageAllowed } = require("scripts/chat/chatStates.nut")
 
 local contactsByName = {}
 
@@ -182,11 +184,11 @@ class Contact
 
     if (xboxId == "")
     {
-      local status = ::g_chat.getXboxChatEnableStatus(needShowSystemMessage)
+      local status = getXboxChatEnableStatus(needShowSystemMessage)
       if (status == XBOX_COMMUNICATIONS_ONLY_FRIENDS && !isInFriendGroup())
         return XBOX_COMMUNICATIONS_BLOCKED
 
-      return ::g_chat.isChatEnabled()? XBOX_COMMUNICATIONS_ALLOWED : XBOX_COMMUNICATIONS_BLOCKED
+      return isChatEnabled()? XBOX_COMMUNICATIONS_ALLOWED : XBOX_COMMUNICATIONS_BLOCKED
     }
 
     if (!needShowSystemMessage && interactionStatus != null)
@@ -198,7 +200,7 @@ class Contact
 
   function canChat(needShowSystemMessage = false)
   {
-    if (!needShowSystemMessage && !::g_chat.isCrossNetworkMessageAllowed(name))
+    if (!needShowSystemMessage && !isCrossNetworkMessageAllowed(name))
       return false
 
     local intSt = getInteractionStatus(needShowSystemMessage)
@@ -207,7 +209,7 @@ class Contact
 
   function canInvite(needShowSystemMessage = false)
   {
-    if (!needShowSystemMessage && !::g_chat.isCrossNetworkMessageAllowed(name))
+    if (!needShowSystemMessage && !isCrossNetworkMessageAllowed(name))
       return false
 
     local intSt = getInteractionStatus(needShowSystemMessage)

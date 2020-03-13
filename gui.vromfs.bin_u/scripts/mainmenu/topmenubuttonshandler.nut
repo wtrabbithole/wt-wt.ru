@@ -1,4 +1,6 @@
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
+local { getButtonConfigById } = require("scripts/mainmenu/topMenuButtons.nut")
+local { stickedDropDown } = require("scripts/baseGuiHandlerWT.nut")
 
 class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -224,7 +226,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
     if (!::handlersManager.isHandlerValid(parentHandlerWeak))
       return
 
-    local btn = ::g_top_menu_buttons.getTypeById(obj.id)
+    local btn = getButtonConfigById(obj.id)
     if (btn.isDelayed)
       guiScene.performDelayed(this, function()
       {
@@ -237,7 +239,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
   function onChangeCheckboxValue(obj)
   {
-    local btn = ::g_top_menu_buttons.getTypeById(obj.id)
+    local btn = getButtonConfigById(obj.id)
     btn.onChangeValueFunc(obj.getValue())
   }
 
@@ -317,7 +319,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
   function onWrapLeft(obj)
   {
-    local prevDropDown = ::stickedDropDown
+    local prevDropDown = stickedDropDown
     if (::handlersManager.isHandlerValid(parentHandlerWeak))
       parentHandlerWeak.onTopGCPanelLeft(obj)
 
@@ -327,7 +329,7 @@ class ::gui_handlers.TopMenuButtonsHandler extends ::gui_handlers.BaseGuiHandler
 
   function onWrapRight(obj)
   {
-    local prevDropDown = ::stickedDropDown
+    local prevDropDown = stickedDropDown
     if (::handlersManager.isHandlerValid(parentHandlerWeak))
       parentHandlerWeak.onTopGCPanelRight(obj)
 

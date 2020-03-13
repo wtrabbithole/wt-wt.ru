@@ -1,5 +1,6 @@
 local slotbarWidget = require("scripts/slotbar/slotbarWidgetByVehiclesGroups.nut")
 local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 
 ::gui_start_selecting_crew <- function gui_start_selecting_crew(config)
 {

@@ -26,8 +26,8 @@ local function tabCtor(tab, is_current, handler) {
     return {
       key = tab
       rendObj = ROBJ_BOX
-      halign = HALIGN_CENTER
-      valign = VALIGN_MIDDLE
+      halign = ALIGN_CENTER
+      valign = ALIGN_CENTER
       size = [ SIZE_TO_CONTENT, ::fpx(30) + 2 * (::dp() + ::fpx(3))]
       watch = stateFlags
       group = grp

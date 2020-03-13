@@ -100,6 +100,16 @@
             }
           },
           {
+            "textareaNoTab": {
+              "id": "not_recrute_crew_warning",
+              "display": "hide",
+              "pos": "50%pw-50%w, 0",
+              "position": "relative",
+              "text": "#mainmenu/needRecruitCrewWarning",
+              "overlayTextColor": "bad"
+            }
+          },
+          {
             "tdiv": {
               "id": "crew_points_advice_block",
               "height": "@cIco",
@@ -263,7 +273,26 @@
                 "btnName": "A",
                 "_on_click": "onSelect",
                 "visualStyle": "secondary",
+                "display": "hide",
+                "enable": "no",
                 "buttonWink": [],
+                "ButtonImg": []
+              }
+            },
+            {
+              "Button_text": {
+                "id": "btn_recruit",
+                "text": "#shop/recruitCrew",
+                "btnName": "A",
+                "on_click": "onRecruitCrew",
+                "visualStyle": "secondary",
+                "display": "hide",
+                "enable": "no",
+                "buttonWink": [],
+                "textarea": {
+                  "id": "btn_recruit_text",
+                  "class": "buttonText"
+                },
                 "ButtonImg": []
               }
             }
@@ -761,7 +790,7 @@
                               "id": "gc_eagles",
                               "isColoredImg": "yes",
                               "tooltip": "#mainmenu/gold",
-                              "_on_click": "onOnlineShopEaglesMsg",
+                              "_on_click": "onOnlineShopEagles",
                               "img": {
                                 "isFirstLeft": "yes",
                                 "background-image": "#ui/gameuiskin#shop_warpoints_premium"

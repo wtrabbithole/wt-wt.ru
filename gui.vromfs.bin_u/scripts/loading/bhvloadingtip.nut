@@ -38,7 +38,15 @@
 
     function updateTip(obj)
     {
-      obj.setValue(::g_tips.getTip(getUnitTypeMask(obj)))
+      obj.getScene().performDelayed(this, function()
+        {
+          if (!obj.isValid())
+            return
+
+          local textObj = obj.findObject("tip_hint")
+          if (::check_obj(textObj))
+            textObj.setValue(::g_tips.getTip(getUnitTypeMask(obj)))
+        })
     }
   }
 

@@ -372,8 +372,8 @@ toolbar {
   background-image:#ui/skin#toolbar;
 }
 
-text, optiontext, optionValueText, header, optionheader, activeText,
-widthText, titleWidthText, textButtonHint
+text, optiontext, optionValueText, header,
+optionheader, activeText, textButtonHint
 {
   re-type:text;
   color:@commonTextColor;
@@ -642,14 +642,16 @@ discount[text=""], discount_notification[showDiscount=no], bonus[background-imag
   display:hide;
 }
 
-subtitles, subtitles_slow {
+subtitles {
   font:@fontNormal;
   behaviour:textarea;
   re-type:textarea;
   color:@white;
   wrap-indent:0;
   paragraph-indent:0;
+}
 
+subtitles, subtitlesHint {
   background-color:@transparent;
   tabStop:no;
   margin:2*@sf/@pf_outdated, 0;
@@ -661,12 +663,8 @@ subtitles, subtitles_slow {
   transp-func:square;
 }
 
-subtitles[animShow=show] {
+subtitles[animShow=show], subtitlesHint[animShow=show] {
   transp-time:300;
-}
-
-subtitles_slow[animShow=show] {
-  transp-time:2000;
 }
 
 activeText {
@@ -713,17 +711,7 @@ activeText[changeColor=inQueue] {
   color:@inQueueTextColor;
 }
 
-widthText, titleWidthText {
-  min-width:pw-0.02*@scrn_tgt;
-  height:0.035*@scrn_tgt;
-  text-align:left;
-  position:relative;
-
-  auto-scroll:slow;
-}
-
-widthDiv[text-align=right] widthText, widthDiv[text-align=right] titleWidthText,
-widthDiv[text-align=right] activeText, activeText[talign=right], text[talign=right],
+activeText[talign=right], text[talign=right],
 notificationText[talign=right], textareaNoTab[talign=right] {
   text-align:right;
 }
@@ -731,29 +719,6 @@ notificationText[talign=right], textareaNoTab[talign=right] {
 text[talign=left], activeText[talign=left] {
   text-align:left;
   padding:0, 0, 0, 0;
-}
-
-titleWidthText {
-  font:@fontMedium;
-  pos:0,0.03*@scrn_tgt;
-  min-width:pw-0.01*@scrn_tgt;
-}
-
-widthText[text=""], titleWidthText[text=""] {
-  display:hide;
-}
-
-widthDiv {
-  flow:vertical;
-  overflow:hidden;
-}
-
-widthLine {
-  size:pw, 1;
-  margin-top:-0.01*@scrn_tgt;
-  pos:0,-0.005*@scrn_tgt;
-  position:relative;
-  background-color:@tableBorderColor;
 }
 
 [textStyle=mis-descr] > text {
@@ -1347,12 +1312,10 @@ tr[selected=yes] > td > text, tr[selected=yes] activeText
 
 }
 
-[team=red] activeText, [team=red] widthText, [team=red] titleWidthText,
-[team=red] textareaNoTab {
+[team=red] activeText, [team=red] textareaNoTab {
   color:@teamRedColor;
 }
-[team=blue] activeText, [team=blue] widthText, [team=blue] titleWidthText,
-[team=blue] textareaNoTab {
+[team=blue] activeText, [team=blue] textareaNoTab {
   color:@teamBlueColor;
 }
 
@@ -1630,13 +1593,13 @@ textareaNoTab.highlightButton:pushed {
 @import "profile/unlockItem.css"
 @import "actionsList/actionsList.css"
 @import "gameModeSelect/gameModeSelect.css"
+@import "wheelMenu/wheelmenu.css"
 @import "hud/hud.css"
 @import "hud/actionBar.css"
 @import "spectator.css"
 @import "debriefing/debriefing.css"
 @import "wndWidgets/navigationPanel.css"
 @import "hud/tankState.css"
-@import "wheelMenu/wheelmenu.css"
 @import "contacts/contacts.css"
 @import "items/items.css"
 @import "convertExp\convertExp.css"
@@ -2252,6 +2215,10 @@ text[overlayTextColor=usageRating4] {
   color:@usageRatingColor4;
 }
 
+text[overlayTextColor=bad] {
+  color:@badTextColorDark;
+}
+
 [overlayTextColor=premium] activeText,
 activeText[overlayTextColor=premium] {
   color:@userlogColoredText;
@@ -2263,6 +2230,10 @@ activeText[overlayTextColor=premiumNotEarned] {
 
 textareaNoTab[overlayTextColor=hotkey] {
   color:@hotkeyColor;
+}
+
+textarea[overlayTextColor=psplus] {
+  color:@psplusTextColor;
 }
 
 text.decalsTitle {

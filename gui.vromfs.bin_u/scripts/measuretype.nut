@@ -151,7 +151,7 @@ enums.addTypesByGlobalName("g_measure_type", {
 
   THRUST_KGF = {
     name = "kgf"
-    presize = 0.1
+    presize = 10
   }
 
   HORSEPOWERS = {

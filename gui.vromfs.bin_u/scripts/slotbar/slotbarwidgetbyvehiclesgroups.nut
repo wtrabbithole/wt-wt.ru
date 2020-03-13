@@ -1,9 +1,11 @@
 local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+local selectGroupHandler = require("scripts/slotbar/selectGroupHandler.nut")
 
 local handlerClass = class extends ::gui_handlers.SlotbarWidget
 {
   unitsGroupsByCountry = null
   countryPresets = null
+  emptyText = "#mainmenu/changeUnitsGroup"
 
   function validateParams()
   {
@@ -61,7 +63,7 @@ local handlerClass = class extends ::gui_handlers.SlotbarWidget
           crew = crew,
           unit = unit,
           status = status,
-          isSelectable = true
+          isSelectable = unit != null || groupsList == null
           isVisualDisabled = isVisualDisabled
           isLocalState = false
         })
@@ -89,13 +91,9 @@ local handlerClass = class extends ::gui_handlers.SlotbarWidget
     local groupsList = unitsGroupsByCountry?[country].groups
     local unit = getCrewUnit(crew)
     if (unit || groupsList == null)
-    {
-      ::set_show_aircraft(unit)
-      //need to send event when crew in country not changed, because main unit changed.
-      ::select_crew(curSlotCountryId, curSlotIdInCountry, true)
-    }
+      setCrewUnit(unit)
     else if (needActionsWithEmptyCrews)
-      onSlotChangeAircraft()
+      onSlotChangeGroup()
 
     if (hasActions)
     {
@@ -111,6 +109,7 @@ local handlerClass = class extends ::gui_handlers.SlotbarWidget
     country = country
     idCountry = idCountry
     idInCountry = idInCountry
+    id = -1
   }
 
   function getCurSlotUnit()
@@ -142,6 +141,32 @@ local handlerClass = class extends ::gui_handlers.SlotbarWidget
   }
 
   getParamsForActionsList = @() { hasSlotbarByUnitsGroups = true }
+  function onSlotChangeGroup()
+  {
+    local crew = getCurCrew()
+    if (!crew)
+      return
+
+    local slotbar = this
+    ignoreCheckSlotbar = true
+    checkedCrewAirChange(function() {
+        ignoreCheckSlotbar = false
+        selectGroupHandler.open(crew, slotbar)
+      },
+      function() {
+        ignoreCheckSlotbar = false
+        checkSlotbar()
+      }
+    )
+  }
+
+  getCrewDataParams = @(crewData) {
+    bottomLineText = ::loc(
+      slotbarPresets.getVehiclesGroupByUnit(
+        crewData.unit, unitsGroupsByCountry?[crewData?.crew.country ?? ""])?.name ?? "")
+  }
+
+  getDefaultDblClickFunc = @() @(crew) null
 }
 
 ::gui_handlers.slotbarWidgetByVehiclesGroups <- handlerClass

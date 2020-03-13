@@ -106,6 +106,11 @@ return [
     checkGroup = ctrlGroups.TANK
     checkAssign = false
   }
+  {
+    id = "ID_TOGGLE_GM_ENGINE"
+    checkGroup = ctrlGroups.TANK
+    checkAssign = false
+  }
 //-------------------------------------------------------
   {
     id = "ID_TANK_FIRE_HEADER"
@@ -190,19 +195,16 @@ return [
     id = "ID_SENSOR_MODE_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
-    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_SCAN_PATTERN_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
-    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_RANGE_SWITCH_TANK"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
-    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_TARGET_SWITCH_TANK"
@@ -290,7 +292,6 @@ return [
     id = "invert_y_tank"
     type = CONTROL_TYPE.SWITCH_BOX
     optionType = ::USEROPT_INVERTY_TANK
-    onChangeValue = "doControlsGroupChangeDelayed"
   }
   {
     id = "gm_mouse_aim_x"
@@ -496,11 +497,6 @@ return [
     type = CONTROL_TYPE.AXIS
     def_relative = true
     isAbsOnlyWhenRealAxis = true
-    checkGroup = ctrlGroups.TANK
-    checkAssign = false
-  }
-  {
-    id = "ID_TOGGLE_GM_ENGINE"
     checkGroup = ctrlGroups.TANK
     checkAssign = false
   }

@@ -6,5 +6,8 @@ return {
   isShip       = @() hudState.unitType.value == "ship"
   isSubmarine  = @() hudState.unitType.value == "shipEx"
   isHelicopter = @() hudState.unitType.value == "helicopter"
-  isUfo        = @() hudState.unitType.value == "ufo"
+  //
+
+
+
 }

@@ -4,6 +4,8 @@ local stdMath = require("std/math.nut")
   types = []
 }
 
+const MIN_CREW_COUNT_FOR_WARNING = 2
+
 g_hud_crew_member._setCrewMemberState <- function _setCrewMemberState(crewIconObj, newStateData)
 {
   if (!("state" in newStateData))
@@ -86,9 +88,10 @@ enums.addTypesByGlobalName("g_hud_crew_member", {
         iconObj.show(true)
 
       local text = newStateData.current.tostring()
-      if (newStateData.current <= 2 && newStateData.total > 2)
-        text = ::colorize("badTextColorDark", text)
-      iconObj.findObject("crew_count_text").setValue(text)
+      local textObj = iconObj.findObject("crew_count_text")
+      textObj.setValue(text)
+      textObj.overlayTextColor = newStateData.current <= MIN_CREW_COUNT_FOR_WARNING
+        && newStateData.total > MIN_CREW_COUNT_FOR_WARNING ? "bad" : ""
     }
   }
 })

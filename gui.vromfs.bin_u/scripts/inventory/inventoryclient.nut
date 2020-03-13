@@ -233,7 +233,7 @@ local InventoryClient = class {
     {
       itemsBroken = ::g_string.implode(itemsBroken, ";")
       keysMissing = ::g_string.implode(keysMissing.keys(), ";")
-      keysWrongType = ";".join(keysWrongType.pairs().map(@(i) i[0] + "=" + i[1]))
+      keysWrongType = ";".join(keysWrongType.topairs().map(@(i) i[0] + "=" + i[1]))
       ::script_net_assert_once("inventory client bad response", $"InventoryClient: Response has errors: {name}")
     }
 
@@ -710,6 +710,7 @@ local InventoryClient = class {
   function onEventSignOut(p)
   {
     lastUpdateTime = -1
+    firstProfileLoadComplete = false
     prices.clear()
     items.clear()
   }

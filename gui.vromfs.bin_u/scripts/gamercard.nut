@@ -1,7 +1,8 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 
-::fill_gamer_card <- function fill_gamer_card(cfg = null, show = true, prefix = "gc_", scene = null, save_scene=true)
+::fill_gamer_card <- function fill_gamer_card(cfg = null, prefix = "gc_", scene = null, save_scene=true)
 {
   if (!::checkObj(scene))
   {
@@ -9,30 +10,30 @@ local platformModule = require("scripts/clientState/platform.nut")
     if (!scene)
       return
   }
-  local getObj = (@(scene) function(id) {
-    return scene.findObject(id)
-  })(scene)
+  local isGamercard = prefix == "gc_"
+  local isShowGamercard = ::g_login.isLoggedIn()
+  local div = ::showBtn("gamercard_div", isShowGamercard, scene)
+  local isValidGamercard = ::check_obj(div)
+  if (isGamercard && !isValidGamercard)
+    return
 
-  local div = getObj("gamercard_div")
-  if (::check_obj(div))
+  if (isValidGamercard)
     ::show_title_logo(true, div)
-  show = show && ::g_login.isLoggedIn()
-  if (::checkObj(div))
-    div.show(show)
 
-  if (scene && save_scene && prefix=="gc_" && ::checkObj(div))
+  if (scene && save_scene && isGamercard && isValidGamercard)
     ::add_gamercard_scene(scene)
 
-  if (!show)
+  if (!isShowGamercard)
     return
 
   if (!cfg)
     cfg = ::get_profile_info()
 
+  local getObj = @(id) scene.findObject(id)
   local showClanTag = false
   foreach(name, val in cfg)
   {
-    local obj = getObj(prefix+name)
+    local obj = getObj($"{prefix}{name}")
     if (::checkObj(obj))
       switch(name)
       {
@@ -43,26 +44,26 @@ local platformModule = require("scripts/clientState/platform.nut")
           local value = val.tointeger()
           if (value >= 0)
             obj.setValue(val.tointeger())
-          obj.show(value >= 0 && show)
+          obj.show(value >= 0)
           break
         case "prestige":
           if (val != null)
-            obj["background-image"] = "#ui/gameuiskin#prestige" + val
-          local titleObj = getObj(prefix + "prestige_title")
+            obj["background-image"] = $"#ui/gameuiskin#prestige{val}"
+          local titleObj = getObj($"{prefix}prestige_title")
           if (titleObj)
           {
             local prestigeTitle = (val > 0)
-                                  ? ::loc("rank/prestige" + val)
+                                  ? ::loc($"rank/prestige{val}")
                                   : ""
             titleObj.setValue(prestigeTitle)
           }
           break
         case "exp":
           local expTable = ::get_cur_exp_table("", cfg)
-          obj.setValue(expTable? (::g_language.decimalFormat(expTable.exp) + ::nbsp + "/" + ::nbsp +
-            ::g_language.decimalFormat(expTable.rankExp)) : "")
-          obj.tooltip = ::loc("ugm/total") + ::loc("ui/colon") +
-            ::g_language.decimalFormat(cfg.exp)
+          obj.setValue(expTable
+            ? ::nbsp.concat(::g_language.decimalFormat(expTable.exp), "/", ::g_language.decimalFormat(expTable.rankExp))
+            : "")
+          obj.tooltip = "".concat(::loc("ugm/total"), ::loc("ui/colon"), ::g_language.decimalFormat(cfg.exp))
           break
         case "clanTag":
           local isVisible = val != ""
@@ -70,7 +71,7 @@ local platformModule = require("scripts/clientState/platform.nut")
           if (isVisible)
           {
             local clanTagName = ::checkClanTagForDirtyWords(val.tostring())
-            local btnText = obj.findObject(prefix + name + "_name")
+            local btnText = obj.findObject($"{prefix}{name}_name")
             if (::check_obj(btnText))
               btnText.setValue(clanTagName)
             else
@@ -81,21 +82,16 @@ local platformModule = require("scripts/clientState/platform.nut")
           local moneyInst = ::Money(money_type.none, 0, val)
           local valStr = moneyInst.toStringWithParams({isGoldAlwaysShown = true})
 
-          local tooltipText = ::colorize("activeTextColor", valStr)
-          tooltipText += "\n" + ::loc("mainmenu/gold")
+          local tooltipText = "\n".concat(::colorize("activeTextColor", valStr), ::loc("mainmenu/gold"))
           obj.getParent().tooltip = tooltipText
 
           obj.setValue(moneyInst.toStringWithParams({isGoldAlwaysShown = true, needIcon = false}))
           break
         case "balance":
           local valStr = ::g_language.decimalFormat(val)
-          local tooltipText = ::getWpPriceText(::colorize("activeTextColor", valStr), true) + "\n" + ::loc("mainmenu/warpoints")
-          local bonus = ::get_current_bonuses_text(::BoosterEffectType.WP)
-          if (!::u.isEmpty(bonus))
-          {
-            local title = "\n\n<b>" + ::loc("mainmenu/bonusTitle") + ::loc("ui/colon") + "</b>"
-            tooltipText += title + "\n" + bonus
-          }
+          local tooltipText = "\n".concat(::getWpPriceText(::colorize("activeTextColor", valStr), true),
+            ::loc("mainmenu/warpoints"),
+            ::get_current_bonuses_text(::BoosterEffectType.WP))
 
           local buttonObj = obj.getParent()
           buttonObj.tooltip = tooltipText
@@ -106,13 +102,9 @@ local platformModule = require("scripts/clientState/platform.nut")
           break
         case "free_exp":
           local valStr = ::Balance(0,0,val).toStringWithParams({isFrpAlwaysShown = true})
-          local tooltipText = ::colorize("activeTextColor", valStr) + "\n" + ::loc("currency/freeResearchPoints/desc")
-          local bonus = ::get_current_bonuses_text(::BoosterEffectType.RP)
-          if (!::u.isEmpty(bonus))
-          {
-            local title = "\n\n<b>" + ::loc("mainmenu/bonusTitle") + ::loc("ui/colon") + "</b>"
-            tooltipText += title + "\n" + bonus
-          }
+          local tooltipText = "\n".concat(::colorize("activeTextColor", valStr),
+            ::loc("currency/freeResearchPoints/desc"),
+            ::get_current_bonuses_text(::BoosterEffectType.RP))
 
           obj.tooltip = tooltipText
           obj.showBonusCommon = ::have_active_bonuses_by_effect_type(::BoosterEffectType.RP, false)? "yes" : "no"
@@ -123,20 +115,21 @@ local platformModule = require("scripts/clientState/platform.nut")
             val = ::loc("mainmenu/pleaseSignIn")
           else
             val = platformModule.getPlayerName(val)
-        default:
+          // no break!
+        default: // warning disable: -missed-break
           if (val == null)
             val = ""
           obj.setValue(val.tostring())
       }
   }
 
-  if (prefix != "gc_")
-    return //not gamercard
+  if (!isGamercard)
+    return
 
   //checklogs
   if (::has_feature("UserLog"))
   {
-    local objBtn = getObj(prefix + "userlog_btn")
+    local objBtn = getObj($"{prefix}userlog_btn")
     if(::check_obj(objBtn))
     {
       local newLogsCount = ::check_new_user_logs().len()
@@ -150,14 +143,14 @@ local platformModule = require("scripts/clientState/platform.nut")
   //chat
   if (gchat_is_enabled() && ::has_feature("Chat"))
   {
-    local objBtn = getObj(prefix + "chat_btn")
+    local objBtn = getObj($"{prefix}chat_btn")
     if (::check_obj(objBtn))
     {
       local haveNew = ::g_chat.haveNewMessages()
       local tooltip = ::loc(haveNew ? "mainmenu/chat_new_messages" : "mainmenu/chat")
       ::update_gc_button(objBtn, haveNew, tooltip)
 
-      local newCountChatObj = objBtn.findObject(prefix + "new_chat_messages")
+      local newCountChatObj = objBtn.findObject($"{prefix}new_chat_messages")
       local newMessagesCount = ::g_chat.getNewMessagesCount()
       local newMessagesText = newMessagesCount ? newMessagesCount.tostring() : ""
       newCountChatObj.setValue(newMessagesText)
@@ -167,16 +160,16 @@ local platformModule = require("scripts/clientState/platform.nut")
   if (::has_feature("Friends"))
   {
     local friendsOnline = ::getFriendsOnlineNum()
-    local cObj = getObj(prefix + "contacts")
+    local cObj = getObj($"{prefix}contacts")
     if (::checkObj(cObj))
       cObj.tooltip = format(::loc("contacts/friends_online"), friendsOnline)
 
-    local fObj = getObj(prefix + "friends_online")
+    local fObj = getObj($"{prefix}friends_online")
     if (::checkObj(fObj))
       fObj.setValue(friendsOnline > 0? friendsOnline.tostring() : "")
   }
 
-  local totalText = ""
+  local totalText = []
   local premAccName = ::shop_get_premium_account_ent_name()
   foreach(name in ["PremiumAccount", "RateWeek"])
   {
@@ -188,11 +181,11 @@ local platformModule = require("scripts/clientState/platform.nut")
     local premPic = "#ui/gameuiskin#sub_premium_noactive"
     if (expire > 0)
     {
-      text = ::loc("charServer/entitlement/" + name) + ::loc("ui/colon") + time.getExpireText(expire)
-      totalText += ((totalText=="")? "":"\n") + text
+      text = ::loc("ui/colon").concat(::loc($"charServer/entitlement/{name}"), time.getExpireText(expire))
+      totalText.append(text)
       premPic = "#ui/gameuiskin#sub_premiumaccount"
     }
-    local obj = getObj(prefix+name)
+    local obj = getObj($"{prefix}{name}")
     if (obj && obj.isValid())
     {
       local icoObj = obj.findObject("gc_prempic")
@@ -201,14 +194,14 @@ local platformModule = require("scripts/clientState/platform.nut")
       obj.tooltip = text
     }
   }
-  if (totalText!="")
+  if (totalText.len() > 0)
   {
-    local name = prefix+"subscriptions"
+    local name = $"{prefix}subscriptions"
     local obj = getObj(name)
     if (obj && obj.isValid())
     {
       obj.show(true)
-      obj.tooltip = totalText
+      obj.tooltip = "\n".join(totalText)
     }
   }
 
@@ -254,7 +247,7 @@ local platformModule = require("scripts/clientState/platform.nut")
   local buttonsEnableTable = {
                                 gc_clanTag = showClanTag && is_in_menu
                                 gc_contacts = canHaveFriends
-                                gc_chat_btn = canChat && ::g_chat.isChatEnabled()
+                                gc_chat_btn = canChat && isChatEnabled()
                                 gc_free_exp = canSpendGold && is_in_menu
                                 gc_warpoints = canSpendGold && is_in_menu
                                 gc_eagles = canSpendGold && is_in_menu
@@ -280,14 +273,20 @@ local platformModule = require("scripts/clientState/platform.nut")
 ::update_gamercards <- function update_gamercards()
 {
   local info = ::get_profile_info()
+  local needUpdateGamerCard = false
   for(local idx=::last_gamercard_scenes.len()-1; idx>=0; idx--)
   {
     local s = ::last_gamercard_scenes[idx]
     if (!s || !s.isValid())
       ::last_gamercard_scenes.remove(idx)
-    else
-      ::fill_gamer_card(info, true, "gc_", s, false)
+    else if (s.isVisible()) {
+      needUpdateGamerCard = true
+      ::fill_gamer_card(info, "gc_", s, false)
+    }
   }
+  if (!needUpdateGamerCard)
+    return
+
   checkNewNotificationUserlogs()
   ::broadcastEvent("UpdateGamercard")
 }

@@ -121,7 +121,7 @@ shopItem {
       <</isLongPriceText>>
       text:t='<<priceText>>'
     }
-
+    <<^bottomLineText>>
     shopItemText {
       id:t='rank_text'
       text:t='<<unitRankText>>'
@@ -139,8 +139,28 @@ shopItem {
 
       text-align:t='right'
     }
-
+    <</bottomLineText>>
+    <<#bottomLineText>>
+    tdiv{
+      <<#isLongPriceText>>
+      width:t='0.4pw'
+      <</isLongPriceText>>
+      <<^isLongPriceText>>
+      width:t='pw-1@tableIcoSize-0.003@sf'
+      <</isLongPriceText>>
+      overflow:t='hidden'
+      shopItemText {
+        min-width:t='pw'
+        autoScrollText:t='hoverOrSelect'
+        text:t='<<bottomLineText>>'
+        text-align:t='right'
+      }
+    }
+    <</bottomLineText>>
     classIconPlace {
+      <<#bottomLineText>>
+      margin-top:t='0.003@sf'
+      <</bottomLineText>>
       classIcon {
         text:t='<<unitClassIcon>>'
         shopItemType:t='<<shopItemType>>'

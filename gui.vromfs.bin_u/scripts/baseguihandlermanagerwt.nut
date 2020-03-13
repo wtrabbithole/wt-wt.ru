@@ -301,13 +301,17 @@ handlersManager.calcCurrentControlsAllowMask <- function calcCurrentControlsAllo
   foreach(group in handlers)
     foreach(h in group)
       if (isHandlerValid(h, true) && h.isSceneActive())
-        res = (res & getHandlerControlsAllowMask(h)) |
-          (CtrlsInGui.CTRL_WINDOWS_ALL & getHandlerControlsAllowMask(h))
+      {
+        local mask = getHandlerControlsAllowMask(h)
+        res = res & mask | (CtrlsInGui.CTRL_WINDOWS_ALL & (res | mask))
+      }
 
   foreach(name in ["menu_chat_handler", "contacts_handler", "game_chat_handler"])
     if (name in ::getroottable() && ::getroottable()[name])
-      res = res & ::getroottable()[name].getControlsAllowMask() |
-          (CtrlsInGui.CTRL_WINDOWS_ALL & ::getroottable()[name].getControlsAllowMask())
+    {
+      local mask = ::getroottable()[name].getControlsAllowMask()
+      res = res & mask | (CtrlsInGui.CTRL_WINDOWS_ALL & (res | mask))
+    }
 
   return res
 }

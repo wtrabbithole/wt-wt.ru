@@ -1,5 +1,6 @@
-local elemModelType = ::require("sqDagui/elemUpdater/elemModelType.nut")
-local elemViewType = ::require("sqDagui/elemUpdater/elemViewType.nut")
+local elemModelType = require("sqDagui/elemUpdater/elemModelType.nut")
+local elemViewType = require("sqDagui/elemUpdater/elemViewType.nut")
+local { topMenuShopActive } = require("scripts/mainmenu/topMenuStates.nut")
 
 
 elemModelType.addTypes({
@@ -21,7 +22,7 @@ elemViewType.addTypes({
       local discountData = ::g_discount.generateDiscountInfo(
         ::g_discount.getUnitDiscountList(obj.countryId))
       local maxDiscount = discountData?.maxDiscount ?? 0
-      local isVisible = ::top_menu_shop_active && maxDiscount > 0
+      local isVisible = topMenuShopActive.value && maxDiscount > 0
       obj.show(isVisible)
       if (!isVisible)
         return

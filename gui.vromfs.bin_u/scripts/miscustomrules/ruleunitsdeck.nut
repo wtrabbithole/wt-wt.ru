@@ -89,9 +89,16 @@ class ::mission_rules.UnitsDeck extends ::mission_rules.Base
 
   function isUnitAvailableBySpawnScore(unit)
   {
-    return unit
-      && getUnitLeftRespawns(unit) == 0
-      && getUnitLeftRespawnsByTeamDataBlk(unit, getMyTeamDataBlk()) != 0
+    if (!unit)
+      return false
+
+    local missionUnit = unit
+    local missionUnitName = getMyStateBlk()?.userUnitToUnitGroup[unit.name] ?? ""
+    if (missionUnitName != "")
+      missionUnit = ::getAircraftByName(missionUnitName)
+
+    return getUnitLeftRespawns(unit) == 0
+      && getUnitLeftRespawnsByTeamDataBlk(missionUnit, getMyTeamDataBlk()) != 0
       && isScoreRespawnEnabled
       && unit.getSpawnScore() > 0
   }

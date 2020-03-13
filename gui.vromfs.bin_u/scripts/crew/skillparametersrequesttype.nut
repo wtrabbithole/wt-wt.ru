@@ -1,18 +1,22 @@
-local enums = ::require("sqStdlibs/helpers/enums.nut")
+local enums = require("sqStdlibs/helpers/enums.nut")
+local { calc_crew_parameters } = require_native("unitCalculcation")
+local { getMaxSkillValue } = require("scripts/crew/crewSkills.nut")
+
+
 ::g_skill_parameters_request_type <- {
   types = []
 }
 
-g_skill_parameters_request_type._getParameters <- function _getParameters(crewId)
+g_skill_parameters_request_type._getParameters <- function _getParameters(crewId, unit)
 {
   local cacheUid = getCachePrefix() + "Current"
-  local res = ::g_crew_short_cache.getData(crewId, cacheUid)
+  local res = ::g_crew_short_cache.getData(crewId, unit, cacheUid)
   if (res)
     return res
 
   local values = getValues()
-  res = ::calc_crew_parameters(crewId, values)
-  ::g_crew_short_cache.setData(crewId, cacheUid, res)
+  res = calc_crew_parameters(crewId, values, unit.name)
+  ::g_crew_short_cache.setData(crewId, unit, cacheUid,  res)
   return res
 }
 
@@ -21,10 +25,10 @@ g_skill_parameters_request_type._getValues <- function _getValues()
   return {}
 }
 
-g_skill_parameters_request_type._getSelectedParameters <- function _getSelectedParameters(crewId)
+g_skill_parameters_request_type._getSelectedParameters <- function _getSelectedParameters(crewId, unit)
 {
   local cacheUid = getCachePrefix() + "Selected"
-  local res = ::g_crew_short_cache.getData(crewId, cacheUid)
+  local res = ::g_crew_short_cache.getData(crewId, unit, cacheUid)
   if (res)
     return res
 
@@ -45,8 +49,8 @@ g_skill_parameters_request_type._getSelectedParameters <- function _getSelectedP
         values[valueMemberName][valueSkillName] <- skillData.newValue
     }
   }
-  res = ::calc_crew_parameters(crewId, values)
-  ::g_crew_short_cache.setData(crewId, cacheUid, res)
+  res = calc_crew_parameters(crewId, values, unit.name)
+  ::g_crew_short_cache.setData(crewId, unit, cacheUid, res)
   return res
 }
 
@@ -85,7 +89,7 @@ enums.addTypesByGlobalName("g_skill_parameters_request_type", {
           // Everything else is zero'ed.
           local value = 0
           if (valueMemberName == "gunner" && valueSkillName == "members")
-            value = ::g_crew_skills.getMaxSkillValue("gunner", "members")
+            value = getMaxSkillValue("gunner", "members")
           values[valueMemberName][valueSkillName] <- value
         }
       }
@@ -101,7 +105,7 @@ enums.addTypesByGlobalName("g_skill_parameters_request_type", {
         specialization = ::g_crew_spec_type.BASIC.code
 
         // This skill is same as leadership but related to aircraft unit type.
-        gunner = { members = ::g_crew_skills.getMaxSkillValue("gunner", "members") }
+        gunner = { members = getMaxSkillValue("gunner", "members") }
 
         // This skill affects only tank unit type.
         commander = { leadership = 0 }
@@ -117,7 +121,7 @@ enums.addTypesByGlobalName("g_skill_parameters_request_type", {
     {
       return {
         // This skill is same as leadership but related to aircraft unit type.
-        gunner = { members = ::g_crew_skills.getMaxSkillValue("gunner", "members") }
+        gunner = { members = getMaxSkillValue("gunner", "members") }
 
         // This skill affects only tank unit type.
         commander = { leadership = 0 }
@@ -142,7 +146,7 @@ enums.addTypesByGlobalName("g_skill_parameters_request_type", {
         values[valueMemberName] <- {}
         foreach (valueSkillName, skillBlk in memberBlk)
         {
-          local value = ::g_crew_skills.getMaxSkillValue(valueMemberName, valueSkillName)
+          local value = getMaxSkillValue(valueMemberName, valueSkillName)
           values[valueMemberName][valueSkillName] <- value
         }
       }

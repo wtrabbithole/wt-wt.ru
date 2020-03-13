@@ -1,3 +1,6 @@
+local { getRoleText } = require("scripts/unit/unitInfoTexts.nut")
+local { getWeaponInfoText } = require("scripts/weaponry/weaponryVisual.nut")
+
 class ::WwUnit
 {
   name  = ""
@@ -8,7 +11,6 @@ class ::WwUnit
   weaponCount = 0
 
   wwUnitType = null
-  role = ""
   expClass = ""
   stengthGroupExpClass = ""
   isForceControlledByAI = false
@@ -21,7 +23,6 @@ class ::WwUnit
     name = blk.getBlockName() || ::getTblValue("name", blk, "")
     unit = ::getAircraftByName(name)
 
-    role = ::g_world_war.getUnitRole(name)
     wwUnitType = ::g_ww_unit_type.getUnitTypeByWwUnit(this)
     expClass = wwUnitType.expClass || (unit? unit.expClass.name : "")
     stengthGroupExpClass = ::getTblValue(expClass, ::strength_unit_expclass_group, expClass)
@@ -83,7 +84,7 @@ class ::WwUnit
   {
     local presetData = ::getWeaponTypeIcoByWeapon(name, addPreset ? weaponPreset : "")
     local presetText = !addPreset || weaponPreset == "" ? "" :
-      ::getWeaponInfoText(unit,
+      getWeaponInfoText(unit,
         { isPrimary = false, weaponPreset = weaponPreset, detail = INFO_DETAIL.SHORT, needTextWhenNoWeapons = false })
 
     local nameText = getName()
@@ -149,12 +150,12 @@ class ::WwUnit
 
   function getUnitTypeText()
   {
-    return ::get_role_text(expClass)
+    return getRoleText(expClass)
   }
 
   function getUnitStrengthGroupTypeText()
   {
-    return ::get_role_text(stengthGroupExpClass)
+    return getRoleText(stengthGroupExpClass)
   }
 
   function getWwUnitClassIco()

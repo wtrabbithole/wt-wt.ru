@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 
 class ::queue_classes.Base

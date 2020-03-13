@@ -25,7 +25,7 @@ local hudLog = function (params) {
     {
       scrollHandler = logComponent.scrollHandler
       barStyle = @(has_scroll) scrollbar.styling.Bar(has_scroll && hudState.cursorVisible.value)
-      scrollAlign = HALIGN_LEFT
+      scrollAlign = ALIGN_LEFT
     }
   )
 
@@ -59,7 +59,7 @@ local hudLog = function (params) {
     watch = visibleState
     clipChildren = true
     opacity = visibleState.value ? 1.0 : 0.0
-    valign = VALIGN_BOTTOM
+    valign = ALIGN_BOTTOM
     color = colors.hud.hudLogBgColor
 
     children = content

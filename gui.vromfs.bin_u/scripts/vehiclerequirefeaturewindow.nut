@@ -1,3 +1,5 @@
+local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
+
 class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
@@ -86,12 +88,12 @@ class ::gui_handlers.VehicleRequireFeatureWindow extends ::gui_handlers.BaseGuiH
     local view = []
     foreach (i, purchase in purchasesList)
     {
-      local entitlementItem = ::get_entitlement_config(purchase.sourceEntitlement)
+      local entitlementItem = getEntitlementConfig(purchase.sourceEntitlement)
       local entitlementPrice = getEntitlementPrice(entitlementItem)
       view.append({
         rowEven = i % 2 == 1
         externalLink = true
-        entitlementName = ::get_entitlement_name(entitlementItem)
+        entitlementName = getEntitlementName(entitlementItem)
         entitlementCost = entitlementPrice
         entitlementCostShow = entitlementPrice != ""
         entitlementId = purchase.sourceEntitlement

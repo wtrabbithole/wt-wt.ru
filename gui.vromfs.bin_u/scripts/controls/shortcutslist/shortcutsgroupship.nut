@@ -76,11 +76,6 @@ return [
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
   }
-  {
-    id = "ID_SINGLE_SHOT_SHIP"
-    checkGroup = ctrlGroups.SHIP
-    checkAssign = false
-  }
 //-------------------------------------------------------
   {
     id = "ID_SHIP_FIRE_HEADER"
@@ -125,6 +120,16 @@ return [
     checkAssign = false
     showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_WHEEL_CONTROL_SHIP, false)
     needShowInHelp = true
+  }
+  {
+    id = "ID_SINGLE_SHOT_SHIP"
+    checkGroup = ctrlGroups.SHIP
+    checkAssign = false
+  }
+  {
+    id = "singleShotByTurret"
+    type = CONTROL_TYPE.SWITCH_BOX
+    optionType = ::USEROPT_SINGLE_SHOT_BY_TURRET
   }
   {
     id = "ID_SHIP_WEAPON_TORPEDOES"
@@ -223,6 +228,7 @@ return [
     id = "ID_SENSOR_SWITCH_SHIP"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
 /*
   {
@@ -245,11 +251,13 @@ return [
     id = "ID_SENSOR_TARGET_SWITCH_SHIP"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_TARGET_LOCK_SHIP"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+    needShowInHelp = true
   }
   {
     id = "ship_zoom"

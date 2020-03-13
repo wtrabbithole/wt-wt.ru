@@ -1,3 +1,6 @@
+local { getRoleText, getUnitRoleIcon } = require("scripts/unit/unitInfoTexts.nut")
+local { getUnitClassTypeByExpClass } = require("scripts/unit/unitClassType.nut")
+
 ::g_unit_limit_classes <- {
 }
 
@@ -67,8 +70,8 @@ class ::g_unit_limit_classes.LimitByUnitRole extends ::g_unit_limit_classes.Limi
 {
   function getText()
   {
-    local fontIcon = ::colorize("activeTextColor", ::get_unit_role_icon(name))
-    return fontIcon + ::get_role_text(name) + ::loc("ui/colon") + ::colorize("activeTextColor", getRespawnsLeftText())
+    local fontIcon = ::colorize("activeTextColor", getUnitRoleIcon(name))
+    return fontIcon + getRoleText(name) + ::loc("ui/colon") + ::colorize("activeTextColor", getRespawnsLeftText())
   }
 }
 
@@ -76,7 +79,7 @@ class ::g_unit_limit_classes.LimitByUnitExpClass extends ::g_unit_limit_classes.
 {
   function getText()
   {
-    local expClassType = ::g_unit_class_type.getTypeByExpClass(name)
+    local expClassType = getUnitClassTypeByExpClass(name)
     local fontIcon = ::colorize("activeTextColor", expClassType.getFontIcon())
     return fontIcon + expClassType.getName() + ::loc("ui/colon") + ::colorize("activeTextColor", getRespawnsLeftText())
   }
@@ -86,7 +89,7 @@ class ::g_unit_limit_classes.ActiveLimitByUnitExpClass extends ::g_unit_limit_cl
 {
   function getText()
   {
-    local expClassType = ::g_unit_class_type.getTypeByExpClass(name)
+    local expClassType = getUnitClassTypeByExpClass(name)
     local fontIcon = ::colorize("activeTextColor", expClassType.getFontIcon())
     local amountText = ""
     if (distributed == ::RESPAWNS_UNLIMITED || respawnsLeft == ::RESPAWNS_UNLIMITED)

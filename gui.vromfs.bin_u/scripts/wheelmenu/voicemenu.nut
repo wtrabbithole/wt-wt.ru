@@ -1,3 +1,5 @@
+local { getVoiceMessageNames, getCategoryLoc } = require("scripts/voiceMessages.nut")
+
 ::gui_start_voicemenu <- function gui_start_voicemenu(config)
 {
   if (::isPlayerDedicatedSpectator())
@@ -5,7 +7,7 @@
 
   local joyParams = ::joystick_get_cur_settings()
   local params = {
-    menu         = ::getTblValue("menu", config, {})
+    menu         = config?.menu ?? []
     callbackFunc = ::getTblValue("callbackFunc", config)
     squadMsg     = ::getTblValue("squadMsg", config, false)
     category     = ::getTblValue("category", config, "")
@@ -57,7 +59,7 @@ class ::gui_handlers.voiceMenuHandler extends ::gui_handlers.wheelMenuHandler
       local text = ::loc(squadMsg ? "hotkeys/ID_SHOW_VOICE_MESSAGE_LIST_SQUAD" : "hotkeys/ID_SHOW_VOICE_MESSAGE_LIST")
         + ::loc("ui/colon")
       if (category != "")
-        text += ::get_category_loc(category)
+        text += getCategoryLoc(category)
 
       objTitle.chatMode = getChatMode()
       objTitle.setValue(text)
@@ -92,11 +94,11 @@ class ::gui_handlers.voiceMenuHandler extends ::gui_handlers.wheelMenuHandler
 
       local cells = [
         {id = "name", textType = "text", textRawParam = textRawParam,
-         text = ::format(::loc(::voice_message_names[messageIndex].name + "_0"),
+         text = ::format(::loc(getVoiceMessageNames()[messageIndex].name + "_0"),
                          ::loc("voice_message_target_placeholder"))}
       ]
 
-      local shortcutInputs = shortcutType.getInputs(fastShortcutId)
+      local shortcutInputs = shortcutType.getInputs({ shortcutId = fastShortcutId})
       local shortcutInput = null
       foreach(idx, input in shortcutInputs)
       {

@@ -32,6 +32,7 @@ local optionsListModule = require("scripts/options/optionsList.nut")
   local handler = ::handlersManager.loadHandler(::gui_handlers.GroupOptionsModal, params)
 
   ::showBtn("btn_postfx_settings", !::is_compatibility_mode(), handler.scene)
+  ::showBtn("btn_hdr_settings", ::is_hdr_enabled(), handler.scene)
 
   if (isInFlight && "WebUI" in getroottable())
     ::showBtn("web_ui_button", ::is_platform_pc && ::WebUI.get_port() != 0, handler.scene)

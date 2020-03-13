@@ -27,8 +27,8 @@ local Root = function() {
     color = greenColor
   })
   return {
-    halign = HALIGN_LEFT
-    valign = VALIGN_TOP
+    halign = ALIGN_LEFT
+    valign = ALIGN_TOP
     size = [sw(100), sh(100)]
     children = [
       radarComponent.radar(false)

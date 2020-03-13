@@ -1,3 +1,5 @@
+local { getLastWeapon, setLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+
 class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
@@ -378,7 +380,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getCurWeapon()
   {
     local defWeapon = null
-    local weaponName = ::get_last_weapon(unit.name)
+    local weaponName = getLastWeapon(unit.name)
     foreach(weapon in unit.weapons)
     {
       local found = weapon.name == weaponName
@@ -397,7 +399,7 @@ class ::gui_handlers.unitWeaponsHandler extends ::gui_handlers.BaseGuiHandlerWT
         defWeapon = weapon
     }
     if (defWeapon) //validate selected weapon
-      ::set_last_weapon(unit.name, defWeapon.name)
+      setLastWeapon(unit.name, defWeapon.name)
     return defWeapon
   }
 

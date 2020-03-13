@@ -1,4 +1,5 @@
-local enums = ::require("sqStdlibs/helpers/enums.nut")
+local enums = require("sqStdlibs/helpers/enums.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 
 local fakeInfantryUnitName = "fake_infantry"
 const ALL_WW_UNITS_CODE = -2
@@ -28,7 +29,7 @@ local WW_TRANSPORT_CODE = -3
 
   getUnitName = @(name) ::getUnitName(name)
   getUnitClassIcon = @(unit) ::getUnitClassIco(unit)
-  getUnitRole = @(unit) ::get_unit_role(unit)
+  getUnitRole = @(unit) getUnitRole(unit)
 }
 
 enums.addTypesByGlobalName("g_ww_unit_type", {

@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 
 class WwMap
 {
@@ -12,7 +13,7 @@ class WwMap
     name = _name
   }
 
-  function tostring()
+  function _tostring()
   {
     return "WwMap(" + name + ", " + ::toString(data) + ")"
   }
@@ -202,7 +203,7 @@ class WwMap
         wwUnitsList.append({
           name         = ::loc(group.name)
           icon         = ::getUnitClassIco(defaultUnit)
-          shopItemType = ::get_unit_role(defaultUnit)
+          shopItemType = getUnitRole(defaultUnit)
         })
 
         local wwUnits = wwActionsWithUnitsList.loadWWUnitsFromUnitsArray(group.units)
@@ -354,6 +355,7 @@ class WwMap
         local defaultUnit = ::getAircraftByName(groupBlk.defaultUnit)
         defaultUnitsList[groupId] <- defaultUnit
         countryGroups[groupId] <- {
+          id = groupId
           name = groupBlk.name
           defaultUnit = defaultUnit
           units = units
@@ -368,5 +370,14 @@ class WwMap
 
     _cachedUnitsGroupsByCountry = groupsList
     return _cachedUnitsGroupsByCountry
+  }
+
+  function isClanQueueAvaliable()
+  {
+    local reasonData = ::WwQueue.getCantJoinAnyQueuesReasonData()
+    return ::has_feature("WorldWarClansQueue") &&
+           ::has_feature("Clans") &&
+           ::is_in_clan() && isActive() &&
+           (reasonData.canJoin || reasonData.hasRestrictClanRegister)
   }
 }

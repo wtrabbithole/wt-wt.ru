@@ -5,6 +5,7 @@ local controllerState = require_native("controllerState")
 
 
 local switch_damage = false
+local allow_cutting = false
 
 class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -56,21 +57,14 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
     initFocusArray()
 
     switch_damage = true //value is off by default it will be changed in AllowSimulation
+    allow_cutting = false
 
-    local handler = ::handlersManager.getActiveBaseHandler()
-    if (!handler)
-      return
+    local isSimulationEnabled = unit?.unitType.canShowVisualEffectInProtectionAnalysis() ?? false
+    local obj = showSceneBtn("switch_damage", isSimulationEnabled)
+    if (isSimulationEnabled)
+      onAllowSimulation(obj)
 
-    local obj = handler.scene.findObject("switch_damage")
-    if (::check_obj(obj))
-    {
-      obj.show(unit?.unitType.canShowVisualEffectInProtectionAnalysis() ?? false)
-      allowSimulation(obj)
-    }
-
-    obj = handler.scene.findObject("btn_repair")
-    if (::check_obj(obj))
-      obj.show(unit?.unitType.canShowVisualEffectInProtectionAnalysis() ?? false)
+    ::allowCuttingInHangar(false)
   }
 
   function onChangeOption(obj)
@@ -110,17 +104,29 @@ class ::gui_handlers.ProtectionAnalysis extends ::gui_handlers.BaseGuiHandlerWT
     base.goBack()
   }
 
-   function repair()
+   function onRepair()
   {
     ::repairUnit()
   }
 
-  function allowSimulation(sObj)
+  function onAllowSimulation(sObj)
   {
     if (::check_obj(sObj))
     {
       switch_damage = !switch_damage
       ::allowDamageSimulationInHangar(switch_damage)
+
+      showSceneBtn("switch_cut", switch_damage)
+      showSceneBtn("btn_repair", switch_damage)
+    }
+  }
+
+  function onAllowCutting(sObj)
+  {
+    if (::check_obj(sObj))
+    {
+      allow_cutting = !allow_cutting
+      ::allowCuttingInHangar(allow_cutting)
     }
   }
 

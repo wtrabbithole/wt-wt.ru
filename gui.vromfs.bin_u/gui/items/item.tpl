@@ -203,11 +203,36 @@ itemDiv {
 
     <<^isAllBought>>
     <<#price>>
-    textareaNoTab {
-      id:t='price'
-      pos:t='pw-w -1@itemPadding, ph -0.5@dIco -1@dp +1@itemPadding -h/2'
+    tdiv {
       position:t='absolute'
-      text:t='<<price>>'
+      left:t='-1@itemPadding'
+      top:t='ph -0.5@dIco -1@dp +1@itemPadding -h/2'
+      width:t='pw + 2@itemPadding'
+      height:t='1@dIco'
+      <<#needPriceFadeBG>>
+        background-color:t='@shadeBackgroundColor2'
+      <</needPriceFadeBG>>
+
+      tdiv {
+        pos:t='pw-w -2@itemPadding, 50%ph-50%h'
+        position:t='relative'
+        <<#havePsPlusDiscount>>
+          cardImg {
+            type:t='small'
+            background-image:t='#ui/gameuiskin#ps_plus.svg'
+            top:t='50%ph-50%h'
+            position:t='relative'
+            margin-right:t='0.005@scrn_tgt'
+          }
+        <</havePsPlusDiscount>>
+
+        textareaNoTab {
+          id:t='price'
+          text:t='<<price>>'
+          top:t='50%ph-50%h'
+          position:t='relative'
+        }
+      }
     }
     <</price>>
     <</isAllBought>>

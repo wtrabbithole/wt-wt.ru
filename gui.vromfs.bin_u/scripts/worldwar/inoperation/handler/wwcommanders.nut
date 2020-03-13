@@ -144,4 +144,11 @@ class ::gui_handlers.WwCommanders extends ::gui_handlers.BaseGuiHandlerWT
   {
     ::ww_update_popuped_armies_name([])
   }
+
+  function onEventWWArmyManagersInfoUpdated(p)
+  {
+    local view = getSceneTplView()
+    local data = ::handyman.renderCached(sceneTplName, view)
+    guiScene.replaceContentFromText(scene, data, data.len(), this)
+  }
 }

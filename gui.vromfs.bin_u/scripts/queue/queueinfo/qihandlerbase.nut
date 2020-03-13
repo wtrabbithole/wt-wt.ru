@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 
 class ::gui_handlers.QiHandlerBase extends ::gui_handlers.BaseGuiHandlerWT

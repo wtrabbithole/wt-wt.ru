@@ -1,3 +1,5 @@
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
+
 class ::gui_handlers.WwQueueInfo extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM

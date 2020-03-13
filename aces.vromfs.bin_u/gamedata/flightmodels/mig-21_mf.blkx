@@ -3,6 +3,9 @@
   "fmFile": "fm/mig-21_mf.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
   "harmonizationSuffix": "_tomoe",
+  "haveCCIPForRocket": true,
+  "haveCCIPForBombs": true,
+  "haveCCIPForGun": true,
   "gearSinkRangeLR": 0.157,
   "gearSinkRangeC": 0.308,
   "standardExhaustFxType": "jet_exhaust",
@@ -1085,20 +1088,12 @@
     },
     {
       "part": {
-        "name": "spar_l_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "cut": 1.0
-        }
+        "name": "spar_l_dm"
       }
     },
     {
       "part": {
-        "name": "spar_r_dm",
-        "onKill": {
-          "nothing": 0.0,
-          "cut": 1.0
-        }
+        "name": "spar_r_dm"
       }
     },
     {
@@ -2015,232 +2010,14 @@
       ]
     },
     {
-      "part": [
-        {
-          "name": "wing_l_dm"
-        },
-        {
-          "defaultEffectPart": "spar_l_dm"
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.1,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 20.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.2,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 30.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.4,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.8,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 70.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 10.0,
-            "cut": 0.0,
-            "nothing": 9.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
-            "cut": 0.0,
-            "nothing": 5.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "cut": 0.0,
-            "nothing": 3.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 0.0,
-            "nothing": 1.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 70.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        }
-      ]
+      "part": {
+        "name": "wing_l_dm"
+      }
     },
     {
-      "part": [
-        {
-          "name": "wing_r_dm"
-        },
-        {
-          "defaultEffectPart": "spar_r_dm"
-        },
-        {
-          "onHit": {
-            "damage": 10.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.1,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 20.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.2,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 30.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.4,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 50.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 0.8,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onHit": {
-            "damage": 70.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 10.0,
-            "cut": 0.0,
-            "nothing": 9.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 20.0,
-            "cut": 0.0,
-            "nothing": 5.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 30.0,
-            "cut": 0.0,
-            "nothing": 3.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 50.0,
-            "cut": 0.0,
-            "nothing": 1.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        },
-        {
-          "onKill": {
-            "damage": 70.0,
-            "cut": 0.0,
-            "part": {
-              "ratio": 1.0,
-              "canCut": true
-            }
-          }
-        }
-      ]
+      "part": {
+        "name": "wing_r_dm"
+      }
     },
     {
       "part": {
@@ -2581,7 +2358,7 @@
     "radiusSpeed": 2.0
   },
   "fireParams": {
-    "engineExtinguishFireSpeed": [620.0,660.0],
+    "engineExtinguishFireSpeed": [550.0,640.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0

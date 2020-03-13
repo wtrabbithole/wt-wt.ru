@@ -93,6 +93,35 @@ hintRow > timeBar textareaNoTab {
   font: @fontHudMedium;
 }
 
+loadingHint hintRow textareaNoTab,
+subtitlesHint hintRow textareaNoTab {
+  font: @fontNormal;
+  color:@activeTextColor;
+  shadeStyle:'';
+}
+
+loadingHint[commonTextColor=yes] hintRow textareaNoTab {
+  color:@commonMenuButtonColor;
+}
+
+loadingHint hintRow > combination > textareaNoTab,
+subtitlesHint hintRow > combination > textareaNoTab {
+  margin: 1@blockInterval,0;
+}
+
+loadingHint hintRow > gamepadButton,
+loadingHint hintRow > shortcutAxis,
+loadingHint hintRow > keyboardButton,
+loadingHint hintRow > combination,
+loadingHint hintRow > timeBar,
+subtitlesHint hintRow > gamepadButton,
+subtitlesHint hintRow > shortcutAxis,
+subtitlesHint hintRow > keyboardButton,
+subtitlesHint hintRow > combination,
+subtitlesHint hintRow > timeBar {
+  top: 0;
+}
+
 chatHint hintRow textareaNoTab {
   font: @fontSmall;
   max-width: p.p.p.p.w;

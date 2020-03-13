@@ -24,6 +24,8 @@ local compassOneElementWidth = compassHeight
 
 local getCompassStrikeWidth = @(oneElementWidth, step) 360.0 * oneElementWidth / step
 
+local modeNames = [ "hud/standby", "hud/search", "hud/acquisition", "hud/ACM", "hud/track", "hud/air_search", "hud/ground_search" ]
+
 local radarState = {
   IsRadarHudVisible = Watched(false)
   IsNoiseSignaVisible = Watched(false)
@@ -32,6 +34,7 @@ local radarState = {
 
   //radar 1
   IsRadarVisible = Watched(false)
+  RadarModeNameId = Watched(-1)
   Azimuth = Watched(0.0)
   Elevation = Watched(0.0)
   Distance = Watched(0.0)
@@ -42,6 +45,7 @@ local radarState = {
 
   //radar 2
   IsRadar2Visible = Watched(false)
+  Radar2ModeNameId = Watched(-1)
   Azimuth2 = Watched(0.0)
   Elevation2 = Watched(0.0)
   Distance2 = Watched(0.0)
@@ -122,6 +126,11 @@ local radarState = {
 
   selectedTargetBlinking = false
   selectedTargetSpeedBlinking = false
+
+  IsAamLaunchZoneVisible = Watched(false)
+  AamLaunchZoneDist    = Watched(0.0)
+  AamLaunchZoneDistMin = Watched(0.0)
+  AamLaunchZoneDistMax = Watched(0.0)
 }
 
 local getAzimuthRange = @() radarState.AzimuthMax.value - radarState.AzimuthMin.value
@@ -385,12 +394,14 @@ local B_ScopeSquareBackground = function(width, height) {
     local scanAzimuthMinRel = radarState.ScanAzimuthMin.value * azimuthRangeInv
     local scanAzimuthMaxRel = radarState.ScanAzimuthMax.value * azimuthRangeInv
 
-    local gridSecondaryCommands =
-    [
-      [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 25, 50 + scanAzimuthMaxRel * 100, 25],
-      [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 50, 50 + scanAzimuthMaxRel * 100, 50],
-      [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 75, 50 + scanAzimuthMaxRel * 100, 75]
-    ]
+    local gridSecondaryCommands = []
+
+    if (radarState.HasDistanceScale.value)
+      gridSecondaryCommands = [
+        [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 25, 50 + scanAzimuthMaxRel * 100, 25],
+        [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 50, 50 + scanAzimuthMaxRel * 100, 50],
+        [VECTOR_LINE, 50 + scanAzimuthMinRel * 100, 75, 50 + scanAzimuthMaxRel * 100, 75]
+      ]
 
     if (radarState.HasAzimuthScale.value)
     {
@@ -436,7 +447,7 @@ local B_ScopeSquareBackground = function(width, height) {
 
     local gridMain = {
       rendObj = ROBJ_VECTOR_CANVAS
-      size = [width, width]
+      size = [width, height]
       color = greenColorGrid
       lineWidth = hdpx(2) * LINE_WIDTH
       opacity = 0.7
@@ -459,7 +470,7 @@ local B_ScopeSquareBackground = function(width, height) {
       lineWidth = hdpx(1)
       color = greenColorGrid
       fillColor = Color(0, 0, 0, 0)
-      size = [width, width]
+      size = [width, height]
       opacity = 0.42
       commands = gridSecondaryCommands
     }
@@ -505,15 +516,15 @@ local function B_ScopeSquareTargetSectorComponent(width, valueWatched, distWatch
   local isTank = getAzimuthRange() > math.PI
   return @() style.lineForeground.__merge({
     size = SIZE_TO_CONTENT
-    children = getChildren()
+    children = isTank ? getChildren() : []
     watch = [valueWatched, distWatched, halfWidthWatched]
     transform = {
-      translate = [(isTank ? valueWatched.value : 0.5) * width, 0]
+      translate = [valueWatched.value * width, 0]
     }
   })
 }
 
-local B_ScopeSquareAzimuthComponent = function(width, height, valueWatched, distWatched, halfWidthWatched)
+local B_ScopeSquareAzimuthComponent = function(width, height, valueWatched, distWatched, halfWidthWatched, tanksOnly)
 {
   local getChildren = function() {
     if (distWatched && distWatched.value == 1.0 && halfWidthWatched && halfWidthWatched.value > 0)
@@ -544,13 +555,43 @@ local B_ScopeSquareAzimuthComponent = function(width, height, valueWatched, dist
     }
   }
 
+  local isTank = getAzimuthRange() > math.PI
   return @() style.lineForeground.__merge({
     size = SIZE_TO_CONTENT
-    children = getChildren()
+    children = !tanksOnly || isTank ? getChildren() : []
     watch = [valueWatched, distWatched, halfWidthWatched]
     transform = {
       translate = [valueWatched.value * width, 0]
     }
+  })
+}
+
+local B_ScopeSquareLaunchRangeComponent = function(width, height, aamLaunchZoneDist, aamLaunchZoneDistMin, aamLaunchZoneDistMax) {
+
+  local getChildren = function() {
+    local commands = [
+      [VECTOR_LINE, 80, (1.0 - aamLaunchZoneDist.value) * 100,    100, (1.0 - aamLaunchZoneDist.value)    * 100],
+      [VECTOR_LINE, 90, (1.0 - aamLaunchZoneDistMin.value) * 100, 100, (1.0 - aamLaunchZoneDistMin.value) * 100],
+      [VECTOR_LINE, 90, (1.0 - aamLaunchZoneDistMax.value) * 100, 100, (1.0 - aamLaunchZoneDistMax.value) * 100]
+    ]
+
+    local launchRange = {
+      rendObj = ROBJ_VECTOR_CANVAS
+      lineWidth = hdpx(4)
+      color = greenColorGrid
+      fillColor = Color(0, 0, 0, 0)
+      size = [width, height]
+      opacity = 0.42
+      commands = commands
+    }
+
+    return launchRange
+  }
+
+  return @() style.lineForeground.__merge({
+    size = SIZE_TO_CONTENT
+    children = getChildren()
+    watch = [ aamLaunchZoneDist, aamLaunchZoneDistMin, aamLaunchZoneDistMax]
   })
 }
 
@@ -820,6 +861,26 @@ local noiseSignal = function(size, pos1, pos2)
 
 local radToDeg = 180.0 / 3.14159
 
+local makeRadarModeText = function ()
+{
+  local text = ""
+  if (radarState.RadarModeNameId.value >= 0)
+    text += ::loc(modeNames[radarState.RadarModeNameId.value])
+  else if (radarState.IsRadarVisible.value)
+    text += radarState.Irst.value ? ::loc("hud/irst") : ::loc("hud/radarEmitting")
+  return text
+}
+
+local makeRadar2ModeText = function ()
+{
+  local text = ""
+  if (radarState.Radar2ModeNameId.value >= 0)
+    text += ::loc(modeNames[radarState.Radar2ModeNameId.value])
+  else if (radarState.IsRadar2Visible.value)
+    text += radarState.Irst.value ? ::loc("hud/irst") : ::loc("hud/radarEmitting")
+  return text
+}
+
 local B_ScopeSquareMarkers = function(radarWidth, radarHeight)
 {
   local offsetScaleFactor = 1.3
@@ -832,7 +893,7 @@ local B_ScopeSquareMarkers = function(radarWidth, radarHeight)
           rendObj = ROBJ_DTEXT
           size = SIZE_TO_CONTENT
           pos = [hdpx(4), hdpx(4)]
-          hplace = HALIGN_RIGHT
+          hplace = ALIGN_RIGHT
           watch = [ radarState.HasAzimuthScale, radarState.ScanAzimuthMin, radarState.ScanAzimuthMax,
                     radarState.ScanElevationMin, radarState.ScanElevationMax, radarState.ScanPatternsMax ]
           text = radarState.HasAzimuthScale.value && radarState.ScanAzimuthMax.value > radarState.ScanAzimuthMin.value ?
@@ -868,7 +929,7 @@ local B_ScopeSquareMarkers = function(radarWidth, radarHeight)
         children = @() style.lineForeground.__merge({
           rendObj = ROBJ_DTEXT
           pos = [-hdpx(4), hdpx(4)]
-          hplace = HALIGN_RIGHT
+          hplace = ALIGN_RIGHT
           watch = radarState.AzimuthMax
           text = math.floor(radarState.AzimuthMax.value * radToDeg + 0.5) + ::loc("measureUnits/deg")
         })
@@ -876,14 +937,19 @@ local B_ScopeSquareMarkers = function(radarWidth, radarHeight)
       style.lineForeground.__merge({
         rendObj = ROBJ_DTEXT
         size = SIZE_TO_CONTENT
-        pos = [radarWidth * 0.5 - hdpx(4), -hdpx(20)]
-        opacity = ((radarState.IsRadarVisible?.value ?? false) || (radarState.IsRadar2Visible?.value ?? false)) ? 100 : 0
-        text = radarState.Irst.value ? ::loc("hud/irst") : ::loc("hud/radarEmitting")
+        pos = [radarWidth * (0.5 - 0.15), -hdpx(20)]
+        text = makeRadarModeText()
+      })
+      style.lineForeground.__merge({
+        rendObj = ROBJ_DTEXT
+        size = SIZE_TO_CONTENT
+        pos = [radarWidth * (0.5 + 0.05), -hdpx(20)]
+        text = makeRadar2ModeText()
       })
       noiseSignal(
         [radarWidth * 0.06, radarWidth * 0.06],
-        [radarWidth * 0.5 - hdpx(34) - radarWidth * 0.06, -hdpx(25)],
-        [radarWidth * 0.5 + hdpx(20), -hdpx(25)])
+        [radarWidth * (0.5 - 0.30), -hdpx(25)],
+        [radarWidth * (0.5 + 0.20), -hdpx(25)])
     ]
   }
 }
@@ -893,7 +959,7 @@ local B_ScopeSquare = function(width, height) {
     local children = [
       B_ScopeSquareBackground(width, height),
       B_ScopeSquareTargetSectorComponent(width, radarState.TurretAzimuth, radarState.TargetRadarDist, radarState.TargetRadarAzimuthWidth, height, targetSectorColor),
-      B_ScopeSquareAzimuthComponent(width, height, radarState.TurretAzimuth, null, null),
+      B_ScopeSquareAzimuthComponent(width, height, radarState.TurretAzimuth, null, null, true),
       {
         size = [width, width]
         rendObj = ROBJ_RADAR_GROUND_REFLECTIONS
@@ -904,15 +970,20 @@ local B_ScopeSquare = function(width, height) {
       }
     ]
     if (radarState.IsRadarVisible.value)
-      children.append(B_ScopeSquareAzimuthComponent(width, height, radarState.Azimuth, radarState.Distance, radarState.AzimuthHalfWidth))
+      children.append(B_ScopeSquareAzimuthComponent(width, height, radarState.Azimuth, radarState.Distance, radarState.AzimuthHalfWidth, false))
     if (radarState.IsRadar2Visible.value)
-      children.append(B_ScopeSquareAzimuthComponent(width, height, radarState.Azimuth2, radarState.Distance2, radarState.AzimuthHalfWidth2))
+      children.append(B_ScopeSquareAzimuthComponent(width, height, radarState.Azimuth2, radarState.Distance2, radarState.AzimuthHalfWidth2, false))
+    if (radarState.IsAamLaunchZoneVisible.value && radarState.HasDistanceScale.value)
+      children.append(B_ScopeSquareLaunchRangeComponent(width, height, radarState.AamLaunchZoneDist,
+                                                        radarState.AamLaunchZoneDistMin, radarState.AamLaunchZoneDistMax))
     children.append(targetsComponent(width, height, createTargetOnRadarSquare))
     return children
   }
 
   return @() {
-    watch = [radarState.IsRadarVisible, radarState.IsRadar2Visible]
+    watch = [ radarState.IsRadarVisible, radarState.RadarModeNameId,
+              radarState.IsRadar2Visible, radarState.Radar2ModeNameId,
+              radarState.IsAamLaunchZoneVisible, radarState.HasDistanceScale]
     children = [
       {
         size = SIZE_TO_CONTENT
@@ -1037,6 +1108,42 @@ local B_ScopeAzimuthComponent = function(width, valueWatched, distWatched, halfW
     size = SIZE_TO_CONTENT
     children = getChildren()
   }
+}
+
+local rad2deg = 180.0 / math.PI
+
+local B_ScopeHalfLaunchRangeComponent = function(width, height, azimuthMin, azimuthMax, aamLaunchZoneDistMin, aamLaunchZoneDistMax) {
+
+  local getChildren = function() {
+
+    local scanAngleStart = azimuthMin.value - math.PI * 0.5
+    local scanAngleFinish = azimuthMax.value - math.PI * 0.5
+    local scanAngleStartDeg = scanAngleStart * rad2deg
+    local scanAngleFinishDeg = scanAngleFinish * rad2deg
+
+    local commands = [
+      [VECTOR_SECTOR, 50, 50, aamLaunchZoneDistMin.value * 50, aamLaunchZoneDistMin.value * 50, scanAngleStartDeg, scanAngleFinishDeg],
+      [VECTOR_SECTOR, 50, 50, aamLaunchZoneDistMax.value * 50, aamLaunchZoneDistMax.value * 50, scanAngleStartDeg, scanAngleFinishDeg]
+    ]
+
+    local launchRange = {
+      rendObj = ROBJ_VECTOR_CANVAS
+      lineWidth = hdpx(4)
+      color = greenColorGrid
+      fillColor = Color(0, 0, 0, 0)
+      size = [width, height]
+      opacity = 0.42
+      commands = commands
+    }
+
+    return launchRange
+  }
+
+  return @() style.lineForeground.__merge({
+    size = SIZE_TO_CONTENT
+    children = getChildren()
+    watch = [azimuthMin, azimuthMax, aamLaunchZoneDistMin, aamLaunchZoneDistMax ]
+  })
 }
 
 local function B_ScopeSectorComponent(width, valueWatched, distWatched, halfWidthWatched, height, fillColorP = greenColorGrid) {
@@ -1207,7 +1314,7 @@ local B_ScopeCircleMarkers = function(radarWidth, radarHeight)
           rendObj = ROBJ_DTEXT
           size = SIZE_TO_CONTENT
           pos = [0 - hdpx(4), radarHeight * 0.5 + hdpx(5)]
-          hplace = HALIGN_RIGHT
+          hplace = ALIGN_RIGHT
           watch = [ radarState.HasAzimuthScale, radarState.ScanAzimuthMin, radarState.ScanAzimuthMax,
                     radarState.ScanElevationMin, radarState.ScanElevationMax, radarState.ScanPatternsMax ]
           text = radarState.HasAzimuthScale.value && radarState.ScanAzimuthMax.value > radarState.ScanAzimuthMin.value ?
@@ -1252,14 +1359,19 @@ local B_ScopeCircleMarkers = function(radarWidth, radarHeight)
       style.lineForeground.__merge({
         rendObj = ROBJ_DTEXT
         size = SIZE_TO_CONTENT
-        pos = [radarWidth * 0.5 - hdpx(4), -hdpx(40)]
-        opacity = ((radarState.IsRadarVisible?.value ?? false) || (radarState.IsRadar2Visible?.value ?? false)) ? 100 : 0
-        text = radarState.Irst.value ? ::loc("hud/irst") : ::loc("hud/radarEmitting")
+        pos = [radarWidth * (0.5 - 0.15), -hdpx(20)]
+        text = makeRadarModeText()
+      }),
+      style.lineForeground.__merge({
+        rendObj = ROBJ_DTEXT
+        size = SIZE_TO_CONTENT
+        pos = [radarWidth * (0.5 + 0.05), -hdpx(20)]
+        text = makeRadar2ModeText()
       }),
       noiseSignal(
         [radarWidth * 0.06, radarWidth * 0.06],
-        [radarWidth * 0.5 - hdpx(34) - radarWidth * 0.06, -hdpx(25)],
-        [radarWidth * 0.5 + hdpx(20), -hdpx(25)])
+        [radarWidth * (0.5 - 0.30), -hdpx(25)],
+        [radarWidth * (0.5 + 0.20), -hdpx(25)])
     ]
   }
 }
@@ -1281,13 +1393,14 @@ local B_Scope = function(width, height) {
   }
 
   return @() {
-    watch = [radarState.IsRadarVisible, radarState.IsRadar2Visible, radarState.HasDistanceScale]
+    watch = [ radarState.IsRadarVisible, radarState.RadarModeNameId,
+              radarState.IsRadar2Visible, radarState.Radar2ModeNameId, radarState.HasDistanceScale]
     children = [
       {
         size = [width + hdpx(2), height + hdpx(2)]
         clipChildren = true
-        halign = HALIGN_CENTER
-        valign = VALIGN_MIDDLE
+        halign = ALIGN_CENTER
+        valign = ALIGN_CENTER
         children = getChildren()
       },
       B_ScopeCircleMarkers(width, height)
@@ -1297,7 +1410,6 @@ local B_Scope = function(width, height) {
 
 local B_ScopeHalfBackground = function(width, height) {
   local getChildren = function() {
-    local rad2deg = 180.0 / math.PI
 
     local angleLimStart = radarState.AzimuthMin.value - math.PI * 0.5
     local angleLimFinish = radarState.AzimuthMax.value - math.PI * 0.5
@@ -1331,11 +1443,14 @@ local B_ScopeHalfBackground = function(width, height) {
     local scanAngleStartDeg = scanAngleStart * rad2deg
     local scanAngleFinishDeg = scanAngleFinish * rad2deg
 
-    local gridSecodaryCommands = [
-      [VECTOR_SECTOR, 50, 50, 12.5, 12.5, scanAngleStartDeg, scanAngleFinishDeg],
-      [VECTOR_SECTOR, 50, 50, 25.0, 25.0, scanAngleStartDeg, scanAngleFinishDeg],
-      [VECTOR_SECTOR, 50, 50, 37.5, 37.5, scanAngleStartDeg, scanAngleFinishDeg],
-    ]
+    local gridSecodaryCommands = []
+
+    if (radarState.HasDistanceScale.value)
+      gridSecodaryCommands = [
+        [VECTOR_SECTOR, 50, 50, 12.5, 12.5, scanAngleStartDeg, scanAngleFinishDeg],
+        [VECTOR_SECTOR, 50, 50, 25.0, 25.0, scanAngleStartDeg, scanAngleFinishDeg],
+        [VECTOR_SECTOR, 50, 50, 37.5, 37.5, scanAngleStartDeg, scanAngleFinishDeg],
+      ]
 
     const angleGrad = 15.0
     local angle = math.PI * angleGrad / 180.0
@@ -1396,23 +1511,23 @@ local B_ScopeHalfBackground = function(width, height) {
   }
 }
 
-local B_ScopeHalfCircleMarkers = function(radarWidth)
+local B_ScopeHalfCircleMarkers = function(radarWidth, radarHeight)
 {
   local offsetScaleFactor = 1.3
   return {
-    size = [offsetScaleFactor * radarWidth, offsetScaleFactor * radarWidth]
+    size = [offsetScaleFactor * radarWidth, offsetScaleFactor * radarHeight]
     children = [
       {
         size = [0, SIZE_TO_CONTENT]
         children = @() style.lineForeground.__merge({
           rendObj = ROBJ_DTEXT
           size = SIZE_TO_CONTENT
-          pos = radarState.MfdRadarEnabled.value ? [ radarWidth * 0.3, radarWidth * 0.55] :
+          pos = radarState.MfdRadarEnabled.value ? [ radarWidth * 0.3, radarHeight * 0.75] :
           [
             radarWidth * 0.5 * (1.0 - math.sin(radarState.AzimuthMax.value)) + hdpx(4),
-            radarWidth * 0.5 * (1.0 - math.cos(radarState.AzimuthMax.value)) - hdpx(4)
+            radarHeight * 0.5 * (1.0 - math.cos(radarState.AzimuthMax.value)) - hdpx(4)
           ]
-          hplace = HALIGN_RIGHT
+          hplace = ALIGN_RIGHT
           watch = [ radarState.HasAzimuthScale, radarState.ScanAzimuthMin, radarState.ScanAzimuthMax,
                     radarState.ScanElevationMin, radarState.ScanElevationMax, radarState.ScanPatternsMax ]
           text = radarState.HasAzimuthScale.value && radarState.ScanAzimuthMax.value > radarState.ScanAzimuthMin.value ?
@@ -1424,7 +1539,7 @@ local B_ScopeHalfCircleMarkers = function(radarWidth)
       @() style.lineForeground.__merge({
         rendObj = ROBJ_DTEXT
         size = SIZE_TO_CONTENT
-        pos = radarState.MfdRadarEnabled.value ? [ radarWidth * 0.3, radarWidth * 0.55] :
+        pos = radarState.MfdRadarEnabled.value ? [ radarWidth * 0.3, radarHeight * 0.75] :
         [
           radarWidth * 0.5 * (1.0 + math.sin(radarState.AzimuthMax.value)) + hdpx(4),
           radarWidth * 0.5 * (1.0 - math.cos(radarState.AzimuthMax.value)) - hdpx(4)
@@ -1433,20 +1548,24 @@ local B_ScopeHalfCircleMarkers = function(radarWidth)
         text = radarState.HasDistanceScale.value ?
           ::cross_call.measureTypes.DISTANCE.getMeasureUnitsText(radarState.DistanceMax.value * 1000.0) +
           (radarState.DistanceScalesMax.value > 1 ? "*" : " ") : ""
-        fontScale = radarState.MfdRadarEnabled.value ? 4 : (sh(100) / 1080)
+        fontScale = getFontScale()
       })
       style.lineForeground.__merge({
         rendObj = ROBJ_DTEXT
         size = SIZE_TO_CONTENT
-        pos = [radarWidth * 0.5 - hdpx(4), -hdpx(20)]
-        opacity = ((radarState.IsRadarVisible?.value ?? false) || (radarState.IsRadar2Visible?.value ?? false)) ? 100 : 0
-        text = radarState.Irst.value ? ::loc("hud/irst") : ::loc("hud/radarEmitting")
-        fontScale = getFontScale()
+        pos = [radarWidth * (0.5 - 0.15), radarState.MfdRadarEnabled.value ? 0 : -hdpx(20)]
+        text = makeRadarModeText()
+      })
+      style.lineForeground.__merge({
+        rendObj = ROBJ_DTEXT
+        size = SIZE_TO_CONTENT
+        pos = [radarWidth * (0.5 + 0.05), radarState.MfdRadarEnabled.value ? 0 : -hdpx(20)]
+        text = makeRadar2ModeText()
       })
       noiseSignal(
-        [radarWidth * 0.06, radarWidth * 0.06],
-        [radarWidth * 0.5 - hdpx(34) - radarWidth * 0.06, -hdpx(25)],
-        [radarWidth * 0.5 + hdpx(20), -hdpx(25)])
+        [radarWidth * 0.06, radarHeight * 0.06],
+        [radarWidth * (0.5 - 0.30), -hdpx(25)],
+        [radarWidth * (0.5 + 0.20), -hdpx(25)])
     ]
   }
 }
@@ -1469,21 +1588,25 @@ local B_ScopeHalf = function(width, height, pos) {
       children.append(B_ScopeAzimuthComponent(width, radarState.Azimuth, radarState.Distance, radarState.AzimuthHalfWidth, height))
     if (radarState.IsRadar2Visible.value)
       children.append(B_ScopeAzimuthComponent(width, radarState.Azimuth2, radarState.Distance2, radarState.AzimuthHalfWidth2, height))
+    if (radarState.IsAamLaunchZoneVisible.value && radarState.HasDistanceScale.value)
+      children.append(B_ScopeHalfLaunchRangeComponent(width, height, radarState.AzimuthMin, radarState.AzimuthMax,
+                                                      radarState.AamLaunchZoneDistMin, radarState.AamLaunchZoneDistMax))
     children.append(targetsComponent(width, height, createTargetOnRadarPolar))
     return children
   }
 
   return @() {
-    watch = [radarState.IsRadarVisible, radarState.IsRadar2Visible]
+    watch = [ radarState.IsRadarVisible, radarState.RadarModeNameId,
+              radarState.IsRadar2Visible, radarState.Radar2ModeNameId, radarState.IsAamLaunchZoneVisible]
     children = [
       {
         size = [width + hdpx(2), 0.5 * height]
         pos = [0, pos]
-        halign = HALIGN_CENTER
+        halign = ALIGN_CENTER
         clipChildren = true
         children = getChildren()
       },
-      B_ScopeHalfCircleMarkers(width)
+      B_ScopeHalfCircleMarkers(width, height)
     ]
   }
 }
@@ -1824,7 +1947,7 @@ local C_ScopeSquareMarkers = function(radarWidth, radarHeight)
         children = @() style.lineForeground.__merge({
           rendObj = ROBJ_DTEXT
           pos = [-hdpx(4), hdpx(4)]
-          hplace = HALIGN_RIGHT
+          hplace = ALIGN_RIGHT
           watch = radarState.AzimuthMax
           text = math.floor(radarState.AzimuthMax.value * radToDeg + 0.5) + ::loc("measureUnits/deg")
         })
@@ -2325,7 +2448,7 @@ local radar = function(posX, posY){
         if (getAzimuthRange() > math.PI)
           scopeChild = B_Scope(width, height)
         else
-          scopeChild = B_ScopeSquare(width, height)
+          scopeChild = B_ScopeSquare(radarState.HasAzimuthScale.value ? width : 0.2 * width, height)
       }
       if (radarState.IsCScopeVisible.value && !hudState.isPlayingReplay.value && getAzimuthRange() <= math.PI)
       {
@@ -2337,7 +2460,7 @@ local radar = function(posX, posY){
       }
       return {
         size = SIZE_TO_CONTENT
-        watch = [radarState.ViewMode, radarState.AzimuthMax, radarState.AzimuthMin, radarState.IsCScopeVisible]
+        watch = [radarState.ViewMode, radarState.AzimuthMax, radarState.AzimuthMin, radarState.IsCScopeVisible, radarState.HasAzimuthScale]
         children = [scopeChild, cScope]
       }
     }
@@ -2392,8 +2515,8 @@ local Root = function(for_mfd, radarPosX = sh(8), radarPosY = sh(32), radar_colo
   }
 
   return @(){
-    halign = HALIGN_LEFT
-    valign = VALIGN_TOP
+    halign = ALIGN_LEFT
+    valign = ALIGN_TOP
     size = [sw(100), sh(100)]
     watch = [radarState.IsRadarHudVisible, radarState.MfdRadarEnabled, radarState.MfdIlsEnabled]
     children = getChildren()

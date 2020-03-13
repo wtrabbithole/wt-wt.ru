@@ -48,7 +48,8 @@ enums.addTypesByGlobalName("g_hint_tag", {
     {
       local slices = []
       local needConfig = params?.needConfig ?? false
-      local expanded = ::g_shortcut_type.expandShortcuts([tagName])
+      local expanded = ::g_shortcut_type.expandShortcuts([tagName], params?.showKeyBoardShortcutsForMouseAim ?? false)
+      local showShortcutsNameIfNotAssign = params?.showShortcutsNameIfNotAssign ?? false
       local shortcutsCount = expanded.len()
       foreach (i, expandedShortcut in expanded)
       {
@@ -58,7 +59,7 @@ enums.addTypesByGlobalName("g_hint_tag", {
           shortcut = needConfig
             ? shortcutType.getFirstInput(shortcutId).getConfig()
             : function() {
-              local input = shortcutType.getFirstInput(shortcutId)
+              local input = shortcutType.getFirstInput(shortcutId, null, showShortcutsNameIfNotAssign)
               return input.getMarkup()
             }
         })

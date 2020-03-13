@@ -181,7 +181,7 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
       color = colors.textColor
       group = group
       margin = options?.textmargin ?? [sh(1), sh(0.5)]
-      valign = options?.valignText ?? VALIGN_BOTTOM
+      valign = options?.valignText ?? ALIGN_BOTTOM
 
       animations = [failAnim(text_state)]
 
@@ -231,7 +231,7 @@ local function textInput(text_state, options={}, handlers={}, frameCtor=defaultF
     size = [flex(), SIZE_TO_CONTENT]
     group = group
     animations = [failAnim(text_state)]
-    valign = options?.valign ?? VALIGN_MIDDLE
+    valign = options?.valign ?? ALIGN_CENTER
 
     children = frameCtor(inputObj, group, stateFlags)
   }

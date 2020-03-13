@@ -2,6 +2,7 @@ local safeAreaMenu = require("scripts/options/safeAreaMenu.nut")
 local safeAreaHud = require("scripts/options/safeAreaHud.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
 local soundDevice = require_native("soundDevice")
+local { chatStatesCanUseVoice } = require("scripts/chat/chatStates.nut")
 
 local getSystemOptions = @() {
   name = "graphicsParameters"
@@ -29,7 +30,7 @@ local getMainOptions = function()
       [::USEROPT_LANGUAGE, "spinner", ! ::is_in_flight() && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! ::is_in_flight() && !::is_ps4_or_xbox],
       [::USEROPT_FONTS_CSS, "spinner"],
-      [::USEROPT_GAMMA, "slider", ::target_platform != "macosx"
+      [::USEROPT_GAMMA, "slider", !::is_hdr_enabled() && ::target_platform != "macosx"
                                   && (!::is_platform_windows
                                       || ::getSystemConfigOption("video/mode") == "fullscreen") ],
       [::USEROPT_CLUSTER, "spinner", ! ::is_in_flight() && ::is_platform_ps4],
@@ -62,9 +63,10 @@ local getMainOptions = function()
       [::USEROPT_AUTOREARM_ON_AIRFIELD, "spinner"],
       [::USEROPT_ACTIVATE_AIRBORNE_RADAR_ON_SPAWN, "spinner"],
       [::USEROPT_USE_RECTANGULAR_RADAR_INDICATOR, "spinner"],
+      [::USEROPT_AIR_RADAR_SIZE, "slider"],
       [::USEROPT_CROSSHAIR_TYPE, "combobox"],
       [::USEROPT_CROSSHAIR_COLOR, "combobox"],
-      [::USEROPT_INDICATEDSPEED, "spinner"],
+      [::USEROPT_INDICATED_SPEED_TYPE, "spinner"],
       [::USEROPT_CROSSHAIR_DEFLECTION, "spinner"],
       [::USEROPT_AIR_DAMAGE_DISPLAY, "spinner", ! ::is_in_flight()],
       [::USEROPT_GUNNER_FPS_CAMERA, "spinner"],
@@ -72,6 +74,7 @@ local getMainOptions = function()
       ["options/header/helicopter"],
       [::USEROPT_HUE_HELICOPTER_HUD, "spinner"],
       [::USEROPT_HUE_HELICOPTER_HUD_ALERT, "spinner"],
+      [::USEROPT_HUE_HELICOPTER_MFD, "spinner"],
       [::USEROPT_HORIZONTAL_SPEED, "spinner"],
       [::USEROPT_HELICOPTER_HELMET_AIM, "spinner", !::is_ps4_or_xbox],
       [::USEROPT_HELICOPTER_AUTOPILOT_ON_GUNNERVIEW, "spinner"],
@@ -89,6 +92,7 @@ local getMainOptions = function()
       // show option by code != -1 need for compatibility with 1_93_0_X
       // TODO: remove after 1_93_0_X
       [::USEROPT_SHOW_COMPASS_IN_TANK_HUD, "spinner", OPTION_SHOW_COMPASS_IN_TANK_HUD != -1],
+      [::USEROPT_HUE_TANK_THERMOVISION, "spinner"],
 
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! ::is_in_flight()],
@@ -163,6 +167,7 @@ local getMainOptions = function()
       [::USEROPT_GAMEPAD_VIBRATION_ENGINE, "spinner", !::is_platform_ps4],
       [::USEROPT_JOY_MIN_VIBRATION, "slider"],
       [::USEROPT_GAMEPAD_ENGINE_DEADZONE, "spinner"],
+      [::USEROPT_GAMEPAD_GYRO_TILT_CORRECTION, "spinner", ::is_platform_ps4],
       [::USEROPT_USE_CONTROLLER_LIGHT, "spinner", ::is_platform_ps4 && ::has_feature("ControllerLight")],
 
       ["options/header/replaysAndSpectatorMode", null, ::has_feature("Replays") || ::has_feature("Spectator")],
@@ -214,7 +219,8 @@ local getSoundOptions = @() {
     [::USEROPT_VOLUME_DIALOGS, "slider"],
     [::USEROPT_VOLUME_TINNITUS, "slider"],
     [::USEROPT_HANGAR_SOUND, "spinner"],
-    [::USEROPT_PLAY_INACTIVE_WINDOW_SOUND, "spinner", ::is_platform_pc]
+    [::USEROPT_PLAY_INACTIVE_WINDOW_SOUND, "spinner", ::is_platform_pc],
+    [::USEROPT_ENABLE_SOUND_SPEED, "spinner", (! ::is_in_flight()) || (::get_mission_difficulty_int() != ::DIFFICULTY_HARDCORE) ]
   ]
 }
 
@@ -265,7 +271,7 @@ local getOptionsList = function() {
 
   options.append(getSoundOptions())
 
-  if (::g_chat.canUseVoice())
+  if (chatStatesCanUseVoice())
     options.append(getVoicechatOptions())
 
   if (::has_feature("Radio"))

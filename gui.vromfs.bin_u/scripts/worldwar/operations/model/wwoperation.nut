@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 
 enum WW_OPERATION_STATUSES

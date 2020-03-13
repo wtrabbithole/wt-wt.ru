@@ -9,6 +9,10 @@ tdiv {
 
   textareaNoTab {
     id:t='clan_block_text'
+    <<#isInvert>>
+      position:t='relative'
+      right:t='0'
+    <</isInvert>>
     margin-bottom:t='1@framePadding'
     text:t=''
     overlayTextColor:t='active'
@@ -37,6 +41,9 @@ tdiv {
         text:t='<<name>>'
       }
     <</armyGroupNames>>
+    <<#managers>>
+      include "gui/worldWar/wwArmyManagersStat"
+    <</managers>>
   }
   <</columns>>
 }

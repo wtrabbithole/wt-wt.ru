@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local { hasAllFeatures } = require("scripts/user/features.nut")
 
 global enum LB_MODE
 {
@@ -178,7 +179,7 @@ g_lb_category._getAdditionalTooltipPart <- function _getAdditionalTooltipPart(ro
   isVisibleByFeature = function()
   {
     // check reqFeature
-    return ::has_feature_array(reqFeature)
+    return hasAllFeatures(reqFeature)
   }
 
   isVisibleByLbModeName = function(modeName)
@@ -597,7 +598,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       field = "playerKills"
       visualKey = "lb_kills_player"
       headerImage = "average_active_kills"
-      additionalTooltipCategoryes = ["AIR_KILLS_PLAYER", "GROUND_KILLS_PLAYER"]
+      additionalTooltipCategoryes = ["AIR_KILLS_PLAYER", "GROUND_KILLS_PLAYER", "NAVAL_KILLS_PLAYER"]
       wwModesMask = ~WW_LB_MODE.WW_CLANS_MANAGER
     }
 
@@ -605,7 +606,7 @@ enums.addTypesByGlobalName("g_lb_category", {
       field = "aiKills"
       visualKey = "lb_kills_ai"
       headerImage = "average_script_kills"
-      additionalTooltipCategoryes = ["AIR_KILLS_AI", "GROUND_KILLS_AI"]
+      additionalTooltipCategoryes = ["AIR_KILLS_AI", "GROUND_KILLS_AI", "NAVAL_KILLS_AI"]
       wwModesMask = ~WW_LB_MODE.WW_CLANS_MANAGER
     }
 

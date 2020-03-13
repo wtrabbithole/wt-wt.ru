@@ -1,4 +1,5 @@
 local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 
 class ::gui_handlers.ShopSearchWnd extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -101,7 +102,7 @@ class ::gui_handlers.ShopSearchWnd extends ::gui_handlers.BaseGuiHandlerWT
             armyView.units.append({
               id = u.name
               ico = ::getUnitClassIco(u)
-              type = ::get_unit_role(u)
+              type = getUnitRole(u)
               tooltipId = ::g_tooltip.getIdUnit(u.name)
               text = ::colorize("fadedTextColor", ::format("[%.1f]", u.getBattleRating(ediff))) +
                 ::nbsp + ::getUnitName(u, true)

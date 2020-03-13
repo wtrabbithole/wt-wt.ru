@@ -1,12 +1,14 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-local xboxShopData = ::require("scripts/onlineShop/xboxShopData.nut")
 local stdMath = require("std/math.nut")
-local unitInfoTexts = require("scripts/unit/unitInfoTexts.nut")
+local { getUnitRoleIcon, getUnitTooltipImage, getFullUnitRoleText,
+  getChanceToMeetText, getShipMaterialTexts } = require("scripts/unit/unitInfoTexts.nut")
 local unitStatus = require("scripts/unit/unitStatus.nut")
-local unitActions = require("scripts/unit/unitActions.nut")
 local countMeasure = require("scripts/options/optionsMeasureUnits.nut").countMeasure
-local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+local { getCrewPoints } = require("scripts/crew/crewSkills.nut")
+local { getWeaponInfoText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { getModificationBulletsGroup } = require("scripts/weaponry/bulletsInfo.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -72,439 +74,6 @@ global enum CheckFeatureLockAction
     statusText = "canResearch"
   return statusText
 }
-
-
-::basic_unit_roles <- {
-  [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber"],
-  [::ES_UNIT_TYPE_TANK] = ["tank", "light_tank", "medium_tank", "heavy_tank", "tank_destroyer", "spaa", "lbv", "mbv", "hbv"],
-  [::ES_UNIT_TYPE_SHIP] = ["ship", "boat", "heavy_boat", "barge", "destroyer", "light_cruiser",
-    "cruiser", "battlecruiser", "battleship", "submarine"],
-  [::ES_UNIT_TYPE_HELICOPTER] = ["attack_helicopter", "utility_helicopter"],
-}
-
-::unit_role_fonticons <- {
-  fighter                  = ::loc("icon/unitclass/fighter"),
-  assault                  = ::loc("icon/unitclass/assault"),
-  bomber                   = ::loc("icon/unitclass/bomber"),
-  attack_helicopter        = ::loc("icon/unitclass/attack_helicopter"),
-  utility_helicopter       = ::loc("icon/unitclass/utility_helicopter"),
-  light_tank               = ::loc("icon/unitclass/light_tank"),
-  medium_tank              = ::loc("icon/unitclass/medium_tank"),
-  heavy_tank               = ::loc("icon/unitclass/heavy_tank"),
-  tank_destroyer           = ::loc("icon/unitclass/tank_destroyer"),
-  spaa                     = ::loc("icon/unitclass/spaa"),
-  lbv                      = ::loc("icon/unitclass/light_tank")
-  mbv                      = ::loc("icon/unitclass/medium_tank")
-  hbv                      = ::loc("icon/unitclass/heavy_tank")
-  ship                     = ::loc("icon/unitclass/ship"),
-  boat                     = ::loc("icon/unitclass/gun_boat")
-  heavy_boat               = ::loc("icon/unitclass/heavy_gun_boat")
-  barge                    = ::loc("icon/unitclass/naval_ferry_barge")
-  destroyer                = ::loc("icon/unitclass/destroyer")
-  light_cruiser            = ::loc("icon/unitclass/light_cruiser")
-  cruiser                  = ::loc("icon/unitclass/cruiser")
-  battlecruiser            = ::loc("icon/unitclass/battlecruiser")
-  battleship               = ::loc("icon/unitclass/battleship")
-  submarine                = ::loc("icon/unitclass/submarine")
-}
-
-::unit_role_by_tag <- {
-  type_light_fighter    = "light_fighter",
-  type_medium_fighter   = "medium_fighter",
-  type_heavy_fighter    = "heavy_fighter",
-  type_naval_fighter    = "naval_fighter",
-  type_jet_fighter      = "jet_fighter",
-  type_light_bomber     = "light_bomber",
-  type_medium_bomber    = "medium_bomber",
-  type_heavy_bomber     = "heavy_bomber",
-  type_naval_bomber     = "naval_bomber",
-  type_jet_bomber       = "jet_bomber",
-  type_dive_bomber      = "dive_bomber",
-  type_common_bomber    = "common_bomber", //to use as a second type: "Light fighter / Bomber"
-  type_common_assault   = "common_assault",
-  type_strike_fighter   = "strike_fighter",
-  type_attack_helicopter  = "attack_helicopter",
-  type_utility_helicopter = "utility_helicopter",
-  //tanks:
-  type_tank             = "tank" //used in profile stats
-  type_light_tank       = "light_tank",
-  type_medium_tank      = "medium_tank",
-  type_heavy_tank       = "heavy_tank",
-  type_tank_destroyer   = "tank_destroyer",
-  type_spaa             = "spaa",
-  //battle vehicles:
-  type_lbv              = "lbv",
-  type_mbv              = "mbv",
-  type_hbv              = "hbv",
-  //ships:
-  type_ship             = "ship",
-  type_boat             = "boat",
-  type_heavy_boat       = "heavy_boat",
-  type_barge            = "barge",
-  type_destroyer        = "destroyer",
-  type_light_cruiser    = "light_cruiser",
-  type_cruiser          = "cruiser",
-  type_battlecruiser    = "battlecruiser",
-  type_battleship       = "battleship",
-  type_submarine        = "submarine",
-  //basic types
-  type_fighter          = "medium_fighter",
-  type_assault          = "common_assault",
-  type_bomber           = "medium_bomber"
-}
-
-::unit_role_by_name <- {}
-
-::unlock_condition_unitclasses <- {
-    aircraft          = ::ES_UNIT_TYPE_AIRCRAFT
-    tank              = ::ES_UNIT_TYPE_TANK
-    typeLightTank     = ::ES_UNIT_TYPE_TANK
-    typeMediumTank    = ::ES_UNIT_TYPE_TANK
-    typeHeavyTank     = ::ES_UNIT_TYPE_TANK
-    typeSPG           = ::ES_UNIT_TYPE_TANK
-    typeSPAA          = ::ES_UNIT_TYPE_TANK
-    typeTankDestroyer = ::ES_UNIT_TYPE_TANK
-    typeFighter       = ::ES_UNIT_TYPE_AIRCRAFT
-    typeDiveBomber    = ::ES_UNIT_TYPE_AIRCRAFT
-    typeBomber        = ::ES_UNIT_TYPE_AIRCRAFT
-    typeAssault       = ::ES_UNIT_TYPE_AIRCRAFT
-    typeStormovik     = ::ES_UNIT_TYPE_AIRCRAFT
-    typeTransport     = ::ES_UNIT_TYPE_AIRCRAFT
-    typeStrikeFighter = ::ES_UNIT_TYPE_AIRCRAFT
-}
-
-::get_unit_role <- function get_unit_role(unitData) //  "fighter", "bomber", "assault", "transport", "diveBomber", "none"
-{
-  local unit = unitData
-  if (typeof(unitData) == "string")
-    unit = getAircraftByName(unitData);
-
-  if (!unit)
-    return ""; //not found
-
-  local role = ::getTblValue(unit.name, ::unit_role_by_name, "")
-  if (role == "")
-  {
-    foreach(tag in unit.tags)
-      if (tag in ::unit_role_by_tag)
-      {
-        role = ::unit_role_by_tag[tag]
-        break
-      }
-    ::unit_role_by_name[unit.name] <- role
-  }
-
-  return role
-}
-
-::haveUnitRole <- function haveUnitRole(unit, role)
-{
-  return ::isInArray("type_" + role, unit.tags)
-}
-
-::get_unit_basic_role <- function get_unit_basic_role(unit)
-{
-  local unitType = ::get_es_unit_type(unit)
-  local basicRoles = ::getTblValue(unitType, ::basic_unit_roles)
-  if (!basicRoles || !basicRoles.len())
-    return ""
-
-  foreach(role in basicRoles)
-    if (::haveUnitRole(unit, role))
-      return role
-  return basicRoles[0]
-}
-
-::get_role_text <- function get_role_text(role)
-{
-  return ::loc("mainmenu/type_" + role)
-}
-
-/*
-  typeof @source == Unit     -> @source is unit
-  typeof @source == "string" -> @source is role id
-*/
-::get_unit_role_icon <- function get_unit_role_icon(source)
-{
-  local role = ::u.isString(source) ? source
-    : ::get_unit_basic_role(source)
-  return ::unit_role_fonticons?[role] ?? ""
-}
-
-local ACTION_LIST_PARAMS = {
-  isSlotbarEnabled = true
-  needChosenResearchOfSquadron = false
-  isSquadronResearchMode = false
-  hasSlotbarByUnitsGroups = false
-}
-::get_unit_actions_list <- ::kwarg(function get_unit_actions_list(unit, handler, actions, p = ACTION_LIST_PARAMS, crew = null)
-{
-  p = ACTION_LIST_PARAMS.__merge(p)
-  local res = {
-    handler = handler
-    actions = []
-  }
-
-  if (!unit || ("airsGroup" in unit) || actions.len()==0 || ::is_in_loading_screen())
-    return res
-
-  local inMenu = ::isInMenu()
-  local isUsable  = unit.isUsable()
-  crew = crew ?? (p.hasSlotbarByUnitsGroups ? slotbarPresets.getCrewByUnit(unit) : ::getCrewByAir(unit))
-  local curEdiff = handler?.getCurrentEdiff ? handler.getCurrentEdiff() : -1
-
-  foreach(action in actions)
-  {
-    local actionText = ""
-    local showAction = false
-    local actionFunc = null
-    local haveWarning  = false
-    local haveDiscount = false
-    local enabled    = true
-    local icon       = ""
-    local isLink = false
-
-    if (action == "showroom")
-    {
-      actionText = ::loc(isUsable ? "mainmenu/btnShowroom" : "mainmenu/btnPreview")
-      icon       = "#ui/gameuiskin#slot_showroom.svg"
-      showAction = inMenu
-      actionFunc = (@(unit, handler) function () {
-        handler.checkedCrewModify((@(unit, handler) function () {
-          ::broadcastEvent("BeforeStartShowroom")
-          ::show_aircraft = unit
-          handler.goForward(::gui_start_decals)
-        })(unit, handler))
-      })(unit, handler)
-    }
-    if (action == "preview")
-    {
-      actionText = ::loc("mainmenu/btnPreview")
-      icon       = "#ui/gameuiskin#btn_preview.svg"
-      showAction = inMenu
-      actionFunc = @() unit.doPreview()
-    }
-    else if (action == "aircraft")
-    {
-      if (!crew)
-        continue
-
-      actionText = ::loc("multiplayer/changeAircraft")
-      icon       = "#ui/gameuiskin#slot_change_aircraft.svg"
-      showAction = inMenu && ::SessionLobby.canChangeCrewUnits()
-      actionFunc = function () {
-        if (::g_crews_list.isSlotbarOverrided)
-        {
-          ::showInfoMsgBox(::loc("multiplayer/slotbarOverrided"))
-          return
-        }
-        ::queues.checkAndStart(function()
-        {
-          if (!handler.isValid())
-            return
-
-          ::g_squad_utils.checkSquadUnreadyAndDo(
-            ::Callback(function() {
-              ::gui_start_select_unit(crew, handler.getSlotbar() || handler)
-            }),
-            @() null, handler?.shouldCheckCrewsReady)
-        },
-        null, "isCanModifyCrew")
-      }
-    }
-    else if (action == "crew")
-    {
-      if (!crew || p.hasSlotbarByUnitsGroups)
-        continue
-
-      local discountInfo = ::g_crew.getDiscountInfo(crew.idCountry, crew.idInCountry)
-
-      actionText = ::loc("mainmenu/btnCrew")
-      icon       = "#ui/gameuiskin#slot_crew.svg"
-      haveWarning = ::isInArray(::get_crew_status_by_id(crew.id), [ "ready", "full" ])
-      haveDiscount = ::g_crew.getMaxDiscountByInfo(discountInfo) > 0
-      showAction = inMenu && ::has_feature("CrewInfo") && !::g_crews_list.isSlotbarOverrided
-      actionFunc = @() crew && ::gui_modal_crew({
-        countryId = crew.idCountry,
-        idInCountry = crew.idInCountry,
-        curEdiff = curEdiff
-        needHideSlotbar = !p.isSlotbarEnabled || p.hasSlotbarByUnitsGroups
-      })
-    }
-    else if (action == "weapons")
-    {
-      if (p.hasSlotbarByUnitsGroups)
-        continue
-
-      actionText = ::loc("mainmenu/btnWeapons")
-      icon       = "#ui/gameuiskin#btn_weapons.svg"
-      haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY
-      haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
-      showAction = inMenu && !::g_crews_list.isSlotbarOverrided
-      actionFunc = @() ::open_weapons_for_unit(unit, {
-        curEdiff = curEdiff
-        needHideSlotbar = !p.isSlotbarEnabled
-      })
-    }
-    else if (action == "take")
-    {
-      actionText = ::loc("mainmenu/btnTakeAircraft")
-      icon       = "#ui/gameuiskin#slot_crew.svg"
-      showAction = inMenu && isUsable && !::isUnitInSlotbar(unit)
-      actionFunc = (@(unit, handler) function () {
-        handler.onTake(unit)
-      })(unit, handler)
-    }
-    else if (action == "repair")
-    {
-      local repairCost = ::wp_get_repair_cost(unit.name)
-      actionText = ::loc("mainmenu/btnRepair")+": "+::Cost(repairCost).getTextAccordingToBalance()
-      icon       = "#ui/gameuiskin#slot_repair.svg"
-      haveWarning = true
-      showAction = inMenu && isUsable && repairCost > 0 && ::SessionLobby.canChangeCrewUnits()
-         && !::g_crews_list.isSlotbarOverrided
-      actionFunc = @() unitActions.repairWithMsgBox(unit)
-    }
-    else if (action == "buy")
-    {
-      local isSpecial   = ::isUnitSpecial(unit)
-      local isGift   = ::isUnitGift(unit)
-      local canBuyOnline = ::canBuyUnitOnline(unit)
-      local canBuyNotResearchedUnit = unitStatus.canBuyNotResearched(unit)
-      local canBuyIngame = !canBuyOnline && (::canBuyUnit(unit) || canBuyNotResearchedUnit)
-      local priceText = ""
-
-      if (canBuyIngame)
-      {
-        local price = canBuyNotResearchedUnit ? unit.getOpenCost() : ::getUnitCost(unit)
-        priceText = price.getTextAccordingToBalance()
-        if (priceText.len())
-          priceText = ::loc("ui/colon") + priceText
-      }
-
-      actionText = isGift && xboxShopData.canUseIngameShop() ? ::loc("items/openIn/XboxStore")
-                                                             : (::loc("mainmenu/btnOrder") + priceText)
-
-      icon       = isGift ? ( xboxShopData.canUseIngameShop() ? "#ui/gameuiskin#xbox_store_icon.svg"
-                              : "#ui/gameuiskin#store_icon.svg")
-                          : isSpecial || canBuyNotResearchedUnit ? "#ui/gameuiskin#shop_warpoints_premium"
-                              : "#ui/gameuiskin#shop_warpoints"
-
-      showAction = inMenu && (canBuyIngame || canBuyOnline)
-      isLink     = canBuyOnline
-      if (canBuyOnline)
-        actionFunc = @() OnlineShopModel.showGoods({
-          unitName = unit.name
-        })
-      else
-        actionFunc = @() ::buyUnit(unit)
-    }
-    else if (action == "research")
-    {
-      if (::isUnitResearched(unit))
-        continue
-
-      local isInResearch = ::isUnitInResearch(unit)
-      local isSquadronVehicle = unit.isSquadronVehicle()
-      local isInClan = ::is_in_clan()
-      local reqExp = ::getUnitReqExp(unit) - ::getUnitExp(unit)
-      local squadronExp = min(::clan_get_exp(), reqExp)
-      local canFlushSquadronExp = ::has_feature("ClanVehicles") && isSquadronVehicle
-        && squadronExp > 0
-      if (isSquadronVehicle && isInClan && isInResearch && !canFlushSquadronExp && !p.needChosenResearchOfSquadron)
-        continue
-
-      local countryExp = ::shop_get_country_excess_exp(::getUnitCountry(unit), ::get_es_unit_type(unit))
-      local getReqExp = reqExp < countryExp ? reqExp : countryExp
-      local needToFlushExp = !isSquadronVehicle && handler?.shopResearchMode && countryExp > 0 //!!FIX ME: Direct search params in the handler not a good idea
-      local squadronExpText = ::Cost().setSap(squadronExp).tostring()
-      local setResearchManually = p?.setResearchManually ?? handler?.setResearchManually
-
-      actionText = needToFlushExp || (p.isSquadronResearchMode && p.needChosenResearchOfSquadron)
-        ? ::format(::loc("mainmenu/btnResearch")
-          + (needToFlushExp || canFlushSquadronExp ? " (%s)" : ""),
-          isSquadronVehicle
-            ? squadronExpText
-            : ::Cost().setRp(getReqExp).tostring())
-        : canFlushSquadronExp && (isInResearch || p.isSquadronResearchMode)
-          ? ::format(::loc("mainmenu/btnInvestSquadronExp") + " (%s)", squadronExpText)
-            : isInResearch && setResearchManually && !isSquadronVehicle
-              ? ::loc("mainmenu/btnConvert")
-              : ::loc("mainmenu/btnResearch")
-      //icon       = "#ui/gameuiskin#slot_research"
-      showAction = inMenu && (!isInResearch || (::has_feature("SpendGold") && ::has_feature("SpendFreeRP")))
-        && (::isUnitFeatureLocked(unit) || ::canResearchUnit(unit)
-          || canFlushSquadronExp || (isSquadronVehicle && !::is_in_clan()))
-      enabled = showAction
-      actionFunc = needToFlushExp
-        || (p.isSquadronResearchMode && (p.needChosenResearchOfSquadron || canFlushSquadronExp))
-        ? function() {handler.onSpendExcessExp()}
-        : canFlushSquadronExp && isInResearch
-          ? function() { unitActions.flushSquadronExp(unit) }
-          : !setResearchManually
-            ? function () { handler.onCloseShop() }
-            : isInResearch && !isSquadronVehicle
-              ? function () { ::gui_modal_convertExp(unit) }
-              : function () {
-                  if (!::checkForResearch(unit))
-                    return
-
-                  unitActions.research(unit)
-                }
-    }
-    else if (action == "testflight" || action == "testflightforced")
-    {
-      local shouldSkipUnitCheck = action == "testflightforced"
-
-      actionText = unit.unitType.getTestFlightText()
-      icon       = unit.unitType.testFlightIcon
-      showAction = inMenu && ::isTestFlightAvailable(unit, shouldSkipUnitCheck)
-      actionFunc = function () {
-        ::queues.checkAndStart(@() ::gui_start_testflight(unit, null, shouldSkipUnitCheck),
-          null, "isCanNewflight")
-      }
-    }
-    else if (action == "info")
-    {
-      actionText = ::loc("mainmenu/btnAircraftInfo")
-      icon       = "#ui/gameuiskin#btn_info.svg"
-      showAction = ::isUnitDescriptionValid(unit)
-      isLink     = ::has_feature("WikiUnitInfo")
-      actionFunc = function () {
-        if (::has_feature("WikiUnitInfo"))
-          ::open_url(::format(::loc("url/wiki_objects"), unit.name), false, false, "unit_actions")
-        else
-          ::showInfoMsgBox(::colorize("activeTextColor", ::getUnitName(unit, false)) + "\n" + ::loc("profile/wiki_link"))
-      }
-    }
-    else if (action == "find_in_market")
-    {
-      actionText = ::loc("msgbox/btn_find_on_marketplace")
-      icon       = "#ui/gameuiskin#gc.svg"
-      showAction = canBuyUnitOnMarketplace(unit)
-      isLink     = true
-      actionFunc = function(){
-        local item = ::ItemsManager.findItemById(unit.marketplaceItemdefId)
-        if (item && item.hasLink())
-          item.openLink()
-      }
-    }
-
-    res.actions.append({
-      actionName   = action
-      text         = actionText
-      show         = showAction
-      enabled      = enabled
-      icon         = icon
-      action       = actionFunc
-      haveWarning  = haveWarning
-      haveDiscount = haveDiscount
-      isLink       = isLink
-    })
-  }
-
-  return res
-})
 
 ::isAircraft <- function isAircraft(unit)
 {
@@ -652,11 +221,6 @@ local ACTION_LIST_PARAMS = {
 
   local status = ::shop_unit_research_status(unit.name)
   return (0 != (status & ::ES_ITEM_STATUS_CAN_BUY)) && unit.isVisibleInShop()
-}
-
-::can_crew_take_unit <- function can_crew_take_unit(unit)
-{
-  return isUnitUsable(unit) && unit.isVisibleInShop()
 }
 
 ::canBuyUnitOnline <- function canBuyUnitOnline(unit)
@@ -891,18 +455,7 @@ local ACTION_LIST_PARAMS = {
   if (::u.isEmpty(reason))
     return true
 
-  local selectButton = "ok"
-  local buttons = [["ok", function () {}]]
-  local prevUnit = ::getPrevUnit(unit)
-  if (prevUnit && ::canBuyUnit(prevUnit))
-  {
-    selectButton = "purchase"
-    reason += " " + ::loc("mainmenu/canBuyThisVehicle", {price = ::colorize("activeTextColor", ::getUnitCost(prevUnit))})
-    buttons = [["purchase", (@(prevUnit) function () { ::buyUnit(prevUnit, true) })(prevUnit)],
-             ["cancel", function () {}]]
-  }
-
-  ::scene_msg_box("need_buy_prev", null, reason, buttons, selectButton)
+  ::scene_msg_box("need_buy_prev", null, reason, [["ok", function () {}]], "ok")
   return false
 }
 
@@ -1246,7 +799,7 @@ local ACTION_LIST_PARAMS = {
     case ::ES_UNIT_TYPE_AIRCRAFT:
     case ::ES_UNIT_TYPE_HELICOPTER:
 
-      local weaponName = ::get_last_weapon(unit.name)
+      local weaponName = getLastWeapon(unit.name)
       local secondaryMods = unit.secondaryWeaponMods
       if (secondaryMods && secondaryMods.weaponName == weaponName)
       {
@@ -1323,7 +876,7 @@ local ACTION_LIST_PARAMS = {
   foreach(mod in unit.modifications)
     if (("tier" in mod) && mod.tier == tier &&
         !::wp_get_modification_cost_gold(unit.name, mod.name) &&
-        ::getModificationBulletsGroup(mod.name) == "" &&
+        getModificationBulletsGroup(mod.name) == "" &&
         ::isModResearched(unit, mod)
        )
       req--
@@ -1664,7 +1217,7 @@ local ACTION_LIST_PARAMS = {
   local diffCode = difficulty.diffCode
 
   local unitType = ::get_es_unit_type(air)
-  local crew = ::getCrewByAir(air)
+  local crew = params?.crewId != null ? ::get_crew_by_id(params.crewId) : ::getCrewByAir(air)
 
   local isOwn = ::isUnitBought(air)
   local special = ::isUnitSpecial(air)
@@ -1698,8 +1251,8 @@ local ACTION_LIST_PARAMS = {
   obj = holderObj.findObject("aircraft-type")
   if (::checkObj(obj))
   {
-    local fonticon = ::get_unit_role_icon(air)
-    local typeText = unitInfoTexts.getFullUnitRoleText(air)
+    local fonticon = getUnitRoleIcon(air)
+    local typeText = getFullUnitRoleText(air)
     obj.show(typeText != "")
     obj.setValue(::colorize(::getUnitClassColor(air), fonticon + " " + typeText))
   }
@@ -1759,7 +1312,7 @@ local ACTION_LIST_PARAMS = {
   {
     obj = holderObj.findObject("aircraft-image")
     if (::checkObj(obj))
-      obj["background-image"] = unitInfoTexts.getUnitTooltipImage(air)
+      obj["background-image"] = getUnitTooltipImage(air)
   }
 
   local ageObj = holderObj.findObject("aircraft-age")
@@ -1786,7 +1339,7 @@ local ACTION_LIST_PARAMS = {
     {
       if (typeof(erCompare) == "table")
         erCompare = ::getTblValue(air.shopCountry, erCompare, 0.0)
-      local text = unitInfoTexts.getChanceToMeetText(battleRating, ::calc_battle_rating_from_rank(erCompare))
+      local text = getChanceToMeetText(battleRating, ::calc_battle_rating_from_rank(erCompare))
       meetObj.findObject("aircraft-chance_to_met").setValue(text)
     }
     meetObj.show(erCompare != null)
@@ -2059,7 +1612,7 @@ local ACTION_LIST_PARAMS = {
         format("%d / %d / %d %s", val[0], val[1],val[2], ::loc("measureUnits/mm")))
     }
 
-    local shipMaterials = unitInfoTexts.getShipMaterialTexts(air.name)
+    local shipMaterials = getShipMaterialTexts(air.name)
 
     // ship-hullMaterial
     {
@@ -2337,8 +1890,8 @@ local ACTION_LIST_PARAMS = {
   if (needCrewInfo && crew)
   {
     local crewUnitType = air.getCrewUnitType()
-    local crewLevel = ::g_crew.getCrewLevel(crew, crewUnitType)
-    local crewStatus = ::get_crew_status(crew)
+    local crewLevel = ::g_crew.getCrewLevel(crew, air, crewUnitType)
+    local crewStatus = ::get_crew_status(crew, air)
     local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, air)
     local crewSpecIcon = specType.trainedIcon
     local crewSpecName = specType.getName()
@@ -2367,7 +1920,7 @@ local ACTION_LIST_PARAMS = {
     obj = holderObj.findObject("aircraft-crew_points")
     if (::checkObj(obj) && !isInFlight && crewStatus != "")
     {
-      local crewPointsText = ::colorize("white", ::get_crew_sp_text(::g_crew_skills.getCrewPoints(crew)))
+      local crewPointsText = ::colorize("white", ::get_crew_sp_text(getCrewPoints(crew)))
       obj.show(true)
       obj.setValue(::loc("crew/availablePoints/advice") + ::loc("ui/colon") + crewPointsText)
       obj["crewStatus"] = crewStatus
@@ -2435,7 +1988,7 @@ local ACTION_LIST_PARAMS = {
     }
   }
 
-  local weaponsInfoText = ::getWeaponInfoText(air,
+  local weaponsInfoText = getWeaponInfoText(air,
     { weaponPreset = showLocalState ? -1 : 0, ediff = ediff, isLocalState = showLocalState })
   obj = holderObj.findObject("weaponsInfo")
   if (obj) obj.setValue(weaponsInfoText)
@@ -2448,7 +2001,7 @@ local ACTION_LIST_PARAMS = {
   local wPresets = 0
   if (air.weapons.len() > 0)
   {
-    local lastWeapon = showLocalState ? ::get_last_weapon(air.name) : ""
+    local lastWeapon = showLocalState ? getLastWeapon(air.name) : ""
     weaponIndex = 0
     foreach(idx, weapon in air.weapons)
     {

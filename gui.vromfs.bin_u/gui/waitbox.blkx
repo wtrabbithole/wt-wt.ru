@@ -55,11 +55,16 @@
       }
     }
   ],
-  "textAreaCentered": {
-    "width": "75%sw",
+  "loadingTip": {
     "pos": "(pw-w)/2, 83%sh-50%h",
     "position": "absolute",
-    "class": "active",
-    "behaviour": "bhvLoadingTip"
+    "width": "75%sw",
+    "behaviour": "bhvLoadingTip",
+    "loadingHint": {
+      "id": "tip_hint",
+      "width": "pw",
+      "behaviour": "bhvHint",
+      "isWrapInRowAllowed": "yes"
+    }
   }
 }

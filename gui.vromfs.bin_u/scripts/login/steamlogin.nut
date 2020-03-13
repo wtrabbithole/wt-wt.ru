@@ -1,4 +1,4 @@
-::USE_STEAM_LOGIN_AUTO_SETTING_ID <- "useSteamLoginAuto"
+local { animBgLoad } = require("scripts/loading/animBg.nut")
 
 class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
 {
@@ -6,7 +6,7 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
 
   function initScreen()
   {
-    ::g_anim_bg.load()
+    animBgLoad()
     ::setVersionText()
     ::setProjectAwards(this)
     ::show_title_logo(true, scene, "128")
@@ -22,7 +22,7 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
     if (::g_login.isAuthorized())
       return
 
-    local useSteamLoginAuto = ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID)
+    local useSteamLoginAuto = ::load_local_shared_settings(USE_STEAM_LOGIN_AUTO_SETTING_ID)
     if (!::has_feature("AllowSteamAccountLinking"))
     {
       if (!useSteamLoginAuto) //can be null or false
@@ -69,8 +69,9 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
         break
       case ::YU2_OK:
         if (::steam_is_running() && !::has_feature("AllowSteamAccountLinking"))
-          ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, true)
-      default:
+          ::save_local_shared_settings(USE_STEAM_LOGIN_AUTO_SETTING_ID, true)
+          // no break!
+      default:  // warning disable: -missed-break
         base.proceedAuthorizationResult(result, no_dump_login)
     }
   }

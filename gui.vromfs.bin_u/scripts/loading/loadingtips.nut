@@ -2,12 +2,12 @@ local stdMath = require("std/math.nut")
 
 const GLOBAL_LOADING_TIP_BIT = 0x8000
 const MISSING_TIPS_IN_A_ROW_ALLOWED = 3
+const TIP_LOC_KEY_PREFIX = "loading/"
 
 ::g_script_reloader.loadOnce("scripts/loading/bhvLoadingTip.nut")
 
 ::g_tips <- {
   TIP_LIFE_TIME_MSEC = 10000
-  TIP_LOC_KEY_PREFIX = "loading/"
 
   tipsKeys = { [GLOBAL_LOADING_TIP_BIT] = [] }
   existTipsMask = GLOBAL_LOADING_TIP_BIT
@@ -19,6 +19,37 @@ const MISSING_TIPS_IN_A_ROW_ALLOWED = 3
   nextTipTime = -1
 
   isTipsValid = false
+
+  function getAllTips() {
+    local tipsKeysByUnitType = {}
+    tipsKeysByUnitType[GLOBAL_LOADING_TIP_BIT] <- loadTipsKeysByUnitType(null, false)
+
+    foreach(unitType in ::g_unit_type.types)
+    {
+      if (unitType == ::g_unit_type.INVALID)
+        continue
+      local keys = loadTipsKeysByUnitType(unitType, false)
+      if (!keys.len())
+        continue
+      tipsKeysByUnitType[unitType.bit] <- keys
+    }
+
+    local tipsArray = []
+    foreach(unitTypeBit, keys in tipsKeysByUnitType) {
+      tipsArray.extend(keys.map(function(tipKey) {
+        local tip = ::loc($"{TIP_LOC_KEY_PREFIX}{tipKey}")
+        if (unitTypeBit != GLOBAL_LOADING_TIP_BIT) {
+          local icon = ::g_unit_type.getByBit(unitTypeBit).fontIcon
+          tip = $"{::colorize("fadedTextColor", icon)} {tip}"
+        }
+        return tip
+      }))
+    }
+
+    return tipsArray
+  }
+
+  function onEventProfileReceived(p) { isTipsValid = false }
 }
 
 g_tips.getTip <- function getTip(unitTypeMask = 0)
@@ -107,7 +138,7 @@ g_tips.loadTipsKeysByUnitType <- function loadTipsKeysByUnitType(unitType, isNee
     }
     notExistInARow = 0
 
-    if (isShow)
+    if (isShow && (::g_login.isProfileReceived() || tip.indexof("{{") == null)) // Not show tip with shortcuts while not profile recived
       res.append(key)
   }
   return res

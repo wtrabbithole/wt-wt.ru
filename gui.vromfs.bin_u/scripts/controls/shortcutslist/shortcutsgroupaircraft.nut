@@ -1,5 +1,6 @@
 local globalEnv = require_native("globalEnv")
 local controlsOperations = require("scripts/controls/controlsOperations.nut")
+local { unitClassType } = require("scripts/unit/unitClassType.nut")
 
 return [
   {
@@ -7,9 +8,9 @@ return [
     type = CONTROL_TYPE.HEADER
     unitType = ::g_unit_type.AIRCRAFT
     unitClassTypes = [
-      ::g_unit_class_type.FIGHTER
-      ::g_unit_class_type.BOMBER
-      ::g_unit_class_type.ASSAULT
+      unitClassType.FIGHTER
+      unitClassType.BOMBER
+      unitClassType.ASSAULT
     ]
     isHelpersVisible = true
     needShowInHelp = true
@@ -74,7 +75,6 @@ return [
   {
     id="ID_FBW_MODE"
     showFunc = @() ::has_feature("AirplaneFbw"),
-    checkGroup = ctrlGroups.HELICOPTER
     filterShow = [globalEnv.EM_FULL_REAL]
   }
 //-------------------------------------------------------
@@ -171,17 +171,14 @@ return [
   {
     id = "ID_SENSOR_MODE_SWITCH"
     checkAssign = false
-    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_SCAN_PATTERN_SWITCH"
     checkAssign = false
-    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_RANGE_SWITCH"
     checkAssign = false
-    needShowInHelp = true
   }
   {
     id = "ID_SENSOR_TARGET_SWITCH"
@@ -202,6 +199,11 @@ return [
     id = "ID_RELOAD_GUNS"
     checkAssign = false
     needShowInHelp = true
+  }
+  {
+    id = "ID_TOGGLE_CANNONS_AND_ROCKETS_BALLISTIC_COMPUTER"
+    checkAssign = false
+    showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
   }
 //-------------------------------------------------------
   {
@@ -520,6 +522,11 @@ return [
     id = "ID_TOGGLE_COLLIMATOR"
     filterShow = [globalEnv.EM_FULL_REAL]
   }
+  {
+    id = "ID_SWITCH_COCKPIT_SIGHT_MODE"
+    checkAssign = false
+    showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
+  }
 //-------------------------------------------------------
   {
     id = "ID_INSTRUCTOR_HEADER"
@@ -730,7 +737,6 @@ return [
   {
     id = "ID_MANUAL_ENGINE_CONTROL_HEADER"
     type = CONTROL_TYPE.SECTION
-    filterShow = [globalEnv.EM_FULL_REAL]
   }
   {
     id = "ID_COMPLEX_ENGINE"
@@ -739,7 +745,6 @@ return [
   }
   {
     id = "ID_TOGGLE_ENGINE"
-    filterShow = [globalEnv.EM_FULL_REAL]
     checkAssign = false
   }
   {
@@ -804,7 +809,6 @@ return [
   }
   {
     id = "ID_TOGGLE_PROP_FEATHERING"
-    filterShow = [globalEnv.EM_FULL_REAL]
     checkAssign = false
   }
   {

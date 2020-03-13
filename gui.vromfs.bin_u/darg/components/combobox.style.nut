@@ -30,7 +30,7 @@ local function label(text, group, params=null) {
   return {
     size = flex()
     flow = FLOW_HORIZONTAL
-    valign = VALIGN_MIDDLE
+    valign = ALIGN_CENTER
     children = [
       labelText
       popupArrow
@@ -52,6 +52,7 @@ local function listItem(text, action, is_current, params={}) {
 
     return {
       behavior = [Behaviors.Button,Behaviors.Marquee]
+      xmbNode = ::XmbNode()
       size = [flex(), SIZE_TO_CONTENT]
       group = group
       watch = stateFlags
@@ -93,4 +94,5 @@ return {
   label = label
   listItem = listItem
   closeButton = closeButton
+  mkHandlers = @(curXmbNode) { onAttach = @() ::gui_scene.setXmbFocus(null) }
 }

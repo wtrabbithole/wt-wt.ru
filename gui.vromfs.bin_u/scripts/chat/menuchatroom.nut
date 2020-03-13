@@ -1,4 +1,5 @@
 local platformModule = require("scripts/clientState/platform.nut")
+local { isChatEnableWithPlayer } = require("scripts/chat/chatStates.nut")
 
 local persist = {
   lastCreatedMessageIndex = 0
@@ -124,7 +125,7 @@ local function newMessage(from, msg, privateMsg=false, myPrivate=false, overlayS
       msgColor = blockedColor
       msg = ::g_chat.makeBlockedMsg(msg)
     }
-    else if (!myself && !myPrivate && !::g_chat.isChatEnableWithPlayer(from))
+    else if (!myself && !myPrivate && !isChatEnableWithPlayer(from))
     {
       if (privateMsg)
         return null

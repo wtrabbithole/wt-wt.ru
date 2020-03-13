@@ -11,7 +11,7 @@ local ilsFontScale = 2.0
 local mfdFontScale = 1.5
 
 local getColor = function(isBackground){
-  return isBackground ? backgroundColor : helicopterState.HudColor.value
+  return isBackground ? backgroundColor : helicopterState.MfdColor.value
 }
 
 local pilotSh = function(h)
@@ -37,6 +37,10 @@ local sightSw = function(w)
 local sightHdpx = function(px)
 {
   return px * helicopterState.MfdSightPosSize[3] / 1024
+}
+local getMfdFontScale = function()
+{
+  return mfdFontScale * min(helicopterState.MfdSightPosSize[2], helicopterState.MfdSightPosSize[3]) / 512
 }
 
 local style = {}
@@ -101,15 +105,16 @@ local mfdPilotParamsTable = hudElems.paramsTable(helicopterState.IlsMask,
 
 local function mfdSightHud(elemStyle, isBackground) {
   local mfdStyle = elemStyle.__merge({
-      fontScale = mfdFontScale
+        fontScale = getMfdFontScale()
+        color = helicopterState.MfdColor.value
       })
   return @(){
     watch = helicopterState.IsMfdSightHudVisible
     pos = [helicopterState.MfdSightPosSize[0], helicopterState.MfdSightPosSize[1]]
     children = helicopterState.IsMfdSightHudVisible.value ?
     [
-      hudElems.turretAngles(mfdStyle, sightHdpx(150), sightSw(50), sightSh(90), isBackground)
-      hudElems.launchDistanceMax(mfdStyle, sightHdpx(150), sightSw(50), sightSh(90), isBackground)
+      hudElems.turretAngles(mfdStyle, sightSw(15), sightHdpx(150), sightSw(50), sightSh(90), isBackground)
+      hudElems.launchDistanceMax(mfdStyle, sightSw(15), sightHdpx(150), sightSw(50), sightSh(90), isBackground)
       hudElems.sight(mfdStyle, sightSw(50), sightSh(50), sightHdpx(500), isBackground)
       hudElems.rangeFinder(mfdStyle, sightSw(50), sightSh(58), isBackground)
       hudElems.lockSight(mfdStyle, sightHdpx(150), sightHdpx(100), sightSw(50), sightSh(50), isBackground)
@@ -124,6 +129,7 @@ local function ilsHud(elemStyle, isBackground) {
   local ilsStyle = elemStyle.__merge({
     fontScale = ilsFontScale
     lineWidth = LINE_WIDTH * 3
+    color = helicopterState.MfdColor.value
   })
   return @(){
     watch = helicopterState.IsIlsEnabled
@@ -151,7 +157,7 @@ local function mfdHUD(colorStyle, isBackground) {
     ilsHud(colorStyle, isBackground)
     getRwr(rwrStyle)
     getMlws(rwrStyle)
-    radarComponent.radar(true, sh(6), sh(6), getColor(isBackground))
+    radarComponent.radar(true, sw(6), sh(6), getColor(isBackground))
   ]
 }
 
@@ -162,11 +168,11 @@ local Root = function() {
   return {
     watch = [
       helicopterState.IndicatorsVisible
-      helicopterState.HudColor
+      helicopterState.MfdColor
       helicopterState.IsMfdEnabled
     ]
-    halign = HALIGN_LEFT
-    valign = VALIGN_TOP
+    halign = ALIGN_LEFT
+    valign = ALIGN_TOP
     size = [sw(100), sh(100)]
     children = (helicopterState.IndicatorsVisible.value ||
     helicopterState.IsMfdEnabled.value) ? children : null

@@ -94,7 +94,8 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
           armyGroupIdx = airfieldFormation.getArmyGroupIdx()
           unit = unit
           unitName = name
-          unitItem = wwActionsWithUnitsList.getUnitMarkUp(name, displayUnit, group)
+          unitItem = wwActionsWithUnitsList.getUnitMarkUp(name, displayUnit, group,
+            {nameLoc = ::loc(group?.name ?? "")})
           unitClassIconText = wwUnitClassParams.getIconText(unitClass)
           unitClassName = wwUnitClassParams.getText(unitClass)
           unitClassTooltipText = ::loc(unitClassData.tooltipTextLocId)

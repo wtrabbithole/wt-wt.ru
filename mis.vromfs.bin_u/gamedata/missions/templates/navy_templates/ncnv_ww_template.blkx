@@ -2,10 +2,6 @@
   "selected_tag": "",
   "bin_dump_file": "",
   "mission_settings": {
-    "atmosphere": {
-      "pressure": 760.0,
-      "temperature": 15.0
-    },
     "player": {
       "army": 1,
       "wing": ""
@@ -14,47 +10,14 @@
       "army": 2
     },
     "mission": {
-      "name": "untitled",
       "level": "levels/water.bin",
       "type": "singleMission",
       "restoreType": "attempts",
       "optionalTakeOff": false,
-      "campaign": "UserMissions",
       "environment": "Day",
-      "weather": "hazy",
-      "missionDebriefing": "",
-      "missionBriefing": "",
-      "tags": [],
-      "missionType": {
-        "_Dom": false,
-        "_Conq": false,
-        "_Bttl": false,
-        "_DBttlA": false,
-        "_DBttlB": false,
-        "_Bto": false,
-        "_Flc": false,
-        "_v1_race_straight": false,
-        "_v1_race_inverted": false,
-        "_v2_race_straight": false,
-        "_v2_race_inverted": false,
-        "_Conq1": false,
-        "_Conq2": false,
-        "_Conq3": false,
-        "_Conq4": false,
-        "_Conq5": false,
-        "_Conq6": false,
-        "_CnvA": false,
-        "_CnvB": false,
-        "_ArtDA": false,
-        "_ArtDB": false
-      }
+      "weather": "hazy"
     },
-    "spectator_points": [],
-    "cover_points": [],
-    "aiParams": {
-      "aiEffectivenessViscosity": 90.0,
-      "effectivenessDistances": [2500.0,7000.0]
-    }
+    "spectator_points": []
   },
   "imports": [
     {
@@ -143,9 +106,8 @@
               "tank": false,
               "ship": true,
               "boat": true,
-              "type_gun_boat": true,
+              "type_frigate": false,
               "type_destroyer": false,
-              "type_light_cruiser": false,
               "type_cruiser": false,
               "type_battleship": false
             }
@@ -175,9 +137,8 @@
               "tank": false,
               "ship": true,
               "boat": false,
-              "type_gun_boat": false,
+              "type_frigate": true,
               "type_destroyer": true,
-              "type_light_cruiser": true,
               "type_cruiser": true,
               "type_battleship": false
             }
@@ -207,9 +168,8 @@
               "tank": false,
               "ship": true,
               "boat": true,
-              "type_gun_boat": true,
+              "type_frigate": false,
               "type_destroyer": false,
-              "type_light_cruiser": false,
               "type_cruiser": false,
               "type_battleship": false
             }
@@ -239,9 +199,8 @@
               "tank": false,
               "ship": true,
               "boat": false,
-              "type_gun_boat": false,
+              "type_frigate": true,
               "type_destroyer": true,
-              "type_light_cruiser": true,
               "type_cruiser": true,
               "type_battleship": false
             }
@@ -437,18 +396,59 @@
       "events": {
         "initMission": []
       },
+      "conditions": {
+        "unitCheckTag": {
+          "target": "@convoy_sq_name",
+          "tags": {
+            "ship": true,
+            "boat": true,
+            "type_frigate": false,
+            "type_destroyer": false,
+            "type_cruiser": false,
+            "type_battleship": false
+          }
+        }
+      },
+      "actions": {
+        "unitSetFormation": {
+          "formation_type": "cols",
+          "formation_div": 3,
+          "formation_step": [16.0,5.5],
+          "formation_noise": [0.2,0.2],
+          "object": "@convoy_sq_name",
+          "allUnitsInOneFormation": true
+        },
+        "triggerEnable": {
+          "target": "ncnv_template_init6"
+        }
+      },
+      "else_actions": {
+        "unitSetFormation": {
+          "formation_type": "cols",
+          "formation_div": 3,
+          "formation_step": [8.0,2.7],
+          "formation_noise": [0.2,0.2],
+          "object": "@convoy_sq_name",
+          "allUnitsInOneFormation": true
+        },
+        "triggerEnable": {
+          "target": "ncnv_template_init6"
+        }
+      }
+    },
+    "ncnv_template_init6": {
+      "is_enabled": false,
+      "comments": "",
+      "props": {
+        "actionsType": "PERFORM_ONE_BY_ONE",
+        "conditionsType": "ALL",
+        "enableAfterComplete": false
+      },
+      "events": {
+        "initMission": []
+      },
       "conditions": [],
       "actions": [
-        {
-          "unitSetFormation": {
-            "formation_type": "cols",
-            "formation_div": 3,
-            "formation_step": [8.0,2.7],
-            "formation_noise": [0.2,0.2],
-            "object": "@convoy_sq_name",
-            "allUnitsInOneFormation": true
-          }
-        },
         {
           "unitRespawn": {
             "delay": 0.01,

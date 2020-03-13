@@ -1,5 +1,6 @@
 local Unit = ::require("scripts/unit/unit.nut")
 local optionsMeasureUnits = ::require("scripts/options/optionsMeasureUnits.nut")
+local { initBulletIcons } = require("scripts/weaponry/bulletsInfo.nut")
 
 ::all_units <- {}
 ::show_aircraft <- null
@@ -122,6 +123,7 @@ if (::show_aircraft)
     ::dynamic_layouts.clear()
     ::crosshair_icons.clear()
     ::crosshair_colors.clear()
+    ::thermovision_colors.clear()
   }
 
   @() optionsMeasureUnits.init()
@@ -130,7 +132,7 @@ if (::show_aircraft)
   {
     local blk = ::configs.GUI.get()
 
-    ::init_bullet_icons(blk)
+    initBulletIcons(blk)
 
     foreach(name in ["bullets_locId_by_caliber", "modifications_locId_by_caliber"])
       getroottable()[name] = blk?[name] ? (blk[name] % "ending") : []
@@ -144,18 +146,26 @@ if (::show_aircraft)
   function()
   {
     local blk = ::DataBlock("config/hud.blk")
-    if (!blk?.crosshair)
-      return
-
-    local crosshairs = blk.crosshair % "pictureTpsView"
-    foreach (crosshair in crosshairs)
-      ::crosshair_icons.append(crosshair)
-    local colors = blk.crosshair % "crosshairColor"
-    foreach (colorBlk in colors)
-      ::crosshair_colors.append({
-        name = colorBlk.name
-        color = colorBlk.color
-      })
+    if (blk?.crosshair)
+    {
+      local crosshairs = blk.crosshair % "pictureTpsView"
+      foreach (crosshair in crosshairs)
+        ::crosshair_icons.append(crosshair)
+      local colors = blk.crosshair % "crosshairColor"
+      foreach (colorBlk in colors)
+        ::crosshair_colors.append({
+          name = colorBlk.name
+          color = colorBlk.color
+        })
+    }
+    if (blk?.thermovision)
+    {
+      local clrs = blk.thermovision % "color"
+      foreach (colorBlk in clrs)
+      {
+        ::thermovision_colors.append({ menu_rgb = colorBlk.menu_rgb })
+      }
+    }
   }
 
   function()

@@ -115,13 +115,13 @@ local globalEnv = require_native("globalEnv")
     {
       case globalEnv.EM_FULL_REAL:
         options.autotrim = false
-        // continue
+        // no break!
 
-      case globalEnv.EM_REALISTIC:
+      case globalEnv.EM_REALISTIC: // warning disable: -missed-break
         options.instructorEnabled = false
-        // continue
+        // no break!
 
-      case globalEnv.EM_INSTRUCTOR:
+      case globalEnv.EM_INSTRUCTOR: // warning disable: -missed-break
         if (options.mouseUsage == AIR_MOUSE_USAGE.AIM)
           options.mouseUsage = options.mouseUsageNoAim
         break

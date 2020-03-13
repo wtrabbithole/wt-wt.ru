@@ -13,14 +13,19 @@ local persist = {
 
 local STORE_REQUEST_ADDITIONAL_FLAGS = {
   flag = "discounts"
-  useCurrencySymbol = true
+  useCurrencySymbol = "false"
+  useFree = "true"
+  sort = "release_date"
+  keepHtmlTag = "true"
 }
 
-local isFinishedUpdateItems = false
+local isFinishedUpdateItems = false //Status of FULL update items till creating list of classes PS4ShopPurchasableItem
 local invalidateSeenList = false
 local visibleSeenIds = []
 
 local getShopItem = @(id) persist.itemsList?[id]
+
+local canUseIngameShop = @() ::is_platform_ps4 && ::has_feature("PS4IngameShop")
 
 //Recursive translator to DataBlock data.
 //More conviniet to store, search and use data in DataBlock.
@@ -56,6 +61,9 @@ local haveItemDiscount = null
 // Calls on finish updating skus extended info
 local onFinishCollectData = function()
 {
+  if (!canUseIngameShop())
+    return
+
   isFinishedUpdateItems = true
   haveItemDiscount = null
 
@@ -99,16 +107,25 @@ local makeRequestForNextCategory = function(onFoundCb, onFinishCb = @() null, la
 local requestLinksFullInfo = @(category) null
 local fillLinkFullInfo = @(category = "") makeRequestForNextCategory(requestLinksFullInfo, onFinishCollectData, category)
 
+local itemIndex = 0
 local onReceivedResponeOnFullInfo = function(response, category, linksList) {
-  foreach (idx, label in linksList)
-  {
+  response.each(function(linkBlock, idx) {
+    local label = linkBlock.label
+
     // Received full info, we don't need short
     persist.categoriesData[category].links.removeBlock(label)
 
-    fillBlock(label, persist.categoriesData[category].links, response[idx])
+    fillBlock(label, persist.categoriesData[category].links, linkBlock)
     persist.categoriesData[category].links[label].setStr("category", category)
-    persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label])
-  }
+    persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label], itemIndex++)
+
+    local linkIdx = linksList.findindex(@(p) p == label)
+    if (linkIdx != null)
+      linksList.remove(linkIdx)
+  })
+
+  if (linksList.len())
+    ::dagor.debug("PSN: Shop data: onReceivedResponeOnFullInfo: Didn't recieved info for {0}".subst(linksList.tostring()))
 
   fillLinkFullInfo(category)
 }
@@ -117,7 +134,7 @@ requestLinksFullInfo = function(category) {
   local categoryBlock = persist.categoriesData.getBlockByName(category)
   if (!categoryBlock)
   {
-    ::dagor.debug("PSN: Shop data: requestLinksFullInfo: no block found for category " + category)
+    ::dagor.debug($"PSN: Shop data: requestLinksFullInfo: no block found for category {category}")
     fillLinkFullInfo(category)
     return
   }
@@ -151,6 +168,7 @@ requestLinksFullInfo = function(category) {
     function(response, err) {
       if (err)
       {
+        ::statsd_counter($"ingame_store.error_request_category_data.{category}.{err}")
         ::debug.debug("PSN: Shop Data: requestLinksFullInfo: on send linksList: Error " + ::toString(err))
         ::debugTableData(linksList)
         return
@@ -170,6 +188,7 @@ requestCategoryFullLinksList = @(category) psn.fetch(psn.commerce.listCategory(c
   function(response, err) {
     if (err)
     {
+      ::statsd_counter($"ingame_store.error_request_category.{category}.{err}")
       ::dagor.debug("PSN: Shop Data: requestCategoryFullLinksList: Category " + category + ", Error receieved: " + ::toString(err))
       return
     }
@@ -195,6 +214,7 @@ digCategory = function(response, err = null)
 {
   if (err)
   {
+    ::statsd_counter($"ingame_store.error_request_categories.{err}")
     ::script_net_assert_once("psn_categories_error", "PSN: Shop Data: Dig Category: received error: " + ::toString(err))
     return
   }
@@ -233,6 +253,7 @@ local collectCategoriesAndItems = @() psn.send(
   {
     if (err)
     {
+      ::statsd_counter($"ingame_store.error_request_categories_main.{err}")
       ::dagor.debug("PSN: Shop Data: collectCategoriesAndItems: Received error: " + ::toString(err))
       return
     }
@@ -246,8 +267,6 @@ local collectCategoriesAndItems = @() psn.send(
     digCategory(response)
   }
 )
-
-local canUseIngameShop = @() ::is_platform_ps4 && ::has_feature("PS4IngameShop")
 
 local isCategoriesInitedOnce = false
 local initPs4CategoriesAfterLogin = function()
@@ -269,6 +288,7 @@ local updateSpecificItemInfo = function(id)
     function(response, err) {
       if (err)
       {
+        ::statsd_counter($"ingame_store.error_request_items_info.{err}")
         ::dagor.debug("PSN: Shop Data: updateSpecificItemInfo: items: " + ::toString(linksArray) + "; Error: " + ::toString(err))
         return
       }
@@ -355,6 +375,8 @@ subscriptions.addListenersWithoutEnv({
   ProfileUpdated = @(p) initPs4CategoriesAfterLogin()
   ScriptsReloaded = function(p) {
     visibleSeenIds.clear()
+    persist.itemsList.clear()
+    itemIndex = 0
     onFinishCollectData()
   }
   SignOut = function(p) {
@@ -362,6 +384,7 @@ subscriptions.addListenersWithoutEnv({
     isFinishedUpdateItems = false
     persist.categoriesData.reset()
     persist.itemsList.clear()
+    itemIndex = 0
     visibleSeenIds.clear()
     haveItemDiscount = null
   }
@@ -376,4 +399,6 @@ return {
   getData = @() persist.categoriesData
   getShopItemsTable = @() persist.itemsList
   getShopItem = getShopItem
+
+  isItemsUpdated = @() isFinishedUpdateItems
 }

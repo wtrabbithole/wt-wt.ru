@@ -1,9 +1,12 @@
 local time = require("scripts/time.nut")
-local systemMsg = ::require("scripts/utils/systemMsg.nut")
-local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
+local systemMsg = require("scripts/utils/systemMsg.nut")
+local seenEvents = require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 local crossplayModule = require("scripts/social/crossplay.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
+local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
+local { getFeaturePack } = require("scripts/user/features.nut")
+local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
@@ -616,20 +619,18 @@ class Events
       return
 
     local sides = []
-    local isFreeForAll = ::getTblValue("ffa", event)
-    local isSymmetric = isFreeForAll || ::getTblValue("isSymmetric", event, false)
-
     foreach(team in fullTeamsList)
       if (isTeamDataPlayable(getTeamData(event, team)))
         sides.append(team)
 
+    local isFreeForAll = event?.ffa ?? false
+    local isSymmetric = isFreeForAll || (event?.isSymmetric ?? false) || sides.len() <= 1
     //no point to save duplicate array, just link on fullTeamsList
     if (!isSymmetric)
     {
       local teamDataA = getTeamData(event, sides[0])
       local teamDataB = getTeamData(event, sides[1])
-      isSymmetric = sides.len() <= 1
-      if (!isSymmetric && (teamDataA == null || teamDataB == null))
+      if (teamDataA == null || teamDataB == null)
       {
         local economicName = event?.economicName  // warning disable: -declared-never-used
         ::script_net_assert_once("not found event teamdata", "missing teamdata in event")
@@ -1688,31 +1689,32 @@ class Events
   }
 
   //!!! function only for compatibility with version without gui_regional
-  function getNameLocOldStyle(economicName)
+  function getNameLocOldStyle(event, economicName)
   {
-    local event = ::events.getEventByEconomicName(economicName)
     return ::getTblValue("loc_name", event, "events/" + economicName + "/name")
   }
 
-  function getNameByEconomicName(economicName)
+  function getEventNameText(event)
   {
+    local economicName = getEventEconomicName(event)
     local res = ::g_language.getLocTextFromConfig(getTextsBlock(economicName), "name", "")
     if (res.len())
       return res
 
     if (langCompatibility)
-      return ::loc(getNameLocOldStyle(economicName), economicName)
+      return ::loc(getNameLocOldStyle(event, economicName), economicName)
 
     return ::loc("events/" + economicName + "/name", ::loc("events/" + economicName))
   }
 
-  function getEventNameText(event)
+  function getNameByEconomicName(economicName)
   {
-    return getNameByEconomicName(getEventEconomicName(event))
+    return getEventNameText(::events.getEventByEconomicName(economicName))
   }
 
-  function getShortNameByEconomicName(economicName)
+  function getEventShortNameText(event)
   {
+    local economicName = getEventEconomicName(event)
     local res = ::g_language.getLocTextFromConfig(getTextsBlock(economicName), "nameShort", "")
     if (res.len())
       return res
@@ -1723,12 +1725,7 @@ class Events
       res = ::loc(locId + "/short", "")
       return (res != "") ? res : ::loc(locId, ::loc("events/" + economicName + "/short"))
     }
-    return getNameByEconomicName(economicName)
-  }
-
-  function getEventShortNameText(event)
-  {
-    return getShortNameByEconomicName(getEventEconomicName(event))
+    return getEventNameText(event)
   }
 
   function getBaseDescByEconomicName(economicName)
@@ -1935,7 +1932,7 @@ class Events
 
         local airIconObj = ruleObj.findObject("air_icon")
         airIconObj["background-image"] = ::getUnitClassIco(rule.name)
-        airIconObj.shopItemType = ::get_unit_role(rule.name)
+        airIconObj.shopItemType = getUnitRole(rule.name)
 
         ruleObj.findObject("tooltip_obj").tooltipId = ::g_tooltip.getIdUnit(air.name, { needShopInfo = true })
       }
@@ -2706,15 +2703,15 @@ class Events
     if (!purchData.canBePurchased)
       return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
 
-    local entitlementItem = ::get_entitlement_config(purchData.sourceEntitlement)
+    local entitlementItem = getEntitlementConfig(purchData.sourceEntitlement)
     local msg = ::loc("msg/eventAccess/needEntitlements",
                       {
                         event = ::colorize("activeTextColor", getEventNameText(event))
-                        entitlement = ::colorize("userlogColoredText", ::get_entitlement_name(entitlementItem))
+                        entitlement = ::colorize("userlogColoredText", getEntitlementName(entitlementItem))
                       })
     ::gui_handlers.ReqPurchaseWnd.open({
       purchaseData = purchData
-      checkPackage = ::g_features.getFeaturePack(feature)
+      checkPackage = getFeaturePack(feature)
       header = getEventNameText(event)
       text = msg
       btnStoreText = ::loc("msgbox/btn_onlineShop_unlockEvent")
@@ -2728,7 +2725,7 @@ class Events
     local feature = getEventReqFeature(event)
     if (::u.isEmpty(feature) || (checkFeature && !::has_feature(feature)))
       return null
-    return ::g_features.getFeaturePack(feature)
+    return getFeaturePack(feature)
   }
 
   //return true if me and all my squad members has packs requeired by event feature
@@ -2806,9 +2803,9 @@ class Events
       reasonText = ::loc("msgbox/notAvailbleYet")
     else
     {
-      local entitlementItem = ::get_entitlement_config(purchData.sourceEntitlement)
+      local entitlementItem = getEntitlementConfig(purchData.sourceEntitlement)
       reasonText = ::loc("events/no_entitlement",
-        { entitlement = ::colorize("userlogColoredText", ::get_entitlement_name(entitlementItem)) })
+        { entitlement = ::colorize("userlogColoredText", getEntitlementName(entitlementItem)) })
     }
 
     return reasonText

@@ -1,6 +1,8 @@
 local stdMath = require("std/math.nut")
+local { getSkillDescriptionView } = require("scripts/crew/crewSkillParameters.nut")
+local { getSkillValue } = require("scripts/crew/crewSkills.nut")
 
-class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandlerWT
+local class CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.CUSTOM
   sceneBlkName = "gui/empty.blk"
@@ -8,22 +10,19 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
   isPrimaryFocus = false
   pageBonuses = null
   repeatButton = false
-  crewModalHandlerWeak = null
   needAskBuySkills = false
   pageOnInit = false
   isHandlerVisible = true
 
   crew = null
-  crewLevel = 0
   curPage = null
   curCrewUnitType = ::CUT_INVALID
+  curPoints = 0
+  onSkillRowChangeCb = null
+  unit = null
 
   function initScreen()
   {
-    if (crewModalHandlerWeak)
-      crewModalHandlerWeak = crewModalHandlerWeak.weakref() //we are miss weakref on assigning from params table
-
-    updateDataFromParentHandler()
     if (!curPage || !crew)
     {
       scene = null //make handler invalid to unsubscribe from events.
@@ -32,6 +31,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       return
     }
 
+    pageBonuses = getItemsBonuses(curPage)
     pageOnInit = true
     updateSkills()
 
@@ -58,11 +58,10 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
           rows.append(getSkillRowConfig(idx))
 
     local view = { rows = rows, needAddRow = row == null }
-    local curUnit = getCurUnit()
-    if (curUnit)
+    if (unit != null)
     {
-      view.buySpecTooltipId1 <- ::g_crew_spec_type.EXPERT.getBtnBuyTooltipId(crew, curUnit)
-      view.buySpecTooltipId2 <- ::g_crew_spec_type.ACE.getBtnBuyTooltipId(crew, curUnit)
+      view.buySpecTooltipId1 <- ::g_crew_spec_type.EXPERT.getBtnBuyTooltipId(crew, unit)
+      view.buySpecTooltipId2 <- ::g_crew_spec_type.ACE.getBtnBuyTooltipId(crew, unit)
     }
 
     local data = ::handyman.renderCached(sceneTplName, view)
@@ -90,42 +89,30 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     scene.enable(value)
   }
 
-  function updateDataFromParentHandler()
+  function updateHandlerData(params)
   {
-    if (!crewModalHandlerWeak)
-      return
-
-    curPage = crewModalHandlerWeak.getCurPage()
-    crew = crewModalHandlerWeak.crew
-    curCrewUnitType = crewModalHandlerWeak.curCrewUnitType
+    curPage = params.curPage
+    crew = params.crew
+    curCrewUnitType = params.curCrewUnitType
+    curPoints = params.curPoints
+    unit = params.unit
     pageBonuses = getItemsBonuses(curPage)
-  }
-
-  function updateHandlerData()
-  {
-    updateDataFromParentHandler()
     if (!curPage)
       return
 
     updateSkills()
   }
 
-  function getCurUnit()
-  {
-    return ::g_crew.getCrewUnit(crew)
-  }
-
   function getItemsBonuses(page)
   {
     local bonuses = []
     local curGunnersMul = 1.0
-    local unit = getCurUnit()
     local specType = ::g_crew_spec_type.getTypeByCrewAndUnit(crew, unit)
     local curSpecMul = specType.getMulValue()
     if (page.id=="gunner")
     {
       local airGunners = ::getTblValue("gunnersCount", unit, 0)
-      local curGunners = getSkillValue("gunner", "members")
+      local curGunners = getSkillValue(crew.id, unit, "gunner", "members")
       foreach (item in page.items)
         if(item.name == "members" && "newValue" in item)
         {
@@ -151,11 +138,6 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     return bonuses
   }
 
-  function getSkillValue(crewType, skillName)
-  {
-    return ::g_crew.getSkillValue(crew.id, crewType, skillName)
-  }
-
   function getRowName(rowIndex)
   {
     return ::format("skill_row%d", rowIndex)
@@ -163,7 +145,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
   function getCurPoints()
   {
-    return crewModalHandlerWeak ? crewModalHandlerWeak.curPoints : 0
+    return curPoints
   }
 
   function updateIncButtons(items)
@@ -176,7 +158,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       if (!::checkObj(rowObj))
         continue
 
-      local newCost = ::g_crew.getNextSkillStepCost(item, item?.newValue ?? getSkillValue(curPage.id, item.name))
+      local newCost = ::g_crew.getNextSkillStepCost(item, item?.newValue ?? getSkillValue(crew.id, unit, curPage.id, item.name))
       rowObj.findObject("buttonInc").inactiveColor = (newCost > 0 && newCost <= getCurPoints()) ? "no" : "yes"
       rowObj.findObject("availableSkillProgress").setValue(::g_crew.skillValueToStep(item, getSkillMaxAvailable(item)))
     }
@@ -184,10 +166,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
   function applySkillRowChange(row, item, newValue)
   {
-    if (!crewModalHandlerWeak)
-      return
-
-    crewModalHandlerWeak.onSkillRowChange(item, newValue)
+    onSkillRowChangeCb?(item, newValue)
     guiScene.performDelayed(this, function() {
       if (isValid())
         updateSkills(row)
@@ -196,11 +175,14 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
   function onProgressButton(obj, inc, isRepeat = false, limit = false)
   {
+    if (!isRecrutedCurCrew())
+      return
+
     local row = ::g_crew.getButtonRow(obj, scene, scene)
     if (curPage.items.len() > 0 && (!repeatButton || isRepeat))
     {
       local item = curPage.items[row]
-      local value = getSkillValue(curPage.id, item.name)
+      local value = getSkillValue(crew.id, unit, curPage.id, item.name)
       local newValue = item.newValue
       if (limit)
         newValue += inc ? getSkillMaxAvailable(item) : item.value
@@ -267,7 +249,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
   function onSkillChanged(obj)
   {
-    if (pageOnInit || !obj)
+    if (pageOnInit || !obj || !isRecrutedCurCrew())
       return
 
     local row = ::g_crew.getButtonRow(obj, scene, scene)
@@ -280,7 +262,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       return
 
     local newValue = ::g_crew.skillStepToValue(item, newStep)
-    local value = getSkillValue(curPage.id, item.name)
+    local value = getSkillValue(crew.id, unit, curPage.id, item.name)
     local maxValue = getSkillMaxAvailable(item)
     if (newValue < value)
       newValue = value
@@ -332,7 +314,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
   function onSpecIncrease(nextSpecType)
   {
-    ::g_crew.upgradeUnitSpec(crew, getCurUnit(), curCrewUnitType, nextSpecType)
+    ::g_crew.upgradeUnitSpec(crew, unit, curCrewUnitType, nextSpecType)
   }
 
   function onSpecIncrease1()
@@ -347,12 +329,11 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
 
   function onSkillRowTooltipOpen(obj)
   {
-    local crewUnitType = crewModalHandlerWeak?.curCrewUnitType ?? ::CUT_AIRCRAFT
     local memberName = obj?.memberName ?? ""
     local skillName = obj?.skillName ?? ""
     local difficulty = ::get_current_shop_difficulty()
-    local view = ::g_crew_skill_parameters.getSkillDescriptionView(
-      crew, difficulty, memberName, skillName, crewUnitType)
+    local view = getSkillDescriptionView(
+      crew, difficulty, memberName, skillName, curCrewUnitType, unit)
     local data = ::handyman.renderCached("gui/crew/crewSkillParametersTooltip", view)
     guiScene.replaceContentFromText(obj, data, data.len(), this)
   }
@@ -363,7 +344,7 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
     if (!item)
       return null
 
-    local value = getSkillValue(curPage.id, item.name)
+    local value = getSkillValue(crew.id, unit, curPage.id, item.name)
     if (!("newValue" in item))
       item.newValue <- value
 
@@ -392,9 +373,8 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
           + "<color=@badTextColor>" + lvlDiffByGunners + "</color>"
     }
 
-    local unit = getCurUnit()
-    local level = ::g_crew.getCrewLevel(crew, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
-
+    local level = ::g_crew.getCrewLevel(crew, unit, unit?.getCrewUnitType?() ?? ::CUT_INVALID)
+    local isRecrutedCrew = isRecrutedCurCrew()
     return {
       id = getRowName(idx)
       rowIdx = idx
@@ -409,34 +389,45 @@ class ::gui_handlers.CrewSkillsPageHandler extends ::gui_handlers.BaseGuiHandler
       bonusText = bonusText
       bonusOverlayTextColor = bonusOverlayTextColor
       bonusTooltip = bonusTooltip
+      progressEnable = isRecrutedCrew ? "yes" : "no"
       skillProgressValue = value
       shadeSkillProgressValue = value
       newSkillProgressValue = newProgressValue
       glowSkillProgressValue = newProgressValue
       skillSliderValue = ::g_crew.skillValueToStep(item, item.newValue)
       curValue = ::g_crew.getSkillCrewLevel(item, item.newValue).tostring()
-      visibleButtonDec = (item.newValue > value) ? "show" : "hide"
-      visibleButtonInc = (item.newValue < item.costTbl.len()) ? "show" : "hide"
+      visibleButtonDec = (item.newValue > value && isRecrutedCrew)
+        ? "show" : "hide"
+      visibleButtonInc = (item.newValue < item.costTbl.len() && isRecrutedCrew)
+        ? "show" : "hide"
       incCost = ::get_crew_sp_text(::g_crew.getNextSkillStepCost(item, item.newValue), false)
 
       btnSpec = [
-        getRowSpecButtonConfig(::g_crew_spec_type.EXPERT, level, unit, bonusData),
-        getRowSpecButtonConfig(::g_crew_spec_type.ACE, level, unit, bonusData)
+        getRowSpecButtonConfig(::g_crew_spec_type.EXPERT, level, bonusData),
+        getRowSpecButtonConfig(::g_crew_spec_type.ACE, level, bonusData)
       ]
     }
   }
 
-  function getRowSpecButtonConfig(specType, crewLvl, unit, bonusData)
+  function getRowSpecButtonConfig(specType, crewLvl, bonusData)
   {
     local icon = ""
+    local curSpecCode = bonusData.specType.code
     if (bonusData && bonusData.haveSpec)
-      icon = specType.getIcon(bonusData.specType.code, crewLvl, unit)
+      icon = specType.getIcon(curSpecCode, crewLvl, unit)
     return {
       id = specType.code
       icon = icon
-      enable = (icon != "" && bonusData.specType.code < specType.code) ? "yes" : "no"
+      enable = (icon != "" && curSpecCode < specType.code) ? "yes" : "no"
       display = (icon != "") ? "show" : "none" //"none" - hide but not affect button place
       isExpertSpecType = specType == ::g_crew_spec_type.EXPERT
     }
   }
+
+  setCurPoints = @(newPoints) curPoints = newPoints
+  isRecrutedCurCrew = @() crew.id != -1
 }
+
+::gui_handlers.CrewSkillsPageHandler <- CrewSkillsPageHandler
+
+return @(params) ::handlersManager.loadHandler(CrewSkillsPageHandler, params)

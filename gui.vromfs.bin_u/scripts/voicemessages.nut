@@ -1,9 +1,8 @@
-local localDevoice = ::require("scripts/penitentiary/localDevoice.nut")
+local localDevoice = require("scripts/penitentiary/localDevoice.nut")
 
-::hidden_category_name <- "hidden"
+const HIDDEN_CATEGORY_NAME = "hidden"
 const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
-::voice_message_names <-
-[
+local voiceMessageNames = [
   {category = "attack", name = "voice_message_attack_A", blinkTime = 0, haveTarget = false, showPlace = false, icon = "icon_attack", iconBlinkTime = 6, iconTarget = "zone_A"},
   {category = "attack", name = "voice_message_attack_B", blinkTime = 0, haveTarget = false, showPlace = false, icon = "icon_attack", iconBlinkTime = 6, iconTarget = "zone_B"},
   {category = "attack", name = "voice_message_attack_C", blinkTime = 0, haveTarget = false, showPlace = false, icon = "icon_attack", iconBlinkTime = 6, iconTarget = "zone_C"},
@@ -32,33 +31,29 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
   {category = "report", name = "voice_message_attacking_target", blinkTime = 10, haveTarget = true, showPlace = true, icon = "icon_attacking", iconBlinkTime = 6, iconTarget = "target"},
   {category = "report", name = "voice_message_repairing", blinkTime = 0, haveTarget = false, showPlace = false, forTank = true, useRepairTime = true},
 
-  {category = hidden_category_name, name = "voice_message_attention_to_point", blinkTime = 5, haveTarget = false, showPlace = true,
+  {category = HIDDEN_CATEGORY_NAME, name = "voice_message_attention_to_point", blinkTime = 5, haveTarget = false, showPlace = true,
                                     icon = "icon_attention_to_point", iconBlinkTime = 8, iconTarget = "sender", attentionToPoint = true},
 ]
-::voice_message_names_initialized <- false;
 
-::init_voice_message_list <- function init_voice_message_list()
-{
-  for (local i = 0; i < ::voice_message_names.len(); i++)
+local function initVoiceMessageList() {
+  for (local i = 0; i < voiceMessageNames.len(); i++)
   {
-    local line = ::voice_message_names[i];
-    add_voice_message(line);
+    local line = voiceMessageNames[i];
+    ::add_voice_message(line);
   }
 }
-::get_category_loc <- function get_category_loc(category)
-{
-  return ::loc("voice_message_category/" + category);
-}
+initVoiceMessageList()
 
-::get_favorite_voice_messages_variants <- function get_favorite_voice_messages_variants()
-{
+local getCategoryLoc = @(category) ::loc($"voice_message_category/{category}")
+
+local function getFavoriteVoiceMessagesVariants() {
   local result = ["#options/none"];
   local categoryName = "";
   local categoryIndex = 0;
   local indexInCategory = 0;
-  foreach(idx, record in ::voice_message_names)
+  foreach(idx, record in voiceMessageNames)
   {
-    if (record.category == ::hidden_category_name)
+    if (record.category == HIDDEN_CATEGORY_NAME)
       continue;
     if (categoryName != record.category)
     {
@@ -74,8 +69,7 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
   return result;
 }
 
-::get_voice_message_list_line <- function get_voice_message_list_line(index, is_category, name, squad, targetName, messageIndex = -1)
-{
+local function getVoiceMessageListLine(index, is_category, name, squad, targetName, messageIndex = -1) {
   local scText = ""
   if (!::is_platform_ps4)
   {
@@ -92,13 +86,14 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
 
   return {
     shortcutText = scText
-    name = is_category ? ::get_category_loc(name) : ::format(::loc(name + "_0"), targetName)
-    squad = squad
+    name = is_category ? getCategoryLoc(name) : ::format(::loc(name + "_0"), targetName)
+    chatMode = squad ? "squad" : "team"
   }
 }
 
-::show_voice_message_list <- function show_voice_message_list(show, category, squad, targetName)
-{
+local onVoiceMessageAnswer = @(index) ::on_voice_message_button(index) //-1 means "close"
+
+local function showVoiceMessageList(show, category, squad, targetName) {
   if (!show)
   {
     ::close_cur_voicemenu()
@@ -129,15 +124,15 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
   local heroIsTank = air ? isTank(air) : false;
   local shortcutTable = {}
 
-  foreach(idx, record in ::voice_message_names)
+  foreach(idx, record in voiceMessageNames)
   {
     if (category == "") //list of categories
     {
       if (::isInArray(record.category, categories)
-          || record.category == ::hidden_category_name)
+          || record.category == HIDDEN_CATEGORY_NAME)
         continue;
 
-      shortcutTable = ::get_voice_message_list_line(menu.len(), true, record.category, squad, targetName, -1);
+      shortcutTable = getVoiceMessageListLine(menu.len(), true, record.category, squad, targetName, -1);
       shortcutTable.type <- "group"
 
       categories.append(record.category);
@@ -155,7 +150,7 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
       }
       else
       {
-        shortcutTable = ::get_voice_message_list_line(menu.len(), false, record.name, squad, targetName, idx)
+        shortcutTable = getVoiceMessageListLine(menu.len(), false, record.name, squad, targetName, idx)
         shortcutTable.type <- "shortcut"
       }
     }
@@ -171,7 +166,7 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
         break
 
       local messageIndex = ::get_option_favorite_voice_message(i)
-      local record = ::getTblValue(messageIndex, ::voice_message_names)
+      local record = ::getTblValue(messageIndex, voiceMessageNames)
       if (!record)
         continue
 
@@ -184,7 +179,7 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
         menu.append({})
         continue
       }
-      shortcutTable = ::get_voice_message_list_line(menu.len(), false, record.name, squad, targetName, messageIndex);
+      shortcutTable = getVoiceMessageListLine(menu.len(), false, record.name, squad, targetName, messageIndex);
       shortcutTable.type <- "favorite"
       menu.append(shortcutTable)
     }
@@ -198,43 +193,13 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
                                 squadMsg = squad,
                                 category = category}) != null
 }
+::show_voice_message_list <-showVoiceMessageList //used from native code
 
-::onVoiceMessageAnswer <- function onVoiceMessageAnswer(index)
-{
-  ::on_voice_message_button(index) //-1 means "close"
-}
+local removeFavoriteVoiceMessage = @(index) ::set_option_favorite_voice_message(index, -1)
 
-::getFirstUnassignedFavoriteVoiceMessage <- function getFirstUnassignedFavoriteVoiceMessage()
-{
-  for (local i = 0; i < NUM_FAVORITE_VOICE_MESSAGES; i++)
-  {
-    local messageIndex = ::get_option_favorite_voice_message(i);
-    if (messageIndex < 0)
-      return i;
-  }
-  return -1; //not found
-}
-::canFavoriteVoiceMessageBeAdded <- function canFavoriteVoiceMessageBeAdded()
-{
-  return getFirstUnassignedFavoriteVoiceMessage() >= 0 ;
-}
-::addFavoriteVoiceMessage <- function addFavoriteVoiceMessage(message_index)
-{
-  local place = getFirstUnassignedFavoriteVoiceMessage();
-  if (place < 0)
-    return;
-
-  ::set_option_favorite_voice_message(place, message_index);
-}
-::removeFavoriteVoiceMessage <- function removeFavoriteVoiceMessage(index)
-{
-  ::set_option_favorite_voice_message(index, -1);
-}
-
-::reset_fast_voice_messages <- function reset_fast_voice_messages()
-{
+local function resetFastVoiceMessages() {
   for (local i = 0; i < ::NUM_FAST_VOICE_MESSAGES; i++)
-    ::removeFavoriteVoiceMessage(i)
+    removeFavoriteVoiceMessage(i)
 }
 
 ::is_voice_messages_muted <- function is_voice_messages_muted(name) //used from native code
@@ -244,9 +209,11 @@ const LIMIT_SHOW_VOICE_MESSAGE_PETALS = 8
 }
 
 //////////////////////////////////////////////////////
+local getVoiceMessageNames = @() voiceMessageNames
 
-if (!::voice_message_names_initialized)
-{
-  init_voice_message_list();
-  ::voice_message_names_initialized = true;
+return {
+  getVoiceMessageNames = getVoiceMessageNames
+  getCategoryLoc = getCategoryLoc
+  getFavoriteVoiceMessagesVariants = getFavoriteVoiceMessagesVariants
+  resetFastVoiceMessages = resetFastVoiceMessages
 }

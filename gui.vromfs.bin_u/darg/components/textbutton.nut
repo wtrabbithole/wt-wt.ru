@@ -51,8 +51,8 @@ local textButton = @(fill_color, border_width) function(text, handler, params={}
 
   local font = params?.font ?? Fonts.medium_text //!!FIX ME: why real font name in general library?
   local size = params?.size ?? SIZE_TO_CONTENT
-  local halign = params?.halign ?? HALIGN_LEFT
-  local valign = params?.valign ?? VALIGN_MIDDLE
+  local halign = params?.halign ?? ALIGN_LEFT
+  local valign = params?.valign ?? ALIGN_CENTER
   local sound = params?.style?.sound ?? {}
   local textCtor = params?.textCtor ?? defTextCtor
   local function builder(sf) {
@@ -105,9 +105,9 @@ local export = class{
   Underline = textButton(fillColor, [0,0,hdpx(1),0])
   Flat = textButton(fillColor, 0)
   Transp = textButton(fillColorTransp, 0)
-  FA =          @(fa_key, handler, params={}) Flat     ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
-  FA_Bordered = @(fa_key, handler, params={}) Bordered ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
-  FA_Transp   = @(fa_key, handler, params={}) Transp   ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = HALIGN_CENTER valign=VALIGN_MIDDLE}.__update(params))
+  FA =          @(fa_key, handler, params={}) Flat     ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = ALIGN_CENTER valign=ALIGN_CENTER}.__update(params))
+  FA_Bordered = @(fa_key, handler, params={}) Bordered ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = ALIGN_CENTER valign=ALIGN_CENTER}.__update(params))
+  FA_Transp   = @(fa_key, handler, params={}) Transp   ((fa?[fa_key] ?? "N"), handler, {margin = 0 font = Fonts.fontawesome halign = ALIGN_CENTER valign=ALIGN_CENTER}.__update(params))
 
   _call = @(self, text, handler, params={}) Flat(text, handler, params)
 }()

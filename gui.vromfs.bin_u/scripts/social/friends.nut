@@ -1,6 +1,6 @@
 local psn = require("ps4Lib/webApi.nut")
-
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+local editContactsList = require("scripts/contacts/editContacts.nut")
 
 ::no_dump_facebook_friends <- {}
 ::LIMIT_FOR_ONE_TASK_GET_PS4_FRIENDS <- 200
@@ -22,26 +22,13 @@ local isFirstPs4FriendsUpdate = true
       players.append(contact)
   }
 
-  local addedFriendsNumber = 0
   if (players.len())
   {
     ::addContactGroup(groupName)
-    addedFriendsNumber = ::edit_players_list_in_contacts({[true] = players}, groupName)
+    editContactsList({[true] = players}, groupName, !silent)
   }
 
   ::on_facebook_destroy_waitbox()
-  if (silent)
-    return
-
-  local resultMessage = ""
-  if (addedFriendsNumber == 0)
-    resultMessage = ::loc("msgbox/no_friends_added");
-  else if (addedFriendsNumber == 1)
-    resultMessage = ::loc("msgbox/added_friends_one");
-  else
-    resultMessage = format(::loc("msgbox/added_friends_number"), addedFriendsNumber)
-
-  ::showInfoMsgBox(resultMessage, "friends_added")
 }
 
 //--------------- <PlayStation> ----------------------

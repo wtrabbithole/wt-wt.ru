@@ -189,6 +189,6 @@ local psn = require("ps4Lib/webApi.nut")
     body.targets.append({meta=smallImage, type="SMALL_IMAGE_URL", aspectRatio="2.08:1"})
 
   sendStat("post")
-  psn.send(psn.feed.post(body), function(_, err) { sendStat(err ? "fail."+err : "success") })
+  psn.send(psn.feed.post(body), function(_, err) { sendStat(err ? "fail."+err.code.tostring() : "success") })
 }
 //----------------------- </PlayStation> --------------------------

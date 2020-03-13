@@ -233,6 +233,9 @@ class ::Warbond
 
   function needShowNewItemsNotifications()
   {
+    if (!::g_login.isProfileReceived())
+      return false
+
     local curLevel = getCurrentShopLevel()
     local lastSeen = ::loadLocalByAccount(LAST_SEEN_WARBOND_SHOP_LEVEL_PATH, 0)
     if (curLevel != 0 && lastSeen != curLevel)

@@ -154,11 +154,12 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     local view = []
     // First go all wide featured game modes then - non-wide.
     local numNonWideGameModes = 0
-    foreach (isWide in [true, false])
+    foreach (isWide in [ true, false ])
     {
       while (true)
       {
-        local gameMode = getGameModeByCondition(gameModesArray, @(gameMode) gameMode.displayWide == isWide)
+        local gameMode = getGameModeByCondition(gameModesArray,
+          @(gameMode) gameMode.displayWide == isWide) // warning disable: -iterator-in-lambda
         if (gameMode == null)
           break
         if (!isWide)
@@ -265,12 +266,13 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
     local countries = createGameModeCountriesView(gameMode)
     local isLink = gameMode.displayType.showInEventsWindow
-    local event = getGameModeEvent(gameMode)
+    local event = ::game_mode_manager.getGameModeEvent(gameMode)
     local trophyName = ::events.getEventPVETrophyName(event)
 
     local id = ::game_mode_manager.getGameModeItemId(gameMode.id)
     local hasNewIconWidget = !::game_mode_manager.isSeen(id)
     local newIconWidgetContent = hasNewIconWidget? NewIconWidget.createLayout() : null
+
     local crossPlayRestricted = !isCrossPlayEventAvailable(event)
     local crossplayTooltip = getCrossPlayRestrictionTooltipText(event)
     if (gameMode?.updateByTimeFunc)
@@ -432,7 +434,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
         !::check_package_and_ask_download("pkg_main"))
       return
 
-    local event = getGameModeEvent(gameMode)
+    local event = ::game_mode_manager.getGameModeEvent(gameMode)
     if (event && !isCrossPlayEventAvailable(event))
     {
       ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
@@ -507,11 +509,6 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
     performGameModeSelect(filledGameModes[value].gameMode)
   }
 
-  function getGameModeEvent(gameModeTbl)
-  {
-    return ("getEvent" in gameModeTbl) ? gameModeTbl.getEvent() : null
-  }
-
   function onEventDescription(obj)
   {
     openEventDescription(::game_mode_manager.getGameModeById(obj.value))
@@ -532,7 +529,7 @@ class ::gui_handlers.GameModeSelect extends ::gui_handlers.BaseGuiHandlerWT
 
   function openEventDescription(gameMode)
   {
-    local event = getGameModeEvent(gameMode)
+    local event = ::game_mode_manager.getGameModeEvent(gameMode)
     if (event != null)
     {
       restoreFromModal = true

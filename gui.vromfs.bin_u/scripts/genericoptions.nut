@@ -1,3 +1,9 @@
+local fxOptions = require("scripts/options/fxOptions.nut")
+local { setUnitLastBullets,
+        isBulletGroupActive } = require("scripts/weaponry/bulletsInfo.nut")
+local { getLastWeapon,
+        setLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+
 ::generic_options <- null
 
 class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
@@ -22,6 +28,8 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
   optionIdToObjCache = {}
 
   isOptionInUpdate = false
+  lastWeaponCache = null
+  lastBulletsCache = null
 
   function initScreen()
   {
@@ -318,7 +326,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
     for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++)
     {
-      local show = ::isBulletGroupActive(air, groupIndex)
+      local show = isBulletGroupActive(air, groupIndex)
       if (!showOptionRow(get_option(::USEROPT_BULLETS0 + groupIndex), show))
         break
     }
@@ -344,6 +352,32 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       !!unit && unit.getAvailableSecondaryWeapons().hasBombs)
   }
 
+  function setLastBulletsCache()
+  {
+    lastBulletsCache = []
+    for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++) {
+      local bulletOptId = ::USEROPT_BULLETS0 + groupIndex
+      local bulletOpt = ::get_option(bulletOptId)
+      local bulletValue = bulletOpt?.value
+      if (bulletValue)
+      {
+        local bulletName = bulletOpt.values?[bulletValue]
+        if (bulletName != null)
+          lastBulletsCache.append({
+            groupIndex = groupIndex,
+            bulletName = bulletName
+          })
+      }
+    }
+  }
+
+  function setUnitLastBulletsFromCache()
+  {
+    if (lastBulletsCache?.len())
+      foreach (inst in lastBulletsCache)
+        setUnitLastBullets(unit, inst.groupIndex, inst.bulletName)
+  }
+
   function onUserModificationsUpdate(obj) {
     local option = get_option_by_id(obj?.id)
     if (!option)
@@ -360,9 +394,11 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (!unit)
       return
 
-    if (!obj.getValue()) {
+    if (!obj.getValue()) {//default mod option selected
+      lastWeaponCache = getLastWeapon(unit.name)
+      setLastBulletsCache()
       local defaultWeap = unit.getDefaultWeapon()
-      ::set_last_weapon(unit.name, defaultWeap)
+      setLastWeapon(unit.name, defaultWeap)
 
       local defaultBulletIdx = 0
       for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++) {
@@ -373,20 +409,27 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
           continue
         local bulletName = bulletOpt.values?[defaultBulletIdx]
         if (bulletName != null) {
-            ::set_unit_last_bullets(unit, groupIndex, bulletName)
+            setUnitLastBullets(unit, groupIndex, bulletName)
         }
       }
-      ::enable_bullets_modifications(::aircraft_for_weapons)
-      ::enable_current_modifications(::aircraft_for_weapons)
     }
+    else//current mod option selected
+    {
+      if (lastWeaponCache)
+        setLastWeapon(unit.name, lastWeaponCache)
+      setUnitLastBulletsFromCache()
+    }
+
+    ::enable_bullets_modifications(::aircraft_for_weapons)
+    ::enable_current_modifications(::aircraft_for_weapons)
   }
 
   function checkVehicleModificationRow() {
     local option = findOptionInContainers(::USEROPT_MODIFICATIONS)
-    if (option) {
+    if (option && !option.value) {
       local unit = ::getAircraftByName(::aircraft_for_weapons)
 
-      local referenceWeap = unit.getDefaultWeapon() == ::get_last_weapon(unit.name)
+      local referenceWeap = unit.getDefaultWeapon() == getLastWeapon(unit.name)
 
       if (referenceWeap) {
         local defaultBulletIdx = 0
@@ -399,10 +442,9 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
         }
       }
 
-      local chosenMod = referenceWeap ? 0 : 1
-      if (option.value != chosenMod) {
+      if (!referenceWeap) {
         guiScene.performDelayed(this, function() {
-          ::set_option(option.type, chosenMod)
+          ::set_option(option.type, 1)
           updateOption(option.type)
         })
       }
@@ -1152,7 +1194,7 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
 
   function onFilterEditBoxCancel(obj = null)
   {
-    if (obj.getValue() == "")
+    if ((obj?.getValue() ?? "") == "")
       return goBack()
     resetSearch()
   }
@@ -1517,7 +1559,14 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
   {
     applyFunc = gui_start_postfx_settings
     applyOptions()
-    joinEchoChannel(false);
+    joinEchoChannel(false)
+  }
+
+  function onHdrSettings(obj)
+  {
+    applyFunc = fxOptions.openHdrSettings
+    applyOptions()
+    joinEchoChannel(false)
   }
 
   function onWebUiMap()

@@ -4,7 +4,6 @@ local hudLog = require("components/hudLog.nut")
 local teamColors = require("style/teamColors.nut")
 local fontsState = require("reactiveGui/style/fontsState.nut")
 local hudState = require("hudState.nut")
-local frp = require("std/frp.nut")
 
 local logEntryComponent = function (log_entry) {
   return function () {
@@ -22,7 +21,8 @@ local logEntryComponent = function (log_entry) {
 }
 
 
-local battleLogVisible = frp.map(hudState.cursorVisible, @(v) v)
+local battleLogVisible = ::Watched(hudState.cursorVisible.value)
+hudState.cursorVisible.subscribe(@(v) battleLogVisible(v))
 local logBox = hudLog({
   visibleState = battleLogVisible
   logComponent = scrollableData.make(state.log)

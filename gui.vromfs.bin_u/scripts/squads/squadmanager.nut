@@ -1,7 +1,9 @@
+local { hasAnyFeature } = require("scripts/user/features.nut")
 local squadApplications = require("scripts/squads/squadApplications.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local battleRating = ::require("scripts/battleRating.nut")
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 enum squadEvent
 {
@@ -446,7 +448,7 @@ g_squad_manager.initSquadSizes <- function initSquadSizes()
   for (local i = 0; i < sizesBlk.paramCount(); i++)
   {
     local name = sizesBlk.getParamName(i)
-    local needAddSize = ::has_feature_array_any(SQUAD_SIZE_FEATURES_CHECK?[name] ?? [])
+    local needAddSize = hasAnyFeature(SQUAD_SIZE_FEATURES_CHECK?[name] ?? [])
     if (!needAddSize)
       continue
 
@@ -1683,7 +1685,7 @@ g_squad_manager.getLockedCountryData <- function getLockedCountryData()
     return null
 
   return {
-    country = getWwOperationCountry()
+    availableCountries = [getWwOperationCountry()]
     reasonText = ::loc("worldWar/cantChangeCountryInBattlePrepare")
   }
 }

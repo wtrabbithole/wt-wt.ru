@@ -103,7 +103,10 @@ enum BATTLE_LOG_FILTER
     [::UT_Fortification] = ::ES_UNIT_TYPE_TANK,
     [::UT_AirWing]       = ::ES_UNIT_TYPE_AIRCRAFT,
     [::UT_AirSquadron]   = ::ES_UNIT_TYPE_AIRCRAFT,
-    [::UT_WalkerVehicle] = ::ES_UNIT_TYPE_TANK,
+    //
+
+
+
   }
 
   rePatternNumeric = ::regexp2("^\\d+$")

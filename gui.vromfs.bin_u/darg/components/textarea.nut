@@ -4,7 +4,7 @@ local function textarea(txt, params={}) {
   return {
     size = [flex(), SIZE_TO_CONTENT]
     font = Fonts.small_text
-    halign = HALIGN_LEFT
+    halign = ALIGN_LEFT
   }.__update(params).__update({rendObj=ROBJ_TEXTAREA behavior = Behaviors.TextArea text=txt})
 }
 

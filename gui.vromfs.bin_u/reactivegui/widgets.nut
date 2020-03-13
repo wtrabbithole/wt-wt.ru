@@ -5,6 +5,7 @@ local hudUnitType = require("hudUnitType.nut")
 local helicopterHud = require("helicopterHud.nut")
 local shipHud = require("shipHud.nut")
 local shipExHud = require("shipExHud.nut")
+local tankExHud = require("tankExHud.nut")
 local shipObstacleRf = require("shipObstacleRangefinder.nut")
 local shipDeathTimer = require("shipDeathTimer.nut")
 local footballHud = require("footballHud.nut")
@@ -36,6 +37,10 @@ local widgetsMap = {
       return shipHud
     else if (hudUnitType.isSubmarine() && !hudState.isPlayingReplay.value)
       return shipExHud
+    //
+
+
+
     else
       return null
   },
@@ -43,14 +48,14 @@ local widgetsMap = {
   [DargWidgets.SHIP_OBSTACLE_RF] = function () {
     return {
       size = flex()
-      halign = HALIGN_CENTER
+      halign = ALIGN_CENTER
       children = [shipObstacleRf, shipDeathTimer]
     }
   },
 
   [DargWidgets.FOOTBALL] = @ () {
     size = flex()
-    halign = HALIGN_CENTER
+    halign = ALIGN_CENTER
     children = footballHud
   }
 }

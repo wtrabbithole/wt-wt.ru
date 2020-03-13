@@ -1,6 +1,8 @@
 local time = require("scripts/time.nut")
+local { hasAllFeatures } = require("scripts/user/features.nut")
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
 local promoConditions = require("scripts/promo/promoConditions.nut")
+local { getPollIdByFullUrl, invalidateTokensCache } = require("scripts/web/webpoll.nut")
 
 local function openLink(owner, params = [], source = "promo_open_link")
 {
@@ -118,10 +120,15 @@ local openProfileSheetParams = {
     events = function(handler, params, obj) { return openEventsWnd(handler, params) }
     tutorial = function(handler, params, obj) { return onOpenTutorial(handler, params) }
     battle_tasks = function(handler, params, obj) { return onOpenBattleTasksWnd(handler, params, obj) }
-    url = function(handler, params, obj) { return openLink(handler, params) }
+    url = function(handler, params, obj) {
+      local pollId = getPollIdByFullUrl(params?[0] ?? "")
+      if (pollId != null)
+        invalidateTokensCache(pollId.tointeger())
+      return openLink(handler, params)
+    }
     items = function(handler, params, obj) { return openItemsWnd(handler, params) }
     squad_contacts = function(handler, params, obj) { return ::open_search_squad_player() }
-    world_war = function(handler, params, obj) { ::g_world_war.openMainWnd() }
+    world_war = function(handler, params, obj) { ::g_world_war.openMainWnd(params?[0] == "openMainMenu") }
     content_pack = function(handler, params, obj)
     {
       ::check_package_and_ask_download(::getTblValue(0, params, ""))
@@ -212,6 +219,14 @@ local openProfileSheetParams = {
   }
 
   openLinkWithSource = openLink
+
+  function checkBlockReqEntitlement(block)
+  {
+    if (!("reqEntitlement" in block))
+      return true
+
+    return ::split(block.reqEntitlement, "; ").findvalue(@(ent) ::has_entitlement(ent) == 1 ) != null
+  }
 }
 
 g_promo.checkOldRecordsOnInit <- function checkOldRecordsOnInit()
@@ -540,7 +555,7 @@ g_promo.checkBlockReqFeature <- function checkBlockReqFeature(block)
   if (!("reqFeature" in block))
     return true
 
-  return ::has_feature_array(::split(block.reqFeature, "; "))
+  return hasAllFeatures(::split(block.reqFeature, "; "))
 }
 
 g_promo.checkBlockUnlock <- function checkBlockUnlock(block)
@@ -574,6 +589,7 @@ g_promo.checkBlockVisibility <- function checkBlockVisibility(block)
 {
   return (::g_language.isAvailableForCurLang(block)
            && checkBlockReqFeature(block)
+           && checkBlockReqEntitlement(block)
            && checkBlockUnlock(block)
            && checkBlockTime(block)
            && isVisibleByAction(block)

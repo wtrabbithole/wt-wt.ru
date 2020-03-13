@@ -1,3 +1,5 @@
+@const warningIconColor :#FF8300;
+
 newIconWidget {
   height:1@newWidgetIconHeight;
   background-repeat:expand;
@@ -101,4 +103,13 @@ unseenText[isActive=yes] {
 
 ComboBox > option > unseenIcon {
   margin:0, 0, @blockInterval, 0;
+}
+
+
+warningIcon[type=warning] {
+  size:1@newWidgetIconHeight, 1@newWidgetIconHeight;
+  background-image:#ui/gameuiskin#new_icon_not_colored;
+  background-color:@warningIconColor;
+  background-repeat:expand;
+  input-transparent:yes;
 }

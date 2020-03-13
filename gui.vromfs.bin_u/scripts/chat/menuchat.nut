@@ -1,6 +1,9 @@
 local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local menuChatRoom = require("scripts/chat/menuChatRoom.nut")
+local { topMenuBorders } = require("scripts/mainmenu/topMenuStates.nut")
+local { isChatEnabled, isChatEnableWithPlayer,
+  isCrossNetworkMessageAllowed, chatStatesCanUseVoice } = require("scripts/chat/chatStates.nut")
 
 global enum MESSAGE_TYPE {
   MY          = "my"
@@ -242,11 +245,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       guiScene.replaceContent(scene, "gui/chat/menuChat.blk", this)
       setSavedSizes()
       scene.findObject("menu_chat_update").setUserData(this)
-      showSceneBtn("chat_input_place", ::g_chat.isChatEnabled())
-      local chatObj = scene.findObject("menuchat_input")
-      chatObj.show(::g_chat.isChatEnabled())
+      local hasChat = isChatEnabled()
+      showSceneBtn("chat_input_place", hasChat)
+      local chatObj = showSceneBtn("menuchat_input", hasChat)
       chatObj["max-len"] = ::g_chat.MAX_MSG_LEN.tostring()
-      showSceneBtn("btn_send", ::g_chat.isChatEnabled())
+      showSceneBtn("btn_send", hasChat)
       searchInited = false
 
       menuChatRoom.initChatMessageListOn(scene.findObject("menu_chat_messages_container"), this)
@@ -646,7 +649,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       obj.findObject("tooltip").uid = (inMySquad && contact)? contact.uid : ""
       if (::get_option_voicechat()
           && (inMySquad || inMyClan)
-          && ::g_chat.canUseVoice()
+          && chatStatesCanUseVoice()
           && contact.voiceStatus in ::voiceChatIcons)
         voiceIcon = "#ui/gameuiskin#" + ::voiceChatIcons[contact.voiceStatus]
 
@@ -813,7 +816,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       if (!::g_chat.getRoomById(roomId))
         addRoom(roomId, null, null, idx == 0)
 
-    if (::g_chat.isChatEnabled())
+    if (isChatEnabled())
     {
       local chatRooms = ::load_local_account_settings(CHAT_ROOMS_LIST_SAVE_ID)
       local roomIdx = 0
@@ -926,11 +929,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local rootSize = guiScene.getRoot().getSize()
     for(local i=0; i<=1; i++) //pos chat in screen
-      if (pos[i] < ::top_menu_borders[i][0]*rootSize[i])
-        pos[i] = (::top_menu_borders[i][0]*rootSize[i]).tointeger()
+      if (pos[i] < topMenuBorders[i][0]*rootSize[i])
+        pos[i] = (topMenuBorders[i][0]*rootSize[i]).tointeger()
       else
-        if (pos[i]+size[i] > ::top_menu_borders[i][1]*rootSize[i])
-          pos[i] = (::top_menu_borders[i][1]*rootSize[i] - size[i]).tointeger()
+        if (pos[i]+size[i] > topMenuBorders[i][1]*rootSize[i])
+          pos[i] = (topMenuBorders[i][1]*rootSize[i] - size[i]).tointeger()
 
     obj.pos = pos[0] + ", " + pos[1]
     obj.size = size[0] + ", " + size[1]
@@ -1007,7 +1010,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
     if (event == ::GCHAT_EVENT_MESSAGE)
     {
-      if (::g_chat.isChatEnabled())
+      if (isChatEnabled())
         onMessage(db)
     }
     else if (event == ::GCHAT_EVENT_CONNECTED)
@@ -1466,13 +1469,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
         privateMsg = (db.type == "chat") || !roomRegexp.match(roomId)
         local isSystemMessage = ::g_chat.isSystemUserName(user)
 
-        if (!isSystemMessage && !::g_chat.isCrossNetworkMessageAllowed(user))
+        if (!isSystemMessage && !isCrossNetworkMessageAllowed(user))
           return
 
         if (privateMsg)  //private message
         {
           if (::isUserBlockedByPrivateSetting(db.userId, user) ||
-              !::g_chat.isChatEnableWithPlayer(user))
+              !isChatEnableWithPlayer(user))
             return
 
           if (db.type == "chat")
@@ -1665,13 +1668,13 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (unhiddenRoomsCount() == 1)
     {
-      if (::g_chat.isChatEnabled())
+      if (isChatEnabled())
         addRoomMsg(id, "", ::loc("menuchat/hello"))
     }
     if (selectRoom || r.type.needSwitchRoomOnJoin)
       switchCurRoom(r, false)
 
-    if (r.type == ::g_chat_room_type.SQUAD && ::g_chat.isChatEnabled())
+    if (r.type == ::g_chat_room_type.SQUAD && isChatEnabled())
       addRoomMsg(id, "", ::loc("squad/channelIntro"))
 
     if (delayedChatRoom && delayedChatRoom.mBlocks.len() > 0)
@@ -1686,23 +1689,34 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
     if (!r.hidden)
       saveJoinedRooms()
-    if (::g_chat.canUseVoice() && r.type.canVoiceChat)
+    if (chatStatesCanUseVoice() && r.type.canVoiceChat)
     {
-      local VCdata = get_option(::USEROPT_VOICE_CHAT)
-      local voiceChatShowCount = ::load_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, 0)
-      if(isFirstAskForSession && voiceChatShowCount < ::g_chat.MAX_MSG_VC_SHOW_TIMES && !VCdata.value)
-      {
-        msgBox("join_voiceChat", ::loc("msg/enableVoiceChat"),
-                [
-                  ["yes", function(){::set_option(::USEROPT_VOICE_CHAT, true)}],
-                  ["no", function(){} ]
-                ], "no",
-                { cancel_fn = function(){}})
-        ::save_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, voiceChatShowCount + 1)
-      }
-      isFirstAskForSession = false
+      shouldCheckVoiceChatSuggestion = true
+      if (::handlersManager.findHandlerClassInScene(::gui_handlers.MainMenu) != null)
+        checkVoiceChatSuggestion()
     }
     return r
+  }
+
+  function checkVoiceChatSuggestion()
+  {
+    if (!shouldCheckVoiceChatSuggestion || !::g_login.isProfileReceived())
+      return
+    shouldCheckVoiceChatSuggestion = false
+
+    local VCdata = get_option(::USEROPT_VOICE_CHAT)
+    local voiceChatShowCount = ::load_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, 0)
+    if(isFirstAskForSession && voiceChatShowCount < ::g_chat.MAX_MSG_VC_SHOW_TIMES && !VCdata.value)
+    {
+      msgBox("join_voiceChat", ::loc("msg/enableVoiceChat"),
+              [
+                ["yes", function(){::set_option(::USEROPT_VOICE_CHAT, true)}],
+                ["no", function(){} ]
+              ], "no",
+              { cancel_fn = function(){}})
+      ::save_local_account_settings(VOICE_CHAT_SHOW_COUNT_SAVE_ID, voiceChatShowCount + 1)
+    }
+    isFirstAskForSession = false
   }
 
   function onEventClanInfoUpdate(p)
@@ -2559,7 +2573,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     local value = obj.getValue()
     if (value in searchRoomList)
     {
-      if (!::g_chat.isChatEnabled(true))
+      if (!isChatEnabled(true))
         return
       if (!::isInArray(searchRoomList[value], ::global_chat_rooms_list) && !::ps4_is_ugc_enabled())
       {
@@ -2751,7 +2765,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local obj = roomData.customScene.findObject(objName)
       if (::checkObj(obj))
-        obj.enable(::g_chat.isChatEnabled())
+        obj.enable(isChatEnabled())
     }
   }
 
@@ -2887,6 +2901,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   scene = null
   sceneChanged = true
   roomsInited = false
+
+  shouldCheckVoiceChatSuggestion = false
   isFirstAskForSession = true
 
   chatTasks = []

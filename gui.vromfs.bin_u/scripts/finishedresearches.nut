@@ -1,4 +1,7 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
+local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
+local { AMMO, getAmmoMaxAmount } = require("scripts/weaponry/ammoInfo.nut")
+
 ::researched_items_table <- null
 ::abandoned_researched_items_for_session <- []
 ::researchedModForCheck <- "prevMod"
@@ -787,7 +790,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
   function getItemNameLoc(item)
   {
     if (item.isMod)
-      return ::getModificationName(item.unitName, item.prevModName)
+      return getModificationName(item.unitName, item.prevModName)
     return ::getUnitName(item.unit, true)
   }
 
@@ -813,7 +816,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
     if (silent)
       return impl_buyModification(unit, modName)
 
-    local nameLoc = ::getModificationName(unit.name, modName)
+    local nameLoc = getModificationName(unit.name, modName)
     local buyMsgText = warningIfGold(
       ::loc("onlineShop/needMoneyQuestion",
         {purchase = nameLoc, cost = price.getTextAccordingToBalance()}),
@@ -947,7 +950,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
     local isUnitHaveNBMods = false
     foreach(mod in unit.modifications)
       if (::canBuyMod(unit, mod)
-          && ::getAmmoMaxAmount(unit, mod.name, AMMO.MODIFICATION) == 1
+          && getAmmoMaxAmount(unit, mod.name, AMMO.MODIFICATION) == 1
           && !::wp_get_modification_cost_gold(unitName, mod.name))
       {
         isUnitHaveNBMods = true
