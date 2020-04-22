@@ -1,4 +1,5 @@
 local cfg = require("scripts/wheelmenu/multifuncmenuCfg.nut")
+local { isMultifuncMenuAvailable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
 
 local getHandler = @() ::handlersManager.findHandlerClassInScene(::gui_handlers.multifuncMenuHandler)
 local callbackFunc = null
@@ -7,7 +8,7 @@ local getSectionTitle = @(id) cfg[id]?.getTitle() ?? ::loc(cfg[id]?.title ?? id)
 
 local function open(curSectionId = null, isForward = true)
 {
-  if (!::has_feature("HudMultifuncMenu"))
+  if (!isMultifuncMenuAvailable())
     return false
 
   local joyParams = ::joystick_get_cur_settings()
@@ -130,6 +131,9 @@ class ::gui_handlers.multifuncMenuHandler extends ::gui_handlers.wheelMenuHandle
                                  | CtrlsInGui.CTRL_ALLOW_MP_STATISTICS
                                  | CtrlsInGui.CTRL_ALLOW_TACTICAL_MAP
 
+  wndControlsAllowMaskWhenInactive = CtrlsInGui.CTRL_ALLOW_FULL
+  wndControlsAllowMaskOnShortcut   = CtrlsInGui.CTRL_ALLOW_VEHICLE_KEYBOARD
+
   curSectionId = null
   path = null
 
@@ -152,11 +156,12 @@ class ::gui_handlers.multifuncMenuHandler extends ::gui_handlers.wheelMenuHandle
 
   function toggleShortcut(shortcutId)
   {
-    switchControlsAllowMask(CtrlsInGui.CTRL_ALLOW_FULL)
+    switchControlsAllowMask(wndControlsAllowMaskOnShortcut)
     ::handlersManager.doDelayed(function() {
       ::toggle_shortcut(shortcutId)
       ::handlersManager.doDelayed(function() {
-        switchControlsAllowMask(isActive ? wndControlsAllowMaskWhenActive : CtrlsInGui.CTRL_ALLOW_FULL)
+        switchControlsAllowMask(isActive ? wndControlsAllowMaskWhenActive
+                                         : wndControlsAllowMaskWhenInactive)
       }.bindenv(this))
     }.bindenv(this))
   }

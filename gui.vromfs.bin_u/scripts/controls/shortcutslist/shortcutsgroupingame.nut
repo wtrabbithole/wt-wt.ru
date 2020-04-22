@@ -1,4 +1,5 @@
 local { chatStatesCanUseVoice } = require("scripts/chat/chatStates.nut")
+local { isMultifuncMenuAvailable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
 
 return [
 //-------------------------------------------------------
@@ -20,8 +21,9 @@ return [
   {
     id = "ID_SHOW_MULTIFUNC_WHEEL_MENU"
     checkGroup = ctrlGroups.COMMON
+    checkAssign = ::is_platform_pc
     needShowInHelp = true
-    showFunc = @() ::has_feature("HudMultifuncMenu")
+    showFunc = isMultifuncMenuAvailable
   }
   {
     id = "ID_BAILOUT"

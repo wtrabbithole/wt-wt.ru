@@ -986,9 +986,9 @@
       }
     },
     "apds_fs_long": {
-      "residualArmorPenetrationToShatterCountMult": [30.0,150.0,0.9,1.0],
-      "residualArmorPenetrationToShatterPenetrationMult": [20.0,150.0,0.85,1.0],
-      "residualArmorPenetrationToShatterDamageMult": [20.0,150.0,0.85,1.0],
+      "residualArmorPenetrationToShatterCountMult": [50.0,400.0,0.6,3.0],
+      "residualArmorPenetrationToShatterPenetrationMult": [50.0,400.0,0.7,1.2],
+      "residualArmorPenetrationToShatterDamageMult": [50.0,400.0,0.85,1.8],
       "caliberToArmorToShatterCountMult": [0.5,1.0,0.9,1.0],
       "section0": {
         "angles": [0.0,2.5],
@@ -1091,9 +1091,9 @@
       }
     },
     "apds_fs": {
-      "residualArmorPenetrationToShatterCountMult": [30.0,150.0,0.9,1.0],
-      "residualArmorPenetrationToShatterPenetrationMult": [20.0,150.0,0.85,1.0],
-      "residualArmorPenetrationToShatterDamageMult": [20.0,150.0,0.85,1.0],
+      "residualArmorPenetrationToShatterCountMult": [50.0,400.0,0.6,3.0],
+      "residualArmorPenetrationToShatterPenetrationMult": [50.0,400.0,0.7,1.2],
+      "residualArmorPenetrationToShatterDamageMult": [50.0,400.0,0.85,1.8],
       "caliberToArmorToShatterCountMult": [0.5,1.0,0.9,1.0],
       "section0": {
         "angles": [0.0,2.5],
@@ -1955,6 +1955,12 @@
       "completely": true
     },
     "antenna_target_location_dm": {
+      "speed": 2.0,
+      "completely": true,
+      "partRepairHp": 1.0,
+      "hpForRepair": 0.7
+    },
+    "antenna_target_location_01_dm": {
       "speed": 2.0,
       "completely": true,
       "partRepairHp": 1.0,
@@ -4908,6 +4914,8 @@
       "stabilityCaliberToArmorThreshold": 5.0,
       "stabilityReductionAfterRicochet": 0.01,
       "stabilityReductionAfterPenetration": 0.01,
+      "modelName": "tank_bullet_heat",
+      "fresnel": [0.23,0.1,2.0],
       "stabilityRicochetModifier": [
         {
           "mod1": [0.0,0.05]

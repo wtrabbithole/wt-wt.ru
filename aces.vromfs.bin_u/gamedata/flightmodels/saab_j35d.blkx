@@ -16,7 +16,7 @@
   "instructorOverloadMult": [0.6,0.67,0.85,0.92],
   "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
   "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
-  "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map.blk",
+  "damagePartsToFmPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_fm_parts_map_tailless.blk",
   "damagePartsToHudPartsMapBlk": "gameData/FlightModels/DM/dm_parts_to_hud_parts_map.blk",
   "damagePartsDependencyMapBlk": "gameData/FlightModels/DM/dm_parts_dependency_map.blk",
   "damagePartsToCollisionPointsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_points_map.blk",
@@ -24,7 +24,7 @@
   "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk",
   "damagePartsExcludeFromHoleBlk": "gameData/FlightModels/DM/dm_parts_exclude_from_hole.blk",
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
-  "fireParamsPreset": "1100kph",
+  "fireParamsPreset": "2200kph",
   "fightAiBehaviour": "fighter",
   "autopilotImpl": "FBW",
   "DamageParts": {
@@ -2523,7 +2523,7 @@
     "radiusSpeed": 2.0
   },
   "fireParams": {
-    "engineExtinguishFireSpeed": [249.0,334.0],
+    "engineExtinguishFireSpeed": [578.0,622.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
@@ -2610,14 +2610,14 @@
   "default_skin_tomoe": [
     {
       "replace_tex": {
-        "from": "saab_j35d_c*",
-        "to": "saab_j35d_c_tomoe*"
+        "from": "saab_j35d_a*",
+        "to": "saab_j35d_a_tomoe*"
       }
     },
     {
       "replace_tex": {
-        "from": "saab_j35d_c_dmg*",
-        "to": "saab_j35d_c_tomoe_dmg*"
+        "from": "saab_j35d_a_dmg*",
+        "to": "saab_j35d_a_tomoe_dmg*"
       }
     }
   ],
@@ -2627,12 +2627,12 @@
     },
     {
       "replace_tex": {
-        "from": "saab_j35d_c*"
+        "from": "saab_j35d_a*"
       }
     },
     {
       "replace_tex": {
-        "from": "saab_j35d_c_dmg*"
+        "from": "saab_j35d_a_dmg*"
       }
     },
     {
