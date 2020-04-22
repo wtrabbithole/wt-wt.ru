@@ -1,12 +1,3 @@
-local Color = ::Color // warning disable: -declared-never-used
-local sh = ::sh // warning disable: -declared-never-used
-local flex = ::flex // warning disable: -declared-never-used
-local hdpx = ::hdpx // warning disable: -declared-never-used
-local fontH = ::fontH // warning disable: -declared-never-used
-local Fonts = ::Fonts // warning disable: -declared-never-used
-local pw = ::pw // warning disable: -declared-never-used
-local sw = ::sw // warning disable: -declared-never-used
-local ph = ::sh // warning disable: -declared-never-used
 local string = require("string")
 
 local cursors = {
@@ -16,7 +7,7 @@ local cursors = {
 
 local inspectorState = persist("state", @() {
   shown = ::Watched(false)
-  halign = ::Watched(HALIGN_RIGHT)
+  halign = ::Watched(ALIGN_RIGHT)
   pickerActive = ::Watched(false)
   highlight = ::Watched(null)
   selection = ::Watched(null)
@@ -56,15 +47,15 @@ local function textButton(text, action) {
 local function panelToolbar() {
   local btnPick = textButton("Pick", @() inspectorState.pickerActive.update(true))
 
-  local alignText = (inspectorState.halign.value == HALIGN_RIGHT ? "<-" : "->")
+  local alignText = (inspectorState.halign.value == ALIGN_RIGHT ? "<-" : "->")
   local btnToggleAlign = textButton(alignText, function() {
-    inspectorState.halign.update(inspectorState.halign.value==HALIGN_LEFT ? HALIGN_RIGHT : HALIGN_LEFT)
+    inspectorState.halign.update(inspectorState.halign.value==ALIGN_LEFT ? ALIGN_RIGHT : ALIGN_LEFT)
   })
 
   return {
     size = SIZE_TO_CONTENT
     flow = FLOW_HORIZONTAL
-    halign = HALIGN_LEFT
+    halign = ALIGN_LEFT
     children = [
       btnPick
       btnToggleAlign

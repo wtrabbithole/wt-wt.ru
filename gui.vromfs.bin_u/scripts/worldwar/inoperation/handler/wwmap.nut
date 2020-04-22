@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
 local mapAirfields = require("scripts/worldWar/inOperation/model/wwMapAirfields.nut")
 local actionModesManager = require("scripts/worldWar/inOperation/wwActionModesManager.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 
 class ::gui_handlers.WwMap extends ::gui_handlers.BaseGuiHandlerWT

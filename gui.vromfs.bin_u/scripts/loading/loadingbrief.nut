@@ -1,3 +1,6 @@
+local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
+local changeStartMission = require("scripts/missions/changeStartMission.nut")
+
 const MIN_SLIDE_TIME = 2.0
 
 ::add_event_listener("FinishLoading", function(p) {
@@ -208,7 +211,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     if ((m_aircraft != "") && !(gt & ::GT_VERSUS))
       res.append(::loc("options/aircraft") + ::loc("ui/colon") +
                     " " + ::getUnitName(m_aircraft) + "; " +
-                    ::getWeaponNameText(m_aircraft, null, m_weapon, ", "))
+                    getWeaponNameText(m_aircraft, null, m_weapon, ", "))
 
     local m_condition = ""
     if (::current_campaign_mission)
@@ -251,7 +254,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     if (applyReady != ::loading_is_finished())
     {
       applyReady = ::loading_is_finished()
-      local showStart = !::is_multiplayer() && gm != ::GM_TRAINING && !::start_mission_instead_of_queue
+      local showStart = !::is_multiplayer() && gm != ::GM_TRAINING && !changeStartMission
       if ((applyReady && !showStart) || finished)
         finishLoading()
       else

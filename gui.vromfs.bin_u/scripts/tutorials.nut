@@ -9,12 +9,12 @@ const NEW_PLAYER_TUTORIAL_CHOICE_STATISTIC_SAVE_ID = "statistic:new_player_tutor
     canSkipByFeature = "AllowedToSkipBaseTutorials"
   }
   {
-    id = "bomber"
-    tutorial = "tutorialB_bomber"
-  }
-  {
     id = "assaulter"
     tutorial = "tutorialB_assaulter"
+  }
+  {
+    id = "bomber"
+    tutorial = "tutorialB_bomber"
   }
   {
     id = "lightTank"
@@ -39,6 +39,13 @@ const NEW_PLAYER_TUTORIAL_CHOICE_STATISTIC_SAVE_ID = "statistic:new_player_tutor
     requiresFeature = "Ships"
   }
 ]
+
+::req_tutorial <- {
+  [::ES_UNIT_TYPE_AIRCRAFT] = "tutorialB_takeoff_and_landing",
+  //[::ES_UNIT_TYPE_TANK] = "",
+}
+
+::get_req_tutorial <- @(unitType) ::req_tutorial?[unitType] ?? ""
 
 ::check_tutorial_reward_data <- null
 ::launched_tutorial_questions_peer_session <- 0
@@ -489,4 +496,35 @@ class ::gui_handlers.ShowTutorialRewardHandler extends ::gui_handlers.BaseGuiHan
 ::reset_tutorial_skip <- function reset_tutorial_skip()
 {
   ::saveLocalByAccount(::skip_tutorial_bitmask_id, 0)
+}
+
+local reqTimeInMode = 60 //req time in mode when no need check tutorial
+::isDiffUnlocked <- function isDiffUnlocked(diff, checkUnitType)
+{
+  //check played before
+  for(local d = diff; d<3; d++)
+    if (::my_stats.getTimePlayed(checkUnitType, d) >= reqTimeInMode)
+      return true
+
+  local reqName = ::get_req_tutorial(checkUnitType)
+  if (reqName == "")
+    return true
+
+  local mainGameMode = ::get_mp_mode()
+  ::set_mp_mode(::GM_TRAINING)  //req to check progress
+
+  local chapters = ::get_meta_missions_info_by_chapters(::GM_TRAINING)
+  foreach(chapter in chapters)
+    foreach(m in chapter)
+      if (reqName == m.name)
+      {
+        local fullMissionName = m.getStr("chapter", ::get_game_mode_name(::GM_TRAINING)) + "/" + m.name
+        local progress = ::get_mission_progress(fullMissionName)
+        if (mainGameMode >= 0)
+          ::set_mp_mode(mainGameMode)
+        return (progress<3 && progress>=diff) // 3 == unlocked, 0-2 - completed at difficulty
+      }
+  dagor.assertf(false, "Error: Not found mission ::req_tutorial_name = " + reqName)
+  ::set_mp_mode(mainGameMode)
+  return true
 }

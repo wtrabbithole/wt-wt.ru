@@ -4,7 +4,8 @@ local stdMath = require("std/math.nut")
 local { getUnitRole, getUnitBasicRole, getRoleText, getUnitTooltipImage,
   getFullUnitRoleText, getShipMaterialTexts } = require("scripts/unit/unitInfoTexts.nut")
 local { countMeasure } = ::require("scripts/options/optionsMeasureUnits.nut")
-
+local { getWeaponInfoText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
 
 local UNIT_INFO_ARMY_TYPE  = {
   AIR        = ::g_unit_type.AIRCRAFT.bit
@@ -397,7 +398,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local valueText = ::DataBlock()
       foreach(diff in ::g_difficulty.types)
         if (diff.egdCode != ::EGD_NONE)
-          valueText[diff.getEgdName()] = ::getWeaponInfoText(unit.name)
+          valueText[diff.getEgdName()] = getWeaponInfoText(unit.name)
       return valueText
     }
   }
@@ -517,7 +518,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
       local weaponIndex = -1
       if (unit.weapons.len() > 0)
       {
-        local lastWeapon = ::get_last_weapon(unit.name)
+        local lastWeapon = getLastWeapon(unit.name)
         weaponIndex = 0
         foreach(idx, weapon in unit.weapons)
         {

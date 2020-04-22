@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local { buttonsList } = require("scripts/mainmenu/topMenuButtons.nut")
 
 // Priority for separation on buttons.
 enum topMenuLeftSideMergeIndex {
@@ -33,11 +34,11 @@ enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
         "pvp"
       ],
       [
-        ::g_top_menu_buttons.OPTIONS
-        ::g_top_menu_buttons.CONTROLS
+        buttonsList.OPTIONS
+        buttonsList.CONTROLS
         "community"
-        ::g_top_menu_buttons.EXIT
-        ::g_top_menu_buttons.DEBUG_UNLOCK
+        buttonsList.EXIT
+        buttonsList.DEBUG_UNLOCK
       ]
     ]
   },
@@ -47,15 +48,15 @@ enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
     mergeIndex = topMenuLeftSideMergeIndex.PVP
     buttons = [
       [
-        ::g_top_menu_buttons.SKIRMISH
-        ::g_top_menu_buttons.WORLDWAR
-        ::g_top_menu_buttons.LINE_SEPARATOR
-        ::g_top_menu_buttons.USER_MISSION
-        ::g_top_menu_buttons.TUTORIAL
-        ::g_top_menu_buttons.SINGLE_MISSION
-        ::g_top_menu_buttons.DYNAMIC
-        ::g_top_menu_buttons.CAMPAIGN
-        ::g_top_menu_buttons.BENCHMARK
+        buttonsList.SKIRMISH
+        buttonsList.WORLDWAR
+        buttonsList.LINE_SEPARATOR
+        buttonsList.USER_MISSION
+        buttonsList.TUTORIAL
+        buttonsList.SINGLE_MISSION
+        buttonsList.DYNAMIC
+        buttonsList.CAMPAIGN
+        buttonsList.BENCHMARK
       ]
     ]
   },
@@ -65,12 +66,12 @@ enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
     mergeIndex = topMenuLeftSideMergeIndex.COMMUNITY
     buttons = [
       [
-        ::g_top_menu_buttons.LEADERBOARDS
-        ::g_top_menu_buttons.CLANS
-        ::g_top_menu_buttons.REPLAY
-        ::g_top_menu_buttons.VIRAL_AQUISITION
-        ::g_top_menu_buttons.TSS
-        ::g_top_menu_buttons.STREAMS_AND_REPLAYS
+        buttonsList.LEADERBOARDS
+        buttonsList.CLANS
+        buttonsList.REPLAY
+        buttonsList.VIRAL_AQUISITION
+        buttonsList.TSS
+        buttonsList.STREAMS_AND_REPLAYS
       ]
     ]
   }
@@ -99,19 +100,19 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
     forceHoverWidth = "1@mainMenuButtonWideWidth + 0.02@sf"
     buttons = [
       [
-        ::g_top_menu_buttons.EAGLES
-        ::g_top_menu_buttons.LINE_SEPARATOR
-        ::g_top_menu_buttons.PREMIUM
-        ::g_top_menu_buttons.WARPOINTS
-        ::g_top_menu_buttons.INVENTORY
-        ::g_top_menu_buttons.ITEMS_SHOP
-        ::g_top_menu_buttons.WORKSHOP
-        ::g_top_menu_buttons.WARBONDS_SHOP
-        ::g_top_menu_buttons.ONLINE_SHOP
-        ::g_top_menu_buttons.XBOX_ONLINE_SHOP
-        ::g_top_menu_buttons.PS4_ONLINE_SHOP
-        ::g_top_menu_buttons.DEBUG_PS4_SHOP_DATA
-        ::g_top_menu_buttons.MARKETPLACE
+        buttonsList.EAGLES
+        buttonsList.LINE_SEPARATOR
+        buttonsList.PREMIUM
+        buttonsList.WARPOINTS
+        buttonsList.INVENTORY
+        buttonsList.ITEMS_SHOP
+        buttonsList.WORKSHOP
+        buttonsList.WARBONDS_SHOP
+        buttonsList.ONLINE_SHOP
+        buttonsList.XBOX_ONLINE_SHOP
+        buttonsList.PS4_ONLINE_SHOP
+        buttonsList.DEBUG_PS4_SHOP_DATA
+        buttonsList.MARKETPLACE
       ]
     ]
   },
@@ -121,14 +122,14 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
     getImage = function(totalSections = 0) { return "#ui/gameuiskin#btn_help.svg" }
     buttons = [
       [
-        ::g_top_menu_buttons.WINDOW_HELP
-        ::g_top_menu_buttons.ENCYCLOPEDIA
-        ::g_top_menu_buttons.CREDITS
-        ::g_top_menu_buttons.EULA
-        ::g_top_menu_buttons.LINE_SEPARATOR
-        ::g_top_menu_buttons.WIKI
-        ::g_top_menu_buttons.FAQ
-        ::g_top_menu_buttons.SUPPORT
+        buttonsList.WINDOW_HELP
+        buttonsList.ENCYCLOPEDIA
+        buttonsList.CREDITS
+        buttonsList.EULA
+        buttonsList.LINE_SEPARATOR
+        buttonsList.WIKI
+        buttonsList.FAQ
+        buttonsList.SUPPORT
       ]
     ]
   }

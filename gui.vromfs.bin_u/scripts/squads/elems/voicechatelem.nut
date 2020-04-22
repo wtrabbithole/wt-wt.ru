@@ -1,5 +1,6 @@
 local elemModelType = ::require("sqDagui/elemUpdater/elemModelType.nut")
 local elemViewType = ::require("sqDagui/elemUpdater/elemViewType.nut")
+local { chatStatesCanUseVoice } = require("scripts/chat/chatStates.nut")
 
 const MAX_VOICE_ELEMS_IN_GC = 2
 
@@ -32,7 +33,7 @@ elemViewType.addTypes({
 
       local isWidgetVisible = nestObj.getFinalProp("isClanOnly") != "yes" ||
         (::get_option_voicechat()
-         && ::g_chat.canUseVoice()
+         && chatStatesCanUseVoice()
          && !::g_squad_manager.isInSquad()
          && !!::my_clan_info)
       nestObj.show(isWidgetVisible)

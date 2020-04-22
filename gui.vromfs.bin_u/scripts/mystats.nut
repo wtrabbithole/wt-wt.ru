@@ -1,4 +1,5 @@
-local seenTitles = ::require("scripts/seen/seenList.nut").get(SEEN.TITLES)
+local seenTitles = require("scripts/seen/seenList.nut").get(SEEN.TITLES)
+local { getUnitClassTypesByEsUnitType } = require("scripts/unit/unitClassType.nut")
 
 /*
 my_stats API
@@ -281,7 +282,7 @@ local summaryNameArray = [
     if (!pvpSummary)
       return res
 
-    local roles = ::u.map(::g_unit_class_type.getTypesByEsUnitType(filter?.unitType),
+    local roles = ::u.map(getUnitClassTypesByEsUnitType(filter?.unitType),
        @(t) t.expClassName)
 
     foreach(idx, diffData in pvpSummary)

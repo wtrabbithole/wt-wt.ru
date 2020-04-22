@@ -1,3 +1,5 @@
+local { getFavoriteVoiceMessagesVariants } = require("scripts/voiceMessages.nut")
+
 local MAX_VOICE_MESSAGE_BUTTONS = 8
 
 local function getIdVoiceMessageOption(index) {
@@ -59,7 +61,7 @@ local function getFavoriteVoiceMessageOption(index) {
   return {
     id = "favorite_voice_message_" + index
     type = CONTROL_TYPE.SPINNER
-    options = get_favorite_voice_messages_variants()
+    options = getFavoriteVoiceMessagesVariants()
     value = (@(index) function(joyParams) { return ::get_option_favorite_voice_message(index - 1) + 1 })(index)
     setValue = (@(index) function(joyParams, objValue) { ::set_option_favorite_voice_message(index - 1, objValue - 1); })(index)
   }

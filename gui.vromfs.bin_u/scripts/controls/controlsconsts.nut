@@ -41,8 +41,11 @@ global enum ctrlGroups {
   SHIP          = 0x0004
   HELICOPTER    = 0x0008
   SUBMARINE     = 0x0010
-  WALKER        = 0x0040
+  //
+
+
   ONLY_COMMON   = 0x0080
+  SUIT          = 0x1000
 
   VOICE         = 0x0100
   REPLAY        = 0x0200
@@ -103,4 +106,10 @@ global enum CONTROL_HELP_PATTERN {
 global enum AxisDirection {
   X,
   Y
+}
+
+global enum ConflictGroups {
+  PLANE_FIRE,
+  HELICOPTER_FIRE,
+  TANK_FIRE
 }

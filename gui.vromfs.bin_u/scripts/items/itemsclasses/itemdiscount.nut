@@ -1,3 +1,5 @@
+local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
+
 class ::items_classes.Discount extends ::BaseItem
 {
   static iType = itemType.DISCOUNT
@@ -196,8 +198,8 @@ class ::items_classes.Discount extends ::BaseItem
     local entitlementName = ::getTblValue("entitlementName", dataItem)
     if (entitlementName != null)
     {
-      local entitlementConfig = ::get_entitlement_config(entitlementName)
-      locParams.entitlementName <- ::get_entitlement_name(entitlementConfig)
+      local entitlementConfig = getEntitlementConfig(entitlementName)
+      locParams.entitlementName <- getEntitlementName(entitlementConfig)
     }
     locParams.discount = ::colorize("activeTextColor", locParams.discount)
     return ::loc(locId, locParams)

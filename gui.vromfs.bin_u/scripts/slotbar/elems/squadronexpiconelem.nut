@@ -1,5 +1,6 @@
-local elemModelType = ::require("sqDagui/elemUpdater/elemModelType.nut")
-local elemViewType = ::require("sqDagui/elemUpdater/elemViewType.nut")
+local elemModelType = require("sqDagui/elemUpdater/elemModelType.nut")
+local elemViewType = require("sqDagui/elemUpdater/elemViewType.nut")
+local { topMenuShopActive } = require("scripts/mainmenu/topMenuStates.nut")
 
 
 elemModelType.addTypes({
@@ -39,7 +40,7 @@ elemViewType.addTypes({
 
     updateView = function(obj, params)
     {
-      local isVisible = ::top_menu_shop_active && model.isVisible()
+      local isVisible = topMenuShopActive.value && model.isVisible()
       if(!isVisible)
       {
         obj.show(isVisible)
@@ -59,7 +60,7 @@ elemViewType.addTypes({
 
     updateView = function(obj, params)
     {
-      local isVisible = ::top_menu_shop_active && model.isVisible()
+      local isVisible = topMenuShopActive.value && model.isVisible()
       if(!isVisible)
       {
         obj.show(isVisible)

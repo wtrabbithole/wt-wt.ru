@@ -19,19 +19,28 @@ button[tinyFont=yes], [tinyFont=yes] CheckBox, CheckBox[tinyFont=yes] {
   font:@fontTiny;
 }
 
-textarea[hudFont=tiny] {
-  font:@fontHudTiny;
-}
-
-textarea[hudFont=small] {
-  font:@fontHudSmall;
-}
-
-textarea[hudFont=normal] {
+textarea[hudFont=normal],
+dmgIndicatorNest text {
   font:@fontHudNormal;
 }
 
-activeText[hudFont=medium] {
+textarea[hudFont=tiny],
+dmgIndicatorNest[fontSize=tiny] text {
+  font:@fontHudTiny;
+}
+
+dmgIndicatorNest[fontSize=extraTiny] text {
+  font:@fontHudTiny;
+  font-ht:0.01@shHud;
+}
+
+textarea[hudFont=small],
+dmgIndicatorNest[fontSize=small] text {
+  font:@fontHudSmall;
+}
+
+activeText[hudFont=medium],
+dmgIndicatorNest[fontSize=medium] text {
   font:@fontHudMedium;
 }
 

@@ -1,3 +1,5 @@
+local { animBgLoad } = require("scripts/loading/animBg.nut")
+
 class ::gui_handlers.LoadingHangarHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/loading/loadingHangar.blk"
@@ -5,7 +7,7 @@ class ::gui_handlers.LoadingHangarHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function initScreen()
   {
-    ::g_anim_bg.load()
+    animBgLoad()
     ::setVersionText()
     ::set_help_text_on_loading(scene.findObject("help_text"))
 

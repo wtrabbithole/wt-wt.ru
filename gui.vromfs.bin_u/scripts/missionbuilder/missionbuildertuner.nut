@@ -1,3 +1,5 @@
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+
 ::gui_start_builder_tuner <- function gui_start_builder_tuner()
 {
   ::gui_start_modal_wnd(::gui_handlers.MissionBuilderTuner)
@@ -181,7 +183,7 @@ class ::gui_handlers.MissionBuilderTuner extends ::gui_handlers.BaseGuiHandlerWT
         local airName = ::show_aircraft.name
         ::mission_settings.mission.player_class = airName
         armada.unit_class = airName
-        armada.weapons = ::get_last_weapon(airName)
+        armada.weapons = getLastWeapon(airName)
         armada.skin = ::g_decorator.getLastSkin(airName)
         listA.append([armada.unit_class])
         listW.append([armada.weapons])

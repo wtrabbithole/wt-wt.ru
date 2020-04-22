@@ -39,6 +39,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
     return diffCode == -1 ? -1 :
       diffCode + (isAvailableTanks ? EDIFF_SHIFT : 0)
   }
+  needCheckTutorial = false
 }
 
 enums.addTypesByGlobalName("g_difficulty", {
@@ -88,6 +89,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     choiceType = ["AirRB", "TankRB", "ShipRB"]
     arcadeCountry = true
     hasRespawns = false
+    needCheckTutorial = true
   }
 
   SIMULATOR = {
@@ -110,6 +112,7 @@ enums.addTypesByGlobalName("g_difficulty", {
     choiceType = ["AirSB", "TankSB", "ShipSB"]
     arcadeCountry = false
     hasRespawns = false
+    needCheckTutorial = true
     isAvailable = function(gm = null) {
       return !::has_feature("SimulatorDifficulty") ? false :
         gm == ::GM_DOMINATION ? ::has_feature("SimulatorDifficultyInRandomBattles") :

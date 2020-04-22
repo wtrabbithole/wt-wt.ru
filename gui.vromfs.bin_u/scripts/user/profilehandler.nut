@@ -1428,7 +1428,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     msgBox("question_change_name", ::loc("mainmenu/questionChangePlayer"),
       [
         ["yes", function() {
-          ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, null)
+          ::save_local_shared_settings(USE_STEAM_LOGIN_AUTO_SETTING_ID, null)
           ::gui_start_logout()
         }],
         ["no", @() null ]

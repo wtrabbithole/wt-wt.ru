@@ -13,12 +13,6 @@ local isFunction = @(v) typeof(v)=="function"
 local isDataBlock = @(v) v instanceof ::DataBlock
 
 local rootTable = ::getroottable()
-local split = rootTable?.split
-  ?? require("string")?.split
-  ?? function(str,sep) {
-       throw("no split of string library exist")
-       return str
-     }
 local rnd = rootTable?.math?.rnd
   ?? require("math")?.rand
   ?? function() {
@@ -394,41 +388,6 @@ local function chooseRandomNoRepeat(arr, prevIdx) {
   return arr[nextIdx]
 }
 
-local function setTblValueByArrayPath(tbl, pathArray, value) {
-  foreach(idx, key in pathArray) {
-    if (idx == pathArray.len()-1)
-      tbl[key]<-value
-    else {
-      if (!(key in tbl))
-        tbl[key] <- {}
-      tbl = tbl[key]
-    }
-  }
-}
-
-local function setTblValueByPath(tbl, path, value, separator = ".") {
-  if (::type(path) == "string") {
-    path = split(path, separator)
-  }
-  if (::type(path) == "array")
-    setTblValueByArrayPath(tbl, path, value)
-  else
-    tbl[path] <- value
-}
-
-local function getTblValueByPath(table, path, separator = ".") {
-  if (::type(path) == "string") {
-    path = split(path, separator)
-  }
-  ::assert(::type(path)=="array", "Path should be array or string with separator")
-  local ret = table
-  foreach(i,p in path) {
-    if (ret==null)
-      return null
-    ret = ret?[p]
-  }
-  return ret
-}
 
 local uIsEqual = underscore.isEqual
 local function isEqual(val1, val2){
@@ -483,8 +442,6 @@ local export = underscore.__merge({
 //obsolete
   map = map
   filter = filter
-  getTblValueByPath = getTblValueByPath
-  setTblValueByPath = setTblValueByPath
   keys = keys
   values = values
 

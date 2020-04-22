@@ -25,6 +25,10 @@ local recalculateHudSize = function(safeArea) {
 
 local safeAreaSizeHud = frp.map(safeAreaHud, @(val) recalculateHudSize(val))
 
+local function rw(percent) {
+  return (percent / 100.0 * safeAreaSizeHud.value.size[0]).tointeger()
+}
+
 frp.subscribe([resolution, mode], function(new_val){
   ::gui_scene.setInterval(0.5,
     function() {
@@ -53,4 +57,5 @@ frp.subscribe([resolution, mode], function(new_val){
 
 return {
   safeAreaSizeHud = safeAreaSizeHud
+  rw = rw
 }

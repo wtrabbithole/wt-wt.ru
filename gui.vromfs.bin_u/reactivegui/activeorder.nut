@@ -14,7 +14,7 @@ local scoresTable = @() {
   children = orderState.scoresTable.value.map(@(item) {
     size = [flex(), ::scrn_tgt(2.24)]
     flow = FLOW_HORIZONTAL
-    valign = VALIGN_BOTTOM
+    valign = ALIGN_BOTTOM
     children = [
       {
         rendObj = ROBJ_IMAGE

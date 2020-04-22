@@ -3,6 +3,7 @@ local stdMath = require("std/math.nut")
 local { getUnitBasicRole, getRoleText } = require("scripts/unit/unitInfoTexts.nut")
 local crewSkillsPageHandler = require("scripts/crew/crewSkillsPageHandler.nut")
 local { getSkillValue } = require("scripts/crew/crewSkills.nut")
+local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 
 ::gui_modal_crew <- function gui_modal_crew(params = {})
 {

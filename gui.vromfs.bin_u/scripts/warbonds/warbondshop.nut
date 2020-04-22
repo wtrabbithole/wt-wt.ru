@@ -183,8 +183,10 @@ class ::gui_handlers.WarbondsShop extends ::gui_handlers.BaseGuiHandlerWT
     obj.findObject("info_name").setValue(award.getNameText())
     obj.findObject("info_desc").setValue(award.getDescText())
 
+    local iconObj = obj.findObject("info_icon")
+    iconObj.doubleSize = award.imgNestDoubleSize
     local imageData = award.getDescriptionImage()
-    guiScene.replaceContentFromText(obj.findObject("info_icon"), imageData, imageData.len(), this)
+    guiScene.replaceContentFromText(iconObj, imageData, imageData.len(), this)
   }
 
   function updateItemInfo()

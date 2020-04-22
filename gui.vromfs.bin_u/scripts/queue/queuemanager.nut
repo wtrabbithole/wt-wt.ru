@@ -1,4 +1,5 @@
 local clustersModule = require("scripts/clusterSelect.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 global enum queueStates
 {
@@ -7,16 +8,6 @@ global enum queueStates
   JOINING_QUEUE,
   LEAVING_QUEUE,
   IN_QUEUE
-}
-
-global enum QUEUE_TYPE_BIT //bit values for easy multi-type search
-{
-  EVENT      = 1,
-  DOMINATION = 2,
-  NEWBIE     = 4,
-  WW_BATTLE  = 8,
-
-  UNKNOWN    = 0
 }
 
 ::queue_classes <- {}

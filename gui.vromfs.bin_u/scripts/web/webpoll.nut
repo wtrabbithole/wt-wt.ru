@@ -1,4 +1,5 @@
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+local api = require("dagor.webpoll")
 
 const WEBPOLL_TOKENS_VALIDATION_TIMEOUT_MS = 3000000
 const REQUEST_AUTHORIZATION_TIMEOUT_MS = 3600000
@@ -67,6 +68,13 @@ local function webpollEvent(id, token, voted) {
   ::broadcastEvent("WebPollAuthResult", {pollId = idString})
 }
 
+local function onCanVoteResponse(response) {
+  if (response?.status == "OK" && response?.data != null)
+    foreach (id,data in response.data)
+      if (data?.canVote == true)
+        webpollEvent(id, data?.disposable_token, data?.hasVote)
+}
+
 local function onSurveyVoteResult(params) {
   webpollEvent(params.survey_id, "", params.has_vote)
 }
@@ -111,7 +119,7 @@ local function generatePollUrl(pollId, needAuthorization = true) {
   if (cachedToken == "") {
     if(needAuthorization && canRequestAuthorization(pollIdInt)) {
       authorizedPollsRequestTimeOut[pollIdInt] <- ::dagor.getCurTime() + REQUEST_AUTHORIZATION_TIMEOUT_MS
-      ::webpoll_authorize_with_url(pollBaseUrl, pollIdInt)
+      api.canVote(pollBaseUrl + "/api/v1/survey/can_vote/", [pollIdInt], onCanVoteResponse)
     }
     return ""
   }

@@ -24,6 +24,13 @@ icon {
   timeBar {
     id:t='transfere_indicatior';
   }
+
+  drivingDirectionModeStatus {
+    id:t='driving_direction_mode'
+    behaviour:t='bhvHudTankStates'
+    state:t='off'
+    tooltip:t='#hotkeys/ID_ENABLE_GM_DIRECTION_DRIVING'
+  }
 }
 
 icon {
@@ -31,17 +38,15 @@ icon {
   hudCrewStatus:t='yes';
   icon_type:t='crew_count'
   tooltip:t='#hud_tank_crew_members_count'
-  pos:t='0, ph - h'
+  pos:t='0, 0.64ph - h/2'
   background-image:t='#ui/gameuiskin#crew.svg'
 
-  textarea {
+  text {
     id:t='crew_count_text';
     position:t='absolute';
-    pos:t='pw, ph/2 - h/2';
-    hudFont:t='normal';
+    pos:t='pw, ph - h'
     text-align:t='right';
     text:t='';
-    style:t='paragraph-indent:0';
   }
 }
 

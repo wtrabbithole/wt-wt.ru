@@ -4,6 +4,7 @@ local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
+local { isChatEnabled, isChatEnableWithPlayer } = require("scripts/chat/chatStates.nut")
 
 ::game_chat_handler <- null
 
@@ -221,7 +222,7 @@ class ::ChatHandler
 
   function canEnableChatInput()
   {
-    if (!::g_chat.isChatEnabled())
+    if (!isChatEnabled())
       return false
     foreach(sceneData in scenes)
       if (!sceneData.hiddenInput && ::checkObj(sceneData.scene) && sceneData.scene.isVisible())
@@ -250,7 +251,7 @@ class ::ChatHandler
 
     local show = (isActive || !sceneData.selfHideInput)
                  && !sceneData.hiddenInput
-                 && ::g_chat.isChatEnabled()
+                 && isChatEnabled()
                  && getCurView(sceneData) == mpChatView.CHAT
     local scene = sceneData.scene
 
@@ -590,7 +591,7 @@ class ::ChatHandler
     {
       if (::isPlayerNickInContacts(message.sender, ::EPL_BLOCKLIST))
         text = ::g_chat.makeBlockedMsg(message.text)
-      else if (!::g_chat.isChatEnableWithPlayer(message.sender))
+      else if (!isChatEnableWithPlayer(message.sender))
         text = ::g_chat.makeXBoxRestrictedMsg(message.text)
     }
 

@@ -17,8 +17,8 @@ local function place_by_circle(params) {
     local pos = [math.cos(angle)*radius*offset+radius, math.sin(angle)*radius*offset+radius]
     return {
       pos=pos
-      halign = HALIGN_CENTER
-      valign=VALIGN_MIDDLE
+      halign = ALIGN_CENTER
+      valign=ALIGN_CENTER
       size=[0,0]
       rendObj=ROBJ_DTEXT
       text=",".concat(pos[0],pos[1])

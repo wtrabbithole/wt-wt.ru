@@ -16,13 +16,24 @@ local persist = {
 
 local defaultsSheetData = {
   WARTHUNDEREAGLES = {
-    sortParams = ["price"]
+    sortParams = [
+      {param = "releaseDate", asc = false}
+      {param = "releaseDate", asc = true}
+      {param = "price", asc = false}
+      {param = "price", asc = true}
+    ]
     sortSubParam = "name"
     contentTypes = ["eagles"]
   }
   def = {
-    sortParams = ["price", "isBought"]
-    sortSubParam = "name"
+    sortParams = [
+      {param = "releaseDate", asc = false}
+      {param = "releaseDate", asc = true}
+      {param = "price", asc = false}
+      {param = "price", asc = true}
+      {param = "isBought", asc = false}
+      {param = "isBought", asc = true}
+    ]
     contentTypes = [null, ""]
   }
 }
@@ -92,9 +103,11 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
     {
       psnStore.show_icon(psnStore.IconPosition.CENTER)
       base.initScreen()
+      return
     }
-    else
-      goBack()
+
+    ::statsd_counter("ingame_store.empty_catalog.on_open_window")
+    goBack()
   }
 
   function loadCurSheetItemsList()
@@ -121,26 +134,31 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
   {
     local isStoreEmpty = !isLoadingInProgress && !itemsCatalog.len()
     if (isStoreEmpty)
-      psnSystem.show_message(psnSystem.Message.EMPTY_STORE, @() null)
+      psnSystem.show_message(psnSystem.Message.EMPTY_STORE, @(_) null)
     return !isStoreEmpty
   }
 
   function onEventPS4ShopSheetsInited(p)
   {
     isLoadingInProgress = p?.isLoadingInProgress ?? false
+    if (!canDisplayStoreContents())
+    {
+      ::statsd_counter("ingame_store.empty_catalog.on_finish_update_data")
+      goBack()
+      return
+    }
+
     fillItemsList()
     restoreFocus()
     updateItemInfo()
-    if (!canDisplayStoreContents())
-      goBack()
   }
 
   function onEventPS4IngameShopUpdate(p)
   {
-    lastSelectedItem = getCurItem()
-    local wasBought = lastSelectedItem?.isBought
-    lastSelectedItem?.updateIsBoughtStatus()
-    if (wasBought != lastSelectedItem?.isBought)
+    curItem = getCurItem()
+    local wasBought = curItem?.isBought
+    curItem?.updateIsBoughtStatus()
+    if (wasBought != curItem?.isBought)
       ::configs.ENTITLEMENTS_PRICE.checkUpdate()
 
     updateSorting()
@@ -149,18 +167,51 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
   }
 }
 
-return {
-  canUseIngameShop = shopData.canUseIngameShop
-  openWnd = @(chapter = null, afterCloseFunc = null) ::handlersManager.loadHandler(::gui_handlers.Ps4Shop, {
-    itemsCatalog = shopData.getShopItemsTable()
-    isLoadingInProgress = !shopData.isItemsUpdated()
-    chapter = chapter
-    afterCloseFunc = afterCloseFunc
-    titleLocId = "topmenu/ps4IngameShop"
-    storeLocId = "items/purchaseIn/Ps4Store"
-    openStoreLocId = "items/openIn/Ps4Store"
-    seenEnumId = seenEnumId
-    seenList = seenList
-    sheetsArray = persist.sheetsArray
-  })
-}
+return shopData.__merge({
+  openIngameStore = ::kwarg(
+    function (chapter = null, curItemId = "", afterCloseFunc = null, statsdMetric = "unknown") {
+      if (!::isInArray(chapter, [null, "", "eagles"]))
+        return false
+
+      if (shopData.canUseIngameShop())
+      {
+        ::statsd_counter($"ingame_store.open.{statsdMetric}")
+        local item = shopData.getShopItem(curItemId)
+        ::handlersManager.loadHandler(::gui_handlers.Ps4Shop, {
+          itemsCatalog = shopData.getShopItemsTable()
+          isLoadingInProgress = !shopData.isItemsUpdated()
+          chapter = chapter
+          curSheetId = item?.category
+          curItem = item
+          afterCloseFunc = afterCloseFunc
+          titleLocId = "topmenu/ps4IngameShop"
+          storeLocId = "items/purchaseIn/Ps4Store"
+          openStoreLocId = "items/openIn/Ps4Store"
+          seenEnumId = seenEnumId
+          seenList = seenList
+          sheetsArray = persist.sheetsArray
+        })
+        return true
+      }
+
+      ::queues.checkAndStart(function() {
+        ::get_gui_scene().performDelayed(::getroottable(),
+          function() {
+            if (chapter == null || chapter == "")
+            {
+              local res = ::ps4_open_store("WARTHUNDERAPACKS", false)
+              ::update_purchases_return_mainmenu(afterCloseFunc, res)
+            }
+            else if (chapter == "eagles")
+            {
+              local res = ::ps4_open_store("WARTHUNDEREAGLES", false)
+              ::update_purchases_return_mainmenu(afterCloseFunc, res)
+            }
+          }
+        )
+      }, null, "isCanUseOnlineShop")
+
+      return true
+    }
+  )
+})

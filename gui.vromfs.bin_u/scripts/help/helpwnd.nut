@@ -464,44 +464,32 @@ class ::gui_handlers.helpWndModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local joystickButtons = array(gamepadIcons.TOTAL_BUTTON_INDEXES, null)
     local joystickAxis = array(axisIds.len()*2, null)
 
-    local shortcutNames = []
-    local ignoring = false
-    for (local i=0; i<::shortcutsList.len(); i++)
-    {
-      local item = ::shortcutsList[i]
-      local name = item.id
-      local iType = item.type
+    local scList = ::g_controls_utils.getControlsList({
+      unitType = pageUnitType,
+      unitTags = pageUnitTag? [pageUnitTag] : []
+    })
 
-      if (iType == CONTROL_TYPE.HEADER)
-        ignoring = ("unitType" in item) && (item.unitType != pageUnitType || ::getTblValue("unitTag", item, null) != pageUnitTag)
-      if (ignoring)
-        continue
+    local shortcutNames = scList.filter(function(sc) {
+      if (sc.type == CONTROL_TYPE.SHORTCUT || sc.type == CONTROL_TYPE.AXIS_SHORTCUT)
+        return ignoreButtons.findvalue(@(b) b == sc.id) == null || forceButtons.findvalue(@(b) b == sc.id) != null
 
-      local isAxis = iType == CONTROL_TYPE.AXIS
-      local needCheck = isAxis || iType == CONTROL_TYPE.SHORTCUT || iType == CONTROL_TYPE.AXIS_SHORTCUT
-
-      if (needCheck)
+      if (sc.type == CONTROL_TYPE.AXIS)
       {
-        if (isAxis)
+        if (forceButtons.findvalue(@(b) b == sc.id) != null)
+          return true // Puts "camx" axis as a shortcut.
+        if (ignoreAxis.findvalue(@(b) b == sc.id) != null)
+          return false
+
+        local axisId = curJoyParams.getAxis(sc.axisIndex).axisId
+        if (axisId != -1 && axisId < joystickAxis.len())
         {
-          if (::isInArray(name, forceButtons))
-            shortcutNames.append(name) // Puts "camx" axis as a shortcut.
-          if (::isInArray(name, ignoreAxis))
-            continue
-
-          local axisIndex = ::get_axis_index(name)
-          local axisId = curJoyParams.getAxis(axisIndex).axisId
-          if (axisId != -1 && axisId < joystickAxis.len())
-          {
-            joystickAxis[axisId] = joystickAxis[axisId] || []
-            joystickAxis[axisId].append(name)
-          }
-
+          joystickAxis[axisId] = joystickAxis[axisId] || []
+          joystickAxis[axisId].append(sc.id)
         }
-        else if (!::isInArray(name, ignoreButtons) || ::isInArray(name, forceButtons))
-          shortcutNames.append(name)
       }
-    }
+
+      return false
+    }).map(@(sc) sc.id)
 
     local shortcuts = ::get_shortcuts(shortcutNames, preset)
     foreach (i, item in shortcuts)

@@ -52,39 +52,16 @@
             },
             "tdiv": {
               "id": "sorting_block",
-              "height": "ph",
+              "width": "1@subsetComboBoxWidth",
+              "position": "relative",
+              "top": "50%ph-50%h",
+              "margin-left": "1@listboxPad",
               "display": "hide",
-              "CheckBox": {
-                "id": "sort_order",
-                "type": "sortOrder",
-                "pos": "0, 50%ph-50%h",
-                "position": "relative",
-                "btnName": "Y",
-                "value": "yes",
-                "on_change_value": "onChangeSortOrder",
-                "CheckBoxImg": [],
-                "ButtonImg": []
-              },
-              "textarea": {
-                "text": "#items/sortBy",
-                "pos": "0, 50%ph-50%h",
-                "position": "relative"
-              },
-              "RadioButtonList": {
-                "id": "sort_params_list",
-                "pos": "0, 50%ph-50%h",
-                "position": "relative",
-                "navigatorShortcuts": "yes",
-                "on_select": "onChangeSortParam",
-                "on_wrap_up": "onWrapUp",
-                "on_wrap_down": "onWrapDown",
-                "activeAccesskeys": "RSLeftRight",
-                "highlightSelected": "yes"
-              },
-              "ButtonImg": {
-                "pos": "2@dp, 50%ph-50%h",
-                "position": "relative",
-                "btnName": "RSLeftRight"
+              "tdiv": {
+                "id": "sorting_block_bg",
+                "width": "pw",
+                "background-color": "@rowHoverBackgroundColor",
+                "padding": "1@dp"
               }
             }
           },
@@ -1103,7 +1080,7 @@
                             "id": "gc_eagles",
                             "isColoredImg": "yes",
                             "tooltip": "#mainmenu/gold",
-                            "_on_click": "onOnlineShopEaglesMsg",
+                            "_on_click": "onOnlineShopEagles",
                             "img": {
                               "isFirstLeft": "yes",
                               "background-image": "#ui/gameuiskin#shop_warpoints_premium"

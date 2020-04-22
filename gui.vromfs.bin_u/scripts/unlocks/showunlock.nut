@@ -250,7 +250,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function buyUnit()
   {
-    unitActions.buy(unit)
+    unitActions.buy(unit, "show_unlock")
   }
 
   function onUnitHover(obj)

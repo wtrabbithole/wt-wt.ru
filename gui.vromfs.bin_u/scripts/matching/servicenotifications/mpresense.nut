@@ -1,5 +1,6 @@
 local avatars = ::require("scripts/user/avatars.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local editContactsList = require("scripts/contacts/editContacts.nut")
 
 ::on_presences_update <- function on_presences_update(params)
 {
@@ -133,7 +134,10 @@ local platformModule = require("scripts/clientState/platform.nut")
     }
 
     if (friendsToRemove.len())
-      ::edit_players_list_in_contacts({[false] = friendsToRemove}, ::EPL_FRIENDLIST)
+      editContactsList({[false] = friendsToRemove}, ::EPL_FRIENDLIST)
+
+    if (::EPL_FACEBOOK in ::contacts && ::contacts?[::EPL_FACEBOOK].len() == 0)
+      ::g_contacts.removeContactGroup(::EPL_FACEBOOK)
   }
   ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = null})
 

@@ -2,6 +2,8 @@
 ::math <- require("math")
 ::string <- require("string")
 ::loc <- require("dagor.localize").loc
+::utf8 <- require("utf8")
+::regexp2 <- require("regexp2")
 
 // configure scene when hosted in game
 if ("gui_scene" in ::getroottable()) {

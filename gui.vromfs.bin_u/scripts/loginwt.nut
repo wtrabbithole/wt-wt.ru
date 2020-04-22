@@ -4,6 +4,8 @@ local contentStateModule = require("scripts/clientState/contentState.nut")
 local checkUnlocksByAbTest = require("scripts/unlocks/checkUnlocksByAbTest.nut")
 local fxOptions = require("scripts/options/fxOptions.nut")
 
+local onMainMenuReturnActions = require("scripts/mainmenu/onMainMenuReturnActions.nut")
+
 ::my_user_id_str <- ""
 ::my_user_id_int64 <- -1
 ::my_user_name <- ""
@@ -329,8 +331,6 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
 
   ::updateContentPacks()
 
-  ::update_start_mission_instead_of_queue()
-
   handler.doWhenActive(checkAwardsOnStartFrom)
   handler.doWhenActive(@() ::tribunal.checkComplaintCounts())
   handler.doWhenActive(@() ::menu_chat_handler?.checkVoiceChatSuggestion())
@@ -417,7 +417,7 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
   ::update_gamercards()
   penalties.showBannedStatusMsgBox()
 
-  ::on_mainmenu_return(handler, true)
+  onMainMenuReturnActions.value?.onMainMenuReturn(handler, true)
 }
 
 g_login.statsdOnLogin <- function statsdOnLogin()

@@ -54,7 +54,7 @@
         "position": "absolute"
       },
       {
-        "flow": "h-flow"
+        "flow": "w-flow"
       },
       {
         "flow-align": "reverse"
@@ -105,11 +105,33 @@
       },
       {
         "SwitchBox": {
-          "id": "switch_damage",
-          "textChecked": "Simulate Damage",
-          "textUnchecked": "Simulate Damage",
-          "on_change_value": "allowSimulation",
+          "id": "switch_cut",
+          "text": "#protection_analysis/btn_allow_cutting",
+          "on_change_value": "onAllowCutting",
           "value": "no",
+          "position": "relative",
+          "top": "0.5ph-0.5h",
+          "margin": "1@buttonMargin",
+          "display": "hide",
+          "enable": "no",
+          "SwitchSliderBg": {
+            "SwitchSliderBgOn": [],
+            "SwitchSlider": []
+          }
+        }
+      },
+      {
+        "SwitchBox": {
+          "id": "switch_damage",
+          "text": "#protection_analysis/btn_allow_damage",
+          "on_change_value": "onAllowSimulation",
+          "btnName": "LR",
+          "value": "no",
+          "position": "relative",
+          "top": "0.5ph-0.5h",
+          "margin": "1@buttonMargin",
+          "display": "hide",
+          "enable": "no",
           "SwitchSliderBg": {
             "SwitchSliderBgOn": [],
             "SwitchSlider": []
@@ -133,10 +155,12 @@
       {
         "Button_text": {
           "id": "btn_repair",
-          "text": "#mainmenu/btnRepair",
+          "text": "#protection_analysis/btn_repair",
           "showButtonImageOnConsole": "no",
+          "display": "hide",
+          "enable": "no",
           "btnName": "Y",
-          "_on_click": "repair",
+          "on_click": "onRepair",
           "ButtonImg": []
         }
       },
@@ -622,7 +646,7 @@
                             "id": "gc_eagles",
                             "isColoredImg": "yes",
                             "tooltip": "#mainmenu/gold",
-                            "_on_click": "onOnlineShopEaglesMsg",
+                            "_on_click": "onOnlineShopEagles",
                             "img": {
                               "isFirstLeft": "yes",
                               "background-image": "#ui/gameuiskin#shop_warpoints_premium"

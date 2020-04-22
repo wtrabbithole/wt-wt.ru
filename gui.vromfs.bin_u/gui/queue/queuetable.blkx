@@ -241,15 +241,19 @@
             ]
           },
           {
-            "textareaNoTab": {
+            "loadingTip": {
               "id": "queue_tip",
               "width": "pw",
-              "commonButtonColor": "yes",
-              "smallFont": "yes",
-              "overflow-y": "auto",
-              "padding": "1*@scrn_tgt/100.0, 0.5*@scrn_tgt/100.0",
-              "text": "",
-              "behaviour": "bhvLoadingTip"
+              "padding": "0, 0.5*@scrn_tgt/100.0",
+              "behaviour": "bhvLoadingTip",
+              "loadingHint": {
+                "id": "tip_hint",
+                "width": "pw",
+                "commonTextColor": "yes",
+                "smallFont": "yes",
+                "behaviour": "bhvHint",
+                "isWrapInRowAllowed": "yes"
+              }
             }
           },
           {

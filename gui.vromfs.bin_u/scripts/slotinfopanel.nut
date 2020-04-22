@@ -435,4 +435,9 @@ class ::gui_handlers.SlotInfoPanel extends ::gui_handlers.BaseGuiHandlerWT
     if (crewCountryId != -1 && crewIdInCountry != -1)
       ::gui_modal_crew({ countryId = crewCountryId, idInCountry = crewIdInCountry })
   }
+
+  function onEventUnitWeaponChanged(params)
+  {
+    doWhenActiveOnce("updateAirInfo")
+  }
 }

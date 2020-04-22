@@ -14,6 +14,7 @@ local helicopterState = {
   RocketAimX = Watched(0.0)
   RocketAimY = Watched(0.0)
   RocketAimVisible = Watched(false)
+  RocketSightMode = Watched(0) //Sight shape need to change in function of CCIP/CCRP
 
   TATargetX = Watched(0.0)
   TATargetY = Watched(0.0)
@@ -22,6 +23,8 @@ local helicopterState = {
   GunDirectionX = Watched(0.0)
   GunDirectionY = Watched(0.0)
   GunDirectionVisible = Watched(false)
+  GunInDeadZone = Watched(false)
+  GunSightMode = Watched(0)
 
   HorAngle = Watched(0.0)
 
@@ -58,6 +61,7 @@ local helicopterState = {
 
   HudColor = Watched(Color(71, 232, 39, 240))
   AlertColor = Watched(Color(255, 0, 0, 240))
+  MfdColor = Watched(Color(71, 232, 39, 240))
 
   TrtMode = Watched(0)
 
@@ -121,6 +125,7 @@ local helicopterState = {
   FixedGunDirectionX = Watched(-100)
   FixedGunDirectionY = Watched(-100)
   FixedGunDirectionVisible = Watched(false)
+  FixedGunSightMode = Watched(0)
 
   IsRangefinderEnabled = Watched(false)
   RangefinderDist = Watched(0)
@@ -155,6 +160,8 @@ local helicopterState = {
   MfdSightPosSize = [0, 0, 0, 0]
   IlsPosSize = [0, 0, 0, 0]
   AimCorrectionEnabled = Watched(false)
+  DetectAllyProgress = Watched(-1)
+  DetectAllyState = Watched(false)
 
   GunOverheatState = Watched(0)
 

@@ -197,9 +197,9 @@ local DEBUG_TABLE_DATA_PARAMS = {
         ret = ::format("BaseGuiHandler(sceneBlkName = %s)", ::toString(val.sceneBlkName))
       else
       {
-        local instanceStr = val.tostring()
-        local isCustom = ! ::g_string.startsWith(instanceStr, "(instance : 0x")
-        ret += isCustom ? $"instance \"{instanceStr}\"" : "instance"
+        ret += val?.getmetamethod("_tostring") != null
+          ? "instance \"{0}\"".subst(val.tostring())
+          : "instance"
       }
 
       if (recursion > 0)

@@ -1,6 +1,7 @@
 local { getTimestampFromStringUtc, daysToSeconds, isInTimerangeByUtcStrings } = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
-
+local { hasFeatureBasic } = require("scripts/user/features.nut")
+local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 
 ::unlocks_punctuation_without_space <- ","
 ::map_mission_type_to_localization <- null
@@ -469,7 +470,7 @@ local unlockConditionUnitclasses = {
   foreach (feature in unlockBlk % "reqFeature")
     if (!::has_feature(feature))
       return false
-  if (!::g_features.hasFeatureBasic("Tanks") && ::is_unlock_tanks_related(unlockId, unlockBlk))
+  if (!hasFeatureBasic("Tanks") && ::is_unlock_tanks_related(unlockId, unlockBlk))
     return false
   if (!::g_unlocks.checkDependingUnlocks(unlockBlk))
     return false
@@ -977,8 +978,7 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
       return ::loc("award/"+id)
 
     case ::UNLOCKABLE_ENTITLEMENT:
-      local ent = ::get_entitlement_config(id)
-      return ::get_entitlement_name(ent)
+      return getEntitlementName(getEntitlementConfig(id))
 
     case ::UNLOCKABLE_COUNTRY:
       return ::loc(id)

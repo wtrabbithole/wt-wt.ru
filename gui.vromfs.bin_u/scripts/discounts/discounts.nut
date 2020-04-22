@@ -3,8 +3,9 @@ local { haveDiscount, canUseIngameShop } = ::is_platform_ps4? require("scripts/o
   : ::is_platform_xboxone? require("scripts/onlineShop/xboxShopData.nut")
     : { haveDiscount = @() false, canUseIngameShop = @() false }
 
-local topMenuOnlineShopId = ::is_platform_ps4? ::g_top_menu_buttons.PS4_ONLINE_SHOP.id
-  : ::is_platform_xboxone? ::g_top_menu_buttons.XBOX_ONLINE_SHOP.id
+local { buttonsList } = require("scripts/mainmenu/topMenuButtons.nut")
+local topMenuOnlineShopId = ::is_platform_ps4? buttonsList.PS4_ONLINE_SHOP.id
+  : ::is_platform_xboxone? buttonsList.XBOX_ONLINE_SHOP.id
     : ""
 
 ::g_discount <- {
@@ -48,7 +49,7 @@ local topMenuOnlineShopId = ::is_platform_ps4? ::g_top_menu_buttons.PS4_ONLINE_S
 
 g_discount.clearDiscountsList <- function clearDiscountsList()
 {
-  foreach (button in ::g_top_menu_buttons.types)
+  foreach (button in buttonsList)
     if (button.needDiscountIcon)
       discountsList[button.id] <- false
   discountsList.changeExp <- false

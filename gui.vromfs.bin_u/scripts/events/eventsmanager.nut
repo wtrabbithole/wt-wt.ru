@@ -5,6 +5,8 @@ local crossplayModule = require("scripts/social/crossplay.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
 local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
+local { getFeaturePack } = require("scripts/user/features.nut")
+local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
@@ -2701,15 +2703,15 @@ class Events
     if (!purchData.canBePurchased)
       return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
 
-    local entitlementItem = ::get_entitlement_config(purchData.sourceEntitlement)
+    local entitlementItem = getEntitlementConfig(purchData.sourceEntitlement)
     local msg = ::loc("msg/eventAccess/needEntitlements",
                       {
                         event = ::colorize("activeTextColor", getEventNameText(event))
-                        entitlement = ::colorize("userlogColoredText", ::get_entitlement_name(entitlementItem))
+                        entitlement = ::colorize("userlogColoredText", getEntitlementName(entitlementItem))
                       })
     ::gui_handlers.ReqPurchaseWnd.open({
       purchaseData = purchData
-      checkPackage = ::g_features.getFeaturePack(feature)
+      checkPackage = getFeaturePack(feature)
       header = getEventNameText(event)
       text = msg
       btnStoreText = ::loc("msgbox/btn_onlineShop_unlockEvent")
@@ -2723,7 +2725,7 @@ class Events
     local feature = getEventReqFeature(event)
     if (::u.isEmpty(feature) || (checkFeature && !::has_feature(feature)))
       return null
-    return ::g_features.getFeaturePack(feature)
+    return getFeaturePack(feature)
   }
 
   //return true if me and all my squad members has packs requeired by event feature
@@ -2801,9 +2803,9 @@ class Events
       reasonText = ::loc("msgbox/notAvailbleYet")
     else
     {
-      local entitlementItem = ::get_entitlement_config(purchData.sourceEntitlement)
+      local entitlementItem = getEntitlementConfig(purchData.sourceEntitlement)
       reasonText = ::loc("events/no_entitlement",
-        { entitlement = ::colorize("userlogColoredText", ::get_entitlement_name(entitlementItem)) })
+        { entitlement = ::colorize("userlogColoredText", getEntitlementName(entitlementItem)) })
     }
 
     return reasonText

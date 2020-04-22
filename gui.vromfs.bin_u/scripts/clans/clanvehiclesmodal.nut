@@ -159,7 +159,7 @@ local handlerClass = class extends vehiclesModal.handlerClass
 
   function onBuy()
   {
-    unitActions.buy(lastSelectedUnit)
+    unitActions.buy(lastSelectedUnit, "clan_vehicles")
   }
 
   static function isHaveNonApprovedResearches()

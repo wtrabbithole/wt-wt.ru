@@ -93,13 +93,13 @@ local function take(unit, params={})
     null, "isCanModifyCrew", null)
 }
 
-local function buy(unit)
+local function buy(unit, metric)
 {
   if (!unit)
     return
 
   if (::canBuyUnitOnline(unit))
-    ::OnlineShopModel.showGoods({ unitName = unit.name })
+    ::OnlineShopModel.showGoods({ unitName = unit.name }, metric)
   else
     ::buyUnit(unit)
 }

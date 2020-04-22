@@ -124,6 +124,7 @@ local class SelectUnitHandler extends ::gui_handlers.BaseGuiHandlerWT
     initChooseUnitsOptions()
     fillChooseUnitsOptions()
     fillLegendData()
+    fillLegend()
     fillUnitsList()
     updateUnitsList()
     setFocus(true)
@@ -151,7 +152,11 @@ local class SelectUnitHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function fillLegend()
   {
-    local legendNest = scene.findObject("legend_nest")
+    local haveLegend = !isEmptyOptionsList && legendData.len() > 0
+    local legendNest = showSceneBtn("legend_nest", haveLegend)
+    if (!haveLegend)
+      return
+
     local legendView = {
       header = ::loc("mainmenu/legend")
       haveLegend = legendData.len() > 0,
@@ -453,14 +458,10 @@ local class SelectUnitHandler extends ::gui_handlers.BaseGuiHandlerWT
     objOptionsNest.show(!isEmptyOptionsList)
     showSceneBtn("choose_options_header", !isEmptyOptionsList)
     showSceneBtn("filtered_units_text", !isEmptyOptionsList)
-
-    fillLegend()
-
     local objChoosePopupMenu = scene.findObject("choose_popup_menu")
     if ( !::checkObj(objChoosePopupMenu) )
       return
 
-    objChoosePopupMenu.findObject("choose_options_nest")
     guiScene.setUpdatesEnabled(true, true)
 
     local sizeChoosePopupMenu = objChoosePopupMenu.getSize()

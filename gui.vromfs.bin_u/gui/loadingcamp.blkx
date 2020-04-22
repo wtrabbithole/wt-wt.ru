@@ -269,12 +269,15 @@
       }
     },
     {
-      "subtitles": {
+      "subtitlesHint": {
         "id": "scene-info",
         "width": "@rw-30%sh",
         "pos": "@bw, 83%sh",
         "position": "absolute",
-        "_transp-timer": "0"
+        "_transp-timer": "0",
+        "behaviour": "bhvHint",
+        "isWrapInRowAllowed": "yes",
+        "flow-align": "left"
       }
     },
     {
@@ -798,7 +801,7 @@
                               "id": "gc_eagles",
                               "isColoredImg": "yes",
                               "tooltip": "#mainmenu/gold",
-                              "_on_click": "onOnlineShopEaglesMsg",
+                              "_on_click": "onOnlineShopEagles",
                               "img": {
                                 "isFirstLeft": "yes",
                                 "background-image": "#ui/gameuiskin#shop_warpoints_premium"

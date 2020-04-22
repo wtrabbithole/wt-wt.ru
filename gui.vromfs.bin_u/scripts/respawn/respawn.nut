@@ -4,6 +4,14 @@ local respawnBases = ::require("scripts/respawn/respawnBases.nut")
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local contentPreset = require("scripts/customization/contentPreset.nut")
 local actionBarInfo = require("scripts/hud/hudActionBarInfo.nut")
+local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getLastWeapon, setLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
+local { AMMO,
+        getAmmoAmount,
+        getAmmoMaxAmountInSession,
+        getAmmoAmountData } = require("scripts/weaponry/ammoInfo.nut")
+local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 
 ::last_ca_aircraft <- null
 ::used_planes <- {}
@@ -185,7 +193,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     gameMode = ::get_game_mode()
     gameType = ::get_game_type()
 
-    isFriendlyUnitsExists = ::is_mode_with_friendly_units(gameType)
+    isFriendlyUnitsExists = isModeWithFriendlyUnits(gameType)
 
     updateCooldown = -1
     wasTimeLeft = -1000
@@ -237,7 +245,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     ::add_tags_for_mp_players()
 
     currentFocusItem = canChangeAircraft && !isSpectate ? focusItemAirsTable :
-      ::g_chat.isChatEnabled() ? focusItemChatInput :
+      isChatEnabled() ? focusItemChatInput :
       focusItemChatTabs
     restoreFocus()
 
@@ -258,6 +266,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
 
     updateControlsAllowMask()
     updateVoiceChatWidget(!isRespawn)
+  }
+
+  function isModeWithFriendlyUnits(gt = null)
+  {
+    if (gt == null)
+      gt = ::get_game_type()
+    return !!(gt & ::GT_RACE) || !(gt & (::GT_FFA_DEATHMATCH | ::GT_FFA))
   }
 
   function recountStayOnRespScreen() //return isChanged
@@ -868,7 +883,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
        && ::isInArray(weapon, ::used_planes[airName]))
     {
       local unit = ::getAircraftByName(airName)
-      local count = ::getAmmoMaxAmountInSession(unit, weapon, AMMO.WEAPON) - getAmmoAmount(unit, weapon, AMMO.WEAPON)
+      local count = getAmmoMaxAmountInSession(unit, weapon, AMMO.WEAPON) - getAmmoAmount(unit, weapon, AMMO.WEAPON)
       return (count * ::wp_get_cost2(airName, weapon))
     }
     return 0
@@ -1309,7 +1324,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     if (unit && missionRules.getRandomUnitsGroupName(unit.name))
     {
-      ::set_last_weapon(unit.name, missionRules.getWeaponForRandomUnit(unit, "forceWeapon"))
+      setLastWeapon(unit.name, missionRules.getWeaponForRandomUnit(unit, "forceWeapon"))
       return
     }
 
@@ -1321,7 +1336,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
           && ::is_weapon_enabled(unit, weapon)
           && missionRules.getUnitWeaponRespawnsLeft(unit, weapon) > 0) //limited and available
      {
-       ::set_last_weapon(unit.name, weapon.name)
+       setLastWeapon(unit.name, weapon.name)
        break
      }
   }
@@ -1356,7 +1371,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
   {
     local unit = getCurSlotUnit()
     if (unit)
-      return ::get_last_weapon(unit.name)
+      return getLastWeapon(unit.name)
     return null
   }
 
@@ -1421,7 +1436,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     }
 
     local crew = getCurCrew()
-    local weapon = ::get_last_weapon(air.name)
+    local weapon = getLastWeapon(air.name)
     local skin = ::g_decorator.getRealSkin(air.name)
     ::g_decorator.setCurSkinToHangar(air.name)
     if (!weapon || !skin)
@@ -1769,10 +1784,10 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     local weapon = getSelWeapon()
     if (weapon)
     {
-      local weaponText = ::getAmmoAmountData(air, weapon, AMMO.WEAPON)
+      local weaponText = getAmmoAmountData(air, weapon, AMMO.WEAPON)
       if (weaponText.warning)
       {
-        text += ::getWeaponNameText(air.name, false, -1, ", ") + weaponText.text;
+        text += getWeaponNameText(air.name, false, -1, ", ") + weaponText.text;
         if (!weaponText.amount)
           zero = true
       }
@@ -1788,13 +1803,13 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       if (modifName == "")
         continue
 
-      local modificationText = ::getAmmoAmountData(air, modifName, AMMO.MODIFICATION)
+      local modificationText = getAmmoAmountData(air, modifName, AMMO.MODIFICATION)
       if (!modificationText.warning)
         continue
 
       if (text != "")
         text += "\n"
-      text += ::getModificationName(air, modifName) + modificationText.text;
+      text += getModificationName(air, modifName) + modificationText.text;
       if (!modificationText.amount)
         zero = true
     }
@@ -2012,7 +2027,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
     params.curSlotIdInCountry <- idInCountry
     params.curSlotCountryId <- countryId
     params.unlocked <- ::isUnitUnlocked(this, unit, countryId, idInCountry, ::get_local_player_country())
-    params.weaponPrice <- getWeaponPrice(unit.name, ::get_last_weapon(unit.name))
+    params.weaponPrice <- getWeaponPrice(unit.name, getLastWeapon(unit.name))
     if (idInCountry in slotDelayDataByCrewIdx)
       params.slotDelayData <- slotDelayDataByCrewIdx[idInCountry]
 

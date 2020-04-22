@@ -1,3 +1,4 @@
+local { unixtime_to_utc_timetbl } = ::require_native("dagor.time")
 local time = require("scripts/time.nut")
 local clanRewardsModal = require("scripts/rewards/clanRewardsModal.nut")
 local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
@@ -1068,7 +1069,7 @@ local function getSeasonName(blk)
     name = ::loc("worldwar/season_name/" + (::split(blk.titles, "@")?[2] ?? ""))
   else
   {
-    local year = ::get_utc_time_from_t(blk?.seasonStartTimestamp ?? 0).year.tostring()
+    local year = unixtime_to_utc_timetbl(blk?.seasonStartTimestamp ?? 0).year.tostring()
     local num  = ::get_roman_numeral(::to_integer_safe(blk?.numInYear ?? 0)
       + CLAN_SEASON_NUM_IN_YEAR_SHIFT)
     name = ::loc("clan/battle_season/name", { year = year, num = num })

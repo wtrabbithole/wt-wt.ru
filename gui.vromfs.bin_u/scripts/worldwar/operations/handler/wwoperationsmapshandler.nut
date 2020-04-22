@@ -829,15 +829,10 @@ class ::gui_handlers.WwOperationsMapsHandler extends ::gui_handlers.BaseGuiHandl
     local joinBtn = showSceneBtn("btn_join_clan_operation", isMyClanOperation)
     if(isMyClanOperation)
     {
-      local joinBtnFlagsObj = joinBtn.findObject("side_countries")
-      if (::checkObj(joinBtnFlagsObj) && hasMap)
-      {
-        local countryIcon = ::get_country_icon(
-          ::g_ww_global_status.getMyClanOperation()?.getMyClanCountry(), false)
-        local markUpData = ::format("img { iconType:t='country_battle';" +
-          "margin-left:t='@blockInterval' ; background-image:t='%s'}", countryIcon)
-        guiScene.replaceContentFromText(joinBtnFlagsObj, markUpData, markUpData.len(), this)
-      }
+      local joinBtnFlagsObj = joinBtn.findObject("country_icon")
+      if (::check_obj(joinBtnFlagsObj))
+        joinBtnFlagsObj["background-image"] = ::get_country_icon(
+          ::g_ww_global_status.getMyClanOperation()?.getMyClanCountry() ?? "")
     }
 
     if ((queuesJoinTime > 0) != isInQueue)

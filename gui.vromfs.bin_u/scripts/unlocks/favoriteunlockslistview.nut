@@ -29,7 +29,7 @@ class ::gui_handlers.FavoriteUnlocksListView extends ::gui_handlers.BaseGuiHandl
     local total = ::max(unlocksObjCount, curFavoriteUnlocksBlk.blockCount())
     if (unlocksObjCount == 0 && total > 0) {
       local blk = ::handyman.renderCached(("gui/unlocks/unlockItemSimplified"),
-        { unlocks = array(total, { hasCloseButton = true })})
+        { unlocks = array(total, { hasCloseButton = true, hasHiddenContent = true })})
       guiScene.appendWithBlk(listContainer, blk, this)
     }
 

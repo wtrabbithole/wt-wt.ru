@@ -1,4 +1,7 @@
-local xboxShopData = require("scripts/onlineShop/xboxShopData.nut")
+local { canUseIngameShop } = ::is_platform_ps4? require("scripts/onlineShop/ps4Shop.nut")
+  : ::is_platform_xboxone? require("scripts/onlineShop/xboxShop.nut")
+    : { canUseIngameShop = @() false }
+
 local unitStatus = require("scripts/unit/unitStatus.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
@@ -107,7 +110,7 @@ local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew
 
       actionText = ::loc("mainmenu/btnWeapons")
       icon       = "#ui/gameuiskin#btn_weapons.svg"
-      haveWarning = ::checkUnitWeapons(unit) != ::UNIT_WEAPONS_READY
+      haveWarning = ::checkUnitWeapons(unit) != UNIT_WEAPONS_READY
       haveDiscount = ::get_max_weaponry_discount_by_unitName(unit.name) > 0
       showAction = inMenu && !::g_crews_list.isSlotbarOverrided
       actionFunc = @() ::open_weapons_for_unit(unit, {
@@ -152,18 +155,17 @@ local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew
           priceText = ::loc("ui/colon") + priceText
       }
 
-      actionText = isGift && xboxShopData.canUseIngameShop() ? ::loc("items/openIn/XboxStore")
-                                                             : (::loc("mainmenu/btnOrder") + priceText)
+      actionText = ::loc("mainmenu/btnOrder") + priceText
 
-      icon       = isGift ? ( xboxShopData.canUseIngameShop() ? "#ui/gameuiskin#xbox_store_icon.svg"
+      icon       = isGift ? ( canUseIngameShop() ? "#ui/gameuiskin#xbox_store_icon.svg"
                             : "#ui/gameuiskin#store_icon.svg")
                         : isSpecial || canBuyNotResearchedUnit ? "#ui/gameuiskin#shop_warpoints_premium"
                             : "#ui/gameuiskin#shop_warpoints"
 
       showAction = inMenu && (canBuyIngame || canBuyOnline)
-      isLink     = canBuyOnline
+      isLink     = !canUseIngameShop() && canBuyOnline
       if (canBuyOnline)
-        actionFunc = @() OnlineShopModel.showGoods({ unitName = unit.name })
+        actionFunc = @() OnlineShopModel.showGoods({ unitName = unit.name }, "unit_context_menu")
       else
         actionFunc = @() ::buyUnit(unit)
     }

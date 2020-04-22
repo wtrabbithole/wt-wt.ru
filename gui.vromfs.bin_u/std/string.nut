@@ -2,7 +2,6 @@
 
 local string=require("string")
 local math=require("math")
-local hash_by_string = require("hash_by_string.nut")
 //pairs list taken from http://www.ibm.com/support/knowledgecenter/ssw_ibm_i_72/nls/rbagslowtoupmaptable.htm
 const CASE_PAIR_LOWER = "abcdefghijklmnopqrstuvwxyzàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿāăąćĉċčďđēĕėęěĝğġģĥħĩīĭįıĳĵķĺļľŀłńņňŋōŏőœŕŗřśŝşšţťŧũūŭůűųŵŷźżžƃƅƈƌƒƙơƣƥƨƭưƴƶƹƽǆǉǌǎǐǒǔǖǘǚǜǟǡǣǥǧǩǫǭǯǳǵǻǽǿȁȃȅȇȉȋȍȏȑȓȕȗɓɔɗɘəɛɠɣɨɩɯɲɵʃʈʊʋʒάέήίαβγδεζηθικλμνξοπρστυφχψωϊϋόύώϣϥϧϩϫϭϯабвгдежзийклмнопрстуфхцчшщъыьэюяёђѓєѕіїјљњћќўџѡѣѥѧѩѫѭѯѱѳѵѷѹѻѽѿҁґғҕҗҙқҝҟҡңҥҧҩҫҭүұҳҵҷҹһҽҿӂӄӈӌӑӓӕӗәӛӝӟӡӣӥӧөӫӯӱӳӵӹաբգդեզէըթժիլխծկհձղճմյնշոչպջռսվտրցւփքօֆაბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰჱჲჳჴჵḁḃḅḇḉḋḍḏḑḓḕḗḙḛḝḟḡḣḥḧḩḫḭḯḱḳḵḷḹḻḽḿṁṃṅṇṉṋṍṏṑṓṕṗṙṛṝṟṡṣṥṧṩṫṭṯṱṳṵṷṹṻṽṿẁẃẅẇẉẋẍẏẑẓẕạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹἀἁἂἃἄἅἆἇἐἑἒἓἔἕἠἡἢἣἤἥἦἧἰἱἲἳἴἵἶἷὀὁὂὃὄὅὑὓὕὗὠὡὢὣὤὥὦὧᾀᾁᾂᾃᾄᾅᾆᾇᾐᾑᾒᾓᾔᾕᾖᾗᾠᾡᾢᾣᾤᾥᾦᾧᾰᾱῐῑῠῡⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚ"
 const CASE_PAIR_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞŸĀĂĄĆĈĊČĎĐĒĔĖĘĚĜĞĠĢĤĦĨĪĬĮIĲĴĶĹĻĽĿŁŃŅŇŊŌŎŐŒŔŖŘŚŜŞŠŢŤŦŨŪŬŮŰŲŴŶŹŻŽƂƄƇƋƑƘƠƢƤƧƬƯƳƵƸƼǄǇǊǍǏǑǓǕǗǙǛǞǠǢǤǦǨǪǬǮǱǴǺǼǾȀȂȄȆȈȊȌȎȐȒȔȖƁƆƊƎƏƐƓƔƗƖƜƝƟƩƮƱƲƷΆΈΉΊΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩΪΫΌΎΏϢϤϦϨϪϬϮАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯЁЂЃЄЅІЇЈЉЊЋЌЎЏѠѢѤѦѨѪѬѮѰѲѴѶѸѺѼѾҀҐҒҔҖҘҚҜҞҠҢҤҦҨҪҬҮҰҲҴҶҸҺҼҾӁӃӇӋӐӒӔӖӘӚӜӞӠӢӤӦӨӪӮӰӲӴӸԱԲԳԴԵԶԷԸԹԺԻԼԽԾԿՀՁՂՃՄՅՆՇՈՉՊՋՌՍՎՏՐՑՒՓՔՕՖႠႡႢႣႤႥႦႧႨႩႪႫႬႭႮႯႰႱႲႳႴႵႶႷႸႹႺႻႼႽႾႿჀჁჂჃჄჅḀḂḄḆḈḊḌḎḐḒḔḖḘḚḜḞḠḢḤḦḨḪḬḮḰḲḴḶḸḺḼḾṀṂṄṆṈṊṌṎṐṒṔṖṘṚṜṞṠṢṤṦṨṪṬṮṰṲṴṶṸṺṼṾẀẂẄẆẈẊẌẎẐẒẔẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼẾỀỂỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪỬỮỰỲỴỶỸἈἉἊἋἌἍἎἏἘἙἚἛἜἝἨἩἪἫἬἭἮἯἸἹἺἻἼἽἾἿὈὉὊὋὌὍὙὛὝὟὨὩὪὫὬὭὮὯᾈᾉᾊᾋᾌᾍᾎᾏᾘᾙᾚᾛᾜᾝᾞᾟᾨᾩᾪᾫᾬᾭᾮᾯᾸᾹῘῙῨῩⒶⒷⒸⒹⒺⒻⒼⒽⒾⒿⓀⓁⓂⓃⓄⓅⓆⓇⓈⓉⓊⓋⓌⓍⓎⓏＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹＺ"
@@ -24,7 +23,7 @@ local escapeConfig = null
  */
 // Reverse operation to split()
 local function implode(pieces = [], glue = "") {
-  return glue.join(pieces, true) ?? ""
+  return glue.join(pieces, true)
 }
 
 /**
@@ -38,7 +37,7 @@ local function implode(pieces = [], glue = "") {
  *                    with the glue string between each element.
  */
 local function join(pieces, glue="") {
-  return glue.join(pieces) ?? ""
+  return glue.join(pieces)
 }
 
 /**
@@ -149,7 +148,7 @@ local function func2str(func, p={}){
   local showsrc = p?.showsrc ?? false
   local showparams = p?.showparams ?? compact
   local showdefparams = p?.showdefparams ?? compact
-  local tostr_func = p?.tostr_func ?? @(v) ("".concat(v) ?? "")
+  local tostr_func = p?.tostr_func ?? @(v) "".concat(v)
 
   if (::type(func)=="thread") {
     return $"thread: {func.getstatus()}"
@@ -166,7 +165,7 @@ local function func2str(func, p={}){
     local params_str = []
     if (params.len()>0) {
       if (reqparams.len()>0)
-        params_str.append(", ".join(reqparams) ?? "")
+        params_str.append(", ".join(reqparams))
       if (optparams.len()>0) {
         foreach (i, op in optparams) {
           params_str.append(op)
@@ -177,7 +176,7 @@ local function func2str(func, p={}){
         }
       }
     }
-    local fname = "".concat(info.name) ?? ""
+    local fname = "".concat(info.name)
     if (fname.slice(0,1)=="(")
       fname = "@"
     if (showsrc)
@@ -192,7 +191,7 @@ local function func2str(func, p={}){
   } else {
     out.append(func.tostring())
   }
-  return "".join(out) ?? ""
+  return "".join(out)
 }
 
 local simple_types = ["string", "float", "bool", "integer","null"]
@@ -359,7 +358,7 @@ local function tostring_r(input, params=defTostringParams) {
         }
       }
     }
-    return "".join(out) ?? ""
+    return "".join(out)
   }
   return sub_tostring_r([input], "", 0,true)
 }
@@ -526,7 +525,7 @@ local function toUpper(str, symbolsNum = 0) {
   if (symbolsNum >= str.len()) {
     return str.toupper()
   }
-  return "".concat(slice(str, 0, symbolsNum).toupper(),slice(str, symbolsNum)) ?? ""
+  return "".concat(slice(str, 0, symbolsNum).toupper(),slice(str, symbolsNum))
 }
 
 local function toLower(str, symbolsNum = 0) {
@@ -536,7 +535,7 @@ local function toLower(str, symbolsNum = 0) {
   if (symbolsNum >= str.len()) {
     return str.tolower()
   }
-  return "".concat(slice(str, 0, symbolsNum).tolower(), slice(str, symbolsNum)) ?? ""
+  return "".concat(slice(str, 0, symbolsNum).tolower(), slice(str, symbolsNum))
 }
 
 local function replace(str, from, to) {
@@ -629,29 +628,48 @@ local function toIntegerSafe(str, defValue = 0, needAssert = true) {
   return defValue
 }
 
-local function intToUtf8Char(c) {
-  if (c <= 0x7F)
-    return c.tochar()
-  if (c <= 0x7FF)
-    return (0xc0 + (c>>6)).tochar() + (0x80 + (c & 0x3F)).tochar()
-  //if (c <= 0xFFFF)
-  return (0xe0 + (c>>12)).tochar() + (0x80 + ((c>>6) & 0x3F)).tochar() + (0x80 + (c & 0x3F)).tochar()
+
+
+
+local intToUtf8Char
+local utf8ToUpper
+local utf8ToLower
+
+local utf8 = require_optional("utf8")
+
+if (utf8 != null) {
+  intToUtf8Char = function intToUtf8CharImpl(c) {
+    if (c <= 0x7F)
+      return c.tochar()
+    if (c <= 0x7FF)
+      return (0xc0 + (c>>6)).tochar() + (0x80 + (c & 0x3F)).tochar()
+    //if (c <= 0xFFFF)
+    return (0xe0 + (c>>12)).tochar() + (0x80 + ((c>>6) & 0x3F)).tochar() + (0x80 + (c & 0x3F)).tochar()
+  }
+
+  utf8ToUpper = function utf8ToUpperImpl(str, symbolsNum = 0) {
+    if(str.len() < 1)
+      return str
+    local utf8Str = utf8(str)
+    local strLength = utf8Str.charCount()
+    if (symbolsNum <= 0 || symbolsNum >= strLength)
+      return utf8Str.strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER)
+    return "".concat(utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER),
+      utf8Str.slice(symbolsNum, strLength))
+  }
+
+  utf8ToLower = function utf8ToLowerImpl(str) {
+    return utf8(str).strtr(CASE_PAIR_UPPER, CASE_PAIR_LOWER)
+  }
+}
+else {
+  local function noUtf8Module(...) { ::assert("No 'utf8' module") }
+
+  intToUtf8Char = noUtf8Module
+  utf8ToUpper = noUtf8Module
+  utf8ToLower = noUtf8Module
 }
 
-local function utf8ToUpper(str, symbolsNum = 0) {
-  if(str.len() < 1)
-    return str
-  local utf8Str = ::utf8(str)
-  local strLength = utf8Str.charCount()
-  if (symbolsNum <= 0 || symbolsNum >= strLength)
-    return utf8Str.strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER)
-  return "".concat(::utf8(utf8Str.slice(0, symbolsNum)).strtr(CASE_PAIR_LOWER, CASE_PAIR_UPPER),
-   utf8Str.slice(symbolsNum, strLength)) ?? ""
-}
-
-local function utf8ToLower(str) {
-  return ::utf8(str).strtr(CASE_PAIR_UPPER, CASE_PAIR_LOWER)
-}
 
 local function hexStringToInt(hexString) {
   // Does the string start with '0x'? If so, remove it
@@ -698,7 +716,7 @@ local function intToStrWithDelimiter(value, delimiter = " ", charsAmount = 3) {
   local idx = res.len()
   while (idx > charsAmount + negativeSignCorrection) {
     idx -= charsAmount
-    res = delimiter.concat(res.slice(0, idx), res.slice(idx)) ?? ""
+    res = delimiter.concat(res.slice(0, idx), res.slice(idx))
   }
   return res
 }
@@ -756,13 +774,13 @@ local function pprint(...){
       if (k==0)
         res = i
       else if (prev_val_newline && len<maxlen)
-        res = " ".concat(res.slice(0,-1), i) ?? ""
+        res = " ".concat(res.slice(0,-1), i)
       else if (len>=maxlen){
-        res = "\n ".concat(res, i) ?? ""
+        res = "\n ".concat(res, i)
         len = i.len()
       }
       else
-        res = " ".concat(res, i) ?? ""
+        res = " ".concat(res, i)
 
       prev_val_newline = i.slice(-1) == "\n" && len < maxlen
     }
@@ -781,7 +799,7 @@ local function validateEmail(no_dump_email) {
 
   local locpart = str[0]
   if (str.len() > 2)
-    locpart = "@".join(str.slice(0,-1)) ?? ""
+    locpart = "@".join(str.slice(0,-1))
   if (locpart.len() > 64)
     return false
 
@@ -838,7 +856,6 @@ local export = {
   validateEmail = validateEmail
 
   toIntegerSafe = toIntegerSafe
-  hash_by_string = hash_by_string
 }
 
 return export

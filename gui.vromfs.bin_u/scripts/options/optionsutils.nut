@@ -72,7 +72,29 @@ local fillBoolOption = function(descr, id, optionIdx)
   descr.boolOptionIdx <- optionIdx
 }
 
-local fillHueOption = function(descr, id, defHue = null, curHue = null)
+local setHSVOption_ThermovisionColor = function(desrc, value)
+{
+  ::set_thermovision_index(value)
+}
+
+local fillHSVOption_ThermovisionColor = function(descr)
+{
+  descr.id = "color_picker_hue_tank_tv"
+  descr.items = []
+  descr.values = []
+
+  local idx = 0
+  foreach( it in ::thermovision_colors )
+  {
+    descr.items.append( {rgb = it.menu_rgb} )
+    descr.values.append( idx )
+    idx++
+  }
+
+  descr.value = ::get_thermovision_index()
+}
+
+local fillHueOption = function(descr, id, defHue = null, curHue = null, customItems = null)
 {
   local hueStep = 22.5
   if (curHue==null)
@@ -88,16 +110,30 @@ local fillHueOption = function(descr, id, defHue = null, curHue = null)
     descr.items.append({ hue = defHue, text = ::loc("options/hudDefault")})
     descr.values.append(defHue)
   }
-  local even = false
-  for(local hue = 0.0001; hue < 360.0 - 0.5*hueStep; hue += hueStep)
+
+  if (customItems == null)
   {
-    local h = hue + (even ? 360.0 : 0)
-    descr.items.append({ hue = h })
-    descr.values.append(h)
-    h = hue + (even ? 0 : 360.0)
-    descr.items.append({ hue = h })
-    descr.values.append(h)
-    even = !even
+    //default palette
+    local even = false
+    for(local hue = 0.0001; hue < 360.0 - 0.5*hueStep; hue += hueStep)
+    {
+      local h = hue + (even ? 360.0 : 0)
+      descr.items.append({ hue = h })
+      descr.values.append(h)
+      h = hue + (even ? 0 : 360.0)
+      descr.items.append({ hue = h })
+      descr.values.append(h)
+      even = !even
+    }
+  }
+  else
+  {
+    //custom items in option list
+    foreach(item in customItems)
+    {
+      descr.items.append({ hue = item })
+      descr.values.append(item)
+    }
   }
 
   local valueIdx = ::find_nearest(curHue, descr.values)
@@ -163,4 +199,6 @@ return {
   fillBoolOption = fillBoolOption
   fillHueOption = fillHueOption
   fillDynMapOption = fillDynMapOption
+  setHSVOption_ThermovisionColor = setHSVOption_ThermovisionColor
+  fillHSVOption_ThermovisionColor = fillHSVOption_ThermovisionColor
 }

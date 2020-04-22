@@ -45,26 +45,60 @@ style.lineForeground <- class {
   fontScale = getFontScale()
 }
 
-
-local HelicopterGunDirection = function(line_style, isBackground) {
+local helicopterGunDirection = function(line_style, isBackground, isSightHud) {
   local sqL = 80
   local l = 20
   local offset = (100 - sqL) * 0.5
 
   local getCommands = function() {
-    local commands = [
-      [VECTOR_LINE, -50 + offset, -50 + offset, 50 - offset, -50 + offset],
-      [VECTOR_LINE, 50 - offset, 50 - offset, 50 - offset, -50 + offset],
-      [VECTOR_LINE, -50 + offset, 50 - offset, 50 - offset, 50 - offset],
-      [VECTOR_LINE, -50 + offset, -50 + offset, -50 + offset, 50 - offset]
-    ]
+    local commands
 
-    local commandsDash = [
-      [VECTOR_LINE, 0, -50, 0, -50 + l],
-      [VECTOR_LINE, 50 - l, 0, 50, 0],
-      [VECTOR_LINE, 0, 50 - l, 0, 50],
-      [VECTOR_LINE, -50, 0, -50 + l, 0]
-    ]
+    if (helicopterState.GunSightMode.value == 0)
+    {
+      commands = [
+        [VECTOR_LINE, -50 + offset, -50 + offset, 50 - offset, -50 + offset],
+        [VECTOR_LINE, 50 - offset, 50 - offset, 50 - offset, -50 + offset],
+        [VECTOR_LINE, -50 + offset, 50 - offset, 50 - offset, 50 - offset],
+        [VECTOR_LINE, -50 + offset, -50 + offset, -50 + offset, 50 - offset],
+      ]
+    }
+    else
+    {
+      commands = [
+        [VECTOR_LINE, -50 + offset, -50 + offset, 50 - offset, -50 + offset],
+        [VECTOR_LINE, 50 - offset, 50 - offset, 50 - offset, -50 + offset],
+        [VECTOR_LINE, -50 + offset, 50 - offset, 50 - offset, 50 - offset],
+        [VECTOR_LINE, -50 + offset, -50 + offset, -50 + offset, 50 - offset],
+        [VECTOR_LINE, 40, 40, 55, 55],
+        [VECTOR_LINE, -40, 40, -55, 55],
+        [VECTOR_LINE, 40, -40, 55, -55],
+        [VECTOR_LINE, -40, -40, -55, -55],
+      ]
+    }
+
+    local commandsDash
+    if (helicopterState.GunSightMode.value == 0)
+    {
+      commandsDash = [
+        [VECTOR_LINE, 0, -50, 0, -50 + l],
+        [VECTOR_LINE, 50 - l, 0, 50, 0],
+        [VECTOR_LINE, 0, 50 - l, 0, 50],
+        [VECTOR_LINE, -50, 0, -50 + l, 0]
+      ]
+    }
+    else
+    {
+      commandsDash = [
+        [VECTOR_LINE, 0, -50, 0, -50 + l],
+        [VECTOR_LINE, 50 - l, 0, 50, 0],
+        [VECTOR_LINE, 0, 50 - l, 0, 50],
+        [VECTOR_LINE, -50, 0, -50 + l, 0],
+        [VECTOR_LINE, 40, 40, 55, 55],
+        [VECTOR_LINE, -40, 40, -55, 55],
+        [VECTOR_LINE, 40, -40, 55, -55],
+        [VECTOR_LINE, -40, -40, -55, -55]
+      ]
+    }
 
     local mainCommands = []
     local overheatCommands = []
@@ -113,16 +147,20 @@ local HelicopterGunDirection = function(line_style, isBackground) {
     helicopterState.GunOverheatState,
     helicopterState.GunDirectionX,
     helicopterState.GunDirectionY,
-    helicopterState.GunDirectionVisible
+    helicopterState.GunDirectionVisible,
+    helicopterState.GunInDeadZone,
+    helicopterState.GunSightMode
   ]
   watchList.extend(helicopterState.IsCannonEmpty)
 
   return @() {
     size = SIZE_TO_CONTENT
-    halign = HALIGN_CENTER
-    valign = VALIGN_MIDDLE
+    halign = ALIGN_CENTER
+    valign = ALIGN_CENTER
     watch = watchList
-    opacity = helicopterState.GunDirectionVisible.value ? 100 : 0
+    opacity = (helicopterState.GunSightMode.value == 0 && isSightHud) ? 0 :
+      (helicopterState.GunDirectionVisible.value &&
+      (!helicopterState.GunInDeadZone.value || math.round(helicopterState.CurrentTime.value * 4) % 2 == 0)) ? 100 : 0
     transform = {
       translate = [helicopterState.GunDirectionX.value, helicopterState.GunDirectionY.value]
     }
@@ -133,29 +171,81 @@ local HelicopterGunDirection = function(line_style, isBackground) {
   }
 }
 
+local helicopterFixedGunsSight = function (sightId){
+  if (sightId == 0)
+  {
+    return [
+          [VECTOR_LINE, 0, 50, 0, 150],
+          [VECTOR_LINE, 0, -50, 0, -150],
+          [VECTOR_LINE, 50, 0, 150, 0],
+          [VECTOR_LINE, -50, 0, -150, 0],
+        ]
+  }
+  else if (sightId == 1)
+  {
+      return [
+          [VECTOR_LINE, 0, 50, 0, 150],
+          [VECTOR_LINE, 0, -50, 0, -150],
+          [VECTOR_LINE, 50, 0, 150, 0],
+          [VECTOR_LINE, -50, 0, -150, 0],
+          [VECTOR_LINE, 80, 80, 100, 100],
+          [VECTOR_LINE, -80, 80, -100, 100],
+          [VECTOR_LINE, 80, -80, 100, -100],
+          [VECTOR_LINE, -80, -80, -100, -100],
+        ]
+  }
 
-local HelicopterFixedGunsDirection = function(line_style, isBackground) {
+  return [
+          [VECTOR_LINE, 0, 50, 0, 150],
+          [VECTOR_LINE, 0, -50, 0, -150],
+          [VECTOR_LINE, 50, 0, 150, 0],
+          [VECTOR_LINE, -50, 0, -150, 0],
+          [VECTOR_LINE, 60, 60, -60, 60],
+          [VECTOR_LINE, 60, -60, -60, -60],
+          [VECTOR_LINE, 60, 60, 60, -60],
+          [VECTOR_LINE, -60, 60, -60, -60],
+        ]
+}
+
+local helicopterFixedGunsDirection = function(line_style, isBackground) {
 
   local lines = @() line_style.__merge({
       rendObj = ROBJ_VECTOR_CANVAS
       size = [sh(0.625), sh(0.625)]
       color = getColor(isBackground)
-      commands = [
-        [VECTOR_LINE, 0, 50, 0, 150],
-        [VECTOR_LINE, 0, -50, 0, -150],
-        [VECTOR_LINE, 50, 0, 150, 0],
-        [VECTOR_LINE, -50, 0, -150, 0],
-      ]
+      commands = helicopterFixedGunsSight(helicopterState.FixedGunSightMode.value)
     })
 
   return @() {
     size = SIZE_TO_CONTENT
-    halign = HALIGN_CENTER
-    valign = VALIGN_MIDDLE
+    halign = ALIGN_CENTER
+    valign = ALIGN_CENTER
     watch = [helicopterState.FixedGunDirectionVisible,
              helicopterState.FixedGunDirectionX,
-             helicopterState.FixedGunDirectionY]
+             helicopterState.FixedGunDirectionY,
+             helicopterState.FixedGunSightMode]
     opacity = helicopterState.FixedGunDirectionVisible.value ? 100 : 0
+    transform = {
+      translate = [helicopterState.FixedGunDirectionX.value, helicopterState.FixedGunDirectionY.value]
+    }
+    children = [lines]
+  }
+}
+
+local helicopterCCRP = function(line_style, isBackground)
+{
+  local lines = @() line_style.__merge({
+      rendObj = ROBJ_VECTOR_CANVAS
+      size = [sh(0.625), sh(0.625)]
+      color = getColor(isBackground)
+      commands = [[VECTOR_LINE, 0,0, helicopterState.TATargetX.value, helicopterState.TATargetY.value]]
+    })
+
+    return @() {
+    size = SIZE_TO_CONTENT
+    halign = ALIGN_CENTER
+    valign = ALIGN_CENTER
+    opacity = helicopterState.FixedGunDirectionVisible.value ? helicopterState.FixedGunSightMode == 2 ? 100 : 0 : 0
     transform = {
       translate = [helicopterState.FixedGunDirectionX.value, helicopterState.FixedGunDirectionY.value]
     }
@@ -257,7 +347,7 @@ local function laserDesignatorStatusComponent(elemStyle, isBackground) {
 
   local laserDesignatorStatus = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
-    halign = HALIGN_CENTER
+    halign = ALIGN_CENTER
     text = getText()
     watch = [ helicopterState.IsLaserDesignatorEnabled, helicopterState.Agm.timeToHit, helicopterState.Agm.timeToWarning ]
     color = getColor(isBackground)
@@ -275,7 +365,7 @@ local function laserDesignatorStatusComponent(elemStyle, isBackground) {
 
   local resCompoment = @() {
     pos = [sw(50), sh(38)]
-    halign = HALIGN_CENTER
+    halign = ALIGN_CENTER
     size = [0, 0]
     children = laserDesignatorStatus
   }
@@ -287,7 +377,7 @@ local function atgmTrackerStatusComponent(elemStyle, isBackground) {
 
   local atgmTrackerStatus = @() elemStyle.__merge({
     rendObj = ROBJ_DTEXT
-    halign = HALIGN_CENTER
+    halign = ALIGN_CENTER
     color = getColor(isBackground)
     behavior = Behaviors.RtPropUpdate
     update = function() {
@@ -301,7 +391,7 @@ local function atgmTrackerStatusComponent(elemStyle, isBackground) {
 
   local resCompoment = @() {
     pos = [sw(50), sh(41)]
-    halign = HALIGN_CENTER
+    halign = ALIGN_CENTER
     size = [0, 0]
     children = atgmTrackerStatus
   }
@@ -319,8 +409,9 @@ local function helicopterMainHud(elemStyle, isBackground) {
     ? [
       hudElems.rocketAim(elemStyle, sh(0.8), sh(1.8), isBackground)
       aamAim(elemStyle, @() getColor(isBackground))
-      HelicopterGunDirection(elemStyle, isBackground)
-      HelicopterFixedGunsDirection(elemStyle, isBackground)
+      helicopterGunDirection(elemStyle, isBackground, false)
+      helicopterFixedGunsDirection(elemStyle, isBackground)
+      helicopterCCRP(elemStyle, isBackground)
       hudElems.vertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
       hudElems.horSpeed(elemStyle, isBackground)
       helicopterParamsTable(elemStyle, isBackground)
@@ -340,8 +431,8 @@ local function helicopterSightHud(elemStyle, isBackground) {
     children = helicopterState.IsSightHudVisible.value ?
     [
       hudElems.vertSpeed(elemStyle, sh(4.0), sh(30), sw(50) + hdpx(384), sh(35), isBackground)
-      hudElems.turretAngles(elemStyle, hdpx(150), sw(50), sh(90), isBackground)
-      hudElems.launchDistanceMax(elemStyle, hdpx(150), sw(50), sh(90), isBackground)
+      hudElems.turretAngles(elemStyle, hdpx(150), hdpx(150), sw(50), sh(90), isBackground)
+      hudElems.launchDistanceMax(elemStyle, hdpx(150), hdpx(150), sw(50), sh(90), isBackground)
       helicopterSightParamsTable(elemStyle, isBackground)
       hudElems.lockSight(elemStyle, hdpx(150), hdpx(100), sw(50), sh(50), isBackground)
       hudElems.targetSize(elemStyle, sw(100), sh(100), isBackground)
@@ -352,6 +443,8 @@ local function helicopterSightHud(elemStyle, isBackground) {
       laserDesignatorStatusComponent(elemStyle, isBackground)
       atgmTrackerStatusComponent(elemStyle, isBackground)
       azimuth
+      hudElems.detectAlly(elemStyle, sw(51), sh(35), isBackground)
+      helicopterGunDirection(elemStyle, isBackground, true)
     ]
     : null
   }
@@ -365,8 +458,9 @@ local function gunnerHud(elemStyle, isBackground) {
     ? [
       hudElems.rocketAim(elemStyle, sh(0.8), sh(1.8), isBackground)
       aamAim(elemStyle, @() getColor(isBackground))
-      HelicopterGunDirection(elemStyle, isBackground)
-      HelicopterFixedGunsDirection(elemStyle, isBackground)
+      helicopterGunDirection(elemStyle, isBackground, false)
+      helicopterFixedGunsDirection(elemStyle, isBackground)
+      helicopterCCRP(elemStyle, isBackground)
       hudElems.vertSpeed(elemStyle, sh(4.0), sh(15), sw(50) + hdpx(384), sh(42.5), isBackground)
       helicopterParamsTable(elemStyle, isBackground)
     ]
@@ -392,12 +486,16 @@ local function helicopterHUDs(colorStyle, isBackground) {
   local rwrStyle = colorStyle.__merge({
     color = getColor(isBackground)
   })
+  local hudStyle = colorStyle.__merge({
+    fillColor = getColor(isBackground)
+    color = getColor(isBackground)
+  })
   local radar = !helicopterState.IsMfdEnabled.value ? radarComponent.radar(false, sh(6), sh(6), getColor(isBackground)) : null
   return [
-    helicopterMainHud(colorStyle, isBackground)
-    helicopterSightHud(colorStyle, isBackground)
-    gunnerHud(colorStyle, isBackground)
-    pilotHud(colorStyle, isBackground)
+    helicopterMainHud(hudStyle, isBackground)
+    helicopterSightHud(hudStyle, isBackground)
+    gunnerHud(hudStyle, isBackground)
+    pilotHud(hudStyle, isBackground)
     mlws(rwrStyle)
     rwr(rwrStyle)
     radar
@@ -415,8 +513,8 @@ local Root = function() {
       helicopterState.HudColor
       helicopterState.IsMfdEnabled
     ]
-    halign = HALIGN_LEFT
-    valign = VALIGN_TOP
+    halign = ALIGN_LEFT
+    valign = ALIGN_TOP
     size = [sw(100), sh(100)]
     children = (helicopterState.IndicatorsVisible.value ||
     helicopterState.IsMfdEnabled) ? children : null

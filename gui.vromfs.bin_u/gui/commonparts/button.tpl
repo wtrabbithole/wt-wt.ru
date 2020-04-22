@@ -18,6 +18,11 @@
   <<#funcName>>
     <<#delayed>>_<</delayed>>on_click:t='<<funcName>>'
   <</funcName>>
+  <<^funcName>>
+    <<#onClick>>
+      <<#delayed>>_<</delayed>>on_click:t='<<onClick>>'
+    <</onClick>>
+  <</funcName>>
 <</isHyperlink>>
 
   id:t='<<id>>'

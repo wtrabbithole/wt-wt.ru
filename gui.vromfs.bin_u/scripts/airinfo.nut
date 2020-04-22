@@ -6,6 +6,9 @@ local { getUnitRoleIcon, getUnitTooltipImage, getFullUnitRoleText,
 local unitStatus = require("scripts/unit/unitStatus.nut")
 local countMeasure = require("scripts/options/optionsMeasureUnits.nut").countMeasure
 local { getCrewPoints } = require("scripts/crew/crewSkills.nut")
+local { getWeaponInfoText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { getModificationBulletsGroup } = require("scripts/weaponry/bulletsInfo.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -452,18 +455,7 @@ global enum CheckFeatureLockAction
   if (::u.isEmpty(reason))
     return true
 
-  local selectButton = "ok"
-  local buttons = [["ok", function () {}]]
-  local prevUnit = ::getPrevUnit(unit)
-  if (prevUnit && ::canBuyUnit(prevUnit))
-  {
-    selectButton = "purchase"
-    reason += " " + ::loc("mainmenu/canBuyThisVehicle", {price = ::colorize("activeTextColor", ::getUnitCost(prevUnit))})
-    buttons = [["purchase", (@(prevUnit) function () { ::buyUnit(prevUnit, true) })(prevUnit)],
-             ["cancel", function () {}]]
-  }
-
-  ::scene_msg_box("need_buy_prev", null, reason, buttons, selectButton)
+  ::scene_msg_box("need_buy_prev", null, reason, [["ok", function () {}]], "ok")
   return false
 }
 
@@ -807,7 +799,7 @@ global enum CheckFeatureLockAction
     case ::ES_UNIT_TYPE_AIRCRAFT:
     case ::ES_UNIT_TYPE_HELICOPTER:
 
-      local weaponName = ::get_last_weapon(unit.name)
+      local weaponName = getLastWeapon(unit.name)
       local secondaryMods = unit.secondaryWeaponMods
       if (secondaryMods && secondaryMods.weaponName == weaponName)
       {
@@ -884,7 +876,7 @@ global enum CheckFeatureLockAction
   foreach(mod in unit.modifications)
     if (("tier" in mod) && mod.tier == tier &&
         !::wp_get_modification_cost_gold(unit.name, mod.name) &&
-        ::getModificationBulletsGroup(mod.name) == "" &&
+        getModificationBulletsGroup(mod.name) == "" &&
         ::isModResearched(unit, mod)
        )
       req--
@@ -1996,7 +1988,7 @@ global enum CheckFeatureLockAction
     }
   }
 
-  local weaponsInfoText = ::getWeaponInfoText(air,
+  local weaponsInfoText = getWeaponInfoText(air,
     { weaponPreset = showLocalState ? -1 : 0, ediff = ediff, isLocalState = showLocalState })
   obj = holderObj.findObject("weaponsInfo")
   if (obj) obj.setValue(weaponsInfoText)
@@ -2009,7 +2001,7 @@ global enum CheckFeatureLockAction
   local wPresets = 0
   if (air.weapons.len() > 0)
   {
-    local lastWeapon = showLocalState ? ::get_last_weapon(air.name) : ""
+    local lastWeapon = showLocalState ? getLastWeapon(air.name) : ""
     weaponIndex = 0
     foreach(idx, weapon in air.weapons)
     {

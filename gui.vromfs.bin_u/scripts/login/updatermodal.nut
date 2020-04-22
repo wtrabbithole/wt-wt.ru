@@ -1,5 +1,5 @@
 local time = require("scripts/time.nut")
-
+local { animBgLoad } = require("scripts/loading/animBg.nut")
 
 class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
 {
@@ -49,9 +49,8 @@ class ::gui_handlers.UpdaterModal extends ::BaseGuiHandler
   function changeBg()
   {
     local dynamicBgContainer = scene.findObject("animated_bg_picture")
-    if( ! dynamicBgContainer)
-      return
-    ::g_anim_bg.load("", dynamicBgContainer)
+    if (::check_obj(dynamicBgContainer))
+      animBgLoad("", dynamicBgContainer)
   }
 
   function resetTimer()

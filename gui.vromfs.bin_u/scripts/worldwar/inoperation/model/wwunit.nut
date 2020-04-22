@@ -1,4 +1,5 @@
 local { getRoleText } = require("scripts/unit/unitInfoTexts.nut")
+local { getWeaponInfoText } = require("scripts/weaponry/weaponryVisual.nut")
 
 class ::WwUnit
 {
@@ -83,7 +84,7 @@ class ::WwUnit
   {
     local presetData = ::getWeaponTypeIcoByWeapon(name, addPreset ? weaponPreset : "")
     local presetText = !addPreset || weaponPreset == "" ? "" :
-      ::getWeaponInfoText(unit,
+      getWeaponInfoText(unit,
         { isPrimary = false, weaponPreset = weaponPreset, detail = INFO_DETAIL.SHORT, needTextWhenNoWeapons = false })
 
     local nameText = getName()

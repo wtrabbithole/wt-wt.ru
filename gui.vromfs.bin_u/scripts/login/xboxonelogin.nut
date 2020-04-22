@@ -1,3 +1,5 @@
+local { animBgLoad } = require("scripts/loading/animBg.nut")
+
 local multiplayerSessionPrivelegeCallback = null
 local function checkMultiplayerSessionsPrivilegeSq(showMarket, cb)
 {
@@ -20,7 +22,7 @@ class ::gui_handlers.LoginWndHandlerXboxOne extends ::BaseGuiHandler
 
   function initScreen()
   {
-    ::g_anim_bg.load()
+    animBgLoad()
     ::setVersionText(scene)
     ::setProjectAwards(this)
     ::show_title_logo(true, scene, "128")

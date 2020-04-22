@@ -332,8 +332,8 @@ local function createTarget(index, colorStyle, width, height)
         targetOffsetY * width - radius
       ]
     }
-    halign = HALIGN_CENTER
-    valign = VALIGN_MIDDLE
+    halign = ALIGN_CENTER
+    valign = ALIGN_CENTER
     children = [
       colorStyle.__merge({
         rendObj = ROBJ_STEXT
@@ -391,7 +391,7 @@ local scope = function(colorStyle, width, height)
   }
 }
 
-local rwr = function(colorStyle, posX = sw(75), posY = sh(70), w = sh(20), h = sh(20), for_mfd = false)
+local rwr = function(colorStyle, posX = screenState.rw(75), posY = sh(70), w = sh(20), h = sh(20), for_mfd = false)
 {
   local getChildren = function() {
     return (!for_mfd && rwrState.IsRwrHudVisible.value) || (for_mfd && helicopterState.RwrForMfd.value) ? [
@@ -401,8 +401,8 @@ local rwr = function(colorStyle, posX = sw(75), posY = sh(70), w = sh(20), h = s
   return @(){
     pos = [(for_mfd ? 0 : screenState.safeAreaSizeHud.value.borders[1]) + posX, posY]
     size = SIZE_TO_CONTENT
-    halign = HALIGN_CENTER
-    valign = VALIGN_MIDDLE
+    halign = ALIGN_CENTER
+    valign = ALIGN_CENTER
     watch = rwrState.IsRwrHudVisible
     children = getChildren()
   }

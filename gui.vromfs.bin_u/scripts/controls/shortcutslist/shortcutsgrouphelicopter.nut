@@ -226,6 +226,39 @@ return [
     checkAssign = false
   }
   {
+    id = "ID_SENSOR_SWITCH_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_SENSOR_MODE_SWITCH_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_SENSOR_SCAN_PATTERN_SWITCH_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_SENSOR_RANGE_SWITCH_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_SENSOR_TARGET_SWITCH_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_SENSOR_TARGET_LOCK_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
     id = "ID_FLARES_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
@@ -452,7 +485,30 @@ return [
     type = CONTROL_TYPE.SECTION
   }
   {
+    id = "ID_TOGGLE_ENGINE_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
     id = "ID_GEAR_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_FLAPS_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_FLAPS_UP_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+    needShowInHelp = true
+  }
+  {
+    id = "ID_FLAPS_DOWN_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
     needShowInHelp = true
@@ -502,6 +558,16 @@ return [
     id = "ID_THERMAL_WHITE_IS_HOT_HELI"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
+  }
+  {
+    id = "ID_TOGGLE_CANNONS_AND_ROCKETS_BALLISTIC_COMPUTER_HELICOPTER"
+    checkAssign = false
+    showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
+  }
+  {
+    id = "ID_SWITCH_COCKPIT_SIGHT_MODE_HELICOPTER"
+    checkAssign = false
+    showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
   }
 //-------------------------------------------------------
   {

@@ -1,5 +1,7 @@
 local time = require("scripts/time.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local { topMenuShopActive } = require("scripts/mainmenu/topMenuStates.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 ::dagui_propid.add_name_id("_queueTableGenCode")
 
@@ -491,7 +493,7 @@ class ::gui_handlers.QueueTable extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateVisibility()
   {
-    scene.show(!::top_menu_shop_active)
+    scene.show(!topMenuShopActive.value)
   }
 
   function getCurEsUnitTypesList(needRequiredOnly = false)

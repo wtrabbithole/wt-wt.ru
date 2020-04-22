@@ -1,4 +1,5 @@
 local contentPreset = require("scripts/customization/contentPreset.nut")
+local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 
 ::back_from_briefing <- ::gui_start_mainmenu
 
@@ -330,6 +331,39 @@ local contentPreset = require("scripts/customization/contentPreset.nut")
   return types
 }
 
+local function get_mission_desc_text(missionBlk)
+{
+  local descrAdd = ""
+
+  local sm_location = missionBlk.getStr("locationName",
+                            ::map_to_location(missionBlk.getStr("level", "")))
+  if (sm_location != "")
+    descrAdd += (::loc("options/location") + ::loc("ui/colon") + ::loc("location/" + sm_location))
+
+  local sm_time = missionBlk.getStr("time", missionBlk.getStr("environment", ""))
+  if (sm_time != "")
+    descrAdd += (descrAdd != "" ? "; " : "") + ::get_mission_time_text(sm_time)
+
+  local sm_weather = missionBlk.getStr("weather", "")
+  if (sm_weather != "")
+    descrAdd += (descrAdd != "" ? "; " : "") + ::loc("options/weather" + sm_weather)
+
+  local aircraft = missionBlk.getStr("player_class", "")
+  if (aircraft != "")
+  {
+    local sm_aircraft = ::loc("options/aircraft") + ::loc("ui/colon") +
+      getUnitName(aircraft) + "; " +
+      getWeaponNameText(aircraft, null, missionBlk.getStr("player_weapons", ""), ", ")
+
+    descrAdd += "\n" + sm_aircraft
+  }
+
+  if (missionBlk.getStr("recommendedPlayers","") != "")
+    descrAdd += ("\n" + ::format(::loc("players_recommended"), missionBlk.getStr("recommendedPlayers","1-4")) + "\n")
+
+  return descrAdd
+}
+
 class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
 {
   sceneBlkName = "gui/briefing.blk"
@@ -396,7 +430,7 @@ class ::gui_handlers.Briefing extends ::gui_handlers.GenericOptions
     ::mission_settings.weapon = missionBlk.getStr("player_weapons", "")
     ::mission_settings.players = 4;
 
-    local descrAdd = ::get_mission_desc_text(missionBlk)
+    local descrAdd = get_mission_desc_text(missionBlk)
     if (descrAdd != "")
       desc += (desc.len() ? "\n\n" : "") + descrAdd
 

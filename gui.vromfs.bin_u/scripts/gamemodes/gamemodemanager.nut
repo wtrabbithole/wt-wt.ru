@@ -1,8 +1,5 @@
-global enum RB_GM_TYPE
-{
-  EVENT
-  CUSTOM  //custom button, lead to other window
-}
+local RB_GM_TYPE = require("scripts/gameModes/rbGmTypes.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 ::featured_modes <- [
   {
@@ -123,8 +120,9 @@ global enum RB_GM_TYPE
           return { eventId = id, relevance = ::events.checkUnitRelevanceForEvent(id, curUnit) }
         })
         relevanceList.sort(@(a,b) b.relevance <=> a.relevance || a.eventId <=> b.eventId)
-        openEventId = lastPlayedEventRelevance >= relevanceList[0].relevance ?
-          lastPlayedEventId : relevanceList[0].eventId
+        openEventId = relevanceList.findvalue(@(item) lastPlayedEventRelevance >= item.relevance)?.eventId
+          ?? lastPlayedEventId
+          ?? relevanceList[0].eventId
       }
       return openEventId
     }
@@ -371,7 +369,7 @@ class GameModeManager
   function getUnitEconomicRankByGameMode(gameMode, unit)
   {
     if (gameMode.type == RB_GM_TYPE.EVENT)
-      return ::events.getUnitEconomicRankByEvent(gameMode.getEvent(), unit)
+      return ::events.getUnitEconomicRankByEvent(getGameModeEvent(gameMode), unit)
     return unit.getEconomicRank(gameMode.ediff)
   }
 
@@ -387,7 +385,7 @@ class GameModeManager
       gameMode = getCurrentGameMode()
     if (!gameMode)
       return false
-    return gameMode.type != RB_GM_TYPE.EVENT || ::events.isUnitAllowedForEvent(gameMode.getEvent(), unit)
+    return gameMode.type != RB_GM_TYPE.EVENT || ::events.isUnitAllowedForEvent(getGameModeEvent(gameMode), unit)
   }
 
   /**
@@ -696,7 +694,7 @@ class GameModeManager
     if (gameMode.type != RB_GM_TYPE.EVENT)
       return ::u.map(filteredUnitTypes, @(unitType) unitType.esUnitType)
 
-    local event = gameMode.getEvent()
+    local event = getGameModeEvent(gameMode)
     return ::u.map(
       ::u.filter(filteredUnitTypes,
         @(unitType) needReqUnitType ? ::events.isUnitTypeRequired(event, unitType.esUnitType)
@@ -769,6 +767,13 @@ class GameModeManager
   function getGameModeItemId(gameModeId)
   {
     return "game_mode_item_" + gameModeId
+  }
+
+  function getGameModeEvent(gm) {
+    if (gm?.getEvent)
+      return gm.getEvent()
+
+    return gm?.getEventId ? ::events.getEvent(gm.getEventId()) : null
   }
 
 //------------- <New Icon Widget> ----------------------

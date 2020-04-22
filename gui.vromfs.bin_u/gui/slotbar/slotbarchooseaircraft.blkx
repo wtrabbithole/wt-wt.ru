@@ -74,14 +74,16 @@
           "cur_col": "0",
           "cur_row": "0",
           "num_rows": "-1",
-          "flow": "vertical"
+          "flow": "vertical",
+          "margin-bottom": "0.5@slotBtnIco"
         }
       },
       {
         "textareaNoTab": {
           "id": "filtered_units_text",
           "position": "relative",
-          "pos": "pw-w, 0.5@slotBtnIco",
+          "pos": "pw-w, 0",
+          "margin": "0, 0.5@slotBtnIco",
           "smallFont": "yes",
           "display": "hide"
         }
@@ -90,7 +92,8 @@
         "textareaNoTab": {
           "id": "units_group_text",
           "position": "relative",
-          "pos": "pw-w, 0.5@slotBtnIco",
+          "pos": "pw-w, 0",
+          "margin": "0, 0.5@slotBtnIco",
           "smallFont": "yes",
           "display": "hide"
         }
@@ -99,7 +102,8 @@
         "text": {
           "id": "filter_options_hint",
           "position": "relative",
-          "pos": "pw-w, 0.5@slotBtnIco",
+          "pos": "pw-w, 0",
+          "margin": "0, 0.5@slotBtnIco",
           "padding-left": "@slotBtnIco",
           "smallFont": "yes",
           "text": "#filter_option/change_filter_options",
@@ -114,14 +118,15 @@
       {
         "tdiv": {
           "id": "legend_nest",
-          "margin-top": "@itemsInterval"
+          "margin": "0, 0.5@slotBtnIco",
+          "display": "hide"
         }
       },
       {
         "Button_text": {
           "id": "btn_emptyCrew",
           "position": "relative",
-          "pos": "pw-w, @itemsInterval",
+          "pos": "pw-w, 0",
           "text": "#shop/emptyCrew",
           "_on_click": "onEmptyCrew",
           "btnName": "Y",

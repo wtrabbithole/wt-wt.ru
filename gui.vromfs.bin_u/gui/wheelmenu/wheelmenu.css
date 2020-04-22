@@ -1,12 +1,15 @@
+@const wheelmenuBtnHeight: 75(@sf/1080);
+
 wheelmenu wheelmenuItem {
   behavior:button;
   on_click:onWheelmenuItemClick;
+  snd_click:click;
   position:absolute;
   css-hier-invalidate:yes;
 }
 
 wheelmenu wheelmenuItem > content {
-  height:75(@sf/1080.0);
+  height:@wheelmenuBtnHeight;
   position:absolute;
   input-transparent: yes;
   css-hier-invalidate: yes;
@@ -16,6 +19,15 @@ wheelmenu wheelmenuItem > content > tdiv > textareaNoTab {
   position:relative;
   left:50%pw-50%w;
   input-transparent: yes;
+}
+
+wheelmenu wheelmenuItem > content > tdiv > tdiv > textareaNoTab {
+  shadeStyle:HudHeader3D;
+}
+
+wheelmenu wheelmenuItem:disabled > content > tdiv > tdiv > textareaNoTab {
+  overlayTextColor:faded;
+  shadeStyle:none;
 }
 
 wheelmenu wheelmenuItem > content > action_bar_item {

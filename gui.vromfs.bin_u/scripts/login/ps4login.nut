@@ -1,3 +1,5 @@
+local { animBgLoad } = require("scripts/loading/animBg.nut")
+
 class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/loginBoxSimple.blk"
@@ -5,7 +7,7 @@ class ::gui_handlers.LoginWndHandlerPs4 extends ::BaseGuiHandler
 
   function initScreen()
   {
-    ::g_anim_bg.load()
+    animBgLoad()
     ::setVersionText(scene)
     ::setProjectAwards(this)
     ::show_title_logo(true, scene, "128")

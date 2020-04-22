@@ -194,6 +194,7 @@ enums.addTypesByGlobalName("g_wb_award_type", {
     getMaxBoughtCount = @(blk) 1
     getBoughtCount = @(warbond, blk) ::g_decorator_type.SKINS.isPlayerHaveDecorator(blk?.name ?? "") ? 1 : 0
     showAvailableAmount = false
+    imgNestDoubleSize = "yes"
   },
 
   [::EWBAT_DECAL] = {
@@ -225,6 +226,7 @@ enums.addTypesByGlobalName("g_wb_award_type", {
       return ::player_have_decal(blk?.name ?? "") ? 1 : 0
     }
     showAvailableAmount = false
+    imgNestDoubleSize = "yes"
   },
 
   [::EWBAT_ATTACHABLE] = {
@@ -256,6 +258,7 @@ enums.addTypesByGlobalName("g_wb_award_type", {
       return ::player_have_attachable(blk?.name ?? "") ? 1 : 0
     }
     showAvailableAmount = false
+    imgNestDoubleSize = "yes"
   },
 
   [::EWBAT_WP] = {

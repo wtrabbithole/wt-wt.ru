@@ -9,7 +9,7 @@ local generateCompassNumber = function(num, line_style, width, height, color){
       line_style.__merge({
         rendObj = ROBJ_STEXT
         size = [width, 0.5 * height]
-        halign = HALIGN_CENTER
+        halign = ALIGN_CENTER
         text = num
         color = color
       })
@@ -106,7 +106,7 @@ local compassComponent = function(elemStyle, width, height, color) {
   return {
     size = SIZE_TO_CONTENT
     flow = FLOW_VERTICAL
-    halign = HALIGN_CENTER
+    halign = ALIGN_CENTER
     gap = hdpx(5)
     children = [
       compass(elemStyle, width, height, color)

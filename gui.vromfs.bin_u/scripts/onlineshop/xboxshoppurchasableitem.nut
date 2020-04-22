@@ -99,7 +99,15 @@ local XboxShopPurchasableItem = class
 
   getSeenId = @() id.tostring()
   canBeUnseen = @() isBought
-  showDetails = @() ::xbox_show_details(id)
+  showDetails = function(metricPlaceCall = "ingame_store") {
+    ::statsd_counter($"{metricPlaceCall}.open_product")
+    ::add_big_query_record("open_product",
+      ::save_to_json({
+        itemId = id
+      })
+    )
+    ::xbox_show_details(id)
+  }
   showDescription = @() null
 }
 

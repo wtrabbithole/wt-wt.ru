@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 
 ::fill_gamer_card <- function fill_gamer_card(cfg = null, prefix = "gc_", scene = null, save_scene=true)
 {
@@ -114,7 +115,8 @@ local platformModule = require("scripts/clientState/platform.nut")
             val = ::loc("mainmenu/pleaseSignIn")
           else
             val = platformModule.getPlayerName(val)
-        default:
+          // no break!
+        default: // warning disable: -missed-break
           if (val == null)
             val = ""
           obj.setValue(val.tostring())
@@ -245,7 +247,7 @@ local platformModule = require("scripts/clientState/platform.nut")
   local buttonsEnableTable = {
                                 gc_clanTag = showClanTag && is_in_menu
                                 gc_contacts = canHaveFriends
-                                gc_chat_btn = canChat && ::g_chat.isChatEnabled()
+                                gc_chat_btn = canChat && isChatEnabled()
                                 gc_free_exp = canSpendGold && is_in_menu
                                 gc_warpoints = canSpendGold && is_in_menu
                                 gc_eagles = canSpendGold && is_in_menu
@@ -271,14 +273,20 @@ local platformModule = require("scripts/clientState/platform.nut")
 ::update_gamercards <- function update_gamercards()
 {
   local info = ::get_profile_info()
+  local needUpdateGamerCard = false
   for(local idx=::last_gamercard_scenes.len()-1; idx>=0; idx--)
   {
     local s = ::last_gamercard_scenes[idx]
     if (!s || !s.isValid())
       ::last_gamercard_scenes.remove(idx)
-    else
+    else if (s.isVisible()) {
+      needUpdateGamerCard = true
       ::fill_gamer_card(info, "gc_", s, false)
+    }
   }
+  if (!needUpdateGamerCard)
+    return
+
   checkNewNotificationUserlogs()
   ::broadcastEvent("UpdateGamercard")
 }

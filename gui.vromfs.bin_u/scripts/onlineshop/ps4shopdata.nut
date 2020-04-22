@@ -13,8 +13,10 @@ local persist = {
 
 local STORE_REQUEST_ADDITIONAL_FLAGS = {
   flag = "discounts"
-  useCurrencySymbol = true
+  useCurrencySymbol = "false"
+  useFree = "true"
   sort = "release_date"
+  keepHtmlTag = "true"
 }
 
 local isFinishedUpdateItems = false //Status of FULL update items till creating list of classes PS4ShopPurchasableItem
@@ -105,6 +107,7 @@ local makeRequestForNextCategory = function(onFoundCb, onFinishCb = @() null, la
 local requestLinksFullInfo = @(category) null
 local fillLinkFullInfo = @(category = "") makeRequestForNextCategory(requestLinksFullInfo, onFinishCollectData, category)
 
+local itemIndex = 0
 local onReceivedResponeOnFullInfo = function(response, category, linksList) {
   response.each(function(linkBlock, idx) {
     local label = linkBlock.label
@@ -114,7 +117,7 @@ local onReceivedResponeOnFullInfo = function(response, category, linksList) {
 
     fillBlock(label, persist.categoriesData[category].links, linkBlock)
     persist.categoriesData[category].links[label].setStr("category", category)
-    persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label])
+    persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label], itemIndex++)
 
     local linkIdx = linksList.findindex(@(p) p == label)
     if (linkIdx != null)
@@ -165,6 +168,7 @@ requestLinksFullInfo = function(category) {
     function(response, err) {
       if (err)
       {
+        ::statsd_counter($"ingame_store.error_request_category_data.{category}.{err}")
         ::debug.debug("PSN: Shop Data: requestLinksFullInfo: on send linksList: Error " + ::toString(err))
         ::debugTableData(linksList)
         return
@@ -184,6 +188,7 @@ requestCategoryFullLinksList = @(category) psn.fetch(psn.commerce.listCategory(c
   function(response, err) {
     if (err)
     {
+      ::statsd_counter($"ingame_store.error_request_category.{category}.{err}")
       ::dagor.debug("PSN: Shop Data: requestCategoryFullLinksList: Category " + category + ", Error receieved: " + ::toString(err))
       return
     }
@@ -209,6 +214,7 @@ digCategory = function(response, err = null)
 {
   if (err)
   {
+    ::statsd_counter($"ingame_store.error_request_categories.{err}")
     ::script_net_assert_once("psn_categories_error", "PSN: Shop Data: Dig Category: received error: " + ::toString(err))
     return
   }
@@ -247,6 +253,7 @@ local collectCategoriesAndItems = @() psn.send(
   {
     if (err)
     {
+      ::statsd_counter($"ingame_store.error_request_categories_main.{err}")
       ::dagor.debug("PSN: Shop Data: collectCategoriesAndItems: Received error: " + ::toString(err))
       return
     }
@@ -281,6 +288,7 @@ local updateSpecificItemInfo = function(id)
     function(response, err) {
       if (err)
       {
+        ::statsd_counter($"ingame_store.error_request_items_info.{err}")
         ::dagor.debug("PSN: Shop Data: updateSpecificItemInfo: items: " + ::toString(linksArray) + "; Error: " + ::toString(err))
         return
       }
@@ -367,6 +375,8 @@ subscriptions.addListenersWithoutEnv({
   ProfileUpdated = @(p) initPs4CategoriesAfterLogin()
   ScriptsReloaded = function(p) {
     visibleSeenIds.clear()
+    persist.itemsList.clear()
+    itemIndex = 0
     onFinishCollectData()
   }
   SignOut = function(p) {
@@ -374,6 +384,7 @@ subscriptions.addListenersWithoutEnv({
     isFinishedUpdateItems = false
     persist.categoriesData.reset()
     persist.itemsList.clear()
+    itemIndex = 0
     visibleSeenIds.clear()
     haveItemDiscount = null
   }

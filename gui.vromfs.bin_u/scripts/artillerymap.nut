@@ -101,14 +101,14 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     local prevArtilleryReady = artilleryReady
     checkArtilleryEnabledByTimer(dt)
 
-    local curPointingDevice = pointingDevice
+    local curPointingice = pointingDevice
     local mousePos = ::get_dagui_mouse_cursor_pos()
     local axisData = ::joystickInterface.getAxisData(watchAxis, stuckAxis)
     local joystickData = ::joystickInterface.getMaxDeviatedAxisInfo(axisData, 32000, 2000)
 
     if (joystickData.x || joystickData.y)
     {
-      curPointingDevice = ::is_xinput_device() ? POINTING_DEVICE.GAMEPAD : POINTING_DEVICE.JOYSTICK
+      curPointingice = ::is_xinput_device() ? POINTING_DEVICE.GAMEPAD : POINTING_DEVICE.JOYSTICK
       local displasement = ::joystickInterface.getGamepadPositionDeviation(dt, 3)
       local prevMapCoords = mapCoords || [0.5, 0.5]
       mapCoords = [
@@ -118,13 +118,13 @@ class ::gui_handlers.ArtilleryMap extends ::gui_handlers.BaseGuiHandlerWT
     }
     else if (mousePos[0] != prevMousePos[0] || mousePos[1] != prevMousePos[1])
     {
-      curPointingDevice = ::is_xinput_device() ? POINTING_DEVICE.GAMEPAD : ::use_touchscreen ? POINTING_DEVICE.TOUCHSCREEN : POINTING_DEVICE.MOUSE
+      curPointingice = ::is_xinput_device() ? POINTING_DEVICE.GAMEPAD : ::use_touchscreen ? POINTING_DEVICE.TOUCHSCREEN : POINTING_DEVICE.MOUSE
       mapCoords = getMouseCursorMapCoords()
     }
 
     prevMousePos = mousePos
-    if (curPointingDevice != pointingDevice || prevArtilleryReady != artilleryReady)
-      pointingDevice = curPointingDevice
+    if (curPointingice != pointingDevice || prevArtilleryReady != artilleryReady)
+      pointingDevice = curPointingice
 
     local show = mapCoords != null
     local disp = mapCoords ? ::artillery_dispersion(mapCoords[0], mapCoords[1]) : -1

@@ -2,9 +2,13 @@ local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local globalEnv = require_native("globalEnv")
 local controllerState = require_native("controllerState")
 local time = require("scripts/time.nut")
-
 local shortcutsListModule = require("scripts/controls/shortcutsList/shortcutsList.nut")
 local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { isBulletGroupActive } = require("scripts/weaponry/bulletsInfo.nut")
+local { resetFastVoiceMessages } = require("scripts/voiceMessages.nut")
+local { unitClassType } = require("scripts/unit/unitClassType.nut")
+local controlsPresetConfigPath = require("scripts/controls/controlsPresetConfigPath.nut")
 
 ::MAX_SHORTCUTS <- 3
 ::preset_changed <- false
@@ -16,12 +20,6 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
   "ID_INTERNET_RADIO", "ID_INTERNET_RADIO_PREV", "ID_INTERNET_RADIO_NEXT",
   "ID_PTT"
 ]
-
-global enum ConflictGroups {
-  PLANE_FIRE,
-  HELICOPTER_FIRE,
-  TANK_FIRE
-}
 
 ::shortcutsList <- shortcutsListModule.types
 
@@ -194,8 +192,12 @@ local axisMappedOnMouse = {
   helicopter_mouse_aim_y = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
   submarine_mouse_aim_x  = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   submarine_mouse_aim_y  = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
-  walker_mouse_aim_x     = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
-  walker_mouse_aim_y     = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  //
+
+
+
+
+
 
   camx                   = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   camy                   = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
@@ -207,8 +209,12 @@ local axisMappedOnMouse = {
   helicopter_camy        = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
   submarine_camx         = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   submarine_camy         = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
-  walker_camx            = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
-  walker_camy            = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
+  //
+
+
+
+
+
 }
 ::is_axis_mapped_on_mouse <- function is_axis_mapped_on_mouse(shortcutId, helpersMode = null, joyParams = null)
 {
@@ -520,12 +526,12 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     controlsGroupsIdList = []
     local currentUnit = ::get_player_cur_unit()
     local unitType = ::g_unit_type.INVALID
-    local unitClassType = ::g_unit_class_type.UNKNOWN
+    local classType = unitClassType.UNKNOWN
     local unitTags = []
     if (curGroupId == "" && currentUnit)
     {
       unitType = currentUnit.unitType
-      unitClassType = currentUnit.expClass
+      classType = currentUnit.expClass
       unitTags = ::getTblValue("tags", currentUnit, [])
     }
 
@@ -544,7 +550,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         local isSuitable = unitType != ::g_unit_type.INVALID
           && unitType == header?.unitType
         if (isSuitable && "unitClassTypes" in header)
-          isSuitable = ::isInArray(unitClassType, header.unitClassTypes)
+          isSuitable = ::isInArray(classType, header.unitClassTypes)
         if (isSuitable && "unitTag" in header)
           isSuitable = ::isInArray(header.unitTag, unitTags)
         if (isSuitable)
@@ -795,7 +801,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
     local axis = item.axisIndex >= 0
       ? curJoyParams.getAxis(item.axisIndex)
-      : ControlsPreset.getDefaultAxis()
+      : ::ControlsPreset.getDefaultAxis()
     local axisText = ""
     local data = ""
     local curPreset = ::g_controls_manager.getCurPreset()
@@ -1112,7 +1118,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
             local presets = presetNames.map(@(name) [
               name,
               function() {
-                applyChoosedPreset(::get_controls_preset_by_selected_type(name).fileName)
+                applySelectedPreset(::get_controls_preset_by_selected_type(name).fileName)
               }
             ])
             msgBox("ask_kbd_type", ::loc("controls/askKeyboardWasdType"), presets, "classic")
@@ -1124,25 +1130,19 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
           if (presetSelected in opdata.values)
             preset = opdata.values[presetSelected]
           else
-          {
-            if (::is_platform_ps4)
-              preset = "empty.ps4"
-            else if (::is_platform_xboxone)
-              preset = "empty.xboxone"
-            else
-              forceLoadWizard = true
-          }
+            forceLoadWizard = ::is_platform_pc
+
           preset = ::g_controls_presets.parsePresetName(preset)
           preset = ::g_controls_presets.getHighestVersionPreset(preset)
-          applyChoosedPreset(preset.fileName)
-          ::reset_fast_voice_messages()
+          applySelectedPreset(preset.fileName)
+          resetFastVoiceMessages()
         }],
-        ["cancel", @() null],
-      ], "cancel"
+        ["no", @() null],
+      ], "no"
     )
   }
 
-  function applyChoosedPreset(preset)
+  function applySelectedPreset(preset)
   {
     ::reset_default_control_settings()
     ::apply_joy_preset_xchange(preset);
@@ -2195,7 +2195,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 {
   if(::isInArray(presetName, ["keyboard", "keyboard_shooter"]))
     ::set_option(::USEROPT_HELPERS_MODE, globalEnv.EM_MOUSE_AIM)
-  return ("config/hotkeys/hotkey." + presetName + ".blk")
+  return ($"{controlsPresetConfigPath.value}config/hotkeys/hotkey." + presetName + ".blk")
 }
 
 ::getSeparatedControlLocId <- function getSeparatedControlLocId(text)
@@ -2522,7 +2522,7 @@ local function getWeaponFeatures(weaponsBlkList)
   local blkCommonWeapons = ::getCommonWeaponsBlk(unitBlk, ::get_last_primary_weapon(unit)) || ::DataBlock()
   local blkWeaponPreset = ::DataBlock()
 
-  local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : ::get_last_weapon(unitId)
+  local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : getLastWeapon(unitId)
 
   if (unitBlk?.weapon_presets)
     foreach (idx, presetBlk in (unitBlk.weapon_presets % "preset"))
@@ -2640,11 +2640,18 @@ local function getWeaponFeatures(weaponsBlkList)
     if (w.gotAAM)
       controls.append("ID_AAM_HELICOPTER")
   }
-  else if (unitType == ::g_unit_type.TANK && unit.isWalker())
-  {
-    controls = [ "walker_throttle", "walker_steering", "walker_mouse_aim_x", "walker_mouse_aim_y",
-      "ID_TOGGLE_VIEW_WALKER", "ID_FIRE_WALKER", "ID_FIRE_WALKER_SPECIAL_GUN" ]
-  }
+  //
+
+
+
+
+
+
+
+
+
+
+
   else if (unitType == ::g_unit_type.TANK)
   {
     controls = [ "gm_throttle", "gm_steering", "gm_mouse_aim_x", "gm_mouse_aim_y", "ID_TOGGLE_VIEW_GM", "ID_FIRE_GM", "ID_REPAIR_TANK" ]
@@ -2768,7 +2775,7 @@ local function getWeaponFeatures(weaponsBlkList)
       local bulletsChoice = 0
       for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++)
       {
-        if (::isBulletGroupActive(unit, groupIndex))
+        if (isBulletGroupActive(unit, groupIndex))
         {
           local bullets = ::get_unit_option(unitId, ::USEROPT_BULLET_COUNT0 + groupIndex)
           if (bullets != null && bullets > 0)
@@ -2853,101 +2860,6 @@ local function getWeaponFeatures(weaponsBlkList)
   return unmapped
 }
 
-::autorestore_preset <- function autorestore_preset()
-{
-  if (::get_controls_preset() != "")
-    return
-
-  local pList = ::g_controls_presets.getControlsPresetsList()
-  local curPreset = ""
-
-  local scNames = ::get_full_shortcuts_list()
-  local curSc = ::get_shortcuts(scNames)
-
-  foreach(preset in pList)
-  {
-    local blk = ::DataBlock()
-    blk.load(::g_controls_presets.getControlsPresetFilename(preset))
-    if (!blk)
-      continue
-
-    if (!blk?.hotkeys || !blk?.joysticks)
-      continue
-
-    if (!::compare_axis_with_blk(blk.joysticks))
-      continue
-
-    if (!::compare_shortcuts_with_blk(scNames, curSc, blk.hotkeys))
-      continue
-
-    curPreset = preset
-    break
-  }
-
-  if (curPreset == "")
-    return
-
-  ::g_controls_manager.getCurPreset().setDefaultBasePresetName(curPreset)
-  dagor.debug("PRESETS: Autorestore defaultBasePreset to " + curPreset)
-}
-
-::get_full_shortcuts_list <- function get_full_shortcuts_list()
-{
-  local res = []
-  res.extend(::shortcuts_not_change_by_preset)
-
-  local axisScNames = shortcutsAxisListModule.types.filter(@(item) item.type == CONTROL_TYPE.AXIS_SHORTCUT)
-  foreach(item in ::shortcutsList)
-    if (item.type == CONTROL_TYPE.SHORTCUT)
-      ::u.appendOnce(item.id, res)
-    else if (item.type == CONTROL_TYPE.AXIS)
-      foreach(name in axisScNames)
-        ::u.appendOnce(item.axisName + ((name=="")?"" : "_" + name), res)
-  return res
-}
-
-::compare_shortcuts_with_blk <- function compare_shortcuts_with_blk(names, scList, scBlk, dbg = false)
-{
-  if (names.len() != scList.len())
-    return false
-
-  local res = true
-  //some shortcuts exist in blk twice, and merged in code. So need to get a full list before analize it.
-  local scbList = ::get_shortcuts_from_blk(names, scBlk)
-  foreach(idx, scb in scbList)
-  {
-    local sc = scList[idx]
-
-    if (!scb)
-    {
-      if (!::isShortcutMapped(sc))
-        continue
-
-      res = false
-      if (dbg)
-      {
-        ::dagor.debug("PRESETS: found unmapped shortcut: " + names[idx])
-        ::debugTableData(sc)
-        continue
-      }
-      break
-    }
-
-    if (!::is_shortcut_equal(sc, scb))
-    {
-      res = false
-      if (dbg)
-      {
-        ::dagor.debug("PRESETS: not equal shortcuts: " + names[idx])
-        ::debugTableData(sc)
-        ::debugTableData(scb)
-        continue
-      }
-      break
-    }
-  }
-  return res
-}
 
 ::is_shortcut_equal <- function is_shortcut_equal(sc1, sc2)
 {
@@ -2989,88 +2901,12 @@ local function getWeaponFeatures(weaponsBlkList)
   return false
 }
 
-::get_shortcuts_from_blk <- function get_shortcuts_from_blk(names, scBlk)
-{
-  local res = array(names.len(), null)
-  foreach(event in scBlk % "event")
-  {
-    local idx = ::find_in_array(names, event?.name)
-    if (idx >= 0)
-      res[idx] = ::get_shortcut_data_from_blk(event, res[idx])
-  }
-  return res
-}
-
-::get_shortcut_data_from_blk <- function get_shortcut_data_from_blk(blk, mergedRes = null)
-{
-  if (!mergedRes)
-    mergedRes = []
-  foreach(scBlk in blk % "shortcut")
-  {
-    local sc = { btn = [], dev = [] }
-    foreach(btn in scBlk % "button")
-      if (btn.deviceId != null && btn.buttonId != null)
-      {
-        sc.btn.append(btn.buttonId)
-        sc.dev.append(btn.deviceId)
-      }
-    if (!::is_bind_in_shortcut(sc, mergedRes))
-      mergedRes.append(sc)
-  }
-  return mergedRes
-}
-
-::compare_axis_with_blk <- function compare_axis_with_blk(blk)
-{
-  local joyBlk = blk?.joystickSettings
-  if (!joyBlk)
-    return true
-
-  local joyParams = ::JoystickParams()
-  joyParams.setFrom(::joystick_get_cur_settings())
-
-  local paramsList = ["trackIrZoom"
-                      "trackIrForLateralMovement"
-                      "trackIrAsHeadInTPS"
-                      "isMouseLookHold"
-                      "holdThrottleForWEP"
-                      "useJoystickMouseForVoiceMessage"
-                      "useMouseForVoiceMessage"
-                      "mouseJoystick"]
-  foreach(p in paramsList)
-    if (joyBlk?[p] != null && joyBlk[p] != joyParams?[p])
-      return false
-
-  foreach(item in ::shortcutsList)
-  {
-    if (item.type != CONTROL_TYPE.AXIS)
-      continue
-
-    local axisBlk = joyBlk?[item.id]
-    local axis = joyParams.getAxis(item.axisIndex)
-    if (!axisBlk || !axis)
-      continue
-
-    if (!::compare_blk_axis(axisBlk, axis))
-      return false
-  }
-
-  if (joyBlk?.mouse)
-    foreach(i, value in joyBlk.mouse % "axis")
-    {
-      local name = ::get_axis_name(value) || ""
-      if (name != joyParams.getMouseAxis(i)) //cant get mouse index from joyParams w/o code change
-        return false
-    }
-  return true
-}
 
 ::compare_blk_axis <- function compare_blk_axis(blk, axis)
 {
   local axisBase = ["axisId",
                     "inverse", "relative",
                     "keepDisabledValue",
-                    /*"useSliders"*/ //nonLinearity sliers not use yet
                    ]
   foreach (p in axisBase)
     if (blk?[p] != null && blk[p] != axis?[p])

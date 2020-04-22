@@ -1,4 +1,7 @@
 local time = require("scripts/time.nut")
+local { topMenuHandler } = require("scripts/mainmenu/topMenuStates.nut")
+local { getBundleId } = require("scripts/onlineShop/onlineBundles.nut")
+local ent = require("scripts/onlineShop/entitlements.nut")
 
 local payMethodsCfg = [
   { id = ::YU2_PAY_QIWI,        name = "qiwi" }
@@ -195,8 +198,8 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         local onlineShopRowBlk = ::handyman.renderCached(("gui/onlineShopRow"), useExternalLinksView)
         guiScene.replaceContentFromText(rowObj, onlineShopRowBlk, onlineShopRowBlk.len(), this)
 
-        local amount = ::get_entitlement_amount(item)
-        local additionalAmount = ::get_first_purchase_additional_amount(item)
+        local amount = ent.getEntitlementAmount(item)
+        local additionalAmount = ent.getFirstPurchaseAdditionalAmount(item)
         local amountText = ""
         local savingText = ""
 
@@ -267,7 +270,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
         local obj = listObj.findObject("txt_" + name)
         if (obj)
         {
-          local text = ::get_entitlement_name(item)
+          local text = ent.getEntitlementName(item)
           local priceText = getItemPriceText(name)
           if (priceText!="")
             text = ::format("(%s) %s", priceText, text)
@@ -290,8 +293,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function afterModalDestroy() {
-    if (::top_menu_handler && ("updateExpAndBalance" in ::top_menu_handler))
-      ::top_menu_handler.updateExpAndBalance.call(::top_menu_handler)
+    topMenuHandler.value?.updateExpAndBalance.call(topMenuHandler.value)
     popCloseFunc()
   }
 
@@ -330,7 +332,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getPricePerItem(item)
   {
-    local value = ::get_entitlement_amount(item)
+    local value = ent.getEntitlementAmount(item)
     if (value <= 0)
       return 0
 
@@ -341,7 +343,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getItemPriceText(name)
   {
     if (name in goods)
-      return ::get_entitlement_price(goods[name])
+      return ent.getEntitlementPrice(goods[name])
     return ""
   }
 
@@ -394,9 +396,9 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       bonusOtherModesWpPercent = "+" + ::g_measure_type.PERCENT_FLOAT.getMeasureUnitsText(premiumOtherModesWpMult - 1.0)
     }
     if (isGoods && ("useGroupAmount" in goods[task]) && goods[task].useGroupAmount && ("group" in goods[task]))
-      paramTbl.amount <- ::get_entitlement_amount(goods[task]).tointeger()
+      paramTbl.amount <- ent.getEntitlementAmount(goods[task]).tointeger()
 
-    local locId = isGoods? ::get_entitlement_locId(goods[task]) : task
+    local locId = isGoods? ent.getEntitlementLocId(goods[task]) : task
     locId = format(isGoods? "charServer/entitlement/%s/desc":"charServer/chapter/%s/desc", locId)
     desc = ::loc(locId, paramTbl)
 
@@ -405,8 +407,8 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       local item = goods[task]
       foreach(giftName in item.entitlementGift)
       {
-        local ent = ::get_entitlement_config(giftName)
-        desc+= "\n" + format(::loc("charServer/gift/entitlement"), ::get_entitlement_name(ent))
+        local config = ent.getEntitlementConfig(giftName)
+        desc+= "\n" + format(::loc("charServer/gift/entitlement"), ent.getEntitlementName(config))
       }
       foreach(airName in item.aircraftGift)
         desc+= "\n" + format(::loc("charServer/gift/aircraft"), ::getUnitName(airName))
@@ -420,7 +422,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (isGoods && (("ttl" in goods[task]) || ("httl" in goods[task])))
     {
-      local renewText = ::get_entitlement_timeText(goods[task])
+      local renewText = ent.getEntitlementTimeText(goods[task])
       if (renewText!="")
       {
         local realname = ("alias" in goods[task]) ? goods[task].alias : task
@@ -552,7 +554,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
       local price = ::Cost(0, costGold)
       local msgText = ::warningIfGold(
         ::loc("onlineShop/needMoneyQuestion",
-          {purchase = ::get_entitlement_name(goods[task]), cost = price.getTextAccordingToBalance()}),
+          {purchase = ent.getEntitlementName(goods[task]), cost = price.getTextAccordingToBalance()}),
         price)
       msgBox("purchase_ask", msgText,
         [
@@ -605,7 +607,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
     local price = ::Cost(0, costGold)
     local msgText = ::warningIfGold(
       ::loc("onlineShop/needMoneyQuestion",
-        {purchase = ::get_entitlement_name(goods[purchaseTask]), cost = price.getTextAccordingToBalance()}),
+        {purchase = ent.getEntitlementName(goods[purchaseTask]), cost = price.getTextAccordingToBalance()}),
       price)
     msgBox("purchase_ask", msgText,
       [ ["yes", @() doYuplayPurchase(purchaseTask, payMethod) ],
@@ -615,7 +617,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function doYuplayPurchase(purchaseTask, payMethod)
   {
-    local guid = ::loc("guid/" + purchaseTask)
+    local guid = getBundleId(purchaseTask)
     ::dagor.assertf(guid != "", "Error: not found guid for " + purchaseTask)
 
     local response = (guid=="")? -1 : ::yuplay2_buy_entitlement(guid, payMethod)
@@ -631,7 +633,7 @@ class ::gui_handlers.OnlineShopHandler extends ::gui_handlers.BaseGuiHandlerWT
     ::update_entitlements()
 
     msgBox("purchase_done",
-      format(::loc("userlog/buy_entitlement"), ::get_entitlement_name(goods[purchaseTask])),
+      format(::loc("userlog/buy_entitlement"), ent.getEntitlementName(goods[purchaseTask])),
       [["ok", @() null]], "ok", { cancel_fn = @() null})
   }
 

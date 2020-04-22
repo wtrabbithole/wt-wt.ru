@@ -2,6 +2,7 @@ local time = require("scripts/time.nut")
 local workshop = ::require("scripts/items/workshop/workshop.nut")
 local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
 local stdMath = require("std/math.nut")
+local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 
 const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
@@ -1903,8 +1904,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       return
     }
 
-    local ent = ::get_entitlement_config(entName)
-    local entNameText = ::get_entitlement_name(ent)
+    local ent = getEntitlementConfig(entName)
+    local entNameText = getEntitlementName(ent)
     local price = ::Cost(0, ent?.goldCost ?? 0)
     local cb = ::Callback(onBuyPremiumAward, this)
 
@@ -2761,7 +2762,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       ::go_debriefing_next_func = ::gui_start_menuCampaign
     } else
     if (gm==::GM_TEST_FLIGHT)
-      ::go_debriefing_next_func = ::gui_start_menuShop
+      ::go_debriefing_next_func = @() ::gui_start_mainmenu_reload(true)
     else
     if (gm==::GM_DYNAMIC)
     {

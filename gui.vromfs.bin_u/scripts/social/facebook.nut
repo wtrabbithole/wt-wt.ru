@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local { topMenuHandler } = require("scripts/mainmenu/topMenuStates.nut")
 
 ::uploadLimit <- 3
 ::on_screenshot_saved <- null
@@ -166,7 +167,7 @@ class ::gui_handlers.facebookReminderModal extends ::gui_handlers.BaseGuiHandler
 
   function onOk()
   {
-    ::gui_start_options(::top_menu_handler, "social");
+    ::gui_start_options(topMenuHandler.value, "social");
     ::start_facebook_login()
   }
 

@@ -13,8 +13,8 @@ local shipHud = @(){
   padding = [0, 0, hdpx(32) + ::fpx(6), 0]
   margin = screenState.safeAreaSizeHud.value.borders
   flow = FLOW_VERTICAL
-  valign = VALIGN_BOTTOM
-  halign = HALIGN_LEFT
+  valign = ALIGN_BOTTOM
+  halign = ALIGN_LEFT
   gap = ::scrn_tgt(0.5)
   children = [
     voiceChat

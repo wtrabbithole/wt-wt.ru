@@ -1,3 +1,5 @@
+local { topMenuHandler } = require("scripts/mainmenu/topMenuStates.nut")
+
 const timeToShowAll = 500.0
 
 class gui_bhv.CreditsScroll
@@ -46,6 +48,5 @@ class gui_bhv.CreditsScroll
 {
   if (!canceled)
     ::req_unlock_by_client("view_credits", false)
-  if (::top_menu_handler)
-    ::top_menu_handler.onTopMenuMain.call(::top_menu_handler, null)
+  topMenuHandler.value?.onTopMenuMain.call(topMenuHandler.value, null)
 }

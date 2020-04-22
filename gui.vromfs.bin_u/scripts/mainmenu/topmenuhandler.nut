@@ -1,18 +1,9 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
-
-::top_menu_handler <- null
-::top_menu_shop_active <- false
-
-::top_menu_borders <- [[0.01, 0.99], [0.05, 0.86]] //[x1,x2], [y1, y2] *rootSize - border for chat and contacts
-if (::is_platform_ps4)
-  ::top_menu_borders = [[0.01, 0.99], [0.09, 0.86]]
-
-::g_script_reloader.registerPersistentData("topMenuGlobals", ::getroottable(), ["top_menu_shop_active"])
+local { topMenuHandler, topMenuShopActive } = require("scripts/mainmenu/topMenuStates.nut")
 
 
-class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
-{
+local class TopMenu extends ::gui_handlers.BaseGuiHandlerWT {
   wndType = handlerType.ROOT
   keepLoaded = true
   sceneBlkName = "gui/mainmenu/topMenuScene.blk"
@@ -43,7 +34,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   constructor(gui_scene, params = {})
   {
     base.constructor(gui_scene, params)
-    ::top_menu_handler = this
+    topMenuHandler(this)
   }
 
   function initScreen()
@@ -78,13 +69,13 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
           hasResearchesBtn = true
           mainMenuSlotbar = true
           onCountryDblClick = function() {
-            if (!::top_menu_shop_active)
+            if (!topMenuShopActive.value)
               shopWndSwitch()
           }.bindenv(this)
         },
         "nav-topMenu"
       )
-      currentFocusItem = ::top_menu_shop_active? 2 : 11 //shop : slotbar
+      currentFocusItem = topMenuShopActive.value ? 2 : 11 //shop : slotbar
       initFocusArray()
     }
     delayedRestoreFocus()
@@ -173,7 +164,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
     if (inQueue)
     {
-      if (::top_menu_shop_active)
+      if (topMenuShopActive.value)
         shopWndSwitch()
 
       ::broadcastEvent("SetInQueue")
@@ -188,17 +179,17 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
     obj = getObj("topmenu_backshade_light")
     if (::check_obj(obj))
-      obj.animation = !isInQueue && ::top_menu_shop_active ? "show" : "hide"
+      obj.animation = !isInQueue && topMenuShopActive.value ? "show" : "hide"
   }
 
   function getCurrentEdiff()
   {
-    return (::top_menu_shop_active && shopWeak) ? shopWeak.getCurrentEdiff() : ::get_current_ediff()
+    return (topMenuShopActive.value && shopWeak) ? shopWeak.getCurrentEdiff() : ::get_current_ediff()
   }
 
   function focusShopTable()
   {
-    if (!::top_menu_shop_active)
+    if (!topMenuShopActive.value)
         return restoreFocus()
     local obj = getObj("shop_items_list")
     if (::checkObj(obj))
@@ -208,17 +199,17 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
   function canShowShop()
   {
-    return !::top_menu_shop_active
+    return !topMenuShopActive.value
   }
 
   function canShowDmViewer()
   {
-    return !::top_menu_shop_active
+    return !topMenuShopActive.value
   }
 
   function closeShop()
   {
-    if (::top_menu_shop_active)
+    if (topMenuShopActive.value)
       shopWndSwitch()
   }
 
@@ -235,14 +226,14 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
     if (::is_small_screen)
     {
-      ::top_menu_shop_active = false
+      topMenuShopActive(false)
       ::gui_handlers.ShopViewWnd.open({forceUnitType = unitType})
       return
     }
 
-    ::top_menu_shop_active = !::top_menu_shop_active
+    topMenuShopActive(!topMenuShopActive.value)
     local shopMove = getObj("shop_wnd_move")
-    shopMove.moveOut = ::top_menu_shop_active ? "yes" : "no"
+    shopMove.moveOut = topMenuShopActive.value ? "yes" : "no"
     local closeResearch = getObj("research_closeButton")
     local showButton = shopMove.moveOut == "yes"
 
@@ -252,7 +243,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       ::play_gui_sound("menu_appear")
     if(::checkObj(closeResearch))
       closeResearch.show(showButton)
-    activateShopImpl(::top_menu_shop_active, unitType)
+    activateShopImpl(topMenuShopActive.value, unitType)
     if (shopWeak && shopWeak.getCurrentEdiff() != ::get_current_ediff())
       shopWeak.updateSlotbarDifficulty()
     focusShopTable()
@@ -263,13 +254,13 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   function openShop(unitType = null)
   {
     setShopUnitType(unitType)
-    if (!::top_menu_shop_active)
+    if (!topMenuShopActive.value)
       shopWndSwitch(unitType) //to load shp with correct unit type to avoid several shop updates
   }
 
   function instantOpenShopWnd()
   {
-    if (::top_menu_shop_active)
+    if (topMenuShopActive.value)
     {
       local shopMove = getObj("shop_wnd_move")
       if (!::checkObj(shopMove))
@@ -293,17 +284,17 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   function onShopWndAnimStarted(obj)
   {
     onHoverSizeMove(obj)
-    updateOnShopWndAnim(!::top_menu_shop_active)
+    updateOnShopWndAnim(!topMenuShopActive.value)
   }
 
   function onShopWndAnimFinished(obj)
   {
-    updateOnShopWndAnim(::top_menu_shop_active)
+    updateOnShopWndAnim(topMenuShopActive.value)
   }
 
   function updateOnShopWndAnim(isVisible)
   {
-    local isShow = ::top_menu_shop_active
+    local isShow = topMenuShopActive.value
     updateSceneShade()
     if (isVisible)
       ::broadcastEvent("ShopWndVisible", { isShopShow = isShow })
@@ -347,7 +338,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
 
   function onTopMenuMain(obj, checkTopMenuButtons = false)
   {
-    if (::top_menu_shop_active)
+    if (topMenuShopActive.value)
       shopWndSwitch()
     else if (::current_base_gui_handler && ("onTopMenuGoBack" in ::current_base_gui_handler))
       ::current_base_gui_handler.onTopMenuGoBack.call(::current_base_gui_handler, checkTopMenuButtons)
@@ -378,7 +369,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
   {
     local id = "getMainFocusObj" + ((idx == 1)? "" : idx)
     local focusHandler = null
-    if (::top_menu_shop_active && shopWeak)
+    if (topMenuShopActive.value && shopWeak)
       focusHandler = shopWeak
     else
       focusHandler = ::handlersManager.getActiveBaseHandler()
@@ -407,7 +398,7 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     base.onSceneActivate(show)
-    if (::top_menu_shop_active && shopWeak)
+    if (topMenuShopActive.value && shopWeak)
       shopWeak.onSceneActivate(show)
     if (show)
       ::set_show_aircraft(getCurSlotUnit())
@@ -464,21 +455,21 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
       { obj = "topmenu_btn_shop_wnd"
         msgId = "hint_research"
       }
-      { obj = ::top_menu_shop_active? null : "slots-autorepair"
+      { obj = topMenuShopActive.value ? null : "slots-autorepair"
         msgId = "hint_autorepair"
       }
-      { obj = ::top_menu_shop_active? null : "slots-autoweapon"
+      { obj = topMenuShopActive.value ? null : "slots-autoweapon"
         msgId = "hint_autoweapon"
       }
 
       //bottom right
-      { obj = ::top_menu_shop_active ? null : "perform_action_recent_items_mainmenu_button_items"
+      { obj = topMenuShopActive.value ? null : "perform_action_recent_items_mainmenu_button_items"
         msgId = "hint_recent_items"
       }
       { obj = ["gc_invites_btn", "gc_contacts", "gc_chat_btn", "gc_userlog_btn"]
         msgId = "hint_social"
       }
-      { obj = ::top_menu_shop_active || ::g_squad_manager.isInSquad() ? null : "btn_squadPlus"
+      { obj = topMenuShopActive.value || ::g_squad_manager.isInSquad() ? null : "btn_squadPlus"
         msgId = "hint_play_with_friends"
       }
     ]
@@ -515,3 +506,5 @@ class ::gui_handlers.TopMenu extends ::gui_handlers.BaseGuiHandlerWT
     return res
   }
 }
+
+::gui_handlers.TopMenu <- TopMenu

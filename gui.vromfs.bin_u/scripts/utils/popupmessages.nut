@@ -69,10 +69,13 @@ g_popup_msg.verifyPopupBlk <- function verifyPopupBlk(blk, hasModalObject, needD
     if (hasModalObject && !blk.getBool("showOverModalObject", false))
       return null
 
-    if (blk?.reqFeature && !::has_feature(blk.reqFeature))
+    if (!::g_promo.checkBlockReqFeature(blk))
       return null
 
-    if (blk?.reqUnlock && !::is_unlocked_scripted(-1, blk.reqUnlock))
+    if (!::g_promo.checkBlockReqEntitlement(blk))
+      return null
+
+    if (!::g_promo.checkBlockUnlock(blk))
       return null
 
     if (!::g_partner_unlocks.isPartnerUnlockAvailable(blk?.partnerUnlock, blk?.partnerUnlockDurationMin))

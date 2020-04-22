@@ -416,39 +416,6 @@ foreach (i, v in ::cssColorsMapDark)
   return ::entitlement_expires_in(premAccName) > 0
 }
 
-::get_mission_desc_text <- function get_mission_desc_text(missionBlk)
-{
-  local descrAdd = ""
-
-  local sm_location = missionBlk.getStr("locationName",
-                            ::map_to_location(missionBlk.getStr("level", "")))
-  if (sm_location != "")
-    descrAdd += (::loc("options/location") + ::loc("ui/colon") + ::loc("location/" + sm_location))
-
-  local sm_time = missionBlk.getStr("time", missionBlk.getStr("environment", ""))
-  if (sm_time != "")
-    descrAdd += (descrAdd != "" ? "; " : "") + ::get_mission_time_text(sm_time)
-
-  local sm_weather = missionBlk.getStr("weather", "")
-  if (sm_weather != "")
-    descrAdd += (descrAdd != "" ? "; " : "") + ::loc("options/weather" + sm_weather)
-
-  local aircraft = missionBlk.getStr("player_class", "")
-  if (aircraft != "")
-  {
-    local sm_aircraft = ::loc("options/aircraft") + ::loc("ui/colon") +
-      getUnitName(aircraft) + "; " +
-      ::getWeaponNameText(aircraft, null, missionBlk.getStr("player_weapons", ""), ", ")
-
-    descrAdd += "\n" + sm_aircraft
-  }
-
-  if (missionBlk.getStr("recommendedPlayers","") != "")
-    descrAdd += ("\n" + ::format(::loc("players_recommended"), missionBlk.getStr("recommendedPlayers","1-4")) + "\n")
-
-  return descrAdd
-}
-
 ::getCountryByAircraftName <- function getCountryByAircraftName(airName) //used in code
 {
   local country = ::getShopCountry(airName)
@@ -683,7 +650,7 @@ foreach (i, v in ::cssColorsMapDark)
   {
     local purchaseBtn = "#mainmenu/btnBuy"
     defButton = purchaseBtn
-    buttons.insert(0, [purchaseBtn, @() ::OnlineShopModel.launchOnlineShop(null, shopType, afterCheck)])
+    buttons.insert(0, [purchaseBtn, @() ::OnlineShopModel.launchOnlineShop(null, shopType, afterCheck, "buy_gold_msg")])
   }
 
   ::scene_msg_box("no_money", null, text, buttons, defButton)
@@ -2024,13 +1991,6 @@ const PASSWORD_SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
   local blk = ::DataBlock()
   blk.setStr("type", bType)
   return ::char_send_blk("cln_convert_blueprints", blk)
-}
-
-::is_mode_with_friendly_units <- function is_mode_with_friendly_units(gt = null)
-{
-  if (gt == null)
-    gt = ::get_game_type()
-  return !!(gt & ::GT_RACE) || !(gt & (::GT_FFA_DEATHMATCH | ::GT_FFA))
 }
 
 ::is_mode_with_teams <- function is_mode_with_teams(gt = null)

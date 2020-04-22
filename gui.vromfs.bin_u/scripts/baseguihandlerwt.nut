@@ -4,15 +4,12 @@ local callback = require("sqStdLibs/helpers/callback.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 local unitContextMenuState = require("scripts/unit/unitContextMenuState.nut")
+local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 
-global const MAIN_FOCUS_ITEM_IDX = 4
-
-::stickedDropDown <- null
-
+local stickedDropDown = null
 local defaultSlotbarActions = [ "autorefill", "aircraft", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
 
-class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
-{
+local class BaseGuiHandlerWT extends ::BaseGuiHandler {
   defaultFocusArray = [
     function() { return getCurrentTopGCPanel() }     //gamercard top
     function() { return getCurGCDropdownMenu() }                    //gamercard menu
@@ -352,7 +349,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
       guiScene.applyPendingChanges(false) //to correct work isVisible() for scene objects after event
   }
 
-  function startOnlineShop(chapter = null, afterCloseShop = null)
+  function startOnlineShop(chapter = null, afterCloseShop = null, metric = "unknown")
   {
     local handler = this
     goForwardIfOnline(function() {
@@ -362,7 +359,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
             if (handler)
               afterCloseShop.call(handler)
           }
-        ::OnlineShopModel.launchOnlineShop(handler, chapter, closeFunc)
+        ::OnlineShopModel.launchOnlineShop(handler, chapter, closeFunc, metric)
       }, false, true)
   }
 
@@ -373,32 +370,13 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onOnlineShopEagles()
   {
     if (::has_feature("EnableGoldPurchase"))
-      startOnlineShop("eagles")
+      startOnlineShop("eagles", null, "gamercard")
     else
       ::showInfoMsgBox(::loc("msgbox/notAvailbleGoldPurchase"))
   }
 
   function onItemsShop() { ::gui_start_itemsShop() }
   function onInventory() { ::gui_start_inventory() }
-
-  function askBuyPremium(afterCloseFunc)
-  {
-    local msgText = ::loc("msgbox/noEntitlement/PremiumAccount")
-    msgBox("no_premium", msgText,
-         [["ok", (@(afterCloseFunc) function() { startOnlineShop("premium", afterCloseFunc)})(afterCloseFunc) ],
-         ["cancel", function() {} ]], "ok", { checkDuplicateId = true })
-  }
-
-  function onOnlineShopEaglesMsg(obj)
-  {
-    onOnlineShopEagles()
-    /*
-    msgBox("buy-eagles", ::loc("charServer/web_recharge"),
-      [["ok", onOnlineShopEagles ],
-       ["cancel", function() {} ]
-      ], "ok", { cancel_fn = function() {}})
-    */
-  }
 
   function onConvertExp(obj)
   {
@@ -434,7 +412,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onGC_chat(obj)
   {
     if (!::isMenuChatActive())
-      ::g_chat.isChatEnabled(true)
+      isChatEnabled(true)
 
     switchChatWindow()
   }
@@ -758,12 +736,12 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
 
   function unstickLastDropDown(newObj = null)
   {
-    if (::checkObj(::stickedDropDown) && (!newObj || !::stickedDropDown.isEqual(newObj)))
+    if (::checkObj(stickedDropDown) && (!newObj || !stickedDropDown.isEqual(newObj)))
     {
-      ::stickedDropDown.stickHover = "no"
-      ::stickedDropDown.getScene().applyPendingChanges(false)
-      onStickDropDown(::stickedDropDown, false)
-      ::stickedDropDown = null
+      stickedDropDown.stickHover = "no"
+      stickedDropDown.getScene().applyPendingChanges(false)
+      onStickDropDown(stickedDropDown, false)
+      stickedDropDown = null
     }
   }
 
@@ -788,7 +766,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
     unstickLastDropDown(obj)
 
     guiScene.applyPendingChanges(false)
-    ::stickedDropDown = stick? obj : null
+    stickedDropDown = stick? obj : null
     onStickDropDown(obj, stick)
   }
 
@@ -948,7 +926,7 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   {
     if (!::check_diff_pkg(diff, !needMsgBox))
       return true
-    if (!::is_need_check_tutorial(diff))
+    if (!::g_difficulty.getDifficultyByDiffCode(diff).needCheckTutorial)
       return false
     if (::g_squad_manager.isNotAloneOnline())
       return false
@@ -1136,4 +1114,10 @@ class ::gui_handlers.BaseGuiHandlerWT extends ::BaseGuiHandler
   function onModChangeBulletsSlider(){}
 
   function onShowMapRenderFilters(){}
+}
+
+::gui_handlers.BaseGuiHandlerWT <- BaseGuiHandlerWT
+
+return {
+  stickedDropDown = stickedDropDown
 }

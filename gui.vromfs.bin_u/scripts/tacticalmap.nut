@@ -1,3 +1,4 @@
+local { getWeaponShortTypeFromWpName } = require("scripts/weaponry/weaponryVisual.nut")
 ::gui_start_tactical_map <- function gui_start_tactical_map(use_tactical_control = false)
 {
   ::tactical_map_handler = ::handlersManager.loadHandler(::gui_handlers.TacticalMap,
@@ -297,7 +298,7 @@ class ::gui_handlers.TacticalMap extends ::gui_handlers.BaseGuiHandlerWT
       local unit = ::getAircraftByName(fm)
       local text = ::getUnitName(fm)
       if (::isAircraft(unit) || unit?.isHelicopter?())
-        text += ::loc("ui/colon") + ::getWeaponShortTypeFromWpName(::get_cur_unit_weapon_preset(), fm)
+        text += ::loc("ui/colon") + getWeaponShortTypeFromWpName(::get_cur_unit_weapon_preset(), fm)
       obj.setValue(text)
     }
   }

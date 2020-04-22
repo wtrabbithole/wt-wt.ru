@@ -10,14 +10,20 @@ foreach (name, func in require("dagor.localize"))
 local __math = require("math")
 ::fabs<-__math.fabs
 ::kwarg <- require("std/functools.nut").kwarg
+::memoize <- require("std/functools.nut").memoize
 ::Watched <- require("frp").Watched
+
+::utf8 <- require("utf8")
+::regexp2 <- require("regexp2")
 
 ::script_protocol_version <- null
 ::dagor.runScript("scripts/version.nut")
 ::dagor.runScript("sqStdLibs/scriptReloader/scriptReloader.nut")
+require("scripts/sqModuleHelpers.nut")
 ::g_script_reloader.loadOnce("sqStdLibs/helpers/backCompatibility.nut")
 ::g_script_reloader.loadOnce("scripts/compatibility.nut")
 ::g_script_reloader.loadOnce("scripts/clientState/errorHandling.nut")
+local { get_local_unixtime } = ::require_native("dagor.time")
 
 ::nda_version <- -1
 ::nda_version_tanks <-5
@@ -275,9 +281,18 @@ global enum contactEvent
   CONTACTS_GROUP_UPDATE = "ContactsGroupUpdate"
 }
 
+global enum TOP_MENU_ELEMENT_TYPE {
+  BUTTON,
+  EMPTY_BUTTON,
+  CHECKBOX,
+  LINE_SEPARATOR
+}
+
+global const MAIN_FOCUS_ITEM_IDX = 4
+
 ::randomize <- function randomize()
 {
-  ::math.init_rnd(::get_local_time_sec())
+  ::math.init_rnd(get_local_unixtime())
 }
 randomize()
 
@@ -301,6 +316,13 @@ subscriptions.setDefaultPriority(::g_listener_priority.DEFAULT)
 ::add_event_listener <- subscriptions.addEventListener
 ::subscribe_handler <- subscriptions.subscribeHandler
 
+::has_feature <- require("scripts/user/features.nut").hasFeature
+
+local game = ::get_settings_blk()?["game"] ?? "wt"
+::dagor.debug($"LOAD GAME SCRIPTS: {game}")
+require_optional($"{game}/scripts/onScriptLoad.nut")
+
+
 foreach (fn in [
   "scripts/sharedEnums.nut"
 
@@ -322,7 +344,6 @@ foreach (fn in [
   "scripts/viewUtils/layeredIcon.nut"
   "scripts/viewUtils/projectAwards.nut"
 
-  "scripts/sqModuleHelpers.nut"
   "scripts/util.nut"
   "sqDagui/timer/timer.nut"
 
@@ -343,7 +364,6 @@ foreach (fn in [
   "scripts/langUtils/localization.nut"
   "scripts/langUtils/language.nut"
 
-  "scripts/user/features.nut"
   "scripts/clientState/keyboardState.nut"
   "scripts/clientState/contentPacks.nut"
   "scripts/utils/errorMsgBox.nut"
@@ -351,7 +371,12 @@ foreach (fn in [
   "scripts/utils/delayedActions.nut"
 
   "scripts/clientState/fpsDrawer.nut"
-  "scripts/loading/animBg.nut"
+
+  //used in loading screen
+  "scripts/viewUtils/hintTags.nut"
+  "scripts/viewUtils/hints.nut"
+  "scripts/viewUtils/bhvHint.nut"
+
   "scripts/loading/loading.nut"
   "scripts/login/loginMain.nut"
   "scripts/pseudoThread.nut"
@@ -434,12 +459,19 @@ local isFullScriptsLoaded = false
     return
   isFullScriptsLoaded = true
 
+  // Independed Modules with mainHandler. Need load this befor rest handlers
+  require("scripts/baseGuiHandlerWT.nut")
+  require("scripts/mainmenu/topMenuHandler.nut")
+  // end of Independed Modules with mainHandler
+
+  ::dagor.debug($"LOAD GAME SCRIPTS AFTER LOGIN: {game}")
+  require_optional($"{game}/scripts/onScriptLoadAfterLogin.nut")
+
   foreach (fn in [
     "money.nut"
 
     "ranks.nut"
     "difficulty.nut"
-    "unitClassType.nut"
     "teams.nut"
     "airInfo.nut"
     "options/optionsExt.nut"
@@ -448,7 +480,6 @@ local isFullScriptsLoaded = false
     "gamercard.nut"
     "popups/popups.nut"
     "popups/popup.nut"
-    "baseGuiHandlerWT.nut"
     "weaponsInfo.nut"
 
     "wheelmenu/wheelmenu.nut"
@@ -463,9 +494,6 @@ local isFullScriptsLoaded = false
     "wndLib/skipableMsgBox.nut"
     "wndWidgets/navigationPanel.nut"
 
-    "viewUtils/hintTags.nut"
-    "viewUtils/hints.nut"
-    "viewUtils/bhvHint.nut"
     "timeBar.nut"
 
     "dataBlockAdapter.nut"
@@ -517,12 +545,10 @@ local isFullScriptsLoaded = false
     "promo/promo.nut"
     "promo/promoHandler.nut"
     "promo/BattleTasksPromoHandler.nut"
-    "mainmenu/topMenuButtons.nut"
     "mainmenu/topMenuSections.nut"
     "mainmenu/topMenuSectionsConfigs.nut"
     "mainmenu/topMenuButtonsHandler.nut"
-    "mainmenu/topMenuHandler.nut"
-    "mainmenu/mainMenu.nut"
+    "mainmenu/guiStartMainmenu.nut"
     "credits.nut"
 
     "slotbar/crewsList.nut"
@@ -570,7 +596,6 @@ local isFullScriptsLoaded = false
     "invites/inviteFriend.nut"
     "invites/invitesWnd.nut"
 
-    "voiceMessages.nut"
     "controls/controlsPresets.nut"
     "controls/controlsUtils.nut"
     "controls/controls.nut"
@@ -806,6 +831,7 @@ local isFullScriptsLoaded = false
     "hud/hudTutorialObject.nut"
     "streaks.nut"
     "wheelmenu/voicemenu.nut"
+    "wheelmenu/multifuncmenu.nut"
     "hud/hudHintTypes.nut"
     "hud/hudHints.nut"
     "hud/hudHintsManager.nut"
@@ -843,7 +869,7 @@ local isFullScriptsLoaded = false
     "gamepadSceneSettings.nut"
   ])
   {
-    ::g_script_reloader.loadOnce("scripts/" + fn)
+    ::g_script_reloader.loadOnce($"scripts/{fn}")
   }
 
   if (::g_login.isAuthorized() || ::disable_network()) //load scripts from packs only after login
@@ -858,6 +884,7 @@ local isFullScriptsLoaded = false
   ::require("scripts/slotbar/elems/squadronExpIconElem.nut")
   ::require("scripts/matching/serviceNotifications/showInfo.nut")
   require("scripts/unit/unitContextMenu.nut")
+  require("scripts/hud/bhvHudTankStates.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

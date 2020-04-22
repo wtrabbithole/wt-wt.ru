@@ -1,15 +1,21 @@
 local { getParametersByCrewId } = require("scripts/crew/crewSkillParameters.nut")
+local { getWeaponXrayDescText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { topMenuHandler } = require("scripts/mainmenu/topMenuStates.nut")
+
 
 /*
   ::dmViewer API:
 
   toggle(state = null)  - switch view_mode to state. if state == null view_mode will be increased by 1
   update()              - update dm viewer active status
-                          depend on canShowDmViewer function in cur_base_gui_handler and top_menu_handler
+                          depend on canShowDmViewer function in cur_base_gui_handler and topMenuHandler
                           and modal windows.
 */
 
 local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
+
+const AFTERBURNER_CHAMBER = 3
 
 ::on_check_protection <- function(params) { // called from client
   ::broadcastEvent("ProtectionAnalysisResult", params)
@@ -202,7 +208,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             ::u.appendOnce(weapon, unitWeaponBlkList, false, compareWeaponFunc)
     }
 
-    local curPresetName =  ::get_last_weapon(unit.name)
+    local curPresetName =  getLastWeapon(unit.name)
     local rawPresetsList = unitBlk.weapon_presets % "preset"
     local presetsList = ::u.filter(rawPresetsList, @(p) p?.name == curPresetName).extend(
       ::u.filter(rawPresetsList, @(p) p?.name != curPresetName))
@@ -255,8 +261,8 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
 
     local handler = ::handlersManager.getActiveBaseHandler()
     newActive = newActive && (handler?.canShowDmViewer() ?? false)
-    if (::top_menu_handler && ::top_menu_handler.isSceneActive())
-      newActive = newActive && ::top_menu_handler.canShowDmViewer()
+    if (topMenuHandler.value?.isSceneActive() ?? false)
+      newActive = newActive && topMenuHandler.value.canShowDmViewer()
 
     if (newActive == active)
     {
@@ -521,6 +527,10 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         ::colorize("activeTextColor", thicknessStr) + ::nbsp + ::loc("measureUnits/mm"))
     }
 
+    local angleValue = ::getTblValue("angle", params, null)
+    if (angleValue != null)
+      desc.append(::loc("armor_class/impact_angle") + ::nbsp + ::round(angleValue) + ::nbsp + ::loc("measureUnits/deg"))
+
     if (effectiveThickness)
     {
       if (solid)
@@ -547,6 +557,10 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
 
     if(isDebugMode)
       desc.append("\n" + ::colorize("badTextColor", params.nameId))
+
+    local rawPartName = ::getTblValue("raw_name", params)
+    if (rawPartName)
+      desc.append(rawPartName)
 
     return ::g_string.implode(desc, "\n")
   }
@@ -645,15 +659,16 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
 
             local enginePartId = infoBlk?.part_id ?? ("Engine" + partIndex.tostring())
             local engineTypeId = "EngineType" + (fmBlk?[enginePartId].Type ?? -1).tostring()
-            local engineMainBlk = fmBlk?[engineTypeId].Main ?? fmBlk?[enginePartId].Main
-            if (!engineMainBlk)
+            local engineBlk = fmBlk?[engineTypeId] ?? fmBlk?[enginePartId]
+            if (!engineBlk)
             { // try to find booster
               local numEngines = 0
               while(("Engine" + numEngines) in fmBlk)
                 numEngines ++
               local boosterPartIndex = partIndex - numEngines //engine3_dm -> Booster0
-              engineMainBlk = fmBlk?["Booster" + boosterPartIndex].Main
+              engineBlk = fmBlk?[$"Booster{boosterPartIndex}"]
             }
+            local engineMainBlk = engineBlk?.Main
 
             if (!engineMainBlk)
               break
@@ -690,6 +705,20 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             local horsePowerValue = getFirstFound([infoBlk, engineMainBlk],
               @(b) b?.ThrustMax?.PowerMax0 ?? b?.HorsePowers ?? b?.Power, 0)
             local thrustValue = getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrustMax?.ThrustMax0, 0)
+
+            local thrustMult = 1.0
+            local thrustTakeoffMult = 1.0
+            local modeIdx = 0
+            while (true)
+            {
+              local modeBlk = engineMainBlk?[$"Mode{++modeIdx}"]
+              if (modeBlk?.ThrustMult == null)
+                break
+              if (modeBlk?.Throttle != null && modeBlk.Throttle <= 1.0)
+                thrustMult = modeBlk.ThrustMult
+              thrustTakeoffMult = modeBlk.ThrustMult
+            }
+
             local throttleBoost = getFirstFound([infoBlk, engineMainBlk], @(b) b?.ThrottleBoost, 0)
             local afterburnerBoost = getFirstFound([infoBlk, engineMainBlk], @(b) b?.AfterburnerBoost, 0)
             // for planes modifications have delta values
@@ -718,7 +747,7 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
 
               case "turboprop":
                   powerMax = horsePowerValue
-                  thrustMax = thrustValue
+                  thrustMax = thrustValue * thrustMult
               break
 
               case "jet":
@@ -726,11 +755,11 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
               default:
                 if (throttleBoost > 1 && afterburnerBoost > 1)
                 {
-                  thrustTakeoff = thrustValue * afterburnerBoost
-                  thrustMax = thrustValue
+                  thrustTakeoff = thrustValue * thrustTakeoffMult * afterburnerBoost
+                  thrustMax = thrustValue * thrustMult
                 }
                 else
-                  thrustTakeoff = thrustValue
+                  thrustTakeoff = thrustValue * thrustTakeoffMult
               break
             }
 
@@ -761,8 +790,14 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
             }
             if (thrustTakeoff > 0)
             {
+              local afterburnerBlk = engineBlk?.Afterburner
+              local thrustTakeoffLocId = (afterburnerBlk?.Type == AFTERBURNER_CHAMBER &&
+                (afterburnerBlk?.IsControllable ?? false))
+                  ? "engine_thrust_afterburner"
+                  : "engine_thrust_takeoff"
+
               thrustTakeoff += thrustModDelta
-              desc.append(::loc("engine_thrust_takeoff") + ::loc("ui/colon")
+              desc.append(::loc(thrustTakeoffLocId) + ::loc("ui/colon")
                 + ::g_measure_type.THRUST_KGF.getMeasureUnitsText(thrustTakeoff))
             }
 
@@ -818,6 +853,9 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
       case "ammo_turret":
       case "ammo_body":
       case "ammunition_storage":
+      case "ammunition_storage_shells":
+      case "ammunition_storage_charges":
+      case "ammunition_storage_aux":
         local isShip = unit.isShip()
         if (isShip)
         {
@@ -893,12 +931,12 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         local ammoTxt = ammo > 1 && shouldShowAmmoInTitle ? ::format(::loc("weapons/counter"), ammo) : ""
 
         if(weaponName != "")
-          desc.append(::loc("weapons" + weaponName) + ammoTxt)
+          desc.append("".concat(::loc($"weapons/{weaponName}"), ammoTxt))
         if(weaponInfoBlk && ammo > 1 && !shouldShowAmmoInTitle)
           desc.append(::loc("shop/ammo") + ::loc("ui/colon") + ammo)
 
         if (isSpecialBullet || isSpecialBulletEmitter)
-          desc[desc.len() - 1] += ::getWeaponXrayDescText(weaponInfoBlk, unit, ::get_current_ediff())
+          desc[desc.len() - 1] += getWeaponXrayDescText(weaponInfoBlk, unit, ::get_current_ediff())
         else {
           local status = getWeaponStatus(weaponPartName, weaponInfoBlk)
           desc.extend(getWeaponShotFreqAndReloadTimeDesc(weaponName, weaponInfoBlk, status))
@@ -1285,13 +1323,21 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
           local crewSkill = crewSkillParams?[difficulty.crewSkillName]?.ship_artillery
           foreach (c in [ "main_caliber_loading_time", "aux_caliber_loading_time", "antiair_caliber_loading_time" ])
           {
-            reloadTimeS = (crewSkill?[c]?["weapons" + weaponName]) ?? 0.0
+            reloadTimeS = (crewSkill?[c]?[$"weapons/{weaponName}"]) ?? 0.0
             if (reloadTimeS)
               break
           }
         }
         else
-          reloadTimeS = weaponBlk?.reloadTime ?? 0.0
+        {
+          local wpcostUnit = ::get_wpcost_blk()?[unit.name]
+          foreach (c in [ "shipMainCaliberReloadTime", "shipAuxCaliberReloadTime", "shipAntiAirCaliberReloadTime" ])
+          {
+            reloadTimeS = wpcostUnit?[$"{c}_{weaponName}"] ?? 0.0
+            if (reloadTimeS)
+              break
+          }
+        }
 
         cyclicShotFreqS = ::u.search(::getCommonWeaponsBlk(dmViewer.unitBlk, "") % "Weapon",
           @(inst) inst.trigger  == weaponInfoBlk.trigger)?.shotFreq ?? cyclicShotFreqS
@@ -1312,8 +1358,10 @@ local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countM
         ::loc("measureUnits/rounds_per_min")], " "))
 
     if (shotFreqRPM)
-      desc.append(::loc("shop/shotFreq") + " " + ::round(shotFreqRPM) + " " +
-        ::loc("measureUnits/rounds_per_min"))
+    {
+      shotFreqRPM = ::round(shotFreqRPM, shotFreqRPM > 600 ? -1 : 0)
+      desc.append(" ".concat(::loc("shop/shotFreq"), shotFreqRPM, ::loc("measureUnits/rounds_per_min")))
+    }
     if (reloadTimeS)
     {
       reloadTimeS = (reloadTimeS % 1) ? ::format("%.1f", reloadTimeS) : ::format("%d", reloadTimeS)

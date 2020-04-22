@@ -4,6 +4,7 @@ local slotbarWidget = require("scripts/slotbar/slotbarWidgetByVehiclesGroups.nut
 local { setCurPreset } = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 local WwHelpSlotbarGroupsModal = require("scripts/worldWar/handler/WwHelpSlotbarGroupsModal.nut")
 local { getBestPresetData, generatePreset } = require("scripts/slotbar/generatePreset.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 // Temporary image. Has to be changed after receiving correct art
 const WW_OPERATION_DEFAULT_BG_IMAGE = "#ui/bkg/login_layer_h1_0"

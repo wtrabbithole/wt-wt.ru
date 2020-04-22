@@ -2,6 +2,7 @@ local systemMsg = ::require("scripts/utils/systemMsg.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+local { getXboxChatEnableStatus } = require("scripts/chat/chatStates.nut")
 
 const MEMBER_STATUS_LOC_TAG_PREFIX = "#msl"
 
@@ -36,7 +37,7 @@ systemMsg.registerLocTags(locTags)
   getMemberStatusLocId = @(status) memberStatusLocId?[status] ?? "unknown"
   getMemberStatusLocTag = @(status) MEMBER_STATUS_LOC_TAG_PREFIX + (status in memberStatusLocId ? status : "")
 
-  canSquad = @() ::g_chat.getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
+  canSquad = @() getXboxChatEnableStatus() == XBOX_COMMUNICATIONS_ALLOWED
 
   getMembersFlyoutDataByUnitsGroups = @() ::g_squad_manager.getMembers().map(
     @(member) { crafts_info = member?.craftsInfoByUnitsGroups })

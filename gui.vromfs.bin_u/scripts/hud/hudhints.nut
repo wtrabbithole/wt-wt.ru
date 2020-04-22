@@ -34,6 +34,7 @@ g_hud_hints._getHintMarkupParams <- function _getHintMarkupParams(eventData, hin
     time = getTimerTotalTimeSec(eventData)
     timeoffset = getTimerCurrentTimeSec(eventData, ::dagor.getCurTime()) //creation time right now
     animation = shouldBlink ? "wink" : shouldFadeOut ? "show" : null
+    showKeyBoardShortcutsForMouseAim = eventData?.showKeyBoardShortcutsForMouseAim ?? false
   }
 }
 
@@ -1281,7 +1282,10 @@ enums.addTypesByGlobalName("g_hud_hints", {
     {
       return ::isShip(::get_player_cur_unit()) ?
         ::g_hud_action_bar_type.TOOLKIT.getVisualShortcut()
-      : "ID_REPAIR_TANK"
+        //
+
+
+        : "ID_REPAIR_TANK"
     }
     showEvent = "tankRepair:offerRepair"
     hideEvent = "tankRepair:cantRepair"
@@ -1387,6 +1391,23 @@ enums.addTypesByGlobalName("g_hud_hints", {
     showEvent = "hint:atgm_no_line_of_sight:show"
     hideEvent = "hint:atgm_no_line_of_sight:hide"
     shouldBlink = true
+  }
+
+  VERY_FEW_CREW = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/is_very_few_crew"
+    showEvent = "hint:very_few_crew:show"
+    lifeTime = 5.0
+    isHideOnDeath = true
+  }
+
+  SHOT_FREQUENCY_CHANGED = {
+    hintType = ::g_hud_hint_types.COMMON
+    locId = "hints/shot_frequency_changed"
+    showEvent = "hint:shot_frequency_changed:show"
+    lifeTime = 5.0
+    isHideOnDeath = true
+    getLocParams = @(hintData) { shotFreq = ::loc($"hints/shotFreq/{hintData.shotFreq}") }
   }
 },
 function() {

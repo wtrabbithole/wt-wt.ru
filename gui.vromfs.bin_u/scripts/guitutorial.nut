@@ -1,9 +1,4 @@
-global enum tutorAction {
-  ANY_CLICK
-  OBJ_CLICK
-  WAIT_ONLY
-  FIRST_OBJ_CLICK
-}
+local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 
 //req handyman
 ::guiTutor <- {

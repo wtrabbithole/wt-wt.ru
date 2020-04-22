@@ -62,9 +62,9 @@ local function chatInputCtor(field, send) {
     margin = 0
     padding = [::fpx(8), ::fpx(8), 0, ::fpx(8)]
     size = flex()
-    valign = VALIGN_BOTTOM
+    valign = ALIGN_BOTTOM
     borderRadius = 0
-    valignText = VALIGN_MIDDLE
+    valignText = ALIGN_CENTER
     textmargin = [::fpx(5) , ::fpx(8)]
     hotkeys = [
       [ "J:A", onReturn],
@@ -93,7 +93,7 @@ local chatHint = @() {
   rendObj = ROBJ_9RECT
   size = [flex(), SIZE_TO_CONTENT]
   flow = FLOW_HORIZONTAL
-  valign = VALIGN_MIDDLE
+  valign = ALIGN_CENTER
   padding = [::fpx(8)]
   gap = { size = flex() }
   color = colors.hud.hudLogBgColor

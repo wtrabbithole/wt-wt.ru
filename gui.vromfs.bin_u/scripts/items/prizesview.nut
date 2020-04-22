@@ -2,6 +2,8 @@ local time = require("scripts/time.nut")
 local workshop = require("scripts/items/workshop/workshop.nut")
 local globalCallbacks = require("sqDagui/globalCallbacks/globalCallbacks.nut")
 local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
+local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
+local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 
 //prize - blk or table in format of trophy prizes from trophies.blk
 //content - array of prizes (better to rename it)
@@ -185,7 +187,7 @@ PrizesView.getPrizeText <- function getPrizeText(prize, colored = true, _typeNam
   }
   else if (prize?.entitlement)
   {
-    name = ::get_entitlement_name(::get_entitlement_config(prize.entitlement))
+    name = getEntitlementName(getEntitlementConfig(prize.entitlement))
     color = "userlogColoredText"
   }
   else if (prize?.unlock)
@@ -682,7 +684,7 @@ PrizesView.getViewDataMod <- function getViewDataMod(unitName, modName, params)
     icon = icon
     icon2 = ::get_unit_country_icon(unit)
     title = ::colorize("activeTextColor", ::getUnitName(unitName, true)) + ::loc("ui/colon")
-          + ::colorize("userlogColoredText", ::getModificationName(unit, modName))
+          + ::colorize("userlogColoredText", getModificationName(unit, modName))
     tooltipId = ::g_tooltip.getIdModification(unitName, modName)
   }
 }

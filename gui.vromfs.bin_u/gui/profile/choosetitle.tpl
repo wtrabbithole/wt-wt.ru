@@ -24,9 +24,11 @@ frame {
   <<#hasTitles>>
   div {
     id:t='titles_list'
-    width:t='<<titleColumns>> * <<titleWidth>> + (<<titleColumns>> + 1) * @buttonMargin'
+    width:t='<<titleColumns>> * <<titleWidth>> + (<<titleColumns>> + 1) * @buttonMargin + 1@scrollBarSize'
     flow:t='h-flow'
     flow-align:t='left'
+    max-height:t= '1@rh - 2@frameHeaderHeight'
+    overflow-y:t="auto"
 
     behavior:t='posNavigator'
     navigatorShortcuts:t='active'

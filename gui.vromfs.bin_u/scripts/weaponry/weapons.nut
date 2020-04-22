@@ -1,5 +1,19 @@
 local modsTree = ::require("scripts/weaponry/modsTree.nut")
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
+local { getBulletsListHeader } = require("scripts/weaponry/weaponryVisual.nut")
+local { getBulletsList,
+        setUnitLastBullets,
+        getBulletGroupIndex,
+        getBulletsItemsList,
+        getModificationName,
+        getLastFakeBulletsIndex,
+        isBulletsGroupActiveByMod,
+        getModificationBulletsGroup } = require("scripts/weaponry/bulletsInfo.nut")
+local { AMMO, getAmmoCost } = require("scripts/weaponry/ammoInfo.nut")
+local { getLastWeapon,
+        setLastWeapon,
+        getSecondaryWeaponsList } = require("scripts/weaponry/weaponryInfo.nut")
+local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 
 ::header_len_per_cell <- 17
 ::tooltip_display_delay <- 2
@@ -208,7 +222,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local titleText = ::loc("mainmenu/btnWeapons") + " " + ::loc("ui/mdash") + " " + ::getUnitName(air)
     if (researchMode)
       titleText = ::loc("modifications/finishResearch",
-          {modName = ::getModificationName(air, ::getTblValue(::researchedModForCheck, researchBlock, "CdMin_Fuse"))})
+          {modName = getModificationName(air, ::getTblValue(::researchedModForCheck, researchBlock, "CdMin_Fuse"))})
     titleObj.setValue(titleText)
   }
 
@@ -255,7 +269,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (finIdx < 0 || newIdx < 0)
       return
 
-    local newModName = ::getModificationName(air, items[newIdx].name, true)
+    local newModName = getModificationName(air, items[newIdx].name, true)
     local steps = [
       {
         obj = ["item_" + newIdx]
@@ -279,7 +293,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     balance.setFromTbl(::get_balance())
     if (::weaponVisual.getItemAmount(air, finItem) < 1 && ::weaponVisual.getItemCost(air, finItem) <= balance)
     {
-      local finModName = ::getModificationName(air, items[finIdx].name, true)
+      local finModName = getModificationName(air, items[finIdx].name, true)
       steps.insert(0,
         {
           obj = ["item_" + finIdx]
@@ -491,7 +505,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (item.type == weaponsItem.bundle)
       visualItem = ::weaponVisual.getBundleCurItem(air, item) || visualItem
     if (::weaponVisual.isBullets(visualItem))
-      isVisualDisabled = !::is_bullets_group_active_by_mod(air, visualItem)
+      isVisualDisabled = !isBulletsGroupActiveByMod(air, visualItem)
 
     ::weaponVisual.updateItem(air, item, itemObj, true, this, {canShowResearch = availableFlushExp == 0 && setResearchManually,
                                                                flushExp = availableFlushExp,
@@ -558,7 +572,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local item = items[index]
     local showResearchButton = researchMode
-                       && ::getAmmoCost(air, item.name, AMMO.MODIFICATION).gold == 0
+                       && getAmmoCost(air, item.name, AMMO.MODIFICATION).gold == 0
                        && !::isModClassPremium(item)
                        && ::weaponVisual.canBeResearched(air, item, false)
                        && availableFlushExp > 0
@@ -572,7 +586,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local showPurchaseButton = researchMode
-                               && ::getAmmoCost(air, item.name, AMMO.MODIFICATION).gold == 0
+                               && getAmmoCost(air, item.name, AMMO.MODIFICATION).gold == 0
                                && !::isModClassPremium(item)
                                && ::canBuyMod(air, item)
 
@@ -797,7 +811,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       tiersArray = array(tiersCount, null)
       foreach(mod in air.modifications)
         if (!::wp_get_modification_cost_gold(airName, mod.name) &&
-            ::getModificationBulletsGroup(mod.name) == ""
+            getModificationBulletsGroup(mod.name) == ""
            )
           {
             local idx = mod.tier-1
@@ -823,7 +837,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     foreach(mod in air.modifications)
       if ((!researchMode || ::canResearchMod(air, mod))
           && (::isModClassPremium(mod)
-              || (mod.modClass == "" && ::getModificationBulletsGroup(mod.name) == "")
+              || (mod.modClass == "" && getModificationBulletsGroup(mod.name) == "")
           ))
         createItem(mod, weaponsItem.modification, mainModsObj, nextX++, offsetY)
 
@@ -870,22 +884,12 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     columnsList.append(getWeaponsColumnData(::loc("options/primary_weapons")))
     offsetX++
 
-    lastWeapon = ::get_last_weapon(airName) //real weapon or ..._default
+    lastWeapon = getLastWeapon(airName) //real weapon or ..._default
     dagor.debug("initial set lastWeapon " + lastWeapon )
     if (::isAirHaveSecondaryWeapons(air))
     {
       //add secondary weapons bundle
-      local weaponsList = []
-      for (local j = 0; j < air.weapons.len(); j++)
-      {
-        if (::isWeaponAux(air.weapons[j]))
-          continue
-
-        weaponsList.append(air.weapons[j])
-        if (lastWeapon=="" && ::shop_is_weapon_purchased(airName, air.weapons[j].name))
-          ::set_last_weapon(airName, air.weapons[j].name)
-      }
-      createBundle(weaponsList, weaponsItem.weapon, 0, mainModsObj, offsetX, offsetY)
+      createBundle(getSecondaryWeaponsList(air), weaponsItem.weapon, 0, mainModsObj, offsetX, offsetY)
       columnsList.append(getWeaponsColumnData(::g_weaponry_types.WEAPON.getHeader(air)))
       offsetX++
     }
@@ -893,9 +897,9 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     //add bullets bundle
     lastBullets = []
 
-    for (local groupIndex = 0; groupIndex < ::get_last_fake_bullets_index(air); groupIndex++)
+    for (local groupIndex = 0; groupIndex < getLastFakeBulletsIndex(air); groupIndex++)
     {
-      local bulletsList = ::get_bullets_list(air.name, groupIndex, {
+      local bulletsList = getBulletsList(air.name, groupIndex, {
         needCheckUnitPurchase = false, needOnlyAvailable = false
       })
       local curBulletsName = ::get_last_bullets(air.name, groupIndex)
@@ -903,21 +907,11 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
         lastBullets.append(curBulletsName)
       if (!bulletsList.values.len() || bulletsList.duplicate)
         continue
-      local itemsList = []
-      local isCurBulletsValid = false
-      foreach(i, value in bulletsList.values)
-      {
-        local bItem = ::getModificationByName(air, value)
-        isCurBulletsValid = isCurBulletsValid || value == curBulletsName || (!bItem && curBulletsName == "")
-        if (!bItem) //default
-          bItem = { name = value, isDefaultForGroup = groupIndex }
-        itemsList.append(bItem)
-      }
-      if (!isCurBulletsValid)
-        ::set_unit_last_bullets(air, groupIndex, itemsList[0].name)
-      createBundle(itemsList, weaponsItem.bullets, groupIndex, mainModsObj, offsetX, offsetY)
 
-      local name = ::get_bullets_list_header(air, bulletsList)
+      createBundle(getBulletsItemsList(air, bulletsList, groupIndex),
+        weaponsItem.bullets, groupIndex, mainModsObj, offsetX, offsetY)
+
+      local name = getBulletsListHeader(air, bulletsList)
       columnsList.append(getWeaponsColumnData(name))
       offsetX++
     }
@@ -1166,7 +1160,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (item.type == weaponsItem.weapon && !onlyBuy)
     {
-      if(::get_last_weapon(airName) == item.name || !amount)
+      if(getLastWeapon(airName) == item.name || !amount)
       {
         if (item.cost <= 0)
           return
@@ -1175,7 +1169,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
 
       ::play_gui_sound("check")
-      ::set_last_weapon(airName, item.name)
+      setLastWeapon(airName, item.name)
       updateItemBundle(item)
       ::check_secondary_weapon_mods_recount(air)
       return
@@ -1198,9 +1192,9 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       }
       else if (!onlyBuy)
       {
-        if (::getModificationBulletsGroup(item.name) != "")
+        if (getModificationBulletsGroup(item.name) != "")
         {
-          local id = ::get_bullet_group_index(airName, item.name)
+          local id = getBulletGroupIndex(airName, item.name)
           local isChanged = false
           if (id >= 0)
             isChanged = setLastBullets(item, id)
@@ -1391,7 +1385,7 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local curBullets = ::get_last_bullets(airName, groupIdx)
     local isChanged = curBullets != item.name && !("isDefaultForGroup" in item && curBullets == "")
-    ::set_unit_last_bullets(air, groupIdx, item.name)
+    setUnitLastBullets(air, groupIdx, item.name)
     if (isChanged) {
       ::play_gui_sound("check")
     }
@@ -1457,11 +1451,11 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
           lastBullets[groupIndex] = ::get_last_bullets(airName, groupIndex)
         }
     }
-    if (isAirHaveSecondaryWeapons(air) && lastWeapon!="" && lastWeapon!=::get_last_weapon(airName))
+    if (isAirHaveSecondaryWeapons(air) && lastWeapon!="" && lastWeapon != getLastWeapon(airName))
     {
-      dagor.debug("force cln_update due lastWeapon '" + lastWeapon + "' != " + ::get_last_weapon(airName))
+      dagor.debug("force cln_update due lastWeapon '" + lastWeapon + "' != " + getLastWeapon(airName))
       needSave = true;
-      lastWeapon = ::get_last_weapon(airName)
+      lastWeapon = getLastWeapon(airName)
     }
 
     if (needSave)

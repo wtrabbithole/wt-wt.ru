@@ -1,4 +1,7 @@
 local time = require("scripts/time.nut")
+local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
+local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = require("scripts/onlineShop/entitlements.nut")
 
 ::update_repair_cost <- function update_repair_cost(units, repairCost)
 {
@@ -179,7 +182,7 @@ local time = require("scripts/time.nut")
         local fromExcessRP = ("merp" + idx) in log.rpEarned ? log.rpEarned["merp" + idx] : 0
         rp += mrp + fromExcessRP
 
-        local title = ::getUnitName(unitId) + (modId ? (" - " + ::getModificationName(getAircraftByName(unitId), modId)) : "")
+        local title = ::getUnitName(unitId) + (modId ? (" - " + getModificationName(getAircraftByName(unitId), modId)) : "")
         local item = "\n" + title + ::loc("ui/colon") + "<color=@activeTextColor>" +
           ::Cost().setRp(mrp).tostring() + "</color>"
 
@@ -401,7 +404,7 @@ local time = require("scripts/time.nut")
     res.logImg = "#ui/gameuiskin#" + ((log.type==::EULT_BUYING_WEAPON)? "log_buy_weapon" : "log_refill_weapon_no_money")
     if (("wname" in log) && ("aname" in log))
     {
-      res.description <- ::getWeaponNameText(log.aname, false, log.wname, ", ")
+      res.description <- getWeaponNameText(log.aname, false, log.wname, ", ")
       if ("count" in log && log.count > 1)
         res.description += " x" + log.count
       res.tooltip = res.description
@@ -423,7 +426,7 @@ local time = require("scripts/time.nut")
 
       if(log.rawin("aname"+idx) && log.rawin("wname"+idx))
       {
-        desc = ::getWeaponNameText(log["aname"+idx], false, log["wname"+idx], ", ")
+        desc = getWeaponNameText(log["aname"+idx], false, log["wname"+idx], ", ")
         local wpCost = 0
         local goldCost = 0
         if(log.rawin("wcount"+idx))
@@ -451,7 +454,7 @@ local time = require("scripts/time.nut")
         local desc = ""
         if(log.rawin("maname"+idx) && log.rawin("mname"+idx))
         {
-          desc += ::getModificationName(getAircraftByName(log["maname"+idx]), log["mname"+idx])
+          desc += getModificationName(getAircraftByName(log["maname"+idx]), log["mname"+idx])
           local wpCost = 0
           local goldCost = 0
           if(log.rawin("mcount"+idx))
@@ -540,14 +543,14 @@ local time = require("scripts/time.nut")
   } else
   if (log.type==::EULT_BUYENTITLEMENT)
   {
-    local ent = ::get_entitlement_config(log.name)
+    local ent = getEntitlementConfig(log.name)
     if ("cost" in log)
       ent["goldCost"] <- log.cost
-    local costText = ::get_entitlement_price(ent)
+    local costText = getEntitlementPrice(ent)
     if (costText!="")
       costText = " (" + costText + ")"
 
-    res.name = format(::loc("userlog/"+logName), ::get_entitlement_name(ent)) + costText
+    res.name = format(::loc("userlog/"+logName), getEntitlementName(ent)) + costText
     res.logImg = "#ui/gameuiskin#log_online_shop"
   } else
   if (log.type == ::EULT_NEW_UNLOCK)
@@ -596,7 +599,7 @@ local time = require("scripts/time.nut")
     res.logImg = "#ui/gameuiskin#" + ((log.type==::EULT_BUYING_MODIFICATION)? "log_buy_mods" : "log_refill_weapon_no_money")
     if (("mname" in log) && ("aname" in log))
     {
-      res.description <- ::getModificationName(getAircraftByName(log.aname), log.mname)
+      res.description <- getModificationName(getAircraftByName(log.aname), log.mname)
       if ("count" in log && log.count > 1)
         res.description += " x" + log.count
 
@@ -709,9 +712,9 @@ local time = require("scripts/time.nut")
       {
         lineReward += ::getUnitName(blk.aname) + ::loc("ui/colon")
         if ("wname" in blk)
-          lineReward += ::getWeaponNameText(blk.aname, false, blk.wname, ::loc("ui/comma")) + " "
+          lineReward += getWeaponNameText(blk.aname, false, blk.wname, ::loc("ui/comma")) + " "
         if ("mname" in blk)
-          lineReward += ::getModificationName(getAircraftByName(blk.aname), blk.mname)+" "
+          lineReward += getModificationName(getAircraftByName(blk.aname), blk.mname)+" "
       }
 
       local blkWp = blk?.wpEarned ?? 0
@@ -968,7 +971,7 @@ local time = require("scripts/time.nut")
       local desc = ""
       if(log.rawin("maname"+idx) && log.rawin("mname"+idx))
       {
-        desc += ::getModificationName(getAircraftByName(log["maname"+idx]), log["mname"+idx])
+        desc += getModificationName(getAircraftByName(log["maname"+idx]), log["mname"+idx])
         local wpCost = 0
         local goldCost = 0
         if(log.rawin("mcount"+idx))

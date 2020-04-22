@@ -1,3 +1,6 @@
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { AMMO, getAmmoCost } = require("scripts/weaponry/ammoInfo.nut")
+
 class ::mission_rules.Base
 {
   missionParams = null
@@ -380,7 +383,7 @@ class ::mission_rules.Base
   //return -1 when unlimited
   function getWeaponRespawnsLeftByLimitsBlk(unit, weapon, weaponLimitsBlk)
   {
-    if (::getAmmoCost(unit, weapon.name, AMMO.WEAPON).isZero())
+    if (getAmmoCost(unit, weapon.name, AMMO.WEAPON).isZero())
       return -1
 
     foreach(blk in weaponLimitsBlk % unit.name)
@@ -460,7 +463,7 @@ class ::mission_rules.Base
   function getWeaponForRandomUnit(unit, weaponryName)
   {
     return missionParams?.editSlotbar?[unit.shopCountry]?[unit.name]?[weaponryName]
-      ?? ::get_last_weapon(unit.name)
+      ?? getLastWeapon(unit.name)
   }
 
   function getRandomUnitsGroupLocRank(groupName)

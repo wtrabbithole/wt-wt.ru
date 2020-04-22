@@ -1,3 +1,7 @@
+local { getDefaultBulletName } = require("scripts/weaponry/weaponryVisual.nut")
+local { isFakeBullet,
+        getBulletsSetData } = require("scripts/weaponry/bulletsInfo.nut")
+
 const LONG_ACTIONBAR_TEXT_LEN = 6;
 
 class ActionBar
@@ -129,7 +133,7 @@ class ActionBar
     viewItem.isXinput           <- showShortcut && isXinput
     viewItem.showShortcut       <- showShortcut
 
-    if (item.type == ::EII_BULLET && unit != null)
+    if ((item.type == ::EII_BULLET || item.type == ::EII_FORCED_GUN) && unit != null)
     {
       viewItem.bullets <- ::handyman.renderNested(::load_template_text("gui/weaponry/bullets"),
         (@(item, unit, canControl) function (text) {
@@ -138,9 +142,9 @@ class ActionBar
             : getDefaultBulletName(unit)
 
           // if fake bullets are not generated yet, generate them
-          if (::is_fake_bullet(modifName) && !(modifName in unit.bulletsSets))
-            ::getBulletsSetData(unit, ::fakeBullets_prefix, {})
-          local data = ::getBulletsSetData(unit, modifName)
+          if (isFakeBullet(modifName) && !(modifName in unit.bulletsSets))
+            getBulletsSetData(unit, ::fakeBullets_prefix, {})
+          local data = getBulletsSetData(unit, modifName)
           local tooltipId = ::g_tooltip.getIdModification(unit.name, modifName,
             { isInHudActionBar = true })
           local tooltipDelayed = !canControl
@@ -152,7 +156,7 @@ class ActionBar
     {
       viewItem.activatedShortcutId <- "ID_SHOOT_ARTILLERY"
     }
-    if (item.type != ::EII_BULLET)
+    if (item.type != ::EII_BULLET && item.type != ::EII_FORCED_GUN)
     {
       local killStreakTag = ::getTblValue("killStreakTag", item)
       local killStreakUnitTag = ::getTblValue("killStreakUnitTag", item)
@@ -192,7 +196,9 @@ class ActionBar
     if (!fullUpdate)
     {
       foreach (id, item in actionItems)
-        if (item.id != prewActionItems[id].id)
+        if (item.id != prewActionItems[id].id
+          || ((item.type == ::EII_BULLET || item.type == ::EII_FORCED_GUN)
+            && item?.modificationName != prewActionItems[id]?.modificationName))
         {
           fullUpdate = true
           break

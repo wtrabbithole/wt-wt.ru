@@ -1,3 +1,5 @@
+local { animBgLoad } = require("scripts/loading/animBg.nut")
+
 ::gui_start_loading <- function gui_start_loading(isMissionLoading = false)
 {
   if (::u.isString(isMissionLoading))
@@ -25,7 +27,7 @@ class ::gui_handlers.LoadingHandler extends ::BaseGuiHandler
 
   function initScreen()
   {
-    ::g_anim_bg.load()
+    animBgLoad()
     ::setVersionText()
     ::set_help_text_on_loading(scene.findObject("help_text"))
 

@@ -21,6 +21,8 @@
     ]
   }
 */
+local { getLastWeapon, setLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+
 ::gui_start_weaponry_select_modal <- function gui_start_weaponry_select_modal(config)
 {
   ::handlersManager.loadHandler(::gui_handlers.WeaponrySelectModal, config)
@@ -38,7 +40,7 @@ local CHOOSE_WEAPON_PARAMS = {
   params = CHOOSE_WEAPON_PARAMS.__merge(params)
 
   local isWorldWarUnit = params.isWorldWarUnit
-  local curWeaponName = !isWorldWarUnit ? ::get_last_weapon(unit.name)
+  local curWeaponName = !isWorldWarUnit ? getLastWeapon(unit.name)
     : ::g_world_war.get_last_weapon_preset(unit.name)
   local hasOnlyBought = !::is_in_flight() || !::g_mis_custom_state.getCurMissionRules().isWorldWar
   local isForcedAvailable = params.isForcedAvailable || isWorldWarUnit
@@ -66,7 +68,7 @@ local CHOOSE_WEAPON_PARAMS = {
       if (isWorldWarUnit)
         ::g_world_war.set_last_weapon_preset(unit.name, weapon.name)
       else
-        ::set_last_weapon(unit.name, weapon.name)
+        setLastWeapon(unit.name, weapon.name)
 
       if (cb) cb(unit.name, weapon.name)
     })(unit, cb)

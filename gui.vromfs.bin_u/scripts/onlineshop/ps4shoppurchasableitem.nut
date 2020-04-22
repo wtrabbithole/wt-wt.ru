@@ -1,6 +1,6 @@
 local psnStore = require("ps4_api.store")
 
-local IMAGE_TYPE_INDEX = 8 //360x360 good looking on 1080p and 4k
+local IMAGE_TYPE_INDEX = 1 //240x240
 
 enum PURCHASE_STATUS {
   PURCHASED = "RED_BAG" // - Already purchased and cannot be purchased again
@@ -8,13 +8,36 @@ enum PURCHASE_STATUS {
   NOT_PURCHASED = "NONE" // - Not yet purchased
 }
 
-local handleNewPurchase = function(itemId) {
-  ::ps4_update_purchases_on_auth();
+local function handleNewPurchase(itemId) {
+  ::ps4_update_purchases_on_auth()
   local taskParams = { showProgressBox = true, progressBoxText = ::loc("charServer/checking") }
   ::g_tasker.addTask(::update_entitlements_limited(true), taskParams)
   ::broadcastEvent("PS4ItemUpdate", {id = itemId})
 }
 
+local getActionText = @(action) action == psnStore.Action.PURCHASED ? "purchased"
+  : action == psnStore.Action.CANCELED ? "canceled"
+  : "none"
+
+local function sendBqRecord(metric, itemId, result = null) {
+  local sendStat = {}
+  foreach (k, v in result ?? {})
+    sendStat[k] <- v
+
+  if ("action" in sendStat)
+  {
+    sendStat.__update({action = getActionText(sendStat.action)})
+    metric.append(sendStat.action)
+  }
+
+  local path = ".".join(metric)
+  ::statsd_counter(path)
+  ::add_big_query_record(path,
+    ::save_to_json(sendStat.__merge({
+      itemId = itemId
+    }))
+  )
+}
 
 local Ps4ShopPurchasableItem = class
 {
@@ -46,12 +69,13 @@ local Ps4ShopPurchasableItem = class
 
   skuInfo = null
 
-  constructor(blk)
+  constructor(blk, _releaseDate)
   {
     id = blk.label
     name = blk.name
     category = blk.category
     description = blk?.long_desc ?? ""
+    releaseDate = _releaseDate //PSN not give releaseDate param. but it return data in sorted order by release date
 
     local imagesArray = (blk.images % "array")
     local imageIndex = imagesArray.findindex(@(t) t.type == IMAGE_TYPE_INDEX)
@@ -93,7 +117,7 @@ local Ps4ShopPurchasableItem = class
   getPriceText = @() ::colorize(!haveDiscount() ? ""
       : havePsPlusDiscount() ? "psplusTextColor"
       : "goodTextColor",
-    price == 0 ? ::loc("shop/free") : priceText)
+    priceText)
 
   getDescription = function() {
     //TEMP HACK!!! for PS4 TRC R4052A, to show all symbols of a single 2000-letter word
@@ -132,24 +156,37 @@ local Ps4ShopPurchasableItem = class
   getIcon = @(...) imagePath ? ::LayersIcon.getCustomSizeIconData(imagePath, "pw, ph")
                              : ::LayersIcon.getIconData(null, null, 1.0, defaultIconStyle)
 
+  getBigIcon = function() {
+    local ps4ShopBlk = ::configs.GUI.get()?.ps4_ingame_shop
+    local ingameShopImages = ps4ShopBlk?.items
+    if (ingameShopImages?[id] && ps4ShopBlk?.mainPart && ps4ShopBlk?.fileExtension)
+      return ::LayersIcon.getCustomSizeIconData("!" + ps4ShopBlk.mainPart + id + ps4ShopBlk.fileExtension, "pw, ph")
+
+    return null
+  }
+
   getSeenId = @() id.tostring()
   canBeUnseen = @() isBought
-  showDetails = function() {
+  showDetails = function(metricPlaceCall = "ingame_store") {
     local itemId = id
+    sendBqRecord([metricPlaceCall, "open_checkout"], itemId)
     psnStore.open_checkout(
       [itemId],
       function(result) {
+        sendBqRecord([metricPlaceCall, "close_checkout"], itemId, result)
         if (result.action == psnStore.Action.PURCHASED)
           handleNewPurchase(itemId)
       }
     )
   }
 
-  showDescription = function() {
+  showDescription = function(metricPlaceCall = "ingame_store") {
     local itemId = id
+    sendBqRecord([metricPlaceCall, "open_product"], itemId)
     psnStore.open_product(
       itemId,
       function(result) {
+        sendBqRecord([metricPlaceCall, "close_product"], itemId, result)
         if (result.action == psnStore.Action.PURCHASED)
           handleNewPurchase(itemId)
       }

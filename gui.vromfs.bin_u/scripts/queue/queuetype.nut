@@ -1,4 +1,5 @@
 local clustersModule = require("scripts/clusterSelect.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 enum qTypeCheckOrder {

@@ -64,8 +64,10 @@ local getActionDescByWeaponTriggerGroup = function(actionItem, triggerGroup)
       return "ID_SUBMARINE_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
     if (::isShip(unit))
       return "ID_SHIP_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
-    if (unit?.isWalker())
-      return "ID_WALKER_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
+    //
+
+
+
     return "ID_ACTION_BAR_ITEM_" + (shortcutIdx + 1)
   }
 
@@ -80,8 +82,10 @@ local getActionDescByWeaponTriggerGroup = function(actionItem, triggerGroup)
       return "ID_SUBMARINE_KILLSTREAK_WHEEL_MENU"
     if (::isShip(unit))
       return "ID_SHIP_KILLSTREAK_WHEEL_MENU"
-    if (unit?.isWalker())
-      return "ID_WALKER_KILLSTREAK_WHEEL_MENU"
+    //
+
+
+
     return "ID_KILLSTREAK_WHEEL_MENU"
   }
 }
@@ -408,6 +412,37 @@ enums.addTypesByGlobalName("g_hud_action_bar_type", {
           return "!ui/gameuiskin#machine_gun_weapon_state_indicator"
       }
       return "!ui/gameuiskin#artillery_weapon_state_indicator"
+    }
+  }
+
+  FORCED_WEAPON = {
+    code = ::EII_FORCED_GUN
+    isForSelectWeaponMenu = @() 
+    getTitle = function(killStreakTag = null) {
+      local forceTrigger = ::get_force_weap_trigger_group()
+      switch (forceTrigger)
+      {
+        case TRIGGER_GROUP_PRIMARY:
+          return ::loc("hotkeys/ID_FIRE_GM")
+        case TRIGGER_GROUP_SECONDARY:
+          return ::loc("hotkeys/ID_FIRE_GM_SECONDARY_GUN")
+        case TRIGGER_GROUP_MACHINE_GUN:
+          return ::loc("hotkeys/ID_FIRE_GM_MACHINE_GUN")
+      }
+      return null
+    }
+    getShortcut = function(actionItem, unit = null) {
+      local forceTrigger = ::get_force_weap_trigger_group()
+      switch (forceTrigger)
+      {
+        case TRIGGER_GROUP_PRIMARY:
+          return "ID_FIRE_GM"
+        case TRIGGER_GROUP_SECONDARY:
+          return "ID_FIRE_GM_SECONDARY_GUN"
+        case TRIGGER_GROUP_MACHINE_GUN:
+          return "ID_FIRE_GM_MACHINE_GUN"
+      }
+      return null
     }
   }
 })

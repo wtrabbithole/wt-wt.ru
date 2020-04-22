@@ -1,6 +1,8 @@
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
+local { topMenuBorders } = require("scripts/mainmenu/topMenuStates.nut")
+local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 
 ::contacts_prev_scenes <- [] //{ scene, show }
 ::last_contacts_scene_show <- false
@@ -227,11 +229,11 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
       local rootSize = guiScene.getRoot().getSize()
       for(local i=0; i<=1; i++) //pos chat in screen
-        if (::contacts_sizes.pos[i] < ::top_menu_borders[i][0]*rootSize[i])
-          ::contacts_sizes.pos[i] = (::top_menu_borders[i][0]*rootSize[i]).tointeger()
+        if (::contacts_sizes.pos[i] < topMenuBorders[i][0]*rootSize[i])
+          ::contacts_sizes.pos[i] = (topMenuBorders[i][0]*rootSize[i]).tointeger()
         else
-          if (::contacts_sizes.pos[i]+::contacts_sizes.size[i] > ::top_menu_borders[i][1]*rootSize[i])
-            ::contacts_sizes.pos[i] = (::top_menu_borders[i][1]*rootSize[i] - ::contacts_sizes.size[i]).tointeger()
+          if (::contacts_sizes.pos[i]+::contacts_sizes.size[i] > topMenuBorders[i][1]*rootSize[i])
+            ::contacts_sizes.pos[i] = (topMenuBorders[i][1]*rootSize[i] - ::contacts_sizes.size[i]).tointeger()
 
       obj.pos = ::contacts_sizes.pos[0] + ", " + ::contacts_sizes.pos[1]
       obj.size = ::contacts_sizes.size[0] + ", " + ::contacts_sizes.size[1]
@@ -417,7 +419,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     showBtn("btn_blacklistRemove", isBlock && canBlock, contact_buttons_holder)
     showBtn("btn_message", owner
                            && !isBlock
-                           && ::g_chat.isChatEnabled()
+                           && isChatEnabled()
                            && canChat, contact_buttons_holder)
 
     local showSquadInvite = ::has_feature("SquadInviteIngame")
@@ -627,7 +629,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       ::contacts[gName].sort(::sortContacts)
       local activateEvent = "onPlayerMsg"
-      if (::show_console_buttons || !::g_chat.isChatEnabled())
+      if (::show_console_buttons || !isChatEnabled())
         activateEvent = "onPlayerMenu"
       local gData = buildPlayersList(gName)
       data += format(groupFormat, "#contacts/" + gName,

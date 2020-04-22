@@ -3,6 +3,7 @@ local operationPreloader = require("scripts/worldWar/externalServices/wwOperatio
 local seenWWMapsObjective = require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 local wwArmyGroupManager = require("scripts/worldWar/inOperation/wwArmyGroupManager.nut")
+local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
 const WW_CUR_OPERATION_SAVE_ID = "worldWar/curOperation"
 const WW_CUR_OPERATION_COUNTRY_SAVE_ID = "worldWar/curOperationCountry"
@@ -166,7 +167,6 @@ global enum WW_UNIT_SORT_CODE {
 
 foreach (fn in [
                  "services/wwService.nut"
-                 "externalServices/worldWarTopMenuButtons.nut"
                  "externalServices/worldWarTopMenuSectionsConfigs.nut"
                  "externalServices/wwQueue.nut"
                  "externalServices/inviteWwOperation.nut"

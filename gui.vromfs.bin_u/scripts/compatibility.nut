@@ -74,15 +74,21 @@
   set_allow_to_be_added_to_contacts = @(val) null
   is_hdr_available = @() true
 })
-
 //----------------------------wop_1_95_0_X---------------------------------//
-if (::getroottable()?.ww_get_speedup_factor.getfuncinfos().native) {
-  local _ww_get_speedup_factor = ww_get_speedup_factor
-  ::ww_get_speedup_factor = @() _ww_get_speedup_factor() || 1.0
-}
-
 ::apply_compatibilities({
-  is_hdr_enabled = @() false
+  OPTION_ENABLE_SOUND_SPEED = 255
+  TARGET_HUE_HELICOPTER_MFD = 9
   get_aircraft_crew_blk = @(crewId, unitName) ::get_aircraft_crew_by_id(crewId)
   ps4_update_purchases_on_auth = @() null
+  get_option_indicatedSpeedType = @() ::get_option_indicatedSpeed()
+  set_option_indicatedSpeedType = function(value)
+  {
+    if (value > 1)
+      ::set_option_indicatedSpeed(0)
+    else
+      ::set_option_indicatedSpeed(value)
+  }
+  get_thermovision_index = @() 0
+  set_thermovision_index = @(idx) null
+  UT_SuitVehicle = 14
 })

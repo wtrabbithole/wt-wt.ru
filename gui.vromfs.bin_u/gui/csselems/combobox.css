@@ -151,6 +151,14 @@ ComboBox[btnPos=leftOutside] > button {
   background-image:@control_button_x_pressed;
 }
 
+[show_console_buttons=yes] ComboBox[btnName=Y] > button {
+  _hasBtnImage:yes;
+  background-image:@control_button_y;
+}
+[show_console_buttons=yes] ComboBox[btnName=Y]:pushed > button {
+  background-image:@control_button_y_pressed;
+}
+
 [show_console_buttons=yes] ComboBox[btnName=R3] > button {
   _hasBtnImage:yes;
   background-image:@control_r_stick;

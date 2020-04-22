@@ -29,8 +29,8 @@ return @() {
       watch = teamColors
       rendObj = ROBJ_BOX
       size = [sh(5), sh(6)]
-      valign = VALIGN_MIDDLE
-      halign = HALIGN_CENTER
+      valign = ALIGN_CENTER
+      halign = ALIGN_CENTER
       fillColor = teamColors.value.teamBlueColor
       borderColor = teamColors.value.teamBlueLightColor
       borderWidth = [hdpx(1)]
@@ -44,8 +44,8 @@ return @() {
     @() {
       rendObj = ROBJ_SOLID
       size = [sh(12), sh(4.5)]
-      valign = VALIGN_MIDDLE
-      halign = HALIGN_CENTER
+      valign = ALIGN_CENTER
+      halign = ALIGN_CENTER
       color = Color(0, 0, 0, 102)
       children = @(){
         watch = missionState.timeLeft
@@ -59,8 +59,8 @@ return @() {
       watch = teamColors
       rendObj = ROBJ_BOX
       size = [sh(5), sh(6)]
-      valign = VALIGN_MIDDLE
-      halign = HALIGN_CENTER
+      valign = ALIGN_CENTER
+      halign = ALIGN_CENTER
       fillColor = teamColors.value.teamRedColor
       borderColor = teamColors.value.teamRedLightColor
       borderWidth = [hdpx(1)]

@@ -53,8 +53,8 @@ local keyboardButton = function(shortcutConfig, override)
     rendObj = ROBJ_IMAGE
     image = Picture("!ui/gameuiskin#keyboardBtn")
     color = colors.white
-    valign = VALIGN_MIDDLE
-    halign = HALIGN_CENTER
+    valign = ALIGN_CENTER
+    halign = ALIGN_CENTER
     padding = sizeParam.keyboardButtonPad
     children = [{
       rendObj = ROBJ_DTEXT
@@ -104,8 +104,8 @@ local shortcutByInputName = {
     return {
       size = [SIZE_TO_CONTENT, SIZE_TO_CONTENT]
       flow = FLOW_HORIZONTAL
-      valign = VALIGN_MIDDLE
-      halign = HALIGN_CENTER
+      valign = ALIGN_CENTER
+      halign = ALIGN_CENTER
       gap = sizeParam.combinationGap
       children = sortcutsCombination
     }
@@ -123,26 +123,26 @@ local shortcutByInputName = {
     return {
       size = [SIZE_TO_CONTENT, SIZE_TO_CONTENT]
       flow = FLOW_HORIZONTAL
-      valign = VALIGN_MIDDLE
-      halign = HALIGN_CENTER
+      valign = ALIGN_CENTER
+      halign = ALIGN_CENTER
 
       children = [{
         size = [SIZE_TO_CONTENT, flex()]
-        valign = needArrows ? VALIGN_MIDDLE : VALIGN_BOTTOM
+        valign = needArrows ? ALIGN_CENTER : ALIGN_BOTTOM
         children = [getShortcut(shortcutConfig.elements?.leftKey ?? null, override)]
       },
       {
         size = [SIZE_TO_CONTENT, SIZE_TO_CONTENT]
         flow = FLOW_VERTICAL
-        valign = VALIGN_MIDDLE
-        halign = HALIGN_CENTER
+        valign = ALIGN_CENTER
+        halign = ALIGN_CENTER
         children = [
           getShortcut(shortcutConfig.elements?.topKey ?? null, override),
           needArrows
             ? {
                 size = sizeParam.gamepadButtonSize
-                valign = VALIGN_MIDDLE
-                halign = HALIGN_CENTER
+                valign = ALIGN_CENTER
+                halign = ALIGN_CENTER
                 children = shortcutConfig.arrows.map(@(arrow) arrowImg(arrow.direction, override))
               }
             : null,
@@ -150,7 +150,7 @@ local shortcutByInputName = {
       },
       {
         size = [SIZE_TO_CONTENT, flex()]
-        valign = needArrows ? VALIGN_MIDDLE : VALIGN_BOTTOM
+        valign = needArrows ? ALIGN_CENTER : ALIGN_BOTTOM
         children = [getShortcut(shortcutConfig.elements?.rightKey ?? null, override)]
       }]
     }

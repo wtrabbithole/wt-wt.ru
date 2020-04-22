@@ -1,6 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
+local { getUnitClassTypesFromCodeMask } = require("scripts/unit/unitClassType.nut")
 
 
 ::g_order_type <- {
@@ -160,7 +161,7 @@ enums.addTypesByGlobalName("g_order_type", {
       return 0
     }
     formatScore = function (scoreValue) {
-      local types = ::g_unit_class_type.getTypesFromCodeMask(scoreValue)
+      local types = getUnitClassTypesFromCodeMask(scoreValue)
       if (types.len() == 0)
         return "-"
       local names = types.map(@(t) t.getName())

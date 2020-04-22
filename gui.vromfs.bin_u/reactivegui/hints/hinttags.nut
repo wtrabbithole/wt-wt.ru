@@ -31,7 +31,7 @@ local getHintBySlices = function(slices, override)
   return {
     size = [SIZE_TO_CONTENT, SIZE_TO_CONTENT]
     flow = FLOW_HORIZONTAL
-    valign = VALIGN_MIDDLE
+    valign = ALIGN_CENTER
 
     children = slices.map(@(slice) getSlice(slice, override))
   }

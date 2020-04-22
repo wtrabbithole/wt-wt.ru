@@ -1,5 +1,7 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 
+const BULLETS_SETS_QUANTITY_SHORT = 4
+
 enum UNIT_TYPE_ORDER
 {
   AIRCRAFT
@@ -85,6 +87,8 @@ local crewUnitTypeConfig = {
     return (misBlk?[missionSettingsAvailabilityFlag] ?? false) && (!isUsedInKillStreaks || !useKillStreaks)
   }
   getMissionAllowedCraftsClassName = @() name.tolower()
+
+  bulletSetsQuantity = BULLETS_SETS_QUANTITY_SHORT
 }
 
 enums.addTypesByGlobalName("g_unit_type", {
@@ -156,7 +160,7 @@ enums.addTypesByGlobalName("g_unit_type", {
     isSkinAutoSelectAvailable = @() ::has_feature("SkinAutoSelect")
     canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForTanks")
     canShowProtectionAnalysis = @() true
-    canShowVisualEffectInProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisVisualEffect")
+    canShowVisualEffectInProtectionAnalysis = @() false
   }
 
   SHIP = {
@@ -188,7 +192,8 @@ enums.addTypesByGlobalName("g_unit_type", {
     modClassOrder = ["seakeeping", "unsinkability", "firepower"]
     canSpendGold = @() isAvailable() && ::has_feature("SpendGoldForShips")
     canShowProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisShip")
-    canShowVisualEffectInProtectionAnalysis = @() ::has_feature("DmViewerProtectionAnalysisVisualEffect")
+    canShowVisualEffectInProtectionAnalysis = @() false
+    bulletSetsQuantity = ::BULLETS_SETS_QUANTITY
   }
 
   HELICOPTER = {

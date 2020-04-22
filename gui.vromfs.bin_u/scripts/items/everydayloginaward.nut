@@ -6,6 +6,9 @@ local time = require("scripts/time.nut")
   if (!blk || ::isInArray(blk.id, ::shown_userlog_notifications))
     return
 
+  if (!::has_feature("everyDayLoginAward"))
+    return
+
   ::gui_start_modal_wnd(::gui_handlers.EveryDayLoginAward, {userlog = blk})
 }
 

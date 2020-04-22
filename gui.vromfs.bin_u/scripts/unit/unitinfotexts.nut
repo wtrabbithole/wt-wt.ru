@@ -1,9 +1,12 @@
 local basicUnitRoles = {
-  [::ES_UNIT_TYPE_AIRCRAFT] = ["fighter", "assault", "bomber"],
-  [::ES_UNIT_TYPE_TANK] = ["tank", "light_tank", "medium_tank", "heavy_tank", "tank_destroyer", "spaa", "lbv", "mbv", "hbv"],
-  [::ES_UNIT_TYPE_SHIP] = ["ship", "boat", "heavy_boat", "barge", "destroyer", "light_cruiser",
-    "cruiser", "battlecruiser", "battleship", "submarine"],
-  [::ES_UNIT_TYPE_HELICOPTER] = ["attack_helicopter", "utility_helicopter"],
+  [::ES_UNIT_TYPE_AIRCRAFT] = ["type_fighter", "type_assault", "type_bomber"],
+  [::ES_UNIT_TYPE_TANK] = ["type_tank", "type_light_tank", "type_medium_tank", "type_heavy_tank",
+    "type_tank_destroyer", "type_spaa", "type_lbv", "type_mbv", "type_hbv"],
+  [::ES_UNIT_TYPE_SHIP] = ["type_ship", "type_boat", "type_heavy_boat", "type_barge",
+    "type_destroyer", "type_frigate", "type_light_cruiser",
+    "type_cruiser", //FIX ME This role has been replaced by type_heavy_cruiser. Need this for compatibility with 1_95_0_X
+    "type_heavy_cruiser", "type_battlecruiser", "type_battleship", "type_submarine"],
+  [::ES_UNIT_TYPE_HELICOPTER] = ["type_attack_helicopter", "type_utility_helicopter"],
 }
 
 local unitRoleFontIcons = {
@@ -25,8 +28,10 @@ local unitRoleFontIcons = {
   heavy_boat               = ::loc("icon/unitclass/heavy_gun_boat")
   barge                    = ::loc("icon/unitclass/naval_ferry_barge")
   destroyer                = ::loc("icon/unitclass/destroyer")
+  frigate                  = ::loc("icon/unitclass/destroyer")
   light_cruiser            = ::loc("icon/unitclass/light_cruiser")
   cruiser                  = ::loc("icon/unitclass/cruiser")
+  heavy_cruiser            = ::loc("icon/unitclass/cruiser")
   battlecruiser            = ::loc("icon/unitclass/battlecruiser")
   battleship               = ::loc("icon/unitclass/battleship")
   submarine                = ::loc("icon/unitclass/submarine")
@@ -66,8 +71,10 @@ local unitRoleByTag = {
   type_heavy_boat       = "heavy_boat",
   type_barge            = "barge",
   type_destroyer        = "destroyer",
+  type_frigate          = "frigate",
   type_light_cruiser    = "light_cruiser",
   type_cruiser          = "cruiser",
+  type_heavy_cruiser    = "heavy_cruiser",
   type_battlecruiser    = "battlecruiser",
   type_battleship       = "battleship",
   type_submarine        = "submarine",
@@ -102,7 +109,7 @@ local function getUnitRole(unitData) { //  "fighter", "bomber", "assault", "tran
   return role
 }
 
-local haveUnitRole = @(unit, role) ::isInArray($"type_{role}", unit.tags)
+local getRoleName = @(role) role.slice(5)
 
 local function getUnitBasicRole(unit) {
   local unitType = ::get_es_unit_type(unit)
@@ -110,13 +117,14 @@ local function getUnitBasicRole(unit) {
   if (!basicRoles || !basicRoles.len())
     return ""
 
-  foreach(role in basicRoles)
-    if (haveUnitRole(unit, role))
-      return role
-  return basicRoles[0]
+  foreach(tag in unit.tags)
+    if (::isInArray(tag, basicRoles))
+      return getRoleName(tag)
+  return getRoleName(basicRoles[0])
 }
 
-local getRoleText = @(role) ::loc("mainmenu/type_" + role)
+local getRoleText = @(role) ::loc($"mainmenu/type_{role}")
+local getRoleTextByTag = @(tag) ::loc($"mainmenu/{tag}")
 
 /*
   typeof @source == Unit     -> @source is unit
@@ -145,25 +153,33 @@ local function getUnitTooltipImage(unit)
 
 local function getFullUnitRoleText(unit)
 {
-  if (!("tags" in unit) || !unit.tags)
+  local tags = unit?.tags
+  if (tags == null)
     return ""
 
   if (::is_submarine(unit))
     return getRoleText("submarine")
 
+  local needShowBaseTag = tags.indexof("visibleBaseTag") != null
   local basicRoles = basicUnitRoles?[::get_es_unit_type(unit)] ?? []
+  local basicRole = ""
   local textsList = []
-  foreach(tag in unit.tags)
-    if (tag.len()>5 && tag.slice(0, 5)=="type_" && !::isInArray(tag.slice(5), basicRoles))
-      textsList.append(::loc($"mainmenu/{tag}"))
+  foreach(tag in tags)
+    if (tag.len()>5 && tag.slice(0, 5)=="type_")
+    {
+      if (!::isInArray(tag, basicRoles))
+        textsList.append(getRoleTextByTag(tag))
+      else if (basicRole == "") {
+        basicRole = tag
+        if (needShowBaseTag)
+          textsList.append(getRoleTextByTag(tag))
+      }
+    }
 
   if (textsList.len())
     return ::g_string.implode(textsList, ::loc("mainmenu/unit_type_separator"))
 
-  foreach (t in basicRoles)
-    if (::isInArray("type_" + t, unit.tags))
-      return getRoleText(t)
-  return ""
+  return basicRole != "" ? getRoleTextByTag(basicRole) : ""
 }
 
 local function getChanceToMeetText(battleRating1, battleRating2)

@@ -1,3 +1,10 @@
+local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { AMMO, getAmmoMaxAmount } = require("scripts/weaponry/ammoInfo.nut")
+local { getBulletsSetData,
+        isBulletGroupActive,
+        getBulletsGroupCount,
+        getBulletsInfoForPrimaryGuns } = require("scripts/weaponry/bulletsInfo.nut")
+
 ::missionBuilderVehicleConfigForBlk <- {} //!!FIX ME: Should to remove this
 ::last_called_gui_testflight <- null
 
@@ -269,7 +276,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
         return
 
     if (unit)
-      ::set_gui_option(::USEROPT_WEAPONS, ::get_last_weapon(unit.name))
+      ::set_gui_option(::USEROPT_WEAPONS, getLastWeapon(unit.name))
 
     if (::SessionLobby.isInRoom())
       return goBack()
@@ -363,8 +370,8 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
   function updateBulletCountOptions(updUnit)
   {
     //prepare data to calc amounts
-    local groupsCount = ::getBulletsGroupCount(updUnit, false)
-    local bulletsInfo = ::getBulletsInfoForPrimaryGuns(updUnit)
+    local groupsCount = getBulletsGroupCount(updUnit, false)
+    local bulletsInfo = getBulletsInfoForPrimaryGuns(updUnit)
     local gunsData = []
     for(local i = 0; i < groupsCount; i++)
     {
@@ -380,7 +387,7 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
     local bulDataList = []
     for (local groupIdx = 0; groupIdx < ::BULLETS_SETS_QUANTITY; groupIdx++)
     {
-      local isActive = ::isBulletGroupActive(updUnit, groupIdx)
+      local isActive = isBulletGroupActive(updUnit, groupIdx)
 
       local gunIdx = ::get_linked_gun_index(groupIdx, groupsCount)
       local modName = ::get_last_bullets(updUnit.name, groupIdx)
@@ -388,10 +395,10 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
       if (isActive)
       {
-        local bulletsSet = ::getBulletsSetData(updUnit, modName)
+        local bulletsSet = getBulletsSetData(updUnit, modName)
         maxToRespawn = ::getTblValue("maxToRespawn", bulletsSet, 0)
         if (maxToRespawn <= 0)
-          maxToRespawn = ::getAmmoMaxAmount(updUnit, modName, AMMO.PRIMARY)
+          maxToRespawn = getAmmoMaxAmount(updUnit, modName, AMMO.PRIMARY)
 
         gunsData[gunIdx].leftGroups++
       }

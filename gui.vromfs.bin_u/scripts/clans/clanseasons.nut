@@ -1,4 +1,6 @@
+local { unixtime_to_utc_timetbl } = ::require_native("dagor.time")
 local time = require("scripts/time.nut")
+
 global enum CLAN_SEASON_MEDAL_TYPE
 {
   PLACE
@@ -284,7 +286,7 @@ global enum CLAN_SEASON_MEDAL_TYPE
   function getSeasonName()
   {
     local info = ::clan_get_current_season_info()
-    local year = ::get_utc_time_from_t(info.startDay).year.tostring()
+    local year = unixtime_to_utc_timetbl(info.startDay).year.tostring()
     local num  = ::get_roman_numeral(info.numberInYear + CLAN_SEASON_NUM_IN_YEAR_SHIFT)
     return ::loc("clan/battle_season/name", { year = year, num = num })
   }

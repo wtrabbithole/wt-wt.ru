@@ -1,3 +1,5 @@
+local { getUnitClassTypeByExpClass } = require("scripts/unit/unitClassType.nut")
+
 class ::mission_rules.SharedPool extends ::mission_rules.Base
 {
   function getMaxRespawns()
@@ -81,7 +83,7 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
       for(local i = 0; i < total; i++)
       {
         local expClassName = limitedClasses.getParamName(i)
-        local expClass = ::g_unit_class_type.getTypeByExpClass(expClassName)
+        local expClass = getUnitClassTypeByExpClass(expClassName)
         if (expClass != unit.expClass)
           continue
 
@@ -125,7 +127,7 @@ class ::mission_rules.SharedPool extends ::mission_rules.Base
       for(local i = 0; i < total; i++)
       {
         local expClassName = limitedClasses.getParamName(i)
-        if (::g_unit_class_type.getTypeByExpClass(expClassName).isValid())
+        if (getUnitClassTypeByExpClass(expClassName).isValid())
           res.unitLimits.append(::g_unit_limit_classes.LimitByUnitExpClass(expClassName, limitedClasses.getParamValue(i)))
       }
     }

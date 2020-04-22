@@ -53,8 +53,9 @@ class Decorator
     category = ::getTblValue("category", blk, "")
     group = ::getTblValue("group", blk, "")
 
-    if (guidParser.isGuid(id))
-      isLive = true // Only decorators from live.warthunder.com has GUID as id.
+    // Only decorators from live.warthunder.com has GUID in id.
+    local slashPos = id.indexof("/")
+    isLive = guidParser.isGuid(slashPos == null ? id : id.slice(slashPos + 1))
 
     cost = decoratorType.getCost(id)
     forceShowInCustomization = ::getTblValue("forceShowInCustomization", blk, false)

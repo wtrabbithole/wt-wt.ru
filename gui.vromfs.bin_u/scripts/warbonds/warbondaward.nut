@@ -14,6 +14,7 @@ class ::WarbondAward
 
   //special params for award view
   needAllBoughtIcon = true
+  imgNestDoubleSize = ""
 
   constructor(warbond, awardBlk, idxInWbList)
   {
@@ -27,6 +28,7 @@ class ::WarbondAward
     ordinaryTasks = blk?.Ordinary ?? 0
     specialTasks = blk?.Special ?? 0
     reqMaxUnitRank = blk?.reqMaxUnitRank ?? -1
+    imgNestDoubleSize = awardType?.imgNestDoubleSize ?? "no"
   }
 
   function isValid()

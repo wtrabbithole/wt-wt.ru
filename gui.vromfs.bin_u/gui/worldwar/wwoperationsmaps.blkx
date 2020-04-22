@@ -507,10 +507,15 @@
                       "text": "#events/join_event"
                     },
                     "tdiv": {
-                      "id": "side_countries",
                       "margin-left": "@blockInterval",
                       "pos": "0, 50%ph-50%h",
-                      "position": "relative"
+                      "position": "relative",
+                      "img": {
+                        "id": "country_icon",
+                        "iconType": "country_battle",
+                        "margin-left": "@blockInterval",
+                        "background-image": ""
+                      }
                     }
                   }
                 }
@@ -1021,7 +1026,7 @@
                               "id": "gc_eagles",
                               "isColoredImg": "yes",
                               "tooltip": "#mainmenu/gold",
-                              "_on_click": "onOnlineShopEaglesMsg",
+                              "_on_click": "onOnlineShopEagles",
                               "img": {
                                 "isFirstLeft": "yes",
                                 "background-image": "#ui/gameuiskin#shop_warpoints_premium"

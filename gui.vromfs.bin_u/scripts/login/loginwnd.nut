@@ -1,3 +1,5 @@
+local { animBgLoad } = require("scripts/loading/animBg.nut")
+
 const MAX_GET_2STEP_CODE_ATTEMPTS = 10
 
 class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
@@ -42,7 +44,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
 
   function initScreen()
   {
-    ::g_anim_bg.load()
+    animBgLoad()
     ::setVersionText()
     ::setProjectAwards(this)
     ::show_title_logo(true, scene, "128")
@@ -477,7 +479,7 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
   {
     return ::steam_is_running()
            && ::has_feature("AllowSteamAccountLinking")
-           && ::load_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID) == null
+           && ::load_local_shared_settings(USE_STEAM_LOGIN_AUTO_SETTING_ID) == null
   }
 
   function proceedAuthorizationResult(result, no_dump_login)
@@ -514,12 +516,12 @@ class ::gui_handlers.LoginWndHandler extends ::BaseGuiHandler
           local res = ::check_login_pass("", "", "steam", "steam", true, isRemoteComp)
           ::dagor.debug("Steam Link Login: link existing account, result = " + res)
           if (res == ::YU2_OK)
-            ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, true)
+            ::save_local_shared_settings(USE_STEAM_LOGIN_AUTO_SETTING_ID, true)
           else if (res == ::YU2_ALREADY)
-            ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, false)
+            ::save_local_shared_settings(USE_STEAM_LOGIN_AUTO_SETTING_ID, false)
         }
         else if (::steam_is_running() && !::has_feature("AllowSteamAccountLinking"))
-          ::save_local_shared_settings(::USE_STEAM_LOGIN_AUTO_SETTING_ID, isSteamAuth)
+          ::save_local_shared_settings(USE_STEAM_LOGIN_AUTO_SETTING_ID, isSteamAuth)
 
         continueLogin(no_dump_login)
         break

@@ -1,4 +1,8 @@
 local stdMath = require("std/math.nut")
+local { AMMO, getAmmoWarningMinimum } = require("scripts/weaponry/ammoInfo.nut")
+local { getBulletsGroupCount,
+        getActiveBulletsGroupInt,
+        getBulletsInfoForPrimaryGuns } = require("scripts/weaponry/bulletsInfo.nut")
 
 global enum bulletsAmountState {
   READY
@@ -160,7 +164,7 @@ class UnitBulletsManager
 
       local status = bulletsAmountState.READY
       local totalBullets = gInfo.total
-      local minBullets = ::clamp((0.2 * totalBullets).tointeger(), 1, ::getAmmoWarningMinimum(AMMO.MODIFICATION, unit, totalBullets))
+      local minBullets = ::clamp((0.2 * totalBullets).tointeger(), 1, getAmmoWarningMinimum(AMMO.MODIFICATION, unit, totalBullets))
       if (totalBullets - unallocated >= minBullets)
         status = bulletsAmountState.HAS_UNALLOCATED
       else
@@ -258,7 +262,7 @@ class UnitBulletsManager
       return
     }
 
-    gunsInfo = ::getBulletsInfoForPrimaryGuns(unit)
+    gunsInfo = getBulletsInfoForPrimaryGuns(unit)
     foreach(idx, gInfo in gunsInfo)
     {
       gInfo.gunIdx <- idx
@@ -276,10 +280,10 @@ class UnitBulletsManager
       return
     }
 
-    groupsActiveMask = ::getActiveBulletsGroupInt(unit, checkPurchased) //!!FIX ME: better to detect actives in manager too.
+    groupsActiveMask = getActiveBulletsGroupInt(unit, checkPurchased) //!!FIX ME: better to detect actives in manager too.
 
     local canChangeActivity = canChangeBulletsActivity()
-    local bulletsTotal = unit.unitType.canUseSeveralBulletsForGun ? ::BULLETS_SETS_QUANTITY : ::getBulletsGroupCount(unit)
+    local bulletsTotal = unit.unitType.canUseSeveralBulletsForGun ? ::BULLETS_SETS_QUANTITY : getBulletsGroupCount(unit)
     for (local groupIndex = 0; groupIndex < bulletsTotal; groupIndex++)
     {
       bulGroups.append(::BulletGroup(unit, groupIndex, getGroupGunInfo(groupIndex), {
@@ -405,7 +409,7 @@ class UnitBulletsManager
     if (!canChangeBulletsActivity())
       return
 
-    groupsActiveMask = ::getActiveBulletsGroupInt(unit)
+    groupsActiveMask = getActiveBulletsGroupInt(unit)
     foreach(gIdx, bulGroup in bulGroups)
       bulGroup.active = stdMath.is_bit_set(groupsActiveMask, gIdx)
   }

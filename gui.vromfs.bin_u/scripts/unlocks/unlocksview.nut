@@ -41,9 +41,13 @@ g_unlock_view.fillUnlockConditions <- function fillUnlockConditions(unlockConfig
 {
   if( ! ::checkObj(unlockObj))
     return
+
+  local hiddenObj = unlockObj.findObject("hidden_block")
+  if (!::check_obj(hiddenObj))
+    return
+
   local guiScene = unlockObj.getScene()
   local hiddenContent = ""
-  local hiddenObj = unlockObj.findObject("hidden_block")
   local expandImgObj = unlockObj.findObject("expandImg")
   local names = ::UnlockConditions.getLocForBitValues(unlockConfig.type, unlockConfig.names)
   guiScene.replaceContentFromText(hiddenObj, "", 0, context)

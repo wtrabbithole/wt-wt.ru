@@ -1,4 +1,5 @@
 @const crewTransferColor:#dd1111;
+@const crewStateOkColor:#252e35;
 
 crew > icon[hudCrewStatus=yes] {
   position: absolute;
@@ -23,8 +24,22 @@ icon[hudTankDebuff=yes] > repair_indicator {
 }
 
 icon[hudTankDebuff=yes][state=ok] {
-  background-color:#252e35;
+  background-color:@crewStateOkColor;
   color-factor:80;
+}
+
+debuffs > text[hudTankDebuff=yes] {
+  textShade:yes;
+}
+
+debuffs > text[hudTankDebuff=yes][state=off] {
+  color:@crewStateOkColor;
+  color-factor:180;
+}
+
+debuffs > text[hudTankDebuff=yes][state=on] {
+  color:@white;
+  color-factor:255;
 }
 
 icon[hudTankDebuff=yes][state=damaged] {
@@ -52,7 +67,7 @@ icon[hudTankDebuff=yes][state=repair] > repair_indicator {
 }
 
 icon[hudCrewStatus=yes][state=ok] {
-  background-color:#252e35;
+  background-color:@crewStateOkColor;
   color-factor:80;
 }
 
@@ -92,3 +107,18 @@ dmgIndicatorBg {
   background-image: ui/gameuiskin/bg_dmg_board.svg;
   color-factor: 200;
 }
+
+drivingDirectionModeStatus {
+  size: 0.17ph, 0.17ph;
+  position:absolute;
+  pos:pw - w, 0;
+  background-svg-size: 0.17ph, 0.17ph;
+  background-image:#ui/gameuiskin#squad_status.svg;
+  background-color:@crewStateOkColor;
+  css-hier-invalidate:yes;
+}
+
+drivingDirectionModeStatus[state=on] {
+  background-color:#86d808;
+}
+

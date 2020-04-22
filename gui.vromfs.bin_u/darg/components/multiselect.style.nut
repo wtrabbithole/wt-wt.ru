@@ -42,7 +42,7 @@ local function optionCtor(option, isSelected, onClick) {
       onClick = onClick
       stopHover = true
       flow = FLOW_HORIZONTAL
-      valign = VALIGN_MIDDLE
+      valign = ALIGN_CENTER
       gap = hdpx(5)
       children = [
         box(isSelected, sf)

@@ -6,51 +6,140 @@ local posFormatString = "{0}, {1}"
 
 local sizeAndPosViewConfig = {
   verticalArrow = ::kwarg(
-    function verticalArrow(itemSizes, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY) {
+    function verticalArrow(itemSizes, bodyIdx, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY) {
       local w = itemSizes.arrowWidth
-      local h = itemSizes.itemBlockInterval + (arrowSizeY - 1)*itemSizes.itemHeight
-        - 2*itemSizes.blockInterval
+      local h = (::abs(arrowSizeY) - 1)*(itemSizes.itemBlockHeight)
+        + itemSizes.itemBlockInterval - 2*itemSizes.blockInterval
+      local isInUpArrow = arrowSizeY < 0
+      local posY = isInUpArrow ? arrowPosY + arrowSizeY : arrowPosY
       return {
-        arrowType = "vertical"
-      arrowSize = posFormatString.subst(w, h)
-      arrowPos = posFormatString.subst(
-        (arrowPosX - 0.5)*itemSizes.itemHeight + arrowPosX*itemSizes.itemInterval
-          + itemSizes.columnOffests[arrowPosX - 1] - 0.5*w,
-        (arrowPosY - 1)*(itemSizes.itemHeight + itemSizes.itemBlockInterval)
-          + itemSizes.itemHeight + itemSizes.headerBlockInterval + itemSizes.blockInterval)
+        arrowsParts = [{
+          partTag = "shopArrow"
+          partType = "vertical"
+          partSize = posFormatString.subst(w, h)
+          partPos = posFormatString.subst(
+            arrowPosX * itemSizes.itemBlockWidth + itemSizes.columnOffests[arrowPosX - 1]
+              - 0.5*itemSizes.itemHeight - 0.5*w,
+            itemSizes.itemsOffsetByBodies[bodyIdx]
+              + posY * itemSizes.itemBlockHeight - itemSizes.itemBlockInterval
+              + itemSizes.headerBlockInterval + itemSizes.blockInterval)
+          partRotation = isInUpArrow ? 180 : 0
+        }]
       }
   })
   horizontalArrow = ::kwarg(
-    function horizontalArrow(itemSizes, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY) {
-      local w = itemSizes.itemInterval + (arrowSizeX - 1)*itemSizes.itemHeight
-        - 2*itemSizes.blockInterval
+    function horizontalArrow(itemSizes, bodyIdx, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY) {
+      local countBranches = ::abs(itemSizes.columnBranchsCount[arrowPosX -1]
+        - itemSizes.columnBranchsCount[arrowPosX + arrowSizeX - 1])
+      local w = (countBranches + 1) * itemSizes.itemInterval
+        + (::abs(arrowSizeX) - 1)*(itemSizes.itemBlockWidth + itemSizes.resourceWidth)
+        + itemSizes.resourceWidth - 2*itemSizes.blockInterval
       local h = itemSizes.arrowWidth
+      local isInLeftArrow = arrowSizeX < 0
+      local posX = isInLeftArrow ? arrowPosX + arrowSizeX : arrowPosX
       return {
-        arrowType = "horizontal"
-        arrowSize = posFormatString.subst(w, h)
-        arrowPos = posFormatString.subst(
-          (arrowPosX)*itemSizes.itemHeight + arrowPosX*itemSizes.itemInterval
-            + itemSizes.columnOffests[arrowPosX - 1] + itemSizes.blockInterval,
-          (arrowPosY - 1)*(itemSizes.itemHeight + itemSizes.itemBlockInterval)
-            + 0.5*itemSizes.itemHeight  + itemSizes.headerBlockInterval - 0.5*h)
-        }
+        arrowsParts = [{
+          partTag = "shopArrow"
+          partType = "horizontal"
+          partSize = posFormatString.subst(w, h)
+          partPos = posFormatString.subst(
+            posX*(itemSizes.itemBlockWidth)
+              + itemSizes.columnOffests[posX - 1] + itemSizes.blockInterval,
+            itemSizes.itemsOffsetByBodies[bodyIdx]
+              + (arrowPosY - 1)*(itemSizes.itemBlockHeight)
+              + 0.5*itemSizes.itemHeight - 0.5*h + itemSizes.headerBlockInterval)
+          partRotation = isInLeftArrow ? 180 : 0
+        }]
+      }
   })
-  conectionInRow = ::kwarg(function conectionInRow(itemSizes, itemPosX, itemPosY) {
-    local w = itemSizes.itemInterval
+  combineArrow = ::kwarg(
+    function combineArrow(itemSizes, bodyIdx, arrowSizeX, arrowSizeY, arrowPosX, arrowPosY, isInMultipleArrow, isOutMultipleArrow) {
+      local isInLeftArrow = arrowSizeX < 0
+      local offsetIn = isInMultipleArrow ? 0.2 : 0
+      local arrowOffsetIn = isInLeftArrow ? offsetIn : -offsetIn
+      local offsetOut = isOutMultipleArrow ? 0.2 : 0
+      local arrowOffsetOut = isInLeftArrow ? -offsetOut : offsetOut
+      local posX = isInLeftArrow ? arrowPosX + arrowSizeX : arrowPosX
+      local countBranches = ::abs(itemSizes.columnBranchsCount[arrowPosX - 1]
+        - itemSizes.columnBranchsCount[arrowPosX + arrowSizeX - 1])
+
+      local beginLineHeight = 0.5*((::abs(arrowSizeY) - 1) * itemSizes.itemBlockHeight
+        + itemSizes.itemBlockInterval - 2*itemSizes.blockInterval)
+      local absoluteArrowPosX = (arrowPosX + arrowSizeX)*(itemSizes.itemBlockWidth)
+        + itemSizes.columnOffests[arrowPosX + arrowSizeX - 1]
+        - 0.5*itemSizes.itemHeight - 0.5*itemSizes.arrowWidth + arrowOffsetIn*itemSizes.itemHeight
+      local absoluteArrowPosY = itemSizes.itemsOffsetByBodies[bodyIdx]
+        + arrowPosY * itemSizes.itemBlockHeight - beginLineHeight
+        + itemSizes.headerBlockInterval - itemSizes.blockInterval
+      local absoluteBeginLinePosY = itemSizes.itemsOffsetByBodies[bodyIdx]
+        + (arrowPosY - 1)*(itemSizes.itemBlockHeight)
+        + itemSizes.itemHeight + itemSizes.headerBlockInterval + itemSizes.blockInterval
+
+      return {
+        arrowsParts = [{
+          partTag = "shopArrow"
+          partType = "vertical"
+          partSize = posFormatString.subst(itemSizes.arrowWidth, beginLineHeight)
+          partPos = posFormatString.subst(absoluteArrowPosX, absoluteArrowPosY)
+          partRotation = 0
+        },
+        {
+          partTag = "shopLine"
+          partSize = posFormatString.subst(beginLineHeight, itemSizes.arrowWidth)
+          partPos = posFormatString.subst(
+            arrowPosX * itemSizes.itemBlockWidth + itemSizes.columnOffests[arrowPosX - 1]
+              + (arrowOffsetOut - 0.5) * itemSizes.itemHeight + 0.5*itemSizes.arrowWidth,
+            absoluteBeginLinePosY)
+          partRotation = 90
+        },
+        {
+          partTag = "shopLine"
+          partSize = posFormatString.subst(
+            ::abs(arrowSizeX) * (itemSizes.itemBlockWidth + itemSizes.resourceWidth)
+              + countBranches * itemSizes.itemInterval
+              - (offsetIn + offsetOut)*itemSizes.itemHeight,
+            itemSizes.arrowWidth)
+          partPos = posFormatString.subst(
+            posX*(itemSizes.itemBlockWidth)
+              + itemSizes.columnOffests[posX - 1]
+              + ((isInLeftArrow ? arrowOffsetIn : arrowOffsetOut) - 0.5) * itemSizes.itemHeight,
+            absoluteBeginLinePosY + beginLineHeight - 0.5*itemSizes.arrowWidth)
+          partRotation = 0
+        },
+        {
+          partTag = "shopAngle"
+          partSize = posFormatString.subst(itemSizes.arrowWidth, itemSizes.arrowWidth)
+          partPos = posFormatString.subst(absoluteArrowPosX, absoluteArrowPosY - 0.5*itemSizes.arrowWidth)
+          partRotation = isInLeftArrow ? 90 : 180
+        },
+        {
+          partTag = "shopAngle"
+          partSize = posFormatString.subst(itemSizes.arrowWidth, itemSizes.arrowWidth)
+          partPos = posFormatString.subst(
+            arrowPosX * itemSizes.itemBlockWidth + itemSizes.columnOffests[arrowPosX - 1]
+              + (arrowOffsetOut - 0.5) * itemSizes.itemHeight - 0.5*itemSizes.arrowWidth,
+            absoluteBeginLinePosY + beginLineHeight - 0.5*itemSizes.arrowWidth)
+          partRotation = isInLeftArrow ? -90 : 0
+        }]
+      }
+  })
+  conectionInRow = ::kwarg(function conectionInRow(itemSizes, bodyIdx, itemPosX, itemPosY) {
     return {
-      conectionWidth = w
+      conectionWidth = itemSizes.itemInterval
       conectionPos = posFormatString.subst(
-        itemPosX*itemSizes.itemHeight + itemPosX*itemSizes.itemInterval
+        itemPosX * itemSizes.itemBlockWidth
           + itemSizes.columnOffests[itemPosX],
-        "{0} - 0.5h".subst(itemPosY*(itemSizes.itemHeight + itemSizes.itemBlockInterval)
+        "{0} - 0.5h".subst(itemSizes.itemsOffsetByBodies[bodyIdx]
+          + itemPosY*(itemSizes.itemBlockHeight)
           + 0.5*itemSizes.itemHeight  + itemSizes.headerBlockInterval))
     }
   })
-  itemPos = ::kwarg(function itemPos(itemSizes, itemPosX, itemPosY) {
+  itemPos = ::kwarg(function itemPos(itemSizes, bodyIdx, itemPosX, itemPosY) {
     return posFormatString.subst(
-      itemPosX*itemSizes.itemHeight + itemPosX*itemSizes.itemInterval
-        + itemSizes.itemInterval + itemSizes.columnOffests[itemPosX],
-      itemPosY*(itemSizes.itemHeight + itemSizes.itemBlockInterval) + itemSizes.headerBlockInterval)
+      itemPosX * itemSizes.itemBlockWidth + itemSizes.itemInterval
+        + itemSizes.columnOffests[itemPosX],
+      itemSizes.itemsOffsetByBodies[bodyIdx]
+        + itemPosY * itemSizes.itemBlockHeight + itemSizes.headerBlockInterval)
   })
 }
 
@@ -86,63 +175,26 @@ local function getConfigByItemBlock(itemBlock, itemsList)
     isDisabled = item != null && item.getAmount() == 0
       && (!item.hasUsableRecipeOrNotRecipes() || needReqItem)
     iconInsteadAmount = item?.hasReachedMaxAmount() ? sucessItemCraftIconParam : null
+    conectionInRowText = itemBlock?.conectionInRowText
   }
 }
 
-local getArrowView = ::kwarg(function getArrowView(arrow, itemSizes) {
-  local arrowType = arrow.sizeX == 0 ? "verticalArrow" : "horizontalArrow"
+local getArrowView = ::kwarg(function getArrowView(arrow, itemSizes, isInMultipleArrow, isOutMultipleArrow) {
+  local arrowType = arrow.sizeX != 0 && arrow.sizeY != 0 ? "combineArrow"
+    : arrow.sizeX == 0 ? "verticalArrow"
+    : "horizontalArrow"
   local arrowParam = {
     itemSizes = itemSizes
+    bodyIdx = arrow.bodyIdx
     arrowSizeX = arrow.sizeX
     arrowSizeY = arrow.sizeY
     arrowPosX = arrow.posX
     arrowPosY = arrow.posY
+    isInMultipleArrow = isInMultipleArrow
+    isOutMultipleArrow = isOutMultipleArrow
   }
   return sizeAndPosViewConfig[arrowType](arrowParam)
 })
-
-local function getConnectingElementsView(rows, itemSizes, itemsList)
-{
-  local shopArrows = []
-  local conectionsInRow = []
-  foreach (row in rows)
-  {
-    local hasPrevItemInRow = false
-    local prevBranchIdx = 0
-    foreach (idx, itemBlock in row)
-    {
-      local itemConfig = getConfigByItemBlock(itemBlock, itemsList)
-      local arrow = itemBlock?.arrow
-      if (arrow != null)
-        shopArrows.append({ isDisabled = itemConfig.isDisabled }.__update(
-          getArrowView({
-            arrow = arrow
-            itemSizes = itemSizes
-          })))
-
-
-      local hasCurItem = itemConfig.item != null
-      if (hasPrevItemInRow && hasCurItem)
-      {
-        local itemPosX = itemBlock.posXY.x - 1
-        local curBranchIdx = itemSizes.columnBranchIdx[itemPosX]
-        if (prevBranchIdx == curBranchIdx)
-          conectionsInRow.append(sizeAndPosViewConfig.conectionInRow({
-            itemSizes = itemSizes
-            itemPosX = itemPosX
-            itemPosY = itemBlock.posXY.y - 1
-          }))
-        prevBranchIdx = curBranchIdx
-      }
-      hasPrevItemInRow = hasCurItem
-    }
-  }
-  return {
-    shopArrows = shopArrows
-    conectionsInRow = conectionsInRow
-  }
-}
-
 
 local viewItemsParams = {
   showAction = false,
@@ -172,6 +224,7 @@ local getItemBlockView = ::kwarg(
       }))]
       blockPos = overridePos ?? sizeAndPosViewConfig.itemPos({
         itemSizes = itemSizes
+        bodyIdx = itemBlock.bodyIdx
         itemPosX = itemBlock.posXY.x - 1
         itemPosY = itemBlock.posXY.y - 1
       })
@@ -188,6 +241,64 @@ local getItemBlockView = ::kwarg(
         : null
     }
 })
+
+local function getRowsElementsView(rows, itemSizes, itemsList, allowableResources) {
+  local shopArrows = []
+  local conectionsInRow = []
+  local itemBlocksArr = []
+  foreach (row in rows)
+  {
+    local hasPrevItemInRow = false
+    local prevBranchIdx = 0
+    foreach (idx, itemBlock in row)
+    {
+      local itemBlockView = getItemBlockView({
+        itemBlock = itemBlock,
+        itemsList = itemsList,
+        itemSizes = itemSizes,
+        allowableResources = allowableResources
+      })
+      if (itemBlockView != null)
+        itemBlocksArr.append(itemBlockView)
+      local itemConfig = getConfigByItemBlock(itemBlock, itemsList)
+
+      local arrows = itemBlock?.arrows ?? []
+      local isInMultipleArrow = arrows.len() > 1
+      foreach (arrow in arrows)
+        shopArrows.append({ isDisabled = itemConfig.isDisabled }.__update(
+          getArrowView({
+            arrow = arrow
+            itemSizes = itemSizes
+            isInMultipleArrow = isInMultipleArrow
+            isOutMultipleArrow = arrow.isOutMultipleArrow
+          })
+        ))
+
+      local hasCurItem = itemConfig.item != null
+      if (hasPrevItemInRow && hasCurItem)
+      {
+        local itemPosX = itemBlock.posXY.x - 1
+        local curBranchIdx = itemSizes.columnBranchsCount[itemPosX]
+        if (prevBranchIdx == curBranchIdx)
+          conectionsInRow.append({ conectionInRowText = itemBlock.conectionInRowText }.__update(
+            sizeAndPosViewConfig.conectionInRow({
+              itemSizes = itemSizes
+              bodyIdx = itemBlock.bodyIdx
+              itemPosX = itemPosX
+              itemPosY = itemBlock.posXY.y - 1
+            })
+          ))
+        prevBranchIdx = curBranchIdx
+      }
+      hasPrevItemInRow = hasCurItem
+    }
+  }
+  return {
+    shopArrows = shopArrows
+    conectionsInRow = conectionsInRow
+    itemBlocksArr = itemBlocksArr
+  }
+}
 
 local sizePrefixNames = {
   normal = {
@@ -244,12 +355,26 @@ local function getBranchSeparator(branch, itemSizes, branchHeight) {
   if (posX == 0)
     return null
 
+  local rowOffset = itemSizes.itemsOffsetByBodies[branch.bodyIdx]
   return {
-    separatorPos = posFormatString.subst(posX*(itemSizes.itemHeight + itemSizes.itemInterval)
+    separatorPos = posFormatString.subst(posX * itemSizes.itemBlockWidth
         + itemSizes.columnOffests[posX],
-      "3@dp")
+      $"3@dp + {rowOffset}")
     separatorSize = posFormatString.subst("1@dp", "{0} - 6@dp".subst(branchHeight))
   }
+}
+
+local function getBodyItemsTitles(titlesConfig, itemSizes) {
+  local titlesView = []
+  foreach (body in titlesConfig)
+    if (body.title != "")
+      titlesView.append({
+        bodyTitleText = ::loc(body.title)
+        titlePos = posFormatString.subst(0, itemSizes.bodiesOffset[body.bodyIdx])
+        titleSize = posFormatString.subst("pw", itemSizes.titleHeight)
+      })
+
+  return titlesView
 }
 
 local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
@@ -289,24 +414,19 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     setFocusItem()
   }
 
-  function getItemSizes()
-  {
-    local itemsCountX = 0
-    local columnWithResourcesCount = 0
-    foreach(branch in branches)
-    {
-      itemsCountX += branch.itemsCountX
-      columnWithResourcesCount += branch.columnWithResourcesCount
-    }
-    local branchesCount = branches.len()
-
-    local maxAllowedCrafTreeWidth = ::to_pixels("1@maxWindowWidth - 2@frameHeaderPad + 1@scrollBarSize")
+  function getItemSizes() {
+    local bodiesConfig = craftTree.bodiesConfig
+    local maxItemsCountX = bodiesConfig.reduce(@(res, value) ::max(res, value.itemsCountX), 0)
+    local maxBranchesCount = bodiesConfig.reduce(@(res, value) ::max(res, value.branchesCount), 0)
     local resourceWidth = ::to_pixels("1@craftTreeResourceWidth")
+    local allColumnResourceWidth = bodiesConfig.reduce(
+      @(res, value) ::max(res, value.columnWithResourcesCount), 0) * resourceWidth
+    local maxAllowedCrafTreeWidth = ::to_pixels("1@maxWindowWidth - 2@frameHeaderPad + 1@scrollBarSize")
     local craftTreeWidthString = ("{itemsCount}(1@{itemPrefix}temHeight + 1@{intervalPrefix}raftTreeItemInterval) + "
       + "{branchesCount}@{intervalPrefix}raftTreeItemInterval + {allColumnResourceWidth}").subst({
-        itemsCount = itemsCountX
-        branchesCount = branchesCount
-        allColumnResourceWidth = columnWithResourcesCount * resourceWidth
+        itemsCount = maxItemsCountX
+        branchesCount = maxBranchesCount
+        allColumnResourceWidth = allColumnResourceWidth
       })
 
     local sizes = ::u.search(sizePrefixNames,
@@ -317,40 +437,71 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
       ?? sizePrefixNames.small
     local itemInterval = ::to_pixels("1@{0}raftTreeItemInterval)".subst(sizes.intervalPrefix))
     local columnOffests = []
-    local columnBranchIdx =[]
+    local columnBranchsCount =[]
     foreach(paramsColumn in craftTree.paramsForPosByColumns)
     {
-      columnOffests.append(paramsColumn.branchIdx * itemInterval
+      columnOffests.append(paramsColumn.countBranchs * itemInterval
         + paramsColumn.prevResourcesCount * resourceWidth)
-      columnBranchIdx.append(paramsColumn.branchIdx)
+      columnBranchsCount.append(paramsColumn.countBranchs)
     }
+
+    local curBodiesOffset = 0
+    local itemsOffsetByBodies = []
+    local bodiesOffset = []
+    local isShowHeaderPlace = craftTree.isShowHeaderPlace
+    local titleHeight = ::to_pixels("1@buttonHeight")
+    local itemHeight = ::to_pixels("1@{0}temHeight".subst(sizes.itemPrefix))
+    local itemBlockInterval = ::to_pixels("1@{0}raftTreeBlockInterval".subst(sizes.intervalPrefix))
+    local itemBlockHeight = itemHeight + itemBlockInterval
+    local headerBlockInterval = ::to_pixels("1@headerAndCraftTreeBlockInterval")
+    foreach (idx, body in bodiesConfig) {
+      curBodiesOffset += isShowHeaderPlace || bodiesConfig?[idx-1] == null ? 0
+        : bodiesConfig[idx-1].bodyTitlesCount * titleHeight
+          + bodiesConfig[idx-1].itemsCountY * itemBlockHeight + headerBlockInterval
+      itemsOffsetByBodies.append(curBodiesOffset
+        + (isShowHeaderPlace ? 0 : (body.bodyTitlesCount * titleHeight)))
+      bodiesOffset.append(curBodiesOffset)
+    }
+
     return sizes.__update({
-      itemHeight = ::to_pixels("1@{0}temHeight".subst(sizes.itemPrefix))
+      itemHeight = itemHeight
       itemHeightFull = ::to_pixels("1@itemHeight")
       itemInterval = itemInterval
-      itemBlockInterval = ::to_pixels("1@{0}raftTreeBlockInterval".subst(sizes.intervalPrefix))
+      itemBlockInterval = itemBlockInterval
       resourceWidth = resourceWidth
       scrollBarSize = ::to_pixels("1@scrollBarSize")
       arrowWidth = ::to_pixels("1@modArrowWidth")
-      headerBlockInterval = ::to_pixels("1@headerAndCraftTreeBlockInterval")
+      headerBlockInterval = headerBlockInterval
       blockInterval = ::to_pixels("1@blockInterval")
       columnOffests = columnOffests
-      columnBranchIdx = columnBranchIdx
+      columnBranchsCount = columnBranchsCount
+      itemBlockHeight = itemBlockHeight
+      itemBlockWidth = itemHeight + itemInterval
+      titleHeight = titleHeight
+      maxItemsCountX = maxItemsCountX
+      maxBranchesCount = maxBranchesCount
+      allColumnResourceWidth = allColumnResourceWidth
+      itemsOffsetByBodies = itemsOffsetByBodies
+      bodiesOffset = bodiesOffset
     })
   }
 
-  getBranchWidth = @(branch, hasScrollBar) branch.itemsCountX * (itemSizes.itemHeight + itemSizes.itemInterval)
-      + itemSizes.itemInterval + branch.columnWithResourcesCount * itemSizes.resourceWidth
-      + (hasScrollBar ? itemSizes.scrollBarSize : 0)
+  getBranchWidth = @(branch, hasScrollBar) branch.itemsCountX * itemSizes.itemBlockWidth
+    + itemSizes.itemInterval + branch.columnWithResourcesCount * itemSizes.resourceWidth
+    + (hasScrollBar ? itemSizes.scrollBarSize : 0)
 
   function getHeadersView()
   {
+    if (!craftTree.isShowHeaderPlace)
+      return null
+
     local lastBranchIdx = branches.len() - 1
     local baseEff = craftTree.baseEfficiency
     local headerItemsTitle = craftTree?.headerItemsTitle ? ::loc(craftTree.headerItemsTitle) : null
-    local bodyItemsTitle = craftTree?.bodyItemsTitle ? ::loc(craftTree.bodyItemsTitle) : null
+    local bodyTitle = craftTree.bodiesConfig[0].title
+    local bodyItemsTitle = bodyTitle != "" ? ::loc(bodyTitle) : null
     local headersView = branches.map((@(branch, idx) {
-      branchHeader = ::loc(branch.locId)
+      branchHeader = branch?.locId != null ? ::loc(branch.locId) : null
       headerItemsTitle = idx == lastBranchIdx ? headerItemsTitle : ""
       bodyItemsTitle = idx == lastBranchIdx ? bodyItemsTitle : ""
       positionsTitleX = 0
@@ -358,6 +509,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
       branchHeaderItems = getHeaderView(branch.headerItems, itemsList, baseEff)
       branchWidth = getBranchWidth(branch, idx == lastBranchIdx)
       separators = idx != 0
+      hasHeaderItems = craftTree.hasHeaderItems
     }).bindenv(this))
 
     local totalWidth = headersView.map(@(branch) branch.branchWidth).reduce(@(res, value) res + value)
@@ -371,33 +523,45 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
 
   function getBodyView()
   {
-    local rows = craftTree.treeRows
     local allowableResources = craftTree.allowableResources
     local itemBlocksArr = []
-    foreach (row in rows)
-      foreach (itemBlock in row)
-      {
-        local itemBlockView = getItemBlockView({
-          itemBlock = itemBlock,
-          itemsList = itemsList,
-          itemSizes = itemSizes,
-          allowableResources = allowableResources
-        })
-        if (itemBlockView != null)
-          itemBlocksArr.append(itemBlockView)
-      }
-
-    local bodyHeightWithoutResult = rows.len()*(itemSizes.itemHeight + itemSizes.itemBlockInterval)
-      + itemSizes.headerBlockInterval
-    local bodyWidth = 0
-    local separators = []
-    local lastBranchIdx = branches.len() - 1
-    foreach (idx, branch in branches)
-    {
-      bodyWidth += getBranchWidth(branch, idx == lastBranchIdx)
-      separators.append(getBranchSeparator(branch, itemSizes, bodyHeightWithoutResult))
+    local shopArrows = []
+    local conectionsInRow = []
+    foreach (rows in craftTree.treeRowsByBodies) {
+      local connectingElements = getRowsElementsView(rows, itemSizes, itemsList, allowableResources)
+      shopArrows.extend(connectingElements.shopArrows)
+      conectionsInRow.extend(connectingElements.conectionsInRow)
+      itemBlocksArr.extend(connectingElements.itemBlocksArr)
     }
 
+    local bodiesConfig = craftTree.bodiesConfig
+    local bodyWidth = itemSizes.maxItemsCountX * itemSizes.itemBlockWidth
+      + itemSizes.maxBranchesCount * itemSizes.itemInterval + itemSizes.allColumnResourceWidth
+      + itemSizes.scrollBarSize
+    local separators = []
+    local isShowHeaderPlace = craftTree.isShowHeaderPlace
+    local bodyTitles = isShowHeaderPlace ? [] : getBodyItemsTitles(bodiesConfig, itemSizes)
+    foreach (idx, branch in branches) {
+      local bodyConfig = bodiesConfig[branch.bodyIdx]
+      local posX = branch.minPosX -1
+      separators.append(getBranchSeparator(branch, itemSizes,
+        bodyConfig.itemsCountY * itemSizes.itemBlockHeight
+          + itemSizes.headerBlockInterval))
+      if (!isShowHeaderPlace && branch?.locId != null)
+        bodyTitles.append({
+          bodyTitleText = ::loc(branch.locId)
+          titlePos = posFormatString.subst(posX * itemSizes.itemBlockWidth
+              + itemSizes.columnOffests[posX],
+            $"1@dp + {itemSizes.bodiesOffset[branch.bodyIdx] + (bodyConfig.title != "" ? itemSizes.titleHeight : 0)}")
+          titleSize = posFormatString.subst(getBranchWidth(branch, false),
+            itemSizes.titleHeight)
+          hasSeparator = posX != 0
+        })
+    }
+
+    local fullBodyHeightWithoutResult = itemSizes.itemsOffsetByBodies.top()
+      + itemSizes.headerBlockInterval
+      + bodiesConfig.top().itemsCountY * itemSizes.itemBlockHeight
     local craftResult = craftTree?.craftResult
     local hasCraftResult = craftResult != null
     if (hasCraftResult)
@@ -407,7 +571,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
           showResources = true
           isFullSize = true
           overridePos = posFormatString.subst(0.5*bodyWidth - 0.5*(itemSizes.itemHeightFull + itemSizes.resourceWidth),
-            bodyHeightWithoutResult + itemSizes.headerBlockInterval)
+            fullBodyHeightWithoutResult + itemSizes.headerBlockInterval)
         }),
         itemsList = itemsList,
         itemSizes = itemSizes,
@@ -415,19 +579,21 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
       }))
 
       separators.append({
-        separatorPos = posFormatString.subst("0.5pw - 0.5w", bodyHeightWithoutResult)
+        separatorPos = posFormatString.subst("0.5pw - 0.5w", fullBodyHeightWithoutResult)
         separatorSize = posFormatString.subst(bodyWidth, "1@dp")
       })
     }
     return {
-      connectingElements = getConnectingElementsView(rows, itemSizes, itemsList)
-      bodyHeight = bodyHeightWithoutResult
+      bodyTitles = bodyTitles
+      bodyHeight = fullBodyHeightWithoutResult
         + (hasCraftResult
           ? (itemSizes.headerBlockInterval + itemSizes.itemHeightFull + itemSizes.itemBlockInterval)
           : 0)
       bodyWidth = bodyWidth
       separators = separators
       itemBlock = itemBlocksArr
+      shopArrows = shopArrows
+      conectionsInRow = conectionsInRow
     }
   }
 

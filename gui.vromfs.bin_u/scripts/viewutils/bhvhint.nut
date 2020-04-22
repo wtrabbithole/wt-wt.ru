@@ -36,6 +36,7 @@
       local params = {
         isWrapInRowAllowed = obj?.isWrapInRowAllowed == "yes"
         flowAlign = obj?["flow-align"] ?? "center"
+        showShortcutsNameIfNotAssign = true
       }
       local markup = ::g_hints.buildHintMarkup(::loc(obj?.value ?? ""), params)
       obj.getScene().replaceContentFromText(obj, markup, markup.len(), null)

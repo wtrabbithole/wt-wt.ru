@@ -1,4 +1,5 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
+local { hasAllFeatures } = require("scripts/user/features.nut")
 
 global enum LB_MODE
 {
@@ -178,7 +179,7 @@ g_lb_category._getAdditionalTooltipPart <- function _getAdditionalTooltipPart(ro
   isVisibleByFeature = function()
   {
     // check reqFeature
-    return ::has_feature_array(reqFeature)
+    return hasAllFeatures(reqFeature)
   }
 
   isVisibleByLbModeName = function(modeName)

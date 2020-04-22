@@ -9,6 +9,9 @@ local optionsUtils = require("scripts/options/optionsUtils.nut")
 local optionsMeasureUnits = ::require("scripts/options/optionsMeasureUnits.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local soundDevice = require_native("soundDevice")
+local { getBulletsListHeader } = require("scripts/weaponry/weaponryVisual.nut")
+local { setUnitLastBullets,
+        getOptionsBulletsList } = require("scripts/weaponry/bulletsInfo.nut")
 
 global const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 global const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
@@ -30,7 +33,6 @@ global enum misCountries
 ::current_tag <- null
 ::aircraft_for_weapons <- null
 ::cur_aircraft_name <- null
-::bullet_icons <- {}
 ::bullets_locId_by_caliber <- []
 ::modifications_locId_by_caliber <- []
 ::game_movies_in <- {}
@@ -39,6 +41,7 @@ global enum misCountries
 ::game_movies_out_ach <- {}
 ::crosshair_icons <- []
 ::crosshair_colors <- []
+::thermovision_colors <- []
 ::num_players_for_private <- 0
 ::PlayersMissionType <- {
   MissionTypeSingle = 0,
@@ -62,11 +65,6 @@ global enum misCountries
 ]
 ::reload_cooldown_time <- {}
 
-::bullets_features_img <- [
-  { id = "damage", values = [] }
-  { id = "armor",  values = [] }
-]
-
 ::image_for_air <- function image_for_air(air)
 {
   if (typeof(air) == "string")
@@ -84,10 +82,9 @@ global enum misCountries
 
 ::g_script_reloader.registerPersistentData("OptionsExtGlobals", ::getroottable(),
   [
-    "game_mode_maps", "dynamic_layouts",
-    "shopCountriesList",
-    "bullet_icons", "bullets_locId_by_caliber", "modifications_locId_by_caliber", "bullets_features_img",
-    "crosshair_icons", "crosshair_colors",
+    "game_mode_maps", "dynamic_layouts", "shopCountriesList",
+    "bullets_locId_by_caliber", "modifications_locId_by_caliber",
+    "crosshair_icons", "crosshair_colors", "thermovision_colors",
     "reload_cooldown_time"
   ])
 
@@ -243,7 +240,13 @@ local isWaitMeasureEvent = false
 
     opt.selected <- idx == value
     if ("hue" in item)
-      item.hueColor <- ::get_block_hsv_color(item.hue)
+      item.hueColor <- ::get_block_hsv_color(item.hue,
+                                             "sat" in item ? item.sat : 0.7,
+                                             "val" in item ? item.val : 0.7)
+    if ("rgb" in item)
+    {
+      item.hueColor <- item.rgb
+    }
 
     local enabled = getTblValue("enabled", opt, true)
     opt.enabled <- enabled
@@ -534,6 +537,8 @@ local isWaitMeasureEvent = false
       optionsUtils.fillBoolOption(descr, "showCompassInTankHud", ::OPTION_SHOW_COMPASS_IN_TANK_HUD); break;
     case ::USEROPT_FIX_GUN_IN_MOUSE_LOOK:
       optionsUtils.fillBoolOption(descr, "fixGunInMouseLook", ::OPTION_FIX_GUN_IN_MOUSE_LOOK); break;
+    case ::USEROPT_ENABLE_SOUND_SPEED:
+      optionsUtils.fillBoolOption(descr, "enableSoundSpeed", ::OPTION_ENABLE_SOUND_SPEED); break;
 
     case ::USEROPT_VIEWTYPE:
       descr.id = "viewtype"
@@ -715,6 +720,13 @@ local isWaitMeasureEvent = false
       defaultValue = ::get_is_console_mode_force_enabled()
       break
 
+    case ::USEROPT_GAMEPAD_GYRO_TILT_CORRECTION:
+      descr.id = "gamepadGyroTiltCorrection"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = true
+      break
+
     case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
       descr.id = "gamepadEngDeadZone"
       descr.controlType = optionControlType.CHECKBOX
@@ -800,12 +812,28 @@ local isWaitMeasureEvent = false
       descr.value = ::get_option_invertY(AxisInvertOption.INVERT_HELICOPTER_GUNNER_Y) != 0
       break
 
-    case ::USEROPT_INVERTY_WALKER:
-      descr.id = "invertY_walker"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_WALKER_Y) != 0
-      break
+    //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     case ::USEROPT_INVERTY_SUBMARINE:
       descr.id = "invertY_submarine"
@@ -872,6 +900,13 @@ local isWaitMeasureEvent = false
       })
       break
 
+    case ::USEROPT_SINGLE_SHOT_BY_TURRET:
+      descr.id = "singleShotByTurret"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      defaultValue = false
+      break
+
     case ::USEROPT_AUTO_TARGET_CHANGE_SHIP:
       descr.id = "automaticTargetChangeShip"
       descr.controlType = optionControlType.CHECKBOX
@@ -900,11 +935,12 @@ local isWaitMeasureEvent = false
     //  descr.value = ::get_option_useTrackIrZoom() == 0 ? 0 : 1
     //  break
 
-    case ::USEROPT_INDICATEDSPEED:
+    case ::USEROPT_INDICATED_SPEED_TYPE:
       descr.id = "indicatedSpeed"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      descr.value = ::get_option_indicatedSpeed() != 0
+      descr.items = ["#options/speed_tas", "#options/speed_ias", "#options/speed_tas_ias"]
+      descr.values = [0, 1, 2]
+      descr.value = ::get_option_indicatedSpeedType()
+      descr.trParams <- "optionWidthInc:t='half';"
       break
 
     case ::USEROPT_INVERTCAMERAY:
@@ -1686,6 +1722,17 @@ local isWaitMeasureEvent = false
       descr.getValueLocText = @(val) (100 + 33.3 * val / max).tointeger() + "%"
       break
 
+    case ::USEROPT_AIR_RADAR_SIZE:
+      descr.id = "air_radar_scale"
+      descr.controlType = optionControlType.SLIDER
+      descr.min <- -2
+      descr.max <- 2
+      descr.step <- 1
+      descr.value = ::get_gui_option_in_mode(optionId, ::OPTIONS_MODE_GAMEPLAY)
+      defaultValue = 0
+      descr.getValueLocText = @(val) (100 + 33.3 * val / max).tointeger() + "%"
+      break
+
     case ::USEROPT_SHOW_PILOT:
       descr.id = "show_pilot"
       descr.controlType = optionControlType.CHECKBOX
@@ -1932,12 +1979,6 @@ local isWaitMeasureEvent = false
       descr.value = (::get_option_indicators_mode() & ::HUD_INDICATORS_TEXT_DIST) != 0
       break
 
-    case ::USEROPT_USE_SIXAXIS:
-      descr.id = "use_sixaxis"
-      descr.items = ["#options/no", "#options/yes"]
-      descr.value = ::get_option_use_sixaxis() ? 1 : 0
-      break
-
     case ::USEROPT_HELPERS_MODE:
       descr.id = "helpers_mode";
       descr.items = []
@@ -2016,6 +2057,8 @@ local isWaitMeasureEvent = false
     case ::USEROPT_BULLETS1:
     case ::USEROPT_BULLETS2:
     case ::USEROPT_BULLETS3:
+    case ::USEROPT_BULLETS4:
+    case ::USEROPT_BULLETS5:
       local aircraft = ::aircraft_for_weapons
       local groupIndex = optionId - ::USEROPT_BULLETS0
       descr.id = "bullets" + groupIndex;
@@ -2027,8 +2070,8 @@ local isWaitMeasureEvent = false
         local air = getAircraftByName(aircraft)
         if (air)
         {
-          local bullets = ::get_options_bullets_list(air, groupIndex, true)
-          descr.title = ::get_bullets_list_header(air, bullets)
+          local bullets = getOptionsBulletsList(air, groupIndex, true)
+          descr.title = getBulletsListHeader(air, bullets)
 
           descr.items = bullets.items
           descr.values = bullets.values
@@ -2144,6 +2187,7 @@ local isWaitMeasureEvent = false
       descr.min <- -100
       descr.max <- 100
       descr.step <- 1
+      descr.defVal <- 0
       descr.value = ::hangar_get_tank_skin_condition().tointeger()
       descr.cb = "onChangeTankSkinCondition"
       break
@@ -2154,6 +2198,7 @@ local isWaitMeasureEvent = false
       descr.min <- (-100 * TANK_CAMO_SCALE_SLIDER_FACTOR).tointeger()
       descr.max <- (100 * TANK_CAMO_SCALE_SLIDER_FACTOR).tointeger()
       descr.step <- 1
+      descr.defVal <- 0
       descr.value = (::hangar_get_tank_camo_scale() * TANK_CAMO_SCALE_SLIDER_FACTOR).tointeger()
       descr.cb = "onChangeTankCamoScale"
       break
@@ -2164,6 +2209,7 @@ local isWaitMeasureEvent = false
       descr.min <- -100
       descr.max <- 100
       descr.step <- 1
+      descr.defVal <- 0
       descr.value = ::hangar_get_tank_camo_rotation().tointeger()
       descr.cb = "onChangeTankCamoRotation"
       break
@@ -3481,6 +3527,14 @@ local isWaitMeasureEvent = false
       optionsUtils.fillHueOption(descr, "color_picker_hue_helicopter_hud_alert", 0, ::get_hue(colorCorrector.TARGET_HUE_HELICOPTER_HUD_ALERT))
       break;
 
+    case ::USEROPT_HUE_HELICOPTER_MFD:
+      optionsUtils.fillHueOption(descr, "color_picker_hue_helicopter_mfd", 112, ::get_hue(colorCorrector.TARGET_HUE_HELICOPTER_MFD))
+      break;
+
+    case ::USEROPT_HUE_TANK_THERMOVISION:
+      optionsUtils.fillHSVOption_ThermovisionColor(descr)
+      break;
+
     case ::USEROPT_HORIZONTAL_SPEED:
       descr.id = "horizontalSpeed"
       descr.controlType = optionControlType.CHECKBOX
@@ -3854,9 +3908,14 @@ local isWaitMeasureEvent = false
     case ::USEROPT_INVERTY_HELICOPTER_GUNNER:
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_GUNNER_Y, value ? 1 : 0)
       break
-    case ::USEROPT_INVERTY_WALKER:
-      ::set_option_invertY(AxisInvertOption.INVERT_WALKER_Y, value ? 1 : 0)
-      break
+    //
+
+
+
+
+
+
+
     case ::USEROPT_INVERTY_SUBMARINE:
       ::set_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y, value ? 1 : 0)
       break
@@ -3873,8 +3932,8 @@ local isWaitMeasureEvent = false
       ::set_option_gain(value/50.0)
       break
 
-    case ::USEROPT_INDICATEDSPEED:
-      ::set_option_indicatedSpeed(value ? 1 : 0)
+    case ::USEROPT_INDICATED_SPEED_TYPE:
+      ::set_option_indicatedSpeedType(descr.values[value])
       break
 
     case ::USEROPT_AUTO_SHOW_CHAT:
@@ -3954,10 +4013,6 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_VOICE_MESSAGE_VOICE:
       ::set_option_voice_message_voice(value + 1) //1-based
-      break
-
-    case ::USEROPT_USE_SIXAXIS:
-      ::set_option_use_sixaxis(value)
       break
 
     case ::USEROPT_HUD_COLOR:
@@ -4348,6 +4403,17 @@ local isWaitMeasureEvent = false
       ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
       break;
 
+    case ::USEROPT_HUE_HELICOPTER_MFD:
+      ::set_hue(colorCorrector.TARGET_HUE_HELICOPTER_MFD, descr.values[value]);
+      ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+      break;
+
+    case ::USEROPT_HUE_TANK_THERMOVISION:
+      optionsUtils.setHSVOption_ThermovisionColor(descr, descr.values[value])
+      ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+      ::set_gui_option(optionId, value)
+      break;
+
     case ::USEROPT_ENABLE_CONSOLE_MODE:
       ::switch_show_console_buttons(value)
       break
@@ -4424,6 +4490,7 @@ local isWaitMeasureEvent = false
     case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
     case ::USEROPT_HIDE_MOUSE_SPECTATOR:
     case ::USEROPT_FIX_GUN_IN_MOUSE_LOOK:
+    case ::USEROPT_ENABLE_SOUND_SPEED:
       local optionIdx = ::getTblValue("boolOptionIdx", descr, -1)
       if (optionIdx >= 0 && ::u.isBool(value))
         ::set_option_bool(optionIdx, value)
@@ -4496,6 +4563,8 @@ local isWaitMeasureEvent = false
     case ::USEROPT_BULLETS1:
     case ::USEROPT_BULLETS2:
     case ::USEROPT_BULLETS3:
+    case ::USEROPT_BULLETS4:
+    case ::USEROPT_BULLETS5:
       local bulletsValue = ::getTblValue(value, descr.values)
       if (bulletsValue == null)
         break
@@ -4503,7 +4572,7 @@ local isWaitMeasureEvent = false
       ::set_gui_option(optionId, bulletsValue)
       local air = ::getAircraftByName(::aircraft_for_weapons)
       if (air)
-        ::set_unit_last_bullets(air, optionId - ::USEROPT_BULLETS0, bulletsValue)
+        setUnitLastBullets(air, optionId - ::USEROPT_BULLETS0, bulletsValue)
       break
 
     case ::USEROPT_HELPERS_MODE_GM:
@@ -4577,6 +4646,7 @@ local isWaitMeasureEvent = false
     case ::USEROPT_SEPERATED_ENGINE_CONTROL_SHIP:
     case ::USEROPT_BULLET_FALL_INDICATOR_SHIP:
     case ::USEROPT_BULLET_FALL_SOUND_SHIP:
+    case ::USEROPT_SINGLE_SHOT_BY_TURRET:
     case ::USEROPT_AUTO_TARGET_CHANGE_SHIP:
     case ::USEROPT_REALISTIC_AIMING_SHIP:
     case ::USEROPT_DEFAULT_TORPEDO_FORESTALL_ACTIVE:
@@ -4587,6 +4657,10 @@ local isWaitMeasureEvent = false
     case ::USEROPT_CONTENT_ALLOWED_PRESET:
     case ::USEROPT_GAMEPAD_VIBRATION_ENGINE:
     case ::USEROPT_GAMEPAD_ENGINE_DEADZONE:
+    case ::USEROPT_GAMEPAD_GYRO_TILT_CORRECTION:
+    //
+
+
       if (descr.controlType == optionControlType.LIST)
       {
         if (typeof descr.values != "array")
@@ -4609,13 +4683,16 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_DAMAGE_INDICATOR_SIZE:
     case ::USEROPT_TACTICAL_MAP_SIZE:
-
       if (value >= ::getTblValue("min", descr, 0) && value <= ::getTblValue("max", descr, 1)
           && (!("step" in descr) || value % descr.step == 0))
       {
         ::set_gui_option_in_mode(optionId, value, ::OPTIONS_MODE_GAMEPLAY)
         ::broadcastEvent("HudIndicatorChangedSize", { option = optionId })
       }
+      break
+
+    case ::USEROPT_AIR_RADAR_SIZE:
+      ::set_gui_option_in_mode(optionId, value, ::OPTIONS_MODE_GAMEPLAY)
       break
 
     case ::USEROPT_CLUSTER:

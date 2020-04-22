@@ -1,3 +1,5 @@
+local { animBgLoad } = require("scripts/loading/animBg.nut")
+
 class ::gui_handlers.WaitForLoginWnd extends ::BaseGuiHandler
 {
   sceneBlkName = "gui/login/waitForLoginWnd.blk"
@@ -36,7 +38,7 @@ class ::gui_handlers.WaitForLoginWnd extends ::BaseGuiHandler
     isBgVisible = shouldBgVisible
     ::showBtn("bg_picture_container", isBgVisible, scene)
     if (isBgVisible)
-      ::g_anim_bg.load("", scene.findObject("animated_bg_picture"))
+      animBgLoad("", scene.findObject("animated_bg_picture"))
   }
 
   function onEventLoginStateChanged(p)

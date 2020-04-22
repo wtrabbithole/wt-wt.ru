@@ -1,3 +1,5 @@
+local { isChatEnabled, isChatEnableWithPlayer } = require("scripts/chat/chatStates.nut")
+
 local mpChatState = {
   log = []
   currentModeId = null
@@ -50,8 +52,9 @@ local mpChatModel = {
 
 
   function onIncomingMessage(sender, msg, enemy, mode, automatic) {
-    if ( (!::g_chat.isChatEnabled()
-         || !::g_chat.isChatEnableWithPlayer(sender))
+    if ( (!isChatEnabled()
+         || mode == ::CHAT_MODE_PRIVATE
+         || !isChatEnableWithPlayer(sender))
         && !automatic) {
       return false
     }

@@ -7,7 +7,7 @@ global enum WM_CONTENT_TYPE {
 ::gui_start_wheelmenu <- function gui_start_wheelmenu(params)
 {
   local defaultParams = {
-    menu = {}
+    menu = []
     callbackFunc = null
     owner = null
     mouseEnabled    = false
@@ -96,6 +96,8 @@ class ::gui_handlers.wheelMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   owner = null
   mouseEnabled = false
   axisEnabled = true
+  isAccessKeysEnabled = false
+  shouldShadeBackground = true
   contentTemplate = "gui/wheelMenu/textContent"
   contentPartails = {}
   contentType = WM_CONTENT_TYPE.TEXT
@@ -110,6 +112,7 @@ class ::gui_handlers.wheelMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     guiScene = scene.getScene()
     showScene(true)
     fill()
+    updateTitlePos()
     if (axisEnabled)
     {
       watchAxis = ::joystickInterface.getAxisWatch(false, true, true)
@@ -122,6 +125,7 @@ class ::gui_handlers.wheelMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local wheelmenu = scene.findObject("wheelmenu")
     wheelmenu["total-input-transparent"] = mouseEnabled ? "no" : "yes"
     showSceneBtn("fast_shortcuts_block", false)
+    showSceneBtn("wheelmenu_bg_shade", shouldShadeBackground)
 
     ::g_hud_event_manager.subscribe("LocalPlayerDead", function (data) {
       sendAnswerAndClose(invalidIndex)
@@ -151,10 +155,11 @@ class ::gui_handlers.wheelMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local suffix = btnAll[i]
       local index = ::find_in_array(btnSet, suffix, invalidIndex)
-      local item = (index != invalidIndex && index < menu.len()) ? menu[index] : ""
-      local isTable = type(item == "table")
-      local isShow = (!isTable && item != "") || (isTable && (item?.name ?? "") != "")
-      local enabled = isShow && (!isTable || ::getTblValue("wheelmenuEnabled", item, true))
+      local item = menu?[index] ?? ""
+      if (!::u.isTable(item))
+        item = { name = item.tostring() }
+      local isShow = (item?.name ?? "") != ""
+      local enabled = isShow && (item?.wheelmenuEnabled ?? true)
       local bObj = showSceneBtn("wheelmenuItem" + suffix, isShow)
 
       if (::checkObj(bObj))
@@ -162,6 +167,7 @@ class ::gui_handlers.wheelMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
         local buttonType = ::getTblValue("buttonType", item, "")
         if (buttonType != "")
           bObj.type = buttonType
+        bObj.accessKey = isAccessKeysEnabled && isShow ? (item?.accessKey ?? "") : ""
 
         if (isShow)
         {
@@ -177,9 +183,16 @@ class ::gui_handlers.wheelMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
   }
 
+  function updateTitlePos()
+  {
+    local obj = scene.findObject("wheel_menu_category")
+    local hasTopItem = menu?[7] != null
+    obj.top = hasTopItem ? "-1.5h" : "-1.5h +1@wheelmenuBtnHeight"
+  }
+
   function onWheelmenuItemClick(obj)
   {
-    if (!obj || (!mouseEnabled && !::use_touchscreen && !::is_cursor_visible_in_gui()) )
+    if (!obj || (!mouseEnabled && !::use_touchscreen && !::is_cursor_visible_in_gui() && !isAccessKeysEnabled) )
       return
 
     local index = obj.index.tointeger()
@@ -198,8 +211,10 @@ class ::gui_handlers.wheelMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local selection = null
     if (joystickData)
     {
-      local side = ((joystickData.angle / PI + 2.125) * 4).tointeger() % 8
-      selection = joystickSides[side]
+      local side = joystickData.normLength > 0
+        ? (((joystickData.angle / PI + 2.125) * 4).tointeger() % 8)
+        : -1
+      selection = joystickSides?[side]
     }
 
     if (selection != joystickSelection)

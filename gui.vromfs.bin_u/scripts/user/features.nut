@@ -1,267 +1,272 @@
-::g_features <- {
-  DEFAULTS = {  //def value when feature not found in game_settings.blk
-               // not in this list are false
-    SpendGold = true
-    SpendFreeRP = true
-    CrewInfo = true
-    CrewSkills = true
-    CrewBuyAllSkills = false
-    UserLog = true
-    Voice = true
-    Friends = true
-    Squad = true
-    SquadWidget = true
-    SquadTransferLeadership = false
-    SquadSizeChange = false
-    SquadInviteIngame = true
-    Clans = true
-    Battalions = false
-    Radio = true
-    Facebook = true
-    FacebookWallPost = true
-    FacebookScreenshots = true
-    Events = true
-    CreateEventRoom = false
-    QueueCustomEventRoom = false
-    Invites = true
-    Credits = true
-    EmbeddedBrowser = is_platform_windows
-    EmbeddedBrowserOnlineShop = false
+local { isDataBlock } = ::require("sqStdLibs/helpers/u.nut")
+local { addListenersWithoutEnv } = require("sqStdlibs/helpers/subscriptions.nut")
 
-    Chat = true
-    ChatThreadsView = false
-    ChatThreadLang = false
-    ChatThreadCategories = false
-    ChatThreadCreate = true
+local defaults = ::Watched({  //def value when feature not found in game_settings.blk
+             // not in this list are false
+  SpendGold = true
+  SpendFreeRP = true
+  CrewInfo = true
+  CrewSkills = true
+  CrewBuyAllSkills = false
+  UserLog = true
+  Voice = true
+  Friends = true
+  Squad = true
+  SquadWidget = true
+  SquadTransferLeadership = false
+  SquadSizeChange = false
+  SquadInviteIngame = true
+  Clans = true
+  Battalions = false
+  Radio = true
+  Facebook = true
+  FacebookWallPost = true
+  FacebookScreenshots = true
+  Events = true
+  CreateEventRoom = false
+  QueueCustomEventRoom = false
+  Invites = true
+  Credits = true
+  EmbeddedBrowser = is_platform_windows
+  EmbeddedBrowserOnlineShop = false
 
-    Ships = ::disable_network()
-    ShipsVisibleInShop = ::disable_network()
-    ShipsFirstChoice = false
-    SpendGoldForShips = false
-    Tanks = true
-    TanksPs4 = true
-    TanksInCustomBattles = false
-    TanksInRandomBattles = false
-    SpendGoldForTanks = false
+  Chat = true
+  ChatThreadsView = false
+  ChatThreadLang = false
+  ChatThreadCategories = false
+  ChatThreadCreate = true
 
-    UsaAircraftsInFirstCountryChoice      = true
-    UsaTanksInFirstCountryChoice          = true
-    UsaShipsInFirstCountryChoice          = true
-    GermanyAircraftsInFirstCountryChoice  = true
-    GermanyTanksInFirstCountryChoice      = true
-    GermanyShipsInFirstCountryChoice      = true
-    UssrAircraftsInFirstCountryChoice     = true
-    UssrTanksInFirstCountryChoice         = true
-    UssrShipsInFirstCountryChoice         = true
-    BritainAircraftsInFirstCountryChoice  = true
-    BritainTanksInFirstCountryChoice      = true
-    BritainShipsInFirstCountryChoice      = true
-    JapanAircraftsInFirstCountryChoice    = true
-    JapanTanksInFirstCountryChoice        = ::disable_network()
-    JapanShipsInFirstCountryChoice        = ::disable_network()
-    ChinaAircraftsInFirstCountryChoice    = true
-    ChinaTanksInFirstCountryChoice        = true
-    ChinaShipsInFirstCountryChoice        = ::disable_network()
-    ItalyAircraftsInFirstCountryChoice    = true
-    ItalyTanksInFirstCountryChoice        = true
-    ItalyShipsInFirstCountryChoice        = ::disable_network()
-    FranceAircraftsInFirstCountryChoice   = true
-    FranceTanksInFirstCountryChoice       = ::disable_network()
-    FranceShipsInFirstCountryChoice       = ::disable_network()
+  Ships = ::disable_network()
+  ShipsVisibleInShop = ::disable_network()
+  ShipsFirstChoice = false
+  SpendGoldForShips = false
+  Tanks = true
+  TanksPs4 = true
+  TanksInCustomBattles = false
+  TanksInRandomBattles = false
+  SpendGoldForTanks = false
 
-    Helicopters = ::disable_network()
+  UsaAircraftsInFirstCountryChoice      = true
+  UsaTanksInFirstCountryChoice          = true
+  UsaShipsInFirstCountryChoice          = true
+  GermanyAircraftsInFirstCountryChoice  = true
+  GermanyTanksInFirstCountryChoice      = true
+  GermanyShipsInFirstCountryChoice      = true
+  UssrAircraftsInFirstCountryChoice     = true
+  UssrTanksInFirstCountryChoice         = true
+  UssrShipsInFirstCountryChoice         = true
+  BritainAircraftsInFirstCountryChoice  = true
+  BritainTanksInFirstCountryChoice      = true
+  BritainShipsInFirstCountryChoice      = true
+  JapanAircraftsInFirstCountryChoice    = true
+  JapanTanksInFirstCountryChoice        = ::disable_network()
+  JapanShipsInFirstCountryChoice        = ::disable_network()
+  ChinaAircraftsInFirstCountryChoice    = true
+  ChinaTanksInFirstCountryChoice        = true
+  ChinaShipsInFirstCountryChoice        = ::disable_network()
+  ItalyAircraftsInFirstCountryChoice    = true
+  ItalyTanksInFirstCountryChoice        = true
+  ItalyShipsInFirstCountryChoice        = ::disable_network()
+  FranceAircraftsInFirstCountryChoice   = true
+  FranceTanksInFirstCountryChoice       = ::disable_network()
+  FranceShipsInFirstCountryChoice       = ::disable_network()
 
-    Tribunal = false
+  Helicopters = ::disable_network()
 
-    HideDisabledTopMenuActions = false
-    ModeSkirmish = true
-    ModeBuilder = true
-    ModeDynamic = true
-    ModeSingleMissions = true
-    QmbCoopPc = false
-    QmbCoopPs4 = false
-    DynCampaignCoopPc = false
-    DynCampaignCoopPs4 = false
-    SingleMissionsCoopPc = true
-    SingleMissionsCoopPs4 = true
-    CustomBattlesPc = true
-    CustomBattlesPs4 = true
-    HistoricalCampaign = true
-    Leaderboards = true
-    HangarWndHelp = true
-    EulaInMenu = true
-    WarpointsInMenu = true
+  Tribunal = false
 
-    WorldWar = false
-    worldWarMaster = false
-    worldWarShowTestMaps = false
-    WorldWarClansQueue = false
-    WorldWarReplay = false
-    WorldWarSquadInfo = false
-    WorldWarSquadInvite = false
-    WorldWarGlobalBattles = false
-    WorldWarLeaderboards = false
-    WorldWarCountryLeaderboard = false
+  HideDisabledTopMenuActions = false
+  ModeSkirmish = true
+  ModeBuilder = true
+  ModeDynamic = true
+  ModeSingleMissions = true
+  QmbCoopPc = false
+  QmbCoopPs4 = false
+  DynCampaignCoopPc = false
+  DynCampaignCoopPs4 = false
+  SingleMissionsCoopPc = true
+  SingleMissionsCoopPs4 = true
+  CustomBattlesPc = true
+  CustomBattlesPs4 = true
+  HistoricalCampaign = true
+  Leaderboards = true
+  HangarWndHelp = true
+  EulaInMenu = true
+  WarpointsInMenu = true
 
-    SpecialShip = false
+  WorldWar = false
+  worldWarMaster = false
+  worldWarShowTestMaps = false
+  WorldWarClansQueue = false
+  WorldWarReplay = false
+  WorldWarSquadInfo = false
+  WorldWarSquadInvite = false
+  WorldWarGlobalBattles = false
+  WorldWarLeaderboards = false
+  WorldWarCountryLeaderboard = false
 
-    GraphicsOptions = true
-    Spectator = false
-    BuyAllModifications = false
-    Packages = true
-    DecalsUse = true
-    AttachablesUse = ::disable_network()
-    UserSkins = true
-    SkinsPreviewOnUnboughtUnits = ::disable_network()
-    SkinAutoSelect = false
-    UserMissions = true
-    UserMissionsSkirmishLocal = false
-    UserMissionsSkirmishByUrl = false
-    UserMissionsSkirmishByUrlCreate = false
-    Replays = true
-    ServerReplay = true
-    Encyclopedia = true
-    Benchmark = true
-    DamageModelViewer = ::disable_network()
-    ShowNextUnlockInfo = false
-    extendedReplayInfo = ::disable_network()
-    LiveBroadcast = false
-    showAllUnitsRanks = false
-    EarlyExitCrewUnlock = false
-    UnitTooltipImage = true
+  SpecialShip = false
 
-    ActivityFeedPs4 = false
+  GraphicsOptions = true
+  Spectator = false
+  BuyAllModifications = false
+  Packages = true
+  DecalsUse = true
+  AttachablesUse = ::disable_network()
+  UserSkins = true
+  SkinsPreviewOnUnboughtUnits = ::disable_network()
+  SkinAutoSelect = false
+  UserMissions = true
+  UserMissionsSkirmishLocal = false
+  UserMissionsSkirmishByUrl = false
+  UserMissionsSkirmishByUrlCreate = false
+  Replays = true
+  ServerReplay = true
+  Encyclopedia = true
+  Benchmark = true
+  DamageModelViewer = ::disable_network()
+  ShowNextUnlockInfo = false
+  extendedReplayInfo = ::disable_network()
+  LiveBroadcast = false
+  showAllUnitsRanks = false
+  EarlyExitCrewUnlock = false
+  UnitTooltipImage = true
 
-    UnlockAllCountries = false
+  ActivityFeedPs4 = false
 
-    GameModeSelector = true
-    AllModesInRandomBattles = true
-    SimulatorDifficulty = true
-    SimulatorDifficultyInRandomBattles = true
+  UnlockAllCountries = false
 
-    Tutorials = true
-    AllowedToSkipBaseTutorials = true
-    AllowedToSkipBaseTankTutorials = true
-    EnableGoldPurchase = true
-    EnablePremiumPurchase = true
-    OnlineShopPacks = true
-    ManuallyUpdateBalance = true //!!debug only
-    PaymentMethods = true
+  GameModeSelector = true
+  AllModesInRandomBattles = true
+  SimulatorDifficulty = true
+  SimulatorDifficultyInRandomBattles = true
 
-    Items = false
-    ItemsShop = true
-    Wagers = true
-    ItemsRoulette = false
-    BattleTasks = false
-    BattleTasksHard = true
-    PersonalUnlocks = false
-    ItemsShopInTopMenu = true
-    ItemModUpgrade = false
-    ModUpgradeDifference = false
+  Tutorials = true
+  AllowedToSkipBaseTutorials = true
+  AllowedToSkipBaseTankTutorials = true
+  EnableGoldPurchase = true
+  EnablePremiumPurchase = true
+  OnlineShopPacks = true
+  ManuallyUpdateBalance = true //!!debug only
+  PaymentMethods = true
 
-    BulletParamsForAirs = ::disable_network()
+  Items = false
+  ItemsShop = true
+  Wagers = true
+  ItemsRoulette = false
+  BattleTasks = false
+  BattleTasksHard = true
+  PersonalUnlocks = false
+  ItemsShopInTopMenu = true
+  ItemModUpgrade = false
+  ModUpgradeDifference = false
 
-    TankDetailedDamageIndicator = ::disable_network()
-    ShipDetailedDamageIndicator = ::disable_network()
+  BulletParamsForAirs = ::disable_network()
 
-    ActiveScouting = false
+  TankDetailedDamageIndicator = ::disable_network()
+  ShipDetailedDamageIndicator = ::disable_network()
 
-    PromoBlocks = true
-    ShowAllPromoBlocks = ::disable_network()
-    ShowAllBattleTasks = false
+  ActiveScouting = false
 
-    ExtendedCrewSkillsDescription = ::disable_network()
-    UnitInfo = true
-    WikiUnitInfo = true
-    ExpertToAce = false
+  PromoBlocks = true
+  ShowAllPromoBlocks = ::disable_network()
+  ShowAllBattleTasks = false
 
-    HiddenLeaderboardRows = false
-    LiveStats = false
-    streakVoiceovers = ::disable_network()
-    SpectatorUnitDmgIndicator = ::disable_network()
+  ExtendedCrewSkillsDescription = ::disable_network()
+  UnitInfo = true
+  WikiUnitInfo = true
+  ExpertToAce = false
 
-    Profile = true
-    ProfileMedals = true
-    UserCards = true
-    SlotbarShowBattleRating = true
-    GlobalShowBattleRating = false
-    VideoPreview = ::disable_network()
+  HiddenLeaderboardRows = false
+  LiveStats = false
+  streakVoiceovers = ::disable_network()
+  SpectatorUnitDmgIndicator = ::disable_network()
 
-    ClanRegions = false
-    ClanAnnouncements = false
-    ClanLog = false
-    ClanActivity = false
-    ClanSeasonRewardsLog = false
-    ClanSeasons_3_0 = false
-    ClanChangedInfoData = false
-    ClanSquads = false
-    ClanVehicles = false
+  Profile = true
+  ProfileMedals = true
+  UserCards = true
+  SlotbarShowBattleRating = true
+  GlobalShowBattleRating = false
+  VideoPreview = ::disable_network()
 
-    Warbonds = false
-    WarbondsShop = false
-    ItemConvertToWarbond = false
-    ItemConvertToWarbondMultiple = false
+  ClanRegions = false
+  ClanAnnouncements = false
+  ClanLog = false
+  ClanActivity = false
+  ClanSeasonRewardsLog = false
+  ClanSeasons_3_0 = false
+  ClanChangedInfoData = false
+  ClanSquads = false
+  ClanVehicles = false
 
-    CountryChina = false
+  Warbonds = false
+  WarbondsShop = false
+  ItemConvertToWarbond = false
+  ItemConvertToWarbondMultiple = false
 
-    DisableSwitchPresetOnTutorialForHotas4 = false
+  CountryChina = false
 
-    MissionsChapterHidden = ::disable_network()
-    MissionsChapterTest = ::disable_network()
+  DisableSwitchPresetOnTutorialForHotas4 = false
 
-    ChinaForbidden = true //feature not allowed for china only
-    ClanBattleSeasonAvailable = true
+  MissionsChapterHidden = ::disable_network()
+  MissionsChapterTest = ::disable_network()
 
-    CheckTwoStepAuth = false
-    CheckEmailVerified = false
+  ChinaForbidden = true //feature not allowed for china only
+  ClanBattleSeasonAvailable = true
 
-    AerobaticTricolorSmoke = ::disable_network()
+  CheckTwoStepAuth = false
+  CheckEmailVerified = false
 
-    XRayDescription = ::disable_network()
-    GamepadCursorControl = true
-    ControlsHelp = true
+  AerobaticTricolorSmoke = ::disable_network()
 
-    SeparateTopMenuButtons = false
+  XRayDescription = ::disable_network()
+  GamepadCursorControl = true
+  ControlsHelp = true
 
-    HitCameraTargetStateIconsTank = false
+  SeparateTopMenuButtons = false
 
-    AllowExternalLink = true
-    TankAltCrosshair = false
+  HitCameraTargetStateIconsTank = false
 
-    DebriefingBattleTasks = false
-    PromoBattleTasksRadioButtons = false
+  AllowExternalLink = true
+  TankAltCrosshair = false
 
-    XboxIngameShop = false
-    XboxCrossConsoleInteraction = false
-    Ps4XboxOneInteraction = false
-    EnableMouse = true
+  DebriefingBattleTasks = false
+  PromoBattleTasksRadioButtons = false
 
-    NewUnitTypeToBattleTutorial = false
-    AchievementsUrl = false
+  XboxIngameShop = false
+  XboxCrossConsoleInteraction = false
+  Ps4XboxOneInteraction = false
+  EnableMouse = true
 
-    AllowSteamAccountLinking = true
-    AllowXboxAccountLinking = false
+  NewUnitTypeToBattleTutorial = false
+  AchievementsUrl = false
 
-    ClansXBOXOnPC = false
+  AllowSteamAccountLinking = true
+  AllowXboxAccountLinking = false
 
-    MapPreferences = false
-    TournamentInvites = true
+  ClansXBOXOnPC = false
 
-    PS4CrossNetwork = false
+  MapPreferences = false
+  TournamentInvites = true
 
-    everyDayLoginAward = true
-    DebugLogPS4ShopData = false //For debug purpose, to see ps4 shop data on retail console
-  }
+  PS4CrossNetwork = false
 
-  cache = {}
-}
+  everyDayLoginAward = true
+  DebugLogPS4ShopData = false //For debug purpose, to see ps4 shop data on retail console
+})
 
-g_features.hasFeatureBasic <- function hasFeatureBasic(name)
+local override = ::Watched({})
+local cache = {}
+
+defaults.subscribe(@(v) cache.clear())
+
+local function hasFeatureBasic(name)
 {
-  if (name in cache)
-    return cache[name]
+  local res = override.value?[name] ?? cache?[name]
+  if (res != null)
+    return res
 
-  local res = ::getTblValue(name, DEFAULTS, false)
+  res = defaults.value?[name] ?? false
   if (!::disable_network())
     res = ::local_player_has_feature(name, res)
 
@@ -269,44 +274,45 @@ g_features.hasFeatureBasic <- function hasFeatureBasic(name)
   return res
 }
 
-g_features.getFeaturePack <- function getFeaturePack(name)
+local function getFeaturePack(name)
 {
   local sBlk = ::get_game_settings_blk()
   local featureBlk = sBlk?.features[name]
-  if (!::u.isDataBlock(featureBlk))
+  if (!isDataBlock(featureBlk))
     return null
   return featureBlk?.reqPack
 }
 
-g_features.onEventProfileUpdated <- function onEventProfileUpdated(p)
+local function hasFeature(name)
 {
-  cache.clear()
-}
+  if (name in cache)
+    return cache[name]
 
-::has_feature <- function has_feature(name)
-{
   local confirmingResult = true
+  local baseName = name
   if (name.len() > 1 && name.slice(0,1) == "!")
   {
     confirmingResult = false
-    name = name.slice(1, name.len())
+    baseName = name.slice(1, name.len())
   }
-  return ::g_features.hasFeatureBasic(name) == confirmingResult
+  local res = hasFeatureBasic(baseName) == confirmingResult
+  cache[name] <- res
+  return res
 }
 
-::has_feature_array <- function has_feature_array(arr)
+local function hasAllFeatures(arr)
 {
   if (arr == null || arr.len() <= 0)
     return true
 
   foreach (name in arr)
-    if (name && !::has_feature(name))
+    if (name && !hasFeature(name))
       return false
 
   return true
 }
 
-::has_feature_array_any <- function has_feature_array_any(arr)
+local function hasAnyFeature(arr)
 {
   if (arr == null || arr.len() <= 0)
     return true
@@ -318,25 +324,17 @@ g_features.onEventProfileUpdated <- function onEventProfileUpdated(p)
   return false
 }
 
-/**
- * Returns array of entitlements that
- * unlock feature with provided name.
- */
-::get_entitlements_by_feature <- function get_entitlements_by_feature(name)
-{
-  local entitlements = []
-  if (name == null)
-    return entitlements
-  local feature = ::get_game_settings_blk()?.features?[name]
-  if (feature == null)
-    return entitlements
-  foreach(condition in (feature % "condition"))
-  {
-    if (typeof(condition) == "string" &&
-        OnlineShopModel.isEntitlement(condition))
-      entitlements.append(condition)
-  }
-  return entitlements
-}
+addListenersWithoutEnv({
+  ProfileUpdated = @(p) cache.clear()
+}, ::g_listener_priority.CONFIG_VALIDATION)
 
-::subscribe_handler(::g_features, ::g_listener_priority.CONFIG_VALIDATION)
+return {
+  defaults = defaults
+  override = override
+
+  hasFeatureBasic = hasFeatureBasic
+  getFeaturePack = getFeaturePack
+  hasFeature = hasFeature
+  hasAllFeatures = hasAllFeatures
+  hasAnyFeature = hasAnyFeature
+}

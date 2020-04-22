@@ -13,7 +13,7 @@ class WwMap
     name = _name
   }
 
-  function tostring()
+  function _tostring()
   {
     return "WwMap(" + name + ", " + ::toString(data) + ")"
   }

@@ -20,8 +20,8 @@ local function defTab(tab_item, is_current, handler) {
     return {
       key = tab_item
       rendObj = ROBJ_SOLID
-      halign = HALIGN_CENTER
-      valign = VALIGN_MIDDLE
+      halign = ALIGN_CENTER
+      valign = ALIGN_CENTER
       size = SIZE_TO_CONTENT
       watch = stateFlags
       group = grp

@@ -498,6 +498,10 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!isUnitOwn || !isUnitTank)
       return
 
+    local skinIndex = skinList?.values.indexof(previewSkinId) ?? 0
+    local skinDecorator = skinList?.decorators[skinIndex]
+    local canScaleAndRotate = skinDecorator?.getCouponItemdefId() == null
+
     local have_premium = ::havePremium()
     local option = null
 
@@ -509,7 +513,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
       tscTrObj.inactiveColor = have_premium? "no" : "yes"
       tscTrObj.tooltip = have_premium ? "" : ::loc("mainmenu/onlyWithPremium")
       local sliderObj = scene.findObject(tscId)
-      local value = have_premium ? option.value : 0
+      local value = have_premium ? option.value : option.defVal
       sliderObj.setValue(value)
       updateSkinConditionValue(value, sliderObj)
     }
@@ -519,8 +523,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local tcsTrObj = scene.findObject("tr_" + tcsId)
     if (::checkObj(tcsTrObj))
     {
+      tcsTrObj.tooltip = canScaleAndRotate ? "" : ::loc("guiHints/not_available_on_this_camo")
       local sliderObj = scene.findObject(tcsId)
-      sliderObj.setValue(option.value)
+      local value = canScaleAndRotate ? option.value : option.defVal
+      sliderObj.setValue(value)
+      sliderObj.enable(canScaleAndRotate)
       onChangeTankCamoScale(sliderObj)
     }
 
@@ -529,8 +536,11 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     local tcrTrObj = scene.findObject("tr_" + tcrId)
     if (::checkObj(tcrTrObj))
     {
+      tcrTrObj.tooltip = canScaleAndRotate ? "" : ::loc("guiHints/not_available_on_this_camo")
       local sliderObj = scene.findObject(tcrId)
-      sliderObj.setValue(option.value)
+      local value = canScaleAndRotate ? option.value : option.defVal
+      sliderObj.setValue(value)
+      sliderObj.enable(canScaleAndRotate)
       onChangeTankCamoRotation(sliderObj)
     }
   }
@@ -554,6 +564,14 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     updateSkinConditionValue(newValue, obj)
+  }
+
+  function askBuyPremium(afterCloseFunc)
+  {
+    local msgText = ::loc("msgbox/noEntitlement/PremiumAccount")
+    msgBox("no_premium", msgText,
+         [["ok", @() startOnlineShop("premium", afterCloseFunc) ],
+         ["cancel", @() null ]], "ok", { checkDuplicateId = true })
   }
 
   function updateSkinConditionValue(value, obj)
@@ -1743,7 +1761,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onOnlineShopEagles()
   {
     if (::has_feature("EnableGoldPurchase"))
-      startOnlineShop("eagles", afterReplenishCurrency)
+      startOnlineShop("eagles", afterReplenishCurrency, "customization")
     else
       ::showInfoMsgBox(::loc("msgbox/notAvailbleGoldPurchase"))
   }
@@ -2020,7 +2038,7 @@ class ::gui_handlers.DecalMenuHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onBuy()
   {
-    unitActions.buy(unit)
+    unitActions.buy(unit, "customization")
   }
 
   function onEventUnitBought(params)

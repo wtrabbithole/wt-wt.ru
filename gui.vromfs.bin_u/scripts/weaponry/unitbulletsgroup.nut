@@ -1,3 +1,11 @@
+local { getBulletsListHeader } = require("scripts/weaponry/weaponryVisual.nut")
+local { getBulletsSetData,
+        setUnitLastBullets,
+        getOptionsBulletsList } = require("scripts/weaponry/bulletsInfo.nut")
+local { AMMO,
+        getAmmoAmount,
+        isAmmoFree } = require("scripts/weaponry/ammoInfo.nut")
+
 class BulletGroup
 {
   unit = null
@@ -25,11 +33,11 @@ class BulletGroup
     canChangeActivity = params?.canChangeActivity ?? canChangeActivity
     isForcedAvailable = params?.isForcedAvailable ?? isForcedAvailable
 
-    bullets = ::get_options_bullets_list(unit, groupIndex, false, isForcedAvailable)
+    bullets = getOptionsBulletsList(unit, groupIndex, false, isForcedAvailable)
     selectedName = ::getTblValue(bullets.value, bullets.values, "")
 
     if (::get_last_bullets(unit.name, groupIndex) != selectedName)
-      ::set_unit_last_bullets(unit, groupIndex, selectedName)
+      setUnitLastBullets(unit, groupIndex, selectedName)
 
     local count = ::get_unit_option(unit.name, ::USEROPT_BULLET_COUNT0 + groupIndex)
     if (count != null)
@@ -58,7 +66,7 @@ class BulletGroup
 
     selectedName = bulletName
     selectedBullet = null
-    ::set_unit_last_bullets(unit, groupIndex, selectedName)
+    setUnitLastBullets(unit, groupIndex, selectedName)
     if (option)
       option.value = bulletIdx
 
@@ -108,10 +116,10 @@ class BulletGroup
     maxBulletsCount = gunInfo.total
     if (!isAmmoFree(unit, selectedName, AMMO.PRIMARY))
     {
-      local boughtCount = (::getAmmoAmount(unit, selectedName, AMMO.PRIMARY) / guns).tointeger()
+      local boughtCount = (getAmmoAmount(unit, selectedName, AMMO.PRIMARY) / guns).tointeger()
       maxBulletsCount = ::min(boughtCount, gunInfo.total)
 
-      local bulletsSet = ::getBulletsSetData(unit, selectedName)
+      local bulletsSet = getBulletsSetData(unit, selectedName)
       local maxToRespawn = ::getTblValue("maxToRespawn", bulletsSet, 0)
       if (maxToRespawn > 0)
         maxBulletsCount = ::min(maxBulletsCount, maxToRespawn)
@@ -139,7 +147,7 @@ class BulletGroup
     return option
   }
 
-  function tostring()
+  function _tostring()
   {
     return ::format("BulletGroup( unit = %s, idx = %d, active = %s, selected = %s )",
                     unit.name, groupIndex, active.tostring(), selectedName)
@@ -149,7 +157,7 @@ class BulletGroup
   {
     if (!bullets || !unit)
       return ""
-    return ::get_bullets_list_header(unit, bullets)
+    return getBulletsListHeader(unit, bullets)
   }
 
   function getModByBulletName(bulName)

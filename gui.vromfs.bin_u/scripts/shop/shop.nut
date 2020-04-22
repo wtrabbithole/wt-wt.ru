@@ -2,6 +2,7 @@ local shopTree = require("scripts/shop/shopTree.nut")
 local shopSearchBox = require("scripts/shop/shopSearchBox.nut")
 local slotActions = require("scripts/slotbar/slotActions.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
+local { topMenuHandler, topMenuShopActive } = require("scripts/mainmenu/topMenuStates.nut")
 
 local lastUnitType = null
 
@@ -103,7 +104,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function isSceneActive()
   {
     return base.isSceneActive()
-           && (wndType != handlerType.CUSTOM || ::top_menu_shop_active)
+           && (wndType != handlerType.CUSTOM || topMenuShopActive.value)
   }
 
   function getMainFocusObj()
@@ -1707,12 +1708,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   {
     OnlineShopModel.showGoods({
       unitName = getCurAircraft().name
-    })
+    }, "shop")
   }
 
   function onBuy()
   {
-    unitActions.buy(getCurAircraft(true, true))
+    unitActions.buy(getCurAircraft(true, true), "shop")
   }
 
   function onResearch(obj)
@@ -2056,7 +2057,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function updateSlotbarDifficulty()
   {
-    local slotbar = ::top_menu_handler && ::top_menu_handler.getSlotbar()
+
+    local slotbar = topMenuHandler.value?.getSlotbar()
     if (slotbar)
       slotbar.updateDifficulty()
   }
@@ -2083,7 +2085,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function restoreFocus(checkPrimaryFocus = true)
   {
     if (isSceneActive() && !checkGroupObj())
-      ::top_menu_handler.restoreFocus.call(::top_menu_handler, checkPrimaryFocus)
+      topMenuHandler.value?.restoreFocus.call(topMenuHandler.value, checkPrimaryFocus)
   }
 
   function onEventClosedUnitItemMenu(params)
@@ -2108,12 +2110,12 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function onWrapUp(obj)
   {
-    ::top_menu_handler.onWrapUp.call(::top_menu_handler, obj)
+    topMenuHandler.value?.onWrapUp.call(topMenuHandler.value, obj)
   }
 
   function onWrapDown(obj)
   {
-    ::top_menu_handler.onWrapDown.call(::top_menu_handler, obj)
+    topMenuHandler.value?.onWrapDown.call(topMenuHandler.value, obj)
   }
 
   function onShopShow(show)

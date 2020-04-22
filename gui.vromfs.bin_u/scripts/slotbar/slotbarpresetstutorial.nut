@@ -1,4 +1,6 @@
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+local { topMenuHandler } = require("scripts/mainmenu/topMenuStates.nut")
+local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 
 class SlotbarPresetsTutorial
 {
@@ -171,7 +173,7 @@ class SlotbarPresetsTutorial
 
     // This update shows player that preset was
     // actually changed behind tutorial dim.
-    local slotbar = ::top_menu_handler.getSlotbar()
+    local slotbar = topMenuHandler.value.getSlotbar()
     if (slotbar)
       slotbar.forceUpdate()
 
@@ -279,8 +281,8 @@ class SlotbarPresetsTutorial
     if (checkCurrentTutorialCanceled())
       return
     local objs = [
-      ::top_menu_handler.scene.findObject("to_battle_button"),
-      ::top_menu_handler.getObj("to_battle_console_image")
+      topMenuHandler.value.scene.findObject("to_battle_button"),
+      topMenuHandler.value.getObj("to_battle_console_image")
     ]
     local steps = [{
       obj = [objs]
