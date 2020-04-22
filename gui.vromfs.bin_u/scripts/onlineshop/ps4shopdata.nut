@@ -109,20 +109,21 @@ local fillLinkFullInfo = @(category = "") makeRequestForNextCategory(requestLink
 
 local itemIndex = 0
 local onReceivedResponeOnFullInfo = function(response, category, linksList) {
-  response.each(function(linkBlock, idx) {
-    local label = linkBlock.label
+  if (response != null)
+    response.each(function(linkBlock, idx) {
+      local label = linkBlock.label
 
-    // Received full info, we don't need short
-    persist.categoriesData[category].links.removeBlock(label)
+      // Received full info, we don't need short
+      persist.categoriesData[category].links.removeBlock(label)
 
-    fillBlock(label, persist.categoriesData[category].links, linkBlock)
-    persist.categoriesData[category].links[label].setStr("category", category)
-    persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label], itemIndex++)
+      fillBlock(label, persist.categoriesData[category].links, linkBlock)
+      persist.categoriesData[category].links[label].setStr("category", category)
+      persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label], itemIndex++)
 
-    local linkIdx = linksList.findindex(@(p) p == label)
-    if (linkIdx != null)
-      linksList.remove(linkIdx)
-  })
+      local linkIdx = linksList.findindex(@(p) p == label)
+      if (linkIdx != null)
+        linksList.remove(linkIdx)
+    })
 
   if (linksList.len())
     ::dagor.debug("PSN: Shop data: onReceivedResponeOnFullInfo: Didn't recieved info for {0}".subst(linksList.tostring()))
@@ -168,11 +169,12 @@ requestLinksFullInfo = function(category) {
     function(response, err) {
       if (err)
       {
-        ::statsd_counter($"ingame_store.error_request_category_data.{category}.{err}")
-        ::debug.debug("PSN: Shop Data: requestLinksFullInfo: on send linksList: Error " + ::toString(err))
+        ::statsd_counter($"ingame_store.request.linksFullInfo.{category}.error.{err.code}")
+        ::dagor.debug("PSN: Shop Data: requestLinksFullInfo: on send linksList: Error " + ::toString(err))
         ::debugTableData(linksList)
         return
       }
+      ::statsd_counter($"ingame_store.request.linksFullInfo.{category}.success")
 
       onReceivedResponeOnFullInfo(response, category, linksList)
     }
@@ -188,10 +190,11 @@ requestCategoryFullLinksList = @(category) psn.fetch(psn.commerce.listCategory(c
   function(response, err) {
     if (err)
     {
-      ::statsd_counter($"ingame_store.error_request_category.{category}.{err}")
+      ::statsd_counter($"ingame_store.request.CategoryFullLinksList.{category}.error.{err.code}")
       ::dagor.debug("PSN: Shop Data: requestCategoryFullLinksList: Category " + category + ", Error receieved: " + ::toString(err))
       return
     }
+    ::statsd_counter($"ingame_store.request.CategoryFullLinksList.{category}.success")
 
     fillBlock("links", persist.categoriesData[category], response[0].links)
 
@@ -214,10 +217,11 @@ digCategory = function(response, err = null)
 {
   if (err)
   {
-    ::statsd_counter($"ingame_store.error_request_categories.{err}")
+    ::statsd_counter($"ingame_store.request.digCategory.error.{err.code}")
     ::script_net_assert_once("psn_categories_error", "PSN: Shop Data: Dig Category: received error: " + ::toString(err))
     return
   }
+  ::statsd_counter($"ingame_store.request.digCategory.success")
 
   local categories = []
   foreach (data in response)
@@ -253,10 +257,11 @@ local collectCategoriesAndItems = @() psn.send(
   {
     if (err)
     {
-      ::statsd_counter($"ingame_store.error_request_categories_main.{err}")
+      ::statsd_counter($"ingame_store.request.collectCategoriesAndItems.error.{err.code}")
       ::dagor.debug("PSN: Shop Data: collectCategoriesAndItems: Received error: " + ::toString(err))
       return
     }
+    ::statsd_counter($"ingame_store.request.collectCategoriesAndItems.success")
 
     persist.categoriesData.reset()
     invalidateSeenList = true
@@ -288,10 +293,11 @@ local updateSpecificItemInfo = function(id)
     function(response, err) {
       if (err)
       {
-        ::statsd_counter($"ingame_store.error_request_items_info.{err}")
+        ::statsd_counter($"ingame_store.request.updateSpecificItemInfo.error.{err.code}")
         ::dagor.debug("PSN: Shop Data: updateSpecificItemInfo: items: " + ::toString(linksArray) + "; Error: " + ::toString(err))
         return
       }
+      ::statsd_counter($"ingame_store.request.updateSpecificItemInfo.success")
 
       foreach (idx, itemData in response)
       {
