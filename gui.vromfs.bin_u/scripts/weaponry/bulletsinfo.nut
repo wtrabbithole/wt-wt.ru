@@ -426,10 +426,11 @@ local function getBulletsGroupCount(air, full = false)
     air.bulModsGroups = groups.len()
     air.bulGroups     = groups.len()
 
-    if (air.bulGroups < ::BULLETS_SETS_QUANTITY)
+    local bulletSetsQuantity = air.unitType.bulletSetsQuantity
+    if (air.bulGroups < bulletSetsQuantity)
     {
       local add = getBulletsSetData(air, ::fakeBullets_prefix, modList) || 0
-      air.bulGroups = ::min(air.bulGroups + add, ::BULLETS_SETS_QUANTITY)
+      air.bulGroups = ::min(air.bulGroups + add, bulletSetsQuantity)
     }
   }
   return full? air.bulGroups : air.bulModsGroups
@@ -739,7 +740,8 @@ local function getBulletsList(airName, groupIdx, params = BULLETS_LIST_PARAMS)
     return descr
 
   local modTotal = getBulletsGroupCount(air, false)
-  local firstFakeIdx = canBeDuplicate? ::BULLETS_SETS_QUANTITY : modTotal
+  local bulletSetsQuantity = air.unitType.bulletSetsQuantity
+  local firstFakeIdx = canBeDuplicate? bulletSetsQuantity : modTotal
   if (firstFakeIdx <= groupIdx)
   {
     local fakeIdx = groupIdx - firstFakeIdx
@@ -755,9 +757,9 @@ local function getBulletsList(airName, groupIdx, params = BULLETS_LIST_PARAMS)
     return descr
   }
 
-  local linked_index = ::get_linked_gun_index(groupIdx, modTotal, canBeDuplicate)
+  local linked_index = ::get_linked_gun_index(groupIdx, modTotal, bulletSetsQuantity, canBeDuplicate)
   descr.duplicate = canBeDuplicate && groupIdx > 0 &&
-    linked_index == ::get_linked_gun_index(groupIdx - 1, modTotal, canBeDuplicate)
+    linked_index == ::get_linked_gun_index(groupIdx - 1, modTotal, bulletSetsQuantity, canBeDuplicate)
 
   local groups = []
   for (local modifNo = 0; modifNo < air.modifications.len(); modifNo++)
@@ -816,23 +818,12 @@ local function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true
   local lastIdxTotal = 0
   local maxCatridges = 0
   local bulletSetsQuantity = unit.unitType.bulletSetsQuantity
-  assert(bulletSetsQuantity <= ::BULLETS_SETS_QUANTITY)
-
-  local bulletSetsPerGroup = bulletSetsQuantity
-  local fullBulletSetsPerGroup = ::BULLETS_SETS_QUANTITY
-  if (groupsCount > 0) {
-    bulletSetsPerGroup /= groupsCount
-    fullBulletSetsPerGroup /= groupsCount
-  }
-
   for (local i = 0; i < bulletSetsQuantity; i++) {
-    local localId = i / bulletSetsPerGroup * fullBulletSetsPerGroup + i % bulletSetsPerGroup
-
-    local linkedIdx = ::get_linked_gun_index(localId, groupsCount)
+    local linkedIdx = ::get_linked_gun_index(i, groupsCount, bulletSetsQuantity)
     if (linkedIdx == lastLinkedIdx) {
       duplicates++
     } else {
-      local bullets = getBulletsList(unit.name, localId, {
+      local bullets = getBulletsList(unit.name, i, {
         isOnlyBought = checkPurchased, needCheckUnitPurchase = checkPurchased
       })
       lastIdxTotal = bullets.values.len()
@@ -844,7 +835,7 @@ local function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true
     }
 
     if (lastIdxTotal > duplicates && duplicates < maxCatridges)
-      res = res | (1 << localId)
+      res = res | (1 << i)
   }
   return res
 }
@@ -856,7 +847,11 @@ local function getBulletGroupIndex(airName, bulletName)
   if (!groupName || groupName == "")
     return -1
 
-  for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++)
+  local unit = ::getAircraftByName(airName)
+  if (unit == null)
+    return -1
+
+  for (local groupIndex = 0; groupIndex < unit.unitType.bulletSetsQuantity; groupIndex++)
   {
     local bulletsList = getBulletsList(airName, groupIndex, {
       needCheckUnitPurchase = false, needOnlyAvailable = false })
@@ -923,7 +918,7 @@ local function getActiveBulletsGroupInt(air, checkPurchased = true)
   local res = air.primaryBullets[primaryWeapon] | air.secondaryBullets[secondaryWeapon]
   if (canBulletsBeDuplicate(air))
   {
-    res = res & ~((1 << ::BULLETS_SETS_QUANTITY) - 1) //use only fake bullets mask
+    res = res & ~((1 << air.unitType.bulletSetsQuantity) - 1) //use only fake bullets mask
     res = res | getActiveBulletsGroupIntForDuplicates(air, checkPurchased)
   }
   return res

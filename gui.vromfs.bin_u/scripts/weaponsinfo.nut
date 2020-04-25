@@ -17,7 +17,7 @@ local { getWeaponInfoText,
   if (weaponText.warning)
     return weaponText.amount? UNIT_WEAPONS_WARNING : UNIT_WEAPONS_ZERO
 
-  for (local i = 0; i < ::BULLETS_SETS_QUANTITY; i++)
+  for (local i = 0; i < unit.unitType.bulletSetsQuantity; i++)
   {
     local modifName = ::get_last_bullets(unit.name, i);
     if (modifName && modifName != "" && ::shop_is_modification_enabled(unit.name, modifName))
@@ -511,11 +511,11 @@ local getModBlock = function(modName, blockName, templateKey)
   return null
 }
 
-::get_linked_gun_index <- function get_linked_gun_index(group_index, total_groups, canBeDuplicate = true)
+::get_linked_gun_index <- function get_linked_gun_index(group_index, total_groups, bulletSetsQuantity, canBeDuplicate = true)
 {
   if (!canBeDuplicate)
     return group_index
-  return (group_index.tofloat() * total_groups / ::BULLETS_SETS_QUANTITY + 0.001).tointeger()
+  return (group_index.tofloat() * total_groups / bulletSetsQuantity + 0.001).tointeger()
 }
 
 ::isAirHaveAnyWeaponsTags <- function isAirHaveAnyWeaponsTags(air, tags, checkPurchase = true)
