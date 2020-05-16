@@ -3053,6 +3053,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function isDelayedLogoutOnDisconnect()
   {
+    ::go_debriefing_next_func = ::gui_start_logout
     return true
   }
 
