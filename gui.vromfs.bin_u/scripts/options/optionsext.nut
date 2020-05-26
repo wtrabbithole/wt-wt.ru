@@ -13,6 +13,7 @@ local { getBulletsListHeader } = require("scripts/weaponry/weaponryVisual.nut")
 local { setUnitLastBullets,
         getOptionsBulletsList } = require("scripts/weaponry/bulletsInfo.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { reloadDargUiScript } = require_native("reactiveGuiCommand")
 
 global const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 global const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
@@ -826,13 +827,6 @@ local isWaitMeasureEvent = false
 
 
 
-
-    case ::USEROPT_INVERTY_SUIT:
-      descr.id = "invertY_suit"
-      descr.controlType = optionControlType.CHECKBOX
-      descr.controlName <- "switchbox"
-      descr.value = ::get_option_invertY(AxisInvertOption.INVERT_SUIT_Y) != 0
-      break
 
     case ::USEROPT_INVERTY_SUBMARINE:
       descr.id = "invertY_submarine"
@@ -2484,6 +2478,8 @@ local isWaitMeasureEvent = false
 
       foreach (unitType in unitTypes.types)
       {
+        if (unitType == unitTypes.INVALID)
+          continue
         local isVisible = !!(availableUnitTypesMask & unitType.bit)
         descr.values.append(unitType.esUnitType)
         descr.items.append({
@@ -3940,9 +3936,6 @@ local isWaitMeasureEvent = false
 
 
 
-    case ::USEROPT_INVERTY_SUIT:
-      ::set_option_invertY(AxisInvertOption.INVERT_SUIT_Y, value ? 1 : 0)
-      break
     case ::USEROPT_INVERTY_SUBMARINE:
       ::set_option_invertY(AxisInvertOption.INVERT_SUBMARINE_Y, value ? 1 : 0)
       break
@@ -4372,8 +4365,10 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_FONTS_CSS:
       local selFont = ::getTblValue(value, descr.values)
-      if (selFont && ::g_font.setCurrent(selFont))
+      if (selFont && ::g_font.setCurrent(selFont)) {
         ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+        reloadDargUiScript(false)
+      }
       break
 
     case ::USEROPT_HUE_SQUAD:

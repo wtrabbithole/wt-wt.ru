@@ -411,6 +411,18 @@ return [
     needShowInHelp = true
   }
   {
+    id = "ID_LOCK_TARGETING_AT_POINT"
+    checkAssign = false
+    needShowInHelp = true
+    showFunc = @() ::has_feature("PointOfInterestDesignator")
+  }
+  {
+    id = "ID_UNLOCK_TARGETING_AT_POINT"
+    checkAssign = false
+    needShowInHelp = true
+    showFunc = @() ::has_feature("PointOfInterestDesignator")
+  }
+  {
     id = "ID_CAMERA_FPS"
     checkAssign = false
     needShowInHelp = true
@@ -823,6 +835,7 @@ return [
   {
     id = "ID_TOGGLE_EXTINGUISHER"
     filterShow = [globalEnv.EM_FULL_REAL]
+    showFunc = @() ::has_feature("AircraftExtinguisher")
     checkAssign = false
   }
   {

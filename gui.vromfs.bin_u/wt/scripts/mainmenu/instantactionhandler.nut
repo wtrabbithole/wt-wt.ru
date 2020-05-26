@@ -10,6 +10,7 @@ local RB_GM_TYPE = require("scripts/gameModes/rbGmTypes.nut")
 local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { needShowChangelog, openChangelog } = require("scripts/changelog/openChangelog.nut")
 
 class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -789,10 +790,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (::disable_network())
     {
-      ::quick_match_flag <- true;
-      ::match_search_diff <- -1
       ::match_search_gm <- ::GM_DOMINATION
-      ::match_search_map <- ""
       guiScene.performDelayed(this, function() {
         goForwardIfOnline(::gui_start_session_list, false)
       })
@@ -1026,12 +1024,18 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj3()
   {
-    return scene.findObject("promo_mainmenu_place_top")
+    local obj = scene.findObject("promo_mainmenu_place_top")
+    return ::g_dagui_utils.getFirstActiveChild(obj) != null
+      ? obj
+      : null
   }
 
   function getMainFocusObj4()
   {
-    return scene.findObject("promo_mainmenu_place_bottom")
+    local obj = scene.findObject("promo_mainmenu_place_bottom")
+    return ::g_dagui_utils.getFirstActiveChild(obj) != null
+      ? obj
+      : null
   }
 
   function onUnlockCrew(obj)
@@ -1186,6 +1190,12 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
       return true
     }
     return false
+  }
+
+  function checkShowChangelog()
+  {
+    if (needShowChangelog())
+      openChangelog()
   }
 
   function checkNewUnitTypeToBattleTutor()

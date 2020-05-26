@@ -3,6 +3,8 @@ local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = require("scripts/user/avatars.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { openUrl } = require("scripts/onlineShop/url.nut")
+
 
 enum profileEvent {
   AVATAR_CHANGED = "AvatarChanged"
@@ -1417,7 +1419,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     msgBox("question_change_name", ::loc(textLocId),
       [
         ["ok", function() {
-          ::open_url(::loc("url/changeName"), false, false, "profile_page")
+          openUrl(::loc("url/changeName"), false, false, "profile_page")
           afterOkFunc()
         }],
         ["cancel", function() { }]
@@ -1640,7 +1642,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function onOpenAchievementsUrl()
   {
-    ::open_url(::loc("url/achievements",
+    openUrl(::loc("url/achievements",
         { appId = ::WT_APPID, name = ::get_profile_info().name}),
       false, false, "profile_page")
   }
