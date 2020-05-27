@@ -244,8 +244,6 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
   AllowSteamAccountLinking = true
   AllowXboxAccountLinking = false
 
-  ClansXBOXOnPC = false
-
   MapPreferences = false
   TournamentInvites = true
 
@@ -255,6 +253,7 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
   DebugLogPS4ShopData = false //For debug purpose, to see ps4 shop data on retail console
   ShowWeapPresetsMenu = false
   Changelog = false
+  ShowUrlQrCode = false
 })
 
 local override = ::Watched({})

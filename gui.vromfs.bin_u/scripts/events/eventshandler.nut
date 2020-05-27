@@ -1,8 +1,11 @@
 local seenEvents = ::require("scripts/seen/seenList.nut").get(SEEN.EVENTS)
 local bhvUnseen = ::require("scripts/seen/bhvUnseen.nut")
-local crossplayModule = require("scripts/social/crossplay.nut")
+local { getTextWithCrossplayIcon,
+        isCrossPlayEnabled,
+        needShowCrossPlayInfo } = require("scripts/social/crossplay.nut")
 local clustersModule = require("scripts/clusterSelect.nut")
 local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
+local { setDoubleTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 const COLLAPSED_CHAPTERS_SAVE_ID = "events_collapsed_chapters"
 const ROOMS_LIST_OPEN_COUNT_SAVE_ID = "tutor/roomsListOpenCount"
@@ -89,7 +92,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj()
   {
-    return queueToShow ? null : getObj("items_list")
+    return queueToShow ? queueInfoHandlerWeak?.getObj("custom_mode_checkbox") : getObj("items_list")
   }
 
   //----CONTROLLER----//
@@ -443,8 +446,12 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
     local queueObj = showSceneBtn("div_before_chapters_list", true)
     queueObj.height = "ph"
     local queueHandlerClass = queueToShow && ::queues.getQueuePreferredViewClass(queueToShow)
-    local queueHandler = ::handlersManager.loadHandler(queueHandlerClass,
-                           { scene = queueObj  })
+    local queueHandler = ::handlersManager.loadHandler(queueHandlerClass, {
+      scene = queueObj,
+      onWrapUpCb = ::Callback(onWrapUp, this),
+      onWrapDownCb = ::Callback(onWrapDown, this),
+      leaveQueueCb = ::Callback(onLeaveEvent, this)
+    })
     registerSubHandler(queueHandler)
     queueInfoHandlerWeak = queueHandler
   }
@@ -494,7 +501,7 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
         event, "activeTextColor", true, false))
     }
 
-    ::setDoubleTextToButton(scene, "btn_join_event", uncoloredStartText, startText)
+    setDoubleTextToButton(scene, "btn_join_event", uncoloredStartText, startText)
     local leaveButtonObj = scene.findObject("btn_leave_event")
     leaveButtonObj.show(isInQueue)
     leaveButtonObj.enable(isInQueue)
@@ -580,12 +587,18 @@ class ::gui_handlers.EventsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function getEventNameForListBox(event)
   {
     local text = ::events.getEventNameText(event)
+    if (needShowCrossPlayInfo())
+    {
+      local isPlatformOnlyAllowed = ::events.isEventPlatformOnlyAllowed(event)
+      text = getTextWithCrossplayIcon(!isPlatformOnlyAllowed, text)
+      if (!isPlatformOnlyAllowed && !isCrossPlayEnabled())
+        text = ::colorize("warningTextColor", text)
+    }
+
     if (::events.isEventEnded(event))
       text = ::colorize("oldTextColor", text)
-    return crossplayModule.getTextWithCrossplayIcon(
-      !::events.isEventPlatformOnlyAllowed(event) && !crossplayModule.isCrossPlayEnabled(),
-      text
-    )
+
+    return text
   }
 
   function getCurrentEdiff()

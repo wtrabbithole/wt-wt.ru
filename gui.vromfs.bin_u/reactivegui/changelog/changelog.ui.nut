@@ -7,6 +7,8 @@ local { commonTextButton } = require("reactiveGui/components/textButton.nut")
 local modalWindow = require("reactiveGui/components/modalWindow.nut")
 local fontsState = require("reactiveGui/style/fontsState.nut")
 local JB = require("reactiveGui/control/gui_buttons.nut")
+local { mkImageCompByDargKey } = require("reactiveGui/components/gamepadImgByKey.nut")
+local { showConsoleButtons } = require("reactiveGui/ctrlsState.nut")
 
 local tabStyle = {
   fillColor = {
@@ -25,6 +27,10 @@ local tabStyle = {
 
 local blockInterval = ::fpx(6)
 local borderWidth = ::dp(1)
+local minTabCount = 5
+
+local scrollHandler = ::ScrollHandler()
+local scrollStep = ::fpx(75)
 
 local function getTabColorCtor(sf, style, isCurrent) {
   if (isCurrent)        return style.current
@@ -51,32 +57,61 @@ local function patchnote(v) {
     onClick = @() choosePatchnote(v)
     onElemState = @(sf) stateFlags(sf)
     skipDirPadNav = false
-    children = {
-      size = [flex(), ::ph(100)]
-      maxWidth = ::fpx(300) - 2 * ::scrn_tgt(0.01)
-      behavior = Behaviors.TextArea
-      rendObj = ROBJ_TEXTAREA
-      halign = ALIGN_CENTER
-      valign = ALIGN_CENTER
-      color = getTabColorCtor(stateFlags.value, tabStyle.textColor, isCurrent())
-      font = fontsState.get("small")
-      text = v?.title ?? v.tVersion
-    }
+    children = [{
+        size = [flex(), ::ph(100)]
+        maxWidth = ::fpx(300) - 2 * ::scrn_tgt(0.01)
+        behavior = Behaviors.TextArea
+        rendObj = ROBJ_TEXTAREA
+        halign = ALIGN_CENTER
+        valign = ALIGN_CENTER
+        color = getTabColorCtor(stateFlags.value, tabStyle.textColor, isCurrent())
+        font = fontsState.get("small")
+        text = v?.title ?? v.tVersion
+      },
+      stateFlags.value & S_HOVER ? { hotkeys = [["{0}".subst(JB.A), @() choosePatchnote(v)]] } : null
+    ]
   }
 }
 
-local patchoteSelector = @() {
+local topBorder = @(params = {}) {
+  size = [::dp(1), flex()]
+  valign = ALIGN_CENTER
+  rendObj = ROBJ_BOX
+  fillColor = colors.transparent
+  borderColor = colors.menu.frameBorderColor
+  borderWidth = [borderWidth, 0 , 0 , 0]
+}.__merge(params)
+
+local patchnoteSelectorGamepadButton = @(hotkey, actionFunc) topBorder({
+  size = [SIZE_TO_CONTENT, flex()]
+  behavior = Behaviors.Button
+  children = mkImageCompByDargKey(hotkey)
+  onClick = actionFunc
+  skipDirPadNav = true
+})
+
+local function getPatchoteSelectorChildren() {
+  local tabCount = versions.value.len()
+  local borderEmptySpace = topBorder({size = flex(::max(0, minTabCount - tabCount))})
+  if (tabCount == 0)
+    return borderEmptySpace
+
+  local children = versions.value.map(patchnote)
+  if (!showConsoleButtons.value)
+    return children.append(borderEmptySpace)
+
+  return [patchnoteSelectorGamepadButton("J:LB", nextPatchNote)]
+    .extend(children)
+    .append(patchnoteSelectorGamepadButton("J:RB", prevPatchNote))
+    .append(borderEmptySpace)
+}
+
+local patchnoteSelector = @() {
   watch = versions
   size = [flex(), ::ph(100)]
   flow = FLOW_HORIZONTAL
-  gap = {
-    rendObj = ROBJ_BOX
-    size = [::dp(1), flex()]
-    fillColor = colors.transparent
-    borderColor = colors.menu.frameBorderColor
-    borderWidth = [borderWidth, 0 , 0 , 0]
-  }
-  children = versions.value.map(patchnote)
+  gap = topBorder()
+  children = getPatchoteSelectorChildren()
 }
 
 local missedPatchnoteText = formatText([::loc("NoUpdateInfo", "Oops... No information yet :(")])
@@ -89,6 +124,32 @@ local seeMoreUrl = {
   margin = [::fpx(50), 0, 0, 0]
 }
 
+local scrollPatchnoteWatch = Watched(0)
+
+local function scrollPatchnote() {  //FIX ME: Remove this code, when native scroll will have opportunity to scroll by hotkeys.
+  local element = scrollHandler.elem
+  if (element != null)
+    scrollHandler.scrollToY(element.getScrollOffsY() + scrollPatchnoteWatch.value * scrollStep)
+}
+
+scrollPatchnoteWatch.subscribe(function(value) {
+  ::gui_scene.clearTimer(scrollPatchnote)
+  if (value == 0)
+    return
+
+  scrollPatchnote()
+  ::gui_scene.setInterval(0.1, scrollPatchnote)
+})
+
+local scrollPatchnoteBtn = @(hotkey, watchValue) {
+  behavior = Behaviors.Button
+  onElemState = @(sf) scrollPatchnoteWatch((sf & S_ACTIVE) ? watchValue : 0)
+  hotkeys = [[hotkey]]
+  onDetach = @() scrollPatchnoteWatch(0)
+}
+
+curVersionInfo.subscribe(@(value) scrollHandler.scrollToY(0))
+
 local function selPatchnote(){
   local text = curVersionInfo.value ?? missedPatchnoteText
   if (::cross_call.hasFeature("AllowExternalLink")) {
@@ -100,10 +161,18 @@ local function selPatchnote(){
   return {
     watch = [curVersionInfo]
     size = flex()
-    children = scrollbar.makeSideScroll({
-      size = [flex(), SIZE_TO_CONTENT]
-      children = formatText(text)
-    })
+    children = [
+      scrollbar.makeSideScroll({
+        size = [flex(), SIZE_TO_CONTENT]
+        margin = [0 ,blockInterval]
+        children = formatText(text)
+      }, {
+        scrollHandler = scrollHandler
+        joystickScroll = false
+      }),
+      scrollPatchnoteBtn("^J:R.Thumb.Up | PageUp", -1),
+      scrollPatchnoteBtn("^J:R.Thumb.Down | PageDown", 1)
+    ]
   }
 }
 
@@ -131,6 +200,7 @@ local nextButton = @() {
 local clicksHandler = {
   size = flex(),
   eventPassThrough = true,
+  skipDirPadNav = true
   behavior = Behaviors.Button
   hotkeys = [
     ["J:LB | Left", nextPatchNote],
@@ -163,7 +233,7 @@ local changelogRoot = {
             flow = FLOW_HORIZONTAL
             valign = ALIGN_CENTER
             children = [
-              patchoteSelector
+              patchnoteSelector
               nextButton
             ]
           }
@@ -171,6 +241,14 @@ local changelogRoot = {
       },
       headerParams = {
         closeBtn = { onClick = onCloseAction }
+        content = @() {
+          watch = curPatchnote
+          rendObj = ROBJ_DTEXT
+          font = fontsState.get("medium")
+          color = colors.menu.activeTextColor
+          text = curPatchnote.value?.headerTitle ?? ""
+          margin = [0, 0, 0, ::fpx(15)]
+        }
       }
     })
   ]

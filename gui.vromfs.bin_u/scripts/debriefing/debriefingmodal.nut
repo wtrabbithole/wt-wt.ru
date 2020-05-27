@@ -6,6 +6,8 @@ local workshopPreview = ::require("scripts/items/workshop/workshopPreview.nut")
 local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { openUrl } = require("scripts/onlineShop/url.nut")
+local { setDoubleTextToButton, setColoredDoubleTextToButton,
+  placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
@@ -137,9 +139,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     unlocks = {
       filter = {
         show = [::EULT_NEW_UNLOCK]
-        unlocks = [::UNLOCKABLE_AIRCRAFT, ::UNLOCKABLE_SKIN, ::UNLOCKABLE_DECAL, ::UNLOCKABLE_WEAPON,
-                   ::UNLOCKABLE_DIFFICULTY, ::UNLOCKABLE_ENCYCLOPEDIA, ::UNLOCKABLE_PILOT,
-                   ::UNLOCKABLE_MEDAL, ::UNLOCKABLE_CHALLENGE, ::UNLOCKABLE_ACHIEVEMENT]
+        unlocks = [::UNLOCKABLE_AIRCRAFT, ::UNLOCKABLE_SKIN, ::UNLOCKABLE_DECAL, ::UNLOCKABLE_ATTACHABLE,
+                   ::UNLOCKABLE_WEAPON, ::UNLOCKABLE_DIFFICULTY, ::UNLOCKABLE_ENCYCLOPEDIA, ::UNLOCKABLE_PILOT,
+                   ::UNLOCKABLE_MEDAL, ::UNLOCKABLE_CHALLENGE, ::UNLOCKABLE_ACHIEVEMENT, ::UNLOCKABLE_TITLE]
         filters = { popupInDebriefing = [false, null] }
         currentRoomOnly = true
         disableVisible = true
@@ -196,6 +198,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     isMp = ::is_multiplayer()
     ::close_cur_voicemenu()
     ::enableHangarControls(true)
+    checkDestroySession()
 
     // Debriefing shows on on_hangar_loaded event, but looks like DoF resets in this frame too.
     // DoF changing works unstable on this frame, but works 100% good on next guiscene act.
@@ -1098,7 +1101,6 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       updateInventoryButton()
 
       initFocusArray()
-      checkDestroySession()
       checkPopupWindows()
       throwBattleEndEvent()
       guiScene.performDelayed(this, function() {ps4SendActivityFeed() })
@@ -2370,7 +2372,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     ::showBtn("btn_reroll", showRerollButton, taskObj)
     ::showBtn("btn_recieve_reward", canGetReward, taskObj)
     if (showRerollButton)
-      ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
+      placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
   }
 
   function updateBattleTasksRequirementsList()
@@ -3016,7 +3018,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       : ::g_squad_manager.isSquadMember() ? "mainmenu/btnReady"
       : "mainmenu/toBattle"
 
-    ::setDoubleTextToButton(scene, "btn_next", ::loc(btnNextLocId))
+    setDoubleTextToButton(scene, "btn_next", ::loc(btnNextLocId))
 
     local backBtnTextLocId = "mainmenu/btnQuit"
     if (isToBattleBtnVisible)
@@ -3248,7 +3250,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     local actionData = getInvetoryGiftActionData()
     local actionBtn = showSceneBtn("btn_inventory_gift_action", actionData != null)
     if (actionData && actionBtn)
-      ::set_double_text_to_button(scene, "btn_inventory_gift_action", actionData.btnText)
+      setColoredDoubleTextToButton(scene, "btn_inventory_gift_action", actionData.btnText)
   }
 
   function onInventoryGiftAction()

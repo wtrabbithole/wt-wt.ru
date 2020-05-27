@@ -82,6 +82,7 @@ local radarState = {
   azimuthMarkers = {}
   AzimuthMarkersTrigger = Watched(0)
   Irst = Watched(false)
+  RadarScale = Watched(1.0)
 
   MfdIlsHeight = Watched(0)
 
@@ -841,7 +842,7 @@ local noiseSignal = function(size, pos1, pos2)
 
   return @(){
     size = SIZE_TO_CONTENT
-    children = getChildren()
+    children = !radarState.MfdRadarEnabled.value ? getChildren() : []
     watch = [
       radarState.IsRadarVisible,
       radarState.IsRadar2Visible,
@@ -856,6 +857,8 @@ local radToDeg = 180.0 / 3.14159
 
 local makeRadarModeText = function ()
 {
+  if (radarState.MfdRadarEnabled.value)
+    return ""
   local text = ""
   if (radarState.RadarModeNameId.value >= 0)
     text += ::loc(modeNames[radarState.RadarModeNameId.value])
@@ -866,6 +869,8 @@ local makeRadarModeText = function ()
 
 local makeRadar2ModeText = function ()
 {
+  if (radarState.MfdRadarEnabled.value)
+    return ""
   local text = ""
   if (radarState.Radar2ModeNameId.value >= 0)
     text += ::loc(modeNames[radarState.Radar2ModeNameId.value])
@@ -2480,9 +2485,13 @@ local radar = function(posX, posY){
 
 local radarMfdBackground = function()
 {
+  local backSize = [radarState.radarPosSize.w / radarState.RadarScale.value,
+    radarState.radarPosSize.h / radarState.RadarScale.value]
+  local backPos = [radarState.radarPosSize.x - (1.0 - radarState.RadarScale.value) * 0.5 * backSize[0],
+   radarState.radarPosSize.y - (1.0 - radarState.RadarScale.value) * 0.5 * backSize[1]]
   return {
-    pos = [radarState.radarPosSize.x, radarState.radarPosSize.y]
-    size = [radarState.radarPosSize.w, radarState.radarPosSize.h]
+    pos = backPos
+    size = backSize
     rendObj = ROBJ_SOLID
     lineWidth = radarState.radarPosSize.h
     color = Color(0, 0, 0, 255)

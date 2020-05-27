@@ -4,8 +4,14 @@ local { WEAPON_TYPE,
 local { AMMO,
         getAmmoAmountData } = require("scripts/weaponry/ammoInfo.nut")
 
-local bulletIcons = {}
+local BULLET_TYPE = {
+  ROCKET_AIR     = "rocket_aircraft"
+  AAM            = "aam"
+  TORPEDO        = "torpedo"
+  ATGM_TANK      = "atgm_tank"
+}
 
+local bulletIcons = {}
 local bulletAspectRatio = {}
 
 local bulletsFeaturesImg = [
@@ -271,7 +277,7 @@ local function getBulletsSetData(air, modifName, noModList = null)
         else if (rocket?.smokeShell == false)
            weaponType = WEAPON_TYPE.FLARES
         else if (rocket?.operated || rocket?.guidanceType)
-          weaponType = (rocket?.bulletType == "atgm_tank") ? WEAPON_TYPE.AGM : WEAPON_TYPE.AAM
+          weaponType = (rocket?.bulletType == BULLET_TYPE.ATGM_TANK) ? WEAPON_TYPE.AGM : WEAPON_TYPE.AAM
         else
           weaponType = WEAPON_TYPE.ROCKETS
       }
@@ -1160,7 +1166,8 @@ local function getArmorPiercingViewData(armorPiercing, dist)
   return res
 }
 
-local function buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet = null, needAdditionalInfo = false)
+local buildPiercingData = ::kwarg(function buildPiercingData(bullet_parameters, descTbl,
+  bulletsSet = null, needAdditionalInfo = false, weaponName = "")
 {
   local param = { armorPiercing = array(0, null) , armorPiercingDist = array(0, null)}
   local needAddParams = bullet_parameters.len() == 1
@@ -1373,11 +1380,15 @@ local function buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet = 
   }
   descTbl.bulletParams.append({ props = p })
 
-  local bulletName = ""
+  local currWeaponName = ""
   if("weaponBlkPath" in param)
-    bulletName = ::loc("weapons/{0}".subst(::get_weapon_name_by_blk_path(param.weaponBlkPath)))
+    currWeaponName = ::get_weapon_name_by_blk_path(param.weaponBlkPath)
 
-  local apData = getArmorPiercingViewData(param.armorPiercing, param.armorPiercingDist)
+  local bulletName = currWeaponName != "" ? ::loc("weapons/{0}".subst(currWeaponName)) : ""
+  local apData = null
+  if ((weaponName != "" ? weaponName : currWeaponName) == currWeaponName)
+    apData = getArmorPiercingViewData(param.armorPiercing, param.armorPiercingDist)
+
   if (apData)
   {
     local header = ::loc("bullet_properties/armorPiercing")
@@ -1385,7 +1396,7 @@ local function buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet = 
       + "\n" + ::format("(%s / %s)", ::loc("distance"), ::loc("bullet_properties/hitAngle"))
     descTbl.bulletParams.append({ props = apData, header = header })
   }
-}
+})
 
 local function addBulletsParamToDesc(descTbl, unit, item)
 {
@@ -1430,10 +1441,15 @@ local function addBulletsParamToDesc(descTbl, unit, item)
       getModificationBulletsEffect(searchName),
     useDefaultBullet, false)
 
-  buildPiercingData(unit, bullet_parameters, descTbl, bulletsSet, true)
+  buildPiercingData({
+    bullet_parameters = bullet_parameters,
+    descTbl = descTbl,
+    bulletsSet = bulletsSet,
+    needAdditionalInfo = true})
 }
 
 return {
+  BULLET_TYPE                           = BULLET_TYPE
   getModificationBulletsGroup           = getModificationBulletsGroup
   isFakeBullet                          = isFakeBullet
   setUnitLastBullets                    = setUnitLastBullets

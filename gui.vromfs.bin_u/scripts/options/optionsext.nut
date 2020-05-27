@@ -584,6 +584,57 @@ local isWaitMeasureEvent = false
         ::set_option_bomb_activation_time(curValue)
       break
 
+   case ::USEROPT_FLARES_PERIODS:
+       descr.id = "flares_periods"
+       descr.values = [0.1,0.2,0.5,1.0]
+       descr.items = []
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+         local text = time.secondsToString(descr.values[i], true, true, 2)
+         local tooltipLoc = "guiHints/flares_periods/periods"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { sec = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_flares_periods())
+       defaultValue = 0.1
+       break
+
+   case ::USEROPT_FLARES_SERIES:
+       descr.id = "flares_series"
+       descr.items = []
+       descr.values = [1,2,3,4]
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+          local text = descr.values[i].tostring()
+          local tooltipLoc = "guiHints/flares_periods/series"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { num = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_flares_series())
+       defaultValue = 5
+       break
+
+   case ::USEROPT_FLARES_SERIES_PERIODS:
+       descr.id = "flares_series_periods"
+       descr.items = []
+       descr.values = [1,2,5,10]
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+          local text = time.secondsToString(descr.values[i], true, true, 2)
+          local tooltipLoc = "guiHints/flares_periods/series_periods"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { sec = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_flares_series_periods())
+       defaultValue = 1
+       break
+
    case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
       descr.id = "depthcharge_activation_time"
       descr.items = []
@@ -3699,13 +3750,6 @@ local isWaitMeasureEvent = false
       descr.controlName <- "switchbox"
       descr.value = ::g_gamepad_cursor_controls.getValue()
       break
-    case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED:
-      descr.id = "gamepad_cursor_controller_speed"
-      descr.controlType = optionControlType.SLIDER
-      descr.value = ::g_gamepad_cursor_controls.getSpeed()
-      descr.min <- 5
-      descr.max <- 200
-      break
     case ::USEROPT_PS4_CROSSPLAY:
       descr.id = "ps4_crossplay"
       descr.controlType = optionControlType.CHECKBOX
@@ -3878,6 +3922,15 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_MINE_DEPTH:
       ::set_option_mine_depth(descr.values[value])
+      break
+    case ::USEROPT_FLARES_PERIODS:
+      ::set_option_flares_periods(descr.values[value])
+      break
+    case ::USEROPT_FLARES_SERIES:
+      ::set_option_flares_series(descr.values[value])
+      break
+    case ::USEROPT_FLARES_SERIES_PERIODS:
+      ::set_option_flares_series_periods(descr.values[value])
       break
     case ::USEROPT_USE_PERFECT_RANGEFINDER:
       ::set_option_use_perfect_rangefinder(value ? 1 : 0)
@@ -4855,9 +4908,6 @@ local isWaitMeasureEvent = false
       break
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER:
       ::g_gamepad_cursor_controls.setValue(value)
-      break
-    case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED:
-      ::g_gamepad_cursor_controls.setSpeed(value)
       break
     case ::USEROPT_PS4_CROSSPLAY:
       crossplayModule.setCrossPlayStatus(value)

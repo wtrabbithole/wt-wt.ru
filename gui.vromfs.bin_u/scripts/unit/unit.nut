@@ -25,6 +25,7 @@ local defaultAvailableWeapons = {
   hasBombs = false
   hasDepthCharges = false
   hasMines = false
+  hasFlares = false
 }
 
 local Unit = class
@@ -612,6 +613,7 @@ local Unit = class
     availableWeapons = clone defaultAvailableWeapons
 
     if (unitBlk?.weapon_presets != null)
+    {
       foreach (block in (unitBlk.weapon_presets % "preset"))
         if (block.name == secondaryWep)
         {
@@ -630,11 +632,29 @@ local Unit = class
               availableWeapons.hasDepthCharges = true
             if (weapBlk?.bomb.isMine)
               availableWeapons.hasMines = true
+            if (weapBlk?.rocket && weapBlk.rocket?.isFlare)
+              availableWeapons.hasFlares = true
 
             weaponsBlkArray.append(weap.blk)
           }
           break
         }
+        //check primary in that case
+      if (!availableWeapons.hasFlares)
+        foreach (block in (unitBlk.weapon_presets % "preset"))
+        {
+            weaponDataBlock = ::DataBlock(block.blk)
+            foreach (weap in (weaponDataBlock % "Weapon"))
+            {
+              if (!weap?.blk || weap?.dummy || ::isInArray(weap.blk, weaponsBlkArray))
+                continue
+
+              local weapBlk = ::DataBlock(weap.blk)
+              if (weapBlk?.rocket && weapBlk.rocket?.isFlare)
+                availableWeapons.hasFlares = true
+            }
+        }
+    }
 
     availableWeaponsByWeaponName[secondaryWep] <- availableWeapons
     return availableWeapons
@@ -646,6 +666,18 @@ local Unit = class
       return []
 
     return ::OnlineShopModel.searchEntitlement({unitName = name})
+  }
+
+  function getUnlockImage()
+  {
+    if (isAir())
+      return "#ui/gameuiskin#blueprint_items_aircraft"
+    if (isTank())
+      return "#ui/gameuiskin#blueprint_items_tank"
+    if (isShip())
+      return "#ui/gameuiskin#blueprint_items_ship"
+
+    return "#ui/gameuiskin#blueprint_items_aircraft"
   }
 
   isSquadronVehicle       = @() researchType == "clanVehicle"
