@@ -102,7 +102,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     local presetObj = obj.getChild(obj.getValue())
     if (!::check_obj(presetObj))
       return
-    curPresetIdx = presetObj.presetId != "" ? presetObj.presetId.tointeger() : -1
+    curPresetIdx = presetObj.presetId != "" ? presetObj.presetId.tointeger() : null
     presetObj.select()
     updateDesc()
   }
@@ -172,7 +172,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     local descObj = scene.findObject("tierDesc")
     if (!::check_obj(descObj))
       return
-    if (tierId != null)
+    if (tierId != null && curPresetIdx != null)
     {
       local item = presetsList[curPresetIdx]
       local weaponry = ::u.search(item.tiers, @(p) p.tierId == tierId)?.weaponry
@@ -197,12 +197,16 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
 
   function onModActionBtn(obj = null)
   {
+    if (curPresetIdx == null)
+      return
     chosenPresetIdx = curPresetIdx
     doItemAction(presetsList[curPresetIdx])
   }
 
   function onAltModAction(obj)
   {
+    if (curPresetIdx == null)
+      return
     onBuy(presetsList[curPresetIdx])
   }
 
@@ -262,14 +266,16 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
   function updateDesc()
   {
     local descObj = scene.findObject("desc")
-    if (::check_obj(descObj))
-      if (curPresetIdx < 0)
-      {
-        guiScene.replaceContentFromText(descObj, "", 0, this)
-        showSceneBtn("actionBtn", false)
-        showSceneBtn("altActionBtn", false)
-        return
-      }
+    if (!::check_obj(descObj))
+      return
+
+    if (curPresetIdx == null)
+    {
+      guiScene.replaceContentFromText(descObj, "", 0, this)
+      showSceneBtn("actionBtn", false)
+      showSceneBtn("altActionBtn", false)
+      return
+    }
     updateWeaponTooltip(descObj, unit, presetsList[curPresetIdx], this, {detail = INFO_DETAIL.FULL})
     local idx = curPresetIdx
     local itemParams = ::u.search(presetsMarkup, @(i) i?.presetId == idx)

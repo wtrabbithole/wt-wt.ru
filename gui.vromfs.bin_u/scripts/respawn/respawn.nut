@@ -14,6 +14,7 @@ local { AMMO,
         getAmmoAmountData } = require("scripts/weaponry/ammoInfo.nut")
 local { isChatEnabled } = require("scripts/chat/chatStates.nut")
 local { setColoredDoubleTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
+local { hasFlares } = require("scripts/unit/unitStatus.nut")
 
 ::last_ca_aircraft <- null
 ::used_planes <- {}
@@ -1093,8 +1094,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local option = ::get_option(::USEROPT_FLARES_PERIODS)
-    showOptionRow(option.id, (unit.isAir() || unit.isHelicopter())
-      && unit.getAvailableSecondaryWeapons().hasFlares)
+    showOptionRow(option.id, (unit.isAir() || unit.isHelicopter()) && hasFlares(unit))
   }
 
   function checkFlaresSeriesRow()
@@ -1104,8 +1104,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local option = ::get_option(::USEROPT_FLARES_SERIES)
-    showOptionRow(option.id, (unit.isAir() || unit.isHelicopter())
-      && unit.getAvailableSecondaryWeapons().hasFlares)
+    showOptionRow(option.id, (unit.isAir() || unit.isHelicopter()) && hasFlares(unit))
   }
 
   function checkFlaresSeriesPeriodsRow()
@@ -1115,8 +1114,7 @@ class ::gui_handlers.RespawnHandler extends ::gui_handlers.MPStatistics
       return
 
     local option = ::get_option(::USEROPT_FLARES_SERIES_PERIODS)
-    showOptionRow(option.id, (unit.isAir() || unit.isHelicopter())
-      && unit.getAvailableSecondaryWeapons().hasFlares)
+    showOptionRow(option.id, (unit.isAir() || unit.isHelicopter()) && hasFlares(unit))
   }
 
   function updateSkin()
