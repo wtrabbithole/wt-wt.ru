@@ -8,7 +8,9 @@ local { openChangelog } = require("scripts/changelog/openChangelog.nut")
 local openPersonalUnlocksModal = require("scripts/unlocks/personalUnlocksModal.nut")
 local { openUrlByObj } = require("scripts/onlineShop/url.nut")
 local openQrWindow = require("scripts/wndLib/qrWindow.nut")
-local { getTextWithCrossplayIcon, needShowCrossPlayInfo } = require("scripts/social/crossplay.nut")
+local { getTextWithCrossplayIcon,
+        needShowCrossPlayInfo,
+        isCrossPlayEnabled } = require("scripts/social/crossplay.nut")
 
 local cache = { byId = {} }
 
@@ -154,7 +156,7 @@ local list = {
   REPLAY = {
     text = @() "#mainmenu/btnReplays"
     onClickFunc = @(obj, handler) ::is_platform_ps4? ::show_not_available_msg_box() : handler.checkedNewFlight(::gui_start_replays)
-    isHidden = @(...) !::has_feature("Replays")
+    isHidden = @(...) !::has_feature("ClientReplay")
   }
   VIRAL_AQUISITION = {
     text = @() "#mainmenu/btnGetLink"
@@ -193,12 +195,18 @@ local list = {
     isHidden = @(handler = null) !::has_feature("Credits") || !(handler && handler instanceof ::gui_handlers.TopMenu)
   }
   TSS = {
-    text = @() "#topmenu/tss"
-    onClickFunc = @(obj, handler) openUrlByObj(obj)
+    text = @() getTextWithCrossplayIcon(needShowCrossPlayInfo(), ::loc("topmenu/tss"))
+    onClickFunc = function(obj, handler) {
+      if (!needShowCrossPlayInfo() || isCrossPlayEnabled())
+        openUrlByObj(obj)
+      else
+        ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
+    }
     isDelayed = false
     link = "#url/tss"
     isLink = @() true
-    isHidden = @(...) !::has_feature("AllowExternalLink") || ::is_vendor_tencent()
+    isFeatured = @() true
+    isHidden = @(...) !::has_feature("AllowExternalLink") || !::has_feature("Tournaments") || ::is_vendor_tencent() || ::is_me_newbie()
   }
   STREAMS_AND_REPLAYS = {
     text = @() "#topmenu/streamsAndReplays"
@@ -211,6 +219,7 @@ local list = {
     isDelayed = false
     link = "#url/streamsAndReplays"
     isLink = @() !::has_feature("ShowUrlQrCode")
+    isFeatured = @() !::has_feature("ShowUrlQrCode")
     isHidden = @(...) !::has_feature("ServerReplay") || (!::has_feature("AllowExternalLink") && !::has_feature("ShowUrlQrCode"))
        || ::is_vendor_tencent() || !::isInMenu()
   }

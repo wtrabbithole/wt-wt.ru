@@ -120,7 +120,7 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
   UserMissionsSkirmishLocal = false
   UserMissionsSkirmishByUrl = false
   UserMissionsSkirmishByUrlCreate = false
-  Replays = true
+  ClientReplay = true
   ServerReplay = true
   Encyclopedia = true
   Benchmark = true
@@ -245,7 +245,7 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
   AllowXboxAccountLinking = false
 
   MapPreferences = false
-  TournamentInvites = true
+  Tournaments = true
 
   PS4CrossNetwork = false
 

@@ -242,7 +242,7 @@ local cfg = {
       { shortcut = [ "ID_TOGGLE_PERIODIC_FLARES", "ID_TOGGLE_PERIODIC_FLARES_HELICOPTER" ],
           enable = hasCountermeasureFlareGuns }
       { shortcut = [ "ID_TOGGLE_MLWS_FLARES_SLAVING", "ID_TOGGLE_MLWS_FLARES_SLAVING_HELICOPTER" ],
-          enable =  @(unitId) hasCountermeasureFlareGuns && hasMissileLaunchWarningSystem }
+          enable =  @(unitId) hasCountermeasureFlareGuns(unitId) && hasMissileLaunchWarningSystem(unitId) }
       null
       null
       null
@@ -272,7 +272,7 @@ local cfg = {
       { shortcut = [ "ID_CAMERA_TPS_HELICOPTER" ], enable = hasCameraExternal }
       { shortcut = [ "ID_CAMERA_VIRTUAL_FPS_HELICOPTER" ], enable = hasCameraVirtualCockpit }
       { shortcut = [ "ID_CAMERA_GUNNER_HELICOPTER" ], enable = hasCameraGunner }
-      { shortcut = [ "ID_CAMERA_VIRTUAL_TARGET_FPS_HELICOPTER" ], enable = hasCameraGunner }
+      { shortcut = [ "ID_CAMERA_VIRTUAL_TARGET_FPS_HELICOPTER" ] }
       null
       null
     ]
