@@ -26,6 +26,8 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
   onChangeValueCb      = null
   weaponItemParams     = null
   isTiersNestSelected  = false
+  chapterPos           = 0
+  wndWidth             = 0
 
   function getSceneTplView()
   {
@@ -36,6 +38,8 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
         + tiersWidth + iconWidth
     presetTextWidth = ::min(::to_pixels("1@srw") - tiersAndDescWidth,
       ::to_pixels("1@modPresetTextMaxWidth"))
+    wndWidth = tiersAndDescWidth + presetTextWidth
+    chapterPos = presetTextWidth + 0.5 * tiersWidth + iconWidth
     weaponryByPresetInfo = getWeaponryByPresetInfo(unit, chooseMenuList)
     presetsList = weaponryByPresetInfo.presetsList
     lastWeapon = !isWorldWarUnit ?
@@ -46,8 +50,8 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     return {
       headerText = "".concat(::loc("modification/category/secondaryWeapon"), " ",
         ::loc("ui/mdash"), " ", ::getUnitName(unit))
-      wndWidth = tiersAndDescWidth + presetTextWidth
-      chapterPos = presetTextWidth + 0.5 * tiersWidth + iconWidth
+      wndWidth = wndWidth
+      chapterPos = chapterPos
       presets = presetsMarkup
       isShowConsoleBtn = ::show_console_buttons
     }
@@ -55,6 +59,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
 
   function initScreen()
   {
+    initFocusArray()
     selectPreset(chosenPresetIdx)
   }
 
@@ -79,6 +84,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
           collapsable = true
           selected = idx == chosenPresetIdx
           showButtons = true
+          actionBtnText = onChangeValueCb != null ? ::loc("mainmenu/btnSelect") : null
         })
       res.append({
         presetId = idx
@@ -113,7 +119,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     for (local i=0; i < nestObj.childrenCount(); i++)
     {
       local presetObj = nestObj.getChild(i)
-      if (presetObj.presetId == curPresetIdx.tostring())
+      if (presetObj.presetId == (curPresetIdx?.tostring() ?? ""))
         return {idx = i, obj = presetObj}
     }
 
@@ -280,7 +286,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     local idx = curPresetIdx
     local itemParams = ::u.search(presetsMarkup, @(i) i?.presetId == idx)
     local btnText = itemParams?.weaponryItem.actionBtnText ?? ""
-    local actionBtnObj =  showSceneBtn("actionBtn", btnText != "")
+    local actionBtnObj = showSceneBtn("actionBtn", btnText != "" && idx != chosenPresetIdx)
     if (btnText != "" && ::check_obj(actionBtnObj))
       actionBtnObj.setValue(btnText)
     local altBtnText = itemParams?.weaponryItem.altBtnBuyText ?? ""
@@ -295,8 +301,12 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
   function updateAllItems()
   {
     presetsMarkup = getPresetsMarkup()
-    local data = ::handyman.renderCached("gui/weaponry/weaponryPreset",
-      {presets = presetsMarkup})
+    local data = ::handyman.renderCached("gui/weaponry/weaponryPreset", {
+        wndWidth = wndWidth
+        chapterPos = chapterPos
+        presets = presetsMarkup
+        isShowConsoleBtn = ::show_console_buttons
+      })
     local presetObj = scene.findObject("presetNest")
     if (!::check_obj(presetObj))
       return
@@ -376,6 +386,11 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
       else if (!isShow && idx == -1)
         collapsedPresets.append(itemObj.id)
     }
+  }
+
+  function getMainFocusObj()
+  {
+    return getCurrPresetObjParams()?.obj
   }
 }
 
