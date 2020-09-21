@@ -104,9 +104,10 @@ g_login.getStateDebugStr <- function getStateDebugStr(state = null)
 
 g_login.debugState <- function debugState(shouldShowNotSetBits = false)
 {
+  local debugLog = ::dlog // warning disable: -forbidden-function
   if (shouldShowNotSetBits)
-    return ::dlog("not set loginState = {0}".subst(getStateDebugStr(LOGIN_STATE.LOGGED_IN & ~curState)))
-  return ::dlog("loginState = {0}".subst(getStateDebugStr()))
+    return debugLog($"not set loginState = {getStateDebugStr(LOGIN_STATE.LOGGED_IN & ~curState)}")
+  return debugLog($"loginState = {getStateDebugStr()}")
 }
 
 g_login.loadLoginHandler <- function loadLoginHandler()
@@ -415,7 +416,7 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
 
 g_login.statsdOnLogin <- function statsdOnLogin()
 {
-  statsd.send_counter("sq.gameStart.login", 1)
+  statsd.send_counter("sq.game_start.login", 1)
 
   if (::get_controls_preset() == "")
   {

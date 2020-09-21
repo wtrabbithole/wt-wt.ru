@@ -1,3 +1,5 @@
+// warning disable: -file:forbidden-function
+
 local dbgExportToFile = require("scripts/debugTools/dbgExportToFile.nut")
 local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
@@ -209,24 +211,6 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
     }
     onFinish = @() ::dmViewer.toggle(::DM_VIEWER_NONE)
   })
-}
-
-::dbg_ww_destroy_cur_operation <- function dbg_ww_destroy_cur_operation()
-{
-  if (!::ww_is_operation_loaded())
-    return ::dlog("No operation loaded!")
-
-  local blk = ::DataBlock()
-  blk.operationId = ::ww_get_operation_id().tointeger()
-  blk.status = 3 //ES_FAILED
-  ::g_tasker.charSimpleAction("adm_ww_set_operation_status", blk, { showProgressBox = true },
-                              function() {
-                                ::dlog("success")
-                                ::g_world_war.stopWar()
-                                ::g_ww_global_status.refreshData(0)
-                              },
-                              function() { ::dlog("Do you have admin rights? ") }
-                             )
 }
 
 ::gui_do_debug_unlock <- function gui_do_debug_unlock()
@@ -525,6 +509,12 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
 ::debug_tips_list <- function debug_tips_list() {
   debug_wnd("gui/debugTools/dbgTipsList.tpl",
     {tipsList = ::g_tips.getAllTips().map(@(value) { value = value })})
+}
+
+::debug_get_skyquake_path <- function debug_get_skyquake_path() {
+  local dir = ::get_exe_dir()
+  local idx = dir.indexof("/skyquake/")
+  return idx != null ? dir.slice(0, idx + 9) : ""
 }
 
 ::debug_load_anim_bg <- require("scripts/loading/animBg.nut").debugLoad

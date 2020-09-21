@@ -1,6 +1,6 @@
 local time = require("scripts/time.nut")
 local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
-
+local { getMapByName, getMapFromShortStatusByName } = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
 
 enum WW_OPERATION_STATUSES
 {
@@ -28,9 +28,13 @@ class WwOperation
   _myClanGroup = null
   _assignCountry = null
 
-  constructor(_data)
+  isFromShortStatus = false
+  isFinished = false //this parametr updated from local operation when return main menu of WWar
+
+  constructor(_data, _isFromShortStatus = false)
   {
     data = _data
+    isFromShortStatus = _isFromShortStatus
     id = ::getTblValue("_id", data, -1)
     status = ::getTblValue("st", data, WW_OPERATION_STATUSES.UNKNOWN)
   }
@@ -42,8 +46,9 @@ class WwOperation
 
   function isAvailableToJoin()
   {
-    return status == WW_OPERATION_STATUSES.ES_ACTIVE ||
-           status == WW_OPERATION_STATUSES.ES_PAUSED
+    return !isFinished &&
+      ( status == WW_OPERATION_STATUSES.ES_ACTIVE
+        || status == WW_OPERATION_STATUSES.ES_PAUSED )
   }
 
   function isEqual(operation)
@@ -58,7 +63,10 @@ class WwOperation
 
   function getMap()
   {
-    return ::g_ww_global_status.getMapByName(getMapId())
+    if (isFromShortStatus)
+      return getMapFromShortStatusByName(getMapId())
+    else
+      return getMapByName(getMapId())
   }
 
   function getNameText(full = true)
@@ -340,4 +348,6 @@ class WwOperation
 
     return res
   }
+
+  setFinishedStatus = @(isFinish) isFinished = isFinish
 }

@@ -2,6 +2,9 @@ local time = require("scripts/time.nut")
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 local { getCustomViewCountryData } = require("scripts/worldWar/inOperation/wwOperationCustomAppearance.nut")
+local { getQueueByMapName, getOperationGroupByMapId
+} = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
+local { refreshGlobalStatusData } = require("scripts/worldWar/operations/model/wwGlobalStatus.nut")
 
 class WwMap
 {
@@ -115,7 +118,13 @@ class WwMap
 
   function isActive()
   {
-    return ::getTblValue("active", data, false)
+    local active = data?.active ?? false
+    local changeStateTime = getChangeStateTime()
+    local timeLeft = changeStateTime - ::get_charserver_time_sec()
+    if (active && (changeStateTime == -1 || timeLeft > 0))
+      return true
+
+    return !active && timeLeft <= 0 && changeStateTime != -1
   }
 
   function getChangeStateTimeText()
@@ -147,12 +156,18 @@ class WwMap
         text = ::loc(changeStateLocId, {time = changeStateTime})
       }
       else if (secToChangeState < 0)
-        ::g_ww_global_status.refreshData()
+        refreshGlobalStatusData()
     }
     else if (!isActive())
       text = ::loc("worldwar/operation/unavailable")
 
     return text
+  }
+
+  function hasValidStatus() {
+    local changeStateTimeStamp = getChangeStateTime()
+    return changeStateTimeStamp == -1
+      || (changeStateTimeStamp - ::get_charserver_time_sec()) > 0
   }
 
   function isWillAvailable(isNearFuture = true)
@@ -261,12 +276,12 @@ class WwMap
 
   function getQueue()
   {
-    return ::g_ww_global_status.getQueueByMapName(name)
+    return getQueueByMapName(name)
   }
 
   function getOpGroup()
   {
-    return ::g_ww_global_status.getOperationGroupByMapId(name)
+    return getOperationGroupByMapId(name)
   }
 
   function getCountriesViewBySide(side, hasBigCountryIcon = true)

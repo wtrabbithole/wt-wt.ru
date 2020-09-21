@@ -345,6 +345,8 @@
     "operationAnnounceTimeSec": 86400,
     "afkLoseTimeShowSec": 180,
     "joinBattleDelayTimeSec": 300,
+    "refreshGlobalStatusMinTimeMsec": 180000,
+    "refreshShortGlobalStatusMinTimeMsec": 600000,
     "dailyTrophies": {
       "locId": "worldwar/dailyTrophies",
       "reqFeature": "WorldWarDailyTrophies",
@@ -1991,6 +1993,9 @@
                 "unit": "ussr_t_64_b_1984"
               },
               {
+                "unit": "ussr_t_72a"
+              },
+              {
                 "unit": "ussr_t_80b"
               },
               {
@@ -2033,6 +2038,9 @@
                 "unit": "mi_24a"
               },
               {
+                "unit": "mi_24v"
+              },
+              {
                 "unit": "mi_24p"
               },
               {
@@ -2065,11 +2073,8 @@
         "country_germany": {
           "germ_leopard_I": {
             "name": "worldwar/group/mbt",
-            "defaultUnit": "germ_leopard_I",
+            "defaultUnit": "germ_mkpz_m48a2ga2",
             "unitList": [
-              {
-                "unit": "germ_leopard_I"
-              },
               {
                 "unit": "germ_mkpz_m48a2ga2"
               },
@@ -2259,12 +2264,12 @@
               }
             ]
           },
-          "us_amx_13_90": {
+          "us_amx_13_75": {
             "name": "mainmenu/type_light_medium_tank",
-            "defaultUnit": "us_amx_13_90",
+            "defaultUnit": "us_amx_13_75",
             "unitList": [
               {
-                "unit": "us_amx_13_90"
+                "unit": "us_amx_13_75"
               },
               {
                 "unit": "us_m551"
@@ -2646,17 +2651,9 @@
     "ItalyTanksInFirstCountryChoice": {
       "condition": ""
     },
-    "ItalyShipsInFirstCountryChoice": [
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      }
-    ],
+    "ItalyShipsInFirstCountryChoice": {
+      "condition": ""
+    },
     "FranceAircraftsInFirstCountryChoice": {
       "condition": ""
     },
@@ -3646,23 +3643,9 @@
     "SwedenTankUnlocked": {
       "condition": ""
     },
-    "ItalyShipsUnlocked": [
-      {
-        "condition": "role_GAIJIN"
-      },
-      {
-        "condition": "role_DEVELOPER"
-      },
-      {
-        "condition": "role_TESTER"
-      },
-      {
-        "condition": "role_ALPHA_TESTER"
-      },
-      {
-        "condition": "wt_access_italy_ships_unlocks"
-      }
-    ],
+    "ItalyShipsUnlocked": {
+      "condition": ""
+    },
     "CountryChina": {
       "condition": ""
     },
