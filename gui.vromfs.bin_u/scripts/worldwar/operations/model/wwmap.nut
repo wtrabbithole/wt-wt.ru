@@ -269,14 +269,6 @@ class WwMap
     return ::g_ww_global_status.getOperationGroupByMapId(name)
   }
 
-  function getPriority()
-  {
-    local res = getOpGroup().getPriority()
-    if (getQueue().isMyClanJoined())
-      res = res | WW_MAP_PRIORITY.MY_CLAN_IN_QUEUE
-    return res
-  }
-
   function getCountriesViewBySide(side, hasBigCountryIcon = true)
   {
     local countries = getCountryToSideTbl()

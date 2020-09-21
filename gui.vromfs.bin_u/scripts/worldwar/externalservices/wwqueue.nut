@@ -15,7 +15,7 @@ class WwQueue
 
   function isMapActive()
   {
-    return map.isActive()
+    return map.isActive() || map.getOpGroup().hasActiveOperations()
   }
 
   function getArmyGroupsByCountry(country, defValue = null)
@@ -122,7 +122,7 @@ class WwQueue
 
   function getGeoCoordsText()
   {
-    return ""
+    return  map.getGeoCoordsText()
   }
 
   function getCountriesByTeams()
