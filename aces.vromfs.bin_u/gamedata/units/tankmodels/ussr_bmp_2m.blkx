@@ -274,9 +274,7 @@
         "ex_armor_turret_l_01_dm": [],
         "ex_armor_turret_l_03_dm": [],
         "ex_armor_turret_05_dm": [],
-        "ex_armor_turret_r_06_dm": [],
-        "ex_decor_l_03_dm": [],
-        "ex_decor_r_03_dm": []
+        "ex_armor_turret_r_06_dm": []
       },
       "body_aluminium_parts": {
         "armorClass": "aluminium",
@@ -2113,7 +2111,7 @@
       {
         "Weapon": {
           "trigger": "gunner2",
-          "triggerGroup": "special",
+          "triggerGroup": "secondary",
           "blk": "gameData/Weapons/groundModels_weapons/152mm_9M133_launcher_user_cannon.blk",
           "useEmitter": true,
           "emitter": "bone_rocket_01",
@@ -2127,7 +2125,6 @@
           "barrelDP": "gun_barrel_03_dm",
           "breechDP": "gun_barrel_04_dm",
           "brokenBarrelAllowShoot": false,
-          "isBulletBelt": true,
           "speedYaw": 24.0,
           "speedPitch": 15.0,
           "fireConeAngle": 1.0,
@@ -2164,7 +2161,7 @@
             "trigger": "gunner4"
           },
           {
-            "triggerGroup": "secondary"
+            "triggerGroup": "special"
           },
           {
             "blk": "gameData/Weapons/groundModels_weapons/30mm_AG_30_user_cannon.blk"
@@ -3353,7 +3350,7 @@
             {
               "Weapon": {
                 "trigger": "gunner2",
-                "triggerGroup": "special",
+                "triggerGroup": "secondary",
                 "blk": "gameData/Weapons/groundModels_weapons/152mm_9M133_launcher_user_cannon.blk",
                 "useEmitter": true,
                 "emitter": "bone_rocket_01",
@@ -3367,7 +3364,6 @@
                 "barrelDP": "gun_barrel_03_dm",
                 "breechDP": "gun_barrel_04_dm",
                 "brokenBarrelAllowShoot": false,
-                "isBulletBelt": true,
                 "speedYaw": 24.0,
                 "speedPitch": 15.0,
                 "fireConeAngle": 1.0,
@@ -3404,7 +3400,7 @@
                   "trigger": "gunner4"
                 },
                 {
-                  "triggerGroup": "secondary"
+                  "triggerGroup": "special"
                 },
                 {
                   "blk": "gameData/Weapons/groundModels_weapons/30mm_AG_30_user_cannon.blk"
@@ -3659,6 +3655,18 @@
           "fireEvent": "ammo_fire",
           "explosionEvent": "ammo_explosion",
           "wreckedPartId": 0,
+          "ammo_body_01_dm": {
+            "count": 1
+          },
+          "ammo_body_02_dm": {
+            "count": 1
+          },
+          "ammo_body_03_dm": {
+            "count": 1
+          },
+          "ammo_body_04_dm": {
+            "count": 1
+          },
           "ammo_turret_01_dm": {
             "count": 1,
             "fatalFire": false,
@@ -3678,18 +3686,6 @@
             "count": 1,
             "fatalFire": false,
             "fatalExplosion": false
-          },
-          "ammo_body_01_dm": {
-            "count": 1
-          },
-          "ammo_body_02_dm": {
-            "count": 1
-          },
-          "ammo_body_03_dm": {
-            "count": 1
-          },
-          "ammo_body_04_dm": {
-            "count": 1
           }
         }
       },
