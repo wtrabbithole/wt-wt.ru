@@ -2,6 +2,7 @@ local callback = ::require("sqStdLibs/helpers/callback.nut")
 local Callback = callback.Callback
 local battleRating = ::require("scripts/battleRating.nut")
 local selectUnitHandler = require("scripts/slotbar/selectUnitHandler.nut")
+local { getWeaponsStatusName } = require("scripts/weaponry/weaponryInfo.nut")
 
 ::slotbar_oninit <- false //!!FIX ME: Why this variable is global?
 
@@ -82,6 +83,7 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   headerObj = null
   crewsObj = null
   selectedCrewData = null
+  customViewCountryData = null
 
   static function create(params)
   {
@@ -443,7 +445,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
         countryIdx = countryData.id
         country = country
         tooltipText = tooltipText
-        countryIcon = ::get_country_icon(country, false, !cUnlocked || !cEnabled)
+        countryIcon = ::get_country_icon(
+          customViewCountryData?[country].icon ?? country, false, !cUnlocked || !cEnabled)
         bonusData = bonusData
         isEnabled = cEnabled && cUnlocked
       })
@@ -901,11 +904,12 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
     if (::check_obj(animBlockObj))
       return
 
+    local country = countryData.country
     local blk = ::handyman.renderCached("gui/slotbar/slotbarItem", {
       countryIdx = countryData.idx
       needSkipAnim = countriesCount == 0
       alwaysShowBorder = alwaysShowBorder
-      countryImage = ::get_country_icon(countryData.country, false)
+      countryImage = ::get_country_icon(customViewCountryData?[country].icon ?? country, false)
     })
     guiScene.appendWithBlk(crewsObj, blk, this)
   }
@@ -1404,5 +1408,33 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
       if (unit)
         ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })
     }, this)
+  }
+
+  function updateWeaponryData(unitSlots = null) {
+    if (::g_crews_list.isSlotbarOverrided)
+      return
+
+    unitSlots = unitSlots ?? getSlotsData()
+    foreach (slot in unitSlots)
+    {
+      local obj = slot.obj.findObject("weapons_icon")
+      local unit = slot.unit
+      if (!::check_obj(obj) || unit == null)
+        continue
+
+      local weaponsStatus = getWeaponsStatusName((slot.crew?.isLocalState ?? true) && ::isUnitUsable(unit)
+        ? ::checkUnitWeapons(unit)
+        : UNIT_WEAPONS_READY
+      )
+      obj.weaponsStatus = weaponsStatus
+    }
+  }
+
+  function onEventUnitBulletsChanged(p) {
+    updateWeaponryData(getSlotsData(p.unit.name))
+  }
+
+  function onEventUnitWeaponChanged(p) {
+    updateWeaponryData(getSlotsData(p.unitName))
   }
 }
