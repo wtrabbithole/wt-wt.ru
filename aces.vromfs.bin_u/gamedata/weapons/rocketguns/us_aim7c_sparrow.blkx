@@ -132,7 +132,7 @@
       "fuseDelayDist": 1.0
     },
     {
-      "explodeTreshold": 10.0
+      "explodeTreshold": 0.1
     },
     {
       "guidanceType": "radar"
@@ -222,7 +222,7 @@
       "loadFactorMax": 15.0
     },
     {
-      "rangeMax": 15.0
+      "rangeMax": 25000.0
     },
     {
       "price": 3000.0
@@ -401,12 +401,12 @@
         },
         "dopplerSpeed": {
           "presents": true,
-          "minValue": -1500.0,
-          "maxValue": 1500.0,
+          "minValue": -2000.0,
+          "maxValue": 2000.0,
           "width": 15.0,
           "signalWidthMin": 8.0,
           "refWidth": 45.0,
-          "dopplerSpeedGateSearchRange": 120.0
+          "dopplerSpeedGateSearchRange": 200.0
         }
       }
     },
