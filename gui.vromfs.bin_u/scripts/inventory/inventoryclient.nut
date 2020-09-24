@@ -2,18 +2,30 @@ local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
 local contentSignKeys = ::require("scripts/inventory/inventoryContentSign.nut")
 
 enum validationCheckBitMask {
-  VARTYPE    = 0x01
-  EXISTENCE  = 0x02
-  INVALIDATE = 0x04
+  VARTYPE            = 0x01
+  EXISTENCE          = 0x02
+  INVALIDATE         = 0x04
+  VALUE              = 0x08
 
   // masks
-  REQUIRED   = 0x03
-  VITAL      = 0x07
+  REQUIRED           = 0x03
+  VITAL              = 0x07
+  REQUIRED_AND_VALUE = 0x0B
 }
 
 const INVENTORY_PROGRESS_MSG_ID = "INVENTORY_REQUEST"
 const WAR_THUNDER_EAGLES = "WTE"
 
+local function getPremultipliedAlphaIcon(icon) {
+  if (icon == "" || icon.slice(0,1) == "!")
+    return icon
+  return $"!{icon}"
+}
+
+local validateValueFunction = {
+  icon_url = getPremultipliedAlphaIcon
+  icon_url_large = getPremultipliedAlphaIcon
+}
 
 local requestInternal = function(requestData, data, callback, progressBoxData = null) {
   if (data) {
@@ -79,13 +91,15 @@ local InventoryClient = class {
         exchange = ""
         background_color = ""
         name_color = ""
-        icon_url = ""
-        icon_url_large = ""
         promo = ""
         item_quality = 0
         meta = ""
         tags = ""
         item_slot = ""
+      },
+      [ validationCheckBitMask.REQUIRED_AND_VALUE ] = {
+        icon_url = ""
+        icon_url_large = ""
       },
       [ validationCheckBitMask.VARTYPE ] = {
         bundle = ""
@@ -180,9 +194,10 @@ local InventoryClient = class {
 
       foreach (checks, keys in validation)
       {
-        local shouldInvalidate     = checks & validationCheckBitMask.INVALIDATE
-        local shouldCheckExistence = checks & validationCheckBitMask.EXISTENCE
-        local shouldCheckType      = checks & validationCheckBitMask.VARTYPE
+        local shouldInvalidate     = (checks & validationCheckBitMask.INVALIDATE) != 0
+        local shouldCheckExistence = (checks & validationCheckBitMask.EXISTENCE) != 0
+        local shouldCheckType      = (checks & validationCheckBitMask.VARTYPE) != 0
+        local shouldValidateValue  = (checks & validationCheckBitMask.VALUE) != 0
 
         if (isItemValid)
           foreach (key, defVal in keys)
@@ -207,6 +222,9 @@ local InventoryClient = class {
 
               item[key] <- defVal
             }
+
+            if (shouldValidateValue)
+              item[key] = validateValueFunction[key](item[key])
           }
       }
 
