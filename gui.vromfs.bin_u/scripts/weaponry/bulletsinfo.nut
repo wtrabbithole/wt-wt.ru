@@ -4,7 +4,15 @@ local { WEAPON_TYPE,
 local { AMMO,
         getAmmoAmountData } = require("scripts/weaponry/ammoInfo.nut")
 
+local BULLET_TYPE = {
+  ROCKET_AIR     = "rocket_aircraft"
+  AAM            = "aam"
+  TORPEDO        = "torpedo"
+  ATGM_TANK      = "atgm_tank"
+}
+
 local bulletIcons = {}
+local bulletAspectRatio = {}
 
 local bulletsFeaturesImg = [
   { id = "damage", values = [] }
@@ -27,10 +35,11 @@ local BULLETS_LIST_PARAMS = {
   isForcedAvailable     = false
 }
 
-local getBulletIcons = @() bulletIcons
 local getBulletsFeaturesImg = @() bulletsFeaturesImg
 
 const BULLETS_CALIBER_QUANTITY = 4
+const MAX_BULLETS_ON_ICON = 4
+const DEFAULT_BULLET_IMG_ASPECT_RATIO = 0.2
 
 local function getModificationBulletsGroup(modifName)
 {
@@ -57,6 +66,33 @@ local function getModificationBulletsGroup(modifName)
     return modifName.slice(0, modifName.len()-8)
 
   return ""
+}
+
+local function isBullets(item)
+{
+  return (("isDefaultForGroup" in item) && (item.isDefaultForGroup >= 0))
+    || (item.type == weaponsItem.modification && getModificationBulletsGroup(item.name) != "")
+}
+
+local function isWeaponTierAvailable(unit, tierNum)
+{
+  local isAvailable = ::is_tier_available(unit.name, tierNum)
+
+  if (!isAvailable && tierNum > 1) //make force check
+  {
+    local reqMods = unit.needBuyToOpenNextInTier[tierNum-2]
+    foreach(mod in unit.modifications)
+      if(mod.tier == (tierNum-1) &&
+         ::isModResearched(unit, mod) &&
+         getModificationBulletsGroup(mod.name) == "" &&
+         !::wp_get_modification_cost_gold(unit.name, mod.name)
+        )
+        reqMods--
+
+    isAvailable = reqMods <= 0
+  }
+
+  return isAvailable
 }
 
 local function isFakeBullet(modName)
@@ -229,7 +265,7 @@ local function getBulletsSetData(air, modifName, noModList = null)
     local bulletsModBlk = wBlk?[getModificationBulletsEffect(modifName)]
     local bulletsBlk = bulletsModBlk ? bulletsModBlk : wBlk
     local bulletsList = bulletsBlk % "bullet"
-    local weaponType = WEAPON_TYPE.GUN
+    local weaponType = WEAPON_TYPE.GUNS
     if (!bulletsList.len())
     {
       bulletsList = bulletsBlk % "rocket"
@@ -237,17 +273,17 @@ local function getBulletsSetData(air, modifName, noModList = null)
       {
         local rocket = bulletsList[0]
         if (rocket?.smokeShell == true)
-          weaponType = WEAPON_TYPE.SMOKE_SCREEN
+          weaponType = WEAPON_TYPE.SMOKE
         else if (rocket?.smokeShell == false)
            weaponType = WEAPON_TYPE.FLARES
         else if (rocket?.operated || rocket?.guidanceType)
-          weaponType = (rocket?.bulletType == "atgm_tank") ? WEAPON_TYPE.AGM : WEAPON_TYPE.AAM
+          weaponType = (rocket?.bulletType == BULLET_TYPE.ATGM_TANK) ? WEAPON_TYPE.AGM : WEAPON_TYPE.AAM
         else
-          weaponType = WEAPON_TYPE.ROCKET
+          weaponType = WEAPON_TYPE.ROCKETS
       }
     }
 
-    local isBulletBelt = weaponType == WEAPON_TYPE.GUN &&
+    local isBulletBelt = weaponType == WEAPON_TYPE.GUNS &&
       (wBlk?.isBulletBelt != false ||
         ((wBlk?.bulletsCartridge ?? 0) > 1 && !wBlk?.useSingleIconForBullet))
 
@@ -426,10 +462,11 @@ local function getBulletsGroupCount(air, full = false)
     air.bulModsGroups = groups.len()
     air.bulGroups     = groups.len()
 
-    if (air.bulGroups < ::BULLETS_SETS_QUANTITY)
+    local bulletSetsQuantity = air.unitType.bulletSetsQuantity
+    if (air.bulGroups < bulletSetsQuantity)
     {
       local add = getBulletsSetData(air, ::fakeBullets_prefix, modList) || 0
-      air.bulGroups = ::min(air.bulGroups + add, ::BULLETS_SETS_QUANTITY)
+      air.bulGroups = ::min(air.bulGroups + add, bulletSetsQuantity)
     }
   }
   return full? air.bulGroups : air.bulModsGroups
@@ -471,11 +508,8 @@ local function getBulletsInfoForPrimaryGuns(air)
           continue
 
         wpList[weapon.blk].catridge = wBlk?.bulletsCartridge || 1
-        local totalBullets = wpList[weapon.blk].total
-        wpList[weapon.blk].total = (wpList[weapon.blk].total /
+        wpList[weapon.blk].total = ::ceil(wpList[weapon.blk].total * 1.0 /
           wpList[weapon.blk].catridge).tointeger()
-        if (wpList[weapon.blk].total * wpList[weapon.blk].catridge < totalBullets)
-          wpList[weapon.blk].total += 1
 
         wpList[weapon.blk].groupIndex = getWeaponModIdx(wBlk, modsList)
         wpList[weapon.blk].forcedMaxBulletsInRespawn = wBlk?.forcedMaxBulletsInRespawn ?? false
@@ -602,7 +636,7 @@ local function getModificationInfo(air, modifName, isShortDesc=false, limitedNam
   //bullets sets
   local set = getBulletsSetData(air, modifName)
 
-  if (isShortDesc && !mod && set?.weaponType == WEAPON_TYPE.GUN && !air.unitType.canUseSeveralBulletsForGun)
+  if (isShortDesc && !mod && set?.weaponType == WEAPON_TYPE.GUNS && !air.unitType.canUseSeveralBulletsForGun)
   {
     res.desc = ::loc("modification/default_bullets")
     return res
@@ -631,7 +665,7 @@ local function getModificationInfo(air, modifName, isShortDesc=false, limitedNam
     if (shortDescr == "")
       shortDescr = ::loc(locId + "/name")
     if (set?.bulletNames?[0]
-      && (set.weaponType != WEAPON_TYPE.GUN || !set.isBulletBelt ||
+      && (set.weaponType != WEAPON_TYPE.GUNS || !set.isBulletBelt ||
       (::isCaliberCannon(caliber) && air.unitType.canUseSeveralBulletsForGun)))
     {
       locId = set.bulletNames[0]
@@ -722,7 +756,7 @@ local function getBulletsList(airName, groupIdx, params = BULLETS_LIST_PARAMS)
   local descr = {
     values = []
     isTurretBelt = false
-    weaponType = WEAPON_TYPE.GUN
+    weaponType = WEAPON_TYPE.GUNS
     caliber = 0
     duplicate = false //tank gun bullets can be duplicate to change bullets during the battle
 
@@ -739,7 +773,8 @@ local function getBulletsList(airName, groupIdx, params = BULLETS_LIST_PARAMS)
     return descr
 
   local modTotal = getBulletsGroupCount(air, false)
-  local firstFakeIdx = canBeDuplicate? ::BULLETS_SETS_QUANTITY : modTotal
+  local bulletSetsQuantity = air.unitType.bulletSetsQuantity
+  local firstFakeIdx = canBeDuplicate? bulletSetsQuantity : modTotal
   if (firstFakeIdx <= groupIdx)
   {
     local fakeIdx = groupIdx - firstFakeIdx
@@ -755,9 +790,9 @@ local function getBulletsList(airName, groupIdx, params = BULLETS_LIST_PARAMS)
     return descr
   }
 
-  local linked_index = ::get_linked_gun_index(groupIdx, modTotal, canBeDuplicate)
+  local linked_index = ::get_linked_gun_index(groupIdx, modTotal, bulletSetsQuantity, canBeDuplicate)
   descr.duplicate = canBeDuplicate && groupIdx > 0 &&
-    linked_index == ::get_linked_gun_index(groupIdx - 1, modTotal, canBeDuplicate)
+    linked_index == ::get_linked_gun_index(groupIdx - 1, modTotal, bulletSetsQuantity, canBeDuplicate)
 
   local groups = []
   for (local modifNo = 0; modifNo < air.modifications.len(); modifNo++)
@@ -816,23 +851,12 @@ local function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true
   local lastIdxTotal = 0
   local maxCatridges = 0
   local bulletSetsQuantity = unit.unitType.bulletSetsQuantity
-  assert(bulletSetsQuantity <= ::BULLETS_SETS_QUANTITY)
-
-  local bulletSetsPerGroup = bulletSetsQuantity
-  local fullBulletSetsPerGroup = ::BULLETS_SETS_QUANTITY
-  if (groupsCount > 0) {
-    bulletSetsPerGroup /= groupsCount
-    fullBulletSetsPerGroup /= groupsCount
-  }
-
   for (local i = 0; i < bulletSetsQuantity; i++) {
-    local localId = i / bulletSetsPerGroup * fullBulletSetsPerGroup + i % bulletSetsPerGroup
-
-    local linkedIdx = ::get_linked_gun_index(localId, groupsCount)
+    local linkedIdx = ::get_linked_gun_index(i, groupsCount, bulletSetsQuantity)
     if (linkedIdx == lastLinkedIdx) {
       duplicates++
     } else {
-      local bullets = getBulletsList(unit.name, localId, {
+      local bullets = getBulletsList(unit.name, i, {
         isOnlyBought = checkPurchased, needCheckUnitPurchase = checkPurchased
       })
       lastIdxTotal = bullets.values.len()
@@ -844,7 +868,7 @@ local function getActiveBulletsGroupIntForDuplicates(unit, checkPurchased = true
     }
 
     if (lastIdxTotal > duplicates && duplicates < maxCatridges)
-      res = res | (1 << localId)
+      res = res | (1 << i)
   }
   return res
 }
@@ -856,7 +880,11 @@ local function getBulletGroupIndex(airName, bulletName)
   if (!groupName || groupName == "")
     return -1
 
-  for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++)
+  local unit = ::getAircraftByName(airName)
+  if (unit == null)
+    return -1
+
+  for (local groupIndex = 0; groupIndex < unit.unitType.bulletSetsQuantity; groupIndex++)
   {
     local bulletsList = getBulletsList(airName, groupIndex, {
       needCheckUnitPurchase = false, needOnlyAvailable = false })
@@ -923,7 +951,7 @@ local function getActiveBulletsGroupInt(air, checkPurchased = true)
   local res = air.primaryBullets[primaryWeapon] | air.secondaryBullets[secondaryWeapon]
   if (canBulletsBeDuplicate(air))
   {
-    res = res & ~((1 << ::BULLETS_SETS_QUANTITY) - 1) //use only fake bullets mask
+    res = res & ~((1 << air.unitType.bulletSetsQuantity) - 1) //use only fake bullets mask
     res = res | getActiveBulletsGroupIntForDuplicates(air, checkPurchased)
   }
   return res
@@ -990,13 +1018,438 @@ local function initBulletIcons(blk = null)
     foreach(key, value in ib)
       bulletIcons[key] <- value
 
+  local ar = blk?.bullet_icon_aspect_ratio
+  if (ar)
+    foreach(key, value in ar)
+      bulletAspectRatio[key] <- value
+
   local bf = blk?.bullets_features_icons
   if (bf)
     foreach(item in bulletsFeaturesImg)
       item.values = bf % item.id
 }
 
+local function getBulletsIconItem(unit, item)
+{
+  if (isBullets(item))
+    return item
+
+  if (item.type == weaponsItem.modification)
+  {
+    ::updateRelationModificationList(unit, item.name)
+    if ("relationModification" in item && item.relationModification.len() == 1)
+      return ::getModificationByName(unit, item.relationModification[0])
+  }
+  return null
+}
+
+local function getBulletImage(bulletsSet, bulletIndex, needFullPath = true)
+{
+  local imgId = bulletsSet.bullets[bulletIndex]
+  if (bulletsSet?.customIconsMap[imgId] != null)
+    imgId = bulletsSet.customIconsMap[imgId]
+  if (imgId.indexof("@") != null)
+    imgId = imgId.slice(0, imgId.indexof("@"))
+  local defaultImgId = ::isCaliberCannon(1000 * (bulletsSet?.caliber ?? 0.0))
+    ? "default_shell" : "default_ball"
+  local textureId = bulletIcons?[imgId] ?? bulletIcons?[defaultImgId]
+  return needFullPath ? $"#ui/gameuiskin#{textureId}" : textureId
+}
+
+local function getBulletsIconView(bulletsSet, tooltipId = null, tooltipDelayed = false)
+{
+  local view = {}
+  if (!bulletsSet || !("bullets" in bulletsSet))
+    return view
+
+  initBulletIcons()
+  view.bullets <- (@(bulletsSet, tooltipId, tooltipDelayed) function () {
+      local res = []
+
+      local length = bulletsSet.bullets.len()
+      local isBelt = bulletsSet?.isBulletBelt ?? true
+
+      local ratio = 1.0
+      local count = 1
+      if (isBelt)
+      {
+        ratio = bulletAspectRatio?[getBulletImage(bulletsSet, 0, false)]
+          ?? bulletAspectRatio?["default"]
+          ?? DEFAULT_BULLET_IMG_ASPECT_RATIO
+        local maxAmountInView = ::min(MAX_BULLETS_ON_ICON, (1.0 / ratio).tointeger())
+        if (bulletsSet.catridge)
+          maxAmountInView = ::min(bulletsSet.catridge, maxAmountInView)
+        count = length * ::max(1, ::floor(maxAmountInView / length))
+      }
+
+      local totalWidth = 100.0
+      local itemWidth = totalWidth * ratio
+      local itemHeight = totalWidth
+      local space = totalWidth - itemWidth * count
+      local separator = (space > 0)
+        ? (space / (count + 1))
+        : (count == 1 ? space : (space / (count - 1)))
+      local start = (space > 0) ? separator : 0.0
+
+      for (local i = 0; i < count; i++)
+      {
+        local item = {
+          image           = getBulletImage(bulletsSet, i % length)
+          posx            = (start + (itemWidth + separator) * i) + "%pw"
+          sizex           = itemWidth + "%pw"
+          sizey           = itemHeight + "%pw"
+          useTooltip      = tooltipId != null
+          tooltipId       = tooltipId
+          tooltipDelayed  = tooltipId != null && tooltipDelayed
+        }
+        res.append(item)
+      }
+
+      return res
+    })(bulletsSet, tooltipId, tooltipDelayed)
+
+  local bIconParam = bulletsSet?.bIconParam
+  local isBelt = bulletsSet?.isBulletBelt ?? true
+  if (bIconParam && !isBelt)
+  {
+    local addIco = []
+    foreach(item in getBulletsFeaturesImg())
+    {
+      local idx = bIconParam?[item.id] ?? -1
+      if (idx in item.values)
+        addIco.append({ img = item.values[idx] })
+    }
+    if (addIco.len())
+      view.addIco <- addIco
+  }
+  return view
+}
+
+local function getBulletsIconData(bulletsSet)
+{
+  if (!bulletsSet)
+    return ""
+  return ::handyman.renderCached(("gui/weaponry/bullets"), getBulletsIconView(bulletsSet))
+}
+
+local function getArmorPiercingViewData(armorPiercing, dist)
+{
+  local res = null
+  if (armorPiercing.len() <= 0)
+    return res
+
+  local angles = null
+  foreach(ind, armorTbl in armorPiercing)
+  {
+    if (armorTbl == null)
+      continue
+    if (!angles)
+    {
+      res = []
+      angles = ::u.keys(armorTbl)
+      angles.sort(@(a,b) a <=> b)
+      local headRow = {
+        text = ""
+        values = ::u.map(angles, function(v) { return { value = v + ::loc("measureUnits/deg") } })
+      }
+      res.append(headRow)
+    }
+
+    local row = {
+      text = dist[ind] + ::loc("measureUnits/meters_alt")
+      values = []
+    }
+    foreach(angle in angles)
+      row.values.append({ value = ::getTblValue(angle, armorTbl, 0) + ::loc("measureUnits/mm") })
+    res.append(row)
+  }
+  return res
+}
+
+local buildPiercingData = ::kwarg(function buildPiercingData(bullet_parameters, descTbl,
+  bulletsSet = null, needAdditionalInfo = false, weaponName = "")
+{
+  local param = { armorPiercing = array(0, null) , armorPiercingDist = array(0, null)}
+  local needAddParams = bullet_parameters.len() == 1
+
+  local isSmokeShell = bulletsSet?.weaponType == WEAPON_TYPE.GUNS && bulletsSet?.bullets?[0] == "smoke_tank"
+  local isSmokeGenerator = isSmokeShell || bulletsSet?.weaponType == WEAPON_TYPE.SMOKE
+  local isCountermeasure = isSmokeGenerator || bulletsSet?.weaponType == WEAPON_TYPE.FLARES
+
+  if (isCountermeasure)
+  {
+    local whitelistParams = [ "bulletType" ]
+    if (isSmokeShell)
+      whitelistParams.append("mass", "speed", "weaponBlkPath")
+    local filteredBulletParameters = []
+    foreach (_params in bullet_parameters)
+    {
+      local params = _params ? {} : null
+      if (_params)
+      {
+        foreach (key in whitelistParams)
+          if (key in _params)
+            params[key] <- _params[key]
+
+        params.armorPiercing     <- []
+        params.armorPiercingDist <- []
+      }
+      filteredBulletParameters.append(params)
+    }
+    bullet_parameters = filteredBulletParameters
+  }
+
+  foreach (bullet_params in bullet_parameters)
+  {
+    if (!bullet_params)
+      continue
+
+    if (bullet_params?.bulletType != "aam")
+    {
+      if (param.armorPiercingDist.len() < bullet_params.armorPiercingDist.len())
+      {
+        param.armorPiercing.resize(bullet_params.armorPiercingDist.len());
+        param.armorPiercingDist = bullet_params.armorPiercingDist;
+      }
+      foreach(ind, d in param.armorPiercingDist)
+      {
+        for (local i = 0; i < bullet_params.armorPiercingDist.len(); i++)
+        {
+          local armor = null;
+          local idist = bullet_params.armorPiercingDist[i].tointeger()
+          if (typeof(bullet_params.armorPiercing[i]) != "table")
+            continue
+
+          if (d == idist || (d < idist && !i))
+            armor = ::u.map(bullet_params.armorPiercing[i], @(f) stdMath.round(f).tointeger())
+          else if (d < idist && i)
+          {
+            local prevDist = bullet_params.armorPiercingDist[i-1].tointeger()
+            if (d > prevDist)
+              armor = ::u.tablesCombine(bullet_params.armorPiercing[i-1], bullet_params.armorPiercing[i],
+                        (@(d, prevDist, idist) function(prev, next) {
+                          return (prev + (next - prev) * (d - prevDist.tointeger()) / (idist - prevDist)).tointeger()
+                        })(d, prevDist, idist), 0)
+          }
+          if (armor == null)
+            continue
+
+          param.armorPiercing[ind] = (!param.armorPiercing[ind]) ? armor
+                                    : ::u.tablesCombine(param.armorPiercing[ind], armor, ::max)
+        }
+      }
+    }
+
+    if (!needAddParams)
+      continue
+
+    foreach(p in ["mass", "speed", "fuseDelayDist", "explodeTreshold", "operatedDist", "machMax", "endSpeed", "maxSpeed", "rangeBand0", "rangeBand1"])
+      param[p] <- ::getTblValue(p, bullet_params, 0)
+
+    foreach(p in ["reloadTimes", "autoAiming", "weaponBlkPath"])
+    {
+      if(p in bullet_params)
+        param[p] <- bullet_params[p]
+    }
+
+    if(bulletsSet)
+    {
+      foreach(p in ["caliber", "explosiveType", "explosiveMass",
+        "proximityFuseArmDistance", "proximityFuseRadius" ])
+      if (p in bulletsSet)
+        param[p] <- bulletsSet[p]
+
+      if (isSmokeGenerator)
+        foreach(p in ["smokeShellRad", "smokeActivateTime", "smokeTime"])
+          if (p in bulletsSet)
+            param[p] <- bulletsSet[p]
+    }
+
+    param.bulletType <- ::getTblValue("bulletType", bullet_params, "")
+    param.ricochetPreset <- bullet_params?.ricochetPreset
+  }
+
+  descTbl.bulletParams <- []
+  local p = []
+  local addProp = function(arr, text, value)
+  {
+    arr.append({
+      text = text
+      value = value
+    })
+  }
+  if (needAdditionalInfo && "mass" in param)
+  {
+    if (param.caliber > 0)
+      addProp(p, ::loc("bullet_properties/caliber"),
+                stdMath.round_by_value(param.caliber, ::isCaliberCannon(param.caliber) ? 1 : 0.01) + " " + ::loc("measureUnits/mm"))
+    if (param.mass > 0)
+      addProp(p, ::loc("bullet_properties/mass"),
+                ::g_measure_type.getTypeByName("kg", true).getMeasureUnitsText(param.mass))
+    if (param.speed > 0)
+      addProp(p, ::loc("bullet_properties/speed"),
+                 ::format("%.0f %s", param.speed, ::loc("measureUnits/metersPerSecond_climbSpeed")))
+
+    local maxSpeed = (param?.maxSpeed ?? 0) || (param?.endSpeed ?? 0)
+    if (param?.machMax)
+      addProp(p, "".concat(::loc("rocket/maxSpeed"), ::format("%.1f %s", param.machMax, ::loc("measureUnits/machNumber"))))
+    else if (maxSpeed)
+      addProp(p, ::loc("rocket/maxSpeed"), ::g_measure_type.SPEED_PER_SEC.getMeasureUnitsText(maxSpeed))
+
+    if ("autoAiming" in param)
+    {
+      local aimingTypeLocId = "guidanceSystemType/" + (param.autoAiming ? "semiAuto" : "handAim")
+      addProp(p, ::loc("guidanceSystemType/header"), ::loc(aimingTypeLocId))
+    }
+
+    local operatedDist = ::getTblValue("operatedDist", param, 0)
+    if (operatedDist)
+      addProp(p, ::loc("firingRange"), ::g_measure_type.DISTANCE.getMeasureUnitsText(operatedDist))
+
+    local explosiveType = ::getTblValue("explosiveType", param)
+    if (explosiveType)
+      addProp(p, ::loc("bullet_properties/explosiveType"), ::loc("explosiveType/" + explosiveType))
+    local explosiveMass = ::getTblValue("explosiveMass", param)
+    if (explosiveMass)
+      addProp(p, ::loc("bullet_properties/explosiveMass"),
+        ::g_dmg_model.getMeasuredExplosionText(explosiveMass))
+
+    if (explosiveType && explosiveMass)
+    {
+      local tntEqText = ::g_dmg_model.getTntEquivalentText(explosiveType, explosiveMass)
+      if (tntEqText.len())
+        addProp(p, ::loc("bullet_properties/explosiveMassInTNTEquivalent"), tntEqText)
+    }
+
+    local fuseDelayDist = stdMath.roundToDigits(param.fuseDelayDist, 2)
+    if (fuseDelayDist)
+      addProp(p, ::loc("bullet_properties/fuseDelayDist"),
+                 fuseDelayDist + " " + ::loc("measureUnits/meters_alt"))
+    local explodeTreshold = stdMath.roundToDigits(param.explodeTreshold, 2)
+    if (explodeTreshold)
+      addProp(p, ::loc("bullet_properties/explodeTreshold"),
+                 explodeTreshold + " " + ::loc("measureUnits/mm"))
+    local rangeBand0 = ::getTblValue("rangeBand0", param)
+    if (rangeBand0)
+      addProp(p, ::loc("missile/seekerRange/rearAspect"), ::g_measure_type.DISTANCE.getMeasureUnitsText(rangeBand0))
+    local rangeBand1 = ::getTblValue("rangeBand1", param)
+    if (rangeBand1)
+      addProp(p, ::loc("missile/seekerRange/allAspect"), ::g_measure_type.DISTANCE.getMeasureUnitsText(rangeBand1))
+
+    local proximityFuseArmDistance = stdMath.round(param?.proximityFuseArmDistance ?? 0)
+    if (proximityFuseArmDistance)
+      addProp(p, ::loc("torpedo/armingDistance"),
+        proximityFuseArmDistance + " " + ::loc("measureUnits/meters_alt"))
+    local proximityFuseRadius = stdMath.round(param?.proximityFuseRadius ?? 0)
+    if (proximityFuseRadius)
+      addProp(p, ::loc("bullet_properties/proximityFuze/triggerRadius"),
+        proximityFuseRadius + " " + ::loc("measureUnits/meters_alt"))
+
+    local ricochetData = !isCountermeasure && ::g_dmg_model.getRicochetData(param?.ricochetPreset)
+    if (ricochetData)
+      foreach(item in ricochetData.angleProbabilityMap)
+        addProp(p, ::loc("bullet_properties/angleByProbability",
+                         { probability = stdMath.roundToDigits(100.0 * item.probability, 2) }),
+                   stdMath.roundToDigits(item.angle, 2) + ::loc("measureUnits/deg"))
+
+    if ("reloadTimes" in param)
+    {
+      local currentDiffficulty = ::is_in_flight() ? ::get_mission_difficulty_int()
+        : ::get_current_shop_difficulty().diffCode
+      local reloadTime = param.reloadTimes[currentDiffficulty]
+      if(reloadTime > 0)
+        addProp(p, ::colorize("badTextColor", ::loc("bullet_properties/cooldown")),
+                   ::colorize("badTextColor", stdMath.roundToDigits(reloadTime, 2) + " " + ::loc("measureUnits/seconds")))
+    }
+
+    if ("smokeShellRad" in param)
+      addProp(p, ::loc("bullet_properties/smokeShellRad"),
+                 stdMath.roundToDigits(param.smokeShellRad, 2) + " " + ::loc("measureUnits/meters_alt"))
+
+    if ("smokeActivateTime" in param)
+      addProp(p, ::loc("bullet_properties/smokeActivateTime"),
+                 stdMath.roundToDigits(param.smokeActivateTime, 2) + " " + ::loc("measureUnits/seconds"))
+
+    if ("smokeTime" in param)
+      addProp(p, ::loc("bullet_properties/smokeTime"),
+                 stdMath.roundToDigits(param.smokeTime, 2) + " " + ::loc("measureUnits/seconds"))
+
+    local bTypeDesc = ::loc(param.bulletType, "")
+    if (bTypeDesc != "")
+      descTbl.bulletsDesc <- bTypeDesc
+  }
+  descTbl.bulletParams.append({ props = p })
+
+  local currWeaponName = ""
+  if("weaponBlkPath" in param)
+    currWeaponName = ::get_weapon_name_by_blk_path(param.weaponBlkPath)
+
+  local bulletName = currWeaponName != "" ? ::loc("weapons/{0}".subst(currWeaponName)) : ""
+  local apData = null
+  if ((weaponName != "" ? weaponName : currWeaponName) == currWeaponName)
+    apData = getArmorPiercingViewData(param.armorPiercing, param.armorPiercingDist)
+
+  if (apData)
+  {
+    local header = ::loc("bullet_properties/armorPiercing")
+      + (::u.isEmpty(bulletName) ? "" : ( ": " + bulletName))
+      + "\n" + ::format("(%s / %s)", ::loc("distance"), ::loc("bullet_properties/hitAngle"))
+    descTbl.bulletParams.append({ props = apData, header = header })
+  }
+})
+
+local function addBulletsParamToDesc(descTbl, unit, item)
+{
+  if (!unit.unitType.canUseSeveralBulletsForGun && !::has_feature("BulletParamsForAirs"))
+    return
+  local bIcoItem = getBulletsIconItem(unit, item)
+  if (!bIcoItem)
+    return
+
+  local modName = bIcoItem.name
+  local bulletsSet = getBulletsSetData(unit, modName)
+  if (!bulletsSet)
+    return
+
+  local bIconParam = bulletsSet?.bIconParam
+  local isBelt = bulletsSet?.isBulletBelt ?? true
+  if (bIconParam && !isBelt)
+  {
+    descTbl.bulletActions <- []
+    local setClone = clone bulletsSet
+    foreach(p in ["armor", "damage"])
+    {
+      local value = bIconParam?[p] ?? -1
+      if (value < 0)
+        continue
+
+      setClone.bIconParam = { [p] = value }
+      descTbl.bulletActions.append({
+        text = ::loc("bulletAction/" + p)
+        visual = getBulletsIconData(setClone)
+      })
+    }
+  }
+  else
+    descTbl.bulletActions <- [{ visual = getBulletsIconData(bulletsSet) }]
+
+  local searchName = getBulletsSearchName(unit, modName)
+  local useDefaultBullet = searchName != modName
+  local bullet_parameters = ::calculate_tank_bullet_parameters(unit.name,
+    useDefaultBullet && "weaponBlkName" in bulletsSet ?
+      bulletsSet.weaponBlkName :
+      getModificationBulletsEffect(searchName),
+    useDefaultBullet, false)
+
+  buildPiercingData({
+    bullet_parameters = bullet_parameters,
+    descTbl = descTbl,
+    bulletsSet = bulletsSet,
+    needAdditionalInfo = true})
+}
+
 return {
+  BULLET_TYPE                           = BULLET_TYPE
   getModificationBulletsGroup           = getModificationBulletsGroup
   isFakeBullet                          = isFakeBullet
   setUnitLastBullets                    = setUnitLastBullets
@@ -1016,6 +1469,11 @@ return {
   initBulletIcons                       = initBulletIcons
   getModificationInfo                   = getModificationInfo
   getModificationName                   = getModificationName
-  getBulletIcons                        = getBulletIcons
   getBulletsFeaturesImg                 = getBulletsFeaturesImg
+  isBullets                             = isBullets
+  isWeaponTierAvailable                 = isWeaponTierAvailable
+  getBulletsIconItem                    = getBulletsIconItem
+  addBulletsParamToDesc                 = addBulletsParamToDesc
+  buildPiercingData                     = buildPiercingData
+  getBulletsIconView                    = getBulletsIconView
 }

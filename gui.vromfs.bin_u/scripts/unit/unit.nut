@@ -7,6 +7,7 @@ local stdMath = require("std/math.nut")
 local platform = require("scripts/clientState/platform.nut")
 local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
 local { unitClassType, getUnitClassTypeByExpClass } = require("scripts/unit/unitClassType.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 local MOD_TIERS_COUNT = 4
 
@@ -24,6 +25,7 @@ local defaultAvailableWeapons = {
   hasBombs = false
   hasDepthCharges = false
   hasMines = false
+  hasFlares = false
 }
 
 local Unit = class
@@ -34,7 +36,7 @@ local Unit = class
    isInited = false //is inited by wpCost, warpoints, and unitTags
 
    expClass = unitClassType.UNKNOWN
-   unitType = ::g_unit_type.INVALID
+   unitType = unitTypes.INVALID
    esUnitType = ::ES_UNIT_TYPE_INVALID
    isPkgDev = false
 
@@ -160,7 +162,7 @@ local Unit = class
     local expClassStr = uWpCost?.unitClass
     expClass = getUnitClassTypeByExpClass(expClassStr)
     esUnitType = expClass.unitTypeCode
-    unitType = ::g_unit_type.getByEsUnitType(esUnitType)
+    unitType = unitTypes.getByEsUnitType(esUnitType)
 
     foreach(p in [
       "costGold", "rank", "reqExp",
@@ -274,7 +276,6 @@ local Unit = class
   isShip                = @() esUnitType == ::ES_UNIT_TYPE_SHIP
   isHelicopter          = @() esUnitType == ::ES_UNIT_TYPE_HELICOPTER
   //
-
 
 
 
@@ -407,7 +408,7 @@ local Unit = class
     weaponry.modClass <- blk?.modClass || weaponBlk?.modClass || ""
     weaponry.image <- ::get_weapon_image(esUnitType, weaponBlk, blk)
     weaponry.requiresModelReload <- weaponBlk?.requiresModelReload ?? false
-    weaponry.isHidden <- weaponBlk?.isHidden ?? false
+    weaponry.isHidden <- blk?.isHidden ?? weaponBlk?.isHidden ?? false
     weaponry.weaponmask <- blk?.weaponmask ?? 0
 
     if (weaponry.name == "tank_additional_armor")
@@ -612,6 +613,7 @@ local Unit = class
     availableWeapons = clone defaultAvailableWeapons
 
     if (unitBlk?.weapon_presets != null)
+    {
       foreach (block in (unitBlk.weapon_presets % "preset"))
         if (block.name == secondaryWep)
         {
@@ -630,14 +632,52 @@ local Unit = class
               availableWeapons.hasDepthCharges = true
             if (weapBlk?.bomb.isMine)
               availableWeapons.hasMines = true
+            if (weapBlk?.rocket && weapBlk.rocket?.isFlare)
+              availableWeapons.hasFlares = true
 
             weaponsBlkArray.append(weap.blk)
           }
           break
         }
+        //check primary in that case
+      if (!availableWeapons.hasFlares)
+        foreach (block in (unitBlk.weapon_presets % "preset"))
+        {
+            weaponDataBlock = ::DataBlock(block.blk)
+            foreach (weap in (weaponDataBlock % "Weapon"))
+            {
+              if (!weap?.blk || weap?.dummy || ::isInArray(weap.blk, weaponsBlkArray))
+                continue
+
+              local weapBlk = ::DataBlock(weap.blk)
+              if (weapBlk?.rocket && weapBlk.rocket?.isFlare)
+                availableWeapons.hasFlares = true
+            }
+        }
+    }
 
     availableWeaponsByWeaponName[secondaryWep] <- availableWeapons
     return availableWeapons
+  }
+
+  function getEntitlements()
+  {
+    if (gift == null)
+      return []
+
+    return ::OnlineShopModel.searchEntitlement({unitName = name})
+  }
+
+  function getUnlockImage()
+  {
+    if (isAir())
+      return "#ui/gameuiskin#blueprint_items_aircraft"
+    if (isTank())
+      return "#ui/gameuiskin#blueprint_items_tank"
+    if (isShip())
+      return "#ui/gameuiskin#blueprint_items_ship"
+
+    return "#ui/gameuiskin#blueprint_items_aircraft"
   }
 
   isSquadronVehicle       = @() researchType == "clanVehicle"

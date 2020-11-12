@@ -327,7 +327,7 @@ local function tostring_r(input, params=defTostringParams) {
       }
       else if (maxdeeplevel != null && curdeeplevel == maxdeeplevel && !tostringLeafv[0]) {
         local brOp = openSym(value)
-        local brCl = closeSym(typ)
+        local brCl = closeSym(value)
         if (!arrayElem)
           out.append(newline, indent, tostring_any(key, null, compact), " = ")
         else if (arrayElem && showArrIdx) {
@@ -344,7 +344,7 @@ local function tostring_r(input, params=defTostringParams) {
       }
       else if (table_types.indexof(typ) != null || (isArray && showArrIdx )) {
         local brOp = openSym(value)
-        local brCl = closeSym(typ)
+        local brCl = closeSym(value)
         out.append(newline, indent)
         if (!arrayElem) {
           out.append(tostring_any(key,null, compact)," = ")
@@ -608,7 +608,7 @@ local function isStringFloat(str, separator=".") {
   if (startsWith(str,"-"))
     str=str.slice(1)
   local s_list = split(str,separator)
-  if (s_list.len() > 3) 
+  if (s_list.len() > 3)
     return false
   local ok = true
   foreach (s in s_list) {
@@ -820,7 +820,19 @@ local function validateEmail(no_dump_email) {
   return true
 }
 
-local export = {
+local function clearBorderSymbols(value, symList = [" "]) {
+  while(value != "" && symList.indexof(value.slice(0,1)) != null)
+    value = value.slice(1)
+  while(value!="" && symList.indexof(value.slice(-1)) != null)
+    value = value.slice(0, -1)
+  return value
+}
+
+local function clearBorderSymbolsMultiline(str) {
+  return clearBorderSymbols(str, [" ", 0x0A.tochar(), 0x0D.tochar()])
+}
+
+return {
   INVALID_INDEX = INVALID_INDEX
   slice = slice
   substring = substring
@@ -854,8 +866,8 @@ local export = {
   tostring_r = tostring_r
   pprint = pprint
   validateEmail = validateEmail
+  clearBorderSymbols = clearBorderSymbols
+  clearBorderSymbolsMultiline = clearBorderSymbolsMultiline
 
   toIntegerSafe = toIntegerSafe
 }
-
-return export

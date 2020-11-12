@@ -102,7 +102,7 @@
     "destroysTrees": true
   },
   {
-    "type": "typeMediumTank"
+    "type": "typeLightTank"
   },
   {
     "rearmSmokeTimeOnField": 60.0
@@ -283,7 +283,7 @@
           "armorThickness": 30.0
         },
         "gun_mask_03_dm": {
-          "armorThickness": 30.0
+          "armorThickness": 15.0
         }
       },
       "optics": {
@@ -695,6 +695,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1726,7 +1743,6 @@
           "blk": "gameData/Weapons/groundModels_weapons/75mm_kan_strv_74_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
-          "useEmitter": true,
           "recoilOffset": 0.6,
           "recoilMultiplier": 0.4,
           "maxAdditionalPitch": 0.0,
@@ -1736,6 +1752,7 @@
           "breechDP": "cannon_breech_dm",
           "speedYaw": 18.0,
           "speedPitch": 8.0,
+          "pitchSpdLowBattery": 8.0,
           "fireConeAngle": 1.0,
           "bullets": 40,
           "salvoAmount": 100.0,
@@ -1915,7 +1932,7 @@
             "ratio": 1.0
           },
           {
-            "ratio": 0.82
+            "ratio": 0.77
           }
         ]
       },
@@ -2442,6 +2459,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2465,9 +2491,9 @@
       "zoomInFov": 12.3,
       "sightFov": 7.0,
       "sightName": "strv_74_sight",
-      "headPos": [0.0,3.2,-6.7],
+      "headPos": [0.0,3.5,-8.0],
       "headPosOnShooting": [0.3,3.0,-0.25],
-      "detectionHeight": 2.05
+      "detectionHeight": 3.0
     }
   },
   {
@@ -2644,6 +2670,8 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_sw"
       },
+      "airstrike": [],
+      "improved_optics": [],
       "tank_smoke_screen_system_mod": {
         "tier": 4,
         "modClass": "protection",
@@ -2655,7 +2683,6 @@
                 "blk": "gameData/Weapons/groundModels_weapons/75mm_kan_strv_74_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
-                "useEmitter": true,
                 "recoilOffset": 0.6,
                 "recoilMultiplier": 0.4,
                 "maxAdditionalPitch": 0.0,
@@ -2665,6 +2692,7 @@
                 "breechDP": "cannon_breech_dm",
                 "speedYaw": 18.0,
                 "speedPitch": 8.0,
+                "pitchSpdLowBattery": 8.0,
                 "fireConeAngle": 1.0,
                 "bullets": 40,
                 "salvoAmount": 100.0,
@@ -2787,7 +2815,7 @@
                   "triggerGroup": "smoke"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/66mm_uk_smoke_grenade_launcher.blk"
                 },
                 {
                   "weaponType": "rockets"

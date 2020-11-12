@@ -1,6 +1,12 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
 local { AMMO, getAmmoMaxAmount } = require("scripts/weaponry/ammoInfo.nut")
+local { canResearchItem, getItemCost } = require("scripts/weaponry/itemInfo.nut")
+local { updateModItem,
+        createModItem,
+        getReqModsText,
+        updateWeaponTooltip } = require("scripts/weaponry/weaponryVisual.nut")
+local { setDoubleTextToButton, placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 ::researched_items_table <- null
 ::abandoned_researched_items_for_session <- []
@@ -363,9 +369,12 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
       return
 
     local modObj = obj.findObject(id)
+    local params = { canShowResearch = canShowResearch }
     if (!modObj)
-      modObj = ::weaponVisual.createItem(id, mod, weaponsItem.modification, obj, this)
-    ::weaponVisual.updateItem(unit, mod, modObj, false, this, { canShowResearch = canShowResearch })
+      modObj = createModItem(id, unit, mod, weaponsItem.modification, obj,
+        this, params)
+    else
+      updateModItem(unit, mod, modObj, false, this, params)
   }
 
   function updateButtons()
@@ -415,7 +424,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
     local unit = dataTable.unit
     local modItem = ::getModificationByName(unit, dataTable[modField])
     if (modItem)
-      ::weaponVisual.updateWeaponTooltip(obj, unit, modItem, this)
+      updateWeaponTooltip(obj, unit, modItem, this)
   }
 
   function prepareNextResearchBlocks(curRowObj, haveMod)
@@ -797,7 +806,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
   function buyModification(unit, modName, silent = true)
   {
     local mod = ::getModificationByName(unit, modName)
-    local price = ::weaponVisual.getItemCost(unit, mod)
+    local price = getItemCost(unit, mod)
     if (!::check_balance_msgBox(price))
       return false
 
@@ -909,7 +918,7 @@ class ::gui_handlers.showAllResearchedItems extends ::gui_handlers.BaseGuiHandle
 
     if (!isPrevModificationBought(unit, modName))
     {
-      local reqMods = ::weaponVisual.getReqModsText(unit, mod)
+      local reqMods = getReqModsText(unit, mod)
       local reason = ::format(::loc("weaponry/action_not_allowed"), ::loc("weaponry/unlockModsReq") + "\n" + reqMods)
       msgBox("cant_buy_mod", reason, [["ok", function () {}]], "ok")
       return false
@@ -1157,7 +1166,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
         local repairBtnId = "btn_repair"
         ::showBtn(repairBtnId, isBroken, scene)
         if (isBroken)
-          ::placePriceTextToButton(scene, repairBtnId, ::loc("mainmenu/btnRepair"), repairPrice)
+          placePriceTextToButton(scene, repairBtnId, ::loc("mainmenu/btnRepair"), repairPrice)
         else
           func.call(handler, scene)
 
@@ -1215,7 +1224,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     local showBtnBuy = !isItemBought(researchConfig)
     showSceneBtn(buyBtnId, showBtnBuy)
     if (showBtnBuy)
-      ::placePriceTextToButton(scene, buyBtnId, ::loc("mainmenu/btnBuy"), getItemPrice(researchConfig))
+      placePriceTextToButton(scene, buyBtnId, ::loc("mainmenu/btnBuy"), getItemPrice(researchConfig))
 
     if (!researchConfig.isMod)
       return
@@ -1230,8 +1239,9 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     local id = "mod_" + mod.name
     local modObj = finishedModObj.findObject(id)
     if (!modObj)
-      modObj = ::weaponVisual.createItem(id, mod, weaponsItem.modification, finishedModObj, this)
-    ::weaponVisual.updateItem(unit, mod, modObj, false, this)
+      modObj = createModItem(id, unit, mod, weaponsItem.modification, finishedModObj, this)
+    else
+      updateModItem(unit, mod, modObj, false, this)
   }
 
   function onRepair()
@@ -1267,7 +1277,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     foreach(idx, block in unit.modifications)
     {
       block["type"] <- weaponsItem.modification
-      if (::weaponVisual.canResearchItem(unit, block, false))
+      if (canResearchItem(unit, block, false))
       {
         researchesArray.append(block)
         blankCell.append("td{id:t='" + block.name + "';}")
@@ -1290,11 +1300,11 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
       if (!::checkObj(obj))
         continue
 
-      local modObj = ::weaponVisual.createItem("mod_" + mod.name, mod, weaponsItem.modification, obj, this)
-      ::weaponVisual.updateItem(unit, mod, modObj, false, this, {
-                                  canShowResearch = false,
-                                  flushExp = flushExpNum
-                                })
+      createModItem("mod_" + mod.name, unit, mod,
+        weaponsItem.modification, obj, this, {
+          canShowResearch = false,
+          flushExp = flushExpNum
+        })
 
       local row = idx/unitsInTr
       local col = idx - row*unitsInTr
@@ -1408,7 +1418,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
     local unit = ::getAircraftByName(unitName)
     local modItem = ::getModificationByName(unit, idx)
     if (modItem)
-      ::weaponVisual.updateWeaponTooltip(obj, unit, modItem, this)
+      updateWeaponTooltip(obj, unit, modItem, this)
   }
 
   function onModItemClick(obj)
@@ -1437,7 +1447,7 @@ class ::gui_handlers.nextResearchChoice extends ::gui_handlers.showAllResearched
 
     if (!itemsTable.len())
     {
-      ::setDoubleTextToButton(scene, "btn_apply", ::loc("mainmenu/btnOk"))
+      setDoubleTextToButton(scene, "btn_apply", ::loc("mainmenu/btnOk"))
       return
     }
 

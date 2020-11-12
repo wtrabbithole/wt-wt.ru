@@ -11,7 +11,8 @@ local UNMAPPED_CONTROLS_WARNING_TIME_WINK = 3.0
 local getUnmappedControlsWarningTime = @() ::get_game_mode() == ::GM_TRAINING ? 180000.0 : 30.0
 local defaultFontSize = "small"
 
-::need_offer_controls_help <- true
+::should_show_controls_help_on_loading <- ::is_platform_ps4 || ::is_platform_xboxone
+::should_offer_controls_help <- !::should_show_controls_help_on_loading
 
 ::air_hud_actions <- {
   flaps = {
@@ -66,7 +67,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       widgetId = DargWidgets.HUD
     }
     {
-      widgetId = DargWidgets.FOOTBALL
+      widgetId = DargWidgets.SCOREBOARD
     }
   ]
 
@@ -251,15 +252,7 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
     else if (newHudType == HUD_TYPE.AIR)
       currentHud = ::handlersManager.loadHandler(::use_touchscreen && !isXinput ? ::HudTouchAir : ::HudAir, { scene = hudObj })
     else if (newHudType == HUD_TYPE.TANK)
-    {
-      //
-
-
-
-
-
-        currentHud = ::handlersManager.loadHandler(::use_touchscreen && !isXinput ? ::HudTouchTank : ::HudTank, { scene = hudObj })
-    }
+      currentHud = ::handlersManager.loadHandler(::use_touchscreen && !isXinput ? ::HudTouchTank : ::HudTank, { scene = hudObj })
     else if (newHudType == HUD_TYPE.SHIP)
       currentHud = ::handlersManager.loadHandler(::HudShip, { scene = hudObj })
     else if (newHudType == HUD_TYPE.HELICOPTER)
@@ -537,12 +530,17 @@ class ::gui_handlers.Hud extends ::gui_handlers.BaseGuiHandlerWT
       timeToKickAlertObj.setValue(afkTimeToKick > 0
         ? ::loc("inBattle/timeToKick", {timeToKick = time.secondsToString(afkTimeToKick, true, true)})
         : "")
+
       local curTime = ::dagor.getCurTime()
-      local prevSeconds = sec? ((curTime - sec * 1000) / sec).tointeger() : 0
-      local currSeconds = sec? (curTime / sec).tointeger() : 0
-      timeToKickAlertObj["_blink"] = currSeconds != prevSeconds? "yes" : "no"
+      local prevSeconds = ((curTime - 1000 * sec) / 1000).tointeger()
+      local currSeconds = (curTime / 1000).tointeger()
+
       if (currSeconds != prevSeconds)
+      {
+        timeToKickAlertObj["_blink"] = "yes"
         ::play_gui_sound("kick_alert")
+      }
+
     }
     else if (showTimerText)
       timeToKickAlertObj.setValue(::loc("inBattle/timeToKickAlert"))
@@ -593,6 +591,7 @@ class HudAir extends ::gui_handlers.BaseUnitHud
     updateTacticalMapVisibility()
     updateDmgIndicatorVisibility()
     updateShowHintsNest()
+    updatePosHudMultiplayerScore()
 
     ::g_hud_event_manager.subscribe("DamageIndicatorToggleVisbility",
       function(ed) { updateDmgIndicatorVisibility() },
@@ -706,6 +705,7 @@ class HudTank extends ::gui_handlers.BaseUnitHud
     ::hudEnemyDamage.init(scene)
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
     updateShowHintsNest()
+    updatePosHudMultiplayerScore()
 
     ::g_hud_event_manager.subscribe("DamageIndicatorToggleVisbility",
       @(eventData) updateDamageIndicatorBackground(),
@@ -735,52 +735,6 @@ class HudTank extends ::gui_handlers.BaseUnitHud
   }
 }
 
-//
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 class HudHelicopter extends ::gui_handlers.BaseUnitHud
 {
@@ -791,18 +745,13 @@ class HudHelicopter extends ::gui_handlers.BaseUnitHud
   {
     ::hudEnemyDamage.init(scene)
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
+    updatePosHudMultiplayerScore()
   }
 
   function reinitScreen(params = {})
   {
     actionBar.reinit()
     ::hudEnemyDamage.reinit()
-
-    if (::need_offer_controls_help)
-    {
-      ::need_offer_controls_help = false
-      ::g_hud_event_manager.onHudEvent("hint:controlsHelp:offer", {})
-    }
   }
 }
 
@@ -885,6 +834,7 @@ class HudShip extends ::gui_handlers.BaseUnitHud
     ::g_hud_display_timers.init(scene, ::ES_UNIT_TYPE_SHIP)
     ::hud_request_hud_ship_debuffs_state()
     actionBar = ActionBar(scene.findObject("hud_action_bar"))
+    updatePosHudMultiplayerScore()
   }
 
   function reinitScreen(params = {})
@@ -893,13 +843,6 @@ class HudShip extends ::gui_handlers.BaseUnitHud
     ::hudEnemyDamage.reinit()
     ::g_hud_display_timers.reinit()
     ::hud_request_hud_ship_debuffs_state()
-
-    if (::need_offer_controls_help)
-    {
-      ::need_offer_controls_help = false
-      if (::is_submarine(::get_player_cur_unit()))
-        ::g_hud_event_manager.onHudEvent("hint:controlsHelp:offer", {})
-    }
   }
 }
 

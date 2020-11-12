@@ -11,7 +11,10 @@ local __math = require("math")
 ::fabs<-__math.fabs
 ::kwarg <- require("std/functools.nut").kwarg
 ::memoize <- require("std/functools.nut").memoize
-::Watched <- require("frp").Watched
+
+local frp = require("frp")
+::Watched <- frp.Watched
+::Computed <-frp.Computed
 
 ::utf8 <- require("utf8")
 ::regexp2 <- require("regexp2")
@@ -46,8 +49,6 @@ local { get_local_unixtime } = ::require_native("dagor.time")
 ::INVALID_USER_ID <- ::make_invalid_user_id()
 ::RESPAWNS_UNLIMITED <- -1
 
-::quick_match_flag <- false;
-::test_flight <- false
 ::custom_miss_flight <- false
 ::is_debug_mode_enabled <- false
 ::first_generation <- true
@@ -65,7 +66,7 @@ global const LOST_DELAYED_ACTION_MSEC = 500
 ::g_script_reloader.registerPersistentData("MainGlobals", ::getroottable(),
   [
     "nda_version", "nda_version_tanks", "eula_version",
-    "test_flight", "is_debug_mode_enabled", "first_generation",
+    "is_debug_mode_enabled", "first_generation",
     "show_console_buttons", "is_dev_version"
   ])
 
@@ -239,6 +240,7 @@ global enum squadMemberState
 ::ES_UNIT_TYPE_TOTAL_RELEASED <- 2
 
 global const SAVE_ONLINE_JOB_DIGIT = 123 //super secure digit for job tag :)
+global const SAVE_WEAPON_JOB_DIGIT = 321
 
 global enum COLOR_TAG {
   ACTIVE = "av"
@@ -288,7 +290,20 @@ global enum TOP_MENU_ELEMENT_TYPE {
   LINE_SEPARATOR
 }
 
+global enum USERLOG_POPUP {
+  UNLOCK                = 0x0001
+  FINISHED_RESEARCHES   = 0x0002
+  OPEN_TROPHY           = 0x0004
+
+  //masks
+  ALL                   = 0xFFFF
+  NONE                  = 0x0000
+}
+
 global const MAIN_FOCUS_ITEM_IDX = 4
+
+global const LEADERBOARD_VALUE_TOTAL = "value_total"
+global const LEADERBOARD_VALUE_INHISTORY = "value_inhistory"
 
 ::randomize <- function randomize()
 {
@@ -442,7 +457,9 @@ foreach(bhvName, bhvClass in ::gui_bhv_deprecated)
 ::require("sqDagui/framework/progressMsg.nut").setTextLocIdDefault("charServer/purchase0")
   // end of Independed Modules
 
-::cross_call_api.platform <- ::require("scripts/clientState/platform.nut")
+local platform = require("scripts/clientState/platform.nut")
+::cross_call_api.platform <- platform
+::cross_call_api.platform.is_pc <- @() platform.isPlatformPC
 
 ::use_touchscreen <- ::init_use_touchscreen()
 ::is_small_screen <- ::use_touchscreen // FIXME: Touch screen is not always small.
@@ -694,7 +711,6 @@ local isFullScriptsLoaded = false
     "weaponry/unitBulletsManager.nut"
     "dmViewer/dmViewer.nut"
     "weaponry/weaponryTypes.nut"
-    "weaponsVisual.nut"
     "weaponry/weaponrySelectModal.nut"
     "weaponry/unitWeaponsHandler.nut"
     "weaponry/weapons.nut"
@@ -722,10 +738,6 @@ local isFullScriptsLoaded = false
     "misObjectives/objectiveStatus.nut"
     "misObjectives/misObjectivesView.nut"
     "tacticalMap.nut"
-
-    "userLog/userlogData.nut"
-    "userLog/userlogViewData.nut"
-    "userLog/userLog.nut"
 
     "debriefing/debriefingFull.nut"
     "debriefing/debriefingModal.nut"
@@ -783,6 +795,10 @@ local isFullScriptsLoaded = false
     "items/orderUseResult.nut"
     "items/orders.nut"
     "items/orderActivationWindow.nut"
+
+    "userLog/userlogData.nut"
+    "userLog/userlogViewData.nut"
+    "userLog/userLog.nut"
 
     "crew/crewShortCache.nut"
     "crew/skillParametersRequestType.nut"
@@ -884,7 +900,7 @@ local isFullScriptsLoaded = false
   ::require("scripts/slotbar/elems/squadronExpIconElem.nut")
   ::require("scripts/matching/serviceNotifications/showInfo.nut")
   require("scripts/unit/unitContextMenu.nut")
-  require("scripts/hud/bhvHudTankStates.nut")
+  require("sqDagui/guiBhv/bhvUpdateByWatched.nut")
   // end of Independed Modules
 
   ::require("scripts/utils/systemMsg.nut").registerColors(colorTagToColors)

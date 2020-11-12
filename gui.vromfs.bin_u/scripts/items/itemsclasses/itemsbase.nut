@@ -29,7 +29,7 @@
 
   getStopConditions()          - added for boosters, but perhaps, it have in some other items
 
-  getMainActionData(isShort = false)
+  getMainActionData(isShort = false, params = {})
                                     - get main action data (short will be on item button)
   doMainAction(cb, handler)         - do main action. (buy, activate, etc)
 
@@ -41,6 +41,7 @@
 
 
 local time = require("scripts/time.nut")
+local { validateLink, openUrl } = require("scripts/onlineShop/url.nut")
 
 ::items_classes <- {}
 
@@ -116,6 +117,7 @@ class ::BaseItem
     iconStyle = blk?.iconStyle ?? id
     link = blk?.link ?? ""
     forceExternalBrowser = blk?.forceExternalBrowser ?? false
+    shouldAutoConsume = blk?.shouldAutoConsume ?? false
 
     shopFilterMask = iType
     local types = blk % "additionalShopItemType"
@@ -390,13 +392,13 @@ class ::BaseItem
   {
     if (::getTblValue("showAction", params, true))
     {
-      local mainActionData = getMainActionData(true)
+      local mainActionData = params?.overrideMainActionData ?? getMainActionData(true, params)
       res.isInactive <- (params?.showButtonInactiveIfNeed ?? false)
         && (mainActionData?.isInactive ?? false)
       if (mainActionData && getLimitsCheckData().result)
       {
-        res.modActionName <- mainActionData?.btnColoredName || mainActionData.btnName
-        res.needShowActionButtonAlways <- needShowActionButtonAlways()
+        res.modActionName <- mainActionData?.btnColoredName ?? mainActionData.btnName
+        res.needShowActionButtonAlways <- mainActionData?.needShowActionButtonAlways ?? needShowActionButtonAlways(params)
       }
     }
 
@@ -451,9 +453,9 @@ class ::BaseItem
   {
     if (!hasLink())
       return
-    local validLink = ::g_url.validateLink(link)
+    local validLink = validateLink(link)
     if (validLink)
-      ::open_url(validLink, forceExternalBrowser, false, linkBigQueryKey)
+      openUrl(validLink, forceExternalBrowser, false, linkBigQueryKey)
   }
 
   function _requestBuy(params = {})
@@ -494,7 +496,7 @@ class ::BaseItem
 
     if (hasReachedMaxAmount())
     {
-      ::scene_msg_box("reached_max_amount", null, ::loc("item/reached_max_amount"),
+      ::scene_msg_box("reached_max_amount", null, ::loc(getLocIdsList().reachedMaxAmount),
         [["cancel"]], "cancel")
       return false
     }
@@ -525,7 +527,7 @@ class ::BaseItem
     return res + ((costText == "")? "" : " (" + costText + ")")
   }
 
-  function getMainActionData(isShort = false)
+  function getMainActionData(isShort = false, params = {})
   {
     if (isCanBuy())
       return {
@@ -749,7 +751,7 @@ class ::BaseItem
   getRarityColor              = @() ""
   getRelatedRecipes           = @() [] //recipes with this item in materials
   getMyRecipes                = @() [] //recipes with this item in result
-  needShowActionButtonAlways  = @() false
+  needShowActionButtonAlways  = @(params) false
 
   getMaxRecipesToShow         = @() 0 //if 0, all recipes will be shown.
   getDescRecipeListHeader     = @(showAmount, totalAmount, isMultipleExtraItems) ""
@@ -765,7 +767,7 @@ class ::BaseItem
   isCraftResult = @() false
   getCraftResultItem = @() null
   hasCraftResult = @() !!getCraftResultItem()
-  isHiddenItem = @() !isEnabled() || isCraftResult()
+  isHiddenItem = @() !isEnabled() || isCraftResult() || shouldAutoConsume
   getAdditionalTextInAmmount = @(needColorize = true, showOnlyIcon = false) ""
   cancelCrafting = @(...) false
   getRewardListLocId = @() "mainmenu/rewardsList"
@@ -778,4 +780,7 @@ class ::BaseItem
   needOfferBuyAtExpiration = @() false
   isVisibleInWorkshopOnly = @() false
   getIconName = @() getSmallIconName()
+  canCraftOnlyInCraftTree = @() false
+  getLocIdsList = @() { reachedMaxAmount = "item/reached_max_amount" }
+  consume = @(cb, params) false
 }

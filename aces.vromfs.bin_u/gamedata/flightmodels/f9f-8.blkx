@@ -14,7 +14,7 @@
   "arcadeHP": 10000.0,
   "overheatBlk": "gameData/FlightModels/dm/overheat.blk",
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
-  "fireParamsPreset": "1000kph",
+  "fireParamsPreset": "1100kph",
   "fightAiBehaviour": "fighter",
   "gyroscopicSightOverSensors": true,
   "damagePartsToCollisionObjectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_collision_objects.blk",
@@ -2680,7 +2680,7 @@
     "radiusSpeed": 2.0
   },
   "fireParams": {
-    "engineExtinguishFireSpeed": [221.0,306.0],
+    "engineExtinguishFireSpeed": [272.0,316.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0
@@ -2913,6 +2913,9 @@
           "separateDm": true
         },
         {
+          "overwriteLinks": true
+        },
+        {
           "dp": "stab_dm"
         },
         {
@@ -3107,6 +3110,9 @@
         },
         {
           "separateDm": true
+        },
+        {
+          "overwriteLinks": true
         },
         {
           "dp": "stab_dm"
@@ -3510,6 +3516,12 @@
           "dm": "wing1_r_dm"
         },
         {
+          "separateDm": true
+        },
+        {
+          "overwriteLinks": true
+        },
+        {
           "dp": "stab_dm"
         },
         {
@@ -3704,6 +3716,9 @@
         },
         {
           "separateDm": true
+        },
+        {
+          "overwriteLinks": true
         },
         {
           "dp": "stab_dm"

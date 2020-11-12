@@ -12,6 +12,8 @@ local soundDevice = require_native("soundDevice")
 local { getBulletsListHeader } = require("scripts/weaponry/weaponryVisual.nut")
 local { setUnitLastBullets,
         getOptionsBulletsList } = require("scripts/weaponry/bulletsInfo.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { reloadDargUiScript } = require_native("reactiveGuiCommand")
 
 global const TANK_ALT_CROSSHAIR_ADD_NEW = -2
 global const TANK_CAMO_SCALE_SLIDER_FACTOR = 0.1
@@ -48,8 +50,6 @@ global enum misCountries
   MissionTypeLocal = 1,
   MissionTypeOnline = 2,
 };
-::gunner_view_min_sens <- 0.25
-::gunner_view_max_sens <- 1.75
 
 ::unit_year_selection_min <- 1940
 ::unit_year_selection_max <- 1945
@@ -291,8 +291,6 @@ local isWaitMeasureEvent = false
 
 ::create_option_switchbox <- function create_option_switchbox(config)
 {
-  if (!("enabled" in config))
-    config.enabled <- true
   return ::handyman.renderCached(("gui/options/optionSwitchbox"), config)
 }
 
@@ -539,6 +537,8 @@ local isWaitMeasureEvent = false
       optionsUtils.fillBoolOption(descr, "fixGunInMouseLook", ::OPTION_FIX_GUN_IN_MOUSE_LOOK); break;
     case ::USEROPT_ENABLE_SOUND_SPEED:
       optionsUtils.fillBoolOption(descr, "enableSoundSpeed", ::OPTION_ENABLE_SOUND_SPEED); break;
+    case ::USEROPT_PITCH_BLOCKER_WHILE_BRACKING:
+      optionsUtils.fillBoolOption(descr, "pitchBlockerWhileBraking", ::OPTION_PITCH_BLOCKER_WHILE_BRACKING); break;
 
     case ::USEROPT_VIEWTYPE:
       descr.id = "viewtype"
@@ -583,6 +583,57 @@ local isWaitMeasureEvent = false
       if (::get_option_bomb_activation_time() != curValue)
         ::set_option_bomb_activation_time(curValue)
       break
+
+   case ::USEROPT_FLARES_PERIODS:
+       descr.id = "flares_periods"
+       descr.values = [0.1,0.2,0.5,1.0]
+       descr.items = []
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+         local text = time.secondsToString(descr.values[i], true, true, 2)
+         local tooltipLoc = "guiHints/flares_periods/periods"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { sec = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_flares_periods())
+       defaultValue = 0.1
+       break
+
+   case ::USEROPT_FLARES_SERIES:
+       descr.id = "flares_series"
+       descr.items = []
+       descr.values = [1,2,3,4]
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+          local text = descr.values[i].tostring()
+          local tooltipLoc = "guiHints/flares_periods/series"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { num = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_flares_series())
+       defaultValue = 5
+       break
+
+   case ::USEROPT_FLARES_SERIES_PERIODS:
+       descr.id = "flares_series_periods"
+       descr.items = []
+       descr.values = [1,2,5,10]
+       for (local i = 0; i < descr.values.len(); ++i)
+       {
+          local text = time.secondsToString(descr.values[i], true, true, 2)
+          local tooltipLoc = "guiHints/flares_periods/series_periods"
+         descr.items.append({
+          text = text
+          tooltip = ::loc(tooltipLoc, { sec = descr.values[i] })
+          })
+       }
+       descr.value = find_in_array(descr.values, ::get_option_flares_series_periods())
+       defaultValue = 1
+       break
 
    case ::USEROPT_DEPTHCHARGE_ACTIVATION_TIME:
       descr.id = "depthcharge_activation_time"
@@ -813,13 +864,6 @@ local isWaitMeasureEvent = false
       break
 
     //
-
-
-
-
-
-
-
 
 
 
@@ -1191,11 +1235,28 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_GUNNER_VIEW_SENSE:
       descr.id = "multiplier_gunner_view"
-      descr.value = (100.0*(::get_option_multiplier(::OPTION_GUNNER_VIEW_SENSE) - ::gunner_view_min_sens) / (::gunner_view_max_sens - ::gunner_view_min_sens)).tointeger()
-      if (descr.value < 0)
+      descr.value = (::get_option_multiplier(::OPTION_GUNNER_VIEW_SENSE) * 100.0).tointeger()
+      break
+
+    case ::USEROPT_GUNNER_VIEW_ZOOM_SENS:
+      descr.id = "multiplier_gunner_view_zoom"
+      if (::have_per_vehicle_zoom_sens)
+        descr.value = (::get_option_multiplier(::OPTION_GUNNER_VIEW_ZOOM_SENS) * 100.0).tointeger()
+      else
         descr.value = 0
-      else if (descr.value > 100)
-        descr.value = 100
+      break
+
+    case ::USEROPT_ATGM_AIM_SENS_HELICOPTER:
+      descr.id = "atgm_aim_sens_helicopter"
+      descr.value = (::get_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER) * 100.0).tointeger()
+      break
+
+    case ::USEROPT_ATGM_AIM_ZOOM_SENS_HELICOPTER:
+      descr.id = "atgm_aim_zoom_sens_helicopter"
+      if (::have_per_vehicle_zoom_sens)
+        descr.value = (::get_option_multiplier(::OPTION_ATGM_AIM_ZOOM_SENS_HELICOPTER) * 100.0).tointeger()
+      else
+        descr.value = 0
       break
 
     case ::USEROPT_MOUSE_SMOOTH:
@@ -2455,7 +2516,7 @@ local isWaitMeasureEvent = false
       descr.values = []
       descr.hint = descr.title
 
-      defaultValue = ::g_unit_type.types.reduce(@(res, v) res = res | v.bit, 0)
+      defaultValue = unitTypes.types.reduce(@(res, v) res = res | v.bit, 0)
       prevValue = ::get_gui_option(optionId) ?? defaultValue
 
       local missionBlk = ::get_mission_meta_info(context?.missionName ?? "")
@@ -2466,8 +2527,10 @@ local isWaitMeasureEvent = false
 
       descr.availableUnitTypesMask <- availableUnitTypesMask
 
-      foreach (unitType in ::g_unit_type.types)
+      foreach (unitType in unitTypes.types)
       {
+        if (unitType == unitTypes.INVALID)
+          continue
         local isVisible = !!(availableUnitTypesMask & unitType.bit)
         descr.values.append(unitType.esUnitType)
         descr.items.append({
@@ -2590,9 +2653,9 @@ local isWaitMeasureEvent = false
       descr.controlType = optionControlType.BIT_LIST
       descr.items = []
       descr.values = []
-      for(local i = 0; i < ::g_unit_type.types.len(); i++)
+      for(local i = 0; i < unitTypes.types.len(); i++)
       {
-        local unitType = ::g_unit_type.types[i]
+        local unitType = unitTypes.types[i]
         if (!unitType.isAvailable())
           continue
         descr.items.append(unitType.getArmyLocName())
@@ -3687,24 +3750,20 @@ local isWaitMeasureEvent = false
       descr.controlName <- "switchbox"
       descr.value = ::g_gamepad_cursor_controls.getValue()
       break
-    case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED:
-      descr.id = "gamepad_cursor_controller_speed"
-      descr.controlType = optionControlType.SLIDER
-      descr.value = ::g_gamepad_cursor_controls.getSpeed()
-      descr.min <- 5
-      descr.max <- 200
-      break
     case ::USEROPT_PS4_CROSSPLAY:
       descr.id = "ps4_crossplay"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
+      descr.cb = "onChangeCrossPlay"
       descr.value = crossplayModule.isCrossPlayEnabled()
+      descr.enabled <- !::checkIsInQueue()
       break
     case ::USEROPT_PS4_CROSSNETWORK_CHAT:
       descr.id = "ps4_crossnetwork_chat"
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = crossplayModule.isCrossNetworkChatEnabled()
+      descr.cb = "onChangeCrossNetworkChat"
       break
     case ::USEROPT_REPLACE_MY_NICK_LOCAL:
       descr.id = "replace_my_nick_local"
@@ -3733,6 +3792,14 @@ local isWaitMeasureEvent = false
       descr.controlType = optionControlType.CHECKBOX
       descr.controlName <- "switchbox"
       descr.value = ::get_allow_to_be_added_to_lb()
+      break
+
+    case ::USEROPT_PS4_ONLY_LEADERBOARD:
+      descr.id = "ps4_only_leaderboards"
+      descr.controlType = optionControlType.CHECKBOX
+      descr.controlName <- "switchbox"
+      descr.enabled <- crossplayModule.isCrossPlayEnabled()
+      defaultValue = false
       break
 
     default:
@@ -3856,6 +3923,15 @@ local isWaitMeasureEvent = false
     case ::USEROPT_MINE_DEPTH:
       ::set_option_mine_depth(descr.values[value])
       break
+    case ::USEROPT_FLARES_PERIODS:
+      ::set_option_flares_periods(descr.values[value])
+      break
+    case ::USEROPT_FLARES_SERIES:
+      ::set_option_flares_series(descr.values[value])
+      break
+    case ::USEROPT_FLARES_SERIES_PERIODS:
+      ::set_option_flares_series_periods(descr.values[value])
+      break
     case ::USEROPT_USE_PERFECT_RANGEFINDER:
       ::set_option_use_perfect_rangefinder(value ? 1 : 0)
       break
@@ -3909,9 +3985,6 @@ local isWaitMeasureEvent = false
       ::set_option_invertY(AxisInvertOption.INVERT_HELICOPTER_GUNNER_Y, value ? 1 : 0)
       break
     //
-
-
-
 
 
 
@@ -4125,8 +4198,27 @@ local isWaitMeasureEvent = false
       break
 
     case ::USEROPT_GUNNER_VIEW_SENSE:
-      local val = ::gunner_view_min_sens + (value / 100.0) * (::gunner_view_max_sens - ::gunner_view_min_sens)
+      local val = value / 100.0
       ::set_option_multiplier(::OPTION_GUNNER_VIEW_SENSE, val)
+      break
+
+    case ::USEROPT_GUNNER_VIEW_ZOOM_SENS:
+      if (::have_per_vehicle_zoom_sens) {
+        local val = value / 100.0
+        ::set_option_multiplier(::OPTION_GUNNER_VIEW_ZOOM_SENS, val)
+      }
+      break
+
+    case ::USEROPT_ATGM_AIM_SENS_HELICOPTER:
+      local val = value / 100.0
+      ::set_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER, val)
+      break
+
+    case ::USEROPT_ATGM_AIM_ZOOM_SENS_HELICOPTER:
+      if (::have_per_vehicle_zoom_sens) {
+        local val = value / 100.0
+        ::set_option_multiplier(::OPTION_ATGM_AIM_ZOOM_SENS_HELICOPTER, val)
+      }
       break
 
     case ::USEROPT_MOUSE_SMOOTH:
@@ -4326,8 +4418,10 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_FONTS_CSS:
       local selFont = ::getTblValue(value, descr.values)
-      if (selFont && ::g_font.setCurrent(selFont))
+      if (selFont && ::g_font.setCurrent(selFont)) {
         ::handlersManager.checkPostLoadCssOnBackToBaseHandler()
+        reloadDargUiScript(false)
+      }
       break
 
     case ::USEROPT_HUE_SQUAD:
@@ -4488,6 +4582,7 @@ local isWaitMeasureEvent = false
     case ::USEROPT_INSTRUCTOR_SIMPLE_JOY:
     case ::USEROPT_MAP_ZOOM_BY_LEVEL:
     case ::USEROPT_SHOW_COMPASS_IN_TANK_HUD:
+    case ::USEROPT_PITCH_BLOCKER_WHILE_BRACKING:
     case ::USEROPT_HIDE_MOUSE_SPECTATOR:
     case ::USEROPT_FIX_GUN_IN_MOUSE_LOOK:
     case ::USEROPT_ENABLE_SOUND_SPEED:
@@ -4814,9 +4909,6 @@ local isWaitMeasureEvent = false
     case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER:
       ::g_gamepad_cursor_controls.setValue(value)
       break
-    case ::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED:
-      ::g_gamepad_cursor_controls.setSpeed(value)
-      break
     case ::USEROPT_PS4_CROSSPLAY:
       crossplayModule.setCrossPlayStatus(value)
       break
@@ -4842,6 +4934,10 @@ local isWaitMeasureEvent = false
 
     case ::USEROPT_QUEUE_EVENT_CUSTOM_MODE:
       ::queue_classes.Event.setShouldQueueCustomMode(::getTblValue("eventName", descr.context, ""), value)
+      break
+
+    case ::USEROPT_PS4_ONLY_LEADERBOARD:
+      ::set_gui_option(optionId, value)
       break
 
     default:
@@ -5050,5 +5146,5 @@ local isWaitMeasureEvent = false
 ::is_tencent_unit_image_reqired <- function is_tencent_unit_image_reqired(unit)
 {
   return ::is_vendor_tencent() && unit.shopCountry == "country_japan"
-         && unit.unitType == ::g_unit_type.AIRCRAFT
+         && unit.unitType == unitTypes.AIRCRAFT
 }

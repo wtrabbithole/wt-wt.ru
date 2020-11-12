@@ -56,6 +56,7 @@ enums.addTypesByGlobalName("g_top_menu_left_side_sections", [
         buttonsList.SINGLE_MISSION
         buttonsList.DYNAMIC
         buttonsList.CAMPAIGN
+        buttonsList.PERSONAL_UNLOCKS
         buttonsList.BENCHMARK
       ]
     ]
@@ -124,6 +125,7 @@ enums.addTypesByGlobalName("g_top_menu_right_side_sections", [
       [
         buttonsList.WINDOW_HELP
         buttonsList.ENCYCLOPEDIA
+        buttonsList.CHANGE_LOG
         buttonsList.CREDITS
         buttonsList.EULA
         buttonsList.LINE_SEPARATOR

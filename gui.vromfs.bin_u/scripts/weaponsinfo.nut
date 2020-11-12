@@ -1,3 +1,6 @@
+local { getItemStatusTbl,
+        getItemUnlockCost,
+        getItemCost } = require("scripts/weaponry/itemInfo.nut")
 local { isFakeBullet,
         getBulletGroupIndex } = require("scripts/weaponry/bulletsInfo.nut")
 local { getLastWeapon,
@@ -17,7 +20,7 @@ local { getWeaponInfoText,
   if (weaponText.warning)
     return weaponText.amount? UNIT_WEAPONS_WARNING : UNIT_WEAPONS_ZERO
 
-  for (local i = 0; i < ::BULLETS_SETS_QUANTITY; i++)
+  for (local i = 0; i < unit.unitType.bulletSetsQuantity; i++)
   {
     local modifName = ::get_last_bullets(unit.name, i);
     if (modifName && modifName != "" && ::shop_is_modification_enabled(unit.name, modifName))
@@ -364,7 +367,7 @@ local getModBlock = function(modName, blockName, templateKey)
   local modsCost = ::Cost()
   foreach(modification in ::getTblValue("modifications", unit, {}))
   {
-    local statusTbl = ::weaponVisual.getItemStatusTbl(unit, modification)
+    local statusTbl = getItemStatusTbl(unit, modification)
     if (statusTbl.maxAmount == statusTbl.amount)
       continue
 
@@ -373,14 +376,14 @@ local getModBlock = function(modName, blockName, templateKey)
 
     if (open)
     {
-      local openCost = ::weaponVisual.getItemUnlockCost(unit, modification)
+      local openCost = getItemUnlockCost(unit, modification)
       if (!openCost.isZero())
         _modCost = openCost
     }
 
     if (::canBuyMod(unit, modification))
     {
-      local modificationCost = ::weaponVisual.getItemCost(unit, modification)
+      local modificationCost = getItemCost(unit, modification)
       if (!modificationCost.isZero())
       {
         skipSummary = statusTbl.maxAmount > 1
@@ -511,11 +514,11 @@ local getModBlock = function(modName, blockName, templateKey)
   return null
 }
 
-::get_linked_gun_index <- function get_linked_gun_index(group_index, total_groups, canBeDuplicate = true)
+::get_linked_gun_index <- function get_linked_gun_index(group_index, total_groups, bulletSetsQuantity, canBeDuplicate = true)
 {
   if (!canBeDuplicate)
     return group_index
-  return (group_index.tofloat() * total_groups / ::BULLETS_SETS_QUANTITY + 0.001).tointeger()
+  return (group_index.tofloat() * total_groups / bulletSetsQuantity + 0.001).tointeger()
 }
 
 ::isAirHaveAnyWeaponsTags <- function isAirHaveAnyWeaponsTags(air, tags, checkPurchase = true)

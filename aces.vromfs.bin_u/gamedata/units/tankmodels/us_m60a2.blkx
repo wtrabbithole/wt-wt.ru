@@ -1727,6 +1727,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2245,7 +2254,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -2574,6 +2585,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2855,7 +2883,7 @@
                 "startFx": "",
                 "useEmitter": true,
                 "emitter": "emtr_mortar_flame_01",
-                "emitterGenRange": [1,8],
+                "emitterGenRange": [1,16],
                 "emitterGenFmt": "emtr_mortar_flame_%02d",
                 "ignoreLoaderPenalty": true,
                 "createGunEffects": true,
@@ -2866,7 +2894,7 @@
                 "speedYaw": 24.0,
                 "speedPitch": 15.0,
                 "fireConeAngle": 1.0,
-                "bullets": 8,
+                "bullets": 16,
                 "salvoAmount": 100.0,
                 "ChainfireTime": 0.0,
                 "DelayAfterShoot": 5.0,

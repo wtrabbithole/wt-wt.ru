@@ -1605,6 +1605,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -1672,6 +1681,9 @@
         },
         "body_back_dm": {
           "armorThickness": 22.0
+        },
+        "turret_01_front_dm": {
+          "armorThickness": 20.0
         }
       },
       "body_shields": {
@@ -1864,7 +1876,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -2187,6 +2201,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2277,7 +2308,7 @@
             "ratio": 1.5
           },
           {
-            "ratio": 1.0
+            "ratio": 1.15
           }
         ]
       },
@@ -2300,6 +2331,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/75mm_PaK42_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
+          "recoilOffset": 0.05,
           "allowableDelta": 20.0,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
@@ -2330,8 +2362,8 @@
             "barrel": "bone_gun_barrel"
           },
           "limits": {
-            "yaw": [-10.0,10.0],
-            "pitch": [-5.0,15.0]
+            "yaw": [-12.0,12.0],
+            "pitch": [-7.0,15.0]
           }
         }
       },
@@ -2473,6 +2505,60 @@
       "new_tank_transmission": [],
       "new_tank_engine": [],
       "tank_camouflage": [],
+      "ostketten_tank_tracks": {
+        "invertEnableLogic": false,
+        "turn_it_off": false,
+        "effects": {
+          "mulFrontalStaticFriction": 1.02,
+          "mulFrontalSlidingFriction": 1.05,
+          "mulSideRotMinSpd": 1.05,
+          "mulSideRotMaxSpd": 1.05,
+          "mulSideRotMinFric": 0.95,
+          "mulSideRotMaxFric": 0.95,
+          "hideNodes": [
+            {
+              "node": "track_l"
+            },
+            {
+              "node": "track_r"
+            },
+            {
+              "node": "ex_armor_body_l_01"
+            },
+            {
+              "node": "ex_armor_body_l_02"
+            },
+            {
+              "node": "ex_armor_body_l_03"
+            },
+            {
+              "node": "ex_armor_body_l_04"
+            },
+            {
+              "node": "ex_armor_body_r_01"
+            },
+            {
+              "node": "ex_armor_body_r_02"
+            },
+            {
+              "node": "ex_armor_body_r_03"
+            },
+            {
+              "node": "ex_armor_body_r_04"
+            }
+          ]
+        },
+        "disableModEffects": {
+          "hideNodes": [
+            {
+              "node": "track_l_01"
+            },
+            {
+              "node": "track_r_01"
+            }
+          ]
+        }
+      },
       "tank_additional_armor": {
         "tier": 4,
         "modClass": "protection",
@@ -2515,6 +2601,8 @@
         "image": "#ui/gameuiskin#tank_reinforcement_ger"
       },
       "75mm_ger_kwk42_HE": [],
+      "75mm_ger_kwk42_APCR": [],
+      "75mm_kwk_42_APCR_ammo_pack": [],
       "tank_smoke_screen_system_mod": {
         "tier": 4,
         "effects": {
@@ -2525,6 +2613,7 @@
                 "blk": "gameData/Weapons/groundModels_weapons/75mm_PaK42_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
+                "recoilOffset": 0.05,
                 "allowableDelta": 20.0,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
@@ -2555,8 +2644,8 @@
                   "barrel": "bone_gun_barrel"
                 },
                 "limits": {
-                  "yaw": [-10.0,10.0],
-                  "pitch": [-5.0,15.0]
+                  "yaw": [-12.0,12.0],
+                  "pitch": [-7.0,15.0]
                 }
               }
             },

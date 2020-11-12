@@ -125,6 +125,7 @@
   additionalIconsDiv {
     input-transparent:t='yes'
     css-hier-invalidate:t='yes'
+    height:t='ph'
 
     <<#newIconWidget>>
       tdiv {
@@ -151,7 +152,7 @@
     discount_notification {
       id:t='<<id>>_discount'
       display:t='hide'
-      type:t='line'
+      type:t='<<#discountType>><<discountType>><</discountType>><<^discountType>>line<</discountType>>'
       pos:t='0, 50%ph-50%h'
       position:t='relative'
     }

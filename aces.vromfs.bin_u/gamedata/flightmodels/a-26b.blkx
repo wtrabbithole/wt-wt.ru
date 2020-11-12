@@ -2749,11 +2749,11 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [0.0,90.0]
+            "pitch": [-5.0,90.0]
           },
           "limitsDeadzone": {
             "yaw": [-1.0,1.0],
-            "pitch": [0.0,25.0]
+            "pitch": [-5.0,25.0]
           }
         }
       },
@@ -2776,11 +2776,11 @@
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [0.0,85.0]
+            "pitch": [-5.0,90.0]
           },
           "limitsDeadzone": {
             "yaw": [-1.0,1.0],
-            "pitch": [0.0,25.0]
+            "pitch": [-5.0,25.0]
           }
         }
       },
@@ -2807,7 +2807,7 @@
           },
           "limitsDeadzone": {
             "yaw": [-90.0,90.0],
-            "pitch": [0.0,-90.0]
+            "pitch": [5.0,-90.0]
           }
         }
       },
@@ -2834,7 +2834,7 @@
           },
           "limitsDeadzone": {
             "yaw": [-90.0,90.0],
-            "pitch": [0.0,-90.0]
+            "pitch": [5.0,-90.0]
           }
         }
       }
@@ -2851,7 +2851,14 @@
       {
         "preset": {
           "name": "a_26b_100lbs",
-          "blk": "gameData/FlightModels/weaponPresets/a_26b_100lbs.blk"
+          "blk": "gameData/FlightModels/weaponPresets/a_26b_100lbs.blk",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/BombGuns/us_100lb_anm30.blk",
+              "amountPerTier": 4.0,
+              "iconType": "bombs_small_group"
+            }
+          }
         }
       },
       {
@@ -2879,7 +2886,14 @@
         "preset": {
           "name": "a_26b_5in_rockets",
           "blk": "gameData/FlightModels/weaponPresets/a_26b_5in_rockets.blk",
-          "reqModification": "frc_mk5"
+          "reqModification": "frc_mk5",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/rocketGuns/us_5_in_hvar_2.blk",
+              "amountPerTier": 7.0,
+              "iconType": "rockets_he_small_group"
+            }
+          }
         }
       }
     ]

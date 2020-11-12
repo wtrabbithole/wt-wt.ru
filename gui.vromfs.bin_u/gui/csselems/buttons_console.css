@@ -68,6 +68,7 @@
 
 @const buttonMargin: @blockInterval;
 @const smallButtonMargin: 1@dp;
+@const additionalButtonHeight: 0.7@buttonHeight;
 
 @const buttonIconHeight: @cIco + 5*@sf/@pf_outdated;
 
@@ -116,6 +117,14 @@ weaponry_item > ButtonImg {
   top:ph-h-2@sf/@pf_outdated;
   position:'absolute';
 }
+
+weaponryPreset > ButtonImg {
+  height: 1@cIco;
+  background-svg-size: 1@cIco, 1@cIco;
+  position:'relative';
+  top:50%ph-50%h;
+}
+
 
 ButtonImg.independent {
   height:1@cIco;
@@ -263,7 +272,8 @@ Button_text[active=yes],
 }
 
 buttonsNest > Button_text:focus,
-modSlotButtonsNest > Button_text:focus {
+modSlotButtonsNest > Button_text:focus,
+craftBranchBody:focus > Button_text[selected=yes] {
   background-color: @buttonColor;
   color: @buttonFontColor;
   border-color:@buttonBorderColor;
@@ -953,7 +963,8 @@ textareaNoTab.highlightButton[btnName=Y],
 DummyButton[btnName=Y], mapStateBox[btnName=Y],
 ComboBox[btnName=Y]                    { accessKey:'J:Y'; }
 
-Button_text.switch[btnName=Y]          { accessKey:'J:Y | Space'; }
+Button_text.switch[btnName=Y], weaponryPreset[btnName=Y]
+                                       { accessKey:'J:Y | Space'; }
 Button_text[btnName=RB], CheckBox[btnName=RB],
 DummyButton[btnName=RB], emptyButton[btnName=RB], ComboBox[btnName=RB]
                                        { accessKey:'J:RB'; }
@@ -989,9 +1000,10 @@ Button_text[btnName=DpadRight]         { accessKey:'J:Dpad.Right | Right'; }
 
 Button_text[btnName=AB]                { accessKey:'J:A | Space | Enter | NumEnter | J:B | Esc | Backspace'; }
 
-Button_text[btnName=A], DummyButton[btnName=A], mapStateBox[btnName=A]
+Button_text[btnName=A], DummyButton[btnName=A], mapStateBox[btnName=A], weaponryPreset[btnName=A]:focus
                                         { accessKey:'J:A | Space | Enter | NumEnter'; }
-[swap_ab=yes] Button_text[btnName=A], [swap_ab=yes] DummyButton[btnName=A]
+[swap_ab=yes] Button_text[btnName=A], [swap_ab=yes] DummyButton[btnName=A], [swap_ab=yes] mapStateBox[btnName=A],
+[swap_ab=yes] weaponryPreset[btnName=A]:focus
                                         { accessKey:'J:B | Space | Enter | NumEnter'; }
 
 Button_text[btnName=SpaceA]            { accessKey:'J:A | Space'; }
@@ -1820,6 +1832,14 @@ campaign_item > fullSizeCollapseBtn > activeText {
   text:"+";
 }
 
+weaponryPreset[showOrNoneOn=selectedOnConsole] > ButtonImg {
+  display:hide;
+}
+
+[show_console_buttons=yes] weaponryPreset[showOrNoneOn=selectedOnConsole]:focus > ButtonImg {
+  display:show;
+}
+
 [collapsed=yes] btnCollapse {
   text:"+";
 }
@@ -1941,7 +1961,7 @@ Button_text.profileImg[enabled=no]:hover > img {
 }
 
 Button_text.additional {
-  height:0.7@buttonHeight;
+  height:1@additionalButtonHeight;
   min-width:pw;
   font:@fontSmall;
   margin:1@smallButtonMargin;
@@ -1955,8 +1975,8 @@ weaponry_item:hover > modSlotButtonsNest > Button_text.additional[canShow=yes],
 weaponry_item > modSlotButtonsNest:hover > Button_text.additional[canShow=yes],
 weapon_item_unit:hover > Button_text.additional[canShow=yes],
 Button_text.additional:hover[canShow=yes],
-:focus > weaponry_item[selected=yes] > modSlotButtonsNest > Button_text.additional[canShow=yes],
-:focus > weaponry_item[selected=yes] > modSlotButtonsNest > Button_text.additional[canShow=selected],
+[show_console_buttons=yes] :focus > weaponry_item[selected=yes] > modSlotButtonsNest > Button_text.additional[canShow=yes],
+[show_console_buttons=yes] :focus > weaponry_item[selected=yes] > modSlotButtonsNest > Button_text.additional[canShow=selected],
 [show_console_buttons=yes] :focus > weaponry_item[selected=yes] > modSlotButtonsNest > Button_text.additional[canShow=console] {
   display:show;
 }
@@ -2050,6 +2070,26 @@ Button_text[type=weaponryAmount] {
 [show_console_buttons=yes] weaponry_item:hover Button_text[type=weaponryAmount][bulletsLimit=no],
 [show_console_buttons=yes] :focus weaponry_item[selected=yes] Button_text[type=weaponryAmount][bulletsLimit=no] {
   enable:yes;
+}
+
+[show_console_buttons=yes] weaponry_item Button_text.sliderValueButton[type=weaponryAmount] > ButtonImg {
+  display:hide;
+}
+
+[show_console_buttons=yes] :focus weaponry_item[selected=yes] Button_text.sliderValueButton[type=weaponryAmount] > ButtonImg {
+  display:show;
+}
+
+[show_console_buttons=yes] weaponry_item Button_text.sliderValueButton[type=weaponryAmount][btnName=LB] {
+  padding-left:1@buttonTextPadding;
+  text-align:center;
+  text:'-';
+}
+
+[show_console_buttons=yes] weaponry_item Button_text.sliderValueButton[type=weaponryAmount][btnName=RB] {
+  padding-left:1@buttonTextPadding;
+  text-align:center;
+  text:'+';
 }
 
 [show_console_buttons=yes] [move=yes] weaponBundleBlock:focus weaponry_item[selected=yes] Button_text {
@@ -2146,9 +2186,14 @@ Button_text[isLink=yes][isFeatured=yes] > btnText {
   color:@linkTextColor;
 }
 
-Button_text[isLink=yes][isFeatured=yes]:hover > btnText,
-Button_text[isLink=yes][isFeatured=yes]:pushed > btnText,
 Button_text[isLink=yes][isFeatured=yes][selected=yes] > btnText {
+  color:@linkTextHoverColor;
+}
+craftBranchBody:focus > Button_text[isLink=yes][isFeatured=yes][selected=yes] > btnText {
+  color:@linkTextColor;
+}
+Button_text[isLink=yes][isFeatured=yes]:hover > btnText,
+Button_text[isLink=yes][isFeatured=yes]:pushed > btnText {
   color:@linkTextHoverColor;
 }
 
@@ -2160,9 +2205,14 @@ Button_text[isLink=yes][isFeatured=yes] > btnText > underline {
   bgcolor:@linkTextColor;
 }
 
-Button_text[isLink=yes][isFeatured=yes]:hover > btnText > underline,
-Button_text[isLink=yes][isFeatured=yes]:pushed > btnText > underline,
 Button_text[isLink=yes][isFeatured=yes][selected=yes] > btnText > underline {
+  bgcolor:@linkTextHoverColor;
+}
+craftBranchBody:focus > Button_text[isLink=yes][isFeatured=yes][selected=yes] > btnText > underline {
+  bgcolor:@linkTextColor;
+}
+Button_text[isLink=yes][isFeatured=yes]:hover > btnText > underline,
+Button_text[isLink=yes][isFeatured=yes]:pushed > btnText > underline {
   bgcolor:@linkTextHoverColor;
 }
 
@@ -2170,7 +2220,7 @@ Button_text[visualStyle=noFrame][isLink=yes][isFeatured=yes] > btnText {
   color:@linkTextColor;
 }
 
-Button_text[isLink=yes][isFeatured=yes] > btnText > underline {
+Button_text[visualStyle=noFrame][isLink=yes][isFeatured=yes] > btnText > underline {
   bgcolor:@linkTextColor;
 }
 

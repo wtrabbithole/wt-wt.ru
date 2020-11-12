@@ -1,4 +1,5 @@
 local stdMath = require("std/math.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 const GLOBAL_LOADING_TIP_BIT = 0x8000
 const MISSING_TIPS_IN_A_ROW_ALLOWED = 3
@@ -24,9 +25,9 @@ const TIP_LOC_KEY_PREFIX = "loading/"
     local tipsKeysByUnitType = {}
     tipsKeysByUnitType[GLOBAL_LOADING_TIP_BIT] <- loadTipsKeysByUnitType(null, false)
 
-    foreach(unitType in ::g_unit_type.types)
+    foreach(unitType in unitTypes.types)
     {
-      if (unitType == ::g_unit_type.INVALID)
+      if (unitType == unitTypes.INVALID)
         continue
       local keys = loadTipsKeysByUnitType(unitType, false)
       if (!keys.len())
@@ -39,7 +40,7 @@ const TIP_LOC_KEY_PREFIX = "loading/"
       tipsArray.extend(keys.map(function(tipKey) {
         local tip = ::loc($"{TIP_LOC_KEY_PREFIX}{tipKey}")
         if (unitTypeBit != GLOBAL_LOADING_TIP_BIT) {
-          local icon = ::g_unit_type.getByBit(unitTypeBit).fontIcon
+          local icon = unitTypes.getByBit(unitTypeBit).fontIcon
           tip = $"{::colorize("fadedTextColor", icon)} {tip}"
         }
         return tip
@@ -75,12 +76,9 @@ g_tips.validate <- function validate()
   existTipsMask = GLOBAL_LOADING_TIP_BIT
   curNewbieUnitTypeMask = getNewbieUnitTypeMask()
 
-  if (!("g_unit_type" in ::getroottable()))
-    return
-
-  foreach(unitType in ::g_unit_type.types)
+  foreach(unitType in unitTypes.types)
   {
-    if (unitType == ::g_unit_type.INVALID)
+    if (unitType == unitTypes.INVALID)
       continue
     local isMeNewbie = isMeNewbieOnUnitType(unitType.esUnitType)
     local keys = loadTipsKeysByUnitType(unitType, isMeNewbie)
@@ -138,7 +136,7 @@ g_tips.loadTipsKeysByUnitType <- function loadTipsKeysByUnitType(unitType, isNee
     }
     notExistInARow = 0
 
-    if (isShow && (::g_login.isProfileReceived() || tip.indexof("{{") == null)) // Not show tip with shortcuts while not profile recived
+    if (isShow && (::g_login.isLoggedIn() || tip.indexof("{{") == null)) // Not show tip with shortcuts while not profile recived
       res.append(key)
   }
   return res
@@ -152,9 +150,9 @@ g_tips.isMeNewbieOnUnitType <- function isMeNewbieOnUnitType(esUnitType)
 g_tips.getNewbieUnitTypeMask <- function getNewbieUnitTypeMask()
 {
   local mask = 0
-  foreach(unitType in ::g_unit_type.types)
+  foreach(unitType in unitTypes.types)
   {
-    if (unitType == ::g_unit_type.INVALID)
+    if (unitType == unitTypes.INVALID)
       continue
     if (isMeNewbieOnUnitType(unitType.esUnitType))
       mask = mask | unitType.bit
@@ -177,7 +175,7 @@ g_tips.getDefaultUnitTypeMask <- function getDefaultUnitTypeMask()
       res = ::show_aircraft.unitType.bit
   }
   else if (::isInArray(gm, [::GM_SINGLE_MISSION, ::GM_CAMPAIGN, ::GM_DYNAMIC, ::GM_BUILDER, ::GM_DOMINATION]))
-    res = ::g_unit_type.AIRCRAFT.bit
+    res = unitTypes.AIRCRAFT.bit
   else // keep this check last
     res = ::get_mission_allowed_unittypes_mask(::get_mission_meta_info(::current_campaign_mission || ""))
 
@@ -244,7 +242,7 @@ g_tips.genNewTip <- function genNewTip(unitTypeMask = 0)
     //add unit type icon if needed
     if (unitTypeBit != GLOBAL_LOADING_TIP_BIT && stdMath.number_of_set_bits(unitTypeMask) > 1)
     {
-      local icon = ::g_unit_type.getByBit(unitTypeBit).fontIcon
+      local icon = unitTypes.getByBit(unitTypeBit).fontIcon
       curTip = ::colorize("fadedTextColor", icon) + " " + curTip
     }
 
@@ -252,7 +250,7 @@ g_tips.genNewTip <- function genNewTip(unitTypeMask = 0)
   }
 }
 
-g_tips.onEventAuthorizeComplete <- function onEventAuthorizeComplete(p) { isTipsValid = false }
+g_tips.onEventLoginComplete <- function onEventLoginComplete(p) { isTipsValid = false }
 g_tips.onEventGameLocalizationChanged <- function onEventGameLocalizationChanged(p) { isTipsValid = false }
 
 ::subscribe_handler(::g_tips, ::g_listener_priority.DEFAULT_HANDLER)

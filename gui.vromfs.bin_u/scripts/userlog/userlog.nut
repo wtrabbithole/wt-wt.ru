@@ -1,3 +1,5 @@
+local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+
 ::hidden_userlogs <- [
   ::EULT_NEW_STREAK,
   ::EULT_SESSION_START,
@@ -469,12 +471,17 @@ class ::gui_handlers.UserLogHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (log.type == ::EULT_INVITE_TO_TOURNAMENT)    //!!!FIX ME need create eNum by userlog type and put action definition into it
     {
-      if (!log?.battleId)
+      local battleId = log?.battleId
+      if (battleId == null)
         return
 
       if (!::isInMenu())
         return ::g_invites.showLeaveSessionFirstPopup()
 
+      if (!antiCheat.showMsgboxIfEacInactive({enableEAC = true}))
+        return
+
+      ::dagor.debug($"join to tournament battle with id {battleId}")
       ::SessionLobby.joinBattle(log.battleId)
     }
   }

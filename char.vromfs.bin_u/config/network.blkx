@@ -15,14 +15,14 @@
       "fastModeTimeout": 3
     },
     "client": {
-      "loadLimitTime": 250000,
+      "loadLimitTime": 35000,
       "loadWaitTime": 4000,
-      "saveLimitTime": 250000,
+      "saveLimitTime": 35000,
       "saveWaitTime": 4000,
-      "retryLimitTime": 250000,
+      "retryLimitTime": 35000,
       "retryWaitTime": 4000,
       "curlConnectionTimeout": 10,
-      "curlProcessingTimeout": 240,
+      "curlProcessingTimeout": 20,
       "fastModeTimeout": 3
     }
   },
@@ -245,9 +245,14 @@
       }
     },
     {
-      "ugc_settings": {
-        "ugcServerUrl": "https://ugcinfo-proxy.gaijin.net/char"
-      }
+      "ugc_settings": [
+        {
+          "ugcServerUrl": "https://ugcinfo-proxy.gaijin.net/char"
+        },
+        {
+          "ugcServerUrl": "https://ugcinfo-fallback.gaijin.net/char"
+        }
+      ]
     }
   ],
   "production.skinsDecalsCDN.baseUrls": [
@@ -649,7 +654,7 @@
     "useTamVoice": true,
     "vivoxServerURL": "https://not.used",
     "vivoxEcho": "tamvchn://echo123",
-    "ircServer": "ps4sub-chat.warthunder.com:6667",
+    "ircServer": "188.42.48.84:6667",
     "charServer": "https://ps4sub-char.warthunder.com:443/char",
     "circuitPostfix": "-test",
     "queryTimeoutMs": 180000,
@@ -746,14 +751,9 @@
       }
     }
   ],
-  "test.webVromfs.baseUrls": [
-    {
-      "url": "http://webfs-test-01.gaijin.lan:8000/content/warthunder/webfs/"
-    },
-    {
-      "url": "http://webfs-test-gj-msk-01.gaijin.ops:8000/content/warthunder/webfs/"
-    }
-  ],
+  "test.webVromfs.baseUrls": {
+    "url": "http://webfs-test-gj-msk-01.gaijin.ops:8000/content/warthunder/webfs/"
+  },
   "experimental": [
     {
       "matchServer": "match-test-gj-msk-01.gaijin.ops:7870"
@@ -892,7 +892,7 @@
     {
       "skinsDecalsCDN": {
         "replaceUrls": "chinatest.skinsDecalsCDN.baseUrls",
-        "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata_s.info"
+        "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata/production/dldata_s.info"
       }
     }
   ],
@@ -905,14 +905,14 @@
     },
     "skinsDecalsCDN": {
       "replaceUrls": "chinadev.skinsDecalsCDN.baseUrls",
-      "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata.info"
+      "hashesReqUrl": "http://adminkas-cn-01.gaijin.lan/dldata/staging/dldata_s.info"
     }
   },
   "chinatest.skinsDecalsCDN.baseUrls": {
-    "url": "http://adminkas-cn-01.gaijin.lan/new/"
+    "url": "http://adminkas-cn-01.gaijin.lan/dldata/production/"
   },
   "chinadev.skinsDecalsCDN.baseUrls": {
-    "url": "http://adminkas-cn-01.gaijin.lan/"
+    "url": "http://adminkas-cn-01.gaijin.lan/dldata/staging/"
   },
   "china.skinsDecalsCDN.baseUrls": {
     "url": "http://down.qq.com/warthunder/decals/production/"

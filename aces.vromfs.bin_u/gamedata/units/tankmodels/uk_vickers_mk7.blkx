@@ -629,7 +629,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -900,6 +902,11 @@
         "ammo_body_l_08_dm": [],
         "ammo_body_l_09_dm": [],
         "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_l_13_dm": [],
+        "ammo_body_l_14_dm": [],
+        "ammo_body_l_15_dm": [],
         "ammo_body_r_01_dm": [],
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
@@ -914,7 +921,11 @@
         "ammo_body_r_12_dm": [],
         "ammo_body_r_13_dm": [],
         "ammo_body_r_14_dm": [],
-        "ammo_body_r_15_dm": []
+        "ammo_body_r_15_dm": [],
+        "ammo_body_r_16_dm": [],
+        "ammo_body_r_17_dm": [],
+        "ammo_body_r_18_dm": [],
+        "ammo_body_r_19_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -922,6 +933,7 @@
         "armorThickness": 2.0,
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -2879,6 +2891,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2898,9 +2919,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 9.21,
+      "zoomOutFov": 18.5,
       "zoomInFov": 6.14,
-      "sightFov": 4.0,
+      "sightFov": 8.5,
       "sightName": "emes15",
       "headPos": [0.0,4.2,-8.5],
       "headPosOnShooting": [-0.15,3.5,0.6],
@@ -3265,12 +3286,6 @@
             },
             "ammo_turret_17_dm": {
               "count": 1
-            },
-            "ammo_turret_18_dm": {
-              "count": 1
-            },
-            "ammo_turret_19_dm": {
-              "count": 1
             }
           }
         },
@@ -3318,21 +3333,18 @@
             },
             "ammo_body_48_dm": {
               "count": 1
-            },
-            "ammo_body_47_dm": {
-              "count": 1
-            },
-            "ammo_body_50_dm": {
-              "count": 1
-            },
-            "ammo_body_49_dm": {
-              "count": 1
             }
           }
         },
         {
           "shells": {
             "reloadTimeMult": 2.0,
+            "ammo_turret_18_dm": {
+              "count": 1
+            },
+            "ammo_turret_19_dm": {
+              "count": 1
+            },
             "ammo_turret_20_dm": {
               "count": 1
             },
@@ -3519,6 +3531,15 @@
               "count": 1
             },
             "ammo_body_30_dm": {
+              "count": 1
+            },
+            "ammo_body_47_dm": {
+              "count": 1
+            },
+            "ammo_body_49_dm": {
+              "count": 1
+            },
+            "ammo_body_50_dm": {
               "count": 1
             }
           }

@@ -1,12 +1,17 @@
 local globalEnv = require_native("globalEnv")
 local controlsOperations = require("scripts/controls/controlsOperations.nut")
 local { unitClassType } = require("scripts/unit/unitClassType.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { isWheelmenuAxisConfigurable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
+
+local isMouseAimSelected = @() (::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
+local needFullGunnerSettings = @() ::is_ps4_or_xbox || !isMouseAimSelected()
 
 return [
   {
     id = "ID_PLANE_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
-    unitType = ::g_unit_type.AIRCRAFT
+    unitType = unitTypes.AIRCRAFT
     unitClassTypes = [
       unitClassType.FIGHTER
       unitClassType.BOMBER
@@ -19,7 +24,7 @@ return [
   {
     id = "ID_PLANE_OPERATIONS_HEADER"
     type = CONTROL_TYPE.SECTION
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_PLANE_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
@@ -28,13 +33,13 @@ return [
       ctrlGroups.AIR,
       controlsOperations.Flags.WITHOUT_MODIFIERS
     )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_PLANE_SWAP_GAMEPAD_STICKS"
     type = CONTROL_TYPE.BUTTON
     onClick = @() controlsOperations.swapGamepadSticks( ctrlGroups.AIR )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
 //-------------------------------------------------------
   {
@@ -50,8 +55,7 @@ return [
   {
     id = "mouse_usage_no_aim"
     type = CONTROL_TYPE.SPINNER
-    showFunc = @() ::has_feature("SimulatorDifficulty")
-      && (::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
+    showFunc = @() ::has_feature("SimulatorDifficulty") && isMouseAimSelected()
     optionType = ::USEROPT_MOUSE_USAGE_NO_AIM
     onChangeValue = "onAircraftHelpersChanged"
   }
@@ -154,6 +158,14 @@ return [
     checkAssign = false
   }
   {
+    id = "ID_TOGGLE_PERIODIC_FLARES"
+    checkAssign = false
+  }
+  {
+    id = "ID_TOGGLE_MLWS_FLARES_SLAVING"
+    checkAssign = false
+  }
+  {
     id = "weapon_aim_heading"
     type = CONTROL_TYPE.AXIS
     checkAssign = false
@@ -202,6 +214,11 @@ return [
   }
   {
     id = "ID_TOGGLE_CANNONS_AND_ROCKETS_BALLISTIC_COMPUTER"
+    checkAssign = false
+    showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
+  }
+  {
+    id = "ID_SWITCH_REGISTERED_BOMB_TARGETING_POINT"
     checkAssign = false
     showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
   }
@@ -366,26 +383,32 @@ return [
     id = "turret_x"
     type = CONTROL_TYPE.AXIS
     checkAssign = false
-    filterHide = [globalEnv.EM_MOUSE_AIM]
+    showFunc = needFullGunnerSettings
   }
   {
     id = "turret_y"
     type = CONTROL_TYPE.AXIS
     checkAssign = false
-    filterHide = [globalEnv.EM_MOUSE_AIM]
+    showFunc = needFullGunnerSettings
   }
   {
     id = "gunner_view_sens"
     type = CONTROL_TYPE.SLIDER
     optionType = ::USEROPT_GUNNER_VIEW_SENSE
-    filterHide = [globalEnv.EM_MOUSE_AIM]
+    showFunc = needFullGunnerSettings
+  }
+  {
+    id = "gunner_view_zoom_sens"
+    type = CONTROL_TYPE.SLIDER
+    optionType = ::USEROPT_GUNNER_VIEW_ZOOM_SENS
+    showFunc = @() needFullGunnerSettings() && ::have_per_vehicle_zoom_sens
   }
   {
     id = "gunner_joy_speed"
     type = CONTROL_TYPE.SLIDER
     value = @(joyParams) 100.0*(::get_option_multiplier(::OPTION_CAMERA_SPEED) - min_camera_speed) / (max_camera_speed - min_camera_speed)
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_CAMERA_SPEED, min_camera_speed + (objValue / 100.0) * (max_camera_speed - min_camera_speed))
-    filterHide = [globalEnv.EM_MOUSE_AIM]
+    showFunc = needFullGunnerSettings
   }
   {
     id = "invert_y_gunner"
@@ -400,6 +423,18 @@ return [
   {
     id = "ID_TOGGLE_VIEW"
     needShowInHelp = true
+  }
+  {
+    id = "ID_LOCK_TARGETING_AT_POINT"
+    checkAssign = false
+    needShowInHelp = true
+    showFunc = @() ::has_feature("PointOfInterestDesignator")
+  }
+  {
+    id = "ID_UNLOCK_TARGETING_AT_POINT"
+    checkAssign = false
+    needShowInHelp = true
+    showFunc = @() ::has_feature("PointOfInterestDesignator")
   }
   {
     id = "ID_CAMERA_FPS"
@@ -527,6 +562,22 @@ return [
     checkAssign = false
     showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
   }
+  {
+    id = "wheelmenu_x"
+    type = CONTROL_TYPE.AXIS
+    axisDirection = AxisDirection.X
+    checkGroup = ctrlGroups.AIR
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
+  }
+  {
+    id = "wheelmenu_y"
+    type = CONTROL_TYPE.AXIS
+    axisDirection = AxisDirection.Y
+    checkGroup = ctrlGroups.AIR
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
+  }
 //-------------------------------------------------------
   {
     id = "ID_INSTRUCTOR_HEADER"
@@ -581,12 +632,6 @@ return [
     filterHide = [globalEnv.EM_INSTRUCTOR, globalEnv.EM_REALISTIC, globalEnv.EM_FULL_REAL]
     hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
     axisDirection = AxisDirection.Y
-  }
-  {
-    id = "mouse_smooth"
-    type = CONTROL_TYPE.SWITCH_BOX
-    optionType = ::USEROPT_MOUSE_SMOOTH
-    showFunc = @() ::has_feature("EnableMouse")
   }
   {
     id = "aim_time_nonlinearity_air"
@@ -814,6 +859,7 @@ return [
   {
     id = "ID_TOGGLE_EXTINGUISHER"
     filterShow = [globalEnv.EM_FULL_REAL]
+    showFunc = @() ::has_feature("AircraftExtinguisher")
     checkAssign = false
   }
   {

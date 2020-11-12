@@ -4,11 +4,13 @@ local controllerState = require_native("controllerState")
 local time = require("scripts/time.nut")
 local shortcutsListModule = require("scripts/controls/shortcutsList/shortcutsList.nut")
 local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
-local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { TRIGGER_TYPE, getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
 local { isBulletGroupActive } = require("scripts/weaponry/bulletsInfo.nut")
-local { resetFastVoiceMessages } = require("scripts/voiceMessages.nut")
+local { resetFastVoiceMessages } = require("scripts/wheelmenu/voiceMessages.nut")
 local { unitClassType } = require("scripts/unit/unitClassType.nut")
 local controlsPresetConfigPath = require("scripts/controls/controlsPresetConfigPath.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { isMultifuncMenuAvailable, isWheelmenuAxisConfigurable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
 
 ::MAX_SHORTCUTS <- 3
 ::preset_changed <- false
@@ -73,7 +75,7 @@ local controlsPresetConfigPath = require("scripts/controls/controlsPresetConfigP
   ::set_option_multiplier(::OPTION_MOUSE_SENSE,                 0.5); //::USEROPT_MOUSE_SENSE
   ::set_option_multiplier(::OPTION_MOUSE_AIM_SENSE,             0.5); //::USEROPT_MOUSE_AIM_SENSE
   ::set_option_multiplier(::OPTION_GUNNER_VIEW_SENSE,           1); //::USEROPT_GUNNER_VIEW_SENSE
-  ::set_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER,    1);
+  ::set_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER,    1); //::USEROPT_ATGM_AIM_SENS_HELICOPTER
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_DEADZONE,     0.1); //mouseJoystickDeadZone
   ::set_option_multiplier(::OPTION_HELICOPTER_MOUSE_JOYSTICK_DEADZONE,     0.1);
   ::set_option_multiplier(::OPTION_MOUSE_JOYSTICK_SCREENSIZE,   0.6); //mouseJoystickScreenSize
@@ -176,7 +178,7 @@ local controlsPresetConfigPath = require("scripts/controls/controlsPresetConfigP
   foreach (button in shortcut)
     if (button && button.dev.len() >= 0)
       foreach(d in button.dev)
-        if (d > 0 && d <= ::JOYSTICK_DEVICE_0_ID)
+        if (d > 0 && d <= ::STD_GESTURE_DEVICE_ID)
             return true
   return false
 }
@@ -197,8 +199,6 @@ local axisMappedOnMouse = {
 
 
 
-
-
   camx                   = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   camy                   = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
   gm_camx                = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
@@ -210,8 +210,6 @@ local axisMappedOnMouse = {
   submarine_camx         = @(isMouseAimMode) MOUSE_AXIS.HORIZONTAL_AXIS
   submarine_camy         = @(isMouseAimMode) MOUSE_AXIS.VERTICAL_AXIS
   //
-
-
 
 
 
@@ -510,8 +508,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local showWizard = !::is_platform_xboxone
       || (controllerState?.is_keyboard_connected || @() false) ()
       || (controllerState?.is_mouse_connected || @() false) ()
-    showSceneBtn("btn_controlsWizard", !isTutorial && showWizard)
-    showSceneBtn("btn_controlsDefault", !isTutorial && !showWizard)
+    showSceneBtn("btn_controlsWizard", showWizard)
+    showSceneBtn("btn_controlsDefault", !showWizard)
     showSceneBtn("btn_clearAll", !isTutorial)
     showSceneBtn("btn_controlsHelp", ::has_feature("ControlsHelp"))
   }
@@ -525,7 +523,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local curValue = 0
     controlsGroupsIdList = []
     local currentUnit = ::get_player_cur_unit()
-    local unitType = ::g_unit_type.INVALID
+    local unitType = unitTypes.INVALID
     local classType = unitClassType.UNKNOWN
     local unitTags = []
     if (curGroupId == "" && currentUnit)
@@ -547,7 +545,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
             continue
 
         controlsGroupsIdList.append(header.id)
-        local isSuitable = unitType != ::g_unit_type.INVALID
+        local isSuitable = unitType != unitTypes.INVALID
           && unitType == header?.unitType
         if (isSuitable && "unitClassTypes" in header)
           isSuitable = ::isInArray(classType, header.unitClassTypes)
@@ -1857,6 +1855,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
           curPreset.params[optionName] <- value
       }
     ::set_gui_options_mode(mainOptionsMode)
+    ::set_current_controls(curPreset, ::g_controls_manager.getShortcutGroupMap())
   }
 
   function onManageBackup()
@@ -2125,7 +2124,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 }
 
 ::get_shortcut_text <- ::kwarg(function get_shortcut_text(shortcuts,
-  shortcutId, cantBeEmpty = true, strip_tags = false, preset = null)
+  shortcutId, cantBeEmpty = true, strip_tags = false, preset = null, colored = true)
 {
   if (!(shortcutId in shortcuts))
     return ""
@@ -2143,7 +2142,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     if (text=="")
       continue
 
-    data = ::addHotkeyTxt(strip_tags? ::g_string.stripTags(text) : text, data)
+    data = ::addHotkeyTxt(strip_tags? ::g_string.stripTags(text) : text, data, colored)
   }
 
   if (cantBeEmpty && data=="")
@@ -2152,9 +2151,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   return data
 })
 
-::addHotkeyTxt <- function addHotkeyTxt(hotkeyTxt, baseTxt="")
+::addHotkeyTxt <- function addHotkeyTxt(hotkeyTxt, baseTxt="", colored = true)
 {
-  return ((baseTxt!="")? baseTxt+", " : "") + "<color=@hotkeyColor>" + hotkeyTxt + "</color>"
+  hotkeyTxt = colored ? ::colorize("hotkeyColor", hotkeyTxt) : hotkeyTxt
+  return ::loc("ui/comma").join([ baseTxt, hotkeyTxt ], true)
 }
 
 //works like get_shortcut_text, but returns only first binded shortcut for action
@@ -2480,21 +2480,21 @@ local function getWeaponFeatures(weaponsBlkList)
       if (!w?.blk || w?.dummy)
         continue
 
-      if (w?.trigger == "machine gun")
+      if (w?.trigger == TRIGGER_TYPE.MACHINE_GUN)
         res.gotMachineGuns = true
-      if (w?.trigger == "cannon")
+      if (w?.trigger == TRIGGER_TYPE.CANNON)
         res.gotCannons = true
-      if (w?.trigger == "additional gun")
+      if (w?.trigger == TRIGGER_TYPE.ADD_GUN)
         res.gotAdditionalGuns = true
-      if (w?.trigger == "bombs")
+      if (w?.trigger == TRIGGER_TYPE.BOMBS)
         res.gotBombs = true
-      if (w?.trigger == "torpedoes")
+      if (w?.trigger == TRIGGER_TYPE.TORPEDOES)
         res.gotTorpedoes = true
-      if (w?.trigger == "rockets")
+      if (w?.trigger == TRIGGER_TYPE.ROCKETS)
         res.gotRockets = true
-      if (w?.trigger == "agm" || w?.trigger == "atgm")
+      if (w?.trigger == TRIGGER_TYPE.AGM || w?.trigger == TRIGGER_TYPE.ATGM)
         res.gotAGM = true
-      if (w?.trigger == "aam")
+      if (w?.trigger == TRIGGER_TYPE.AAM)
         res.gotAAM = true
       if (::g_string.startsWith(w?.trigger ?? "", "gunner"))
         res.gotGunnerTurrets = true
@@ -2539,7 +2539,7 @@ local function getWeaponFeatures(weaponsBlkList)
 
   local isMouseAimMode = helpersMode == globalEnv.EM_MOUSE_AIM
 
-  if (unitType == ::g_unit_type.AIRCRAFT)
+  if (unitType == unitTypes.AIRCRAFT)
   {
     local fmBlk = ::get_fm_file(unitId, unitBlk)
     local unitControls = fmBlk?.AvailableControls || ::DataBlock()
@@ -2548,7 +2548,10 @@ local function getWeaponFeatures(weaponsBlkList)
     local option = ::get_option_in_mode(::USEROPT_INSTRUCTOR_GEAR_CONTROL, ::OPTIONS_MODE_GAMEPLAY)
     local instructorGearControl = gotInstructor && option.value
 
-    controls = [ "ID_TOGGLE_ENGINE", "throttle" ]
+    controls = [ "throttle" ]
+
+    if (::get_mission_difficulty_int() == ::g_difficulty.SIMULATOR.diffCode && !::CONTROLS_ALLOW_ENGINE_AUTOSTART)
+      controls.append("ID_TOGGLE_ENGINE")
 
     if (isMouseAimMode)
       controls.append("mouse_aim_x", "mouse_aim_y")
@@ -2613,7 +2616,7 @@ local function getWeaponFeatures(weaponsBlkList)
       controls.append("ID_SENSOR_TARGET_LOCK")
     }
   }
-  else if (unitType == ::g_unit_type.HELICOPTER)
+  else if (unitType == unitTypes.HELICOPTER)
   {
     controls = [ "helicopter_collective", "helicopter_climb", "helicopter_cyclic_roll" ]
 
@@ -2647,12 +2650,7 @@ local function getWeaponFeatures(weaponsBlkList)
 
 
 
-
-
-
-
-
-  else if (unitType == ::g_unit_type.TANK)
+  else if (unitType == unitTypes.TANK)
   {
     controls = [ "gm_throttle", "gm_steering", "gm_mouse_aim_x", "gm_mouse_aim_y", "ID_TOGGLE_VIEW_GM", "ID_FIRE_GM", "ID_REPAIR_TANK" ]
 
@@ -2686,7 +2684,7 @@ local function getWeaponFeatures(weaponsBlkList)
 
     actionBarShortcutFormat = "ID_ACTION_BAR_ITEM_%d"
   }
-  else if (unitType == ::g_unit_type.SHIP)
+  else if (unitType == unitTypes.SHIP)
   {
     controls = ["ship_steering", "ID_TOGGLE_VIEW_SHIP"]
 
@@ -2773,7 +2771,7 @@ local function getWeaponFeatures(weaponsBlkList)
     if (::is_platform_pc && !::is_xinput_device())
     {
       local bulletsChoice = 0
-      for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++)
+      for (local groupIndex = 0; groupIndex < unitType.bulletSetsQuantity; groupIndex++)
       {
         if (isBulletGroupActive(unit, groupIndex))
         {
@@ -2786,6 +2784,14 @@ local function getWeaponFeatures(weaponsBlkList)
         for (local i = 0; i < bulletsChoice; i++)
           controls.append(::format(actionBarShortcutFormat, i + 1))
     }
+  }
+
+  if (unitType.wheelmenuAxis.len())
+  {
+    if (isMultifuncMenuAvailable())
+      controls.append("ID_SHOW_MULTIFUNC_WHEEL_MENU")
+    if (::is_xinput_device() && isWheelmenuAxisConfigurable())
+      controls.extend(unitType.wheelmenuAxis)
   }
 
   return controls

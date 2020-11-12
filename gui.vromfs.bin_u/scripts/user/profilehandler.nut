@@ -2,6 +2,9 @@ local time = require("scripts/time.nut")
 local externalIDsService = require("scripts/user/externalIdsService.nut")
 local avatars = require("scripts/user/avatars.nut")
 local platformModule = require("scripts/clientState/platform.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { openUrl } = require("scripts/onlineShop/url.nut")
+
 
 enum profileEvent {
   AVATAR_CHANGED = "AvatarChanged"
@@ -299,6 +302,9 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       btn_changeAccount = ::isInMenu() && isProfileOpened && !::is_platform_ps4 && !::is_vendor_tencent()
       btn_changeName = ::isInMenu() && isProfileOpened && !platformModule.isMeXBOXPlayer() && !platformModule.isMePS4Player() && !::is_vendor_tencent()
       btn_getLink = !::is_in_loading_screen() && isProfileOpened && ::has_feature("Invites")
+      btn_codeApp = platformModule.isPlatformPC && ::has_feature("AllowExternalLink") &&
+        !::g_user_utils.haveTag("gjpass") && ::isInMenu() && isProfileOpened &&
+          !::is_vendor_tencent()
       btn_ps4Registration = isProfileOpened && ::is_platform_ps4 && ::g_user_utils.haveTag("psnlogin")
       btn_SteamRegistration = isProfileOpened && ::steam_is_running() && ::has_feature("AllowSteamAccountLinking") && ::g_user_utils.haveTag("steamlogin")
       btn_xboxRegistration = isProfileOpened && ::is_platform_xboxone && ::has_feature("AllowXboxAccountLinking")
@@ -306,8 +312,8 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
       btn_achievements_url = (sheet == "UnlockAchievement") && ::has_feature("AchievementsUrl")
         && ::has_feature("AllowExternalLink") && !::is_vendor_tencent()
     }
-    foreach(name, show in buttonsList)
-      scene.findObject(name).show(show)
+
+    ::showBtnTable(scene, buttonsList)
   }
 
   function onSheetChange(obj)
@@ -468,7 +474,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     if (::check_obj(subSwitch))
     {
       local value = subSwitch.getValue()
-      local unitType = ::g_unit_type.getByEsUnitType(value)
+      local unitType = unitTypes.getByEsUnitType(value)
       curSubFilter = unitType.esUnitType
       refreshOwnUnitControl(value)
     }
@@ -488,12 +494,12 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
     if ( ! unitypeListObj.childrenCount())
     {
-      local filterUnitType = ::g_unit_type.getByTag(filterUnitTag)
+      local filterUnitType = unitTypes.getByTag(filterUnitTag)
       if (!filterUnitType.isAvailable())
-        filterUnitType = ::g_unit_type.getByEsUnitType(::get_es_unit_type(::get_cur_slotbar_unit()))
+        filterUnitType = unitTypes.getByEsUnitType(::get_es_unit_type(::get_cur_slotbar_unit()))
 
       local view = { items = [] }
-      foreach(unitType in ::g_unit_type.types)
+      foreach(unitType in unitTypes.types)
         if (unitType.isAvailable())
           view.items.append(
             {
@@ -513,7 +519,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     for(local i = 0; i < total; i++)
     {
       local obj = unitypeListObj.getChild(i)
-      local unitType = ::g_unit_type.getByEsUnitType(i)
+      local unitType = unitTypes.getByEsUnitType(i)
       local isVisible = getSkinsCache(curFilter, unitType.esUnitType, OwnUnitsType.ALL).len() > 0
       if (isVisible && (indexForSelection == -1 || previousSelectedIndex == i))
         indexForSelection = i;
@@ -872,6 +878,11 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
         }
       }
     }
+  }
+
+  function onCodeAppClick(obj)
+  {
+    openUrl(::loc("url/2step/codeApp"))
   }
 
   function onGroupCollapse(obj)
@@ -1416,7 +1427,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
     msgBox("question_change_name", ::loc(textLocId),
       [
         ["ok", function() {
-          ::open_url(::loc("url/changeName"), false, false, "profile_page")
+          openUrl(::loc("url/changeName"), false, false, "profile_page")
           afterOkFunc()
         }],
         ["cancel", function() { }]
@@ -1639,7 +1650,7 @@ class ::gui_handlers.Profile extends ::gui_handlers.UserCardHandler
 
   function onOpenAchievementsUrl()
   {
-    ::open_url(::loc("url/achievements",
+    openUrl(::loc("url/achievements",
         { appId = ::WT_APPID, name = ::get_profile_info().name}),
       false, false, "profile_page")
   }

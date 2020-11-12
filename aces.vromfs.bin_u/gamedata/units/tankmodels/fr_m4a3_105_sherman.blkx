@@ -1588,6 +1588,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -1649,7 +1658,10 @@
           "armorThickness": 19.5
         },
         "turret_01_front_dm": {
-          "armorThickness": 50.8
+          "armorThickness": 34.0
+        },
+        "turret_02_side_dm": {
+          "armorThickness": 25.4
         }
       },
       "hull_RHA": {
@@ -1860,7 +1872,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -2189,6 +2203,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2354,6 +2385,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk",
           "emitter": "bone_mg_aa_v_01",
           "flash": "emtr_mg_aa_flame_01",
+          "barrelDP": "gun_barrel_02_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "parkInDeadzone": false,
@@ -2732,6 +2764,7 @@
                 "blk": "gameData/Weapons/groundModels_weapons/12_7mm_M2_HB_user_machinegun.blk",
                 "emitter": "bone_mg_aa_v_01",
                 "flash": "emtr_mg_aa_flame_01",
+                "barrelDP": "gun_barrel_02_dm",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "parkInDeadzone": false,
@@ -2836,7 +2869,7 @@
       "nameLocId": "skin/fr_camo_desert_storm",
       "descLocId": "skin/fr_camo_desert_storm/desc",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "fr_camo_vert_olive_arme*",
         "to": "fr_camo_desert_storm*"
       }
     }
@@ -2847,7 +2880,7 @@
       "nameLocId": "skin/fr_camo_green_brown",
       "descLocId": "skin/fr_camo_green_brown/desc",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "fr_camo_vert_olive_arme*",
         "to": "fr_camo_green_brown*"
       }
     }
@@ -2858,7 +2891,7 @@
       "nameLocId": "skin/fr_camo_green_sand_brown",
       "descLocId": "skin/fr_camo_green_sand_brown/desc",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "fr_camo_vert_olive_arme*",
         "to": "fr_camo_green_sand_brown*"
       }
     }
@@ -2869,7 +2902,7 @@
       "nameLocId": "skin/fr_camo_jaune_sahara",
       "descLocId": "skin/fr_camo_jaune_sahara/desc",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "fr_camo_vert_olive_arme*",
         "to": "fr_camo_jaune_sahara*"
       }
     }
@@ -2880,7 +2913,7 @@
       "nameLocId": "skin/fr_camo_winter_green_white",
       "descLocId": "skin/fr_camo_winter_green_white/desc",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "fr_camo_vert_olive_arme*",
         "to": "fr_camo_winter_green_white*"
       }
     }
@@ -2891,7 +2924,7 @@
       "nameLocId": "skin/fr_camo_winter_base",
       "descLocId": "skin/fr_camo_winter_base/desc",
       "replace_tex": {
-        "from": "us_camo_olive*",
+        "from": "fr_camo_vert_olive_arme*",
         "to": "fr_camo_winter_base*"
       }
     }

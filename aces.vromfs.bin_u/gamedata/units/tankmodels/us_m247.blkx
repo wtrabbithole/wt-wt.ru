@@ -455,7 +455,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -784,6 +786,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1777,7 +1796,7 @@
     "MetaParts": {
       "body": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "turret_back_dm"
@@ -1878,7 +1897,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1887,7 +1906,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1896,7 +1915,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1904,13 +1923,13 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ],
       "mount": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "gun_mask_dm"
@@ -1927,7 +1946,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1936,7 +1955,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1945,7 +1964,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1953,7 +1972,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -2097,13 +2116,13 @@
           {
             "limits": {
               "yaw": [-180.0,180.0],
-              "pitch": [-5.0,85.0]
+              "pitch": [-10.0,85.0]
             }
           },
           {
             "limitsTable": {
               "lim1": [-180.0,-160.0,2.0,85.0],
-              "lim2": [-160.0,160.0,-5.0,85.0],
+              "lim2": [-160.0,160.0,-10.0,85.0],
               "lim3": [160.0,180.0,2.0,85.0]
             }
           },
@@ -2223,10 +2242,16 @@
             "node": "antenna_target_location"
           },
           {
+            "node": "antenna_target_location_mount"
+          },
+          {
             "node": "antenna_target_tagging"
           },
           {
             "node": "antenna_target_tagging_mount"
+          },
+          {
+            "node": "ex_decor_l_04"
           }
         ]
       }
@@ -2816,6 +2841,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -3012,13 +3046,13 @@
                 {
                   "limits": {
                     "yaw": [-180.0,180.0],
-                    "pitch": [-5.0,85.0]
+                    "pitch": [-10.0,85.0]
                   }
                 },
                 {
                   "limitsTable": {
                     "lim1": [-180.0,-160.0,2.0,85.0],
-                    "lim2": [-160.0,160.0,-5.0,85.0],
+                    "lim2": [-160.0,160.0,-10.0,85.0],
                     "lim3": [160.0,180.0,2.0,85.0]
                   }
                 },
@@ -3138,10 +3172,16 @@
                   "node": "antenna_target_location"
                 },
                 {
+                  "node": "antenna_target_location_mount"
+                },
+                {
                   "node": "antenna_target_tagging"
                 },
                 {
                   "node": "antenna_target_tagging_mount"
+                },
+                {
+                  "node": "ex_decor_l_04"
                 }
               ]
             },

@@ -1,23 +1,42 @@
 local function getEntitlementConfig(name)
 {
+  if (!name || name == "")
+    return null
+
   local res = { name = name }
 
   local pblk = ::DataBlock()
   ::get_shop_prices(pblk)
-  if (pblk?[name] != null)
+  if (pblk?[name] == null)
+    return null
+
+  foreach(param in ["entitlementGift", "aircraftGift", "unlockGift", "decalGift", "skinGift", "showEntAsGift"])
   {
-    foreach(param in ["ttl", "httl", "onlinePurchase", "wpIncome", "goldIncome", "goldIncomeFirstBuy",
-                      "group", "useGroupAmount", "image", "chapterImage",
-                      "aircraftGift", "alias", "chapter", "goldDiscount", "goldCost"])
-      if (pblk[name]?[param] != null && !(param in res))
-        res[param] <- pblk[name][param]
+    if (param in pblk[name])
+      res[param] <- pblk[name] % param
   }
+
+  if (res?.showEntAsGift != null)
+  {
+    if (pblk[name]?.showEntitlementGift)
+      res.entitlementGift.extend(res.showEntAsGift)
+    else
+      res.entitlementGift = res?.showEntAsGift
+  }
+
+  for (local i = 0; i < pblk[name].paramCount(); i++)
+  {
+    local paramName = pblk[name].getParamName(i)
+    if (!(paramName in res))
+      res[paramName] <- pblk[name].getParamValue(i)
+  }
+
   return res
 }
 
 local function getEntitlementLocId(item)
 {
-  return ("alias" in item) ? item.alias : ("group" in item) ? item.group : item.name
+  return ("alias" in item) ? item.alias : ("group" in item) ? item.group : (item?.name ?? "unknown")
 }
 
 local function getEntitlementAmount(item)
@@ -30,6 +49,15 @@ local function getEntitlementAmount(item)
       return item[n]
 
   return 1
+}
+
+local function getEntitlementTimeText(item)
+{
+  if ("ttl" in item)
+    return item.ttl + ::loc("measureUnits/days")
+  if ("httl" in item)
+    return item.httl + ::loc("measureUnits/hours")
+  return ""
 }
 
 local function getEntitlementName(item)
@@ -47,7 +75,7 @@ local function getEntitlementName(item)
   else
     name = ::loc("charServer/entitlement/" + getEntitlementLocId(item))
 
-  local timeText = getEntitlementAmount(item)
+  local timeText = getEntitlementTimeText(item)
   if (timeText!="")
     name += " " + timeText
   return name
@@ -59,15 +87,6 @@ local function getFirstPurchaseAdditionalAmount(item)
     return ::getTblValue("goldIncomeFirstBuy", item, 0)
 
   return 0
-}
-
-local function getEntitlementTimeText(item)
-{
-  if ("ttl" in item)
-    return item.ttl + ::loc("measureUnits/days")
-  if ("httl" in item)
-    return item.httl + ::loc("measureUnits/hours")
-  return ""
 }
 
 local function getEntitlementPrice(item)

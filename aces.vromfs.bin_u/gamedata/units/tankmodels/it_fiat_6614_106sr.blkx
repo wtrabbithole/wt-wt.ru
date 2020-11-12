@@ -469,6 +469,10 @@
         "optic_body_04_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
+        },
+        "optic_gun_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
         }
       },
       "chassis": {
@@ -857,6 +861,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2063,7 +2084,6 @@
           "blk": "gameData/Weapons/groundModels_weapons/106mm_106_SR_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
-          "useEmitter": true,
           "recoilMultiplier": 0.01,
           "maxAdditionalPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -2072,6 +2092,8 @@
           "defaultPitch": 0.0,
           "speedYaw": 10.0,
           "speedPitch": 6.0,
+          "yawSpdLowBattery": 10.0,
+          "pitchSpdLowBattery": 6.0,
           "bullets": 17,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
@@ -2103,11 +2125,10 @@
           },
           "limitsTable": {
             "lim1": [-180.0,-145.0,-8.0,12.0],
-            "lim2": [-145.0,-65.0,-4.0,12.0],
-            "lim3": [-65.0,-20.0,-7.0,12.0],
-            "lim4": [-20.0,20.0,-10.0,12.0],
-            "lim5": [20.0,145.0,-10.0,5.0],
-            "lim6": [145.0,180.0,-10.0,12.0]
+            "lim2": [-145.0,-20.0,-8.0,12.0],
+            "lim3": [-20.0,20.0,-10.0,12.0],
+            "lim4": [20.0,145.0,-10.0,5.0],
+            "lim5": [145.0,180.0,-10.0,12.0]
           }
         }
       },
@@ -2914,6 +2935,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2976,7 +3006,6 @@
                 "blk": "gameData/Weapons/groundModels_weapons/106mm_106_SR_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
-                "useEmitter": true,
                 "recoilMultiplier": 0.01,
                 "maxAdditionalPitch": 0.0,
                 "barrelDP": "gun_barrel_dm",
@@ -2985,6 +3014,8 @@
                 "defaultPitch": 0.0,
                 "speedYaw": 10.0,
                 "speedPitch": 6.0,
+                "yawSpdLowBattery": 10.0,
+                "pitchSpdLowBattery": 6.0,
                 "bullets": 17,
                 "salvoAmount": 100.0,
                 "ChainfireTime": 0.0,
@@ -3016,11 +3047,10 @@
                 },
                 "limitsTable": {
                   "lim1": [-180.0,-145.0,-8.0,12.0],
-                  "lim2": [-145.0,-65.0,-4.0,12.0],
-                  "lim3": [-65.0,-20.0,-7.0,12.0],
-                  "lim4": [-20.0,20.0,-10.0,12.0],
-                  "lim5": [20.0,145.0,-10.0,5.0],
-                  "lim6": [145.0,180.0,-10.0,12.0]
+                  "lim2": [-145.0,-20.0,-8.0,12.0],
+                  "lim3": [-20.0,20.0,-10.0,12.0],
+                  "lim4": [20.0,145.0,-10.0,5.0],
+                  "lim5": [145.0,180.0,-10.0,12.0]
                 }
               }
             },

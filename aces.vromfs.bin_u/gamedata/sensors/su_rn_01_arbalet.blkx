@@ -93,6 +93,7 @@
   "signals": {
     "GTM": {
       "groundClutter": false,
+      "groundMultipath": false,
       "aircraftAsTarget": false,
       "groundVehiclesAsTarget": true,
       "angularAccuracy": 0.02,
@@ -100,12 +101,13 @@
       "distance": {
         "presents": true,
         "minValue": 500.0,
-        "maxValue": 8000.0,
+        "maxValue": 12000.0,
         "width": 15.0
       }
     },
     "ATM": {
       "groundClutter": false,
+      "groundMultipath": false,
       "aircraftAsTarget": true,
       "groundVehiclesAsTarget": false,
       "angularAccuracy": 0.02,
@@ -113,7 +115,7 @@
       "distance": {
         "presents": true,
         "minValue": 500.0,
-        "maxValue": 8000.0,
+        "maxValue": 12000.0,
         "width": 15.0
       }
     }
@@ -130,7 +132,8 @@
   },
   "scopeRangeSets": {
     "common": {
-      "range1": 12000.0
+      "range1": 12000.0,
+      "range2": 6000.0
     }
   },
   "fsms": {
@@ -158,6 +161,10 @@
           },
           "setScopeRangeSet": {
             "scopeRangeSet": "common"
+          },
+          "setFsmActive": {
+            "fsm": "mode",
+            "active": true
           }
         },
         "setStandbyMode": {
@@ -365,6 +372,7 @@
         "showGTM": {
           "stateFrom": "gtm",
           "event": "fsmActivate",
+          "stateTo": "gtm",
           "actions": {
             "setGTMMode": []
           }
@@ -372,6 +380,7 @@
         "showATM": {
           "stateFrom": "atm",
           "event": "fsmActivate",
+          "stateTo": "atm",
           "actions": {
             "setATMMode": []
           }

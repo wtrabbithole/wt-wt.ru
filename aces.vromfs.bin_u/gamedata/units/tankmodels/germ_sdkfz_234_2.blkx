@@ -114,7 +114,7 @@
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
-      "hp": 1000.0,
+      "hp": 10000.0,
       "RHA_armor": {
         "body_front_dm": {
           "armorThickness": 30.0
@@ -216,7 +216,7 @@
       },
       "CHA_tank": {
         "armorClass": "CHA_tank",
-        "hp": 1000.0,
+        "hp": 10000.0,
         "gun_mask_dm": {
           "armorThickness": 50.0
         },
@@ -667,6 +667,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2788,6 +2805,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2993,6 +3019,7 @@
                 "emitter": "emtr_mortar_flame_01",
                 "emitterGenRange": [1,6],
                 "emitterGenFmt": "emtr_mortar_flame_%02d",
+                "ignoreLoaderPenalty": true,
                 "createGunEffects": true,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,

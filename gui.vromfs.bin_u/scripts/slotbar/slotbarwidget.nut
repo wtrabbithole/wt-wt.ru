@@ -1398,6 +1398,8 @@ class ::gui_handlers.SlotbarWidget extends ::gui_handlers.BaseGuiHandlerWT
   function getDefaultDblClickFunc()
   {
     return ::Callback(function(crew) {
+      if (::g_crews_list.isSlotbarOverrided)
+        return
       local unit = getCrewUnit(crew)
       if (unit)
         ::open_weapons_for_unit(unit, { curEdiff = getCurrentEdiff() })

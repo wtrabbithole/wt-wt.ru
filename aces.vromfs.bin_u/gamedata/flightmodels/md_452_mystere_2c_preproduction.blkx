@@ -19,7 +19,7 @@
   "damagePartsToVisualEffectsMapBlk": "gameData/FlightModels/DM/dm_parts_to_visual_effects_map.blk",
   "damagePartsExcludeFromHoleBlk": "gameData/FlightModels/DM/dm_parts_exclude_from_hole.blk",
   "explosion_dmBlk": "gameData/FlightModels/DM/commonExplosion.blk",
-  "fireParamsPreset": "1000kph",
+  "fireParamsPreset": "1100kph",
   "fightAiBehaviour": "fighter",
   "DamageParts": {
     "armor10": {
@@ -2310,7 +2310,13 @@
       "preset": {
         "name": "md_452_sneb",
         "blk": "gameData/flightModels/weaponPresets/md_452d_sneb.blk",
-        "reqModification": "fr_matra_sneb"
+        "reqModification": "fr_matra_sneb",
+        "weaponConfig": {
+          "Weapon": {
+            "blk": "gameData/Weapons/rocketGuns/fr_sneb_type23.blk",
+            "amountPerTier": 19.0
+          }
+        }
       }
     }
   ],
@@ -2348,7 +2354,7 @@
     "radiusSpeed": 2.0
   },
   "fireParams": {
-    "engineExtinguishFireSpeed": [221.0,306.0],
+    "engineExtinguishFireSpeed": [272.0,316.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0

@@ -580,6 +580,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1477,20 +1494,11 @@
   {
     "tank_crew": {
       "changeTimeMult": 1.0,
-      "gunner": [
-        {
-          "dmPart": "commander_dm"
-        },
-        {
-          "role": "tank_gunner"
-        },
-        {
-          "role": "commander"
-        },
-        {
-          "substitute": "loader"
-        }
-      ],
+      "gunner": {
+        "dmPart": "gunner_dm",
+        "role": "tank_gunner",
+        "substitute": "loader"
+      },
       "driver": {
         "dmPart": "driver_dm",
         "role": "driver",
@@ -1512,7 +1520,7 @@
           "killNumPartsForDeath": 2
         },
         {
-          "part": "commander_dm"
+          "part": "gunner_dm"
         },
         {
           "part": "driver_dm"
@@ -1714,7 +1722,7 @@
         "minRPM": 700.0
       },
       "mechanics": {
-        "maxBrakeForce": 22000.0,
+        "maxBrakeForce": 25000.0,
         "driveGearRadius": 0.27,
         "mainGearRatio": 3.2,
         "sideGearRatio": 5.2,
@@ -2372,6 +2380,15 @@
             }
           }
         ]
+      },
+      {
+        "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
       },
       {
         "event": {

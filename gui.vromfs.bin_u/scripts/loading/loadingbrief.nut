@@ -1,5 +1,7 @@
+local { clearBorderSymbolsMultiline } = require("std/string.nut")
 local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 local changeStartMission = require("scripts/missions/changeStartMission.nut")
+local { setDoubleTextToButton, setHelpTextOnLoading } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 const MIN_SLIDE_TIME = 2.0
 
@@ -23,7 +25,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     gt = ::get_game_type_by_mode(gm)
 
     ::set_presence_to_player("loading")
-    ::set_help_text_on_loading(scene.findObject("scene-help"))
+    setHelpTextOnLoading(scene.findObject("scene-help"))
 
     local blk = ::dgs_get_game_params()
     if ("loading" in blk && "numTips" in blk.loading)
@@ -32,7 +34,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
     local cutObj = guiScene["cutscene_update"]
     if (::checkObj(cutObj)) cutObj.setUserData(this)
 
-    ::setDoubleTextToButton(scene, "btn_select", ::loc("hints/cutsc_skip"))
+    setDoubleTextToButton(scene, "btn_select", ::loc("hints/cutsc_skip"))
 
     local missionBlk = ::DataBlock()
     local country = ""
@@ -447,7 +449,7 @@ class ::gui_handlers.LoadingBrief extends ::gui_handlers.BaseGuiHandlerWT
           misObj += (misObj.len() ? "\n\n" : "") + misObj_add
 
         misObj = ::colorize("userlogColoredText", ::loc_current_mission_name(false)) +
-          "\n\n" + ::clearBorderSymbolsMultiline(misObj)
+          "\n\n" + clearBorderSymbolsMultiline(misObj)
         setMissionObjective(misObj)
       }
 

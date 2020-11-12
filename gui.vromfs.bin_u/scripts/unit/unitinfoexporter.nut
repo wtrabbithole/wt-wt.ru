@@ -1,3 +1,5 @@
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+
 ::exportUnitInfo <- function exportUnitInfo(params)
 {
     UnitInfoExporter(params["langs"], params["path"])
@@ -155,8 +157,8 @@ class UnitInfoExporter
   {
     fBlk[ARMY_GROUP] = ::DataBlock()
 
-    foreach(unitType in ::g_unit_type.types)
-      if (unitType != ::g_unit_type.INVALID)
+    foreach(unitType in unitTypes.types)
+      if (unitType != unitTypes.INVALID)
         fBlk[ARMY_GROUP][unitType.armyId] = unitType.getArmyLocName()
   }
 
@@ -229,7 +231,7 @@ class UnitInfoExporter
     foreach(infoType in ::g_unit_info_type.types)
     {
       local blk = infoType.exportToDataBlock(curUnit)
-      if(blk.hide)
+      if(blk?.hide ?? false)
         continue
       unitBlk[infoType.id] = blk
     }

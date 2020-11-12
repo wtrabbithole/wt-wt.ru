@@ -1,5 +1,6 @@
 //::g_script_reloader.loadOnce("!temp/a_test.nut") //!!debug only!!
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 ::debriefing_skip_all_at_once <- true
 ::min_values_to_show_reward_premium <- { wp = 0, exp = 0 }
@@ -8,6 +9,7 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
   [
     "min_values_to_show_reward_premium"
   ])
+
 
 ::debriefing_result <- null
 ::dynamic_result <- -1
@@ -29,6 +31,7 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
   customValueName = null
   getValueFunc = null
   icon = "icon/summation" // Icon used as Value column header in tooltip
+  getIcon = @() ::loc(icon, "")
   tooltipExtraRows = null //function(), array
   tooltipComment = null  //string function()
   tooltipRowBonuses = @(unitId, unitData) null
@@ -76,8 +79,8 @@ local mpChatModel = require("scripts/chat/mpChatModel.nut")
   { id = "GroundKills"
     showByTypes = function(gt) {return (!(gt & ::GT_RACE) && !(gt & ::GT_FOOTBALL))}
     showByModes = ::is_gamemode_versus
-    text = "multiplayer/ground_kills"
-    icon = "icon/mpstats/groundKills"
+    getName = @() ::loc("multiplayer/ground_kills")
+    getIcon = @() ::loc("icon/mpstats/groundKills", "")
     isVisibleWhenEmpty = @() !!(::g_mission_type.getCurrentObjectives() & MISSION_OBJECTIVE.KILLS_GROUND)
   }
   { id = "AwardDamage"
@@ -646,7 +649,7 @@ global enum debrState {
   {
     local list = isRoot ? [ "expFree" ] : [ "expInvestModuleTotal", "expInvestUnitTotal", "expModsTotal", "expUnitTotal" ]
     if (isRoot)
-      foreach (ut in ::g_unit_type.types)
+      foreach (ut in unitTypes.types)
         list.append([ "expInvestUnitTotal" + ut.name])
     foreach (id in list)
       if (::getTblValue(id, data, 0) > 0)
@@ -654,7 +657,7 @@ global enum debrState {
   }
 
   if (isRoot)
-    foreach (ut in ::g_unit_type.types)
+    foreach (ut in unitTypes.types)
     {
       local typeName = ut.name
       local unitId = ::getTblValue("investUnitName" + typeName, data, "")
@@ -917,7 +920,7 @@ global enum debrState {
   if (isNeedMulXp)
   {
     local keys = [ "expTotal", "expFree", "expInvestUnit", "expInvestUnitTotal" ]
-    foreach (ut in ::g_unit_type.types)
+    foreach (ut in unitTypes.types)
       keys.append(
         "expInvestUnit" + ut.name,
         "expInvestUnitTotal" + ut.name

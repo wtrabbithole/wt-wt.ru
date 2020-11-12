@@ -311,7 +311,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -640,6 +642,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       },
       "body_shields": {
         "armorClass": "tank_structural_steel",
@@ -2448,6 +2467,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2469,7 +2497,7 @@
     "cockpit": {
       "zoomOutFov": 18.49,
       "zoomInFov": 9.217,
-      "sightFov": 7.5,
+      "sightFov": 8.5,
       "sightName": "telescope_m46",
       "headPos": [0.0,3.7,-8.3],
       "headPosOnShooting": [0.1,3.5,0.45],
@@ -2868,20 +2896,6 @@
         "from": "us_camo_olive*",
         "to": "us_camo_olive_late*"
       }
-    }
-  },
-  {
-    "defaultDecals": {
-      "decal0Line0": [8.09846e-09,-4.19954e-09,0.271739,0.511238],
-      "decal0Line1": [0.384297,-0.384297,-2.37562e-08,-0.0964227],
-      "decal0HaveCP": true,
-      "decal0CP": [0.266907,1.20346,2.57625],
-      "decal0CPNormDepth": [0.707107,0.707107,0.0,-2.56499],
-      "decal0RotScale": [1.5708,1.84],
-      "decal0Mirrored": false,
-      "decal0Wrap": false,
-      "decal0Abs": false,
-      "decal0Tex": "usa_tiger_tank_emblem"
     }
   },
   {

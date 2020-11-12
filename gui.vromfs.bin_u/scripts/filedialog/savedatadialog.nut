@@ -3,7 +3,7 @@ local time = require("scripts/time.nut")
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
 local DataBlock = require("DataBlock")
 const SAVEDATA_PROGRESS_MSG_ID = "SAVEDATA_IO_OPERATION"
-
+const LOCAL_SORT_ENTITIES_ID = "saveDataLastSort"
 
 class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -17,8 +17,32 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
   doDelete = null
   doCancel = null
 
+  entries = []
   tableEntries = {}
   createEntry = @(comment="", path="", mtime=0) {comment = comment, path = path, mtime = mtime}
+
+  sortParams = [
+    {id = "releaseDate", param = "mtime", asc = true}
+    {id = "releaseDate", param = "mtime", asc = false}
+    {id = "name", param = "comment", asc = true}
+    {id = "name", param = "comment", asc = false}
+  ]
+
+  tableParams = [
+    {
+      id = "name"
+      headerLocId = "#save/fileName"
+      width = "fw"
+      param = "comment"
+    }
+    {
+      id = "mtime"
+      headerLocId = "#filesystem/fileMTime"
+      width = "0.18@sf"
+      param = "mtime"
+      textFunc = @(p) time.buildTabularDateTimeStr(p)
+    }
+  ]
 
   currentFocusItem = 4
 
@@ -35,6 +59,7 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
+    updateSortingList()
     requestEntries()
     initFocusArray()
   }
@@ -52,17 +77,21 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     if (!isValid())
       return
 
-    local entries = []
+    entries.clear()
     foreach (id, meta in blk)
     {
       if (meta instanceof DataBlock)
         entries.append({path=meta.path, comment=meta.comment, mtime=meta.mtime})
     }
-
-    entries.sort(@(a,b) -(a.mtime <=> b.mtime))
-
-    renderSaveDataContents(entries)
     showWaitAnimation(false)
+
+    updateEntriesList()
+  }
+
+  function updateEntriesList()
+  {
+    sortEntries()
+    renderSaveDataContents()
     updateSelectionAfterDataLoaded()
   }
 
@@ -71,6 +100,42 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     showWaitAnimation(true)
     local cb = ::Callback(onReceivedSaveDataListing, this)
     getSaveDataContents(@(blk) cb(blk))
+  }
+
+  function updateSortingList() {
+    local obj = scene.findObject("sorting_block_bg")
+    if (!::checkObj(obj))
+      return
+
+    local curVal = ::loadLocalByAccount(LOCAL_SORT_ENTITIES_ID, 0)
+    local view = {
+      id = "sort_params_list"
+      btnName = "RB"
+      funcName = "onChangeSortParam"
+      values = sortParams.map(@(p, idx) {
+        text = "{0} ({1})".subst(::loc($"items/sort/{p.id}"), ::loc(p.asc? "items/sort/ascending" : "items/sort/descending"))
+        isSelected = curVal == idx
+      })
+    }
+
+    local data = ::handyman.renderCached("gui/commonParts/comboBox", view)
+    guiScene.replaceContentFromText(obj, data, data.len(), this)
+    getSortListObj().setValue(curVal)
+  }
+
+  function onChangeSortParam(obj) {
+    local val = obj.getValue()
+    ::saveLocalByAccount(LOCAL_SORT_ENTITIES_ID, val)
+
+    updateEntriesList()
+  }
+
+  function sortEntries()
+  {
+    local val = ::loadLocalByAccount(LOCAL_SORT_ENTITIES_ID, 0)
+    local p = sortParams[val].param
+    local isAscending = sortParams[val].asc
+    entries.sort(@(a,b) (isAscending? 1 : -1)*(a[p] <=> b[p]))
   }
 
   function onFocusChange(obj)
@@ -85,7 +150,7 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     if (!isValid())
       return
 
-    local isFileTableFocused = getObj("file_table").isFocused()
+    local isFileTableFocused = getTableListObj().isFocused()
 
     local newFileObj = getObj("file_name")
     local isNewFileSelected = newFileObj.isFocused()
@@ -104,42 +169,54 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     ::enableBtnTable(scene, {btn_save = newFileName != ""}, true)
   }
 
-  function renderSaveDataContents(entries)
+  function renderSaveDataContents()
   {
-    local fileTableObj = getObj("file_table")
+    local fileTableObj = getTableListObj()
     if (!fileTableObj)
       return
 
-    local view = {rows = [{
-      row_id = "file_header_row"
-      isHeaderRow = true
-      cells = [{id="file_col_name", text="#save/fileName", width="fw"},
-               {id="file_col_mtime", text="#filesystem/fileMTime", width="0.18@sf"}]
-    }]}
+    local curSortIdx = ::loadLocalByAccount(LOCAL_SORT_ENTITIES_ID, 0)
+    local sortParam = sortParams[curSortIdx].param
+    local headerRow = []
+    tableParams.each(function(p, idx) {
+      headerRow.append({
+        id = $"file_header_{p.id}"
+        text = p.headerLocId
+        width = p.width
+        active = p.param == sortParam
+      })
+    })
+
+    local markUp = ::buildTableRowNoPad("row_header", headerRow, true,
+      "inactive:t='yes'; commonTextColor:t='yes'; insetHeader = 'yes';")
 
     tableEntries.clear()
 
-    local isEven = false
+    local rowData = []
     foreach (idx, e in entries)
     {
-      local rowView = {
-        row_id = "file_row_"+idx
-        even = isEven
-        cells = [{text=e.comment, width="fw"},
-                 {text=time.buildTabularDateTimeStr(e.mtime), width="0.18@sf"}]
-      }
-      view.rows.append(rowView)
-      tableEntries[rowView.row_id] <- e
-      isEven = !isEven
+      rowData.clear()
+
+      local rowName = $"file_row_{idx}"
+      tableEntries[rowName] <- e
+      tableParams.each(function(p) {
+        rowData.append({
+          id = $"{rowName}_{p.id}"
+          text = p?.textFunc? p.textFunc(e[p.param]) : e[p.param]
+          width = p.width
+          active = p.param == sortParam
+        })
+      })
+
+      markUp += ::buildTableRowNoPad(rowName, rowData, idx % 2 != 0)
     }
 
-    local data = ::handyman.renderCached("gui/fileDialog/fileTable", view)
-    guiScene.replaceContentFromText(fileTableObj, data, data.len(), this)
+    guiScene.replaceContentFromText(fileTableObj, markUp, markUp.len(), this)
   }
 
   function updateSelectionAfterDataLoaded()
   {
-    local fileTableObj = getObj("file_table")
+    local fileTableObj = getTableListObj()
     if (!fileTableObj)
       return
 
@@ -153,7 +230,7 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
     if (!tableEntries.len())
       return null
 
-    local tableObj = getObj("file_table")
+    local tableObj = getTableListObj()
     local selectedRowIdx = tableObj.getValue()
     if (selectedRowIdx >= 0 && selectedRowIdx < tableObj.childrenCount())
     {
@@ -288,11 +365,10 @@ class ::gui_handlers.SaveDataDialog extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj()
   {
-    return tableEntries.len()? getObj("file_table") : null
+    return tableEntries.len()? getTableListObj() : null
   }
 
-  function getMainFocusObj2()
-  {
-    return getObj("file_name")
-  }
+  getMainFocusObj2 = @() getObj("file_name")
+  getTableListObj = @() getObj("file_table")
+  getSortListObj = @() getObj("sort_params_list")
 }

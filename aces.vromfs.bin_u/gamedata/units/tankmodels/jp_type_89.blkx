@@ -619,6 +619,11 @@
         "ammo_body_l_08_dm": [],
         "ammo_body_l_09_dm": [],
         "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_l_13_dm": [],
+        "ammo_body_l_14_dm": [],
+        "ammo_body_l_15_dm": [],
         "ammo_body_r_01_dm": [],
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
@@ -633,7 +638,11 @@
         "ammo_body_r_12_dm": [],
         "ammo_body_r_13_dm": [],
         "ammo_body_r_14_dm": [],
-        "ammo_body_r_15_dm": []
+        "ammo_body_r_15_dm": [],
+        "ammo_body_r_16_dm": [],
+        "ammo_body_r_17_dm": [],
+        "ammo_body_r_18_dm": [],
+        "ammo_body_r_19_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -641,6 +650,7 @@
         "armorThickness": 2.0,
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -1676,7 +1686,7 @@
     "MetaParts": {
       "body": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "superstructure_front_dm"
@@ -1738,7 +1748,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1747,7 +1757,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1756,7 +1766,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1764,87 +1774,13 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
-          }
-        }
-      ],
-      "suspension": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "wheel_l_back_dm"
-        },
-        {
-          "part": "wheel_l_01_dm"
-        },
-        {
-          "part": "wheel_l_02_dm"
-        },
-        {
-          "part": "wheel_l_03_dm"
-        },
-        {
-          "part": "wheel_l_04_dm"
-        },
-        {
-          "part": "wheel_l_05_dm"
-        },
-        {
-          "part": "wheel_l_drive_dm"
-        },
-        {
-          "part": "wheel_r_back_dm"
-        },
-        {
-          "part": "wheel_r_01_dm"
-        },
-        {
-          "part": "wheel_r_02_dm"
-        },
-        {
-          "part": "wheel_r_03_dm"
-        },
-        {
-          "part": "wheel_r_04_dm"
-        },
-        {
-          "part": "wheel_r_05_dm"
-        },
-        {
-          "part": "wheel_r_drive_dm"
-        },
-        {
-          "part": "track_r_dm"
-        },
-        {
-          "part": "track_l_dm"
-        },
-        {
-          "part": "wheel_support_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 400.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 400.0,
-            "kill": true,
             "killEffect": "hullBreak"
           }
         }
       ],
       "mount": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "turret_bottom_dm"
@@ -1870,7 +1806,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1879,7 +1815,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1888,7 +1824,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1896,7 +1832,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -2023,7 +1959,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 2000
+            "bullets": 1000
           },
           {
             "isBulletBelt": true
@@ -2716,6 +2652,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2881,7 +2826,7 @@
                   "fireConeAngle": 1.0
                 },
                 {
-                  "bullets": 2000
+                  "bullets": 1000
                 },
                 {
                   "isBulletBelt": true

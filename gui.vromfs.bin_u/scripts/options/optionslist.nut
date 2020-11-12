@@ -26,7 +26,8 @@ local getMainOptions = function()
     isSearchAvaliable = true
     options = [
       ["options/mainParameters"],
-      [::USEROPT_PS4_CROSSPLAY, "spinner", ::is_platform_ps4 && ::has_feature("PS4CrossNetwork") && !::is_in_flight() && !::checkIsInQueue()],
+      [::USEROPT_PS4_CROSSPLAY, "spinner", ::is_platform_ps4 && ::has_feature("PS4CrossNetwork") && !::is_in_flight()],
+      [::USEROPT_PS4_ONLY_LEADERBOARD, "spinner", ::is_platform_ps4 && ::has_feature("PS4SeparateLeaderboards")],
       [::USEROPT_LANGUAGE, "spinner", ! ::is_in_flight() && ::canSwitchGameLocalization()],
       [::USEROPT_AUTOLOGIN, "spinner", ! ::is_in_flight() && !::is_ps4_or_xbox],
       [::USEROPT_FONTS_CSS, "spinner"],
@@ -54,6 +55,9 @@ local getMainOptions = function()
       [::USEROPT_GUN_TARGET_DISTANCE, "spinner", ! ::is_in_flight()],
       [::USEROPT_GUN_VERTICAL_TARGETING, "spinner", ! ::is_in_flight()],
       [::USEROPT_BOMB_ACTIVATION_TIME, "spinner", ! ::is_in_flight()],
+      [::USEROPT_FLARES_SERIES, "spinner", ! ::is_in_flight()],
+      [::USEROPT_FLARES_SERIES_PERIODS, "spinner", ! ::is_in_flight()],
+      [::USEROPT_FLARES_PERIODS, "spinner", ! ::is_in_flight()],
       [::USEROPT_AEROBATICS_SMOKE_TYPE, "spinner"],
       [::USEROPT_AEROBATICS_SMOKE_LEFT_COLOR, "spinner", hasTripleColorSmokeFeature],
       [::USEROPT_AEROBATICS_SMOKE_RIGHT_COLOR, "spinner", hasTripleColorSmokeFeature],
@@ -93,6 +97,7 @@ local getMainOptions = function()
       // TODO: remove after 1_93_0_X
       [::USEROPT_SHOW_COMPASS_IN_TANK_HUD, "spinner", OPTION_SHOW_COMPASS_IN_TANK_HUD != -1],
       [::USEROPT_HUE_TANK_THERMOVISION, "spinner"],
+      [::USEROPT_PITCH_BLOCKER_WHILE_BRACKING, "spinner"],
 
       ["options/header/ship"],
       [::USEROPT_DEPTHCHARGE_ACTIVATION_TIME, "spinner", ! ::is_in_flight()],
@@ -161,7 +166,6 @@ local getMainOptions = function()
       ["options/header/gamepad"],
       [::USEROPT_ENABLE_CONSOLE_MODE, "spinner", !::get_is_console_mode_force_enabled()],
       [::USEROPT_GAMEPAD_CURSOR_CONTROLLER, "spinner", ::g_gamepad_cursor_controls.canChangeValue()],
-      [::USEROPT_GAMEPAD_CURSOR_CONTROLLER_SPEED, "slider", ::g_gamepad_cursor_controls.canChangeSpeed()],
       [::USEROPT_XCHG_STICKS, "spinner"],
       [::USEROPT_VIBRATION, "spinner"],
       [::USEROPT_GAMEPAD_VIBRATION_ENGINE, "spinner", !::is_platform_ps4],

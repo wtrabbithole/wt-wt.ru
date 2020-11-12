@@ -1,4 +1,5 @@
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+local statsd = require("statsd")
 local psn = require("ps4Lib/webApi.nut")
 local u = require("sqStdLibs/helpers/u.nut")
 local seenList = require("scripts/seen/seenList.nut").get(SEEN.EXT_PS4_SHOP)
@@ -109,20 +110,24 @@ local fillLinkFullInfo = @(category = "") makeRequestForNextCategory(requestLink
 
 local itemIndex = 0
 local onReceivedResponeOnFullInfo = function(response, category, linksList) {
-  response.each(function(linkBlock, idx) {
-    local label = linkBlock.label
+  if (!(category in persist.categoriesData))
+    return
 
-    // Received full info, we don't need short
-    persist.categoriesData[category].links.removeBlock(label)
+  if (response != null)
+    response.each(function(linkBlock, idx) {
+      local label = linkBlock.label
 
-    fillBlock(label, persist.categoriesData[category].links, linkBlock)
-    persist.categoriesData[category].links[label].setStr("category", category)
-    persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label], itemIndex++)
+      // Received full info, we don't need short
+      persist.categoriesData[category].links.removeBlock(label)
 
-    local linkIdx = linksList.findindex(@(p) p == label)
-    if (linkIdx != null)
-      linksList.remove(linkIdx)
-  })
+      fillBlock(label, persist.categoriesData[category].links, linkBlock)
+      persist.categoriesData[category].links[label].setStr("category", category)
+      persist.itemsList[label] <- Ps4ShopPurchasableItem(persist.categoriesData[category].links[label], itemIndex++)
+
+      local linkIdx = linksList.findindex(@(p) p == label)
+      if (linkIdx != null)
+        linksList.remove(linkIdx)
+    })
 
   if (linksList.len())
     ::dagor.debug("PSN: Shop data: onReceivedResponeOnFullInfo: Didn't recieved info for {0}".subst(linksList.tostring()))
@@ -168,11 +173,14 @@ requestLinksFullInfo = function(category) {
     function(response, err) {
       if (err)
       {
-        ::statsd_counter($"ingame_store.error_request_category_data.{category}.{err}")
-        ::debug.debug("PSN: Shop Data: requestLinksFullInfo: on send linksList: Error " + ::toString(err))
+        statsd.send_counter("sq.ingame_store.request", 1,
+          {status = "error", request = "links_full_info", category = category, error_code = err.code})
+        ::dagor.debug("PSN: Shop Data: requestLinksFullInfo: on send linksList: Error " + ::toString(err))
         ::debugTableData(linksList)
         return
       }
+      statsd.send_counter("sq.ingame_store.request", 1,
+        {status = "success", request = "links_full_info", category = category})
 
       onReceivedResponeOnFullInfo(response, category, linksList)
     }
@@ -188,10 +196,20 @@ requestCategoryFullLinksList = @(category) psn.fetch(psn.commerce.listCategory(c
   function(response, err) {
     if (err)
     {
-      ::statsd_counter($"ingame_store.error_request_category.{category}.{err}")
+      statsd.send_counter("sq.ingame_store.request", 1,
+        {status = "error", request = "category_full_links_list", category = category, error_code = err.code})
       ::dagor.debug("PSN: Shop Data: requestCategoryFullLinksList: Category " + category + ", Error receieved: " + ::toString(err))
       return
     }
+
+    if (!(category in persist.categoriesData))
+      return
+
+    statsd.send_counter("sq.ingame_store.request", 1,
+      {status = "success", request = "category_full_links_list", category = category})
+
+    if (typeof response != "array") //Inconsistent response, can be table
+      response = [response]
 
     fillBlock("links", persist.categoriesData[category], response[0].links)
 
@@ -214,10 +232,13 @@ digCategory = function(response, err = null)
 {
   if (err)
   {
-    ::statsd_counter($"ingame_store.error_request_categories.{err}")
+    statsd.send_counter("sq.ingame_store.request", 1,
+      {status = "error", request = "dig_category", error = err.code})
     ::script_net_assert_once("psn_categories_error", "PSN: Shop Data: Dig Category: received error: " + ::toString(err))
     return
   }
+  statsd.send_counter("sq.ingame_store.request", 1,
+    {status = "success", request = "dig_category"})
 
   local categories = []
   foreach (data in response)
@@ -253,10 +274,13 @@ local collectCategoriesAndItems = @() psn.send(
   {
     if (err)
     {
-      ::statsd_counter($"ingame_store.error_request_categories_main.{err}")
+      statsd.send_counter("sq.ingame_store.request", 1,
+        {status = "error", request = "collect_categories_and_items", error = err.code})
       ::dagor.debug("PSN: Shop Data: collectCategoriesAndItems: Received error: " + ::toString(err))
       return
     }
+    statsd.send_counter("sq.ingame_store.request", 1,
+      {status = "success", request = "collect_categories_and_items"})
 
     persist.categoriesData.reset()
     invalidateSeenList = true
@@ -288,15 +312,22 @@ local updateSpecificItemInfo = function(id)
     function(response, err) {
       if (err)
       {
-        ::statsd_counter($"ingame_store.error_request_items_info.{err}")
+        statsd.send_counter("sq.ingame_store.request", 1,
+          {status = "error", request = "update_specific_item_info", error = err.code})
         ::dagor.debug("PSN: Shop Data: updateSpecificItemInfo: items: " + ::toString(linksArray) + "; Error: " + ::toString(err))
         return
       }
+
+      statsd.send_counter("sq.ingame_store.request", 1,
+        {status = "success", request = "update_specific_item_info"})
 
       foreach (idx, itemData in response)
       {
         local itemId = linksArray[idx]
         local shopItem = getShopItem(itemId)
+
+        if (!(shopItem.category in persist.categoriesData))
+          continue
 
         local linksBlock = persist.categoriesData[shopItem.category].links
         // No need old info, remove block, and fill with new one

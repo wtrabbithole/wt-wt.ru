@@ -122,6 +122,7 @@ local { hasAllFeatures } = require("scripts/user/features.nut")
     rowsInPage = 1
     pos = 0
     lbMode = ""
+    platform = ""
   }
 
   function reset()
@@ -182,37 +183,39 @@ local { hasAllFeatures } = require("scripts/user/features.nut")
   function loadLeaderboard(requestData)
   {
     lastRequestData = requestData
-    if(!canRequestLb)
+    if (!canRequestLb)
       return
 
     canRequestLb = false
 
-    local taskId = ::request_page_of_leaderboard(requestData.lbType,
-                                                 requestData.lbField,
-                                                 requestData.rowsInPage,
-                                                 requestData.pos,
-                                                 requestData.lbMode)
+    local db = ::DataBlock()
+    db.setStr("category", requestData.lbField)
+    db.setStr("valueType", requestData.lbType == ::ETTI_VALUE_INHISORY? LEADERBOARD_VALUE_INHISTORY : LEADERBOARD_VALUE_TOTAL)
+    db.setInt("count", requestData.rowsInPage)
+    db.setStr("gameMode", requestData.lbMode)
+    db.setStr("platform", requestData.platform)
+    db.setInt("start", requestData.pos)
 
-    ::add_bg_task_cb(taskId, (@(requestData) function() {
-      ::leaderboardModel.handleLbRequest(requestData)
-    })(requestData))
+    local taskId = ::request_leaderboard_blk(db)
+    ::add_bg_task_cb(taskId, @() ::leaderboardModel.handleLbRequest(requestData))
   }
 
   function loadSeflRow(requestData)
   {
     lastRequestSRData = requestData
-    if(!canRequestLb)
+    if (!canRequestLb)
       return
     canRequestLb = false
 
-    local taskId = ::request_me_in_leaderboard(requestData.lbType,
-                                               requestData.lbField,
-                                               0,
-                                               requestData.lbMode)
+    local db = ::DataBlock()
+    db.setStr("category", requestData.lbField)
+    db.setStr("valueType", requestData.lbType == ::ETTI_VALUE_INHISORY? LEADERBOARD_VALUE_INHISTORY : LEADERBOARD_VALUE_TOTAL)
+    db.setInt("count", 0)
+    db.setStr("gameMode", requestData.lbMode)
+    db.setStr("platform", requestData.platform)
 
-    ::add_bg_task_cb(taskId, (@(requestData) function() {
-      ::leaderboardModel.handleSelfRowLbRequest(requestData)
-    })(requestData))
+    local taskId = ::request_leaderboard_blk(db)
+    ::add_bg_task_cb(taskId, @() ::leaderboardModel.handleSelfRowLbRequest(requestData))
   }
 
   function handleLbRequest(requestData)
@@ -255,7 +258,7 @@ local { hasAllFeatures } = require("scripts/user/features.nut")
   function lbBlkToArray(blk, requestData)
   {
     local res = []
-    local valueKey = (requestData.lbType == ::ETTI_VALUE_INHISORY) ? "value_inhistory" : "value_total"
+    local valueKey = (requestData.lbType == ::ETTI_VALUE_INHISORY) ? LEADERBOARD_VALUE_INHISTORY : LEADERBOARD_VALUE_TOTAL
     for (local i = 0; i < blk.blockCount(); i++)
     {
       local table = {}
@@ -406,12 +409,14 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
   rowsInPage  = 16
   maxRows     = 1000
 
+  platform = ""
   request = {
     lbType     = null
     lbField    = null
     rowsInPage = null
     pos        = null
     lbMode     = ""
+    platform = ""
   }
   pageData    = null
   selfRowData = null
@@ -434,6 +439,10 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
     curLbCategory = lb_presets[0]
     lbType = ::loadLocalByAccount("leaderboards_type", ::ETTI_VALUE_INHISORY)
+    platform = ::has_feature("PS4SeparateLeaderboards")
+      && ::get_gui_option_in_mode(::USEROPT_PS4_ONLY_LEADERBOARD, ::OPTIONS_MODE_GAMEPLAY) == true
+        ? "ps4"
+        : ""
     pos = 0
     rowsInPage = 16
 
@@ -643,9 +652,6 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function onChangeType(obj)
   {
-    if (!::checkObj(obj))
-      return
-
     lbType = obj.getValue() ? ::ETTI_VALUE_INHISORY : ::ETTI_VALUE_TOTAL
     ::saveLocalByAccount("leaderboards_type", lbType)
     fetchLbData()
@@ -675,7 +681,17 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function getMainFocusObj()
   {
-    return scene.findObject("btn_type")
+    local obj = scene.findObject("top_checkboxes")
+    if (!::check_obj(obj) || !obj.childrenCount())
+      return null
+
+    for (local i = 0; i < obj.childrenCount(); i++)
+    {
+      local chObj = obj.getChild(i)
+      if (chObj.isVisible() && chObj.isEnabled())
+        return obj
+    }
+    return null
   }
 
   function getMainFocusObj2()
@@ -736,14 +752,14 @@ class ::gui_handlers.LeaderboardWindow extends ::gui_handlers.BaseGuiHandlerWT
 
   function getTopItemsTplView()
   {
-    local res = {
-      monthCheckbox = [
-        {
-          monthCbValue = ((lbType == ::ETTI_VALUE_INHISORY) ? "yes" : "no")
-        }
-      ]
+    return {
+      filter = [{
+        id = "month_filter"
+        text = "#mainmenu/btnMonthLb"
+        cb = "onChangeType"
+        filterCbValue = lbType == ::ETTI_VALUE_INHISORY ? "yes" : "no"
+      }]
     }
-    return res
   }
 
   function initTopItems()
@@ -878,10 +894,7 @@ class ::gui_handlers.EventsLeaderboardWindow extends ::gui_handlers.LeaderboardW
   function getTopItemsTplView()
   {
     local res = {
-      updateTime = [
-        {
-        }
-      ]
+      updateTime = [{}]
     }
     return res
   }

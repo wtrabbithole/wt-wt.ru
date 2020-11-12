@@ -1235,6 +1235,20 @@
   {
     "DamageEffects": [
       {
+        "ammunition_storage_fixed": {
+          "onKill": {
+            "expl": 1.0,
+            "fHitCritical": false
+          },
+          "onHit": {
+            "damageType": "fire",
+            "expl": 1.0,
+            "damage": 200.0,
+            "fHitCritical": false
+          }
+        }
+      },
+      {
         "part": [
           {
             "name": "ammunition_storage_01_dm"
@@ -2280,7 +2294,7 @@
             "aimMinDist": 20.0
           },
           {
-            "aimMaxDist": 4000.0
+            "aimMaxDist": 4500.0
           },
           {
             "randomAngle": 0.0
@@ -2395,7 +2409,7 @@
             "aimMinDist": 20.0
           },
           {
-            "aimMaxDist": 4000.0
+            "aimMaxDist": 4500.0
           },
           {
             "randomAngle": 0.0
@@ -2510,7 +2524,7 @@
             "aimMinDist": 20.0
           },
           {
-            "aimMaxDist": 4000.0
+            "aimMaxDist": 4500.0
           },
           {
             "randomAngle": 0.0
@@ -2625,7 +2639,7 @@
             "aimMinDist": 20.0
           },
           {
-            "aimMaxDist": 4000.0
+            "aimMaxDist": 4500.0
           },
           {
             "randomAngle": 0.0
@@ -2754,51 +2768,6 @@
             }
           }
         ]
-      },
-      {
-        "event": {
-          "name": "superstructure_back_fire",
-          "fx": {
-            "name": "ship_fire_medium",
-            "centerDmgPart": true
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "superstructure_front_fire",
-          "fx": {
-            "name": "ship_fire_medium",
-            "centerDmgPart": true
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "superstructure_top_fire",
-          "fx": {
-            "name": "ship_fire_medium",
-            "centerDmgPart": true
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "superstructure_bottom_fire",
-          "fx": {
-            "name": "ship_fire_medium",
-            "centerDmgPart": true
-          }
-        }
-      },
-      {
-        "event": {
-          "name": "superstructure_side_fire",
-          "fx": {
-            "name": "ship_fire_medium",
-            "centerDmgPart": true
-          }
-        }
       },
       {
         "event": {

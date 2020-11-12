@@ -1,5 +1,6 @@
 local time = require("scripts/time.nut")
 local stdMath = require("std/math.nut")
+local { updateModItem, createModItem } = require("scripts/weaponry/weaponryVisual.nut")
 local wwUnitClassParams = require("scripts/worldWar/inOperation/wwUnitClassParams.nut")
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 local wwOperationUnitsGroups = require("scripts/worldWar/inOperation/wwOperationUnitsGroups.nut")
@@ -681,22 +682,21 @@ class ::gui_handlers.WwAirfieldFlyOut extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     local modItemObj = containerObj.findObject(unit.name)
+    local params = {
+      canShowStatusImage = false
+      canShowResearch = false
+      canShowPrice = false
+      isForceHidePlayerInfo = true
+      useGenericTooltip = true
+      hasMenu = hasPresetToChoose(unit)
+    }
     if (!::check_obj(modItemObj))
-      modItemObj = ::weaponVisual.createItem(
-        unit.name, weapon, weapon.type, containerObj, this, {
-          useGenericTooltip = true
-          shortcutIcon = "X"
-        })
-
-    ::weaponVisual.updateItem(
-      unit, weapon, modItemObj, false, this, {
-        canShowStatusImage = false
-        canShowResearch = false
-        canShowPrice = false
-        isForceHidePlayerInfo = true
-        useGenericTooltip = true
-        hasMenu = hasPresetToChoose(unit)
-      })
+      modItemObj = createModItem(
+        unit.name, unit, weapon, weapon.type, containerObj, this,
+        params.__merge({shortcutIcon = "X"}))
+    else
+      updateModItem(
+        unit, weapon, modItemObj, false, this, params)
     modItemObj.pos = "0, 2"
 
     local centralBlockObj = modItemObj.findObject("centralBlock")

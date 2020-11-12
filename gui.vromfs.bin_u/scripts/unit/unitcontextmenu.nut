@@ -1,6 +1,6 @@
-local { canUseIngameShop } = ::is_platform_ps4? require("scripts/onlineShop/ps4Shop.nut")
-  : ::is_platform_xboxone? require("scripts/onlineShop/xboxShop.nut")
-    : { canUseIngameShop = @() false }
+local { canUseIngameShop, getShopItem, getShopItemsTable } = ::is_platform_ps4? require("scripts/onlineShop/ps4ShopData.nut")
+  : ::is_platform_xboxone? require("scripts/onlineShop/xboxShopData.nut")
+    : { canUseIngameShop = @() false, getShopItem = @(...) null, getShopItemsTable = @() {} }
 
 local unitStatus = require("scripts/unit/unitStatus.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
@@ -9,6 +9,8 @@ local unitContextMenuState = require("scripts/unit/unitContextMenuState.nut")
 local selectUnitHandler = require("scripts/slotbar/selectUnitHandler.nut")
 local selectGroupHandler = require("scripts/slotbar/selectGroupHandler.nut")
 local crewModalByVehiclesGroups = require("scripts/crew/crewModalByVehiclesGroups.nut")
+local { getBundleId } = require("scripts/onlineShop/onlineBundles.nut")
+local { openUrl } = require("scripts/onlineShop/url.nut")
 
 local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew = null, curEdiff = -1,
   isSlotbarEnabled = true, setResearchManually = null, needChosenResearchOfSquadron = false,
@@ -30,7 +32,7 @@ local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew
     local actionFunc = null
     local haveWarning  = false
     local haveDiscount = false
-    local enabled    = true
+    local disabled    = false
     local icon       = ""
     local isLink = false
     local iconRotation = 0
@@ -145,6 +147,7 @@ local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew
       local canBuyOnline = ::canBuyUnitOnline(unit)
       local canBuyNotResearchedUnit = unitStatus.canBuyNotResearched(unit)
       local canBuyIngame = !canBuyOnline && (::canBuyUnit(unit) || canBuyNotResearchedUnit)
+      local forceShowBuyButton = false
       local priceText = ""
 
       if (canBuyIngame)
@@ -157,12 +160,33 @@ local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew
 
       actionText = ::loc("mainmenu/btnOrder") + priceText
 
+      if (isGift && canUseIngameShop())
+      {
+        if (getShopItemsTable().len() == 0)
+        {
+          //Override for ingameShop.
+          //There is rare posibility, that shop data is empty.
+          //Because of external error.
+          canBuyOnline = false
+        }
+        else if (!unit.isBought() && unit.getEntitlements().map(
+            @(id) getBundleId(id)
+          ).filter(
+            @(bundleId) bundleId != "" && getShopItem(bundleId) != null
+          ).len() == 0)
+        {
+          actionText = ::loc("mainemnu/comingsoon")
+          disabled = true
+          forceShowBuyButton = true
+        }
+      }
+
       icon       = isGift ? ( canUseIngameShop() ? "#ui/gameuiskin#xbox_store_icon.svg"
                             : "#ui/gameuiskin#store_icon.svg")
                         : isSpecial || canBuyNotResearchedUnit ? "#ui/gameuiskin#shop_warpoints_premium"
                             : "#ui/gameuiskin#shop_warpoints"
 
-      showAction = inMenu && (canBuyIngame || canBuyOnline)
+      showAction = inMenu && (canBuyIngame || canBuyOnline || forceShowBuyButton)
       isLink     = !canUseIngameShop() && canBuyOnline
       if (canBuyOnline)
         actionFunc = @() OnlineShopModel.showGoods({ unitName = unit.name }, "unit_context_menu")
@@ -203,7 +227,7 @@ local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew
       showAction = inMenu && (!isInResearch || (::has_feature("SpendGold") && ::has_feature("SpendFreeRP")))
         && (::isUnitFeatureLocked(unit) || ::canResearchUnit(unit)
           || canFlushSquadronExp || (isSquadronVehicle && !::is_in_clan()))
-      enabled = showAction
+      disabled = !showAction
       actionFunc = needToFlushExp
         || (isSquadronResearchMode && (needChosenResearchOfSquadron || canFlushSquadronExp))
         ? function() {onSpendExcessExp?()}
@@ -240,7 +264,7 @@ local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew
       isLink     = ::has_feature("WikiUnitInfo")
       actionFunc = function () {
         if (::has_feature("WikiUnitInfo"))
-          ::open_url(::format(::loc("url/wiki_objects"), unit.name), false, false, "unit_actions")
+          openUrl(::format(::loc("url/wiki_objects"), unit.name), false, false, "unit_actions")
         else
           ::showInfoMsgBox(::colorize("activeTextColor", ::getUnitName(unit, false)) + "\n" + ::loc("profile/wiki_link"))
       }
@@ -277,7 +301,7 @@ local getActions = ::kwarg(function getActions(unitObj, unit, actionsNames, crew
       actionName   = action
       text         = actionText
       show         = showAction
-      enabled      = enabled
+      disabled     = disabled
       icon         = icon
       action       = actionFunc
       haveWarning  = haveWarning

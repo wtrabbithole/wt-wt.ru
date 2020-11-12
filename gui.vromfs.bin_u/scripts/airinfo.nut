@@ -9,6 +9,8 @@ local { getCrewPoints } = require("scripts/crew/crewSkills.nut")
 local { getWeaponInfoText } = require("scripts/weaponry/weaponryVisual.nut")
 local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
 local { getModificationBulletsGroup } = require("scripts/weaponry/bulletsInfo.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 const MODIFICATORS_REQUEST_TIMEOUT_MSEC = 20000
 
@@ -501,16 +503,9 @@ global enum CheckFeatureLockAction
         return false
       }
 
-      local button = []
-      local defButton = "cancel"
+      local button = [["#mainmenu/btnFindSquadron", @() ::gui_modal_clans()]]
+      local defButton = "#mainmenu/btnFindSquadron"
       local msg = [::loc("mainmenu/needJoinSquadronForResearch")]
-      if (!::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
-        msg.append(::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC")))
-      else
-      {
-        button.append(["#mainmenu/btnFindSquadron", @() ::gui_modal_clans()])
-        defButton = "#mainmenu/btnFindSquadron"
-      }
 
       local canBuyNotResearchedUnit = unitStatus.canBuyNotResearched(unit)
       local priceText = unit.getOpenCost().getTextAccordingToBalance()
@@ -1153,6 +1148,20 @@ global enum CheckFeatureLockAction
         rentObj.show(show)
       if (show && rentObj.getValue() != value)
         rentObj.setValue(value)
+    }
+
+
+    // unit special offer
+    local haveDiscount = ::g_discount.getUnitDiscountByName(air.name)
+    local specialOfferItem = haveDiscount > 0 ? ::ItemsManager.getBestSpecialOfferItemByUnit(air) : null
+    isActive = isActive || specialOfferItem != null
+    local discountObj = obj.findObject("special_offer_time")
+    if (::check_obj(rentObj)) {
+      local expireTimeText = specialOfferItem?.getExpireTimeTextShort() ?? ""
+      local show = expireTimeText != ""
+      discountObj.show(show)
+      if (show)
+        discountObj.setValue(::colorize("goodTextColor", ::loc("specialOffer/TillTime", { time = expireTimeText })))
     }
 
     return !isActive
@@ -1805,9 +1814,6 @@ global enum CheckFeatureLockAction
         addInfoTextsList.append(::colorize("badTextColor", ::loc("mainmenu/needJoinSquadronForResearch/continue")))
       else
         addInfoTextsList.append(::colorize("badTextColor", ::loc("mainmenu/needJoinSquadronForResearch")))
-
-      if (!::has_feature("ClansXBOXOnPC") && ::is_platform_xboxone)
-        addInfoTextsList.append(::colorize("warningTextColor", ::loc("clan/consolePlayerOnPC")))
     }
   }
 
@@ -1874,13 +1880,19 @@ global enum CheckFeatureLockAction
         ::format(::loc("shop/giftAir/"+air.gift+"/info"), air.giftParam ? ::loc(air.giftParam) : "")))
     if (::isUnitDefault(air))
       addInfoTextsList.append(::loc("shop/reserve/info"))
-    if (showLocalState && !::isUnitBought(air) && ::isUnitResearched(air) && !::canBuyUnitOnline(air) && ::canBuyUnit(air))
-    {
-      local priceText = ::colorize("activeTextColor", ::getUnitCost(air).getTextAccordingToBalance())
-      addInfoTextsList.append(::colorize("userlogColoredText", ::loc("mainmenu/canBuyThisVehicle", { price = priceText })))
-    }
     if (::canBuyUnitOnMarketplace(air))
       addInfoTextsList.append(::colorize("userlogColoredText",::loc("shop/giftAir/coupon/info")))
+  }
+
+  local showPriceText = rentTimeHours == -1 && showLocalState && !::isUnitBought(air)
+    && ::isUnitResearched(air) && !::canBuyUnitOnline(air) && ::canBuyUnit(air)
+  local priceObj = ::showBtn("aircraft_price", showPriceText, holderObj)
+  if (showPriceText && ::check_obj(priceObj) && ::g_discount.getUnitDiscountByName(air.name) > 0) {
+    placePriceTextToButton(holderObj, "aircraft_price",
+      ::colorize("userlogColoredText", ::loc("events/air_can_buy")), ::getUnitCost(air), 0, ::getUnitRealCost(air))
+  } else if (showPriceText) {
+    local priceText = ::colorize("activeTextColor", ::getUnitCost(air).getTextAccordingToBalance())
+    addInfoTextsList.append(::colorize("userlogColoredText", ::loc("mainmenu/canBuyThisVehicle", { price = priceText })))
   }
 
   local infoObj = holderObj.findObject("aircraft-addInfo")
@@ -2114,7 +2126,7 @@ global enum CheckFeatureLockAction
     return ::__types_for_coutries
 
   local defaultCountryData = {}
-  foreach(unitType in ::g_unit_type.types)
+  foreach(unitType in unitTypes.types)
     defaultCountryData[unitType.esUnitType] <- false
 
   ::__types_for_coutries = {}

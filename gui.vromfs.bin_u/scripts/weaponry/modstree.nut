@@ -1,4 +1,5 @@
 local { getModificationBulletsGroup } = require("scripts/weaponry/bulletsInfo.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 local modsTree = {
   tree = null
@@ -30,7 +31,7 @@ local modsTree = {
     if (mod.isHidden)
       return false
 
-    foreach(unitType in ::g_unit_type.types)
+    foreach(unitType in unitTypes.types)
       if (unitType.modClassOrder.indexof(mod.modClass) != null)
         return true
     return false
@@ -107,8 +108,20 @@ local modsTree = {
     }
     checkNotInTreeMods(notInTreeMods)
 
+    clearEmptyClasses(tree)
+
     generatePositions(tree)
     return tree
+  }
+
+  function clearEmptyClasses(tree)
+  {
+    for (local i = tree.len() - 1; i >= 0; i--)
+    {
+      local branch = tree[i]
+      if (branch != null && branch.len() <= 1)
+        tree.remove(i)
+    }
   }
 
   function shiftBranchX(branch, offsetX)

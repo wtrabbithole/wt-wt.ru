@@ -36,6 +36,43 @@
     {
       "items": [
         {
+          "setId": "viking_fury"
+        },
+        {
+          "locId": "workshop/viking_fury"
+        },
+        {
+          "alwaysVisibleItem": 760152
+        },
+        {
+          "alwaysVisibleItem": 760156
+        },
+        {
+          "alwaysVisibleItem": 760157
+        },
+        {
+          "alwaysVisibleItem": 760158
+        },
+        {
+          "alwaysVisibleItem": 760159
+        },
+        {
+          "alwaysVisibleItem": 760160
+        },
+        {
+          "alwaysVisibleItem": 760161
+        },
+        {
+          "alwaysVisibleItem": 760162
+        },
+        {
+          "alwaysVisibleItem": 760163
+        }
+      ]
+    },
+    {
+      "items": [
+        {
           "setId": "northern_wind"
         },
         {
@@ -2057,9 +2094,110 @@
         "id": 2900236,
         "trueRecipe": 2900237
       }
+    },
+    {
+      "item": [
+        {
+          "id": 2900240
+        },
+        {
+          "trueRecipe": 2900241
+        },
+        {
+          "trueRecipe": 2900245
+        },
+        {
+          "trueRecipe": 2900249
+        },
+        {
+          "trueRecipe": 2900253
+        }
+      ]
+    },
+    {
+      "item": [
+        {
+          "id": 2900256
+        },
+        {
+          "trueRecipe": 2900257
+        },
+        {
+          "trueRecipe": 2900261
+        },
+        {
+          "trueRecipe": 2900265
+        },
+        {
+          "trueRecipe": 2900269
+        }
+      ]
+    },
+    {
+      "item": [
+        {
+          "id": 2900272
+        },
+        {
+          "trueRecipe": 2900273
+        },
+        {
+          "trueRecipe": 2900277
+        },
+        {
+          "trueRecipe": 2900281
+        },
+        {
+          "trueRecipe": 2900285
+        }
+      ]
+    },
+    {
+      "item": {
+        "id": 2900018,
+        "trueRecipe": 2900037
+      }
+    },
+    {
+      "item": {
+        "id": 2900023,
+        "trueRecipe": 2900040
+      }
+    },
+    {
+      "item": {
+        "id": 2900024,
+        "trueRecipe": 2900043
+      }
     }
   ],
+  "effectOnStartCraftPresets": {
+    "rocketLaunch": {
+      "showImage": "https://static-ggc.gaijin.net/events/craft_space_race/main_rocket_launch.jpg",
+      "imageRatio": 1.333,
+      "playSound": "craft_event_rocket_launch",
+      "showTimeSec": 5
+    }
+  },
+  "effectOnOpenChestPresets": {
+    "capsuleLanding": {
+      "showImage": "https://static-ggc.gaijin.net/events/craft_space_race/main_capsule_landing.jpg",
+      "imageRatio": 1.333,
+      "playSound": "craft_event_capsule_landing",
+      "showTimeSec": 4
+    }
+  },
   "itemMarkingPresets": {
+    "rocketWithoutFuel": {
+      "color": "#ff4b38",
+      "markIconLocId": "",
+      "additionalDesc": "workshop/itemMarkingPresets/rocketWithoutFuel/desc"
+    },
+    "rocketReadyToLaunch": {
+      "color": "#20F020",
+      "markIconLocId": "",
+      "additionalDesc": "workshop/itemMarkingPresets/rocketReadyToLaunch/desc"
+    },
     "shipStructures": {
       "color": "#808000",
       "markIconLocId": "workshop/itemMarkingPresets/shipStructures/icon",
@@ -2120,6 +2258,30 @@
     "default": {
       "msgBoxConfirmWhithItemName": "msgBox/assembleItem/confirm",
       "actionButton": "item/assemble"
+    },
+    "spaceFlightMaxSdKfz": {
+      "reachedMaxAmount": "spaceFlight/reachedMaxAmount/sdkfz_234_1"
+    },
+    "spaceFlightMaxSgb": {
+      "reachedMaxAmount": "spaceFlight/reachedMaxAmount/sgb_309"
+    },
+    "spaceFlight": {
+      "assemble": "spaceFlight/item/recipes",
+      "recipes": "spaceFlight/item/recipes",
+      "descReceipesListHeaderPrefix": "spaceFlight/item/requires/",
+      "msgBoxCantUse": "spaceFlight/msgBox/assembleItem/cant",
+      "msgBoxConfirmWhithItemName": "spaceFlight/msgBox/assembleItem/confirm",
+      "craftCountdown": "spaceFlight/items/craft_process/countdown",
+      "headerRecipesList": "spaceFlight/item/create_header",
+      "craftingIconInAmmount": "icon/hud_msg_mp_dmg/rocket",
+      "createRecipes": "spaceFlight/item/create_recipes"
+    },
+    "spaceFlightCraftProcess": {
+      "cancelTitle": "spaceFlight/mainmenu/craftCanceled/title",
+      "craftTime": "spaceFlight/msgBox/assembleItem/time",
+      "rewardTitle": "spaceFlight/mainmenu/itemAssembled/title",
+      "msgBoxCantUse": "spaceFlight/msgBox/cancelCraftProcess/cant",
+      "msgBoxConfirm": "spaceFlight/msgBox/cancelCraftProcess/confirm"
     },
     "instantCraft": {
       "msgBoxConfirmWhithItemName": "msgBox/assembleItem/confirm/instant",

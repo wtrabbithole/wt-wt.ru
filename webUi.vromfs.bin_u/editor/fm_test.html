@@ -229,6 +229,7 @@
       indicationFlags: [ false, false, false, false, true, false, false ],
       damagePartOfInterestId: -1,
       animPartOfInterestId: -1,
+      hitDamage: 0,
     }
     
     const FlapsControl = {
@@ -2386,6 +2387,18 @@
       setCommand( {cmd: "setDamagePartOfInterestId", id: comboBox.value},
         function(data) { unblockChangeablePropsUpdate(state, data) } )
     }
+
+    function cutDamagePartOfInterest() {
+      setCommand( {cmd: "cutDamagePartOfInterest", id: state.damagePartOfInterestId} )
+    }
+    
+    function hitDamagePartOfInterest() {
+      setCommand( {cmd: "hitDamagePartOfInterest", id: state.damagePartOfInterestId, value: state.hitDamage} )
+    }
+    
+    function setHitDamagePartOfInterestValue(edit) {
+      state.hitDamage = edit.value
+    }
     
     function setAnimPartOfInterestId(comboBox) {
       state.animPartOfInterestId = comboBox.value
@@ -3221,8 +3234,8 @@
             <tr>
               <td class="left"><input type="checkbox" id="CheckBoxIndication0", onclick="setIndicationVisible(IndicationFlag.FORCES, this)">Forces</td>
               <td><input type="checkbox" id="CheckBoxIndication3", onclick="setIndicationVisible(IndicationFlag.FUEL, this)">Fuel</td>
-              <td><input type="checkbox" id="CheckBoxIndication5", onclick="setIndicationVisible(IndicationFlag.DM_PART, this)">DM Part</td>
-              <td><select id="ComboBoxDamagePartOfInterestId" onchange="setDamagePartOfInterestId(this)" style="width:100%"></td>
+              <td><input type="checkbox" id="CheckBoxIndication2", onclick="setIndicationVisible(IndicationFlag.COLLISION_GEOMETRY, this)">Collision</td>
+              <td></td>
             </tr>
             <tr>
               <td><input type="checkbox" id="CheckBoxIndication1", onclick="setIndicationVisible(IndicationFlag.AIRFRAME_GEOMETRY, this)">Airframe</td>
@@ -3230,11 +3243,15 @@
               <td><input type="checkbox" id="CheckBoxIndication6", onclick="setIndicationVisible(IndicationFlag.ANIM_PART, this)">Anim Part</td>
               <td><select id="ComboBoxAnimPartOfInterestId" onchange="setAnimPartOfInterestId(this)" style="width:100%"></td>
             </tr>
+          </table>
+          <div class="tableheader"><b>Damage part</b></div>
+          <table class="left" width="100%">
             <tr>
-              <td><input type="checkbox" id="CheckBoxIndication2", onclick="setIndicationVisible(IndicationFlag.COLLISION_GEOMETRY, this)">Collision</td>                          
-              <td></td>
-              <td></td>
-              <td></td>
+              <td><input type="button" id="ButtonCut"        value="Cut" onClick="cutDamagePartOfInterest()" style="width:100%"></td>
+              <td><input type="button" id="ButtonHit"        value="Hit" onClick="hitDamagePartOfInterest()" style="width:100%"></td>
+              <td><input class="number-box" type="number" step="0.1" id="EditHitDmg" value="0" onchange="setHitDamagePartOfInterestValue(this)"></td>
+              <td><input type="checkbox" id="CheckBoxIndication5", onclick="setIndicationVisible(IndicationFlag.DM_PART, this)">DM Part</td>
+              <td><select id="ComboBoxDamagePartOfInterestId" onchange="setDamagePartOfInterestId(this)" style="width:100%"></td>
             </tr>
           </table>
         </div>

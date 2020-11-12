@@ -92,3 +92,42 @@
   set_thermovision_index = @(idx) null
   UT_SuitVehicle = 14
 })
+//----------------------------wop_1_97_0_X---------------------------------//
+::apply_compatibilities({
+  OPTION_PITCH_BLOCKER_WHILE_BRACKING = -1
+  need_force_autologin = @() false
+  request_leaderboard_blk = function(blk) {
+    if (blk?.start != null)
+    {
+      return ::request_page_of_leaderboard(
+        blk.valueType == LEADERBOARD_VALUE_INHISTORY? ::ETTI_VALUE_INHISORY : ETTI_VALUE_TOTAL,
+        blk.category,
+        blk.count,
+        blk.start,
+        blk.gameMode
+      )
+    }
+
+    return ::request_me_in_leaderboard(
+      blk.valueType == LEADERBOARD_VALUE_INHISTORY? ::ETTI_VALUE_INHISORY : ETTI_VALUE_TOTAL,
+      blk.category,
+      0,
+      blk.gameMode
+    )
+  }
+})
+//----------------------------wop_1_97_1_X---------------------------------//
+::have_per_vehicle_zoom_sens <- "OPTION_GUNNER_VIEW_ZOOM_SENS" in ::getroottable()
+                             && "OPTION_ATGM_AIM_ZOOM_SENS_HELICOPTER" in ::getroottable()
+::apply_compatibilities({
+  request_voice_message_list = @(...) null
+  is_last_voice_message_list_for_squad = @() false
+  TP_PS4 = 7
+  CONTROLS_ALLOW_ENGINE_AUTOSTART = false
+})
+//----------------------------wop_1_97_2_X---------------------------------//
+::apply_compatibilities({
+  YU2_PAY_GJN = 32
+  YU2_FORBIDDEN_NEED_2STEP = 32
+})
+

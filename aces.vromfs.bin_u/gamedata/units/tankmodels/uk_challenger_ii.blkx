@@ -250,7 +250,7 @@
         }
       },
       "turret_cha": {
-        "armorClass": "CHA_tank_modern",
+        "armorClass": "RHA_tank_modern",
         "gun_mask_01_dm": {
           "armorThickness": 30.0,
           "solidArmorTestDepth": 50.0
@@ -319,8 +319,9 @@
           "armorThickness": 15.0
         },
         "turret_04_back_dm": {
-          "armorThickness": 25.0,
-          "createSecondaryShatters": false
+          "armorThickness": 10.0,
+          "createSecondaryShatters": false,
+          "armorClass": "aluminium"
         },
         "turret_01_back_dm": {
           "armorThickness": 10.0
@@ -367,6 +368,9 @@
         "optic_body_02_dm": {
           "armorThickness": 165.0
         },
+        "turret_08_bottom_dm": {
+          "armorThickness": 10.0
+        },
         "turret_05_top_dm": {
           "armorThickness": 25.0
         },
@@ -398,7 +402,9 @@
           "armorThickness": 20.0
         },
         "turret_03_side_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 10.0,
+          "armorClass": "aluminium",
+          "createSecondaryShatters": false
         },
         "turret_02_side_dm": {
           "armorThickness": 45.0,
@@ -499,10 +505,6 @@
           "armorThickness": 4.0,
           "armorClass": "tank_structural_steel"
         },
-        "turret_08_bottom_dm": {
-          "armorThickness": 4.0,
-          "armorClass": "tank_structural_steel"
-        },
         "ex_decor_03_dm": {
           "armorThickness": 4.0,
           "armorClass": "tank_structural_steel"
@@ -545,6 +547,8 @@
         "hp": 100.0,
         "armorThickness": 3.0,
         "createSecondaryShatters": false,
+        "ex_decor_l_04_dm": [],
+        "ex_decor_r_04_dm": [],
         "ex_decor_r_05_dm": [],
         "ex_decor_l_05_dm": [],
         "ex_decor_r_06_dm": [],
@@ -591,6 +595,8 @@
         "ex_era_hull_12_dm": [],
         "ex_era_hull_13_dm": [],
         "ex_era_hull_14_dm": [],
+        "ex_era_hull_28_dm": [],
+        "ex_era_hull_31_dm": [],
         "ex_armor_l_02_dm": [],
         "ex_armor_r_02_dm": []
       },
@@ -728,7 +734,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -993,6 +1001,11 @@
         "ammo_body_l_08_dm": [],
         "ammo_body_l_09_dm": [],
         "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_l_13_dm": [],
+        "ammo_body_l_14_dm": [],
+        "ammo_body_l_15_dm": [],
         "ammo_body_r_01_dm": [],
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
@@ -1007,7 +1020,11 @@
         "ammo_body_r_12_dm": [],
         "ammo_body_r_13_dm": [],
         "ammo_body_r_14_dm": [],
-        "ammo_body_r_15_dm": []
+        "ammo_body_r_15_dm": [],
+        "ammo_body_r_16_dm": [],
+        "ammo_body_r_17_dm": [],
+        "ammo_body_r_18_dm": [],
+        "ammo_body_r_19_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -1015,6 +1032,7 @@
         "armorThickness": 2.0,
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -2173,6 +2191,32 @@
       },
       {
         "armorArrayERA": {
+          "xrayDmPart": "ex_era_hull_31_dm",
+          "titleLoc": "leopard_2a5_turret_nera",
+          "kineticProtectionEquivalent": 30.0,
+          "cumulativeProtectionEquivalent": 400.0,
+          "armorArrayText": {
+            "layer": {
+              "dmPart": "ex_era_hull_31_dm"
+            }
+          }
+        }
+      },
+      {
+        "armorArrayERA": {
+          "xrayDmPart": "ex_era_hull_28_dm",
+          "titleLoc": "leopard_2a5_turret_nera",
+          "kineticProtectionEquivalent": 30.0,
+          "cumulativeProtectionEquivalent": 400.0,
+          "armorArrayText": {
+            "layer": {
+              "dmPart": "ex_era_hull_28_dm"
+            }
+          }
+        }
+      },
+      {
+        "armorArrayERA": {
           "xrayDmPart": "ex_era_hull_26_dm",
           "titleLoc": "uk_era_romor_a",
           "kineticProtectionEquivalent": 30.0,
@@ -2728,16 +2772,6 @@
             "pitch": [-10.0,50.0]
           }
         }
-      },
-      {
-        "hideNodes": [
-          {
-            "node": "ex_decor_r_04"
-          },
-          {
-            "node": "ex_decor_l_04"
-          }
-        ]
       }
     ]
   },
@@ -2765,7 +2799,7 @@
         "animationMultiplier": -0.62,
         "width": 0.61,
         "height": 0.06,
-        "fricFrontal": [1.0,1.0],
+        "fricFrontal": [1.2,1.0],
         "criticalHillAngle": 27.0,
         "hillClimbingDeclineFricKoef": 15.0
       },
@@ -2785,7 +2819,7 @@
         "driveGearRadius": 0.299,
         "mainGearRatio": 4.3,
         "sideGearRatio": 1.0,
-        "neutralGearRatio": 15.0,
+        "neutralGearRatio": 13.0,
         "manufacturer": "david_brown",
         "model": "tn54e",
         "type": "auto",
@@ -3348,6 +3382,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -3658,6 +3701,24 @@
               "node": "ex_era_hull_26"
             },
             {
+              "node": "ex_era_hull_27"
+            },
+            {
+              "node": "ex_era_hull_28"
+            },
+            {
+              "node": "ex_era_hull_29"
+            },
+            {
+              "node": "ex_era_hull_30"
+            },
+            {
+              "node": "ex_era_hull_31"
+            },
+            {
+              "node": "ex_era_hull_32"
+            },
+            {
               "node": "ex_armor_02"
             }
           ]
@@ -3880,16 +3941,6 @@
               }
             },
             {
-              "hideNodes": [
-                {
-                  "node": "ex_decor_r_04"
-                },
-                {
-                  "node": "ex_decor_l_04"
-                }
-              ]
-            },
-            {
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
@@ -3944,8 +3995,8 @@
         "effects": {
           "nightVision": {
             "gunnerThermal": {
-              "resolution": [500,300],
-              "noiseFactor": 0.05
+              "resolution": [800,600],
+              "noiseFactor": 0.04
             },
             "commanderIr": {
               "resolution": [1600,1200],

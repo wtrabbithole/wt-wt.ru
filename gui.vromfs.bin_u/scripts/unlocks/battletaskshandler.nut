@@ -1,4 +1,5 @@
 local time = require("scripts/time.nut")
+local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 ::gui_start_battle_tasks_wnd <- function gui_start_battle_tasks_wnd(taskId = null, tabType = null)
 {
@@ -14,7 +15,6 @@ local time = require("scripts/time.nut")
 global enum BattleTasksWndTab {
   BATTLE_TASKS,
   BATTLE_TASKS_HARD,
-  PERSONAL_UNLOCKS,
   HISTORY
 }
 
@@ -27,12 +27,10 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
   battleTaskItemTpl = "gui/unlocks/battleTasksItem"
 
   currentTasksArray = null
-  personalUnlocksArray = null
 
   configsArrayByTabType = {
     [BattleTasksWndTab.BATTLE_TASKS] = null,
     [BattleTasksWndTab.BATTLE_TASKS_HARD] = null,
-    [BattleTasksWndTab.PERSONAL_UNLOCKS] = null
   }
 
   difficultiesByTabType = {
@@ -67,13 +65,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       text = "#mainmenu/btnBattleTasksHard"
       noTasksLocId = "mainmenu/battleTasks/noSpecialTasks"
       fillFunc = "fillBattleTasksList"
-    },
-    {
-      tabType = BattleTasksWndTab.PERSONAL_UNLOCKS
-      isVisible = @() ::has_feature("PersonalUnlocks")
-      text = "#mainmenu/btnPersonalUnlocks"
-      noTasksLocId = "mainmenu/battleTasks/noPersonalUnlocks"
-      fillFunc = "fillPersonalUnlocksList"
     },
     {
       tabType = BattleTasksWndTab.HISTORY
@@ -175,11 +166,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     configsArrayByTabType[tabType] = resultArray.map(@(task) ::g_battle_tasks.generateUnlockConfigByTask(task))
   }
 
-  function buildPersonalUnlocksArray(tabType)
-  {
-    configsArrayByTabType[tabType] = personalUnlocksArray.map(@(task) ::g_battle_tasks.generateUnlockConfigByTask(task))
-  }
-
   function fillBattleTasksList()
   {
     local listBoxObj = getConfigsListObj()
@@ -209,7 +195,8 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     updateWidgetsVisibility()
     if (finishedTaskIdx < 0 || finishedTaskIdx >= configsArrayByTabType[currentTabType].len())
       finishedTaskIdx = 0
-    listBoxObj.setValue(finishedTaskIdx)
+    if (finishedTaskIdx < listBoxObj.childrenCount())
+      listBoxObj.setValue(finishedTaskIdx)
 
     local obj = scene.findObject("warbond_shop_progress_block")
     local curWb = ::g_warbonds.getCurrentWarbond()
@@ -217,21 +204,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
       ::g_warbonds_view.createProgressBox(curWb, obj, this)
     else if (currentTabType == BattleTasksWndTab.BATTLE_TASKS_HARD)
       ::g_warbonds_view.createSpecialMedalsProgress(curWb, obj, this)
-  }
-
-  function fillPersonalUnlocksList()
-  {
-    local listBoxObj = getConfigsListObj()
-    if (!::checkObj(listBoxObj))
-      return
-
-    updatePersonalUnlocks()
-    local view = {items = configsArrayByTabType[BattleTasksWndTab.PERSONAL_UNLOCKS].map(@(config) ::g_battle_tasks.generateItemView(config))}
-
-    updateNoTasksText(view.items)
-    local data = ::handyman.renderCached(battleTaskItemTpl, view)
-    guiScene.replaceContentFromText(listBoxObj, data, data.len(), this)
-    listBoxObj.setValue(0)
   }
 
   function updateNoTasksText(items = [])
@@ -269,16 +241,6 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     newIconWidgetByTaskId = ::g_battle_tasks.getWidgetsTable()
     buildBattleTasksArray(BattleTasksWndTab.BATTLE_TASKS)
     buildBattleTasksArray(BattleTasksWndTab.BATTLE_TASKS_HARD)
-  }
-
-  function updatePersonalUnlocks()
-  {
-    local newPersonalUnlocksArray = ::g_personal_unlocks.getUnlocksArray()
-    if (::u.isEqual(personalUnlocksArray, newPersonalUnlocksArray))
-      return
-
-    personalUnlocksArray = newPersonalUnlocksArray
-    buildPersonalUnlocksArray(BattleTasksWndTab.PERSONAL_UNLOCKS)
   }
 
   function fillTasksHistory()
@@ -451,7 +413,7 @@ class ::gui_handlers.BattleTasksWnd extends ::gui_handlers.BaseGuiHandlerWT
     ::showBtn("btn_reroll", showRerollButton, taskObj)
     ::showBtn("btn_recieve_reward", canGetReward, taskObj)
     if (showRerollButton)
-      ::placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
+      placePriceTextToButton(taskObj, "btn_reroll", ::loc("mainmenu/battleTasks/reroll"), ::g_battle_tasks.rerollCost)
     showSceneBtn("btn_requirements_list", ::show_console_buttons && ::getTblValue("names", config, []).len() != 0)
 
     local id = config?.id ?? ""

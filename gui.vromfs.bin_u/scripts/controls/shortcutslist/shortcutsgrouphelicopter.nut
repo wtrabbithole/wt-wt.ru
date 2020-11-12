@@ -1,11 +1,13 @@
 local globalEnv = require_native("globalEnv")
 local controlsOperations = require("scripts/controls/controlsOperations.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { isWheelmenuAxisConfigurable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
 
 return [
   {
     id = "ID_HELICOPTER_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
-    unitType = ::g_unit_type.HELICOPTER
+    unitType = unitTypes.HELICOPTER
     isHelpersVisible = true
     needShowInHelp = true
   }
@@ -13,7 +15,7 @@ return [
   {
     id = "ID_HELICOPTER_OPERATIONS_HEADER"
     type = CONTROL_TYPE.SECTION
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_HELICOPTER_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
@@ -22,13 +24,13 @@ return [
       ctrlGroups.HELICOPTER,
       controlsOperations.Flags.WITHOUT_MODIFIERS
     )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_HELICOPTER_SWAP_GAMEPAD_STICKS"
     type = CONTROL_TYPE.BUTTON,
     onClick = @() controlsOperations.swapGamepadSticks( ctrlGroups.HELICOPTER )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
 //-------------------------------------------------------
   {
@@ -221,6 +223,11 @@ return [
     needShowInHelp = true
   }
   {
+    id = "ID_AGM_LOCK_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    needShowInHelp = true
+  }
+  {
     id = "ID_TOGGLE_LASER_DESIGNATOR_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     checkAssign = false
@@ -269,6 +276,16 @@ return [
     checkAssign = false
   }
   {
+    id = "ID_TOGGLE_PERIODIC_FLARES_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "ID_TOGGLE_MLWS_FLARES_SLAVING_HELICOPTER"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
     id = "ID_ATGM_HELICOPTER"
     checkGroup = ctrlGroups.HELICOPTER
     needShowInHelp = true
@@ -294,10 +311,14 @@ return [
   }
   {
     id = "atgm_aim_sens_helicopter"
+    optionType = ::USEROPT_ATGM_AIM_SENS_HELICOPTER
     type = CONTROL_TYPE.SLIDER
-    value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER)
-    setValue = @(joyParams, objValue)
-      ::set_option_multiplier(::OPTION_ATGM_AIM_SENS_HELICOPTER, objValue / 100.0)
+  }
+  {
+    id = "atgm_aim_zoom_sens_helicopter"
+    optionType = ::USEROPT_ATGM_AIM_ZOOM_SENS_HELICOPTER
+    type = CONTROL_TYPE.SLIDER
+    showFunc = @() ::have_per_vehicle_zoom_sens
   }
   {
     id = "ID_CHANGE_SHOT_FREQ_HELICOPTER"
@@ -568,6 +589,27 @@ return [
     id = "ID_SWITCH_COCKPIT_SIGHT_MODE_HELICOPTER"
     checkAssign = false
     showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
+  }
+  {
+    id = "ID_REQUEST_DETECT_ALLY_HELI"
+    checkGroup = ctrlGroups.HELICOPTER
+    checkAssign = false
+  }
+  {
+    id = "helicopter_wheelmenu_x"
+    type = CONTROL_TYPE.AXIS
+    axisDirection = AxisDirection.X
+    checkGroup = ctrlGroups.HELICOPTER
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
+  }
+  {
+    id = "helicopter_wheelmenu_y"
+    type = CONTROL_TYPE.AXIS
+    axisDirection = AxisDirection.Y
+    checkGroup = ctrlGroups.HELICOPTER
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
   }
 //-------------------------------------------------------
   {

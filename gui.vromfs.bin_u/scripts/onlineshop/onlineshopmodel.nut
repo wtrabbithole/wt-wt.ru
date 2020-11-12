@@ -1,9 +1,14 @@
-local { openIngameStore } = ::is_platform_ps4? require("scripts/onlineShop/ps4Shop.nut")
+local { getShopItem = @(id) null,
+        openIngameStore = @(...) false
+} = ::is_platform_ps4? require("scripts/onlineShop/ps4Shop.nut")
   : ::is_platform_xboxone? require("scripts/onlineShop/xboxShop.nut")
-    : { openIngameStore = @(...) false }
+  : null
 
 local callbackWhenAppWillActive = require("scripts/clientState/callbackWhenAppWillActive.nut")
 local { getBundleId } = require("scripts/onlineShop/onlineBundles.nut")
+local { openUrl } = require("scripts/onlineShop/url.nut")
+local { isMePS4PlayerOnPC } = require("scripts/clientState/platform.nut")
+
 /*
  * Search in price.blk:
  * Search parapm is a table of request fields
@@ -31,7 +36,7 @@ local { getBundleId } = require("scripts/onlineShop/onlineBundles.nut")
 }
 
 /*API methods*/
-OnlineShopModel.showGoods <- function showGoods(searchRequest, metric)
+OnlineShopModel.showGoods <- function showGoods(searchRequest, requestOrigin)
 {
   if (!::has_feature("OnlineShopPacks"))
     return ::showInfoMsgBox(::loc("msgbox/notAvailbleYet"))
@@ -52,15 +57,23 @@ OnlineShopModel.showGoods <- function showGoods(searchRequest, metric)
         if (bundleId != "")
         {
           if (::is_ps4_or_xbox)
-            openIngameStore({ curItemId = bundleId, statsdMetric = metric })
+          {
+            if (getShopItem(bundleId) != null)
+            {
+              openIngameStore({ curItemId = bundleId, openedFrom = requestOrigin })
+              return
+            }
+          }
           else
+          {
             doBrowserPurchase(goodsName)
-          return
+            return
+          }
         }
       }
 
       if (::is_ps4_or_xbox)
-        return openIngameStore({ statsdMetric = metric })
+        return openIngameStore({ openedFrom = requestOrigin })
 
       return ::gui_modal_onlineShop()
     }.bindenv(OnlineShopModel))
@@ -378,13 +391,23 @@ OnlineShopModel.getCustomPurchaseUrl <- function getCustomPurchaseUrl(chapter)
 
 OnlineShopModel.openShopUrl <- function openShopUrl(baseUrl, isAlreadyAuthenticated = false)
 {
-  ::open_url(baseUrl, false, isAlreadyAuthenticated, "shop_window")
+  openUrl(baseUrl, false, isAlreadyAuthenticated, "shop_window")
   startEntitlementsUpdater()
 }
 
 //return true when custom Url found
 OnlineShopModel.checkAndOpenCustomPurchaseUrl <- function checkAndOpenCustomPurchaseUrl(chapter, needMsgBox = false)
 {
+  if (isMePS4PlayerOnPC())
+  {
+    local urlPostfix = chapter
+    if (chapter != "premium" && chapter != "warpoints")
+      urlPostfix = "shop"
+
+    openShopUrl(::loc($"url/gjn/{urlPostfix}"))
+    return true
+  }
+
   local customUrl = getCustomPurchaseUrl(chapter)
   if (customUrl == "")
     return false
@@ -452,12 +475,12 @@ OnlineShopModel.startEntitlementsUpdater <- function startEntitlementsUpdater()
   )
 }
 
-OnlineShopModel.launchOnlineShop <- function launchOnlineShop(owner=null, chapter=null, afterCloseFunc=null, metric = "unknown")
+OnlineShopModel.launchOnlineShop <- function launchOnlineShop(owner=null, chapter=null, afterCloseFunc=null, launchedFrom = "unknown")
 {
   if (!::isInMenu())
     return afterCloseFunc && afterCloseFunc()
 
-  if (openIngameStore({chapter = chapter, afterCloseFunc = afterCloseFunc, statsdMetric = metric}))
+  if (openIngameStore({chapter = chapter, afterCloseFunc = afterCloseFunc, openedFrom = launchedFrom}))
     return
 
   ::gui_modal_onlineShop(owner, chapter, afterCloseFunc)

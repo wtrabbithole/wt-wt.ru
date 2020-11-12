@@ -1,6 +1,8 @@
 local tutorialModule = ::require("scripts/user/newbieTutorialDisplay.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 local { setPollBaseUrl, generatePollUrl } = require("scripts/web/webpoll.nut")
+local { disableSeenUserlogs } = require("scripts/userLog/userlogUtils.nut")
+local { setColoredDoubleTextToButton, placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 ::delayed_unlock_wnd <- []
 ::showUnlockWnd <- function showUnlockWnd(config)
@@ -36,9 +38,7 @@ local { setPollBaseUrl, generatePollUrl } = require("scripts/web/webpoll.nut")
 
 ::check_delayed_unlock_wnd <- function check_delayed_unlock_wnd(prevUnlockData = null)
 {
-  local disableLogId = ::getTblValue("disableLogId", prevUnlockData, null)
-  if (disableLogId != null && ::disable_user_log_entry_by_id(disableLogId))
-    ::save_online_job()
+  disableSeenUserlogs([prevUnlockData?.disableLogId])
 
   if (!::delayed_unlock_wnd.len())
     return
@@ -177,7 +177,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
         linkObj.link = linkText
         local linkBtnText = ::g_promo.getLinkBtnText(config)
         if (linkBtnText != "")
-          ::set_double_text_to_button(scene, "btn_link_to_site", linkBtnText)
+          setColoredDoubleTextToButton(scene, "btn_link_to_site", linkBtnText)
       }
 
       local imageObj = scene.findObject("award_image_button")
@@ -203,7 +203,7 @@ class ::gui_handlers.ShowUnlockHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       local locText = ::loc("shop/btnOrderUnit", { unit = ::getUnitName(unit.name) })
       local unitCost = canBuyOnline? ::Cost() : ::getUnitCost(unit)
-      ::placePriceTextToButton(scene, "btn_buy_unit", locText, unitCost)
+      placePriceTextToButton(scene, "btn_buy_unit", locText, unitCost, 0, ::getUnitRealCost(unit))
     }
 
     local actionText = ::g_language.getLocTextFromConfig(config, "actionText", "")

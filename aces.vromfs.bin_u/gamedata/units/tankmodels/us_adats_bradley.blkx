@@ -120,9 +120,6 @@
     "rearmTimeOnField": 120.0
   },
   {
-    "canReloadNonGuns": true
-  },
-  {
     "smokeScreenActivateTime": 5.0
   },
   {
@@ -195,7 +192,7 @@
           "armorThickness": 12.7
         },
         "turret_06_bottom_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 10.0
         },
         "turret_05_front_dm": {
           "armorThickness": 25.4,
@@ -257,13 +254,15 @@
           "armorThickness": 25.1
         },
         "turret_05_top_dm": {
-          "armorThickness": 12.7
+          "armorThickness": 12.7,
+          "createSecondaryShatters": false
         },
         "turret_03_front_dm": {
           "armorThickness": 25.4
         }
       },
-      "armor_steel": {
+      "ex_armor_steel": {
+        "createSecondaryShatters": false,
         "ex_armor_r_01_dm": {
           "armorThickness": 6.0,
           "hidableInViewer": true
@@ -296,28 +295,30 @@
           "armorThickness": 6.0,
           "hidableInViewer": true
         },
+        "turret_08_back_dm": {
+          "armorThickness": 6.35,
+          "hidableInViewer": true
+        },
+        "superstructure_back_dm": {
+          "armorThickness": 6.35,
+          "hidableInViewer": true
+        },
+        "turret_02_bottom_dm": {
+          "armorThickness": 6.35
+        }
+      },
+      "armor_steel": {
         "turret_01_bottom_dm": {
           "armorThickness": 5.0
         },
         "turret_01_top_dm": {
           "armorThickness": 5.0
         },
-        "turret_02_bottom_dm": {
-          "armorThickness": 6.35
-        },
         "turret_bottom_dm": {
           "armorThickness": 6.35
         },
-        "turret_08_back_dm": {
-          "armorThickness": 6.35,
-          "hidableInViewer": true
-        },
         "turret_04_back_dm": {
           "armorThickness": 25.4
-        },
-        "superstructure_back_dm": {
-          "armorThickness": 6.35,
-          "hidableInViewer": true
         },
         "turret_06_side_dm": {
           "armorThickness": 6.35
@@ -366,10 +367,13 @@
         "armorThickness": 4.0,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
-        "ex_decor_l_09_dm": [],
-        "ex_decor_r_04_dm": [],
         "ex_decor_02_dm": [],
-        "ex_decor_03_dm": []
+        "ex_decor_03_dm": [],
+        "ex_decor_r_04_dm": [],
+        "ex_decor_l_04_dm": [],
+        "ex_decor_r_05_dm": [],
+        "ex_decor_l_05_dm": [],
+        "ex_decor_l_09_dm": []
       },
       "body_shields": {
         "hp": 600.0,
@@ -708,6 +712,11 @@
         "ammo_body_l_08_dm": [],
         "ammo_body_l_09_dm": [],
         "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_l_13_dm": [],
+        "ammo_body_l_14_dm": [],
+        "ammo_body_l_15_dm": [],
         "ammo_body_r_01_dm": [],
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
@@ -722,7 +731,11 @@
         "ammo_body_r_12_dm": [],
         "ammo_body_r_13_dm": [],
         "ammo_body_r_14_dm": [],
-        "ammo_body_r_15_dm": []
+        "ammo_body_r_15_dm": [],
+        "ammo_body_r_16_dm": [],
+        "ammo_body_r_17_dm": [],
+        "ammo_body_r_18_dm": [],
+        "ammo_body_r_19_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -730,6 +743,7 @@
         "armorThickness": 2.0,
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -1665,7 +1679,7 @@
     "MetaParts": {
       "body": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "superstructure_front_dm"
@@ -1769,7 +1783,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1778,7 +1792,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1787,7 +1801,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1795,13 +1809,13 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ],
       "mount": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "turret_bottom_dm"
@@ -1857,7 +1871,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1866,7 +1880,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1875,7 +1889,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1883,7 +1897,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -1905,7 +1919,7 @@
           "sleeveMesh": "auto_cannon_cartridge_case",
           "openHatchTime": 0.0,
           "sleevesLifeTime": 5.0,
-          "sleeveImpulse": [1.0,-2.0,-1.0],
+          "sleeveImpulse": [0.0,0.0,-2.0],
           "linkSleeveToGun": true,
           "recoilOffset": 0.01,
           "maxAdditionalPitch": 0.0,
@@ -2004,9 +2018,14 @@
         }
       },
       {
-        "animatedBones": {
-          "node": "antenna_target_location"
-        }
+        "animatedBones": [
+          {
+            "node": "antenna_target_location"
+          },
+          {
+            "node": "antenna_target_location_mount"
+          }
+        ]
       }
     ]
   },
@@ -2041,8 +2060,8 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 23000.0,
-        "Fuel": 662.0,
+        "Empty": 24400.0,
+        "Fuel": 600.0,
         "TakeOff": 25000.0,
         "momentOfInertia": [2.0,2.0,5.0],
         "CenterOfGravity": [0.0,0.5,0.0],
@@ -2052,7 +2071,8 @@
       },
       "tracks": {
         "animationMultiplier": -0.6,
-        "height": 0.055
+        "height": 0.055,
+        "fricFrontal": [1.2,1.0]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2064,17 +2084,29 @@
         "minRPM": 700.0
       },
       "mechanics": {
-        "maxBrakeForce": 200000.0,
+        "maxBrakeForce": 100000.0,
         "driveGearRadius": 0.23,
         "mainGearRatio": 1.0,
         "sideGearRatio": 4.071,
-        "neutralGearRatio": 5.0,
+        "neutralGearRatio": 10.0,
         "gearRatios": [
           {
             "ratio": -4.35
           },
           {
+            "ratio": -8.0
+          },
+          {
             "ratio": 0.0
+          },
+          {
+            "ratio": 10.0
+          },
+          {
+            "ratio": 8.0
+          },
+          {
+            "ratio": 6.0
           },
           {
             "ratio": 3.81
@@ -2094,7 +2126,7 @@
         "suspensionOffsets": [-0.12,-0.11,0.05],
         "defaultGearRadius": 0.3,
         "frontBackGearRadius": 0.2,
-        "defaultDampeningForce": [20000.0,20000.0],
+        "defaultDampeningForce": [200000.0,200000.0],
         "dampeningRelaxationRatio": 0.15,
         "dampeningCompressionRatio": 0.08
       }
@@ -2609,6 +2641,15 @@
             }
           }
         ]
+      },
+      {
+        "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
       },
       {
         "event": {

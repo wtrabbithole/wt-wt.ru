@@ -7,6 +7,7 @@ local stdMath = require("std/math.nut")
 local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
 local { getFeaturePack } = require("scripts/user/features.nut")
 local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 ::event_ids_for_main_game_mode_list <- [
   "tank_event_in_random_battles_arcade"
@@ -261,7 +262,7 @@ class Events
    */
   function countAvailableUnitTypes(teamDataByTeamName)
   {
-    local unitTypes = 0
+    local resMask = 0
     foreach(team in getSidesList())
     {
       local teamData = getTeamData(teamDataByTeamName, team)
@@ -291,11 +292,11 @@ class Events
           teamUnitTypes = teamUnitTypes & ~(1 << unitType)
       }
 
-      unitTypes = unitTypes | teamUnitTypes
-      if (unitTypes == ::allUnitTypesMask)
+      resMask = resMask | teamUnitTypes
+      if (resMask == ::allUnitTypesMask)
         break
     }
-    return unitTypes
+    return resMask
   }
 
   function getUnitTypesByTeamDataAndName(teamData, teamName)
@@ -949,7 +950,7 @@ class Events
       return availableTeams
 
     local mgm = getMGameMode(event, room)
-    foreach(team in getSidesList(isCustomGameMode(mgm) ? null : mgm))
+    foreach(team in getSidesList(isLobbyGameMode(mgm) ? null : mgm))
     {
       local teamData = getTeamDataWithRoom(event, team, room)
       if (::isInArray(playersCurCountry, getCountries(teamData)))
@@ -1859,13 +1860,13 @@ class Events
       allowId = "allowed_only/" + getUnitTypeText(stdMath.number_of_set_bits(allowedUnitTypes - 1))
     if (stdMath.number_of_set_bits(allowedUnitTypes)==2)
     {
-      local unitTypes = ::g_unit_type.getArrayBybitMask(allowedUnitTypes)
-      if (unitTypes && unitTypes.len() == 2)
+      local masksArray = unitTypes.getArrayBybitMask(allowedUnitTypes)
+      if (masksArray && masksArray.len() == 2)
       {
         local allowUnitId = "events/allowed_units"
         allowText = ::loc(allowUnitId, {
-          unitType = ::loc(allowUnitId + "/" + unitTypes[0].name),
-          unitType2 = ::loc(allowUnitId + "/" + unitTypes[1].name) })
+          unitType = ::loc(allowUnitId + "/" + masksArray[0].name),
+          unitType2 = ::loc(allowUnitId + "/" + masksArray[1].name) })
         allowText = ::g_string.toUpper(allowText, 1)
       }
     }
@@ -2055,6 +2056,7 @@ class Events
     local data = {
       activeJoinButton = false
       reasonText = null
+      msgboxReasonText = null
       checkStatus = false
       actionFunc = null
       event = event // Used to backtrack event in actionFunc.
@@ -2095,6 +2097,11 @@ class Events
         ::scene_msg_box("cant_join", null, messageText,
             [["ok", function() {}]], "ok")
       }
+    }
+    else if (!isEventPlatformOnlyAllowed(mGameMode) && !crossplayModule.isCrossPlayEnabled())
+    {
+      data.reasonText = ::loc("xbox/crossPlayRequired")
+      data.msgboxReasonText = ::loc("xbox/actionNotAvailableCrossNetworkPlay")
     }
     else if (!checkSpecialRequirements(event))
     {
@@ -2167,10 +2174,6 @@ class Events
     {
       data.reasonText = ::loc("events/notEnoughMoney")
     }
-    else if (!isEventPlatformOnlyAllowed(mGameMode) && !crossplayModule.isCrossPlayEnabled())
-    {
-      data.reasonText = ::loc("xbox/crossPlayRequired")
-    }
     else
     {
       data.reasonText = ""
@@ -2180,9 +2183,8 @@ class Events
 
     if (data.actionFunc == null && !data.checkStatus)
     {
-      data.actionFunc = function (reasonData) {
-        ::scene_msg_box("cant_join", null, reasonData.reasonText,
-            [["ok", function() {}]], "ok")
+      data.actionFunc = function(reasonData) {
+        ::showInfoMsgBox(reasonData.msgboxReasonText || reasonData.reasonText, "cant_join")
       }
     }
 
@@ -2524,8 +2526,8 @@ class Events
       local teamData = ::getTblValue(teamName, teamDataByTeamName, null)
       if (!teamData || !isTeamDataPlayable(teamData))
         continue
-      local unitTypes = getUnitTypesByTeamDataAndName(teamData, teamName)
-      if (stdMath.number_of_set_bits(unitTypes) < ::ES_UNIT_TYPE_TOTAL_RELEASED)
+      local types = getUnitTypesByTeamDataAndName(teamData, teamName)
+      if (stdMath.number_of_set_bits(types) < ::ES_UNIT_TYPE_TOTAL_RELEASED)
         return false
       if (getAlowedCrafts(teamData).len() > 0)
         return false
@@ -2743,9 +2745,16 @@ class Events
     recalcAllEventsDisplayType()
   }
 
+  // game mode allows to join either from queue or from rooms list
+  function isLobbyGameMode(mGameMode)
+  {
+    return mGameMode?.withLobby ?? false
+  }
+
+  // it is lobby game mode but with sessions that can be created by players
   function isCustomGameMode(mGameMode)
   {
-    return ::getTblValue("forCustomLobby", mGameMode, false)
+    return mGameMode?.forCustomLobby ?? false
   }
 
   function getCustomGameMode(event)

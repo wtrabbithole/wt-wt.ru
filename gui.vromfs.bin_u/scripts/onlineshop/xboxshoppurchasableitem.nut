@@ -1,3 +1,6 @@
+local { calcPercent } = require("std/math.nut")
+local statsd = require("statsd")
+
 local XboxShopPurchasableItem = class
 {
   defaultIconStyle = "default_chest_debug"
@@ -65,6 +68,7 @@ local XboxShopPurchasableItem = class
   getPriceText = @() ::colorize(haveDiscount()? "goodTextColor" : "" , price == 0? ::loc("shop/free") : (price + " " + currencyCode))
   updateIsBoughtStatus = @() isBought = isMultiConsumable? false : ::xbox_is_item_bought(id)
   haveDiscount = @() !isBought && listPrice > 0 && price != listPrice
+  getDiscountPercent = @() calcPercent(1 - (price.tofloat() / listPrice))
 
   getDescription = function() {
     local strPrice = getPriceText()
@@ -100,7 +104,7 @@ local XboxShopPurchasableItem = class
   getSeenId = @() id.tostring()
   canBeUnseen = @() isBought
   showDetails = function(metricPlaceCall = "ingame_store") {
-    ::statsd_counter($"{metricPlaceCall}.open_product")
+    statsd.send_counter($"sq.{metricPlaceCall}.open_product", 1)
     ::add_big_query_record("open_product",
       ::save_to_json({
         itemId = id

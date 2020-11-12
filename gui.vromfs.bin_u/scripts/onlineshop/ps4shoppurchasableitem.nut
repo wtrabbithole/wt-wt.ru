@@ -1,6 +1,10 @@
+local { calcPercent } = require("std/math.nut")
+
 local psnStore = require("ps4_api.store")
+local statsd = require("statsd")
 
 local IMAGE_TYPE_INDEX = 1 //240x240
+local BQ_DEFAULT_ACTION_ERROR = -1
 
 enum PURCHASE_STATUS {
   PURCHASED = "RED_BAG" // - Already purchased and cannot be purchased again
@@ -17,12 +21,17 @@ local function handleNewPurchase(itemId) {
 
 local getActionText = @(action) action == psnStore.Action.PURCHASED ? "purchased"
   : action == psnStore.Action.CANCELED ? "canceled"
+  : action == BQ_DEFAULT_ACTION_ERROR ? "unknown"
   : "none"
 
 local function sendBqRecord(metric, itemId, result = null) {
   local sendStat = {}
-  foreach (k, v in result ?? {})
-    sendStat[k] <- v
+
+  if (result != null)
+  {
+    sendStat["isPlusAuthorized"] <- result?.isPlusAuthorized ?? null
+    sendStat["action"] <- result?.action ?? BQ_DEFAULT_ACTION_ERROR
+  }
 
   if ("action" in sendStat)
   {
@@ -31,7 +40,7 @@ local function sendBqRecord(metric, itemId, result = null) {
   }
 
   local path = ".".join(metric)
-  ::statsd_counter(path)
+  statsd.send_counter($"sq.{path}", 1)
   ::add_big_query_record(path,
     ::save_to_json(sendStat.__merge({
       itemId = itemId
@@ -113,6 +122,7 @@ local Ps4ShopPurchasableItem = class
 
   haveDiscount = @() !isBought && price != listPrice
   havePsPlusDiscount = @() ::ps4_has_psplus() && ("display_plus_upsell_price" in skuInfo || skuInfo?.is_plus_price) //use in markup
+  getDiscountPercent = @() calcPercent(1 - (price.tofloat() / listPrice))
 
   getPriceText = @() ::colorize(!haveDiscount() ? ""
       : havePsPlusDiscount() ? "psplusTextColor"
@@ -169,11 +179,11 @@ local Ps4ShopPurchasableItem = class
   canBeUnseen = @() isBought
   showDetails = function(metricPlaceCall = "ingame_store") {
     local itemId = id
-    sendBqRecord([metricPlaceCall, "open_checkout"], itemId)
+    sendBqRecord([metricPlaceCall, "checkout.open"], itemId)
     psnStore.open_checkout(
       [itemId],
       function(result) {
-        sendBqRecord([metricPlaceCall, "close_checkout"], itemId, result)
+        sendBqRecord([metricPlaceCall, "checkout.close"], itemId, result)
         if (result.action == psnStore.Action.PURCHASED)
           handleNewPurchase(itemId)
       }
@@ -182,11 +192,11 @@ local Ps4ShopPurchasableItem = class
 
   showDescription = function(metricPlaceCall = "ingame_store") {
     local itemId = id
-    sendBqRecord([metricPlaceCall, "open_product"], itemId)
+    sendBqRecord([metricPlaceCall, "description.open"], itemId)
     psnStore.open_product(
       itemId,
       function(result) {
-        sendBqRecord([metricPlaceCall, "close_product"], itemId, result)
+        sendBqRecord([metricPlaceCall, "description.close"], itemId, result)
         if (result.action == psnStore.Action.PURCHASED)
           handleNewPurchase(itemId)
       }

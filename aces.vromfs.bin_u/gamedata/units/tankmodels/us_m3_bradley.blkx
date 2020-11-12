@@ -111,7 +111,7 @@
     "type": "typeLightTank"
   },
   {
-    "cruiseVelocity": 10.0
+    "cruiseVelocity": 5.0
   },
   {
     "rearmSmokeTimeOnField": 60.0
@@ -309,10 +309,14 @@
         "armorThickness": 4.0,
         "stopChanceOnDeadPart": 0.0,
         "createSecondaryShatters": false,
-        "ex_decor_l_09_dm": [],
-        "ex_decor_r_04_dm": [],
+        "ex_decor_r_02_dm": [],
         "ex_decor_02_dm": [],
-        "ex_decor_03_dm": []
+        "ex_decor_03_dm": [],
+        "ex_decor_r_04_dm": [],
+        "ex_decor_l_07_dm": [],
+        "ex_decor_l_09_dm": [],
+        "ex_decor_l_13_dm": [],
+        "ex_decor_r_13_dm": []
       },
       "body_shields": {
         "hp": 600.0,
@@ -655,6 +659,11 @@
         "ammo_body_l_08_dm": [],
         "ammo_body_l_09_dm": [],
         "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_l_13_dm": [],
+        "ammo_body_l_14_dm": [],
+        "ammo_body_l_15_dm": [],
         "ammo_body_r_01_dm": [],
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
@@ -669,7 +678,11 @@
         "ammo_body_r_12_dm": [],
         "ammo_body_r_13_dm": [],
         "ammo_body_r_14_dm": [],
-        "ammo_body_r_15_dm": []
+        "ammo_body_r_15_dm": [],
+        "ammo_body_r_16_dm": [],
+        "ammo_body_r_17_dm": [],
+        "ammo_body_r_18_dm": [],
+        "ammo_body_r_19_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -677,6 +690,7 @@
         "armorThickness": 2.0,
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -1682,7 +1696,7 @@
     "MetaParts": {
       "body": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "superstructure_front_dm"
@@ -1780,7 +1794,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1789,7 +1803,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1798,7 +1812,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1806,87 +1820,13 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
-          }
-        }
-      ],
-      "suspension": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "wheel_l_back_dm"
-        },
-        {
-          "part": "wheel_l_01_dm"
-        },
-        {
-          "part": "wheel_l_02_dm"
-        },
-        {
-          "part": "wheel_l_03_dm"
-        },
-        {
-          "part": "wheel_l_04_dm"
-        },
-        {
-          "part": "wheel_l_05_dm"
-        },
-        {
-          "part": "wheel_l_drive_dm"
-        },
-        {
-          "part": "wheel_r_back_dm"
-        },
-        {
-          "part": "wheel_r_01_dm"
-        },
-        {
-          "part": "wheel_r_02_dm"
-        },
-        {
-          "part": "wheel_r_03_dm"
-        },
-        {
-          "part": "wheel_r_04_dm"
-        },
-        {
-          "part": "wheel_r_05_dm"
-        },
-        {
-          "part": "wheel_r_drive_dm"
-        },
-        {
-          "part": "track_r_dm"
-        },
-        {
-          "part": "track_l_dm"
-        },
-        {
-          "part": "wheel_support_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 400.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 400.0,
-            "kill": true,
             "killEffect": "hullBreak"
           }
         }
       ],
       "mount": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "turret_bottom_dm"
@@ -1912,7 +1852,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1921,7 +1861,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1930,7 +1870,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1938,7 +1878,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -2030,6 +1970,11 @@
           "limits": {
             "yaw": [-180.0,180.0],
             "pitch": [-9.0,59.0]
+          },
+          "limitsTable": {
+            "lim1": [-180.0,-150.0,-1.0,59.0],
+            "lim2": [-150.0,150.0,-9.0,59.0],
+            "lim3": [150.0,180.0,-1.0,59.0]
           },
           "gunStabilizer": {
             "hasVerticalGunFreeMode": false,
@@ -2162,7 +2107,7 @@
           "stopForFire": true,
           "readyToFireVar": "m3_bradley_action",
           "readyToFireTime": 5.0,
-          "maxSpeedForFire": 12.0,
+          "maxSpeedForFire": 5.0,
           "lagStopForFireTime": 2.0,
           "barrelDP": "gun_barrel_02_dm",
           "brokenBarrelAllowShoot": false,
@@ -2198,6 +2143,11 @@
           "limits": {
             "yaw": [0.0,0.0],
             "pitch": [-19.0,29.0]
+          },
+          "limitsTableWithParent": {
+            "lim1": [-180.0,-140.0,-13.0,29.0],
+            "lim2": [-140.0,140.0,-19.0,29.0],
+            "lim3": [140.0,180.0,-13.0,29.0]
           }
         }
       }
@@ -2214,9 +2164,9 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 19000.0,
-        "Fuel": 662.0,
-        "TakeOff": 22654.0,
+        "Empty": 21600.0,
+        "Fuel": 685.0,
+        "TakeOff": 22285.0,
         "momentOfInertia": [2.0,2.0,5.0],
         "CenterOfGravity": [0.0,0.5,0.0],
         "CenterOfGravityClampY": [0.4,0.6],
@@ -2225,7 +2175,8 @@
       },
       "tracks": {
         "animationMultiplier": -0.6,
-        "height": 0.055
+        "height": 0.055,
+        "fricFrontal": [1.2,1.0]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2237,11 +2188,11 @@
         "minRPM": 700.0
       },
       "mechanics": {
-        "maxBrakeForce": 200000.0,
+        "maxBrakeForce": 100000.0,
         "driveGearRadius": 0.23,
         "mainGearRatio": 1.0,
         "sideGearRatio": 4.071,
-        "neutralGearRatio": 8.0,
+        "neutralGearRatio": 10.0,
         "gearRatios": [
           {
             "ratio": -4.35
@@ -2279,7 +2230,7 @@
         "suspensionOffsets": [-0.12,-0.11,0.05],
         "defaultGearRadius": 0.3,
         "frontBackGearRadius": 0.2,
-        "defaultDampeningForce": [20000.0,20000.0],
+        "defaultDampeningForce": [200000.0,200000.0],
         "dampeningRelaxationRatio": 0.15,
         "dampeningCompressionRatio": 0.08
       }
@@ -2797,6 +2748,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2926,6 +2886,11 @@
                 "limits": {
                   "yaw": [-180.0,180.0],
                   "pitch": [-9.0,59.0]
+                },
+                "limitsTable": {
+                  "lim1": [-180.0,-150.0,-1.0,59.0],
+                  "lim2": [-150.0,150.0,-9.0,59.0],
+                  "lim3": [150.0,180.0,-1.0,59.0]
                 },
                 "gunStabilizer": {
                   "hasVerticalGunFreeMode": false,
@@ -3058,7 +3023,7 @@
                 "stopForFire": true,
                 "readyToFireVar": "m3_bradley_action",
                 "readyToFireTime": 5.0,
-                "maxSpeedForFire": 12.0,
+                "maxSpeedForFire": 5.0,
                 "lagStopForFireTime": 2.0,
                 "barrelDP": "gun_barrel_02_dm",
                 "brokenBarrelAllowShoot": false,
@@ -3094,6 +3059,11 @@
                 "limits": {
                   "yaw": [0.0,0.0],
                   "pitch": [-19.0,29.0]
+                },
+                "limitsTableWithParent": {
+                  "lim1": [-180.0,-140.0,-13.0,29.0],
+                  "lim2": [-140.0,140.0,-19.0,29.0],
+                  "lim3": [140.0,180.0,-13.0,29.0]
                 }
               }
             },

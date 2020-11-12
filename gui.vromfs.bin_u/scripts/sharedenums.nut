@@ -54,14 +54,9 @@ global enum AxisInvertOption
   INVERT_SHIP_Y,
   INVERT_HELICOPTER_Y,
   INVERT_HELICOPTER_GUNNER_Y,
-  //
-
-
+  INVERT_EXT_TANK_Y,
   INVERT_SPECTATOR_Y,
   INVERT_SUBMARINE_Y,
-  //
-
-
 };
 
 global enum DargWidgets
@@ -69,7 +64,8 @@ global enum DargWidgets
    NONE = 0
   ,HUD
   ,SHIP_OBSTACLE_RF
-  ,FOOTBALL
+  ,SCOREBOARD
+  ,CHANGE_LOG
 };
 
 global enum HelicopterParams
@@ -128,5 +124,11 @@ global enum RadarViewMode
   B_SCOPE_ROUND = 0,
   B_SCOPE_SQUARE = 1,
   MODE_COUNT = 2
+};
+
+global enum FlaresMode
+{
+  PERIODIC_FLARES    = 1,
+  MLWS_SLAVED_FLARES = 2
 };
 

@@ -1,4 +1,8 @@
 local unitActions = require("scripts/unit/unitActions.nut")
+local { getModItemName } = require("scripts/weaponry/weaponryVisual.nut")
+local { getItemStatusTbl,
+        getItemUnlockCost,
+        getItemCost } = require("scripts/weaponry/itemInfo.nut")
 
 class WeaponsPurchase
 {
@@ -78,9 +82,9 @@ class WeaponsPurchase
       return getAllModificationsPrice()
 
     if (::can_buy_weapons_item(unit, modItem))
-      return ::weaponVisual.getItemCost(unit, modItem)
+      return getItemCost(unit, modItem)
 
-    return ::weaponVisual.getItemUnlockCost(unit, modItem)
+    return getItemUnlockCost(unit, modItem)
   }
 
   function checkMultiPurchase()
@@ -88,7 +92,7 @@ class WeaponsPurchase
     local canBuyAmount = 1
     if (!::u.isEmpty(modItem) && modType != weaponsItem.primaryWeapon)
     {
-      local statusTbl = ::weaponVisual.getItemStatusTbl(unit, modItem)
+      local statusTbl = getItemStatusTbl(unit, modItem)
       if (!statusTbl.canBuyMore)
       {
         if (statusTbl.showPrice)
@@ -398,7 +402,7 @@ class WeaponsPurchase
 
   function getItemTextWithAmount(amount)
   {
-    local text = ::weaponVisual.getItemName(unit, modItem, false)
+    local text = getModItemName(unit, modItem, false)
     if (amount > 1)
       text += " " + ::colorize("activeTextColor", ::format(::loc("weapons/counter/right/short"), amount))
 

@@ -1,3 +1,4 @@
+local { clearBorderSymbols } = require("std/string.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
@@ -514,7 +515,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!::check_obj(editboxObj))
       return
 
-    local txt = ::clearBorderSymbols(editboxObj.getValue())
+    local txt = clearBorderSymbols(editboxObj.getValue())
     txt = platformModule.cutPlayerNamePrefix(platformModule.cutPlayerNamePostfix(txt))
     if (txt == "")
       return
@@ -898,7 +899,8 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onPlayerRClick(obj)
   {
-    if (!obj || !checkScene()) return
+    if (!checkScene() || !::check_obj(obj))
+      return
 
     local id = obj.id
     local prefix = "player_" + curGroup + "_"
@@ -1129,7 +1131,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
     }
 
-    value = ::clearBorderSymbols(value)
+    value = clearBorderSymbols(value)
 
     local searchGroupActiveTextObject = scene.findObject("search_group_active_text")
     local searchGroupText = ::loc($"contacts/{searchGroup}")

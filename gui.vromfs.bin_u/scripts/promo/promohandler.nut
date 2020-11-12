@@ -1,4 +1,5 @@
 local { clearOldVotedPolls, setPollBaseUrl, isPollVoted, generatePollUrl } = require("scripts/web/webpoll.nut")
+local { getTextWithCrossplayIcon, needShowCrossPlayInfo } = require("scripts/social/crossplay.nut")
 
 ::create_promo_blocks <- function create_promo_blocks(handler)
 {
@@ -117,10 +118,12 @@ class Promo
       local block = sourceDataBlock.getBlock(i)
 
       local blockView = ::g_promo.generateBlockView(block)
+      local blockId = blockView.id
       if (block?.pollId != null)
       {
-        setPollBaseUrl(block.pollId, block?.link)
-        pollIdToObjectId[block.pollId] <- blockView.id
+        if (::g_promo.getVisibilityById(blockId)) //add pollId to request only for visible promo
+          setPollBaseUrl(block.pollId, block?.link)
+        pollIdToObjectId[block.pollId] <- blockId
       }
 
       if (block?.bottom != null)
@@ -128,8 +131,8 @@ class Promo
       else
         upperPromoView.promoButtons.append(blockView)
 
-      if (blockView?.notifyNew && !::g_promo.isWidgetSeenById(blockView.id))
-        widgetsTable[blockView.id] <- {}
+      if (blockView?.notifyNew && !::g_promo.isWidgetSeenById(blockId))
+        widgetsTable[blockId] <- {}
 
       local playlistArray = getPlaylistArray(block)
       if (playlistArray.len() > 0)
@@ -139,7 +142,7 @@ class Promo
       }
 
       if (blockView.needUpdateByTimer)
-        needUpdateByTimerArr.append(blockView.id)
+        needUpdateByTimerArr.append(blockId)
     }
     return {
       upper = ::handyman.renderCached("gui/promo/promoBlocks", upperPromoView)
@@ -405,7 +408,8 @@ class Promo
         text = operationText
     }
 
-    wwButton.findObject("world_war_button_text").setValue(::loc("icon/worldWar") + " " + text)
+    text = getTextWithCrossplayIcon(needShowCrossPlayInfo(), text)
+    wwButton.findObject("world_war_button_text").setValue("{0} {1}".subst(::loc("icon/worldWar"), text))
 
     if (!::g_promo.isCollapsed(id))
       return
@@ -524,6 +528,7 @@ class Promo
   function onEventWWLoadOperation(p) { updateWorldWarButton() }
   function onEventWWStopWorldWar(p) { updateWorldWarButton() }
   function onEventWWGlobalStatusChanged(p) { updateWorldWarButton() }
+  function onEventCrossPlayOptionChanged(p) { updateWorldWarButton() }
   function onEventWebPollAuthResult(p) { updateWebPollButton(p) }
   function onEventWebPollTokenInvalidated(p) {
     if (p?.pollId == null)

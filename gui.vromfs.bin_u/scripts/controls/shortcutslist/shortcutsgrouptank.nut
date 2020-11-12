@@ -1,10 +1,12 @@
 local controlsOperations = require("scripts/controls/controlsOperations.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { isWheelmenuAxisConfigurable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
 
 return [
   {
     id = "ID_TANK_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
-    unitType = ::g_unit_type.TANK
+    unitType = unitTypes.TANK
     showFunc = @() ::has_feature("Tanks")
     needShowInHelp = true
   }
@@ -12,7 +14,7 @@ return [
   {
     id = "ID_TANK_OPERATIONS_HEADER"
     type = CONTROL_TYPE.SECTION
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_TANK_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
@@ -21,7 +23,7 @@ return [
       ctrlGroups.TANK,
       controlsOperations.Flags.WITHOUT_MODIFIERS
     )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_TANK_SWAP_GAMEPAD_STICKS"
@@ -29,7 +31,7 @@ return [
     onClick = @() controlsOperations.swapGamepadSticks(
       ctrlGroups.TANK
     )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
 //-------------------------------------------------------
   {
@@ -269,6 +271,13 @@ return [
     checkAssign = false
   }
   {
+    id = "gm_target_camera"
+    type = CONTROL_TYPE.AXIS
+    checkAssign = false
+    condition = @() ::is_ps4_or_xbox
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+  }
+  {
     id = "gm_zoom"
     type = CONTROL_TYPE.AXIS
     checkGroup = ctrlGroups.TANK
@@ -499,5 +508,21 @@ return [
     isAbsOnlyWhenRealAxis = true
     checkGroup = ctrlGroups.TANK
     checkAssign = false
+  }
+  {
+    id = "gm_wheelmenu_x"
+    type = CONTROL_TYPE.AXIS
+    axisDirection = AxisDirection.X
+    checkGroup = ctrlGroups.TANK
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
+  }
+  {
+    id = "gm_wheelmenu_y"
+    type = CONTROL_TYPE.AXIS
+    axisDirection = AxisDirection.Y
+    checkGroup = ctrlGroups.TANK
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
   }
 ]

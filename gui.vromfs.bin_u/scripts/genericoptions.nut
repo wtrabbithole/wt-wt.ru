@@ -1,8 +1,11 @@
+local { clearBorderSymbols } = require("std/string.nut")
 local fxOptions = require("scripts/options/fxOptions.nut")
 local { setUnitLastBullets,
         isBulletGroupActive } = require("scripts/weaponry/bulletsInfo.nut")
 local { getLastWeapon,
         setLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local crossplayModule = require("scripts/social/crossplay.nut")
 
 ::generic_options <- null
 
@@ -72,6 +75,9 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     checkBombActivationTimeRow()
     checkVehicleModificationRow()
     checkDepthChargeActivationTimeRow()
+    checkFlaresPeriodsRow()
+    checkFlaresSeriesRow()
+    checkFlaresSeriesPeriodsRow()
     checkMineDepthRow()
     onLayoutChange(null)
     checkMissionCountries()
@@ -313,7 +319,9 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     checkRocketDisctanceFuseRow()
     checkBombActivationTimeRow()
     checkDepthChargeActivationTimeRow()
-    checkMineDepthRow()
+    checkFlaresPeriodsRow()
+    checkFlaresSeriesRow()
+    checkFlaresSeriesPeriodsRow()
   }
 
   function checkBulletsRows()
@@ -324,7 +332,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (!air)
       return
 
-    for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++)
+    for (local groupIndex = 0; groupIndex < air.unitType.bulletSetsQuantity; groupIndex++)
     {
       local show = isBulletGroupActive(air, groupIndex)
       if (!showOptionRow(get_option(::USEROPT_BULLETS0 + groupIndex), show))
@@ -352,10 +360,40 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       !!unit && unit.getAvailableSecondaryWeapons().hasBombs)
   }
 
-  function setLastBulletsCache()
+  function checkFlaresPeriodsRow()
+  {
+    local option = ::get_option(::USEROPT_FLARES_PERIODS)
+    if (!option)
+      return
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option,
+      !!unit && unit.getAvailableSecondaryWeapons().hasFlares)
+  }
+
+  function checkFlaresSeriesRow()
+  {
+    local option = ::get_option(::USEROPT_FLARES_SERIES)
+    if (!option)
+      return
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option,
+      !!unit && unit.getAvailableSecondaryWeapons().hasFlares)
+  }
+
+  function checkFlaresSeriesPeriodsRow()
+  {
+    local option = ::get_option(::USEROPT_FLARES_SERIES_PERIODS)
+    if (!option)
+      return
+    local unit = ::getAircraftByName(::aircraft_for_weapons)
+    showOptionRow(option,
+     !!unit && unit.getAvailableSecondaryWeapons().hasFlares)
+  }
+
+  function setLastBulletsCache(unit)
   {
     lastBulletsCache = []
-    for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++) {
+    for (local groupIndex = 0; groupIndex < unit.unitType.bulletSetsQuantity; groupIndex++) {
       local bulletOptId = ::USEROPT_BULLETS0 + groupIndex
       local bulletOpt = ::get_option(bulletOptId)
       local bulletValue = bulletOpt?.value
@@ -396,12 +434,12 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
     if (!obj.getValue()) {//default mod option selected
       lastWeaponCache = getLastWeapon(unit.name)
-      setLastBulletsCache()
+      setLastBulletsCache(unit)
       local defaultWeap = unit.getDefaultWeapon()
       setLastWeapon(unit.name, defaultWeap)
 
       local defaultBulletIdx = 0
-      for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++) {
+      for (local groupIndex = 0; groupIndex < unit.unitType.bulletSetsQuantity; groupIndex++) {
         local bulletOptId = ::USEROPT_BULLETS0 + groupIndex
         local bulletOpt = ::get_option(bulletOptId)
         local bulletValue = bulletOpt?.value
@@ -433,7 +471,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
       if (referenceWeap) {
         local defaultBulletIdx = 0
-        for (local groupIndex = 0; groupIndex < ::BULLETS_SETS_QUANTITY; groupIndex++) {
+        for (local groupIndex = 0; groupIndex < unit.unitType.bulletSetsQuantity; groupIndex++) {
           local bulletValue = ::get_option(::USEROPT_BULLETS0 + groupIndex)?.value ?? defaultBulletIdx
           if (bulletValue != defaultBulletIdx) {
             referenceWeap = false
@@ -486,6 +524,15 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     checkVehicleModificationRow()
   }
 
+  function onEventQueueChangeState(p) {
+    local opt = findOptionInContainers(::USEROPT_PS4_CROSSPLAY)
+    if (opt == null)
+      return
+
+    enableOptionRow(opt, !::checkIsInQueue())
+    delayedRestoreFocus()
+  }
+
   function onTripleAerobaticsSmokeSelected(obj)
   {
     local option = get_option_by_id(obj?.id)
@@ -511,20 +558,35 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       showOptionRow(option, show)
   }
 
-  function showOptionRow(option, show)
-  {
-    local obj = ::getTblValue(option.id, optionIdToObjCache)
-    if( ! ::checkObj(obj))
+  function getOptionObj(option) {
+    local obj = optionIdToObjCache?[option.id]
+    if (!::check_obj(obj))
     {
       obj = getObj(option.getTrId())
-      if ( ! ::checkObj(obj))
-        return false
+      if (!::check_obj(obj))
+        return null
       optionIdToObjCache[option.id] <- obj
     }
+
+    return obj
+  }
+
+  function showOptionRow(option, show) {
+    local obj = getOptionObj(option)
+    if (obj == null)
+      return false
 
     obj.show(show)
     obj.inactive = show && option.controlType != optionControlType.HEADER ? null : "yes"
     return true
+  }
+
+  function enableOptionRow(option, status) {
+    local obj = getOptionObj(option)
+    if (obj == null)
+      return
+
+    obj.enable(status)
   }
 
   function onNumPlayers(obj)
@@ -600,7 +662,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
 
   function onVoicechatChange(obj)
   {
-    ::set_option_voicechat(obj.getValue() ? 1 : 0)
+    ::set_option(::USEROPT_VOICE_CHAT, !::get_option(::USEROPT_VOICE_CHAT).value)
     ::broadcastEvent("VoiceChatOptionUpdated")
   }
 
@@ -630,6 +692,72 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       })
     } else
       setOptionValueByControlObj(obj)
+  }
+
+  function onChangeCrossPlay(obj) {
+    local option = get_option_by_id(obj?.id)
+    if (!option)
+      return
+
+    local val = obj.getValue()
+    if (val == false)
+    {
+      ::set_option(::USEROPT_PS4_ONLY_LEADERBOARD, true)
+      updateOption(::USEROPT_PS4_ONLY_LEADERBOARD)
+    }
+    local opt = findOptionInContainers(::USEROPT_PS4_ONLY_LEADERBOARD)
+    if (opt != null)
+      enableOptionRow(opt, val)
+  }
+
+  function onChangeCrossNetworkChat(obj)
+  {
+    local value = obj.getValue()
+    if (value == true)
+    {
+      //Just send notification that value changed
+      setCrossNetworkChatValue(null, true, true)
+      return
+    }
+
+    msgBox(
+      "crossnetwork_changes_warning",
+      ::loc("guiHints/ps4_crossnetwork_chat"),
+      [
+        ["ok", @() setCrossNetworkChatValue(null, false, true)], //Send notification of changed value
+        ["no", @() setCrossNetworkChatValue(obj, true, false)] //Silently return value
+      ],
+      "no",
+      {cancel_fn = @() setCrossNetworkChatValue(obj, true, false)}
+    )
+  }
+
+  function setCrossNetworkChatValue(obj, value, needSendNotification = false)
+  {
+    if (::check_obj(obj))
+      obj.setValue(value)
+
+    if (needSendNotification)
+    {
+      ::broadcastEvent("CrossNetworkChatOptionChanged")
+
+      if (value == false) //Turn off voice if we turn off crossnetwork opt
+      {
+        local voiceOpt = ::get_option(::USEROPT_VOICE_CHAT)
+        if (voiceOpt.value == true && voiceOpt?.cb != null) // onVoicechatChange toggles value
+          this[voiceOpt.cb](null)
+        else
+          ::set_option(::USEROPT_VOICE_CHAT, false)
+      }
+
+      local listObj = scene.findObject("groups_list")
+      if (::check_obj(listObj))
+      {
+        local voiceTabObj = listObj.findObject("voicechat")
+        if (::check_obj(voiceTabObj))
+          voiceTabObj.inactive = value? "no" : "yes"
+      }
+    }
   }
 
   function get_option_by_id(id)
@@ -807,7 +935,7 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
     if (!option)
       return
     local optionTrObj = getObj(option.getTrId())
-    if(!::check_obj(optionTrObj))
+    if (!::check_obj(optionTrObj))
       return
 
     local missionBlk = ::get_mission_meta_info(optionsConfig?.missionName ?? "")
@@ -815,8 +943,10 @@ class ::gui_handlers.GenericOptions extends ::gui_handlers.BaseGuiHandlerWT
       getOptValue(::USEROPT_USE_KILLSTREAKS, false)
     local allowedUnitTypesMask  = ::get_mission_allowed_unittypes_mask(missionBlk, useKillStreaks)
 
-    foreach (unitType in ::g_unit_type.types)
+    foreach (unitType in unitTypes.types)
     {
+      if (unitType == unitTypes.INVALID)
+        continue
       local isShow = !!(allowedUnitTypesMask & unitType.bit)
       local itemObj = optionTrObj.findObject("bit_" + unitType.tag)
       if (!::check_obj(itemObj))
@@ -1097,6 +1227,8 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
     foreach(idx, gr in optGroups)
     {
       view.tabs.append({
+        id = gr.name
+        visualDisable = gr.name == "voicechat" && !crossplayModule.isCrossNetworkChatEnabled()
         tabName = "#options/" + gr.name
         navImagesText = ::get_navigation_images_text(idx, optGroups.len())
       })
@@ -1430,7 +1562,15 @@ class ::gui_handlers.GroupOptionsModal extends ::gui_handlers.GenericOptionsModa
   {
     local config = optGroups[group]
 
-    guiScene.replaceContent(scene.findObject("optionslist"), "gui/options/voicechatOptions.blk", this);
+    guiScene.replaceContent(scene.findObject("optionslist"), "gui/options/voicechatOptions.blk", this)
+
+    local needShowOptions = crossplayModule.isCrossNetworkChatEnabled()
+    showSceneBtn("voice_disable_warning", !needShowOptions)
+
+    showSceneBtn("voice_options_block", needShowOptions)
+    if (!needShowOptions)
+      return
+
     if ("options" in config)
       fillOptionsList(group, "voiceOptions")
 
@@ -1737,10 +1877,10 @@ class ::gui_handlers.AddRadioModalHandler extends ::gui_handlers.BaseGuiHandlerW
     if (::is_chat_message_empty(value))
       return
 
-    local name = ::clearBorderSymbols(value, [" "])
+    local name = clearBorderSymbols(value, [" "])
     local url = scene.findObject("newradio_url").getValue()
     if(url != "")
-      url = ::clearBorderSymbols(url, [" "])
+      url = clearBorderSymbols(url, [" "])
 
     if (name == "")
       return msgBox("warning",

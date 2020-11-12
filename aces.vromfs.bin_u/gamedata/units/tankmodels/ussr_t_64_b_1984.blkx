@@ -1636,6 +1636,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -1936,9 +1945,11 @@
         "armorClass": "ERA_K_I",
         "kineticProtectionEquivalent": 5.0,
         "cumulativeProtectionEquivalent": 370.0,
+        "cumulativeEffectiveThicknessMax": 370.0,
         "hp": 250.0,
         "armorThickness": 70.0,
         "genericArmorQuality": 0.08,
+        "cumulativeArmorQuality": 10.0,
         "genericDamageMult": 3.0,
         "stopChanceOnDeadPart": 0.0,
         "hidableInViewer": true,
@@ -2452,6 +2463,11 @@
         "ammo_body_l_08_dm": [],
         "ammo_body_l_09_dm": [],
         "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_l_13_dm": [],
+        "ammo_body_l_14_dm": [],
+        "ammo_body_l_15_dm": [],
         "ammo_body_r_01_dm": [],
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
@@ -2466,7 +2482,11 @@
         "ammo_body_r_12_dm": [],
         "ammo_body_r_13_dm": [],
         "ammo_body_r_14_dm": [],
-        "ammo_body_r_15_dm": []
+        "ammo_body_r_15_dm": [],
+        "ammo_body_r_16_dm": [],
+        "ammo_body_r_17_dm": [],
+        "ammo_body_r_18_dm": [],
+        "ammo_body_r_19_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -2474,6 +2494,7 @@
         "armorThickness": 2.0,
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -2592,18 +2613,20 @@
         "AdvancedMass": true,
         "trackMass": 1300.0,
         "cls_body": 0.8,
+        "cls_body_01": 0.8,
         "cls_turret": 0.5
       },
       "tracks": {
         "animationMultiplier": -0.68,
         "height": 0.062,
         "width": 0.54,
-        "fricFrontal": [1.5,1.2],
+        "fricFrontal": [1.0,0.9],
         "criticalHillAngle": 27.0,
         "hillClimbingDeclineFricKoef": 15.0
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
+        "cls_body_01": "convex_hull",
         "cls_body": "convex_hull"
       },
       "engine": {

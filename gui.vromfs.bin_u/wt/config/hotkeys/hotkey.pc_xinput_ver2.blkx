@@ -781,6 +781,17 @@
     },
     {
       "event": {
+        "name": "hangar_camera_zoom",
+        "shortcut": {
+          "button": {
+            "deviceId": 3,
+            "buttonId": 7
+          }
+        }
+      }
+    },
+    {
+      "event": {
         "name": "ID_CHANGE_CREW",
         "shortcut": {
           "button": {
@@ -2102,7 +2113,7 @@
           "shortcut": {
             "button": {
               "deviceId": 3,
-              "buttonId": 12
+              "buttonId": 14
             }
           }
         },
@@ -3162,13 +3173,13 @@
     {
       "event": [
         {
-          "name": "ID_SHOW_VOICE_MESSAGE_LIST"
+          "name": "ID_SHOW_MULTIFUNC_WHEEL_MENU"
         },
         {
           "shortcut": {
             "button": {
               "deviceId": 2,
-              "buttonId": 20
+              "buttonId": 21
             }
           }
         },
@@ -3181,6 +3192,17 @@
           }
         }
       ]
+    },
+    {
+      "event": {
+        "name": "ID_SHOW_VOICE_MESSAGE_LIST",
+        "shortcut": {
+          "button": {
+            "deviceId": 2,
+            "buttonId": 20
+          }
+        }
+      }
     },
     {
       "event": {
@@ -3498,6 +3520,11 @@
       "useJoystickMouseForVoiceMessage": true,
       "mouseJoystick": false,
       "useJoystickOnTankMouseAim": true,
+      "USEROPT_AUTOMATIC_TRANSMISSION_TANK": true,
+      "USEROPT_ATGM_AIM_SENS_HELICOPTER": 40,
+      "USEROPT_ATGM_AIM_ZOOM_SENS_HELICOPTER": 10,
+      "USEROPT_GUNNER_VIEW_SENSE": 80,
+      "USEROPT_GUNNER_VIEW_ZOOM_SENS": 50,
       "helicopter_camx": {
         "axisId": 2
       },
@@ -3505,12 +3532,10 @@
         "axisId": 3
       },
       "helicopter_atgm_aim_x": {
-        "axisId": 2,
-        "kMul": 0.5
+        "axisId": 2
       },
       "helicopter_atgm_aim_y": {
         "axisId": 3,
-        "kMul": 0.5,
         "inverse": true
       },
       "helicopter_fire": {
@@ -3538,6 +3563,33 @@
       "weapon_aim_pitch": {
         "axisId": 3,
         "relative": true
+      },
+      "wheelmenu_x": {
+        "axisId": 0
+      },
+      "wheelmenu_y": {
+        "axisId": 1
+      },
+      "gm_wheelmenu_x": {
+        "axisId": 0
+      },
+      "gm_wheelmenu_y": {
+        "axisId": 1
+      },
+      "ship_wheelmenu_x": {
+        "axisId": 0
+      },
+      "ship_wheelmenu_y": {
+        "axisId": 1
+      },
+      "helicopter_wheelmenu_x": {
+        "axisId": 0
+      },
+      "helicopter_wheelmenu_y": {
+        "axisId": 1
+      },
+      "hangar_camera_zoom": {
+        "axisId": 3
       },
       "helicopter_cyclic_pitch": {
         "axisId": 1,
@@ -4146,7 +4198,7 @@
         "outerDeadzone": 0.05,
         "rangeMin": -1.0,
         "rangeMax": 1.0,
-        "inverse": true,
+        "inverse": false,
         "nonlinearity": 0.0,
         "kAdd": 0.0,
         "kMul": 1.0,

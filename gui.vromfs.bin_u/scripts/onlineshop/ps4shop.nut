@@ -1,4 +1,5 @@
 require("ingameConsoleStore.nut")
+local statsd = require("statsd")
 local psnStore = require("ps4_api.store")
 local psnSystem = require("ps4_api.sys")
 
@@ -103,10 +104,11 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
     {
       psnStore.show_icon(psnStore.IconPosition.CENTER)
       base.initScreen()
+      statsd.send_counter("sq.ingame_store.contents", 1, {callsite = "init_screen", status = "ok"})
       return
     }
 
-    ::statsd_counter("ingame_store.empty_catalog.on_open_window")
+    statsd.send_counter("sq.ingame_store.contents", 1, {callsite = "init_screen", status = "empty"})
     goBack()
   }
 
@@ -143,10 +145,13 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
     isLoadingInProgress = p?.isLoadingInProgress ?? false
     if (!canDisplayStoreContents())
     {
-      ::statsd_counter("ingame_store.empty_catalog.on_finish_update_data")
+      statsd.send_counter("sq.ingame_store.contents", 1,
+        {callsite = "on_event_shop_sheets_inited", status = "empty"})
       goBack()
       return
     }
+    statsd.send_counter("sq.ingame_store.contents", 1,
+      {callsite = "on_event_shop_sheets_inited", status = "ok"})
 
     fillItemsList()
     restoreFocus()
@@ -165,17 +170,22 @@ class ::gui_handlers.Ps4Shop extends ::gui_handlers.IngameConsoleStore
     fillItemsList()
     ::g_discount.updateOnlineShopDiscounts()
   }
+
+  function onEventSignOut(p)
+  {
+    psnStore.hide_icon()
+  }
 }
 
 return shopData.__merge({
   openIngameStore = ::kwarg(
-    function (chapter = null, curItemId = "", afterCloseFunc = null, statsdMetric = "unknown") {
+    function (chapter = null, curItemId = "", afterCloseFunc = null, openedFrom = "unknown") {
       if (!::isInArray(chapter, [null, "", "eagles"]))
         return false
 
       if (shopData.canUseIngameShop())
       {
-        ::statsd_counter($"ingame_store.open.{statsdMetric}")
+        statsd.send_counter("sq.ingame_store.open", 1, {origin = openedFrom})
         local item = shopData.getShopItem(curItemId)
         ::handlersManager.loadHandler(::gui_handlers.Ps4Shop, {
           itemsCatalog = shopData.getShopItemsTable()

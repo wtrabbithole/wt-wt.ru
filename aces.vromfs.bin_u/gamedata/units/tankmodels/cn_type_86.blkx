@@ -207,6 +207,18 @@
         },
         "turret_01_bottom_dm": {
           "armorThickness": 5.0
+        },
+        "turret_02_top_dm": {
+          "armorThickness": 16.0
+        },
+        "turret_02_bottom_dm": {
+          "armorThickness": 16.0
+        },
+        "turret_02_side_dm": {
+          "armorThickness": 9.0
+        },
+        "turret_02_back_dm": {
+          "armorThickness": 7.0
         }
       },
       "turret": {
@@ -646,6 +658,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -1661,7 +1690,7 @@
     "MetaParts": {
       "body": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "body_front_dm"
@@ -1711,7 +1740,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1720,7 +1749,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1729,7 +1758,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1737,90 +1766,13 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
-          }
-        }
-      ],
-      "suspension": [
-        {
-          "hp": 2000.0
-        },
-        {
-          "part": "wheel_l_front_dm"
-        },
-        {
-          "part": "wheel_l_01_dm"
-        },
-        {
-          "part": "wheel_l_02_dm"
-        },
-        {
-          "part": "wheel_l_03_dm"
-        },
-        {
-          "part": "wheel_l_04_dm"
-        },
-        {
-          "part": "wheel_l_05_dm"
-        },
-        {
-          "part": "wheel_l_06_dm"
-        },
-        {
-          "part": "wheel_l_drive_dm"
-        },
-        {
-          "part": "wheel_r_front_dm"
-        },
-        {
-          "part": "wheel_r_01_dm"
-        },
-        {
-          "part": "wheel_r_02_dm"
-        },
-        {
-          "part": "wheel_r_03_dm"
-        },
-        {
-          "part": "wheel_r_04_dm"
-        },
-        {
-          "part": "wheel_r_05_dm"
-        },
-        {
-          "part": "wheel_r_06_dm"
-        },
-        {
-          "part": "wheel_r_drive_dm"
-        },
-        {
-          "part": "track_r_dm"
-        },
-        {
-          "part": "track_l_dm"
-        },
-        {
-          "effect": {
-            "conditionDamageType": "explosion",
-            "expl": 1.0,
-            "conditionDamage": 400.0,
-            "kill": true,
-            "killEffect": "hullBreak"
-          }
-        },
-        {
-          "effect": {
-            "conditionDamageType": "cumulative",
-            "expl": 1.0,
-            "conditionDamage": 400.0,
-            "kill": true,
             "killEffect": "hullBreak"
           }
         }
       ],
       "mount": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "turret_bottom_dm"
@@ -1849,7 +1801,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1858,7 +1810,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1867,7 +1819,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1875,7 +1827,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -1931,13 +1883,13 @@
             "gunnerDm": "gunner_dm",
             "linkedAnimPart": {
               "verNode": "bone_mg_gun_twin",
-              "verLimits": [-4.5,31.0],
-              "verOriginLimits": [-4.5,31.0]
+              "verLimits": [-4.0,30.0],
+              "verOriginLimits": [-4.0,30.0]
             }
           },
           "limits": {
             "yaw": [-180.0,180.0],
-            "pitch": [-5.0,30.0]
+            "pitch": [-4.0,30.0]
           }
         }
       },
@@ -1950,7 +1902,7 @@
             "triggerGroup": "coaxial"
           },
           {
-            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_PKT_user_machinegun.blk"
+            "blk": "gameData/Weapons/groundModels_weapons/7_62mm_PKT_beltfed_user_machinegun.blk"
           },
           {
             "emitter": "bone_mg_gun_twin_01"
@@ -1980,7 +1932,7 @@
             "fireConeAngle": 1.0
           },
           {
-            "bullets": 1000
+            "bullets": 2000
           },
           {
             "fireConeAngle": 15.0
@@ -2267,17 +2219,17 @@
       },
       "engine": {
         "horsePowers": 300.0,
-        "maxRPM": 2880.0,
-        "minRPM": 600.0
+        "maxRPM": 2600.0,
+        "minRPM": 700.0
       },
       "mechanics": {
         "maxBrakeForce": 52800.0,
         "driveGearRadius": 0.27,
-        "mainGearRatio": 0.946,
-        "sideGearRatio": 5.556,
+        "mainGearRatio": 0.87,
+        "sideGearRatio": 5.5,
         "gearRatios": [
           {
-            "ratio": -4.952
+            "ratio": -4.95
           },
           {
             "ratio": 0.0
@@ -2295,7 +2247,7 @@
             "ratio": 1.284
           },
           {
-            "ratio": 0.858
+            "ratio": 0.85
           }
         ]
       },
@@ -2872,6 +2824,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2985,7 +2946,7 @@
                 },
                 "limits": {
                   "yaw": [-180.0,180.0],
-                  "pitch": [-5.0,30.0]
+                  "pitch": [-4.0,30.0]
                 }
               }
             },
@@ -2998,7 +2959,7 @@
                   "triggerGroup": "coaxial"
                 },
                 {
-                  "blk": "gameData/Weapons/groundModels_weapons/7_62mm_PKT_user_machinegun.blk"
+                  "blk": "gameData/Weapons/groundModels_weapons/7_62mm_PKT_beltfed_user_machinegun.blk"
                 },
                 {
                   "emitter": "bone_mg_gun_twin_01"
@@ -3028,7 +2989,7 @@
                   "fireConeAngle": 1.0
                 },
                 {
-                  "bullets": 1000
+                  "bullets": 2000
                 },
                 {
                   "fireConeAngle": 15.0

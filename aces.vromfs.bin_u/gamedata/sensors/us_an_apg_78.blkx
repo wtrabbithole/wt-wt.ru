@@ -142,6 +142,7 @@
   "signals": {
     "GTM": {
       "groundClutter": false,
+      "groundMultipath": false,
       "aircraftAsTarget": false,
       "groundVehiclesAsTarget": true,
       "angularAccuracy": 0.02,
@@ -155,6 +156,7 @@
     },
     "ATM": {
       "groundClutter": false,
+      "groundMultipath": false,
       "aircraftAsTarget": true,
       "groundVehiclesAsTarget": false,
       "angularAccuracy": 0.02,
@@ -183,7 +185,8 @@
   },
   "scopeRangeSets": {
     "common": {
-      "range1": 8000.0
+      "range1": 8000.0,
+      "range2": 4000.0
     }
   },
   "fsms": {

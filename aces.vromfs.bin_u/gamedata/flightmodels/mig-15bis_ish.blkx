@@ -2,6 +2,7 @@
   "model": "mig_15bis_ish",
   "fmFile": "fm/mig-15bis_ish.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/jet_fighter_metaparts.blk",
+  "haveCCIPForRocket": true,
   "type": "typeFighter",
   "paratrooper": "ally",
   "advancedInstructor": true,
@@ -1960,7 +1961,7 @@
     {
       "Weapon": {
         "trigger": "machine gun",
-        "blk": "gameData/Weapons/cannonNS23.blk",
+        "blk": "gameData/Weapons/cannonNR23.blk",
         "emitter": "flare2",
         "flash": "flare2",
         "shell": "emtr_shellrejection2",
@@ -1972,7 +1973,7 @@
     {
       "Weapon": {
         "trigger": "machine gun",
-        "blk": "gameData/Weapons/cannonNS23.blk",
+        "blk": "gameData/Weapons/cannonNR23.blk",
         "emitter": "flare3",
         "flash": "flare3",
         "shell": "emtr_shellrejection3",
@@ -2014,7 +2015,14 @@
       "preset": {
         "name": "mig_15bis_ish_s5k_rockets",
         "blk": "gameData/FlightModels/weaponPresets/mig_15bis_ish_s5k_rockets.blk",
-        "reqModification": "C5"
+        "reqModification": "C5",
+        "weaponConfig": {
+          "Weapon": {
+            "blk": "gameData/Weapons/rocketGuns/su_s_5k_rocket.blk",
+            "amountPerTier": 8.0,
+            "iconType": "nar_ap_small"
+          }
+        }
       }
     },
     {
@@ -2076,7 +2084,7 @@
     "radiusSpeed": 2.0
   },
   "fireParams": {
-    "engineExtinguishFireSpeed": [249.0,334.0],
+    "engineExtinguishFireSpeed": [272.0,316.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0

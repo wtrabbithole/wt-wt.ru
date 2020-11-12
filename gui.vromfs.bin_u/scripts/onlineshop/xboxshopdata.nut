@@ -1,10 +1,13 @@
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 local seenList = ::require("scripts/seen/seenList.nut").get(SEEN.EXT_XBOX_SHOP)
+local statsd = require("statsd")
 local progressMsg = ::require("sqDagui/framework/progressMsg.nut")
 
 local XboxShopPurchasableItem = ::require("scripts/onlineShop/XboxShopPurchasableItem.nut")
 
 const XBOX_RECEIVE_CATALOG_MSG_ID = "XBOX_RECEIVE_CATALOG"
+
+local itemsList = persist("itemsList", @() {})
 
 local visibleSeenIds = []
 local xboxProceedItems = {}
@@ -18,7 +21,7 @@ local haveItemDiscount = null
 {
   if (!catalog || !catalog.blockCount())
   {
-    ::statsd_counter($"ingame_store.open.{statsdMetric}.empty_catalog")
+    statsd.send_counter("sq.ingame_store.open.empty_catalog", 1, {catalog = statsdMetric})
     ::dagor.debug("XBOX SHOP: Empty catalog. Don't open shop.")
     return
   }
@@ -26,6 +29,7 @@ local haveItemDiscount = null
   local xboxShopBlk = ::configs.GUI.get()?.xbox_ingame_shop
   local skipItemsList = xboxShopBlk?.itemsHide ?? ::DataBlock()
   xboxProceedItems.clear()
+  itemsList.clear()
   for (local i = 0; i < catalog.blockCount(); i++)
   {
     local itemBlock = catalog.getBlock(i)
@@ -39,6 +43,7 @@ local haveItemDiscount = null
     if (!(item.mediaItemType in xboxProceedItems))
       xboxProceedItems[item.mediaItemType] <- []
     xboxProceedItems[item.mediaItemType].append(item)
+    itemsList[item.id] <- item
   }
 
   if (invalidateSeenList)
@@ -52,7 +57,7 @@ local haveItemDiscount = null
     progressMsg.destroy(XBOX_RECEIVE_CATALOG_MSG_ID)
   reqProgressMsg = false
 
-  ::statsd_counter($"ingame_store.open.{statsdMetric}")
+  statsd.send_counter("ingame_store.open", 1, {catalog = statsdMetric})
   if (onReceiveCatalogCb)
     onReceiveCatalogCb()
   onReceiveCatalogCb = null
@@ -92,8 +97,8 @@ local getVisibleSeenIds = function()
 {
   if (!visibleSeenIds.len() && xboxProceedItems.len())
   {
-    foreach (mediaType, itemsList in xboxProceedItems)
-      visibleSeenIds.extend(itemsList.filter(@(it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
+    foreach (mediaType, items in xboxProceedItems)
+      visibleSeenIds.extend(items.filter(@(it) !it.canBeUnseen()).map(@(it) it.getSeenId()))
   }
   return visibleSeenIds
 }
@@ -119,13 +124,11 @@ local haveAnyItemWithDiscount = function()
     return haveItemDiscount
 
   haveItemDiscount = false
-  foreach (mediaType, itemsList in xboxProceedItems)
-    foreach (item in itemsList)
-      if (item.haveDiscount())
-      {
-        haveItemDiscount = true
-        break
-      }
+  foreach (item in itemsList)
+    if (item.haveDiscount()) {
+      haveItemDiscount = true
+      break
+    }
 
   return haveItemDiscount
 }
@@ -158,12 +161,7 @@ return {
   canUseIngameShop = canUseIngameShop
   requestData = requestData
   xboxProceedItems = xboxProceedItems
+  getShopItemsTable = @() itemsList
   haveDiscount = haveDiscount
-  getShopItem = function(id) {
-    foreach (cat, list in xboxProceedItems)
-      foreach (item in list)
-        if (item.id == id)
-          return item
-    return null
-  }
+  getShopItem = @(id) itemsList?[id]
 }

@@ -1,3 +1,4 @@
+local { clearBorderSymbols } = require("std/string.nut")
 local time = require("scripts/time.nut")
 local clanContextMenu = ::require("scripts/clans/clanContextMenu.nut")
 local clanInfoView = require("scripts/clans/clanInfoView.nut")
@@ -397,7 +398,6 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
         curPageObj.findObject("req_clan_name").setValue(::clan_get_my_clan_tag() + " " + ::clan_get_my_clan_name())
       }
       curPageObj.findObject("reques_to_clan_sent").show(requestSent)
-      curPageObj.findObject("clans_console_pc_warning").show(::has_feature("ClansXBOXOnPC"))
       curPageObj.findObject("how_to_get_membership").show(!requestSent)
     }
     else {
@@ -513,7 +513,7 @@ class ::gui_handlers.ClansModalHandler extends ::gui_handlers.clanPageModal
   {
     curClanLbPage = 0
     searchRequest = scene.findObject("search_edit").getValue()
-    searchRequest = searchRequest.len() > 0 ? ::clearBorderSymbols(searchRequest, [" "]) : ""
+    searchRequest = searchRequest.len() > 0 ? clearBorderSymbols(searchRequest, [" "]) : ""
     isSearchMode = searchRequest.len() > 0
     showEmptySearchResult(false)
     if(isSearchMode)

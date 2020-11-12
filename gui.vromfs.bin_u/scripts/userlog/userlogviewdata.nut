@@ -852,14 +852,15 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
 
     }
 
-    if (rewardType == "EveryDayLoginAward")
+    if (rewardType == "EveryDayLoginAward" || rewardType == "PeriodicCalendarAward")
     {
       local prefix = "trophy/"
       local pLen = prefix.len()
-      res.name += ::loc("ui/parentheses/space", {
-            text = ::colorize("userlogColoredText", ::loc("enumerated_day", {
-                number = ::getTblValue("progress", log, 0) + (::getTblValue("daysFor0", log, 0)-1)
-              }))})
+      if (rewardType == "EveryDayLoginAward")
+        res.name += ::loc("ui/parentheses/space", {
+          text = ::colorize("userlogColoredText", ::loc("enumerated_day", {
+              number = ::getTblValue("progress", log, 0) + (::getTblValue("daysFor0", log, 0)-1)
+        }))})
 
       local name = log.chardReward0.name
       local itemId = (name.len() > pLen && name.slice(0, pLen) == prefix) ? name.slice(pLen) : name
@@ -1103,7 +1104,8 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
     local itemId = ::getTblValue("id", log, "")
     local item = ::ItemsManager.findItemById(itemId)
     res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
-    res.name = ::loc("userlog/" + logName, {
+    local nameId = (item?.isSpecialOffer ?? false) ? "specialOffer/recived" : logName
+    res.name = ::loc($"userlog/{nameId}", {
                      itemName = ::colorize("userlogColoredText", item ? item.getName() : "")
                    })
     if ("itemType" in log && log.itemType == "wager")
@@ -1128,7 +1130,8 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
     local itemId = ::getTblValue("id", log, "")
     local item = ::ItemsManager.findItemById(itemId)
     local reason = ::getTblValue("reason", log, "unknown")
-    local locId = "userlog/" + logName + "/" + reason
+    local nameId = (item?.isSpecialOffer ?? false) ? "specialOffer" : logName
+    local locId = $"userlog/{nameId}/{reason}"
     if (reason == "replaced")
     {
       local replaceItemId = ::getTblValue("replaceId", log, "")

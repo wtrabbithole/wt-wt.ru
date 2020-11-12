@@ -121,8 +121,8 @@ enums.addTypesByGlobalName("g_mplayer_param_type", {
 
   GROUND_KILLS = {
     id = "groundKills"
-    fontIcon = "#icon/mpstats/groundKills"
-    tooltip = "#multiplayer/ground_kills"
+    fontIcon = @() "#icon/mpstats/groundKills"
+    tooltip = @() "#multiplayer/ground_kills"
     missionObjective = MISSION_OBJECTIVE.KILLS_GROUND
   }
 

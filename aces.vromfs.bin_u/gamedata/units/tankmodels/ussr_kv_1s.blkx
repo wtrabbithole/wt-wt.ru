@@ -702,6 +702,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -1347,6 +1356,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2444,7 +2470,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {
@@ -2629,7 +2655,7 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 41000.0,
+        "Empty": 42100.0,
         "Fuel": 400.0,
         "TakeOff": 42500.0,
         "momentOfInertia": [2.5,2.5,6.0],
@@ -2643,7 +2669,9 @@
       "tracks": {
         "animationMultiplier": 0.58,
         "height": 0.045,
-        "width": 0.61
+        "width": 0.61,
+        "fricSideRot": [5.0,0.0,0.7,0.3],
+        "fricFrontal": [1.0,0.8]
       },
       "collisionProps": {
         "cls_turret_01": "convex_hull",

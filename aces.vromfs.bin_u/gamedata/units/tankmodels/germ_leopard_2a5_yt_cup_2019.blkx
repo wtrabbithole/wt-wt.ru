@@ -117,9 +117,6 @@
     "arcadePowerMult": 1.5
   },
   {
-    "arcadeTurnPowerMult": 1.1
-  },
-  {
     "customClassIco": "!#ui/gameuiskin#germ_leopard_2a5_ico"
   },
   {
@@ -220,7 +217,8 @@
           "armorThickness": 20.0
         },
         "turret_side_dm": {
-          "armorThickness": 10.0
+          "armorThickness": 10.0,
+          "createSecondaryShatters": false
         },
         "superstructure_back_dm": {
           "armorThickness": 20.0
@@ -242,9 +240,6 @@
         },
         "turret_front_dm": {
           "armorThickness": 45.0
-        },
-        "turret_09_side_dm": {
-          "armorThickness": 14.0
         }
       },
       "turret": {
@@ -275,6 +270,12 @@
         },
         "turret_08_front_dm": {
           "armorThickness": 13.0
+        },
+        "turret_09_bottom_dm": {
+          "armorThickness": 20.0
+        },
+        "turret_09_side_dm": {
+          "armorThickness": 20.0
         },
         "turret_02_top_dm": {
           "armorThickness": 20.0
@@ -372,7 +373,8 @@
         "armorClass": "RHA_tank_modern",
         "hidableInXrayViewer": true,
         "composite_armor_hull_03_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 20.0,
+          "createSecondaryShatters": false
         },
         "composite_armor_hull_04_dm": {
           "armorThickness": 8.0
@@ -660,6 +662,12 @@
           },
           "ex_decor_l_03_dm": {
             "armorThickness": 10.0
+          },
+          "ex_decor_l_04_dm": {
+            "armorThickness": 10.0
+          },
+          "ex_decor_r_04_dm": {
+            "armorThickness": 10.0
           }
         }
       },
@@ -714,7 +722,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -985,6 +995,11 @@
         "ammo_body_l_08_dm": [],
         "ammo_body_l_09_dm": [],
         "ammo_body_l_10_dm": [],
+        "ammo_body_l_11_dm": [],
+        "ammo_body_l_12_dm": [],
+        "ammo_body_l_13_dm": [],
+        "ammo_body_l_14_dm": [],
+        "ammo_body_l_15_dm": [],
         "ammo_body_r_01_dm": [],
         "ammo_body_r_02_dm": [],
         "ammo_body_r_03_dm": [],
@@ -999,7 +1014,11 @@
         "ammo_body_r_12_dm": [],
         "ammo_body_r_13_dm": [],
         "ammo_body_r_14_dm": [],
-        "ammo_body_r_15_dm": []
+        "ammo_body_r_15_dm": [],
+        "ammo_body_r_16_dm": [],
+        "ammo_body_r_17_dm": [],
+        "ammo_body_r_18_dm": [],
+        "ammo_body_r_19_dm": []
       },
       "fuel_tanks": {
         "armorClass": "tank_structural_steel",
@@ -1007,6 +1026,7 @@
         "armorThickness": 2.0,
         "armorThrough": 12.0,
         "fireProtectionHp": 15.0,
+        "createSecondaryShatters": false,
         "fuel_tank_dm": [],
         "fuel_tank_01_dm": [],
         "fuel_tank_02_dm": [],
@@ -2557,7 +2577,7 @@
         "animationMultiplier": 0.68,
         "width": 0.55,
         "height": 0.1,
-        "fricFrontal": [1.0,1.0],
+        "fricFrontal": [1.2,1.0],
         "criticalHillAngle": 27.0,
         "hillClimbingDeclineFricKoef": 15.0
       },
@@ -3148,6 +3168,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -3167,9 +3196,9 @@
   },
   {
     "cockpit": {
-      "zoomOutFov": 9.21,
+      "zoomOutFov": 18.5,
       "zoomInFov": 6.14,
-      "sightFov": 4.0,
+      "sightFov": 8.5,
       "sightName": "emes15",
       "headPos": [0.0,4.2,-8.5],
       "headPosOnShooting": [-0.15,3.5,0.6],
@@ -3481,16 +3510,16 @@
         "effects": {
           "nightVision": {
             "gunnerThermal": {
-              "resolution": [800,600],
-              "noiseFactor": 0.04
+              "resolution": [500,300],
+              "noiseFactor": 0.05
             },
             "commanderThermal": {
               "resolution": [800,600],
               "noiseFactor": 0.04
             },
             "driverIr": {
-              "resolution": [1200,800],
-              "lightMult": 7.0,
+              "resolution": [800,600],
+              "lightMult": 5.0,
               "ghosting": 0.6,
               "noiseFactor": 0.2
             }

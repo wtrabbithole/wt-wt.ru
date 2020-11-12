@@ -1,4 +1,5 @@
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 /*
 SessionLobby API
@@ -453,7 +454,7 @@ SessionLobby.prepareSettings <- function prepareSettings(missionSettings)
 
   local userAllowedUnitTypesMask = missionSettings?.userAllowedUnitTypesMask ?? 0
   if (userAllowedUnitTypesMask)
-    foreach (unitType in ::g_unit_type.types)
+    foreach (unitType in unitTypes.types)
       if (unitType.isAvailableByMissionSettings(_settings.mission) && !(userAllowedUnitTypesMask & unitType.bit))
         _settings.mission[unitType.missionSettingsAvailabilityFlag] = false
 
@@ -601,7 +602,7 @@ SessionLobby.fillTeamsInfo <- function fillTeamsInfo(_settings, misBlk)
   local teamData = {}
   teamData.allowedCrafts <- []
 
-  foreach (unitType in ::g_unit_type.types)
+  foreach (unitType in unitTypes.types)
     if (unitType.isAvailableByMissionSettings(_settings.mission))
     {
       local rule = { ["class"] = unitType.getMissionAllowedCraftsClassName() }
@@ -737,7 +738,7 @@ SessionLobby.getMissionNameLoc <- function getMissionNameLoc(room = null)
 {
   local misData = getMissionData(room)
   if ("name" in misData)
-    return get_combine_loc_name_mission(misData)
+    return ::get_combine_loc_name_mission(::get_mission_meta_info(misData.name))
   return ""
 }
 
@@ -2196,8 +2197,8 @@ SessionLobby.getRoomsInfoTbl <- function getRoomsInfoTbl(roomsList)
       local missionName = urlMission ? urlMission.name : url
       item.mission <- missionName
     }
-    else if ("name" in misData)
-      item.mission <- get_combine_loc_name_mission(misData)
+    else
+      item.mission <- getMissionNameLoc(public)
     if ("creator" in public)
       item.name <- ::getTblValue("creator", public, "") || ""
     if ("difficulty" in misData)
@@ -2562,6 +2563,8 @@ SessionLobby.rpcJoinBattle <- function rpcJoinBattle(params)
     return "already in room"
   if (::is_in_flight())
     return "already in session"
+  if (!antiCheat.showMsgboxIfEacInactive({enableEAC = true}))
+    return "EAC is not active"
 
   dagor.debug("join to battle with id " + battleId)
   SessionLobby.joinBattle(battleId)
@@ -2578,9 +2581,6 @@ SessionLobby.getMGameMode <- function getMGameMode(room = null, isCustomGameMode
     return room._customGameMode
 
   local mGameMode = ::g_matching_game_modes.getModeById(mGameModeId)
-  if (!mGameMode)
-    ::g_matching_game_modes.requestGameModeById(mGameModeId)
-
   if (isCustomGameModeAllowed && room && mGameMode && ::events.isCustomGameMode(mGameMode))
   {
     local customGameMode = clone mGameMode
@@ -2815,9 +2815,9 @@ foreach (notificationName, callback in
      ::SessionLobby.checkSessionReconnect()
     },
 
-    ["match.notify_wait_for_session_join"] = @() ::SessionLobby.setWaitForQueueRoom(true),
+    ["match.notify_wait_for_session_join"] = @(params) ::SessionLobby.setWaitForQueueRoom(true),
 
-    ["match.notify_join_session_aborted"] = @() ::SessionLobby.leaveWaitForQueueRoom()
+    ["match.notify_join_session_aborted"] = @(params) ::SessionLobby.leaveWaitForQueueRoom()
   }
 )
   ::matching_rpc_subscribe(notificationName, callback)

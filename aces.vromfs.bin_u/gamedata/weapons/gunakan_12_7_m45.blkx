@@ -58,17 +58,40 @@
   },
   {
     "bullet": {
-      "mass": 0.0403,
+      "mass": 0.0438,
       "caliber": 0.0127,
-      "speed": 899.0,
+      "speed": 832.0,
       "Cx": 0.15,
-      "maxDistance": 4000.0,
-      "bulletType": "ap_i_t_ball_M20",
-      "onHitChanceMultFire": 10.0,
+      "normalizationPreset": "default",
+      "ricochetPreset": "default",
+      "secondaryShattersPreset": "ap",
+      "stabilityThreshold": 0.0,
+      "stabilityCaliberToArmorThreshold": 5.0,
+      "stabilityReductionAfterRicochet": 0.01,
+      "stabilityReductionAfterPenetration": 0.01,
+      "bulletType": "t_ball_M1",
+      "slopeEffectPreset": "ap",
+      "maxDistance": 3000.0,
+      "onHitChanceMultFire": 2.0,
+      "hitPowerMult": 8.0,
       "effectiveDistance": 3000.0,
       "relativeVelHitShift": [300.0,3000.0],
-      "relativeVelArmorShift": [300.0,3000.0],
+      "relativeVelArmorShift": [200.0,1000.0],
       "groundFxScale": [0.3,0.5],
+      "stabilityRicochetModifier": [
+        {
+          "mod1": [0.0,0.05]
+        },
+        {
+          "mod2": [20.0,0.1]
+        },
+        {
+          "mod3": [30.0,0.2]
+        },
+        {
+          "mod3": [45.0,0.3]
+        }
+      ],
       "hitpower": {
         "HitPower10m": [1.0,10.0],
         "HitPower1000m": [0.95,1000.0],
@@ -78,20 +101,17 @@
         "HitPower3000m": [0.1,3000.0]
       },
       "armorpower": {
-        "ArmorPower0m": [23.0,10.0],
-        "ArmorPower100m": [22.0,100.0],
-        "ArmorPower500m": [16.0,500.0],
-        "ArmorPower1000m": [10.0,1000.0],
-        "ArmorPower1450m": [5.0,1450.0],
-        "ArmorPower1500m": [4.0,1500.0],
-        "ArmorPower2000m": [3.0,2000.0],
-        "ArmorPower2500m": [1.0,2500.0],
-        "ArmorPower3000m": [0.0,3000.0]
+        "ArmorPower0m": [10.0,10.0],
+        "ArmorPower100m": [8.0,100.0],
+        "ArmorPower500m": [7.0,500.0],
+        "ArmorPower1000m": [6.0,1000.0],
+        "ArmorPower1450m": [0.1,1450.0],
+        "ArmorPower1500m": [0.0,1500.0]
       },
       "visual": {
         "range_percent_of_ammo": [100.0,0.0],
         "traceFreq": 1,
-        "tracer": "12mmRed",
+        "tracer": "12mmDarkRed",
         "trail": "smallTrail"
       },
       "collisions": {
@@ -113,11 +133,33 @@
       "speed": 865.0,
       "Cx": 0.15,
       "maxDistance": 4000.0,
+      "normalizationPreset": "default",
+      "ricochetPreset": "default",
+      "secondaryShattersPreset": "ap",
+      "stabilityThreshold": 0.0,
+      "stabilityCaliberToArmorThreshold": 5.0,
+      "stabilityReductionAfterRicochet": 0.01,
+      "stabilityReductionAfterPenetration": 0.01,
       "bulletType": "ap_ball_M2",
+      "slopeEffectPreset": "ap",
       "effectiveDistance": 3000.0,
       "relativeVelHitShift": [300.0,3000.0],
       "relativeVelArmorShift": [200.0,3000.0],
       "groundFxScale": [0.3,0.5],
+      "stabilityRicochetModifier": [
+        {
+          "mod1": [0.0,0.05]
+        },
+        {
+          "mod2": [20.0,0.1]
+        },
+        {
+          "mod3": [30.0,0.2]
+        },
+        {
+          "mod3": [45.0,0.3]
+        }
+      ],
       "hitpower": {
         "HitPower10m": [1.0,10.0],
         "HitPower1000m": [0.95,1000.0],
@@ -160,11 +202,33 @@
       "speed": 865.0,
       "Cx": 0.15,
       "maxDistance": 4000.0,
+      "normalizationPreset": "default",
+      "ricochetPreset": "default",
+      "secondaryShattersPreset": "ap",
+      "stabilityThreshold": 0.0,
+      "stabilityCaliberToArmorThreshold": 5.0,
+      "stabilityReductionAfterRicochet": 0.01,
+      "stabilityReductionAfterPenetration": 0.01,
       "bulletType": "ap_ball_M2",
+      "slopeEffectPreset": "ap",
       "effectiveDistance": 3000.0,
       "relativeVelHitShift": [300.0,3000.0],
       "relativeVelArmorShift": [200.0,3000.0],
       "groundFxScale": [0.3,0.5],
+      "stabilityRicochetModifier": [
+        {
+          "mod1": [0.0,0.05]
+        },
+        {
+          "mod2": [20.0,0.1]
+        },
+        {
+          "mod3": [30.0,0.2]
+        },
+        {
+          "mod3": [45.0,0.3]
+        }
+      ],
       "hitpower": {
         "HitPower10m": [1.0,10.0],
         "HitPower1000m": [0.95,1000.0],
@@ -207,7 +271,15 @@
       "speed": 944.0,
       "Cx": 0.15,
       "maxDistance": 3000.0,
+      "normalizationPreset": "default",
+      "ricochetPreset": "default",
+      "secondaryShattersPreset": "ap",
+      "stabilityThreshold": 0.0,
+      "stabilityCaliberToArmorThreshold": 5.0,
+      "stabilityReductionAfterRicochet": 0.01,
+      "stabilityReductionAfterPenetration": 0.01,
       "bulletType": "i_ball_M1",
+      "slopeEffectPreset": "ap",
       "hitPowerMult": 0.3,
       "onHitChanceMultFire": 8.0,
       "effectiveDistance": 3000.0,
@@ -223,6 +295,20 @@
       "shutterHit": 2.5,
       "relativeVelArmorShift": [200.0,1000.0],
       "groundFxScale": [0.3,0.5],
+      "stabilityRicochetModifier": [
+        {
+          "mod1": [0.0,0.05]
+        },
+        {
+          "mod2": [20.0,0.1]
+        },
+        {
+          "mod3": [30.0,0.2]
+        },
+        {
+          "mod3": [45.0,0.3]
+        }
+      ],
       "hitpower": {
         "HitPower10m": [1.0,10.0],
         "HitPower1000m": [0.95,1000.0],
@@ -265,12 +351,34 @@
           "speed": 887.0,
           "Cx": 0.15,
           "maxDistance": 4000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "ap_i_ball_M8",
+          "slopeEffectPreset": "ap",
           "onHitChanceMultFire": 10.0,
           "effectiveDistance": 3000.0,
           "relativeVelHitShift": [300.0,3000.0],
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -311,12 +419,34 @@
           "speed": 887.0,
           "Cx": 0.15,
           "maxDistance": 4000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "ap_i_ball_M8",
+          "slopeEffectPreset": "ap",
           "onHitChanceMultFire": 10.0,
           "effectiveDistance": 3000.0,
           "relativeVelHitShift": [300.0,3000.0],
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -352,17 +482,40 @@
       },
       {
         "bullet": {
-          "mass": 0.0403,
+          "mass": 0.0438,
           "caliber": 0.0127,
-          "speed": 899.0,
+          "speed": 832.0,
           "Cx": 0.15,
-          "maxDistance": 4000.0,
-          "bulletType": "ap_i_t_ball_M20",
-          "onHitChanceMultFire": 10.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
+          "bulletType": "t_ball_M1",
+          "slopeEffectPreset": "ap",
+          "maxDistance": 3000.0,
+          "onHitChanceMultFire": 2.0,
+          "hitPowerMult": 8.0,
           "effectiveDistance": 3000.0,
           "relativeVelHitShift": [300.0,3000.0],
-          "relativeVelArmorShift": [300.0,3000.0],
+          "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -372,20 +525,17 @@
             "HitPower3000m": [0.1,3000.0]
           },
           "armorpower": {
-            "ArmorPower0m": [23.0,10.0],
-            "ArmorPower100m": [22.0,100.0],
-            "ArmorPower500m": [16.0,500.0],
-            "ArmorPower1000m": [10.0,1000.0],
-            "ArmorPower1450m": [5.0,1450.0],
-            "ArmorPower1500m": [4.0,1500.0],
-            "ArmorPower2000m": [3.0,2000.0],
-            "ArmorPower2500m": [1.0,2500.0],
-            "ArmorPower3000m": [0.0,3000.0]
+            "ArmorPower0m": [10.0,10.0],
+            "ArmorPower100m": [8.0,100.0],
+            "ArmorPower500m": [7.0,500.0],
+            "ArmorPower1000m": [6.0,1000.0],
+            "ArmorPower1450m": [0.1,1450.0],
+            "ArmorPower1500m": [0.0,1500.0]
           },
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "12mmRed",
+            "tracer": "12mmDarkRed",
             "trail": "smallTrail"
           },
           "collisions": {
@@ -407,7 +557,15 @@
           "speed": 1040.0,
           "Cx": 0.15,
           "maxDistance": 2000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "i_ball_M23",
+          "slopeEffectPreset": "ap",
           "hitPowerMult": 0.3,
           "onHitChanceMultFire": 16.0,
           "effectiveDistance": 3000.0,
@@ -423,6 +581,20 @@
           "shutterHit": 2.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -462,7 +634,15 @@
           "speed": 1040.0,
           "Cx": 0.15,
           "maxDistance": 2000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "i_ball_M23",
+          "slopeEffectPreset": "ap",
           "hitPowerMult": 0.3,
           "onHitChanceMultFire": 16.0,
           "effectiveDistance": 3000.0,
@@ -478,6 +658,20 @@
           "shutterHit": 2.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -516,17 +710,40 @@
     "50cal_ground_targets": [
       {
         "bullet": {
-          "mass": 0.0403,
+          "mass": 0.0438,
           "caliber": 0.0127,
-          "speed": 899.0,
+          "speed": 832.0,
           "Cx": 0.15,
-          "maxDistance": 4000.0,
-          "bulletType": "ap_i_t_ball_M20",
-          "onHitChanceMultFire": 10.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
+          "bulletType": "t_ball_M1",
+          "slopeEffectPreset": "ap",
+          "maxDistance": 3000.0,
+          "onHitChanceMultFire": 2.0,
+          "hitPowerMult": 8.0,
           "effectiveDistance": 3000.0,
           "relativeVelHitShift": [300.0,3000.0],
-          "relativeVelArmorShift": [300.0,3000.0],
+          "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -536,20 +753,17 @@
             "HitPower3000m": [0.1,3000.0]
           },
           "armorpower": {
-            "ArmorPower0m": [23.0,10.0],
-            "ArmorPower100m": [22.0,100.0],
-            "ArmorPower500m": [16.0,500.0],
-            "ArmorPower1000m": [10.0,1000.0],
-            "ArmorPower1450m": [5.0,1450.0],
-            "ArmorPower1500m": [4.0,1500.0],
-            "ArmorPower2000m": [3.0,2000.0],
-            "ArmorPower2500m": [1.0,2500.0],
-            "ArmorPower3000m": [0.0,3000.0]
+            "ArmorPower0m": [10.0,10.0],
+            "ArmorPower100m": [8.0,100.0],
+            "ArmorPower500m": [7.0,500.0],
+            "ArmorPower1000m": [6.0,1000.0],
+            "ArmorPower1450m": [0.1,1450.0],
+            "ArmorPower1500m": [0.0,1500.0]
           },
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
             "traceFreq": 1,
-            "tracer": "12mmRed",
+            "tracer": "12mmDarkRed",
             "trail": "smallTrail"
           },
           "collisions": {
@@ -571,7 +785,15 @@
           "speed": 1040.0,
           "Cx": 0.15,
           "maxDistance": 2000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "i_ball_M23",
+          "slopeEffectPreset": "ap",
           "hitPowerMult": 0.3,
           "onHitChanceMultFire": 16.0,
           "effectiveDistance": 3000.0,
@@ -587,6 +809,20 @@
           "shutterHit": 2.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -626,11 +862,33 @@
           "speed": 865.0,
           "Cx": 0.15,
           "maxDistance": 4000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "ap_ball_M2",
+          "slopeEffectPreset": "ap",
           "effectiveDistance": 3000.0,
           "relativeVelHitShift": [300.0,3000.0],
           "relativeVelArmorShift": [200.0,3000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -673,11 +931,33 @@
           "speed": 865.0,
           "Cx": 0.15,
           "maxDistance": 4000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "ap_ball_M2",
+          "slopeEffectPreset": "ap",
           "effectiveDistance": 3000.0,
           "relativeVelHitShift": [300.0,3000.0],
           "relativeVelArmorShift": [200.0,3000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -695,98 +975,6 @@
             "ArmorPower1500m": [4.0,1500.0],
             "ArmorPower2000m": [2.0,2000.0],
             "ArmorPower3000m": [0.0,3000.0]
-          },
-          "visual": {
-            "range_percent_of_ammo": [100.0,0.0],
-            "traceFreq": 1,
-            "tracer": "noColor"
-          },
-          "collisions": {
-            "steel": {
-              "fx": "air_hit",
-              "fxScale": [0.3,0.5]
-            },
-            "armor": {
-              "fx": "air_hit",
-              "fxScale": [0.3,0.5]
-            }
-          }
-        }
-      },
-      {
-        "bullet": {
-          "mass": 0.0403,
-          "caliber": 0.0127,
-          "speed": 887.0,
-          "Cx": 0.15,
-          "maxDistance": 4000.0,
-          "bulletType": "ap_i_ball_M8",
-          "onHitChanceMultFire": 10.0,
-          "effectiveDistance": 3000.0,
-          "relativeVelHitShift": [300.0,3000.0],
-          "relativeVelArmorShift": [200.0,1000.0],
-          "groundFxScale": [0.3,0.5],
-          "hitpower": {
-            "HitPower10m": [1.0,10.0],
-            "HitPower1000m": [0.95,1000.0],
-            "HitPower1500m": [0.85,1500.0],
-            "HitPower2000m": [0.3,2000.0],
-            "HitPower2500m": [0.2,2500.0],
-            "HitPower3000m": [0.1,3000.0]
-          },
-          "armorpower": {
-            "ArmorPower0m": [23.0,10.0],
-            "ArmorPower100m": [22.0,100.0],
-            "ArmorPower500m": [16.0,500.0],
-            "ArmorPower1000m": [10.0,1000.0],
-            "ArmorPower1450m": [1.0,1450.0],
-            "ArmorPower1500m": [0.0,1500.0]
-          },
-          "visual": {
-            "range_percent_of_ammo": [100.0,0.0],
-            "traceFreq": 1,
-            "tracer": "noColor"
-          },
-          "collisions": {
-            "steel": {
-              "fx": "air_hit",
-              "fxScale": [0.3,0.5]
-            },
-            "armor": {
-              "fx": "air_hit",
-              "fxScale": [0.3,0.5]
-            }
-          }
-        }
-      },
-      {
-        "bullet": {
-          "mass": 0.0403,
-          "caliber": 0.0127,
-          "speed": 887.0,
-          "Cx": 0.15,
-          "maxDistance": 4000.0,
-          "bulletType": "ap_i_ball_M8",
-          "onHitChanceMultFire": 10.0,
-          "effectiveDistance": 3000.0,
-          "relativeVelHitShift": [300.0,3000.0],
-          "relativeVelArmorShift": [200.0,1000.0],
-          "groundFxScale": [0.3,0.5],
-          "hitpower": {
-            "HitPower10m": [1.0,10.0],
-            "HitPower1000m": [0.95,1000.0],
-            "HitPower1500m": [0.85,1500.0],
-            "HitPower2000m": [0.3,2000.0],
-            "HitPower2500m": [0.2,2500.0],
-            "HitPower3000m": [0.1,3000.0]
-          },
-          "armorpower": {
-            "ArmorPower0m": [23.0,10.0],
-            "ArmorPower100m": [22.0,100.0],
-            "ArmorPower500m": [16.0,500.0],
-            "ArmorPower1000m": [10.0,1000.0],
-            "ArmorPower1450m": [1.0,1450.0],
-            "ArmorPower1500m": [0.0,1500.0]
           },
           "visual": {
             "range_percent_of_ammo": [100.0,0.0],
@@ -808,56 +996,218 @@
     ]
   },
   {
-    "50cal_tracers": {
-      "bullet": {
-        "mass": 0.0403,
-        "caliber": 0.0127,
-        "speed": 899.0,
-        "Cx": 0.15,
-        "maxDistance": 4000.0,
-        "bulletType": "ap_i_t_ball_M20",
-        "onHitChanceMultFire": 10.0,
-        "effectiveDistance": 3000.0,
-        "relativeVelHitShift": [300.0,3000.0],
-        "relativeVelArmorShift": [300.0,3000.0],
-        "groundFxScale": [0.3,0.5],
-        "hitpower": {
-          "HitPower10m": [1.0,10.0],
-          "HitPower1000m": [0.95,1000.0],
-          "HitPower1500m": [0.85,1500.0],
-          "HitPower2000m": [0.3,2000.0],
-          "HitPower2500m": [0.2,2500.0],
-          "HitPower3000m": [0.1,3000.0]
-        },
-        "armorpower": {
-          "ArmorPower0m": [23.0,10.0],
-          "ArmorPower100m": [22.0,100.0],
-          "ArmorPower500m": [16.0,500.0],
-          "ArmorPower1000m": [10.0,1000.0],
-          "ArmorPower1450m": [5.0,1450.0],
-          "ArmorPower1500m": [4.0,1500.0],
-          "ArmorPower2000m": [3.0,2000.0],
-          "ArmorPower2500m": [1.0,2500.0],
-          "ArmorPower3000m": [0.0,3000.0]
-        },
-        "visual": {
-          "range_percent_of_ammo": [100.0,0.0],
-          "traceFreq": 1,
-          "tracer": "12mmRed",
-          "trail": "smallTrail"
-        },
-        "collisions": {
-          "steel": {
-            "fx": "air_hit",
-            "fxScale": [0.3,0.5]
+    "50cal_tracers": [
+      {
+        "bullet": {
+          "mass": 0.0438,
+          "caliber": 0.0127,
+          "speed": 832.0,
+          "Cx": 0.15,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
+          "bulletType": "t_ball_M1",
+          "slopeEffectPreset": "ap",
+          "maxDistance": 3000.0,
+          "onHitChanceMultFire": 2.0,
+          "hitPowerMult": 8.0,
+          "effectiveDistance": 3000.0,
+          "relativeVelHitShift": [300.0,3000.0],
+          "relativeVelArmorShift": [200.0,1000.0],
+          "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
+          "hitpower": {
+            "HitPower10m": [1.0,10.0],
+            "HitPower1000m": [0.95,1000.0],
+            "HitPower1500m": [0.85,1500.0],
+            "HitPower2000m": [0.3,2000.0],
+            "HitPower2500m": [0.2,2500.0],
+            "HitPower3000m": [0.1,3000.0]
           },
-          "armor": {
-            "fx": "air_hit",
-            "fxScale": [0.3,0.5]
+          "armorpower": {
+            "ArmorPower0m": [10.0,10.0],
+            "ArmorPower100m": [8.0,100.0],
+            "ArmorPower500m": [7.0,500.0],
+            "ArmorPower1000m": [6.0,1000.0],
+            "ArmorPower1450m": [0.1,1450.0],
+            "ArmorPower1500m": [0.0,1500.0]
+          },
+          "visual": {
+            "range_percent_of_ammo": [100.0,0.0],
+            "traceFreq": 1,
+            "tracer": "12mmDarkRed",
+            "trail": "smallTrail"
+          },
+          "collisions": {
+            "steel": {
+              "fx": "air_hit",
+              "fxScale": [0.3,0.5]
+            },
+            "armor": {
+              "fx": "air_hit",
+              "fxScale": [0.3,0.5]
+            }
+          }
+        }
+      },
+      {
+        "bullet": {
+          "mass": 0.0438,
+          "caliber": 0.0127,
+          "speed": 832.0,
+          "Cx": 0.15,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
+          "bulletType": "t_ball_M1",
+          "slopeEffectPreset": "ap",
+          "maxDistance": 3000.0,
+          "onHitChanceMultFire": 2.0,
+          "hitPowerMult": 8.0,
+          "effectiveDistance": 3000.0,
+          "relativeVelHitShift": [300.0,3000.0],
+          "relativeVelArmorShift": [200.0,1000.0],
+          "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
+          "hitpower": {
+            "HitPower10m": [1.0,10.0],
+            "HitPower1000m": [0.95,1000.0],
+            "HitPower1500m": [0.85,1500.0],
+            "HitPower2000m": [0.3,2000.0],
+            "HitPower2500m": [0.2,2500.0],
+            "HitPower3000m": [0.1,3000.0]
+          },
+          "armorpower": {
+            "ArmorPower0m": [10.0,10.0],
+            "ArmorPower100m": [8.0,100.0],
+            "ArmorPower500m": [7.0,500.0],
+            "ArmorPower1000m": [6.0,1000.0],
+            "ArmorPower1450m": [0.1,1450.0],
+            "ArmorPower1500m": [0.0,1500.0]
+          },
+          "visual": {
+            "range_percent_of_ammo": [100.0,0.0],
+            "traceFreq": 1,
+            "tracer": "12mmDarkRed",
+            "trail": "smallTrail"
+          },
+          "collisions": {
+            "steel": {
+              "fx": "air_hit",
+              "fxScale": [0.3,0.5]
+            },
+            "armor": {
+              "fx": "air_hit",
+              "fxScale": [0.3,0.5]
+            }
+          }
+        }
+      },
+      {
+        "bullet": {
+          "mass": 0.0438,
+          "caliber": 0.0127,
+          "speed": 832.0,
+          "Cx": 0.15,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
+          "bulletType": "t_ball_M1",
+          "slopeEffectPreset": "ap",
+          "maxDistance": 3000.0,
+          "onHitChanceMultFire": 2.0,
+          "hitPowerMult": 8.0,
+          "effectiveDistance": 3000.0,
+          "relativeVelHitShift": [300.0,3000.0],
+          "relativeVelArmorShift": [200.0,1000.0],
+          "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
+          "hitpower": {
+            "HitPower10m": [1.0,10.0],
+            "HitPower1000m": [0.95,1000.0],
+            "HitPower1500m": [0.85,1500.0],
+            "HitPower2000m": [0.3,2000.0],
+            "HitPower2500m": [0.2,2500.0],
+            "HitPower3000m": [0.1,3000.0]
+          },
+          "armorpower": {
+            "ArmorPower0m": [10.0,10.0],
+            "ArmorPower100m": [8.0,100.0],
+            "ArmorPower500m": [7.0,500.0],
+            "ArmorPower1000m": [6.0,1000.0],
+            "ArmorPower1450m": [0.1,1450.0],
+            "ArmorPower1500m": [0.0,1500.0]
+          },
+          "visual": {
+            "range_percent_of_ammo": [100.0,0.0],
+            "traceFreq": 1,
+            "tracer": "12mmDarkRed",
+            "trail": "smallTrail"
+          },
+          "collisions": {
+            "steel": {
+              "fx": "air_hit",
+              "fxScale": [0.3,0.5]
+            },
+            "armor": {
+              "fx": "air_hit",
+              "fxScale": [0.3,0.5]
+            }
           }
         }
       }
-    }
+    ]
   },
   {
     "50cal_stealth": [
@@ -868,12 +1218,34 @@
           "speed": 887.0,
           "Cx": 0.15,
           "maxDistance": 4000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "ap_i_ball_M8",
+          "slopeEffectPreset": "ap",
           "onHitChanceMultFire": 10.0,
           "effectiveDistance": 3000.0,
           "relativeVelHitShift": [300.0,3000.0],
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -914,7 +1286,15 @@
           "speed": 1040.0,
           "Cx": 0.15,
           "maxDistance": 2000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "i_ball_M23",
+          "slopeEffectPreset": "ap",
           "hitPowerMult": 0.3,
           "onHitChanceMultFire": 16.0,
           "effectiveDistance": 3000.0,
@@ -930,6 +1310,20 @@
           "shutterHit": 2.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -969,12 +1363,34 @@
           "speed": 887.0,
           "Cx": 0.15,
           "maxDistance": 4000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "ap_i_ball_M8",
+          "slopeEffectPreset": "ap",
           "onHitChanceMultFire": 10.0,
           "effectiveDistance": 3000.0,
           "relativeVelHitShift": [300.0,3000.0],
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],
@@ -1015,7 +1431,15 @@
           "speed": 1040.0,
           "Cx": 0.15,
           "maxDistance": 2000.0,
+          "normalizationPreset": "default",
+          "ricochetPreset": "default",
+          "secondaryShattersPreset": "ap",
+          "stabilityThreshold": 0.0,
+          "stabilityCaliberToArmorThreshold": 5.0,
+          "stabilityReductionAfterRicochet": 0.01,
+          "stabilityReductionAfterPenetration": 0.01,
           "bulletType": "i_ball_M23",
+          "slopeEffectPreset": "ap",
           "hitPowerMult": 0.3,
           "onHitChanceMultFire": 16.0,
           "effectiveDistance": 3000.0,
@@ -1031,6 +1455,20 @@
           "shutterHit": 2.0,
           "relativeVelArmorShift": [200.0,1000.0],
           "groundFxScale": [0.3,0.5],
+          "stabilityRicochetModifier": [
+            {
+              "mod1": [0.0,0.05]
+            },
+            {
+              "mod2": [20.0,0.1]
+            },
+            {
+              "mod3": [30.0,0.2]
+            },
+            {
+              "mod3": [45.0,0.3]
+            }
+          ],
           "hitpower": {
             "HitPower10m": [1.0,10.0],
             "HitPower1000m": [0.95,1000.0],

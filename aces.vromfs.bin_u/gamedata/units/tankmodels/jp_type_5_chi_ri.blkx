@@ -314,7 +314,9 @@
         "armorThickness": 20.0,
         "hp": 300.0,
         "track_r_dm": [],
-        "track_l_dm": []
+        "track_l_dm": [],
+        "track_r_01_dm": [],
+        "track_l_01_dm": []
       },
       "crew": {
         "armorClass": "steel_tankman",
@@ -1886,7 +1888,7 @@
         "topGearRadius": 0.133,
         "frontBackGearRadius": 0.32,
         "defaultDampeningForce": [150000.0,150000.0],
-        "dampeningRelaxationRatio": 1.0,
+        "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
     }
@@ -2833,6 +2835,15 @@
             }
           }
         ]
+      },
+      {
+        "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
       },
       {
         "event": {

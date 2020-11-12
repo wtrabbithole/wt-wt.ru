@@ -1,4 +1,7 @@
+local statsd = require("statsd")
+local { clearBorderSymbols } = require("std/string.nut")
 local { animBgLoad } = require("scripts/loading/animBg.nut")
+local { setVersionText } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 class ::gui_handlers.LoginWndHandlerTencent extends ::BaseGuiHandler
 {
@@ -7,7 +10,7 @@ class ::gui_handlers.LoginWndHandlerTencent extends ::BaseGuiHandler
   function initScreen()
   {
     animBgLoad()
-    ::setVersionText()
+    setVersionText()
     ::setProjectAwards(this)
 
     guiScene.performDelayed(this, function() { doLogin() })
@@ -21,7 +24,7 @@ class ::gui_handlers.LoginWndHandlerTencent extends ::BaseGuiHandler
   function doLogin()
   {
     ::dagor.debug("Login: yuplay2_tencent_login")
-    ::statsd_counter("gameStart.request_login.tencent")
+    statsd.send_counter("sq.game_start.request_login", 1, {login_type = "tencent"})
     local res = ::yuplay2_tencent_login()
     if (res == ::YU2_OK)
       return afterLogin()
@@ -56,7 +59,7 @@ class ::gui_handlers.LoginWndHandlerTencent extends ::BaseGuiHandler
     validateFunc = function(nick) {
       if (::is_chat_message_empty(nick))
         return ""
-      return ::clearBorderSymbols(nick, [" "])
+      return clearBorderSymbols(nick, [" "])
     }
     canCancel = false
     allowEmpty = false

@@ -2875,26 +2875,81 @@
         }
       },
       {
-        "Weapon": {
-          "trigger": "gunner1",
-          "blk": "gameData/Weapons/gunUB_turret.blk",
-          "breechInCockpit": true,
-          "emitter": "gun2",
-          "flash": "flare2",
-          "dm": "gunner2_dm",
-          "gunnerDm": "gunner2_dm",
-          "gunDm": "gun2_dm",
-          "partsDP": "gun2_dm",
-          "bullets": 400,
-          "turret": {
-            "head": "turret2",
-            "gun": "gun2"
+        "Weapon": [
+          {
+            "trigger": "gunner1"
           },
-          "limits": {
-            "yaw": [-180.0,180.0],
-            "pitch": [-7.0,65.0]
+          {
+            "blk": "gameData/Weapons/gunUB_turret.blk"
+          },
+          {
+            "breechInCockpit": true
+          },
+          {
+            "emitter": "gun2"
+          },
+          {
+            "flash": "flare2"
+          },
+          {
+            "dm": "gunner2_dm"
+          },
+          {
+            "gunnerDm": "gunner2_dm"
+          },
+          {
+            "gunDm": "gun2_dm"
+          },
+          {
+            "partsDP": "gun2_dm"
+          },
+          {
+            "bullets": 400
+          },
+          {
+            "turret": {
+              "head": "turret2",
+              "gun": "gun2"
+            }
+          },
+          {
+            "limits": {
+              "yaw": [-180.0,180.0],
+              "pitch": [-30.0,80.0]
+            }
+          },
+          {
+            "limitsTable": [
+              {
+                "lim1": [-180.0,-110.0,0.0,80.0]
+              },
+              {
+                "lim1": [-110.0,-45.0,-30.0,80.0]
+              },
+              {
+                "lim2": [-45.0,45.0,0.0,80.0]
+              },
+              {
+                "lim1": [45.0,110.0,-30.0,80.0]
+              },
+              {
+                "lim3": [110.0,180.0,0.0,80.0]
+              }
+            ]
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [-40.0,-33.0],
+              "pitch": [0.0,10.0]
+            }
+          },
+          {
+            "limitsDeadzone": {
+              "yaw": [33.0,40.0],
+              "pitch": [0.0,10.0]
+            }
           }
-        }
+        ]
       },
       {
         "Weapon": {
@@ -2928,20 +2983,41 @@
           "blk": "gameData/FlightModels/weaponPresets/er-2_12xfab50.blk",
           "tags": {
             "free": true
+          },
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/BombGuns/su_fab50.blk",
+              "amountPerTier": 2.0,
+              "iconType": "bombs_small_group"
+            }
           }
         }
       },
       {
         "preset": {
           "name": "er_2_ach30b_late_12xfab100",
-          "blk": "gameData/FlightModels/weaponPresets/er-2_12xfab100.blk"
+          "blk": "gameData/FlightModels/weaponPresets/er-2_12xfab100.blk",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/BombGuns/su_fab100.blk",
+              "amountPerTier": 2.0,
+              "iconType": "bombs_middle_group"
+            }
+          }
         }
       },
       {
         "preset": {
           "name": "er_2_ach30b_late_14xfab100",
           "blk": "gameData/FlightModels/weaponPresets/er-2_14xfab100.blk",
-          "reqModification": "er-2_kd-3-240"
+          "reqModification": "er-2_kd-3-240",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/BombGuns/su_fab100.blk",
+              "amountPerTier": 2.0,
+              "iconType": "bombs_middle_group"
+            }
+          }
         }
       },
       {
@@ -2976,14 +3052,28 @@
         "preset": {
           "name": "er_2_ach30b_late_2xfab1000",
           "blk": "gameData/FlightModels/weaponPresets/er-2_2xfab1000.blk",
-          "reqModification": "er-2_m-105_der-19-20"
+          "reqModification": "er-2_m-105_der-19-20",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/BombGuns/su_fab1000.blk",
+              "amountPerTier": 1.0,
+              "iconType": "bombs_heavy"
+            }
+          }
         }
       },
       {
         "preset": {
           "name": "er_2_ach30b_late_2xfab1000_4xfab500",
           "blk": "gameData/FlightModels/weaponPresets/er-2_2xfab1000_4xfab500.blk",
-          "reqModification": "er-2_kd-3-240"
+          "reqModification": "er-2_kd-3-240",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/BombGuns/su_fab1000.blk",
+              "amountPerTier": 1.0,
+              "iconType": "bombs_heavy"
+            }
+          }
         }
       }
     ]

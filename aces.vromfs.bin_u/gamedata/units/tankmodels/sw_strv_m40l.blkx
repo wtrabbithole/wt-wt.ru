@@ -192,6 +192,9 @@
         "turret_02_bottom_dm": {
           "armorThickness": 13.0
         },
+        "turret_04_bottom_dm": {
+          "armorThickness": 13.0
+        },
         "turret_07_bottom_dm": {
           "armorThickness": 15.0,
           "armorClass": "CHA_tank"
@@ -687,6 +690,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2428,6 +2448,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2460,7 +2489,7 @@
     "ammoStowages": {
       "ammo1": {
         "weaponTrigger": "gunner0",
-        "removeLoadedAmmo": false,
+        "removeLoadedAmmo": true,
         "fatalFire": true,
         "fatalExplosion": true,
         "shells": {
@@ -2477,34 +2506,34 @@
             "count": 4
           },
           "ammo_body_24_dm": {
-            "count": 4
+            "count": 3
           },
           "ammo_body_25_dm": {
             "count": 3
           },
           "ammo_body_01_dm": {
-            "count": 6
+            "count": 5
           },
           "ammo_body_02_dm": {
-            "count": 6
+            "count": 5
           },
           "ammo_body_11_dm": {
-            "count": 6
+            "count": 5
           },
           "ammo_body_12_dm": {
-            "count": 6
+            "count": 5
           },
           "ammo_body_03_dm": {
-            "count": 6
+            "count": 5
           },
           "ammo_body_04_dm": {
-            "count": 6
+            "count": 5
           },
           "ammo_body_13_dm": {
-            "count": 6
+            "count": 5
           },
           "ammo_body_14_dm": {
-            "count": 6
+            "count": 5
           },
           "ammo_body_15_dm": {
             "count": 4
@@ -2567,7 +2596,9 @@
         "image": "#ui/gameuiskin#tank_reinforcement_sw"
       },
       "37mm_sw_m39_APHE": [],
-      "37mm_sw_m39_APHE_ammo_pack": []
+      "37mm_sw_m39_APHE_ammo_pack": [],
+      "37mm_sw_kan_APDS": [],
+      "37mm_sw_kan_APDS_ammo_pack": []
     }
   },
   {

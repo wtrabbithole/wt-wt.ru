@@ -108,6 +108,12 @@
     "type": "typeLightTank"
   },
   {
+    "rearmSmokeTimeOnField": 60.0
+  },
+  {
+    "canReloadNonGuns": true
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -144,7 +150,7 @@
           "armorThickness": 10.0
         },
         "turret_02_front_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 6.0
         },
         "turret_03_front_dm": {
           "armorThickness": 20.0
@@ -156,7 +162,7 @@
           "armorThickness": 20.0
         },
         "turret_02_top_dm": {
-          "armorThickness": 20.0
+          "armorThickness": 6.0
         },
         "turret_04_top_dm": {
           "armorThickness": 5.0
@@ -172,10 +178,6 @@
         },
         "turret_03_back_dm": {
           "armorThickness": 24.0
-        },
-        "turret_02_bottom_dm": {
-          "armorClass": "tank_structural_steel",
-          "armorThickness": 30.0
         },
         "turret_04_back_dm": {
           "armorThickness": 20.0
@@ -209,11 +211,13 @@
         "armorClass": "RHA_tank",
         "composite_armor_hull_01_dm": {
           "armorThickness": 10.0,
-          "hidableInViewer": true
+          "hidableInViewer": true,
+          "hidableInXrayViewer": true
         },
         "composite_armor_hull_02_dm": {
           "armorThickness": 10.0,
-          "hidableInViewer": true
+          "hidableInViewer": true,
+          "hidableInXrayViewer": true
         }
       },
       "body_shields": {
@@ -251,6 +255,9 @@
         "turret_side_dm": {
           "armorThickness": 20.0
         },
+        "turret_02_bottom_dm": {
+          "armorThickness": 30.0
+        },
         "turret_back_dm": {
           "armorThickness": 20.0
         },
@@ -273,11 +280,13 @@
       "RHAHH_add": {
         "armorClass": "RHAHH_tank",
         "hp": 10000.0,
+        "hidableInViewer": true,
         "turret_02_back_dm": {
           "armorThickness": 5.0
         },
         "turret_01_side_dm": {
-          "armorThickness": 5.0
+          "armorThickness": 5.0,
+          "hidableInViewer": false
         },
         "turret_03_top_dm": {
           "armorThickness": 5.0
@@ -728,6 +737,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -735,7 +761,7 @@
     "MetaParts": {
       "body": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "body_front_dm"
@@ -754,9 +780,6 @@
         },
         {
           "part": "ex_armor_01_dm"
-        },
-        {
-          "part": "ex_armor_02_dm"
         },
         {
           "part": "superstructure_top_dm"
@@ -818,7 +841,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -827,7 +850,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -836,7 +859,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -844,19 +867,28 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ],
       "mount": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "turret_bottom_dm"
         },
         {
+          "part": "turret_commander_dm"
+        },
+        {
           "part": "gun_mask_dm"
+        },
+        {
+          "part": "gun_mask_01_dm"
+        },
+        {
+          "part": "gun_mask_02_dm"
         },
         {
           "part": "turret_back_dm"
@@ -873,7 +905,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -882,7 +914,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -891,7 +923,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -899,7 +931,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -2641,6 +2673,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -3158,6 +3199,17 @@
       "replace_tex": {
         "from": "se_camo_green*",
         "to": "fr_camo_winter_green_white*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "se_camo_modern_deform",
+      "nameLocId": "skin/se_camo_modern_deform",
+      "descLocId": "skin/se_camo_modern_deform/desc",
+      "replace_tex": {
+        "from": "se_camo_green*",
+        "to": "se_camo_modern_deform*"
       }
     }
   }

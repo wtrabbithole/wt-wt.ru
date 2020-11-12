@@ -242,6 +242,10 @@ tooltipDesc {
   font:@fontSmall;
 }
 
+descriptionNest tooltipDesc {
+  max-width:@narrowTooltipWidth;
+}
+
 tutorDark {
   background-color:@modalShadeColor;
 }
@@ -1495,6 +1499,7 @@ playerStateIcon {
   re-type:9rect;
   background-repeat:expand;
   size:1@tableIcoSize, 1@tableIcoSize;
+  background-svg-size:@tableIcoSize, @tableIcoSize;
 }
 
 playerStateIcon[background-image=""] {
@@ -1614,6 +1619,7 @@ textareaNoTab.highlightButton:pushed {
 @import "fileDialog/fileDialog.css"
 @import "animated.css"
 @import "cssElems\focusBorder.css"
+@import "../config/tutorial_hud_elements/tutorial_hints.css"
 
 animated_wait_icon
 {
@@ -2475,6 +2481,7 @@ airInfoBlock {
   min-height:4@sIco;
   css-hier-invalidate:yes;
   total-input-transparent:yes;
+  behaviour:Timer;
 }
 
 airInfoBlock > bgGradientLeft {

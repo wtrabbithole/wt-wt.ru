@@ -936,6 +936,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2101,12 +2118,14 @@
         },
         "limits": {
           "yaw": [-180.0,180.0],
-          "pitch": [-10.0,85.0]
+          "pitch": [-6.0,85.0]
         },
         "limitsTable": {
-          "lim1": [-180.0,-40.0,-3.0,85.0],
-          "lim2": [-40.0,40.0,0.0,85.0],
-          "lim3": [40.0,180.0,-3.0,85.0]
+          "lim1": [-180.0,-158.0,-5.0,85.0],
+          "lim2": [-158.0,-37.0,-6.0,85.0],
+          "lim3": [-37.0,37.0,0.0,85.0],
+          "lim4": [37.0,158.0,-6.0,85.0],
+          "lim5": [158.0,180.0,-5.0,85.0]
         }
       }
     }
@@ -2140,7 +2159,10 @@
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
-        "cls_body": "convex_hull"
+        "cls_body": "convex_hull",
+        "cls_body_01": "convex_hull",
+        "cls_body_02": "convex_hull",
+        "cls_body_03": "convex_hull"
       },
       "engine": {
         "horsePowers": 140.0,
@@ -2725,6 +2747,15 @@
             }
           }
         ]
+      },
+      {
+        "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
       },
       {
         "event": {

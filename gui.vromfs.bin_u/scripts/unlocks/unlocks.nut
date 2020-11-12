@@ -423,6 +423,21 @@ local unlockConditionUnitclasses = {
 
 ::get_icon_from_unlock_blk <- function get_icon_from_unlock_blk(unlockBlk, unlocked = true)
 {
+  local unlockType = ::get_unlock_type(unlockBlk.type)
+  local decoratorType = ::g_decorator_type.getTypeByUnlockedItemType(unlockType)
+  if (decoratorType != ::g_decorator_type.UNKNOWN && !::is_in_loading_screen())
+  {
+    local decorator = ::g_decorator.getDecorator(unlockBlk.id, decoratorType)
+    return decoratorType.getImage(decorator)
+  }
+
+  if (unlockType == ::UNLOCKABLE_AIRCRAFT)
+  {
+    local unit = ::getAircraftByName(unlockBlk.id)
+    if (unit)
+      return unit.getUnlockImage()
+  }
+
   if (unlockBlk?.icon == null)
     return null
 
@@ -470,6 +485,10 @@ local unlockConditionUnitclasses = {
   foreach (feature in unlockBlk % "reqFeature")
     if (!::has_feature(feature))
       return false
+  if (unlockBlk?.mode != null && unlockBlk.mode.blockCount() > 0)
+    foreach (cond in unlockBlk.mode % "condition")
+      if (cond?.type == "playerHasFeature" && cond?.feature != null && !::has_feature(cond.feature))
+        return false
   if (!hasFeatureBasic("Tanks") && ::is_unlock_tanks_related(unlockId, unlockBlk))
     return false
   if (!::g_unlocks.checkDependingUnlocks(unlockBlk))
@@ -862,13 +881,6 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
   return ::buildRewardText("", reward, true, true)
 }
 
-::show_sm_unlock_description <- function show_sm_unlock_description(unlockName, afterFunc)
-{
-  local msg = ::loc("charServer/needUnlock") + "\n\n" + ::get_unlock_description(unlockName, 1)
-  ::scene_msg_box("in_demo_only", null, msg,
-         [["ok", afterFunc ]], "ok")
-}
-
 ::default_unlock_data <- {
   id = ""
   type = -1
@@ -1102,7 +1114,8 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
       local decorator = ::g_decorator.getDecorator(id, decoratorType)
       if (decorator && !::is_in_loading_screen())
       {
-        res.descrImage <- decoratorType.getImage(decorator)
+        res.image = decoratorType.getImage(decorator)
+        res.descrImage <- res.image
         res.descrImageSize <- decoratorType.getImageSize(decorator)
         res.descrImageRatio <- decoratorType.getRatio(decorator)
       }
@@ -1263,6 +1276,11 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
       local wb = ::g_warbonds.findWarbond(id, wbStageName)
       if (wb && wbAmount)
         res.rewardText = wb.getPriceText(wbAmount, false, false)
+      break
+    case ::UNLOCKABLE_AIRCRAFT:
+      local unit = ::getAircraftByName(id)
+      if (unit)
+        res.image = unit.getUnlockImage()
       break
   }
 
@@ -1904,9 +1922,9 @@ g_unlocks.isVisibleByTime <- function isVisibleByTime(id, hasIncludTimeBefore = 
       local startTime = getTimestampFromStringUtc(cond.beginDate) -
         daysToSeconds(hasIncludTimeBefore
         ? unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0
-        : 0).tointeger()
+        : 0)
       local endTime = getTimestampFromStringUtc(cond.endDate) +
-        daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+        daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0)
       local currentTime = get_charserver_time_sec()
 
       isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
@@ -1932,9 +1950,9 @@ g_unlocks.debugLogVisibleByTimeInfo <- function debugLogVisibleByTimeInfo(id)
         continue
 
       local startTime = getTimestampFromStringUtc(cond.beginDate) -
-        daysToSeconds(unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0).tointeger()
+        daysToSeconds(unlock?.visibleDaysBefore ?? unlock?.visibleDays ?? 0)
       local endTime = getTimestampFromStringUtc(cond.endDate) +
-        daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0).tointeger()
+        daysToSeconds(unlock?.visibleDaysAfter ?? unlock?.visibleDays ?? 0)
       local currentTime = get_charserver_time_sec()
       local isVisibleUnlock = (currentTime > startTime && currentTime < endTime)
 

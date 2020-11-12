@@ -1018,6 +1018,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1031,6 +1048,11 @@
       "EngineNameAi": "engine_tank_ai_light",
       "TrackSoundNameAi": "tracks_ai_light",
       "turret_turn": "turret_rocket_turn"
+    }
+  },
+  {
+    "attachables": {
+      "ex_armor_01_dm": true
     }
   },
   {
@@ -1952,7 +1974,7 @@
     "MetaParts": {
       "body": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "superstructure_front_dm"
@@ -2008,7 +2030,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2017,7 +2039,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2026,7 +2048,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2034,13 +2056,13 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ],
       "mount": [
         {
-          "hp": 2000.0
+          "hp": 8000.0
         },
         {
           "part": "turret_bottom_dm"
@@ -2072,7 +2094,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2081,7 +2103,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2090,7 +2112,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2098,7 +2120,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -2112,8 +2134,7 @@
       "Weapon": {
         "trigger": "gunner0",
         "triggerGroup": "primary",
-        "blk": "gameData/Weapons/groundModels_weapons/127mm_Rbs_55_tow_rocket_launcher.blk",
-        "weaponType": "rockets",
+        "blk": "gameData/Weapons/groundModels_weapons/127mm_Rbs_55_tow_UDES_launcher_user_cannon.blk",
         "flash": "emtr_gun_flame_01",
         "useEmitter": true,
         "emitter": "bone_rocket_01",
@@ -2127,6 +2148,8 @@
         "brokenBarrelAllowShoot": false,
         "speedYaw": 18.0,
         "speedPitch": 8.0,
+        "yawSpdLowBattery": 18.0,
+        "pitchSpdLowBattery": 8.0,
         "fireConeAngle": 1.0,
         "bullets": 10,
         "salvoAmount": 100.0,
@@ -2151,7 +2174,7 @@
         },
         "limits": {
           "yaw": [-100.0,120.0],
-          "pitch": [-5.0,10.0]
+          "pitch": [-20.0,25.0]
         }
       }
     }
@@ -2179,7 +2202,7 @@
       "tracks": {
         "animationMultiplier": 0.6,
         "height": 0.055,
-        "fricFrontal": [1.0,1.0]
+        "fricFrontal": [1.0,0.9]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2808,6 +2831,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -2855,6 +2887,7 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_sw"
       },
+      "127mm_us_tow": [],
       "night_vision_system": {
         "effects": {
           "nightVision": {

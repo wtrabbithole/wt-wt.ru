@@ -1,8 +1,9 @@
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
-local u = ::require("sqStdLibs/helpers/u.nut")
-local asyncActions = ::require("sqStdLibs/helpers/asyncActions.nut")
+local u = require("sqStdLibs/helpers/u.nut")
+local asyncActions = require("sqStdLibs/helpers/asyncActions.nut")
 local time = require("scripts/time.nut")
-local workshop = ::require("scripts/items/workshop/workshop.nut")
+local { getCustomLocalizationPresets, getEffectOnStartCraftPresetById } = require("scripts/items/workshop/workshop.nut")
+local startCraftWnd = require("scripts/items/workshop/startCraftWnd.nut")
 
 
 global enum MARK_RECIPE {
@@ -23,6 +24,12 @@ local defaultLocIdsList = {
   markMsgBoxCantUsePrefix   = "msgBox/craftProcess/cant/"
   msgBoxConfirmWhithItemName= null
   actionButton              = null
+}
+
+local function showExchangeInventoryErrorMsg(errorId, componentItem) {
+  local locIdPrefix = componentItem.getLocIdsList()?.inventoryErrorPrefix
+  ::showInfoMsgBox(::loc($"{locIdPrefix}{errorId}", { itemName = componentItem.getName() }),
+    "exchange_inventory_error")
 }
 
 local lastRecipeIdx = 0
@@ -47,6 +54,7 @@ local ExchangeRecipes = class {
   locIdsList = null
   localizationPresetName = null
   sortReqQuantityComponents = 0
+  effectOnStartCraftPresetName = null
 
   constructor(params)
   {
@@ -56,6 +64,7 @@ local ExchangeRecipes = class {
     craftTime = params?.craftTime ?? 0
     isDisassemble = params?.isDisassemble ?? false
     localizationPresetName = params?.localizationPresetName
+    effectOnStartCraftPresetName = params?.effectOnStartCraftPresetName ?? ""
     local parsedRecipe = params.parsedRecipe
 
     initedComponents = parsedRecipe.components
@@ -377,7 +386,8 @@ local ExchangeRecipes = class {
   {
     if (componentItem.hasReachedMaxAmount())
     {
-      ::scene_msg_box("reached_max_amount", null, ::loc("item/reached_max_amount"),
+      ::scene_msg_box("reached_max_amount", null,
+        ::loc(componentItem.getLocIdsList().reachedMaxAmount),
         [["cancel"]], "cancel")
       return false
     }
@@ -517,6 +527,9 @@ local ExchangeRecipes = class {
     local usedUidsList = {}
     local recipe = this //to not remove recipe until operation complete
     local leftAmount = amount
+    local errorCb = (componentItem?.shouldAutoConsume ?? true)
+      ? null
+      : @(errorId) showExchangeInventoryErrorMsg(errorId, componentItem)
     local exchangeAction = (@(cb) inventoryClient.exchange(
       getMaterialsListForExchange(usedUidsList),
       generatorId,
@@ -524,12 +537,19 @@ local ExchangeRecipes = class {
         resultItems.extend(items)
         cb()
       },
+      errorCb,
       --leftAmount <= 0,
       requirement
     )).bindenv(recipe)
 
     local exchangeActions = array(amount, exchangeAction)
     exchangeActions.append(@(cb) recipe.onExchangeComplete(componentItem, resultItems, params))
+
+    local effectOnStartCraft = getEffectOnStartCraft()
+    if (effectOnStartCraft?.showImage != null)
+      startCraftWnd(effectOnStartCraft)
+    if (effectOnStartCraft?.playSound != null)
+      ::play_gui_sound(effectOnStartCraft.playSound)
 
     asyncActions.callAsyncActionsList(exchangeActions)
   }
@@ -562,11 +582,16 @@ local ExchangeRecipes = class {
         item = extItem?.itemdef?.itemdefid
         count = extItem?.quantity ?? 0
       })
+      local effectOnOpenChest = componentItem.getEffectOnOpenChest()
       ::gui_start_open_trophy({ [componentItem.id] = openTrophyWndConfigs,
         rewardTitle = ::loc(rewardTitle),
         rewardListLocId = rewardListLocId
         isDisassemble = isDisassemble
         isHidePrizeActionBtn = params?.isHidePrizeActionBtn ?? false
+        singleAnimationGuiSound = effectOnOpenChest?.playSound
+        rewardImage = effectOnOpenChest?.showImage
+        rewardImageRatio = effectOnOpenChest?.imageRatio
+        rewardImageShowTimeSec = effectOnOpenChest?.showTimeSec ?? -1
       })
     }
 
@@ -623,7 +648,7 @@ local ExchangeRecipes = class {
     })
 
     if (localizationPresetName)
-      locIdsList.__update(workshop.getCustomLocalizationPresets(localizationPresetName))
+      locIdsList.__update(getCustomLocalizationPresets(localizationPresetName))
 
     return locIdsList
   }
@@ -635,6 +660,7 @@ local ExchangeRecipes = class {
       ? itemLocIdsList.msgBoxConfirmWhithItemNameDisassemble
       : itemLocIdsList.msgBoxConfirmWhithItemName)
   getActionButtonLocId = @() getLocIdsList().actionButton
+  getEffectOnStartCraft = @() getEffectOnStartCraftPresetById(effectOnStartCraftPresetName)
 }
 
 u.registerClass("Recipe", ExchangeRecipes, @(r1, r2) r1.idx == r2.idx)

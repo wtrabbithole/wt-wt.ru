@@ -1,31 +1,18 @@
 local rwr = require("rwr.nut")
 local helicopterState = require("helicopterState.nut")
 local hudElems = require("helicopterHudElems.nut")
-local mlws = require("mlws.nut")
+local tws = require("tws.nut")
 local radarComponent = require("radarComponent.nut")
 
 
 local backgroundColor = Color(0, 0, 0, 150)
 local fontOutlineColor = Color(0, 0, 0, 235)
-local ilsFontScale = 2.0
 local mfdFontScale = 1.5
 
 local getColor = function(isBackground){
   return isBackground ? backgroundColor : helicopterState.MfdColor.value
 }
 
-local pilotSh = function(h)
-{
-  return h * helicopterState.IlsPosSize[3] / 100
-}
-local pilotSw = function(w)
-{
-  return w * helicopterState.IlsPosSize[2] / 100
-}
-local pilotHdpx = function(px)
-{
-  return px * helicopterState.IlsPosSize[3] / 1024
-}
 local sightSh = function(h)
 {
   return h * helicopterState.MfdSightPosSize[3] / 100
@@ -79,16 +66,16 @@ local getRwr = function(colorStyle) {
   }
 }
 
-local getMlws = function(colorStyle) {
+local getTws = function(colorStyle) {
   local getChildren = function() {
-    return mlws(colorStyle,
+    return tws(colorStyle,
        helicopterState.RwrPosSize[0] + helicopterState.RwrPosSize[2] * 0.17,
        helicopterState.RwrPosSize[1] + helicopterState.RwrPosSize[3] * 0.17,
        helicopterState.RwrPosSize[2] * 0.66,
        helicopterState.RwrPosSize[3] * 0.66, true)
   }
   return @(){
-    watch = helicopterState.MlwsForMfd
+    watch = helicopterState.TwsForMfd
     children = getChildren()
   }
 }
@@ -97,11 +84,6 @@ local mfdSightParamsTable = hudElems.paramsTable(helicopterState.MfdSightMask,
   250,
   [30, 175],
   hdpx(3))
-
-local mfdPilotParamsTable = hudElems.paramsTable(helicopterState.IlsMask,
-  300,
-  [50, 225],
-  0,  false)
 
 local function mfdSightHud(elemStyle, isBackground) {
   local mfdStyle = elemStyle.__merge({
@@ -125,27 +107,7 @@ local function mfdSightHud(elemStyle, isBackground) {
   }
 }
 
-local function ilsHud(elemStyle, isBackground) {
-  local ilsStyle = elemStyle.__merge({
-    fontScale = ilsFontScale
-    lineWidth = LINE_WIDTH * 3
-    color = helicopterState.MfdColor.value
-  })
-  return @(){
-    watch = helicopterState.IsIlsEnabled
-    pos = [helicopterState.IlsPosSize[0], helicopterState.IlsPosSize[1]]
-    children = helicopterState.IsIlsEnabled.value ?
-    [
-      mfdPilotParamsTable(ilsStyle, isBackground)
-      hudElems.vertSpeed(ilsStyle, pilotSh(5), pilotSh(40), pilotSw(50) + pilotHdpx(384), pilotSh(35), isBackground)
-      hudElems.horSpeed(ilsStyle, isBackground, pilotSw(50), pilotSh(60), pilotHdpx(100))
-      hudElems.compassElem(ilsStyle, isBackground, pilotSw(75), pilotSh(13), pilotSw(50) - 0.5 * pilotSw(75), pilotSh(5))
-      hudElems.rocketAim(ilsStyle, pilotSw(4), pilotSh(8), isBackground)
-      hudElems.taTarget(ilsStyle, pilotSw(25), pilotSh(25), isBackground)
-    ]
-    : null
-  }
-}
+
 
 local function mfdHUD(colorStyle, isBackground) {
   local rwrStyle = colorStyle.__merge({
@@ -154,9 +116,8 @@ local function mfdHUD(colorStyle, isBackground) {
 
   return [
     mfdSightHud(colorStyle, isBackground)
-    ilsHud(colorStyle, isBackground)
     getRwr(rwrStyle)
-    getMlws(rwrStyle)
+    getTws(rwrStyle)
     radarComponent.radar(true, sw(6), sh(6), getColor(isBackground))
   ]
 }

@@ -4,6 +4,7 @@ local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 local mpChatModel = require("scripts/chat/mpChatModel.nut")
 local avatars = require("scripts/user/avatars.nut")
 local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
+local { WEAPON_TAG } = require("scripts/weaponry/weaponryInfo.nut")
 
 ::time_to_kick_show_timer <- null
 ::time_to_kick_show_alert <- null
@@ -203,7 +204,7 @@ local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
       else if (hdr[j] == "unitIcon")
       {
         //creating empty unit class/dead icon and weapons icons, to be filled in update func
-        local images = [ "img { id:t='unit-ico'; size:t='@tableIcoSize,@tableIcoSize'; background-image:t=''; shopItemType:t=''; }" ]
+        local images = [ "img { id:t='unit-ico'; size:t='@tableIcoSize,@tableIcoSize'; background-svg-size:t='@tableIcoSize, @tableIcoSize'; background-image:t=''; shopItemType:t=''; }" ]
         foreach(id, weap in ::getWeaponTypeIcoByWeapon("", ""))
           images.insert(0, ::format("img { id:t='%s-ico'; size:t='0.375@tableIcoSize,@tableIcoSize'; background-image:t=''; margin:t='2@dp, 0' }", id))
         if (isRowInvert)
@@ -763,7 +764,8 @@ local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
   foreach(w in air.weapons)
     if (w.name == weapon)
     {
-      local tankRockets = tankWeapons && (::getTblValue("antiTankRocket", w) || ::getTblValue("antiShipRocket", w))
+      local tankRockets = tankWeapons && (w?[WEAPON_TAG.ANTI_TANK_ROCKET] ||
+        w?[WEAPON_TAG.ANTI_SHIP_ROCKET])
       config.bomb = w.bomb? "#ui/gameuiskin#weap_bomb" : ""
       config.rocket = w.rocket || tankRockets? "#ui/gameuiskin#weap_missile" : ""
       config.torpedo = w.torpedo? "#ui/gameuiskin#weap_torpedo" : ""
@@ -786,9 +788,10 @@ local { getUnitRole } = require("scripts/unit/unitInfoTexts.nut")
   foreach(weapon in unit.weapons)
     if (weapon.name == weaponName)
     {
-      foreach (paramName in ["bomb", "rocket", "torpedo", "additionalGuns"])
-        if (weapon[paramName])
-          weaponIconsText += ::loc("weapon/" + paramName + "Icon")
+      foreach (paramName in [WEAPON_TAG.BOMB, WEAPON_TAG.ROCKET,
+        WEAPON_TAG.TORPEDO, WEAPON_TAG.ADD_GUN])
+          if (weapon[paramName])
+            weaponIconsText += ::loc("weapon/" + paramName + "Icon")
       break
     }
 

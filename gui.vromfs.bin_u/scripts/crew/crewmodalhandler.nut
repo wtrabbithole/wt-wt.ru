@@ -4,6 +4,8 @@ local { getUnitBasicRole, getRoleText } = require("scripts/unit/unitInfoTexts.nu
 local crewSkillsPageHandler = require("scripts/crew/crewSkillsPageHandler.nut")
 local { getSkillValue } = require("scripts/crew/crewSkills.nut")
 local tutorAction = require("scripts/tutorials/tutorialActions.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { setColoredDoubleTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 ::gui_modal_crew <- function gui_modal_crew(params = {})
 {
@@ -191,7 +193,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local data = ""
     local crewUnitTypes = []
-    foreach(unitType in ::g_unit_type.types)
+    foreach(unitType in unitTypes.types)
     {
       if (!unitType.isVisibleInShop())
         continue
@@ -364,7 +366,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     local totalPointsToMax = ::g_crew.getSkillPointsToMaxAllSkills(crew, curUnit, curCrewUnitType)
     showSceneBtn("btn_buy_all", totalPointsToMax > 0 && crew.id != -1)
     local text = ::loc("mainmenu/btnBuyAll") + ::loc("ui/parentheses/space", { text = ::get_crew_sp_text(totalPointsToMax) })
-    ::set_double_text_to_button(scene, "btn_buy_all", text)
+    setColoredDoubleTextToButton(scene, "btn_buy_all", text)
   }
 
   function onBuyAll()

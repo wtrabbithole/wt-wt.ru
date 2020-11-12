@@ -1,3 +1,4 @@
+local { clearBorderSymbols } = require("std/string.nut")
 local penalties = require("scripts/penitentiary/penalties.nut")
 local platformModule = require("scripts/clientState/platform.nut")
 local menuChatRoom = require("scripts/chat/menuChatRoom.nut")
@@ -445,8 +446,8 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     roomTab.canClose = room.canBeClosed? "yes" : "no"
-    roomTab.enable(!room.hidden)
-    roomTab.show(!room.hidden)
+    roomTab.enable(!room.hidden && !room.concealed())
+    roomTab.show(!room.hidden && !room.concealed())
     roomTab.tooltip = room.type.getTooltip(room.id)
     local textObj = roomTab.findObject("room_txt_"+idx)
     textObj.colorTag = room.type.getRoomColorTag(room.id)
@@ -485,6 +486,11 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   }
 
   function onEventSquadStatusChanged(p)
+  {
+    updateAllRoomTabs()
+  }
+
+  function onEventCrossNetworkChatOptionChanged(p)
   {
     updateAllRoomTabs()
   }
@@ -1082,7 +1088,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
                                                     voiceChatStatus = voiceChatStatus
                                                    })
 
-        ::call_darg("updateVoiceChatStatus", { name = contact?.name ?? "",
+        ::call_darg("updateVoiceChatStatus", { name = contact?.getName() ?? "",
           isTalking = voiceChatStatus == voiceChatStats.talking})
       }
     }
@@ -1737,7 +1743,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
   {
     local count = 0
     foreach(room in ::g_chat.rooms)
-      if (!room.hidden)
+      if (!room.hidden && !room.concealed())
         count++
     return count
   }
@@ -2511,7 +2517,7 @@ class ::MenuChatHandler extends ::gui_handlers.BaseGuiHandlerWT
     if (!value || ::is_chat_message_empty(value))
       return
 
-    value = "#" + ::clearBorderSymbols(value, [" ", "*"]) + "*"
+    value = "#" + clearBorderSymbols(value, [" ", "*"]) + "*"
     searchInProgress = true
     defaultRoomsInSearch = false
     searchRoomList = []

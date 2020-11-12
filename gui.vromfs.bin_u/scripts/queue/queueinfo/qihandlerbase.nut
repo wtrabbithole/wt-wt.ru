@@ -18,6 +18,10 @@ class ::gui_handlers.QiHandlerBase extends ::gui_handlers.BaseGuiHandlerWT
 
   isStatsCreated = false
 
+  onWrapUpCb = null
+  onWrapDownCb = null
+  leaveQueueCb = null
+
   function initScreen()
   {
     initTimer()
@@ -96,12 +100,16 @@ class ::gui_handlers.QiHandlerBase extends ::gui_handlers.BaseGuiHandlerWT
     if (waitTime > 0)
     {
       local minutes = time.secondsToMinutes(waitTime).tointeger()
-      local seconds = waitTime - time.minutesToSeconds(minutes).tointeger()
+      local seconds = waitTime - time.minutesToSeconds(minutes)
       local timetext = ::format(::loc("yn1/wait_time"), minutes, seconds)
       msg = msg + "\n" + timetext
     }
     textObj.setValue(msg)
   }
+
+  function onWrapUp(obj) { if (onWrapUpCb) onWrapUpCb(obj) }
+  function onWrapDown(obj) { if (onWrapDownCb) onWrapDownCb(obj) }
+  function leaveQueue(obj) { if (leaveQueueCb) leaveQueueCb() }
 
   function onEventQueueChangeState(p)     { checkCurQueue() }
   function onEventQueueInfoUpdated(p)     { if (queue) updateStats() }

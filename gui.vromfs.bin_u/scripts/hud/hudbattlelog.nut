@@ -106,7 +106,6 @@ enum BATTLE_LOG_FILTER
     //
 
 
-
   }
 
   rePatternNumeric = ::regexp2("^\\d+$")

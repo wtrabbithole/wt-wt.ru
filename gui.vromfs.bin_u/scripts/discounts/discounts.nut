@@ -1,12 +1,28 @@
 local { getTimestampFromStringUtc } = require("scripts/time.nut")
-local { haveDiscount, canUseIngameShop } = ::is_platform_ps4? require("scripts/onlineShop/ps4ShopData.nut")
-  : ::is_platform_xboxone? require("scripts/onlineShop/xboxShopData.nut")
-    : { haveDiscount = @() false, canUseIngameShop = @() false }
+local { targetPlatform, isPlatformPC, isPlatformPS4, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
+
+local { haveDiscount = @() false,
+        canUseIngameShop = @() false,
+        getShopItemsTable = @() {}
+} = isPlatformPS4 ? require("scripts/onlineShop/ps4ShopData.nut")
+  : isPlatformXboxOne ? require("scripts/onlineShop/xboxShopData.nut")
+  : null
+
+local { getEntitlementId } = require("scripts/onlineShop/onlineBundles.nut")
+local { getEntitlementConfig } = require("scripts/onlineShop/entitlements.nut")
 
 local { buttonsList } = require("scripts/mainmenu/topMenuButtons.nut")
-local topMenuOnlineShopId = ::is_platform_ps4? buttonsList.PS4_ONLINE_SHOP.id
-  : ::is_platform_xboxone? buttonsList.XBOX_ONLINE_SHOP.id
-    : ""
+local topMenuOnlineShopId = isPlatformPS4 ? buttonsList.PS4_ONLINE_SHOP.id
+  : isPlatformXboxOne ? buttonsList.XBOX_ONLINE_SHOP.id
+  : ""
+
+local platformMapForDiscountFromGuiBlk = {
+  pc = isPlatformPC
+  ps4_scee = isPlatformPS4 && ::ps4_get_region() == ::SCE_REGION_SCEE
+  ps4_scea = isPlatformPS4 && ::ps4_get_region() == ::SCE_REGION_SCEA
+  ps4_scej = isPlatformPS4 && ::ps4_get_region() == ::SCE_REGION_SCEJ
+}
+local updateGiftUnitsDiscountTask = -1
 
 ::g_discount <- {
   [PERSISTENT_DATA_PARAMS] = ["discountsList"]
@@ -14,36 +30,83 @@ local topMenuOnlineShopId = ::is_platform_ps4? buttonsList.PS4_ONLINE_SHOP.id
   getDiscountIconId = @(name) name + "_discount"
   canBeVisibleOnUnit = @(unit) unit && unit.isVisibleInShop() && !unit.isBought()
   discountsList = {}
+  consoleEntitlementUnits = {} //It must not be cleared in common func
 
   function updateOnlineShopDiscounts()
   {
+    consoleEntitlementUnits.clear()
+
     if (topMenuOnlineShopId == "")
       return
 
-    discountsList[topMenuOnlineShopId] = haveDiscount()
-    updateDiscountNotifications()
+    local isDiscountAvailable = haveDiscount()
+    discountsList[topMenuOnlineShopId] = isDiscountAvailable
+
+    if (isDiscountAvailable)
+      foreach (label, item in getShopItemsTable()) {
+        if (item.haveDiscount()) {
+          local entId = getEntitlementId(item.id)
+          local config = getEntitlementConfig(entId)
+          local unitsList = config?.aircraftGift ?? []
+          foreach (unitName in unitsList)
+            consoleEntitlementUnits[unitName] <- item.getDiscountPercent()
+        }
+      }
+
+    updateDiscountData()
   }
 
   onEventXboxShopDataUpdated = @(p) updateOnlineShopDiscounts()
   onEventPs4ShopDataUpdated = @(p) updateOnlineShopDiscounts()
 
   function updateGiftUnitsDiscountFromGuiBlk(giftUnits) { // !!!FIX ME Remove this function when gift units discount will received from char
-    if (!::is_platform_pc)
+    if (updateGiftUnitsDiscountTask >= 0) {
+      ::periodic_task_unregister(updateGiftUnitsDiscountTask)
+      updateGiftUnitsDiscountTask = -1
+    }
+
+    local discountsBlk = ::configs.GUI.get()?.entitlement_units_discount
+    if (discountsBlk == null)
       return
 
-    local discountConfig = ::configs.GUI.get()?.entitlement_units_discount
-    if (discountConfig == null)
-      return
+    local minUpdateDiscountsTimeSec = null
+    for(local i = 0; i < discountsBlk.blockCount(); i++) {
+      local discountConfigBlk = discountsBlk.getBlock(i)
+      local platforms = (discountConfigBlk?.platform ?? "pc").split(";")
+      local isSuitableForCurrentPlatform = false
+      foreach (platform in platforms) {
+        if (targetPlatform != platform && !(platformMapForDiscountFromGuiBlk?[platform] ?? false))
+          continue
 
-    local startTime = getTimestampFromStringUtc(discountConfig.beginDate)
-    local endTime = getTimestampFromStringUtc(discountConfig.endDate)
-    local currentTime = get_charserver_time_sec()
-    if (currentTime < startTime || currentTime > endTime)
-      return
+        isSuitableForCurrentPlatform = true
+        break
+      }
 
-    foreach (unitName, discount in discountConfig)
-      if (unitName in giftUnits)
-        discountsList.entitlementUnits[unitName] <- discount
+      if (!isSuitableForCurrentPlatform)
+        continue
+
+      local startTime = getTimestampFromStringUtc(discountConfigBlk.beginDate)
+      local endTime = getTimestampFromStringUtc(discountConfigBlk.endDate)
+      local currentTime = get_charserver_time_sec()
+      if (currentTime >= endTime)
+        continue
+
+      if (currentTime < startTime) {
+        local updateTimeSec = startTime - currentTime
+        minUpdateDiscountsTimeSec = ::min(minUpdateDiscountsTimeSec ?? updateTimeSec, updateTimeSec)
+        continue
+      }
+
+      local updateTimeSec = endTime - currentTime
+      minUpdateDiscountsTimeSec = ::min(minUpdateDiscountsTimeSec ?? updateTimeSec, updateTimeSec)
+      foreach (unitName, discount in discountConfigBlk)
+        if (unitName in giftUnits)
+          discountsList.entitlementUnits[unitName] <- discount
+    }
+
+    if (minUpdateDiscountsTimeSec != null)
+      updateGiftUnitsDiscountTask = ::periodic_task_register(this,
+        @(dt) updateDiscountData(), minUpdateDiscountsTimeSec)
   }
 }
 
@@ -117,7 +180,7 @@ g_discount.updateDiscountData <- function updateDiscountData(isSilentUpdate = fa
         && !air.isBought()
         && air.isVisibleInShop())
     {
-      if (::is_platform_pc && ::isUnitGift(air))
+      if (isPlatformPC && ::isUnitGift(air))
       {
         giftUnits[air.name] <- 0
         continue
@@ -137,6 +200,8 @@ g_discount.updateDiscountData <- function updateDiscountData(isSilentUpdate = fa
 
   if (canUseIngameShop() && topMenuOnlineShopId != "")
     discountsList[topMenuOnlineShopId] = haveDiscount()
+
+  discountsList.entitlementUnits.__update(consoleEntitlementUnits)
 
   local isShopDiscountVisible = false
   foreach(airName, discount in discountsList.airList)
@@ -184,7 +249,7 @@ g_discount.checkEntitlement <- function checkEntitlement(entName, entlBlock, gif
 
   local chapterVal = true
   if (chapter == topMenuOnlineShopId)
-    chapterVal = canUseIngameShop() || ::is_platform_pc
+    chapterVal = canUseIngameShop() || isPlatformPC
   discountsList[chapter] <- chapterVal
 
   if (entlBlock?.aircraftGift)

@@ -4,6 +4,7 @@ local wwQueuesData = require("scripts/worldWar/operations/model/wwQueuesData.nut
 local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWithUnitsList.nut")
 local wwOperationUnitsGroups = require("scripts/worldWar/inOperation/wwOperationUnitsGroups.nut")
 local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 const WW_BATTLES_SORT_TIME_STEP = 120
 const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
@@ -272,7 +273,7 @@ class ::WwBattle
           ::u.appendOnce(army.unitType, teamUnitTypes)
           local wwUnitType = ::g_ww_unit_type.getUnitTypeByCode(army.unitType)
           if (wwUnitType.canBeControlledByPlayer)
-            unitTypeMask = unitTypeMask | ::g_unit_type.getByEsUnitType(wwUnitType.esUnitCode).bit
+            unitTypeMask = unitTypeMask | unitTypes.getByEsUnitType(wwUnitType.esUnitCode).bit
         }
       }
 
@@ -1138,7 +1139,7 @@ class ::WwBattle
       return 0
 
     local maxBattleWaitTimeSec = time.minutesToSeconds(
-      ::g_world_war.getWWConfigurableValue("maxBattleWaitTimeMin", MAX_BATTLE_WAIT_TIME_MIN_DEFAULT)).tointeger()
+      ::g_world_war.getWWConfigurableValue("maxBattleWaitTimeMin", MAX_BATTLE_WAIT_TIME_MIN_DEFAULT))
     if (maxBattleWaitTimeSec <= 0)
       return 0
 

@@ -1,12 +1,15 @@
 local RB_GM_TYPE = require("scripts/gameModes/rbGmTypes.nut")
 local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { openUrl } = require("scripts/onlineShop/url.nut")
+local { isCrossPlayEnabled, needShowCrossPlayInfo } = require("scripts/social/crossplay.nut")
 
 ::featured_modes <- [
   {
     modeId = "world_war_featured_game_mode"
-    text = function() { return ::loc("mainmenu/btnWorldwar") }
+    text = @() ::loc("mainmenu/btnWorldwar")
     textDescription = @() ::g_world_war.getPlayedOperationText()
-    startFunction = function() { ::g_world_war.openMainWnd() }
+    startFunction = @() ::g_world_war.openMainWnd()
     isWide = @() ::is_me_newbie() || !::is_platform_pc
     image = function() {
         local operation = ::g_ww_global_status.getOperationById(::g_world_war.lastPlayedOperationId)
@@ -17,6 +20,21 @@ local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
       }
     videoPreview = null
     isVisible = @() ::is_worldwar_enabled()
+    isCrossPlayRequired = needShowCrossPlayInfo
+    inactiveColor = @() !::g_world_war.canPlayWorldwar()
+    crossPlayRestricted = @() !isCrossPlayEnabled()
+    crossplayTooltip = function() {
+      if (!needShowCrossPlayInfo()) //No need tooltip on other platforms
+        return null
+
+      //Always send to other platform if enabled
+      //Need to notify about it
+      if (isCrossPlayEnabled())
+        return ::loc("xbox/crossPlayEnabled")
+
+      //Notify that crossplay is strongly required
+      return ::loc("xbox/crossPlayRequired")
+    }
     hasNewIconWidget = true
     updateByTimeFunc = function(scene, objId) {
       local descObj = scene.findObject(objId + "_text_description")
@@ -29,7 +47,7 @@ local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
     modeId = "tss_featured_game_mode"
     text = @() ::loc("mainmenu/btnTournamentsTSS")
     textDescription = @() null
-    startFunction = @() ::g_url.open(::loc("url/tss_all_tournaments"), false, false)
+    startFunction = @() openUrl(::loc("url/tss_all_tournaments"), false, false)
     isWide = false
     image = @() "#ui/images/game_modes_tiles/tss_" + (isWide ? "wide" : "thin") + ".jpg?P1"
     videoPreview = null
@@ -597,7 +615,7 @@ class GameModeManager
     if (!inactiveColor)
       foreach(esUnitType in reqUnitTypes)
       {
-        inactiveColor = !::g_unit_type.getByEsUnitType(esUnitType).isAvailable()
+        inactiveColor = !unitTypes.getByEsUnitType(esUnitType).isAvailable()
         if (inactiveColor)
           break
       }
@@ -638,7 +656,7 @@ class GameModeManager
     _clearGameModes()
 
     local newbieGmByUnitType = {}
-    foreach (unitType in ::g_unit_type.types)
+    foreach (unitType in unitTypes.types)
     {
       local event = ::my_stats.getNextNewbieEvent(null, unitType.esUnitType, false)
       if (event)
@@ -689,7 +707,7 @@ class GameModeManager
     if (!gameMode)
       return []
 
-    local filteredUnitTypes = ::u.filter(::g_unit_type.types,
+    local filteredUnitTypes = ::u.filter(unitTypes.types,
       @(unitType) isOnlyAvailable ? unitType.isAvailable() : unitType)
     if (gameMode.type != RB_GM_TYPE.EVENT)
       return ::u.map(filteredUnitTypes, @(unitType) unitType.esUnitType)

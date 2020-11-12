@@ -3,6 +3,8 @@ local shopSearchBox = require("scripts/shop/shopSearchBox.nut")
 local slotActions = require("scripts/slotbar/slotActions.nut")
 local unitActions = require("scripts/unit/unitActions.nut")
 local { topMenuHandler, topMenuShopActive } = require("scripts/mainmenu/topMenuStates.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 local lastUnitType = null
 
@@ -471,8 +473,8 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
       return
 
     local locText = ::loc("mainmenu/btnRepairAll")
-    ::placePriceTextToButton(navBarObj, "btn_repairall", locText, repairAllCost)
-    ::placePriceTextToButton(navBarGroupObj, "btn_repairall", locText, repairAllCost)
+    placePriceTextToButton(navBarObj, "btn_repairall", locText, repairAllCost)
+    placePriceTextToButton(navBarGroupObj, "btn_repairall", locText, repairAllCost)
   }
 
   function onEventOnlineShopPurchaseSuccessful(params)
@@ -962,7 +964,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
   function isUnlockedFakeUnit(unit)
   {
     return get_units_count_at_rank(unit?.rank,
-      ::g_unit_type.getByName(unit?.isReqForFakeUnit ? ::split(unit.name, "_")?[0] : unit.name,
+      unitTypes.getByName(unit?.isReqForFakeUnit ? ::split(unit.name, "_")?[0] : unit.name,
         false).esUnitType,
       unit.country, true)
       >= (((::split(unit.name, "_"))?[1] ?? "0").tointeger() + 1)
@@ -975,7 +977,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
 
   function getCurPageUnitType()
   {
-    return ::g_unit_type.getByArmyId(curPage)
+    return unitTypes.getByArmyId(curPage)
   }
 
   function findUnitInGroupTableById(id)
@@ -1209,7 +1211,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     local unitType = forceUnitType
       ?? lastUnitType
       ?? ::getAircraftByName(curAirName)?.unitType
-      ?? ::g_unit_type.INVALID
+      ?? unitTypes.INVALID
 
     forceUnitType = null //forceUnitType applyied only once
 
@@ -1292,7 +1294,7 @@ class ::gui_handlers.ShopMenuHandler extends ::gui_handlers.GenericOptions
     if (!::g_discount.haveAnyUnitDiscount())
       return null
 
-    local unitType = ::g_unit_type.getByArmyId(armyId)
+    local unitType = unitTypes.getByArmyId(armyId)
     local discountsList = {}
     foreach(unit in ::all_units)
       if (unit.unitType == unitType

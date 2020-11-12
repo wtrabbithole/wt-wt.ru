@@ -9,19 +9,52 @@
   "sound": "weapon.rocketgun_132",
   "rocket": [
     {
+      "normalizationPreset": "heat"
+    },
+    {
+      "ricochetPreset": "atgm"
+    },
+    {
+      "secondaryShattersPreset": "ap"
+    },
+    {
+      "stabilityThreshold": 0.1
+    },
+    {
+      "stabilityCaliberToArmorThreshold": 100.0
+    },
+    {
+      "stabilityReductionAfterRicochet": 0.3
+    },
+    {
+      "stabilityReductionAfterPenetration": 0.01
+    },
+    {
       "bulletType": "atgm_tank"
     },
     {
-      "caliber": 0.152
+      "cumulativeSecondaryShattersPreset": "atgm"
     },
     {
-      "length": 1.16
+      "explodeOnRendinst": true
+    },
+    {
+      "modelName": "tank_bullet_heat_fs"
+    },
+    {
+      "fresnel": [0.23,0.1,2.0]
+    },
+    {
+      "caliber": 0.136
+    },
+    {
+      "length": 1.27
     },
     {
       "explosiveType": "hta"
     },
     {
-      "explosiveMass": 2.08
+      "explosiveMass": 2.45
     },
     {
       "distFromCmToStab": 0.01
@@ -48,10 +81,7 @@
       "autoAimingMaxAngle": 10.0
     },
     {
-      "aimIntegralSensitivity": 0.1
-    },
-    {
-      "aimIntegralSensitivityLimit": 0.05
+      "autoAimTrackingSensitivity": 0.4
     },
     {
       "WdK": [0.1,0.1,0.1]
@@ -93,10 +123,10 @@
       "maxDistance": 3000.0
     },
     {
-      "minDistance": 30.0
+      "minDistance": 65.0
     },
     {
-      "mass": 18.9
+      "mass": 18.8
     },
     {
       "massEnd": 15.0
@@ -214,6 +244,25 @@
     },
     {
       "aiAccelPrediction": 0.5
+    },
+    {
+      "amountPerTier": 4.0
+    },
+    {
+      "iconType": "atgm_type1_x4"
+    },
+    {
+      "stabilityRicochetModifier": [
+        {
+          "mod1": [0.0,0.0]
+        },
+        {
+          "mod2": [20.0,0.1]
+        },
+        {
+          "mod2": [30.0,0.2]
+        }
+      ]
     },
     {
       "damage": {

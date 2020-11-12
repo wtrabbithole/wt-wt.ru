@@ -2075,7 +2075,14 @@
       "preset": {
         "name": "mig_15bis_16xs_5k_rockets",
         "blk": "gameData/FlightModels/weaponPresets/mig_15bis_16xs_5k_rockets.blk",
-        "reqModification": "C5"
+        "reqModification": "C5",
+        "weaponConfig": {
+          "Weapon": {
+            "blk": "gameData/Weapons/rocketGuns/su_s_5k_rocket.blk",
+            "amountPerTier": 8.0,
+            "iconType": "nar_ap_small"
+          }
+        }
       }
     },
     {
@@ -2102,7 +2109,7 @@
     "radiusSpeed": 2.0
   },
   "fireParams": {
-    "engineExtinguishFireSpeed": [249.0,334.0],
+    "engineExtinguishFireSpeed": [272.0,316.0],
     "engineExtinguishFireSpeedChance": [0.01,0.1],
     "fireDamagePowerRel": 0.05,
     "nonExtinguishFireTime": 5.0

@@ -1,15 +1,18 @@
 local { animBgLoad } = require("scripts/loading/animBg.nut")
+local { setHelpTextOnLoading, setVersionText } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 class ::gui_handlers.LoadingHangarHandler extends ::gui_handlers.BaseGuiHandlerWT
 {
   sceneBlkName = "gui/loading/loadingHangar.blk"
   sceneNavBlkName = "gui/loadingNav.blk"
 
+  isEnteringMission = false // true on entering mission, false on quiting.
+
   function initScreen()
   {
     animBgLoad()
-    ::setVersionText()
-    ::set_help_text_on_loading(scene.findObject("help_text"))
+    setVersionText()
+    setHelpTextOnLoading(scene.findObject("help_text"))
 
     initFocusArray()
 

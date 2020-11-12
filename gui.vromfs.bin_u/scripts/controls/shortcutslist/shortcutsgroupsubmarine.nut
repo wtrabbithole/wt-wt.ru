@@ -1,10 +1,11 @@
 local controlsOperations = require("scripts/controls/controlsOperations.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 return [
   {
     id = "ID_SUBMARINE_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
-    unitType = ::g_unit_type.SHIP
+    unitType = unitTypes.SHIP
     unitTag = "submarine"
     showFunc = @() ::has_feature("SpecialShips") || ::is_submarine(::get_player_cur_unit())
     needShowInHelp = true
@@ -13,7 +14,7 @@ return [
   {
     id = "ID_SUBMARINE_OPERATIONS_HEADER"
     type = CONTROL_TYPE.SECTION
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_SUBMARINE_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
@@ -22,7 +23,7 @@ return [
       ctrlGroups.SUBMARINE,
       controlsOperations.Flags.WITHOUT_MODIFIERS
     )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_SUBMARINE_SWAP_GAMEPAD_STICKS"
@@ -30,7 +31,7 @@ return [
     onClick = @() controlsOperations.swapGamepadSticks(
       ctrlGroups.SUBMARINE
     )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
 //-------------------------------------------------------
   {

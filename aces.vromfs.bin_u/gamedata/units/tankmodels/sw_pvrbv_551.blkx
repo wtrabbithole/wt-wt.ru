@@ -1052,6 +1052,23 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2036,7 +2053,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2045,7 +2062,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2054,7 +2071,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2062,7 +2079,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ],
@@ -2168,7 +2185,7 @@
             "expl": 1.0,
             "conditionDamage": 350.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2177,7 +2194,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2186,7 +2203,7 @@
             "expl": 1.0,
             "conditionDamage": 750.0,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -2194,7 +2211,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "hullBrake"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -2222,8 +2239,7 @@
         "Weapon": {
           "trigger": "gunner0",
           "triggerGroup": "primary",
-          "blk": "gameData/Weapons/groundModels_weapons/127mm_Rbs_55_itow_rocket_launcher.blk",
-          "weaponType": "rockets",
+          "blk": "gameData/Weapons/groundModels_weapons/127mm_Rbs_55_tow_launcher_user_cannon.blk",
           "flash": "emtr_gun_flame_01",
           "useEmitter": true,
           "emitter": "bone_rocket_01",
@@ -2237,8 +2253,9 @@
           "brokenBarrelAllowShoot": false,
           "speedYaw": 25.0,
           "speedPitch": 25.0,
+          "yawSpdLowBattery": 25.0,
+          "pitchSpdLowBattery": 25.0,
           "fireConeAngle": 1.0,
-          "isBulletBelt": false,
           "bullets": 8,
           "salvoAmount": 100.0,
           "ChainfireTime": 0.0,
@@ -2261,8 +2278,12 @@
             "gunnerDm": "gunner_dm"
           },
           "limits": {
-            "yaw": [-35.0,35.0],
-            "pitch": [-5.0,10.0]
+            "yaw": [-120.0,120.0],
+            "pitch": [-13.0,25.0]
+          },
+          "limitsTable": {
+            "lim1": [-120.0,8.0,-13.0,25.0],
+            "lim2": [8.0,120.0,-8.0,25.0]
           }
         }
       },
@@ -2339,7 +2360,7 @@
         "animationMultiplier": -0.45,
         "height": 0.044,
         "width": 0.3,
-        "fricFrontal": [1.0,1.0]
+        "fricFrontal": [1.0,0.9]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2351,11 +2372,11 @@
         "minRPM": 500.0
       },
       "mechanics": {
-        "maxBrakeForce": 50000.0,
+        "maxBrakeForce": 40000.0,
         "driveGearRadius": 0.25,
         "mainGearRatio": 2.3,
         "sideGearRatio": 4.0,
-        "neutralGearRatio": 30.0,
+        "neutralGearRatio": 13.0,
         "gearRatios": [
           {
             "ratio": -8.0
@@ -2965,6 +2986,15 @@
       },
       {
         "event": {
+          "name": "fuel_exterior",
+          "fx": {
+            "name": "tank_ex_fuel_explosion",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
           "name": "big_bang",
           "fx": {
             "name": "tank_explosion",
@@ -3014,109 +3044,9 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_sw"
       },
-      "pvrbv_TOW_2_upgrade": {
-        "invertEnableLogic": false,
-        "turn_it_off": false,
-        "effects": {
-          "rcostAddParam": 0.9,
-          "changeMass": 10.0,
-          "commonWeapons": [
-            {
-              "Weapon": {
-                "trigger": "gunner0",
-                "triggerGroup": "primary",
-                "blk": "gameData/Weapons/groundModels_weapons/152mm_Rbs_55_tow_2_rocket_launcher.blk",
-                "weaponType": "rockets",
-                "flash": "emtr_gun_flame_01",
-                "useEmitter": true,
-                "emitter": "bone_rocket_01",
-                "recoilMultiplier": 0.0,
-                "stopForFire": true,
-                "maxSpeedForFire": 5.0,
-                "createGunEffects": true,
-                "defaultYaw": 0.0,
-                "defaultPitch": 0.0,
-                "barrelDP": "gun_barrel_dm",
-                "brokenBarrelAllowShoot": false,
-                "speedYaw": 25.0,
-                "speedPitch": 25.0,
-                "fireConeAngle": 1.0,
-                "isBulletBelt": false,
-                "bullets": 8,
-                "salvoAmount": 100.0,
-                "ChainfireTime": 0.0,
-                "DelayAfterShoot": 5.0,
-                "AttackMaxDistance": 1000.0,
-                "AttackMaxRadius": 1000.0,
-                "AttackMaxHeight": 1000.0,
-                "accuracyAir": 0.0,
-                "accuracyGnd": 1.5,
-                "errMeasureVel": 0.0,
-                "errMeasureVelFast": 0.0,
-                "errMeasureVelFwdShift": 0.0,
-                "errMeasureVelDir": 0.0,
-                "errTargettingOn100kmph": 0.0,
-                "errTargetting": 3.0,
-                "errExplTime": 0.0,
-                "turret": {
-                  "head": "bone_turret",
-                  "gun": "bone_gun",
-                  "gunnerDm": "gunner_dm"
-                },
-                "limits": {
-                  "yaw": [-35.0,35.0],
-                  "pitch": [-5.0,10.0]
-                }
-              }
-            },
-            {
-              "Weapon": {
-                "trigger": "gunner1",
-                "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_modern_smoke_grenade_launcher.blk",
-                "weaponType": "rockets",
-                "startFx": "",
-                "useEmitter": true,
-                "emitter": "emtr_mortar_flame_01",
-                "emitterGenRange": [1,6],
-                "emitterGenFmt": "emtr_mortar_flame_%02d",
-                "createGunEffects": true,
-                "defaultYaw": 0.0,
-                "defaultPitch": 0.0,
-                "allowableDelta": 360.0,
-                "salvo": 6,
-                "speedYaw": 24.0,
-                "speedPitch": 15.0,
-                "fireConeAngle": 1.0,
-                "bullets": 6,
-                "salvoAmount": 100.0,
-                "ChainfireTime": 0.0,
-                "DelayAfterShoot": 5.0,
-                "AttackMaxDistance": 1000.0,
-                "AttackMaxRadius": 1000.0,
-                "AttackMaxHeight": 1000.0,
-                "accuracyAir": 0.0,
-                "accuracyGnd": 1.5,
-                "errMeasureVel": 0.0,
-                "errMeasureVelFast": 0.0,
-                "errMeasureVelFwdShift": 0.0,
-                "errMeasureVelDir": 0.0,
-                "errTargettingOn100kmph": 0.0,
-                "errTargetting": 3.0,
-                "errExplTime": 0.0,
-                "turret": {
-                  "head": "bone_grenade",
-                  "gun": "bone_grenade"
-                },
-                "limits": {
-                  "yaw": [-0.0,0.0],
-                  "pitch": [0.0,0.0]
-                }
-              }
-            }
-          ]
-        }
-      },
+      "127mm_us_tow": [],
+      "152mm_us_tow_2": [],
+      "152mm_us_tow_2_ammo_pack": [],
       "night_vision_system": {
         "effects": {
           "nightVision": {

@@ -155,6 +155,9 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
       [::USEROPT_BOMB_ACTIVATION_TIME, "spinner"],
       [::USEROPT_ROCKET_FUSE_DIST, "spinner"],
       [::USEROPT_LOAD_FUEL_AMOUNT, "spinner"],
+      [::USEROPT_FLARES_SERIES, "spinner"],
+      [::USEROPT_FLARES_SERIES_PERIODS, "spinner"],
+      [::USEROPT_FLARES_PERIODS, "spinner"],
     ]
 
     local common_options = [
@@ -307,8 +310,6 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
 
   function startTestFlight()
   {
-    ::test_flight <- true
-
     local misName = getTestFlightMisName(unit.testFlight)
     local misBlk = ::get_mission_meta_info(misName)
     if (!misBlk)
@@ -384,12 +385,13 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
       })
     }
 
+    local bulletSetsQuantity = updUnit.unitType.bulletSetsQuantity
     local bulDataList = []
-    for (local groupIdx = 0; groupIdx < ::BULLETS_SETS_QUANTITY; groupIdx++)
+    for (local groupIdx = 0; groupIdx < bulletSetsQuantity; groupIdx++)
     {
       local isActive = isBulletGroupActive(updUnit, groupIdx)
 
-      local gunIdx = ::get_linked_gun_index(groupIdx, groupsCount)
+      local gunIdx = ::get_linked_gun_index(groupIdx, groupsCount, bulletSetsQuantity)
       local modName = ::get_last_bullets(updUnit.name, groupIdx)
       local maxToRespawn = 0
 
@@ -451,6 +453,12 @@ class ::gui_handlers.TestFlight extends ::gui_handlers.GenericOptionsModal
       ::set_unit_option(updUnit.name, ::USEROPT_BULLETS0 + bulIdx, modName)
       ::set_gui_option(::USEROPT_BULLETS0 + bulIdx, modName)
       ::set_gui_option(::USEROPT_BULLET_COUNT0 + bulIdx, bulData.amountToSet)
+    }
+    for (local bulIdx = bulletSetsQuantity; bulIdx < ::BULLETS_SETS_QUANTITY; bulIdx++)
+    {
+      ::set_unit_option(updUnit.name, ::USEROPT_BULLETS0 + bulIdx, "")
+      ::set_gui_option(::USEROPT_BULLETS0 + bulIdx, "")
+      ::set_gui_option(::USEROPT_BULLET_COUNT0 + bulIdx, 0)
     }
   }
 

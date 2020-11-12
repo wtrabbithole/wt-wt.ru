@@ -60,7 +60,7 @@ local tabGroups = [
   }
 ]
 
-::getTabs <- function getTabs(contentSet)
+local function getTabs(contentSet)
 {
   local res = []
   foreach (group in tabGroups)
@@ -72,7 +72,7 @@ local tabGroups = [
   return res
 }
 
-::getPrefferableType <- function getPrefferableType(contentSet)
+local function getPrefferableType(contentSet)
 {
   if (contentSet == HELP_CONTENT_SET.LOADING)
     return helpTypes.MISSION_OBJECTIVES

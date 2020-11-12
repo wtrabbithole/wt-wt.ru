@@ -30,6 +30,7 @@ local requestInternal = function(requestData, data, callback, progressBoxData = 
   })
 }
 
+local getErrorId = @(result) result.error.split(":")[0]
 
 local InventoryClient = class {
   items = {}
@@ -47,8 +48,6 @@ local InventoryClient = class {
   firstProfileLoadComplete = false
 
   needRefreshItems = false
-  hasInventoryChanges = false
-  hasItemDefChanges = false
 
   haveInitializedPublicKeys = false
 
@@ -269,9 +268,10 @@ local InventoryClient = class {
 
   function addInventoryItem(item)
   {
-    local shouldUpdateItemdDefs = addItemDefIdToRequest(item.itemdef)
-    item.itemdefid <- item.itemdef
-    item.itemdef = itemdefs[item.itemdefid] //fix me: why we use same field name for other purposes?
+    local itemdefid = item.itemdef
+    local shouldUpdateItemdDefs = addItemDefIdToRequest(itemdefid)
+    item.itemdefid <- itemdefid
+    item.itemdef = itemdefs[itemdefid] //fix me: why we use same field name for other purposes?
     items[item.itemid] <- item
     return shouldUpdateItemdDefs
   }
@@ -309,6 +309,7 @@ local InventoryClient = class {
     lastRequestTime = ::dagor.getCurTime()
     requestInventory(function(result) {
       lastUpdateTime = ::dagor.getCurTime()
+      local hasInventoryChanges = false
       if (wasWaitForInventory)
         hasInventoryChanges = true //need event about we received inventory once, even if it empty.
 
@@ -316,7 +317,7 @@ local InventoryClient = class {
       if (!itemJson)
       {
         if (wasWaitForInventory)
-          notifyInventoryUpdate()
+          notifyInventoryUpdate(hasInventoryChanges)
         return
       }
 
@@ -348,10 +349,10 @@ local InventoryClient = class {
       }
 
       if (shouldUpdateItemdefs) {
-        requestItemDefs(notifyInventoryUpdate);
+        requestItemDefs()
       }
       else {
-        notifyInventoryUpdate()
+        notifyInventoryUpdate(hasInventoryChanges)
       }
     })
   }
@@ -430,6 +431,7 @@ local InventoryClient = class {
           return
         }
 
+        local hasItemDefChanges = false
         foreach (itemdef in itemdef_json) {
           local itemdefid = itemdef.itemdefid
           if (itemdefid in itemdefidsRequested)
@@ -438,7 +440,7 @@ local InventoryClient = class {
           addItemDef(itemdef)
         }
 
-        notifyInventoryUpdate()
+        notifyInventoryUpdate(true, hasItemDefChanges)
         requestData.fireCb()
         requestItemDefsImpl()
       })
@@ -447,18 +449,15 @@ local InventoryClient = class {
   function removeItem(itemid) {
     if (itemid in items)
       delete items[itemid]
-    hasInventoryChanges = true
-    notifyInventoryUpdate()
+    notifyInventoryUpdate(true)
   }
 
-  function notifyInventoryUpdate() {
+  function notifyInventoryUpdate(hasInventoryChanges = false, hasItemDefChanges = false) {
     if (hasItemDefChanges) {
-      hasItemDefChanges = false
       ::dagor.debug("ExtInventory itemDef changed")
       ::broadcastEvent("ItemDefChanged")
     }
     if (hasInventoryChanges) {
-      hasInventoryChanges = false
       ::dagor.debug("ExtInventory changed")
       ::broadcastEvent("ExtInventoryChanged")
     }
@@ -542,13 +541,19 @@ local InventoryClient = class {
     return recipes
   }
 
-  function handleItemsDelta(result, cb = null, shouldCheckInventory = true) {
+  function handleItemsDelta(result, cb = null, errocCb = null, shouldCheckInventory = true) {
+    if (result?.error != null) {
+      errocCb?(getErrorId(result))
+      return
+    }
+
     local itemJson = getResultData(result, "item_json")
     if (!itemJson)
       return
 
     local newItems = []
     local shouldUpdateItemdefs = false
+    local hasInventoryChanges = false
     foreach (item in itemJson) {
       local oldItem = ::getTblValue(item.itemid, items)
       if (item.quantity == 0) {
@@ -588,14 +593,14 @@ local InventoryClient = class {
       })
     }
     else {
-      notifyInventoryUpdate()
+      notifyInventoryUpdate(hasInventoryChanges)
       if (cb) {
         cb(newItems)
       }
     }
   }
 
-  function exchangeViaChard(materials, outputItemDefId, cb = null, shouldCheckInventory = true, requirement = null) {
+  function exchangeViaChard(materials, outputItemDefId, cb = null, errocCb = null, shouldCheckInventory = true, requirement = null) {
     local json = {
       outputitemdefid = outputItemDefId
       materials = materials
@@ -606,7 +611,7 @@ local InventoryClient = class {
     }
 
     local internalCb = ::Callback((@(cb, shouldCheckInventory) function(data) {
-                                     handleItemsDelta(data, cb, shouldCheckInventory)
+                                     handleItemsDelta(data, cb, errocCb, shouldCheckInventory)
                                  })(cb, shouldCheckInventory), this)
     local taskId = ::char_send_custom_action("cln_inventory_exchange_items",
                                              EATT_JSON_REQUEST,
@@ -616,7 +621,7 @@ local InventoryClient = class {
     ::g_tasker.addTask(taskId, { showProgressBox = true }, internalCb, null, TASK_CB_TYPE.REQUEST_DATA)
   }
 
-  function exchangeDirect(materials, outputItemDefId, cb = null, shouldCheckInventory = true) {
+  function exchangeDirect(materials, outputItemDefId, cb = null, errocCb = null, shouldCheckInventory = true) {
     local req = {
         outputitemdefid = outputItemDefId,
         materials = materials
@@ -624,13 +629,13 @@ local InventoryClient = class {
 
     request("ExchangeItems", {}, req,
       function(result) {
-        handleItemsDelta(result, cb, shouldCheckInventory)
+        handleItemsDelta(result, cb, errocCb, shouldCheckInventory)
       },
       { }
     )
   }
 
-  function exchange(materials, outputItemDefId, cb = null, shouldCheckInventory = true, requirement = null) {
+  function exchange(materials, outputItemDefId, cb = null, errocCb = null, shouldCheckInventory = true, requirement = null) {
     // We can continue to use exchangeDirect if requirement is null. It would be
     // better to use exchangeViaChard in all cases for the sake of consistency,
     // but this will break compatibility with the char server. This distinction
@@ -638,11 +643,11 @@ local InventoryClient = class {
 
     if (!::u.isString(requirement) || requirement.len() == 0)
     {
-      exchangeDirect(materials, outputItemDefId, cb, shouldCheckInventory)
+      exchangeDirect(materials, outputItemDefId, cb, errocCb, shouldCheckInventory)
       return
     }
 
-    exchangeViaChard(materials, outputItemDefId, cb, shouldCheckInventory, requirement)
+    exchangeViaChard(materials, outputItemDefId, cb, errocCb, shouldCheckInventory, requirement)
   }
 
   function getChestGeneratorItemdefIds(itemdefid) {
@@ -667,7 +672,7 @@ local InventoryClient = class {
   function forceRefreshItemDefs()
   {
     requestItemDefs(function() {
-      notifyInventoryUpdate()
+      notifyInventoryUpdate(true, true)
     }, true)
   }
 
@@ -715,16 +720,12 @@ local InventoryClient = class {
     items.clear()
   }
 
-  function cancelDelayedExchange(itemUid, cb = null) {
+  function cancelDelayedExchange(itemUid, cb = null, errocCb = null) {
     request("CancelDelayedExchange",
       { itemId = itemUid },
       null,
-      function(result) {
-        if (!!result?.error)
-          return cb(result)
-
-        handleItemsDelta(result, cb)
-      })
+      @(result) handleItemsDelta(result, cb, errocCb)
+    )
   }
 
 }

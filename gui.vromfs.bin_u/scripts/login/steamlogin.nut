@@ -1,4 +1,6 @@
 local { animBgLoad } = require("scripts/loading/animBg.nut")
+local showTitleLogo = require("scripts/viewUtils/showTitleLogo.nut")
+local { setVersionText } = require("scripts/viewUtils/objectTextUpdate.nut")
 
 class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
 {
@@ -7,9 +9,9 @@ class ::gui_handlers.LoginWndHandlerSteam extends ::gui_handlers.LoginWndHandler
   function initScreen()
   {
     animBgLoad()
-    ::setVersionText()
+    setVersionText()
     ::setProjectAwards(this)
-    ::show_title_logo(true, scene, "128")
+    showTitleLogo(scene, 128)
     ::set_gui_options_mode(::OPTIONS_MODE_GAMEPLAY)
 
     local lp = ::get_login_pass()

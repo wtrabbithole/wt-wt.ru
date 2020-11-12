@@ -1,6 +1,8 @@
 local enums = ::require("sqStdlibs/helpers/enums.nut")
 local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
+local { getByCurBundle } = require("scripts/weaponry/itemInfo.nut")
+
 ::g_weaponry_types <- {
   types = []
   cache = {
@@ -58,7 +60,7 @@ enums.addTypesByGlobalName("g_weaponry_types", {
 //************************* WEAPON *********************************************
   WEAPON = {
     type = weaponsItem.weapon
-    getLocName = function(unit, item, limitedName = false) { return getWeaponNameText(unit, false, item.name, " ") }
+    getLocName = @ (unit, item, limitedName = false) getWeaponNameText(unit, false, item.name, ",  ")
     getHeader = @(unit) (unit.isAir() || unit.isHelicopter()) ? ::loc("options/secondary_weapons")
        : ::loc("options/additional_weapons")
     getCost = function(unit, item) {
@@ -154,19 +156,19 @@ enums.addTypesByGlobalName("g_weaponry_types", {
     type = weaponsItem.bundle
     getLocName = function(unit, item, limitedName = false)
     {
-      return ::weaponVisual.getByCurBundle(unit, item, (@(limitedName) function(unit, curItem) {
+      return getByCurBundle(unit, item, (@(limitedName) function(unit, curItem) {
         return ::g_weaponry_types.getUpgradeTypeByItem(curItem).getLocName(unit, curItem, limitedName)
       })(limitedName))
     }
     getUnlockCost = function(unit, item)
     {
-      return ::weaponVisual.getByCurBundle(unit, item, function(unit, curItem) {
+      return getByCurBundle(unit, item, function(unit, curItem) {
         return ::g_weaponry_types.getUpgradeTypeByItem(curItem).getUnlockCost(unit, curItem)
       })
     }
     getCost = function(unit, item)
     {
-      return ::weaponVisual.getByCurBundle(unit, item, function(unit, curItem) {
+      return getByCurBundle(unit, item, function(unit, curItem) {
         return ::g_weaponry_types.getUpgradeTypeByItem(curItem).getCost(unit, curItem)
       })
     }

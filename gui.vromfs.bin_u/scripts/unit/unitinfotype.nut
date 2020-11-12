@@ -6,16 +6,17 @@ local { getUnitRole, getUnitBasicRole, getRoleText, getUnitTooltipImage,
 local { countMeasure } = ::require("scripts/options/optionsMeasureUnits.nut")
 local { getWeaponInfoText } = require("scripts/weaponry/weaponryVisual.nut")
 local { getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 local UNIT_INFO_ARMY_TYPE  = {
-  AIR        = ::g_unit_type.AIRCRAFT.bit
-  TANK       = ::g_unit_type.TANK.bit
-  SHIP       = ::g_unit_type.SHIP.bit
-  HELICOPTER = ::g_unit_type.HELICOPTER.bit
+  AIR        = unitTypes.AIRCRAFT.bit
+  TANK       = unitTypes.TANK.bit
+  SHIP       = unitTypes.SHIP.bit
+  HELICOPTER = unitTypes.HELICOPTER.bit
 
-  AIR_TANK   = ::g_unit_type.AIRCRAFT.bit | ::g_unit_type.TANK.bit
-  ALL        = ::g_unit_type.AIRCRAFT.bit | ::g_unit_type.TANK.bit
-               | ::g_unit_type.SHIP.bit | ::g_unit_type.HELICOPTER.bit
+  AIR_TANK   = unitTypes.AIRCRAFT.bit | unitTypes.TANK.bit
+  ALL        = unitTypes.AIRCRAFT.bit | unitTypes.TANK.bit
+               | unitTypes.SHIP.bit | unitTypes.HELICOPTER.bit
 }
 enum UNIT_INFO_ORDER{
   TRAIN_COST = 0,
@@ -32,6 +33,7 @@ enum UNIT_INFO_ORDER{
   MASS_PER_SEC,
   MASS,
   HORSE_POWERS,
+  HORSE_POWERS_RPM,
   MAX_SPEED_TANK,
   MAX_INCLINATION,
   TURN_TURRET_SPEED,
@@ -297,7 +299,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
   {
     id = "train_cost"
     compare = COMPARE_LESS_BETTER
-    order = UNIT_INFO_ORDER.FREE_REPAIRS
+    order = UNIT_INFO_ORDER.TRAIN_COST
     headerLocId = "shop/crew_train_cost"
     addToExportDataBlock = function(blk, unit)
     {
@@ -572,6 +574,25 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     }
   }
   {
+    id = "horse_powers_rpm"
+    order = UNIT_INFO_ORDER.HORSE_POWERS_RPM
+    compare = COMPARE_NO_COMPARE
+    headerLocId = "shop/horsePowers"
+    infoArmyType = UNIT_INFO_ARMY_TYPE.TANK
+    addToExportTankDataBlockValues = function(blk, params, mode)
+    {
+        local horsePowersRPM = params.maxHorsePowersRPM.tointeger()
+
+        blk.value[mode] = horsePowersRPM
+        blk.valueText[mode] = horsePowersRPM.tostring()
+    }
+
+    addToExportDataBlock = function(blk, unit)
+    {
+      addToExportTankDataBlock(blk, unit)
+    }
+  }
+  {
     id = "max_speed_tank"
     order = UNIT_INFO_ORDER.MAX_SPEED_TANK
     compare = COMPARE_MORE_BETTER
@@ -754,7 +775,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.TANK
     addToExportTankDataBlockValues = function(blk, params, mode)
     {
-      if(blk.hide)
+      if(blk?.hide ?? false)
         return
       local armorPiercing = params.armorPiercing;
       if(armorPiercing.len() > 2)
@@ -784,7 +805,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.TANK
     addToExportTankDataBlockValues = function(blk, params, mode)
     {
-      if(blk.hide)
+      if(blk?.hide ?? false)
         return
       local armorPiercing = params.armorPiercing;
       if(armorPiercing.len() > 2)
@@ -815,7 +836,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.TANK
     addToExportTankDataBlockValues = function(blk, params, mode)
     {
-      if(blk.hide)
+      if(blk?.hide ?? false)
         return
       local armorPiercing = params.armorPiercing;
       if(armorPiercing.len() > 2)
@@ -842,7 +863,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.TANK
     addToExportTankDataBlockValues = function(blk, params, mode)
     {
-      if(blk.hide)
+      if(blk?.hide ?? false)
         return
       local shotFreq = params.shotFreq;
       if(shotFreq > 0)
@@ -873,7 +894,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.TANK
     addToExportTankDataBlockValues = function(blk, params, mode)
     {
-      if(blk.hide)
+      if(blk?.hide ?? false)
         return
       local reloadTime = params.reloadTime;
       if(reloadTime > 0)
@@ -921,7 +942,7 @@ enums.addTypesByGlobalName("g_unit_info_type", [
     infoArmyType = UNIT_INFO_ARMY_TYPE.TANK
     addToExportTankDataBlockValues = function(blk, params, mode)
     {
-      if(blk.hide)
+      if(blk?.hide ?? false)
         return
       if(!("visibilityFactor" in params) || params.visibilityFactor <= 0)
       {

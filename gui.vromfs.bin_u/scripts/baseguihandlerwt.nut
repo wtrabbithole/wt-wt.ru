@@ -5,6 +5,8 @@ local unitActions = require("scripts/unit/unitActions.nut")
 local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
 local unitContextMenuState = require("scripts/unit/unitContextMenuState.nut")
 local { isChatEnabled } = require("scripts/chat/chatStates.nut")
+local { openUrl } = require("scripts/onlineShop/url.nut")
+local { updateWeaponTooltip } = require("scripts/weaponry/weaponryVisual.nut")
 
 local stickedDropDown = null
 local defaultSlotbarActions = [ "autorefill", "aircraft", "weapons", "showroom", "testflight", "crew", "info", "repair" ]
@@ -403,10 +405,7 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
 
   function onMyClanOpen()
   {
-    if (::has_feature("Clans"))
-      ::gui_modal_clans("my_clan")
-    else
-      ::showInfoMsgBox(::loc("clan/consolePlayerOnPC"))
+    ::gui_modal_clans("my_clan")
   }
 
   function onGC_chat(obj)
@@ -661,7 +660,7 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
 
     local mod = ::getModificationByName(unit, modName) || { name = modName, isDefaultForGroup = (obj?.groupIdx ?? 0).tointeger() }
     mod.type <- weaponsItem.modification
-    ::weaponVisual.updateWeaponTooltip(obj, unit, mod, this)
+    updateWeaponTooltip(obj, unit, mod, this)
   }
 
   function onTooltipObjClose(obj)
@@ -721,10 +720,10 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
     ::view_fullscreen_image(obj)
   }
 
-  function onFaq()             { ::open_url(::loc("url/faq")) }
-  function onForum()           { ::open_url(::loc("url/forum")) }
-  function onSupport()         { ::open_url(::loc("url/support")) }
-  function onWiki()            { ::open_url(::loc("url/wiki")) }
+  function onFaq()             { openUrl(::loc("url/faq")) }
+  function onForum()           { openUrl(::loc("url/forum")) }
+  function onSupport()         { openUrl(::loc("url/support")) }
+  function onWiki()            { openUrl(::loc("url/wiki")) }
 
   function onSquadCreate(obj)
   {
@@ -963,7 +962,7 @@ local class BaseGuiHandlerWT extends ::BaseGuiHandler {
 
   function proccessLinkFromText(obj, itype, link)
   {
-    ::open_url(link, false, false, obj?.bqKey ?? obj?.id)
+    openUrl(link, false, false, obj?.bqKey ?? obj?.id)
   }
 
   function onFacebookPostPurchaseChange(obj)

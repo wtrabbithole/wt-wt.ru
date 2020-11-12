@@ -2,6 +2,7 @@ local enums = ::require("sqStdlibs/helpers/enums.nut")
 local string = ::require("std/string.nut")
 local stdMath = require("std/math.nut")
 local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
+local { KGF_TO_NEWTON } = require("scripts/weaponry/weaponryInfo.nut")
 
 const GOOD_COLOR = "@goodTextColor"
 const BAD_COLOR = "@badTextColor"
@@ -239,6 +240,9 @@ enums.addTypes(effectsType, [
     canShowForUnit = @(unit) ::has_feature("TankModEffect")
   }
   { id = "distToBrake",            measureType = "meters_alt", isInverted = true, presize = 0.1
+    canShowForUnit = @(unit) ::has_feature("TankModEffect")
+  }
+  { id = "trackFricFrontalK",      preset = "PERCENT_FLOAT"
     canShowForUnit = @(unit) ::has_feature("TankModEffect")
   }
   { id = "accelTime",              measureType = "seconds", isInverted = true, presize = 0.1

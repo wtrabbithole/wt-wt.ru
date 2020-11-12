@@ -1,17 +1,19 @@
 local controlsOperations = require("scripts/controls/controlsOperations.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { isWheelmenuAxisConfigurable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
 
 return [
   {
     id = "ID_SHIP_CONTROL_HEADER"
     type = CONTROL_TYPE.HEADER
-    unitType = ::g_unit_type.SHIP
+    unitType = unitTypes.SHIP
     needShowInHelp = true
   }
 //-------------------------------------------------------
   {
     id = "ID_SHIP_OPERATIONS_HEADER"
     type = CONTROL_TYPE.SECTION
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_SHIP_SWAP_GAMEPAD_STICKS_WITHOUT_MODIFIERS"
@@ -20,13 +22,13 @@ return [
       ctrlGroups.SHIP,
       controlsOperations.Flags.WITHOUT_MODIFIERS
     )
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
   {
     id = "ID_SHIP_SWAP_GAMEPAD_STICKS"
     type = CONTROL_TYPE.BUTTON,
     onClick = @() controlsOperations.swapGamepadSticks(ctrlGroups.SHIP)
-    showFunc = @() ::is_xinput_device()
+    showFunc = @() ::have_xinput_device()
   }
 //-------------------------------------------------------
   {
@@ -104,21 +106,18 @@ return [
     id = "ID_SHIP_WEAPON_PRIMARY"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
-    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_WHEEL_CONTROL_SHIP, false)
     needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_SECONDARY"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
-    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_WHEEL_CONTROL_SHIP, false)
     needShowInHelp = true
   }
   {
     id = "ID_SHIP_WEAPON_MACHINEGUN"
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
-    showFunc = @() ::g_controls_utils.checkOptionValue(::USEROPT_WHEEL_CONTROL_SHIP, false)
     needShowInHelp = true
   }
   {
@@ -414,5 +413,21 @@ return [
     isAbsOnlyWhenRealAxis = true
     checkGroup = ctrlGroups.SHIP
     checkAssign = false
+  }
+  {
+    id = "ship_wheelmenu_x"
+    type = CONTROL_TYPE.AXIS
+    axisDirection = AxisDirection.X
+    checkGroup = ctrlGroups.SHIP
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
+  }
+  {
+    id = "ship_wheelmenu_y"
+    type = CONTROL_TYPE.AXIS
+    axisDirection = AxisDirection.Y
+    checkGroup = ctrlGroups.SHIP
+    hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
+    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
   }
 ]

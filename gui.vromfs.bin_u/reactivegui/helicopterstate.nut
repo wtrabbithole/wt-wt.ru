@@ -108,6 +108,7 @@ local helicopterState = {
   Flares = {
     count = Watched(0)
     seconds = Watched(-1)
+    mode = Watched(0)
   }
 
   IsMachineGunEmpty = Watched(false)
@@ -155,8 +156,7 @@ local helicopterState = {
   IsMfdSightHudVisible = Watched(false)
   RwrForMfd = Watched(false)
   RwrPosSize = [0, 0, 20, 20]
-  MlwsForMfd = Watched(false)
-  MlwsPosSize = [0, 0, 20, 20]
+  TwsForMfd = Watched(false)
   MfdSightPosSize = [0, 0, 0, 0]
   IlsPosSize = [0, 0, 0, 0]
   AimCorrectionEnabled = Watched(false)
@@ -232,8 +232,9 @@ local helicopterState = {
   helicopterState.Bombs.seconds.update(sec)
 }
 
-::interop.updateFlares <- function(count, sec = -1) {
+::interop.updateFlares <- function(count, mode = 0, sec = -1) {
   helicopterState.Flares.count.update(count)
+  helicopterState.Flares.mode.update(mode)
   helicopterState.Flares.seconds.update(sec)
 }
 

@@ -7,6 +7,7 @@ local { getBulletsList,
         getBulletsGroupCount,
         getLastFakeBulletsIndex,
         getModificationBulletsEffect } = require("scripts/weaponry/bulletsInfo.nut")
+local unitTypes = require("scripts/unit/unitTypesList.nut")
 
 local options = {
   types = []
@@ -28,7 +29,7 @@ local function getThreatEsUnitTypes()
 {
   local targetUnitType = options.targetUnit.esUnitType
   local res = targetTypeToThreatTypes?[targetUnitType] ?? [ targetUnitType ]
-  return res.filter(@(e) ::g_unit_type.getByEsUnitType(e).isAvailable())
+  return res.filter(@(e) unitTypes.getByEsUnitType(e).isAvailable())
 }
 
 local function updateDistanceNativeUnitsText(obj) {
@@ -154,9 +155,9 @@ options.addTypes({
     reinit = function(handler, scene)
     {
       local esUnitTypes = getThreatEsUnitTypes()
-      local unitTypes = esUnitTypes.map(@(e)::g_unit_type.getByEsUnitType(e))
+      local types = esUnitTypes.map(@(e) unitTypes.getByEsUnitType(e))
       values = esUnitTypes
-      items  = ::u.map(unitTypes, @(t) { text = "{0} {1}".subst(t.fontIcon, t.getArmyLocName()) })
+      items  = ::u.map(types, @(t) { text = "{0} {1}".subst(t.fontIcon, t.getArmyLocName()) })
       local preferredEsUnitType = value ?? options.targetUnit.esUnitType
       value = values.indexof(preferredEsUnitType) != null ? preferredEsUnitType
         : (values?[0] ?? ::ES_UNIT_TYPE_INVALID)
@@ -230,7 +231,7 @@ options.addTypes({
     sortId = sortId++
     labelLocId = "mainmenu/shell"
     shouldSetParams = true
-    visibleTypes = [ WEAPON_TYPE.GUN, WEAPON_TYPE.ROCKET, WEAPON_TYPE.AGM ]
+    visibleTypes = [ WEAPON_TYPE.GUNS, WEAPON_TYPE.ROCKETS, WEAPON_TYPE.AGM ]
 
     reinit = function(handler, scene)
     {
@@ -245,7 +246,7 @@ options.addTypes({
 
       for (local groupIndex = 0; groupIndex < getLastFakeBulletsIndex(unit); groupIndex++)
       {
-        local gunIdx = ::get_linked_gun_index(groupIndex, groupsCount, false)
+        local gunIdx = ::get_linked_gun_index(groupIndex, groupsCount, unit.unitType.bulletSetsQuantity, false)
         if (gunIdx == curGunIdx)
           continue
 
