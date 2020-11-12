@@ -1,5 +1,7 @@
 local unitTypes = require("scripts/unit/unitTypesList.nut")
 
+local MIN_ITEMS_IN_ROW = 3
+
 enum CChoiceState {
   UNIT_TYPE_SELECT
   COUNTRY_SELECT
@@ -43,7 +45,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
     foreach(unitType in unitTypes.types)
     {
       local isAvailable = false
-      foreach(country in ::get_countries_by_unit_type(unitType.esUnitType))
+      foreach(country in getCountriesByUnitType(unitType.esUnitType))
         if (unitType.isAvailableForFirstChoice(country))
         {
           isAvailable = true
@@ -124,7 +126,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
   function createUnitTypeChoice()
   {
     local columns = ::min(3, unitTypesList.len())
-    setFrameWidth(::format("%d@unitChoiceImageWidth + %d@countryChoiceInterval", columns, columns - 1))
+    setFrameWidth($"{columns}@unitChoiceImageWidth + {columns+1}@countryChoiceInterval")
 
     local view = {
       unitTypeItems = function ()
@@ -132,25 +134,24 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
         local items = []
         foreach(unitType in unitTypesList)
         {
-          local countriesList = ""
-          foreach(i, country in countries)
-          {
-            if (!isCountryAvailable(country, unitType))
-              continue
-
-            countriesList += (countriesList == "" ? " ":", ") + ::loc("unlockTag/" + country)
-          }
-
+          local uType = unitType
+          local countriesList = countries.filter(function(c) {
+            return isCountryAvailable(c, uType)}.bindenv(this)
+          ).map(@(c) ::loc("unlockTag/" + c))
           local armyName = unitType.armyId
-          local image = ::format("ui/images/first_%s.jpg", armyName)
 
           items.append({
-            backgroundImage = ::format("#%s?P1", image)
-            tooltip = ::loc("unit_type") + ::loc("ui/colon") + ::loc("mainmenu/" + armyName)
-                    + "\n" + countriesList
-            text = ::loc("mainmenu/" + armyName)
-            videoPreview = ::has_feature("VideoPreview") ? "video/unitTypePreview/" + armyName + ".ogv" : null
-            desription = ::loc(armyName + "/choiseDescription", "")
+            backgroundImage = $"#ui/images/first_{armyName}.jpg?P1"
+            tooltip = "".concat(
+              ::loc("unit_type"),
+              ::loc("ui/colon"),
+              ::loc($"mainmenu/{armyName}"),
+              "\n",
+              ", ".join(countriesList)
+            )
+            text = ::loc($"mainmenu/{armyName}")
+            videoPreview = ::has_feature("VideoPreview") ? $"video/unitTypePreview/{armyName}.ogv" : null
+            desription = ::loc("{armyName}/choiseDescription", "")
           })
         }
         return items
@@ -187,46 +188,84 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
     local availUnitTypes = []
     foreach(unitType in unitTypes.types)
       if (unitType.isAvailableForFirstChoice(country)
-        && ::isInArray(country, ::get_countries_by_unit_type(unitType.esUnitType)))
+        && ::isInArray(country, getCountriesByUnitType(unitType.esUnitType)))
         availUnitTypes.append(unitType)
 
-    if (availUnitTypes.len() == 1)
-      return ::loc("mainmenu/onlyArmyAvailableForCountry",  { army = availUnitTypes[0].getArmyLocName() })
+    if (availUnitTypes.len())
+      return ::loc("mainmenu/onlyArmyAvailableForCountry",  { army = ", ".join(availUnitTypes.map(@(t) ::colorize("activeTextColor", t.getArmyLocName()))) })
     return ::loc("msg/countryNotAvailableForUnitType")
+  }
+
+  countSize = @(ratio) {
+    width = guiScene.calcString($"1@countryChoiceInterval + {ratio.w}*(1@countryChoiceImageWidth + 1@countryChoiceInterval)", null),
+    height = guiScene.calcString($"1@countryChoiceInterval + {ratio.h} * (1@firstChoiceCountryFullHeight + 1@countryChoiceInterval)", null)
+  }
+
+  function getMaxSizeInItems()
+  {
+    local freeWidth = guiScene.calcString("1@rw", null)
+    local freeHeight = guiScene.calcString("1@firstChoiceAvailableHeight", null)
+    local singleItemSizeTable = countSize({w = 1, h = 1})
+
+    return {
+      inRow = freeWidth / singleItemSizeTable.width,
+      inColumn = freeHeight / singleItemSizeTable.height
+    }
+  }
+
+  function updateScreenSize()
+  {
+    local maxAvailRatio = getMaxSizeInItems()
+    local maxItemsInColumn = maxAvailRatio.inColumn
+
+    local itemsInRow = maxAvailRatio.inRow
+    local itemsInColumn = maxItemsInColumn
+
+    for (local row = MIN_ITEMS_IN_ROW; row <= maxAvailRatio.inRow ; row++)
+    {
+      local column = countries.len() / row
+      if (column <= maxItemsInColumn && ((column * row) >= countries.len()))
+      {
+        itemsInColumn = column
+        itemsInRow = row
+        break
+      }
+    }
+
+    return countSize({w = itemsInRow, h = itemsInColumn})
   }
 
   function createPrefferedUnitTypeCountries()
   {
-    local rows = ::max(2, ::ceil(::sqrt(4.0/3 * countries.len())).tointeger())
-    setFrameWidth(format("%d@countryChoiceImageWidth + %d@countryChoiceInterval", rows, rows - 1))
+    local screenSize = updateScreenSize()
+    setFrameWidth(screenSize.width)
 
-    local availCountries = selectedUnitType ? ::get_countries_by_unit_type(selectedUnitType.esUnitType) : countries
+    local availCountries = selectedUnitType ? getCountriesByUnitType(selectedUnitType.esUnitType) : countries
     for (local i = availCountries.len() - 1; i >= 0; i--)
       if (!isCountryAvailable(availCountries[i], selectedUnitType))
         availCountries.remove(i)
 
     local data = ""
     local view = {
+      width = screenSize.width
       countries = function () {
         local res = []
         local curArmyName = selectedUnitType ? selectedUnitType.armyId  : unitTypes.AIRCRAFT.armyId
         foreach(country in countries)
         {
-          local image = ::get_country_flag_img("first_choice_" + country + "_" + curArmyName)
+          local image = ::get_country_flag_img($"first_choice_{country}_{curArmyName}")
           if (image == "")
-            image = ::get_country_flag_img("first_choice_" + country + "_" + unitTypes.AIRCRAFT.armyId)
+            image = ::get_country_flag_img($"first_choice_{country}_{unitTypes.AIRCRAFT.armyId}")
 
           local cData = {
             countryName = ::loc(country)
             backgroundImage = image
-            desription = ::loc(country + "/choiseDescription", "")
+            desription = ::loc($"{country}/choiseDescription", "")
+            lockText = null
           }
 
           if (!::isInArray(country, availCountries))
-          {
-            cData.isLocked <- true
-            cData.lockText <- getNotAvailableCountryMsg(country)
-          }
+            cData.lockText = getNotAvailableCountryMsg(country)
 
           res.append(cData)
         }
@@ -340,7 +379,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
       foreach(unitType in unitTypes.types)
       {
         if (!unitType.isAvailable()
-            || !::get_countries_by_unit_type(unitType.esUnitType).len())
+            || !getCountriesByUnitType(unitType.esUnitType).len())
           continue
 
         local tasksData = createReserveTasksData(country, unitType, false, true)
@@ -432,7 +471,7 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
 
   function setFrameWidth(width)
   {
-    local frameObj = scene.findObject("countryChoice-root")
+    local frameObj = scene.findObject("country_choice_block")
     if (::checkObj(frameObj))
       frameObj.width = width
   }
@@ -443,5 +482,15 @@ class ::gui_handlers.CountryChoiceHandler extends ::gui_handlers.BaseGuiHandlerW
       ::add_big_query_record("choose_unit_type_screen", selectedUnitType.lowerName)
     else if (state == CChoiceState.COUNTRY_SELECT)
       ::add_big_query_record("choose_country_screen", selectedCountry)
+  }
+
+  function getCountriesByUnitType(unitType)
+  {
+    local res = []
+    foreach (countryName, countryData in ::get_unit_types_in_countries())
+      if (::getTblValue(unitType, countryData))
+        res.append(countryName)
+
+    return res
   }
 }

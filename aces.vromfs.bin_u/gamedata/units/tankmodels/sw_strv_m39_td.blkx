@@ -105,15 +105,6 @@
     "type": "typeLightTank"
   },
   {
-    "customClassIco": "!#ui/gameuiskin#sw_strv_m39_ico"
-  },
-  {
-    "customImage": "!#ui/unitskin#sw_strv_m39"
-  },
-  {
-    "customTooltipImage": "ui/tanks/sw_strv_m39"
-  },
-  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -887,6 +878,21 @@
             "name": "ammo_body_50_dm"
           },
           {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -1349,29 +1355,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -1905,11 +1911,11 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 9400.0,
-        "Fuel": 260.0,
-        "TakeOff": 9660.0,
+        "Empty": 8600.0,
+        "Fuel": 250.0,
+        "TakeOff": 8850.0,
         "momentOfInertia": [1.4,2.5,2.5],
-        "CenterOfGravity": [-0.25,0.5,0.0],
+        "CenterOfGravity": [-0.1,0.5,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
         "AdvancedMass": false,
         "trackMass": 900.0
@@ -1917,9 +1923,7 @@
       "tracks": {
         "animationMultiplier": 0.68,
         "height": 0.02,
-        "width": 0.25,
-        "criticalHillAngle": 25.0,
-        "hillClimbingDeclineFricKoef": 15.0
+        "width": 0.25
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -1954,13 +1958,34 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.1,-0.05,0.14],
-        "defaultGearRadius": 0.3,
-        "frontBackGearRadius": 0.3,
+        "suspensionOffsets": [-0.1,-0.05,0.1],
+        "defaultGearRadius": 0.34,
+        "frontBackGearRadius": 0.34,
         "topGearRadius": 0.1,
         "defaultDampeningForce": [40000.0,40000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
+      }
+    }
+  },
+  {
+    "PhysSys": {
+      "find": "^bone_suspension_(._\\d\\d)$",
+      "points": {
+        "suspension": {
+          "name": "bone_suspension_$1"
+        },
+        "wheel": {
+          "name": "bone_wheel_$1",
+          "limitMin": [-1000.0,0.0,0.0],
+          "limitMax": [1000.0,0.0,0.0]
+        }
+      },
+      "constraints": {
+        "edge": {
+          "from": "suspension",
+          "to": "wheel"
+        }
       }
     }
   },
@@ -2609,51 +2634,18 @@
     }
   },
   {
-    "skin": {
-      "name": "se_camo_four_color",
-      "nameLocId": "skin/se_camo_four_color",
-      "descLocId": "skin/se_camo_four_color/desc",
+    "default_skin": {
       "replace_tex": {
         "from": "se_camo_green*",
-        "to": "se_camo_four_color*"
+        "to": "se_camo_three_color_blots*"
       }
     }
   },
   {
-    "skin": {
-      "name": "se_camo_three_color_lines",
-      "nameLocId": "skin/se_camo_three_color_lines",
-      "descLocId": "skin/se_camo_three_color_lines/desc",
-      "replace_tex": {
-        "from": "se_camo_green*",
-        "to": "se_camo_three_color_lines*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "se_camo_winter_bicolor",
-      "nameLocId": "skin/se_camo_winter_bicolor",
-      "descLocId": "skin/se_camo_winter_bicolor/desc",
-      "replace_tex": {
-        "from": "se_camo_green*",
-        "to": "se_camo_winter_bicolor*"
-      }
-    }
-  },
-  {
-    "skin": {
-      "name": "sw_camo_winter_green_white",
-      "nameLocId": "skin/fr_camo_winter_green_white",
-      "descLocId": "skin/fr_camo_winter_green_white/desc",
-      "replace_tex": {
-        "from": "se_camo_green*",
-        "to": "fr_camo_winter_green_white*"
-      }
-    }
-  },
-  {
-    "default_skin": [
+    "skin": [
+      {
+        "name": "twitch"
+      },
       {
         "replace_tex": {
           "from": "strv_m38_body_c*",
@@ -2679,5 +2671,38 @@
         }
       }
     ]
+  },
+  {
+    "skin": {
+      "name": "se_camo_four_color",
+      "nameLocId": "skin/se_camo_four_color",
+      "descLocId": "skin/se_camo_four_color/desc",
+      "replace_tex": {
+        "from": "se_camo_green*",
+        "to": "se_camo_four_color*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "se_camo_three_color_lines",
+      "nameLocId": "skin/se_camo_three_color_lines",
+      "descLocId": "skin/se_camo_three_color_lines/desc",
+      "replace_tex": {
+        "from": "se_camo_green*",
+        "to": "se_camo_three_color_lines*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "sw_camo_winter_green_white",
+      "nameLocId": "skin/fr_camo_winter_green_white",
+      "descLocId": "skin/fr_camo_winter_green_white/desc",
+      "replace_tex": {
+        "from": "se_camo_green*",
+        "to": "fr_camo_winter_green_white*"
+      }
+    }
   }
 ]

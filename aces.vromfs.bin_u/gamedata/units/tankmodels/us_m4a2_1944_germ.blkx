@@ -803,6 +803,21 @@
           "name": "ammo_body_50_dm"
         },
         {
+          "name": "ammo_body_51_dm"
+        },
+        {
+          "name": "ammo_body_52_dm"
+        },
+        {
+          "name": "ammo_body_53_dm"
+        },
+        {
+          "name": "ammo_body_54_dm"
+        },
+        {
+          "name": "ammo_body_55_dm"
+        },
+        {
           "name": "ammo_body_l_01_dm"
         },
         {
@@ -1265,29 +1280,29 @@
         {
           "onKill": {
             "damageType": "cumulative",
-            "expl": 0.5,
-            "fire": 0.5
+            "expl": 0.2,
+            "fire": 0.8
           }
         },
         {
           "onKill": {
             "damageType": "explosion",
-            "expl": 0.5,
-            "fire": 0.5
+            "expl": 0.2,
+            "fire": 0.8
           }
         },
         {
           "onKill": {
             "damageType": "secondaryShatter",
-            "expl": 0.5,
-            "fire": 0.5
+            "expl": 0.2,
+            "fire": 0.8
           }
         },
         {
           "onKill": {
             "damageType": "generic",
-            "expl": 0.5,
-            "fire": 0.5
+            "expl": 0.2,
+            "fire": 0.8
           }
         }
       ]
@@ -1739,7 +1754,7 @@
           "horizontalSpeedLimitKPH": 50.0,
           "hasVertical": true,
           "verticalOmegaMult": 0.7,
-          "verticalSpeedLimitKPH": 16.0,
+          "verticalSpeedLimitKPH": 24.0,
           "speedFromVehicleVerticalMult": -1.0,
           "errorKPHToDegrees": [
             {
@@ -1952,31 +1967,7 @@
       "defaultDampeningForce": [120000.0,120000.0],
       "dampeningRelaxationRatio": 0.4,
       "dampeningCompressionRatio": 0.15
-    },
-    "physNode": [
-      {
-        "type": "verlet_string"
-      },
-      {
-        "stiffness": 1.0
-      },
-      {
-        "straightening": 0.5
-      },
-      {
-        "point": {
-          "name": "antenna",
-          "mass": 1.0,
-          "fixed": true
-        }
-      },
-      {
-        "point": {
-          "name": "bone_phx_antenna",
-          "mass": 3.0
-        }
-      }
-    ]
+    }
   },
   "PhysSys": [
     {
@@ -2655,7 +2646,6 @@
     }
   },
   "default_skin": {
-    "name": "default",
     "replace_tex": {
       "from": "us_camo_olive*",
       "to": "ger_camo_dunkelgelb_green_braun*"
@@ -2668,13 +2658,6 @@
     "replace_tex": {
       "from": "us_camo_olive*",
       "to": "ger_camo_winter_waves_bicolor*"
-    }
-  },
-  "user_skin": {
-    "name": "us_m4a2_1944",
-    "replace_tex": {
-      "from": "us_camo_olive*",
-      "to": "ger_camo_dunkelgelb_green_braun*"
     }
   },
   "modifications": {
@@ -2837,7 +2820,7 @@
                 "horizontalSpeedLimitKPH": 50.0,
                 "hasVertical": true,
                 "verticalOmegaMult": 0.7,
-                "verticalSpeedLimitKPH": 16.0,
+                "verticalSpeedLimitKPH": 24.0,
                 "speedFromVehicleVerticalMult": -1.0,
                 "errorKPHToDegrees": [
                   {

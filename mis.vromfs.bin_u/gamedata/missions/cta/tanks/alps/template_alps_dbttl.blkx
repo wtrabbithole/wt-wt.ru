@@ -2,10 +2,6 @@
   "selected_tag": "",
   "bin_dump_file": "",
   "mission_settings": {
-    "atmosphere": {
-      "pressure": 760.0,
-      "temperature": -10.0
-    },
     "player": {
       "army": 1
     },
@@ -15,8 +11,6 @@
     "mission": {
       "level": "levels/avg_guadalcanal.bin",
       "type": "domination",
-      "restoreType": "attempts",
-      "optionalTakeOff": false,
       "environment": "Day",
       "weather": "hazy",
       "scoreLimit": 6400,
@@ -25,9 +19,14 @@
       "randomSpawnTeams": true,
       "remapAiTankModels": true,
       "country_axis": "germany",
-      "country_allies": "ussr"
+      "country_allies": "ussr",
+      "restoreType": "attempts",
+      "optionalTakeOff": false
     },
-    "spectator_points": []
+    "atmosphere": {
+      "pressure": 760.0,
+      "temperature": -10.0
+    }
   },
   "imports": {
     "import_record": {
@@ -6710,10 +6709,10 @@
     "dbttl_battle_area": {
       "type": "Box",
       "tm": [
-        [1200.0,0.0,7.75124e-06],
-        [0.0,500.0,0.0],
-        [-7.49287e-06,0.0,1160.0],
-        [1020.0,240.548,1040.0]
+        [1240.0,0.0,8.00962e-06],
+        [0.0,100.0,0.0],
+        [-8.00962e-06,0.0,1240.0],
+        [1024.0,235.0,1024.0]
       ],
       "objLayer": 4,
       "props": []
@@ -7750,7 +7749,7 @@
   "wayPoints": [],
   "__viewPoints": {
     "viewpt_01": {
-      "pos": [879.95,-15473.5,925.5],
+      "pos": [879.95,-30471.0,925.5],
       "ht": 2.5
     }
   }

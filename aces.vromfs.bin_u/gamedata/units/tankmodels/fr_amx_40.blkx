@@ -114,6 +114,21 @@
     "canReloadNonGuns": true
   },
   {
+    "smokeScreenActivateTime": 5.0
+  },
+  {
+    "smokeScreenEffectTime": 7.0
+  },
+  {
+    "smokeScreenRad": 12.0
+  },
+  {
+    "smokeScreenOffset": [-3.0,0.0,2.0]
+  },
+  {
+    "smokeScreenFxType": "tank_smokescreen"
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank_modern",
@@ -473,7 +488,7 @@
         "wheel_support_dm": [],
         "submodule": {
           "armorClass": "tank_traks",
-          "armorThickness": 30.0,
+          "armorThickness": 20.0,
           "hp": 300.0,
           "ex_armor_body_01_dm": [],
           "ex_armor_body_02_dm": [],
@@ -864,6 +879,27 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -897,7 +933,7 @@
           "armorArrayText": [
             {
               "layer": {
-                "dmPart": "turret_02_front_dm"
+                "dmPart": "superstructure_front_dm"
               }
             },
             {
@@ -1382,6 +1418,21 @@
             "name": "ammo_body_50_dm"
           },
           {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -1844,29 +1895,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2506,7 +2557,7 @@
         "suspensionOffsets": [-0.12,-0.05,0.1],
         "defaultGearRadius": 0.3,
         "frontBackGearRadius": 0.27,
-        "topGearRadius": 0.15,
+        "topGearRadius": 0.1,
         "defaultDampeningForce": [150000.0,150000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
@@ -3076,6 +3127,7 @@
       "new_tank_vertical_aiming": [],
       "art_support": [],
       "tank_new_gun": [],
+      "tank_engine_smoke_screen_system": [],
       "tank_medical_kit": {
         "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
@@ -3085,7 +3137,7 @@
       "120mm_NATO_HEAT_FS": [],
       "120mm_NATO_APDS_FS": [],
       "120mm_NATO_APDS_FS_ammo_pack": {
-        "tier": 4
+        "tier": 3
       },
       "modern_tank_laser_rangefinder": {
         "tier": 1
@@ -3518,6 +3570,11 @@
         "from": "fr_camo_vert_olive_arme*",
         "to": "ger_camo_carc*"
       }
+    }
+  },
+  {
+    "smokeScreenExhaustEmitters": {
+      "emitter": "emtr_exhaust_01"
     }
   }
 ]

@@ -1,3 +1,5 @@
+local { isPlatformSony } = require("scripts/clientState/platform.nut")
+
 return [
 //-------------------------------------------------------
   {
@@ -32,7 +34,7 @@ return [
       if (objValue != old)
         ::set_controls_preset("")
     }
-    showFunc = @() ::has_feature("EnableMouse") && ::is_platform_ps4
+    showFunc = @() ::has_feature("EnableMouse") && isPlatformSony
   }
   {
     id = "mouse_smooth"
@@ -44,6 +46,11 @@ return [
     id = "mouse_sensitivity"
     type = CONTROL_TYPE.SLIDER
     optionType = ::USEROPT_MOUSE_SENSE
+  }
+  {
+    id = "joy_camera_sensitivity"
+    type = CONTROL_TYPE.SLIDER
+    optionType = ::USEROPT_MOUSE_AIM_SENSE
   }
   {
     id = "camera_mouse_speed"

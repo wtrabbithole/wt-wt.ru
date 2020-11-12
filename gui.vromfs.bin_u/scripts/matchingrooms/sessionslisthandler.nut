@@ -187,7 +187,6 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
       guiScene.replaceContentFromText(optObj, container.tbl, container.tbl.len(), this)
 
     optionsContainers.append(container.descr)
-    onHintUpdate()
   }
 
   function onGamemodeChange(obj)
@@ -298,6 +297,7 @@ class ::gui_handlers.SessionsList extends ::gui_handlers.GenericOptions
     guiScene.applyPendingChanges(false)
     _roomsMarkUpData = {
       tr_size = "pw, @baseTrHeight"
+      is_header = true
       columns = {
         hasPassword   = { width = "1@baseTrHeight + 1@tablePad" }
         mission       = { halign = "left", relWidth = 50 }

@@ -25,7 +25,7 @@ class gui_bhv.OptionsNavigator
     if (event == ::EV_ON_FOCUS_SET)
     {
       selectCurItem(obj)
-      ::play_gui_sound("focus")
+      obj.getScene().playSound("focus")
     } else if (event == ::EV_ON_FOCUS_LOST)
       viewDeselect(obj)
 
@@ -171,7 +171,7 @@ class gui_bhv.OptionsNavigator
 
     selectCell(obj, curRow, curCol)
     if (wasRow != curRow)
-      ::play_gui_sound("choose")
+      obj.getScene().playSound("choose")
     return ::RETCODE_PROCESSED
   }
 
@@ -226,13 +226,6 @@ class gui_bhv.OptionsNavigator
       obj.getChild(row).scrollToView()
     if (isChanged)
       obj.sendNotify("click");
-
-    // updating hint  - strange code, better to fix it by "on_click" function
-    if (::generic_options != null)
-    {
-      local guiScene = ::get_gui_scene();
-      guiScene.performDelayed(this, function(){ ::generic_options.onHintUpdate(); });
-    }
   }
 
   function clearSelect(obj)

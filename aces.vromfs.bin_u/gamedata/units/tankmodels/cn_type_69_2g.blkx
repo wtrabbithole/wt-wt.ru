@@ -39,6 +39,9 @@
     "useSimpleDeathConditionsAndEffects": false
   },
   {
+    "autoSightDistanceCorrection": true
+  },
+  {
     "subclass": "heavyVehicle"
   },
   {
@@ -179,12 +182,8 @@
         }
       },
       "grille": {
-        "armorClass": "tank_structural_steel",
+        "armorClass": "grille_structural_steel",
         "hp": 300.0,
-        "armorThickness": 15.0,
-        "armorEffectiveThicknessMax": 15.0,
-        "stopChanceOnDeadPart": 0.0,
-        "createSecondaryShatters": false,
         "ex_armor_06_dm": [],
         "ex_armor_07_dm": [],
         "ex_armor_04_dm": [],
@@ -260,10 +259,6 @@
       },
       "turret_grille_armor": {
         "hp": 300.0,
-        "cumulativeEffectiveThicknessMax": 200.0,
-        "genericArmorQuality": 0.01,
-        "cumulativeArmorQuality": 2.0,
-        "armorThickness": 50.0,
         "armorClass": "grille_air",
         "composite_armor_turret_01_dm": [],
         "composite_armor_turret_02_dm": [],
@@ -790,6 +785,27 @@
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
       },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
+      },
       "crew": {
         "armorClass": "steel_tankman",
         "hp": 40.0,
@@ -1041,6 +1057,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -1505,29 +1536,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2902,12 +2933,14 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_cn"
       },
-      "105mm_TYPE83_HESH": [],
-      "105mm_TYPE83_HESH_ammo_pack": [],
-      "105mm_china_APDS_FS": [],
-      "105mm_china_APDS_FS_ammo_pack": [],
       "105mm_china_HE_VT": [],
+      "105mm_TYPE83_HESH": [],
+      "105mm_china_APDS_FS": [],
       "105mm_china_HE_VT_ammo_pack": [],
+      "105mm_TYPE83_HESH_ammo_pack": [],
+      "105mm_china_APDS_FS_ammo_pack": {
+        "tier": 3
+      },
       "modern_tank_laser_rangefinder": {
         "tier": 2
       },
@@ -3166,7 +3199,7 @@
         }
       },
       "night_vision_system": {
-        "tier": 3,
+        "tier": 1,
         "effects": {
           "nightVision": {
             "gunnerIr": {

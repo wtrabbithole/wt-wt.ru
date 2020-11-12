@@ -154,6 +154,7 @@ td.spectatorTeamCell > icon > unitContainer {
 td.spectatorTeamCell > icon > unitContainer > img.unit {
   size:1@tableIcoSize, ph;
   background-svg-size:@tableIcoSize, @tableIcoSize;
+  background-repeat:aspect-ratio;
 }
 
 td.spectatorTeamCell > icon > unitContainer > img.weapon {
@@ -200,6 +201,10 @@ td.spectatorTeamCell > icon > ButtonContainer > ButtonImg {
   size:pw, ph;
   showOnSelect:yes;
   btnName:A;
+}
+
+[isBot=yes][hero=yes] > td.spectatorTeamCell > icon > ButtonContainer > ButtonImg {
+  showOnSelect:no;
 }
 
 td.spectatorTeamCell > textareaNoTab[id=unit] {

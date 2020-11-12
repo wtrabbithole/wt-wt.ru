@@ -1,3 +1,5 @@
+local { getWeaponByName } = require("scripts/weaponry/weaponryInfo.nut")
+
 local sortIdxByExpClass = {
   fighter = 0
   assault = 1
@@ -19,6 +21,11 @@ local wwUnitClassParams = {
     name = "bomber"
     iconText = @() ::loc("worldWar/iconAirBomber")
     color = "medium_bomberColor"
+  },
+  [WW_UNIT_CLASS.HELICOPTER] = {
+    name = "helicopter"
+    iconText = @() ::loc("worldWar/iconAirHelicopter")
+    color = "attack_helicopterColor"
   }
 }
 
@@ -37,6 +44,7 @@ local function getIconText(unitClass, needColorize = false) {
 }
 
 local unknownClassData = {
+  expClass = "unknown"
   unitClass = WW_UNIT_CLASS.UNKNOWN
   flyOutUnitClass = WW_UNIT_CLASS.UNKNOWN
   tooltipTextLocId = ""
@@ -61,6 +69,12 @@ local classDataByExpClass = {
     flyOutUnitClass = WW_UNIT_CLASS.BOMBER
     tooltipTextLocId = "mainmenu/type_bomber"
   }
+  helicopter = {
+    expClass = "helicopter"
+    unitClass = WW_UNIT_CLASS.HELICOPTER
+    flyOutUnitClass = WW_UNIT_CLASS.HELICOPTER
+    tooltipTextLocId = "mainmenu/type_helicopter"
+  }
 }
 
 local function getDefaultUnitClassData(unit)
@@ -77,7 +91,7 @@ local function getUnitClassData(unit, weapPreset = null)
 
   if (unit.expClass == "fighter" && weapPreset != null)
   {
-    local weaponmask = ::get_weapon_by_name(unit.unit, weapPreset)?.weaponmask ?? 0
+    local weaponmask = getWeaponByName(unit.unit, weapPreset)?.weaponmask ?? 0
     local requiredWeaponmask = ::g_world_war.getWWConfigurableValue("fighterToAssaultWeaponMask", 0)
     local isFighter = !(weaponmask & requiredWeaponmask)
     res.unitClass = isFighter ? WW_UNIT_CLASS.FIGHTER : WW_UNIT_CLASS.ASSAULT

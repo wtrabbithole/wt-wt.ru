@@ -27,6 +27,8 @@ require("scripts/sqModuleHelpers.nut")
 ::g_script_reloader.loadOnce("scripts/compatibility.nut")
 ::g_script_reloader.loadOnce("scripts/clientState/errorHandling.nut")
 local { get_local_unixtime } = ::require_native("dagor.time")
+if (::disable_network())
+  ::get_charserver_time_sec = get_local_unixtime
 
 ::nda_version <- -1
 ::nda_version_tanks <-5
@@ -38,11 +40,8 @@ local { get_local_unixtime } = ::require_native("dagor.time")
 ::target_platform <- ::get_platform()
 ::is_platform_pc <- ["win32", "win64", "macosx", "linux64"].indexof(::target_platform) != null
 ::is_platform_windows <- ["win32", "win64"].indexof(::target_platform) != null
-::is_platform_ps4 <- ::target_platform == "ps4"
 ::is_platform_android <- ::target_platform == "android"
 ::is_platform_xboxone <- ::target_platform == "xboxOne"
-
-::is_ps4_or_xbox <- ::is_platform_ps4 || ::is_platform_xboxone
 
 ::is_dev_version <- false // WARNING : this is unsecure
 
@@ -57,8 +56,6 @@ local { get_local_unixtime } = ::require_native("dagor.time")
 ::ps4_vsync_enabled <- true
 
 ::cross_call_api <- {}
-
-if (::is_platform_ps4 && !::is_dev_version) ::exit_game <- function() {::gui_start_logout()}
 
 ::FORCE_UPDATE <- true
 global const LOST_DELAYED_ACTION_MSEC = 500
@@ -388,6 +385,9 @@ foreach (fn in [
   "scripts/clientState/fpsDrawer.nut"
 
   //used in loading screen
+  "scripts/controls/input/inputBase.nut"
+  "scripts/controls/input/nullInput.nut"
+  "scripts/controls/shortcutType.nut"
   "scripts/viewUtils/hintTags.nut"
   "scripts/viewUtils/hints.nut"
   "scripts/viewUtils/bhvHint.nut"
@@ -478,7 +478,6 @@ local isFullScriptsLoaded = false
 
   // Independed Modules with mainHandler. Need load this befor rest handlers
   require("scripts/baseGuiHandlerWT.nut")
-  require("scripts/mainmenu/topMenuHandler.nut")
   // end of Independed Modules with mainHandler
 
   ::dagor.debug($"LOAD GAME SCRIPTS AFTER LOGIN: {game}")
@@ -497,7 +496,6 @@ local isFullScriptsLoaded = false
     "gamercard.nut"
     "popups/popups.nut"
     "popups/popup.nut"
-    "weaponsInfo.nut"
 
     "wheelmenu/wheelmenu.nut"
     "guiLines.nut"
@@ -525,8 +523,6 @@ local isFullScriptsLoaded = false
     "countryChoiceWnd.nut"
 
     "measureType.nut"
-    "options/optionsWnd.nut"
-    "systemOptions.nut"
     "genericOptions.nut"
     "options/framedOptionsWnd.nut"
     "options/optionsCustomDifficulty.nut"
@@ -618,15 +614,12 @@ local isFullScriptsLoaded = false
     "controls/controls.nut"
     "controls/assignButtonWnd.nut"
     "controls/controlsConsole.nut"
-    "controls/input/inputBase.nut"
-    "controls/input/nullInput.nut"
     "controls/input/button.nut"
     "controls/input/combination.nut"
     "controls/input/axis.nut"
     "controls/input/doubleAxis.nut"
     "controls/input/image.nut"
     "controls/input/keyboardAxis.nut"
-    "controls/shortcutType.nut"
     "controls/controlsPseudoAxes.nut"
     "controls/controlsWizard.nut"
     "controls/controlsType.nut"
@@ -879,7 +872,6 @@ local isFullScriptsLoaded = false
     "matching/serviceNotifications/mrpc.nut"
     "matching/serviceNotifications/mpresense.nut"
     "matching/serviceNotifications/msquad.nut"
-    "matching/serviceNotifications/worldwar.nut"
     "matching/serviceNotifications/mrooms.nut"
 
     "gamepadSceneSettings.nut"

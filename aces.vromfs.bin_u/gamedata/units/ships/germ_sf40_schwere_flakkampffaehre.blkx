@@ -78,7 +78,7 @@
     "exhaustFx": "ps_exhaust"
   },
   {
-    "explosionFx": "ship_explosion"
+    "bexplosionFx": "ship_explosion"
   },
   {
     "hideNodesInDmg": {
@@ -126,6 +126,18 @@
       {
         "replace_tex": {
           "from": "flag_italy_01_c*",
+          "to": "flag_italy_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_italy_02_c*",
+          "to": "flag_italy_01_c_tomoe*"
+        }
+      },
+      {
+        "replace_tex": {
+          "from": "flag_italy_03_c*",
           "to": "flag_italy_01_c_tomoe*"
         }
       },
@@ -264,6 +276,14 @@
   {
     "DamageEffects": [
       {
+        "ammunition_storage": {
+          "onKill": {
+            "expl": 1.0,
+            "fHitCritical": false
+          }
+        }
+      },
+      {
         "ammunition_storage_fixed": {
           "onKill": {
             "expl": 1.0,
@@ -274,6 +294,122 @@
             "expl": 1.0,
             "damage": 200.0,
             "fHitCritical": false
+          }
+        }
+      },
+      {
+        "ammunition_first_stage": [
+          {
+            "onKill": {
+              "fire": 1.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 1.0,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 0.11,
+              "fire": 1.0,
+              "damage": 300.0,
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "ammunition_torpedoes": [
+          {
+            "onKill": {
+              "expl": 0.01,
+              "nothing": 0.99
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 0.05,
+              "damage": 400.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "expl": 0.1,
+              "damage": 50.0,
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "ammunition_depth_charges": [
+          {
+            "onKill": {
+              "expl": 0.05,
+              "nothing": 0.95
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "damage": 150.0,
+              "expl": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 0.05,
+              "damage": 250.0,
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "ammunition_mines": [
+          {
+            "onKill": {
+              "expl": 0.1,
+              "nothing": 0.9
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "damage": 100.0,
+              "expl": 0.1
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "expl": 0.15,
+              "damage": 250.0,
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "ammunition_rockets": {
+          "onKill": {
+            "expl": 0.05,
+            "nothing": 0.95
+          },
+          "onHit": {
+            "damageType": "explosion",
+            "damage": 100.0,
+            "expl": 0.1
           }
         }
       },
@@ -314,178 +450,6 @@
               "expl": 1.0,
               "fHitCritical": false
             }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.5,
-              "expl": 0.1,
-              "damage": 20.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.8,
-              "expl": 0.2,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": [
-              {
-                "damageType": "fire"
-              },
-              {
-                "expl": 1.0
-              },
-              {
-                "expl": 0.5
-              },
-              {
-                "damage": 100.0
-              },
-              {
-                "fHitCritical": false
-              }
-            ]
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "fire": 0.5,
-              "expl": 0.2,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "fire": 1.0,
-              "expl": 0.5,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "fire": 1.0,
-              "expl": 0.7,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "fire": 0.05,
-              "damage": 10.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "fire": 0.1,
-              "damage": 20.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "shatter",
-              "fire": 0.2,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "fire": 0.1,
-              "damage": 20.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "fire": 0.3,
-              "damage": 80.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "fire": 0.5,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          }
-        ]
-      },
-      {
-        "ammunition_first_stage": [
-          {
-            "onKill": {
-              "fire": 1.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 1.0,
-              "damage": 200.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.11,
-              "fire": 1.0,
-              "damage": 300.0,
-              "fHitCritical": false
-            }
-          }
-        ]
-      },
-      {
-        "ammunition_depth_charges": {
-          "onKill": {
-            "expl": 0.05,
-            "nothing": 0.95
-          },
-          "onHit": {
-            "damageType": "fire",
-            "damage": 150.0,
-            "expl": 0.1
-          }
-        }
-      },
-      {
-        "ammunition_torpedoes": [
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.01,
-              "damage": 400.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "expl": 0.1,
-              "damage": 250.0,
-              "fHitCritical": false
-            }
           }
         ]
       },
@@ -511,31 +475,23 @@
           },
           {
             "onKill": {
-              "expl": 0.03,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
               "expl": 0.01,
-              "damage": 100.0,
-              "fHitCritical": false
+              "nothing": 0.99
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.04,
-              "damage": 200.0,
+              "expl": 0.05,
+              "damage": 400.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "explosion",
+              "damageType": "fire",
               "expl": 0.1,
-              "damage": 500.0,
+              "damage": 50.0,
               "fHitCritical": false
             }
           }
@@ -739,100 +695,24 @@
             "name": "depth_charge_r_08_dm"
           },
           {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.05,
-              "damage": 50.0,
-              "expl": 0.05
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.15,
-              "damage": 80.0,
-              "expl": 0.15
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.3,
-              "damage": 100.0,
-              "expl": 0.3
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
+            "onKill": {
               "expl": 0.05,
-              "damage": 50.0,
-              "fire": 0.05
+              "nothing": 0.95
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
-              "expl": 0.15,
-              "damage": 80.0,
-              "fire": 0.15
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "expl": 0.3,
-              "damage": 100.0,
-              "fire": 0.3
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "fire": 0.5,
-              "expl": 0.02,
-              "damage": 50.0
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "fire": 0.7,
-              "expl": 0.1,
-              "damage": 80.0
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 1.0,
-              "damage": 100.0
-            }
-          },
-          {
-            "onKill": {
               "damageType": "fire",
-              "expl": 1.0
+              "damage": 150.0,
+              "expl": 0.1
             }
           },
           {
-            "onKill": {
+            "onHit": {
               "damageType": "explosion",
-              "expl": 0.3
-            }
-          },
-          {
-            "onKill": {
-              "damageType": "generic",
-              "expl": 0.0,
-              "fire": 0.1
-            }
-          },
-          {
-            "onKill": {
-              "damageType": "shatter",
-              "expl": 0.0,
-              "fire": 0.25
+              "expl": 0.05,
+              "damage": 250.0,
+              "fHitCritical": false
             }
           }
         ]
@@ -888,53 +768,24 @@
             "name": "fuel_tank_l_05_dm"
           },
           {
+            "onKill": {
+              "fire": 0.15,
+              "fHitCritical": false
+            }
+          },
+          {
             "onHit": {
               "damageType": "explosion",
-              "expl": 0.15,
-              "fire": 0.35,
+              "fire": 0.5,
               "damage": 50.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "explosion",
-              "expl": 0.25,
-              "fire": 0.45,
-              "damage": 70.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "expl": 0.34,
-              "fire": 1.0,
-              "damage": 150.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
               "damageType": "generic",
-              "fire": 0.03,
-              "damage": 20.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "fire": 0.15,
-              "damage": 70.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "fire": 0.25,
-              "damage": 100.0,
+              "fire": 0.0037,
+              "damage": 10.0,
               "fHitCritical": false
             }
           },
@@ -942,12 +793,6 @@
             "onHit": {
               "damageType": "fire",
               "fire": 0.03
-            }
-          },
-          {
-            "onKill": {
-              "fire": 1.0,
-              "fHitCritical": false
             }
           }
         ]
@@ -982,64 +827,24 @@
             "name": "engine_room_04_dm"
           },
           {
+            "onKill": {
+              "fire": 0.15,
+              "fHitCritical": false
+            }
+          },
+          {
             "onHit": {
-              "damageType": "explosion",
-              "fire": 0.2,
+              "damageType": "generic",
+              "fire": 0.0012,
               "damage": 20.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "fire": 0.3,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "explosion",
-              "fire": 0.5,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "fire": 0.1,
-              "damage": 20.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "fire": 0.2,
-              "damage": 70.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "generic",
-              "fire": 0.35,
-              "damage": 200.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "fire",
-              "fire": 0.1
-            }
-          },
-          {
-            "onKill": {
-              "fire": 0.5,
-              "nothing": 0.5,
-              "fHitCritical": false
+              "damage": 15.0,
+              "fire": 0.05
             }
           }
         ]
@@ -1068,16 +873,48 @@
             "name": "compartment_07_dm"
           },
           {
-            "name": "superstructure_dm"
+            "name": "compartment_08_dm"
           },
           {
-            "name": "deckhouse_dm"
+            "name": "compartment_09_dm"
+          },
+          {
+            "name": "compartment_10_dm"
+          },
+          {
+            "name": "compartment_11_dm"
+          },
+          {
+            "name": "compartment_12_dm"
+          },
+          {
+            "name": "compartment_13_dm"
+          },
+          {
+            "name": "compartment_14_dm"
+          },
+          {
+            "name": "compartment_15_dm"
+          },
+          {
+            "name": "bridge_dm"
+          },
+          {
+            "name": "radio_station_dm"
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "fire": 0.1,
-              "damage": 15.0,
+              "fire": 0.02,
+              "damage": 80.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.05,
+              "damage": 100.0,
               "fHitCritical": false
             }
           },
@@ -1085,55 +922,112 @@
             "onHit": {
               "damageType": "explosion",
               "fire": 0.25,
-              "damage": 50.0,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.03,
+              "damage": 5.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.15,
+              "damage": 15.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "generic",
+              "fire": 0.0003,
+              "damage": 6.0,
+              "fHitCritical": false
+            }
+          }
+        ]
+      },
+      {
+        "part": [
+          {
+            "name": "superstructure_dm"
+          },
+          {
+            "name": "superstructure_back_dm"
+          },
+          {
+            "name": "superstructure_front_dm"
+          },
+          {
+            "name": "superstructure_bottom_dm"
+          },
+          {
+            "name": "superstructure_side_dm"
+          },
+          {
+            "name": "superstructure_top_dm"
+          },
+          {
+            "name": "mid_top_dm"
+          },
+          {
+            "onHit": {
+              "damageType": "explosion",
+              "fire": 0.01,
+              "damage": 80.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "explosion",
-              "fire": 0.5,
+              "fire": 0.03,
               "damage": 100.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
-              "damageType": "generic",
+              "damageType": "explosion",
+              "fire": 0.25,
+              "damage": 200.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
               "fire": 0.05,
-              "damage": 50.0,
+              "damage": 5.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "fire",
+              "fire": 0.8,
+              "damage": 15.0,
+              "fHitCritical": false
+            }
+          },
+          {
+            "onHit": {
+              "damageType": "shatter",
+              "fire": 0.001,
+              "damage": 10.0,
               "fHitCritical": false
             }
           },
           {
             "onHit": {
               "damageType": "generic",
-              "fire": 0.1,
-              "damage": 100.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.1,
-              "damage": 30.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.2,
-              "damage": 50.0,
-              "fHitCritical": false
-            }
-          },
-          {
-            "onHit": {
-              "damageType": "fire",
-              "fire": 0.35,
-              "damage": 100.0,
+              "fire": 0.0003,
+              "damage": 6.0,
               "fHitCritical": false
             }
           }
@@ -1154,9 +1048,15 @@
           "part": "compartment_03_dm"
         },
         {
+          "part": "compartment_04_dm"
+        },
+        {
+          "part": "compartment_05_dm"
+        },
+        {
           "effect": {
             "conditionDamageType": "explosion",
-            "conditionDamageRel": 0.3,
+            "conditionDamage": 300.0,
             "kill": true,
             "killEffect": "destruction"
           }
@@ -1164,32 +1064,45 @@
       ],
       "cover_left_part": [
         {
-          "part": "compartment_04_dm"
-        },
-        {
-          "part": "compartment_05_dm"
-        },
-        {
           "part": "compartment_06_dm"
+        },
+        {
+          "part": "compartment_07_dm"
+        },
+        {
+          "part": "compartment_08_dm"
+        },
+        {
+          "part": "compartment_09_dm"
+        },
+        {
+          "part": "compartment_10_dm"
         },
         {
           "effect": {
             "conditionDamageType": "explosion",
-            "conditionDamageRel": 0.3,
+            "conditionDamage": 300.0,
             "kill": true,
             "killEffect": "destruction"
           }
         }
       ],
-      "bridge": {
-        "part": "bridge_dm",
-        "effect": {
-          "conditionDamageType": "explosion",
-          "conditionDamage": 550.0,
-          "kill": true,
-          "killEffect": "destruction"
+      "bridge": [
+        {
+          "part": "bridge_dm"
+        },
+        {
+          "part": "armor_cit_01_dm"
+        },
+        {
+          "effect": {
+            "conditionDamageType": "explosion",
+            "conditionDamage": 400.0,
+            "kill": true,
+            "killEffect": "destruction"
+          }
         }
-      }
+      ]
     }
   },
   {
@@ -1254,6 +1167,9 @@
       "hydrodynamics": [
         {
           "bodyArea": 0.0
+        },
+        {
+          "mulReaction": 0.9
         },
         {
           "rudder": {
@@ -1333,43 +1249,39 @@
       },
       {
         "event": {
-          "name": "superstructure_fire",
+          "name": "compartment_fire",
           "fx": {
-            "name": "ship_fire_medium",
+            "name": "ship_fire",
             "centerDmgPart": true
           }
         }
       },
       {
-        "event": [
-          {
-            "name": "fuel_tank_fire"
-          },
-          {
-            "fx": {
-              "name": "tank_fire_small",
-              "emmiter": "emtr_fire_fuel_01"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_fire_small",
-              "emmiter": "emtr_fire_fuel_02"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_fire_small",
-              "emmiter": "emtr_fire_fuel_03"
-            }
-          },
-          {
-            "fx": {
-              "name": "tank_fire_small",
-              "emmiter": "emtr_fire_fuel_04"
-            }
+        "event": {
+          "name": "superstructure_fire",
+          "fx": {
+            "name": "ship_fire",
+            "centerDmgPart": true
           }
-        ]
+        }
+      },
+      {
+        "event": {
+          "name": "turret_fire",
+          "fx": {
+            "name": "ship_fire",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "fuel_tank_fire",
+          "fx": {
+            "name": "ship_fire",
+            "centerDmgPart": true
+          }
+        }
       },
       {
         "event": [
@@ -1958,6 +1870,24 @@
             "name": "ship_hit_fire"
           }
         }
+      },
+      {
+        "event": {
+          "name": "torpedo_fire",
+          "fx": {
+            "name": "ship_ammo_fire_large",
+            "centerDmgPart": true
+          }
+        }
+      },
+      {
+        "event": {
+          "name": "torpedo_explosion",
+          "fx": {
+            "name": "ship_explosion_large_second",
+            "centerDmgPart": false
+          }
+        }
       }
     ]
   },
@@ -1967,10 +1897,18 @@
     }
   },
   {
+    "ammo": {
+      "explodeTreshold": 0.0001,
+      "explodeArmorPower": 50.0,
+      "explodeRadius": [50.0,100.0],
+      "explodeHitPower": 50.0
+    }
+  },
+  {
     "breaches": {
       "repairSpeed": 20.0,
       "waterMassVel": -14000.0,
-      "waterMassMult": 380.0,
+      "waterMassMult": 40.0,
       "sizeToRepair": [0.01,2.0,10.0,300.0],
       "additionalWaterDeathThreshold": 500000.0,
       "additionalWaterShouldDiePercent": 0.4,
@@ -1988,94 +1926,86 @@
       {
         "cover": {
           "part": "compartment_01_dm",
-          "weight": 0.5,
+          "weight": 0.1,
           "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_02_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 1.0,
-          "innerParts": [
-            {
-              "part": {
-                "partNo": "ammunition_storage_01_dm",
-                "critWaterLevel": 0.8
-              }
-            },
-            {
-              "part": {
-                "partNo": "ammunition_storage_01_dm",
-                "critWaterLevel": 0.8
-              }
-            }
-          ]
+          "weight": 0.75,
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_03_dm",
-          "weight": 0.7,
-          "maxWaterAlive": 1.0,
-          "innerParts": {
-            "part": {
-              "partNo": "engine_02_dm",
-              "critWaterLevel": 0.4
-            }
-          }
+          "weight": 1.0,
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
           "part": "compartment_04_dm",
-          "weight": 0.7,
+          "weight": 0.75,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_05_dm",
+          "weight": 0.4,
           "maxWaterAlive": 1.0,
           "innerParts": {
             "part": {
               "partNo": "engine_01_dm",
-              "critWaterLevel": 0.4
+              "critWaterLevel": 0.5
             }
           }
         }
       },
       {
         "cover": {
-          "part": "compartment_05_dm",
-          "weight": 1.0,
-          "maxWaterAlive": 1.0,
-          "innerParts": [
-            {
-              "part": {
-                "partNo": "ammunition_storage_03_dm",
-                "critWaterLevel": 0.8
-              }
-            },
-            {
-              "part": {
-                "partNo": "ammunition_storage_04_dm",
-                "critWaterLevel": 0.8
-              }
-            }
-          ]
+          "part": "compartment_06_dm",
+          "weight": 0.1,
+          "maxWaterAlive": 1.0
         }
       },
       {
         "cover": {
-          "part": "compartment_06_dm",
-          "weight": 0.5,
+          "part": "compartment_07_dm",
+          "weight": 0.75,
           "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_08_dm",
+          "weight": 1.0,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_09_dm",
+          "weight": 0.75,
+          "maxWaterAlive": 1.0
+        }
+      },
+      {
+        "cover": {
+          "part": "compartment_10_dm",
+          "weight": 0.4,
+          "maxWaterAlive": 1.0,
+          "innerParts": {
+            "part": {
+              "partNo": "engine_02_dm",
+              "critWaterLevel": 0.5
+            }
+          }
         }
       }
     ]
-  },
-  {
-    "ammo": {
-      "explodeTreshold": 0.0001,
-      "explodeArmorPower": 50.0,
-      "explodeRadius": [50.0,100.0],
-      "explodeHitPower": 50.0
-    }
   },
   {
     "winch": {
@@ -2978,81 +2908,91 @@
     "DamageParts": {
       "formatVersion": 2,
       "compartments": {
-        "fireParamsPreset": "ship_cover",
+        "fireParamsPreset": "ship_cover_boats",
         "stopChanceOnDeadPart": 0.5,
-        "genericDamageMult": 0.5,
-        "shatterDamageMult": 0.5,
-        "explosionDamageMult": 1.0,
-        "secondaryShatterDamageMult": 1.1,
         "armorClass": "ship_structural_steel",
         "armorThickness": 8.0,
         "hidableInViewer": true,
+        "compartment_05_dm": {
+          "hp": 650.0
+        },
+        "compartment_10_dm": {
+          "hp": 650.0
+        },
         "compartment_01_dm": {
-          "hp": 500.0
+          "fireParamsPreset": "ship_cover_ferry",
+          "hp": 650.0
         },
         "compartment_02_dm": {
-          "hp": 500.0
+          "fireParamsPreset": "ship_cover_ferry",
+          "hp": 650.0
         },
         "compartment_03_dm": {
-          "hp": 500.0
+          "fireParamsPreset": "ship_cover_ferry",
+          "hp": 650.0
         },
         "compartment_04_dm": {
-          "hp": 500.0
-        },
-        "compartment_05_dm": {
-          "hp": 500.0
+          "fireParamsPreset": "ship_cover_ferry",
+          "hp": 650.0
         },
         "compartment_06_dm": {
-          "hp": 500.0
+          "fireParamsPreset": "ship_cover_ferry",
+          "hp": 650.0
         },
         "compartment_07_dm": {
-          "hp": 500.0
+          "fireParamsPreset": "ship_cover_ferry",
+          "hp": 650.0
+        },
+        "compartment_08_dm": {
+          "fireParamsPreset": "ship_cover_ferry",
+          "hp": 650.0
+        },
+        "compartment_09_dm": {
+          "fireParamsPreset": "ship_cover_ferry",
+          "hp": 650.0
+        },
+        "compartment_11_dm": {
+          "armorThickness": 1.0,
+          "hp": 650.0
+        },
+        "compartment_12_dm": {
+          "armorThickness": 1.0,
+          "hp": 650.0
         },
         "bridge_dm": {
-          "hp": 150.0
+          "armorThickness": 1.0,
+          "hp": 650.0
         },
         "radio_station_dm": {
-          "hp": 150.0
+          "armorThickness": 1.0,
+          "hp": 650.0
         }
       },
       "superstructures": {
-        "fireParamsPreset": "ship_cover",
-        "genericDamageMult": 0.4,
-        "shatterDamageMult": 0.5,
-        "explosionDamageMult": 1.0,
-        "secondaryShatterDamageMult": 1.1,
+        "fireParamsPreset": "ship_superstructure_boat",
         "stopChanceOnDeadPart": 0.5,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 20.0,
-        "mid_top_dm": {
-          "armorClass": "ship_wood",
-          "armorThickness": 15.0,
-          "hp": 500.0
-        },
-        "superstructure_dm": {
-          "armorClass": "ship_RHA",
-          "armorThickness": 10.0,
-          "hp": 300.0
-        },
-        "superstructure_top_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
-          "hp": 300.0
-        },
+        "armorThickness": 4.0,
         "superstructure_front_dm": {
-          "armorClass": "ship_structural_steel",
-          "armorThickness": 4.0,
           "hp": 300.0
         }
       },
+      "construction": {
+        "stopChanceOnDeadPart": 0.5,
+        "armorClass": "ship_wood",
+        "armorThickness": 10.0,
+        "fireParamsPreset": "ship_cover_boats",
+        "mid_bottom_dm": {
+          "hp": 300.0
+        },
+        "mid_top_dm": {
+          "hp": 500.0
+        }
+      },
       "bulkheads": {
-        "genericDamageMult": 1.5,
-        "shatterDamageMult": 1.5,
-        "explosionDamageMult": 1.6,
-        "secondaryShatterDamageMult": 0.1,
         "stopChanceOnDeadPart": 0.05,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 4.0,
+        "armorThickness": 6.0,
         "bulkhead_01_dm": {
           "hp": 1000.0
         },
@@ -3111,13 +3051,10 @@
       },
       "engine": {
         "armorThrough": 40.0,
-        "fireProtectionHp": 5.0,
         "fireParamsPreset": "ship_engine",
-        "genericDamageMult": 1.5,
-        "shatterDamageMult": 0.8,
-        "secondaryShatterDamageMult": 0.05,
         "armorClass": "armor_tank_engine",
         "armorThickness": 5.0,
+        "fireProtectionHp": 10.0,
         "engine_01_dm": {
           "hp": 166.0
         },
@@ -3132,12 +3069,9 @@
         }
       },
       "steering_gear": {
-        "fireProtectionHp": 5.0,
-        "genericDamageMult": 1.0,
-        "shatterDamageMult": 0.3,
-        "explosionDamageMult": 1.5,
         "armorClass": "ship_structural_steel",
         "armorThickness": 10.0,
+        "fireProtectionHp": 30.0,
         "steering_gear_01_dm": {
           "hp": 110.0
         },
@@ -3146,12 +3080,9 @@
         }
       },
       "pumps": {
-        "fireProtectionHp": 5.0,
-        "genericDamageMult": 1.0,
-        "shatterDamageMult": 2.0,
-        "fireParamsPreset": "ship_engine",
         "armorClass": "armor_tank_engine",
         "armorThickness": 10.0,
+        "fireProtectionHp": 10.0,
         "pump_01_dm": {
           "hp": 100.0
         }
@@ -3171,7 +3102,7 @@
       "hull_armor": {
         "stopChanceOnDeadPart": 1.0,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 15.0,
+        "armorThickness": 4.0,
         "ex_armor_01_dm": {
           "hp": 250.0
         },
@@ -3198,12 +3129,17 @@
         "hidableInViewer": true
       },
       "citadel_armor": {
-        "armorClass": "ship_STS",
-        "armorThickness": 40.0
+        "stopChanceOnDeadPart": 1.0,
+        "armorClass": "ship_RHA",
+        "armorThickness": 10.0,
+        "armor_cit_01_dm": {
+          "hp": 10000.0
+        }
       },
       "turret_armor": {
         "armorClass": "ship_structural_steel",
         "armorThickness": 15.0,
+        "fireProtectionHp": 60.0,
         "turret_01_dm": {
           "hp": 250.0
         },
@@ -3248,11 +3184,6 @@
         }
       },
       "turrets_main_caliber": {
-        "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.4,
-        "shatterDamageMult": 1.8,
-        "explosionDamageMult": 1.5,
-        "secondaryShatterDamageMult": 0.5,
         "armorClass": "ship_structural_steel",
         "armorThickness": 3.0,
         "main_caliber_turret_01_dm": {
@@ -3269,11 +3200,6 @@
         }
       },
       "turrets_aux_caliber": {
-        "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.5,
-        "shatterDamageMult": 1.8,
-        "explosionDamageMult": 1.8,
-        "secondaryShatterDamageMult": 0.5,
         "armorClass": "ship_structural_steel",
         "armorThickness": 3.0,
         "auxiliary_caliber_turret_01_dm": {
@@ -3284,20 +3210,10 @@
         }
       },
       "turrets_aa_caliber": {
-        "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.6,
-        "shatterDamageMult": 2.0,
-        "explosionDamageMult": 2.0,
-        "secondaryShatterDamageMult": 1.0,
         "armorClass": "ship_structural_steel",
         "armorThickness": 3.0
       },
       "gun_main_caliber": {
-        "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.5,
-        "shatterDamageMult": 0.2,
-        "explosionDamageMult": 0.5,
-        "secondaryShatterDamageMult": 0.01,
         "armorClass": "tank_barrel",
         "armorThickness": 8.0,
         "main_caliber_gun_01_dm": {
@@ -3314,11 +3230,6 @@
         }
       },
       "gun_aux_caliber": {
-        "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.5,
-        "shatterDamageMult": 0.2,
-        "explosionDamageMult": 0.5,
-        "secondaryShatterDamageMult": 0.01,
         "armorClass": "tank_barrel",
         "armorThickness": 6.0,
         "auxiliary_caliber_gun_01_dm": {
@@ -3329,11 +3240,6 @@
         }
       },
       "gun_aa_caliber": {
-        "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.5,
-        "shatterDamageMult": 0.2,
-        "explosionDamageMult": 0.5,
-        "secondaryShatterDamageMult": 0.01,
         "armorClass": "tank_barrel",
         "armorThickness": 6.0
       },
@@ -3342,23 +3248,14 @@
         "armorThickness": 6.0
       },
       "explosives_mounts": {
-        "fireParamsPreset": "ship_turrets",
-        "genericDamageMult": 1.0,
-        "shatterDamageMult": 1.7,
-        "explosionDamageMult": 1.5,
-        "secondaryShatterDamageMult": 0.1,
         "armorClass": "ship_structural_steel",
         "armorThickness": 4.0
       },
       "ammo": {
-        "fireProtectionHp": 20.0,
         "fireParamsPreset": "ship_ammo_fire",
-        "genericDamageMult": 1.0,
-        "explosionDamageMult": 1.0,
-        "shatterDamageMult": 1.0,
-        "secondaryShatterDamageMult": 1.0,
         "armorClass": "ship_structural_steel",
-        "armorThickness": 2.0,
+        "armorThickness": 5.0,
+        "fireProtectionHp": 15.0,
         "ammunition_storage_01_dm": {
           "hp": 500.0
         },
@@ -3370,23 +3267,29 @@
         },
         "ammunition_storage_04_dm": {
           "hp": 500.0
+        },
+        "ammunition_storage_05_dm": {
+          "hp": 500.0
+        },
+        "ammunition_storage_06_dm": {
+          "hp": 500.0
         }
       },
       "ammo_first_stage": {
         "armorClass": "ship_structural_steel",
-        "armorThickness": 2.0,
-        "fireProtectionHp": 50.0,
+        "armorThickness": 5.0,
+        "fireProtectionHp": 15.0,
         "fireParamsPreset": "ship_ammo_fire",
         "createSecondaryShatters": false,
         "oneSided": true
       },
       "depth_charges": {
-        "fireProtectionHp": 20.0,
         "fireParamsPreset": "ship_ammo_fire",
-        "genericDamageMult": 0.5,
-        "shatterDamageMult": 0.5,
-        "explosionDamageMult": 1.5,
-        "secondaryShatterDamageMult": 0.1,
+        "armorClass": "ship_structural_steel",
+        "armorThickness": 2.0
+      },
+      "mines": {
+        "fireProtectionHp": 15.0,
         "armorClass": "ship_structural_steel",
         "armorThickness": 2.0
       }
@@ -3399,12 +3302,12 @@
       "sailor1": {
         "dmPart": "bridge_dm",
         "role": "sailor",
-        "crew": 4
+        "crew": 2
       },
       "sailor2": {
         "dmPart": "compartment_01_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 3
       },
       "sailor3": {
         "dmPart": "compartment_02_dm",
@@ -3414,49 +3317,44 @@
       "sailor4": {
         "dmPart": "compartment_03_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 7
       },
       "sailor5": {
         "dmPart": "compartment_04_dm",
         "role": "sailor",
-        "crew": 2
+        "crew": 10
       },
       "sailor6": {
-        "dmPart": "compartment_05_dm",
-        "role": "sailor",
-        "crew": 2
-      },
-      "sailor7": {
-        "dmPart": "compartment_06_dm",
-        "role": "sailor",
-        "crew": 2
-      },
-      "sailor8": {
-        "dmPart": "compartment_07_dm",
-        "role": "sailor",
-        "crew": 16
-      },
-      "sailor9": {
         "dmPart": "main_caliber_turret_01_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 4
       },
-      "sailor10": {
+      "sailor7": {
         "dmPart": "main_caliber_turret_02_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 4
       },
-      "sailor11": {
+      "sailor8": {
         "dmPart": "main_caliber_turret_03_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 4
       },
-      "sailor12": {
+      "sailor9": {
         "dmPart": "main_caliber_turret_04_dm",
         "role": "sailor",
-        "crew": 3
+        "crew": 4
       },
-      "sailor15": {
+      "sailor10": {
+        "dmPart": "auxiliary_caliber_turret_01_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor11": {
+        "dmPart": "auxiliary_caliber_turret_02_dm",
+        "role": "sailor",
+        "crew": 2
+      },
+      "sailor12": {
         "dmPart": "radio_station_dm",
         "role": "sailor",
         "crew": 2
@@ -3686,9 +3584,10 @@
           "barrelDP": "auxiliary_caliber_gun_01_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
-          "speedYaw": 50.0,
-          "speedPitch": 50.0,
+          "speedYaw": 65.0,
+          "speedPitch": 55.0,
           "bullets": 2000,
+          "useGunnerTargetingQuality": false,
           "allowableDelta": 2.0,
           "ChainfireTime": 60.0,
           "DelayAfterShoot": 0.0,
@@ -3705,7 +3604,6 @@
           "errMeasureVelDir": 3.0,
           "errTargetting": 1.0,
           "errExplTime": 0.0,
-          "useGunnerTargetingQuality": false,
           "turret": {
             "head": "auxiliary_caliber_turret_01",
             "gun": "auxiliary_caliber_gun_01",
@@ -3753,9 +3651,10 @@
           "barrelDP": "auxiliary_caliber_gun_02_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
-          "speedYaw": 50.0,
-          "speedPitch": 50.0,
+          "speedYaw": 65.0,
+          "speedPitch": 55.0,
           "bullets": 2000,
+          "useGunnerTargetingQuality": false,
           "allowableDelta": 2.0,
           "ChainfireTime": 60.0,
           "DelayAfterShoot": 0.0,
@@ -3772,7 +3671,6 @@
           "errMeasureVelDir": 3.0,
           "errTargetting": 1.0,
           "errExplTime": 0.0,
-          "useGunnerTargetingQuality": false,
           "turret": {
             "head": "auxiliary_caliber_turret_02",
             "gun": "auxiliary_caliber_gun_02",
@@ -3898,6 +3796,30 @@
           "explosionEvent": "ammo_explosion_2",
           "ammunition_storage_02_dm": {
             "count": 100
+          }
+        }
+      },
+      "ammo5": {
+        "weaponTrigger": "gunner4",
+        "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "fireEvent": "ammo_fire_4",
+          "explosionEvent": "ammo_explosion_4",
+          "ammunition_storage_05_dm": {
+            "count": 2000
+          }
+        }
+      },
+      "ammo6": {
+        "weaponTrigger": "gunner5",
+        "shells": {
+          "fatalFire": true,
+          "fatalExplosion": true,
+          "fireEvent": "ammo_fire_2",
+          "explosionEvent": "ammo_explosion_2",
+          "ammunition_storage_06_dm": {
+            "count": 2000
           }
         }
       }

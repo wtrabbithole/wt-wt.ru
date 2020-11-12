@@ -84,8 +84,6 @@
     "hasFlapsControl": true,
     "canTakeoffWithoutFlaps": true,
     "hasAirbrake": true,
-    "isAirBrakeAvailableOnGround": true,
-    "hasIndependentAirbrakesAndFlaps": true,
     "hasGearControl": true,
     "hasArrestorControl": true,
     "hasWingFoldControl": false,
@@ -122,7 +120,7 @@
     }
   },
   "MouseAim": {
-    "PreciseRotStopDetection": true
+    "PreciseRotStopDetection": false
   },
   "Areas": {
     "WingLeftIn": 2.88,
@@ -186,9 +184,9 @@
     "ClAfterCrit": 0.72,
     "MachFactor": 3,
     "MachCrit1": 0.92,
-    "MachMax1": 1.0,
+    "MachMax1": 1.05,
     "MultMachMax1": 5.5,
-    "MultLineCoeff1": -3.0,
+    "MultLineCoeff1": -3.4,
     "MultLimit1": 1.6,
     "MachCrit2": 0.7,
     "MachMax2": 1.0,
@@ -231,7 +229,7 @@
         "Flaps": 0.0
       },
       "Combat": {
-        "Presents": true,
+        "Presents": false,
         "Flaps": 0.2
       },
       "Takeoff": {
@@ -252,15 +250,15 @@
     },
     "Flaps1": {
       "Flaps": 0.2,
-      "FlapsPolarBlending": 0.2,
-      "FlapsAnimation": 0.0,
+      "FlapsPolarBlending": 0.18,
+      "FlapsAnimation": 0.2,
       "Stab": 0.0,
       "Slats": 0.25
     },
     "Flaps2": {
       "Flaps": 0.33,
-      "FlapsPolarBlending": 0.33,
-      "FlapsAnimation": 0.4,
+      "FlapsPolarBlending": 0.25,
+      "FlapsAnimation": 0.33,
       "Stab": 0.0,
       "Slats": 0.5
     },
@@ -447,7 +445,7 @@
       "ExtinguisherNum": 0,
       "Type": "Jet",
       "Cylinders": 25,
-      "Mass": 2361.0,
+      "Mass": 1540.0,
       "Thrust": 2600.0,
       "ThrottleBoost": 1.01,
       "AfterburnerBoost": 1.1,
@@ -968,52 +966,58 @@
       "OilTemperatureInertia": 12.2,
       "Mode0": {
         "Altitude": 1000.0,
-        "RPM": 3000.0,
+        "RPM": 4900.0,
         "WaterTemperature": 420.0,
         "OilTemperature": 55.0
       },
       "Mode1": {
         "Altitude": 1000.0,
-        "RPM": 7200.0,
-        "WaterTemperature": 620.0,
-        "OilTemperature": 65.0
+        "RPM": 5600.0,
+        "WaterTemperature": 380.0,
+        "OilTemperature": 60.0
       },
       "Mode2": {
         "Altitude": 1000.0,
-        "RPM": 7650.0,
-        "WaterTemperature": 680.0,
-        "OilTemperature": 80.0
+        "RPM": 7200.0,
+        "WaterTemperature": 500.0,
+        "OilTemperature": 65.0
       },
       "Mode3": {
         "Altitude": 1000.0,
+        "RPM": 7650.0,
+        "WaterTemperature": 590.0,
+        "OilTemperature": 80.0
+      },
+      "Mode4": {
+        "Altitude": 1000.0,
         "RPM": 7690.0,
-        "WaterTemperature": 688.0,
+        "WaterTemperature": 615.0,
         "OilTemperature": 85.0
       },
       "Load0": {
-        "WaterTemperature": 450.0,
+        "WaterTemperature": 430.0,
         "OilTemperature": 55.0
       },
       "Load1": {
-        "WaterTemperature": 550.0,
+        "WaterTemperature": 500.0,
         "OilTemperature": 65.0,
         "WorkTime": 7200.0,
         "RecoverTime": 3600.0
       },
       "Load2": {
-        "WaterTemperature": 680.0,
+        "WaterTemperature": 590.0,
         "OilTemperature": 80.0,
         "WorkTime": 1800.0,
         "RecoverTime": 360.0
       },
       "Load3": {
-        "WaterTemperature": 688.0,
+        "WaterTemperature": 615.0,
         "OilTemperature": 85.0,
-        "WorkTime": 300.0,
+        "WorkTime": 330.0,
         "RecoverTime": 150.0
       },
       "Load4": {
-        "WaterTemperature": 715.0,
+        "WaterTemperature": 640.0,
         "OilTemperature": 90.0,
         "WorkTime": 60.0,
         "RecoverTime": 30.0
@@ -1056,7 +1060,7 @@
         "minTime": 8.0,
         "maxTime": 10.0,
         "fromRPM": 0.0,
-        "toRPM": 250.0
+        "toRPM": 500.0
       },
       "Stage2": {
         "minTime": 0.0,
@@ -1108,7 +1112,7 @@
     "GearDestructionIndSpeed": 546.0,
     "AirbrakeDestructionIndSpeed": -1.0,
     "FlapsDestructionIndSpeedP1": [0.2,2350.0],
-    "FlapsDestructionIndSpeedP2": [0.33,833.0],
+    "FlapsDestructionIndSpeedP2": [0.32,833.0],
     "FlapsDestructionIndSpeedP3": [1.0,444.0],
     "Parts": {
       "tank2_capacity": 1506.5,

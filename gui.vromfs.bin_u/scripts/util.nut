@@ -1,9 +1,11 @@
 local SecondsUpdater = require("sqDagui/timer/secondsUpdater.nut")
 local time = require("scripts/time.nut")
 local penalty = require_native("penalty")
-local platformModule = require("scripts/clientState/platform.nut")
+local { isPlatformSony, getPlayerName } = require("scripts/clientState/platform.nut")
 local stdMath = require("std/math.nut")
 local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
+local { isCrossPlayEnabled } = require("scripts/social/crossplay.nut")
+local { startLogout } = require("scripts/login/logout.nut")
 
 ::usageRating_amount <- [0.0003, 0.0005, 0.001, 0.002]
 ::allowingMultCountry <- [1.5, 2, 2.5, 3, 4, 5]
@@ -239,7 +241,7 @@ foreach (i, v in ::cssColorsMapDark)
         {
           ::in_on_lost_psn = false
           ::destroy_session_scripted()
-          ::gui_start_logout()
+          startLogout()
         }
         ]], "ok")
   }
@@ -1017,96 +1019,6 @@ foreach (i, v in ::cssColorsMapDark)
   return obj!=null && obj.isValid()
 }
 
-::get_mission_name <- function get_mission_name(missionId, config, locNameKey = "locName")
-{
-  local locNameValue = getTblValue(locNameKey, config, null)
-  if (locNameValue && locNameValue.len())
-    return ::get_locId_name(config, locNameKey)
-
-  return ::loc("missions/" + missionId)
-}
-
-::get_current_mission_name <- function get_current_mission_name()
-{
-  local misBlk = ::DataBlock()
-  ::get_current_mission_desc(misBlk)
-  return misBlk.name
-}
-
-::loc_current_mission_name <- function loc_current_mission_name(needComment = true)
-{
-  local misBlk = ::DataBlock()
-  ::get_current_mission_desc(misBlk)
-  local ret = ""
-  if ((misBlk?.locName.len() ?? 0) > 0)
-    ret = ::get_locId_name(misBlk, "locName")
-  else if ((misBlk?.loc_name ?? "") != "")
-    ret = ::loc("missions/" + misBlk.loc_name, "")
-  if (ret == "")
-    ret = get_combine_loc_name_mission(misBlk)
-  if (needComment && (::get_game_type() & ::GT_VERSUS))
-  {
-    if (misBlk?.maxRespawns == 1)
-      ret = ret + " " + ::loc("template/noRespawns")
-    else if ((misBlk?.maxRespawns ?? 1) > 1)
-      ret = ret + " " +
-        ::loc("template/limitedRespawns/num/plural", { num = misBlk.maxRespawns })
-  }
-  return ret
-}
-
-::get_combine_loc_name_mission <- function get_combine_loc_name_mission(missionInfo)
-{
-  local misInfoName = missionInfo?.name ?? ""
-  local locName = ""
-  if ((missionInfo?.locName.len() ?? 0) > 0)
-    locName = ::get_locId_name(missionInfo, "locName")
-  else
-    locName = ::loc("missions/" + misInfoName, "")
-
-  if (locName == "")
-  {
-    local misInfoPostfix = missionInfo?.postfix ?? ""
-    if (misInfoPostfix != "" && misInfoName.indexof(misInfoPostfix))
-    {
-      local name = misInfoName.slice(0, misInfoName.indexof(misInfoPostfix))
-      locName = "[" + ::loc("missions/" + misInfoPostfix) + "] " + ::loc("missions/" + name)
-    }
-  }
-
-  //we dont have lang and postfix
-  if (locName == "")
-    locName = "missions/" + misInfoName
-  return locName
-}
-
-::loc_current_mission_desc <- function loc_current_mission_desc()
-{
-  local misBlk = ::DataBlock()
-  ::get_current_mission_desc(misBlk)
-
-  local locDesc = ""
-  if ("locDesc" in misBlk && misBlk.locDesc.len() > 0)
-    locDesc = ::get_locId_name(misBlk, "locDesc")
-  else
-  {
-    local missionLocName = misBlk.name
-    if ("loc_name" in misBlk && misBlk.loc_name != "")
-      missionLocName = misBlk.loc_name
-    locDesc = ::loc("missions/" + missionLocName + "/desc", "")
-  }
-  if (::get_game_type() & ::GT_VERSUS)
-  {
-    if (misBlk.maxRespawns == 1)
-    {
-      if (::get_game_mode()!=::GM_DOMINATION)
-        locDesc = locDesc + "\n\n" + ::loc("template/noRespawns/desc")
-    } else if ((misBlk.maxRespawns != null) && (misBlk.maxRespawns > 1))
-      locDesc = locDesc + "\n\n" + ::loc("template/limitedRespawns/desc")
-  }
-  return locDesc
-}
-
 ::save_to_json <- function save_to_json(obj)
 {
   ::dagor.assertf(::isInArray(type(obj), [ "table", "array" ]),
@@ -1426,14 +1338,6 @@ foreach (i, v in ::cssColorsMapDark)
   return ::char_send_blk("cln_move_exp_to_module", blk)
 }
 
-::buySchemeForUnit <- function buySchemeForUnit(unit)
-{
-  local blk = ::DataBlock()
-  blk.setStr("unit", unit)
-
-  return ::char_send_blk("cln_buy_scheme", blk)
-}
-
 /**
  * Set val to slot, specified by path.
  * Checks for identity before save.
@@ -1571,7 +1475,9 @@ foreach (i, v in ::cssColorsMapDark)
 
 ::is_worldwar_enabled <- function is_worldwar_enabled()
 {
-  return ::has_feature("WorldWar") && ("g_world_war" in ::getroottable())
+  return ::has_feature("WorldWar")
+    && ("g_world_war" in ::getroottable())
+    && (!isPlatformSony || isCrossPlayEnabled())
 }
 
 ::init_use_touchscreen <- function init_use_touchscreen()
@@ -1722,11 +1628,13 @@ foreach (i, v in ::cssColorsMapDark)
   return ::is_myself_moderator() || ::is_myself_grand_moderator() || ::is_myself_chat_moderator()
 }
 
-::unlockCrew <- function unlockCrew(crewId, byGold)
+::unlockCrew <- function unlockCrew(crewId, byGold, cost)
 {
   local blk = ::DataBlock()
-  blk.setInt("crew", crewId)
-  blk.setBool("gold", byGold)
+  blk["crew"] = crewId
+  blk["gold"] = byGold
+  blk["cost"] = cost?.wp ?? 0
+  blk["costGold"] = cost?.gold ?? 0
 
   return ::char_send_blk("cln_unlock_crew", blk)
 }
@@ -1917,7 +1825,7 @@ const PASSWORD_SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
   }
 
   local clanTag = withClanTag ? player.clanTag : ""
-  local name = ::g_contacts.getPlayerFullName(platformModule.getPlayerName(player.name),
+  local name = ::g_contacts.getPlayerFullName(player?.isBot? player.name : getPlayerName(player.name),
                                               clanTag,
                                               unitName)
 
@@ -1971,18 +1879,6 @@ const PASSWORD_SYMBOLS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQR
     pos = obj.getPosRC()
     visible = obj.isVisible()
   }
-}
-
-::get_object_value <- function get_object_value(parentObj, id, defValue = null)
-{
-  if (!::checkObj(parentObj))
-    return defValue
-
-  local obj = parentObj.findObject(id)
-  if (::checkObj(obj))
-    return obj.getValue()
-
-  return defValue
 }
 
 ::destroy_session_scripted <- function destroy_session_scripted()

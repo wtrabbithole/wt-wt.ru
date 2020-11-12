@@ -2,6 +2,111 @@ local time = require("scripts/time.nut")
 local { getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
 local { getModificationName } = require("scripts/weaponry/bulletsInfo.nut")
 local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = require("scripts/onlineShop/entitlements.nut")
+local { isCrossPlayEnabled,
+        getTextWithCrossplayIcon,
+        needShowCrossPlayInfo } = require("scripts/social/crossplay.nut")
+
+local imgFormat = "img {size:t='%s'; background-image:t='%s'; margin-right:t='0.01@scrn_tgt;'} "
+local textareaFormat = "textareaNoTab {id:t='description'; width:t='pw'; text:t='%s'} "
+local descriptionBlkMultipleFormat = "tdiv { flow:t='h-flow'; width:t='pw'; {0} }"
+
+local clanActionNames = {
+  [ULC_CREATE]                  = "create",
+  [ULC_DISBAND]                 = "disband",
+
+  [ULC_REQUEST_MEMBERSHIP]      = "request_membership",
+  [ULC_CANCEL_MEMBERSHIP]       = "cancel_membership",
+  [ULC_REJECT_MEMBERSHIP]       = "reject_candidate",
+  [ULC_ACCEPT_MEMBERSHIP]       = "accept_candidate",
+
+  [ULC_DISMISS]                 = "dismiss_member",
+  [ULC_CHANGE_ROLE]             = "change_role",
+  [ULC_CHANGE_ROLE_AUTO]        = "change_role_auto",
+  [ULC_LEAVE]                   = "leave",
+  [ULC_DISBANDED_BY_LEADER]     = "disbanded_by_leader",
+
+  [ULC_ADD_TO_BLACKLIST]        = "add_to_blacklist",
+  [ULC_DEL_FROM_BLACKLIST]      = "remove_from_blacklist",
+  [ULC_CHANGE_CLAN_INFO]        = "clan_info_was_changed",
+  [ULC_CLAN_INFO_WAS_CHANGED]   = "clan_info_was_renamed",
+  [ULC_DISBANDED_BY_ADMIN]      = "clan_disbanded_by_admin",
+  [ULC_UPGRADE_CLAN]            = "clan_was_upgraded",
+  [ULC_UPGRADE_MEMBERS]         = "clan_max_members_count_was_increased",
+}
+local getClanActionName = @(action) clanActionNames?[action] ?? "unknown"
+
+local function getDecoratorUnlock(resourceId, resourceType)
+{
+  local unlock = ::create_default_unlock_data()
+  local decoratorType = null
+  unlock.id = resourceId
+  decoratorType = ::g_decorator_type.getTypeByResourceType(resourceType)
+  if (decoratorType != ::g_decorator_type.UNKNOWN)
+  {
+    unlock.name = decoratorType.getLocName(unlock.id, true)
+    unlock.desc = decoratorType.getLocDesc(unlock.id)
+    unlock.image = decoratorType.userlogPurchaseIcon
+
+    local decorator = ::g_decorator.getDecorator(unlock.id, decoratorType)
+    if (decorator && !::is_in_loading_screen())
+    {
+      unlock.descrImage <- decoratorType.getImage(decorator)
+      unlock.descrImageRatio <- decoratorType.getRatio(decorator)
+      unlock.descrImageSize <- decoratorType.getImageSize(decorator)
+    }
+  }
+
+  return unlock
+}
+
+local function getResourcesConfig(resources) {
+  if (resources == null)
+    return null
+
+  local res = {
+    description = []
+    logImg = null
+    resourcesImagesMarkupArr = []
+  }
+
+  //after convertation from DataBlk to table array with 1 element becomes table.
+  //So we normalize data format.
+  if (::u.isTable(resources))
+    resources = [resources]
+
+  foreach (resource in resources) {
+    local unlock = getDecoratorUnlock(resource.resourceId, resource.resourceType)
+    local desc = unlock?.desc ?? ""
+    if (desc != "")
+      res.description.append(desc)
+
+    res.logImg = unlock?.image ?? res.logImg
+    local descrImage = unlock?.descrImage ?? ""
+    if (descrImage != "") {
+      local imgSize = unlock?.descrImageSize ?? "0.05sh, 0.05sh"
+      res.resourcesImagesMarkupArr.append(::format(imgFormat, imgSize, unlock.descrImage))
+    }
+  }
+
+  return res
+}
+
+local function getLinkMarkup(text, url, acccessKeyName=null)
+{
+  if (!::u.isString(url) || url.len() == 0 || !::has_feature("AllowExternalLink"))
+    return ""
+
+  local btnParams = {
+    text = text
+    isHyperlink = true
+    link = url
+  }
+  if (acccessKeyName && acccessKeyName.len() > 0)
+  {
+    btnParams.acccessKeyName <- acccessKeyName
+  }
+  return ::handyman.renderCached("gui/commonParts/button", btnParams)
+}
 
 ::update_repair_cost <- function update_repair_cost(units, repairCost)
 {
@@ -32,9 +137,6 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
   local priceText = ::Cost(("wpCost" in log) ? log.wpCost : 0,
     ("goldCost" in log) ? log.goldCost : 0).tostring()
   if (priceText!="")  priceText = " ("+priceText+")"
-
-  local imgFormat = "img {size:t='%s'; background-image:t='%s'; margin-right:t='0.01@scrn_tgt;'} "
-  local textareaFormat = "textareaNoTab {id:t='description'; width:t='pw'; text:t='%s'} "
 
   if (log.type == ::EULT_SESSION_START ||
       log.type == ::EULT_EARLY_SESSION_LEAVE ||
@@ -301,7 +403,7 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
       {
         if (!("descriptionBlk" in res))
           res.descriptionBlk <- ""
-        res.descriptionBlk += ::get_link_markup(::loc("mainmenu/btnViewServerReplay"),
+        res.descriptionBlk += getLinkMarkup(::loc("mainmenu/btnViewServerReplay"),
                                                 ::loc("url/serv_replay", {roomId = log.roomId}), "Y")
       }
   }
@@ -659,7 +761,7 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
     if (log.type==::EULT_BUYING_RESOURCE)
     {
       resourceType = log.resourceType
-      config = ::get_decorator_unlock(log.resourceId, log.resourceType)
+      config = getDecoratorUnlock(log.resourceId, log.resourceType)
       decoratorType = ::g_decorator_type.getTypeByResourceType(resourceType)
     }
     else if (log.type==::EULT_BUYING_UNLOCK)
@@ -810,46 +912,16 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
 
       ::prepareMessageForWallPostAndSend(config, customConfig, bit_activity.PS4_ACTIVITY_FEED)
 
-      if ("resource" in rewardBlk)
-      {
-        //after convertation from DataBlk to table array with 1 element bocomes
-        //table. So we normalize data format.
-        if (::u.isTable(rewardBlk.resource))
-          rewardBlk.resource = [clone rewardBlk.resource]
-
-        local resourcesImagesMarkup = ""
-        for (local i = 0; i < rewardBlk.resource.len(); ++i)
-        {
-          local unlock = ::get_decorator_unlock(
-            rewardBlk.resource[i].resourceId,
-            rewardBlk.resource[i].resourceType
-          )
-
-          if (!::u.isEmpty(unlock?.desc))
-          {
-            if (!("description" in  res))
-              res.description <- ""
-            else
-              res.description += "\n\n"
-            res.description += unlock.desc
-          }
-
-          res.logImg = unlock?.image
-
-          if (::getTblValue("descrImage", unlock, "") != "")
-          {
-            local imgSize = ::getTblValue("descrImageSize", unlock, "0.05sh, 0.05sh")
-            resourcesImagesMarkup += ::format(imgFormat, imgSize, unlock.descrImage)
-          }
+      local resourcesConfig = getResourcesConfig(rewardBlk?.resource)
+      if (resourcesConfig != null) {
+        if (resourcesConfig.description.len() > 0) {
+          local desc = "\n\n".join(resourcesConfig.description)
+          res.description <- $"{res?.description ?? ""}{("description" in  res) ? "\n\n" : ""}{desc}"
         }
-
-        if (resourcesImagesMarkup.len())
-        {
-          resourcesImagesMarkup = "tdiv { flow:t='h-flow'; width:t='pw';" + resourcesImagesMarkup + "}"
-          res.descriptionBlk <- resourcesImagesMarkup
-        }
+        res.logImg = resourcesConfig.logImg
+        if (resourcesConfig.resourcesImagesMarkupArr.len() > 0)
+          res.descriptionBlk <- descriptionBlkMultipleFormat.subst("".join(resourcesConfig.resourcesImagesMarkupArr))
       }
-
     }
 
     if (rewardType == "EveryDayLoginAward" || rewardType == "PeriodicCalendarAward")
@@ -1435,7 +1507,7 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
           if (!("descriptionBlk" in res))
             res.descriptionBlk <- ""
           if("circuit" in log)
-            res.descriptionBlk += ::get_link_markup(::loc("mainmenu/btnPickTSS"),
+            res.descriptionBlk += getLinkMarkup(::loc("mainmenu/btnPickTSS"),
               ::loc("url/serv_pick_tss", {port = log.port, circuit = log.circuit}), "Y")
           desc += ::loc("invite_to_pick_tss/desc")
           break;
@@ -1452,8 +1524,8 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
 
         if (desc!="")
           res.description <- desc
-        if (log?.battleId && ::has_feature("TournamentInvites"))
-          res.buttonName = ::loc("chat/btnJoin")
+        if (log?.battleId && ::has_feature("Tournaments") && (!needShowCrossPlayInfo() || isCrossPlayEnabled()))
+          res.buttonName = getTextWithCrossplayIcon(needShowCrossPlayInfo(), ::loc("chat/btnJoin"))
     }
   }
   else if (log.type == ::EULT_CLAN_UNITS)
@@ -1478,47 +1550,60 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
   }
   else if (log.type == ::EULT_WW_AWARD)
   {
-    local awardsFor = log.awardsFor
-
+    res.name = ::loc("worldwar/personal/award")
+    local awardsFor = log?.awardsFor
     local descLines = []
-    local day = ::g_string.cutPrefix(awardsFor.table, "day")
+    if (awardsFor != null) {
+      local day = ::g_string.cutPrefix(awardsFor.table, "day")
+      local period = day ? ::loc("enumerated_day", {number = day}) : ::loc("worldwar/allSeason")
+      local modeStr = ::g_string.split(awardsFor.mode, "__")
+      local mapName = null
+      local country = null
+      foreach (partStr in modeStr)
+      {
+        if(::g_string.startsWith(partStr, "country_"))
+          country = partStr
+        if(::g_string.endsWith(partStr, "_wwmap"))
+          mapName = partStr
+      }
+      country = country ? ::loc(country) : ::loc("worldwar/allCountries")
+      mapName = mapName ? ::loc("worldWar/map/" + mapName) : ::loc("worldwar/allMaps")
+      local leaderboard = ::loc("mainmenu/leaderboard") + ::loc("ui/colon")
+        + ::g_string.implode([period, mapName, country], ::loc("ui/comma"))
+      descLines.append(leaderboard)
 
-    local period = day ? ::loc("enumerated_day", {number = day}) : ::loc("worldwar/allSeason")
-    local modeStr = ::g_string.split(awardsFor.mode, "__")
-    local mapName = null
-    local country = null
-    foreach (partStr in modeStr)
-    {
-      if(::g_string.startsWith(partStr, "country_"))
-        country = partStr
-      if(::g_string.endsWith(partStr, "_wwmap"))
-        mapName = partStr
+      switch (awardsFor.leaderboard_type)
+      {
+       case "user_leaderboards" :
+         res.name = ::loc("worldwar/personal/award")
+         descLines.append(::loc("multiplayer/place") + ::loc("ui/colon") + awardsFor.place)
+         break
+       case "clan_leaderboards" :
+         res.name = ::loc("worldwar/clan/award")
+         descLines.append(::loc("multiplayer/clan_place") + ::loc("ui/colon") + awardsFor.clan_place)
+         descLines.append(::loc("multiplayer/place_in_clan_leaderboard") + ::loc("ui/colon") + awardsFor.place)
+         break
+      }
     }
-    country = country ? ::loc(country) : ::loc("worldwar/allCountries")
-    mapName = mapName ? ::loc("worldWar/map/" + mapName) : ::loc("worldwar/allMaps")
-    local leaderboard = ::loc("mainmenu/leaderboard") + ::loc("ui/colon")
-      + ::g_string.implode([period, mapName, country], ::loc("ui/comma"))
-    descLines.append(leaderboard)
-
-    switch (awardsFor.leaderboard_type)
-    {
-     case "user_leaderboards" :
-       res.name = ::loc("worldwar/personal/award")
-       descLines.append(::loc("multiplayer/place") + ::loc("ui/colon") + awardsFor.place)
-       break
-     case "clan_leaderboards" :
-       res.name = ::loc("worldwar/clan/award")
-       descLines.append(::loc("multiplayer/clan_place") + ::loc("ui/colon") + awardsFor.clan_place)
-       descLines.append(::loc("multiplayer/place_in_clan_leaderboard") + ::loc("ui/colon") + awardsFor.place)
-       break
-    }
-
-    local item = ::ItemsManager.findItemById(log.itemDefId)
+    local item = ::ItemsManager.findItemById(log?.itemDefId)
     if (item)
       descLines.append(::colorize("activeTextColor", item.getName()))
-    res.logImg = (item && item.getSmallIconName() ) || ::BaseItem.typeIcon
+    res.logImg = item?.getSmallIconName()
 
-    res.descriptionBlk <- ::get_userlog_image_item(item)
+    local markupArr = []
+    local itemMarkup = ::get_userlog_image_item(item)
+    if (itemMarkup != "")
+      markupArr.append(itemMarkup)
+
+    local resourcesConfig = getResourcesConfig(log?.resources.resource)
+    if (resourcesConfig != null) {
+      if (resourcesConfig.description.len() > 0)
+        descLines.append($"\n{"\n\n".join(resourcesConfig.description)}")
+      res.logImg = res.logImg ?? resourcesConfig.logImg
+      markupArr.extend(resourcesConfig.resourcesImagesMarkupArr)
+    }
+
+    res.descriptionBlk <- descriptionBlkMultipleFormat.subst("".join(markupArr))
     res.description <- ::g_string.implode(descLines, "\n")
   }
 

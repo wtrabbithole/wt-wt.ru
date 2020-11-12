@@ -1,4 +1,8 @@
 local { TIERS_NUMBER,
+        CHAPTER_ORDER,
+        CHAPTER_FAVORITE_IDX,
+        sortPresetLists,
+        setFavoritePresets,
         getWeaponryByPresetInfo } = require("scripts/weaponry/weaponryPresetsParams.nut")
 local { getLastWeapon,
         setLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
@@ -25,7 +29,10 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
   isWorldWarUnit       = false
   onChangeValueCb      = null
   weaponItemParams     = null
+  favoriteArr          = null
   isTiersNestSelected  = false
+  chapterPos           = 0
+  wndWidth             = 0
 
   function getSceneTplView()
   {
@@ -36,7 +43,10 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
         + tiersWidth + iconWidth
     presetTextWidth = ::min(::to_pixels("1@srw") - tiersAndDescWidth,
       ::to_pixels("1@modPresetTextMaxWidth"))
+    wndWidth = tiersAndDescWidth + presetTextWidth
+    chapterPos = presetTextWidth + 0.5 * tiersWidth + iconWidth
     weaponryByPresetInfo = getWeaponryByPresetInfo(unit, chooseMenuList)
+    favoriteArr = weaponryByPresetInfo.favoriteArr
     presetsList = weaponryByPresetInfo.presetsList
     lastWeapon = !isWorldWarUnit ?
       getLastWeapon(unit.name) : ::g_world_war.get_last_weapon_preset(unit.name)
@@ -46,8 +56,8 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     return {
       headerText = "".concat(::loc("modification/category/secondaryWeapon"), " ",
         ::loc("ui/mdash"), " ", ::getUnitName(unit))
-      wndWidth = tiersAndDescWidth + presetTextWidth
-      chapterPos = presetTextWidth + 0.5 * tiersWidth + iconWidth
+      wndWidth = wndWidth
+      chapterPos = chapterPos
       presets = presetsMarkup
       isShowConsoleBtn = ::show_console_buttons
     }
@@ -56,20 +66,21 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
   function initScreen()
   {
     selectPreset(chosenPresetIdx)
+    initFocusArray()
   }
 
   function getPresetsMarkup()
   {
     local res = []
-    local curType = ""
+    local curChapterOrd = 0
     foreach (idx, preset in weaponryByPresetInfo.presets)
     {
-      if (curType != preset.purposeType && preset.purposeType != "NONE")
+      if (curChapterOrd != preset.chapterOrd && preset.purposeType != "NONE")
       {
-        curType = preset.purposeType
+        curChapterOrd = preset.chapterOrd
         res.append({
           isCollapsable = true
-          purposeTypeName = ::loc($"weapons/purposeType/{ preset.purposeType }")
+          chapterName = ::loc($"weapons/purposeType/{CHAPTER_ORDER[curChapterOrd]}")
         })
       }
 
@@ -79,12 +90,14 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
           collapsable = true
           selected = idx == chosenPresetIdx
           showButtons = true
+          actionBtnText = onChangeValueCb != null ? ::loc("mainmenu/btnSelect") : null
         })
       res.append({
         presetId = idx
         weaponryItem = getWeaponItemViewParams($"item_{idx}", unit, presetsList[idx],
           params).__update({
               presetTextWidth = presetTextWidth
+              isTypeNone = preset.purposeType == "NONE"
               tiers = presetsList[idx].tiers.map(@(t) {
                 tierId        = t.tierId
                 img           = t?.img ?? ""
@@ -102,7 +115,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     local presetObj = obj.getChild(obj.getValue())
     if (!::check_obj(presetObj))
       return
-    curPresetIdx = presetObj.presetId != "" ? presetObj.presetId.tointeger() : -1
+    curPresetIdx = presetObj.presetId != "" ? presetObj.presetId.tointeger() : null
     presetObj.select()
     updateDesc()
   }
@@ -113,7 +126,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     for (local i=0; i < nestObj.childrenCount(); i++)
     {
       local presetObj = nestObj.getChild(i)
-      if (presetObj.presetId == curPresetIdx.tostring())
+      if (presetObj.presetId == (curPresetIdx?.tostring() ?? ""))
         return {idx = i, obj = presetObj}
     }
 
@@ -141,10 +154,25 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     if (!::check_obj(nestObj))
       return
 
-    selectPreset(nestObj.findObject("presetHeader").presetId.tointeger())
-    nestObj.setValue(obj.tierId.tointeger() + 1)
+    local presetId = nestObj.findObject("presetHeader").presetId.tointeger()
+    local tierId = obj.tierId.tointeger()
+    selectPreset(presetId)
+    if (!presetsList[presetId].tiers?[tierId].img)
+    {
+      isTiersNestSelected = false
+      updateTierDesc(null)
+      if (tierId >= TIERS_NUMBER)
+      {
+        local message = $"Appears about preset {presetsList[presetId].name} in unit {unit.name}" // warning disable: -declared-never-used
+        ::script_net_assert_once("unexist tier ID", $"Error: Tier ID > {TIERS_NUMBER}")
+      }
+
+      return
+    }
+
+    updateTierDesc(tierId)
+    nestObj.setValue(tierId + 1)
     nestObj.select()
-    updateTierDesc(obj.tierId.tointeger())
     isTiersNestSelected = true
   }
 
@@ -172,12 +200,12 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     local descObj = scene.findObject("tierDesc")
     if (!::check_obj(descObj))
       return
-    if (tierId != null)
+    if (tierId != null && curPresetIdx != null)
     {
       local item = presetsList[curPresetIdx]
       local weaponry = ::u.search(item.tiers, @(p) p.tierId == tierId)?.weaponry
       data = weaponry ? ::handyman.renderCached(("gui/weaponry/weaponTooltip"),
-        getTierDescTbl(unit, weaponry, item.name)) : ""
+        getTierDescTbl(unit, weaponry, item.name, tierId)) : ""
     }
     guiScene.replaceContentFromText(descObj, data, data.len())
   }
@@ -197,18 +225,22 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
 
   function onModActionBtn(obj = null)
   {
+    if (curPresetIdx == null)
+      return
     chosenPresetIdx = curPresetIdx
     doItemAction(presetsList[curPresetIdx])
   }
 
   function onAltModAction(obj)
   {
+    if (curPresetIdx == null)
+      return
     onBuy(presetsList[curPresetIdx])
   }
 
   function doItemAction(item)
   {
-    ::play_gui_sound("check")
+    guiScene.playSound("check")
     if (onChangeValueCb)
       onChangeValueCb(item)
     else
@@ -222,6 +254,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
       }
       setLastWeapon(unit.name, item.name)
       ::check_secondary_weapon_mods_recount(unit)
+      checkSaveBulletsAndDo()
     }
     guiScene.performDelayed(this, @()goBack())
   }
@@ -235,7 +268,7 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
     })(unit, item), this))
   }
 
-  function checkSaveBulletsAndDo(func)
+  function checkSaveBulletsAndDo(func = null)
   {
     local needSave = false
     if (lastWeapon != "" && lastWeapon != getLastWeapon(unit.name))
@@ -262,19 +295,22 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
   function updateDesc()
   {
     local descObj = scene.findObject("desc")
-    if (::check_obj(descObj))
-      if (curPresetIdx < 0)
-      {
-        guiScene.replaceContentFromText(descObj, "", 0, this)
-        showSceneBtn("actionBtn", false)
-        showSceneBtn("altActionBtn", false)
-        return
-      }
+    if (!::check_obj(descObj))
+      return
+
+    if (curPresetIdx == null)
+    {
+      guiScene.replaceContentFromText(descObj, "", 0, this)
+      showSceneBtn("actionBtn", false)
+      showSceneBtn("altActionBtn", false)
+      showSceneBtn("favoriteBtn", false)
+      return
+    }
     updateWeaponTooltip(descObj, unit, presetsList[curPresetIdx], this, {detail = INFO_DETAIL.FULL})
     local idx = curPresetIdx
     local itemParams = ::u.search(presetsMarkup, @(i) i?.presetId == idx)
     local btnText = itemParams?.weaponryItem.actionBtnText ?? ""
-    local actionBtnObj =  showSceneBtn("actionBtn", btnText != "")
+    local actionBtnObj = showSceneBtn("actionBtn", btnText != "" && idx != chosenPresetIdx)
     if (btnText != "" && ::check_obj(actionBtnObj))
       actionBtnObj.setValue(btnText)
     local altBtnText = itemParams?.weaponryItem.altBtnBuyText ?? ""
@@ -284,13 +320,20 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
       altActionBtnObj.setValue(altBtnText)
       altActionBtnObj.tooltip = itemParams?.weaponryItem.altBtnTooltip ?? ""
     }
+    local favoriteBtnObj = showSceneBtn("favoriteBtn", true)
+    favoriteBtnObj.setValue(::loc(presetsList[curPresetIdx].chapterOrd != 1
+      ? "mainmenu/btnFavorite" : "mainmenu/btnFavoriteUnmark"))
   }
 
   function updateAllItems()
   {
     presetsMarkup = getPresetsMarkup()
-    local data = ::handyman.renderCached("gui/weaponry/weaponryPreset",
-      {presets = presetsMarkup})
+    local data = ::handyman.renderCached("gui/weaponry/weaponryPreset", {
+        wndWidth = wndWidth
+        chapterPos = chapterPos
+        presets = presetsMarkup
+        isShowConsoleBtn = ::show_console_buttons
+      })
     local presetObj = scene.findObject("presetNest")
     if (!::check_obj(presetObj))
       return
@@ -370,6 +413,36 @@ class ::gui_handlers.weaponryPresetsModal extends ::gui_handlers.BaseGuiHandlerW
       else if (!isShow && idx == -1)
         collapsedPresets.append(itemObj.id)
     }
+  }
+
+  function getMainFocusObj()
+  {
+    return getCurrPresetObjParams()?.obj
+  }
+
+  function onChangeFavorite(obj)
+  {
+    local preset = weaponryByPresetInfo.presets[curPresetIdx]
+    local isSelected = preset.chapterOrd == CHAPTER_FAVORITE_IDX
+    local chapterOrd = isSelected
+      ? CHAPTER_ORDER.findindex(@(p) p == preset.purposeType) : CHAPTER_FAVORITE_IDX
+    if (isSelected)
+    {
+      local idx = favoriteArr.findindex(@(id) id == preset.id)
+      if (idx != null)
+        favoriteArr.remove(idx)
+    }
+    else
+      favoriteArr.append(preset.id)
+    preset.chapterOrd = chapterOrd
+    presetsList[curPresetIdx].chapterOrd = chapterOrd
+    sortPresetLists([weaponryByPresetInfo.presets, presetsList])
+    updateAllItems()
+  }
+
+  function onDestroy()
+  {
+    setFavoritePresets(unit.name, favoriteArr)
   }
 }
 

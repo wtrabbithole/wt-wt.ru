@@ -130,4 +130,16 @@
   YU2_PAY_GJN = 32
   YU2_FORBIDDEN_NEED_2STEP = 32
 })
-
+//----------------------------wop_1_99_0_X---------------------------------//
+::apply_compatibilities({
+  TT_INFANTRY = 3
+  GO_WAITING_FOR_RESULT = 4
+  get_spectator_target_id = function() {
+    local targetName = ::get_spectator_target_name()
+    local player = ::get_mplayers_list(::GET_MPLAYERS_LIST, true).findvalue(function (p) {
+      local namePart = "".concat(::g_string.implode([ p.clanTag, p.name ], " "), " (")
+      return ::g_string.startsWith(targetName, namePart)
+    })
+    return player?.id ?? -1
+  }
+})

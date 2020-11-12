@@ -320,12 +320,12 @@ class Promo
     local tutorialId = ""
     local curUnit = ::get_show_aircraft()
 
-    if (::isTank(curUnit) && ::has_feature("Tanks"))
+    if (curUnit?.isTank() && ::has_feature("Tanks"))
     {
       tutorialId = "lightTank"
       tutorial = ::get_uncompleted_tutorial_data("tutorial_tank_basics_arcade", 0)
     }
-    else if (::isShip(curUnit) && ::has_feature("Ships"))
+    else if (curUnit?.isShip() && ::has_feature("Ships"))
     {
       tutorialId = "boat"
       tutorial = ::get_uncompleted_tutorial_data("tutorial_boat_basic_arcade", 0)
@@ -394,7 +394,7 @@ class Promo
     local id = "world_war_button"
     local isWwEnabled = ::g_world_war.canJoinWorldwarBattle()
     local isVisible = ::g_promo.getShowAllPromoBlocks()
-      || (isWwEnabled && ::g_world_war.isWWSeasonActive())
+      || (isWwEnabled && ::g_world_war.isWWSeasonActiveShort())
 
     local wwButton = ::showBtn(id, isVisible, scene)
     if (!isVisible || !::checkObj(wwButton))
@@ -527,7 +527,7 @@ class Promo
   function onEventShopWndVisible(p) { toggleSceneVisibility(!::getTblValue("isShopShow", p, false)) }
   function onEventWWLoadOperation(p) { updateWorldWarButton() }
   function onEventWWStopWorldWar(p) { updateWorldWarButton() }
-  function onEventWWGlobalStatusChanged(p) { updateWorldWarButton() }
+  function onEventWWShortGlobalStatusChanged(p) { updateWorldWarButton() }
   function onEventCrossPlayOptionChanged(p) { updateWorldWarButton() }
   function onEventWebPollAuthResult(p) { updateWebPollButton(p) }
   function onEventWebPollTokenInvalidated(p) {

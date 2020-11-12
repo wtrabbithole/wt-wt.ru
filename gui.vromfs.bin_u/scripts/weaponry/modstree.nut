@@ -1,5 +1,6 @@
 local { getModificationBulletsGroup } = require("scripts/weaponry/bulletsInfo.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { getModificationByName } = require("scripts/weaponry/modificationInfo.nut")
 
 local modsTree = {
   tree = null
@@ -362,18 +363,19 @@ local modsTree = {
 
   function debugTree(branch=null, addStr="DD: ") //!!debug only
   {
+    local debugLog = ::dlog // warning disable: -forbidden-function
     if (!branch)
       branch = tree
     foreach(idx, item in branch)
       if (typeof(item)=="table") //modification
-        dlog(addStr + item.name + " (" + item.tier + ", " + ("guiPosX" in item? item.guiPosX : 0) + ")")
+        debugLog($"{addStr}{item.name} ({item.tier}, {item?.guiPosX ?? 0})")
       else if (typeof(item)=="array") //branch
       {
-        dlog(addStr + "[")
+        debugLog($"{addStr}[")
         debugTree(item, addStr + "  ")
-        dlog(addStr + "]")
+        debugLog($"{addStr}]")
       } else if (typeof(item)=="string")
-        dlog(addStr + "modClass = " + item)
+        debugLog($"{addStr}modClass = {item}")
   }
 
   function checkNotInTreeMods(notInTreeMods) //for debug and assertion only
@@ -390,7 +392,7 @@ local modsTree = {
         prevName = mod.reqModification[0]
       else if ("prevModification" in mod)
         prevName = mod.prevModification
-      local prevMod = ::getModificationByName(air, prevName)
+      local prevMod = getModificationByName(air, prevName)
       local res = ""
       if (!prevMod)
         res = "does not exist"

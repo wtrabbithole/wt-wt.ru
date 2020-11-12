@@ -111,6 +111,9 @@
     "canReloadNonGuns": true
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "sound": {
       "EngineName": "engine_sherman_m4a1",
       "TrackSoundPath": "tanks/engines_tanks",
@@ -278,6 +281,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -742,29 +760,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -1180,31 +1198,7 @@
         "defaultDampeningForce": [120000.0,120000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
-      },
-      "physNode": [
-        {
-          "type": "verlet_string"
-        },
-        {
-          "stiffness": 1.0
-        },
-        {
-          "straightening": 0.5
-        },
-        {
-          "point": {
-            "name": "antenna",
-            "mass": 1.0,
-            "fixed": true
-          }
-        },
-        {
-          "point": {
-            "name": "bone_phx_antenna",
-            "mass": 3.0
-          }
-        }
-      ]
+      }
     }
   },
   {
@@ -3007,6 +3001,103 @@
               }
             },
             {
+              "hideNodes": [
+                {
+                  "node": "ex_armor_04"
+                },
+                {
+                  "node": "ex_armor_06"
+                },
+                {
+                  "node": "ex_armor_07"
+                },
+                {
+                  "node": "ex_armor_08"
+                },
+                {
+                  "node": "ex_armor_body_r_01"
+                },
+                {
+                  "node": "ex_armor_body_r_02"
+                },
+                {
+                  "node": "ex_armor_body_r_03"
+                },
+                {
+                  "node": "ex_armor_body_r_04"
+                },
+                {
+                  "node": "ex_armor_body_r_05"
+                },
+                {
+                  "node": "ex_armor_body_r_06"
+                },
+                {
+                  "node": "ex_armor_body_r_07"
+                },
+                {
+                  "node": "ex_armor_body_r_08"
+                },
+                {
+                  "node": "ex_armor_body_r_09"
+                },
+                {
+                  "node": "ex_armor_body_r_10"
+                },
+                {
+                  "node": "ex_armor_body_r_11"
+                },
+                {
+                  "node": "ex_armor_body_02"
+                },
+                {
+                  "node": "ex_armor_body_03"
+                },
+                {
+                  "node": "ex_armor_body_04"
+                },
+                {
+                  "node": "ex_armor_body_l_01"
+                },
+                {
+                  "node": "ex_armor_body_l_02"
+                },
+                {
+                  "node": "ex_armor_body_l_03"
+                },
+                {
+                  "node": "ex_armor_body_l_04"
+                },
+                {
+                  "node": "ex_armor_body_l_05"
+                },
+                {
+                  "node": "ex_armor_body_l_06"
+                },
+                {
+                  "node": "ex_armor_body_l_07"
+                },
+                {
+                  "node": "ex_armor_body_l_08"
+                },
+                {
+                  "node": "ex_armor_body_l_11"
+                },
+                {
+                  "node": "ex_armor_turret_r_01"
+                },
+                {
+                  "node": "ex_armor_turret_r_02"
+                },
+                {
+                  "node": "ex_decor_l_11"
+                },
+                {
+                  "node": "ex_decor_r_15"
+                }
+              ]
+            },
+            {
               "Weapon": {
                 "trigger": "gunner3",
                 "triggerGroup": "smoke",
@@ -3071,6 +3162,15 @@
     }
   },
   {
+    "default_skin_tomoe": {
+      "set_tex": {
+        "from": "sherman_5c_firefly_body_c*",
+        "to": "sherman_5c_firefly_skin_body_c_tomoe*",
+        "param": "camo_skin_tex"
+      }
+    }
+  },
+  {
     "skin": {
       "name": "it_camo_desert_light_yellow",
       "nameLocId": "skin/it_camo_desert_light_yellow",
@@ -3098,6 +3198,38 @@
       "set_tex": {
         "from": "sherman_5c_firefly_body_c*",
         "to": "sherman_5c_firefly_skin_body_c*",
+        "param": "camo_skin_tex"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "it_camo_desert_light_yellow_tomoe",
+      "nameLocId": "skin/it_camo_desert_light_yellow",
+      "descLocId": "skin/it_camo_desert_light_yellow/desc",
+      "replace_tex": {
+        "from": "uk_camo_very_dark_drab*",
+        "to": "it_camo_desert_light_yellow*"
+      },
+      "set_tex": {
+        "from": "sherman_5c_firefly_body_c*",
+        "to": "sherman_5c_firefly_skin_body_c_tomoe*",
+        "param": "camo_skin_tex"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "it_camo_winter_white_tomoe",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
+      "replace_tex": {
+        "from": "uk_camo_very_dark_drab*",
+        "to": "it_camo_winter_white*"
+      },
+      "set_tex": {
+        "from": "sherman_5c_firefly_body_c*",
+        "to": "sherman_5c_firefly_skin_body_c_tomoe*",
         "param": "camo_skin_tex"
       }
     }

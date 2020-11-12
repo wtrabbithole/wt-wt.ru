@@ -8,14 +8,11 @@ expandable {
 
     tdiv {
       width:t='pw'
+      min-height:t='30@sf/@pf'
 
-      tdiv {
+      activeText {
         position:t='absolute'
-        flow:t='vertical'
-
-        activeText {
-          text:t='<<title>>'
-        }
+        text:t='<<title>>'
       }
 
       <<#hasInternalRewards>>
@@ -43,7 +40,6 @@ expandable {
             tdiv {
               left:t='0.5(pw-w)'
               position:t='relative'
-              smallItems:t='yes'
               <<@internalTrophyMarkup>>
             }
 
@@ -63,10 +59,8 @@ expandable {
       tdiv {
         margin-left:t='0.3pw'
 
-        tdiv {
-          smallItems:t='yes'
-          <<@trophyMarkup>>
-        }
+        <<@trophyMarkup>>
+
         textareaNoTab {
           top:t='0.5(ph-h)'
           position:t='relative'

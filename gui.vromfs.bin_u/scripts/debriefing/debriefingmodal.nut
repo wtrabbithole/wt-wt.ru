@@ -8,6 +8,11 @@ local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { openUrl } = require("scripts/onlineShop/url.nut")
 local { setDoubleTextToButton, setColoredDoubleTextToButton,
   placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
+local { isModResearched,
+        getModificationByName,
+        findAnyNotResearchedMod } = require("scripts/weaponry/modificationInfo.nut")
+local { isPlatformSony } = require("scripts/clientState/platform.nut")
+local { needLogoutAfterSession, startLogout } = require("scripts/login/logout.nut")
 
 const DEBR_LEADERBOARD_LIST_COLUMNS = 2
 const DEBR_AWARDS_LIST_COLUMNS = 3
@@ -61,11 +66,11 @@ enum DEBR_THEME {
 
 ::gui_start_debriefing <- function gui_start_debriefing()
 {
-  if (::need_logout_after_session)
+  if (needLogoutAfterSession)
   {
     ::destroy_session_scripted()
     //need delay after destroy session before is_multiplayer become false
-    ::get_gui_scene().performDelayed(::getroottable(), ::gui_start_logout)
+    ::get_gui_scene().performDelayed(::getroottable(), startLogout)
     return
   }
 
@@ -435,7 +440,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       res.append(::build_log_unlock_data(logsList[i]))
 
     //add debugUnlocks
-    if (debugUnlocks <= res.len())
+    if (!::is_dev_version || debugUnlocks <= res.len())
       return res
 
     local dbgFilter = clone filter
@@ -443,7 +448,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     logsList = getUserLogsList(dbgFilter)
     if (!logsList.len())
     {
-      ::dlog("Not found any unlocks in userlogs for debug")
+      ::dlog("Not found any unlocks in userlogs for debug") // warning disable: -forbidden-function
       return res
     }
 
@@ -745,6 +750,9 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       checkFunc = function(userlog) { return trophyItemId == userlog.body.id }
     })
 
+    if (filteredLogs.len() == 0)
+      return
+
     ::gui_start_open_trophy({ [trophyItemId] = filteredLogs })
   }
 
@@ -907,7 +915,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     obj["animation"] = "show"
     curTab = tabName
 
-    ::play_gui_sound("deb_players_off")
+    guiScene.playSound("deb_players_off")
   }
 
   function onUpdate(obj, dt)
@@ -924,7 +932,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function playCountSound(play)
   {
-    if (::is_platform_ps4)
+    if (isPlatformSony)
       return
 
     play = play && !isInProgress
@@ -977,7 +985,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       showTab("players_stats")
       skipAnim = skipAnim && ::debriefing_skip_all_at_once
       if (!skipAnim)
-        ::play_gui_sound("deb_players_on")
+        guiScene.playSound("deb_players_on")
       initPlayersTable()
       loadBattleLog()
       loadChatHistory()
@@ -1078,7 +1086,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       {
         local objStart = scene.findObject("start_bonus_place")
         ::create_ObjMoveToOBj(scene, objStart, objTarget, { time = statsBonusTime })
-        ::play_gui_sound("deb_medal")
+        guiScene.playSound("deb_medal")
       }
     }
     else if (state == debrState.done)
@@ -1112,7 +1120,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function ps4SendActivityFeed()
   {
-    if (!::is_platform_ps4
+    if (!isPlatformSony
       || !isMp
       || !::debriefing_result
       || ::debriefing_result.exp.result != ::STATS_RESULT_SUCCESS)
@@ -1434,8 +1442,8 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
       if (modName == "")
         continue
       local unit = ::getAircraftByName(unitId)
-      local mod = unit && ::getModificationByName(unit, modName)
-      if (unit && mod && ::isModResearched(unit, mod))
+      local mod = unit && getModificationByName(unit, modName)
+      if (unit && mod && isModResearched(unit, mod))
         return true
     }
     return false
@@ -1496,7 +1504,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     local curResearch = airData.investModuleName
     if (curResearch != "")
-      return ::getModificationByName(air, curResearch)
+      return getModificationByName(air, curResearch)
     return null
   }
 
@@ -1529,7 +1537,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
     else
     {
       local msg = "debriefing/but_all_mods_researched"
-      if (::find_any_not_researched_mod(unit))
+      if (findAnyNotResearchedMod(unit))
         msg = "debriefing/but_not_any_research_active"
       msg = format(::loc(msg), ::Cost().setRp(getModExp(airData) || airData.expTotal).tostring())
       obj.findObject("no_mod_text").setValue(msg)
@@ -2050,7 +2058,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
       obj["_size-timer"] = "0"
       obj.width = "0"
-      ::play_gui_sound("deb_achivement")
+      guiScene.playSound("deb_achivement")
     }
   }
 
@@ -2148,7 +2156,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
         playersTblDone = playersTblDone && curPlayersTbl[t].len() == playersTbl[t].len()
       }
       updateStats({ playersTbl = curPlayersTbl, playersInfo = playersInfo }, ::debriefing_result.mpTblTeams,
-        ::debriefing_result.localTeam, ::debriefing_result.friendlyTeam)
+        ::debriefing_result.friendlyTeam)
       statsTimer += playersRowTime
 
       if (hasLocalPlayer)
@@ -2636,7 +2644,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   function updateListsButtons()
   {
     local isAnimDone = state==debrState.done
-    local isReplayReady = ::has_feature("Replays") && ::is_replay_present() && ::is_replay_turned_on()
+    local isReplayReady = ::has_feature("ClientReplay") && ::is_replay_present() && ::is_replay_turned_on()
     local player = getSelectedPlayer()
     local buttonsList = {
       btn_show_all = isAnimDone && giftItems != null && giftItems.len() > VISIBLE_GIFT_NUMBER
@@ -3046,7 +3054,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function onEventMatchingDisconnect(p)
   {
-    ::go_debriefing_next_func = ::gui_start_logout
+    ::go_debriefing_next_func = startLogout
   }
 
   function onEventSessionDestroyed(p)
@@ -3058,7 +3066,7 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
 
   function isDelayedLogoutOnDisconnect()
   {
-    ::go_debriefing_next_func = ::gui_start_logout
+    ::go_debriefing_next_func = startLogout
     return true
   }
 
@@ -3321,6 +3329,12 @@ class ::gui_handlers.DebriefingModal extends ::gui_handlers.MPStatistics
   {
     return ::Cost(::get_premium_reward_wp(), 0, ::get_premium_reward_xp()).tostring()
   }
+
+  getLocalTeam = @() ::get_local_team_for_mpstats(::debriefing_result.localTeam)
+  getMplayersList = @(team) team == ::GET_MPLAYERS_LIST
+    ? ::debriefing_result.mplayers_list
+    : ::debriefing_result.mplayers_list.filter(@(player) player.team == team)
+  getOverrideCountryIconByTeam = @(team) ::debriefing_result.overrideCountryIconByTeam[team]
 
   isInited = true
   state = 0

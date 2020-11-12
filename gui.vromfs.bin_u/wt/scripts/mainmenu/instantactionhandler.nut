@@ -1059,7 +1059,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
     local msg = ::format("%s %s?", ::loc("msgbox/question_crew_unlock"), cost.getTextAccordingToBalance())
     msgBox("unlock_crew", msg, [
         ["yes", (@(crewId, isGold) function() {
-          taskId = ::unlockCrew( crewId, isGold )
+          taskId = ::unlockCrew( crewId, isGold, cost )
           ::sync_handler_simulate_signal("profile_reload")
           if (taskId >= 0)
           {
@@ -1074,7 +1074,7 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
 
   function checkNoviceTutor()
   {
-    if (::disable_network() || !::my_stats.isStatsLoaded())
+    if (::disable_network() || !::my_stats.isStatsLoaded() || !::check_obj(toBattleButtonObj))
       return
 
     if (!tutorialModule.needShowTutorial("toBattle", 1) || ::my_stats.getPvpRespawns())
@@ -1120,10 +1120,9 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
         obj = [curCrewSlot]
         text = ::loc("tutorials/upg_crew/skill_points_info") + " " + ::loc("tutorials/upg_crew/press_to_crew")
         actionType = tutorAction.OBJ_CLICK
-        cb = function()
-        {
-          openUnitActionsList(curCrewSlot, false, true)
-        }
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
+        nextActionShortcut = "help/OBJ_CLICK"
+        cb = @() openUnitActionsList(curCrewSlot, false, true)
       },
       {
         actionType = tutorAction.WAIT_ONLY
@@ -1135,6 +1134,8 @@ class ::gui_handlers.InstantDomination extends ::gui_handlers.BaseGuiHandlerWT
         }]
         text = ::loc("tutorials/upg_crew/select_crew")
         actionType = tutorAction.OBJ_CLICK
+        shortcut = ::GAMEPAD_ENTER_SHORTCUT
+        nextActionShortcut = "help/OBJ_CLICK"
         cb = function() {
           ::gui_modal_crew({
             countryId = curCrew.idCountry,

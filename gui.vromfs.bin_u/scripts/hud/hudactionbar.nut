@@ -51,10 +51,10 @@ class ActionBar
     fill()
   }
 
-  function reinit()
+  function reinit(forceUpdate = false)
   {
     updateParams()
-    if (getActionBarUnit() != curActionBarUnit)
+    if (forceUpdate || getActionBarUnit() != curActionBarUnit)
       fill()
     else
       onUpdate()
@@ -213,7 +213,7 @@ class ActionBar
       return
     }
 
-    local ship = ::isShip(getActionBarUnit())
+    local ship = getActionBarUnit()?.isShip()
 
     foreach(item in actionItems)
     {

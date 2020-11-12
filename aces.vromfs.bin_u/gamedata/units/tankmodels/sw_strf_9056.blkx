@@ -822,11 +822,34 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
   {
     "attachables": {
+      "gun_mask_03_dm": false,
+      "gun_mask_04_dm": false,
       "ex_lantern_01_dm": true,
       "ex_armor_02_dm": true,
       "ex_armor_03_dm": true,
@@ -1001,6 +1024,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -1465,29 +1503,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2072,7 +2110,7 @@
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
           "breechDP": "cannon_breech_dm",
-          "autoLoad": true,
+          "autoLoader": true,
           "speedYaw": 34.9,
           "speedPitch": 23.26,
           "fireConeAngle": 1.0,
@@ -3289,7 +3327,7 @@
                 "defaultPitch": 0.0,
                 "barrelDP": "gun_barrel_dm",
                 "breechDP": "cannon_breech_dm",
-                "autoLoad": true,
+                "autoLoader": true,
                 "speedYaw": 34.9,
                 "speedPitch": 23.26,
                 "fireConeAngle": 1.0,

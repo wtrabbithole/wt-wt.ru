@@ -1,12 +1,21 @@
 local time = require("scripts/time.nut")
 local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
-
+local { getMapByName, getMapFromShortStatusByName } = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
 
 enum WW_OPERATION_STATUSES
 {
   UNKNOWN = -1
   ES_ACTIVE = 1
   ES_PAUSED = 7
+}
+
+enum WW_OPERATION_PRIORITY //bit enum
+{
+  NONE                       = 0
+  CAN_JOIN_BY_ARMY_RELATIONS = 0x0001
+  CAN_JOIN_BY_MY_CLAN        = 0x0002
+
+  MAX                        = 0xFFFF
 }
 
 class WwOperation
@@ -19,9 +28,13 @@ class WwOperation
   _myClanGroup = null
   _assignCountry = null
 
-  constructor(_data)
+  isFromShortStatus = false
+  isFinished = false //this parametr updated from local operation when return main menu of WWar
+
+  constructor(_data, _isFromShortStatus = false)
   {
     data = _data
+    isFromShortStatus = _isFromShortStatus
     id = ::getTblValue("_id", data, -1)
     status = ::getTblValue("st", data, WW_OPERATION_STATUSES.UNKNOWN)
   }
@@ -33,8 +46,9 @@ class WwOperation
 
   function isAvailableToJoin()
   {
-    return status == WW_OPERATION_STATUSES.ES_ACTIVE ||
-           status == WW_OPERATION_STATUSES.ES_PAUSED
+    return !isFinished &&
+      ( status == WW_OPERATION_STATUSES.ES_ACTIVE
+        || status == WW_OPERATION_STATUSES.ES_PAUSED )
   }
 
   function isEqual(operation)
@@ -49,7 +63,10 @@ class WwOperation
 
   function getMap()
   {
-    return ::g_ww_global_status.getMapByName(getMapId())
+    if (isFromShortStatus)
+      return getMapFromShortStatusByName(getMapId())
+    else
+      return getMapByName(getMapId())
   }
 
   function getNameText(full = true)
@@ -156,11 +173,8 @@ class WwOperation
     }
 
     local assignCountry = getMyAssignCountry()
-    if (isMyClanParticipate())
-    {
-      if (!canJoinByMyClan())
-        res.reasonText = ::loc("worldWar/cantJoinByAnotherSideClan")
-    }
+    if (isMyClanParticipate() && !canJoinByMyClan())
+      res.reasonText = ::loc("worldWar/cantJoinByAnotherSideClan")
     else if (assignCountry && assignCountry != country)
       res.reasonText = ::loc("worldWar/cantPlayByThisSide")
     else if (!canJoinByCountry(country))
@@ -328,11 +342,12 @@ class WwOperation
     local res = 0
     local availableByMyClan = canJoinByMyClan()
     if (availableByMyClan)
-      res = res | WW_MAP_PRIORITY.CAN_JOIN_BY_MY_CLAN
+      res = res | WW_OPERATION_PRIORITY.CAN_JOIN_BY_MY_CLAN
     if (getMyAssignCountry() && (availableByMyClan || !getMyClanGroup()))
-      res = res | WW_MAP_PRIORITY.CAN_JOIN_BY_ARMY_RELATIONS
-    if (isLastPlayed())
-      res = res | WW_MAP_PRIORITY.LAST_PLAYED
+      res = res | WW_OPERATION_PRIORITY.CAN_JOIN_BY_ARMY_RELATIONS
+
     return res
   }
+
+  setFinishedStatus = @(isFinish) isFinished = isFinish
 }

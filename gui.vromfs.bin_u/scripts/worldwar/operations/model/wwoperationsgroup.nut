@@ -1,3 +1,5 @@
+local { getMapByName } = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
+
 class WwOperationsGroup
 {
   mapId = ""
@@ -14,7 +16,7 @@ class WwOperationsGroup
 
   function getMap()
   {
-    return ::g_ww_global_status.getMapByName(mapId)
+    return getMapByName(mapId)
   }
 
   function getNameText()
@@ -83,10 +85,9 @@ class WwOperationsGroup
     return false
   }
 
-  function hasActiveOperations()
-  {
-    return getOperationsList().len() > 0
-  }
+  hasActiveOperations = @() getOperationsList().findvalue(
+    @(o) o.isAvailableToJoin()) != null
+  hasOperations = @() getOperationsList().len() > 0
 
   function getCantJoinReasonData(country)
   {
@@ -118,18 +119,6 @@ class WwOperationsGroup
     }
 
     ::u.chooseRandom(opList).join(country)
-  }
-
-  function getPriority()
-  {
-    local res = 0
-    if (hasActiveOperations())
-      res = res | WW_MAP_PRIORITY.HAS_ACTIVE_OPERATIONS
-
-    foreach(op in getOperationsList())
-      res = res | op.getPriority()
-
-    return res
   }
 
   function isMyClanParticipate()

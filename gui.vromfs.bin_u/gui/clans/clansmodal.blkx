@@ -97,9 +97,13 @@
                       "parseTags": "yes"
                     },
                     "tdiv": {
+                      "pos": "0.5pw-0.5w, 0",
+                      "position": "relative",
                       "flow": "vertical",
                       "table": {
-                        "id": "clan_battle_season_reward_table"
+                        "id": "clan_battle_season_reward_table",
+                        "pos": "0.5pw-0.5w, 0",
+                        "position": "relative"
                       },
                       "tdiv": {
                         "pos": "0.5pw-0.5w, 0",
@@ -122,6 +126,15 @@
                           "ButtonImg": []
                         }
                       }
+                    },
+                    "textareaNoTab": {
+                      "pos": "50%pw-50%w, 0",
+                      "max-width": "0.55@sf",
+                      "position": "relative",
+                      "overlayTextColor": "warning",
+                      "smallFont": "yes",
+                      "text-align": "center",
+                      "text": "#clan/battle_season/warning"
                     }
                   }
                 }
@@ -1046,11 +1059,12 @@
                       },
                       {
                         "tdiv": {
+                          "id": "gamercard_logo_place",
                           "pos": "0, 1@titleLogoSafeareaOffsetTop",
                           "position": "relative",
-                          "padding": "1@titleLogoPlatePadding, 1@topGamercardDarkLineHeight, 1@titleLogoPlatePadding, 0",
                           "GameLogoPlate": {
                             "id": "gamercard_logo",
+                            "padding": "1@titleLogoPlatePadding, 1@topGamercardDarkLineHeight, 1@titleLogoPlatePadding, 0",
                             "Shadow": {
                               "redPlate": {
                                 "pattern": {
@@ -1070,14 +1084,13 @@
                       {
                         "tdiv": {
                           "id": "gamercard_tobattle_bg",
-                          "pos": "-1@titleLogoPlatePadding/2, 0",
-                          "position": "relative",
                           "height": "ph",
                           "background-color": "@gameModeColor",
                           "tdiv": {
                             "id": "gamercard_tobattle",
                             "size": "1@gcToBattleButtonWidth, 0.06@sf",
                             "position": "relative",
+                            "margin-left": "-1@titleLogoPlatePadding/2",
                             "allowDecreaseFont": "yes",
                             "display": "hide"
                           }

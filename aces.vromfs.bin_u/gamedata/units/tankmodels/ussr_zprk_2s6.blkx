@@ -370,7 +370,8 @@
         "armorClass": "tank_traks",
         "armorThickness": 15.0,
         "hp": 150.0,
-        "ex_armor_body_01_dm": []
+        "ex_armor_body_01_dm": [],
+        "ex_armor_01_dm": []
       },
       "tracks": {
         "armorClass": "tank_traks",
@@ -690,6 +691,27 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -2322,11 +2344,11 @@
         "model": "v_46_2s1"
       },
       "mechanics": {
-        "maxBrakeForce": 136000.0,
+        "maxBrakeForce": 220000.0,
         "driveGearRadius": 0.27,
         "mainGearRatio": 1.0,
         "sideGearRatio": 3.132,
-        "neutralGearRatio": 8.0,
+        "neutralGearRatio": 10.0,
         "gearRatios": [
           {
             "ratio": -1.0
@@ -2344,7 +2366,7 @@
             "ratio": 0.0
           },
           {
-            "ratio": 6.24
+            "ratio": 10.0
           },
           {
             "ratio": 3.177
@@ -2362,7 +2384,7 @@
         "defaultGearRadius": 0.315,
         "frontBackGearRadius": 0.272,
         "topGearRadius": 0.112,
-        "defaultDampeningForce": [90000.0,90000.0],
+        "defaultDampeningForce": [200000.0,200000.0],
         "dampeningRelaxationRatio": 0.41,
         "dampeningCompressionRatio": 0.145
       },
@@ -2932,8 +2954,8 @@
   },
   {
     "cockpit": {
-      "headPos": [0.0,4.5,-7.0],
-      "headPosOnShooting": [0.8,3.7,0.24],
+      "headPos": [0.0,4.5,-9.0],
+      "headPosOnShooting": [0.8,3.95,0.26],
       "zoomOutFov": 10.2,
       "zoomInFov": 9.2,
       "sightFov": 5.0,
@@ -3190,6 +3212,28 @@
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_camo_deform*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_modern_green",
+      "nameLocId": "skin/ussr_modern_green",
+      "descLocId": "skin/ussr_modern_green/desc",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_modern_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_modern_desert_deform",
+      "nameLocId": "skin/ussr_camo_modern_desert_deform",
+      "descLocId": "skin/ussr_camo_modern_desert_deform/desc",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_modern_desert_deform*"
       }
     }
   }

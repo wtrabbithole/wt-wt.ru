@@ -120,7 +120,7 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
   UserMissionsSkirmishLocal = false
   UserMissionsSkirmishByUrl = false
   UserMissionsSkirmishByUrlCreate = false
-  Replays = true
+  ClientReplay = true
   ServerReplay = true
   Encyclopedia = true
   Benchmark = true
@@ -146,6 +146,7 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
   AllowedToSkipBaseTankTutorials = true
   EnableGoldPurchase = true
   EnablePremiumPurchase = true
+  showPremiumAccount = true
   OnlineShopPacks = true
   ManuallyUpdateBalance = true //!!debug only
   PaymentMethods = true
@@ -216,6 +217,7 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
 
   CheckTwoStepAuth = false
   CheckEmailVerified = false
+  CheckGaijinPass = false
 
   AerobaticTricolorSmoke = ::disable_network()
 
@@ -245,7 +247,7 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
   AllowXboxAccountLinking = false
 
   MapPreferences = false
-  TournamentInvites = true
+  Tournaments = true
 
   PS4CrossNetwork = false
 
@@ -254,6 +256,12 @@ local defaults = ::Watched({  //def value when feature not found in game_setting
   ShowWeapPresetsMenu = false
   Changelog = false
   ShowUrlQrCode = false
+
+  ConsoleSeparateLeaderboards = false
+  ConsoleSeparateEventsLeaderboards = false
+  ConsoleSeparateWWLeaderboards = false
+  WWOperationsList = false
+  ShowDropChanceInTrophy = false
 })
 
 local override = ::Watched({})

@@ -1,9 +1,13 @@
+local { getOperationById, getOperationGroupByMapId
+} = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
+
 class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType = handlerType.MODAL
   sceneBlkName   = "gui/worldWar/wwOperationsListModal.blk"
 
   map = null
+  isDescrOnly = false
 
   selOperation = null
   isOperationJoining = false
@@ -29,7 +33,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
 
   function getOpGroup()
   {
-    return ::g_ww_global_status.getOperationGroupByMapId(map.getId())
+    return getOperationGroupByMapId(map.getId())
   }
 
   function getSortedOperationsData()
@@ -45,15 +49,16 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
     return opDataList
   }
 
-  function fillOperationList()
+  function getOperationsListView()
   {
-    local view = { items = [] }
+    if (isDescrOnly)
+      return null
 
     local sortedOperationsDataList = getSortedOperationsData()
-    local isOperationListVisible = sortedOperationsDataList.len() > 0
-    showSceneBtn("chapter_place", isOperationListVisible)
-    showSceneBtn("separator_line", isOperationListVisible)
+    if (!sortedOperationsDataList.len())
+      return null
 
+    local view = { items = [] }
     local isActiveChapterAdded = false
     local isFinishedChapterAdded = false
     foreach (idx, opData in sortedOperationsDataList)
@@ -102,6 +107,15 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       })
     }
 
+    return view
+  }
+
+  function fillOperationList()
+  {
+    local view = getOperationsListView()
+    local isOperationListVisible = view != null
+    showSceneBtn("chapter_place", isOperationListVisible)
+    showSceneBtn("separator_line", isOperationListVisible)
     local data = ::handyman.renderCached("gui/worldWar/wwOperationsMapsItemsList", view)
     guiScene.replaceContentFromText(opListObj, data, data.len(), this)
 
@@ -134,7 +148,7 @@ class ::gui_handlers.WwOperationsListModal extends ::gui_handlers.BaseGuiHandler
       return false
 
     local newOperation = opObj?.collapse_header ? null
-      : ::g_ww_global_status.getOperationById(::to_integer_safe(opObj?.id))
+      : getOperationById(::to_integer_safe(opObj?.id))
     if (newOperation == selOperation)
       return false
     local isChanged = !newOperation || !selOperation || !selOperation.isEqual(newOperation)

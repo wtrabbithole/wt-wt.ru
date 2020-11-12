@@ -3,6 +3,7 @@
 ::g_script_reloader.loadOnce("scripts/controls/controlsCompatibility.nut")
 
 local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
+local { isPlatformSony } = require("scripts/clientState/platform.nut")
 
 ::g_controls_manager <- {
   [PERSISTENT_DATA_PARAMS] = ["curPreset"]
@@ -10,7 +11,6 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
   // PRIVATE VARIABLES
   curPreset = ::ControlsPreset()
   isControlsCommitPerformed = false
-  cachedDeviceMappingBlk = null
 
   fixesList = [
     {
@@ -84,7 +84,6 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
   {
     ::dagor.debug("ControlsManager: curPreset updated")
     curPreset = otherPreset
-    cachedDeviceMappingBlk = null
     fixDeviceMapping()
     ::broadcastEvent("ControlsReloaded")
     commitControls()
@@ -102,13 +101,6 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
     local blkDeviceMapping = ::DataBlock()
     ::fill_joysticks_desc(blkDeviceMapping)
 
-    if (::u.isEqual(cachedDeviceMappingBlk, blkDeviceMapping))
-      return
-
-    if (!cachedDeviceMappingBlk)
-      cachedDeviceMappingBlk = ::DataBlock()
-    cachedDeviceMappingBlk.setFrom(blkDeviceMapping)
-
     foreach (blkJoy in blkDeviceMapping)
       realMapping.append({
         name          = blkJoy["name"]
@@ -120,11 +112,7 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
         connected     = !::getTblValue("disconnected", blkJoy, false)
       })
 
-
-    local mappingChanged =
-      ::g_controls_manager.getCurPreset().fixDeviceMapping(realMapping)
-
-    if (mappingChanged)
+    if (getCurPreset().updateDeviceMapping(realMapping))
       ::broadcastEvent("ControlsMappingChanged", realMapping)
   }
 
@@ -161,7 +149,7 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
       return
     isControlsCommitPerformed = true
 
-    if (fixMappingIfRequired && ::is_platform_ps4)
+    if (fixMappingIfRequired && isPlatformSony)
       fixDeviceMapping()
     fixControls()
 
@@ -251,7 +239,7 @@ local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcut
   // it is required to commit controls when mission start.
   function onEventMissionStarted(params)
   {
-    if (::is_platform_ps4)
+    if (isPlatformSony)
       commitControls()
   }
 }

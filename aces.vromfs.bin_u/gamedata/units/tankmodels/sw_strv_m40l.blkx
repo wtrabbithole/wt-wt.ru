@@ -880,6 +880,21 @@
             "name": "ammo_body_50_dm"
           },
           {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -1342,29 +1357,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -1898,11 +1913,11 @@
   {
     "VehiclePhys": {
       "Mass": {
-        "Empty": 9740.0,
+        "Empty": 9160.0,
         "Fuel": 260.0,
-        "TakeOff": 10000.0,
+        "TakeOff": 9360.0,
         "momentOfInertia": [1.4,2.5,2.5],
-        "CenterOfGravity": [-0.25,0.5,0.0],
+        "CenterOfGravity": [-0.1,0.5,0.0],
         "CenterOfGravityClampY": [0.0,0.7],
         "AdvancedMass": false,
         "trackMass": 900.0
@@ -1910,9 +1925,7 @@
       "tracks": {
         "animationMultiplier": 0.68,
         "height": 0.02,
-        "width": 0.25,
-        "criticalHillAngle": 25.0,
-        "hillClimbingDeclineFricKoef": 15.0
+        "width": 0.25
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -1947,13 +1960,34 @@
         ]
       },
       "suspension": {
-        "suspensionOffsets": [-0.1,-0.05,0.14],
-        "defaultGearRadius": 0.3,
-        "frontBackGearRadius": 0.3,
+        "suspensionOffsets": [-0.1,-0.05,0.1],
+        "defaultGearRadius": 0.34,
+        "frontBackGearRadius": 0.34,
         "topGearRadius": 0.1,
         "defaultDampeningForce": [40000.0,40000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
+      }
+    }
+  },
+  {
+    "PhysSys": {
+      "find": "^bone_suspension_(._\\d\\d)$",
+      "points": {
+        "suspension": {
+          "name": "bone_suspension_$1"
+        },
+        "wheel": {
+          "name": "bone_wheel_$1",
+          "limitMin": [-1000.0,0.0,0.0],
+          "limitMax": [1000.0,0.0,0.0]
+        }
+      },
+      "constraints": {
+        "edge": {
+          "from": "suspension",
+          "to": "wheel"
+        }
       }
     }
   },

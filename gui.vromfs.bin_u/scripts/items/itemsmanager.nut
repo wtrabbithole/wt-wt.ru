@@ -147,6 +147,21 @@ foreach (fn in [
   refreshBoostersTask = -1
   boostersTaskUpdateFlightTime = -1
 
+  //!!!BEGIN added only for debug
+  dbgTrophiesListInternal = []
+  dbgLoadedTrophiesCount = 0
+  dbgLoadedItemsInternalCount = 0
+  dbgUpdateInternalItemsCount = 0
+
+  getInternalItemsDebugInfo = @() {
+    dbgTrophiesListInternal = dbgTrophiesListInternal
+    dbgLoadedTrophiesCount = dbgLoadedTrophiesCount
+    itemsListInternal = itemsListInternal
+    dbgLoadedItemsInternalCount = dbgLoadedItemsInternalCount
+    dbgUpdateInternalItemsCount = dbgUpdateInternalItemsCount
+  }
+  //!!!END added only for debug
+
   function getBestSpecialOfferItemByUnit(unit) {
     local res = []
     for (local i = 0; i < ::get_current_personal_discount_count(); i++) {
@@ -255,6 +270,8 @@ ItemsManager.checkShopItemsUpdate <- function checkShopItemsUpdate()
     return false
   _reqUpdateList = false
   itemsListInternal.clear()
+  dbgTrophiesListInternal.clear()
+  dbgUpdateInternalItemsCount++
 
   local pBlk = ::get_price_blk()
   local trophyBlk = pBlk?.trophy
@@ -264,7 +281,9 @@ ItemsManager.checkShopItemsUpdate <- function checkShopItemsUpdate()
       local blk = trophyBlk.getBlock(i)
       local item = createItem(itemType.TROPHY, blk)
       itemsListInternal.append(item)
+      dbgTrophiesListInternal.append(item)
     }
+  dbgLoadedTrophiesCount = dbgTrophiesListInternal.len()
 
   local itemsBlk = ::get_items_blk()
   ignoreItemLimits = !!itemsBlk?.ignoreItemLimits
@@ -289,6 +308,8 @@ ItemsManager.checkShopItemsUpdate <- function checkShopItemsUpdate()
       local item = createItem(blk?.type, blk)
       itemsListInternal.append(item)
     }
+
+  dbgLoadedItemsInternalCount = itemsListInternal.len()
   return true
 }
 
@@ -737,7 +758,11 @@ ItemsManager.autoConsumeItems <- function autoConsumeItems()
     }
 }
 
-ItemsManager.onEventLoginComplete <- function onEventLoginComplete(p) { shouldCheckAutoConsume = true }
+ItemsManager.onEventLoginComplete <- function onEventLoginComplete(p) {
+  shouldCheckAutoConsume = true
+  _reqUpdateList = true
+}
+
 ItemsManager.onEventSignOut <- function onEventSignOut(p)
 {
   isInventoryFullUpdated = false
@@ -869,25 +894,31 @@ ItemsManager.fillItemDescr <- function fillItemDescr(item, holderObj, handler = 
 
 ItemsManager.fillItemTableInfo <- function fillItemTableInfo(item, holderObj)
 {
-  if (!::checkObj(holderObj))
+  if (!::check_obj(holderObj))
     return
 
-  ::ItemsManager.fillItemTable(item, holderObj)
+  local hasItemAdditionalDescTable = ::ItemsManager.fillItemTable(item, holderObj)
 
   local obj = holderObj.findObject("item_desc_above_table")
-  if (::checkObj(obj))
-    obj.setValue(item && item?.getDescriptionAboveTable ? item.getDescriptionAboveTable() : "")
+  local text = item?.getDescriptionAboveTable() ?? ""
+  if (::check_obj(obj))
+    obj.setValue(text)
+  hasItemAdditionalDescTable = hasItemAdditionalDescTable || text != ""
 
   obj = holderObj.findObject("item_desc_under_table")
-  if (::checkObj(obj))
-    obj.setValue(item && item?.getDescriptionUnderTable ? item.getDescriptionUnderTable() : "")
+  text = item?.getDescriptionUnderTable() ?? ""
+  if (::check_obj(obj))
+    obj.setValue(text)
+  hasItemAdditionalDescTable = hasItemAdditionalDescTable || text != ""
+
+  ::showBtn("item_additional_desc_table", hasItemAdditionalDescTable, holderObj)
 }
 
 ItemsManager.fillItemTable <- function fillItemTable(item, holderObj)
 {
   local containerObj = holderObj.findObject("item_table_container")
   if (!::checkObj(containerObj))
-    return
+    return false
 
   local tableData = item && item?.getTableData ? item.getTableData() : null
   local show = tableData != null
@@ -895,6 +926,7 @@ ItemsManager.fillItemTable <- function fillItemTable(item, holderObj)
 
   if (show)
     holderObj.getScene().replaceContentFromText(containerObj, tableData, tableData.len(), this)
+  return show
 }
 
 ItemsManager.getActiveBoostersArray <- function getActiveBoostersArray(effectType = null)

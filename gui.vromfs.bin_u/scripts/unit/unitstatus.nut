@@ -1,7 +1,23 @@
+local { isWeaponAux, getLastPrimaryWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { getWeaponInfoText} = require("scripts/weaponry/weaponryVisual.nut")
+
 local canBuyNotResearched = @(unit) unit.isVisibleInShop()
   && ::canResearchUnit(unit)
   && unit.isSquadronVehicle()
   && !unit.getOpenCost().isZero()
+
+
+local function isUnitHaveSecondaryWeapons(unit)
+{
+  local foundWeapon = false
+  for (local i = 0; i < unit.weapons.len(); i++)
+    if (!isWeaponAux(unit.weapons[i]))
+      if (foundWeapon)
+        return true
+      else
+        foundWeapon = true
+  return "" != getWeaponInfoText(unit, { isPrimary = false, weaponPreset = 0, needTextWhenNoWeapons = false })
+}
 
 local function isShipWithoutPurshasedTorpedoes(unit)
 {
@@ -9,7 +25,7 @@ local function isShipWithoutPurshasedTorpedoes(unit)
     return false
 
   local torpedoes = null
-  if (::isAirHaveSecondaryWeapons(unit))
+  if (isUnitHaveSecondaryWeapons(unit))
     torpedoes = ::u.search(unit.weapons, @(weapon) weapon.name == "torpedoes")    //!!! FIX ME: Need determine weapons by weapon mask. WeaponMask now available only for air
 
   if (!torpedoes)
@@ -80,8 +96,61 @@ local function getBitStatus(unit, params = {})
   return bitStatus
 }
 
+local availablePrimaryWeaponsMod = {}
+local defaultPrimaryWeaponsMod = {
+  flares = null
+}
+
+local function isAvailablePrimaryWeapon(unit, weaponName) {
+  local availableWeapons = availablePrimaryWeaponsMod?[unit.name]
+  if (availableWeapons != null)
+    return getLastPrimaryWeapon(unit) == availableWeapons[weaponName]
+
+  local unitBlk = ::get_full_unit_blk(unit.name)
+  if (!unitBlk)
+    return false
+
+  availableWeapons = clone defaultPrimaryWeaponsMod
+  if (unitBlk?.modifications != null)
+    foreach(modName, modification in unitBlk.modifications) {
+      local commonWeapons = modification?.effects?.commonWeapons
+      if (commonWeapons == null)
+        continue
+      foreach (weap in (commonWeapons % "Weapon")) {
+        if (!weap?.blk || weap?.dummy)
+          continue
+
+        local weapBlk = ::DataBlock(weap.blk)
+        if (availableWeapons!=null && (weapBlk?.rocket.isFlare ?? false))
+          availableWeapons.flares = modName
+      }
+    }
+
+  availablePrimaryWeaponsMod[unit.name] <-availableWeapons
+  return getLastPrimaryWeapon(unit) == availableWeapons[weaponName]
+}
+
+
+local function hasFlares(unit) {
+  if (unit == null)
+    return false
+
+  return unit.getAvailableSecondaryWeapons().hasFlares
+    || isAvailablePrimaryWeapon(unit, "flares")
+}
+
+local function bombNbr(unit) {
+  if (unit == null)
+    return -1
+
+  return unit.getAvailableSecondaryWeapons().bombsNbr
+}
+
 return {
-  canBuyNotResearched = canBuyNotResearched
+  canBuyNotResearched             = canBuyNotResearched
   isShipWithoutPurshasedTorpedoes = isShipWithoutPurshasedTorpedoes
-  getBitStatus = getBitStatus
+  getBitStatus                    = getBitStatus
+  hasFlares                       = hasFlares
+  bombNbr                         = bombNbr
+  isUnitHaveSecondaryWeapons      = isUnitHaveSecondaryWeapons
 }

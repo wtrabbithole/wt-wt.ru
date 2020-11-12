@@ -210,6 +210,12 @@
         },
         "turret_02_back_dm": {
           "armorThickness": 7.0
+        },
+        "turret_03_back_dm": {
+          "armorThickness": 5.0
+        },
+        "turret_03_front_dm": {
+          "armorThickness": 5.0
         }
       },
       "turret": {
@@ -227,6 +233,9 @@
         },
         "turret_01_front_dm": {
           "armorThickness": 26.0
+        },
+        "turret_bottom_dm": {
+          "armorThickness": 6.0
         }
       },
       "mask": {
@@ -864,6 +873,21 @@
             "name": "ammo_body_50_dm"
           },
           {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -1326,29 +1350,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2287,8 +2311,8 @@
             "isDriven": true,
             "exhaustNode": "emtr_waterjet_l",
             "intake": [-1.25,0.4,0.85],
-            "thrust": 19000.0,
-            "reverseMult": 0.35
+            "thrust": 13000.0,
+            "reverseMult": 0.17
           }
         },
         {
@@ -2296,8 +2320,8 @@
             "isDriven": true,
             "exhaustNode": "emtr_waterjet_r",
             "intake": [-1.25,0.4,-0.85],
-            "thrust": 19000.0,
-            "reverseMult": 0.35
+            "thrust": 13000.0,
+            "reverseMult": 0.17
           }
         }
       ]

@@ -12,7 +12,6 @@ class ControlsPreset {
   basePresetPaths = null
   hotkeys         = null
   axes            = null
-  squarePairs     = null
   params          = null
   deviceMapping   = null
   controlsV4Blk   = null
@@ -40,7 +39,6 @@ class ControlsPreset {
     basePresetPaths = {}
     hotkeys         = {}
     axes            = {}
-    squarePairs     = []
     params          = getDefaultParams()
     deviceMapping   = []
 
@@ -53,7 +51,6 @@ class ControlsPreset {
       basePresetPaths = ::u.copy(data.basePresetPaths)
       hotkeys         = ::u.copy(data.hotkeys)
       axes            = ::u.copy(data.axes)
-      squarePairs     = ::u.copy(data.squarePairs)
       params          = ::u.copy(data.params)
       deviceMapping   = ::u.copy(data.deviceMapping)
       controlsV4Blk   = ::u.copy(data.controlsV4Blk)
@@ -76,21 +73,6 @@ class ControlsPreset {
     axes[name] <- getDefaultAxis(name)
   }
 
-  function resetSquarePair(idx)
-  {
-    if (idx < 0)
-      return
-
-    if (idx >= squarePairs.len())
-    {
-      for (local j = squarePairs.len(); j <= idx; j++)
-        squarePairs.append([-1, -1])
-    }
-    else
-      squarePairs[idx] = [-1, -1]
-  }
-
-
   function getHotkey(name)
   {
     if (!(name in hotkeys))
@@ -111,17 +93,6 @@ class ControlsPreset {
     return axes[name]
   }
 
-  function getSquarePair(idx)
-  {
-    if (idx < 0)
-      return [-1, -1]
-
-    if (!(idx in squarePairs))
-      resetSquarePair(idx)
-    return squarePairs[idx]
-  }
-
-
   function setHotkey(name, data)
   {
     hotkeys[name] <- ::u.copy(data)
@@ -131,16 +102,6 @@ class ControlsPreset {
   {
     resetAxis(name)
     ::u.extend(axes[name], data)
-  }
-
-  function setSquarePair(idx, data)
-  {
-    if (idx < 0)
-      return
-
-    if (idx >= squarePairs.len())
-      resetSquarePair(idx)
-    squarePairs[idx] = ::u.copy(data)
   }
 
   function isHotkeyShortcutBinded(name, data)
@@ -184,7 +145,6 @@ class ControlsPreset {
       axisId              = -1
       mouseAxisId         = -1
       innerDeadzone       = 0.05
-      outerDeadzone       = 0.05
       rangeMin            = -1.0
       rangeMax            = 1.0
       inverse             = false
@@ -285,18 +245,6 @@ class ControlsPreset {
         // Axes not specified in block loaded from base presets
       }
 
-      squarePairs{      // Square pairs block
-        pair{             // Each pair defined in pair subblock
-          axisId1:i=1       // First squarePair value
-          axisId2:i=2       // Second squarePair value
-        }
-
-        pair{
-          axisId1:i=3
-          axisId2:i=4
-        }
-      }
-
       params{           // Params other when defined in base presets
         useMouseAim:b=no
         holdThrottleForWEP:b=yes
@@ -387,7 +335,6 @@ class ControlsPreset {
 
     loadHotkeysFromBlk    (controlsBlk, version)
     loadAxesFromBlk       (controlsBlk, version)
-    loadSquarePairsFromBlk(controlsBlk, version)
     loadParamsFromBlk     (controlsBlk, version)
     loadJoyMappingFromBlk (controlsBlk, version)
     isLoaded = true
@@ -412,7 +359,6 @@ class ControlsPreset {
 
     controlsDiff.saveHotkeysToBlk    (controlsBlk)
     controlsDiff.saveAxesToBlk       (controlsBlk)
-    controlsDiff.saveSquarePairsToBlk(controlsBlk)
     controlsDiff.saveParamsToBlk     (controlsBlk)
     controlsDiff.saveJoyMappingToBlk (controlsBlk)
     blk["controls"] <- controlsBlk
@@ -430,7 +376,6 @@ class ControlsPreset {
     ::dagor.debug("ControlsPreset: Stats:"
       + " hotkeys=" + hotkeys.len()
       + " axes=" + axes.len()
-      + " squarePairs=" + squarePairs.len()
       + " params=" + params.len()
       + " joyticks=" + deviceMapping.len()
     )
@@ -441,7 +386,7 @@ class ControlsPreset {
 
   function applyControls(appliedPreset)
   {
-    appliedPreset.fixDeviceMapping(deviceMapping)
+    appliedPreset.updateDeviceMapping(deviceMapping)
 
     foreach (hotkeyName, otherHotkey in appliedPreset.hotkeys)
       setHotkey(hotkeyName, otherHotkey)
@@ -453,10 +398,6 @@ class ControlsPreset {
       if (::getTblValue("axisId", otherAxis, -1) >= 0)
         usedAxesIds.append(otherAxis["axisId"])
     }
-
-    foreach (otherPair in appliedPreset.squarePairs)
-      if (usedAxesIds.indexof(otherPair[0]) != null || usedAxesIds.indexof(otherPair[1]) != null)
-        setSquarePair(squarePairs.len(), otherPair)
 
     foreach (paramName, otherParam in appliedPreset.params)
       params[paramName] <- otherParam
@@ -499,15 +440,6 @@ class ControlsPreset {
       if ("axisId" in otherAxis && otherAxis["axisId"] >= 0)
         usedAxesIds.append(otherAxis["axisId"])
     }
-
-    foreach (otherPair in basePreset.squarePairs)
-      if ((usedAxesIds.indexof(otherPair[0]) != null || usedAxesIds.indexof(otherPair[1]) != null))
-        foreach (j, thisPair in squarePairs)
-          if (::u.isEqual(thisPair, otherPair))
-          {
-            squarePairs.remove(j)
-            break
-          }
 
     foreach (paramName, otherParam in basePreset.params)
       if (paramName in params && ::u.isEqual(params[paramName], otherParam))
@@ -698,44 +630,6 @@ class ControlsPreset {
   }
 
 
-  function loadSquarePairsFromBlk(blk, version)
-  {
-    local setPair = function(idx, blkPair)
-    {
-      if (::u.isInteger(blkPair?["axisId1"]) && ::u.isInteger(blkPair?["axisId2"]) &&
-          blkPair["axisId1"] != -1 && blkPair["axisId2"] != -1)
-        setSquarePair(idx, [blkPair["axisId1"], blkPair["axisId2"]])
-    }
-
-    if (version >= PRESET_ACTUAL_VERSION)
-    {
-      // Load square pairs saved after 1.63
-      local blkSquarePairs = blk?["squarePairs"]
-      if (blkSquarePairs == null)
-        return
-
-      foreach (blkPair in blkSquarePairs % "pair")
-        setPair(squarePairs.len(), blkPair)
-    }
-    else
-    {
-      // Load square pairs saved before 1.63
-      local blkAxes = getJoystickBlockV4(blk)
-      if (blkAxes == null)
-        return
-
-      for (local j = 0; ; j++)
-      {
-        local blkPair = blkAxes?["square" + j]
-        if (!::u.isDataBlock(blkPair))
-          break
-
-        setPair(squarePairs.len(), blkPair)
-      }
-    }
-  }
-
-
   function loadParamsFromBlk(blk, version)
   {
     local blkParams
@@ -848,22 +742,6 @@ class ControlsPreset {
         blkAxis[attr] = axisData[attr]
 
       blkAxes[axisName] = blkAxis
-    }
-  }
-
-
-  function saveSquarePairsToBlk(blk)
-  {
-    if (!("squarePairs" in blk))
-      blk["squarePairs"] = ::DataBlock()
-    local blkSquarePairs = blk["squarePairs"]
-
-    foreach (idx, squarePair in squarePairs)
-    {
-      local blkPair = ::DataBlock()
-      blkPair["axisId1"] = squarePair[0]
-      blkPair["axisId2"] = squarePair[1]
-      blkSquarePairs["pair"] <- blkPair
     }
   }
 
@@ -1001,35 +879,6 @@ class ControlsPreset {
   }
 
 
-  function isJoyUsed(joy)
-  {
-    // Check if joy keys used
-    local minButton = joy.buttonsOffset
-    local maxButton = minButton + joy.buttonsCount - 1
-    foreach (event in hotkeys)
-      foreach (shortcut in event)
-        foreach (button in shortcut)
-          if (button.deviceId == ::JOYSTICK_DEVICE_0_ID &&
-              button.buttonId >= minButton && button.buttonId <= maxButton)
-            return true
-
-    // Check if joy axes used
-    local minAxis = joy.axesOffset
-    local maxAxis = minButton + joy.axesCount - 1
-    foreach (axis in axes)
-      if (axis.axisId != -1 && axis.axisId >= minAxis && axis.axisId <= maxAxis)
-        return true
-
-    // Check if joy square pairs used
-    foreach (pair in squarePairs)
-      for (local j = 0; j < 2; j++)
-        if (pair[j] != -1 && pair[j] >= minAxis && pair[j]<= maxAxis)
-          return true
-
-    return false
-  }
-
-
   static function isSameMapping(lhs, rhs)
   {
     local noValue = {}
@@ -1054,139 +903,91 @@ class ControlsPreset {
     return true
   }
 
+  function updateDeviceMapping(newDevices) {
+    local oldDevices = deviceMapping
+    ::dagor.debug($"[CTRL] updating from {oldDevices.len()} to {newDevices.len()} devices")
+    ::debugTableData(oldDevices)
+    ::debugTableData(newDevices)
 
-  // Return true if hotkeys or axes reordered
-  function fixDeviceMapping(realMapping)
-  {
-    local usedMapping = deviceMapping
+    if (isSameMapping(oldDevices, newDevices))
+      return false // nothing to do
 
-    ::dagor.debug("ControlsPreset: usedMapping")
-    ::debugTableData(usedMapping)
+    local totalBindings = { axes = 0, buttons = 0 }
+    local ranges = []
+    local lostDevicesIndexes = []
+    foreach (oid, old in oldDevices) {
+      local found = false
+      foreach (idx, new in newDevices) {
+        if (old.devId == new.devId) {
+          found = true
+          if (new.connected) {
+            ranges.append({
+                axes = { from = old.axesOffset, to = new.axesOffset, count = new.axesCount }
+                buttons = { from = old.buttonsOffset, to = new.buttonsOffset, count = new.buttonsCount }
+              })
+            totalBindings.axes = ::max(totalBindings.axes, new.axesOffset + new.axesCount)
+            totalBindings.buttons = ::max(totalBindings.buttons, new.buttonsOffset + new.buttonsCount)
+          } else {
+            lostDevicesIndexes.append({old = oid, new = idx})
+          }
+        }
+      }
 
-    local sameMappingFlag = isSameMapping(usedMapping, realMapping)
-    if (usedMapping.len() == 0 || sameMappingFlag)
-    {
-      deviceMapping = realMapping
-      return !sameMappingFlag
+      if (!found) {
+        old["connected"] <- false
+        newDevices.append(old)
+        lostDevicesIndexes.append({old = oid, new = newDevices.len() - 1})
+      }
     }
 
-    // Get maximum elements in mapping
-    local getMax = function(mapping, offsetVarName, countVarName)
-    {
-      local count = 0
-      foreach (data in mapping)
-        count = ::max(count, data[offsetVarName] + data[countVarName])
-      return count
+    ::dagor.debug($"[CTRL] lost {lostDevicesIndexes.len()} devices")
+
+    foreach (i in lostDevicesIndexes) {
+      local old = oldDevices[i.old]
+      ranges.append({
+          axes = { from = old.axesOffset, to = totalBindings.axes, count = old.axesCount }
+          buttons = { from = old.buttonsOffset, to = totalBindings.buttons, count = old.buttonsCount }
+        })
+      newDevices[i.new].axesOffset = totalBindings.axes
+      newDevices[i.new].buttonsOffset = totalBindings.buttons
+
+      totalBindings.axes += old.axesCount
+      totalBindings.buttons += old.buttonsCount
     }
 
-    // Initialize remap table
-    local remap = {
-      buttons = []
-      axes  = []
-    }
-    remap.buttons.resize(getMax(
-      usedMapping, "buttonsOffset", "buttonsCount"), -1)
-    remap.axes.resize(getMax(
-      usedMapping, "axesOffset", "axesCount"), -1)
+    ::dagor.debug($"[CTRL] updated devices list ({newDevices.len()} devices)")
+    ::dagor.debug($"[CTRL] remapping {ranges.len()} ranges")
 
-    // Count real element count
-    local realButtonNum = getMax(realMapping, "buttonsOffset", "buttonsCount")
-    local realAxesNum = getMax(realMapping, "axesOffset", "axesCount")
-
-
-    foreach (idx, usedJoy in usedMapping)
-    {
-      if (!isJoyUsed(usedJoy))
-        continue
-
-      ::dagor.debug("Mapping " + idx.tostring() + ": used")
-
-      // Search used joy in connected joy list
-      local matchedJoy = null
-      foreach (realJoy in realMapping)
-        if (usedJoy.devId == realJoy.devId && !("used" in realJoy))
-        {
-          matchedJoy = realJoy
-          matchedJoy.used <- true
+    local shouldRemap = @(id, m) id >= m.from && id < (m.from + m.count)
+    foreach (axis in axes) {
+      foreach (remap in ranges) {
+        if (shouldRemap(axis.axisId, remap.axes)) {
+          axis.axisId = axis.axisId - remap.axes.from + remap.axes.to
           break
         }
-
-      if (!matchedJoy) {
-        // Add used joy to list in not found
-        matchedJoy = {
-          name          = usedJoy.name
-          devId         = usedJoy.devId
-          buttonsOffset = realButtonNum
-          buttonsCount  = usedJoy.buttonsCount
-          axesOffset    = realAxesNum
-          axesCount     = usedJoy.axesCount
-          connected     = false
-          used          = true
-        }
-        realButtonNum += usedJoy.buttonsCount
-        realAxesNum += usedJoy.axesCount
-        realMapping.append(matchedJoy)
-      }
-
-      // Fill remap table for used joy
-      foreach (element in ["buttons", "axes"])
-      {
-        local usedElementOffset    = usedJoy[element + "Offset"]
-        local usedElementCount     = usedJoy[element + "Count"]
-        local matchedElementOffset = matchedJoy[element + "Offset"]
-        local matchedElementCount  = matchedJoy[element + "Count"]
-        local mathedElementNum = ::min(usedElementCount, matchedElementCount)
-
-        for (local j = 0; j < mathedElementNum; j++)
-          remap[element][usedElementOffset + j] = matchedElementOffset + j
-
-        // Joy with same id's have less buttons/axes, set
-        if (matchedElementCount < usedElementCount)
-          for (local j = matchedElementCount; j < usedElementCount; j++)
-            remap[element][usedElementOffset + j] = -1
       }
     }
 
-    // Remap buttons
-    local remapButtonNum = remap.buttons.len()
-    foreach (event in hotkeys)
-      foreach (shortcut in event)
-      {
-        foreach (button in shortcut)
-          if (button.deviceId == ::JOYSTICK_DEVICE_0_ID && button.buttonId < remapButtonNum)
-            button.buttonId = remap.buttons[button.buttonId]
-
-        // Remove shortcuts with buttonId = -1
-        for (local j = shortcut.len() - 1; j >= 0; j--)
-          if (shortcut[j].buttonId == -1)
-            shortcut.remove(j)
+    foreach (event in hotkeys) {
+      foreach (shortcut in event) {
+        foreach (btn in shortcut) {
+          if (btn.deviceId == ::JOYSTICK_DEVICE_0_ID) {
+            foreach (remap in ranges) {
+              if (shouldRemap(btn.buttonId, remap.buttons)) {
+                btn.buttonId = btn.buttonId - remap.buttons.from + remap.buttons.to
+                break
+              }
+            }
+          }
+        }
       }
+    }
 
-    // Remap axes
-    local remapAxesNum = remap.axes.len()
-    foreach (axis in axes)
-      if (axis.axisId >= 0 && axis.axisId < remapAxesNum)
-        axis.axisId = remap.axes[axis.axisId]
-
-    foreach (pair in squarePairs)
-      for (local j = 0; j < 2; j++)
-        if (pair[j] >= 0 && pair[j] < remapAxesNum)
-          pair[j] = remap.axes[pair[j]]
-
-    foreach (joy in realMapping)
-      if ("used" in joy)
-        delete joy.used
-
-    // Save mapping
-    deviceMapping = realMapping
-
-    ::dagor.debug("ControlsPreset: updatedMapping")
+    deviceMapping = ::u.copy(newDevices)
+    ::dagor.debug($"[CTRL] final map for {deviceMapping.len()} devices:")
     ::debugTableData(deviceMapping)
-
     return true
   }
-
-
 
 
   /****************************************************************/
@@ -1247,7 +1048,6 @@ class ControlsPreset {
       "axisId"
       "mouseAxisId"
       "innerDeadzone"
-      "outerDeadzone"
       "rangeMin"
       "rangeMax"
       "inverse"

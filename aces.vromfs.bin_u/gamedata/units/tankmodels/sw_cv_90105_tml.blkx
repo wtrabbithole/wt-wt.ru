@@ -354,6 +354,10 @@
         "optic_body_03_dm": {
           "armorThickness": 3.0,
           "hp": 20.0
+        },
+        "optic_body_04_dm": {
+          "armorThickness": 3.0,
+          "hp": 20.0
         }
       },
       "chassis": {
@@ -1140,6 +1144,21 @@
             "name": "ammo_body_50_dm"
           },
           {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -1602,29 +1621,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2057,7 +2076,7 @@
           "blk": "gameData/Weapons/groundModels_weapons/7_62mm_Ksp_58_Strv_user_machinegun.blk",
           "emitter": "bone_mg_gun_twin_01",
           "flash": "emtr_mg_flame_01",
-          "barrelDP": "gun_barrel_01_dm",
+          "barrelDP": "gun_barrel_02_dm",
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "speedYaw": 18.0,
@@ -2152,7 +2171,7 @@
             "ratio": 0.0
           },
           {
-            "ratio": 7.054
+            "ratio": 12.0
           },
           {
             "ratio": 5.054
@@ -2731,13 +2750,11 @@
         "image": "#ui/gameuiskin#tank_reinforcement_sw"
       },
       "105mm_usa_HESH": [],
-      "105mm_usa_HEAT_FS": [],
+      "105mm_NATO_APDS_FS": [],
       "105mm_usa_HESH_ammo_pack": {
         "tier": 1
       },
-      "105mm_usa_HEAT_FS_ammo_pack": {
-        "tier": 2
-      },
+      "105mm_NATO_APDS_FS_ammo_pack": [],
       "105mm_usa_M735_APDS_FS": [],
       "105mm_usa_M735_APDS_FS_ammo_pack": [],
       "modern_tank_laser_rangefinder": {
@@ -2826,7 +2843,7 @@
                 "blk": "gameData/Weapons/groundModels_weapons/7_62mm_Ksp_58_Strv_user_machinegun.blk",
                 "emitter": "bone_mg_gun_twin_01",
                 "flash": "emtr_mg_flame_01",
-                "barrelDP": "gun_barrel_01_dm",
+                "barrelDP": "gun_barrel_02_dm",
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "speedYaw": 18.0,

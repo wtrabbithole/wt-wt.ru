@@ -974,6 +974,27 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1280,6 +1301,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -1744,29 +1780,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2103,7 +2139,7 @@
       {
         "Weapon": {
           "trigger": "gunner0",
-          "blk": "gameData/Weapons/groundModels_weapons/125mm_2A46_M1_user_cannon.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/125mm_2A46_M1_T_80U_user_cannon.blk",
           "emitter": "bone_gun_barrel",
           "flash": "emtr_gun_flame",
           "defaultYaw": 0.0,
@@ -2342,6 +2378,13 @@
     }
   },
   {
+    "sensors": {
+      "sensor": {
+        "blk": "gameData/sensors/LaserBeamRidingSensor.blk"
+      }
+    }
+  },
+  {
     "VehiclePhys": {
       "Mass": {
         "Empty": 44500.0,
@@ -2356,9 +2399,7 @@
       "tracks": {
         "animationMultiplier": 0.72,
         "height": 0.055,
-        "width": 0.6,
-        "criticalHillAngle": 27.0,
-        "hillClimbingDeclineFricKoef": 15.0
+        "width": 0.6
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2998,19 +3039,43 @@
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },
       "modern_tank_laser_rangefinder": {
-        "tier": 2
+        "tier": 2,
+        "effects": {
+          "rangefinderMounted": true,
+          "isLaser": true,
+          "distanceError": [25.0,25.0,25.0,25.0],
+          "distanceThresholdMin": [1000.0,3000.0,5000.0,9999.0],
+          "distanceThresholdMax": [1000.0,3000.0,5000.0,9999.0],
+          "distanceErrorRealistic": [25.0,25.0,25.0,25.0],
+          "distanceThresholdMinRealistic": [1000.0,3000.0,5000.0,9999.0],
+          "distanceThresholdMaxRealistic": [1000.0,3000.0,5000.0,9999.0],
+          "timeMeasurementRange": [0.5,0.5],
+          "rcostAddParam": 0.98,
+          "sensors": [
+            {
+              "sensor": {
+                "blk": "gameData/sensors/LaserBeamRidingSensor.blk"
+              }
+            },
+            {
+              "sensor": {
+                "blk": "gameData/sensors/LaserDesignatorSensor.blk"
+              }
+            }
+          ]
+        }
       },
-      "125mm_ussr_3BK18M_HEAT_FS_ammo_pack": [],
+      "125mm_ussr_HE": [],
+      "125mm_ussr_APDS_FS": [],
+      "125mm_ussr_ATGM": {
+        "maxToRespawn": 28
+      },
+      "125mm_ussr_3BM42_APDS_FS": [],
+      "125mm_ussr_APDS_FS_ammo_pack": [],
       "125mm_ussr_ATGM_ammo_pack": {
         "tier": 3
       },
       "125mm_ussr_3BM42_APDS_FS_ammo_pack": [],
-      "125mm_ussr_3BM42_APDS_FS": [],
-      "125mm_ussr_3BK18M_HEAT_FS": [],
-      "125mm_ussr_HE": [],
-      "125mm_ussr_ATGM": {
-        "maxToRespawn": 28
-      },
       "tank_smoke_screen_system_mod": {
         "tier": 2,
         "modClass": "protection",
@@ -3019,7 +3084,7 @@
             {
               "Weapon": {
                 "trigger": "gunner0",
-                "blk": "gameData/Weapons/groundModels_weapons/125mm_2A46_M1_user_cannon.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/125mm_2A46_M1_T_80U_user_cannon.blk",
                 "emitter": "bone_gun_barrel",
                 "flash": "emtr_gun_flame",
                 "defaultYaw": 0.0,
@@ -3447,6 +3512,9 @@
             },
             {
               "node": "gun_mask_01"
+            },
+            {
+              "node": "skin_01"
             }
           ]
         },
@@ -3579,12 +3647,78 @@
   },
   {
     "skin": {
+      "name": "ussr_modern_green",
+      "nameLocId": "skin/ussr_modern_green",
+      "descLocId": "skin/ussr_modern_green/desc",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_modern_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "ussr_camo_modern_desert_deform",
+      "nameLocId": "skin/ussr_camo_modern_desert_deform",
+      "descLocId": "skin/ussr_camo_modern_desert_deform/desc",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_modern_desert_deform*"
+      }
+    }
+  },
+  {
+    "skin": {
       "name": "ussr_south_korean_camo",
       "nameLocId": "skin/ussr_south_korean_camo",
       "descLocId": "skin/ussr_south_korean_camo/desc",
       "replace_tex": {
         "from": "ussr_camo_green*",
         "to": "ussr_south_korean_camo*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_red",
+      "nameLocId": "skin/tank_biathlon_red",
+      "descLocId": "skin/tank_biathlon_red/desc",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_biathlon_red*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_green",
+      "nameLocId": "skin/tank_biathlon_green",
+      "descLocId": "skin/tank_biathlon_green/desc",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_biathlon_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_blue",
+      "nameLocId": "skin/tank_biathlon_blue",
+      "descLocId": "skin/tank_biathlon_blue/desc",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_biathlon_blue*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_yellow",
+      "nameLocId": "skin/tank_biathlon_yellow",
+      "descLocId": "skin/tank_biathlon_yellow/desc",
+      "replace_tex": {
+        "from": "ussr_camo_green*",
+        "to": "ussr_camo_biathlon_yellow*"
       }
     }
   },

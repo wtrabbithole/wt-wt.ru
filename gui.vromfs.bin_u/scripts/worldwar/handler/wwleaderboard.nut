@@ -1,6 +1,9 @@
 local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
 local wwRewards = ::require("scripts/worldWar/handler/wwRewards.nut")
 local time = require("scripts/time.nut")
+local { getSeparateLeaderboardPlatformName,
+        getSeparateLeaderboardPlatformValue } = require("scripts/social/crossplay.nut")
+local { addClanTagToNameInLeaderbord } = require("scripts/leaderboard/leaderboardView.nut")
 
 ::ww_leaderboards_list <- [
   ::g_lb_category.UNIT_RANK
@@ -55,10 +58,8 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     if (!lb_presets)
       lb_presets = ::ww_leaderboards_list
 
-    platform = ::has_feature("PS4SeparateLeaderboards")
-      && ::get_gui_option_in_mode(::USEROPT_PS4_ONLY_LEADERBOARD, ::OPTIONS_MODE_GAMEPLAY) == true
-        ? "ps4"
-        : ""
+    platformFilter = getSeparateLeaderboardPlatformName()
+    ::add_big_query_record("ww_leaderboard.open", platformFilter)
 
     initTable()
     fillMapsList()
@@ -123,6 +124,9 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     lbMode = null
     lbModesList = []
 
+    local isAvailableWWSeparateLb = !getSeparateLeaderboardPlatformValue()
+     || ::has_feature("ConsoleSeparateWWLeaderboards")
+
     local data = ""
     foreach(idx, modeData in wwLeaderboardData.modes)
     {
@@ -130,10 +134,8 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         (modeData?.needFeature && !::has_feature(modeData.needFeature)))
         continue
 
-      if (!::has_feature("PS4SeparateWWLeaderboards")
-          && ::get_gui_option_in_mode(::USEROPT_PS4_ONLY_LEADERBOARD, ::OPTIONS_MODE_GAMEPLAY) == true
-          && modeData?.needShowConsoleFilter == true)
-          continue
+      if (!isAvailableWWSeparateLb && modeData?.needShowConsoleFilter == true)
+        continue
 
       lbModesList.append(modeData)
       local optionText = ::g_string.stripTags(
@@ -244,7 +246,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       gameMode = requestData.modeName + requestData.modePostFix
       table    = requestData.day && requestData.day > 0 ? "day" + requestData.day : "season"
       category = lbField
-      platform = requestData.platform
+      platformFilter = requestData.platformFilter
     }
 
     local cb = function(hasSelfRow = false)
@@ -253,7 +255,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
         function(lbPageData) {
           if (!hasSelfRow)
             selfRowData = []
-          pageData = wwLeaderboardData.convertWwLeaderboardData(lbPageData, isCountriesLeaderboard())
+          pageData = wwLeaderboardData.addClanInfoIfNeedAndConvert(requestData.modeName, lbPageData, isCountriesLeaderboard())
           fillLeaderboard(pageData)
         }, this)
       wwLeaderboardData.requestWwLeaderboardData(
@@ -269,7 +271,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     {
       local callback = ::Callback(
         function(lbSelfData) {
-          selfRowData = wwLeaderboardData.convertWwLeaderboardData(lbSelfData, isCountriesLeaderboard()).rows
+          selfRowData = wwLeaderboardData.addClanInfoIfNeedAndConvert(requestData.modeName, lbSelfData, isCountriesLeaderboard()).rows
           if(isRequestDifferent)
             requestSelfPage(getSelfPos())
           cb(true)
@@ -297,13 +299,14 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
     lbModeData = lbModesList[modeObjValue]
     lbMode = lbModeData.mode
     forClans = lbMode == "ww_clans"
+    ::add_big_query_record("ww_leaderboard.select_mode", lbMode);
 
     delayedRestoreFocus()
     checkLbCategory()
 
     local callback = ::Callback(
       function(modesData) {
-        updateModeDataByAvailableTables(modesData.modes)
+        updateModeDataByAvailableTables(modesData?.modes ?? [])
         updateModeComboBoxes(modesData?.tables)
       }, this)
 
@@ -336,6 +339,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       return
 
     lbDay = lbDaysList[dayObjValue]
+    ::add_big_query_record("ww_leaderboard.select_day", lbDay?.tostring() ?? "all")
 
     fetchLbData()
   }
@@ -347,6 +351,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       return
 
     lbMap = lbMapsList[mapObjValue]
+    ::add_big_query_record("ww_leaderboard.select_map", lbMap?.getId() ?? "all")
 
     if (!isCountriesLeaderboard())
       updateCountriesComboBox(lbMap)
@@ -361,6 +366,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       return
 
     lbCountry = lbCountriesList[countryObjValue]
+    ::add_big_query_record("ww_leaderboard.select_country", lbCountry ?? "all")
 
     if (!isCountriesLeaderboard())
       fetchLbData()
@@ -387,7 +393,7 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       modeName = lbModeData.mode
       modePostFix = mapId + countryId
       day = lbModeData.hasDaysData ? lbDay : null
-      platform = lbModeData?.needShowConsoleFilter ? platform : ""
+      platformFilter = lbModeData?.needShowConsoleFilter ? platformFilter : ""
     }
   }
 
@@ -506,5 +512,28 @@ class ::gui_handlers.WwLeaderboard extends ::gui_handlers.LeaderboardWindow
       }
 
     return countries
+  }
+
+  function updateClanTagRowsData(clansInfoList) {
+    if (clansInfoList.len() == 0)
+      return
+
+    local clansInfo = clansInfoList
+    local function updateClanTag(row) {
+      row.__update({
+        clanTag = clansInfo?[row?.clanId.tostring() ?? ""].tag ?? row?.clanTag ?? ""
+      })
+    }
+    (selfRowData ?? []).map(updateClanTag)
+    pageData?.rows.map(updateClanTag)
+  }
+
+  function onEventUpdateClansInfoList(p) {
+    if (lbMode != "ww_users_manager")
+      return
+
+    local clansInfoList = p?.clansInfoList ?? {}
+    updateClanTagRowsData(clansInfoList)
+    addClanTagToNameInLeaderbord(scene.findObject("lb_table_nest"), clansInfoList)
   }
 }

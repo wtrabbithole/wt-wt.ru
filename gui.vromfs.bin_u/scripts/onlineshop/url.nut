@@ -8,6 +8,16 @@ const URL_TAG_NO_ENCODING = "no_encoding"
 
 const AUTH_ERROR_LOG_COLLECTION = "log"
 
+local qrRedirectSupportedLangs = ["ru", "en", "fr", "de", "es", "pl", "cs", "pt", "ko", "tr"]
+const QR_REDIRECT_URL = "https://login.gaijin.net/{0}/qr/{1}"
+
+local function getUrlWithQrRedirect(url) {
+  local lang = ::g_language.getShortName()
+  if (!::isInArray(lang, qrRedirectSupportedLangs))
+    lang = "en"
+  return QR_REDIRECT_URL.subst(lang, ::encode_base64(url))
+}
+
 local canAutoLogin = @() !::is_vendor_tencent() && ::g_login.isAuthorized()
 
 local function getAuthenticatedUrlConfig(baseUrl, isAlreadyAuthenticated = false) {
@@ -41,15 +51,8 @@ local function getAuthenticatedUrlConfig(baseUrl, isAlreadyAuthenticated = false
 
     if (authData.yuplayResult == ::YU2_OK)
       url = authData.url + (shouldEncode ? "&ret_enc=1" : "") //This parameter is needed for coded complex links.
-    else if (authData.yuplayResult == ::YU2_WRONG_LOGIN) {
-      ::send_error_log("Authorize url: failed to get authenticated url with error ::YU2_WRONG_LOGIN",
-        false, AUTH_ERROR_LOG_COLLECTION)
-      ::gui_start_logout()
-      return null
-    }
-    else
-      ::send_error_log("Authorize url: failed to get authenticated url with error " + authData.yuplayResult,
-        false, AUTH_ERROR_LOG_COLLECTION)
+    else ::send_error_log("Authorize url: failed to get authenticated url with error " + authData.yuplayResult,
+      false, AUTH_ERROR_LOG_COLLECTION)
   }
 
   return {
@@ -79,7 +82,7 @@ local function open(baseUrl, forceExternal=false, isAlreadyAuthenticated = false
   if (!forceExternal && ::use_embedded_browser() && !::steam_is_running() && hasFeature)
   {
     // Embedded browser
-    ::open_browser_modal(url, urlConfig.urlTags)
+    ::open_browser_modal(url, urlConfig.urlTags, baseUrl)
     ::broadcastEvent("BrowserOpened", { url = url, external = false })
     return
   }
@@ -159,4 +162,5 @@ return {
   openUrlByObj = openUrlByObj
   validateLink = validateLink
   getAuthenticatedUrlConfig = getAuthenticatedUrlConfig
+  getUrlWithQrRedirect = getUrlWithQrRedirect
 }

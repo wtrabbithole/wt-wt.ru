@@ -2,6 +2,7 @@
   "model": "mi_24p",
   "fmFile": "fm/mi_24p_german.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/hellicopters_metaparts.blk",
+  "harmonizationSuffix": "_tomoe",
   "haveCCIPForRocket": true,
   "haveCCIPForGun": true,
   "gearSinkRangeLR": 0.316,
@@ -1495,7 +1496,7 @@
         "dummy": true,
         "trigger": "gunner0",
         "triggerGroup": "primary",
-        "blk": "gameData/Weapons/cannonGSh_30_2K.blk",
+        "blk": "gameData/Weapons/dummy_weapon.blk",
         "emitter": "optic1_gun",
         "defaultYaw": 0.0,
         "defaultPitch": 0.0,
@@ -1756,13 +1757,13 @@
                 {
                   "tier": {
                     "idx": 5,
-                    "iconType": "bombs_middle"
+                    "iconType": "bombs_large"
                   }
                 },
                 {
                   "tier": {
                     "idx": 7,
-                    "iconType": "bombs_middle"
+                    "iconType": "bombs_large"
                   }
                 }
               ]
@@ -4669,7 +4670,7 @@
               "dummy": true,
               "trigger": "gunner0",
               "triggerGroup": "primary",
-              "blk": "gameData/Weapons/cannonGSh_30_2K.blk",
+              "blk": "gameData/Weapons/dummy_weapon.blk",
               "emitter": "optic1_gun",
               "defaultYaw": 0.0,
               "defaultPitch": 0.0,
@@ -4728,7 +4729,7 @@
               "dummy": true,
               "trigger": "gunner0",
               "triggerGroup": "primary",
-              "blk": "gameData/Weapons/cannonGSh_30_2K.blk",
+              "blk": "gameData/Weapons/dummy_weapon.blk",
               "emitter": "optic1_gun",
               "defaultYaw": 0.0,
               "defaultPitch": 0.0,
@@ -4807,7 +4808,7 @@
               "dummy": true,
               "trigger": "gunner0",
               "triggerGroup": "primary",
-              "blk": "gameData/Weapons/cannonGSh_30_2K.blk",
+              "blk": "gameData/Weapons/dummy_weapon.blk",
               "emitter": "optic1_gun",
               "defaultYaw": 0.0,
               "defaultPitch": 0.0,
@@ -4928,6 +4929,29 @@
       "replace_tex": {
         "from": "mi_24p_c_dmg*",
         "to": "mi_24p_de_c_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "mi_24v_soviet1_c*",
+        "to": "mi_24v_de1_c*"
+      }
+    }
+  ],
+  "default_skin_tomoe": [
+    {
+      "name": "default_tomoe"
+    },
+    {
+      "replace_tex": {
+        "from": "mi_24p_c*",
+        "to": "mi_24p_de_c_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "mi_24p_c_dmg*",
+        "to": "mi_24p_de_c_tomoe_dmg*"
       }
     },
     {

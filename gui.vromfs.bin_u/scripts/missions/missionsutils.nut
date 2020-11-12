@@ -1,4 +1,5 @@
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { isPlatformSony } = require("scripts/clientState/platform.nut")
 
 const COOP_MAX_PLAYERS = 4
 
@@ -365,7 +366,7 @@ global enum MIS_PROGRESS //value received from get_mission_progress
 
 ::gui_start_benchmark <- function gui_start_benchmark()
 {
-  if (::is_platform_ps4)
+  if (isPlatformSony)
   {
     ::ps4_vsync_enabled = ::d3d_get_vsync_enabled()
     ::d3d_enable_vsync(false)
@@ -382,9 +383,110 @@ global enum MIS_PROGRESS //value received from get_mission_progress
 
 ::init_coop_flags <- function init_coop_flags()
 {
-  ::enable_coop_in_QMB            = ::has_feature(::is_platform_ps4 ? "QmbCoopPs4"            : "QmbCoopPc")
-  ::enable_coop_in_DynCampaign    = ::has_feature(::is_platform_ps4 ? "DynCampaignCoopPs4"    : "DynCampaignCoopPc")
-  ::enable_coop_in_SingleMissions = ::has_feature(::is_platform_ps4 ? "SingleMissionsCoopPs4" : "SingleMissionsCoopPc")
-  ::enable_custom_battles         = ::has_feature(::is_platform_ps4 ? "CustomBattlesPs4"      : "CustomBattlesPc")
+  ::enable_coop_in_QMB            = ::has_feature(isPlatformSony ? "QmbCoopPs4"            : "QmbCoopPc")
+  ::enable_coop_in_DynCampaign    = ::has_feature(isPlatformSony ? "DynCampaignCoopPs4"    : "DynCampaignCoopPc")
+  ::enable_coop_in_SingleMissions = ::has_feature(isPlatformSony ? "SingleMissionsCoopPs4" : "SingleMissionsCoopPc")
+  ::enable_custom_battles         = ::has_feature(isPlatformSony ? "CustomBattlesPs4"      : "CustomBattlesPc")
   ::broadcastEvent("GameModesAvailability")
+}
+
+::get_mission_name <- function get_mission_name(missionId, config, locNameKey = "locName")
+{
+  local locNameValue = getTblValue(locNameKey, config, null)
+  if (locNameValue && locNameValue.len())
+    return ::get_locId_name(config, locNameKey)
+
+  return ::loc("missions/" + missionId)
+}
+
+::get_current_mission_name <- function get_current_mission_name()
+{
+  local misBlk = ::DataBlock()
+  ::get_current_mission_desc(misBlk)
+  return misBlk.name
+}
+
+::loc_current_mission_name <- function loc_current_mission_name(needComment = true)
+{
+  local misBlk = ::DataBlock()
+  ::get_current_mission_desc(misBlk)
+  local teamId = ::g_team.getTeamByCode(::get_player_army_for_hud()).id
+  local locNameByTeamParamName = $"locNameTeam{teamId}"
+  local ret = ""
+
+  if ((misBlk?[locNameByTeamParamName].len() ?? 0) > 0)
+    ret = ::get_locId_name(misBlk, locNameByTeamParamName)
+  else if ((misBlk?.locName.len() ?? 0) > 0)
+    ret = ::get_locId_name(misBlk, "locName")
+  else if ((misBlk?.loc_name ?? "") != "")
+    ret = ::loc("missions/" + misBlk.loc_name, "")
+  if (ret == "")
+    ret = get_combine_loc_name_mission(misBlk)
+  if (needComment && (::get_game_type() & ::GT_VERSUS))
+  {
+    if (misBlk?.maxRespawns == 1)
+      ret = ret + " " + ::loc("template/noRespawns")
+    else if ((misBlk?.maxRespawns ?? 1) > 1)
+      ret = ret + " " +
+        ::loc("template/limitedRespawns/num/plural", { num = misBlk.maxRespawns })
+  }
+  return ret
+}
+
+::get_combine_loc_name_mission <- function get_combine_loc_name_mission(missionInfo)
+{
+  local misInfoName = missionInfo?.name ?? ""
+  local locName = ""
+  if ((missionInfo?["locNameTeamA"].len() ?? 0) > 0)
+    locName = ::get_locId_name(missionInfo, "locNameTeamA")
+  else if ((missionInfo?.locName.len() ?? 0) > 0)
+    locName = ::get_locId_name(missionInfo, "locName")
+  else
+    locName = ::loc("missions/" + misInfoName, "")
+
+  if (locName == "")
+  {
+    local misInfoPostfix = missionInfo?.postfix ?? ""
+    if (misInfoPostfix != "" && misInfoName.indexof(misInfoPostfix))
+    {
+      local name = misInfoName.slice(0, misInfoName.indexof(misInfoPostfix))
+      locName = "[" + ::loc("missions/" + misInfoPostfix) + "] " + ::loc("missions/" + name)
+    }
+  }
+
+  //we dont have lang and postfix
+  if (locName == "")
+    locName = "missions/" + misInfoName
+  return locName
+}
+
+::loc_current_mission_desc <- function loc_current_mission_desc()
+{
+  local misBlk = ::DataBlock()
+  ::get_current_mission_desc(misBlk)
+  local teamId = ::g_team.getTeamByCode(::get_player_army_for_hud()).id
+  local locDecsByTeamParamName = $"locDescTeam{teamId}"
+
+  local locDesc = ""
+  if ((misBlk?[locDecsByTeamParamName].len() ?? 0) > 0)
+    locDesc = ::get_locId_name(misBlk, locDecsByTeamParamName)
+  else if ((misBlk?.locDesc.len() ?? 0) > 0)
+    locDesc = ::get_locId_name(misBlk, "locDesc")
+  else
+  {
+    local missionLocName = misBlk.name
+    if ("loc_name" in misBlk && misBlk.loc_name != "")
+      missionLocName = misBlk.loc_name
+    locDesc = ::loc("missions/" + missionLocName + "/desc", "")
+  }
+  if (::get_game_type() & ::GT_VERSUS)
+  {
+    if (misBlk.maxRespawns == 1)
+    {
+      if (::get_game_mode()!=::GM_DOMINATION)
+        locDesc = locDesc + "\n\n" + ::loc("template/noRespawns/desc")
+    } else if ((misBlk.maxRespawns != null) && (misBlk.maxRespawns > 1))
+      locDesc = locDesc + "\n\n" + ::loc("template/limitedRespawns/desc")
+  }
+  return locDesc
 }

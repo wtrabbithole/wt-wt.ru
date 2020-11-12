@@ -410,6 +410,14 @@
           "armorThickness": 10.0,
           "createSecondaryShatters": false,
           "hidableInViewer": true
+        },
+        "turret_09_side_dm": {
+          "armorThickness": 35.0,
+          "armorClass": "RHA_tank_modern"
+        },
+        "turret_12_side_dm": {
+          "armorThickness": 35.0,
+          "armorClass": "RHA_tank_modern"
         }
       },
       "inner_armor": {
@@ -426,7 +434,8 @@
           "armorThickness": 50.0
         },
         "composite_armor_turret_05_dm": {
-          "armorThickness": 35.0
+          "armorThickness": 35.0,
+          "armorClass": "spaced_armor_air"
         },
         "composite_armor_turret_06_dm": {
           "armorThickness": 14.0
@@ -447,7 +456,8 @@
           "armorEffectiveThicknessMax": 50.0
         },
         "composite_armor_turret_08_dm": {
-          "armorThickness": 35.0
+          "armorThickness": 35.0,
+          "armorClass": "spaced_armor_air"
         },
         "composite_armor_hull_02_dm": {
           "armorThickness": 35.0
@@ -594,9 +604,6 @@
         "ex_decor_l_01_dm": {
           "armorThickness": 20.0
         },
-        "turret_09_side_dm": {
-          "armorThickness": 35.0
-        },
         "turret_12_back_dm": {
           "armorThickness": 45.0
         },
@@ -604,9 +611,6 @@
           "armorThickness": 45.0
         },
         "turret_12_front_dm": {
-          "armorThickness": 45.0
-        },
-        "turret_12_side_dm": {
           "armorThickness": 45.0
         },
         "turret_12_top_dm": {
@@ -1165,6 +1169,27 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1354,6 +1379,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -1818,29 +1858,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2184,6 +2224,18 @@
     }
   },
   {
+    "fuelTanks": {
+      "r1": {
+        "part": "fuel_tank_exterior_r_02_dm",
+        "external": true
+      },
+      "l1": {
+        "part": "fuel_tank_exterior_l_02_dm",
+        "external": true
+      }
+    }
+  },
+  {
     "xray_viewer_data": [
       {
         "armorArrayHullTop": {
@@ -2347,6 +2399,11 @@
               "layer": {
                 "dmPart": "composite_armor_turret_05_dm"
               }
+            },
+            {
+              "layer": {
+                "dmPart": "turret_12_side_dm"
+              }
             }
           ]
         }
@@ -2386,6 +2443,11 @@
             {
               "layer": {
                 "dmPart": "composite_armor_turret_08_dm"
+              }
+            },
+            {
+              "layer": {
+                "dmPart": "turret_09_side_dm"
               }
             }
           ]
@@ -2495,7 +2557,7 @@
           "barrelDP": "gun_barrel_dm",
           "breechDP": "cannon_breech_dm",
           "speedYaw": 40.0,
-          "speedPitch": 40.0,
+          "speedPitch": 20.0,
           "fireConeAngle": 1.0,
           "bullets": 42,
           "salvoAmount": 100.0,
@@ -2541,7 +2603,6 @@
             "verticalOmegaMult": 1.0,
             "verticalSpeedLimitKPH": 75.0,
             "speedFromVehicleVerticalMult": -1.0,
-            "speedPitch": 20.0,
             "errorKPHToDegrees": [
               {
                 "row": [5.0,0.0]
@@ -2728,9 +2789,7 @@
         "animationMultiplier": 0.68,
         "width": 0.55,
         "height": 0.1,
-        "fricFrontal": [1.2,1.0],
-        "criticalHillAngle": 27.0,
-        "hillClimbingDeclineFricKoef": 15.0
+        "fricFrontal": [1.2,1.0]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -3399,7 +3458,7 @@
                 "barrelDP": "gun_barrel_dm",
                 "breechDP": "cannon_breech_dm",
                 "speedYaw": 40.0,
-                "speedPitch": 40.0,
+                "speedPitch": 20.0,
                 "fireConeAngle": 1.0,
                 "bullets": 42,
                 "salvoAmount": 100.0,
@@ -3445,7 +3504,6 @@
                   "verticalOmegaMult": 1.0,
                   "verticalSpeedLimitKPH": 75.0,
                   "speedFromVehicleVerticalMult": -1.0,
-                  "speedPitch": 20.0,
                   "errorKPHToDegrees": [
                     {
                       "row": [5.0,0.0]
@@ -3728,6 +3786,50 @@
       "replace_tex": {
         "from": "se_camo_green*",
         "to": "fr_camo_winter_green_white*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_red",
+      "nameLocId": "skin/tank_biathlon_red",
+      "descLocId": "skin/tank_biathlon_red/desc",
+      "replace_tex": {
+        "from": "se_camo_green*",
+        "to": "ussr_camo_biathlon_red*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_green",
+      "nameLocId": "skin/tank_biathlon_green",
+      "descLocId": "skin/tank_biathlon_green/desc",
+      "replace_tex": {
+        "from": "se_camo_green*",
+        "to": "ussr_camo_biathlon_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_blue",
+      "nameLocId": "skin/tank_biathlon_blue",
+      "descLocId": "skin/tank_biathlon_blue/desc",
+      "replace_tex": {
+        "from": "se_camo_green*",
+        "to": "ussr_camo_biathlon_blue*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_yellow",
+      "nameLocId": "skin/tank_biathlon_yellow",
+      "descLocId": "skin/tank_biathlon_yellow/desc",
+      "replace_tex": {
+        "from": "se_camo_green*",
+        "to": "ussr_camo_biathlon_yellow*"
       }
     }
   },

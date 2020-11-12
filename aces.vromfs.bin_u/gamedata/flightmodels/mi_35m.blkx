@@ -1844,6 +1844,9 @@
         },
         {
           "node": "lipa"
+        },
+        {
+          "node": "lipa_off"
         }
       ]
     },
@@ -1852,7 +1855,7 @@
         "dummy": true,
         "trigger": "gunner0",
         "triggerGroup": "primary",
-        "blk": "gameData/Weapons/cannonGSh_23L.blk",
+        "blk": "gameData/Weapons/dummy_weapon.blk",
         "emitter": "optic1_gun",
         "parkInDeadzone": false,
         "defaultYaw": 0.0,
@@ -1867,8 +1870,8 @@
           "mainTurret": true
         },
         "limits": {
-          "yaw": [-60.0,60.0],
-          "pitch": [-40.0,10.0]
+          "yaw": [-180.0,180.0],
+          "pitch": [-80.0,30.0]
         },
         "gunStabilizer": {
           "hasVerticalGunFreeMode": false,
@@ -2185,10 +2188,10 @@
             {
               "Weapon": {
                 "blk": "gameData/Weapons/rocketGuns/su_9M120.blk",
-                "amountPerTier": 8.0,
                 "tier": {
                   "idx": 4,
-                  "iconType": "atgm_type1_x8"
+                  "amountPerTier": 8.0,
+                  "iconType": "atgm_type1_x8_late"
                 }
               }
             },
@@ -2340,10 +2343,10 @@
           {
             "Weapon": {
               "blk": "gameData/Weapons/rocketGuns/su_9M120.blk",
-              "amountPerTier": 8.0,
               "tier": {
                 "idx": 4,
-                "iconType": "atgm_type1_x8"
+                "amountPerTier": 8.0,
+                "iconType": "atgm_type1_x8_late"
               }
             }
           },
@@ -2632,10 +2635,10 @@
             {
               "Weapon": {
                 "blk": "gameData/Weapons/rocketGuns/su_9M120.blk",
-                "amountPerTier": 8.0,
                 "tier": {
                   "idx": 4,
-                  "iconType": "atgm_type1_x8"
+                  "amountPerTier": 8.0,
+                  "iconType": "atgm_type1_x8_late"
                 }
               }
             },
@@ -2870,10 +2873,10 @@
             {
               "Weapon": {
                 "blk": "gameData/Weapons/rocketGuns/su_9M120.blk",
-                "amountPerTier": 8.0,
                 "tier": {
                   "idx": 4,
-                  "iconType": "atgm_type1_x8"
+                  "amountPerTier": 8.0,
+                  "iconType": "atgm_type1_x8_late"
                 }
               }
             },
@@ -5389,6 +5392,9 @@
               },
               {
                 "node": "lipa"
+              },
+              {
+                "node": "lipa_off"
               }
             ]
           },
@@ -5397,7 +5403,7 @@
               "dummy": true,
               "trigger": "gunner0",
               "triggerGroup": "primary",
-              "blk": "gameData/Weapons/cannonGSh_23L.blk",
+              "blk": "gameData/Weapons/dummy_weapon.blk",
               "emitter": "optic1_gun",
               "parkInDeadzone": false,
               "defaultYaw": 0.0,
@@ -5412,8 +5418,8 @@
                 "mainTurret": true
               },
               "limits": {
-                "yaw": [-60.0,60.0],
-                "pitch": [-40.0,10.0]
+                "yaw": [-180.0,180.0],
+                "pitch": [-80.0,30.0]
               },
               "gunStabilizer": {
                 "hasVerticalGunFreeMode": false,
@@ -5477,16 +5483,21 @@
       "effects": {
         "commonWeapons": [
           {
-            "hideNodes": {
-              "node": "lipa"
-            }
+            "hideNodes": [
+              {
+                "node": "lipa"
+              },
+              {
+                "node": "lipa_off"
+              }
+            ]
           },
           {
             "Weapon": {
               "dummy": true,
               "trigger": "gunner0",
               "triggerGroup": "primary",
-              "blk": "gameData/Weapons/cannonGSh_23L.blk",
+              "blk": "gameData/Weapons/dummy_weapon.blk",
               "emitter": "optic1_gun",
               "parkInDeadzone": false,
               "defaultYaw": 0.0,
@@ -5501,8 +5512,8 @@
                 "mainTurret": true
               },
               "limits": {
-                "yaw": [-60.0,60.0],
-                "pitch": [-40.0,10.0]
+                "yaw": [-180.0,180.0],
+                "pitch": [-80.0,30.0]
               },
               "gunStabilizer": {
                 "hasVerticalGunFreeMode": false,
@@ -5593,11 +5604,16 @@
         },
         "commonWeapons": [
           {
+            "hideNodes": {
+              "node": "lipa_off"
+            }
+          },
+          {
             "Weapon": {
               "dummy": true,
               "trigger": "gunner0",
               "triggerGroup": "primary",
-              "blk": "gameData/Weapons/cannonGSh_23L.blk",
+              "blk": "gameData/Weapons/dummy_weapon.blk",
               "emitter": "optic1_gun",
               "parkInDeadzone": false,
               "defaultYaw": 0.0,
@@ -5612,8 +5628,8 @@
                 "mainTurret": true
               },
               "limits": {
-                "yaw": [-60.0,60.0],
-                "pitch": [-40.0,10.0]
+                "yaw": [-180.0,180.0],
+                "pitch": [-80.0,30.0]
               },
               "gunStabilizer": {
                 "hasVerticalGunFreeMode": false,

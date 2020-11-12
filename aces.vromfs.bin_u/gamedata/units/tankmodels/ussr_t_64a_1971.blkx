@@ -217,9 +217,10 @@
         },
         "turret_02_side_dm": {
           "armorThickness": 75.0,
-          "genericArmorQuality": 0.9,
-          "cumulativeArmorQuality": 1.0,
-          "secondaryShatterArmorQuality": 0.0
+          "genericArmorQuality": 0.65,
+          "cumulativeArmorQuality": 0.75,
+          "secondaryShatterArmorQuality": 0.0,
+          "ArmorQuality": 1.0
         }
       },
       "turret": {
@@ -227,7 +228,7 @@
         "turret_03_front_dm": {
           "armorThickness": 330.0,
           "variableThickness": true,
-          "solidArmorTestDepth": 900.0
+          "solidArmorTestDepth": 500.0
         },
         "turret_01_front_dm": {
           "armorThickness": 40.0
@@ -828,6 +829,27 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1062,6 +1084,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -1526,29 +1563,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2745,15 +2782,15 @@
         "image": "#ui/gameuiskin#tank_reinforcement_ussr"
       },
       "tank_engine_smoke_screen_system": [],
-      "125mm_ussr_3BM15_APDS_FS_ammo_pack": [],
-      "125mm_ussr_3BM12_APDS_FS_ammo_pack": [],
-      "125mm_ussr_3BK12_HEAT_FS_ammo_pack": [],
-      "125mm_ussr_3OF26_HE_ammo_pack": [],
-      "125mm_ussr_3BM15_APDS_FS": [],
-      "125mm_ussr_3BM12_APDS_FS": [],
-      "125mm_ussr_3BK12_HEAT_FS": [],
       "125mm_ussr_HE": [],
       "125mm_ussr_3OF26_HE": [],
+      "125mm_ussr_APDS_FS": [],
+      "125mm_ussr_3BM12_APDS_FS": [],
+      "125mm_ussr_3BM15_APDS_FS": [],
+      "125mm_ussr_3OF26_HE_ammo_pack": [],
+      "125mm_ussr_APDS_FS_ammo_pack": [],
+      "125mm_ussr_3BM12_APDS_FS_ammo_pack": [],
+      "125mm_ussr_3BM15_APDS_FS_ammo_pack": [],
       "night_vision_system": {
         "tier": 3,
         "effects": {

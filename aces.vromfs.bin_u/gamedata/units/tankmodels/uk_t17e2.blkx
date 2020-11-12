@@ -1220,7 +1220,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "fire"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1229,7 +1229,16 @@
             "expl": 1.0,
             "conditionDamage": 100.0,
             "kill": true,
-            "killEffect": "fire"
+            "killEffect": "hullBreak"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 700.0,
+            "kill": true,
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1237,7 +1246,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "fire"
+            "killEffect": "hullBreak"
           }
         }
       ],
@@ -1307,7 +1316,7 @@
             "expl": 1.0,
             "conditionDamage": 250.0,
             "kill": true,
-            "killEffect": "fire"
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1316,7 +1325,16 @@
             "expl": 1.0,
             "conditionDamage": 100.0,
             "kill": true,
-            "killEffect": "fire"
+            "killEffect": "hullBreak"
+          }
+        },
+        {
+          "effect": {
+            "conditionDamageType": "generic",
+            "expl": 1.0,
+            "conditionDamage": 700.0,
+            "kill": true,
+            "killEffect": "hullBreak"
           }
         },
         {
@@ -1324,7 +1342,7 @@
             "expl": 1.0,
             "conditionDead": true,
             "kill": true,
-            "killEffect": "fire"
+            "killEffect": "hullBreak"
           }
         }
       ]
@@ -1332,7 +1350,7 @@
   },
   {
     "sound": {
-      "EngineName": "engine_m1",
+      "EngineName": "engine_su76",
       "TrackSoundPath": "tanks/engines_tanks",
       "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks_wheels",
@@ -1543,7 +1561,9 @@
         "steeringDeflection": {
           "wheel_l_01": 20.0,
           "wheel_r_01": 20.0,
-          "steeringTau": 1.0
+          "steeringTau": 1000000.0,
+          "steeringSpd": 1.0,
+          "steeringNeutralSpd": 3.0
         },
         "wheelsWidth": {
           "wheel_l_01": 0.4,

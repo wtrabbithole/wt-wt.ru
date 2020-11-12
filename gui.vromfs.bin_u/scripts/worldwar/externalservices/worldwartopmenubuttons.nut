@@ -1,4 +1,6 @@
-local topMenuButtons = require("scripts/mainmenu/topMenuButtons.nut")
+local { addButtonConfig } = require("scripts/mainmenu/topMenuButtonsConfigs.nut")
+local { getOperationById, getMapByName
+} = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
 
 local template = {
   category = -1
@@ -14,23 +16,17 @@ local list = {
     onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues()
     elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
   }
-  WW_GLOBAL_BATTLES = {
-    text = "#worldWar/btn_all_battles"
-    onClickFunc = @(obj, handler) ::g_world_war.openOperationsOrQueues(true)
-    tooltip = @() ::loc("worldWar/btn_all_battles_full_text")
-    elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
-  }
   WW_OPERATIONS = {
     text = "#worldWar/menu/selectOperation"
     onClickFunc = function(obj, handler)
     {
-      local curOperation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+      local curOperation = getOperationById(::ww_get_operation_id())
       if (!curOperation)
         return ::g_world_war.openOperationsOrQueues()
 
-      ::g_world_war.openOperationsOrQueues(false,
-        ::g_ww_global_status.getMapByName(curOperation.data.map))
+      ::g_world_war.openOperationsOrQueues(false, getMapByName(curOperation.data.map))
     }
+    isHidden = @(...) !::has_feature("WWOperationsList")
     elementType = TOP_MENU_ELEMENT_TYPE.BUTTON
   }
   WW_HANGAR = {
@@ -74,6 +70,4 @@ local list = {
   }
 }
 
-list.each(@(buttonCfg, name) topMenuButtons.addButtonConfig(template.__merge(buttonCfg), name))
-
-return topMenuButtons
+list.each(@(buttonCfg, name) addButtonConfig(template.__merge(buttonCfg), name))

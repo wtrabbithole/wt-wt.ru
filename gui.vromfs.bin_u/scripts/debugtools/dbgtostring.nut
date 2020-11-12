@@ -1,3 +1,5 @@
+// warning disable: -file:forbidden-function
+
 ::dlog <- function dlog(...)
 {
   for (local i = 0; i < vargv.len(); i++)
@@ -10,7 +12,7 @@
 ::clog <- function clog(...)
 {
   foreach (arg in vargv)
-    ::dagor.console_print(::toString(arg))
+    ::dagor.console_print(::type(arg) == "string" ? arg : ::toString(arg))
 }
 
 ::can_be_readed_as_datablock <- function can_be_readed_as_datablock(blk) //can be overrided by dataBlockAdapter
@@ -164,12 +166,13 @@ local DEBUG_TABLE_DATA_PARAMS = {
   {
     if (::can_be_readed_as_datablock(val))
     {
+      local rootBlockName = val.getBlockName() ?? ""
       local iv = []
       for (local i = 0; i < val.paramCount(); i++)
         iv.append("" + val.getParamName(i) + " = " + ::toString(val.getParamValue(i)))
       for (local i = 0; i < val.blockCount(); i++)
         iv.append("" + val.getBlock(i).getBlockName() + " = " + ::toString(val.getBlock(i)))
-      return format("DataBlock { %s }", ::g_string.implode(iv, ", "))
+      return format("DataBlock %s{ %s }", rootBlockName, ::g_string.implode(iv, ", "))
     }
     else if (u.isPoint2(val))
       return format("Point2(%s, %s)", val.x.tostring(), val.y.tostring())

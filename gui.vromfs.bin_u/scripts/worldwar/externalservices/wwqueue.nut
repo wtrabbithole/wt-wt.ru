@@ -1,3 +1,7 @@
+local { getMyClanOperation, isMyClanInQueue
+} = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
+local { actionWithGlobalStatusRequest } = require("scripts/worldWar/operations/model/wwGlobalStatus.nut")
+
 class WwQueue
 {
   map = null
@@ -15,7 +19,7 @@ class WwQueue
 
   function isMapActive()
   {
-    return map.isActive()
+    return map.isActive() || map.getOpGroup().hasActiveOperations()
   }
 
   function getArmyGroupsByCountry(country, defValue = null)
@@ -100,7 +104,7 @@ class WwQueue
     }
     local clansInQueueNumber = clansInQueue.len()
     return !clansInQueueNumber ? "" :
-      ::loc("worldwar/сlansInQueueTotal", {number = clansInQueueNumber})
+      ::loc("worldwar/clansInQueueTotal", {number = clansInQueueNumber})
   }
 
   function getArmyGroupsAmountTotal()
@@ -122,7 +126,7 @@ class WwQueue
 
   function getGeoCoordsText()
   {
-    return ""
+    return  map.getGeoCoordsText()
   }
 
   function getCountriesByTeams()
@@ -154,9 +158,9 @@ class WwQueue
       hasRestrictClanRegister = false
     }
 
-    if (::g_ww_global_status.getMyClanOperation())
+    if (getMyClanOperation())
       res.reasonText = ::loc("worldwar/squadronAlreadyInOperation")
-    else if (::g_ww_global_status.isMyClanInQueue())
+    else if (isMyClanInQueue())
       res.reasonText = ::loc("worldwar/mapStatus/yourClanInQueue")
     else if (!::g_clans.hasRightsToQueueWWar())
       res.reasonText = ::loc("worldWar/onlyLeaderCanQueue")
@@ -197,7 +201,7 @@ class WwQueue
     local requestBlk = ::DataBlock()
     requestBlk.mapName = map.name
     requestBlk.country = country
-    ::g_ww_global_status.actionRequest("cln_clan_register_ww_army_group", requestBlk, { showProgressBox = true })
+    actionWithGlobalStatusRequest("cln_clan_register_ww_army_group", requestBlk, { showProgressBox = true })
   }
 
   function getCantLeaveQueueReasonData()
@@ -234,7 +238,7 @@ class WwQueue
   {
     local requestBlk = ::DataBlock()
     requestBlk.mapName = map.name
-    ::g_ww_global_status.actionRequest("cln_clan_unregister_ww_army_group", requestBlk, { showProgressBox = true })
+    actionWithGlobalStatusRequest("cln_clan_unregister_ww_army_group", requestBlk, { showProgressBox = true })
   }
 
   function getMapChangeStateTimeText()
@@ -251,4 +255,6 @@ class WwQueue
   {
     return map.getClansConditionText()
   }
+
+  getId = @() map.getId()
 }

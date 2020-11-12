@@ -1,5 +1,6 @@
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { getPlayerName } = require("scripts/clientState/platform.nut")
 
 /*
 SessionLobby API
@@ -989,7 +990,10 @@ SessionLobby.resetParams <- function resetParams()
   needJoinSessionAfterMyInfoApply = false
   isLeavingLobbySession = false
   playersInfo.clear()
-  overrideSlotbar = null
+  if (overrideSlotbar != null) {
+    overrideSlotbar = null
+    ::broadcastEvent("OverrideSlotbarChanged")
+  }
   overrrideSlotbarMissionName = ""
   ::g_user_presence.setPresence({in_game_ex = null})
 }
@@ -2181,10 +2185,10 @@ SessionLobby.getRoomsInfoTbl <- function getRoomsInfoTbl(roomsList)
   local res = []
   foreach(room in roomsList)
   {
-    local public = ::getTblValue("public", room)
-    local misData = ("mission" in public)? room.public.mission : {}
+    local public = room?.public
+    local misData = public?.mission ?? {}
     local item = {
-      hasPassword = ::getTblValue("hasPassword", public, false)
+      hasPassword = public?.hasPassword ?? false
       numPlayers = getRoomMembersCnt(room)
       numPlayersTotal = getRoomSize(room)
     }
@@ -2200,9 +2204,9 @@ SessionLobby.getRoomsInfoTbl <- function getRoomsInfoTbl(roomsList)
     else
       item.mission <- getMissionNameLoc(public)
     if ("creator" in public)
-      item.name <- ::getTblValue("creator", public, "") || ""
+      item.name <- getPlayerName(public?.creator ?? "")
     if ("difficulty" in misData)
-      item.difficultyStr <- ::loc("options/" + misData.difficulty)
+      item.difficultyStr <- ::loc($"options/{misData.difficulty}")
     res.append(item)
   }
   return res

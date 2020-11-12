@@ -5,6 +5,7 @@ local wwActionsWithUnitsList = require("scripts/worldWar/inOperation/wwActionsWi
 local wwOperationUnitsGroups = require("scripts/worldWar/inOperation/wwOperationUnitsGroups.nut")
 local slotbarPresets = require("scripts/slotbar/slotbarPresetsByVehiclesGroups.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { getOperationById } = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
 
 const WW_BATTLES_SORT_TIME_STEP = 120
 const WW_MAX_PLAYERS_DISBALANCE_DEFAULT = 3
@@ -177,9 +178,17 @@ class ::WwBattle
     return !team || team.players == team.maxPlayers
   }
 
-  function getLocName()
+  function getLocName(side = null)
   {
-    return localizeConfig ? ::get_locId_name(localizeConfig, "locName") : id
+    side = side ?? getSide(::get_profile_country_sq())
+    local teamName = getTeamNameBySide(side)
+    if (localizeConfig == null)
+      return id
+
+    local locId = ((localizeConfig?[$"locNameTeam{teamName}"].len() ?? 0) > 0)
+      ? $"locNameTeam{teamName}"
+      : "locName"
+    return ::get_locId_name(localizeConfig, locId)
   }
 
   function getOrdinalNumber()
@@ -197,9 +206,9 @@ class ::WwBattle
     return !::u.isEmpty(missionName) ? missionName : ""
   }
 
-  function getView()
+  function getView(customPlayerSide = null)
   {
-    return ::WwBattleView(this)
+    return ::WwBattleView(this, customPlayerSide)
   }
 
   function getSessionId()
@@ -211,7 +220,11 @@ class ::WwBattle
   {
     localizeConfig = {
       locName = descBlk?.locName ?? ""
+      locNameTeamA = descBlk?.locNameTeamA ?? ""
+      locNameTeamB = descBlk?.locNameTeamB ?? ""
       locDesc = descBlk?.locDesc ?? ""
+      locDescTeamA = descBlk?.locDescTeamA ?? ""
+      locDescTeamB = descBlk?.locDescTeamB ?? ""
     }
   }
 
@@ -817,7 +830,7 @@ class ::WwBattle
       side = ::ww_get_player_side()
 
     local team = getTeamBySide(side)
-    return ::g_string.cutPrefix(team.name, "team")
+    return team ? ::g_string.cutPrefix(team.name, "team") : ""
   }
 
   function getTeamBySide(side)
@@ -1029,7 +1042,7 @@ class ::WwBattle
 
   function getMyAssignCountry()
   {
-    local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    local operation = getOperationById(::ww_get_operation_id())
     return operation ? operation.getMyAssignCountry() : null
   }
 

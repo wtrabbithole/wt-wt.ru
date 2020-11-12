@@ -5,6 +5,9 @@ local { setCurPreset } = require("scripts/slotbar/slotbarPresetsByVehiclesGroups
 local WwHelpSlotbarGroupsModal = require("scripts/worldWar/handler/WwHelpSlotbarGroupsModal.nut")
 local { getBestPresetData, generatePreset } = require("scripts/slotbar/generatePreset.nut")
 local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
+local { getCustomViewCountryData } = require("scripts/worldWar/inOperation/wwOperationCustomAppearance.nut")
+local { getOperationById, getMapByName
+} = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
 
 // Temporary image. Has to be changed after receiving correct art
 const WW_OPERATION_DEFAULT_BG_IMAGE = "#ui/bkg/login_layer_h1_0"
@@ -34,7 +37,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   sceneTplTeamRight = "gui/worldWar/wwBattleDescriptionTeamUnitsInfo"
   sceneTplTeamHeaderInfo = "gui/worldWar/wwBattleDescriptionTeamInfo"
 
-  slotbarActions = [ "autorefill", "aircraft", "weapons", "crew", "info", "repair" ]
+  slotbarActions = [ "autorefill", "aircraft", "sec_weapons", "weapons", "crew", "info", "repair" ]
   shouldCheckCrewsReady = true
   hasSquadsInviteButton = true
   hasBattleFilter = false
@@ -185,7 +188,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function reinitBattlesList(isForceUpdate = false)
   {
     if (!wwQueuesData.isDataValid())
-      return requestQueuesData()
+      requestQueuesData()
 
     local currentBattleListMap = createBattleListMap()
     local needRefillBattleList = isForceUpdate || hasChangedInBattleListMap(currentBattleListMap)
@@ -268,7 +271,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       battleDurationTimer.destroy()
 
     battleDurationTimer = ::Timer(scene, 1,
-      @() updateBattleStatus(operationBattle.getView()), this, true)
+      @() updateBattleStatus(operationBattle.getView(getPlayerSide())), this, true)
   }
 
   function updateNoAvailableBattleInfo()
@@ -347,11 +350,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     for(local i = 0; i < total; i++)
       updateBattleInList(i, curBattleListItems?[i], newList?[i])
 
-    local showEmptyBattlesListInfo = !curBattleListMap.len()
-    showSceneBtn("no_active_battles_text", showEmptyBattlesListInfo)
-    showSceneBtn("active_country_info", showEmptyBattlesListInfo)
-    if (showEmptyBattlesListInfo)
-      createActiveCountriesInfo()
+    showSceneBtn("no_active_battles_text", curBattleListMap.len() == 0)
 
     guiScene.setUpdatesEnabled(true, true)
     if (!needUpdatePrefixWidth || view.items.len() <= 0)
@@ -382,7 +381,8 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function createBattleListItemView(battleData)
   {
-    local battleView = battleData.getView()
+    local playerSide = getPlayerSide(battleData)
+    local battleView = battleData.getView(playerSide)
     local view = {
       id = battleData.id.tostring()
       itemPrefixText = getSelectedBattlePrefixText(battleData)
@@ -393,12 +393,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     if (battleData.isActive() || battleData.isFinished())
-      view.itemText <- battleData.getLocName()
+      view.itemText <- battleData.getLocName(playerSide)
     else
     {
       local battleSides = ::g_world_war.getSidesOrder(curBattleInList)
       local teamsData = battleView.getTeamBlockByIconSize(
-        getPlayerSide(), battleSides, WW_ARMY_GROUP_ICON_SIZE.SMALL, false,
+        battleSides, WW_ARMY_GROUP_ICON_SIZE.SMALL, false,
         {hasArmyInfo = false, hasVersusText = true, canAlignRight = false})
       local teamsMarkUp = ""
       foreach(idx, army in teamsData)
@@ -421,7 +421,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
   function updateSlotbar()
   {
     local side = getPlayerSide()
-    local availableCountries = ::g_ww_global_status.getOperationById(::ww_get_operation_id())?.getCountriesByTeams()[side]
+    local availableCountries = getOperationById(::ww_get_operation_id())?.getCountriesByTeams()[side]
     local isSlotbarVisible = (availableCountries?.len() ?? 0) > 0
     showSceneBtn("nav-slotbar", isSlotbarVisible)
     if (!isSlotbarVisible)
@@ -442,10 +442,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     createSlotbar(
       {
-        customCountry = assignCountry
+        singleCountry = assignCountry
+        customViewCountryData = {[assignCountry]  = getCustomViewCountryData(assignCountry, map.getId(), true)}
         availableUnits = availableUnits
         customUnitsList = hasSlotbarByUnitsGroups ? null : operationUnits
-      }.__update(getSlotbarParams())
+      }.__update(getSlotbarParams()),
+      "nav-slotbar"
     )
   }
 
@@ -455,7 +457,10 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
       showEmptySlot = true
       needPresetsPanel = !hasSlotbarByUnitsGroups
       shouldCheckCrewsReady = true
+      hasExtraInfoBlock = true
+      showNewSlot = true
       customUnitsListName = getCustomUnitsListNameText()
+      shouldAppendToObject = false
     }
   }
 
@@ -465,12 +470,12 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function getGameModeNameText()
   {
-    return operationBattle.getView().getFullBattleName()
+    return operationBattle.getView(getPlayerSide()).getFullBattleName()
   }
 
   function getMap()
   {
-    local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    local operation = getOperationById(::ww_get_operation_id())
     if (operation == null)
       return null
 
@@ -483,7 +488,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function getCustomUnitsListNameText()
   {
-    local operation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    local operation = getOperationById(::ww_get_operation_id())
     if (operation)
       return operation.getMapText()
 
@@ -498,7 +503,7 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
     local isOperationBattleLoaded = curBattleInList.id == operationBattle.id
     local battle = isOperationBattleLoaded ? operationBattle : curBattleInList
-    local battleView = battle.getView()
+    local battleView = battle.getView(getPlayerSide())
     local blk = ::handyman.renderCached(sceneTplDescriptionName, battleView)
 
     guiScene.replaceContentFromText(descrObj, blk, blk.len(), this)
@@ -520,21 +525,20 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local battleSides = ::g_world_war.getSidesOrder(curBattleInList)
-    foreach(idx, side in battleSides)
+    local teamsData = battleView.getTeamsDataBySides(battleSides)
+    foreach(idx, teamData in teamsData)
     {
-      local teamObjHeaderInfo = scene.findObject("team_header_info_" + idx)
+      local teamObjHeaderInfo = scene.findObject($"team_header_info_{idx}")
       if (::check_obj(teamObjHeaderInfo))
       {
-        local teamHeaderInfoBlk = ::handyman.renderCached(sceneTplTeamHeaderInfo,
-          battleView.getTeamDataBySide(side, battleSides))
+        local teamHeaderInfoBlk = ::handyman.renderCached(sceneTplTeamHeaderInfo, teamData)
         guiScene.replaceContentFromText(teamObjHeaderInfo, teamHeaderInfoBlk, teamHeaderInfoBlk.len(), this)
       }
 
-      local teamObjPlace = scene.findObject("team_unit_info_" + idx)
+      local teamObjPlace = scene.findObject($"team_unit_info_{idx}")
       if (::check_obj(teamObjPlace))
       {
-        local teamBlk = ::handyman.renderCached(sceneTplTeamRight,
-          battleView.getTeamDataBySide(side, battleSides))
+        local teamBlk = ::handyman.renderCached(sceneTplTeamRight, teamData)
         guiScene.replaceContentFromText(teamObjPlace, teamBlk, teamBlk.len(), this)
       }
     }
@@ -554,11 +558,11 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function getOperationBackground()
   {
-    local curOperation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    local curOperation = getOperationById(::ww_get_operation_id())
     if (!curOperation)
       return WW_OPERATION_DEFAULT_BG_IMAGE
 
-    local curMap = ::g_ww_global_status.getMapByName(curOperation.getMapId())
+    local curMap = getMapByName(curOperation.getMapId())
     if (!curMap)
       return WW_OPERATION_DEFAULT_BG_IMAGE
 
@@ -807,17 +811,16 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
 
   function updateBattleStatus(battleView)
   {
-    local side = getPlayerSide()
     local statusObj = scene.findObject("battle_status_text")
     if (::check_obj(statusObj))
-      statusObj.setValue(battleView.getBattleStatusWithCanJoinText(side))
+      statusObj.setValue(battleView.getBattleStatusWithCanJoinText())
 
     local needShowWinChance = battleView.needShowWinChance()
     local winCahnceObj = showSceneBtn("win_chance", needShowWinChance)
     if (needShowWinChance && winCahnceObj)
     {
       local winCahnceTextObj = winCahnceObj.findObject("win_chance_text")
-      local percent = battleView.getAutoBattleWinChancePercentText(side)
+      local percent = battleView.getAutoBattleWinChancePercentText()
       if (::check_obj(winCahnceTextObj) && percent != "")
         winCahnceTextObj.setValue(percent)
       else
@@ -855,9 +858,9 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     }
 
     local playersInfoText = battleView.hasTeamsInfo()
-      ? battleView.getTotalPlayersInfoText(getPlayerSide())
+      ? battleView.getTotalPlayersInfoText()
       : battleView.hasQueueInfo()
-        ? battleView.getTotalQueuePlayersInfoText(getPlayerSide())
+        ? battleView.getTotalQueuePlayersInfoText()
         : ""
 
     local hasInfo = !::u.isEmpty(playersInfoText)
@@ -1230,10 +1233,6 @@ class ::gui_handlers.WwBattleDescription extends ::gui_handlers.BaseGuiHandlerWT
     local battles = ::g_world_war.getBattles(::g_world_war.isBattleAvailableToPlay)
     battles.sort(battlesSort)
     return battles
-  }
-
-  function createActiveCountriesInfo()
-  {
   }
 
   function getQueueBattle(queue)

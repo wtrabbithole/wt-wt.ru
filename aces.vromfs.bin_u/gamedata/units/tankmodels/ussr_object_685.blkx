@@ -345,8 +345,8 @@
           "armorClass": "tank_traks",
           "armorThickness": 15.0,
           "hp": 150.0,
-          "ex_armor_02_dm": [],
-          "ex_armor_01_dm": []
+          "ex_armor_l_05_dm": [],
+          "ex_armor_r_05_dm": []
         }
       },
       "gun": {
@@ -1685,6 +1685,7 @@
           "openHatchTime": 1.3,
           "sleevesLifeTime": 10.0,
           "sleeveImpulse": [5.0,0.0,0.0],
+          "recoilMultiplier": 0.5,
           "defaultYaw": 0.0,
           "defaultPitch": 0.0,
           "barrelDP": "gun_barrel_dm",
@@ -2007,22 +2008,22 @@
       },
       "floats": [
         {
-          "volume": [3.0,1.0,1.3,0.755]
+          "volume": [3.0,1.0,1.3,0.8]
         },
         {
-          "volume": [3.0,1.0,-1.3,0.755]
+          "volume": [3.0,1.0,-1.3,0.8]
         },
         {
-          "volume": [1.3,1.0,1.0,0.73]
+          "volume": [1.3,1.0,1.0,0.77]
         },
         {
-          "volume": [1.3,1.0,-1.0,0.73]
+          "volume": [1.3,1.0,-1.0,0.77]
         },
         {
-          "volume": [0.0,1.0,1.0,0.715]
+          "volume": [0.0,1.0,1.0,0.77]
         },
         {
-          "volume": [0.0,1.0,-1.0,0.715]
+          "volume": [0.0,1.0,-1.0,0.77]
         },
         {
           "volume": [-1.3,1.0,1.0,0.715]
@@ -2031,10 +2032,10 @@
           "volume": [-1.3,1.0,-1.0,0.715]
         },
         {
-          "volume": [-3.2,1.0,1.3,0.74]
+          "volume": [-3.2,1.0,1.3,0.8]
         },
         {
-          "volume": [-3.2,1.0,-1.3,0.74]
+          "volume": [-3.2,1.0,-1.3,0.8]
         },
         {
           "waterJet": {
@@ -2718,6 +2719,7 @@
                 "openHatchTime": 1.3,
                 "sleevesLifeTime": 10.0,
                 "sleeveImpulse": [5.0,0.0,0.0],
+                "recoilMultiplier": 0.5,
                 "defaultYaw": 0.0,
                 "defaultPitch": 0.0,
                 "barrelDP": "gun_barrel_dm",

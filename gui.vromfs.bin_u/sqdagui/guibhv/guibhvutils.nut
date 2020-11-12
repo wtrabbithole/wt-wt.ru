@@ -1,4 +1,4 @@
-::getNearestSelectableChildIndex <- function getNearestSelectableChildIndex(listObj, curIndex, way)
+local function getNearestSelectableChildIndex(listObj, curIndex, way)
 {
   if (!check_obj(listObj))
     return curIndex
@@ -17,7 +17,7 @@
   return curIndex
 }
 
-::is_obj_have_active_childs <- function is_obj_have_active_childs(obj)
+local function isObjHaveActiveChilds(obj)
 {
   for(local i = 0; i < obj.childrenCount(); i++)
   {
@@ -28,8 +28,7 @@
   return false
 }
 
-if (!("play_gui_sound" in getroottable())) //!!FIX ME: remove this function and use direct guiScene sound when it appear on all platforms
-  ::play_gui_sound <- function(soundName)
-  {
-    ::get_gui_scene().playSound(soundName)
-  }
+return {
+  isObjHaveActiveChilds = isObjHaveActiveChilds
+  getNearestSelectableChildIndex = getNearestSelectableChildIndex
+}

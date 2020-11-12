@@ -336,8 +336,8 @@
       },
       "gun": {
         "armorClass": "tank_barrel",
-        "hp": 100.0,
-        "armorThickness": 10.0,
+        "hp": 200.0,
+        "armorThickness": 20.0,
         "gun_barrel_dm": [],
         "gun_barrel_02_dm": {
           "armorThrough": 10.0,
@@ -861,6 +861,21 @@
             "name": "ammo_body_50_dm"
           },
           {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -1323,29 +1338,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -1907,9 +1922,7 @@
       "tracks": {
         "animationMultiplier": -0.68,
         "height": 0.02,
-        "width": 0.25,
-        "criticalHillAngle": 25.0,
-        "hillClimbingDeclineFricKoef": 15.0
+        "width": 0.25
       },
       "collisionProps": {
         "cls_turret": "convex_hull",

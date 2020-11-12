@@ -2366,7 +2366,7 @@
         "clock_min": [0.0,60.0],
         "clock_sec": [0.0,60.0],
         "manifold_pressure": [0.3453,1.727],
-        "rpm_hour": [0.0,10000.0],
+        "rpm_hour": [0.0,3500.0],
         "rpm_min": [0.0,1000.0],
         "oil_temperature": [0.0,100.0],
         "water_temperature": [0.0,140.0],
@@ -2590,14 +2590,14 @@
         "preset": {
           "name": "sb2c_1c_2x500lbs",
           "blk": "gameData/FlightModels/weaponPresets/sb2c_1c_2x500lbs.blk",
-          "reqModification": "btd_sbc"
+          "reqModification": "btd_mbc"
         }
       },
       {
         "preset": {
           "name": "sb2c_1c_4x500lbs",
           "blk": "gameData/FlightModels/weaponPresets/sb2c_1c_4x500lbs.blk",
-          "reqModification": "btd_sbc"
+          "reqModification": "btd_mbc"
         }
       },
       {
@@ -2608,20 +2608,25 @@
         }
       },
       {
-        "preset": [
-          {
-            "name": "sb2c_1c_1x1000_2x500lbs"
-          },
-          {
-            "blk": "gameData/FlightModels/weaponPresets/sb2c_1c_1x1000_2x500lbs.blk"
-          },
-          {
-            "reqModification": "btd_sbc"
-          },
-          {
-            "reqModification": "btd_mbc"
+        "preset": {
+          "name": "sb2c_1c_1x_mine_mk13_mod0",
+          "blk": "gameData/FlightModels/weaponPresets/sb2c_1c_1x_mine_mk13_mod0.blk",
+          "reqModification": "us_mine_mk13_mod0",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/mines/us_mine_mk13_mod0.blk",
+              "amountPerTier": 1.0,
+              "iconType": "air_mines"
+            }
           }
-        ]
+        }
+      },
+      {
+        "preset": {
+          "name": "sb2c_1c_1x1000_2x500lbs",
+          "blk": "gameData/FlightModels/weaponPresets/sb2c_1c_1x1000_2x500lbs.blk",
+          "reqModification": "btd_mbc"
+        }
       },
       {
         "preset": {
@@ -2800,15 +2805,15 @@
         "tier": 2,
         "reqModification": "tbf_itc"
       },
-      "btd_sbc": {
-        "modClass": "weapon",
+      "us_mine_mk13_mod0": {
         "tier": 3,
+        "modClass": "weapon",
         "reqModification": "improved_torpedo_mod"
       },
       "btd_mbc": {
         "modClass": "weapon",
         "tier": 4,
-        "reqModification": "btd_sbc"
+        "reqModification": "us_mine_mk13_mod0"
       },
       "frc_mk2": {
         "reqModLevel": 8.0,

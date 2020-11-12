@@ -2194,6 +2194,9 @@
       "stick_ailerons": [-1.8,1.8],
       "stick_elevator": [-2.5,1.8],
       "trottle": [0.0,1.0],
+      "trottle_1": [0.0,1.0],
+      "mixture": [0.0,1.0],
+      "mixture_1": [0.0,1.0],
       "trimmer": [-1.0,1.0],
       "flaps": [0.0,1.0],
       "flaps_fixed": true,
@@ -2311,20 +2314,6 @@
         "name": "Bf-109F-4_R1",
         "blk": "gameData/FlightModels/weaponPresets/bf-109f-4_R1.blk",
         "reqModification": "Bf-109F-4_R1"
-      }
-    }
-  ],
-  "default_skin_tomoe": [
-    {
-      "replace_tex": {
-        "from": "bf_109f_4_a*",
-        "to": "bf_109f_4_a_tomoe*"
-      }
-    },
-    {
-      "replace_tex": {
-        "from": "bf_109f_4_a_dmg*",
-        "to": "bf_109f_4_a_tomoe_dmg*"
       }
     }
   ],
@@ -2464,6 +2453,45 @@
       "deactivationIsAllowed": false
     }
   },
+  "default_skin_tomoe": [
+    {
+      "replace_tex": {
+        "from": "bf_109f_4_a*",
+        "to": "bf_109f_4_a_tomoe*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "bf_109f_4_a_dmg*",
+        "to": "bf_109f_4_a_tomoe_dmg*"
+      }
+    }
+  ],
+  "user_skin": [
+    {
+      "name": "bf_109f_4"
+    },
+    {
+      "replace_tex": {
+        "from": "bf_109f_4_a*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "bf_109f_4_a_dmg*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "bf_109f_4_n*"
+      }
+    },
+    {
+      "replace_tex": {
+        "from": "bf_109f_4_n_dmg*"
+      }
+    }
+  ],
   "cutting": {
     "_emtr_break_wing0_l_from": [-0.514255,-0.31106,0.65902],
     "_emtr_break_wing0_l_to": [-0.514255,-0.31106,1.11541],

@@ -1,6 +1,7 @@
-local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local skinLocations = require("scripts/customization/skinLocations.nut")
 local guidParser = require("scripts/guidParser.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
+local { getDownloadableSkins } = require("scripts/customization/downloadableDecorators.nut")
 
 const DEFAULT_SKIN_NAME = "default"
 
@@ -24,9 +25,11 @@ const DEFAULT_SKIN_NAME = "default"
   previewedLiveSkinIds = []
   approversUnitToPreviewLiveResource = null
 
+  waitingItemdefs = {}
+
   addDownloadableLiveSkins = function(skins, unit)
   {
-    local downloadableSkins = unit.getDownloadableSkins()
+    local downloadableSkins = getDownloadableSkins(unit)
     if (downloadableSkins.len() == 0)
       return skins
 
@@ -197,6 +200,9 @@ g_decorator.splitDecoratorData <- function splitDecoratorData(decType)
     decorator.category = category
     decorator.catIndex = result.decorators[category].len()
 
+    if (decorator.getCouponItemdefId() != null && !::ItemsManager.findItemById(decorator.getCouponItemdefId()))
+      waitingItemdefs[decorator.getCouponItemdefId()] <- decorator
+
     result.decoratorsList[decorator.id] <- decorator
     if (decorator.isVisible() || decorator.isForceVisible())
       result.decorators[category].append(decorator)
@@ -224,6 +230,9 @@ g_decorator.isAutoSkinAvailable <- function isAutoSkinAvailable(unitName)
 
 g_decorator.getLastSkin <- function getLastSkin(unitName)
 {
+  local unit = getAircraftByName(unitName)
+  if (!unit.isUsable() && unit.getPreviewSkinId() != "")
+    return unit.getPreviewSkinId()
   if (!isAutoSkinAvailable(unitName))
     return ::hangar_get_last_skin(unitName)
   return ::load_local_account_settings(getSkinSaveId(unitName))
@@ -495,6 +504,20 @@ g_decorator.buildLiveDecoratorFromResource <- function buildLiveDecoratorFromRes
   // Also replacing a fake skin decorator created by item constructor
   if (resource != decoratorId)
     ::g_decorator.liveDecoratorsCache[resource] <- decorator
+}
+
+g_decorator.onEventItemsShopUpdate <- function onEventItemsShopUpdate(p)
+{
+  foreach (itemDefId, decorator in waitingItemdefs)
+  {
+    local couponItem = ::ItemsManager.findItemById(itemDefId)
+    if (couponItem)
+    {
+      decorator.updateFromItemdef(couponItem.itemDef)
+      waitingItemdefs[itemDefId] = null
+    }
+  }
+  waitingItemdefs = waitingItemdefs.filter(@(v) v != null)
 }
 
 ::subscribe_handler(::g_decorator, ::g_listener_priority.CONFIG_VALIDATION)

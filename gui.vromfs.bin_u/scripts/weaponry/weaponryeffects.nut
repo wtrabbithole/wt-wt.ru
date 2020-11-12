@@ -24,7 +24,7 @@ local needToShowDiff = false
 local presetsList = {
   SPEED = {
     measureType = MEASURE_UNIT_SPEED
-    validateValue = @(value) ::fabs(value) * 3.6 > 1.0 ? value : null
+    validateValue = @(value) ::fabs(value) * 3.6 > 0.1 ? value : null
     presize = 0.1
   }
   CLIMB_SPEED = {
@@ -194,7 +194,7 @@ enums.addTypes(effectsType, [
   { id = "elevThrSpd",             preset = "SPEED" }
 
   { id = "horsePowers",             measureType = "hp", presize = 0.1
-    canShowForUnit = @(unit) !isTank(unit) || ::has_feature("TankModEffect")
+    canShowForUnit = @(unit) !unit?.isTank() || ::has_feature("TankModEffect")
     getLocId = function(unit, effects) {
       local key = effects?.modifName == "new_tank_transmission" ? "horsePowersTransmission" : "horsePowers"
       return "modification/" + key + "_change"
@@ -298,8 +298,9 @@ enums.addTypes(effectsType, [
   { id = "aaSpeedPitchK",          preset = "PERCENT_FLOAT"
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
-  { id = "shipDistancePrecision",  preset = "PERCENT_FLOAT"
+  { id = "shipDistancePrecision",  measureType = "percent"
     canShowForUnit = @(unit) ::has_feature("Ships")
+    validateValue = @(value) -100.0 * value
   }
   { id = "turnRadius",             preset = "PERCENT_FLOAT", isInverted = true
     canShowForUnit = @(unit) ::has_feature("Ships")
@@ -322,10 +323,10 @@ enums.addTypes(effectsType, [
   { id = "reverseSpeed",           preset = "SPEED"
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
-  { id = "timeToMaxSpeed",         measureType = "seconds", isInverted = true
+  { id = "timeToMaxSpeed",         measureType = "seconds", isInverted = true, presize = 0.1
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
-  { id = "timeToMaxReverseSpeed",  measureType = "seconds", isInverted = true
+  { id = "timeToMaxReverseSpeed",  measureType = "seconds", isInverted = true, presize = 0.1
     canShowForUnit = @(unit) ::has_feature("Ships")
   }
 ],

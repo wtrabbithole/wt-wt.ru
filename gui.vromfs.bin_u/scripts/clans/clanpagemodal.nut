@@ -1,15 +1,20 @@
 local time = require("scripts/time.nut")
-local platformModule = require("scripts/clientState/platform.nut")
+local { getPlayerName,
+        isPlayerFromPS4,
+        isPlayerFromXboxOne,
+        isPlatformSony,
+        isPlatformXboxOne } = require("scripts/clientState/platform.nut")
 local playerContextMenu = ::require("scripts/user/playerContextMenu.nut")
 local vehiclesModal = require("scripts/unit/vehiclesModal.nut")
 local wwLeaderboardData = require("scripts/worldWar/operations/model/wwLeaderboardData.nut")
 local clanMembershipAcceptance = ::require("scripts/clans/clanMembershipAcceptance.nut")
 local clanRewardsModal = require("scripts/rewards/clanRewardsModal.nut")
 local clanInfoView = require("scripts/clans/clanInfoView.nut")
+local { getSeparateLeaderboardPlatformValue } = require("scripts/social/crossplay.nut")
 
 local clan_member_list = [
   {id = "onlineStatus", type = ::g_lb_data_type.TEXT, myClanOnly = true, iconStyle = true, needHeader = false}
-  {id = "nick", type = ::g_lb_data_type.TEXT, align = "left"}
+  {id = "nick", type = ::g_lb_data_type.NICK, align = "left"}
   {id = ::ranked_column_prefix, type = ::g_lb_data_type.NUM, loc = "rating", byDifficulty = true
     tooltip = "#clan/personal/dr_era/desc"}
   {
@@ -283,7 +288,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       local color = ::my_user_id_str == clanData.changedByUid? "mainPlayerColor" : "activeTextColor"
       text += ::g_string.implode(
         [
-          ::colorize(color, platformModule.getPlayerName(clanData.changedByNick))
+          ::colorize(color, getPlayerName(clanData.changedByNick))
           clanData.getInfoChangeDateText()
         ]
         ::loc("ui/comma")
@@ -463,7 +468,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     isWorldWarMode = tabObj?.isWorldWarMode == "yes"
     showSceneBtn("clan_members_list", !isWorldWarMode)
     showSceneBtn("lb_table_nest", isWorldWarMode)
-    showSceneBtn("season_over_notice", isWorldWarMode && !::g_world_war.isWWSeasonActive())
+    showSceneBtn("season_over_notice", isWorldWarMode && !::g_world_war.isWWSeasonActiveShort())
 
     if (isWorldWarMode)
     {
@@ -696,19 +701,20 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       "inactive:t='yes'; commonTextColor:t='yes'; bigIcons:t='yes'; style:t='height:0.05sh;'; insetHeader = 'yes';")
 
     local rowIdx = 0
-    local isOnlyPS4Players = ::has_feature("PS4SeparateLeaderboards")
-      && ::get_gui_option_in_mode(::USEROPT_PS4_ONLY_LEADERBOARD, ::OPTIONS_MODE_GAMEPLAY) == true
-    foreach(member in membersData)
-    {
-      if (isOnlyPS4Players)
-      {
-        if (member?.platform != null)
-        {
-          if (member.platform != ::TP_PS4)
+    local isConsoleOnlyPlayers = getSeparateLeaderboardPlatformValue()
+    local consoleConst = isPlatformSony? ::TP_PS4 : isPlatformXboxOne? ::TP_XBOXONE : ::TP_UNKNOWN
+
+    foreach(member in membersData) {
+      if (isConsoleOnlyPlayers) {
+        if (member?.platform != null) {
+          if (member.platform != consoleConst)
             continue
         }
-        else if (!platformModule.isPlayerFromPS4(member.nick))
-          continue
+        else {
+          if ((isPlatformSony && !isPlayerFromPS4(member.nick))
+            || (isPlatformXboxOne && !isPlayerFromXboxOne(member.nick)))
+            continue
+        }
       }
 
       local rowName = "row_" + rowIdx
@@ -770,7 +776,7 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
   {
     local id = getFieldId(column)
     local res = {
-      text = ""
+      text = column.type.getShortTextByValue(member[id])
       tdAlign = ::getTblValue("align", column, "center")
     }
 
@@ -788,8 +794,6 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
       res.width    <- "0.01@sf"
     }
 
-    local text = column.type.getShortTextByValue(member[id])
-    res.text = id == "nick"? platformModule.getPlayerName(text) : text
     return res
   }
 
@@ -1190,9 +1194,8 @@ class ::gui_handlers.clanPageModal extends ::gui_handlers.BaseGuiHandlerWT
     if (!::is_worldwar_enabled() || !::has_feature("WorldWarLeaderboards"))
       return []
 
-    if (::get_gui_option_in_mode(::USEROPT_PS4_ONLY_LEADERBOARD, ::OPTIONS_MODE_GAMEPLAY) == true
-      && !::has_feature("PS4SeparateWWLeaderboards"))
-        return []
+    if (getSeparateLeaderboardPlatformValue() && !::has_feature("ConsoleSeparateWWLeaderboards"))
+      return []
 
     requestWwMembersList()
     return [{

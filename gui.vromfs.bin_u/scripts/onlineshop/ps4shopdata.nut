@@ -1,8 +1,11 @@
 local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
 local statsd = require("statsd")
-local psn = require("ps4Lib/webApi.nut")
+local psn = require("sonyLib/webApi.nut")
 local u = require("sqStdLibs/helpers/u.nut")
 local seenList = require("scripts/seen/seenList.nut").get(SEEN.EXT_PS4_SHOP)
+local { fillBlock } = require("scripts/utils/datablockConverter.nut")
+
+local { isPlatformSony } = require("scripts/clientState/platform.nut")
 
 local Ps4ShopPurchasableItem = require("scripts/onlineShop/ps4ShopPurchasableItem.nut")
 
@@ -26,36 +29,7 @@ local visibleSeenIds = []
 
 local getShopItem = @(id) persist.itemsList?[id]
 
-local canUseIngameShop = @() ::is_platform_ps4 && ::has_feature("PS4IngameShop")
-
-//Recursive translator to DataBlock data.
-//More conviniet to store, search and use data in DataBlock.
-// It saves order of items in tables as an array,
-// and block can easily be found by header as in table.
-local fillBlock = @(...) null
-
-fillBlock = function(id, block, data, arrayKey = "array")
-{
-  if (u.isArray(data))
-  {
-    local newBl = id == arrayKey? block.addNewBlock(id) : block.addBlock(id)
-    foreach (idx, v in data)
-      fillBlock(v?.label ?? arrayKey, newBl, v)
-  }
-  else if (u.isTable(data))
-  {
-    local newBl = id == arrayKey? block.addNewBlock(id) : block.addBlock(id)
-    foreach (key, val in data)
-      fillBlock(key, newBl, val)
-  }
-  else
-  {
-    if (id == arrayKey)
-      block[id] <- data
-    else
-      block[id] = data
-  }
-}
+local canUseIngameShop = @() isPlatformSony && ::has_feature("PS4IngameShop")
 
 local haveItemDiscount = null
 
@@ -234,7 +208,9 @@ digCategory = function(response, err = null)
   {
     statsd.send_counter("sq.ingame_store.request", 1,
       {status = "error", request = "dig_category", error = err.code})
-    ::script_net_assert_once("psn_categories_error", "PSN: Shop Data: Dig Category: received error: " + ::toString(err))
+
+    if (::u.isString(err.code) || err.code < 500 || err.code >= 600)
+      ::script_net_assert_once("psn_categories_error", "PSN: Shop Data: Dig Category: received error: " + ::toString(err))
     return
   }
   statsd.send_counter("sq.ingame_store.request", 1,

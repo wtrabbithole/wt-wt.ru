@@ -970,6 +970,21 @@
             "name": "ammo_body_50_dm"
           },
           {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -1432,29 +1447,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2758,6 +2773,11 @@
     }
   },
   {
+    "optics": {
+      "driverReticule": "car_driver_optics"
+    }
+  },
+  {
     "modifications": {
       "new_wheels": [],
       "new_car_suspension": [],
@@ -2770,7 +2790,34 @@
       "tank_tool_kit": [],
       "new_tank_horizontal_aiming": [],
       "new_tank_vertical_aiming": [],
-      "modern_tank_laser_rangefinder": [],
+      "modern_tank_laser_rangefinder": {
+        "effects": {
+          "rangefinderMounted": true,
+          "isLaser": true,
+          "distanceError": [25.0,25.0,25.0,25.0],
+          "distanceThresholdMin": [1000.0,3000.0,5000.0,9999.0],
+          "distanceThresholdMax": [1000.0,3000.0,5000.0,9999.0],
+          "distanceErrorRealistic": [25.0,25.0,25.0,25.0],
+          "distanceThresholdMinRealistic": [1000.0,3000.0,5000.0,9999.0],
+          "distanceThresholdMaxRealistic": [1000.0,3000.0,5000.0,9999.0],
+          "timeMeasurementRange": [0.5,0.5],
+          "rcostAddParam": 0.98,
+          "sensors": [
+            {
+              "sensor": {
+                "blk": "gameData/sensors/it_tv_tracker_3jb10.blk",
+                "turretIndex": 0,
+                "dmPart": "optic_gun_dm"
+              }
+            },
+            {
+              "sensor": {
+                "blk": "gameData/sensors/LaserDesignatorSensor.blk"
+              }
+            }
+          ]
+        }
+      },
       "tank_medical_kit": {
         "image": "#ui/gameuiskin#tank_reinforcement_jp"
       },
@@ -2778,6 +2825,8 @@
         "image": "#ui/gameuiskin#tank_reinforcement_jp"
       },
       "80mm_type_91_aam": [],
+      "airstrike": [],
+      "improved_optics": [],
       "night_vision_system": {
         "image": "#ui/gameuiskin#thermal_sight",
         "tier": 1,

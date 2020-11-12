@@ -344,6 +344,9 @@
         "ex_armor_turret_l_06_dm": {
           "armorThickness": 10.0
         },
+        "ex_armor_turret_r_07_dm": {
+          "armorThickness": 10.0
+        },
         "turret_09_back_dm": {
           "armorThickness": 20.0
         },
@@ -473,9 +476,6 @@
           "armorThickness": 4.0
         },
         "turret_02_front_dm": {
-          "armorThickness": 5.0
-        },
-        "ex_armor_turret_r_07_dm": {
           "armorThickness": 5.0
         }
       },
@@ -1004,6 +1004,27 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1163,6 +1184,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -1627,29 +1663,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -3070,6 +3106,10 @@
         "image": "#ui/gameuiskin#tank_reinforcement_fr"
       },
       "120mm_NATO_HEAT_FS": [],
+      "120mm_DM_APDS_FS": [],
+      "120mm_DM_APDS_FS_ammo_pack": {
+        "tier": 1
+      },
       "120mm_NATO_APDS_FS": [],
       "120mm_NATO_APDS_FS_ammo_pack": {
         "tier": 4
@@ -3401,6 +3441,50 @@
       "replace_tex": {
         "from": "fr_camo_vert_olive_arme*",
         "to": "ger_camo_carc*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_red",
+      "nameLocId": "skin/tank_biathlon_red",
+      "descLocId": "skin/tank_biathlon_red/desc",
+      "replace_tex": {
+        "from": "fr_camo_vert_olive_arme*",
+        "to": "ussr_camo_biathlon_red*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_green",
+      "nameLocId": "skin/tank_biathlon_green",
+      "descLocId": "skin/tank_biathlon_green/desc",
+      "replace_tex": {
+        "from": "fr_camo_vert_olive_arme*",
+        "to": "ussr_camo_biathlon_green*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_blue",
+      "nameLocId": "skin/tank_biathlon_blue",
+      "descLocId": "skin/tank_biathlon_blue/desc",
+      "replace_tex": {
+        "from": "fr_camo_vert_olive_arme*",
+        "to": "ussr_camo_biathlon_blue*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "tank_biathlon_yellow",
+      "nameLocId": "skin/tank_biathlon_yellow",
+      "descLocId": "skin/tank_biathlon_yellow/desc",
+      "replace_tex": {
+        "from": "fr_camo_vert_olive_arme*",
+        "to": "ussr_camo_biathlon_yellow*"
       }
     }
   },

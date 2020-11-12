@@ -898,6 +898,27 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -1057,6 +1078,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -1521,29 +1557,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2209,7 +2245,7 @@
           "barrelDP": "gun_barrel_dm",
           "breechDP": "cannon_breech_dm",
           "speedYaw": 40.0,
-          "speedPitch": 40.0,
+          "speedPitch": 20.0,
           "fireConeAngle": 1.0,
           "bullets": 42,
           "salvoAmount": 100.0,
@@ -2250,7 +2286,6 @@
             "verticalOmegaMult": 1.0,
             "verticalSpeedLimitKPH": 75.0,
             "speedFromVehicleVerticalMult": -1.0,
-            "speedPitch": 20.0,
             "errorKPHToDegrees": [
               {
                 "row": [5.0,0.0]
@@ -2357,7 +2392,7 @@
           {
             "limits": {
               "yaw": [-0.0,0.0],
-              "pitch": [-0.0,0.0]
+              "pitch": [-4.0,5.0]
             }
           }
         ]
@@ -2396,7 +2431,7 @@
           },
           "limits": {
             "yaw": [-120.0,120.0],
-            "pitch": [-8.0,20.0]
+            "pitch": [-8.0,60.0]
           }
         }
       },
@@ -2436,9 +2471,7 @@
         "animationMultiplier": -0.68,
         "width": 0.55,
         "height": 0.1,
-        "fricFrontal": [1.2,1.0],
-        "criticalHillAngle": 27.0,
-        "hillClimbingDeclineFricKoef": 15.0
+        "fricFrontal": [1.2,1.0]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -2452,7 +2485,7 @@
         "model": "mtca"
       },
       "mechanics": {
-        "maxBrakeForce": 215200.0,
+        "maxBrakeForce": 470000.0,
         "driveGearRadius": 0.33,
         "mainGearRatio": 1.0484,
         "sideGearRatio": 4.2,
@@ -2471,10 +2504,10 @@
             "ratio": 0.0
           },
           {
-            "ratio": 4.4369
+            "ratio": 10.0
           },
           {
-            "ratio": 2.4864
+            "ratio": 3.4864
           },
           {
             "ratio": 1.5937
@@ -2489,7 +2522,7 @@
         "defaultGearRadius": 0.3,
         "topGearRadius": 0.11,
         "frontBackGearRadius": 0.315,
-        "defaultDampeningForce": [200000.0,200000.0],
+        "defaultDampeningForce": [350000.0,350000.0],
         "dampeningRelaxationRatio": 0.4,
         "dampeningCompressionRatio": 0.15
       }
@@ -3064,10 +3097,10 @@
       "tank_medical_kit_expendable": {
         "image": "#ui/gameuiskin#tank_reinforcement_it"
       },
-      "120mm_DM_HEAT_FS": [],
+      "120mm_NATO_APDS_FS": [],
       "120mm_DM_APDS_FS": [],
       "120mm_DM_APDS_FS_ammo_pack": [],
-      "120mm_DM_HEAT_FS_ammo_pack": [],
+      "120mm_NATO_APDS_FS_ammo_pack": [],
       "modern_tank_laser_rangefinder": [],
       "tank_smoke_screen_system_mod": {
         "tier": 3,
@@ -3088,7 +3121,7 @@
                 "barrelDP": "gun_barrel_dm",
                 "breechDP": "cannon_breech_dm",
                 "speedYaw": 40.0,
-                "speedPitch": 40.0,
+                "speedPitch": 20.0,
                 "fireConeAngle": 1.0,
                 "bullets": 42,
                 "salvoAmount": 100.0,
@@ -3129,7 +3162,6 @@
                   "verticalOmegaMult": 1.0,
                   "verticalSpeedLimitKPH": 75.0,
                   "speedFromVehicleVerticalMult": -1.0,
-                  "speedPitch": 20.0,
                   "errorKPHToDegrees": [
                     {
                       "row": [5.0,0.0]
@@ -3236,7 +3268,7 @@
                 {
                   "limits": {
                     "yaw": [-0.0,0.0],
-                    "pitch": [-0.0,0.0]
+                    "pitch": [-4.0,5.0]
                   }
                 }
               ]
@@ -3275,7 +3307,7 @@
                 },
                 "limits": {
                   "yaw": [-120.0,120.0],
-                  "pitch": [-8.0,20.0]
+                  "pitch": [-8.0,60.0]
                 }
               }
             },

@@ -91,7 +91,8 @@
       "stabilityReductionAfterPenetration": 0.15,
       "bulletType": "frag_i_t",
       "hitPowerMult": 10.0,
-      "onHitChanceMultFire": 20.0,
+      "onHitChanceMultFire": 40.0,
+      "dynamicKv": true,
       "explodeTreshold": 0.1,
       "fuseDelayDist": 0.0,
       "ricochetEffect": "cannon_ricochet",
@@ -278,7 +279,8 @@
       "stabilityReductionAfterPenetration": 0.15,
       "bulletType": "frag_i",
       "hitPowerMult": 10.0,
-      "onHitChanceMultFire": 20.0,
+      "onHitChanceMultFire": 40.0,
+      "dynamicKv": true,
       "explodeTreshold": 0.1,
       "fuseDelayDist": 0.0,
       "ricochetEffect": "cannon_ricochet",
@@ -455,14 +457,13 @@
       "speed": 800.0,
       "maxDistance": 8000.0,
       "normalizationPreset": "default",
-      "ricochetPreset": "default",
+      "ricochetPreset": "defaultExt",
       "secondaryShattersPreset": "ap",
       "stabilityThreshold": 0.05,
       "stabilityCaliberToArmorThreshold": 5.0,
       "stabilityReductionAfterRicochet": 0.5,
-      "stabilityReductionAfterPenetration": 0.3,
-      "bulletType": "ap_i_ball",
-      "slopeEffectPreset": "ap",
+      "stabilityReductionAfterPenetration": 0.15,
+      "bulletType": "ap_i",
       "dynamicKv": true,
       "relativeVelArmorShift": [200.0,1000.0],
       "ricochetEffect": "cannon_ricochet",
@@ -489,51 +490,7 @@
           "demarreSpeedPow": 1.43,
           "demarreMassPow": 0.71,
           "demarreCaliberPow": 1.07
-        },
-        "shatter": [
-          {
-            "useRealShatters": true
-          },
-          {
-            "countPortion": 0.25
-          },
-          {
-            "segment": {
-              "angles": [0.0,14.0],
-              "countPortion": 0.0
-            }
-          },
-          {
-            "segment": {
-              "radiusScale": 1.0,
-              "penetrationScale": 1.0,
-              "damageScale": 1.0,
-              "angles": [15.0,124.0],
-              "countPortion": 0.5
-            }
-          },
-          {
-            "segment": {
-              "angles": [125.0,234.0],
-              "countPortion": 0.0
-            }
-          },
-          {
-            "segment": {
-              "radiusScale": 1.0,
-              "penetrationScale": 1.0,
-              "damageScale": 1.0,
-              "angles": [235.0,344.0],
-              "countPortion": 0.5
-            }
-          },
-          {
-            "segment": {
-              "angles": [345.0,359.0],
-              "countPortion": 0.0
-            }
-          }
-        ]
+        }
       },
       "hitpower": {
         "HitPower0m": [1.0,500.0],
@@ -661,14 +618,13 @@
       "speed": 800.0,
       "maxDistance": 8000.0,
       "normalizationPreset": "default",
-      "ricochetPreset": "default",
+      "ricochetPreset": "defaultExt",
       "secondaryShattersPreset": "ap",
       "stabilityThreshold": 0.05,
       "stabilityCaliberToArmorThreshold": 5.0,
       "stabilityReductionAfterRicochet": 0.5,
-      "stabilityReductionAfterPenetration": 0.3,
-      "bulletType": "ap_i_ball",
-      "slopeEffectPreset": "ap",
+      "stabilityReductionAfterPenetration": 0.15,
+      "bulletType": "ap_i",
       "dynamicKv": true,
       "relativeVelArmorShift": [200.0,1000.0],
       "ricochetEffect": "cannon_ricochet",
@@ -695,51 +651,7 @@
           "demarreSpeedPow": 1.43,
           "demarreMassPow": 0.71,
           "demarreCaliberPow": 1.07
-        },
-        "shatter": [
-          {
-            "useRealShatters": true
-          },
-          {
-            "countPortion": 0.25
-          },
-          {
-            "segment": {
-              "angles": [0.0,14.0],
-              "countPortion": 0.0
-            }
-          },
-          {
-            "segment": {
-              "radiusScale": 1.0,
-              "penetrationScale": 1.0,
-              "damageScale": 1.0,
-              "angles": [15.0,124.0],
-              "countPortion": 0.5
-            }
-          },
-          {
-            "segment": {
-              "angles": [125.0,234.0],
-              "countPortion": 0.0
-            }
-          },
-          {
-            "segment": {
-              "radiusScale": 1.0,
-              "penetrationScale": 1.0,
-              "damageScale": 1.0,
-              "angles": [235.0,344.0],
-              "countPortion": 0.5
-            }
-          },
-          {
-            "segment": {
-              "angles": [345.0,359.0],
-              "countPortion": 0.0
-            }
-          }
-        ]
+        }
       },
       "hitpower": {
         "HitPower0m": [1.0,500.0],
@@ -879,7 +791,8 @@
           "stabilityReductionAfterPenetration": 0.15,
           "bulletType": "frag_i_t",
           "hitPowerMult": 10.0,
-          "onHitChanceMultFire": 20.0,
+          "onHitChanceMultFire": 40.0,
+          "dynamicKv": true,
           "explodeTreshold": 0.1,
           "fuseDelayDist": 0.0,
           "ricochetEffect": "cannon_ricochet",
@@ -1056,14 +969,13 @@
           "speed": 800.0,
           "maxDistance": 8000.0,
           "normalizationPreset": "default",
-          "ricochetPreset": "default",
+          "ricochetPreset": "defaultExt",
           "secondaryShattersPreset": "ap",
           "stabilityThreshold": 0.05,
           "stabilityCaliberToArmorThreshold": 5.0,
           "stabilityReductionAfterRicochet": 0.5,
-          "stabilityReductionAfterPenetration": 0.3,
-          "bulletType": "ap_i_ball",
-          "slopeEffectPreset": "ap",
+          "stabilityReductionAfterPenetration": 0.15,
+          "bulletType": "ap_i",
           "dynamicKv": true,
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "cannon_ricochet",
@@ -1090,51 +1002,7 @@
               "demarreSpeedPow": 1.43,
               "demarreMassPow": 0.71,
               "demarreCaliberPow": 1.07
-            },
-            "shatter": [
-              {
-                "useRealShatters": true
-              },
-              {
-                "countPortion": 0.25
-              },
-              {
-                "segment": {
-                  "angles": [0.0,14.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [15.0,124.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [125.0,234.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [235.0,344.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [345.0,359.0],
-                  "countPortion": 0.0
-                }
-              }
-            ]
+            }
           },
           "hitpower": {
             "HitPower0m": [1.0,500.0],
@@ -1272,7 +1140,8 @@
           "stabilityReductionAfterPenetration": 0.15,
           "bulletType": "frag_i_t",
           "hitPowerMult": 10.0,
-          "onHitChanceMultFire": 20.0,
+          "onHitChanceMultFire": 40.0,
+          "dynamicKv": true,
           "explodeTreshold": 0.1,
           "fuseDelayDist": 0.0,
           "ricochetEffect": "cannon_ricochet",
@@ -1449,14 +1318,13 @@
           "speed": 800.0,
           "maxDistance": 8000.0,
           "normalizationPreset": "default",
-          "ricochetPreset": "default",
+          "ricochetPreset": "defaultExt",
           "secondaryShattersPreset": "ap",
           "stabilityThreshold": 0.05,
           "stabilityCaliberToArmorThreshold": 5.0,
           "stabilityReductionAfterRicochet": 0.5,
-          "stabilityReductionAfterPenetration": 0.3,
-          "bulletType": "ap_i_ball",
-          "slopeEffectPreset": "ap",
+          "stabilityReductionAfterPenetration": 0.15,
+          "bulletType": "ap_i",
           "dynamicKv": true,
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "cannon_ricochet",
@@ -1483,51 +1351,7 @@
               "demarreSpeedPow": 1.43,
               "demarreMassPow": 0.71,
               "demarreCaliberPow": 1.07
-            },
-            "shatter": [
-              {
-                "useRealShatters": true
-              },
-              {
-                "countPortion": 0.25
-              },
-              {
-                "segment": {
-                  "angles": [0.0,14.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [15.0,124.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [125.0,234.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [235.0,344.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [345.0,359.0],
-                  "countPortion": 0.0
-                }
-              }
-            ]
+            }
           },
           "hitpower": {
             "HitPower0m": [1.0,500.0],
@@ -1669,7 +1493,8 @@
           "stabilityReductionAfterPenetration": 0.15,
           "bulletType": "frag_i_t",
           "hitPowerMult": 10.0,
-          "onHitChanceMultFire": 20.0,
+          "onHitChanceMultFire": 40.0,
+          "dynamicKv": true,
           "explodeTreshold": 0.1,
           "fuseDelayDist": 0.0,
           "ricochetEffect": "cannon_ricochet",
@@ -1856,7 +1681,8 @@
           "stabilityReductionAfterPenetration": 0.15,
           "bulletType": "frag_i",
           "hitPowerMult": 10.0,
-          "onHitChanceMultFire": 20.0,
+          "onHitChanceMultFire": 40.0,
+          "dynamicKv": true,
           "explodeTreshold": 0.1,
           "fuseDelayDist": 0.0,
           "ricochetEffect": "cannon_ricochet",
@@ -2043,7 +1869,8 @@
           "stabilityReductionAfterPenetration": 0.15,
           "bulletType": "frag_i",
           "hitPowerMult": 10.0,
-          "onHitChanceMultFire": 20.0,
+          "onHitChanceMultFire": 40.0,
+          "dynamicKv": true,
           "explodeTreshold": 0.1,
           "fuseDelayDist": 0.0,
           "ricochetEffect": "cannon_ricochet",
@@ -2220,14 +2047,13 @@
           "speed": 800.0,
           "maxDistance": 8000.0,
           "normalizationPreset": "default",
-          "ricochetPreset": "default",
+          "ricochetPreset": "defaultExt",
           "secondaryShattersPreset": "ap",
           "stabilityThreshold": 0.05,
           "stabilityCaliberToArmorThreshold": 5.0,
           "stabilityReductionAfterRicochet": 0.5,
-          "stabilityReductionAfterPenetration": 0.3,
-          "bulletType": "ap_i_ball",
-          "slopeEffectPreset": "ap",
+          "stabilityReductionAfterPenetration": 0.15,
+          "bulletType": "ap_i",
           "dynamicKv": true,
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "cannon_ricochet",
@@ -2254,51 +2080,7 @@
               "demarreSpeedPow": 1.43,
               "demarreMassPow": 0.71,
               "demarreCaliberPow": 1.07
-            },
-            "shatter": [
-              {
-                "useRealShatters": true
-              },
-              {
-                "countPortion": 0.25
-              },
-              {
-                "segment": {
-                  "angles": [0.0,14.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [15.0,124.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [125.0,234.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [235.0,344.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [345.0,359.0],
-                  "countPortion": 0.0
-                }
-              }
-            ]
+            }
           },
           "hitpower": {
             "HitPower0m": [1.0,500.0],
@@ -2438,7 +2220,7 @@
           "stabilityReductionAfterPenetration": 0.3,
           "bulletType": "ap_i_t",
           "slopeEffectPreset": "ap",
-          "onHitChanceMultFire": 10.0,
+          "onHitChanceMultFire": 40.0,
           "dynamicKv": true,
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "cannon_ricochet",
@@ -2465,51 +2247,7 @@
               "demarreSpeedPow": 1.43,
               "demarreMassPow": 0.71,
               "demarreCaliberPow": 1.07
-            },
-            "shatter": [
-              {
-                "useRealShatters": true
-              },
-              {
-                "countPortion": 0.25
-              },
-              {
-                "segment": {
-                  "angles": [0.0,14.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [15.0,124.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [125.0,234.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [235.0,344.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [345.0,359.0],
-                  "countPortion": 0.0
-                }
-              }
-            ]
+            }
           },
           "hitpower": {
             "HitPower0m": [1.0,500.0],
@@ -2637,14 +2375,13 @@
           "speed": 800.0,
           "maxDistance": 8000.0,
           "normalizationPreset": "default",
-          "ricochetPreset": "default",
+          "ricochetPreset": "defaultExt",
           "secondaryShattersPreset": "ap",
           "stabilityThreshold": 0.05,
           "stabilityCaliberToArmorThreshold": 5.0,
           "stabilityReductionAfterRicochet": 0.5,
-          "stabilityReductionAfterPenetration": 0.3,
-          "bulletType": "ap_i_ball",
-          "slopeEffectPreset": "ap",
+          "stabilityReductionAfterPenetration": 0.15,
+          "bulletType": "ap_i",
           "dynamicKv": true,
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "cannon_ricochet",
@@ -2671,51 +2408,7 @@
               "demarreSpeedPow": 1.43,
               "demarreMassPow": 0.71,
               "demarreCaliberPow": 1.07
-            },
-            "shatter": [
-              {
-                "useRealShatters": true
-              },
-              {
-                "countPortion": 0.25
-              },
-              {
-                "segment": {
-                  "angles": [0.0,14.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [15.0,124.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [125.0,234.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [235.0,344.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [345.0,359.0],
-                  "countPortion": 0.0
-                }
-              }
-            ]
+            }
           },
           "hitpower": {
             "HitPower0m": [1.0,500.0],
@@ -2843,14 +2536,13 @@
           "speed": 800.0,
           "maxDistance": 8000.0,
           "normalizationPreset": "default",
-          "ricochetPreset": "default",
+          "ricochetPreset": "defaultExt",
           "secondaryShattersPreset": "ap",
           "stabilityThreshold": 0.05,
           "stabilityCaliberToArmorThreshold": 5.0,
           "stabilityReductionAfterRicochet": 0.5,
-          "stabilityReductionAfterPenetration": 0.3,
-          "bulletType": "ap_i_ball",
-          "slopeEffectPreset": "ap",
+          "stabilityReductionAfterPenetration": 0.15,
+          "bulletType": "ap_i",
           "dynamicKv": true,
           "relativeVelArmorShift": [200.0,1000.0],
           "ricochetEffect": "cannon_ricochet",
@@ -2877,51 +2569,7 @@
               "demarreSpeedPow": 1.43,
               "demarreMassPow": 0.71,
               "demarreCaliberPow": 1.07
-            },
-            "shatter": [
-              {
-                "useRealShatters": true
-              },
-              {
-                "countPortion": 0.25
-              },
-              {
-                "segment": {
-                  "angles": [0.0,14.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [15.0,124.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [125.0,234.0],
-                  "countPortion": 0.0
-                }
-              },
-              {
-                "segment": {
-                  "radiusScale": 1.0,
-                  "penetrationScale": 1.0,
-                  "damageScale": 1.0,
-                  "angles": [235.0,344.0],
-                  "countPortion": 0.5
-                }
-              },
-              {
-                "segment": {
-                  "angles": [345.0,359.0],
-                  "countPortion": 0.0
-                }
-              }
-            ]
+            }
           },
           "hitpower": {
             "HitPower0m": [1.0,500.0],
@@ -3059,7 +2707,8 @@
           "stabilityReductionAfterPenetration": 0.15,
           "bulletType": "frag_i",
           "hitPowerMult": 10.0,
-          "onHitChanceMultFire": 20.0,
+          "onHitChanceMultFire": 40.0,
+          "dynamicKv": true,
           "explodeTreshold": 0.1,
           "fuseDelayDist": 0.0,
           "ricochetEffect": "cannon_ricochet",

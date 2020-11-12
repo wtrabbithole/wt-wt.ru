@@ -2,6 +2,9 @@ local { getTimestampFromStringUtc, daysToSeconds, isInTimerangeByUtcStrings } = 
 local stdMath = require("std/math.nut")
 local { hasFeatureBasic } = require("scripts/user/features.nut")
 local { getEntitlementConfig, getEntitlementName } = require("scripts/onlineShop/entitlements.nut")
+local { isPlatformSony,
+        isPlatformXboxOne,
+        isPlatformPC } = require("scripts/clientState/platform.nut")
 
 ::unlocks_punctuation_without_space <- ","
 ::map_mission_type_to_localization <- null
@@ -82,9 +85,9 @@ local unlockConditionUnitclasses = {
     if (unlockType < 0)
       unlockType = ::get_unlock_type_by_id(id)
 
-    if (::is_platform_ps4 && unlockType == ::UNLOCKABLE_TROPHY_PSN)
+    if (isPlatformSony && unlockType == ::UNLOCKABLE_TROPHY_PSN)
       isUnlocked = ::ps4_is_trophy_unlocked(id)
-    else if (::is_platform_xboxone && unlockType == ::UNLOCKABLE_TROPHY_XBOXONE)
+    else if (isPlatformXboxOne && unlockType == ::UNLOCKABLE_TROPHY_XBOXONE)
       isUnlocked = ::xbox_is_achievement_unlocked(id)
   }
   return isUnlocked
@@ -105,11 +108,9 @@ local unlockConditionUnitclasses = {
                          totalStages = ::colorize("unlockActiveColor", item.stages.len())
                        })
 
-  local showProgress = ::getTblValue("showProgress", params, true)
-  local progressText = ::UnlockConditions.getMainConditionText(item.conditions,
-    item.curVal < item.maxVal ? "%d" : null, "%d", params)
+  local progressText = ::UnlockConditions.getMainConditionText(item.conditions, item.curVal, item.maxVal, params)
                        //to generate progress text for stages
-  item.showProgress <- showProgress && (progressText != "")
+  item.showProgress <- (params?.showProgress ?? true) && (progressText != "")
   item.progressText <- progressText
   item.shortText <- ::g_string.implode([item.text, item.progressText], "\n")
 
@@ -131,11 +132,16 @@ local unlockConditionUnitclasses = {
   if ("desc" in data)
     descData.append(data.desc)
 
-  local curVal = ::getTblValue("curVal", params)
+  local curVal = params?.curVal
   if (curVal == null)
-    curVal = data.curVal < data.maxVal ? data.curVal : null
+  {
+    local isComplete = ::UnlockConditions.isBitModeType(data.type)
+      ? stdMath.number_of_set_bits(data.curVal) >= stdMath.number_of_set_bits(data.maxVal)
+      : data.curVal >= data.maxVal
+    curVal = isComplete ? null : data.curVal
+  }
 
-  local maxVal = ::getTblValue("maxVal", params)
+  local maxVal = params?.maxVal
   if (maxVal == null)
     maxVal = data.maxVal
 
@@ -500,7 +506,7 @@ local unlockConditionUnitclasses = {
 
 ::is_unlock_visible_on_cur_platform <- function is_unlock_visible_on_cur_platform(unlockBlk)
 {
-  if (!!unlockBlk?.psn && !::is_platform_ps4)
+  if (!!unlockBlk?.psn && !isPlatformSony)
     return false
   if (!!unlockBlk?.ps_plus && !::ps4_has_psplus())
     return false
@@ -508,11 +514,11 @@ local unlockConditionUnitclasses = {
     return false
 
   local unlockType = ::get_unlock_type(unlockBlk?.type ?? "")
-  if (unlockType == ::UNLOCKABLE_TROPHY_PSN && !::is_platform_ps4)
+  if (unlockType == ::UNLOCKABLE_TROPHY_PSN && !isPlatformSony)
     return false
-  if (unlockType == ::UNLOCKABLE_TROPHY_XBOXONE && !::is_platform_xboxone)
+  if (unlockType == ::UNLOCKABLE_TROPHY_XBOXONE && !isPlatformXboxOne)
     return false
-  if (unlockType == ::UNLOCKABLE_TROPHY_STEAM && !::is_platform_pc)
+  if (unlockType == ::UNLOCKABLE_TROPHY_STEAM && !isPlatformPC)
     return false
   return true
 }
@@ -521,7 +527,7 @@ local unlockConditionUnitclasses = {
 {
   if (!::is_decal_allowed(decalBlk.getBlockName(), ""))
     return false
-  if (decalBlk?.psn && !::is_platform_ps4)
+  if (decalBlk?.psn && !isPlatformSony)
     return false
   if (decalBlk?.ps_plus && !::ps4_has_psplus())
     return false
@@ -562,7 +568,7 @@ local unlockConditionUnitclasses = {
       return mode.unitClass == "tank" || ::getTblValue(mode.unitClass, ::mapWpUnitClassToWpUnitType, "") == "Tank"
 
     if (mode.type == "char_unit_exist")
-      return ::isTank(::getAircraftByName(mode.unit))
+      return ::getAircraftByName(mode.unit)?.isTank()
     else if (mode.type == "char_unlocks")
     {
       foreach (unlockId in mode % "unlock")
@@ -584,7 +590,7 @@ local unlockConditionUnitclasses = {
       else if (condition.type == "playerUnit")
       {
         foreach (unitId in condition % "class")
-          if (::isTank(::getAircraftByName(unitId)))
+          if (::getAircraftByName(unitId)?.isTank())
             return true
       }
     }
@@ -957,6 +963,12 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
     case ::UNLOCKABLE_WEAPON:
       return ""
 
+    case ::UNLOCKABLE_ACHIEVEMENT:
+      local unlockBlk = ::g_unlocks.getUnlockById(id)
+      if (unlockBlk?.locId)
+        return get_locId_name(unlockBlk)
+      return ::loc(id + "/name")
+
     case ::UNLOCKABLE_DIFFICULTY:
       return ::getDifficultyLocalizationText(id)
 
@@ -981,6 +993,9 @@ class ::gui_handlers.showUnlocksGroupModal extends ::gui_handlers.BaseGuiHandler
              // + " " + (::loc("pilots/"+id+"/lastName"))
 
     case ::UNLOCKABLE_STREAK:
+      local unlockBlk = ::g_unlocks.getUnlockById(id)
+      if (unlockBlk?.locId)
+        return get_locId_name(unlockBlk)
       local res = ::loc("streaks/" + id)
       if (res.indexof("%d") != null)
           res = ::loc("streaks/" + id + "/multiple")
@@ -1647,6 +1662,11 @@ g_unlocks._convertblkToCache <- function _convertblkToCache(blk)
 {
   foreach(unlock in (blk % "unlockable"))
   {
+    if (unlock?.id == null) {
+      local unlockConfigString = ::toString(unlock, 2) // warning disable: -declared-never-used
+      ::script_net_assert_once("missing id in unlock", "Unlocks: Missing id in unlock. Cannot cache unlock.")
+      continue
+    }
     cache[unlock.id] <- unlock
     cacheArray.append(unlock)
 

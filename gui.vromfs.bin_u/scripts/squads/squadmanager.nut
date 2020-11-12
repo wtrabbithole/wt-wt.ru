@@ -108,6 +108,7 @@ local DEFAULT_SQUAD_PRESENCE = ::g_presence_type.IDLE.getParams()
   }
 
   onEventPresetsByGroupsChanged = @(params) updateMyMemberData()
+  onEventBeforeProfileInvalidation = @(p) reset()
 }
 
 g_squad_manager.setState <- function setState(newState)
@@ -153,7 +154,7 @@ g_squad_manager.updateMyMemberData <- function updateMyMemberData(data = null)
 
   local wwOperations = []
   if (::is_worldwar_enabled())
-    foreach (wwOperation in ::g_ww_global_status_type.ACTIVE_OPERATIONS.getList())
+    foreach (wwOperation in ::g_ww_global_status_type.ACTIVE_OPERATIONS.getShortStatusList())
     {
       if (!wwOperation.isValid())
         continue
@@ -1654,7 +1655,7 @@ g_squad_manager.updateCurrentWWOperation <- function updateCurrentWWOperation()
   local country = ::get_profile_country_sq()
   if (wwOperationId > -1)
   {
-    local wwOperation = ::g_ww_global_status.getOperationById(wwOperationId)
+    local wwOperation = ::g_ww_global_status_actions.getOperationById(wwOperationId)
     if (wwOperation)
       country = wwOperation.getMyAssignCountry() || country
   }

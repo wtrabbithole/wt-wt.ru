@@ -1,3 +1,4 @@
+local u = require("sqStdLibs/helpers/u.nut")
 local time = require("scripts/time.nut")
 local spectatorWatchedHero = require("scripts/replays/spectatorWatchedHero.nut")
 local replayMetadata = require("scripts/replays/replayMetadata.nut")
@@ -53,7 +54,11 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   statNumRows = 0
   teams = [ { players = [] }, { players = [] } ]
   lastTargetNick = ""
-  lastTargetId = null
+  lastTargetData = {
+    id   = -1
+    team = -1
+  }
+  lastSelectedTableId = ""
   lastHudUnitType = ::ES_UNIT_TYPE_INVALID
   lastFriendlyTeam = 0
   statSelPlayerId = [ null, null ]
@@ -128,14 +133,14 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   ]
 
   focusArray = [
+    "controls_div"
     "table_team1"
     "table_team2"
     "tabs"
     "chat_input"
-    "controls_div"
   ]
 
-  currentFocusItem = 2
+  currentFocusItem = 0
 
 
   function initScreen()
@@ -287,6 +292,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     scene.findObject("update_timer").setUserData(this)
 
     updateClientHudOffset()
+    restoreFocus()
   }
 
   function reinitScreen()
@@ -387,7 +393,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
     if (friendlyTeamSwitched || isTargetSwitched)
     {
-      ::g_hud_live_stats.show(isMultiplayer, null, lastTargetId)
+      ::g_hud_live_stats.show(isMultiplayer, null, spectatorWatchedHero.id)
       ::broadcastEvent("WatchedHeroSwitched")
       updateHistoryLog()
     }
@@ -415,15 +421,6 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
         }
       }
     }
-  }
-
-  function isPlayerSpectatorTarget(player, targetNick)
-  {
-    if (!player || targetNick == "")
-      return false
-    local nickStart = getPlayerNick(player) + " ("
-    local nickStartLen = nickStart.len()
-    return targetNick.len() > nickStartLen && targetNick.slice(0, nickStartLen) == nickStart
   }
 
   function isPlayerFriendly(player)
@@ -509,20 +506,18 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function getTargetPlayer()
   {
-    local name = ::get_spectator_target_name() //It returns already trimmed player name
-
     if (!isMultiplayer)
-      return (name.len() && teams.len() && teams[0].players.len()) ? teams[0].players[0] : null
+      return (::get_spectator_target_name().len() && teams.len() && teams[0].players.len())
+        ? teams[0].players[0]
+        : null
 
-    if (name == "")
-      return (mode == SPECTATOR_MODE.RESPAWN && lastTargetId) ? getPlayer(lastTargetId) : null
+    local targetId = ::get_spectator_target_id()
+    if (targetId >= 0)
+      return getPlayer(targetId)
 
-    foreach (info in teams)
-      foreach (p in info.players)
-        if (isPlayerSpectatorTarget(p, name))
-          return p
-
-    return null
+    return (mode == SPECTATOR_MODE.RESPAWN && lastTargetData.id >= 0)
+      ? getPlayer(lastTargetData.id)
+      : null
   }
 
   function setTargetInfo(player)
@@ -549,7 +544,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     guiScene.setUpdatesEnabled(true, true)
   }
 
-  function updateTarget(targetSwitched = false)
+  function updateTarget(targetSwitched = false, needFocusTargetTable = false)
   {
     local player = getTargetPlayer()
 
@@ -560,31 +555,41 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       spectatorWatchedHero.name    = player?.name ?? ""
     }
 
-    if (player)
-    {
-      lastTargetId = player ? player.id : null
-      local playerTeamIndex = teamIdToIndex(player.team)
-      statSelPlayerId[playerTeamIndex] = player.id
-      local tblObj = getTeamTableObj(player.team)
-      if (tblObj)
-      {
-        if (targetSwitched)
-          tblObj.select()
-        onStatTblFocus(tblObj)
-      }
-    }
+    local isFocused = false
+    if (needFocusTargetTable)
+      isFocused = selectTargetTeamBlock()
 
-    ::g_hud_live_stats.show(isMultiplayer, null, lastTargetId)
+    ::g_hud_live_stats.show(isMultiplayer, null, spectatorWatchedHero.id)
     actionBar.reinit()
     reinitDmgIndicator()
     recalculateLayout()
 
     setTargetInfo(player)
+    return isFocused
+  }
+
+  function onWrapUpTabs(obj)
+  {
+    if (!selectLastChoosedTeam(obj))
+      selectControlsBlock(obj)
+  }
+
+  function onWrapDownControls(obj)
+  {
+    if (!selectLastChoosedTeam(obj))
+      scene.findObject("tabs").select()
   }
 
   function selectLastChoosedTeam(obj)
   {
-    updateTarget(true)
+    local tableObj = scene.findObject(lastSelectedTableId)
+    if (::check_obj(tableObj))
+    {
+      tableObj.select()
+      return true
+    }
+
+    return selectTargetTeamBlock()
   }
 
   function updateControls(targetSwitched = false)
@@ -681,13 +686,17 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     if (ignoreUiInput)
       return
 
-    local player = statTblGetSelectedPlayer(obj)
+    selectPlayer(statTblGetSelectedPlayer(obj), obj)
+  }
+
+  function selectPlayer(player, tableObj)
+  {
     if (!player)
       return
 
     statSelPlayerId[teamIdToIndex(player.team)] = player.id
-    if (!obj.isFocused())
-      obj.select()
+    if (::check_obj(tableObj) && !tableObj.isFocused())
+      tableObj.select()
 
     switchTargetPlayer(player.id)
   }
@@ -696,58 +705,32 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
   {
     local player = statTblGetSelectedPlayer(obj)
     if (player)
-      ::session_player_rmenu(this, player)
-  }
-
-  function statTblUpdateSelection(obj)
-  {
-    local teamNum = ::getObjIdByPrefix(obj, "table_team")
-    if (!teamNum || (teamNum != "1" && teamNum != "2"))
-      return
-    local teamIndex = teamNum.tointeger() - 1
-    local players =  teams[teamIndex].players
-
-    local selIndex = -1
-
-    if (obj.isFocused())
-    {
-      if (statSelPlayerId[teamIndex])
-        foreach (index, player in players)
-          if (("id" in player) && player.id == statSelPlayerId[teamIndex])
-          {
-            selIndex = index
-            break
-          }
-      if (selIndex == -1 && players.len() > 0)
-        selIndex = 0
-    }
-
-    if (obj.getValue() != selIndex)
-    {
-      ignoreUiInput = true
-      obj.setValue(selIndex)
-      obj.cur_row = selIndex
-      ignoreUiInput = false
-    }
+      ::session_player_rmenu(
+        this,
+        player,
+        {
+          chatLog = ::get_game_chat_handler()?.getChatLogForBanhammer() ?? ""
+        }
+      )
   }
 
   function onPlayersTblWrapUp(obj)
   {
     if (::get_is_console_mode_enabled())
-      onWrapUp(obj)
+      scene.findObject("controls_div").select()
   }
 
   function onPlayersTblWrapDown(obj)
   {
     if (::get_is_console_mode_enabled())
-      onWrapDown(obj)
+      scene.findObject("tabs").select()
   }
 
   function onSwitchPlayersTbl(obj)
   {
     local tab1 = scene.findObject("table_team1")
     local tab2 = scene.findObject("table_team2")
-    if (!::checkObj(tab1) || !::checkObj(tab2))
+    if (!::check_obj(tab1) || !::check_obj(tab2))
       return
 
     local tblObj = (tab1.isFocused() && tab2.isVisible()) ? tab2 : (tab2.isFocused() && tab1.isVisible()) ? tab1 : null
@@ -755,18 +738,6 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       return
 
     tblObj.select()
-    onPlayerClick(tblObj)
-  }
-
-  function onStatTblFocus(obj)
-  {
-    local tab1 = scene.findObject("table_team1")
-    local tab2 = scene.findObject("table_team2")
-    if (!::checkObj(tab1) || !::checkObj(tab2))
-      return
-
-    statTblUpdateSelection(tab1)
-    statTblUpdateSelection(tab2)
   }
 
   function switchTargetPlayer(id)
@@ -775,10 +746,71 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       ::switch_spectator_target_by_id(id)
   }
 
+  function saveLastTargetPlayerData(player)
+  {
+    lastTargetData.team = teamIdToIndex(player.team)
+    lastTargetData.id = player.id
+  }
+
+  function selectTargetTeamBlock()
+  {
+    local player = getTargetPlayer()
+    if (!player)
+      return false
+
+    saveLastTargetPlayerData(player)
+    statSelPlayerId[lastTargetData.team] = player.id
+
+    local tblObj = getTeamTableObj(player.team)
+    if (tblObj) {
+      tblObj.select()
+      return true
+    }
+
+    return false
+  }
+
   function selectControlsBlock(obj)
   {
     if (::get_is_console_mode_enabled())
-      scene.findObject("controls_div").select()
+      selectTargetTeamBlock()
+  }
+
+  function onSelectPlayer(obj)
+  {
+    if (ignoreUiInput)
+      return
+
+    local player = statTblGetSelectedPlayer(obj)
+    if (!player)
+      return
+
+    local curPlayer = getTargetPlayer()
+    if (::get_is_console_mode_enabled() && u.isEqual(curPlayer, player))
+    {
+      local selIndex = ::get_obj_valid_index(obj)
+      local selectedPlayerBlock = obj.getChild(selIndex >= 0? selIndex : 0)
+      ::session_player_rmenu(
+        this,
+        player,
+        {
+          chatLog = ::get_game_chat_handler()?.getChatLogForBanhammer() ?? ""
+        },
+        [
+          selectedPlayerBlock.getPosRC()[0] + selectedPlayerBlock.getSize()[0]/2,
+          selectedPlayerBlock.getPosRC()[1]
+        ]
+      )
+      return
+    }
+
+    saveLastTargetPlayerData(player)
+    selectPlayer(player, obj)
+  }
+
+  function onChangeFocusTable(obj)
+  {
+    lastSelectedTableId = obj.id
   }
 
   function onActivateSelectedControl(obj)
@@ -852,8 +884,8 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
 
   function getTableObj(index)
   {
-    local obj = scene.findObject("table_team" + (index + 1))
-    return ::checkObj(obj) ? obj : null
+    local obj = scene.findObject($"table_team{index + 1}")
+    return ::check_obj(obj) ? obj : null
   }
 
   function getTeamTableObj(teamId)
@@ -1090,6 +1122,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       obj.hero = player.isLocal ? "yes" : "no"
       obj.squad = player.isInHeroSquad ? "yes" : "no"
       obj.dead = player.canBeSwitchedTo ? "no" : "yes"
+      obj.isBot = player.isBot ? "yes" : "no"
       obj.findObject("unit").setValue(getUnitName(unitId || "dummy_plane"))
       obj.tooltip = playerName + (unitId ? ::loc("ui/parentheses/space", {text = ::getUnitName(unitId, false)}) : "")
         + (stateDesc != "" ? ("\n" + stateDesc) : "")
@@ -1132,7 +1165,6 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
     {
       ignoreUiInput = true
       objTbl.setValue(selIndex)
-      objTbl.cur_row = selIndex
       ignoreUiInput = false
     }
 
@@ -1351,7 +1383,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
       foreach (msg in historyLog)
         msg.message <- buildHistoryLogMessage(msg)
 
-      local historyLogMessages = ::u.map(historyLog, @(msg) msg.message)
+      local historyLogMessages = u.map(historyLog, @(msg) msg.message)
       obj.setValue(obj.isVisible() ? ::g_string.implode(historyLogMessages, "\n") : "")
     }
   }
@@ -1434,7 +1466,7 @@ class Spectator extends ::gui_handlers.BaseGuiHandlerWT
           }
           else if ("keys" in keys)
           {
-            local keysLocalized = ::u.map(keys.keys, ::loc)
+            local keysLocalized = u.map(keys.keys, ::loc)
             hotkeys = ::g_string.implode(keysLocalized, ::loc("ui/comma"))
           }
 

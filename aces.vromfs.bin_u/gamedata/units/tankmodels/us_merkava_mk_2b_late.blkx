@@ -920,6 +920,27 @@
         "fuel_tank_l_03_dm": [],
         "fuel_tank_l_04_dm": [],
         "fuel_tank_l_05_dm": []
+      },
+      "fuel_tanks_exterior": {
+        "armorClass": "tank_structural_steel",
+        "hp": 250.0,
+        "armorThickness": 2.0,
+        "armorThrough": 12.0,
+        "fireProtectionHp": 15.0,
+        "fireParamsPreset": "fuel_exterior",
+        "fuel_tank_exterior_r_01_dm": [],
+        "fuel_tank_exterior_r_02_dm": [],
+        "fuel_tank_exterior_r_03_dm": [],
+        "fuel_tank_exterior_r_04_dm": [],
+        "fuel_tank_exterior_r_05_dm": [],
+        "fuel_tank_exterior_l_01_dm": [],
+        "fuel_tank_exterior_l_02_dm": [],
+        "fuel_tank_exterior_l_03_dm": [],
+        "fuel_tank_exterior_l_04_dm": [],
+        "fuel_tank_exterior_l_05_dm": [],
+        "fuel_tank_exterior_01_dm": [],
+        "fuel_tank_exterior_02_dm": [],
+        "fuel_tank_exterior_03_dm": []
       }
     }
   },
@@ -952,7 +973,7 @@
   },
   {
     "sound": {
-      "EngineName": "engine_sherman_m4a3",
+      "EngineName": "engine_m60_patton",
       "TrackSoundPath": "tanks/engines_tanks",
       "TrackSoundPathStudio": "ground/engines",
       "TrackSoundName": "tracks",
@@ -1118,6 +1139,21 @@
           },
           {
             "name": "ammo_body_50_dm"
+          },
+          {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
           },
           {
             "name": "ammo_body_l_01_dm"
@@ -1582,29 +1618,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -2522,7 +2558,7 @@
         "Weapon": {
           "trigger": "gunner5",
           "triggerGroup": "smoke",
-          "blk": "gameData/Weapons/groundModels_weapons/66mm_germ_smoke_mortar_launcher.blk",
+          "blk": "gameData/Weapons/groundModels_weapons/60mm_smoke_mortar_launcher.blk",
           "weaponType": "rockets",
           "startFx": "",
           "useEmitter": true,
@@ -2589,9 +2625,7 @@
         "animationMultiplier": 0.6,
         "height": 0.06,
         "width": 0.55,
-        "fricFrontal": [1.0,0.8],
-        "criticalHillAngle": 27.0,
-        "hillClimbingDeclineFricKoef": 15.0
+        "fricFrontal": [1.0,0.8]
       },
       "collisionProps": {
         "cls_turret": "convex_hull",
@@ -3389,9 +3423,10 @@
       "105mm_usa_M735_APDS_FS_ammo_pack": [],
       "105mm_us_M416_Smoke": [],
       "105mm_us_M416_Smoke_ammo_pack": [],
-      "modern_tank_laser_rangefinder": [],
+      "laser_rangefinder_lws": [],
       "tank_smoke_screen_system_mod": {
-        "tier": 3,
+        "tier": 4,
+        "modClass": "protection",
         "effects": {
           "commonWeapons": [
             {
@@ -3735,7 +3770,7 @@
               "Weapon": {
                 "trigger": "gunner5",
                 "triggerGroup": "smoke",
-                "blk": "gameData/Weapons/groundModels_weapons/66mm_germ_smoke_mortar_launcher.blk",
+                "blk": "gameData/Weapons/groundModels_weapons/60mm_smoke_mortar_launcher.blk",
                 "weaponType": "rockets",
                 "startFx": "",
                 "useEmitter": true,

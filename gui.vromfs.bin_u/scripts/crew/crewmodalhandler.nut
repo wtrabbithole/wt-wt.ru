@@ -20,7 +20,7 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
   wndType = handlerType.MODAL
   sceneBlkName = "gui/crew/crew.blk"
 
-  slotbarActions = ["aircraft", "weapons", "showroom", "repair" ]
+  slotbarActions = ["aircraft","sec_weapons", "weapons", "showroom", "repair" ]
 
   countryId = -1
   idInCountry = -1
@@ -720,7 +720,8 @@ class ::gui_handlers.CrewModalHandler extends ::gui_handlers.BaseGuiHandlerWT
       {
         obj = [btnSpecObj, skillRowObj]
         text = ::loc("tutorials/upg_crew/spec1")
-        actionType = tutorAction.FIRST_OBJ_CLICK
+        actionType = tutorAction.ANY_CLICK
+        nextActionShortcut = "help/NEXT_ACTION"
         shortcut = ::GAMEPAD_ENTER_SHORTCUT
         cb = ::Callback(onUpgrCrewSpec1ConfirmTutorial, this)
       }

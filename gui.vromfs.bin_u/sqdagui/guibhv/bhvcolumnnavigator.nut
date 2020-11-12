@@ -1,3 +1,5 @@
+local { isObjHaveActiveChilds } = require("sqDagui/guiBhv/guiBhvUtils.nut")
+
 class gui_bhv.columnNavigator
 {
   eventMask = ::EV_JOYSTICK | ::EV_PROCESS_SHORTCUTS | ::EV_MOUSE_L_BTN | ::EV_MOUSE_EXT_BTN | ::EV_MOUSE_DBL_CLICK | ::EV_ON_FOCUS_SET | ::EV_ON_FOCUS_LOST
@@ -7,7 +9,7 @@ class gui_bhv.columnNavigator
     if (event == ::EV_ON_FOCUS_SET)
     {
       selectCurItem(obj)
-      ::play_gui_sound("focus")
+      obj.getScene().playSound("focus")
     }
     else if (event == ::EV_ON_FOCUS_LOST)
     {
@@ -21,7 +23,7 @@ class gui_bhv.columnNavigator
   function selectCurItem(obj)
   {
     local found = selectCell(obj, obj.cur_row.tointeger(), obj.cur_col.tointeger())
-    if (found || !::is_obj_have_active_childs(obj))
+    if (found || !isObjHaveActiveChilds(obj))
       return
     found = selectCell(obj, 0, 0)
     if (found)
@@ -263,7 +265,7 @@ class gui_bhv.columnNavigator
       return false
     td.scrollToView()
     if (needSound && ((curRow != row)||(curCol != col)))
-      ::play_gui_sound("choose")
+      obj.getScene().playSound("choose")
     if (needNotify)
       obj.sendNotify("select")
     return true

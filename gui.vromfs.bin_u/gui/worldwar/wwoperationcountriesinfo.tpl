@@ -1,23 +1,42 @@
-textAreaCentered {
-  id:t='countries_vs_text'
-  text-align:t='center'
-  text:t='<<vsText>><<^vsText>>#country/VS<</vsText>>'
-
-  <<#side1>>
+tdiv {
+  pos:t='0.5pw-0.5w, 0'
+  flow:t='vertical'
   tdiv {
-    pos:t='-w, 50%ph-50%h'
-    position:t='absolute'
-    padding-right:t='1@blockInterval'
-    include "gui/worldWar/countriesListWithQueue"
-  }
-  <</side1>>
+    pos:t='0.5pw-0.5w, 0'
+    flow:t='horizontal'
+    textAreaCentered {
+      pos:t='0.5pw-0.5w, 0'
+      position:t='absolute'
+      text-align:t='center'
+      text:t='<<vsText>><<^vsText>>#country/VS<</vsText>>'
+    }
 
-  <<#side2>>
-  tdiv {
-    pos:t='pw, 50%ph-50%h'
-    position:t='absolute'
-    padding-left:t='1@blockInterval'
-    include "gui/worldWar/countriesListWithQueue"
+    tdiv {
+      id:t='countries_container'
+      width:t='1@WWOperationDescriptionWidth'
+      pos:t='0.5pw-0.5w, 0'
+      position:t='relative'
+      behaviour:t='posNavigator'
+      navigatorShortcuts:t='yes'
+      css-hier-invalidate:t='yes'
+      total-input-transparent:t='yes'
+      on_wrap_up:t='onWrapUp'
+      on_wrap_down:t='onWrapDown'
+      on_wrap_right:t='onWrapDown'
+      <<#sides>>
+      wwConflictSideBlock {
+        include "gui/worldWar/countriesListWithQueue"
+      }
+      <</sides>>
+    }
+
+    DummyButton {
+      btnName:t='X'
+      on_click:t='onToBattles'
+    }
+    DummyButton {
+      btnName:t='Y'
+      on_click:t='onMapSideAction'
+    }
   }
-  <</side2>>
 }

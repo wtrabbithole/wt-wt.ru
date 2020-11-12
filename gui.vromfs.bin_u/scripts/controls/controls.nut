@@ -1,70 +1,28 @@
 local gamepadIcons = require("scripts/controls/gamepadIcons.nut")
 local globalEnv = require_native("globalEnv")
 local controllerState = require_native("controllerState")
-local time = require("scripts/time.nut")
 local shortcutsListModule = require("scripts/controls/shortcutsList/shortcutsList.nut")
 local shortcutsAxisListModule = require("scripts/controls/shortcutsList/shortcutsAxis.nut")
-local { TRIGGER_TYPE, getLastWeapon } = require("scripts/weaponry/weaponryInfo.nut")
+local { TRIGGER_TYPE,
+        getLastWeapon,
+        getCommonWeaponsBlk,
+        getLastPrimaryWeapon } = require("scripts/weaponry/weaponryInfo.nut")
 local { isBulletGroupActive } = require("scripts/weaponry/bulletsInfo.nut")
 local { resetFastVoiceMessages } = require("scripts/wheelmenu/voiceMessages.nut")
 local { unitClassType } = require("scripts/unit/unitClassType.nut")
 local controlsPresetConfigPath = require("scripts/controls/controlsPresetConfigPath.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { isMultifuncMenuAvailable, isWheelmenuAxisConfigurable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
+local { getNearestSelectableChildIndex } = require("sqDagui/guiBhv/guiBhvUtils.nut")
+local { isPlatformSony, isPlatformPS4, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
 
-::MAX_SHORTCUTS <- 3
+local PS4_CONTROLS_MODE_ACTIVATE = "ps4ControlsAdvancedModeActivated"
+
 ::preset_changed <- false
-::ps4ControlsModeActivatedParamName <- "ps4ControlsAdvancedModeActivated"
-::hotas4_device_id <- "044F:B67B"
-::hotas_one_device_id <- "044F:B68C"
-
-::shortcuts_not_change_by_preset <- [
-  "ID_INTERNET_RADIO", "ID_INTERNET_RADIO_PREV", "ID_INTERNET_RADIO_NEXT",
-  "ID_PTT"
-]
 
 ::shortcutsList <- shortcutsListModule.types
 
-::get_shortcut_by_id <- function get_shortcut_by_id(shortcutId)
-{
-  return ::getTblValue(shortcutId, shortcutsListModule)
-}
-
-::autorestore_axis_table <- {
-  ["AXIS_DECAL_MOVE_X"] = {
-    type = ::AXIS_DECAL_MOVE_X
-    id = 0 //gamepad - left stick - horizontal axis
-  },
-  ["AXIS_DECAL_MOVE_Y"] = {
-    type = ::AXIS_DECAL_MOVE_Y
-    id = 1 //gamepad - left stick - verical axis
-  },
-  ["AXIS_HANGAR_CAMERA_X"] = {
-    type = ::AXIS_HANGAR_CAMERA_X
-    id = 2 //gamepad - right stick - horizontal axis
-  },
-  ["AXIS_HANGAR_CAMERA_Y"] = {
-    type = ::AXIS_HANGAR_CAMERA_Y
-    id = 3 //gamepad - right stick - vertical axis
-  }
-}
-
-::can_change_helpers_mode <- function can_change_helpers_mode()
-{
-  if (!::is_in_flight())
-    return true
-
-  local missionBlk = ::DataBlock()
-  ::get_current_mission_info(missionBlk)
-
-  foreach(part, block in ::tutorials_to_check)
-    if(block.tutorial == missionBlk.name)
-      return false
-  return true
-}
-
-::reset_default_control_settings <- function reset_default_control_settings()
-{
+local function resetDefaultControlSettings() {
   ::set_option_multiplier(::OPTION_AILERONS_MULTIPLIER,         0.79); //::USEROPT_AILERONS_MULTIPLIER
   ::set_option_multiplier(::OPTION_ELEVATOR_MULTIPLIER,         0.64); //::USEROPT_ELEVATOR_MULTIPLIER
   ::set_option_multiplier(::OPTION_RUDDER_MULTIPLIER,           0.43); //::USEROPT_RUDDER_MULTIPLIER
@@ -104,28 +62,23 @@ local { isMultifuncMenuAvailable, isWheelmenuAxisConfigurable } = require("scrip
   ::set_option_gain(1); //::USEROPT_FORCE_GAIN
 }
 
-::restore_shortcuts <- function restore_shortcuts(scList, scNames)
+::get_shortcut_by_id <- function get_shortcut_by_id(shortcutId)
 {
-  local changeList = []
-  local changeNames = []
-  local curScList = ::get_shortcuts(scNames)
-  foreach(idx, sc in curScList)
-  {
-    local prevSc = scList[idx]
-    if (!::isShortcutMapped(prevSc))
-      continue
+  return ::getTblValue(shortcutId, shortcutsListModule)
+}
 
-    if (::is_shortcut_equal(sc, prevSc))
-      continue
+::can_change_helpers_mode <- function can_change_helpers_mode()
+{
+  if (!::is_in_flight())
+    return true
 
-    changeList.append(prevSc)
-    changeNames.append(scNames[idx])
-  }
-  if (!changeList.len())
-    return
+  local missionBlk = ::DataBlock()
+  ::get_current_mission_info(missionBlk)
 
-  ::set_controls_preset("")
-  ::set_shortcuts(changeList, changeNames)
+  foreach(part, block in ::tutorials_to_check)
+    if(block.tutorial == missionBlk.name)
+      return false
+  return true
 }
 
 ::switch_helpers_mode_and_option <- function switch_helpers_mode_and_option(preset = "")
@@ -133,16 +86,24 @@ local { isMultifuncMenuAvailable, isWheelmenuAxisConfigurable } = require("scrip
   local joyCurSettings = ::joystick_get_cur_settings()
   if (joyCurSettings.useMouseAim)
     ::set_helpers_mode_and_option(globalEnv.EM_MOUSE_AIM)
-  else if (::is_platform_ps4 && preset == ::g_controls_presets.getControlsPresetFilename("thrustmaster_hotas4"))
+  else if (isPlatformPS4 && preset == ::g_controls_presets.getControlsPresetFilename("thrustmaster_hotas4"))
   {
     if (::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM)
       ::set_helpers_mode_and_option(globalEnv.EM_INSTRUCTOR)
   }
-  else if (::is_ps4_or_xbox || ::is_platform_shield_tv())
+  else if (isPlatformSony || isPlatformXboxOne || ::is_platform_shield_tv())
     ::set_helpers_mode_and_option(globalEnv.EM_REALISTIC)
   else if (::getCurrentHelpersMode() == globalEnv.EM_MOUSE_AIM)
     ::set_helpers_mode_and_option(globalEnv.EM_INSTRUCTOR)
 }
+
+
+local shortcutsNotChangeByPreset = [
+  "ID_INTERNET_RADIO",
+  "ID_INTERNET_RADIO_PREV",
+  "ID_INTERNET_RADIO_NEXT",
+  "ID_PTT"
+]
 
 ::apply_joy_preset_xchange <- function apply_joy_preset_xchange(preset, updateHelpersMode = true)
 {
@@ -152,7 +113,7 @@ local { isMultifuncMenuAvailable, isWheelmenuAxisConfigurable } = require("scrip
   if (!preset || preset == "")
     return
 
-  local scToRestore = ::get_shortcuts(::shortcuts_not_change_by_preset)
+  local scToRestore = ::get_shortcuts(shortcutsNotChangeByPreset)
 
   ::restore_default_controls(preset)
   ::set_controls_preset(preset)
@@ -162,7 +123,7 @@ local { isMultifuncMenuAvailable, isWheelmenuAxisConfigurable } = require("scrip
   curJoyParams.setFrom(joyCurSettings)
   ::joystick_set_cur_values(curJoyParams)
 
-  ::restore_shortcuts(scToRestore, ::shortcuts_not_change_by_preset)
+  ::g_controls_utils.restoreShortcuts(scToRestore, shortcutsNotChangeByPreset)
 
   if (::is_platform_pc)
     ::switch_show_console_buttons(preset.indexof("xinput") != null)
@@ -171,16 +132,7 @@ local { isMultifuncMenuAvailable, isWheelmenuAxisConfigurable } = require("scrip
     ::switch_helpers_mode_and_option(preset)
 
   ::save_profile_offline_limited()
-}
-
-::isShortcutMapped <- function isShortcutMapped(shortcut)
-{
-  foreach (button in shortcut)
-    if (button && button.dev.len() >= 0)
-      foreach(d in button.dev)
-        if (d > 0 && d <= ::STD_GESTURE_DEVICE_ID)
-            return true
-  return false
+  ::broadcastEvent("PresetChanged")
 }
 
 local axisMappedOnMouse = {
@@ -241,9 +193,9 @@ local axisMappedOnMouse = {
 
 ::gui_start_controls <- function gui_start_controls()
 {
-  if (::is_ps4_or_xbox || ::is_platform_shield_tv())
+  if (isPlatformSony || isPlatformXboxOne || ::is_platform_shield_tv())
   {
-    if (::load_local_account_settings(ps4ControlsModeActivatedParamName, true))
+    if (::load_local_account_settings(PS4_CONTROLS_MODE_ACTIVATE, true))
     {
       ::gui_start_controls_console()
       return
@@ -280,8 +232,6 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   dontCheckControlsDupes = null
   notAssignedAxis = null
 
-  deviceMapping = null
-
   inputBox = null
 
   curJoyParams = null
@@ -306,6 +256,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   optionTableId = "controls_tbl"
 
   currentFocusItem = 7
+
+  axisControlsHandlerWeak = null
 
   function getMainFocusObj()
   {
@@ -347,7 +299,6 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     shortcutItems = []
     dontCheckControlsDupes = []
     notAssignedAxis = []
-    deviceMapping = []
 
     initNavigation()
     initMainParams()
@@ -382,9 +333,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     curJoyParams.setFrom(::joystick_get_cur_settings())
     updateButtons()
 
-    ::g_controls_manager.restoreHardcodedKeys(::MAX_SHORTCUTS)
+    ::g_controls_manager.restoreHardcodedKeys(max_shortcuts)
     shortcuts = ::get_shortcuts(shortcutNames)
-    deviceMapping = ::u.copy(::g_controls_manager.getCurPreset().deviceMapping)
 
     fillControlsType()
   }
@@ -503,7 +453,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
     showSceneBtn("btn_exportToFile", isImportExportAllowed)
     showSceneBtn("btn_importFromFile", isImportExportAllowed)
-    showSceneBtn("btn_switchMode", ::is_ps4_or_xbox || ::is_platform_shield_tv())
+    showSceneBtn("btn_switchMode", isPlatformSony || isPlatformXboxOne || ::is_platform_shield_tv())
     showSceneBtn("btn_backupManager", ::gui_handlers.ControlsBackupManager.isAvailable())
     local showWizard = !::is_platform_xboxone
       || (controllerState?.is_keyboard_connected || @() false) ()
@@ -607,7 +557,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     {
       local controlTblObj = scene.findObject(optionTableId)
       if (::checkObj(controlTblObj))
-        controlTblObj.setValue(::getNearestSelectableChildIndex(controlTblObj, -1, 1))
+        controlTblObj.setValue(getNearestSelectableChildIndex(controlTblObj, -1, 1))
       onTblChangeFocus()
     }
   }
@@ -722,6 +672,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       return
 
     initMainParams()
+    updateAxisControlsHandlerParams()
     ::preset_changed = false
     if (forceLoadWizard)
     {
@@ -995,7 +946,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       if (controlTblObj.getChild(i).id == id)
       {
         if (controlTblObj.getValue() != i)
-          controlTblObj.setValue(::getNearestSelectableChildIndex(controlTblObj, i, 1))
+          controlTblObj.setValue(getNearestSelectableChildIndex(controlTblObj, i, 1))
         break
       }
   }
@@ -1142,9 +1093,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function applySelectedPreset(preset)
   {
-    ::reset_default_control_settings()
+    resetDefaultControlSettings()
     ::apply_joy_preset_xchange(preset);
     ::preset_changed=true
+    ::broadcastEvent("PresetChanged")
   }
 
   function onClearAll()
@@ -1182,6 +1134,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       shortcuts[item.shortcutId] = []
       ::set_controls_preset("")
       updateShortcutText(item.shortcutId)
+      ::broadcastEvent("PresetChanged")
     })
   }
 
@@ -1286,11 +1239,12 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
   {
     local event = shortcuts[shortcutId]
     event.append({dev = devs, btn = btns})
-    if (event.len() > ::MAX_SHORTCUTS)
+    if (event.len() > max_shortcuts)
       event.remove(0)
 
     ::set_controls_preset(""); //custom mode
     updateShortcutText(shortcutId)
+    ::broadcastEvent("PresetChanged")
   }
 
   function updateShortcutText(shortcutId)
@@ -1386,19 +1340,25 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     return res
   }
 
+  getAxisHandlerParams = @() {
+    curJoyParams = curJoyParams,
+    shortcuts = shortcuts,
+    shortcutItems = shortcutItems
+  }
+
   function openAxisBox(axisItem)
   {
     if (!curJoyParams || !axisItem || axisItem.axisIndex < 0 )
       return
 
-    local params = {
-      axisItem = axisItem,
-      curJoyParams = curJoyParams,
-      shortcuts = shortcuts,
-      shortcutItems = shortcutItems
-    }
+    local handler = ::handlersManager.loadHandler(::gui_handlers.AxisControls,
+      getAxisHandlerParams().__update({ axisItem = axisItem }))
+    axisControlsHandlerWeak = handler.weakref()
+  }
 
-    ::gui_start_modal_wnd(::gui_handlers.AxisControls, params)
+  function updateAxisControlsHandlerParams() {
+    if (axisControlsHandlerWeak?.isValid() ?? false)
+      axisControlsHandlerWeak.setShortcutsParams(getAxisHandlerParams())
   }
 
   function onAxisReset()
@@ -1430,6 +1390,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local device = ::joystick_get_default()
     curJoyParams.applyParams(device)
     updateSceneOptions()
+    ::broadcastEvent("PresetChanged")
   }
 
   function setAxisBind(axisIdx, axisNum)
@@ -1439,6 +1400,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     local device = ::joystick_get_default()
     curJoyParams.applyParams(device)
     updateSceneOptions()
+    ::broadcastEvent("PresetChanged")
   }
 
   function onChangeAxisRelative(obj)
@@ -1469,7 +1431,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         else
           currentHeader = null
       }
-      if (!currentHeader || item.isHidden || !item.checkAssign)
+      local isRequired = typeof(item.checkAssign) == "function" ? item.checkAssign() : item.checkAssign
+      if (!currentHeader || item.isHidden || !isRequired)
         continue
       if (filter == globalEnv.EM_MOUSE_AIM && !item.reqInMouseAim)
         continue
@@ -1477,7 +1440,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
       if (item.type == CONTROL_TYPE.SHORTCUT)
       {
         if ((item.shortcutId in shortcuts)
-            && !::isShortcutMapped(shortcuts[item.shortcutId]))
+            && !::g_controls_utils.isShortcutMapped(shortcuts[item.shortcutId]))
           unmapped.append({ item = item, header = currentHeader })
         else if ("alternativeIds" in item)
         {
@@ -1505,7 +1468,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
             if (name in item.modifiersId)
             {
               local id = item.modifiersId[name]
-              if (!(id in shortcuts) || ::isShortcutMapped(shortcuts[id]))
+              if (!(id in shortcuts) || ::g_controls_utils.isShortcutMapped(shortcuts[id]))
               {
                 isMapped = true
                 break
@@ -1646,10 +1609,8 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
   function onEventControlsMappingChanged(realMapping)
   {
-    shortcuts = fix_shortcuts_and_axes_mapping(deviceMapping, realMapping,
-      shortcuts, shortcutNames, CONTROL_TYPE.AXIS, ::shortcutsList)
-    deviceMapping = ::u.copy(realMapping)
-    fillControlGroupTab(curGroupId)
+    ::preset_changed = true
+    ::broadcastEvent("PresetChanged")
   }
 
   function onEventControlsChangedShortcuts(p)
@@ -1900,7 +1861,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
         onSelectCallback = function(path) {
           local isOpened = ::import_current_layout_by_path(path)
           if (isOpened)
+          {
             ::preset_changed = true
+            ::broadcastEvent("PresetChanged")
+          }
           else
             ::showInfoMsgBox(::loc("msgbox/errorLoadingPreset"))
           return isOpened && ::is_last_load_controls_succeeded
@@ -1912,7 +1876,10 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
     else
     {
       if (::import_current_layout())
+      {
         ::preset_changed = true
+        ::broadcastEvent("PresetChanged")
+      }
       else
         msgBox("errorLoadingPreset", ::loc("msgbox/errorLoadingPreset"),
                [["ok", function() {} ]], "ok", { cancel_fn = function() {}})
@@ -2278,7 +2245,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
 ::hackTextAssignmentForR2buttonOnPS4 <- function hackTextAssignmentForR2buttonOnPS4(mainText)
 {
-  if (::is_platform_ps4)
+  if (isPlatformSony)
   {
     local hack = ::getLocaliazedPS4controlName("R2") + " + " + ::getLocaliazedPS4controlName("MouseLB")
     if (mainText.len() >= hack.len())
@@ -2295,7 +2262,7 @@ class ::gui_handlers.Hotkeys extends ::gui_handlers.GenericOptions
 
 ::switchControlsMode <- function switchControlsMode(value)
 {
-  ::save_local_account_settings(ps4ControlsModeActivatedParamName, value)
+  ::save_local_account_settings(PS4_CONTROLS_MODE_ACTIVATE, value)
 }
 
 ::getUnmappedControlsForCurrentMission <- function getUnmappedControlsForCurrentMission()
@@ -2519,7 +2486,7 @@ local function getWeaponFeatures(weaponsBlkList)
   local actionBarShortcutFormat = null
 
   local unitBlk = ::get_full_unit_blk(unitId)
-  local blkCommonWeapons = ::getCommonWeaponsBlk(unitBlk, ::get_last_primary_weapon(unit)) || ::DataBlock()
+  local blkCommonWeapons = getCommonWeaponsBlk(unitBlk, getLastPrimaryWeapon(unit)) || ::DataBlock()
   local blkWeaponPreset = ::DataBlock()
 
   local curWeaponPresetId = ::is_in_flight() ? ::get_cur_unit_weapon_preset() : getLastWeapon(unitId)
@@ -2572,9 +2539,9 @@ local function getWeaponFeatures(weaponsBlkList)
     if (unitControls?.hasFlapsControl)
     {
       local shortcuts = ::get_shortcuts([ "ID_FLAPS", "ID_FLAPS_UP", "ID_FLAPS_DOWN" ])
-      local flaps   = ::isShortcutMapped(shortcuts[0])
-      local flapsUp = ::isShortcutMapped(shortcuts[1])
-      local flapsDn = ::isShortcutMapped(shortcuts[2])
+      local flaps   = ::g_controls_utils.isShortcutMapped(shortcuts[0])
+      local flapsUp = ::g_controls_utils.isShortcutMapped(shortcuts[1])
+      local flapsDn = ::g_controls_utils.isShortcutMapped(shortcuts[2])
 
       if (!flaps && !flapsUp && !flapsDn)
         controls.append("ID_FLAPS")
@@ -2609,7 +2576,7 @@ local function getWeaponFeatures(weaponsBlkList)
     if (w.gotSchraegeMusik)
       controls.append("ID_SCHRAEGE_MUSIK")
 
-    if (hasControllableRadar)
+    if (hasControllableRadar && !::is_xinput_device())
     {
       controls.append("ID_SENSOR_SWITCH")
       controls.append("ID_SENSOR_TARGET_SWITCH")
@@ -2665,7 +2632,7 @@ local function getWeaponFeatures(weaponsBlkList)
       }
     }
 
-    if (hasControllableRadar)
+    if (hasControllableRadar && !::is_xinput_device())
     {
       controls.append("ID_SENSOR_TARGET_SWITCH_TANK")
       controls.append("ID_SENSOR_TARGET_LOCK_TANK")
@@ -2816,7 +2783,7 @@ local function getWeaponFeatures(weaponsBlkList)
       if (item.type == CONTROL_TYPE.SHORTCUT)
       {
         local shortcuts = ::get_shortcuts([ item.id ])
-        if (!shortcuts.len() || ::isShortcutMapped(shortcuts[0]))
+        if (!shortcuts.len() || ::g_controls_utils.isShortcutMapped(shortcuts[0]))
           continue
 
         local altIds = item?.alternativeIds ?? []
@@ -2825,7 +2792,7 @@ local function getWeaponFeatures(weaponsBlkList)
             ::u.appendOnce(otherItem.id, altIds)
         local isMapped = false
         foreach (s in ::get_shortcuts(altIds))
-          if (::isShortcutMapped(s))
+          if (::g_controls_utils.isShortcutMapped(s))
           {
             isMapped = true
             break
@@ -2852,7 +2819,7 @@ local function getWeaponFeatures(weaponsBlkList)
             if (!("hideAxisOptions" in item) || !::isInArray(modifier, item.hideAxisOptions))
             {
               local shortcuts = ::get_shortcuts([ item.id + "_" + modifier ])
-              if (shortcuts.len() && ::isShortcutMapped(shortcuts[0]))
+              if (shortcuts.len() && ::g_controls_utils.isShortcutMapped(shortcuts[0]))
                 shortcutsCount++
             }
           }
@@ -2866,17 +2833,6 @@ local function getWeaponFeatures(weaponsBlkList)
   return unmapped
 }
 
-
-::is_shortcut_equal <- function is_shortcut_equal(sc1, sc2)
-{
-  if (sc1.len() != sc2.len())
-    return false
-
-  foreach(i, sb in sc2)
-    if (!::is_bind_in_shortcut(sb, sc1))
-      return false
-  return true
-}
 
 ::is_shortcut_display_equal <- function is_shortcut_display_equal(sc1, sc2)
 {
@@ -2907,29 +2863,6 @@ local function getWeaponFeatures(weaponsBlkList)
   return false
 }
 
-
-::compare_blk_axis <- function compare_blk_axis(blk, axis)
-{
-  local axisBase = ["axisId",
-                    "inverse", "relative",
-                    "keepDisabledValue",
-                   ]
-  foreach (p in axisBase)
-    if (blk?[p] != null && blk[p] != axis?[p])
-      return false
-
-  local axisFloats = ["innerDeadzone", /*"outerDeadzone",*/
-                      /*"rangeMin", "rangeMax", */
-                      "nonlinearity",
-                      "kAdd", "kMul",
-                      "relSens", "relStep",
-                     ]
-  foreach(p in axisFloats)
-    if (blk?[p] != null && fabs(blk[p] - (axis?[p] ?? 0)) > 0.001)
-      return false
-
-  return true
-}
 
 ::toggle_shortcut <- function toggle_shortcut(shortcutName)
 {
@@ -2965,69 +2898,4 @@ local function getWeaponFeatures(weaponsBlkList)
   }
 
   return false
-}
-
-::check_joystick_thustmaster_hotas <- function check_joystick_thustmaster_hotas(changePreset = true)
-{
-  local deviceId =
-    ::is_platform_ps4 ? ::hotas4_device_id :
-    ::is_platform_xboxone ? ::hotas_one_device_id :
-    null
-
-  if (deviceId == null || !::g_login.isLoggedIn())
-    return false
-
-  if (!::is_device_connected(deviceId))
-    return false
-
-  return changePreset ? ::ask_hotas_preset_change() : true
-}
-
-::ask_hotas_preset_change <- function ask_hotas_preset_change()
-{
-  if (!::is_ps4_or_xbox || ::loadLocalByAccount("wnd/detectThrustmasterHotas", false))
-    return
-
-  local preset = ::g_controls_presets.getCurrentPreset()
-  local is_ps4_non_gamepad_preset = ::is_platform_ps4
-    && preset.name.indexof("dualshock4") == null
-    && preset.name.indexof("default") == null
-  local is_xboxone_non_gamepad_preset = ::is_platform_xboxone
-    && preset.name.indexof("xboxone_ma") == null
-    && preset.name.indexof("xboxone_simulator") == null
-
-  ::saveLocalByAccount("wnd/detectThrustmasterHotas", true)
-
-  if (is_ps4_non_gamepad_preset && is_xboxone_non_gamepad_preset)
-    return
-
-  local questionLocId =
-    ::is_platform_ps4 ? "msgbox/controller_hotas4_found" :
-    ::is_platform_xboxone ? "msgbox/controller_hotas_one_found" :
-    ::unreachable()
-
-  local mainAction = function() {
-    local presetName =
-      ::is_platform_ps4 ? "thrustmaster_hotas4" :
-      ::is_platform_xboxone ? "xboxone_thrustmaster_hotas_one" :
-      ::unreachable()
-    ::apply_joy_preset_xchange(::g_controls_presets.getControlsPresetFilename(presetName))
-  }
-
-  ::g_popups.add(
-    null,
-    ::loc(questionLocId),
-    mainAction,
-    [{
-      id = "yes",
-      text = ::loc("msgbox/btn_yes"),
-      func = mainAction
-    },
-    { id = "no",
-      text = ::loc("msgbox/btn_no")
-    }],
-    null,
-    null,
-    time.secondsToMilliseconds(time.minutesToSeconds(10))
-  )
 }

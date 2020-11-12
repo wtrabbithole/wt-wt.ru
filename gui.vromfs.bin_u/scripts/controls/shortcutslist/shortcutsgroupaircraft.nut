@@ -3,9 +3,10 @@ local controlsOperations = require("scripts/controls/controlsOperations.nut")
 local { unitClassType } = require("scripts/unit/unitClassType.nut")
 local unitTypes = require("scripts/unit/unitTypesList.nut")
 local { isWheelmenuAxisConfigurable } = require("scripts/wheelmenu/multifuncmenuShared.nut")
+local { isPlatformSony, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
 
 local isMouseAimSelected = @() (::g_controls_utils.getMouseUsageMask() & AIR_MOUSE_USAGE.AIM)
-local needFullGunnerSettings = @() ::is_ps4_or_xbox || !isMouseAimSelected()
+local needFullGunnerSettings = @() isPlatformSony || isPlatformXboxOne || !isMouseAimSelected()
 
 return [
   {
@@ -111,6 +112,16 @@ return [
     ]
   }
   {
+    id = "ID_FIRE_PRIMARY"
+    showFunc = @() ::has_feature("WeaponCycleTrigger")
+    checkAssign = false
+  }
+  {
+    id = "ID_FIRE_SECONDARY"
+    showFunc = @() ::has_feature("WeaponCycleTrigger")
+    checkAssign = false
+  }
+  {
     id = "ID_BAY_DOOR"
     checkAssign = false
     needShowInHelp = true
@@ -151,7 +162,22 @@ return [
   }
   {
     id = "ID_WEAPON_LOCK"
-    needShowInHelp = true
+    checkAssign = false
+  }
+  {
+    id = "ID_EXIT_SHOOTING_CYCLE_MODE"
+    showFunc = @() ::has_feature("WeaponCycleTrigger")
+    checkAssign = false
+  }
+  {
+    id = "ID_SWITCH_SHOOTING_CYCLE_PRIMARY"
+    showFunc = @() ::has_feature("WeaponCycleTrigger")
+    checkAssign = false
+  }
+  {
+    id = "ID_SWITCH_SHOOTING_CYCLE_SECONDARY"
+    showFunc = @() ::has_feature("WeaponCycleTrigger")
+    checkAssign = false
   }
   {
     id = "ID_FLARES"
@@ -215,12 +241,29 @@ return [
   {
     id = "ID_TOGGLE_CANNONS_AND_ROCKETS_BALLISTIC_COMPUTER"
     checkAssign = false
+    //showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
+  }
+  {
+    id = "ID_SWITCH_COCKPIT_SIGHT_MODE"
+    checkAssign = false
     showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
   }
   {
     id = "ID_SWITCH_REGISTERED_BOMB_TARGETING_POINT"
     checkAssign = false
     showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
+  }
+  {
+    id = "ID_LOCK_TARGETING_AT_POINT"
+    checkAssign = false
+    needShowInHelp = true
+    showFunc = @() ::has_feature("PointOfInterestDesignator")
+  }
+  {
+    id = "ID_UNLOCK_TARGETING_AT_POINT"
+    checkAssign = false
+    needShowInHelp = true
+    showFunc = @() ::has_feature("PointOfInterestDesignator")
   }
 //-------------------------------------------------------
   {
@@ -425,18 +468,6 @@ return [
     needShowInHelp = true
   }
   {
-    id = "ID_LOCK_TARGETING_AT_POINT"
-    checkAssign = false
-    needShowInHelp = true
-    showFunc = @() ::has_feature("PointOfInterestDesignator")
-  }
-  {
-    id = "ID_UNLOCK_TARGETING_AT_POINT"
-    checkAssign = false
-    needShowInHelp = true
-    showFunc = @() ::has_feature("PointOfInterestDesignator")
-  }
-  {
     id = "ID_CAMERA_FPS"
     checkAssign = false
     needShowInHelp = true
@@ -479,13 +510,13 @@ return [
   {
     id = "ID_AIM_CAMERA"
     checkAssign = false,
-    condition = @() ::is_ps4_or_xbox
+    condition = @() isPlatformSony || isPlatformXboxOne
   }
   {
     id = "target_camera"
     type = CONTROL_TYPE.AXIS
     checkAssign = false
-    condition = @() ::is_ps4_or_xbox
+    condition = @() isPlatformSony || isPlatformXboxOne
     hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
   }
   {
@@ -558,17 +589,13 @@ return [
     filterShow = [globalEnv.EM_FULL_REAL]
   }
   {
-    id = "ID_SWITCH_COCKPIT_SIGHT_MODE"
-    checkAssign = false
-    showFunc = @() ::has_feature("ConstantlyComputedWeaponSight")
-  }
-  {
     id = "wheelmenu_x"
     type = CONTROL_TYPE.AXIS
     axisDirection = AxisDirection.X
     checkGroup = ctrlGroups.AIR
     hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
-    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
+    showFunc = @() (isPlatformSony || isPlatformXboxOne || ::is_xinput_device()) && isWheelmenuAxisConfigurable()
+    checkAssign = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
   }
   {
     id = "wheelmenu_y"
@@ -576,7 +603,8 @@ return [
     axisDirection = AxisDirection.Y
     checkGroup = ctrlGroups.AIR
     hideAxisOptions = ["rangeSet", "relativeAxis", "kRelSpd", "kRelStep"]
-    showFunc = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
+    showFunc = @() (isPlatformSony || isPlatformXboxOne || ::is_xinput_device()) && isWheelmenuAxisConfigurable()
+    checkAssign = @() ::is_xinput_device() && isWheelmenuAxisConfigurable()
   }
 //-------------------------------------------------------
   {
@@ -644,11 +672,6 @@ return [
     type = CONTROL_TYPE.SLIDER
     value = @(joyParams) 100.0 * ::get_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_AIR)
     setValue = @(joyParams, objValue) ::set_option_multiplier(::OPTION_AIM_ACCELERATION_DELAY_AIR, objValue / 100.0)
-  }
-  {
-    id = "joy_camera_sensitivity"
-    type = CONTROL_TYPE.SLIDER
-    optionType = ::USEROPT_MOUSE_AIM_SENSE
   }
 //-------------------------------------------------------
   {

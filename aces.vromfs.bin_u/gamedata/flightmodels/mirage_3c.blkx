@@ -2,9 +2,11 @@
   "model": "mirage_3c",
   "fmFile": "fm/mirage_3c.blk",
   "MetaPartsBlk": "gameData/FlightModels/dm/metaparts/fighter_metaparts.blk",
-  "exhaustEffectsBlk": "gameData/FlightModels/exhaustEffects/exhaustEffects_common.blk",
   "gearSinkRangeLR": 0.186,
   "gearSinkRangeC": 0.217,
+  "standardExhaustFxType": "jet_exhaust",
+  "afterburnerExhaustFxType": "jet_afterburner_exhaust",
+  "startExhaustFxType": "jet_start_exhaust",
   "gyroscopicSightOverSensors": true,
   "type": "typeFighter",
   "paratrooper": "ally",
@@ -2293,6 +2295,16 @@
     },
     {
       "preset": {
+        "name": "mirage_3c_1xr530",
+        "blk": "gameData/FlightModels/weaponPresets/mirage_3c_1xr530.blk",
+        "reqModification": "fr_matra_r_530",
+        "weaponConfig": {
+          "presetType": "AIR_TO_AIR"
+        }
+      }
+    },
+    {
+      "preset": {
         "name": "mirage_3c_2xr550_magic",
         "blk": "gameData/FlightModels/weaponPresets/mirage_3c_2xr550_magic.blk",
         "reqModification": "fr_matra_r_550_magic_1",
@@ -2375,6 +2387,86 @@
         },
         {
           "reqModification": "fr_matra_r_530e"
+        },
+        {
+          "reqModification": "fr_jl_100r"
+        }
+      ]
+    },
+    {
+      "preset": [
+        {
+          "name": "mirage_3c_1xr530_2xaim9b"
+        },
+        {
+          "blk": "gameData/FlightModels/weaponPresets/mirage_3c_1xr530_2xaim9b.blk"
+        },
+        {
+          "reqModification": "us_aim_9b"
+        },
+        {
+          "reqModification": "fr_matra_r_530"
+        },
+        {
+          "weaponConfig": {
+            "presetType": "AIR_TO_AIR"
+          }
+        }
+      ]
+    },
+    {
+      "preset": [
+        {
+          "name": "mirage_3c_1xr530_2xr550_magic"
+        },
+        {
+          "blk": "gameData/FlightModels/weaponPresets/mirage_3c_1xr530_2xr550_magic.blk"
+        },
+        {
+          "reqModification": "fr_matra_r_550_magic_1"
+        },
+        {
+          "reqModification": "fr_matra_r_530"
+        },
+        {
+          "weaponConfig": {
+            "presetType": "AIR_TO_AIR"
+          }
+        }
+      ]
+    },
+    {
+      "preset": [
+        {
+          "name": "mirage_3c_1xr530_2xaim9b_2xjl100r"
+        },
+        {
+          "blk": "gameData/FlightModels/weaponPresets/mirage_3c_1xr530_2xaim9b_2xjl100r.blk"
+        },
+        {
+          "reqModification": "us_aim_9b"
+        },
+        {
+          "reqModification": "fr_matra_r_530"
+        },
+        {
+          "reqModification": "fr_jl_100r"
+        }
+      ]
+    },
+    {
+      "preset": [
+        {
+          "name": "mirage_3c_1xr530_2xr550_magic_2xjl100r"
+        },
+        {
+          "blk": "gameData/FlightModels/weaponPresets/mirage_3c_1xr530_2xr550_magic_2xjl100r.blk"
+        },
+        {
+          "reqModification": "fr_matra_r_550_magic_1"
+        },
+        {
+          "reqModification": "fr_matra_r_530"
         },
         {
           "reqModification": "fr_jl_100r"
@@ -2785,13 +2877,18 @@
       "tier": 1,
       "modClass": "weapon"
     },
-    "fr_matra_r_530e": {
+    "fr_matra_r_530": {
       "tier": 2,
       "modClass": "weapon",
       "reqModification": "us_aim_9b"
     },
-    "fr_matra_r_550_magic_1": {
+    "fr_matra_r_530e": {
       "tier": 3,
+      "modClass": "weapon",
+      "reqModification": "fr_matra_r_530"
+    },
+    "fr_matra_r_550_magic_1": {
+      "tier": 4,
       "modClass": "weapon",
       "reqModification": "fr_matra_r_530e"
     }
@@ -2839,7 +2936,7 @@
     "emtr_break_wing1_r_to": [0.109118,-0.497304,-2.27333],
     "emtr_break_wing2_r_from": [0.109118,-0.497304,-2.9308],
     "emtr_break_wing2_r_to": [0.109118,-0.497304,-3.36908],
-    "emtr_break_wing_tail": [-2.72467,0.0,0.0],
+    "emtr_break_wing_tail": [-3.0,0.0,0.0],
     "finCut": true
   }
 }

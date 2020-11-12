@@ -1,5 +1,5 @@
-local seenWWMapsObjective = ::require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
-
+local seenWWMapsObjective = require("scripts/seen/seenList.nut").get(SEEN.WW_MAPS_OBJECTIVE)
+local { getOperationById } = require("scripts/worldWar/operations/model/wwActionsWhithGlobalStatus.nut")
 
 class ::gui_handlers.WwObjectivesInfo extends ::gui_handlers.BaseGuiHandlerWT
 {
@@ -35,12 +35,12 @@ class ::gui_handlers.WwObjectivesInfo extends ::gui_handlers.BaseGuiHandlerWT
     foreach (side in ::g_world_war.getSidesOrder())
       initSideBlock(side, ::ww_side_val_to_name(side))
     markSeenCurObjective()
-    ::play_gui_sound("ww_globe_battle_select")
+    guiScene.playSound("ww_globe_battle_select")
   }
 
   function markSeenCurObjective()
   {
-    local curOperation = ::g_ww_global_status.getOperationById(::ww_get_operation_id())
+    local curOperation = getOperationById(::ww_get_operation_id())
     if (curOperation)
       seenWWMapsObjective.markSeen(curOperation.getMapId())
   }

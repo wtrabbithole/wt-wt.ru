@@ -1,14 +1,14 @@
+local { isPlatformSony, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
+
 local { getShopItem = @(id) null,
         openIngameStore = @(...) false
-} = ::is_platform_ps4? require("scripts/onlineShop/ps4Shop.nut")
-  : ::is_platform_xboxone? require("scripts/onlineShop/xboxShop.nut")
+} = isPlatformSony? require("scripts/onlineShop/ps4Shop.nut")
+  : isPlatformXboxOne? require("scripts/onlineShop/xboxShop.nut")
   : null
 
 local callbackWhenAppWillActive = require("scripts/clientState/callbackWhenAppWillActive.nut")
 local { getBundleId } = require("scripts/onlineShop/onlineBundles.nut")
 local { openUrl } = require("scripts/onlineShop/url.nut")
-local { isMePS4PlayerOnPC } = require("scripts/clientState/platform.nut")
-
 /*
  * Search in price.blk:
  * Search parapm is a table of request fields
@@ -56,7 +56,7 @@ OnlineShopModel.showGoods <- function showGoods(searchRequest, requestOrigin)
         local bundleId = getBundleId(goodsName)
         if (bundleId != "")
         {
-          if (::is_ps4_or_xbox)
+          if (isPlatformSony || isPlatformXboxOne)
           {
             if (getShopItem(bundleId) != null)
             {
@@ -72,7 +72,7 @@ OnlineShopModel.showGoods <- function showGoods(searchRequest, requestOrigin)
         }
       }
 
-      if (::is_ps4_or_xbox)
+      if (isPlatformSony || isPlatformXboxOne)
         return openIngameStore({ openedFrom = requestOrigin })
 
       return ::gui_modal_onlineShop()
@@ -295,7 +295,7 @@ OnlineShopModel.openBrowserByPurchaseData <- function openBrowserByPurchaseData(
   if (!purchaseData.canBePurchased)
     return false
 
-  if (::is_ps4_or_xbox)
+  if (isPlatformSony || isPlatformXboxOne)
     return openIngameStore()
 
   if (purchaseData.customPurchaseLink)
@@ -319,7 +319,7 @@ OnlineShopModel.openBrowserByPurchaseData <- function openBrowserByPurchaseData(
 
 OnlineShopModel.doBrowserPurchase <- function doBrowserPurchase(goodsName)
 {
-  if (::is_ps4_or_xbox)
+  if (isPlatformSony || isPlatformXboxOne)
     return openIngameStore()
   //just to avoid bugs, when users, who should to purchase goods in regional
   //web shops, accidentally uses ingame online shop
@@ -370,7 +370,7 @@ OnlineShopModel.getGoodsChapter <- function getGoodsChapter(goodsName)
 //Consoles are exception. They always uses It's store.
 OnlineShopModel.getCustomPurchaseUrl <- function getCustomPurchaseUrl(chapter)
 {
-  if (::is_ps4_or_xbox)
+  if (isPlatformSony || isPlatformXboxOne)
     return ""
 
   local circuit = ::get_cur_circuit_name()
@@ -398,16 +398,6 @@ OnlineShopModel.openShopUrl <- function openShopUrl(baseUrl, isAlreadyAuthentica
 //return true when custom Url found
 OnlineShopModel.checkAndOpenCustomPurchaseUrl <- function checkAndOpenCustomPurchaseUrl(chapter, needMsgBox = false)
 {
-  if (isMePS4PlayerOnPC())
-  {
-    local urlPostfix = chapter
-    if (chapter != "premium" && chapter != "warpoints")
-      urlPostfix = "shop"
-
-    openShopUrl(::loc($"url/gjn/{urlPostfix}"))
-    return true
-  }
-
   local customUrl = getCustomPurchaseUrl(chapter)
   if (customUrl == "")
     return false

@@ -185,13 +185,13 @@ local function needReqItems(itemBlock, itemsList) {
   return false
 }
 
-local function needReqItemsForCraft(itemBlock, itemsList) {
+local function isRequireCondition(reqItems, itemsList, isMetConditionFunc) {
   local needCondForCraft = false
-  foreach (reqItemBlock in (itemBlock?.reqItemForCrafting ?? [])) {
+  foreach (reqItemBlock in (reqItems)) {
     local canCraft = true
     foreach (itemId, needHave in reqItemBlock) {
-      local amount = itemsList?[itemId].getAmount() ?? 0
-      if ((needHave && amount > 0) || (!needHave && amount == 0))
+      local isMetCondition = isMetConditionFunc(itemsList, itemId)
+      if ((needHave && isMetCondition) || (!needHave && !isMetCondition))
         continue
 
       canCraft = false
@@ -207,17 +207,19 @@ local function needReqItemsForCraft(itemBlock, itemsList) {
   return needCondForCraft
 }
 
+local hasAmount = @(itemsList, itemId) (itemsList?[itemId].getAmount() ?? 0) > 0
+
 local function getConfigByItemBlock(itemBlock, itemsList, workshopSet)
 {
   local item = itemsList?[itemBlock?.id]
   local hasComponent = itemBlock?.showResources
   local itemId = item?.id ?? "-1"
   local isCraftingOrHasCraftResult = item != null && (item.isCrafting() || item.hasCraftResult())
-  local needReqItemForCraft = needReqItemsForCraft(itemBlock, itemsList)
+  local needReqItemForCraft = isRequireCondition(itemBlock?.reqItemForCrafting ?? [], itemsList, hasAmount)
   local isDisabledAction = !isCraftingOrHasCraftResult
     && (needReqItemForCraft || needReqItems(itemBlock, itemsList))
-  local isDisguised = (itemBlock?.reqItemForIdentification ?? []).findindex(
-    @(itemId) !workshopSet.isItemIdKnown(itemId)) != null
+  local isItemIdKnown = (@(itemsList, itemId) workshopSet.isItemIdKnown(itemId)).bindenv(workshopSet)
+  local isDisguised = isRequireCondition(itemBlock?.reqItemForIdentification ?? [], itemsList, isItemIdKnown)
   local hasReachedMaxAmount = item?.hasReachedMaxAmount() ?? false
   local hasItemInInventory = (item?.getAmount() ?? 0) != 0 || isCraftingOrHasCraftResult
   return {
@@ -232,8 +234,8 @@ local function getConfigByItemBlock(itemBlock, itemsList, workshopSet)
     iconInsteadAmount = hasReachedMaxAmount ? getSucessItemCraftIcon(item) : null
     conectionInRowText = itemBlock?.conectionInRowText
     isDisguised = !hasItemInInventory && isDisguised
-    isHidden = !hasItemInInventory && (itemBlock?.reqItemForDisplaying ?? []).findindex(
-        @(itemId) !workshopSet.isItemIdKnown(itemId)) != null
+    isHidden = !hasItemInInventory
+      && isRequireCondition(itemBlock?.reqItemForDisplaying ?? [], itemsList, isItemIdKnown)
   }
 }
 
@@ -484,6 +486,21 @@ local function getButtonView(bodyConfig, itemSizes) {
   return buttonView
 }
 
+local function getBodyBackground(bodiesConfig, itemSizes, fullBodiesHeight) {
+  local backgroundView = []
+  foreach (body in bodiesConfig)
+    if (body.bodyTiledBackImage != "") {
+      local posY = itemSizes.itemsOffsetByBodies[body.bodyIdx]
+      backgroundView.append({
+        bodyBackground = body.bodyTiledBackImage
+        bodyBackgroundPos = posFormatString.subst(0, posY)
+        bodyBackgroundSize = posFormatString.subst("pw",
+          (itemSizes.bodiesOffset?[body.bodyIdx + 1] ?? fullBodiesHeight) - posY)
+      })
+    }
+  return backgroundView
+}
+
 local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType          = handlerType.MODAL
@@ -562,8 +579,9 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     local itemBlockInterval = ::to_pixels("1@{0}raftTreeBlockInterval".subst(sizes.intervalPrefix))
     local itemBlockHeight = itemHeight + itemBlockInterval
     local headerBlockInterval = ::to_pixels("1@headerAndCraftTreeBlockInterval")
-    local isItemIdKnown = workshopSet.isItemIdKnown.bindenv(workshopSet)
+    local isItemIdKnown = (@(itemsList, itemId) workshopSet.isItemIdKnown(itemId)).bindenv(workshopSet)
     local buttonHeight = ::to_pixels("1@buttonHeight") + 2*::to_pixels("1@buttonMargin")
+    local titleMargin = ::to_pixels("1@dp")
     local items = itemsList
     foreach (idx, rows in craftTree.treeRowsByBodies) {
       local visibleItemsCountY = 0
@@ -574,7 +592,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
             local hasItemInInventory = item != null
               && (item.getAmount() != 0 || item.isCrafting() || item.hasCraftResult())
             return hasItemInInventory
-              || ((itemBlock?.reqItemForDisplaying ?? []).findindex(@(itemId) !isItemIdKnown(itemId)) == null)
+              || !isRequireCondition(itemBlock?.reqItemForDisplaying ?? [], items, isItemIdKnown)
           }) != null)
         {
           visibleItemsCountY = i
@@ -589,8 +607,10 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
             + visibleItemsCountYByBodies[idx-1] * itemBlockHeight + headerBlockInterval
             + (bodiesConfig[idx-1].button != null ? buttonHeight : 0)
           )
+      local curBodyTitlesCount = bodiesConfig[idx].bodyTitlesCount
       itemsOffsetByBodies.append(curBodiesOffset
-        + (isShowHeaderPlace ? 0 : (bodiesConfig[idx].bodyTitlesCount * titleHeight)))
+        + (isShowHeaderPlace ? 0 : (curBodyTitlesCount * titleHeight
+          + (curBodyTitlesCount -1) * titleMargin)))
       bodiesOffset.append(curBodiesOffset)
       visibleItemsCountYByBodies.append(visibleItemsCountY)
     }
@@ -598,6 +618,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     return sizes.__update({
       itemHeight = itemHeight
       itemHeightFull = ::to_pixels("1@itemHeight")
+      titleMargin = titleMargin
       itemInterval = itemInterval
       itemBlockInterval = itemBlockInterval
       resourceWidth = resourceWidth
@@ -691,7 +712,9 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
           bodyTitleText = ::loc(branch.locId)
           titlePos = posFormatString.subst(posX * itemSizes.itemBlockWidth
               + itemSizes.columnOffests[posX],
-            $"1@dp + {itemSizes.bodiesOffset[branch.bodyIdx] + (bodyConfig.title != "" ? itemSizes.titleHeight : 0)}")
+            (bodiesConfig[branch.bodyIdx].bodyTitlesCount > 1 ? itemSizes.titleMargin : 0)
+              + itemSizes.bodiesOffset[branch.bodyIdx]
+              + (bodyConfig.title != "" ? itemSizes.titleHeight : 0))
           titleSize = posFormatString.subst(getBranchWidth(branch, false),
             itemSizes.titleHeight)
           hasSeparator = posX != 0
@@ -725,6 +748,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     }
     return {
       bodyTitles = bodyTitles
+      bodyBackground = getBodyBackground(bodiesConfig, itemSizes, fullBodyHeightWithoutResult)
       bodyHeight = fullBodyHeightWithoutResult
         + (hasCraftResult
           ? (itemSizes.headerBlockInterval + itemSizes.itemHeightFull + itemSizes.itemBlockInterval)
@@ -780,7 +804,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
 
     if (!(item.isCrafting() || item.hasCraftResult())
         && (needReqItems(itemBlock, itemsList)
-          || needReqItemsForCraft(itemBlock, itemsList)))
+          || isRequireCondition(itemBlock?.reqItemForCrafting ?? [], itemsList, hasAmount)))
       return
 
     doMainAction(item, itemObj)

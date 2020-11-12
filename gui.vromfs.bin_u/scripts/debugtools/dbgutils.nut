@@ -1,7 +1,11 @@
+// warning disable: -file:forbidden-function
+
 local dbgExportToFile = require("scripts/debugTools/dbgExportToFile.nut")
 local shopSearchCore = require("scripts/shop/shopSearchCore.nut")
 local dirtyWordsFilter = require("scripts/dirtyWords/dirtyWords.nut")
 local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weaponryVisual.nut")
+local { getVideoModes } = require("scripts/options/systemOptions.nut")
+local { isWeaponAux, getWeaponNameByBlkPath } = require("scripts/weaponry/weaponryInfo.nut")
 
 ::callstack <- dagor.debug_dump_stack
 
@@ -146,7 +150,7 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
     itemProcessFunc = function(unit) {
       local blk = ::DataBlock()
       foreach(weapon in unit.weapons)
-        if (!::isWeaponAux(weapon))
+        if (!isWeaponAux(weapon))
         {
           blk[weapon.name + "_short"] <- getWeaponNameText(unit, false, weapon.name, ", ")
           local rowsList = ::split(getWeaponInfoText(unit,
@@ -209,24 +213,6 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
     }
     onFinish = @() ::dmViewer.toggle(::DM_VIEWER_NONE)
   })
-}
-
-::dbg_ww_destroy_cur_operation <- function dbg_ww_destroy_cur_operation()
-{
-  if (!::ww_is_operation_loaded())
-    return ::dlog("No operation loaded!")
-
-  local blk = ::DataBlock()
-  blk.operationId = ::ww_get_operation_id().tointeger()
-  blk.status = 3 //ES_FAILED
-  ::g_tasker.charSimpleAction("adm_ww_set_operation_status", blk, { showProgressBox = true },
-                              function() {
-                                ::dlog("success")
-                                ::g_world_war.stopWar()
-                                ::g_ww_global_status.refreshData(0)
-                              },
-                              function() { ::dlog("Do you have admin rights? ") }
-                             )
 }
 
 ::gui_do_debug_unlock <- function gui_do_debug_unlock()
@@ -352,7 +338,7 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
     local locName = ::getUnitName(unit)
     local army = unit.unitType.getArmyLocName()
     local country = ::loc(::getUnitCountry(unit))
-    local rank = ::get_roman_numeral(::getUnitRank(unit))
+    local rank = ::get_roman_numeral(unit?.rank ?? -1)
     local prem = (::isUnitSpecial(unit) || ::isUnitGift(unit)) ? ::loc("shop/premiumVehicle/short") : ""
     local hidden = !unit.isInShop ? ::loc("controls/NA") : unit.isVisibleInShop() ? "" : ::loc("worldWar/hided_logs")
     return unit.name + "; \"" + locName + "\" (" + ::g_string.implode([ army, country, rank, prem, hidden ], ", ") + ")"
@@ -375,7 +361,7 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
 
 ::debug_show_weapon <- function debug_show_weapon(weaponName)
 {
-  weaponName = ::get_weapon_name_by_blk_path(weaponName)
+  weaponName = getWeaponNameByBlkPath(weaponName)
   foreach (u in ::all_units)
   {
     if (!u.isInShop)
@@ -390,7 +376,7 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
       if (!presetBlk)
         continue
       foreach (weaponMetaBlk in (presetBlk % "Weapon"))
-        if (weaponName == ::get_weapon_name_by_blk_path(weaponMetaBlk?.blk ?? ""))
+        if (weaponName == getWeaponNameByBlkPath(weaponMetaBlk?.blk ?? ""))
         {
           ::open_weapons_for_unit(u)
           return $"{u.name} / {weaponMetaBlk.blk}"
@@ -414,7 +400,7 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
 ::debug_change_resolution <- function debug_change_resolution(shouldIncrease = true)
 {
   local curResolution = ::getSystemConfigOption("video/resolution")
-  local list = ::sysopt.mShared.getVideoModes(curResolution, false)
+  local list = getVideoModes(curResolution, false)
   local curIdx = list.indexof(curResolution) || 0
   local newIdx = ::clamp(curIdx + (shouldIncrease ? 1 : -1), 0, list.len() - 1)
   local newResolution = list[newIdx]
@@ -525,6 +511,12 @@ local { getWeaponInfoText, getWeaponNameText } = require("scripts/weaponry/weapo
 ::debug_tips_list <- function debug_tips_list() {
   debug_wnd("gui/debugTools/dbgTipsList.tpl",
     {tipsList = ::g_tips.getAllTips().map(@(value) { value = value })})
+}
+
+::debug_get_skyquake_path <- function debug_get_skyquake_path() {
+  local dir = ::get_exe_dir()
+  local idx = dir.indexof("/skyquake/")
+  return idx != null ? dir.slice(0, idx + 9) : ""
 }
 
 ::debug_load_anim_bg <- require("scripts/loading/animBg.nut").debugLoad

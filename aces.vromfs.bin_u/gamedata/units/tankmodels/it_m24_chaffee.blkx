@@ -111,6 +111,9 @@
     "canReloadNonGuns": true
   },
   {
+    "harmonizationSuffix": "_tomoe"
+  },
+  {
     "DamageParts": {
       "formatVersion": 2,
       "armorClass": "RHA_tank",
@@ -801,6 +804,21 @@
             "name": "ammo_body_50_dm"
           },
           {
+            "name": "ammo_body_51_dm"
+          },
+          {
+            "name": "ammo_body_52_dm"
+          },
+          {
+            "name": "ammo_body_53_dm"
+          },
+          {
+            "name": "ammo_body_54_dm"
+          },
+          {
+            "name": "ammo_body_55_dm"
+          },
+          {
             "name": "ammo_body_l_01_dm"
           },
           {
@@ -1263,29 +1281,29 @@
           {
             "onKill": {
               "damageType": "cumulative",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "explosion",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "secondaryShatter",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           },
           {
             "onKill": {
               "damageType": "generic",
-              "expl": 0.5,
-              "fire": 0.5
+              "expl": 0.2,
+              "fire": 0.8
             }
           }
         ]
@@ -1735,7 +1753,7 @@
             "horizontalSpeedLimitKPH": 50.0,
             "hasVertical": true,
             "verticalOmegaMult": 0.7,
-            "verticalSpeedLimitKPH": 16.0,
+            "verticalSpeedLimitKPH": 24.0,
             "speedFromVehicleVerticalMult": -1.0,
             "errorKPHToDegrees": [
               {
@@ -2677,7 +2695,7 @@
                   "horizontalSpeedLimitKPH": 50.0,
                   "hasVertical": true,
                   "verticalOmegaMult": 0.7,
-                  "verticalSpeedLimitKPH": 16.0,
+                  "verticalSpeedLimitKPH": 24.0,
                   "speedFromVehicleVerticalMult": -1.0,
                   "errorKPHToDegrees": [
                     {
@@ -2883,7 +2901,29 @@
   },
   {
     "skin": {
+      "name": "it_camo_desert_light_yellow_tomoe",
+      "nameLocId": "skin/it_camo_desert_light_yellow",
+      "descLocId": "skin/it_camo_desert_light_yellow/desc",
+      "replace_tex": {
+        "from": "us_camo_olive*",
+        "to": "it_camo_desert_light_yellow*"
+      }
+    }
+  },
+  {
+    "skin": {
       "name": "it_camo_winter_white",
+      "nameLocId": "skin/winter",
+      "descLocId": "skin/winter/desc",
+      "replace_tex": {
+        "from": "us_camo_olive*",
+        "to": "it_camo_winter_white*"
+      }
+    }
+  },
+  {
+    "skin": {
+      "name": "it_camo_winter_white_tomoe",
       "nameLocId": "skin/winter",
       "descLocId": "skin/winter/desc",
       "replace_tex": {
@@ -2915,6 +2955,15 @@
         }
       }
     ]
+  },
+  {
+    "default_skin_tomoe": {
+      "set_tex": {
+        "from": "m24_chaffee_body_c*",
+        "to": "m24_chaffee_skin_body_c_tomoe*",
+        "param": "camo_skin_tex"
+      }
+    }
   },
   {
     "sound": {
