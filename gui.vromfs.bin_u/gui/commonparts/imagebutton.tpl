@@ -1,7 +1,6 @@
 <<#buttons>>
 imgButton {
   id:t='<<id>>';
-  class:t='decal_image';
   width:t='<<ratio>>@decalIconHeight + ((<<ratio>> - 1)@decalItemMargin)';
   min-height:t='1@decalIconHeight';
   min-width:t='1@decalIconHeight';
@@ -19,7 +18,8 @@ imgButton {
   <<#onClick>> on_click:t='<<onClick>>' <</onClick>>
   <<#onDblClick>> on_dbl_click:t='<<onDblClick>>' <</onDblClick>>
 
-  selImg{}
+  pushedBg {}
+  hoverBg {}
 
   <<^emptySlot>>
     <<#image>>
@@ -34,15 +34,6 @@ imgButton {
       background-repeat:t='aspect-ratio';
     }
     <</image>>
-
-    <<#onDeleteClick>>
-      Button_close {
-        smallIcon:t='yes'
-        tooltip:t='#msgbox/btn_delete'
-        on_click:t='<<onDeleteClick>>'
-      }
-    <</onDeleteClick>>
-
   <</emptySlot>>
 
   <<^unlocked>>
@@ -78,8 +69,6 @@ imgButton {
 
   <<#cost>>
     contentCorner {
-      pos:t='pw-w-2, ph-h-2';
-      position:t='absolute';
       textareaNoTab {
         text:t='<<cost>>'
         smallFont:t='yes';
@@ -91,7 +80,7 @@ imgButton {
   <<#showLimit>>
     textareaNoTab {
       textShade:t='yes'
-      pos:t='pw-w-2, ph-h-2';
+      pos:t='pw-w-2@dp, ph-h-2@dp'
       position:t='absolute';
       text:t='<<leftAmount>>/<<limit>>'
       smallFont:t='yes';
@@ -102,6 +91,30 @@ imgButton {
     }
   <</showLimit>>
 
+  <<#rarityColor>>
+  rarityBorder {
+    size:t='pw-4@dp, ph-4@dp'
+    pos:t='pw/2-w/2, ph/2-h/2'; position:t='absolute'
+    border:t='yes'
+    border-color:t='<<rarityColor>>'
+    input-transparent:t='yes'
+  }
+  <</rarityColor>>
+
+  focus_border{}
+
+  <<^emptySlot>>
+    <<#onDeleteClick>>
+      hasButton:t='yes'
+      Button_close {
+        smallIcon:t='yes'
+        tooltip:t='#msgbox/btn_delete'
+        have_shortcut:t='no'
+        on_click:t='<<onDeleteClick>>'
+      }
+    <</onDeleteClick>>
+  <</emptySlot>>
+
   <<#tooltipId>>
     tooltipObj {
       tooltipId:t='<<tooltipId>>'
@@ -110,8 +123,13 @@ imgButton {
       max-width:t='8*@decalIconHeight+10*@sf/@pf_outdated'
       smallFont:t='yes';
       display:t='hide';
+
+      <<#tooltipOffset>>
+      style:t='tooltip-screen-offset:<<tooltipOffset>>;';
+      <</tooltipOffset>>
     }
     title:t='$tooltipObj';
+    tooltip-float:t='horizontal';
   <</tooltipId>>
 }
 <</buttons>>

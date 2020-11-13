@@ -17,6 +17,12 @@
   }
   <</backlight>>
 
+  <<#onClick>>
+  behavior:t='button'
+  on_click:t='<<onClick>>'
+  focusBtnName:t='A'
+  <</onClick>>
+
   <<#focusBorder>>
   focus_border {}
   <</focusBorder>>
@@ -45,14 +51,20 @@
   }
   <</topRightText>>
 
-  <<#bottomLeftText>>
+  <<#bottomCenterText>>
   textareaNoTab {
-    pos:t='1@blockInterval, ph-h -1@blockInterval'
+    pos:t='pw/2-w/2, ph-h -1@blockInterval'
     position:t='absolute'
     smallFont:t='yes'
-    text:t='<<bottomLeftText>>'
+    text:t='<<bottomCenterText>>'
   }
-  <</bottomLeftText>>
+  <</bottomCenterText>>
+
+  <<^unlocked>>
+    <<#statusLock>>
+    LockedImg { statusLock:t='<<statusLock>>' }
+    <</statusLock>>
+  <</unlocked>>
 
   <<#miniIcon>>
   miniIcon {

@@ -4,8 +4,8 @@ local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
 local guidParser = require("scripts/guidParser.nut")
 local itemRarity = require("scripts/items/itemRarity.nut")
 local time = require("scripts/time.nut")
-local chooseAmountWnd = ::require("scripts/wndLib/chooseAmountWnd.nut")
-local recipesListWnd = ::require("scripts/items/listPopupWnd/recipesListWnd.nut")
+local chooseAmountWnd = require("scripts/wndLib/chooseAmountWnd.nut")
+local recipesListWnd = require("scripts/items/listPopupWnd/recipesListWnd.nut")
 local itemTransfer = require("scripts/items/itemsTransfer.nut")
 local { getMarkingPresetsById, getCustomLocalizationPresets,
   getEffectOnOpenChestPresetById } = require("scripts/items/workshop/workshop.nut")
@@ -30,6 +30,8 @@ local defaultLocIdsList = {
   cancelTitle                           = ""
   reachedMaxAmount                      = "item/reached_max_amount"
   inventoryErrorPrefix                  = "inventoryError/"
+  maxAmountIcon                         = "check_mark/green"
+  reUseItemLocId                        = "item/consume/again"
 }
 
 local ItemExternal = class extends ::BaseItem
@@ -87,7 +89,7 @@ local ItemExternal = class extends ::BaseItem
          aditionalConfirmationMsg[action] <- confirmationMsg?[idx] ?? ""
     }
     rarity = itemRarity.get(itemDef?.item_quality, itemDef?.name_color)
-    shouldAutoConsume = !!itemDefDesc?.tags?.autoConsume
+    shouldAutoConsume = !!itemDefDesc?.tags?.autoConsume || canOpenForGold()
 
     link = inventoryClient.getMarketplaceItemUrl(id, itemDesc?.itemid) || ""
     forceExternalBrowser = true
@@ -117,12 +119,12 @@ local ItemExternal = class extends ::BaseItem
       }
     }
 
-    canBuy = !isInventoryItem && checkPurchaseFeature() && ::has_feature("PurchaseMarketItemsForGold")
+    local purchaseForGoldFeatureName = itemDef?.tags.purchaseForGoldFeature ?? "PurchaseMarketItemsForGold"
+    canBuy = !isInventoryItem && checkPurchaseFeature() && ::has_feature(purchaseForGoldFeatureName)
 
     addResources()
 
     updateShopFilterMask()
-    updateItemDefParams()
   }
 
   function getTradebleTimestamp(itemDesc)
@@ -176,7 +178,9 @@ local ItemExternal = class extends ::BaseItem
     return (tShop != -1 && (tInv == -1 || tShop < tInv)) ? tShop : tInv
   }
 
-  updateNameLoc = @(locName) combinedNameLocId ? ::loc(combinedNameLocId, { name = locName }) : locName
+  updateNameLoc = @(locName) !shouldAutoConsume && combinedNameLocId
+    ? ::loc(combinedNameLocId, { name = locName })
+    : locName
 
   function getName(colored = true)
   {
@@ -274,6 +278,8 @@ local ItemExternal = class extends ::BaseItem
     })
   ]
 
+  getDescHeaderLocId = @() !shouldAutoConsume ? descHeaderLocId : ""
+
   function getLongDescriptionMarkup(params = null)
   {
     params = params || {}
@@ -296,7 +302,7 @@ local ItemExternal = class extends ::BaseItem
 
     if (metaBlk)
     {
-      headers.append({ header = ::colorize("grayOptionColor", ::loc(descHeaderLocId)) })
+      headers.append({ header = ::colorize("grayOptionColor", ::loc(getDescHeaderLocId())) })
       content = [ metaBlk ]
       params.showAsTrophyContent <- true
       params.receivedPrizes <- false
@@ -389,7 +395,7 @@ local ItemExternal = class extends ::BaseItem
   getTagsLoc          = @() rarity.tag && !isDisguised ? [ rarity.tag ] : []
 
   canConsume          = @() false
-  canAssemble         = @() !isExpired() && getMyRecipes().len() > 0
+  canAssemble         = @() !isExpired() && getVisibleRecipes().len() > 0
   canConvertToWarbonds = @() isInventoryItem && !isExpired() && ::has_feature("ItemConvertToWarbond") && amount > 0 && getWarbondRecipe() != null
   canDisassemble       = @() isInventoryItem && itemDef?.tags?.canBeDisassembled
     && !isExpired() && getDisassembleRecipe() != null
@@ -512,12 +518,12 @@ local ItemExternal = class extends ::BaseItem
     }
 
     local taskId = ::char_send_blk("cln_consume_inventory_item", blk)
-    ::g_tasker.addTask(taskId, { showProgressBox = !shouldAutoConsume }, taskCallback)
+    ::g_tasker.addTask(taskId, { showProgressBox = !shouldAutoConsume }, taskCallback, @() cb?({ success = false }))
   }
 
   getAssembleHeader       = @() ::loc(getLocIdsList().headerRecipesList, { itemName = getName() })
   getAssembleText         = @() ::loc(getLocIdsList().assemble)
-  getAssembleButtonText   = @() getMyRecipes().len() > 1 ? ::loc(getLocIdsList().recipes) : getAssembleText()
+  getAssembleButtonText   = @() getVisibleRecipes().len() > 1 ? ::loc(getLocIdsList().recipes) : getAssembleText()
   getCantUseLocId         = @() getLocIdsList().msgBoxCantUse
   getConfirmMessageData   = @(recipe) getEmptyConfirmMessageData().__update({
     text = ::loc(recipe.getConfirmMessageLocId(getLocIdsList()),
@@ -532,7 +538,7 @@ local ItemExternal = class extends ::BaseItem
     if (!canAssemble())
       return false
 
-    local recipesList = params?.recipes ?? getMyRecipes()
+    local recipesList = params?.recipes ?? getVisibleRecipes()
     if (recipesList.len() == 1)
     {
       ExchangeRecipes.tryUse(recipesList, this, params)
@@ -684,8 +690,9 @@ local ItemExternal = class extends ::BaseItem
     foreach (genItemdefId in inventoryClient.getChestGeneratorItemdefIds(id))
     {
       local gen = ItemGenerators.get(genItemdefId)
-      if (gen)
-        res.extend(gen.getRecipesWithComponent(id))
+      if (gen == null || ::ItemsManager.findItemById(gen.id)?.iType == itemType.WARBONDS)
+        continue
+      res.extend(gen.getRecipesWithComponent(id))
     }
     return res
   }
@@ -721,10 +728,13 @@ local ItemExternal = class extends ::BaseItem
     return null
   }
 
-  function getMyRecipes()
-  {
+  getMyRecipes = @() ItemGenerators.get(id)?.getRecipes() ?? []
+
+  function getVisibleRecipes() {
     local gen = ItemGenerators.get(id)
-    return gen ? gen.getRecipes() : []
+    if (showAllowableRecipesOnly())
+      return gen?.getUsableRecipes() ?? []
+    return gen?.getRecipes() ?? []
   }
 
   getExpireTimeTextShort = @() ::colorize(expireCountdownColor, base.getExpireTimeTextShort())
@@ -753,7 +763,7 @@ local ItemExternal = class extends ::BaseItem
     if (!canAssemble())
       return false
 
-    foreach (recipes in getMyRecipes())
+    foreach (recipes in getVisibleRecipes())
       if (recipes.isUsable)
         return true
 
@@ -1053,29 +1063,27 @@ local ItemExternal = class extends ::BaseItem
       : "msgBox/assembleItem/cant"
     craftCountdown               = "items/craft_process/countdown"
       + (needShowAsDisassemble() ? "/disassemble" : "")
-    headerRecipesList            = ExchangeRecipes.hasFakeRecipes(getMyRecipes())
+    headerRecipesList            = ExchangeRecipes.hasFakeRecipes(getVisibleRecipes())
       ? "item/create_header/findTrue"
       : "item/create_header"
     craftingIconInAmmount        = needShowAsDisassemble() ? "hud/iconRepair" : "icon/gear"
+    reUseItemLocId               = canConsume() ? "item/consume/again"
+      : hasMainActionDisassemble() && canDisassemble() ? "item/disassemble/again"
+      : canAssemble() ? "item/assemble/again"
+      : defaultLocIdsList.reUseItemLocId
   })
 
   needOfferBuyAtExpiration = @() !isHiddenItem() && itemDef?.tags?.offerToBuyAtExpiration
   isVisibleInWorkshopOnly = @() itemDef?.tags?.showInWorkshopOnly ?? false
-  updateItemDefParams = function() {
-    if (!u.isEmpty(itemDef.icon_url))
-      itemDef.icon_url = "!" + itemDef.icon_url
-    if (!::u.isEmpty(itemDef.icon_url_large))
-      itemDef.icon_url_large = "!" + itemDef.icon_url_large
-  }
   getDescRecipesMarkup = @(params) ExchangeRecipes.getRequirementsMarkup(getMyRecipes(), this, params)
   getIconName = @() isDisguised ? getSmallIconName() : itemDef.icon_url
   hasUsableRecipeOrNotRecipes = function ()
   {
-    local recipes = getMyRecipes()
+    local recipes = getVisibleRecipes()
     if (recipes.len() == 0)
       return true
 
-    return ::u.search(getMyRecipes(), @(r) r.isUsable) != null
+    return ::u.search(recipes, @(r) r.isUsable) != null
   }
 
   function getBoostEfficiency()
@@ -1088,6 +1096,9 @@ local ItemExternal = class extends ::BaseItem
 
   getEffectOnOpenChest = @() getEffectOnOpenChestPresetById(itemDef?.tags?.effectOnOpenChest ?? "")
   canCraftOnlyInCraftTree = @() itemDef?.tags?.canCraftOnlyInCraftTree ?? false
+  showAllowableRecipesOnly = @() itemDef?.tags?.showAllowableRecipesOnly ?? false
+  canRecraftFromRewardWnd = @() itemDef?.tags?.allowRecraftFromRewardWnd ?? false
+  getQuality = @() itemDef?.tags?.quality ?? "common"
 }
 
 return ItemExternal

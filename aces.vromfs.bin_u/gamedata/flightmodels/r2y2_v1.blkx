@@ -4966,8 +4966,8 @@
         "part": {
           "name": "spar1_l_dm",
           "onKill": {
-            "nothing": 0.0,
-            "cut": 1.0
+            "nothing": 2.0,
+            "cut": 4.0
           }
         }
       },
@@ -4975,8 +4975,8 @@
         "part": {
           "name": "spar1_r_dm",
           "onKill": {
-            "nothing": 0.0,
-            "cut": 1.0
+            "nothing": 2.0,
+            "cut": 4.0
           }
         }
       },
@@ -4984,8 +4984,8 @@
         "part": {
           "name": "spar2_l_dm",
           "onKill": {
-            "nothing": 0.0,
-            "cut": 1.0
+            "nothing": 2.0,
+            "cut": 4.0
           }
         }
       },
@@ -4993,8 +4993,8 @@
         "part": {
           "name": "spar2_r_dm",
           "onKill": {
-            "nothing": 0.0,
-            "cut": 1.0
+            "nothing": 2.0,
+            "cut": 4.0
           }
         }
       },
@@ -5948,13 +5948,33 @@
       {
         "preset": {
           "name": "mod80mark1_bomb",
-          "blk": "gameData/FlightModels/weaponPresets/r2y2_mod80mark1.blk"
+          "blk": "gameData/FlightModels/weaponPresets/r2y2_mod80mark1.blk",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/BombGuns/jp_navy_mod80mark1_800kg.blk",
+              "amountPerTier": 1.0,
+              "iconType": "bombs_special",
+              "tier": {
+                "idx": 6
+              }
+            }
+          }
         }
       },
       {
         "preset": {
           "name": "type99mod80_bomb",
-          "blk": "gameData/FlightModels/weaponPresets/r2y2_type99mod80.blk"
+          "blk": "gameData/FlightModels/weaponPresets/r2y2_type99mod80.blk",
+          "weaponConfig": {
+            "Weapon": {
+              "blk": "gameData/Weapons/BombGuns/jp_navy_type99mod80_800kg.blk",
+              "amountPerTier": 1.0,
+              "iconType": "bombs_large",
+              "tier": {
+                "idx": 6
+              }
+            }
+          }
         }
       }
     ]

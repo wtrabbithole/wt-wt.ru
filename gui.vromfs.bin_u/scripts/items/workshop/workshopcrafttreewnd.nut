@@ -163,20 +163,6 @@ local sizeAndPosViewConfig = {
   })
 }
 
-local sucessItemCraftIconParam = {
-  amountIcon = "#ui/gameuiskin#check.svg"
-  amountIconColor = "@goodTextColor"
-}
-
-local function getSucessItemCraftIcon(item) {
-  return item.maxAmount != 0
-    ? sucessItemCraftIconParam
-    : {
-      amountIcon = ""
-      amountIconColor = ""
-    }
-}
-
 local function needReqItems(itemBlock, itemsList) {
   foreach(reqItemId in (itemBlock?.reqItems ?? []))
     if (reqItemId != null && (itemsList?[reqItemId].getAmount() ?? 0) == 0)
@@ -231,11 +217,13 @@ local function getConfigByItemBlock(itemBlock, itemsList, workshopSet)
     isDisabledAction = isDisabledAction
     isDisabled = item != null && !hasItemInInventory
       && (!item.hasUsableRecipeOrNotRecipes() || isDisabledAction)
-    iconInsteadAmount = hasReachedMaxAmount ? getSucessItemCraftIcon(item) : null
+    iconInsteadAmount = hasReachedMaxAmount ? ::loc(item?.getLocIdsList().maxAmountIcon ?? "") : null
     conectionInRowText = itemBlock?.conectionInRowText
     isDisguised = !hasItemInInventory && isDisguised
-    isHidden = !hasItemInInventory
-      && isRequireCondition(itemBlock?.reqItemForDisplaying ?? [], itemsList, isItemIdKnown)
+    isHidden = item?.isHiddenItem()
+      || (!hasItemInInventory
+        && isRequireCondition(itemBlock?.reqItemForDisplaying ?? [], itemsList, isItemIdKnown))
+    hasItemBackground = itemBlock?.hasItemBackground ?? true
   }
 }
 
@@ -278,15 +266,18 @@ local getItemBlockView = ::kwarg(
     }
 
     local overridePos = itemBlock?.overridePos
+    local count = itemConfig.iconInsteadAmount
+      ?? (item.maxAmount == 1 ? item.getAdditionalTextInAmmount(true, true) : null)
     return {
       isDisabled = itemConfig.isDisabled
       itemId = itemConfig.itemId
       items = [item.getViewData(viewItemsParams.__merge({
         itemIndex = itemConfig.itemId,
         showAction = !itemConfig.isDisabledAction
-        iconInsteadAmount = itemConfig.iconInsteadAmount
-        count = item.maxAmount == 1 ? item.getAdditionalTextInAmmount(true, true) : null
+        count = count
+        hasIncrasedAmountTextSize = count != null
         showTooltip = !itemConfig.isDisguised
+        enableBackground = itemConfig.hasItemBackground
       }))]
       blockPos = overridePos ?? sizeAndPosViewConfig.itemPos({
         itemSizes = itemSizes
@@ -405,9 +396,13 @@ local function getHeaderView (headerItems, localItemsList, baseEff)
     if(!item)
       continue
     local eff = getItemEff(item)
+    local hasMaxAmountIcon = item.hasReachedMaxAmount()
     items.append(item.getViewData(viewItemsParams.__merge({
       hasBoostEfficiency = true
-      iconInsteadAmount = item.hasReachedMaxAmount() ? sucessItemCraftIconParam : null
+      count = hasMaxAmountIcon
+        ? ::loc(item.getLocIdsList().maxAmountIcon)
+        : null
+      hasIncrasedAmountTextSize = hasMaxAmountIcon
     })))
     totalEff += eff
     itemsEff.append(eff)
@@ -439,7 +434,7 @@ local function getBranchSeparator(branch, itemSizes, branchHeight) {
 local function getBodyItemsTitles(titlesConfig, itemSizes) {
   local titlesView = []
   foreach (body in titlesConfig)
-    if (body.title != "")
+    if (body.title != "" && itemSizes.visibleItemsCountYByBodies[body.bodyIdx] > 0)
       titlesView.append({
         bodyTitleText = ::loc(body.title)
         titlePos = posFormatString.subst(0, itemSizes.bodiesOffset[body.bodyIdx])
@@ -466,7 +461,7 @@ local bodyButtonsConfig = {
 local buttonViewParams = {
   shortcut = ""
   btnName = "A"
-  showOnSelect = "focus"
+  showOnSelect = "hover"
   actionParamsMarkup = ""
 }
 local function getButtonView(bodyConfig, itemSizes) {
@@ -505,7 +500,6 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
 {
   wndType          = handlerType.MODAL
   sceneTplName     = "gui/items/craftTreeWnd"
-  focusArray       = ["craft_body"]
   branches         = null
   workshopSet      = null
   craftTree        = null
@@ -534,7 +528,6 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
   {
     scene.findObject("update_timer").setUserData(this)
     itemsListObj = scene.findObject("craft_body")
-    restoreFocus()
     setFocusItem(showItemOnInit)
   }
 
@@ -591,8 +584,9 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
             local item = items?[itemBlock?.id]
             local hasItemInInventory = item != null
               && (item.getAmount() != 0 || item.isCrafting() || item.hasCraftResult())
-            return hasItemInInventory
-              || !isRequireCondition(itemBlock?.reqItemForDisplaying ?? [], items, isItemIdKnown)
+            return !item?.isHiddenItem()
+              && (hasItemInInventory
+                || !isRequireCondition(itemBlock?.reqItemForDisplaying ?? [], items, isItemIdKnown))
           }) != null)
         {
           visibleItemsCountY = i
@@ -602,15 +596,17 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
       textBlocks.sort(@(a, b) a.endPosY <=> b.endPosY)
       visibleItemsCountY = ::max(visibleItemsCountY,
         textBlocks.len() > 0 ? (textBlocks.top().endPosY + 1) : 0)
-      curBodiesOffset += isShowHeaderPlace || idx == 0 ? 0
+      curBodiesOffset += isShowHeaderPlace || idx == 0 || visibleItemsCountYByBodies[idx-1] == 0 ? 0
         : (bodiesConfig[idx-1].bodyTitlesCount * titleHeight
             + visibleItemsCountYByBodies[idx-1] * itemBlockHeight + headerBlockInterval
             + (bodiesConfig[idx-1].button != null ? buttonHeight : 0)
           )
       local curBodyTitlesCount = bodiesConfig[idx].bodyTitlesCount
       itemsOffsetByBodies.append(curBodiesOffset
-        + (isShowHeaderPlace ? 0 : (curBodyTitlesCount * titleHeight
-          + (curBodyTitlesCount -1) * titleMargin)))
+        + ((isShowHeaderPlace || visibleItemsCountY == 0)
+          ? 0
+          : (curBodyTitlesCount * titleHeight + (curBodyTitlesCount -1) * titleMargin)
+      ))
       bodiesOffset.append(curBodiesOffset)
       visibleItemsCountYByBodies.append(visibleItemsCountY)
     }
@@ -704,6 +700,8 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
     foreach (idx, branch in branches) {
       local bodyConfig = bodiesConfig[branch.bodyIdx]
       local itemsCountY = itemSizes.visibleItemsCountYByBodies[branch.bodyIdx]
+      if (itemsCountY == 0)
+        continue
       local posX = branch.minPosX -1
       separators.append(getBranchSeparator(branch, itemSizes,
         itemsCountY * itemSizes.itemBlockHeight + itemSizes.headerBlockInterval))
@@ -917,7 +915,7 @@ local handlerClass = class extends ::gui_handlers.BaseGuiHandlerWT
   }
 }
 
-::gui_handlers.vehiclesModal <- handlerClass
+::gui_handlers.craftTreeWnd <- handlerClass
 
 return {
   open = @(craftTreeParams) ::handlersManager.loadHandler(handlerClass, craftTreeParams)

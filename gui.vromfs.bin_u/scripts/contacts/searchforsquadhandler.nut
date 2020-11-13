@@ -2,7 +2,7 @@ local { canInteractCrossConsole,
         isXBoxPlayerName,
         isPlatformSony } = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
-local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
+local { updateContacts } = require("scripts/contacts/contactsManager.nut")
 
 ::gui_start_search_squadPlayer <- function gui_start_search_squadPlayer()
 {
@@ -12,8 +12,7 @@ local xboxContactsManager = require("scripts/contacts/xboxContactsManager.nut")
     return
   }
 
-  ::update_ps4_friends()
-  xboxContactsManager.updateXboxOneFriends()
+  updateContacts()
   ::handlersManager.loadHandler(::gui_handlers.SearchForSquadHandler)
 }
 
@@ -26,7 +25,6 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
   searchGroup = ::EPLX_SEARCH
   clanGroup = ::EPLX_CLAN
   searchShowDefaultOnReset = true
-  isPrimaryFocus = true
 
   sg_groups = null
 
@@ -38,30 +36,16 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
 
     local fObj = scene.findObject("contacts_wnd")
     fObj.pos = "0.5(sw-w), 0.4(sh-h)"
-    fObj["class"] = ""
+    fObj["class"] = "wnd"
     if (::contacts_sizes)
       fObj.size = ::contacts_sizes.size[0] + ", " + ::contacts_sizes.size[1]
     scene.findObject("contacts_backShade").show(true)
     scene.findObject("title").setValue(::loc("mainmenu/btnInvite"))
+    updateSearchContactsGroups()
 
-    sg_groups = [::EPLX_SEARCH, ::EPL_FRIENDLIST, ::EPL_RECENT_SQUAD]
-    if(::clan_get_my_clan_id() != "-1" && !::isInArray(clanGroup, sg_groups))
-    {
-      sg_groups.append(clanGroup)
-      if (!(clanGroup in ::contacts))
-        ::contacts[clanGroup] <- []
-    }
-    if (isPlatformSony)
-    {
-      sg_groups.insert(2, ::EPLX_PS4_FRIENDS)
-      if (!(::EPLX_PS4_FRIENDS in ::contacts))
-        ::contacts[::EPLX_PS4_FRIENDS] <- []
-    }
-
-    fillContactsList(sg_groups)
     guiScene.setUpdatesEnabled(true, true)
-    initFocusArray()
     closeSearchGroup()
+    selectCurContactGroup()
     updateConsoleButtons()
     updateSquadButton()
   }
@@ -83,10 +67,7 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
 
   function onPlayerSelect(obj)
   {
-    if (!obj) return
-
-    local value = obj.getValue()
-    curPlayer = ::getTblValue(value, ::contacts[curGroup])
+    curPlayer = ::contacts[curGroup]?[obj.getValue()]
     updateSquadButton()
   }
 
@@ -112,16 +93,6 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
     showSceneBtn("btn_squadInvite_bottom", showSquadInvite)
   }
 
-  function onGroupSelect(obj)
-  {
-    selectItemInGroup(obj, sg_groups, false)
-  }
-
-  function onGroupActivate(obj)
-  {
-    selectItemInGroup(obj, sg_groups, true)
-  }
-
   function onPlayerMsg(obj)
   {
     updateCurPlayer(obj)
@@ -133,4 +104,26 @@ class ::gui_handlers.SearchForSquadHandler extends ::ContactsHandler
   {
     return checkScene()
   }
+
+  function onEventContactsCleared(p) {
+    updateSearchContactsGroups()
+    validateCurGroup()
+  }
+
+  function updateSearchContactsGroups() {
+    sg_groups = [::EPLX_SEARCH, ::EPL_FRIENDLIST, ::EPL_RECENT_SQUAD]
+    if(::is_in_clan()) {
+      sg_groups.append(clanGroup)
+      ::g_clans.updateClanContacts()
+    }
+    if (isPlatformSony)
+    {
+      sg_groups.insert(2, ::EPLX_PS4_FRIENDS)
+      if (!(::EPLX_PS4_FRIENDS in ::contacts))
+        ::contacts[::EPLX_PS4_FRIENDS] <- []
+    }
+    fillContactsList()
+  }
+
+  getContactsGroups = @() sg_groups
 }

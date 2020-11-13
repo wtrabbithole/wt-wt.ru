@@ -52,14 +52,12 @@ local { startLogout } = require("scripts/login/logout.nut")
   if (::g_recent_items)
     ::g_recent_items.reset()
   ::abandoned_researched_items_for_session = []
-  ::launched_tutorial_questions_peer_session = 0
-  ::check_tutorial_reward_data = null
 }
 
 ::go_to_account_web_page <- function go_to_account_web_page(bqKey = "")
 {
   local urlBase = ::format("/user.php?skin_lang=%s", ::g_language.getShortName())
-  openUrl(::get_authenticated_url_table(urlBase).url, false, false, bqKey)
+  openUrl(::get_authenticated_url_sso(urlBase).url, false, false, bqKey)
 }
 
 g_login.loadLoginHandler <- function loadLoginHandler()
@@ -67,7 +65,7 @@ g_login.loadLoginHandler <- function loadLoginHandler()
   local hClass = ::gui_handlers.LoginWndHandler
   if (isPlatformSony)
     hClass = ::gui_handlers.LoginWndHandlerPs4
-  else if (::is_platform_xboxone)
+  else if (::is_platform_xbox)
     hClass = ::gui_handlers.LoginWndHandlerXboxOne
   else if (::use_tencent_login())
     hClass = ::gui_handlers.LoginWndHandlerTencent
@@ -75,6 +73,8 @@ g_login.loadLoginHandler <- function loadLoginHandler()
     hClass = ::gui_handlers.LoginWndHandlerDMM
   else if (::steam_is_running())
     hClass = ::gui_handlers.LoginWndHandlerSteam
+  else if (::epic_is_running())
+    hClass = ::gui_handlers.LoginWndHandlerEpic
   ::handlersManager.loadHandler(hClass)
 }
 
@@ -320,18 +320,10 @@ g_login.firstMainMenuLoad <- function firstMainMenuLoad()
       ], "yes", { cancel_fn = function () { ::g_controls_presets.rejectHighestVersionOfCurrentPreset() }})
   }
 
-  if (
-    ::show_console_buttons &&
-    ::g_gamepad_cursor_controls.canChangeValue()
-  )
+  if (::show_console_buttons)
   {
-    if (::g_login.isProfileReceived()
-      && !::gui_handlers.GampadCursorControlsSplash.isDisplayed()
-      && !::g_gamepad_cursor_controls.getValue()
-    )
-    {
-      handler.doWhenActive(function() { ::gui_start_gamepad_cursor_controls_splash(@() null) })
-    }
+    if (::g_login.isProfileReceived() && ::gui_handlers.GampadCursorControlsSplash.shouldDisplay())
+      handler.doWhenActive(@() ::gui_handlers.GampadCursorControlsSplash.open())
   }
 
   if (::has_feature("CheckEmailVerified") && !::g_user_utils.haveTag("email_verified"))

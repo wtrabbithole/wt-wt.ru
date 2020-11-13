@@ -1,10 +1,5 @@
 local { isPlatformSony, isPlatformXboxOne } = require("scripts/clientState/platform.nut")
-
-local { getShopItem = @(id) null,
-        openIngameStore = @(...) false
-} = isPlatformSony? require("scripts/onlineShop/ps4Shop.nut")
-  : isPlatformXboxOne? require("scripts/onlineShop/xboxShop.nut")
-  : null
+local { getShopItem, openIngameStore } = require("scripts/onlineShop/entitlementsStore.nut")
 
 local callbackWhenAppWillActive = require("scripts/clientState/callbackWhenAppWillActive.nut")
 local { getBundleId } = require("scripts/onlineShop/onlineBundles.nut")
@@ -334,19 +329,11 @@ OnlineShopModel.doBrowserPurchase <- function doBrowserPurchase(goodsName)
 
 OnlineShopModel.doBrowserPurchaseByGuid <- function doBrowserPurchaseByGuid(guid, dbgGoodsName = "")
 {
-  if (::steam_is_running() && (::g_user_utils.haveTag("steam") || ::has_feature("AllowSteamAccountLinking"))) //temporary use old code pass for steam
-  {
-    local response = ::shell_purchase_in_steam(guid);
-    if (response > 0)
-    {
-      local errorText = ::get_yu2_error_text(response)
-      ::showInfoMsgBox(errorText, "errorMessageBox")
-      dagor.debug("shell_purchase_in_steam have returned " + response + " with guid/" + dbgGoodsName)
-    }
-    return
-  }
-
-  local url = ::get_authenticated_url_for_purchase(guid)
+  local isSteam = ::steam_is_running() &&
+                  (::g_user_utils.haveTag("steam") || ::has_feature("AllowSteamAccountLinking")) //temporary use old code pass for steam
+  local url = isSteam
+            ? ::format(::loc("url/webstore/steam/item"), guid, ::steam_get_app_id(), ::steam_get_my_id())
+            : ::get_authenticated_url_for_purchase(guid)
 
   if (url == "")
   {
@@ -355,7 +342,7 @@ OnlineShopModel.doBrowserPurchaseByGuid <- function doBrowserPurchaseByGuid(guid
     return
   }
 
-  openShopUrl(url, true)
+  openShopUrl(url, !isSteam)
 }
 
 OnlineShopModel.getGoodsChapter <- function getGoodsChapter(goodsName)

@@ -5,6 +5,8 @@ local crossplayModule = require("scripts/social/crossplay.nut")
 local { isChatEnabled, attemptShowOverlayMessage,
   isCrossNetworkMessageAllowed } = require("scripts/chat/chatStates.nut")
 
+local { invite } = require("scripts/social/psnSessionManager/getPsnSessionManagerApi.nut")
+
 //-----------------------------
 // params keys:
 //  - uid
@@ -20,16 +22,6 @@ local { isChatEnabled, attemptShowOverlayMessage,
 //  - position
 //  - canComplain
 // ----------------------------
-
-local verifyContact = function(params)
-{
-  local name = params?.playerName
-  local newContact = ::getContact(params?.uid, name, params?.clanTag)
-  if (!newContact && name)
-    newContact = ::Contact.getByName(name)
-
-  return newContact
-}
 
 local getPlayerCardInfoTable = function(uid, name)
 {
@@ -54,7 +46,7 @@ local notifyPlayerAboutRestriction = function(contact, isInvite = false)
 {
   local isCrossNetworkMessagesAllowed = isCrossNetworkMessageAllowed(contact.name)
   local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(contact.name)
-  if (::is_platform_xboxone)
+  if (::is_platform_xbox)
   {
     attemptShowOverlayMessage(contact.name, isInvite)
     //There is no system level error message, added custom.
@@ -64,6 +56,9 @@ local notifyPlayerAboutRestriction = function(contact, isInvite = false)
       showCrossNetworkCommunicationsRestrictionMsgBox()
     return
   }
+
+  if (contact.isBlockedMe)
+    return
 
   if (!isCrossNetworkMessagesAllowed)
     showCrossNetworkCommunicationsRestrictionMsgBox()
@@ -100,7 +95,8 @@ local getActions = function(contact, params)
   local canInviteToChatRoom = params?.canInviteToChatRoom ?? true
 
   local chatLog = params?.chatLog ?? roomData?.getLogForBanhammer() ?? null
-  local canInviteToSesson = isXBoxOnePlayer == ::is_platform_xboxone
+  local isInPsnBlockList = platformModule.isPlatformSony && contact.isInBlockGroup()
+  local canInviteToSesson = (isXBoxOnePlayer == ::is_platform_xbox) && !isInPsnBlockList
 
   local actions = []
 //---- <Session Join> ---------
@@ -111,11 +107,18 @@ local getActions = function(contact, params)
     action = function () {
       if (!canInteractCrossConsole)
         return showNotAvailableActionPopup()
-      if (!canInteractCrossPlatform)
-        return showCrossNetworkPlayRestrictionMsgBox()
+      if (!canInteractCrossPlatform) {
+        if (!::xbox_try_show_crossnetwork_message())
+          showCrossNetworkPlayRestrictionMsgBox()
+        return
+      }
 
-      if (::isPlayerPS4Friend(name))
-        ::g_psn_sessions.invite(::SessionLobby.getExternalId(), ::get_psn_account_id(name))
+      if (isPS4Player && !u.isEmpty(::SessionLobby.getExternalId()))
+        contact.updatePSNIdAndDo(@() invite(
+          ::SessionLobby.getExternalId(),
+          contact.psnId
+        ))
+
       ::SessionLobby.invitePlayer(uid)
     }
   })
@@ -133,8 +136,11 @@ local getActions = function(contact, params)
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (!canInteractCrossPlatform)
-            showCrossNetworkPlayRestrictionMsgBox()
+          else if (!canInteractCrossPlatform) {
+            if (!::xbox_try_show_crossnetwork_message())
+              showCrossNetworkPlayRestrictionMsgBox()
+            return
+          }
           else
             ::queues.joinFriendsQueue(contact.inGameEx, eventId)
         }
@@ -166,6 +172,16 @@ local getActions = function(contact, params)
       text = ::loc("mainmenu/btnUserCard")
       show = ::has_feature("UserCards") && getPlayerCardInfoTable(uid, name).len() > 0
       action = @() ::gui_modal_userCard(getPlayerCardInfoTable(uid, name))
+    }
+    {
+      text = ::loc("mainmenu/btnPsnProfile")
+      show = !isMe && contact.canOpenPSNActionWindow()
+      action = @() contact.openPSNProfile()
+    }
+    {
+      text = ::loc("mainmenu/btnXboxProfile")
+      show = isXBoxOnePlayer && !isMe
+      action = @() contact.openXboxProfile()
     }
     {
       text = ::loc("mainmenu/btnClanCard")
@@ -206,8 +222,11 @@ local getActions = function(contact, params)
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (!canInteractCrossPlatform)
-            showCrossNetworkPlayRestrictionMsgBox()
+          else if (!canInteractCrossPlatform) {
+            if (!::xbox_try_show_crossnetwork_message())
+              showCrossNetworkPlayRestrictionMsgBox()
+            return
+          }
           else if (!canInvite)
             notifyPlayerAboutRestriction(contact, true)
           else if (!canInviteDiffConsole)
@@ -230,8 +249,11 @@ local getActions = function(contact, params)
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (!canInteractCrossPlatform)
-            showCrossNetworkPlayRestrictionMsgBox()
+          else if (!canInteractCrossPlatform) {
+            if (!::xbox_try_show_crossnetwork_message())
+              showCrossNetworkPlayRestrictionMsgBox()
+            return
+          }
           else if (!canInvite)
             notifyPlayerAboutRestriction(contact, true)
           else if (!canInviteDiffConsole)
@@ -261,7 +283,7 @@ local getActions = function(contact, params)
 //---- </Squad> -------------------
 
 //---- <XBox Specific> ------------
-  if (::is_platform_xboxone && isXBoxOnePlayer)
+  if (::is_platform_xbox && isXBoxOnePlayer)
   {
     local isXboxPlayerMuted = contact.isXboxChatMuted()
     actions.append({
@@ -317,7 +339,7 @@ local getActions = function(contact, params)
 //---- <Contacts> ------------------
   if (::has_feature("Friends"))
   {
-    local canBlock = !::is_platform_xboxone || !isXBoxOnePlayer
+    local canBlock = !platformModule.isPlatformXboxOne || !isXBoxOnePlayer
 
     actions.append(
       {
@@ -333,8 +355,13 @@ local getActions = function(contact, params)
       }
       {
         text = ::loc("contacts/friendlist/remove")
-        show = isFriend && !::isPlayerPS4Friend(name)
+        show = isFriend && contact.isInFriendGroup()
         action = @() ::editContactMsgBox(contact, ::EPL_FRIENDLIST, false)
+      }
+      {
+        text = ::loc("contacts/psn/friends/request")
+        show = !isMe && isPS4Player && !isBlock && !contact.isInPSNFriends()
+        action = @() contact.sendPsnFriendRequest(::EPL_FRIENDLIST)
       }
       {
         text = ::loc("contacts/facebooklist/remove")
@@ -343,13 +370,18 @@ local getActions = function(contact, params)
       }
       {
         text = ::loc("contacts/blacklist/add")
-        show = !isMe && !isFriend && !isBlock && canBlock
+        show = !isMe && !isFriend && !isBlock && canBlock && !isPS4Player
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, true)
       }
       {
         text = ::loc("contacts/blacklist/remove")
-        show = isBlock && canBlock
+        show = isBlock && canBlock && (!isPS4Player || (isPS4Player && contact.isInPSNFriends()))
         action = @() ::editContactMsgBox(contact, ::EPL_BLOCKLIST, false)
+      }
+      {
+        text = ::loc("contacts/psn/blacklist/request")
+        show = !isMe && isPS4Player && !isBlock
+        action = @() contact.sendPsnFriendRequest(::EPL_BLOCKLIST)
       }
     )
   }
@@ -490,7 +522,7 @@ local getActions = function(contact, params)
 
 local showMenu = function(_contact, handler, params = {})
 {
-  local contact = _contact || verifyContact(params)
+  local contact = _contact || ::g_contacts.verifyContact(params)
   local showMenu = ::callee()
   if (contact && contact.needCheckXboxId())
     return contact.getXboxId(@() showMenu(contact, handler, params))
@@ -499,7 +531,7 @@ local showMenu = function(_contact, handler, params = {})
     return ::find_contact_by_name_and_do(params.playerName, @(c) c && showMenu(c, handler, params))
 
   local menu = getActions(contact, params)
-  ::gui_right_click_menu(menu, handler, params?.position, params?.orientation)
+  ::gui_right_click_menu(menu, handler, params?.position, params?.orientation, params?.onClose)
 }
 
 return {

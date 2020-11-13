@@ -5,6 +5,7 @@ local { getEntitlementConfig, getEntitlementName, getEntitlementPrice } = requir
 local { isCrossPlayEnabled,
         getTextWithCrossplayIcon,
         needShowCrossPlayInfo } = require("scripts/social/crossplay.nut")
+local activityFeedPostFunc = require("scripts/social/activityFeed/activityFeedPostFunc.nut")
 
 local imgFormat = "img {size:t='%s'; background-image:t='%s'; margin-right:t='0.01@scrn_tgt;'} "
 local textareaFormat = "textareaNoTab {id:t='description'; width:t='pw'; text:t='%s'} "
@@ -419,7 +420,7 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
 
     if ("spectator" in log)
     {
-      res.logImg = "#ui/gameuiskin#player_spectator"
+      res.logImg = "#ui/gameuiskin#player_spectator.svg"
       nameLocPostfix = " " + ::loc("multiplayer/team_won") + ::loc("ui/colon")
         + (win ? ::g_team.A.getNameInPVE() : ::g_team.B.getNameInPVE())
     }
@@ -910,7 +911,7 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
         blkParamName = "CLAN_DUEL_REWARD"
       }
 
-      ::prepareMessageForWallPostAndSend(config, customConfig, bit_activity.PS4_ACTIVITY_FEED)
+      activityFeedPostFunc(config, customConfig, bit_activity.PS4_ACTIVITY_FEED)
 
       local resourcesConfig = getResourcesConfig(rewardBlk?.resource)
       if (resourcesConfig != null) {
@@ -1095,7 +1096,7 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
 
       res.name = usedText + " " + ::loc("trophy/unlockables_names/trophy")
                           + " " + ::loc("ui/parentheses/space", {text = reward})
-      res.logImg = item.typeIcon
+      res.logImg = item.getSmallIconName()
       res.tooltip = usedText + ::loc("ui/colon") + item.getName() + "\n" + reward
 
       res.descriptionBlk <- ::format(textareaFormat, ::g_string.stripTags(usedText) + ::loc("ui/colon"))
@@ -1418,7 +1419,7 @@ local function getLinkMarkup(text, url, acccessKeyName=null)
     if (unitName)
     {
       res.name = ::loc("userlog/"+logName, {unitName = ::loc(unitName + "_0")})
-      if (log.type == EULT_RENT_UNIT)
+      if (log.type == ::EULT_RENT_UNIT)
       {
         res.description <- ""
         if ("rentTimeSec" in log)

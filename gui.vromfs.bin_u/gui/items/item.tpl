@@ -8,9 +8,8 @@ itemDiv {
     active:t='yes'
   <</active>>
 
-  <<#enableBackground>>
-    enableBackground:t='yes'
-  <</enableBackground>>
+  enableBackground:t='<<#enableBackground>>yes<</enableBackground>><<^enableBackground>>no<</enableBackground>>'
+
   <<#today>>
     today:t='yes'
   <</today>>
@@ -90,6 +89,14 @@ itemDiv {
     }
   }
   <</onClick>>
+
+  <<#interactive>>
+  interactive:t='yes'
+  <</interactive>>
+
+  <<#skipNavigation>>
+  skip-navigation:t='yes'
+  <</skipNavigation>>
 
   tdiv {
     size:t='pw, ph'
@@ -177,29 +184,24 @@ itemDiv {
       }
       <</expireTime>>
     }
-    <<^iconInsteadAmount>>
-      <<#amount>>
-      itemAmountText {
-        text:t='<<amount>>'
-        <<#overlayAmountTextColor>>
-        overlayTextColor:t='<<overlayAmountTextColor>>'
-        <</overlayAmountTextColor>>
-        <<#isInTransfer>>
-        animated_wait_icon {
-          pos:t='-w, 38%ph-50%h'
-          class:t='inTextRowAbsolute'
-          background-rotation:t = '0'
-        }
-        <</isInTransfer>>
+    <<#amount>>
+    itemAmountText {
+      text:t='<<amount>>'
+      <<#overlayAmountTextColor>>
+      overlayTextColor:t='<<overlayAmountTextColor>>'
+      <</overlayAmountTextColor>>
+      <<#hasIncrasedAmountTextSize>>
+      hasIncrasedAmountTextSize:t='yes'
+      <</hasIncrasedAmountTextSize>>
+      <<#isInTransfer>>
+      animated_wait_icon {
+        pos:t='-w, 38%ph-50%h'
+        class:t='inTextRowAbsolute'
+        background-rotation:t = '0'
       }
-      <</amount>>
-    <</iconInsteadAmount>>
-    <<#iconInsteadAmount>>
-      amountIcon {
-        background-image:t='<<amountIcon>>'
-        background-color:t='<<amountIconColor>>'
-      }
-    <</iconInsteadAmount>>
+      <</isInTransfer>>
+    }
+    <</amount>>
 
     <<^isAllBought>>
     <<#price>>
@@ -271,7 +273,9 @@ itemDiv {
   }
   <</arrowNext>>
 
+  <<#hasFocusBorder>>
   focus_border {}
+  <</hasFocusBorder>>
 
   <<#hasButton>>
   <<#modActionName>>
@@ -279,6 +283,7 @@ itemDiv {
   showButtonAlways:t='yes'
   <</needShowActionButtonAlways>>
 
+  hasButton:t='yes'
   Button_text {
     id:t='actionBtn'
     pos:t='50%pw-50%w, ph-h/2' //empty zone in button texture
@@ -296,7 +301,7 @@ itemDiv {
     <</isInactive>>
     ButtonImg {
       btnName:t='A'
-      showOnSelect:t='focus'
+      showOnSelect:t='hover'
     }
   }
   <</modActionName>>
@@ -313,6 +318,7 @@ itemDiv {
     display:t='hide'
   }
   title:t='$tooltipObj';
+  tooltip-float:t='horizontal'
   <</tooltipId>>
 }
 <</items>>

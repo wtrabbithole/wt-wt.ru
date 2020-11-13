@@ -200,9 +200,13 @@ itemDiv[showButtonAlways=yes] > Button_text {
   enable:yes;
 }
 
-[show_console_buttons=yes] :focus > itemDiv[selected=yes] > Button_text,
-[show_console_buttons=yes] craftBranchBody:focus > itemBlock[selected=yes] > itemDiv > Button_text,
-itemDiv:hover > Button_text, itemDiv > Button_text:hover {
+[show_console_buttons=yes] itemDiv {
+  tooltip-timeout:800;
+}
+
+[show_console_buttons=yes] craftBranchBody > itemBlock:hover > itemDiv > Button_text,
+[show_console_buttons=no] itemDiv:hover > Button_text,
+[show_console_buttons=no] itemDiv > Button_text:hover {
   display:show;
   enable:yes;
 }
@@ -264,9 +268,10 @@ itemDiv > tdiv > contentCorner {
   position:absolute;
   size:1@dIco + 2@dp, 1@dIco + 2@dp;
   background-color:@white;
-  background-image:#ui/gameuiskin#item_type_bg;
-  background-position:4;
-  background-repeat:expand;
+  background-image:#ui/gameuiskin#item_type_bg.svg;
+  background-svg-size:10@dp, 10@dp;
+  background-position:5@dp;
+  background-repeat:expand-svg;
   foreground-color:@white;
   foreground-position:2@dp;
   foreground-repeat:aspect-ratio;
@@ -494,21 +499,17 @@ itemAmountText {
   shadeStyle:textOnIcon;
 }
 
+itemAmountText[hasIncrasedAmountTextSize=yes] {
+  pos:pw-w-0.5@itemPadding, 0;
+  font:@fontMedium;
+}
+
 [smallItems=yes] itemAmountText {
   pos:pw-w, 0;
 }
 
-amountIcon {
-  pos:pw-w, 0;
-  position:absolute;
-  size: 1@cIco, 1@cIco;
-  background-svg-size: 1@cIco, 1@cIco;
-}
-
-[smallItems=yes] amountIcon {
-  pos:pw-w, -0.5@itemPadding;
-  size: 1@sIco, 1@sIco;
-  background-svg-size: 1@sIco, 1@sIco;
+[smallItems=yes] itemAmountText[hasIncrasedAmountTextSize=yes] {
+  font:@fontSmall;
 }
 
 itemsSeparator {
@@ -654,6 +655,12 @@ itemBlock[isDisabled = yes] > itemDiv iconLayer {
   background-color: @shopUnitLocked;
 }
 
+itemBlock > itemDiv[enableBackground = no] {
+  background-color:@transparent;
+  border-color:@tableHeaderSeparatorColor;
+  border:yes;
+}
+
 prizeNest > img,
 prizeNest > classIconPlace {
   size:1@dIco, 1@dIco;
@@ -682,6 +689,10 @@ prizeNest > chanceIconPlace > chanceIcon,
 prizeChanceLegend chanceIcon {
   size:1@sIco, 1@sIco;
   background-svg-size:1@sIco, 1@sIco;
+}
+
+prizeNest > chanceIconPlace > chanceIcon {
+  interactive:yes;
 }
 
 [smallFont=yes] prizeNest > chanceIconPlace,

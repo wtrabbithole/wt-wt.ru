@@ -1,9 +1,11 @@
 local { hasAnyFeature } = require("scripts/user/features.nut")
 local squadApplications = require("scripts/squads/squadApplications.nut")
 local platformModule = require("scripts/clientState/platform.nut")
-local battleRating = ::require("scripts/battleRating.nut")
+local battleRating = require("scripts/battleRating.nut")
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
+
+local { invite } = require("scripts/social/psnSessionManager/getPsnSessionManagerApi.nut")
 
 enum squadEvent
 {
@@ -16,20 +18,13 @@ enum squadEvent
   SIZE_CHANGED = "SquadSizeChanged"
   NEW_APPLICATIONS = "SquadHasNewApplications"
   PROPERTIES_CHANGED = "SquadPropertiesChanged"
+  LEADERSHIP_TRANSFER = "SquadLeadershipTransfer"
 }
 
 enum squadStatusUpdateState {
   NONE
   MENU
   BATTLE
-}
-
-global enum squadState
-{
-  NOT_IN_SQUAD
-  JOINING
-  IN_SQUAD
-  LEAVING
 }
 
 const DEFAULT_SQUADS_VERSION = 1
@@ -151,6 +146,7 @@ g_squad_manager.updateMyMemberData <- function updateMyMemberData(data = null)
   data.isWorldWarAvailable <- ::is_worldwar_enabled()
   data.isEacInited <- ::is_eac_inited()
   data.squadsVersion <- SQUADS_VERSION
+  data.platform <- platformModule.targetPlatform
 
   local wwOperations = []
   if (::is_worldwar_enabled())
@@ -808,13 +804,23 @@ g_squad_manager.inviteToSquad <- function inviteToSquad(uid, name = null, cb = n
   if (!canInviteMemberByPlatform(name))
     return ::g_popups.add(null, ::loc("msg/squad/noPlayersForDiffConsoles"))
 
-  local isInvitingPsnPlayer = name && ::isPlayerPS4Friend(name)
-  if (isInvitingPsnPlayer && u.isEmpty(getPsnSessionId()))
-    delayedInvites.append(::get_psn_account_id(name))
+  local isInvitingPsnPlayer = false
+  if (platformModule.isPS4PlayerName(name)) {
+    local contact = ::getContact(uid, name)
+    isInvitingPsnPlayer = true
+    if (u.isEmpty(::g_squad_manager.getPsnSessionId()))
+      contact.updatePSNIdAndDo(function() {
+        ::g_squad_manager.delayedInvites.append(contact.psnId)
+      })
+  }
 
   local callback = function(response) {
-    if (isInvitingPsnPlayer && u.isEmpty(::g_squad_manager.delayedInvites))
-      ::g_psn_sessions.invite(::g_squad_manager.getPsnSessionId(), ::get_psn_account_id(name))
+    if (isInvitingPsnPlayer && u.isEmpty(::g_squad_manager.delayedInvites)) {
+      local contact = ::getContact(uid, name)
+      contact.updatePSNIdAndDo(function() {
+        invite(::g_squad_manager.getPsnSessionId(), contact.psnId)
+      })
+    }
 
     ::g_xbox_squad_manager.sendSystemInvite(uid, name)
 
@@ -829,7 +835,8 @@ g_squad_manager.processDelayedInvitations <- function processDelayedInvitations(
   if (u.isEmpty(getPsnSessionId()) || u.isEmpty(delayedInvites))
     return
 
-  ::g_psn_sessions.invite(getPsnSessionId(), delayedInvites)
+  foreach (invitee in delayedInvites)
+    invite(getPsnSessionId(), invitee)
   delayedInvites.clear()
 }
 
@@ -982,6 +989,7 @@ g_squad_manager.transferLeadership <- function transferLeadership(uid)
     return
 
   ::msquad.transferLeadership(uid)
+  ::broadcastEvent(squadEvent.LEADERSHIP_TRANSFER, {uid = uid})
 }
 
 g_squad_manager.onLeadershipTransfered <- function onLeadershipTransfered()
@@ -1553,11 +1561,6 @@ g_squad_manager.onEventSessionDestroyed <- function onEventSessionDestroyed(p)
 }
 
 g_squad_manager.onEventChatConnected <- function onEventChatConnected(params)
-{
-  joinSquadChatRoom()
-}
-
-g_squad_manager.onEventApproveLastPs4SquadInvite <- function onEventApproveLastPs4SquadInvite(params)
 {
   joinSquadChatRoom()
 }

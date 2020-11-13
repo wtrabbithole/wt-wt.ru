@@ -4,9 +4,6 @@ animated_wait_icon
   position:t='relative'
   pos:t='50%pw-50%w, 50%ph - 50%h'
   background-rotation:t='0'
-  behavior:t='increment'
-  inc-target:t='background-rotation'
-  inc-factor:t='120'
   display:t='hide'
 }
 
@@ -21,22 +18,15 @@ textAreaCentered {
 table {
   id:t='lb_table'
   size:t='pw, ph'
-  behavior:t='TableNavigator'
+  useNavigatorOrInteractiveCells:t='yes'
   class:t='lbTable'
   text-valign:t='center'
   text-halign:t='center'
   navigatorShortcuts:t='yes'
-  mouse-focusable:t='yes'
   selfFocusBorder:t='yes'
-  selectOnAttach:t='no'
   on_click:t='onRowSelect'
   on_dbl_click:t='onRowDblClick'
   on_r_click:t='onRowRClick'
-  on_wrap_up:t='onWrapUp'
-  on_wrap_down:t='onWrapDown'
-  cur_row:t='1'
-  cur_col:t='0'
-  num_rows:t='-1'
   overflow-y:t='auto'
   display:t='hide'
 }

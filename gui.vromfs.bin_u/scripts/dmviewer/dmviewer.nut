@@ -1,3 +1,4 @@
+local { blkOptFromPath, blkFromPath } = require("sqStdLibs/helpers/datablockUtils.nut")
 local { getParametersByCrewId } = require("scripts/crew/crewSkillParameters.nut")
 local { getWeaponXrayDescText } = require("scripts/weaponry/weaponryVisual.nut")
 local { KGF_TO_NEWTON,
@@ -19,7 +20,7 @@ local { topMenuHandler } = require("scripts/mainmenu/topMenuStates.nut")
                           and modal windows.
 */
 
-local countMeasure = ::require("scripts/options/optionsMeasureUnits.nut").countMeasure
+local countMeasure = require("scripts/options/optionsMeasureUnits.nut").countMeasure
 
 const AFTERBURNER_CHAMBER = 3
 
@@ -223,7 +224,7 @@ const AFTERBURNER_CHAMBER = 3
     {
       if( ! ("blk" in preset))
         continue
-      local presetBlk = ::DataBlock(preset["blk"])
+      local presetBlk = blkFromPath(preset["blk"])
       foreach (weapon in (presetBlk % "Weapon"))  // preset can have many weapons in it or no one
         if (weapon?.blk && !weapon?.dummy)
           ::u.appendOnce(::u.copy(weapon), unitWeaponBlkList, false, ::u.isEqual)
@@ -990,7 +991,7 @@ const AFTERBURNER_CHAMBER = 3
         else {
           local status = getWeaponStatus(weaponPartName, weaponInfoBlk)
           desc.extend(getWeaponShotFreqAndReloadTimeDesc(weaponName, weaponInfoBlk, status))
-          desc.append(getMassInfo(::DataBlock(weaponBlkLink)))
+          desc.append(getMassInfo(blkFromPath(weaponBlkLink)))
           if (status?.isPrimary || status?.isSecondary)
           {
             if (weaponInfoBlk?.autoLoader)
@@ -1213,7 +1214,7 @@ const AFTERBURNER_CHAMBER = 3
   function getWeaponStatus(weaponPartName, weaponInfoBlk)
   {
     local blkPath = weaponInfoBlk?.blk ?? ""
-    local blk = ::DataBlock(blkPath)
+    local blk = blkFromPath(blkPath)
     switch (unit.esUnitType)
     {
       case ::ES_UNIT_TYPE_TANK:
@@ -1233,6 +1234,7 @@ const AFTERBURNER_CHAMBER = 3
         }
         local isSecondary = !isPrimary && !isMachinegun
         return { isPrimary = isPrimary, isSecondary = isSecondary, isMachinegun = isMachinegun }
+      case ::ES_UNIT_TYPE_BOAT:
       case ::ES_UNIT_TYPE_SHIP:
         local isPrimaryName       = ::g_string.startsWith(weaponPartName, "main")
         local isSecondaryName     = ::g_string.startsWith(weaponPartName, "auxiliary")
@@ -1259,9 +1261,13 @@ const AFTERBURNER_CHAMBER = 3
       return desc
 
     local deg = ::loc("measureUnits/deg")
+    local isInverted = weaponInfoBlk?.invertedLimitsInViewer ?? false
+    local verticalLabel = "shop/angleVerticalGuidance"
+    local horizontalLabel = "shop/angleHorizontalGuidance"
+
     foreach (g in [
-      { need = needAxisX, angles = weaponInfoBlk?.limits?.yaw,   label = "shop/angleHorizontalGuidance" }
-      { need = needAxisY, angles = weaponInfoBlk?.limits?.pitch, label = "shop/angleVerticalGuidance"   }
+      { need = needAxisX, angles = weaponInfoBlk?.limits?.yaw,   label = isInverted ? verticalLabel : horizontalLabel }
+      { need = needAxisY, angles = weaponInfoBlk?.limits?.pitch, label = isInverted ? horizontalLabel : verticalLabel }
     ]) {
       if (!g.need || (!g.angles?.x && !g.angles?.y))
         continue
@@ -1292,6 +1298,7 @@ const AFTERBURNER_CHAMBER = 3
             local mainTurretValue = weapons?[0]?[a.blkName] ?? 0
             speed = mainTurretValue ? (mainTurretSpeed * value / mainTurretValue) : mainTurretSpeed
             break
+          case ::ES_UNIT_TYPE_BOAT:
           case ::ES_UNIT_TYPE_SHIP:
             local modId   = status.isPrimary    ? "new_main_caliber_turrets"
                           : status.isSecondary  ? "new_aux_caliber_turrets"
@@ -1339,7 +1346,8 @@ const AFTERBURNER_CHAMBER = 3
     local reloadTimeS = 0 // sec
     local firstStageShotFreq = 0.0
 
-    local weaponBlk = ::DataBlock(weaponInfoBlk?.blk ?? "")
+    local weaponBlk = blkOptFromPath(weaponInfoBlk?.blk)
+    local isCartridge = weaponBlk?.reloadTime != null
     local cyclicShotFreqS  = weaponBlk?.shotFreq ?? 0.0 // rounds/sec
 
     switch (unit.esUnitType)
@@ -1363,36 +1371,40 @@ const AFTERBURNER_CHAMBER = 3
         else
           mainGunReloadTime = unit?.modificators?[difficulty.crewSkillName]?.reloadTime ?? 0.0
 
-        local mainGunShotFreq = ::DataBlock(getUnitWeaponList()?[0]?.blk ?? "")?.shotFreq ?? 0.0
+        local mainGunShotFreq = blkOptFromPath(getUnitWeaponList()?[0]?.blk)?.shotFreq ?? 0.0
         local mainGunReloadCfgVal = mainGunShotFreq ? (1.0 / mainGunShotFreq) : 0.0
         local thisGunReloadCfgVal = cyclicShotFreqS ? (1.0 / cyclicShotFreqS) : 0.0
         local valueMult = mainGunReloadCfgVal ? (mainGunReloadTime / mainGunReloadCfgVal) : 1.0
         reloadTimeS = cyclicShotFreqS ? (thisGunReloadCfgVal * valueMult) : 0.0
         break
 
+      case ::ES_UNIT_TYPE_BOAT:
       case ::ES_UNIT_TYPE_SHIP:
-        if (crew)
-        {
-          local crewSkillParams = getParametersByCrewId(crew.id, unit.name)
-          local crewSkill = crewSkillParams?[difficulty.crewSkillName]?.ship_artillery
-          foreach (c in [ "main_caliber_loading_time", "aux_caliber_loading_time", "antiair_caliber_loading_time" ])
+        if (isCartridge)
+          if (crew)
           {
-            reloadTimeS = (crewSkill?[c]?[$"weapons/{weaponName}"]) ?? 0.0
-            if (reloadTimeS)
-              break
+            local crewSkillParams = getParametersByCrewId(crew.id, unit.name)
+            local crewSkill = crewSkillParams?[difficulty.crewSkillName]?.ship_artillery
+            foreach (c in [ "main_caliber_loading_time", "aux_caliber_loading_time", "antiair_caliber_loading_time" ])
+            {
+              reloadTimeS = (crewSkill?[c]?[$"weapons/{weaponName}"]) ?? 0.0
+              if (reloadTimeS)
+                break
+            }
           }
-        }
-        else
-        {
-          local wpcostUnit = ::get_wpcost_blk()?[unit.name]
-          foreach (c in [ "shipMainCaliberReloadTime", "shipAuxCaliberReloadTime", "shipAntiAirCaliberReloadTime" ])
+          else
           {
-            reloadTimeS = wpcostUnit?[$"{c}_{weaponName}"] ?? 0.0
-            if (reloadTimeS)
-              break
+            local wpcostUnit = ::get_wpcost_blk()?[unit.name]
+            foreach (c in [ "shipMainCaliberReloadTime", "shipAuxCaliberReloadTime", "shipAntiAirCaliberReloadTime" ])
+            {
+              reloadTimeS = wpcostUnit?[$"{c}_{weaponName}"] ?? 0.0
+              if (reloadTimeS)
+                break
+            }
           }
-        }
 
+        if (reloadTimeS)
+          break
         cyclicShotFreqS = ::u.search(getCommonWeaponsBlk(dmViewer.unitBlk, "") % "Weapon",
           @(inst) inst.trigger  == weaponInfoBlk.trigger)?.shotFreq ?? cyclicShotFreqS
         shotFreqRPM = cyclicShotFreqS * 60
@@ -1562,6 +1574,7 @@ const AFTERBURNER_CHAMBER = 3
             : "weapon/secondary"
         }
         break
+      case ::ES_UNIT_TYPE_BOAT:
       case ::ES_UNIT_TYPE_SHIP:
         if (::g_string.startsWith(partId, "main") && weaponInfoBlk?.triggerGroup == "secondary")
           params.partLocId <- ::stringReplace(partId, "main", "auxiliary")

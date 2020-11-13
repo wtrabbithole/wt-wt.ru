@@ -1,10 +1,10 @@
 local guidParser = require("scripts/guidParser.nut")
 local itemRarity = require("scripts/items/itemRarity.nut")
 local contentPreview = require("scripts/customization/contentPreview.nut")
-local skinLocations = ::require("scripts/customization/skinLocations.nut")
+local skinLocations = require("scripts/customization/skinLocations.nut")
 local stdMath = require("std/math.nut")
 
-class Decorator
+::Decorator <- class
 {
   id = ""
   blk = null
@@ -131,6 +131,11 @@ class Decorator
   function canRecieve()
   {
     return unlockBlk != null || ! getCost().isZero() || getCouponItemdefId() != null
+  }
+
+  function isSuitableForUnit(unit)
+  {
+    return unit == null || (!isLockedByCountry(unit) && !isLockedByUnit(unit))
   }
 
   function isLockedByCountry(unit)
@@ -277,12 +282,19 @@ class Decorator
 
   function canBuyUnlock(unit)
   {
-    return !isLockedByCountry(unit) && !isLockedByUnit(unit) && !isUnlocked() && !getCost().isZero() && ::has_feature("SpendGold")
+    return isSuitableForUnit(unit) && !isUnlocked() && !getCost().isZero() && ::has_feature("SpendGold")
+  }
+
+  function canGetFromCoupon(unit)
+  {
+    return isSuitableForUnit(unit) && !isUnlocked()
+      && (::ItemsManager.getInventoryItemById(getCouponItemdefId())?.canConsume() ?? false)
   }
 
   function canBuyCouponOnMarketplace(unit)
   {
-    return !isLockedByCountry(unit) && !isLockedByUnit(unit) && !isUnlocked() && getCouponItemdefId() != null
+    return isSuitableForUnit(unit) && !isUnlocked()
+      && (::ItemsManager.findItemById(getCouponItemdefId())?.hasLink() ?? false)
   }
 
   function canUse(unit)
@@ -292,7 +304,7 @@ class Decorator
 
   function isAvailable(unit)
   {
-    return !isLockedByCountry(unit) && !isLockedByUnit(unit) && isUnlocked()
+    return isSuitableForUnit(unit) && isUnlocked()
   }
 
   function getCountOfUsingDecorator(unit)

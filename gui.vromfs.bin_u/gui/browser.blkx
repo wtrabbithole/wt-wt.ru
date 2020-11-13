@@ -1,20 +1,22 @@
 {
   "root": {
     "type": "big",
-    "background-color": "@modalShadeColor",
+    "blur": [],
+    "blur_foreground": [],
     "frame": {
       "id": "wnd_frame",
       "size": "1@rw, 1@rh",
       "pos": "50%pw-50%w, 50%ph-50%h",
       "position": "absolute",
       "class": "wndNav",
-      "type": "big",
       "frame_header": {
         "activeText": {
           "id": "wnd_title",
           "caption": "yes",
           "text": "#mainmenu/btnBrowser",
-          "textHide": "yes"
+          "textHide": "yes",
+          "pare-text": "yes",
+          "width": "fw"
         },
         "Button_close": {
           "id": "btn_back",
@@ -33,10 +35,7 @@
         "id": "browserWaitAnimation",
         "pos": "50%pw-50%w,50%ph-50%h",
         "position": "absolute",
-        "background-rotation": "0",
-        "behavior": "increment",
-        "inc-target": "background-rotation",
-        "inc-factor": "120"
+        "background-rotation": "0"
       },
       "navBar": {
         "navLeft": {

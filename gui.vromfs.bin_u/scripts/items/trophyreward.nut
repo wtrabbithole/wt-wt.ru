@@ -25,6 +25,11 @@
     { value = 100000, icon = "battle_trophy100k" },
     { value = 1000000, icon = "battle_trophy1kk" },
   ]
+
+  isShowItemInTrophyReward = @(extItem) extItem?.itemdef.type == "item"
+    && !extItem.itemdef?.tags.devItem
+    && (extItem.itemdef?.tags.showWithFeature == null || ::has_feature(extItem.itemdef.tags.showWithFeature))
+    && !(extItem.itemdef?.tags.hiddenInRewardWnd ?? false)
 }
 
 trophyReward.processUserlogData <- function processUserlogData(configsArray = [])
@@ -154,7 +159,7 @@ trophyReward.getImageByConfig <- function getImageByConfig(config = null, onlyIm
   else if (rewardType == "warpoints")
     image = getFullWPIcon(rewardValue)
   else if (rewardType == "warbonds")
-    image = getFullWarbondsIcon(rewardValue)
+    image = getFullWarbondsIcon()
 
   if (image == "")
     image = ::LayersIcon.getIconData(style)
@@ -221,18 +226,12 @@ trophyReward.getWPIcon <- function getWPIcon(wp)
 
 trophyReward.getFullWPIcon <- function getFullWPIcon(wp)
 {
-  local layer = ::LayersIcon.findLayerCfg("item_warpoints")
-  local wpLayer = ::LayersIcon.findLayerCfg(getWPIcon(wp))
-  if (layer && wpLayer)
-    layer.img <- ::getTblValue("img", wpLayer, "")
-  return ::LayersIcon.genDataFromLayer(layer)
+  return ::LayersIcon.getIconData(getWPIcon(wp), null, null, "reward_warpoints")
 }
 
-trophyReward.getFullWarbondsIcon <- function getFullWarbondsIcon(wbId)
+trophyReward.getFullWarbondsIcon <- function getFullWarbondsIcon()
 {
-  local layer = ::LayersIcon.findLayerCfg("item_warpoints")
-  layer.img <- "#ui/gameuiskin#item_warbonds"
-  return ::LayersIcon.genDataFromLayer(layer)
+  return ::LayersIcon.genDataFromLayer(::LayersIcon.findLayerCfg("item_warbonds"))
 }
 
 trophyReward.getRestRewardsNumLayer <- function getRestRewardsNumLayer(configsArray, maxNum)

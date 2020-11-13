@@ -1,6 +1,9 @@
 local time = require("scripts/time.nut")
-local sheets = ::require("scripts/items/itemsShopSheets.nut")
+local sheets = require("scripts/items/itemsShopSheets.nut")
 local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
+local { canStartPreviewScene } = require("scripts/customization/contentPreview.nut")
+local ExchangeRecipes = require("scripts/items/exchangeRecipes.nut")
+local { findGenByReceptUid } = require("scripts/items/itemsClasses/itemGenerators.nut")
 
 ::gui_start_open_trophy <- function gui_start_open_trophy(configsTable = {})
 {
@@ -10,7 +13,7 @@ local daguiFonts = require("scripts/viewUtils/daguiFonts.nut")
   local params = {}
   foreach (paramName in [ "rewardTitle", "rewardListLocId", "isDisassemble",
     "isHidePrizeActionBtn", "singleAnimationGuiSound", "rewardImage", "rewardImageRatio",
-    "rewardImageShowTimeSec" ])
+    "rewardImageShowTimeSec", "reUseRecipeUid" ])
   {
     if (!(paramName in configsTable))
       continue
@@ -97,10 +100,14 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   rewardImage = null
   rewardImageRatio = 1
   rewardImageShowTimeSec = -1
+  reUseRecipeUid = null
+  reUseRecipe = null
 
   function initScreen()
   {
     configsArray = configsArray ?? []
+    rewardTitle = configsArray?[0].rewardTitle ?? rewardTitle
+    rewardListLocId = configsArray?[0].rewardListLocId ?? rewardListLocId
 
     prepareParams()
 
@@ -123,6 +130,8 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
          || trophyItem.iType == itemType.CRAFT_PART)
 
     shrinkedConfigsArray = ::trophyReward.processUserlogData(configsArray)
+    if (reUseRecipeUid != null)
+      reUseRecipe = findGenByReceptUid(reUseRecipeUid)?.getRecipeByUid?(reUseRecipeUid)
   }
 
   function setTitle()
@@ -323,7 +332,8 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
             ::getAircraftByName(::g_unlocks.getPlaneBySkinId(decor.id)) :
             ::get_player_cur_unit()
 
-          if (decorUnit && decoratorType.isAvailable(decorUnit) && decor.canUse(decorUnit))
+          if (decorUnit && decoratorType.isAvailable(decorUnit) && decor.canUse(decorUnit)
+            && canStartPreviewScene(false))
           {
             local freeSlotIdx = decoratorType.getFreeSlotIdx(decorUnit)
             local slotIdx = freeSlotIdx != -1 ? freeSlotIdx
@@ -373,7 +383,8 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
 
   function onUnitHover(obj)
   {
-    openUnitActionsList(obj, true, true)
+    if (!::show_console_buttons)
+      openUnitActionsList(obj, true)
   }
 
   function updateButtons()
@@ -393,10 +404,17 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
     local prizeActionBtnId = isHidePrizeActionBtn || !animFinished ? ""
       : unit && unit.isUsable() && !::isUnitInSlotbar(unit) ? "btn_take_air"
       : rewardItem ? "btn_go_to_item"
-      : decorator  ? "btn_use_decorator"
+      : decorator && canStartPreviewScene(false) ? "btn_use_decorator"
       : ""
     foreach (id in [ "btn_take_air", "btn_go_to_item", "btn_use_decorator" ])
       showSceneBtn(id, id == prizeActionBtnId)
+
+    local canReUseItem = animFinished && reUseRecipe != null
+    btnObj = showSceneBtn("btn_re_use_item", canReUseItem)
+    if (canReUseItem) {
+      btnObj.inactiveColor = reUseRecipe.isUsable ? "no" : "yes"
+      btnObj.setValue(::loc(trophyItem.getLocIdsList().reUseItemLocId))
+    }
   }
 
   function onViewRewards()
@@ -479,11 +497,23 @@ class ::gui_handlers.trophyRewardWnd extends ::gui_handlers.BaseGuiHandlerWT
   {
     if (!decorator)
       return
+    if (!canStartPreviewScene(true))
+      return
     ::gui_start_decals({
         unit = decoratorUnit
         preSelectDecorator = decorator
         preSelectDecoratorSlot = decoratorSlot
       })
+  }
+
+  function onReUseItem() {
+    if (reUseRecipe == null)
+      return
+    goBack()
+    guiScene.performDelayed(this, @() ExchangeRecipes.tryUse([reUseRecipe], trophyItem, {
+      shouldSkipMsgBox = reUseRecipe.isUsable
+      isHidePrizeActionBtn  = isHidePrizeActionBtn
+    }))
   }
 
   isCreation = @() (!shouldShowRewardItem && configsArray[0]?.item == trophyItem.id)

@@ -1,6 +1,10 @@
 local { getCollectionsList } = require("scripts/collections/collections.nut")
 local { updateDecoratorDescription } = require("scripts/customization/decoratorDescription.nut")
 local { placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
+local { askPurchaseDecorator, askConsumeDecoratorCoupon,
+  findDecoratorCouponOnMarketplace } = require("scripts/customization/decoratorAcquire.nut")
+
+const MAX_COLLECTION_ITEMS = 10
 
 local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
   wndType          = handlerType.MODAL
@@ -9,6 +13,8 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
   collectionsList = null
   curPage = 0
   collectionsPerPage = -1
+  countItemsInRow = -1
+  collectionHeight = 0
   lastSelectedDecoratorObjId = ""
   collectionsListObj = null
 
@@ -17,13 +23,7 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
     collectionsListObj = scene.findObject("collections_list")
     initCollectionsListSizeOnce()
     fillPage()
-    initFocusArray()
-    if (collectionsListObj.childrenCount() > 0)
-      collectionsListObj.select()
-  }
-
-  function getMainFocusObj() {
-    return collectionsListObj
+    ::move_mouse_on_child_by_value(collectionsListObj)
   }
 
   function initCollectionsListSizeOnce() {
@@ -31,8 +31,13 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
       return
 
     local wndCollectionsObj = scene.findObject("wnd_collections")
+    countItemsInRow = ::to_pixels("1@collectionWidth-1@collectionPrizeWidth")
+      / (::to_pixels("1@collectionItemSizeWithIndent"))
+    local countRowInCollection = ::ceil(MAX_COLLECTION_ITEMS / (countItemsInRow*1.0))
+    collectionHeight = "".concat(countRowInCollection,
+      "@collectionItemSizeWithIndent+1@buttonHeight-1@blockInterval")
     local sizes = ::g_dagui_utils.adjustWindowSize(wndCollectionsObj, collectionsListObj,
-      "@collectionWidth", "@collectionHeight", "@blockInterval", "@blockInterval", { windowSizeX = 0 })
+      "@collectionWidth", collectionHeight, "@blockInterval", "@blockInterval", {windowSizeX = 0})
     collectionsPerPage = sizes.itemsCountY
   }
 
@@ -47,7 +52,9 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
     local pageEndIndex = min((curPage + 1) * collectionsPerPage, collectionsList.len())
     local idxOnPage = 0
     for(local i=pageStartIndex; i < pageEndIndex; i++) {
-      view.collections.append(collectionsList[i].getView(idxOnPage))
+      local collectionTopPos = $"{idxOnPage} * ({collectionHeight} + 1@blockInterval)"
+      view.collections.append(
+        collectionsList[i].getView(countItemsInRow, collectionTopPos, collectionHeight))
       idxOnPage++
     }
 
@@ -82,7 +89,8 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
   }
 
   function getDecoratorConfig(id = null) {
-    local curDecoratorParams = (id ?? getCurDecoratorObj()?.id ?? "").split(";")
+    local curDecoratorParams = (id ?? getCurDecoratorObj()?.id
+      ?? lastSelectedDecoratorObjId ?? "").split(";")
     if (curDecoratorParams.len() < 2)
       return {
         collectionIdx = null
@@ -100,7 +108,7 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
   }
 
   function getCurDecoratorObj() {
-    if (::show_console_buttons && !collectionsListObj.isFocused())
+    if (::show_console_buttons && !collectionsListObj.isHovered())
       return null
 
     local value = ::get_obj_valid_index(collectionsListObj)
@@ -136,19 +144,14 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
 
   function updateButtons(curDecoratorConfig) {
     local decorator = curDecoratorConfig?.decorator
-    local couponItemdefId = decorator?.getCouponItemdefId()
-    local unit = null
-    if (decorator?.decoratorType == ::g_decorator_type.SKINS)
-      unit = ::getAircraftByName(::g_unlocks.getPlaneBySkinId(decorator?.id))
-    local canBuy = decorator?.canBuyUnlock(unit) ?? false
-    local isUnlocked = decorator?.isUnlocked() ?? false
-    local canConsumeCoupon = !isUnlocked && !canBuy &&
-      (::ItemsManager.getInventoryItemById(couponItemdefId)?.canConsume() ?? false)
-    local canFindOnMarketplace = !isUnlocked && !canBuy && !canConsumeCoupon && couponItemdefId != null
+    local canBuy = decorator?.canBuyUnlock(null) ?? false
+    local canConsumeCoupon = !canBuy && (decorator?.canGetFromCoupon(null) ?? false)
+    local canFindOnMarketplace = !canBuy && !canConsumeCoupon
+      && (decorator?.canBuyCouponOnMarketplace(null) ?? false)
 
     local bObj = showSceneBtn("btn_buy_decorator", canBuy)
     if (canBuy && ::check_obj(bObj))
-      placePriceTextToButton(scene, "btn_buy_decorator", ::loc("mainmenu/btnOrder"), decorator.getCost())
+      placePriceTextToButton(scene, "btn_buy_decorator", ::loc("mainmenu/btnOrder"), decorator?.getCost())
 
     ::showBtnTable(scene, {
       btn_preview = decorator?.canPreview() ?? false
@@ -179,8 +182,7 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
   }
 
   function onColletionsListFocusChange() {
-    if (isValid())
-      updateDecoratorInfo()
+    updateDecoratorInfo()
   }
 
   function getHandlerRestoreData() {
@@ -209,47 +211,19 @@ local collectionsWnd = class extends ::gui_handlers.BaseGuiHandlerWT {
 
   function onBuyDecorator() {
     local decorator = getDecoratorConfig()?.decorator
-    if (decorator == null)
-      return
-
-    local cost = decorator.getCost()
-    local decoratorType = decorator.decoratorType
-    local unitName = ""
-    local decoratorId = decorator.id
-    if (decoratorType == ::g_decorator_type.SKINS) {
-      unitName = ::g_unlocks.getPlaneBySkinId(decoratorId)
-      decoratorId = ::g_unlocks.getSkinNameBySkinId(decoratorId)
-    }
-    local msgText = ::warningIfGold(::loc("shop/needMoneyQuestion_purchaseDecal",
-      { purchase = decorator.getName(),
-        cost = cost.getTextAccordingToBalance()
-      }), cost)
-
-    msgBox("need_money", msgText,
-          [["ok", function() {
-            if (::check_balance_msgBox(cost))
-              decoratorType.buyFunc(unitName, decoratorId, cost, @() null)
-          }],
-          ["cancel", function() {} ]], "ok")
+    askPurchaseDecorator(decorator, null)
   }
 
   function onBtnMarketplaceFindCoupon(obj)
   {
     local decorator = getDecoratorConfig()?.decorator
-    local item = ::ItemsManager.findItemById(decorator?.getCouponItemdefId())
-    if (!(item?.hasLink() ?? false))
-      return
-    item.openLink()
+    findDecoratorCouponOnMarketplace(decorator)
   }
 
   function onBtnMarketplaceConsumeCoupon(obj)
   {
     local decorator = getDecoratorConfig()?.decorator
-    local inventoryItem = ::ItemsManager.getInventoryItemById(decorator?.getCouponItemdefId())
-    if (!(inventoryItem?.canConsume() ?? false))
-      return
-
-    inventoryItem.consume(@(result) null, null)
+    askConsumeDecoratorCoupon(decorator, null)
   }
 }
 

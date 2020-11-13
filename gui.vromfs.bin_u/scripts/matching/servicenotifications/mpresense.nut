@@ -1,4 +1,4 @@
-local avatars = ::require("scripts/user/avatars.nut")
+local avatars = require("scripts/user/avatars.nut")
 local { isPs4XboxOneInteractionAvailable,
         isPlatformSony } = require("scripts/clientState/platform.nut")
 local editContactsList = require("scripts/contacts/editContacts.nut")
@@ -87,62 +87,56 @@ local editContactsList = require("scripts/contacts/editContacts.nut")
 
   if ("groups" in params)
   {
-    if (isPlatformSony)
-      ::addContactGroup(::EPLX_PS4_FRIENDS)
-
-    if( (::EPL_FACEBOOK in params.groups) &&
-        (params.groups[::EPL_FACEBOOK].len()>0)
-      )
-      ::addContactGroup(::EPL_FACEBOOK)
+    ::clear_contacts()
 
     local friendsToRemove = []
     foreach(listName, list in params.groups)
     {
-      if (list == null)
+      if (list == null
+          || (
+              ::contacts_groups_default.findvalue(@(gr) gr == listName) == null
+              && (
+                  (listName == ::EPLX_PS4_FRIENDS && !isPlatformSony)
+                  || list.len() == 0
+                )
+            )
+         )
         continue
 
-      if (listName == ::EPL_FRIENDLIST && isPlatformSony)
-        ::contacts[::EPLX_PS4_FRIENDS] <- []
-      ::contacts[listName] <- []
-
-      foreach(p in list)
+      foreach (p in list)
       {
-        local player = ::getContact(p?.userId, p?.nick)
+        local playerUid = p?.userId
+        local playerName = p?.nick
+        local playerClanTag = p?.clanTag
+
+        local player = ::g_contacts.addContact(null, listName, {
+          uid = playerUid
+          playerName = playerName
+          clanTag = playerClanTag
+        })
+
         if (!player)
         {
           local myUserId = ::my_user_id_int64 // warning disable: -declared-never-used
-          local playerUid = p?.userId         // warning disable: -declared-never-used
-          local playerName = p?.nick          // warning disable: -declared-never-used
-          local errText = p?.userId ? "player not found" : "not valid data"
+          local errText = playerUid ? "player not found" : "not valid data"
           ::script_net_assert_once("not found contact for group", errText)
           continue
         }
 
-        if (listName == ::EPL_FRIENDLIST && !isPs4XboxOneInteractionAvailable(player.name))
+        if (listName == ::EPL_FRIENDLIST && !isPs4XboxOneInteractionAvailable(playerName))
         {
           friendsToRemove.append(player)
           continue
         }
-
-        if (listName == ::EPL_FRIENDLIST && player.online == null)
-          player.online = null
-
-        if (listName == ::EPL_FRIENDLIST)
-          ::contacts[::getFriendGroupName(p.nick)].append(player)
-        else
-          ::contacts[listName].append(player)
       }
     }
 
     if (friendsToRemove.len())
       editContactsList({[false] = friendsToRemove}, ::EPL_FRIENDLIST)
-
-    if (::EPL_FACEBOOK in ::contacts && ::contacts?[::EPL_FACEBOOK].len() == 0)
-      ::g_contacts.removeContactGroup(::EPL_FACEBOOK)
   }
-  ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = null})
 
-  update_gamercards()
+  ::broadcastEvent(contactEvent.CONTACTS_GROUP_UPDATE, {groupName = null})
+  ::update_gamercards()
 }
 
 ::reload_contact_list <- function reload_contact_list()

@@ -1,10 +1,10 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local extContactsService = require("scripts/contacts/externalContactsService.nut")
 
-local persist = { isInitedXboxContacts = false }
+local persistent = { isInitedXboxContacts = false }
 local pendingXboxContactsToUpdate = {}
 
-::g_script_reloader.registerPersistentData("XboxContactsManagerGlobals", persist, ["isInitedXboxContacts"])
+::g_script_reloader.registerPersistentData("XboxContactsManagerGlobals", persistent, ["isInitedXboxContacts"])
 
 local updateContactXBoxPresence = function(xboxId, isAllowed)
 {
@@ -32,19 +32,19 @@ local fetchContactsList = function()
   ::xbox_get_avoid_list_async()
 }
 
-local updateXboxOneFriends = function(needIgnoreInitedFlag = false)
+local updateContacts = function(needIgnoreInitedFlag = false)
 {
-  if (!::is_platform_xboxone || !::isInMenu())
+  if (!::is_platform_xbox || !::isInMenu())
   {
-    if (needIgnoreInitedFlag && persist.isInitedXboxContacts)
-      persist.isInitedXboxContacts = false
+    if (needIgnoreInitedFlag && persistent.isInitedXboxContacts)
+      persistent.isInitedXboxContacts = false
     return
   }
 
-  if (!needIgnoreInitedFlag && persist.isInitedXboxContacts)
+  if (!needIgnoreInitedFlag && persistent.isInitedXboxContacts)
     return
 
-  persist.isInitedXboxContacts = true
+  persistent.isInitedXboxContacts = true
   fetchContactsList()
 }
 
@@ -72,7 +72,7 @@ local tryUpdateContacts = function(contactsBlk)
           continue
 
         if (isAdding)
-          ::contacts[group].append(contact)
+          ::g_contacts.addContact(contact, group)
         else
           ::g_contacts.removeContact(contact, group)
       }
@@ -105,7 +105,7 @@ local xboxUpdateContactsList = function(usersTable)
       if (!contact)
         continue
 
-      if (!contact.isInFriendGroup() && group == ::getFriendGroupName(contact.name))
+      if (!contact.isInFriendGroup() && group == ::EPL_FRIENDLIST)
       {
         contactsBlk[::EPL_FRIENDLIST][contact.uid] = true
         if (contact.isInBlockGroup())
@@ -121,7 +121,7 @@ local xboxUpdateContactsList = function(usersTable)
       //Check both lists, as there can be mistakes
       if (contact.isInFriendGroup() && contact.isInBlockGroup())
       {
-        if (group == ::getFriendGroupName(contact.name))
+        if (group == ::EPL_FRIENDLIST)
           contactsBlk[::EPL_BLOCKLIST][contact.uid] = false
         else
           contactsBlk[::EPL_FRIENDLIST][contact.uid] = false
@@ -194,18 +194,18 @@ local xboxOverlayContactClosedCallback = function(playerStatus)
 
 ::add_event_listener("SignOut", function(p) {
   pendingXboxContactsToUpdate.clear()
-  persist.isInitedXboxContacts = false
+  persistent.isInitedXboxContacts = false
 }, this)
 
 ::add_event_listener("XboxSystemUIReturn", function(p) {
   if (!::g_login.isLoggedIn())
     return
 
-  updateXboxOneFriends(true)
+  updateContacts(true)
 }, this)
 
 ::add_event_listener("ContactsUpdated", function(p) {
-  if (!::is_platform_xboxone)
+  if (!::is_platform_xbox)
     return
 
   local xboxContactsToCheck = ::u.filter(::contacts_players, @(contact) contact.needCheckForceOffline())
@@ -216,7 +216,7 @@ local xboxOverlayContactClosedCallback = function(playerStatus)
       contact.getXboxId(@() ::can_view_target_presence(contact.xboxId))
   })
 
-  updateXboxOneFriends()
+  updateContacts()
 }, this)
 
 return {
@@ -226,5 +226,5 @@ return {
   xboxOverlayContactClosedCallback = xboxOverlayContactClosedCallback
 
   updateContactXBoxPresence = updateContactXBoxPresence
-  updateXboxOneFriends = updateXboxOneFriends
+  updateContacts = updateContacts
 }

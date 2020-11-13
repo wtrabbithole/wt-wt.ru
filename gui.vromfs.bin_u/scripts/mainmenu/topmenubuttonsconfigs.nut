@@ -1,11 +1,15 @@
-local xboxShop = require("scripts/onlineShop/xboxShop.nut")
-local ps4Shop = require("scripts/onlineShop/ps4Shop.nut")
+local { canUseIngameShop,
+        getShopItemsTable,
+        getEntStoreLocId,
+        getEntStoreIcon,
+        isEntStoreTopMenuItemHidden,
+        getEntStoreUnseenIcon,
+        needEntStoreDiscountIcon,
+        openEntStoreTopMenuFunc } = require("scripts/onlineShop/entitlementsStore.nut")
 local contentStateModule = require("scripts/clientState/contentState.nut")
 local workshop = require("scripts/items/workshop/workshop.nut")
-local { canSpendRealMoney,
-        isPlatformSony,
-        isPlatformPC,
-        isPlatformXboxOne } = require("scripts/clientState/platform.nut")
+local { isPlatformSony,
+        isPlatformPC } = require("scripts/clientState/platform.nut")
 local encyclopedia = require("scripts/encyclopedia.nut")
 local { openChangelog } = require("scripts/changelog/openChangelog.nut")
 local openPersonalUnlocksModal = require("scripts/unlocks/personalUnlocksModal.nut")
@@ -20,6 +24,7 @@ local topMenuHandlerClass = require("scripts/mainmenu/topMenuHandler.nut")
 local { buttonsListWatch } = require("scripts/mainmenu/topMenuButtons.nut")
 local { openCollectionsWnd, hasAvailableCollections } = require("scripts/collections/collectionsWnd.nut")
 local exitGame = require("scripts/utils/exitGame.nut")
+local { suggestAndAllowPsnPremiumFeatures } = require("scripts/user/psnFeatures.nut")
 
 local template = {
   id = ""
@@ -55,6 +60,9 @@ local list = {
         return ::show_not_available_msg_box()
       if (!::check_gamemode_pkg(::GM_SKIRMISH))
         return
+      if (!suggestAndAllowPsnPremiumFeatures())
+        return
+
       ::queues.checkAndStart(
         ::Callback(@() goForwardIfOnline(::gui_start_skirmish, false), handler),
         null,
@@ -206,7 +214,7 @@ local list = {
     onClickFunc = function(obj, handler) {
       if (!needShowCrossPlayInfo() || isCrossPlayEnabled())
         openUrlByObj(obj)
-      else
+      else if (!::xbox_try_show_crossnetwork_message())
         ::showInfoMsgBox(::loc("xbox/actionNotAvailableCrossNetworkPlay"))
     }
     isDelayed = false
@@ -285,35 +293,15 @@ local list = {
     unseenIcon = @() SEEN.WARBONDS_SHOP
   }
   ONLINE_SHOP = {
-    text = @() "#msgbox/btn_onlineShop"
-    onClickFunc = @(obj, handler) handler.startOnlineShop(null, null, "topmenu")
+    text = getEntStoreLocId
+    onClickFunc = openEntStoreTopMenuFunc
     link = ""
-    isLink = @() true
-    isFeatured = @() true
-    image = @() "#ui/gameuiskin#store_icon.svg"
-    isHidden = @(...) !isPlatformPC || !::has_feature("SpendGold") || !::isInMenu() || !canSpendRealMoney()
-  }
-  XBOX_ONLINE_SHOP = {
-    text = @() xboxShop.canUseIngameShop()? "#topmenu/xboxIngameShop" : "#msgbox/btn_onlineShop"
-    onClickFunc = @(...) xboxShop.openIngameStore({statsdMetric = "topmenu"})
-    link = ""
-    isLink = @() !xboxShop.canUseIngameShop()
-    isFeatured = @() !xboxShop.canUseIngameShop()
-    image = @() xboxShop.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
-    needDiscountIcon = true
-    isHidden = @(...) !isPlatformXboxOne || !::isInMenu()
-    unseenIcon = @() SEEN.EXT_XBOX_SHOP
-  }
-  PS4_ONLINE_SHOP = {
-    text = @() ps4Shop.canUseIngameShop()? "#topmenu/ps4IngameShop" : "#msgbox/btn_onlineShop"
-    onClickFunc = @(...) ps4Shop.openIngameStore({openedFrom = "topmenu"})
-    link = ""
-    isLink = @() !ps4Shop.canUseIngameShop()
-    isFeatured = @() !ps4Shop.canUseIngameShop()
-    image = @() ps4Shop.canUseIngameShop()? "#ui/gameuiskin#xbox_store_icon.svg" : "#ui/gameuiskin#store_icon.svg"
-    needDiscountIcon = true
-    isHidden = @(...) !ps4Shop.canUseIngameShop() || !::isInMenu()
-    unseenIcon = @() SEEN.EXT_PS4_SHOP
+    isLink = @() !canUseIngameShop()
+    isFeatured = @() !canUseIngameShop()
+    image = getEntStoreIcon
+    needDiscountIcon = needEntStoreDiscountIcon
+    isHidden = isEntStoreTopMenuItemHidden
+    unseenIcon = getEntStoreUnseenIcon
   }
   MARKETPLACE = {
     text = @() "#mainmenu/marketplace"
@@ -327,6 +315,7 @@ local list = {
   COLLECTIONS = {
     text = @() "#mainmenu/btnCollections"
     onClickFunc = @(...) openCollectionsWnd()
+    image = @() "#ui/gameuiskin#collection.svg"
     isHidden = @(...) !hasAvailableCollections() || !::isInMenu()
   }
   WINDOW_HELP = {
@@ -382,7 +371,7 @@ local list = {
     text = @() "Debug PS4 Data" //intentionally without localization
     onClickFunc = function(obj, handler) {
       local itemInfo = []
-      foreach (id, item in ps4Shop.getShopItemsTable())
+      foreach (id, item in getShopItemsTable())
       {
         itemInfo.append(item.id)
         itemInfo.append(item.imagePath)

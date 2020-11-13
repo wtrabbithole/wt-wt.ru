@@ -1,6 +1,6 @@
-local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+local subscriptions = require("sqStdLibs/helpers/subscriptions.nut")
 local guidParser = require("scripts/guidParser.nut")
-local globalCallbacks = ::require("sqDagui/globalCallbacks/globalCallbacks.nut")
+local globalCallbacks = require("sqDagui/globalCallbacks/globalCallbacks.nut")
 
 local downloadTimeoutSec = 15
 local downloadProgressBox = null
@@ -8,6 +8,32 @@ local downloadProgressBox = null
 local onSkinReadyToShowCallback = null
 
 local waitingItemDefId = null
+
+local function getCantStartPreviewSceneReason(shouldAllowFromCustomizationScene = false)
+{
+  if (!::g_login.isLoggedIn())
+    return "not_logged_in"
+  if (!::is_in_hangar())
+    return "not_in_hangar"
+  if (!hangar_is_loaded())
+    return "hangar_not_ready"
+  if (!::isInMenu() || ::checkIsInQueue()
+      || (::g_squad_manager.isSquadMember() && ::g_squad_manager.isMeReady())
+      || ::SessionLobby.hasSessionInLobby())
+    return "temporarily_forbidden"
+  local customizationScene = ::handlersManager.findHandlerClassInScene(::gui_handlers.DecalMenuHandler)
+  if (customizationScene && (!shouldAllowFromCustomizationScene || !customizationScene.canRestartSceneNow()))
+    return "temporarily_forbidden"
+  return  ""
+}
+
+local function canStartPreviewScene(shouldShowFordiddenPopup, shouldAllowFromCustomizationScene = false)
+{
+  local reason = getCantStartPreviewSceneReason(shouldAllowFromCustomizationScene)
+  if (shouldShowFordiddenPopup && reason == "temporarily_forbidden")
+    ::g_popups.add("", ::loc("mainmenu/itemPreviewForbidden"))
+  return reason == ""
+}
 
 /**
  * Starts Customization scene with given unit and optional skin.
@@ -17,7 +43,7 @@ local waitingItemDefId = null
  */
 local function showUnitSkin(unitId, skinId = null, isForApprove = false)
 {
-  if (!::ItemsManager.canPreviewItems())
+  if (!canStartPreviewScene(true, true))
     return
 
   local unit = ::getAircraftByName(unitId)
@@ -26,12 +52,14 @@ local function showUnitSkin(unitId, skinId = null, isForApprove = false)
 
   local unitPreviewSkin = unit.getPreviewSkinId()
   skinId = skinId || unitPreviewSkin
+  local isUnitPreview = skinId == unitPreviewSkin
 
   ::broadcastEvent("BeforeStartShowroom")
   ::show_aircraft = unit
   local startFunc = function() {
     ::gui_start_decals({
-      previewMode = skinId == unitPreviewSkin ? PREVIEW_MODE.UNIT : PREVIEW_MODE.SKIN
+      previewMode = isUnitPreview ? PREVIEW_MODE.UNIT : PREVIEW_MODE.SKIN
+      needForceShowUnitInfoPanel = isUnitPreview && ::isUnitSpecial(unit)
       previewParams = {
         unitName = unitId
         skinName = skinId
@@ -39,8 +67,7 @@ local function showUnitSkin(unitId, skinId = null, isForApprove = false)
       }
     })
   }
-  startFunc()
-  ::handlersManager.setLastBaseHandlerStartFunc(startFunc)
+  ::handlersManager.animatedSwitchScene(startFunc())
 
   return true
 }
@@ -104,7 +131,7 @@ local function getBestUnitForDecoratorPreview(decoratorType, forcedUnitId = null
  */
 local function showUnitDecorator(unitId, resource, resourceType)
 {
-  if (!::ItemsManager.canPreviewItems())
+  if (!canStartPreviewScene(true, true))
     return
 
   local decoratorType = ::g_decorator_type.getTypeByResourceType(resourceType)
@@ -148,7 +175,7 @@ local function showUnitDecorator(unitId, resource, resourceType)
  */
 local function showResource(resource, resourceType, onSkinReadyToShowCb = null)
 {
-  if (!::ItemsManager.canPreviewItems())
+  if (!canStartPreviewScene(true, true))
     return
 
   onSkinReadyToShowCallback = (resourceType == "skin")
@@ -180,14 +207,9 @@ local function liveSkinPreview(params)
 {
   if (!::has_feature("EnableLiveSkins"))
     return "not_allowed"
-  if (!::g_login.isLoggedIn())
-    return "not_logged_in"
-  if (!::is_in_hangar())
-    return "not_in_hangar"
-  if (!hangar_is_loaded())
-    return "hangar_not_ready"
-  if (!::ItemsManager.canPreviewItems())
-    return "temporarily_forbidden"
+  local reason = getCantStartPreviewSceneReason(true)
+  if (reason != "")
+    return reason
 
   local blkHashName = params.hash
   local name = params?.name ?? "testName"
@@ -228,8 +250,22 @@ local function marketViewItem(params)
     return
   }
   waitingItemDefId = null
-  if (item.canPreview() && ::ItemsManager.canPreviewItems())
+  if (item.canPreview() && canStartPreviewScene(true, true))
     item.doPreview()
+}
+
+local function requestUnitPreview(params)
+{
+  local reason = getCantStartPreviewSceneReason(true)
+  if (reason != "")
+    return reason
+  local unit = ::getAircraftByName(params?.unitId)
+  if (unit == null)
+    return "unit_not_found"
+  if (!unit.canPreview())
+    return "unit_not_viewable"
+  unit.doPreview()
+  return "success"
 }
 
 local function onEventItemsShopUpdate(params)
@@ -240,7 +276,7 @@ local function onEventItemsShopUpdate(params)
   if (!item)
     return
   waitingItemDefId = null
-  if (item.canPreview() && ::ItemsManager.canPreviewItems())
+  if (item.canPreview() && canStartPreviewScene(true, true))
     item.doPreview()
 }
 
@@ -249,7 +285,7 @@ globalCallbacks.addTypes({
   ITEM_PREVIEW = {
     onCb = function(obj, params) {
       local item = ::ItemsManager.findItemById(params?.itemId)
-      if (item && item.canPreview() && ::ItemsManager.canPreviewItems())
+      if (item && item.canPreview() && canStartPreviewScene(true, true))
         item.doPreview()
     }
   }
@@ -263,14 +299,14 @@ globalCallbacks.addTypes({
   UNIT_PREVIEW = {
     onCb = function(obj, params) {
       local unit = ::getAircraftByName(params?.unitId)
-      if (unit && unit.canPreview() && ::ItemsManager.canPreviewItems())
+      if (unit && unit.canPreview() && canStartPreviewScene(true, true))
         unit.doPreview()
     }
   }
   DECORATOR_PREVIEW = {
     onCb = function(obj, params) {
       local decorator = ::g_decorator.getDecoratorByResource(params?.resource, params?.resourceType)
-      if (decorator && decorator.canPreview() && ::ItemsManager.canPreviewItems())
+      if (decorator && decorator.canPreview() && canStartPreviewScene(true, true))
         decorator.doPreview()
     }
   }
@@ -285,6 +321,7 @@ rootTable["on_live_skin_data_loaded"] <- @(unitId, skinGuid, result) onSkinDownl
 rootTable["live_start_unit_preview"]  <- @(unitId, skinId, isForApprove) showUnitSkin(unitId, skinId, isForApprove)
 web_rpc.register_handler("ugc_skin_preview", @(params) liveSkinPreview(params))
 web_rpc.register_handler("market_view_item", @(params) marketViewItem(params))
+web_rpc.register_handler("request_view_unit", @(params) requestUnitPreview(params))
 
 subscriptions.addListenersWithoutEnv({
   ItemsShopUpdate = @(p) onEventItemsShopUpdate(p)
@@ -293,4 +330,5 @@ subscriptions.addListenersWithoutEnv({
 return {
   showUnitSkin = showUnitSkin
   showResource = showResource
+  canStartPreviewScene = canStartPreviewScene
 }

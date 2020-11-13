@@ -11,8 +11,9 @@ local webApiMethodGet = 0
 local webApiMethodPost = 1
 local webApiMethodPut = 2
 local webApiMethodDelete = 3
+local webApiMethodPatch = 4
 
-local function createRequest(api, method, path=null, params={}, data=null, forceBinary=false) {
+local function createRequest(api, method, path=null, params={}, data=null, forceBinary=false, headers = {}) {
   local request = DataBlock()
   request.apiGroup = api.group
   request.method = method
@@ -36,6 +37,12 @@ local function createRequest(api, method, path=null, params={}, data=null, force
   else if (::type(data) == "array")
     foreach(part in data)
       request.part <- part
+
+  if (headers.len()) {
+    request.reqHeaders = DataBlock()
+    foreach(k, v in headers)
+      request.reqHeaders[k] <- v
+  }
   return request
 }
 
@@ -111,29 +118,55 @@ local session = {
 
 local sessionManagerApi = { group = "sessionManager", path = "/v1/playerSessions" }
 local sessionManager = {
-  function createSession(params) {
-    return createRequest(sessionManagerApi, webApiMethodPost, null, params)
+  function create(params) {
+    return createRequest(sessionManagerApi, webApiMethodPost, null, {}, params)
   }
-  function leaveSession(sessionId) {
+  function update(sessionId, param) {
+    //Allow to update only one parameter at a time
+    return createRequest(sessionManagerApi, webApiMethodPatch, $"{sessionId}", {}, param)
+  }
+  function leave(sessionId) {
     return createRequest(sessionManagerApi, webApiMethodDelete, $"{sessionId}/members/me")
   }
-  function joinSessionAsPlayer(sessionId, params) {
-    return createRequest(sessionManagerApi, webApiMethodPost, $"{sessionId}/members/players", params)
+  function joinAsPlayer(sessionId, params) {
+    return createRequest(sessionManagerApi, webApiMethodPost, $"{sessionId}/member/players", {}, params)
   }
-  function joinSessionAsSpectator(sessionId, params) {
-    return createRequest(sessionManagerApi, webApiMethodPost, $"{sessionId}/members/spectators", params)
+  function joinAsSpectator(sessionId, params) {
+    return createRequest(sessionManagerApi, webApiMethodPost, $"{sessionId}/member/spectators", {}, params)
+  }
+  function list(sessionIds = []) {
+    return createRequest(sessionManagerApi, webApiMethodGet, null, {fields="customData1,sessionId"},
+      null, false, {["X-PSN-SESSION-MANAGER-SESSION-IDS"] = ",".join(sessionIds)})
   }
 
-
-  function changeLeader(sessionId, leaderAccountId, leaderPlatformString) {
+  function changeLeader(sessionId, accountId, platform) {
     return createRequest(sessionManagerApi, webApiMethodPut, $"{sessionId}/leader",
-                         { accountId = leaderAccountId, platform = leaderPlatformString })
+      {}, { accountId = accountId, platform = platform })
   }
   function invite(sessionId, accountIds) {
-    local params = { invitations = [] }
-    foreach(account in accountIds)
-      params.invitations.append({ to = { accountId = account }})
-    return createRequest(sessionManagerApi, webApiMethodPost, $"{sessionId}/invitations", params)
+    local params = { invitations = accountIds.map(@(id) { to = { accountId = id }})}
+    return createRequest(sessionManagerApi, webApiMethodPost, $"{sessionId}/invitations", {}, params)
+  }
+}
+
+// ------------ Game Sessions actions
+local gameSessionManagerApi = { group = "sessionManager", path = "/v1/gameSessions" }
+local gameSessionManager = {
+  function create(params) {
+    return createRequest(gameSessionManagerApi, webApiMethodPost, null, {}, params)
+  }
+  function update(sessionId, param) {
+    //Allow to update only one parameter at a time
+    return createRequest(gameSessionManagerApi, webApiMethodPatch, $"{sessionId}", {}, param)
+  }
+  function leave(sessionId) {
+    return createRequest(gameSessionManagerApi, webApiMethodDelete, $"{sessionId}/members/me")
+  }
+  function joinAsPlayer(sessionId, params) {
+    return createRequest(gameSessionManagerApi, webApiMethodPost, $"{sessionId}/member/players", {}, params)
+  }
+  function joinAsSpectator(sessionId, params) {
+    return createRequest(gameSessionManagerApi, webApiMethodPost, $"{sessionId}/member/spectators", {}, params)
   }
 }
 
@@ -159,13 +192,16 @@ local playerSessionInvitations = {
   }
 }
 
-
 // ------------ Profile actions
 local profileApi = { group = "sdk:userProfile", path = "/v1/users/me" }
 local profile = {
   function listFriends() {
     local params = { friendStatus = "friend", presenceType = "incontext" }
     return createRequest(profileApi, webApiMethodGet, "friendList", params)
+  }
+
+  function listBlockedUsers() {
+    return createRequest(profileApi, webApiMethodGet, "blockingUsers", {})
   }
 }
 
@@ -236,6 +272,36 @@ local entitlements = {
 }
 
 
+// ---------- Matches actions
+local matchesApi = { group = "matches", path = "/v1/matches" }
+local matches = {
+  function create(data) {
+    return createRequest(matchesApi, webApiMethodPost, null, {}, data)
+  }
+
+  function updateStatus(id, status) {
+    local data = { status = status }
+    return createRequest(matchesApi, webApiMethodPut, $"{id}/status", {}, data)
+  }
+
+  function join(id, player) {
+    local data = { players = [ player ] }
+    return createRequest(matchesApi, webApiMethodPost, $"{id}/players/actions/add", {}, data)
+  }
+
+  function leave(id, player) {
+    local data = { players = [ player ] }
+    return createRequest(matchesApi, webApiMethodPost, $"{id}/players/actions/remove", {}, data)
+  }
+
+  LeaveReason = {
+    QUIT = "QUIT"
+    FINISHED = "FINISHED"
+    DISCONNECTED = "DISCONNECTED"
+  }
+}
+
+
 // ---------- Utility functions and wrappers
 local function is_http_success(code) { return code != null && code >= 200 && code < 300 }
 
@@ -258,8 +324,11 @@ local function fetch(action, onChunkReceived, chunkSize = 20) {
   local function onResponse(response, err) {
     // PSN responses are somewhat inconsistent, but we need proper iterators
     local entry = ((::type(response) == "array") ? response?[0] : response) || {}
-    local received = (entry?.start||0) + (entry?.size||0)
-    local total = entry?.total_results || entry?.totalResults || received
+    local received = (nativeApi.getPreferredVersion() == 2)
+                   ? (entry?.nextOffset || entry?.totalItemCount)
+                   : (entry?.start||0) + (entry?.size||0)
+    local total = entry?.total_results || entry?.totalResults || entry?.totalItemCount || received
+
     if (err == null && received < total)
       send(makeIterable(action, received, chunkSize), callee())
 
@@ -273,14 +342,18 @@ local function fetch(action, onChunkReceived, chunkSize = 20) {
 return {
   send = send
   fetch = fetch
+  abortAllPendingRequests = nativeApi?.abortAllPendingRequests ?? @() null
+  getPreferredVersion = nativeApi.getPreferredVersion
 
   session = session
   sessionManager = sessionManager
+  gameSessionManager = gameSessionManager
+
   invitation = invitation
   playerSessionInvitations = playerSessionInvitations
+  matches = matches
 
-  profile = profile
-  userProfile = userProfile
+  profile = (nativeApi.getPreferredVersion() == 2) ? userProfile : profile
   communicationRestrictionStatus = communicationRestrictionStatus
 
   feed = feed
@@ -290,4 +363,13 @@ return {
   entitlements = entitlements
 
   noOpCb = noOpCb
+
+  subscribe = {
+    friendslist = nativeApi.subscribeToFriendsUpdates
+    blocklist = nativeApi.subscribeToBlocklistUpdates
+  }
+  unsubscribe = {
+    friendslist = nativeApi.unsubscribeFromFriendsUpdates
+    blocklist = nativeApi.unsubscribeFromBlocklistUpdates
+  }
 }
