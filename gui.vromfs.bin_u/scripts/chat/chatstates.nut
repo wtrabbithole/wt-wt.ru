@@ -1,10 +1,10 @@
 local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
-local subscriptions = require("sqStdlibs/helpers/subscriptions.nut")
+local subscriptions = require("sqStdLibs/helpers/subscriptions.nut")
 
 local xboxChatEnabledCache = null
 local function getXboxChatEnableStatus(needOverlayMessage = false) {
-  if (!::is_platform_xboxone || !::g_login.isLoggedIn())
+  if (!::is_platform_xbox || !::g_login.isLoggedIn())
     return XBOX_COMMUNICATIONS_ALLOWED
 
   if (xboxChatEnabledCache == null || (needOverlayMessage && xboxChatEnabledCache == XBOX_COMMUNICATIONS_BLOCKED))

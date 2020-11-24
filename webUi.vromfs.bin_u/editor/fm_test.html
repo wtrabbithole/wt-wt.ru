@@ -548,6 +548,8 @@
         yawLocked: false,
         pitchLocked: false,
         rollLocked: false,
+        elevatorLocked: false,
+        rudderLocked: false,
         aoa: {
           value: 0.0,
           type: 'angle',
@@ -589,6 +591,20 @@
           min: -90.0,
           max: 90.0,
           precision: 2
+        },
+        elevatorFakeRate: {
+          value: 0.0,
+          type: 'control',
+          min: -100.0,
+          max: 100.0,
+          precision: 3
+        },
+        rudderFakeRate: {
+          value: 0.0,
+          type: 'control',
+          min: -100.0,
+          max: 100.0,
+          precision: 3
         }
       }
     }
@@ -1565,6 +1581,8 @@
       document.getElementById('CheckBoxWindTubeTestYawLocked').checked = windTubeTest.params.yawLocked
       document.getElementById('CheckBoxWindTubeTestPitchLocked').checked = windTubeTest.params.pitchLocked
       document.getElementById('CheckBoxWindTubeTestRollLocked').checked = windTubeTest.params.rollLocked
+      document.getElementById('CheckBoxWindTubeTestElevatorLocked').checked = windTubeTest.params.elevatorLocked
+      document.getElementById('CheckBoxWindTubeTestRudderLocked').checked = windTubeTest.params.rudderLocked
       
       document.getElementById('LabelWindTubeTestAirspeed').innerHTML = 'Airspeed, ' + speedUnitName
       if (changeFlags[0])
@@ -1583,6 +1601,10 @@
         document.getElementById('EditWindTubeTestPitchFakeRate').value = saveValue(windTubeTest.params.pitchFakeRate)
       if (changeFlags[6])
         document.getElementById('EditWindTubeTestRollFakeRate').value = saveValue(windTubeTest.params.rollFakeRate)
+      if (changeFlags[7])
+        document.getElementById('EditWindTubeTestElevatorFakeRate').value = saveValue(windTubeTest.params.elevatorFakeRate)
+      if (changeFlags[8])
+        document.getElementById('EditWindTubeTestRudderFakeRate').value = saveValue(windTubeTest.params.rudderFakeRate)
 
       enableWindTubeTestParameters()
     }
@@ -1877,7 +1899,9 @@
         data.enabled && windTubeTest.params.roll.value != data.roll,
         data.enabled && windTubeTest.params.yawFakeRate.value != data.yawFakeRate,
         data.enabled && windTubeTest.params.pitchFakeRate.value != data.pitchFakeRate,
-        data.enabled && windTubeTest.params.rollFakeRate.value != data.rollFakeRate
+        data.enabled && windTubeTest.params.rollFakeRate.value != data.rollFakeRate,
+        data.enabled && windTubeTest.params.elevatorFakeRate.value != data.elevatorFakeRate,
+        data.enabled && windTubeTest.params.rudderFakeRate.value != data.rudderFakeRate
       ]
       windTubeTest.params.enabled = data.enabled
       if (data.enabled)
@@ -1886,12 +1910,16 @@
         windTubeTest.params.yawLocked = data.yawLocked
         windTubeTest.params.pitchLocked = data.pitchLocked
         windTubeTest.params.rollLocked = data.rollLocked
+        windTubeTest.params.elevatorLocked = data.elevatorLocked
+        windTubeTest.params.rudderLocked = data.rudderLocked
         windTubeTest.params.aoa.value = data.aoa
         windTubeTest.params.aos.value = data.aos
         windTubeTest.params.roll.value = data.roll
         windTubeTest.params.yawFakeRate.value = data.yawFakeRate
         windTubeTest.params.pitchFakeRate.value = data.pitchFakeRate
         windTubeTest.params.rollFakeRate.value = data.rollFakeRate
+        windTubeTest.params.elevatorFakeRate.value = data.elevatorFakeRate
+        windTubeTest.params.rudderFakeRate.value = data.rudderFakeRate
       }
       fillWindTubeTestParametersIfChanged(changeFlags)
     }
@@ -2504,12 +2532,16 @@
         yawLocked: windTubeTest.params.yawLocked,
         pitchLocked: windTubeTest.params.pitchLocked,
         rollLocked: windTubeTest.params.rollLocked,
+        elevatorLocked: windTubeTest.params.elevatorLocked,
+        rudderLocked: windTubeTest.params.rudderLocked,
         aoa: windTubeTest.params.aoa.value,
         pitchFakeRate: windTubeTest.params.pitchFakeRate.value,
         aos: windTubeTest.params.aos.value,
         yawFakeRate: windTubeTest.params.yawFakeRate.value,
         roll: windTubeTest.params.roll.value,
-        rollFakeRate: windTubeTest.params.rollFakeRate.value
+        rollFakeRate: windTubeTest.params.rollFakeRate.value,
+        elevatorFakeRate: windTubeTest.params.elevatorFakeRate.value,
+        rudderFakeRate: windTubeTest.params.rudderFakeRate.value
       }
       setCommand(data, function(data) { unblockChangeablePropsUpdate(windTubeTest, data) })
     }
@@ -2820,6 +2852,8 @@
       windTubeTest.params['yawLocked']               = ((Cookies.get('windTubeTest_yawLocked') || 'true')     == 'true')
       windTubeTest.params['pitchLocked']             = ((Cookies.get('windTubeTest_pitchLocked') || 'true')   == 'true')
       windTubeTest.params['rollLocked']              = ((Cookies.get('windTubeTest_rollLocked') || 'true')    == 'true')
+      windTubeTest.params['elevatorLocked']          = ((Cookies.get('windTubeTest_elevatorLocked') || 'true')    == 'true')
+      windTubeTest.params['rudderLocked']            = ((Cookies.get('windTubeTest_rudderLocked') || 'true')    == 'true')
       loadParamFromCookie(windTubeTest.params['airspeed'], 'windTubeTest_airspeed')
       loadParamFromCookie(windTubeTest.params['aoa'],      'windTubeTest_aoa')
       loadParamFromCookie(windTubeTest.params['aos'],      'windTubeTest_aos')
@@ -2827,6 +2861,8 @@
       loadParamFromCookie(windTubeTest.params['yawFakeRate'],  'windTubeTest_yawFakeRate')
       loadParamFromCookie(windTubeTest.params['pitchFakeRate'],'windTubeTest_pitchFakeRate')
       loadParamFromCookie(windTubeTest.params['rollFakeRate'], 'windTubeTest_rollFakeRate')
+      loadParamFromCookie(windTubeTest.params['elevatorFakeRate'], 'windTubeTest_elevatorFakeRate')
+      loadParamFromCookie(windTubeTest.params['rudderFakeRate'], 'windTubeTest_rudderFakeRate')
      
       //Tests parameters      
       for (var testName in testData)
@@ -3223,6 +3259,21 @@
             <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestYawFakeRate" value="0" onchange="onWindTubeTestParamChange(this, 'yawFakeRate')"></td>
             <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestPitchFakeRate" value="0" onchange="onWindTubeTestParamChange(this, 'pitchFakeRate')"></td>
             <td><input class="number-box" type="number" step="0.1" id="EditWindTubeTestRollFakeRate" value="0" onchange="onWindTubeTestParamChange(this, 'rollFakeRate')"></td>            
+          </tr>
+          <tr>
+            <td>Elevator %</td>
+            <td>Rudder %</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="CheckBoxWindTubeTestElevatorLocked" onclick="onWindTubeTestAxisLockChange(this, 'elevatorLocked')">Locked</td>
+            <td><input type="checkbox" id="CheckBoxWindTubeTestRudderLocked" onclick="onWindTubeTestAxisLockChange(this, 'rudderLocked')">Locked</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><input class="number-box" type="number" step="1.0" id="EditWindTubeTestElevatorFakeRate" value="0" onchange="onWindTubeTestParamChange(this, 'elevatorFakeRate')"></td>
+            <td><input class="number-box" type="number" step="1.0" id="EditWindTubeTestRudderFakeRate" value="0" onchange="onWindTubeTestParamChange(this, 'rudderFakeRate')"></td>           
+            <td></td>
           </tr>
         </table>
       </td>

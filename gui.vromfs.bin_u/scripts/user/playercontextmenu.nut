@@ -4,10 +4,9 @@ local localDevoice = require("scripts/penitentiary/localDevoice.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local { isChatEnabled, attemptShowOverlayMessage,
   isCrossNetworkMessageAllowed } = require("scripts/chat/chatStates.nut")
+local { updateContactsStatusByContacts } = require("scripts/contacts/updateContactsStatus.nut")
 
-local { invite = @(...) null } = platformModule.isPlatformSony
-  ? require("scripts/social/psnSessions.nut")
-  : null
+local { invite } = require("scripts/social/psnSessionManager/getPsnSessionManagerApi.nut")
 
 //-----------------------------
 // params keys:
@@ -48,7 +47,7 @@ local notifyPlayerAboutRestriction = function(contact, isInvite = false)
 {
   local isCrossNetworkMessagesAllowed = isCrossNetworkMessageAllowed(contact.name)
   local isXBoxOnePlayer = platformModule.isPlayerFromXboxOne(contact.name)
-  if (::is_platform_xboxone)
+  if (::is_platform_xbox)
   {
     attemptShowOverlayMessage(contact.name, isInvite)
     //There is no system level error message, added custom.
@@ -58,6 +57,9 @@ local notifyPlayerAboutRestriction = function(contact, isInvite = false)
       showCrossNetworkCommunicationsRestrictionMsgBox()
     return
   }
+
+  if (contact.isBlockedMe)
+    return
 
   if (!isCrossNetworkMessagesAllowed)
     showCrossNetworkCommunicationsRestrictionMsgBox()
@@ -94,7 +96,8 @@ local getActions = function(contact, params)
   local canInviteToChatRoom = params?.canInviteToChatRoom ?? true
 
   local chatLog = params?.chatLog ?? roomData?.getLogForBanhammer() ?? null
-  local canInviteToSesson = isXBoxOnePlayer == ::is_platform_xboxone
+  local isInPsnBlockList = platformModule.isPlatformSony && contact.isInBlockGroup()
+  local canInviteToSesson = (isXBoxOnePlayer == ::is_platform_xbox) && !isInPsnBlockList
 
   local actions = []
 //---- <Session Join> ---------
@@ -105,8 +108,11 @@ local getActions = function(contact, params)
     action = function () {
       if (!canInteractCrossConsole)
         return showNotAvailableActionPopup()
-      if (!canInteractCrossPlatform)
-        return showCrossNetworkPlayRestrictionMsgBox()
+      if (!canInteractCrossPlatform) {
+        if (!::xbox_try_show_crossnetwork_message())
+          showCrossNetworkPlayRestrictionMsgBox()
+        return
+      }
 
       if (isPS4Player && !u.isEmpty(::SessionLobby.getExternalId()))
         contact.updatePSNIdAndDo(@() invite(
@@ -131,8 +137,11 @@ local getActions = function(contact, params)
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (!canInteractCrossPlatform)
-            showCrossNetworkPlayRestrictionMsgBox()
+          else if (!canInteractCrossPlatform) {
+            if (!::xbox_try_show_crossnetwork_message())
+              showCrossNetworkPlayRestrictionMsgBox()
+            return
+          }
           else
             ::queues.joinFriendsQueue(contact.inGameEx, eventId)
         }
@@ -214,8 +223,11 @@ local getActions = function(contact, params)
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (!canInteractCrossPlatform)
-            showCrossNetworkPlayRestrictionMsgBox()
+          else if (!canInteractCrossPlatform) {
+            if (!::xbox_try_show_crossnetwork_message())
+              showCrossNetworkPlayRestrictionMsgBox()
+            return
+          }
           else if (!canInvite)
             notifyPlayerAboutRestriction(contact, true)
           else if (!canInviteDiffConsole)
@@ -238,8 +250,11 @@ local getActions = function(contact, params)
         action = function() {
           if (!canInteractCrossConsole)
             showNotAvailableActionPopup()
-          else if (!canInteractCrossPlatform)
-            showCrossNetworkPlayRestrictionMsgBox()
+          else if (!canInteractCrossPlatform) {
+            if (!::xbox_try_show_crossnetwork_message())
+              showCrossNetworkPlayRestrictionMsgBox()
+            return
+          }
           else if (!canInvite)
             notifyPlayerAboutRestriction(contact, true)
           else if (!canInviteDiffConsole)
@@ -269,7 +284,7 @@ local getActions = function(contact, params)
 //---- </Squad> -------------------
 
 //---- <XBox Specific> ------------
-  if (::is_platform_xboxone && isXBoxOnePlayer)
+  if (::is_platform_xbox && isXBoxOnePlayer)
   {
     local isXboxPlayerMuted = contact.isXboxChatMuted()
     actions.append({
@@ -516,8 +531,10 @@ local showMenu = function(_contact, handler, params = {})
   if (!contact && params?.playerName)
     return ::find_contact_by_name_and_do(params.playerName, @(c) c && showMenu(c, handler, params))
 
-  local menu = getActions(contact, params)
-  ::gui_right_click_menu(menu, handler, params?.position, params?.orientation)
+  updateContactsStatusByContacts([contact], ::Callback(function() {
+    local menu = getActions(contact, params)
+    ::gui_right_click_menu(menu, handler, params?.position, params?.orientation, params?.onClose)
+  }, this))
 }
 
 return {

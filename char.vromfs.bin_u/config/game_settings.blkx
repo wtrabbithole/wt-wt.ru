@@ -250,6 +250,13 @@
         "kills": 3,
         "timePlayed": 450
       }
+    },
+    {
+      "additionalUnitTypes": {
+        "ship": {
+          "type": "boat"
+        }
+      }
     }
   ],
   "newPlayersBattlesExp": {
@@ -2387,7 +2394,7 @@
     },
     "Voice": {
       "condition": "",
-      "platform_lock": "xboxOne"
+      "platform_lock": "xboxOne;xboxScarlett"
     },
     "Friends": {
       "condition": ""
@@ -2400,15 +2407,15 @@
     },
     "Radio": {
       "condition": "",
-      "platform_lock": "android;xboxOne"
+      "platform_lock": "android;xboxOne;xboxScarlett"
     },
     "Twitch": {
       "condition": "",
-      "platform_lock": "ps4;android;xboxOne"
+      "platform_lock": "ps4;ps5;android;xboxOne;xboxScarlett"
     },
     "Facebook": {
       "condition": "",
-      "platform_lock": "ps4;android;xboxOne"
+      "platform_lock": "ps4;ps5;android;xboxOne;xboxScarlett"
     },
     "FacebookWallPost": [],
     "FacebookScreenshots": [],
@@ -2586,6 +2593,9 @@
     "ShipsFirstChoice": {
       "condition": ""
     },
+    "BoatsFirstChoice": {
+      "condition": ""
+    },
     "ShipsHeroInUserMissions": {
       "condition": ""
     },
@@ -2621,6 +2631,9 @@
     "UsaShipsInFirstCountryChoice": {
       "condition": ""
     },
+    "UsaBoatsInFirstCountryChoice": {
+      "condition": ""
+    },
     "GermanyAircraftsInFirstCountryChoice": {
       "condition": ""
     },
@@ -2628,6 +2641,9 @@
       "condition": ""
     },
     "GermanyShipsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "GermanyBoatsInFirstCountryChoice": {
       "condition": ""
     },
     "UssrAircraftsInFirstCountryChoice": {
@@ -2639,6 +2655,9 @@
     "UssrShipsInFirstCountryChoice": {
       "condition": ""
     },
+    "UssrBoatsInFirstCountryChoice": {
+      "condition": ""
+    },
     "BritainAircraftsInFirstCountryChoice": {
       "condition": ""
     },
@@ -2646,6 +2665,9 @@
       "condition": ""
     },
     "BritainShipsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "BritainBoatsInFirstCountryChoice": {
       "condition": ""
     },
     "JapanAircraftsInFirstCountryChoice": {
@@ -2665,6 +2687,9 @@
     "JapanShipsInFirstCountryChoice": {
       "condition": ""
     },
+    "JapanBoatsInFirstCountryChoice": {
+      "condition": ""
+    },
     "ChinaAircraftsInFirstCountryChoice": {
       "condition": ""
     },
@@ -2678,6 +2703,9 @@
       "condition": ""
     },
     "ItalyShipsInFirstCountryChoice": {
+      "condition": ""
+    },
+    "ItalyBoatsInFirstCountryChoice": {
       "condition": ""
     },
     "FranceAircraftsInFirstCountryChoice": {
@@ -2922,7 +2950,7 @@
     ],
     "UserSkins": {
       "condition": "",
-      "platform_lock": "ps4;xboxOne"
+      "platform_lock": "ps4;ps5;xboxOne;xboxScarlett"
     },
     "SkinsPreviewOnUnboughtUnits": [
       {
@@ -2940,15 +2968,15 @@
     },
     "UserMissions": {
       "condition": "",
-      "platform_lock": "ps4;android;xboxOne"
+      "platform_lock": "ps4;ps5;android;xboxOne;xboxScarlett"
     },
     "UserMissionsSkirmishByUrl": {
       "condition": "",
-      "platform_lock": "ps4;xboxOne"
+      "platform_lock": "ps4;ps5;xboxOne;xboxScarlett"
     },
     "UserMissionsSkirmishByUrlCreate": [
       {
-        "platform_lock": "ps4;xboxOne"
+        "platform_lock": "ps4;ps5;xboxOne;xboxScarlett"
       },
       {
         "condition": "user_mission_access_en"
@@ -2962,7 +2990,7 @@
     ],
     "ClientReplay": {
       "condition": "",
-      "platform_lock": "ps4;android;xboxOne"
+      "platform_lock": "ps4;ps5;android;xboxOne;xboxScarlett"
     },
     "ServerReplay": {
       "condition": "",
@@ -2978,7 +3006,7 @@
     ],
     "BenchmarkPC": {
       "condition": "",
-      "platform_lock": "ps4;android;xboxOne"
+      "platform_lock": "ps4;ps5;android;xboxOne;xboxScarlett"
     },
     "BenchmarkForDevs": [
       {
@@ -3098,11 +3126,11 @@
     },
     "NetworkDebug": {
       "condition": "",
-      "platform_lock": "ps4"
+      "platform_lock": "ps4;ps5"
     },
     "ShowDebugInterface": [
       {
-        "platform_lock": "ps4"
+        "platform_lock": "ps4;ps5"
       },
       {
         "condition": "role_DEVELOPER"
@@ -3399,23 +3427,35 @@
     },
     "pc_only_events": {
       "condition": "",
-      "platform_lock": "ps4;xboxOne"
+      "platform_lock": "ps4;ps5;xboxOne;xboxScarlett"
     },
     "ps4_only_events": {
       "condition": "",
-      "platform_lock": "pc;android;xboxOne"
+      "platform_lock": "pc;android;xboxOne;xboxScarlett"
+    },
+    "xboxScarlett_only_events": {
+      "condition": "",
+      "platform_lock": "pc;linux64;xboxOne;ps4;ps5"
     },
     "pc_ps4_only_events": {
       "condition": "",
-      "platform_lock": "android;xboxOne"
+      "platform_lock": "android;xboxOne;xboxScarlett"
     },
     "pc_xboxOne_only_events": {
       "condition": "",
-      "platform_lock": "ps4;android"
+      "platform_lock": "ps4;ps5;android"
     },
     "ps4_xboxOne_only_events": {
       "condition": "",
       "platform_lock": "pc;android"
+    },
+    "pc_win_ps4_only_events": {
+      "condition": "",
+      "platform_lock": "android;xboxOne;xboxScarlett;linux64"
+    },
+    "pc_win_ps4_xbox_only_events": {
+      "condition": "",
+      "platform_lock": "android;linux64"
     },
     "ConsolesLiveTrophy": [],
     "ConsolesWorkshopExchange": [
@@ -3478,11 +3518,11 @@
     },
     "Marketplace": {
       "condition": "!DMMAccount;!PS4Account;!XBOXAccount",
-      "platform_lock": "ps4;android;xboxOne"
+      "platform_lock": "ps4;ps5;android;xboxOne;xboxScarlett"
     },
     "Starterpack": {
       "condition": "!PS4Account;!XBOXAccount",
-      "platform_lock": "ps4;xboxOne"
+      "platform_lock": "ps4;ps5;xboxOne;xboxScarlett"
     },
     "DMMAndSCEJAccounts": [
       {
@@ -3605,8 +3645,7 @@
       "condition": ""
     },
     "UnitsSearchBoxInShop": {
-      "condition": "",
-      "platform_lock": "ps4;android;xboxOne"
+      "condition": ""
     },
     "ShowAllBattleTasks": {
       "condition": "role_DEVELOPER"
@@ -3738,7 +3777,7 @@
     },
     "ScriptImportExportControls": {
       "condition": "",
-      "platform_lock": "ps4;android;xboxOne"
+      "platform_lock": "ps4;android;xboxOne;xboxScarlett;ps5"
     },
     "SquadWidget": {
       "condition": ""
@@ -3767,9 +3806,6 @@
     "XRayDescription": {
       "condition": ""
     },
-    "GamepadCursorControl": {
-      "condition": ""
-    },
     "ControlsHelp": {
       "condition": ""
     },
@@ -3778,11 +3814,11 @@
     },
     "xboxOneAccess": {
       "condition": "",
-      "platform_unlock": "xboxOne"
+      "platform_unlock": "xboxOne;xboxScarlett"
     },
     "PS4Access": {
       "condition": "",
-      "platform_unlock": "ps4"
+      "platform_unlock": "ps4;ps5"
     },
     "ShipEventTicketAccess": [
       {
@@ -3884,7 +3920,7 @@
     },
     "TankAltCrosshair": {
       "condition": "",
-      "platform_lock": "ps4;android;xboxOne"
+      "platform_lock": "ps4;ps5;android;xboxOne;xboxScarlett"
     },
     "DebriefingBattleTasks": {
       "condition": ""
@@ -3894,7 +3930,7 @@
     },
     "XBoxPlatformRestriction": {
       "condition": "",
-      "platform_lock": "xboxOne"
+      "platform_lock": "xboxOne;xboxScarlett"
     },
     "ShipBenchmarkAccess": [
       {
@@ -4040,7 +4076,7 @@
     },
     "ConsoleSeparateLeaderboards": {
       "condition": "",
-      "platform_unlock": "ps4;xboxOne"
+      "platform_unlock": "ps4;ps5;xboxOne;xboxScarlett"
     },
     "ConsoleSeparateEventsLeaderboards": [
       {
@@ -4059,6 +4095,7 @@
     "Changelog": {
       "condition": ""
     },
+    "BattlePass": [],
     "Collection": {
       "condition": ""
     },

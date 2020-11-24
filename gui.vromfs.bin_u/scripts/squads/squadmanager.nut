@@ -1,13 +1,11 @@
 local { hasAnyFeature } = require("scripts/user/features.nut")
 local squadApplications = require("scripts/squads/squadApplications.nut")
 local platformModule = require("scripts/clientState/platform.nut")
-local battleRating = ::require("scripts/battleRating.nut")
+local battleRating = require("scripts/battleRating.nut")
 local antiCheat = require("scripts/penitentiary/antiCheat.nut")
 local QUEUE_TYPE_BIT = require("scripts/queue/queueTypeBit.nut")
 
-local { invite = @(...) null } = platformModule.isPlatformSony
-  ? require("scripts/social/psnSessions.nut")
-  : null
+local { invite } = require("scripts/social/psnSessionManager/getPsnSessionManagerApi.nut")
 
 enum squadEvent
 {
@@ -20,6 +18,7 @@ enum squadEvent
   SIZE_CHANGED = "SquadSizeChanged"
   NEW_APPLICATIONS = "SquadHasNewApplications"
   PROPERTIES_CHANGED = "SquadPropertiesChanged"
+  LEADERSHIP_TRANSFER = "SquadLeadershipTransfer"
 }
 
 enum squadStatusUpdateState {
@@ -147,6 +146,7 @@ g_squad_manager.updateMyMemberData <- function updateMyMemberData(data = null)
   data.isWorldWarAvailable <- ::is_worldwar_enabled()
   data.isEacInited <- ::is_eac_inited()
   data.squadsVersion <- SQUADS_VERSION
+  data.platform <- platformModule.targetPlatform
 
   local wwOperations = []
   if (::is_worldwar_enabled())
@@ -805,11 +805,10 @@ g_squad_manager.inviteToSquad <- function inviteToSquad(uid, name = null, cb = n
     return ::g_popups.add(null, ::loc("msg/squad/noPlayersForDiffConsoles"))
 
   local isInvitingPsnPlayer = false
-  if (platformModule.isPS4PlayerName(name))
-  {
+  if (platformModule.isPS4PlayerName(name)) {
     local contact = ::getContact(uid, name)
     isInvitingPsnPlayer = true
-    if (u.isEmpty(getPsnSessionId()))
+    if (u.isEmpty(::g_squad_manager.getPsnSessionId()))
       contact.updatePSNIdAndDo(function() {
         ::g_squad_manager.delayedInvites.append(contact.psnId)
       })
@@ -990,6 +989,7 @@ g_squad_manager.transferLeadership <- function transferLeadership(uid)
     return
 
   ::msquad.transferLeadership(uid)
+  ::broadcastEvent(squadEvent.LEADERSHIP_TRANSFER, {uid = uid})
 }
 
 g_squad_manager.onLeadershipTransfered <- function onLeadershipTransfered()
@@ -1076,8 +1076,8 @@ g_squad_manager.requestMemberDataCallback <- function requestMemberDataCallback(
   ::g_squad_manager.joinSquadChatRoom()
 
   ::broadcastEvent(squadEvent.DATA_UPDATED)
-  if (::g_squad_manager.isSquadLeader() && isMemberDataVehicleChanged)
-    battleRating.updateBattleRating()
+  if (isMemberDataVehicleChanged)
+    ::broadcastEvent("SquadMemberVehiclesChanged")
 
   local memberSquadsVersion = receivedMemberData?.squadsVersion ?? DEFAULT_SQUADS_VERSION
   ::g_squad_utils.checkSquadsVersion(memberSquadsVersion)
@@ -1102,7 +1102,7 @@ g_squad_manager.setMemberOnlineStatus <- function setMemberOnlineStatus(uid, isO
 
   ::updateContact(memberData.getData())
   ::broadcastEvent(squadEvent.DATA_UPDATED)
-  battleRating.updateBattleRating()
+  ::broadcastEvent("SquadOnlineChanged")
 }
 
 g_squad_manager.getMemberData <- function getMemberData(uid)
@@ -1183,7 +1183,6 @@ g_squad_manager.reset <- function reset()
     setReadyFlag(false, false)
 
   ::update_contacts_by_list(contactsUpdatedList)
-  battleRating.updateBattleRating()
 
   setState(squadState.NOT_IN_SQUAD)
   ::broadcastEvent(squadEvent.DATA_UPDATED)
@@ -1412,6 +1411,7 @@ g_squad_manager.onSquadDataChanged <- function onSquadDataChanged(data = null)
     if (isSquadLeader()) {
       updatePresenceSquad()
       updateSquadData()
+      setLeaderData(true)
     }
     if (getPresence().isInBattle)
       ::g_popups.add(::loc("squad/name"), ::loc("squad/wait_until_battle_end"))
@@ -1561,11 +1561,6 @@ g_squad_manager.onEventSessionDestroyed <- function onEventSessionDestroyed(p)
 }
 
 g_squad_manager.onEventChatConnected <- function onEventChatConnected(params)
-{
-  joinSquadChatRoom()
-}
-
-g_squad_manager.onEventApproveLastPs4SquadInvite <- function onEventApproveLastPs4SquadInvite(params)
 {
   joinSquadChatRoom()
 }
@@ -1795,8 +1790,8 @@ g_squad_manager.setLeaderData <- function setLeaderData(isActualBR = true)
     return
 
   local data = clone squadData
-  data.leaderBattleRating = isActualBR ? battleRating.getBR() : 0
-  data.leaderGameModeId = isActualBR ? battleRating.getRecentGameModeId() : currentGameModeId
+  data.leaderBattleRating = isActualBR ? battleRating.recentBR.value : 0
+  data.leaderGameModeId = isActualBR ? battleRating.recentBrGameModeId.value : currentGameModeId
   setSquadData(data)
 }
 
