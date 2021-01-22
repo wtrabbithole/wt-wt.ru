@@ -158,6 +158,8 @@ local function generateBulletsTextFunction(countWatched, secondsWatched, salvoWa
       txts = [countWatched.value]
       if (salvoWatched != null && salvoWatched.value > 0)
         txts.append(" [", salvoWatched.value, "]")
+      else if (salvoWatched != null && salvoWatched.value == -1)
+        txts.append(" [S]")
     }
     return "".join(txts)
   }
@@ -393,7 +395,7 @@ local function createHelicopterParam(param, width, line_style, isBackground, nee
     rendObj = ROBJ_DTEXT
     size = [0.4*width, rowHeight]
     text = title()
-    watch = (alertWatched ? alertWatched : []).extend(titleWatched ? titleWatched : [])
+    watch = [].extend(alertWatched ? alertWatched : [], titleWatched ? titleWatched : [])
     color = selectColor()
   })
 
