@@ -78,9 +78,7 @@
                   "move-only-hover": "yes",
                   "navigatorShortcuts": "yes",
                   "on_select": "onItemSelect",
-                  "_on_dbl_click": "onStart",
-                  "on_hover": "onListItemsFocusChange",
-                  "on_unhover": "onListItemsFocusChange"
+                  "_on_dbl_click": "onItemDblClick"
                 },
                 "textAreaCentered": {
                   "id": "items_list_msg",
@@ -269,7 +267,7 @@
             "Button_text": {
               "id": "button_wiki",
               "on_click": "onWiki",
-              "btnName": "RT",
+              "btnName": "LB",
               "display": "hide",
               "enable": "no",
               "text": "#mainmenu/wiki",
@@ -784,6 +782,21 @@
                             "img": {
                               "id": "gc_prempic",
                               "background-image": ""
+                            },
+                            "gcBtnLine": []
+                          }
+                        },
+                        {
+                          "Button_text": {
+                            "id": "gc_BattlePassProgress",
+                            "class": "image",
+                            "isColoredImg": "yes",
+                            "tooltip": "#battlePass/btn_buy",
+                            "display": "hide",
+                            "enable": "no",
+                            "on_click": "::gcb.openBattlePassShopWnd",
+                            "img": {
+                              "background-image": "#ui/gameuiskin#item_type_bp.svg"
                             }
                           }
                         },

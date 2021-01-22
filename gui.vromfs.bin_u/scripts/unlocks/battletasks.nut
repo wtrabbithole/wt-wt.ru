@@ -454,6 +454,16 @@ local { activeUnlocks, getUnlockReward } = require("scripts/unlocks/userstatUnlo
     return data
   }
 
+  function getDifficultyByProposals(proposals) {
+    if (proposals.findindex(function(v, id) {
+      local battleTask = ::g_battle_tasks.getTaskById(id)
+      return ::g_battle_task_difficulty.HARD == ::g_battle_task_difficulty.getDifficultyTypeByTask(battleTask)
+    }))
+      return ::g_battle_task_difficulty.HARD
+
+    return ::g_battle_task_difficulty.EASY
+  }
+
   function generateStringForUserlog(table, taskId)
   {
     local text = getBattleTaskLocIdFromUserlog(table, taskId)
@@ -715,12 +725,20 @@ local { activeUnlocks, getUnlockReward } = require("scripts/unlocks/userstatUnlo
     }
 
     local reward = ::get_unlock_rewards_text(config)
+    local difficulty = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
     if (::has_feature("BattlePass")) {
-      local difficulty = ::g_battle_task_difficulty.getDifficultyTypeByTask(task)
       local unlockReward = getUnlockReward(activeUnlocks.value?[difficulty.userstatUnlockId])
 
       reward = reward != "" ? $"{reward}\n{unlockReward.rewardText}" : unlockReward.rewardText
       rewardMarkUp.itemMarkUp <- $"{rewardMarkUp?.itemMarkUp ?? ""}{unlockReward.itemMarkUp}"
+    }
+
+    if(difficulty == ::g_battle_task_difficulty.MEDIUM) {
+      local specialTaskAward = ::g_warbonds.getCurrentWarbond()?.getAwardByType(::g_wb_award_type[::EWBAT_BATTLE_TASK])
+      if (specialTaskAward?.awardType.hasIncreasingLimit()) {
+        local rewardText = ::loc("warbonds/canBuySpecialTasks/awardTitle", { count = 1 })
+        reward = reward != "" ? $"{reward}\n{rewardText}" : rewardText
+      }
     }
 
     if (reward == "" && !rewardMarkUp.len())
@@ -744,8 +762,7 @@ local { activeUnlocks, getUnlockReward } = require("scripts/unlocks/userstatUnlo
 
     local title = isTaskBattleTask ? getLocalizedTaskNameById(task.id)
                 : (isUnlock? ::get_unlock_name_text(config.unlockType, config.id) : ::getTblValue("text", config, ""))
-    local brVal = isUnlock ? ::UnlockConditions.getBRValue(config.conditions) : null
-    local rankVal = isUnlock ? ::UnlockConditions.getRankValue(config.conditions) : null
+    local headerCond = isUnlock ? ::UnlockConditions.getHeaderCondition(config.conditions) : null
 
     local id = isTaskBattleTask ? task.id : config.id
     local progressData = config?.getProgressBarData? config.getProgressBarData() : null
@@ -762,7 +779,7 @@ local { activeUnlocks, getUnlockReward } = require("scripts/unlocks/userstatUnlo
       taskPlayback = ::getTblValue("playback", task) || ::getTblValue("playback", config)
       isPlaybackDownloading = !::g_sound.canPlay(id)
       taskDifficultyImage = getDifficultyImage(task)
-      taskRankValue = brVal || rankVal ? ::loc("ui/parentheses/space", { text = brVal || rankVal }) : null
+      taskHeaderCondition = headerCond ? ::loc("ui/parentheses/space", { text = headerCond }) : null
       description = isTaskBattleTask || isUnlock ? getTaskDescription(config, paramsCfg) : null
       reward = isPromo? null : getRewardMarkUpConfig(task, config)
       newIconWidget = isTaskBattleTask ? (isTaskActive(task)? null : NewIconWidget.createLayout()) : null
@@ -1023,6 +1040,9 @@ local { activeUnlocks, getUnlockReward } = require("scripts/unlocks/userstatUnlo
     foreach (task in currentTasksArray) {
       if (isCompleteMedium && isCompleteEasy && hasInCompleteHard)
         break
+
+      if (!isTaskActive(task))
+        continue
 
       if (!isTaskDone(task)) {
         if (::g_battle_task_difficulty.HARD == ::g_battle_task_difficulty.getDifficultyTypeByTask(task))

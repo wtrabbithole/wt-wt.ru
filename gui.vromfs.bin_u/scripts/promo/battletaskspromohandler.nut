@@ -127,9 +127,9 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
       view.shortInfoBlockWidth <- ::to_pixels("1@arrowButtonWidth-1@blockInterval")
     view.hasMarginCollapsedIcon <- view.collapsedText != "" && view.taskDifficultyImage != ""
     view.hasCollapsedText <- view.collapsedText != ""
-    local taskRankValue = view?.taskRankValue ?? ""
-    if(taskRankValue != "")
-      view.title = $"{view.title} {taskRankValue}"
+    local taskHeaderCondition = view?.taskHeaderCondition ?? ""
+    if (taskHeaderCondition != "")
+      view.title = $"{view.title} {taskHeaderCondition}"
     if (getStringWidthPx(view.title, "fontNormal", guiScene) > maxTextWidth)
       view.headerWidth <- maxTextWidth
     view.performActionId <- ::g_promo.getActionParamsKey(id)
@@ -152,8 +152,6 @@ class ::gui_handlers.BattleTasksPromoHandler extends ::gui_handlers.BaseGuiHandl
       local isEmptyTask = view.taskId == null
       if (isEmptyTask) {
         view.title = ""
-        view.action <- "showBattlePassWnd"
-        view.otherTasksNumText = "#season/information"
         view.isEmptyTask <- isEmptyTask
         view.showAsUsualPromoButton = false
         view.easyDailyTaskProgressValue <- stashBhvValueConfig([{

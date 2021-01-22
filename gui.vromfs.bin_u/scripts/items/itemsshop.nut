@@ -1,4 +1,5 @@
 local sheets = require("scripts/items/itemsShopSheets.nut")
+local itemInfoHandler = require("scripts/items/itemInfoHandler.nut")
 local workshop = require("scripts/items/workshop/workshop.nut")
 local seenList = require("scripts/seen/seenList.nut")
 local bhvUnseen = require("scripts/seen/bhvUnseen.nut")
@@ -65,9 +66,12 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   // Used to avoid expensive get...List and further sort.
   itemsListValid = false
 
+  infoHandler = null
+
   function initScreen()
   {
     needHoverSelect = ::show_console_buttons
+    infoHandler = itemInfoHandler(scene.findObject("item_info"))
     initNavigation()
     sheets.updateWorkshopSheets()
     initSheetsOnce()
@@ -342,13 +346,13 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     local nawWidth = isNavCollapsed ? "0" : "1@defaultNavPanelWidth"
     local itemHeightWithSpace = "1@itemHeight+1@itemSpacing"
     local itemWidthWithSpace = "1@itemWidth+1@itemSpacing"
+    local mainBlockHeight = "@rh-2@frameHeaderHeight-1@bh-1@frameFooterHeight-1@bottomMenuPanelHeight-1@blockInterval"
     local itemsCountX = ::to_pixels($"@rw-1@shopInfoMinWidth-({leftPos})-({nawWidth})")
-      / ::to_pixels(itemWidthWithSpace)
-    local itemsCountY = ::to_pixels(
-      "sh-@bottomMenuPanelHeight-1@frameHeaderHeight-1@frameFooterHeight-3@itemSpacing-1@blockInterval")
-        / ::to_pixels(itemHeightWithSpace)
+      / ::max(1, ::to_pixels(itemWidthWithSpace))
+    local itemsCountY = ::to_pixels(mainBlockHeight)
+      / ::max(1, ::to_pixels(itemHeightWithSpace))
     local contentWidth = $"{itemsCountX}*({itemWidthWithSpace})+1@itemSpacing"
-    scene.findObject("main_block").height = $"{itemsCountY}*({itemHeightWithSpace})"
+    scene.findObject("main_block").height = mainBlockHeight
     scene.findObject("paginator_place").left = $"0.5({contentWidth})-0.5w+{leftPos}+{nawWidth}"
     showSceneBtn("nav_separator", !isNavCollapsed)
     listObj.width = contentWidth
@@ -420,6 +424,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
     ::g_item_limits.requestLimits()
 
     local listObj = getItemsListObj()
+    local prevValue = listObj.getValue()
     local data = ::handyman.renderCached(("gui/items/item"), view)
     if (::checkObj(listObj))
     {
@@ -457,7 +462,6 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
       }
     }
 
-    local prevValue = listObj.getValue()
     local value = findLastValue(prevValue)
     if (value >= 0)
       listObj.setValue(value)
@@ -572,9 +576,7 @@ class ::gui_handlers.ItemsList extends ::gui_handlers.BaseGuiHandlerWT
   {
     local item = getCurItem()
     markItemSeen(item)
-    local infoObj = scene.findObject("item_info")
-    infoObj.scrollToView(true)
-    ::ItemsManager.fillItemDescr(item, infoObj, this, true, true)
+    infoHandler?.updateHandlerData(item, true, true)
     showSceneBtn("jumpToDescPanel", ::show_console_buttons && item != null)
     updateButtons()
   }

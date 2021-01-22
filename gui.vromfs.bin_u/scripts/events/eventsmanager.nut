@@ -1768,6 +1768,11 @@ systemMsg.registerLocTags({ [SQUAD_NOT_READY_LOC_TAG] = "msgbox/squad_not_ready_
     return isEventMatchesType(event, EVENT_TYPE.CLAN)
   }
 
+  function isEventForNewbies(event)
+  {
+    return isEventMatchesType(event, EVENT_TYPE.NEWBIE_BATTLES)
+  }
+
   function isEventRandomBattles(event)
   {
     if (getEventType(event) & EVENT_TYPE.NEWBIE_BATTLES)
@@ -2317,7 +2322,7 @@ systemMsg.registerLocTags({ [SQUAD_NOT_READY_LOC_TAG] = "msgbox/squad_not_ready_
   {
     local eventId = getEventEconomicName(event)
     local tickets = ::ItemsManager.getItemsList(itemType.TICKET, (@(eventId, canBuyOnly) function (item) {
-      return item.isForEvent(eventId) && (!canBuyOnly || item.canBuy)
+      return item.isForEvent(eventId) && (!canBuyOnly || item.isCanBuy())
     })(eventId, canBuyOnly))
     return tickets
   }

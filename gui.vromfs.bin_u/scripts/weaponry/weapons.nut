@@ -45,7 +45,8 @@ local { WEAPON_TAG,
         getLastPrimaryWeapon,
         getPrimaryWeaponsList,
         getSecondaryWeaponsList,
-        isUnitHaveAnyWeaponsTags } = require("scripts/weaponry/weaponryInfo.nut")
+        isUnitHaveAnyWeaponsTags,
+        needSecondaryWeaponsWnd } = require("scripts/weaponry/weaponryInfo.nut")
 local tutorAction = require("scripts/tutorials/tutorialActions.nut")
 local { setDoubleTextToButton, setColoredDoubleTextToButton,
   placePriceTextToButton } = require("scripts/viewUtils/objectTextUpdate.nut")
@@ -437,7 +438,23 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onEventUnitWeaponChanged(params)
   {
-    updateAllItems()
+    if (!isUnitHaveSecondaryWeapons(air) || !needSecondaryWeaponsWnd(air)) {
+      updateAllItems()
+      return
+    }
+
+    lastWeapon = getLastWeapon(airName)
+    local secondaryWeapons = getSecondaryWeaponsList(air)
+    local selWeapon = secondaryWeapons.findvalue((@(w) w.name == lastWeapon).bindenv(this))
+    if (selWeapon == null)
+      return
+
+    foreach(idx, item in items)
+      if (item.type == weaponsItem.weapon) {
+        items[idx] = selWeapon
+        updateItem(idx)
+        return
+      }
   }
 
   function onEventUnitBulletsChanged(params)
@@ -501,13 +518,12 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     return createModItem(id, unit, item, iType, holderObj, handler, params)
   }
 
-  function createBundle(itemsList, itemsType, subType, holderObj, posX, posY, needDropDown = true)
+  function createBundle(itemsList, itemsType, subType, holderObj, posX, posY)
   {
     createModBundle("bundle_" + items.len(), air, itemsList, itemsType, holderObj, this,
       { posX = posX, posY = posY, subType = subType,
         maxItemsInColumn = 5, createItemFunc = createItemForBundle
         cellSizeObj = scene.findObject("cell_size")
-        needDropDown = needDropDown
       })
   }
 
@@ -528,22 +544,20 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     local isVisualDisabled = false
     local visualItem = item
-    local isMenuBtn = false
     if (item.type == weaponsItem.bundle)
-    {
       visualItem = getBundleCurItem(air, item) || visualItem
-      isMenuBtn = item.itemsType == weaponsItem.weapon &&
-        (air.isAir() || air.isHelicopter()) && ::has_feature("ShowWeapPresetsMenu")
-    }
     if (isBullets(visualItem))
       isVisualDisabled = !isBulletsGroupActiveByMod(air, visualItem)
 
-    updateModItem(air, item, itemObj, true, this,{
-      canShowResearch = availableFlushExp == 0 && setResearchManually,
-      flushExp = availableFlushExp,
+    local hasMenu = item.type == weaponsItem.bundle || (item.type == weaponsItem.weapon && needSecondaryWeaponsWnd(air))
+    updateModItem(air, item, itemObj, true, this, {
+      canShowResearch = availableFlushExp == 0 && setResearchManually
+      flushExp = availableFlushExp
       researchMode = researchMode
       visualDisabled = isVisualDisabled
-      isMenuBtn = isMenuBtn
+      hideStatus = hasMenu
+      hasMenu
+      actionBtnText = hasMenu ? ::loc("mainmenu/btnAirGroupOpen") : null
     })
   }
 
@@ -928,13 +942,19 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     columnsList.append(getWeaponsColumnData(::loc("options/primary_weapons")))
     offsetX++
 
-    lastWeapon = getLastWeapon(airName) //real weapon or ..._default
-    dagor.debug("initial set lastWeapon " + lastWeapon )
+    //add secondary weapons
     if (isUnitHaveSecondaryWeapons(air))
     {
-      //add secondary weapons bundle
-      createBundle(getSecondaryWeaponsList(air), weaponsItem.weapon, 0, mainModsObj,
-        offsetX, offsetY, (!air.isAir() && !air.isHelicopter()) || !::has_feature("ShowWeapPresetsMenu")) //no dropdown for air and helicopter
+      local secondaryWeapons = getSecondaryWeaponsList(air)
+      lastWeapon = getLastWeapon(airName) //real weapon or ..._default
+      dagor.debug("initial set lastWeapon " + lastWeapon )
+      if (needSecondaryWeaponsWnd(air)) {
+        local selWeapon = secondaryWeapons.findvalue((@(w) w.name == lastWeapon).bindenv(this))
+          ?? secondaryWeapons?[0]
+        if (selWeapon)
+          createItem(selWeapon, weaponsItem.weapon, mainModsObj, offsetX, offsetY)
+      } else
+        createBundle(secondaryWeapons, weaponsItem.weapon, 0, mainModsObj, offsetX, offsetY)
       columnsList.append(getWeaponsColumnData(::g_weaponry_types.WEAPON.getHeader(air)))
       offsetX++
     }
@@ -1200,10 +1220,6 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
     {
       if (stickBundle && ::check_obj(obj))
         onDropDown(obj.getParent())
-
-      if ((air.isAir() || air.isHelicopter()) && items[idx].itemsType == weaponsItem.weapon
-        && ::has_feature("ShowWeapPresetsMenu"))
-        weaponryPresetsModal.open({ unit = air }) //open modal menu for air and helicopter only
       return
     }
     doItemAction(items[idx], fullAction)
@@ -1216,18 +1232,22 @@ class ::gui_handlers.WeaponsModalHandler extends ::gui_handlers.BaseGuiHandlerWT
 
     if (checkResearchOperation(item))
       return
+    if (item.type == weaponsItem.weapon && needSecondaryWeaponsWnd(air)) {
+      weaponryPresetsModal.open({ unit = air }) //open modal menu for air and helicopter only
+      return
+    }
     if(!canPerformAction(item, amount))
       return
 
-    if (item.type == weaponsItem.weapon && !onlyBuy)
-    {
-      if(getLastWeapon(airName) == item.name || !amount)
-      {
+    if (item.type == weaponsItem.weapon) {
+      if(getLastWeapon(airName) == item.name || !amount) {
         if (item.cost <= 0)
           return
-
         return onBuy(item.guiPosIdx)
       }
+
+      if (onlyBuy)
+        return
 
       guiScene.playSound("check")
       setLastWeapon(airName, item.name)

@@ -4,6 +4,7 @@ local platformModule = require("scripts/clientState/platform.nut")
 local crossplayModule = require("scripts/social/crossplay.nut")
 local { topMenuBorders } = require("scripts/mainmenu/topMenuStates.nut")
 local { isChatEnabled } = require("scripts/chat/chatStates.nut")
+local { showViralAcquisitionWnd } = require("scripts/user/viralAcquisition.nut")
 
 ::contacts_prev_scenes <- [] //{ scene, show }
 ::last_contacts_scene_show <- false
@@ -707,7 +708,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
   function onGroupSelect(obj)
   {
     onGroupSelectImpl(obj)
-    if (::show_console_buttons && prevGroup != obj.getValue()) {
+    if (!::is_mouse_last_time_used() && prevGroup != obj.getValue()) {
       guiScene.applyPendingChanges(false)
       selectCurContactGroup()
     }
@@ -738,7 +739,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
     goBack()
   }
 
-  onPlayerCancel = @(obj) selectCurContactGroup()
+  onPlayerCancel = @(obj) ::is_mouse_last_time_used() ? goBack() : selectCurContactGroup()
 
   function onSearchButtonClick(obj)
   {
@@ -1156,7 +1157,7 @@ class ::ContactsHandler extends ::gui_handlers.BaseGuiHandlerWT
 
   function onInviteFriend()
   {
-    ::show_viral_acquisition_wnd()
+    showViralAcquisitionWnd()
   }
 
   function onEventContactsUpdated(params)

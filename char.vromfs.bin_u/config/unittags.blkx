@@ -1739,6 +1739,69 @@
       "rollRate": 170.0
     }
   },
+  "a_4e_early": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_wake_island_Jet",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "p&w",
+        "model": "j52-p-64a",
+        "mass": 900.0
+      },
+      "tanks_params": {
+        "protected_boost": true,
+        "tank1_dm": {
+          "protected": true
+        },
+        "tank2_dm": {
+          "protected": false
+        },
+        "tank3_dm": {
+          "protected": false
+        }
+      }
+    },
+    "tags": {
+      "ally": true,
+      "country_usa": true,
+      "type_assault": true,
+      "visibleBaseTag": true,
+      "type_naval_aircraft": true,
+      "korean_front": true,
+      "western_front": true,
+      "eastern_front": true,
+      "carrier_take_off": true,
+      "air": true
+    },
+    "years_active": {
+      "year1950": {
+        "korea": 1.0
+      },
+      "year1951": {
+        "korea": 1.0
+      },
+      "year1952": {
+        "korea": 1.0
+      },
+      "year1953": {
+        "korea": 1.0
+      }
+    },
+    "Shop": {
+      "maxAltitude": 12500.0,
+      "maxSpeed": 300.4,
+      "turnTime": 37.0,
+      "airfieldLen": 900.0,
+      "climbTime": 296.0,
+      "maxSpeedAlt": 0.0,
+      "climbAlt": 9146.0,
+      "climbSpeed": 40.0,
+      "wingLoading": 326.0,
+      "thrustToWeightRatio": 0.4435,
+      "rollRate": 170.0
+    }
+  },
   "scout_ah_mk1": {
     "type": "helicopter",
     "hangar_place": "aircraft",
@@ -11328,6 +11391,82 @@
     }
   },
   "p-40e": {
+    "type": "aircraft",
+    "hangar_place": "aircraft",
+    "testFlight": "testFlight_honolulu",
+    "info": {
+      "engine1_dm": {
+        "manufacturer": "allison",
+        "model": "1710-39",
+        "mass": 594.0
+      },
+      "tanks_params": {
+        "protected": true
+      }
+    },
+    "tags": {
+      "ally": true,
+      "type_fighter": true,
+      "country_usa": true,
+      "sicily": true,
+      "mediterranean": true,
+      "western_front": true,
+      "pacific": true,
+      "air": true
+    },
+    "years_active": {
+      "year1940": {
+        "guadalcanal": 1.0,
+        "guam": 1.0,
+        "honolulu": 1.0,
+        "iwo_jima": 1.0,
+        "midway": 1.0,
+        "peleliu": 1.0,
+        "saipan": 1.0,
+        "wake_island": 1.0,
+        "bulge": 1.0,
+        "ruhr": 1.0
+      },
+      "year1941": {
+        "guadalcanal": 0.7,
+        "guam": 0.7,
+        "honolulu": 0.7,
+        "iwo_jima": 0.7,
+        "midway": 0.7,
+        "peleliu": 0.7,
+        "saipan": 0.7,
+        "wake_island": 0.7,
+        "bulge": 0.7,
+        "ruhr": 0.7
+      },
+      "year1942": {
+        "guadalcanal": 0.3,
+        "guam": 0.3,
+        "honolulu": 0.3,
+        "iwo_jima": 0.3,
+        "midway": 0.3,
+        "peleliu": 0.3,
+        "saipan": 0.3,
+        "wake_island": 0.3,
+        "bulge": 0.3,
+        "ruhr": 0.3
+      }
+    },
+    "Shop": {
+      "maxAltitude": 9555.0,
+      "maxSpeed": 155.57,
+      "turnTime": 21.0,
+      "airfieldLen": 342.9,
+      "climbTime": 300.0,
+      "maxSpeedAlt": 3810.0,
+      "climbAlt": 3048.0,
+      "climbSpeed": 10.6,
+      "wingLoading": 175.0,
+      "powerToWeightRatio": 0.31,
+      "rollRate": 127.0
+    }
+  },
+  "p-40e_td": {
     "type": "aircraft",
     "hangar_place": "aircraft",
     "testFlight": "testFlight_honolulu",
@@ -59504,6 +59643,16 @@
       "type_medium_tank": true
     }
   },
+  "germ_pzkpfw_III_ausf_J_td": {
+    "type": "tank",
+    "hangar_place": "tank",
+    "testFlight": "testFlight_germany_tft",
+    "tags": {
+      "country_germany": true,
+      "tank": true,
+      "type_medium_tank": true
+    }
+  },
   "germ_pzkpfw_III_ausf_J_L42": {
     "type": "tank",
     "hangar_place": "tank",
@@ -66241,7 +66390,7 @@
       "type_heavy_tank": true
     },
     "Shop": {
-      "armorThicknessHull": [90.0,40.0,40.0],
+      "armorThicknessHull": [150.0,40.0,40.0],
       "armorThicknessTurret": [120.0,60.0,40.0]
     }
   },

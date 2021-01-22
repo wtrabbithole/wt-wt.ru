@@ -1,6 +1,6 @@
 local { getTimestampFromStringUtc, buildDateStr} = require("scripts/time.nut")
 local { addListenersWithoutEnv } = require("sqStdLibs/helpers/subscriptions.nut")
-local { season, openedSeasonLevel } = require("scripts/battlePass/seasonState.nut")
+local { season, seasonLevel, getLevelByExp } = require("scripts/battlePass/seasonState.nut")
 local { activeUnlocks, getUnlockRewardMarkUp } = require("scripts/unlocks/userstatUnlocksState.nut")
 local { refreshUserstatUnlocks } = require("scripts/userstat/userstat.nut")
 
@@ -25,9 +25,12 @@ local curSeasonChallengesByStage = ::Computed(function() {
     if (mode == null)
       continue
 
-    local battlepassLevel = (mode % "condition").findvalue(@(cond) cond?.type == "battlepassLevel")
-    if (battlepassLevel != null)
-      res[battlepassLevel.level] <- challenge
+    local battlepassProgress = (mode % "condition").findvalue(@(cond) cond?.type == "battlepassProgress")
+    if (battlepassProgress == null)
+      continue
+
+    local level = getLevelByExp(battlepassProgress.progress)
+    res[level] <- challenge
   }
   return res
 })
@@ -69,14 +72,17 @@ local function getConditionInTitleConfig(unlockBlk) {
     return res
 
   local condition = mode % "condition"
-  local levelCond = condition.findvalue(@(cond) cond.type == "battlepassLevel")
-  if (levelCond != null && levelCond.level > openedSeasonLevel.value)
-    return {
-      addTitle = ::loc("ui/parentheses/space", {
-        text = ::loc("condition/unlockByLevel", { level = levelCond.level })
-      })
-      titleIcon = "#ui/gameuiskin#calendar_event.svg"
-    }
+  local battlepassProgress = condition.findvalue(@(cond) cond.type == "battlepassProgress")
+  if (battlepassProgress != null) {
+    local level = getLevelByExp(battlepassProgress.progress)
+    if (level > seasonLevel.value)
+      return {
+        addTitle = ::loc("ui/parentheses/space", {
+          text = ::loc("condition/unlockByLevel", { level = level })
+        })
+        titleIcon = "#ui/gameuiskin#calendar_event.svg"
+      }
+  }
 
   local timeCond = condition.findvalue(@(cond) ::unlock_time_range_conditions.contains(cond.type))
   if (timeCond != null) {
@@ -101,8 +107,7 @@ local function getChallengeView(config, paramsCfg = {}) {
 
   local title = ::get_unlock_name_text(unlockConfig.unlockType, id)
   local { addTitle, titleIcon } = getConditionInTitleConfig(config)
-  local brVal = ::UnlockConditions.getBRValue(unlockConfig.conditions)
-  local rankVal = ::UnlockConditions.getRankValue(unlockConfig.conditions)
+  local headerCond = ::UnlockConditions.getHeaderCondition(unlockConfig.conditions)
 
   local progressData = unlockConfig?.getProgressBarData() ?? null
   local progressBarValue = unlockConfig?.curVal != null && unlockConfig.curVal >= 0
@@ -115,7 +120,7 @@ local function getChallengeView(config, paramsCfg = {}) {
     title = $"{title}{addTitle}"
     taskStatus = challengeStatus
     taskDifficultyImage = titleIcon
-    taskRankValue = brVal || rankVal ? ::loc("ui/parentheses/space", { text = brVal || rankVal }) : null
+    taskHeaderCondition = headerCond ? ::loc("ui/parentheses/space", { text = headerCond }) : null
     description = ::g_battle_tasks.getTaskDescription(unlockConfig, paramsCfg)
     reward = getUnlockRewardMarkUp(userstatUnlock)
     canGetReward = userstatUnlock?.hasReward ?? false

@@ -45,7 +45,7 @@
             "width": "0.4@sf",
             "display": "hide",
             "enable": "no",
-            "btnName": "L3",
+            "btnName": "R3",
             "on_select": "onMapSelect",
             "on_cancel_edit": "onMapSelect"
           }
@@ -58,7 +58,6 @@
             "width": "0.2@sf",
             "display": "hide",
             "enable": "no",
-            "btnName": "R3",
             "on_select": "onCountrySelect",
             "on_cancel_edit": "onCountrySelect"
           }
@@ -96,7 +95,7 @@
               "text": "#clan/btn_membership_req",
               "on_click": "onMembershipReq",
               "tooltip": "",
-              "btnName": "RT",
+              "btnName": "L3",
               "ButtonImg": []
             }
           },
@@ -632,6 +631,21 @@
                             "img": {
                               "id": "gc_prempic",
                               "background-image": ""
+                            },
+                            "gcBtnLine": []
+                          }
+                        },
+                        {
+                          "Button_text": {
+                            "id": "gc_BattlePassProgress",
+                            "class": "image",
+                            "isColoredImg": "yes",
+                            "tooltip": "#battlePass/btn_buy",
+                            "display": "hide",
+                            "enable": "no",
+                            "on_click": "::gcb.openBattlePassShopWnd",
+                            "img": {
+                              "background-image": "#ui/gameuiskin#item_type_bp.svg"
                             }
                           }
                         },

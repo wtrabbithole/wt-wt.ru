@@ -66,9 +66,7 @@
                 "move-only-hover": "yes",
                 "navigatorShortcuts": "yes",
                 "on_select": "onItemSelect",
-                "_on_dbl_click": "onStart",
-                "on_hover": "onListItemsFocusChange",
-                "on_unhover": "onListItemsFocusChange"
+                "_on_dbl_click": "onItemDblClick"
               },
               "textAreaCentered": {
                 "id": "items_list_msg",
@@ -215,7 +213,7 @@
                 "id": "cluster_select_button",
                 "width": "1@bigButtonWidth",
                 "on_click": "onOpenClusterSelect",
-                "btnName": "X",
+                "btnName": "R3",
                 "refuseOpenHoverMenu": "no",
                 "textarea": {
                   "id": "cluster_select_button_text",
@@ -323,13 +321,25 @@
               "on_click": "onQueueOptions",
               "tooltip": "#queue/options",
               "class": "image",
-              "btnName": "RT",
+              "btnName": "L3",
               "display": "hide",
               "enable": "no",
               "ButtonImg": [],
               "img": {
                 "background-image": "#ui/gameuiskin#btn_modifications.svg"
               }
+            }
+          },
+          {
+            "Button_text": {
+              "id": "btn_select_console",
+              "text": "#mainmenu/btnSelect",
+              "btnName": "A",
+              "_on_click": "onHoveredItemSelect",
+              "skip-navigation": "yes",
+              "display": "hide",
+              "enable": "no",
+              "ButtonImg": []
             }
           },
           {
@@ -341,7 +351,7 @@
               "_on_click": "onJoinEvent",
               "css-hier-invalidate": "yes",
               "isCancel": "no",
-              "btnName": "A",
+              "btnName": "X",
               "display": "hide",
               "enable": "no",
               "pattern": [],
@@ -363,7 +373,7 @@
               "text": "#mainmenu/btnExpand",
               "_on_click": "onCollapsedChapter",
               "css-hier-invalidate": "yes",
-              "btnName": "A",
+              "btnName": "X",
               "display": "hide",
               "enable": "no",
               "ButtonImg": []
@@ -894,6 +904,21 @@
                             "img": {
                               "id": "gc_prempic",
                               "background-image": ""
+                            },
+                            "gcBtnLine": []
+                          }
+                        },
+                        {
+                          "Button_text": {
+                            "id": "gc_BattlePassProgress",
+                            "class": "image",
+                            "isColoredImg": "yes",
+                            "tooltip": "#battlePass/btn_buy",
+                            "display": "hide",
+                            "enable": "no",
+                            "on_click": "::gcb.openBattlePassShopWnd",
+                            "img": {
+                              "background-image": "#ui/gameuiskin#item_type_bp.svg"
                             }
                           }
                         },
