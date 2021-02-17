@@ -1,5 +1,5 @@
 local { activeUnlocks, receiveRewards, getStageByIndex } = require("scripts/unlocks/userstatUnlocksState.nut")
-local { userstatStats } = require("scripts/userstat/userstat.nut")
+local { userstatStats, refreshUserstatDescList } = require("scripts/userstat/userstat.nut")
 local { basicUnlock, basicProgress, premiumUnlock, premiumProgress
 } = require("scripts/battlePass/unlocksRewardsState.nut")
 local inventoryClient = require("scripts/inventory/inventoryClient.nut")
@@ -11,6 +11,17 @@ local hasBattlePass = ::Computed(@() curSeasonBattlePassUnlockId.value != null
   && (activeUnlocks.value?[curSeasonBattlePassUnlockId.value].isCompleted ?? false))
 
 local season = ::Computed(@() userstatStats.value?.stats.seasons["$index"] ?? 0)
+
+local lastSeasonIndex = 0
+season.subscribe(function(seasonIndex) {
+  if (seasonIndex == 0 || lastSeasonIndex == seasonIndex)
+    return
+
+  if (lastSeasonIndex > 0) // update userstat unlocks description when season changed
+    refreshUserstatDescList()
+
+  lastSeasonIndex = seasonIndex
+})
 
 local totalProgressExp = ::Computed(@() basicUnlock.value?.current ?? 0)
 
@@ -52,10 +63,9 @@ local levelExp = ::Computed(function() {
   local progressForStage = prevLoopStage == null ? loopStage.progress
     : loopStage.progress - prevLoopStage.progress
   local freeExp = curProgress - loopStage.progress
-  stageIdx = lastStageIdx
-    + ::ceil(freeExp.tofloat() / progressForStage).tointeger()
   return {
-    level = stageIdx
+    level = lastStageIdx + 1
+      + ::floor(freeExp.tofloat() / progressForStage).tointeger()
     curLevelExp = freeExp % progressForStage
     expForLevel = loopStage.progress - prevLoopStage.progress
   }
@@ -117,13 +127,13 @@ local function receiveEmtyRewards(unlock, progressData) {
   if (!(unlock?.hasReward ?? false))
     return
 
-  local curStageData = unlock?.stages[(progressData?.stage ?? 0) - 1]
+  local curStageData = getStageByIndex(unlock, (progressData?.stage ?? 0) - 1)
   if (curStageData != null && (curStageData?.rewards.len() ?? 0) == 0)
     receiveRewards(unlock?.name, { showProgressBox = false }, false)
 }
 
-local getSeasonMainPrizesData = @() [].extend(premiumUnlock.value?.meta.promo ?? [],
-  basicUnlock.value?.meta.promo ?? [])
+local seasonMainPrizesData = ::Computed(@() [].extend(premiumUnlock.value?.meta.promo ?? [],
+  basicUnlock.value?.meta.promo ?? []))
 
 basicProgress.subscribe(@(progressData) receiveEmtyRewards(basicUnlock.value, progressData))
 premiumProgress.subscribe(function(progressData) {
@@ -146,6 +156,9 @@ battlePassShopConfig.subscribe(function(itemsConfigForRequest) {
     inventoryClient.requestItemdefsByIds(itemsToRequest)
 })
 
+local hasBattlePassReward = ::Computed(@() basicUnlock.value?.hasReward
+  || (hasBattlePass.value && premiumUnlock.value?.hasReward))
+
 return {
   seasonLevel
   maxSeasonLvl
@@ -154,11 +167,12 @@ return {
   tomorowLoginExp
   loginUnlockId
   season
-  getSeasonMainPrizesData
+  seasonMainPrizesData
   hasBattlePass
   battlePassShopConfig
   getExpRangeTextOfLoginStreak
   levelExp
   warbondsShopLevelByStages
   getLevelByExp
+  hasBattlePassReward
 }
